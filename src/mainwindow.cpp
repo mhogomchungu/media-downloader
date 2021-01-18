@@ -249,9 +249,21 @@ void MainWindow::download()
 
 		args.append( url ) ;
 	}else{
-		args.append( "-f" ) ;
-		args.append( entry ) ;
-		args.append( url ) ;
+		auto m = _split( entry,' ' ) ;
+
+		if( m.size() == 1 && !m.at( 0 ).startsWith( '-' ) ){
+
+			args.append( "-f" ) ;
+			args.append( entry ) ;
+			args.append( url ) ;
+		}else{
+			for( const auto& it : m ){
+
+				args.append( it ) ;
+			}
+
+			args.append( url ) ;
+		}
 	}
 
 	this->run( "youtube-dl",args ) ;
