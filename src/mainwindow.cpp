@@ -24,12 +24,13 @@
 #include <QDir>
 #include <QMenu>
 #include <QProcess>
+#include <QFileDialog>
 
 #include <iostream>
 
-MainWindow::MainWindow( QWidget * parent ) :
-	QMainWindow( parent ),
-	m_settings( "media-downloader","media-downloader" ),
+MainWindow::MainWindow( QSettings& settings ) :
+	QMainWindow( nullptr ),
+	m_settings( settings ),
 	m_ui( new Ui::MainWindow )
 {
 	m_ui->setupUi( this ) ;
@@ -40,11 +41,19 @@ MainWindow::MainWindow( QWidget * parent ) :
 
 	m_ui->plainTextEdit->setReadOnly( true ) ;
 
+	m_ui->frame->setVisible( false ) ;
+
 	this->window()->setFixedSize( this->window()->size() ) ;
 
-	QIcon icon( ":media-downloader" ) ;
+	this->window()->setWindowIcon( [](){
 
-	this->window()->setWindowIcon( icon ) ;
+		return QIcon( ":media-downloader" ) ;
+	}() ) ;
+
+	m_ui->pbDownloadPath->setIcon( [](){
+
+		return QIcon( ":folder" ) ;
+	}() ) ;
 
 	connect( m_ui->pbList,&QPushButton::clicked,[ this ](){
 
@@ -56,6 +65,40 @@ MainWindow::MainWindow( QWidget * parent ) :
 		this->download() ;
 	} ) ;
 
+	connect( m_ui->pbConfigure,&QPushButton::clicked,[ this ](){
+
+		m_ui->frame->setVisible( true ) ;
+
+		m_ui->pbConfigure->setEnabled( false ) ;
+
+		m_ui->pbDownloadPath->setFocus() ;
+
+		this->disableAll() ;
+	} ) ;
+
+	connect( m_ui->pbDownloadPath,&QPushButton::clicked,[ this ](){
+
+		auto e = QFileDialog::getExistingDirectory( this,tr( "Set Download Folder"),QDir::homePath(),QFileDialog::ShowDirsOnly ) ;
+
+		if( !e.isEmpty() ){
+
+			m_settings.setValue( "DownloadFolder",e ) ;
+
+			m_ui->lineEditDownloadPath->setText( e ) ;
+		}
+	} ) ;
+
+	connect( m_ui->pbSet,&QPushButton::clicked,[ this ](){
+
+		m_ui->frame->setVisible( false ) ;
+
+		m_ui->pbConfigure->setEnabled( true ) ;
+
+		m_settings.setValue( settings::EnabledHighDpiScalingFactor,m_ui->lineEditScaleFactor->text() ) ;
+
+		this->enableAll() ;
+	} ) ;
+
 	if( !m_settings.contains( "DownloadFolder" ) ){
 
 #ifdef Q_OS_LINUX
@@ -65,9 +108,16 @@ MainWindow::MainWindow( QWidget * parent ) :
 #endif
 	}
 
+	m_ui->lineEditScaleFactor->setText( settings.value( settings::EnabledHighDpiScalingFactor ).toByteArray() ) ;
+
+	m_ui->lineEditDownloadPath->setText( m_settings.value( "DownloadFolder" ).toString() ) ;
+
 	m_downloadFolder = m_settings.value( "DownloadFolder" ).toString() ;
 
-	m_trayIcon.setIcon( icon ) ;
+	m_trayIcon.setIcon( [](){
+
+		return QIcon( ":media-downloader" ) ;
+	}() ) ;
 
 	auto m = new QMenu( this ) ;
 
@@ -86,6 +136,14 @@ MainWindow::~MainWindow()
 	delete m_ui ;
 }
 
+static QStringList _split( const QString& e,char token = '\n' )
+{
+#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
+	return e.split( token,QString::SkipEmptyParts ) ;
+#else
+	return e.split( token,Qt::SkipEmptyParts ) ;
+#endif
+}
 void MainWindow::run( const QString& cmd,const QStringList& args )
 {
 	this->disableAll() ;
@@ -103,9 +161,7 @@ void MainWindow::run( const QString& cmd,const QStringList& args )
 
 	connect( exe,&QProcess::readyReadStandardOutput,[ this,exe ](){
 
-		QString a = exe->readAllStandardOutput() ;
-
-		const auto split = a.split( '\n',Qt::SkipEmptyParts ) ;
+		const auto split = _split( exe->readAllStandardOutput() ) ;
 
 		for( const auto& m : split ){
 

@@ -3,5 +3,6 @@
  <RCC version="1.0">
 	 <qresource>
 		 <file>media-downloader.png</file>
+		 <file>folder.png</file>
 	 </qresource>
  </RCC>

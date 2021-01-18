@@ -19,12 +19,30 @@
 
 #include "mainwindow.h"
 #include <QApplication>
+#include <QSettings>
 
-int main(int argc, char *argv[])
+int main( int argc,char * argv[] )
 {
-	QApplication a(argc, argv);
-	MainWindow w;
-	w.show();
+	QSettings settings( "media-downloader","media-downloader" ) ;
 
-	return a.exec();
+	if( !settings.contains( settings::EnabledHighDpiScalingFactor ) ){
+
+		settings.setValue( settings::EnabledHighDpiScalingFactor,"1.0" ) ;
+	}
+
+	auto m = settings.value( settings::EnabledHighDpiScalingFactor ).toByteArray() ;
+
+	if( m != "1.0" ){
+
+		QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
+
+		qputenv( "QT_SCALE_FACTOR",m ) ;
+	}
+
+	QApplication a( argc,argv ) ;
+
+	MainWindow w( settings ) ;
+	w.show() ;
+
+	return a.exec() ;
 }

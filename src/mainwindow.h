@@ -12,15 +12,18 @@ namespace Ui {
 class MainWindow;
 }
 
+namespace settings{
+	static const QString EnabledHighDpiScalingFactor = "EnabledHighDpiScalingFactor" ;
+}
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
-
 public:
-	explicit MainWindow( QWidget * parent = nullptr ) ;
+	explicit MainWindow( QSettings& ) ;
 	~MainWindow() ;
 private:
-	QSettings m_settings ;
+	QSettings& m_settings ;
 	QString m_downloadFolder ;
 	QSystemTrayIcon m_trayIcon ;
 	Ui::MainWindow * m_ui ;
