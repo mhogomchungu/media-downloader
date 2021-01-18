@@ -15,6 +15,8 @@ class MainWindow;
 
 namespace settings{
 	static const QString EnabledHighDpiScalingFactor = "EnabledHighDpiScalingFactor" ;
+	static const QString PresetOptions = "PresetOptions" ;
+	static const QString DownloadFolder = "DownloadFolder" ;
 }
 
 class MainWindow : public QMainWindow

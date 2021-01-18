@@ -256,7 +256,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>Preset Numbers</string>
+        <string>Preset Options</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -283,7 +283,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Number</string>
+       <string>Options</string>
       </property>
      </widget>
     </widget>

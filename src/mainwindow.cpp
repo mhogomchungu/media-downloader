@@ -69,9 +69,9 @@ MainWindow::MainWindow( QSettings& settings ) :
 		this->list() ;
 	} ) ;
 
-	if( !m_settings.contains( "PresetNumbers" ) ){
+	if( !m_settings.contains( settings::PresetOptions ) ){
 
-		m_settings.setValue( "PresetNumbers",QStringList( { "18","22" } ) ) ;
+		m_settings.setValue( settings::PresetOptions,QStringList( { "18","22" } ) ) ;
 	}
 
 	m_ui->pbEntries->setMenu( this->setMenu() ) ;
@@ -89,7 +89,7 @@ MainWindow::MainWindow( QSettings& settings ) :
 
 		m_ui->pbDownloadPath->setFocus() ;
 
-		auto m = m_settings.value( "PresetNumbers" ).toStringList().join( ',' ) ;
+		auto m = m_settings.value( settings::PresetOptions ).toStringList().join( ',' ) ;
 
 		m_ui->lineEditPresetNumbers->setText( m ) ;
 
@@ -98,11 +98,11 @@ MainWindow::MainWindow( QSettings& settings ) :
 
 	connect( m_ui->pbDownloadPath,&QPushButton::clicked,[ this ](){
 
-		auto e = QFileDialog::getExistingDirectory( this,tr( "Set Download Folder"),QDir::homePath(),QFileDialog::ShowDirsOnly ) ;
+		auto e = QFileDialog::getExistingDirectory( this,tr( "Set Download Folder" ),QDir::homePath(),QFileDialog::ShowDirsOnly ) ;
 
 		if( !e.isEmpty() ){
 
-			m_settings.setValue( "DownloadFolder",e ) ;
+			m_settings.setValue( settings::DownloadFolder,e ) ;
 
 			m_ui->lineEditDownloadPath->setText( e ) ;
 		}
@@ -116,27 +116,27 @@ MainWindow::MainWindow( QSettings& settings ) :
 
 		m_settings.setValue( settings::EnabledHighDpiScalingFactor,m_ui->lineEditScaleFactor->text() ) ;
 
-		m_settings.setValue( "PresetNumbers",_split( m_ui->lineEditPresetNumbers->text(),',' ) ) ;
+		m_settings.setValue( settings::PresetOptions,_split( m_ui->lineEditPresetNumbers->text(),',' ) ) ;
 
 		m_ui->pbEntries->setMenu( this->setMenu() ) ;
 
 		this->enableAll() ;
 	} ) ;
 
-	if( !m_settings.contains( "DownloadFolder" ) ){
+	if( !m_settings.contains( settings::DownloadFolder ) ){
 
 #ifdef Q_OS_LINUX
-		m_settings.setValue( "DownloadFolder",QDir::homePath() ) ;
+		m_settings.setValue( settings::DownloadFolder,QDir::homePath() ) ;
 	#else
-		m_settings.setValue( "DownloadFolder",QDir::homePath() + "/Desktop" ) ;
+		m_settings.setValue( settings::DownloadFolder,QDir::homePath() + "/Desktop" ) ;
 #endif
 	}
 
 	m_ui->lineEditScaleFactor->setText( settings.value( settings::EnabledHighDpiScalingFactor ).toByteArray() ) ;
 
-	m_ui->lineEditDownloadPath->setText( m_settings.value( "DownloadFolder" ).toString() ) ;
+	m_ui->lineEditDownloadPath->setText( m_settings.value( settings::DownloadFolder ).toString() ) ;
 
-	m_downloadFolder = m_settings.value( "DownloadFolder" ).toString() ;
+	m_downloadFolder = m_settings.value( settings::DownloadFolder ).toString() ;
 
 	m_trayIcon.setIcon( [](){
 
@@ -311,7 +311,7 @@ QMenu * MainWindow::setMenu()
 		m->deleteLater() ;
 	}
 
-	const auto entries = m_settings.value( "PresetNumbers" ).toStringList() ;
+	const auto entries = m_settings.value( settings::PresetOptions ).toStringList() ;
 
 	auto menu = new QMenu( this ) ;
 
@@ -320,9 +320,18 @@ QMenu * MainWindow::setMenu()
 		menu->addAction( it ) ;
 	}
 
+	menu->addSeparator() ;
+
+	menu->addAction( tr( "Clear" ) )->setObjectName( "Clear" ) ;
+
 	connect( menu,&QMenu::triggered,[ this ]( QAction * ac ){
 
-		m_ui->lineEditNumber->setText( ac->text() ) ;
+		if( ac->objectName().isEmpty() ){
+
+			m_ui->lineEditNumber->setText( ac->text() ) ;
+		}else{
+			m_ui->lineEditNumber->clear() ;
+		}
 	} ) ;
 
 	return menu ;
