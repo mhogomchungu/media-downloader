@@ -81,6 +81,11 @@ MainWindow::MainWindow( QSettings& settings ) :
 		this->download() ;
 	} ) ;
 
+	connect( m_ui->pbQuit,&QPushButton::clicked,[](){
+
+		QCoreApplication::quit() ;
+	} ) ;
+
 	connect( m_ui->pbConfigure,&QPushButton::clicked,[ this ](){
 
 		m_ui->frame->setVisible( true ) ;
@@ -279,10 +284,12 @@ void MainWindow::enableAll()
 	m_ui->pbDownload->setEnabled( true ) ;
 	m_ui->lineEditURL->setEnabled( true ) ;
 	m_ui->lineEditNumber->setEnabled( true ) ;
+	m_ui->pbQuit->setEnabled( true ) ;
 }
 
 void MainWindow::disableAll()
 {
+	m_ui->pbQuit->setEnabled( false ) ;
 	m_ui->pbEntries->setEnabled( false ) ;
 	m_ui->pbConfigure->setEnabled( false ) ;
 	m_ui->label_2->setEnabled( false ) ;
@@ -322,15 +329,20 @@ QMenu * MainWindow::setMenu()
 
 	menu->addSeparator() ;
 
-	menu->addAction( tr( "Clear" ) )->setObjectName( "Clear" ) ;
+	menu->addAction( tr( "Clear Options" ) )->setObjectName( "Clear Options" ) ;
+	menu->addAction( tr( "Clear Screen" ) )->setObjectName( "Clear Screen" ) ;
 
 	connect( menu,&QMenu::triggered,[ this ]( QAction * ac ){
 
-		if( ac->objectName().isEmpty() ){
+		const auto& e = ac->objectName() ;
 
-			m_ui->lineEditNumber->setText( ac->text() ) ;
-		}else{
+		if( e == "Clear Options" ){
+
 			m_ui->lineEditNumber->clear() ;
+
+		}else if( e == "Clear Screen" ){
+
+			m_ui->plainTextEdit->clear() ;
 		}
 	} ) ;
 

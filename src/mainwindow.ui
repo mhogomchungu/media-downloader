@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>803</width>
+    <width>823</width>
     <height>465</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>781</width>
+      <width>801</width>
       <height>451</height>
      </rect>
     </property>
@@ -35,7 +35,7 @@
        <rect>
         <x>10</x>
         <y>0</y>
-        <width>751</width>
+        <width>771</width>
         <height>321</height>
        </rect>
       </property>
@@ -43,9 +43,9 @@
      <widget class="QPushButton" name="pbCancel">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>190</x>
         <y>380</y>
-        <width>331</width>
+        <width>111</width>
         <height>33</height>
        </rect>
       </property>
@@ -56,8 +56,8 @@
      <widget class="QPushButton" name="pbList">
       <property name="geometry">
        <rect>
-        <x>550</x>
-        <y>320</y>
+        <x>410</x>
+        <y>380</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -71,7 +71,7 @@
        <rect>
         <x>0</x>
         <y>320</y>
-        <width>221</width>
+        <width>171</width>
         <height>31</height>
        </rect>
       </property>
@@ -88,9 +88,9 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>0</x>
         <y>350</y>
-        <width>211</width>
+        <width>171</width>
         <height>31</height>
        </rect>
       </property>
@@ -104,8 +104,8 @@
      <widget class="QPushButton" name="pbDownload">
       <property name="geometry">
        <rect>
-        <x>550</x>
-        <y>350</y>
+        <x>300</x>
+        <y>380</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -117,9 +117,9 @@
      <widget class="QLineEdit" name="lineEditURL">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>170</x>
         <y>320</y>
-        <width>331</width>
+        <width>471</width>
         <height>31</height>
        </rect>
       </property>
@@ -127,9 +127,9 @@
      <widget class="QLineEdit" name="lineEditNumber">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>170</x>
         <y>350</y>
-        <width>331</width>
+        <width>471</width>
         <height>31</height>
        </rect>
       </property>
@@ -137,7 +137,7 @@
      <widget class="QPushButton" name="pbConfigure">
       <property name="geometry">
        <rect>
-        <x>550</x>
+        <x>80</x>
         <y>380</y>
         <width>111</width>
         <height>33</height>
@@ -150,7 +150,7 @@
      <widget class="QFrame" name="frame">
       <property name="geometry">
        <rect>
-        <x>100</x>
+        <x>110</x>
         <y>30</y>
         <width>581</width>
         <height>261</height>
@@ -276,14 +276,27 @@
      <widget class="QPushButton" name="pbEntries">
       <property name="geometry">
        <rect>
-        <x>660</x>
-        <y>350</y>
+        <x>520</x>
+        <y>380</y>
         <width>101</width>
         <height>33</height>
        </rect>
       </property>
       <property name="text">
        <string>Options</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbQuit">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>380</y>
+        <width>101</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Quit</string>
       </property>
      </widget>
     </widget>
