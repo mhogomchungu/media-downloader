@@ -1,0 +1,20 @@
+[Desktop Entry]
+Comment[en_US]=Downloads Online Media Files
+Comment=Downloads Online Media Files
+Exec=media-downloader
+GenericName[en_US]=Downloads Online Media Files
+GenericName=Downloads Online Media Files
+Icon=media-downloader.png
+MimeType=
+Name[en_US]=Media Downloader
+Name=Media Downloader
+NoDisplay=false
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
