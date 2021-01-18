@@ -76,7 +76,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Enter URL: </string>
+       <string>Enter URL:  </string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -95,7 +95,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Enter Number:</string>
+       <string>Enter Number:  </string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -151,9 +151,9 @@
       <property name="geometry">
        <rect>
         <x>100</x>
-        <y>60</y>
+        <y>30</y>
         <width>581</width>
-        <height>191</height>
+        <height>261</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -169,7 +169,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>80</y>
+         <y>150</y>
          <width>421</width>
          <height>41</height>
         </rect>
@@ -188,7 +188,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>120</y>
+         <y>190</y>
          <width>421</width>
          <height>31</height>
         </rect>
@@ -198,9 +198,9 @@
        <property name="geometry">
         <rect>
          <x>480</x>
-         <y>120</y>
+         <y>192</y>
          <width>41</width>
-         <height>33</height>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
@@ -211,7 +211,7 @@
        <property name="geometry">
         <rect>
          <x>210</x>
-         <y>152</y>
+         <y>222</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -246,6 +246,45 @@
         </rect>
        </property>
       </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>62</x>
+         <y>80</y>
+         <width>421</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Preset Numbers</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditPresetNumbers">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>120</y>
+         <width>421</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pbEntries">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>350</y>
+        <width>101</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Number</string>
+      </property>
      </widget>
     </widget>
    </widget>

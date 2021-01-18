@@ -28,6 +28,15 @@
 
 #include <iostream>
 
+static QStringList _split( const QString& e,char token = '\n' )
+{
+#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
+	return e.split( token,QString::SkipEmptyParts ) ;
+#else
+	return e.split( token,Qt::SkipEmptyParts ) ;
+#endif
+}
+
 MainWindow::MainWindow( QSettings& settings ) :
 	QMainWindow( nullptr ),
 	m_settings( settings ),
@@ -60,6 +69,13 @@ MainWindow::MainWindow( QSettings& settings ) :
 		this->list() ;
 	} ) ;
 
+	if( !m_settings.contains( "PresetNumbers" ) ){
+
+		m_settings.setValue( "PresetNumbers",QStringList( { "18","22" } ) ) ;
+	}
+
+	m_ui->pbEntries->setMenu( this->setMenu() ) ;
+
 	connect( m_ui->pbDownload,&QPushButton::clicked,[ this ](){
 
 		this->download() ;
@@ -72,6 +88,10 @@ MainWindow::MainWindow( QSettings& settings ) :
 		m_ui->pbConfigure->setEnabled( false ) ;
 
 		m_ui->pbDownloadPath->setFocus() ;
+
+		auto m = m_settings.value( "PresetNumbers" ).toStringList().join( ',' ) ;
+
+		m_ui->lineEditPresetNumbers->setText( m ) ;
 
 		this->disableAll() ;
 	} ) ;
@@ -95,6 +115,10 @@ MainWindow::MainWindow( QSettings& settings ) :
 		m_ui->pbConfigure->setEnabled( true ) ;
 
 		m_settings.setValue( settings::EnabledHighDpiScalingFactor,m_ui->lineEditScaleFactor->text() ) ;
+
+		m_settings.setValue( "PresetNumbers",_split( m_ui->lineEditPresetNumbers->text(),',' ) ) ;
+
+		m_ui->pbEntries->setMenu( this->setMenu() ) ;
 
 		this->enableAll() ;
 	} ) ;
@@ -136,14 +160,6 @@ MainWindow::~MainWindow()
 	delete m_ui ;
 }
 
-static QStringList _split( const QString& e,char token = '\n' )
-{
-#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
-	return e.split( token,QString::SkipEmptyParts ) ;
-#else
-	return e.split( token,Qt::SkipEmptyParts ) ;
-#endif
-}
 void MainWindow::run( const QString& cmd,const QStringList& args )
 {
 	this->disableAll() ;
@@ -221,19 +237,30 @@ void MainWindow::download()
 {
 	m_ui->pbCancel->setEnabled( true ) ;
 
-	auto a = m_ui->lineEditNumber->text() ;
-	auto b = m_ui->lineEditURL->text() ;
+	auto entry = m_ui->lineEditNumber->text() ;
+	auto url = m_ui->lineEditURL->text() ;
 
-	if( a.isEmpty() ){
+	QStringList args ;
 
-		this->run( "youtube-dl",{ "--newline",b } ) ;
+	args.append( "--newline" ) ;
+	args.append( "--ignore-config" ) ;
+
+	if( entry.isEmpty() ){
+
+		args.append( url ) ;
 	}else{
-		this->run( "youtube-dl",{ "--newline","-f",a,b } ) ;
+		args.append( "-f" ) ;
+		args.append( entry ) ;
+		args.append( url ) ;
 	}
+
+	this->run( "youtube-dl",args ) ;
 }
 
 void MainWindow::enableAll()
 {
+	m_ui->pbEntries->setEnabled( true ) ;
+	m_ui->pbConfigure->setEnabled( true ) ;
 	m_ui->label_2->setEnabled( true ) ;
 	m_ui->label->setEnabled( true ) ;
 	m_ui->pbList->setEnabled( true ) ;
@@ -244,6 +271,8 @@ void MainWindow::enableAll()
 
 void MainWindow::disableAll()
 {
+	m_ui->pbEntries->setEnabled( false ) ;
+	m_ui->pbConfigure->setEnabled( false ) ;
 	m_ui->label_2->setEnabled( false ) ;
 	m_ui->label->setEnabled( false ) ;
 	m_ui->pbList->setEnabled( false ) ;
@@ -259,4 +288,30 @@ void MainWindow::closeEvent( QCloseEvent * e )
 	this->hide() ;
 
 	QCoreApplication::exit() ;
+}
+
+QMenu * MainWindow::setMenu()
+{
+	auto m = m_ui->pbEntries->menu() ;
+
+	if( m ){
+
+		m->deleteLater() ;
+	}
+
+	const auto entries = m_settings.value( "PresetNumbers" ).toStringList() ;
+
+	auto menu = new QMenu( this ) ;
+
+	for( const auto& it : entries ){
+
+		menu->addAction( it ) ;
+	}
+
+	connect( menu,&QMenu::triggered,[ this ]( QAction * ac ){
+
+		m_ui->lineEditNumber->setText( ac->text() ) ;
+	} ) ;
+
+	return menu ;
 }
