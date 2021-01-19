@@ -48,11 +48,26 @@ QString settings::downloadFolder()
 	return m_settings.value( "DownloadFolder" ).toString() ;
 }
 
+void settings::setPresetToDefaults()
+{
+	if( !m_settings.contains( "DefaultPresetOptions" ) ){
+
+		m_settings.setValue( "DefaultPresetOptions",QStringList{ "18","22" } ) ;
+	}
+
+	this->setPresetOptions( m_settings.value( "DefaultPresetOptions" ).toStringList() ) ;
+}
+
+void settings::setPresetOptions( const QStringList& m )
+{
+	m_settings.setValue( "PresetOptions",m ) ;
+}
+
 QStringList settings::presetOptions()
 {
 	if( !m_settings.contains( "PresetOptions" ) ){
 
-		m_settings.setValue( "PresetOptions",QStringList{ "18","22" } ) ;
+		this->setPresetToDefaults() ;
 	}
 
 	return m_settings.value( "PresetOptions" ).toStringList() ;
@@ -61,11 +76,6 @@ QStringList settings::presetOptions()
 void settings::setHighDpiScalingFactor( const QString& m )
 {
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m ) ;
-}
-
-void settings::setPresetOptions( const QStringList& m )
-{
-	m_settings.setValue( "PresetOptions",m ) ;
 }
 
 void settings::setDownloadFolder( const QString& m )

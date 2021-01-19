@@ -34,6 +34,7 @@ public:
 	QStringList presetOptions() ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;
+	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;
 private:
 	QSettings m_settings ;

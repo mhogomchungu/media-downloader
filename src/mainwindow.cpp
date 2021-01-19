@@ -68,6 +68,13 @@ MainWindow::MainWindow( settings& settings ) :
 		this->download() ;
 	} ) ;
 
+	connect( m_ui->pbSetPresetDefaults,&QPushButton::clicked,[ this ](){
+
+		m_settings.setPresetToDefaults() ;
+
+		m_ui->lineEditPresetNumbers->setText( m_settings.presetOptions().join( ',' ) ) ;
+	} ) ;
+
 	connect( m_ui->pbQuit,&QPushButton::clicked,[](){
 
 		QCoreApplication::quit() ;

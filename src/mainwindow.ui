@@ -272,6 +272,22 @@
         </rect>
        </property>
       </widget>
+      <widget class="QPushButton" name="pbSetPresetDefaults">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>120</y>
+         <width>41</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Reset Option To Its Default</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </widget>
      <widget class="QPushButton" name="pbEntries">
       <property name="geometry">
