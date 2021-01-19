@@ -17,43 +17,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "utility.h"
 
-#include <QMainWindow>
-#include <QCloseEvent>
-#include <QSystemTrayIcon>
-#include <QString>
-#include <QStringList>
-#include <QMenu>
-
-#include "settings.h"
-
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+QStringList utility::split( const QString& e,char token )
 {
-	Q_OBJECT
-public:
-	explicit MainWindow( settings& ) ;
-	~MainWindow() ;
-private:
-	settings& m_settings ;
-	QString m_downloadFolder ;
-	QSystemTrayIcon m_trayIcon ;
-	Ui::MainWindow * m_ui ;
-	QMenu * m_menu ;
-	QStringList m_tmp ;
-	void run( const QString& cmd,const QStringList& args ) ;
-	void list() ;
-	void download() ;
-	void exit() ;
-	void enableAll() ;
-	void disableAll() ;
-	void closeEvent( QCloseEvent * ) ;
-	QMenu * setMenu() ;
-};
-
-#endif // MAINWINDOW_H
+#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
+	return e.split( token,QString::SkipEmptyParts ) ;
+#else
+	return e.split( token,Qt::SkipEmptyParts ) ;
+#endif
+}

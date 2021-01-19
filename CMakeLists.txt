@@ -34,7 +34,9 @@ set(MOC_FILES
 
 set(SRC
     src/mainwindow.cpp
-    src/main.cpp)
+    src/main.cpp
+    src/settings.cpp
+    src/utility.cpp)
 
 set(RESOUCES
     src/icon.qrc)

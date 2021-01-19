@@ -17,43 +17,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
-#include <QMainWindow>
-#include <QCloseEvent>
-#include <QSystemTrayIcon>
-#include <QString>
-#include <QStringList>
-#include <QMenu>
+#include<QSettings>
+#include<QString>
+#include<QStringList>
+#include<QByteArray>
 
-#include "settings.h"
-
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class settings
 {
-	Q_OBJECT
 public:
-	explicit MainWindow( settings& ) ;
-	~MainWindow() ;
+	settings() ;
+	QByteArray highDpiScalingFactor() ;
+	QString downloadFolder() ;
+	QStringList presetOptions() ;
+	void setHighDpiScalingFactor( const QString& ) ;
+	void setPresetOptions( const QStringList& ) ;
+	void setDownloadFolder( const QString& ) ;
 private:
-	settings& m_settings ;
-	QString m_downloadFolder ;
-	QSystemTrayIcon m_trayIcon ;
-	Ui::MainWindow * m_ui ;
-	QMenu * m_menu ;
-	QStringList m_tmp ;
-	void run( const QString& cmd,const QStringList& args ) ;
-	void list() ;
-	void download() ;
-	void exit() ;
-	void enableAll() ;
-	void disableAll() ;
-	void closeEvent( QCloseEvent * ) ;
-	QMenu * setMenu() ;
+	QSettings m_settings ;
 };
 
-#endif // MAINWINDOW_H
+#endif

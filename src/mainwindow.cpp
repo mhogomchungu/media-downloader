@@ -19,6 +19,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "utility.h"
 
 #include <QFile>
 #include <QDir>
@@ -28,16 +29,7 @@
 
 #include <iostream>
 
-static QStringList _split( const QString& e,char token = '\n' )
-{
-#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
-	return e.split( token,QString::SkipEmptyParts ) ;
-#else
-	return e.split( token,Qt::SkipEmptyParts ) ;
-#endif
-}
-
-MainWindow::MainWindow( QSettings& settings ) :
+MainWindow::MainWindow( settings& settings ) :
 	QMainWindow( nullptr ),
 	m_settings( settings ),
 	m_ui( new Ui::MainWindow )
@@ -69,11 +61,6 @@ MainWindow::MainWindow( QSettings& settings ) :
 		this->list() ;
 	} ) ;
 
-	if( !m_settings.contains( settings::PresetOptions ) ){
-
-		m_settings.setValue( settings::PresetOptions,QStringList( { "18","22" } ) ) ;
-	}
-
 	m_ui->pbEntries->setMenu( this->setMenu() ) ;
 
 	connect( m_ui->pbDownload,&QPushButton::clicked,[ this ](){
@@ -94,7 +81,7 @@ MainWindow::MainWindow( QSettings& settings ) :
 
 		m_ui->pbDownloadPath->setFocus() ;
 
-		auto m = m_settings.value( settings::PresetOptions ).toStringList().join( ',' ) ;
+		auto m = m_settings.presetOptions().join( ',' ) ;
 
 		m_ui->lineEditPresetNumbers->setText( m ) ;
 
@@ -107,8 +94,6 @@ MainWindow::MainWindow( QSettings& settings ) :
 
 		if( !e.isEmpty() ){
 
-			m_settings.setValue( settings::DownloadFolder,e ) ;
-
 			m_ui->lineEditDownloadPath->setText( e ) ;
 		}
 	} ) ;
@@ -119,29 +104,20 @@ MainWindow::MainWindow( QSettings& settings ) :
 
 		m_ui->pbConfigure->setEnabled( true ) ;
 
-		m_settings.setValue( settings::EnabledHighDpiScalingFactor,m_ui->lineEditScaleFactor->text() ) ;
-
-		m_settings.setValue( settings::PresetOptions,_split( m_ui->lineEditPresetNumbers->text(),',' ) ) ;
+		m_settings.setHighDpiScalingFactor( m_ui->lineEditScaleFactor->text() ) ;
+		m_settings.setPresetOptions( utility::split( m_ui->lineEditPresetNumbers->text(),',' ) ) ;
+		m_settings.setDownloadFolder( m_ui->lineEditDownloadPath->text() ) ;
 
 		m_ui->pbEntries->setMenu( this->setMenu() ) ;
 
 		this->enableAll() ;
 	} ) ;
 
-	if( !m_settings.contains( settings::DownloadFolder ) ){
+	m_ui->lineEditScaleFactor->setText( m_settings.highDpiScalingFactor() ) ;
 
-#ifdef Q_OS_LINUX
-		m_settings.setValue( settings::DownloadFolder,QDir::homePath() ) ;
-	#else
-		m_settings.setValue( settings::DownloadFolder,QDir::homePath() + "/Desktop" ) ;
-#endif
-	}
+	m_ui->lineEditDownloadPath->setText( m_settings.downloadFolder() ) ;
 
-	m_ui->lineEditScaleFactor->setText( settings.value( settings::EnabledHighDpiScalingFactor ).toByteArray() ) ;
-
-	m_ui->lineEditDownloadPath->setText( m_settings.value( settings::DownloadFolder ).toString() ) ;
-
-	m_downloadFolder = m_settings.value( settings::DownloadFolder ).toString() ;
+	m_downloadFolder = m_settings.downloadFolder() ;
 
 	m_trayIcon.setIcon( [](){
 
@@ -169,22 +145,30 @@ void MainWindow::run( const QString& cmd,const QStringList& args )
 {
 	this->disableAll() ;
 
-	auto exe = new QProcess() ;
+	QMetaObject::Connection conn ;
 
-	exe->setWorkingDirectory( m_downloadFolder ) ;
+	utility::run( cmd,args,utility::readChannel::stdOut,[ this,&conn ]( QProcess& exe ){
 
-	exe->setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
+		conn = QObject::connect( m_ui->pbCancel,&QPushButton::clicked,[ &exe ](){
 
-	auto conn = QObject::connect( m_ui->pbCancel,&QPushButton::clicked,[ exe ](){
+			exe.terminate() ;
+		} ) ;
 
-		exe->terminate() ;
-	} ) ;
+		exe.setWorkingDirectory( m_downloadFolder ) ;
 
-	connect( exe,&QProcess::readyReadStandardOutput,[ this,exe ](){
+		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-		const auto split = _split( exe->readAllStandardOutput() ) ;
+	},[ this,conn ](){
 
-		for( const auto& m : split ){
+		QObject::disconnect( conn ) ;
+
+		this->enableAll() ;
+
+		m_ui->pbCancel->setEnabled( false ) ;
+
+	},[ this ]( const QString& data ){
+
+		for( const auto& m : utility::split( data ) ){
 
 			if( m.startsWith( "[download] Destination" ) ){
 
@@ -209,24 +193,6 @@ void MainWindow::run( const QString& cmd,const QStringList& args )
 
 		m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
 	} ) ;
-
-	auto s = static_cast< void( QProcess::* )( int,QProcess::ExitStatus ) >( &QProcess::finished ) ;
-
-	connect( exe,s,[ this,exe,conn ]( int e,QProcess::ExitStatus ss ){
-
-		Q_UNUSED( e )
-		Q_UNUSED( ss )
-
-		QObject::disconnect( conn ) ;
-
-		exe->deleteLater() ;
-
-		this->enableAll() ;
-
-		m_ui->pbCancel->setEnabled( false ) ;
-	} ) ;
-
-	exe->start( cmd,args ) ;
 }
 
 void MainWindow::list()
@@ -249,12 +215,13 @@ void MainWindow::download()
 
 	args.append( "--newline" ) ;
 	args.append( "--ignore-config" ) ;
+	args.append( "--no-playlist" ) ;
 
 	if( entry.isEmpty() ){
 
 		args.append( url ) ;
 	}else{
-		auto m = _split( entry,' ' ) ;
+		auto m = utility::split( entry,' ' ) ;
 
 		if( m.size() == 1 && !m.at( 0 ).startsWith( '-' ) ){
 
@@ -318,7 +285,7 @@ QMenu * MainWindow::setMenu()
 		m->deleteLater() ;
 	}
 
-	const auto entries = m_settings.value( settings::PresetOptions ).toStringList() ;
+	const auto entries = m_settings.presetOptions() ;
 
 	auto menu = new QMenu( this ) ;
 
