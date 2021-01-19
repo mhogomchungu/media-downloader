@@ -117,8 +117,6 @@ MainWindow::MainWindow( settings& settings ) :
 
 	m_ui->lineEditDownloadPath->setText( m_settings.downloadFolder() ) ;
 
-	m_downloadFolder = m_settings.downloadFolder() ;
-
 	m_trayIcon.setIcon( [](){
 
 		return QIcon( ":media-downloader" ) ;
@@ -154,7 +152,7 @@ void MainWindow::run( const QString& cmd,const QStringList& args )
 			exe.terminate() ;
 		} ) ;
 
-		exe.setWorkingDirectory( m_downloadFolder ) ;
+		exe.setWorkingDirectory( m_settings.downloadFolder() ) ;
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 

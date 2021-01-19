@@ -41,7 +41,6 @@ public:
 	~MainWindow() ;
 private:
 	settings& m_settings ;
-	QString m_downloadFolder ;
 	QSystemTrayIcon m_trayIcon ;
 	Ui::MainWindow * m_ui ;
 	QMenu * m_menu ;
