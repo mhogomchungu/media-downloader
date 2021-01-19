@@ -343,6 +343,8 @@ QMenu * MainWindow::setMenu()
 		}else if( e == "Clear Screen" ){
 
 			m_ui->plainTextEdit->clear() ;
+		}else{
+			m_ui->lineEditNumber->setText( ac->text() ) ;
 		}
 	} ) ;
 
