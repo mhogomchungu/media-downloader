@@ -86,6 +86,16 @@ QString settings::presetOptions()
 	return m_settings.value( "PresetOptions" ).toStringList().join( ',' ) ;
 }
 
+QString settings::cmdName()
+{
+	if( !m_settings.contains( "CommandName" ) ){
+
+		m_settings.setValue( "CommandName","youtube-dl" ) ;
+	}
+
+	return m_settings.value( "CommandName" ).toString() ;
+}
+
 QStringList settings::presetOptionsList()
 {
 	return utility::split( this->presetOptions(),',' ) ;

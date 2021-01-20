@@ -187,15 +187,15 @@ void MainWindow::run( const QString& cmd,const QStringList& args )
 
 		m_ui->pbCancel->setEnabled( false ) ;
 
-	},[ this ]( const QString& data ){
+	},[ this ]( const QByteArray& data ){
 
 		for( const auto& m : utility::split( data ) ){
 
-			if( m.startsWith( "[download] Destination" ) ){
+			if( m.isEmpty() ){
 
-				m_tmp.append( m ) ;
+				continue ;
 
-			}else if( m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
+			}else if( !m_tmp.isEmpty() && m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
 
 				auto& s = m_tmp.last() ;
 
@@ -225,7 +225,7 @@ void MainWindow::list()
 	auto args = m_settings.defaultListCmdOptions() ;
 	args.append( m_ui->lineEditURL->text() ) ;
 
-	this->run( "youtube-dl",args ) ;
+	this->run( m_settings.cmdName(),args ) ;
 }
 
 void MainWindow::download()
@@ -265,7 +265,7 @@ void MainWindow::download()
 		}
 	}
 
-	this->run( "youtube-dl",args ) ;
+	this->run( m_settings.cmdName(),args ) ;
 }
 
 void MainWindow::enableAll()
@@ -336,64 +336,84 @@ QMenu * MainWindow::setMenu()
 
 		}else if( e == "Clear Screen" ){
 
+			m_tmp.clear() ;
+
 			m_ui->plainTextEdit->clear() ;
 		}else{
 			auto m = ac->text() ;
 
 			if( m == "Best" ){
 
-				for( const auto& it : utility::asConst( m_tmp ) ){
-
-					if( it.endsWith( "(best)",Qt::CaseInsensitive ) ){
-
-						m = utility::split( it,' ' ).first() ;
-
-						break ;
-					}
-				}
-
-				if( m == "Best" ){
-
-					m += tr( "(Not Available)" ) ;
-				}
+				this->parseBestOption( m ) ;
 
 			}else if( utility::startsWith( m,"Low","Medium","High","Very High","Super High" ) ){
 
-				auto s = m.lastIndexOf( '(' ) ;
-
-				if( s != -1 ){
-
-					m = m.mid( s + 1 ) ;
-					m.truncate( m.size() - 1 ) ;
-				}
-
-				auto w = utility::split( m,'+' ) ;
-
-				auto _starts_with = [ this ]( const QString& e ){
-
-					for( const auto& n : utility::asConst( m_tmp ) ){
-
-						if( n.startsWith( e ) ){
-
-							return true ;
-						}
-					}
-
-					return false ;
-				} ;
-
-				if( w.size() == 2 ){
-
-					if( !( _starts_with( w[ 0 ] + " " ) && _starts_with( w[ 1 ] + " " ) ) ){
-
-						m += tr( "(Not Available)" ) ;
-					}
-				}
+				this->parseOtherOptions( m ) ;
 			}
 
-			m_ui->lineEditNumber->setText( m ) ;
+			m_ui->lineEditNumber->setText( m ) ;			
 		}
 	} ) ;
 
 	return menu ;
+}
+
+void MainWindow::parseBestOption( QString& m )
+{
+	for( const auto& it : utility::asConst( m_tmp ) ){
+
+		if( it.endsWith( "(best)",Qt::CaseInsensitive ) ){
+
+			m = utility::split( it,' ' ).first() ;
+
+			break ;
+		}
+	}
+
+	if( m == "Best" ){
+
+		if( m_tmp.isEmpty() ){
+
+			m = "22" ;
+		}else{
+			m += tr( "(Not Available)" ) ;
+		}
+	}
+}
+
+void MainWindow::parseOtherOptions( QString& m )
+{
+	auto s = m.lastIndexOf( '(' ) ;
+
+	if( s != -1 ){
+
+		m = m.mid( s + 1 ) ;
+		m.truncate( m.size() - 1 ) ;
+	}
+
+	auto w = utility::split( m,'+' ) ;
+
+	auto _starts_with = [ this ]( const QString& e ){
+
+		for( const auto& n : utility::asConst( m_tmp ) ){
+
+			if( n.startsWith( e ) ){
+
+				return true ;
+			}
+		}
+
+		return false ;
+	} ;
+
+	if( w.size() == 2 ){
+
+		if( !( _starts_with( w[ 0 ] + " " ) && _starts_with( w[ 1 ] + " " ) ) ){
+
+			if( !m_tmp.isEmpty() ){
+
+				m += tr( "(Not Available)" ) ;
+			}
+		}
+	}
 }

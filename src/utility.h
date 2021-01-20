@@ -58,6 +58,7 @@ namespace utility
 	void asConst( const T&& ) = delete ;
 
 	QStringList split( const QString& e,char token = '\n' ) ;
+	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
 
 	enum class readChannel{ stdOut,stdError } ;
 

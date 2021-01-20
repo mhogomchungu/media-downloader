@@ -32,6 +32,7 @@ public:
 	QByteArray highDpiScalingFactor() ;
 	QString downloadFolder() ;
 	QString presetOptions() ;
+	QString cmdName() ;
 	QStringList presetOptionsList() ;
 	QStringList defaultDownLoadCmdOptions() ;
 	QStringList defaultListCmdOptions() ;

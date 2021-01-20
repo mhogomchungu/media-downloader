@@ -45,6 +45,8 @@ private:
 	Ui::MainWindow * m_ui ;
 	QMenu * m_menu ;
 	QStringList m_tmp ;
+	void parseBestOption( QString& ) ;
+	void parseOtherOptions( QString& ) ;
 	void run( const QString& cmd,const QStringList& args ) ;
 	void list() ;
 	void download() ;

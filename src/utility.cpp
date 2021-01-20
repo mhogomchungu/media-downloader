@@ -27,3 +27,8 @@ QStringList utility::split( const QString& e,char token )
 	return e.split( token,Qt::SkipEmptyParts ) ;
 #endif
 }
+
+QList< QByteArray > utility::split( const QByteArray& e,char token )
+{
+	return e.split( token ) ;
+}
