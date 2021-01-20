@@ -151,9 +151,9 @@
       <property name="geometry">
        <rect>
         <x>110</x>
-        <y>30</y>
+        <y>10</y>
         <width>581</width>
-        <height>261</height>
+        <height>301</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -169,7 +169,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>150</y>
+         <y>190</y>
          <width>421</width>
          <height>41</height>
         </rect>
@@ -188,7 +188,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>190</y>
+         <y>230</y>
          <width>421</width>
          <height>31</height>
         </rect>
@@ -198,7 +198,7 @@
        <property name="geometry">
         <rect>
          <x>480</x>
-         <y>192</y>
+         <y>232</y>
          <width>41</width>
          <height>31</height>
         </rect>
@@ -211,7 +211,7 @@
        <property name="geometry">
         <rect>
          <x>210</x>
-         <y>222</y>
+         <y>262</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -262,21 +262,11 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEditPresetNumbers">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>120</y>
-         <width>421</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QPushButton" name="pbSetPresetDefaults">
        <property name="geometry">
         <rect>
          <x>480</x>
-         <y>120</y>
+         <y>140</y>
          <width>41</width>
          <height>31</height>
         </rect>
@@ -286,6 +276,16 @@
        </property>
        <property name="text">
         <string/>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textEditPresetOptions">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>120</y>
+         <width>421</width>
+         <height>71</height>
+        </rect>
        </property>
       </widget>
      </widget>

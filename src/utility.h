@@ -48,6 +48,15 @@ namespace utility
 		using has_no_argument = imp<result_of<Function>,Function> ;
 	}
 
+	template< typename T >
+	typename std::add_const<T>::type& asConst( T& t )
+	{
+		return t ;
+	}
+
+	template< typename T >
+	void asConst( const T&& ) = delete ;
+
 	QStringList split( const QString& e,char token = '\n' ) ;
 
 	enum class readChannel{ stdOut,stdError } ;
@@ -105,18 +114,32 @@ namespace utility
 		  WhenDone whenDone,
 		  WithData withData )
 	{
-		run( cmd,
-		     args,
-		     r,
-		     std::move( whenCreated ),
-		     [ whenDone = std::move( whenDone ) ]( int,QProcess::ExitStatus ){ whenDone() ; },
-		     std::move( withData ) ) ;
+		auto m = [ whenDone = std::move( whenDone ) ]( int,QProcess::ExitStatus ){ whenDone() ; } ;
+
+		utility::run( cmd,args,r,std::move( whenCreated ),std::move( m ),std::move( withData ) ) ;
 	}
 
 	template< typename WhenDone,typename WithData >
 	void run( const QString& cmd,const QStringList& args,WhenDone w,WithData p )
 	{
-		run( cmd,args,[]( QProcess& exe ){ Q_UNUSED( exe ) },std::move( w ),std::move( p ) ) ;
+		utility::run( cmd,args,[]( QProcess& exe ){ Q_UNUSED( exe ) },std::move( w ),std::move( p ) ) ;
+	}
+
+	template< typename Value,typename Arg >
+	bool startsWith( Value& v,const Arg& arg )
+	{
+		return v.startsWith( arg ) ;
+	}
+
+	template< typename Value,typename Arg,typename ... Args >
+	bool startsWith( Value& v,const Arg& arg,const Args& ... args )
+	{
+		if( utility::startsWith( v,arg ) ){
+
+			return true ;
+		}else{
+			return utility::startsWith( v,args ... ) ;
+		}
 	}
 }
 

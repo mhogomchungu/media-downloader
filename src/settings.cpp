@@ -18,6 +18,7 @@
  */
 
 #include "settings.h"
+#include "utility.h"
 
 #include<QDir>
 
@@ -50,12 +51,24 @@ QString settings::downloadFolder()
 
 void settings::setPresetToDefaults()
 {
-	if( !m_settings.contains( "DefaultPresetOptions" ) ){
+	if( !m_settings.contains( "PresetOptionsDefaults" ) ){
 
-		m_settings.setValue( "DefaultPresetOptions",QStringList{ "18","22" } ) ;
+		QStringList s{ "Best",
+			       "Low(240p)(133+140)",
+			       "Medium(360p)(134+140)",
+			       "High(720p)(136+140)",
+			       "Very High(1080p)(137+140)",
+			       "Super High(2160p60)(138+140)" } ;
+
+		m_settings.setValue( "PresetOptionsDefaults",s ) ;
 	}
 
-	this->setPresetOptions( m_settings.value( "DefaultPresetOptions" ).toStringList() ) ;
+	m_settings.setValue( "PresetOptions",m_settings.value( "PresetOptionsDefaults" ).toStringList() ) ;
+}
+
+void settings::setPresetOptions( const QString& e )
+{
+	this->setPresetOptions( utility::split( e,',' ) ) ;
 }
 
 void settings::setPresetOptions( const QStringList& m )
@@ -63,14 +76,41 @@ void settings::setPresetOptions( const QStringList& m )
 	m_settings.setValue( "PresetOptions",m ) ;
 }
 
-QStringList settings::presetOptions()
+QString settings::presetOptions()
 {
 	if( !m_settings.contains( "PresetOptions" ) ){
 
 		this->setPresetToDefaults() ;
 	}
 
-	return m_settings.value( "PresetOptions" ).toStringList() ;
+	return m_settings.value( "PresetOptions" ).toStringList().join( ',' ) ;
+}
+
+QStringList settings::presetOptionsList()
+{
+	return utility::split( this->presetOptions(),',' ) ;
+}
+
+QStringList settings::defaultDownLoadCmdOptions()
+{
+	if( !m_settings.contains( "DefaultDownLoadCmdOptions" ) ){
+
+		QStringList m{ "--newline","--ignore-config","--no-playlist" } ;
+
+		m_settings.setValue( "DefaultDownLoadCmdOptions",m ) ;
+	}
+
+	return m_settings.value( "DefaultDownLoadCmdOptions" ).toStringList() ;
+}
+
+QStringList settings::defaultListCmdOptions()
+{
+	if( !m_settings.contains( "DefaultListCmdOptions" ) ){
+
+		m_settings.setValue( "DefaultListCmdOptions",QStringList{ "-F" } ) ;
+	}
+
+	return m_settings.value( "DefaultListCmdOptions" ).toStringList() ;
 }
 
 void settings::setHighDpiScalingFactor( const QString& m )

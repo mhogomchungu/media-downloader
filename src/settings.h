@@ -31,8 +31,12 @@ public:
 	settings() ;
 	QByteArray highDpiScalingFactor() ;
 	QString downloadFolder() ;
-	QStringList presetOptions() ;
+	QString presetOptions() ;
+	QStringList presetOptionsList() ;
+	QStringList defaultDownLoadCmdOptions() ;
+	QStringList defaultListCmdOptions() ;
 	void setHighDpiScalingFactor( const QString& ) ;
+	void setPresetOptions( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;
 	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;

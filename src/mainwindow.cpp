@@ -72,7 +72,7 @@ MainWindow::MainWindow( settings& settings ) :
 
 		m_settings.setPresetToDefaults() ;
 
-		m_ui->lineEditPresetNumbers->setText( m_settings.presetOptions().join( ',' ) ) ;
+		m_ui->textEditPresetOptions->setPlainText( m_settings.presetOptions() ) ;
 	} ) ;
 
 	connect( m_ui->pbQuit,&QPushButton::clicked,[](){
@@ -82,15 +82,17 @@ MainWindow::MainWindow( settings& settings ) :
 
 	connect( m_ui->pbConfigure,&QPushButton::clicked,[ this ](){
 
+		m_ui->plainTextEdit->setEnabled( false ) ;
+
 		m_ui->frame->setVisible( true ) ;
 
 		m_ui->pbConfigure->setEnabled( false ) ;
 
 		m_ui->pbDownloadPath->setFocus() ;
 
-		auto m = m_settings.presetOptions().join( ',' ) ;
+		auto m = m_settings.presetOptions() ;
 
-		m_ui->lineEditPresetNumbers->setText( m ) ;
+		m_ui->textEditPresetOptions->setPlainText( m ) ;
 
 		this->disableAll() ;
 	} ) ;
@@ -107,12 +109,14 @@ MainWindow::MainWindow( settings& settings ) :
 
 	connect( m_ui->pbSet,&QPushButton::clicked,[ this ](){
 
+		m_ui->plainTextEdit->setEnabled( true ) ;
+
 		m_ui->frame->setVisible( false ) ;
 
 		m_ui->pbConfigure->setEnabled( true ) ;
 
 		m_settings.setHighDpiScalingFactor( m_ui->lineEditScaleFactor->text() ) ;
-		m_settings.setPresetOptions( utility::split( m_ui->lineEditPresetNumbers->text(),',' ) ) ;
+		m_settings.setPresetOptions( m_ui->textEditPresetOptions->toPlainText() ) ;
 		m_settings.setDownloadFolder( m_ui->lineEditDownloadPath->text() ) ;
 
 		m_ui->pbEntries->setMenu( this->setMenu() ) ;
@@ -148,6 +152,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::run( const QString& cmd,const QStringList& args )
 {
+	m_tmp.append( "[media-downloader] cmd: " + [ & ](){
+
+		auto m = cmd ;
+
+		for( const auto& it : args ){
+
+			m += " \"" + it + "\"" ;
+		}
+
+		return m + "\n" ;
+	}() ) ;
+
 	this->disableAll() ;
 
 	QMetaObject::Connection conn ;
@@ -206,7 +222,10 @@ void MainWindow::list()
 
 	m_tmp.clear() ;
 
-	this->run( "youtube-dl",{ "-F",m_ui->lineEditURL->text() } ) ;
+	auto args = m_settings.defaultListCmdOptions() ;
+	args.append( m_ui->lineEditURL->text() ) ;
+
+	this->run( "youtube-dl",args ) ;
 }
 
 void MainWindow::download()
@@ -216,11 +235,9 @@ void MainWindow::download()
 	auto entry = m_ui->lineEditNumber->text() ;
 	auto url = m_ui->lineEditURL->text() ;
 
-	QStringList args ;
+	entry.replace( tr( "(Not Available)" ),"" ) ;
 
-	args.append( "--newline" ) ;
-	args.append( "--ignore-config" ) ;
-	args.append( "--no-playlist" ) ;
+	auto args = m_settings.defaultDownLoadCmdOptions() ;
 
 	if( entry.isEmpty() ){
 
@@ -234,6 +251,11 @@ void MainWindow::download()
 			args.append( entry ) ;
 			args.append( url ) ;
 		}else{
+			if( m.contains( "--yes-playlist" ) ){
+
+				args.removeOne( "--no-playlist" ) ;
+			}
+
 			for( const auto& it : m ){
 
 				args.append( it ) ;
@@ -290,7 +312,7 @@ QMenu * MainWindow::setMenu()
 		m->deleteLater() ;
 	}
 
-	const auto entries = m_settings.presetOptions() ;
+	const auto entries = m_settings.presetOptionsList() ;
 
 	auto menu = new QMenu( this ) ;
 
@@ -316,7 +338,60 @@ QMenu * MainWindow::setMenu()
 
 			m_ui->plainTextEdit->clear() ;
 		}else{
-			m_ui->lineEditNumber->setText( ac->text() ) ;
+			auto m = ac->text() ;
+
+			if( m == "Best" ){
+
+				for( const auto& it : utility::asConst( m_tmp ) ){
+
+					if( it.endsWith( "(best)",Qt::CaseInsensitive ) ){
+
+						m = utility::split( it,' ' ).first() ;
+
+						break ;
+					}
+				}
+
+				if( m == "Best" ){
+
+					m += tr( "(Not Available)" ) ;
+				}
+
+			}else if( utility::startsWith( m,"Low","Medium","High","Very High","Super High" ) ){
+
+				auto s = m.lastIndexOf( '(' ) ;
+
+				if( s != -1 ){
+
+					m = m.mid( s + 1 ) ;
+					m.truncate( m.size() - 1 ) ;
+				}
+
+				auto w = utility::split( m,'+' ) ;
+
+				auto _starts_with = [ this ]( const QString& e ){
+
+					for( const auto& n : utility::asConst( m_tmp ) ){
+
+						if( n.startsWith( e ) ){
+
+							return true ;
+						}
+					}
+
+					return false ;
+				} ;
+
+				if( w.size() == 2 ){
+
+					if( !( _starts_with( w[ 0 ] + " " ) && _starts_with( w[ 1 ] + " " ) ) ){
+
+						m += tr( "(Not Available)" ) ;
+					}
+				}
+			}
+
+			m_ui->lineEditNumber->setText( m ) ;
 		}
 	} ) ;
 
