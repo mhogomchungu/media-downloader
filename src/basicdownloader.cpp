@@ -151,7 +151,7 @@ void basicdownloader::run( const QString &cmd,const QStringList& args )
 			exe.terminate() ;
 		} ) ;
 
-	},[ this]( int,QProcess::ExitStatus,QMetaObject::Connection& conn ){
+	},[ this ]( int,QProcess::ExitStatus,QMetaObject::Connection& conn ){
 
 		QObject::disconnect( conn ) ;
 
