@@ -321,7 +321,7 @@ QMenu * MainWindow::setMenu()
 
 		a.replace( "\n","" ) ;
 
-		auto b = a.indexOf( '(' ) ;
+		auto b = a.lastIndexOf( '(' ) ;
 
 		if( b != -1 ){
 
