@@ -30,13 +30,15 @@ set(UI_FILES
     src/mainwindow.ui)
 
 set(MOC_FILES
-    src/mainwindow.h)
+    src/mainwindow.h
+    src/basicdownloader.h)
 
 set(SRC
     src/mainwindow.cpp
     src/main.cpp
     src/settings.cpp
-    src/utility.cpp)
+    src/utility.cpp
+    src/basicdownloader.cpp)
 
 set(RESOUCES
     src/icon.qrc)

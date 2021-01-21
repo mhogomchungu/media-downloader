@@ -17,34 +17,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef BASIC_DOWNLOADER_H
+#define BASIC_DOWNLOADER_H
 
-#include <QMainWindow>
-#include <QCloseEvent>
-#include <QSystemTrayIcon>
 #include <QString>
 #include <QStringList>
 #include <QMenu>
 
 #include "settings.h"
-#include "basicdownloader.h"
+#include "utility.h"
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class basicdownloader : public QObject
 {
 	Q_OBJECT
 public:
-	MainWindow( settings& ) ;
-	~MainWindow() ;
+	basicdownloader( settings& ) ;
+	void init( Ui::MainWindow *,QWidget * ) ;
 private:
-	basicdownloader m_basicdownloader ;
-	QSystemTrayIcon m_trayIcon ;
 	Ui::MainWindow * m_ui ;
-	void closeEvent( QCloseEvent * ) ;
-};
+	settings& m_settings ;
+	QMenu * m_menu ;
+	QWidget * m_mainWindow ;
+	QStringList m_tmp ;
+	void run( const QString& cmd,const QStringList& args ) ;
+	void list() ;
+	void download() ;
+	void exit() ;
+	void enableAll() ;
+	void disableAll() ;
+	QMenu * setMenu() ;
+} ;
 
-#endif // MAINWINDOW_H
+#endif
