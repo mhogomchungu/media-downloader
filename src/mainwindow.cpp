@@ -99,7 +99,10 @@ MainWindow::MainWindow( settings& settings ) :
 
 	connect( m_ui->pbDownloadPath,&QPushButton::clicked,[ this ](){
 
-		auto e = QFileDialog::getExistingDirectory( this,tr( "Set Download Folder" ),QDir::homePath(),QFileDialog::ShowDirsOnly ) ;
+		auto e = QFileDialog::getExistingDirectory( this,
+							    tr( "Set Download Folder" ),
+							    QDir::homePath(),
+							    QFileDialog::ShowDirsOnly ) ;
 
 		if( !e.isEmpty() ){
 
@@ -166,20 +169,18 @@ void MainWindow::run( const QString& cmd,const QStringList& args )
 
 	this->disableAll() ;
 
-	QMetaObject::Connection conn ;
-
-	utility::run( cmd,args,utility::readChannel::stdOut,[ this,&conn ]( QProcess& exe ){
-
-		conn = QObject::connect( m_ui->pbCancel,&QPushButton::clicked,[ &exe ](){
-
-			exe.terminate() ;
-		} ) ;
+	utility::run( cmd,args,utility::readChannel::stdOut,[ this ]( QProcess& exe ){
 
 		exe.setWorkingDirectory( m_settings.downloadFolder() ) ;
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-	},[ this,conn ](){
+		return QObject::connect( m_ui->pbCancel,&QPushButton::clicked,[ &exe ](){
+
+			exe.terminate() ;
+		} ) ;
+
+	},[ this]( int,QProcess::ExitStatus,QMetaObject::Connection conn ){
 
 		QObject::disconnect( conn ) ;
 
@@ -235,8 +236,6 @@ void MainWindow::download()
 	auto entry = m_ui->lineEditNumber->text() ;
 	auto url = m_ui->lineEditURL->text() ;
 
-	entry.replace( tr( "(Not Available)" ),"" ) ;
-
 	auto args = m_settings.defaultDownLoadCmdOptions() ;
 
 	if( entry.isEmpty() ){
@@ -253,7 +252,7 @@ void MainWindow::download()
 		}else{
 			if( m.contains( "--yes-playlist" ) ){
 
-				args.removeOne( "--no-playlist" ) ;
+				args.removeAll( "--no-playlist" ) ;
 			}
 
 			for( const auto& it : m ){
@@ -318,7 +317,19 @@ QMenu * MainWindow::setMenu()
 
 	for( const auto& it : entries ){
 
-		menu->addAction( it ) ;
+		auto a = it ;
+
+		auto b = a.indexOf( '(' ) ;
+
+		if( b != -1 ){
+
+			auto m = a.mid( 0,b ) ;
+			auto mm = a.mid( b + 1 ) ;
+			mm.truncate( mm.size() - 1 ) ;
+			menu->addAction( m )->setObjectName( mm ) ;
+		}else{
+			menu->addAction( it )->setObjectName( it ) ;
+		}
 	}
 
 	menu->addSeparator() ;
@@ -344,76 +355,12 @@ QMenu * MainWindow::setMenu()
 
 			if( m == "Best" ){
 
-				this->parseBestOption( m ) ;
-
-			}else if( utility::startsWith( m,"Low","Medium","High","Very High","Super High" ) ){
-
-				this->parseOtherOptions( m ) ;
+				m_ui->lineEditNumber->setText( "best" ) ;
+			}else{
+				m_ui->lineEditNumber->setText( ac->objectName() ) ;
 			}
-
-			m_ui->lineEditNumber->setText( m ) ;			
 		}
 	} ) ;
 
 	return menu ;
-}
-
-void MainWindow::parseBestOption( QString& m )
-{
-	for( const auto& it : utility::asConst( m_tmp ) ){
-
-		if( it.endsWith( "(best)",Qt::CaseInsensitive ) ){
-
-			m = utility::split( it,' ' ).first() ;
-
-			break ;
-		}
-	}
-
-	if( m == "Best" ){
-
-		if( m_tmp.isEmpty() ){
-
-			m = "22" ;
-		}else{
-			m += tr( "(Not Available)" ) ;
-		}
-	}
-}
-
-void MainWindow::parseOtherOptions( QString& m )
-{
-	auto s = m.lastIndexOf( '(' ) ;
-
-	if( s != -1 ){
-
-		m = m.mid( s + 1 ) ;
-		m.truncate( m.size() - 1 ) ;
-	}
-
-	auto w = utility::split( m,'+' ) ;
-
-	auto _starts_with = [ this ]( const QString& e ){
-
-		for( const auto& n : utility::asConst( m_tmp ) ){
-
-			if( n.startsWith( e ) ){
-
-				return true ;
-			}
-		}
-
-		return false ;
-	} ;
-
-	if( w.size() == 2 ){
-
-		if( !( _starts_with( w[ 0 ] + " " ) && _starts_with( w[ 1 ] + " " ) ) ){
-
-			if( !m_tmp.isEmpty() ){
-
-				m += tr( "(Not Available)" ) ;
-			}
-		}
-	}
 }

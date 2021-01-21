@@ -41,11 +41,23 @@ namespace utility
 		template<typename ReturnType,typename Function,typename ... Args>
 		using imp = std::enable_if_t<std::is_same<result_of<Function,Args...>,ReturnType>::value,int> ;
 
+		template<typename ReturnType,typename Function,typename ... Args>
+		using has_same_return_type = std::enable_if_t<std::is_same<result_of<Function,Args...>,ReturnType>::value,int> ;
+
 		template<typename Function,typename ... Args>
 		using has_argument = imp<result_of<Function,Args...>,Function,Args...> ;
 
 		template<typename Function>
 		using has_no_argument = imp<result_of<Function>,Function> ;
+
+		template<typename Function,typename ... Args>
+		using has_void_return_type = has_same_return_type<void,Function,Args...> ;
+
+		template<typename Function,typename ... Args>
+		using has_bool_return_type = has_same_return_type<bool,Function,Args...> ;
+
+		template<typename Function,typename ... Args>
+		using has_non_void_return_type = std::enable_if_t<!std::is_void<result_of<Function,Args...>>::value,int> ;
 	}
 
 	template< typename T >
@@ -65,7 +77,49 @@ namespace utility
 	template< typename WhenCreated,
 		  typename WhenDone,
 		  typename WithData,
-		  utility::types::has_argument< WhenDone,int,QProcess::ExitStatus > = 0 >
+		  utility::types::has_non_void_return_type< WhenCreated,QProcess& > = 0 >
+	void run( const QString& cmd,
+		  const QStringList& args,
+		  readChannel r,
+		  WhenCreated whenCreated,
+		  WhenDone whenDone,
+		  WithData withData )
+	{
+		auto exe = new QProcess() ;
+
+		auto value = whenCreated( *exe ) ;
+
+		if( r == readChannel::stdOut ){
+
+			QObject::connect( exe,&QProcess::readyReadStandardOutput,
+					  [ exe,withData = std::move( withData ) ](){
+
+				withData( exe->readAllStandardOutput() ) ;
+			} ) ;
+		}else{
+			QObject::connect( exe,&QProcess::readyReadStandardError,
+					  [ exe,withData = std::move( withData ) ](){
+
+				withData( exe->readAllStandardError() ) ;
+			} ) ;
+		}
+
+		auto s = static_cast< void( QProcess::* )( int,QProcess::ExitStatus ) >( &QProcess::finished ) ;
+
+		QObject::connect( exe,s,[ value = std::move( value ),exe,whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss ){
+
+			whenDone( e,ss,std::move( value ) ) ;
+
+			exe->deleteLater() ;
+		} ) ;
+
+		exe->start( cmd,args ) ;
+	}
+
+	template< typename WhenCreated,
+		  typename WhenDone,
+		  typename WithData,
+		  utility::types::has_void_return_type< WhenCreated,QProcess& > = 0 >
 	void run( const QString& cmd,
 		  const QStringList& args,
 		  readChannel r,
@@ -102,22 +156,6 @@ namespace utility
 		} ) ;
 
 		exe->start( cmd,args ) ;
-	}
-
-	template< typename WhenCreated,
-		  typename WhenDone,
-		  typename WithData,
-		  utility::types::has_argument< WhenDone > = 0 >
-	void run( const QString& cmd,
-		  const QStringList& args,
-		  readChannel r,
-		  WhenCreated whenCreated,
-		  WhenDone whenDone,
-		  WithData withData )
-	{
-		auto m = [ whenDone = std::move( whenDone ) ]( int,QProcess::ExitStatus ){ whenDone() ; } ;
-
-		utility::run( cmd,args,r,std::move( whenCreated ),std::move( m ),std::move( withData ) ) ;
 	}
 
 	template< typename WhenDone,typename WithData >
