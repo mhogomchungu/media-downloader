@@ -180,7 +180,7 @@ void MainWindow::run( const QString& cmd,const QStringList& args )
 			exe.terminate() ;
 		} ) ;
 
-	},[ this]( int,QProcess::ExitStatus,QMetaObject::Connection conn ){
+	},[ this]( int,QProcess::ExitStatus,QMetaObject::Connection& conn ){
 
 		QObject::disconnect( conn ) ;
 
@@ -188,7 +188,7 @@ void MainWindow::run( const QString& cmd,const QStringList& args )
 
 		m_ui->pbCancel->setEnabled( false ) ;
 
-	},[ this ]( const QByteArray& data ){
+	},[ this ]( const QByteArray& data,QMetaObject::Connection& ){
 
 		for( const auto& m : utility::split( data ) ){
 

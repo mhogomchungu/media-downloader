@@ -25,6 +25,7 @@
 #include <QProcess>
 
 #include <type_traits>
+#include <memory>
 
 namespace utility
 {
@@ -87,28 +88,30 @@ namespace utility
 	{
 		auto exe = new QProcess() ;
 
-		auto value = whenCreated( *exe ) ;
+		using type = utility::types::result_of< WhenCreated,QProcess& > ;
+
+		auto data = std::make_shared< type >( whenCreated( *exe ) ) ;
 
 		if( r == readChannel::stdOut ){
 
 			QObject::connect( exe,&QProcess::readyReadStandardOutput,
-					  [ exe,withData = std::move( withData ) ](){
+					  [ exe,data,withData = std::move( withData ) ](){
 
-				withData( exe->readAllStandardOutput() ) ;
+				withData( exe->readAllStandardOutput(),*data ) ;
 			} ) ;
 		}else{
 			QObject::connect( exe,&QProcess::readyReadStandardError,
-					  [ exe,withData = std::move( withData ) ](){
+					  [ exe,data,withData = std::move( withData ) ](){
 
-				withData( exe->readAllStandardError() ) ;
+				withData( exe->readAllStandardError(),*data ) ;
 			} ) ;
 		}
 
 		auto s = static_cast< void( QProcess::* )( int,QProcess::ExitStatus ) >( &QProcess::finished ) ;
 
-		QObject::connect( exe,s,[ value = std::move( value ),exe,whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss ){
+		QObject::connect( exe,s,[ data,exe,whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss ){
 
-			whenDone( e,ss,std::move( value ) ) ;
+			whenDone( e,ss,*data ) ;
 
 			exe->deleteLater() ;
 		} ) ;
