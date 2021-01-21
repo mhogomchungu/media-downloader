@@ -53,12 +53,15 @@ void settings::setPresetToDefaults()
 {
 	if( !m_settings.contains( "PresetOptionsDefaults" ) ){
 
-		QStringList s{ "Best",
-			       "Low(240p)(133+140)",
-			       "Medium(360p)(134+140)",
-			       "High(720p)(136+140)",
-			       "Very High(1080p)(137+140)",
-			       "Super High(2160p60)(138+140)" } ;
+		QStringList s{ "144p(bestvideo[height=144][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=144]+bestaudio)",
+			       "240p(bestvideo[height=240][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=240]+bestaudio)",
+			       "360p(bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=360]+bestaudio)",
+			       "480p(bestvideo[height=480][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=480]+bestaudio)",
+			       "720p(bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=720]+bestaudio)",
+			       "1080p(bestvideo[height=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio)",
+			       "1440p(bestvideo[height=1440][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio)",
+			       "2160p(bestvideo[height=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio)",
+			       "Best","18","22" } ;
 
 		m_settings.setValue( "PresetOptionsDefaults",s ) ;
 	}
