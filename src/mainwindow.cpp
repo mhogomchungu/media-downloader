@@ -319,6 +319,8 @@ QMenu * MainWindow::setMenu()
 
 		auto a = it ;
 
+		a.replace( "\n","" ) ;
+
 		auto b = a.indexOf( '(' ) ;
 
 		if( b != -1 ){
