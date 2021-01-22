@@ -28,6 +28,7 @@ MainWindow::MainWindow( settings& settings ) :
 	m_ui->setupUi( this ) ;
 
 	m_basicdownloader.init( m_ui,this ) ;
+	m_about.init( m_ui,this ) ;
 
 	this->window()->setFixedSize( this->window()->size() ) ;
 

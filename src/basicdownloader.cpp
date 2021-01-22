@@ -140,7 +140,7 @@ void basicdownloader::run( const QString &cmd,const QStringList& args )
 
 	this->disableAll() ;
 
-	utility::run( cmd,args,utility::readChannel::stdOut,[ this ]( QProcess& exe ){
+	utility::run( cmd,args,[ this ]( QProcess& exe ){
 
 		exe.setWorkingDirectory( m_settings.downloadFolder() ) ;
 
@@ -159,7 +159,7 @@ void basicdownloader::run( const QString &cmd,const QStringList& args )
 
 		m_ui->pbCancel->setEnabled( false ) ;
 
-	},[ this ]( const QByteArray& data,QMetaObject::Connection& ){
+	},[ this ]( QProcess::ProcessChannel,const QByteArray& data,QMetaObject::Connection& ){
 
 		for( const auto& m : utility::split( data ) ){
 

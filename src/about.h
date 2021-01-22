@@ -17,40 +17,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BASIC_DOWNLOADER_H
-#define BASIC_DOWNLOADER_H
+#ifndef ABOUT_H
+#define ABOUT_H
 
-#include <QString>
-#include <QStringList>
-#include <QMenu>
-
-#include "settings.h"
-#include "utility.h"
+#include <QWidget>
 
 namespace Ui
 {
 	class MainWindow ;
 }
 
-class basicdownloader : public QObject
+class about
 {
-	Q_OBJECT
 public:
-	basicdownloader( settings& ) ;
+	about() ;
 	void init( Ui::MainWindow *,QWidget * ) ;
 private:
-	Ui::MainWindow * m_ui ;
-	settings& m_settings ;
-	QMenu * m_menu ;
-	QWidget * m_mainWindow ;
-	QStringList m_tmp ;
-	void run( const QString& cmd,const QStringList& args ) ;
-	void list() ;
-	void download() ;
-	void exit() ;
-	void enableAll() ;
-	void disableAll() ;
-	QMenu * setMenu() ;
-} ;
+};
 
 #endif
+

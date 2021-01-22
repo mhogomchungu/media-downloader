@@ -4,6 +4,11 @@ project(media-downloader)
 
 add_definitions(-Wextra -Wall -pedantic)
 
+project(media-downloader)
+
+set( PGR_VERSION "1.0.0" )
+set( COPYRIGHT_YEARS "2021" )
+
 INCLUDE(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -38,7 +43,8 @@ set(SRC
     src/main.cpp
     src/settings.cpp
     src/utility.cpp
-    src/basicdownloader.cpp)
+    src/basicdownloader.cpp
+    src/about.cpp)
 
 set(RESOUCES
     src/icon.qrc)
@@ -57,3 +63,9 @@ install(FILES src/media-downloader.desktop
 
 install(FILES src/media-downloader.png
     DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons)
+
+file( WRITE ${PROJECT_BINARY_DIR}/version.h
+"
+#define VERSION \"${PGR_VERSION}\"
+#define COPYRIGHT \"${COPYRIGHT_YEARS}\"
+")

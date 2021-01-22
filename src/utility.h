@@ -73,15 +73,12 @@ namespace utility
 	QStringList split( const QString& e,char token = '\n' ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
 
-	enum class readChannel{ stdOut,stdError } ;
-
 	template< typename WhenCreated,
 		  typename WhenDone,
 		  typename WithData,
 		  utility::types::has_non_void_return_type< WhenCreated,QProcess& > = 0 >
 	void run( const QString& cmd,
 		  const QStringList& args,
-		  readChannel r,
 		  WhenCreated whenCreated,
 		  WhenDone whenDone,
 		  WithData withData )
@@ -92,20 +89,17 @@ namespace utility
 
 		auto data = std::make_shared< type >( whenCreated( *exe ) ) ;
 
-		if( r == readChannel::stdOut ){
+		QObject::connect( exe,&QProcess::readyReadStandardOutput,
+				  [ exe,data,withData = std::move( withData ) ](){
 
-			QObject::connect( exe,&QProcess::readyReadStandardOutput,
-					  [ exe,data,withData = std::move( withData ) ](){
+			withData( QProcess::ProcessChannel::StandardOutput,exe->readAllStandardOutput(),*data ) ;
+		} ) ;
 
-				withData( exe->readAllStandardOutput(),*data ) ;
-			} ) ;
-		}else{
-			QObject::connect( exe,&QProcess::readyReadStandardError,
-					  [ exe,data,withData = std::move( withData ) ](){
+		QObject::connect( exe,&QProcess::readyReadStandardError,
+				  [ exe,data,withData = std::move( withData ) ](){
 
-				withData( exe->readAllStandardError(),*data ) ;
-			} ) ;
-		}
+			withData( QProcess::ProcessChannel::StandardError,exe->readAllStandardError(),*data ) ;
+		} ) ;
 
 		auto s = static_cast< void( QProcess::* )( int,QProcess::ExitStatus ) >( &QProcess::finished ) ;
 
@@ -125,7 +119,6 @@ namespace utility
 		  utility::types::has_void_return_type< WhenCreated,QProcess& > = 0 >
 	void run( const QString& cmd,
 		  const QStringList& args,
-		  readChannel r,
 		  WhenCreated whenCreated,
 		  WhenDone whenDone,
 		  WithData withData )
@@ -134,20 +127,17 @@ namespace utility
 
 		whenCreated( *exe ) ;
 
-		if( r == readChannel::stdOut ){
+		QObject::connect( exe,&QProcess::readyReadStandardOutput,
+				  [ exe,withData = std::move( withData ) ](){
 
-			QObject::connect( exe,&QProcess::readyReadStandardOutput,
-					  [ exe,withData = std::move( withData ) ](){
+			withData( QProcess::ProcessChannel::StandardOutput,exe->readAllStandardOutput() ) ;
+		} ) ;
 
-				withData( exe->readAllStandardOutput() ) ;
-			} ) ;
-		}else{
-			QObject::connect( exe,&QProcess::readyReadStandardError,
-					  [ exe,withData = std::move( withData ) ](){
+		QObject::connect( exe,&QProcess::readyReadStandardError,
+				  [ exe,withData = std::move( withData ) ](){
 
-				withData( exe->readAllStandardError() ) ;
-			} ) ;
-		}
+			withData( QProcess::ProcessChannel::StandardError,exe->readAllStandardError() ) ;
+		} ) ;
 
 		auto s = static_cast< void( QProcess::* )( int,QProcess::ExitStatus ) >( &QProcess::finished ) ;
 

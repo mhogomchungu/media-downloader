@@ -29,9 +29,11 @@
 
 #include "settings.h"
 #include "basicdownloader.h"
+#include "about.h"
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+	class MainWindow ;
 }
 
 class MainWindow : public QMainWindow
@@ -42,6 +44,7 @@ public:
 	~MainWindow() ;
 private:
 	basicdownloader m_basicdownloader ;
+	about m_about ;
 	QSystemTrayIcon m_trayIcon ;
 	Ui::MainWindow * m_ui ;
 	void closeEvent( QCloseEvent * ) ;

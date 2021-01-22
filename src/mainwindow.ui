@@ -24,9 +24,9 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
       <string>Basic Downloder</string>
      </attribute>
@@ -313,6 +313,30 @@
       </property>
       <property name="text">
        <string>Quit</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tabAbout">
+     <attribute name="title">
+      <string>About</string>
+     </attribute>
+     <widget class="QLabel" name="TextLabelAbout">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>50</y>
+        <width>571</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
