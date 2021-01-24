@@ -26,16 +26,6 @@ settings::settings() : m_settings( "media-downloader","media-downloader" )
 {
 }
 
-QByteArray settings::highDpiScalingFactor()
-{
-	if( !m_settings.contains( "EnabledHighDpiScalingFactor" ) ){
-
-		m_settings.setValue( "EnabledHighDpiScalingFactor","1.0" ) ;
-	}
-
-	return m_settings.value( "EnabledHighDpiScalingFactor" ).toByteArray() ;
-}
-
 QString settings::downloadFolder()
 {
 	if( !m_settings.contains( "DownloadFolder" ) ){
@@ -71,7 +61,9 @@ void settings::setPresetToDefaults()
 
 void settings::setPresetOptions( const QString& e )
 {
-	this->setPresetOptions( utility::split( e,',' ) ) ;
+	auto m = e ;
+	m.replace( "\n","" ) ;
+	this->setPresetOptions( utility::split( m,',' ) ) ;
 }
 
 void settings::setPresetOptions( const QStringList& m )
@@ -128,7 +120,17 @@ QStringList settings::defaultListCmdOptions()
 
 void settings::setHighDpiScalingFactor( const QString& m )
 {
-	m_settings.setValue( "EnabledHighDpiScalingFactor",m ) ;
+	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;
+}
+
+QByteArray settings::highDpiScalingFactor()
+{
+	if( !m_settings.contains( "EnabledHighDpiScalingFactor" ) ){
+
+		m_settings.setValue( "EnabledHighDpiScalingFactor",QByteArray( "1.0" ) ) ;
+	}
+
+	return m_settings.value( "EnabledHighDpiScalingFactor" ).toByteArray() ;
 }
 
 void settings::setDownloadFolder( const QString& m )

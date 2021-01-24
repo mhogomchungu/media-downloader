@@ -24,7 +24,6 @@
 
 configure::configure()
 {
-
 }
 
 void configure::init( settings * settings,Ui::MainWindow * ui,QWidget * mainWidget )
