@@ -162,7 +162,7 @@ void basicdownloader::list()
 	m_tmp.clear() ;
 
 	auto args = m_settings->defaultListCmdOptions() ;
-	args.append( m_ui->lineEditURL->text() ) ;
+	args.append( m_ui->lineEditURL->text().split( ' ' ) ) ;
 
 	this->run( m_settings->cmdName(),args ) ;
 }
