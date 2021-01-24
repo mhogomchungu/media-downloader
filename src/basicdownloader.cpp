@@ -105,6 +105,10 @@ void basicdownloader::run( const QString &cmd,const QStringList& args )
 		return m + "\n" ;
 	}() ) ;
 
+	m_ui->plainTextEdit->setPlainText( m_tmp.join( '\n' ) ) ;
+
+	m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
+
 	tabManager::instance().disableAll() ;
 
 	utility::run( cmd,args,[ this ]( QProcess& exe ){
