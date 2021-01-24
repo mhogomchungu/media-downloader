@@ -28,8 +28,6 @@
 #include <QMenu>
 
 #include "settings.h"
-#include "basicdownloader.h"
-#include "about.h"
 
 namespace Ui
 {
@@ -43,8 +41,6 @@ public:
 	MainWindow( settings& ) ;
 	~MainWindow() ;
 private:
-	basicdownloader m_basicdownloader ;
-	about m_about ;
 	QSystemTrayIcon m_trayIcon ;
 	Ui::MainWindow * m_ui ;
 	void closeEvent( QCloseEvent * ) ;

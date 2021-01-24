@@ -20,15 +20,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "utility.h"
+#include "tabmanager.h"
 
 MainWindow::MainWindow( settings& settings ) :
-	m_basicdownloader( settings ),
 	m_ui( new Ui::MainWindow )
 {
 	m_ui->setupUi( this ) ;
 
-	m_basicdownloader.init( m_ui,this ) ;
-	m_about.init( m_ui,this ) ;
+	tabManager::instance().init( &settings,m_ui,this ) ;
 
 	this->window()->setFixedSize( this->window()->size() ) ;
 
@@ -46,7 +45,7 @@ MainWindow::MainWindow( settings& settings ) :
 
 	connect( m->addAction( "Quit" ),&QAction::triggered,[](){
 
-		QCoreApplication::quit() ;
+		tabManager::instance().basicDownloader().appQuit() ;
 	} ) ;
 
 	m_trayIcon.setContextMenu( m ) ;

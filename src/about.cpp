@@ -20,13 +20,23 @@
 #include "about.h"
 #include "version.h"
 
-#include "ui_mainwindow.h"
-
 about::about()
 {
 }
 
-void about::init( Ui::MainWindow * m_ui,QWidget * )
+void about::enableAll()
+{
+}
+
+void about::disableAll()
+{
+}
+
+void about::resetMenu()
+{
+}
+
+void about::init( settings *,Ui::MainWindow * m_ui,QWidget * )
 {
 	auto about = QString( "Version: %1\n\n\
 Copyright: %2, Francis Banyikwa\n\nEmail: mhogomchungu@gmail.com\n\n\

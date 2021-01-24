@@ -27,30 +27,27 @@
 #include "settings.h"
 #include "utility.h"
 
-namespace Ui
-{
-	class MainWindow ;
-}
-
 class basicdownloader : public QObject
 {
 	Q_OBJECT
 public:
-	basicdownloader( settings& ) ;
-	void init( Ui::MainWindow *,QWidget * ) ;
+	basicdownloader() ;
+	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	void download( const QString& options,const QStringList&,bool ) ;
+	void enableAll() ;
+	void disableAll() ;
+	void appQuit() ;
+	void resetMenu() ;
+	void setAsActive() ;
 private:
 	Ui::MainWindow * m_ui ;
-	settings& m_settings ;
-	QMenu * m_menu ;
+	settings * m_settings ;
 	QWidget * m_mainWindow ;
 	QStringList m_tmp ;
 	void run( const QString& cmd,const QStringList& args ) ;
 	void list() ;
 	void download() ;
 	void exit() ;
-	void enableAll() ;
-	void disableAll() ;
-	QMenu * setMenu() ;
 } ;
 
 #endif

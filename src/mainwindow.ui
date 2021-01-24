@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -76,7 +76,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Enter URL:  </string>
+       <string>Enter URL: </string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -95,7 +95,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Enter Option(s):  </string>
+       <string>Enter Options: </string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -124,7 +124,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEditNumber">
+     <widget class="QLineEdit" name="lineEditOptions">
       <property name="geometry">
        <rect>
         <x>170</x>
@@ -147,148 +147,6 @@
        <string>Configure</string>
       </property>
      </widget>
-     <widget class="QFrame" name="frame">
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>10</y>
-        <width>581</width>
-        <height>301</height>
-       </rect>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <widget class="QLabel" name="label_3">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>190</y>
-         <width>421</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Set Download Path</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditDownloadPath">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>230</y>
-         <width>421</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pbDownloadPath">
-       <property name="geometry">
-        <rect>
-         <x>480</x>
-         <y>232</y>
-         <width>41</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pbSet">
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>262</y>
-         <width>151</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Set</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_4">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>10</y>
-         <width>421</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Set Scale Factor(Need A Restart)</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditScaleFactor">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>50</y>
-         <width>421</width>
-         <height>31</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_5">
-       <property name="geometry">
-        <rect>
-         <x>62</x>
-         <y>80</y>
-         <width>421</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Preset Options</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pbSetPresetDefaults">
-       <property name="geometry">
-        <rect>
-         <x>480</x>
-         <y>140</y>
-         <width>41</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="toolTip">
-        <string>Reset Option To Its Default</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEditPresetOptions">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>120</y>
-         <width>421</width>
-         <height>71</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
      <widget class="QPushButton" name="pbEntries">
       <property name="geometry">
        <rect>
@@ -309,6 +167,431 @@
         <y>380</y>
         <width>101</width>
         <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Quit</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tabBatchDownloader">
+     <attribute name="title">
+      <string>Batch Downloader</string>
+     </attribute>
+     <widget class="QTabWidget" name="tabWidgetBatchDownlader">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>771</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Download Multiple Urls</string>
+       </attribute>
+       <widget class="QTableWidget" name="tableWidgetBD">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>10</y>
+          <width>701</width>
+          <height>271</height>
+         </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+        <property name="showGrid">
+         <bool>false</bool>
+        </property>
+        <column>
+         <property name="text">
+          <string>Url To Download</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="labelBDEnterUrl">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>280</y>
+          <width>151</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Enter URL: </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditBDUrl">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>280</y>
+          <width>461</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbBDAdd">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>340</y>
+          <width>121</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add Url To List</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbBDDownload">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>340</y>
+          <width>121</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Download</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelBDEnterOptions">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>310</y>
+          <width>151</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Enter Options: </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditBDUrlOptions">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>310</y>
+          <width>461</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbBDOptions">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>340</y>
+          <width>121</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Options</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbBDQuit">
+        <property name="geometry">
+         <rect>
+          <x>500</x>
+          <y>340</y>
+          <width>121</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quit</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Download Multiple Urls From A File</string>
+       </attribute>
+       <widget class="QPushButton" name="pbFileDownloaderDownload">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>340</y>
+          <width>111</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Download</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbFileDownloaderQuit">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>340</y>
+          <width>111</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quit</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelFileDownloader">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>50</y>
+          <width>631</width>
+          <height>171</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set A File That Contain Links To Be Downloaded.
+
+Each Link Should Be In Its Own Line.</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditFileDownloader">
+        <property name="geometry">
+         <rect>
+          <x>138</x>
+          <y>280</y>
+          <width>511</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbFileDownloaderFilePath">
+        <property name="geometry">
+         <rect>
+          <x>650</x>
+          <y>280</y>
+          <width>41</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbFileDownloaderOptions">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>340</y>
+          <width>111</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Options</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelFileDownloederPath">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>280</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Enter File Path: </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelFileDownloederPathOptions">
+        <property name="geometry">
+         <rect>
+          <x>-2</x>
+          <y>310</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Enter Options: </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditFileOptions">
+        <property name="geometry">
+         <rect>
+          <x>138</x>
+          <y>310</y>
+          <width>511</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Configure</string>
+     </attribute>
+     <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>260</y>
+        <width>41</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Reset Option To Its Default</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelConfigureScaleFactor">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>0</y>
+        <width>421</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Scale Factor(Need A Restart)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbConfigureDownloadPath">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>110</y>
+        <width>41</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelConfigurePresetOptions">
+      <property name="geometry">
+       <rect>
+        <x>192</x>
+        <y>140</y>
+        <width>421</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Preset Options</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditConfigureDownloadPath">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>108</y>
+        <width>421</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelConfigureDownloadPath">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>68</y>
+        <width>421</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Download Path</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditConfigureScaleFactor">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>40</y>
+        <width>421</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbConfigureSet">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>380</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Set</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEditConfigurePresetOptions">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>170</y>
+        <width>621</width>
+        <height>211</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbConfigureQuit">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>380</y>
+        <width>151</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">

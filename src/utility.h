@@ -23,9 +23,20 @@
 #include <QStringList>
 #include <QString>
 #include <QProcess>
+#include <QMenu>
+#include <QPushButton>
 
 #include <type_traits>
 #include <memory>
+
+#include "settings.h"
+
+#include "ui_mainwindow.h"
+
+namespace Ui
+{
+	class MainWindow ;
+}
 
 namespace utility
 {
@@ -72,6 +83,117 @@ namespace utility
 
 	QStringList split( const QString& e,char token = '\n' ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
+
+	class selectedAction
+	{
+	public:
+		static const char * bestText()
+		{
+			return "best" ;
+		}
+		static const QString& clearOptionTextTr()
+		{
+			static QString m( QObject::tr( "Clear Options" ) ) ;
+
+			return m ;
+		}
+		static const QString& clearScreenTextTr()
+		{
+			static QString m( QObject::tr( "Clear Screen" ) ) ;
+
+			return m ;
+		}
+		static const QString& clearOptionText()
+		{
+			static QString m( "Clear Options" ) ;
+
+			return m ;
+		}
+		static const QString& clearScreenText()
+		{
+			static QString m( "Clear Screen" ) ;
+
+			return m ;
+		}
+		selectedAction( QAction * ac ) :
+			m_objectName( ac->objectName() ),
+			m_text( ac->text() )
+		{
+		}
+		bool clearOptions()
+		{
+			return this->objectName() == clearOptionText() ;
+		}
+		bool clearScreen()
+		{
+			return this->objectName() == clearScreenText() ;
+		}
+		bool best()
+		{
+			return this->text() == "Best" ;
+		}
+		const QString& text()
+		{
+			return m_text ;
+		}
+		const QString& objectName()
+		{
+			return m_objectName ;
+		}
+	private:
+		QString m_objectName ;
+		QString m_text ;
+	};
+
+	template< typename Function >
+	void setMenuOptions( settings * settings,bool addClear,QPushButton * w,Function function )
+	{
+		auto m = w->menu() ;
+
+		if( m ){
+
+			m->deleteLater() ;
+		}
+
+		const auto entries = settings->presetOptionsList() ;
+
+		auto menu = new QMenu( w ) ;
+
+		for( const auto& it : entries ){
+
+			auto a = it ;
+
+			auto b = a.lastIndexOf( '(' ) ;
+
+			if( b != -1 ){
+
+				auto m = a.mid( 0,b ) ;
+				auto mm = a.mid( b + 1 ) ;
+				mm.truncate( mm.size() - 1 ) ;
+				menu->addAction( m )->setObjectName( mm ) ;
+			}else{
+				menu->addAction( it )->setObjectName( it ) ;
+			}
+		}
+
+		if( addClear ){
+
+			menu->addSeparator() ;
+
+			const auto& cotr = selectedAction::clearOptionTextTr() ;
+			const auto& co = selectedAction::clearOptionTextTr() ;
+
+			const auto& cstr = selectedAction::clearScreenTextTr() ;
+			const auto& cs = selectedAction::clearScreenText() ;
+
+			menu->addAction( cotr )->setObjectName( co ) ;
+			menu->addAction( cstr )->setObjectName( cs ) ;
+		}
+
+		QObject::connect( menu,&QMenu::triggered,std::move( function ) ) ;
+
+		w->setMenu( menu ) ;
+	}
 
 	template< typename WhenCreated,
 		  typename WhenDone,

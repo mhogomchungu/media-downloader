@@ -15,6 +15,8 @@ Features offered:-
 
 5. The GUI offers an ability to change preset options or add new ones making it possible to use the GUI to automate any use case supported by youtube-dl.
 
+6. The GUI offers an ability to download single media or multiple medias in batches.
+
 ![media-downloader.png](https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader.png)
 
 ![media-downloader.png](https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-1.png)

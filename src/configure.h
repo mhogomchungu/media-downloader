@@ -16,24 +16,25 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#ifndef ABOUT_H
-#define ABOUT_H
-
-#include <QWidget>
+#ifndef CONFIGURE_H
+#define CONFIGURE_H
 
 #include "settings.h"
 #include "utility.h"
 
-class about
+class configure : public QObject
 {
+        Q_OBJECT
 public:
-	about() ;
+        configure() ;
 	void init( settings *,Ui::MainWindow *,QWidget * ) ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
 private:
+	settings * m_settings ;
+	Ui::MainWindow * m_ui ;
+	QWidget * m_mainWindow ;
 };
 
 #endif

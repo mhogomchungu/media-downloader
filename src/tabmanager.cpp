@@ -17,24 +17,4 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABOUT_H
-#define ABOUT_H
-
-#include <QWidget>
-
-#include "settings.h"
-#include "utility.h"
-
-class about
-{
-public:
-	about() ;
-	void init( settings *,Ui::MainWindow *,QWidget * ) ;
-	void enableAll() ;
-	void disableAll() ;
-	void resetMenu() ;
-private:
-};
-
-#endif
-
+#include "tabmanager.h"

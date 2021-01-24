@@ -36,7 +36,10 @@ set(UI_FILES
 
 set(MOC_FILES
     src/mainwindow.h
-    src/basicdownloader.h)
+    src/basicdownloader.h
+    src/batchdownloader.h
+    src/batchfiledownloader.h
+    src/configure.h)
 
 set(SRC
     src/mainwindow.cpp
@@ -44,7 +47,11 @@ set(SRC
     src/settings.cpp
     src/utility.cpp
     src/basicdownloader.cpp
-    src/about.cpp)
+    src/about.cpp
+    src/batchdownloader.cpp
+    src/tabmanager.cpp
+    src/batchfiledownloader.cpp
+    src/configure.cpp)
 
 set(RESOUCES
     src/icon.qrc)

@@ -16,25 +16,24 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef BATCH_FILE_DOWNLOADER_URL_H
+#define BATCH_FILE_DOWNLOADER_URL_H
 
-#ifndef ABOUT_H
-#define ABOUT_H
-
-#include <QWidget>
-
-#include "settings.h"
 #include "utility.h"
 
-class about
+class batchfiledownloader : public QObject
 {
+	Q_OBJECT
 public:
-	about() ;
+	batchfiledownloader() ;
 	void init( settings *,Ui::MainWindow *,QWidget * ) ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
 private:
+	settings * m_settings ;
+	Ui::MainWindow * m_ui ;
+	QWidget * m_mainWindow ;
 };
 
 #endif
-
