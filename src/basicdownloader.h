@@ -33,7 +33,10 @@ class basicdownloader : public QObject
 public:
 	basicdownloader() ;
 	void init( settings *,Ui::MainWindow *,QWidget * ) ;
-	void download( const QString& options,const QStringList&,bool ) ;
+	void download( const QString& quality,
+		       const QStringList& other_options,
+		       const QStringList& urls,
+		       bool ) ;
 	void enableAll() ;
 	void disableAll() ;
 	void appQuit() ;

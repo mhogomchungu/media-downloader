@@ -25,6 +25,7 @@
 #include "batchdownloader.h"
 #include "batchfiledownloader.h"
 #include "configure.h"
+#include "playlistdownloader.h"
 
 class tabManager
 {
@@ -41,6 +42,7 @@ public:
 		m_basicdownloader.init( s,m,w ) ;
 		m_batchdownloader.init( s,m,w ) ;
 		m_batchfiledownloader.init( s,m,w ) ;
+		m_playlistdownloader.init( s,m,w ) ;
 
 		return *this ;
 	}
@@ -51,6 +53,7 @@ public:
 		m_basicdownloader.enableAll() ;
 		m_batchdownloader.enableAll() ;
 		m_batchfiledownloader.enableAll() ;
+		m_playlistdownloader.enableAll() ;
 
 		return *this ;
 	}
@@ -61,6 +64,7 @@ public:
 		m_basicdownloader.disableAll() ;
 		m_batchdownloader.disableAll() ;
 		m_batchfiledownloader.disableAll() ;
+		m_playlistdownloader.disableAll() ;
 
 		return *this ;
 	}
@@ -71,6 +75,7 @@ public:
 		m_basicdownloader.resetMenu() ;
 		m_batchdownloader.resetMenu() ;
 		m_batchfiledownloader.resetMenu() ;
+		m_playlistdownloader.resetMenu() ;
 
 		return *this ;
 	}
@@ -84,6 +89,7 @@ private:
 	basicdownloader m_basicdownloader ;
 	batchdownloader m_batchdownloader ;
 	batchfiledownloader m_batchfiledownloader ;
+	playlistdownloader m_playlistdownloader ;
 } ;
 
 #endif

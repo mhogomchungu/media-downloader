@@ -87,9 +87,10 @@ namespace utility
 	class selectedAction
 	{
 	public:
-		static const char * bestText()
+		static const QString& bestText()
 		{
-			return "best" ;
+			static QString m( "best" ) ;
+			return m ;
 		}
 		static const QString& clearOptionTextTr()
 		{

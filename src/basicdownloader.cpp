@@ -169,14 +169,33 @@ void basicdownloader::list()
 
 void basicdownloader::download()
 {
-	this->download( m_ui->lineEditOptions->text(),{ m_ui->lineEditURL->text() },false ) ;
+	auto a = m_ui->lineEditOptions->text() ;
+
+	if( a.isEmpty() ){
+
+		a = utility::selectedAction::bestText() ;
+	}
+
+	auto b = utility::split( a,' ' ) ;
+
+	if( b.size() == 1 ){
+
+		this->download( b.at( 0 ),{},{ m_ui->lineEditURL->text() },false ) ;
+	}else{
+		auto c = b.takeFirst() ;
+
+		this->download( c,b,{ m_ui->lineEditURL->text() },false ) ;
+	}
 }
 
-void basicdownloader::download( const QString& options,const QStringList& urls,bool update )
+void basicdownloader::download( const QString& quality,
+				const QStringList& other_options,
+				const QStringList& urls,
+				bool update )
 {
 	if( update ){
 
-		m_ui->lineEditOptions->setText( options ) ;
+		m_ui->lineEditOptions->setText( quality + " " + other_options.join( ' ' ) ) ;
 
 		m_ui->lineEditURL->setText( urls.join( ' ' ) ) ;
 	}
@@ -187,31 +206,23 @@ void basicdownloader::download( const QString& options,const QStringList& urls,b
 
 	auto args = m_settings->defaultDownLoadCmdOptions() ;
 
-	if( options.isEmpty() ){
+	if( other_options.contains( "--yes-playlist" ) ){
 
-		args.append( urls ) ;
-	}else{
-		auto m = utility::split( options,' ' ) ;
-
-		if( m.size() == 1 && !m.at( 0 ).startsWith( '-' ) ){
-
-			args.append( "-f" ) ;
-			args.append( options ) ;
-			args.append( urls ) ;
-		}else{
-			if( m.contains( "--yes-playlist" ) ){
-
-				args.removeAll( "--no-playlist" ) ;
-			}
-
-			for( const auto& it : m ){
-
-				args.append( it ) ;
-			}
-
-			args.append( urls ) ;
-		}
+		args.removeAll( "--no-playlist" ) ;
 	}
+
+	for( const auto& it : other_options ){
+
+		args.append( it ) ;
+	}
+
+	if( !quality.isEmpty() ){
+
+		args.append( "-f" ) ;
+		args.append( quality ) ;
+	}
+
+	args.append( urls ) ;
 
 	this->run( m_settings->cmdName(),args ) ;
 }

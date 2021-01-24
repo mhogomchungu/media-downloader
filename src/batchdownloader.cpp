@@ -42,7 +42,17 @@ void batchdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * ma
 
 	m_ui->tableWidgetBD->setContextMenuPolicy( Qt::CustomContextMenu ) ;
 
+	m_ui->pbBDDownload->setEnabled( false ) ;
+
 	this->resetMenu() ;
+
+	connect( m_ui->tabWidgetBatchDownlader,&QTabWidget::currentChanged,[ this ]( int s ){
+
+		if( s == 0 ){
+
+			m_ui->pbBDDownload->setEnabled( m_ui->tableWidgetBD->rowCount() ) ;
+		}
+	} ) ;
 
 	connect( m_ui->tableWidgetBD,&QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
@@ -55,6 +65,8 @@ void batchdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * ma
 			if( row != -1 ){
 
 				m_ui->tableWidgetBD->removeRow( row ) ;
+
+				m_ui->pbBDDownload->setEnabled( m_ui->tableWidgetBD->rowCount() ) ;
 			}
 		} ) ;
 
@@ -87,6 +99,8 @@ void batchdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * ma
 			table->setItem( row,0,item ) ;
 
 			m_ui->lineEditBDUrl->clear() ;
+
+			m_ui->pbBDDownload->setEnabled( true ) ;
 		}
 	} ) ;
 
@@ -108,7 +122,18 @@ void batchdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * ma
 				urls.append( m_ui->tableWidgetBD->item( s,0 )->text() ) ;
 			}
 
-			tabManager::instance().basicDownloader().download( options,urls,true ) ;
+			auto& e = tabManager::instance().basicDownloader() ;
+
+			auto mm = utility::split( options,' ' ) ;
+
+			if( mm.size() == 1 ){
+
+				e.download( mm.at( 0 ),{},urls,true ) ;
+			}else{
+				auto a = mm.takeFirst() ;
+
+				e.download( a,mm,urls,true ) ;
+			}
 		}
 	} ) ;
 }
@@ -145,7 +170,7 @@ void batchdownloader::resetMenu()
 void batchdownloader::enableAll()
 {
 	m_ui->tableWidgetBD->setEnabled( true ) ;
-	m_ui->pbBDDownload->setEnabled( true ) ;
+	m_ui->pbBDDownload->setEnabled( m_ui->tableWidgetBD->rowCount() ) ;
 	m_ui->pbBDAdd->setEnabled( true ) ;
 	m_ui->pbBDOptions->setEnabled( true ) ;
 	m_ui->labelBDEnterOptions->setEnabled( true ) ;

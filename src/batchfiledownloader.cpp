@@ -40,9 +40,26 @@ void batchfiledownloader::init( settings * settings,Ui::MainWindow * ui,QWidget 
 	connect( m_ui->pbFileDownloaderDownload,&QPushButton::clicked,[ this ](){
 
 		auto options = m_ui->lineEditFileOptions->text() ;
+
+		if( options.isEmpty() ){
+
+			options = utility::selectedAction::bestText() ;
+		}
+
 		auto url = m_ui->lineEditFileDownloader->text() ;
 
-		tabManager::instance().basicDownloader().download( options,{ "-a",url },true ) ;
+		auto& e = tabManager::instance().basicDownloader() ;
+
+		auto mm = utility::split( options,' ' ) ;
+
+		if( mm.size() == 1 ){
+
+			e.download( mm.at( 0 ),{},{ "-a",url },true ) ;
+		}else{
+			auto a = mm.takeFirst() ;
+
+			e.download( a,mm,{ "-a",url },true ) ;
+		}
 	} ) ;
 
 	connect( m_ui->pbFileDownloaderFilePath,&QPushButton::clicked,[ this,parent ](){

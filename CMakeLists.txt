@@ -39,7 +39,8 @@ set(MOC_FILES
     src/basicdownloader.h
     src/batchdownloader.h
     src/batchfiledownloader.h
-    src/configure.h)
+    src/configure.h
+    src/playlistdownloader.h)
 
 set(SRC
     src/mainwindow.cpp
@@ -51,7 +52,8 @@ set(SRC
     src/batchdownloader.cpp
     src/tabmanager.cpp
     src/batchfiledownloader.cpp
-    src/configure.cpp)
+    src/configure.cpp
+    src/playlistdownloader.cpp)
 
 set(RESOUCES
     src/icon.qrc)
