@@ -43,7 +43,7 @@
      <widget class="QPushButton" name="pbCancel">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>130</x>
         <y>380</y>
         <width>111</width>
         <height>33</height>
@@ -56,7 +56,7 @@
      <widget class="QPushButton" name="pbList">
       <property name="geometry">
        <rect>
-        <x>410</x>
+        <x>350</x>
         <y>380</y>
         <width>111</width>
         <height>33</height>
@@ -71,12 +71,12 @@
        <rect>
         <x>0</x>
         <y>320</y>
-        <width>171</width>
+        <width>141</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Enter URL: </string>
+       <string>Enter URL:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -90,21 +90,24 @@
        <rect>
         <x>0</x>
         <y>350</y>
-        <width>171</width>
+        <width>141</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Enter Options: </string>
+       <string>Enter Options:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="pbDownload">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>240</x>
         <y>380</y>
         <width>111</width>
         <height>33</height>
@@ -117,9 +120,9 @@
      <widget class="QLineEdit" name="lineEditURL">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>150</x>
         <y>320</y>
-        <width>471</width>
+        <width>491</width>
         <height>31</height>
        </rect>
       </property>
@@ -127,30 +130,17 @@
      <widget class="QLineEdit" name="lineEditOptions">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>150</x>
         <y>350</y>
-        <width>471</width>
+        <width>491</width>
         <height>31</height>
        </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pbConfigure">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>380</y>
-        <width>111</width>
-        <height>33</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Configure</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pbEntries">
       <property name="geometry">
        <rect>
-        <x>520</x>
+        <x>460</x>
         <y>380</y>
         <width>101</width>
         <height>33</height>
@@ -163,7 +153,7 @@
      <widget class="QPushButton" name="pbQuit">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>560</x>
         <y>380</y>
         <width>101</width>
         <height>33</height>
@@ -188,7 +178,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -423,10 +413,13 @@ Each Link Should Be In Its Own Line.</string>
          </rect>
         </property>
         <property name="text">
-         <string>Enter File Path: </string>
+         <string>Enter File Path:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QLabel" name="labelFileDownloederPathOptions">
@@ -439,10 +432,13 @@ Each Link Should Be In Its Own Line.</string>
          </rect>
         </property>
         <property name="text">
-         <string>Enter Options: </string>
+         <string>Enter Options:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QLineEdit" name="lineEditFileOptions">
@@ -480,12 +476,12 @@ Each Link Should Be In Its Own Line.</string>
        <rect>
         <x>30</x>
         <y>320</y>
-        <width>151</width>
+        <width>141</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Download Range: </string>
+       <string>Download Range:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -522,12 +518,12 @@ Each Link Should Be In Its Own Line.</string>
        <rect>
         <x>30</x>
         <y>350</y>
-        <width>151</width>
+        <width>141</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Enter Options: </string>
+       <string>Enter Options:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -564,12 +560,12 @@ Each Link Should Be In Its Own Line.</string>
        <rect>
         <x>30</x>
         <y>290</y>
-        <width>151</width>
+        <width>141</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Enter URL: </string>
+       <string>Enter URL:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -758,6 +754,44 @@ Each Link Should Be In Its Own Line.</string>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>plainTextEdit</tabstop>
+  <tabstop>lineEditURL</tabstop>
+  <tabstop>lineEditOptions</tabstop>
+  <tabstop>pbCancel</tabstop>
+  <tabstop>pbDownload</tabstop>
+  <tabstop>pbList</tabstop>
+  <tabstop>pbEntries</tabstop>
+  <tabstop>pbQuit</tabstop>
+  <tabstop>tabWidgetBatchDownlader</tabstop>
+  <tabstop>tableWidgetBD</tabstop>
+  <tabstop>lineEditBDUrl</tabstop>
+  <tabstop>lineEditBDUrlOptions</tabstop>
+  <tabstop>pbBDDownload</tabstop>
+  <tabstop>pbBDAdd</tabstop>
+  <tabstop>pbBDOptions</tabstop>
+  <tabstop>pbBDQuit</tabstop>
+  <tabstop>lineEditFileDownloader</tabstop>
+  <tabstop>lineEditFileOptions</tabstop>
+  <tabstop>pbFileDownloaderDownload</tabstop>
+  <tabstop>pbFileDownloaderOptions</tabstop>
+  <tabstop>pbFileDownloaderQuit</tabstop>
+  <tabstop>pbFileDownloaderFilePath</tabstop>
+  <tabstop>lineEditPLUrl</tabstop>
+  <tabstop>lineEditPLDownloadRange</tabstop>
+  <tabstop>lineEditPLUrlOptions</tabstop>
+  <tabstop>pbPLDownload</tabstop>
+  <tabstop>pbPLOptions</tabstop>
+  <tabstop>pbPLQuit</tabstop>
+  <tabstop>lineEditConfigureScaleFactor</tabstop>
+  <tabstop>lineEditConfigureDownloadPath</tabstop>
+  <tabstop>pbConfigureDownloadPath</tabstop>
+  <tabstop>textEditConfigurePresetOptions</tabstop>
+  <tabstop>pbConfigureSetPresetDefaults</tabstop>
+  <tabstop>pbConfigureSet</tabstop>
+  <tabstop>pbConfigureQuit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

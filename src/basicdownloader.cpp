@@ -234,7 +234,6 @@ void basicdownloader::download( const QString& quality,
 void basicdownloader::enableAll()
 {
 	m_ui->pbEntries->setEnabled( true ) ;
-	m_ui->pbConfigure->setEnabled( true ) ;
 	m_ui->label_2->setEnabled( true ) ;
 	m_ui->label->setEnabled( true ) ;
 	m_ui->pbList->setEnabled( true ) ;
@@ -248,7 +247,6 @@ void basicdownloader::disableAll()
 {
 	m_ui->pbQuit->setEnabled( false ) ;
 	m_ui->pbEntries->setEnabled( false ) ;
-	m_ui->pbConfigure->setEnabled( false ) ;
 	m_ui->label_2->setEnabled( false ) ;
 	m_ui->label->setEnabled( false ) ;
 	m_ui->pbList->setEnabled( false ) ;
