@@ -81,7 +81,7 @@ namespace utility
 	template< typename T >
 	void asConst( const T&& ) = delete ;
 
-	QStringList split( const QString& e,char token = '\n' ) ;
+	QStringList split( const QString& e,char token,bool skipEmptyParts ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
 
 	class selectedAction
@@ -145,6 +145,28 @@ namespace utility
 		QString m_objectName ;
 		QString m_text ;
 	};
+
+	struct args
+	{
+		args( const QString& e )
+		{
+			if( e.isEmpty() ){
+
+				quality = utility::selectedAction::bestText() ;
+			}else{
+				otherOptions = utility::split( e,' ',true ) ;
+
+				if( otherOptions.isEmpty() ){
+
+					quality = utility::selectedAction::bestText() ;
+				}else{
+					quality = otherOptions.takeFirst() ;
+				}
+			}
+		}
+		QString quality ;
+		QStringList otherOptions ;
+	} ;
 
 	template< typename Function >
 	void setMenuOptions( settings * settings,bool addClear,QPushButton * w,Function function )
@@ -277,7 +299,7 @@ namespace utility
 	template< typename WhenDone,typename WithData >
 	void run( const QString& cmd,const QStringList& args,WhenDone w,WithData p )
 	{
-		utility::run( cmd,args,[]( QProcess& exe ){ Q_UNUSED( exe ) },std::move( w ),std::move( p ) ) ;
+		utility::run( cmd,args,[]( QProcess& ){},std::move( w ),std::move( p ) ) ;
 	}
 
 	template< typename Value,typename Arg >

@@ -51,18 +51,7 @@ void playlistdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget *
 
 		auto url = m_ui->lineEditPLUrl->text() ;
 
-		auto& e = tabManager::instance().basicDownloader() ;
-
-		auto mm = utility::split( options,' ' ) ;
-
-		if( mm.size() == 1 ){
-
-			e.download( mm.at( 0 ),{},{ url },true ) ;
-		}else{
-			auto a = mm.takeFirst() ;
-
-			e.download( a,mm,{ url },true ) ;
-		}
+		tabManager::instance().basicDownloader().download( options,url ) ;
 	} ) ;
 
 	connect( m_ui->pbPLQuit,&QPushButton::clicked,[](){

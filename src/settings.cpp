@@ -63,7 +63,7 @@ void settings::setPresetOptions( const QString& e )
 {
 	auto m = e ;
 	m.replace( "\n","" ) ;
-	this->setPresetOptions( utility::split( m,',' ) ) ;
+	this->setPresetOptions( utility::split( m,',',true ) ) ;
 }
 
 void settings::setPresetOptions( const QStringList& m )
@@ -93,7 +93,7 @@ QString settings::cmdName()
 
 QStringList settings::presetOptionsList()
 {
-	return utility::split( this->presetOptions(),',' ) ;
+	return utility::split( this->presetOptions(),',',true ) ;
 }
 
 QStringList settings::defaultDownLoadCmdOptions()

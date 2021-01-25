@@ -173,33 +173,21 @@ void basicdownloader::list()
 
 void basicdownloader::download()
 {
-	auto a = m_ui->lineEditOptions->text() ;
-
-	if( a.isEmpty() ){
-
-		a = utility::selectedAction::bestText() ;
-	}
-
-	auto b = utility::split( a,' ' ) ;
-
-	if( b.size() == 1 ){
-
-		this->download( b.at( 0 ),{},{ m_ui->lineEditURL->text() },false ) ;
-	}else{
-		auto c = b.takeFirst() ;
-
-		this->download( c,b,{ m_ui->lineEditURL->text() },false ) ;
-	}
+	this->download( m_ui->lineEditOptions->text(),m_ui->lineEditURL->text(),false ) ;
 }
 
-void basicdownloader::download( const QString& quality,
-				const QStringList& other_options,
+void basicdownloader::download( const utility::args& args,const QString& url,bool s )
+{
+	this->download( args,QStringList( url ),s ) ;
+}
+
+void basicdownloader::download( const utility::args& args,
 				const QStringList& urls,
 				bool update )
 {
 	if( update ){
 
-		m_ui->lineEditOptions->setText( quality + " " + other_options.join( ' ' ) ) ;
+		m_ui->lineEditOptions->setText( args.quality + " " + args.otherOptions.join( ' ' ) ) ;
 
 		m_ui->lineEditURL->setText( urls.join( ' ' ) ) ;
 	}
@@ -208,27 +196,27 @@ void basicdownloader::download( const QString& quality,
 
 	m_ui->pbCancel->setEnabled( true ) ;
 
-	auto args = m_settings->defaultDownLoadCmdOptions() ;
+	auto opts = m_settings->defaultDownLoadCmdOptions() ;
 
-	if( other_options.contains( "--yes-playlist" ) ){
+	if( args.otherOptions.contains( "--yes-playlist" ) ){
 
-		args.removeAll( "--no-playlist" ) ;
+		opts.removeAll( "--no-playlist" ) ;
 	}
 
-	for( const auto& it : other_options ){
+	for( const auto& it : args.otherOptions ){
 
-		args.append( it ) ;
+		opts.append( it ) ;
 	}
 
-	if( !quality.isEmpty() ){
+	if( !args.quality.isEmpty() ){
 
-		args.append( "-f" ) ;
-		args.append( quality ) ;
+		opts.append( "-f" ) ;
+		opts.append( args.quality ) ;
 	}
 
-	args.append( urls ) ;
+	opts.append( urls ) ;
 
-	this->run( m_settings->cmdName(),args ) ;
+	this->run( m_settings->cmdName(),opts ) ;
 }
 
 void basicdownloader::enableAll()

@@ -19,13 +19,17 @@
 
 #include "utility.h"
 
-QStringList utility::split( const QString& e,char token )
+QStringList utility::split( const QString& e,char token,bool skipEmptyParts )
 {
-#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
-	return e.split( token,QString::SkipEmptyParts ) ;
-#else
-	return e.split( token,Qt::SkipEmptyParts ) ;
-#endif
+	if( skipEmptyParts ){
+		#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
+			return e.split( token,QString::SkipEmptyParts ) ;
+		#else
+			return e.split( token,Qt::SkipEmptyParts ) ;
+		#endif
+	}else{
+		return e.split( token ) ;
+	}
 }
 
 QList< QByteArray > utility::split( const QByteArray& e,char token )

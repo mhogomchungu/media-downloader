@@ -106,34 +106,18 @@ void batchdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * ma
 
 	connect( m_ui->pbBDDownload,&QPushButton::clicked,[ this ](){
 
-		auto options = m_ui->lineEditBDUrlOptions->text() ;
-
-		if( options.isEmpty() ){
-
-			options = utility::selectedAction::bestText() ;
-		}
-
-		QStringList urls ;
-
 		if( m_ui->tableWidgetBD->rowCount() ){
+
+			QStringList urls ;
 
 			for( int s = 0 ; s < m_ui->tableWidgetBD->rowCount() ; s++ ){
 
 				urls.append( m_ui->tableWidgetBD->item( s,0 )->text() ) ;
 			}
 
-			auto& e = tabManager::instance().basicDownloader() ;
+			auto options = m_ui->lineEditBDUrlOptions->text() ;
 
-			auto mm = utility::split( options,' ' ) ;
-
-			if( mm.size() == 1 ){
-
-				e.download( mm.at( 0 ),{},urls,true ) ;
-			}else{
-				auto a = mm.takeFirst() ;
-
-				e.download( a,mm,urls,true ) ;
-			}
+			tabManager::instance().basicDownloader().download( options,urls ) ;
 		}
 	} ) ;
 }
