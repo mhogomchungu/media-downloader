@@ -100,6 +100,9 @@ void playlistdownloader::resetMenu()
 
 		}else if( ac.clearScreen() ){
 
+			m_ui->lineEditPLUrlOptions->clear() ;
+			m_ui->lineEditPLDownloadRange->clear() ;
+			m_ui->lineEditPLUrl->clear() ;
 		}else{
 			if( ac.best() ){
 

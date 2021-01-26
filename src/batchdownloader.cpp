@@ -140,6 +140,9 @@ void batchdownloader::resetMenu()
 
 				m_ui->tableWidgetBD->removeRow( 0 ) ;
 			}
+
+			m_ui->lineEditBDUrlOptions->clear() ;
+			m_ui->lineEditBDUrl->clear() ;
 		}else{
 			if( ac.best() ){
 

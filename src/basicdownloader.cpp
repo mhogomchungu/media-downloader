@@ -75,6 +75,8 @@ void basicdownloader::resetMenu()
 			m_tmp.clear() ;
 
 			m_ui->plainTextEdit->clear() ;
+			m_ui->lineEditURL->clear() ;
+			m_ui->lineEditOptions->clear() ;
 		}else{
 			if( ac.best() ){
 
