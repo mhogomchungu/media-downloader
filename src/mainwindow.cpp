@@ -31,15 +31,11 @@ MainWindow::MainWindow( settings& settings ) :
 
 	this->window()->setFixedSize( this->window()->size() ) ;
 
-	this->window()->setWindowIcon( [](){
+	QIcon icon = QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ;
 
-		return QIcon( ":media-downloader" ) ;
-	}() ) ;
+	this->window()->setWindowIcon( icon ) ;
 
-	m_trayIcon.setIcon( [](){
-
-		return QIcon( ":media-downloader" ) ;
-	}() ) ;
+	m_trayIcon.setIcon( icon ) ;
 
 	auto m = new QMenu( this ) ;
 
