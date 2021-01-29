@@ -118,6 +118,16 @@ QStringList settings::defaultListCmdOptions()
 	return m_settings.value( "DefaultListCmdOptions" ).toStringList() ;
 }
 
+bool settings::showTrayIcon()
+{
+	if( !m_settings.contains( "ShowTrayIcon" ) ){
+
+		m_settings.setValue( "ShowTrayIcon",false ) ;
+	}
+
+	return m_settings.value( "ShowTrayIcon" ).toBool() ;
+}
+
 void settings::setHighDpiScalingFactor( const QString& m )
 {
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;

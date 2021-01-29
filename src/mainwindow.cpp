@@ -35,18 +35,24 @@ MainWindow::MainWindow( settings& settings ) :
 
 	this->window()->setWindowIcon( icon ) ;
 
-	m_trayIcon.setIcon( icon ) ;
+	if( settings.showTrayIcon() ){
 
-	auto m = new QMenu( this ) ;
+		m_trayIcon.setIcon( icon ) ;
 
-	connect( m->addAction( "Quit" ),&QAction::triggered,[](){
+		m_trayIcon.setContextMenu( [ this ](){
 
-		tabManager::instance().basicDownloader().appQuit() ;
-	} ) ;
+			auto m = new QMenu( this ) ;
 
-	m_trayIcon.setContextMenu( m ) ;
+			connect( m->addAction( "Quit" ),&QAction::triggered,[](){
 
-	m_trayIcon.show() ;
+				tabManager::instance().basicDownloader().appQuit() ;
+			} ) ;
+
+			return m ;
+		}() ) ;
+
+		m_trayIcon.show() ;
+	}
 }
 
 MainWindow::~MainWindow()
