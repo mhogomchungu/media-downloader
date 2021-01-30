@@ -17,6 +17,10 @@ Features offered:-
 
 6. The GUI offers an ability to download single media or multiple medias in batches.
 
+Binary downloads for a few distributions are [here!](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader)
+
+#Screenshots:
+
 ![media-downloader.png](https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader.png)
 
 ![media-downloader.png](https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-1.png)
