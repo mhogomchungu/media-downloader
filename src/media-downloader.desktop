@@ -1,5 +1,5 @@
 [Desktop Entry]
-Categories=Video;AudioVideo
+Categories=AudioVideo;Recorder;
 Comment[en_US]=Downloads Online Media Files
 Comment=Downloads Online Media Files
 Exec=media-downloader
