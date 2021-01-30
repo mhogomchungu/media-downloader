@@ -20,16 +20,33 @@
 #include "playlistdownloader.h"
 #include "tabmanager.h"
 
+#include <QFileDialog>
+
 playlistdownloader::playlistdownloader()
 {
 }
 
-void playlistdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * )
+void playlistdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * parent )
 {
 	m_ui = ui ;
 	m_settings = settings ;
 
 	this->resetMenu() ;
+
+	m_ui->pbFilePLEDownloaderFilePath->setIcon( [](){
+
+		return QIcon( ":file" ) ;
+	}() ) ;
+
+	connect( m_ui->pbFilePLEDownloaderFilePath,&QPushButton::clicked,[ this,parent ](){
+
+		auto e = QFileDialog::getOpenFileName( parent,tr( "Set Batch File" ),QDir::homePath() ) ;
+
+		if( !e.isEmpty() ){
+
+			m_ui->lineEditPLEFileDownloader->setText( e ) ;
+		}
+	} ) ;
 
 	connect( m_ui->pbPLDownload,&QPushButton::clicked,[ this ](){
 
@@ -49,6 +66,13 @@ void playlistdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget *
 			options += " --playlist-items " + items ;
 		}
 
+		auto playlistFile = m_ui->lineEditPLEFileDownloader->text() ;
+
+		if( !playlistFile.isEmpty() ){
+
+			options += " -a " + playlistFile ;
+		}
+
 		auto url = m_ui->lineEditPLUrl->text() ;
 
 		tabManager::instance().basicDownloader().download( options,url ) ;
@@ -62,6 +86,9 @@ void playlistdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget *
 
 void playlistdownloader::enableAll()
 {
+	m_ui->pbFilePLEDownloaderFilePath->setEnabled( true ) ;
+	m_ui->lineEditPLEFileDownloader->setEnabled( true ) ;
+	m_ui->labelPLEFileDownloederPath->setEnabled( true ) ;
 	m_ui->lineEditPLUrl->setEnabled( true ) ;
 	m_ui->labelPLEnterOptions->setEnabled( true ) ;
 	m_ui->labelPLEnterUrlRange->setEnabled( true ) ;
@@ -76,6 +103,9 @@ void playlistdownloader::enableAll()
 
 void playlistdownloader::disableAll()
 {
+	m_ui->pbFilePLEDownloaderFilePath->setEnabled( false ) ;
+	m_ui->lineEditPLEFileDownloader->setEnabled( false ) ;
+	m_ui->labelPLEFileDownloederPath->setEnabled( false ) ;
 	m_ui->lineEditPLUrl->setEnabled( false ) ;
 	m_ui->labelPLEnterOptions->setEnabled( false ) ;
 	m_ui->labelPLEnterUrlRange->setEnabled( false ) ;
@@ -103,6 +133,7 @@ void playlistdownloader::resetMenu()
 			m_ui->lineEditPLUrlOptions->clear() ;
 			m_ui->lineEditPLDownloadRange->clear() ;
 			m_ui->lineEditPLUrl->clear() ;
+			m_ui->lineEditPLEFileDownloader->clear() ;
 		}else{
 			if( ac.best() ){
 

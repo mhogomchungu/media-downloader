@@ -584,6 +584,48 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
      </widget>
+     <widget class="QLineEdit" name="lineEditPLEFileDownloader">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>260</y>
+        <width>441</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbFilePLEDownloaderFilePath">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>260</y>
+        <width>41</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelPLEFileDownloederPath">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>260</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Enter File Path:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">

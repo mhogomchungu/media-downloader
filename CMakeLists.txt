@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(media-downloader)
 
-add_definitions(-Wextra -Wall -pedantic)
+add_definitions(-Wextra -Wall -pedantic -std=c++14)
 
 project(media-downloader)
 
@@ -16,7 +16,10 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Qt5 COMPONENTS Core Widgets  REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+
+message( STATUS "Found Qt5Widgets, version  ${Qt5Widgets_VERSION}" )
+message( STATUS "Found Qt5Core, version  ${Qt5Core_VERSION}" )
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
 add_definitions(${Qt5Core_DEFINITIONS})

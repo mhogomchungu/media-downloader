@@ -32,6 +32,9 @@ void configure::init( settings * settings,Ui::MainWindow * ui,QWidget * mainWidg
 	m_mainWindow = mainWidget ;
 	m_settings = settings ;
 
+#if QT_VERSION < QT_VERSION_CHECK( 5,6,0 )
+	m_ui->lineEditConfigureScaleFactor->setEnabled( false ) ;
+#endif
 	connect( m_ui->pbConfigureQuit,&QPushButton::clicked,[](){
 
 		tabManager::instance().basicDownloader().appQuit() ;
@@ -84,7 +87,6 @@ void configure::resetMenu()
 
 void configure::enableAll()
 {
-	m_ui->lineEditConfigureScaleFactor->setEnabled( true ) ;
 	m_ui->lineEditConfigureDownloadPath->setEnabled( true ) ;
 	m_ui->textEditConfigurePresetOptions->setEnabled( true ) ;
 	m_ui->lineEditConfigureDownloadPath->setEnabled( true ) ;
@@ -95,6 +97,9 @@ void configure::enableAll()
 	m_ui->labelConfigurePresetOptions->setEnabled( true ) ;
 	m_ui->labelConfigureDownloadPath->setEnabled( true ) ;
 	m_ui->pbConfigureQuit->setEnabled( true ) ;
+#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+	m_ui->lineEditConfigureScaleFactor->setEnabled( true ) ;
+#endif
 }
 
 void configure::disableAll()

@@ -46,6 +46,11 @@ void batchfiledownloader::init( settings * settings,Ui::MainWindow * ui,QWidget 
 		tabManager::instance().basicDownloader().download( options,{ "-a",url } ) ;
 	} ) ;
 
+	m_ui->pbFileDownloaderFilePath->setIcon( [](){
+
+		return QIcon( ":file" ) ;
+	}() ) ;
+
 	connect( m_ui->pbFileDownloaderFilePath,&QPushButton::clicked,[ this,parent ](){
 
 		auto e = QFileDialog::getOpenFileName( parent,tr( "Set Batch File" ),QDir::homePath() ) ;

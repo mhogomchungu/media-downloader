@@ -44,6 +44,8 @@ int main( int argc,char * argv[] )
 {
 	settings s ;
 
+#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+
 	auto m = s.highDpiScalingFactor() ;
 
 	if( m != "1.0" ){
@@ -52,7 +54,7 @@ int main( int argc,char * argv[] )
 
 		qputenv( "QT_SCALE_FACTOR",m ) ;
 	}
-
+#endif
 	QApplication a( argc,argv ) ;
 
 	MainWindow w( s ) ;

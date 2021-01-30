@@ -4,5 +4,6 @@
 	 <qresource>
 		 <file>media-downloader.png</file>
 		 <file>folder.png</file>
+		 <file>file.png</file>
 	 </qresource>
  </RCC>
