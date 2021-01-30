@@ -74,7 +74,7 @@ install(FILES src/media-downloader.desktop
     DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
 
 install(FILES src/media-downloader.png
-    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons)
+    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pixmaps)
 
 file( WRITE ${PROJECT_BINARY_DIR}/version.h
 "

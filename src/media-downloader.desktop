@@ -1,10 +1,11 @@
 [Desktop Entry]
+Categories=Video
 Comment[en_US]=Downloads Online Media Files
 Comment=Downloads Online Media Files
 Exec=media-downloader
 GenericName[en_US]=Downloads Online Media Files
 GenericName=Downloads Online Media Files
-Icon=media-downloader.png
+Icon=media-downloader
 MimeType=
 Name[en_US]=Media Downloader
 Name=Media Downloader
