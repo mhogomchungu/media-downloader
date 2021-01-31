@@ -318,6 +318,11 @@ namespace utility
 			return utility::startsWith( v,args ... ) ;
 		}
 	}
+
+	bool platformIsWindows() ;
+	bool platformIsLinux() ;
+	bool platformIsOSX() ;
+	bool platformIsNOTWindows() ;
 }
 
 #endif

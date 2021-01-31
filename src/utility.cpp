@@ -36,3 +36,65 @@ QList< QByteArray > utility::split( const QByteArray& e,char token )
 {
 	return e.split( token ) ;
 }
+
+#ifdef Q_OS_LINUX
+
+bool utility::platformIsLinux()
+{
+	return true ;
+}
+
+bool utility::platformIsOSX()
+{
+	return false ;
+}
+
+bool utility::platformIsWindows()
+{
+	return false ;
+}
+
+#endif
+
+#ifdef Q_OS_MACOS
+
+bool utility::platformIsOSX()
+{
+	return true ;
+}
+
+bool utility::platformIsLinux()
+{
+	return false ;
+}
+
+bool utility::platformIsWindows()
+{
+    return false ;
+}
+
+#endif
+
+#ifdef Q_OS_WIN
+
+bool utility::platformIsWindows()
+{
+	return true ;
+}
+
+bool utility::platformIsLinux()
+{
+	return false ;
+}
+
+bool utility::platformIsOSX()
+{
+	return false ;
+}
+
+#endif
+
+bool utility::platformIsNOTWindows()
+{
+	return !utility::platformIsWindows() ;
+}

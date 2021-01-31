@@ -85,7 +85,12 @@ QString settings::cmdName()
 {
 	if( !m_settings.contains( "CommandName" ) ){
 
-		m_settings.setValue( "CommandName","youtube-dl" ) ;
+		if( utility::platformIsWindows() ){
+
+			m_settings.setValue( "CommandName","youtube-dl.exe" ) ;
+		}else{
+			m_settings.setValue( "CommandName","youtube-dl" ) ;
+		}
 	}
 
 	return m_settings.value( "CommandName" ).toString() ;

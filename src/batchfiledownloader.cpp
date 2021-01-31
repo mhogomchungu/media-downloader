@@ -64,6 +64,10 @@ void batchfiledownloader::init( settings * settings,Ui::MainWindow * ui,QWidget 
 	this->resetMenu() ;
 }
 
+void batchfiledownloader::init_done()
+{
+}
+
 void batchfiledownloader::enableAll()
 {
 	m_ui->lineEditFileDownloader->setEnabled( true ) ;

@@ -81,6 +81,10 @@ void configure::init( settings * settings,Ui::MainWindow * ui,QWidget * mainWidg
 	m_ui->textEditConfigurePresetOptions->setText( m_settings->presetOptions() ) ;
 }
 
+void configure::init_done()
+{
+}
+
 void configure::resetMenu()
 {
 }

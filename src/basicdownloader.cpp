@@ -23,7 +23,7 @@
 #include <QDir>
 #include <QMenu>
 #include <QFileDialog>
-
+#include <QtDebug>
 #include "tabmanager.h"
 
 basicdownloader::basicdownloader()
@@ -42,6 +42,8 @@ void basicdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * ma
 
 	m_ui->plainTextEdit->setReadOnly( true ) ;
 
+	m_ui->labelFailedToFixExe->setVisible( false ) ;
+
 	connect( m_ui->pbList,&QPushButton::clicked,[ this ](){
 
 		this->list() ;
@@ -58,6 +60,34 @@ void basicdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * ma
 
 		this->appQuit() ;
 	} ) ;
+}
+
+void basicdownloader::init_done()
+{
+	if( utility::platformIsWindows() ){
+
+		QStringList paths{ QDir::currentPath(),QDir::homePath() + "/bin" } ;
+
+		QString e ;
+
+		auto m = m_settings->cmdName() ;
+
+		for( const auto& it : paths ){
+
+			e = it + "/" + m ;
+
+			if( QFile::exists( e ) ){
+
+				m_exe = e ;
+
+				return ;
+			}
+		}
+
+		this->failedToFindExe( paths ) ;
+	}else{
+		m_exe = m_settings->cmdName() ;
+	}
 }
 
 void basicdownloader::resetMenu()
@@ -161,6 +191,30 @@ void basicdownloader::run( const QString &cmd,const QStringList& args )
 	} ) ;
 }
 
+void basicdownloader::failedToFindExe( const QStringList& e )
+{
+	tabManager::instance().disableAll() ;
+
+	m_ui->pbQuit->setEnabled( true ) ;
+
+	QString m ;
+
+	for( const auto& it : e ){
+
+		m += it + "\n" ;
+	}
+
+	m.truncate( m.size() - 1 ) ;
+
+	auto a = tr( "Failed To Locate \"%1\" in Below Paths:-" ).arg( m_settings->cmdName() ) ;
+	auto b = "-------------------------" ;
+	auto c = tr( "Please Add It In One Of The Paths And Restart" ) ;
+
+	m_ui->labelFailedToFixExe->setText( a + "\n\n" + b + "\n" + m + "\n" + b + "\n\n" + c ) ;
+
+	m_ui->labelFailedToFixExe->setVisible( true ) ;
+}
+
 void basicdownloader::list()
 {
 	m_ui->pbCancel->setEnabled( true ) ;
@@ -170,7 +224,7 @@ void basicdownloader::list()
 	auto args = m_settings->defaultListCmdOptions() ;
 	args.append( m_ui->lineEditURL->text().split( ' ' ) ) ;
 
-	this->run( m_settings->cmdName(),args ) ;
+	this->run( m_exe,args ) ;
 }
 
 void basicdownloader::download()
@@ -218,7 +272,7 @@ void basicdownloader::download( const utility::args& args,
 
 	opts.append( urls ) ;
 
-	this->run( m_settings->cmdName(),opts ) ;
+	this->run( m_exe,opts ) ;
 }
 
 void basicdownloader::enableAll()
