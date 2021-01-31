@@ -43,15 +43,15 @@ public:
 	void enableAll() ;
 	void disableAll() ;
 	void appQuit() ;
-	void resetMenu() ;
+	void resetMenu( const QStringList& = {} ) ;
 	void setAsActive() ;
 private:
 	Ui::MainWindow * m_ui ;
 	settings * m_settings ;
 	QWidget * m_mainWindow ;
-	QStringList m_tmp ;
 	QString m_exe ;
-	void run( const QString& cmd,const QStringList& args ) ;
+	void run( const QString& cmd,const QStringList& args,bool list_requested ) ;
+	void listRequested( const QStringList& ) ;
 	void failedToFindExe( const QStringList& ) ;
 	void list() ;
 	void download() ;

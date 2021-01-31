@@ -124,7 +124,7 @@ void playlistdownloader::disableAll()
 
 void playlistdownloader::resetMenu()
 {
-	utility::setMenuOptions( m_settings,true,m_ui->pbPLOptions,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_settings,{},true,m_ui->pbPLOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 

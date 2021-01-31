@@ -90,9 +90,9 @@ void basicdownloader::init_done()
 	}
 }
 
-void basicdownloader::resetMenu()
+void basicdownloader::resetMenu( const QStringList& args )
 {
-	utility::setMenuOptions( m_settings,true,m_ui->pbEntries,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_settings,args,true,m_ui->pbEntries,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 
@@ -101,8 +101,6 @@ void basicdownloader::resetMenu()
 			m_ui->lineEditOptions->clear() ;
 
 		}else if( ac.clearScreen() ){
-
-			m_tmp.clear() ;
 
 			m_ui->plainTextEdit->clear() ;
 			m_ui->lineEditURL->clear() ;
@@ -123,46 +121,59 @@ void basicdownloader::setAsActive()
 	m_ui->tabWidget->setCurrentIndex( 0 ) ;
 }
 
-void basicdownloader::run( const QString &cmd,const QStringList& args )
+void basicdownloader::run( const QString &cmd,const QStringList& args,bool list_requested )
 {
-	m_tmp.append( "[media-downloader] cmd: " + [ & ](){
-
-		auto m = cmd ;
-
-		for( const auto& it : args ){
-
-			m += " \"" + it + "\"" ;
-		}
-
-		return m + "\n" ;
-	}() ) ;
-
-	m_ui->plainTextEdit->setPlainText( m_tmp.join( '\n' ) ) ;
-
-	m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
-
 	tabManager::instance().disableAll() ;
 
-	utility::run( cmd,args,[ this ]( QProcess& exe ){
+	struct context{
+		bool list_requested ;
+		QStringList output ;
+		QMetaObject::Connection conn ;
+	} ;
+
+	utility::run( cmd,args,[ this,&list_requested,&cmd,&args ]( QProcess& exe ){
+
+		m_ui->plainTextEdit->setPlainText( "[media-downloader] cmd: " + [ & ](){
+
+			auto m = cmd ;
+
+			for( const auto& it : args ){
+
+				m += " \"" + it + "\"" ;
+			}
+
+			return m + "\n" ;
+		}() ) ;
+
+		m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
 
 		exe.setWorkingDirectory( m_settings->downloadFolder() ) ;
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-		return QObject::connect( m_ui->pbCancel,&QPushButton::clicked,[ &exe ](){
+		auto m = QObject::connect( m_ui->pbCancel,&QPushButton::clicked,[ &exe ](){
 
 			exe.terminate() ;
 		} ) ;
 
-	},[ this ]( int,QProcess::ExitStatus,QMetaObject::Connection& conn ){
+		return context{ list_requested,{},std::move( m ) } ;
 
-		QObject::disconnect( conn ) ;
+	},[ this ]( int,QProcess::ExitStatus,context& ctx ){
+
+		QObject::disconnect( ctx.conn ) ;
+
+		if( ctx.list_requested ){
+
+			this->listRequested( ctx.output ) ;
+		}
 
 		tabManager::instance().enableAll() ;
 
 		m_ui->pbCancel->setEnabled( false ) ;
 
-	},[ this ]( QProcess::ProcessChannel,const QByteArray& data,QMetaObject::Connection& ){
+	},[ this ]( QProcess::ProcessChannel,const QByteArray& data,context& ctx ){
+
+		auto& output = ctx.output ;
 
 		for( const auto& m : utility::split( data ) ){
 
@@ -170,25 +181,47 @@ void basicdownloader::run( const QString &cmd,const QStringList& args )
 
 				continue ;
 
-			}else if( !m_tmp.isEmpty() && m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
+			}else if( !output.isEmpty() && m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
 
-				auto& s = m_tmp.last() ;
+				auto& s = output.last() ;
 
 				if( s.startsWith( "[download]" ) && s.contains( "ETA" ) ){
 
 					s = m ;
 				}else{
-					m_tmp.append( m ) ;
+					output.append( m ) ;
 				}
 			}else{
-				m_tmp.append( m ) ;
+				output.append( m ) ;
 			}
 		}
 
-		m_ui->plainTextEdit->setPlainText( m_tmp.join( '\n' ) ) ;
+		m_ui->plainTextEdit->setPlainText( output.join( '\n' ) ) ;
 
 		m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
 	} ) ;
+}
+
+void basicdownloader::listRequested( const QStringList& args )
+{
+	QStringList opts ;
+
+	for( const auto& it : args ){
+
+		if( !utility::contains( it,"video only","audio only" ) ){
+
+			auto a = utility::split( it,' ',true ) ;
+
+			const auto& e = a.at( 0 ) ;
+
+			if( a.size() > 3 && utility::hasDigitsOnly( e ) ){
+
+				opts.append( a.at( 3 ) + "(" + e + ")" ) ;
+			}
+		}
+	}
+
+	this->resetMenu( opts ) ;
 }
 
 void basicdownloader::failedToFindExe( const QStringList& e )
@@ -219,12 +252,10 @@ void basicdownloader::list()
 {
 	m_ui->pbCancel->setEnabled( true ) ;
 
-	m_tmp.clear() ;
-
 	auto args = m_settings->defaultListCmdOptions() ;
 	args.append( m_ui->lineEditURL->text().split( ' ' ) ) ;
 
-	this->run( m_exe,args ) ;
+	this->run( m_exe,args,utility::youtubePath( m_ui->lineEditURL->text() ) ) ;
 }
 
 void basicdownloader::download()
@@ -272,7 +303,7 @@ void basicdownloader::download( const utility::args& args,
 
 	opts.append( urls ) ;
 
-	this->run( m_exe,opts ) ;
+	this->run( m_exe,opts,false ) ;
 }
 
 void basicdownloader::enableAll()

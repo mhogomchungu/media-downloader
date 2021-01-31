@@ -168,54 +168,20 @@ namespace utility
 		QStringList otherOptions ;
 	} ;
 
-	template< typename Function >
-	void setMenuOptions( settings * settings,bool addClear,QPushButton * w,Function function )
+	namespace details
 	{
-		auto m = w->menu() ;
+		QMenu * sMo( settings * settings,const QStringList& opts,bool addClear,QPushButton * w ) ;
+	}
 
-		if( m ){
-
-			m->deleteLater() ;
-		}
-
-		const auto entries = settings->presetOptionsList() ;
-
-		auto menu = new QMenu( w ) ;
-
-		for( const auto& it : entries ){
-
-			auto a = it ;
-
-			auto b = a.lastIndexOf( '(' ) ;
-
-			if( b != -1 ){
-
-				auto m = a.mid( 0,b ) ;
-				auto mm = a.mid( b + 1 ) ;
-				mm.truncate( mm.size() - 1 ) ;
-				menu->addAction( m )->setObjectName( mm ) ;
-			}else{
-				menu->addAction( it )->setObjectName( it ) ;
-			}
-		}
-
-		if( addClear ){
-
-			menu->addSeparator() ;
-
-			const auto& cotr = selectedAction::clearOptionTextTr() ;
-			const auto& co = selectedAction::clearOptionTextTr() ;
-
-			const auto& cstr = selectedAction::clearScreenTextTr() ;
-			const auto& cs = selectedAction::clearScreenText() ;
-
-			menu->addAction( cotr )->setObjectName( co ) ;
-			menu->addAction( cstr )->setObjectName( cs ) ;
-		}
-
+	template< typename Function >
+	void setMenuOptions( settings * settings,
+			     const QStringList& opts,
+			     bool addClear,
+			     QPushButton * w,
+			     Function function )
+	{
+		auto menu = details::sMo( settings,opts,addClear,w ) ;
 		QObject::connect( menu,&QMenu::triggered,std::move( function ) ) ;
-
-		w->setMenu( menu ) ;
 	}
 
 	template< typename WhenCreated,
@@ -319,10 +285,32 @@ namespace utility
 		}
 	}
 
+	template< typename Value,typename Arg >
+	bool contains( Value& v,const Arg& arg )
+	{
+		return v.contains( arg ) ;
+	}
+
+	template< typename Value,typename Arg,typename ... Args >
+	bool contains( Value& v,const Arg& arg,const Args& ... args )
+	{
+		if( utility::contains( v,arg ) ){
+
+			return true ;
+		}else{
+			return utility::contains( v,args ... ) ;
+		}
+	}
+
 	bool platformIsWindows() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;
+
+	bool youtubePath( const QString& ) ;
+	bool youtubePaths( const QStringList& ) ;
+
+	bool hasDigitsOnly( const QString& e ) ;
 }
 
 #endif

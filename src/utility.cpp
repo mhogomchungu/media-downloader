@@ -98,3 +98,93 @@ bool utility::platformIsNOTWindows()
 {
 	return !utility::platformIsWindows() ;
 }
+
+static void _add( QMenu * menu,const QStringList& args )
+{
+	for( const auto& it : args ){
+
+		auto a = it ;
+
+		auto b = a.lastIndexOf( '(' ) ;
+
+		if( b != -1 ){
+
+			auto m = a.mid( 0,b ) ;
+			auto mm = a.mid( b + 1 ) ;
+			mm.truncate( mm.size() - 1 ) ;
+			menu->addAction( m )->setObjectName( mm ) ;
+		}else{
+			menu->addAction( it )->setObjectName( it ) ;
+		}
+	}
+}
+
+QMenu * utility::details::sMo( settings * settings,const QStringList& opts,bool addClear,QPushButton * w )
+{
+	auto m = w->menu() ;
+
+	if( m ){
+
+		m->deleteLater() ;
+	}
+
+	auto menu = new QMenu( w ) ;
+
+	menu->addAction( QObject::tr( "Preset Options" ) )->setEnabled( false ) ;
+
+	menu->addSeparator() ;
+
+	_add( menu,settings->presetOptionsList() ) ;
+
+	if( !opts.empty() ){
+
+		menu->addSeparator() ;
+
+		menu->addAction( QObject::tr( "Found Options" ) )->setEnabled( false ) ;
+
+		menu->addSeparator() ;
+
+		_add( menu,opts ) ;
+	}
+
+	if( addClear ){
+
+		menu->addSeparator() ;
+
+		const auto& cotr = selectedAction::clearOptionTextTr() ;
+		const auto& co = selectedAction::clearOptionTextTr() ;
+
+		const auto& cstr = selectedAction::clearScreenTextTr() ;
+		const auto& cs = selectedAction::clearScreenText() ;
+
+		menu->addAction( cotr )->setObjectName( co ) ;
+		menu->addAction( cstr )->setObjectName( cs ) ;
+	}
+
+	w->setMenu( menu ) ;
+
+	return menu ;
+}
+
+bool utility::youtubePath( const QString& e)
+{
+	return e.contains( "youtube.com" ) ;
+}
+
+bool utility::youtubePaths( const QStringList& e )
+{
+	return e.contains( "youtube.com" ) ;
+}
+
+bool utility::hasDigitsOnly( const QString& e )
+{
+	for( const auto& it : e ){
+
+		if( !( it >= '0' && it <= '9'  ) ){
+
+			return false ;
+		}
+	}
+
+	return true ;
+}

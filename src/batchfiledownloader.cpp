@@ -83,7 +83,7 @@ void batchfiledownloader::enableAll()
 
 void batchfiledownloader::resetMenu()
 {
-	utility::setMenuOptions( m_settings,false,m_ui->pbFileDownloaderOptions,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_settings,{},false,m_ui->pbFileDownloaderOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 

@@ -28,4 +28,4 @@ FORMS += \
 mainwindow.ui
 
 TRANSLATIONS = \
-               ../translations/en_US.ts \
+../translations/en_US.ts \
