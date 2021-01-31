@@ -28,7 +28,7 @@
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
-      <string>Basic Downloder</string>
+      <string>Basic Downloader</string>
      </attribute>
      <widget class="QPlainTextEdit" name="plainTextEdit">
       <property name="geometry">
@@ -169,14 +169,14 @@
         <x>70</x>
         <y>20</y>
         <width>651</width>
-        <height>261</height>
+        <height>281</height>
        </rect>
       </property>
       <property name="autoFillBackground">
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
