@@ -29,6 +29,7 @@ class playlistdownloader : public QObject
 public:
         playlistdownloader() ;
 	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;

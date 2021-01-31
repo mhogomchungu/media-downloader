@@ -27,6 +27,7 @@ class batchfiledownloader : public QObject
 public:
 	batchfiledownloader() ;
 	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;

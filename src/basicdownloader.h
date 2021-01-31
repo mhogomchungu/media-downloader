@@ -33,6 +33,7 @@ class basicdownloader : public QObject
 public:
 	basicdownloader() ;
 	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	void init_done() ;
 	void download( const utility::args&,
 		       const QString& urls,
 		       bool = true ) ;
@@ -49,7 +50,9 @@ private:
 	settings * m_settings ;
 	QWidget * m_mainWindow ;
 	QStringList m_tmp ;
+	QString m_exe ;
 	void run( const QString& cmd,const QStringList& args ) ;
+	void failedToFindExe( const QStringList& ) ;
 	void list() ;
 	void download() ;
 	void exit() ;

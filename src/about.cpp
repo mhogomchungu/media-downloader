@@ -49,5 +49,9 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of \
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
 GNU General Public License for more details." ) ;
 
-	m_ui->TextLabelAbout->setText( about.arg( VERSION,COPYRIGHT ) ) ;
+			m_ui->TextLabelAbout->setText( about.arg( VERSION,COPYRIGHT ) ) ;
+}
+
+void about::init_done()
+{
 }

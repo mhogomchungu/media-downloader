@@ -84,6 +84,10 @@ void playlistdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget *
 	} ) ;
 }
 
+void playlistdownloader::init_done()
+{
+}
+
 void playlistdownloader::enableAll()
 {
 	m_ui->pbFilePLEDownloaderFilePath->setEnabled( true ) ;

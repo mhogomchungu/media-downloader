@@ -30,6 +30,7 @@ class about
 public:
 	about() ;
 	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;

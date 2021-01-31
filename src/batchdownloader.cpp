@@ -122,6 +122,10 @@ void batchdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * ma
 	} ) ;
 }
 
+void batchdownloader::init_done()
+{
+}
+
 void batchdownloader::resetMenu()
 {
 	utility::setMenuOptions( m_settings,true,m_ui->pbBDOptions,[ this ]( QAction * aa ){

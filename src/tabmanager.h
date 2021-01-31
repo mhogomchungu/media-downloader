@@ -44,6 +44,13 @@ public:
 		m_batchfiledownloader.init( s,m,w ) ;
 		m_playlistdownloader.init( s,m,w ) ;
 
+		m_about.init_done() ;
+		m_configure.init_done() ;
+		m_basicdownloader.init_done() ;
+		m_batchdownloader.init_done() ;
+		m_batchfiledownloader.init_done() ;
+		m_playlistdownloader.init_done() ;
+
 		return *this ;
 	}
 	tabManager& enableAll()
