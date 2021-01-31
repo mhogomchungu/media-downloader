@@ -17,6 +17,8 @@ Features offered:-
 
 6. The GUI offers an ability to download single media or multiple medias in batches.
 
+Binary download for Microsoft Windows is [here.](https://github.com/mhogomchungu/media-downloader/releases/download/1.0.0/MediaDownloader-1.0.0.setup.exe)
+
 Binary downloads for a few distributions are [here.](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader)
 
 # Screenshots:
