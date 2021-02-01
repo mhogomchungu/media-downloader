@@ -37,6 +37,7 @@ public:
 	QStringList defaultDownLoadCmdOptions() ;
 	QStringList defaultListCmdOptions() ;
 	bool showTrayIcon() ;
+	bool autoDownload() ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;

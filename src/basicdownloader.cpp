@@ -112,6 +112,14 @@ void basicdownloader::resetMenu( const QStringList& args )
 			}else{
 				m_ui->lineEditOptions->setText( ac.objectName() ) ;
 			}
+
+			if( m_settings->autoDownload() ){
+
+				if( !m_ui->lineEditURL->text().isEmpty() ){
+
+					this->download() ;
+				}
+			}
 		}
 	} ) ;
 }
@@ -208,15 +216,15 @@ void basicdownloader::listRequested( const QStringList& args )
 
 	for( const auto& it : args ){
 
-		if( !utility::contains( it,"video only","audio only" ) ){
+		auto a = utility::split( it,' ',true ) ;
 
-			auto a = utility::split( it,' ',true ) ;
+		const auto& e = a.at( 0 ) ;
 
-			const auto& e = a.at( 0 ) ;
+		if( utility::hasDigitsOnly( e ) ){
 
-			if( a.size() > 3 && utility::hasDigitsOnly( e ) ){
+			if( utility::hasDigitsOnly( e ) ){
 
-				opts.append( a.at( 3 ) + "(" + e + ")" ) ;
+				opts.append( a.at( 0 ) ) ;
 			}
 		}
 	}

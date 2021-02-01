@@ -130,6 +130,16 @@ bool settings::showTrayIcon()
 	return m_settings.value( "ShowTrayIcon" ).toBool() ;
 }
 
+bool settings::autoDownload()
+{
+	if( !m_settings.contains( "AutoDownload" ) ){
+
+		m_settings.setValue( "AutoDownload",false ) ;
+	}
+
+	return m_settings.value( "AutoDownload" ).toBool() ;
+}
+
 void settings::setHighDpiScalingFactor( const QString& m )
 {
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;

@@ -140,11 +140,9 @@ QMenu * utility::details::sMo( settings * settings,const QStringList& opts,bool 
 
 		menu->addSeparator() ;
 
-		menu->addAction( QObject::tr( "Found Options" ) )->setEnabled( false ) ;
+		auto sub_menu = menu->addMenu( QObject::tr( "Found Options" ) ) ;
 
-		menu->addSeparator() ;
-
-		_add( menu,opts ) ;
+		_add( sub_menu,opts ) ;
 	}
 
 	if( addClear ){
