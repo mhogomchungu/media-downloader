@@ -129,19 +129,84 @@ void basicdownloader::setAsActive()
 	m_ui->tabWidget->setCurrentIndex( 0 ) ;
 }
 
+class context{
+public:
+	context( bool a,QPlainTextEdit * b,QMetaObject::Connection c,QStringList d ) :
+		m_list_requested( a ),
+		m_view( b ),
+		m_conn( std::move( c ) ),
+		m_output( std::move( d ) )
+	{
+	}
+	void postData()
+	{
+		m_view->setPlainText( m_output.join( '\n' ) ) ;
+		m_view->moveCursor( QTextCursor::End ) ;
+	}
+	void postData( QByteArray data )
+	{
+		for( const auto& m : utility::split( data ) ){
+
+			if( m.isEmpty() ){
+
+				continue ;
+
+			}else if( m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
+
+				auto& s = m_output.last() ;
+
+				if( s.startsWith( "[download]" ) && s.contains( "ETA" ) ){
+
+					s = m ;
+				}else{
+					m_output.append( m ) ;
+				}
+			}else{
+				m_output.append( m ) ;
+			}
+		}
+
+		this->postData() ;
+	}
+	template< typename Function >
+	void listRequested( Function function )
+	{
+		if( m_list_requested ){
+
+			function( m_output ) ;
+		}
+	}
+	void disconnect()
+	{
+		QObject::disconnect( m_conn ) ;
+	}
+	const QStringList& outPut()
+	{
+		return m_output ;
+	}
+private:
+	bool m_list_requested ;
+	QPlainTextEdit * m_view ;
+	QMetaObject::Connection m_conn ;
+	QStringList m_output ;
+} ;
+
 void basicdownloader::run( const QString &cmd,const QStringList& args,bool list_requested )
 {
 	tabManager::instance().disableAll() ;
 
-	struct context{
-		bool list_requested ;
-		QStringList output ;
-		QMetaObject::Connection conn ;
-	} ;
-
 	utility::run( cmd,args,[ this,&list_requested,&cmd,&args ]( QProcess& exe ){
 
-		m_ui->plainTextEdit->setPlainText( "[media-downloader] cmd: " + [ & ](){
+		exe.setWorkingDirectory( m_settings->downloadFolder() ) ;
+
+		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
+
+		auto m = QObject::connect( m_ui->pbCancel,&QPushButton::clicked,[ &exe ](){
+
+			exe.terminate() ;
+		} ) ;
+
+		QStringList outPut("[media-downloader] cmd: " + [ & ](){
 
 			auto m = cmd ;
 
@@ -153,60 +218,28 @@ void basicdownloader::run( const QString &cmd,const QStringList& args,bool list_
 			return m + "\n" ;
 		}() ) ;
 
-		m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
+		context ctx( list_requested,m_ui->plainTextEdit,std::move( m ),std::move( outPut ) ) ;
 
-		exe.setWorkingDirectory( m_settings->downloadFolder() ) ;
+		ctx.postData() ;
 
-		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
-
-		auto m = QObject::connect( m_ui->pbCancel,&QPushButton::clicked,[ &exe ](){
-
-			exe.terminate() ;
-		} ) ;
-
-		return context{ list_requested,{},std::move( m ) } ;
+		return ctx ;
 
 	},[ this ]( int,QProcess::ExitStatus,context& ctx ){
 
-		QObject::disconnect( ctx.conn ) ;
+		ctx.disconnect() ;
 
-		if( ctx.list_requested ){
+		ctx.listRequested( [ this ]( const QStringList& e ){
 
-			this->listRequested( ctx.output ) ;
-		}
+			this->listRequested( e ) ;
+		} ) ;
 
 		tabManager::instance().enableAll() ;
 
 		m_ui->pbCancel->setEnabled( false ) ;
 
-	},[ this ]( QProcess::ProcessChannel,const QByteArray& data,context& ctx ){
+	},[]( QProcess::ProcessChannel,QByteArray data,context& ctx ){
 
-		auto& output = ctx.output ;
-
-		for( const auto& m : utility::split( data ) ){
-
-			if( m.isEmpty() ){
-
-				continue ;
-
-			}else if( !output.isEmpty() && m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
-
-				auto& s = output.last() ;
-
-				if( s.startsWith( "[download]" ) && s.contains( "ETA" ) ){
-
-					s = m ;
-				}else{
-					output.append( m ) ;
-				}
-			}else{
-				output.append( m ) ;
-			}
-		}
-
-		m_ui->plainTextEdit->setPlainText( output.join( '\n' ) ) ;
-
-		m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
+		ctx.postData( std::move( data ) ) ;
 	} ) ;
 }
 
