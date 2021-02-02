@@ -129,7 +129,8 @@ void basicdownloader::setAsActive()
 	m_ui->tabWidget->setCurrentIndex( 0 ) ;
 }
 
-class context{
+class context
+{
 public:
 	context( bool a,QPlainTextEdit * b,QMetaObject::Connection c,QStringList d ) :
 		m_list_requested( a ),
@@ -137,6 +138,7 @@ public:
 		m_conn( std::move( c ) ),
 		m_output( std::move( d ) )
 	{
+		this->postData() ;
 	}
 	void postData()
 	{
@@ -180,10 +182,6 @@ public:
 	{
 		QObject::disconnect( m_conn ) ;
 	}
-	const QStringList& outPut()
-	{
-		return m_output ;
-	}
 private:
 	bool m_list_requested ;
 	QPlainTextEdit * m_view ;
@@ -218,11 +216,7 @@ void basicdownloader::run( const QString &cmd,const QStringList& args,bool list_
 			return m + "\n" ;
 		}() ) ;
 
-		context ctx( list_requested,m_ui->plainTextEdit,std::move( m ),std::move( outPut ) ) ;
-
-		ctx.postData() ;
-
-		return ctx ;
+		return context( list_requested,m_ui->plainTextEdit,std::move( m ),std::move( outPut ) ) ;
 
 	},[ this ]( int,QProcess::ExitStatus,context& ctx ){
 
