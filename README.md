@@ -22,11 +22,11 @@ Binary download for Microsoft Windows is [here.](https://github.com/mhogomchungu
 
 Binary downloads for a few distributions are [here.](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader)
 
-### Binary package for Ubuntu
+#### Binary package for Ubuntu
 To install a binary package in Ubuntu, download a binary package directly and then click it and Ubuntu should offer to install it.
 If unsuccessful, follow instructions below for debian.
 
-### Binary package for Ubuntu
+#### Binary package for Ubuntu
 To install a binary package for Debian, download a binary package directly and then install it by doing the following:-
 from the folder where you dowload the package.
 ```
@@ -36,13 +36,13 @@ from the folder where you dowload the package.
 4. Run the following command to install it: su -c "dpkg -i *.deb"
 5. Enter root's password when asked.
 ```
-### Binary package for Fedora and OpenSuse
+#### Binary package for Fedora and OpenSuse
 To install a binary package for Fedora and OpenSuse, download a binary pacakge directly and then install it by doing the follwing:-
 ```
 1. Make sure you have Qt libraries installed.
 2. Open the terminal.
-3. Change directories to where the debian package is..
-4. Run the following command to install it: sudo rpm –i *..rpm
+3. Change directories to where the debian package is.
+4. Run the following command to install it: sudo rpm –i *.rpm
 5. Enter root's password when asked.
 ```
 ## Source packages
@@ -50,8 +50,8 @@ To build from source, follow the following instructions
 ```
 1. Make sure you have the following packages installed:-
     - Development version of Qt libraries installed. They will be named
-      something like like "libqt5-qtbase-devel" or "qt5-devel" or
-      "qtbase5-dev" or something that sounds similar.
+      something like "libqt5-qtbase-devel" or "qt5-devel" or
+      "qtbase5-dev" or something else that sounds similar.
     - cmake
     - gcc
 2. Dowload the source archive and extract it.
