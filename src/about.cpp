@@ -38,9 +38,23 @@ void about::resetMenu()
 
 void about::init( settings *,Ui::MainWindow * m_ui,QWidget * )
 {
-	auto about = QString( "Version: %1\n\n\
-Copyright: %2, Francis Banyikwa\n\nEmail: mhogomchungu@gmail.com\n\n\
-License: GPLv2+\n\nThis program is free software; you can redistribute \
+	auto version   = QObject::tr( "Version" ) ;
+	auto copyright = QObject::tr( "Copyright" ) ;
+	auto license   = QObject::tr( "License" ) ;
+
+	auto QtVersion = [ & ](){
+
+		if( utility::platformIsWindows() ){
+
+			return "Qt " + version + ": " QTVERSION "\n\n" ;
+		}else{
+			return QString() ;
+		}
+	}() ;
+
+	auto about = QString( "%1: %2\n\n%3\
+Copyright: %4, Francis Banyikwa\n\nEmail: mhogomchungu@gmail.com\n\n\
+%5: GPLv2+\n\nThis program is free software; you can redistribute \
 it and/or modify it under the terms of the GNU General Public License \
 as published by the Free Software Foundation; either version 2 of the \
 License, or (at your option) any later version.\n\n\
@@ -49,7 +63,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of \
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
 GNU General Public License for more details." ) ;
 
-			m_ui->TextLabelAbout->setText( about.arg( VERSION,COPYRIGHT ) ) ;
+	m_ui->TextLabelAbout->setText( about.arg( version,VERSION,QtVersion,COPYRIGHT,license ) ) ;
 }
 
 void about::init_done()

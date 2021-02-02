@@ -86,6 +86,7 @@ install(FILES src/media-downloader.png
 file( WRITE ${PROJECT_BINARY_DIR}/version.h
 "
 #define VERSION \"${PGR_VERSION}\"
+#define QTVERSION \"${Qt5Core_VERSION}\"
 #define COPYRIGHT \"${COPYRIGHT_YEARS}\"
 ")
 
