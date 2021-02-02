@@ -182,16 +182,31 @@ Each Link Should Be In Its Own Line.</source>
         <source>Found Options</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/about.cpp" line="41"/>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="42"/>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="43"/>
+        <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="250"/>
+        <location filename="../src/basicdownloader.cpp" line="277"/>
         <source>Failed To Locate &quot;%1&quot; in Below Paths:-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="252"/>
+        <location filename="../src/basicdownloader.cpp" line="279"/>
         <source>Please Add It In One Of The Paths And Restart</source>
         <translation type="unfinished"></translation>
     </message>
