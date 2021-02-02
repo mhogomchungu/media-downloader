@@ -204,7 +204,7 @@ void basicdownloader::run( const QString &cmd,const QStringList& args,bool list_
 			exe.terminate() ;
 		} ) ;
 
-		QStringList outPut("[media-downloader] cmd: " + [ & ](){
+		QStringList outPut( "[media-downloader] cmd: " + [ & ](){
 
 			auto m = cmd ;
 

@@ -128,7 +128,7 @@ void batchdownloader::init_done()
 
 void batchdownloader::resetMenu()
 {
-	utility::setMenuOptions( m_settings,true,m_ui->pbBDOptions,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_settings,{},true,m_ui->pbBDOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 
