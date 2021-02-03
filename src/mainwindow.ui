@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -672,24 +672,27 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QLabel" name="labelConfigureScaleFactor">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>0</y>
-        <width>421</width>
-        <height>41</height>
+        <x>0</x>
+        <y>50</y>
+        <width>181</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
        <string>Scale Factor(Need A Restart)</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="pbConfigureDownloadPath">
       <property name="geometry">
        <rect>
         <x>610</x>
-        <y>110</y>
+        <y>90</y>
         <width>41</width>
         <height>31</height>
        </rect>
@@ -701,8 +704,8 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QLabel" name="labelConfigurePresetOptions">
       <property name="geometry">
        <rect>
-        <x>192</x>
-        <y>140</y>
+        <x>190</x>
+        <y>120</y>
         <width>421</width>
         <height>31</height>
        </rect>
@@ -718,7 +721,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>108</y>
+        <y>88</y>
         <width>421</width>
         <height>31</height>
        </rect>
@@ -727,17 +730,17 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QLabel" name="labelConfigureDownloadPath">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>68</y>
-        <width>421</width>
-        <height>41</height>
+        <x>0</x>
+        <y>90</y>
+        <width>181</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
        <string>Download Path</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
@@ -747,7 +750,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>40</y>
+        <y>50</y>
         <width>421</width>
         <height>31</height>
        </rect>
@@ -770,9 +773,9 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>170</y>
+        <y>150</y>
         <width>621</width>
-        <height>211</height>
+        <height>231</height>
        </rect>
       </property>
      </widget>
@@ -787,6 +790,35 @@ Each Link Should Be In Its Own Line.</string>
       </property>
       <property name="text">
        <string>Quit</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="cbConfigureLanguage">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>10</y>
+        <width>421</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelConfigureLanguage">
+      <property name="geometry">
+       <rect>
+        <x>2</x>
+        <y>10</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Select Language</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>

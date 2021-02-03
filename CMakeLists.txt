@@ -56,6 +56,7 @@ set(SRC
     src/tabmanager.cpp
     src/batchfiledownloader.cpp
     src/configure.cpp
+    src/translator.cpp
     src/playlistdownloader.cpp)
 
 set(RESOUCES
@@ -83,7 +84,12 @@ install(FILES src/media-downloader.desktop
 install(FILES src/media-downloader.png
     DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pixmaps)
 
-file( WRITE ${PROJECT_BINARY_DIR}/version.h
+install(FILES translations/pl_PL.qm DESTINATION ${CMAKE_INSTALL_DATADIR}/media-downloader/translations)
+install(FILES translations/en_US.qm DESTINATION ${CMAKE_INSTALL_DATADIR}/media-downloader/translations)
+
+file(WRITE ${PROJECT_BINARY_DIR}/locale_path.h "\n#define TRANSLATION_PATH \"${CMAKE_INSTALL_FULL_DATADIR}/media-downloader/translations/\"\n")
+
+file(WRITE ${PROJECT_BINARY_DIR}/version.h
 "
 #define VERSION \"${PGR_VERSION}\"
 #define QTVERSION \"${Qt5Core_VERSION}\"

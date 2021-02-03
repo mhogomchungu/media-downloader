@@ -57,7 +57,7 @@
         <location filename="../src/mainwindow.ui" line="340"/>
         <location filename="../src/mainwindow.ui" line="371"/>
         <location filename="../src/mainwindow.ui" line="577"/>
-        <location filename="../src/mainwindow.ui" line="789"/>
+        <location filename="../src/mainwindow.ui" line="792"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
     </message>
@@ -137,27 +137,32 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Skala interfejsu aplikacji (wymaga restartu)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="711"/>
+        <location filename="../src/mainwindow.ui" line="714"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="737"/>
+        <location filename="../src/mainwindow.ui" line="740"/>
         <source>Download Path</source>
         <translation>Katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="766"/>
+        <location filename="../src/mainwindow.ui" line="769"/>
         <source>Set</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="795"/>
+        <location filename="../src/mainwindow.ui" line="815"/>
+        <source>Select Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="827"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="807"/>
+        <location filename="../src/mainwindow.ui" line="839"/>
         <source>TextLabel</source>
         <translation>TextLabel</translation>
     </message>
@@ -184,16 +189,41 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <source>Found Options</source>
         <translation>Znalezione opcje</translation>
     </message>
+    <message>
+        <location filename="../src/about.cpp" line="41"/>
+        <source>Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="42"/>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="43"/>
+        <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="62"/>
+        <source>English (US)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="63"/>
+        <source>Polish (Poland)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="250"/>
+        <location filename="../src/basicdownloader.cpp" line="277"/>
         <source>Failed To Locate &quot;%1&quot; in Below Paths:-</source>
         <translation>Nie udało się znaleźć &quot;%1&quot; w żadnej ze ścieżek:-</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="252"/>
+        <location filename="../src/basicdownloader.cpp" line="279"/>
         <source>Please Add It In One Of The Paths And Restart</source>
         <translation>Proszę dodać ścieżkę do aplikacji do zmiennej PATH i uruchomić program ponownie</translation>
     </message>
@@ -217,7 +247,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="67"/>
+        <location filename="../src/configure.cpp" line="91"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>

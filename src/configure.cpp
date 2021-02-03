@@ -49,6 +49,30 @@ void configure::init( settings * settings,Ui::MainWindow * ui,QWidget * mainWidg
 		tabManager::instance().resetMenu().basicDownloader().setAsActive() ;
 	} ) ;
 
+	const auto& languages = m_settings->localizationLanguages() ;
+	const auto& language  = m_settings->localizationLanguage() ;
+
+	m_ui->cbConfigureLanguage->addItems( languages ) ;
+
+	for( int i = 0 ; i < languages.size() ; i++ ){
+
+		if( languages[ i ] == language ){
+
+			m_ui->cbConfigureLanguage->setCurrentIndex( i ) ;
+			break ;
+		}
+	}
+
+	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
+
+	connect( m_ui->cbConfigureLanguage,s,[ this,languages ]( int s ){
+
+		if( s != -1 ){
+
+			m_settings->setLocalizationLanguage( languages.at( s ) ) ;
+		}
+	} ) ;
+
 	connect( m_ui->pbConfigureSetPresetDefaults,&QPushButton::clicked,[ this ](){
 
 		m_settings->setPresetToDefaults() ;
@@ -91,6 +115,8 @@ void configure::resetMenu()
 
 void configure::enableAll()
 {
+	m_ui->cbConfigureLanguage->setEnabled( true ) ;
+	m_ui->labelConfigureLanguage->setEnabled( true ) ;
 	m_ui->lineEditConfigureDownloadPath->setEnabled( true ) ;
 	m_ui->textEditConfigurePresetOptions->setEnabled( true ) ;
 	m_ui->lineEditConfigureDownloadPath->setEnabled( true ) ;
@@ -108,6 +134,8 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui->cbConfigureLanguage->setEnabled( false ) ;
+	m_ui->labelConfigureLanguage->setEnabled( false ) ;
 	m_ui->pbConfigureQuit->setEnabled( false ) ;
 	m_ui->lineEditConfigureScaleFactor->setEnabled( false ) ;
 	m_ui->lineEditConfigureDownloadPath->setEnabled( false ) ;

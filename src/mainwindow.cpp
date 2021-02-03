@@ -22,8 +22,8 @@
 #include "utility.h"
 #include "tabmanager.h"
 
-MainWindow::MainWindow( settings& settings ) :
-	m_ui( new Ui::MainWindow )
+MainWindow::MainWindow( settings& settings,translator& t ) :
+	m_ui( new Ui::MainWindow ),m_translator( t )
 {
 	m_ui->setupUi( this ) ;
 

@@ -37,6 +37,7 @@
 
 #include "mainwindow.h"
 #include "settings.h"
+#include "translator.h"
 
 #include <QApplication>
 
@@ -57,7 +58,10 @@ int main( int argc,char * argv[] )
 #endif
 	QApplication a( argc,argv ) ;
 
-	MainWindow w( s ) ;
+	translator tr( s ) ;
+	tr.setDefaultLanguage() ;
+
+	MainWindow w( s,tr ) ;
 	w.show() ;
 
 	return a.exec() ;

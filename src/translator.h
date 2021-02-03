@@ -17,35 +17,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef TRANSLATOR_H
+#define TRANSLATOR_H
 
-#include <QMainWindow>
-#include <QCloseEvent>
-#include <QSystemTrayIcon>
-#include <QString>
-#include <QStringList>
-#include <QMenu>
+#include <QWidget>
+#include <QTranslator>
 
 #include "settings.h"
-#include "translator.h"
+#include "utility.h"
 
-namespace Ui
+class translator
 {
-	class MainWindow ;
-}
-
-class MainWindow : public QMainWindow
-{
-	Q_OBJECT
 public:
-	MainWindow( settings&,translator& ) ;
-	~MainWindow() ;
-private:	
-	QSystemTrayIcon m_trayIcon ;
-	Ui::MainWindow * m_ui ;
-	translator& m_translator ;
-	void closeEvent( QCloseEvent * ) ;
+        translator( settings& ) ;
+	void setLanguage( const QByteArray& e ) ;
+	void setDefaultLanguage() ;
+	~translator() ;
+	const QString& UIName( const QString& name ) ;
+	const QString& name( const QString& UIName ) ;
+	QString translate( const QString& internalName ) ;
+	const char * UINameUnTranslated( const QString& name ) ;
+private:
+	struct entry{
+	        entry( const QString&,const char *,const QString& ) ;
+		QString UINameTranslated ;
+		const char * UINameUnTranslated ;
+		QString internalName ;
+	} ;
+	void clear( void ) ;
+	QTranslator * m_translator = nullptr ;
+	std::vector< entry > m_languages ;
+	settings& m_settings ;
+private:
 };
 
-#endif // MAINWINDOW_H
+#endif
+

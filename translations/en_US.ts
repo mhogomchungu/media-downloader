@@ -57,7 +57,7 @@
         <location filename="../src/mainwindow.ui" line="340"/>
         <location filename="../src/mainwindow.ui" line="371"/>
         <location filename="../src/mainwindow.ui" line="577"/>
-        <location filename="../src/mainwindow.ui" line="789"/>
+        <location filename="../src/mainwindow.ui" line="792"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -135,27 +135,32 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="711"/>
+        <location filename="../src/mainwindow.ui" line="714"/>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="737"/>
+        <location filename="../src/mainwindow.ui" line="740"/>
         <source>Download Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="766"/>
+        <location filename="../src/mainwindow.ui" line="769"/>
         <source>Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="795"/>
+        <location filename="../src/mainwindow.ui" line="815"/>
+        <source>Select Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="827"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="807"/>
+        <location filename="../src/mainwindow.ui" line="839"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -197,6 +202,16 @@ Each Link Should Be In Its Own Line.</source>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/settings.h" line="62"/>
+        <source>English (US)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="63"/>
+        <source>Polish (Poland)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -230,7 +245,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="67"/>
+        <location filename="../src/configure.cpp" line="91"/>
         <source>Set Download Folder</source>
         <translation type="unfinished"></translation>
     </message>
