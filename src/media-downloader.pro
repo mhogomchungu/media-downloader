@@ -29,3 +29,4 @@ mainwindow.ui
 
 TRANSLATIONS = \
 ../translations/en_US.ts \
+../translations/pl_PL.ts \
