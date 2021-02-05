@@ -18,9 +18,12 @@ Features offered:-
 6. The GUI offers an ability to download single media or multiple medias in batches.
 
 ## Binary packages
-Binary download for Microsoft Windows is [here.](https://github.com/mhogomchungu/media-downloader/releases/download/1.0.0/MediaDownloader-1.0.0.setup.exe)
+Binary download for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.0.0/MediaDownloader-1.0.0.setup.exe).
 
-Binary downloads for a few distributions are [here.](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader)
+Binary downloads for a few distributions are [here](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader).
+
+#### Aur package for Arch Linux
+Arch linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
 
 #### Binary package for Ubuntu
 To install a binary package in Ubuntu, download a binary package directly and then click it and Ubuntu should offer to install it.
