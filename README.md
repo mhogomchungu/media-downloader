@@ -52,7 +52,7 @@ To install a binary package for Fedora and OpenSuse, download a binary pacakge d
 To build from source, follow the following instructions
 ```
 1. Make sure you have the following packages installed:-
-    - Development version of Qt libraries installed. They will be named
+    - Development version of Qt libraries. They will be named
       something like "libqt5-qtbase-devel" or "qt5-devel" or
       "qtbase5-dev" or something else that sounds similar.
     - cmake
@@ -63,7 +63,7 @@ To build from source, follow the following instructions
 5. Run command: "cd build"
 6. Run command: "cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=release .."
 7. Run command: "make"
-8. Fun commandl: "sudo make install"
+8. Fun command: "sudo make install"
 
 ```
 
