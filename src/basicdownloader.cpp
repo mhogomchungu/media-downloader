@@ -189,7 +189,7 @@ private:
 	QStringList m_output ;
 } ;
 
-void basicdownloader::run( const QString &cmd,const QStringList& args,bool list_requested )
+void basicdownloader::run( const QString& cmd,const QStringList& args,bool list_requested )
 {
 	tabManager::instance().disableAll() ;
 
@@ -241,17 +241,19 @@ void basicdownloader::listRequested( const QStringList& args )
 {
 	QStringList opts ;
 
-	for( const auto& it : args ){
+	for( int i = args.size() - 1 ; i >= 0 ; i-- ){
 
-		auto a = utility::split( it,' ',true ) ;
+		auto a = utility::split( args[ i ],' ',true ) ;
 
-		const auto& e = a.at( 0 ) ;
+		if( a.size() > 1 ){
 
-		if( utility::hasDigitsOnly( e ) ){
+			const auto& e = a.at( 0 ) ;
 
-			if( utility::hasDigitsOnly( e ) ){
+			if( e == "format" && a.at( 1 ) == "code" ){
 
-				opts.append( a.at( 0 ) ) ;
+				break ;
+			}else{
+				opts.insert( 0,e ) ;
 			}
 		}
 	}
@@ -290,7 +292,7 @@ void basicdownloader::list()
 	auto args = m_settings->defaultListCmdOptions() ;
 	args.append( m_ui->lineEditURL->text().split( ' ' ) ) ;
 
-	this->run( m_exe,args,utility::youtubePath( m_ui->lineEditURL->text() ) ) ;
+	this->run( m_exe,args,true ) ;
 }
 
 void basicdownloader::download()
