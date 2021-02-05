@@ -29,7 +29,7 @@ Arch linux users can build the project from source using [this](https://aur.arch
 To install a binary package in Ubuntu, download a binary package directly and then click it and Ubuntu should offer to install it.
 If unsuccessful, follow instructions below for debian.
 
-#### Binary package for Ubuntu
+#### Binary package for Debian
 To install a binary package for Debian, download a binary package directly and then install it by doing the following:-
 from the folder where you dowload the package.
 ```
