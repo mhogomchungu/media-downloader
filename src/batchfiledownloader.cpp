@@ -22,42 +22,39 @@
 
 #include <QFileDialog>
 
-batchfiledownloader::batchfiledownloader()
+batchfiledownloader::batchfiledownloader( Context& args,tabManager& tabManager ) :
+	m_args( args ),
+	m_settings( m_args.Settings() ),
+	m_ui( m_args.Ui() ),
+	m_mainWindow( m_args.mainWidget() ),
+	m_tabManager( tabManager )
 {
-}
+	connect( m_ui.pbFileDownloaderQuit,&QPushButton::clicked,[ this ](){
 
-void batchfiledownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * parent )
-{
-	m_ui = ui ;
-	m_settings = settings ;
-	m_mainWindow = parent ;
-
-	connect( m_ui->pbFileDownloaderQuit,&QPushButton::clicked,[](){
-
-		tabManager::instance().basicDownloader().appQuit() ;
+		m_tabManager.basicDownloader().appQuit() ;
 	} ) ;
 
-	connect( m_ui->pbFileDownloaderDownload,&QPushButton::clicked,[ this ](){
+	connect( m_ui.pbFileDownloaderDownload,&QPushButton::clicked,[ this ](){
 
-		auto options = m_ui->lineEditFileOptions->text() ;
+		auto options = m_ui.lineEditFileOptions->text() ;
 
-		auto url = m_ui->lineEditFileDownloader->text() ;
+		auto url = m_ui.lineEditFileDownloader->text() ;
 
-		tabManager::instance().basicDownloader().download( options,{ "-a",url } ) ;
+		m_tabManager.basicDownloader().download( options,{ "-a",url } ) ;
 	} ) ;
 
-	m_ui->pbFileDownloaderFilePath->setIcon( [](){
+	m_ui.pbFileDownloaderFilePath->setIcon( [](){
 
 		return QIcon( ":file" ) ;
 	}() ) ;
 
-	connect( m_ui->pbFileDownloaderFilePath,&QPushButton::clicked,[ this,parent ](){
+	connect( m_ui.pbFileDownloaderFilePath,&QPushButton::clicked,[ this ](){
 
-		auto e = QFileDialog::getOpenFileName( parent,tr( "Set Batch File" ),QDir::homePath() ) ;
+		auto e = QFileDialog::getOpenFileName( &m_mainWindow,tr( "Set Batch File" ),QDir::homePath() ) ;
 
 		if( !e.isEmpty() ){
 
-			m_ui->lineEditFileDownloader->setText( e ) ;
+			m_ui.lineEditFileDownloader->setText( e ) ;
 		}
 	} ) ;
 
@@ -70,42 +67,45 @@ void batchfiledownloader::init_done()
 
 void batchfiledownloader::enableAll()
 {
-	m_ui->lineEditFileDownloader->setEnabled( true ) ;
-	m_ui->lineEditFileOptions->setEnabled( true ) ;
-	m_ui->pbFileDownloaderDownload->setEnabled( true ) ;
-	m_ui->pbFileDownloaderFilePath->setEnabled( true ) ;
-	m_ui->pbFileDownloaderOptions->setEnabled( true ) ;
-	m_ui->pbFileDownloaderQuit->setEnabled( true ) ;
-	m_ui->labelFileDownloader->setEnabled( true ) ;
-	m_ui->labelFileDownloederPath->setEnabled( true ) ;
-	m_ui->labelFileDownloederPathOptions->setEnabled( true ) ;
+	m_ui.lineEditFileDownloader->setEnabled( true ) ;
+	m_ui.lineEditFileOptions->setEnabled( true ) ;
+	m_ui.pbFileDownloaderDownload->setEnabled( true ) ;
+	m_ui.pbFileDownloaderFilePath->setEnabled( true ) ;
+	m_ui.pbFileDownloaderOptions->setEnabled( true ) ;
+	m_ui.pbFileDownloaderQuit->setEnabled( true ) ;
+	m_ui.labelFileDownloader->setEnabled( true ) ;
+	m_ui.labelFileDownloederPath->setEnabled( true ) ;
+	m_ui.labelFileDownloederPathOptions->setEnabled( true ) ;
 }
 
 void batchfiledownloader::resetMenu()
 {
-	utility::setMenuOptions( m_settings,{},false,m_ui->pbFileDownloaderOptions,[ this ]( QAction * aa ){
+	auto& s = m_args.Settings() ;
+	auto& t = m_args.Translator() ;
+
+	utility::setMenuOptions( s,t,{},false,m_ui.pbFileDownloaderOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 
 		if( ac.best() ){
 
-			m_ui->lineEditFileOptions->setText( ac.bestText() ) ;
+			m_ui.lineEditFileOptions->setText( ac.bestText() ) ;
 		}else{
-			m_ui->lineEditFileOptions->setText( ac.objectName() ) ;
+			m_ui.lineEditFileOptions->setText( ac.objectName() ) ;
 		}
 	} ) ;
 }
 
 void batchfiledownloader::disableAll()
 {
-	m_ui->lineEditFileDownloader->setEnabled( false ) ;
-	m_ui->lineEditFileOptions->setEnabled( false ) ;
-	m_ui->pbFileDownloaderDownload->setEnabled( false ) ;
-	m_ui->pbFileDownloaderFilePath->setEnabled( false ) ;
-	m_ui->pbFileDownloaderOptions->setEnabled( false ) ;
-	m_ui->pbFileDownloaderQuit->setEnabled( false ) ;
-	m_ui->labelFileDownloader->setEnabled( false ) ;
-	m_ui->labelFileDownloederPath->setEnabled( false ) ;
-	m_ui->labelFileDownloederPathOptions->setEnabled( false ) ;
+	m_ui.lineEditFileDownloader->setEnabled( false ) ;
+	m_ui.lineEditFileOptions->setEnabled( false ) ;
+	m_ui.pbFileDownloaderDownload->setEnabled( false ) ;
+	m_ui.pbFileDownloaderFilePath->setEnabled( false ) ;
+	m_ui.pbFileDownloaderOptions->setEnabled( false ) ;
+	m_ui.pbFileDownloaderQuit->setEnabled( false ) ;
+	m_ui.labelFileDownloader->setEnabled( false ) ;
+	m_ui.labelFileDownloederPath->setEnabled( false ) ;
+	m_ui.labelFileDownloederPathOptions->setEnabled( false ) ;
 }
 

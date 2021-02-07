@@ -16,34 +16,63 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef BATCH_DOWNLOADER_URL_H
-#define BATCH_DOWNLOADER_URL_H
 
-#include <QString>
-#include <QStringList>
-#include <QMenu>
+#ifndef ARGS_H
+#define ARGS_H
 
 #include "settings.h"
-#include "utility.h"
-#include "context.hpp"
 
+#include <QWidget>
+
+class translator ;
+class QMainWindow ;
 class tabManager ;
 
-class batchdownloader : public QObject
+namespace Ui
 {
-	Q_OBJECT
+        class MainWindow ;
+}
+
+class Context{
 public:
-	batchdownloader( Context&,tabManager& ) ;
-	void init_done() ;
-	void enableAll() ;
-	void disableAll() ;
-	void resetMenu() ;
+	Context( settings& s,
+		 translator& t,
+		 Ui::MainWindow& m,
+		 QWidget& w,
+		 QMainWindow& mw ) :
+		m_settings( s ),
+		m_translator( t ),
+		m_mainUi( m ),
+		m_mainWidget( w ),
+		m_mainWindow( mw )
+	{
+	}
+	settings& Settings()
+	{
+	        return m_settings ;
+	}
+	translator& Translator()
+	{
+	        return m_translator ;
+	}
+	Ui::MainWindow& Ui()
+	{
+	        return m_mainUi ;
+	}
+	QWidget& mainWidget()
+	{
+	        return m_mainWidget ;
+	}
+	QMainWindow& mainWindows()
+	{
+	         return m_mainWindow ;
+	}
 private:
-	Context& m_args ;
 	settings& m_settings ;
-	Ui::MainWindow& m_ui ;
-	QWidget& m_mainWindow ;
-	tabManager& m_tabManager ;
+	translator& m_translator ;
+	Ui::MainWindow& m_mainUi ;
+	QWidget& m_mainWidget ;
+	QMainWindow& m_mainWindow ;
 };
 
 #endif

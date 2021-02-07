@@ -24,29 +24,41 @@
 #include <QTranslator>
 
 #include "settings.h"
-#include "utility.h"
 
 class translator
 {
 public:
+	static const char * CLEARSCREEN ;
+	static const char * CLEAROPTIONS ;
+
         translator( settings& ) ;
 	void setLanguage( const QByteArray& e ) ;
 	void setDefaultLanguage() ;
 	~translator() ;
 	const QString& UIName( const QString& name ) ;
 	const QString& name( const QString& UIName ) ;
+	const QString& untranslated( const QString& string ) ;
 	QString translate( const QString& internalName ) ;
 	const char * UINameUnTranslated( const QString& name ) ;
-private:
+	void addString( const QString& translatedString,
+			const char * untranslatedString,
+			const QString& internalName ) ;
 	struct entry{
-	        entry( const QString&,const char *,const QString& ) ;
+		entry( const QString&,const char *,const QString& ) ;
 		QString UINameTranslated ;
 		const char * UINameUnTranslated ;
 		QString internalName ;
 	} ;
+	QAction * addAction( QMenu * m,translator::entry ) ;
+	QMenu * addMenu( QMenu * m,translator::entry ) ;
+	void removeMenu( QMenu * ) ;
+private:
 	void clear( void ) ;
 	QTranslator * m_translator = nullptr ;
 	std::vector< entry > m_languages ;
+	std::vector< std::pair< QAction *,entry > > m_actions ;
+	std::vector< std::pair< QMenu *,entry > > m_menus ;
+
 	settings& m_settings ;
 private:
 };

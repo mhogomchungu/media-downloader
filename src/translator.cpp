@@ -21,6 +21,11 @@
 #include "settings.h"
 #include "locale_path.h"
 
+#include <QCoreApplication>
+
+const char * translator::CLEAROPTIONS = "Clear Options" ;
+const char * translator::CLEARSCREEN = "Clear Screen" ;
+
 translator::translator( settings& s ) : m_settings( s )
 {
 }
@@ -37,12 +42,18 @@ void translator::setLanguage( const QByteArray& e )
 
 		return m_translator ;
 	}() ) ;
+
+	m_languages.clear() ;
+	m_menus.clear() ;
+	m_actions.clear() ;
+
+	this->addString( QObject::tr( "Polish (Poland)" ),"Polish (Poland)","pl_PL" ) ;
+	this->addString( QObject::tr( "English (US)" ),"English (US)","en_US" ) ;
 }
 
 void translator::setDefaultLanguage()
 {
-	auto s = m_settings.localizationLanguageConfig() ;
-	this->setLanguage( s.toLatin1() ) ;
+	this->setLanguage( m_settings.localizationLanguage().toLatin1() ) ;
 }
 
 translator::~translator()
@@ -93,6 +104,50 @@ const char * translator::UINameUnTranslated( const QString& internalName )
 	}
 
 	return "" ;
+}
+
+void translator::addString( const QString& translatedString,
+			    const char * untranslatedString,
+			    const QString & internalName)
+{
+	m_languages.emplace_back( entry( translatedString,untranslatedString,internalName ) ) ;
+}
+
+QAction * translator::addAction( QMenu * m,translator::entry e )
+{
+	auto ac = new QAction( m ) ;
+
+	ac->setObjectName( e.UINameUnTranslated ) ;
+
+	ac->setText( e.UINameTranslated ) ;
+
+	m->addAction( ac ) ;
+
+	//m_actions.emplace_back( ac,std::move( e ) ) ;
+
+	return ac ;
+}
+
+QMenu * translator::addMenu( QMenu * m,translator::entry e )
+{
+	auto menu = m->addMenu( e.UINameTranslated ) ;
+
+	//m_menus.emplace_back( m,std::move( e ) ) ;
+
+	return menu ;
+}
+
+void translator::removeMenu( QMenu * m )
+{
+	for( auto it = m_menus.begin() ; it < m_menus.end() ; it++ ){
+
+		if( ( *it ).first == m ){
+
+			m_menus.erase( it ) ;
+
+			break ;
+		}
+	}
 }
 
 void translator::clear()

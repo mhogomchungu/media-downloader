@@ -21,21 +21,26 @@
 
 #include "settings.h"
 #include "utility.h"
+#include "context.hpp"
+
+class tabManager ;
 
 class configure : public QObject
 {
         Q_OBJECT
 public:
-        configure() ;
-	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	configure( Context&,tabManager& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
 private:
-	settings * m_settings ;
-	Ui::MainWindow * m_ui ;
-	QWidget * m_mainWindow ;
+	void setLanguages() ;
+	Context& m_args ;
+	settings& m_settings ;
+	Ui::MainWindow& m_ui ;
+	QWidget& m_mainWindow ;
+	tabManager& m_tabManager ;
 };
 
 #endif

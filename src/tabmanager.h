@@ -26,32 +26,26 @@
 #include "batchfiledownloader.h"
 #include "configure.h"
 #include "playlistdownloader.h"
+#include "context.hpp"
 
 class tabManager
 {
 public:
-	static tabManager& instance()
+	tabManager( Context& args ) :
+		m_args( args ),
+		m_about( args,*this ),
+		m_configure( args,*this ),
+		m_basicdownloader( args,*this ),
+		m_batchdownloader( args,*this ),
+		m_batchfiledownloader( args,*this ),
+		m_playlistdownloader( args,*this )
 	{
-		static tabManager m ;
-		return m ;
-	}
-	tabManager& init( settings * s,Ui::MainWindow * m,QWidget * w )
-	{
-		m_about.init( s,m,w ) ;
-		m_configure.init( s,m,w ) ;
-		m_basicdownloader.init( s,m,w ) ;
-		m_batchdownloader.init( s,m,w ) ;
-		m_batchfiledownloader.init( s,m,w ) ;
-		m_playlistdownloader.init( s,m,w ) ;
-
 		m_about.init_done() ;
 		m_configure.init_done() ;
 		m_basicdownloader.init_done() ;
 		m_batchdownloader.init_done() ;
 		m_batchfiledownloader.init_done() ;
 		m_playlistdownloader.init_done() ;
-
-		return *this ;
 	}
 	tabManager& enableAll()
 	{
@@ -86,11 +80,18 @@ public:
 
 		return *this ;
 	}
+	tabManager& reTranslateUi()
+	{
+		m_args.Ui().retranslateUi( &m_args.mainWindows() ) ;
+		return *this ;
+	}
 	basicdownloader& basicDownloader()
 	{
 		return m_basicdownloader ;
 	}
 private:
+	Context& m_args ;
+
 	about m_about ;
 	configure m_configure ;
 	basicdownloader m_basicdownloader ;

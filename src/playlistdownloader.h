@@ -22,20 +22,25 @@
 #include "utility.h"
 
 #include "settings.h"
+#include "context.hpp"
+
+class tabManager ;
 
 class playlistdownloader : public QObject
 {
         Q_OBJECT
 public:
-        playlistdownloader() ;
-	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	playlistdownloader( Context&,tabManager& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
 private:
-	settings * m_settings ;
-	Ui::MainWindow * m_ui ;
+	Context& m_args ;
+	settings& m_settings ;
+	Ui::MainWindow& m_ui ;
+	QWidget& m_mainWindow ;
+	tabManager& m_tabManager ;
 };
 
 #endif

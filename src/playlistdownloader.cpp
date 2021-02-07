@@ -22,35 +22,33 @@
 
 #include <QFileDialog>
 
-playlistdownloader::playlistdownloader()
+playlistdownloader::playlistdownloader( Context& args,tabManager& tabManager ) :
+	m_args( args ),
+	m_settings( m_args.Settings() ),
+	m_ui( m_args.Ui() ),
+	m_mainWindow( m_args.mainWidget() ),
+	m_tabManager( tabManager )
 {
-}
-
-void playlistdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget * parent )
-{
-	m_ui = ui ;
-	m_settings = settings ;
-
 	this->resetMenu() ;
 
-	m_ui->pbFilePLEDownloaderFilePath->setIcon( [](){
+	m_ui.pbFilePLEDownloaderFilePath->setIcon( [](){
 
 		return QIcon( ":file" ) ;
 	}() ) ;
 
-	connect( m_ui->pbFilePLEDownloaderFilePath,&QPushButton::clicked,[ this,parent ](){
+	connect( m_ui.pbFilePLEDownloaderFilePath,&QPushButton::clicked,[ this ](){
 
-		auto e = QFileDialog::getOpenFileName( parent,tr( "Set Batch File" ),QDir::homePath() ) ;
+		auto e = QFileDialog::getOpenFileName( &m_args.mainWidget(),tr( "Set Batch File" ),QDir::homePath() ) ;
 
 		if( !e.isEmpty() ){
 
-			m_ui->lineEditPLEFileDownloader->setText( e ) ;
+			m_ui.lineEditPLEFileDownloader->setText( e ) ;
 		}
 	} ) ;
 
-	connect( m_ui->pbPLDownload,&QPushButton::clicked,[ this ](){
+	connect( m_ui.pbPLDownload,&QPushButton::clicked,[ this ](){
 
-		auto options = m_ui->lineEditPLUrlOptions->text() ;
+		auto options = m_ui.lineEditPLUrlOptions->text() ;
 
 		if( options.isEmpty() ){
 
@@ -59,28 +57,28 @@ void playlistdownloader::init( settings * settings,Ui::MainWindow * ui,QWidget *
 
 		options += " --yes-playlist" ;
 
-		auto items = m_ui->lineEditPLDownloadRange->text() ;
+		auto items = m_ui.lineEditPLDownloadRange->text() ;
 
 		if( !items.isEmpty() ){
 
 			options += " --playlist-items " + items ;
 		}
 
-		auto playlistFile = m_ui->lineEditPLEFileDownloader->text() ;
+		auto playlistFile = m_ui.lineEditPLEFileDownloader->text() ;
 
 		if( !playlistFile.isEmpty() ){
 
 			options += " -a " + playlistFile ;
 		}
 
-		auto url = m_ui->lineEditPLUrl->text() ;
+		auto url = m_ui.lineEditPLUrl->text() ;
 
-		tabManager::instance().basicDownloader().download( options,url ) ;
+		m_tabManager.basicDownloader().download( options,url ) ;
 	} ) ;
 
-	connect( m_ui->pbPLQuit,&QPushButton::clicked,[](){
+	connect( m_ui.pbPLQuit,&QPushButton::clicked,[ this ](){
 
-		tabManager::instance().basicDownloader().appQuit() ;
+		m_tabManager.basicDownloader().appQuit() ;
 	} ) ;
 }
 
@@ -90,60 +88,63 @@ void playlistdownloader::init_done()
 
 void playlistdownloader::enableAll()
 {
-	m_ui->pbFilePLEDownloaderFilePath->setEnabled( true ) ;
-	m_ui->lineEditPLEFileDownloader->setEnabled( true ) ;
-	m_ui->labelPLEFileDownloederPath->setEnabled( true ) ;
-	m_ui->lineEditPLUrl->setEnabled( true ) ;
-	m_ui->labelPLEnterOptions->setEnabled( true ) ;
-	m_ui->labelPLEnterUrlRange->setEnabled( true ) ;
-	m_ui->lineEditPLDownloadRange->setEnabled( true ) ;
-	m_ui->lineEditPLUrl->setEnabled( true ) ;
-	m_ui->lineEditPLUrlOptions->setEnabled( true ) ;
-	m_ui->pbPLDownload->setEnabled( true ) ;
-	m_ui->pbPLOptions->setEnabled( true ) ;
-	m_ui->pbPLQuit->setEnabled( true ) ;
-	m_ui->labelPLEnterUrl->setEnabled( true ) ;
+	m_ui.pbFilePLEDownloaderFilePath->setEnabled( true ) ;
+	m_ui.lineEditPLEFileDownloader->setEnabled( true ) ;
+	m_ui.labelPLEFileDownloederPath->setEnabled( true ) ;
+	m_ui.lineEditPLUrl->setEnabled( true ) ;
+	m_ui.labelPLEnterOptions->setEnabled( true ) ;
+	m_ui.labelPLEnterUrlRange->setEnabled( true ) ;
+	m_ui.lineEditPLDownloadRange->setEnabled( true ) ;
+	m_ui.lineEditPLUrl->setEnabled( true ) ;
+	m_ui.lineEditPLUrlOptions->setEnabled( true ) ;
+	m_ui.pbPLDownload->setEnabled( true ) ;
+	m_ui.pbPLOptions->setEnabled( true ) ;
+	m_ui.pbPLQuit->setEnabled( true ) ;
+	m_ui.labelPLEnterUrl->setEnabled( true ) ;
 }
 
 void playlistdownloader::disableAll()
 {
-	m_ui->pbFilePLEDownloaderFilePath->setEnabled( false ) ;
-	m_ui->lineEditPLEFileDownloader->setEnabled( false ) ;
-	m_ui->labelPLEFileDownloederPath->setEnabled( false ) ;
-	m_ui->lineEditPLUrl->setEnabled( false ) ;
-	m_ui->labelPLEnterOptions->setEnabled( false ) ;
-	m_ui->labelPLEnterUrlRange->setEnabled( false ) ;
-	m_ui->lineEditPLDownloadRange->setEnabled( false ) ;
-	m_ui->lineEditPLUrl->setEnabled( false ) ;
-	m_ui->lineEditPLUrlOptions->setEnabled( false ) ;
-	m_ui->pbPLDownload->setEnabled( false ) ;
-	m_ui->pbPLOptions->setEnabled( false ) ;
-	m_ui->pbPLQuit->setEnabled( false ) ;
-	m_ui->labelPLEnterUrl->setEnabled( false ) ;
+	m_ui.pbFilePLEDownloaderFilePath->setEnabled( false ) ;
+	m_ui.lineEditPLEFileDownloader->setEnabled( false ) ;
+	m_ui.labelPLEFileDownloederPath->setEnabled( false ) ;
+	m_ui.lineEditPLUrl->setEnabled( false ) ;
+	m_ui.labelPLEnterOptions->setEnabled( false ) ;
+	m_ui.labelPLEnterUrlRange->setEnabled( false ) ;
+	m_ui.lineEditPLDownloadRange->setEnabled( false ) ;
+	m_ui.lineEditPLUrl->setEnabled( false ) ;
+	m_ui.lineEditPLUrlOptions->setEnabled( false ) ;
+	m_ui.pbPLDownload->setEnabled( false ) ;
+	m_ui.pbPLOptions->setEnabled( false ) ;
+	m_ui.pbPLQuit->setEnabled( false ) ;
+	m_ui.labelPLEnterUrl->setEnabled( false ) ;
 }
 
 void playlistdownloader::resetMenu()
 {
-	utility::setMenuOptions( m_settings,{},true,m_ui->pbPLOptions,[ this ]( QAction * aa ){
+	auto& s = m_args.Settings() ;
+	auto& t = m_args.Translator() ;
+
+	utility::setMenuOptions( s,t,{},true,m_ui.pbPLOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 
 		if( ac.clearOptions() ){
 
-			m_ui->lineEditPLUrlOptions->clear() ;
+			m_ui.lineEditPLUrlOptions->clear() ;
 
 		}else if( ac.clearScreen() ){
 
-			m_ui->lineEditPLUrlOptions->clear() ;
-			m_ui->lineEditPLDownloadRange->clear() ;
-			m_ui->lineEditPLUrl->clear() ;
-			m_ui->lineEditPLEFileDownloader->clear() ;
+			m_ui.lineEditPLUrlOptions->clear() ;
+			m_ui.lineEditPLDownloadRange->clear() ;
+			m_ui.lineEditPLUrl->clear() ;
+			m_ui.lineEditPLEFileDownloader->clear() ;
 		}else{
 			if( ac.best() ){
 
-				m_ui->lineEditPLUrlOptions->setText( ac.bestText() ) ;
+				m_ui.lineEditPLUrlOptions->setText( ac.bestText() ) ;
 			}else{
-				m_ui->lineEditPLUrlOptions->setText( ac.objectName() ) ;
+				m_ui.lineEditPLUrlOptions->setText( ac.objectName() ) ;
 			}
 		}
 	} ) ;

@@ -48,49 +48,9 @@ public:
 	void setDownloadFolder( const QString& ) ;
 	void setLocalizationLanguage( const QString& language ) ;
 	QString localizationLanguagePath() ;
-	void languageMenu( QMenu * m,QAction * ac,translator& s ) ;
-	const QString& localizationLanguage() ;
-	QString localizationLanguageConfig() ;
-	void setLocalizationLanguage( bool translate,QMenu * m,translator& translator ) ;
+	QString localizationLanguage() ;
 	QStringList localizationLanguages() ;
 private:
-	class woof
-	{
-	public:
-		woof()
-		{
-			m_pair.emplace_back( QObject::tr( "English (US)" ),"en_US" ) ;
-			m_pair.emplace_back( QObject::tr( "Polish (Poland)" ),"pl_PL" ) ;
-		}
-		const QString& toUiName( const QString& configName )
-		{
-			for( const auto& it : m_pair ){
-
-				if( it.second == configName ){
-
-					return it.first ;
-				}
-			}
-
-			return ShouldNotGetHere ;
-		}
-		const QString& toConfigName( const QString& uiName )
-		{
-			for( const auto& it : m_pair ){
-
-				if( it.first == uiName ){
-
-					return it.second ;
-				}
-			}
-
-			return ShouldNotGetHere ;
-		}
-	private:
-		QString ShouldNotGetHere ;
-		std::vector< std::pair< QString,QString > > m_pair ;
-	}m_knownTranslations ;
-
 	QSettings m_settings ;
 };
 

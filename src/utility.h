@@ -30,6 +30,7 @@
 #include <memory>
 
 #include "settings.h"
+#include "translator.h"
 
 #include "ui_mainwindow.h"
 
@@ -87,63 +88,35 @@ namespace utility
 	class selectedAction
 	{
 	public:
-		static const QString& bestText()
-		{
-			static QString m( "best" ) ;
-			return m ;
-		}
-		static const QString& clearOptionTextTr()
-		{
-			static QString m( QObject::tr( "Clear Options" ) ) ;
-
-			return m ;
-		}
-		static const QString& clearScreenTextTr()
-		{
-			static QString m( QObject::tr( "Clear Screen" ) ) ;
-
-			return m ;
-		}
-		static const QString& clearOptionText()
-		{
-			static QString m( "Clear Options" ) ;
-
-			return m ;
-		}
-		static const QString& clearScreenText()
-		{
-			static QString m( "Clear Screen" ) ;
-
-			return m ;
-		}
-		selectedAction( QAction * ac ) :
-			m_objectName( ac->objectName() ),
-			m_text( ac->text() )
+		selectedAction( QAction * ac ) : m_ac( ac )
 		{
 		}
 		bool clearOptions()
 		{
-			return this->objectName() == clearOptionText() ;
+			return m_ac->objectName() == translator::CLEAROPTIONS ;
 		}
 		bool clearScreen()
 		{
-			return this->objectName() == clearScreenText() ;
+			return m_ac->objectName() == translator::CLEARSCREEN ;
 		}
 		bool best()
 		{
 			return this->text() == "Best" ;
 		}
-		const QString& text()
+		QString text()
 		{
-			return m_text ;
+			return m_ac->text() ;
 		}
-		const QString& objectName()
+		QString objectName()
 		{
-			return m_objectName ;
+			return m_ac->objectName() ;
+		}
+		static QString bestText()
+		{
+			return "Best" ;
 		}
 	private:
-		QString m_objectName ;
-		QString m_text ;
+		QAction * m_ac ;
 	};
 
 	struct args
@@ -152,13 +125,13 @@ namespace utility
 		{
 			if( e.isEmpty() ){
 
-				quality = utility::selectedAction::bestText() ;
+				quality = selectedAction::bestText() ;
 			}else{
 				otherOptions = utility::split( e,' ',true ) ;
 
 				if( otherOptions.isEmpty() ){
 
-					quality = utility::selectedAction::bestText() ;
+					quality = selectedAction::bestText() ;
 				}else{
 					quality = otherOptions.takeFirst() ;
 				}
@@ -170,17 +143,22 @@ namespace utility
 
 	namespace details
 	{
-		QMenu * sMo( settings * settings,const QStringList& opts,bool addClear,QPushButton * w ) ;
+		QMenu * sMo( settings&,
+			     translator&,
+			     const QStringList& opts,
+			     bool addClear,
+			     QPushButton * w ) ;
 	}
 
 	template< typename Function >
-	void setMenuOptions( settings * settings,
+	void setMenuOptions( settings& settings,
+			     translator& translator,
 			     const QStringList& opts,
 			     bool addClear,
 			     QPushButton * w,
 			     Function function )
 	{
-		auto menu = details::sMo( settings,opts,addClear,w ) ;
+		auto menu = details::sMo( settings,translator,opts,addClear,w ) ;
 		QObject::connect( menu,&QMenu::triggered,std::move( function ) ) ;
 	}
 
@@ -306,9 +284,6 @@ namespace utility
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;
-
-	bool youtubePath( const QString& ) ;
-	bool youtubePaths( const QStringList& ) ;
 
 	bool hasDigitsOnly( const QString& e ) ;
 }

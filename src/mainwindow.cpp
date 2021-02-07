@@ -22,20 +22,19 @@
 #include "utility.h"
 #include "tabmanager.h"
 
-MainWindow::MainWindow( settings& settings,translator& t ) :
-	m_ui( new Ui::MainWindow ),m_translator( t )
+MainWindow::MainWindow( settings& s,translator& t ) :
+	m_ui( new Ui::MainWindow ),
+	m_initUi( m_ui,this ),
+	m_args( s,t,*m_ui,*this,*this ),
+	m_tabManager( m_args )
 {
-	m_ui->setupUi( this ) ;
-
-	tabManager::instance().init( &settings,m_ui,this ) ;
-
 	this->window()->setFixedSize( this->window()->size() ) ;
 
 	QIcon icon = QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ;
 
 	this->window()->setWindowIcon( icon ) ;
 
-	if( settings.showTrayIcon() ){
+	if( m_args.Settings().showTrayIcon() ){
 
 		m_trayIcon.setIcon( icon ) ;
 
@@ -43,9 +42,9 @@ MainWindow::MainWindow( settings& settings,translator& t ) :
 
 			auto m = new QMenu( this ) ;
 
-			connect( m->addAction( "Quit" ),&QAction::triggered,[](){
+			connect( m->addAction( "Quit" ),&QAction::triggered,[ this ](){
 
-				tabManager::instance().basicDownloader().appQuit() ;
+				m_tabManager.basicDownloader().appQuit() ;
 			} ) ;
 
 			return m ;

@@ -20,21 +20,25 @@
 #define BATCH_FILE_DOWNLOADER_URL_H
 
 #include "utility.h"
+#include "context.hpp"
+
+class tabManager ;
 
 class batchfiledownloader : public QObject
 {
 	Q_OBJECT
 public:
-	batchfiledownloader() ;
-	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	batchfiledownloader( Context&,tabManager& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
 private:
-	settings * m_settings ;
-	Ui::MainWindow * m_ui ;
-	QWidget * m_mainWindow ;
+	Context& m_args ;
+	settings& m_settings ;
+	Ui::MainWindow& m_ui ;
+	QWidget& m_mainWindow ;
+	tabManager& m_tabManager ;
 };
 
 #endif

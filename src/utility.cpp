@@ -119,7 +119,11 @@ static void _add( QMenu * menu,const QStringList& args )
 	}
 }
 
-QMenu * utility::details::sMo( settings * settings,const QStringList& opts,bool addClear,QPushButton * w )
+QMenu * utility::details::sMo( settings& settings,
+			       translator& translator,
+			       const QStringList& opts,
+			       bool addClear,
+			       QPushButton * w )
 {
 	auto m = w->menu() ;
 
@@ -130,48 +134,44 @@ QMenu * utility::details::sMo( settings * settings,const QStringList& opts,bool 
 
 	auto menu = new QMenu( w ) ;
 
-	menu->addAction( QObject::tr( "Preset Options" ) )->setEnabled( false ) ;
+	translator::entry ss( QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
+	auto ac = translator.addAction( menu,std::move( ss ) ) ;
+
+	ac->setEnabled( false ) ;
 
 	menu->addSeparator() ;
 
-	_add( menu,settings->presetOptionsList() ) ;
+	_add( menu,settings.presetOptionsList() ) ;
 
 	if( !opts.empty() ){
 
 		menu->addSeparator() ;
 
-		auto sub_menu = menu->addMenu( QObject::tr( "Found Options" ) ) ;
+		translator::entry ss( QObject::tr( "Found Options" ),"Found Options","Found Options" ) ;
 
-		_add( sub_menu,opts ) ;
+		_add( translator.addMenu( menu,std::move( ss ) ),opts ) ;
 	}
 
 	if( addClear ){
 
 		menu->addSeparator() ;
 
-		const auto& cotr = selectedAction::clearOptionTextTr() ;
-		const auto& co = selectedAction::clearOptionTextTr() ;
+		translator::entry ss( QObject::tr( "Clear Options" ),
+						   translator::CLEAROPTIONS,
+						   translator::CLEAROPTIONS ) ;
 
-		const auto& cstr = selectedAction::clearScreenTextTr() ;
-		const auto& cs = selectedAction::clearScreenText() ;
+		translator.addAction( menu,std::move( ss ) ) ;
 
-		menu->addAction( cotr )->setObjectName( co ) ;
-		menu->addAction( cstr )->setObjectName( cs ) ;
+		translator::entry sx( QObject::tr( "Clear Screen" ),
+						   translator::CLEARSCREEN,
+						   translator::CLEARSCREEN ) ;
+
+		translator.addAction( menu,std::move( sx ) ) ;
 	}
 
 	w->setMenu( menu ) ;
 
 	return menu ;
-}
-
-bool utility::youtubePath( const QString& e)
-{
-	return e.contains( "youtube.com" ) ;
-}
-
-bool utility::youtubePaths( const QStringList& e )
-{
-	return e.contains( "youtube.com" ) ;
 }
 
 bool utility::hasDigitsOnly( const QString& e )

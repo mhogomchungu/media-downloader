@@ -24,17 +24,20 @@
 
 #include "settings.h"
 #include "utility.h"
+#include "context.hpp"
+
+class tabManager ;
 
 class about
 {
 public:
-	about() ;
-	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	about( Context&,tabManager& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
 private:
+	Context& m_args ;
 };
 
 #endif

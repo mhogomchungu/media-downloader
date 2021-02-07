@@ -26,13 +26,15 @@
 
 #include "settings.h"
 #include "utility.h"
+#include "context.hpp"
+
+class tabManager ;
 
 class basicdownloader : public QObject
 {
 	Q_OBJECT
 public:
-	basicdownloader() ;
-	void init( settings *,Ui::MainWindow *,QWidget * ) ;
+	basicdownloader( Context&,tabManager& ) ;
 	void init_done() ;
 	void download( const utility::args&,
 		       const QString& urls,
@@ -46,9 +48,11 @@ public:
 	void resetMenu( const QStringList& = {} ) ;
 	void setAsActive() ;
 private:
-	Ui::MainWindow * m_ui ;
-	settings * m_settings ;
-	QWidget * m_mainWindow ;
+	Context& m_args ;
+	settings& m_settings ;
+	Ui::MainWindow& m_ui ;
+	tabManager& m_tabManager ;
+
 	QString m_exe ;
 	void run( const QString& cmd,const QStringList& args,bool list_requested ) ;
 	void listRequested( const QStringList& ) ;

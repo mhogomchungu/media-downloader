@@ -6,6 +6,7 @@ batchdownloader.cpp \
 batchfiledownloader.cpp \
 configure.cpp \
 main.cpp \
+translator.cpp \
 mainwindow.cpp \
 playlistdownloader.cpp \
 settings.cpp \

@@ -29,6 +29,8 @@
 
 #include "settings.h"
 #include "translator.h"
+#include "tabmanager.h"
+#include "context.hpp"
 
 namespace Ui
 {
@@ -44,7 +46,15 @@ public:
 private:	
 	QSystemTrayIcon m_trayIcon ;
 	Ui::MainWindow * m_ui ;
-	translator& m_translator ;
+	class unitUi{
+	public:
+		unitUi( Ui::MainWindow * m_ui,QMainWindow * mainWindow )
+		{
+			m_ui->setupUi( mainWindow ) ;
+		}
+	} m_initUi ;
+	Context m_args ;
+	tabManager m_tabManager ;
 	void closeEvent( QCloseEvent * ) ;
 };
 

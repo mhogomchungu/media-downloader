@@ -19,10 +19,7 @@
 
 #include "about.h"
 #include "version.h"
-
-about::about()
-{
-}
+#include "tabmanager.h"
 
 void about::enableAll()
 {
@@ -36,7 +33,7 @@ void about::resetMenu()
 {
 }
 
-void about::init( settings *,Ui::MainWindow * m_ui,QWidget * )
+about::about( Context& args,tabManager& ) : m_args( args )
 {
 	auto version   = QObject::tr( "Version" ) ;
 	auto copyright = QObject::tr( "Copyright" ) ;
@@ -53,8 +50,8 @@ void about::init( settings *,Ui::MainWindow * m_ui,QWidget * )
 	}() ;
 
 	auto about = QString( "%1: %2\n\n%3\
-Copyright: %4, Francis Banyikwa\n\nEmail: mhogomchungu@gmail.com\n\n\
-%5: GPLv2+\n\nThis program is free software; you can redistribute \
+%4: %5, Francis Banyikwa\n\nEmail: mhogomchungu@gmail.com\n\n\
+%6: GPLv2+\n\nThis program is free software; you can redistribute \
 it and/or modify it under the terms of the GNU General Public License \
 as published by the Free Software Foundation; either version 2 of the \
 License, or (at your option) any later version.\n\n\
@@ -63,7 +60,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of \
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
 GNU General Public License for more details." ) ;
 
-	m_ui->TextLabelAbout->setText( about.arg( version,VERSION,QtVersion,COPYRIGHT,license ) ) ;
+	m_args.Ui().TextLabelAbout->setText( about.arg( version,VERSION,QtVersion,copyright + ": ",COPYRIGHT,license ) ) ;
 }
 
 void about::init_done()

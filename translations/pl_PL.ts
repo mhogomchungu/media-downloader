@@ -25,12 +25,14 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
+        <location filename="../src/mainwindow.ui" line="243"/>
         <location filename="../src/mainwindow.ui" line="590"/>
         <source>Enter URL:</source>
         <translation>Adres wideo:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="98"/>
+        <location filename="../src/mainwindow.ui" line="298"/>
         <location filename="../src/mainwindow.ui" line="457"/>
         <location filename="../src/mainwindow.ui" line="548"/>
         <source>Enter Options:</source>
@@ -77,19 +79,9 @@
         <translation>Adres pliku wideo</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="243"/>
-        <source>Enter URL: </source>
-        <translation>Adres wideo:</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="272"/>
         <source>Add Url To List</source>
         <translation>Dodaj adres do listy</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="298"/>
-        <source>Enter Options: </source>
-        <translation>Opcje pobierania:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="346"/>
@@ -170,47 +162,47 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.h" line="97"/>
+        <location filename="../src/utility.cpp" line="159"/>
         <source>Clear Options</source>
         <translation>Wyczyść opcje</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="103"/>
+        <location filename="../src/utility.cpp" line="165"/>
         <source>Clear Screen</source>
         <translation>Wyczyść okno</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="133"/>
+        <location filename="../src/utility.cpp" line="137"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="143"/>
+        <location filename="../src/utility.cpp" line="150"/>
         <source>Found Options</source>
         <translation>Znalezione opcje</translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="41"/>
+        <location filename="../src/about.cpp" line="38"/>
         <source>Version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="42"/>
+        <location filename="../src/about.cpp" line="39"/>
         <source>Copyright</source>
         <translation>Prawa autorskie</translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="43"/>
+        <location filename="../src/about.cpp" line="40"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="62"/>
+        <location filename="../src/translator.cpp" line="51"/>
         <source>English (US)</source>
         <translation>Angielski (USA)</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="63"/>
+        <location filename="../src/translator.cpp" line="50"/>
         <source>Polish (Poland)</source>
         <translation>Polski (Polska)</translation>
     </message>
@@ -218,12 +210,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="277"/>
+        <location filename="../src/basicdownloader.cpp" line="278"/>
         <source>Failed To Locate &quot;%1&quot; in Below Paths:-</source>
         <translation>Nie udało się znaleźć &quot;%1&quot; w żadnej ze ścieżek:-</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="279"/>
+        <location filename="../src/basicdownloader.cpp" line="280"/>
         <source>Please Add It In One Of The Paths And Restart</source>
         <translation>Proszę dodać ścieżkę do aplikacji do zmiennej PATH i uruchomić program ponownie</translation>
     </message>
@@ -231,7 +223,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="61"/>
+        <location filename="../src/batchdownloader.cpp" line="58"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
@@ -239,7 +231,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchfiledownloader</name>
     <message>
-        <location filename="../src/batchfiledownloader.cpp" line="56"/>
+        <location filename="../src/batchfiledownloader.cpp" line="53"/>
         <source>Set Batch File</source>
         <translation>Wybierz plik</translation>
     </message>
@@ -247,7 +239,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="91"/>
+        <location filename="../src/configure.cpp" line="88"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>
@@ -255,7 +247,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="43"/>
+        <location filename="../src/playlistdownloader.cpp" line="41"/>
         <source>Set Batch File</source>
         <translation>Wybierz plik</translation>
     </message>

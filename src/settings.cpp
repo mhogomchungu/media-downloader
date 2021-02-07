@@ -162,15 +162,6 @@ void settings::setDownloadFolder( const QString& m )
 	m_settings.setValue( "DownloadFolder",m ) ;
 }
 
-template< typename T >
-static void _selectOption( QMenu * m,const T& opt )
-{
-	for( const auto& it : m->actions() ){
-
-		it->setChecked( it->objectName() == opt ) ;
-	}
-}
-
 static QStringList _directoryList( const QString& e )
 {
 	QDir d( e ) ;
@@ -182,43 +173,6 @@ static QStringList _directoryList( const QString& e )
 
 	return s ;
 }
-
-void settings::setLocalizationLanguage( bool translate,
-					QMenu * m,
-					translator& translator )
-{
-	auto r = this->localizationLanguage().toLatin1() ;
-
-	if( translate ){
-
-		translator.setLanguage( r ) ;
-	}else{
-		const auto e = _directoryList( this->localizationLanguagePath() ) ;
-
-		for( const auto& it : e ){
-
-			if( !it.startsWith( "qt_" ) && it.endsWith( ".qm" ) ){
-
-				auto name = it ;
-				name.remove( ".qm" ) ;
-
-				auto uiName = translator.UIName( name ) ;
-
-				if( !uiName.isEmpty() ){
-
-					auto ac = m->addAction( uiName ) ;
-
-					ac->setCheckable( true ) ;
-					ac->setObjectName( name ) ;
-					ac->setText( translator.translate( name ) ) ;
-				}
-			}
-		}
-
-		_selectOption( m,r ) ;
-	}
-}
-
 
 QStringList settings::localizationLanguages()
 {
@@ -233,22 +187,11 @@ QStringList settings::localizationLanguages()
 			auto name = it ;
 			name.remove( ".qm" ) ;
 
-			m.append( m_knownTranslations.toUiName( name ) ) ;
+			m.append( name ) ;
 		}
 	}
 
 	return m ;
-}
-
-void settings::languageMenu( QMenu * m,QAction * ac,translator& s )
-{
-	auto e = ac->objectName() ;
-
-	this->setLocalizationLanguage( e ) ;
-
-	this->setLocalizationLanguage( true,m,s ) ;
-
-	_selectOption( m,e ) ;
 }
 
 QString settings::localizationLanguagePath()
@@ -272,15 +215,10 @@ QString settings::localizationLanguagePath()
 
 void settings::setLocalizationLanguage( const QString& language )
 {
-	m_settings.setValue( "Language",m_knownTranslations.toConfigName( language ) ) ;
+	m_settings.setValue( "Language",language ) ;
 }
 
-const QString& settings::localizationLanguage()
-{
-	return m_knownTranslations.toUiName( this->localizationLanguageConfig() ) ;
-}
-
-QString settings::localizationLanguageConfig()
+QString settings::localizationLanguage()
 {
 	if( !m_settings.contains( "Language" ) ){
 
