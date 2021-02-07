@@ -38,6 +38,7 @@ public:
 	void resetMenu() ;
 private:
 	Context& m_args ;
+	void translateUi() ;
 };
 
 #endif

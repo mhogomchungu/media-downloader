@@ -170,18 +170,23 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="38"/>
+        <location filename="../src/about.cpp" line="44"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="39"/>
+        <location filename="../src/about.cpp" line="45"/>
         <source>Copyright</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="40"/>
+        <location filename="../src/about.cpp" line="46"/>
         <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="47"/>
+        <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

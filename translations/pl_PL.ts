@@ -182,19 +182,24 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Znalezione opcje</translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="38"/>
+        <location filename="../src/about.cpp" line="44"/>
         <source>Version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="39"/>
+        <location filename="../src/about.cpp" line="45"/>
         <source>Copyright</source>
         <translation>Prawa autorskie</translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="40"/>
+        <location filename="../src/about.cpp" line="46"/>
         <source>License</source>
         <translation>Licencja</translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="47"/>
+        <source>Email</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="51"/>
