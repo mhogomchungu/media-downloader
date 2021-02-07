@@ -157,7 +157,7 @@ Source: {#MyLibrariesLocation}\\platforms\\*; DestDir: {app}\\platforms; Flags: 
 
 ; Source: {#MyLibrariesLocation}\\translations\\*; DestDir: {app}\\translations; Flags: ignoreversion
 
-; Source: {#MySourcesPath}\\translations\\*.qm; DestDir: {app}\\translations; Flags: ignoreversion
+Source: {#MySourcesPath}\\translations\\*.qm; DestDir: {app}\\translations; Flags: ignoreversion
 
 Source: {#MySourcesPath}\\src\\media-downloader.ico; DestDir: {app}\\icons; Flags: ignoreversion
 
