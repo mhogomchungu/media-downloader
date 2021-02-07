@@ -154,7 +154,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="815"/>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz język</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="827"/>
@@ -192,27 +192,27 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/about.cpp" line="41"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Wersja</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="42"/>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation>Prawa autorskie</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="43"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Licencja</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="62"/>
         <source>English (US)</source>
-        <translation type="unfinished"></translation>
+        <translation>Angielski (USA)</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="63"/>
         <source>Polish (Poland)</source>
-        <translation type="unfinished"></translation>
+        <translation>Polski (Polska)</translation>
     </message>
 </context>
 <context>
