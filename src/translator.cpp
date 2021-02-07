@@ -115,13 +115,9 @@ void translator::addString( const QString& translatedString,
 
 QAction * translator::addAction( QMenu * m,translator::entry e )
 {
-	auto ac = new QAction( m ) ;
+	auto ac = m->addAction( e.UINameTranslated ) ;
 
 	ac->setObjectName( e.UINameUnTranslated ) ;
-
-	ac->setText( e.UINameTranslated ) ;
-
-	m->addAction( ac ) ;
 
 	//m_actions.emplace_back( ac,std::move( e ) ) ;
 
@@ -135,19 +131,6 @@ QMenu * translator::addMenu( QMenu * m,translator::entry e )
 	//m_menus.emplace_back( m,std::move( e ) ) ;
 
 	return menu ;
-}
-
-void translator::removeMenu( QMenu * m )
-{
-	for( auto it = m_menus.begin() ; it < m_menus.end() ; it++ ){
-
-		if( ( *it ).first == m ){
-
-			m_menus.erase( it ) ;
-
-			break ;
-		}
-	}
 }
 
 void translator::clear()

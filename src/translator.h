@@ -51,7 +51,6 @@ public:
 	} ;
 	QAction * addAction( QMenu * m,translator::entry ) ;
 	QMenu * addMenu( QMenu * m,translator::entry ) ;
-	void removeMenu( QMenu * ) ;
 private:
 	void clear( void ) ;
 	QTranslator * m_translator = nullptr ;

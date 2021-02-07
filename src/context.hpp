@@ -30,7 +30,7 @@ class tabManager ;
 
 namespace Ui
 {
-        class MainWindow ;
+	class MainWindow ;
 }
 
 class Context{
@@ -49,23 +49,23 @@ public:
 	}
 	settings& Settings()
 	{
-	        return m_settings ;
+		return m_settings ;
 	}
 	translator& Translator()
 	{
-	        return m_translator ;
+		 return m_translator ;
 	}
 	Ui::MainWindow& Ui()
 	{
-	        return m_mainUi ;
+		return m_mainUi ;
 	}
 	QWidget& mainWidget()
 	{
-	        return m_mainWidget ;
+		return m_mainWidget ;
 	}
 	QMainWindow& mainWindows()
 	{
-	         return m_mainWindow ;
+		return m_mainWindow ;
 	}
 private:
 	settings& m_settings ;
