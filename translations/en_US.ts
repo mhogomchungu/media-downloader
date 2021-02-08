@@ -160,52 +160,62 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="137"/>
+        <location filename="../src/utility.cpp" line="108"/>
+        <source>Best-audiovideo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="109"/>
+        <source>Best-audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="140"/>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="150"/>
+        <location filename="../src/utility.cpp" line="153"/>
         <source>Found Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="44"/>
+        <location filename="../src/about.cpp" line="43"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="45"/>
+        <location filename="../src/about.cpp" line="44"/>
         <source>Copyright</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="46"/>
+        <location filename="../src/about.cpp" line="45"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/about.cpp" line="47"/>
+        <location filename="../src/about.cpp" line="46"/>
         <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="50"/>
+        <location filename="../src/translator.cpp" line="51"/>
         <source>Polish (Poland)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="51"/>
+        <location filename="../src/translator.cpp" line="52"/>
         <source>English (US)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="165"/>
+        <location filename="../src/utility.cpp" line="168"/>
         <source>Clear Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="159"/>
+        <location filename="../src/utility.cpp" line="162"/>
         <source>Clear Options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -213,12 +223,12 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="278"/>
+        <location filename="../src/basicdownloader.cpp" line="283"/>
         <source>Failed To Locate &quot;%1&quot; in Below Paths:-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="280"/>
+        <location filename="../src/basicdownloader.cpp" line="285"/>
         <source>Please Add It In One Of The Paths And Restart</source>
         <translation type="unfinished"></translation>
     </message>
@@ -242,7 +252,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="88"/>
+        <location filename="../src/configure.cpp" line="86"/>
         <source>Set Download Folder</source>
         <translation type="unfinished"></translation>
     </message>

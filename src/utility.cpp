@@ -105,6 +105,9 @@ static void _add( QMenu * menu,const QStringList& args )
 
 		auto a = it ;
 
+		a.replace( "Best-audiovideo(",QObject::tr( "Best-audiovideo" ) + "(" ) ;
+		a.replace( "Best-audio(",QObject::tr( "Best-audio" ) + "(" ) ;
+
 		auto b = a.lastIndexOf( '(' ) ;
 
 		if( b != -1 ){
