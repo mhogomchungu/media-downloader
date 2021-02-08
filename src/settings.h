@@ -24,32 +24,34 @@
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
-#include <QMenu>
-
-class translator ;
 
 class settings
 {
 public:
 	settings() ;
-	QByteArray highDpiScalingFactor() ;
+
 	QString downloadFolder() ;
 	QString presetOptions() ;
 	QString cmdName() ;
+	QString localizationLanguagePath() ;
+	QString localizationLanguage() ;
+
 	QStringList presetOptionsList() ;
 	QStringList defaultDownLoadCmdOptions() ;
 	QStringList defaultListCmdOptions() ;
+	QStringList localizationLanguages() ;
+
+	QByteArray highDpiScalingFactor() ;
+
 	bool showTrayIcon() ;
 	bool autoDownload() ;
+
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;
 	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;
 	void setLocalizationLanguage( const QString& language ) ;
-	QString localizationLanguagePath() ;
-	QString localizationLanguage() ;
-	QStringList localizationLanguages() ;
 private:
 	QSettings m_settings ;
 };

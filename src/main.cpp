@@ -39,29 +39,13 @@
 #include "settings.h"
 #include "translator.h"
 
-#include <QApplication>
-
 int main( int argc,char * argv[] )
 {
-	settings s ;
+	settings settings ;
 
-#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+	QApplication app( argc,argv ) ;
 
-	auto m = s.highDpiScalingFactor() ;
+	translator translator( settings ) ;
 
-	if( m != "1.0" ){
-
-		QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
-
-		qputenv( "QT_SCALE_FACTOR",m ) ;
-	}
-#endif
-	QApplication a( argc,argv ) ;
-
-	translator tr( s ) ;
-
-	MainWindow w( s,tr ) ;
-	w.show() ;
-
-	return a.exec() ;
+	return MainWindow( app,settings,translator ).exec() ;
 }

@@ -26,6 +26,17 @@
 
 settings::settings() : m_settings( "media-downloader","media-downloader" )
 {
+#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+
+	auto m = this->highDpiScalingFactor() ;
+
+	if( m != "1.0" ){
+
+		QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
+
+		qputenv( "QT_SCALE_FACTOR",m ) ;
+	}
+#endif
 }
 
 QString settings::downloadFolder()

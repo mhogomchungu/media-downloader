@@ -22,6 +22,10 @@
 
 #include <QWidget>
 #include <QTranslator>
+#include <QMenu>
+#include <QAction>
+
+#include <vector>
 
 #include "settings.h"
 

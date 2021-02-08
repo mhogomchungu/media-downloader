@@ -31,6 +31,7 @@
 #include "translator.h"
 #include "tabmanager.h"
 #include "context.hpp"
+#include <QApplication>
 
 namespace Ui
 {
@@ -41,12 +42,13 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 public:
-	MainWindow( settings&,translator& ) ;
+	MainWindow( QApplication&,settings&,translator& ) ;
 	void retranslateUi() ;
-
+	int exec() ;
 	~MainWindow() ;
 private:	
 	QSystemTrayIcon m_trayIcon ;
+	QApplication& m_qApp ;
 	Ui::MainWindow * m_ui ;
 	class unitUi{
 	public:

@@ -22,7 +22,8 @@
 #include "utility.h"
 #include "tabmanager.h"
 
-MainWindow::MainWindow( settings& s,translator& t ) :
+MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
+	m_qApp( app ),
 	m_ui( new Ui::MainWindow ),
 	m_initUi( m_ui,this ),
 	m_tabManager( s,t,*m_ui,*this,*this )
@@ -58,6 +59,12 @@ void MainWindow::retranslateUi()
 	m_ui->retranslateUi( this ) ;
 }
 
+int MainWindow::exec()
+{
+	this->show() ;
+	return m_qApp.exec() ;
+}
+
 MainWindow::~MainWindow()
 {
 	delete m_ui ;
@@ -69,5 +76,5 @@ void MainWindow::closeEvent( QCloseEvent * e )
 
 	this->hide() ;
 
-	QCoreApplication::exit() ;
+	m_qApp.exit() ;
 }
