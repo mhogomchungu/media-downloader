@@ -22,12 +22,12 @@
 
 #include <QFileDialog>
 
-configure::configure( Context& args,tabManager& tabManager ) :
-	m_args( args ),
-	m_settings( m_args.Settings() ),
-	m_ui( m_args.Ui() ),
-	m_mainWindow( m_args.mainWidget() ),
-	m_tabManager( tabManager )
+configure::configure( Context& ctx ) :
+	m_ctx( ctx ),
+	m_settings( m_ctx.Settings() ),
+	m_ui( m_ctx.Ui() ),
+	m_mainWindow( m_ctx.mainWidget() ),
+	m_tabManager( m_ctx.TabManager() )
 {
 #if QT_VERSION < QT_VERSION_CHECK( 5,6,0 )
 	m_ui->lineEditConfigureScaleFactor->setEnabled( false ) ;
@@ -60,13 +60,11 @@ configure::configure( Context& args,tabManager& tabManager ) :
 
 			m_settings.setLocalizationLanguage( m ) ;
 
-			m_args.Translator().setLanguage( m.toLatin1() ) ;
+			m_ctx.Translator().setLanguage( m.toLatin1() ) ;
 
 			m_tabManager.reTranslateUi() ;
 
 			this->setLanguages() ;
-
-			m_tabManager.resetMenu() ;
 		}		
 	} ) ;
 
@@ -84,14 +82,14 @@ configure::configure( Context& args,tabManager& tabManager ) :
 
 	connect( m_ui.pbConfigureDownloadPath,&QPushButton::clicked,[ this ](){
 
-		auto e = QFileDialog::getExistingDirectory( &m_args.mainWidget(),
+		auto e = QFileDialog::getExistingDirectory( &m_mainWindow,
 							    tr( "Set Download Folder" ),
 							    QDir::homePath(),
 							    QFileDialog::ShowDirsOnly ) ;
 
 		if( !e.isEmpty() ){
 
-			m_args.Ui().lineEditConfigureDownloadPath->setText( e ) ;
+			m_ui.lineEditConfigureDownloadPath->setText( e ) ;
 		}
 	} ) ;
 
@@ -110,9 +108,14 @@ void configure::resetMenu()
 {
 }
 
+void configure::retranslateUi()
+{
+	this->resetMenu() ;
+}
+
 void configure::setLanguages()
 {
-	auto& translator = m_args.Translator() ;
+	auto& translator = m_ctx.Translator() ;
 
 	m_ui.cbConfigureLanguage->clear() ;
 

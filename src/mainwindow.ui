@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -200,7 +200,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -874,12 +874,15 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbFileDownloaderOptions</tabstop>
   <tabstop>pbFileDownloaderQuit</tabstop>
   <tabstop>pbFileDownloaderFilePath</tabstop>
+  <tabstop>lineEditPLEFileDownloader</tabstop>
+  <tabstop>pbFilePLEDownloaderFilePath</tabstop>
   <tabstop>lineEditPLUrl</tabstop>
   <tabstop>lineEditPLDownloadRange</tabstop>
   <tabstop>lineEditPLUrlOptions</tabstop>
   <tabstop>pbPLDownload</tabstop>
   <tabstop>pbPLOptions</tabstop>
   <tabstop>pbPLQuit</tabstop>
+  <tabstop>cbConfigureLanguage</tabstop>
   <tabstop>lineEditConfigureScaleFactor</tabstop>
   <tabstop>lineEditConfigureDownloadPath</tabstop>
   <tabstop>pbConfigureDownloadPath</tabstop>

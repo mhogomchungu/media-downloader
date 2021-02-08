@@ -25,8 +25,7 @@
 MainWindow::MainWindow( settings& s,translator& t ) :
 	m_ui( new Ui::MainWindow ),
 	m_initUi( m_ui,this ),
-	m_args( s,t,*m_ui,*this,*this ),
-	m_tabManager( m_args )
+	m_tabManager( s,t,*m_ui,*this,*this )
 {
 	this->window()->setFixedSize( this->window()->size() ) ;
 
@@ -34,7 +33,7 @@ MainWindow::MainWindow( settings& s,translator& t ) :
 
 	this->window()->setWindowIcon( icon ) ;
 
-	if( m_args.Settings().showTrayIcon() ){
+	if( s.showTrayIcon() ){
 
 		m_trayIcon.setIcon( icon ) ;
 
@@ -52,6 +51,11 @@ MainWindow::MainWindow( settings& s,translator& t ) :
 
 		m_trayIcon.show() ;
 	}
+}
+
+void MainWindow::retranslateUi()
+{
+	m_ui->retranslateUi( this ) ;
 }
 
 MainWindow::~MainWindow()

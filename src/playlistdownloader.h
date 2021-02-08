@@ -30,13 +30,14 @@ class playlistdownloader : public QObject
 {
         Q_OBJECT
 public:
-	playlistdownloader( Context&,tabManager& ) ;
+	playlistdownloader( Context& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
+	void retranslateUi() ;
 private:
-	Context& m_args ;
+	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;

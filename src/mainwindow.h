@@ -42,6 +42,8 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 public:
 	MainWindow( settings&,translator& ) ;
+	void retranslateUi() ;
+
 	~MainWindow() ;
 private:	
 	QSystemTrayIcon m_trayIcon ;
@@ -53,7 +55,6 @@ private:
 			m_ui->setupUi( mainWindow ) ;
 		}
 	} m_initUi ;
-	Context m_args ;
 	tabManager m_tabManager ;
 	void closeEvent( QCloseEvent * ) ;
 };

@@ -22,12 +22,12 @@
 
 #include <QFileDialog>
 
-playlistdownloader::playlistdownloader( Context& args,tabManager& tabManager ) :
-	m_args( args ),
-	m_settings( m_args.Settings() ),
-	m_ui( m_args.Ui() ),
-	m_mainWindow( m_args.mainWidget() ),
-	m_tabManager( tabManager )
+playlistdownloader::playlistdownloader( Context& ctx ) :
+	m_ctx( ctx ),
+	m_settings( m_ctx.Settings() ),
+	m_ui( m_ctx.Ui() ),
+	m_mainWindow( m_ctx.mainWidget() ),
+	m_tabManager( m_ctx.TabManager() )
 {
 	this->resetMenu() ;
 
@@ -38,7 +38,7 @@ playlistdownloader::playlistdownloader( Context& args,tabManager& tabManager ) :
 
 	connect( m_ui.pbFilePLEDownloaderFilePath,&QPushButton::clicked,[ this ](){
 
-		auto e = QFileDialog::getOpenFileName( &m_args.mainWidget(),tr( "Set Batch File" ),QDir::homePath() ) ;
+		auto e = QFileDialog::getOpenFileName( &m_mainWindow,tr( "Set Batch File" ),QDir::homePath() ) ;
 
 		if( !e.isEmpty() ){
 
@@ -122,8 +122,8 @@ void playlistdownloader::disableAll()
 
 void playlistdownloader::resetMenu()
 {
-	auto& s = m_args.Settings() ;
-	auto& t = m_args.Translator() ;
+	auto& s = m_settings ;
+	auto& t = m_ctx.Translator() ;
 
 	utility::setMenuOptions( s,t,{},true,m_ui.pbPLOptions,[ this ]( QAction * aa ){
 
@@ -148,4 +148,9 @@ void playlistdownloader::resetMenu()
 			}
 		}
 	} ) ;
+}
+
+void playlistdownloader::retranslateUi()
+{
+	this->resetMenu() ;
 }

@@ -31,14 +31,14 @@
 class tabManager
 {
 public:
-	tabManager( Context& args ) :
-		m_args( args ),
-		m_about( args,*this ),
-		m_configure( args,*this ),
-		m_basicdownloader( args,*this ),
-		m_batchdownloader( args,*this ),
-		m_batchfiledownloader( args,*this ),
-		m_playlistdownloader( args,*this )
+	tabManager( settings& s,translator& t,Ui::MainWindow& m,QWidget& w,QMainWindow& mw ) :
+		m_ctx( s,t,m,w,mw,*this ),
+		m_about( m_ctx ),
+		m_configure( m_ctx ),
+		m_basicdownloader( m_ctx ),
+		m_batchdownloader( m_ctx ),
+		m_batchfiledownloader( m_ctx ),
+		m_playlistdownloader( m_ctx )
 	{
 		m_about.init_done() ;
 		m_configure.init_done() ;
@@ -82,7 +82,13 @@ public:
 	}
 	tabManager& reTranslateUi()
 	{
-		m_args.Ui().retranslateUi( &m_args.mainWindows() ) ;
+		m_ctx.Ui().retranslateUi( &m_ctx.mainWindows() ) ;
+		m_about.retranslateUi() ;
+		m_configure.retranslateUi() ;
+		m_basicdownloader.retranslateUi() ;
+		m_batchdownloader.retranslateUi() ;
+		m_batchfiledownloader.retranslateUi() ;
+		m_playlistdownloader.retranslateUi() ;
 		return *this ;
 	}
 	basicdownloader& basicDownloader()
@@ -90,8 +96,7 @@ public:
 		return m_basicdownloader ;
 	}
 private:
-	Context& m_args ;
-
+	Context m_ctx ;
 	about m_about ;
 	configure m_configure ;
 	basicdownloader m_basicdownloader ;

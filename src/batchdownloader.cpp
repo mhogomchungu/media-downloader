@@ -20,12 +20,12 @@
 #include "batchdownloader.h"
 #include "tabmanager.h"
 
-batchdownloader::batchdownloader( Context& args,tabManager& tabManager ) :
-	m_args( args ),
-	m_settings( m_args.Settings() ),
-	m_ui( m_args.Ui() ),
-	m_mainWindow( m_args.mainWidget() ),
-	m_tabManager( tabManager )
+batchdownloader::batchdownloader( Context& ctx) :
+	m_ctx( ctx ),
+	m_settings( m_ctx.Settings() ),
+	m_ui( m_ctx.Ui() ),
+	m_mainWindow( m_ctx.mainWidget() ),
+	m_tabManager( m_ctx.TabManager() )
 {
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
@@ -125,8 +125,8 @@ void batchdownloader::init_done()
 
 void batchdownloader::resetMenu()
 {
-	auto& s = m_args.Settings() ;
-	auto& t = m_args.Translator() ;
+	auto& s = m_settings ;
+	auto& t = m_ctx.Translator() ;
 
 	utility::setMenuOptions( s,t,{},true,m_ui.pbBDOptions,[ this ]( QAction * aa ){
 
@@ -156,6 +156,11 @@ void batchdownloader::resetMenu()
 			}
 		}
 	} ) ;
+}
+
+void batchdownloader::retranslateUi()
+{
+	this->resetMenu() ;
 }
 
 void batchdownloader::enableAll()

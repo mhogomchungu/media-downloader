@@ -31,15 +31,14 @@ void about::disableAll()
 
 void about::resetMenu()
 {
-	this->translateUi() ;
 }
 
-about::about( Context& args,tabManager& ) : m_args( args )
+about::about( Context& ctx ) : m_ctx( ctx )
 {
-	this->translateUi() ;
+	this->retranslateUi() ;
 }
 
-void about::translateUi()
+void about::retranslateUi()
 {
 	auto version   = QObject::tr( "Version" ) ;
 	auto copyright = QObject::tr( "Copyright" ) ;
@@ -67,13 +66,9 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of \
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
 GNU General Public License for more details." ) ;
 
-	m_args.Ui().TextLabelAbout->setText( about.arg( version,
-							VERSION,
-							QtVersion,
-							copyright + ": ",
-							COPYRIGHT,
-							email,
-							license ) ) ;
+	auto m = about.arg( version,VERSION,QtVersion,copyright + ": ",COPYRIGHT,email,license ) ;
+
+	m_ctx.Ui().TextLabelAbout->setText( m ) ;
 }
 
 void about::init_done()

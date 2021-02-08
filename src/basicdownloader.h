@@ -34,7 +34,7 @@ class basicdownloader : public QObject
 {
 	Q_OBJECT
 public:
-	basicdownloader( Context&,tabManager& ) ;
+	basicdownloader( Context& ) ;
 	void init_done() ;
 	void download( const utility::args&,
 		       const QString& urls,
@@ -47,8 +47,9 @@ public:
 	void appQuit() ;
 	void resetMenu( const QStringList& = {} ) ;
 	void setAsActive() ;
+	void retranslateUi() ;
 private:
-	Context& m_args ;
+	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;

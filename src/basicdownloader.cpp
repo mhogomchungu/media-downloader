@@ -26,11 +26,11 @@
 #include <QtDebug>
 #include "tabmanager.h"
 
-basicdownloader::basicdownloader( Context& args,tabManager& tabManager ) :
-	m_args( args ),
-	m_settings( m_args.Settings() ),
-	m_ui( m_args.Ui() ),
-	m_tabManager( tabManager )
+basicdownloader::basicdownloader( Context& ctx ) :
+	m_ctx( ctx ),
+	m_settings( m_ctx.Settings() ),
+	m_ui( m_ctx.Ui() ),
+	m_tabManager( m_ctx.TabManager() )
 {
 	this->setAsActive() ;
 
@@ -88,8 +88,8 @@ void basicdownloader::init_done()
 
 void basicdownloader::resetMenu( const QStringList& args )
 {
-	auto& s = m_args.Settings() ;
-	auto& t = m_args.Translator() ;
+	auto& s = m_settings ;
+	auto& t = m_ctx.Translator() ;
 
 	utility::setMenuOptions( s,t,args,true,m_ui.pbEntries,[ this ]( QAction * aa ){
 
@@ -126,6 +126,11 @@ void basicdownloader::resetMenu( const QStringList& args )
 void basicdownloader::setAsActive()
 {
 	m_ui.tabWidget->setCurrentIndex( 0 ) ;
+}
+
+void basicdownloader::retranslateUi()
+{
+	this->resetMenu() ;
 }
 
 class context

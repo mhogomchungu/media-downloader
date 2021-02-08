@@ -22,12 +22,12 @@
 
 #include <QFileDialog>
 
-batchfiledownloader::batchfiledownloader( Context& args,tabManager& tabManager ) :
-	m_args( args ),
-	m_settings( m_args.Settings() ),
-	m_ui( m_args.Ui() ),
-	m_mainWindow( m_args.mainWidget() ),
-	m_tabManager( tabManager )
+batchfiledownloader::batchfiledownloader( Context& ctx ) :
+	m_ctx( ctx ),
+	m_settings( m_ctx.Settings() ),
+	m_ui( m_ctx.Ui() ),
+	m_mainWindow( m_ctx.mainWidget() ),
+	m_tabManager( m_ctx.TabManager() )
 {
 	connect( m_ui.pbFileDownloaderQuit,&QPushButton::clicked,[ this ](){
 
@@ -80,8 +80,8 @@ void batchfiledownloader::enableAll()
 
 void batchfiledownloader::resetMenu()
 {
-	auto& s = m_args.Settings() ;
-	auto& t = m_args.Translator() ;
+	auto& s = m_settings ;
+	auto& t = m_ctx.Translator() ;
 
 	utility::setMenuOptions( s,t,{},false,m_ui.pbFileDownloaderOptions,[ this ]( QAction * aa ){
 
@@ -94,6 +94,11 @@ void batchfiledownloader::resetMenu()
 			m_ui.lineEditFileOptions->setText( ac.objectName() ) ;
 		}
 	} ) ;
+}
+
+void batchfiledownloader::retranslateUi()
+{
+	this->resetMenu() ;
 }
 
 void batchfiledownloader::disableAll()

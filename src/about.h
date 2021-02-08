@@ -31,14 +31,14 @@ class tabManager ;
 class about
 {
 public:
-	about( Context&,tabManager& ) ;
+	about( Context& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
+	void retranslateUi() ;
 private:
-	Context& m_args ;
-	void translateUi() ;
+	Context& m_ctx ;
 };
 
 #endif
