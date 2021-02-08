@@ -17,21 +17,8 @@ Features offered:-
 
 6. The GUI offers an ability to download single media or multiple medias in batches.
 
-#### FAQ: How to download an audio file using options that are not available in the preset list.
-
-1. If you want to download an audio file with best audio then enter ```bestaudio``` in the option field.
-2. If you want to download an audio file with best audio and convert it to mp3 for example then enter ```bestaudio -x --audio-format mp3``` in the option fields.
-
-The options fields can be used to enter the full options list to be sent to youtube-dl with only one requirenmnet of the format code being the first entry on the list.
-
-For easy access, you can add your own custom entries like above in the preset list by going to configure tab and then add them to the ```preset list```. Options are comma separated and written in a format of: ```$UINAME($FORMAT_CODE $REST_OF_YOUTUBE-DL-OPTIONS)```
-
-With the above two examples, add the following entries to make them show up in the preset option menu.
-
-    BestAudio(bestaudio)
-    BestAudio-mp3(bestaudio -x --audio-format mp3)
-
-This app does not assume its downloading media file from youtube and youtube media files do not get preferential treatment, it works equally to all websites that are supported by youtube-dl.
+## FAQ
+A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/media-downloader/wiki/Frequently-Asked-Questions).
 
 ## Binary packages
 Binary download for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.0.0/MediaDownloader-1.0.0.setup.exe).
