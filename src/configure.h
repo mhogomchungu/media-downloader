@@ -36,9 +36,6 @@ public:
 	void resetMenu() ;
 	void retranslateUi() ;
 private:
-	void setLanguage() ;
-	void setLanguage( const QStringList& languages,const QString& language ) ;
-
 	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;

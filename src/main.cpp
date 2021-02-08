@@ -59,7 +59,6 @@ int main( int argc,char * argv[] )
 	QApplication a( argc,argv ) ;
 
 	translator tr( s ) ;
-	tr.setDefaultLanguage() ;
 
 	MainWindow w( s,tr ) ;
 	w.show() ;

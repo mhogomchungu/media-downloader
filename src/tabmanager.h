@@ -88,6 +88,7 @@ public:
 		m_batchdownloader.retranslateUi() ;
 		m_batchfiledownloader.retranslateUi() ;
 		m_playlistdownloader.retranslateUi() ;
+
 		return *this ;
 	}
 	basicdownloader& basicDownloader()

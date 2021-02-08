@@ -28,6 +28,7 @@ const char * translator::CLEARSCREEN = "Clear Screen" ;
 
 translator::translator( settings& s ) : m_settings( s )
 {
+	this->setDefaultLanguage() ;
 }
 
 void translator::setLanguage( const QString& e )
