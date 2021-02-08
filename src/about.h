@@ -22,8 +22,6 @@
 
 #include <QWidget>
 
-#include "settings.h"
-#include "utility.h"
 #include "context.hpp"
 
 class tabManager ;

@@ -32,7 +32,7 @@ public:
 	static const char * CLEAROPTIONS ;
 
         translator( settings& ) ;
-	void setLanguage( const QByteArray& e ) ;
+	void setLanguage( const QString& e ) ;
 	void setDefaultLanguage() ;
 	~translator() ;
 	const QString& UIName( const QString& name ) ;

@@ -81,8 +81,7 @@ public:
 		return *this ;
 	}
 	tabManager& reTranslateUi()
-	{
-		m_ctx.Ui().retranslateUi( &m_ctx.mainWindows() ) ;
+	{		
 		m_about.retranslateUi() ;
 		m_configure.retranslateUi() ;
 		m_basicdownloader.retranslateUi() ;

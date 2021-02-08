@@ -30,7 +30,7 @@ translator::translator( settings& s ) : m_settings( s )
 {
 }
 
-void translator::setLanguage( const QByteArray& e )
+void translator::setLanguage( const QString& e )
 {
 	QCoreApplication::installTranslator( [ & ](){
 
@@ -38,14 +38,14 @@ void translator::setLanguage( const QByteArray& e )
 
 		m_translator = new QTranslator() ;
 
-		m_translator->load( e.constData(),m_settings.localizationLanguagePath() ) ;
+		m_translator->load( e,m_settings.localizationLanguagePath() ) ;
 
 		return m_translator ;
 	}() ) ;
 
 	m_languages.clear() ;
-	m_menus.clear() ;
-	m_actions.clear() ;
+	//m_menus.clear() ;
+	//m_actions.clear() ;
 
 	this->addString( QObject::tr( "Polish (Poland)" ),"Polish (Poland)","pl_PL" ) ;
 	this->addString( QObject::tr( "English (US)" ),"English (US)","en_US" ) ;
@@ -53,7 +53,7 @@ void translator::setLanguage( const QByteArray& e )
 
 void translator::setDefaultLanguage()
 {
-	this->setLanguage( m_settings.localizationLanguage().toLatin1() ) ;
+	this->setLanguage( m_settings.localizationLanguage() ) ;
 }
 
 translator::~translator()

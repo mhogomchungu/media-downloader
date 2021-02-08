@@ -19,7 +19,7 @@
 
 #include "about.h"
 #include "version.h"
-#include "tabmanager.h"
+#include "utility.h"
 
 void about::enableAll()
 {

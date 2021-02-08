@@ -46,7 +46,7 @@ configure::configure( Context& ctx ) :
 		m_tabManager.resetMenu().basicDownloader().setAsActive() ;
 	} ) ;
 
-	this->setLanguages() ;
+	this->setLanguage() ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
@@ -60,11 +60,13 @@ configure::configure( Context& ctx ) :
 
 			m_settings.setLocalizationLanguage( m ) ;
 
-			m_ctx.Translator().setLanguage( m.toLatin1() ) ;
+			m_ctx.Translator().setLanguage( m ) ;
+
+			m_ctx.Ui().retranslateUi( &m_ctx.mainWindows() ) ;
 
 			m_tabManager.reTranslateUi() ;
 
-			this->setLanguages() ;
+			this->setLanguage( languages,m ) ;
 		}		
 	} ) ;
 
@@ -113,15 +115,21 @@ void configure::retranslateUi()
 	this->resetMenu() ;
 }
 
-void configure::setLanguages()
+void configure::setLanguage()
+{
+	const auto& languages = m_settings.localizationLanguages() ;
+
+	const auto& language  = m_settings.localizationLanguage() ;
+
+	this->setLanguage( languages,language ) ;
+}
+
+void configure::setLanguage( const QStringList& languages,
+			     const QString& language )
 {
 	auto& translator = m_ctx.Translator() ;
 
 	m_ui.cbConfigureLanguage->clear() ;
-
-	const auto& languages = m_settings.localizationLanguages() ;
-
-	const auto& language  = m_settings.localizationLanguage() ;
 
 	int index = 0 ;
 
