@@ -19,6 +19,7 @@
 
 #include "configure.h"
 #include "tabmanager.h"
+#include "mainwindow.h"
 
 #include <QFileDialog>
 
@@ -62,7 +63,7 @@ configure::configure( Context& ctx ) :
 
 			m_ctx.Translator().setLanguage( m ) ;
 
-			m_ctx.Ui().retranslateUi( &m_ctx.mainWindows() ) ;
+			m_ctx.mainWindow().retranslateUi() ;
 
 			m_tabManager.reTranslateUi() ;
 		}		

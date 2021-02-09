@@ -27,10 +27,7 @@
 #include <QStringList>
 #include <QMenu>
 
-#include "settings.h"
-#include "translator.h"
 #include "tabmanager.h"
-#include "context.hpp"
 #include <QApplication>
 
 namespace Ui

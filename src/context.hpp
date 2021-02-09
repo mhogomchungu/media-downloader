@@ -58,7 +58,7 @@ public:
 		 translator& t,
 		 Ui::MainWindow& m,
 		 QWidget& w,
-		 QMainWindow& mw,
+		 MainWindow& mw,
 		 tabManager& tm ) :
 		m_settings( s ),
 		m_translator( t ),
@@ -84,7 +84,7 @@ public:
 	{
 		return m_mainWidget ;
 	}
-	QMainWindow& mainWindows()
+	MainWindow& mainWindow()
 	{
 		return m_mainWindow ;
 	}
@@ -97,7 +97,7 @@ private:
 	translator& m_translator ;
 	Ui::MainWindow& m_mainUi ;
 	QWidget& m_mainWidget ;
-	QMainWindow& m_mainWindow ;
+	MainWindow& m_mainWindow ;
 	tabManager& m_tabManager ;
 };
 

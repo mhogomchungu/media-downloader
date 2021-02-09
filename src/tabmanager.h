@@ -31,7 +31,11 @@
 class tabManager
 {
 public:
-	tabManager( settings& s,translator& t,Ui::MainWindow& m,QWidget& w,QMainWindow& mw ) :
+	tabManager( settings& s,
+		    translator& t,
+		    Ui::MainWindow& m,
+		    QWidget& w,
+		    MainWindow& mw ) :
 		m_ctx( s,t,m,w,mw,*this ),
 		m_about( m_ctx ),
 		m_configure( m_ctx ),

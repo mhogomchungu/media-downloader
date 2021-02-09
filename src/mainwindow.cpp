@@ -22,6 +22,10 @@
 #include "utility.h"
 #include "tabmanager.h"
 
+#include "context.hpp"
+#include "settings.h"
+#include "translator.h"
+
 MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_qApp( app ),
 	m_ui( std::make_unique< Ui::MainWindow >() ),
