@@ -77,5 +77,5 @@ void MainWindow::closeEvent( QCloseEvent * e )
 
 	this->hide() ;
 
-	m_qApp.exit() ;
+	m_tabManager.basicDownloader().appQuit() ;
 }
