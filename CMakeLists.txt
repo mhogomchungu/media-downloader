@@ -14,6 +14,10 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    add_definitions(-Qunused-arguments)
+endif()
+
 find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 
 message(STATUS "Found Qt5Widgets, version ${Qt5Widgets_VERSION}")

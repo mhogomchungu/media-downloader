@@ -88,10 +88,7 @@ void basicdownloader::init_done()
 
 void basicdownloader::resetMenu( const QStringList& args )
 {
-	auto& s = m_settings ;
-	auto& t = m_ctx.Translator() ;
-
-	utility::setMenuOptions( s,t,args,true,m_ui.pbEntries,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,args,true,m_ui.pbEntries,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 

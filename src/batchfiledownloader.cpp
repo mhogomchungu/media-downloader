@@ -80,10 +80,7 @@ void batchfiledownloader::enableAll()
 
 void batchfiledownloader::resetMenu()
 {
-	auto& s = m_settings ;
-	auto& t = m_ctx.Translator() ;
-
-	utility::setMenuOptions( s,t,{},false,m_ui.pbFileDownloaderOptions,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,{},false,m_ui.pbFileDownloaderOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 

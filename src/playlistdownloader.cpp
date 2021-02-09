@@ -122,10 +122,7 @@ void playlistdownloader::disableAll()
 
 void playlistdownloader::resetMenu()
 {
-	auto& s = m_settings ;
-	auto& t = m_ctx.Translator() ;
-
-	utility::setMenuOptions( s,t,{},true,m_ui.pbPLOptions,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,{},true,m_ui.pbPLOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 

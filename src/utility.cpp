@@ -19,6 +19,8 @@
 
 #include "utility.h"
 
+#include "settings.h"
+
 QStringList utility::split( const QString& e,char token,bool skipEmptyParts )
 {
 	if( skipEmptyParts ){
@@ -122,8 +124,7 @@ static void _add( QMenu * menu,const QStringList& args )
 	}
 }
 
-QMenu * utility::details::sMo( settings& settings,
-			       translator& translator,
+QMenu * utility::details::sMo( Context& ctx,
 			       const QStringList& opts,
 			       bool addClear,
 			       QPushButton * w )
@@ -136,6 +137,9 @@ QMenu * utility::details::sMo( settings& settings,
 	}
 
 	auto menu = new QMenu( w ) ;
+
+	auto& translator = ctx.Translator() ;
+	auto& settings = ctx.Settings() ;
 
 	translator::entry ss( QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
 	auto ac = translator.addAction( menu,std::move( ss ) ) ;

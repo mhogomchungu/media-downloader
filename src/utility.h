@@ -29,7 +29,7 @@
 #include <type_traits>
 #include <memory>
 
-#include "settings.h"
+#include "context.hpp"
 #include "translator.h"
 
 #include "ui_mainwindow.h"
@@ -143,22 +143,20 @@ namespace utility
 
 	namespace details
 	{
-		QMenu * sMo( settings&,
-			     translator&,
+		QMenu * sMo( Context&,
 			     const QStringList& opts,
 			     bool addClear,
 			     QPushButton * w ) ;
 	}
 
 	template< typename Function >
-	void setMenuOptions( settings& settings,
-			     translator& translator,
+	void setMenuOptions( Context& ctx,
 			     const QStringList& opts,
 			     bool addClear,
 			     QPushButton * w,
 			     Function function )
 	{
-		auto menu = details::sMo( settings,translator,opts,addClear,w ) ;
+		auto menu = details::sMo( ctx,opts,addClear,w ) ;
 		QObject::connect( menu,&QMenu::triggered,std::move( function ) ) ;
 	}
 
@@ -181,18 +179,23 @@ namespace utility
 		QObject::connect( exe,&QProcess::readyReadStandardOutput,
 				  [ exe,data,withData = std::move( withData ) ](){
 
-			withData( QProcess::ProcessChannel::StandardOutput,exe->readAllStandardOutput(),*data ) ;
+			withData( QProcess::ProcessChannel::StandardOutput,
+				  exe->readAllStandardOutput(),*data ) ;
 		} ) ;
 
 		QObject::connect( exe,&QProcess::readyReadStandardError,
 				  [ exe,data,withData = std::move( withData ) ](){
 
-			withData( QProcess::ProcessChannel::StandardError,exe->readAllStandardError(),*data ) ;
+			withData( QProcess::ProcessChannel::StandardError,
+				  exe->readAllStandardError(),*data ) ;
 		} ) ;
 
-		auto s = static_cast< void( QProcess::* )( int,QProcess::ExitStatus ) >( &QProcess::finished ) ;
+		using process = void( QProcess::* )( int,QProcess::ExitStatus ) ;
 
-		QObject::connect( exe,s,[ data,exe,whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss ){
+		auto s = static_cast< process >( &QProcess::finished ) ;
+
+		QObject::connect( exe,s,[ data,exe,whenDone = std::move( whenDone ) ]
+				  ( int e,QProcess::ExitStatus ss ){
 
 			whenDone( e,ss,*data ) ;
 
@@ -219,18 +222,23 @@ namespace utility
 		QObject::connect( exe,&QProcess::readyReadStandardOutput,
 				  [ exe,withData = std::move( withData ) ](){
 
-			withData( QProcess::ProcessChannel::StandardOutput,exe->readAllStandardOutput() ) ;
+			withData( QProcess::ProcessChannel::StandardOutput,
+				  exe->readAllStandardOutput() ) ;
 		} ) ;
 
 		QObject::connect( exe,&QProcess::readyReadStandardError,
 				  [ exe,withData = std::move( withData ) ](){
 
-			withData( QProcess::ProcessChannel::StandardError,exe->readAllStandardError() ) ;
+			withData( QProcess::ProcessChannel::StandardError,
+				  exe->readAllStandardError() ) ;
 		} ) ;
 
-		auto s = static_cast< void( QProcess::* )( int,QProcess::ExitStatus ) >( &QProcess::finished ) ;
+		using type = void( QProcess::* )( int,QProcess::ExitStatus ) ;
 
-		QObject::connect( exe,s,[ exe,whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss ){
+		auto s = static_cast< type >( &QProcess::finished ) ;
+
+		QObject::connect( exe,s,[ exe,whenDone = std::move( whenDone ) ]
+				  ( int e,QProcess::ExitStatus ss ){
 
 			whenDone( e,ss ) ;
 

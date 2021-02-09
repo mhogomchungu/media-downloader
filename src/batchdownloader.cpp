@@ -125,10 +125,7 @@ void batchdownloader::init_done()
 
 void batchdownloader::resetMenu()
 {
-	auto& s = m_settings ;
-	auto& t = m_ctx.Translator() ;
-
-	utility::setMenuOptions( s,t,{},true,m_ui.pbBDOptions,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,{},true,m_ui.pbBDOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 
