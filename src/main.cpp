@@ -45,7 +45,7 @@ int main( int argc,char * argv[] )
 
 	QApplication app( argc,argv ) ;
 
-	translator translator( settings ) ;
+	translator translator( settings,app ) ;
 
 	return MainWindow( app,settings,translator ).exec() ;
 }

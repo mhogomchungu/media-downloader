@@ -26,14 +26,17 @@
 const char * translator::CLEAROPTIONS = "Clear Options" ;
 const char * translator::CLEARSCREEN = "Clear Screen" ;
 
-translator::translator( settings& s ) : m_settings( s )
+translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settings( s )
 {
+	this->addString( QObject::tr( "Polish (Poland)" ),"Polish (Poland)","pl_PL" ) ;
+	this->addString( QObject::tr( "English (US)" ),"English (US)","en_US" ) ;
+
 	this->setDefaultLanguage() ;
 }
 
 void translator::setLanguage( const QString& e )
 {
-	QCoreApplication::installTranslator( [ & ](){
+	m_qapp.installTranslator( [ & ](){
 
 		this->clear() ;
 
@@ -44,12 +47,15 @@ void translator::setLanguage( const QString& e )
 		return m_translator ;
 	}() ) ;
 
-	m_languages.clear() ;
-	//m_menus.clear() ;
-	//m_actions.clear() ;
+	for( const auto& it : m_actions ){
 
-	this->addString( QObject::tr( "Polish (Poland)" ),"Polish (Poland)","pl_PL" ) ;
-	this->addString( QObject::tr( "English (US)" ),"English (US)","en_US" ) ;
+		it.first->setText( QObject::tr( it.second.UINameUnTranslated ) ) ;
+	}
+
+	for( const auto& it : m_menus ){
+
+		it.first->setTitle( QObject::tr( it.second.UINameUnTranslated ) ) ;
+	}
 }
 
 void translator::setDefaultLanguage()
@@ -114,22 +120,28 @@ void translator::addString( const QString& translatedString,
 	m_languages.emplace_back( entry( translatedString,untranslatedString,internalName ) ) ;
 }
 
-QAction * translator::addAction( QMenu * m,translator::entry e )
+QAction * translator::addAction( QMenu * m,translator::entry e,bool permanentEntry )
 {
 	auto ac = m->addAction( e.UINameTranslated ) ;
 
 	ac->setObjectName( e.UINameUnTranslated ) ;
 
-	//m_actions.emplace_back( ac,std::move( e ) ) ;
+	if( permanentEntry ){
+
+		m_actions.emplace_back( ac,std::move( e ) ) ;
+	}
 
 	return ac ;
 }
 
-QMenu * translator::addMenu( QMenu * m,translator::entry e )
+QMenu * translator::addMenu( QMenu * m,translator::entry e,bool permanentEntry )
 {
 	auto menu = m->addMenu( e.UINameTranslated ) ;
 
-	//m_menus.emplace_back( m,std::move( e ) ) ;
+	if( permanentEntry ){
+
+		m_menus.emplace_back( m,std::move( e ) ) ;
+	}
 
 	return menu ;
 }

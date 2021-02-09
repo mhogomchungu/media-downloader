@@ -49,12 +49,12 @@ public:
 private:	
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
-	Ui::MainWindow * m_ui ;
+	std::unique_ptr< Ui::MainWindow > m_ui ;
 	class unitUi{
 	public:
-		unitUi( Ui::MainWindow * m_ui,QMainWindow * mainWindow )
+		unitUi( Ui::MainWindow& m_ui,QMainWindow& mainWindow )
 		{
-			m_ui->setupUi( mainWindow ) ;
+			m_ui.setupUi( &mainWindow ) ;
 		}
 	} m_initUi ;
 	tabManager m_tabManager ;

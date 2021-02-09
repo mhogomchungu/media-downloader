@@ -24,6 +24,7 @@
 #include <QTranslator>
 #include <QMenu>
 #include <QAction>
+#include <QApplication>
 
 #include <vector>
 
@@ -35,7 +36,7 @@ public:
 	static const char * CLEARSCREEN ;
 	static const char * CLEAROPTIONS ;
 
-        translator( settings& ) ;
+	translator( settings&,QApplication& ) ;
 	void setLanguage( const QString& e ) ;
 	void setDefaultLanguage() ;
 	~translator() ;
@@ -44,19 +45,20 @@ public:
 	const QString& untranslated( const QString& string ) ;
 	QString translate( const QString& internalName ) ;
 	const char * UINameUnTranslated( const QString& name ) ;
-	void addString( const QString& translatedString,
-			const char * untranslatedString,
-			const QString& internalName ) ;
 	struct entry{
 		entry( const QString&,const char *,const QString& ) ;
 		QString UINameTranslated ;
 		const char * UINameUnTranslated ;
 		QString internalName ;
 	} ;
-	QAction * addAction( QMenu * m,translator::entry ) ;
-	QMenu * addMenu( QMenu * m,translator::entry ) ;
+	QAction * addAction( QMenu * m,translator::entry,bool permanentEntry = false ) ;
+	QMenu * addMenu( QMenu * m,translator::entry,bool permanentEntry = false ) ;
 private:
+	void addString( const QString& translatedString,
+			const char * untranslatedString,
+			const QString& internalName ) ;
 	void clear( void ) ;
+	QApplication& m_qapp ;
 	QTranslator * m_translator = nullptr ;
 	std::vector< entry > m_languages ;
 	std::vector< std::pair< QAction *,entry > > m_actions ;

@@ -200,12 +200,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="51"/>
+        <location filename="../src/translator.cpp" line="32"/>
         <source>Polish (Poland)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="52"/>
+        <location filename="../src/translator.cpp" line="33"/>
         <source>English (US)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -217,6 +217,11 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/utility.cpp" line="162"/>
         <source>Clear Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="45"/>
+        <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

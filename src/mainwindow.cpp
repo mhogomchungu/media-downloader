@@ -24,8 +24,8 @@
 
 MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_qApp( app ),
-	m_ui( new Ui::MainWindow ),
-	m_initUi( m_ui,this ),
+	m_ui( std::make_unique< Ui::MainWindow >() ),
+	m_initUi( *m_ui,*this ),
 	m_tabManager( s,t,*m_ui,*this,*this )
 {
 	this->window()->setFixedSize( this->window()->size() ) ;
@@ -38,11 +38,13 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 
 		m_trayIcon.setIcon( icon ) ;
 
-		m_trayIcon.setContextMenu( [ this ](){
+		m_trayIcon.setContextMenu( [ this,&t ](){
 
 			auto m = new QMenu( this ) ;
 
-			connect( m->addAction( "Quit" ),&QAction::triggered,[ this ](){
+			auto ac = t.addAction( m,{ tr( "Quit" ),"Quit","Quit" },true ) ;
+
+			connect( ac,&QAction::triggered,[ this ](){
 
 				m_tabManager.basicDownloader().appQuit() ;
 			} ) ;
@@ -67,7 +69,6 @@ int MainWindow::exec()
 
 MainWindow::~MainWindow()
 {
-	delete m_ui ;
 }
 
 void MainWindow::closeEvent( QCloseEvent * e )

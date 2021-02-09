@@ -212,14 +212,19 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="52"/>
+        <location filename="../src/translator.cpp" line="33"/>
         <source>English (US)</source>
         <translation>Angielski (USA)</translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="51"/>
+        <location filename="../src/translator.cpp" line="32"/>
         <source>Polish (Poland)</source>
         <translation>Polski (Polska)</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="45"/>
+        <source>Quit</source>
+        <translation>Zakończ</translation>
     </message>
 </context>
 <context>
