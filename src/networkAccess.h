@@ -19,6 +19,12 @@
 #ifndef NETWORK_ACCESS_H
 #define NETWORK_ACCESS_H
 
+#include "network_support.h"
+
+#include "context.hpp"
+
+#if MD_NETWORK_SUPPORT
+
 #include <QtNetwork/QNetworkAccessManager>
 #include <QFile>
 #include <QStringList>
@@ -48,6 +54,23 @@ private:
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
 };
+
+#else
+
+class networkAccess
+{
+public:
+	networkAccess( Context& )
+	{
+	}
+	void download()
+	{
+	}
+private:
+
+};
+
+#endif
 
 #endif
 

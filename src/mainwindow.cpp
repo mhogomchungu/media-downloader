@@ -34,8 +34,6 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_initUi( *m_ui,*this ),
 	m_tabManager( s,t,*m_ui,*this,*this )
 {
-	qDebug() << s.backendPath() ;
-
 	this->window()->setFixedSize( this->window()->size() ) ;
 
 	QIcon icon = QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ;

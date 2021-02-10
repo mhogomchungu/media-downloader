@@ -21,9 +21,11 @@
 #include "utility.h"
 #include "locale_path.h"
 #include "translator.h"
+#include "network_support.h"
 
 #include <QDir>
 #include <QStandardPaths>
+
 settings::settings() : m_settings( "media-downloader","media-downloader" )
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -155,6 +157,7 @@ bool settings::autoDownload()
 
 bool settings::usePrivateYoutubeDl()
 {
+#if MD_NETWORK_SUPPORT
 	if( !m_settings.contains( "UsePrivateYoutubeDl" ) ){
 #ifdef Q_OS_LINUX
 		m_settings.setValue( "UsePrivateYoutubeDl",false ) ;
@@ -164,6 +167,10 @@ bool settings::usePrivateYoutubeDl()
 	}
 
 	return m_settings.value( "UsePrivateYoutubeDl" ).toBool() ;
+#else
+	m_settings.setValue( "UsePrivateYoutubeDl",false ) ;
+	return m_settings.value( "UsePrivateYoutubeDl" ).toBool() ;
+#endif
 }
 
 void settings::setHighDpiScalingFactor( const QString& m )

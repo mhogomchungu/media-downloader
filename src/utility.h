@@ -113,7 +113,7 @@ namespace utility
 		}
 		static QString bestText()
 		{
-			return "Best" ;
+			return "best" ;
 		}
 	private:
 		QAction * m_ac ;

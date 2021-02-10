@@ -18,11 +18,14 @@
  */
 
 #include "networkAccess.h"
+
+#if MD_NETWORK_SUPPORT
+
+#include "networkAccess.h"
 #include "tabmanager.h"
 #include "basicdownloader.h"
 
 #include <QtNetwork/QNetworkReply>
-#include <QtDebug>
 #include <QFile>
 
 #include <QJsonDocument>
@@ -215,3 +218,5 @@ void networkAccess::post( const QString& e )
 
 	m_ctx.TabManager().basicDownloader().post( m_data.join( '\n' ) ) ;
 }
+
+#endif
