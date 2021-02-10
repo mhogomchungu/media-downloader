@@ -87,6 +87,12 @@ void networkAccess::download()
 
 		auto json = QJsonDocument::fromJson( networkReply->readAll(),&error ) ;
 
+		if( error.error != QJsonParseError::NoError ){
+
+			this->post( QObject::tr( "Failed to parse json file from github" ) + ": " + error.errorString() ) ;
+			return ;
+		}
+
 		networkReply->deleteLater() ;
 
 		auto object = json.object() ;

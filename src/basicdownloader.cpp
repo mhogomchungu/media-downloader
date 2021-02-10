@@ -197,7 +197,7 @@ void basicdownloader::run( const QString& cmd,const QStringList& args,bool list_
 
 		QStringList outPut( "[media-downloader] cmd: " + [ & ](){
 
-			auto m = cmd ;
+			auto m = "\"" + cmd + "\"" ;
 
 			for( const auto& it : args ){
 
@@ -264,7 +264,9 @@ void basicdownloader::list()
 
 void basicdownloader::download()
 {
-	this->download( m_ui.lineEditOptions->text(),m_ui.lineEditURL->text(),false ) ;
+	auto m = utility::split( m_ui.lineEditURL->text(),' ',true ) ;
+
+	this->download( m_ui.lineEditOptions->text(),m,false ) ;
 }
 
 void basicdownloader::download( const utility::args& args,const QString& url,bool s )
