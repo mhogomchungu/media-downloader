@@ -94,7 +94,9 @@ void basicdownloader::init_done()
 
 					auto m = tr( "Failed to find version information" ) + ": " + ctx.data ;
 
-					m_ui.plainTextEdit->setPlainText( m ) ;
+					m = "\n[media-downloader] " + m ;
+
+					m_ui.plainTextEdit->setPlainText( ctx.version + m ) ;
 				}else{
 					auto c = "\n[media-downloader] " + tr( "Found version" ) + ": " + ctx.data ;
 
