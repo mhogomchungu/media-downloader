@@ -81,6 +81,15 @@ void networkAccess::download()
 
 	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply ](){
 
+		networkReply->deleteLater() ;
+
+		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
+
+			this->post( QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
+			m_tabManager.enableAll() ;
+			return ;
+		}
+
 		metadata metadata ;
 
 		QJsonParseError error ;
@@ -90,10 +99,9 @@ void networkAccess::download()
 		if( error.error != QJsonParseError::NoError ){
 
 			this->post( QObject::tr( "Failed to parse json file from github" ) + ": " + error.errorString() ) ;
+			m_tabManager.enableAll() ;
 			return ;
 		}
-
-		networkReply->deleteLater() ;
 
 		auto object = json.object() ;
 
@@ -129,19 +137,12 @@ void networkAccess::download()
 			}
 		}
 
-		if( networkReply->error() == QNetworkReply::NetworkError::NoError ){
-
-			this->download( metadata ) ;
-		}else{
-			this->post( QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
-		}
+		this->download( metadata ) ;
 	} ) ;
 }
 
 void networkAccess::download( const metadata& metadata )
 {
-	m_tabManager.disableAll() ;
-
 	QString filePath = m_ctx.Settings().backendPath() + "/" + m_ctx.Settings().cmdName() ;
 
 	m_file.setFileName( filePath ) ;
@@ -161,27 +162,24 @@ void networkAccess::download( const metadata& metadata )
 
 	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply ](){
 
+		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
+
+			this->post( QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
+		}else{
+			m_file.close() ;
+
+			this->post( QObject::tr( "Download complete" ) ) ;
+
+			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
+
+			networkReply->deleteLater() ;
+		}
+
 		m_tabManager.enableAll() ;
-		m_file.close() ;
-
-		this->post( QObject::tr( "Download complete" ) ) ;
-
-		m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
-
-		networkReply->deleteLater() ;
 	} ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::errorOccurred,[ this,networkReply ]( QNetworkReply::NetworkError ){
-
-		this->post( QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
-	} ) ;
-
-	QObject::connect( networkReply,&QNetworkReply::redirected,[]( const QUrl&){
-
-		//this->post( QObject::tr( "Redirected to" ) + ": " + url.toString() ) ;
-	} ) ;
-
-	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ this,metadata,networkReply ]( qint64 received,qint64 total ){
+	QObject::connect( networkReply,&QNetworkReply::downloadProgress,
+			  [ this,metadata,networkReply ]( qint64 received,qint64 total ){
 
 		Q_UNUSED( total )
 

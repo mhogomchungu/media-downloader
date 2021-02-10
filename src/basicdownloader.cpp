@@ -64,8 +64,50 @@ void basicdownloader::init_done()
 
 		auto exe = m_settings.backendPath() + "/" + m_settings.cmdName() ;
 
-		if( !QFile::exists( exe ) ){
+		if( QFile::exists( exe ) ){
 
+			m_tabManager.disableAll() ;
+
+			struct ctx
+			{
+				ctx( QString x ) : version( std::move( x ) )
+				{
+				}
+				QString version ;
+				QByteArray data ;
+			};
+
+			utility::run( exe,{ "--version" },[ this ]( QProcess& exe ){
+
+				exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
+
+				auto a = tr( "Checking installed version of" ) + " " + m_settings.cmdName() ;
+				auto b = "[media-downloader] " + a ;
+
+				m_ui.plainTextEdit->setPlainText( b ) ;
+
+				return ctx( std::move( b ) ) ;
+
+			},[ this ]( int exitCode,QProcess::ExitStatus,ctx& ctx ){
+
+				if( exitCode ){
+
+					auto m = tr( "Failed to find version information" ) + ": " + ctx.data ;
+
+					m_ui.plainTextEdit->setPlainText( m ) ;
+				}else{
+					auto c = "\n[media-downloader] " + tr( "Found version" ) + ": " + ctx.data ;
+
+					m_ui.plainTextEdit->setPlainText( ctx.version + c ) ;
+				}
+
+				m_tabManager.enableAll() ;
+
+			},[]( QProcess::ProcessChannel,QByteArray data,ctx& ctx ){
+
+				ctx.data += data ;
+			} ) ;
+		}else{
 			m_ctx.TabManager().Configure().downloadYoutubeDl() ;
 		}
 
