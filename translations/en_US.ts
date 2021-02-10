@@ -60,6 +60,7 @@
         <location filename="../src/mainwindow.ui" line="371"/>
         <location filename="../src/mainwindow.ui" line="577"/>
         <location filename="../src/mainwindow.ui" line="792"/>
+        <location filename="../src/mainwindow.cpp" line="53"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -147,12 +148,17 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="827"/>
+        <location filename="../src/mainwindow.ui" line="834"/>
+        <source>Download/Update youtube-dl</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="840"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="839"/>
+        <location filename="../src/mainwindow.ui" line="852"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -160,22 +166,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="108"/>
+        <location filename="../src/utility.cpp" line="110"/>
         <source>Best-audiovideo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="109"/>
+        <location filename="../src/utility.cpp" line="111"/>
         <source>Best-audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="140"/>
+        <location filename="../src/utility.cpp" line="144"/>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="153"/>
+        <location filename="../src/utility.cpp" line="157"/>
         <source>Found Options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -200,41 +206,23 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="32"/>
+        <location filename="../src/translator.cpp" line="31"/>
         <source>Polish (Poland)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="33"/>
+        <location filename="../src/translator.cpp" line="32"/>
         <source>English (US)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="168"/>
+        <location filename="../src/utility.cpp" line="172"/>
         <source>Clear Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="162"/>
+        <location filename="../src/utility.cpp" line="166"/>
         <source>Clear Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="45"/>
-        <source>Quit</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>basicdownloader</name>
-    <message>
-        <location filename="../src/basicdownloader.cpp" line="283"/>
-        <source>Failed To Locate &quot;%1&quot; in Below Paths:-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/basicdownloader.cpp" line="285"/>
-        <source>Please Add It In One Of The Paths And Restart</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -257,7 +245,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="86"/>
+        <location filename="../src/configure.cpp" line="96"/>
         <source>Set Download Folder</source>
         <translation type="unfinished"></translation>
     </message>
