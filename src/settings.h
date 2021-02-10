@@ -35,7 +35,7 @@ public:
 	QString cmdName() ;
 	QString localizationLanguagePath() ;
 	QString localizationLanguage() ;
-
+	QString backendPath() ;
 	QStringList presetOptionsList() ;
 	QStringList defaultDownLoadCmdOptions() ;
 	QStringList defaultListCmdOptions() ;
@@ -45,7 +45,7 @@ public:
 
 	bool showTrayIcon() ;
 	bool autoDownload() ;
-
+	bool usePrivateYoutubeDl() ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;

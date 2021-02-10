@@ -705,7 +705,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>120</y>
+        <y>160</y>
         <width>421</width>
         <height>31</height>
        </rect>
@@ -773,9 +773,9 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>150</y>
+        <y>190</y>
         <width>621</width>
-        <height>231</height>
+        <height>191</height>
        </rect>
       </property>
      </widget>
@@ -819,6 +819,19 @@ Each Link Should Be In Its Own Line.</string>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbConfigureDownload">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>130</y>
+        <width>421</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Download/Update youtube-dl</string>
       </property>
      </widget>
     </widget>

@@ -16,34 +16,37 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef CONFIGURE_H
-#define CONFIGURE_H
+#ifndef NETWORK_ACCESS_H
+#define NETWORK_ACCESS_H
 
-#include "settings.h"
-#include "utility.h"
+#include <QtNetwork/QNetworkAccessManager>
+#include <QFile>
+#include <QStringList>
+
 #include "context.hpp"
-#include "networkAccess.h"
 
-class tabManager ;
+class basicdownloader ;
 
-class configure : public QObject
+class networkAccess
 {
-        Q_OBJECT
 public:
-	configure( Context& ) ;
-	void init_done() ;
-	void enableAll() ;
-	void disableAll() ;
-	void resetMenu() ;
-	void retranslateUi() ;
-	void downloadYoutubeDl() ;
+	networkAccess( Context& ) ;
+	void download() ;
 private:
+	struct metadata
+	{
+		qint64 size ;
+		QString url ;
+		QString sha256 ;
+	};
+	void download( const metadata& ) ;
+	void post( const QString& ) ;
 	Context& m_ctx ;
-	settings& m_settings ;
-	Ui::MainWindow& m_ui ;
-	QWidget& m_mainWindow ;
+	QNetworkAccessManager m_accessManager ;
+	QFile m_file ;
+	QStringList m_data ;
+	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
-	networkAccess m_networkAccess ;
 };
 
 #endif

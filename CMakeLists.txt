@@ -18,10 +18,11 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions(-Qunused-arguments)
 endif()
 
-find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Network REQUIRED)
 
 message(STATUS "Found Qt5Widgets, version ${Qt5Widgets_VERSION}")
 message(STATUS "Found Qt5Core, version ${Qt5Core_VERSION}")
+message(STATUS "Found Qt5Network, version ${Qt5Network_VERSION}")
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
 add_definitions(${Qt5Core_DEFINITIONS})
@@ -58,7 +59,8 @@ set(SRC
     src/batchfiledownloader.cpp
     src/configure.cpp
     src/translator.cpp
-    src/playlistdownloader.cpp)
+    src/playlistdownloader.cpp
+    src/networkAccess.cpp)
 
 set(RESOUCES
     src/icon.qrc)
@@ -75,7 +77,7 @@ else()
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
 endif()
 
-target_link_libraries(media-downloader ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
+target_link_libraries(media-downloader ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} ${Qt5Network_LIBRARIES})
 
 install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 

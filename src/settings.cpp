@@ -22,8 +22,8 @@
 #include "locale_path.h"
 #include "translator.h"
 
-#include<QDir>
-
+#include <QDir>
+#include <QStandardPaths>
 settings::settings() : m_settings( "media-downloader","media-downloader" )
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -153,6 +153,19 @@ bool settings::autoDownload()
 	return m_settings.value( "AutoDownload" ).toBool() ;
 }
 
+bool settings::usePrivateYoutubeDl()
+{
+	if( !m_settings.contains( "UsePrivateYoutubeDl" ) ){
+#ifdef Q_OS_LINUX
+		m_settings.setValue( "UsePrivateYoutubeDl",false ) ;
+	#else
+		m_settings.setValue( "UsePrivateYoutubeDl",true ) ;
+#endif
+	}
+
+	return m_settings.value( "UsePrivateYoutubeDl" ).toBool() ;
+}
+
 void settings::setHighDpiScalingFactor( const QString& m )
 {
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;
@@ -237,4 +250,21 @@ QString settings::localizationLanguage()
 	}
 
 	return m_settings.value( "Language" ).toString() ;
+}
+
+QString settings::backendPath()
+{
+	if( !m_settings.contains( "BackendPath" ) ){
+
+		auto m = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
+
+		if( !m.isEmpty() ){
+
+			m_settings.setValue( "BackendPath",m.first() + "/bin" ) ;
+		}else{
+			m_settings.setValue( "BackendPath",QDir::homePath() + "/bin" ) ;
+		}
+	}
+
+	return m_settings.value( "BackendPath" ).toString() ;
 }

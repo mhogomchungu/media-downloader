@@ -60,27 +60,16 @@ basicdownloader::basicdownloader( Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	if( utility::platformIsWindows() ){
+	if( m_settings.usePrivateYoutubeDl() ){
 
-		QStringList paths{ QDir::currentPath(),QDir::homePath() + "/bin" } ;
+		auto exe = m_settings.backendPath() + "/" + m_settings.cmdName() ;
 
-		QString e ;
+		if( !QFile::exists( exe ) ){
 
-		auto m = m_settings.cmdName() ;
-
-		for( const auto& it : paths ){
-
-			e = it + "/" + m ;
-
-			if( QFile::exists( e ) ){
-
-				m_exe = e ;
-
-				return ;
-			}
+			m_ctx.TabManager().Configure().downloadYoutubeDl() ;
 		}
 
-		this->failedToFindExe( paths ) ;
+		m_exe = exe ;
 	}else{
 		m_exe = m_settings.cmdName() ;
 	}
@@ -120,9 +109,10 @@ void basicdownloader::resetMenu( const QStringList& args )
 	} ) ;
 }
 
-void basicdownloader::setAsActive()
+basicdownloader& basicdownloader::setAsActive()
 {
 	m_ui.tabWidget->setCurrentIndex( 0 ) ;
+	return *this ;
 }
 
 void basicdownloader::retranslateUi()
@@ -262,30 +252,6 @@ void basicdownloader::listRequested( const QStringList& args )
 	this->resetMenu( opts ) ;
 }
 
-void basicdownloader::failedToFindExe( const QStringList& e )
-{
-	m_tabManager.disableAll() ;
-
-	m_ui.pbQuit->setEnabled( true ) ;
-
-	QString m ;
-
-	for( const auto& it : e ){
-
-		m += it + "\n" ;
-	}
-
-	m.truncate( m.size() - 1 ) ;
-
-	auto a = tr( "Failed To Locate \"%1\" in Below Paths:-" ).arg( m_settings.cmdName() ) ;
-	auto b = "-------------------------" ;
-	auto c = tr( "Please Add It In One Of The Paths And Restart" ) ;
-
-	m_ui.labelFailedToFixExe->setText( a + "\n\n" + b + "\n" + m + "\n" + b + "\n\n" + c ) ;
-
-	m_ui.labelFailedToFixExe->setVisible( true ) ;
-}
-
 void basicdownloader::list()
 {
 	m_ui.pbCancel->setEnabled( true ) ;
@@ -342,6 +308,17 @@ void basicdownloader::download( const utility::args& args,
 	opts.append( urls ) ;
 
 	this->run( m_exe,opts,false ) ;
+}
+
+void basicdownloader::post( const QString& e )
+{
+	m_ui.plainTextEdit->setPlainText( e ) ;
+	m_ui.plainTextEdit->moveCursor( QTextCursor::End ) ;
+}
+
+void basicdownloader::enableQuit()
+{
+	m_ui.pbQuit->setEnabled( true ) ;
 }
 
 void basicdownloader::enableAll()

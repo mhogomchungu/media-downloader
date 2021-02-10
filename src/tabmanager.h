@@ -99,6 +99,10 @@ public:
 	{
 		return m_basicdownloader ;
 	}
+	configure& Configure()
+	{
+		return m_configure ;
+	}
 private:
 	Context m_ctx ;
 	about m_about ;

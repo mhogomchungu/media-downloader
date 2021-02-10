@@ -20,7 +20,8 @@
 #include "configure.h"
 #include "tabmanager.h"
 #include "mainwindow.h"
-
+#include "networkAccess.h"
+#include "utility.h"
 #include <QFileDialog>
 
 configure::configure( Context& ctx ) :
@@ -28,7 +29,8 @@ configure::configure( Context& ctx ) :
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
-	m_tabManager( m_ctx.TabManager() )
+	m_tabManager( m_ctx.TabManager() ),
+	m_networkAccess( m_ctx )
 {
 #if QT_VERSION < QT_VERSION_CHECK( 5,6,0 )
 	m_ui->lineEditConfigureScaleFactor->setEnabled( false ) ;
@@ -45,6 +47,13 @@ configure::configure( Context& ctx ) :
 		m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 
 		m_tabManager.resetMenu().basicDownloader().setAsActive() ;
+	} ) ;
+
+	m_ui.pbConfigureDownload->setEnabled( m_settings.usePrivateYoutubeDl() ) ;
+
+	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
+
+		this->downloadYoutubeDl() ;
 	} ) ;
 
 	this->resetMenu() ;
@@ -110,6 +119,11 @@ void configure::retranslateUi()
 	this->resetMenu() ;
 }
 
+void configure::downloadYoutubeDl()
+{
+	m_networkAccess.download() ;
+}
+
 void configure::resetMenu()
 {
 	const auto& languages = m_settings.localizationLanguages() ;
@@ -139,6 +153,7 @@ void configure::resetMenu()
 
 void configure::enableAll()
 {
+	m_ui.pbConfigureDownload->setEnabled( true ) ;
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
 	m_ui.labelConfigureLanguage->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
@@ -158,6 +173,7 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui.pbConfigureDownload->setEnabled( false ) ;
 	m_ui.cbConfigureLanguage->setEnabled( false ) ;
 	m_ui.labelConfigureLanguage->setEnabled( false ) ;
 	m_ui.pbConfigureQuit->setEnabled( false ) ;

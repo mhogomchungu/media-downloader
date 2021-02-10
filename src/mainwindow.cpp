@@ -26,12 +26,16 @@
 #include "settings.h"
 #include "translator.h"
 
+#include<QDebug>
+
 MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_qApp( app ),
 	m_ui( std::make_unique< Ui::MainWindow >() ),
 	m_initUi( *m_ui,*this ),
 	m_tabManager( s,t,*m_ui,*this,*this )
 {
+	qDebug() << s.backendPath() ;
+
 	this->window()->setFixedSize( this->window()->size() ) ;
 
 	QIcon icon = QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ;

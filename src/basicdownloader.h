@@ -42,11 +42,13 @@ public:
 	void download( const utility::args&,
 		       const QStringList& urls,
 		       bool = true ) ;
+	void post( const QString& ) ;
+	void enableQuit() ;
 	void enableAll() ;
 	void disableAll() ;
 	void appQuit() ;
 	void resetMenu( const QStringList& = {} ) ;
-	void setAsActive() ;
+	basicdownloader& setAsActive() ;
 	void retranslateUi() ;
 private:
 	Context& m_ctx ;
@@ -57,7 +59,6 @@ private:
 	QString m_exe ;
 	void run( const QString& cmd,const QStringList& args,bool list_requested ) ;
 	void listRequested( const QStringList& ) ;
-	void failedToFindExe( const QStringList& ) ;
 	void list() ;
 	void download() ;
 	void exit() ;
