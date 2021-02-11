@@ -50,6 +50,7 @@ public:
 	void resetMenu( const QStringList& = {} ) ;
 	basicdownloader& setAsActive() ;
 	void retranslateUi() ;
+	void checkAndPrintInstalledVersion( const QStringList& = {} ) ;
 private:
 	Context& m_ctx ;
 	settings& m_settings ;

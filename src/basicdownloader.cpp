@@ -23,7 +23,8 @@
 #include <QDir>
 #include <QMenu>
 #include <QFileDialog>
-#include <QtDebug>
+#include <QStandardPaths>
+
 #include "tabmanager.h"
 
 basicdownloader::basicdownloader( Context& ctx ) :
@@ -62,60 +63,31 @@ void basicdownloader::init_done()
 {
 	if( m_settings.usePrivateYoutubeDl() ){
 
-		auto exe = m_settings.backendPath() + "/" + m_settings.cmdName() ;
+		m_exe = m_settings.backendPath() + "/" + m_settings.cmdName() ;
 
-		if( QFile::exists( exe ) ){
+		if( QFile::exists( m_exe ) ){
 
-			m_tabManager.disableAll() ;
-
-			struct ctx
-			{
-				ctx( QString x ) : version( std::move( x ) )
-				{
-				}
-				QString version ;
-				QByteArray data ;
-			};
-
-			utility::run( exe,{ "--version" },[ this ]( QProcess& exe ){
-
-				exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
-
-				auto a = tr( "Checking installed version of" ) + " " + m_settings.cmdName() ;
-				auto b = "[media-downloader] " + a ;
-
-				m_ui.plainTextEdit->setPlainText( b ) ;
-
-				return ctx( std::move( b ) ) ;
-
-			},[ this ]( int exitCode,QProcess::ExitStatus,ctx& ctx ){
-
-				if( exitCode ){
-
-					auto m = tr( "Failed to find version information" ) + ": " + ctx.data ;
-
-					m = "\n[media-downloader] " + m ;
-
-					m_ui.plainTextEdit->setPlainText( ctx.version + m ) ;
-				}else{
-					auto c = "\n[media-downloader] " + tr( "Found version" ) + ": " + ctx.data ;
-
-					m_ui.plainTextEdit->setPlainText( ctx.version + c ) ;
-				}
-
-				m_tabManager.enableAll() ;
-
-			},[]( QProcess::ProcessChannel,QByteArray data,ctx& ctx ){
-
-				ctx.data += data ;
-			} ) ;
+			this->checkAndPrintInstalledVersion() ;
 		}else{
 			m_ctx.TabManager().Configure().downloadYoutubeDl() ;
 		}
-
-		m_exe = exe ;
 	}else{
-		m_exe = m_settings.cmdName() ;
+		m_exe = QStandardPaths::findExecutable( m_settings.cmdName() ) ;
+
+		if( m_exe.isEmpty() ){
+
+			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( m_settings.cmdName() )  ;
+
+			m = "[media-downloader] " + m ;
+
+			m_ui.plainTextEdit->setPlainText( m ) ;
+
+			m_tabManager.disableAll() ;
+
+			this->enableQuit() ;
+		}else{
+			this->checkAndPrintInstalledVersion() ;
+		}
 	}
 }
 
@@ -162,6 +134,64 @@ basicdownloader& basicdownloader::setAsActive()
 void basicdownloader::retranslateUi()
 {
 	this->resetMenu() ;
+}
+
+void basicdownloader::checkAndPrintInstalledVersion( const QStringList& list )
+{
+	m_tabManager.disableAll() ;
+
+	struct ctx
+	{
+		ctx( QString x ) : version( std::move( x ) )
+		{
+		}
+		QString version ;
+		QByteArray data ;
+	};
+
+	utility::run( m_exe,{ "--version" },[ this,&list ]( QProcess& exe ){
+
+		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
+
+		QString e ;
+
+		if( !list.isEmpty() ){
+
+			e = list.join( '\n' ) + "\n" ;
+		}
+
+		auto a = e + "[media-downloader] " ;
+		auto b = a + tr( "Checking installed version of" ) + " " + m_settings.cmdName() ;
+
+		m_ui.plainTextEdit->setPlainText( b ) ;
+
+		return ctx( std::move( b ) ) ;
+
+	},[ this ]( int exitCode,QProcess::ExitStatus,ctx& ctx ){
+
+		if( exitCode ){
+
+			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( m_settings.cmdName() )  ;
+
+			m = "\n[media-downloader] " + m ;
+
+			m_ui.plainTextEdit->setPlainText( ctx.version + m ) ;
+
+			m_tabManager.disableAll() ;
+
+			this->enableQuit() ;
+		}else{
+			auto c = "\n[media-downloader] " + tr( "Found version" ) + ": " + ctx.data ;
+
+			m_ui.plainTextEdit->setPlainText( ctx.version + c ) ;
+
+			m_tabManager.enableAll() ;
+		}
+
+	},[]( QProcess::ProcessChannel,QByteArray data,ctx& ctx ){
+
+		ctx.data += data ;
+	} ) ;
 }
 
 class context

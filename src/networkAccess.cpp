@@ -165,6 +165,8 @@ void networkAccess::download( const metadata& metadata )
 		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
 
 			this->post( QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
+
+			m_tabManager.enableAll() ;
 		}else{
 			m_file.close() ;
 
@@ -173,9 +175,9 @@ void networkAccess::download( const metadata& metadata )
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 
 			networkReply->deleteLater() ;
-		}
 
-		m_tabManager.enableAll() ;
+			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( m_data ) ;
+		}
 	} ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::downloadProgress,
