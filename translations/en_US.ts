@@ -60,7 +60,7 @@
         <location filename="../src/mainwindow.ui" line="371"/>
         <location filename="../src/mainwindow.ui" line="577"/>
         <location filename="../src/mainwindow.ui" line="792"/>
-        <location filename="../src/mainwindow.cpp" line="53"/>
+        <location filename="../src/mainwindow.cpp" line="51"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -223,6 +223,24 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/utility.cpp" line="166"/>
         <source>Clear Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>basicdownloader</name>
+    <message>
+        <location filename="../src/basicdownloader.cpp" line="84"/>
+        <source>Checking installed version of</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/basicdownloader.cpp" line="95"/>
+        <source>Failed to find version information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/basicdownloader.cpp" line="101"/>
+        <source>Found version</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
