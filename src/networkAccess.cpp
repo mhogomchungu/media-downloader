@@ -36,7 +36,8 @@
 networkAccess::networkAccess( Context& ctx ) :
 	m_ctx( ctx ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
-	m_tabManager( m_ctx.TabManager() )
+	m_tabManager( m_ctx.TabManager() ),
+	m_bkName( m_ctx.Settings().backEnd().name() )
 {
 }
 
@@ -58,13 +59,15 @@ void networkAccess::download()
 		}
 	}
 
-	this->post( QObject::tr( "Start Downloading youtube-dl" ) + "..." ) ;
+
+	this->post( QObject::tr( "Start Downloading" ) + " " + m_bkName + " ..." ) ;
 
 	m_tabManager.disableAll() ;
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	QString url( "https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
+	QString url( m_ctx.Settings().backEnd().downloadPath() ) ;
+
 	QNetworkRequest networkRequest( url ) ;
 
 	networkRequest.setAttribute( QNetworkRequest::FollowRedirectsAttribute,true ) ;
@@ -117,7 +120,7 @@ void networkAccess::download()
 
 			auto entry = value.toString() ;
 
-			if( entry == m_ctx.Settings().cmdName() ){
+			if( entry == m_ctx.Settings().backEnd().name() ){
 
 				auto value = object.value( "browser_download_url" ) ;
 
@@ -143,7 +146,7 @@ void networkAccess::download()
 
 void networkAccess::download( const metadata& metadata )
 {
-	QString filePath = m_ctx.Settings().backendPath() + "/" + m_ctx.Settings().cmdName() ;
+	QString filePath = m_ctx.Settings().backendPath() + "/" + m_ctx.Settings().backEnd().name();
 
 	m_file.setFileName( filePath ) ;
 
@@ -194,13 +197,13 @@ void networkAccess::download( const metadata& metadata )
 
 		auto m = QString( "%1/%2 bytes(%3%)" ).arg( current,totalSize,percentage ) ;
 
-		this->post( QObject::tr( "Downloading youtube-dl" ) + ": " + m ) ;
+		this->post( QObject::tr( "Downloading" ) + " " + m_bkName + ": " + m ) ;
 	} ) ;
 }
 
 void networkAccess::post( const QString& e )
 {
-	auto prefix = QObject::tr( "Downloading youtube-dl" ) ;
+	auto prefix = QObject::tr( "Downloading" ) + " " + m_bkName ;
 
 	if( m_data.isEmpty() ){
 

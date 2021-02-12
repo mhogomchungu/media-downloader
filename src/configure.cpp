@@ -49,7 +49,7 @@ configure::configure( Context& ctx ) :
 		m_tabManager.resetMenu().basicDownloader().setAsActive() ;
 	} ) ;
 
-	m_ui.pbConfigureDownload->setEnabled( m_settings.usePrivateYoutubeDl() ) ;
+	m_ui.pbConfigureDownload->setEnabled( m_settings.usePrivateBackEnd() ) ;
 
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
 

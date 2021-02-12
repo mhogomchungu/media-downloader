@@ -61,9 +61,11 @@ basicdownloader::basicdownloader( Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	if( m_settings.usePrivateYoutubeDl() ){
+	const auto& exe = m_settings.backEnd().name() ;
 
-		m_exe = m_settings.backendPath() + "/" + m_settings.cmdName() ;
+	if( m_settings.usePrivateBackEnd() ){
+
+		m_exe = m_settings.backendPath() + "/" + exe ;
 
 		if( QFile::exists( m_exe ) ){
 
@@ -72,11 +74,11 @@ void basicdownloader::init_done()
 			m_ctx.TabManager().Configure().downloadYoutubeDl() ;
 		}
 	}else{
-		m_exe = QStandardPaths::findExecutable( m_settings.cmdName() ) ;
+		m_exe = QStandardPaths::findExecutable( exe ) ;
 
 		if( m_exe.isEmpty() ){
 
-			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( m_settings.cmdName() )  ;
+			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( exe )  ;
 
 			m = "[media-downloader] " + m ;
 
@@ -149,7 +151,11 @@ void basicdownloader::checkAndPrintInstalledVersion( const QStringList& list )
 		QByteArray data ;
 	};
 
-	utility::run( m_exe,{ "--version" },[ this,&list ]( QProcess& exe ){
+	auto& backEnd = m_settings.backEnd() ;
+
+	const auto& exeName = backEnd.name() ;
+
+	utility::run( m_exe,{ backEnd.versionArgument() },[ this,&list,&exeName ]( QProcess& exe ){
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
@@ -161,17 +167,17 @@ void basicdownloader::checkAndPrintInstalledVersion( const QStringList& list )
 		}
 
 		auto a = e + "[media-downloader] " ;
-		auto b = a + tr( "Checking installed version of" ) + " " + m_settings.cmdName() ;
+		auto b = a + tr( "Checking installed version of" ) + " " + exeName ;
 
 		m_ui.plainTextEdit->setPlainText( b ) ;
 
 		return ctx( std::move( b ) ) ;
 
-	},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
+	},[ this,&exeName ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
 
 		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 
-			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( m_settings.cmdName() )  ;
+			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( exeName )  ;
 
 			m = "\n[media-downloader] " + m ;
 
@@ -377,7 +383,7 @@ void basicdownloader::download( const utility::args& args,
 
 	if( !args.quality.isEmpty() ){
 
-		opts.append( "-f" ) ;
+		opts.append( m_settings.backEnd().optionsArgument() ) ;
 		opts.append( args.quality ) ;
 	}
 

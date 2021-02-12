@@ -53,6 +53,7 @@ private:
 	QStringList m_data ;
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
+	const QString& m_bkName ;
 };
 
 #else

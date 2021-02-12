@@ -26,8 +26,29 @@
 #include <QDir>
 #include <QStandardPaths>
 
-settings::settings() : m_settings( "media-downloader","media-downloader" )
+static settings::backend _set_backend( QSettings& settings )
 {
+	if( !settings.contains( "CommandName" ) ){
+
+		if( utility::platformIsWindows() ){
+
+			settings.setValue( "CommandName","youtube-dl.exe" ) ;
+		}else{
+			settings.setValue( "CommandName","youtube-dl" ) ;
+		}
+	}
+
+	auto m = settings.value( "CommandName" ).toString() ;
+
+	auto dp = "https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ;
+
+	return settings::backend( m,"--version","-f",dp ) ;
+}
+
+settings::settings() :
+	m_settings( "media-downloader","media-downloader" ),
+	m_backend( _set_backend( m_settings ) )
+{	
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
 	auto m = this->highDpiScalingFactor() ;
@@ -93,19 +114,9 @@ QString settings::presetOptions()
 	return m_settings.value( "PresetOptions" ).toStringList().join( ',' ) ;
 }
 
-QString settings::cmdName()
+settings::backend& settings::backEnd()
 {
-	if( !m_settings.contains( "CommandName" ) ){
-
-		if( utility::platformIsWindows() ){
-
-			m_settings.setValue( "CommandName","youtube-dl.exe" ) ;
-		}else{
-			m_settings.setValue( "CommandName","youtube-dl" ) ;
-		}
-	}
-
-	return m_settings.value( "CommandName" ).toString() ;
+	return m_backend ;
 }
 
 QStringList settings::presetOptionsList()
@@ -155,7 +166,7 @@ bool settings::autoDownload()
 	return m_settings.value( "AutoDownload" ).toBool() ;
 }
 
-bool settings::usePrivateYoutubeDl()
+bool settings::usePrivateBackEnd()
 {
 #if MD_NETWORK_SUPPORT
 	if( !m_settings.contains( "UsePrivateYoutubeDl" ) ){

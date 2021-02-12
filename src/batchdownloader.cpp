@@ -103,19 +103,7 @@ batchdownloader::batchdownloader( Context& ctx) :
 
 	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
 
-		if( m_ui.tableWidgetBD->rowCount() ){
-
-			QStringList urls ;
-
-			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
-
-				urls.append( m_ui.tableWidgetBD->item( s,0 )->text() ) ;
-			}
-
-			auto options = m_ui.lineEditBDUrlOptions->text() ;
-
-			m_tabManager.basicDownloader().download( options,urls ) ;
-		}
+		this->download() ;
 	} ) ;
 }
 
@@ -151,6 +139,8 @@ void batchdownloader::resetMenu()
 			}else{
 				m_ui.lineEditBDUrlOptions->setText( ac.objectName() ) ;
 			}
+
+			this->download() ;
 		}
 	} ) ;
 }
@@ -158,6 +148,23 @@ void batchdownloader::resetMenu()
 void batchdownloader::retranslateUi()
 {
 	this->resetMenu() ;
+}
+
+void batchdownloader::download()
+{
+	if( m_ui.tableWidgetBD->rowCount() ){
+
+		QStringList urls ;
+
+		for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
+
+			urls.append( m_ui.tableWidgetBD->item( s,0 )->text() ) ;
+		}
+
+		auto options = m_ui.lineEditBDUrlOptions->text() ;
+
+		m_tabManager.basicDownloader().download( options,urls ) ;
+	}
 }
 
 void batchdownloader::enableAll()

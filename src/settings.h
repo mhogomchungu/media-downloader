@@ -28,11 +28,41 @@
 class settings
 {
 public:
+	class backend
+	{
+	public:
+		backend( const QString& name,const QString& va,const QString& oa,const QString& dp ) :
+			m_name( name ),m_va( va ),m_oa( oa ),m_downloadPath( dp )
+		{
+		}
+		const QString& name()
+		{
+			return m_name ;
+		}
+		const QString& versionArgument()
+		{
+			return m_va ;
+		}
+		const QString& optionsArgument()
+		{
+			return m_oa ;
+		}
+		const QString& downloadPath()
+		{
+			return m_downloadPath ;
+		}
+	private:
+		QString m_name ;
+		QString m_va ;
+		QString m_oa ;
+		QString m_downloadPath ;
+	};
+
 	settings() ;
 
 	QString downloadFolder() ;
 	QString presetOptions() ;
-	QString cmdName() ;
+	backend& backEnd() ;
 	QString localizationLanguagePath() ;
 	QString localizationLanguage() ;
 	QString backendPath() ;
@@ -45,7 +75,7 @@ public:
 
 	bool showTrayIcon() ;
 	bool autoDownload() ;
-	bool usePrivateYoutubeDl() ;
+	bool usePrivateBackEnd() ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;
@@ -54,6 +84,7 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 private:
 	QSettings m_settings ;
+	settings::backend m_backend ;
 };
 
 #endif
