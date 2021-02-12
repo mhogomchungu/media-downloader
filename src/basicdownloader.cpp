@@ -167,9 +167,9 @@ void basicdownloader::checkAndPrintInstalledVersion( const QStringList& list )
 
 		return ctx( std::move( b ) ) ;
 
-	},[ this ]( int exitCode,QProcess::ExitStatus,ctx& ctx ){
+	},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
 
-		if( exitCode ){
+		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 
 			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( m_settings.cmdName() )  ;
 
