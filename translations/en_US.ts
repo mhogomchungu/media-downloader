@@ -229,17 +229,18 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="84"/>
+        <location filename="../src/basicdownloader.cpp" line="81"/>
+        <location filename="../src/basicdownloader.cpp" line="180"/>
+        <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/basicdownloader.cpp" line="170"/>
         <source>Checking installed version of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="95"/>
-        <source>Failed to find version information</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/basicdownloader.cpp" line="101"/>
+        <location filename="../src/basicdownloader.cpp" line="190"/>
         <source>Found version</source>
         <translation type="unfinished"></translation>
     </message>
