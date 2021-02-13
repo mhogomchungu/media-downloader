@@ -133,12 +133,7 @@ void batchdownloader::resetMenu()
 			m_ui.lineEditBDUrlOptions->clear() ;
 			m_ui.lineEditBDUrl->clear() ;
 		}else{
-			if( ac.best() ){
-
-				m_ui.lineEditBDUrlOptions->setText( ac.bestText() ) ;
-			}else{
-				m_ui.lineEditBDUrlOptions->setText( ac.objectName() ) ;
-			}
+			m_ui.lineEditBDUrlOptions->setText( ac.objectName() ) ;
 
 			this->download() ;
 		}

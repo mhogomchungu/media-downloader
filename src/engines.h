@@ -22,12 +22,24 @@
 #include <QString>
 #include <QStringList>
 #include <QStandardPaths>
+#include <QPlainTextEdit>
 
 #include <vector>
 #include <functional>
 
 class engines{
 public:
+	class log
+	{
+	public:
+		log( QPlainTextEdit& e ) : m_textEdit( e )
+		{
+		}
+		void add( const QString& s );
+	private:
+		QPlainTextEdit& m_textEdit ;
+	} ;
+
 	class engine
 	{
 	public:
@@ -153,8 +165,9 @@ public:
 	const engine& defaultEngine() ;
 	const engine& getEngineByName( const QString& name ) ;
 	void setDefaultEngine( const QString& name ) ;
-	engines() ;
+	engines( QPlainTextEdit& ) ;
 private:
+	log m_log ;
 	QString m_defaultEngine ;
 	std::vector< engine > m_backends ;
 };

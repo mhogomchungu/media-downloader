@@ -50,11 +50,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		auto options = m_ui.lineEditPLUrlOptions->text() ;
 
-		if( options.isEmpty() ){
-
-			options = utility::selectedAction::bestText() ;
-		}
-
 		options += " --yes-playlist" ;
 
 		auto items = m_ui.lineEditPLDownloadRange->text() ;
@@ -139,12 +134,7 @@ void playlistdownloader::resetMenu()
 			m_ui.lineEditPLUrl->clear() ;
 			m_ui.lineEditPLEFileDownloader->clear() ;
 		}else{
-			if( ac.best() ){
-
-				m_ui.lineEditPLUrlOptions->setText( ac.bestText() ) ;
-			}else{
-				m_ui.lineEditPLUrlOptions->setText( ac.objectName() ) ;
-			}
+			m_ui.lineEditPLUrlOptions->setText( ac.objectName() ) ;
 		}
 	} ) ;
 }

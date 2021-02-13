@@ -88,15 +88,17 @@ static engines::engine _add_engine( QJsonDocument& json,const Engine& engine )
 }
 
 template< typename Engine >
-static engines::engine _add_engine( const QString& enginePath,const Engine& engine )
+static engines::engine _add_engine( engines::log& log,
+				    const QString& enginePath,
+				    const Engine& engine )
 {
 	QJsonParseError error ;
 
-	auto json = QJsonDocument::fromJson( engine.config( enginePath ),&error ) ;
+	auto json = QJsonDocument::fromJson( engine.config( log,enginePath ),&error ) ;
 
 	if( error.error != QJsonParseError::NoError ){
 
-		qDebug() << "Failed to parse json file: " + error.errorString() ;
+		log.add( "Failed to parse json file at: " + error.errorString() ) ;
 
 		return {} ;
 	}else{
@@ -117,21 +119,21 @@ static QString _engine_path()
 	}
 }
 
-engines::engines()
+engines::engines( QPlainTextEdit& textEdit ) : m_log( textEdit )
 {
 	auto e = _engine_path() ;
 
 	QDir().mkpath( e ) ;
 	QDir().mkpath( e + "/engines" ) ;
 
-	auto m = _add_engine( e,youtube_dl() ) ;
+	auto m = _add_engine( m_log,e,youtube_dl() ) ;
 
 	if( m.valid() ){
 
 		m_backends.emplace_back( std::move( m ) ) ;
 	}
 
-	m = _add_engine( e,wget() ) ;
+	m = _add_engine( m_log,e,wget() ) ;
 
 	if( m.valid() && !m.exePath().isEmpty() ){
 
@@ -140,11 +142,13 @@ engines::engines()
 
 	if( m_backends.size() == 0 ){
 
+		m_log.add( "Warning: Using internal config options for youtube-dl backend" ) ;
+
 		QByteArray m ;
 
 		if( utility::platformIsLinux() ){
 
-			m = "{\"BackendPath\":\"/home/ink/.local/share/media-downloader/bin\",\"CommandName\":\"youtube-dl\",\"DefaultDownLoadCmdOptions\":[\"--newline\",\"--ignore-config\",\"--no-playlist\",\"--newline\"],\"DefaultListCmdOptions\":[\"-F\"],\"DownloadUrl\":\"https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest\",\"Name\":\"youtube-dl\",\"OptionsArgument\":\"-f\",\"UsePrivateExecutable\":true,\"VersionArgument\":\"--version\",\"VersionStringLine\":0,\"VersionStringPosition\":0}" ;
+			m = "{\"BackendPath\":\"/home/ink/.local/share/media-downloader/bin\",\"CommandName\":\"youtube-dl\",\"DefaultDownLoadCmdOptions\":[\"--newline\",\"--ignore-config\",\"--no-playlist\",\"--newline\"],\"DefaultListCmdOptions\":[\"-F\"],\"DownloadUrl\":\"https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest\",\"Name\":\"youtube-dl\",\"OptionsArgument\":\"-f\",\"UsePrivateExecutable\":false,\"VersionArgument\":\"--version\",\"VersionStringLine\":0,\"VersionStringPosition\":0}" ;
 		}else{
 			m = "{\"BackendPath\":\"/home/ink/.local/share/media-downloader/bin\",\"CommandName\":\"youtube-dl.exe\",\"DefaultDownLoadCmdOptions\":[\"--newline\",\"--ignore-config\",\"--no-playlist\",\"--newline\"],\"DefaultListCmdOptions\":[\"-F\"],\"DownloadUrl\":\"https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest\",\"Name\":\"youtube-dl\",\"OptionsArgument\":\"-f\",\"UsePrivateExecutable\":true,\"VersionArgument\":\"--version\",\"VersionStringLine\":0,\"VersionStringPosition\":0}" ;
 		}
@@ -205,4 +209,18 @@ QString engines::engine::versionString( const QString& data ) const
 	}
 
 	return {} ;
+}
+
+void engines::log::add( const QString& s )
+{
+	auto a = m_textEdit.toPlainText() ;
+
+	if( a.isEmpty() ){
+
+		m_textEdit.setPlainText( "[media-downloader] " + s ) ;
+	}else{
+		m_textEdit.setPlainText( a + "\n[media-downloader] " + s ) ;
+	}
+
+	m_textEdit.moveCursor( QTextCursor::End ) ;
 }

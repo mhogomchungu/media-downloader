@@ -26,7 +26,7 @@
 #include "network_support.h"
 #include "../utility.h"
 
-QByteArray youtube_dl::config( const QString& enginePath ) const
+QByteArray youtube_dl::config( engines::log& log,const QString& enginePath ) const
 {
 	auto m = enginePath + "/engines/youtube-dl.json" ;
 
@@ -112,12 +112,22 @@ QByteArray youtube_dl::config( const QString& enginePath ) const
 		QJsonDocument doc( mainObj ) ;
 
 		QFile file( m ) ;
-		file.open( QIODevice::WriteOnly ) ;
-		file.write( doc.toJson( QJsonDocument::Indented ) ) ;
+
+		if( file.open( QIODevice::WriteOnly ) ){
+
+			file.write( doc.toJson( QJsonDocument::Indented ) ) ;
+		}else{
+			log.add( "Failed to open file for writing: " + m ) ;
+		}
 	}
 
 	QFile file( m ) ;
-	file.open( QIODevice::ReadOnly ) ;
+
+	if( !file.open( QIODevice::ReadOnly ) ){
+
+		log.add( "Failed to open file for reading: " + m ) ;
+	}
+
 	return file.readAll() ;
 }
 
@@ -136,7 +146,13 @@ engines::engine::functions youtube_dl::functions() const
 		}		
 
 		ourOptions.append( engine.optionsArgument() ) ;
-		ourOptions.append( quality ) ;
+
+		if( quality.isEmpty() ){
+
+			ourOptions.append( "best" ) ;
+		}else{
+			ourOptions.append( quality ) ;
+		}
 	} ;
 
 	functions.processData = []( QStringList& outPut,const QByteArray& data ){

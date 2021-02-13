@@ -31,7 +31,7 @@ wget::wget()
 }
 #include <QDebug>
 
-QByteArray wget::config( const QString& enginePath ) const
+QByteArray wget::config( engines::log& log,const QString& enginePath ) const
 {
 	auto m = enginePath + "/engines/wget.json" ;
 
@@ -106,12 +106,22 @@ QByteArray wget::config( const QString& enginePath ) const
 		QJsonDocument doc( mainObj ) ;
 
 		QFile file( m ) ;
-		file.open( QIODevice::WriteOnly ) ;
-		file.write( doc.toJson( QJsonDocument::Indented ) ) ;
+
+		if( file.open( QIODevice::WriteOnly ) ){
+
+			file.write( doc.toJson( QJsonDocument::Indented ) ) ;
+		}else{
+			log.add( "Failed to open file for writing: " + m ) ;
+		}
 	}
 
 	QFile file( m ) ;
-	file.open( QIODevice::ReadOnly ) ;
+
+	if( !file.open( QIODevice::ReadOnly ) ){
+
+		log.add( "Failed to open file for reading: " + m ) ;
+	}
+
 	return file.readAll() ;
 }
 
@@ -125,8 +135,15 @@ engines::engine::functions wget::functions() const
 						 QStringList& ourOptions ){
 		Q_UNUSED( userOptions )
 
-		ourOptions.append( engine.optionsArgument() ) ;
-		ourOptions.append( quality ) ;
+		if( !engine.optionsArgument().isEmpty() ){
+
+			ourOptions.append( engine.optionsArgument() ) ;
+		}
+
+		if( !quality.isEmpty() ){
+
+			ourOptions.append( quality ) ;
+		}
 
 		ourOptions.append( "--progress=bar:force" ) ;
 	} ;

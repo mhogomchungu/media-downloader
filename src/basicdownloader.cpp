@@ -84,10 +84,19 @@ basicdownloader::basicdownloader( Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	this->printDefaultBkVersionInfo() ;
+	auto a = m_ui.plainTextEdit->toPlainText() ;
+
+	if( !a.isEmpty() ){
+
+		auto b =  utility::split( a,'\n',false ) ;
+
+		this->printDefaultBkVersionInfo( b ) ;
+	}else{
+		this->printDefaultBkVersionInfo() ;
+	}
 }
 
-void basicdownloader::printDefaultBkVersionInfo()
+void basicdownloader::printDefaultBkVersionInfo( const QStringList& data )
 {
 	if( m_counter >= m_ctx.Engines().getEngines().size() ){
 
@@ -105,7 +114,7 @@ void basicdownloader::printDefaultBkVersionInfo()
 
 		if( QFile::exists( exe ) ){
 
-			this->checkAndPrintInstalledVersion( engine ) ;
+			this->checkAndPrintInstalledVersion( engine,data ) ;
 		}else{
 			m_ctx.TabManager().Configure().downloadYoutubeDl() ;
 		}
@@ -124,7 +133,7 @@ void basicdownloader::printDefaultBkVersionInfo()
 
 			this->enableQuit() ;
 		}else{
-			this->checkAndPrintInstalledVersion( engine ) ;
+			this->checkAndPrintInstalledVersion( engine,data ) ;
 		}
 	}
 }
@@ -145,12 +154,7 @@ void basicdownloader::resetMenu( const QStringList& args )
 			m_ui.lineEditURL->clear() ;
 			m_ui.lineEditOptions->clear() ;
 		}else{
-			if( ac.best() ){
-
-				m_ui.lineEditOptions->setText( ac.bestText() ) ;
-			}else{
-				m_ui.lineEditOptions->setText( ac.objectName() ) ;
-			}
+			m_ui.lineEditOptions->setText( ac.objectName() ) ;
 
 			if( m_settings.autoDownload() ){
 

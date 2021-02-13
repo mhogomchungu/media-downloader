@@ -99,10 +99,6 @@ namespace utility
 		{
 			return m_ac->objectName() == translator::CLEARSCREEN ;
 		}
-		bool best()
-		{
-			return this->text() == "Best" ;
-		}
 		QString text()
 		{
 			return m_ac->text() ;
@@ -110,10 +106,6 @@ namespace utility
 		QString objectName()
 		{
 			return m_ac->objectName() ;
-		}
-		static QString bestText()
-		{
-			return "best" ;
 		}
 	private:
 		QAction * m_ac ;
@@ -123,16 +115,12 @@ namespace utility
 	{
 		args( const QString& e )
 		{
-			if( e.isEmpty() ){
+			if( !e.isEmpty() ){
 
-				quality = selectedAction::bestText() ;
-			}else{
 				otherOptions = utility::split( e,' ',true ) ;
 
-				if( otherOptions.isEmpty() ){
+				if( !otherOptions.isEmpty() ){
 
-					quality = selectedAction::bestText() ;
-				}else{
 					quality = otherOptions.takeFirst() ;
 				}
 			}

@@ -82,16 +82,9 @@ void batchfiledownloader::enableAll()
 
 void batchfiledownloader::resetMenu()
 {
-	utility::setMenuOptions( m_ctx,{},false,m_ui.pbFileDownloaderOptions,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,{},false,m_ui.pbFileDownloaderOptions,[ this ]( QAction * ac ){
 
-		utility::selectedAction ac( aa ) ;
-
-		if( ac.best() ){
-
-			m_ui.lineEditFileOptions->setText( ac.bestText() ) ;
-		}else{
-			m_ui.lineEditFileOptions->setText( ac.objectName() ) ;
-		}
+		m_ui.lineEditFileOptions->setText( ac->objectName() ) ;
 	} ) ;
 }
 

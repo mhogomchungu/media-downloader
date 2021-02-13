@@ -72,7 +72,7 @@ private:
 	void list() ;
 	void download() ;
 	void exit() ;
-	void printDefaultBkVersionInfo() ;
+	void printDefaultBkVersionInfo( const QStringList& = {} ) ;
 } ;
 
 #endif
