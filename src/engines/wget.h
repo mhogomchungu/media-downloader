@@ -25,7 +25,7 @@ class wget
 {
 public:
         wget() ;
-	QByteArray config( engines::log&,const QString& enginePath ) const ;
+	QByteArray config( engines::log&,const engines::enginePaths& ) const ;
 	engines::engine::functions functions() const ;
 private:
 };

@@ -100,6 +100,10 @@ public:
 	{
 		return m_basicdownloader ;
 	}
+	playlistdownloader& playlistDownloader()
+	{
+		return m_playlistdownloader ;
+	}
 	configure& Configure()
 	{
 		return m_configure ;

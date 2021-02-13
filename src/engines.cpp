@@ -33,63 +33,8 @@
 #include <QDebug>
 
 template< typename Engine >
-static engines::engine _add_engine( QJsonDocument& json,const Engine& engine )
-{
-	auto object = json.object() ;
-
-	auto usePrivateExecutable = object.value( "UsePrivateExecutable" ).toBool() ;
-
-	auto commandName = object.value( "CommandName" ).toString() ;
-
-	auto name = object.value( "Name" ).toString() ;
-
-	auto backendPath = object.value( "BackendPath" ).toString() ;
-
-	auto downloadUrl = object.value( "DownloadUrl" ).toString() ;
-
-	auto versionArgument = object.value( "VersionArgument" ).toString() ;
-
-	auto optionsArgument = object.value( "OptionsArgument" ).toString() ;
-
-	auto versionStringLine = object.value( "VersionStringLine" ).toInt() ;
-
-	auto versionStringPosition = object.value( "VersionStringPosition" ).toInt() ;
-
-	auto _toStringList = []( const QJsonValue& value ){
-
-		QStringList m ;
-
-		auto array = value.toArray() ;
-
-		for( int i = 0 ; i < array.size() ;i ++ ){
-
-			m.append( array.at( i ).toString() ) ;
-		}
-
-		return m ;
-	} ;
-
-	auto defaultDownLoadCmdOptions = _toStringList( object.value( "DefaultDownLoadCmdOptions" ) ) ;
-
-	auto defaultListCmdOptions = _toStringList( object.value( "DefaultListCmdOptions" ) ) ;
-
-	return engines::engine( engine.functions(),
-				versionStringLine,
-				versionStringPosition,
-				usePrivateExecutable,
-				name,
-				commandName,
-				backendPath,
-				versionArgument,
-				optionsArgument,
-				downloadUrl,
-				defaultDownLoadCmdOptions,
-				defaultListCmdOptions ) ;
-}
-
-template< typename Engine >
 static engines::engine _add_engine( engines::log& log,
-				    const QString& enginePath,
+				    const engines::enginePaths& enginePath,
 				    const Engine& engine )
 {
 	QJsonParseError error ;
@@ -102,38 +47,22 @@ static engines::engine _add_engine( engines::log& log,
 
 		return {} ;
 	}else{
-		return _add_engine( json,engine ) ;
-	}
-}
-
-static QString _engine_path()
-{
-	auto m = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
-
-	if( !m.isEmpty() ){
-
-		return m.first() ;
-	}else{
-		//?????
-		return QDir::homePath() + "/.config/media-downloader/" ;
+		return engines::engine( json,engine.functions() ) ;
 	}
 }
 
 engines::engines( QPlainTextEdit& textEdit ) : m_log( textEdit )
 {
-	auto e = _engine_path() ;
+	enginePaths enginePaths ;
 
-	QDir().mkpath( e ) ;
-	QDir().mkpath( e + "/engines" ) ;
-
-	auto m = _add_engine( m_log,e,youtube_dl() ) ;
+	auto m = _add_engine( m_log,enginePaths,youtube_dl() ) ;
 
 	if( m.valid() ){
 
 		m_backends.emplace_back( std::move( m ) ) ;
 	}
 
-	m = _add_engine( m_log,e,wget() ) ;
+	m = _add_engine( m_log,enginePaths,wget() ) ;
 
 	if( m.valid() && !m.exePath().isEmpty() ){
 
@@ -157,7 +86,7 @@ engines::engines( QPlainTextEdit& textEdit ) : m_log( textEdit )
 
 		auto json = QJsonDocument::fromJson( m,&error ) ;
 
-		m_backends.emplace_back( _add_engine( json,youtube_dl() ) ) ;
+		m_backends.emplace_back( json,youtube_dl().functions() ) ;
 	}
 
 	this->setDefaultEngine( m_backends[ 0 ].name() ) ;
@@ -193,6 +122,46 @@ void engines::setDefaultEngine( const QString& name )
 	m_defaultEngine = name ;
 }
 
+static QStringList _toStringList( const QJsonValue& value ){
+
+	QStringList m ;
+
+	auto array = value.toArray() ;
+
+	for( int i = 0 ; i < array.size() ;i ++ ){
+
+		m.append( array.at( i ).toString() ) ;
+	}
+
+	return m ;
+}
+
+engines::engine::engine( const QJsonDocument& json,engines::engine::functions functions ) :
+	m_jsonObject( json.object() ),
+	m_functions( std::move( functions ) ),
+	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
+	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
+	m_valid( true ),
+	m_usingPrivateBackend( m_jsonObject.value( "UsePrivateExecutable" ).toBool() ),
+	m_canDownloadPlaylist( m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ),
+	m_name( m_jsonObject.value( "Name" ).toString() ),
+	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
+	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
+	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
+	m_optionsArgument( m_jsonObject.value( "OptionsArgument" ).toString() ),
+	m_downloadPath( m_jsonObject.value( "DownloadUrl" ).toString() ),
+	m_batchFileArgument( m_jsonObject.value( "BatchFileArgument" ).toString() ),
+	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ) ) ),
+	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) )
+{
+	if( this->usingPrivateBackend() ){
+
+		m_exePath = m_exeFolderPath + "/" + m_commandName ;
+	}else{
+		m_exePath = QStandardPaths::findExecutable( m_commandName ) ;
+	}
+}
+
 QString engines::engine::versionString( const QString& data ) const
 {
 	auto a = utility::split( data,'\n',true ) ;
@@ -223,4 +192,24 @@ void engines::log::add( const QString& s )
 	}
 
 	m_textEdit.moveCursor( QTextCursor::End ) ;
+}
+
+engines::enginePaths::enginePaths()
+{
+	auto m = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
+
+	if( !m.isEmpty() ){
+
+		m_basePath = m.first() ;
+	}else{
+		//?????
+		m_basePath = QDir::homePath() + "/.config/media-downloader/" ;
+	}
+
+	m_binPath = m_basePath + "/bin" ;
+	m_configPath = m_basePath + "/engines.v1" ;
+
+	QDir().mkpath( m_basePath ) ;
+	QDir().mkpath( m_binPath ) ;
+	QDir().mkpath( m_configPath ) ;
 }

@@ -70,6 +70,7 @@ basicdownloader::basicdownloader( Context& ctx ) :
 		if( e ){
 
 			m_ctx.Engines().setDefaultEngine( "youtube-dl" ) ;
+			m_ctx.TabManager().playlistDownloader().enableAll() ;
 		}
 	} ) ;
 
@@ -78,6 +79,7 @@ basicdownloader::basicdownloader( Context& ctx ) :
 		if( e ){
 
 			m_ctx.Engines().setDefaultEngine( "wget" ) ;
+			m_ctx.TabManager().playlistDownloader().disableAll() ;
 		}
 	} ) ;
 }

@@ -42,7 +42,9 @@ batchfiledownloader::batchfiledownloader( Context& ctx ) :
 
 		const auto& engine = m_ctx.Engines().defaultEngine() ;
 
-		m_tabManager.basicDownloader().download( engine,options,{ "-a",url } ) ;
+		QStringList args{ engine.batchFileArgument(),url } ;
+
+		m_tabManager.basicDownloader().download( engine,options,args ) ;
 	} ) ;
 
 	m_ui.pbFileDownloaderFilePath->setIcon( [](){

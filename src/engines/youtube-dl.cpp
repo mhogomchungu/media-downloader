@@ -26,9 +26,9 @@
 #include "network_support.h"
 #include "../utility.h"
 
-QByteArray youtube_dl::config( engines::log& log,const QString& enginePath ) const
+QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& enginePath ) const
 {
-	auto m = enginePath + "/engines/youtube-dl.json" ;
+	auto m = enginePath.configPath() + "/youtube-dl.json" ;
 
 	if( !QFile::exists( m ) ){
 
@@ -96,7 +96,7 @@ QByteArray youtube_dl::config( engines::log& log,const QString& enginePath ) con
 
 		mainObj.insert( "BackendPath",[ & ]()->QJsonValue{
 
-			return enginePath + "/bin" ;
+			return enginePath.binPath() ;
 		}() ) ;
 
 		mainObj.insert( "VersionStringLine",[]()->QJsonValue{
@@ -107,6 +107,16 @@ QByteArray youtube_dl::config( engines::log& log,const QString& enginePath ) con
 		mainObj.insert( "VersionStringPosition",[]()->QJsonValue{
 
 			return 0 ;
+		}() ) ;
+
+		mainObj.insert( "BatchFileArgument",[]()->QJsonValue{
+
+			return "-a" ;
+		}() ) ;
+
+		mainObj.insert( "CanDownloadPlaylist",[]()->QJsonValue{
+
+			return true ;
 		}() ) ;
 
 		QJsonDocument doc( mainObj ) ;

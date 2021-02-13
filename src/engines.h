@@ -23,6 +23,9 @@
 #include <QStringList>
 #include <QStandardPaths>
 #include <QPlainTextEdit>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QDir>
 
 #include <vector>
 #include <functional>
@@ -35,10 +38,34 @@ public:
 		log( QPlainTextEdit& e ) : m_textEdit( e )
 		{
 		}
-		void add( const QString& s );
+		void add( const QString& s ) ;
 	private:
 		QPlainTextEdit& m_textEdit ;
 	} ;
+
+	class enginePaths
+	{
+	public:
+		enginePaths() ;
+
+		const QString& basePath() const
+		{
+			return m_basePath ;
+		}
+		const QString& binPath() const
+		{
+			return m_binPath ;
+		}
+
+		const QString& configPath() const
+		{
+			return m_configPath ;
+		}
+	private:
+		QString m_binPath ;
+		QString m_configPath ;
+		QString m_basePath ;
+	};
 
 	class engine
 	{
@@ -52,42 +79,13 @@ public:
 					     const QStringList& userOptions,
 					     QStringList& ourOptions ) > updateDownLoadCmdOptions ;
 		};
+
 		engine() : m_valid( false )
 		{
 		}
-		engine( functions f,
-			int line,
-			int position,
-			bool usingPrivateBackend,
-			const QString& name,
-			const QString& commandName,
-			const QString& exeFolderPath,
-			const QString& versionArgument,
-			const QString& optionsArgument,
-			const QString& dp,
-			const QStringList& defaultDownLoadCmdOptions,
-			const QStringList& defaultListCmdOptions ) :
-			m_functions( std::move( f ) ),
-			m_line( line ),
-			m_position( position ),
-			m_valid( true ),
-			m_usingPrivateBackend( usingPrivateBackend ),
-			m_name( name ),
-			m_commandName( commandName ),
-			m_exeFolderPath( exeFolderPath ),
-			m_versionArgument( versionArgument ),
-			m_optionsArgument( optionsArgument ),
-			m_downloadPath( dp ),
-			m_defaultDownLoadCmdOptions( defaultDownLoadCmdOptions ),
-			m_defaultListCmdOptions( defaultListCmdOptions )
-		{
-			if( this->usingPrivateBackend() ){
 
-				m_exePath = m_exeFolderPath + "/" + m_commandName ;
-			}else{
-				m_exePath = QStandardPaths::findExecutable( m_commandName ) ;
-			}
-		}
+		engine( const QJsonDocument& json,engine::functions ) ;
+
 		const QString& name() const
 		{
 			return m_name ;
@@ -132,6 +130,10 @@ public:
 		{
 			return m_exePath ;
 		}
+		const QString& batchFileArgument() const
+		{
+			return m_batchFileArgument ;
+		}
 		const QString& exeFolderPath() const
 		{
 			return m_exeFolderPath ;
@@ -144,12 +146,18 @@ public:
 		{
 			return m_valid ;
 		}
+		bool canDownloadPlaylist() const
+		{
+			return m_canDownloadPlaylist ;
+		}
 	private:
+		QJsonObject m_jsonObject ;
 		functions m_functions ;
 		int m_line ;
 		int m_position ;
 		bool m_valid ;
 		bool m_usingPrivateBackend ;
+		bool m_canDownloadPlaylist ;
 		QString m_name ;
 		QString m_commandName ;
 		QString m_exeFolderPath ;
@@ -157,6 +165,7 @@ public:
 		QString m_versionArgument ;
 		QString m_optionsArgument ;
 		QString m_downloadPath ;
+		QString m_batchFileArgument ;
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
 	};

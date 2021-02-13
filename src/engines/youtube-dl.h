@@ -24,7 +24,7 @@
 class youtube_dl
 {
 public:
-	QByteArray config( engines::log&,const QString& ) const ;
+	QByteArray config( engines::log&,const engines::enginePaths& ) const ;
 	engines::engine::functions functions() const ;
 private:
 };

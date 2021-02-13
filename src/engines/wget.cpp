@@ -31,9 +31,9 @@ wget::wget()
 }
 #include <QDebug>
 
-QByteArray wget::config( engines::log& log,const QString& enginePath ) const
+QByteArray wget::config( engines::log& log,const engines::enginePaths& enginePath ) const
 {
-	auto m = enginePath + "/engines/wget.json" ;
+	auto m = enginePath.configPath() + "/wget.json" ;
 
 	if( !QFile::exists( m ) ){
 
@@ -101,6 +101,16 @@ QByteArray wget::config( engines::log& log,const QString& enginePath ) const
 		mainObj.insert( "VersionStringPosition",[]()->QJsonValue{
 
 			return 2 ;
+		}() ) ;
+
+		mainObj.insert( "BatchFileArgument",[]()->QJsonValue{
+
+			return "-i" ;
+		}() ) ;
+
+		mainObj.insert( "CanDownloadPlaylist",[]()->QJsonValue{
+
+			return false ;
 		}() ) ;
 
 		QJsonDocument doc( mainObj ) ;

@@ -85,6 +85,11 @@ void playlistdownloader::init_done()
 
 void playlistdownloader::enableAll()
 {
+	if( !m_ctx.Engines().defaultEngine().canDownloadPlaylist() ){
+
+		return ;
+	}
+
 	m_ui.pbFilePLEDownloaderFilePath->setEnabled( true ) ;
 	m_ui.lineEditPLEFileDownloader->setEnabled( true ) ;
 	m_ui.labelPLEFileDownloederPath->setEnabled( true ) ;
