@@ -36,7 +36,7 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>321</height>
+        <height>291</height>
        </rect>
       </property>
      </widget>
@@ -169,7 +169,7 @@
         <x>70</x>
         <y>20</y>
         <width>651</width>
-        <height>281</height>
+        <height>251</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -183,6 +183,32 @@
       </property>
       <property name="wordWrap">
        <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="rbYoutubeDl">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>290</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string notr="true">Youtube-dl</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="rbWget">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>290</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string notr="true">Wget</string>
       </property>
      </widget>
     </widget>

@@ -33,7 +33,7 @@ wget::wget()
 
 QByteArray wget::config( const QString& enginePath ) const
 {
-	auto m = enginePath + "/wget.json" ;
+	auto m = enginePath + "/engines/wget.json" ;
 
 	if( !QFile::exists( m ) ){
 
@@ -52,6 +52,11 @@ QByteArray wget::config( const QString& enginePath ) const
 			}else{
 				return "wget" ;
 			}
+		}() ) ;
+
+		mainObj.insert( "Name",[]()->QJsonValue{
+
+			return "wget" ;
 		}() ) ;
 
 		mainObj.insert( "DefaultDownLoadCmdOptions",[]()->QJsonValue{

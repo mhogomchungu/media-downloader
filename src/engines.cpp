@@ -30,63 +30,18 @@
 
 #include <QDir>
 
-const std::vector< engines::engine >& engines::getEngines()
-{
-	return m_backends ;
-}
-
-const engines::engine& engines::defaultEngine()
-{
-	return m_backends[ 0 ] ;
-}
-
-const engines::engine & engines::getEngineByName( const QString& name )
-{
-	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
-
-		const auto& m = m_backends[ i ] ;
-
-		if( m.name() == name ){
-
-			return m ;
-		}
-	}
-
-	return m_backends[ 0 ] ;
-}
-
-const engines::engine& engines::getEngineByUrl( const QString& url )
-{
-	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
-
-		const auto& m = m_backends[ i ] ;
-
-		if( m.hasSupport( url ) ){
-
-			return m ;
-		}
-	}
-
-	return m_backends[ 0 ] ;
-}
+#include <QDebug>
 
 template< typename Engine >
-static engines::engine _add_engine( const QString& enginePath,const Engine& engine )
+static engines::engine _add_engine( QJsonDocument& json,const Engine& engine )
 {
-	QJsonParseError error ;
-
-	auto json = QJsonDocument::fromJson( engine.config( enginePath ),&error ) ;
-
-	if( error.error != QJsonParseError::NoError ){
-
-		return {} ;
-	}
-
 	auto object = json.object() ;
 
 	auto usePrivateExecutable = object.value( "UsePrivateExecutable" ).toBool() ;
 
 	auto commandName = object.value( "CommandName" ).toString() ;
+
+	auto name = object.value( "Name" ).toString() ;
 
 	auto backendPath = object.value( "BackendPath" ).toString() ;
 
@@ -122,6 +77,7 @@ static engines::engine _add_engine( const QString& enginePath,const Engine& engi
 				versionStringLine,
 				versionStringPosition,
 				usePrivateExecutable,
+				name,
 				commandName,
 				backendPath,
 				versionArgument,
@@ -129,6 +85,23 @@ static engines::engine _add_engine( const QString& enginePath,const Engine& engi
 				downloadUrl,
 				defaultDownLoadCmdOptions,
 				defaultListCmdOptions ) ;
+}
+
+template< typename Engine >
+static engines::engine _add_engine( const QString& enginePath,const Engine& engine )
+{
+	QJsonParseError error ;
+
+	auto json = QJsonDocument::fromJson( engine.config( enginePath ),&error ) ;
+
+	if( error.error != QJsonParseError::NoError ){
+
+		qDebug() << "Failed to parse json file: " + error.errorString() ;
+
+		return {} ;
+	}else{
+		return _add_engine( json,engine ) ;
+	}
 }
 
 static QString _engine_path()
@@ -146,28 +119,89 @@ static QString _engine_path()
 
 engines::engines()
 {
-	auto e = _engine_path() + "/engines" ;
+	auto e = _engine_path() ;
 
 	QDir().mkpath( e ) ;
+	QDir().mkpath( e + "/engines" ) ;
 
 	auto m = _add_engine( e,youtube_dl() ) ;
 
 	if( m.valid() ){
 
 		m_backends.emplace_back( std::move( m ) ) ;
-	}else{
-		//?????
 	}
-#if 0
+
 	m = _add_engine( e,wget() ) ;
 
 	if( m.valid() && !m.exePath().isEmpty() ){
 
 		m_backends.emplace_back( std::move( m ) ) ;
-	}else{
-		//?????
 	}
-#endif
+
+	if( m_backends.size() == 0 ){
+
+		QByteArray m ;
+
+		if( utility::platformIsLinux() ){
+
+			m = "{\"BackendPath\":\"/home/ink/.local/share/media-downloader/bin\",\"CommandName\":\"youtube-dl\",\"DefaultDownLoadCmdOptions\":[\"--newline\",\"--ignore-config\",\"--no-playlist\",\"--newline\"],\"DefaultListCmdOptions\":[\"-F\"],\"DownloadUrl\":\"https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest\",\"Name\":\"youtube-dl\",\"OptionsArgument\":\"-f\",\"UsePrivateExecutable\":true,\"VersionArgument\":\"--version\",\"VersionStringLine\":0,\"VersionStringPosition\":0}" ;
+		}else{
+			m = "{\"BackendPath\":\"/home/ink/.local/share/media-downloader/bin\",\"CommandName\":\"youtube-dl.exe\",\"DefaultDownLoadCmdOptions\":[\"--newline\",\"--ignore-config\",\"--no-playlist\",\"--newline\"],\"DefaultListCmdOptions\":[\"-F\"],\"DownloadUrl\":\"https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest\",\"Name\":\"youtube-dl\",\"OptionsArgument\":\"-f\",\"UsePrivateExecutable\":true,\"VersionArgument\":\"--version\",\"VersionStringLine\":0,\"VersionStringPosition\":0}" ;
+		}
+
+		QJsonParseError error ;
+
+		auto json = QJsonDocument::fromJson( m,&error ) ;
+
+		m_backends.emplace_back( _add_engine( json,youtube_dl() ) ) ;
+	}
+
+	this->setDefaultEngine( m_backends[ 0 ].name() ) ;
+}
+
+const std::vector< engines::engine >& engines::getEngines()
+{
+	return m_backends ;
+}
+
+const engines::engine& engines::defaultEngine()
+{
+	return this->getEngineByName( m_defaultEngine ) ;
+}
+
+const engines::engine & engines::getEngineByName( const QString& name )
+{
+	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
+
+		const auto& m = m_backends[ i ] ;
+
+		if( m.name() == name ){
+
+			return m ;
+		}
+	}
+
+	return m_backends[ 0 ] ;
+}
+
+void engines::setDefaultEngine( const QString& name )
+{
+	m_defaultEngine = name ;
+}
+
+const engines::engine& engines::getEngineByUrl( const QString& url )
+{
+	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
+
+		const auto& m = m_backends[ i ] ;
+
+		if( m.hasSupport( url ) ){
+
+			return m ;
+		}
+	}
+
+	return m_backends[ 0 ] ;
 }
 
 QString engines::engine::versionString( const QString& data ) const

@@ -28,7 +28,7 @@
 
 QByteArray youtube_dl::config( const QString& enginePath ) const
 {
-	auto m = enginePath + "/youtube-dl.json" ;
+	auto m = enginePath + "/engines/youtube-dl.json" ;
 
 	if( !QFile::exists( m ) ){
 
@@ -54,6 +54,11 @@ QByteArray youtube_dl::config( const QString& enginePath ) const
 			}else{
 				return "youtube-dl" ;
 			}
+		}() ) ;
+
+		mainObj.insert( "Name",[]()->QJsonValue{
+
+			return "youtube-dl" ;
 		}() ) ;
 
 		mainObj.insert( "DefaultDownLoadCmdOptions",[]()->QJsonValue{

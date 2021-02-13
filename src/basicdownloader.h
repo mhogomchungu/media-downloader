@@ -62,6 +62,9 @@ private:
 	tabManager& m_tabManager ;
 	QStringList m_output ;
 
+	void disableEngine( const engines::engine& ) ;
+	void enableEngine( const engines::engine& ) ;
+
 	void run( const engines::engine& engine,
 		  const QStringList& args,
 		  bool list_requested ) ;

@@ -49,6 +49,7 @@ public:
 			int position,
 			bool usingPrivateBackend,
 			const QString& name,
+			const QString& commandName,
 			const QString& exeFolderPath,
 			const QString& versionArgument,
 			const QString& optionsArgument,
@@ -61,6 +62,7 @@ public:
 			m_valid( true ),
 			m_usingPrivateBackend( usingPrivateBackend ),
 			m_name( name ),
+			m_commandName( commandName ),
 			m_exeFolderPath( exeFolderPath ),
 			m_versionArgument( versionArgument ),
 			m_optionsArgument( optionsArgument ),
@@ -70,14 +72,18 @@ public:
 		{
 			if( this->usingPrivateBackend() ){
 
-				m_exePath = m_exeFolderPath + "/" + m_name ;
+				m_exePath = m_exeFolderPath + "/" + m_commandName ;
 			}else{
-				m_exePath = QStandardPaths::findExecutable( m_name ) ;
+				m_exePath = QStandardPaths::findExecutable( m_commandName ) ;
 			}
 		}
 		const QString& name() const
 		{
 			return m_name ;
+		}
+		const QString& commandName() const
+		{
+			return m_commandName ;
 		}
 		const QString& versionArgument() const
 		{
@@ -138,6 +144,7 @@ public:
 		bool m_valid ;
 		bool m_usingPrivateBackend ;
 		QString m_name ;
+		QString m_commandName ;
 		QString m_exeFolderPath ;
 		QString m_exePath ;
 		QString m_versionArgument ;
@@ -151,9 +158,10 @@ public:
 	const engine& defaultEngine() ;
 	const engine& getEngineByUrl( const QString& url ) ;
 	const engine& getEngineByName( const QString& name ) ;
-
+	void setDefaultEngine( const QString& name ) ;
 	engines() ;
 private:
+	QString m_defaultEngine ;
 	std::vector< engine > m_backends ;
 };
 

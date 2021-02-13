@@ -163,7 +163,7 @@ void batchdownloader::download()
 
 		auto options = m_ui.lineEditBDUrlOptions->text() ;
 
-		const auto& engine = m_ctx.Engines().getEngineByUrl( urls.at( 0 ) ) ;
+		const auto& engine = m_ctx.Engines().defaultEngine() ;
 
 		m_tabManager.basicDownloader().download( engine,options,urls ) ;
 	}
