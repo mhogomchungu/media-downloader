@@ -149,7 +149,8 @@ public:
 
 	const std::vector< engine >& getEngines() ;
 	const engine& defaultEngine() ;
-	const engine& getEngine( const QString& url ) ;
+	const engine& getEngineByUrl( const QString& url ) ;
+	const engine& getEngineByName( const QString& name ) ;
 
 	engines() ;
 private:

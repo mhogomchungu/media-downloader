@@ -353,7 +353,7 @@ void basicdownloader::list()
 
 	auto url = m_ui.lineEditURL->text() ;
 
-	const auto& backend = m_ctx.Engines().getEngine( url ) ;
+	const auto& backend = m_ctx.Engines().getEngineByUrl( url ) ;
 
 	auto args = backend.defaultListCmdOptions() ;
 	args.append( url.split( ' ' ) ) ;
@@ -367,7 +367,7 @@ void basicdownloader::download()
 
 	auto m = utility::split( url,' ',true ) ;
 
-	const auto& engine = m_ctx.Engines().getEngine( url ) ;
+	const auto& engine = m_ctx.Engines().getEngineByUrl( url ) ;
 
 	this->download( engine,m_ui.lineEditOptions->text(),m,false ) ;
 }

@@ -122,16 +122,18 @@ engines::engine::functions wget::functions() const
 		Q_UNUSED( engine )
 		Q_UNUSED( quality )
 		Q_UNUSED( userOptions )
+
 		ourOptions.append( "--progress=bar:force" ) ;
 	} ;
 
 	functions.hasSupport = []( const QString& url ){
-
 		/*
 		 * The assumption here is that we are downloading a file
-		 * and a dot character marks the beginning of a file extension.
+		 * and we are look at the last 8 characters and see if there
+		 * is a dot character that marks the beginning of a file extension
 		 */
-		return url.contains( '.' ) ;
+		auto m = url.mid( url.size() - 8 ) ;
+		return m.contains( '.' ) ;
 	} ;
 
 	functions.processData = []( QStringList& outPut,const QByteArray& data ){

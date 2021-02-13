@@ -73,7 +73,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		auto url = m_ui.lineEditPLUrl->text() ;
 
-		const auto& engine = m_ctx.Engines().getEngine( url ) ;
+		const auto& engine = m_ctx.Engines().getEngineByUrl( url ) ;
 
 		m_tabManager.basicDownloader().download( engine,options,url ) ;
 	} ) ;

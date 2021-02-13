@@ -40,7 +40,22 @@ const engines::engine& engines::defaultEngine()
 	return m_backends[ 0 ] ;
 }
 
-const engines::engine& engines::getEngine( const QString& url )
+const engines::engine & engines::getEngineByName( const QString& name )
+{
+	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
+
+		const auto& m = m_backends[ i ] ;
+
+		if( m.name() == name ){
+
+			return m ;
+		}
+	}
+
+	return m_backends[ 0 ] ;
+}
+
+const engines::engine& engines::getEngineByUrl( const QString& url )
 {
 	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
 
