@@ -139,13 +139,6 @@ engines::engine::functions youtube_dl::functions() const
 		ourOptions.append( quality ) ;
 	} ;
 
-	functions.hasSupport = []( const QString& url ){
-
-		Q_UNUSED( url )
-
-		return true ;
-	} ;
-
 	functions.processData = []( QStringList& outPut,const QByteArray& data ){
 
 		for( const auto& m : utility::split( data ) ){

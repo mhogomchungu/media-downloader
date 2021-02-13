@@ -35,7 +35,6 @@ public:
 		{
 			std::function< void( QStringList&,const QByteArray& ) > processData ;
 
-			std::function< bool( const QString& ) > hasSupport ;
 			std::function< void( const engines::engine& engine,
 					     const QString& quality,
 					     const QStringList& userOptions,
@@ -113,10 +112,6 @@ public:
 		{
 			m_functions.updateDownLoadCmdOptions( *this,quality,userOptions,ourOptions ) ;
 		}
-		bool hasSupport( const QString& url ) const
-		{
-			return m_functions.hasSupport( url ) ;
-		}
 		const QStringList& defaultListCmdOptions() const
 		{
 			return m_defaultListCmdOptions ;
@@ -156,7 +151,6 @@ public:
 
 	const std::vector< engine >& getEngines() ;
 	const engine& defaultEngine() ;
-	const engine& getEngineByUrl( const QString& url ) ;
 	const engine& getEngineByName( const QString& name ) ;
 	void setDefaultEngine( const QString& name ) ;
 	engines() ;

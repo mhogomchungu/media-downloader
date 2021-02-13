@@ -189,25 +189,20 @@ void engines::setDefaultEngine( const QString& name )
 	m_defaultEngine = name ;
 }
 
-const engines::engine& engines::getEngineByUrl( const QString& url )
-{
-	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
-
-		const auto& m = m_backends[ i ] ;
-
-		if( m.hasSupport( url ) ){
-
-			return m ;
-		}
-	}
-
-	return m_backends[ 0 ] ;
-}
-
 QString engines::engine::versionString( const QString& data ) const
 {
 	auto a = utility::split( data,'\n',true ) ;
-	auto b = a[ m_line ] ;
-	auto c = utility::split( b,' ',true ) ;
-	return c[ m_position ] ;
+
+	if( m_line < a.size() ){
+
+		auto b = a[ m_line ] ;
+		auto c = utility::split( b,' ',true ) ;
+
+		if( m_position < c.size() ){
+
+			return c[ m_position ] ;
+		}
+	}
+
+	return {} ;
 }
