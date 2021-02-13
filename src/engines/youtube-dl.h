@@ -17,43 +17,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SETTINGS_H
-#define SETTINGS_H
-
-#include <QSettings>
-#include <QString>
-#include <QStringList>
 #include <QByteArray>
 
-#include <vector>
+#include "../engines.h"
 
-#include <QStandardPaths>
-
-class settings
+class youtube_dl
 {
 public:
-	settings() ;
-
-	QString downloadFolder() ;
-	QString presetOptions() ;
-
-	QString localizationLanguagePath() ;
-	QString localizationLanguage() ;
-	QStringList presetOptionsList() ;
-	QStringList localizationLanguages() ;
-
-	QByteArray highDpiScalingFactor() ;
-
-	bool showTrayIcon() ;
-	bool autoDownload() ;
-	void setHighDpiScalingFactor( const QString& ) ;
-	void setPresetOptions( const QString& ) ;
-	void setPresetOptions( const QStringList& ) ;
-	void setPresetToDefaults() ;
-	void setDownloadFolder( const QString& ) ;
-	void setLocalizationLanguage( const QString& language ) ;
+	QByteArray config( const QString& ) const ;
+	engines::engine::functions functions() const ;
 private:
-	QSettings m_settings ;
 };
-
-#endif

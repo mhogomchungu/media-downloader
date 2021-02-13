@@ -36,10 +36,12 @@ class basicdownloader : public QObject
 public:
 	basicdownloader( Context& ) ;
 	void init_done() ;
-	void download( const utility::args&,
+	void download( const engines::engine&,
+		       const utility::args&,
 		       const QString& urls,
 		       bool = true ) ;
-	void download( const utility::args&,
+	void download( const engines::engine&,
+		       const utility::args&,
 		       const QStringList& urls,
 		       bool = true ) ;
 	void post( const QString& ) ;
@@ -48,21 +50,26 @@ public:
 	void disableAll() ;
 	void appQuit() ;
 	void resetMenu( const QStringList& = {} ) ;
-	basicdownloader& setAsActive() ;
 	void retranslateUi() ;
-	void checkAndPrintInstalledVersion( const QStringList& = {} ) ;
+	void checkAndPrintInstalledVersion( const engines::engine&,const QStringList& = {} ) ;
+	basicdownloader& setAsActive() ;
+	const QStringList& currentVersionData() ;
 private:
+	size_t m_counter = 0 ;
 	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
+	QStringList m_output ;
 
-	QString m_exe ;
-	void run( const QString& cmd,const QStringList& args,bool list_requested ) ;
+	void run( const engines::engine& engine,
+		  const QStringList& args,
+		  bool list_requested ) ;
 	void listRequested( const QStringList& ) ;
 	void list() ;
 	void download() ;
 	void exit() ;
+	void printDefaultBkVersionInfo() ;
 } ;
 
 #endif

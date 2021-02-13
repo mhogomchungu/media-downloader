@@ -38,6 +38,8 @@
 #ifndef ARGS_H
 #define ARGS_H
 
+#include "engines.h"
+
 class translator ;
 class QMainWindow ;
 class tabManager ;
@@ -59,14 +61,20 @@ public:
 		 Ui::MainWindow& m,
 		 QWidget& w,
 		 MainWindow& mw,
+		 engines& e,
 		 tabManager& tm ) :
 		m_settings( s ),
 		m_translator( t ),
 		m_mainUi( m ),
 		m_mainWidget( w ),
 		m_mainWindow( mw ),
+		m_engines( e ),
 		m_tabManager( tm )
 	{
+	}
+	engines& Engines()
+	{
+		return m_engines ;
 	}
 	settings& Settings()
 	{
@@ -98,6 +106,7 @@ private:
 	Ui::MainWindow& m_mainUi ;
 	QWidget& m_mainWidget ;
 	MainWindow& m_mainWindow ;
+	engines& m_engines ;
 	tabManager& m_tabManager ;
 };
 

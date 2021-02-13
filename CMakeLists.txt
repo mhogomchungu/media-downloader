@@ -71,7 +71,10 @@ set(SRC
     src/configure.cpp
     src/translator.cpp
     src/playlistdownloader.cpp
-    src/networkAccess.cpp)
+    src/networkAccess.cpp
+    src/engines.cpp
+    src/engines/youtube-dl.cpp
+    src/engines/wget.cpp)
 
 set(RESOUCES
     src/icon.qrc)

@@ -21,45 +21,23 @@
 #include "utility.h"
 #include "locale_path.h"
 #include "translator.h"
-#include "network_support.h"
 
 #include <QDir>
-#include <QStandardPaths>
-
-static settings::backend _set_backend( QSettings& settings )
-{
-	if( !settings.contains( "CommandName" ) ){
-
-		if( utility::platformIsWindows() ){
-
-			settings.setValue( "CommandName","youtube-dl.exe" ) ;
-		}else{
-			settings.setValue( "CommandName","youtube-dl" ) ;
-		}
-	}
-
-	auto m = settings.value( "CommandName" ).toString() ;
-
-	auto dp = "https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ;
-
-	return settings::backend( m,"--version","-f",dp ) ;
-}
 
 settings::settings() :
-	m_settings( "media-downloader","media-downloader" ),
-	m_backend( _set_backend( m_settings ) )
+	m_settings( "media-downloader","media-downloader" )
 {	
+
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
+	QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
+#endif	
 	auto m = this->highDpiScalingFactor() ;
 
 	if( m != "1.0" ){
 
-		QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
-
 		qputenv( "QT_SCALE_FACTOR",m ) ;
 	}
-#endif
 }
 
 QString settings::downloadFolder()
@@ -114,36 +92,9 @@ QString settings::presetOptions()
 	return m_settings.value( "PresetOptions" ).toStringList().join( ',' ) ;
 }
 
-settings::backend& settings::backEnd()
-{
-	return m_backend ;
-}
-
 QStringList settings::presetOptionsList()
 {
 	return utility::split( this->presetOptions(),',',true ) ;
-}
-
-QStringList settings::defaultDownLoadCmdOptions()
-{
-	if( !m_settings.contains( "DefaultDownLoadCmdOptions" ) ){
-
-		QStringList m{ "--newline","--ignore-config","--no-playlist" } ;
-
-		m_settings.setValue( "DefaultDownLoadCmdOptions",m ) ;
-	}
-
-	return m_settings.value( "DefaultDownLoadCmdOptions" ).toStringList() ;
-}
-
-QStringList settings::defaultListCmdOptions()
-{
-	if( !m_settings.contains( "DefaultListCmdOptions" ) ){
-
-		m_settings.setValue( "DefaultListCmdOptions",QStringList{ "-F" } ) ;
-	}
-
-	return m_settings.value( "DefaultListCmdOptions" ).toStringList() ;
 }
 
 bool settings::showTrayIcon()
@@ -164,24 +115,6 @@ bool settings::autoDownload()
 	}
 
 	return m_settings.value( "AutoDownload" ).toBool() ;
-}
-
-bool settings::usePrivateBackEnd()
-{
-#if MD_NETWORK_SUPPORT
-	if( !m_settings.contains( "UsePrivateYoutubeDl" ) ){
-#ifdef Q_OS_LINUX
-		m_settings.setValue( "UsePrivateYoutubeDl",false ) ;
-	#else
-		m_settings.setValue( "UsePrivateYoutubeDl",true ) ;
-#endif
-	}
-
-	return m_settings.value( "UsePrivateYoutubeDl" ).toBool() ;
-#else
-	m_settings.setValue( "UsePrivateYoutubeDl",false ) ;
-	return m_settings.value( "UsePrivateYoutubeDl" ).toBool() ;
-#endif
 }
 
 void settings::setHighDpiScalingFactor( const QString& m )
@@ -268,21 +201,4 @@ QString settings::localizationLanguage()
 	}
 
 	return m_settings.value( "Language" ).toString() ;
-}
-
-QString settings::backendPath()
-{
-	if( !m_settings.contains( "BackendPath" ) ){
-
-		auto m = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
-
-		if( !m.isEmpty() ){
-
-			m_settings.setValue( "BackendPath",m.first() + "/bin" ) ;
-		}else{
-			m_settings.setValue( "BackendPath",QDir::homePath() + "/bin" ) ;
-		}
-	}
-
-	return m_settings.value( "BackendPath" ).toString() ;
 }

@@ -33,21 +33,21 @@
 #include <QJsonArray>
 #include <QDir>
 
-networkAccess::networkAccess( Context& ctx ) :
+networkAccess::networkAccess( Context& ctx,const engines::engine& engine ) :
 	m_ctx( ctx ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_bkName( m_ctx.Settings().backEnd().name() )
+	m_engine( engine )
 {
 }
 
 void networkAccess::download()
 {
-	m_data.clear() ;
+	m_data = m_ctx.TabManager().basicDownloader().currentVersionData() ;
 
 	QDir dir ;
 
-	auto path = m_ctx.Settings().backendPath() ;
+	auto path = m_engine.exeFolderPath() ;
 
 	if( !dir.exists( path ) ){
 
@@ -60,13 +60,13 @@ void networkAccess::download()
 	}
 
 
-	this->post( QObject::tr( "Start Downloading" ) + " " + m_bkName + " ..." ) ;
+	this->post( QObject::tr( "Start Downloading" ) + " " + m_engine.name() + " ..." ) ;
 
 	m_tabManager.disableAll() ;
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	QString url( m_ctx.Settings().backEnd().downloadPath() ) ;
+	QString url( m_engine.downloadPath() ) ;
 
 	QNetworkRequest networkRequest( url ) ;
 
@@ -120,7 +120,7 @@ void networkAccess::download()
 
 			auto entry = value.toString() ;
 
-			if( entry == m_ctx.Settings().backEnd().name() ){
+			if( entry == m_engine.name() ){
 
 				auto value = object.value( "browser_download_url" ) ;
 
@@ -146,7 +146,7 @@ void networkAccess::download()
 
 void networkAccess::download( const metadata& metadata )
 {
-	QString filePath = m_ctx.Settings().backendPath() + "/" + m_ctx.Settings().backEnd().name();
+	QString filePath = m_engine.exePath() ;
 
 	m_file.setFileName( filePath ) ;
 
@@ -179,7 +179,7 @@ void networkAccess::download( const metadata& metadata )
 
 			networkReply->deleteLater() ;
 
-			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( m_data ) ;
+			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( m_engine,m_data ) ;
 		}
 	} ) ;
 
@@ -197,13 +197,13 @@ void networkAccess::download( const metadata& metadata )
 
 		auto m = QString( "%1/%2 bytes(%3%)" ).arg( current,totalSize,percentage ) ;
 
-		this->post( QObject::tr( "Downloading" ) + " " + m_bkName + ": " + m ) ;
+		this->post( QObject::tr( "Downloading" ) + " " + m_engine.name() + ": " + m ) ;
 	} ) ;
 }
 
 void networkAccess::post( const QString& e )
 {
-	auto prefix = QObject::tr( "Downloading" ) + " " + m_bkName ;
+	auto prefix = QObject::tr( "Downloading" ) + " " + m_engine.name() ;
 
 	if( m_data.isEmpty() ){
 

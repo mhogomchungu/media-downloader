@@ -23,7 +23,6 @@
 #include <QDir>
 #include <QMenu>
 #include <QFileDialog>
-#include <QStandardPaths>
 
 #include "tabmanager.h"
 
@@ -61,24 +60,35 @@ basicdownloader::basicdownloader( Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	const auto& exe = m_settings.backEnd().name() ;
+	this->printDefaultBkVersionInfo() ;
+}
 
-	if( m_settings.usePrivateBackEnd() ){
+void basicdownloader::printDefaultBkVersionInfo()
+{
+	if( m_counter >= m_ctx.Engines().getEngines().size() ){
 
-		m_exe = m_settings.backendPath() + "/" + exe ;
+		m_output.clear() ;
+		return ;
+	}
 
-		if( QFile::exists( m_exe ) ){
+	const auto& engine = m_ctx.Engines().getEngines()[ m_counter ] ;
 
-			this->checkAndPrintInstalledVersion() ;
+	m_counter++ ;
+
+	const auto& exe = engine.exePath() ;
+
+	if( engine.usingPrivateBackend() ){
+
+		if( QFile::exists( exe ) ){
+
+			this->checkAndPrintInstalledVersion( engine ) ;
 		}else{
 			m_ctx.TabManager().Configure().downloadYoutubeDl() ;
 		}
 	}else{
-		m_exe = QStandardPaths::findExecutable( exe ) ;
+		if( exe.isEmpty() ){
 
-		if( m_exe.isEmpty() ){
-
-			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( exe )  ;
+			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() )  ;
 
 			m = "[media-downloader] " + m ;
 
@@ -88,7 +98,7 @@ void basicdownloader::init_done()
 
 			this->enableQuit() ;
 		}else{
-			this->checkAndPrintInstalledVersion() ;
+			this->checkAndPrintInstalledVersion( engine ) ;
 		}
 	}
 }
@@ -133,29 +143,35 @@ basicdownloader& basicdownloader::setAsActive()
 	return *this ;
 }
 
+const QStringList& basicdownloader::currentVersionData()
+{
+	return m_output ;
+}
+
 void basicdownloader::retranslateUi()
 {
 	this->resetMenu() ;
 }
 
-void basicdownloader::checkAndPrintInstalledVersion( const QStringList& list )
+void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engine,
+						     const QStringList& list )
 {
 	m_tabManager.disableAll() ;
 
 	struct ctx
 	{
-		ctx( QString x ) : version( std::move( x ) )
+		ctx( const engines::engine& e ) :
+			engine( e )
 		{
 		}
 		QString version ;
 		QByteArray data ;
+		const engines::engine& engine ;
 	};
 
-	auto& backEnd = m_settings.backEnd() ;
+	const auto& exe = engine.exePath() ;
 
-	const auto& exeName = backEnd.name() ;
-
-	utility::run( m_exe,{ backEnd.versionArgument() },[ this,&list,&exeName ]( QProcess& exe ){
+	utility::run( exe,{ engine.versionArgument() },[ this,&list,&engine ]( QProcess& exe ){
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
@@ -167,32 +183,39 @@ void basicdownloader::checkAndPrintInstalledVersion( const QStringList& list )
 		}
 
 		auto a = e + "[media-downloader] " ;
-		auto b = a + tr( "Checking installed version of" ) + " " + exeName ;
+		auto b = a + tr( "Checking installed version of" ) + " " + engine.name() ;
 
-		m_ui.plainTextEdit->setPlainText( b ) ;
+		m_output.append( b ) ;
+		m_ui.plainTextEdit->setPlainText( m_output.join( '\n' ) ) ;
 
-		return ctx( std::move( b ) ) ;
+		return ctx( engine ) ;
 
-	},[ this,&exeName ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
+	},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
 
 		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 
-			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( exeName )  ;
+			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() )  ;
 
 			m = "\n[media-downloader] " + m ;
 
-			m_ui.plainTextEdit->setPlainText( ctx.version + m ) ;
+			m_output.append( ctx.version + m ) ;
+
+			this->post( m_output.join( '\n' ) ) ;
 
 			m_tabManager.disableAll() ;
 
 			this->enableQuit() ;
 		}else{
-			auto c = "\n[media-downloader] " + tr( "Found version" ) + ": " + ctx.data ;
+			auto c = "[media-downloader] " + tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ;
 
-			m_ui.plainTextEdit->setPlainText( ctx.version + c ) ;
+			m_output.append( ctx.version + c ) ;
+
+			this->post( m_output.join( '\n' ) ) ;
 
 			m_tabManager.enableAll() ;
 		}
+
+		this->printDefaultBkVersionInfo() ;
 
 	},[]( QProcess::ProcessChannel,QByteArray data,ctx& ctx ){
 
@@ -203,7 +226,12 @@ void basicdownloader::checkAndPrintInstalledVersion( const QStringList& list )
 class context
 {
 public:
-	context( bool a,QPlainTextEdit * b,QMetaObject::Connection c,QStringList d ) :
+	context( const engines::engine& engine,
+		 bool a,
+		 QPlainTextEdit * b,
+		 QMetaObject::Connection c,
+		 QStringList d ) :
+		m_engine( engine ),
 		m_list_requested( a ),
 		m_view( b ),
 		m_conn( std::move( c ) ),
@@ -218,27 +246,7 @@ public:
 	}
 	void postData( QByteArray data )
 	{
-		for( const auto& m : utility::split( data ) ){
-
-			if( m.isEmpty() ){
-
-				continue ;
-
-			}else if( m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
-
-				auto& s = m_output.last() ;
-
-				if( s.startsWith( "[download]" ) && s.contains( "ETA" ) ){
-
-					s = m ;
-				}else{
-					m_output.append( m ) ;
-				}
-			}else{
-				m_output.append( m ) ;
-			}
-		}
-
+		m_engine.processData( m_output,data ) ;
 		this->postData() ;
 	}
 	template< typename Function >
@@ -254,17 +262,20 @@ public:
 		QObject::disconnect( m_conn ) ;
 	}
 private:
+	const engines::engine& m_engine ;
 	bool m_list_requested ;
 	QPlainTextEdit * m_view ;
 	QMetaObject::Connection m_conn ;
 	QStringList m_output ;
 } ;
 
-void basicdownloader::run( const QString& cmd,const QStringList& args,bool list_requested )
+void basicdownloader::run( const engines::engine& engine,
+			   const QStringList& args,
+			   bool list_requested )
 {
 	m_tabManager.disableAll() ;
 
-	utility::run( cmd,args,[ this,&list_requested,&cmd,&args ]( QProcess& exe ){
+	utility::run( engine.exePath(),args,[ this,&list_requested,&engine,&args ]( QProcess& exe ){
 
 		exe.setWorkingDirectory( m_settings.downloadFolder() ) ;
 
@@ -277,7 +288,7 @@ void basicdownloader::run( const QString& cmd,const QStringList& args,bool list_
 
 		QStringList outPut( "[media-downloader] cmd: " + [ & ](){
 
-			auto m = "\"" + cmd + "\"" ;
+			auto m = "\"" + engine.exePath() + "\"" ;
 
 			for( const auto& it : args ){
 
@@ -287,7 +298,11 @@ void basicdownloader::run( const QString& cmd,const QStringList& args,bool list_
 			return m + "\n" ;
 		}() ) ;
 
-		return context( list_requested,m_ui.plainTextEdit,std::move( m ),std::move( outPut ) ) ;
+		return context( engine,
+				list_requested,
+				m_ui.plainTextEdit,
+				std::move( m ),
+				std::move( outPut ) ) ;
 
 	},[ this ]( int,QProcess::ExitStatus,context& ctx ){
 
@@ -336,25 +351,36 @@ void basicdownloader::list()
 {
 	m_ui.pbCancel->setEnabled( true ) ;
 
-	auto args = m_settings.defaultListCmdOptions() ;
-	args.append( m_ui.lineEditURL->text().split( ' ' ) ) ;
+	auto url = m_ui.lineEditURL->text() ;
 
-	this->run( m_exe,args,true ) ;
+	const auto& backend = m_ctx.Engines().getEngine( url ) ;
+
+	auto args = backend.defaultListCmdOptions() ;
+	args.append( url.split( ' ' ) ) ;
+
+	this->run( backend,args,true ) ;
 }
 
 void basicdownloader::download()
 {
-	auto m = utility::split( m_ui.lineEditURL->text(),' ',true ) ;
+	QString url = m_ui.lineEditURL->text() ;
 
-	this->download( m_ui.lineEditOptions->text(),m,false ) ;
+	auto m = utility::split( url,' ',true ) ;
+
+	const auto& engine = m_ctx.Engines().getEngine( url ) ;
+
+	this->download( engine,m_ui.lineEditOptions->text(),m,false ) ;
 }
 
-void basicdownloader::download( const utility::args& args,const QString& url,bool s )
+void basicdownloader::download( const engines::engine& engine,
+				const utility::args& args,
+				const QString& url,bool s )
 {
-	this->download( args,QStringList( url ),s ) ;
+	this->download( engine,args,QStringList( url ),s ) ;
 }
 
-void basicdownloader::download( const utility::args& args,
+void basicdownloader::download( const engines::engine& engine,
+				const utility::args& args,
 				const QStringList& urls,
 				bool update )
 {
@@ -369,27 +395,18 @@ void basicdownloader::download( const utility::args& args,
 
 	m_ui.pbCancel->setEnabled( true ) ;
 
-	auto opts = m_settings.defaultDownLoadCmdOptions() ;
-
-	if( args.otherOptions.contains( "--yes-playlist" ) ){
-
-		opts.removeAll( "--no-playlist" ) ;
-	}
+	auto opts = engine.defaultDownLoadCmdOptions() ;
 
 	for( const auto& it : args.otherOptions ){
 
 		opts.append( it ) ;
 	}
 
-	if( !args.quality.isEmpty() ){
-
-		opts.append( m_settings.backEnd().optionsArgument() ) ;
-		opts.append( args.quality ) ;
-	}
+	engine.updateDownLoadCmdOptions( args.quality,args.otherOptions,opts ) ;
 
 	opts.append( urls ) ;
 
-	this->run( m_exe,opts,false ) ;
+	this->run( engine,opts,false ) ;
 }
 
 void basicdownloader::post( const QString& e )

@@ -28,6 +28,8 @@
 #include <QMenu>
 
 #include "tabmanager.h"
+#include "engines.h"
+
 #include <QApplication>
 
 namespace Ui
@@ -54,6 +56,7 @@ private:
 			m_ui.setupUi( &mainWindow ) ;
 		}
 	} m_initUi ;
+	engines m_engines ;
 	tabManager m_tabManager ;
 	void closeEvent( QCloseEvent * ) ;
 };

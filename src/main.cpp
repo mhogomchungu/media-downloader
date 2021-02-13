@@ -41,9 +41,11 @@
 
 int main( int argc,char * argv[] )
 {
-	settings settings ;
-
 	QApplication app( argc,argv ) ;
+
+	app.setApplicationName( "media-downloader" ) ;
+
+	settings settings ;
 
 	translator translator( settings,app ) ;
 

@@ -40,7 +40,9 @@ batchfiledownloader::batchfiledownloader( Context& ctx ) :
 
 		auto url = m_ui.lineEditFileDownloader->text() ;
 
-		m_tabManager.basicDownloader().download( options,{ "-a",url } ) ;
+		const auto& engine = m_ctx.Engines().getEngine( url ) ;
+
+		m_tabManager.basicDownloader().download( engine,options,{ "-a",url } ) ;
 	} ) ;
 
 	m_ui.pbFileDownloaderFilePath->setIcon( [](){

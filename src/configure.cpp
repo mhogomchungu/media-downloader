@@ -30,7 +30,7 @@ configure::configure( Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_networkAccess( m_ctx )
+	m_networkAccess( m_ctx,m_ctx.Engines().defaultEngine() )
 {
 #if QT_VERSION < QT_VERSION_CHECK( 5,6,0 )
 	m_ui->lineEditConfigureScaleFactor->setEnabled( false ) ;
@@ -49,7 +49,7 @@ configure::configure( Context& ctx ) :
 		m_tabManager.resetMenu().basicDownloader().setAsActive() ;
 	} ) ;
 
-	m_ui.pbConfigureDownload->setEnabled( m_settings.usePrivateBackEnd() ) ;
+	m_ui.pbConfigureDownload->setEnabled( m_ctx.Engines().defaultEngine().usingPrivateBackend() ) ;
 
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
 

@@ -30,13 +30,14 @@
 #include <QStringList>
 
 #include "context.hpp"
+#include "settings.h"
 
 class basicdownloader ;
 
 class networkAccess
 {
 public:
-	networkAccess( Context& ) ;
+        networkAccess( Context&,const engines::engine& ) ;
 	void download() ;
 private:
 	struct metadata
@@ -53,7 +54,7 @@ private:
 	QStringList m_data ;
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
-	const QString& m_bkName ;
+	const engines::engine& m_engine ;
 };
 
 #else
