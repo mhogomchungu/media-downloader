@@ -135,52 +135,55 @@ QByteArray wget::config( engines::log& log,const engines::enginePaths& enginePat
 	return file.readAll() ;
 }
 
-engines::engine::functions wget::functions() const
+std::unique_ptr< wget::functions > wget::Functions() const
 {
-	engines::engine::functions functions ;
+	return std::make_unique< wget::functions >() ;
+}
 
-	functions.updateDownLoadCmdOptions = []( const engines::engine& engine,
-						 const QString& quality,
-						 const QStringList& userOptions,
-						 QStringList& ourOptions ){
-		Q_UNUSED( userOptions )
+wget::functions::~functions()
+{
+}
 
-		if( !engine.optionsArgument().isEmpty() ){
+void wget::functions::processData( QStringList& outPut,const QByteArray& data )
+{
+	for( const auto& m : utility::split( data,'\r' ) ){
 
-			ourOptions.append( engine.optionsArgument() ) ;
-		}
+		if( m.isEmpty() ){
 
-		if( !quality.isEmpty() ){
+			continue ;
 
-			ourOptions.append( quality ) ;
-		}
+		}else if( m.contains( "%[" ) || m.contains( "<=>" ) ){
 
-		ourOptions.append( "--progress=bar:force" ) ;
-	} ;
+			auto& s = outPut.last() ;
 
-	functions.processData = []( QStringList& outPut,const QByteArray& data ){
+			if( s.contains( "%[" ) || s.contains( "<=>" ) ){
 
-		for( const auto& m : utility::split( data,'\r' ) ){
-
-			if( m.isEmpty() ){
-
-				continue ;
-
-			}else if( m.contains( "%[" ) || m.contains( "<=>" ) ){
-
-				auto& s = outPut.last() ;
-
-				if( s.contains( "%[" ) || s.contains( "<=>" ) ){
-
-					s = m ;
-				}else{
-					outPut.append( m ) ;
-				}
+				s = m ;
 			}else{
 				outPut.append( m ) ;
 			}
+		}else{
+			outPut.append( m ) ;
 		}
-	} ;
+	}
+}
 
-	return functions ;
+void wget::functions::updateDownLoadCmdOptions( const engines::engine& engine,
+						      const QString& quality,
+						      const QStringList& userOptions,
+						      QStringList& ourOptions )
+{
+	Q_UNUSED( userOptions )
+
+	if( !engine.optionsArgument().isEmpty() ){
+
+		ourOptions.append( engine.optionsArgument() ) ;
+	}
+
+	if( !quality.isEmpty() ){
+
+		ourOptions.append( quality ) ;
+	}
+
+	ourOptions.append( "--progress=bar:force" ) ;
 }

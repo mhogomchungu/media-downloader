@@ -141,53 +141,55 @@ QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& eng
 	return file.readAll() ;
 }
 
-engines::engine::functions youtube_dl::functions() const
+std::unique_ptr< youtube_dl::functions > youtube_dl::Functions() const
 {
-	engines::engine::functions functions ;
+	return std::make_unique< youtube_dl::functions >() ;
+}
 
-	functions.updateDownLoadCmdOptions = []( const engines::engine& engine,
-						 const QString& quality,
-						 const QStringList& userOptions,
-						 QStringList& ourOptions ){
+youtube_dl::functions::~functions()
+{
+}
 
-		if( userOptions.contains( "--yes-playlist" ) ){
+void youtube_dl::functions::processData( QStringList& outPut,const QByteArray& data )
+{
+	for( const auto& m : utility::split( data ) ){
 
-			ourOptions.removeAll( "--no-playlist" ) ;
-		}		
+		if( m.isEmpty() ){
 
-		ourOptions.append( engine.optionsArgument() ) ;
+			continue ;
 
-		if( quality.isEmpty() ){
+		}else if( m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
 
-			ourOptions.append( "best" ) ;
-		}else{
-			ourOptions.append( quality ) ;
-		}
-	} ;
+			auto& s = outPut.last() ;
 
-	functions.processData = []( QStringList& outPut,const QByteArray& data ){
+			if( s.startsWith( "[download]" ) && s.contains( "ETA" ) ){
 
-		for( const auto& m : utility::split( data ) ){
-
-			if( m.isEmpty() ){
-
-				continue ;
-
-			}else if( m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
-
-				auto& s = outPut.last() ;
-
-				if( s.startsWith( "[download]" ) && s.contains( "ETA" ) ){
-
-					s = m ;
-				}else{
-					outPut.append( m ) ;
-				}
+				s = m ;
 			}else{
 				outPut.append( m ) ;
 			}
+		}else{
+			outPut.append( m ) ;
 		}
-	} ;
+	}
+}
 
-	return functions ;
+void youtube_dl::functions::updateDownLoadCmdOptions( const engines::engine& engine,
+						      const QString& quality,
+						      const QStringList& userOptions,
+						      QStringList& ourOptions )
+{
+	if( userOptions.contains( "--yes-playlist" ) ){
+
+		ourOptions.removeAll( "--no-playlist" ) ;
+	}
+
+	ourOptions.append( engine.optionsArgument() ) ;
+
+	if( quality.isEmpty() ){
+
+		ourOptions.append( "best" ) ;
+	}else{
+		ourOptions.append( quality ) ;
+	}
 }

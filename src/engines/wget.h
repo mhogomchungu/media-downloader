@@ -24,8 +24,19 @@
 class wget
 {
 public:
+	class functions : public engines::engine::functions
+	{
+	public:
+		~functions() override ;
+		void processData( QStringList&,const QByteArray& ) override ;
+		void updateDownLoadCmdOptions( const engines::engine& engine,
+					       const QString& quality,
+					       const QStringList& userOptions,
+					       QStringList& ourOptions ) override ;
+	private:
+	} ;
         wget() ;
 	QByteArray config( engines::log&,const engines::enginePaths& ) const ;
-	engines::engine::functions functions() const ;
+	std::unique_ptr< wget::functions > Functions() const ;
 private:
 };

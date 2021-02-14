@@ -72,19 +72,20 @@ public:
 	public:
 		struct functions
 		{
-			std::function< void( QStringList&,const QByteArray& ) > processData ;
+			virtual ~functions() ;
 
-			std::function< void( const engines::engine& engine,
-					     const QString& quality,
-					     const QStringList& userOptions,
-					     QStringList& ourOptions ) > updateDownLoadCmdOptions ;
-		};
+			virtual void processData( QStringList&,const QByteArray& ) = 0 ;
+			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
+							       const QString& quality,
+							       const QStringList& userOptions,
+							       QStringList& ourOptions ) = 0 ;
+		} ;
 
 		engine() : m_valid( false )
 		{
 		}
 
-		engine( const QJsonDocument& json,engine::functions ) ;
+		engine( const QJsonDocument& json,std::unique_ptr< engine::functions > ) ;
 
 		const QString& name() const
 		{
@@ -110,7 +111,7 @@ public:
 		}
 		void processData( QStringList& outPut,const QByteArray& data ) const
 		{
-			m_functions.processData( outPut,data ) ;
+			m_functions->processData( outPut,data ) ;
 		}
 		const QStringList& defaultDownLoadCmdOptions() const
 		{
@@ -120,7 +121,7 @@ public:
 					       const QStringList& userOptions,
 					       QStringList& ourOptions ) const
 		{
-			m_functions.updateDownLoadCmdOptions( *this,quality,userOptions,ourOptions ) ;
+			m_functions->updateDownLoadCmdOptions( *this,quality,userOptions,ourOptions ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{
@@ -152,7 +153,7 @@ public:
 		}
 	private:
 		QJsonObject m_jsonObject ;
-		functions m_functions ;
+		std::unique_ptr< engine::functions > m_functions ;
 		int m_line ;
 		int m_position ;
 		bool m_valid ;

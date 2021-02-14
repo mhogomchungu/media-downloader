@@ -47,7 +47,7 @@ static engines::engine _add_engine( engines::log& log,
 
 		return {} ;
 	}else{
-		return engines::engine( json,engine.functions() ) ;
+		return engines::engine( json,engine.Functions() ) ;
 	}
 }
 
@@ -86,7 +86,7 @@ engines::engines( QPlainTextEdit& textEdit ) : m_log( textEdit )
 
 		auto json = QJsonDocument::fromJson( m,&error ) ;
 
-		m_backends.emplace_back( json,youtube_dl().functions() ) ;
+		m_backends.emplace_back( json,youtube_dl().Functions() ) ;
 	}
 
 	this->setDefaultEngine( m_backends[ 0 ].name() ) ;
@@ -136,7 +136,7 @@ static QStringList _toStringList( const QJsonValue& value ){
 	return m ;
 }
 
-engines::engine::engine( const QJsonDocument& json,engines::engine::functions functions ) :
+engines::engine::engine( const QJsonDocument& json,std::unique_ptr< engine::functions > functions ) :
 	m_jsonObject( json.object() ),
 	m_functions( std::move( functions ) ),
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
@@ -212,4 +212,8 @@ engines::enginePaths::enginePaths()
 	QDir().mkpath( m_basePath ) ;
 	QDir().mkpath( m_binPath ) ;
 	QDir().mkpath( m_configPath ) ;
+}
+
+engines::engine::functions::~functions()
+{
 }
