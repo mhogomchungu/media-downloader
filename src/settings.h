@@ -46,6 +46,7 @@ public:
 
 	bool showTrayIcon() ;
 	bool autoDownload() ;
+	bool enableVersionCheckAtStatup() ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;

@@ -117,6 +117,16 @@ bool settings::autoDownload()
 	return m_settings.value( "AutoDownload" ).toBool() ;
 }
 
+bool settings::enableVersionCheckAtStatup()
+{
+	if( !m_settings.contains( "EnableVersionCheckAtStatup" ) ){
+
+		m_settings.setValue( "EnableVersionCheckAtStatup",true ) ;
+	}
+
+	return m_settings.value( "EnableVersionCheckAtStatup" ).toBool() ;
+}
+
 void settings::setHighDpiScalingFactor( const QString& m )
 {
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;

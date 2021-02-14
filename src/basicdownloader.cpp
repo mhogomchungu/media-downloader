@@ -86,15 +86,20 @@ basicdownloader::basicdownloader( Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	auto a = m_ui.plainTextEdit->toPlainText() ;
+	if( m_settings.enableVersionCheckAtStatup() ){
 
-	if( !a.isEmpty() ){
+		auto a = m_ui.plainTextEdit->toPlainText() ;
 
-		auto b =  utility::split( a,'\n',false ) ;
+		if( !a.isEmpty() ){
 
-		this->printDefaultBkVersionInfo( b ) ;
+			auto b =  utility::split( a,'\n',false ) ;
+
+			this->printDefaultBkVersionInfo( b ) ;
+		}else{
+			this->printDefaultBkVersionInfo() ;
+		}
 	}else{
-		this->printDefaultBkVersionInfo() ;
+		m_counter = static_cast< size_t >( -1 ) ;
 	}
 }
 
