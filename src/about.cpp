@@ -71,6 +71,10 @@ GNU General Public License for more details." ) ;
 	m_ctx.Ui().TextLabelAbout->setText( m ) ;
 }
 
+void about::tabEntered()
+{
+}
+
 void about::init_done()
 {
 }

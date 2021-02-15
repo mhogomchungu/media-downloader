@@ -49,19 +49,6 @@ configure::configure( Context& ctx ) :
 		m_tabManager.resetMenu().basicDownloader().setAsActive() ;
 	} ) ;
 
-	connect( m_ui.tabWidget,&QTabWidget::currentChanged,[ this ]( int index ){
-
-		if( index == 3 ){
-
-			const auto& engine = m_ctx.Engines().defaultEngine() ;
-
-			auto a = engine.usingPrivateBackend() ;
-			auto b = !engine.downloadUrl().isEmpty() ;
-
-			m_ui.pbConfigureDownload->setEnabled( a && b ) ;
-		}
-	} ) ;
-
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
 
 		this->downloadYoutubeDl() ;
@@ -133,6 +120,18 @@ void configure::retranslateUi()
 void configure::downloadYoutubeDl()
 {
 	m_networkAccess.download() ;
+}
+
+void configure::tabEntered()
+{
+	const auto& engine = m_ctx.Engines().defaultEngine() ;
+
+	auto a = engine.usingPrivateBackend() ;
+	auto b = !engine.downloadUrl().isEmpty() ;
+
+	m_ui.pbConfigureDownload->setEnabled( a && b ) ;
+
+	m_ui.pbConfigureDownload->setText( tr( "Update" ) + " " + engine.name() ) ;
 }
 
 void configure::resetMenu()

@@ -36,6 +36,7 @@ public:
 	void disableAll() ;
 	void resetMenu() ;
 	void retranslateUi() ;
+	void tabEntered() ;
 private:
 	Context& m_ctx ;
 	settings& m_settings ;

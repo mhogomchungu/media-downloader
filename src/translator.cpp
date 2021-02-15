@@ -81,7 +81,7 @@ const QString& translator::UIName( const QString& internalName )
 		}
 	}
 
-	s.clear() ;
+	s = internalName ;
 
 	return s ;
 }

@@ -37,6 +37,7 @@ public:
 	void resetMenu() ;
 	void retranslateUi() ;
 	void downloadYoutubeDl() ;
+	void tabEntered() ;
 private:
 	Context& m_ctx ;
 	settings& m_settings ;

@@ -857,7 +857,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="text">
-       <string>Download/Update youtube-dl</string>
+       <string>Update</string>
       </property>
      </widget>
     </widget>

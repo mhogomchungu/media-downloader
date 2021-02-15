@@ -95,6 +95,10 @@ void batchfiledownloader::retranslateUi()
 	this->resetMenu() ;
 }
 
+void batchfiledownloader::tabEntered()
+{
+}
+
 void batchfiledownloader::disableAll()
 {
 	m_ui.lineEditFileDownloader->setEnabled( false ) ;

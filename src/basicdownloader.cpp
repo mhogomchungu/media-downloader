@@ -482,6 +482,10 @@ void basicdownloader::download( const engines::engine& engine,
 	this->run( engine,opts,false ) ;
 }
 
+void basicdownloader::tabEntered()
+{
+}
+
 void basicdownloader::post( const QString& e )
 {
 	m_ui.plainTextEdit->setPlainText( e ) ;

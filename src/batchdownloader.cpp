@@ -145,6 +145,10 @@ void batchdownloader::retranslateUi()
 	this->resetMenu() ;
 }
 
+void batchdownloader::tabEntered()
+{
+}
+
 void batchdownloader::download()
 {
 	if( m_ui.tableWidgetBD->rowCount() ){

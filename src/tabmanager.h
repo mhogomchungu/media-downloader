@@ -51,6 +51,17 @@ public:
 		m_batchdownloader.init_done() ;
 		m_batchfiledownloader.init_done() ;
 		m_playlistdownloader.init_done() ;
+
+		QObject::connect( m.tabWidget,&QTabWidget::currentChanged,[ this ]( int index ){
+
+			switch( index ) {
+				case 0 : m_basicdownloader.tabEntered() ; break ;
+				case 1 : m_batchdownloader.tabEntered() ; break ;
+				case 2 : m_playlistdownloader.tabEntered() ; break ;
+				case 3 : m_configure.tabEntered() ; break ;
+				case 4 : m_about.tabEntered() ; break ;
+			}
+		} ) ;
 	}
 	tabManager& enableAll()
 	{

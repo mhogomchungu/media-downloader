@@ -44,6 +44,7 @@ public:
 		       const utility::args&,
 		       const QStringList& urls,
 		       bool = true ) ;
+	void tabEntered() ;
 	void post( const QString& ) ;
 	void enableQuit() ;
 	void enableAll() ;

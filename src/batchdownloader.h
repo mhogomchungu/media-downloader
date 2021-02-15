@@ -39,6 +39,7 @@ public:
 	void disableAll() ;
 	void resetMenu() ;
 	void retranslateUi() ;
+	void tabEntered() ;
 private:
 	void download() ;
 	Context& m_ctx ;

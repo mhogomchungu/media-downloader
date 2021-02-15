@@ -148,3 +148,7 @@ void playlistdownloader::retranslateUi()
 {
 	this->resetMenu() ;
 }
+
+void playlistdownloader::tabEntered()
+{
+}
