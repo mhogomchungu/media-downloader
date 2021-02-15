@@ -66,7 +66,7 @@ void networkAccess::download()
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	QString url( m_engine.downloadPath() ) ;
+	QString url( m_engine.downloadUrl() ) ;
 
 	QNetworkRequest networkRequest( url ) ;
 

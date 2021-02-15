@@ -69,15 +69,20 @@ translator::~translator()
 
 const QString& translator::UIName( const QString& internalName )
 {
+	static QString s ;
+
 	for( const auto& it : m_languages ){
 
 		if( it.internalName == internalName ){
 
-			return it.UINameTranslated ;
+			s = QObject::tr( it.UINameUnTranslated ) ;
+
+			return s ;
 		}
 	}
 
-	static QString s ;
+	s.clear() ;
+
 	return s ;
 }
 

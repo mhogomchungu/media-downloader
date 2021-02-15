@@ -149,7 +149,7 @@ engines::engine::engine( const QJsonDocument& json,std::unique_ptr< engine::func
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_optionsArgument( m_jsonObject.value( "OptionsArgument" ).toString() ),
-	m_downloadPath( m_jsonObject.value( "DownloadUrl" ).toString() ),
+	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() ),
 	m_batchFileArgument( m_jsonObject.value( "BatchFileArgument" ).toString() ),
 	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ) ) ),
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) )

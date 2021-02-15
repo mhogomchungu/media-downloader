@@ -105,9 +105,9 @@ public:
 		{
 			return m_optionsArgument ;
 		}
-		const QString& downloadPath() const
+		const QString& downloadUrl() const
 		{
-			return m_downloadPath ;
+			return m_downloadUrl ;
 		}
 		void processData( QStringList& outPut,const QByteArray& data ) const
 		{
@@ -165,7 +165,7 @@ public:
 		QString m_exePath ;
 		QString m_versionArgument ;
 		QString m_optionsArgument ;
-		QString m_downloadPath ;
+		QString m_downloadUrl ;
 		QString m_batchFileArgument ;
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
