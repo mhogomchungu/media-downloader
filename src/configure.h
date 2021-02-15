@@ -39,6 +39,8 @@ public:
 	void downloadYoutubeDl() ;
 	void tabEntered() ;
 private:
+	void manageDownloadButton() ;
+	bool m_setEnabled ;
 	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;

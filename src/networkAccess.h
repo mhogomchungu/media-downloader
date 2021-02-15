@@ -39,6 +39,10 @@ class networkAccess
 public:
         networkAccess( Context&,const engines::engine& ) ;
 	void download() ;
+	static bool hasNetworkSupport()
+	{
+		return true ;
+	}
 private:
 	struct metadata
 	{
@@ -62,7 +66,11 @@ private:
 class networkAccess
 {
 public:
-	networkAccess( Context& )
+	static bool hasNetworkSupport()
+	{
+		return false ;
+	}
+	networkAccess( Context&,const engines::engine& )
 	{
 	}
 	void download()

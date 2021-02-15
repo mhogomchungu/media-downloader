@@ -115,6 +115,8 @@ void configure::init_done()
 void configure::retranslateUi()
 {
 	this->resetMenu() ;
+
+	this->manageDownloadButton() ;
 }
 
 void configure::downloadYoutubeDl()
@@ -124,12 +126,22 @@ void configure::downloadYoutubeDl()
 
 void configure::tabEntered()
 {
+	this->manageDownloadButton() ;
+}
+
+void configure::manageDownloadButton()
+{
 	const auto& engine = m_ctx.Engines().defaultEngine() ;
 
-	auto a = engine.usingPrivateBackend() ;
-	auto b = !engine.downloadUrl().isEmpty() ;
+	if( networkAccess::hasNetworkSupport() && m_setEnabled ){
 
-	m_ui.pbConfigureDownload->setEnabled( a && b ) ;
+		auto a = engine.usingPrivateBackend() ;
+		auto b = !engine.downloadUrl().isEmpty() ;
+
+		m_ui.pbConfigureDownload->setEnabled( a && b ) ;
+	}else{
+		m_ui.pbConfigureDownload->setEnabled( false ) ;
+	}
 
 	m_ui.pbConfigureDownload->setText( tr( "Update" ) + " " + engine.name() ) ;
 }
@@ -158,12 +170,14 @@ void configure::resetMenu()
 		m_ui.cbConfigureLanguage->addItem( translator.UIName( e ) ) ;
 	}
 
-	m_ui.cbConfigureLanguage->setCurrentIndex( index ) ;
+	m_ui.cbConfigureLanguage->setCurrentIndex( index ) ;	
 }
 
 void configure::enableAll()
 {
-	m_ui.pbConfigureDownload->setEnabled( true ) ;
+	m_setEnabled = true ;
+
+	this->manageDownloadButton() ;
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
 	m_ui.labelConfigureLanguage->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
@@ -183,6 +197,7 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_setEnabled = false ;
 	m_ui.pbConfigureDownload->setEnabled( false ) ;
 	m_ui.cbConfigureLanguage->setEnabled( false ) ;
 	m_ui.labelConfigureLanguage->setEnabled( false ) ;

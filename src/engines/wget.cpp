@@ -135,7 +135,7 @@ QByteArray wget::config( engines::log& log,const engines::enginePaths& enginePat
 	return file.readAll() ;
 }
 
-std::unique_ptr< wget::functions > wget::Functions() const
+std::unique_ptr< engines::engine::functions > wget::Functions() const
 {
 	return std::make_unique< wget::functions >() ;
 }

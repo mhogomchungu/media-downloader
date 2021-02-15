@@ -85,7 +85,8 @@ public:
 		{
 		}
 
-		engine( const QJsonDocument& json,std::unique_ptr< engine::functions > ) ;
+		engine( const QJsonDocument& json,
+			std::unique_ptr< engines::engine::functions > ) ;
 
 		const QString& name() const
 		{
@@ -153,7 +154,7 @@ public:
 		}
 	private:
 		QJsonObject m_jsonObject ;
-		std::unique_ptr< engine::functions > m_functions ;
+		std::unique_ptr< engines::engine::functions > m_functions ;
 		int m_line ;
 		int m_position ;
 		bool m_valid ;

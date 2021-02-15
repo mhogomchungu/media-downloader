@@ -37,6 +37,6 @@ public:
 	} ;
         wget() ;
 	QByteArray config( engines::log&,const engines::enginePaths& ) const ;
-	std::unique_ptr< wget::functions > Functions() const ;
+	std::unique_ptr< engines::engine::functions > Functions() const ;
 private:
 };

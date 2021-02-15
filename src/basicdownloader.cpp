@@ -290,7 +290,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		this->printDefaultBkVersionInfo() ;
 
-	},[]( QProcess::ProcessChannel,QByteArray data,ctx& ctx ){
+	},[]( QProcess::ProcessChannel,const QByteArray& data,ctx& ctx ){
 
 		ctx.data += data ;
 	} ) ;
@@ -317,7 +317,7 @@ public:
 		m_view->setPlainText( m_output.join( '\n' ) ) ;
 		m_view->moveCursor( QTextCursor::End ) ;
 	}
-	void postData( QByteArray data )
+	void postData( const QByteArray& data )
 	{
 		m_engine.processData( m_output,data ) ;
 		this->postData() ;
@@ -390,9 +390,9 @@ void basicdownloader::run( const engines::engine& engine,
 
 		m_ui.pbCancel->setEnabled( false ) ;
 
-	},[]( QProcess::ProcessChannel,QByteArray data,context& ctx ){
+	},[]( QProcess::ProcessChannel,const QByteArray& data,context& ctx ){
 
-		ctx.postData( std::move( data ) ) ;
+		ctx.postData( data ) ;
 	} ) ;
 }
 

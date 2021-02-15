@@ -141,7 +141,7 @@ QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& eng
 	return file.readAll() ;
 }
 
-std::unique_ptr< youtube_dl::functions > youtube_dl::Functions() const
+std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const
 {
 	return std::make_unique< youtube_dl::functions >() ;
 }
