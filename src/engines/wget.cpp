@@ -113,9 +113,7 @@ QByteArray wget::config( engines::log& log,const engines::enginePaths& enginePat
 			return false ;
 		}() ) ;
 
-		engines::file file( m,log ) ;
-
-		file.write( mainObj ) ;
+		engines::file( m,log ).write( mainObj ) ;
 	}
 
 	return engines::file( m,log ).readAll() ;

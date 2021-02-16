@@ -119,9 +119,7 @@ QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& eng
 			return true ;
 		}() ) ;
 
-		engines::file file( m,log ) ;
-
-		file.write( mainObj ) ;
+		engines::file( m,log ).write( mainObj ) ;
 	}
 
 	return engines::file( m,log ).readAll() ;
