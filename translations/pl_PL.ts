@@ -231,18 +231,18 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="133"/>
-        <location filename="../src/basicdownloader.cpp" line="266"/>
+        <location filename="../src/basicdownloader.cpp" line="140"/>
+        <location filename="../src/basicdownloader.cpp" line="273"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="255"/>
+        <location filename="../src/basicdownloader.cpp" line="262"/>
         <source>Checking installed version of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="282"/>
+        <location filename="../src/basicdownloader.cpp" line="289"/>
         <source>Found version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -271,7 +271,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="134"/>
+        <location filename="../src/configure.cpp" line="146"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>

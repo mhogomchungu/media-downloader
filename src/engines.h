@@ -43,6 +43,24 @@ public:
 		QPlainTextEdit& m_textEdit ;
 	} ;
 
+	class file
+	{
+	public:
+		file( const QString& path,engines::log& log ) :
+			m_filePath( path ),m_file( m_filePath ),m_log( log )
+		{
+		}
+		void write( const QJsonDocument&,
+			    QJsonDocument::JsonFormat = QJsonDocument::Indented ) ;
+		void write( const QJsonObject&,
+			    QJsonDocument::JsonFormat = QJsonDocument::Indented ) ;
+		QByteArray readAll() ;
+	private:
+		QString m_filePath ;
+		QFile m_file ;
+		engines::log& m_log ;
+	} ;
+
 	class enginePaths
 	{
 	public:

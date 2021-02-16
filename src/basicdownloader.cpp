@@ -34,8 +34,6 @@ basicdownloader::basicdownloader( Context& ctx ) :
 {
 	this->setAsActive() ;
 
-	m_ui.rbYoutubeDl->setChecked( true ) ;
-
 	m_ui.pbCancel->setEnabled( false ) ;
 
 	m_ui.plainTextEdit->setReadOnly( true ) ;
@@ -86,20 +84,29 @@ basicdownloader::basicdownloader( Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	if( m_settings.enableVersionCheckAtStatup() ){
+	if( m_ctx.Engines().getEngines().size() > 0 ){
 
-		auto a = m_ui.plainTextEdit->toPlainText() ;
+		m_ui.rbYoutubeDl->setChecked( true ) ;
 
-		if( !a.isEmpty() ){
+		if( m_settings.enableVersionCheckAtStatup() ){
 
-			auto b =  utility::split( a,'\n',false ) ;
+			auto a = m_ui.plainTextEdit->toPlainText() ;
 
-			this->printDefaultBkVersionInfo( b ) ;
+			if( !a.isEmpty() ){
+
+				auto b =  utility::split( a,'\n',false ) ;
+
+				this->printDefaultBkVersionInfo( b ) ;
+			}else{
+				this->printDefaultBkVersionInfo() ;
+			}
 		}else{
-			this->printDefaultBkVersionInfo() ;
+			m_counter = static_cast< size_t >( -1 ) ;
 		}
 	}else{
-		m_counter = static_cast< size_t >( -1 ) ;
+		m_tabManager.disableAll() ;
+
+		m_ui.pbQuit->setEnabled( true ) ;
 	}
 }
 

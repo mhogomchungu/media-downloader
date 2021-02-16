@@ -43,7 +43,7 @@ static engines::engine _add_engine( engines::log& log,
 
 	if( error.error != QJsonParseError::NoError ){
 
-		log.add( "Failed to parse json file at: " + error.errorString() ) ;
+		log.add( QObject::tr( "Failed to parse json file" ) + " :" + error.errorString() ) ;
 
 		return {} ;
 	}else{
@@ -55,41 +55,27 @@ engines::engines( QPlainTextEdit& textEdit ) : m_log( textEdit )
 {
 	enginePaths enginePaths ;
 
-	auto m = _add_engine( m_log,enginePaths,youtube_dl() ) ;
+	auto _engine_add = [ & ]( engines::engine m ){
 
-	if( m.valid() ){
+		if( m.valid() ){
 
-		m_backends.emplace_back( std::move( m ) ) ;
-	}
+			if( m.exePath().isEmpty() && !m.usingPrivateBackend() ){
 
-	m = _add_engine( m_log,enginePaths,wget() ) ;
-
-	if( m.valid() && !m.exePath().isEmpty() ){
-
-		m_backends.emplace_back( std::move( m ) ) ;
-	}
-
-	if( m_backends.size() == 0 ){
-
-		m_log.add( "Warning: Using internal config options for youtube-dl backend" ) ;
-
-		QByteArray m ;
-
-		if( utility::platformIsLinux() ){
-
-			m = "{\"BackendPath\":\"/home/ink/.local/share/media-downloader/bin\",\"CommandName\":\"youtube-dl\",\"DefaultDownLoadCmdOptions\":[\"--newline\",\"--ignore-config\",\"--no-playlist\",\"--newline\"],\"DefaultListCmdOptions\":[\"-F\"],\"DownloadUrl\":\"https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest\",\"Name\":\"youtube-dl\",\"OptionsArgument\":\"-f\",\"UsePrivateExecutable\":false,\"VersionArgument\":\"--version\",\"VersionStringLine\":0,\"VersionStringPosition\":0}" ;
-		}else{
-			m = "{\"BackendPath\":\"/home/ink/.local/share/media-downloader/bin\",\"CommandName\":\"youtube-dl.exe\",\"DefaultDownLoadCmdOptions\":[\"--newline\",\"--ignore-config\",\"--no-playlist\",\"--newline\"],\"DefaultListCmdOptions\":[\"-F\"],\"DownloadUrl\":\"https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest\",\"Name\":\"youtube-dl\",\"OptionsArgument\":\"-f\",\"UsePrivateExecutable\":true,\"VersionArgument\":\"--version\",\"VersionStringLine\":0,\"VersionStringPosition\":0}" ;
+				m_log.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m.name() ) ) ;
+			}else{
+				m_backends.emplace_back( std::move( m ) ) ;
+			}
 		}
+	} ;
 
-		QJsonParseError error ;
+	_engine_add( _add_engine( m_log,enginePaths,youtube_dl() ) ) ;
 
-		auto json = QJsonDocument::fromJson( m,&error ) ;
+	_engine_add( _add_engine( m_log,enginePaths,wget() ) ) ;
 
-		m_backends.emplace_back( json,youtube_dl().Functions() ) ;
+	if( m_backends.size() > 0 ){
+
+		this->setDefaultEngine( m_backends[ 0 ].name() ) ;
 	}
-
-	this->setDefaultEngine( m_backends[ 0 ].name() ) ;
 }
 
 const std::vector< engines::engine >& engines::getEngines()
@@ -216,4 +202,31 @@ engines::enginePaths::enginePaths()
 
 engines::engine::functions::~functions()
 {
+}
+
+void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat format )
+{
+	if( m_file.open( QIODevice::WriteOnly ) ){
+
+		m_file.write( doc.toJson( format ) ) ;
+	}else{
+		m_log.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+	}
+}
+
+void engines::file::write( const QJsonObject& obj,QJsonDocument::JsonFormat format )
+{
+	this->write( QJsonDocument( obj ),format ) ;
+}
+
+QByteArray engines::file::readAll()
+{
+	if( m_file.open( QIODevice::ReadOnly ) ){
+
+		return m_file.readAll() ;
+	}else{
+		m_log.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
+
+		return QByteArray() ;
+	}
 }

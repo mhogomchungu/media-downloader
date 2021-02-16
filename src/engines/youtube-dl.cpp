@@ -119,26 +119,12 @@ QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& eng
 			return true ;
 		}() ) ;
 
-		QJsonDocument doc( mainObj ) ;
+		engines::file file( m,log ) ;
 
-		QFile file( m ) ;
-
-		if( file.open( QIODevice::WriteOnly ) ){
-
-			file.write( doc.toJson( QJsonDocument::Indented ) ) ;
-		}else{
-			log.add( "Failed to open file for writing: " + m ) ;
-		}
+		file.write( mainObj ) ;
 	}
 
-	QFile file( m ) ;
-
-	if( !file.open( QIODevice::ReadOnly ) ){
-
-		log.add( "Failed to open file for reading: " + m ) ;
-	}
-
-	return file.readAll() ;
+	return engines::file( m,log ).readAll() ;
 }
 
 std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const
