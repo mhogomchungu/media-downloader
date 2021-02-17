@@ -25,6 +25,7 @@
 #include <QProcess>
 #include <QMenu>
 #include <QPushButton>
+#include <QTimer>
 
 #include <type_traits>
 #include <memory>
@@ -240,6 +241,59 @@ namespace utility
 	void run( const QString& cmd,const QStringList& args,WhenDone w,WithData p )
 	{
 		utility::run( cmd,args,[]( QProcess& ){},std::move( w ),std::move( p ) ) ;
+	}
+
+	/*
+	 * Function must take an int and must return bool
+	 */
+	template< typename Function,utility::types::has_bool_return_type<Function,int > = 0 >
+	void Timer( int interval,Function&& function )
+	{
+		class Timer{
+		public:
+			Timer( int interval,Function&& function ) :
+				m_function( std::forward< Function >( function ) )
+			{
+				auto timer = new QTimer() ;
+
+				QObject::connect( timer,&QTimer::timeout,[ timer,this ](){
+
+					m_counter++ ;
+
+					if( m_function( m_counter ) ){
+
+						timer->stop() ;
+
+						timer->deleteLater() ;
+
+						delete this ;
+					}
+				} ) ;
+
+				timer->start( interval ) ;
+			}
+		private:
+			int m_counter = 0 ;
+			Function m_function ;
+		} ;
+
+		new Timer( interval,std::forward< Function >( function ) ) ;
+	}
+
+	/*
+	 * Function must takes no argument and will be called once when the interval pass
+	 */
+	template< typename Function,utility::types::has_no_argument< Function > = 0 >
+	void Timer( int interval,Function&& function )
+	{
+		utility::Timer( interval,[ function = std::forward< Function >( function ) ]( int s ){
+
+			Q_UNUSED( s )
+
+			function() ;
+
+			return true ;
+		} ) ;
 	}
 
 	template< typename Value,typename Arg >

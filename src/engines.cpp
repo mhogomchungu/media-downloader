@@ -114,7 +114,7 @@ static QStringList _toStringList( const QJsonValue& value ){
 
 	auto array = value.toArray() ;
 
-	for( int i = 0 ; i < array.size() ;i ++ ){
+	for( int i = 0 ; i < array.size() ; i++ ){
 
 		m.append( array.at( i ).toString() ) ;
 	}

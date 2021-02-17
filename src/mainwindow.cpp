@@ -32,6 +32,7 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_qApp( app ),
 	m_ui( std::make_unique< Ui::MainWindow >() ),
 	m_initUi( *m_ui,*this ),
+	m_showTrayIcon( s.showTrayIcon() ),
 	m_engines( *m_ui->plainTextEdit ),
 	m_tabManager( s,t,m_engines,*m_ui,*this,*this )
 {
@@ -41,7 +42,7 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 
 	this->window()->setWindowIcon( icon ) ;
 
-	if( s.showTrayIcon() ){
+	if( m_showTrayIcon ){
 
 		m_trayIcon.setIcon( icon ) ;
 
@@ -58,6 +59,46 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 
 			return m ;
 		}() ) ;
+
+		connect( &m_trayIcon,&QSystemTrayIcon::activated,[ this ]( QSystemTrayIcon::ActivationReason ){
+
+			if( this->isVisible() ){
+
+				this->hide() ;
+			}else{
+				this->show() ;
+			}
+		} ) ;
+
+		if( QSystemTrayIcon::isSystemTrayAvailable() ){
+
+			m_trayIcon.show() ;
+		}else{
+			utility::Timer( 1000,[ this ]( int counter ){
+
+				if( QSystemTrayIcon::isSystemTrayAvailable() ){
+
+					m_trayIcon.show() ;
+
+					return true ;
+				}else{
+					if( counter == 5 ){
+
+						/*
+						 * We have waited for system tray to become
+						 * available and we can wait no longer, display
+						 * it and hope for the best.
+						 */
+						m_trayIcon.show() ;
+
+						return true ;
+					}else{
+						return false ;
+					}
+				}
+
+			} ) ;
+		}
 
 		m_trayIcon.show() ;
 	}
@@ -84,5 +125,9 @@ void MainWindow::closeEvent( QCloseEvent * e )
 
 	this->hide() ;
 
-	m_tabManager.basicDownloader().appQuit() ;
+	if( !m_showTrayIcon ){
+
+		m_tabManager.basicDownloader().appQuit() ;
+	}
+
 }

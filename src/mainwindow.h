@@ -56,6 +56,7 @@ private:
 			m_ui.setupUi( &mainWindow ) ;
 		}
 	} m_initUi ;
+	bool m_showTrayIcon ;
 	engines m_engines ;
 	tabManager m_tabManager ;
 	void closeEvent( QCloseEvent * ) ;
