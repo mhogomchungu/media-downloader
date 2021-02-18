@@ -72,7 +72,7 @@ public:
 	networkAccess( Context& )
 	{
 	}
-	void download()
+	void download( const engines::engine& )
 	{
 	}
 private:
