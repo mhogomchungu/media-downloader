@@ -30,7 +30,7 @@ configure::configure( Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_networkAccess( m_ctx,m_ctx.Engines().defaultEngine() )
+	m_networkAccess( m_ctx )
 {
 #if QT_VERSION < QT_VERSION_CHECK( 5,6,0 )
 	m_ui->lineEditConfigureScaleFactor->setEnabled( false ) ;
@@ -51,7 +51,7 @@ configure::configure( Context& ctx ) :
 
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
 
-		this->downloadYoutubeDl() ;
+		this->downloadYoutubeDl( m_ctx.Engines().defaultEngine() ) ;
 	} ) ;
 
 	this->resetMenu() ;
@@ -119,9 +119,9 @@ void configure::retranslateUi()
 	this->manageDownloadButton() ;
 }
 
-void configure::downloadYoutubeDl()
+void configure::downloadYoutubeDl( const engines::engine& engine )
 {
-	m_networkAccess.download() ;
+	m_networkAccess.download( engine ) ;
 }
 
 void configure::tabEntered()

@@ -130,7 +130,7 @@ void basicdownloader::printDefaultBkVersionInfo( const QStringList& data )
 
 			this->checkAndPrintInstalledVersion( engine,data ) ;
 		}else{
-			m_ctx.TabManager().Configure().downloadYoutubeDl() ;
+			m_ctx.TabManager().Configure().downloadYoutubeDl( engine ) ;
 		}
 	}else{
 		if( exe.isEmpty() ){

@@ -36,7 +36,7 @@ public:
 	void disableAll() ;
 	void resetMenu() ;
 	void retranslateUi() ;
-	void downloadYoutubeDl() ;
+	void downloadYoutubeDl( const engines::engine& ) ;
 	void tabEntered() ;
 private:
 	void manageDownloadButton() ;

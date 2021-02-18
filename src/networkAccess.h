@@ -37,8 +37,8 @@ class basicdownloader ;
 class networkAccess
 {
 public:
-        networkAccess( Context&,const engines::engine& ) ;
-	void download() ;
+	networkAccess( Context& ) ;
+	void download( const engines::engine& ) ;
 	static bool hasNetworkSupport()
 	{
 		return true ;
@@ -50,15 +50,14 @@ private:
 		QString url ;
 		QString sha256 ;
 	};
-	void download( const metadata& ) ;
-	void post( const QString& ) ;
+	void download( const metadata&,const engines::engine& ) ;
+	void post( const engines::engine&,const QString& ) ;
 	Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;
 	QFile m_file ;
 	QStringList m_data ;
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
-	const engines::engine& m_engine ;
 };
 
 #else
@@ -70,7 +69,7 @@ public:
 	{
 		return false ;
 	}
-	networkAccess( Context&,const engines::engine& )
+	networkAccess( Context& )
 	{
 	}
 	void download()

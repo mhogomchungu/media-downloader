@@ -33,40 +33,39 @@
 #include <QJsonArray>
 #include <QDir>
 
-networkAccess::networkAccess( Context& ctx,const engines::engine& engine ) :
+networkAccess::networkAccess( Context& ctx ) :
 	m_ctx( ctx ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
-	m_tabManager( m_ctx.TabManager() ),
-	m_engine( engine )
+	m_tabManager( m_ctx.TabManager() )
 {
 }
 
-void networkAccess::download()
+void networkAccess::download( const engines::engine& engine )
 {
 	m_data = m_ctx.TabManager().basicDownloader().currentVersionData() ;
 
 	QDir dir ;
 
-	auto path = m_engine.exeFolderPath() ;
+	auto path = engine.exeFolderPath() ;
 
 	if( !dir.exists( path ) ){
 
 		if( !dir.mkpath( path ) ){
 
-			this->post( QObject::tr( "Failed to download, Following path can not be created: " ) + path ) ;
+			this->post( engine,QObject::tr( "Failed to download, Following path can not be created: " ) + path ) ;
 
 			return ;
 		}
 	}
 
 
-	this->post( QObject::tr( "Start Downloading" ) + " " + m_engine.name() + " ..." ) ;
+	this->post( engine,QObject::tr( "Start Downloading" ) + " " + engine.name() + " ..." ) ;
 
 	m_tabManager.disableAll() ;
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	QString url( m_engine.downloadUrl() ) ;
+	QString url( engine.downloadUrl() ) ;
 
 	QNetworkRequest networkRequest( url ) ;
 
@@ -74,21 +73,21 @@ void networkAccess::download()
 
 	auto networkReply = m_accessManager.get( networkRequest ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ this ]( qint64 received,qint64 total ){
+	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ this,&engine ]( qint64 received,qint64 total ){
 
 		Q_UNUSED( received )
 		Q_UNUSED( total )
 
-		this->post( "..." ) ;
+		this->post( engine,"..." ) ;
 	} ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
 
 		networkReply->deleteLater() ;
 
 		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
 
-			this->post( QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
+			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
 			m_tabManager.enableAll() ;
 			return ;
 		}
@@ -101,7 +100,7 @@ void networkAccess::download()
 
 		if( error.error != QJsonParseError::NoError ){
 
-			this->post( QObject::tr( "Failed to parse json file from github" ) + ": " + error.errorString() ) ;
+			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + error.errorString() ) ;
 			m_tabManager.enableAll() ;
 			return ;
 		}
@@ -120,7 +119,7 @@ void networkAccess::download()
 
 			auto entry = value.toString() ;
 
-			if( entry == m_engine.name() ){
+			if( entry == engine.name() ){
 
 				auto value = object.value( "browser_download_url" ) ;
 
@@ -140,13 +139,13 @@ void networkAccess::download()
 			}
 		}
 
-		this->download( metadata ) ;
+		this->download( metadata,engine ) ;
 	} ) ;
 }
 
-void networkAccess::download( const metadata& metadata )
+void networkAccess::download( const metadata& metadata,const engines::engine& engine )
 {
-	QString filePath = m_engine.exePath() ;
+	QString filePath = engine.exePath() ;
 
 	m_file.setFileName( filePath ) ;
 
@@ -154,37 +153,37 @@ void networkAccess::download( const metadata& metadata )
 
 	m_file.open( QIODevice::WriteOnly ) ;
 
-	this->post( QObject::tr( "Downloading" ) + ": " + metadata.url ) ;
+	this->post( engine,QObject::tr( "Downloading" ) + ": " + metadata.url ) ;
 
-	this->post( QObject::tr( "Destination" ) + ": " + filePath ) ;
+	this->post( engine,QObject::tr( "Destination" ) + ": " + filePath ) ;
 
 	QNetworkRequest networkRequest( metadata.url ) ;
 	networkRequest.setAttribute( QNetworkRequest::FollowRedirectsAttribute,true ) ;
 
 	auto networkReply = m_accessManager.get( networkRequest ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
 
 		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
 
-			this->post( QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
+			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
 
 			m_tabManager.enableAll() ;
 		}else{
 			m_file.close() ;
 
-			this->post( QObject::tr( "Download complete" ) ) ;
+			this->post( engine,QObject::tr( "Download complete" ) ) ;
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 
 			networkReply->deleteLater() ;
 
-			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( m_engine,m_data ) ;
+			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( engine,m_data ) ;
 		}
 	} ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::downloadProgress,
-			  [ this,metadata,networkReply ]( qint64 received,qint64 total ){
+			  [ this,metadata,networkReply,&engine ]( qint64 received,qint64 total ){
 
 		Q_UNUSED( total )
 
@@ -197,13 +196,13 @@ void networkAccess::download( const metadata& metadata )
 
 		auto m = QString( "%1/%2 bytes(%3%)" ).arg( current,totalSize,percentage ) ;
 
-		this->post( QObject::tr( "Downloading" ) + " " + m_engine.name() + ": " + m ) ;
+		this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m ) ;
 	} ) ;
 }
 
-void networkAccess::post( const QString& e )
+void networkAccess::post( const engines::engine& engine,const QString& e )
 {
-	auto prefix = QObject::tr( "Downloading" ) + " " + m_engine.name() ;
+	auto prefix = QObject::tr( "Downloading" ) + " " + engine.name() ;
 
 	if( m_data.isEmpty() ){
 
