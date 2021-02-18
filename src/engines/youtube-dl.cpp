@@ -26,7 +26,7 @@
 #include "network_support.h"
 #include "../utility.h"
 
-QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& enginePath ) const
+engines::Json youtube_dl::config( engines::log& log,const engines::enginePaths& enginePath ) const
 {
 	auto m = enginePath.configPath() + "/youtube-dl.json" ;
 
@@ -34,7 +34,7 @@ QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& eng
 
 		QJsonObject mainObj ;
 
-		mainObj.insert( "UsePrivateExecutable",[]()->QJsonValue{
+		mainObj.insert( "UsePrivateExecutable",[](){
 			#if MD_NETWORK_SUPPORT
 				return true ;
 			#else
@@ -46,7 +46,7 @@ QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& eng
 			#endif
 		}() ) ;
 
-		mainObj.insert( "CommandName",[]()->QJsonValue{
+		mainObj.insert( "CommandName",[](){
 
 			if( utility::platformIsWindows() ){
 
@@ -56,14 +56,12 @@ QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& eng
 			}
 		}() ) ;
 
-		mainObj.insert( "Name",[]()->QJsonValue{
+		mainObj.insert( "Name","youtube-dl" ) ;
 
-			return "youtube-dl" ;
-		}() ) ;
-
-		mainObj.insert( "DefaultDownLoadCmdOptions",[]()->QJsonValue{
+		mainObj.insert( "DefaultDownLoadCmdOptions",[](){
 
 			QJsonArray arr ;
+
 			arr.append( "--newline" ) ;
 			arr.append( "--ignore-config" ) ;
 			arr.append( "--no-playlist" ) ;
@@ -72,52 +70,30 @@ QByteArray youtube_dl::config( engines::log& log,const engines::enginePaths& eng
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "DefaultListCmdOptions",[]()->QJsonValue{
+		mainObj.insert( "DefaultListCmdOptions",[](){
 
 			QJsonArray arr ;
+
 			arr.append( "-F" ) ;
+
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "DownloadUrl",[]()->QJsonValue{
+		mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 
-			return "https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ;
-		}() ) ;
+		mainObj.insert( "VersionArgument","--version" ) ;
 
-		mainObj.insert( "VersionArgument",[]()->QJsonValue{
+		mainObj.insert( "OptionsArgument","-f" ) ;
 
-			return "--version" ;
-		}() ) ;
+		mainObj.insert( "BackendPath",enginePath.binPath() ) ;
 
-		mainObj.insert( "OptionsArgument",[]()->QJsonValue{
+		mainObj.insert( "VersionStringLine",0 ) ;
 
-			return "-f" ;
-		}() ) ;
+		mainObj.insert( "VersionStringPosition",0 ) ;
 
-		mainObj.insert( "BackendPath",[ & ]()->QJsonValue{
+		mainObj.insert( "BatchFileArgument","-a" ) ;
 
-			return enginePath.binPath() ;
-		}() ) ;
-
-		mainObj.insert( "VersionStringLine",[]()->QJsonValue{
-
-			return 0 ;
-		}() ) ;
-
-		mainObj.insert( "VersionStringPosition",[]()->QJsonValue{
-
-			return 0 ;
-		}() ) ;
-
-		mainObj.insert( "BatchFileArgument",[]()->QJsonValue{
-
-			return "-a" ;
-		}() ) ;
-
-		mainObj.insert( "CanDownloadPlaylist",[]()->QJsonValue{
-
-			return true ;
-		}() ) ;
+		mainObj.insert( "CanDownloadPlaylist",true ) ;
 
 		engines::file( m,log ).write( mainObj ) ;
 	}

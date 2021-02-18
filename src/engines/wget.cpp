@@ -26,12 +26,38 @@
 
 #include "../utility.h"
 
+static engines::Json _to_json( const QByteArray& data )
+{
+	engines::Json json( data ) ;
+
+	if( json ){
+
+		auto object = json.doc().object() ;
+
+		/*
+		 * We are overriding the option set in the config file to
+		 * make sure it has expected value
+		 */
+		auto iter = object.find( "UsePrivateExecutable" ) ;
+
+		if( iter != object.end() ){
+
+			iter.value() = false ;
+		}else{
+			object.insert( "UsePrivateExecutable",false ) ;
+		}
+
+		return object ;
+	}else{
+		return json ;
+	}
+}
+
 wget::wget()
 {
 }
-#include <QDebug>
 
-QByteArray wget::config( engines::log& log,const engines::enginePaths& enginePath ) const
+engines::Json wget::config( engines::log& log,const engines::enginePaths& enginePath ) const
 {
 	auto m = enginePath.configPath() + "/wget.json" ;
 
@@ -39,12 +65,9 @@ QByteArray wget::config( engines::log& log,const engines::enginePaths& enginePat
 
 		QJsonObject mainObj ;
 
-		mainObj.insert( "UsePrivateExecutable",[]()->QJsonValue{
+		mainObj.insert( "UsePrivateExecutable",false ) ;
 
-			return false ;
-		}() ) ;
-
-		mainObj.insert( "CommandName",[]()->QJsonValue{
+		mainObj.insert( "CommandName",[](){
 
 			if( utility::platformIsWindows() ){
 
@@ -54,69 +77,32 @@ QByteArray wget::config( engines::log& log,const engines::enginePaths& enginePat
 			}
 		}() ) ;
 
-		mainObj.insert( "Name",[]()->QJsonValue{
+		mainObj.insert( "Name","wget" ) ;
 
-			return "wget" ;
-		}() ) ;
+		mainObj.insert( "DefaultDownLoadCmdOptions",QJsonArray() ) ;
 
-		mainObj.insert( "DefaultDownLoadCmdOptions",[]()->QJsonValue{
+		mainObj.insert( "DefaultListCmdOptions",QJsonArray() ) ;
 
-			QJsonArray arr ;
+		mainObj.insert( "DownloadUrl","" ) ;
 
-			return arr ;
-		}() ) ;
+		mainObj.insert( "VersionArgument","--version" ) ;
 
-		mainObj.insert( "DefaultListCmdOptions",[]()->QJsonValue{
+		mainObj.insert( "OptionsArgument","" ) ;
 
-			QJsonArray arr ;
+		mainObj.insert( "BackendPath","" ) ;
 
-			return arr ;
-		}() ) ;
+		mainObj.insert( "VersionStringLine",0 ) ;
 
-		mainObj.insert( "DownloadUrl",[]()->QJsonValue{
+		mainObj.insert( "VersionStringPosition",2 ) ;
 
-			return "" ;
-		}() ) ;
+		mainObj.insert( "BatchFileArgument","-i" ) ;
 
-		mainObj.insert( "VersionArgument",[]()->QJsonValue{
-
-			return "--version" ;
-		}() ) ;
-
-		mainObj.insert( "OptionsArgument",[]()->QJsonValue{
-
-			return "" ;
-		}() ) ;
-
-		mainObj.insert( "BackendPath",[]()->QJsonValue{
-
-			return "" ;
-		}() ) ;
-
-		mainObj.insert( "VersionStringLine",[]()->QJsonValue{
-
-			return 0 ;
-		}() ) ;
-
-		mainObj.insert( "VersionStringPosition",[]()->QJsonValue{
-
-			return 2 ;
-		}() ) ;
-
-		mainObj.insert( "BatchFileArgument",[]()->QJsonValue{
-
-			return "-i" ;
-		}() ) ;
-
-		mainObj.insert( "CanDownloadPlaylist",[]()->QJsonValue{
-
-			return false ;
-		}() ) ;
+		mainObj.insert( "CanDownloadPlaylist",false ) ;
 
 		engines::file( m,log ).write( mainObj ) ;
 	}
 
-	return engines::file( m,log ).readAll() ;
+	return _to_json( engines::file( m,log ).readAll() ) ;
 }
 
 std::unique_ptr< engines::engine::functions > wget::Functions() const

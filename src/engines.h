@@ -32,6 +32,43 @@
 
 class engines{
 public:
+	class Json
+	{
+	public:
+		Json( const QByteArray& data ) :
+			m_doc( QJsonDocument::fromJson( data,&m_error ) )
+		{
+		}
+		Json( const QJsonObject& obj ) :
+			m_doc( obj )
+		{
+			m_error.error = QJsonParseError::NoError ;
+		}
+		Json( QJsonParseError error ) :
+			m_error( std::move( error ) )
+		{
+		}
+		Json( QJsonDocument doc ) : m_doc( std::move( doc ) )
+		{
+			m_error.error = QJsonParseError::NoError ;
+		}
+		const QJsonDocument& doc() const
+		{
+			return m_doc ;
+		}
+		QString errorString() const
+		{
+			return m_error.errorString() ;
+		}
+		operator bool() const
+		{
+			return m_error.error == QJsonParseError::NoError ;
+		}
+	private:
+		QJsonParseError m_error ;
+		QJsonDocument m_doc ;
+	} ;
+
 	class log
 	{
 	public:
@@ -103,7 +140,7 @@ public:
 		{
 		}
 
-		engine( const QJsonDocument& json,
+		engine( const engines::Json& json,
 			std::unique_ptr< engines::engine::functions > ) ;
 
 		const QString& name() const

@@ -37,17 +37,15 @@ static engines::engine _add_engine( engines::log& log,
 				    const engines::enginePaths& enginePath,
 				    const Engine& engine )
 {
-	QJsonParseError error ;
+	auto json = engine.config( log,enginePath ) ;
 
-	auto json = QJsonDocument::fromJson( engine.config( log,enginePath ),&error ) ;
+	if( json ){
 
-	if( error.error != QJsonParseError::NoError ){
-
-		log.add( QObject::tr( "Failed to parse json file" ) + " :" + error.errorString() ) ;
+		return engines::engine( json.doc(),engine.Functions() ) ;
+	}else{
+		log.add( QObject::tr( "Failed to parse json file" ) + " :" + json.errorString() ) ;
 
 		return {} ;
-	}else{
-		return engines::engine( json,engine.Functions() ) ;
 	}
 }
 
@@ -122,8 +120,8 @@ static QStringList _toStringList( const QJsonValue& value ){
 	return m ;
 }
 
-engines::engine::engine( const QJsonDocument& json,std::unique_ptr< engine::functions > functions ) :
-	m_jsonObject( json.object() ),
+engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::functions > functions ) :
+	m_jsonObject( json.doc().object() ),
 	m_functions( std::move( functions ) ),
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
