@@ -33,7 +33,7 @@ void about::resetMenu()
 {
 }
 
-about::about( Context& ctx ) : m_ctx( ctx )
+about::about( const Context& ctx ) : m_ctx( ctx )
 {
 	this->retranslateUi() ;
 }

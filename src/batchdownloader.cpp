@@ -20,7 +20,7 @@
 #include "batchdownloader.h"
 #include "tabmanager.h"
 
-batchdownloader::batchdownloader( Context& ctx) :
+batchdownloader::batchdownloader( const Context& ctx) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),

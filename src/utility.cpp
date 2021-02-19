@@ -124,7 +124,7 @@ static void _add( QMenu * menu,const QStringList& args )
 	}
 }
 
-QMenu * utility::details::sMo( Context& ctx,
+QMenu * utility::details::sMo( const Context& ctx,
 			       const QStringList& opts,
 			       bool addClear,
 			       QPushButton * w )

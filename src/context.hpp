@@ -72,31 +72,31 @@ public:
 		m_tabManager( tm )
 	{
 	}
-	engines& Engines()
+	engines& Engines() const
 	{
 		return m_engines ;
 	}
-	settings& Settings()
+	settings& Settings() const
 	{
 		return m_settings ;
 	}
-	translator& Translator()
+	translator& Translator() const
 	{
 		 return m_translator ;
 	}
-	Ui::MainWindow& Ui()
+	Ui::MainWindow& Ui() const
 	{
 		return m_mainUi ;
 	}
-	QWidget& mainWidget()
+	QWidget& mainWidget() const
 	{
 		return m_mainWidget ;
 	}
-	MainWindow& mainWindow()
+	MainWindow& mainWindow() const
 	{
 		return m_mainWindow ;
 	}
-	tabManager& TabManager()
+	tabManager& TabManager() const
 	{
 		return m_tabManager ;
 	}

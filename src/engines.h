@@ -227,10 +227,11 @@ public:
 		QStringList m_defaultListCmdOptions ;
 	};
 
-	const std::vector< engine >& getEngines() ;
-	const engine& defaultEngine() ;
-	const engine& getEngineByName( const QString& name ) ;
+	const std::vector< engine >& getEngines() const ;
+	const engine& defaultEngine() const ;
+	const engine& getEngineByName( const QString& name ) const ;
 	void setDefaultEngine( const QString& name ) ;
+	void setDefaultEngine( const engines::engine& engine ) ;
 	engines( QPlainTextEdit& ) ;
 private:
 	log m_log ;

@@ -29,7 +29,7 @@ class tabManager ;
 class about
 {
 public:
-	about( Context& ) ;
+	about( const Context& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
@@ -37,7 +37,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 private:
-	Context& m_ctx ;
+	const Context& m_ctx ;
 };
 
 #endif

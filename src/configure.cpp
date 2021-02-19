@@ -24,7 +24,7 @@
 #include "utility.h"
 #include <QFileDialog>
 
-configure::configure( Context& ctx ) :
+configure::configure( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),

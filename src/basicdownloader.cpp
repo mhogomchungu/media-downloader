@@ -26,7 +26,7 @@
 
 #include "tabmanager.h"
 
-basicdownloader::basicdownloader( Context& ctx ) :
+basicdownloader::basicdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
@@ -39,12 +39,6 @@ basicdownloader::basicdownloader( Context& ctx ) :
 	m_ui.plainTextEdit->setReadOnly( true ) ;
 
 	m_ui.labelFailedToFixExe->setVisible( false ) ;
-
-	m_ui.rbWget->setEnabled( false ) ;
-	m_ui.rbWget->setObjectName( "false" ) ;
-
-	m_ui.rbYoutubeDl->setEnabled( false ) ;
-	m_ui.rbYoutubeDl->setObjectName( "false" ) ;
 
 	connect( m_ui.pbList,&QPushButton::clicked,[ this ](){
 
@@ -63,20 +57,20 @@ basicdownloader::basicdownloader( Context& ctx ) :
 		this->appQuit() ;
 	} ) ;
 
-	connect( m_ui.rbYoutubeDl,&QRadioButton::toggled,[ this ]( bool e ){
+	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
-		if( e ){
+	connect( m_ui.cbEngineType,s,[ & ]( int s ){
 
-			m_ctx.Engines().setDefaultEngine( "youtube-dl" ) ;
+		auto& engines = m_ctx.Engines() ;
+
+		const auto& engine = engines.getEngineByName( m_ui.cbEngineType->itemText( s ) ) ;
+
+		engines.setDefaultEngine( engine ) ;
+
+		if( engine.canDownloadPlaylist() ){
+
 			m_ctx.TabManager().playlistDownloader().enableAll() ;
-		}
-	} ) ;
-
-	connect( m_ui.rbWget,&QRadioButton::toggled,[ this ]( bool e ){
-
-		if( e ){
-
-			m_ctx.Engines().setDefaultEngine( "wget" ) ;
+		}else{
 			m_ctx.TabManager().playlistDownloader().disableAll() ;
 		}
 	} ) ;
@@ -84,9 +78,14 @@ basicdownloader::basicdownloader( Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	if( m_ctx.Engines().getEngines().size() > 0 ){
+	const auto& engines = m_ctx.Engines().getEngines() ;
 
-		m_ui.rbYoutubeDl->setChecked( true ) ;
+	if( engines.size() > 0 ){
+
+		for( const auto& engine : engines ){
+
+			m_ui.cbEngineType->addItem( engine.name() ) ;
+		}
 
 		if( m_settings.enableVersionCheckAtStatup() ){
 
@@ -112,13 +111,15 @@ void basicdownloader::init_done()
 
 void basicdownloader::printDefaultBkVersionInfo( const QStringList& data )
 {
-	if( m_counter >= m_ctx.Engines().getEngines().size() ){
+	const auto& engines = m_ctx.Engines().getEngines() ;
+
+	if( m_counter >= engines.size() ){
 
 		m_output.clear() ;
 		return ;
 	}
 
-	const auto& engine = m_ctx.Engines().getEngines()[ m_counter ] ;
+	const auto& engine = engines[ m_counter ] ;
 
 	m_counter++ ;
 
@@ -134,8 +135,6 @@ void basicdownloader::printDefaultBkVersionInfo( const QStringList& data )
 		}
 	}else{
 		if( exe.isEmpty() ){
-
-			this->disableEngine( engine ) ;
 
 			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() )  ;
 
@@ -192,38 +191,6 @@ const QStringList& basicdownloader::currentVersionData()
 	return m_output ;
 }
 
-void basicdownloader::disableEngine( const engines::engine& engine )
-{
-	const auto& m = engine.name() ;
-
-	if( m == "youtube-dl" ){
-
-		m_ui.rbYoutubeDl->setEnabled( false ) ;
-		m_ui.rbYoutubeDl->setObjectName( "false" ) ;
-
-	}else if( m == "wget" ){
-
-		m_ui.rbWget->setEnabled( false ) ;
-		m_ui.rbWget->setObjectName( "false" ) ;
-	}
-}
-
-void basicdownloader::enableEngine( const engines::engine& engine )
-{
-	const auto& m = engine.name() ;
-
-	if( m == "youtube-dl" ){
-
-		m_ui.rbYoutubeDl->setEnabled( true ) ;
-		m_ui.rbYoutubeDl->setObjectName( "true" ) ;
-
-	}else if( m == "wget" ){
-
-		m_ui.rbWget->setEnabled( true ) ;
-		m_ui.rbWget->setObjectName( "true" ) ;
-	}
-}
-
 void basicdownloader::retranslateUi()
 {
 	this->resetMenu() ;
@@ -270,6 +237,15 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 
+			for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
+
+				if( m_ui.cbEngineType->itemText( i ) == ctx.engine.name() ){
+
+					m_ui.cbEngineType->removeItem( i ) ;
+					break ;
+				}
+			}
+
 			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() )  ;
 
 			m = "\n[media-downloader] " + m ;
@@ -280,12 +256,8 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 			m_tabManager.disableAll() ;
 
-			this->disableEngine( ctx.engine ) ;
-
 			this->enableQuit() ;
 		}else{
-			this->enableEngine( ctx.engine ) ;
-
 			auto c = "[media-downloader] " + tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ;
 
 			m_output.append( ctx.version + c ) ;
@@ -506,9 +478,7 @@ void basicdownloader::enableQuit()
 
 void basicdownloader::enableAll()
 {
-	m_ui.rbWget->setEnabled( m_ui.rbWget->objectName() == "true" ) ;
-	m_ui.rbYoutubeDl->setEnabled( m_ui.rbYoutubeDl->objectName() == "true" ) ;
-
+	m_ui.cbEngineType->setEnabled( true ) ;
 	m_ui.pbEntries->setEnabled( true ) ;
 	m_ui.label_2->setEnabled( true ) ;
 	m_ui.label->setEnabled( true ) ;
@@ -521,8 +491,7 @@ void basicdownloader::enableAll()
 
 void basicdownloader::disableAll()
 {
-	m_ui.rbWget->setEnabled( false ) ;
-	m_ui.rbYoutubeDl->setEnabled( false ) ;
+	m_ui.cbEngineType->setEnabled( false ) ;
 	m_ui.pbQuit->setEnabled( false ) ;
 	m_ui.pbEntries->setEnabled( false ) ;
 	m_ui.label_2->setEnabled( false ) ;

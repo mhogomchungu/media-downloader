@@ -30,7 +30,7 @@ class configure : public QObject
 {
         Q_OBJECT
 public:
-	configure( Context& ) ;
+	configure( const Context& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
@@ -41,7 +41,7 @@ public:
 private:
 	void manageDownloadButton() ;
 	bool m_setEnabled ;
-	Context& m_ctx ;
+	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;

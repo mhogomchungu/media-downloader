@@ -185,30 +185,17 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QRadioButton" name="rbYoutubeDl">
+     <widget class="QComboBox" name="cbEngineType">
       <property name="geometry">
        <rect>
         <x>240</x>
         <y>290</y>
-        <width>161</width>
+        <width>321</width>
         <height>31</height>
        </rect>
       </property>
-      <property name="text">
-       <string notr="true">Youtube-dl</string>
-      </property>
-     </widget>
-     <widget class="QRadioButton" name="rbWget">
-      <property name="geometry">
-       <rect>
-        <x>460</x>
-        <y>290</y>
-        <width>181</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string notr="true">Wget</string>
+      <property name="currentText">
+       <string notr="true"/>
       </property>
      </widget>
     </widget>

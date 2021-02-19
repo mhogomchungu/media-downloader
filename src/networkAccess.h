@@ -37,7 +37,7 @@ class basicdownloader ;
 class networkAccess
 {
 public:
-	networkAccess( Context& ) ;
+	networkAccess( const Context& ) ;
 	void download( const engines::engine& ) ;
 	static bool hasNetworkSupport()
 	{
@@ -52,7 +52,7 @@ private:
 	};
 	void download( const metadata&,const engines::engine& ) ;
 	void post( const engines::engine&,const QString& ) ;
-	Context& m_ctx ;
+	const Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;
 	QFile m_file ;
 	QStringList m_data ;
@@ -69,7 +69,7 @@ public:
 	{
 		return false ;
 	}
-	networkAccess( Context& )
+	networkAccess( const Context& )
 	{
 	}
 	void download( const engines::engine& )

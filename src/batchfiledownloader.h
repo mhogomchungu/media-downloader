@@ -28,7 +28,7 @@ class batchfiledownloader : public QObject
 {
 	Q_OBJECT
 public:
-	batchfiledownloader( Context& ) ;
+	batchfiledownloader( const Context& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
@@ -36,7 +36,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 private:
-	Context& m_ctx ;
+	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;

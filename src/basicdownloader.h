@@ -34,7 +34,7 @@ class basicdownloader : public QObject
 {
 	Q_OBJECT
 public:
-	basicdownloader( Context& ) ;
+	basicdownloader( const Context& ) ;
 	void init_done() ;
 	void download( const engines::engine&,
 		       const utility::args&,
@@ -57,14 +57,11 @@ public:
 	const QStringList& currentVersionData() ;
 private:
 	size_t m_counter = 0 ;
-	Context& m_ctx ;
+	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
 	QStringList m_output ;
-
-	void disableEngine( const engines::engine& ) ;
-	void enableEngine( const engines::engine& ) ;
 
 	void run( const engines::engine& engine,
 		  const QStringList& args,

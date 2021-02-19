@@ -22,7 +22,7 @@
 
 #include <QFileDialog>
 
-batchfiledownloader::batchfiledownloader( Context& ctx ) :
+batchfiledownloader::batchfiledownloader( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),

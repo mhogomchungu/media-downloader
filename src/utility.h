@@ -132,14 +132,14 @@ namespace utility
 
 	namespace details
 	{
-		QMenu * sMo( Context&,
+		QMenu * sMo( const Context&,
 			     const QStringList& opts,
 			     bool addClear,
 			     QPushButton * w ) ;
 	}
 
 	template< typename Function >
-	void setMenuOptions( Context& ctx,
+	void setMenuOptions( const Context& ctx,
 			     const QStringList& opts,
 			     bool addClear,
 			     QPushButton * w,

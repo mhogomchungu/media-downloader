@@ -76,17 +76,17 @@ engines::engines( QPlainTextEdit& textEdit ) : m_log( textEdit )
 	}
 }
 
-const std::vector< engines::engine >& engines::getEngines()
+const std::vector< engines::engine >& engines::getEngines() const
 {
 	return m_backends ;
 }
 
-const engines::engine& engines::defaultEngine()
+const engines::engine& engines::defaultEngine() const
 {
 	return this->getEngineByName( m_defaultEngine ) ;
 }
 
-const engines::engine & engines::getEngineByName( const QString& name )
+const engines::engine & engines::getEngineByName( const QString& name ) const
 {
 	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
 
@@ -106,15 +106,20 @@ void engines::setDefaultEngine( const QString& name )
 	m_defaultEngine = name ;
 }
 
+void engines::setDefaultEngine( const engines::engine& engine )
+{
+	m_defaultEngine = engine.name() ;
+}
+
 static QStringList _toStringList( const QJsonValue& value ){
 
 	QStringList m ;
 
-	auto array = value.toArray() ;
+	const auto array = value.toArray() ;
 
-	for( int i = 0 ; i < array.size() ; i++ ){
+	for( const auto& it : array ){
 
-		m.append( array.at( i ).toString() ) ;
+		m.append( it.toString() ) ;
 	}
 
 	return m ;

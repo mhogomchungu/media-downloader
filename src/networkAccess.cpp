@@ -33,7 +33,7 @@
 #include <QJsonArray>
 #include <QDir>
 
-networkAccess::networkAccess( Context& ctx ) :
+networkAccess::networkAccess( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
 	m_tabManager( m_ctx.TabManager() )
