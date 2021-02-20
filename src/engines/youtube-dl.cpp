@@ -23,7 +23,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-#include "network_support.h"
+#include "../networkAccess.h"
 #include "../utility.h"
 
 engines::Json youtube_dl::config( engines::log& log,const engines::enginePaths& enginePath ) const
@@ -35,15 +35,18 @@ engines::Json youtube_dl::config( engines::log& log,const engines::enginePaths& 
 		QJsonObject mainObj ;
 
 		mainObj.insert( "UsePrivateExecutable",[](){
-			#if MD_NETWORK_SUPPORT
+
+			if( networkAccess::hasNetworkSupport() ){
+
 				return true ;
-			#else
-				#ifdef Q_OS_LINUX
-					return false ;
-				#else
+			}else{
+				if( utility::platformIsWindows() ){
+
 					return true ;
-				#endif
-			#endif
+				}else{
+					return false ;
+				}
+			}
 		}() ) ;
 
 		mainObj.insert( "CommandName",[](){
