@@ -164,6 +164,8 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 
 	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
 
+		networkReply->deleteLater() ;
+
 		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
 
 			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
@@ -175,8 +177,6 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 			this->post( engine,QObject::tr( "Download complete" ) ) ;
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
-
-			networkReply->deleteLater() ;
 
 			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( engine,m_data ) ;
 		}
