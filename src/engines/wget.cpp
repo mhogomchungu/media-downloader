@@ -139,9 +139,9 @@ void wget::functions::processData( QStringList& outPut,const QByteArray& data )
 }
 
 void wget::functions::updateDownLoadCmdOptions( const engines::engine& engine,
-						      const QString& quality,
-						      const QStringList& userOptions,
-						      QStringList& ourOptions )
+						const QString& quality,
+						const QStringList& userOptions,
+						QStringList& ourOptions )
 {
 	Q_UNUSED( userOptions )
 
