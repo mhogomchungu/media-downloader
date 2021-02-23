@@ -45,6 +45,7 @@ configure::configure( const Context& ctx ) :
 		m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
 		m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
 		m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
+		m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
 
 		m_tabManager.resetMenu().basicDownloader().setAsActive() ;
 	} ) ;
@@ -106,6 +107,8 @@ configure::configure( const Context& ctx ) :
 	m_ui.lineEditConfigureDownloadPath->setText( m_settings.downloadFolder() ) ;
 
 	m_ui.textEditConfigurePresetOptions->setText( m_settings.presetOptions() ) ;
+
+	m_ui.cbConfigureShowVersionInfo->setChecked( m_settings.showVersionInfoWhenStarting() ) ;
 }
 
 void configure::init_done()
@@ -178,6 +181,7 @@ void configure::enableAll()
 	m_setEnabled = true ;
 
 	this->manageDownloadButton() ;
+	m_ui.cbConfigureShowVersionInfo->setEnabled( true ) ;
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
 	m_ui.labelConfigureLanguage->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
@@ -198,6 +202,7 @@ void configure::enableAll()
 void configure::disableAll()
 {
 	m_setEnabled = false ;
+	m_ui.cbConfigureShowVersionInfo->setEnabled( false ) ;
 	m_ui.pbConfigureDownload->setEnabled( false ) ;
 	m_ui.cbConfigureLanguage->setEnabled( false ) ;
 	m_ui.labelConfigureLanguage->setEnabled( false ) ;

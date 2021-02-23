@@ -87,7 +87,7 @@ void basicdownloader::init_done()
 			m_ui.cbEngineType->addItem( engine.name() ) ;
 		}
 
-		if( m_settings.enableVersionCheckAtStatup() ){
+		if( m_settings.showVersionInfoWhenStarting() ){
 
 			auto a = m_ui.plainTextEdit->toPlainText() ;
 

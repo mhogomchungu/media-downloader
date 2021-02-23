@@ -117,14 +117,19 @@ bool settings::autoDownload()
 	return m_settings.value( "AutoDownload" ).toBool() ;
 }
 
-bool settings::enableVersionCheckAtStatup()
+bool settings::showVersionInfoWhenStarting()
 {
-	if( !m_settings.contains( "EnableVersionCheckAtStatup" ) ){
+	if( !m_settings.contains( "ShowVersionInfoWhenStarting" ) ){
 
-		m_settings.setValue( "EnableVersionCheckAtStatup",true ) ;
+		m_settings.setValue( "ShowVersionInfoWhenStarting",true ) ;
 	}
 
-	return m_settings.value( "EnableVersionCheckAtStatup" ).toBool() ;
+	return m_settings.value( "ShowVersionInfoWhenStarting" ).toBool() ;
+}
+
+void settings::setShowVersionInfoWhenStarting( bool e )
+{
+	m_settings.setValue( "ShowVersionInfoWhenStarting",e ) ;
 }
 
 void settings::setHighDpiScalingFactor( const QString& m )

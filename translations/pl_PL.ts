@@ -155,12 +155,17 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="853"/>
+        <location filename="../src/mainwindow.ui" line="860"/>
+        <source>Show Version Info When Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="866"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="865"/>
+        <location filename="../src/mainwindow.ui" line="878"/>
         <source>TextLabel</source>
         <translation>TextLabel</translation>
     </message>
@@ -266,12 +271,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="94"/>
+        <location filename="../src/configure.cpp" line="95"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="146"/>
+        <location filename="../src/configure.cpp" line="149"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>

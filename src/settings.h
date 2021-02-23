@@ -46,7 +46,8 @@ public:
 
 	bool showTrayIcon() ;
 	bool autoDownload() ;
-	bool enableVersionCheckAtStatup() ;
+	bool showVersionInfoWhenStarting() ;
+	void setShowVersionInfoWhenStarting( bool ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;
