@@ -152,12 +152,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="847"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="860"/>
         <source>Show Version Info When Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż informacje nt wersji przy uruchamianiu</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="866"/>
@@ -190,12 +190,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/utility.cpp" line="110"/>
         <source>Best-audiovideo</source>
-        <translation type="unfinished"></translation>
+        <translation>Najlepsze audio i video</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="111"/>
         <source>Best-audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Najlepsze audio</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="157"/>
@@ -220,7 +220,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/about.cpp" line="46"/>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>Email</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="32"/>
@@ -239,17 +239,17 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <location filename="../src/basicdownloader.cpp" line="139"/>
         <location filename="../src/basicdownloader.cpp" line="249"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
         <location filename="../src/basicdownloader.cpp" line="229"/>
         <source>Checking installed version of</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
         <location filename="../src/basicdownloader.cpp" line="261"/>
         <source>Found version</source>
-        <translation type="unfinished"></translation>
+        <translation>Wersja</translation>
     </message>
 </context>
 <context>
@@ -278,7 +278,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/configure.cpp" line="149"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizuj</translation>
     </message>
 </context>
 <context>
