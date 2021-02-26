@@ -35,6 +35,8 @@ configure::configure( const Context& ctx ) :
 #if QT_VERSION < QT_VERSION_CHECK( 5,6,0 )
 	m_ui->lineEditConfigureScaleFactor->setEnabled( false ) ;
 #endif
+	m_setEnabled = true ;
+
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		m_tabManager.basicDownloader().appQuit() ;

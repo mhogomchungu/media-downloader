@@ -19,7 +19,7 @@
 
 #include "logger.h"
 
-Logger::Logger(QPlainTextEdit & e) : m_textEdit( e )
+Logger::Logger( QPlainTextEdit& e ) : m_textEdit( e )
 {
 	m_textEdit.setReadOnly( true ) ;
 }
