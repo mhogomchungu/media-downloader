@@ -33,8 +33,9 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_ui( std::make_unique< Ui::MainWindow >() ),
 	m_initUi( *m_ui,*this ),
 	m_showTrayIcon( s.showTrayIcon() ),
-	m_engines( *m_ui->plainTextEdit ),
-	m_tabManager( s,t,m_engines,*m_ui,*this,*this )
+	m_logger( *m_ui->plainTextEditLogger ),
+	m_engines( m_logger ),
+	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this )
 {
 	this->window()->setFixedSize( this->window()->size() ) ;
 
@@ -129,5 +130,4 @@ void MainWindow::closeEvent( QCloseEvent * e )
 
 		m_tabManager.basicDownloader().appQuit() ;
 	}
-
 }

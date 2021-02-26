@@ -30,6 +30,9 @@
 #include <vector>
 #include <functional>
 
+#include "utility.h"
+#include "logger.h"
+
 class engines{
 public:
 	class Json
@@ -69,22 +72,11 @@ public:
 		QJsonDocument m_doc ;
 	} ;
 
-	class log
-	{
-	public:
-		log( QPlainTextEdit& e ) : m_textEdit( e )
-		{
-		}
-		void add( const QString& s ) ;
-	private:
-		QPlainTextEdit& m_textEdit ;
-	} ;
-
 	class file
 	{
 	public:
-		file( const QString& path,engines::log& log ) :
-			m_filePath( path ),m_file( m_filePath ),m_log( log )
+	        file( const QString& path,Logger& logger ) :
+		        m_filePath( path ),m_file( m_filePath ),m_logger( logger )
 		{
 		}
 		void write( const QJsonDocument&,
@@ -95,7 +87,7 @@ public:
 	private:
 		QString m_filePath ;
 		QFile m_file ;
-		engines::log& m_log ;
+		Logger& m_logger ;
 	} ;
 
 	class enginePaths
@@ -229,12 +221,12 @@ public:
 
 	const std::vector< engine >& getEngines() const ;
 	const engine& defaultEngine() const ;
-	const engine& getEngineByName( const QString& name ) const ;
+	utility::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	void setDefaultEngine( const QString& name ) ;
 	void setDefaultEngine( const engines::engine& engine ) ;
-	engines( QPlainTextEdit& ) ;
+	engines( Logger& ) ;
 private:
-	log m_log ;
+	Logger& m_logger ;
 	QString m_defaultEngine ;
 	std::vector< engine > m_backends ;
 };

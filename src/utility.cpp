@@ -20,6 +20,7 @@
 #include "utility.h"
 
 #include "settings.h"
+#include "context.hpp"
 
 QStringList utility::split( const QString& e,char token,bool skipEmptyParts )
 {

@@ -42,8 +42,6 @@ networkAccess::networkAccess( const Context& ctx ) :
 
 void networkAccess::download( const engines::engine& engine )
 {
-	m_data = m_ctx.TabManager().basicDownloader().currentVersionData() ;
-
 	QDir dir ;
 
 	auto path = engine.exeFolderPath() ;
@@ -178,7 +176,7 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 
-			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( engine,m_data ) ;
+			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( engine ) ;
 		}
 	} ) ;
 
@@ -202,29 +200,30 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 
 void networkAccess::post( const engines::engine& engine,const QString& e )
 {
-	auto prefix = QObject::tr( "Downloading" ) + " " + engine.name() ;
+	m_ctx.logger().add( [ &engine,&e ]( QStringList& s ){
 
-	if( m_data.isEmpty() ){
+		auto prefix = QObject::tr( "Downloading" ) + " " + engine.name() ;
 
-		m_data.append( "[media-downloader] " + e ) ;
+		if( s.isEmpty() ){
 
-	}else if( e == "..." ){
+			s.append( "[media-downloader] " + e ) ;
 
-		m_data.last() = m_data.last() + " ..." ;
+		}else if( e == "..." ){
 
-	}else if( e.startsWith( prefix ) ){
+			s.last() = s.last() + " ..." ;
 
-		if( m_data.last().startsWith( "[media-downloader] " + prefix ) ){
+		}else if( e.startsWith( prefix ) ){
 
-			m_data.removeLast() ;
+			if( s.last().startsWith( "[media-downloader] " + prefix ) ){
+
+				s.removeLast() ;
+			}
+
+			s.append( "[media-downloader] " + e ) ;
+		}else{
+			s.append( "[media-downloader] " + e ) ;
 		}
-
-		m_data.append( "[media-downloader] " + e ) ;
-	}else{
-		m_data.append( "[media-downloader] " + e ) ;
-	}
-
-	m_ctx.TabManager().basicDownloader().post( m_data.join( '\n' ) ) ;
+	} ) ;
 }
 
 #endif

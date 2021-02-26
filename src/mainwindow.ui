@@ -30,7 +30,7 @@
      <attribute name="title">
       <string>Basic Downloader</string>
      </attribute>
-     <widget class="QPlainTextEdit" name="plainTextEdit">
+     <widget class="QPlainTextEdit" name="plainTextEditLogger">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -891,7 +891,7 @@ Each Link Should Be In Its Own Line.</string>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>tabWidget</tabstop>
-  <tabstop>plainTextEdit</tabstop>
+  <tabstop>plainTextEditLogger</tabstop>
   <tabstop>cbEngineType</tabstop>
   <tabstop>lineEditURL</tabstop>
   <tabstop>lineEditOptions</tabstop>

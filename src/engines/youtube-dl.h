@@ -36,7 +36,7 @@ public:
 	private:
 	} ;
 
-	engines::Json config( engines::log&,const engines::enginePaths& ) const ;
+	engines::Json config( Logger&,const engines::enginePaths& ) const ;
 
 	std::unique_ptr< engines::engine::functions > Functions() const ;
 private:

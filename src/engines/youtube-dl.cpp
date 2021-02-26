@@ -26,7 +26,7 @@
 #include "../networkAccess.h"
 #include "../utility.h"
 
-engines::Json youtube_dl::config( engines::log& log,const engines::enginePaths& enginePath ) const
+engines::Json youtube_dl::config( Logger& logger,const engines::enginePaths& enginePath ) const
 {
 	auto m = enginePath.configPath() + "/youtube-dl.json" ;
 
@@ -98,10 +98,10 @@ engines::Json youtube_dl::config( engines::log& log,const engines::enginePaths& 
 
 		mainObj.insert( "CanDownloadPlaylist",true ) ;
 
-		engines::file( m,log ).write( mainObj ) ;
+		engines::file( m,logger ).write( mainObj ) ;
 	}
 
-	return engines::file( m,log ).readAll() ;
+	return engines::file( m,logger ).readAll() ;
 }
 
 std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const

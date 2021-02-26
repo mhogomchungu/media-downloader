@@ -60,7 +60,7 @@
         <location filename="../src/mainwindow.ui" line="384"/>
         <location filename="../src/mainwindow.ui" line="590"/>
         <location filename="../src/mainwindow.ui" line="805"/>
-        <location filename="../src/mainwindow.cpp" line="53"/>
+        <location filename="../src/mainwindow.cpp" line="54"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -171,22 +171,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="110"/>
+        <location filename="../src/utility.cpp" line="111"/>
         <source>Best-audiovideo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="111"/>
+        <location filename="../src/utility.cpp" line="112"/>
         <source>Best-audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="144"/>
+        <location filename="../src/utility.cpp" line="145"/>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="157"/>
+        <location filename="../src/utility.cpp" line="158"/>
         <source>Found Options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -221,31 +221,51 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="172"/>
+        <location filename="../src/utility.cpp" line="173"/>
         <source>Clear Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="166"/>
+        <location filename="../src/utility.cpp" line="167"/>
         <source>Clear Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="44"/>
+        <source>Failed to parse json file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="60"/>
+        <source>Error, executable to backend &quot;%1&quot; could not be found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="207"/>
+        <source>Failed to open file for writing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="222"/>
+        <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="139"/>
-        <location filename="../src/basicdownloader.cpp" line="249"/>
+        <location filename="../src/basicdownloader.cpp" line="144"/>
+        <location filename="../src/basicdownloader.cpp" line="254"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="229"/>
+        <location filename="../src/basicdownloader.cpp" line="234"/>
         <source>Checking installed version of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="261"/>
+        <location filename="../src/basicdownloader.cpp" line="266"/>
         <source>Found version</source>
         <translation type="unfinished"></translation>
     </message>

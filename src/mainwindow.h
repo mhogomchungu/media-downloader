@@ -29,6 +29,7 @@
 
 #include "tabmanager.h"
 #include "engines.h"
+#include "logger.h"
 
 #include <QApplication>
 
@@ -57,6 +58,7 @@ private:
 		}
 	} m_initUi ;
 	bool m_showTrayIcon ;
+	Logger m_logger ;
 	engines m_engines ;
 	tabManager m_tabManager ;
 	void closeEvent( QCloseEvent * ) ;

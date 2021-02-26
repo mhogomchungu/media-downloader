@@ -57,7 +57,7 @@ wget::wget()
 {
 }
 
-engines::Json wget::config( engines::log& log,const engines::enginePaths& enginePath ) const
+engines::Json wget::config( Logger& logger,const engines::enginePaths& enginePath ) const
 {
 	auto m = enginePath.configPath() + "/wget.json" ;
 
@@ -99,10 +99,10 @@ engines::Json wget::config( engines::log& log,const engines::enginePaths& engine
 
 		mainObj.insert( "CanDownloadPlaylist",false ) ;
 
-		engines::file( m,log ).write( mainObj ) ;
+		engines::file( m,logger ).write( mainObj ) ;
 	}
 
-	return _to_json( engines::file( m,log ).readAll() ) ;
+	return _to_json( engines::file( m,logger ).readAll() ) ;
 }
 
 std::unique_ptr< engines::engine::functions > wget::Functions() const

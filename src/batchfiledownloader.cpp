@@ -111,4 +111,3 @@ void batchfiledownloader::disableAll()
 	m_ui.labelFileDownloederPath->setEnabled( false ) ;
 	m_ui.labelFileDownloederPathOptions->setEnabled( false ) ;
 }
-

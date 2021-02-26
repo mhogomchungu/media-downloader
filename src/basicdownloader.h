@@ -45,32 +45,29 @@ public:
 		       const QStringList& urls,
 		       bool = true ) ;
 	void tabEntered() ;
-	void post( const QString& ) ;
 	void enableQuit() ;
 	void enableAll() ;
 	void disableAll() ;
 	void appQuit() ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
-	void checkAndPrintInstalledVersion( const engines::engine&,const QStringList& = {} ) ;
+	void checkAndPrintInstalledVersion( const engines::engine& ) ;
 	basicdownloader& setAsActive() ;
-	const QStringList& currentVersionData() ;
 private:
 	size_t m_counter = 0 ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
-	QStringList m_output ;
 
 	void run( const engines::engine& engine,
 		  const QStringList& args,
 		  bool list_requested ) ;
-	void listRequested( const QStringList& ) ;
+	void listRequested( const QList< QByteArray >& ) ;
 	void list() ;
 	void download() ;
 	void exit() ;
-	void printDefaultBkVersionInfo( const QStringList& = {} ) ;
+	void printDefaultBkVersionInfo() ;
 } ;
 
 #endif

@@ -17,28 +17,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QByteArray>
+#include "logger.h"
 
-#include "../engines.h"
-
-class wget
+Logger::Logger(QPlainTextEdit & e) : m_textEdit( e )
 {
-public:
-	class functions : public engines::engine::functions
-	{
-	public:
-		~functions() override ;
-		void processData( QStringList&,const QByteArray& ) override ;
-		void updateDownLoadCmdOptions( const engines::engine& engine,
-					       const QString& quality,
-					       const QStringList& userOptions,
-					       QStringList& ourOptions ) override ;
-	private:
-	} ;
+	m_textEdit.setReadOnly( true ) ;
+}
 
-        wget() ;
+void Logger::add( const QString& s )
+{
+	if( s.startsWith( "[media-downloader]" ) ){
 
-	engines::Json config( Logger&,const engines::enginePaths& ) const ;
-	std::unique_ptr< engines::engine::functions > Functions() const ;
-private:
-};
+		m_text.append( s ) ;
+	}else{
+		m_text.append( "[media-downloader] " + s ) ;
+	}
+
+	this->update() ;
+}
+
+void Logger::clear()
+{
+	m_text.clear() ;
+	m_textEdit.clear() ;
+}
+
+void Logger::update()
+{
+	m_textEdit.setPlainText( m_text.join( '\n' ) ) ;
+	m_textEdit.moveCursor( QTextCursor::End ) ;
+}

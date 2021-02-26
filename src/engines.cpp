@@ -19,8 +19,6 @@
 
 #include "engines.h"
 
-#include "utility.h"
-
 #include "engines/youtube-dl.h"
 #include "engines/wget.h"
 
@@ -33,23 +31,23 @@
 #include <QDebug>
 
 template< typename Engine >
-static engines::engine _add_engine( engines::log& log,
+static engines::engine _add_engine( Logger& logger,
 				    const engines::enginePaths& enginePath,
 				    const Engine& engine )
 {
-	auto json = engine.config( log,enginePath ) ;
+	auto json = engine.config( logger,enginePath ) ;
 
 	if( json ){
 
 		return engines::engine( json.doc(),engine.Functions() ) ;
 	}else{
-		log.add( QObject::tr( "Failed to parse json file" ) + " :" + json.errorString() ) ;
+		logger.add( QObject::tr( "Failed to parse json file" ) + " :" + json.errorString() ) ;
 
 		return {} ;
 	}
 }
 
-engines::engines( QPlainTextEdit& textEdit ) : m_log( textEdit )
+engines::engines( Logger& l ) : m_logger( l )
 {
 	enginePaths enginePaths ;
 
@@ -59,16 +57,16 @@ engines::engines( QPlainTextEdit& textEdit ) : m_log( textEdit )
 
 			if( m.exePath().isEmpty() && !m.usingPrivateBackend() ){
 
-				m_log.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m.name() ) ) ;
+				m_logger.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m.name() ) ) ;
 			}else{
 				m_backends.emplace_back( std::move( m ) ) ;
 			}
 		}
 	} ;
 
-	_engine_add( _add_engine( m_log,enginePaths,youtube_dl() ) ) ;
+	_engine_add( _add_engine( m_logger,enginePaths,youtube_dl() ) ) ;
 
-	_engine_add( _add_engine( m_log,enginePaths,wget() ) ) ;
+	_engine_add( _add_engine( m_logger,enginePaths,wget() ) ) ;
 
 	if( m_backends.size() > 0 ){
 
@@ -83,22 +81,29 @@ const std::vector< engines::engine >& engines::getEngines() const
 
 const engines::engine& engines::defaultEngine() const
 {
-	return this->getEngineByName( m_defaultEngine ) ;
+	auto m =  this->getEngineByName( m_defaultEngine ) ;
+
+	if( m ){
+
+		return m.value() ;
+	}else{
+		m_logger.add( "Error: engines::defaultEngine: Unknown Engine:" + m_defaultEngine ) ;
+
+		return m_backends[ 0 ] ;
+	}
 }
 
-const engines::engine & engines::getEngineByName( const QString& name ) const
+utility::result_ref< const engines::engine& > engines::getEngineByName( const QString& name ) const
 {
-	for( size_t i = 1 ; i < m_backends.size() ; i++ ){
+	for( const auto& it : m_backends ){
 
-		const auto& m = m_backends[ i ] ;
+		if( it.name() == name ){
 
-		if( m.name() == name ){
-
-			return m ;
+			return it ;
 		}
 	}
 
-	return m_backends[ 0 ] ;
+	return {} ;
 }
 
 void engines::setDefaultEngine( const QString& name )
@@ -169,20 +174,6 @@ QString engines::engine::versionString( const QString& data ) const
 	return {} ;
 }
 
-void engines::log::add( const QString& s )
-{
-	auto a = m_textEdit.toPlainText() ;
-
-	if( a.isEmpty() ){
-
-		m_textEdit.setPlainText( "[media-downloader] " + s ) ;
-	}else{
-		m_textEdit.setPlainText( a + "\n[media-downloader] " + s ) ;
-	}
-
-	m_textEdit.moveCursor( QTextCursor::End ) ;
-}
-
 engines::enginePaths::enginePaths()
 {
 	auto m = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
@@ -213,7 +204,7 @@ void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat fo
 
 		m_file.write( doc.toJson( format ) ) ;
 	}else{
-		m_log.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+		m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
 	}
 }
 
@@ -228,7 +219,7 @@ QByteArray engines::file::readAll()
 
 		return m_file.readAll() ;
 	}else{
-		m_log.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
+		m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
 
 		return QByteArray() ;
 	}

@@ -55,7 +55,6 @@ private:
 	const Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;
 	QFile m_file ;
-	QStringList m_data ;
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
 };

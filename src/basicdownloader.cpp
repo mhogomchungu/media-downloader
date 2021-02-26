@@ -36,8 +36,6 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	m_ui.pbCancel->setEnabled( false ) ;
 
-	m_ui.plainTextEdit->setReadOnly( true ) ;
-
 	m_ui.labelFailedToFixExe->setVisible( false ) ;
 
 	connect( m_ui.pbList,&QPushButton::clicked,[ this ](){
@@ -65,13 +63,18 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		const auto& engine = engines.getEngineByName( m_ui.cbEngineType->itemText( s ) ) ;
 
-		engines.setDefaultEngine( engine ) ;
+		if( engine ){
 
-		if( engine.canDownloadPlaylist() ){
+			engines.setDefaultEngine( engine.value() ) ;
 
-			m_ctx.TabManager().playlistDownloader().enableAll() ;
+			if( engine->canDownloadPlaylist() ){
+
+				m_ctx.TabManager().playlistDownloader().enableAll() ;
+			}else{
+				m_ctx.TabManager().playlistDownloader().disableAll() ;
+			}
 		}else{
-			m_ctx.TabManager().playlistDownloader().disableAll() ;
+			m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
 		}
 	} ) ;
 }
@@ -89,16 +92,7 @@ void basicdownloader::init_done()
 
 		if( m_settings.showVersionInfoWhenStarting() ){
 
-			auto a = m_ui.plainTextEdit->toPlainText() ;
-
-			if( !a.isEmpty() ){
-
-				auto b =  utility::split( a,'\n',false ) ;
-
-				this->printDefaultBkVersionInfo( b ) ;
-			}else{
-				this->printDefaultBkVersionInfo() ;
-			}
+			this->printDefaultBkVersionInfo() ;
 		}else{
 			m_counter = static_cast< size_t >( -1 ) ;
 		}
@@ -109,13 +103,12 @@ void basicdownloader::init_done()
 	}
 }
 
-void basicdownloader::printDefaultBkVersionInfo( const QStringList& data )
+void basicdownloader::printDefaultBkVersionInfo()
 {
 	const auto& engines = m_ctx.Engines().getEngines() ;
 
 	if( m_counter >= engines.size() ){
 
-		m_output.clear() ;
 		return ;
 	}
 
@@ -125,28 +118,24 @@ void basicdownloader::printDefaultBkVersionInfo( const QStringList& data )
 
 	const auto& exe = engine.exePath() ;
 
-	if( engine.usingPrivateBackend() ){
+	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() ){
 
 		if( QFile::exists( exe ) ){
 
-			this->checkAndPrintInstalledVersion( engine,data ) ;
+			this->checkAndPrintInstalledVersion( engine ) ;
 		}else{
 			m_ctx.TabManager().Configure().downloadYoutubeDl( engine ) ;
 		}
 	}else{
 		if( exe.isEmpty() ){
 
-			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() )  ;
-
-			m = "[media-downloader] " + m ;
-
-			m_ui.plainTextEdit->setPlainText( m ) ;
+			m_ctx.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 
 			m_tabManager.disableAll() ;
 
 			this->enableQuit() ;
 		}else{
-			this->checkAndPrintInstalledVersion( engine,data ) ;
+			this->checkAndPrintInstalledVersion( engine ) ;
 		}
 	}
 }
@@ -163,7 +152,7 @@ void basicdownloader::resetMenu( const QStringList& args )
 
 		}else if( ac.clearScreen() ){
 
-			m_ui.plainTextEdit->clear() ;
+			m_ctx.logger().clear() ;
 			m_ui.lineEditURL->clear() ;
 			m_ui.lineEditOptions->clear() ;
 		}else{
@@ -186,52 +175,35 @@ basicdownloader& basicdownloader::setAsActive()
 	return *this ;
 }
 
-const QStringList& basicdownloader::currentVersionData()
-{
-	return m_output ;
-}
-
 void basicdownloader::retranslateUi()
 {
 	this->resetMenu() ;
 }
 
-void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engine,
-						     const QStringList& list )
+void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engine )
 {
 	m_tabManager.disableAll() ;
 
 	struct ctx
 	{
-		ctx( const engines::engine& e ) :
-			engine( e )
+		ctx( const engines::engine& e,Logger& l ) :
+			engine( e ),logger( l )
 		{
 		}
-		QString version ;
 		QByteArray data ;
 		const engines::engine& engine ;
-	};
+		Logger& logger ;
+	} ;
 
 	const auto& exe = engine.exePath() ;
 
-	utility::run( exe,{ engine.versionArgument() },[ this,&list,&engine ]( QProcess& exe ){
+	utility::run( exe,{ engine.versionArgument() },[ this,&engine ]( QProcess& exe ){
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-		QString e ;
+		m_ctx.logger().add( tr( "Checking installed version of" ) + " " + engine.name() ) ;
 
-		if( !list.isEmpty() ){
-
-			e = list.join( '\n' ) + "\n" ;
-		}
-
-		auto a = e + "[media-downloader] " ;
-		auto b = a + tr( "Checking installed version of" ) + " " + engine.name() ;
-
-		m_output.append( b ) ;
-		m_ui.plainTextEdit->setPlainText( m_output.join( '\n' ) ) ;
-
-		return ctx( engine ) ;
+		return ctx( engine,m_ctx.logger() ) ;
 
 	},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
 
@@ -246,23 +218,13 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 				}
 			}
 
-			auto m = tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() )  ;
-
-			m = "\n[media-downloader] " + m ;
-
-			m_output.append( ctx.version + m ) ;
-
-			this->post( m_output.join( '\n' ) ) ;
+			ctx.logger.add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() ) ) ;
 
 			m_tabManager.disableAll() ;
 
 			this->enableQuit() ;
 		}else{
-			auto c = "[media-downloader] " + tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ;
-
-			m_output.append( ctx.version + c ) ;
-
-			this->post( m_output.join( '\n' ) ) ;
+			ctx.logger.add( tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ) ;
 
 			m_tabManager.enableAll() ;
 		}
@@ -279,34 +241,30 @@ class context
 {
 public:
 	context( const engines::engine& engine,
+		 Logger& logger,
 		 bool a,
-		 QPlainTextEdit * b,
-		 QMetaObject::Connection c,
-		 QStringList d ) :
+		 QMetaObject::Connection c ) :
 		m_engine( engine ),
 		m_list_requested( a ),
-		m_view( b ),
 		m_conn( std::move( c ) ),
-		m_output( std::move( d ) )
+		m_logger( logger )
 	{
-		this->postData() ;
-	}
-	void postData()
-	{
-		m_view->setPlainText( m_output.join( '\n' ) ) ;
-		m_view->moveCursor( QTextCursor::End ) ;
 	}
 	void postData( const QByteArray& data )
 	{
-		m_engine.processData( m_output,data ) ;
-		this->postData() ;
+		m_data += data ;
+
+		m_logger.add( [ this,&data ]( QStringList& e ){
+
+			m_engine.processData( e,data ) ;
+		} ) ;
 	}
 	template< typename Function >
 	void listRequested( Function function )
 	{
 		if( m_list_requested ){
 
-			function( m_output ) ;
+			function( utility::split( m_data,'\n' ) ) ;
 		}
 	}
 	void disconnect()
@@ -316,9 +274,9 @@ public:
 private:
 	const engines::engine& m_engine ;
 	bool m_list_requested ;
-	QPlainTextEdit * m_view ;
 	QMetaObject::Connection m_conn ;
-	QStringList m_output ;
+	Logger& m_logger ;
+	QByteArray m_data ;
 } ;
 
 void basicdownloader::run( const engines::engine& engine,
@@ -338,7 +296,9 @@ void basicdownloader::run( const engines::engine& engine,
 			exe.terminate() ;
 		} ) ;
 
-		QStringList outPut( "[media-downloader] cmd: " + [ & ](){
+		auto& logger = m_ctx.logger() ;
+
+		logger.add( "cmd: " + [ & ](){
 
 			auto m = "\"" + engine.exePath() + "\"" ;
 
@@ -350,17 +310,13 @@ void basicdownloader::run( const engines::engine& engine,
 			return m + "\n" ;
 		}() ) ;
 
-		return context( engine,
-				list_requested,
-				m_ui.plainTextEdit,
-				std::move( m ),
-				std::move( outPut ) ) ;
+		return context( engine,logger,list_requested,std::move( m ) ) ;
 
 	},[ this ]( int,QProcess::ExitStatus,context& ctx ){
 
 		ctx.disconnect() ;
 
-		ctx.listRequested( [ this ]( const QStringList& e ){
+		ctx.listRequested( [ this ]( const QList< QByteArray >& e ){
 
 			this->listRequested( e ) ;
 		} ) ;
@@ -375,7 +331,7 @@ void basicdownloader::run( const engines::engine& engine,
 	} ) ;
 }
 
-void basicdownloader::listRequested( const QStringList& args )
+void basicdownloader::listRequested( const QList< QByteArray >& args )
 {
 	QStringList opts ;
 
@@ -463,12 +419,6 @@ void basicdownloader::download( const engines::engine& engine,
 
 void basicdownloader::tabEntered()
 {
-}
-
-void basicdownloader::post( const QString& e )
-{
-	m_ui.plainTextEdit->setPlainText( e ) ;
-	m_ui.plainTextEdit->moveCursor( QTextCursor::End ) ;
 }
 
 void basicdownloader::enableQuit()

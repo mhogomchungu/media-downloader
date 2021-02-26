@@ -34,10 +34,11 @@ public:
 	tabManager( settings& s,
 		    translator& t,
 		    engines& e,
+		    Logger& l,
 		    Ui::MainWindow& m,
 		    QWidget& w,
 		    MainWindow& mw ) :
-		m_ctx( s,t,m,w,mw,e,*this ),
+		m_ctx( s,t,m,w,mw,l,e,*this ),
 		m_about( m_ctx ),
 		m_configure( m_ctx ),
 		m_basicdownloader( m_ctx ),

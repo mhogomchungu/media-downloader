@@ -30,10 +30,11 @@
 #include <type_traits>
 #include <memory>
 
-#include "context.hpp"
 #include "translator.h"
 
 #include "ui_mainwindow.h"
+
+class Context ;
 
 namespace Ui
 {
@@ -295,6 +296,40 @@ namespace utility
 			return true ;
 		} ) ;
 	}
+
+	template< typename T >
+	class result_ref
+	{
+	public:
+		result_ref() : m_value( nullptr )
+		{
+		}
+		result_ref( T e ) : m_value( std::addressof( e ) )
+		{
+		}
+		typename std::remove_reference< T >::type * operator->() const
+		{
+			return m_value ;
+		}
+		T& value() const
+		{
+			return *m_value ;
+		}
+		T& operator*() const
+		{
+			return this->value() ;
+		}
+		bool has_value() const
+		{
+			return m_value ;
+		}
+		operator bool() const
+		{
+			return this->has_value() ;
+		}
+	private:
+		typename std::remove_reference< T >::type * m_value ;
+	} ;
 
 	template< typename Value,typename Arg >
 	bool startsWith( Value& v,const Arg& arg )

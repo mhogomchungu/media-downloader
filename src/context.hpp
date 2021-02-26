@@ -46,6 +46,7 @@ class tabManager ;
 class settings ;
 class MainWindow ;
 class MainWindowUi ;
+class Logger ;
 
 class QWidget ;
 
@@ -61,6 +62,7 @@ public:
 		 Ui::MainWindow& m,
 		 QWidget& w,
 		 MainWindow& mw,
+		 Logger& l,
 		 engines& e,
 		 tabManager& tm ) :
 		m_settings( s ),
@@ -68,6 +70,7 @@ public:
 		m_mainUi( m ),
 		m_mainWidget( w ),
 		m_mainWindow( mw ),
+		m_logger( l ),
 		m_engines( e ),
 		m_tabManager( tm )
 	{
@@ -100,12 +103,17 @@ public:
 	{
 		return m_tabManager ;
 	}
+	Logger& logger() const
+	{
+		return m_logger ;
+	}
 private:
 	settings& m_settings ;
 	translator& m_translator ;
 	Ui::MainWindow& m_mainUi ;
 	QWidget& m_mainWidget ;
 	MainWindow& m_mainWindow ;
+	Logger& m_logger ;
 	engines& m_engines ;
 	tabManager& m_tabManager ;
 };
