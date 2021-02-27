@@ -66,7 +66,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of \
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
 GNU General Public License for more details." ) ;
 
-	auto m = about.arg( version,VERSION,QtVersion,copyright + ": ",COPYRIGHT,email,license ) ;
+	auto m = about.arg( version,VERSION,QtVersion,copyright,COPYRIGHT,email,license ) ;
 
 	m_ctx.Ui().TextLabelAbout->setText( m ) ;
 }
