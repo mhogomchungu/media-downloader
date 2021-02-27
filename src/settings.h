@@ -44,6 +44,7 @@ public:
 
 	QByteArray highDpiScalingFactor() ;
 
+	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
 	bool autoDownload() ;
 	bool showVersionInfoWhenStarting() ;
@@ -55,6 +56,7 @@ public:
 	void setDownloadFolder( const QString& ) ;
 	void setLocalizationLanguage( const QString& language ) ;
 private:
+	bool m_EnableHighDpiScaling ;
 	QSettings m_settings ;
 };
 

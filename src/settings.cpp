@@ -30,7 +30,10 @@ settings::settings() :
 
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
+	m_EnableHighDpiScaling = true ;
 	QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
+#else
+	m_EnableHighDpiScaling = false ;
 #endif	
 	auto m = this->highDpiScalingFactor() ;
 
@@ -43,11 +46,13 @@ settings::settings() :
 QString settings::downloadFolder()
 {
 	if( !m_settings.contains( "DownloadFolder" ) ){
-#ifdef Q_OS_LINUX
-		m_settings.setValue( "DownloadFolder",QDir::homePath() ) ;
-	#else
-		m_settings.setValue( "DownloadFolder",QDir::homePath() + "/Desktop" ) ;
-#endif
+
+		if( utility::platformIsWindows() ){
+
+			m_settings.setValue( "DownloadFolder",QDir::homePath() + "/Desktop" ) ;
+		}else{
+			m_settings.setValue( "DownloadFolder",QDir::homePath() ) ;
+		}
 	}
 
 	return m_settings.value( "DownloadFolder" ).toString() ;
@@ -145,6 +150,11 @@ QByteArray settings::highDpiScalingFactor()
 	}
 
 	return m_settings.value( "EnabledHighDpiScalingFactor" ).toByteArray() ;
+}
+
+bool settings::enabledHighDpiScaling()
+{
+	return m_EnableHighDpiScaling ;
 }
 
 void settings::setDownloadFolder( const QString& m )

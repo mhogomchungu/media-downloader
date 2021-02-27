@@ -22,6 +22,7 @@
 #include "mainwindow.h"
 #include "networkAccess.h"
 #include "utility.h"
+
 #include <QFileDialog>
 
 configure::configure( const Context& ctx ) :
@@ -32,9 +33,8 @@ configure::configure( const Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_networkAccess( m_ctx )
 {
-#if QT_VERSION < QT_VERSION_CHECK( 5,6,0 )
-	m_ui->lineEditConfigureScaleFactor->setEnabled( false ) ;
-#endif
+	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
+
 	m_setEnabled = true ;
 
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
