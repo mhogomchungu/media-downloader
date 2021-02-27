@@ -21,14 +21,13 @@
 
 #include "engines/youtube-dl.h"
 #include "engines/wget.h"
+#include "utility.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
 
 #include <QDir>
-
-#include <QDebug>
 
 template< typename Engine >
 static engines::engine _add_engine( Logger& logger,
@@ -66,7 +65,10 @@ engines::engines( Logger& l ) : m_logger( l )
 
 	_engine_add( _add_engine( m_logger,enginePaths,youtube_dl() ) ) ;
 
-	_engine_add( _add_engine( m_logger,enginePaths,wget() ) ) ;
+	if( utility::platformIsLinux() ){
+
+		_engine_add( _add_engine( m_logger,enginePaths,wget() ) ) ;
+	}
 
 	if( m_backends.size() > 0 ){
 

@@ -117,7 +117,7 @@ void networkAccess::download( const engines::engine& engine )
 
 			auto entry = value.toString() ;
 
-			if( entry == engine.name() ){
+			if( entry == engine.commandName() ){
 
 				auto value = object.value( "browser_download_url" ) ;
 
