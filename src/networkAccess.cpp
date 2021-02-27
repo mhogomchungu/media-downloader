@@ -24,6 +24,7 @@
 #include "networkAccess.h"
 #include "tabmanager.h"
 #include "basicdownloader.h"
+#include "engines.h"
 
 #include <QtNetwork/QNetworkReply>
 #include <QFile>
@@ -92,18 +93,16 @@ void networkAccess::download( const engines::engine& engine )
 
 		metadata metadata ;
 
-		QJsonParseError error ;
+		engines::Json json( networkReply->readAll() ) ;
 
-		auto json = QJsonDocument::fromJson( networkReply->readAll(),&error ) ;
+		if( !json ){
 
-		if( error.error != QJsonParseError::NoError ){
-
-			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + error.errorString() ) ;
+			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString() ) ;
 			m_tabManager.enableAll() ;
 			return ;
 		}
 
-		auto object = json.object() ;
+		auto object = json.doc().object() ;
 
 		auto value = object.value( "assets" ) ;
 

@@ -307,7 +307,7 @@ void basicdownloader::run( const engines::engine& engine,
 				m += " \"" + it + "\"" ;
 			}
 
-			return m + "\n" ;
+			return m ;
 		}() ) ;
 
 		return context( engine,logger,list_requested,std::move( m ) ) ;
