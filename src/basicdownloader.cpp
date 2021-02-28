@@ -240,24 +240,32 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 class context
 {
 public:
-	context( const engines::engine& engine,
-		 Logger& logger,
-		 bool a,
-		 QMetaObject::Connection c ) :
+	context( const engines::engine& engine,Logger& logger,bool list_requested ) :
 		m_engine( engine ),
-		m_list_requested( a ),
-		m_conn( std::move( c ) ),
-		m_logger( logger )
+		m_list_requested( list_requested ),
+		m_logger( logger ),
+		m_postData( true )
 	{
+	}
+	void setCancelConnection( QMetaObject::Connection conn )
+	{
+		m_conn = std::move( conn ) ;
+	}
+	void stopReceivingData()
+	{
+		m_postData = false ;
 	}
 	void postData( const QByteArray& data )
 	{
-		m_data += data ;
+		if( m_postData ){
 
-		m_logger.add( [ this,&data ]( QStringList& e ){
+			m_data += data ;
 
-			m_engine.processData( e,data ) ;
-		} ) ;
+			m_logger.add( [ this,&data ]( QStringList& e ){
+
+				m_engine.processData( e,data ) ;
+			} ) ;
+		}
 	}
 	template< typename Function >
 	void listRequested( Function function )
@@ -277,6 +285,7 @@ private:
 	QMetaObject::Connection m_conn ;
 	Logger& m_logger ;
 	QByteArray m_data ;
+	bool m_postData ;
 } ;
 
 void basicdownloader::run( const engines::engine& engine,
@@ -285,27 +294,7 @@ void basicdownloader::run( const engines::engine& engine,
 {
 	m_tabManager.disableAll() ;
 
-	utility::run( engine.exePath(),args,[ this,&list_requested,&engine,&args ]( QProcess& exe ){
-
-		exe.setWorkingDirectory( m_settings.downloadFolder() ) ;
-
-		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
-
-		auto m = QObject::connect( m_ui.pbCancel,&QPushButton::clicked,[ &exe ](){
-
-			if( utility::platformIsWindows() ){
-
-				QStringList args{ "-T",QString::number( exe.processId() ) } ;
-
-				utility::run( "media-downloader",
-					      args,
-					      []( QProcess& ){},
-					      []( int,QProcess::ExitStatus ){},
-					      []( QProcess::ProcessChannel,const QByteArray& ){} ) ;
-			}else{
-				exe.terminate() ;
-			}
-		} ) ;
+	utility::run( engine.exePath(),args,[ this,&engine,&list_requested,&args ]( QProcess& exe ){
 
 		auto& logger = m_ctx.logger() ;
 
@@ -321,13 +310,35 @@ void basicdownloader::run( const engines::engine& engine,
 			return m ;
 		}() ) ;
 
-		return context( engine,logger,list_requested,std::move( m ) ) ;
+		exe.setWorkingDirectory( m_settings.downloadFolder() ) ;
 
-	},[ this ]( int,QProcess::ExitStatus,context& ctx ){
+		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-		ctx.disconnect() ;
+		auto ctx = std::make_shared< context >( engine,logger,list_requested ) ;
 
-		ctx.listRequested( [ this ]( const QList< QByteArray >& e ){
+		ctx->setCancelConnection( QObject::connect( m_ui.pbCancel,&QPushButton::clicked,[ &exe,ctx ](){
+
+			ctx->stopReceivingData() ;
+
+			if( utility::platformIsWindows() ){
+
+				utility::run( "media-downloader",
+					      { "-T",QString::number( exe.processId() ) },
+					      []( QProcess& ){},
+					      []( int,QProcess::ExitStatus ){},
+					      []( QProcess::ProcessChannel,const QByteArray& ){} ) ;
+			}else{
+				exe.terminate() ;
+			}
+		} ) ) ;
+
+		return ctx ;
+
+	},[ this ]( int,QProcess::ExitStatus,std::shared_ptr< context >& ctx ){
+
+		ctx->disconnect() ;
+
+		ctx->listRequested( [ this ]( const QList< QByteArray >& e ){
 
 			this->listRequested( e ) ;
 		} ) ;
@@ -336,9 +347,9 @@ void basicdownloader::run( const engines::engine& engine,
 
 		m_ui.pbCancel->setEnabled( false ) ;
 
-	},[]( QProcess::ProcessChannel,const QByteArray& data,context& ctx ){
+	},[]( QProcess::ProcessChannel,const QByteArray& data,std::shared_ptr< context >& ctx ){
 
-		ctx.postData( data ) ;
+		ctx->postData( data ) ;
 	} ) ;
 }
 
