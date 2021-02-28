@@ -57,6 +57,10 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
+int utility::terminateProcess( unsigned long )
+{
+}
+
 #endif
 
 #ifdef Q_OS_MACOS
@@ -73,12 +77,39 @@ bool utility::platformIsLinux()
 
 bool utility::platformIsWindows()
 {
-    return false ;
+	return false ;
 }
 
+int utility::terminateProcess( unsigned long)
+{
+}
 #endif
 
 #ifdef Q_OS_WIN
+
+#include <windows.h>
+
+int utility::terminateProcess( unsigned long pid )
+{
+	FreeConsole() ;
+
+	if( AttachConsole( pid ) == TRUE ) {
+
+		/*
+		 * Add a fake Ctrl-C handler for avoid instant kill in this console
+		 * WARNING: do not revert it or current program will also killed
+		 */
+
+		SetConsoleCtrlHandler( nullptr,true ) ;
+
+		if( GenerateConsoleCtrlEvent( CTRL_C_EVENT,0 ) == TRUE ){
+
+			return 0 ;
+		}
+	}
+
+	return 1 ;
+}
 
 bool utility::platformIsWindows()
 {

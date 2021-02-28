@@ -365,6 +365,7 @@ namespace utility
 		}
 	}
 
+	int terminateProcess( unsigned long pid ) ;
 	bool platformIsWindows() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;

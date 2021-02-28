@@ -38,9 +38,21 @@
 #include "mainwindow.h"
 #include "settings.h"
 #include "translator.h"
+#include "utility"
+
+#include <cstring>
+#include <cstdlib>
 
 int main( int argc,char * argv[] )
 {
+	if( utility::platformIsWindows() ){
+
+		if( argc > 2 && std::strcmp( argv[ 1 ],"-T" ) == 0 ){
+
+			return utility::terminateProcess( std::strtoul( argv[ 2 ],nullptr,10 ) ) ;
+		}
+	}
+
 	settings settings ;
 
 	QApplication app( argc,argv ) ;

@@ -293,7 +293,18 @@ void basicdownloader::run( const engines::engine& engine,
 
 		auto m = QObject::connect( m_ui.pbCancel,&QPushButton::clicked,[ &exe ](){
 
-			exe.terminate() ;
+			if( utility::platformIsWindows() ){
+
+				QStringList args{ "-T",QString::number( exe.processId() ) } ;
+
+				utility::run( "media-downloader",
+					      args,
+					      []( QProcess& ){},
+					      []( int,QProcess::ExitStatus ){},
+					      []( QProcess::ProcessChannel,const QByteArray& ){} ) ;
+			}else{
+				exe.terminate() ;
+			}
 		} ) ;
 
 		auto& logger = m_ctx.logger() ;
