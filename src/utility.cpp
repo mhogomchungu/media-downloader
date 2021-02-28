@@ -59,6 +59,7 @@ bool utility::platformIsWindows()
 
 int utility::terminateProcess( unsigned long )
 {
+	return 0 ;
 }
 
 #endif
@@ -80,8 +81,9 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-int utility::terminateProcess( unsigned long)
+int utility::terminateProcess( unsigned long )
 {
+	return 0 ;
 }
 #endif
 
