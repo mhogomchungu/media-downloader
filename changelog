@@ -10,11 +10,14 @@ Version 1.0.0(Jan 30th, 2021)
  - The GUI offers an ability to download single media or multiple medias in batches.
  - Works on Linux and Windows.
 
-Version 1.1.0(unreleased)
+Version 1.1.0(March 1st,2021)
 [All]
  - Add polish translations.
+
+[Linux]
  - Add support for downloading media using wget in addition to youtube-dl.
 
 [Windows]
  - Add ability to automatically download youtube-dl binary on first run and a button
-   in the configuration tab to update it on demand.
+    in the configuration tab to update it on demand.
+ - The "Cancel" button now works as expected.

@@ -4,7 +4,7 @@ project(media-downloader)
 
 add_definitions(-Wextra -Wall -pedantic -std=c++14)
 
-set( PGR_VERSION "1.0.0" )
+set( PGR_VERSION "1.1.0" )
 set( COPYRIGHT_YEARS "2021" )
 
 INCLUDE(GNUInstallDirs)
