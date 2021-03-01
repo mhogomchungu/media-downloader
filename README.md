@@ -21,9 +21,15 @@ Features offered:-
 A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/media-downloader/wiki/Frequently-Asked-Questions).
 
 ## Binary packages
-Binary download for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.0.0/MediaDownloader-1.0.0.setup.exe).
 
-Binary downloads for a few distributions are [here](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader).
+#### Installer for Microsoft Windows
+First make sure you have access to the internet before you run media-downloader for the first time after installation because it will attempt to use the internet to download the latest version of youtube-dl.
+
+Binary download for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.1.0/MediaDownloader-1.1.0.setup.exe).
+
+### Binary packages for Linux distributions
+
+Binary downloads for a few Linux distributions are [here](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader).
 
 #### Aur package for Arch Linux
 Arch linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
