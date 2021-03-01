@@ -178,7 +178,11 @@ QString engines::engine::versionString( const QString& data ) const
 
 engines::enginePaths::enginePaths()
 {
-	auto m = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
+	#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+		auto m = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
+	#else
+		auto m = QStringList{ QDir::homePath() + "/.config/media-downloader/" } ;
+	#endif
 
 	if( !m.isEmpty() ){
 
