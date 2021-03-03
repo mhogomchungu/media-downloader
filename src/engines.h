@@ -224,10 +224,10 @@ public:
 	utility::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	void setDefaultEngine( const QString& name ) ;
 	void setDefaultEngine( const engines::engine& engine ) ;
-	engines( Logger& ) ;
+	engines( Logger&,settings& ) ;
 private:
 	Logger& m_logger ;
-	QString m_defaultEngine ;
+	settings& m_settings ;
 	std::vector< engine > m_backends ;
 };
 

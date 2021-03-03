@@ -36,9 +36,11 @@ public:
 
 	QString downloadFolder() ;
 	QString presetOptions() ;
+	QString defaultEngine() ;
 
 	QString localizationLanguagePath() ;
 	QString localizationLanguage() ;
+
 	QStringList presetOptionsList() ;
 	QStringList localizationLanguages() ;
 
@@ -48,9 +50,11 @@ public:
 	bool showTrayIcon() ;
 	bool autoDownload() ;
 	bool showVersionInfoWhenStarting() ;
+
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
+	void setDefaultEngine( const QString& ) ;
 	void setPresetOptions( const QStringList& ) ;
 	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;

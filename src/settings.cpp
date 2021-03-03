@@ -82,6 +82,21 @@ void settings::setPresetOptions( const QString& e )
 	this->setPresetOptions( utility::split( m,',',true ) ) ;
 }
 
+void settings::setDefaultEngine( const QString& e )
+{
+	m_settings.setValue( "DefaultEngine",e ) ;
+}
+
+QString settings::defaultEngine()
+{
+	if( !m_settings.contains( "DefaultEngine" ) ){
+
+		m_settings.setValue( "DefaultEngine","youtube-dl" ) ;
+	}
+
+	return m_settings.value( "DefaultEngine" ).toString() ;
+}
+
 void settings::setPresetOptions( const QStringList& m )
 {
 	m_settings.setValue( "PresetOptions",m ) ;

@@ -67,6 +67,8 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 			engines.setDefaultEngine( engine.value() ) ;
 
+			this->setDefaultEngine() ;
+
 			if( engine->canDownloadPlaylist() ){
 
 				m_ctx.TabManager().playlistDownloader().enableAll() ;
@@ -89,6 +91,8 @@ void basicdownloader::init_done()
 
 			m_ui.cbEngineType->addItem( engine.name() ) ;
 		}
+
+		this->setDefaultEngine() ;
 
 		if( m_settings.showVersionInfoWhenStarting() ){
 
@@ -175,6 +179,20 @@ basicdownloader& basicdownloader::setAsActive()
 	return *this ;
 }
 
+void basicdownloader::setDefaultEngine()
+{
+	auto m = m_settings.defaultEngine() ;
+
+	for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
+
+		if( m_ui.cbEngineType->itemText( i ) == m ){
+
+			m_ui.cbEngineType->setCurrentIndex( i ) ;
+			return ;
+		}
+	}
+}
+
 void basicdownloader::retranslateUi()
 {
 	this->resetMenu() ;
@@ -214,6 +232,8 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 				if( m_ui.cbEngineType->itemText( i ) == ctx.engine.name() ){
 
 					m_ui.cbEngineType->removeItem( i ) ;
+
+					this->setDefaultEngine() ;
 					break ;
 				}
 			}

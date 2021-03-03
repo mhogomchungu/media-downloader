@@ -60,6 +60,8 @@ private:
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
 
+	void setDefaultEngine() ;
+
 	void run( const engines::engine& engine,
 		  const QStringList& args,
 		  bool list_requested ) ;

@@ -46,7 +46,7 @@ static engines::engine _add_engine( Logger& logger,
 	}
 }
 
-engines::engines( Logger& l ) : m_logger( l )
+engines::engines( Logger& l,settings& s ) : m_logger( l ),m_settings( s )
 {
 	enginePaths enginePaths ;
 
@@ -69,11 +69,6 @@ engines::engines( Logger& l ) : m_logger( l )
 
 		_engine_add( _add_engine( m_logger,enginePaths,wget() ) ) ;
 	}
-
-	if( m_backends.size() > 0 ){
-
-		this->setDefaultEngine( m_backends[ 0 ].name() ) ;
-	}
 }
 
 const std::vector< engines::engine >& engines::getEngines() const
@@ -83,13 +78,13 @@ const std::vector< engines::engine >& engines::getEngines() const
 
 const engines::engine& engines::defaultEngine() const
 {
-	auto m =  this->getEngineByName( m_defaultEngine ) ;
+	auto m =  this->getEngineByName( m_settings.defaultEngine() ) ;
 
 	if( m ){
 
 		return m.value() ;
 	}else{
-		m_logger.add( "Error: engines::defaultEngine: Unknown Engine:" + m_defaultEngine ) ;
+		m_logger.add( "Error: engines::defaultEngine: Unknown Engine:" + m_settings.defaultEngine() ) ;
 
 		return m_backends[ 0 ] ;
 	}
@@ -110,12 +105,12 @@ utility::result_ref< const engines::engine& > engines::getEngineByName( const QS
 
 void engines::setDefaultEngine( const QString& name )
 {
-	m_defaultEngine = name ;
+	m_settings.setDefaultEngine( name ) ;
 }
 
 void engines::setDefaultEngine( const engines::engine& engine )
 {
-	m_defaultEngine = engine.name() ;
+	this->setDefaultEngine( engine.name() ) ;
 }
 
 static QStringList _toStringList( const QJsonValue& value ){
