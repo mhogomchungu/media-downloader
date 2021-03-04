@@ -47,12 +47,7 @@ QString settings::downloadFolder()
 {
 	if( !m_settings.contains( "DownloadFolder" ) ){
 
-		if( utility::platformIsWindows() ){
-
-			m_settings.setValue( "DownloadFolder",QDir::homePath() + "/Desktop" ) ;
-		}else{
-			m_settings.setValue( "DownloadFolder",QDir::homePath() ) ;
-		}
+		m_settings.setValue( "DownloadFolder",utility::homePath() ) ;
 	}
 
 	return m_settings.value( "DownloadFolder" ).toString() ;

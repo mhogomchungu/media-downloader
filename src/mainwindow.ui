@@ -670,9 +670,9 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>710</x>
-        <y>260</y>
+        <y>280</y>
         <width>41</width>
-        <height>71</height>
+        <height>61</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -718,7 +718,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>180</y>
+        <y>210</y>
         <width>421</width>
         <height>31</height>
        </rect>
@@ -786,9 +786,9 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>210</y>
+        <y>240</y>
         <width>621</width>
-        <height>171</height>
+        <height>141</height>
        </rect>
       </property>
      </widget>
@@ -860,6 +860,32 @@ Each Link Should Be In Its Own Line.</string>
        <string>Show Version Info When Starting</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="pbConfigureAddAPlugin">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>180</y>
+        <width>211</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add a Plugin</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbConfigureRemoveAPlugin">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>180</y>
+        <width>211</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove A Plugin</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabAbout">
      <attribute name="title">
@@ -928,10 +954,12 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbConfigureDownloadPath</tabstop>
   <tabstop>cbConfigureShowVersionInfo</tabstop>
   <tabstop>pbConfigureDownload</tabstop>
+  <tabstop>pbConfigureAddAPlugin</tabstop>
+  <tabstop>pbConfigureRemoveAPlugin</tabstop>
   <tabstop>textEditConfigurePresetOptions</tabstop>
+  <tabstop>pbConfigureSetPresetDefaults</tabstop>
   <tabstop>pbConfigureSet</tabstop>
   <tabstop>pbConfigureQuit</tabstop>
-  <tabstop>pbConfigureSetPresetDefaults</tabstop>
  </tabstops>
  <resources/>
  <connections/>

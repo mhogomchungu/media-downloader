@@ -22,6 +22,8 @@
 #include "settings.h"
 #include "context.hpp"
 
+#include <QEventLoop>
+
 QStringList utility::split( const QString& e,char token,bool skipEmptyParts )
 {
 	if( skipEmptyParts ){
@@ -226,4 +228,37 @@ bool utility::hasDigitsOnly( const QString& e )
 	}
 
 	return true ;
+}
+
+QString utility::homePath()
+{
+	if( utility::platformIsWindows() ){
+
+		return QDir::homePath() + "/Desktop" ;
+	}else{
+		return QDir::homePath() ;
+	}
+}
+
+void utility::waitForOneSecond()
+{
+	utility::wait( 1 ) ;
+}
+
+void utility::wait( int time )
+{
+	QEventLoop e ;
+
+	utility::Timer( 1,[ & ]( int counter ){
+
+		if( counter == time ){
+
+			e.exit() ;
+			return true ;
+		}else{
+			return false ;
+		}
+	} ) ;
+
+	e.exec() ;
 }

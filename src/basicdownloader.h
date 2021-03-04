@@ -44,6 +44,7 @@ public:
 		       const utility::args&,
 		       const QStringList& urls,
 		       bool = true ) ;
+	void updateEngines() ;
 	void tabEntered() ;
 	void enableQuit() ;
 	void enableAll() ;

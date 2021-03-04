@@ -21,6 +21,7 @@
 
 #include "engines/youtube-dl.h"
 #include "engines/wget.h"
+
 #include "utility.h"
 
 #include <QJsonObject>
@@ -48,8 +49,11 @@ static engines::engine _add_engine( Logger& logger,
 
 engines::engines( Logger& l,settings& s ) : m_logger( l ),m_settings( s )
 {
-	enginePaths enginePaths ;
+	this->updateEngines() ;
+}
 
+void engines::updateEngines()
+{
 	auto _engine_add = [ & ]( engines::engine m ){
 
 		if( m.valid() ){
@@ -63,11 +67,28 @@ engines::engines( Logger& l,settings& s ) : m_logger( l ),m_settings( s )
 		}
 	} ;
 
-	_engine_add( _add_engine( m_logger,enginePaths,youtube_dl() ) ) ;
+	_engine_add( _add_engine( m_logger,m_enginePaths,youtube_dl() ) ) ;
 
 	if( utility::platformIsLinux() ){
 
-		_engine_add( _add_engine( m_logger,enginePaths,wget() ) ) ;
+		_engine_add( _add_engine( m_logger,m_enginePaths,wget() ) ) ;
+	}
+
+	for( const auto& it : this->enginesList() ){
+
+		auto path = m_enginePaths.configPath() + "/" + it ;
+
+		engines::Json json( engines::file( path,m_logger ).readAll() ) ;
+
+		if( json ){
+
+			auto object = json.doc().object() ;
+
+			if( object.value( "LikeYoutubeDl" ).toBool( false ) ){
+
+				_engine_add( engines::engine( json,youtube_dl().Functions() ) ) ;
+			}
+		}
 	}
 }
 
@@ -84,7 +105,7 @@ const engines::engine& engines::defaultEngine() const
 
 		return m.value() ;
 	}else{
-		m_logger.add( "Error: engines::defaultEngine: Unknown Engine:" + m_settings.defaultEngine() ) ;
+		m_logger.add( "Error: engines::defaultEngine: Unknown Engine: " + m_settings.defaultEngine() ) ;
 
 		return m_backends[ 0 ] ;
 	}
@@ -127,6 +148,70 @@ static QStringList _toStringList( const QJsonValue& value ){
 	return m ;
 }
 
+void engines::addEngine( const QByteArray& data,const QString& path )
+{
+	engines::Json json( data ) ;
+
+	if( json ){
+
+		auto name = json.doc().object().value( "Name" ).toString() ;
+
+		if( !name.isEmpty() ){
+
+			auto e = m_enginePaths.configPath() + "/" + path ;
+
+			QFile f( e ) ;
+
+			if( f.open( QIODevice::WriteOnly ) ){
+
+				f.write( data ) ;
+
+				f.flush() ;
+
+				f.close() ;
+
+				for( int i = 0 ; i < 5 ; i++ ){
+
+					if( QFile::exists( e ) ){
+
+						break ;
+					}else{
+						utility::waitForOneSecond() ;
+					}
+				}
+
+				m_backends.clear() ;
+
+				this->setDefaultEngine( name ) ;
+
+				this->updateEngines() ;
+			}
+		}
+	}
+}
+
+void engines::removeEngine( const QString& e )
+{
+	if( QFile::remove( m_enginePaths.configPath() + "/" + e ) ){
+
+		m_backends.clear() ;
+
+		this->setDefaultEngine( m_backends[ 0 ] ) ;
+
+		this->updateEngines() ;
+	}
+}
+
+QStringList engines::enginesList() const
+{
+	auto m = QDir( m_enginePaths.configPath() ).entryList( QDir::Filter::Files ) ;
+
+	m.removeAll( "youtube-dl.json" ) ;
+	m.removeAll( "wget.json" ) ;
+
+	return m ;
+}
+
 engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::functions > functions ) :
 	m_jsonObject( json.doc().object() ),
 	m_functions( std::move( functions ) ),
@@ -135,6 +220,7 @@ engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::func
 	m_valid( true ),
 	m_usingPrivateBackend( m_jsonObject.value( "UsePrivateExecutable" ).toBool() ),
 	m_canDownloadPlaylist( m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ),
+	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),

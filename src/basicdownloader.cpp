@@ -459,6 +459,23 @@ void basicdownloader::download( const engines::engine& engine,
 	this->run( engine,opts,false ) ;
 }
 
+void basicdownloader::updateEngines()
+{
+	const auto& engines = m_ctx.Engines().getEngines() ;
+
+	m_ui.cbEngineType->clear() ;
+
+	if( engines.size() > 0 ){
+
+		for( const auto& engine : engines ){
+
+			m_ui.cbEngineType->addItem( engine.name() ) ;
+		}
+
+		this->setDefaultEngine() ;
+	}
+}
+
 void basicdownloader::tabEntered()
 {
 }

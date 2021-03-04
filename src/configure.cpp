@@ -24,6 +24,7 @@
 #include "utility.h"
 
 #include <QFileDialog>
+#include <QFile>
 
 configure::configure( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -40,6 +41,47 @@ configure::configure( const Context& ctx ) :
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		m_tabManager.basicDownloader().appQuit() ;
+	} ) ;
+
+	connect( m_ui.pbConfigureAddAPlugin,&QPushButton::clicked,[ this ](){
+
+		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select An Engine File" ),utility::homePath() ) ;
+
+		if( !m.isEmpty() ){
+
+			auto d = engines::file( m,m_ctx.logger() ).readAll() ;
+
+			if( !d.isEmpty() ){
+
+				m_ctx.Engines().addEngine( d,utility::split( m,'/',true ).last() ) ;
+
+				m_ctx.TabManager().basicDownloader().setAsActive().updateEngines() ;
+			}
+		}
+	} ) ;
+
+	connect( m_ui.pbConfigureRemoveAPlugin,&QPushButton::clicked,[ this ](){
+
+		QMenu m ;
+
+		for( const auto& it : m_ctx.Engines().enginesList() ){
+
+			auto e = it ;
+			m.addAction( e.replace( ".json","" ) )->setObjectName( it ) ;
+		}
+
+		m.addSeparator() ;
+
+		m.addAction( tr( "Cancel" ) )->setEnabled( false ) ;
+
+		connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
+
+			m_ctx.Engines().removeEngine( ac->objectName() ) ;
+
+			m_ctx.TabManager().basicDownloader().setAsActive().updateEngines() ;
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
 	} ) ;
 
 	connect( m_ui.pbConfigureSet,&QPushButton::clicked,[ this ](){

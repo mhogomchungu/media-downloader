@@ -114,6 +114,10 @@ public:
 		QString m_basePath ;
 	};
 
+	void addEngine( const QByteArray& data,const QString& path ) ;
+	void removeEngine( const QString& name ) ;
+	QStringList enginesList() const ;
+
 	class engine
 	{
 	public:
@@ -199,6 +203,10 @@ public:
 		{
 			return m_canDownloadPlaylist ;
 		}
+		bool likeYoutubeDl() const
+		{
+			return m_likeYoutubeDl ;
+		}
 	private:
 		QJsonObject m_jsonObject ;
 		std::unique_ptr< engines::engine::functions > m_functions ;
@@ -207,6 +215,7 @@ public:
 		bool m_valid ;
 		bool m_usingPrivateBackend ;
 		bool m_canDownloadPlaylist ;
+		bool m_likeYoutubeDl ;
 		QString m_name ;
 		QString m_commandName ;
 		QString m_exeFolderPath ;
@@ -226,9 +235,11 @@ public:
 	void setDefaultEngine( const engines::engine& engine ) ;
 	engines( Logger&,settings& ) ;
 private:
+	void updateEngines() ;
 	Logger& m_logger ;
 	settings& m_settings ;
 	std::vector< engine > m_backends ;
+	enginePaths m_enginePaths ;
 };
 
 #endif

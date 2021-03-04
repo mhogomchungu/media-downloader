@@ -365,6 +365,9 @@ namespace utility
 		}
 	}
 
+	void wait( int time ) ;
+	void waitForOneSecond() ;
+	QString homePath() ;
 	int terminateProcess( unsigned long pid ) ;
 	bool platformIsWindows() ;
 	bool platformIsLinux() ;
