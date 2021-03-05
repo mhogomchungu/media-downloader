@@ -238,14 +238,20 @@ void configure::enableAll()
 	m_ui.labelConfigurePresetOptions->setEnabled( true ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureQuit->setEnabled( true ) ;
-#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
-	m_ui.lineEditConfigureScaleFactor->setEnabled( true ) ;
-#endif
+	m_ui.pbConfigureAddAPlugin->setEnabled( true ) ;
+	m_ui.pbConfigureRemoveAPlugin->setEnabled( true ) ;
+
+	if( m_settings.enabledHighDpiScaling() ){
+
+		m_ui.lineEditConfigureScaleFactor->setEnabled( true ) ;
+	}
 }
 
 void configure::disableAll()
 {
 	m_setEnabled = false ;
+	m_ui.pbConfigureAddAPlugin->setEnabled( false ) ;
+	m_ui.pbConfigureRemoveAPlugin->setEnabled( false ) ;
 	m_ui.cbConfigureShowVersionInfo->setEnabled( false ) ;
 	m_ui.pbConfigureDownload->setEnabled( false ) ;
 	m_ui.cbConfigureLanguage->setEnabled( false ) ;
