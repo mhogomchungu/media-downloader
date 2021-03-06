@@ -39,8 +39,6 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 					      const QString& credentials,
 					      QProcess& exe )
 {
-	exe.waitForStarted() ;
-
 	if( credentials.isEmpty() ){
 
 		exe.write( engine.userName().toUtf8() + "\n" ) ;
