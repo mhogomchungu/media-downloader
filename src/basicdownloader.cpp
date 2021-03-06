@@ -226,7 +226,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		return ctx( engine,m_ctx.logger() ) ;
 
-	},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
+	},[]( QProcess& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
 
 		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 
@@ -313,6 +313,7 @@ private:
 
 void basicdownloader::run( const engines::engine& engine,
 			   const QStringList& args,
+			   const QString& quality,
 			   bool list_requested )
 {
 	m_tabManager.disableAll() ;
@@ -355,6 +356,7 @@ void basicdownloader::run( const engines::engine& engine,
 				utility::run( "media-downloader",
 					      { "-T",QString::number( exe.processId() ) },
 					      []( QProcess& ){},
+					      []( QProcess& ){},
 					      []( int,QProcess::ExitStatus ){},
 					      []( QProcess::ProcessChannel,const QByteArray& ){} ) ;
 			}else{
@@ -363,6 +365,10 @@ void basicdownloader::run( const engines::engine& engine,
 		} ) ) ;
 
 		return ctx ;
+
+	},[ &engine,quality ]( QProcess& exe ){
+
+		engine.sendCredentials( quality,exe ) ;
 
 	},[ this ]( int,QProcess::ExitStatus,std::shared_ptr< context >& ctx ){
 
@@ -418,7 +424,7 @@ void basicdownloader::list()
 	auto args = backend.defaultListCmdOptions() ;
 	args.append( url.split( ' ' ) ) ;
 
-	this->run( backend,args,true ) ;
+	this->run( backend,args,"",true ) ;
 }
 
 void basicdownloader::download()
@@ -462,11 +468,13 @@ void basicdownloader::download( const engines::engine& engine,
 		opts.append( it ) ;
 	}
 
-	engine.updateDownLoadCmdOptions( args.quality,args.otherOptions,opts ) ;
+	auto url = urls ;
 
-	opts.append( urls ) ;
+	engine.updateDownLoadCmdOptions( args.quality,args.otherOptions,url,opts ) ;
 
-	this->run( engine,opts,false ) ;
+	opts.append( url ) ;
+
+	this->run( engine,opts,args.quality,false ) ;
 }
 
 void basicdownloader::updateEngines()

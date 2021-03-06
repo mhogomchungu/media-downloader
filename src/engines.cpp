@@ -21,6 +21,7 @@
 
 #include "engines/youtube-dl.h"
 #include "engines/wget.h"
+#include "engines/safaribooks.h"
 
 #include "utility.h"
 
@@ -87,6 +88,10 @@ void engines::updateEngines()
 			if( object.value( "LikeYoutubeDl" ).toBool( false ) ){
 
 				_engine_add( engines::engine( json,youtube_dl().Functions() ) ) ;
+
+			}else if( object.value( "Name" ).toString() == "safaribooks" ){
+
+				_engine_add( engines::engine( json,safaribooks().Functions() ) ) ;
 			}
 		}
 	}
@@ -223,6 +228,8 @@ engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::func
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
+	m_userName( m_jsonObject.value( "UserName" ).toString() ),
+	m_password( m_jsonObject.value( "Password" ).toString() ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_optionsArgument( m_jsonObject.value( "OptionsArgument" ).toString() ),

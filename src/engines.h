@@ -153,12 +153,18 @@ public:
 		struct functions
 		{
 			virtual ~functions() ;
-
+		        virtual void sendCredentials( const engines::engine&,
+		                                      const QString&,
+		                                      QProcess& )
+		        {
+		        }
 			virtual void processData( QStringList&,const QByteArray& ) = 0 ;
 			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
 							       const QString& quality,
 							       const QStringList& userOptions,
-							       QStringList& ourOptions ) = 0 ;
+		                                               QStringList& urls,
+		                                               QStringList& ourOptions ) = 0 ;
+
 		} ;
 
 		engine() : m_valid( false )
@@ -200,9 +206,14 @@ public:
 		}
 		void updateDownLoadCmdOptions( const QString& quality,
 					       const QStringList& userOptions,
+		                               QStringList& urls,
 					       QStringList& ourOptions ) const
 		{
-			m_functions->updateDownLoadCmdOptions( *this,quality,userOptions,ourOptions ) ;
+		        m_functions->updateDownLoadCmdOptions( *this,quality,userOptions,urls,ourOptions ) ;
+		}
+		void sendCredentials( const QString& credentials,QProcess& exe ) const
+		{
+		    m_functions->sendCredentials( *this,credentials,exe ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{
@@ -219,6 +230,14 @@ public:
 		const QString& exeFolderPath() const
 		{
 			return m_exeFolderPath ;
+		}
+		const QString& userName() const
+		{
+		        return m_userName ;
+		}
+		const QString& password() const
+		{
+		        return m_password ;
 		}
 		bool usingPrivateBackend() const
 		{
@@ -247,6 +266,8 @@ public:
 		bool m_likeYoutubeDl ;
 		QString m_name ;
 		QString m_commandName ;
+		QString m_userName ;
+		QString m_password ;
 		QString m_exeFolderPath ;
 		QString m_versionArgument ;
 		QString m_optionsArgument ;

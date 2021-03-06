@@ -17,29 +17,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QByteArray>
-
 #include "../engines.h"
 
-class wget
+class safaribooks
 {
 public:
-	class functions : public engines::engine::functions
+        class functions : public engines::engine::functions
 	{
 	public:
-		~functions() override ;
+	        ~functions() override ;
+	        void sendCredentials( const engines::engine& engine,
+		                      const QString&,
+		                      QProcess& ) override ;
 		void processData( QStringList&,const QByteArray& ) override ;
 		void updateDownLoadCmdOptions( const engines::engine& engine,
-					       const QString& quality,
-					       const QStringList& userOptions,
-					       QStringList& urls,
-					       QStringList& ourOptions ) override ;
+		                               const QString& quality,
+		                               const QStringList& userOptions,
+		                               QStringList& urls,
+		                               QStringList& ourOptions ) override ;
 	private:
 	} ;
 
-        wget() ;
-
 	engines::Json config( Logger&,const engines::enginePaths& ) const ;
+
 	std::unique_ptr< engines::engine::functions > Functions() const ;
 private:
 };
+

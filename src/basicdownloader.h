@@ -65,6 +65,7 @@ private:
 
 	void run( const engines::engine& engine,
 		  const QStringList& args,
+		  const QString& quality,
 		  bool list_requested ) ;
 	void listRequested( const QList< QByteArray >& ) ;
 	void list() ;

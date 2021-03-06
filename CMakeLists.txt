@@ -75,6 +75,7 @@ set(SRC
     src/logger.cpp
     src/engines.cpp
     src/engines/youtube-dl.cpp
+    src/engines/safaribooks.cpp
     src/engines/wget.cpp)
 
 set(RESOUCES

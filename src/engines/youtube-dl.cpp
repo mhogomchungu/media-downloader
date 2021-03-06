@@ -140,8 +140,11 @@ void youtube_dl::functions::processData( QStringList& outPut,const QByteArray& d
 void youtube_dl::functions::updateDownLoadCmdOptions( const engines::engine& engine,
 						      const QString& quality,
 						      const QStringList& userOptions,
+						      QStringList& urls,
 						      QStringList& ourOptions )
 {
+	Q_UNUSED( urls )
+
 	if( userOptions.contains( "--yes-playlist" ) ){
 
 		ourOptions.removeAll( "--no-playlist" ) ;

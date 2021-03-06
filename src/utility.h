@@ -151,12 +151,14 @@ namespace utility
 	}
 
 	template< typename WhenCreated,
+		  typename WhenStarted,
 		  typename WhenDone,
 		  typename WithData,
 		  utility::types::has_non_void_return_type< WhenCreated,QProcess& > = 0 >
 	void run( const QString& cmd,
 		  const QStringList& args,
 		  WhenCreated whenCreated,
+		  WhenStarted whenStarted,
 		  WhenDone whenDone,
 		  WithData withData )
 	{
@@ -193,15 +195,19 @@ namespace utility
 		} ) ;
 
 		exe->start( cmd,args ) ;
+
+		whenStarted( *exe ) ;
 	}
 
 	template< typename WhenCreated,
+		  typename WhenStarted,
 		  typename WhenDone,
 		  typename WithData,
 		  utility::types::has_void_return_type< WhenCreated,QProcess& > = 0 >
 	void run( const QString& cmd,
 		  const QStringList& args,
 		  WhenCreated whenCreated,
+		  WhenStarted whenStarted,
 		  WhenDone whenDone,
 		  WithData withData )
 	{
@@ -236,6 +242,8 @@ namespace utility
 		} ) ;
 
 		exe->start( cmd,args ) ;
+
+		whenStarted( *exe ) ;
 	}
 
 	template< typename WhenDone,typename WithData >
