@@ -68,7 +68,6 @@ engines::Json youtube_dl::config( Logger& logger,const engines::enginePaths& eng
 			arr.append( "--newline" ) ;
 			arr.append( "--ignore-config" ) ;
 			arr.append( "--no-playlist" ) ;
-			arr.append( "--newline" ) ;
 
 			return arr ;
 		}() ) ;

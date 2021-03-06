@@ -194,9 +194,13 @@ namespace utility
 			exe->deleteLater() ;
 		} ) ;
 
-		exe->start( cmd,args ) ;
+		QObject::connect( exe,&QProcess::started,
+				  [ exe,whenStarted = std::move( whenStarted ) ](){
 
-		whenStarted( *exe ) ;
+			whenStarted( *exe ) ;
+		} ) ;
+
+		exe->start( cmd,args ) ;		
 	}
 
 	template< typename WhenCreated,
@@ -241,9 +245,13 @@ namespace utility
 			exe->deleteLater() ;
 		} ) ;
 
-		exe->start( cmd,args ) ;
+		QObject::connect( exe,&QProcess::started,
+				  [ exe,whenStarted = std::move( whenStarted ) ](){
 
-		whenStarted( *exe ) ;
+			whenStarted( *exe ) ;
+		} ) ;
+
+		exe->start( cmd,args ) ;
 	}
 
 	template< typename WhenDone,typename WithData >

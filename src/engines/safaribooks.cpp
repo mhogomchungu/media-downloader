@@ -56,8 +56,6 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 			exe.write( "woof@bar.com\nmeaw\n" ) ;
 		}
 	}
-
-	exe.waitForBytesWritten() ;
 }
 
 void safaribooks::functions::processData( QStringList& outPut,const QByteArray& data )

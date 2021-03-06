@@ -215,8 +215,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 	const auto& exe = engine.exePath() ;
 
-	auto aa = exe.args() ;
-	aa.append( engine.versionArgument() ) ;
+	auto aa = exe.args() + utility::split( engine.versionArgument(),' ',true ) ;
 
 	utility::run( exe.exe(),aa,[ this,&engine ]( QProcess& exe ){
 
