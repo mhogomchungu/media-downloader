@@ -121,6 +121,35 @@ public:
 	class engine
 	{
 	public:
+		class exeArgs
+		{
+		public:
+			exeArgs()
+			{
+			}
+			exeArgs( const QString& e ) : m_exe( e )
+			{
+			}
+			exeArgs( const QString& e,const QStringList& s ) : m_exe( e ),m_options( s )
+			{
+			}
+			bool isEmpty() const
+			{
+				return m_exe.isEmpty() ;
+			}
+			const QString& exe() const
+			{
+				return m_exe ;
+			}
+			const QStringList& args() const
+			{
+				return m_options ;
+			}
+		private:
+			QString m_exe ;
+			QStringList m_options ;
+		} ;
+
 		struct functions
 		{
 			virtual ~functions() ;
@@ -179,7 +208,7 @@ public:
 		{
 			return m_defaultListCmdOptions ;
 		}
-		const QString& exePath() const
+		const exeArgs& exePath() const
 		{
 			return m_exePath ;
 		}
@@ -219,13 +248,13 @@ public:
 		QString m_name ;
 		QString m_commandName ;
 		QString m_exeFolderPath ;
-		QString m_exePath ;
 		QString m_versionArgument ;
 		QString m_optionsArgument ;
 		QString m_downloadUrl ;
 		QString m_batchFileArgument ;
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
+		exeArgs m_exePath ;
 	};
 
 	const std::vector< engine >& getEngines() const ;

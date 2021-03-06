@@ -117,7 +117,7 @@ void youtube_dl::functions::processData( QStringList& outPut,const QByteArray& d
 {
 	for( const auto& m : utility::split( data ) ){
 
-		if( m.isEmpty() ){
+		if( m.isEmpty() || m.contains( "(pass -k to keep)" ) ){
 
 			continue ;
 

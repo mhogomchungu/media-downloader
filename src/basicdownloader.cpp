@@ -124,7 +124,7 @@ void basicdownloader::printDefaultBkVersionInfo()
 
 	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() ){
 
-		if( QFile::exists( exe ) ){
+		if( QFile::exists( exe.exe() ) ){
 
 			this->checkAndPrintInstalledVersion( engine ) ;
 		}else{
@@ -215,7 +215,10 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 	const auto& exe = engine.exePath() ;
 
-	utility::run( exe,{ engine.versionArgument() },[ this,&engine ]( QProcess& exe ){
+	auto aa = exe.args() ;
+	aa.append( engine.versionArgument() ) ;
+
+	utility::run( exe.exe(),aa,[ this,&engine ]( QProcess& exe ){
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
@@ -314,13 +317,20 @@ void basicdownloader::run( const engines::engine& engine,
 {
 	m_tabManager.disableAll() ;
 
-	utility::run( engine.exePath(),args,[ this,&engine,&list_requested,&args ]( QProcess& exe ){
+	const auto& exe = engine.exePath() ;
+
+	utility::run( exe.exe(),exe.args() + args,[ this,&engine,&list_requested,&args ]( QProcess& exe ){
 
 		auto& logger = m_ctx.logger() ;
 
 		logger.add( "cmd: " + [ & ](){
 
-			auto m = "\"" + engine.exePath() + "\"" ;
+			auto m = "\"" + engine.exePath().exe() + "\"" ;
+
+			for( const auto& it : engine.exePath().args() ){
+
+				m += " \"" + it + "\"" ;
+			}
 
 			for( const auto& it : args ){
 

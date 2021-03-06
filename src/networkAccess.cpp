@@ -142,7 +142,7 @@ void networkAccess::download( const engines::engine& engine )
 
 void networkAccess::download( const metadata& metadata,const engines::engine& engine )
 {
-	QString filePath = engine.exePath() ;
+	QString filePath = engine.exePath().exe() ;
 
 	m_file.setFileName( filePath ) ;
 

@@ -231,11 +231,19 @@ engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::func
 	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ) ) ),
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) )
 {
-	if( this->usingPrivateBackend() ){
+	auto cmdNames = _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
 
-		m_exePath = m_exeFolderPath + "/" + m_commandName ;
+	if( cmdNames.isEmpty() ){
+
+		if( this->usingPrivateBackend() && !m_exeFolderPath.isEmpty() ){
+
+			m_exePath = m_exeFolderPath + "/" + m_commandName ;
+		}else{
+			m_exePath = QStandardPaths::findExecutable( m_commandName ) ;
+		}
 	}else{
-		m_exePath = QStandardPaths::findExecutable( m_commandName ) ;
+		auto cmd = cmdNames.takeAt( 0 ) ;
+		m_exePath = { QStandardPaths::findExecutable( cmd ),cmdNames } ;
 	}
 }
 
