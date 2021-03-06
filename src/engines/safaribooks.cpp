@@ -28,7 +28,7 @@ engines::Json safaribooks::config( Logger&,const engines::enginePaths& ) const
 
 std::unique_ptr< engines::engine::functions > safaribooks::Functions() const
 {
-	return std::make_unique< safaribooks::functions >() ;
+	return std::make_unique< safaribooks::functions >( m_settings ) ;
 }
 
 safaribooks::functions::~functions()
@@ -62,7 +62,12 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 
 void safaribooks::functions::processData( QStringList& outPut,const QByteArray& data )
 {
-	for( const auto& m : utility::split( data ) ){
+	for( auto& m : utility::split( data,'\r' ) ){
+
+		m.replace( "\033[0m","" ) ;
+		m.replace( "\033[33m","" ) ;
+		m.replace( "\033[41m","" ) ;
+		m.replace( "\033[43m","" ) ;
 
 		if( m.isEmpty() ){
 
@@ -100,4 +105,6 @@ void safaribooks::functions::updateDownLoadCmdOptions( const engines::engine& en
 	}
 
 	ourOptions.append( "--login" ) ;
+	ourOptions.append( "--destination" ) ;
+	ourOptions.append( m_settings.downloadFolder() ) ;
 }

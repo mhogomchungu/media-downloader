@@ -91,7 +91,7 @@ void engines::updateEngines()
 
 			}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
-				_engine_add( engines::engine( json,safaribooks().Functions() ) ) ;
+				_engine_add( engines::engine( json,safaribooks( m_settings ).Functions() ) ) ;
 			}
 		}
 	}

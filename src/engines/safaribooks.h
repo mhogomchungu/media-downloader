@@ -18,6 +18,7 @@
  */
 
 #include "../engines.h"
+#include "../settings.h"
 
 class safaribooks
 {
@@ -25,7 +26,10 @@ public:
         class functions : public engines::engine::functions
 	{
 	public:
-	        ~functions() override ;
+		functions( settings& s ) : m_settings( s )
+		{
+		}
+		~functions() override ;
 	        void sendCredentials( const engines::engine& engine,
 		                      const QString&,
 		                      QProcess& ) override ;
@@ -36,11 +40,17 @@ public:
 		                               QStringList& urls,
 		                               QStringList& ourOptions ) override ;
 	private:
+		settings& m_settings ;
 	} ;
+
+	safaribooks( settings& s ) : m_settings( s )
+	{
+	}
 
 	engines::Json config( Logger&,const engines::enginePaths& ) const ;
 
 	std::unique_ptr< engines::engine::functions > Functions() const ;
 private:
+	settings& m_settings ;
 };
 
