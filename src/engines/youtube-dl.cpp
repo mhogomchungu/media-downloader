@@ -87,7 +87,7 @@ engines::Json youtube_dl::config( Logger& logger,const engines::enginePaths& eng
 
 		mainObj.insert( "OptionsArgument","-f" ) ;
 
-		mainObj.insert( "BackendPath",enginePath.binPath() ) ;
+		mainObj.insert( "BackendPath","${default}" ) ;
 
 		mainObj.insert( "VersionStringLine",0 ) ;
 

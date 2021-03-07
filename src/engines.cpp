@@ -240,9 +240,16 @@ engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::func
 {
 	auto cmdNames = _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
 
+	enginePaths paths ;
+
 	if( cmdNames.isEmpty() ){
 
 		if( this->usingPrivateBackend() && !m_exeFolderPath.isEmpty() ){
+
+			if( m_exeFolderPath == "${BackendPath}" ){
+
+				m_exeFolderPath = paths.binPath() ;
+			}
 
 			m_exePath = m_exeFolderPath + "/" + m_commandName ;
 		}else{
@@ -250,7 +257,25 @@ engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::func
 		}
 	}else{
 		auto cmd = cmdNames.takeAt( 0 ) ;
-		m_exePath = { QStandardPaths::findExecutable( cmd ),cmdNames } ;
+
+		for( auto& it : cmdNames ){
+
+			it.replace( "${BackendPath}",paths.binPath() ) ;
+		}
+
+		QString ee ;
+
+		for( const auto& it : cmdNames ){
+
+			if( it.endsWith( m_commandName ) ){
+
+				ee = it ;
+
+				break ;
+			}
+		}
+
+		m_exePath = { QStandardPaths::findExecutable( cmd ),ee,cmdNames } ;
 	}
 }
 

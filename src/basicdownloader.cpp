@@ -120,18 +120,16 @@ void basicdownloader::printDefaultBkVersionInfo()
 
 	m_counter++ ;
 
-	const auto& exe = engine.exePath() ;
-
 	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() ){
 
-		if( QFile::exists( exe.exe() ) ){
+		if( engine.backendExists() ){
 
 			this->checkAndPrintInstalledVersion( engine ) ;
 		}else{
 			m_ctx.TabManager().Configure().downloadYoutubeDl( engine ) ;
 		}
 	}else{
-		if( exe.isEmpty() ){
+		if( engine.exePath().isEmpty() ){
 
 			m_ctx.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 

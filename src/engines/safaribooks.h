@@ -23,22 +23,23 @@
 class safaribooks
 {
 public:
-        class functions : public engines::engine::functions
+	class functions : public engines::engine::functions
 	{
 	public:
 		functions( settings& s ) : m_settings( s )
 		{
 		}
 		~functions() override ;
-	        void sendCredentials( const engines::engine& engine,
-		                      const QString&,
-		                      QProcess& ) override ;
+		bool backendExists( const engines::engine::exeArgs& e ) override ;
+		void sendCredentials( const engines::engine& engine,
+				      const QString&,
+				      QProcess& ) override ;
 		void processData( QStringList&,const QByteArray& ) override ;
 		void updateDownLoadCmdOptions( const engines::engine& engine,
-		                               const QString& quality,
-		                               const QStringList& userOptions,
-		                               QStringList& urls,
-		                               QStringList& ourOptions ) override ;
+					       const QString& quality,
+					       const QStringList& userOptions,
+					       QStringList& urls,
+					       QStringList& ourOptions ) override ;
 	private:
 		settings& m_settings ;
 	} ;

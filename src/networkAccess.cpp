@@ -57,7 +57,6 @@ void networkAccess::download( const engines::engine& engine )
 		}
 	}
 
-
 	this->post( engine,QObject::tr( "Start Downloading" ) + " " + engine.name() + " ..." ) ;
 
 	m_tabManager.disableAll() ;
@@ -142,7 +141,7 @@ void networkAccess::download( const engines::engine& engine )
 
 void networkAccess::download( const metadata& metadata,const engines::engine& engine )
 {
-	QString filePath = engine.exePath().exe() ;
+	QString filePath = engine.exePath().realExe() ;
 
 	m_file.setFileName( filePath ) ;
 

@@ -127,10 +127,12 @@ public:
 			exeArgs()
 			{
 			}
-			exeArgs( const QString& e ) : m_exe( e )
+			exeArgs( const QString& e ) :
+				m_exe( e ),m_realExe( e )
 			{
 			}
-			exeArgs( const QString& e,const QStringList& s ) : m_exe( e ),m_options( s )
+			exeArgs( const QString& e,const QString& r,const QStringList& s ) :
+				m_exe( e ),m_realExe( r ),m_options( s )
 			{
 			}
 			bool isEmpty() const
@@ -145,14 +147,23 @@ public:
 			{
 				return m_options ;
 			}
+			const QString& realExe() const
+			{
+				return m_realExe ;
+			}
 		private:
 			QString m_exe ;
+			QString m_realExe ;
 			QStringList m_options ;
 		} ;
 
 		struct functions
 		{
 			virtual ~functions() ;
+			virtual bool backendExists( const engines::engine::exeArgs& e )
+			{
+				return QFile::exists( e.exe() ) ;
+			}
 		        virtual void sendCredentials( const engines::engine&,
 		                                      const QString&,
 		                                      QProcess& )
@@ -186,6 +197,7 @@ public:
 		{
 			return m_versionArgument ;
 		}
+
 		QString versionString( const QString& data ) const ;
 
 		const QString& optionsArgument() const
@@ -213,7 +225,7 @@ public:
 		}
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{
-		    m_functions->sendCredentials( *this,credentials,exe ) ;
+			m_functions->sendCredentials( *this,credentials,exe ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{
@@ -254,6 +266,10 @@ public:
 		bool likeYoutubeDl() const
 		{
 			return m_likeYoutubeDl ;
+		}
+		bool backendExists() const
+		{
+			return m_functions->backendExists( m_exePath ) ;
 		}
 	private:
 		QJsonObject m_jsonObject ;
