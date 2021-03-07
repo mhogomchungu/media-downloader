@@ -64,9 +64,19 @@ int utility::terminateProcess( unsigned long )
 	return 0 ;
 }
 
+QString utility::python3Path()
+{
+	return {} ;
+}
+
 #endif
 
 #ifdef Q_OS_MACOS
+
+QString utility::python3Path()
+{
+	return {} ;
+}
 
 bool utility::platformIsOSX()
 {
@@ -93,6 +103,23 @@ int utility::terminateProcess( unsigned long )
 
 #include <windows.h>
 
+template< typename Function,typename Deleter,typename ... Arguments >
+auto unique_rsc( Function&& function,Deleter&& deleter,Arguments&& ... args )
+{
+	using A = std::remove_pointer_t< std::result_of_t< Function( Arguments&& ... ) > > ;
+	using B = std::decay_t< Deleter > ;
+
+	return std::unique_ptr< A,B >( function( std::forward< Arguments >( args ) ... ),
+				       std::forward< Deleter >( deleter ) ) ;
+}
+
+template< typename Type,typename Deleter >
+auto unique_ptr( Type type,Deleter&& deleter )
+{
+	return unique_rsc( []( auto arg ){ return arg ; },
+			   std::forward< Deleter >( deleter ),type ) ;
+}
+
 int utility::terminateProcess( unsigned long pid )
 {
 	FreeConsole() ;
@@ -113,6 +140,89 @@ int utility::terminateProcess( unsigned long pid )
 	}
 
 	return 1 ;
+}
+
+static HKEY _reg_open_key( const char * subKey,HKEY hkey )
+{
+	HKEY m ;
+	REGSAM wow64 = KEY_QUERY_VALUE | KEY_WOW64_64KEY ;
+	REGSAM wow32 = KEY_QUERY_VALUE | KEY_WOW64_32KEY ;
+	unsigned long x = 0 ;
+
+	if( RegOpenKeyExA( hkey,subKey,x,wow64,&m ) == ERROR_SUCCESS ){
+
+		return m ;
+
+	}else if( RegOpenKeyExA( hkey,subKey,x,wow32,&m ) == ERROR_SUCCESS ){
+
+		return m ;
+	}else{
+		return nullptr ;
+	}
+}
+
+static void _reg_close_key( HKEY hkey )
+{
+	if( hkey != nullptr ){
+
+		RegCloseKey( hkey ) ;
+	}
+}
+
+static QByteArray _reg_get_value( HKEY hkey,const char * key )
+{
+	if( hkey != nullptr ){
+
+		DWORD dwType = REG_SZ ;
+
+		std::array< char,4096 > buffer ;
+
+		std::fill( buffer.begin(),buffer.end(),'\0' ) ;
+
+		auto e = reinterpret_cast< BYTE * >( buffer.data() ) ;
+		auto m = static_cast< DWORD >( buffer.size() ) ;
+
+		if( RegQueryValueEx( hkey,key,nullptr,&dwType,e,&m ) == ERROR_SUCCESS ){
+
+			return { buffer.data(),static_cast< int >( m ) } ;
+		}
+	}
+
+	return {} ;
+}
+
+static QString _readRegistry( const QString& subKey,const char * key,HKEY hkey )
+{
+	auto s = unique_rsc( _reg_open_key,_reg_close_key,subKey.toUtf8().constData(),hkey ) ;
+
+	return _reg_get_value( s.get(),key ) ;
+}
+
+QString utility::python3Path()
+{
+	QString a = "Software\\Python\\PythonCore\\3.%1\\InstallPath" ;
+
+	for( int s = 9 ; s >= 0 ; s-- ){
+
+		auto c = _readRegistry( a.arg( QString::number( s ) ),"ExecutablePath",HKEY_CURRENT_USER ) ;
+
+		if( !c.isEmpty() ){
+
+			return c ;
+		}
+	}
+
+	for( int s = 9 ; s >= 0 ; s-- ){
+
+		auto c = _readRegistry( a.arg( QString::number( s ) ),"ExecutablePath",HKEY_LOCAL_MACHINE ) ;
+
+		if( !c.isEmpty() ){
+
+			return c ;
+		}
+	}
+
+	return {} ;
 }
 
 bool utility::platformIsWindows()

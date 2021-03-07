@@ -384,6 +384,7 @@ namespace utility
 	void wait( int time ) ;
 	void waitForOneSecond() ;
 	QString homePath() ;
+	QString python3Path() ;
 	int terminateProcess( unsigned long pid ) ;
 	bool platformIsWindows() ;
 	bool platformIsLinux() ;

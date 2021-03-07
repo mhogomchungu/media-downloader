@@ -178,7 +178,8 @@ public:
 		{
 		}
 
-		engine( const engines::Json& json,
+		engine( Logger& logger,
+		        const engines::Json& json,
 			std::unique_ptr< engines::engine::functions > ) ;
 
 		const QString& name() const

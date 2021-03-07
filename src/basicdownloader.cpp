@@ -125,7 +125,9 @@ void basicdownloader::printDefaultBkVersionInfo()
 		if( engine.backendExists() ){
 
 			this->checkAndPrintInstalledVersion( engine ) ;
-		}else{
+
+		}else if( !engine.exePath().realExe().isEmpty() ){
+
 			m_ctx.TabManager().Configure().downloadYoutubeDl( engine ) ;
 		}
 	}else{
@@ -189,6 +191,9 @@ void basicdownloader::setDefaultEngine()
 			return ;
 		}
 	}
+
+	m_settings.setDefaultEngine( m_ui.cbEngineType->itemText( 0 ) ) ;
+	m_ui.cbEngineType->setCurrentIndex( 0 ) ;
 }
 
 void basicdownloader::retranslateUi()
@@ -240,9 +245,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 			ctx.logger.add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() ) ) ;
 
-			m_tabManager.disableAll() ;
-
-			this->enableQuit() ;
+			m_tabManager.enableAll() ;
 		}else{
 			ctx.logger.add( tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ) ;
 

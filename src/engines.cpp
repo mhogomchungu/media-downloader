@@ -40,7 +40,7 @@ static engines::engine _add_engine( Logger& logger,
 
 	if( json ){
 
-		return engines::engine( json.doc(),engine.Functions() ) ;
+		return engines::engine( logger,json.doc(),engine.Functions() ) ;
 	}else{
 		logger.add( QObject::tr( "Failed to parse json file" ) + " :" + json.errorString() ) ;
 
@@ -87,11 +87,11 @@ void engines::updateEngines()
 
 			if( object.value( "LikeYoutubeDl" ).toBool( false ) ){
 
-				_engine_add( engines::engine( json,youtube_dl().Functions() ) ) ;
+				_engine_add( engines::engine( m_logger,json,youtube_dl().Functions() ) ) ;
 
 			}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
-				_engine_add( engines::engine( json,safaribooks( m_settings ).Functions() ) ) ;
+				_engine_add( engines::engine( m_logger,json,safaribooks( m_settings ).Functions() ) ) ;
 			}
 		}
 	}
@@ -217,7 +217,9 @@ QStringList engines::enginesList() const
 	return m ;
 }
 
-engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::functions > functions ) :
+engines::engine::engine( Logger& logger,
+			 const engines::Json& json,
+			 std::unique_ptr< engine::functions > functions ) :
 	m_jsonObject( json.doc().object() ),
 	m_functions( std::move( functions ) ),
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
@@ -275,7 +277,24 @@ engines::engine::engine( const engines::Json& json,std::unique_ptr< engine::func
 			}
 		}
 
-		m_exePath = { QStandardPaths::findExecutable( cmd ),ee,cmdNames } ;
+		if( utility::platformIsWindows() ){
+
+			if( cmd == "python3" ){
+
+				auto m = utility::python3Path() ;
+
+				if( m.isEmpty() ){
+
+					logger.add( QObject::tr( "Failed to find python executable for backend \"%1\"" ).arg( m_name ) ) ;
+				}else{
+					m_exePath = { m,ee,cmdNames } ;
+				}
+			}else{
+				m_exePath = { QStandardPaths::findExecutable( cmd ),ee,cmdNames } ;
+			}
+		}else{
+			m_exePath = { QStandardPaths::findExecutable( cmd ),ee,cmdNames } ;
+		}
 	}
 }
 
