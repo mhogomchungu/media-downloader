@@ -35,19 +35,6 @@ safaribooks::functions::~functions()
 {
 }
 
-bool safaribooks::functions::backendExists( const engines::engine::exeArgs& e )
-{
-	for( const auto& it : e.args() ){
-
-		if( it.endsWith( "safaribooks.py" ) ){
-
-			return QFile::exists( it ) ;
-		}
-	}
-
-	return false ;
-}
-
 void safaribooks::functions::sendCredentials( const engines::engine& engine,
 			                        const QString& credentials,
 			                        QProcess& exe )

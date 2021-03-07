@@ -30,7 +30,6 @@ public:
 		{
 		}
 		~functions() override ;
-		bool backendExists( const engines::engine::exeArgs& e ) override ;
 		void sendCredentials( const engines::engine& engine,
 				      const QString&,
 				      QProcess& ) override ;

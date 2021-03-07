@@ -160,10 +160,6 @@ public:
 		struct functions
 		{
 			virtual ~functions() ;
-			virtual bool backendExists( const engines::engine::exeArgs& e )
-			{
-				return QFile::exists( e.exe() ) ;
-			}
 		        virtual void sendCredentials( const engines::engine&,
 		                                      const QString&,
 		                                      QProcess& )
@@ -269,7 +265,7 @@ public:
 		}
 		bool backendExists() const
 		{
-			return m_functions->backendExists( m_exePath ) ;
+			return QFile::exists( m_exePath.realExe() ) ;
 		}
 	private:
 		QJsonObject m_jsonObject ;
