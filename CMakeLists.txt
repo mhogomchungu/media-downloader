@@ -20,6 +20,10 @@ endif()
 
 if(WIN32)
     set(ENABLE_NETWORKING "true")
+else()
+    if(NOT DEFINED ENABLE_NETWORKING)
+	set(ENABLE_NETWORKING "true")
+    endif()
 endif()
 
 if(ENABLE_NETWORKING)

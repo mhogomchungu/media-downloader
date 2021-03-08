@@ -103,7 +103,6 @@ public:
 		{
 			return m_binPath ;
 		}
-
 		const QString& configPath() const
 		{
 			return m_configPath ;
