@@ -1,1 +1,14 @@
 CMakeLists.txt.*
+
+#for vim editor
+*.swp
+
+#for clangd with YCM on vim
+.cache/
+compile_commands.json
+
+#for build dir
+build/
+
+#for ${default} where youtube-dl keeps getting downloaded to.
+${default}/

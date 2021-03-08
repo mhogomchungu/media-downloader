@@ -1,18 +1,19 @@
-﻿cmake_minimum_required(VERSION 3.0)
+﻿cmake_minimum_required(VERSION 3.10)
 
-project(media-downloader)
+project(media-downloader LANGUAGES CXX)
 
-add_definitions(-Wextra -Wall -pedantic -std=c++14)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set( PGR_VERSION "1.1.0" )
 set( COPYRIGHT_YEARS "2021" )
 
 INCLUDE(GNUInstallDirs)
 
-set(CMAKE_CXX_STANDARD 14)
-
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions(-Qunused-arguments)
@@ -28,19 +29,12 @@ endif()
 
 if(ENABLE_NETWORKING)
     find_package(Qt5 COMPONENTS Core Widgets Network REQUIRED)
-    message(STATUS "Found Qt5Widgets, version ${Qt5Widgets_VERSION}")
-    message(STATUS "Found Qt5Core, version ${Qt5Core_VERSION}")
-    message(STATUS "Found Qt5Network, version ${Qt5Network_VERSION}")
     file(WRITE ${PROJECT_BINARY_DIR}/network_support.h "#define MD_NETWORK_SUPPORT 1")
 else()
     find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
-    message(STATUS "Found Qt5Widgets, version ${Qt5Widgets_VERSION}")
-    message(STATUS "Found Qt5Core, version ${Qt5Core_VERSION}")
     file(WRITE ${PROJECT_BINARY_DIR}/network_support.h "#define MD_NETWORK_SUPPORT 0")
 endif()
 
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions(${Qt5Core_DEFINITIONS})
 include_directories(${PROJECT_BINARY_DIR})
 
 # uninstall target
@@ -85,22 +79,18 @@ set(SRC
 set(RESOUCES
     src/icon.qrc)
 
-QT5_WRAP_UI(UI ${UI_FILES})
-QT5_WRAP_CPP(MOC ${MOC_FILES})
-QT5_ADD_RESOURCES(TRAY_RC_SRCS ${RESOUCES})
-
 if(WIN32)
-    add_executable(media-downloader WIN32 ${MOC} ${UI} ${SRC} ${TRAY_RC_SRCS})
+    add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOUCES})
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -pedantic")
 else()
-    add_executable(media-downloader ${MOC} ${UI} ${SRC} ${TRAY_RC_SRCS})
+    add_executable(media-downloader ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOUCES})
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
 endif()
 
 if(ENABLE_NETWORKING)
-    target_link_libraries(media-downloader ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} ${Qt5Network_LIBRARIES})
+    target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
 else()
-    target_link_libraries(media-downloader ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
+    target_link_libraries(media-downloader Qt5::Widgets Qt5::Core)
 endif()
 
 install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
