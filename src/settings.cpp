@@ -30,11 +30,9 @@ settings::settings() :
 
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
-	m_configPaths = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
 	m_EnableHighDpiScaling = true ;
 	QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
 #else
-	m_configPaths = QStringList{ QDir::homePath() + "/.config/media-downloader/" } ;
 	m_EnableHighDpiScaling = false ;
 #endif	
 	auto m = this->highDpiScalingFactor() ;
@@ -206,9 +204,13 @@ QStringList settings::localizationLanguages()
 	return m ;
 }
 
-const QStringList& settings::configPaths()
+QStringList settings::configPaths()
 {
-	return m_configPaths ;
+#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+	return QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
+#else
+	return QStringList{ QDir::homePath() + "/.config/media-downloader/" } ;
+#endif
 }
 
 QString settings::localizationLanguagePath()

@@ -44,7 +44,7 @@ public:
 	QStringList presetOptionsList() ;
 	QStringList localizationLanguages() ;
 
-	const QStringList& configPaths() ;
+	QStringList configPaths() ;
 
 	QByteArray highDpiScalingFactor() ;
 
@@ -64,7 +64,6 @@ public:
 private:
 	bool m_EnableHighDpiScaling ;
 	QSettings m_settings ;
-	QStringList m_configPaths ;
 };
 
 #endif
