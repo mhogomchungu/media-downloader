@@ -40,7 +40,7 @@ static engines::engine _add_engine( Logger& logger,
 
 	if( json ){
 
-		return engines::engine( logger,json.doc(),engine.Functions() ) ;
+		return engines::engine( logger,enginePath,json.doc(),engine.Functions() ) ;
 	}else{
 		logger.add( QObject::tr( "Failed to parse json file" ) + " :" + json.errorString() ) ;
 
@@ -48,7 +48,10 @@ static engines::engine _add_engine( Logger& logger,
 	}
 }
 
-engines::engines( Logger& l,settings& s ) : m_logger( l ),m_settings( s )
+engines::engines( Logger& l,settings& s ) :
+	m_logger( l ),
+	m_settings( s ),
+	m_enginePaths( m_settings )
 {
 	this->updateEngines() ;
 }
@@ -87,11 +90,11 @@ void engines::updateEngines()
 
 			if( object.value( "LikeYoutubeDl" ).toBool( false ) ){
 
-				_engine_add( engines::engine( m_logger,json,youtube_dl().Functions() ) ) ;
+				_engine_add( engines::engine( m_logger,m_enginePaths,json,youtube_dl().Functions() ) ) ;
 
 			}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
-				_engine_add( engines::engine( m_logger,json,safaribooks( m_settings ).Functions() ) ) ;
+				_engine_add( engines::engine( m_logger,m_enginePaths,json,safaribooks( m_settings ).Functions() ) ) ;
 			}
 		}
 	}
@@ -218,6 +221,7 @@ QStringList engines::enginesList() const
 }
 
 engines::engine::engine( Logger& logger,
+			 const enginePaths& ePaths,
 			 const engines::Json& json,
 			 std::unique_ptr< engine::functions > functions ) :
 	m_jsonObject( json.doc().object() ),
@@ -242,15 +246,13 @@ engines::engine::engine( Logger& logger,
 {
 	auto cmdNames = _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
 
-	enginePaths paths ;
-
 	if( cmdNames.isEmpty() ){
 
 		if( this->usingPrivateBackend() && !m_exeFolderPath.isEmpty() ){
 
 			if( m_exeFolderPath == "${BackendPath}" ){
 
-				m_exeFolderPath = paths.binPath() ;
+				m_exeFolderPath = ePaths.binPath() ;
 			}
 
 			m_exePath = m_exeFolderPath + "/" + m_commandName ;
@@ -262,7 +264,7 @@ engines::engine::engine( Logger& logger,
 
 		for( auto& it : cmdNames ){
 
-			it.replace( "${BackendPath}",paths.binPath() ) ;
+			it.replace( "${BackendPath}",ePaths.binPath() ) ;
 		}
 
 		QString ee ;
@@ -316,13 +318,9 @@ QString engines::engine::versionString( const QString& data ) const
 	return {} ;
 }
 
-engines::enginePaths::enginePaths()
+engines::enginePaths::enginePaths( settings& s )
 {
-	#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
-		auto m = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
-	#else
-		auto m = QStringList{ QDir::homePath() + "/.config/media-downloader/" } ;
-	#endif
+	auto m = s.configPaths() ;
 
 	if( !m.isEmpty() ){
 

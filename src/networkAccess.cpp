@@ -125,8 +125,6 @@ void networkAccess::download( const engines::engine& engine )
 
 				metadata.size = value.toInt() ;
 
-				value = object.value( "browser_download_url" ) ;
-
 			}else if( entry == "SHA2-256SUMS" ){
 
 				auto value = object.value( "browser_download_url" ) ;

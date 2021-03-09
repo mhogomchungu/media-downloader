@@ -93,7 +93,7 @@ public:
 	class enginePaths
 	{
 	public:
-		enginePaths() ;
+		enginePaths( settings& ) ;
 
 		const QString& basePath() const
 		{
@@ -178,6 +178,7 @@ public:
 		}
 
 		engine( Logger& logger,
+			const enginePaths& ePaths,
 		        const engines::Json& json,
 			std::unique_ptr< engines::engine::functions > ) ;
 
