@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.10)
+﻿cmake_minimum_required(VERSION 3.0)
 
 project(media-downloader LANGUAGES CXX)
 
