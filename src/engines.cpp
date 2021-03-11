@@ -250,7 +250,7 @@ engines::engine::engine( Logger& logger,
 
 		if( this->usingPrivateBackend() && !m_exeFolderPath.isEmpty() ){
 
-			if( m_exeFolderPath == "${BackendPath}" ){
+			if( m_exeFolderPath == "${BackendPath}" || m_exeFolderPath == "${default}" ){
 
 				m_exeFolderPath = ePaths.binPath() ;
 			}
