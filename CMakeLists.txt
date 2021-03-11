@@ -76,14 +76,14 @@ set(SRC
     src/engines/safaribooks.cpp
     src/engines/wget.cpp)
 
-set(RESOUCES
+set(RESOURCES
     src/icon.qrc)
 
 if(WIN32)
-    add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOUCES})
+    add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -pedantic")
 else()
-    add_executable(media-downloader ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOUCES})
+    add_executable(media-downloader ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
 endif()
 
