@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.0)
+﻿cmake_minimum_required(VERSION 3.0.2)
 
 project(media-downloader LANGUAGES CXX)
 
@@ -14,7 +14,6 @@ set( PGR_VERSION "1.1.0" )
 set( COPYRIGHT_YEARS "2021" )
 
 INCLUDE(GNUInstallDirs)
-
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions(-Qunused-arguments)

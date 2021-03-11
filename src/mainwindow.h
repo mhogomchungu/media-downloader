@@ -50,13 +50,6 @@ private:
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
 	std::unique_ptr< Ui::MainWindow > m_ui ;
-	class unitUi{
-	public:
-		unitUi( Ui::MainWindow& m_ui,QMainWindow& mainWindow )
-		{
-			m_ui.setupUi( &mainWindow ) ;
-		}
-	} m_initUi ;
 	bool m_showTrayIcon ;
 	Logger m_logger ;
 	engines m_engines ;

@@ -71,7 +71,7 @@ private:
 	void list() ;
 	void download() ;
 	void exit() ;
-	void printDefaultBkVersionInfo() ;
+	void printEngineVersionInfo() ;
 } ;
 
 #endif

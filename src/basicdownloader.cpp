@@ -96,7 +96,7 @@ void basicdownloader::init_done()
 
 		if( m_settings.showVersionInfoWhenStarting() ){
 
-			this->printDefaultBkVersionInfo() ;
+			this->printEngineVersionInfo() ;
 		}else{
 			m_counter = static_cast< size_t >( -1 ) ;
 		}
@@ -107,7 +107,7 @@ void basicdownloader::init_done()
 	}
 }
 
-void basicdownloader::printDefaultBkVersionInfo()
+void basicdownloader::printEngineVersionInfo()
 {
 	const auto& engines = m_ctx.Engines().getEngines() ;
 
@@ -128,7 +128,7 @@ void basicdownloader::printDefaultBkVersionInfo()
 
 		}else if( !engine.exePath().realExe().isEmpty() ){
 
-			m_ctx.TabManager().Configure().downloadYoutubeDl( engine ) ;
+			m_ctx.TabManager().Configure().downloadFromGitHub( engine ) ;
 		}
 	}else{
 		if( engine.exePath().isEmpty() ){
@@ -252,7 +252,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 			m_tabManager.enableAll() ;
 		}
 
-		this->printDefaultBkVersionInfo() ;
+		this->printEngineVersionInfo() ;
 
 	},[]( QProcess::ProcessChannel,const QByteArray& data,ctx& ctx ){
 

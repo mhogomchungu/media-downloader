@@ -96,7 +96,7 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
 
-		this->downloadYoutubeDl( m_ctx.Engines().defaultEngine() ) ;
+		this->downloadFromGitHub( m_ctx.Engines().defaultEngine() ) ;
 	} ) ;
 
 	this->resetMenu() ;
@@ -166,7 +166,7 @@ void configure::retranslateUi()
 	this->manageDownloadButton() ;
 }
 
-void configure::downloadYoutubeDl( const engines::engine& engine )
+void configure::downloadFromGitHub( const engines::engine& engine )
 {
 	m_networkAccess.download( engine ) ;
 }

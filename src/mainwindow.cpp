@@ -26,12 +26,16 @@
 #include "settings.h"
 #include "translator.h"
 
-#include<QDebug>
+static std::unique_ptr< Ui::MainWindow > _init_ui( QMainWindow& mw )
+{
+	auto m = std::make_unique< Ui::MainWindow >() ;
+	m->setupUi( &mw ) ;
+	return m ;
+}
 
 MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_qApp( app ),
-	m_ui( std::make_unique< Ui::MainWindow >() ),
-	m_initUi( *m_ui,*this ),
+	m_ui( _init_ui( *this ) ),
 	m_showTrayIcon( s.showTrayIcon() ),
 	m_logger( *m_ui->plainTextEditLogger ),
 	m_engines( m_logger,s ),
