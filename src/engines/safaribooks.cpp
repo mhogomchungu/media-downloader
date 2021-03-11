@@ -36,8 +36,8 @@ safaribooks::functions::~functions()
 }
 
 void safaribooks::functions::sendCredentials( const engines::engine& engine,
-			                        const QString& credentials,
-			                        QProcess& exe )
+					      const QString& credentials,
+					      QProcess& exe )
 {
 	if( credentials.isEmpty() ){
 
@@ -86,10 +86,10 @@ void safaribooks::functions::processData( QStringList& outPut,const QByteArray& 
 }
 
 void safaribooks::functions::updateDownLoadCmdOptions( const engines::engine& engine,
-						const QString& quality,
-						const QStringList& userOptions,
-						QStringList& urls,
-						QStringList& ourOptions )
+						       const QString& quality,
+						       const QStringList& userOptions,
+						       QStringList& urls,
+						       QStringList& ourOptions )
 {
 	Q_UNUSED( userOptions )
 	Q_UNUSED( engine )
