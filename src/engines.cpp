@@ -234,6 +234,7 @@ engines::engine::engine( Logger& logger,
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
+	m_commandNameWindows( m_jsonObject.value( "CommandNameWindows" ).toString() ),
 	m_userName( m_jsonObject.value( "UserName" ).toString() ),
 	m_password( m_jsonObject.value( "Password" ).toString() ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
@@ -246,6 +247,13 @@ engines::engine::engine( Logger& logger,
 {
 	auto cmdNames = _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
 
+	if( utility::platformIsWindows() && m_commandNameWindows.isEmpty() ){
+
+		m_commandNameWindows = m_commandName + ".exe" ;
+	}
+
+	const auto& commandName = this->commandName() ;
+
 	if( cmdNames.isEmpty() ){
 
 		if( this->usingPrivateBackend() && !m_exeFolderPath.isEmpty() ){
@@ -255,9 +263,9 @@ engines::engine::engine( Logger& logger,
 				m_exeFolderPath = ePaths.binPath() ;
 			}
 
-			m_exePath = m_exeFolderPath + "/" + m_commandName ;
+			m_exePath = m_exeFolderPath + "/" + commandName ;
 		}else{
-			m_exePath = QStandardPaths::findExecutable( m_commandName ) ;
+			m_exePath = QStandardPaths::findExecutable( commandName ) ;
 		}
 	}else{
 		auto cmd = cmdNames.takeAt( 0 ) ;
@@ -265,13 +273,14 @@ engines::engine::engine( Logger& logger,
 		for( auto& it : cmdNames ){
 
 			it.replace( "${BackendPath}",ePaths.binPath() ) ;
+			it.replace( "${CommandName}",commandName ) ;
 		}
 
 		QString ee ;
 
 		for( const auto& it : cmdNames ){
 
-			if( it.endsWith( m_commandName ) ){
+			if( it.endsWith( commandName ) ){
 
 				ee = it ;
 

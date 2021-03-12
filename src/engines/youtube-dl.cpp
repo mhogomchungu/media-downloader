@@ -49,15 +49,9 @@ engines::Json youtube_dl::config( Logger& logger,const engines::enginePaths& eng
 			}
 		}() ) ;
 
-		mainObj.insert( "CommandName",[](){
+		mainObj.insert( "CommandName","youtube-dl" ) ;
 
-			if( utility::platformIsWindows() ){
-
-				return "youtube-dl.exe" ;
-			}else{
-				return "youtube-dl" ;
-			}
-		}() ) ;
+		mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
 
 		mainObj.insert( "Name","youtube-dl" ) ;
 

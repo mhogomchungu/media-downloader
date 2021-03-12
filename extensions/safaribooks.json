@@ -1,0 +1,26 @@
+{
+    "BackendPath": "${default}",
+    "BatchFileArgument": "",
+    "CanDownloadPlaylist": false,
+    "CommandName": "safaribooks.py",
+    "CommandNameWindows": "safaribooks.py",
+    "CommandNames": [
+        "python3",
+        "-u",
+        "${BackendPath}/${CommandName}"
+    ],
+    "DefaultDownLoadCmdOptions": [
+        "--no-cookies"
+    ],
+    "DefaultListCmdOptions": [],
+    "DownloadUrl": "https://api.github.com/repos/mhogomchungu/safaribooks/releases/latest",
+    "LikeYoutubeDl":false,
+    "Name": "safaribooks",
+    "UserName": "",
+    "Password": "",
+    "OptionsArgument": "",
+    "UsePrivateExecutable": true,
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 0
+}

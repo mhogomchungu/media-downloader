@@ -188,7 +188,12 @@ public:
 		}
 		const QString& commandName() const
 		{
-			return m_commandName ;
+			if( utility::platformIsWindows() ){
+
+				return m_commandNameWindows ;
+			}else{
+				return m_commandName ;
+			}
 		}
 		const QString& versionArgument() const
 		{
@@ -279,6 +284,7 @@ public:
 		bool m_likeYoutubeDl ;
 		QString m_name ;
 		QString m_commandName ;
+		QString m_commandNameWindows ;
 		QString m_userName ;
 		QString m_password ;
 		QString m_exeFolderPath ;

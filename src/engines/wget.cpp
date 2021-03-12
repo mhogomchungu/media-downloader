@@ -67,15 +67,9 @@ engines::Json wget::config( Logger& logger,const engines::enginePaths& enginePat
 
 		mainObj.insert( "UsePrivateExecutable",false ) ;
 
-		mainObj.insert( "CommandName",[](){
+		mainObj.insert( "CommandName","wget" ) ;
 
-			if( utility::platformIsWindows() ){
-
-				return "wget.exe" ;
-			}else{
-				return "wget" ;
-			}
-		}() ) ;
+		mainObj.insert( "CommandNameWindows","wget.exe" ) ;
 
 		mainObj.insert( "Name","wget" ) ;
 

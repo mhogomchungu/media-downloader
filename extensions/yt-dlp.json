@@ -1,0 +1,24 @@
+{
+    "BackendPath": "${default}",
+    "BatchFileArgument": "-a",
+    "CanDownloadPlaylist": true,
+    "CommandName": "yt-dlp",
+    "CommandNameWindows": "yt-dlp.exe",
+    "DefaultDownLoadCmdOptions": [
+        "--newline",
+        "--ignore-config",
+        "--no-playlist"
+    ],
+    "DefaultListCmdOptions": [
+        "-F",
+        "--list-formats-old"
+    ],
+    "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
+    "LikeYoutubeDl":true,
+    "Name": "yt-dlp",
+    "OptionsArgument": "-f",
+    "UsePrivateExecutable": true,
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 0
+}
