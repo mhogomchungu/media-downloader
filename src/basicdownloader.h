@@ -45,6 +45,7 @@ public:
 		       const QStringList& urls,
 		       bool = true ) ;
 	void updateEngines() ;
+	void downloadDefaultEngine() ;
 	void tabEntered() ;
 	void enableQuit() ;
 	void enableAll() ;
@@ -72,6 +73,7 @@ private:
 	void download() ;
 	void exit() ;
 	void printEngineVersionInfo() ;
+	void printEngineVersionInfo( const engines::engine& ) ;
 } ;
 
 #endif

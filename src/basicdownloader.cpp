@@ -111,15 +111,18 @@ void basicdownloader::printEngineVersionInfo()
 {
 	const auto& engines = m_ctx.Engines().getEngines() ;
 
-	if( m_counter >= engines.size() ){
+	if( m_counter < engines.size() ){
 
-		return ;
+		const auto& engine = engines[ m_counter ] ;
+
+		m_counter++ ;
+
+		this->printEngineVersionInfo( engine ) ;
 	}
+}
 
-	const auto& engine = engines[ m_counter ] ;
-
-	m_counter++ ;
-
+void basicdownloader::printEngineVersionInfo( const engines::engine& engine )
+{
 	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() ){
 
 		if( engine.backendExists() ){
@@ -134,10 +137,6 @@ void basicdownloader::printEngineVersionInfo()
 		if( engine.exePath().isEmpty() ){
 
 			m_ctx.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
-
-			m_tabManager.disableAll() ;
-
-			this->enableQuit() ;
 		}else{
 			this->checkAndPrintInstalledVersion( engine ) ;
 		}
@@ -492,6 +491,15 @@ void basicdownloader::updateEngines()
 
 		this->setDefaultEngine() ;
 	}
+}
+
+void basicdownloader::downloadDefaultEngine()
+{
+	this->updateEngines() ;
+
+	m_counter = static_cast< size_t >( -1 ) ;
+
+	this->printEngineVersionInfo( m_ctx.Engines().defaultEngine() ) ;
 }
 
 void basicdownloader::tabEntered()

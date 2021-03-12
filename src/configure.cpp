@@ -55,7 +55,7 @@ configure::configure( const Context& ctx ) :
 
 				m_ctx.Engines().addEngine( d,utility::split( m,'/',true ).last() ) ;
 
-				m_ctx.TabManager().basicDownloader().setAsActive().updateEngines() ;
+				m_ctx.TabManager().basicDownloader().setAsActive().downloadDefaultEngine() ;
 			}
 		}
 	} ) ;

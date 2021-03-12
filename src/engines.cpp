@@ -249,7 +249,12 @@ engines::engine::engine( Logger& logger,
 
 	if( utility::platformIsWindows() && m_commandNameWindows.isEmpty() ){
 
-		m_commandNameWindows = m_commandName + ".exe" ;
+		if( m_commandName.endsWith( ".exe" ) ){
+
+			m_commandNameWindows = m_commandName ;
+		}else{
+			m_commandNameWindows = m_commandName + ".exe" ;
+		}
 	}
 
 	const auto& commandName = this->commandName() ;
