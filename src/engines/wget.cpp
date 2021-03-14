@@ -108,7 +108,7 @@ wget::functions::~functions()
 {
 }
 
-void wget::functions::processData( QStringList& outPut,const QByteArray& data )
+void wget::functions::processData( QStringList& outPut,QByteArray data )
 {
 	for( const auto& m : utility::split( data,'\r' ) ){
 

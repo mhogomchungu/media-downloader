@@ -277,15 +277,15 @@ public:
 	{
 		m_postData = false ;
 	}
-	void postData( const QByteArray& data )
+	void postData( QByteArray data )
 	{
 		if( m_postData ){
 
 			m_data += data ;
 
-			m_logger.add( [ this,&data ]( QStringList& e ){
+			m_logger.add( [ this,data = std::move( data ) ]( QStringList& e ){
 
-				m_engine.processData( e,data ) ;
+				m_engine.processData( e,std::move( data ) ) ;
 			} ) ;
 		}
 	}
@@ -382,9 +382,9 @@ void basicdownloader::run( const engines::engine& engine,
 
 		m_ui.pbCancel->setEnabled( false ) ;
 
-	},[]( QProcess::ProcessChannel,const QByteArray& data,std::shared_ptr< context >& ctx ){
+	},[]( QProcess::ProcessChannel,QByteArray data,std::shared_ptr< context >& ctx ){
 
-		ctx->postData( data ) ;
+		ctx->postData( std::move( data ) ) ;
 	} ) ;
 }
 

@@ -106,7 +106,7 @@ youtube_dl::functions::~functions()
 {
 }
 
-void youtube_dl::functions::processData( QStringList& outPut,const QByteArray& data )
+void youtube_dl::functions::processData( QStringList& outPut,QByteArray data )
 {
 	for( const auto& m : utility::split( data ) ){
 

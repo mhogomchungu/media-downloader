@@ -54,33 +54,38 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 			exe.write( "woof@bar.com\nmeaw\n" ) ;
 		}
 	}
+
+	exe.closeWriteChannel() ;
 }
 
-void safaribooks::functions::processData( QStringList& outPut,const QByteArray& data )
+void safaribooks::functions::processData( QStringList& outPut,QByteArray data )
 {
-	for( auto& m : utility::split( data,'\r' ) ){
+	data.replace( "\033[0m","" ) ;
+	data.replace( "\033[33m","" ) ;
+	data.replace( "\033[41m","" ) ;
+	data.replace( "\033[43m","" ) ;
 
-		m.replace( "\033[0m","" ) ;
-		m.replace( "\033[33m","" ) ;
-		m.replace( "\033[41m","" ) ;
-		m.replace( "\033[43m","" ) ;
+	for( const auto& m : utility::split( data,'\r' ) ){
 
-		if( m.isEmpty() ){
+		for( const auto& e : utility::split( m,'\n' ) ){
 
-			continue ;
+			if( e.isEmpty() ){
 
-		}else if( m.endsWith( "%" ) ){
+				continue ;
 
-			auto& s = outPut.last() ;
+			}else if( e.endsWith( "%" ) ){
 
-			if( s.endsWith( "%" ) ){
+				auto& s = outPut.last() ;
 
-				s = m ;
+				if( s.endsWith( "%" ) ){
+
+					s = e ;
+				}else{
+					outPut.append( e ) ;
+				}
 			}else{
-				outPut.append( m ) ;
+				outPut.append( e ) ;
 			}
-		}else{
-			outPut.append( m ) ;
 		}
 	}
 }

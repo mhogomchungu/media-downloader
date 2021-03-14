@@ -159,12 +159,14 @@ public:
 		struct functions
 		{
 			virtual ~functions() ;
+
 		        virtual void sendCredentials( const engines::engine&,
 		                                      const QString&,
 		                                      QProcess& )
 		        {
 		        }
-			virtual void processData( QStringList&,const QByteArray& ) = 0 ;
+			virtual void processData( QStringList&,QByteArray ) = 0 ;
+
 			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
 							       const QString& quality,
 							       const QStringList& userOptions,
@@ -210,9 +212,9 @@ public:
 		{
 			return m_downloadUrl ;
 		}
-		void processData( QStringList& outPut,const QByteArray& data ) const
+		void processData( QStringList& outPut,QByteArray data ) const
 		{
-			m_functions->processData( outPut,data ) ;
+			m_functions->processData( outPut,std::move( data ) ) ;
 		}
 		const QStringList& defaultDownLoadCmdOptions() const
 		{
