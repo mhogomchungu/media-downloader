@@ -313,7 +313,7 @@ namespace utility
 		} ) ;
 	}
 
-	template< typename T >
+	template< typename T,std::enable_if_t< std::is_reference< T >::value,int > = 0 >
 	class result_ref
 	{
 	public:
@@ -346,40 +346,6 @@ namespace utility
 	private:
 		typename std::remove_reference< T >::type * m_value ;
 	} ;
-
-	template< typename Value,typename Arg >
-	bool startsWith( Value& v,const Arg& arg )
-	{
-		return v.startsWith( arg ) ;
-	}
-
-	template< typename Value,typename Arg,typename ... Args >
-	bool startsWith( Value& v,const Arg& arg,const Args& ... args )
-	{
-		if( utility::startsWith( v,arg ) ){
-
-			return true ;
-		}else{
-			return utility::startsWith( v,args ... ) ;
-		}
-	}
-
-	template< typename Value,typename Arg >
-	bool contains( Value& v,const Arg& arg )
-	{
-		return v.contains( arg ) ;
-	}
-
-	template< typename Value,typename Arg,typename ... Args >
-	bool contains( Value& v,const Arg& arg,const Args& ... args )
-	{
-		if( utility::contains( v,arg ) ){
-
-			return true ;
-		}else{
-			return utility::contains( v,args ... ) ;
-		}
-	}
 
 	void wait( int time ) ;
 	void waitForOneSecond() ;

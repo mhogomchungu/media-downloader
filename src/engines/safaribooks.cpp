@@ -50,8 +50,6 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 
 			exe.write( m.at( 0 ).toUtf8() + "\n" ) ;
 			exe.write( m.at( 1 ).toUtf8() + "\n") ;
-		}else{
-			exe.write( "woof@bar.com\nmeaw\n" ) ;
 		}
 	}
 

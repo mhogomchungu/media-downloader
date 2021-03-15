@@ -187,6 +187,14 @@ void basicdownloader::setDefaultEngine()
 		if( m_ui.cbEngineType->itemText( i ) == m ){
 
 			m_ui.cbEngineType->setCurrentIndex( i ) ;
+
+			const auto& s = m_ctx.Engines().getEngineByName( m ) ;
+
+			if( s ){
+
+				m_ui.pbList->setEnabled( !s->defaultListCmdOptions().isEmpty() ) ;
+			}
+
 			return ;
 		}
 	}
