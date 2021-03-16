@@ -35,6 +35,25 @@ safaribooks::functions::~functions()
 {
 }
 
+QString safaribooks::functions::commandString( const engines::engine::exeArgs::cmd& cmd )
+{
+	auto m = "\"" + cmd.exe() + "\"" ;
+
+	const auto& args = cmd.args() ;
+
+	for( int i = 0 ; i < args.size() ; i++ ){
+
+		if( i > 0 && args[ i - 1 ] == "--cred" ){
+
+			m += " \"" + QObject::tr( "<REDACTED>" ) + "\"" ;
+		}else{
+			m += " \"" + args[ i ] + "\"" ;
+		}
+	}
+
+	return m ;
+}
+
 void safaribooks::functions::sendCredentials( const engines::engine& engine,
 					      const QString& credentials,
 					      QProcess& exe )
@@ -109,7 +128,7 @@ void safaribooks::functions::updateDownLoadCmdOptions( const engines::engine& en
 	ourOptions.append( "--destination" ) ;
 	ourOptions.append( m_settings.downloadFolder() ) ;
 
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsWindows() || !quality.isEmpty() ){
 
 		ourOptions.append( "--cred" ) ;
 

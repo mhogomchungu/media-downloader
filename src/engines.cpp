@@ -361,6 +361,24 @@ engines::engine::functions::~functions()
 {
 }
 
+QString engines::engine::functions::commandString( const engines::engine::exeArgs::cmd& cmd )
+{
+	auto m = "\"" + cmd.exe() + "\"" ;
+
+	for( const auto& it : cmd.args() ){
+
+		m += " \"" + it + "\"" ;
+	}
+
+	return m ;
+}
+
+void engines::engine::functions::sendCredentials( const engines::engine&,
+						  const QString&,
+						  QProcess& )
+{
+}
+
 void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat format )
 {
 	if( m_file.open( QIODevice::WriteOnly ) ){

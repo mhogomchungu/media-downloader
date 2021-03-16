@@ -126,24 +126,24 @@ public:
 			class cmd
 			{
 			public:
-				cmd( const engines::engine::exeArgs& exeArgs,const QStringList& args )
+				cmd( const engines::engine::exeArgs& exeArgs,const QStringList& args ) :
+					m_args( exeArgs.exe() ),
+					m_exe( m_args.takeAt( 0 ) )
 				{
-					m_args = exeArgs.exe() ;
-					m_exe = m_args.takeAt( 0 ) ;
 					m_args.append( exeArgs.args() ) ;
 					m_args.append( args ) ;
 				}
-				const QString& exe()
+				const QString& exe() const
 				{
 					return m_exe ;
 				}
-				const QStringList& args()
+				const QStringList& args() const
 				{
 					return m_args ;
 				}
 			private:
-				QString m_exe ;
 				QStringList m_args ;
+				QString m_exe ;
 			} ;
 
 			exeArgs()
@@ -187,11 +187,12 @@ public:
 		{
 			virtual ~functions() ;
 
+			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
+
 		        virtual void sendCredentials( const engines::engine&,
 		                                      const QString&,
-		                                      QProcess& )
-		        {
-		        }
+						      QProcess& ) ;
+
 			virtual void processData( QStringList&,QByteArray ) = 0 ;
 
 			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
@@ -242,6 +243,10 @@ public:
 		void processData( QStringList& outPut,QByteArray data ) const
 		{
 			m_functions->processData( outPut,std::move( data ) ) ;
+		}
+		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
+		{
+			return m_functions->commandString( cmd ) ;
 		}
 		const QStringList& defaultDownLoadCmdOptions() const
 		{

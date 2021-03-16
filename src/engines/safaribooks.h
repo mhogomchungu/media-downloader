@@ -30,6 +30,7 @@ public:
 		{
 		}
 		~functions() override ;
+		QString commandString( const engines::engine::exeArgs::cmd& ) override ;
 		void sendCredentials( const engines::engine& engine,
 				      const QString&,
 				      QProcess& ) override ;

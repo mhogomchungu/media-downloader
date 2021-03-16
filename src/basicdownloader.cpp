@@ -329,32 +329,7 @@ void basicdownloader::run( const engines::engine& engine,
 
 		auto& logger = m_ctx.logger() ;
 
-		logger.add( "cmd: " + [ & ](){
-
-			auto m = "\"" + cmd.exe() + "\"" ;
-
-			const auto& args = cmd.args() ;
-
-			if( engine.name() == "safaribooks" ){
-
-				for( int i = 0 ; i < args.size() ; i++ ){
-
-					if( i > 0 && args[ i - 1 ] == "--cred" ){
-
-						m += " \"" + tr( "<REDACTED>" ) + "\"" ;
-					}else{
-						m += " \"" + args[ i ] + "\"" ;
-					}
-				}
-			}else{
-				for( const auto& it : args ){
-
-					m += " \"" + it + "\"" ;
-				}
-			}
-
-			return m ;
-		}() ) ;
+		logger.add( "cmd: " + engine.commandString( cmd ) ) ;
 
 		exe.setWorkingDirectory( m_settings.downloadFolder() ) ;
 
