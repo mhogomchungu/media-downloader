@@ -223,11 +223,9 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 		Logger& logger ;
 	} ;
 
-	const auto& exe = engine.exePath() ;
+	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	auto aa = exe.args() + utility::split( engine.versionArgument(),' ',true ) ;
-
-	utility::run( exe.exe(),aa,[ this,&engine ]( QProcess& exe ){
+	utility::run( cmd.exe(),cmd.args(),[ this,&engine ]( QProcess& exe ){
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
@@ -325,24 +323,34 @@ void basicdownloader::run( const engines::engine& engine,
 {
 	m_tabManager.disableAll() ;
 
-	const auto& exe = engine.exePath() ;
+	engines::engine::exeArgs::cmd cmd( engine.exePath(),args ) ;
 
-	utility::run( exe.exe(),exe.args() + args,[ this,&engine,&list_requested,&args ]( QProcess& exe ){
+	utility::run( cmd.exe(),cmd.args(),[ &,this ]( QProcess& exe ){
 
 		auto& logger = m_ctx.logger() ;
 
 		logger.add( "cmd: " + [ & ](){
 
-			auto m = "\"" + engine.exePath().exe() + "\"" ;
+			auto m = "\"" + cmd.exe() + "\"" ;
 
-			for( const auto& it : engine.exePath().args() ){
+			const auto& args = cmd.args() ;
 
-				m += " \"" + it + "\"" ;
-			}
+			if( engine.name() == "safaribooks" ){
 
-			for( const auto& it : args ){
+				for( int i = 0 ; i < args.size() ; i++ ){
 
-				m += " \"" + it + "\"" ;
+					if( i > 0 && args[ i - 1 ] == "--cred" ){
+
+						m += " \"" + tr( "<REDACTED>" ) + "\"" ;
+					}else{
+						m += " \"" + args[ i ] + "\"" ;
+					}
+				}
+			}else{
+				for( const auto& it : args ){
+
+					m += " \"" + it + "\"" ;
+				}
 			}
 
 			return m ;

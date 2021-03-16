@@ -123,6 +123,29 @@ public:
 		class exeArgs
 		{
 		public:
+			class cmd
+			{
+			public:
+				cmd( const engines::engine::exeArgs& exeArgs,const QStringList& args )
+				{
+					m_args = exeArgs.exe() ;
+					m_exe = m_args.takeAt( 0 ) ;
+					m_args.append( exeArgs.args() ) ;
+					m_args.append( args ) ;
+				}
+				const QString& exe()
+				{
+					return m_exe ;
+				}
+				const QStringList& args()
+				{
+					return m_args ;
+				}
+			private:
+				QString m_exe ;
+				QStringList m_args ;
+			} ;
+
 			exeArgs()
 			{
 			}
@@ -134,11 +157,15 @@ public:
 				m_exe( e ),m_realExe( r ),m_options( s )
 			{
 			}
+			exeArgs( const QStringList& e,const QString& r,const QStringList& s ) :
+				m_exe( e ),m_realExe( r ),m_options( s )
+			{
+			}
 			bool isEmpty() const
 			{
 				return m_exe.isEmpty() ;
 			}
-			const QString& exe() const
+			const QStringList& exe() const
 			{
 				return m_exe ;
 			}
@@ -151,7 +178,7 @@ public:
 				return m_realExe ;
 			}
 		private:
-			QString m_exe ;
+			QStringList m_exe ;
 			QString m_realExe ;
 			QStringList m_options ;
 		} ;

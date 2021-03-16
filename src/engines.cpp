@@ -303,6 +303,11 @@ engines::engine::engine( Logger& logger,
 
 					logger.add( QObject::tr( "Failed to find python executable for backend \"%1\"" ).arg( m_name ) ) ;
 				}else{
+					//auto cwd = QDir().currentPath() ;
+					//auto w = cwd + "\\winpty-0.4.3-cygwin-2.8.0-x64\\bin\\winpty.exe" ;
+					//qDebug() << w ;
+					//m_exePath = { { w,"-Xallow-non-tty","-Xplain",m },ee,cmdNames } ;
+
 					m_exePath = { m,ee,cmdNames } ;
 				}
 			}else{

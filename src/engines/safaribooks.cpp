@@ -39,21 +39,24 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 					      const QString& credentials,
 					      QProcess& exe )
 {
-	if( credentials.isEmpty() ){
+	if( utility::platformIsNOTWindows() ){
 
-		exe.write( engine.userName().toUtf8() + "\n" ) ;
-		exe.write( engine.password().toUtf8() + "\n") ;
-	}else{
-		auto m = utility::split( credentials,':',true ) ;
+		if( credentials.isEmpty() ){
 
-		if( m.size() > 1 ){
+			exe.write( engine.userName().toUtf8() + "\n" ) ;
+			exe.write( engine.password().toUtf8() + "\n" ) ;
+		}else{
+			auto m = utility::split( credentials,':',true ) ;
 
-			exe.write( m.at( 0 ).toUtf8() + "\n" ) ;
-			exe.write( m.at( 1 ).toUtf8() + "\n") ;
+			if( m.size() > 1 ){
+
+				exe.write( m.at( 0 ).toUtf8() + "\n" ) ;
+				exe.write( m.at( 1 ).toUtf8() + "\n" ) ;
+			}
 		}
-	}
 
-	exe.closeWriteChannel() ;
+		exe.closeWriteChannel() ;
+	}
 }
 
 void safaribooks::functions::processData( QStringList& outPut,QByteArray data )
@@ -103,7 +106,20 @@ void safaribooks::functions::updateDownLoadCmdOptions( const engines::engine& en
 		urls[ 0 ] = utility::split( urls[ 0 ],'/',true ).last() ;
 	}
 
-	ourOptions.append( "--login" ) ;
 	ourOptions.append( "--destination" ) ;
 	ourOptions.append( m_settings.downloadFolder() ) ;
+
+	if( utility::platformIsWindows() ){
+
+		ourOptions.append( "--cred" ) ;
+
+		if( quality.isEmpty() ){
+
+			ourOptions.append( engine.userName() + ":" + engine.password() ) ;
+		}else{
+			ourOptions.append( quality ) ;
+		}
+	}else{
+		ourOptions.append( "--login" ) ;
+	}
 }
