@@ -60,7 +60,7 @@
         <location filename="../src/mainwindow.ui" line="384"/>
         <location filename="../src/mainwindow.ui" line="590"/>
         <location filename="../src/mainwindow.ui" line="805"/>
-        <location filename="../src/mainwindow.cpp" line="54"/>
+        <location filename="../src/mainwindow.cpp" line="58"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
     </message>
@@ -160,12 +160,22 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Pokaż informacje nt wersji przy uruchamianiu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="866"/>
+        <location filename="../src/mainwindow.ui" line="873"/>
+        <source>Add a Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="886"/>
+        <source>Remove A Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="892"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="878"/>
+        <location filename="../src/mainwindow.ui" line="904"/>
         <source>TextLabel</source>
         <translation>TextLabel</translation>
     </message>
@@ -173,32 +183,32 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="167"/>
+        <location filename="../src/utility.cpp" line="312"/>
         <source>Clear Options</source>
         <translation>Wyczyść opcje</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="173"/>
+        <location filename="../src/utility.cpp" line="318"/>
         <source>Clear Screen</source>
         <translation>Wyczyść okno</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="145"/>
+        <location filename="../src/utility.cpp" line="290"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="111"/>
+        <location filename="../src/utility.cpp" line="256"/>
         <source>Best-audiovideo</source>
         <translation>Najlepsze audio i video</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="112"/>
+        <location filename="../src/utility.cpp" line="257"/>
         <source>Best-audio</source>
         <translation>Najlepsze audio</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="158"/>
+        <location filename="../src/utility.cpp" line="303"/>
         <source>Found Options</source>
         <translation>Znalezione opcje</translation>
     </message>
@@ -233,22 +243,27 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Polski (Polska)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="44"/>
+        <location filename="../src/engines.cpp" line="45"/>
         <source>Failed to parse json file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="60"/>
+        <location filename="../src/engines.cpp" line="67"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="207"/>
+        <location filename="../src/engines.cpp" line="304"/>
+        <source>Failed to find python executable for backend &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="388"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="222"/>
+        <location filename="../src/engines.cpp" line="403"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
@@ -256,18 +271,18 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="144"/>
-        <location filename="../src/basicdownloader.cpp" line="254"/>
+        <location filename="../src/basicdownloader.cpp" line="139"/>
+        <location filename="../src/basicdownloader.cpp" line="251"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="234"/>
+        <location filename="../src/basicdownloader.cpp" line="232"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="266"/>
+        <location filename="../src/basicdownloader.cpp" line="255"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>
@@ -291,12 +306,22 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="95"/>
+        <location filename="../src/configure.cpp" line="48"/>
+        <source>Select An Engine File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="75"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Anuluj</translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="139"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="149"/>
+        <location filename="../src/configure.cpp" line="193"/>
         <source>Update</source>
         <translation>Aktualizuj</translation>
     </message>
