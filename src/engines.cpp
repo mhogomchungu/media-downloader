@@ -263,7 +263,7 @@ engines::engine::engine( Logger& logger,
 
 		if( this->usingPrivateBackend() && !m_exeFolderPath.isEmpty() ){
 
-			if( m_exeFolderPath == "${default}" || m_exeFolderPath == "${BackendPath}"  ){
+			if( m_exeFolderPath == "${default}" || m_exeFolderPath == "${BackendPath}" ){
 
 				m_exeFolderPath = ePaths.binPath() ;
 			}
@@ -301,17 +301,16 @@ engines::engine::engine( Logger& logger,
 			}
 		}
 
-		if( utility::platformIsWindows() ){
+		if( cmd == "python3" ){
 
-			if( cmd == "python3" ){
+			auto m = utility::python3Path() ;
 
-				auto m = utility::python3Path() ;
+			if( m.isEmpty() ){
 
-				if( m.isEmpty() ){
-
-					m_valid = false ;
-					logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ) ) ;
-				}else{
+				m_valid = false ;
+				logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ) ) ;
+			}else{
+				if( utility::platformIsWindows() ){
 					/*
 					 * 1. Python's getpass() cant seem to read data from QProcess on Windows.
 					 *
@@ -325,40 +324,19 @@ engines::engine::engine( Logger& logger,
 					//m_exePath = { { w,"-Xallow-non-tty","-Xplain",m },ee,cmdNames } ;
 
 					m_exePath = { m,ee,cmdNames } ;
-				}
-			}else{
-				auto m = QStandardPaths::findExecutable( cmd ) ;
-
-				if( m.isEmpty() ){
-
-					m_valid = false ;
-					logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
 				}else{
 					m_exePath = { m,ee,cmdNames } ;
 				}
 			}
 		}else{
-			if( cmd == "python3" ){
+			auto m = QStandardPaths::findExecutable( cmd ) ;
 
-				auto m = QStandardPaths::findExecutable( cmd ) ;
+			if( m.isEmpty() ){
 
-				if( m.isEmpty() ){
-
-					m_valid = false ;
-					logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ) ) ;
-				}else{
-					m_exePath = { m,ee,cmdNames } ;
-				}
+				m_valid = false ;
+				logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
 			}else{
-				auto m = QStandardPaths::findExecutable( cmd ) ;
-
-				if( m.isEmpty() ){
-
-					m_valid = false ;
-					logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
-				}else{
-					m_exePath = { m,ee,cmdNames } ;
-				}
+				m_exePath = { m,ee,cmdNames } ;
 			}
 		}
 	}

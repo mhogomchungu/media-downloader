@@ -66,7 +66,7 @@ int utility::terminateProcess( unsigned long )
 
 QString utility::python3Path()
 {
-	return {} ;
+	return QStandardPaths::findExecutable( "python3" ) ;
 }
 
 #endif
@@ -75,7 +75,7 @@ QString utility::python3Path()
 
 QString utility::python3Path()
 {
-	return {} ;
+	return QStandardPaths::findExecutable( "python3" ) ;
 }
 
 bool utility::platformIsOSX()
