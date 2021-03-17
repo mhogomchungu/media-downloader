@@ -13,6 +13,7 @@ Version 1.0.0(Jan 30th, 2021)
 Version 1.1.0(March 1st,2021)
 [All]
  - Add polish translations.
+ - Add json based plugin system to make it possible for users to use their preffered youtube-dl compatible backend.
 
 [Linux]
  - Add support for downloading media using wget in addition to youtube-dl.

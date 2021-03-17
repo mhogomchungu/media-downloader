@@ -163,7 +163,7 @@ public:
 			}
 			bool isEmpty() const
 			{
-				return m_exe.isEmpty() ;
+				return m_realExe.isEmpty() ;
 			}
 			const QStringList& exe() const
 			{
