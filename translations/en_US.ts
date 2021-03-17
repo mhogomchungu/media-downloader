@@ -251,17 +251,23 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="304"/>
-        <source>Failed to find python executable for backend &quot;%1&quot;</source>
+        <location filename="../src/engines.cpp" line="278"/>
+        <location filename="../src/engines.cpp" line="337"/>
+        <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="388"/>
+        <location filename="../src/engines.cpp" line="311"/>
+        <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="411"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="403"/>
+        <location filename="../src/engines.cpp" line="426"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
