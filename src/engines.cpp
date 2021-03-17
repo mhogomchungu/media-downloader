@@ -115,7 +115,14 @@ const engines::engine& engines::defaultEngine() const
 	}else{
 		m_logger.add( "Error: engines::defaultEngine: Unknown Engine: " + m_settings.defaultEngine() ) ;
 
-		return m_backends[ 0 ] ;
+		if( m_backends.size() > 0 ){
+
+			return m_backends[ 0 ] ;
+		}else{
+			static engines::engine engine ;
+
+			return engine ;
+		}
 	}
 }
 
@@ -289,17 +296,18 @@ engines::engine::engine( Logger& logger,
 			it.replace( "${CommandName}",commandName ) ;
 		}
 
-		QString ee ;
+		auto subCmd = [ & ]()->QString{
 
-		for( const auto& it : cmdNames ){
+			for( const auto& it : cmdNames ){
 
-			if( it.endsWith( commandName ) ){
+				if( it.endsWith( commandName ) ){
 
-				ee = it ;
-
-				break ;
+					return it ;
+				}
 			}
-		}
+
+			return cmd ;
+		}() ;
 
 		if( cmd == "python3" ){
 
@@ -323,9 +331,9 @@ engines::engine::engine( Logger& logger,
 					//auto w = cwd + "\\winpty-0.4.3-cygwin-2.8.0-x64\\bin\\winpty.exe" ;
 					//m_exePath = { { w,"-Xallow-non-tty","-Xplain",m },ee,cmdNames } ;
 
-					m_exePath = { m,ee,cmdNames } ;
+					m_exePath = { m,subCmd,cmdNames } ;
 				}else{
-					m_exePath = { m,ee,cmdNames } ;
+					m_exePath = { m,subCmd,cmdNames } ;
 				}
 			}
 		}else{
@@ -336,7 +344,7 @@ engines::engine::engine( Logger& logger,
 				m_valid = false ;
 				logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
 			}else{
-				m_exePath = { m,ee,cmdNames } ;
+				m_exePath = { m,subCmd,cmdNames } ;
 			}
 		}
 	}
