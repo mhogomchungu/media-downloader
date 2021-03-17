@@ -301,20 +301,57 @@ engines::engine::engine( Logger& logger,
 
 				if( m.isEmpty() ){
 
-					logger.add( QObject::tr( "Failed to find python executable for backend \"%1\"" ).arg( m_name ) ) ;
+					m_valid = false ;
+					logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ) ) ;
 				}else{
+					/*
+					 * 1. Python's getpass() cant seem to read data from QProcess on Windows.
+					 *
+					 * 2. Investigate using winpty as a work around.
+					 *
+					 * 3. In the mean time, credentials on windows are sent as CLI arguments.
+					 */
+
 					//auto cwd = QDir().currentPath() ;
 					//auto w = cwd + "\\winpty-0.4.3-cygwin-2.8.0-x64\\bin\\winpty.exe" ;
-					//qDebug() << w ;
 					//m_exePath = { { w,"-Xallow-non-tty","-Xplain",m },ee,cmdNames } ;
 
 					m_exePath = { m,ee,cmdNames } ;
 				}
 			}else{
-				m_exePath = { QStandardPaths::findExecutable( cmd ),ee,cmdNames } ;
+				auto m = QStandardPaths::findExecutable( cmd ) ;
+
+				if( m.isEmpty() ){
+
+					m_valid = false ;
+					logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
+				}else{
+					m_exePath = { m,ee,cmdNames } ;
+				}
 			}
 		}else{
-			m_exePath = { QStandardPaths::findExecutable( cmd ),ee,cmdNames } ;
+			if( cmd == "python3" ){
+
+				auto m = QStandardPaths::findExecutable( cmd ) ;
+
+				if( m.isEmpty() ){
+
+					m_valid = false ;
+					logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ) ) ;
+				}else{
+					m_exePath = { m,ee,cmdNames } ;
+				}
+			}else{
+				auto m = QStandardPaths::findExecutable( cmd ) ;
+
+				if( m.isEmpty() ){
+
+					m_valid = false ;
+					logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
+				}else{
+					m_exePath = { m,ee,cmdNames } ;
+				}
+			}
 		}
 	}
 }
