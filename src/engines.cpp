@@ -270,7 +270,15 @@ engines::engine::engine( Logger& logger,
 
 			m_exePath = m_exeFolderPath + "/" + commandName ;
 		}else{
-			m_exePath = QStandardPaths::findExecutable( commandName ) ;
+			auto m = QStandardPaths::findExecutable( commandName ) ;
+
+			if( m.isEmpty() ){
+
+				m_valid = false ;
+				logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( commandName ) ) ;
+			}else{
+				m_exePath = m ;
+			}
 		}
 	}else{
 		auto cmd = cmdNames.takeAt( 0 ) ;
