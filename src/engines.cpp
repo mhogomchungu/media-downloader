@@ -80,23 +80,7 @@ void engines::updateEngines()
 
 	for( const auto& it : this->enginesList() ){
 
-		auto path = m_enginePaths.configPath() + "/" + it ;
-
-		engines::Json json( engines::file( path,m_logger ).readAll() ) ;
-
-		if( json ){
-
-			auto object = json.doc().object() ;
-
-			if( object.value( "LikeYoutubeDl" ).toBool( false ) ){
-
-				_engine_add( engines::engine( m_logger,m_enginePaths,json,youtube_dl().Functions() ) ) ;
-
-			}else if( object.value( "Name" ).toString() == "safaribooks" ){
-
-				_engine_add( engines::engine( m_logger,m_enginePaths,json,safaribooks( m_settings ).Functions() ) ) ;
-			}
-		}
+		_engine_add( this->getEngineByPath( it ) ) ;
 	}
 }
 
@@ -137,6 +121,32 @@ utility::result_ref< const engines::engine& > engines::getEngineByName( const QS
 	}
 
 	return {} ;
+}
+
+engines::engine engines::getEngineByPath( const QString& e ) const
+{
+	auto path = m_enginePaths.configPath() + "/" + e ;
+
+	engines::Json json( engines::file( path,m_logger ).readAll() ) ;
+
+	if( json ){
+
+		auto object = json.doc().object() ;
+
+		if( object.value( "LikeYoutubeDl" ).toBool( false ) ){
+
+			return engines::engine( m_logger,m_enginePaths,json,youtube_dl().Functions() ) ;
+
+		}else if( object.value( "Name" ).toString() == "safaribooks" ){
+
+			return engines::engine( m_logger,m_enginePaths,json,safaribooks( m_settings ).Functions() ) ;
+		}else{
+			//????
+			return {} ;
+		}
+	}else{
+		return {} ;
+	}
 }
 
 void engines::setDefaultEngine( const QString& name )
@@ -207,7 +217,14 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 
 void engines::removeEngine( const QString& e )
 {
+	const auto engine = this->getEngineByPath( e ) ;
+
 	if( QFile::remove( m_enginePaths.configPath() + "/" + e ) ){
+
+		if( engine.valid() && engine.usingPrivateBackend() ){
+
+			QFile::remove( engine.exePath().realExe() ) ;
+		}
 
 		m_backends.clear() ;
 

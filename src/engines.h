@@ -334,6 +334,7 @@ public:
 	const std::vector< engine >& getEngines() const ;
 	const engine& defaultEngine() const ;
 	utility::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
+	engines::engine getEngineByPath( const QString& path ) const ;
 	void setDefaultEngine( const QString& name ) ;
 	void setDefaultEngine( const engines::engine& engine ) ;
 	engines( Logger&,settings& ) ;
