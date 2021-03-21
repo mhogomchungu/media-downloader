@@ -107,6 +107,14 @@ public:
 		{
 			return m_configPath ;
 		}
+		QString binPath( const QString& e ) const
+		{
+			return m_binPath + "/" + e ;
+		}
+		QString configPath( const QString& e ) const
+		{
+			return m_configPath + "/" + e ;
+		}
 	private:
 		QString m_binPath ;
 		QString m_configPath ;

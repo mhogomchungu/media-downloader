@@ -28,7 +28,7 @@
 
 engines::Json youtube_dl::config( Logger& logger,const engines::enginePaths& enginePath ) const
 {
-	auto m = enginePath.configPath() + "/youtube-dl.json" ;
+	auto m = enginePath.configPath( "youtube-dl.json" ) ;
 
 	if( !QFile::exists( m ) ){
 

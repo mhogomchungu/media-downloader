@@ -125,7 +125,7 @@ utility::result_ref< const engines::engine& > engines::getEngineByName( const QS
 
 engines::engine engines::getEngineByPath( const QString& e ) const
 {
-	auto path = m_enginePaths.configPath() + "/" + e ;
+	auto path = m_enginePaths.configPath( e ) ;
 
 	engines::Json json( engines::file( path,m_logger ).readAll() ) ;
 
@@ -183,7 +183,7 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 
 		if( !name.isEmpty() ){
 
-			auto e = m_enginePaths.configPath() + "/" + path ;
+			auto e = m_enginePaths.configPath( path ) ;
 
 			QFile f( e ) ;
 
@@ -219,16 +219,23 @@ void engines::removeEngine( const QString& e )
 {
 	const auto engine = this->getEngineByPath( e ) ;
 
-	if( QFile::remove( m_enginePaths.configPath() + "/" + e ) ){
+	if( engine.valid() ){
 
-		if( engine.valid() && engine.usingPrivateBackend() ){
+		QFile::remove( m_enginePaths.configPath( e ) ) ;
 
-			QFile::remove( engine.exePath().realExe() ) ;
+		const auto& exe = engine.exePath().realExe() ;
+
+		if( engine.usingPrivateBackend() && QFile::exists( exe ) ){
+
+			QFile::remove( exe ) ;
+		}
+
+		if( m_backends.size() > 0 ){
+
+			this->setDefaultEngine( m_backends[ 0 ] ) ;
 		}
 
 		m_backends.clear() ;
-
-		this->setDefaultEngine( m_backends[ 0 ] ) ;
 
 		this->updateEngines() ;
 	}

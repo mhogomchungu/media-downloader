@@ -59,7 +59,7 @@ wget::wget()
 
 engines::Json wget::config( Logger& logger,const engines::enginePaths& enginePath ) const
 {
-	auto m = enginePath.configPath() + "/wget.json" ;
+	auto m = enginePath.configPath( "wget.json" ) ;
 
 	if( !QFile::exists( m ) ){
 
