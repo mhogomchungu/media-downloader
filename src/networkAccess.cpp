@@ -139,7 +139,7 @@ void networkAccess::download( const engines::engine& engine )
 
 void networkAccess::download( const metadata& metadata,const engines::engine& engine )
 {
-	QString filePath = engine.exePath().realExe() ;
+	QString filePath = engine.exePath().realExe() + ".tmp" ;
 
 	m_file.setFileName( filePath ) ;
 
@@ -169,6 +169,14 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 			m_file.close() ;
 
 			this->post( engine,QObject::tr( "Download complete" ) ) ;
+
+			const auto& e = engine.exePath().realExe() ;
+
+			QFile::remove( e ) ;
+
+			m_file.rename( e ) ;
+
+			this->post( engine,QObject::tr( "Renaming file to: " ) + e ) ;
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 

@@ -183,32 +183,32 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="312"/>
+        <location filename="../src/utility.cpp" line="306"/>
         <source>Clear Options</source>
         <translation>Wyczyść opcje</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="318"/>
+        <location filename="../src/utility.cpp" line="312"/>
         <source>Clear Screen</source>
         <translation>Wyczyść okno</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="290"/>
+        <location filename="../src/utility.cpp" line="284"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="256"/>
+        <location filename="../src/utility.cpp" line="250"/>
         <source>Best-audiovideo</source>
         <translation>Najlepsze audio i video</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="257"/>
+        <location filename="../src/utility.cpp" line="251"/>
         <source>Best-audio</source>
         <translation>Najlepsze audio</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="303"/>
+        <location filename="../src/utility.cpp" line="297"/>
         <source>Found Options</source>
         <translation>Znalezione opcje</translation>
     </message>
@@ -253,24 +253,67 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="278"/>
-        <location filename="../src/engines.cpp" line="337"/>
+        <location filename="../src/engines.cpp" line="309"/>
+        <location filename="../src/engines.cpp" line="369"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="311"/>
+        <location filename="../src/engines.cpp" line="343"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="411"/>
+        <location filename="../src/engines.cpp" line="443"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="426"/>
+        <location filename="../src/engines.cpp" line="458"/>
         <source>Failed to open file for reading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="54"/>
+        <source>Failed to download, Following path can not be created: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="60"/>
+        <source>Start Downloading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="88"/>
+        <location filename="../src/networkAccess.cpp" line="165"/>
+        <source>Download Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="99"/>
+        <source>Failed to parse json file from github</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="150"/>
+        <location filename="../src/networkAccess.cpp" line="201"/>
+        <location filename="../src/networkAccess.cpp" line="209"/>
+        <source>Downloading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="152"/>
+        <source>Destination</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="171"/>
+        <source>Download complete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="179"/>
+        <source>Renaming file to: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -319,7 +362,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/configure.cpp" line="75"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anuluj</translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="139"/>

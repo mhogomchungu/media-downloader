@@ -5,6 +5,7 @@ basicdownloader.cpp \
 batchdownloader.cpp \
 batchfiledownloader.cpp \
 configure.cpp \
+networkAccess.cpp \
 main.cpp \
 engines.cpp \
 translator.cpp \
