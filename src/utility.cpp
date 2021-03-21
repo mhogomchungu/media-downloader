@@ -126,11 +126,6 @@ int utility::terminateProcess( unsigned long pid )
 
 	if( AttachConsole( pid ) == TRUE ) {
 
-		/*
-		 * Add a fake Ctrl-C handler for avoid instant kill in this console
-		 * WARNING: do not revert it or current program will also killed
-		 */
-
 		SetConsoleCtrlHandler( nullptr,true ) ;
 
 		if( GenerateConsoleCtrlEvent( CTRL_C_EVENT,0 ) == TRUE ){
@@ -191,9 +186,9 @@ static QByteArray _reg_get_value( HKEY hkey,const char * key )
 	return {} ;
 }
 
-static QString _readRegistry( const QString& subKey,const char * key,HKEY hkey )
+static QString _readRegistry( const char * subKey,const char * key,HKEY hkey )
 {
-	auto s = unique_rsc( _reg_open_key,_reg_close_key,subKey.toUtf8().constData(),hkey ) ;
+	auto s = unique_rsc( _reg_open_key,_reg_close_key,subKey,hkey ) ;
 
 	return _reg_get_value( s.get(),key ) ;
 }
@@ -202,13 +197,17 @@ QString utility::python3Path()
 {
 	std::array< HKEY,2 > hkeys{ HKEY_CURRENT_USER,HKEY_LOCAL_MACHINE } ;
 
-	QString a = "Software\\Python\\PythonCore\\3.%1\\InstallPath" ;
+	std::string path = "Software\\Python\\PythonCore\\3.X\\InstallPath" ;
+
+	char * str = &path[ 0 ] ;
 
 	for( const auto& it : hkeys ){
 
-		for( int s = 9 ; s >= 0 ; s-- ){
+		for( char s = '9' ; s >= '0' ; s-- ){
 
-			auto c = _readRegistry( a.arg( QString::number( s ) ),"ExecutablePath",it ) ;
+			str[ 29 ] = s ;
+
+			auto c = _readRegistry( str,"ExecutablePath",it ) ;
 
 			if( !c.isEmpty() ){
 
