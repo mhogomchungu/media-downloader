@@ -200,25 +200,20 @@ static QString _readRegistry( const QString& subKey,const char * key,HKEY hkey )
 
 QString utility::python3Path()
 {
+	std::array< HKEY,2 > hkeys{ HKEY_CURRENT_USER,HKEY_LOCAL_MACHINE } ;
+
 	QString a = "Software\\Python\\PythonCore\\3.%1\\InstallPath" ;
 
-	for( int s = 9 ; s >= 0 ; s-- ){
+	for( const auto& it : hkeys ){
 
-		auto c = _readRegistry( a.arg( QString::number( s ) ),"ExecutablePath",HKEY_CURRENT_USER ) ;
+		for( int s = 9 ; s >= 0 ; s-- ){
 
-		if( !c.isEmpty() ){
+			auto c = _readRegistry( a.arg( QString::number( s ) ),"ExecutablePath",it ) ;
 
-			return c ;
-		}
-	}
+			if( !c.isEmpty() ){
 
-	for( int s = 9 ; s >= 0 ; s-- ){
-
-		auto c = _readRegistry( a.arg( QString::number( s ) ),"ExecutablePath",HKEY_LOCAL_MACHINE ) ;
-
-		if( !c.isEmpty() ){
-
-			return c ;
+				return c ;
+			}
 		}
 	}
 
