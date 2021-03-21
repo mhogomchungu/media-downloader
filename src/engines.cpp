@@ -20,7 +20,7 @@
 #include "engines.h"
 
 #include "engines/youtube-dl.h"
-#include "engines/wget.h"
+#include "engines/generic.h"
 #include "engines/safaribooks.h"
 
 #include "utility.h"
@@ -30,23 +30,6 @@
 #include <QJsonDocument>
 
 #include <QDir>
-
-template< typename Engine >
-static engines::engine _add_engine( Logger& logger,
-				    const engines::enginePaths& enginePath,
-				    const Engine& engine )
-{
-	auto json = engine.config( logger,enginePath ) ;
-
-	if( json ){
-
-		return engines::engine( logger,enginePath,json.doc(),engine.Functions() ) ;
-	}else{
-		logger.add( QObject::tr( "Failed to parse json file" ) + " :" + json.errorString() ) ;
-
-		return {} ;
-	}
-}
 
 engines::engines( Logger& l,settings& s ) :
 	m_logger( l ),
@@ -71,12 +54,9 @@ void engines::updateEngines()
 		}
 	} ;
 
-	_engine_add( _add_engine( m_logger,m_enginePaths,youtube_dl() ) ) ;
+	youtube_dl::init( m_logger,m_enginePaths ) ;
 
-	if( utility::platformIsLinux() ){
-
-		_engine_add( _add_engine( m_logger,m_enginePaths,wget() ) ) ;
-	}
+	_engine_add( this->getEngineByPath( "youtube-dl.json" ) ) ;
 
 	for( const auto& it : this->enginesList() ){
 
@@ -133,16 +113,20 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 		auto object = json.doc().object() ;
 
-		if( object.value( "LikeYoutubeDl" ).toBool( false ) ){
+		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
+				object.value( "Name" ).toString() == "youtube-dl" ){
 
-			return engines::engine( m_logger,m_enginePaths,json,youtube_dl().Functions() ) ;
+			object.insert( "ControlStructure","startsWith-[download]-&&-contains-ETA" ) ;
+
+			return { m_logger,m_enginePaths,object,youtube_dl().Functions() } ;
 
 		}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
-			return engines::engine( m_logger,m_enginePaths,json,safaribooks( m_settings ).Functions() ) ;
+			object.insert( "ControlStructure","endsWith-%" ) ;
+
+			return { m_logger,m_enginePaths,object,safaribooks( m_settings ).Functions() } ;
 		}else{
-			//????
-			return {} ;
+			return { m_logger,m_enginePaths,object,generic().Functions() } ;
 		}
 	}else{
 		return {} ;
@@ -246,7 +230,6 @@ QStringList engines::enginesList() const
 	auto m = QDir( m_enginePaths.configPath() ).entryList( QDir::Filter::Files ) ;
 
 	m.removeAll( "youtube-dl.json" ) ;
-	m.removeAll( "wget.json" ) ;
 
 	return m ;
 }
@@ -273,6 +256,7 @@ engines::engine::engine( Logger& logger,
 	m_optionsArgument( m_jsonObject.value( "OptionsArgument" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() ),
 	m_batchFileArgument( m_jsonObject.value( "BatchFileArgument" ).toString() ),
+	m_controlStructure( m_jsonObject.value( "ControlStructure" ).toString() ),
 	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ) ) ),
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) )
 {
@@ -432,6 +416,91 @@ void engines::engine::functions::sendCredentials( const engines::engine&,
 						  const QString&,
 						  QProcess& )
 {
+}
+
+static bool _meet_condition( const QString& line,const QString& condition )
+{
+	auto m = utility::split( condition,'-',true ) ;
+
+	if( m.size() == 2 ){
+
+		const auto& s = m[ 0 ] ;
+		const auto& e = m[ 1 ] ;
+
+		if( s == "startsWith" ){
+
+			return line.startsWith( e ) ;
+
+		}else if( s == "contains" ){
+
+			return line.contains( e ) ;
+
+		}else if( s == "endsWith" ){
+
+			return line.endsWith( e ) ;
+		}else{
+			return false ;
+		}
+	}else{
+		return false ;
+	}
+}
+
+bool engines::engine::functions::meetCondition( const engines::engine& engine,
+						const QString& line )
+{
+	const auto& cs = engine.controlStructure() ;
+
+	if( cs.contains( "-&&-" ) ){
+
+		auto m = utility::split( cs,"-&&-" ) ;
+
+		if( m.size() == 2 ){
+
+			return _meet_condition( line,m[ 0 ] ) && _meet_condition( line,m[ 1 ] ) ;
+		}else{
+			return false ;
+		}
+
+	}else if( cs.contains( "-||-" ) ) {
+
+		auto m = utility::split( cs,"-||-" ) ;
+
+		if( m.size() == 2 ){
+
+			return _meet_condition( line,m[ 0 ] ) || _meet_condition( line,m[ 1 ] ) ;
+		}else{
+			return false ;
+		}
+	}else{
+		return _meet_condition( line,cs ) ;
+	}
+}
+
+void engines::engine::functions::processData( const engines::engine& engine,
+					      QStringList& outPut,
+					      QByteArray data )
+{
+	for( const auto& m : utility::split( data ) ){
+
+		if( m.isEmpty() ){
+
+			continue ;
+
+		}else if( engines::engine::functions::meetCondition( engine,m ) ){
+
+			auto& s = outPut.last() ;
+
+			if( engines::engine::functions::meetCondition( engine,s ) ){
+
+				s = m ;
+			}else{
+				outPut.append( m ) ;
+			}
+		}else{
+			outPut.append( m ) ;
+		}
+	}
 }
 
 void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat format )

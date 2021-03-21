@@ -85,6 +85,7 @@ namespace utility
 	void asConst( const T&& ) = delete ;
 
 	QStringList split( const QString& e,char token,bool skipEmptyParts ) ;
+	QStringList split( const QString& e,const char * token ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
 
 	class selectedAction

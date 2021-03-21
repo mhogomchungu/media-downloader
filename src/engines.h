@@ -193,6 +193,8 @@ public:
 
 		struct functions
 		{
+			static bool meetCondition( const engines::engine& engine,
+						   const QString& line ) ;
 			virtual ~functions() ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
@@ -201,7 +203,9 @@ public:
 		                                      const QString&,
 						      QProcess& ) ;
 
-			virtual void processData( QStringList&,QByteArray ) = 0 ;
+			virtual void processData( const engines::engine& engine,
+						  QStringList&,
+						  QByteArray ) ;
 
 			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
 							       const QString& quality,
@@ -250,7 +254,7 @@ public:
 		}
 		void processData( QStringList& outPut,QByteArray data ) const
 		{
-			m_functions->processData( outPut,std::move( data ) ) ;
+			m_functions->processData( *this,outPut,std::move( data ) ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{
@@ -295,6 +299,10 @@ public:
 		{
 		        return m_password ;
 		}
+		const QString& controlStructure() const
+		{
+			return m_controlStructure ;
+		}
 		bool usingPrivateBackend() const
 		{
 			return m_usingPrivateBackend ;
@@ -334,6 +342,7 @@ public:
 		QString m_optionsArgument ;
 		QString m_downloadUrl ;
 		QString m_batchFileArgument ;
+		QString m_controlStructure ;
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
 		exeArgs m_exePath ;

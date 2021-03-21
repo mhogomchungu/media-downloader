@@ -37,6 +37,15 @@ QStringList utility::split( const QString& e,char token,bool skipEmptyParts )
 	}
 }
 
+QStringList utility::split( const QString& e,const char * token )
+{
+#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
+	return e.split( token,QString::SkipEmptyParts ) ;
+#else
+	return e.split( token,Qt::SkipEmptyParts ) ;
+#endif
+}
+
 QList< QByteArray > utility::split( const QByteArray& e,char token )
 {
 	return e.split( token ) ;

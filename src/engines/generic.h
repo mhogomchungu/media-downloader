@@ -21,14 +21,16 @@
 
 #include "../engines.h"
 
-class wget
+class generic
 {
 public:
 	class functions : public engines::engine::functions
 	{
 	public:
 		~functions() override ;
-		void processData( QStringList&,QByteArray ) override ;
+		void processData( const engines::engine& engine,
+				  QStringList&,
+				  QByteArray ) override ;
 		void updateDownLoadCmdOptions( const engines::engine& engine,
 					       const QString& quality,
 					       const QStringList& userOptions,
@@ -37,9 +39,8 @@ public:
 	private:
 	} ;
 
-        wget() ;
+	generic() ;
 
-	engines::Json config( Logger&,const engines::enginePaths& ) const ;
 	std::unique_ptr< engines::engine::functions > Functions() const ;
 private:
 };

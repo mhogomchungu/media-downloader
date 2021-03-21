@@ -74,7 +74,7 @@ set(SRC
     src/engines.cpp
     src/engines/youtube-dl.cpp
     src/engines/safaribooks.cpp
-    src/engines/wget.cpp)
+    src/engines/generic.cpp)
 
 set(RESOURCES
     src/icon.qrc)

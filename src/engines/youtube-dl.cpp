@@ -26,7 +26,7 @@
 #include "../networkAccess.h"
 #include "../utility.h"
 
-engines::Json youtube_dl::config( Logger& logger,const engines::enginePaths& enginePath ) const
+void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 {
 	auto m = enginePath.configPath( "youtube-dl.json" ) ;
 
@@ -91,10 +91,14 @@ engines::Json youtube_dl::config( Logger& logger,const engines::enginePaths& eng
 
 		mainObj.insert( "CanDownloadPlaylist",true ) ;
 
+		mainObj.insert( "LikeYoutubeDl",true ) ;
+
 		engines::file( m,logger ).write( mainObj ) ;
 	}
+}
 
-	return engines::file( m,logger ).readAll() ;
+youtube_dl::youtube_dl()
+{
 }
 
 std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const
@@ -106,7 +110,9 @@ youtube_dl::functions::~functions()
 {
 }
 
-void youtube_dl::functions::processData( QStringList& outPut,QByteArray data )
+void youtube_dl::functions::processData( const engines::engine& engine,
+					 QStringList& outPut,
+					 QByteArray data )
 {
 	for( const auto& m : utility::split( data ) ){
 
@@ -114,11 +120,11 @@ void youtube_dl::functions::processData( QStringList& outPut,QByteArray data )
 
 			continue ;
 
-		}else if( m.startsWith( "[download]" ) && m.contains( "ETA" ) ){
+		}else if( engines::engine::functions::meetCondition( engine,m ) ){
 
 			auto& s = outPut.last() ;
 
-			if( s.startsWith( "[download]" ) && s.contains( "ETA" ) ){
+			if( engines::engine::functions::meetCondition( engine,s ) ){
 
 				s = m ;
 			}else{

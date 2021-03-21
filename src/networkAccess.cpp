@@ -172,11 +172,11 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 
 			const auto& e = engine.exePath().realExe() ;
 
+			this->post( engine,QObject::tr( "Renaming file to: " ) + e ) ;
+
 			QFile::remove( e ) ;
 
 			m_file.rename( e ) ;
-
-			this->post( engine,QObject::tr( "Renaming file to: " ) + e ) ;
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 

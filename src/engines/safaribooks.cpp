@@ -21,11 +21,6 @@
 
 #include "../utility.h"
 
-engines::Json safaribooks::config( Logger&,const engines::enginePaths& ) const
-{
-	return QJsonParseError() ;
-}
-
 std::unique_ptr< engines::engine::functions > safaribooks::Functions() const
 {
 	return std::make_unique< safaribooks::functions >( m_settings ) ;
@@ -78,7 +73,9 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 	}
 }
 
-void safaribooks::functions::processData( QStringList& outPut,QByteArray data )
+void safaribooks::functions::processData( const engines::engine& engine,
+					  QStringList& outPut,
+					  QByteArray data )
 {
 	data.replace( "\033[0m","" ) ;
 	data.replace( "\033[33m","" ) ;
@@ -93,11 +90,11 @@ void safaribooks::functions::processData( QStringList& outPut,QByteArray data )
 
 				continue ;
 
-			}else if( e.endsWith( "%" ) ){
+			}else if( engines::engine::functions::meetCondition( engine,e ) ){
 
 				auto& s = outPut.last() ;
 
-				if( s.endsWith( "%" ) ){
+				if( engines::engine::functions::meetCondition( engine,s ) ){
 
 					s = e ;
 				}else{
