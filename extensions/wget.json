@@ -1,0 +1,18 @@
+{
+    "BackendPath": "",
+    "BatchFileArgument": "-i",
+    "CanDownloadPlaylist": false,
+    "CommandName": "wget",
+    "ControlStructure": "contains-%[-||-contains-<=>",
+    "DefaultDownLoadCmdOptions": [
+    ],
+    "DefaultListCmdOptions": [
+    ],
+    "DownloadUrl": "",
+    "Name": "wget",
+    "OptionsArgument": "--progress=bar:force",
+    "UsePrivateExecutable": false,
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 2
+}

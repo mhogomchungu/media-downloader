@@ -87,6 +87,7 @@ namespace utility
 	QStringList split( const QString& e,char token,bool skipEmptyParts ) ;
 	QStringList split( const QString& e,const char * token ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
+	QList< QByteArray > split( const QByteArray& e,QChar token = '\n' ) ;
 
 	class selectedAction
 	{

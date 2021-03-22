@@ -193,8 +193,6 @@ public:
 
 		struct functions
 		{
-			static bool meetCondition( const engines::engine& engine,
-						   const QString& line ) ;
 			virtual ~functions() ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
@@ -279,6 +277,18 @@ public:
 		{
 			return m_defaultListCmdOptions ;
 		}
+		const QStringList& skiptLineWithText() const
+		{
+			return m_skiptLineWithText ;
+		}
+		const QStringList& removeText() const
+		{
+			return m_removeText ;
+		}
+		const QStringList& splitLinesBy() const
+		{
+			return m_splitLinesBy ;
+		}
 		const exeArgs& exePath() const
 		{
 			return m_exePath ;
@@ -343,6 +353,9 @@ public:
 		QString m_downloadUrl ;
 		QString m_batchFileArgument ;
 		QString m_controlStructure ;
+		QStringList m_splitLinesBy ;
+		QStringList m_removeText ;
+		QStringList m_skiptLineWithText ;
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
 		exeArgs m_exePath ;

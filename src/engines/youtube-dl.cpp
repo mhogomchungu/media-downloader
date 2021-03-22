@@ -69,11 +69,34 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 		mainObj.insert( "DefaultListCmdOptions",[](){
 
 			QJsonArray arr ;
-
 			arr.append( "-F" ) ;
+			return arr ;
+		}() ) ;
+
+		mainObj.insert( "SkipLineWithText",[](){
+
+			QJsonArray arr ;
+			arr.append( "(pass -k to keep)" ) ;
+			return arr ;
+		}() ) ;
+
+		mainObj.insert( "RemoveText",[](){
+
+			QJsonArray arr ;
 
 			return arr ;
 		}() ) ;
+
+		mainObj.insert( "SplitLinesBy",[](){
+
+			QJsonArray arr ;
+
+			arr.append( "\n" ) ;
+
+			return arr ;
+		}() ) ;
+
+		mainObj.insert( "ControlStructure","startsWith-[download]-&&-contains-ETA" ) ;
 
 		mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 
@@ -108,32 +131,6 @@ std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const
 
 youtube_dl::functions::~functions()
 {
-}
-
-void youtube_dl::functions::processData( const engines::engine& engine,
-					 QStringList& outPut,
-					 QByteArray data )
-{
-	for( const auto& m : utility::split( data ) ){
-
-		if( m.isEmpty() || m.contains( "(pass -k to keep)" ) ){
-
-			continue ;
-
-		}else if( engines::engine::functions::meetCondition( engine,m ) ){
-
-			auto& s = outPut.last() ;
-
-			if( engines::engine::functions::meetCondition( engine,s ) ){
-
-				s = m ;
-			}else{
-				outPut.append( m ) ;
-			}
-		}else{
-			outPut.append( m ) ;
-		}
-	}
 }
 
 void youtube_dl::functions::updateDownLoadCmdOptions( const engines::engine& engine,

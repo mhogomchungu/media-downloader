@@ -34,9 +34,6 @@ public:
 		void sendCredentials( const engines::engine& engine,
 				      const QString&,
 				      QProcess& ) override ;
-		void processData( const engines::engine& engine,
-				  QStringList&,
-				  QByteArray ) override ;
 		void updateDownLoadCmdOptions( const engines::engine& engine,
 					       const QString& quality,
 					       const QStringList& userOptions,

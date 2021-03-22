@@ -4,6 +4,7 @@
     "CanDownloadPlaylist": false,
     "CommandName": "safaribooks.py",
     "CommandNameWindows": "safaribooks.py",
+    "ControlStructure": "endsWith-%",
     "CommandNames": [
         "python3",
         "-u",

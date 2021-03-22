@@ -114,15 +114,61 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 		auto object = json.doc().object() ;
 
 		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
-				object.value( "Name" ).toString() == "youtube-dl" ){
+				object.value( "Name" ).toString() == "youtube-dl" ){			
 
-			object.insert( "ControlStructure","startsWith-[download]-&&-contains-ETA" ) ;
+			if( !object.contains( "ControlStructure" ) ){
+
+				object.insert( "ControlStructure","startsWith-[download]-&&-contains-ETA" ) ;
+			}
+
+			if( !object.contains( "SkipLineWithText" ) ){
+
+				object.insert( "SkipLineWithText",[](){
+
+					QJsonArray arr ;
+
+					arr.append( "(pass -k to keep)" ) ;
+
+					return arr ;
+				}() ) ;
+			}
 
 			return { m_logger,m_enginePaths,object,youtube_dl().Functions() } ;
 
 		}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
-			object.insert( "ControlStructure","endsWith-%" ) ;
+			if( !object.contains( "ControlStructure" ) ){
+
+				object.insert( "ControlStructure","endsWith-%" ) ;
+			}
+
+			if( !object.contains( "RemoveText" ) ){
+
+				object.insert( "RemoveText",[](){
+
+					QJsonArray arr ;
+
+					arr.append( "\033[0m" ) ;
+					arr.append( "\033[33m" ) ;
+					arr.append( "\033[41m" ) ;
+					arr.append( "\033[43m" ) ;
+
+					return arr ;
+				}() ) ;
+			}
+
+			if( !object.contains( "SplitLinesBy" ) ){
+
+				object.insert( "SplitLinesBy",[](){
+
+					QJsonArray arr ;
+
+					arr.append( "\r" ) ;
+					arr.append( "\n" ) ;
+
+					return arr ;
+				}() ) ;
+			}
 
 			return { m_logger,m_enginePaths,object,safaribooks( m_settings ).Functions() } ;
 		}else{
@@ -257,6 +303,9 @@ engines::engine::engine( Logger& logger,
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() ),
 	m_batchFileArgument( m_jsonObject.value( "BatchFileArgument" ).toString() ),
 	m_controlStructure( m_jsonObject.value( "ControlStructure" ).toString() ),
+	m_splitLinesBy( _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ),
+	m_removeText( _toStringList( m_jsonObject.value( "RemoveText" ) ) ),
+	m_skiptLineWithText( _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ),
 	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ) ) ),
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) )
 {
@@ -446,8 +495,7 @@ static bool _meet_condition( const QString& line,const QString& condition )
 	}
 }
 
-bool engines::engine::functions::meetCondition( const engines::engine& engine,
-						const QString& line )
+static bool _meet_condition( const engines::engine& engine,const QString& line )
 {
 	const auto& cs = engine.controlStructure() ;
 
@@ -477,29 +525,74 @@ bool engines::engine::functions::meetCondition( const engines::engine& engine,
 	}
 }
 
+static bool _skip_line( const QByteArray& line,const engines::engine& engine )
+{
+	if( line.isEmpty() ){
+
+		return true ;
+	}else{
+		for( const auto& it : engine.skiptLineWithText() ){
+
+			if( line.contains( it.toUtf8() ) ){
+
+				return true ;
+			}
+		}
+
+		return false ;
+	}
+}
+
+static void _add( const QByteArray& data,
+		  QChar token,
+		  const engines::engine& engine,
+		  QStringList& outPut )
+{
+	for( const auto& e : utility::split( data,token ) ){
+
+		if( _skip_line( e,engine ) ){
+
+			continue ;
+
+		}else if( _meet_condition( engine,e ) ){
+
+			auto& s = outPut.last() ;
+
+			if( _meet_condition( engine,s ) ){
+
+				s = e ;
+			}else{
+				outPut.append( e ) ;
+			}
+		}else{
+			outPut.append( e ) ;
+		}
+	}
+}
+
 void engines::engine::functions::processData( const engines::engine& engine,
 					      QStringList& outPut,
 					      QByteArray data )
 {
-	for( const auto& m : utility::split( data ) ){
+	for( const auto& it : engine.removeText() ){
 
-		if( m.isEmpty() ){
+		data.replace( it.toUtf8(),"" ) ;
+	}
 
-			continue ;
+	const auto& sp = engine.splitLinesBy() ;
 
-		}else if( engines::engine::functions::meetCondition( engine,m ) ){
+	if( sp.size() == 1 ){
 
-			auto& s = outPut.last() ;
+		_add( data,sp[ 0 ][ 0 ],engine,outPut ) ;
 
-			if( engines::engine::functions::meetCondition( engine,s ) ){
+	}else if( sp.size() == 2 ){
 
-				s = m ;
-			}else{
-				outPut.append( m ) ;
-			}
-		}else{
-			outPut.append( m ) ;
+		for( const auto& m : utility::split( data,sp[ 0 ][ 0 ] ) ){
+
+			_add( m,sp[ 1 ][ 0 ],engine,outPut ) ;
 		}
+	}else{
+		_add( data,'\n',engine,outPut ) ;
 	}
 }
 

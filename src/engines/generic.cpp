@@ -32,13 +32,6 @@ generic::functions::~functions()
 {
 }
 
-void generic::functions::processData( const engines::engine& engine,
-				      QStringList& outPut,
-				      QByteArray data )
-{
-	engines::engine::functions::processData( engine,outPut,std::move( data ) ) ;
-}
-
 void generic::functions::updateDownLoadCmdOptions( const engines::engine& engine,
 						   const QString& quality,
 						   const QStringList& userOptions,

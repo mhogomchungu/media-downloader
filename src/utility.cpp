@@ -51,6 +51,11 @@ QList< QByteArray > utility::split( const QByteArray& e,char token )
 	return e.split( token ) ;
 }
 
+QList<QByteArray> utility::split( const QByteArray& e,QChar token )
+{
+	return e.split( token.toLatin1() ) ;
+}
+
 #ifdef Q_OS_LINUX
 
 bool utility::platformIsLinux()

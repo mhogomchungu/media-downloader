@@ -11,12 +11,20 @@
     ],
     "DefaultListCmdOptions": [
         "-F",
-        "--list-formats-old"
+         "--list-formats-old"
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
-    "LikeYoutubeDl":true,
+    "LikeYoutubeDl": true,
     "Name": "yt-dlp",
     "OptionsArgument": "-f",
+    "RemoveText": [
+    ],
+    "SkipLineWithText": [
+        "(pass -k to keep)"
+    ],
+    "SplitLinesBy": [
+        "\n"
+    ],
     "UsePrivateExecutable": true,
     "VersionArgument": "--version",
     "VersionStringLine": 0,

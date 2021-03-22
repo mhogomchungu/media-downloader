@@ -73,40 +73,6 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 	}
 }
 
-void safaribooks::functions::processData( const engines::engine& engine,
-					  QStringList& outPut,
-					  QByteArray data )
-{
-	data.replace( "\033[0m","" ) ;
-	data.replace( "\033[33m","" ) ;
-	data.replace( "\033[41m","" ) ;
-	data.replace( "\033[43m","" ) ;
-
-	for( const auto& m : utility::split( data,'\r' ) ){
-
-		for( const auto& e : utility::split( m,'\n' ) ){
-
-			if( e.isEmpty() ){
-
-				continue ;
-
-			}else if( engines::engine::functions::meetCondition( engine,e ) ){
-
-				auto& s = outPut.last() ;
-
-				if( engines::engine::functions::meetCondition( engine,s ) ){
-
-					s = e ;
-				}else{
-					outPut.append( e ) ;
-				}
-			}else{
-				outPut.append( e ) ;
-			}
-		}
-	}
-}
-
 void safaribooks::functions::updateDownLoadCmdOptions( const engines::engine& engine,
 						       const QString& quality,
 						       const QStringList& userOptions,
@@ -114,8 +80,6 @@ void safaribooks::functions::updateDownLoadCmdOptions( const engines::engine& en
 						       QStringList& ourOptions )
 {
 	Q_UNUSED( userOptions )
-	Q_UNUSED( engine )
-	Q_UNUSED( quality )
 
 	if( urls.size() > 0 ){
 
