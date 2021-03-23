@@ -327,6 +327,8 @@ void basicdownloader::run( const engines::engine& engine,
 
 	utility::run( cmd.exe(),cmd.args(),[ &,this ]( QProcess& exe ){
 
+		exe.setProcessEnvironment( m_ctx.Engines().processEnvironment() ) ;
+
 		auto& logger = m_ctx.logger() ;
 
 		logger.add( "cmd: " + engine.commandString( cmd ) ) ;

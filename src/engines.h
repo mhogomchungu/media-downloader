@@ -121,10 +121,6 @@ public:
 		QString m_basePath ;
 	};
 
-	void addEngine( const QByteArray& data,const QString& path ) ;
-	void removeEngine( const QString& name ) ;
-	QStringList enginesList() const ;
-
 	class engine
 	{
 	public:
@@ -220,6 +216,7 @@ public:
 		engine( Logger& logger,
 			const enginePaths& ePaths,
 		        const engines::Json& json,
+			const engines& engines,
 			std::unique_ptr< engines::engine::functions > ) ;
 
 		const QString& name() const
@@ -360,7 +357,11 @@ public:
 		QStringList m_defaultListCmdOptions ;
 		exeArgs m_exePath ;
 	};
-
+	QString findExecutable( const QString& exeName ) const ;
+	const QProcessEnvironment& processEnvironment() const ;
+	void addEngine( const QByteArray& data,const QString& path ) ;
+	void removeEngine( const QString& name ) ;
+	QStringList enginesList() const ;
 	const std::vector< engine >& getEngines() const ;
 	const engine& defaultEngine() const ;
 	utility::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
@@ -374,6 +375,7 @@ private:
 	settings& m_settings ;
 	std::vector< engine > m_backends ;
 	enginePaths m_enginePaths ;
+	QProcessEnvironment m_processEnvironment ;
 };
 
 #endif

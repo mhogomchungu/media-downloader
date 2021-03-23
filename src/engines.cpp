@@ -31,10 +31,56 @@
 
 #include <QDir>
 
+static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths )
+{
+	auto env = QProcessEnvironment::systemEnvironment() ;
+
+	const auto& basePath = paths.binPath() ;
+
+	auto m = QDir( basePath ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+
+	auto separator = [ & ](){
+
+		if( utility::platformIsWindows() ){
+
+			return ";" ;
+		}else{
+			return ":" ;
+		}
+	}() ;
+
+	auto s = basePath ;
+
+	if( utility::platformIsWindows() ){
+
+		s += separator + QDir::currentPath() + "/bin" ;
+	}
+
+	for( const auto& it : m ){
+
+		s += separator + basePath + "/" + it ;
+		s += separator + basePath + "/" + it + "/bin" ;
+	}
+
+	auto p = env.value( "PATH" ) ;
+
+	if( p.endsWith( separator ) ){
+
+		p += s ;
+	}else{
+		p += separator + s ;
+	}
+
+	env.insert( "PATH",p ) ;
+
+	return env ;
+}
+
 engines::engines( Logger& l,settings& s ) :
 	m_logger( l ),
 	m_settings( s ),
-	m_enginePaths( m_settings )
+	m_enginePaths( m_settings ),
+	m_processEnvironment( _getEnvPaths( m_enginePaths ) )
 {
 	this->updateEngines() ;
 }
@@ -133,7 +179,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 				}() ) ;
 			}
 
-			return { m_logger,m_enginePaths,object,youtube_dl().Functions() } ;
+			return { m_logger,m_enginePaths,object,*this,youtube_dl().Functions() } ;
 
 		}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
@@ -170,9 +216,9 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 				}() ) ;
 			}
 
-			return { m_logger,m_enginePaths,object,safaribooks( m_settings ).Functions() } ;
+			return { m_logger,m_enginePaths,object,*this,safaribooks( m_settings ).Functions() } ;
 		}else{
-			return { m_logger,m_enginePaths,object,generic().Functions() } ;
+			return { m_logger,m_enginePaths,object,*this,generic().Functions() } ;
 		}
 	}else{
 		return {} ;
@@ -201,6 +247,23 @@ static QStringList _toStringList( const QJsonValue& value ){
 	}
 
 	return m ;
+}
+
+QString engines::findExecutable( const QString& exeName ) const
+{
+	auto path = this->processEnvironment().value( "PATH" ) ;
+
+	if( utility::platformIsWindows() ){
+
+		return QStandardPaths::findExecutable( exeName,path.split( ";" ) ) ;
+	}else{
+		return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;
+	}
+}
+
+const QProcessEnvironment& engines::processEnvironment() const
+{
+	return m_processEnvironment ;
 }
 
 void engines::addEngine( const QByteArray& data,const QString& path )
@@ -283,6 +346,7 @@ QStringList engines::enginesList() const
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
 			 const engines::Json& json,
+			 const engines& engines,
 			 std::unique_ptr< engine::functions > functions ) :
 	m_jsonObject( json.doc().object() ),
 	m_functions( std::move( functions ) ),
@@ -334,7 +398,7 @@ engines::engine::engine( Logger& logger,
 
 			m_exePath = m_exeFolderPath + "/" + commandName ;
 		}else{
-			auto m = QStandardPaths::findExecutable( commandName ) ;
+			auto m = engines.findExecutable( commandName ) ;
 
 			if( m.isEmpty() ){
 
