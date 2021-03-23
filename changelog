@@ -20,3 +20,4 @@ Version 1.1.0(March 1st,2021)
 
 [Windows]
  - The "Cancel" button now works as expected.
+ - Bundle ffmpeg.
