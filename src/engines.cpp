@@ -73,14 +73,12 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths )
 
 	auto p = env.value( "PATH" ) ;
 
-	if( p.endsWith( separator ) ){
+	if( s.endsWith( separator ) ){
 
-		p += s ;
+		env.insert( "PATH",s + p ) ;
 	}else{
-		p += separator + s ;
+		env.insert( "PATH",s + separator + p ) ;
 	}
-
-	env.insert( "PATH",p ) ;
 
 	return env ;
 }
@@ -91,6 +89,8 @@ engines::engines( Logger& l,settings& s ) :
 	m_enginePaths( m_settings ),
 	m_processEnvironment( _getEnvPaths( m_enginePaths ) )
 {
+	youtube_dl::init( m_logger,m_enginePaths ) ;
+
 	this->updateEngines() ;
 }
 
@@ -108,8 +108,6 @@ void engines::updateEngines()
 			}
 		}
 	} ;
-
-	youtube_dl::init( m_logger,m_enginePaths ) ;
 
 	_engine_add( this->getEngineByPath( "youtube-dl.json" ) ) ;
 
