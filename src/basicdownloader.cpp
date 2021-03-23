@@ -89,7 +89,10 @@ void basicdownloader::init_done()
 
 		for( const auto& engine : engines ){
 
-			m_ui.cbEngineType->addItem( engine.name() ) ;
+			if( engine.mainEngine() ){
+
+				m_ui.cbEngineType->addItem( engine.name() ) ;
+			}
 		}
 
 		this->setDefaultEngine() ;

@@ -213,6 +213,13 @@ public:
 		{
 		}
 
+		engine( const engines& engines,
+			Logger& logger,
+			const QString& name,
+			const QString& versionArgument,
+			int line,
+			int position ) ;
+
 		engine( Logger& logger,
 			const enginePaths& ePaths,
 		        const engines::Json& json,
@@ -330,6 +337,10 @@ public:
 		{
 			return QFile::exists( m_exePath.realExe() ) ;
 		}
+		bool mainEngine() const
+		{
+			return m_mainEngine ;
+		}
 	private:
 		QJsonObject m_jsonObject ;
 		std::unique_ptr< engines::engine::functions > m_functions ;
@@ -339,6 +350,7 @@ public:
 		bool m_usingPrivateBackend ;
 		bool m_canDownloadPlaylist ;
 		bool m_likeYoutubeDl ;
+		bool m_mainEngine ;
 		QString m_name ;
 		QString m_commandName ;
 		QString m_commandNameWindows ;

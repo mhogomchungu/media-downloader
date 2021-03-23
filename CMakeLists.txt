@@ -175,6 +175,8 @@ Source: {#MyLibrariesLocation}\\styles\\*; DestDir: {app}\\styles; Flags: ignore
 
 Source: {#MyLibrariesLocation}\\platforms\\*; DestDir: {app}\\platforms; Flags: ignoreversion
 
+Source: {#MyLibrariesLocation}\\ffmpeg\\*; DestDir: {app}\\ffmpeg; Flags: ignoreversion recursesubdirs
+
 ; Source: {#MyLibrariesLocation}\\translations\\*; DestDir: {app}\\translations; Flags: ignoreversion
 
 Source: {#MySourcesPath}\\translations\\*.qm; DestDir: {app}\\translations; Flags: ignoreversion

@@ -53,7 +53,16 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths )
 
 	if( utility::platformIsWindows() ){
 
-		s += separator + QDir::currentPath() + "/bin" ;
+		auto mm = QDir::currentPath() ;
+
+		s += separator + mm + "/bin" ;
+
+		auto m = QDir( mm + "/ffmpeg" ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+
+		for( const auto& it : m ){
+
+			s += separator + mm + "/ffmpeg/" + it + "/bin" ;
+		}
 	}
 
 	for( const auto& it : m ){
@@ -108,6 +117,10 @@ void engines::updateEngines()
 
 		_engine_add( this->getEngineByPath( it ) ) ;
 	}
+
+	_engine_add( { *this,m_logger,"ffmpeg","-version",0,2 } ) ;
+
+	_engine_add( { *this,m_logger,"python3","--version",0,1 } ) ;
 }
 
 const std::vector< engines::engine >& engines::getEngines() const
@@ -251,13 +264,18 @@ static QStringList _toStringList( const QJsonValue& value ){
 
 QString engines::findExecutable( const QString& exeName ) const
 {
-	auto path = this->processEnvironment().value( "PATH" ) ;
+	if( exeName == "python3" ){
 
-	if( utility::platformIsWindows() ){
-
-		return QStandardPaths::findExecutable( exeName,path.split( ";" ) ) ;
+		return utility::python3Path() ;
 	}else{
-		return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;
+		auto path = this->processEnvironment().value( "PATH" ) ;
+
+		if( utility::platformIsWindows() ){
+
+			return QStandardPaths::findExecutable( exeName,path.split( ";" ) ) ;
+		}else{
+			return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;
+		}
 	}
 }
 
@@ -343,6 +361,32 @@ QStringList engines::enginesList() const
 	return m ;
 }
 
+engines::engine::engine( const engines& engines,
+			 Logger& logger,
+			 const QString& name,
+			 const QString& versionArgument,
+			 int line,
+			 int position ) :
+	m_line( line ),
+	m_position( position ),
+	m_valid( true ),
+	m_mainEngine( false ),
+	m_name( name ),
+	m_commandName( name ),
+	m_commandNameWindows( m_commandName + ".exe" ),
+	m_versionArgument( versionArgument )
+{
+	auto m = engines.findExecutable( m_commandName ) ;
+
+	if( m.isEmpty() ){
+
+		m_valid = false ;
+		logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( m_commandName ) ) ;
+	}else{
+		m_exePath = m ;
+	}
+}
+
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
 			 const engines::Json& json,
@@ -356,6 +400,7 @@ engines::engine::engine( Logger& logger,
 	m_usingPrivateBackend( m_jsonObject.value( "UsePrivateExecutable" ).toBool() ),
 	m_canDownloadPlaylist( m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ),
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
+	m_mainEngine( true ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
 	m_commandNameWindows( m_jsonObject.value( "CommandNameWindows" ).toString() ),
@@ -432,7 +477,7 @@ engines::engine::engine( Logger& logger,
 
 		if( cmd == "python3" ){
 
-			auto m = utility::python3Path() ;
+			auto m = engines.findExecutable( "python3" ) ;
 
 			if( m.isEmpty() ){
 
