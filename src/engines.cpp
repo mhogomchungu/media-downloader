@@ -500,7 +500,7 @@ engines::engine::engine( Logger& logger,
 				}
 			}
 		}else{
-			auto m = QStandardPaths::findExecutable( cmd ) ;
+			auto m = engines.findExecutable( cmd ) ;
 
 			if( m.isEmpty() ){
 
