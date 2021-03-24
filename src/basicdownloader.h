@@ -61,6 +61,7 @@ private:
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
+	bool m_debug ;
 
 	void setDefaultEngine() ;
 

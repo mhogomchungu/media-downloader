@@ -170,7 +170,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 		auto object = json.doc().object() ;
 
 		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
-				object.value( "Name" ).toString() == "youtube-dl" ){			
+				object.value( "Name" ).toString() == "youtube-dl" ){
 
 			if( !object.contains( "ControlStructure" ) ){
 

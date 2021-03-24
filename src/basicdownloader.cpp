@@ -38,6 +38,8 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	m_ui.labelFailedToFixExe->setVisible( false ) ;
 
+	m_debug = QCoreApplication::arguments().contains( "--debug" ) ;
+
 	connect( m_ui.pbList,&QPushButton::clicked,[ this ](){
 
 		this->list() ;
@@ -378,7 +380,13 @@ void basicdownloader::run( const engines::engine& engine,
 
 		m_ui.pbCancel->setEnabled( false ) ;
 
-	},[]( QProcess::ProcessChannel,QByteArray data,std::shared_ptr< context >& ctx ){
+	},[ this ]( QProcess::ProcessChannel,QByteArray data,std::shared_ptr< context >& ctx ){
+
+		if( m_debug ){
+
+			qDebug() << data ;
+			qDebug() << "------------------------" ;
+		}
 
 		ctx->postData( std::move( data ) ) ;
 	} ) ;
