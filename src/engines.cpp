@@ -55,13 +55,12 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths )
 
 		auto mm = QDir::currentPath() ;
 
-		s += separator + mm + "/bin" ;
-
-		auto m = QDir( mm + "/ffmpeg" ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+		auto m = QDir( mm + "/3rdParty" ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
 
 		for( const auto& it : m ){
 
-			s += separator + mm + "/ffmpeg/" + it + "/bin" ;
+			s += separator + mm + "/3rdParty/" + it ;
+			s += separator + mm + "/3rdParty/" + it + "/bin" ;
 		}
 	}
 
