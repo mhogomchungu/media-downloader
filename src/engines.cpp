@@ -698,7 +698,10 @@ void engines::engine::functions::processData( const engines::engine& engine,
 			_add( m,sp[ 1 ][ 0 ],engine,outPut ) ;
 		}
 	}else{
-		_add( data,'\n',engine,outPut ) ;
+		for( const auto& m : utility::split( data,'\r' ) ){
+
+			_add( m,'\n',engine,outPut ) ;
+		}
 	}
 }
 
