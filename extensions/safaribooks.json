@@ -5,7 +5,14 @@
     "CommandName": "safaribooks.py",
     "CommandNameWindows": "safaribooks.py",
     "ControlJsonStructure": {
+        "Connector": "&&",
         "lhs": {
+            "containsAll": [
+                "[",
+                "]"
+            ]
+        },
+        "rhs": {
             "endsWith": "%"
         }
     },
