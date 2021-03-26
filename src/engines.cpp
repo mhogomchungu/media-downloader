@@ -591,41 +591,35 @@ static bool _meet_condition( const engines::engine& engine,const QString& line )
 
 	auto connector = obj.value( "Connector" ).toString() ;
 
-	if( connector == "&&" ){
+	if( connector.isEmpty() ){
 
-		auto obj1 = obj.value( "lhs" ) ;
-		auto obj2 = obj.value( "rhs" ) ;
-
-		if( obj1.isObject() && obj2.isObject() ){
-
-			auto a = _meet_condition( line,obj1.toObject() ) ;
-			auto b = _meet_condition( line,obj2.toObject() ) ;
-
-			return a && b ;
-		}else{
-			return false ;
-		}
-
-	}else if( connector == "||" ) {
-
-		auto obj1 = obj.value( "lhs" ) ;
-		auto obj2 = obj.value( "rhs" ) ;
-
-		if( obj1.isObject() && obj2.isObject() ){
-
-			auto a = _meet_condition( line,obj1.toObject() ) ;
-			auto b = _meet_condition( line,obj2.toObject() ) ;
-
-			return a || b ;
-		}else{
-			return false ;
-		}
-	}else{
 		auto oo = obj.value( "lhs" ) ;
 
 		if( oo.isObject() ){
 
 			return _meet_condition( line,oo.toObject() ) ;
+		}else{
+			return false ;
+		}
+	}else{
+		auto obj1 = obj.value( "lhs" ) ;
+		auto obj2 = obj.value( "rhs" ) ;
+
+		if( obj1.isObject() && obj2.isObject() ){
+
+			auto a = _meet_condition( line,obj1.toObject() ) ;
+			auto b = _meet_condition( line,obj2.toObject() ) ;
+
+			if( connector == "&&" ){
+
+				return a && b ;
+
+			}else if( connector == "||" ){
+
+				return a || b ;
+			}else{
+				return false ;
+			}
 		}else{
 			return false ;
 		}
