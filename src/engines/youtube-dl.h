@@ -39,7 +39,7 @@ public:
 
 	static void init( Logger& logger,const engines::enginePaths& enginePath ) ;
 	youtube_dl() ;
-
+	static QJsonObject defaultControlStructure() ;
 	std::unique_ptr< engines::engine::functions > Functions() const ;
 private:
 };

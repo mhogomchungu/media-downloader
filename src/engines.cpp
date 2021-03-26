@@ -172,11 +172,6 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
 				object.value( "Name" ).toString() == "youtube-dl" ){
 
-			if( !object.contains( "ControlStructure" ) ){
-
-				object.insert( "ControlStructure","startsWith-[download]-&&-contains-ETA" ) ;
-			}
-
 			if( !object.contains( "SkipLineWithText" ) ){
 
 				object.insert( "SkipLineWithText",[](){
@@ -189,13 +184,29 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 				}() ) ;
 			}
 
+			if( !object.contains( "ControlJsonStructure" ) ){
+
+				object.insert( "ControlJsonStructure",youtube_dl::defaultControlStructure() ) ;
+			}
+
 			return { m_logger,m_enginePaths,object,*this,youtube_dl().Functions() } ;
 
 		}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
-			if( !object.contains( "ControlStructure" ) ){
+			if( !object.contains( "ControlJsonStructure" ) ){
 
-				object.insert( "ControlStructure","endsWith-%" ) ;
+				QJsonObject obj ;
+
+				obj.insert( "lhs",[](){
+
+					QJsonObject obj ;
+
+					obj.insert( "endsWith","%" ) ;
+
+					return obj ;
+				}() ) ;
+
+				object.insert( "ControlJsonStructure",obj ) ;
 			}
 
 			if( !object.contains( "RemoveText" ) ){
@@ -408,12 +419,12 @@ engines::engine::engine( Logger& logger,
 	m_optionsArgument( m_jsonObject.value( "OptionsArgument" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() ),
 	m_batchFileArgument( m_jsonObject.value( "BatchFileArgument" ).toString() ),
-	m_controlStructure( m_jsonObject.value( "ControlStructure" ).toString() ),
 	m_splitLinesBy( _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ),
 	m_removeText( _toStringList( m_jsonObject.value( "RemoveText" ) ) ),
 	m_skiptLineWithText( _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ),
 	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ) ) ),
-	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) )
+	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ),
+	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() )
 {
 	auto cmdNames = _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
 
@@ -573,61 +584,100 @@ void engines::engine::functions::sendCredentials( const engines::engine&,
 {
 }
 
-static bool _meet_condition( const QString& line,const QString& condition )
+static bool _meet_condition( const QString& line,const QJsonObject& obj )
 {
-	auto m = utility::split( condition,'-',true ) ;
+	if( obj.contains( "startsWith" ) ){
 
-	if( m.size() == 2 ){
+		return line.startsWith( obj.value( "startsWith" ).toString() ) ;
+	}
 
-		const auto& s = m[ 0 ] ;
-		const auto& e = m[ 1 ] ;
+	if( obj.contains( "endsWith" ) ){
 
-		if( s == "startsWith" ){
+		return line.endsWith( obj.value( "endsWith" ).toString() ) ;
+	}
 
-			return line.startsWith( e ) ;
+	if( obj.contains( "contains" ) ){
 
-		}else if( s == "contains" ){
+		return line.contains( obj.value( "contains" ).toString() ) ;
+	}
 
-			return line.contains( e ) ;
+	if( obj.contains( "containsAny" ) ){
 
-		}else if( s == "endsWith" ){
+		const auto arr = obj.value( "containsAny" ).toArray() ;
 
-			return line.endsWith( e ) ;
-		}else{
-			return false ;
+		for( const auto& it : arr ){
+
+			if( line.contains( it.toString() ) ) {
+
+				return true ;
+			}
 		}
-	}else{
+
 		return false ;
 	}
+
+	if( obj.contains( "containsAll" ) ){
+
+		const auto arr = obj.value( "containsAll" ).toArray() ;
+
+		for( const auto& it : arr ){
+
+			if( !line.contains( it.toString() ) ) {
+
+				return false ;
+			}
+		}
+
+		return true ;
+	}
+
+	return false ;
 }
 
 static bool _meet_condition( const engines::engine& engine,const QString& line )
 {
-	const auto& cs = engine.controlStructure() ;
+	const auto& obj = engine.controlStructure() ;
 
-	if( cs.contains( "-&&-" ) ){
+	auto connector = obj.value( "Connector" ).toString() ;
 
-		auto m = utility::split( cs,"-&&-" ) ;
+	if( connector == "&&" ){
 
-		if( m.size() == 2 ){
+		auto obj1 = obj.value( "lhs" ) ;
+		auto obj2 = obj.value( "rhs" ) ;
 
-			return _meet_condition( line,m[ 0 ] ) && _meet_condition( line,m[ 1 ] ) ;
+		if( obj1.isObject() && obj2.isObject() ){
+
+			auto a = _meet_condition( line,obj1.toObject() ) ;
+			auto b = _meet_condition( line,obj2.toObject() ) ;
+
+			return a && b ;
 		}else{
 			return false ;
 		}
 
-	}else if( cs.contains( "-||-" ) ) {
+	}else if( connector == "||" ) {
 
-		auto m = utility::split( cs,"-||-" ) ;
+		auto obj1 = obj.value( "lhs" ) ;
+		auto obj2 = obj.value( "rhs" ) ;
 
-		if( m.size() == 2 ){
+		if( obj1.isObject() && obj2.isObject() ){
 
-			return _meet_condition( line,m[ 0 ] ) || _meet_condition( line,m[ 1 ] ) ;
+			auto a = _meet_condition( line,obj1.toObject() ) ;
+			auto b = _meet_condition( line,obj2.toObject() ) ;
+
+			return a || b ;
 		}else{
 			return false ;
 		}
 	}else{
-		return _meet_condition( line,cs ) ;
+		auto oo = obj.value( "lhs" ) ;
+
+		if( oo.isObject() ){
+
+			return _meet_condition( line,oo.toObject() ) ;
+		}else{
+			return false ;
+		}
 	}
 }
 

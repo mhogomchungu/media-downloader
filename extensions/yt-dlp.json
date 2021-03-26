@@ -4,6 +4,15 @@
     "CanDownloadPlaylist": true,
     "CommandName": "yt-dlp",
     "CommandNameWindows": "yt-dlp.exe",
+    "ControlJsonStructure": {
+        "Connector": "&&",
+        "lhs": {
+            "startsWith": "[download]"
+        },
+        "rhs": {
+            "contains": "ETA"
+        }
+    },
     "DefaultDownLoadCmdOptions": [
         "--newline",
         "--ignore-config",

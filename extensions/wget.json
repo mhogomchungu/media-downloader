@@ -3,7 +3,15 @@
     "BatchFileArgument": "-i",
     "CanDownloadPlaylist": false,
     "CommandName": "wget",
-    "ControlStructure": "contains-%[-||-contains-<=>",
+    "ControlJsonStructure": {
+        "lhs": {
+            "containsAny": [
+                "%[",
+                "% [",
+                "<=>"
+            ]
+        }
+    },
     "DefaultDownLoadCmdOptions": [
     ],
     "DefaultListCmdOptions": [

@@ -96,7 +96,7 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "ControlStructure","startsWith-[download]-&&-contains-ETA" ) ;
+		mainObj.insert( "ControlJsonStructure",youtube_dl::defaultControlStructure() ) ;
 
 		mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 
@@ -122,6 +122,33 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 
 youtube_dl::youtube_dl()
 {
+}
+
+QJsonObject youtube_dl::defaultControlStructure()
+{
+	QJsonObject obj ;
+
+	obj.insert( "Connector","&&" ) ;
+
+	obj.insert( "lhs",[](){
+
+		QJsonObject obj ;
+
+		obj.insert( "startsWith","[download]" ) ;
+
+		return obj ;
+	}() ) ;
+
+	obj.insert( "rhs",[](){
+
+		QJsonObject obj ;
+
+		obj.insert( "contains","ETA" ) ;
+
+		return obj ;
+	}() ) ;
+
+	return obj ;
 }
 
 std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const

@@ -4,7 +4,11 @@
     "CanDownloadPlaylist": false,
     "CommandName": "safaribooks.py",
     "CommandNameWindows": "safaribooks.py",
-    "ControlStructure": "endsWith-%",
+    "ControlJsonStructure": {
+        "lhs": {
+            "endsWith": "%"
+        }
+    },
     "CommandNames": [
         "python3",
         "-u",

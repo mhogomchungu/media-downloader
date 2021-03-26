@@ -313,7 +313,7 @@ public:
 		{
 		        return m_password ;
 		}
-		const QString& controlStructure() const
+		const QJsonObject& controlStructure() const
 		{
 			return m_controlStructure ;
 		}
@@ -361,12 +361,12 @@ public:
 		QString m_optionsArgument ;
 		QString m_downloadUrl ;
 		QString m_batchFileArgument ;
-		QString m_controlStructure ;
 		QStringList m_splitLinesBy ;
 		QStringList m_removeText ;
 		QStringList m_skiptLineWithText ;
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
+		QJsonObject m_controlStructure ;
 		exeArgs m_exePath ;
 	};
 	QString findExecutable( const QString& exeName ) const ;
