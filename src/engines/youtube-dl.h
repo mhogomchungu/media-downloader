@@ -29,6 +29,8 @@ public:
 	public:
 		~functions() override ;
 
+		void updateOptions( QJsonObject& ) override ;
+
 		void updateDownLoadCmdOptions( const engines::engine& engine,
 					       const QString& quality,
 					       const QStringList& userOptions,

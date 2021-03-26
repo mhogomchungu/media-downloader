@@ -191,6 +191,8 @@ public:
 		{
 			virtual ~functions() ;
 
+			virtual void updateOptions( QJsonObject& ) ;
+
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
 
 		        virtual void sendCredentials( const engines::engine&,

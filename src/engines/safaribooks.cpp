@@ -21,6 +21,9 @@
 
 #include "../utility.h"
 
+#include <QJsonObject>
+#include <QJsonArray>
+
 std::unique_ptr< engines::engine::functions > safaribooks::Functions() const
 {
 	return std::make_unique< safaribooks::functions >( m_settings ) ;
@@ -28,6 +31,72 @@ std::unique_ptr< engines::engine::functions > safaribooks::Functions() const
 
 safaribooks::functions::~functions()
 {
+}
+
+void safaribooks::functions::updateOptions( QJsonObject& object )
+{
+	if( !object.contains( "ControlJsonStructure" ) ){
+
+		QJsonObject obj ;
+
+		obj.insert( "Connector","&&" ) ;
+
+		obj.insert( "lhs",[](){
+
+			QJsonObject obj ;
+
+			obj.insert( "containsAll",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "[" ) ;
+				arr.append( "]" ) ;
+
+				return arr ;
+			}() ) ;
+
+			return obj ;
+		}() ) ;
+
+		obj.insert( "rhs",[](){
+
+			QJsonObject obj ;
+
+			obj.insert( "endsWith","%" ) ;
+
+			return obj ;
+		}() ) ;
+
+		object.insert( "ControlJsonStructure",obj ) ;
+	}
+
+	if( !object.contains( "RemoveText" ) ){
+
+		object.insert( "RemoveText",[](){
+
+			QJsonArray arr ;
+
+			arr.append( "\033[0m" ) ;
+			arr.append( "\033[33m" ) ;
+			arr.append( "\033[41m" ) ;
+			arr.append( "\033[43m" ) ;
+
+			return arr ;
+		}() ) ;
+	}
+
+	if( !object.contains( "SplitLinesBy" ) ){
+
+		object.insert( "SplitLinesBy",[](){
+
+			QJsonArray arr ;
+
+			arr.append( "\r" ) ;
+			arr.append( "\n" ) ;
+
+			return arr ;
+		}() ) ;
+	}
 }
 
 QString safaribooks::functions::commandString( const engines::engine::exeArgs::cmd& cmd )

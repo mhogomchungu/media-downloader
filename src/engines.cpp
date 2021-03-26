@@ -172,72 +172,19 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
 				object.value( "Name" ).toString() == "youtube-dl" ){
 
-			if( !object.contains( "SkipLineWithText" ) ){
+			auto functions = youtube_dl().Functions() ;
 
-				object.insert( "SkipLineWithText",[](){
+			functions->updateOptions( object ) ;
 
-					QJsonArray arr ;
-
-					arr.append( "(pass -k to keep)" ) ;
-
-					return arr ;
-				}() ) ;
-			}
-
-			if( !object.contains( "ControlJsonStructure" ) ){
-
-				object.insert( "ControlJsonStructure",youtube_dl::defaultControlStructure() ) ;
-			}
-
-			return { m_logger,m_enginePaths,object,*this,youtube_dl().Functions() } ;
+			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 
 		}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
-			if( !object.contains( "ControlJsonStructure" ) ){
+			auto functions = safaribooks( m_settings ).Functions() ;
 
-				QJsonObject obj ;
+			functions->updateOptions( object ) ;
 
-				obj.insert( "lhs",[](){
-
-					QJsonObject obj ;
-
-					obj.insert( "endsWith","%" ) ;
-
-					return obj ;
-				}() ) ;
-
-				object.insert( "ControlJsonStructure",obj ) ;
-			}
-
-			if( !object.contains( "RemoveText" ) ){
-
-				object.insert( "RemoveText",[](){
-
-					QJsonArray arr ;
-
-					arr.append( "\033[0m" ) ;
-					arr.append( "\033[33m" ) ;
-					arr.append( "\033[41m" ) ;
-					arr.append( "\033[43m" ) ;
-
-					return arr ;
-				}() ) ;
-			}
-
-			if( !object.contains( "SplitLinesBy" ) ){
-
-				object.insert( "SplitLinesBy",[](){
-
-					QJsonArray arr ;
-
-					arr.append( "\r" ) ;
-					arr.append( "\n" ) ;
-
-					return arr ;
-				}() ) ;
-			}
-
-			return { m_logger,m_enginePaths,object,*this,safaribooks( m_settings ).Functions() } ;
+			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 		}else{
 			return { m_logger,m_enginePaths,object,*this,generic().Functions() } ;
 		}
@@ -563,6 +510,10 @@ engines::enginePaths::enginePaths( settings& s )
 }
 
 engines::engine::functions::~functions()
+{
+}
+
+void engines::engine::functions::updateOptions( QJsonObject& )
 {
 }
 

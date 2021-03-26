@@ -26,6 +26,33 @@
 #include "../networkAccess.h"
 #include "../utility.h"
 
+static QJsonObject _defaultControlStructure()
+{
+	QJsonObject obj ;
+
+	obj.insert( "Connector","&&" ) ;
+
+	obj.insert( "lhs",[](){
+
+		QJsonObject obj ;
+
+		obj.insert( "startsWith","[download]" ) ;
+
+		return obj ;
+	}() ) ;
+
+	obj.insert( "rhs",[](){
+
+		QJsonObject obj ;
+
+		obj.insert( "contains","ETA" ) ;
+
+		return obj ;
+	}() ) ;
+
+	return obj ;
+}
+
 void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 {
 	auto m = enginePath.configPath( "youtube-dl.json" ) ;
@@ -96,7 +123,7 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "ControlJsonStructure",youtube_dl::defaultControlStructure() ) ;
+		mainObj.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
 
 		mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 
@@ -124,33 +151,6 @@ youtube_dl::youtube_dl()
 {
 }
 
-QJsonObject youtube_dl::defaultControlStructure()
-{
-	QJsonObject obj ;
-
-	obj.insert( "Connector","&&" ) ;
-
-	obj.insert( "lhs",[](){
-
-		QJsonObject obj ;
-
-		obj.insert( "startsWith","[download]" ) ;
-
-		return obj ;
-	}() ) ;
-
-	obj.insert( "rhs",[](){
-
-		QJsonObject obj ;
-
-		obj.insert( "contains","ETA" ) ;
-
-		return obj ;
-	}() ) ;
-
-	return obj ;
-}
-
 std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const
 {
 	return std::make_unique< youtube_dl::functions >() ;
@@ -158,6 +158,26 @@ std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const
 
 youtube_dl::functions::~functions()
 {
+}
+
+void youtube_dl::functions::updateOptions( QJsonObject& object )
+{
+	if( !object.contains( "SkipLineWithText" ) ){
+
+		object.insert( "SkipLineWithText",[](){
+
+			QJsonArray arr ;
+
+			arr.append( "(pass -k to keep)" ) ;
+
+			return arr ;
+		}() ) ;
+	}
+
+	if( !object.contains( "ControlJsonStructure" ) ){
+
+		object.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
+	}
 }
 
 void youtube_dl::functions::updateDownLoadCmdOptions( const engines::engine& engine,

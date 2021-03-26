@@ -30,6 +30,7 @@ public:
 		{
 		}
 		~functions() override ;
+		void updateOptions( QJsonObject& ) override ;
 		QString commandString( const engines::engine::exeArgs::cmd& ) override ;
 		void sendCredentials( const engines::engine& engine,
 				      const QString&,
