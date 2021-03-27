@@ -162,12 +162,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="873"/>
         <source>Add a Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj wtyczkę</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="886"/>
         <source>Remove A Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń wtyczkę</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="892"/>
@@ -245,76 +245,76 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/engines.cpp" line="45"/>
         <source>Failed to parse json file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieudane parsowanie pliku json</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="67"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd, plik wykonywalny &quot;%1&quot; nie został znaleziony</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="309"/>
         <location filename="../src/engines.cpp" line="369"/>
         <source>Failed to find executable &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="343"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="443"/>
         <source>Failed to open file for writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="458"/>
         <source>Failed to open file for reading</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd podczas odczytu pliku</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="54"/>
         <source>Failed to download, Following path can not be created: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nieudane pobieranie, błąd podczas tworzenia ścieżki: </translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="60"/>
         <source>Start Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpocznij pobieranie</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="88"/>
         <location filename="../src/networkAccess.cpp" line="165"/>
         <source>Download Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd podczas pobierania</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="99"/>
         <source>Failed to parse json file from github</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieudane parsowanie pliku json z gihuba</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="150"/>
         <location filename="../src/networkAccess.cpp" line="201"/>
         <location filename="../src/networkAccess.cpp" line="209"/>
         <source>Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobieranie</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="152"/>
         <source>Destination</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka docelowa</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="171"/>
         <source>Download complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobieranie zakończone</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="179"/>
         <source>Renaming file to: </source>
-        <translation type="unfinished"></translation>
+        <translation>Zmiana nazwy pliku na: </translation>
     </message>
 </context>
 <context>
@@ -357,7 +357,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/configure.cpp" line="48"/>
         <source>Select An Engine File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik silnika</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="75"/>
