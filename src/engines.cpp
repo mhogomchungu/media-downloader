@@ -385,16 +385,16 @@ engines::engine::engine( Logger& logger,
 		}
 	}
 
+	if( m_exeFolderPath == "${default}" || m_exeFolderPath == "${BackendPath}" ){
+
+		m_exeFolderPath = ePaths.binPath() ;
+	}
+
 	const auto& commandName = this->commandName() ;
 
 	if( cmdNames.isEmpty() ){
 
 		if( this->usingPrivateBackend() && !m_exeFolderPath.isEmpty() ){
-
-			if( m_exeFolderPath == "${default}" || m_exeFolderPath == "${BackendPath}" ){
-
-				m_exeFolderPath = ePaths.binPath() ;
-			}
 
 			m_exePath = m_exeFolderPath + "/" + commandName ;
 		}else{
