@@ -87,6 +87,7 @@ void networkAccess::download( const engines::engine& engine )
 
 			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
 			m_tabManager.enableAll() ;
+			m_tabManager.basicDownloader().printEngineVersionInfo() ;
 			return ;
 		}
 
@@ -98,6 +99,7 @@ void networkAccess::download( const engines::engine& engine )
 
 			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString() ) ;
 			m_tabManager.enableAll() ;
+			m_tabManager.basicDownloader().printEngineVersionInfo() ;
 			return ;
 		}
 
@@ -165,6 +167,8 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
 
 			m_tabManager.enableAll() ;
+
+			m_tabManager.basicDownloader().printEngineVersionInfo() ;
 		}else{
 			m_file.close() ;
 

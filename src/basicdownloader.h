@@ -54,6 +54,7 @@ public:
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
 	void checkAndPrintInstalledVersion( const engines::engine& ) ;
+	void printEngineVersionInfo() ;
 	basicdownloader& setAsActive() ;
 private:
 	size_t m_counter = 0 ;
@@ -73,7 +74,6 @@ private:
 	void list() ;
 	void download() ;
 	void exit() ;
-	void printEngineVersionInfo() ;
 	void printEngineVersionInfo( const engines::engine& ) ;
 } ;
 
