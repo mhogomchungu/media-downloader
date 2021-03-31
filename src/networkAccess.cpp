@@ -34,6 +34,19 @@
 #include <QJsonArray>
 #include <QDir>
 
+static QNetworkRequest _network_request( const QString& url )
+{
+	QNetworkRequest networkRequest( url ) ;
+#if QT_VERSION >= QT_VERSION_CHECK( 5,9,0 )
+	networkRequest.setAttribute( QNetworkRequest::RedirectPolicyAttribute,QNetworkRequest::NoLessSafeRedirectPolicy ) ;
+#else
+	#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+		networkRequest.setAttribute( QNetworkRequest::FollowRedirectsAttribute,true ) ;
+	#endif
+#endif
+	return networkRequest ;
+}
+
 networkAccess::networkAccess( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
@@ -65,11 +78,7 @@ void networkAccess::download( const engines::engine& engine )
 
 	QString url( engine.downloadUrl() ) ;
 
-	QNetworkRequest networkRequest( url ) ;
-
-	networkRequest.setAttribute( QNetworkRequest::FollowRedirectsAttribute,true ) ;
-
-	auto networkReply = m_accessManager.get( networkRequest ) ;
+	auto networkReply = m_accessManager.get( _network_request( url ) ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ this,&engine ]( qint64 received,qint64 total ){
 
@@ -153,10 +162,7 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 
 	this->post( engine,QObject::tr( "Destination" ) + ": " + filePath ) ;
 
-	QNetworkRequest networkRequest( metadata.url ) ;
-	networkRequest.setAttribute( QNetworkRequest::FollowRedirectsAttribute,true ) ;
-
-	auto networkReply = m_accessManager.get( networkRequest ) ;
+	auto networkReply = m_accessManager.get( _network_request( metadata.url ) ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
 

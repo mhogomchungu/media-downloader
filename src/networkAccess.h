@@ -41,7 +41,11 @@ public:
 	void download( const engines::engine& ) ;
 	static bool hasNetworkSupport()
 	{
-		return true ;
+		#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+			return true ;
+		#else
+			return false ;
+		#endif
 	}
 private:
 	struct metadata

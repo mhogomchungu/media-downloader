@@ -15,6 +15,9 @@ set( COPYRIGHT_YEARS "2021" )
 
 INCLUDE(GNUInstallDirs)
 
+#This is necessary with whatever version of cmake that is in debian 8
+add_definitions(-std=c++14)
+
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions(-Qunused-arguments)
 endif()

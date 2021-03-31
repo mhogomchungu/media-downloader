@@ -128,7 +128,7 @@ void basicdownloader::printEngineVersionInfo()
 
 void basicdownloader::printEngineVersionInfo( const engines::engine& engine )
 {
-	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() ){
+	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() && networkAccess::hasNetworkSupport() ){
 
 		if( engine.backendExists() ){
 
