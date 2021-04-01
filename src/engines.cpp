@@ -90,10 +90,10 @@ engines::engines( Logger& l,settings& s ) :
 {
 	youtube_dl::init( m_logger,m_enginePaths ) ;
 
-	this->updateEngines() ;
+	this->updateEngines( true ) ;
 }
 
-void engines::updateEngines()
+void engines::updateEngines( bool addAll )
 {
 	auto _engine_add = [ & ]( engines::engine m ){
 
@@ -115,9 +115,21 @@ void engines::updateEngines()
 		_engine_add( this->getEngineByPath( it ) ) ;
 	}
 
-	_engine_add( { *this,m_logger,"ffmpeg","-version",0,2 } ) ;
+	if( addAll ){
 
-	_engine_add( { *this,m_logger,"python3","--version",0,1 } ) ;
+		_engine_add( { *this,m_logger,"ffmpeg","-version",0,2 } ) ;
+
+		for( const auto& it : this->getEngines() ){
+
+			const auto& e = it.exePath().exe() ;
+
+			if( e.size() > 0 && e.at( 0 ).contains( "python" ) ){
+
+				_engine_add( { *this,m_logger,"python3","--version",0,1 } ) ;
+				break ;
+			}
+		}
+	}
 }
 
 const std::vector< engines::engine >& engines::getEngines() const
@@ -275,7 +287,7 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 
 				this->setDefaultEngine( name ) ;
 
-				this->updateEngines() ;
+				this->updateEngines( true ) ;
 			}
 		}
 	}
@@ -303,7 +315,7 @@ void engines::removeEngine( const QString& e )
 
 		m_backends.clear() ;
 
-		this->updateEngines() ;
+		this->updateEngines( false ) ;
 	}
 }
 
@@ -373,7 +385,15 @@ engines::engine::engine( Logger& logger,
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ),
 	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() )
 {
-	auto cmdNames = _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
+	auto cmdNames = [ & ](){
+
+		if( utility::platformIsWindows() ){
+
+			return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
+		}else{
+			return _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
+		}
+	}() ;
 
 	if( utility::platformIsWindows() && m_commandNameWindows.isEmpty() ){
 

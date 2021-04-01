@@ -384,7 +384,7 @@ public:
 	void setDefaultEngine( const engines::engine& engine ) ;
 	engines( Logger&,settings& ) ;
 private:
-	void updateEngines() ;
+	void updateEngines( bool ) ;
 	Logger& m_logger ;
 	settings& m_settings ;
 	std::vector< engine > m_backends ;
