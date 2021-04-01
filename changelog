@@ -13,11 +13,19 @@ Version 1.0.0(Jan 30th, 2021)
 Version 1.1.0(March 1st,2021)
 [All]
  - Add polish translations.
- - Add json based plugin system to make it possible for users to use their preffered
-   backend to download media.
- - Add ability to automatically download youtube-dl binary on first run and a button
-    in the configuration tab to update it on demand.
+
+[Linux]
+ - Add support for downloading media using wget in addition to youtube-dl.
 
 [Windows]
+ - Add ability to automatically download youtube-dl binary on first run and a button
+    in the configuration tab to update it on demand.
  - The "Cancel" button now works as expected.
+
+Version 1.2.0(April 1st,2021)
+[All]
+ - Add json based plugin system to make it possible for users to use their preffered
+   backends to download media.
+
+[Windows]
  - Bundle ffmpeg.
