@@ -17,6 +17,12 @@ Features offered:-
 
 6. The GUI offers an ability to download single media or multiple medias in batches.
 
+7. The GUI has a json based plugin system and can configured to download media using other tools other than youtube-dl.
+
+## Extensions
+
+Read the [extensions](https://github.com/mhogomchungu/media-downloader/wiki/Extensions) page for further information.
+
 ## FAQ
 A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/media-downloader/wiki/Frequently-Asked-Questions).
 
@@ -25,7 +31,7 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 #### Installer for Microsoft Windows
 First make sure you have access to the internet before you run media-downloader for the first time after installation because it will attempt to use the internet to download the latest version of youtube-dl.
 
-Binary download for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.1.0/MediaDownloader-1.1.0.setup.exe).
+Binary download for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.2.0/MediaDownloader-1.2.0.setup.exe).
 
 ### Binary packages for Linux distributions
 
