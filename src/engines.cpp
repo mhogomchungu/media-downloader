@@ -184,7 +184,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
 				object.value( "Name" ).toString() == "youtube-dl" ){
 
-			auto functions = youtube_dl().Functions() ;
+			auto functions = std::make_unique< youtube_dl >() ;
 
 			functions->updateOptions( object ) ;
 
@@ -192,13 +192,17 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 		}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
-			auto functions = safaribooks( m_settings ).Functions() ;
+			auto functions = std::make_unique< safaribooks >( m_settings ) ;
 
 			functions->updateOptions( object ) ;
 
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 		}else{
-			return { m_logger,m_enginePaths,object,*this,generic().Functions() } ;
+			auto functions = std::make_unique< generic >() ;
+
+			functions->updateOptions( object ) ;
+
+			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 		}
 	}else{
 		return {} ;

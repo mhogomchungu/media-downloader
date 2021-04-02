@@ -21,27 +21,21 @@
 
 #include "../engines.h"
 
-class youtube_dl
+class youtube_dl : public engines::engine::functions
 {
 public:
-	class functions : public engines::engine::functions
-	{
-	public:
-		~functions() override ;
+	~youtube_dl() override ;
 
-		void updateOptions( QJsonObject& ) override ;
+	void updateOptions( QJsonObject& ) override ;
 
-		void updateDownLoadCmdOptions( const engines::engine& engine,
-					       const QString& quality,
-					       const QStringList& userOptions,
-					       QStringList& urls,
-					       QStringList& ourOptions ) override ;
-	private:
-	} ;
+	void updateDownLoadCmdOptions( const engines::engine& engine,
+				       const QString& quality,
+				       const QStringList& userOptions,
+				       QStringList& urls,
+				       QStringList& ourOptions ) override ;
 
 	static void init( Logger& logger,const engines::enginePaths& enginePath ) ;
 	youtube_dl() ;
 	static QJsonObject defaultControlStructure() ;
-	std::unique_ptr< engines::engine::functions > Functions() const ;
 private:
 };

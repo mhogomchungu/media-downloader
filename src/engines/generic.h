@@ -21,24 +21,15 @@
 
 #include "../engines.h"
 
-class generic
+class generic : public engines::engine::functions
 {
 public:
-	class functions : public engines::engine::functions
-	{
-	public:
-		~functions() override ;
-
-		void updateDownLoadCmdOptions( const engines::engine& engine,
-					       const QString& quality,
-					       const QStringList& userOptions,
-					       QStringList& urls,
-					       QStringList& ourOptions ) override ;
-	private:
-	} ;
-
+	~generic() override ;
 	generic() ;
-
-	std::unique_ptr< engines::engine::functions > Functions() const ;
+	void updateDownLoadCmdOptions( const engines::engine& engine,
+				       const QString& quality,
+				       const QStringList& userOptions,
+				       QStringList& urls,
+				       QStringList& ourOptions ) override ;
 private:
 };

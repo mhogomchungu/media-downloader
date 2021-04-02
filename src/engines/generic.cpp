@@ -23,20 +23,15 @@ generic::generic()
 {
 }
 
-std::unique_ptr< engines::engine::functions > generic::Functions() const
-{
-	return std::make_unique< generic::functions >() ;
-}
-
-generic::functions::~functions()
+generic::~generic()
 {
 }
 
-void generic::functions::updateDownLoadCmdOptions( const engines::engine& engine,
-						   const QString& quality,
-						   const QStringList& userOptions,
-						   QStringList& urls,
-						   QStringList& ourOptions )
+void generic::updateDownLoadCmdOptions( const engines::engine& engine,
+					const QString& quality,
+					const QStringList& userOptions,
+					QStringList& urls,
+					QStringList& ourOptions )
 {
 	Q_UNUSED( userOptions )
 	Q_UNUSED( urls )

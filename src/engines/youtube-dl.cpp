@@ -151,16 +151,11 @@ youtube_dl::youtube_dl()
 {
 }
 
-std::unique_ptr< engines::engine::functions > youtube_dl::Functions() const
-{
-	return std::make_unique< youtube_dl::functions >() ;
-}
-
-youtube_dl::functions::~functions()
+youtube_dl::~youtube_dl()
 {
 }
 
-void youtube_dl::functions::updateOptions( QJsonObject& object )
+void youtube_dl::updateOptions( QJsonObject& object )
 {
 	if( !object.contains( "SkipLineWithText" ) ){
 
@@ -180,11 +175,11 @@ void youtube_dl::functions::updateOptions( QJsonObject& object )
 	}
 }
 
-void youtube_dl::functions::updateDownLoadCmdOptions( const engines::engine& engine,
-						      const QString& quality,
-						      const QStringList& userOptions,
-						      QStringList& urls,
-						      QStringList& ourOptions )
+void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
+					   const QString& quality,
+					   const QStringList& userOptions,
+					   QStringList& urls,
+					   QStringList& ourOptions )
 {
 	Q_UNUSED( urls )
 

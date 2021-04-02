@@ -24,16 +24,15 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-std::unique_ptr< engines::engine::functions > safaribooks::Functions() const
-{
-	return std::make_unique< safaribooks::functions >( m_settings ) ;
-}
-
-safaribooks::functions::~functions()
+safaribooks::safaribooks( settings& s ) : m_settings( s )
 {
 }
 
-void safaribooks::functions::updateOptions( QJsonObject& object )
+safaribooks::~safaribooks()
+{
+}
+
+void safaribooks::updateOptions( QJsonObject& object )
 {
 	if( !object.contains( "ControlJsonStructure" ) ){
 
@@ -99,7 +98,7 @@ void safaribooks::functions::updateOptions( QJsonObject& object )
 	}
 }
 
-QString safaribooks::functions::commandString( const engines::engine::exeArgs::cmd& cmd )
+QString safaribooks::commandString( const engines::engine::exeArgs::cmd& cmd )
 {
 	auto m = "\"" + cmd.exe() + "\"" ;
 
@@ -118,9 +117,9 @@ QString safaribooks::functions::commandString( const engines::engine::exeArgs::c
 	return m ;
 }
 
-void safaribooks::functions::sendCredentials( const engines::engine& engine,
-					      const QString& credentials,
-					      QProcess& exe )
+void safaribooks::sendCredentials( const engines::engine& engine,
+				   const QString& credentials,
+				   QProcess& exe )
 {
 	if( utility::platformIsNOTWindows() ){
 
@@ -142,11 +141,11 @@ void safaribooks::functions::sendCredentials( const engines::engine& engine,
 	}
 }
 
-void safaribooks::functions::updateDownLoadCmdOptions( const engines::engine& engine,
-						       const QString& quality,
-						       const QStringList& userOptions,
-						       QStringList& urls,
-						       QStringList& ourOptions )
+void safaribooks::updateDownLoadCmdOptions( const engines::engine& engine,
+					    const QString& quality,
+					    const QStringList& userOptions,
+					    QStringList& urls,
+					    QStringList& ourOptions )
 {
 	Q_UNUSED( userOptions )
 

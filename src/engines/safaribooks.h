@@ -20,36 +20,21 @@
 #include "../engines.h"
 #include "../settings.h"
 
-class safaribooks
+class safaribooks : public engines::engine::functions
 {
 public:
-	class functions : public engines::engine::functions
-	{
-	public:
-		functions( settings& s ) : m_settings( s )
-		{
-		}
-		~functions() override ;
-		void updateOptions( QJsonObject& ) override ;
-		QString commandString( const engines::engine::exeArgs::cmd& ) override ;
-		void sendCredentials( const engines::engine& engine,
-				      const QString&,
-				      QProcess& ) override ;
-		void updateDownLoadCmdOptions( const engines::engine& engine,
-					       const QString& quality,
-					       const QStringList& userOptions,
-					       QStringList& urls,
-					       QStringList& ourOptions ) override ;
-	private:
-		settings& m_settings ;
-	} ;
-
-	safaribooks( settings& s ) : m_settings( s )
-	{
-	}
-
-	std::unique_ptr< engines::engine::functions > Functions() const ;
+	safaribooks( settings& s );
+	~safaribooks() override ;
+	void updateOptions( QJsonObject& ) override ;
+	QString commandString( const engines::engine::exeArgs::cmd& ) override ;
+	void sendCredentials( const engines::engine& engine,
+			      const QString&,
+			      QProcess& ) override ;
+	void updateDownLoadCmdOptions( const engines::engine& engine,
+				       const QString& quality,
+				       const QStringList& userOptions,
+				       QStringList& urls,
+				       QStringList& ourOptions ) override ;
 private:
 	settings& m_settings ;
 };
-
