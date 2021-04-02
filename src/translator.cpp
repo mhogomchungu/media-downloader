@@ -23,9 +23,6 @@
 
 #include <QCoreApplication>
 
-const char * translator::CLEAROPTIONS = "Clear Options" ;
-const char * translator::CLEARSCREEN = "Clear Screen" ;
-
 translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settings( s )
 {
 	this->addString( QObject::tr( "Polish (Poland)" ),"Polish (Poland)","pl_PL" ) ;

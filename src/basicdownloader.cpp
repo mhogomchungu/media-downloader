@@ -163,6 +163,10 @@ void basicdownloader::resetMenu( const QStringList& args )
 			m_ctx.logger().clear() ;
 			m_ui.lineEditURL->clear() ;
 			m_ui.lineEditOptions->clear() ;
+
+		}else if( ac.openFolderPath() ){
+
+			utility::openDownloadFolderPath( m_settings.downloadFolder() ) ;
 		}else{
 			m_ui.lineEditOptions->setText( ac.objectName() ) ;
 

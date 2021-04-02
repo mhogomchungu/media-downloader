@@ -138,6 +138,10 @@ void playlistdownloader::resetMenu()
 			m_ui.lineEditPLDownloadRange->clear() ;
 			m_ui.lineEditPLUrl->clear() ;
 			m_ui.lineEditPLEFileDownloader->clear() ;
+
+		}else if( ac.openFolderPath() ){
+
+			utility::openDownloadFolderPath( m_settings.downloadFolder() ) ;
 		}else{
 			m_ui.lineEditPLUrlOptions->setText( ac.objectName() ) ;
 		}

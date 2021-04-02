@@ -33,9 +33,6 @@
 class translator
 {
 public:
-	static const char * CLEARSCREEN ;
-	static const char * CLEAROPTIONS ;
-
 	translator( settings&,QApplication& ) ;
 	void setLanguage( const QString& e ) ;
 	void setDefaultLanguage() ;

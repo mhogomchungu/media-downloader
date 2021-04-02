@@ -23,6 +23,11 @@
 #include "context.hpp"
 
 #include <QEventLoop>
+#include <QDesktopServices>
+
+const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
+const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
+const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
 QStringList utility::split( const QString& e,char token,bool skipEmptyParts )
 {
@@ -318,16 +323,22 @@ QMenu * utility::details::sMo( const Context& ctx,
 		menu->addSeparator() ;
 
 		translator::entry ss( QObject::tr( "Clear Options" ),
-						   translator::CLEAROPTIONS,
-						   translator::CLEAROPTIONS ) ;
+						   utility::selectedAction::CLEAROPTIONS,
+						   utility::selectedAction::CLEAROPTIONS ) ;
 
 		translator.addAction( menu,std::move( ss ) ) ;
 
 		translator::entry sx( QObject::tr( "Clear Screen" ),
-						   translator::CLEARSCREEN,
-						   translator::CLEARSCREEN ) ;
+						   utility::selectedAction::CLEARSCREEN,
+						   utility::selectedAction::CLEARSCREEN ) ;
 
 		translator.addAction( menu,std::move( sx ) ) ;
+
+		translator::entry mm( QObject::tr( "Open Download Folder" ),
+						   utility::selectedAction::OPENFOLDER,
+						   utility::selectedAction::OPENFOLDER ) ;
+
+		translator.addAction( menu,std::move( mm ) ) ;
 	}
 
 	w->setMenu( menu ) ;
@@ -379,4 +390,9 @@ void utility::wait( int time )
 	} ) ;
 
 	e.exec() ;
+}
+
+void utility::openDownloadFolderPath( const QString& url )
+{
+	QDesktopServices::openUrl( url ) ;
 }

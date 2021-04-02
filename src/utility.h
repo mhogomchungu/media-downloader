@@ -92,22 +92,30 @@ namespace utility
 	class selectedAction
 	{
 	public:
+		static const char * CLEARSCREEN ;
+		static const char * CLEAROPTIONS ;
+		static const char * OPENFOLDER ;
+
 		selectedAction( QAction * ac ) : m_ac( ac )
 		{
 		}
-		bool clearOptions()
+		bool clearOptions() const
 		{
-			return m_ac->objectName() == translator::CLEAROPTIONS ;
+			return m_ac->objectName() == utility::selectedAction::CLEAROPTIONS ;
 		}
-		bool clearScreen()
+		bool clearScreen() const
 		{
-			return m_ac->objectName() == translator::CLEARSCREEN ;
+			return m_ac->objectName() == utility::selectedAction::CLEARSCREEN ;
 		}
-		QString text()
+		bool openFolderPath() const
+		{
+			return m_ac->objectName() == utility::selectedAction::OPENFOLDER ;
+		}
+		QString text() const
 		{
 			return m_ac->text() ;
 		}
-		QString objectName()
+		QString objectName() const
 		{
 			return m_ac->objectName() ;
 		}
@@ -351,6 +359,7 @@ namespace utility
 
 	void wait( int time ) ;
 	void waitForOneSecond() ;
+	void openDownloadFolderPath( const QString& ) ;
 	QString homePath() ;
 	QString python3Path() ;
 	int terminateProcess( unsigned long pid ) ;

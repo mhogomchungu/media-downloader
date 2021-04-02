@@ -132,6 +132,10 @@ void batchdownloader::resetMenu()
 
 			m_ui.lineEditBDUrlOptions->clear() ;
 			m_ui.lineEditBDUrl->clear() ;
+
+		}else if( ac.openFolderPath() ){
+
+			utility::openDownloadFolderPath( m_settings.downloadFolder() ) ;
 		}else{
 			m_ui.lineEditBDUrlOptions->setText( ac.objectName() ) ;
 
