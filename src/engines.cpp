@@ -706,11 +706,11 @@ void engines::engine::functions::processData( const engines::engine& engine,
 
 	const auto& sp = engine.splitLinesBy() ;
 
-	if( sp.size() == 1 ){
+	if( sp.size() == 1 && sp[ 0 ].size() > 0 ){
 
 		_add( data,sp[ 0 ][ 0 ],engine,outPut ) ;
 
-	}else if( sp.size() == 2 ){
+	}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
 
 		for( const auto& m : utility::split( data,sp[ 0 ][ 0 ] ) ){
 
