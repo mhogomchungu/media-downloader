@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>media-downloader.desktop</id>
+  <name>Media Downloader</name>
+  <name xml:lang="es">Descargador de medios</name>
+  <summary>Downloads Online Media Files</summary>
+  <summary xml:lang="es">Herramienta para descargar archivos de medios</summary>
+  <developer_name>Francis Banyikwa</developer_name>
+  <description>
+  <p>
+    This project is a Qt/C++ based frontend to youtube-dl and it can be
+    used to download any media file supported by youtube-dl.
+  </p>
+  <p>
+    Features offered:
+  </p>
+    <ul>
+        <li>The GUI can be used to download any media supported by
+      youtube-dl</li>
+        <li>The GUI can show all available media a url can offer</li>
+        <li>The GUI allows user to choose what media entry offered by a url
+      they want to download</li>
+        <li>The GUI offers a preset list of options to choose from to select
+      what media entry offered by a url they want to download</li>
+        <li>The GUI offers an ability to change preset options or add new
+      ones making it possible to use the GUI to automate any use case
+      supported by youtube-dl</li>
+        <li>The GUI offers an ability to download single media or multiple
+      medias in batches</li>
+        <li>The GUI has a json based plugin system and can configured to
+      download media using other tools other than youtube-dl</li>
+    </ul>
+</description>
+  <keywords>
+    <keyword>download</keyword>
+    <keyword>media</keyword>
+    <keyword>music</keyword>
+    <keyword>videos</keyword>
+    <keyword>youtube-dl</keyword>
+    <keyword xml:lang="es">descargar</keyword>
+    <keyword xml:lang="es">medios</keyword>
+    <keyword xml:lang="es">musica</keyword>
+    <keyword xml:lang="es">videos</keyword>
+    <keyword xml:lang="es">youtube-dl</keyword>
+  </keywords>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <url type="bugtracker">https://github.com/mhogomchungu/media-downloader/issues</url>
+  <url type="faq">https://github.com/mhogomchungu/media-downloader/wiki/Frequently-Asked-Questions</url>
+  <url type="help">https://github.com/mhogomchungu/media-downloader/wiki/Frequently-Asked-Questions</url>
+  <url type="homepage">https://github.com/mhogomchungu/media-downloader</url>
+  <project_group>noneE</project_group>
+  <screenshots>
+    <screenshot type="default">
+      <image height="579" width="985">https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader.png</image>
+    </screenshot>
+    <screenshot>
+      <image height="579" width="985">https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-1.png</image>
+    </screenshot>
+    <screenshot>
+      <image height="579" width="985">https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-2.png</image>
+    </screenshot>
+    <screenshot>
+      <image height="588" width="989">https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-3.png</image>
+    </screenshot>
+  </screenshots>
+  <update_contact>mhogomchungu_AT_gmail.com</update_contact>
+  <content_rating type="oars-1.0" />
+  <releases>
+    <release version="1.2.0" date="2021-03-31"/>
+    <release version="1.1.0" date="2021-02-28"/>
+    <release version="1.0.0" date="2021-01-30"/>
+  </releases>
+</component>
