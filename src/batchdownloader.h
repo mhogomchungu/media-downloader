@@ -51,6 +51,9 @@ private:
 	tabManager& m_tabManager ;
 	int counter ;
 	bool m_running ;
+	bool m_cancelled ;
+
+	QStringList m_downloadList ;
 
 	template< typename Function >
 	class options
@@ -77,7 +80,8 @@ private:
 		}
 		options& enableCancel( bool e )
 		{
-			m_button.setEnabled( e ) ;
+			Q_UNUSED( e )
+			//m_button.setEnabled( e ) ;
 
 			return *this ;
 		}

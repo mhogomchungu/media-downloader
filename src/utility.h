@@ -494,7 +494,7 @@ namespace utility
 	{
 		auto s = static_cast< void( * )( QProcess& ) >( utility::terminateProcess ) ;
 
-		return make_conn( obj,memFunction,s ) ;
+		return utility::make_conn( obj,memFunction,s ) ;
 	}
 }
 

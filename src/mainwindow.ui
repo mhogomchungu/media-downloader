@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -275,7 +275,7 @@
        <widget class="QPushButton" name="pbBDAdd">
         <property name="geometry">
          <rect>
-          <x>260</x>
+          <x>320</x>
           <y>340</y>
           <width>121</width>
           <height>33</height>
@@ -288,7 +288,7 @@
        <widget class="QPushButton" name="pbBDDownload">
         <property name="geometry">
          <rect>
-          <x>140</x>
+          <x>200</x>
           <y>340</y>
           <width>121</width>
           <height>33</height>
@@ -330,7 +330,7 @@
        <widget class="QPushButton" name="pbBDOptions">
         <property name="geometry">
          <rect>
-          <x>380</x>
+          <x>440</x>
           <y>340</y>
           <width>121</width>
           <height>33</height>
@@ -343,7 +343,7 @@
        <widget class="QPushButton" name="pbBDQuit">
         <property name="geometry">
          <rect>
-          <x>500</x>
+          <x>560</x>
           <y>340</y>
           <width>121</width>
           <height>33</height>
@@ -351,6 +351,19 @@
         </property>
         <property name="text">
          <string>Quit</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbBDCancel">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>340</y>
+          <width>121</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Cancel</string>
         </property>
        </widget>
       </widget>
