@@ -41,6 +41,10 @@ batchdownloader::batchdownloader( const Context& ctx) :
 
 	m_ui.tableWidgetBD->setContextMenuPolicy( Qt::CustomContextMenu ) ;
 
+	m_ui.tableWidgetBD->setEditTriggers( QAbstractItemView::NoEditTriggers ) ;
+	m_ui.tableWidgetBD->setFocusPolicy( Qt::NoFocus ) ;
+	m_ui.tableWidgetBD->setSelectionMode( QAbstractItemView::NoSelection ) ;
+
 	m_ui.pbBDDownload->setEnabled( false ) ;
 
 	m_ui.pbBDCancel->setEnabled( false ) ;
@@ -61,21 +65,24 @@ batchdownloader::batchdownloader( const Context& ctx) :
 
 
 		}else{
-			QMenu m ;
+			if( m_ui.tableWidgetBD->rowCount() > 0 ){
 
-			connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
+				QMenu m ;
 
-				auto row = m_ui.tableWidgetBD->currentRow() ;
+				connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
 
-				if( row != -1 ){
+					auto row = m_ui.tableWidgetBD->currentRow() ;
 
-					m_ui.tableWidgetBD->removeRow( row ) ;
+					if( row != -1 ){
 
-					m_ui.pbBDDownload->setEnabled( m_ui.tableWidgetBD->rowCount() ) ;
-				}
-			} ) ;
+						m_ui.tableWidgetBD->removeRow( row ) ;
 
-			m.exec( QCursor::pos() ) ;
+						m_ui.pbBDDownload->setEnabled( m_ui.tableWidgetBD->rowCount() ) ;
+					}
+				} ) ;
+
+				m.exec( QCursor::pos() ) ;
+			}
 		}
 	} ) ;
 
@@ -213,6 +220,8 @@ void batchdownloader::download()
 
 			m_ctx.TabManager().disableAll() ;
 			m_ui.pbBDCancel->setEnabled( true ) ;
+			m_ui.tableWidgetBD->setEnabled( true ) ;
+
 			m_downloadList.clear() ;
 
 			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){

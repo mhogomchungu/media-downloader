@@ -73,6 +73,12 @@ void LoggerTableWidgetItem::clear()
 
 void LoggerTableWidgetItem::update()
 {
+#if 1
+	if( m_text.size() > 0 ){
+
+		m_tableWidgetItem.setText( m_text.last() ) ;
+	}
+#else
 	QString m ;
 
 	int s = m_text.size() ;
@@ -92,4 +98,5 @@ void LoggerTableWidgetItem::update()
 	}
 
 	m_tableWidgetItem.setText( m ) ;
+#endif
 }
