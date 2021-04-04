@@ -394,7 +394,7 @@ namespace utility
 
 			return ctx ;
 
-		},[ &options,&engine,quality ]( QProcess& exe ){
+		},[ &engine,quality ]( QProcess& exe ){
 
 			engine.sendCredentials( quality,exe ) ;
 

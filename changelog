@@ -29,3 +29,8 @@ Version 1.2.0(April 1st,2021)
 
 [Windows]
  - Bundle ffmpeg.
+
+ Version 1.3.0(Unreleased)
+ [All]
+ - Add Spanish translations.
+ - Add an option to do batch downloads concurrently.

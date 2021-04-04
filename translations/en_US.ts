@@ -168,12 +168,17 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="892"/>
+        <location filename="../src/mainwindow.ui" line="899"/>
+        <source>Batch Download Sequentially</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="905"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="904"/>
+        <location filename="../src/mainwindow.ui" line="917"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -181,23 +186,28 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="250"/>
+        <location filename="../src/utility.cpp" line="269"/>
         <source>Best-audiovideo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="251"/>
+        <location filename="../src/utility.cpp" line="270"/>
         <source>Best-audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="284"/>
+        <location filename="../src/utility.cpp" line="303"/>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="297"/>
+        <location filename="../src/utility.cpp" line="316"/>
         <source>Found Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="337"/>
+        <source>Open Download Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -221,96 +231,97 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="31"/>
+        <location filename="../src/translator.cpp" line="28"/>
         <source>Polish (Poland)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="32"/>
+        <location filename="../src/translator.cpp" line="29"/>
         <source>English (US)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="312"/>
+        <location filename="../src/translator.cpp" line="30"/>
+        <source>Spanish (SP)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="331"/>
         <source>Clear Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="306"/>
+        <location filename="../src/utility.cpp" line="325"/>
         <source>Clear Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="45"/>
-        <source>Failed to parse json file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/engines.cpp" line="67"/>
+        <location filename="../src/engines.cpp" line="104"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="309"/>
-        <location filename="../src/engines.cpp" line="369"/>
+        <location filename="../src/engines.cpp" line="355"/>
+        <location filename="../src/engines.cpp" line="430"/>
+        <location filename="../src/engines.cpp" line="490"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="343"/>
+        <location filename="../src/engines.cpp" line="464"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="443"/>
+        <location filename="../src/engines.cpp" line="743"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="458"/>
+        <location filename="../src/engines.cpp" line="758"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="54"/>
+        <location filename="../src/networkAccess.cpp" line="67"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="60"/>
+        <location filename="../src/networkAccess.cpp" line="73"/>
         <source>Start Downloading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="88"/>
-        <location filename="../src/networkAccess.cpp" line="165"/>
+        <location filename="../src/networkAccess.cpp" line="97"/>
+        <location filename="../src/networkAccess.cpp" line="173"/>
         <source>Download Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="99"/>
+        <location filename="../src/networkAccess.cpp" line="109"/>
         <source>Failed to parse json file from github</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="150"/>
-        <location filename="../src/networkAccess.cpp" line="201"/>
-        <location filename="../src/networkAccess.cpp" line="209"/>
+        <location filename="../src/networkAccess.cpp" line="161"/>
+        <location filename="../src/networkAccess.cpp" line="211"/>
+        <location filename="../src/networkAccess.cpp" line="219"/>
         <source>Downloading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="152"/>
+        <location filename="../src/networkAccess.cpp" line="163"/>
         <source>Destination</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="171"/>
+        <location filename="../src/networkAccess.cpp" line="181"/>
         <source>Download complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="179"/>
+        <location filename="../src/networkAccess.cpp" line="185"/>
         <source>Renaming file to: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -318,18 +329,18 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="139"/>
-        <location filename="../src/basicdownloader.cpp" line="251"/>
+        <location filename="../src/basicdownloader.cpp" line="144"/>
+        <location filename="../src/basicdownloader.cpp" line="270"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="232"/>
+        <location filename="../src/basicdownloader.cpp" line="251"/>
         <source>Checking installed version of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="255"/>
+        <location filename="../src/basicdownloader.cpp" line="274"/>
         <source>Found version</source>
         <translation type="unfinished"></translation>
     </message>
@@ -337,7 +348,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="58"/>
+        <location filename="../src/batchdownloader.cpp" line="62"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -363,12 +374,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="139"/>
+        <location filename="../src/configure.cpp" line="140"/>
         <source>Set Download Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="193"/>
+        <location filename="../src/configure.cpp" line="196"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
