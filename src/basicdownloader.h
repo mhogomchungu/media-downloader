@@ -28,8 +28,6 @@
 #include "utility.h"
 #include "context.hpp"
 
-class tabManager ;
-
 class basicdownloader : public QObject
 {
 	Q_OBJECT
@@ -57,12 +55,51 @@ public:
 	void printEngineVersionInfo() ;
 	basicdownloader& setAsActive() ;
 private:
+	class options
+	{
+	public:
+		options( QPushButton& p,const Context& ctx,bool d ) :
+			m_button( p ),
+			m_ctx( ctx ),
+			m_debug( d )
+		{
+		}
+
+		void done() ;
+
+		basicdownloader::options& tabManagerEnableAll( bool e ) ;
+		basicdownloader::options& listRequested( const QList< QByteArray >& e ) ;
+
+		basicdownloader::options& enableCancel( bool e )
+		{
+			m_button.setEnabled( e ) ;
+
+			return *this ;
+		}
+		bool debug()
+		{
+			return m_debug ;
+		}
+		QString downloadFolder() const
+		{
+			return m_ctx.Settings().downloadFolder() ;
+		}
+		const QProcessEnvironment& processEnvironment() const
+		{
+			return m_ctx.Engines().processEnvironment() ;
+		}
+	private:
+		QPushButton& m_button ;
+		const Context& m_ctx ;
+		bool m_debug ;
+	} ;
+
 	size_t m_counter = 0 ;
 	const Context& m_ctx ;
 	settings& m_settings ;
+	bool m_debug ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
-	bool m_debug ;
 
 	void setDefaultEngine() ;
 
@@ -70,6 +107,8 @@ private:
 		  const QStringList& args,
 		  const QString& quality,
 		  bool list_requested ) ;
+
+	void tabManagerEnableAll( bool ) ;
 	void listRequested( const QList< QByteArray >& ) ;
 	void list() ;
 	void download() ;

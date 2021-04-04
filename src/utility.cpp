@@ -396,3 +396,18 @@ void utility::openDownloadFolderPath( const QString& url )
 {
 	QDesktopServices::openUrl( url ) ;
 }
+
+void utility::terminateProcess( QProcess& exe )
+{
+	if( utility::platformIsWindows() ){
+
+		utility::run( "media-downloader",
+				{ "-T",QString::number( exe.processId() ) },
+				[]( QProcess& ){},
+				[]( QProcess& ){},
+				[]( int,QProcess::ExitStatus ){},
+				[]( QProcess::ProcessChannel,const QByteArray& ){} ) ;
+	}else{
+		exe.terminate() ;
+	}
+}

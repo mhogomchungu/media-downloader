@@ -90,6 +90,7 @@ configure::configure( const Context& ctx ) :
 		m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
 		m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 		m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
+		m_settings.setSequentialDownloading( m_ui.cbConfigureBatchDownloadSequentially->isChecked() ) ;
 
 		m_tabManager.resetMenu().basicDownloader().setAsActive() ;
 	} ) ;
@@ -153,6 +154,8 @@ configure::configure( const Context& ctx ) :
 	m_ui.textEditConfigurePresetOptions->setText( m_settings.presetOptions() ) ;
 
 	m_ui.cbConfigureShowVersionInfo->setChecked( m_settings.showVersionInfoWhenStarting() ) ;
+
+	m_ui.cbConfigureBatchDownloadSequentially->setChecked( m_settings.sequentialDownloading() ) ;
 }
 
 void configure::init_done()
@@ -240,6 +243,7 @@ void configure::enableAll()
 	m_ui.pbConfigureQuit->setEnabled( true ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( true ) ;
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( true ) ;
+	m_ui.cbConfigureBatchDownloadSequentially->setEnabled( true ) ;
 
 	if( m_settings.enabledHighDpiScaling() ){
 
@@ -267,4 +271,5 @@ void configure::disableAll()
 	m_ui.labelConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.labelConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( false ) ;
+	m_ui.cbConfigureBatchDownloadSequentially->setEnabled( false ) ;
 }

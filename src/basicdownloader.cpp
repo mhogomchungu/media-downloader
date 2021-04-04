@@ -212,6 +212,16 @@ void basicdownloader::setDefaultEngine()
 	m_ui.cbEngineType->setCurrentIndex( 0 ) ;
 }
 
+void basicdownloader::tabManagerEnableAll( bool e )
+{
+	if( e ){
+
+		m_tabManager.enableAll() ;
+	}else{
+		m_tabManager.disableAll() ;
+	}
+}
+
 void basicdownloader::retranslateUi()
 {
 	this->resetMenu() ;
@@ -274,128 +284,6 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 	} ) ;
 }
 
-class context
-{
-public:
-	context( const engines::engine& engine,Logger& logger,bool list_requested ) :
-		m_engine( engine ),
-		m_list_requested( list_requested ),
-		m_logger( logger ),
-		m_postData( true )
-	{
-	}
-	void setCancelConnection( QMetaObject::Connection conn )
-	{
-		m_conn = std::move( conn ) ;
-	}
-	void stopReceivingData()
-	{
-		m_postData = false ;
-	}
-	void postData( QByteArray data )
-	{
-		if( m_postData ){
-
-			m_data += data ;
-
-			m_logger.add( [ this,data = std::move( data ) ]( QStringList& e ){
-
-				m_engine.processData( e,std::move( data ) ) ;
-			} ) ;
-		}
-	}
-	template< typename Function >
-	void listRequested( Function function )
-	{
-		if( m_list_requested ){
-
-			function( utility::split( m_data,'\n' ) ) ;
-		}
-	}
-	void disconnect()
-	{
-		QObject::disconnect( m_conn ) ;
-	}
-private:
-	const engines::engine& m_engine ;
-	bool m_list_requested ;
-	QMetaObject::Connection m_conn ;
-	Logger& m_logger ;
-	QByteArray m_data ;
-	bool m_postData ;
-} ;
-
-void basicdownloader::run( const engines::engine& engine,
-			   const QStringList& args,
-			   const QString& quality,
-			   bool list_requested )
-{
-	m_tabManager.disableAll() ;
-
-	engines::engine::exeArgs::cmd cmd( engine.exePath(),args ) ;
-
-	utility::run( cmd.exe(),cmd.args(),[ &,this ]( QProcess& exe ){
-
-		exe.setProcessEnvironment( m_ctx.Engines().processEnvironment() ) ;
-
-		auto& logger = m_ctx.logger() ;
-
-		logger.add( "cmd: " + engine.commandString( cmd ) ) ;
-
-		exe.setWorkingDirectory( m_settings.downloadFolder() ) ;
-
-		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
-
-		auto ctx = std::make_shared< context >( engine,logger,list_requested ) ;
-
-		ctx->setCancelConnection( QObject::connect( m_ui.pbCancel,&QPushButton::clicked,[ &exe,ctx ](){
-
-			ctx->stopReceivingData() ;
-
-			if( utility::platformIsWindows() ){
-
-				utility::run( "media-downloader",
-					      { "-T",QString::number( exe.processId() ) },
-					      []( QProcess& ){},
-					      []( QProcess& ){},
-					      []( int,QProcess::ExitStatus ){},
-					      []( QProcess::ProcessChannel,const QByteArray& ){} ) ;
-			}else{
-				exe.terminate() ;
-			}
-		} ) ) ;
-
-		return ctx ;
-
-	},[ &engine,quality ]( QProcess& exe ){
-
-		engine.sendCredentials( quality,exe ) ;
-
-	},[ this ]( int,QProcess::ExitStatus,std::shared_ptr< context >& ctx ){
-
-		ctx->disconnect() ;
-
-		ctx->listRequested( [ this ]( const QList< QByteArray >& e ){
-
-			this->listRequested( e ) ;
-		} ) ;
-
-		m_tabManager.enableAll() ;
-
-		m_ui.pbCancel->setEnabled( false ) ;
-
-	},[ this ]( QProcess::ProcessChannel,QByteArray data,std::shared_ptr< context >& ctx ){
-
-		if( m_debug ){
-
-			qDebug() << data ;
-			qDebug() << "------------------------" ;
-		}
-
-		ctx->postData( std::move( data ) ) ;
-	} ) ;
-}
-
 void basicdownloader::listRequested( const QList< QByteArray >& args )
 {
 	QStringList opts ;
@@ -447,7 +335,8 @@ void basicdownloader::download()
 
 void basicdownloader::download( const engines::engine& engine,
 				const utility::args& args,
-				const QString& url,bool s )
+				const QString& url,
+				bool s )
 {
 	this->download( engine,args,QStringList( url ),s ) ;
 }
@@ -482,6 +371,20 @@ void basicdownloader::download( const engines::engine& engine,
 	opts.append( url ) ;
 
 	this->run( engine,opts,args.quality,false ) ;
+}
+
+void basicdownloader::run( const engines::engine& engine,
+			   const QStringList& args,
+			   const QString& quality,
+			   bool list_requested )
+{
+	utility::run( engine,
+		      args,
+		      quality,
+		      list_requested,
+		      basicdownloader::options( *m_ui.pbCancel,m_ctx,m_debug ),
+		      LoggerWrapper( m_ctx.logger() ),
+		      utility::make_term_conn( m_ui.pbCancel,&QPushButton::clicked ) ) ;
 }
 
 void basicdownloader::updateEngines()
@@ -548,4 +451,28 @@ void basicdownloader::disableAll()
 void basicdownloader::appQuit()
 {
 	QCoreApplication::quit() ;
+}
+
+void basicdownloader::options::done()
+{
+	this->tabManagerEnableAll( true ).enableCancel( false ) ;
+}
+
+basicdownloader::options& basicdownloader::options::tabManagerEnableAll( bool e )
+{
+	if( e ){
+
+		m_ctx.TabManager().enableAll() ;
+	}else{
+		m_ctx.TabManager().disableAll() ;
+	}
+
+	return *this ;
+}
+
+basicdownloader::options& basicdownloader::options::listRequested( const QList< QByteArray >& e )
+{
+	m_ctx.TabManager().basicDownloader().listRequested( e ) ;
+
+	return *this ;
 }

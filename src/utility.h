@@ -34,6 +34,8 @@
 
 #include "ui_mainwindow.h"
 
+#include "engines.h"
+
 class Context ;
 
 namespace Ui
@@ -270,6 +272,155 @@ namespace utility
 		utility::run( cmd,args,[]( QProcess& ){},std::move( w ),std::move( p ) ) ;
 	}
 
+	template< typename Object,
+		  typename ObjectMemberFunction,
+		  typename Function >
+	struct Conn
+	{
+		Conn( Object obj,ObjectMemberFunction pointer,Function function ) :
+			obj( obj ),
+			pointer( pointer ),
+			function( std::move( function ) )
+		{
+		}
+		Object obj ;
+		ObjectMemberFunction pointer ;
+		Function function ;
+	};
+
+	template< typename Object,
+		  typename ObjectMemberFunction,
+		  typename Function >
+	static auto make_conn( Object obj,ObjectMemberFunction memFunction,Function function )
+	{
+		return Conn< Object,ObjectMemberFunction,Function >( obj,memFunction,std::move( function ) ) ;
+	}
+	template< typename Tlogger,
+		  typename Options >
+	class context
+	{
+	public:
+		context( const engines::engine& engine,
+			 Tlogger logger,
+			 Options options,
+			 bool list_requested ) :
+			m_engine( engine ),
+			m_list_requested( list_requested ),
+			m_logger( std::move( logger ) ),
+			m_postData( true ),
+			m_options( std::move( options ) )
+		{
+		}
+		void setCancelConnection( QMetaObject::Connection conn )
+		{
+			m_conn = std::move( conn ) ;
+		}
+		void stopReceivingData()
+		{
+			m_postData = false ;
+		}
+		void postData( QByteArray data )
+		{
+			if( m_postData ){
+
+				m_data += data ;
+
+				m_logger.add( [ this,data = std::move( data ) ]( QStringList& e ){
+
+					m_engine.processData( e,std::move( data ) ) ;
+				} ) ;
+			}
+		}
+		template< typename Function >
+		void listRequested( Function function )
+		{
+			if( m_list_requested ){
+
+				function( utility::split( m_data,'\n' ) ) ;
+			}
+		}
+		void disconnect()
+		{
+			QObject::disconnect( m_conn ) ;
+		}
+		Options& options()
+		{
+			return m_options ;
+		}
+	private:
+		const engines::engine& m_engine ;
+		bool m_list_requested ;
+		QMetaObject::Connection m_conn ;
+		Tlogger m_logger ;
+		QByteArray m_data ;
+		bool m_postData ;
+		Options m_options ;
+	} ;
+
+	template< typename Connection,
+		  typename Tlogger,
+		  typename Options >
+	void run( const engines::engine& engine,
+		  const QStringList& args,
+		  const QString& quality,
+		  bool list_requested,
+		  Options options,
+		  Tlogger logger,
+		  Connection conn )
+	{
+		options.tabManagerEnableAll( false ) ;
+
+		engines::engine::exeArgs::cmd cmd( engine.exePath(),args ) ;
+
+		utility::run( cmd.exe(),cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
+
+			exe.setProcessEnvironment( options.processEnvironment() ) ;
+
+			logger.add( "cmd: " + engine.commandString( cmd ) ) ;
+
+			exe.setWorkingDirectory( options.downloadFolder() ) ;
+
+			exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
+
+			auto ctx = std::make_shared< utility::context< Tlogger,Options > >( engine,std::move( logger ),std::move( options ),list_requested ) ;
+
+			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,
+					[ &exe,ctx,function = std::move( conn.function ) ](){
+
+				ctx->stopReceivingData() ;
+
+				function( exe ) ;
+			} ) ) ;
+
+			return ctx ;
+
+		},[ &options,&engine,quality ]( QProcess& exe ){
+
+			engine.sendCredentials( quality,exe ) ;
+
+		},[]( int,QProcess::ExitStatus,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
+
+			ctx->disconnect() ;
+
+			ctx->listRequested( [ & ]( const QList< QByteArray >& e ){
+
+				ctx->options().listRequested( e ) ;
+			} ) ;
+
+			ctx->options().done() ;
+
+		},[]( QProcess::ProcessChannel,QByteArray data,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
+
+			if( ctx->options().debug() ){
+
+				qDebug() << data ;
+				qDebug() << "------------------------" ;
+			}
+
+			ctx->postData( std::move( data ) ) ;
+		} ) ;
+	}
+
 	/*
 	 * Function must take an int and must return bool
 	 */
@@ -323,52 +474,28 @@ namespace utility
 		} ) ;
 	}
 
-	template< typename T,std::enable_if_t< std::is_reference< T >::value,int > = 0 >
-	class result_ref
-	{
-	public:
-		result_ref() : m_value( nullptr )
-		{
-		}
-		result_ref( T e ) : m_value( std::addressof( e ) )
-		{
-		}
-		typename std::remove_reference< T >::type * operator->() const
-		{
-			return m_value ;
-		}
-		T& value() const
-		{
-			return *m_value ;
-		}
-		T& operator*() const
-		{
-			return this->value() ;
-		}
-		bool has_value() const
-		{
-			return m_value ;
-		}
-		operator bool() const
-		{
-			return this->has_value() ;
-		}
-	private:
-		typename std::remove_reference< T >::type * m_value ;
-	} ;
-
 	void wait( int time ) ;
 	void waitForOneSecond() ;
 	void openDownloadFolderPath( const QString& ) ;
 	QString homePath() ;
 	QString python3Path() ;
 	int terminateProcess( unsigned long pid ) ;
+	void terminateProcess( QProcess& ) ;
 	bool platformIsWindows() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;
 
 	bool hasDigitsOnly( const QString& e ) ;
+
+	template< typename Object,
+		  typename ObjectMemberFunction >
+	static auto make_term_conn( Object obj,ObjectMemberFunction memFunction )
+	{
+		auto s = static_cast< void( * )( QProcess& ) >( utility::terminateProcess ) ;
+
+		return make_conn( obj,memFunction,s ) ;
+	}
 }
 
 #endif

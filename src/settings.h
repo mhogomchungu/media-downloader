@@ -52,7 +52,9 @@ public:
 	bool showTrayIcon() ;
 	bool autoDownload() ;
 	bool showVersionInfoWhenStarting() ;
+	bool sequentialDownloading() ;
 
+	void setSequentialDownloading( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;

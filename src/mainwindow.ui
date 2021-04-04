@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -213,7 +213,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -670,9 +670,9 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>710</x>
-        <y>280</y>
+        <y>300</y>
         <width>41</width>
-        <height>61</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -718,7 +718,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>210</y>
+        <y>240</y>
         <width>421</width>
         <height>31</height>
        </rect>
@@ -786,9 +786,9 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>90</x>
-        <y>240</y>
+        <y>270</y>
         <width>621</width>
-        <height>141</height>
+        <height>111</height>
        </rect>
       </property>
      </widget>
@@ -838,7 +838,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>150</y>
+        <y>180</y>
         <width>421</width>
         <height>31</height>
        </rect>
@@ -864,7 +864,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>180</y>
+        <y>210</y>
         <width>211</width>
         <height>33</height>
        </rect>
@@ -877,13 +877,26 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>180</y>
+        <y>210</y>
         <width>211</width>
         <height>33</height>
        </rect>
       </property>
       <property name="text">
        <string>Remove A Plugin</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="cbConfigureBatchDownloadSequentially">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>150</y>
+        <width>421</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Batch Download Sequentially</string>
       </property>
      </widget>
     </widget>

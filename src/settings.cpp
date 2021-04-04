@@ -142,6 +142,21 @@ bool settings::showVersionInfoWhenStarting()
 	return m_settings.value( "ShowVersionInfoWhenStarting" ).toBool() ;
 }
 
+bool settings::sequentialDownloading()
+{
+	if( !m_settings.contains( "SequentialDownloading" ) ){
+
+		m_settings.setValue( "SequentialDownloading",true ) ;
+	}
+
+	return m_settings.value( "SequentialDownloading" ).toBool() ;
+}
+
+void settings::setSequentialDownloading( bool e )
+{
+	m_settings.setValue( "SequentialDownloading",e ) ;
+}
+
 void settings::setShowVersionInfoWhenStarting( bool e )
 {
 	m_settings.setValue( "ShowVersionInfoWhenStarting",e ) ;

@@ -26,15 +26,51 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QDir>
+#include <QProcess>
 
 #include <vector>
 #include <functional>
 
-#include "utility.h"
 #include "logger.h"
+
+class settings ;
 
 class engines{
 public:
+	template< typename T,std::enable_if_t< std::is_reference< T >::value,int > = 0 >
+	class result_ref
+	{
+	public:
+		result_ref() : m_value( nullptr )
+		{
+		}
+		result_ref( T e ) : m_value( std::addressof( e ) )
+		{
+		}
+		typename std::remove_reference< T >::type * operator->() const
+		{
+			return m_value ;
+		}
+		T& value() const
+		{
+			return *m_value ;
+		}
+		T& operator*() const
+		{
+			return this->value() ;
+		}
+		bool has_value() const
+		{
+			return m_value ;
+		}
+		operator bool() const
+		{
+			return this->has_value() ;
+		}
+	private:
+		typename std::remove_reference< T >::type * m_value ;
+	} ;
+
 	class Json
 	{
 	public:
@@ -232,15 +268,7 @@ public:
 		{
 			return m_name ;
 		}
-		const QString& commandName() const
-		{
-			if( utility::platformIsWindows() ){
-
-				return m_commandNameWindows ;
-			}else{
-				return m_commandName ;
-			}
-		}
+		const QString& commandName() const ;
 		const QString& versionArgument() const
 		{
 			return m_versionArgument ;
@@ -378,7 +406,7 @@ public:
 	QStringList enginesList() const ;
 	const std::vector< engine >& getEngines() const ;
 	const engine& defaultEngine() const ;
-	utility::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
+	engines::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	engines::engine getEngineByPath( const QString& path ) const ;
 	void setDefaultEngine( const QString& name ) ;
 	void setDefaultEngine( const engines::engine& engine ) ;

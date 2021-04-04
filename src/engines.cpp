@@ -158,7 +158,7 @@ const engines::engine& engines::defaultEngine() const
 	}
 }
 
-utility::result_ref< const engines::engine& > engines::getEngineByName( const QString& name ) const
+engines::result_ref< const engines::engine& > engines::getEngineByName( const QString& name ) const
 {
 	for( const auto& it : m_backends ){
 
@@ -492,6 +492,16 @@ engines::engine::engine( Logger& logger,
 				m_exePath = { m,subCmd,cmdNames } ;
 			}
 		}
+	}
+}
+
+const QString& engines::engine::commandName() const
+{
+	if( utility::platformIsWindows() ){
+
+		return m_commandNameWindows ;
+	}else{
+		return m_commandName ;
 	}
 }
 

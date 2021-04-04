@@ -53,21 +53,26 @@ batchdownloader::batchdownloader( const Context& ctx) :
 
 	connect( m_ui.tableWidgetBD,&QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
-		QMenu m ;
+		if( m_running ){
 
-		connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
 
-			auto row = m_ui.tableWidgetBD->currentRow() ;
+		}else{
+			QMenu m ;
 
-			if( row != -1 ){
+			connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
 
-				m_ui.tableWidgetBD->removeRow( row ) ;
+				auto row = m_ui.tableWidgetBD->currentRow() ;
 
-				m_ui.pbBDDownload->setEnabled( m_ui.tableWidgetBD->rowCount() ) ;
-			}
-		} ) ;
+				if( row != -1 ){
 
-		m.exec( QCursor::pos() ) ;
+					m_ui.tableWidgetBD->removeRow( row ) ;
+
+					m_ui.pbBDDownload->setEnabled( m_ui.tableWidgetBD->rowCount() ) ;
+				}
+			} ) ;
+
+			m.exec( QCursor::pos() ) ;
+		}
 	} ) ;
 
 	connect( m_ui.pbBDQuit,&QPushButton::clicked,[ this ](){
@@ -153,27 +158,80 @@ void batchdownloader::tabEntered()
 {
 }
 
+void batchdownloader::monitorForFinished()
+{
+	counter++ ;
+
+	if( counter == m_ui.tableWidgetBD->rowCount() ){
+
+		m_ctx.TabManager().enableAll() ;
+	}
+}
+
 void batchdownloader::download()
 {
 	if( m_ui.tableWidgetBD->rowCount() ){
 
-		QStringList urls ;
+		if( m_settings.sequentialDownloading() ){
 
-		for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
+			QStringList urls ;
 
-			urls.append( m_ui.tableWidgetBD->item( s,0 )->text() ) ;
+			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
+
+				urls.append( m_ui.tableWidgetBD->item( s,0 )->text() ) ;
+			}
+
+			auto options = m_ui.lineEditBDUrlOptions->text() ;
+
+			const auto& engine = m_ctx.Engines().defaultEngine() ;
+
+			m_tabManager.basicDownloader().download( engine,options,urls ) ;
+		}else{
+			counter = 0 ;
+
+			m_ctx.TabManager().disableAll() ;
+			m_ui.tableWidgetBD->setEnabled( true ) ;
+
+			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
+
+				utility::args args( m_ui.lineEditBDUrlOptions->text() ) ;
+
+				const auto& engine = m_ctx.Engines().defaultEngine() ;
+
+				auto opts = engine.defaultDownLoadCmdOptions() ;
+
+				for( const auto& it : args.otherOptions ){
+
+					opts.append( it ) ;
+				}
+
+				QStringList m = { m_ui.tableWidgetBD->item( s,0 )->text() } ;
+
+				engine.updateDownLoadCmdOptions( args.quality,args.otherOptions,m,opts ) ;
+
+				opts.append( m ) ;
+
+				auto aa = batchdownloader::make_options ( *m_ui.pbCancel,m_ctx,false,[ this ](){
+
+					QMetaObject::invokeMethod( this,"monitorForFinished",Qt::QueuedConnection ) ;
+				} ) ;
+
+				utility::run( engine,
+					      opts,
+					      args.quality,
+					      false,
+					      std::move( aa ),
+					      LoggerTableWidgetItem( *m_ui.tableWidgetBD->item( s,0 ) ),
+					      utility::make_term_conn( m_ui.pbCancel,&QPushButton::clicked ) ) ;
+			}
 		}
-
-		auto options = m_ui.lineEditBDUrlOptions->text() ;
-
-		const auto& engine = m_ctx.Engines().defaultEngine() ;
-
-		m_tabManager.basicDownloader().download( engine,options,urls ) ;
 	}
 }
 
 void batchdownloader::enableAll()
 {
+	m_running = false ;
+
 	m_ui.tableWidgetBD->setEnabled( true ) ;
 	m_ui.pbBDDownload->setEnabled( m_ui.tableWidgetBD->rowCount() ) ;
 	m_ui.pbBDAdd->setEnabled( true ) ;
@@ -187,6 +245,8 @@ void batchdownloader::enableAll()
 
 void batchdownloader::disableAll()
 {
+	m_running = true ;
+
 	m_ui.tableWidgetBD->setEnabled( false ) ;
 	m_ui.pbBDDownload->setEnabled( false ) ;
 	m_ui.pbBDAdd->setEnabled( false ) ;

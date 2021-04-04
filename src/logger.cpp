@@ -47,3 +47,49 @@ void Logger::update()
 	m_textEdit.setPlainText( m_text.join( '\n' ) ) ;
 	m_textEdit.moveCursor( QTextCursor::End ) ;
 }
+
+LoggerTableWidgetItem::LoggerTableWidgetItem( QTableWidgetItem& item ) :
+	m_tableWidgetItem( item )
+{
+}
+
+void LoggerTableWidgetItem::add( const QString& s )
+{
+	if( s.startsWith( "[media-downloader]" ) ){
+
+		m_text.append( s ) ;
+	}else{
+		m_text.append( "[media-downloader] " + s ) ;
+	}
+
+	this->update() ;
+}
+
+void LoggerTableWidgetItem::clear()
+{
+	m_tableWidgetItem.setText( "" ) ;
+	m_text.clear() ;
+}
+
+void LoggerTableWidgetItem::update()
+{
+	QString m ;
+
+	int s = m_text.size() ;
+
+	if( s == 0 ){
+
+
+	}else if( s == 1 ){
+
+		m = m_text.at( s - 1 ) ;
+
+	}else if( s == 2 ){
+
+		m = m_text.at( s - 2 ) + "\n" + m_text.at( s - 1 ) ;
+	}else{
+		m = m_text.at( s - 3 ) + "\n" + m_text.at( s - 2 ) + "\n" + m_text.at( s - 1 ) ;
+	}
+
+	m_tableWidgetItem.setText( m ) ;
+}

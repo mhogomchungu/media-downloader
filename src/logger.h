@@ -23,6 +23,7 @@
 #include <QPlainTextEdit>
 #include <QString>
 #include <QStringList>
+#include <QTableWidgetItem>
 
 class Logger
 {
@@ -36,9 +37,55 @@ public:
 		function( m_text ) ;
 		this->update() ;
 	}
+	Logger( const Logger& ) = delete ;
+	Logger& operator=( const Logger& ) = delete ;
+	Logger( Logger&& ) = delete ;
+	Logger& operator=( Logger&& ) = delete ;
 private:
 	void update() ;
 	QPlainTextEdit& m_textEdit ;
+	QStringList m_text ;
+} ;
+
+class LoggerWrapper
+{
+public:
+	LoggerWrapper() = delete ;
+	LoggerWrapper( Logger& logger ) : m_logger( &logger )
+	{
+	}
+	void add( const QString& e )
+	{
+		m_logger->add( e ) ;
+	}
+	void clear()
+	{
+		m_logger->clear() ;
+	}
+	template< typename Function >
+	void add( Function function )
+	{
+		m_logger->add( std::move( function ) ) ;
+	}
+private:
+	Logger * m_logger ;
+};
+
+class LoggerTableWidgetItem
+{
+public:
+	LoggerTableWidgetItem( QTableWidgetItem& ) ;
+	void add( const QString& ) ;
+	void clear() ;
+	template< typename Function >
+	void add( Function function )
+	{
+		function( m_text ) ;
+		this->update() ;
+	}
+private:
+	void update() ;
+	QTableWidgetItem& m_tableWidgetItem ;
 	QStringList m_text ;
 } ;
 
