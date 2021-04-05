@@ -43,6 +43,21 @@ settings::settings() :
 	}
 }
 
+void settings::setTabNumber( int s )
+{
+	m_settings.setValue( "TabNumber",s ) ;
+}
+
+int settings::tabNumber()
+{
+	if( !m_settings.contains( "TabNumber" ) ){
+
+		m_settings.setValue( "TabNumber",0 ) ;
+	}
+
+	return m_settings.value( "TabNumber" ).toInt() ;
+}
+
 QString settings::downloadFolder()
 {
 	if( !m_settings.contains( "DownloadFolder" ) ){

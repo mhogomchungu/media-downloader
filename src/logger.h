@@ -71,22 +71,76 @@ private:
 	Logger * m_logger ;
 };
 
+template< typename Function >
 class LoggerTableWidgetItem
 {
 public:
-	LoggerTableWidgetItem( QTableWidgetItem& ) ;
-	void add( const QString& ) ;
-	void clear() ;
-	template< typename Function >
-	void add( Function function )
+	LoggerTableWidgetItem( Function function,QTableWidgetItem& item ) :
+		m_tableWidgetItem( item ),
+		m_function( std::move( function ) )
+	{
+	}
+	void add( const QString& s )
+	{
+		if( s.startsWith( "[media-downloader]" ) ){
+
+			m_text.append( s ) ;
+		}else{
+			m_text.append( "[media-downloader] " + s ) ;
+		}
+
+		this->update() ;
+	}
+	void clear()
+	{
+		m_tableWidgetItem.setText( "" ) ;
+		m_text.clear() ;
+	}
+	template< typename F >
+	void add( F function )
 	{
 		function( m_text ) ;
 		this->update() ;
 	}
 private:
-	void update() ;
+	void update()
+	{
+#if 1
+		if( m_text.size() > 0 ){
+
+			m_tableWidgetItem.setText( m_function( m_text.last() ) ) ;
+		}
+#else
+		QString m ;
+
+		int s = m_text.size() ;
+
+		if( s == 0 ){
+
+
+		}else if( s == 1 ){
+
+			m = m_text.at( s - 1 ) ;
+
+		}else if( s == 2 ){
+
+			m = m_text.at( s - 2 ) + "\n" + m_text.at( s - 1 ) ;
+		}else{
+			m = m_text.at( s - 3 ) + "\n" + m_text.at( s - 2 ) + "\n" + m_text.at( s - 1 ) ;
+		}
+
+		m_tableWidgetItem.setText( m ) ;
+#endif
+	}
 	QTableWidgetItem& m_tableWidgetItem ;
 	QStringList m_text ;
+	Function m_function ;
 } ;
+
+template< typename Function >
+static auto loggerLoggerTableWidgetItem( Function function,QTableWidgetItem& item )
+{
+	return LoggerTableWidgetItem< Function >( std::move( function ),item ) ;
+}
 
 #endif

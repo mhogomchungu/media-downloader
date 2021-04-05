@@ -34,6 +34,8 @@ class settings
 public:
 	settings() ;
 
+	int tabNumber() ;
+
 	QString downloadFolder() ;
 	QString presetOptions() ;
 	QString defaultEngine() ;
@@ -54,6 +56,7 @@ public:
 	bool showVersionInfoWhenStarting() ;
 	bool sequentialDownloading() ;
 
+	void setTabNumber( int ) ;
 	void setSequentialDownloading( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setHighDpiScalingFactor( const QString& ) ;

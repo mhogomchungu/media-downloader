@@ -227,6 +227,8 @@ public:
 		{
 			virtual ~functions() ;
 
+			virtual QString updateProgress( const QString& ) ;
+
 			virtual void updateOptions( QJsonObject& ) ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
@@ -306,6 +308,10 @@ public:
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{
 			m_functions->sendCredentials( *this,credentials,exe ) ;
+		}
+		QString updateProgress( const QString& e ) const
+		{
+			return m_functions->updateProgress( e ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{

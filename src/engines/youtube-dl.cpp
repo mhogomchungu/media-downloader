@@ -155,6 +155,24 @@ youtube_dl::~youtube_dl()
 {
 }
 
+QString youtube_dl::updateProgress( const QString& e )
+{
+	if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
+
+		auto m = e ;
+		m.replace( "[download]  ","" ) ;
+		return m ;
+
+	}else if( e.startsWith( "[download] 100% of " ) ){
+
+		auto m = e ;
+		m.replace( "[download] ","" ) ;
+		return m ;
+	}else{
+		return e ;
+	}
+}
+
 void youtube_dl::updateOptions( QJsonObject& object )
 {
 	if( !object.contains( "SkipLineWithText" ) ){

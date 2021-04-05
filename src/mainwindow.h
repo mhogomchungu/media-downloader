@@ -54,6 +54,7 @@ private:
 	Logger m_logger ;
 	engines m_engines ;
 	tabManager m_tabManager ;
+	settings& m_settings ;
 	void closeEvent( QCloseEvent * ) ;
 };
 

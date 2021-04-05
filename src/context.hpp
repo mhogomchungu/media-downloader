@@ -40,6 +40,8 @@
 
 #include "engines.h"
 
+#include <QCoreApplication>
+
 class translator ;
 class QMainWindow ;
 class tabManager ;
@@ -72,7 +74,8 @@ public:
 		m_mainWindow( mw ),
 		m_logger( l ),
 		m_engines( e ),
-		m_tabManager( tm )
+		m_tabManager( tm ),
+		m_debug( QCoreApplication::arguments().contains( "--debug" ) )
 	{
 	}
 	engines& Engines() const
@@ -107,6 +110,10 @@ public:
 	{
 		return m_logger ;
 	}
+	bool debug() const
+	{
+		return m_debug ;
+	}
 private:
 	settings& m_settings ;
 	translator& m_translator ;
@@ -116,6 +123,7 @@ private:
 	Logger& m_logger ;
 	engines& m_engines ;
 	tabManager& m_tabManager ;
+	bool m_debug ;
 };
 
 #endif

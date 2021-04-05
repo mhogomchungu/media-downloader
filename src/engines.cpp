@@ -547,6 +547,11 @@ engines::engine::functions::~functions()
 {
 }
 
+QString engines::engine::functions::updateProgress( const QString& )
+{
+	return {} ;
+}
+
 void engines::engine::functions::updateOptions( QJsonObject& )
 {
 }

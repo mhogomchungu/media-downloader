@@ -63,6 +63,8 @@ public:
 				case 4 : m_about.tabEntered() ; break ;
 			}
 		} ) ;
+
+		m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 	}
 	tabManager& enableAll()
 	{

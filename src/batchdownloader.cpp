@@ -20,14 +20,15 @@
 #include "batchdownloader.h"
 #include "tabmanager.h"
 
-batchdownloader::batchdownloader( const Context& ctx) :
+batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_running( false ),
-	m_cancelled( false )
+	m_cancelled( false ),
+	m_debug( ctx.debug() )
 {
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
@@ -224,13 +225,12 @@ void batchdownloader::download()
 
 			m_downloadList.clear() ;
 
+			const auto& engine = m_ctx.Engines().defaultEngine() ;
+			auto opts = engine.defaultDownLoadCmdOptions() ;
+
 			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
 
 				utility::args args( m_ui.lineEditBDUrlOptions->text() ) ;
-
-				const auto& engine = m_ctx.Engines().defaultEngine() ;
-
-				auto opts = engine.defaultDownLoadCmdOptions() ;
 
 				for( const auto& it : args.otherOptions ){
 
@@ -247,17 +247,22 @@ void batchdownloader::download()
 
 				opts.append( m ) ;
 
-				auto aa = batchdownloader::make_options( *m_ui.pbBDCancel,m_ctx,false,[ this ](){
+				auto aa = batchdownloader::make_options( *m_ui.pbBDCancel,m_ctx,m_debug,[ this ](){
 
 					QMetaObject::invokeMethod( this,"monitorForFinished",Qt::QueuedConnection ) ;
 				} ) ;
+
+				auto bb = [ &engine ]( const QString& e ){
+
+					return engine.updateProgress( e ) ;
+				} ;
 
 				utility::run( engine,
 					      opts,
 					      args.quality,
 					      false,
 					      std::move( aa ),
-					      LoggerTableWidgetItem( *m_ui.tableWidgetBD->item( s,0 ) ),
+					      loggerLoggerTableWidgetItem( std::move( bb ),*m_ui.tableWidgetBD->item( s,0 ) ),
 					      utility::make_term_conn( m_ui.pbBDCancel,&QPushButton::clicked ) ) ;
 			}
 		}

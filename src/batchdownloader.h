@@ -52,6 +52,7 @@ private:
 	int counter ;
 	bool m_running ;
 	bool m_cancelled ;
+	bool m_debug ;
 
 	QStringList m_downloadList ;
 

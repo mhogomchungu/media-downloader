@@ -29,6 +29,7 @@
 basicdownloader::basicdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
+	m_debug( ctx.debug() ),
 	m_ui( m_ctx.Ui() ),
 	m_tabManager( m_ctx.TabManager() )
 {
@@ -450,6 +451,8 @@ void basicdownloader::disableAll()
 
 void basicdownloader::appQuit()
 {
+	m_settings.setTabNumber( m_ui.tabWidget->currentIndex() ) ;
+
 	QCoreApplication::quit() ;
 }
 

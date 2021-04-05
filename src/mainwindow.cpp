@@ -39,7 +39,8 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_showTrayIcon( s.showTrayIcon() ),
 	m_logger( *m_ui->plainTextEditLogger ),
 	m_engines( m_logger,s ),
-	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this )
+	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this ),
+	m_settings( s )
 {
 	this->window()->setFixedSize( this->window()->size() ) ;
 
