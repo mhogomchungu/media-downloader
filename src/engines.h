@@ -227,7 +227,7 @@ public:
 		{
 			virtual ~functions() ;
 
-			virtual QString updateProgress( const QString& ) ;
+			virtual const QString& updateProgress( const QString& ) ;
 
 			virtual void updateOptions( QJsonObject& ) ;
 
@@ -309,7 +309,7 @@ public:
 		{
 			m_functions->sendCredentials( *this,credentials,exe ) ;
 		}
-		QString updateProgress( const QString& e ) const
+		const QString& updateProgress( const QString& e ) const
 		{
 			return m_functions->updateProgress( e ) ;
 		}

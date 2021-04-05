@@ -155,19 +155,19 @@ youtube_dl::~youtube_dl()
 {
 }
 
-QString youtube_dl::updateProgress( const QString& e )
+const QString& youtube_dl::updateProgress( const QString& e )
 {
 	if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
 
-		auto m = e ;
-		m.replace( "[download]  ","" ) ;
-		return m ;
+		m_tmp = e ;
+		m_tmp.replace( "[download]  ","" ) ;
+		return m_tmp ;
 
 	}else if( e.startsWith( "[download] 100% of " ) ){
 
-		auto m = e ;
-		m.replace( "[download] ","" ) ;
-		return m ;
+		m_tmp = e ;
+		m_tmp.replace( "[download] ","" ) ;
+		return m_tmp ;
 	}else{
 		return e ;
 	}

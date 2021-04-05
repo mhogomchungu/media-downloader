@@ -229,24 +229,11 @@ void batchdownloader::download()
 
 			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
 
-				auto opts = engine.defaultDownLoadCmdOptions() ;
-
 				utility::args args( m_ui.lineEditBDUrlOptions->text() ) ;
-
-				for( const auto& it : args.otherOptions ){
-
-					opts.append( it ) ;
-				}
 
 				auto l = m_ui.tableWidgetBD->item( s,0 )->text() ;
 
 				m_downloadList.append( l ) ;
-
-				QStringList m( l ) ;
-
-				engine.updateDownLoadCmdOptions( args.quality,args.otherOptions,m,opts ) ;
-
-				opts.append( m ) ;
 
 				auto aa = batchdownloader::make_options( *m_ui.pbBDCancel,m_ctx,m_debug,[ this ](){
 
@@ -259,7 +246,7 @@ void batchdownloader::download()
 				} ;
 
 				utility::run( engine,
-					      opts,
+					      utility::updateOptions( engine,args,{ l } ),
 					      args.quality,
 					      false,
 					      std::move( aa ),

@@ -411,3 +411,23 @@ void utility::terminateProcess( QProcess& exe )
 		exe.terminate() ;
 	}
 }
+
+QStringList utility::updateOptions( const engines::engine& engine,
+				    const utility::args& args,
+				    const QStringList& urls )
+{
+	auto opts = engine.defaultDownLoadCmdOptions() ;
+
+	for( const auto& it : args.otherOptions ){
+
+		opts.append( it ) ;
+	}
+
+	auto url = urls ;
+
+	engine.updateDownLoadCmdOptions( args.quality,args.otherOptions,url,opts ) ;
+
+	opts.append( url ) ;
+
+	return opts ;
+}

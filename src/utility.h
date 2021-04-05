@@ -486,6 +486,10 @@ namespace utility
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;
 
+	QStringList updateOptions( const engines::engine& engine,
+				   const utility::args& args,
+				   const QStringList& urls ) ;
+
 	bool hasDigitsOnly( const QString& e ) ;
 
 	template< typename Object,

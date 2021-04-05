@@ -358,18 +358,7 @@ void basicdownloader::download( const engines::engine& engine,
 
 	m_ui.pbCancel->setEnabled( true ) ;
 
-	auto opts = engine.defaultDownLoadCmdOptions() ;
-
-	for( const auto& it : args.otherOptions ){
-
-		opts.append( it ) ;
-	}
-
-	auto url = urls ;
-
-	engine.updateDownLoadCmdOptions( args.quality,args.otherOptions,url,opts ) ;
-
-	opts.append( url ) ;
+	auto opts = utility::updateOptions( engine,args,urls ) ;
 
 	this->run( engine,opts,args.quality,false ) ;
 }

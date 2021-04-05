@@ -26,7 +26,7 @@ class youtube_dl : public engines::engine::functions
 public:
 	~youtube_dl() override ;
 
-	QString updateProgress( const QString& ) override ;
+	const QString& updateProgress( const QString& ) override ;
 
 	void updateOptions( QJsonObject& ) override ;
 
@@ -40,4 +40,5 @@ public:
 	youtube_dl() ;
 	static QJsonObject defaultControlStructure() ;
 private:
+	QString m_tmp ;
 };
