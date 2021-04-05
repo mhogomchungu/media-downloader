@@ -40,6 +40,7 @@ public:
 	void resetMenu() ;
 	void retranslateUi() ;
 	void tabEntered() ;
+	void tabExited() ;
 private slots:
 	void monitorForFinished() ;
 private:

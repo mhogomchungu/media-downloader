@@ -36,6 +36,7 @@ public:
 	void resetMenu() ;
 	void retranslateUi() ;
 	void tabEntered() ;
+	void tabExited() ;
 private:
 	const Context& m_ctx ;
 };

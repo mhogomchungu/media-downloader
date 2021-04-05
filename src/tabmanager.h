@@ -38,6 +38,7 @@ public:
 		    Ui::MainWindow& m,
 		    QWidget& w,
 		    MainWindow& mw ) :
+		m_currentTab( s.tabNumber() ),
 		m_ctx( s,t,m,w,mw,l,e,*this ),
 		m_about( m_ctx ),
 		m_configure( m_ctx ),
@@ -61,6 +62,19 @@ public:
 				case 2 : m_playlistdownloader.tabEntered() ; break ;
 				case 3 : m_configure.tabEntered() ; break ;
 				case 4 : m_about.tabEntered() ; break ;
+			}
+
+			if( m_currentTab != index ){
+
+				switch( m_currentTab ) {
+					case 0 : m_basicdownloader.tabExited() ; break ;
+					case 1 : m_batchdownloader.tabExited() ; break ;
+					case 2 : m_playlistdownloader.tabExited() ; break ;
+					case 3 : m_configure.tabExited() ; break ;
+					case 4 : m_about.tabExited() ; break ;
+				}
+
+				m_currentTab = index ;
 			}
 		} ) ;
 
@@ -123,6 +137,7 @@ public:
 		return m_configure ;
 	}
 private:
+	int m_currentTab ;
 	Context m_ctx ;
 	about m_about ;
 	configure m_configure ;

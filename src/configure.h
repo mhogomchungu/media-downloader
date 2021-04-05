@@ -38,6 +38,7 @@ public:
 	void retranslateUi() ;
 	void downloadFromGitHub( const engines::engine& ) ;
 	void tabEntered() ;
+	void tabExited() ;
 private:
 	void manageDownloadButton() ;
 	bool m_setEnabled ;

@@ -99,6 +99,10 @@ void batchfiledownloader::tabEntered()
 {
 }
 
+void batchfiledownloader::tabExited()
+{
+}
+
 void batchfiledownloader::disableAll()
 {
 	m_ui.lineEditFileDownloader->setEnabled( false ) ;

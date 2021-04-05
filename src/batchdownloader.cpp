@@ -175,6 +175,10 @@ void batchdownloader::tabEntered()
 {
 }
 
+void batchdownloader::tabExited()
+{
+}
+
 void batchdownloader::monitorForFinished()
 {
 	counter++ ;

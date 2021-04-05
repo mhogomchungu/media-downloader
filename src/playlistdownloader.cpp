@@ -156,3 +156,7 @@ void playlistdownloader::retranslateUi()
 void playlistdownloader::tabEntered()
 {
 }
+
+void playlistdownloader::tabExited()
+{
+}

@@ -407,6 +407,10 @@ void basicdownloader::tabEntered()
 {
 }
 
+void basicdownloader::tabExited()
+{
+}
+
 void basicdownloader::enableQuit()
 {
 	m_ui.pbQuit->setEnabled( true ) ;

@@ -45,6 +45,7 @@ public:
 	void updateEngines() ;
 	void downloadDefaultEngine() ;
 	void tabEntered() ;
+	void tabExited() ;
 	void enableQuit() ;
 	void enableAll() ;
 	void disableAll() ;

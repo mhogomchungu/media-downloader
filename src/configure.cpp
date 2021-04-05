@@ -179,6 +179,10 @@ void configure::tabEntered()
 	this->manageDownloadButton() ;
 }
 
+void configure::tabExited()
+{
+}
+
 void configure::manageDownloadButton()
 {
 	const auto& engine = m_ctx.Engines().defaultEngine() ;
