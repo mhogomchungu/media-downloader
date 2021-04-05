@@ -60,8 +60,8 @@
         <location filename="../src/mainwindow.ui" line="353"/>
         <location filename="../src/mainwindow.ui" line="397"/>
         <location filename="../src/mainwindow.ui" line="603"/>
-        <location filename="../src/mainwindow.ui" line="818"/>
-        <location filename="../src/mainwindow.cpp" line="58"/>
+        <location filename="../src/mainwindow.ui" line="805"/>
+        <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
     </message>
@@ -141,47 +141,46 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="795"/>
         <source>Set</source>
-        <translation>Zapisz</translation>
+        <translation type="vanished">Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="841"/>
+        <location filename="../src/mainwindow.ui" line="828"/>
         <source>Select Language</source>
         <translation>Wybierz język</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="860"/>
+        <location filename="../src/mainwindow.ui" line="847"/>
         <source>Update</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="873"/>
+        <location filename="../src/mainwindow.ui" line="860"/>
         <source>Show Version Info When Starting</source>
         <translation>Pokaż informacje nt wersji przy uruchamianiu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="886"/>
+        <location filename="../src/mainwindow.ui" line="873"/>
         <source>Add a Plugin</source>
         <translation>Dodaj wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="899"/>
+        <location filename="../src/mainwindow.ui" line="886"/>
         <source>Remove A Plugin</source>
         <translation>Usuń wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="912"/>
+        <location filename="../src/mainwindow.ui" line="899"/>
         <source>Batch Download Sequentially</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="918"/>
+        <location filename="../src/mainwindow.ui" line="905"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="930"/>
+        <location filename="../src/mainwindow.ui" line="917"/>
         <source>TextLabel</source>
         <translation>TextLabel</translation>
     </message>
@@ -280,12 +279,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="743"/>
+        <location filename="../src/engines.cpp" line="748"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="758"/>
+        <location filename="../src/engines.cpp" line="763"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
@@ -336,18 +335,18 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="144"/>
-        <location filename="../src/basicdownloader.cpp" line="270"/>
+        <location filename="../src/basicdownloader.cpp" line="145"/>
+        <location filename="../src/basicdownloader.cpp" line="271"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="251"/>
+        <location filename="../src/basicdownloader.cpp" line="252"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="274"/>
+        <location filename="../src/basicdownloader.cpp" line="275"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>
@@ -355,7 +354,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="66"/>
+        <location filename="../src/batchdownloader.cpp" line="73"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
@@ -371,22 +370,22 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="48"/>
+        <location filename="../src/configure.cpp" line="49"/>
         <source>Select An Engine File</source>
         <translation>Wybierz plik silnika</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="75"/>
+        <location filename="../src/configure.cpp" line="76"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="140"/>
+        <location filename="../src/configure.cpp" line="130"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="196"/>
+        <location filename="../src/configure.cpp" line="200"/>
         <source>Update</source>
         <translation>Aktualizuj</translation>
     </message>

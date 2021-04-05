@@ -40,6 +40,7 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 private:
+	void saveOptions() ;
 	void manageDownloadButton() ;
 	bool m_setEnabled ;
 	const Context& m_ctx ;

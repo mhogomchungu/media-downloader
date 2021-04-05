@@ -213,7 +213,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -782,19 +782,6 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="pbConfigureSet">
-      <property name="geometry">
-       <rect>
-        <x>250</x>
-        <y>380</y>
-        <width>151</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Set</string>
-      </property>
-     </widget>
      <widget class="QTextEdit" name="textEditConfigurePresetOptions">
       <property name="geometry">
        <rect>
@@ -808,9 +795,9 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbConfigureQuit">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>330</x>
         <y>380</y>
-        <width>151</width>
+        <width>141</width>
         <height>31</height>
        </rect>
       </property>
@@ -956,16 +943,17 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>tableWidgetBD</tabstop>
   <tabstop>lineEditBDUrl</tabstop>
   <tabstop>lineEditBDUrlOptions</tabstop>
+  <tabstop>pbBDCancel</tabstop>
   <tabstop>pbBDDownload</tabstop>
   <tabstop>pbBDAdd</tabstop>
   <tabstop>pbBDOptions</tabstop>
   <tabstop>pbBDQuit</tabstop>
   <tabstop>lineEditFileDownloader</tabstop>
+  <tabstop>pbFileDownloaderFilePath</tabstop>
   <tabstop>lineEditFileOptions</tabstop>
   <tabstop>pbFileDownloaderDownload</tabstop>
   <tabstop>pbFileDownloaderOptions</tabstop>
   <tabstop>pbFileDownloaderQuit</tabstop>
-  <tabstop>pbFileDownloaderFilePath</tabstop>
   <tabstop>lineEditPLEFileDownloader</tabstop>
   <tabstop>pbFilePLEDownloaderFilePath</tabstop>
   <tabstop>lineEditPLUrl</tabstop>
@@ -979,12 +967,12 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>lineEditConfigureDownloadPath</tabstop>
   <tabstop>pbConfigureDownloadPath</tabstop>
   <tabstop>cbConfigureShowVersionInfo</tabstop>
+  <tabstop>cbConfigureBatchDownloadSequentially</tabstop>
   <tabstop>pbConfigureDownload</tabstop>
   <tabstop>pbConfigureAddAPlugin</tabstop>
   <tabstop>pbConfigureRemoveAPlugin</tabstop>
   <tabstop>textEditConfigurePresetOptions</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>
-  <tabstop>pbConfigureSet</tabstop>
   <tabstop>pbConfigureQuit</tabstop>
  </tabstops>
  <resources/>

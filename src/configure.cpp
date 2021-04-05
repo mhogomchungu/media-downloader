@@ -40,6 +40,7 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
+		this->saveOptions() ;
 		m_tabManager.basicDownloader().appQuit() ;
 	} ) ;
 
@@ -82,18 +83,7 @@ configure::configure( const Context& ctx ) :
 		} ) ;
 
 		m.exec( QCursor::pos() ) ;
-	} ) ;
-
-	connect( m_ui.pbConfigureSet,&QPushButton::clicked,[ this ](){
-
-		m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
-		m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
-		m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
-		m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
-		m_settings.setSequentialDownloading( m_ui.cbConfigureBatchDownloadSequentially->isChecked() ) ;
-
-		m_tabManager.resetMenu().basicDownloader().setAsActive() ;
-	} ) ;
+	} ) ;	
 
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
 
@@ -181,6 +171,16 @@ void configure::tabEntered()
 
 void configure::tabExited()
 {
+	this->saveOptions() ;
+}
+
+void configure::saveOptions()
+{
+	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
+	m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
+	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
+	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
+	m_settings.setSequentialDownloading( m_ui.cbConfigureBatchDownloadSequentially->isChecked() ) ;
 }
 
 void configure::manageDownloadButton()
@@ -239,7 +239,6 @@ void configure::enableAll()
 	m_ui.textEditConfigurePresetOptions->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureDownloadPath->setEnabled( true ) ;
-	m_ui.pbConfigureSet->setEnabled( true ) ;
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( true ) ;
 	m_ui.labelConfigureScaleFactor->setEnabled( true ) ;
 	m_ui.labelConfigurePresetOptions->setEnabled( true ) ;
@@ -270,7 +269,6 @@ void configure::disableAll()
 	m_ui.textEditConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.pbConfigureDownloadPath->setEnabled( false ) ;
-	m_ui.pbConfigureSet->setEnabled( false ) ;
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( false ) ;
 	m_ui.labelConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.labelConfigurePresetOptions->setEnabled( false ) ;
