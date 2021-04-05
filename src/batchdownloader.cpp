@@ -226,9 +226,10 @@ void batchdownloader::download()
 			m_downloadList.clear() ;
 
 			const auto& engine = m_ctx.Engines().defaultEngine() ;
-			auto opts = engine.defaultDownLoadCmdOptions() ;
 
 			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
+
+				auto opts = engine.defaultDownLoadCmdOptions() ;
 
 				utility::args args( m_ui.lineEditBDUrlOptions->text() ) ;
 
