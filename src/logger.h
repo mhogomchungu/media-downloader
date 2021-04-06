@@ -105,32 +105,11 @@ public:
 private:
 	void update()
 	{
-#if 1
 		if( m_text.size() > 0 ){
 
-			m_tableWidgetItem.setText( m_function( m_text.last() ) ) ;
+			auto& function = *m_function ;
+			m_tableWidgetItem.setText( function( m_text.last() ) ) ;
 		}
-#else
-		QString m ;
-
-		int s = m_text.size() ;
-
-		if( s == 0 ){
-
-
-		}else if( s == 1 ){
-
-			m = m_text.at( s - 1 ) ;
-
-		}else if( s == 2 ){
-
-			m = m_text.at( s - 2 ) + "\n" + m_text.at( s - 1 ) ;
-		}else{
-			m = m_text.at( s - 3 ) + "\n" + m_text.at( s - 2 ) + "\n" + m_text.at( s - 1 ) ;
-		}
-
-		m_tableWidgetItem.setText( m ) ;
-#endif
 	}
 	QTableWidgetItem& m_tableWidgetItem ;
 	QStringList m_text ;

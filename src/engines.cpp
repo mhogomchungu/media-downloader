@@ -547,9 +547,9 @@ engines::engine::functions::~functions()
 {
 }
 
-const QString& engines::engine::functions::updateProgress( const QString& e )
+std::unique_ptr< engines::engine::functions::filter > engines::engine::functions::Filter()
 {
-	return e ;
+	return std::make_unique< engines::engine::functions::filter >() ;
 }
 
 void engines::engine::functions::updateOptions( QJsonObject& )
@@ -764,4 +764,13 @@ QByteArray engines::file::readAll()
 
 		return QByteArray() ;
 	}
+}
+
+const QString& engines::engine::functions::filter::operator()( const QString& e )
+{
+	return e ;
+}
+
+engines::engine::functions::filter::~filter()
+{
 }

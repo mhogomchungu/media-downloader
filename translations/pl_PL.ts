@@ -331,6 +331,11 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <source>Renaming file to: </source>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
+    <message>
+        <location filename="../src/engines/youtube-dl.cpp" line="207"/>
+        <source>Processing ...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -354,7 +359,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="73"/>
+        <location filename="../src/batchdownloader.cpp" line="77"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
@@ -362,7 +367,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchfiledownloader</name>
     <message>
-        <location filename="../src/batchfiledownloader.cpp" line="57"/>
+        <location filename="../src/batchfiledownloader.cpp" line="67"/>
         <source>Set Batch File</source>
         <translation>Wybierz plik</translation>
     </message>

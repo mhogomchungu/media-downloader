@@ -309,17 +309,12 @@ void batchdownloader::download( const engines::engine& engine,int index )
 					   Q_ARG( batchdownloaderFinished,batchdownloaderFinished( engine,index ) ) ) ;
 	} ) ;
 
-	auto bb = [ &engine ]( const QString& e ){
-
-		return engine.updateProgress( e ) ;
-	} ;
-
 	utility::run( engine,
 		      utility::updateOptions( engine,args,{ l } ),
 		      args.quality,
 		      false,
 		      std::move( aa ),
-		      loggerLoggerTableWidgetItem( std::move( bb ),*item ),
+		      loggerLoggerTableWidgetItem( engine.filter(),*item ),
 		      utility::make_term_conn( m_ui.pbBDCancel,&QPushButton::clicked ) ) ;
 }
 
@@ -354,5 +349,3 @@ void batchdownloader::disableAll()
 	m_ui.lineEditBDUrl->setEnabled( false ) ;
 	m_ui.lineEditBDUrlOptions->setEnabled( false ) ;
 }
-
-

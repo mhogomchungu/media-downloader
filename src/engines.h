@@ -225,9 +225,15 @@ public:
 
 		struct functions
 		{
+			class filter{
+			public:
+				virtual const QString& operator()( const QString& e );
+				virtual ~filter() ;
+			} ;
+
 			virtual ~functions() ;
 
-			virtual const QString& updateProgress( const QString& ) ;
+			virtual std::unique_ptr< engines::engine::functions::filter > Filter() ;
 
 			virtual void updateOptions( QJsonObject& ) ;
 
@@ -298,6 +304,10 @@ public:
 		{
 			return m_defaultDownLoadCmdOptions ;
 		}
+		std::unique_ptr< engines::engine::functions::filter > filter() const
+		{
+			return m_functions->Filter() ;
+		}
 		void updateDownLoadCmdOptions( const QString& quality,
 					       const QStringList& userOptions,
 		                               QStringList& urls,
@@ -308,10 +318,6 @@ public:
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{
 			m_functions->sendCredentials( *this,credentials,exe ) ;
-		}
-		const QString& updateProgress( const QString& e ) const
-		{
-			return m_functions->updateProgress( e ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{

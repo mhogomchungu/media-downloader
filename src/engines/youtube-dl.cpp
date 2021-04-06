@@ -155,24 +155,6 @@ youtube_dl::~youtube_dl()
 {
 }
 
-const QString& youtube_dl::updateProgress( const QString& e )
-{
-	if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
-
-		m_tmp = e ;
-		m_tmp.replace( "[download]  ","" ) ;
-		return m_tmp ;
-
-	}else if( e.startsWith( "[download] 100% of " ) ){
-
-		m_tmp = e ;
-		m_tmp.replace( "[download] ","" ) ;
-		return m_tmp ;
-	}else{
-		return e ;
-	}
-}
-
 void youtube_dl::updateOptions( QJsonObject& object )
 {
 	if( !object.contains( "SkipLineWithText" ) ){
@@ -191,6 +173,11 @@ void youtube_dl::updateOptions( QJsonObject& object )
 
 		object.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
 	}
+}
+
+std::unique_ptr< engines::engine::functions::filter > youtube_dl::Filter()
+{
+	return std::make_unique< youtube_dl::youtube_dlFilter >() ;
 }
 
 void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
@@ -214,4 +201,45 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 	}else{
 		ourOptions.append( quality ) ;
 	}
+}
+
+youtube_dl::youtube_dlFilter::youtube_dlFilter() :
+	m_processing( QObject::tr( "Processing ..." ) )
+{
+}
+
+const QString& youtube_dl::youtube_dlFilter::operator()( const QString& e )
+{
+	if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
+
+		m_tmp = e ;
+		m_tmp.replace( "[download]  ","" ) ;
+		return m_tmp ;
+
+	}else if( e.startsWith( "[download] 100% of " ) ){
+
+		m_final = e ;
+		m_final.replace( "[download] ","" ) ;
+		return m_final ;
+
+	}else if( e.startsWith( "[ffmpeg] Merging formats into" ) ){
+
+		return m_final ;
+	}else{
+		if( e.startsWith( "ERROR: " ) ){
+
+			return e ;
+		}else{
+			if( m_final.isEmpty() ){
+
+				return m_processing ;
+			}else{
+				return m_final ;
+			}
+		}
+	}
+}
+
+youtube_dl::youtube_dlFilter::~youtube_dlFilter()
+{
 }

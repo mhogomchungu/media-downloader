@@ -26,9 +26,23 @@ class youtube_dl : public engines::engine::functions
 public:
 	~youtube_dl() override ;
 
-	const QString& updateProgress( const QString& ) override ;
-
 	void updateOptions( QJsonObject& ) override ;
+
+	class youtube_dlFilter : public engines::engine::functions::filter
+	{
+	public:
+		youtube_dlFilter() ;
+
+		const QString& operator()( const QString& e ) ;
+
+		virtual ~youtube_dlFilter() ;
+	private:
+		QString m_tmp ;
+		QString m_processing ;
+		QString m_final ;
+	} ;
+
+	std::unique_ptr< engines::engine::functions::filter > Filter() override ;
 
 	void updateDownLoadCmdOptions( const engines::engine& engine,
 				       const QString& quality,
