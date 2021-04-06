@@ -99,28 +99,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDAdd,&QPushButton::clicked,[ this ](){
 
-		auto a = m_ui.lineEditBDUrl->text() ;
-
-		if( !a.isEmpty() ){
-
-			auto table = m_ui.tableWidgetBD ;
-
-			auto row = table->rowCount() ;
-
-			table->insertRow( row ) ;
-
-			auto item = new QTableWidgetItem() ;
-
-			item->setText( a ) ;
-			item->setTextAlignment( Qt::AlignCenter ) ;
-			item->setFont( m_mainWindow.font() ) ;
-
-			table->setItem( row,0,item ) ;
-
-			m_ui.lineEditBDUrl->clear() ;
-
-			m_ui.pbBDDownload->setEnabled( true ) ;
-		}
+		this->addToList( m_ui.lineEditBDUrl->text() ) ;
 	} ) ;
 
 	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
@@ -201,8 +180,34 @@ void batchdownloader::monitorForFinished()
 	}
 }
 
+void batchdownloader::addToList( const QString& a )
+{
+	if( !a.isEmpty() ){
+
+		auto table = m_ui.tableWidgetBD ;
+
+		auto row = table->rowCount() ;
+
+		table->insertRow( row ) ;
+
+		auto item = new QTableWidgetItem() ;
+
+		item->setText( a ) ;
+		item->setTextAlignment( Qt::AlignCenter ) ;
+		item->setFont( m_mainWindow.font() ) ;
+
+		table->setItem( row,0,item ) ;
+
+		m_ui.lineEditBDUrl->clear() ;
+
+		m_ui.pbBDDownload->setEnabled( true ) ;
+	}
+}
+
 void batchdownloader::download()
 {
+	this->addToList( m_ui.lineEditBDUrl->text() ) ;
+
 	if( m_ui.tableWidgetBD->rowCount() ){
 
 		if( m_settings.sequentialDownloading() ){

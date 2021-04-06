@@ -44,6 +44,7 @@ public:
 private slots:
 	void monitorForFinished() ;
 private:
+	void addToList( const QString& ) ;
 	void download() ;
 	const Context& m_ctx ;
 	settings& m_settings ;
