@@ -128,6 +128,10 @@ public:
 	{
 		return m_basicdownloader ;
 	}
+	batchdownloader& batchDownloader()
+	{
+		return m_batchdownloader ;
+	}
 	playlistdownloader& playlistDownloader()
 	{
 		return m_playlistdownloader ;

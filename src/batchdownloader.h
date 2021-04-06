@@ -29,6 +29,40 @@
 
 class tabManager ;
 
+class batchdownloaderFinished
+{
+public:
+	static const engines::engine * static_engine ;
+
+	batchdownloaderFinished()
+	{
+	}
+	batchdownloaderFinished( const engines::engine& engine,int index ) :
+		m_engine( &engine ),
+		m_index( index )
+	{
+	}
+	const engines::engine& engine()
+	{
+		if( m_engine ){
+
+			return *m_engine ;
+		}else{
+			// Shouldnt get here
+			return *static_engine ;
+		}
+	}
+	int index()
+	{
+		return m_index ;
+	}
+private:
+	const engines::engine * m_engine = nullptr ;
+	int m_index ;
+};
+
+Q_DECLARE_METATYPE( batchdownloaderFinished )
+
 class batchdownloader : public QObject
 {
 	Q_OBJECT
@@ -41,17 +75,20 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void download( const engines::engine&,const QString& opts,const QStringList& ) ;
 private slots:
-	void monitorForFinished() ;
+	void monitorForFinished( batchdownloaderFinished ) ;
 private:
 	void addToList( const QString& ) ;
-	void download() ;
+	void download( const engines::engine& ) ;
+	void download( const engines::engine&,int ) ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
-	int counter ;
+	int m_counter ;
+	int m_index ;
 	bool m_running ;
 	bool m_cancelled ;
 	bool m_debug ;

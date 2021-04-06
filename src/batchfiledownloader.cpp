@@ -40,11 +40,21 @@ batchfiledownloader::batchfiledownloader( const Context& ctx ) :
 
 		auto url = m_ui.lineEditFileDownloader->text() ;
 
-		const auto& engine = m_ctx.Engines().defaultEngine() ;
+		QString list = engines::file( url,m_ctx.logger() ).readAll() ;
 
-		QStringList args{ engine.batchFileArgument(),url } ;
+		if( !list.isEmpty() ){
 
-		m_tabManager.basicDownloader().download( engine,options,args ) ;
+			auto l = utility::split( list,'\n',true ) ;
+
+			const auto& engine = m_ctx.Engines().defaultEngine() ;
+
+			if( m_settings.sequentialDownloading() ){
+
+				m_tabManager.basicDownloader().download( engine,options,l.join( ' ' ) ) ;
+			}else{
+				m_tabManager.batchDownloader().download( engine,options,l ) ;
+			}
+		}
 	} ) ;
 
 	m_ui.pbFileDownloaderFilePath->setIcon( [](){

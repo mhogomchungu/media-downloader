@@ -35,6 +35,7 @@ public:
 	settings() ;
 
 	int tabNumber() ;
+	int maxConcurrentDownloads() ;
 
 	QString downloadFolder() ;
 	QString presetOptions() ;
@@ -56,6 +57,7 @@ public:
 	bool showVersionInfoWhenStarting() ;
 	bool sequentialDownloading() ;
 
+	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
 	void setSequentialDownloading( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;

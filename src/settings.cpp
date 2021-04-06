@@ -58,6 +58,21 @@ int settings::tabNumber()
 	return m_settings.value( "TabNumber" ).toInt() ;
 }
 
+int settings::maxConcurrentDownloads()
+{
+	if( !m_settings.contains( "MaxConcurrentDownloads" ) ){
+
+		m_settings.setValue( "MaxConcurrentDownloads",4 ) ;
+	}
+
+	return m_settings.value( "MaxConcurrentDownloads" ).toInt() ;
+}
+
+void settings::setMaxConcurrentDownloads( int s )
+{
+	m_settings.setValue( "MaxConcurrentDownloads",s ) ;
+}
+
 QString settings::downloadFolder()
 {
 	if( !m_settings.contains( "DownloadFolder" ) ){
