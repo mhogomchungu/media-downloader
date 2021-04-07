@@ -24,6 +24,30 @@
 
 #include <QDir>
 
+bool settings::portableVersion()
+{
+	if( utility::platformIsWindows() ){
+
+		return QFile::exists( settings::portableVersionConfigPath() ) ;
+	}else{
+		return false ;
+	}
+}
+
+QString settings::portableVersionConfigPath()
+{
+	return QDir::currentPath() + "/local" ;
+}
+
+settings::init::init()
+{
+	if( settings::portableVersion() ){
+
+		auto path = settings::portableVersionConfigPath() + "/settings" ;
+		QSettings::setPath( QSettings::IniFormat,QSettings::UserScope,path ) ;
+	}
+}
+
 settings::settings() :
 	m_settings( "media-downloader","media-downloader" )
 {	
@@ -251,6 +275,10 @@ QStringList settings::localizationLanguages()
 
 QStringList settings::configPaths()
 {
+	if( settings::portableVersion() ){
+
+		return { settings::portableVersionConfigPath() } ;
+	}
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 	return QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
 #else

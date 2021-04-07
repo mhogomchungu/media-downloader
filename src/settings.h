@@ -51,6 +51,9 @@ public:
 
 	QByteArray highDpiScalingFactor() ;
 
+	static bool portableVersion() ;
+	static QString portableVersionConfigPath() ;
+
 	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
 	bool autoDownload() ;
@@ -70,6 +73,11 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 private:
 	bool m_EnableHighDpiScaling ;
+	class init{
+	public:
+		init() ;
+	}m_init ;
+
 	QSettings m_settings ;
 };
 
