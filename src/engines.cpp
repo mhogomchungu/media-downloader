@@ -766,7 +766,7 @@ QByteArray engines::file::readAll()
 	}
 }
 
-const QString& engines::engine::functions::filter::operator()( const QString& e )
+const QString& engines::engine::functions::filter::operator()( const engines::engine&,const QString& e )
 {
 	return e ;
 }

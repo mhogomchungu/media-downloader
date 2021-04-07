@@ -71,13 +71,15 @@ private:
 	Logger * m_logger ;
 };
 
-template< typename Function >
+template< typename Function,
+	  typename Engine >
 class LoggerTableWidgetItem
 {
 public:
-	LoggerTableWidgetItem( Function function,QTableWidgetItem& item ) :
+	LoggerTableWidgetItem( Function function,Engine& engine,QTableWidgetItem& item ) :
 		m_tableWidgetItem( item ),
-		m_function( std::move( function ) )
+		m_function( std::move( function ) ),
+		m_engine( engine )
 	{
 	}
 	void add( const QString& s )
@@ -108,18 +110,19 @@ private:
 		if( m_text.size() > 0 ){
 
 			auto& function = *m_function ;
-			m_tableWidgetItem.setText( function( m_text.last() ) ) ;
+			m_tableWidgetItem.setText( function( m_engine,m_text.last() ) ) ;
 		}
 	}
 	QTableWidgetItem& m_tableWidgetItem ;
 	QStringList m_text ;
 	Function m_function ;
+	Engine& m_engine ;
 } ;
 
-template< typename Function >
-static auto loggerLoggerTableWidgetItem( Function function,QTableWidgetItem& item )
+template< typename Function,typename Engine >
+static auto loggerLoggerTableWidgetItem( Function function,Engine& engine,QTableWidgetItem& item )
 {
-	return LoggerTableWidgetItem< Function >( std::move( function ),item ) ;
+	return LoggerTableWidgetItem< Function,Engine >( std::move( function ),engine,item ) ;
 }
 
 #endif

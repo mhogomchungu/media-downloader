@@ -314,7 +314,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 		      args.quality,
 		      false,
 		      std::move( aa ),
-		      loggerLoggerTableWidgetItem( engine.filter(),*item ),
+		      loggerLoggerTableWidgetItem( engine.filter(),engine,*item ),
 		      utility::make_term_conn( m_ui.pbBDCancel,&QPushButton::clicked ) ) ;
 }
 

@@ -33,10 +33,11 @@ public:
 	public:
 		youtube_dlFilter() ;
 
-		const QString& operator()( const QString& e ) ;
+		const QString& operator()( const engines::engine&,const QString& e ) override ;
 
-		virtual ~youtube_dlFilter() ;
+		virtual ~youtube_dlFilter() override ;
 	private:
+		int m_counter ;
 		QString m_tmp ;
 		QString m_processing ;
 		QString m_final ;

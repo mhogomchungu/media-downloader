@@ -204,11 +204,13 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 }
 
 youtube_dl::youtube_dlFilter::youtube_dlFilter() :
-	m_processing( QObject::tr( "Processing ..." ) )
+	m_counter( 0 ),
+	m_processing( QObject::tr( "Processing" ) )
 {
 }
 
-const QString& youtube_dl::youtube_dlFilter::operator()( const QString& e )
+const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
+							 const QString& e )
 {
 	if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
 
@@ -231,6 +233,16 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const QString& e )
 			return e ;
 		}else{
 			if( m_final.isEmpty() ){
+
+				if( m_counter < 4 ){
+
+					m_processing += " ..." ;
+				}else{
+					m_counter = 0 ;
+					m_processing = QObject::tr( "Processing" ) ;
+				}
+
+				m_counter++ ;
 
 				return m_processing ;
 			}else{
