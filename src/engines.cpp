@@ -88,6 +88,11 @@ engines::engines( Logger& l,settings& s ) :
 	m_enginePaths( m_settings ),
 	m_processEnvironment( _getEnvPaths( m_enginePaths ) )
 {
+	if( settings::portableVersion() ){
+
+		m_logger.add( QObject::tr( "Running in portable mode" ) ) ;
+	}
+
 	youtube_dl::init( m_logger,m_enginePaths ) ;
 
 	this->updateEngines( true ) ;

@@ -28,7 +28,10 @@ bool settings::portableVersion()
 {
 	if( utility::platformIsWindows() ){
 
-		return QFile::exists( settings::portableVersionConfigPath() ) ;
+		auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
+		auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
+
+		return a && b ;
 	}else{
 		return false ;
 	}
@@ -39,19 +42,27 @@ QString settings::portableVersionConfigPath()
 	return QDir::currentPath() + "/local" ;
 }
 
-settings::init::init()
+static std::unique_ptr< QSettings > _init()
 {
 	if( settings::portableVersion() ){
 
-		auto path = settings::portableVersionConfigPath() + "/settings" ;
-		QSettings::setPath( QSettings::IniFormat,QSettings::UserScope,path ) ;
+		QCoreApplication::setOrganizationName( "media-downloader" ) ;
+		QCoreApplication::setApplicationName( "media-downloader" ) ;
+
+		QDir().mkpath( settings::portableVersionConfigPath() + "/settings/" ) ;
+
+		auto m = settings::portableVersionConfigPath() + "/settings/settings.ini" ;
+
+		return std::make_unique< QSettings >( m,QSettings::IniFormat ) ;
+	}else{
+		return std::make_unique< QSettings >( "media-downloader","media-downloader" ) ;
 	}
 }
 
 settings::settings() :
-	m_settings( "media-downloader","media-downloader" )
-{	
-
+	m_settingsP( _init() ),
+	m_settings( *m_settingsP )
+{
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
 	m_EnableHighDpiScaling = true ;

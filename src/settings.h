@@ -26,6 +26,7 @@
 #include <QByteArray>
 
 #include <vector>
+#include <memory>
 
 #include <QStandardPaths>
 
@@ -73,12 +74,8 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 private:
 	bool m_EnableHighDpiScaling ;
-	class init{
-	public:
-		init() ;
-	}m_init ;
-
-	QSettings m_settings ;
+	std::unique_ptr< QSettings > m_settingsP ;
+	QSettings& m_settings ;
 };
 
 #endif
