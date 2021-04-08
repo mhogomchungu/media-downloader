@@ -262,29 +262,34 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation type="vanished">Nieudane parsowanie pliku json</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="104"/>
+        <location filename="../src/engines.cpp" line="93"/>
+        <source>Running in portable mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="109"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Błąd, plik wykonywalny &quot;%1&quot; nie został znaleziony</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="355"/>
-        <location filename="../src/engines.cpp" line="430"/>
-        <location filename="../src/engines.cpp" line="490"/>
+        <location filename="../src/engines.cpp" line="360"/>
+        <location filename="../src/engines.cpp" line="435"/>
+        <location filename="../src/engines.cpp" line="495"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="464"/>
+        <location filename="../src/engines.cpp" line="469"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="748"/>
+        <location filename="../src/engines.cpp" line="753"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="763"/>
+        <location filename="../src/engines.cpp" line="768"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
@@ -332,8 +337,14 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="207"/>
-        <source>Processing ...</source>
+        <location filename="../src/engines/youtube-dl.cpp" line="208"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="247"/>
+        <source>Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/youtube-dl.cpp" line="233"/>
+        <source>Download completed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

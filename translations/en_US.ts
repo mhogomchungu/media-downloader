@@ -252,29 +252,34 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="104"/>
+        <location filename="../src/engines.cpp" line="93"/>
+        <source>Running in portable mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="109"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="355"/>
-        <location filename="../src/engines.cpp" line="430"/>
-        <location filename="../src/engines.cpp" line="490"/>
+        <location filename="../src/engines.cpp" line="360"/>
+        <location filename="../src/engines.cpp" line="435"/>
+        <location filename="../src/engines.cpp" line="495"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="464"/>
+        <location filename="../src/engines.cpp" line="469"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="748"/>
+        <location filename="../src/engines.cpp" line="753"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="763"/>
+        <location filename="../src/engines.cpp" line="768"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
@@ -322,8 +327,14 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="207"/>
-        <source>Processing ...</source>
+        <location filename="../src/engines/youtube-dl.cpp" line="208"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="247"/>
+        <source>Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/youtube-dl.cpp" line="233"/>
+        <source>Download completed</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

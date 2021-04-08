@@ -227,6 +227,11 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 	}else if( e.startsWith( "[ffmpeg] Merging formats into" ) ){
 
 		return m_final ;
+
+	}else if( e.contains( "has already been downloaded" ) ){
+
+		m_tmp = QObject::tr( "Download completed" ) ;
+		return m_tmp ;
 	}else{
 		if( e.startsWith( "ERROR: " ) ){
 
