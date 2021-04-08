@@ -61,7 +61,8 @@ static std::unique_ptr< QSettings > _init()
 
 settings::settings() :
 	m_settingsP( _init() ),
-	m_settings( *m_settingsP )
+	m_settings( *m_settingsP ),
+	m_portableVersion( settings::portableVersion() )
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
@@ -108,8 +109,31 @@ void settings::setMaxConcurrentDownloads( int s )
 	m_settings.setValue( "MaxConcurrentDownloads",s ) ;
 }
 
+void settings::setDownloadFolder( const QString& m )
+{
+	m_settings.setValue( "DownloadFolder",m ) ;
+}
+
 QString settings::downloadFolder()
 {
+	if( m_portableVersion ){
+
+		if( m_settings.contains( "DownloadFolder" ) ){
+
+			auto m = m_settings.value( "DownloadFolder" ).toString() ;
+
+			if( QFile::exists( m ) ){
+
+				return m ;
+			}else{
+				m_settings.setValue( "DownloadFolder",utility::homePath() ) ;
+				return m_settings.value( "DownloadFolder" ).toString() ;
+			}
+		}else{
+			return utility::homePath() ;
+		}
+	}
+
 	if( !m_settings.contains( "DownloadFolder" ) ){
 
 		m_settings.setValue( "DownloadFolder",utility::homePath() ) ;
@@ -247,11 +271,6 @@ bool settings::enabledHighDpiScaling()
 	return m_EnableHighDpiScaling ;
 }
 
-void settings::setDownloadFolder( const QString& m )
-{
-	m_settings.setValue( "DownloadFolder",m ) ;
-}
-
 static QStringList _directoryList( const QString& e )
 {
 	QDir d( e ) ;
@@ -299,6 +318,11 @@ QStringList settings::configPaths()
 
 QString settings::localizationLanguagePath()
 {
+	if( m_portableVersion ){
+
+		return QDir().currentPath() + "/translations" ;
+	}
+
 	if( !m_settings.contains( "TranslationsPath" ) ){
 
 		if( utility::platformIsWindows() ){

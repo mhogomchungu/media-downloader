@@ -76,6 +76,7 @@ private:
 	bool m_EnableHighDpiScaling ;
 	std::unique_ptr< QSettings > m_settingsP ;
 	QSettings& m_settings ;
+	bool m_portableVersion ;
 };
 
 #endif
