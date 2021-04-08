@@ -394,11 +394,33 @@ engines::engine::engine( Logger& logger,
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ),
 	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() )
 {
+	if( utility::platformIs32BitWindows() ){
+
+		auto m = m_jsonObject.value( "CommandName32BitWindows" ).toString() ;
+
+		if( !m.isEmpty() ){
+
+			m_commandNameWindows = m ;
+		}
+	}
+
 	auto cmdNames = [ & ](){
 
 		if( utility::platformIsWindows() ){
 
-			return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
+			if( utility::platformIs32BitWindows() ){
+
+				auto m = _toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
+
+				if( !m.isEmpty() ){
+
+					return m ;
+				}else{
+					return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
+				}
+			}else{
+				return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
+			}
 		}else{
 			return _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
 		}

@@ -88,6 +88,11 @@ QString utility::python3Path()
 	return QStandardPaths::findExecutable( "python3" ) ;
 }
 
+bool utility::platformIs32BitWindows()
+{
+	return false ;
+}
+
 #endif
 
 #ifdef Q_OS_MACOS
@@ -116,6 +121,12 @@ int utility::terminateProcess( unsigned long )
 {
 	return 0 ;
 }
+
+bool utility::platformIs32BitWindows()
+{
+	return false ;
+}
+
 #endif
 
 #ifdef Q_OS_WIN
@@ -236,6 +247,13 @@ QString utility::python3Path()
 	}
 
 	return {} ;
+}
+
+#include <QSysInfo>
+
+bool utility::platformIs32BitWindows()
+{
+	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
 }
 
 bool utility::platformIsWindows()

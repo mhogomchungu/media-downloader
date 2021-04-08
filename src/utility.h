@@ -482,6 +482,7 @@ namespace utility
 	int terminateProcess( unsigned long pid ) ;
 	void terminateProcess( QProcess& ) ;
 	bool platformIsWindows() ;
+	bool platformIs32BitWindows() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;
