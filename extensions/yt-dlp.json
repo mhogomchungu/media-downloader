@@ -4,6 +4,7 @@
     "CanDownloadPlaylist": true,
     "CommandName": "yt-dlp",
     "CommandNameWindows": "yt-dlp.exe",
+    "CommandName32BitWindows": "yt-dlp_x86.exe",
     "ControlJsonStructure": {
         "Connector": "&&",
         "lhs": {
