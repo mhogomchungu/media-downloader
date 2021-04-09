@@ -91,6 +91,7 @@ engines::engines( Logger& l,settings& s ) :
 	if( settings::portableVersion() ){
 
 		m_logger.add( QObject::tr( "Running in portable mode" ) ) ;
+		m_logger.add( QObject::tr( "Download path: " ) + m_settings.downloadFolder( m_logger ) ) ;
 	}
 
 	youtube_dl::init( m_logger,m_enginePaths ) ;

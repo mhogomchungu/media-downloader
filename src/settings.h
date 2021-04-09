@@ -30,6 +30,8 @@
 
 #include <QStandardPaths>
 
+class Logger ;
+
 class settings
 {
 public:
@@ -39,6 +41,7 @@ public:
 	int maxConcurrentDownloads() ;
 
 	QString downloadFolder() ;
+	QString downloadFolder( Logger& ) ;
 	QString presetOptions() ;
 	QString defaultEngine() ;
 

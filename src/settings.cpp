@@ -21,6 +21,7 @@
 #include "utility.h"
 #include "locale_path.h"
 #include "translator.h"
+#include "logger.h"
 
 #include <QDir>
 
@@ -114,32 +115,47 @@ void settings::setDownloadFolder( const QString& m )
 	m_settings.setValue( "DownloadFolder",m ) ;
 }
 
-QString settings::downloadFolder()
+template< typename Function >
+static QString _downloadFolder( QSettings& settings,bool portableVersion,Function function )
 {
-	if( m_portableVersion ){
+	if( portableVersion ){
 
-		if( m_settings.contains( "DownloadFolder" ) ){
+		if( settings.contains( "DownloadFolder" ) ){
 
-			auto m = m_settings.value( "DownloadFolder" ).toString() ;
+			auto m = settings.value( "DownloadFolder" ).toString() ;
 
 			if( QFile::exists( m ) ){
 
 				return m ;
 			}else{
-				m_settings.setValue( "DownloadFolder",utility::homePath() ) ;
-				return m_settings.value( "DownloadFolder" ).toString() ;
+				function( QObject::tr( "Resetting download folder to default" ) ) ;
+				settings.remove( "DownloadFolder" ) ;
+				return QDir::currentPath() + "/Downloads" ;
 			}
 		}else{
-			return utility::homePath() ;
+			return QDir::currentPath() + "/Downloads" ;
 		}
 	}
 
-	if( !m_settings.contains( "DownloadFolder" ) ){
+	if( !settings.contains( "DownloadFolder" ) ){
 
-		m_settings.setValue( "DownloadFolder",utility::homePath() ) ;
+		settings.setValue( "DownloadFolder",utility::homePath() ) ;
 	}
 
-	return m_settings.value( "DownloadFolder" ).toString() ;
+	return settings.value( "DownloadFolder" ).toString() ;
+}
+
+QString settings::downloadFolder()
+{
+	return _downloadFolder( m_settings,m_portableVersion,[]( const QString& ){} ) ;
+}
+
+QString settings::downloadFolder( Logger& logger )
+{
+	return _downloadFolder( m_settings,m_portableVersion,[ &logger ]( const QString& e ){
+
+		logger.add( e ) ;
+	} ) ;
 }
 
 void settings::setPresetToDefaults()
