@@ -378,7 +378,14 @@ namespace utility
 
 			logger.add( "cmd: " + engine.commandString( cmd ) ) ;
 
-			exe.setWorkingDirectory( options.downloadFolder() ) ;
+			const auto& df = options.downloadFolder() ;
+
+			if( !QFile::exists( df ) ){
+
+				QDir().mkpath( df ) ;
+			}
+
+			exe.setWorkingDirectory( df ) ;
 
 			exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
