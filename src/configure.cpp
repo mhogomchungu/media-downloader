@@ -44,6 +44,11 @@ configure::configure( const Context& ctx ) :
 		m_tabManager.basicDownloader().appQuit() ;
 	} ) ;
 
+	connect( m_ui.cbConfigureBatchDownloadConcurrently,&QCheckBox::stateChanged,[ this ]( int ){
+
+		this->enableConcurrentTextField() ;
+	} ) ;
+
 	connect( m_ui.pbConfigureAddAPlugin,&QPushButton::clicked,[ this ](){
 
 		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select An Engine File" ),utility::homePath() ) ;
@@ -145,11 +150,14 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbConfigureShowVersionInfo->setChecked( m_settings.showVersionInfoWhenStarting() ) ;
 
-	m_ui.cbConfigureBatchDownloadSequentially->setChecked( m_settings.sequentialDownloading() ) ;
+	m_ui.cbConfigureBatchDownloadConcurrently->setChecked( m_settings.concurrentDownloading() ) ;
+
+	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( QString::number( m_settings.maxConcurrentDownloads() ) ) ;
 }
 
 void configure::init_done()
 {
+	this->enableConcurrentTextField() ;
 }
 
 void configure::retranslateUi()
@@ -174,13 +182,30 @@ void configure::tabExited()
 	this->saveOptions() ;
 }
 
+void configure::enableConcurrentTextField()
+{
+	auto s = m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ;
+
+	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( s ) ;
+	m_ui.labelMaximumConcurrentDownloads->setEnabled( s ) ;
+}
+
 void configure::saveOptions()
 {
 	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
 	m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
-	m_settings.setSequentialDownloading( m_ui.cbConfigureBatchDownloadSequentially->isChecked() ) ;
+	m_settings.setConcurrentDownloading( m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ) ;
+
+	bool ok ;
+
+	auto m = m_ui.lineEditConfigureMaximuConcurrentDownloads->text().toInt( &ok ) ;
+
+	if( ok ){
+
+		m_settings.setMaxConcurrentDownloads( m ) ;
+	}
 }
 
 void configure::manageDownloadButton()
@@ -241,12 +266,14 @@ void configure::enableAll()
 	m_ui.pbConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( true ) ;
 	m_ui.labelConfigureScaleFactor->setEnabled( true ) ;
-	m_ui.labelConfigurePresetOptions->setEnabled( true ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureQuit->setEnabled( true ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( true ) ;
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( true ) ;
-	m_ui.cbConfigureBatchDownloadSequentially->setEnabled( true ) ;
+	m_ui.cbConfigureBatchDownloadConcurrently->setEnabled( true ) ;
+	m_ui.labelMaximumConcurrentDownloads->setEnabled( true ) ;
+
+	this->enableConcurrentTextField() ;
 
 	if( m_settings.enabledHighDpiScaling() ){
 
@@ -257,6 +284,8 @@ void configure::enableAll()
 void configure::disableAll()
 {
 	m_setEnabled = false ;
+	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( false ) ;
+	m_ui.labelMaximumConcurrentDownloads->setEnabled( false ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( false ) ;
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( false ) ;
 	m_ui.cbConfigureShowVersionInfo->setEnabled( false ) ;
@@ -271,7 +300,6 @@ void configure::disableAll()
 	m_ui.pbConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( false ) ;
 	m_ui.labelConfigureScaleFactor->setEnabled( false ) ;
-	m_ui.labelConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( false ) ;
-	m_ui.cbConfigureBatchDownloadSequentially->setEnabled( false ) ;
+	m_ui.cbConfigureBatchDownloadConcurrently->setEnabled( false ) ;
 }

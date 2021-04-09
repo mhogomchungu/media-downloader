@@ -48,11 +48,11 @@ batchfiledownloader::batchfiledownloader( const Context& ctx ) :
 
 			const auto& engine = m_ctx.Engines().defaultEngine() ;
 
-			if( m_settings.sequentialDownloading() ){
+			if( m_settings.concurrentDownloading() ){
 
-				m_tabManager.basicDownloader().download( engine,options,l.join( ' ' ) ) ;
-			}else{
 				m_tabManager.batchDownloader().download( engine,options,l ) ;
+			}else{
+				m_tabManager.basicDownloader().download( engine,options,l.join( ' ' ) ) ;
 			}
 		}
 	} ) ;

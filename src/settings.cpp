@@ -231,19 +231,19 @@ bool settings::showVersionInfoWhenStarting()
 	return m_settings.value( "ShowVersionInfoWhenStarting" ).toBool() ;
 }
 
-bool settings::sequentialDownloading()
+bool settings::concurrentDownloading()
 {
-	if( !m_settings.contains( "SequentialDownloading" ) ){
+	if( !m_settings.contains( "ConcurrentDownloading" ) ){
 
-		m_settings.setValue( "SequentialDownloading",true ) ;
+		m_settings.setValue( "ConcurrentDownloading",false ) ;
 	}
 
-	return m_settings.value( "SequentialDownloading" ).toBool() ;
+	return m_settings.value( "ConcurrentDownloading" ).toBool() ;
 }
 
-void settings::setSequentialDownloading( bool e )
+void settings::setConcurrentDownloading( bool e )
 {
-	m_settings.setValue( "SequentialDownloading",e ) ;
+	m_settings.setValue( "ConcurrentDownloading",e ) ;
 }
 
 void settings::setShowVersionInfoWhenStarting( bool e )

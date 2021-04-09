@@ -60,7 +60,7 @@
         <location filename="../src/mainwindow.ui" line="353"/>
         <location filename="../src/mainwindow.ui" line="397"/>
         <location filename="../src/mainwindow.ui" line="603"/>
-        <location filename="../src/mainwindow.ui" line="805"/>
+        <location filename="../src/mainwindow.ui" line="935"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
@@ -119,62 +119,77 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="692"/>
-        <source>Reset Option To Its Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="708"/>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="740"/>
-        <source>Preset Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="766"/>
-        <source>Download Path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="828"/>
-        <source>Select Language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="847"/>
-        <source>Update</source>
+        <location filename="../src/mainwindow.ui" line="696"/>
+        <source>General Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="860"/>
-        <source>Show Version Info When Starting</source>
+        <source>Batch Download Concurrently</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="873"/>
-        <source>Add a Plugin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="886"/>
-        <source>Remove A Plugin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="899"/>
-        <source>Batch Download Sequentially</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="905"/>
-        <source>About</source>
+        <location filename="../src/mainwindow.ui" line="883"/>
+        <source>Maximum Cuncurrent Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="917"/>
+        <source>Reset Option To Its Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="920"/>
+        <source>Set Defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="828"/>
+        <source>Scale Factor(Need A Restart)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="895"/>
+        <source>Preset Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="783"/>
+        <source>Download Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="731"/>
+        <source>Select Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="802"/>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="750"/>
+        <source>Show Version Info When Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="847"/>
+        <source>Add a Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="815"/>
+        <source>Remove A Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="941"/>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="953"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -182,27 +197,27 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="269"/>
+        <location filename="../src/utility.cpp" line="287"/>
         <source>Best-audiovideo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="270"/>
+        <location filename="../src/utility.cpp" line="288"/>
         <source>Best-audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="303"/>
+        <location filename="../src/utility.cpp" line="321"/>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="316"/>
+        <location filename="../src/utility.cpp" line="334"/>
         <source>Found Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="337"/>
+        <location filename="../src/utility.cpp" line="355"/>
         <source>Open Download Folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -242,12 +257,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="331"/>
+        <location filename="../src/utility.cpp" line="349"/>
         <source>Clear Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="325"/>
+        <location filename="../src/utility.cpp" line="343"/>
         <source>Clear Options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -263,23 +278,23 @@ Each Link Should Be In Its Own Line.</source>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="360"/>
-        <location filename="../src/engines.cpp" line="435"/>
-        <location filename="../src/engines.cpp" line="495"/>
+        <location filename="../src/engines.cpp" line="457"/>
+        <location filename="../src/engines.cpp" line="517"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="469"/>
+        <location filename="../src/engines.cpp" line="491"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="753"/>
+        <location filename="../src/engines.cpp" line="775"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="768"/>
+        <location filename="../src/engines.cpp" line="790"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
@@ -376,22 +391,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="49"/>
+        <location filename="../src/configure.cpp" line="54"/>
         <source>Select An Engine File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="76"/>
+        <location filename="../src/configure.cpp" line="81"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="130"/>
+        <location filename="../src/configure.cpp" line="135"/>
         <source>Set Download Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="200"/>
+        <location filename="../src/configure.cpp" line="225"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>

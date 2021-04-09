@@ -40,6 +40,7 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 private:
+	void enableConcurrentTextField() ;
 	void saveOptions() ;
 	void manageDownloadButton() ;
 	bool m_setEnabled ;

@@ -59,11 +59,11 @@ public:
 	bool showTrayIcon() ;
 	bool autoDownload() ;
 	bool showVersionInfoWhenStarting() ;
-	bool sequentialDownloading() ;
+	bool concurrentDownloading() ;
 
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
-	void setSequentialDownloading( bool ) ;
+	void setConcurrentDownloading( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;

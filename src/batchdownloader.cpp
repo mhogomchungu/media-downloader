@@ -189,27 +189,27 @@ void batchdownloader::download( const engines::engine& engine,
 
 void batchdownloader::monitorForFinished( batchdownloaderFinished f )
 {
-	m_counter++ ;
+	if( m_cancelled ){
 
-	if( m_counter == m_ui.tableWidgetBD->rowCount() ){
+		for( int s = 0 ; s < m_downloadList.size() ; s++ ){
+
+			m_ui.tableWidgetBD->item( s,0 )->setText( m_downloadList[ s ] ) ;
+		}
 
 		m_ctx.TabManager().enableAll() ;
 		m_ui.pbBDCancel->setEnabled( false ) ;
-
-		if( m_cancelled ){
-
-			if( m_downloadList.size() == m_ui.tableWidgetBD->rowCount() ){
-
-				for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
-
-					m_ui.tableWidgetBD->item( s,0 )->setText( m_downloadList[ s ] ) ;
-				}
-			}
-		}
 	}else{
-		if( m_index < m_ui.tableWidgetBD->rowCount() ){
+		m_counter++ ;
 
-			this->download( f.engine(),m_index ) ;
+		if( m_counter == m_ui.tableWidgetBD->rowCount() ){
+
+			m_ctx.TabManager().enableAll() ;
+			m_ui.pbBDCancel->setEnabled( false ) ;
+		}else{
+			if( m_index < m_ui.tableWidgetBD->rowCount() ){
+
+				this->download( f.engine(),m_index ) ;
+			}
 		}
 	}
 }
@@ -246,19 +246,8 @@ void batchdownloader::download( const engines::engine& engine )
 
 	if( m_ui.tableWidgetBD->rowCount() ){
 
-		if( m_settings.sequentialDownloading() ){
+		if( m_settings.concurrentDownloading() ){
 
-			QStringList urls ;
-
-			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
-
-				urls.append( m_ui.tableWidgetBD->item( s,0 )->text() ) ;
-			}
-
-			auto options = m_ui.lineEditBDUrlOptions->text() ;
-
-			m_tabManager.basicDownloader().download( engine,options,urls ) ;
-		}else{
 			m_counter = 0 ;
 			m_cancelled = false ;
 			m_index = 0 ;
@@ -283,6 +272,17 @@ void batchdownloader::download( const engines::engine& engine )
 					this->download( engine,s ) ;
 				}
 			}
+		}else{
+			QStringList urls ;
+
+			for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
+
+				urls.append( m_ui.tableWidgetBD->item( s,0 )->text() ) ;
+			}
+
+			auto options = m_ui.lineEditBDUrlOptions->text() ;
+
+			m_tabManager.basicDownloader().download( engine,options,urls ) ;
 		}
 	}
 }
