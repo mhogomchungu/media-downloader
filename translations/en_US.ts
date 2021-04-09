@@ -272,29 +272,34 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="109"/>
+        <location filename="../src/engines.cpp" line="94"/>
+        <source>Download path: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="110"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="360"/>
-        <location filename="../src/engines.cpp" line="457"/>
-        <location filename="../src/engines.cpp" line="517"/>
+        <location filename="../src/engines.cpp" line="361"/>
+        <location filename="../src/engines.cpp" line="458"/>
+        <location filename="../src/engines.cpp" line="518"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="491"/>
+        <location filename="../src/engines.cpp" line="492"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="775"/>
+        <location filename="../src/engines.cpp" line="776"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="790"/>
+        <location filename="../src/engines.cpp" line="791"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
@@ -350,6 +355,11 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="233"/>
         <source>Download completed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="131"/>
+        <source>Resetting download folder to default</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
