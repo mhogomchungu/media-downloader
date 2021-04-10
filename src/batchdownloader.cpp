@@ -128,15 +128,7 @@ void batchdownloader::resetMenu()
 
 		}else if( ac.clearScreen() ){
 
-			auto s = m_ui.tableWidgetBD->rowCount() ;
-
-			for( int i = 0 ; i < s ; i++ ){
-
-				m_ui.tableWidgetBD->removeRow( 0 ) ;
-			}
-
-			m_ui.lineEditBDUrlOptions->clear() ;
-			m_ui.lineEditBDUrl->clear() ;
+			this->clearScreen() ;
 
 		}else if( ac.openFolderPath() ){
 
@@ -214,6 +206,19 @@ void batchdownloader::monitorForFinished( batchdownloaderFinished f )
 	}
 }
 
+void batchdownloader::clearScreen()
+{
+	auto s = m_ui.tableWidgetBD->rowCount() ;
+
+	for( int i = 0 ; i < s ; i++ ){
+
+		m_ui.tableWidgetBD->removeRow( 0 ) ;
+	}
+
+	m_ui.lineEditBDUrlOptions->clear() ;
+	m_ui.lineEditBDUrl->clear() ;
+}
+
 void batchdownloader::addToList( const QString& a )
 {
 	if( !a.isEmpty() ){
@@ -281,6 +286,8 @@ void batchdownloader::download( const engines::engine& engine )
 			}
 
 			auto options = m_ui.lineEditBDUrlOptions->text() ;
+
+			this->clearScreen() ;
 
 			m_tabManager.basicDownloader().download( engine,options,urls ) ;
 		}

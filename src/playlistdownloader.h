@@ -39,6 +39,7 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 private:
+	void download() ;
 	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;

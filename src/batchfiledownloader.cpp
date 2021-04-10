@@ -36,25 +36,7 @@ batchfiledownloader::batchfiledownloader( const Context& ctx ) :
 
 	connect( m_ui.pbFileDownloaderDownload,&QPushButton::clicked,[ this ](){
 
-		auto options = m_ui.lineEditFileOptions->text() ;
-
-		auto url = m_ui.lineEditFileDownloader->text() ;
-
-		QString list = engines::file( url,m_ctx.logger() ).readAll() ;
-
-		if( !list.isEmpty() ){
-
-			auto l = utility::split( list,'\n',true ) ;
-
-			const auto& engine = m_ctx.Engines().defaultEngine() ;
-
-			if( m_settings.concurrentDownloading() ){
-
-				m_tabManager.batchDownloader().download( engine,options,l ) ;
-			}else{
-				m_tabManager.basicDownloader().download( engine,options,l.join( ' ' ) ) ;
-			}
-		}
+		this->download() ;
 	} ) ;
 
 	m_ui.pbFileDownloaderFilePath->setIcon( [](){
@@ -97,6 +79,8 @@ void batchfiledownloader::resetMenu()
 	utility::setMenuOptions( m_ctx,{},false,m_ui.pbFileDownloaderOptions,[ this ]( QAction * ac ){
 
 		m_ui.lineEditFileOptions->setText( ac->objectName() ) ;
+
+		this->download() ;
 	} ) ;
 }
 
@@ -111,6 +95,34 @@ void batchfiledownloader::tabEntered()
 
 void batchfiledownloader::tabExited()
 {
+}
+
+void batchfiledownloader::download()
+{
+	auto url = m_ui.lineEditFileDownloader->text() ;
+
+	if( url.isEmpty() ){
+
+		return ;
+	}
+
+	auto options = m_ui.lineEditFileOptions->text() ;
+
+	QString list = engines::file( url,m_ctx.logger() ).readAll() ;
+
+	if( !list.isEmpty() ){
+
+		auto l = utility::split( list,'\n',true ) ;
+
+		const auto& engine = m_ctx.Engines().defaultEngine() ;
+
+		if( m_settings.concurrentDownloading() ){
+
+			m_tabManager.batchDownloader().download( engine,options,l ) ;
+		}else{
+			m_tabManager.basicDownloader().download( engine,options,l ) ;
+		}
+	}
 }
 
 void batchfiledownloader::disableAll()

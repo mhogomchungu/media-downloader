@@ -79,6 +79,7 @@ public:
 private slots:
 	void monitorForFinished( batchdownloaderFinished ) ;
 private:
+	void clearScreen() ;
 	void addToList( const QString& ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;

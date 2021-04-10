@@ -48,29 +48,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbPLDownload,&QPushButton::clicked,[ this ](){
 
-		auto options = m_ui.lineEditPLUrlOptions->text() ;
-
-		options += " --yes-playlist" ;
-
-		auto items = m_ui.lineEditPLDownloadRange->text() ;
-
-		if( !items.isEmpty() ){
-
-			options += " --playlist-items " + items ;
-		}
-
-		auto playlistFile = m_ui.lineEditPLEFileDownloader->text() ;
-
-		if( !playlistFile.isEmpty() ){
-
-			options += " -a " + playlistFile ;
-		}
-
-		auto url = m_ui.lineEditPLUrl->text() ;
-
-		const auto& engine = m_ctx.Engines().defaultEngine() ;
-
-		m_tabManager.basicDownloader().download( engine,options,url ) ;
+		this->download() ;
 	} ) ;
 
 	connect( m_ui.pbPLQuit,&QPushButton::clicked,[ this ](){
@@ -144,6 +122,8 @@ void playlistdownloader::resetMenu()
 			utility::openDownloadFolderPath( m_settings.downloadFolder() ) ;
 		}else{
 			m_ui.lineEditPLUrlOptions->setText( ac.objectName() ) ;
+
+			this->download() ;
 		}
 	} ) ;
 }
@@ -159,4 +139,36 @@ void playlistdownloader::tabEntered()
 
 void playlistdownloader::tabExited()
 {
+}
+
+void playlistdownloader::download()
+{
+	auto url = m_ui.lineEditPLUrl->text() ;
+
+	auto playlistFile = m_ui.lineEditPLEFileDownloader->text() ;
+
+	if( url.isEmpty() && playlistFile.isEmpty() ){
+
+		return ;
+	}
+
+	auto options = m_ui.lineEditPLUrlOptions->text() ;
+
+	options += " --yes-playlist" ;
+
+	auto items = m_ui.lineEditPLDownloadRange->text() ;
+
+	if( !items.isEmpty() ){
+
+		options += " --playlist-items " + items ;
+	}
+
+	if( !playlistFile.isEmpty() ){
+
+		options += " -a " + playlistFile ;
+	}
+
+	const auto& engine = m_ctx.Engines().defaultEngine() ;
+
+	m_tabManager.basicDownloader().download( engine,options,url ) ;
 }
