@@ -30,8 +30,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_ccmd( m_ctx,*m_ui.lineEditBDUrlOptions,*m_ui.tableWidgetBD,*m_ui.pbBDCancel )
 {
-	qRegisterMetaType< downloadFinished >() ;
-
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
 	utility::setTableWidget( *m_ui.tableWidgetBD ) ;
@@ -244,7 +242,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 	m_ccmd.download( engine,
 			 item->text(),
 			 std::move( aa ),
-			 loggerLoggerTableWidgetItem( engine.filter(),engine,*item ) ) ;
+			 make_loggerBatchDownloader( engine.filter(),engine,*item ) ) ;
 }
 
 void batchdownloader::enableAll()

@@ -24,6 +24,7 @@
 #include <QString>
 #include <QStringList>
 #include <QTableWidgetItem>
+#include <QDebug>
 
 class Logger
 {
@@ -73,10 +74,10 @@ private:
 
 template< typename Function,
 	  typename Engine >
-class LoggerTableWidgetItem
+class loggerBatchDownloader
 {
 public:
-	LoggerTableWidgetItem( Function function,Engine& engine,QTableWidgetItem& item ) :
+	loggerBatchDownloader( Function function,Engine& engine,QTableWidgetItem& item ) :
 		m_tableWidgetItem( item ),
 		m_function( std::move( function ) ),
 		m_engine( engine )
@@ -120,9 +121,67 @@ private:
 } ;
 
 template< typename Function,typename Engine >
-static auto loggerLoggerTableWidgetItem( Function function,Engine& engine,QTableWidgetItem& item )
+static auto make_loggerBatchDownloader( Function function,Engine& engine,QTableWidgetItem& item )
 {
-	return LoggerTableWidgetItem< Function,Engine >( std::move( function ),engine,item ) ;
+	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,item ) ;
 }
+
+class loggerPlaylistDownloader
+{
+public:
+	loggerPlaylistDownloader( QTableWidget& t,const QFont& f,bool debug ) :
+		m_table( t ),
+		m_font( f ),
+		m_debug( debug )
+	{
+		this->clear() ;
+	}
+	void add( const QString& s )
+	{
+		if( m_debug ){
+
+			qDebug() << s ;
+		}
+	}
+	void clear()
+	{
+		auto s = m_table.rowCount() ;
+
+		for( int i = 0 ; i < s ; i++ ){
+
+			m_table.removeRow( 0 ) ;
+		}
+
+		m_text.clear() ;
+	}
+	template< typename F >
+	void add( F function )
+	{
+		function( m_text ) ;
+		this->update() ;
+	}
+private:
+	void update()
+	{
+		if( m_text.size() > 0 ){
+
+			auto row = m_table.rowCount() ;
+
+			m_table.insertRow( row ) ;
+
+			auto item = new QTableWidgetItem() ;
+
+			item->setText( "https://youtube.com/watch?v=" + m_text.last() ) ;
+			item->setTextAlignment( Qt::AlignCenter ) ;
+			item->setFont( m_font ) ;
+			m_table.setItem( row,0,item ) ;
+		}
+	}
+private:
+	QTableWidget& m_table ;
+	QStringList m_text ;
+	const QFont& m_font ;
+	bool m_debug ;
+};
 
 #endif

@@ -65,6 +65,8 @@ private:
 	int m_index ;
 };
 
+Q_DECLARE_METATYPE( downloadFinished )
+
 class concurrentDownloadManager
 {
 public:
@@ -77,6 +79,8 @@ public:
 		m_table( table ),
 		m_cancelButton( cancelButton )
 	{
+		static int s = qRegisterMetaType< downloadFinished >() ;
+		Q_UNUSED( s )
 	}
 	void cancelled()
 	{
@@ -188,7 +192,5 @@ private:
 	QTableWidget& m_table ;
 	QPushButton& m_cancelButton ;
 } ;
-
-Q_DECLARE_METATYPE( downloadFinished )
 
 #endif

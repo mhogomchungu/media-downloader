@@ -186,66 +186,8 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 	m_ccmd.download( engine,
 			 item->text(),
 			 std::move( aa ),
-			 loggerLoggerTableWidgetItem( engine.filter(),engine,*item ) ) ;
+			 make_loggerBatchDownloader( engine.filter(),engine,*item ) ) ;
 }
-
-class TableWidget{
-
-public:
-	TableWidget( QTableWidget& t,const QFont& f,bool debug ) :
-		m_table( t ),
-		m_font( f ),
-		m_debug( debug )
-	{
-		this->clear() ;
-	}
-	void add( const QString& s )
-	{
-		if( m_debug ){
-
-			qDebug() << s ;
-		}
-	}
-	void clear()
-	{
-		auto s = m_table.rowCount() ;
-
-		for( int i = 0 ; i < s ; i++ ){
-
-			m_table.removeRow( 0 ) ;
-		}
-
-		m_text.clear() ;
-	}
-	template< typename F >
-	void add( F function )
-	{
-		function( m_text ) ;
-		this->update() ;
-	}
-private:
-	void update()
-	{
-		if( m_text.size() > 0 ){
-
-			auto row = m_table.rowCount() ;
-
-			m_table.insertRow( row ) ;
-
-			auto item = new QTableWidgetItem() ;
-
-			item->setText( "https://youtube.com/watch?v=" + m_text.last() ) ;
-			item->setTextAlignment( Qt::AlignCenter ) ;
-			item->setFont( m_font ) ;
-			m_table.setItem( row,0,item ) ;
-		}
-	}
-private:
-	QTableWidget& m_table ;
-	QStringList m_text ;
-	const QFont& m_font ;
-	bool m_debug ;
-};
 
 void playlistdownloader::getList()
 {
@@ -292,7 +234,7 @@ void playlistdownloader::getList()
 		      args.quality,
 		      false,
 		      std::move( aa ),
-		      TableWidget( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),m_ctx.debug() ),
+		      loggerPlaylistDownloader( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),m_ctx.debug() ),
 		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ) ) ;
 }
 
