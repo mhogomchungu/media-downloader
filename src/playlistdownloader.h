@@ -23,6 +23,7 @@
 
 #include "settings.h"
 #include "context.hpp"
+#include "concurrentdownloadmanager.h"
 
 class tabManager ;
 
@@ -38,13 +39,76 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+private slots:
+	void monitorForFinished( downloadFinished ) ;
 private:
 	void download() ;
+	void download( const engines::engine& ) ;
+	void download( const engines::engine&,int ) ;
+	void getList() ;
+	void clearScreen() ;
 	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
+	concurrentDownloadManager m_ccmd ;
+	bool m_running ;
+
+	template< typename Function >
+	class options
+	{
+	public:
+		options( QPushButton& p,const Context& ctx,bool d,Function function ) :
+			m_button( p ),
+			m_ctx( ctx ),
+			m_debug( d ),
+			m_done( std::move( function ) )
+		{
+		}
+		void done()
+		{
+			m_done() ;
+		}
+		options& tabManagerEnableAll( bool )
+		{
+			return *this ;
+		}
+		options& listRequested( const QList< QByteArray >& )
+		{
+			return *this ;
+		}
+		options& enableCancel( bool e )
+		{
+			Q_UNUSED( e )
+			//m_button.setEnabled( e ) ;
+
+			return *this ;
+		}
+		bool debug()
+		{
+			return m_debug ;
+		}
+		QString downloadFolder() const
+		{
+			return m_ctx.Settings().downloadFolder() ;
+		}
+		const QProcessEnvironment& processEnvironment() const
+		{
+			return m_ctx.Engines().processEnvironment() ;
+		}
+	private:
+		QPushButton& m_button ;
+		const Context& m_ctx ;
+		bool m_debug ;
+		Function m_done ;
+	} ;
+
+	template< typename Function >
+	auto make_options( QPushButton& p,const Context& ctx,bool d,Function function )
+	{
+		return playlistdownloader::options< Function >( p,ctx,d,std::move( function ) ) ;
+	}
 };
 
 #endif

@@ -26,42 +26,9 @@
 #include "settings.h"
 #include "utility.h"
 #include "context.hpp"
+#include "concurrentdownloadmanager.h"
 
 class tabManager ;
-
-class batchdownloaderFinished
-{
-public:
-	static const engines::engine * static_engine ;
-
-	batchdownloaderFinished()
-	{
-	}
-	batchdownloaderFinished( const engines::engine& engine,int index ) :
-		m_engine( &engine ),
-		m_index( index )
-	{
-	}
-	const engines::engine& engine()
-	{
-		if( m_engine ){
-
-			return *m_engine ;
-		}else{
-			// Shouldnt get here
-			return *static_engine ;
-		}
-	}
-	int index()
-	{
-		return m_index ;
-	}
-private:
-	const engines::engine * m_engine = nullptr ;
-	int m_index ;
-};
-
-Q_DECLARE_METATYPE( batchdownloaderFinished )
 
 class batchdownloader : public QObject
 {
@@ -77,7 +44,7 @@ public:
 	void tabExited() ;
 	void download( const engines::engine&,const QString& opts,const QStringList& ) ;
 private slots:
-	void monitorForFinished( batchdownloaderFinished ) ;
+	void monitorForFinished( downloadFinished ) ;
 private:
 	void clearScreen() ;
 	void addToList( const QString& ) ;
@@ -88,13 +55,9 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
-	int m_counter ;
-	int m_index ;
 	bool m_running ;
-	bool m_cancelled ;
 	bool m_debug ;
-
-	QStringList m_downloadList ;
+	concurrentDownloadManager m_ccmd ;
 
 	template< typename Function >
 	class options

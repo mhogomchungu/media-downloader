@@ -57,11 +57,13 @@ set(MOC_FILES
     src/batchdownloader.h
     src/batchfiledownloader.h
     src/configure.h
+    src/concurrentdownloadmanager.h
     src/playlistdownloader.h)
 
 set(SRC
     src/mainwindow.cpp
     src/main.cpp
+    src/concurrentdownloadmanager.cpp
     src/settings.cpp
     src/utility.cpp
     src/basicdownloader.cpp

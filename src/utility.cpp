@@ -449,3 +449,20 @@ QStringList utility::updateOptions( const engines::engine& engine,
 
 	return opts ;
 }
+
+void utility::setTableWidget( QTableWidget& m )
+{
+	m.verticalHeader()->setSectionResizeMode( QHeaderView::ResizeToContents ) ;
+
+	m.verticalHeader()->setMinimumSectionSize( 30 ) ;
+
+	m.horizontalHeader()->setStretchLastSection( true ) ;
+
+	m.setMouseTracking( true ) ;
+
+	m.setContextMenuPolicy( Qt::CustomContextMenu ) ;
+
+	m.setEditTriggers( QAbstractItemView::NoEditTriggers ) ;
+	m.setFocusPolicy( Qt::NoFocus ) ;
+	m.setSelectionMode( QAbstractItemView::NoSelection ) ;
+}

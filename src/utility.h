@@ -481,6 +481,7 @@ namespace utility
 		} ) ;
 	}
 
+	void setTableWidget( QTableWidget& ) ;
 	void wait( int time ) ;
 	void waitForOneSecond() ;
 	void openDownloadFolderPath( const QString& ) ;

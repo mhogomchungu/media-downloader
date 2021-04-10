@@ -27,23 +27,22 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
-	m_tabManager( m_ctx.TabManager() )
+	m_tabManager( m_ctx.TabManager() ),
+	m_ccmd( m_ctx,*m_ui.lineEditPLUrlOptions,*m_ui.tableWidgetPl,*m_ui.pbPLCancel ),
+	m_running( false )
 {
 	this->resetMenu() ;
 
-	m_ui.pbFilePLEDownloaderFilePath->setIcon( [](){
+	utility::setTableWidget( *m_ui.tableWidgetPl ) ;
 
-		return QIcon( ":file" ) ;
-	}() ) ;
+	connect( m_ui.pbPLCancel,&QPushButton::clicked,[ this ](){
 
-	connect( m_ui.pbFilePLEDownloaderFilePath,&QPushButton::clicked,[ this ](){
+		m_ccmd.cancelled() ;
+	} ) ;
 
-		auto e = QFileDialog::getOpenFileName( &m_mainWindow,tr( "Set Batch File" ),QDir::homePath() ) ;
+	connect( m_ui.pbPLGetList,&QPushButton::clicked,[ this ](){
 
-		if( !e.isEmpty() ){
-
-			m_ui.lineEditPLEFileDownloader->setText( e ) ;
-		}
+		this->getList() ;
 	} ) ;
 
 	connect( m_ui.pbPLDownload,&QPushButton::clicked,[ this ](){
@@ -68,9 +67,6 @@ void playlistdownloader::enableAll()
 		return ;
 	}
 
-	m_ui.pbFilePLEDownloaderFilePath->setEnabled( true ) ;
-	m_ui.lineEditPLEFileDownloader->setEnabled( true ) ;
-	m_ui.labelPLEFileDownloederPath->setEnabled( true ) ;
 	m_ui.lineEditPLUrl->setEnabled( true ) ;
 	m_ui.labelPLEnterOptions->setEnabled( true ) ;
 	m_ui.labelPLEnterUrlRange->setEnabled( true ) ;
@@ -81,13 +77,14 @@ void playlistdownloader::enableAll()
 	m_ui.pbPLOptions->setEnabled( true ) ;
 	m_ui.pbPLQuit->setEnabled( true ) ;
 	m_ui.labelPLEnterUrl->setEnabled( true ) ;
+	m_ui.pbPLCancel->setEnabled( true ) ;
+	m_ui.pbPLGetList->setEnabled( true ) ;
 }
 
 void playlistdownloader::disableAll()
 {
-	m_ui.pbFilePLEDownloaderFilePath->setEnabled( false ) ;
-	m_ui.lineEditPLEFileDownloader->setEnabled( false ) ;
-	m_ui.labelPLEFileDownloederPath->setEnabled( false ) ;
+	m_ui.pbPLGetList->setEnabled( false ) ;
+	m_ui.pbPLCancel->setEnabled( false ) ;
 	m_ui.lineEditPLUrl->setEnabled( false ) ;
 	m_ui.labelPLEnterOptions->setEnabled( false ) ;
 	m_ui.labelPLEnterUrlRange->setEnabled( false ) ;
@@ -112,10 +109,7 @@ void playlistdownloader::resetMenu()
 
 		}else if( ac.clearScreen() ){
 
-			m_ui.lineEditPLUrlOptions->clear() ;
-			m_ui.lineEditPLDownloadRange->clear() ;
-			m_ui.lineEditPLUrl->clear() ;
-			m_ui.lineEditPLEFileDownloader->clear() ;
+			this->clearScreen() ;
 
 		}else if( ac.openFolderPath() ){
 
@@ -135,40 +129,187 @@ void playlistdownloader::retranslateUi()
 
 void playlistdownloader::tabEntered()
 {
+	if( !m_running ){
+
+		m_ui.pbPLOptions->setEnabled( m_ui.tableWidgetPl->rowCount() > 0 ) ;
+		m_ui.pbPLCancel->setEnabled( false ) ;
+		m_ui.pbPLDownload->setEnabled( m_ui.tableWidgetPl->rowCount() > 0 ) ;
+	}
 }
 
 void playlistdownloader::tabExited()
 {
 }
 
+void playlistdownloader::monitorForFinished( downloadFinished f )
+{
+	m_ccmd.monitorForFinished( std::move( f ),[ this ]( const engines::engine& engine,int index ){
+
+		this->download( engine,index ) ;
+	} ) ;
+}
+
 void playlistdownloader::download()
+{
+	this->download( m_ctx.Engines().defaultEngine() ) ;
+}
+
+void playlistdownloader::download( const engines::engine& engine )
+{
+	bool cd = m_settings.concurrentDownloading() ;
+	int cdc = m_settings.maxConcurrentDownloads() ;
+
+	m_ccmd.download( engine,cd,cdc,[ this ]( const engines::engine& engine,int index ){
+
+		this->download( engine,index ) ;
+
+	},[ this ]( const engines::engine& engine,const QString& options,const QStringList& urls ){
+
+		this->clearScreen() ;
+
+		m_tabManager.basicDownloader().download( engine,options,urls ) ;
+	} ) ;
+}
+
+void playlistdownloader::download( const engines::engine& engine,int index )
+{
+	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ &engine,index,this ](){
+
+		QMetaObject::invokeMethod( this,
+					   "monitorForFinished",
+					   Qt::QueuedConnection,
+					   Q_ARG( downloadFinished,downloadFinished( engine,index ) ) ) ;
+	} ) ;
+
+	auto item = m_ui.tableWidgetPl->item( index,0 ) ;
+
+	m_ccmd.download( engine,
+			 item->text(),
+			 std::move( aa ),
+			 loggerLoggerTableWidgetItem( engine.filter(),engine,*item ) ) ;
+}
+
+class TableWidget{
+
+public:
+	TableWidget( QTableWidget& t,const QFont& f ) : m_table( t ),m_font( f )
+	{
+		this->clear() ;
+	}
+	void add( const QString& s )
+	{
+		if( s.startsWith( "cmd: " ) ){
+
+			return ;
+		}
+		if( s.startsWith( "[media-downloader]" ) ){
+
+			m_text.append( s ) ;
+		}else{
+			m_text.append( "[media-downloader] " + s ) ;
+		}
+
+		this->update() ;
+	}
+	void clear()
+	{
+		auto s = m_table.rowCount() ;
+
+		for( int i = 0 ; i < s ; i++ ){
+
+			m_table.removeRow( 0 ) ;
+		}
+
+		m_text.clear() ;
+	}
+	template< typename F >
+	void add( F function )
+	{
+		function( m_text ) ;
+		this->update() ;
+	}
+private:
+	void update()
+	{
+		if( m_text.size() > 0 ){
+
+			auto row = m_table.rowCount() ;
+
+			m_table.insertRow( row ) ;
+
+			auto item = new QTableWidgetItem() ;
+
+			item->setText( "https://youtube.com/watch?v=" + m_text.last() ) ;
+			item->setTextAlignment( Qt::AlignCenter ) ;
+			item->setFont( m_font ) ;
+			m_table.setItem( row,0,item ) ;
+		}
+	}
+private:
+	QTableWidget& m_table ;
+	QStringList m_text ;
+	const QFont& m_font ;
+};
+
+void playlistdownloader::getList()
 {
 	auto url = m_ui.lineEditPLUrl->text() ;
 
-	auto playlistFile = m_ui.lineEditPLEFileDownloader->text() ;
-
-	if( url.isEmpty() && playlistFile.isEmpty() ){
+	if( url.isEmpty() ){
 
 		return ;
 	}
 
-	auto options = m_ui.lineEditPLUrlOptions->text() ;
+	m_ctx.TabManager().disableAll() ;
 
-	options += " --yes-playlist" ;
-
-	auto items = m_ui.lineEditPLDownloadRange->text() ;
-
-	if( !items.isEmpty() ){
-
-		options += " --playlist-items " + items ;
-	}
-
-	if( !playlistFile.isEmpty() ){
-
-		options += " -a " + playlistFile ;
-	}
+	m_ui.pbPLCancel->setEnabled( true ) ;
 
 	const auto& engine = m_ctx.Engines().defaultEngine() ;
 
-	m_tabManager.basicDownloader().download( engine,options,url ) ;
+	QStringList opts ;
+
+	opts.append( "--get-id" ) ;
+
+	auto range = m_ui.lineEditPLDownloadRange->text() ;
+
+	if( !range.isEmpty() ){
+
+		opts.append( "--playlist-items" ) ;
+		opts.append( range ) ;
+	}
+
+	opts.append( m_ui.lineEditPLUrl->text() ) ;
+
+	utility::args args( m_ui.lineEditPLUrlOptions->text() ) ;
+
+	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ this ](){
+
+		m_running = false ;
+		m_ctx.TabManager().enableAll() ;
+		m_ui.pbPLCancel->setEnabled( false ) ;
+	} ) ;
+
+	m_running = true ;
+
+	utility::run( engine,
+		      opts,
+		      args.quality,
+		      false,
+		      std::move( aa ),
+		      TableWidget( *m_ui.tableWidgetPl,m_ctx.mainWidget().font() ),
+		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ) ) ;
+}
+
+void playlistdownloader::clearScreen()
+{
+	auto s = m_ui.tableWidgetPl->rowCount() ;
+
+	for( int i = 0 ; i < s ; i++ ){
+
+		m_ui.tableWidgetPl->removeRow( 0 ) ;
+	}
+
+	m_ui.lineEditPLUrlOptions->clear() ;
+	m_ui.lineEditPLDownloadRange->clear() ;
+	m_ui.lineEditPLUrl->clear() ;
 }

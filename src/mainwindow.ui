@@ -593,7 +593,7 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbPLQuit">
       <property name="geometry">
        <rect>
-        <x>460</x>
+        <x>580</x>
         <y>380</y>
         <width>121</width>
         <height>33</height>
@@ -613,7 +613,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="text">
-       <string>Enter URL:</string>
+       <string>Enter Playlist URL:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -632,46 +632,48 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEditPLEFileDownloader">
+     <widget class="QTableWidget" name="tableWidgetPl">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>260</y>
-        <width>441</width>
-        <height>31</height>
+        <x>60</x>
+        <y>10</y>
+        <width>681</width>
+        <height>281</height>
        </rect>
       </property>
+      <property name="showGrid">
+       <bool>false</bool>
+      </property>
+      <column>
+       <property name="text">
+        <string>Url To Download</string>
+       </property>
+      </column>
      </widget>
-     <widget class="QPushButton" name="pbFilePLEDownloaderFilePath">
+     <widget class="QPushButton" name="pbPLGetList">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>260</y>
-        <width>41</width>
+        <x>460</x>
+        <y>380</y>
+        <width>121</width>
         <height>33</height>
        </rect>
       </property>
       <property name="text">
-       <string/>
+       <string>Get List</string>
       </property>
      </widget>
-     <widget class="QLabel" name="labelPLEFileDownloederPath">
+     <widget class="QPushButton" name="pbPLCancel">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>260</y>
-        <width>131</width>
-        <height>31</height>
+        <x>100</x>
+        <y>380</y>
+        <width>121</width>
+        <height>33</height>
        </rect>
       </property>
       <property name="text">
-       <string>Enter File Path:</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
+       <string>Cancel</string>
       </property>
      </widget>
     </widget>
@@ -990,8 +992,6 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbFileDownloaderDownload</tabstop>
   <tabstop>pbFileDownloaderOptions</tabstop>
   <tabstop>pbFileDownloaderQuit</tabstop>
-  <tabstop>lineEditPLEFileDownloader</tabstop>
-  <tabstop>pbFilePLEDownloaderFilePath</tabstop>
   <tabstop>lineEditPLUrl</tabstop>
   <tabstop>lineEditPLDownloadRange</tabstop>
   <tabstop>lineEditPLUrlOptions</tabstop>
