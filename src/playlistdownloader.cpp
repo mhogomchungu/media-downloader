@@ -192,24 +192,19 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 class TableWidget{
 
 public:
-	TableWidget( QTableWidget& t,const QFont& f ) : m_table( t ),m_font( f )
+	TableWidget( QTableWidget& t,const QFont& f,bool debug ) :
+		m_table( t ),
+		m_font( f ),
+		m_debug( debug )
 	{
 		this->clear() ;
 	}
 	void add( const QString& s )
 	{
-		if( s.startsWith( "cmd: " ) ){
+		if( m_debug ){
 
-			return ;
+			qDebug() << s ;
 		}
-		if( s.startsWith( "[media-downloader]" ) ){
-
-			m_text.append( s ) ;
-		}else{
-			m_text.append( "[media-downloader] " + s ) ;
-		}
-
-		this->update() ;
 	}
 	void clear()
 	{
@@ -249,6 +244,7 @@ private:
 	QTableWidget& m_table ;
 	QStringList m_text ;
 	const QFont& m_font ;
+	bool m_debug ;
 };
 
 void playlistdownloader::getList()
@@ -296,7 +292,7 @@ void playlistdownloader::getList()
 		      args.quality,
 		      false,
 		      std::move( aa ),
-		      TableWidget( *m_ui.tableWidgetPl,m_ctx.mainWidget().font() ),
+		      TableWidget( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),m_ctx.debug() ),
 		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ) ) ;
 }
 

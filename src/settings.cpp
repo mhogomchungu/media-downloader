@@ -251,7 +251,7 @@ bool settings::concurrentDownloading()
 {
 	if( !m_settings.contains( "ConcurrentDownloading" ) ){
 
-		m_settings.setValue( "ConcurrentDownloading",false ) ;
+		m_settings.setValue( "ConcurrentDownloading",true ) ;
 	}
 
 	return m_settings.value( "ConcurrentDownloading" ).toBool() ;
