@@ -37,10 +37,13 @@ public:
 
 		virtual ~youtube_dlFilter() override ;
 	private:
+		const QString& processing() ;
 		int m_counter ;
 		QString m_tmp ;
 		QString m_processing ;
 		QString m_final ;
+		QString m_final1 ;
+		QString m_name ;
 	} ;
 
 	std::unique_ptr< engines::engine::functions::filter > Filter() override ;
