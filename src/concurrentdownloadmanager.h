@@ -86,8 +86,8 @@ public:
 	{
 		m_cancelled = true ;
 	}
-	template< typename Function >
-	void monitorForFinished( downloadFinished f,Function function )
+	template< typename Function,typename Finished >
+	void monitorForFinished( downloadFinished f,Function function,Finished finished )
 	{
 		if( m_cancelled ){
 
@@ -98,6 +98,8 @@ public:
 
 			this->uiEnableAll( true ) ;
 			m_cancelButton.setEnabled( false ) ;
+
+			finished() ;
 		}else{
 			m_counter++ ;
 
@@ -105,6 +107,8 @@ public:
 
 				this->uiEnableAll( true ) ;
 				m_cancelButton.setEnabled( false ) ;
+
+				finished() ;
 			}else{
 				if( m_index < m_table.rowCount() ){
 

@@ -166,7 +166,8 @@ void batchdownloader::monitorForFinished( downloadFinished f )
 	m_ccmd.monitorForFinished( std::move( f ),[ this ]( const engines::engine& engine,int index ){
 
 		this->download( engine,index ) ;
-	} ) ;
+
+	},[](){} ) ;
 }
 
 void batchdownloader::clearScreen()
@@ -242,7 +243,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 	m_ccmd.download( engine,
 			 item->text(),
 			 std::move( aa ),
-			 make_loggerBatchDownloader( engine.filter(),engine,*item ) ) ;
+			 make_loggerBatchDownloader( engine.filter(),engine,m_ctx.logger(),*item ) ) ;
 }
 
 void batchdownloader::enableAll()

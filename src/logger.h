@@ -33,7 +33,7 @@ public:
 	void add( const QString& ) ;
 	void clear() ;
 	template< typename Function >
-	void add( Function function )
+	void add( const Function& function )
 	{
 		function( m_text ) ;
 		this->update() ;
@@ -77,14 +77,17 @@ template< typename Function,
 class loggerBatchDownloader
 {
 public:
-	loggerBatchDownloader( Function function,Engine& engine,QTableWidgetItem& item ) :
+	loggerBatchDownloader( Function function,Engine& engine,Logger& logger,QTableWidgetItem& item ) :
 		m_tableWidgetItem( item ),
 		m_function( std::move( function ) ),
-		m_engine( engine )
+		m_engine( engine ),
+		m_logger( logger )
 	{
 	}
 	void add( const QString& s )
 	{
+		m_logger.add( s ) ;
+
 		if( s.startsWith( "[media-downloader]" ) ){
 
 			m_text.append( s ) ;
@@ -100,8 +103,9 @@ public:
 		m_text.clear() ;
 	}
 	template< typename F >
-	void add( F function )
+	void add( const F& function )
 	{
+		m_logger.add( function ) ;
 		function( m_text ) ;
 		this->update() ;
 	}
@@ -118,30 +122,28 @@ private:
 	QStringList m_text ;
 	Function m_function ;
 	Engine& m_engine ;
+	Logger& m_logger ;
 } ;
 
 template< typename Function,typename Engine >
-static auto make_loggerBatchDownloader( Function function,Engine& engine,QTableWidgetItem& item )
+static auto make_loggerBatchDownloader( Function function,Engine& engine,Logger& logger,QTableWidgetItem& item )
 {
-	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,item ) ;
+	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,logger,item ) ;
 }
 
 class loggerPlaylistDownloader
 {
 public:
-	loggerPlaylistDownloader( QTableWidget& t,const QFont& f,bool debug ) :
+	loggerPlaylistDownloader( QTableWidget& t,const QFont& f,Logger& logger ) :
 		m_table( t ),
 		m_font( f ),
-		m_debug( debug )
+		m_logger( logger )
 	{
 		this->clear() ;
 	}
-	void add( const QString& s )
+	void add( const QString& e )
 	{
-		if( m_debug ){
-
-			qDebug() << s ;
-		}
+		m_logger.add( e ) ;
 	}
 	void clear()
 	{
@@ -154,9 +156,10 @@ public:
 
 		m_text.clear() ;
 	}
-	template< typename F >
-	void add( F function )
+	template< typename Function >
+	void add( const Function& function )
 	{
+		m_logger.add( function ) ;
 		function( m_text ) ;
 		this->update() ;
 	}
@@ -181,7 +184,7 @@ private:
 	QTableWidget& m_table ;
 	QStringList m_text ;
 	const QFont& m_font ;
-	bool m_debug ;
+	Logger& m_logger ;
 };
 
 #endif

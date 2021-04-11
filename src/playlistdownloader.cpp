@@ -146,11 +146,17 @@ void playlistdownloader::monitorForFinished( downloadFinished f )
 	m_ccmd.monitorForFinished( std::move( f ),[ this ]( const engines::engine& engine,int index ){
 
 		this->download( engine,index ) ;
+
+	},[ this ](){
+
+		m_running = false ;
 	} ) ;
 }
 
 void playlistdownloader::download()
 {
+	m_running = true ;
+
 	this->download( m_ctx.Engines().defaultEngine() ) ;
 }
 
@@ -186,7 +192,7 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 	m_ccmd.download( engine,
 			 item->text(),
 			 std::move( aa ),
-			 make_loggerBatchDownloader( engine.filter(),engine,*item ) ) ;
+			 make_loggerBatchDownloader( engine.filter(),engine,m_ctx.logger(),*item ) ) ;
 }
 
 void playlistdownloader::getList()
@@ -234,7 +240,7 @@ void playlistdownloader::getList()
 		      args.quality,
 		      false,
 		      std::move( aa ),
-		      loggerPlaylistDownloader( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),m_ctx.debug() ),
+		      loggerPlaylistDownloader( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),m_ctx.logger() ),
 		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ) ) ;
 }
 
