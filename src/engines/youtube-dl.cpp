@@ -123,6 +123,10 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 			return arr ;
 		}() ) ;
 
+		mainObj.insert( "PlayListIdArgument","--get-id" ) ;
+
+		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
+
 		mainObj.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
 
 		mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
@@ -172,6 +176,16 @@ void youtube_dl::updateOptions( QJsonObject& object )
 	if( !object.contains( "ControlJsonStructure" ) ){
 
 		object.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
+	}
+
+	if( !object.contains( "PlayListIdArgument" ) ){
+
+		object.insert( "PlayListIdArgument","--get-id" ) ;
+	}
+
+	if( !object.contains( "PlaylistItemsArgument" ) ){
+
+		object.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 	}
 }
 

@@ -34,8 +34,6 @@
 class downloadFinished
 {
 public:
-	static const engines::engine * static_engine ;
-
 	downloadFinished()
 	{
 	}

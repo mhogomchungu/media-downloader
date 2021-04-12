@@ -58,6 +58,10 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 void playlistdownloader::init_done()
 {
+	if( !m_ctx.Engines().defaultEngine().canDownloadPlaylist() ){
+
+		this->disableAll() ;
+	}
 }
 
 void playlistdownloader::enableAll()
@@ -212,13 +216,13 @@ void playlistdownloader::getList()
 
 	QStringList opts ;
 
-	opts.append( "--get-id" ) ;
+	opts.append( engine.playListIdArgument() ) ;
 
 	auto range = m_ui.lineEditPLDownloadRange->text() ;
 
 	if( !range.isEmpty() ){
 
-		opts.append( "--playlist-items" ) ;
+		opts.append( engine.playlistItemsArgument() ) ;
 		opts.append( range ) ;
 	}
 

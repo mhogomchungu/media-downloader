@@ -355,6 +355,14 @@ public:
 		{
 		        return m_password ;
 		}
+		const QString& playListIdArgument() const
+		{
+			return m_playListIdArgument ;
+		}
+		const QString& playlistItemsArgument() const
+		{
+			return m_playlistItemsArgument ;
+		}
 		const QJsonObject& controlStructure() const
 		{
 			return m_controlStructure ;
@@ -402,6 +410,8 @@ public:
 		QString m_versionArgument ;
 		QString m_optionsArgument ;
 		QString m_downloadUrl ;
+		QString m_playListIdArgument ;
+		QString m_playlistItemsArgument ;
 		QString m_batchFileArgument ;
 		QStringList m_splitLinesBy ;
 		QStringList m_removeText ;
