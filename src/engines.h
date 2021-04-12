@@ -354,6 +354,10 @@ public:
 		const QString& password() const
 		{
 		        return m_password ;
+		}		
+		const QString& playListUrlPrefix() const
+		{
+			return m_playListUrlPrefix ;
 		}
 		const QString& playListIdArgument() const
 		{
@@ -410,6 +414,7 @@ public:
 		QString m_versionArgument ;
 		QString m_optionsArgument ;
 		QString m_downloadUrl ;
+		QString m_playListUrlPrefix ;
 		QString m_playListIdArgument ;
 		QString m_playlistItemsArgument ;
 		QString m_batchFileArgument ;

@@ -244,7 +244,10 @@ void playlistdownloader::getList()
 		      args.quality,
 		      false,
 		      std::move( aa ),
-		      loggerPlaylistDownloader( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),m_ctx.logger() ),
+		      loggerPlaylistDownloader( *m_ui.tableWidgetPl,
+						m_ctx.mainWidget().font(),
+						m_ctx.logger(),
+						engine.playListUrlPrefix() ),
 		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ) ) ;
 }
 

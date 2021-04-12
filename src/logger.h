@@ -134,10 +134,11 @@ static auto make_loggerBatchDownloader( Function function,Engine& engine,Logger&
 class loggerPlaylistDownloader
 {
 public:
-	loggerPlaylistDownloader( QTableWidget& t,const QFont& f,Logger& logger ) :
+	loggerPlaylistDownloader( QTableWidget& t,const QFont& f,Logger& logger,const QString& u ) :
 		m_table( t ),
 		m_font( f ),
-		m_logger( logger )
+		m_logger( logger ),
+		m_urlPrefix( u )
 	{
 		this->clear() ;
 	}
@@ -174,7 +175,8 @@ private:
 
 			auto item = new QTableWidgetItem() ;
 
-			item->setText( "https://youtube.com/watch?v=" + m_text.last() ) ;
+			item->setText( m_urlPrefix + m_text.last() ) ;
+
 			item->setTextAlignment( Qt::AlignCenter ) ;
 			item->setFont( m_font ) ;
 			m_table.setItem( row,0,item ) ;
@@ -185,6 +187,7 @@ private:
 	QStringList m_text ;
 	const QFont& m_font ;
 	Logger& m_logger ;
+	const QString& m_urlPrefix ;
 };
 
 #endif
