@@ -42,7 +42,6 @@ public:
 		QString m_tmp ;
 		QString m_processing ;
 		QString m_final ;
-		QString m_final1 ;
 		QString m_name ;
 	} ;
 

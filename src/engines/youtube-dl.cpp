@@ -249,7 +249,7 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 		m_name.replace( "[ffmpeg] Merging formats into ","" ) ;
 		m_name.truncate( m_name.size() - 1 ) ;
 
-		m_name += "\n" + m_final1 ;
+		m_name += "\n" + QObject::tr( "Download completed" ) ;
 
 		return m_name ;
 
@@ -269,7 +269,6 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 
 		m_final = e ;
 		m_final.replace( "[download] ","" ) ;
-		m_final1 = m_final ;
 
 		if( !m_name.isEmpty() ){
 
