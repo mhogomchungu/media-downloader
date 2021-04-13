@@ -213,18 +213,18 @@ void batchdownloader::download( const engines::engine& engine )
 {
 	this->addToList( m_ui.lineEditBDUrl->text() ) ;
 
-	bool cd = m_settings.concurrentDownloading() ;
-	int cdc = m_settings.maxConcurrentDownloads() ;
+	m_ccmd.download( engine,[ this ](){
 
-	m_ccmd.download( engine,cd,cdc,[ this ]( const engines::engine& engine,int index ){
+		if( m_settings.concurrentDownloading() ){
+
+			return m_settings.maxConcurrentDownloads() ;
+		}else{
+			return 1 ;
+		}
+
+	}(),[ this ]( const engines::engine& engine,int index ){
 
 		this->download( engine,index ) ;
-
-	},[ this ]( const engines::engine& engine,const QString& options,const QStringList& urls ){
-
-		this->clearScreen() ;
-
-		m_tabManager.basicDownloader().download( engine,options,urls ) ;
 	} ) ;
 }
 

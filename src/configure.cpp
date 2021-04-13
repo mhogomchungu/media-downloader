@@ -198,13 +198,25 @@ void configure::saveOptions()
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
 	m_settings.setConcurrentDownloading( m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ) ;
 
-	bool ok ;
+	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
-	auto m = m_ui.lineEditConfigureMaximuConcurrentDownloads->text().toInt( &ok ) ;
+	if( s.isEmpty() ){
 
-	if( ok ){
+		m_settings.setMaxConcurrentDownloads( 4 ) ;
+	}else{
+		bool ok ;
 
-		m_settings.setMaxConcurrentDownloads( m ) ;
+		auto m = s.toInt( &ok ) ;
+
+		if( ok ){
+
+			if( m == 0 ){
+
+				m_settings.setMaxConcurrentDownloads( 1 ) ;
+			}else{
+				m_settings.setMaxConcurrentDownloads( m ) ;
+			}
+		}
 	}
 }
 

@@ -115,51 +115,34 @@ public:
 			}
 		}
 	}
-	template< typename ConcurrentDownload,
-		  typename SequentialDownload >
+	template< typename ConcurrentDownload >
 	void download( const engines::engine& engine,
-		       bool downloadConcurrently,
 		       int maxNumberOfConcurrency,
-		       ConcurrentDownload concurrentDownload,
-		       SequentialDownload sequentialDownload )
+		       ConcurrentDownload concurrentDownload )
 	{
 		if( m_table.rowCount() ){
 
-			if( downloadConcurrently ){
+			m_counter = 0 ;
+			m_cancelled = false ;
+			m_index = 0 ;
 
-				m_counter = 0 ;
-				m_cancelled = false ;
-				m_index = 0 ;
+			this->uiEnableAll( false ) ;
+			m_cancelButton.setEnabled( true ) ;
+			m_table.setEnabled( true ) ;
 
-				this->uiEnableAll( false ) ;
-				m_cancelButton.setEnabled( true ) ;
-				m_table.setEnabled( true ) ;
+			m_downloadList.clear() ;
 
-				m_downloadList.clear() ;
+			if( maxNumberOfConcurrency < m_table.rowCount() ){
 
-				if( maxNumberOfConcurrency < m_table.rowCount() ){
+				for( int s = 0 ; s < maxNumberOfConcurrency ; s++ ){
 
-					for( int s = 0 ; s < maxNumberOfConcurrency ; s++ ){
-
-						concurrentDownload( engine,s ) ;
-					}
-				}else{
-					for( int s = 0 ; s < m_table.rowCount() ; s++ ){
-
-						concurrentDownload( engine,s ) ;
-					}
+					concurrentDownload( engine,s ) ;
 				}
 			}else{
-				QStringList urls ;
-
 				for( int s = 0 ; s < m_table.rowCount() ; s++ ){
 
-					urls.append( m_table.item( s,0 )->text() ) ;
+					concurrentDownload( engine,s ) ;
 				}
-
-				auto options = m_lineEdit.text() ;
-
-				sequentialDownload( engine,options,urls ) ;
 			}
 		}
 	}
