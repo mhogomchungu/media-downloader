@@ -412,19 +412,21 @@ void utility::wait( int time )
 
 void utility::openDownloadFolderPath( const QString& url )
 {
-	QDesktopServices::openUrl( url ) ;
+	if( utility::platformIsWindows() ){
+
+		QProcess::startDetached( "explorer.exe",{ QDir::toNativeSeparators( url ) } ) ;
+	}else{
+		QDesktopServices::openUrl( url ) ;
+	}
 }
 
 void utility::terminateProcess( QProcess& exe )
 {
 	if( utility::platformIsWindows() ){
 
-		utility::run( "media-downloader",
-				{ "-T",QString::number( exe.processId() ) },
-				[]( QProcess& ){},
-				[]( QProcess& ){},
-				[]( int,QProcess::ExitStatus ){},
-				[]( QProcess::ProcessChannel,const QByteArray& ){} ) ;
+		QStringList args{ "-T",QString::number( exe.processId() ) } ;
+
+		QProcess::startDetached( "media-downloader.exe",args ) ;
 	}else{
 		exe.terminate() ;
 	}
