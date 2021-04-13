@@ -59,10 +59,11 @@ private:
 	class options
 	{
 	public:
-		options( QPushButton& p,const Context& ctx,bool d ) :
+		options( QPushButton& p,const Context& ctx,bool d,bool l ) :
 			m_button( p ),
 			m_ctx( ctx ),
-			m_debug( d )
+			m_debug( d ),
+			m_listRequested( l )
 		{
 		}
 
@@ -76,6 +77,10 @@ private:
 			m_button.setEnabled( e ) ;
 
 			return *this ;
+		}
+		bool listRequested()
+		{
+			return m_listRequested ;
 		}
 		bool debug()
 		{
@@ -93,6 +98,7 @@ private:
 		QPushButton& m_button ;
 		const Context& m_ctx ;
 		bool m_debug ;
+		bool m_listRequested ;
 	} ;
 
 	size_t m_counter = 0 ;

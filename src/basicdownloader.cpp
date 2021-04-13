@@ -371,8 +371,7 @@ void basicdownloader::run( const engines::engine& engine,
 	utility::run( engine,
 		      args,
 		      quality,
-		      list_requested,
-		      basicdownloader::options( *m_ui.pbCancel,m_ctx,m_debug ),
+		      basicdownloader::options( *m_ui.pbCancel,m_ctx,m_debug,list_requested ),
 		      LoggerWrapper( m_ctx.logger() ),
 		      utility::make_term_conn( m_ui.pbCancel,&QPushButton::clicked ) ) ;
 }

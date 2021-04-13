@@ -242,7 +242,6 @@ void playlistdownloader::getList()
 	utility::run( engine,
 		      opts,
 		      args.quality,
-		      false,
 		      std::move( aa ),
 		      loggerPlaylistDownloader( *m_ui.tableWidgetPl,
 						m_ctx.mainWidget().font(),

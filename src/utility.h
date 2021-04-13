@@ -302,10 +302,8 @@ namespace utility
 	public:
 		context( const engines::engine& engine,
 			 Tlogger logger,
-			 Options options,
-			 bool list_requested ) :
+			 Options options ) :
 			m_engine( engine ),
-			m_list_requested( list_requested ),
 			m_logger( std::move( logger ) ),
 			m_postData( true ),
 			m_options( std::move( options ) )
@@ -334,7 +332,7 @@ namespace utility
 		template< typename Function >
 		void listRequested( Function function )
 		{
-			if( m_list_requested ){
+			if( m_options.listRequested() ){
 
 				function( utility::split( m_data,'\n' ) ) ;
 			}
@@ -363,7 +361,6 @@ namespace utility
 	void run( const engines::engine& engine,
 		  const QStringList& args,
 		  const QString& quality,
-		  bool list_requested,
 		  Options options,
 		  Tlogger logger,
 		  Connection conn )
@@ -389,7 +386,9 @@ namespace utility
 
 			exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-			auto ctx = std::make_shared< utility::context< Tlogger,Options > >( engine,std::move( logger ),std::move( options ),list_requested ) ;
+			using ctx_t = utility::context< Tlogger,Options > ;
+
+			auto ctx = std::make_shared< ctx_t >( engine,std::move( logger ),std::move( options ) ) ;
 
 			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,
 					[ &exe,ctx,function = std::move( conn.function ) ](){

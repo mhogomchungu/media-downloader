@@ -82,6 +82,10 @@ private:
 		{
 			return *this ;
 		}
+		bool listRequested()
+		{
+			return false ;
+		}
 		options& enableCancel( bool e )
 		{
 			Q_UNUSED( e )
