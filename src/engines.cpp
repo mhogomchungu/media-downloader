@@ -717,7 +717,8 @@ static bool _skip_line( const QByteArray& line,const engines::engine& engine )
 static void _add( const QByteArray& data,
 		  QChar token,
 		  const engines::engine& engine,
-		  QStringList& outPut )
+		  Logger::Data& outPut,
+		  int id )
 {
 	for( const auto& e : utility::split( data,token ) ){
 
@@ -727,23 +728,36 @@ static void _add( const QByteArray& data,
 
 		}else if( _meet_condition( engine,e ) ){
 
-			auto& s = outPut.last() ;
+			if( id == -1 ){
 
-			if( _meet_condition( engine,s ) ){
+				if( outPut.isEmpty() ){
 
-				s = e ;
+					outPut.add( e ) ;
+				}else{
+					auto& s = outPut.lastText() ;
+
+					if( _meet_condition( engine,s ) ){
+
+						outPut.replaceLast( e ) ;
+					}else{
+						outPut.add( e ) ;
+					}
+				}
 			}else{
-				outPut.append( e ) ;
+				auto s = static_cast< bool( * )( const engines::engine&,const QString& ) >( _meet_condition ) ;
+
+				outPut.replaceOrAdd( s,engine,e,id ) ;
 			}
 		}else{
-			outPut.append( e ) ;
+			outPut.add( e,id ) ;
 		}
 	}
 }
 
 void engines::engine::functions::processData( const engines::engine& engine,
-					      QStringList& outPut,
-					      QByteArray data )
+					      Logger::Data& outPut,
+					      QByteArray data,
+					      int id )
 {
 	for( const auto& it : engine.removeText() ){
 
@@ -754,18 +768,18 @@ void engines::engine::functions::processData( const engines::engine& engine,
 
 	if( sp.size() == 1 && sp[ 0 ].size() > 0 ){
 
-		_add( data,sp[ 0 ][ 0 ],engine,outPut ) ;
+		_add( data,sp[ 0 ][ 0 ],engine,outPut,id ) ;
 
 	}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
 
 		for( const auto& m : utility::split( data,sp[ 0 ][ 0 ] ) ){
 
-			_add( m,sp[ 1 ][ 0 ],engine,outPut ) ;
+			_add( m,sp[ 1 ][ 0 ],engine,outPut,id ) ;
 		}
 	}else{
 		for( const auto& m : utility::split( data,'\r' ) ){
 
-			_add( m,'\n',engine,outPut ) ;
+			_add( m,'\n',engine,outPut,id ) ;
 		}
 	}
 }

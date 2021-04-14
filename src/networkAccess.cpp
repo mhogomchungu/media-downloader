@@ -214,30 +214,32 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 
 void networkAccess::post( const engines::engine& engine,const QString& e )
 {
-	m_ctx.logger().add( [ &engine,&e ]( QStringList& s ){
+	m_ctx.logger().add( [ &engine,&e ]( Logger::Data& s,int id ){
+
+		Q_UNUSED( id )
 
 		auto prefix = QObject::tr( "Downloading" ) + " " + engine.name() ;
 
 		if( s.isEmpty() ){
 
-			s.append( "[media-downloader] " + e ) ;
+			s.add( "[media-downloader] " + e ) ;
 
 		}else if( e == "..." ){
 
-			s.last() = s.last() + " ..." ;
+			s.replaceLast( s.lastText() + " ..." ) ;
 
 		}else if( e.startsWith( prefix ) ){
 
-			if( s.last().startsWith( "[media-downloader] " + prefix ) ){
+			if( s.lastText().startsWith( "[media-downloader] " + prefix ) ){
 
 				s.removeLast() ;
 			}
 
-			s.append( "[media-downloader] " + e ) ;
+			s.add( "[media-downloader] " + e ) ;
 		}else{
-			s.append( "[media-downloader] " + e ) ;
+			s.add( "[media-downloader] " + e ) ;
 		}
-	} ) ;
+	},-1 ) ;
 }
 
 #endif

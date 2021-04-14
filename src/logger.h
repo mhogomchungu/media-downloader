@@ -29,13 +29,134 @@
 class Logger
 {
 public:
+	class Data
+	{
+	public:
+		bool isEmpty()
+		{
+			return m_lines.empty() ;
+		}
+		bool isEmpty() const
+		{
+			return m_lines.empty() ;
+		}
+		bool isNotEmpty()
+		{
+			return !this->isEmpty() ;
+		}
+		bool isNotEmpty() const
+		{
+			return !this->isEmpty() ;
+		}
+		const QString& lastText()
+		{
+			return m_lines.rbegin()->text() ;
+		}
+		const QString& lastText() const
+		{
+			return m_lines.rbegin()->text() ;
+		}
+		void clear()
+		{
+			m_lines.clear() ;
+		}
+		QString toString()
+		{
+			if( this->isNotEmpty() ){
+
+				auto it = m_lines.begin() ;
+
+				auto m = it->text() ;
+
+				it++ ;
+
+				for( ; it != m_lines.end() ; it++ ){
+
+					m += "\n" + it->text() ;
+				}
+
+				return m ;
+			}else{
+				return {} ;
+			}
+		}
+		void removeLast()
+		{
+			m_lines.pop_back() ;
+		}
+		void replaceLast( const QString& e )
+		{
+			m_lines.rbegin()->replace( e ) ;
+		}
+		template< typename Function,
+			  typename Engine >
+		void replaceOrAdd( Function function,const Engine& engine,const QString& text,int id )
+		{
+			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
+
+				if( function( engine,it->text() ) && it->id() == id ){
+
+					it->replace( text ) ;
+
+					return ;
+				}
+			}
+
+			this->add( text,id ) ;
+		}
+		template< typename Text >
+		void add( Text&& text,int s = -1 )
+		{
+			m_lines.emplace_back( std::forward< Text >( text ),s ) ;
+		}
+	private:
+		class line
+		{
+		public:
+			line( const QString& text,int id ) :
+				m_text( text ),
+				m_id( id )
+			{
+			}
+			line( const QString& text ) :
+				m_text( text ),
+				m_id( -1 )
+			{
+			}
+			const QString& text() const
+			{
+				return m_text ;
+			}
+			const QString& text()
+			{
+				return m_text ;
+			}
+			int id()
+			{
+				return m_id ;
+			}
+			int id() const
+			{
+				return m_id ;
+			}
+			void replace( const QString& text )
+			{
+				m_text = text ;
+			}
+		private:
+			QString m_text ;
+			int m_id ;
+		} ;
+		std::vector< Logger::Data::line > m_lines ;
+	} ;
+
 	Logger( QPlainTextEdit& ) ;
-	void add( const QString& ) ;
+	void add( const QString&,int id = -1 ) ;
 	void clear() ;
 	template< typename Function >
-	void add( const Function& function )
+	void add( const Function& function,int id )
 	{
-		function( m_text ) ;
+		function( m_lines,id ) ;
 		this->update() ;
 	}
 	Logger( const Logger& ) = delete ;
@@ -45,31 +166,34 @@ public:
 private:
 	void update() ;
 	QPlainTextEdit& m_textEdit ;
-	QStringList m_text ;
+	Logger::Data m_lines ;
 } ;
 
 class LoggerWrapper
 {
 public:
 	LoggerWrapper() = delete ;
-	LoggerWrapper( Logger& logger ) : m_logger( &logger )
+	LoggerWrapper( Logger& logger,int id ) :
+		m_logger( &logger ),
+		m_id( id )
 	{
 	}
 	void add( const QString& e )
 	{
-		m_logger->add( e ) ;
+		m_logger->add( e,m_id ) ;
 	}
 	void clear()
 	{
 		m_logger->clear() ;
 	}
 	template< typename Function >
-	void add( Function function )
+	void add( const Function& function )
 	{
-		m_logger->add( std::move( function ) ) ;
+		m_logger->add( function,m_id ) ;
 	}
 private:
 	Logger * m_logger ;
+	int m_id ;
 };
 
 template< typename Function,
@@ -77,22 +201,27 @@ template< typename Function,
 class loggerBatchDownloader
 {
 public:
-	loggerBatchDownloader( Function function,Engine& engine,Logger& logger,QTableWidgetItem& item ) :
+	loggerBatchDownloader( Function function,
+			       Engine& engine,
+			       Logger& logger,
+			       QTableWidgetItem& item,
+			       int id ) :
 		m_tableWidgetItem( item ),
 		m_function( std::move( function ) ),
 		m_engine( engine ),
-		m_logger( logger )
+		m_logger( logger ),
+		m_id( id )
 	{
 	}
 	void add( const QString& s )
 	{
-		m_logger.add( s ) ;
+		m_logger.add( s,m_id ) ;
 
 		if( s.startsWith( "[media-downloader]" ) ){
 
-			m_text.append( s ) ;
+			m_lines.add( s ) ;
 		}else{
-			m_text.append( "[media-downloader] " + s ) ;
+			m_lines.add( "[media-downloader] " + s ) ;
 		}
 
 		this->update() ;
@@ -100,51 +229,61 @@ public:
 	void clear()
 	{
 		m_tableWidgetItem.setText( "" ) ;
-		m_text.clear() ;
+		m_lines.clear() ;
 	}
 	template< typename F >
 	void add( const F& function )
 	{
-		m_logger.add( function ) ;
-		function( m_text ) ;
+		m_logger.add( function,m_id ) ;
+		function( m_lines,-1 ) ;
 		this->update() ;
 	}
 private:
 	void update()
 	{
-		if( m_text.size() > 0 ){
+		if( m_lines.isNotEmpty() ){
 
 			auto& function = *m_function ;
-			m_tableWidgetItem.setText( function( m_engine,m_text.last() ) ) ;
+			m_tableWidgetItem.setText( function( m_engine,m_lines.lastText() ) ) ;
 		}
 	}
 	QTableWidgetItem& m_tableWidgetItem ;
-	QStringList m_text ;
 	Function m_function ;
 	Engine& m_engine ;
 	Logger& m_logger ;
+	Logger::Data m_lines ;
+	int m_id ;
 } ;
 
 template< typename Function,typename Engine >
-static auto make_loggerBatchDownloader( Function function,Engine& engine,Logger& logger,QTableWidgetItem& item )
+static auto make_loggerBatchDownloader( Function function,
+					Engine& engine,
+					Logger& logger,
+					QTableWidgetItem& item,
+					int id )
 {
-	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,logger,item ) ;
+	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,logger,item,id ) ;
 }
 
 class loggerPlaylistDownloader
 {
 public:
-	loggerPlaylistDownloader( QTableWidget& t,const QFont& f,Logger& logger,const QString& u ) :
+	loggerPlaylistDownloader( QTableWidget& t,
+				  const QFont& f,
+				  Logger& logger,
+				  const QString& u,
+				  int id ) :
 		m_table( t ),
 		m_font( f ),
 		m_logger( logger ),
-		m_urlPrefix( u )
+		m_urlPrefix( u ),
+		m_id( id )
 	{
 		this->clear() ;
 	}
 	void add( const QString& e )
 	{
-		m_logger.add( e ) ;
+		m_logger.add( e,m_id ) ;
 	}
 	void clear()
 	{
@@ -155,19 +294,19 @@ public:
 			m_table.removeRow( 0 ) ;
 		}
 
-		m_text.clear() ;
+		m_lines.clear() ;
 	}
 	template< typename Function >
 	void add( const Function& function )
 	{
-		m_logger.add( function ) ;
-		function( m_text ) ;
+		m_logger.add( function,m_id ) ;
+		function( m_lines,-1 ) ;
 		this->update() ;
 	}
 private:
 	void update()
 	{
-		if( m_text.size() > 0 ){
+		if( m_lines.isNotEmpty() ){
 
 			auto row = m_table.rowCount() ;
 
@@ -175,19 +314,21 @@ private:
 
 			auto item = new QTableWidgetItem() ;
 
-			item->setText( m_urlPrefix + m_text.last() ) ;
+			item->setText( m_urlPrefix + m_lines.lastText() ) ;
 
 			item->setTextAlignment( Qt::AlignCenter ) ;
 			item->setFont( m_font ) ;
+
 			m_table.setItem( row,0,item ) ;
 		}
 	}
 private:
 	QTableWidget& m_table ;
-	QStringList m_text ;
 	const QFont& m_font ;
 	Logger& m_logger ;
 	const QString& m_urlPrefix ;
+	Logger::Data m_lines ;
+	int m_id ;
 };
 
 #endif

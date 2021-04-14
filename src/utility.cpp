@@ -468,3 +468,12 @@ void utility::setTableWidget( QTableWidget& m )
 	m.setFocusPolicy( Qt::NoFocus ) ;
 	m.setSelectionMode( QAbstractItemView::NoSelection ) ;
 }
+
+int utility::concurrentID()
+{
+	static int id = -1 ;
+
+	id++ ;
+
+	return id ;
+}

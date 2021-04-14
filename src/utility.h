@@ -323,9 +323,9 @@ namespace utility
 
 				m_data += data ;
 
-				m_logger.add( [ this,data = std::move( data ) ]( QStringList& e ){
+				m_logger.add( [ this,data = std::move( data ) ]( Logger::Data& e,int id ){
 
-					m_engine.processData( e,std::move( data ) ) ;
+					m_engine.processData( e,std::move( data ),id ) ;
 				} ) ;
 			}
 		}
@@ -480,6 +480,7 @@ namespace utility
 		} ) ;
 	}
 
+	int concurrentID() ;
 	void setTableWidget( QTableWidget& ) ;
 	void wait( int time ) ;
 	void waitForOneSecond() ;

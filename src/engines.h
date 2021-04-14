@@ -244,8 +244,9 @@ public:
 						      QProcess& ) ;
 
 			virtual void processData( const engines::engine& engine,
-						  QStringList&,
-						  QByteArray ) ;
+						  Logger::Data&,
+						  QByteArray,
+						  int id ) ;
 
 			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
 							       const QString& quality,
@@ -292,9 +293,9 @@ public:
 		{
 			return m_downloadUrl ;
 		}
-		void processData( QStringList& outPut,QByteArray data ) const
+		void processData( Logger::Data& outPut,QByteArray data,int id ) const
 		{
-			m_functions->processData( *this,outPut,std::move( data ) ) ;
+			m_functions->processData( *this,outPut,std::move( data ),id ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{

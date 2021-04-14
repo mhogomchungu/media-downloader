@@ -26,13 +26,13 @@ Logger::Logger( QPlainTextEdit& e ) : m_textEdit( e )
 	m_textEdit.setReadOnly( true ) ;
 }
 
-void Logger::add( const QString& s )
+void Logger::add( const QString& s,int id )
 {
 	if( s.startsWith( "[media-downloader]" ) ){
 
-		m_text.append( s ) ;
+		m_lines.add( s,id ) ;
 	}else{
-		m_text.append( "[media-downloader] " + s ) ;
+		m_lines.add( "[media-downloader] " + s,id ) ;
 	}
 
 	this->update() ;
@@ -40,12 +40,13 @@ void Logger::add( const QString& s )
 
 void Logger::clear()
 {
-	m_text.clear() ;
+	m_lines.clear() ;
 	m_textEdit.clear() ;
 }
 
 void Logger::update()
 {
-	m_textEdit.setPlainText( m_text.join( '\n' ) ) ;
+	m_textEdit.setPlainText( m_lines.toString() ) ;
+
 	m_textEdit.moveCursor( QTextCursor::End ) ;
 }
