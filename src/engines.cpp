@@ -746,7 +746,15 @@ static void _add( const QByteArray& data,
 			}else{
 				auto s = static_cast< bool( * )( const engines::engine&,const QString& ) >( _meet_condition ) ;
 
-				outPut.replaceOrAdd( s,engine,e,id ) ;
+				outPut.replaceOrAdd( engine,e,id,s,[ &engine ]( const QString& e ){
+
+					if( engine.likeYoutubeDl() ){
+
+						return e.startsWith( "[download] 100.0%" ) ;
+					}else{
+						return false ;
+					}
+				} ) ;
 			}
 		}else{
 			outPut.add( e,id ) ;

@@ -89,14 +89,32 @@ public:
 			m_lines.rbegin()->replace( e ) ;
 		}
 		template< typename Function,
+			  typename Add,
 			  typename Engine >
-		void replaceOrAdd( Function function,const Engine& engine,const QString& text,int id )
+		void replaceOrAdd( const Engine& engine,const QString& text,int id,Function function,Add add )
 		{
 			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
 
 				if( function( engine,it->text() ) && it->id() == id ){
+					
+					if( add( it->text() ) ){
 
-					it->replace( text ) ;
+						this->add( text,id ) ;
+					}else{
+						it->replace( text ) ;
+					}
+
+					return ;
+				}
+			}
+
+			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
+
+				if( it->id() == id && it != m_lines.rbegin() ){
+
+					it-- ;
+
+					m_lines.emplace( it.base(),text,id ) ;
 
 					return ;
 				}
