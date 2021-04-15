@@ -90,44 +90,60 @@ public:
 		}
 		template< typename Function,
 			  typename Add,
-			  typename Engine >
-		void replaceOrAdd( const Engine& engine,const QString& text,int id,Function function,Add add )
+			  typename Arg >
+		void replaceOrAdd( const Arg& arg,const QString& text,int id,Function function,Add add )
 		{
-			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
-
-				if( function( engine,it->text() ) && it->id() == id ){
-					
-					if( add( it->text() ) ){
-
-						this->add( text,id ) ;
-					}else{
-						it->replace( text ) ;
-					}
-
-					return ;
-				}
-			}
-
-			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
-
-				if( it->id() == id && it != m_lines.rbegin() ){
-
-					it-- ;
-
-					m_lines.emplace( it.base(),text,id ) ;
-
-					return ;
-				}
-			}
-
-			this->add( text,id ) ;
+			_replaceOrAdd( arg,text,id,std::move( function ),std::move( add ) ) ;
 		}
-		template< typename Text >
-		void add( Text&& text,int s = -1 )
+		void add( const QString& text,int id = -1 )
 		{
-			m_lines.emplace_back( std::forward< Text >( text ),s ) ;
+			_replaceOrAdd( 0,
+				       text,
+				       id,
+				       []( const int&,const QString& ){ return false ; },
+				       []( const QString& ){ return false ; } ) ;
 		}
 	private:
+		template< typename Function,
+			  typename Add,
+			  typename Arg >
+		void _replaceOrAdd( const Arg& arg,const QString& text,int id,Function function,Add add )
+		{
+			if( id != -1 ){
+
+				for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
+
+					if( it->id() == id ){
+
+						if( function( arg,it->text() ) ){
+
+							if( add( it->text() ) ){
+
+								this->add( it,text,id ) ;
+							}else{
+								it->replace( text ) ;
+							}
+						}else{
+							this->add( it,text,id ) ;
+						}
+
+						return ;
+					}
+				}
+			}
+
+			m_lines.emplace_back( text,id ) ;
+		}
+		template< typename It >
+		void add( const It& it,const QString& text,int id )
+		{
+			if( it != m_lines.rbegin() ){
+
+				m_lines.emplace( it.base(),text,id ) ;
+			}else{
+				m_lines.emplace_back( text,id ) ;
+			}
+		}
 		class line
 		{
 		public:
