@@ -145,18 +145,6 @@ void playlistdownloader::tabExited()
 {
 }
 
-void playlistdownloader::monitorForFinished( downloadFinished f )
-{
-	m_ccmd.monitorForFinished( std::move( f ),[ this ]( const engines::engine& engine,int index ){
-
-		this->download( engine,index ) ;
-
-	},[ this ](){
-
-		m_running = false ;
-	} ) ;
-}
-
 void playlistdownloader::download()
 {
 	m_running = true ;
@@ -185,10 +173,14 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 {
 	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ &engine,index,this ](){
 
-		QMetaObject::invokeMethod( this,
-					   "monitorForFinished",
-					   Qt::QueuedConnection,
-					   Q_ARG( downloadFinished,downloadFinished( engine,index ) ) ) ;
+		m_ccmd.monitorForFinished( engine,index,[ this ]( const engines::engine& engine,int index ){
+
+			this->download( engine,index ) ;
+
+		},[ this ](){
+
+			m_running = false ;
+		} ) ;
 	} ) ;
 
 	auto item = m_ui.tableWidgetPl->item( index,0 ) ;

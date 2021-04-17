@@ -31,40 +31,6 @@
 
 #include "utility.h"
 
-class downloadFinished
-{
-public:
-	downloadFinished()
-	{
-	}
-	downloadFinished( const engines::engine& engine,int index ) :
-		m_engine( &engine ),
-		m_index( index )
-	{
-		downloadFinished::m_static_engine = &engine ;
-	}
-	const engines::engine& engine()
-	{
-		if( m_engine ){
-
-			return *m_engine ;
-		}else{
-			//Shouldnt get here
-			return *m_static_engine ;
-		}
-	}
-	int index()
-	{
-		return m_index ;
-	}
-private:
-	const engines::engine * m_engine = nullptr ;
-	static const engines::engine * m_static_engine ;
-	int m_index ;
-};
-
-Q_DECLARE_METATYPE( downloadFinished )
-
 class concurrentDownloadManager
 {
 public:
@@ -77,16 +43,16 @@ public:
 		m_table( table ),
 		m_cancelButton( cancelButton )
 	{
-		static int s = qRegisterMetaType< downloadFinished >() ;
-		Q_UNUSED( s )
 	}
 	void cancelled()
 	{
 		m_cancelled = true ;
 	}
 	template< typename Function,typename Finished >
-	void monitorForFinished( downloadFinished f,Function function,Finished finished )
+	void monitorForFinished( const engines::engine& engine,int index,Function function,Finished finished )
 	{
+		Q_UNUSED( index )
+
 		if( m_cancelled ){
 
 			for( int s = 0 ; s < m_downloadList.size() ; s++ ){
@@ -110,7 +76,7 @@ public:
 			}else{
 				if( m_index < m_table.rowCount() ){
 
-					function( f.engine(),m_index ) ;
+					function( engine,m_index ) ;
 				}
 			}
 		}

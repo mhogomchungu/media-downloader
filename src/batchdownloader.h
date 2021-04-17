@@ -43,8 +43,6 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void download( const engines::engine&,const QString& opts,const QStringList& ) ;
-private slots:
-	void monitorForFinished( downloadFinished ) ;
 private:
 	void clearScreen() ;
 	void addToList( const QString& ) ;

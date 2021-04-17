@@ -161,15 +161,6 @@ void batchdownloader::download( const engines::engine& engine,
 	this->download( engine ) ;
 }
 
-void batchdownloader::monitorForFinished( downloadFinished f )
-{
-	m_ccmd.monitorForFinished( std::move( f ),[ this ]( const engines::engine& engine,int index ){
-
-		this->download( engine,index ) ;
-
-	},[](){} ) ;
-}
-
 void batchdownloader::clearScreen()
 {
 	auto s = m_ui.tableWidgetBD->rowCount() ;
@@ -232,10 +223,11 @@ void batchdownloader::download( const engines::engine& engine,int index )
 {
 	auto aa = batchdownloader::make_options( *m_ui.pbBDCancel,m_ctx,m_debug,[ &engine,index,this ](){
 
-		QMetaObject::invokeMethod( this,
-					   "monitorForFinished",
-					   Qt::QueuedConnection,
-					   Q_ARG( downloadFinished,downloadFinished( engine,index ) ) ) ;
+		m_ccmd.monitorForFinished( engine,index,[ this ]( const engines::engine& engine,int index ){
+
+			this->download( engine,index ) ;
+
+		},[](){} ) ;
 	} ) ;
 
 	auto item = m_ui.tableWidgetBD->item( index,0 ) ;

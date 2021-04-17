@@ -21,8 +21,6 @@
 
 #include "tabmanager.h"
 
-const engines::engine * downloadFinished::m_static_engine = nullptr ;
-
 void concurrentDownloadManager::uiEnableAll( bool e )
 {
 	if( e ){

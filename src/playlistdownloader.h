@@ -39,8 +39,6 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
-private slots:
-	void monitorForFinished( downloadFinished ) ;
 private:
 	void download() ;
 	void download( const engines::engine& ) ;

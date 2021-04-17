@@ -57,5 +57,4 @@ public:
 	youtube_dl() ;
 	static QJsonObject defaultControlStructure() ;
 private:
-	QString m_tmp ;
 };
