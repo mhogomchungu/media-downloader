@@ -16,18 +16,19 @@
     <message>
         <location filename="../src/mainwindow.ui" line="53"/>
         <location filename="../src/mainwindow.ui" line="366"/>
+        <location filename="../src/mainwindow.ui" line="676"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="66"/>
+        <location filename="../src/mainwindow.ui" line="663"/>
         <source>Get List</source>
         <translation>Pobierz listę</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
         <location filename="../src/mainwindow.ui" line="256"/>
-        <location filename="../src/mainwindow.ui" line="616"/>
         <source>Enter URL:</source>
         <translation>Adres wideo:</translation>
     </message>
@@ -60,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="353"/>
         <location filename="../src/mainwindow.ui" line="397"/>
         <location filename="../src/mainwindow.ui" line="603"/>
-        <location filename="../src/mainwindow.ui" line="935"/>
+        <location filename="../src/mainwindow.ui" line="937"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
@@ -77,6 +78,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="242"/>
+        <location filename="../src/mainwindow.ui" line="649"/>
         <source>Url To Download</source>
         <translation>Adres pliku wideo</translation>
     </message>
@@ -101,7 +103,6 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="464"/>
-        <location filename="../src/mainwindow.ui" line="668"/>
         <source>Enter File Path:</source>
         <translation>Scieżka do pliku:</translation>
     </message>
@@ -116,47 +117,52 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zakres:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="680"/>
+        <location filename="../src/mainwindow.ui" line="616"/>
+        <source>Enter Playlist URL:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="682"/>
         <source>Configure</source>
         <translation>Konfiguracja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="696"/>
+        <location filename="../src/mainwindow.ui" line="698"/>
         <source>General Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="860"/>
+        <location filename="../src/mainwindow.ui" line="862"/>
         <source>Batch Download Concurrently</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="883"/>
+        <location filename="../src/mainwindow.ui" line="885"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="917"/>
+        <location filename="../src/mainwindow.ui" line="919"/>
         <source>Reset Option To Its Default</source>
         <translation>Ustawienia domyślne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="920"/>
+        <location filename="../src/mainwindow.ui" line="922"/>
         <source>Set Defaults</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="828"/>
+        <location filename="../src/mainwindow.ui" line="830"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Skala interfejsu aplikacji (wymaga restartu)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="895"/>
+        <location filename="../src/mainwindow.ui" line="897"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="783"/>
+        <location filename="../src/mainwindow.ui" line="785"/>
         <source>Download Path</source>
         <translation>Katalog pobieranych plików</translation>
     </message>
@@ -165,37 +171,37 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation type="vanished">Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="731"/>
+        <location filename="../src/mainwindow.ui" line="733"/>
         <source>Select Language</source>
         <translation>Wybierz język</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="802"/>
+        <location filename="../src/mainwindow.ui" line="804"/>
         <source>Update</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="750"/>
+        <location filename="../src/mainwindow.ui" line="752"/>
         <source>Show Version Info When Starting</source>
         <translation>Pokaż informacje nt wersji przy uruchamianiu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="847"/>
+        <location filename="../src/mainwindow.ui" line="849"/>
         <source>Add a Plugin</source>
         <translation>Dodaj wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="815"/>
+        <location filename="../src/mainwindow.ui" line="817"/>
         <source>Remove A Plugin</source>
         <translation>Usuń wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="941"/>
+        <location filename="../src/mainwindow.ui" line="943"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="953"/>
+        <location filename="../src/mainwindow.ui" line="955"/>
         <source>TextLabel</source>
         <translation>TextLabel</translation>
     </message>
@@ -293,23 +299,23 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="361"/>
-        <location filename="../src/engines.cpp" line="458"/>
-        <location filename="../src/engines.cpp" line="518"/>
+        <location filename="../src/engines.cpp" line="461"/>
+        <location filename="../src/engines.cpp" line="521"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="492"/>
+        <location filename="../src/engines.cpp" line="495"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="776"/>
+        <location filename="../src/engines.cpp" line="801"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="791"/>
+        <location filename="../src/engines.cpp" line="816"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
@@ -337,7 +343,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/networkAccess.cpp" line="161"/>
         <location filename="../src/networkAccess.cpp" line="211"/>
-        <location filename="../src/networkAccess.cpp" line="219"/>
+        <location filename="../src/networkAccess.cpp" line="221"/>
         <source>Downloading</source>
         <translation>Pobieranie</translation>
     </message>
@@ -357,13 +363,13 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="208"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="247"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="229"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="341"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="233"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="230"/>
         <source>Download completed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -395,7 +401,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="77"/>
+        <location filename="../src/batchdownloader.cpp" line="61"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
@@ -403,7 +409,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchfiledownloader</name>
     <message>
-        <location filename="../src/batchfiledownloader.cpp" line="67"/>
+        <location filename="../src/batchfiledownloader.cpp" line="49"/>
         <source>Set Batch File</source>
         <translation>Wybierz plik</translation>
     </message>
@@ -426,7 +432,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="225"/>
+        <location filename="../src/configure.cpp" line="237"/>
         <source>Update</source>
         <translation>Aktualizuj</translation>
     </message>
@@ -434,9 +440,8 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="41"/>
         <source>Set Batch File</source>
-        <translation>Wybierz plik</translation>
+        <translation type="vanished">Wybierz plik</translation>
     </message>
 </context>
 </TS>
