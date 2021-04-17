@@ -226,7 +226,8 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 
 youtube_dl::youtube_dlFilter::youtube_dlFilter() :
 	m_counter( 0 ),
-	m_processing( QObject::tr( "Processing" ) )
+	m_processing( QObject::tr( "Processing" ) ),
+	m_downloadCompleted( QObject::tr( "Download completed" ) )
 {
 }
 
@@ -238,7 +239,8 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 		m_tmp = e ;
 		m_tmp.replace( " has already been downloaded and merged","" ) ;
 		m_tmp.replace( "[download] ","" ) ;
-		m_tmp += "\n" + QObject::tr( "Download completed" ) ;
+		m_tmp_name = m_tmp ;
+		m_tmp += "\n" + m_downloadCompleted ;
 
 		return m_tmp ;
 
@@ -247,29 +249,30 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 		m_tmp = e ;
 		m_tmp.replace( " has already been downloaded","" ) ;
 		m_tmp.replace( "[download] ","" ) ;
-		m_tmp += "\n" + QObject::tr( "Download completed" ) ;
+		m_tmp_name = m_tmp ;
+		m_tmp += "\n" + m_downloadCompleted ;
 
 		return m_tmp ;
 
 	}else if( e.contains( "[Merger] Merging formats into " ) ){
 
-		m_name = e ;
-		m_name.replace( "[Merger] Merging formats into ","" ) ;
-		m_name.truncate( m_name.size() - 1 ) ;
+		m_tmp = e ;
+		m_tmp.replace( "[Merger] Merging formats into ","" ) ;
+		m_tmp.truncate( m_name.size() - 1 ) ;
+		m_tmp_name = m_tmp ;
+		m_tmp += "\n" + m_downloadCompleted ;
 
-		m_name += "\n" + QObject::tr( "Download completed" ) ;
-
-		return m_name ;
+		return m_tmp ;
 
 	}else if( e.contains( "[ffmpeg] Merging formats into " ) ){
 
-		m_name = e ;
-		m_name.replace( "[ffmpeg] Merging formats into ","" ) ;
-		m_name.truncate( m_name.size() - 1 ) ;
+		m_tmp = e ;
+		m_tmp.replace( "[ffmpeg] Merging formats into ","" ) ;
+		m_tmp.truncate( m_name.size() - 1 ) ;
+		m_tmp_name = m_tmp ;
+		m_tmp += "\n" + m_downloadCompleted ;
 
-		m_name += "\n" + QObject::tr( "Download completed" ) ;
-
-		return m_name ;
+		return m_tmp ;
 
 	}else if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
 
@@ -279,18 +282,23 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 		if( !m_name.isEmpty() ){
 
 			m_tmp = m_name + "\n" + m_tmp ;
+
+		}else if( !m_tmp_name.isEmpty() ){
+
+			m_tmp = m_tmp_name + "\n" + m_tmp ;
 		}
 
 		return m_tmp ;
 
 	}else if( e.startsWith( "[download] 100% of " ) ){
 
-		m_final = e ;
-		m_final.replace( "[download] ","" ) ;
-
 		if( !m_name.isEmpty() ){
 
-			m_final = m_name + "\n" + m_final ;
+			m_final = m_name + "\n" + m_downloadCompleted ;
+
+		}else if( !m_tmp_name.isEmpty() ){
+
+			m_final = m_tmp_name + "\n" + m_downloadCompleted ;
 		}
 
 		return m_final ;

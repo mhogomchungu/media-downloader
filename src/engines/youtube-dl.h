@@ -41,8 +41,10 @@ public:
 		int m_counter ;
 		QString m_tmp ;
 		QString m_processing ;
+		QString m_downloadCompleted ;
 		QString m_final ;
 		QString m_name ;
+		QString m_tmp_name ;
 	} ;
 
 	std::unique_ptr< engines::engine::functions::filter > Filter() override ;
