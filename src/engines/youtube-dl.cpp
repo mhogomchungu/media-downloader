@@ -244,11 +244,22 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 
 	}else if( e.contains( " has already been downloaded" ) ){
 
-		m_name = e ;
-		m_name.replace( " has already been downloaded","" ) ;
-		m_name.replace( "[download] ","" ) ;
+		m_tmp = e ;
+		m_tmp.replace( " has already been downloaded","" ) ;
+		m_tmp.replace( "[download] ","" ) ;
+		m_tmp += "\n" + QObject::tr( "Download completed" ) ;
 
-		return this->processing() ;
+		return m_tmp ;
+
+	}else if( e.contains( "[Merger] Merging formats into " ) ){
+
+		m_name = e ;
+		m_name.replace( "[Merger] Merging formats into ","" ) ;
+		m_name.truncate( m_name.size() - 1 ) ;
+
+		m_name += "\n" + QObject::tr( "Download completed" ) ;
+
+		return m_name ;
 
 	}else if( e.contains( "[ffmpeg] Merging formats into " ) ){
 
@@ -284,7 +295,7 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 
 		return m_final ;
 
-	}else if( e.startsWith( "[ffmpeg] " ) ){
+	}else if( e.startsWith( "[ffmpeg] " ) || e.startsWith( "[Merger] " ) ){
 
 		return m_final ;
 
