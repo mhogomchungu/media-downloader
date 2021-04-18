@@ -167,10 +167,6 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Katalog pobieranych plików</translation>
     </message>
     <message>
-        <source>Set</source>
-        <translation type="vanished">Zapisz</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="733"/>
         <source>Select Language</source>
         <translation>Wybierz język</translation>
@@ -279,43 +275,39 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Polski (Polska)</translation>
     </message>
     <message>
-        <source>Failed to parse json file</source>
-        <translation type="vanished">Nieudane parsowanie pliku json</translation>
-    </message>
-    <message>
-        <location filename="../src/engines.cpp" line="93"/>
+        <location filename="../src/engines.cpp" line="95"/>
         <source>Running in portable mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="94"/>
+        <location filename="../src/engines.cpp" line="96"/>
         <source>Download path: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="110"/>
+        <location filename="../src/engines.cpp" line="112"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Błąd, plik wykonywalny &quot;%1&quot; nie został znaleziony</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="361"/>
-        <location filename="../src/engines.cpp" line="461"/>
-        <location filename="../src/engines.cpp" line="521"/>
+        <location filename="../src/engines.cpp" line="363"/>
+        <location filename="../src/engines.cpp" line="463"/>
+        <location filename="../src/engines.cpp" line="523"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="495"/>
+        <location filename="../src/engines.cpp" line="497"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="801"/>
+        <location filename="../src/engines.cpp" line="803"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="816"/>
+        <location filename="../src/engines.cpp" line="818"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
@@ -435,13 +427,6 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <location filename="../src/configure.cpp" line="237"/>
         <source>Update</source>
         <translation>Aktualizuj</translation>
-    </message>
-</context>
-<context>
-    <name>playlistdownloader</name>
-    <message>
-        <source>Set Batch File</source>
-        <translation type="vanished">Wybierz plik</translation>
     </message>
 </context>
 </TS>

@@ -79,6 +79,8 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths )
 		env.insert( "PATH",s + separator + p ) ;
 	}
 
+	env.insert( "LANG","C" ) ;
+
 	return env ;
 }
 
