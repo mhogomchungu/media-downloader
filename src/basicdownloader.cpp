@@ -336,8 +336,6 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 		}
 	}
 
-	utility::clear( *m_ui.bdTableWidgetList ) ;
-
 	QStringList opts ;
 
 	QStringList m ;
@@ -373,12 +371,17 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 		utility::addItem( *m_ui.bdTableWidgetList,args,m_ctx.mainWidget().font() ) ;
 	}
 
+	m_ui.bdTableWidgetList->setEnabled( true ) ;
 	//this->resetMenu( opts ) ;
 }
 
 void basicdownloader::list()
 {	
+	m_ui.bdTableWidgetList->setEnabled( false ) ;
+
 	m_ui.bdTableWidgetList->setVisible( true ) ;
+
+	utility::clear( *m_ui.bdTableWidgetList ) ;
 
 	m_optionsList.clear() ;
 
