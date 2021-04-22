@@ -480,8 +480,16 @@ namespace utility
 		} ) ;
 	}
 
+	struct tableWidgetOptions
+	{
+		QFlags< QAbstractItemView::EditTrigger > editTrigger = QAbstractItemView::NoEditTriggers ;
+		Qt::ContextMenuPolicy customContextPolicy = Qt::CustomContextMenu ;
+		Qt::FocusPolicy focusPolicy = Qt::NoFocus ;
+		QAbstractItemView::SelectionMode selectionMode = QAbstractItemView::NoSelection ;
+	};
+
 	int concurrentID() ;
-	void setTableWidget( QTableWidget& ) ;
+	void setTableWidget( QTableWidget&,const tableWidgetOptions& = tableWidgetOptions() ) ;
 	void addItem( QTableWidget&,const QStringList&,const QFont&,int alignment = Qt::AlignCenter ) ;
 	void addItem( QTableWidget&,const QString&,const QFont&,int alignment = Qt::AlignCenter ) ;
 	void clear( QTableWidget& ) ;

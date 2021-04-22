@@ -39,9 +39,13 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	m_ui.bdTableWidgetList->setVisible( false ) ;
 
-	utility::setTableWidget( *m_ui.bdTableWidgetList ) ;
+	utility::tableWidgetOptions opts ;
 
-	m_ui.bdTableWidgetList->setSelectionMode( QAbstractItemView::ExtendedSelection ) ;
+	opts.customContextPolicy = Qt::NoContextMenu ;
+	opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
+	opts.customContextPolicy = Qt::NoContextMenu ;
+
+	utility::setTableWidget( *m_ui.bdTableWidgetList,opts ) ;
 
 	connect( m_ui.bdTableWidgetList,&QTableWidget::itemClicked,[ this ]( QTableWidgetItem * ){
 

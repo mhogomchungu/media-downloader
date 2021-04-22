@@ -452,7 +452,7 @@ QStringList utility::updateOptions( const engines::engine& engine,
 	return opts ;
 }
 
-void utility::setTableWidget( QTableWidget& m )
+void utility::setTableWidget( QTableWidget& m,const utility::tableWidgetOptions& s )
 {
 	m.verticalHeader()->setSectionResizeMode( QHeaderView::ResizeToContents ) ;
 
@@ -462,11 +462,11 @@ void utility::setTableWidget( QTableWidget& m )
 
 	m.setMouseTracking( true ) ;
 
-	m.setContextMenuPolicy( Qt::CustomContextMenu ) ;
+	m.setContextMenuPolicy( s.customContextPolicy ) ;
 
-	m.setEditTriggers( QAbstractItemView::NoEditTriggers ) ;
-	m.setFocusPolicy( Qt::NoFocus ) ;
-	m.setSelectionMode( QAbstractItemView::NoSelection ) ;
+	m.setEditTriggers( s.editTrigger ) ;
+	m.setFocusPolicy( s.focusPolicy ) ;
+	m.setSelectionMode( s.selectionMode ) ;
 }
 
 int utility::concurrentID()
