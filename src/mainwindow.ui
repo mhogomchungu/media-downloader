@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -163,28 +163,6 @@
        <string>Quit</string>
       </property>
      </widget>
-     <widget class="QLabel" name="labelFailedToFixExe">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>20</y>
-        <width>651</width>
-        <height>251</height>
-       </rect>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
-     </widget>
      <widget class="QComboBox" name="cbEngineType">
       <property name="geometry">
        <rect>
@@ -197,6 +175,48 @@
       <property name="currentText">
        <string notr="true"/>
       </property>
+     </widget>
+     <widget class="QTableWidget" name="bdTableWidgetList">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>771</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="tabKeyNavigation">
+       <bool>false</bool>
+      </property>
+      <property name="showDropIndicator" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>Format Code</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Extension</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Resolution</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Note</string>
+       </property>
+      </column>
      </widget>
     </widget>
     <widget class="QWidget" name="tabBatchDownloader">

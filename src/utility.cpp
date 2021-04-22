@@ -477,3 +477,37 @@ int utility::concurrentID()
 
 	return id ;
 }
+
+void utility::addItem( QTableWidget& table,const QString& text,const QFont& font,int alignment )
+{
+	utility::addItem( table,QStringList{ text },font,alignment ) ;
+}
+
+void utility::clear( QTableWidget& table )
+{
+	int m = table.rowCount() ;
+
+	for( int i = 0 ; i < m ; i++ ){
+
+		table.removeRow( 0 ) ;
+	}
+}
+
+void utility::addItem( QTableWidget& table,const QStringList& text,const QFont& font,int alignment )
+{
+	auto row = table.rowCount() ;
+	auto columns = table.columnCount() ;
+
+	table.insertRow( row ) ;
+
+	for( int it = 0 ; it < columns ; it++ ){
+
+		auto item = new QTableWidgetItem() ;
+
+		item->setText( text.at( it ) ) ;
+		item->setTextAlignment( alignment ) ;
+		item->setFont( font ) ;
+
+		table.setItem( row,it,item ) ;
+	}
+}

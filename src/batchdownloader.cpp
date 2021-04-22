@@ -178,19 +178,7 @@ void batchdownloader::addToList( const QString& a )
 {
 	if( !a.isEmpty() ){
 
-		auto table = m_ui.tableWidgetBD ;
-
-		auto row = table->rowCount() ;
-
-		table->insertRow( row ) ;
-
-		auto item = new QTableWidgetItem() ;
-
-		item->setText( a ) ;
-		item->setTextAlignment( Qt::AlignCenter ) ;
-		item->setFont( m_mainWindow.font() ) ;
-
-		table->setItem( row,0,item ) ;
+		utility::addItem( *m_ui.tableWidgetBD,a,m_mainWindow.font() ) ;
 
 		m_ui.lineEditBDUrl->clear() ;
 

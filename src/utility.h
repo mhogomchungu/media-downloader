@@ -482,6 +482,9 @@ namespace utility
 
 	int concurrentID() ;
 	void setTableWidget( QTableWidget& ) ;
+	void addItem( QTableWidget&,const QStringList&,const QFont&,int alignment = Qt::AlignCenter ) ;
+	void addItem( QTableWidget&,const QString&,const QFont&,int alignment = Qt::AlignCenter ) ;
+	void clear( QTableWidget& ) ;
 	void wait( int time ) ;
 	void waitForOneSecond() ;
 	void openDownloadFolderPath( const QString& ) ;

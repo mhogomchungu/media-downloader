@@ -37,11 +37,46 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	m_ui.pbCancel->setEnabled( false ) ;
 
-	m_ui.labelFailedToFixExe->setVisible( false ) ;
+	m_ui.bdTableWidgetList->setVisible( false ) ;
 
-	m_debug = QCoreApplication::arguments().contains( "--debug" ) ;
+	utility::setTableWidget( *m_ui.bdTableWidgetList ) ;
+
+	m_ui.bdTableWidgetList->setSelectionMode( QAbstractItemView::ExtendedSelection ) ;
+
+	connect( m_ui.bdTableWidgetList,&QTableWidget::itemClicked,[ this ]( QTableWidgetItem * ){
+
+		auto rowCount = m_ui.bdTableWidgetList->rowCount() ;
+
+		QStringList txt ;
+
+		for( int row = 0 ; row < rowCount ; row++ ){
+
+			auto item = m_ui.bdTableWidgetList->item( row,0 ) ;
+
+			auto m = item->text() ;
+
+			if( item->isSelected() ){
+
+				if( !txt.contains( m ) ){
+
+					txt.append( m ) ;
+				}
+			}else{
+				txt.removeAll( m ) ;
+			}
+		}
+
+		if( txt.isEmpty() ){
+
+			m_ui.lineEditOptions->clear() ;
+		}else{
+			m_ui.lineEditOptions->setText( txt.join( "+" ) ) ;
+		}
+	} ) ;
 
 	connect( m_ui.pbList,&QPushButton::clicked,[ this ](){
+
+		m_ui.bdTableWidgetList->setVisible( false ) ;
 
 		this->list() ;
 	} ) ;
@@ -49,6 +84,8 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	this->resetMenu() ;
 
 	connect( m_ui.pbDownload,&QPushButton::clicked,[ this ](){
+
+		m_ui.bdTableWidgetList->setVisible( false ) ;
 
 		this->download() ;
 	} ) ;
@@ -287,11 +324,25 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 void basicdownloader::listRequested( const QList< QByteArray >& args )
 {
+	for( const auto& it : args ){
+
+		if( it.contains( "ERROR:" ) ){
+
+			return ;
+		}
+	}
+
+	utility::clear( *m_ui.bdTableWidgetList ) ;
+
+	m_ui.bdTableWidgetList->setVisible( true ) ;
+
 	QStringList opts ;
 
-	for( int i = args.size() - 1 ; i >= 0 ; i-- ){
+	QStringList m ;
 
-		auto a = utility::split( args[ i ],' ',true ) ;
+	for( auto it = args.rbegin() ; it != args.rend() ; it++ ){
+
+		auto a = utility::split( *it,' ',true ) ;
 
 		if( a.size() > 1 ){
 
@@ -302,11 +353,25 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 				break ;
 			}else{
 				opts.insert( 0,e ) ;
+				m.insert( 0,*it ) ;
 			}
 		}
 	}
 
-	this->resetMenu( opts ) ;
+	for( const auto& it : m ){
+
+		auto a          = utility::split( it,' ',true ) ;
+		auto format     = a.takeAt( 0 ) ;
+		auto extension  = a.takeAt( 0 ) ;
+		auto resolution = a.takeAt( 0 ) ;
+		auto notes      = a.join( " " ) ;
+
+		QStringList args{ format,extension,resolution,notes } ;
+
+		utility::addItem( *m_ui.bdTableWidgetList,args,m_ctx.mainWidget().font() ) ;
+	}
+
+	//this->resetMenu( opts ) ;
 }
 
 void basicdownloader::list()
@@ -347,6 +412,8 @@ void basicdownloader::download( const engines::engine& engine,
 				const QStringList& urls,
 				bool update )
 {
+	m_ui.bdTableWidgetList->setVisible( false ) ;
+
 	if( update ){
 
 		m_ui.lineEditOptions->setText( args.quality + " " + args.otherOptions.join( ' ' ) ) ;
