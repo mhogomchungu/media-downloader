@@ -486,6 +486,7 @@ namespace utility
 		Qt::ContextMenuPolicy customContextPolicy = Qt::CustomContextMenu ;
 		Qt::FocusPolicy focusPolicy = Qt::NoFocus ;
 		QAbstractItemView::SelectionMode selectionMode = QAbstractItemView::NoSelection ;
+		bool mouseTracking = true ;
 	};
 
 	int concurrentID() ;

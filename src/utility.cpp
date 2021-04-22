@@ -460,7 +460,7 @@ void utility::setTableWidget( QTableWidget& m,const utility::tableWidgetOptions&
 
 	m.horizontalHeader()->setStretchLastSection( true ) ;
 
-	m.setMouseTracking( true ) ;
+	m.setMouseTracking( s.mouseTracking ) ;
 
 	m.setContextMenuPolicy( s.customContextPolicy ) ;
 

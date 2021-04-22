@@ -331,13 +331,12 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 		if( it.contains( "ERROR:" ) ){
 
+			m_ui.bdTableWidgetList->setVisible( false ) ;
 			return ;
 		}
 	}
 
 	utility::clear( *m_ui.bdTableWidgetList ) ;
-
-	m_ui.bdTableWidgetList->setVisible( true ) ;
 
 	QStringList opts ;
 
@@ -379,6 +378,8 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 void basicdownloader::list()
 {	
+	m_ui.bdTableWidgetList->setVisible( true ) ;
+
 	m_optionsList.clear() ;
 
 	m_ui.lineEditOptions->clear() ;
