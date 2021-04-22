@@ -107,6 +107,7 @@ private:
 	bool m_debug ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
+	QStringList m_optionsList ;
 
 	void setDefaultEngine() ;
 

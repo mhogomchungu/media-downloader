@@ -47,34 +47,33 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	utility::setTableWidget( *m_ui.bdTableWidgetList,opts ) ;
 
-	connect( m_ui.bdTableWidgetList,&QTableWidget::itemClicked,[ this ]( QTableWidgetItem * ){
+	connect( m_ui.bdTableWidgetList,&QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
 
-		auto rowCount = m_ui.bdTableWidgetList->rowCount() ;
+		if( item->isSelected() ){
 
-		QStringList txt ;
+			auto text = m_ui.bdTableWidgetList->item( item->row(),0 )->text() ;
 
-		for( int row = 0 ; row < rowCount ; row++ ){
+			if( !m_optionsList.contains( text ) ){
 
-			auto item = m_ui.bdTableWidgetList->item( row,0 ) ;
-
-			auto m = item->text() ;
-
-			if( item->isSelected() ){
-
-				if( !txt.contains( m ) ){
-
-					txt.append( m ) ;
-				}
-			}else{
-				txt.removeAll( m ) ;
+				m_optionsList.append( text ) ;
 			}
 		}
 
-		if( txt.isEmpty() ){
+		for( int row = 0 ; row < m_ui.bdTableWidgetList->rowCount() ; row++ ){
+
+			auto item = m_ui.bdTableWidgetList->item( row,0 ) ;
+
+			if( !item->isSelected() ){
+
+				m_optionsList.removeAll( item->text() ) ;
+			}
+		}
+
+		if( m_optionsList.isEmpty() ){
 
 			m_ui.lineEditOptions->clear() ;
 		}else{
-			m_ui.lineEditOptions->setText( txt.join( "+" ) ) ;
+			m_ui.lineEditOptions->setText( m_optionsList.join( "+" ) ) ;
 		}
 	} ) ;
 
@@ -379,7 +378,11 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 }
 
 void basicdownloader::list()
-{
+{	
+	m_optionsList.clear() ;
+
+	m_ui.lineEditOptions->clear() ;
+
 	m_ui.pbCancel->setEnabled( true ) ;
 
 	auto url = m_ui.lineEditURL->text() ;
