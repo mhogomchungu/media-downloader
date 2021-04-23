@@ -43,7 +43,6 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	opts.customContextPolicy = Qt::NoContextMenu ;
 	opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
-	opts.customContextPolicy = Qt::NoContextMenu ;
 
 	utility::setTableWidget( *m_ui.bdTableWidgetList,opts ) ;
 
@@ -289,9 +288,11 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-		m_ctx.logger().add( tr( "Checking installed version of" ) + " " + engine.name() ) ;
+		auto& logger = m_ctx.logger() ;
 
-		return ctx( engine,m_ctx.logger() ) ;
+		logger.add( tr( "Checking installed version of" ) + " " + engine.name() ) ;
+
+		return ctx( engine,logger ) ;
 
 	},[]( QProcess& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
 
