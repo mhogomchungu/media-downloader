@@ -290,6 +290,11 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/translator.cpp" line="31"/>
+        <source>Chinese (China)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/translator.cpp" line="28"/>
         <source>Polish (Poland)</source>
         <translation>Polski (Polska)</translation>
@@ -394,18 +399,18 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="185"/>
-        <location filename="../src/basicdownloader.cpp" line="311"/>
+        <location filename="../src/basicdownloader.cpp" line="184"/>
+        <location filename="../src/basicdownloader.cpp" line="312"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="292"/>
+        <location filename="../src/basicdownloader.cpp" line="293"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="315"/>
+        <location filename="../src/basicdownloader.cpp" line="316"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>

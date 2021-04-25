@@ -103,10 +103,7 @@ install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES src/media-downloader.desktop DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
 install(FILES src/media-downloader.png DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pixmaps)
 
-install(FILES translations/es.qm DESTINATION ${CMAKE_INSTALL_DATADIR}/media-downloader/translations)
-install(FILES translations/pl_PL.qm DESTINATION ${CMAKE_INSTALL_DATADIR}/media-downloader/translations)
-
-install(FILES translations/en_US.qm DESTINATION ${CMAKE_INSTALL_DATADIR}/media-downloader/translations)
+install(DIRECTORY translations DESTINATION ${CMAKE_INSTALL_DATADIR}/media-downloader FILES_MATCHING PATTERN "*.qm")
 
 file(WRITE ${PROJECT_BINARY_DIR}/locale_path.h "\n#define TRANSLATION_PATH \"${CMAKE_INSTALL_FULL_DATADIR}/media-downloader/translations/\"\n")
 

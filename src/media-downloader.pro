@@ -34,3 +34,5 @@ mainwindow.ui
 TRANSLATIONS = \
 ../translations/en_US.ts \
 ../translations/pl_PL.ts \
+../translations/zh_CN.ts \
+../translations/es.ts \

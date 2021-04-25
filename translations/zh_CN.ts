@@ -285,9 +285,9 @@ Each Link Should Be In Its Own Line.</source>
         <translation>西班牙语 (西班牙)</translation>
     </message>
     <message>
-        <location filename="../src/translator.cpp" line="30"/>
-        <source>Simplified Chinese (China)</source>
-        <translation>简体中文 (中国)</translation>
+        <location filename="../src/translator.cpp" line="31"/>
+        <source>Chinese (China)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="349"/>
@@ -399,18 +399,18 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="185"/>
-        <location filename="../src/basicdownloader.cpp" line="311"/>
+        <location filename="../src/basicdownloader.cpp" line="184"/>
+        <location filename="../src/basicdownloader.cpp" line="312"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="292"/>
+        <location filename="../src/basicdownloader.cpp" line="293"/>
         <source>Checking installed version of</source>
         <translation>正在检查的已安装版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="315"/>
+        <location filename="../src/basicdownloader.cpp" line="316"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
