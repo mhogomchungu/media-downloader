@@ -31,7 +31,7 @@
 
 #include <QDir>
 
-static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths )
+static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,settings& settings )
 {
 	auto env = QProcessEnvironment::systemEnvironment() ;
 
@@ -72,11 +72,21 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths )
 
 	auto p = env.value( "PATH" ) ;
 
-	if( s.endsWith( separator ) ){
+	if( settings.useSystemProvidedVersionIfAvailable() ){
 
-		env.insert( "PATH",s + p ) ;
+		if( s.endsWith( separator ) ){
+
+			env.insert( "PATH",p + s ) ;
+		}else{
+			env.insert( "PATH",p + separator + s ) ;
+		}
 	}else{
-		env.insert( "PATH",s + separator + p ) ;
+		if( s.endsWith( separator ) ){
+
+			env.insert( "PATH",s + p ) ;
+		}else{
+			env.insert( "PATH",s + separator + p ) ;
+		}
 	}
 
 	env.insert( "LANG","C" ) ;
@@ -88,7 +98,7 @@ engines::engines( Logger& l,settings& s ) :
 	m_logger( l ),
 	m_settings( s ),
 	m_enginePaths( m_settings ),
-	m_processEnvironment( _getEnvPaths( m_enginePaths ) )
+	m_processEnvironment( _getEnvPaths( m_enginePaths,m_settings ) )
 {
 	if( settings::portableVersion() ){
 
@@ -194,7 +204,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 			auto functions = std::make_unique< youtube_dl >() ;
 
-			functions->updateOptions( object ) ;
+			functions->updateOptions( object,m_settings ) ;
 
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 
@@ -202,13 +212,13 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 			auto functions = std::make_unique< safaribooks >( m_settings ) ;
 
-			functions->updateOptions( object ) ;
+			functions->updateOptions( object,m_settings ) ;
 
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 		}else{
 			auto functions = std::make_unique< generic >() ;
 
-			functions->updateOptions( object ) ;
+			functions->updateOptions( object,m_settings ) ;
 
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 		}
@@ -459,8 +469,14 @@ engines::engine::engine( Logger& logger,
 
 			if( m.isEmpty() ){
 
-				m_valid = false ;
-				logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( commandName ) ) ;
+				if( !this->downloadUrl().isEmpty() && !m_exeFolderPath.isEmpty() ){
+
+					m_usingPrivateBackend = true ;
+					m_exePath = m_exeFolderPath + "/" + commandName ;
+				}else{
+					m_valid = false ;
+					logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( commandName ) ) ;
+				}
 			}else{
 				m_exePath = m ;
 			}
@@ -585,7 +601,7 @@ std::unique_ptr< engines::engine::functions::filter > engines::engine::functions
 	return std::make_unique< engines::engine::functions::filter >() ;
 }
 
-void engines::engine::functions::updateOptions( QJsonObject& )
+void engines::engine::functions::updateOptions( QJsonObject&,settings& )
 {
 }
 

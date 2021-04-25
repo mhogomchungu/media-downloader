@@ -49,6 +49,11 @@ configure::configure( const Context& ctx ) :
 		this->enableConcurrentTextField() ;
 	} ) ;
 
+	connect( m_ui.cbUseSystemVersionIfAvailable,&QCheckBox::stateChanged,[ this ]( int ){
+
+		this->manageDownloadButton() ;
+	} ) ;
+
 	connect( m_ui.pbConfigureAddAPlugin,&QPushButton::clicked,[ this ](){
 
 		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select An Engine File" ),utility::homePath() ) ;
@@ -152,6 +157,10 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbConfigureBatchDownloadConcurrently->setChecked( m_settings.concurrentDownloading() ) ;
 
+	m_ui.cbUseSystemVersionIfAvailable->setChecked( m_settings.useSystemProvidedVersionIfAvailable() ) ;
+
+	m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
+
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( QString::number( m_settings.maxConcurrentDownloads() ) ) ;
 }
 
@@ -197,6 +206,7 @@ void configure::saveOptions()
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
 	m_settings.setConcurrentDownloading( m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ) ;
+	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
@@ -226,10 +236,7 @@ void configure::manageDownloadButton()
 
 	if( networkAccess::hasNetworkSupport() && m_setEnabled ){
 
-		auto a = engine.usingPrivateBackend() ;
-		auto b = !engine.downloadUrl().isEmpty() ;
-
-		m_ui.pbConfigureDownload->setEnabled( a && b ) ;
+		m_ui.pbConfigureDownload->setEnabled( !engine.downloadUrl().isEmpty() ) ;
 	}else{
 		m_ui.pbConfigureDownload->setEnabled( false ) ;
 	}
@@ -284,6 +291,7 @@ void configure::enableAll()
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( true ) ;
 	m_ui.cbConfigureBatchDownloadConcurrently->setEnabled( true ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( true ) ;
+	m_ui.cbUseSystemVersionIfAvailable->setEnabled( true ) ;
 
 	this->enableConcurrentTextField() ;
 
@@ -296,6 +304,7 @@ void configure::enableAll()
 void configure::disableAll()
 {
 	m_setEnabled = false ;
+	m_ui.cbUseSystemVersionIfAvailable->setEnabled( false ) ;
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( false ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( false ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( false ) ;

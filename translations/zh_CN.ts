@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="373"/>
         <location filename="../src/mainwindow.ui" line="417"/>
         <location filename="../src/mainwindow.ui" line="623"/>
-        <location filename="../src/mainwindow.ui" line="957"/>
+        <location filename="../src/mainwindow.ui" line="970"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>退出</translation>
@@ -162,12 +162,17 @@ Each Link Should Be In Its Own Line.</source>
         <translation>当前最大下载量</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="939"/>
+        <location filename="../src/mainwindow.ui" line="924"/>
+        <source>Use System Executables If Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="952"/>
         <source>Reset Option To Its Default</source>
         <translation>将选项重置为默认值</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="942"/>
+        <location filename="../src/mainwindow.ui" line="955"/>
         <source>Set Defaults</source>
         <translation>设置默认值</translation>
     </message>
@@ -177,7 +182,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>窗口缩放比例(需要重启程序)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="917"/>
+        <location filename="../src/mainwindow.ui" line="930"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
@@ -212,12 +217,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>移除一个插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="963"/>
+        <location filename="../src/mainwindow.ui" line="976"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="975"/>
+        <location filename="../src/mainwindow.ui" line="988"/>
         <source>TextLabel</source>
         <translation>文本标签</translation>
     </message>
@@ -300,39 +305,39 @@ Each Link Should Be In Its Own Line.</source>
         <translation>清除选项</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="95"/>
+        <location filename="../src/engines.cpp" line="105"/>
         <source>Running in portable mode</source>
         <translation>在便携模式下运行</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="96"/>
+        <location filename="../src/engines.cpp" line="106"/>
         <source>Download path: </source>
         <translation>下载文件路径: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="112"/>
+        <location filename="../src/engines.cpp" line="122"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>错误，找不到后端的可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="363"/>
-        <location filename="../src/engines.cpp" line="463"/>
-        <location filename="../src/engines.cpp" line="523"/>
+        <location filename="../src/engines.cpp" line="373"/>
+        <location filename="../src/engines.cpp" line="478"/>
+        <location filename="../src/engines.cpp" line="539"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="497"/>
+        <location filename="../src/engines.cpp" line="513"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="803"/>
+        <location filename="../src/engines.cpp" line="819"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="818"/>
+        <location filename="../src/engines.cpp" line="834"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
@@ -380,13 +385,13 @@ Each Link Should Be In Its Own Line.</source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="229"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="341"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="216"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="328"/>
         <source>Processing</source>
         <translation>处理</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="230"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="217"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -400,12 +405,12 @@ Each Link Should Be In Its Own Line.</source>
     <name>basicdownloader</name>
     <message>
         <location filename="../src/basicdownloader.cpp" line="184"/>
-        <location filename="../src/basicdownloader.cpp" line="312"/>
+        <location filename="../src/basicdownloader.cpp" line="310"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="293"/>
+        <location filename="../src/basicdownloader.cpp" line="291"/>
         <source>Checking installed version of</source>
         <translation>正在检查的已安装版本</translation>
     </message>
@@ -413,6 +418,11 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/basicdownloader.cpp" line="316"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
+    </message>
+    <message>
+        <location filename="../src/basicdownloader.cpp" line="320"/>
+        <source>Executable Path</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -434,22 +444,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="54"/>
+        <location filename="../src/configure.cpp" line="59"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="81"/>
+        <location filename="../src/configure.cpp" line="86"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="135"/>
+        <location filename="../src/configure.cpp" line="140"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="237"/>
+        <location filename="../src/configure.cpp" line="248"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>

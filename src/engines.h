@@ -235,7 +235,7 @@ public:
 
 			virtual std::unique_ptr< engines::engine::functions::filter > Filter() ;
 
-			virtual void updateOptions( QJsonObject& ) ;
+			virtual void updateOptions( QJsonObject&,settings& ) ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
 

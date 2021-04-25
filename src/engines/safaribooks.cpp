@@ -32,7 +32,7 @@ safaribooks::~safaribooks()
 {
 }
 
-void safaribooks::updateOptions( QJsonObject& object )
+void safaribooks::updateOptions( QJsonObject& object,settings& )
 {
 	if( !object.contains( "ControlJsonStructure" ) ){
 
