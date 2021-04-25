@@ -164,7 +164,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="924"/>
         <source>Use System Executables If Available</source>
-        <translation type="unfinished"></translation>
+        <translation>使用系统可执行文件(如果可用)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="952"/>
@@ -292,7 +292,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/translator.cpp" line="31"/>
         <source>Chinese (China)</source>
-        <translation type="unfinished"></translation>
+        <translation>中文 (中国)</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="349"/>
@@ -388,7 +388,7 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/engines/youtube-dl.cpp" line="216"/>
         <location filename="../src/engines/youtube-dl.cpp" line="328"/>
         <source>Processing</source>
-        <translation>处理</translation>
+        <translation>处理中</translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="217"/>
@@ -422,7 +422,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/basicdownloader.cpp" line="320"/>
         <source>Executable Path</source>
-        <translation type="unfinished"></translation>
+        <translation>可执行文件路径</translation>
     </message>
 </context>
 <context>
