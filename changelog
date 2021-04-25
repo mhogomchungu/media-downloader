@@ -36,3 +36,5 @@ Version 1.2.0(April 1st,2021)
  - Add an option to do batch downloads concurrently.
 [Windows]
  - Add a portable version(A self contained version that keeps everything in the application folder).
+[Linux]
+- Add an option to prefer system executables over private media downloader executables.

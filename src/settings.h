@@ -63,7 +63,9 @@ public:
 	bool autoDownload() ;
 	bool showVersionInfoWhenStarting() ;
 	bool concurrentDownloading() ;
+	bool useSystemProvidedVersionIfAvailable() ;
 
+	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
 	void setConcurrentDownloading( bool ) ;

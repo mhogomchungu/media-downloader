@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -721,7 +721,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>108</y>
+          <y>98</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -744,7 +744,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>2</x>
-          <y>30</y>
+          <y>20</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -763,7 +763,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>210</y>
+          <y>220</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -776,7 +776,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>30</y>
+          <y>20</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -786,7 +786,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>70</y>
+          <y>60</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -796,7 +796,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>110</y>
+          <y>100</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -815,7 +815,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>140</y>
+          <y>130</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -828,7 +828,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>400</x>
-          <y>170</y>
+          <y>160</y>
           <width>211</width>
           <height>33</height>
          </rect>
@@ -841,7 +841,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>70</y>
+          <y>60</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -860,7 +860,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>170</y>
+          <y>160</y>
           <width>211</width>
           <height>33</height>
          </rect>
@@ -873,7 +873,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>240</y>
+          <y>250</y>
           <width>421</width>
           <height>21</height>
          </rect>
@@ -886,7 +886,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>270</y>
+          <y>280</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -896,7 +896,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>260</y>
+          <y>270</y>
           <width>181</width>
           <height>51</height>
          </rect>
@@ -909,6 +909,19 @@ Each Link Should Be In Its Own Line.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbUseSystemVersionIfAvailable">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>190</y>
+          <width>421</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Use System Executables If Available</string>
         </property>
        </widget>
       </widget>

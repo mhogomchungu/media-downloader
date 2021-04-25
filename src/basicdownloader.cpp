@@ -273,13 +273,13 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 	struct ctx
 	{
-		ctx( const engines::engine& e,Logger& l ) :
-			engine( e ),logger( l )
+		ctx( const engines::engine& e,const Context& c ) :
+			engine( e ),context( c )
 		{
 		}
 		QByteArray data ;
 		const engines::engine& engine ;
-		Logger& logger ;
+		const Context& context ;
 	} ;
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
@@ -288,11 +288,9 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-		auto& logger = m_ctx.logger() ;
+		m_ctx.logger().add( tr( "Checking installed version of" ) + " " + engine.name() ) ;
 
-		logger.add( tr( "Checking installed version of" ) + " " + engine.name() ) ;
-
-		return ctx( engine,logger ) ;
+		return ctx( engine,m_ctx ) ;
 
 	},[]( QProcess& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
 
@@ -309,11 +307,18 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 				}
 			}
 
-			ctx.logger.add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() ) ) ;
+			ctx.context.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() ) ) ;
 
 			m_tabManager.enableAll() ;
 		}else{
-			ctx.logger.add( tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ) ;
+			auto& logger = ctx.context.logger() ;
+
+			logger.add( tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ) ;
+
+			if( ctx.context.debug() ){
+
+				logger.add( tr( "Executable Path" ) + ": " + ctx.engine.exePath().realExe() ) ;
+			}
 
 			m_tabManager.enableAll() ;
 		}

@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="373"/>
         <location filename="../src/mainwindow.ui" line="417"/>
         <location filename="../src/mainwindow.ui" line="623"/>
-        <location filename="../src/mainwindow.ui" line="957"/>
+        <location filename="../src/mainwindow.ui" line="970"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Salir</translation>
@@ -160,12 +160,17 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Descargas Simultáneas Máximas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="939"/>
+        <location filename="../src/mainwindow.ui" line="924"/>
+        <source>Use System Executables If Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="952"/>
         <source>Reset Option To Its Default</source>
         <translation>Restablecer Opción a su Valor Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="942"/>
+        <location filename="../src/mainwindow.ui" line="955"/>
         <source>Set Defaults</source>
         <translation>Establecer Predeterminados</translation>
     </message>
@@ -175,7 +180,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Factor de Escala (Necesita Reiniciar)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="917"/>
+        <location filename="../src/mainwindow.ui" line="930"/>
         <source>Preset Options</source>
         <translation>Opciones Predeterminadas</translation>
     </message>
@@ -210,12 +215,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Eliminar complemento</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="963"/>
+        <location filename="../src/mainwindow.ui" line="976"/>
         <source>About</source>
         <translation>Acerca</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="975"/>
+        <location filename="../src/mainwindow.ui" line="988"/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
@@ -298,39 +303,39 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Limpiar Opciones</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="95"/>
+        <location filename="../src/engines.cpp" line="105"/>
         <source>Running in portable mode</source>
         <translation>Ejecutando en modo portable</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="96"/>
+        <location filename="../src/engines.cpp" line="106"/>
         <source>Download path: </source>
         <translation>Ruta de descarga: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="112"/>
+        <location filename="../src/engines.cpp" line="122"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Error, no se pudo encontrar el ejecutable del backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="363"/>
-        <location filename="../src/engines.cpp" line="463"/>
-        <location filename="../src/engines.cpp" line="523"/>
+        <location filename="../src/engines.cpp" line="373"/>
+        <location filename="../src/engines.cpp" line="478"/>
+        <location filename="../src/engines.cpp" line="539"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Fallo para encontrar el ejecutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="497"/>
+        <location filename="../src/engines.cpp" line="513"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="803"/>
+        <location filename="../src/engines.cpp" line="819"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="818"/>
+        <location filename="../src/engines.cpp" line="834"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
@@ -378,13 +383,13 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="229"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="341"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="216"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="328"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="230"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="217"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
@@ -398,12 +403,12 @@ Each Link Should Be In Its Own Line.</source>
     <name>basicdownloader</name>
     <message>
         <location filename="../src/basicdownloader.cpp" line="184"/>
-        <location filename="../src/basicdownloader.cpp" line="312"/>
+        <location filename="../src/basicdownloader.cpp" line="310"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>No se pudo encontrar la información de la versión, asegúrese de que &quot;%1&quot; esté instalado y funcione correctamente</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="293"/>
+        <location filename="../src/basicdownloader.cpp" line="291"/>
         <source>Checking installed version of</source>
         <translation>Comprobando la versión instalada de</translation>
     </message>
@@ -411,6 +416,11 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/basicdownloader.cpp" line="316"/>
         <source>Found version</source>
         <translation>Versión Encontrada</translation>
+    </message>
+    <message>
+        <location filename="../src/basicdownloader.cpp" line="320"/>
+        <source>Executable Path</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -432,22 +442,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="54"/>
+        <location filename="../src/configure.cpp" line="59"/>
         <source>Select An Engine File</source>
         <translation>Seleccionar un Archivo de Motor</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="81"/>
+        <location filename="../src/configure.cpp" line="86"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="135"/>
+        <location filename="../src/configure.cpp" line="140"/>
         <source>Set Download Folder</source>
         <translation>Establecer Carpeta para Descargas</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="237"/>
+        <location filename="../src/configure.cpp" line="248"/>
         <source>Update</source>
         <translation>Actualizar</translation>
     </message>

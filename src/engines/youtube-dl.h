@@ -26,7 +26,7 @@ class youtube_dl : public engines::engine::functions
 public:
 	~youtube_dl() override ;
 
-	void updateOptions( QJsonObject& ) override ;
+	void updateOptions( QJsonObject&,settings& ) override ;
 
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{

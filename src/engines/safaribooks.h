@@ -25,7 +25,7 @@ class safaribooks : public engines::engine::functions
 public:
 	safaribooks( settings& s );
 	~safaribooks() override ;
-	void updateOptions( QJsonObject& ) override ;
+	void updateOptions( QJsonObject&,settings& ) override ;
 	QString commandString( const engines::engine::exeArgs::cmd& ) override ;
 	void sendCredentials( const engines::engine& engine,
 			      const QString&,

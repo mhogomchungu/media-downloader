@@ -61,21 +61,6 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 
 		QJsonObject mainObj ;
 
-		mainObj.insert( "UsePrivateExecutable",[](){
-
-			if( networkAccess::hasNetworkSupport() ){
-
-				return true ;
-			}else{
-				if( utility::platformIsWindows() ){
-
-					return true ;
-				}else{
-					return false ;
-				}
-			}
-		}() ) ;
-
 		mainObj.insert( "CommandName","youtube-dl" ) ;
 
 		mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
@@ -161,7 +146,7 @@ youtube_dl::~youtube_dl()
 {
 }
 
-void youtube_dl::updateOptions( QJsonObject& object )
+void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 {
 	if( !object.contains( "SkipLineWithText" ) ){
 
@@ -194,6 +179,8 @@ void youtube_dl::updateOptions( QJsonObject& object )
 
 		object.insert( "PlayListUrlPrefix","https://youtube.com/watch?v=" ) ;
 	}
+
+	object.insert( "UsePrivateExecutable",!settings.useSystemProvidedVersionIfAvailable() ) ;
 }
 
 std::unique_ptr< engines::engine::functions::filter > youtube_dl::Filter()
