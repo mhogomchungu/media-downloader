@@ -28,6 +28,7 @@ translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settin
 	this->addString( QObject::tr( "Polish (Poland)" ),"Polish (Poland)","pl_PL" ) ;
 	this->addString( QObject::tr( "English (US)" ),"English (US)","en_US" ) ;
 	this->addString( QObject::tr( "Spanish (Spain)" ),"Spanish (Spain)","es" ) ;
+	this->addString( QObject::tr( "Chinese (China)" ),"Chinese (China)","zh_CN" ) ;
 
 	this->setDefaultLanguage() ;
 }
