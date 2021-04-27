@@ -54,6 +54,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		m_tabManager.basicDownloader().appQuit() ;
 	} ) ;
+
+	m_ui.lineEditPLDownloadRange->setEnabled( false ) ;
 }
 
 void playlistdownloader::init_done()
@@ -83,6 +85,8 @@ void playlistdownloader::enableAll()
 	m_ui.labelPLEnterUrl->setEnabled( true ) ;
 	m_ui.pbPLCancel->setEnabled( true ) ;
 	m_ui.pbPLGetList->setEnabled( true ) ;
+
+	m_ui.lineEditPLDownloadRange->setEnabled( false ) ;
 }
 
 void playlistdownloader::disableAll()
