@@ -20,13 +20,3 @@
 #include "concurrentdownloadmanager.h"
 
 #include "tabmanager.h"
-
-void concurrentDownloadManager::uiEnableAll( bool e )
-{
-	if( e ){
-
-		m_ctx.TabManager().enableAll() ;
-	}else{
-		m_ctx.TabManager().disableAll() ;
-	}
-}

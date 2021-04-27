@@ -28,7 +28,10 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_running( false ),
 	m_debug( ctx.debug() ),
-	m_ccmd( m_ctx,*m_ui.lineEditBDUrlOptions,*m_ui.tableWidgetBD,*m_ui.pbBDCancel )
+	m_ccmd( m_ctx,
+		batchdownloader::Index( *m_ui.tableWidgetBD ),
+		*m_ui.lineEditBDUrlOptions,
+		*m_ui.pbBDCancel )
 {
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
@@ -221,7 +224,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 	auto item = m_ui.tableWidgetBD->item( index,0 ) ;
 
 	m_ccmd.download( engine,
-			 item->text(),
+			 index,
 			 std::move( aa ),
 			 make_loggerBatchDownloader( engine.filter(),
 						     engine,
@@ -260,4 +263,14 @@ void batchdownloader::disableAll()
 	m_ui.pbBDQuit->setEnabled( false ) ;
 	m_ui.lineEditBDUrl->setEnabled( false ) ;
 	m_ui.lineEditBDUrlOptions->setEnabled( false ) ;
+}
+
+void batchdownloader::EnableAll::operator()( bool e )
+{
+	if( e ){
+
+		m_tabManager.enableAll() ;
+	}else{
+		m_tabManager.disableAll() ;
+	}
 }

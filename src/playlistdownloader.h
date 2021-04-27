@@ -45,13 +45,66 @@ private:
 	void download( const engines::engine&,int ) ;
 	void getList() ;
 	void clearScreen() ;
+
 	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
-	concurrentDownloadManager m_ccmd ;
 	bool m_running ;
+	std::vector< int > m_playlistEntry ;
+	class Index{
+	public:
+		Index( std::vector< int >& e,QTableWidget& t ) :
+			m_entries( e ),m_table( t )
+		{
+		}
+		int value()
+		{
+			return m_entries[ m_index ] ;
+		}
+		int value( int s )
+		{
+			return m_entries[ static_cast< size_t >( s ) ] ;
+		}
+		int count()
+		{
+			return static_cast< int >( m_entries.size() ) ;
+		}
+		void operator++( int )
+		{
+			m_index++ ;
+		}
+		bool notAtEnd()
+		{
+			return m_index < m_entries.size() ;
+		}
+		QTableWidget& table()
+		{
+			return m_table ;
+		}
+		void reset()
+		{
+			m_index = 0 ;
+		}
+	private:
+		size_t m_index = 0 ;
+		std::vector< int >& m_entries ;
+		QTableWidget& m_table ;
+	};
+
+	class EnableAll
+	{
+	public:
+		EnableAll( const Context ctx ) : m_tabManager( ctx.TabManager() )
+		{
+		}
+		void operator()( bool e ) ;
+	private:
+		tabManager& m_tabManager ;
+	} ;
+
+	concurrentDownloadManager< Index,EnableAll > m_ccmd ;
 
 	template< typename Function >
 	class options

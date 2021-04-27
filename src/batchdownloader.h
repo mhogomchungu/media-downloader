@@ -55,7 +55,57 @@ private:
 	tabManager& m_tabManager ;
 	bool m_running ;
 	bool m_debug ;
-	concurrentDownloadManager m_ccmd ;
+
+	class Index{
+	public:
+		Index( QTableWidget& table ) : m_table( table )
+		{
+		}
+	        int value()
+		{
+			return m_index ;
+		}
+		int value( int s )
+		{
+			return s ;
+		}
+		int count()
+		{
+			return m_table.rowCount() ;
+		}
+		void operator++( int )
+		{
+			m_index++ ;
+		}
+		bool notAtEnd()
+		{
+			return m_index < m_table.rowCount() ;
+		}
+		QTableWidget& table()
+		{
+			return m_table ;
+		}
+		void reset()
+		{
+			m_index = 0 ;
+		}
+	private:
+		int m_index = 0 ;
+		QTableWidget& m_table ;
+	};
+
+	class EnableAll
+	{
+	public:
+		EnableAll( const Context ctx ) : m_tabManager( ctx.TabManager() )
+		{
+		}
+		void operator()( bool e ) ;
+	private:
+		tabManager& m_tabManager ;
+	} ;
+
+	concurrentDownloadManager< Index,EnableAll > m_ccmd ;
 
 	template< typename Function >
 	class options
