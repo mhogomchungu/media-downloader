@@ -78,7 +78,7 @@ public:
 
 				finished() ;
 			}else{
-				if( m_index.notAtEnd() ){
+				if( m_index.hasNext() ){
 
 					function( engine,m_index.value() ) ;
 				}

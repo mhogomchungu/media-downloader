@@ -26,7 +26,7 @@
 #include "settings.h"
 #include "utility.h"
 #include "context.hpp"
-#include "concurrentdownloadmanager.h"
+#include "concurrentdownloadmanager.hpp"
 
 class tabManager ;
 
@@ -77,7 +77,7 @@ private:
 		{
 			m_index++ ;
 		}
-		bool notAtEnd() const
+		bool hasNext() const
 		{
 			return m_index < m_table.rowCount() ;
 		}
@@ -97,7 +97,7 @@ private:
 	class EnableAll
 	{
 	public:
-		EnableAll( const Context ctx ) : m_tabManager( ctx.TabManager() )
+	        EnableAll( const Context& ctx ) : m_tabManager( ctx.TabManager() )
 		{
 		}
 		void operator()( bool e ) ;
