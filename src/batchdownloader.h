@@ -61,15 +61,15 @@ private:
 		Index( QTableWidget& table ) : m_table( table )
 		{
 		}
-	        int value()
+		int value() const
 		{
 			return m_index ;
 		}
-		int value( int s )
+		int value( int s ) const
 		{
 			return s ;
 		}
-		int count()
+		int count() const
 		{
 			return m_table.rowCount() ;
 		}
@@ -77,11 +77,11 @@ private:
 		{
 			m_index++ ;
 		}
-		bool notAtEnd()
+		bool notAtEnd() const
 		{
 			return m_index < m_table.rowCount() ;
 		}
-		QTableWidget& table()
+		QTableWidget& table() const
 		{
 			return m_table ;
 		}

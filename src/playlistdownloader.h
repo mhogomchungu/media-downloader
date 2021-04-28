@@ -59,15 +59,15 @@ private:
 			m_entries( e ),m_table( t )
 		{
 		}
-		int value()
+		int value() const
 		{
 			return m_entries[ m_index ] ;
 		}
-		int value( int s )
+		int value( int s ) const
 		{
 			return m_entries[ static_cast< size_t >( s ) ] ;
 		}
-		int count()
+		int count() const
 		{
 			return static_cast< int >( m_entries.size() ) ;
 		}
@@ -75,11 +75,11 @@ private:
 		{
 			m_index++ ;
 		}
-		bool notAtEnd()
+		bool notAtEnd() const
 		{
 			return m_index < m_entries.size() ;
 		}
-		QTableWidget& table()
+		QTableWidget& table() const
 		{
 			return m_table ;
 		}
