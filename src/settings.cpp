@@ -274,12 +274,12 @@ bool settings::useSystemProvidedVersionIfAvailable()
 
 bool settings::doNotGetUrlTitle()
 {
-	if( !m_settings.contains( "DoNotGetUrlTitle" ) ){
+	if( !m_settings.contains( "DoNotGetURLTitle" ) ){
 
-		m_settings.setValue( "DoNotGetUrlTitle",false ) ;
+		m_settings.setValue( "DoNotGetURLTitle",true ) ;
 	}
 
-	return m_settings.value( "DoNotGetUrlTitle" ).toBool() ;
+	return m_settings.value( "DoNotGetURLTitle" ).toBool() ;
 }
 
 void settings::setUseSystemProvidedVersionIfAvailable( bool e )

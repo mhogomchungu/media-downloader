@@ -129,19 +129,14 @@ public:
 
 		auto m = m_lineEdit.text() ;
 
-		utility::args args = [ & ](){
-
-			auto m = m_lineEdit.text() ;
-
-			if( m.isEmpty() ){
-
-				return m ;
-			}else{
-				return utility::split( m,'\n',true ).at( 0 ) ;
-			}
-		}() ;
+		utility::args args( m_lineEdit.text() ) ;
 
 		auto url = m_table.item( index,0 )->text() ;
+
+		if( !url.isEmpty() ){
+
+			url = utility::split( url,'\n',true ).at( 0 ) ;
+		}
 
 		m_downloadList.emplace_back( index,url ) ;
 
