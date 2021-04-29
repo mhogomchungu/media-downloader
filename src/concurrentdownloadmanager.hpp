@@ -127,7 +127,19 @@ public:
 	{
 		m_index++ ;
 
-		utility::args args( utility::split( m_lineEdit.text(),'\n',true ).at( 0 ) ) ;
+		auto m = m_lineEdit.text() ;
+
+		utility::args args = [ & ](){
+
+			auto m = m_lineEdit.text() ;
+
+			if( m.isEmpty() ){
+
+				return m ;
+			}else{
+				return utility::split( m,'\n',true ).at( 0 ) ;
+			}
+		}() ;
 
 		auto url = m_table.item( index,0 )->text() ;
 

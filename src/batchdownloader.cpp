@@ -237,7 +237,7 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 
 			_getUrlTitle( exe,args,[ a,this ]( const QString& title ){
 
-				if( title.isEmpty() ){
+				if( title.isEmpty() || title == "\n" ){
 
 					_set_variables( m_ui,a,m_mainWindow ) ;
 				}else{
