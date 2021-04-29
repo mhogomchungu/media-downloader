@@ -108,9 +108,17 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "PlayListUrlPrefix","https://youtube.com/watch?v=" ) ;
+		mainObj.insert( "PlayListIdArguments",[](){
 
-		mainObj.insert( "PlayListIdArgument","--get-id" ) ;
+			QJsonArray arr ;
+
+			arr.append( "--get-id" ) ;
+			arr.append( "--get-title" ) ;
+
+			return arr ;
+		}() ) ;
+
+		mainObj.insert( "PlayListUrlPrefix","https://youtube.com/watch?v=" ) ;
 
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
@@ -155,6 +163,19 @@ void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 			QJsonArray arr ;
 
 			arr.append( "(pass -k to keep)" ) ;
+
+			return arr ;
+		}() ) ;
+	}
+
+	if( !object.contains( "PlayListIdArguments" ) ){
+
+		object.insert( "PlayListIdArguments",[](){
+
+			QJsonArray arr ;
+
+			arr.append( "--get-id" ) ;
+			arr.append( "--get-title" ) ;
 
 			return arr ;
 		}() ) ;

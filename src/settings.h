@@ -64,6 +64,7 @@ public:
 	bool showVersionInfoWhenStarting() ;
 	bool concurrentDownloading() ;
 	bool useSystemProvidedVersionIfAvailable() ;
+	bool doNotGetUrlTitle() ;
 
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;

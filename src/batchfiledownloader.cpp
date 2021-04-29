@@ -118,7 +118,7 @@ void batchfiledownloader::download()
 
 		if( m_settings.concurrentDownloading() ){
 
-			m_tabManager.batchDownloader().download( engine,options,l ) ;
+			m_tabManager.batchDownloader().download( engine,options,l,true ) ;
 		}else{
 			m_tabManager.basicDownloader().download( engine,options,l ) ;
 		}

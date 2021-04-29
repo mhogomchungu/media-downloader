@@ -42,10 +42,13 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
-	void download( const engines::engine&,const QString& opts,const QStringList& ) ;
+	void download( const engines::engine&,
+		       const QString& opts,
+		       const QStringList&,
+		       bool doNotGetTitle ) ;
 private:
 	void clearScreen() ;
-	void addToList( const QString& ) ;
+	void addToList( const QString&,bool ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
 	const Context& m_ctx ;

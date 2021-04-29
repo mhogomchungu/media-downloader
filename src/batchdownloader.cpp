@@ -90,7 +90,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDAdd,&QPushButton::clicked,[ this ](){
 
-		this->addToList( m_ui.lineEditBDUrl->text() ) ;
+		this->addToList( m_ui.lineEditBDUrl->text(),m_settings.doNotGetUrlTitle() ) ;
 	} ) ;
 
 	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
@@ -143,7 +143,8 @@ void batchdownloader::tabExited()
 
 void batchdownloader::download( const engines::engine& engine,
 				const QString& opts,
-				const QStringList& list )
+				const QStringList& list,
+				bool doNotGetTitle )
 {
 	for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
 
@@ -152,7 +153,7 @@ void batchdownloader::download( const engines::engine& engine,
 
 	for( const auto& it : list ){
 
-		this->addToList( it ) ;
+		this->addToList( it,doNotGetTitle ) ;
 	}
 
 	m_ui.tabWidget->setCurrentIndex( 1 ) ;
@@ -177,23 +178,82 @@ void batchdownloader::clearScreen()
 	m_ui.lineEditBDUrl->clear() ;
 }
 
-void batchdownloader::addToList( const QString& a )
+static void _set_variables( Ui::MainWindow& ui,const QString& url,QWidget& widget )
+{
+	utility::addItem( *ui.tableWidgetBD,url,widget.font() ) ;
+
+	ui.lineEditBDUrl->clear() ;
+
+	ui.lineEditBDUrl->setFocus() ;
+
+	ui.pbBDDownload->setEnabled( true ) ;
+}
+
+template< typename Function >
+static void _getUrlTitle( const QString& exe,const QStringList& args,Function function )
+{
+	utility::run( exe,args,[]( QProcess& exe ){
+
+		exe.setProcessChannelMode( QProcess::ProcessChannelMode::SeparateChannels ) ;
+
+		return QString() ;
+
+	},[]( QProcess& ){},[ function = std::move( function ) ]( int s,QProcess::ExitStatus e,QString& c ){
+
+			if( s == 0 && e == QProcess::ExitStatus::NormalExit ){
+
+				function( c ) ;
+			}else{
+				function( QString() ) ;
+			}
+
+	},[]( QProcess::ProcessChannel channel,QByteArray data,QString& c ){
+
+		if( channel == QProcess::ProcessChannel::StandardOutput ){
+
+			c = data ;
+		}
+	} ) ;
+}
+
+void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 {
 	if( !a.isEmpty() ){
 
-		utility::addItem( *m_ui.tableWidgetBD,a,m_mainWindow.font() ) ;
+		const auto& engine = m_ctx.Engines().defaultEngine() ;
 
-		m_ui.lineEditBDUrl->clear() ;
+		if( doNotGetTitle || !engine.likeYoutubeDl() ){
 
-		m_ui.lineEditBDUrl->setFocus() ;
+			_set_variables( m_ui,a,m_mainWindow ) ;
+		}else{
+			m_ctx.TabManager().disableAll() ;
 
-		m_ui.pbBDDownload->setEnabled( true ) ;
+			const auto& exe = engine.exePath().realExe() ;
+			QStringList args{ "--get-title",a } ;
+
+			engines::engine::exeArgs::cmd cmd( exe,args ) ;
+
+			m_ctx.logger().add( "cmd: " + engine.commandString( cmd ) ) ;
+
+			_getUrlTitle( exe,args,[ a,this ]( const QString& title ){
+
+				if( title.isEmpty() ){
+
+					_set_variables( m_ui,a,m_mainWindow ) ;
+				}else{
+					m_ctx.logger().add( title ) ;
+					_set_variables( m_ui,a + "\n" + title,m_mainWindow ) ;
+				}
+
+				m_ctx.TabManager().enableAll() ;
+			} ) ;
+		}
 	}
 }
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	this->addToList( m_ui.lineEditBDUrl->text() ) ;
+	this->addToList( m_ui.lineEditBDUrl->text(),true ) ;
 
 	m_ccmd.download( engine,[ this ](){
 
@@ -221,15 +281,13 @@ void batchdownloader::download( const engines::engine& engine,int index )
 		},[](){} ) ;
 	} ) ;
 
-	auto item = m_ui.tableWidgetBD->item( index,0 ) ;
-
 	m_ccmd.download( engine,
 			 index,
 			 std::move( aa ),
 			 make_loggerBatchDownloader( engine.filter(),
 						     engine,
 						     m_ctx.logger(),
-						     *item,
+						     *m_ui.tableWidgetBD->item( index,0 ),
 						     utility::concurrentID() ) ) ;
 }
 

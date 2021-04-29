@@ -249,15 +249,13 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 		} ) ;
 	} ) ;
 
-	auto item = m_ui.tableWidgetPl->item( index,0 ) ;
-
 	m_ccmd.download( engine,
 			 index,
 			 std::move( aa ),
 			 make_loggerBatchDownloader( engine.filter(),
 						     engine,
 						     m_ctx.logger(),
-						     *item,
+						     *m_ui.tableWidgetPl->item( index,0 ),
 						     utility::concurrentID() ) ) ;
 }
 
@@ -278,7 +276,7 @@ void playlistdownloader::getList()
 
 	QStringList opts ;
 
-	opts.append( engine.playListIdArgument() ) ;
+	opts.append( engine.playListIdArguments() ) ;
 
 	auto range = m_ui.lineEditPLDownloadRange->text() ;
 
@@ -312,7 +310,8 @@ void playlistdownloader::getList()
 						m_ctx.logger(),
 						engine.playListUrlPrefix(),
 						utility::concurrentID() ),
-		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ) ) ;
+		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ),
+		      QProcess::ProcessChannel::StandardOutput ) ;
 }
 
 void playlistdownloader::clearScreen()
