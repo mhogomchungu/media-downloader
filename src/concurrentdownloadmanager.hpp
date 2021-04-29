@@ -133,12 +133,12 @@ public:
 
 		auto url = m_table.item( index,0 )->text() ;
 
+		m_downloadList.emplace_back( index,url ) ;
+
 		if( !url.isEmpty() ){
 
 			url = utility::split( url,'\n',true ).at( 0 ) ;
 		}
-
-		m_downloadList.emplace_back( index,url ) ;
 
 		utility::run( engine,
 			      utility::updateOptions( engine,args,{ url } ),
