@@ -26,7 +26,7 @@
 #include "settings.h"
 #include "utility.h"
 #include "context.hpp"
-#include "concurrentdownloadmanager.h"
+#include "concurrentdownloadmanager.hpp"
 
 class tabManager ;
 
@@ -42,10 +42,13 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
-	void download( const engines::engine&,const QString& opts,const QStringList& ) ;
+	void download( const engines::engine&,
+		       const QString& opts,
+		       const QStringList&,
+		       bool doNotGetTitle ) ;
 private:
 	void clearScreen() ;
-	void addToList( const QString& ) ;
+	void addToList( const QString&,bool ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
 	const Context& m_ctx ;
@@ -55,7 +58,57 @@ private:
 	tabManager& m_tabManager ;
 	bool m_running ;
 	bool m_debug ;
-	concurrentDownloadManager m_ccmd ;
+
+	class Index{
+	public:
+		Index( QTableWidget& table ) : m_table( table )
+		{
+		}
+		int value() const
+		{
+			return m_index ;
+		}
+		int value( int s ) const
+		{
+			return s ;
+		}
+		int count() const
+		{
+			return m_table.rowCount() ;
+		}
+		void operator++( int )
+		{
+			m_index++ ;
+		}
+		bool hasNext() const
+		{
+			return m_index < m_table.rowCount() ;
+		}
+		QTableWidget& table() const
+		{
+			return m_table ;
+		}
+		void reset()
+		{
+			m_index = 0 ;
+		}
+	private:
+		int m_index = 0 ;
+		QTableWidget& m_table ;
+	};
+
+	class EnableAll
+	{
+	public:
+	        EnableAll( const Context& ctx ) : m_tabManager( ctx.TabManager() )
+		{
+		}
+		void operator()( bool e ) ;
+	private:
+		tabManager& m_tabManager ;
+	} ;
+
+	concurrentDownloadManager< Index,EnableAll > m_ccmd ;
 
 	template< typename Function >
 	class options

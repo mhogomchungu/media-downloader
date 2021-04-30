@@ -48,13 +48,29 @@ public:
 		{
 			return !this->isEmpty() ;
 		}
+		size_t size()
+		{
+			return m_lines.size() ;
+		}
+		size_t size() const
+		{
+			return m_lines.size() ;
+		}
+		const QString& secondFromLast()
+		{
+			return m_lines[ m_lines.size() - 2 ].text() ;
+		}
+		const QString& secondFromLast() const
+		{
+			return m_lines[ m_lines.size() - 2 ].text() ;
+		}
 		const QString& lastText()
 		{
-			return m_lines.rbegin()->text() ;
+			return m_lines[ m_lines.size() - 1 ].text() ;
 		}
 		const QString& lastText() const
 		{
-			return m_lines.rbegin()->text() ;
+			return m_lines[ m_lines.size() - 1 ].text() ;
 		}
 		void clear()
 		{
@@ -335,12 +351,15 @@ public:
 	{
 		m_logger.add( function,m_id ) ;
 		function( m_lines,-1 ) ;
+
 		this->update() ;
 	}
 private:
 	void update()
 	{
-		if( m_lines.isNotEmpty() ){
+		auto s = m_lines.size() ;
+
+		if( s > 0 && s % 2 == 0 ){
 
 			auto row = m_table.rowCount() ;
 
@@ -348,7 +367,10 @@ private:
 
 			auto item = new QTableWidgetItem() ;
 
-			item->setText( m_urlPrefix + m_lines.lastText() ) ;
+			auto a = m_urlPrefix + m_lines.lastText() ;
+			auto b = m_lines.secondFromLast() ;
+
+			item->setText( a + "\n" + b ) ;
 
 			item->setTextAlignment( Qt::AlignCenter ) ;
 			item->setFont( m_font ) ;

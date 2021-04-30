@@ -162,7 +162,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="924"/>
         <source>Use System Executables If Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar Ejecutables del Sistema si están disponibles</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="952"/>
@@ -290,7 +290,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/translator.cpp" line="31"/>
         <source>Chinese (China)</source>
-        <translation type="unfinished"></translation>
+        <translation>Chino (China)</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="349"/>
@@ -420,7 +420,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/basicdownloader.cpp" line="320"/>
         <source>Executable Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta Ejecutable</translation>
     </message>
 </context>
 <context>

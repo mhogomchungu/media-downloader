@@ -32,9 +32,10 @@ Version 1.2.0(April 1st,2021)
 
  Version 1.3.0(Unreleased)
  [All]
+ - Add simplified chinese translations.
  - Add Spanish translations.
  - Add an option to do batch downloads concurrently.
 [Windows]
  - Add a portable version(A self contained version that keeps everything in the application folder).
 [Linux]
-- Add an option to prefer system executables over private media downloader executables.
+ - Add an option to prefer system executables over private media downloader executables.

@@ -31,16 +31,20 @@
 
 #include "utility.h"
 
+template< typename Index,
+	  typename EnableAll >
 class concurrentDownloadManager
 {
 public:
 	concurrentDownloadManager( const Context& ctx,
+				   Index index,
 				   QLineEdit& lineEdit,
-				   QTableWidget& table,
 				   QPushButton& cancelButton ) :
+		m_index( std::move( index ) ),
+		m_enableAll( ctx ),
 		m_ctx( ctx ),
 		m_lineEdit( lineEdit ),
-		m_table( table ),
+		m_table( m_index.table() ),
 		m_cancelButton( cancelButton )
 	{
 	}
@@ -55,9 +59,9 @@ public:
 
 		if( m_cancelled ){
 
-			for( int s = 0 ; s < m_downloadList.size() ; s++ ){
+			for( const auto& it : m_downloadList ){
 
-				m_table.item( s,0 )->setText( m_downloadList[ s ] ) ;
+				m_table.item( it.index,0 )->setText( it.url ) ;
 			}
 
 			this->uiEnableAll( true ) ;
@@ -67,16 +71,16 @@ public:
 		}else{
 			m_counter++ ;
 
-			if( m_counter == m_table.rowCount() ){
+			if( m_counter == m_index.count() ){
 
 				this->uiEnableAll( true ) ;
 				m_cancelButton.setEnabled( false ) ;
 
 				finished() ;
 			}else{
-				if( m_index < m_table.rowCount() ){
+				if( m_index.hasNext() ){
 
-					function( engine,m_index ) ;
+					function( engine,m_index.value() ) ;
 				}
 			}
 		}
@@ -90,39 +94,51 @@ public:
 
 			m_counter = 0 ;
 			m_cancelled = false ;
-			m_index = 0 ;
+			m_index.reset() ;
+			m_downloadList.clear() ;
 
 			this->uiEnableAll( false ) ;
 			m_cancelButton.setEnabled( true ) ;
-			m_table.setEnabled( true ) ;
+			m_table.setEnabled( true ) ;			
 
-			m_downloadList.clear() ;
+			auto max = [ & ](){
 
-			if( maxNumberOfConcurrency < m_table.rowCount() ){
+				auto count = m_index.count() ;
 
-				for( int s = 0 ; s < maxNumberOfConcurrency ; s++ ){
+				if( maxNumberOfConcurrency < count ){
 
-					concurrentDownload( engine,s ) ;
+					return maxNumberOfConcurrency ;
+				}else{
+					return count ;
 				}
-			}else{
-				for( int s = 0 ; s < m_table.rowCount() ; s++ ){
+			}() ;
 
-					concurrentDownload( engine,s ) ;
-				}
+			for( int s = 0 ; s < max ; s++ ){
+
+				concurrentDownload( engine,m_index.value( s ) ) ;
 			}
 		}
 	}
 	template< typename Options,typename Logger >
 	void download( const engines::engine& engine,
-		       const QString& url,
+		       int index,
 		       Options opts,
 		       Logger logger )
 	{
 		m_index++ ;
 
+		auto m = m_lineEdit.text() ;
+
 		utility::args args( m_lineEdit.text() ) ;
 
-		m_downloadList.append( url ) ;
+		auto url = m_table.item( index,0 )->text() ;
+
+		m_downloadList.emplace_back( index,url ) ;
+
+		if( !url.isEmpty() ){
+
+			url = utility::split( url,'\n',true ).at( 0 ) ;
+		}
 
 		utility::run( engine,
 			      utility::updateOptions( engine,args,{ url } ),
@@ -132,15 +148,29 @@ public:
 			      utility::make_term_conn( &m_cancelButton,&QPushButton::clicked ) ) ;
 	}
 private:
-	void uiEnableAll( bool ) ;
+	void uiEnableAll( bool e )
+	{
+		m_enableAll( e ) ;
+	}
 	int m_counter ;
-	int m_index ;
+	Index m_index ;
+	EnableAll m_enableAll ;
 	bool m_cancelled ;
 	const Context& m_ctx ;
-	QStringList m_downloadList ;
 	QLineEdit& m_lineEdit ;
 	QTableWidget& m_table ;
 	QPushButton& m_cancelButton ;
+	struct entry
+	{
+		entry( int i,const QString& s ) :
+			index( i ),url( s )
+		{
+		}
+		int index ;
+		QString url ;
+	} ;
+
+	std::vector< concurrentDownloadManager::entry > m_downloadList ;
 } ;
 
 #endif

@@ -295,6 +295,32 @@ namespace utility
 	{
 		return Conn< Object,ObjectMemberFunction,Function >( obj,memFunction,std::move( function ) ) ;
 	}
+
+	class ProcessOutputChannels
+	{
+	public:
+		ProcessOutputChannels() :
+			m_channelMode( QProcess::ProcessChannelMode::MergedChannels )
+		{
+		}
+		ProcessOutputChannels( QProcess::ProcessChannel c ) :
+			m_channelMode( QProcess::ProcessChannelMode::SeparateChannels ),
+			m_channel( c )
+		{
+		}
+		QProcess::ProcessChannelMode channelMode() const
+		{
+			return m_channelMode ;
+		}
+		QProcess::ProcessChannel channel() const
+		{
+			return m_channel ;
+		}
+	private:
+		QProcess::ProcessChannelMode m_channelMode ;
+		QProcess::ProcessChannel m_channel ;
+	} ;
+
 	template< typename Tlogger,
 		  typename Options >
 	class context
@@ -302,11 +328,13 @@ namespace utility
 	public:
 		context( const engines::engine& engine,
 			 Tlogger logger,
-			 Options options ) :
+			 Options options,
+			 ProcessOutputChannels channels ) :
 			m_engine( engine ),
 			m_logger( std::move( logger ) ),
 			m_postData( true ),
-			m_options( std::move( options ) )
+			m_options( std::move( options ) ),
+			m_channels( channels )
 		{
 		}
 		void setCancelConnection( QMetaObject::Connection conn )
@@ -345,6 +373,10 @@ namespace utility
 		{
 			return m_options ;
 		}
+		const ProcessOutputChannels& outputChannels()
+		{
+			return m_channels ;
+		}
 	private:
 		const engines::engine& m_engine ;
 		bool m_list_requested ;
@@ -353,6 +385,7 @@ namespace utility
 		QByteArray m_data ;
 		bool m_postData ;
 		Options m_options ;
+		ProcessOutputChannels m_channels ;
 	} ;
 
 	template< typename Connection,
@@ -363,7 +396,8 @@ namespace utility
 		  const QString& quality,
 		  Options options,
 		  Tlogger logger,
-		  Connection conn )
+		  Connection conn,
+		  ProcessOutputChannels channels = ProcessOutputChannels() )
 	{
 		options.tabManagerEnableAll( false ) ;
 
@@ -384,11 +418,11 @@ namespace utility
 
 			exe.setWorkingDirectory( df ) ;
 
-			exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
+			exe.setProcessChannelMode( channels.channelMode() ) ;
 
 			using ctx_t = utility::context< Tlogger,Options > ;
 
-			auto ctx = std::make_shared< ctx_t >( engine,std::move( logger ),std::move( options ) ) ;
+			auto ctx = std::make_shared< ctx_t >( engine,std::move( logger ),std::move( options ),channels ) ;
 
 			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,
 					[ &exe,ctx,function = std::move( conn.function ) ](){
@@ -415,7 +449,7 @@ namespace utility
 
 			ctx->options().done() ;
 
-		},[]( QProcess::ProcessChannel,QByteArray data,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
+		},[]( QProcess::ProcessChannel channel,QByteArray data,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
 
 			if( ctx->options().debug() ){
 
@@ -423,7 +457,25 @@ namespace utility
 				qDebug() << "------------------------" ;
 			}
 
-			ctx->postData( std::move( data ) ) ;
+			const auto& channels = ctx->outputChannels() ;
+
+			if( channels.channelMode() == QProcess::ProcessChannelMode::MergedChannels ){
+
+				ctx->postData( std::move( data ) ) ;
+
+			}else if( channels.channelMode() == QProcess::ProcessChannelMode::SeparateChannels ){
+
+				auto c = channels.channel() ;
+
+				if( c == QProcess::ProcessChannel::StandardOutput && channel == c ){
+
+					ctx->postData( std::move( data ) ) ;
+
+				}else if( c == QProcess::ProcessChannel::StandardError && channel == c ){
+
+					ctx->postData( std::move( data ) ) ;
+				}
+			}
 		} ) ;
 	}
 

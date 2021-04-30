@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -731,7 +731,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>610</x>
-          <y>110</y>
+          <y>100</y>
           <width>41</width>
           <height>31</height>
          </rect>

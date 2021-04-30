@@ -28,8 +28,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_ccmd( m_ctx,*m_ui.lineEditPLUrlOptions,*m_ui.tableWidgetPl,*m_ui.pbPLCancel ),
-	m_running( false )
+	m_running( false ),
+	m_ccmd( m_ctx,
+		playlistdownloader::Index( m_playlistEntry,*m_ui.tableWidgetPl ),
+		*m_ui.lineEditPLUrlOptions,
+		*m_ui.pbPLCancel )
 {
 	this->resetMenu() ;
 
@@ -154,6 +157,69 @@ void playlistdownloader::download()
 
 void playlistdownloader::download( const engines::engine& engine )
 {
+	m_playlistEntry.clear() ;
+
+	auto m = m_ui.lineEditPLDownloadRange->text() ;
+
+	if( m.isEmpty() ){
+
+		int count = m_ui.tableWidgetPl->rowCount() ;
+
+		for( int i = 0 ; i < count ; i++ ){
+
+			m_playlistEntry.emplace_back( i ) ;
+		}
+	}else{
+		const auto s = utility::split( m,',',true ) ;
+
+		for( const auto& it : s ){
+
+			if( it.contains( "-" ) ){
+
+				const auto ss = utility::split( it,'-',true ) ;
+
+				if( ss.size() == 2 ){
+
+					bool ok ;
+					bool ok1 ;
+					auto a = ss.at( 0 ).toInt( &ok ) ;
+					auto b = ss.at( 1 ).toInt( &ok1 ) ;
+
+					if( ok && ok1 ){
+
+						for(  ; a <= b ; a++ ){
+
+							m_playlistEntry.emplace_back( a - 1 ) ;
+						}
+					}
+				}
+			}else{
+				bool ok ;
+				auto e = it.toInt( &ok ) ;
+
+				if( ok ){
+
+					m_playlistEntry.emplace_back( e - 1 ) ;
+				}
+			}
+		}
+	}
+
+	if( m_playlistEntry.empty() ){
+
+		//m_ctx.logger().add( "Has no list to download, bailing out" ) ;
+		return ;
+	}
+
+	for( const auto& it : m_playlistEntry ){
+
+		if( it >= m_ui.tableWidgetPl->rowCount() ){
+
+			//m_ctx.logger().add( "Entry out of range, bailing out" ) ;
+			return ;
+		}
+	}
+
 	m_ccmd.download( engine,[ this ](){
 
 		if( m_settings.concurrentDownloading() ){
@@ -183,15 +249,13 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 		} ) ;
 	} ) ;
 
-	auto item = m_ui.tableWidgetPl->item( index,0 ) ;
-
 	m_ccmd.download( engine,
-			 item->text(),
+			 index,
 			 std::move( aa ),
 			 make_loggerBatchDownloader( engine.filter(),
 						     engine,
 						     m_ctx.logger(),
-						     *item,
+						     *m_ui.tableWidgetPl->item( index,0 ),
 						     utility::concurrentID() ) ) ;
 }
 
@@ -212,9 +276,11 @@ void playlistdownloader::getList()
 
 	QStringList opts ;
 
-	opts.append( engine.playListIdArgument() ) ;
+	opts.append( engine.playListIdArguments() ) ;
 
 	auto range = m_ui.lineEditPLDownloadRange->text() ;
+
+	m_ui.lineEditPLDownloadRange->clear() ;
 
 	if( !range.isEmpty() ){
 
@@ -244,7 +310,8 @@ void playlistdownloader::getList()
 						m_ctx.logger(),
 						engine.playListUrlPrefix(),
 						utility::concurrentID() ),
-		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ) ) ;
+		      utility::make_term_conn( m_ui.pbPLCancel,&QPushButton::clicked ),
+		      QProcess::ProcessChannel::StandardOutput ) ;
 }
 
 void playlistdownloader::clearScreen()
@@ -259,4 +326,14 @@ void playlistdownloader::clearScreen()
 	m_ui.lineEditPLUrlOptions->clear() ;
 	m_ui.lineEditPLDownloadRange->clear() ;
 	m_ui.lineEditPLUrl->clear() ;
+}
+
+void playlistdownloader::EnableAll::operator()( bool e )
+{
+	if( e ){
+
+		m_tabManager.enableAll() ;
+	}else{
+		m_tabManager.disableAll() ;
+	}
 }

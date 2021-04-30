@@ -360,9 +360,9 @@ public:
 		{
 			return m_playListUrlPrefix ;
 		}
-		const QString& playListIdArgument() const
+		const QStringList& playListIdArguments() const
 		{
-			return m_playListIdArgument ;
+			return m_playListIdArguments ;
 		}
 		const QString& playlistItemsArgument() const
 		{
@@ -416,9 +416,9 @@ public:
 		QString m_optionsArgument ;
 		QString m_downloadUrl ;
 		QString m_playListUrlPrefix ;
-		QString m_playListIdArgument ;
 		QString m_playlistItemsArgument ;
 		QString m_batchFileArgument ;
+		QStringList m_playListIdArguments ;
 		QStringList m_splitLinesBy ;
 		QStringList m_removeText ;
 		QStringList m_skiptLineWithText ;
