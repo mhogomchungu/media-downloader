@@ -38,7 +38,7 @@ First make sure you have access to the internet before you run media-downloader 
 
 A portable version is a self contained version that keeps everything in the application folder.
 
-Portable version for Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1,3.0/MediaDownloader-1.3.0.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.3.0/MediaDownloader-1.3.0.zip).
 
 ### Binary packages for Linux distributions
 
