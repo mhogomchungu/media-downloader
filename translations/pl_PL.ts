@@ -69,22 +69,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="202"/>
         <source>Format Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Kod formatu</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="207"/>
         <source>Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>rozszerzenie</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="212"/>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>rozdzielczość</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="217"/>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation>uwagi</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="224"/>
@@ -139,7 +139,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="636"/>
         <source>Enter Playlist URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>podaj adres playlisty:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="702"/>
@@ -149,22 +149,22 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="718"/>
         <source>General Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje ogólne</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="882"/>
         <source>Batch Download Concurrently</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobieraj pliki równolegle</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="905"/>
         <source>Maximum Cuncurrent Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna liczba plików pobieranych rownolegle</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="924"/>
         <source>Use System Executables If Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Używaj systemowych aplikacji, jeśli są dostępne</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="952"/>
@@ -174,7 +174,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="955"/>
         <source>Set Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw domyślne</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="850"/>
@@ -262,7 +262,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/utility.cpp" line="355"/>
         <source>Open Download Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz katalog z pobranymi plikami</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="43"/>
@@ -287,32 +287,32 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/translator.cpp" line="29"/>
         <source>English (US)</source>
-        <translation>Angielski (USA)</translation>
+        <translation>angielski (USA)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="30"/>
         <source>Spanish (Spain)</source>
-        <translation type="unfinished"></translation>
+        <translation>hiszpański (Hiszpania)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="31"/>
         <source>Chinese (China)</source>
-        <translation type="unfinished"></translation>
+        <translation>chiński (Chiny)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
         <source>Polish (Poland)</source>
-        <translation>Polski (Polska)</translation>
+        <translation>polski (Polska)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="105"/>
         <source>Running in portable mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchamianie w trybie portable</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="106"/>
         <source>Download path: </source>
-        <translation type="unfinished"></translation>
+        <translation>Scieżka pobierania: </translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="122"/>
@@ -388,17 +388,17 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <location filename="../src/engines/youtube-dl.cpp" line="216"/>
         <location filename="../src/engines/youtube-dl.cpp" line="328"/>
         <source>Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Przetwarzanie</translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="217"/>
         <source>Download completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Poberanie zakończone</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="131"/>
         <source>Resetting download folder to default</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmiana katalogu pobierania na domyślny</translation>
     </message>
 </context>
 <context>
@@ -422,7 +422,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/basicdownloader.cpp" line="320"/>
         <source>Executable Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka aplikacji</translation>
     </message>
 </context>
 <context>
