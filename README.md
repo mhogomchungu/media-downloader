@@ -31,7 +31,14 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 #### Installer for Microsoft Windows
 First make sure you have access to the internet before you run media-downloader for the first time after installation because it will attempt to use the internet to download the latest version of youtube-dl.
 
-Binary download for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.2.0/MediaDownloader-1.2.0.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.3.0/MediaDownloader-1.3.0.setup.exe).
+
+#### Portable version for Microsoft Windows
+First make sure you have access to the internet before you run media-downloader for the first time after installation because it will attempt to use the internet to download the latest version of youtube-dl.
+
+A portable version is a self contained version that keeps everything in the application folder.
+
+Portable version for Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1,3.0/MediaDownloader-1.3.0.zip).
 
 ### Binary packages for Linux distributions
 
