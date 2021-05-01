@@ -21,6 +21,7 @@
 
 #include "settings.h"
 #include "context.hpp"
+#include "concurrentdownloadmanager.hpp"
 
 #include <QEventLoop>
 #include <QDesktopServices>
@@ -509,5 +510,35 @@ void utility::addItem( QTableWidget& table,const QStringList& text,const QFont& 
 		item->setFont( font ) ;
 
 		table.setItem( row,it,item ) ;
+	}
+}
+
+void utility::updateFinishedState( const engines::engine& engine,
+				   QTableWidget& table,
+				   const concurrentDownloadManagerFinishedStatus& f )
+{
+	f.setState( *table.item( f.index,2 ) ) ;
+
+	auto m = table.item( f.index,1 )->text() ;
+
+	auto item = table.item( f.index,0 ) ;
+
+	if( f.cancelled ){
+
+		item->setText( m ) ;
+
+	}else if( f.finishedSuccess ){
+
+		auto x = item->text() ;
+
+		if( engine.likeYoutubeDl() ){
+
+			if( x.isEmpty() || x.contains( QObject::tr( "Processing" ) ) ){
+
+				item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
+			}
+		}else{
+			item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
+		}
 	}
 }

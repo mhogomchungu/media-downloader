@@ -29,13 +29,16 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_running( false ),
 	m_debug( ctx.debug() ),
 	m_ccmd( m_ctx,
-		batchdownloader::Index( *m_ui.tableWidgetBD ),
+		batchdownloader::Index( m_downloadEntries,*m_ui.tableWidgetBD ),
 		*m_ui.lineEditBDUrlOptions,
 		*m_ui.pbBDCancel )
 {
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
 	utility::setTableWidget( *m_ui.tableWidgetBD ) ;
+
+	m_ui.tableWidgetBD->hideColumn( 1 ) ;
+	m_ui.tableWidgetBD->hideColumn( 2 ) ;
 
 	m_ui.pbBDDownload->setEnabled( false ) ;
 
@@ -146,10 +149,7 @@ void batchdownloader::download( const engines::engine& engine,
 				const QStringList& list,
 				bool doNotGetTitle )
 {
-	for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
-
-		m_ui.tableWidgetBD->removeRow( 0 ) ;
-	}
+	//utility::clear( *m_ui.tableWidgetBD ) ;
 
 	for( const auto& it : list ){
 
@@ -167,20 +167,14 @@ void batchdownloader::download( const engines::engine& engine,
 
 void batchdownloader::clearScreen()
 {
-	auto s = m_ui.tableWidgetBD->rowCount() ;
-
-	for( int i = 0 ; i < s ; i++ ){
-
-		m_ui.tableWidgetBD->removeRow( 0 ) ;
-	}
-
+	utility::clear( *m_ui.tableWidgetBD ) ;
 	m_ui.lineEditBDUrlOptions->clear() ;
 	m_ui.lineEditBDUrl->clear() ;
 }
 
-static void _set_variables( Ui::MainWindow& ui,const QString& url,QWidget& widget )
+static void _set_variables( Ui::MainWindow& ui,const QString& url,const QString& state,QWidget& widget )
 {
-	utility::addItem( *ui.tableWidgetBD,url,widget.font() ) ;
+	utility::addItem( *ui.tableWidgetBD,{ url,url,state },widget.font() ) ;
 
 	ui.lineEditBDUrl->clear() ;
 
@@ -224,7 +218,9 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 
 		if( doNotGetTitle || !engine.likeYoutubeDl() ){
 
-			_set_variables( m_ui,a,m_mainWindow ) ;
+			auto s = concurrentDownloadManagerFinishedStatus::notStarted() ;
+
+			_set_variables( m_ui,a,s,m_mainWindow ) ;
 		}else{
 			m_ctx.TabManager().disableAll() ;
 
@@ -237,12 +233,14 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 
 			_getUrlTitle( exe,args,[ a,this ]( const QString& title ){
 
+				auto state = concurrentDownloadManagerFinishedStatus::notStarted() ;
+
 				if( title.isEmpty() || title == "\n" ){
 
-					_set_variables( m_ui,a,m_mainWindow ) ;
+					_set_variables( m_ui,a,state,m_mainWindow ) ;
 				}else{
 					m_ctx.logger().add( title ) ;
-					_set_variables( m_ui,a + "\n" + title,m_mainWindow ) ;
+					_set_variables( m_ui,a + "\n" + title,state,m_mainWindow ) ;
 				}
 
 				m_ctx.TabManager().enableAll() ;
@@ -254,6 +252,23 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 void batchdownloader::download( const engines::engine& engine )
 {
 	this->addToList( m_ui.lineEditBDUrl->text(),true ) ;
+
+	m_downloadEntries.clear() ;
+
+	for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
+
+		auto e = m_ui.tableWidgetBD->item( s,2 )->text() ;
+
+		if( !concurrentDownloadManagerFinishedStatus::finishedWithSuccess( e ) ){
+
+			m_downloadEntries.emplace_back( s ) ;
+		}
+	}
+
+	if( m_downloadEntries.empty() ){
+
+		return ;
+	}
 
 	m_ccmd.download( engine,[ this ](){
 
@@ -272,17 +287,21 @@ void batchdownloader::download( const engines::engine& engine )
 
 void batchdownloader::download( const engines::engine& engine,int index )
 {
-	auto aa = batchdownloader::make_options( *m_ui.pbBDCancel,m_ctx,m_debug,[ &engine,index,this ](){
+	auto aa = batchdownloader::make_options( *m_ui.pbBDCancel,m_ctx,m_debug,[ &engine,index,this ]( bool e ){
 
-		m_ccmd.monitorForFinished( engine,index,[ this ]( const engines::engine& engine,int index ){
+		m_ccmd.monitorForFinished( engine,index,e,[ this ]( const engines::engine& engine,int index ){
 
 			this->download( engine,index ) ;
 
-		},[](){} ) ;
+		},[ &engine,this ]( const concurrentDownloadManagerFinishedStatus& f ){
+
+			utility::updateFinishedState( engine,*m_ui.tableWidgetBD,f ) ;
+		} ) ;
 	} ) ;
 
 	m_ccmd.download( engine,
 			 index,
+			 m_ui.tableWidgetBD->item( index,1 )->text(),
 			 std::move( aa ),
 			 make_loggerBatchDownloader( engine.filter(),
 						     engine,

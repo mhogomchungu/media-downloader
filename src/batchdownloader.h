@@ -59,22 +59,25 @@ private:
 	bool m_running ;
 	bool m_debug ;
 
+	std::vector< int > m_downloadEntries ;
+
 	class Index{
 	public:
-		Index( QTableWidget& table ) : m_table( table )
+		Index( std::vector< int >& e,QTableWidget& t ) :
+			m_entries( e ),m_table( t )
 		{
 		}
 		int value() const
 		{
-			return m_index ;
+			return m_entries[ m_index ] ;
 		}
 		int value( int s ) const
 		{
-			return s ;
+			return m_entries[ static_cast< size_t >( s ) ] ;
 		}
 		int count() const
 		{
-			return m_table.rowCount() ;
+			return static_cast< int >( m_entries.size() ) ;
 		}
 		void operator++( int )
 		{
@@ -82,7 +85,7 @@ private:
 		}
 		bool hasNext() const
 		{
-			return m_index < m_table.rowCount() ;
+			return m_index < m_entries.size() ;
 		}
 		QTableWidget& table() const
 		{
@@ -93,7 +96,8 @@ private:
 			m_index = 0 ;
 		}
 	private:
-		int m_index = 0 ;
+		size_t m_index = 0 ;
+		std::vector< int >& m_entries ;
 		QTableWidget& m_table ;
 	};
 
@@ -121,9 +125,9 @@ private:
 			m_done( std::move( function ) )
 		{
 		}
-		void done()
+		void done( bool e )
 		{
-			m_done() ;
+			m_done( e ) ;
 		}
 		options& tabManagerEnableAll( bool )
 		{

@@ -117,9 +117,9 @@ private:
 			m_done( std::move( function ) )
 		{
 		}
-		void done()
+		void done( bool e )
 		{
-			m_done() ;
+			m_done( e ) ;
 		}
 		options& tabManagerEnableAll( bool )
 		{

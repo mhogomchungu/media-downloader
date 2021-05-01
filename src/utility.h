@@ -38,6 +38,8 @@
 
 class Context ;
 
+struct concurrentDownloadManagerFinishedStatus ;
+
 namespace Ui
 {
 	class MainWindow ;
@@ -438,7 +440,7 @@ namespace utility
 
 			engine.sendCredentials( quality,exe ) ;
 
-		},[]( int,QProcess::ExitStatus,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
+		},[]( int s,QProcess::ExitStatus e,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
 
 			ctx->disconnect() ;
 
@@ -447,7 +449,7 @@ namespace utility
 				ctx->options().listRequested( e ) ;
 			} ) ;
 
-			ctx->options().done() ;
+			ctx->options().done( s == 0 && e == QProcess::ExitStatus::NormalExit ) ;
 
 		},[]( QProcess::ProcessChannel channel,QByteArray data,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
 
@@ -541,6 +543,9 @@ namespace utility
 		bool mouseTracking = true ;
 	};
 
+	void updateFinishedState( const engines::engine& engine,
+				  QTableWidget& table,
+				  const concurrentDownloadManagerFinishedStatus& f ) ;
 	int concurrentID() ;
 	void setTableWidget( QTableWidget&,const tableWidgetOptions& = tableWidgetOptions() ) ;
 	void addItem( QTableWidget&,const QStringList&,const QFont&,int alignment = Qt::AlignCenter ) ;

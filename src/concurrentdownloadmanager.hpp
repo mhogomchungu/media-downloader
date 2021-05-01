@@ -31,6 +31,68 @@
 
 #include "utility.h"
 
+struct concurrentDownloadManagerFinishedStatus
+{
+	const int index ;
+	const bool cancelled ;
+	const bool allFinished ;
+	const bool finishedSuccess ;
+
+	static QString notStarted()
+	{
+		return "Not Started" ;
+	}
+	static QString running()
+	{
+		return "Running" ;
+	}
+	static QString finishedCancelled()
+	{
+		return "FinishedCancelled" ;
+	}
+	static QString finishedWithError()
+	{
+		return "FinishedWithError" ;
+	}
+	static QString finishedWithSuccess()
+	{
+		return "FinishedWithSuccess" ;
+	}
+	static bool notStarted( const QString& e )
+	{
+		return e == "Not Started" ;
+	}
+	static bool running( const QString& e )
+	{
+		return running() == e ;
+	}
+	static bool finishedCancelled( const QString& e )
+	{
+		return finishedCancelled() == e ;
+	}
+	static bool finishedWithError( const QString& e )
+	{
+		return finishedWithError() == e ;
+	}
+	static bool finishedWithSuccess( const QString& e )
+	{
+		return finishedWithSuccess() == e  ;
+	}
+	void setState( QTableWidgetItem& item ) const
+	{
+		if( this->cancelled ){
+
+			item.setText( finishedCancelled() ) ;
+
+		}else if( this->finishedSuccess ){
+
+			item.setText( finishedWithSuccess() ) ;
+		}else{
+			item.setText( finishedWithError() ) ;
+		}
+	}
+};
+
 template< typename Index,
 	  typename EnableAll >
 class concurrentDownloadManager
@@ -53,21 +115,18 @@ public:
 		m_cancelled = true ;
 	}
 	template< typename Function,typename Finished >
-	void monitorForFinished( const engines::engine& engine,int index,Function function,Finished finished )
+	void monitorForFinished( const engines::engine& engine,
+				 int index,
+				 bool success,
+				 Function function,
+				 Finished finished )
 	{
-		Q_UNUSED( index )
-
 		if( m_cancelled ){
-
-			for( const auto& it : m_downloadList ){
-
-				m_table.item( it.index,0 )->setText( it.url ) ;
-			}
 
 			this->uiEnableAll( true ) ;
 			m_cancelButton.setEnabled( false ) ;
 
-			finished() ;
+			finished( concurrentDownloadManagerFinishedStatus{ index,true,false,false } ) ;
 		}else{
 			m_counter++ ;
 
@@ -76,8 +135,10 @@ public:
 				this->uiEnableAll( true ) ;
 				m_cancelButton.setEnabled( false ) ;
 
-				finished() ;
+				finished( concurrentDownloadManagerFinishedStatus{ index,false,true,success } ) ;
 			}else{
+				finished( concurrentDownloadManagerFinishedStatus{ index,false,false,success } ) ;
+
 				if( m_index.hasNext() ){
 
 					function( engine,m_index.value() ) ;
@@ -95,7 +156,6 @@ public:
 			m_counter = 0 ;
 			m_cancelled = false ;
 			m_index.reset() ;
-			m_downloadList.clear() ;
 
 			this->uiEnableAll( false ) ;
 			m_cancelButton.setEnabled( true ) ;
@@ -122,26 +182,27 @@ public:
 	template< typename Options,typename Logger >
 	void download( const engines::engine& engine,
 		       int index,
+		       const QString& url,
 		       Options opts,
 		       Logger logger )
 	{
+		Q_UNUSED( index )
+
 		m_index++ ;
 
 		auto m = m_lineEdit.text() ;
 
 		utility::args args( m_lineEdit.text() ) ;
 
-		auto url = m_table.item( index,0 )->text() ;
+		auto u = url ;
 
-		m_downloadList.emplace_back( index,url ) ;
+		if( !u.isEmpty() ){
 
-		if( !url.isEmpty() ){
-
-			url = utility::split( url,'\n',true ).at( 0 ) ;
+			u = utility::split( u,'\n',true ).at( 0 ) ;
 		}
 
 		utility::run( engine,
-			      utility::updateOptions( engine,args,{ url } ),
+			      utility::updateOptions( engine,args,{ u } ),
 			      args.quality,
 			      std::move( opts ),
 			      std::move( logger ),
@@ -160,17 +221,6 @@ private:
 	QLineEdit& m_lineEdit ;
 	QTableWidget& m_table ;
 	QPushButton& m_cancelButton ;
-	struct entry
-	{
-		entry( int i,const QString& s ) :
-			index( i ),url( s )
-		{
-		}
-		int index ;
-		QString url ;
-	} ;
-
-	std::vector< concurrentDownloadManager::entry > m_downloadList ;
 } ;
 
 #endif

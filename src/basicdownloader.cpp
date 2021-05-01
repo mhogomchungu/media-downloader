@@ -532,7 +532,7 @@ void basicdownloader::appQuit()
 	QCoreApplication::quit() ;
 }
 
-void basicdownloader::options::done()
+void basicdownloader::options::done( bool )
 {
 	this->tabManagerEnableAll( true ).enableCancel( false ) ;
 }
