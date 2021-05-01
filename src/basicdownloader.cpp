@@ -346,9 +346,11 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 	QStringList m ;
 
-	for( auto it = args.rbegin() ; it != args.rend() ; it++ ){
+	for( int i = args.size() - 1 ; i >= 0 ; i-- ){
 
-		auto a = utility::split( *it,' ',true ) ;
+		const auto& s = args[ i ] ;
+
+		auto a = utility::split( s,' ',true ) ;
 
 		if( a.size() > 1 ){
 
@@ -359,7 +361,7 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 				break ;
 			}else{
 				opts.insert( 0,e ) ;
-				m.insert( 0,*it ) ;
+				m.insert( 0,s ) ;
 			}
 		}
 	}
