@@ -56,6 +56,14 @@ public:
 		{
 			return m_lines.size() ;
 		}
+		const QString& operator[]( size_t s ) const
+		{
+			return m_lines[ s ].text() ;
+		}
+		const QString& operator[]( size_t s )
+		{
+			return m_lines[ s ].text() ;
+		}
 		const QString& secondFromLast()
 		{
 			return m_lines[ m_lines.size() - 2 ].text() ;

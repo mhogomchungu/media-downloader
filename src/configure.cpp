@@ -189,6 +189,7 @@ void configure::tabEntered()
 void configure::tabExited()
 {
 	this->saveOptions() ;
+	m_ctx.TabManager().resetMenu() ;
 }
 
 void configure::enableConcurrentTextField()
