@@ -295,7 +295,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 		},[ &engine,this ]( const concurrentDownloadManagerFinishedStatus& f ){
 
-			utility::updateFinishedState( engine,*m_ui.tableWidgetBD,f ) ;
+			utility::updateFinishedState( engine,m_settings,*m_ui.tableWidgetBD,f ) ;
 		} ) ;
 	} ) ;
 

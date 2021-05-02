@@ -44,9 +44,10 @@ public:
 	QString downloadFolder( Logger& ) ;
 	QString presetOptions() ;
 	QString defaultEngine() ;
-
 	QString localizationLanguagePath() ;
 	QString localizationLanguage() ;
+	QString commandOnSuccessfulDownload() ;
+	QString commandWhenAllFinished() ;
 
 	QStringList presetOptionsList() ;
 	QStringList localizationLanguages() ;

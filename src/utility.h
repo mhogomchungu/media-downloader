@@ -544,6 +544,7 @@ namespace utility
 	};
 
 	void updateFinishedState( const engines::engine& engine,
+				  settings& settings,
 				  QTableWidget& table,
 				  const concurrentDownloadManagerFinishedStatus& f ) ;
 	int concurrentID() ;

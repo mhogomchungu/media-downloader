@@ -89,7 +89,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		m_ui.bdTableWidgetList->setVisible( false ) ;
 
-		this->download() ;
+		this->download( m_ui.lineEditURL->text() ) ;
 	} ) ;
 
 	connect( m_ui.pbQuit,&QPushButton::clicked,[ this ](){
@@ -121,6 +121,14 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 			m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
 		}
 	} ) ;
+
+	m_bogusTable.insertRow( 0 ) ;
+
+	for( int s = 0 ; s < 3 ; s++ ){
+
+		m_bogusTable.insertColumn( s ) ;
+		m_bogusTable.setItem( 0,s,new QTableWidgetItem ) ;
+	}
 }
 
 void basicdownloader::init_done()
@@ -212,10 +220,7 @@ void basicdownloader::resetMenu( const QStringList& args )
 
 			if( m_settings.autoDownload() ){
 
-				if( !m_ui.lineEditURL->text().isEmpty() ){
-
-					this->download() ;
-				}
+				this->download( m_ui.lineEditURL->text() ) ;
 			}
 		}
 	} ) ;
@@ -407,13 +412,22 @@ void basicdownloader::list()
 	this->run( backend,args,"",true ) ;
 }
 
-void basicdownloader::download()
+void basicdownloader::download( const QString& url )
 {
-	QString url = m_ui.lineEditURL->text() ;
+	if( url.isEmpty() ){
+
+		return ;
+	}
 
 	auto m = utility::split( url,' ',true ) ;
 
 	const auto& engine = m_ctx.Engines().defaultEngine() ;
+
+	utility::clear( m_bogusTable ) ;
+
+	QStringList args{ m.at( 0 ),m.at( 0 ),concurrentDownloadManagerFinishedStatus::notStarted() } ;
+
+	utility::addItem( m_bogusTable,args,m_ctx.mainWidget().font() ) ;
 
 	this->download( engine,m_ui.lineEditOptions->text(),m,false ) ;
 }
@@ -457,7 +471,7 @@ void basicdownloader::run( const engines::engine& engine,
 	utility::run( engine,
 		      args,
 		      quality,
-		      basicdownloader::options( *m_ui.pbCancel,m_ctx,m_debug,list_requested ),
+		      basicdownloader::options( *m_ui.pbCancel,m_ctx,engine,m_bogusTable,m_debug,list_requested ),
 		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
 		      utility::make_term_conn( m_ui.pbCancel,&QPushButton::clicked ) ) ;
 }
@@ -534,9 +548,13 @@ void basicdownloader::appQuit()
 	QCoreApplication::quit() ;
 }
 
-void basicdownloader::options::done( bool )
+void basicdownloader::options::done( bool e )
 {
 	this->tabManagerEnableAll( true ).enableCancel( false ) ;
+
+	concurrentDownloadManagerFinishedStatus s{ 0,false,true,e } ;
+
+	utility::updateFinishedState( m_engine,m_ctx.Settings(),m_table,s ) ;
 }
 
 basicdownloader::options& basicdownloader::options::tabManagerEnableAll( bool e )

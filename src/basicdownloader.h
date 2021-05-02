@@ -34,14 +34,6 @@ class basicdownloader : public QObject
 public:
 	basicdownloader( const Context& ) ;
 	void init_done() ;
-	void download( const engines::engine&,
-		       const utility::args&,
-		       const QString& urls,
-		       bool = true ) ;
-	void download( const engines::engine&,
-		       const utility::args&,
-		       const QStringList& urls,
-		       bool = true ) ;
 	void updateEngines() ;
 	void downloadDefaultEngine() ;
 	void tabEntered() ;
@@ -59,9 +51,16 @@ private:
 	class options
 	{
 	public:
-		options( QPushButton& p,const Context& ctx,bool d,bool l ) :
+		options( QPushButton& p,
+			 const Context& ctx,
+			 const engines::engine& engine,
+			 QTableWidget& table,
+			 bool d,
+			 bool l ) :
 			m_button( p ),
 			m_ctx( ctx ),
+			m_engine( engine ),
+			m_table( table ),
 			m_debug( d ),
 			m_listRequested( l )
 		{
@@ -97,6 +96,8 @@ private:
 	private:
 		QPushButton& m_button ;
 		const Context& m_ctx ;
+		const engines::engine& m_engine ;
+		QTableWidget& m_table ;
 		bool m_debug ;
 		bool m_listRequested ;
 	} ;
@@ -108,6 +109,7 @@ private:
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
 	QStringList m_optionsList ;
+	QTableWidget m_bogusTable ;
 
 	void setDefaultEngine() ;
 
@@ -119,7 +121,15 @@ private:
 	void tabManagerEnableAll( bool ) ;
 	void listRequested( const QList< QByteArray >& ) ;
 	void list() ;
-	void download() ;
+	void download( const engines::engine&,
+		       const utility::args&,
+		       const QString& urls,
+		       bool = true ) ;
+	void download( const engines::engine&,
+		       const utility::args&,
+		       const QStringList& urls,
+		       bool = true ) ;
+	void download( const QString& ) ;
 	void exit() ;
 	void printEngineVersionInfo( const engines::engine& ) ;
 } ;

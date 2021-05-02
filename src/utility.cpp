@@ -514,12 +514,13 @@ void utility::addItem( QTableWidget& table,const QStringList& text,const QFont& 
 }
 
 void utility::updateFinishedState( const engines::engine& engine,
+				   settings& s,
 				   QTableWidget& table,
 				   const concurrentDownloadManagerFinishedStatus& f )
 {
 	f.setState( *table.item( f.index,2 ) ) ;
 
-	auto m = table.item( f.index,1 )->text() ;
+	const auto m = table.item( f.index,1 )->text() ;
 
 	auto item = table.item( f.index,0 ) ;
 
@@ -539,6 +540,36 @@ void utility::updateFinishedState( const engines::engine& engine,
 			}
 		}else{
 			item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
+		}
+	}
+
+	if( f.allFinished ){
+
+		auto a = s.commandWhenAllFinished() ;
+
+		if( !a.isEmpty() ){
+
+			auto args = utility::split( a,' ',true ) ;
+
+			auto exe = args.takeAt( 0 ) ;
+
+			QProcess::startDetached( exe,args ) ;
+		}
+	}
+
+	if( f.finishedSuccess ){
+
+		auto a = s.commandOnSuccessfulDownload() ;
+
+		if( !a.isEmpty() && !m.isEmpty() ){
+
+			auto args = utility::split( a,' ',true ) ;
+
+			args.append( utility::split( m,'\n',true ).at( 0 ) ) ;
+
+			auto exe = args.takeAt( 0 ) ;
+
+			QProcess::startDetached( exe,args ) ;
 		}
 	}
 }

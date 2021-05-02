@@ -362,6 +362,26 @@ QStringList settings::configPaths()
 #endif
 }
 
+QString settings::commandOnSuccessfulDownload()
+{
+	if( !m_settings.contains( "CommandOnSuccessfulDownload" ) ){
+
+		m_settings.setValue( "CommandOnSuccessfulDownload",QString() ) ;
+	}
+
+	return m_settings.value( "CommandOnSuccessfulDownload" ).toString() ;
+}
+
+QString settings::commandWhenAllFinished()
+{
+	if( !m_settings.contains( "CommandWhenAllFinished" ) ){
+
+		m_settings.setValue( "CommandWhenAllFinished",QString() ) ;
+	}
+
+	return m_settings.value( "CommandWhenAllFinished" ).toString() ;
+}
+
 QString settings::localizationLanguagePath()
 {
 	if( m_portableVersion ){

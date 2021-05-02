@@ -260,7 +260,7 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 			m_running = !f.allFinished ;
 
-			utility::updateFinishedState( engine,*m_ui.tableWidgetPl,f ) ;
+			utility::updateFinishedState( engine,m_settings,*m_ui.tableWidgetPl,f ) ;
 		} ) ;
 	} ) ;
 
