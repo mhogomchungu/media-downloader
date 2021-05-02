@@ -1,0 +1,36 @@
+{
+    "BackendPath": "${default}",
+    "BatchFileArgument": "-a",
+    "CanDownloadPlaylist": false,
+    "CommandName": "gallery-dl.bin",
+    "CommandNameWindows": "gallery-dl.exe",
+    "ControlJsonStructure": {
+        "Connector": "&&",
+        "lhs": {
+            "startsWith": ""
+        },
+        "rhs": {
+            "contains": ""
+        }
+    },
+    "DefaultDownLoadCmdOptions": [
+    ],
+    "DefaultListCmdOptions": [
+    ],
+    "DownloadUrl": "https://api.github.com/repos/mikf/gallery-dl/releases/latest",
+    "LikeYoutubeDl": false,
+    "Name": "gallery-dl",
+    "OptionsArgument": "",
+    "RemoveText": [
+    ],
+    "SkipLineWithText": [
+        ""
+    ],
+    "SplitLinesBy": [
+        "\n"
+    ],
+    "UsePrivateExecutable": true,
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 0
+}
