@@ -305,9 +305,9 @@
        <widget class="QPushButton" name="pbBDAdd">
         <property name="geometry">
          <rect>
-          <x>320</x>
+          <x>270</x>
           <y>340</y>
-          <width>121</width>
+          <width>221</width>
           <height>33</height>
          </rect>
         </property>
@@ -318,7 +318,7 @@
        <widget class="QPushButton" name="pbBDDownload">
         <property name="geometry">
          <rect>
-          <x>200</x>
+          <x>150</x>
           <y>340</y>
           <width>121</width>
           <height>33</height>
@@ -360,7 +360,7 @@
        <widget class="QPushButton" name="pbBDOptions">
         <property name="geometry">
          <rect>
-          <x>440</x>
+          <x>490</x>
           <y>340</y>
           <width>121</width>
           <height>33</height>
@@ -373,7 +373,7 @@
        <widget class="QPushButton" name="pbBDQuit">
         <property name="geometry">
          <rect>
-          <x>560</x>
+          <x>610</x>
           <y>340</y>
           <width>121</width>
           <height>33</height>
@@ -386,7 +386,7 @@
        <widget class="QPushButton" name="pbBDCancel">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>30</x>
           <y>340</y>
           <width>121</width>
           <height>33</height>

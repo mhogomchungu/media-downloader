@@ -240,107 +240,111 @@ youtube_dl::youtube_dlFilter::youtube_dlFilter() :
 }
 
 const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
-							 const QString& e )
+							 const QString& s )
 {
-	if( e.contains( " has already been downloaded and merged" ) ){
+	for( const auto& e : utility::split( s,'\n',true ) ){
 
-		m_tmp = e ;
-		m_tmp.replace( " has already been downloaded and merged","" ) ;
-		m_tmp.replace( "[download] ","" ) ;
-		m_tmp_name = m_tmp ;
-		m_tmp += "\n" + m_downloadCompleted ;
+		if( e.startsWith( "[download] " ) && e.endsWith( " has already been downloaded and merged" ) ){
 
-		m_final = m_tmp ;
+			m_tmp = e ;
+			m_tmp.replace( " has already been downloaded and merged","" ) ;
+			m_tmp.replace( "[download] ","" ) ;
+			m_tmp_name = m_tmp ;
+			m_tmp += "\n" + m_downloadCompleted ;
 
-		return m_tmp ;
+			m_final = m_tmp ;
 
-	}else if( e.contains( " has already been downloaded" ) ){
+			return m_tmp ;
 
-		m_tmp = e ;
-		m_tmp.replace( " has already been downloaded","" ) ;
-		m_tmp.replace( "[download] ","" ) ;
-		m_tmp_name = m_tmp ;
-		m_tmp += "\n" + m_downloadCompleted ;
+		}else if( e.startsWith( "[download] " ) && e.endsWith( " has already been downloaded" ) ){
 
-		m_final = m_tmp ;
+			m_tmp = e ;
+			m_tmp.replace( " has already been downloaded","" ) ;
+			m_tmp.replace( "[download] ","" ) ;
+			m_tmp_name = m_tmp ;
+			m_tmp += "\n" + m_downloadCompleted ;
 
-		return m_tmp ;
+			m_final = m_tmp ;
 
-	}else if( e.contains( "[Merger] Merging formats into " ) ){
+			return m_tmp ;
 
-		m_tmp = e ;
-		m_tmp.replace( "[Merger] Merging formats into ","" ) ;
-		m_tmp.truncate( m_name.size() - 1 ) ;
-		m_tmp_name = m_tmp ;
-		m_tmp += "\n" + m_downloadCompleted ;
+		}else if( e.startsWith( "[Merger] Merging formats into " ) ){
 
-		m_final = m_tmp ;
+			m_tmp = e ;
+			m_tmp.replace( "[Merger] Merging formats into ","" ) ;
+			m_tmp.truncate( m_name.size() - 1 ) ;
+			m_tmp_name = m_tmp ;
+			m_tmp += "\n" + m_downloadCompleted ;
 
-		return m_tmp ;
+			m_final = m_tmp ;
 
-	}else if( e.contains( "[ffmpeg] Merging formats into " ) ){
+			return m_tmp ;
 
-		m_tmp = e ;
-		m_tmp.replace( "[ffmpeg] Merging formats into ","" ) ;
-		m_tmp.truncate( m_name.size() - 1 ) ;
-		m_tmp_name = m_tmp ;
-		m_tmp += "\n" + m_downloadCompleted ;
+		}else if( e.startsWith( "[ffmpeg] Merging formats into " ) ){
 
-		m_final = m_tmp ;
+			m_tmp = e ;
+			m_tmp.replace( "[ffmpeg] Merging formats into ","" ) ;
+			m_tmp.truncate( m_name.size() - 1 ) ;
+			m_tmp_name = m_tmp ;
+			m_tmp += "\n" + m_downloadCompleted ;
 
-		return m_tmp ;
+			m_final = m_tmp ;
 
-	}else if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
+			return m_tmp ;
 
-		m_tmp = e ;
-		m_tmp.replace( "[download]  ","" ) ;
+		}else if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
 
-		if( !m_name.isEmpty() ){
+			m_tmp = e ;
+			m_tmp.replace( "[download]  ","" ) ;
 
-			m_tmp = m_name + "\n" + m_tmp ;
+			if( !m_name.isEmpty() ){
 
-		}else if( !m_tmp_name.isEmpty() ){
+				m_tmp = m_name + "\n" + m_tmp ;
 
-			m_tmp = m_tmp_name + "\n" + m_tmp ;
-		}
+			}else if( !m_tmp_name.isEmpty() ){
 
-		return m_tmp ;
+				m_tmp = m_tmp_name + "\n" + m_tmp ;
+			}
 
-	}else if( e.startsWith( "[download] 100% of " ) ){
+			return m_tmp ;
 
-		if( !m_name.isEmpty() ){
+		}else if( e.startsWith( "[download] 100% of " ) ){
 
-			m_final = m_name + "\n" + m_downloadCompleted ;
+			if( !m_name.isEmpty() ){
 
-		}else if( !m_tmp_name.isEmpty() ){
+				m_final = m_name + "\n" + m_downloadCompleted ;
 
-			m_final = m_tmp_name + "\n" + m_downloadCompleted ;
-		}
+			}else if( !m_tmp_name.isEmpty() ){
 
-		return m_final ;
+				m_final = m_tmp_name + "\n" + m_downloadCompleted ;
+			}
 
-	}else if( e.startsWith( "[ffmpeg] " ) || e.startsWith( "[Merger] " ) ){
+			return m_final ;
 
-		return m_final ;
+		}else if( e.startsWith( "[ffmpeg] " ) || e.startsWith( "[Merger] " ) ){
 
-	}else if( e.startsWith( "[download] Destination:" ) ){
+			return m_final ;
 
-		m_name = e ;
-		m_name.replace( "[download] Destination: ","" ) ;
-		return this->processing() ;
-	}else{
-		if( e.startsWith( "ERROR: " ) ){
+		}else if( e.startsWith( "[download] Destination:" ) ){
 
-			return e ;
+			m_name = e ;
+			m_name.replace( "[download] Destination: ","" ) ;
+			return this->processing() ;
 		}else{
-			if( m_final.isEmpty() ){
+			if( e.startsWith( "ERROR: " ) ){
 
-				return this->processing() ;
-			}else{
-				return m_final ;
+				return e ;
 			}
 		}
 	}
+
+	if( m_final.isEmpty() ){
+
+		return this->processing() ;
+	}else{
+		return m_final ;
+	}
+
 }
 
 youtube_dl::youtube_dlFilter::~youtube_dlFilter()
