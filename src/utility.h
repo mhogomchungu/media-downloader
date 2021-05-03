@@ -462,11 +462,11 @@ namespace utility
 			auto ctx = std::make_shared< ctx_t >( engine,std::move( logger ),std::move( options ),channels ) ;
 
 			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,
-					[ &exe,ctx,function = std::move( conn.function ) ](){
+					[ &engine,&exe,ctx,function = std::move( conn.function ) ](){
 
 				ctx->cancel() ;
 
-				function( exe ) ;
+				function( engine,exe ) ;
 			} ) ) ;
 
 			return ctx ;
@@ -593,7 +593,7 @@ namespace utility
 	QString homePath() ;
 	QString python3Path() ;
 	int terminateProcess( unsigned long pid ) ;
-	void terminateProcess( QProcess& ) ;
+	void terminateProcess( const engines::engine&,QProcess& ) ;
 	bool platformIsWindows() ;
 	bool platformIs32BitWindows() ;
 	bool platformIsLinux() ;
@@ -610,7 +610,7 @@ namespace utility
 		  typename ObjectMemberFunction >
 	static auto make_term_conn( Object obj,ObjectMemberFunction memFunction )
 	{
-		auto s = static_cast< void( * )( QProcess& ) >( utility::terminateProcess ) ;
+		auto s = static_cast< void( * )( const engines::engine&,QProcess& ) >( utility::terminateProcess ) ;
 
 		return utility::make_conn( obj,memFunction,s ) ;
 	}

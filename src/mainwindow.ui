@@ -1005,7 +1005,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string notr="true">TextLabel</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

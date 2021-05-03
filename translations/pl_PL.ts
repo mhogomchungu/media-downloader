@@ -221,11 +221,6 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <source>About</source>
         <translation>O programie</translation>
     </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1008"/>
-        <source>TextLabel</source>
-        <translation>TextLabel</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>

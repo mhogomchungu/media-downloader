@@ -219,11 +219,6 @@ Each Link Should Be In Its Own Line.</source>
         <source>About</source>
         <translation>Acerca</translation>
     </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1008"/>
-        <source>TextLabel</source>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>

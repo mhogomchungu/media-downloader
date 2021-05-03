@@ -421,7 +421,7 @@ void utility::openDownloadFolderPath( const QString& url )
 	}
 }
 
-void utility::terminateProcess( QProcess& exe )
+void utility::terminateProcess( const engines::engine&,QProcess& exe )
 {
 	if( utility::platformIsWindows() ){
 
