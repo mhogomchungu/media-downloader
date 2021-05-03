@@ -34,9 +34,8 @@
 struct concurrentDownloadManagerFinishedStatus
 {
 	const int index ;
-	const bool cancelled ;
 	const bool allFinished ;
-	const bool finishedSuccess ;
+	const utility::ProcessExitState exitState ;
 
 	static QString notStarted()
 	{
@@ -80,11 +79,11 @@ struct concurrentDownloadManagerFinishedStatus
 	}
 	void setState( QTableWidgetItem& item ) const
 	{
-		if( this->cancelled ){
+		if( this->exitState.cancelled()){
 
 			item.setText( finishedCancelled() ) ;
 
-		}else if( this->finishedSuccess ){
+		}else if( this->exitState.success() ){
 
 			item.setText( finishedWithSuccess() ) ;
 		}else{
@@ -117,7 +116,7 @@ public:
 	template< typename Function,typename Finished >
 	void monitorForFinished( const engines::engine& engine,
 				 int index,
-				 bool success,
+				 utility::ProcessExitState exitState,
 				 Function function,
 				 Finished finished )
 	{
@@ -126,7 +125,7 @@ public:
 			this->uiEnableAll( true ) ;
 			m_cancelButton.setEnabled( false ) ;
 
-			finished( concurrentDownloadManagerFinishedStatus{ index,true,false,false } ) ;
+			finished( { index,false,std::move( exitState ) } ) ;
 		}else{
 			m_counter++ ;
 
@@ -135,9 +134,9 @@ public:
 				this->uiEnableAll( true ) ;
 				m_cancelButton.setEnabled( false ) ;
 
-				finished( concurrentDownloadManagerFinishedStatus{ index,false,true,success } ) ;
+				finished( { index,true,std::move( exitState ) } ) ;
 			}else{
-				finished( concurrentDownloadManagerFinishedStatus{ index,false,false,success } ) ;
+				finished( { index,false,std::move( exitState ) } ) ;
 
 				if( m_index.hasNext() ){
 

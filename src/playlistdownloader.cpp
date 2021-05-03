@@ -250,9 +250,9 @@ void playlistdownloader::download( const engines::engine& engine )
 
 void playlistdownloader::download( const engines::engine& engine,int index )
 {
-	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ &engine,index,this ]( bool e ){
+	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ &engine,index,this ]( utility::ProcessExitState e ){
 
-		m_ccmd.monitorForFinished( engine,index,e,[ this ]( const engines::engine& engine,int index ){
+		m_ccmd.monitorForFinished( engine,index,std::move( e ),[ this ]( const engines::engine& engine,int index ){
 
 			this->download( engine,index ) ;
 
@@ -308,7 +308,7 @@ void playlistdownloader::getList()
 
 	utility::args args( m_ui.lineEditPLUrlOptions->text() ) ;
 
-	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ this ]( bool ){
+	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ this ]( utility::ProcessExitState ){
 
 		m_running = false ;
 		m_ctx.TabManager().enableAll() ;

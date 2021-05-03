@@ -548,13 +548,11 @@ void basicdownloader::appQuit()
 	QCoreApplication::quit() ;
 }
 
-void basicdownloader::options::done( bool e )
+void basicdownloader::options::done( utility::ProcessExitState m )
 {
 	this->tabManagerEnableAll( true ).enableCancel( false ) ;
 
-	concurrentDownloadManagerFinishedStatus s{ 0,false,true,e } ;
-
-	utility::updateFinishedState( m_engine,m_ctx.Settings(),m_table,s ) ;
+	utility::updateFinishedState( m_engine,m_ctx.Settings(),m_table,{ 0,true,std::move( m ) } ) ;
 }
 
 basicdownloader::options& basicdownloader::options::tabManagerEnableAll( bool e )

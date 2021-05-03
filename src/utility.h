@@ -298,6 +298,37 @@ namespace utility
 		return Conn< Object,ObjectMemberFunction,Function >( obj,memFunction,std::move( function ) ) ;
 	}
 
+	class ProcessExitState
+	{
+	public:
+		ProcessExitState( bool c,int s,QProcess::ExitStatus e ) :
+			m_cancelled( c ),
+			m_exitCode( s ),
+			m_exitStatus( e )
+		{
+		}
+		int exitCode() const
+		{
+			return m_exitCode ;
+		}
+		QProcess::ExitStatus exitStatus() const
+		{
+			return m_exitStatus ;
+		}
+		bool cancelled() const
+		{
+			return m_cancelled ;
+		}
+		bool success() const
+		{
+			return m_exitCode == 0 && m_exitStatus == QProcess::ExitStatus::NormalExit ;
+		}
+	private:
+		bool m_cancelled = false ;
+		int m_exitCode ;
+		QProcess::ExitStatus m_exitStatus ;
+	};
+
 	class ProcessOutputChannels
 	{
 	public:
@@ -334,7 +365,7 @@ namespace utility
 			 ProcessOutputChannels channels ) :
 			m_engine( engine ),
 			m_logger( std::move( logger ) ),
-			m_postData( true ),
+			m_cancelled( false ),
 			m_options( std::move( options ) ),
 			m_channels( channels )
 		{
@@ -343,13 +374,17 @@ namespace utility
 		{
 			m_conn = std::move( conn ) ;
 		}
-		void stopReceivingData()
+		bool cancelled()
 		{
-			m_postData = false ;
+			return m_cancelled ;
+		}
+		void cancel()
+		{
+			m_cancelled = true ;
 		}
 		void postData( QByteArray data )
 		{
-			if( m_postData ){
+			if( !m_cancelled ){
 
 				m_data += data ;
 
@@ -385,7 +420,7 @@ namespace utility
 		QMetaObject::Connection m_conn ;
 		Tlogger m_logger ;
 		QByteArray m_data ;
-		bool m_postData ;
+		bool m_cancelled ;
 		Options m_options ;
 		ProcessOutputChannels m_channels ;
 	} ;
@@ -429,7 +464,7 @@ namespace utility
 			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,
 					[ &exe,ctx,function = std::move( conn.function ) ](){
 
-				ctx->stopReceivingData() ;
+				ctx->cancel() ;
 
 				function( exe ) ;
 			} ) ) ;
@@ -449,7 +484,7 @@ namespace utility
 				ctx->options().listRequested( e ) ;
 			} ) ;
 
-			ctx->options().done( s == 0 && e == QProcess::ExitStatus::NormalExit ) ;
+			ctx->options().done( ProcessExitState( ctx->cancelled(),s,e ) ) ;
 
 		},[]( QProcess::ProcessChannel channel,QByteArray data,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
 

@@ -66,7 +66,7 @@ private:
 		{
 		}
 
-		void done( bool ) ;
+		void done( utility::ProcessExitState ) ;
 
 		basicdownloader::options& tabManagerEnableAll( bool e ) ;
 		basicdownloader::options& listRequested( const QList< QByteArray >& e ) ;

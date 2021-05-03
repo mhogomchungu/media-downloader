@@ -32,25 +32,13 @@ public:
 	class Data
 	{
 	public:
-		bool isEmpty()
-		{
-			return m_lines.empty() ;
-		}
 		bool isEmpty() const
 		{
 			return m_lines.empty() ;
 		}
-		bool isNotEmpty()
-		{
-			return !this->isEmpty() ;
-		}
 		bool isNotEmpty() const
 		{
 			return !this->isEmpty() ;
-		}
-		size_t size()
-		{
-			return m_lines.size() ;
 		}
 		size_t size() const
 		{
@@ -60,21 +48,9 @@ public:
 		{
 			return m_lines[ s ].text() ;
 		}
-		const QString& operator[]( size_t s )
-		{
-			return m_lines[ s ].text() ;
-		}
-		const QString& secondFromLast()
-		{
-			return m_lines[ m_lines.size() - 2 ].text() ;
-		}
 		const QString& secondFromLast() const
 		{
 			return m_lines[ m_lines.size() - 2 ].text() ;
-		}
-		const QString& lastText()
-		{
-			return m_lines[ m_lines.size() - 1 ].text() ;
 		}
 		const QString& lastText() const
 		{
@@ -84,7 +60,7 @@ public:
 		{
 			m_lines.clear() ;
 		}
-		QString toString()
+		QString toString() const
 		{
 			if( this->isNotEmpty() ){
 

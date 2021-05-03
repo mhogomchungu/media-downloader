@@ -524,52 +524,50 @@ void utility::updateFinishedState( const engines::engine& engine,
 
 	auto item = table.item( f.index,0 ) ;
 
-	if( f.cancelled ){
+	if( f.exitState.cancelled() ){
 
 		item->setText( m ) ;
+	}else{
+		if( f.exitState.success() ){
 
-	}else if( f.finishedSuccess ){
+			auto x = item->text() ;
 
-		auto x = item->text() ;
+			if( engine.likeYoutubeDl() ){
 
-		if( engine.likeYoutubeDl() ){
+				if( x.isEmpty() || x.contains( QObject::tr( "Processing" ) ) ){
 
-			if( x.isEmpty() || x.contains( QObject::tr( "Processing" ) ) ){
-
+					item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
+				}
+			}else{
 				item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
 			}
-		}else{
-			item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
+
+			auto a = s.commandOnSuccessfulDownload() ;
+
+			if( !a.isEmpty() && !m.isEmpty() ){
+
+				auto args = utility::split( a,' ',true ) ;
+
+				args.append( utility::split( m,'\n',true ).at( 0 ) ) ;
+
+				auto exe = args.takeAt( 0 ) ;
+
+				QProcess::startDetached( exe,args ) ;
+			}
 		}
-	}
 
-	if( f.allFinished ){
+		if( f.allFinished ){
 
-		auto a = s.commandWhenAllFinished() ;
+			auto a = s.commandWhenAllFinished() ;
 
-		if( !a.isEmpty() ){
+			if( !a.isEmpty() ){
 
-			auto args = utility::split( a,' ',true ) ;
+				auto args = utility::split( a,' ',true ) ;
 
-			auto exe = args.takeAt( 0 ) ;
+				auto exe = args.takeAt( 0 ) ;
 
-			QProcess::startDetached( exe,args ) ;
-		}
-	}
-
-	if( f.finishedSuccess ){
-
-		auto a = s.commandOnSuccessfulDownload() ;
-
-		if( !a.isEmpty() && !m.isEmpty() ){
-
-			auto args = utility::split( a,' ',true ) ;
-
-			args.append( utility::split( m,'\n',true ).at( 0 ) ) ;
-
-			auto exe = args.takeAt( 0 ) ;
-
-			QProcess::startDetached( exe,args ) ;
+				QProcess::startDetached( exe,args ) ;
+			}
 		}
 	}
 }

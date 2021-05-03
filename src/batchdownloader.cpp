@@ -287,9 +287,12 @@ void batchdownloader::download( const engines::engine& engine )
 
 void batchdownloader::download( const engines::engine& engine,int index )
 {
-	auto aa = batchdownloader::make_options( *m_ui.pbBDCancel,m_ctx,m_debug,[ &engine,index,this ]( bool e ){
+	auto aa = batchdownloader::make_options( *m_ui.pbBDCancel,m_ctx,m_debug,[ &engine,index,this ]( utility::ProcessExitState e ){
 
-		m_ccmd.monitorForFinished( engine,index,e,[ this ]( const engines::engine& engine,int index ){
+		m_ccmd.monitorForFinished( engine,
+					   index,
+					   std::move( e ),
+					   [ this ]( const engines::engine& engine,int index ){
 
 			this->download( engine,index ) ;
 
