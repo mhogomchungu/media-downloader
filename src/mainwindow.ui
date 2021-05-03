@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -264,12 +264,12 @@
         </column>
         <column>
          <property name="text">
-          <string>Back Up Url To Download</string>
+          <string notr="true">Back Up Url To Download</string>
          </property>
         </column>
         <column>
          <property name="text">
-          <string>Status</string>
+          <string notr="true">Status</string>
          </property>
         </column>
        </widget>
@@ -681,12 +681,12 @@ Each Link Should Be In Its Own Line.</string>
       </column>
       <column>
        <property name="text">
-        <string>Back Up Url To Download</string>
+        <string notr="true">Back Up Url To Download</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Status</string>
+        <string notr="true">Status</string>
        </property>
       </column>
      </widget>

@@ -15,53 +15,53 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="53"/>
-        <location filename="../src/mainwindow.ui" line="386"/>
-        <location filename="../src/mainwindow.ui" line="696"/>
+        <location filename="../src/mainwindow.ui" line="396"/>
+        <location filename="../src/mainwindow.ui" line="716"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="66"/>
-        <location filename="../src/mainwindow.ui" line="683"/>
+        <location filename="../src/mainwindow.ui" line="703"/>
         <source>Get List</source>
         <translation>获取画质列表</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
-        <location filename="../src/mainwindow.ui" line="276"/>
+        <location filename="../src/mainwindow.ui" line="286"/>
         <source>Enter URL:</source>
         <translation>输入视频链接地址:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="331"/>
-        <location filename="../src/mainwindow.ui" line="503"/>
-        <location filename="../src/mainwindow.ui" line="594"/>
+        <location filename="../src/mainwindow.ui" line="341"/>
+        <location filename="../src/mainwindow.ui" line="513"/>
+        <location filename="../src/mainwindow.ui" line="604"/>
         <source>Enter Options:</source>
         <translation>输入画质选项:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
-        <location filename="../src/mainwindow.ui" line="318"/>
-        <location filename="../src/mainwindow.ui" line="404"/>
-        <location filename="../src/mainwindow.ui" line="571"/>
+        <location filename="../src/mainwindow.ui" line="328"/>
+        <location filename="../src/mainwindow.ui" line="414"/>
+        <location filename="../src/mainwindow.ui" line="581"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="150"/>
-        <location filename="../src/mainwindow.ui" line="360"/>
-        <location filename="../src/mainwindow.ui" line="471"/>
-        <location filename="../src/mainwindow.ui" line="539"/>
+        <location filename="../src/mainwindow.ui" line="370"/>
+        <location filename="../src/mainwindow.ui" line="481"/>
+        <location filename="../src/mainwindow.ui" line="549"/>
         <source>Options</source>
         <translation>画质选项</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="163"/>
-        <location filename="../src/mainwindow.ui" line="373"/>
-        <location filename="../src/mainwindow.ui" line="417"/>
-        <location filename="../src/mainwindow.ui" line="623"/>
-        <location filename="../src/mainwindow.ui" line="970"/>
+        <location filename="../src/mainwindow.ui" line="383"/>
+        <location filename="../src/mainwindow.ui" line="427"/>
+        <location filename="../src/mainwindow.ui" line="633"/>
+        <location filename="../src/mainwindow.ui" line="990"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>退出</translation>
@@ -98,22 +98,22 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="262"/>
-        <location filename="../src/mainwindow.ui" line="669"/>
+        <location filename="../src/mainwindow.ui" line="679"/>
         <source>Url To Download</source>
         <translation>要下载的链接地址列表</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="305"/>
+        <location filename="../src/mainwindow.ui" line="315"/>
         <source>Add Url To List</source>
         <translation>将链接地址添加到列表</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="392"/>
+        <location filename="../src/mainwindow.ui" line="402"/>
         <source>Download Multiple Urls From A File</source>
         <translation>从文件导入多个链接地址下载</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="430"/>
+        <location filename="../src/mainwindow.ui" line="440"/>
         <source>Set A File That Contain Links To Be Downloaded.
 
 Each Link Should Be In Its Own Line.</source>
@@ -122,107 +122,107 @@ Each Link Should Be In Its Own Line.</source>
 链接地址一行一条。</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="484"/>
+        <location filename="../src/mainwindow.ui" line="494"/>
         <source>Enter File Path:</source>
         <translation>输入文件路径:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="527"/>
+        <location filename="../src/mainwindow.ui" line="537"/>
         <source>Playlist Downloader</source>
         <translation>播放列表下载</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="552"/>
+        <location filename="../src/mainwindow.ui" line="562"/>
         <source>Download Range:</source>
         <translation>下载范围:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="636"/>
+        <location filename="../src/mainwindow.ui" line="646"/>
         <source>Enter Playlist URL:</source>
         <translation>输入播放列表链接地址:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="702"/>
+        <location filename="../src/mainwindow.ui" line="722"/>
         <source>Configure</source>
         <translation>配置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="718"/>
+        <location filename="../src/mainwindow.ui" line="738"/>
         <source>General Options</source>
         <translation>常规设置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="882"/>
+        <location filename="../src/mainwindow.ui" line="902"/>
         <source>Batch Download Concurrently</source>
         <translation>批量同时下载</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="905"/>
+        <location filename="../src/mainwindow.ui" line="925"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>当前最大下载量</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="924"/>
+        <location filename="../src/mainwindow.ui" line="944"/>
         <source>Use System Executables If Available</source>
         <translation>使用系统可执行文件(如果可用)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="952"/>
+        <location filename="../src/mainwindow.ui" line="972"/>
         <source>Reset Option To Its Default</source>
         <translation>将选项重置为默认值</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="955"/>
+        <location filename="../src/mainwindow.ui" line="975"/>
         <source>Set Defaults</source>
         <translation>设置默认值</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="850"/>
+        <location filename="../src/mainwindow.ui" line="870"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>窗口缩放比例(需要重启程序)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="930"/>
+        <location filename="../src/mainwindow.ui" line="950"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="805"/>
+        <location filename="../src/mainwindow.ui" line="825"/>
         <source>Download Path</source>
         <translation>下载文件路径</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="753"/>
+        <location filename="../src/mainwindow.ui" line="773"/>
         <source>Select Language</source>
         <translation>选择语言</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="824"/>
+        <location filename="../src/mainwindow.ui" line="844"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="772"/>
+        <location filename="../src/mainwindow.ui" line="792"/>
         <source>Show Version Info When Starting</source>
         <translation>启动时显示版本信息</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="869"/>
+        <location filename="../src/mainwindow.ui" line="889"/>
         <source>Add a Plugin</source>
         <translation>添加一个插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="837"/>
+        <location filename="../src/mainwindow.ui" line="857"/>
         <source>Remove A Plugin</source>
         <translation>移除一个插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="976"/>
+        <location filename="../src/mainwindow.ui" line="996"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="988"/>
+        <location filename="../src/mainwindow.ui" line="1008"/>
         <source>TextLabel</source>
         <translation>文本标签</translation>
     </message>
@@ -230,27 +230,27 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="287"/>
+        <location filename="../src/utility.cpp" line="288"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="288"/>
+        <location filename="../src/utility.cpp" line="289"/>
         <source>Best-audio</source>
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="321"/>
+        <location filename="../src/utility.cpp" line="322"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="334"/>
+        <location filename="../src/utility.cpp" line="335"/>
         <source>Found Options</source>
         <translation>找到的选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="355"/>
+        <location filename="../src/utility.cpp" line="356"/>
         <source>Open Download Folder</source>
         <translation>打开下载文件夹</translation>
     </message>
@@ -295,12 +295,17 @@ Each Link Should Be In Its Own Line.</source>
         <translation>中文 (中国)</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="349"/>
+        <location filename="../src/translator.cpp" line="32"/>
+        <source>Turkish (Turkey)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="350"/>
         <source>Clear Screen</source>
         <translation>清除屏幕</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="343"/>
+        <location filename="../src/utility.cpp" line="344"/>
         <source>Clear Options</source>
         <translation>清除选项</translation>
     </message>
@@ -385,13 +390,16 @@ Each Link Should Be In Its Own Line.</source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="216"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="328"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="237"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="357"/>
+        <location filename="../src/utility.cpp" line="537"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="217"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="238"/>
+        <location filename="../src/utility.cpp" line="539"/>
+        <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -404,23 +412,23 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="184"/>
-        <location filename="../src/basicdownloader.cpp" line="310"/>
+        <location filename="../src/basicdownloader.cpp" line="192"/>
+        <location filename="../src/basicdownloader.cpp" line="315"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="291"/>
+        <location filename="../src/basicdownloader.cpp" line="296"/>
         <source>Checking installed version of</source>
         <translation>正在检查的已安装版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="316"/>
+        <location filename="../src/basicdownloader.cpp" line="321"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="320"/>
+        <location filename="../src/basicdownloader.cpp" line="325"/>
         <source>Executable Path</source>
         <translation>可执行文件路径</translation>
     </message>
@@ -428,7 +436,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="61"/>
+        <location filename="../src/batchdownloader.cpp" line="67"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
@@ -459,7 +467,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>选择下载文件夹</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="248"/>
+        <location filename="../src/configure.cpp" line="245"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
