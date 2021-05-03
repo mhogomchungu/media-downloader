@@ -39,3 +39,7 @@ Version 1.2.0(April 1st, 2021)
  - Add a portable version(A self contained version that keeps everything in the application folder).
 [Linux]
  - Add an option to prefer system executables over private media downloader executables.
+
+  Version 1.4.0(Unreleased)
+- Add Turkish translations
+- Update Polish translations
