@@ -59,7 +59,7 @@ struct concurrentDownloadManagerFinishedStatus
 	}
 	static bool notStarted( const QString& e )
 	{
-		return e == "Not Started" ;
+		return notStarted() == e ;
 	}
 	static bool running( const QString& e )
 	{
