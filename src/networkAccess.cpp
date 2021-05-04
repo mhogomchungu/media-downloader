@@ -52,6 +52,11 @@ networkAccess::networkAccess( const Context& ctx ) :
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
 	m_tabManager( m_ctx.TabManager() )
 {
+	if( utility::platformIsWindows() && m_ctx.Settings().showVersionInfoWhenStarting() ){
+
+		m_ctx.logger().add( QObject::tr( "Checking installed version of" ) + " OpenSSL" ) ;
+		m_ctx.logger().add( QObject::tr( "Found version" ) + ": " + QSslSocket::sslLibraryVersionString() ) ;
+	}
 }
 
 void networkAccess::download( const engines::engine& engine )
