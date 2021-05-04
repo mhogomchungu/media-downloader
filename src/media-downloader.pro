@@ -36,3 +36,4 @@ TRANSLATIONS = \
 ../translations/pl_PL.ts \
 ../translations/zh_CN.ts \
 ../translations/es.ts \
+../translations/tr_TR.ts \

@@ -342,51 +342,61 @@ Each Link Should Be In Its Own Line.</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="67"/>
+        <location filename="../src/networkAccess.cpp" line="57"/>
+        <source>Checking installed version of</source>
+        <translation>正在检查的已安装版本</translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="58"/>
+        <source>Found version</source>
+        <translation>找到的版本</translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="72"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>下载失败，无法创建以下路径: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="73"/>
+        <location filename="../src/networkAccess.cpp" line="78"/>
         <source>Start Downloading</source>
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="97"/>
-        <location filename="../src/networkAccess.cpp" line="173"/>
+        <location filename="../src/networkAccess.cpp" line="102"/>
+        <location filename="../src/networkAccess.cpp" line="178"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="109"/>
+        <location filename="../src/networkAccess.cpp" line="114"/>
         <source>Failed to parse json file from github</source>
         <translation>无法从github解析json文件</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="161"/>
-        <location filename="../src/networkAccess.cpp" line="211"/>
-        <location filename="../src/networkAccess.cpp" line="221"/>
+        <location filename="../src/networkAccess.cpp" line="166"/>
+        <location filename="../src/networkAccess.cpp" line="216"/>
+        <location filename="../src/networkAccess.cpp" line="226"/>
         <source>Downloading</source>
         <translation>下载中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="163"/>
+        <location filename="../src/networkAccess.cpp" line="168"/>
         <source>Destination</source>
         <translation>目的地</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="181"/>
+        <location filename="../src/networkAccess.cpp" line="186"/>
         <source>Download complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="185"/>
+        <location filename="../src/networkAccess.cpp" line="190"/>
         <source>Renaming file to: </source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="237"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="357"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="361"/>
         <location filename="../src/utility.cpp" line="537"/>
         <source>Processing</source>
         <translation>处理中</translation>
