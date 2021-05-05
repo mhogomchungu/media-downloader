@@ -5,15 +5,16 @@
     "CommandName": "gallery-dl.bin",
     "CommandNameWindows": "gallery-dl.exe",
     "ControlJsonStructure": {
-        "Connector": "&&",
+        "Connector": "",
         "lhs": {
-            "startsWith": ""
+            "startsWith": "[gallery-dl]"
         },
         "rhs": {
             "contains": ""
         }
     },
     "DefaultDownLoadCmdOptions": [
+        "-v"
     ],
     "DefaultListCmdOptions": [
     ],
@@ -24,7 +25,6 @@
     "RemoveText": [
     ],
     "SkipLineWithText": [
-        ""
     ],
     "SplitLinesBy": [
         "\n"
