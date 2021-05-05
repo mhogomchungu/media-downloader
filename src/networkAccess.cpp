@@ -54,8 +54,19 @@ networkAccess::networkAccess( const Context& ctx ) :
 {
 	if( utility::platformIsWindows() && m_ctx.Settings().showVersionInfoWhenStarting() ){
 
-		m_ctx.logger().add( QObject::tr( "Checking installed version of" ) + " OpenSSL" ) ;
-		m_ctx.logger().add( QObject::tr( "Found version" ) + ": " + QSslSocket::sslLibraryVersionString() ) ;
+		auto& e = m_ctx.logger() ;
+		auto s = QSslSocket::sslLibraryVersionString() ;
+
+		e.add( QObject::tr( "Checking installed version of" ) + " OpenSSL" ) ;
+
+		if( s.isEmpty() ){
+
+			auto q = QSslSocket::sslLibraryBuildVersionString() ;
+			auto m = QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( q ) ;
+			e.add( m ) ;
+		}else{
+			e.add( QObject::tr( "Found version" ) + ": " + s ) ;
+		}
 	}
 }
 
