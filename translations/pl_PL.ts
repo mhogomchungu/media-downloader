@@ -342,55 +342,60 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="57"/>
+        <location filename="../src/networkAccess.cpp" line="60"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="58"/>
+        <location filename="../src/networkAccess.cpp" line="65"/>
+        <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
+        <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="68"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="72"/>
+        <location filename="../src/networkAccess.cpp" line="83"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Nieudane pobieranie, błąd podczas tworzenia ścieżki: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="78"/>
+        <location filename="../src/networkAccess.cpp" line="89"/>
         <source>Start Downloading</source>
         <translation>Rozpocznij pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="102"/>
-        <location filename="../src/networkAccess.cpp" line="178"/>
+        <location filename="../src/networkAccess.cpp" line="113"/>
+        <location filename="../src/networkAccess.cpp" line="189"/>
         <source>Download Failed</source>
         <translation>Błąd podczas pobierania</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="114"/>
+        <location filename="../src/networkAccess.cpp" line="125"/>
         <source>Failed to parse json file from github</source>
         <translation>Nieudane parsowanie pliku json z gihuba</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="166"/>
-        <location filename="../src/networkAccess.cpp" line="216"/>
-        <location filename="../src/networkAccess.cpp" line="226"/>
+        <location filename="../src/networkAccess.cpp" line="177"/>
+        <location filename="../src/networkAccess.cpp" line="227"/>
+        <location filename="../src/networkAccess.cpp" line="237"/>
         <source>Downloading</source>
         <translation>Pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="168"/>
+        <location filename="../src/networkAccess.cpp" line="179"/>
         <source>Destination</source>
         <translation>Ścieżka docelowa</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="186"/>
+        <location filename="../src/networkAccess.cpp" line="197"/>
         <source>Download complete</source>
         <translation>Pobieranie zakończone</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="190"/>
+        <location filename="../src/networkAccess.cpp" line="201"/>
         <source>Renaming file to: </source>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>

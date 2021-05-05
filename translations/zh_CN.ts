@@ -342,55 +342,60 @@ Each Link Should Be In Its Own Line.</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="57"/>
+        <location filename="../src/networkAccess.cpp" line="60"/>
         <source>Checking installed version of</source>
         <translation>正在检查的已安装版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="58"/>
+        <location filename="../src/networkAccess.cpp" line="65"/>
+        <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
+        <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="68"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="72"/>
+        <location filename="../src/networkAccess.cpp" line="83"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>下载失败，无法创建以下路径: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="78"/>
+        <location filename="../src/networkAccess.cpp" line="89"/>
         <source>Start Downloading</source>
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="102"/>
-        <location filename="../src/networkAccess.cpp" line="178"/>
+        <location filename="../src/networkAccess.cpp" line="113"/>
+        <location filename="../src/networkAccess.cpp" line="189"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="114"/>
+        <location filename="../src/networkAccess.cpp" line="125"/>
         <source>Failed to parse json file from github</source>
         <translation>无法从github解析json文件</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="166"/>
-        <location filename="../src/networkAccess.cpp" line="216"/>
-        <location filename="../src/networkAccess.cpp" line="226"/>
+        <location filename="../src/networkAccess.cpp" line="177"/>
+        <location filename="../src/networkAccess.cpp" line="227"/>
+        <location filename="../src/networkAccess.cpp" line="237"/>
         <source>Downloading</source>
         <translation>下载中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="168"/>
+        <location filename="../src/networkAccess.cpp" line="179"/>
         <source>Destination</source>
         <translation>目的地</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="186"/>
+        <location filename="../src/networkAccess.cpp" line="197"/>
         <source>Download complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="190"/>
+        <location filename="../src/networkAccess.cpp" line="201"/>
         <source>Renaming file to: </source>
         <translation>将文件重命名为: </translation>
     </message>
