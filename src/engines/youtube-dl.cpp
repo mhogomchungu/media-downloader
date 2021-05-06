@@ -240,55 +240,58 @@ youtube_dl::youtube_dlFilter::youtube_dlFilter() :
 }
 
 const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
-							 const QString& s )
+							 const Logger::Data& s )
 {
-	for( const auto& e : utility::split( s,'\n',true ) ){
+	auto m = utility::split( s.toString(),'\n',true ) ;
+	/*
+	 * Going the first time looking for a file name
+	 */
+	for( int i = m.size() - 1 ; i >= 0 ; i-- ){
 
-		if( e.startsWith( "[download] " ) && e.endsWith( " has already been downloaded and merged" ) ){
+		const auto& e = m[ i ] ;
 
-			m_tmp = e ;
-			m_tmp.replace( " has already been downloaded and merged","" ) ;
-			m_tmp.replace( "[download] ","" ) ;
-			m_tmp_name = m_tmp ;
+		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){
+
+			m_tmp = e.mid( e.indexOf( " " ) ) ;
+			m_tmp.truncate( m_tmp.indexOf( " has already been downloaded" ) ) ;
 			m_tmp += "\n" + m_downloadCompleted ;
 
 			m_final = m_tmp ;
 
 			return m_tmp ;
 
-		}else if( e.startsWith( "[download] " ) && e.endsWith( " has already been downloaded" ) ){
+		}else if( e.contains( " Merging formats into \"" ) ){
 
-			m_tmp = e ;
-			m_tmp.replace( " has already been downloaded","" ) ;
-			m_tmp.replace( "[download] ","" ) ;
-			m_tmp_name = m_tmp ;
+			m_tmp = e.mid( e.indexOf( "\"" ) + 1 ) ;
+			m_tmp.truncate( m_tmp.size() - 1 ) ;
 			m_tmp += "\n" + m_downloadCompleted ;
 
 			m_final = m_tmp ;
 
 			return m_tmp ;
 
-		}else if( e.startsWith( "[Merger] Merging formats into " ) ){
+		}else if( e.startsWith( "[download] Destination: " ) ){
+
+			m_name = e.mid( e.indexOf( ": " ) + 2 ) ;
+			break ;
+
+		}else if( e.startsWith( "ERROR: " ) ){
 
 			m_tmp = e ;
-			m_tmp.replace( "[Merger] Merging formats into ","" ) ;
-			m_tmp.truncate( m_name.size() - 1 ) ;
-			m_tmp_name = m_tmp ;
-			m_tmp += "\n" + m_downloadCompleted ;
-
-			m_final = m_tmp ;
-
 			return m_tmp ;
+		}
+	}
 
-		}else if( e.startsWith( "[ffmpeg] Merging formats into " ) ){
+	/*
+	 * Going the second time looking for progress report
+	 */
+	for( int i = m.size() - 1 ; i >= 0 ; i-- ){
 
-			m_tmp = e ;
-			m_tmp.replace( "[ffmpeg] Merging formats into ","" ) ;
-			m_tmp.truncate( m_name.size() - 1 ) ;
-			m_tmp_name = m_tmp ;
-			m_tmp += "\n" + m_downloadCompleted ;
+		const auto& e = m[ i ] ;
 
-			m_final = m_tmp ;
+		if( e.startsWith( "[download] 100% of " ) ){
+
+			m_tmp = m_name + "\n" + m_downloadCompleted ;
 
 			return m_tmp ;
 
@@ -297,44 +300,14 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 			m_tmp = e ;
 			m_tmp.replace( "[download]  ","" ) ;
 
-			if( !m_name.isEmpty() ){
+			if( m_name.isEmpty() ){
 
+				qDebug() << "Failed to find downloading file name" ;
+			}else{
 				m_tmp = m_name + "\n" + m_tmp ;
-
-			}else if( !m_tmp_name.isEmpty() ){
-
-				m_tmp = m_tmp_name + "\n" + m_tmp ;
 			}
 
 			return m_tmp ;
-
-		}else if( e.startsWith( "[download] 100% of " ) ){
-
-			if( !m_name.isEmpty() ){
-
-				m_final = m_name + "\n" + m_downloadCompleted ;
-
-			}else if( !m_tmp_name.isEmpty() ){
-
-				m_final = m_tmp_name + "\n" + m_downloadCompleted ;
-			}
-
-			return m_final ;
-
-		}else if( e.startsWith( "[ffmpeg] " ) || e.startsWith( "[Merger] " ) ){
-
-			return m_final ;
-
-		}else if( e.startsWith( "[download] Destination:" ) ){
-
-			m_name = e ;
-			m_name.replace( "[download] Destination: ","" ) ;
-			return this->processing() ;
-		}else{
-			if( e.startsWith( "ERROR: " ) ){
-
-				return e ;
-			}
 		}
 	}
 
@@ -344,7 +317,6 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 	}else{
 		return m_final ;
 	}
-
 }
 
 youtube_dl::youtube_dlFilter::~youtube_dlFilter()

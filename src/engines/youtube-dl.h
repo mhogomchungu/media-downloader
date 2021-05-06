@@ -33,7 +33,7 @@ public:
 	public:
 		youtube_dlFilter() ;
 
-		const QString& operator()( const engines::engine&,const QString& e ) override ;
+		const QString& operator()( const engines::engine&,const Logger::Data& e ) override ;
 
 		virtual ~youtube_dlFilter() override ;
 	private:
@@ -44,7 +44,6 @@ public:
 		QString m_downloadCompleted ;
 		QString m_final ;
 		QString m_name ;
-		QString m_tmp_name ;
 	} ;
 
 	std::unique_ptr< engines::engine::functions::filter > Filter() override ;

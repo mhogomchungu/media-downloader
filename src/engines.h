@@ -228,7 +228,7 @@ public:
 		{
 			class filter{
 			public:
-				virtual const QString& operator()( const engines::engine&,const QString& e ) ;
+				virtual const QString& operator()( const engines::engine&,const Logger::Data& e ) ;
 				virtual ~filter() ;
 			} ;
 

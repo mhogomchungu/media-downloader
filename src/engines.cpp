@@ -837,9 +837,15 @@ QByteArray engines::file::readAll()
 	}
 }
 
-const QString& engines::engine::functions::filter::operator()( const engines::engine&,const QString& e )
+const QString& engines::engine::functions::filter::operator()( const engines::engine&,const Logger::Data& s )
 {
-	return e ;
+	if( s.isEmpty() ){
+
+		static QString e ;
+		return e ;
+	}else{
+		return s.lastText() ;
+	}
 }
 
 engines::engine::functions::filter::~filter()

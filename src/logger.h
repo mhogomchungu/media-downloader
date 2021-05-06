@@ -48,6 +48,14 @@ public:
 		{
 			return m_lines[ s ].text() ;
 		}
+		template< typename Function >
+		void forEach( Function function ) const
+		{
+			for( const auto& it : m_lines ){
+
+				function( it.id(),it.text() ) ;
+			}
+		}
 		const QString& secondFromLast() const
 		{
 			return m_lines[ m_lines.size() - 2 ].text() ;
@@ -278,7 +286,7 @@ private:
 		if( m_lines.isNotEmpty() ){
 
 			auto& function = *m_function ;
-			m_tableWidgetItem.setText( function( m_engine,m_lines.lastText() ) ) ;
+			m_tableWidgetItem.setText( function( m_engine,m_lines ) ) ;
 		}
 	}
 	QTableWidgetItem& m_tableWidgetItem ;
