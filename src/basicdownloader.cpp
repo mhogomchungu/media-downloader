@@ -419,6 +419,8 @@ void basicdownloader::download( const QString& url )
 		return ;
 	}
 
+	m_settings.setLastUsedOption( m_ui.lineEditOptions->text(),settings::tabName::basic ) ;
+
 	auto m = utility::split( url,' ',true ) ;
 
 	const auto& engine = m_ctx.Engines().defaultEngine() ;
@@ -504,6 +506,7 @@ void basicdownloader::downloadDefaultEngine()
 
 void basicdownloader::tabEntered()
 {
+	m_ui.lineEditOptions->setText( m_settings.lastUsedOption( settings::tabName::basic ) ) ;
 }
 
 void basicdownloader::tabExited()

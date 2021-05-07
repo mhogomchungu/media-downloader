@@ -138,6 +138,7 @@ void batchdownloader::retranslateUi()
 
 void batchdownloader::tabEntered()
 {
+	m_ui.lineEditBDUrlOptions->setText( m_settings.lastUsedOption( settings::tabName::batch ) ) ;
 }
 
 void batchdownloader::tabExited()
@@ -251,6 +252,8 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 
 void batchdownloader::download( const engines::engine& engine )
 {
+	m_settings.setLastUsedOption( m_ui.lineEditBDUrlOptions->text(),settings::tabName::batch ) ;
+
 	this->addToList( m_ui.lineEditBDUrl->text(),true ) ;
 
 	m_downloadEntries.clear() ;

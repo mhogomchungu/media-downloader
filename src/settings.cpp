@@ -382,6 +382,41 @@ QString settings::commandWhenAllFinished()
 	return m_settings.value( "CommandWhenAllFinished" ).toString() ;
 }
 
+static QString _getTabOption( settings::tabName e )
+{
+	if( e == settings::tabName::basic ){
+
+		return "LastUsedOptionBasicTab" ;
+
+	}else if( e == settings::tabName::batch ){
+
+		return "LastUsedOptionBatchTab" ;
+
+	}else if( e == settings::tabName::playlist ){
+
+		return "LastUsedOptionPlayListTab" ;
+	}else{
+		return "" ;
+	}
+}
+
+QString settings::lastUsedOption( settings::tabName e )
+{
+	auto s = _getTabOption( e ) ;
+
+	if( !m_settings.contains( s ) ){
+
+		m_settings.setValue( s,QString() ) ;
+	}
+
+	return m_settings.value( s ).toString() ;
+}
+
+void settings::setLastUsedOption( const QString& e,settings::tabName s )
+{
+	m_settings.setValue( _getTabOption( s ),e ) ;
+}
+
 QString settings::localizationLanguagePath()
 {
 	if( m_portableVersion ){

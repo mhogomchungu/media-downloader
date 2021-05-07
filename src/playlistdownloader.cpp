@@ -149,11 +149,14 @@ void playlistdownloader::tabEntered()
 
 void playlistdownloader::tabExited()
 {
+	m_ui.lineEditPLUrlOptions->setText( m_settings.lastUsedOption( settings::tabName::playlist ) ) ;
 }
 
 void playlistdownloader::download()
 {
 	m_running = true ;
+
+	m_settings.setLastUsedOption( m_ui.lineEditPLUrlOptions->text(),settings::tabName::playlist ) ;
 
 	this->download( m_ctx.Engines().defaultEngine() ) ;
 }
@@ -306,8 +309,6 @@ void playlistdownloader::getList()
 
 	opts.append( m_ui.lineEditPLUrl->text() ) ;
 
-	utility::args args( m_ui.lineEditPLUrlOptions->text() ) ;
-
 	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ this ]( utility::ProcessExitState ){
 
 		m_running = false ;
@@ -325,7 +326,7 @@ void playlistdownloader::getList()
 
 	utility::run( engine,
 		      opts,
-		      args.quality,
+		      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality,
 		      std::move( aa ),
 		      make_loggerPlaylistDownloader( *m_ui.tableWidgetPl,
 						     m_ctx.mainWidget().font(),

@@ -49,6 +49,10 @@ public:
 	QString commandOnSuccessfulDownload() ;
 	QString commandWhenAllFinished() ;
 
+	enum class tabName{ basic,batch,playlist } ;
+
+	QString lastUsedOption( settings::tabName ) ;
+
 	QStringList presetOptionsList() ;
 	QStringList localizationLanguages() ;
 
@@ -75,6 +79,7 @@ public:
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setDefaultEngine( const QString& ) ;
+	void setLastUsedOption( const QString&,settings::tabName ) ;
 	void setPresetOptions( const QStringList& ) ;
 	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;
