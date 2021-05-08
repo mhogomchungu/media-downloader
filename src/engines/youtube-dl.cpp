@@ -274,9 +274,9 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 
 			return m_tmp ;
 
-		}else if( e.startsWith( "[download] Destination: " ) ){
+		}else if( e.contains( "] Destination: " ) ){
 
-			m_name = e.mid( e.indexOf( ": " ) + 2 ) ;
+			m_name = e.mid( e.indexOf( "] Destination: " ) + 15 ) ;
 			break ;
 
 		}else if( e.startsWith( "ERROR: " ) ){
