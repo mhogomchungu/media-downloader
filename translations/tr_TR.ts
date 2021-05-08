@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="383"/>
         <location filename="../src/mainwindow.ui" line="427"/>
         <location filename="../src/mainwindow.ui" line="633"/>
-        <location filename="../src/mainwindow.ui" line="990"/>
+        <location filename="../src/mainwindow.ui" line="1012"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Çıkış</translation>
@@ -142,82 +142,87 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Oynatma Listesi URL&apos;sini Girin:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="722"/>
+        <location filename="../src/mainwindow.ui" line="732"/>
+        <source>Funsionality is disabled because configured backend does not support downloading playlists.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="744"/>
         <source>Configure</source>
         <translation>Yapılandır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="738"/>
+        <location filename="../src/mainwindow.ui" line="760"/>
         <source>General Options</source>
         <translation>Genel Ayarlar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="902"/>
+        <location filename="../src/mainwindow.ui" line="924"/>
         <source>Batch Download Concurrently</source>
         <translation>Aynı Anda Toplu İndirme</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="925"/>
+        <location filename="../src/mainwindow.ui" line="947"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maksimum Güncel İndirme</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="944"/>
+        <location filename="../src/mainwindow.ui" line="966"/>
         <source>Use System Executables If Available</source>
         <translation>Varsa Sistem Yürütülebilir Dosyalarını Kullanın</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="972"/>
+        <location filename="../src/mainwindow.ui" line="994"/>
         <source>Reset Option To Its Default</source>
         <translation>Seçeneği Varsayılanına Sıfırla</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="975"/>
+        <location filename="../src/mainwindow.ui" line="997"/>
         <source>Set Defaults</source>
         <translation>Varsayılanları Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="870"/>
+        <location filename="../src/mainwindow.ui" line="892"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Ölçek Faktörü (Yeniden Başlatılması Gerekiyor)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="950"/>
+        <location filename="../src/mainwindow.ui" line="972"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="825"/>
+        <location filename="../src/mainwindow.ui" line="847"/>
         <source>Download Path</source>
         <translation>İndirme Yolu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="773"/>
+        <location filename="../src/mainwindow.ui" line="795"/>
         <source>Select Language</source>
         <translation>Dil Seçin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="844"/>
+        <location filename="../src/mainwindow.ui" line="866"/>
         <source>Update</source>
         <translation>Güncelle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="792"/>
+        <location filename="../src/mainwindow.ui" line="814"/>
         <source>Show Version Info When Starting</source>
         <translation>Başlarken Sürüm Bilgisini Göster</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="889"/>
+        <location filename="../src/mainwindow.ui" line="911"/>
         <source>Add a Plugin</source>
         <translation>Eklenti Ekle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="857"/>
+        <location filename="../src/mainwindow.ui" line="879"/>
         <source>Remove A Plugin</source>
         <translation>Bir Eklentiyi Kaldır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="996"/>
+        <location filename="../src/mainwindow.ui" line="1018"/>
         <source>About</source>
         <translation>Hakkında</translation>
     </message>
@@ -321,23 +326,23 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="373"/>
-        <location filename="../src/engines.cpp" line="478"/>
-        <location filename="../src/engines.cpp" line="539"/>
+        <location filename="../src/engines.cpp" line="479"/>
+        <location filename="../src/engines.cpp" line="540"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>&quot;%1&quot; yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="513"/>
+        <location filename="../src/engines.cpp" line="514"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>&quot;%1&quot; arka uç için python3 yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="819"/>
+        <location filename="../src/engines.cpp" line="820"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="834"/>
+        <location filename="../src/engines.cpp" line="835"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
@@ -400,14 +405,16 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="237"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="361"/>
+        <location filename="../src/engines.cpp" line="843"/>
+        <location filename="../src/engines.cpp" line="873"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="239"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="339"/>
         <location filename="../src/utility.cpp" line="537"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="238"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="240"/>
         <location filename="../src/utility.cpp" line="539"/>
         <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>

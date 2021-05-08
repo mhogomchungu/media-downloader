@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="383"/>
         <location filename="../src/mainwindow.ui" line="427"/>
         <location filename="../src/mainwindow.ui" line="633"/>
-        <location filename="../src/mainwindow.ui" line="990"/>
+        <location filename="../src/mainwindow.ui" line="1012"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
@@ -142,82 +142,87 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>podaj adres playlisty:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="722"/>
+        <location filename="../src/mainwindow.ui" line="732"/>
+        <source>Funsionality is disabled because configured backend does not support downloading playlists.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="744"/>
         <source>Configure</source>
         <translation>Konfiguracja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="738"/>
+        <location filename="../src/mainwindow.ui" line="760"/>
         <source>General Options</source>
         <translation>Opcje ogólne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="902"/>
+        <location filename="../src/mainwindow.ui" line="924"/>
         <source>Batch Download Concurrently</source>
         <translation>Pobieraj pliki równolegle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="925"/>
+        <location filename="../src/mainwindow.ui" line="947"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maksymalna liczba plików pobieranych rownolegle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="944"/>
+        <location filename="../src/mainwindow.ui" line="966"/>
         <source>Use System Executables If Available</source>
         <translation>Używaj systemowych aplikacji, jeśli są dostępne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="972"/>
+        <location filename="../src/mainwindow.ui" line="994"/>
         <source>Reset Option To Its Default</source>
         <translation>Ustawienia domyślne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="975"/>
+        <location filename="../src/mainwindow.ui" line="997"/>
         <source>Set Defaults</source>
         <translation>Ustaw domyślne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="870"/>
+        <location filename="../src/mainwindow.ui" line="892"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Skala interfejsu aplikacji (wymaga restartu)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="950"/>
+        <location filename="../src/mainwindow.ui" line="972"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="825"/>
+        <location filename="../src/mainwindow.ui" line="847"/>
         <source>Download Path</source>
         <translation>Katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="773"/>
+        <location filename="../src/mainwindow.ui" line="795"/>
         <source>Select Language</source>
         <translation>Wybierz język</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="844"/>
+        <location filename="../src/mainwindow.ui" line="866"/>
         <source>Update</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="792"/>
+        <location filename="../src/mainwindow.ui" line="814"/>
         <source>Show Version Info When Starting</source>
         <translation>Pokaż informacje nt wersji przy uruchamianiu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="889"/>
+        <location filename="../src/mainwindow.ui" line="911"/>
         <source>Add a Plugin</source>
         <translation>Dodaj wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="857"/>
+        <location filename="../src/mainwindow.ui" line="879"/>
         <source>Remove A Plugin</source>
         <translation>Usuń wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="996"/>
+        <location filename="../src/mainwindow.ui" line="1018"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
@@ -321,23 +326,23 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="373"/>
-        <location filename="../src/engines.cpp" line="478"/>
-        <location filename="../src/engines.cpp" line="539"/>
+        <location filename="../src/engines.cpp" line="479"/>
+        <location filename="../src/engines.cpp" line="540"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="513"/>
+        <location filename="../src/engines.cpp" line="514"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="819"/>
+        <location filename="../src/engines.cpp" line="820"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="834"/>
+        <location filename="../src/engines.cpp" line="835"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
@@ -400,14 +405,16 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="237"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="361"/>
+        <location filename="../src/engines.cpp" line="843"/>
+        <location filename="../src/engines.cpp" line="873"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="239"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="339"/>
         <location filename="../src/utility.cpp" line="537"/>
         <source>Processing</source>
         <translation>Przetwarzanie</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="238"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="240"/>
         <location filename="../src/utility.cpp" line="539"/>
         <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>

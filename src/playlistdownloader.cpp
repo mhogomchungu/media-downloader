@@ -139,6 +139,8 @@ void playlistdownloader::retranslateUi()
 
 void playlistdownloader::tabEntered()
 {
+	m_ui.labelPLFunctionalityDisabled->setVisible( !m_ctx.Engines().defaultEngine().canDownloadPlaylist() ) ;
+
 	if( !m_running ){
 
 		m_ui.pbPLOptions->setEnabled( m_ui.tableWidgetPl->rowCount() > 0 ) ;
@@ -223,7 +225,6 @@ void playlistdownloader::download( const engines::engine& engine )
 
 	if( m_playlistEntry.empty() ){
 
-		//m_ctx.logger().add( "Has no list to download, bailing out" ) ;
 		return ;
 	}
 
@@ -231,7 +232,6 @@ void playlistdownloader::download( const engines::engine& engine )
 
 		if( it >= m_ui.tableWidgetPl->rowCount() ){
 
-			//m_ctx.logger().add( "Entry out of range, bailing out" ) ;
 			return ;
 		}
 	}

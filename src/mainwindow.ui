@@ -716,6 +716,28 @@ Each Link Should Be In Its Own Line.</string>
        <string>Cancel</string>
       </property>
      </widget>
+     <widget class="QLabel" name="labelPLFunctionalityDisabled">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>10</y>
+        <width>741</width>
+        <height>371</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string>Funsionality is disabled because configured backend does not support downloading playlists.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
