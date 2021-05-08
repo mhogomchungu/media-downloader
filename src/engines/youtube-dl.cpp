@@ -142,6 +142,8 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 
 		mainObj.insert( "LikeYoutubeDl",true ) ;
 
+		mainObj.insert( "ReplaceOutputWithProgressReport",false ) ;
+
 		engines::file( m,logger ).write( mainObj ) ;
 	}
 }
@@ -242,13 +244,15 @@ youtube_dl::youtube_dlFilter::youtube_dlFilter() :
 const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 							 const Logger::Data& s )
 {
-	auto m = utility::split( s.toString(),'\n',true ) ;
+	const auto a = utility::split( s.toString(),'\n',true ) ;
+
+	auto m = utility::make_reverseIterator( a ) ;
 	/*
 	 * Going the first time looking for a file name
 	 */
-	for( int i = m.size() - 1 ; i >= 0 ; i-- ){
+	while( m.hasNext() ){
 
-		const auto& e = m[ i ] ;
+		const auto& e = m.next() ;
 
 		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){
 
@@ -285,9 +289,11 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 	/*
 	 * Going the second time looking for progress report
 	 */
-	for( int i = m.size() - 1 ; i >= 0 ; i-- ){
+	m.reset() ;
 
-		const auto& e = m[ i ] ;
+	while( m.hasNext() ){
+
+		const auto& e = m.next() ;
 
 		if( e.startsWith( "[download] 100% of " ) ){
 

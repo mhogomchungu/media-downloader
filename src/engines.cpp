@@ -390,6 +390,7 @@ engines::engine::engine( Logger& logger,
 	m_canDownloadPlaylist( m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ),
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
 	m_mainEngine( true ),
+	m_replaceOutputWithProgressReport( m_jsonObject.value( "ReplaceOutputWithProgressReport" ).toBool( false ) ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
 	m_commandNameWindows( m_jsonObject.value( "CommandNameWindows" ).toString() ),
@@ -837,9 +838,19 @@ QByteArray engines::file::readAll()
 	}
 }
 
-const QString& engines::engine::functions::filter::operator()( const engines::engine&,const Logger::Data& s )
+engines::engine::functions::filter::filter() :
+	m_counter( 0 ),
+	m_processing( QObject::tr( "Processing" ) )
 {
-	if( s.isEmpty() ){
+}
+
+const QString& engines::engine::functions::filter::operator()( const engines::engine& engine,const Logger::Data& s )
+{
+	if( engine.replaceOutputWithProgressReport() ){
+
+		return this->processing() ;
+
+	}else if( s.isEmpty() ){
 
 		static QString e ;
 		return e ;
@@ -850,4 +861,19 @@ const QString& engines::engine::functions::filter::operator()( const engines::en
 
 engines::engine::functions::filter::~filter()
 {
+}
+
+const QString& engines::engine::functions::filter::processing()
+{
+	if( m_counter < 8 ){
+
+		m_processing += " ..." ;
+	}else{
+		m_counter = 0 ;
+		m_processing = QObject::tr( "Processing" ) + " ..." ;
+	}
+
+	m_counter++ ;
+
+	return m_processing ;
 }

@@ -347,13 +347,9 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 		}
 	}
 
-	QStringList opts ;
-
 	QStringList m ;
 
-	for( int i = args.size() - 1 ; i >= 0 ; i-- ){
-
-		const auto& s = args[ i ] ;
+	utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
 
 		auto a = utility::split( s,' ',true ) ;
 
@@ -363,13 +359,14 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 			if( e == "format" && a.at( 1 ) == "code" ){
 
-				break ;
+				return true ;
 			}else{
-				opts.insert( 0,e ) ;
 				m.insert( 0,s ) ;
 			}
 		}
-	}
+
+		return false ;
+	} ) ;
 
 	for( const auto& it : m ){
 
@@ -385,7 +382,6 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 	}
 
 	m_ui.bdTableWidgetList->setEnabled( true ) ;
-	//this->resetMenu( opts ) ;
 }
 
 void basicdownloader::list()

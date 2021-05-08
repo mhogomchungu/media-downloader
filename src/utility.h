@@ -578,6 +578,65 @@ namespace utility
 		bool mouseTracking = true ;
 	};
 
+	template< typename List,
+		  std::enable_if_t< std::is_lvalue_reference< List >::value,int > = 0 >
+	class reverseIterator
+	{
+	public:
+		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::value_type value_type ;
+		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::size_type size_type ;
+
+		reverseIterator( List&& s ) :
+			m_list( std::forward< List >( s ) ),
+			m_index( m_list.size() - 1 )
+		{
+		}
+		bool hasNext() const
+		{
+			return m_index > -1 ;
+		}
+		void reset()
+		{
+			m_index = m_list.size() - 1 ;
+		}
+		auto& next()
+		{
+			auto s = static_cast< typename reverseIterator< List >::size_type >( m_index-- ) ;
+
+			return m_list[ s ] ;
+		}
+		template< typename Function,
+			  utility::types::has_bool_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
+		void forEach( Function function )
+		{
+			while( this->hasNext() ){
+
+				if( function( this->next() ) ){
+
+					break ;
+				}
+			}
+		}
+		template< typename Function,
+			  utility::types::has_void_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
+		void forEach( Function function )
+		{
+			while( this->hasNext() ){
+
+				function( this->next() ) ;
+			}
+		}
+	private:
+		List m_list ;
+		int m_index ;
+	} ;
+
+	template< typename List >
+	auto make_reverseIterator( List&& l )
+	{
+		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
+	}
+
 	void updateFinishedState( const engines::engine& engine,
 				  settings& settings,
 				  QTableWidget& table,

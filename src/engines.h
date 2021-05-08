@@ -228,8 +228,13 @@ public:
 		{
 			class filter{
 			public:
+				filter() ;
 				virtual const QString& operator()( const engines::engine&,const Logger::Data& e ) ;
 				virtual ~filter() ;
+			private:
+				const QString& processing() ;
+				int m_counter ;
+				QString m_processing ;
 			} ;
 
 			virtual ~functions() ;
@@ -397,6 +402,10 @@ public:
 		{
 			return m_mainEngine ;
 		}
+		bool replaceOutputWithProgressReport() const
+		{
+			return m_replaceOutputWithProgressReport ;
+		}
 	private:
 		QJsonObject m_jsonObject ;
 		std::unique_ptr< engines::engine::functions > m_functions ;
@@ -407,6 +416,7 @@ public:
 		bool m_canDownloadPlaylist ;
 		bool m_likeYoutubeDl ;
 		bool m_mainEngine ;
+		bool m_replaceOutputWithProgressReport ;
 		QString m_name ;
 		QString m_commandName ;
 		QString m_commandNameWindows ;
