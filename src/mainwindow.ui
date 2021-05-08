@@ -539,7 +539,7 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbPLOptions">
       <property name="geometry">
        <rect>
-        <x>340</x>
+        <x>500</x>
         <y>380</y>
         <width>121</width>
         <height>33</height>
@@ -571,7 +571,7 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbPLDownload">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>180</x>
         <y>380</y>
         <width>121</width>
         <height>33</height>
@@ -623,7 +623,7 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbPLQuit">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>620</x>
         <y>380</y>
         <width>121</width>
         <height>33</height>
@@ -693,9 +693,9 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbPLGetList">
       <property name="geometry">
        <rect>
-        <x>460</x>
+        <x>300</x>
         <y>380</y>
-        <width>121</width>
+        <width>201</width>
         <height>33</height>
        </rect>
       </property>
@@ -706,7 +706,7 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbPLCancel">
       <property name="geometry">
        <rect>
-        <x>100</x>
+        <x>60</x>
         <y>380</y>
         <width>121</width>
         <height>33</height>
