@@ -586,8 +586,8 @@ namespace utility
 		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::value_type value_type ;
 		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::size_type size_type ;
 
-		reverseIterator( List&& s ) :
-			m_list( std::forward< List >( s ) ),
+	        reverseIterator( List s ) :
+		        m_list( s ),
 			m_index( m_list.size() - 1 )
 		{
 		}

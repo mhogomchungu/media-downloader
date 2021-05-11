@@ -236,6 +236,8 @@ void playlistdownloader::download( const engines::engine& engine )
 		}
 	}
 
+	m_ctx.TabManager().basicDownloader().disAbleTableList() ;
+
 	m_ccmd.download( engine,[ this ](){
 
 		if( m_settings.concurrentDownloading() ){

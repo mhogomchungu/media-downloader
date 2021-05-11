@@ -273,6 +273,8 @@ void batchdownloader::download( const engines::engine& engine )
 		return ;
 	}
 
+	m_ctx.TabManager().basicDownloader().disAbleTableList() ;
+
 	m_ccmd.download( engine,[ this ](){
 
 		if( m_settings.concurrentDownloading() ){

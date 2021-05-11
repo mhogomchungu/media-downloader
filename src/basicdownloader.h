@@ -47,6 +47,7 @@ public:
 	void checkAndPrintInstalledVersion( const engines::engine& ) ;
 	void printEngineVersionInfo() ;
 	basicdownloader& setAsActive() ;
+	basicdownloader& disAbleTableList() ;
 private:
 	class options
 	{

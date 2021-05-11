@@ -232,6 +232,12 @@ basicdownloader& basicdownloader::setAsActive()
 	return *this ;
 }
 
+basicdownloader& basicdownloader::disAbleTableList()
+{
+	m_ui.bdTableWidgetList->setVisible( false ) ;
+	return *this ;
+}
+
 void basicdownloader::setDefaultEngine()
 {
 	auto m = m_settings.defaultEngine() ;
