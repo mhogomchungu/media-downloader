@@ -231,10 +231,14 @@ public:
 				filter( const QString& quality ) ;
 				virtual const QString& operator()( const engines::engine&,const Logger::Data& e ) ;
 				virtual ~filter() ;
+			protected:
+				const QString& quality() ;
+				int maxDownloadCounter() ;
 			private:
 				const QString& processing() ;
 				int m_counter ;
 				QString m_processing ;
+				QString m_quality ;
 			} ;
 
 			virtual ~functions() ;

@@ -68,6 +68,9 @@ public:
 		{
 			m_lines.clear() ;
 		}
+
+		QStringList toStringList() const ;
+
 		QString toString() const
 		{
 			if( this->isNotEmpty() ){

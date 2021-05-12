@@ -238,7 +238,7 @@ youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e ) :
 	engines::engine::functions::filter( e ),
 	m_preProcessingCounter( 0 ),
 	m_postProcessingCounter( 0 ),
-	m_maxDownloadCounter( e.contains( "+" ) ? 2 : 1 ),
+	m_maxDownloadCounter( engines::engine::functions::filter::maxDownloadCounter() ),
 	m_preProcessing( QObject::tr( "Processing" ) ),
 	m_postProcessing( QObject::tr( "Post Processing" ) )
 {
@@ -249,7 +249,9 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 {
 	int downloadCounter = 0 ;
 
-	for( const auto& e : utility::split( s.toString(),'\n',true ) ){
+	const auto data = s.toStringList() ;
+
+	for( const auto& e : data ){
 
 		if( e.startsWith( "ERROR: " ) ){
 
@@ -258,10 +260,10 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 		}
 		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){
 
-			m_tmp = e.mid( e.indexOf( " " ) ) ;
-			m_tmp.truncate( m_tmp.indexOf( " has already been downloaded" ) ) ;
-
-			return m_tmp ;
+			m_fileName = e.mid( e.indexOf( " " ) + 1 ) ;
+			m_fileName.truncate( m_fileName.indexOf( " has already been downloaded" ) ) ;
+			m_fileName += "\n" + QObject::tr( "Download completed" ) ;
+			return m_fileName ;
 		}
 		if( e.contains( "] Destination: " ) ){
 
@@ -278,14 +280,14 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 		}
 	}
 
-	const auto& l = s.lastText() ;
+	const auto& l = data.last() ;
 
 	if( l.startsWith( "[download]  " ) && l.contains( " ETA " ) ){
 
-		auto progress = l ;
-		progress.replace( "[download]  ","" ) ;
+		m_tmp = l ;
+		m_tmp.replace( "[download]  ","" ) ;
+		m_tmp = m_fileName + "\n" + m_tmp ;
 
-		m_tmp = m_fileName + "\n" + progress ;
 		return m_tmp ;
 	}
 

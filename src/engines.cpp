@@ -838,9 +838,10 @@ QByteArray engines::file::readAll()
 	}
 }
 
-engines::engine::functions::filter::filter( const QString& ) :
+engines::engine::functions::filter::filter( const QString& e ) :
 	m_counter( 0 ),
-	m_processing( QObject::tr( "Processing" ) )
+	m_processing( QObject::tr( "Processing" ) ),
+	m_quality( e )
 {
 }
 
@@ -861,6 +862,16 @@ const QString& engines::engine::functions::filter::operator()( const engines::en
 
 engines::engine::functions::filter::~filter()
 {
+}
+
+const QString& engines::engine::functions::filter::quality()
+{
+	return m_quality ;
+}
+
+int engines::engine::functions::filter::maxDownloadCounter()
+{
+	return m_quality.count( '+',Qt::CaseInsensitive ) + 1 ;
 }
 
 const QString& engines::engine::functions::filter::processing()
