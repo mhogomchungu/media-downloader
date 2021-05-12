@@ -407,15 +407,13 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/engines.cpp" line="843"/>
         <location filename="../src/engines.cpp" line="873"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="239"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="339"/>
-        <location filename="../src/utility.cpp" line="537"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="242"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="311"/>
         <source>Processing</source>
         <translation>Przetwarzanie</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="240"/>
-        <location filename="../src/utility.cpp" line="539"/>
+        <location filename="../src/utility.cpp" line="540"/>
         <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>
         <translation>Poberanie zakończone</translation>
@@ -425,27 +423,33 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <source>Resetting download folder to default</source>
         <translation>Zmiana katalogu pobierania na domyślny</translation>
     </message>
+    <message>
+        <location filename="../src/engines/youtube-dl.cpp" line="243"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="326"/>
+        <source>Post Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <location filename="../src/basicdownloader.cpp" line="192"/>
-        <location filename="../src/basicdownloader.cpp" line="315"/>
+        <location filename="../src/basicdownloader.cpp" line="321"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="296"/>
+        <location filename="../src/basicdownloader.cpp" line="302"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="321"/>
+        <location filename="../src/basicdownloader.cpp" line="327"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="325"/>
+        <location filename="../src/basicdownloader.cpp" line="331"/>
         <source>Executable Path</source>
         <translation>Ścieżka aplikacji</translation>
     </message>

@@ -534,10 +534,10 @@ void utility::updateFinishedState( const engines::engine& engine,
 
 			if( engine.likeYoutubeDl() ){
 
-				if( x.isEmpty() || x.contains( QObject::tr( "Processing" ) ) ){
+				auto a = utility::split( x,'\n',true ) ;
+				a.removeLast() ;
 
-					item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
-				}
+				item->setText( a.join( "\n" ) + "\n" + QObject::tr( "Download completed" ) ) ;
 			}else{
 				item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
 			}

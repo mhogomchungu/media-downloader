@@ -228,7 +228,7 @@ public:
 		{
 			class filter{
 			public:
-				filter() ;
+				filter( const QString& quality ) ;
 				virtual const QString& operator()( const engines::engine&,const Logger::Data& e ) ;
 				virtual ~filter() ;
 			private:
@@ -239,7 +239,7 @@ public:
 
 			virtual ~functions() ;
 
-			virtual std::unique_ptr< engines::engine::functions::filter > Filter() ;
+			virtual std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) ;
 
 			virtual void updateOptions( QJsonObject&,settings& ) ;
 
@@ -311,9 +311,9 @@ public:
 		{
 			return m_defaultDownLoadCmdOptions ;
 		}
-		std::unique_ptr< engines::engine::functions::filter > filter() const
+		std::unique_ptr< engines::engine::functions::filter > filter( const QString& quality ) const
 		{
-			return m_functions->Filter() ;
+			return m_functions->Filter( quality ) ;
 		}
 		void updateDownLoadCmdOptions( const QString& quality,
 					       const QStringList& userOptions,

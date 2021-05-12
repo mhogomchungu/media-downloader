@@ -31,22 +31,24 @@ public:
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		youtube_dlFilter() ;
+		youtube_dlFilter( const QString& ) ;
 
 		const QString& operator()( const engines::engine&,const Logger::Data& e ) override ;
 
 		virtual ~youtube_dlFilter() override ;
 	private:
-		const QString& processing() ;
-		int m_counter ;
+		const QString& preProcessing() ;
+		const QString& postProcessing() ;
+		int m_preProcessingCounter ;
+		int m_postProcessingCounter ;
+		int m_maxDownloadCounter ;
 		QString m_tmp ;
-		QString m_processing ;
-		QString m_downloadCompleted ;
-		QString m_final ;
-		QString m_name ;
+		QString m_preProcessing ;
+		QString m_postProcessing ;
+		QString m_fileName ;
 	} ;
 
-	std::unique_ptr< engines::engine::functions::filter > Filter() override ;
+	std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine& engine,
 				       const QString& quality,

@@ -269,11 +269,13 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 		} ) ;
 	} ) ;
 
+	auto m = m_ui.lineEditPLUrlOptions->text() ;
+
 	m_ccmd.download( engine,
 			 index,
 			 m_ui.tableWidgetPl->item( index,1 )->text(),
 			 std::move( aa ),
-			 make_loggerBatchDownloader( engine.filter(),
+			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
 						     engine,
 						     m_ctx.logger(),
 						     *m_ui.tableWidgetPl->item( index,0 ),

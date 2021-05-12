@@ -407,15 +407,13 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="843"/>
         <location filename="../src/engines.cpp" line="873"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="239"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="339"/>
-        <location filename="../src/utility.cpp" line="537"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="242"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="311"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="240"/>
-        <location filename="../src/utility.cpp" line="539"/>
+        <location filename="../src/utility.cpp" line="540"/>
         <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
@@ -425,27 +423,33 @@ Each Link Should Be In Its Own Line.</source>
         <source>Resetting download folder to default</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
+    <message>
+        <location filename="../src/engines/youtube-dl.cpp" line="243"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="326"/>
+        <source>Post Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <location filename="../src/basicdownloader.cpp" line="192"/>
-        <location filename="../src/basicdownloader.cpp" line="315"/>
+        <location filename="../src/basicdownloader.cpp" line="321"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="296"/>
+        <location filename="../src/basicdownloader.cpp" line="302"/>
         <source>Checking installed version of</source>
         <translation>正在检查的已安装版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="321"/>
+        <location filename="../src/basicdownloader.cpp" line="327"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="325"/>
+        <location filename="../src/basicdownloader.cpp" line="331"/>
         <source>Executable Path</source>
         <translation>可执行文件路径</translation>
     </message>
