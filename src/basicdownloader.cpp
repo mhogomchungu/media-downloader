@@ -557,7 +557,10 @@ void basicdownloader::options::done( utility::ProcessExitState m )
 {
 	this->tabManagerEnableAll( true ).enableCancel( false ) ;
 
-	utility::updateFinishedState( m_engine,m_ctx.Settings(),m_table,{ 0,true,std::move( m ) } ) ;
+	if( !m_listRequested ){
+
+		utility::updateFinishedState( m_engine,m_ctx.Settings(),m_table,{ 0,true,std::move( m ) } ) ;
+	}
 }
 
 basicdownloader::options& basicdownloader::options::tabManagerEnableAll( bool e )
