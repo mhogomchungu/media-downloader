@@ -376,15 +376,19 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 	for( const auto& it : m ){
 
-		auto a          = utility::split( it,' ',true ) ;
-		auto format     = a.takeAt( 0 ) ;
-		auto extension  = a.takeAt( 0 ) ;
-		auto resolution = a.takeAt( 0 ) ;
-		auto notes      = a.join( " " ) ;
+		auto a = utility::split( it,' ',true ) ;
 
-		QStringList args{ format,extension,resolution,notes } ;
+		if( a.size() > 3 ){
 
-		utility::addItem( *m_ui.bdTableWidgetList,args,m_ctx.mainWidget().font() ) ;
+			auto format     = a.takeAt( 0 ) ;
+			auto extension  = a.takeAt( 0 ) ;
+			auto resolution = a.takeAt( 0 ) ;
+			auto notes      = a.join( " " ) ;
+
+			QStringList args{ format,extension,resolution,notes } ;
+
+			utility::addItem( *m_ui.bdTableWidgetList,args,m_ctx.mainWidget().font() ) ;
+		}
 	}
 
 	m_ui.bdTableWidgetList->setEnabled( true ) ;
