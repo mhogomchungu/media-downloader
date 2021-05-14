@@ -232,7 +232,7 @@ basicdownloader& basicdownloader::setAsActive()
 	return *this ;
 }
 
-basicdownloader& basicdownloader::disAbleTableList()
+basicdownloader& basicdownloader::hideTableList()
 {
 	m_ui.bdTableWidgetList->setVisible( false ) ;
 	return *this ;

@@ -92,6 +92,7 @@ namespace utility
 	QStringList split( const QString& e,const char * token ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
 	QList< QByteArray > split( const QByteArray& e,QChar token = '\n' ) ;
+	QString failedToFindExecutableString( const QString& cmd ) ;
 
 	class selectedAction
 	{
@@ -436,11 +437,22 @@ namespace utility
 		  Connection conn,
 		  ProcessOutputChannels channels = ProcessOutputChannels() )
 	{
-		options.tabManagerEnableAll( false ) ;
-
 		engines::engine::exeArgs::cmd cmd( engine.exePath(),args ) ;
 
-		utility::run( cmd.exe(),cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
+		const auto& exe = cmd.exe() ;
+
+		if( !QFile::exists( exe ) ){
+
+			logger.add( utility::failedToFindExecutableString( exe ) ) ;
+
+			options.done( ProcessExitState( false,-1,QProcess::ExitStatus::NormalExit ) ) ;
+
+			return ;
+		}
+
+		options.tabManagerEnableAll( false ) ;
+
+		utility::run( exe,cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
 
 			exe.setProcessEnvironment( options.processEnvironment() ) ;
 

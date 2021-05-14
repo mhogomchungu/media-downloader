@@ -476,7 +476,7 @@ engines::engine::engine( Logger& logger,
 					m_exePath = m_exeFolderPath + "/" + commandName ;
 				}else{
 					m_valid = false ;
-					logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( commandName ) ) ;
+					logger.add( utility::failedToFindExecutableString( commandName ) ) ;
 				}
 			}else{
 				m_exePath = m ;

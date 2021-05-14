@@ -150,8 +150,6 @@ void batchdownloader::download( const engines::engine& engine,
 				const QStringList& list,
 				bool doNotGetTitle )
 {
-	//utility::clear( *m_ui.tableWidgetBD ) ;
-
 	for( const auto& it : list ){
 
 		this->addToList( it,doNotGetTitle ) ;
@@ -273,7 +271,7 @@ void batchdownloader::download( const engines::engine& engine )
 		return ;
 	}
 
-	m_ctx.TabManager().basicDownloader().disAbleTableList() ;
+	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
 	m_ccmd.download( engine,[ this ](){
 

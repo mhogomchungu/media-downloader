@@ -326,8 +326,8 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="373"/>
-        <location filename="../src/engines.cpp" line="479"/>
         <location filename="../src/engines.cpp" line="540"/>
+        <location filename="../src/utility.cpp" line="577"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>&quot;%1&quot; yürütülebilir dosyası bulunamadı</translation>
     </message>
@@ -406,13 +406,14 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="843"/>
-        <location filename="../src/engines.cpp" line="873"/>
+        <location filename="../src/engines.cpp" line="884"/>
         <location filename="../src/engines/youtube-dl.cpp" line="242"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="311"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="313"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
+        <location filename="../src/engines/youtube-dl.cpp" line="265"/>
         <location filename="../src/utility.cpp" line="540"/>
         <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>
@@ -425,7 +426,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="243"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="326"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="328"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>

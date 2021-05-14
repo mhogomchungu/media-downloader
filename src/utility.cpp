@@ -571,3 +571,8 @@ void utility::updateFinishedState( const engines::engine& engine,
 		}
 	}
 }
+
+QString utility::failedToFindExecutableString( const QString& cmd )
+{
+	return QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ;
+}
