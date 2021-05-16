@@ -19,7 +19,7 @@ Features offered:-
 
 7. The GUI has a json based plugin system and can configured to download media using other tools other than youtube-dl.
 
-## Donations.
+## Donations
 Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
 
 ## Extensions
@@ -36,6 +36,7 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 1. Youtube-dl for Windows requires [Microsoft Visual C++ 2010 Service Pack 1 Redistributable Package (x86)](https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe) to be installed and install it first before continuing.
 
 2. Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of youtube-dl.
+
 
 #### Installer for Microsoft Windows
 
