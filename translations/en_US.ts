@@ -140,11 +140,6 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="732"/>
-        <source>Funsionality is disabled because configured backend does not support downloading playlists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="744"/>
         <source>Configure</source>
         <translation type="unfinished"></translation>
@@ -197,6 +192,11 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="847"/>
         <source>Download Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="732"/>
+        <source>Functionality is disabled because configured backend does not support downloading playlists.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

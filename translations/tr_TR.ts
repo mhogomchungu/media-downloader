@@ -142,11 +142,6 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Oynatma Listesi URL&apos;sini Girin:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="732"/>
-        <source>Funsionality is disabled because configured backend does not support downloading playlists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="744"/>
         <source>Configure</source>
         <translation>Yapılandır</translation>
@@ -200,6 +195,11 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <location filename="../src/mainwindow.ui" line="847"/>
         <source>Download Path</source>
         <translation>İndirme Yolu</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="732"/>
+        <source>Functionality is disabled because configured backend does not support downloading playlists.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="795"/>

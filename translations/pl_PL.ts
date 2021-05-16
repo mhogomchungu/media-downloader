@@ -142,11 +142,6 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>podaj adres playlisty:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="732"/>
-        <source>Funsionality is disabled because configured backend does not support downloading playlists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="744"/>
         <source>Configure</source>
         <translation>Konfiguracja</translation>
@@ -200,6 +195,11 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <location filename="../src/mainwindow.ui" line="847"/>
         <source>Download Path</source>
         <translation>Katalog pobieranych plików</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="732"/>
+        <source>Functionality is disabled because configured backend does not support downloading playlists.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="795"/>

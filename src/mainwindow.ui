@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -729,7 +729,7 @@ Each Link Should Be In Its Own Line.</string>
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Funsionality is disabled because configured backend does not support downloading playlists.</string>
+       <string>Functionality is disabled because configured backend does not support downloading playlists.</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

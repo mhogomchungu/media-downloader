@@ -142,11 +142,6 @@ Each Link Should Be In Its Own Line.</source>
         <translation>输入播放列表链接地址:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="732"/>
-        <source>Funsionality is disabled because configured backend does not support downloading playlists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="744"/>
         <source>Configure</source>
         <translation>配置</translation>
@@ -200,6 +195,11 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/mainwindow.ui" line="847"/>
         <source>Download Path</source>
         <translation>下载文件路径</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="732"/>
+        <source>Functionality is disabled because configured backend does not support downloading playlists.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="795"/>

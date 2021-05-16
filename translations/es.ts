@@ -140,11 +140,6 @@ Each Link Should Be In Its Own Line.</source>
         <translation>URL de Lista de Reproducción:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="732"/>
-        <source>Funsionality is disabled because configured backend does not support downloading playlists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="744"/>
         <source>Configure</source>
         <translation>Configurar</translation>
@@ -198,6 +193,11 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/mainwindow.ui" line="847"/>
         <source>Download Path</source>
         <translation>Ruta para Descargas</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="732"/>
+        <source>Functionality is disabled because configured backend does not support downloading playlists.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="795"/>
