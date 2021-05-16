@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="383"/>
         <location filename="../src/mainwindow.ui" line="427"/>
         <location filename="../src/mainwindow.ui" line="633"/>
-        <location filename="../src/mainwindow.ui" line="1012"/>
+        <location filename="../src/mainwindow.ui" line="1041"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>退出</translation>
@@ -172,12 +172,17 @@ Each Link Should Be In Its Own Line.</source>
         <translation>使用系统可执行文件(如果可用)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="994"/>
+        <location filename="../src/mainwindow.ui" line="989"/>
+        <source>Dark Theme(Need A Restart)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1023"/>
         <source>Reset Option To Its Default</source>
         <translation>将选项重置为默认值</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="997"/>
+        <location filename="../src/mainwindow.ui" line="1026"/>
         <source>Set Defaults</source>
         <translation>设置默认值</translation>
     </message>
@@ -187,7 +192,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>窗口缩放比例(需要重启程序)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="972"/>
+        <location filename="../src/mainwindow.ui" line="1001"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
@@ -222,7 +227,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>移除一个插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1018"/>
+        <location filename="../src/mainwindow.ui" line="1047"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
@@ -425,7 +430,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>下载已完成</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="131"/>
+        <location filename="../src/settings.cpp" line="146"/>
         <source>Resetting download folder to default</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
@@ -433,6 +438,21 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/engines/youtube-dl.cpp" line="245"/>
         <location filename="../src/engines/youtube-dl.cpp" line="330"/>
         <source>Post Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Dark Theme 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Dark Theme 2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -479,22 +499,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="59"/>
+        <location filename="../src/configure.cpp" line="77"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="86"/>
+        <location filename="../src/configure.cpp" line="104"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="140"/>
+        <location filename="../src/configure.cpp" line="158"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="245"/>
+        <location filename="../src/configure.cpp" line="263"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>

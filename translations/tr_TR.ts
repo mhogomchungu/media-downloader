@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="383"/>
         <location filename="../src/mainwindow.ui" line="427"/>
         <location filename="../src/mainwindow.ui" line="633"/>
-        <location filename="../src/mainwindow.ui" line="1012"/>
+        <location filename="../src/mainwindow.ui" line="1041"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Çıkış</translation>
@@ -172,12 +172,17 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Varsa Sistem Yürütülebilir Dosyalarını Kullanın</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="994"/>
+        <location filename="../src/mainwindow.ui" line="989"/>
+        <source>Dark Theme(Need A Restart)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1023"/>
         <source>Reset Option To Its Default</source>
         <translation>Seçeneği Varsayılanına Sıfırla</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="997"/>
+        <location filename="../src/mainwindow.ui" line="1026"/>
         <source>Set Defaults</source>
         <translation>Varsayılanları Ayarla</translation>
     </message>
@@ -187,7 +192,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Ölçek Faktörü (Yeniden Başlatılması Gerekiyor)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="972"/>
+        <location filename="../src/mainwindow.ui" line="1001"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>
@@ -222,7 +227,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Bir Eklentiyi Kaldır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1018"/>
+        <location filename="../src/mainwindow.ui" line="1047"/>
         <source>About</source>
         <translation>Hakkında</translation>
     </message>
@@ -425,7 +430,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>İndirme tamamlandı</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="131"/>
+        <location filename="../src/settings.cpp" line="146"/>
         <source>Resetting download folder to default</source>
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
@@ -433,6 +438,21 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <location filename="../src/engines/youtube-dl.cpp" line="245"/>
         <location filename="../src/engines/youtube-dl.cpp" line="330"/>
         <source>Post Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Dark Theme 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Dark Theme 2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -479,22 +499,22 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="59"/>
+        <location filename="../src/configure.cpp" line="77"/>
         <source>Select An Engine File</source>
         <translation>Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="86"/>
+        <location filename="../src/configure.cpp" line="104"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="140"/>
+        <location filename="../src/configure.cpp" line="158"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="245"/>
+        <location filename="../src/configure.cpp" line="263"/>
         <source>Update</source>
         <translation>Güncelle</translation>
     </message>

@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="383"/>
         <location filename="../src/mainwindow.ui" line="427"/>
         <location filename="../src/mainwindow.ui" line="633"/>
-        <location filename="../src/mainwindow.ui" line="1012"/>
+        <location filename="../src/mainwindow.ui" line="1041"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Salir</translation>
@@ -170,12 +170,17 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Usar Ejecutables del Sistema si están disponibles</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="994"/>
+        <location filename="../src/mainwindow.ui" line="989"/>
+        <source>Dark Theme(Need A Restart)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1023"/>
         <source>Reset Option To Its Default</source>
         <translation>Restablecer Opción a su Valor Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="997"/>
+        <location filename="../src/mainwindow.ui" line="1026"/>
         <source>Set Defaults</source>
         <translation>Establecer Predeterminados</translation>
     </message>
@@ -185,7 +190,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Factor de Escala (Necesita Reiniciar)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="972"/>
+        <location filename="../src/mainwindow.ui" line="1001"/>
         <source>Preset Options</source>
         <translation>Opciones Predeterminadas</translation>
     </message>
@@ -220,7 +225,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Eliminar complemento</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1018"/>
+        <location filename="../src/mainwindow.ui" line="1047"/>
         <source>About</source>
         <translation>Acerca</translation>
     </message>
@@ -423,7 +428,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Descarga completada</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="131"/>
+        <location filename="../src/settings.cpp" line="146"/>
         <source>Resetting download folder to default</source>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
@@ -431,6 +436,21 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/engines/youtube-dl.cpp" line="245"/>
         <location filename="../src/engines/youtube-dl.cpp" line="330"/>
         <source>Post Processing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Dark Theme 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="92"/>
+        <source>Dark Theme 2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -477,22 +497,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="59"/>
+        <location filename="../src/configure.cpp" line="77"/>
         <source>Select An Engine File</source>
         <translation>Seleccionar un Archivo de Motor</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="86"/>
+        <location filename="../src/configure.cpp" line="104"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="140"/>
+        <location filename="../src/configure.cpp" line="158"/>
         <source>Set Download Folder</source>
         <translation>Establecer Carpeta para Descargas</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="245"/>
+        <location filename="../src/configure.cpp" line="263"/>
         <source>Update</source>
         <translation>Actualizar</translation>
     </message>

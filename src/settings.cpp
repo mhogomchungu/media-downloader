@@ -43,6 +43,21 @@ QString settings::portableVersionConfigPath()
 	return QDir::currentPath() + "/local" ;
 }
 
+QString settings::darkMode()
+{
+	if( !m_settings.contains( "DarkModeName" ) ){
+
+		m_settings.setValue( "DarkModeName",QString() ) ;
+	}
+
+	return m_settings.value( "DarkModeName" ).toString() ;
+}
+
+void settings::setDarkMode( const QString& e )
+{
+	m_settings.setValue( "DarkModeName",e ) ;
+}
+
 static std::unique_ptr< QSettings > _init()
 {
 	if( settings::portableVersion() ){

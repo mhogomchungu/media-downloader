@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -749,7 +749,7 @@ Each Link Should Be In Its Own Line.</string>
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>371</height>
+        <height>381</height>
        </rect>
       </property>
       <property name="currentIndex">
@@ -763,7 +763,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>98</y>
+          <y>88</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -773,7 +773,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>610</x>
-          <y>100</y>
+          <y>90</y>
           <width>41</width>
           <height>31</height>
          </rect>
@@ -786,7 +786,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>2</x>
-          <y>20</y>
+          <y>10</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -805,7 +805,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>220</y>
+          <y>250</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -818,7 +818,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>20</y>
+          <y>10</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -828,7 +828,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>60</y>
+          <y>50</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -838,7 +838,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>100</y>
+          <y>90</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -857,7 +857,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>130</y>
+          <y>120</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -870,7 +870,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>400</x>
-          <y>160</y>
+          <y>150</y>
           <width>211</width>
           <height>33</height>
          </rect>
@@ -883,7 +883,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>60</y>
+          <y>50</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -902,7 +902,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>160</y>
+          <y>150</y>
           <width>211</width>
           <height>33</height>
          </rect>
@@ -915,7 +915,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>250</y>
+          <y>280</y>
           <width>421</width>
           <height>21</height>
          </rect>
@@ -928,7 +928,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>280</y>
+          <y>310</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -938,9 +938,9 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>270</y>
+          <y>300</y>
           <width>181</width>
-          <height>51</height>
+          <height>41</height>
          </rect>
         </property>
         <property name="text">
@@ -957,13 +957,42 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>190</y>
+          <y>220</y>
           <width>421</width>
           <height>41</height>
          </rect>
         </property>
         <property name="text">
          <string>Use System Executables If Available</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBoxConfigureDarkTheme">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>190</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>190</y>
+          <width>181</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Dark Theme(Need A Restart)</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>

@@ -80,7 +80,9 @@ set(SRC
     src/engines/generic.cpp)
 
 set(RESOURCES
-    src/icon.qrc)
+    src/icon.qrc
+    src/3rdParty/BreezeStyleSheets/breeze.qrc
+    src/3rdParty/QDarkStyleSheet-3.0.2/qdarkstyle/dark/style.qrc )
 
 if(WIN32)
     add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})

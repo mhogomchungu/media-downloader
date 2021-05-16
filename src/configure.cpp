@@ -38,6 +38,24 @@ configure::configure( const Context& ctx ) :
 
 	m_setEnabled = true ;
 
+	settings::darkModes modes ;
+
+	m_ui.comboBoxConfigureDarkTheme->addItems( modes.typesTranslated() ) ;
+
+	auto m = m_settings.darkMode() ;
+
+	m_ui.comboBoxConfigureDarkTheme->setCurrentIndex( modes.unTranslatedIndexAt( m_settings.darkMode() ) ) ;
+
+	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
+
+	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,modes = std::move( modes ) ]( int index ){
+
+		if( index != -1 ){
+
+			m_settings.setDarkMode( modes.unTranslatedAt( index ) ) ;
+		}
+	} ) ;
+
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		this->saveOptions() ;
