@@ -42,7 +42,7 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 
 Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.3.0/MediaDownloader-1.3.0.setup.exe).
 
-#### Portable version for Microsoft Windows.
+#### Portable version for Microsoft Windows
 
 A portable version is a self contained version that keeps everything in the application folder.
 

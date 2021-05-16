@@ -310,39 +310,44 @@ Each Link Should Be In Its Own Line.</source>
         <translation>清除选项</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="105"/>
+        <location filename="../src/engines.cpp" line="106"/>
         <source>Running in portable mode</source>
         <translation>在便携模式下运行</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="106"/>
+        <location filename="../src/engines.cpp" line="107"/>
         <source>Download path: </source>
         <translation>下载文件路径: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="122"/>
+        <location filename="../src/engines.cpp" line="123"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>错误，找不到后端的可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="373"/>
-        <location filename="../src/engines.cpp" line="540"/>
+        <location filename="../src/engines.cpp" line="309"/>
+        <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="488"/>
+        <location filename="../src/engines.cpp" line="655"/>
         <location filename="../src/utility.cpp" line="577"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="514"/>
+        <location filename="../src/engines.cpp" line="629"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="820"/>
+        <location filename="../src/engines.cpp" line="935"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="835"/>
+        <location filename="../src/engines.cpp" line="950"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
@@ -405,15 +410,15 @@ Each Link Should Be In Its Own Line.</source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="843"/>
-        <location filename="../src/engines.cpp" line="884"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="242"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="313"/>
+        <location filename="../src/engines.cpp" line="958"/>
+        <location filename="../src/engines.cpp" line="999"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="244"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="315"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="265"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="267"/>
         <location filename="../src/utility.cpp" line="540"/>
         <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>
@@ -425,8 +430,8 @@ Each Link Should Be In Its Own Line.</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="243"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="328"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="245"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="330"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>

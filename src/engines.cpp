@@ -24,6 +24,7 @@
 #include "engines/safaribooks.h"
 
 #include "utility.h"
+#include "version.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -189,6 +190,104 @@ engines::result_ref< const engines::engine& > engines::getEngineByName( const QS
 	return {} ;
 }
 
+class version{
+public:
+	version( int major,int minor,int patch ) :
+		m_valid( true ),m_major( major ),m_minor( minor ),m_patch( patch )
+	{
+	}
+	template< typename T >
+	version( const T& e )
+	{
+		auto s = utility::split( e,'.',true ) ;
+
+		int m = s.size() ;
+
+		if( m == 1 ){
+
+			m_major = s.at( 0 ).toInt( &m_valid ) ;
+
+		}else if( m == 2 ){
+
+			m_major = s.at( 0 ).toInt( &m_valid ) ;
+
+			if( m_valid ){
+
+				m_minor = s.at( 1 ).toInt( &m_valid ) ;
+			}
+
+		}else if( m >= 3 ) {
+
+			m_major = s.at( 0 ).toInt( &m_valid ) ;
+
+			if( m_valid ){
+
+				m_minor = s.at( 1 ).toInt( &m_valid ) ;
+
+				if( m_valid ){
+
+					m_patch = s.at( 2 ).toInt( &m_valid ) ;
+				}
+			}
+		}
+	}
+	bool valid() const
+	{
+		return m_valid ;
+	}
+	bool operator==( const version& other ) const
+	{
+		return m_major == other.m_major && m_minor == other.m_minor && m_patch == other.m_patch ;
+	}
+	bool operator<( const version& other ) const
+	{
+		if( m_major < other.m_major ){
+
+			return true ;
+
+		}else if( m_major == other.m_major ){
+
+			if( m_minor < other.m_minor ){
+
+				return true ;
+
+			}else if( m_minor == other.m_minor ){
+
+				return m_patch < other.m_patch ;
+			}
+		}
+
+		return false ;
+	}
+	/*
+	 * a != b equal to !(a == b)
+	 * a <= b equal to (a < b) || (a == b)
+	 * a >= b equal to !(a < b)
+	 * a > b  equal to !(a <= b)
+	 */
+	bool operator>=( const version& other ) const
+	{
+		return !( *this < other ) ;
+	}
+	bool operator<=( const version& other ) const
+	{
+		return ( *this < other ) || ( *this == other ) ;
+	}
+	bool operator!=( const version& other ) const
+	{
+		return !( *this == other ) ;
+	}
+	bool operator>( const version& other ) const
+	{
+		return !( *this <= other ) ;
+	}
+private:
+	bool m_valid = false ;
+	int m_major = 0 ;
+	int m_minor = 0 ;
+	int m_patch = 0 ;
+};
+
 engines::engine engines::getEngineByPath( const QString& e ) const
 {
 	auto path = m_enginePaths.configPath( e ) ;
@@ -198,6 +297,22 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 	if( json ){
 
 		auto object = json.doc().object() ;
+
+		auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
+
+		if( !minVersion.isEmpty() ){
+
+			if( version( minVersion ) > VERSION ){
+
+				auto name = object.value( "Name" ).toString() ;
+
+				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
+
+				m_logger.add( m.arg( name,minVersion ) ) ;
+
+				return {} ;
+			}
+		}
 
 		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
 				object.value( "Name" ).toString() == "youtube-dl" ){

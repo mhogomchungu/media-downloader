@@ -310,39 +310,44 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Seçenekleri Temizle</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="105"/>
+        <location filename="../src/engines.cpp" line="106"/>
         <source>Running in portable mode</source>
         <translation>Taşınabilir modda çalışıyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="106"/>
+        <location filename="../src/engines.cpp" line="107"/>
         <source>Download path: </source>
         <translation>İndirme yolu: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="122"/>
+        <location filename="../src/engines.cpp" line="123"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Hata, &quot;%1&quot; arka uçta yürütülebilir dosya bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="373"/>
-        <location filename="../src/engines.cpp" line="540"/>
+        <location filename="../src/engines.cpp" line="309"/>
+        <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="488"/>
+        <location filename="../src/engines.cpp" line="655"/>
         <location filename="../src/utility.cpp" line="577"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>&quot;%1&quot; yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="514"/>
+        <location filename="../src/engines.cpp" line="629"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>&quot;%1&quot; arka uç için python3 yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="820"/>
+        <location filename="../src/engines.cpp" line="935"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="835"/>
+        <location filename="../src/engines.cpp" line="950"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
@@ -405,15 +410,15 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="843"/>
-        <location filename="../src/engines.cpp" line="884"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="242"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="313"/>
+        <location filename="../src/engines.cpp" line="958"/>
+        <location filename="../src/engines.cpp" line="999"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="244"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="315"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="265"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="267"/>
         <location filename="../src/utility.cpp" line="540"/>
         <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>
@@ -425,8 +430,8 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="243"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="328"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="245"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="330"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>

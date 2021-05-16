@@ -308,39 +308,44 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Limpiar Opciones</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="105"/>
+        <location filename="../src/engines.cpp" line="106"/>
         <source>Running in portable mode</source>
         <translation>Ejecutando en modo portable</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="106"/>
+        <location filename="../src/engines.cpp" line="107"/>
         <source>Download path: </source>
         <translation>Ruta de descarga: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="122"/>
+        <location filename="../src/engines.cpp" line="123"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Error, no se pudo encontrar el ejecutable del backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="373"/>
-        <location filename="../src/engines.cpp" line="540"/>
+        <location filename="../src/engines.cpp" line="309"/>
+        <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="488"/>
+        <location filename="../src/engines.cpp" line="655"/>
         <location filename="../src/utility.cpp" line="577"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Fallo para encontrar el ejecutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="514"/>
+        <location filename="../src/engines.cpp" line="629"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="820"/>
+        <location filename="../src/engines.cpp" line="935"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="835"/>
+        <location filename="../src/engines.cpp" line="950"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
@@ -403,15 +408,15 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="843"/>
-        <location filename="../src/engines.cpp" line="884"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="242"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="313"/>
+        <location filename="../src/engines.cpp" line="958"/>
+        <location filename="../src/engines.cpp" line="999"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="244"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="315"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="265"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="267"/>
         <location filename="../src/utility.cpp" line="540"/>
         <location filename="../src/utility.cpp" line="542"/>
         <source>Download completed</source>
@@ -423,8 +428,8 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="243"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="328"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="245"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="330"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>

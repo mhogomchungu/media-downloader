@@ -118,6 +118,8 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 			return arr ;
 		}() ) ;
 
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader",QString() ) ;
+
 		mainObj.insert( "PlayListUrlPrefix","https://youtube.com/watch?v=" ) ;
 
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
