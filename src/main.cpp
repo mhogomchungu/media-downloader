@@ -25,9 +25,6 @@
 #include <cstring>
 #include <cstdlib>
 
-#include <QFile>
-#include <QTextStream>
-
 int main( int argc,char * argv[] )
 {
 	if( utility::platformIsWindows() ){
@@ -44,14 +41,7 @@ int main( int argc,char * argv[] )
 
 	app.setApplicationName( "media-downloader" ) ;
 
-	auto m = settings.darkMode() ;
-
-	if( !m.isEmpty() ){
-
-		QFile file( settings::darkModes::themeFileName( m ) ) ;
-		file.open( QFile::ReadOnly ) ;
-		app.setStyleSheet( QString( file.readAll() ) ) ;
-	}
+	settings.setTheme( app ) ;
 
 	translator translator( settings,app ) ;
 

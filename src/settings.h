@@ -31,6 +31,7 @@
 #include <QStandardPaths>
 
 class Logger ;
+class QApplication ;
 
 class settings
 {
@@ -38,37 +39,81 @@ public:
 	class darkModes
 	{
 	public:
-		const QStringList& typesUntranslated() const
+		darkModes()
 		{
-			return m_untranslated ;
 		}
-		const QStringList& typesTranslated() const
+		darkModes( const QString& m ) : m_theme( m )
 		{
-			return m_translated ;
+		}
+		QStringList typesUntranslated() const
+		{
+			QStringList m ;
+
+			for( const auto& it : m_strings ){
+
+				m.append( it.untranslated ) ;
+			}
+
+			return m ;
+		}
+		QStringList typesTranslated() const
+		{
+			QStringList m ;
+
+			for( const auto& it : m_strings ){
+
+				m.append( it.translated ) ;
+			}
+
+			return m ;
 		}
 		const QString& translatedAt( int s ) const
 		{
-			return m_translated[ s ] ;
+			return m_strings[ s ].translated ;
 		}
 		const QString& unTranslatedAt( int s ) const
 		{
-			return m_untranslated[ s ] ;
+			return m_strings[ s ].untranslated ;
 		}
 		int translatedIndexAt( const QString& e ) const
 		{
-			return this->indexAt( e,m_translated ) ;
+			for( size_t i = 0 ; i < m_strings.size() ; i++ ){
+
+				if( m_strings[ i ].translated == e ){
+
+					return i ;
+				}
+			}
+
+			return 0 ;
 		}
 		int unTranslatedIndexAt( const QString& e ) const
 		{
-			return this->indexAt( e,m_untranslated ) ;
+			for( size_t i = 0 ; i < m_strings.size() ; i++ ){
+
+				if( m_strings[ i ].untranslated == e ){
+
+					return i ;
+				}
+			}
+
+			return 0 ;
 		}
-		static QString themeFileName( const QString& e )
+		bool fusionTheme()
 		{
-			if( e == "Dark Theme 1" ){
+			return m_theme == "Dark Theme 1" ;
+		}
+		bool darkModeIsSet()
+		{
+			return this->unTranslatedAt( 0 ) != m_theme ;
+		}
+		QString themeFileName()
+		{
+			if( m_theme == "Dark Theme 2" ){
 
 				return ":dark.qss" ;
 
-			}else if( e == "Dark Theme 2" ){
+			}else if( m_theme == "Dark Theme 3" ){
 
 				return ":qdarkstyle/dark/style.qss" ;
 			}else{
@@ -88,8 +133,19 @@ public:
 
 			return 0 ;
 		}
-		QStringList m_untranslated{ "Normal","Dark Theme 1","Dark Theme 2" } ;
-		QStringList m_translated{ QObject::tr( "Normal" ),QObject::tr( "Dark Theme 1" ),QObject::tr( "Dark Theme 2" ) } ;
+
+		QString m_theme ;
+
+		struct Pair{
+			QString untranslated ;
+			QString translated ;
+		};
+
+		std::vector<Pair> m_strings{ { "Normal",QObject::tr( "Normal" ) },
+					     { "Dark Theme 1",QObject::tr( "Dark Theme 1" ) },
+					     { "Dark Theme 2",QObject::tr( "Dark Theme 2" ) },
+					     { "Dark Theme 3",QObject::tr( "Dark Theme 3" ) },
+					   } ;
 	} ;
 
 	settings() ;
@@ -129,6 +185,7 @@ public:
 	bool useSystemProvidedVersionIfAvailable() ;
 	bool doNotGetUrlTitle() ;
 
+	void setTheme( QApplication& ) ;
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
