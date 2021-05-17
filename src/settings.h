@@ -24,6 +24,7 @@
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
+#include <QComboBox>
 
 #include <vector>
 #include <memory>
@@ -69,11 +70,11 @@ public:
 		}
 		const QString& translatedAt( int s ) const
 		{
-			return m_strings[ s ].translated ;
+			return m_strings[ static_cast< size_t >( s ) ].translated ;
 		}
 		const QString& unTranslatedAt( int s ) const
 		{
-			return m_strings[ s ].untranslated ;
+			return m_strings[ static_cast< size_t >( s ) ].untranslated ;
 		}
 		int translatedIndexAt( const QString& e ) const
 		{
@@ -81,7 +82,7 @@ public:
 
 				if( m_strings[ i ].translated == e ){
 
-					return i ;
+					return static_cast< int >( i ) ;
 				}
 			}
 
@@ -93,21 +94,21 @@ public:
 
 				if( m_strings[ i ].untranslated == e ){
 
-					return i ;
+					return static_cast< int >( i ) ;
 				}
 			}
 
 			return 0 ;
 		}
-		bool fusionTheme()
+		bool fusionTheme() const
 		{
 			return m_theme == "Dark Theme 1" ;
 		}
-		bool darkModeIsSet()
+		bool darkModeIsSet() const
 		{
 			return this->unTranslatedAt( 0 ) != m_theme ;
 		}
-		QString themeFileName()
+		QString themeFileName() const
 		{
 			if( m_theme == "Dark Theme 2" ){
 
@@ -119,6 +120,14 @@ public:
 			}else{
 				return QString() ;
 			}
+		}
+		void setComboBox( QComboBox& cb,const QString& dm ) const
+		{
+			cb.clear() ;
+
+			cb.addItems( this->typesTranslated() ) ;
+
+			cb.setCurrentIndex( this->unTranslatedIndexAt( dm ) ) ;
 		}
 	private:
 		int indexAt( const QString& e,const QStringList& s ) const

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>823</width>
-    <height>465</height>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>10</y>
       <width>801</width>
-      <height>451</height>
+      <height>471</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -36,7 +36,7 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>291</height>
+        <height>311</height>
        </rect>
       </property>
      </widget>
@@ -44,7 +44,7 @@
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>380</y>
+        <y>400</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -57,7 +57,7 @@
       <property name="geometry">
        <rect>
         <x>350</x>
-        <y>380</y>
+        <y>400</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -70,7 +70,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>320</y>
+        <y>340</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -89,7 +89,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>350</y>
+        <y>370</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -108,7 +108,7 @@
       <property name="geometry">
        <rect>
         <x>240</x>
-        <y>380</y>
+        <y>400</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -121,7 +121,7 @@
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>320</y>
+        <y>340</y>
         <width>491</width>
         <height>31</height>
        </rect>
@@ -131,7 +131,7 @@
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>350</y>
+        <y>370</y>
         <width>491</width>
         <height>31</height>
        </rect>
@@ -141,7 +141,7 @@
       <property name="geometry">
        <rect>
         <x>460</x>
-        <y>380</y>
+        <y>400</y>
         <width>101</width>
         <height>33</height>
        </rect>
@@ -154,7 +154,7 @@
       <property name="geometry">
        <rect>
         <x>560</x>
-        <y>380</y>
+        <y>400</y>
         <width>101</width>
         <height>33</height>
        </rect>
@@ -167,7 +167,7 @@
       <property name="geometry">
        <rect>
         <x>240</x>
-        <y>290</y>
+        <y>310</y>
         <width>321</width>
         <height>31</height>
        </rect>
@@ -182,7 +182,7 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>291</height>
+        <height>311</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -229,7 +229,7 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>411</height>
+        <height>431</height>
        </rect>
       </property>
       <property name="currentIndex">
@@ -242,10 +242,10 @@
        <widget class="QTableWidget" name="tableWidgetBD">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>10</y>
-          <width>701</width>
-          <height>271</height>
+          <x>10</x>
+          <y>0</y>
+          <width>741</width>
+          <height>301</height>
          </rect>
         </property>
         <property name="editTriggers">
@@ -277,7 +277,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>280</y>
+          <y>300</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -296,7 +296,7 @@
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>280</y>
+          <y>300</y>
           <width>461</width>
           <height>31</height>
          </rect>
@@ -306,7 +306,7 @@
         <property name="geometry">
          <rect>
           <x>270</x>
-          <y>340</y>
+          <y>360</y>
           <width>221</width>
           <height>33</height>
          </rect>
@@ -319,7 +319,7 @@
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>340</y>
+          <y>360</y>
           <width>121</width>
           <height>33</height>
          </rect>
@@ -332,7 +332,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>310</y>
+          <y>330</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -351,7 +351,7 @@
         <property name="geometry">
          <rect>
           <x>150</x>
-          <y>310</y>
+          <y>330</y>
           <width>461</width>
           <height>31</height>
          </rect>
@@ -361,7 +361,7 @@
         <property name="geometry">
          <rect>
           <x>490</x>
-          <y>340</y>
+          <y>360</y>
           <width>121</width>
           <height>33</height>
          </rect>
@@ -374,7 +374,7 @@
         <property name="geometry">
          <rect>
           <x>610</x>
-          <y>340</y>
+          <y>360</y>
           <width>121</width>
           <height>33</height>
          </rect>
@@ -387,7 +387,7 @@
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>340</y>
+          <y>360</y>
           <width>121</width>
           <height>33</height>
          </rect>
@@ -540,7 +540,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>500</x>
-        <y>380</y>
+        <y>400</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -553,7 +553,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>320</y>
+        <y>340</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -572,7 +572,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>380</y>
+        <y>400</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -585,7 +585,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>320</y>
+        <y>340</y>
         <width>441</width>
         <height>31</height>
        </rect>
@@ -595,7 +595,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>350</y>
+        <y>370</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -614,7 +614,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>350</y>
+        <y>370</y>
         <width>441</width>
         <height>31</height>
        </rect>
@@ -624,7 +624,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>620</x>
-        <y>380</y>
+        <y>400</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -637,7 +637,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>290</y>
+        <y>310</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -656,7 +656,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>290</y>
+        <y>310</y>
         <width>441</width>
         <height>31</height>
        </rect>
@@ -665,10 +665,10 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QTableWidget" name="tableWidgetPl">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>10</y>
-        <width>681</width>
-        <height>281</height>
+        <x>10</x>
+        <y>0</y>
+        <width>771</width>
+        <height>311</height>
        </rect>
       </property>
       <property name="showGrid">
@@ -694,7 +694,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>380</y>
+        <y>400</y>
         <width>201</width>
         <height>33</height>
        </rect>
@@ -707,7 +707,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>380</y>
+        <y>400</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -719,10 +719,10 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QLabel" name="labelPLFunctionalityDisabled">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>10</y>
-        <width>741</width>
-        <height>371</height>
+        <x>10</x>
+        <y>0</y>
+        <width>771</width>
+        <height>401</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -749,7 +749,7 @@ Each Link Should Be In Its Own Line.</string>
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>381</height>
+        <height>391</height>
        </rect>
       </property>
       <property name="currentIndex">
@@ -762,7 +762,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLineEdit" name="lineEditConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>188</x>
           <y>88</y>
           <width>421</width>
           <height>31</height>
@@ -772,7 +772,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>610</x>
+          <x>608</x>
           <y>90</y>
           <width>41</width>
           <height>31</height>
@@ -785,7 +785,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelConfigureLanguage">
         <property name="geometry">
          <rect>
-          <x>2</x>
+          <x>0</x>
           <y>10</y>
           <width>181</width>
           <height>31</height>
@@ -804,8 +804,8 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QCheckBox" name="cbConfigureShowVersionInfo">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>250</y>
+          <x>188</x>
+          <y>260</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -817,7 +817,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QComboBox" name="cbConfigureLanguage">
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>188</x>
           <y>10</y>
           <width>421</width>
           <height>31</height>
@@ -827,7 +827,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLineEdit" name="lineEditConfigureScaleFactor">
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>188</x>
           <y>50</y>
           <width>421</width>
           <height>31</height>
@@ -837,7 +837,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>0</x>
+          <x>-2</x>
           <y>90</y>
           <width>181</width>
           <height>31</height>
@@ -856,8 +856,8 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbConfigureDownload">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>120</y>
+          <x>188</x>
+          <y>130</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -869,10 +869,10 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbConfigureRemoveAPlugin">
         <property name="geometry">
          <rect>
-          <x>400</x>
-          <y>150</y>
+          <x>398</x>
+          <y>170</y>
           <width>211</width>
-          <height>33</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
@@ -882,7 +882,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelConfigureScaleFactor">
         <property name="geometry">
          <rect>
-          <x>0</x>
+          <x>-2</x>
           <y>50</y>
           <width>181</width>
           <height>31</height>
@@ -901,10 +901,10 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbConfigureAddAPlugin">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>150</y>
+          <x>188</x>
+          <y>170</y>
           <width>211</width>
-          <height>33</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
@@ -914,10 +914,10 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QCheckBox" name="cbConfigureBatchDownloadConcurrently">
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>188</x>
           <y>280</y>
           <width>421</width>
-          <height>21</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
@@ -927,7 +927,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLineEdit" name="lineEditConfigureMaximuConcurrentDownloads">
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>188</x>
           <y>310</y>
           <width>421</width>
           <height>31</height>
@@ -937,10 +937,10 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelMaximumConcurrentDownloads">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>300</y>
+          <x>-2</x>
+          <y>310</y>
           <width>181</width>
-          <height>41</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
@@ -956,10 +956,10 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QCheckBox" name="cbUseSystemVersionIfAvailable">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>220</y>
+          <x>188</x>
+          <y>240</y>
           <width>421</width>
-          <height>41</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
@@ -969,8 +969,8 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QComboBox" name="comboBoxConfigureDarkTheme">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>190</y>
+          <x>188</x>
+          <y>210</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -979,8 +979,8 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>190</y>
+          <x>-2</x>
+          <y>210</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -1032,7 +1032,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>320</x>
-        <y>380</y>
+        <y>400</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -1050,7 +1050,7 @@ Each Link Should Be In Its Own Line.</string>
       <property name="geometry">
        <rect>
         <x>110</x>
-        <y>50</y>
+        <y>60</y>
         <width>571</width>
         <height>291</height>
        </rect>

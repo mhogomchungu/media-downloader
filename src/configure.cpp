@@ -40,9 +40,7 @@ configure::configure( const Context& ctx ) :
 
 	settings::darkModes modes ;
 
-	m_ui.comboBoxConfigureDarkTheme->addItems( modes.typesTranslated() ) ;
-
-	m_ui.comboBoxConfigureDarkTheme->setCurrentIndex( modes.unTranslatedIndexAt( m_settings.darkMode() ) ) ;
+	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
 
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
 
@@ -191,13 +189,7 @@ void configure::retranslateUi()
 
 	this->manageDownloadButton() ;
 
-	settings::darkModes modes ;
-
-	m_ui.comboBoxConfigureDarkTheme->clear() ;
-
-	m_ui.comboBoxConfigureDarkTheme->addItems( modes.typesTranslated() ) ;
-
-	m_ui.comboBoxConfigureDarkTheme->setCurrentIndex( modes.unTranslatedIndexAt( m_settings.darkMode() ) ) ;
+	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
 }
 
 void configure::downloadFromGitHub( const engines::engine& engine )
