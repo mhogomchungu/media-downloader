@@ -430,7 +430,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>İndirme tamamlandı</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="146"/>
+        <location filename="../src/settings.cpp" line="149"/>
         <source>Resetting download folder to default</source>
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
@@ -441,18 +441,23 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="92"/>
+        <location filename="../src/settings.h" line="144"/>
         <source>Normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="92"/>
+        <location filename="../src/settings.h" line="145"/>
         <source>Dark Theme 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="92"/>
+        <location filename="../src/settings.h" line="146"/>
         <source>Dark Theme 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="147"/>
+        <source>Dark Theme 3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -499,22 +504,22 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="77"/>
+        <location filename="../src/configure.cpp" line="75"/>
         <source>Select An Engine File</source>
         <translation>Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="104"/>
+        <location filename="../src/configure.cpp" line="102"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="158"/>
+        <location filename="../src/configure.cpp" line="156"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="263"/>
+        <location filename="../src/configure.cpp" line="269"/>
         <source>Update</source>
         <translation>Güncelle</translation>
     </message>

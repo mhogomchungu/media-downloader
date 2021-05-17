@@ -430,7 +430,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>下载已完成</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="146"/>
+        <location filename="../src/settings.cpp" line="149"/>
         <source>Resetting download folder to default</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
@@ -441,18 +441,23 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="92"/>
+        <location filename="../src/settings.h" line="144"/>
         <source>Normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="92"/>
+        <location filename="../src/settings.h" line="145"/>
         <source>Dark Theme 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="92"/>
+        <location filename="../src/settings.h" line="146"/>
         <source>Dark Theme 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.h" line="147"/>
+        <source>Dark Theme 3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -499,22 +504,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="77"/>
+        <location filename="../src/configure.cpp" line="75"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="104"/>
+        <location filename="../src/configure.cpp" line="102"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="158"/>
+        <location filename="../src/configure.cpp" line="156"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="263"/>
+        <location filename="../src/configure.cpp" line="269"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
