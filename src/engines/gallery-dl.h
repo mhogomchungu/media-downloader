@@ -21,27 +21,26 @@
 
 #include "../engines.h"
 
-class youtube_dl : public engines::engine::functions
+class settings ;
+
+class gallery_dl : public engines::engine::functions
 {
 public:
-	~youtube_dl() override ;
+	~gallery_dl() override ;
+	gallery_dl( settings& ) ;
 
-	void updateOptions( QJsonObject&,settings& ) override ;
-
-	class youtube_dlFilter : public engines::engine::functions::filter
+	class gallery_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		youtube_dlFilter( const QString& ) ;
+		gallery_dlFilter( const QString&,settings& ) ;
 
 		const QString& operator()( const engines::engine&,const Logger::Data& e ) override ;
 
-		virtual ~youtube_dlFilter() override ;
+		virtual ~gallery_dlFilter() override ;
 	private:
-		engines::engine::functions::preProcessing m_preProcessing ;
-		engines::engine::functions::postProcessing m_postProcessing ;
-		int m_maxDownloadCounter ;
+		settings& m_settings ;
 		QString m_tmp ;
-		QString m_fileName ;
+		engines::engine::functions::preProcessing m_processing ;
 	} ;
 
 	std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) override ;
@@ -56,9 +55,6 @@ public:
 				       const QStringList& userOptions,
 				       QStringList& urls,
 				       QStringList& ourOptions ) override ;
-
-	static void init( Logger& logger,const engines::enginePaths& enginePath ) ;
-	youtube_dl() ;
-	static QJsonObject defaultControlStructure() ;
 private:
+	settings& m_settings ;
 };

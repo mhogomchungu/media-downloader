@@ -315,44 +315,44 @@ Each Link Should Be In Its Own Line.</source>
         <translation>清除选项</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="106"/>
+        <location filename="../src/engines.cpp" line="108"/>
         <source>Running in portable mode</source>
         <translation>在便携模式下运行</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="107"/>
+        <location filename="../src/engines.cpp" line="109"/>
         <source>Download path: </source>
         <translation>下载文件路径: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="123"/>
+        <location filename="../src/engines.cpp" line="125"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>错误，找不到后端的可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="309"/>
+        <location filename="../src/engines.cpp" line="311"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="488"/>
-        <location filename="../src/engines.cpp" line="655"/>
-        <location filename="../src/utility.cpp" line="577"/>
+        <location filename="../src/engines.cpp" line="498"/>
+        <location filename="../src/engines.cpp" line="665"/>
+        <location filename="../src/utility.cpp" line="567"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="629"/>
+        <location filename="../src/engines.cpp" line="639"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="935"/>
+        <location filename="../src/engines.cpp" line="992"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="950"/>
+        <location filename="../src/engines.cpp" line="1007"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
@@ -382,6 +382,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>开始下载</translation>
     </message>
     <message>
+        <location filename="../src/engines.cpp" line="727"/>
         <location filename="../src/networkAccess.cpp" line="113"/>
         <location filename="../src/networkAccess.cpp" line="189"/>
         <source>Download Failed</source>
@@ -415,17 +416,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="958"/>
-        <location filename="../src/engines.cpp" line="999"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="244"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="315"/>
+        <location filename="../src/engines.cpp" line="1055"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="267"/>
-        <location filename="../src/utility.cpp" line="540"/>
-        <location filename="../src/utility.cpp" line="542"/>
+        <location filename="../src/engines.cpp" line="725"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -435,28 +431,27 @@ Each Link Should Be In Its Own Line.</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="245"/>
-        <location filename="../src/engines/youtube-dl.cpp" line="330"/>
+        <location filename="../src/engines.cpp" line="1075"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="144"/>
+        <location filename="../src/settings.h" line="153"/>
         <source>Normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="145"/>
+        <location filename="../src/settings.h" line="154"/>
         <source>Dark Theme 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="146"/>
+        <location filename="../src/settings.h" line="155"/>
         <source>Dark Theme 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="147"/>
+        <location filename="../src/settings.h" line="156"/>
         <source>Dark Theme 3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -504,22 +499,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="75"/>
+        <location filename="../src/configure.cpp" line="73"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="102"/>
+        <location filename="../src/configure.cpp" line="100"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="156"/>
+        <location filename="../src/configure.cpp" line="154"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="269"/>
+        <location filename="../src/configure.cpp" line="261"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>

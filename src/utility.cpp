@@ -520,35 +520,25 @@ void utility::updateFinishedState( const engines::engine& engine,
 {
 	f.setState( *table.item( f.index,2 ) ) ;
 
-	const auto m = table.item( f.index,1 )->text() ;
+	const auto backUpUrl = table.item( f.index,1 )->text() ;
 
 	auto item = table.item( f.index,0 ) ;
 
 	if( f.exitState.cancelled() ){
 
-		item->setText( m ) ;
+		item->setText( backUpUrl ) ;
 	}else{
+		item->setText( engine.updateTextOnCompleteDownlod( item->text(),backUpUrl,f ) ) ;
+
 		if( f.exitState.success() ){
-
-			auto x = item->text() ;
-
-			if( engine.likeYoutubeDl() ){
-
-				auto a = utility::split( x,'\n',true ) ;
-				a.removeLast() ;
-
-				item->setText( a.join( "\n" ) + "\n" + QObject::tr( "Download completed" ) ) ;
-			}else{
-				item->setText( m + "\n" + QObject::tr( "Download completed" ) ) ;
-			}
 
 			auto a = s.commandOnSuccessfulDownload() ;
 
-			if( !a.isEmpty() && !m.isEmpty() ){
+			if( !a.isEmpty() && !backUpUrl.isEmpty() ){
 
 				auto args = utility::split( a,' ',true ) ;
 
-				args.append( utility::split( m,'\n',true ).at( 0 ) ) ;
+				args.append( utility::split( backUpUrl,'\n',true ).at( 0 ) ) ;
 
 				auto exe = args.takeAt( 0 ) ;
 

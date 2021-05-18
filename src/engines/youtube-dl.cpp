@@ -26,6 +26,8 @@
 #include "../networkAccess.h"
 #include "../utility.h"
 
+#include "../concurrentdownloadmanager.hpp"
+
 static QJsonObject _defaultControlStructure()
 {
 	QJsonObject obj ;
@@ -213,6 +215,33 @@ std::unique_ptr< engines::engine::functions::filter > youtube_dl::Filter( const 
 	return std::make_unique< youtube_dl::youtube_dlFilter >( e ) ;
 }
 
+QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
+						 const QString& uiText,
+						 const QString& bkText,
+						 const concurrentDownloadManagerFinishedStatus& f )
+{
+	Q_UNUSED( bkText )
+
+	auto m = engines::engine::functions::processCompleteStateText( f ) ;
+
+	if( f.exitState.success() ){
+
+		QStringList a ;
+
+		for( const auto& it : utility::split( uiText,'\n',true ) ){
+
+			if( !it.contains( engines::engine::functions::postProcessing::processingText() ) ){
+
+				a.append( it ) ;
+			}
+		}
+
+		return a.join( "\n" ) + "\n" + m ;
+	}else{
+		return uiText + "\n" + m ;
+	}
+}
+
 void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 					   const QString& quality,
 					   const QStringList& userOptions,
@@ -238,11 +267,7 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 
 youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e ) :
 	engines::engine::functions::filter( e ),
-	m_preProcessingCounter( 0 ),
-	m_postProcessingCounter( 0 ),
-	m_maxDownloadCounter( engines::engine::functions::filter::maxDownloadCounter() ),
-	m_preProcessing( QObject::tr( "Processing" ) ),
-	m_postProcessing( QObject::tr( "Post Processing" ) )
+	m_maxDownloadCounter( engines::engine::functions::filter::maxDownloadCounter() )
 {
 }
 
@@ -264,7 +289,6 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 
 			m_fileName = e.mid( e.indexOf( " " ) + 1 ) ;
 			m_fileName.truncate( m_fileName.indexOf( " has already been downloaded" ) ) ;
-			m_fileName += "\n" + QObject::tr( "Download completed" ) ;
 			return m_fileName ;
 		}
 		if( e.contains( "] Destination: " ) ){
@@ -295,43 +319,12 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 
 	if( downloadCounter < m_maxDownloadCounter ){
 
-		return this->preProcessing() ;
+		return m_preProcessing.text() ;
 	}else{
-		return this->postProcessing() ;
+		return m_postProcessing.text( m_fileName ) ;
 	}
 }
 
 youtube_dl::youtube_dlFilter::~youtube_dlFilter()
 {
-}
-
-const QString& youtube_dl::youtube_dlFilter::preProcessing()
-{
-	if( m_preProcessingCounter < 8 ){
-
-		m_preProcessing += " ..." ;
-	}else{
-		m_preProcessingCounter = 0 ;
-		m_preProcessing = QObject::tr( "Processing" ) + " ..." ;
-	}
-
-	m_preProcessingCounter++ ;
-
-	return m_preProcessing ;
-}
-
-const QString& youtube_dl::youtube_dlFilter::postProcessing()
-{
-	if( m_postProcessingCounter < 8 ){
-
-		m_postProcessing += " ..." ;
-	}else{
-		m_postProcessingCounter = 0 ;
-		m_postProcessing = QObject::tr( "Post Processing" ) + " ..." ;
-	}
-
-	m_postProcessingCounter++ ;
-
-	m_tmp = m_fileName + "\n" + m_postProcessing ;
-	return m_tmp ;
 }

@@ -22,7 +22,9 @@
 #include "engines/youtube-dl.h"
 #include "engines/generic.h"
 #include "engines/safaribooks.h"
+#include "engines/gallery-dl.h"
 
+#include "concurrentdownloadmanager.hpp"
 #include "utility.h"
 #include "version.h"
 
@@ -326,6 +328,14 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 		}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
 			auto functions = std::make_unique< safaribooks >( m_settings ) ;
+
+			functions->updateOptions( object,m_settings ) ;
+
+			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
+
+		}else if( object.value( "Name" ).toString() == "gallery-dl" ){
+
+			auto functions = std::make_unique< gallery_dl >( m_settings ) ;
 
 			functions->updateOptions( object,m_settings ) ;
 
@@ -708,6 +718,16 @@ engines::enginePaths::enginePaths( settings& s )
 	QDir().mkpath( m_configPath ) ;
 }
 
+QString engines::engine::functions::processCompleteStateText( const concurrentDownloadManagerFinishedStatus& f )
+{
+	if( f.exitState.success() ){
+
+		return QObject::tr( "Download completed" ) ;
+	}else{
+		return QObject::tr( "Download Failed" ) ;
+	}
+}
+
 engines::engine::functions::~functions()
 {
 }
@@ -731,6 +751,23 @@ QString engines::engine::functions::commandString( const engines::engine::exeArg
 	}
 
 	return m ;
+}
+
+QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::engine&,
+								 const QString& uiText,
+								 const QString& bkText,
+								 const concurrentDownloadManagerFinishedStatus& f )
+{
+	Q_UNUSED( uiText )
+
+	auto m = engines::engine::functions::processCompleteStateText( f ) ;
+
+	if( f.exitState.success() ){
+
+		return bkText + "\n" + m ;
+	}else{
+		return bkText + "\n" + m ;
+	}
 }
 
 void engines::engine::functions::sendCredentials( const engines::engine&,
@@ -926,6 +963,26 @@ void engines::engine::functions::processData( const engines::engine& engine,
 	}
 }
 
+void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine& engine,
+							   const QString & quality,
+							   const QStringList& userOptions,
+							   QStringList& urls,
+							   QStringList& ourOptions )
+{
+	Q_UNUSED( userOptions )
+	Q_UNUSED( urls )
+
+	if( !engine.optionsArgument().isEmpty() ){
+
+		ourOptions.append( engine.optionsArgument() ) ;
+	}
+
+	if( !quality.isEmpty() ){
+
+		ourOptions.append( quality ) ;
+	}
+}
+
 void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat format )
 {
 	if( m_file.open( QIODevice::WriteOnly ) ){
@@ -954,17 +1011,16 @@ QByteArray engines::file::readAll()
 }
 
 engines::engine::functions::filter::filter( const QString& e ) :
-	m_counter( 0 ),
-	m_processing( QObject::tr( "Processing" ) ),
 	m_quality( e )
 {
 }
 
-const QString& engines::engine::functions::filter::operator()( const engines::engine& engine,const Logger::Data& s )
+const QString& engines::engine::functions::filter::operator()( const engines::engine& engine,
+							       const Logger::Data& s )
 {
 	if( engine.replaceOutputWithProgressReport() ){
 
-		return this->processing() ;
+		return m_processing.text() ;
 
 	}else if( s.isEmpty() ){
 
@@ -989,17 +1045,54 @@ int engines::engine::functions::filter::maxDownloadCounter()
 	return m_quality.count( '+',Qt::CaseInsensitive ) + 1 ;
 }
 
-const QString& engines::engine::functions::filter::processing()
+engines::engine::functions::preProcessing::preProcessing() :
+	m_txt( engines::engine::functions::preProcessing::processingText() )
+{
+}
+
+QString engines::engine::functions::preProcessing::processingText()
+{
+	return QObject::tr( "Processing" ) ;
+}
+
+const QString& engines::engine::functions::preProcessing::text()
 {
 	if( m_counter < 8 ){
 
-		m_processing += " ..." ;
+		m_txt += " ..." ;
 	}else{
 		m_counter = 0 ;
-		m_processing = QObject::tr( "Processing" ) + " ..." ;
+		m_txt = engines::engine::functions::preProcessing::processingText() + " ..." ;
 	}
 
 	m_counter++ ;
 
-	return m_processing ;
+	return m_txt ;
+}
+
+QString engines::engine::functions::postProcessing::processingText()
+{
+	return QObject::tr( "Post Processing" ) ;
+}
+
+engines::engine::functions::postProcessing::postProcessing() :
+	m_tmp( engines::engine::functions::postProcessing::processingText() )
+{
+}
+
+const QString& engines::engine::functions::postProcessing::text( const QString& e )
+{
+	if( m_counter < 8 ){
+
+		m_tmp += " ..." ;
+	}else{
+		m_counter = 0 ;
+		m_tmp = engines::engine::functions::postProcessing::processingText() + " ..." ;
+	}
+
+	m_counter++ ;
+
+	m_txt = e + "\n" + m_tmp ;
+
+	return m_txt ;
 }

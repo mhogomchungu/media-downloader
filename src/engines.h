@@ -35,6 +35,7 @@
 #include "logger.h"
 
 class settings ;
+class concurrentDownloadManagerFinishedStatus ;
 
 class engines{
 public:
@@ -226,6 +227,31 @@ public:
 
 		struct functions
 		{
+			static QString processCompleteStateText( const concurrentDownloadManagerFinishedStatus& ) ;
+
+			class preProcessing
+			{
+			public:
+				preProcessing() ;
+				static QString processingText() ;
+				const QString& text() ;
+			private:
+				int m_counter = 0 ;
+				QString m_txt ;
+			};
+
+			class postProcessing
+			{
+			public:
+				static QString processingText() ;
+				postProcessing() ;
+				const QString& text( const QString& ) ;
+			private:
+				int m_counter = 0 ;
+				QString m_txt ;
+				QString m_tmp ;
+			};
+
 			class filter{
 			public:
 				filter( const QString& quality ) ;
@@ -235,9 +261,7 @@ public:
 				const QString& quality() ;
 				int maxDownloadCounter() ;
 			private:
-				const QString& processing() ;
-				int m_counter ;
-				QString m_processing ;
+				engines::engine::functions::preProcessing m_processing ;
 				QString m_quality ;
 			} ;
 
@@ -248,6 +272,11 @@ public:
 			virtual void updateOptions( QJsonObject&,settings& ) ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
+
+			virtual QString updateTextOnCompleteDownlod( const engines::engine&,
+								     const QString& uiText,
+								     const QString& bkText,
+								     const concurrentDownloadManagerFinishedStatus& ) ;
 
 		        virtual void sendCredentials( const engines::engine&,
 		                                      const QString&,
@@ -262,7 +291,7 @@ public:
 							       const QString& quality,
 							       const QStringList& userOptions,
 		                                               QStringList& urls,
-		                                               QStringList& ourOptions ) = 0 ;
+							       QStringList& ourOptions ) ;
 
 		} ;
 
@@ -318,6 +347,12 @@ public:
 		std::unique_ptr< engines::engine::functions::filter > filter( const QString& quality ) const
 		{
 			return m_functions->Filter( quality ) ;
+		}
+		QString updateTextOnCompleteDownlod( const QString& uiText,
+						     const QString& bkText,
+						     const concurrentDownloadManagerFinishedStatus& f ) const
+		{
+			return m_functions->updateTextOnCompleteDownlod( *this,uiText,bkText,f ) ;
 		}
 		void updateDownLoadCmdOptions( const QString& quality,
 					       const QStringList& userOptions,

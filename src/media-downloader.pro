@@ -14,7 +14,8 @@ playlistdownloader.cpp \
 settings.cpp \
 tabmanager.cpp \
 utility.cpp \
-engines/youtube-dl.cpp
+engines/youtube-dl.cpp \
+engines/gallery-dl.cpp
 
 HEADERS += \
 about.h \

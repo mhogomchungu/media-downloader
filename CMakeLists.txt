@@ -77,7 +77,8 @@ set(SRC
     src/engines.cpp
     src/engines/youtube-dl.cpp
     src/engines/safaribooks.cpp
-    src/engines/generic.cpp)
+    src/engines/generic.cpp
+    src/engines/gallery-dl.cpp)
 
 set(RESOURCES
     src/icon.qrc
