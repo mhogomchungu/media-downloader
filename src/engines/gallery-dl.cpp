@@ -83,15 +83,17 @@ const QString& gallery_dl::gallery_dlFilter::operator()( const engines::engine&,
 
 	QStringList m ;
 
-	for( const auto& e : data ){		
+	for( const auto& e : data ){
 
-		if( e.contains( "/gallery-dl/" ) ){
+		auto u = QDir::fromNativeSeparators( e ) ;
 
-			m.append( e.mid( e.indexOf( "/gallery-dl/" ) + 12 ) ) ;
+		if( u.contains( "/gallery-dl/" ) ){
+
+			m.append( u.mid( u.indexOf( "/gallery-dl/" ) + 12 ) ) ;
 		}
 	}
 
-	if( data.last().contains( "/gallery-dl/" ) ){
+	if( QDir::fromNativeSeparators( data.last() ).contains( "/gallery-dl/" ) ){
 
 		m_tmp = m.join( "\n" ) ;
 	}else{
