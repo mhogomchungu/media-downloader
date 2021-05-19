@@ -91,7 +91,7 @@
         <location filename="../src/mainwindow.ui" line="441"/>
         <location filename="../src/mainwindow.ui" line="793"/>
         <source>Engine Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>引擎名:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="243"/>
@@ -176,7 +176,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1050"/>
         <source>Dark Theme(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>暗黑主题(需要重启程序)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1084"/>
@@ -304,7 +304,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/translator.cpp" line="32"/>
         <source>Turkish (Turkey)</source>
-        <translation type="unfinished"></translation>
+        <translation>土耳其语 (土耳其)</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="350"/>
@@ -334,7 +334,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="311"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>引擎 &quot;%1&quot; 至少需要Media Downloader版本 &quot;%2&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="498"/>
@@ -435,27 +435,27 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="1075"/>
         <source>Post Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>后期处理</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="153"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>常规</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="154"/>
         <source>Dark Theme 1</source>
-        <translation type="unfinished"></translation>
+        <translation>暗黑主题1</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="155"/>
         <source>Dark Theme 2</source>
-        <translation type="unfinished"></translation>
+        <translation>暗黑主题2</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="156"/>
         <source>Dark Theme 3</source>
-        <translation type="unfinished"></translation>
+        <translation>暗黑主题3</translation>
     </message>
 </context>
 <context>
