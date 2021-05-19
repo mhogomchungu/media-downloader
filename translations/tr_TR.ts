@@ -15,53 +15,53 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="53"/>
-        <location filename="../src/mainwindow.ui" line="396"/>
-        <location filename="../src/mainwindow.ui" line="716"/>
+        <location filename="../src/mainwindow.ui" line="357"/>
+        <location filename="../src/mainwindow.ui" line="767"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="66"/>
-        <location filename="../src/mainwindow.ui" line="703"/>
+        <location filename="../src/mainwindow.ui" line="754"/>
         <source>Get List</source>
         <translation>Liste Al</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
-        <location filename="../src/mainwindow.ui" line="286"/>
+        <location filename="../src/mainwindow.ui" line="402"/>
         <source>Enter URL:</source>
         <translation>URL Girin:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="341"/>
-        <location filename="../src/mainwindow.ui" line="513"/>
-        <location filename="../src/mainwindow.ui" line="604"/>
+        <location filename="../src/mainwindow.ui" line="383"/>
+        <location filename="../src/mainwindow.ui" line="564"/>
+        <location filename="../src/mainwindow.ui" line="655"/>
         <source>Enter Options:</source>
         <translation>Seçenekler Girin:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
-        <location filename="../src/mainwindow.ui" line="328"/>
-        <location filename="../src/mainwindow.ui" line="414"/>
-        <location filename="../src/mainwindow.ui" line="581"/>
+        <location filename="../src/mainwindow.ui" line="318"/>
+        <location filename="../src/mainwindow.ui" line="465"/>
+        <location filename="../src/mainwindow.ui" line="632"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="150"/>
-        <location filename="../src/mainwindow.ui" line="370"/>
-        <location filename="../src/mainwindow.ui" line="481"/>
-        <location filename="../src/mainwindow.ui" line="549"/>
+        <location filename="../src/mainwindow.ui" line="331"/>
+        <location filename="../src/mainwindow.ui" line="532"/>
+        <location filename="../src/mainwindow.ui" line="600"/>
         <source>Options</source>
         <translation>Seçenekler</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="163"/>
-        <location filename="../src/mainwindow.ui" line="383"/>
-        <location filename="../src/mainwindow.ui" line="427"/>
-        <location filename="../src/mainwindow.ui" line="633"/>
-        <location filename="../src/mainwindow.ui" line="1041"/>
+        <location filename="../src/mainwindow.ui" line="344"/>
+        <location filename="../src/mainwindow.ui" line="478"/>
+        <location filename="../src/mainwindow.ui" line="684"/>
+        <location filename="../src/mainwindow.ui" line="1102"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Çıkış</translation>
@@ -87,33 +87,40 @@
         <translation>Not</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="224"/>
+        <location filename="../src/mainwindow.ui" line="231"/>
+        <location filename="../src/mainwindow.ui" line="441"/>
+        <location filename="../src/mainwindow.ui" line="793"/>
+        <source>Engine Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="243"/>
         <source>Batch Downloader</source>
         <translation>Toplu İndirici</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="240"/>
+        <location filename="../src/mainwindow.ui" line="259"/>
         <source>Download Multiple Urls</source>
         <translation>Birden Fazla URL İndir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="262"/>
-        <location filename="../src/mainwindow.ui" line="679"/>
+        <location filename="../src/mainwindow.ui" line="281"/>
+        <location filename="../src/mainwindow.ui" line="730"/>
         <source>Url To Download</source>
         <translation>İndirilecek URL</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="315"/>
+        <location filename="../src/mainwindow.ui" line="305"/>
         <source>Add Url To List</source>
         <translation>Listeye URL Ekle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="402"/>
+        <location filename="../src/mainwindow.ui" line="453"/>
         <source>Download Multiple Urls From A File</source>
         <translation>Bir Dosyadan Birden Fazla URL İndirin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="440"/>
+        <location filename="../src/mainwindow.ui" line="491"/>
         <source>Set A File That Contain Links To Be Downloaded.
 
 Each Link Should Be In Its Own Line.</source>
@@ -122,112 +129,107 @@ Each Link Should Be In Its Own Line.</source>
 Her Link Kendi Satırında Olmalıdır.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="494"/>
+        <location filename="../src/mainwindow.ui" line="545"/>
         <source>Enter File Path:</source>
         <translation>Dosya Yolunu Girin:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="537"/>
+        <location filename="../src/mainwindow.ui" line="588"/>
         <source>Playlist Downloader</source>
         <translation>Oynatma Listesi İndirici</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="562"/>
+        <location filename="../src/mainwindow.ui" line="613"/>
         <source>Download Range:</source>
         <translation>İndirme Aralığı:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="646"/>
+        <location filename="../src/mainwindow.ui" line="697"/>
         <source>Enter Playlist URL:</source>
         <translation>Oynatma Listesi URL&apos;sini Girin:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="744"/>
+        <location filename="../src/mainwindow.ui" line="805"/>
         <source>Configure</source>
         <translation>Yapılandır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="760"/>
+        <location filename="../src/mainwindow.ui" line="821"/>
         <source>General Options</source>
         <translation>Genel Ayarlar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="924"/>
+        <location filename="../src/mainwindow.ui" line="985"/>
         <source>Batch Download Concurrently</source>
         <translation>Aynı Anda Toplu İndirme</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="947"/>
+        <location filename="../src/mainwindow.ui" line="1008"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maksimum Güncel İndirme</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="966"/>
+        <location filename="../src/mainwindow.ui" line="1027"/>
         <source>Use System Executables If Available</source>
         <translation>Varsa Sistem Yürütülebilir Dosyalarını Kullanın</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="989"/>
+        <location filename="../src/mainwindow.ui" line="1050"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1023"/>
+        <location filename="../src/mainwindow.ui" line="1084"/>
         <source>Reset Option To Its Default</source>
         <translation>Seçeneği Varsayılanına Sıfırla</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1026"/>
+        <location filename="../src/mainwindow.ui" line="1087"/>
         <source>Set Defaults</source>
         <translation>Varsayılanları Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="892"/>
+        <location filename="../src/mainwindow.ui" line="953"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Ölçek Faktörü (Yeniden Başlatılması Gerekiyor)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1001"/>
+        <location filename="../src/mainwindow.ui" line="1062"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="847"/>
+        <location filename="../src/mainwindow.ui" line="908"/>
         <source>Download Path</source>
         <translation>İndirme Yolu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="732"/>
-        <source>Functionality is disabled because configured backend does not support downloading playlists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="795"/>
+        <location filename="../src/mainwindow.ui" line="856"/>
         <source>Select Language</source>
         <translation>Dil Seçin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="866"/>
+        <location filename="../src/mainwindow.ui" line="927"/>
         <source>Update</source>
         <translation>Güncelle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="814"/>
+        <location filename="../src/mainwindow.ui" line="875"/>
         <source>Show Version Info When Starting</source>
         <translation>Başlarken Sürüm Bilgisini Göster</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="911"/>
+        <location filename="../src/mainwindow.ui" line="972"/>
         <source>Add a Plugin</source>
         <translation>Eklenti Ekle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="879"/>
+        <location filename="../src/mainwindow.ui" line="940"/>
         <source>Remove A Plugin</source>
         <translation>Bir Eklentiyi Kaldır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1047"/>
+        <location filename="../src/mainwindow.ui" line="1108"/>
         <source>About</source>
         <translation>Hakkında</translation>
     </message>
@@ -459,23 +461,23 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="192"/>
-        <location filename="../src/basicdownloader.cpp" line="321"/>
+        <location filename="../src/basicdownloader.cpp" line="202"/>
+        <location filename="../src/basicdownloader.cpp" line="337"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Sürüm bilgisi bulunamadı, &quot;%1&quot; yüklendiğinden ve düzgün çalıştığından emin olun</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="302"/>
+        <location filename="../src/basicdownloader.cpp" line="317"/>
         <source>Checking installed version of</source>
         <translation>Yüklü sürümü kontrol ediliyor</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="327"/>
+        <location filename="../src/basicdownloader.cpp" line="343"/>
         <source>Found version</source>
         <translation>Bulunan sürüm</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="331"/>
+        <location filename="../src/basicdownloader.cpp" line="347"/>
         <source>Executable Path</source>
         <translation>Yürütülebilir Yol</translation>
     </message>
@@ -483,7 +485,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="67"/>
+        <location filename="../src/batchdownloader.cpp" line="77"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>

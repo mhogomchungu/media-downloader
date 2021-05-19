@@ -171,6 +171,8 @@ public:
 	QString commandOnSuccessfulDownload() ;
 	QString commandWhenAllFinished() ;
 	QString darkMode() ;
+	QString playlistDownloaderDefaultEngine() ;
+	QString batchDownloaderDefaultEngine() ;
 
 	enum class tabName{ basic,batch,playlist } ;
 
@@ -202,6 +204,8 @@ public:
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setDarkMode( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
+	void setPlaylistDownloaderDefaultEngine( const QString& ) ;
+	void setBatchDownloaderDefaultEngine( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setDefaultEngine( const QString& ) ;
 	void setLastUsedOption( const QString&,settings::tabName ) ;

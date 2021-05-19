@@ -15,53 +15,53 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="53"/>
-        <location filename="../src/mainwindow.ui" line="396"/>
-        <location filename="../src/mainwindow.ui" line="716"/>
+        <location filename="../src/mainwindow.ui" line="357"/>
+        <location filename="../src/mainwindow.ui" line="767"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="66"/>
-        <location filename="../src/mainwindow.ui" line="703"/>
+        <location filename="../src/mainwindow.ui" line="754"/>
         <source>Get List</source>
         <translation>Pobierz listę</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
-        <location filename="../src/mainwindow.ui" line="286"/>
+        <location filename="../src/mainwindow.ui" line="402"/>
         <source>Enter URL:</source>
         <translation>Adres wideo:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="341"/>
-        <location filename="../src/mainwindow.ui" line="513"/>
-        <location filename="../src/mainwindow.ui" line="604"/>
+        <location filename="../src/mainwindow.ui" line="383"/>
+        <location filename="../src/mainwindow.ui" line="564"/>
+        <location filename="../src/mainwindow.ui" line="655"/>
         <source>Enter Options:</source>
         <translation>Opcje pobierania:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
-        <location filename="../src/mainwindow.ui" line="328"/>
-        <location filename="../src/mainwindow.ui" line="414"/>
-        <location filename="../src/mainwindow.ui" line="581"/>
+        <location filename="../src/mainwindow.ui" line="318"/>
+        <location filename="../src/mainwindow.ui" line="465"/>
+        <location filename="../src/mainwindow.ui" line="632"/>
         <source>Download</source>
         <translation>Pobierz</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="150"/>
-        <location filename="../src/mainwindow.ui" line="370"/>
-        <location filename="../src/mainwindow.ui" line="481"/>
-        <location filename="../src/mainwindow.ui" line="549"/>
+        <location filename="../src/mainwindow.ui" line="331"/>
+        <location filename="../src/mainwindow.ui" line="532"/>
+        <location filename="../src/mainwindow.ui" line="600"/>
         <source>Options</source>
         <translation>Opcje</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="163"/>
-        <location filename="../src/mainwindow.ui" line="383"/>
-        <location filename="../src/mainwindow.ui" line="427"/>
-        <location filename="../src/mainwindow.ui" line="633"/>
-        <location filename="../src/mainwindow.ui" line="1041"/>
+        <location filename="../src/mainwindow.ui" line="344"/>
+        <location filename="../src/mainwindow.ui" line="478"/>
+        <location filename="../src/mainwindow.ui" line="684"/>
+        <location filename="../src/mainwindow.ui" line="1102"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
@@ -87,33 +87,40 @@
         <translation>uwagi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="224"/>
+        <location filename="../src/mainwindow.ui" line="231"/>
+        <location filename="../src/mainwindow.ui" line="441"/>
+        <location filename="../src/mainwindow.ui" line="793"/>
+        <source>Engine Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="243"/>
         <source>Batch Downloader</source>
         <translation>Pobieranie masowe</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="240"/>
+        <location filename="../src/mainwindow.ui" line="259"/>
         <source>Download Multiple Urls</source>
         <translation>Pobierz wiele plików</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="262"/>
-        <location filename="../src/mainwindow.ui" line="679"/>
+        <location filename="../src/mainwindow.ui" line="281"/>
+        <location filename="../src/mainwindow.ui" line="730"/>
         <source>Url To Download</source>
         <translation>Adres pliku wideo</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="315"/>
+        <location filename="../src/mainwindow.ui" line="305"/>
         <source>Add Url To List</source>
         <translation>Dodaj adres do listy</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="402"/>
+        <location filename="../src/mainwindow.ui" line="453"/>
         <source>Download Multiple Urls From A File</source>
         <translation>Pobierz wiele plików z listy</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="440"/>
+        <location filename="../src/mainwindow.ui" line="491"/>
         <source>Set A File That Contain Links To Be Downloaded.
 
 Each Link Should Be In Its Own Line.</source>
@@ -122,112 +129,107 @@ Each Link Should Be In Its Own Line.</source>
 Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="494"/>
+        <location filename="../src/mainwindow.ui" line="545"/>
         <source>Enter File Path:</source>
         <translation>Scieżka do pliku:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="537"/>
+        <location filename="../src/mainwindow.ui" line="588"/>
         <source>Playlist Downloader</source>
         <translation>Pobieranie playlisty</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="562"/>
+        <location filename="../src/mainwindow.ui" line="613"/>
         <source>Download Range:</source>
         <translation>Zakres:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="646"/>
+        <location filename="../src/mainwindow.ui" line="697"/>
         <source>Enter Playlist URL:</source>
         <translation>podaj adres playlisty:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="744"/>
+        <location filename="../src/mainwindow.ui" line="805"/>
         <source>Configure</source>
         <translation>Konfiguracja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="760"/>
+        <location filename="../src/mainwindow.ui" line="821"/>
         <source>General Options</source>
         <translation>Opcje ogólne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="924"/>
+        <location filename="../src/mainwindow.ui" line="985"/>
         <source>Batch Download Concurrently</source>
         <translation>Pobieraj pliki równolegle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="947"/>
+        <location filename="../src/mainwindow.ui" line="1008"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maksymalna liczba plików pobieranych rownolegle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="966"/>
+        <location filename="../src/mainwindow.ui" line="1027"/>
         <source>Use System Executables If Available</source>
         <translation>Używaj systemowych aplikacji, jeśli są dostępne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="989"/>
+        <location filename="../src/mainwindow.ui" line="1050"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1023"/>
+        <location filename="../src/mainwindow.ui" line="1084"/>
         <source>Reset Option To Its Default</source>
         <translation>Ustawienia domyślne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1026"/>
+        <location filename="../src/mainwindow.ui" line="1087"/>
         <source>Set Defaults</source>
         <translation>Ustaw domyślne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="892"/>
+        <location filename="../src/mainwindow.ui" line="953"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Skala interfejsu aplikacji (wymaga restartu)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1001"/>
+        <location filename="../src/mainwindow.ui" line="1062"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="847"/>
+        <location filename="../src/mainwindow.ui" line="908"/>
         <source>Download Path</source>
         <translation>Katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="732"/>
-        <source>Functionality is disabled because configured backend does not support downloading playlists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="795"/>
+        <location filename="../src/mainwindow.ui" line="856"/>
         <source>Select Language</source>
         <translation>Wybierz język</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="866"/>
+        <location filename="../src/mainwindow.ui" line="927"/>
         <source>Update</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="814"/>
+        <location filename="../src/mainwindow.ui" line="875"/>
         <source>Show Version Info When Starting</source>
         <translation>Pokaż informacje nt wersji przy uruchamianiu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="911"/>
+        <location filename="../src/mainwindow.ui" line="972"/>
         <source>Add a Plugin</source>
         <translation>Dodaj wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="879"/>
+        <location filename="../src/mainwindow.ui" line="940"/>
         <source>Remove A Plugin</source>
         <translation>Usuń wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1047"/>
+        <location filename="../src/mainwindow.ui" line="1108"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
@@ -459,23 +461,23 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="192"/>
-        <location filename="../src/basicdownloader.cpp" line="321"/>
+        <location filename="../src/basicdownloader.cpp" line="202"/>
+        <location filename="../src/basicdownloader.cpp" line="337"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="302"/>
+        <location filename="../src/basicdownloader.cpp" line="317"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="327"/>
+        <location filename="../src/basicdownloader.cpp" line="343"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="331"/>
+        <location filename="../src/basicdownloader.cpp" line="347"/>
         <source>Executable Path</source>
         <translation>Ścieżka aplikacji</translation>
     </message>
@@ -483,7 +485,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="67"/>
+        <location filename="../src/batchdownloader.cpp" line="77"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>

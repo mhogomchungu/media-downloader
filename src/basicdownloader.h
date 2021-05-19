@@ -46,6 +46,8 @@ public:
 	void retranslateUi() ;
 	void checkAndPrintInstalledVersion( const engines::engine& ) ;
 	void printEngineVersionInfo() ;
+	void changeDefaultEngine( int index ) ;
+	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;
 	basicdownloader& hideTableList() ;
 private:

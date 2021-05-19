@@ -101,25 +101,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	connect( m_ui.cbEngineType,s,[ & ]( int s ){
 
-		auto& engines = m_ctx.Engines() ;
-
-		const auto& engine = engines.getEngineByName( m_ui.cbEngineType->itemText( s ) ) ;
-
-		if( engine ){
-
-			engines.setDefaultEngine( engine.value() ) ;
-
-			this->setDefaultEngine() ;
-
-			if( engine->canDownloadPlaylist() ){
-
-				m_ctx.TabManager().playlistDownloader().enableAll() ;
-			}else{
-				m_ctx.TabManager().playlistDownloader().disableAll() ;
-			}
-		}else{
-			m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
-		}
+		this->changeDefaultEngine( s ) ;
 	} ) ;
 
 	m_bogusTable.insertRow( 0 ) ;
@@ -172,6 +154,34 @@ void basicdownloader::printEngineVersionInfo()
 
 		this->printEngineVersionInfo( engine ) ;
 	}
+}
+
+void basicdownloader::changeDefaultEngine( int s )
+{
+	auto& engines = m_ctx.Engines() ;
+
+	const auto& engine = engines.getEngineByName( m_ui.cbEngineType->itemText( s ) ) ;
+
+	if( engine ){
+
+		engines.setDefaultEngine( engine.value() ) ;
+
+		this->setDefaultEngine() ;
+	}else{
+		m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
+	}
+}
+
+QStringList basicdownloader::enginesList()
+{
+	QStringList m ;
+
+	for( int s = 0 ; s < m_ui.cbEngineType->count() ; s++ ){
+
+		m.append( m_ui.cbEngineType->itemText( s ) ) ;
+	}
+
+	return m ;
 }
 
 void basicdownloader::printEngineVersionInfo( const engines::engine& engine )
@@ -248,6 +258,9 @@ void basicdownloader::setDefaultEngine()
 
 			m_ui.cbEngineType->setCurrentIndex( i ) ;
 
+			m_ctx.TabManager().batchDownloader().updateEnginesList( this->enginesList() ) ;
+			m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
+
 			const auto& s = m_ctx.Engines().getEngineByName( m ) ;
 
 			if( s ){
@@ -261,6 +274,8 @@ void basicdownloader::setDefaultEngine()
 
 	m_settings.setDefaultEngine( m_ui.cbEngineType->itemText( 0 ) ) ;
 	m_ui.cbEngineType->setCurrentIndex( 0 ) ;
+	m_ctx.TabManager().batchDownloader().updateEnginesList( this->enginesList() ) ;
+	m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
 }
 
 void basicdownloader::tabManagerEnableAll( bool e )
@@ -314,6 +329,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 					m_ui.cbEngineType->removeItem( i ) ;
 
 					this->setDefaultEngine() ;
+
 					break ;
 				}
 			}
@@ -535,6 +551,7 @@ void basicdownloader::enableAll()
 	m_ui.lineEditURL->setEnabled( true ) ;
 	m_ui.lineEditOptions->setEnabled( true ) ;
 	m_ui.pbQuit->setEnabled( true ) ;
+	m_ui.labelEngineName->setEnabled( true ) ;
 }
 
 void basicdownloader::disableAll()
@@ -542,6 +559,7 @@ void basicdownloader::disableAll()
 	m_ui.cbEngineType->setEnabled( false ) ;
 	m_ui.pbQuit->setEnabled( false ) ;
 	m_ui.pbEntries->setEnabled( false ) ;
+	m_ui.labelEngineName->setEnabled( false ) ;
 	m_ui.label_2->setEnabled( false ) ;
 	m_ui.label->setEnabled( false ) ;
 	m_ui.pbList->setEnabled( false ) ;

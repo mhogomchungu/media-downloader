@@ -46,6 +46,16 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	this->resetMenu() ;
 
+	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
+
+	connect( m_ui.cbEngineTypeBD,s,[ & ]( int s ){
+
+		if( s != -1 ){
+
+			m_settings.setBatchDownloaderDefaultEngine( m_ui.cbEngineTypeBD->itemText( s ) ) ;
+		}
+	} ) ;
+
 	connect( m_ui.tabWidgetBatchDownlader,&QTabWidget::currentChanged,[ this ]( int s ){
 
 		if( s == 0 ){
@@ -98,7 +108,14 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
 
-		this->download( m_ctx.Engines().defaultEngine() ) ;
+		auto m = m_ui.cbEngineTypeBD->currentText() ;
+
+		const auto& e = m_ctx.Engines().getEngineByName( m ) ;
+
+		if( e ){
+
+			this->download( e.value() ) ;
+		}
 	} ) ;
 }
 
@@ -143,6 +160,22 @@ void batchdownloader::tabEntered()
 
 void batchdownloader::tabExited()
 {
+}
+
+void batchdownloader::updateEnginesList( const QStringList& e )
+{
+	auto& comboBox = *m_ui.cbEngineTypeBD ;
+
+	comboBox.clear() ;
+
+	for( const auto& it : e ){
+
+		comboBox.addItem( it ) ;
+	}
+
+	this->setUpdefaultEngine( comboBox,
+				  m_settings.batchDownloaderDefaultEngine(),
+				  [ this ]( const QString& e ){ m_settings.setBatchDownloaderDefaultEngine( e ) ; } ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,
@@ -332,12 +365,15 @@ void batchdownloader::enableAll()
 	m_ui.lineEditBDUrl->setEnabled( true ) ;
 	m_ui.lineEditBDUrlOptions->setEnabled( true ) ;
 	m_ui.pbBDCancel->setEnabled( true ) ;
+	m_ui.labelBDEngineName->setEnabled( true ) ;
+	m_ui.cbEngineTypeBD->setEnabled( true ) ;
 }
 
 void batchdownloader::disableAll()
 {
 	m_running = true ;
-
+	m_ui.cbEngineTypeBD->setEnabled( false ) ;
+	m_ui.labelBDEngineName->setEnabled( false ) ;
 	m_ui.pbBDCancel->setEnabled( false ) ;
 	m_ui.tableWidgetBD->setEnabled( false ) ;
 	m_ui.pbBDDownload->setEnabled( false ) ;

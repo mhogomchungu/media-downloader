@@ -41,6 +41,16 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_ui.tableWidgetPl->hideColumn( 1 ) ;
 	m_ui.tableWidgetPl->hideColumn( 2 ) ;
 
+	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
+
+	connect( m_ui.cbEngineTypePD,s,[ & ]( int s ){
+
+		if( s != -1 ){
+
+			m_settings.setPlaylistDownloaderDefaultEngine( m_ui.cbEngineTypePD->itemText( s ) ) ;
+		}
+	} ) ;
+
 	connect( m_ui.pbPLCancel,&QPushButton::clicked,[ this ](){
 
 		m_ccmd.cancelled() ;
@@ -64,19 +74,10 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 void playlistdownloader::init_done()
 {
-	if( !m_ctx.Engines().defaultEngine().canDownloadPlaylist() ){
-
-		this->disableAll() ;
-	}
 }
 
 void playlistdownloader::enableAll()
 {
-	if( !m_ctx.Engines().defaultEngine().canDownloadPlaylist() ){
-
-		return ;
-	}
-
 	m_ui.lineEditPLUrl->setEnabled( true ) ;
 	m_ui.labelPLEnterOptions->setEnabled( true ) ;
 	m_ui.labelPLEnterUrlRange->setEnabled( true ) ;
@@ -89,10 +90,14 @@ void playlistdownloader::enableAll()
 	m_ui.labelPLEnterUrl->setEnabled( true ) ;
 	m_ui.pbPLCancel->setEnabled( true ) ;
 	m_ui.pbPLGetList->setEnabled( true ) ;
+	m_ui.labelPLEngineName->setEnabled( true ) ;
+	m_ui.cbEngineTypePD->setEnabled( true ) ;
 }
 
 void playlistdownloader::disableAll()
 {
+	m_ui.cbEngineTypePD->setEnabled( false ) ;
+	m_ui.labelPLEngineName->setEnabled( false ) ;
 	m_ui.pbPLGetList->setEnabled( false ) ;
 	m_ui.pbPLCancel->setEnabled( false ) ;
 	m_ui.lineEditPLUrl->setEnabled( false ) ;
@@ -139,8 +144,6 @@ void playlistdownloader::retranslateUi()
 
 void playlistdownloader::tabEntered()
 {
-	m_ui.labelPLFunctionalityDisabled->setVisible( !m_ctx.Engines().defaultEngine().canDownloadPlaylist() ) ;
-
 	if( !m_running ){
 
 		m_ui.pbPLOptions->setEnabled( m_ui.tableWidgetPl->rowCount() > 0 ) ;
@@ -154,13 +157,48 @@ void playlistdownloader::tabExited()
 	m_ui.lineEditPLUrlOptions->setText( m_settings.lastUsedOption( settings::tabName::playlist ) ) ;
 }
 
+void playlistdownloader::updateEnginesList( const QStringList& e )
+{
+	auto& comboBox = *m_ui.cbEngineTypePD ;
+
+	comboBox.clear() ;
+
+	for( const auto& it : e ){
+
+		const auto& engine = m_ctx.Engines().getEngineByName( it ) ;
+
+		if( engine ){
+
+			if( engine->canDownloadPlaylist() ){
+
+				const auto& r = engine->name() ;
+
+				comboBox.addItem( r ) ;
+			}
+		}
+	}
+
+	auto &m = m_ctx.TabManager().batchDownloader() ;
+
+	m.setUpdefaultEngine( comboBox,
+			      m_settings.playlistDownloaderDefaultEngine(),
+			      [ this ]( const QString& e ){ m_settings.setPlaylistDownloaderDefaultEngine( e ) ; } ) ;
+}
+
 void playlistdownloader::download()
 {
 	m_running = true ;
 
 	m_settings.setLastUsedOption( m_ui.lineEditPLUrlOptions->text(),settings::tabName::playlist ) ;
 
-	this->download( m_ctx.Engines().defaultEngine() ) ;
+	auto m = m_ui.cbEngineTypePD->currentText() ;
+
+	const auto& e = m_ctx.Engines().getEngineByName( m ) ;
+
+	if( e ){
+
+		this->download( e.value() ) ;
+	}
 }
 
 void playlistdownloader::download( const engines::engine& engine )

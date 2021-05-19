@@ -34,6 +34,28 @@ class batchdownloader : public QObject
 {
 	Q_OBJECT
 public:
+	template< typename Function >
+	void setUpdefaultEngine( QComboBox& comboBox,
+				 const QString& defaulEngine,
+				 Function function )
+	{
+		for( int s = 0 ; s < comboBox.count() ; s++ ){
+
+			if( comboBox.itemText( s ) == defaulEngine ){
+
+				comboBox.setCurrentIndex( s ) ;
+
+				return ;
+			}
+		}
+
+		if( comboBox.count() > 0 ){
+
+			comboBox.setCurrentIndex( 0 ) ;
+			function( comboBox.itemText( 0 ) ) ;
+		}
+	}
+
 	batchdownloader( const Context& ) ;
 	void init_done() ;
 	void enableAll() ;
@@ -42,6 +64,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void updateEnginesList( const QStringList& ) ;
 	void download( const engines::engine&,
 		       const QString& opts,
 		       const QStringList&,

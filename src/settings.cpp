@@ -360,6 +360,36 @@ void settings::setHighDpiScalingFactor( const QString& m )
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;
 }
 
+QString settings::playlistDownloaderDefaultEngine()
+{
+	if( !m_settings.contains( "PlaylistDownloaderDefaultEngine" ) ){
+
+		m_settings.setValue( "PlaylistDownloaderDefaultEngine","youtube-dl" ) ;
+	}
+
+	return m_settings.value( "PlaylistDownloaderDefaultEngine" ).toString() ;
+}
+
+QString settings::batchDownloaderDefaultEngine()
+{
+	if( !m_settings.contains( "BatchDownloaderDefaultEngine" ) ){
+
+		m_settings.setValue( "BatchDownloaderDefaultEngine","youtube-dl" ) ;
+	}
+
+	return m_settings.value( "BatchDownloaderDefaultEngine" ).toString() ;
+}
+
+void settings::setPlaylistDownloaderDefaultEngine( const QString& e )
+{
+	m_settings.setValue( "PlaylistDownloaderDefaultEngine",e ) ;
+}
+
+void settings::setBatchDownloaderDefaultEngine( const QString& e )
+{
+	m_settings.setValue( "BatchDownloaderDefaultEngine",e ) ;
+}
+
 QByteArray settings::highDpiScalingFactor()
 {
 	if( !m_settings.contains( "EnabledHighDpiScalingFactor" ) ){

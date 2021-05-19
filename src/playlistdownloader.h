@@ -39,6 +39,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void updateEnginesList( const QStringList& ) ;
 private:
 	void download() ;
 	void download( const engines::engine& ) ;
