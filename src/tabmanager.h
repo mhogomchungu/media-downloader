@@ -37,9 +37,10 @@ public:
 		    Logger& l,
 		    Ui::MainWindow& m,
 		    QWidget& w,
-		    MainWindow& mw ) :
+		    MainWindow& mw,
+		    bool debug ) :
 		m_currentTab( s.tabNumber() ),
-		m_ctx( s,t,m,w,mw,l,e,*this ),
+		m_ctx( s,t,m,w,mw,l,e,*this,debug ),
 		m_about( m_ctx ),
 		m_configure( m_ctx ),
 		m_basicdownloader( m_ctx ),

@@ -27,22 +27,3 @@ generic::~generic()
 {
 }
 
-void generic::updateDownLoadCmdOptions( const engines::engine& engine,
-					const QString& quality,
-					const QStringList& userOptions,
-					QStringList& urls,
-					QStringList& ourOptions )
-{
-	Q_UNUSED( userOptions )
-	Q_UNUSED( urls )
-
-	if( !engine.optionsArgument().isEmpty() ){
-
-		ourOptions.append( engine.optionsArgument() ) ;
-	}
-
-	if( !quality.isEmpty() ){
-
-		ourOptions.append( quality ) ;
-	}
-}

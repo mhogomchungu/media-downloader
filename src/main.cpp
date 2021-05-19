@@ -41,6 +41,8 @@ int main( int argc,char * argv[] )
 
 	app.setApplicationName( "media-downloader" ) ;
 
+	settings.setTheme( app ) ;
+
 	translator translator( settings,app ) ;
 
 	return MainWindow( app,settings,translator ).exec() ;

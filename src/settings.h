@@ -24,6 +24,7 @@
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
+#include <QComboBox>
 
 #include <vector>
 #include <memory>
@@ -31,10 +32,131 @@
 #include <QStandardPaths>
 
 class Logger ;
+class QApplication ;
 
 class settings
 {
 public:
+	class darkModes
+	{
+	public:
+		darkModes()
+		{
+		}
+		darkModes( const QString& m ) : m_theme( m )
+		{
+		}
+		QStringList typesUntranslated() const
+		{
+			QStringList m ;
+
+			for( const auto& it : m_strings ){
+
+				m.append( it.untranslated ) ;
+			}
+
+			return m ;
+		}
+		QStringList typesTranslated() const
+		{
+			QStringList m ;
+
+			for( const auto& it : m_strings ){
+
+				m.append( it.translated ) ;
+			}
+
+			return m ;
+		}
+		const QString& translatedAt( int s ) const
+		{
+			return m_strings[ static_cast< size_t >( s ) ].translated ;
+		}
+		const QString& unTranslatedAt( int s ) const
+		{
+			return m_strings[ static_cast< size_t >( s ) ].untranslated ;
+		}
+		int translatedIndexAt( const QString& e ) const
+		{
+			for( size_t i = 0 ; i < m_strings.size() ; i++ ){
+
+				if( m_strings[ i ].translated == e ){
+
+					return static_cast< int >( i ) ;
+				}
+			}
+
+			return 0 ;
+		}
+		int unTranslatedIndexAt( const QString& e ) const
+		{
+			for( size_t i = 0 ; i < m_strings.size() ; i++ ){
+
+				if( m_strings[ i ].untranslated == e ){
+
+					return static_cast< int >( i ) ;
+				}
+			}
+
+			return 0 ;
+		}
+		bool fusionTheme() const
+		{
+			return m_theme == "Dark Theme 1" ;
+		}
+		bool darkModeIsSet() const
+		{
+			return this->unTranslatedAt( 0 ) != m_theme ;
+		}
+		QString themeFileName() const
+		{
+			if( m_theme == "Dark Theme 2" ){
+
+				return ":dark.qss" ;
+
+			}else if( m_theme == "Dark Theme 3" ){
+
+				return ":qdarkstyle/dark/style.qss" ;
+			}else{
+				return QString() ;
+			}
+		}
+		void setComboBox( QComboBox& cb,const QString& dm ) const
+		{
+			cb.clear() ;
+
+			cb.addItems( this->typesTranslated() ) ;
+
+			cb.setCurrentIndex( this->unTranslatedIndexAt( dm ) ) ;
+		}
+	private:
+		int indexAt( const QString& e,const QStringList& s ) const
+		{
+			for( int i = 0 ; i < s.size() ; i++ ){
+
+				if( s[ i ] == e ){
+
+					return i ;
+				}
+			}
+
+			return 0 ;
+		}
+
+		QString m_theme ;
+
+		struct Pair{
+			QString untranslated ;
+			QString translated ;
+		};
+
+		std::vector<Pair> m_strings{ { "Normal",QObject::tr( "Normal" ) },
+					     { "Dark Theme 1",QObject::tr( "Dark Theme 1" ) },
+					     { "Dark Theme 2",QObject::tr( "Dark Theme 2" ) },
+					     { "Dark Theme 3",QObject::tr( "Dark Theme 3" ) },
+					   } ;
+	} ;
+
 	settings() ;
 
 	int tabNumber() ;
@@ -44,9 +166,17 @@ public:
 	QString downloadFolder( Logger& ) ;
 	QString presetOptions() ;
 	QString defaultEngine() ;
-
 	QString localizationLanguagePath() ;
 	QString localizationLanguage() ;
+	QString commandOnSuccessfulDownload() ;
+	QString commandWhenAllFinished() ;
+	QString darkMode() ;
+	QString playlistDownloaderDefaultEngine() ;
+	QString batchDownloaderDefaultEngine() ;
+
+	enum class tabName{ basic,batch,playlist } ;
+
+	QString lastUsedOption( settings::tabName ) ;
 
 	QStringList presetOptionsList() ;
 	QStringList localizationLanguages() ;
@@ -66,14 +196,19 @@ public:
 	bool useSystemProvidedVersionIfAvailable() ;
 	bool doNotGetUrlTitle() ;
 
+	void setTheme( QApplication& ) ;
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
 	void setConcurrentDownloading( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
+	void setDarkMode( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
+	void setPlaylistDownloaderDefaultEngine( const QString& ) ;
+	void setBatchDownloaderDefaultEngine( const QString& ) ;
 	void setPresetOptions( const QString& ) ;
 	void setDefaultEngine( const QString& ) ;
+	void setLastUsedOption( const QString&,settings::tabName ) ;
 	void setPresetOptions( const QStringList& ) ;
 	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;

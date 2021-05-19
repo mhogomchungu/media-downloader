@@ -31,6 +31,7 @@
 
 #include "context.hpp"
 #include "settings.h"
+#include "engines.h"
 
 class basicdownloader ;
 

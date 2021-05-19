@@ -32,41 +32,33 @@ public:
 	class Data
 	{
 	public:
-		bool isEmpty()
-		{
-			return m_lines.empty() ;
-		}
 		bool isEmpty() const
 		{
 			return m_lines.empty() ;
-		}
-		bool isNotEmpty()
-		{
-			return !this->isEmpty() ;
 		}
 		bool isNotEmpty() const
 		{
 			return !this->isEmpty() ;
 		}
-		size_t size()
-		{
-			return m_lines.size() ;
-		}
 		size_t size() const
 		{
 			return m_lines.size() ;
 		}
-		const QString& secondFromLast()
+		const QString& operator[]( size_t s ) const
 		{
-			return m_lines[ m_lines.size() - 2 ].text() ;
+			return m_lines[ s ].text() ;
+		}
+		template< typename Function >
+		void forEach( Function function ) const
+		{
+			for( const auto& it : m_lines ){
+
+				function( it.id(),it.text() ) ;
+			}
 		}
 		const QString& secondFromLast() const
 		{
 			return m_lines[ m_lines.size() - 2 ].text() ;
-		}
-		const QString& lastText()
-		{
-			return m_lines[ m_lines.size() - 1 ].text() ;
 		}
 		const QString& lastText() const
 		{
@@ -76,7 +68,10 @@ public:
 		{
 			m_lines.clear() ;
 		}
-		QString toString()
+
+		QStringList toStringList() const ;
+
+		QString toString() const
 		{
 			if( this->isNotEmpty() ){
 
@@ -294,7 +289,7 @@ private:
 		if( m_lines.isNotEmpty() ){
 
 			auto& function = *m_function ;
-			m_tableWidgetItem.setText( function( m_engine,m_lines.lastText() ) ) ;
+			m_tableWidgetItem.setText( function( m_engine,m_lines ) ) ;
 		}
 	}
 	QTableWidgetItem& m_tableWidgetItem ;
@@ -315,6 +310,7 @@ static auto make_loggerBatchDownloader( Function function,
 	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,logger,item,id ) ;
 }
 
+template< typename AddToTable >
 class loggerPlaylistDownloader
 {
 public:
@@ -322,12 +318,14 @@ public:
 				  const QFont& f,
 				  Logger& logger,
 				  const QString& u,
-				  int id ) :
+				  int id,
+				  AddToTable add ) :
 		m_table( t ),
 		m_font( f ),
 		m_logger( logger ),
 		m_urlPrefix( u ),
-		m_id( id )
+		m_id( id ),
+		m_addToTable( std::move( add ) )
 	{
 		this->clear() ;
 	}
@@ -361,21 +359,11 @@ private:
 
 		if( s > 0 && s % 2 == 0 ){
 
-			auto row = m_table.rowCount() ;
-
-			m_table.insertRow( row ) ;
-
-			auto item = new QTableWidgetItem() ;
-
 			auto a = m_urlPrefix + m_lines.lastText() ;
 			auto b = m_lines.secondFromLast() ;
+			auto c = a + "\n" + b ;
 
-			item->setText( a + "\n" + b ) ;
-
-			item->setTextAlignment( Qt::AlignCenter ) ;
-			item->setFont( m_font ) ;
-
-			m_table.setItem( row,0,item ) ;
+			m_addToTable( m_table,c,m_font ) ;
 		}
 	}
 private:
@@ -385,6 +373,17 @@ private:
 	const QString& m_urlPrefix ;
 	Logger::Data m_lines ;
 	int m_id ;
+	AddToTable m_addToTable ;
 };
 
+template< typename AddToTable >
+auto make_loggerPlaylistDownloader( QTableWidget& t,
+				    const QFont& f,
+				    Logger& logger,
+				    const QString& u,
+				    int id,
+				    AddToTable add )
+{
+	return loggerPlaylistDownloader< AddToTable >( t,f,logger,u,id,std::move( add ) ) ;
+}
 #endif

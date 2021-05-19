@@ -24,6 +24,9 @@
 #include "logger.h"
 
 #include <QDir>
+#include <QApplication>
+#include <QFile>
+#include <QStyleFactory>
 
 bool settings::portableVersion()
 {
@@ -41,6 +44,21 @@ bool settings::portableVersion()
 QString settings::portableVersionConfigPath()
 {
 	return QDir::currentPath() + "/local" ;
+}
+
+QString settings::darkMode()
+{
+	if( !m_settings.contains( "DarkModeName" ) ){
+
+		m_settings.setValue( "DarkModeName",settings::darkModes().unTranslatedAt( 0 ) ) ;
+	}
+
+	return m_settings.value( "DarkModeName" ).toString() ;
+}
+
+void settings::setDarkMode( const QString& e )
+{
+	m_settings.setValue( "DarkModeName",e ) ;
 }
 
 static std::unique_ptr< QSettings > _init()
@@ -282,6 +300,46 @@ bool settings::doNotGetUrlTitle()
 	return m_settings.value( "DoNotGetURLTitle" ).toBool() ;
 }
 
+void settings::setTheme( QApplication& app )
+{
+	settings::darkModes darkModes( this->darkMode() ) ;
+
+	if( darkModes.darkModeIsSet() ){
+
+		if( darkModes.fusionTheme() ){
+
+			app.setStyle( QStyleFactory::create( "Fusion" ) ) ;
+			QPalette darkPalette ;
+			QColor darkColor = QColor( 45,45,45 ) ;
+			QColor disabledColor = QColor( 127,127,127 ) ;
+			darkPalette.setColor( QPalette::Window,darkColor ) ;
+			darkPalette.setColor( QPalette::WindowText,Qt::white ) ;
+			darkPalette.setColor( QPalette::Base,QColor( 18,18,18 ) ) ;
+			darkPalette.setColor( QPalette::AlternateBase,darkColor ) ;
+			darkPalette.setColor( QPalette::ToolTipBase,Qt::white ) ;
+			darkPalette.setColor( QPalette::ToolTipText,Qt::white ) ;
+			darkPalette.setColor( QPalette::Text,Qt::white ) ;
+			darkPalette.setColor( QPalette::Disabled,QPalette::Text,disabledColor ) ;
+			darkPalette.setColor( QPalette::Button,darkColor ) ;
+			darkPalette.setColor( QPalette::ButtonText,Qt::white ) ;
+			darkPalette.setColor( QPalette::Disabled,QPalette::ButtonText,disabledColor ) ;
+			darkPalette.setColor( QPalette::BrightText,Qt::red) ;
+			darkPalette.setColor( QPalette::Link,QColor( 42,130,218 ) ) ;
+			darkPalette.setColor( QPalette::Highlight,QColor( 42,130,218 ) ) ;
+			darkPalette.setColor( QPalette::HighlightedText,Qt::black ) ;
+			darkPalette.setColor( QPalette::Disabled,QPalette::HighlightedText,disabledColor ) ;
+
+			app.setPalette( darkPalette ) ;
+
+			app.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+		}else{
+			QFile file( darkModes.themeFileName() ) ;
+			file.open( QFile::ReadOnly ) ;
+			app.setStyleSheet( file.readAll() ) ;
+		}
+	}
+}
+
 void settings::setUseSystemProvidedVersionIfAvailable( bool e )
 {
 	m_settings.setValue( "UseSystemProvidedVersionIfAvailable",e ) ;
@@ -300,6 +358,36 @@ void settings::setShowVersionInfoWhenStarting( bool e )
 void settings::setHighDpiScalingFactor( const QString& m )
 {
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;
+}
+
+QString settings::playlistDownloaderDefaultEngine()
+{
+	if( !m_settings.contains( "PlaylistDownloaderDefaultEngine" ) ){
+
+		m_settings.setValue( "PlaylistDownloaderDefaultEngine","youtube-dl" ) ;
+	}
+
+	return m_settings.value( "PlaylistDownloaderDefaultEngine" ).toString() ;
+}
+
+QString settings::batchDownloaderDefaultEngine()
+{
+	if( !m_settings.contains( "BatchDownloaderDefaultEngine" ) ){
+
+		m_settings.setValue( "BatchDownloaderDefaultEngine","youtube-dl" ) ;
+	}
+
+	return m_settings.value( "BatchDownloaderDefaultEngine" ).toString() ;
+}
+
+void settings::setPlaylistDownloaderDefaultEngine( const QString& e )
+{
+	m_settings.setValue( "PlaylistDownloaderDefaultEngine",e ) ;
+}
+
+void settings::setBatchDownloaderDefaultEngine( const QString& e )
+{
+	m_settings.setValue( "BatchDownloaderDefaultEngine",e ) ;
 }
 
 QByteArray settings::highDpiScalingFactor()
@@ -360,6 +448,61 @@ QStringList settings::configPaths()
 #else
 	return QStringList{ QDir::homePath() + "/.config/media-downloader/" } ;
 #endif
+}
+
+QString settings::commandOnSuccessfulDownload()
+{
+	if( !m_settings.contains( "CommandOnSuccessfulDownload" ) ){
+
+		m_settings.setValue( "CommandOnSuccessfulDownload",QString() ) ;
+	}
+
+	return m_settings.value( "CommandOnSuccessfulDownload" ).toString() ;
+}
+
+QString settings::commandWhenAllFinished()
+{
+	if( !m_settings.contains( "CommandWhenAllFinished" ) ){
+
+		m_settings.setValue( "CommandWhenAllFinished",QString() ) ;
+	}
+
+	return m_settings.value( "CommandWhenAllFinished" ).toString() ;
+}
+
+static QString _getTabOption( settings::tabName e )
+{
+	if( e == settings::tabName::basic ){
+
+		return "LastUsedOptionBasicTab" ;
+
+	}else if( e == settings::tabName::batch ){
+
+		return "LastUsedOptionBatchTab" ;
+
+	}else if( e == settings::tabName::playlist ){
+
+		return "LastUsedOptionPlayListTab" ;
+	}else{
+		return "" ;
+	}
+}
+
+QString settings::lastUsedOption( settings::tabName e )
+{
+	auto s = _getTabOption( e ) ;
+
+	if( !m_settings.contains( s ) ){
+
+		m_settings.setValue( s,QString() ) ;
+	}
+
+	return m_settings.value( s ).toString() ;
+}
+
+void settings::setLastUsedOption( const QString& e,settings::tabName s )
+{
+	m_settings.setValue( _getTabOption( s ),e ) ;
 }
 
 QString settings::localizationLanguagePath()

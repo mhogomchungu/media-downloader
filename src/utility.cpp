@@ -21,6 +21,7 @@
 
 #include "settings.h"
 #include "context.hpp"
+#include "concurrentdownloadmanager.hpp"
 
 #include <QEventLoop>
 #include <QDesktopServices>
@@ -420,7 +421,7 @@ void utility::openDownloadFolderPath( const QString& url )
 	}
 }
 
-void utility::terminateProcess( QProcess& exe )
+void utility::terminateProcess( const engines::engine&,QProcess& exe )
 {
 	if( utility::platformIsWindows() ){
 
@@ -510,4 +511,58 @@ void utility::addItem( QTableWidget& table,const QStringList& text,const QFont& 
 
 		table.setItem( row,it,item ) ;
 	}
+}
+
+void utility::updateFinishedState( const engines::engine& engine,
+				   settings& s,
+				   QTableWidget& table,
+				   const concurrentDownloadManagerFinishedStatus& f )
+{
+	f.setState( *table.item( f.index,2 ) ) ;
+
+	const auto backUpUrl = table.item( f.index,1 )->text() ;
+
+	auto item = table.item( f.index,0 ) ;
+
+	if( f.exitState.cancelled() ){
+
+		item->setText( backUpUrl ) ;
+	}else{
+		item->setText( engine.updateTextOnCompleteDownlod( item->text(),backUpUrl,f ) ) ;
+
+		if( f.exitState.success() ){
+
+			auto a = s.commandOnSuccessfulDownload() ;
+
+			if( !a.isEmpty() && !backUpUrl.isEmpty() ){
+
+				auto args = utility::split( a,' ',true ) ;
+
+				args.append( utility::split( backUpUrl,'\n',true ).at( 0 ) ) ;
+
+				auto exe = args.takeAt( 0 ) ;
+
+				QProcess::startDetached( exe,args ) ;
+			}
+		}
+
+		if( f.allFinished ){
+
+			auto a = s.commandWhenAllFinished() ;
+
+			if( !a.isEmpty() ){
+
+				auto args = utility::split( a,' ',true ) ;
+
+				auto exe = args.takeAt( 0 ) ;
+
+				QProcess::startDetached( exe,args ) ;
+			}
+		}
+	}
+}
+
+QString utility::failedToFindExecutableString( const QString& cmd )
+{
+	return QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ;
 }

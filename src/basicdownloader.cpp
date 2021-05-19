@@ -89,7 +89,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		m_ui.bdTableWidgetList->setVisible( false ) ;
 
-		this->download() ;
+		this->download( m_ui.lineEditURL->text() ) ;
 	} ) ;
 
 	connect( m_ui.pbQuit,&QPushButton::clicked,[ this ](){
@@ -101,26 +101,16 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	connect( m_ui.cbEngineType,s,[ & ]( int s ){
 
-		auto& engines = m_ctx.Engines() ;
-
-		const auto& engine = engines.getEngineByName( m_ui.cbEngineType->itemText( s ) ) ;
-
-		if( engine ){
-
-			engines.setDefaultEngine( engine.value() ) ;
-
-			this->setDefaultEngine() ;
-
-			if( engine->canDownloadPlaylist() ){
-
-				m_ctx.TabManager().playlistDownloader().enableAll() ;
-			}else{
-				m_ctx.TabManager().playlistDownloader().disableAll() ;
-			}
-		}else{
-			m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
-		}
+		this->changeDefaultEngine( s ) ;
 	} ) ;
+
+	m_bogusTable.insertRow( 0 ) ;
+
+	for( int s = 0 ; s < 3 ; s++ ){
+
+		m_bogusTable.insertColumn( s ) ;
+		m_bogusTable.setItem( 0,s,new QTableWidgetItem ) ;
+	}
 }
 
 void basicdownloader::init_done()
@@ -164,6 +154,34 @@ void basicdownloader::printEngineVersionInfo()
 
 		this->printEngineVersionInfo( engine ) ;
 	}
+}
+
+void basicdownloader::changeDefaultEngine( int s )
+{
+	auto& engines = m_ctx.Engines() ;
+
+	const auto& engine = engines.getEngineByName( m_ui.cbEngineType->itemText( s ) ) ;
+
+	if( engine ){
+
+		engines.setDefaultEngine( engine.value() ) ;
+
+		this->setDefaultEngine() ;
+	}else{
+		m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
+	}
+}
+
+QStringList basicdownloader::enginesList()
+{
+	QStringList m ;
+
+	for( int s = 0 ; s < m_ui.cbEngineType->count() ; s++ ){
+
+		m.append( m_ui.cbEngineType->itemText( s ) ) ;
+	}
+
+	return m ;
 }
 
 void basicdownloader::printEngineVersionInfo( const engines::engine& engine )
@@ -212,10 +230,7 @@ void basicdownloader::resetMenu( const QStringList& args )
 
 			if( m_settings.autoDownload() ){
 
-				if( !m_ui.lineEditURL->text().isEmpty() ){
-
-					this->download() ;
-				}
+				this->download( m_ui.lineEditURL->text() ) ;
 			}
 		}
 	} ) ;
@@ -224,6 +239,12 @@ void basicdownloader::resetMenu( const QStringList& args )
 basicdownloader& basicdownloader::setAsActive()
 {
 	m_ui.tabWidget->setCurrentIndex( 0 ) ;
+	return *this ;
+}
+
+basicdownloader& basicdownloader::hideTableList()
+{
+	m_ui.bdTableWidgetList->setVisible( false ) ;
 	return *this ;
 }
 
@@ -236,6 +257,9 @@ void basicdownloader::setDefaultEngine()
 		if( m_ui.cbEngineType->itemText( i ) == m ){
 
 			m_ui.cbEngineType->setCurrentIndex( i ) ;
+
+			m_ctx.TabManager().batchDownloader().updateEnginesList( this->enginesList() ) ;
+			m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
 
 			const auto& s = m_ctx.Engines().getEngineByName( m ) ;
 
@@ -250,6 +274,8 @@ void basicdownloader::setDefaultEngine()
 
 	m_settings.setDefaultEngine( m_ui.cbEngineType->itemText( 0 ) ) ;
 	m_ui.cbEngineType->setCurrentIndex( 0 ) ;
+	m_ctx.TabManager().batchDownloader().updateEnginesList( this->enginesList() ) ;
+	m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
 }
 
 void basicdownloader::tabManagerEnableAll( bool e )
@@ -303,6 +329,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 					m_ui.cbEngineType->removeItem( i ) ;
 
 					this->setDefaultEngine() ;
+
 					break ;
 				}
 			}
@@ -342,13 +369,11 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 		}
 	}
 
-	QStringList opts ;
-
 	QStringList m ;
 
-	for( auto it = args.rbegin() ; it != args.rend() ; it++ ){
+	utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
 
-		auto a = utility::split( *it,' ',true ) ;
+		auto a = utility::split( s,' ',true ) ;
 
 		if( a.size() > 1 ){
 
@@ -356,29 +381,33 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 			if( e == "format" && a.at( 1 ) == "code" ){
 
-				break ;
+				return true ;
 			}else{
-				opts.insert( 0,e ) ;
-				m.insert( 0,*it ) ;
+				m.insert( 0,s ) ;
 			}
 		}
-	}
+
+		return false ;
+	} ) ;
 
 	for( const auto& it : m ){
 
-		auto a          = utility::split( it,' ',true ) ;
-		auto format     = a.takeAt( 0 ) ;
-		auto extension  = a.takeAt( 0 ) ;
-		auto resolution = a.takeAt( 0 ) ;
-		auto notes      = a.join( " " ) ;
+		auto a = utility::split( it,' ',true ) ;
 
-		QStringList args{ format,extension,resolution,notes } ;
+		if( a.size() > 3 ){
 
-		utility::addItem( *m_ui.bdTableWidgetList,args,m_ctx.mainWidget().font() ) ;
+			auto format     = a.takeAt( 0 ) ;
+			auto extension  = a.takeAt( 0 ) ;
+			auto resolution = a.takeAt( 0 ) ;
+			auto notes      = a.join( " " ) ;
+
+			QStringList args{ format,extension,resolution,notes } ;
+
+			utility::addItem( *m_ui.bdTableWidgetList,args,m_ctx.mainWidget().font() ) ;
+		}
 	}
 
 	m_ui.bdTableWidgetList->setEnabled( true ) ;
-	//this->resetMenu( opts ) ;
 }
 
 void basicdownloader::list()
@@ -405,13 +434,24 @@ void basicdownloader::list()
 	this->run( backend,args,"",true ) ;
 }
 
-void basicdownloader::download()
+void basicdownloader::download( const QString& url )
 {
-	QString url = m_ui.lineEditURL->text() ;
+	if( url.isEmpty() ){
+
+		return ;
+	}
+
+	m_settings.setLastUsedOption( m_ui.lineEditOptions->text(),settings::tabName::basic ) ;
 
 	auto m = utility::split( url,' ',true ) ;
 
 	const auto& engine = m_ctx.Engines().defaultEngine() ;
+
+	utility::clear( m_bogusTable ) ;
+
+	QStringList args{ m.at( 0 ),m.at( 0 ),concurrentDownloadManagerFinishedStatus::notStarted() } ;
+
+	utility::addItem( m_bogusTable,args,m_ctx.mainWidget().font() ) ;
 
 	this->download( engine,m_ui.lineEditOptions->text(),m,false ) ;
 }
@@ -455,7 +495,7 @@ void basicdownloader::run( const engines::engine& engine,
 	utility::run( engine,
 		      args,
 		      quality,
-		      basicdownloader::options( *m_ui.pbCancel,m_ctx,m_debug,list_requested ),
+		      basicdownloader::options( *m_ui.pbCancel,m_ctx,engine,m_bogusTable,m_debug,list_requested ),
 		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
 		      utility::make_term_conn( m_ui.pbCancel,&QPushButton::clicked ) ) ;
 }
@@ -488,6 +528,7 @@ void basicdownloader::downloadDefaultEngine()
 
 void basicdownloader::tabEntered()
 {
+	m_ui.lineEditOptions->setText( m_settings.lastUsedOption( settings::tabName::basic ) ) ;
 }
 
 void basicdownloader::tabExited()
@@ -510,6 +551,7 @@ void basicdownloader::enableAll()
 	m_ui.lineEditURL->setEnabled( true ) ;
 	m_ui.lineEditOptions->setEnabled( true ) ;
 	m_ui.pbQuit->setEnabled( true ) ;
+	m_ui.labelEngineName->setEnabled( true ) ;
 }
 
 void basicdownloader::disableAll()
@@ -517,6 +559,7 @@ void basicdownloader::disableAll()
 	m_ui.cbEngineType->setEnabled( false ) ;
 	m_ui.pbQuit->setEnabled( false ) ;
 	m_ui.pbEntries->setEnabled( false ) ;
+	m_ui.labelEngineName->setEnabled( false ) ;
 	m_ui.label_2->setEnabled( false ) ;
 	m_ui.label->setEnabled( false ) ;
 	m_ui.pbList->setEnabled( false ) ;
@@ -532,9 +575,14 @@ void basicdownloader::appQuit()
 	QCoreApplication::quit() ;
 }
 
-void basicdownloader::options::done()
+void basicdownloader::options::done( utility::ProcessExitState m )
 {
 	this->tabManagerEnableAll( true ).enableCancel( false ) ;
+
+	if( !m_listRequested ){
+
+		utility::updateFinishedState( m_engine,m_ctx.Settings(),m_table,{ 0,true,std::move( m ) } ) ;
+	}
 }
 
 basicdownloader::options& basicdownloader::options::tabManagerEnableAll( bool e )

@@ -21,6 +21,8 @@
 
 #include "engines.h"
 
+#include "utility.h"
+
 Logger::Logger( QPlainTextEdit& e ) : m_textEdit( e )
 {
 	m_textEdit.setReadOnly( true ) ;
@@ -49,4 +51,9 @@ void Logger::update()
 	m_textEdit.setPlainText( m_lines.toString() ) ;
 
 	m_textEdit.moveCursor( QTextCursor::End ) ;
+}
+
+QStringList Logger::Data::toStringList() const
+{
+	return utility::split( this->toString(),'\n',true ) ;
 }

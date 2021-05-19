@@ -19,6 +19,9 @@ Features offered:-
 
 7. The GUI has a json based plugin system and can configured to download media using other tools other than youtube-dl.
 
+## Donations
+Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
+
 ## Extensions
 
 Read the [extensions](https://github.com/mhogomchungu/media-downloader/wiki/Extensions) page for further information.
@@ -28,10 +31,22 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 
 ## Binary packages
 
-#### Installer for Microsoft Windows
-First make sure you have access to the internet before you run media-downloader for the first time after installation because it will attempt to use the internet to download the latest version of youtube-dl.
+#### Prerequisite for Microsoft Windows
 
-Binary download for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.2.0/MediaDownloader-1.2.0.setup.exe).
+1. Youtube-dl for Windows requires [Microsoft Visual C++ 2010 Service Pack 1 Redistributable Package (x86)](https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe) to be installed and install it first before continuing.
+
+2. Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of youtube-dl.
+
+
+#### Installer for Microsoft Windows
+
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.3.0/MediaDownloader-1.3.0.setup.exe).
+
+#### Portable version for Microsoft Windows
+
+A portable version is a self contained version that keeps everything in the application folder.
+
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.3.0/MediaDownloader-1.3.0.zip).
 
 ### Binary packages for Linux distributions
 

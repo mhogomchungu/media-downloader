@@ -10,7 +10,7 @@ Version 1.0.0(Jan 30th, 2021)
  - The GUI offers an ability to download single media or multiple medias in batches.
  - Works on Linux and Windows.
 
-Version 1.1.0(March 1st,2021)
+Version 1.1.0(March 1st, 2021)
 [All]
  - Add polish translations.
 
@@ -22,7 +22,7 @@ Version 1.1.0(March 1st,2021)
     in the configuration tab to update it on demand.
  - The "Cancel" button now works as expected.
 
-Version 1.2.0(April 1st,2021)
+Version 1.2.0(April 1st, 2021)
 [All]
  - Add json based plugin system to make it possible for users to use their preffered
    backends to download media.
@@ -30,12 +30,22 @@ Version 1.2.0(April 1st,2021)
 [Windows]
  - Bundle ffmpeg.
 
- Version 1.3.0(Unreleased)
+ Version 1.3.0(May 1st, 2021)
  [All]
  - Add simplified chinese translations.
  - Add Spanish translations.
  - Add an option to do batch downloads concurrently.
-[Windows]
+ [Windows]
  - Add a portable version(A self contained version that keeps everything in the application folder).
-[Linux]
+ [Linux]
  - Add an option to prefer system executables over private media downloader executables.
+
+  Version 1.4.0(Unreleased)
+ [All]
+- Add dark themes support.
+- Add Turkish translations.
+- Update Polish translations.
+- Make each tab control its own default engine.
+- Add support for gallery-dl extension(https://github.com/mikf/gallery-dl).
+ [Windows]
+- Update bundled OpenSSL to version 1.1.1j.

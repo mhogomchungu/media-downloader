@@ -22,8 +22,11 @@
 #include "engines/youtube-dl.h"
 #include "engines/generic.h"
 #include "engines/safaribooks.h"
+#include "engines/gallery-dl.h"
 
+#include "concurrentdownloadmanager.hpp"
 #include "utility.h"
+#include "version.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -189,6 +192,104 @@ engines::result_ref< const engines::engine& > engines::getEngineByName( const QS
 	return {} ;
 }
 
+class version{
+public:
+	version( int major,int minor,int patch ) :
+		m_valid( true ),m_major( major ),m_minor( minor ),m_patch( patch )
+	{
+	}
+	template< typename T >
+	version( const T& e )
+	{
+		auto s = utility::split( e,'.',true ) ;
+
+		int m = s.size() ;
+
+		if( m == 1 ){
+
+			m_major = s.at( 0 ).toInt( &m_valid ) ;
+
+		}else if( m == 2 ){
+
+			m_major = s.at( 0 ).toInt( &m_valid ) ;
+
+			if( m_valid ){
+
+				m_minor = s.at( 1 ).toInt( &m_valid ) ;
+			}
+
+		}else if( m >= 3 ) {
+
+			m_major = s.at( 0 ).toInt( &m_valid ) ;
+
+			if( m_valid ){
+
+				m_minor = s.at( 1 ).toInt( &m_valid ) ;
+
+				if( m_valid ){
+
+					m_patch = s.at( 2 ).toInt( &m_valid ) ;
+				}
+			}
+		}
+	}
+	bool valid() const
+	{
+		return m_valid ;
+	}
+	bool operator==( const version& other ) const
+	{
+		return m_major == other.m_major && m_minor == other.m_minor && m_patch == other.m_patch ;
+	}
+	bool operator<( const version& other ) const
+	{
+		if( m_major < other.m_major ){
+
+			return true ;
+
+		}else if( m_major == other.m_major ){
+
+			if( m_minor < other.m_minor ){
+
+				return true ;
+
+			}else if( m_minor == other.m_minor ){
+
+				return m_patch < other.m_patch ;
+			}
+		}
+
+		return false ;
+	}
+	/*
+	 * a != b equal to !(a == b)
+	 * a <= b equal to (a < b) || (a == b)
+	 * a >= b equal to !(a < b)
+	 * a > b  equal to !(a <= b)
+	 */
+	bool operator>=( const version& other ) const
+	{
+		return !( *this < other ) ;
+	}
+	bool operator<=( const version& other ) const
+	{
+		return ( *this < other ) || ( *this == other ) ;
+	}
+	bool operator!=( const version& other ) const
+	{
+		return !( *this == other ) ;
+	}
+	bool operator>( const version& other ) const
+	{
+		return !( *this <= other ) ;
+	}
+private:
+	bool m_valid = false ;
+	int m_major = 0 ;
+	int m_minor = 0 ;
+	int m_patch = 0 ;
+};
+
 engines::engine engines::getEngineByPath( const QString& e ) const
 {
 	auto path = m_enginePaths.configPath( e ) ;
@@ -198,6 +299,22 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 	if( json ){
 
 		auto object = json.doc().object() ;
+
+		auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
+
+		if( !minVersion.isEmpty() ){
+
+			if( version( minVersion ) > VERSION ){
+
+				auto name = object.value( "Name" ).toString() ;
+
+				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
+
+				m_logger.add( m.arg( name,minVersion ) ) ;
+
+				return {} ;
+			}
+		}
 
 		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
 				object.value( "Name" ).toString() == "youtube-dl" ){
@@ -211,6 +328,14 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 		}else if( object.value( "Name" ).toString() == "safaribooks" ){
 
 			auto functions = std::make_unique< safaribooks >( m_settings ) ;
+
+			functions->updateOptions( object,m_settings ) ;
+
+			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
+
+		}else if( object.value( "Name" ).toString() == "gallery-dl" ){
+
+			auto functions = std::make_unique< gallery_dl >( m_settings ) ;
 
 			functions->updateOptions( object,m_settings ) ;
 
@@ -390,6 +515,7 @@ engines::engine::engine( Logger& logger,
 	m_canDownloadPlaylist( m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ),
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
 	m_mainEngine( true ),
+	m_replaceOutputWithProgressReport( m_jsonObject.value( "ReplaceOutputWithProgressReport" ).toBool( false ) ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
 	m_commandNameWindows( m_jsonObject.value( "CommandNameWindows" ).toString() ),
@@ -475,7 +601,7 @@ engines::engine::engine( Logger& logger,
 					m_exePath = m_exeFolderPath + "/" + commandName ;
 				}else{
 					m_valid = false ;
-					logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( commandName ) ) ;
+					logger.add( utility::failedToFindExecutableString( commandName ) ) ;
 				}
 			}else{
 				m_exePath = m ;
@@ -592,13 +718,23 @@ engines::enginePaths::enginePaths( settings& s )
 	QDir().mkpath( m_configPath ) ;
 }
 
+QString engines::engine::functions::processCompleteStateText( const concurrentDownloadManagerFinishedStatus& f )
+{
+	if( f.exitState.success() ){
+
+		return QObject::tr( "Download completed" ) ;
+	}else{
+		return QObject::tr( "Download Failed" ) ;
+	}
+}
+
 engines::engine::functions::~functions()
 {
 }
 
-std::unique_ptr< engines::engine::functions::filter > engines::engine::functions::Filter()
+std::unique_ptr< engines::engine::functions::filter > engines::engine::functions::Filter( const QString& e )
 {
-	return std::make_unique< engines::engine::functions::filter >() ;
+	return std::make_unique< engines::engine::functions::filter >( e ) ;
 }
 
 void engines::engine::functions::updateOptions( QJsonObject&,settings& )
@@ -615,6 +751,23 @@ QString engines::engine::functions::commandString( const engines::engine::exeArg
 	}
 
 	return m ;
+}
+
+QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::engine&,
+								 const QString& uiText,
+								 const QString& bkText,
+								 const concurrentDownloadManagerFinishedStatus& f )
+{
+	Q_UNUSED( uiText )
+
+	auto m = engines::engine::functions::processCompleteStateText( f ) ;
+
+	if( f.exitState.success() ){
+
+		return bkText + "\n" + m ;
+	}else{
+		return bkText + "\n" + m ;
+	}
 }
 
 void engines::engine::functions::sendCredentials( const engines::engine&,
@@ -810,6 +963,26 @@ void engines::engine::functions::processData( const engines::engine& engine,
 	}
 }
 
+void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine& engine,
+							   const QString & quality,
+							   const QStringList& userOptions,
+							   QStringList& urls,
+							   QStringList& ourOptions )
+{
+	Q_UNUSED( userOptions )
+	Q_UNUSED( urls )
+
+	if( !engine.optionsArgument().isEmpty() ){
+
+		ourOptions.append( engine.optionsArgument() ) ;
+	}
+
+	if( !quality.isEmpty() ){
+
+		ourOptions.append( quality ) ;
+	}
+}
+
 void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat format )
 {
 	if( m_file.open( QIODevice::WriteOnly ) ){
@@ -837,11 +1010,89 @@ QByteArray engines::file::readAll()
 	}
 }
 
-const QString& engines::engine::functions::filter::operator()( const engines::engine&,const QString& e )
+engines::engine::functions::filter::filter( const QString& e ) :
+	m_quality( e )
 {
-	return e ;
+}
+
+const QString& engines::engine::functions::filter::operator()( const engines::engine& engine,
+							       const Logger::Data& s )
+{
+	if( engine.replaceOutputWithProgressReport() ){
+
+		return m_processing.text() ;
+
+	}else if( s.isEmpty() ){
+
+		static QString e ;
+		return e ;
+	}else{
+		return s.lastText() ;
+	}
 }
 
 engines::engine::functions::filter::~filter()
 {
+}
+
+const QString& engines::engine::functions::filter::quality()
+{
+	return m_quality ;
+}
+
+int engines::engine::functions::filter::maxDownloadCounter()
+{
+	return m_quality.count( '+',Qt::CaseInsensitive ) + 1 ;
+}
+
+engines::engine::functions::preProcessing::preProcessing() :
+	m_txt( engines::engine::functions::preProcessing::processingText() )
+{
+}
+
+QString engines::engine::functions::preProcessing::processingText()
+{
+	return QObject::tr( "Processing" ) ;
+}
+
+const QString& engines::engine::functions::preProcessing::text()
+{
+	if( m_counter < 8 ){
+
+		m_txt += " ..." ;
+	}else{
+		m_counter = 0 ;
+		m_txt = engines::engine::functions::preProcessing::processingText() + " ..." ;
+	}
+
+	m_counter++ ;
+
+	return m_txt ;
+}
+
+QString engines::engine::functions::postProcessing::processingText()
+{
+	return QObject::tr( "Post Processing" ) ;
+}
+
+engines::engine::functions::postProcessing::postProcessing() :
+	m_tmp( engines::engine::functions::postProcessing::processingText() )
+{
+}
+
+const QString& engines::engine::functions::postProcessing::text( const QString& e )
+{
+	if( m_counter < 8 ){
+
+		m_tmp += " ..." ;
+	}else{
+		m_counter = 0 ;
+		m_tmp = engines::engine::functions::postProcessing::processingText() + " ..." ;
+	}
+
+	m_counter++ ;
+
+	m_txt = e + "\n" + m_tmp ;
+
+	return m_txt ;
 }

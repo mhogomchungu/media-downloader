@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set( PGR_VERSION "1.2.0" )
+set( PGR_VERSION "1.3.0" )
 set( COPYRIGHT_YEARS "2021" )
 
 INCLUDE(GNUInstallDirs)
@@ -77,10 +77,13 @@ set(SRC
     src/engines.cpp
     src/engines/youtube-dl.cpp
     src/engines/safaribooks.cpp
-    src/engines/generic.cpp)
+    src/engines/generic.cpp
+    src/engines/gallery-dl.cpp)
 
 set(RESOURCES
-    src/icon.qrc)
+    src/icon.qrc
+    src/3rdParty/BreezeStyleSheets/breeze.qrc
+    src/3rdParty/QDarkStyleSheet-3.0.2/qdarkstyle/dark/style.qrc )
 
 if(WIN32)
     add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
@@ -117,6 +120,8 @@ if(WIN32)
     find_path(gcc_PATH gcc.exe)
     find_path(windeployqt_PATH windeployqt.exe PATHS "${CMAKE_PREFIX_PATH}/bin")
 
+    file(WRITE ${PROJECT_BINARY_DIR}/media-downloader.exe.local "")
+
     file(WRITE ${PROJECT_BINARY_DIR}/media-downloader_installer_commands.txt
 "
 set PATH=${gcc_PATH};${libstdc_PATH};%PATH%\r\n
@@ -135,6 +140,7 @@ file(WRITE ${PROJECT_BINARY_DIR}/media-downloader_windows_installer.iss
 #define MyAppExeName \"media-downloader.exe\"
 #define MyLibrariesLocation \"C:\\projects\\media-downloader.libraries.Qt-${Qt5Core_VERSION}\\\"
 #define MyEXELocation \"${PROJECT_BINARY_DIR}\\media-downloader.exe\"
+#define MyBuildPath \"${PROJECT_BINARY_DIR}\"
 #define MyOutPutPath  \"C:\\projects\\media-downloader.installer\\Qt-${Qt5Core_VERSION}\"
 #define MySourcesPath \"C:\\projects\\media-downloader\\\"
 
@@ -162,6 +168,7 @@ Name: \"quicklaunchicon\"; Description: \"{cm:CreateQuickLaunchIcon}\"; GroupDes
 
 [Files]
 Source: {#MyEXELocation}; DestDir: {app}; Flags: ignoreversion
+Source: {#MyBuildPath}\\media-downloader.exe.local; DestDir: {app}; Flags: ignoreversion
 
 Source: {#MyLibrariesLocation}\\*.dll; DestDir: {app} ; Flags: ignoreversion
 

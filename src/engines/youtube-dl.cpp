@@ -26,6 +26,8 @@
 #include "../networkAccess.h"
 #include "../utility.h"
 
+#include "../concurrentdownloadmanager.hpp"
+
 static QJsonObject _defaultControlStructure()
 {
 	QJsonObject obj ;
@@ -118,6 +120,8 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 			return arr ;
 		}() ) ;
 
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader",QString() ) ;
+
 		mainObj.insert( "PlayListUrlPrefix","https://youtube.com/watch?v=" ) ;
 
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
@@ -141,6 +145,8 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 		mainObj.insert( "CanDownloadPlaylist",true ) ;
 
 		mainObj.insert( "LikeYoutubeDl",true ) ;
+
+		mainObj.insert( "ReplaceOutputWithProgressReport",false ) ;
 
 		engines::file( m,logger ).write( mainObj ) ;
 	}
@@ -204,9 +210,36 @@ void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 	object.insert( "UsePrivateExecutable",!settings.useSystemProvidedVersionIfAvailable() ) ;
 }
 
-std::unique_ptr< engines::engine::functions::filter > youtube_dl::Filter()
+std::unique_ptr< engines::engine::functions::filter > youtube_dl::Filter( const QString& e )
 {
-	return std::make_unique< youtube_dl::youtube_dlFilter >() ;
+	return std::make_unique< youtube_dl::youtube_dlFilter >( e ) ;
+}
+
+QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
+						 const QString& uiText,
+						 const QString& bkText,
+						 const concurrentDownloadManagerFinishedStatus& f )
+{
+	Q_UNUSED( bkText )
+
+	auto m = engines::engine::functions::processCompleteStateText( f ) ;
+
+	if( f.exitState.success() ){
+
+		QStringList a ;
+
+		for( const auto& it : utility::split( uiText,'\n',true ) ){
+
+			if( !it.contains( engines::engine::functions::postProcessing::processingText() ) ){
+
+				a.append( it ) ;
+			}
+		}
+
+		return a.join( "\n" ) + "\n" + m ;
+	}else{
+		return uiText + "\n" + m ;
+	}
 }
 
 void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
@@ -232,124 +265,66 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 	}
 }
 
-youtube_dl::youtube_dlFilter::youtube_dlFilter() :
-	m_counter( 0 ),
-	m_processing( QObject::tr( "Processing" ) ),
-	m_downloadCompleted( QObject::tr( "Download completed" ) )
+youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e ) :
+	engines::engine::functions::filter( e ),
+	m_maxDownloadCounter( engines::engine::functions::filter::maxDownloadCounter() )
 {
 }
 
 const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
-							 const QString& e )
+							 const Logger::Data& s )
 {
-	if( e.contains( " has already been downloaded and merged" ) ){
+	int downloadCounter = 0 ;
 
-		m_tmp = e ;
-		m_tmp.replace( " has already been downloaded and merged","" ) ;
-		m_tmp.replace( "[download] ","" ) ;
-		m_tmp_name = m_tmp ;
-		m_tmp += "\n" + m_downloadCompleted ;
+	const auto data = s.toStringList() ;
 
-		return m_tmp ;
+	for( const auto& e : data ){
 
-	}else if( e.contains( " has already been downloaded" ) ){
-
-		m_tmp = e ;
-		m_tmp.replace( " has already been downloaded","" ) ;
-		m_tmp.replace( "[download] ","" ) ;
-		m_tmp_name = m_tmp ;
-		m_tmp += "\n" + m_downloadCompleted ;
-
-		return m_tmp ;
-
-	}else if( e.contains( "[Merger] Merging formats into " ) ){
-
-		m_tmp = e ;
-		m_tmp.replace( "[Merger] Merging formats into ","" ) ;
-		m_tmp.truncate( m_name.size() - 1 ) ;
-		m_tmp_name = m_tmp ;
-		m_tmp += "\n" + m_downloadCompleted ;
-
-		return m_tmp ;
-
-	}else if( e.contains( "[ffmpeg] Merging formats into " ) ){
-
-		m_tmp = e ;
-		m_tmp.replace( "[ffmpeg] Merging formats into ","" ) ;
-		m_tmp.truncate( m_name.size() - 1 ) ;
-		m_tmp_name = m_tmp ;
-		m_tmp += "\n" + m_downloadCompleted ;
-
-		return m_tmp ;
-
-	}else if( e.startsWith( "[download]  " ) && e.contains( " ETA " ) ){
-
-		m_tmp = e ;
-		m_tmp.replace( "[download]  ","" ) ;
-
-		if( !m_name.isEmpty() ){
-
-			m_tmp = m_name + "\n" + m_tmp ;
-
-		}else if( !m_tmp_name.isEmpty() ){
-
-			m_tmp = m_tmp_name + "\n" + m_tmp ;
-		}
-
-		return m_tmp ;
-
-	}else if( e.startsWith( "[download] 100% of " ) ){
-
-		if( !m_name.isEmpty() ){
-
-			m_final = m_name + "\n" + m_downloadCompleted ;
-
-		}else if( !m_tmp_name.isEmpty() ){
-
-			m_final = m_tmp_name + "\n" + m_downloadCompleted ;
-		}
-
-		return m_final ;
-
-	}else if( e.startsWith( "[ffmpeg] " ) || e.startsWith( "[Merger] " ) ){
-
-		return m_final ;
-
-	}else if( e.startsWith( "[download] Destination:" ) ){
-
-		m_name = e ;
-		m_name.replace( "[download] Destination: ","" ) ;
-		return this->processing() ;
-	}else{
 		if( e.startsWith( "ERROR: " ) ){
 
-			return e ;
-		}else{
-			if( m_final.isEmpty() ){
-
-				return this->processing() ;
-			}else{
-				return m_final ;
-			}
+			m_tmp = e ;
+			return m_tmp ;
 		}
+		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){
+
+			m_fileName = e.mid( e.indexOf( " " ) + 1 ) ;
+			m_fileName.truncate( m_fileName.indexOf( " has already been downloaded" ) ) ;
+			return m_fileName ;
+		}
+		if( e.contains( "] Destination: " ) ){
+
+			m_fileName = e.mid( e.indexOf( "] Destination: " ) + 15 ) ;
+		}
+		if( e.contains( " Merging formats into \"" ) ){
+
+			m_fileName = e.mid( e.indexOf( "\"" ) + 1 ) ;
+			m_fileName.truncate( m_fileName.size() - 1 ) ;
+		}
+		if( e.startsWith( "[download] 100% of " ) ){
+
+			downloadCounter++ ;
+		}
+	}
+
+	const auto& l = data.last() ;
+
+	if( l.startsWith( "[download]  " ) && l.contains( " ETA " ) ){
+
+		m_tmp = l ;
+		m_tmp.replace( "[download]  ","" ) ;
+		m_tmp = m_fileName + "\n" + m_tmp ;
+
+		return m_tmp ;
+	}
+
+	if( downloadCounter < m_maxDownloadCounter ){
+
+		return m_preProcessing.text() ;
+	}else{
+		return m_postProcessing.text( m_fileName ) ;
 	}
 }
 
 youtube_dl::youtube_dlFilter::~youtube_dlFilter()
 {
-}
-
-const QString& youtube_dl::youtube_dlFilter::processing()
-{
-	if( m_counter < 8 ){
-
-		m_processing += " ..." ;
-	}else{
-		m_counter = 0 ;
-		m_processing = QObject::tr( "Processing" ) + " ..." ;
-	}
-
-	m_counter++ ;
-
-	return m_processing ;
 }

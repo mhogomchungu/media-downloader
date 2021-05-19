@@ -38,6 +38,8 @@
 
 class Context ;
 
+struct concurrentDownloadManagerFinishedStatus ;
+
 namespace Ui
 {
 	class MainWindow ;
@@ -90,6 +92,7 @@ namespace utility
 	QStringList split( const QString& e,const char * token ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
 	QList< QByteArray > split( const QByteArray& e,QChar token = '\n' ) ;
+	QString failedToFindExecutableString( const QString& cmd ) ;
 
 	class selectedAction
 	{
@@ -296,6 +299,37 @@ namespace utility
 		return Conn< Object,ObjectMemberFunction,Function >( obj,memFunction,std::move( function ) ) ;
 	}
 
+	class ProcessExitState
+	{
+	public:
+		ProcessExitState( bool c,int s,QProcess::ExitStatus e ) :
+			m_cancelled( c ),
+			m_exitCode( s ),
+			m_exitStatus( e )
+		{
+		}
+		int exitCode() const
+		{
+			return m_exitCode ;
+		}
+		QProcess::ExitStatus exitStatus() const
+		{
+			return m_exitStatus ;
+		}
+		bool cancelled() const
+		{
+			return m_cancelled ;
+		}
+		bool success() const
+		{
+			return m_exitCode == 0 && m_exitStatus == QProcess::ExitStatus::NormalExit ;
+		}
+	private:
+		bool m_cancelled = false ;
+		int m_exitCode ;
+		QProcess::ExitStatus m_exitStatus ;
+	};
+
 	class ProcessOutputChannels
 	{
 	public:
@@ -332,7 +366,7 @@ namespace utility
 			 ProcessOutputChannels channels ) :
 			m_engine( engine ),
 			m_logger( std::move( logger ) ),
-			m_postData( true ),
+			m_cancelled( false ),
 			m_options( std::move( options ) ),
 			m_channels( channels )
 		{
@@ -341,13 +375,17 @@ namespace utility
 		{
 			m_conn = std::move( conn ) ;
 		}
-		void stopReceivingData()
+		bool cancelled()
 		{
-			m_postData = false ;
+			return m_cancelled ;
+		}
+		void cancel()
+		{
+			m_cancelled = true ;
 		}
 		void postData( QByteArray data )
 		{
-			if( m_postData ){
+			if( !m_cancelled ){
 
 				m_data += data ;
 
@@ -383,7 +421,7 @@ namespace utility
 		QMetaObject::Connection m_conn ;
 		Tlogger m_logger ;
 		QByteArray m_data ;
-		bool m_postData ;
+		bool m_cancelled ;
 		Options m_options ;
 		ProcessOutputChannels m_channels ;
 	} ;
@@ -399,11 +437,22 @@ namespace utility
 		  Connection conn,
 		  ProcessOutputChannels channels = ProcessOutputChannels() )
 	{
-		options.tabManagerEnableAll( false ) ;
-
 		engines::engine::exeArgs::cmd cmd( engine.exePath(),args ) ;
 
-		utility::run( cmd.exe(),cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
+		const auto& exe = cmd.exe() ;
+
+		if( !QFile::exists( exe ) ){
+
+			logger.add( utility::failedToFindExecutableString( exe ) ) ;
+
+			options.done( ProcessExitState( false,-1,QProcess::ExitStatus::NormalExit ) ) ;
+
+			return ;
+		}
+
+		options.tabManagerEnableAll( false ) ;
+
+		utility::run( exe,cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
 
 			exe.setProcessEnvironment( options.processEnvironment() ) ;
 
@@ -425,11 +474,11 @@ namespace utility
 			auto ctx = std::make_shared< ctx_t >( engine,std::move( logger ),std::move( options ),channels ) ;
 
 			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,
-					[ &exe,ctx,function = std::move( conn.function ) ](){
+					[ &engine,&exe,ctx,function = std::move( conn.function ) ](){
 
-				ctx->stopReceivingData() ;
+				ctx->cancel() ;
 
-				function( exe ) ;
+				function( engine,exe ) ;
 			} ) ) ;
 
 			return ctx ;
@@ -438,7 +487,7 @@ namespace utility
 
 			engine.sendCredentials( quality,exe ) ;
 
-		},[]( int,QProcess::ExitStatus,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
+		},[]( int s,QProcess::ExitStatus e,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
 
 			ctx->disconnect() ;
 
@@ -447,7 +496,7 @@ namespace utility
 				ctx->options().listRequested( e ) ;
 			} ) ;
 
-			ctx->options().done() ;
+			ctx->options().done( ProcessExitState( ctx->cancelled(),s,e ) ) ;
 
 		},[]( QProcess::ProcessChannel channel,QByteArray data,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
 
@@ -541,6 +590,69 @@ namespace utility
 		bool mouseTracking = true ;
 	};
 
+	template< typename List,
+		  std::enable_if_t< std::is_lvalue_reference< List >::value,int > = 0 >
+	class reverseIterator
+	{
+	public:
+		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::value_type value_type ;
+		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::size_type size_type ;
+
+	        reverseIterator( List s ) :
+		        m_list( s ),
+			m_index( m_list.size() - 1 )
+		{
+		}
+		bool hasNext() const
+		{
+			return m_index > -1 ;
+		}
+		void reset()
+		{
+			m_index = m_list.size() - 1 ;
+		}
+		auto& next()
+		{
+			auto s = static_cast< typename reverseIterator< List >::size_type >( m_index-- ) ;
+
+			return m_list[ s ] ;
+		}
+		template< typename Function,
+			  utility::types::has_bool_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
+		void forEach( Function function )
+		{
+			while( this->hasNext() ){
+
+				if( function( this->next() ) ){
+
+					break ;
+				}
+			}
+		}
+		template< typename Function,
+			  utility::types::has_void_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
+		void forEach( Function function )
+		{
+			while( this->hasNext() ){
+
+				function( this->next() ) ;
+			}
+		}
+	private:
+		List m_list ;
+		int m_index ;
+	} ;
+
+	template< typename List >
+	auto make_reverseIterator( List&& l )
+	{
+		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
+	}
+
+	void updateFinishedState( const engines::engine& engine,
+				  settings& settings,
+				  QTableWidget& table,
+				  const concurrentDownloadManagerFinishedStatus& f ) ;
 	int concurrentID() ;
 	void setTableWidget( QTableWidget&,const tableWidgetOptions& = tableWidgetOptions() ) ;
 	void addItem( QTableWidget&,const QStringList&,const QFont&,int alignment = Qt::AlignCenter ) ;
@@ -552,7 +664,7 @@ namespace utility
 	QString homePath() ;
 	QString python3Path() ;
 	int terminateProcess( unsigned long pid ) ;
-	void terminateProcess( QProcess& ) ;
+	void terminateProcess( const engines::engine&,QProcess& ) ;
 	bool platformIsWindows() ;
 	bool platformIs32BitWindows() ;
 	bool platformIsLinux() ;
@@ -569,7 +681,7 @@ namespace utility
 		  typename ObjectMemberFunction >
 	static auto make_term_conn( Object obj,ObjectMemberFunction memFunction )
 	{
-		auto s = static_cast< void( * )( QProcess& ) >( utility::terminateProcess ) ;
+		auto s = static_cast< void( * )( const engines::engine&,QProcess& ) >( utility::terminateProcess ) ;
 
 		return utility::make_conn( obj,memFunction,s ) ;
 	}

@@ -39,6 +39,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void updateEnginesList( const QStringList& ) ;
 private:
 	void download() ;
 	void download( const engines::engine& ) ;
@@ -117,9 +118,9 @@ private:
 			m_done( std::move( function ) )
 		{
 		}
-		void done()
+		void done( utility::ProcessExitState e )
 		{
-			m_done() ;
+			m_done( std::move( e ) ) ;
 		}
 		options& tabManagerEnableAll( bool )
 		{

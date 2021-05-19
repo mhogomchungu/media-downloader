@@ -26,10 +26,5 @@ class generic : public engines::engine::functions
 public:
 	~generic() override ;
 	generic() ;
-	void updateDownLoadCmdOptions( const engines::engine& engine,
-				       const QString& quality,
-				       const QStringList& userOptions,
-				       QStringList& urls,
-				       QStringList& ourOptions ) override ;
 private:
 };

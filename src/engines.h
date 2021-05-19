@@ -30,10 +30,12 @@
 
 #include <vector>
 #include <functional>
+#include <memory>
 
 #include "logger.h"
 
 class settings ;
+class concurrentDownloadManagerFinishedStatus ;
 
 class engines{
 public:
@@ -225,19 +227,56 @@ public:
 
 		struct functions
 		{
+			static QString processCompleteStateText( const concurrentDownloadManagerFinishedStatus& ) ;
+
+			class preProcessing
+			{
+			public:
+				preProcessing() ;
+				static QString processingText() ;
+				const QString& text() ;
+			private:
+				int m_counter = 0 ;
+				QString m_txt ;
+			};
+
+			class postProcessing
+			{
+			public:
+				static QString processingText() ;
+				postProcessing() ;
+				const QString& text( const QString& ) ;
+			private:
+				int m_counter = 0 ;
+				QString m_txt ;
+				QString m_tmp ;
+			};
+
 			class filter{
 			public:
-				virtual const QString& operator()( const engines::engine&,const QString& e ) ;
+				filter( const QString& quality ) ;
+				virtual const QString& operator()( const engines::engine&,const Logger::Data& e ) ;
 				virtual ~filter() ;
+			protected:
+				const QString& quality() ;
+				int maxDownloadCounter() ;
+			private:
+				engines::engine::functions::preProcessing m_processing ;
+				QString m_quality ;
 			} ;
 
 			virtual ~functions() ;
 
-			virtual std::unique_ptr< engines::engine::functions::filter > Filter() ;
+			virtual std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) ;
 
 			virtual void updateOptions( QJsonObject&,settings& ) ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
+
+			virtual QString updateTextOnCompleteDownlod( const engines::engine&,
+								     const QString& uiText,
+								     const QString& bkText,
+								     const concurrentDownloadManagerFinishedStatus& ) ;
 
 		        virtual void sendCredentials( const engines::engine&,
 		                                      const QString&,
@@ -252,7 +291,7 @@ public:
 							       const QString& quality,
 							       const QStringList& userOptions,
 		                                               QStringList& urls,
-		                                               QStringList& ourOptions ) = 0 ;
+							       QStringList& ourOptions ) ;
 
 		} ;
 
@@ -305,9 +344,15 @@ public:
 		{
 			return m_defaultDownLoadCmdOptions ;
 		}
-		std::unique_ptr< engines::engine::functions::filter > filter() const
+		std::unique_ptr< engines::engine::functions::filter > filter( const QString& quality ) const
 		{
-			return m_functions->Filter() ;
+			return m_functions->Filter( quality ) ;
+		}
+		QString updateTextOnCompleteDownlod( const QString& uiText,
+						     const QString& bkText,
+						     const concurrentDownloadManagerFinishedStatus& f ) const
+		{
+			return m_functions->updateTextOnCompleteDownlod( *this,uiText,bkText,f ) ;
 		}
 		void updateDownLoadCmdOptions( const QString& quality,
 					       const QStringList& userOptions,
@@ -396,6 +441,10 @@ public:
 		{
 			return m_mainEngine ;
 		}
+		bool replaceOutputWithProgressReport() const
+		{
+			return m_replaceOutputWithProgressReport ;
+		}
 	private:
 		QJsonObject m_jsonObject ;
 		std::unique_ptr< engines::engine::functions > m_functions ;
@@ -406,6 +455,7 @@ public:
 		bool m_canDownloadPlaylist ;
 		bool m_likeYoutubeDl ;
 		bool m_mainEngine ;
+		bool m_replaceOutputWithProgressReport ;
 		QString m_name ;
 		QString m_commandName ;
 		QString m_commandNameWindows ;

@@ -38,6 +38,20 @@ configure::configure( const Context& ctx ) :
 
 	m_setEnabled = true ;
 
+	settings::darkModes modes ;
+
+	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
+
+	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
+
+	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,modes = std::move( modes ) ]( int index ){
+
+		if( index != -1 ){
+
+			m_settings.setDarkMode( modes.unTranslatedAt( index ) ) ;
+		}
+	} ) ;
+
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		this->saveOptions() ;
@@ -174,6 +188,8 @@ void configure::retranslateUi()
 	this->resetMenu() ;
 
 	this->manageDownloadButton() ;
+
+	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
 }
 
 void configure::downloadFromGitHub( const engines::engine& engine )
@@ -189,6 +205,7 @@ void configure::tabEntered()
 void configure::tabExited()
 {
 	this->saveOptions() ;
+	m_ctx.TabManager().resetMenu() ;
 }
 
 void configure::enableConcurrentTextField()
