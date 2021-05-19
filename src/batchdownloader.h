@@ -36,12 +36,12 @@ class batchdownloader : public QObject
 public:
 	template< typename Function >
 	void setUpdefaultEngine( QComboBox& comboBox,
-				 const QString& defaulEngine,
+				 const QString& defaultEngine,
 				 Function function )
 	{
 		for( int s = 0 ; s < comboBox.count() ; s++ ){
 
-			if( comboBox.itemText( s ) == defaulEngine ){
+			if( comboBox.itemText( s ) == defaultEngine ){
 
 				comboBox.setCurrentIndex( s ) ;
 
