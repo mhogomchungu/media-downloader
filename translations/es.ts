@@ -91,7 +91,7 @@
         <location filename="../src/mainwindow.ui" line="441"/>
         <location filename="../src/mainwindow.ui" line="793"/>
         <source>Engine Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del motor:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="243"/>
@@ -174,7 +174,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1050"/>
         <source>Dark Theme(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema Oscuro (Requiere Reinicar)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1084"/>
@@ -302,7 +302,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/translator.cpp" line="32"/>
         <source>Turkish (Turkey)</source>
-        <translation type="unfinished"></translation>
+        <translation>Turco (Turquía)</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="350"/>
@@ -332,7 +332,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="311"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Motor &quot;%1&quot; requiere al menos la versión &quot;%2&quot; de Media Downloader</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="498"/>
@@ -433,27 +433,27 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="1075"/>
         <source>Post Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Post Procesamiento</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="153"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="154"/>
         <source>Dark Theme 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema Oscuro 1</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="155"/>
         <source>Dark Theme 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema Oscuro 2</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="156"/>
         <source>Dark Theme 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema Oscuro 3</translation>
     </message>
 </context>
 <context>
