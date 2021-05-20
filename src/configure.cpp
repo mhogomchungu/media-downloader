@@ -112,7 +112,12 @@ configure::configure( const Context& ctx ) :
 
 	connect( &m_menu,&QMenu::triggered,[ & ]( QAction * ac ){
 
-		this->downloadFromGitHub( m_ctx.Engines().defaultEngine( ac->objectName() ) ) ;
+		auto m = ac->objectName() ;
+
+		if( !m.isEmpty() ){
+
+			this->downloadFromGitHub( m_ctx.Engines().defaultEngine( m ) ) ;
+		}
 	} ) ;
 
 	this->resetMenu() ;
@@ -214,7 +219,7 @@ void configure::tabEntered()
 
 	m_menu.addSeparator() ;
 
-	m_menu.addAction( tr( "Cancel" ) )->setEnabled( false ) ;
+	m_menu.addAction( tr( "Cancel" ) ) ;
 
 	m_ui.pbConfigureDownload->setMenu( &m_menu ) ;
 }
