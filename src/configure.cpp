@@ -61,9 +61,8 @@ configure::configure( const Context& ctx ) :
 		this->enableConcurrentTextField() ;
 	} ) ;
 
-	connect( m_ui.cbUseSystemVersionIfAvailable,&QCheckBox::stateChanged,[ this ]( int ){
+	connect( m_ui.cbUseSystemVersionIfAvailable,&QCheckBox::stateChanged,[]( int ){
 
-		this->manageDownloadButton() ;
 	} ) ;
 
 	connect( m_ui.pbConfigureAddAPlugin,&QPushButton::clicked,[ this ](){
@@ -107,32 +106,13 @@ configure::configure( const Context& ctx ) :
 		m.exec( QCursor::pos() ) ;
 	} ) ;	
 
-	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
+	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[](){
 
-		QMenu m ;
+	} ) ;
 
-		for( const auto& it : m_ctx.Engines().getEngines() ){
+	connect( &m_menu,&QMenu::triggered,[ & ]( QAction * ac ){
 
-			if( !it.downloadUrl().isEmpty() ){
-
-				auto ac = m.addAction( it.name() ) ;
-
-				ac->setObjectName( it.name() ) ;
-
-				ac->setEnabled( networkAccess::hasNetworkSupport() ) ;
-			}
-		}
-
-		m.addSeparator() ;
-
-		m.addAction( tr( "Cancel" ) )->setEnabled( false ) ;
-
-		connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
-
-			this->downloadFromGitHub( m_ctx.Engines().defaultEngine( ac->objectName() ) ) ;
-		} ) ;
-
-		m.exec( QCursor::pos() ) ;
+		this->downloadFromGitHub( m_ctx.Engines().defaultEngine( ac->objectName() ) ) ;
 	} ) ;
 
 	this->resetMenu() ;
@@ -208,8 +188,6 @@ void configure::retranslateUi()
 {
 	this->resetMenu() ;
 
-	this->manageDownloadButton() ;
-
 	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
 }
 
@@ -220,7 +198,25 @@ void configure::downloadFromGitHub( const engines::engine& engine )
 
 void configure::tabEntered()
 {
-	this->manageDownloadButton() ;
+	m_menu.clear() ;
+
+	for( const auto& it : m_ctx.Engines().getEngines() ){
+
+		if( !it.downloadUrl().isEmpty() ){
+
+			auto ac = m_menu.addAction( it.name() ) ;
+
+			ac->setObjectName( it.name() ) ;
+
+			ac->setEnabled( networkAccess::hasNetworkSupport() ) ;
+		}
+	}
+
+	m_menu.addSeparator() ;
+
+	m_menu.addAction( tr( "Cancel" ) )->setEnabled( false ) ;
+
+	m_ui.pbConfigureDownload->setMenu( &m_menu ) ;
 }
 
 void configure::tabExited()
@@ -268,10 +264,6 @@ void configure::saveOptions()
 	}
 }
 
-void configure::manageDownloadButton()
-{	
-}
-
 void configure::resetMenu()
 {
 	const auto& languages = m_settings.localizationLanguages() ;
@@ -301,7 +293,6 @@ void configure::resetMenu()
 
 void configure::enableAll()
 {
-	this->manageDownloadButton() ;
 	m_ui.comboBoxConfigureDarkTheme->setEnabled( true ) ;
 	m_ui.pbConfigureDownload->setEnabled( true ) ;
 	m_ui.labelConfigureTheme->setEnabled( true ) ;

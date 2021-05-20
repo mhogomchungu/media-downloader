@@ -24,6 +24,8 @@
 #include "context.hpp"
 #include "networkAccess.h"
 
+#include <QMenu>
+
 class tabManager ;
 
 class configure : public QObject
@@ -42,13 +44,13 @@ public:
 private:
 	void enableConcurrentTextField() ;
 	void saveOptions() ;
-	void manageDownloadButton() ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
 	networkAccess m_networkAccess ;
+	QMenu m_menu ;
 };
 
 #endif
