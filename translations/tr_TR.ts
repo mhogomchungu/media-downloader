@@ -161,7 +161,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="927"/>
         <source>Update Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Motor Güncelle</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="985"/>
