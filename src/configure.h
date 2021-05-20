@@ -43,7 +43,6 @@ private:
 	void enableConcurrentTextField() ;
 	void saveOptions() ;
 	void manageDownloadButton() ;
-	bool m_setEnabled ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;

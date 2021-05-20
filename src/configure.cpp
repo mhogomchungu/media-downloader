@@ -36,8 +36,6 @@ configure::configure( const Context& ctx ) :
 {
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
 
-	m_setEnabled = true ;
-
 	settings::darkModes modes ;
 
 	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
@@ -111,7 +109,30 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
 
-		this->downloadFromGitHub( m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ) ;
+		QMenu m ;
+
+		for( const auto& it : m_ctx.Engines().getEngines() ){
+
+			if( !it.downloadUrl().isEmpty() ){
+
+				auto ac = m.addAction( it.name() ) ;
+
+				ac->setObjectName( it.name() ) ;
+
+				ac->setEnabled( networkAccess::hasNetworkSupport() ) ;
+			}
+		}
+
+		m.addSeparator() ;
+
+		m.addAction( tr( "Cancel" ) )->setEnabled( false ) ;
+
+		connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
+
+			this->downloadFromGitHub( m_ctx.Engines().defaultEngine( ac->objectName() ) ) ;
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
 	} ) ;
 
 	this->resetMenu() ;
@@ -248,17 +269,7 @@ void configure::saveOptions()
 }
 
 void configure::manageDownloadButton()
-{
-	const auto& engine = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ;
-
-	if( networkAccess::hasNetworkSupport() && m_setEnabled ){
-
-		m_ui.pbConfigureDownload->setEnabled( !engine.downloadUrl().isEmpty() ) ;
-	}else{
-		m_ui.pbConfigureDownload->setEnabled( false ) ;
-	}
-
-	m_ui.pbConfigureDownload->setText( tr( "Update" ) + " " + engine.name() ) ;
+{	
 }
 
 void configure::resetMenu()
@@ -290,9 +301,10 @@ void configure::resetMenu()
 
 void configure::enableAll()
 {
-	m_setEnabled = true ;
-
 	this->manageDownloadButton() ;
+	m_ui.comboBoxConfigureDarkTheme->setEnabled( true ) ;
+	m_ui.pbConfigureDownload->setEnabled( true ) ;
+	m_ui.labelConfigureTheme->setEnabled( true ) ;
 	m_ui.cbConfigureShowVersionInfo->setEnabled( true ) ;
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
 	m_ui.labelConfigureLanguage->setEnabled( true ) ;
@@ -320,7 +332,9 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
-	m_setEnabled = false ;
+	m_ui.comboBoxConfigureDarkTheme->setEnabled( false ) ;
+	m_ui.pbConfigureDownload->setEnabled( false ) ;
+	m_ui.labelConfigureTheme->setEnabled( false ) ;
 	m_ui.cbUseSystemVersionIfAvailable->setEnabled( false ) ;
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( false ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( false ) ;

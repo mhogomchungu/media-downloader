@@ -924,7 +924,7 @@ Each Link Should Be In Its Own Line.</string>
          </rect>
         </property>
         <property name="text">
-         <string>Update</string>
+         <string>Update Engine</string>
         </property>
        </widget>
        <widget class="QPushButton" name="pbConfigureRemoveAPlugin">
@@ -1037,7 +1037,7 @@ Each Link Should Be In Its Own Line.</string>
          </rect>
         </property>
        </widget>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="labelConfigureTheme">
         <property name="geometry">
          <rect>
           <x>-2</x>

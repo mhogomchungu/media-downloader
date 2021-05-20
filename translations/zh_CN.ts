@@ -159,6 +159,11 @@ Each Link Should Be In Its Own Line.</source>
         <translation>常规设置</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="927"/>
+        <source>Update Engine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="985"/>
         <source>Batch Download Concurrently</source>
         <translation>批量同时下载</translation>
@@ -207,11 +212,6 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/mainwindow.ui" line="856"/>
         <source>Select Language</source>
         <translation>选择语言</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="927"/>
-        <source>Update</source>
-        <translation>更新</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="875"/>
@@ -337,24 +337,24 @@ Each Link Should Be In Its Own Line.</source>
         <translation>引擎 &quot;%1&quot; 至少需要Media Downloader版本 &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="498"/>
-        <location filename="../src/engines.cpp" line="665"/>
+        <location filename="../src/engines.cpp" line="501"/>
+        <location filename="../src/engines.cpp" line="668"/>
         <location filename="../src/utility.cpp" line="567"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="639"/>
+        <location filename="../src/engines.cpp" line="642"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="992"/>
+        <location filename="../src/engines.cpp" line="995"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1007"/>
+        <location filename="../src/engines.cpp" line="1010"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
@@ -384,7 +384,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="727"/>
+        <location filename="../src/engines.cpp" line="730"/>
         <location filename="../src/networkAccess.cpp" line="113"/>
         <location filename="../src/networkAccess.cpp" line="189"/>
         <source>Download Failed</source>
@@ -418,12 +418,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1055"/>
+        <location filename="../src/engines.cpp" line="1058"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="725"/>
+        <location filename="../src/engines.cpp" line="728"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -433,7 +433,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1075"/>
+        <location filename="../src/engines.cpp" line="1078"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
@@ -461,23 +461,23 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="202"/>
-        <location filename="../src/basicdownloader.cpp" line="337"/>
+        <location filename="../src/basicdownloader.cpp" line="206"/>
+        <location filename="../src/basicdownloader.cpp" line="341"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="317"/>
+        <location filename="../src/basicdownloader.cpp" line="321"/>
         <source>Checking installed version of</source>
         <translation>正在检查的已安装版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="343"/>
+        <location filename="../src/basicdownloader.cpp" line="347"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="347"/>
+        <location filename="../src/basicdownloader.cpp" line="351"/>
         <source>Executable Path</source>
         <translation>可执行文件路径</translation>
     </message>
@@ -485,7 +485,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="77"/>
+        <location filename="../src/batchdownloader.cpp" line="78"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
@@ -501,24 +501,20 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="73"/>
+        <location filename="../src/configure.cpp" line="71"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="100"/>
+        <location filename="../src/configure.cpp" line="98"/>
+        <location filename="../src/configure.cpp" line="128"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="154"/>
+        <location filename="../src/configure.cpp" line="175"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="261"/>
-        <source>Update</source>
-        <translation>更新</translation>
     </message>
 </context>
 </TS>

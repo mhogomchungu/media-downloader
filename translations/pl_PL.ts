@@ -159,6 +159,11 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Opcje ogólne</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="927"/>
+        <source>Update Engine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="985"/>
         <source>Batch Download Concurrently</source>
         <translation>Pobieraj pliki równolegle</translation>
@@ -207,11 +212,6 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <location filename="../src/mainwindow.ui" line="856"/>
         <source>Select Language</source>
         <translation>Wybierz język</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="927"/>
-        <source>Update</source>
-        <translation>Zastosuj</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="875"/>
@@ -337,24 +337,24 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="498"/>
-        <location filename="../src/engines.cpp" line="665"/>
+        <location filename="../src/engines.cpp" line="501"/>
+        <location filename="../src/engines.cpp" line="668"/>
         <location filename="../src/utility.cpp" line="567"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="639"/>
+        <location filename="../src/engines.cpp" line="642"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="992"/>
+        <location filename="../src/engines.cpp" line="995"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1007"/>
+        <location filename="../src/engines.cpp" line="1010"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
@@ -384,7 +384,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Rozpocznij pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="727"/>
+        <location filename="../src/engines.cpp" line="730"/>
         <location filename="../src/networkAccess.cpp" line="113"/>
         <location filename="../src/networkAccess.cpp" line="189"/>
         <source>Download Failed</source>
@@ -418,12 +418,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1055"/>
+        <location filename="../src/engines.cpp" line="1058"/>
         <source>Processing</source>
         <translation>Przetwarzanie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="725"/>
+        <location filename="../src/engines.cpp" line="728"/>
         <source>Download completed</source>
         <translation>Poberanie zakończone</translation>
     </message>
@@ -433,7 +433,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana katalogu pobierania na domyślny</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1075"/>
+        <location filename="../src/engines.cpp" line="1078"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -461,23 +461,23 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="202"/>
-        <location filename="../src/basicdownloader.cpp" line="337"/>
+        <location filename="../src/basicdownloader.cpp" line="206"/>
+        <location filename="../src/basicdownloader.cpp" line="341"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="317"/>
+        <location filename="../src/basicdownloader.cpp" line="321"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="343"/>
+        <location filename="../src/basicdownloader.cpp" line="347"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="347"/>
+        <location filename="../src/basicdownloader.cpp" line="351"/>
         <source>Executable Path</source>
         <translation>Ścieżka aplikacji</translation>
     </message>
@@ -485,7 +485,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="77"/>
+        <location filename="../src/batchdownloader.cpp" line="78"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
@@ -501,24 +501,20 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="73"/>
+        <location filename="../src/configure.cpp" line="71"/>
         <source>Select An Engine File</source>
         <translation>Wybierz plik silnika</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="100"/>
+        <location filename="../src/configure.cpp" line="98"/>
+        <location filename="../src/configure.cpp" line="128"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="154"/>
+        <location filename="../src/configure.cpp" line="175"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="261"/>
-        <source>Update</source>
-        <translation>Aktualizuj</translation>
     </message>
 </context>
 </TS>

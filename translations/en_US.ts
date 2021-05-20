@@ -157,6 +157,11 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="927"/>
+        <source>Update Engine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="985"/>
         <source>Batch Download Concurrently</source>
         <translation type="unfinished"></translation>
@@ -204,11 +209,6 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="856"/>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="927"/>
-        <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -335,24 +335,24 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="498"/>
-        <location filename="../src/engines.cpp" line="665"/>
+        <location filename="../src/engines.cpp" line="501"/>
+        <location filename="../src/engines.cpp" line="668"/>
         <location filename="../src/utility.cpp" line="567"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="639"/>
+        <location filename="../src/engines.cpp" line="642"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="992"/>
+        <location filename="../src/engines.cpp" line="995"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1007"/>
+        <location filename="../src/engines.cpp" line="1010"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
@@ -382,7 +382,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="727"/>
+        <location filename="../src/engines.cpp" line="730"/>
         <location filename="../src/networkAccess.cpp" line="113"/>
         <location filename="../src/networkAccess.cpp" line="189"/>
         <source>Download Failed</source>
@@ -416,12 +416,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1055"/>
+        <location filename="../src/engines.cpp" line="1058"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="725"/>
+        <location filename="../src/engines.cpp" line="728"/>
         <source>Download completed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -431,7 +431,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1075"/>
+        <location filename="../src/engines.cpp" line="1078"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -459,23 +459,23 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="202"/>
-        <location filename="../src/basicdownloader.cpp" line="337"/>
+        <location filename="../src/basicdownloader.cpp" line="206"/>
+        <location filename="../src/basicdownloader.cpp" line="341"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="317"/>
+        <location filename="../src/basicdownloader.cpp" line="321"/>
         <source>Checking installed version of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="343"/>
+        <location filename="../src/basicdownloader.cpp" line="347"/>
         <source>Found version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="347"/>
+        <location filename="../src/basicdownloader.cpp" line="351"/>
         <source>Executable Path</source>
         <translation type="unfinished"></translation>
     </message>
@@ -483,7 +483,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="77"/>
+        <location filename="../src/batchdownloader.cpp" line="78"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -499,23 +499,19 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="73"/>
+        <location filename="../src/configure.cpp" line="71"/>
         <source>Select An Engine File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="100"/>
+        <location filename="../src/configure.cpp" line="98"/>
+        <location filename="../src/configure.cpp" line="128"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="154"/>
+        <location filename="../src/configure.cpp" line="175"/>
         <source>Set Download Folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="261"/>
-        <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
