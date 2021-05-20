@@ -483,11 +483,9 @@ public:
 	void removeEngine( const QString& name ) ;
 	QStringList enginesList() const ;
 	const std::vector< engine >& getEngines() const ;
-	const engine& defaultEngine() const ;
+	const engine& defaultEngine( const QString& ) const ;
 	engines::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	engines::engine getEngineByPath( const QString& path ) const ;
-	void setDefaultEngine( const QString& name ) ;
-	void setDefaultEngine( const engines::engine& engine ) ;
 	engines( Logger&,settings& ) ;
 private:
 	void updateEngines( bool ) ;

@@ -157,6 +157,8 @@ public:
 					   } ;
 	} ;
 
+	enum class tabName{ basic,batch,playlist } ;
+
 	settings() ;
 
 	int tabNumber() ;
@@ -165,16 +167,12 @@ public:
 	QString downloadFolder() ;
 	QString downloadFolder( Logger& ) ;
 	QString presetOptions() ;
-	QString defaultEngine() ;
 	QString localizationLanguagePath() ;
 	QString localizationLanguage() ;
 	QString commandOnSuccessfulDownload() ;
 	QString commandWhenAllFinished() ;
 	QString darkMode() ;
-	QString playlistDownloaderDefaultEngine() ;
-	QString batchDownloaderDefaultEngine() ;
-
-	enum class tabName{ basic,batch,playlist } ;
+	QString defaultEngine( settings::tabName ) ;
 
 	QString lastUsedOption( settings::tabName ) ;
 
@@ -204,10 +202,8 @@ public:
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setDarkMode( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
-	void setPlaylistDownloaderDefaultEngine( const QString& ) ;
-	void setBatchDownloaderDefaultEngine( const QString& ) ;
+	void setDefaultEngine( const QString&,settings::tabName ) ;
 	void setPresetOptions( const QString& ) ;
-	void setDefaultEngine( const QString& ) ;
 	void setLastUsedOption( const QString&,settings::tabName ) ;
 	void setPresetOptions( const QStringList& ) ;
 	void setPresetToDefaults() ;

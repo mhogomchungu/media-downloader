@@ -164,7 +164,7 @@ void basicdownloader::changeDefaultEngine( int s )
 
 	if( engine ){
 
-		engines.setDefaultEngine( engine.value() ) ;
+		m_settings.setDefaultEngine( engine.value().name(),settings::tabName::basic ) ;
 
 		this->setDefaultEngine() ;
 	}else{
@@ -250,7 +250,7 @@ basicdownloader& basicdownloader::hideTableList()
 
 void basicdownloader::setDefaultEngine()
 {
-	auto m = m_settings.defaultEngine() ;
+	auto m = m_settings.defaultEngine( settings::tabName::basic ) ;
 
 	for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
 
@@ -272,7 +272,7 @@ void basicdownloader::setDefaultEngine()
 		}
 	}
 
-	m_settings.setDefaultEngine( m_ui.cbEngineType->itemText( 0 ) ) ;
+	m_settings.setDefaultEngine( m_ui.cbEngineType->itemText( 0 ),settings::tabName::basic ) ;
 	m_ui.cbEngineType->setCurrentIndex( 0 ) ;
 	m_ctx.TabManager().batchDownloader().updateEnginesList( this->enginesList() ) ;
 	m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
@@ -426,7 +426,7 @@ void basicdownloader::list()
 
 	auto url = m_ui.lineEditURL->text() ;
 
-	const auto& backend = m_ctx.Engines().defaultEngine() ;
+	const auto& backend = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ;
 
 	auto args = backend.defaultListCmdOptions() ;
 	args.append( url.split( ' ' ) ) ;
@@ -445,7 +445,7 @@ void basicdownloader::download( const QString& url )
 
 	auto m = utility::split( url,' ',true ) ;
 
-	const auto& engine = m_ctx.Engines().defaultEngine() ;
+	const auto& engine = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ;
 
 	utility::clear( m_bogusTable ) ;
 
@@ -523,7 +523,7 @@ void basicdownloader::downloadDefaultEngine()
 
 	m_counter = static_cast< size_t >( -1 ) ;
 
-	this->printEngineVersionInfo( m_ctx.Engines().defaultEngine() ) ;
+	this->printEngineVersionInfo( m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ) ;
 }
 
 void basicdownloader::tabEntered()

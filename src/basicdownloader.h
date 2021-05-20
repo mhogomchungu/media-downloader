@@ -46,7 +46,6 @@ public:
 	void retranslateUi() ;
 	void checkAndPrintInstalledVersion( const engines::engine& ) ;
 	void printEngineVersionInfo() ;
-	void changeDefaultEngine( int index ) ;
 	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;
 	basicdownloader& hideTableList() ;
@@ -121,6 +120,7 @@ private:
 		  const QString& quality,
 		  bool list_requested ) ;
 
+	void changeDefaultEngine( int index ) ;
 	void tabManagerEnableAll( bool ) ;
 	void listRequested( const QList< QByteArray >& ) ;
 	void list() ;

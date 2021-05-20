@@ -111,7 +111,7 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[ this ](){
 
-		this->downloadFromGitHub( m_ctx.Engines().defaultEngine() ) ;
+		this->downloadFromGitHub( m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ) ;
 	} ) ;
 
 	this->resetMenu() ;
@@ -249,7 +249,7 @@ void configure::saveOptions()
 
 void configure::manageDownloadButton()
 {
-	const auto& engine = m_ctx.Engines().defaultEngine() ;
+	const auto& engine = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ;
 
 	if( networkAccess::hasNetworkSupport() && m_setEnabled ){
 

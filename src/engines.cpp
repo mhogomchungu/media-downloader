@@ -158,15 +158,15 @@ const std::vector< engines::engine >& engines::getEngines() const
 	return m_backends ;
 }
 
-const engines::engine& engines::defaultEngine() const
+const engines::engine& engines::defaultEngine( const QString& name ) const
 {
-	auto m =  this->getEngineByName( m_settings.defaultEngine() ) ;
+	auto m =  this->getEngineByName( name ) ;
 
 	if( m ){
 
 		return m.value() ;
 	}else{
-		m_logger.add( "Error: engines::defaultEngine: Unknown Engine: " + m_settings.defaultEngine() ) ;
+		m_logger.add( "Error: engines::defaultEngine: Unknown Engine: " + name ) ;
 
 		if( m_backends.size() > 0 ){
 
@@ -352,16 +352,6 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 	}
 }
 
-void engines::setDefaultEngine( const QString& name )
-{
-	m_settings.setDefaultEngine( name ) ;
-}
-
-void engines::setDefaultEngine( const engines::engine& engine )
-{
-	this->setDefaultEngine( engine.name() ) ;
-}
-
 static QStringList _toStringList( const QJsonValue& value ){
 
 	QStringList m ;
@@ -432,7 +422,8 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 
 				m_backends.clear() ;
 
-				this->setDefaultEngine( name ) ;
+				m_settings.setDefaultEngine( name,settings::tabName::basic ) ;
+				m_settings.setDefaultEngine( name,settings::tabName::batch ) ;
 
 				this->updateEngines( true ) ;
 			}
@@ -457,7 +448,19 @@ void engines::removeEngine( const QString& e )
 
 		if( m_backends.size() > 0 ){
 
-			this->setDefaultEngine( m_backends[ 0 ] ) ;
+			const auto& name = engine.name() ;
+
+			auto _reset_default = [ & ]( const QString& name,settings::tabName n ){
+
+				if( name == m_settings.defaultEngine( n ) ){
+
+					m_settings.setDefaultEngine( m_backends[ 0 ].name(),n ) ;
+				}
+			} ;
+
+			_reset_default( name,settings::tabName::basic ) ;
+			_reset_default( name,settings::tabName::batch ) ;
+			_reset_default( name,settings::tabName::playlist ) ;
 		}
 
 		m_backends.clear() ;

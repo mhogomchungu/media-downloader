@@ -200,21 +200,6 @@ void settings::setPresetOptions( const QString& e )
 	this->setPresetOptions( utility::split( m,',',true ) ) ;
 }
 
-void settings::setDefaultEngine( const QString& e )
-{
-	m_settings.setValue( "DefaultEngine",e ) ;
-}
-
-QString settings::defaultEngine()
-{
-	if( !m_settings.contains( "DefaultEngine" ) ){
-
-		m_settings.setValue( "DefaultEngine","youtube-dl" ) ;
-	}
-
-	return m_settings.value( "DefaultEngine" ).toString() ;
-}
-
 void settings::setPresetOptions( const QStringList& m )
 {
 	m_settings.setValue( "PresetOptions",m ) ;
@@ -360,34 +345,39 @@ void settings::setHighDpiScalingFactor( const QString& m )
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;
 }
 
-QString settings::playlistDownloaderDefaultEngine()
+static QString _getDefaultEngineName( settings::tabName e )
 {
-	if( !m_settings.contains( "PlaylistDownloaderDefaultEngine" ) ){
+	if( e == settings::tabName::basic ){
 
-		m_settings.setValue( "PlaylistDownloaderDefaultEngine","youtube-dl" ) ;
+		return "BasicDownloaderDefaultEngine" ;
+
+	}else if( e == settings::tabName::batch ){
+
+		return "BatchDownloaderDefaultEngine" ;
+
+	}else if( e == settings::tabName::playlist ){
+
+		return "PlaylistDownloaderDefaultEngine" ;
+	}else{
+		return "" ;
+	}
+}
+
+void settings::setDefaultEngine( const QString& e,settings::tabName n )
+{
+	m_settings.setValue( _getDefaultEngineName( n ),e ) ;
+}
+
+QString settings::defaultEngine( settings::tabName n )
+{
+	auto m = _getDefaultEngineName( n ) ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,"youtube-dl" ) ;
 	}
 
-	return m_settings.value( "PlaylistDownloaderDefaultEngine" ).toString() ;
-}
-
-QString settings::batchDownloaderDefaultEngine()
-{
-	if( !m_settings.contains( "BatchDownloaderDefaultEngine" ) ){
-
-		m_settings.setValue( "BatchDownloaderDefaultEngine","youtube-dl" ) ;
-	}
-
-	return m_settings.value( "BatchDownloaderDefaultEngine" ).toString() ;
-}
-
-void settings::setPlaylistDownloaderDefaultEngine( const QString& e )
-{
-	m_settings.setValue( "PlaylistDownloaderDefaultEngine",e ) ;
-}
-
-void settings::setBatchDownloaderDefaultEngine( const QString& e )
-{
-	m_settings.setValue( "BatchDownloaderDefaultEngine",e ) ;
+	return m_settings.value( m ).toString() ;
 }
 
 QByteArray settings::highDpiScalingFactor()

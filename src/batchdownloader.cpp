@@ -52,7 +52,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( s != -1 ){
 
-			m_settings.setBatchDownloaderDefaultEngine( m_ui.cbEngineTypeBD->itemText( s ) ) ;
+			m_settings.setDefaultEngine( m_ui.cbEngineTypeBD->itemText( s ),settings::tabName::batch ) ;
 		}
 	} ) ;
 
@@ -108,14 +108,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
 
-		auto m = m_ui.cbEngineTypeBD->currentText() ;
+		auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
 
-		const auto& e = m_ctx.Engines().getEngineByName( m ) ;
-
-		if( e ){
-
-			this->download( e.value() ) ;
-		}
+		this->download( m_ctx.Engines().defaultEngine( m ) ) ;
 	} ) ;
 }
 
@@ -143,7 +138,9 @@ void batchdownloader::resetMenu()
 		}else{
 			m_ui.lineEditBDUrlOptions->setText( ac.objectName() ) ;
 
-			this->download( m_ctx.Engines().defaultEngine() ) ;
+			auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
+
+			this->download( m_ctx.Engines().defaultEngine( m ) ) ;
 		}
 	} ) ;
 }
@@ -174,8 +171,8 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 	}
 
 	this->setUpdefaultEngine( comboBox,
-				  m_settings.batchDownloaderDefaultEngine(),
-				  [ this ]( const QString& e ){ m_settings.setBatchDownloaderDefaultEngine( e ) ; } ) ;
+				  m_settings.defaultEngine( settings::tabName::batch ),
+				  [ this ]( const QString& e ){ m_settings.setDefaultEngine( e,settings::tabName::batch ) ; } ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,
@@ -246,7 +243,7 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 {
 	if( !a.isEmpty() ){
 
-		const auto& engine = m_ctx.Engines().defaultEngine() ;
+		const auto& engine = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::batch ) ) ;
 
 		if( doNotGetTitle || !engine.likeYoutubeDl() ){
 

@@ -114,7 +114,9 @@ void batchfiledownloader::download()
 
 		auto l = utility::split( list,'\n',true ) ;
 
-		const auto& engine = m_ctx.Engines().defaultEngine() ;
+		auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
+
+		const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
 
 		m_tabManager.batchDownloader().download( engine,options,l,true ) ;
 	}
