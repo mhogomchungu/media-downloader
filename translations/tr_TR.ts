@@ -91,7 +91,7 @@
         <location filename="../src/mainwindow.ui" line="441"/>
         <location filename="../src/mainwindow.ui" line="793"/>
         <source>Engine Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Motor Adı:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="243"/>
@@ -176,7 +176,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1050"/>
         <source>Dark Theme(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Koyu Tema (Yeniden Başlatılması Gerekiyor)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1084"/>
@@ -304,7 +304,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/translator.cpp" line="32"/>
         <source>Turkish (Turkey)</source>
-        <translation type="unfinished"></translation>
+        <translation>Türkçe (Türkiye)</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="350"/>
@@ -334,7 +334,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/engines.cpp" line="311"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; motoru, Medya İndiricinin en az &quot;%2&quot; sürümünü gerektiriyor</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="498"/>
@@ -435,27 +435,27 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/engines.cpp" line="1075"/>
         <source>Post Processing</source>
-        <translation type="unfinished"></translation>
+         <translation>Rötuş</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="153"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+         <translation>Normal</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="154"/>
         <source>Dark Theme 1</source>
-        <translation type="unfinished"></translation>
+         <translation>Koyu Tema 1</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="155"/>
         <source>Dark Theme 2</source>
-        <translation type="unfinished"></translation>
+         <translation>Koyu Tema 2</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="156"/>
         <source>Dark Theme 3</source>
-        <translation type="unfinished"></translation>
+         <translation>Koyu Tema 3</translation>
     </message>
 </context>
 <context>
