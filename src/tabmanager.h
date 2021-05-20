@@ -55,6 +55,16 @@ public:
 		m_batchfiledownloader.init_done() ;
 		m_playlistdownloader.init_done() ;
 
+		m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
+
+		switch( s.tabNumber() ) {
+			case 0 : m_basicdownloader.tabEntered() ; break ;
+			case 1 : m_batchdownloader.tabEntered() ; break ;
+			case 2 : m_playlistdownloader.tabEntered() ; break ;
+			case 3 : m_configure.tabEntered() ; break ;
+			case 4 : m_about.tabEntered() ; break ;
+		}
+
 		QObject::connect( m.tabWidget,&QTabWidget::currentChanged,[ this ]( int index ){
 
 			switch( index ) {
@@ -78,8 +88,6 @@ public:
 				m_currentTab = index ;
 			}
 		} ) ;
-
-		m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 	}
 	tabManager& enableAll()
 	{

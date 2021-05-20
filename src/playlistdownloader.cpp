@@ -47,6 +47,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		if( s != -1 ){
 
+			m_ui.lineEditPLUrlOptions->clear() ;
 			auto m = m_ui.cbEngineTypePD->itemText( s ) ;
 
 			m_settings.setDefaultEngine( m,settings::tabName::playlist ) ;
@@ -182,9 +183,11 @@ void playlistdownloader::updateEnginesList( const QStringList& e )
 
 	auto &m = m_ctx.TabManager().batchDownloader() ;
 
+	auto s = settings::tabName::playlist ;
+
 	m.setUpdefaultEngine( comboBox,
-			      m_settings.defaultEngine( settings::tabName::playlist ),
-			      [ this ]( const QString& e ){ m_settings.setDefaultEngine( e,settings::tabName::playlist ) ; } ) ;
+			      m_settings.defaultEngine( s ),
+			      [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
 void playlistdownloader::download()

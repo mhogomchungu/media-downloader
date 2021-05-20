@@ -101,7 +101,11 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	connect( m_ui.cbEngineType,s,[ & ]( int s ){
 
-		this->changeDefaultEngine( s ) ;
+		if( s != -1 ){
+
+			m_ui.lineEditOptions->clear() ;
+			this->changeDefaultEngine( s ) ;
+		}
 	} ) ;
 
 	m_bogusTable.insertRow( 0 ) ;

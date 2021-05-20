@@ -52,6 +52,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( s != -1 ){
 
+			m_ui.lineEditBDUrlOptions->clear() ;
 			m_settings.setDefaultEngine( m_ui.cbEngineTypeBD->itemText( s ),settings::tabName::batch ) ;
 		}
 	} ) ;
@@ -170,9 +171,11 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 		comboBox.addItem( it ) ;
 	}
 
+	auto s = settings::tabName::batch ;
+
 	this->setUpdefaultEngine( comboBox,
-				  m_settings.defaultEngine( settings::tabName::batch ),
-				  [ this ]( const QString& e ){ m_settings.setDefaultEngine( e,settings::tabName::batch ) ; } ) ;
+				  m_settings.defaultEngine( s ),
+				  [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,
