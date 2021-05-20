@@ -394,7 +394,9 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 
 	if( json ){
 
-		auto name = json.doc().object().value( "Name" ).toString() ;
+		auto object = json.doc().object() ;
+
+		auto name = object.value( "Name" ).toString() ;
 
 		if( !name.isEmpty() ){
 
@@ -425,7 +427,12 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 				m_settings.setDefaultEngine( name,settings::tabName::basic ) ;
 				m_settings.setDefaultEngine( name,settings::tabName::batch ) ;
 
-				this->updateEngines( true ) ;
+				if( object.value( "CanDownloadPlaylist" ).toBool( false ) ){
+
+					m_settings.setDefaultEngine( name,settings::tabName::playlist ) ;
+				}
+
+				this->updateEngines( false ) ;
 			}
 		}
 	}
