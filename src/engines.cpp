@@ -31,6 +31,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QDesktopServices>
 
 #include <QDir>
 
@@ -112,6 +113,37 @@ engines::engines( Logger& l,settings& s ) :
 	youtube_dl::init( m_logger,m_enginePaths ) ;
 
 	this->updateEngines( true ) ;
+}
+
+void engines::openUrls( QTableWidget& table,QTableWidgetItem& item,const QString& engineName ) const
+{
+	const auto& engine = this->getEngineByName( engineName ) ;
+
+	if( engine && ( engine->likeYoutubeDl() || engine->name() == "gallery-dl" ) ) {
+
+		if( concurrentDownloadManagerFinishedStatus::finishedWithSuccess( table,item.row() ) ){
+
+			auto m = utility::split( item.text(),'\n',true ) ;
+			m.removeLast() ;
+
+			bool galleryDl = engine->name() == "gallery-dl" ;
+
+			for( const auto& it : m ){
+
+				if( galleryDl ){
+
+					auto e = m_settings.downloadFolder() ;
+					auto m = QUrl::fromLocalFile( e + "/gallery-dl/" + it ) ;
+
+					QDesktopServices::openUrl( m ) ;
+				}else{
+					auto m = QUrl::fromLocalFile( m_settings.downloadFolder() + "/" + it ) ;
+
+					QDesktopServices::openUrl( m ) ;
+				}
+			}
+		}
+	}
 }
 
 void engines::updateEngines( bool addAll )

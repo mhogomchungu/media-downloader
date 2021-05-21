@@ -43,6 +43,15 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
+	connect( m_ui.tableWidgetPl,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
+
+		Q_UNUSED( column )
+
+		m_ctx.Engines().openUrls( *m_ui.tableWidgetPl,
+					  *m_ui.tableWidgetPl->item( row,0 ),
+					   m_ui.cbEngineTypePD->currentText() ) ;
+	} ) ;
+
 	connect( m_ui.cbEngineTypePD,s,[ & ]( int s ){
 
 		if( s != -1 ){

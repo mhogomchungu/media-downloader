@@ -77,6 +77,18 @@ struct concurrentDownloadManagerFinishedStatus
 	{
 		return finishedWithSuccess() == e  ;
 	}
+	static bool finishedCancelled( QTableWidget& e,int row )
+	{
+		return finishedCancelled( e.item( row,2 )->text() ) ;
+	}
+	static bool finishedWithError( QTableWidget& e,int row )
+	{
+		return finishedWithError( e.item( row,2 )->text() ) ;
+	}
+	static bool finishedWithSuccess( QTableWidget& e,int row )
+	{
+		return finishedWithSuccess( e.item( row,2 )->text() ) ;
+	}
 	void setState( QTableWidgetItem& item ) const
 	{
 		if( this->exitState.cancelled()){

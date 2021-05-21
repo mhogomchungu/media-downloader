@@ -48,6 +48,15 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
+	connect( m_ui.tableWidgetBD,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
+
+		Q_UNUSED( column )
+
+		m_ctx.Engines().openUrls( *m_ui.tableWidgetBD,
+					  *m_ui.tableWidgetBD->item( row,0 ),
+					   m_ui.cbEngineTypeBD->currentText() ) ;
+	} ) ;
+
 	connect( m_ui.cbEngineTypeBD,s,[ & ]( int s ){
 
 		if( s != -1 ){
