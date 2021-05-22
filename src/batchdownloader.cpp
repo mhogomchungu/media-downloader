@@ -52,9 +52,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		Q_UNUSED( column )
 
-		m_ctx.Engines().openUrls( *m_ui.tableWidgetBD,
-					  *m_ui.tableWidgetBD->item( row,0 ),
-					   m_ui.cbEngineTypeBD->currentText() ) ;
+		m_ctx.Engines().openUrls( *m_ui.tableWidgetBD->item( row,0 ),
+					  m_ui.cbEngineTypeBD->currentText() ) ;
 	} ) ;
 
 	connect( m_ui.cbEngineTypeBD,s,[ & ]( int s ){

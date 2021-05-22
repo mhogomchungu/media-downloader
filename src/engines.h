@@ -487,7 +487,7 @@ public:
 	engines::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	engines::engine getEngineByPath( const QString& path ) const ;
 	engines( Logger&,settings& ) ;
-	void openUrls( QTableWidget&,QTableWidgetItem&,const QString& engineName ) const ;
+	void openUrls( QTableWidgetItem&,const QString& engineName ) const ;
 private:
 	void updateEngines( bool ) ;
 	Logger& m_logger ;

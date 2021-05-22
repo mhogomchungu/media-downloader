@@ -47,9 +47,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		Q_UNUSED( column )
 
-		m_ctx.Engines().openUrls( *m_ui.tableWidgetPl,
-					  *m_ui.tableWidgetPl->item( row,0 ),
-					   m_ui.cbEngineTypePD->currentText() ) ;
+		m_ctx.Engines().openUrls( *m_ui.tableWidgetPl->item( row,0 ),
+					  m_ui.cbEngineTypePD->currentText() ) ;
 	} ) ;
 
 	connect( m_ui.cbEngineTypePD,s,[ & ]( int s ){

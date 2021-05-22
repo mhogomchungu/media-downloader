@@ -115,13 +115,13 @@ engines::engines( Logger& l,settings& s ) :
 	this->updateEngines( true ) ;
 }
 
-void engines::openUrls( QTableWidget& table,QTableWidgetItem& item,const QString& engineName ) const
+void engines::openUrls( QTableWidgetItem& item,const QString& engineName ) const
 {
 	const auto& engine = this->getEngineByName( engineName ) ;
 
 	if( engine && ( engine->likeYoutubeDl() || engine->name() == "gallery-dl" ) ) {
 
-		if( concurrentDownloadManagerFinishedStatus::finishedWithSuccess( table,item.row() ) ){
+		if( concurrentDownloadManagerFinishedStatus::finishedWithSuccess( *item.tableWidget(),item.row() ) ){
 
 			auto m = utility::split( item.text(),'\n',true ) ;
 			m.removeLast() ;
