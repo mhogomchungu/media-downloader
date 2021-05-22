@@ -39,7 +39,6 @@ public:
 	private:
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
-		int m_maxDownloadCounter ;
 		QString m_tmp ;
 		QString m_fileName ;
 	} ;

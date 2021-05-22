@@ -259,7 +259,6 @@ public:
 				virtual ~filter() ;
 			protected:
 				const QString& quality() ;
-				int maxDownloadCounter() ;
 			private:
 				engines::engine::functions::preProcessing m_processing ;
 				QString m_quality ;

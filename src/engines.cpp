@@ -1082,11 +1082,6 @@ const QString& engines::engine::functions::filter::quality()
 	return m_quality ;
 }
 
-int engines::engine::functions::filter::maxDownloadCounter()
-{
-	return m_quality.count( '+',Qt::CaseInsensitive ) + 1 ;
-}
-
 engines::engine::functions::preProcessing::preProcessing() :
 	m_txt( engines::engine::functions::preProcessing::processingText() )
 {

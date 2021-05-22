@@ -266,8 +266,7 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 }
 
 youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e ) :
-	engines::engine::functions::filter( e ),
-	m_maxDownloadCounter( engines::engine::functions::filter::maxDownloadCounter() )
+	engines::engine::functions::filter( e )
 {
 }
 
@@ -317,7 +316,7 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 		return m_tmp ;
 	}
 
-	if( downloadCounter < m_maxDownloadCounter ){
+	if( downloadCounter == 0 ){
 
 		return m_preProcessing.text() ;
 	}else{
