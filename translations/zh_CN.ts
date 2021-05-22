@@ -161,7 +161,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="927"/>
         <source>Update Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>更新引擎</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="985"/>
