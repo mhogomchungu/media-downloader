@@ -36,6 +36,8 @@ configure::configure( const Context& ctx ) :
 {
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
 
+	m_ui.tabWidgetConfigure->setCurrentIndex( 0 ) ;
+
 	settings::darkModes modes ;
 
 	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
@@ -104,7 +106,7 @@ configure::configure( const Context& ctx ) :
 		} ) ;
 
 		m.exec( QCursor::pos() ) ;
-	} ) ;	
+	} ) ;
 
 	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[](){
 
@@ -139,7 +141,7 @@ configure::configure( const Context& ctx ) :
 			m_ctx.mainWindow().retranslateUi() ;
 
 			m_tabManager.reTranslateUi() ;
-		}		
+		}
 	} ) ;
 
 	connect( m_ui.pbConfigureSetPresetDefaults,&QPushButton::clicked,[ & ](){
@@ -293,7 +295,7 @@ void configure::resetMenu()
 		m_ui.cbConfigureLanguage->addItem( translator.UIName( e ) ) ;
 	}
 
-	m_ui.cbConfigureLanguage->setCurrentIndex( index ) ;	
+	m_ui.cbConfigureLanguage->setCurrentIndex( index ) ;
 }
 
 void configure::enableAll()

@@ -814,7 +814,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1067,7 +1067,7 @@ Each Link Should Be In Its Own Line.</string>
           <x>40</x>
           <y>10</y>
           <width>681</width>
-          <height>311</height>
+          <height>301</height>
          </rect>
         </property>
        </widget>
