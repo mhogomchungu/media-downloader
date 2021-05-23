@@ -52,9 +52,41 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbConfigureSavePresetOptions,&QPushButton::clicked,[ this ](){
+
+		m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
+		m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
+		m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
+		m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
+		m_settings.setConcurrentDownloading( m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ) ;
+		m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
+
+		auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
+
+		if( s.isEmpty() ){
+
+			m_settings.setMaxConcurrentDownloads( 4 ) ;
+		}else{
+			bool ok ;
+
+			auto m = s.toInt( &ok ) ;
+
+			if( ok ){
+
+				if( m == 0 ){
+
+					m_settings.setMaxConcurrentDownloads( 1 ) ;
+				}else{
+					m_settings.setMaxConcurrentDownloads( m ) ;
+				}
+			}
+		}
+
+		m_ctx.TabManager().resetMenu() ;
+	} ) ;
+
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
-		this->saveOptions() ;
 		m_tabManager.basicDownloader().appQuit() ;
 	} ) ;
 
@@ -228,8 +260,6 @@ void configure::tabEntered()
 
 void configure::tabExited()
 {
-	this->saveOptions() ;
-	m_ctx.TabManager().resetMenu() ;
 }
 
 void configure::enableConcurrentTextField()
@@ -238,37 +268,6 @@ void configure::enableConcurrentTextField()
 
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( s ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( s ) ;
-}
-
-void configure::saveOptions()
-{
-	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
-	m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
-	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
-	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
-	m_settings.setConcurrentDownloading( m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ) ;
-	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
-
-	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
-
-	if( s.isEmpty() ){
-
-		m_settings.setMaxConcurrentDownloads( 4 ) ;
-	}else{
-		bool ok ;
-
-		auto m = s.toInt( &ok ) ;
-
-		if( ok ){
-
-			if( m == 0 ){
-
-				m_settings.setMaxConcurrentDownloads( 1 ) ;
-			}else{
-				m_settings.setMaxConcurrentDownloads( m ) ;
-			}
-		}
-	}
 }
 
 void configure::resetMenu()

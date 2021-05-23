@@ -26,6 +26,7 @@
 #include <QMenu>
 #include <QPushButton>
 #include <QTimer>
+#include <QThread>
 
 #include <type_traits>
 #include <memory>
@@ -649,6 +650,59 @@ namespace utility
 		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
 	}
 
+	template< typename BackGroundTask,
+		  typename UiThreadResult >
+	class Thread : public QThread
+	{
+	public:
+		Thread( BackGroundTask bgt,UiThreadResult fgt ) :
+			m_bgt( std::move( bgt ) ),
+			m_fgt( std::move( fgt ) )
+		{
+			connect( this,&QThread::finished,this,&Thread::then,Qt::QueuedConnection ) ;
+
+			this->start() ;
+		}
+		void run() override
+		{
+			m_value = m_bgt() ;
+		}
+		void then()
+		{
+			m_fgt( std::move( m_value ) ) ;
+			this->deleteLater() ;
+		}
+	private:
+		BackGroundTask m_bgt ;
+		UiThreadResult m_fgt ;
+		utility::types::result_of< BackGroundTask > m_value ;
+	};
+
+	template< typename BackGroundTask,
+		  typename UiThreadResult,
+		  utility::types::has_non_void_return_type< BackGroundTask > = 0 >
+	void runInBkThread( BackGroundTask bgt,UiThreadResult fgt )
+	{
+		new Thread< BackGroundTask,UiThreadResult >( std::move( bgt ),std::move( fgt ) ) ;
+	}
+
+	template< typename BackGroundTask,
+		  typename UiThreadResult,
+		  utility::types::has_void_return_type< BackGroundTask > = 0 >
+	void runInBkThread( BackGroundTask bgt,UiThreadResult fgt )
+	{
+		return utility::runInBkThread( [ bgt = std::move( bgt ) ](){
+
+			bgt() ;
+
+			return 0 ;
+
+		},[ fgt = std::move( fgt ) ]( int ){
+
+			fgt() ;
+		} ) ;
+	}
+
 	void updateFinishedState( const engines::engine& engine,
 				  settings& settings,
 				  QTableWidget& table,
@@ -657,6 +711,7 @@ namespace utility
 	void setTableWidget( QTableWidget&,const tableWidgetOptions& = tableWidgetOptions() ) ;
 	void addItem( QTableWidget&,const QStringList&,const QFont&,int alignment = Qt::AlignCenter ) ;
 	void addItem( QTableWidget&,const QString&,const QFont&,int alignment = Qt::AlignCenter ) ;
+
 	void clear( QTableWidget& ) ;
 	void wait( int time ) ;
 	void waitForOneSecond() ;

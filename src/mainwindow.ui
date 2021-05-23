@@ -252,7 +252,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -800,6 +800,119 @@ Each Link Should Be In Its Own Line.</string>
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>Library</string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidgetLibrary">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>771</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="tabKeyNavigation">
+       <bool>false</bool>
+      </property>
+      <property name="showDropIndicator" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::SolidLine</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string notr="true">Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string notr="true">TypeName</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="pbLibraryQuit">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>400</y>
+        <width>111</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Quit</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbLibraryUp">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>400</y>
+        <width>111</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Up</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbLibraryRefresh">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>400</y>
+        <width>111</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbLibraryDowloadFolder">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>400</y>
+        <width>241</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Open Folder</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbLibraryHome">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>400</y>
+        <width>111</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Home</string>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
       <string>Configure</string>
@@ -814,7 +927,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1074,9 +1187,9 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
         <property name="geometry">
          <rect>
-          <x>260</x>
+          <x>230</x>
           <y>320</y>
-          <width>241</width>
+          <width>141</width>
           <height>31</height>
          </rect>
         </property>
@@ -1085,6 +1198,22 @@ Each Link Should Be In Its Own Line.</string>
         </property>
         <property name="text">
          <string>Set Defaults</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureSavePresetOptions">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>320</y>
+          <width>141</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Reset Option To Its Default</string>
+        </property>
+        <property name="text">
+         <string>Save</string>
         </property>
        </widget>
       </widget>
@@ -1133,7 +1262,6 @@ Each Link Should Be In Its Own Line.</string>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>tabWidget</tabstop>
-  <tabstop>plainTextEditLogger</tabstop>
   <tabstop>lineEditURL</tabstop>
   <tabstop>lineEditOptions</tabstop>
   <tabstop>cbEngineType</tabstop>
@@ -1143,6 +1271,15 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbEntries</tabstop>
   <tabstop>pbQuit</tabstop>
   <tabstop>tabWidgetBatchDownlader</tabstop>
+  <tabstop>tableWidgetBD</tabstop>
+  <tabstop>lineEditBDUrl</tabstop>
+  <tabstop>lineEditBDUrlOptions</tabstop>
+  <tabstop>cbEngineTypeBD</tabstop>
+  <tabstop>pbBDCancel</tabstop>
+  <tabstop>pbBDDownload</tabstop>
+  <tabstop>pbBDAdd</tabstop>
+  <tabstop>pbBDOptions</tabstop>
+  <tabstop>pbBDQuit</tabstop>
   <tabstop>lineEditFileDownloader</tabstop>
   <tabstop>pbFileDownloaderFilePath</tabstop>
   <tabstop>lineEditFileOptions</tabstop>
@@ -1159,32 +1296,31 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbPLGetList</tabstop>
   <tabstop>pbPLOptions</tabstop>
   <tabstop>pbPLQuit</tabstop>
+  <tabstop>tableWidgetLibrary</tabstop>
+  <tabstop>pbLibraryUp</tabstop>
+  <tabstop>pbLibraryHome</tabstop>
+  <tabstop>pbLibraryDowloadFolder</tabstop>
+  <tabstop>pbLibraryRefresh</tabstop>
+  <tabstop>pbLibraryQuit</tabstop>
   <tabstop>tabWidgetConfigure</tabstop>
-  <tabstop>cbConfigureLanguage</tabstop>
-  <tabstop>lineEditConfigureScaleFactor</tabstop>
-  <tabstop>lineEditConfigureDownloadPath</tabstop>
-  <tabstop>pbConfigureDownloadPath</tabstop>
-  <tabstop>pbConfigureDownload</tabstop>
-  <tabstop>pbConfigureAddAPlugin</tabstop>
-  <tabstop>pbConfigureRemoveAPlugin</tabstop>
-  <tabstop>comboBoxConfigureDarkTheme</tabstop>
-  <tabstop>pbBDCancel</tabstop>
-  <tabstop>cbUseSystemVersionIfAvailable</tabstop>
-  <tabstop>cbConfigureShowVersionInfo</tabstop>
-  <tabstop>cbConfigureBatchDownloadConcurrently</tabstop>
-  <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
-  <tabstop>lineEditBDUrlOptions</tabstop>
   <tabstop>textEditConfigurePresetOptions</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>
+  <tabstop>pbConfigureSavePresetOptions</tabstop>
   <tabstop>pbConfigureQuit</tabstop>
-  <tabstop>pbBDDownload</tabstop>
-  <tabstop>pbBDAdd</tabstop>
-  <tabstop>pbBDOptions</tabstop>
-  <tabstop>cbEngineTypeBD</tabstop>
-  <tabstop>pbBDQuit</tabstop>
-  <tabstop>lineEditBDUrl</tabstop>
+  <tabstop>pbConfigureDownload</tabstop>
+  <tabstop>pbConfigureAddAPlugin</tabstop>
+  <tabstop>lineEditConfigureScaleFactor</tabstop>
+  <tabstop>pbConfigureRemoveAPlugin</tabstop>
+  <tabstop>cbConfigureLanguage</tabstop>
   <tabstop>bdTableWidgetList</tabstop>
-  <tabstop>tableWidgetBD</tabstop>
+  <tabstop>plainTextEditLogger</tabstop>
+  <tabstop>comboBoxConfigureDarkTheme</tabstop>
+  <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
+  <tabstop>lineEditConfigureDownloadPath</tabstop>
+  <tabstop>cbConfigureBatchDownloadConcurrently</tabstop>
+  <tabstop>cbConfigureShowVersionInfo</tabstop>
+  <tabstop>cbUseSystemVersionIfAvailable</tabstop>
+  <tabstop>pbConfigureDownloadPath</tabstop>
  </tabstops>
  <resources/>
  <connections/>

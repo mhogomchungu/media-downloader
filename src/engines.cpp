@@ -115,35 +115,50 @@ engines::engines( Logger& l,settings& s ) :
 	this->updateEngines( true ) ;
 }
 
-void engines::openUrls( QTableWidgetItem& item,const QString& engineName ) const
+static void _openUrls( QTableWidgetItem& item,settings& settings,bool galleryDl )
 {
-	const auto& engine = this->getEngineByName( engineName ) ;
+	if( concurrentDownloadManagerFinishedStatus::finishedWithSuccess( *item.tableWidget(),item.row() ) ){
 
-	if( engine && ( engine->likeYoutubeDl() || engine->name() == "gallery-dl" ) ) {
+		auto m = utility::split( item.text(),'\n',true ) ;
+		m.removeLast() ;
 
-		if( concurrentDownloadManagerFinishedStatus::finishedWithSuccess( *item.tableWidget(),item.row() ) ){
+		for( const auto& it : m ){
 
-			auto m = utility::split( item.text(),'\n',true ) ;
-			m.removeLast() ;
+			if( galleryDl ){
 
-			bool galleryDl = engine->name() == "gallery-dl" ;
+				auto e = settings.downloadFolder() ;
+				auto m = QUrl::fromLocalFile( e + "/gallery-dl/" + it ) ;
 
-			for( const auto& it : m ){
+				QDesktopServices::openUrl( m ) ;
+			}else{
+				auto m = QUrl::fromLocalFile( settings.downloadFolder() + "/" + it ) ;
 
-				if( galleryDl ){
-
-					auto e = m_settings.downloadFolder() ;
-					auto m = QUrl::fromLocalFile( e + "/gallery-dl/" + it ) ;
-
-					QDesktopServices::openUrl( m ) ;
-				}else{
-					auto m = QUrl::fromLocalFile( m_settings.downloadFolder() + "/" + it ) ;
-
-					QDesktopServices::openUrl( m ) ;
-				}
+				QDesktopServices::openUrl( m ) ;
 			}
 		}
 	}
+}
+
+void engines::openUrls( QTableWidgetItem& item,const QString& engineName ) const
+{
+	if( engineName.isEmpty() ){
+
+		_openUrls( item,m_settings,false ) ;
+	}else{
+		const auto& engine = this->getEngineByName( engineName ) ;
+
+		if( engine && ( engine->likeYoutubeDl() || engine->name() == "gallery-dl" ) ) {
+
+			_openUrls( item,m_settings,engine->name() == "gallery-dl" ) ;
+		}
+	}
+}
+
+void engines::openUrls( const QString& path ) const
+{
+	auto m = QUrl::fromLocalFile( path ) ;
+
+	QDesktopServices::openUrl( m ) ;
 }
 
 void engines::updateEngines( bool addAll )

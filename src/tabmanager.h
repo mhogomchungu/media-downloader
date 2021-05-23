@@ -27,6 +27,7 @@
 #include "configure.h"
 #include "playlistdownloader.h"
 #include "context.hpp"
+#include "library.h"
 
 class tabManager
 {
@@ -46,7 +47,8 @@ public:
 		m_basicdownloader( m_ctx ),
 		m_batchdownloader( m_ctx ),
 		m_batchfiledownloader( m_ctx ),
-		m_playlistdownloader( m_ctx )
+		m_playlistdownloader( m_ctx ),
+		m_library( m_ctx )
 	{
 		m_about.init_done() ;
 		m_configure.init_done() ;
@@ -54,6 +56,7 @@ public:
 		m_batchdownloader.init_done() ;
 		m_batchfiledownloader.init_done() ;
 		m_playlistdownloader.init_done() ;
+		m_library.init_done() ;
 
 		m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 
@@ -61,8 +64,9 @@ public:
 			case 0 : m_basicdownloader.tabEntered() ; break ;
 			case 1 : m_batchdownloader.tabEntered() ; break ;
 			case 2 : m_playlistdownloader.tabEntered() ; break ;
-			case 3 : m_configure.tabEntered() ; break ;
-			case 4 : m_about.tabEntered() ; break ;
+			case 3 : m_library.tabEntered() ; break ;
+			case 4 : m_configure.tabEntered() ; break ;
+			case 5 : m_about.tabEntered() ; break ;
 		}
 
 		QObject::connect( m.tabWidget,&QTabWidget::currentChanged,[ this ]( int index ){
@@ -71,8 +75,9 @@ public:
 				case 0 : m_basicdownloader.tabEntered() ; break ;
 				case 1 : m_batchdownloader.tabEntered() ; break ;
 				case 2 : m_playlistdownloader.tabEntered() ; break ;
-				case 3 : m_configure.tabEntered() ; break ;
-				case 4 : m_about.tabEntered() ; break ;
+				case 3 : m_library.tabEntered() ; break ;
+				case 4 : m_configure.tabEntered() ; break ;
+				case 5 : m_about.tabEntered() ; break ;
 			}
 
 			if( m_currentTab != index ){
@@ -82,7 +87,8 @@ public:
 					case 1 : m_batchdownloader.tabExited() ; break ;
 					case 2 : m_playlistdownloader.tabExited() ; break ;
 					case 3 : m_configure.tabExited() ; break ;
-					case 4 : m_about.tabExited() ; break ;
+					case 4 : m_library.tabExited() ; break ;
+					case 5 : m_about.tabExited() ; break ;
 				}
 
 				m_currentTab = index ;
@@ -97,6 +103,7 @@ public:
 		m_batchdownloader.enableAll() ;
 		m_batchfiledownloader.enableAll() ;
 		m_playlistdownloader.enableAll() ;
+		m_library.enableAll() ;
 
 		return *this ;
 	}
@@ -108,6 +115,7 @@ public:
 		m_batchdownloader.disableAll() ;
 		m_batchfiledownloader.disableAll() ;
 		m_playlistdownloader.disableAll() ;
+		m_library.disableAll() ;
 
 		return *this ;
 	}
@@ -119,6 +127,7 @@ public:
 		m_batchdownloader.resetMenu() ;
 		m_batchfiledownloader.resetMenu() ;
 		m_playlistdownloader.resetMenu() ;
+		m_library.resetMenu() ;
 
 		return *this ;
 	}
@@ -130,6 +139,7 @@ public:
 		m_batchdownloader.retranslateUi() ;
 		m_batchfiledownloader.retranslateUi() ;
 		m_playlistdownloader.retranslateUi() ;
+		m_library.retranslateUi() ;
 
 		return *this ;
 	}
@@ -158,6 +168,7 @@ private:
 	batchdownloader m_batchdownloader ;
 	batchfiledownloader m_batchfiledownloader ;
 	playlistdownloader m_playlistdownloader ;
+	library m_library ;
 } ;
 
 #endif

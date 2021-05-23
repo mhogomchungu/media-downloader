@@ -57,6 +57,7 @@ set(MOC_FILES
     src/batchdownloader.h
     src/batchfiledownloader.h
     src/configure.h
+    src/library.h
     src/playlistdownloader.h)
 
 set(SRC
@@ -75,6 +76,7 @@ set(SRC
     src/networkAccess.cpp
     src/logger.cpp
     src/engines.cpp
+    src/library.cpp
     src/engines/youtube-dl.cpp
     src/engines/safaribooks.cpp
     src/engines/generic.cpp

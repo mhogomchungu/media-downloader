@@ -383,7 +383,7 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 			const auto& e = a.at( 0 ) ;
 
-			if( e == "format" && a.at( 1 ) == "code" ){
+			if( e == "---" || ( e == "format" && a.at( 1 ) == "code" ) ){
 
 				return true ;
 			}else{

@@ -11,6 +11,7 @@ engines.cpp \
 translator.cpp \
 mainwindow.cpp \
 playlistdownloader.cpp \
+library.cpp \
 settings.cpp \
 tabmanager.cpp \
 utility.cpp \

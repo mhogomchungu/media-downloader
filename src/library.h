@@ -16,41 +16,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef CONFIGURE_H
-#define CONFIGURE_H
+
+#ifndef LIBRARY_H
+#define LIBRARY_H
+
+#include "context.hpp"
+#include <QString>
+#include <QStringList>
 
 #include "settings.h"
 #include "utility.h"
-#include "context.hpp"
-#include "networkAccess.h"
-
-#include <QMenu>
 
 class tabManager ;
 
-class configure : public QObject
+#include <QObject>
+
+class library : public QObject
 {
-        Q_OBJECT
+	Q_OBJECT
 public:
-	configure( const Context& ) ;
+	library( const Context& ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
 	void retranslateUi() ;
-	void downloadFromGitHub( const engines::engine& ) ;
 	void tabEntered() ;
 	void tabExited() ;
 private:
-	void enableConcurrentTextField() ;
+	void showContents( const QString& ) ;
+	void moveUp() ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
-	QWidget& m_mainWindow ;
-	tabManager& m_tabManager ;
-	networkAccess m_networkAccess ;
-	QMenu m_menu ;
+	QTableWidget& m_table ;
+	QString m_currentPath ;
 };
 
 #endif
-
