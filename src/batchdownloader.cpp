@@ -26,19 +26,20 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
+	m_table( *m_ui.tableWidgetBD ),
 	m_running( false ),
 	m_debug( ctx.debug() ),
 	m_ccmd( m_ctx,
-		batchdownloader::Index( m_downloadEntries,*m_ui.tableWidgetBD ),
+		batchdownloader::Index( m_downloadEntries,m_table ),
 		*m_ui.lineEditBDUrlOptions,
 		*m_ui.pbBDCancel )
 {
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
-	utility::setTableWidget( *m_ui.tableWidgetBD ) ;
+	utility::setTableWidget( m_table ) ;
 
-	m_ui.tableWidgetBD->hideColumn( 1 ) ;
-	m_ui.tableWidgetBD->hideColumn( 2 ) ;
+	m_table.hideColumn( 1 ) ;
+	m_table.hideColumn( 2 ) ;
 
 	m_ui.pbBDDownload->setEnabled( false ) ;
 
@@ -48,11 +49,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
-	connect( m_ui.tableWidgetBD,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
+	connect( &m_table,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
 
 		Q_UNUSED( column )
 
-		m_ctx.Engines().openUrls( *m_ui.tableWidgetBD->item( row,0 ),
+		m_ctx.Engines().openUrls( *m_table.item( row,0 ),
 					  m_ui.cbEngineTypeBD->currentText() ) ;
 	} ) ;
 
@@ -69,29 +70,29 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( s == 0 ){
 
-			m_ui.pbBDDownload->setEnabled( m_ui.tableWidgetBD->rowCount() ) ;
+			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		}
 	} ) ;
 
-	connect( m_ui.tableWidgetBD,&QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
+	connect( &m_table,&QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
 		if( m_running ){
 
 
 		}else{
-			if( m_ui.tableWidgetBD->rowCount() > 0 ){
+			if( m_table.rowCount() > 0 ){
 
 				QMenu m ;
 
 				connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
 
-					auto row = m_ui.tableWidgetBD->currentRow() ;
+					auto row = m_table.currentRow() ;
 
 					if( row != -1 ){
 
-						m_ui.tableWidgetBD->removeRow( row ) ;
+						m_table.removeRow( row ) ;
 
-						m_ui.pbBDDownload->setEnabled( m_ui.tableWidgetBD->rowCount() ) ;
+						m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 					}
 				} ) ;
 
@@ -207,7 +208,7 @@ void batchdownloader::download( const engines::engine& engine,
 
 void batchdownloader::clearScreen()
 {
-	utility::clear( *m_ui.tableWidgetBD ) ;
+	utility::clear( m_table ) ;
 	m_ui.lineEditBDUrlOptions->clear() ;
 	m_ui.lineEditBDUrl->clear() ;
 }
@@ -297,9 +298,9 @@ void batchdownloader::download( const engines::engine& engine )
 
 	m_downloadEntries.clear() ;
 
-	for( int s = 0 ; s < m_ui.tableWidgetBD->rowCount() ; s++ ){
+	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
 
-		auto e = m_ui.tableWidgetBD->item( s,2 )->text() ;
+		auto e = m_table.item( s,2 )->text() ;
 
 		if( !concurrentDownloadManagerFinishedStatus::finishedWithSuccess( e ) ){
 
@@ -342,7 +343,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 		},[ &engine,this ]( const concurrentDownloadManagerFinishedStatus& f ){
 
-			utility::updateFinishedState( engine,m_settings,*m_ui.tableWidgetBD,f ) ;
+			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
 		} ) ;
 	} ) ;
 
@@ -350,12 +351,12 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 	m_ccmd.download( engine,
 			 index,
-			 m_ui.tableWidgetBD->item( index,1 )->text(),
+			 m_table.item( index,1 )->text(),
 			 std::move( aa ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
 						     engine,
 						     m_ctx.logger(),
-						     *m_ui.tableWidgetBD->item( index,0 ),
+						     *m_table.item( index,0 ),
 						     utility::concurrentID() ) ) ;
 }
 
@@ -363,8 +364,8 @@ void batchdownloader::enableAll()
 {
 	m_running = false ;
 
-	m_ui.tableWidgetBD->setEnabled( true ) ;
-	m_ui.pbBDDownload->setEnabled( m_ui.tableWidgetBD->rowCount() ) ;
+	m_table.setEnabled( true ) ;
+	m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 	m_ui.pbBDAdd->setEnabled( true ) ;
 	m_ui.pbBDOptions->setEnabled( true ) ;
 	m_ui.labelBDEnterOptions->setEnabled( true ) ;
@@ -380,10 +381,10 @@ void batchdownloader::enableAll()
 void batchdownloader::disableAll()
 {
 	m_running = true ;
+	m_table.setEnabled( false ) ;
 	m_ui.cbEngineTypeBD->setEnabled( false ) ;
 	m_ui.labelBDEngineName->setEnabled( false ) ;
 	m_ui.pbBDCancel->setEnabled( false ) ;
-	m_ui.tableWidgetBD->setEnabled( false ) ;
 	m_ui.pbBDDownload->setEnabled( false ) ;
 	m_ui.pbBDAdd->setEnabled( false ) ;
 	m_ui.pbBDOptions->setEnabled( false ) ;

@@ -110,6 +110,7 @@ private:
 	bool m_debug ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
+	QTableWidget& m_tableList ;
 	QStringList m_optionsList ;
 	QTableWidget m_bogusTable ;
 

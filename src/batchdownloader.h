@@ -79,6 +79,7 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
+	QTableWidget& m_table ;
 	bool m_running ;
 	bool m_debug ;
 

@@ -28,26 +28,27 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
+	m_table( *m_ui.tableWidgetPl ),
 	m_running( false ),
 	m_ccmd( m_ctx,
-		playlistdownloader::Index( m_playlistEntry,*m_ui.tableWidgetPl ),
+		playlistdownloader::Index( m_playlistEntry,m_table ),
 		*m_ui.lineEditPLUrlOptions,
 		*m_ui.pbPLCancel )
 {
 	this->resetMenu() ;
 
-	utility::setTableWidget( *m_ui.tableWidgetPl ) ;
+	utility::setTableWidget( m_table ) ;
 
-	m_ui.tableWidgetPl->hideColumn( 1 ) ;
-	m_ui.tableWidgetPl->hideColumn( 2 ) ;
+	m_table.hideColumn( 1 ) ;
+	m_table.hideColumn( 2 ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
-	connect( m_ui.tableWidgetPl,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
+	connect( &m_table,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
 
 		Q_UNUSED( column )
 
-		m_ctx.Engines().openUrls( *m_ui.tableWidgetPl->item( row,0 ),
+		m_ctx.Engines().openUrls( *m_table.item( row,0 ),
 					  m_ui.cbEngineTypePD->currentText() ) ;
 	} ) ;
 
@@ -157,9 +158,9 @@ void playlistdownloader::tabEntered()
 {
 	if( !m_running ){
 
-		m_ui.pbPLOptions->setEnabled( m_ui.tableWidgetPl->rowCount() > 0 ) ;
+		m_ui.pbPLOptions->setEnabled( m_table.rowCount() > 0 ) ;
 		m_ui.pbPLCancel->setEnabled( false ) ;
-		m_ui.pbPLDownload->setEnabled( m_ui.tableWidgetPl->rowCount() > 0 ) ;
+		m_ui.pbPLDownload->setEnabled( m_table.rowCount() > 0 ) ;
 	}
 }
 
@@ -219,7 +220,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 	auto _add = [ & ]( int s ){
 
-		auto e = m_ui.tableWidgetPl->item( s,2 )->text() ;
+		auto e = m_table.item( s,2 )->text() ;
 
 		if( !concurrentDownloadManagerFinishedStatus::finishedWithSuccess( e ) ){
 
@@ -229,7 +230,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 	if( m.isEmpty() ){
 
-		int count = m_ui.tableWidgetPl->rowCount() ;
+		int count = m_table.rowCount() ;
 
 		for( int i = 0 ; i < count ; i++ ){
 
@@ -278,7 +279,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 	for( const auto& it : m_playlistEntry ){
 
-		if( it >= m_ui.tableWidgetPl->rowCount() ){
+		if( it >= m_table.rowCount() ){
 
 			return ;
 		}
@@ -313,7 +314,7 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 			m_running = !f.allFinished ;
 
-			utility::updateFinishedState( engine,m_settings,*m_ui.tableWidgetPl,f ) ;
+			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
 		} ) ;
 	} ) ;
 
@@ -321,12 +322,12 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 	m_ccmd.download( engine,
 			 index,
-			 m_ui.tableWidgetPl->item( index,1 )->text(),
+			 m_table.item( index,1 )->text(),
 			 std::move( aa ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
 						     engine,
 						     m_ctx.logger(),
-						     *m_ui.tableWidgetPl->item( index,0 ),
+						     *m_table.item( index,0 ),
 						     utility::concurrentID() ) ) ;
 }
 
@@ -382,7 +383,7 @@ void playlistdownloader::getList()
 		      opts,
 		      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality,
 		      std::move( aa ),
-		      make_loggerPlaylistDownloader( *m_ui.tableWidgetPl,
+		      make_loggerPlaylistDownloader( m_table,
 						     m_ctx.mainWidget().font(),
 						     m_ctx.logger(),
 						     engine.playListUrlPrefix(),
@@ -394,7 +395,7 @@ void playlistdownloader::getList()
 
 void playlistdownloader::clearScreen()
 {
-	utility::clear( *m_ui.tableWidgetPl ) ;
+	utility::clear( m_table ) ;
 
 	m_ui.lineEditPLUrlOptions->clear() ;
 	m_ui.lineEditPLDownloadRange->clear() ;

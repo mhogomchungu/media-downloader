@@ -52,6 +52,8 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
+	QTableWidget& m_table ;
+
 	bool m_running ;
 	std::vector< int > m_playlistEntry ;
 	class Index{
