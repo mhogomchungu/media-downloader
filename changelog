@@ -46,6 +46,8 @@ Version 1.2.0(April 1st, 2021)
 - Add Turkish translations.
 - Update Polish translations.
 - Make each tab control its own default engine.
+- Add a tab in a configure tab that allow changing of default downloading options for each engine.
+- Add a library tab that allows management of downloaded media from within the app.
 - Add support for gallery-dl extension(https://github.com/mikf/gallery-dl).
  [Windows]
 - Update bundled OpenSSL to version 1.1.1j.
