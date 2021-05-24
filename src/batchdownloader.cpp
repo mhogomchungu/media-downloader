@@ -372,6 +372,7 @@ void batchdownloader::enableAll()
 	m_running = false ;
 
 	m_table.setEnabled( true ) ;
+	m_ui.pbBDPasteClipboard->setEnabled( true ) ;
 	m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 	m_ui.pbBDAdd->setEnabled( true ) ;
 	m_ui.pbBDOptions->setEnabled( true ) ;
@@ -389,6 +390,7 @@ void batchdownloader::disableAll()
 {
 	m_running = true ;
 	m_table.setEnabled( false ) ;
+	m_ui.pbBDPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineTypeBD->setEnabled( false ) ;
 	m_ui.labelBDEngineName->setEnabled( false ) ;
 	m_ui.pbBDCancel->setEnabled( false ) ;

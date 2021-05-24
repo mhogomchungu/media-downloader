@@ -569,6 +569,7 @@ void basicdownloader::enableQuit()
 
 void basicdownloader::enableAll()
 {
+	m_ui.pbPasteClipboard->setEnabled( true ) ;
 	m_ui.cbEngineType->setEnabled( true ) ;
 	m_ui.pbEntries->setEnabled( true ) ;
 	m_ui.label_2->setEnabled( true ) ;
@@ -583,6 +584,7 @@ void basicdownloader::enableAll()
 
 void basicdownloader::disableAll()
 {
+	m_ui.pbPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineType->setEnabled( false ) ;
 	m_ui.pbQuit->setEnabled( false ) ;
 	m_ui.pbEntries->setEnabled( false ) ;

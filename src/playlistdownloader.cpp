@@ -96,6 +96,7 @@ void playlistdownloader::init_done()
 
 void playlistdownloader::enableAll()
 {
+	m_ui.pbPLPasteClipboard->setEnabled( true ) ;
 	m_ui.lineEditPLUrl->setEnabled( true ) ;
 	m_ui.labelPLEnterOptions->setEnabled( true ) ;
 	m_ui.labelPLEnterUrlRange->setEnabled( true ) ;
@@ -114,6 +115,7 @@ void playlistdownloader::enableAll()
 
 void playlistdownloader::disableAll()
 {
+	m_ui.pbPLPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineTypePD->setEnabled( false ) ;
 	m_ui.labelPLEngineName->setEnabled( false ) ;
 	m_ui.pbPLGetList->setEnabled( false ) ;
