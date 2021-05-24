@@ -62,7 +62,7 @@
         <location filename="../src/mainwindow.ui" line="478"/>
         <location filename="../src/mainwindow.ui" line="684"/>
         <location filename="../src/mainwindow.ui" line="860"/>
-        <location filename="../src/mainwindow.ui" line="1317"/>
+        <location filename="../src/mainwindow.ui" line="1288"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
@@ -216,13 +216,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1197"/>
-        <location filename="../src/mainwindow.ui" line="1213"/>
         <source>Reset Option To Its Default</source>
         <translation>Ustawienia domyślne</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1200"/>
-        <location filename="../src/mainwindow.ui" line="1302"/>
+        <location filename="../src/mainwindow.ui" line="1273"/>
         <source>Set Defaults</source>
         <translation>Ustaw domyślne</translation>
     </message>
@@ -262,28 +261,27 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Usuń wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1216"/>
-        <location filename="../src/mainwindow.ui" line="1289"/>
+        <location filename="../src/mainwindow.ui" line="1301"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1222"/>
+        <location filename="../src/mainwindow.ui" line="1206"/>
         <source>Engine&apos;s Default Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1244"/>
+        <location filename="../src/mainwindow.ui" line="1228"/>
         <source>Engine&apos;s Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1263"/>
+        <location filename="../src/mainwindow.ui" line="1247"/>
         <source>Default Download Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1323"/>
+        <location filename="../src/mainwindow.ui" line="1307"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
@@ -555,18 +553,18 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="128"/>
+        <location filename="../src/configure.cpp" line="87"/>
         <source>Select An Engine File</source>
         <translation>Wybierz plik silnika</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="155"/>
-        <location filename="../src/configure.cpp" line="312"/>
+        <location filename="../src/configure.cpp" line="114"/>
+        <location filename="../src/configure.cpp" line="255"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="218"/>
+        <location filename="../src/configure.cpp" line="177"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>
@@ -574,12 +572,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>library</name>
     <message>
-        <location filename="../src/library.cpp" line="45"/>
+        <location filename="../src/library.cpp" line="46"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="66"/>
+        <location filename="../src/library.cpp" line="65"/>
         <source>Delete All</source>
         <translation type="unfinished"></translation>
     </message>

@@ -29,7 +29,7 @@ library::library( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
-	m_currentPath( m_downloadFolder )
+	m_currentPath( m_settings.libraryDownloadFolder() )
 {
 	utility::tableWidgetOptions opts ;
 
@@ -255,6 +255,8 @@ qint64 _created_time( QFileInfo& e )
 
 void library::showContents( const QString& path )
 {
+	m_settings.setlibraryDownloadFolder( m_currentPath ) ;
+
 	utility::clear( m_table ) ;
 
 	m_table.setHorizontalHeaderItem( 1,new QTableWidgetItem( m_currentPath ) ) ;

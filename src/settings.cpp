@@ -364,6 +364,23 @@ void settings::setHighDpiScalingFactor( const QString& m )
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;
 }
 
+void settings::setlibraryDownloadFolder( const QString& e )
+{
+	m_settings.setValue( "LibraryDownloadFolder",QDir::fromNativeSeparators( e ) ) ;
+}
+
+QString settings::libraryDownloadFolder()
+{
+	if( !m_settings.contains( "LibraryDownloadFolder" ) ){
+
+		auto m = QDir::fromNativeSeparators( this->downloadFolder() ) ;
+
+		m_settings.setValue( "LibraryDownloadFolder",m ) ;
+	}
+
+	return m_settings.value( "LibraryDownloadFolder" ).toString() ;
+}
+
 static QString _getDefaultEngineName( settings::tabName e )
 {
 	if( e == settings::tabName::basic ){

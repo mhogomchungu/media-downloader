@@ -165,6 +165,7 @@ public:
 	int maxConcurrentDownloads() ;
 
 	QString downloadFolder() ;
+	QString libraryDownloadFolder() ;
 	QString downloadFolder( Logger& ) ;
 	QString presetOptions() ;
 	QString localizationLanguagePath() ;
@@ -205,6 +206,7 @@ public:
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setDarkMode( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
+	void setlibraryDownloadFolder( const QString& ) ;
 	void setDefaultEngine( const QString&,settings::tabName ) ;
 	void setPresetOptions( const QString& ) ;
 	void setLastUsedOption( const QString&,settings::tabName ) ;
