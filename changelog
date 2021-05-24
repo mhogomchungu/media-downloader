@@ -44,10 +44,11 @@ Version 1.2.0(April 1st, 2021)
  [All]
 - Add dark themes support.
 - Add Turkish translations.
-- Update Polish translations.
+- Update translations.
 - Make each tab control its own default engine.
 - Add a tab in a configure tab that allow changing of default downloading options for each engine.
 - Add a library tab that allows management of downloaded media from within the app.
+- Make it possible to launch a media by double clicking its entry in the batch tab,playlist tab and library tab.
 - Add support for gallery-dl extension(https://github.com/mikf/gallery-dl).
  [Windows]
 - Update bundled OpenSSL to version 1.1.1j.
