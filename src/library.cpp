@@ -51,28 +51,35 @@ library::library( const Context& ctx ) :
 
 				auto m = m_currentPath + "/" + m_table.item( row,1 )->text() ;
 
-				if( QFileInfo( m ).isFile() ){
+				m_ctx.TabManager().disableAll() ;
 
-					QFile::remove( m ) ;
-				}else{
-					QDir( m ).removeRecursively() ;
-				}
+				utility::runInBkThread( [ m ](){
 
-				this->showContents( m_currentPath ) ;
+					if( QFileInfo( m ).isFile() ){
+
+						QFile::remove( m ) ;
+					}else{
+						QDir( m ).removeRecursively() ;
+					}
+
+				},[ row,this ](){
+
+					m_table.removeRow( row ) ;
+
+					m_ctx.TabManager().enableAll() ;
+				} ) ;
 			}
 		} ) ;
 
 		connect( m.addAction( tr( "Delete All" ) ),&QAction::triggered,[ this ](){
 
+			m_ctx.TabManager().disableAll() ;
+
 			utility::runInBkThread( [ this ](){
 
 				auto mode = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 
-				return QDir( m_currentPath ).entryList( mode ) ;
-
-			},[ this ]( const QStringList& m ){
-
-				for( const auto& it : m ){
+				for( const auto& it : QDir( m_currentPath ).entryList( mode ) ){
 
 					auto m = m_currentPath + "/" + it ;
 
@@ -84,20 +91,15 @@ library::library( const Context& ctx ) :
 
 					}else if( f.isDir() ){
 
-						m_ctx.TabManager().disableAll() ;
-
-						utility::runInBkThread( [ m ](){
-
-							QDir( m ).removeRecursively() ;
-
-						},[ this ](){
-
-							m_ctx.TabManager().enableAll() ;
-						} ) ;
+						QDir( m ).removeRecursively() ;
 					}
 				}
 
+			},[ this ](){
+
 				this->showContents( m_currentPath ) ;
+
+				m_ctx.TabManager().enableAll() ;
 			} ) ;
 		} ) ;
 
@@ -261,6 +263,8 @@ void library::showContents( const QString& path )
 
 	m_table.setHorizontalHeaderItem( 1,new QTableWidgetItem( m_currentPath ) ) ;
 
+	m_ctx.TabManager().disableAll() ;
+
 	utility::runInBkThread( [ path ](){
 
 		auto mode = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
@@ -268,6 +272,8 @@ void library::showContents( const QString& path )
 		return QDir( path ).entryList( mode ) ;
 
 	},[ path,this ]( const QStringList& m ){
+
+		m_ctx.TabManager().enableAll() ;
 
 		auto& font = m_ctx.mainWidget().font() ;
 
