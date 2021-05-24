@@ -703,6 +703,18 @@ namespace utility
 		} ) ;
 	}
 
+	template< typename BackGroundTask >
+	void runInBkThread( BackGroundTask bgt )
+	{
+		return utility::runInBkThread( [ bgt = std::move( bgt ) ](){
+
+			bgt() ;
+
+			return 0 ;
+
+		},[]( int ){} ) ;
+	}
+
 	void updateFinishedState( const engines::engine& engine,
 				  settings& settings,
 				  QTableWidget& table,

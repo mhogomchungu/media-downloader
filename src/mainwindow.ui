@@ -1187,9 +1187,9 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
         <property name="geometry">
          <rect>
-          <x>230</x>
+          <x>300</x>
           <y>320</y>
-          <width>141</width>
+          <width>161</width>
           <height>31</height>
          </rect>
         </property>
@@ -1198,22 +1198,6 @@ Each Link Should Be In Its Own Line.</string>
         </property>
         <property name="text">
          <string>Set Defaults</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pbConfigureSavePresetOptions">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>320</y>
-          <width>141</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="toolTip">
-         <string>Reset Option To Its Default</string>
-        </property>
-        <property name="text">
-         <string>Save</string>
         </property>
        </widget>
       </widget>
@@ -1225,17 +1209,17 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>200</x>
-          <y>140</y>
+          <y>200</y>
           <width>361</width>
           <height>31</height>
          </rect>
         </property>
        </widget>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="labelConfigureEngines">
         <property name="geometry">
          <rect>
           <x>200</x>
-          <y>110</y>
+          <y>170</y>
           <width>361</width>
           <height>31</height>
          </rect>
@@ -1250,11 +1234,11 @@ Each Link Should Be In Its Own Line.</string>
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="labelConfigureOptions">
         <property name="geometry">
          <rect>
           <x>90</x>
-          <y>170</y>
+          <y>230</y>
           <width>581</width>
           <height>41</height>
          </rect>
@@ -1270,31 +1254,18 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>90</x>
-          <y>210</y>
+          <y>270</y>
           <width>581</width>
           <height>31</height>
          </rect>
         </property>
        </widget>
-       <widget class="QPushButton" name="pbConfigureEngineOptions">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>250</y>
-          <width>151</width>
-          <height>33</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Save</string>
-        </property>
-       </widget>
        <widget class="QPushButton" name="pbConfigureEngineDefaultOptions">
         <property name="geometry">
          <rect>
-          <x>230</x>
-          <y>250</y>
-          <width>151</width>
+          <x>300</x>
+          <y>310</y>
+          <width>161</width>
           <height>33</height>
          </rect>
         </property>
@@ -1307,14 +1278,27 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbConfigureQuit">
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>400</x>
         <y>400</y>
-        <width>141</width>
+        <width>151</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
        <string>Quit</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbConfigureSave">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>400</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save</string>
       </property>
      </widget>
     </widget>
@@ -1405,11 +1389,10 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
   <tabstop>textEditConfigurePresetOptions</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>
-  <tabstop>pbConfigureSavePresetOptions</tabstop>
   <tabstop>cbConfigureEngines</tabstop>
   <tabstop>lineEditConfigureDownloadOptions</tabstop>
   <tabstop>pbConfigureEngineDefaultOptions</tabstop>
-  <tabstop>pbConfigureEngineOptions</tabstop>
+  <tabstop>pbConfigureSave</tabstop>
   <tabstop>pbConfigureQuit</tabstop>
  </tabstops>
  <resources/>

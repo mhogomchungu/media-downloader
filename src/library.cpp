@@ -84,7 +84,16 @@ library::library( const Context& ctx ) :
 
 					}else if( f.isDir() ){
 
-						QDir( m ).removeRecursively() ;
+						m_ctx.TabManager().disableAll() ;
+
+						utility::runInBkThread( [ m ](){
+
+							QDir( m ).removeRecursively() ;
+
+						},[ this ](){
+
+							m_ctx.TabManager().enableAll() ;
+						} ) ;
 					}
 				}
 

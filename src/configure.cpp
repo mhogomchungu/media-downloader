@@ -59,59 +59,18 @@ configure::configure( const Context& ctx ) :
 
 			auto m = m_ui.cbConfigureEngines->itemText( index ) ;
 
-			const auto& s = m_engines.getEngineByName( m ) ;
-
-			if( s ){
-
-				auto e = m_settings.engineDefaultDownloadOptions( s->name() ) ;
-
-				if( e.isEmpty() ){
-
-					auto m = s->defaultDownLoadCmdOptions() ;
-					m_ui.lineEditConfigureDownloadOptions->setText( m.join( " " ) ) ;
-				}else{
-					m_ui.lineEditConfigureDownloadOptions->setText( e.join( " " ) ) ;
-				}
-			}
+			this->setEngineOptions( m ) ;
 		}
-	} ) ;
-
-	connect( m_ui.pbConfigureSavePresetOptions,&QPushButton::clicked,[ this ](){
-
-		m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
-		m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
-		m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
-		m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
-		m_settings.setConcurrentDownloading( m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ) ;
-		m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
-
-		auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
-
-		if( s.isEmpty() ){
-
-			m_settings.setMaxConcurrentDownloads( 4 ) ;
-		}else{
-			bool ok ;
-
-			auto m = s.toInt( &ok ) ;
-
-			if( ok ){
-
-				if( m == 0 ){
-
-					m_settings.setMaxConcurrentDownloads( 1 ) ;
-				}else{
-					m_settings.setMaxConcurrentDownloads( m ) ;
-				}
-			}
-		}
-
-		m_ctx.TabManager().resetMenu() ;
 	} ) ;
 
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		m_tabManager.basicDownloader().appQuit() ;
+	} ) ;
+
+	connect( m_ui.pbConfigureSave,&QPushButton::clicked,[ this ](){
+
+		this->saveOptions() ;
 	} ) ;
 
 	connect( m_ui.cbConfigureBatchDownloadConcurrently,&QCheckBox::stateChanged,[ this ]( int ){
@@ -225,22 +184,6 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
-	connect( m_ui.pbConfigureEngineOptions,&QPushButton::clicked,[ this ](){
-
-		auto mm = m_ui.cbConfigureEngines->currentText() ;
-
-		const auto& s = m_engines.getEngineByName( mm ) ;
-
-		if( s ){
-
-			auto m = m_ui.lineEditConfigureDownloadOptions->text() ;
-
-			auto e = utility::split( m,' ',true ) ;
-
-			m_settings.setEngineDefaultDownloadOptions( s->name(),e ) ;
-		}
-	} ) ;
-
 	connect( m_ui.pbConfigureEngineDefaultOptions,&QPushButton::clicked,[ & ](){
 
 		auto mm = m_ui.cbConfigureEngines->currentText() ;
@@ -320,19 +263,19 @@ void configure::tabExited()
 
 void configure::updateEnginesList( const QStringList& e )
 {
-	m_ui.cbConfigureEngines->clear() ;
+	auto& cb = *m_ui.cbConfigureEngines ;
+
+	cb.clear() ;
 
 	for( const auto& it : e ){
 
-		m_ui.cbConfigureEngines->addItem( it ) ;
+		cb.addItem( it ) ;
 
-		const auto& s = m_engines.getEngineByName( it ) ;
-
-		if( s ){
-
-			m_settings.setEngineDefaultDownloadOptions( s->name(),s->defaultDownLoadCmdOptions() ) ;
-		}
+		this->setEngineOptions( it ) ;
 	}
+
+	cb.setCurrentIndex( 0 ) ;
+	this->setEngineOptions( cb.currentText() ) ;
 }
 
 void configure::enableConcurrentTextField()
@@ -341,6 +284,71 @@ void configure::enableConcurrentTextField()
 
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( s ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( s ) ;
+}
+
+void configure::saveOptions()
+{
+	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
+	m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
+	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
+	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
+	m_settings.setConcurrentDownloading( m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ) ;
+	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
+
+	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
+
+	if( s.isEmpty() ){
+
+		m_settings.setMaxConcurrentDownloads( 4 ) ;
+	}else{
+		bool ok ;
+
+		auto m = s.toInt( &ok ) ;
+
+		if( ok ){
+
+			if( m == 0 ){
+
+				m_settings.setMaxConcurrentDownloads( 1 ) ;
+			}else{
+				m_settings.setMaxConcurrentDownloads( m ) ;
+			}
+		}
+	}
+
+	auto mm = m_ui.cbConfigureEngines->currentText() ;
+
+	const auto& ss = m_engines.getEngineByName( mm ) ;
+
+	if( ss ){
+
+		auto m = m_ui.lineEditConfigureDownloadOptions->text() ;
+
+		auto e = utility::split( m,' ',true ) ;
+
+		m_settings.setEngineDefaultDownloadOptions( ss->name(),e ) ;
+	}
+
+	m_ctx.TabManager().resetMenu() ;
+}
+
+void configure::setEngineOptions( const QString& e )
+{
+	const auto& s = m_engines.getEngineByName( e ) ;
+
+	if( s ){
+
+		auto m = m_settings.engineDefaultDownloadOptions( s->name() ) ;
+
+		if( m.isEmpty() ){
+
+			const auto& e = s->defaultDownLoadCmdOptions() ;
+			m_settings.setEngineDefaultDownloadOptions( s->name(),e ) ;
+			m_ui.lineEditConfigureDownloadOptions->setText( e.join( " " ) ) ;
+		}else{
+			m_ui.lineEditConfigureDownloadOptions->setText( m.join( " " ) ) ;
+		}
+	}
 }
 
 void configure::resetMenu()
@@ -372,6 +380,12 @@ void configure::resetMenu()
 
 void configure::enableAll()
 {
+	m_ui.pbConfigureEngineDefaultOptions->setEnabled( true ) ;
+	m_ui.lineEditConfigureDownloadOptions->setEnabled( true ) ;
+	m_ui.labelConfigureOptions->setEnabled( true ) ;
+	m_ui.cbConfigureEngines->setEnabled( true ) ;
+	m_ui.labelConfigureEngines->setEnabled( true ) ;
+	m_ui.pbConfigureSave->setEnabled( true ) ;
 	m_ui.comboBoxConfigureDarkTheme->setEnabled( true ) ;
 	m_ui.pbConfigureDownload->setEnabled( true ) ;
 	m_ui.labelConfigureTheme->setEnabled( true ) ;
@@ -402,6 +416,12 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui.pbConfigureEngineDefaultOptions->setEnabled( false ) ;
+	m_ui.lineEditConfigureDownloadOptions->setEnabled( false ) ;
+	m_ui.labelConfigureOptions->setEnabled( false ) ;
+	m_ui.cbConfigureEngines->setEnabled( false ) ;
+	m_ui.labelConfigureEngines->setEnabled( false ) ;
+	m_ui.pbConfigureSave->setEnabled( false ) ;
 	m_ui.comboBoxConfigureDarkTheme->setEnabled( false ) ;
 	m_ui.pbConfigureDownload->setEnabled( false ) ;
 	m_ui.labelConfigureTheme->setEnabled( false ) ;

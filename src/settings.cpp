@@ -287,7 +287,7 @@ bool settings::doNotGetUrlTitle()
 
 QStringList settings::engineDefaultDownloadOptions( const QString& engineName )
 {
-	auto m = "EngineDefaultDownloadOptions:" + engineName ;
+	auto m = "EngineDefaultDownloadOptions_" + engineName ;
 
 	if( !m_settings.contains( m ) ){
 
@@ -299,7 +299,7 @@ QStringList settings::engineDefaultDownloadOptions( const QString& engineName )
 
 void settings::setEngineDefaultDownloadOptions( const QString& engineName,const QStringList& options )
 {
-	auto m = "EngineDefaultDownloadOptions:" + engineName ;
+	auto m = "EngineDefaultDownloadOptions_" + engineName ;
 
 	m_settings.setValue( m,options ) ;
 }

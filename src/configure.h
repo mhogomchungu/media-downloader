@@ -45,6 +45,8 @@ public:
 private:
 	void enableConcurrentTextField() ;
 	const Context& m_ctx ;
+	void saveOptions() ;
+	void setEngineOptions( const QString& ) ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
