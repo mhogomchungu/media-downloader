@@ -32,6 +32,7 @@ configure::configure( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
+	m_engines( m_ctx.Engines() ),
 	m_networkAccess( m_ctx )
 {
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
@@ -49,6 +50,29 @@ configure::configure( const Context& ctx ) :
 		if( index != -1 ){
 
 			m_settings.setDarkMode( modes.unTranslatedAt( index ) ) ;
+		}
+	} ) ;
+
+	connect( m_ui.cbConfigureEngines,cc,[ this,modes = std::move( modes ) ]( int index ){
+
+		if( index != -1 ){
+
+			auto m = m_ui.cbConfigureEngines->itemText( index ) ;
+
+			const auto& s = m_engines.getEngineByName( m ) ;
+
+			if( s ){
+
+				auto e = m_settings.engineDefaultDownloadOptions( s->name() ) ;
+
+				if( e.isEmpty() ){
+
+					auto m = s->defaultDownLoadCmdOptions() ;
+					m_ui.lineEditConfigureDownloadOptions->setText( m.join( " " ) ) ;
+				}else{
+					m_ui.lineEditConfigureDownloadOptions->setText( e.join( " " ) ) ;
+				}
+			}
 		}
 	} ) ;
 
@@ -201,6 +225,38 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbConfigureEngineOptions,&QPushButton::clicked,[ this ](){
+
+		auto mm = m_ui.cbConfigureEngines->currentText() ;
+
+		const auto& s = m_engines.getEngineByName( mm ) ;
+
+		if( s ){
+
+			auto m = m_ui.lineEditConfigureDownloadOptions->text() ;
+
+			auto e = utility::split( m,' ',true ) ;
+
+			m_settings.setEngineDefaultDownloadOptions( s->name(),e ) ;
+		}
+	} ) ;
+
+	connect( m_ui.pbConfigureEngineDefaultOptions,&QPushButton::clicked,[ & ](){
+
+		auto mm = m_ui.cbConfigureEngines->currentText() ;
+
+		const auto& s = m_engines.getEngineByName( mm ) ;
+
+		if( s ){
+
+			const auto& m = s->defaultDownLoadCmdOptions() ;
+
+			m_ui.lineEditConfigureDownloadOptions->setText( m.join( " " ) ) ;
+
+			m_settings.setEngineDefaultDownloadOptions( s->name(),m ) ;
+		}
+	} ) ;
+
 	m_ui.lineEditConfigureScaleFactor->setText( m_settings.highDpiScalingFactor() ) ;
 
 	m_ui.lineEditConfigureDownloadPath->setText( m_settings.downloadFolder() ) ;
@@ -260,6 +316,23 @@ void configure::tabEntered()
 
 void configure::tabExited()
 {
+}
+
+void configure::updateEnginesList( const QStringList& e )
+{
+	m_ui.cbConfigureEngines->clear() ;
+
+	for( const auto& it : e ){
+
+		m_ui.cbConfigureEngines->addItem( it ) ;
+
+		const auto& s = m_engines.getEngineByName( it ) ;
+
+		if( s ){
+
+			m_settings.setEngineDefaultDownloadOptions( s->name(),s->defaultDownLoadCmdOptions() ) ;
+		}
+	}
 }
 
 void configure::enableConcurrentTextField()

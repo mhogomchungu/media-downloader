@@ -112,13 +112,15 @@ public:
 	concurrentDownloadManager( const Context& ctx,
 				   Index index,
 				   QLineEdit& lineEdit,
-				   QPushButton& cancelButton ) :
+				   QPushButton& cancelButton,
+				   settings& s ) :
 		m_index( std::move( index ) ),
 		m_enableAll( ctx ),
 		m_ctx( ctx ),
 		m_lineEdit( lineEdit ),
 		m_table( m_index.table() ),
-		m_cancelButton( cancelButton )
+		m_cancelButton( cancelButton ),
+		m_settings( s )
 	{
 	}
 	void cancelled()
@@ -213,7 +215,7 @@ public:
 		}
 
 		utility::run( engine,
-			      utility::updateOptions( engine,args,{ u } ),
+			      utility::updateOptions( engine,m_settings,args,{ u } ),
 			      args.quality,
 			      std::move( opts ),
 			      std::move( logger ),
@@ -232,6 +234,7 @@ private:
 	QLineEdit& m_lineEdit ;
 	QTableWidget& m_table ;
 	QPushButton& m_cancelButton ;
+	settings& m_settings ;
 } ;
 
 #endif

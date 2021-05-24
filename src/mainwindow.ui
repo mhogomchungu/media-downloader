@@ -927,7 +927,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1217,6 +1217,92 @@ Each Link Should Be In Its Own Line.</string>
         </property>
        </widget>
       </widget>
+      <widget class="QWidget" name="EngineDefaultOptions">
+       <attribute name="title">
+        <string>Engine's Default Options</string>
+       </attribute>
+       <widget class="QComboBox" name="cbConfigureEngines">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>140</y>
+          <width>361</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>110</y>
+          <width>361</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Engine's Name</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>170</y>
+          <width>581</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Default Download Options</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigureDownloadOptions">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>210</y>
+          <width>581</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureEngineOptions">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>250</y>
+          <width>151</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureEngineDefaultOptions">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>250</y>
+          <width>151</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set Defaults</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
      <widget class="QPushButton" name="pbConfigureQuit">
       <property name="geometry">
@@ -1261,7 +1347,8 @@ Each Link Should Be In Its Own Line.</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
+  <tabstop>plainTextEditLogger</tabstop>
+  <tabstop>bdTableWidgetList</tabstop>
   <tabstop>lineEditURL</tabstop>
   <tabstop>lineEditOptions</tabstop>
   <tabstop>cbEngineType</tabstop>
@@ -1303,24 +1390,27 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbLibraryRefresh</tabstop>
   <tabstop>pbLibraryQuit</tabstop>
   <tabstop>tabWidgetConfigure</tabstop>
+  <tabstop>cbConfigureLanguage</tabstop>
+  <tabstop>lineEditConfigureScaleFactor</tabstop>
+  <tabstop>lineEditConfigureDownloadPath</tabstop>
+  <tabstop>pbConfigureDownloadPath</tabstop>
+  <tabstop>pbConfigureDownload</tabstop>
+  <tabstop>pbConfigureAddAPlugin</tabstop>
+  <tabstop>pbConfigureRemoveAPlugin</tabstop>
+  <tabstop>comboBoxConfigureDarkTheme</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>cbUseSystemVersionIfAvailable</tabstop>
+  <tabstop>cbConfigureShowVersionInfo</tabstop>
+  <tabstop>cbConfigureBatchDownloadConcurrently</tabstop>
+  <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
   <tabstop>textEditConfigurePresetOptions</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>
   <tabstop>pbConfigureSavePresetOptions</tabstop>
+  <tabstop>cbConfigureEngines</tabstop>
+  <tabstop>lineEditConfigureDownloadOptions</tabstop>
+  <tabstop>pbConfigureEngineDefaultOptions</tabstop>
+  <tabstop>pbConfigureEngineOptions</tabstop>
   <tabstop>pbConfigureQuit</tabstop>
-  <tabstop>pbConfigureDownload</tabstop>
-  <tabstop>pbConfigureAddAPlugin</tabstop>
-  <tabstop>lineEditConfigureScaleFactor</tabstop>
-  <tabstop>pbConfigureRemoveAPlugin</tabstop>
-  <tabstop>cbConfigureLanguage</tabstop>
-  <tabstop>bdTableWidgetList</tabstop>
-  <tabstop>plainTextEditLogger</tabstop>
-  <tabstop>comboBoxConfigureDarkTheme</tabstop>
-  <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
-  <tabstop>lineEditConfigureDownloadPath</tabstop>
-  <tabstop>cbConfigureBatchDownloadConcurrently</tabstop>
-  <tabstop>cbConfigureShowVersionInfo</tabstop>
-  <tabstop>cbUseSystemVersionIfAvailable</tabstop>
-  <tabstop>pbConfigureDownloadPath</tabstop>
  </tabstops>
  <resources/>
  <connections/>

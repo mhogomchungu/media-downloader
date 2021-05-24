@@ -285,6 +285,25 @@ bool settings::doNotGetUrlTitle()
 	return m_settings.value( "DoNotGetURLTitle" ).toBool() ;
 }
 
+QStringList settings::engineDefaultDownloadOptions( const QString& engineName )
+{
+	auto m = "EngineDefaultDownloadOptions:" + engineName ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,QStringList() ) ;
+	}
+
+	return m_settings.value( m ).toStringList() ;
+}
+
+void settings::setEngineDefaultDownloadOptions( const QString& engineName,const QStringList& options )
+{
+	auto m = "EngineDefaultDownloadOptions:" + engineName ;
+
+	m_settings.setValue( m,options ) ;
+}
+
 void settings::setTheme( QApplication& app )
 {
 	settings::darkModes darkModes( this->darkMode() ) ;

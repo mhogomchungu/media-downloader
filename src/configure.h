@@ -41,6 +41,7 @@ public:
 	void downloadFromGitHub( const engines::engine& ) ;
 	void tabEntered() ;
 	void tabExited() ;
+	void updateEnginesList( const QStringList& e ) ;
 private:
 	void enableConcurrentTextField() ;
 	const Context& m_ctx ;
@@ -48,6 +49,7 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
+	engines& m_engines ;
 	networkAccess m_networkAccess ;
 	QMenu m_menu ;
 };

@@ -32,7 +32,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ccmd( m_ctx,
 		batchdownloader::Index( m_downloadEntries,m_table ),
 		*m_ui.lineEditBDUrlOptions,
-		*m_ui.pbBDCancel )
+		*m_ui.pbBDCancel,
+		m_settings )
 {
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 

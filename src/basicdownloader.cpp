@@ -263,8 +263,13 @@ void basicdownloader::setDefaultEngine()
 
 			m_ui.cbEngineType->setCurrentIndex( i ) ;
 
-			m_ctx.TabManager().batchDownloader().updateEnginesList( this->enginesList() ) ;
-			m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
+			auto e = this->enginesList() ;
+
+			auto& t = m_ctx.TabManager() ;
+
+			t.batchDownloader().updateEnginesList( e ) ;
+			t.playlistDownloader().updateEnginesList( e ) ;
+			t.Configure().updateEnginesList( e ) ;
 
 			const auto& s = m_ctx.Engines().getEngineByName( m ) ;
 
@@ -498,7 +503,7 @@ void basicdownloader::download( const engines::engine& engine,
 
 	m_ui.pbCancel->setEnabled( true ) ;
 
-	auto opts = utility::updateOptions( engine,args,urls ) ;
+	auto opts = utility::updateOptions( engine,m_settings,args,urls ) ;
 
 	this->run( engine,opts,args.quality,false ) ;
 }

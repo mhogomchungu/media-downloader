@@ -173,6 +173,7 @@ public:
 	QString commandWhenAllFinished() ;
 	QString darkMode() ;
 	QString defaultEngine( settings::tabName ) ;
+	QStringList engineDefaultDownloadOptions( const QString& engineName ) ;
 
 	QString lastUsedOption( settings::tabName ) ;
 
@@ -193,6 +194,8 @@ public:
 	bool concurrentDownloading() ;
 	bool useSystemProvidedVersionIfAvailable() ;
 	bool doNotGetUrlTitle() ;
+
+	void setEngineDefaultDownloadOptions( const QString& engineName,const QStringList& options ) ;
 
 	void setTheme( QApplication& ) ;
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;

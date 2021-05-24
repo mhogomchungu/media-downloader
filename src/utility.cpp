@@ -434,10 +434,21 @@ void utility::terminateProcess( const engines::engine&,QProcess& exe )
 }
 
 QStringList utility::updateOptions( const engines::engine& engine,
+				    settings& settings,
 				    const utility::args& args,
 				    const QStringList& urls )
 {
-	auto opts = engine.defaultDownLoadCmdOptions() ;
+	auto opts = [ & ](){
+
+		auto m = settings.engineDefaultDownloadOptions( engine.name() ) ;
+
+		if( m.isEmpty() ){
+
+			return engine.defaultDownLoadCmdOptions() ;
+		}else{
+			return m ;
+		}
+	}() ;
 
 	for( const auto& it : args.otherOptions ){
 

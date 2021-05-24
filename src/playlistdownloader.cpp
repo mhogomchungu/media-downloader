@@ -33,7 +33,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_ccmd( m_ctx,
 		playlistdownloader::Index( m_playlistEntry,m_table ),
 		*m_ui.lineEditPLUrlOptions,
-		*m_ui.pbPLCancel )
+		*m_ui.pbPLCancel,
+		m_settings )
 {
 	this->resetMenu() ;
 

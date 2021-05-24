@@ -727,6 +727,7 @@ namespace utility
 	bool platformIsNOTWindows() ;
 
 	QStringList updateOptions( const engines::engine& engine,
+				   settings&,
 				   const utility::args& args,
 				   const QStringList& urls ) ;
 
