@@ -25,6 +25,8 @@
 
 #include <QEventLoop>
 #include <QDesktopServices>
+#include <QClipboard>
+#include <QMimeData>
 
 const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
@@ -576,4 +578,17 @@ void utility::updateFinishedState( const engines::engine& engine,
 QString utility::failedToFindExecutableString( const QString& cmd )
 {
 	return QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ;
+}
+
+QString utility::clipboardText()
+{
+	auto m = QApplication::clipboard() ;
+	auto e = m->mimeData() ;
+
+	if( e->hasText() ){
+
+		return e->text() ;
+	}else{
+		return {} ;
+	}
 }

@@ -50,6 +50,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
+	connect( m_ui.pbBDPasteClipboard,&QPushButton::clicked,[ this ](){
+
+		m_ui.lineEditBDUrl->setText( utility::clipboardText() ) ;
+	} ) ;
+
 	connect( &m_table,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
 
 		Q_UNUSED( column )
@@ -164,6 +169,7 @@ void batchdownloader::retranslateUi()
 void batchdownloader::tabEntered()
 {
 	m_ui.lineEditBDUrlOptions->setText( m_settings.lastUsedOption( settings::tabName::batch ) ) ;
+	m_ui.lineEditBDUrl->setFocus() ;
 }
 
 void batchdownloader::tabExited()

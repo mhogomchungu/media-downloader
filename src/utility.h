@@ -730,6 +730,7 @@ namespace utility
 	void openDownloadFolderPath( const QString& ) ;
 	QString homePath() ;
 	QString python3Path() ;
+	QString clipboardText() ;
 	int terminateProcess( unsigned long pid ) ;
 	void terminateProcess( const engines::engine&,QProcess& ) ;
 	bool platformIsWindows() ;

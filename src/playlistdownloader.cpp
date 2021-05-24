@@ -45,6 +45,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
+	connect( m_ui.pbPLPasteClipboard,&QPushButton::clicked,[ this ](){
+
+		m_ui.lineEditPLUrl->setText( utility::clipboardText() ) ;
+	} ) ;
+
 	connect( &m_table,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
 
 		Q_UNUSED( column )
@@ -163,6 +168,8 @@ void playlistdownloader::tabEntered()
 		m_ui.pbPLCancel->setEnabled( false ) ;
 		m_ui.pbPLDownload->setEnabled( m_table.rowCount() > 0 ) ;
 	}
+
+	m_ui.lineEditPLUrl->setFocus() ;
 }
 
 void playlistdownloader::tabExited()

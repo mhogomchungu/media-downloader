@@ -47,6 +47,11 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	utility::setTableWidget( m_tableList,opts ) ;
 
+	connect( m_ui.pbPasteClipboard,&QPushButton::clicked,[ this ](){
+
+		m_ui.lineEditURL->setText( utility::clipboardText() ) ;
+	} ) ;
+
 	connect( &m_tableList,&QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
 
 		if( item->isSelected() ){
@@ -550,6 +555,7 @@ void basicdownloader::downloadDefaultEngine()
 void basicdownloader::tabEntered()
 {
 	m_ui.lineEditOptions->setText( m_settings.lastUsedOption( settings::tabName::basic ) ) ;
+	m_ui.lineEditURL->setFocus() ;
 }
 
 void basicdownloader::tabExited()

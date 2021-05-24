@@ -237,6 +237,22 @@
        <bool>true</bool>
       </property>
      </widget>
+     <widget class="QPushButton" name="pbPasteClipboard">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>310</y>
+        <width>31</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Paste Clipboard Content</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabBatchDownloader">
      <attribute name="title">
@@ -252,7 +268,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -445,6 +461,22 @@
         </property>
         <property name="wordWrap">
          <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbBDPasteClipboard">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>270</y>
+          <width>31</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Paste Clipboard Content</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
@@ -797,6 +829,22 @@ Each Link Should Be In Its Own Line.</string>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbPLPasteClipboard">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>280</y>
+        <width>31</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Paste Clipboard Content</string>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
