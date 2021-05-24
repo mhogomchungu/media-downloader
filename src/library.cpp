@@ -28,7 +28,8 @@ library::library( const Context& ctx ) :
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary ),
-	m_currentPath( m_settings.downloadFolder() )
+	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
+	m_currentPath( m_downloadFolder )
 {
 	utility::tableWidgetOptions opts ;
 
@@ -48,9 +49,7 @@ library::library( const Context& ctx ) :
 
 			if( row != -1 && m_table.item( row,1 )->isSelected() ){
 
-				auto m = m_table.item( row,1 )->text() ;
-
-				m = m_settings.downloadFolder() + "/" + m ;
+				auto m = m_currentPath + "/" + m_table.item( row,1 )->text() ;
 
 				if( QFileInfo( m ).isFile() ){
 
@@ -108,11 +107,9 @@ library::library( const Context& ctx ) :
 
 	connect( m_ui.pbLibraryHome,&QPushButton::clicked,[ this ](){
 
-		auto m = m_settings.downloadFolder() ;
+		if( m_downloadFolder != m_currentPath ){
 
-		if( m != m_currentPath ){
-
-			m_currentPath = m ;
+			m_currentPath = m_downloadFolder ;
 
 			this->showContents( m_currentPath ) ;
 		}
@@ -125,8 +122,6 @@ library::library( const Context& ctx ) :
 
 	connect( m_ui.pbLibraryRefresh,&QPushButton::clicked,[ this ](){
 
-		auto s = m_settings.downloadFolder() ;
-
 		this->showContents( m_currentPath ) ;
 	} ) ;
 
@@ -135,8 +130,6 @@ library::library( const Context& ctx ) :
 		Q_UNUSED( column )
 
 		auto s = m_table.item( row,1 )->text() ;
-
-		auto m = m_settings.downloadFolder() + "/" + s ;
 
 		if( m_table.item( row,2 )->text() == "folder" ){
 
@@ -151,18 +144,13 @@ library::library( const Context& ctx ) :
 
 void library::moveUp()
 {
-	auto s = m_settings.downloadFolder() ;
+	if( m_currentPath != m_downloadFolder ){
 
-	if( m_currentPath != s ){
+		auto m = m_currentPath.lastIndexOf( '/' ) ;
 
-		auto m = utility::split( m_currentPath,'/',true ) ;
-		m.removeLast() ;
+		if( m != -1 ){
 
-		if( utility::platformIsWindows() ){
-
-			m_currentPath = m.join( '/' ) ;
-		}else{
-			m_currentPath = "/" + m.join( '/' ) ;
+			m_currentPath.truncate( m ) ;
 		}
 
 		this->showContents( m_currentPath ) ;
@@ -203,7 +191,7 @@ void library::retranslateUi()
 
 void library::tabEntered()
 {
-	this->showContents( m_settings.downloadFolder() ) ;
+	this->showContents( m_currentPath ) ;
 }
 
 void library::tabExited()
