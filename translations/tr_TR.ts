@@ -99,7 +99,7 @@
         <location filename="../src/mainwindow.ui" line="476"/>
         <location filename="../src/mainwindow.ui" line="844"/>
         <source>Paste Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Pano İçeriğini Yapıştır</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="259"/>
@@ -159,32 +159,32 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="853"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+         <translation>Kütüphane</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="884"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+         <translation>Tür</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="921"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Yukarı</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="934"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+         <translation>Yenile</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="947"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+         <translation>Klasör Aç</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="960"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+         <translation>Giriş</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="966"/>
@@ -270,22 +270,22 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1349"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+         <translation>Kaydet</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1254"/>
         <source>Engine&apos;s Default Options</source>
-        <translation type="unfinished"></translation>
+         <translation>Motor&apos;s Varsayılan Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
         <source>Engine&apos;s Name</source>
-        <translation type="unfinished"></translation>
+         <translation>Motor Adı</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1295"/>
         <source>Default Download Options</source>
-        <translation type="unfinished"></translation>
+         <translation>Varsayılan İndirme Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1355"/>
@@ -581,12 +581,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/library.cpp" line="46"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Sil</translation>
     </message>
     <message>
         <location filename="../src/library.cpp" line="65"/>
         <source>Delete All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tümünü Sil</translation>
     </message>
 </context>
 </TS>
