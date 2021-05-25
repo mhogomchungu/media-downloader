@@ -118,6 +118,8 @@ library::library( const Context& ctx ) :
 
 	connect( m_ui.pbLibraryHome,&QPushButton::clicked,[ this ](){
 
+		m_downloadFolder = QDir::fromNativeSeparators( m_settings.downloadFolder() ) ;
+
 		if( m_downloadFolder != m_currentPath ){
 
 			m_currentPath = m_downloadFolder ;

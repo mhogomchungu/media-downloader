@@ -50,7 +50,7 @@ private:
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QTableWidget& m_table ;
-	const QString m_downloadFolder ;
+	QString m_downloadFolder ;
 	QString m_currentPath ;
 };
 

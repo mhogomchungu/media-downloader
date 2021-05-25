@@ -259,6 +259,7 @@ void configure::tabEntered()
 
 void configure::tabExited()
 {
+	this->saveOptions() ;
 }
 
 void configure::updateEnginesList( const QStringList& e )
