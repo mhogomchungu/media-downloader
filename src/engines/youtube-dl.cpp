@@ -87,6 +87,18 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 			return arr ;
 		}() ) ;
 
+		mainObj.insert( "ShowListTableBoundary",[](){
+
+			QJsonObject obj ;
+
+			obj.insert( "ColumnNumber","0" ) ;
+			obj.insert( "Comparator","equals" ) ;
+			obj.insert( "String","format" ) ;
+
+			return obj ;
+		}() ) ;
+
+
 		mainObj.insert( "SkipLineWithText",[](){
 
 			QJsonArray arr ;

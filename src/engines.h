@@ -294,7 +294,7 @@ public:
 
 		} ;
 
-		engine() : m_valid( false )
+		engine( Logger& logger ) : m_valid( false ),m_showListBreaker( logger )
 		{
 		}
 
@@ -315,7 +315,11 @@ public:
 		{
 			return m_name ;
 		}
+
 		const QString& commandName() const ;
+
+		bool breakShowListIfContains( const QStringList& e ) const ;
+
 		const QString& versionArgument() const
 		{
 			return m_versionArgument ;
@@ -474,7 +478,27 @@ public:
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
 		QJsonObject m_controlStructure ;
+
 		exeArgs m_exePath ;
+
+		class showListBreaker
+		{
+		public:
+			showListBreaker( Logger& l ) ;
+			showListBreaker( Logger& l,QJsonObject o ) ;
+			bool breakerFound( const QStringList& e ) const ;
+			operator bool() const
+			{
+				return m_valid ;
+			}
+		private:
+			Logger& m_logger ;
+			QJsonObject m_obj ;
+			QString m_cmp ;
+			QString m_text ;
+			int m_number ;
+			bool m_valid = false ;
+		} m_showListBreaker ;
 	};
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;

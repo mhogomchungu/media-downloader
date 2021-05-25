@@ -219,7 +219,7 @@ const engines::engine& engines::defaultEngine( const QString& name ) const
 
 			return m_backends[ 0 ] ;
 		}else{
-			static engines::engine engine ;
+			static engines::engine engine( m_logger ) ;
 
 			return engine ;
 		}
@@ -359,7 +359,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 				m_logger.add( m.arg( name,minVersion ) ) ;
 
-				return {} ;
+				return { m_logger } ;
 			}
 		}
 
@@ -395,7 +395,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 		}
 	}else{
-		return {} ;
+		return { m_logger } ;
 	}
 }
 
@@ -545,7 +545,8 @@ engines::engine::engine( const engines& engines,
 	m_name( name ),
 	m_commandName( name ),
 	m_commandNameWindows( m_commandName + ".exe" ),
-	m_versionArgument( versionArgument )
+	m_versionArgument( versionArgument ),
+	m_showListBreaker( logger )
 {
 	auto m = engines.findExecutable( m_commandName ) ;
 
@@ -591,7 +592,8 @@ engines::engine::engine( Logger& logger,
 	m_skiptLineWithText( _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ),
 	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ) ) ),
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ),
-	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() )
+	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() ),
+	m_showListBreaker( logger,m_jsonObject.value( "ShowListTableBoundary" ).toObject() )
 {
 	if( utility::platformIs32BitWindows() ){
 
@@ -734,6 +736,16 @@ const QString& engines::engine::commandName() const
 		return m_commandNameWindows ;
 	}else{
 		return m_commandName ;
+	}
+}
+
+bool engines::engine::breakShowListIfContains( const QStringList& e ) const
+{
+	if( m_showListBreaker ){
+
+		return m_showListBreaker.breakerFound( e ) ;
+	}else{
+		return e.at( 0 ) == "format" || e.at( 2 ).contains( "-" ) ;
 	}
 }
 
@@ -1147,4 +1159,43 @@ const QString& engines::engine::functions::postProcessing::text( const QString& 
 	m_txt = e + "\n" + m_tmp ;
 
 	return m_txt ;
+}
+
+engines::engine::showListBreaker::showListBreaker( Logger& l ) :
+	m_logger( l )
+{
+}
+
+engines::engine::showListBreaker::showListBreaker( Logger& l,QJsonObject o ) :
+	m_logger( l ),
+	m_obj( std::move( o ) )
+{
+	if( !m_obj.isEmpty() ){
+
+		auto a = m_obj.value( "ColumnNumber" ).toString() ;
+		m_cmp  = m_obj.value( "Comparator" ).toString() ;
+		m_text = m_obj.value( "String" ).toString() ;
+
+		if( !a.isEmpty() && !m_cmp.isEmpty() && !m_text.isEmpty() ){
+
+			m_number = a.toInt( &m_valid ) ;
+		}
+	}
+}
+
+bool engines::engine::showListBreaker::breakerFound( const QStringList& e ) const
+{
+	if( m_number < e.size() ){
+
+		if( m_cmp == "equals" ){
+
+			return m_text == e[ m_number ] ;
+
+		}else if( m_cmp == "contains" ){
+
+			return e[ m_number ].contains( m_text ) ;
+		}
+	}
+
+	return false ;
 }

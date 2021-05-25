@@ -386,30 +386,19 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 	QStringList m ;
 
+	const auto& engine = m_ctx.Engines().defaultEngine( m_ui.cbEngineType->currentText() ) ;
+
 	utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
 
 		auto a = utility::split( s,' ',true ) ;
 
-		auto _digits_only = []( const QString& e ){
-
-			for( const auto& it : e ){
-
-				if( !( it >= '0' && it <= '9' ) ){
-
-					return false ;
-				}
-			}
-
-			return true ;
-		} ;
-
 		if( a.size() > 1 ){
 
-			if( _digits_only( a.at( 0 ) ) ){
+			if( engine.breakShowListIfContains( a ) ){
 
-				m.insert( 0,s ) ;
-			}else{
 				return true ;
+			}else{
+				m.insert( 0,s ) ;
 			}
 		}
 
