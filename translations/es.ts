@@ -99,7 +99,7 @@
         <location filename="../src/mainwindow.ui" line="476"/>
         <location filename="../src/mainwindow.ui" line="844"/>
         <source>Paste Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar Contenido Portapapeles</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="259"/>
@@ -157,32 +157,32 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="853"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Biblioteca</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="884"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="921"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Arriba</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="934"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Referescar</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="947"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir Carpeta</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="960"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Inicio</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="966"/>
@@ -268,22 +268,22 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1349"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1254"/>
         <source>Engine&apos;s Default Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones predeterminadas del Motor</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
         <source>Engine&apos;s Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del Motor</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1295"/>
         <source>Default Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones Predeterminadas de Descarga</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1355"/>
@@ -579,12 +579,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/library.cpp" line="46"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../src/library.cpp" line="65"/>
         <source>Delete All</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar Todos</translation>
     </message>
 </context>
 </TS>
