@@ -235,7 +235,7 @@ static void _addItem( QTableWidget& table,const QString& text,const QFont& font,
 	if( file ){
 
 		item1->setText( "file" ) ;
-		label ->setPixmap( QIcon( ":/file" ).pixmap( 25,25 ) ) ;
+		label ->setPixmap( QIcon( ":/video" ).pixmap( 25,25 ) ) ;
 	}else{
 		item1->setText( "folder" ) ;
 		label ->setPixmap( QIcon( ":/folder" ).pixmap( 25,25 ) ) ;
