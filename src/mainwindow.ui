@@ -871,10 +871,10 @@ Each Link Should Be In Its Own Line.</string>
        <bool>false</bool>
       </property>
       <property name="selectionMode">
-       <enum>QAbstractItemView::SingleSelection</enum>
+       <enum>QAbstractItemView::NoSelection</enum>
       </property>
       <property name="selectionBehavior">
-       <enum>QAbstractItemView::SelectRows</enum>
+       <enum>QAbstractItemView::SelectItems</enum>
       </property>
       <property name="gridStyle">
        <enum>Qt::SolidLine</enum>

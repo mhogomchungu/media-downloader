@@ -720,9 +720,11 @@ namespace utility
 				  QTableWidget& table,
 				  const concurrentDownloadManagerFinishedStatus& f ) ;
 	int concurrentID() ;
+
 	void setTableWidget( QTableWidget&,const tableWidgetOptions& = tableWidgetOptions() ) ;
 	void addItem( QTableWidget&,const QStringList&,const QFont&,int alignment = Qt::AlignCenter ) ;
 	void addItem( QTableWidget&,const QString&,const QFont&,int alignment = Qt::AlignCenter ) ;
+	void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 
 	void clear( QTableWidget& ) ;
 	void wait( int time ) ;

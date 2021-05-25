@@ -492,6 +492,42 @@ int utility::concurrentID()
 	return id ;
 }
 
+void utility::selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber )
+{
+	if( current && previous && previous->row() == current->row() ){
+
+		auto table = current->tableWidget() ;
+
+		table->setCurrentCell( current->row(),table->columnCount() - 1 ) ;
+	}else{
+		auto _update_table_row = [ & ]( QTableWidgetItem * item,bool setSelected ){
+
+			if( item ){
+
+				auto table = item->tableWidget() ;
+
+				auto row = item->row() ;
+				auto col = table->columnCount() ;
+
+				for( int i = firstColumnNumber ; i < col ; i++ ){
+
+					table->item( row,i )->setSelected( setSelected ) ;
+				}
+
+				if( setSelected ){
+
+					table->setCurrentCell( row,col - 1 ) ;
+				}
+
+				table->setFocus() ;
+			}
+		} ;
+
+		_update_table_row( current,true ) ;
+		_update_table_row( previous,false ) ;
+	}
+}
+
 void utility::addItem( QTableWidget& table,const QString& text,const QFont& font,int alignment )
 {
 	utility::addItem( table,QStringList{ text },font,alignment ) ;

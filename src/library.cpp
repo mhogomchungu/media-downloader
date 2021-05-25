@@ -31,13 +31,14 @@ library::library( const Context& ctx ) :
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
 	m_currentPath( m_settings.libraryDownloadFolder() )
 {
-	utility::tableWidgetOptions opts ;
-
-	opts.selectionMode = QAbstractItemView::ExtendedSelection ;
-
 	m_table.hideColumn( 2 ) ;
 
-	utility::setTableWidget( m_table,opts ) ;
+	utility::setTableWidget( m_table,utility::tableWidgetOptions() ) ;
+
+	connect( &m_table,&QTableWidget::currentItemChanged,[]( QTableWidgetItem * c,QTableWidgetItem * p ){
+
+		utility::selectRow( c,p,1 ) ;
+	} ) ;
 
 	connect( &m_table,&QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
@@ -331,6 +332,11 @@ void library::showContents( const QString& path )
 		for( const auto& it : files ){
 
 			_addItem( m_table,it.path,font,true ) ;
+		}
+
+		if( m_table.rowCount() > 0 ){
+
+			m_table.setCurrentCell( m_table.rowCount() - 1,m_table.columnCount() - 1 ) ;
 		}
 	} ) ;
 }
