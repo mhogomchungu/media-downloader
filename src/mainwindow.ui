@@ -911,7 +911,7 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbLibraryUp">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>170</x>
         <y>400</y>
         <width>111</width>
         <height>33</height>
@@ -950,7 +950,7 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QPushButton" name="pbLibraryHome">
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>60</x>
         <y>400</y>
         <width>111</width>
         <height>33</height>

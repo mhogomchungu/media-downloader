@@ -105,6 +105,8 @@ public:
 		m_playlistdownloader.enableAll() ;
 		m_library.enableAll() ;
 
+		m_uiEnabled = true ;
+
 		return *this ;
 	}
 	tabManager& disableAll()
@@ -116,6 +118,8 @@ public:
 		m_batchfiledownloader.disableAll() ;
 		m_playlistdownloader.disableAll() ;
 		m_library.disableAll() ;
+
+		m_uiEnabled = false ;
 
 		return *this ;
 	}
@@ -159,8 +163,13 @@ public:
 	{
 		return m_configure ;
 	}
+	bool uiEnabled()
+	{
+		return m_uiEnabled ;
+	}
 private:
 	int m_currentTab ;
+	bool m_uiEnabled = true ;
 	Context m_ctx ;
 	about m_about ;
 	configure m_configure ;

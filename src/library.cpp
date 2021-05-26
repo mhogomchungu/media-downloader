@@ -205,7 +205,7 @@ void library::retranslateUi()
 
 void library::tabEntered()
 {
-	this->showContents( m_currentPath,false ) ;
+	this->showContents( m_currentPath,m_ctx.TabManager().uiEnabled() ) ;
 }
 
 void library::tabExited()
