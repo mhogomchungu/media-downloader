@@ -1096,7 +1096,14 @@ const QString& engines::engine::functions::filter::operator()( const engines::en
 		static QString e ;
 		return e ;
 	}else{
-		return s.lastText() ;
+		const auto& m = s.lastText() ;
+
+		if( m.startsWith( "[media-downloader] cmd:" ) ){
+
+			return m_processing.text() ;
+		}else{
+			return m ;
+		}
 	}
 }
 
