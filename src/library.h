@@ -44,7 +44,7 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 private:
-	void showContents( const QString& ) ;
+	void showContents( const QString&,bool disableUi = true ) ;
 	void moveUp() ;
 	const Context& m_ctx ;
 	settings& m_settings ;

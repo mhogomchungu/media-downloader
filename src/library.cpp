@@ -205,7 +205,7 @@ void library::retranslateUi()
 
 void library::tabEntered()
 {
-	this->showContents( m_currentPath ) ;
+	this->showContents( m_currentPath,false ) ;
 }
 
 void library::tabExited()
@@ -258,7 +258,7 @@ qint64 _created_time( QFileInfo& e )
 #endif
 }
 
-void library::showContents( const QString& path )
+void library::showContents( const QString& path,bool disableUi )
 {
 	m_settings.setlibraryDownloadFolder( m_currentPath ) ;
 
@@ -266,7 +266,10 @@ void library::showContents( const QString& path )
 
 	m_table.setHorizontalHeaderItem( 1,new QTableWidgetItem( m_currentPath ) ) ;
 
-	m_ctx.TabManager().disableAll() ;
+	if( disableUi ){
+
+		m_ctx.TabManager().disableAll() ;
+	}
 
 	utility::runInBkThread( [ path ](){
 
@@ -274,9 +277,12 @@ void library::showContents( const QString& path )
 
 		return QDir( path ).entryList( mode ) ;
 
-	},[ path,this ]( const QStringList& m ){
+	},[ path,disableUi,this ]( const QStringList& m ){
 
-		m_ctx.TabManager().enableAll() ;
+		if( disableUi ){
+
+			m_ctx.TabManager().enableAll() ;
+		}
 
 		auto& font = m_ctx.mainWidget().font() ;
 
