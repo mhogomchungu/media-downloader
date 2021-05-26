@@ -304,6 +304,11 @@ void library::showContents( const QString& path,bool disableUi )
 
 		for( const auto& it : m ){
 
+			if( it.startsWith( "info_" ) && it.endsWith( ".log" ) ){
+
+				continue ;
+			}
+
 			auto q = path + "/" + it ;
 
 			auto w = QDir::fromNativeSeparators( it ) ;
