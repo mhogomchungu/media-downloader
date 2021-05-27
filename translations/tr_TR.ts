@@ -62,7 +62,7 @@
         <location filename="../src/mainwindow.ui" line="510"/>
         <location filename="../src/mainwindow.ui" line="716"/>
         <location filename="../src/mainwindow.ui" line="908"/>
-        <location filename="../src/mainwindow.ui" line="1336"/>
+        <location filename="../src/mainwindow.ui" line="1375"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Çıkış</translation>
@@ -159,12 +159,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="853"/>
         <source>Library</source>
-         <translation>Kütüphane</translation>
+        <translation>Kütüphane</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="884"/>
         <source>Type</source>
-         <translation>Tür</translation>
+        <translation>Tür</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="921"/>
@@ -174,17 +174,17 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="934"/>
         <source>Refresh</source>
-         <translation>Yenile</translation>
+        <translation>Yenile</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="947"/>
         <source>Open Folder</source>
-         <translation>Klasör Aç</translation>
+        <translation>Klasör Aç</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="960"/>
         <source>Home</source>
-         <translation>Giriş</translation>
+        <translation>Giriş</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="966"/>
@@ -268,27 +268,32 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Bir Eklentiyi Kaldır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1349"/>
+        <location filename="../src/mainwindow.ui" line="1388"/>
         <source>Save</source>
-         <translation>Kaydet</translation>
+        <translation>Kaydet</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1254"/>
         <source>Engine&apos;s Default Options</source>
-         <translation>Motor&apos;s Varsayılan Seçenekleri</translation>
+        <translation>Motor&apos;s Varsayılan Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
         <source>Engine&apos;s Name</source>
-         <translation>Motor Adı</translation>
+        <translation>Motor Adı</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1295"/>
         <source>Default Download Options</source>
-         <translation>Varsayılan İndirme Seçenekleri</translation>
+        <translation>Varsayılan İndirme Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1355"/>
+        <location filename="../src/mainwindow.ui" line="1334"/>
+        <source>Path To Cookie FIle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1394"/>
         <source>About</source>
         <translation>Hakkında</translation>
     </message>
@@ -396,24 +401,24 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>&quot;%1&quot; motoru, Medya İndiricinin en az &quot;%2&quot; sürümünü gerektiriyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="555"/>
-        <location filename="../src/engines.cpp" line="722"/>
-        <location filename="../src/utility.cpp" line="580"/>
+        <location filename="../src/engines.cpp" line="557"/>
+        <location filename="../src/engines.cpp" line="726"/>
+        <location filename="../src/utility.cpp" line="625"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>&quot;%1&quot; yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="696"/>
+        <location filename="../src/engines.cpp" line="700"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>&quot;%1&quot; arka uç için python3 yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1049"/>
+        <location filename="../src/engines.cpp" line="1063"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1064"/>
+        <location filename="../src/engines.cpp" line="1078"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
@@ -443,7 +448,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>İndirmeye Başlayın</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="784"/>
+        <location filename="../src/engines.cpp" line="798"/>
         <location filename="../src/networkAccess.cpp" line="113"/>
         <location filename="../src/networkAccess.cpp" line="189"/>
         <source>Download Failed</source>
@@ -477,12 +482,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1107"/>
+        <location filename="../src/engines.cpp" line="1128"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="782"/>
+        <location filename="../src/engines.cpp" line="796"/>
         <source>Download completed</source>
         <translation>İndirme tamamlandı</translation>
     </message>
@@ -492,7 +497,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1127"/>
+        <location filename="../src/engines.cpp" line="1148"/>
         <source>Post Processing</source>
         <translation>Rötuş</translation>
     </message>
@@ -544,7 +549,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="93"/>
+        <location filename="../src/batchdownloader.cpp" line="98"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
@@ -560,18 +565,23 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="87"/>
+        <location filename="../src/configure.cpp" line="68"/>
+        <source>Select A Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="97"/>
         <source>Select An Engine File</source>
         <translation>Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="114"/>
-        <location filename="../src/configure.cpp" line="255"/>
+        <location filename="../src/configure.cpp" line="124"/>
+        <location filename="../src/configure.cpp" line="265"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="177"/>
+        <location filename="../src/configure.cpp" line="187"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>
@@ -579,12 +589,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>library</name>
     <message>
-        <location filename="../src/library.cpp" line="46"/>
+        <location filename="../src/library.cpp" line="47"/>
         <source>Delete</source>
         <translation>Sil</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="65"/>
+        <location filename="../src/library.cpp" line="75"/>
         <source>Delete All</source>
         <translation>Tümünü Sil</translation>
     </message>

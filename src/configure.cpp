@@ -63,6 +63,16 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbConfigureCookiePath,&QPushButton::clicked,[ this ](){
+
+		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select A Cookie File" ),utility::homePath() ) ;
+
+		if( !m.isEmpty() ){
+
+			m_ui.lineEditConfigureCookiePath->setText( m ) ;
+		}
+	} ) ;
+
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		m_tabManager.basicDownloader().appQuit() ;
@@ -328,6 +338,11 @@ void configure::saveOptions()
 		auto e = utility::split( m,' ',true ) ;
 
 		m_settings.setEngineDefaultDownloadOptions( ss->name(),e ) ;
+
+		if( !ss->cookieArgument().isEmpty() ){
+
+			m_settings.setCookieFilePath( ss->name(),m_ui.lineEditConfigureCookiePath->text() ) ;
+		}
 	}
 
 	m_ctx.TabManager().resetMenu() ;
@@ -349,6 +364,13 @@ void configure::setEngineOptions( const QString& e )
 		}else{
 			m_ui.lineEditConfigureDownloadOptions->setText( m.join( " " ) ) ;
 		}
+
+		auto enable = !s->cookieArgument().isEmpty() ;
+
+		m_ui.lineEditConfigureCookiePath->setText( m_settings.cookieFilePath( s->name() ) ) ;
+		m_ui.lineEditConfigureCookiePath->setEnabled( enable ) ;
+		m_ui.pbConfigureCookiePath->setEnabled( enable ) ;
+		m_ui.labelPathToCookieFile->setEnabled( enable ) ;
 	}
 }
 
@@ -381,6 +403,17 @@ void configure::resetMenu()
 
 void configure::enableAll()
 {
+	const auto& s = m_engines.getEngineByName( m_ui.cbConfigureEngines->currentText() ) ;
+
+	if( s ){
+
+		auto enable = !s->cookieArgument().isEmpty() ;
+
+		m_ui.lineEditConfigureCookiePath->setEnabled( enable ) ;
+		m_ui.pbConfigureCookiePath->setEnabled( enable ) ;
+		m_ui.labelPathToCookieFile->setEnabled( enable ) ;
+	}
+
 	m_ui.pbConfigureEngineDefaultOptions->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadOptions->setEnabled( true ) ;
 	m_ui.labelConfigureOptions->setEnabled( true ) ;
@@ -417,6 +450,9 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui.labelPathToCookieFile->setEnabled( false ) ;
+	m_ui.lineEditConfigureCookiePath->setEnabled( false ) ;
+	m_ui.pbConfigureCookiePath->setEnabled( false ) ;
 	m_ui.pbConfigureEngineDefaultOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigureDownloadOptions->setEnabled( false ) ;
 	m_ui.labelConfigureOptions->setEnabled( false ) ;

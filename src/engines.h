@@ -416,6 +416,10 @@ public:
 		{
 			return m_playlistItemsArgument ;
 		}
+		const QString& cookieArgument() const
+		{
+			return m_cookieArgument ;
+		}
 		const QJsonObject& controlStructure() const
 		{
 			return m_controlStructure ;
@@ -471,6 +475,7 @@ public:
 		QString m_playListUrlPrefix ;
 		QString m_playlistItemsArgument ;
 		QString m_batchFileArgument ;
+		QString m_cookieArgument ;
 		QStringList m_playListIdArguments ;
 		QStringList m_splitLinesBy ;
 		QStringList m_removeText ;

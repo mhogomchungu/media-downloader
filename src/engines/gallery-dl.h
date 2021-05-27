@@ -45,6 +45,8 @@ public:
 
 	std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) override ;
 
+	void updateOptions( QJsonObject&,settings& ) override ;
+
 	QString updateTextOnCompleteDownlod( const engines::engine& engine,
 					     const QString& uiText,
 					     const QString& bkText,

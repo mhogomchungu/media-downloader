@@ -304,6 +304,23 @@ void settings::setEngineDefaultDownloadOptions( const QString& engineName,const 
 	m_settings.setValue( m,options ) ;
 }
 
+QString settings::cookieFilePath( const QString& engineName )
+{
+	auto m = "CookieFilePath_" + engineName ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,QString() ) ;
+	}
+
+	return m_settings.value( m ).toString() ;
+}
+
+void settings::setCookieFilePath( const QString& engineName,const QString& cookieFilePath )
+{
+	m_settings.setValue( "CookieFilePath_" + engineName,cookieFilePath ) ;
+}
+
 void settings::setTheme( QApplication& app )
 {
 	settings::darkModes darkModes( this->darkMode() ) ;

@@ -174,6 +174,8 @@ public:
 	QString commandWhenAllFinished() ;
 	QString darkMode() ;
 	QString defaultEngine( settings::tabName ) ;
+	QString cookieFilePath( const QString& engineName ) ;
+
 	QStringList engineDefaultDownloadOptions( const QString& engineName ) ;
 
 	QString lastUsedOption( settings::tabName ) ;
@@ -207,6 +209,7 @@ public:
 	void setDarkMode( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;
+	void setCookieFilePath( const QString& engineName,const QString& cookieFilePath ) ;
 	void setDefaultEngine( const QString&,settings::tabName ) ;
 	void setPresetOptions( const QString& ) ;
 	void setLastUsedOption( const QString&,settings::tabName ) ;

@@ -363,8 +363,9 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 			}
 		}
 
-		if( object.value( "LikeYoutubeDl" ).toBool( false ) ||
-				object.value( "Name" ).toString() == "youtube-dl" ){
+		auto name = object.value( "Name" ).toString() ;
+
+		if( object.value( "LikeYoutubeDl" ).toBool( false ) || name == "youtube-dl" ){
 
 			auto functions = std::make_unique< youtube_dl >() ;
 
@@ -372,7 +373,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 
-		}else if( object.value( "Name" ).toString() == "safaribooks" ){
+		}else if( name == "safaribooks" ){
 
 			auto functions = std::make_unique< safaribooks >( m_settings ) ;
 
@@ -380,7 +381,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 
-		}else if( object.value( "Name" ).toString() == "gallery-dl" ){
+		}else if( name == "gallery-dl" ){
 
 			auto functions = std::make_unique< gallery_dl >( m_settings ) ;
 
@@ -586,6 +587,7 @@ engines::engine::engine( Logger& logger,
 	m_playListUrlPrefix( m_jsonObject.value( "PlayListUrlPrefix" ).toString() ),
 	m_playlistItemsArgument( m_jsonObject.value( "PlaylistItemsArgument" ).toString() ),
 	m_batchFileArgument( m_jsonObject.value( "BatchFileArgument" ).toString() ),
+	m_cookieArgument( m_jsonObject.value( "CookieArgument" ).toString() ),
 	m_playListIdArguments( _toStringList( m_jsonObject.value( "PlayListIdArguments" ) ) ),
 	m_splitLinesBy( _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ),
 	m_removeText( _toStringList( m_jsonObject.value( "RemoveText" ) ) ),

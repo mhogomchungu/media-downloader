@@ -62,7 +62,7 @@
         <location filename="../src/mainwindow.ui" line="510"/>
         <location filename="../src/mainwindow.ui" line="716"/>
         <location filename="../src/mainwindow.ui" line="908"/>
-        <location filename="../src/mainwindow.ui" line="1336"/>
+        <location filename="../src/mainwindow.ui" line="1375"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
@@ -266,7 +266,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1349"/>
+        <location filename="../src/mainwindow.ui" line="1388"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -286,7 +286,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1355"/>
+        <location filename="../src/mainwindow.ui" line="1334"/>
+        <source>Path To Cookie FIle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1394"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -394,24 +399,24 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="555"/>
-        <location filename="../src/engines.cpp" line="722"/>
-        <location filename="../src/utility.cpp" line="580"/>
+        <location filename="../src/engines.cpp" line="557"/>
+        <location filename="../src/engines.cpp" line="726"/>
+        <location filename="../src/utility.cpp" line="625"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="696"/>
+        <location filename="../src/engines.cpp" line="700"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1049"/>
+        <location filename="../src/engines.cpp" line="1063"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1064"/>
+        <location filename="../src/engines.cpp" line="1078"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
@@ -441,7 +446,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="784"/>
+        <location filename="../src/engines.cpp" line="798"/>
         <location filename="../src/networkAccess.cpp" line="113"/>
         <location filename="../src/networkAccess.cpp" line="189"/>
         <source>Download Failed</source>
@@ -475,12 +480,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1107"/>
+        <location filename="../src/engines.cpp" line="1128"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="782"/>
+        <location filename="../src/engines.cpp" line="796"/>
         <source>Download completed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -490,7 +495,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1127"/>
+        <location filename="../src/engines.cpp" line="1148"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -542,7 +547,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="93"/>
+        <location filename="../src/batchdownloader.cpp" line="98"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -558,18 +563,23 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="87"/>
+        <location filename="../src/configure.cpp" line="68"/>
+        <source>Select A Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="97"/>
         <source>Select An Engine File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="114"/>
-        <location filename="../src/configure.cpp" line="255"/>
+        <location filename="../src/configure.cpp" line="124"/>
+        <location filename="../src/configure.cpp" line="265"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="177"/>
+        <location filename="../src/configure.cpp" line="187"/>
         <source>Set Download Folder</source>
         <translation type="unfinished"></translation>
     </message>
@@ -577,12 +587,12 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>library</name>
     <message>
-        <location filename="../src/library.cpp" line="46"/>
+        <location filename="../src/library.cpp" line="47"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="65"/>
+        <location filename="../src/library.cpp" line="75"/>
         <source>Delete All</source>
         <translation type="unfinished"></translation>
     </message>

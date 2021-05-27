@@ -55,6 +55,14 @@ std::unique_ptr< engines::engine::functions::filter> gallery_dl::Filter( const Q
 	return std::make_unique< gallery_dl::gallery_dlFilter >( e,m_settings ) ;
 }
 
+void gallery_dl::updateOptions( QJsonObject& object,settings& )
+{
+	if( !object.contains( "CookieArgument" ) ){
+
+		object.insert( "CookieArgument","--cookies" ) ;
+	}
+}
+
 QString gallery_dl::updateTextOnCompleteDownlod( const engines::engine&,
 						 const QString& uiText,
 						 const QString& bkText,

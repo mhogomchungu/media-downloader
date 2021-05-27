@@ -665,23 +665,61 @@ namespace utility
 		}
 		void run() override
 		{
-			m_value = m_bgt() ;
+			m_storage.put( m_bgt() ) ;
 		}
 		void then()
 		{
-			m_fgt( std::move( m_value ) ) ;
+			m_fgt( std::move( m_storage.get() ) ) ;
+
 			this->deleteLater() ;
 		}
 	private:
 		BackGroundTask m_bgt ;
 		UiThreadResult m_fgt ;
-		utility::types::result_of< BackGroundTask > m_value ;
+
+		template< typename S >
+		class storage
+		{
+		public:
+			template< typename ... T >
+			void put( T&& ... t )
+			{
+				new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
+			}
+			#if __cplusplus >= 201703L
+			S& get()
+			{
+				return *std::launder( reinterpret_cast< S * >( &m_storage ) ) ;
+			}
+			~storage()
+			{
+				std::launder( reinterpret_cast< S * >( &m_storage ) )->~S() ;
+			}
+			#else
+			S& get()
+			{
+				return *reinterpret_cast< S * >( &m_storage ) ;
+			}
+			~storage()
+			{
+				reinterpret_cast< S * >( &m_storage )->~S() ;
+			}
+			#endif
+		private:
+		#if __cplusplus >= 201703L
+			alignas( S ) std::byte m_storage[ sizeof( S ) ] ;
+		#else
+			typename std::aligned_storage< sizeof( S ),alignof( S ) >::type m_storage ;
+		#endif
+		};
+
+		storage< utility::types::result_of< BackGroundTask > > m_storage ;
 	};
 
 	template< typename BackGroundTask,
 		  typename UiThreadResult,
 		  utility::types::has_non_void_return_type< BackGroundTask > = 0 >
-	void runInBkThread( BackGroundTask bgt,UiThreadResult fgt )
+	void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 	{
 		new Thread< BackGroundTask,UiThreadResult >( std::move( bgt ),std::move( fgt ) ) ;
 	}
@@ -689,9 +727,9 @@ namespace utility
 	template< typename BackGroundTask,
 		  typename UiThreadResult,
 		  utility::types::has_void_return_type< BackGroundTask > = 0 >
-	void runInBkThread( BackGroundTask bgt,UiThreadResult fgt )
+	void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 	{
-		return utility::runInBkThread( [ bgt = std::move( bgt ) ](){
+		return utility::runInBgThread( [ bgt = std::move( bgt ) ](){
 
 			bgt() ;
 
@@ -704,9 +742,9 @@ namespace utility
 	}
 
 	template< typename BackGroundTask >
-	void runInBkThread( BackGroundTask bgt )
+	void runInBgThread( BackGroundTask bgt )
 	{
-		return utility::runInBkThread( [ bgt = std::move( bgt ) ](){
+		return utility::runInBgThread( [ bgt = std::move( bgt ) ](){
 
 			bgt() ;
 

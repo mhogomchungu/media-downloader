@@ -463,6 +463,15 @@ QStringList utility::updateOptions( const engines::engine& engine,
 
 	opts.append( url ) ;
 
+	const auto& ca = engine.cookieArgument() ;
+	const auto& cv = settings.cookieFilePath( engine.name() ) ;
+
+	if( !ca.isEmpty() && !cv.isEmpty() ){
+
+		opts.append( ca ) ;
+		opts.append( cv ) ;
+	}
+
 	return opts ;
 }
 

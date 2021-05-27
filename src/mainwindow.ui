@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1257,7 +1257,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>200</x>
-          <y>200</y>
+          <y>130</y>
           <width>361</width>
           <height>31</height>
          </rect>
@@ -1267,7 +1267,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>200</x>
-          <y>170</y>
+          <y>100</y>
           <width>361</width>
           <height>31</height>
          </rect>
@@ -1319,6 +1319,45 @@ Each Link Should Be In Its Own Line.</string>
         </property>
         <property name="text">
          <string>Set Defaults</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelPathToCookieFile">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>160</y>
+          <width>581</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Path To Cookie FIle</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigureCookiePath">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>200</y>
+          <width>581</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureCookiePath">
+        <property name="geometry">
+         <rect>
+          <x>670</x>
+          <y>200</y>
+          <width>31</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>

@@ -69,6 +69,8 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 
 		mainObj.insert( "Name","youtube-dl" ) ;
 
+		mainObj.insert( "CookieArgument","--cookies" ) ;
+
 		mainObj.insert( "DefaultDownLoadCmdOptions",[](){
 
 			QJsonArray arr ;
@@ -174,6 +176,11 @@ youtube_dl::~youtube_dl()
 
 void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 {
+	if( !object.contains( "CookieArgument" ) ){
+
+		object.insert( "CookieArgument","--cookies" ) ;
+	}
+
 	if( !object.contains( "SkipLineWithText" ) ){
 
 		object.insert( "SkipLineWithText",[](){

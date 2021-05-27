@@ -52,7 +52,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDPasteClipboard,&QPushButton::clicked,[ this ](){
 
-		m_ui.lineEditBDUrl->setText( utility::clipboardText() ) ;
+		auto m = utility::clipboardText() ;
+
+		if( !m.isEmpty() ){
+
+			this->addToList( m,m_settings.doNotGetUrlTitle() ) ;
+		}
 	} ) ;
 
 	connect( &m_table,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
