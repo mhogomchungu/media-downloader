@@ -288,7 +288,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1334"/>
         <source>Path To Cookie FIle</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta al archivo de Cookies</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1394"/>
@@ -565,7 +565,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/configure.cpp" line="68"/>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar un Archivo de Cookies</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="97"/>
