@@ -166,7 +166,8 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 	}
 }
 
-youtube_dl::youtube_dl()
+youtube_dl::youtube_dl( settings& s ) :
+	m_settings( s )
 {
 }
 
@@ -232,6 +233,27 @@ void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 std::unique_ptr< engines::engine::functions::filter > youtube_dl::Filter( const QString& e )
 {
 	return std::make_unique< youtube_dl::youtube_dlFilter >( e ) ;
+}
+
+void youtube_dl::runCommandOnDownloadedFile( const QString& e )
+{
+	auto a = m_settings.commandOnSuccessfulDownload() ;
+
+	if( !a.isEmpty() && !e.isEmpty() ){
+
+		auto args = utility::split( a,' ',true ) ;
+
+		auto b = m_settings.downloadFolder() + "/" + utility::split( e,'\n',true ).at( 0 ) ;
+
+		if( QFile::exists( b ) ){
+
+			args.append( b ) ;
+
+			auto exe = args.takeAt( 0 ) ;
+
+			QProcess::startDetached( exe,args ) ;
+		}
+	}
 }
 
 QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,

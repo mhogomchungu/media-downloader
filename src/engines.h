@@ -268,6 +268,8 @@ public:
 
 			virtual std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) ;
 
+			virtual void runCommandOnDownloadedFile( const QString& ) ;
+
 			virtual void updateOptions( QJsonObject&,settings& ) ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
@@ -342,6 +344,10 @@ public:
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{
 			return m_functions->commandString( cmd ) ;
+		}
+		void runCommandOnDownloadedFile( const QString& e ) const
+		{
+			m_functions->runCommandOnDownloadedFile( e ) ;
 		}
 		const QStringList& defaultDownLoadCmdOptions() const
 		{

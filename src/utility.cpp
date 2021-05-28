@@ -586,22 +586,13 @@ void utility::updateFinishedState( const engines::engine& engine,
 
 		item->setText( backUpUrl ) ;
 	}else{
-		item->setText( engine.updateTextOnCompleteDownlod( item->text(),backUpUrl,f ) ) ;
+		auto a = item->text() ;
+
+		item->setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,f ) ) ;
 
 		if( f.exitState.success() ){
 
-			auto a = s.commandOnSuccessfulDownload() ;
-
-			if( !a.isEmpty() && !backUpUrl.isEmpty() ){
-
-				auto args = utility::split( a,' ',true ) ;
-
-				args.append( utility::split( backUpUrl,'\n',true ).at( 0 ) ) ;
-
-				auto exe = args.takeAt( 0 ) ;
-
-				QProcess::startDetached( exe,args ) ;
-			}
+			engine.runCommandOnDownloadedFile( a ) ;
 		}
 
 		if( f.allFinished ){

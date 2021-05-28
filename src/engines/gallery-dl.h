@@ -47,6 +47,8 @@ public:
 
 	void updateOptions( QJsonObject&,settings& ) override ;
 
+	void runCommandOnDownloadedFile( const QString& ) override ;
+
 	QString updateTextOnCompleteDownlod( const engines::engine& engine,
 					     const QString& uiText,
 					     const QString& bkText,

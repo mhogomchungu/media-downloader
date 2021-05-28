@@ -665,7 +665,7 @@ namespace utility
 		}
 		void run() override
 		{
-			m_storage.put( m_bgt() ) ;
+			m_storage.create( m_bgt() ) ;
 		}
 		void then()
 		{
@@ -682,35 +682,32 @@ namespace utility
 		{
 		public:
 			template< typename ... T >
-			void put( T&& ... t )
+			void create( T&& ... t )
 			{
-				new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
+				m_pointer = new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
 			}
-			#if __cplusplus >= 201703L
 			S& get()
 			{
-				return *std::launder( reinterpret_cast< S * >( &m_storage ) ) ;
+				return *m_pointer ;
 			}
 			~storage()
 			{
-				std::launder( reinterpret_cast< S * >( &m_storage ) )->~S() ;
+				if( m_pointer ){
+
+					m_pointer->~S() ;
+				}
 			}
-			#else
-			S& get()
+			bool created()
 			{
-				return *reinterpret_cast< S * >( &m_storage ) ;
+				return m_pointer ;
 			}
-			~storage()
-			{
-				reinterpret_cast< S * >( &m_storage )->~S() ;
-			}
-			#endif
 		private:
-		#if __cplusplus >= 201703L
-			alignas( S ) std::byte m_storage[ sizeof( S ) ] ;
-		#else
-			typename std::aligned_storage< sizeof( S ),alignof( S ) >::type m_storage ;
-		#endif
+			S * m_pointer = nullptr ;
+			#if __cplusplus >= 201703L
+				alignas( S ) std::byte m_storage[ sizeof( S ) ] ;
+			#else
+				typename std::aligned_storage< sizeof( S ),alignof( S ) >::type m_storage ;
+			#endif
 		};
 
 		storage< utility::types::result_of< BackGroundTask > > m_storage ;

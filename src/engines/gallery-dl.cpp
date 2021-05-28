@@ -63,6 +63,30 @@ void gallery_dl::updateOptions( QJsonObject& object,settings& )
 	}
 }
 
+void gallery_dl::runCommandOnDownloadedFile( const QString& e )
+{
+	auto a = m_settings.commandOnSuccessfulDownload() ;
+
+	if( !a.isEmpty() && !e.isEmpty() ){
+
+		auto args = utility::split( a,' ',true ) ;
+
+		for( const auto& it : utility::split( e,'\n',true ) ){
+
+			auto b = m_settings.downloadFolder() + "/gallery-dl/" + it ;
+
+			if( QFile::exists( b ) ){
+
+				args.append( b ) ;
+
+				auto exe = args.takeAt( 0 ) ;
+
+				QProcess::startDetached( exe,args ) ;
+			}
+		}
+	}
+}
+
 QString gallery_dl::updateTextOnCompleteDownlod( const engines::engine&,
 						 const QString& uiText,
 						 const QString& bkText,

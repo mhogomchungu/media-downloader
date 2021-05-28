@@ -367,7 +367,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 		if( object.value( "LikeYoutubeDl" ).toBool( false ) || name == "youtube-dl" ){
 
-			auto functions = std::make_unique< youtube_dl >() ;
+			auto functions = std::make_unique< youtube_dl >( m_settings ) ;
 
 			functions->updateOptions( object,m_settings ) ;
 
@@ -806,6 +806,10 @@ engines::engine::functions::~functions()
 std::unique_ptr< engines::engine::functions::filter > engines::engine::functions::Filter( const QString& e )
 {
 	return std::make_unique< engines::engine::functions::filter >( e ) ;
+}
+
+void engines::engine::functions::runCommandOnDownloadedFile( const QString& )
+{
 }
 
 void engines::engine::functions::updateOptions( QJsonObject&,settings& )
