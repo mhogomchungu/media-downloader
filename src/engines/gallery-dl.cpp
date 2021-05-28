@@ -70,6 +70,7 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e )
 	if( !a.isEmpty() && !e.isEmpty() ){
 
 		auto args = utility::split( a,' ',true ) ;
+		auto exe = args.takeAt( 0 ) ;
 
 		for( const auto& it : utility::split( e,'\n',true ) ){
 
@@ -77,11 +78,11 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e )
 
 			if( QFile::exists( b ) ){
 
-				args.append( b ) ;
+				auto args1 = args ;
 
-				auto exe = args.takeAt( 0 ) ;
+				args1.append( b ) ;
 
-				QProcess::startDetached( exe,args ) ;
+				QProcess::startDetached( exe,args1 ) ;
 			}
 		}
 	}
