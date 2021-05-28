@@ -275,7 +275,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1254"/>
         <source>Engine&apos;s Default Options</source>
-        <translation>Motor&apos;s Varsayılan Seçenekleri</translation>
+        <translation>Varsayılan Motor Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
@@ -290,7 +290,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1334"/>
         <source>Path To Cookie FIle</source>
-        <translation type="unfinished"></translation>
+        <translation>Çerez Dosyasına Giden Yol</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1394"/>
@@ -567,7 +567,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/configure.cpp" line="68"/>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir Çerez Dosyası Seçin</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="97"/>
