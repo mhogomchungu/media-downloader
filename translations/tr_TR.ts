@@ -275,7 +275,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1254"/>
         <source>Engine&apos;s Default Options</source>
-        <translation>Motor&apos;s Varsayılan Seçenekleri</translation>
+        <translation>Varsayılan Motor Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
