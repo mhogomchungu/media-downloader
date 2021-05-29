@@ -45,7 +45,7 @@ public:
 
 	std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) override ;
 
-	void runCommandOnDownloadedFile( const QString& ) override ;
+	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
 	QString updateTextOnCompleteDownlod( const engines::engine& engine,
 					     const QString& uiText,
@@ -61,6 +61,4 @@ public:
 	static void init( Logger& logger,const engines::enginePaths& enginePath ) ;
 	youtube_dl( settings& ) ;
 	static QJsonObject defaultControlStructure() ;
-private:
-	settings& m_settings ;
 };

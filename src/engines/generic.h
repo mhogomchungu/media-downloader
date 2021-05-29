@@ -25,6 +25,6 @@ class generic : public engines::engine::functions
 {
 public:
 	~generic() override ;
-	generic() ;
+	generic( settings& ) ;
 private:
 };

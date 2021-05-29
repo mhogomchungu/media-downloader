@@ -592,7 +592,7 @@ void utility::updateFinishedState( const engines::engine& engine,
 
 		if( f.exitState.success() ){
 
-			engine.runCommandOnDownloadedFile( a ) ;
+			engine.runCommandOnDownloadedFile( a,backUpUrl ) ;
 		}
 
 		if( f.allFinished ){

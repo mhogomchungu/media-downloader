@@ -225,8 +225,9 @@ public:
 			QStringList m_options ;
 		} ;
 
-		struct functions
+		class functions
 		{
+		public:
 			static QString processCompleteStateText( const concurrentDownloadManagerFinishedStatus& ) ;
 
 			class preProcessing
@@ -268,7 +269,7 @@ public:
 
 			virtual std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) ;
 
-			virtual void runCommandOnDownloadedFile( const QString& ) ;
+			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
 
 			virtual void updateOptions( QJsonObject&,settings& ) ;
 
@@ -293,7 +294,10 @@ public:
 							       const QStringList& userOptions,
 		                                               QStringList& urls,
 							       QStringList& ourOptions ) ;
-
+			functions( settings& ) ;
+			settings& Settings() ;
+		private:
+			settings& m_settings ;
 		} ;
 
 		engine( Logger& logger ) : m_valid( false ),m_showListBreaker( logger )
@@ -345,9 +349,9 @@ public:
 		{
 			return m_functions->commandString( cmd ) ;
 		}
-		void runCommandOnDownloadedFile( const QString& e ) const
+		void runCommandOnDownloadedFile( const QString& e,const QString& s ) const
 		{
-			m_functions->runCommandOnDownloadedFile( e ) ;
+			m_functions->runCommandOnDownloadedFile( e,s ) ;
 		}
 		const QStringList& defaultDownLoadCmdOptions() const
 		{

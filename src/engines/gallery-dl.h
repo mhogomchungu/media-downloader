@@ -47,7 +47,7 @@ public:
 
 	void updateOptions( QJsonObject&,settings& ) override ;
 
-	void runCommandOnDownloadedFile( const QString& ) override ;
+	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
 	QString updateTextOnCompleteDownlod( const engines::engine& engine,
 					     const QString& uiText,
@@ -59,6 +59,4 @@ public:
 				       const QStringList& userOptions,
 				       QStringList& urls,
 				       QStringList& ourOptions ) override ;
-private:
-	settings& m_settings ;
 };

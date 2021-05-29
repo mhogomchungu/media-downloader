@@ -389,7 +389,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 		}else{
-			auto functions = std::make_unique< generic >() ;
+			auto functions = std::make_unique< generic >( m_settings ) ;
 
 			functions->updateOptions( object,m_settings ) ;
 
@@ -808,8 +808,43 @@ std::unique_ptr< engines::engine::functions::filter > engines::engine::functions
 	return std::make_unique< engines::engine::functions::filter >( e ) ;
 }
 
-void engines::engine::functions::runCommandOnDownloadedFile( const QString& )
+void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,const QString& s )
 {
+	auto a = m_settings.commandOnSuccessfulDownload() ;
+
+	if( !a.isEmpty() && !e.isEmpty() ){
+
+		auto args = utility::split( a,' ',true ) ;
+		auto exe = args.takeAt( 0 ) ;
+		args.append( "bla bla bla" ) ;
+
+		bool success = false ;
+
+		for( const auto& it : utility::split( e,'\n',true ) ){
+
+			auto b = m_settings.downloadFolder() + it ;
+
+			if( QFile::exists( b ) ){
+
+				success = true ;
+				args.replace( args.size() - 1,b ) ;
+
+				QProcess::startDetached( exe,args ) ;
+			}
+		}
+
+		if( !success && !s.isEmpty() ){
+
+			auto b = m_settings.downloadFolder() + "/" + utility::split( s,'/',true ).last() ;
+
+			if( QFile::exists( b ) ){
+
+				args.replace( args.size() - 1,b ) ;
+
+				QProcess::startDetached( exe,args ) ;
+			}
+		}
+	}
 }
 
 void engines::engine::functions::updateOptions( QJsonObject&,settings& )
@@ -1056,6 +1091,16 @@ void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine
 
 		ourOptions.append( quality ) ;
 	}
+}
+
+engines::engine::functions::functions( settings& s ) :
+	m_settings( s )
+{
+}
+
+settings& engines::engine::functions::Settings()
+{
+	return m_settings ;
 }
 
 void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat format )

@@ -35,6 +35,4 @@ public:
 				       const QStringList& userOptions,
 				       QStringList& urls,
 				       QStringList& ourOptions ) override ;
-private:
-	settings& m_settings ;
 };

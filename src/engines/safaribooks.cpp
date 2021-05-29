@@ -24,7 +24,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-safaribooks::safaribooks( settings& s ) : m_settings( s )
+safaribooks::safaribooks( settings& s ) :
+	engines::engine::functions( s )
 {
 }
 
@@ -155,7 +156,7 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine& engine,
 	}
 
 	ourOptions.append( "--destination" ) ;
-	ourOptions.append( m_settings.downloadFolder() ) ;
+	ourOptions.append( engines::engine::functions::Settings().downloadFolder() ) ;
 
 	if( utility::platformIsWindows() || !quality.isEmpty() ){
 

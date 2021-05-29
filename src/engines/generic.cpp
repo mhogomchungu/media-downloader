@@ -19,7 +19,8 @@
 
 #include "generic.h"
 
-generic::generic()
+generic::generic( settings& s ) :
+	engines::engine::functions( s )
 {
 }
 

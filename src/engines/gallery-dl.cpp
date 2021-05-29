@@ -22,7 +22,7 @@
 #include "../concurrentdownloadmanager.hpp"
 
 gallery_dl::gallery_dl( settings& s ) :
-	m_settings( s )
+	engines::engine::functions( s )
 {
 }
 
@@ -52,7 +52,9 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 
 std::unique_ptr< engines::engine::functions::filter> gallery_dl::Filter( const QString& e )
 {
-	return std::make_unique< gallery_dl::gallery_dlFilter >( e,m_settings ) ;
+	auto& s = engines::engine::functions::Settings() ;
+
+	return std::make_unique< gallery_dl::gallery_dlFilter >( e,s ) ;
 }
 
 void gallery_dl::updateOptions( QJsonObject& object,settings& )
@@ -63,26 +65,27 @@ void gallery_dl::updateOptions( QJsonObject& object,settings& )
 	}
 }
 
-void gallery_dl::runCommandOnDownloadedFile( const QString& e )
+void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 {
-	auto a = m_settings.commandOnSuccessfulDownload() ;
+	auto& settings = engines::engine::functions::Settings() ;
+
+	auto a = settings.commandOnSuccessfulDownload() ;
 
 	if( !a.isEmpty() && !e.isEmpty() ){
 
 		auto args = utility::split( a,' ',true ) ;
 		auto exe = args.takeAt( 0 ) ;
+		args.append( "bla bla bla" ) ;
 
 		for( const auto& it : utility::split( e,'\n',true ) ){
 
-			auto b = m_settings.downloadFolder() + "/gallery-dl/" + it ;
+			auto b = settings.downloadFolder() + "/gallery-dl/" + it ;
 
 			if( QFile::exists( b ) ){
 
-				auto args1 = args ;
+				args.replace( args.size() - 1,b ) ;
 
-				args1.append( b ) ;
-
-				QProcess::startDetached( exe,args1 ) ;
+				QProcess::startDetached( exe,args ) ;
 			}
 		}
 	}

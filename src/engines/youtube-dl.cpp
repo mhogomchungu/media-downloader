@@ -167,7 +167,7 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 }
 
 youtube_dl::youtube_dl( settings& s ) :
-	m_settings( s )
+	engines::engine::functions( s )
 {
 }
 
@@ -235,15 +235,16 @@ std::unique_ptr< engines::engine::functions::filter > youtube_dl::Filter( const 
 	return std::make_unique< youtube_dl::youtube_dlFilter >( e ) ;
 }
 
-void youtube_dl::runCommandOnDownloadedFile( const QString& e )
+void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 {
-	auto a = m_settings.commandOnSuccessfulDownload() ;
+	auto& settings = engines::engine::functions::Settings() ;
+	auto a = settings.commandOnSuccessfulDownload() ;
 
 	if( !a.isEmpty() && !e.isEmpty() ){
 
 		auto args = utility::split( a,' ',true ) ;
 
-		auto b = m_settings.downloadFolder() + "/" + utility::split( e,'\n',true ).at( 0 ) ;
+		auto b = settings.downloadFolder() + "/" + utility::split( e,'\n',true ).at( 0 ) ;
 
 		if( QFile::exists( b ) ){
 
