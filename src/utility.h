@@ -650,6 +650,48 @@ namespace utility
 		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
 	}
 
+	template< typename S >
+	class storage
+	{
+	public:
+		template< typename ... T >
+		void create( T&& ... t )
+		{
+			if( m_pointer ){
+
+				m_pointer->~S() ;
+			}
+
+			m_pointer = new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
+		}
+		S& get()
+		{
+			return *m_pointer ;
+		}
+		S * operator->()
+		{
+			return m_pointer ;
+		}
+		~storage()
+		{
+			if( m_pointer ){
+
+				m_pointer->~S() ;
+			}
+		}
+		bool created()
+		{
+			return m_pointer ;
+		}
+	private:
+		S * m_pointer = nullptr ;
+		#if __cplusplus >= 201703L
+			alignas( S ) std::byte m_storage[ sizeof( S ) ] ;
+		#else
+			typename std::aligned_storage< sizeof( S ),alignof( S ) >::type m_storage ;
+		#endif
+	};
+
 	template< typename BackGroundTask,
 		  typename UiThreadResult >
 	class Thread : public QThread
@@ -677,40 +719,7 @@ namespace utility
 		BackGroundTask m_bgt ;
 		UiThreadResult m_fgt ;
 
-		template< typename S >
-		class storage
-		{
-		public:
-			template< typename ... T >
-			void create( T&& ... t )
-			{
-				m_pointer = new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
-			}
-			S& get()
-			{
-				return *m_pointer ;
-			}
-			~storage()
-			{
-				if( m_pointer ){
-
-					m_pointer->~S() ;
-				}
-			}
-			bool created()
-			{
-				return m_pointer ;
-			}
-		private:
-			S * m_pointer = nullptr ;
-			#if __cplusplus >= 201703L
-				alignas( S ) std::byte m_storage[ sizeof( S ) ] ;
-			#else
-				typename std::aligned_storage< sizeof( S ),alignof( S ) >::type m_storage ;
-			#endif
-		};
-
-		storage< utility::types::result_of< BackGroundTask > > m_storage ;
+		utility::storage< utility::types::result_of< BackGroundTask > > m_storage ;
 	};
 
 	template< typename BackGroundTask,

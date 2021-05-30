@@ -110,15 +110,12 @@ class concurrentDownloadManager
 {
 public:
 	concurrentDownloadManager( const Context& ctx,
-				   Index index,
 				   QLineEdit& lineEdit,
 				   QPushButton& cancelButton,
 				   settings& s ) :
-		m_index( std::move( index ) ),
 		m_enableAll( ctx ),
 		m_ctx( ctx ),
 		m_lineEdit( lineEdit ),
-		m_table( m_index.table() ),
 		m_cancelButton( cancelButton ),
 		m_settings( s )
 	{
@@ -143,7 +140,7 @@ public:
 		}else{
 			m_counter++ ;
 
-			if( m_counter == m_index.count() ){
+			if( m_counter == m_index->count() ){
 
 				this->uiEnableAll( true ) ;
 				m_cancelButton.setEnabled( false ) ;
@@ -152,44 +149,43 @@ public:
 			}else{
 				finished( { index,false,std::move( exitState ) } ) ;
 
-				if( m_index.hasNext() ){
+				if( m_index->hasNext() ){
 
-					function( engine,m_index.value() ) ;
+					function( engine,m_index->value() ) ;
 				}
 			}
 		}
 	}
 	template< typename ConcurrentDownload >
-	void download( const engines::engine& engine,
+	void download( Index index,
+		       const engines::engine& engine,
 		       int maxNumberOfConcurrency,
 		       ConcurrentDownload concurrentDownload )
 	{
-		if( m_table.rowCount() ){
+		m_index.create( std::move( index ) ) ;
 
-			m_counter = 0 ;
-			m_cancelled = false ;
-			m_index.reset() ;
+		m_counter = 0 ;
+		m_cancelled = false ;
 
-			this->uiEnableAll( false ) ;
-			m_cancelButton.setEnabled( true ) ;
-			m_table.setEnabled( true ) ;			
+		this->uiEnableAll( false ) ;
+		m_cancelButton.setEnabled( true ) ;
+		m_index->table().setEnabled( true ) ;
 
-			auto max = [ & ](){
+		auto max = [ & ](){
 
-				auto count = m_index.count() ;
+			auto count = m_index->count() ;
 
-				if( maxNumberOfConcurrency < count ){
+			if( maxNumberOfConcurrency < count ){
 
-					return maxNumberOfConcurrency ;
-				}else{
-					return count ;
-				}
-			}() ;
-
-			for( int s = 0 ; s < max ; s++ ){
-
-				concurrentDownload( engine,m_index.value( s ) ) ;
+				return maxNumberOfConcurrency ;
+			}else{
+				return count ;
 			}
+		}() ;
+
+		for( int s = 0 ; s < max ; s++ ){
+
+			concurrentDownload( engine,m_index->value( s ) ) ;
 		}
 	}
 	template< typename Options,typename Logger >
@@ -201,7 +197,7 @@ public:
 	{
 		Q_UNUSED( index )
 
-		m_index++ ;
+		m_index->next() ;
 
 		auto m = m_lineEdit.text() ;
 
@@ -227,12 +223,11 @@ private:
 		m_enableAll( e ) ;
 	}
 	int m_counter ;
-	Index m_index ;
+	utility::storage< Index > m_index ;
 	EnableAll m_enableAll ;
 	bool m_cancelled ;
 	const Context& m_ctx ;
 	QLineEdit& m_lineEdit ;
-	QTableWidget& m_table ;
 	QPushButton& m_cancelButton ;
 	settings& m_settings ;
 } ;

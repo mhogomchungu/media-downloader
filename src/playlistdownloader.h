@@ -55,11 +55,10 @@ private:
 	QTableWidget& m_table ;
 
 	bool m_running ;
-	std::vector< int > m_playlistEntry ;
 	class Index{
 	public:
-		Index( std::vector< int >& e,QTableWidget& t ) :
-			m_entries( e ),m_table( t )
+		Index( std::vector< int >&& e,QTableWidget& t ) :
+			m_entries( std::move( e ) ),m_table( t )
 		{
 		}
 		int value() const
@@ -74,7 +73,7 @@ private:
 		{
 			return static_cast< int >( m_entries.size() ) ;
 		}
-		void operator++( int )
+		void next()
 		{
 			m_index++ ;
 		}
@@ -92,7 +91,7 @@ private:
 		}
 	private:
 		size_t m_index = 0 ;
-		std::vector< int >& m_entries ;
+		std::vector< int > m_entries ;
 		QTableWidget& m_table ;
 	};
 

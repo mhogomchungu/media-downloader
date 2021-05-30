@@ -30,7 +30,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_running( false ),
 	m_debug( ctx.debug() ),
 	m_ccmd( m_ctx,
-		batchdownloader::Index( m_downloadEntries,m_table ),
 		*m_ui.lineEditBDUrlOptions,
 		*m_ui.pbBDCancel,
 		m_settings )
@@ -308,7 +307,7 @@ void batchdownloader::download( const engines::engine& engine )
 
 	this->addToList( m_ui.lineEditBDUrl->text(),true ) ;
 
-	m_downloadEntries.clear() ;
+	std::vector< int > dEntries ;
 
 	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
 
@@ -316,18 +315,18 @@ void batchdownloader::download( const engines::engine& engine )
 
 		if( !concurrentDownloadManagerFinishedStatus::finishedWithSuccess( e ) ){
 
-			m_downloadEntries.emplace_back( s ) ;
+			dEntries.emplace_back( s ) ;
 		}
 	}
 
-	if( m_downloadEntries.empty() ){
+	if( dEntries.empty() ){
 
 		return ;
 	}
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	m_ccmd.download( engine,[ this ](){
+	m_ccmd.download( batchdownloader::Index( std::move( dEntries ),m_table ),engine,[ this ](){
 
 		if( m_settings.concurrentDownloading() ){
 

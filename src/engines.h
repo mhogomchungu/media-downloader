@@ -35,7 +35,7 @@
 #include "logger.h"
 
 class settings ;
-class concurrentDownloadManagerFinishedStatus ;
+struct concurrentDownloadManagerFinishedStatus ;
 
 class engines{
 public:
@@ -507,7 +507,6 @@ public:
 				return m_valid ;
 			}
 		private:
-			Logger& m_logger ;
 			QJsonObject m_obj ;
 			QString m_cmp ;
 			QString m_text ;

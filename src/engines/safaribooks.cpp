@@ -33,6 +33,10 @@ safaribooks::~safaribooks()
 {
 }
 
+void safaribooks::runCommandOnDownloadedFile( const QString&,const QString& )
+{
+}
+
 void safaribooks::updateOptions( QJsonObject& object,settings& )
 {
 	if( !object.contains( "ControlJsonStructure" ) ){

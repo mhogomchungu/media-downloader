@@ -23,6 +23,8 @@
 
 #include "context.hpp"
 
+#include "engines.h"
+
 #if MD_NETWORK_SUPPORT
 
 #include <QtNetwork/QNetworkAccessManager>
@@ -31,7 +33,6 @@
 
 #include "context.hpp"
 #include "settings.h"
-#include "engines.h"
 
 class basicdownloader ;
 

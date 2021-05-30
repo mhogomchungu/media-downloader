@@ -1219,13 +1219,11 @@ const QString& engines::engine::functions::postProcessing::text( const QString& 
 	return m_txt ;
 }
 
-engines::engine::showListBreaker::showListBreaker( Logger& l ) :
-	m_logger( l )
+engines::engine::showListBreaker::showListBreaker( Logger& )
 {
 }
 
-engines::engine::showListBreaker::showListBreaker( Logger& l,QJsonObject o ) :
-	m_logger( l ),
+engines::engine::showListBreaker::showListBreaker( Logger&,QJsonObject o ) :
 	m_obj( std::move( o ) )
 {
 	if( !m_obj.isEmpty() ){

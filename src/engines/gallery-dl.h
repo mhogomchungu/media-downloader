@@ -38,7 +38,6 @@ public:
 
 		virtual ~gallery_dlFilter() override ;
 	private:
-		settings& m_settings ;
 		QString m_tmp ;
 		engines::engine::functions::preProcessing m_processing ;
 	} ;

@@ -106,9 +106,8 @@ QString gallery_dl::updateTextOnCompleteDownlod( const engines::engine&,
 	}
 }
 
-gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings& s ) :
-	engines::engine::functions::filter( e ),
-	m_settings( s )
+gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings& ) :
+	engines::engine::functions::filter( e )
 {
 }
 

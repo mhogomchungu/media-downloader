@@ -31,7 +31,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_table( *m_ui.tableWidgetPl ),
 	m_running( false ),
 	m_ccmd( m_ctx,
-		playlistdownloader::Index( m_playlistEntry,m_table ),
 		*m_ui.lineEditPLUrlOptions,
 		*m_ui.pbPLCancel,
 		m_settings )
@@ -224,7 +223,7 @@ void playlistdownloader::download()
 
 void playlistdownloader::download( const engines::engine& engine )
 {
-	m_playlistEntry.clear() ;
+	std::vector< int > pEntries ;
 
 	auto m = m_ui.lineEditPLDownloadRange->text() ;
 
@@ -234,7 +233,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 		if( !concurrentDownloadManagerFinishedStatus::finishedWithSuccess( e ) ){
 
-			m_playlistEntry.emplace_back( s ) ;
+			pEntries.emplace_back( s ) ;
 		}
 	} ;
 
@@ -282,12 +281,12 @@ void playlistdownloader::download( const engines::engine& engine )
 		}
 	}
 
-	if( m_playlistEntry.empty() ){
+	if( pEntries.empty() ){
 
 		return ;
 	}
 
-	for( const auto& it : m_playlistEntry ){
+	for( const auto& it : pEntries ){
 
 		if( it >= m_table.rowCount() ){
 
@@ -297,7 +296,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	m_ccmd.download( engine,[ this ](){
+	m_ccmd.download( playlistdownloader::Index( std::move( pEntries ),m_table ),engine,[ this ](){
 
 		if( m_settings.concurrentDownloading() ){
 
