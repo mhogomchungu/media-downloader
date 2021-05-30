@@ -92,14 +92,14 @@
         <location filename="../src/mainwindow.ui" line="457"/>
         <location filename="../src/mainwindow.ui" line="825"/>
         <source>Engine Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="250"/>
         <location filename="../src/mainwindow.ui" line="476"/>
         <location filename="../src/mainwindow.ui" line="844"/>
         <source>Paste Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Wklej zawartość schowka</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="259"/>
@@ -159,32 +159,32 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="853"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Biblioteka</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="884"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="921"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>W górę</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="934"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Odśwież</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="947"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz katalog</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="960"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Katalog domyślny</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="966"/>
@@ -199,7 +199,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1088"/>
         <source>Update Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaktualizuj silnik</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1146"/>
@@ -219,7 +219,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1211"/>
         <source>Dark Theme(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ciemny motyw (wymaga restartu)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1245"/>
@@ -270,27 +270,27 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1388"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1254"/>
         <source>Engine&apos;s Default Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne opcje silnika</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
         <source>Engine&apos;s Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1295"/>
         <source>Default Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne opcje pobierania</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1334"/>
         <source>Path To Cookie FIle</source>
-        <translation type="unfinished"></translation>
+        <translation>Scieżka do ciasteczka</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1394"/>
@@ -373,7 +373,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/translator.cpp" line="32"/>
         <source>Turkish (Turkey)</source>
-        <translation type="unfinished"></translation>
+        <translation>turecki (Turcja)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -398,7 +398,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/engines.cpp" line="358"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik &quot;%1&quot; wymaga aplikacji Media Downloader w wersji &quot;%2&quot; lub wyższej</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="557"/>
@@ -499,27 +499,27 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/engines.cpp" line="1148"/>
         <source>Post Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Post processing</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="153"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalny</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="154"/>
         <source>Dark Theme 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ciemny motyw nr 1</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="155"/>
         <source>Dark Theme 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ciemny motyw nr 2</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="156"/>
         <source>Dark Theme 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Ciemny motyw nr 3</translation>
     </message>
 </context>
 <context>
@@ -567,7 +567,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/configure.cpp" line="68"/>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik ciasteczka</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="97"/>
@@ -591,12 +591,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/library.cpp" line="47"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń</translation>
     </message>
     <message>
         <location filename="../src/library.cpp" line="75"/>
         <source>Delete All</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń wszystko</translation>
     </message>
 </context>
 </TS>
