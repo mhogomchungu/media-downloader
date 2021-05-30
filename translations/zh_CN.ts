@@ -99,7 +99,7 @@
         <location filename="../src/mainwindow.ui" line="476"/>
         <location filename="../src/mainwindow.ui" line="844"/>
         <source>Paste Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴剪贴板内容</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="259"/>
@@ -159,32 +159,32 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="853"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation>库</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="884"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="921"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>向上</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="934"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>刷新</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="947"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>打开文件夹</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="960"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>主页</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="966"/>
@@ -270,27 +270,27 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1388"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1254"/>
         <source>Engine&apos;s Default Options</source>
-        <translation type="unfinished"></translation>
+        <translation>引擎的默认选项</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
         <source>Engine&apos;s Name</source>
-        <translation type="unfinished"></translation>
+        <translation>引擎名称</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1295"/>
         <source>Default Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>默认下载选项</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1334"/>
         <source>Path To Cookie FIle</source>
-        <translation type="unfinished"></translation>
+        <translation>Cookie文件的路径</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1394"/>
@@ -567,7 +567,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/configure.cpp" line="68"/>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>选择一个Cookie文件</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="97"/>
@@ -591,12 +591,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/library.cpp" line="47"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>删除</translation>
     </message>
     <message>
         <location filename="../src/library.cpp" line="75"/>
         <source>Delete All</source>
-        <translation type="unfinished"></translation>
+        <translation>全部删除</translation>
     </message>
 </context>
 </TS>
