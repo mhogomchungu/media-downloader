@@ -19,7 +19,7 @@
 
 #include "gallery-dl.h"
 #include "../settings.h"
-#include "../concurrentdownloadmanager.hpp"
+#include "../downloadmanager.h"
 
 gallery_dl::gallery_dl( settings& s ) :
 	engines::engine::functions( s )
@@ -94,11 +94,11 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 QString gallery_dl::updateTextOnCompleteDownlod( const engines::engine&,
 						 const QString& uiText,
 						 const QString& bkText,
-						 const concurrentDownloadManagerFinishedStatus& f )
+						 const engines::engine::functions::finishedState& f )
 {
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
 
-	if( f.exitState.success() ){
+	if( f.success() ){
 
 		return uiText + "\n" + m ;
 	}else{

@@ -403,7 +403,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="557"/>
         <location filename="../src/engines.cpp" line="726"/>
-        <location filename="../src/utility.cpp" line="625"/>
+        <location filename="../src/utility.cpp" line="576"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
@@ -413,12 +413,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1063"/>
+        <location filename="../src/engines.cpp" line="1112"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1078"/>
+        <location filename="../src/engines.cpp" line="1127"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
@@ -482,7 +482,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1128"/>
+        <location filename="../src/engines.cpp" line="1177"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
@@ -497,7 +497,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1148"/>
+        <location filename="../src/engines.cpp" line="1197"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
@@ -549,7 +549,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="98"/>
+        <location filename="../src/batchdownloader.cpp" line="97"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>

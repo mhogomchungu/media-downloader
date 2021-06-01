@@ -228,7 +228,23 @@ public:
 		class functions
 		{
 		public:
-			static QString processCompleteStateText( const concurrentDownloadManagerFinishedStatus& ) ;
+			class finishedState
+			{
+			public:
+				template< typename Args >
+				finishedState( const Args& a ) :
+					m_success( a.success() )
+				{
+				}
+				bool success() const
+				{
+					return m_success ;
+				}
+			private:
+				bool m_success ;
+			};
+
+			static QString processCompleteStateText( const engine::engine::functions::finishedState& ) ;
 
 			class preProcessing
 			{
@@ -278,7 +294,7 @@ public:
 			virtual QString updateTextOnCompleteDownlod( const engines::engine&,
 								     const QString& uiText,
 								     const QString& bkText,
-								     const concurrentDownloadManagerFinishedStatus& ) ;
+								     const engine::engine::functions::finishedState& ) ;
 
 		        virtual void sendCredentials( const engines::engine&,
 		                                      const QString&,
@@ -363,7 +379,7 @@ public:
 		}
 		QString updateTextOnCompleteDownlod( const QString& uiText,
 						     const QString& bkText,
-						     const concurrentDownloadManagerFinishedStatus& f ) const
+						     const engine::engine::functions::finishedState& f ) const
 		{
 			return m_functions->updateTextOnCompleteDownlod( *this,uiText,bkText,f ) ;
 		}

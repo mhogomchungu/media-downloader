@@ -513,27 +513,27 @@ QString settings::commandWhenAllFinished()
 	return m_settings.value( "CommandWhenAllFinished" ).toString() ;
 }
 
-static QString _getTabOption( settings::tabName e )
+static QString _getTabOption( const QString& s,settings::tabName e )
 {
 	if( e == settings::tabName::basic ){
 
-		return "LastUsedOptionBasicTab" ;
+		return "LastUsedOptionBasicTab_" + s ;
 
 	}else if( e == settings::tabName::batch ){
 
-		return "LastUsedOptionBatchTab" ;
+		return "LastUsedOptionBatchTab_" + s ;
 
 	}else if( e == settings::tabName::playlist ){
 
-		return "LastUsedOptionPlayListTab" ;
+		return "LastUsedOptionPlayListTab_" + s ;
 	}else{
 		return "" ;
 	}
 }
 
-QString settings::lastUsedOption( settings::tabName e )
+QString settings::lastUsedOption( const QString& m,settings::tabName e )
 {
-	auto s = _getTabOption( e ) ;
+	auto s = _getTabOption( m,e ) ;
 
 	if( !m_settings.contains( s ) ){
 
@@ -543,9 +543,9 @@ QString settings::lastUsedOption( settings::tabName e )
 	return m_settings.value( s ).toString() ;
 }
 
-void settings::setLastUsedOption( const QString& e,settings::tabName s )
+void settings::setLastUsedOption( const QString& m,const QString& e,settings::tabName s )
 {
-	m_settings.setValue( _getTabOption( s ),e ) ;
+	m_settings.setValue( _getTabOption( m,s ),e ) ;
 }
 
 QString settings::localizationLanguagePath()

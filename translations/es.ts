@@ -401,7 +401,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="557"/>
         <location filename="../src/engines.cpp" line="726"/>
-        <location filename="../src/utility.cpp" line="625"/>
+        <location filename="../src/utility.cpp" line="576"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Fallo para encontrar el ejecutable &quot;%1&quot;</translation>
     </message>
@@ -411,12 +411,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1063"/>
+        <location filename="../src/engines.cpp" line="1112"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1078"/>
+        <location filename="../src/engines.cpp" line="1127"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
@@ -480,7 +480,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1128"/>
+        <location filename="../src/engines.cpp" line="1177"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
@@ -495,7 +495,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1148"/>
+        <location filename="../src/engines.cpp" line="1197"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>
@@ -547,7 +547,7 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="98"/>
+        <location filename="../src/batchdownloader.cpp" line="97"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>

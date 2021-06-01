@@ -29,10 +29,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_table( *m_ui.tableWidgetBD ),
 	m_running( false ),
 	m_debug( ctx.debug() ),
-	m_ccmd( m_ctx,
-		*m_ui.lineEditBDUrlOptions,
-		*m_ui.pbBDCancel,
-		m_settings )
+	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
 {
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
@@ -71,8 +68,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( s != -1 ){
 
-			m_ui.lineEditBDUrlOptions->clear() ;
-			m_settings.setDefaultEngine( m_ui.cbEngineTypeBD->itemText( s ),settings::tabName::batch ) ;
+			auto m = m_ui.cbEngineTypeBD->itemText( s ) ;
+
+			m_ui.lineEditBDUrlOptions->setText( m_settings.lastUsedOption( m,settings::tabName::batch ) ) ;
+
+			m_settings.setDefaultEngine( m,settings::tabName::batch ) ;
 		}
 	} ) ;
 
@@ -172,7 +172,9 @@ void batchdownloader::retranslateUi()
 
 void batchdownloader::tabEntered()
 {
-	m_ui.lineEditBDUrlOptions->setText( m_settings.lastUsedOption( settings::tabName::batch ) ) ;
+	auto m = m_ui.cbEngineTypeBD->currentText() ;
+
+	m_ui.lineEditBDUrlOptions->setText( m_settings.lastUsedOption( m,settings::tabName::batch ) ) ;
 	m_ui.lineEditBDUrl->setFocus() ;
 }
 
@@ -270,7 +272,7 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 
 		if( doNotGetTitle || !engine.likeYoutubeDl() ){
 
-			auto s = concurrentDownloadManagerFinishedStatus::notStarted() ;
+			auto s = downloadManager::finishedStatus::notStarted() ;
 
 			_set_variables( m_ui,a,s,m_mainWindow ) ;
 		}else{
@@ -285,7 +287,7 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 
 			_getUrlTitle( exe,args,[ a,this ]( const QString& title ){
 
-				auto state = concurrentDownloadManagerFinishedStatus::notStarted() ;
+				auto state = downloadManager::finishedStatus::notStarted() ;
 
 				if( title.isEmpty() || title == "\n" ){
 
@@ -303,30 +305,32 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	m_settings.setLastUsedOption( m_ui.lineEditBDUrlOptions->text(),settings::tabName::batch ) ;
+	m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
+				      m_ui.lineEditBDUrlOptions->text(),
+				      settings::tabName::batch ) ;
 
 	this->addToList( m_ui.lineEditBDUrl->text(),true ) ;
 
-	std::vector< int > dEntries ;
+	downloadManager::index indexes( m_table,m_ui.lineEditBDUrlOptions->text() ) ;
 
 	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
 
 		auto e = m_table.item( s,2 )->text() ;
 
-		if( !concurrentDownloadManagerFinishedStatus::finishedWithSuccess( e ) ){
+		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
-			dEntries.emplace_back( s ) ;
+			indexes.add( s ) ;
 		}
 	}
 
-	if( dEntries.empty() ){
+	if( indexes.empty() ){
 
 		return ;
 	}
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	m_ccmd.download( batchdownloader::Index( std::move( dEntries ),m_table ),engine,[ this ](){
+	m_ccmd.download( std::move( indexes ),engine,[ this ](){
 
 		if( m_settings.concurrentDownloading() ){
 
@@ -352,7 +356,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 			this->download( engine,index ) ;
 
-		},[ &engine,this ]( const concurrentDownloadManagerFinishedStatus& f ){
+		},[ &engine,this ]( const downloadManager::finishedStatus& f ){
 
 			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
 		} ) ;
@@ -406,14 +410,4 @@ void batchdownloader::disableAll()
 	m_ui.pbBDQuit->setEnabled( false ) ;
 	m_ui.lineEditBDUrl->setEnabled( false ) ;
 	m_ui.lineEditBDUrlOptions->setEnabled( false ) ;
-}
-
-void batchdownloader::EnableAll::operator()( bool e )
-{
-	if( e ){
-
-		m_tabManager.enableAll() ;
-	}else{
-		m_tabManager.disableAll() ;
-	}
 }

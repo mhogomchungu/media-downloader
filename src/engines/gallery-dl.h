@@ -51,7 +51,7 @@ public:
 	QString updateTextOnCompleteDownlod( const engines::engine& engine,
 					     const QString& uiText,
 					     const QString& bkText,
-					     const concurrentDownloadManagerFinishedStatus& ) override ;
+					     const engines::engine::functions::finishedState& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine& engine,
 				       const QString& quality,

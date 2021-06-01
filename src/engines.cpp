@@ -24,7 +24,7 @@
 #include "engines/safaribooks.h"
 #include "engines/gallery-dl.h"
 
-#include "concurrentdownloadmanager.hpp"
+#include "downloadmanager.h"
 #include "utility.h"
 #include "version.h"
 
@@ -117,7 +117,7 @@ engines::engines( Logger& l,settings& s ) :
 
 static void _openUrls( QTableWidgetItem& item,settings& settings,bool galleryDl )
 {
-	if( concurrentDownloadManagerFinishedStatus::finishedWithSuccess( *item.tableWidget(),item.row() ) ){
+	if( downloadManager::finishedStatus::finishedWithSuccess( *item.tableWidget(),item.row() ) ){
 
 		auto m = utility::split( item.text(),'\n',true ) ;
 		m.removeLast() ;
@@ -789,9 +789,9 @@ engines::enginePaths::enginePaths( settings& s )
 	QDir().mkpath( m_configPath ) ;
 }
 
-QString engines::engine::functions::processCompleteStateText( const concurrentDownloadManagerFinishedStatus& f )
+QString engines::engine::functions::processCompleteStateText( const engine::engine::functions::finishedState& f )
 {
-	if( f.exitState.success() ){
+	if( f.success() ){
 
 		return QObject::tr( "Download completed" ) ;
 	}else{
@@ -866,13 +866,13 @@ QString engines::engine::functions::commandString( const engines::engine::exeArg
 QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::engine&,
 								 const QString& uiText,
 								 const QString& bkText,
-								 const concurrentDownloadManagerFinishedStatus& f )
+								 const engine::engine::functions::finishedState& f )
 {
 	Q_UNUSED( uiText )
 
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
 
-	if( f.exitState.success() ){
+	if( f.success() ){
 
 		return bkText + "\n" + m ;
 	}else{

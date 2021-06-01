@@ -178,7 +178,7 @@ public:
 
 	QStringList engineDefaultDownloadOptions( const QString& engineName ) ;
 
-	QString lastUsedOption( settings::tabName ) ;
+	QString lastUsedOption( const QString&,settings::tabName ) ;
 
 	QStringList presetOptionsList() ;
 	QStringList localizationLanguages() ;
@@ -212,7 +212,7 @@ public:
 	void setCookieFilePath( const QString& engineName,const QString& cookieFilePath ) ;
 	void setDefaultEngine( const QString&,settings::tabName ) ;
 	void setPresetOptions( const QString& ) ;
-	void setLastUsedOption( const QString&,settings::tabName ) ;
+	void setLastUsedOption( const QString& engineName,const QString& options,settings::tabName ) ;
 	void setPresetOptions( const QStringList& ) ;
 	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;

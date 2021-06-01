@@ -39,8 +39,6 @@
 
 class Context ;
 
-struct concurrentDownloadManagerFinishedStatus ;
-
 namespace Ui
 {
 	class MainWindow ;
@@ -759,10 +757,50 @@ namespace utility
 		},[]( int ){} ) ;
 	}
 
+	template< typename FinishedState >
 	void updateFinishedState( const engines::engine& engine,
-				  settings& settings,
+				  settings& s,
 				  QTableWidget& table,
-				  const concurrentDownloadManagerFinishedStatus& f ) ;
+				  const FinishedState& f )
+	{
+		const auto& index = f.index() ;
+		const auto& es = f.exitState() ;
+
+		f.setState( *table.item( index,2 ) ) ;
+
+		const auto backUpUrl = table.item( index,1 )->text() ;
+
+		auto item = table.item( index,0 ) ;
+
+		if( es.cancelled() ){
+
+			item->setText( backUpUrl ) ;
+		}else{
+			auto a = item->text() ;
+
+			item->setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ) ) ;
+
+			if( es.success() ){
+
+				engine.runCommandOnDownloadedFile( a,backUpUrl ) ;
+			}
+
+			if( f.allFinished() ){
+
+				auto a = s.commandWhenAllFinished() ;
+
+				if( !a.isEmpty() ){
+
+					auto args = utility::split( a,' ',true ) ;
+
+					auto exe = args.takeAt( 0 ) ;
+
+					QProcess::startDetached( exe,args ) ;
+				}
+			}
+		}
+	}
+
 	int concurrentID() ;
 
 	void setTableWidget( QTableWidget&,const tableWidgetOptions& = tableWidgetOptions() ) ;

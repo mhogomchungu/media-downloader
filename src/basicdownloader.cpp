@@ -456,7 +456,9 @@ void basicdownloader::download( const QString& url )
 		return ;
 	}
 
-	m_settings.setLastUsedOption( m_ui.lineEditOptions->text(),settings::tabName::basic ) ;
+	m_settings.setLastUsedOption( m_ui.cbEngineType->currentText(),
+				      m_ui.lineEditOptions->text(),
+				      settings::tabName::basic ) ;
 
 	auto m = utility::split( url,' ',true ) ;
 
@@ -464,7 +466,7 @@ void basicdownloader::download( const QString& url )
 
 	utility::clear( m_bogusTable ) ;
 
-	QStringList args{ m.at( 0 ),m.at( 0 ),concurrentDownloadManagerFinishedStatus::notStarted() } ;
+	QStringList args{ m.at( 0 ),m.at( 0 ),downloadManager::finishedStatus::notStarted() } ;
 
 	utility::addItem( m_bogusTable,args,m_ctx.mainWidget().font() ) ;
 
@@ -538,12 +540,15 @@ void basicdownloader::downloadDefaultEngine()
 
 	m_counter = static_cast< size_t >( -1 ) ;
 
-	this->printEngineVersionInfo( m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ) ;
+	auto m = m_settings.defaultEngine( settings::tabName::basic ) ;
+
+	this->printEngineVersionInfo( m_ctx.Engines().defaultEngine( m ) ) ;
 }
 
 void basicdownloader::tabEntered()
 {
-	m_ui.lineEditOptions->setText( m_settings.lastUsedOption( settings::tabName::basic ) ) ;
+	auto m = m_settings.lastUsedOption( m_ui.cbEngineType->currentText(),settings::tabName::basic ) ;
+	m_ui.lineEditOptions->setText( m ) ;
 	m_ui.lineEditURL->setFocus() ;
 }
 
@@ -599,7 +604,10 @@ void basicdownloader::options::done( utility::ProcessExitState m )
 
 	if( !m_listRequested ){
 
-		utility::updateFinishedState( m_engine,m_ctx.Settings(),m_table,{ 0,true,std::move( m ) } ) ;
+		utility::updateFinishedState( m_engine,
+					      m_ctx.Settings(),
+					      m_table,
+					      downloadManager::finishedStatus( 0,true,std::move( m ) ) ) ;
 	}
 }
 

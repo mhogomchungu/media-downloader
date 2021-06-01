@@ -77,6 +77,7 @@ set(SRC
     src/logger.cpp
     src/engines.cpp
     src/library.cpp
+    src/downloadmanager.cpp
     src/engines/youtube-dl.cpp
     src/engines/safaribooks.cpp
     src/engines/generic.cpp

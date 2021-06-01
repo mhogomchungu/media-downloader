@@ -26,7 +26,7 @@
 #include "../networkAccess.h"
 #include "../utility.h"
 
-#include "../concurrentdownloadmanager.hpp"
+#include "../downloadmanager.h"
 
 static QJsonObject _defaultControlStructure()
 {
@@ -260,13 +260,13 @@ void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
 						 const QString& uiText,
 						 const QString& bkText,
-						 const concurrentDownloadManagerFinishedStatus& f )
+						 const engines::engine::functions::finishedState& f )
 {
 	Q_UNUSED( bkText )
 
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
 
-	if( f.exitState.success() ){
+	if( f.success() ){
 
 		QStringList a ;
 

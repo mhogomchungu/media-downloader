@@ -21,7 +21,7 @@
 
 #include "settings.h"
 #include "context.hpp"
-#include "concurrentdownloadmanager.hpp"
+#include "downloadmanager.h"
 
 #include <QEventLoop>
 #include <QDesktopServices>
@@ -568,46 +568,6 @@ void utility::addItem( QTableWidget& table,const QStringList& text,const QFont& 
 		item->setFont( font ) ;
 
 		table.setItem( row,it,item ) ;
-	}
-}
-
-void utility::updateFinishedState( const engines::engine& engine,
-				   settings& s,
-				   QTableWidget& table,
-				   const concurrentDownloadManagerFinishedStatus& f )
-{
-	f.setState( *table.item( f.index,2 ) ) ;
-
-	const auto backUpUrl = table.item( f.index,1 )->text() ;
-
-	auto item = table.item( f.index,0 ) ;
-
-	if( f.exitState.cancelled() ){
-
-		item->setText( backUpUrl ) ;
-	}else{
-		auto a = item->text() ;
-
-		item->setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,f ) ) ;
-
-		if( f.exitState.success() ){
-
-			engine.runCommandOnDownloadedFile( a,backUpUrl ) ;
-		}
-
-		if( f.allFinished ){
-
-			auto a = s.commandWhenAllFinished() ;
-
-			if( !a.isEmpty() ){
-
-				auto args = utility::split( a,' ',true ) ;
-
-				auto exe = args.takeAt( 0 ) ;
-
-				QProcess::startDetached( exe,args ) ;
-			}
-		}
 	}
 }
 
