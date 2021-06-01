@@ -400,6 +400,11 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 	}
 }
 
+const engines::enginePaths& engines::engineDirPaths() const
+{
+	return m_enginePaths ;
+}
+
 static QStringList _toStringList( const QJsonValue& value ){
 
 	QStringList m ;

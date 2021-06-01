@@ -72,6 +72,29 @@ networkAccess::networkAccess( const Context& ctx ) :
 
 void networkAccess::download( const engines::engine& engine )
 {
+	auto exeFolderPath = [ &engine ](){
+
+		auto a = QDir::fromNativeSeparators( engine.exePath().realExe() ) ;
+
+		auto aa = a.lastIndexOf( '/' ) ;
+
+		if( aa != -1 ){
+
+			return a.mid( 0,aa ) ;
+		}else{
+			return a ;
+		}
+	}() ;
+
+	auto internalBinPath = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().binPath() ) ;
+
+	if( !exeFolderPath.startsWith( internalBinPath ) ){
+
+		//this->post( engine,QObject::tr( "Failed to download, updating externally managed executables is not supported" ) ) ;
+
+		return ;
+	}
+
 	QDir dir ;
 
 	auto path = engine.exeFolderPath() ;
