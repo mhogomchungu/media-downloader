@@ -1,6 +1,6 @@
 {
     "BackendPath": "${default}",
-    "BatchFileArgument": "-a",
+    "BatchFileArgument": "",
     "CanDownloadPlaylist": false,
     "CommandName": "gallery-dl.bin",
     "CommandNameWindows": "gallery-dl.exe",

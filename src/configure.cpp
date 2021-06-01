@@ -438,7 +438,6 @@ void configure::enableAll()
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( true ) ;
 	m_ui.cbConfigureBatchDownloadConcurrently->setEnabled( true ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( true ) ;
-	m_ui.cbUseSystemVersionIfAvailable->setEnabled( true ) ;
 
 	this->enableConcurrentTextField() ;
 
@@ -446,6 +445,8 @@ void configure::enableAll()
 
 		m_ui.lineEditConfigureScaleFactor->setEnabled( true ) ;
 	}
+
+	m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
 }
 
 void configure::disableAll()
