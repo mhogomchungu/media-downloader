@@ -8,9 +8,9 @@ downloading their extension and a list of supported extensions is managed [here]
 
 Features offered:-
 
-1. The GUI can be used to download any media from any website supported by installed extension.
+1. The GUI can be used to download any media from any website supported by installed extensions.
 
-2. The GUI offers a configurable list of preset options that can be used to download a media if they are provided in multiple formats.
+2. The GUI offers a configurable list of preset options that can be used to download media if they are provided in multiple formats.
 
 3. The GUI offers an ability to do unlimited number of parallel downloads. Be careful with this ability because doing too many parallel
 downloads may cause the host to ban you.
@@ -19,7 +19,7 @@ downloads may cause the host to ban you.
 
 5. The GUI offers an ability to download playlist from websites that supports them like youtube.
 
-5. The GUI is offers in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish and Turkish.
+5. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish and Turkish.
 
 ## Donations
 Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
