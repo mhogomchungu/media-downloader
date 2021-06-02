@@ -1,23 +1,25 @@
 # media-downloader
 
-This project is a Qt/C++ based frontend to youtube-dl and it can be
-used to download any media file supported by youtube-dl.
+This project is a Qt/C++ based GUI frontend to CLI multiple CLI based tools that deal with downloading online media.
+
+[Youtube-dl](https://github.com/ytdl-org/youtube-dl) CLI tool is the default supported tool and other tools can be added by
+downloading their extension and a list of supported extensions is managed [here](https://github.com/mhogomchungu/media-downloader/wiki/Extensions).
+
 
 Features offered:-
 
-1. The GUI can be used to download any media supported by youtube-dl.
+1. The GUI can be used to download any media from any website supported by installed extension.
 
-2. The GUI can show all available media a url can offer.
+2. The GUI offers a configurable list of preset options that can be used to download a media if they are provided in multiple formats.
 
-3. The GUI allows user to choose what media entry offered by a url they want to download.
+3. The GUI offers an ability to do unlimited number of parallel downloads. Be careful with this ability because doing too many parallel
+downloads may cause the host to ban you.
 
-4. The GUI offers a preset list of options to choose from to select what media entry offered by a url they want to download.
+4. The GUI offers an ability to do batch downloads by entering individual link in the UI or telling the app to read them from a local file.
 
-5. The GUI offers an ability to change preset options or add new ones making it possible to use the GUI to automate any use case supported by youtube-dl.
+5. The GUI offers an ability to download playlist from websites that supports them like youtube.
 
-6. The GUI offers an ability to download single media or multiple medias in batches.
-
-7. The GUI has a json based plugin system and can configured to download media using other tools other than youtube-dl.
+5. The GUI is offers in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish and Turkish.
 
 ## Donations
 Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
@@ -113,3 +115,15 @@ To build from source, follow the following instructions
 ![media-downloader.png](https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-6.png)
 
 ![media-downloader.png](https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-7.png)
+
+# Disclaimer
+
+This program is intended to be used  in a way that does not violate any laws that are applicable to its users.
+
+# License
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
