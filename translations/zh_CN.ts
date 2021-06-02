@@ -92,7 +92,7 @@
         <location filename="../src/mainwindow.ui" line="457"/>
         <location filename="../src/mainwindow.ui" line="825"/>
         <source>Engine Name:</source>
-        <translation>引擎名:</translation>
+        <translation>引擎名称:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="250"/>
@@ -230,7 +230,7 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/mainwindow.ui" line="1248"/>
         <location filename="../src/mainwindow.ui" line="1321"/>
         <source>Set Defaults</source>
-        <translation>设置默认值</translation>
+        <translation>设置为默认值</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1114"/>
@@ -240,7 +240,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1223"/>
         <source>Preset Options</source>
-        <translation>预设的画质选项</translation>
+        <translation>预设画质选项</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1069"/>
@@ -260,12 +260,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1133"/>
         <source>Add a Plugin</source>
-        <translation>添加一个插件</translation>
+        <translation>添加插件</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1101"/>
         <source>Remove A Plugin</source>
-        <translation>移除一个插件</translation>
+        <translation>移除插件</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1388"/>
@@ -275,7 +275,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1254"/>
         <source>Engine&apos;s Default Options</source>
-        <translation>引擎的默认选项</translation>
+        <translation>引擎默认选项</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
@@ -290,7 +290,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1334"/>
         <source>Path To Cookie FIle</source>
-        <translation>Cookie文件的路径</translation>
+        <translation>Cookie文件路径</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1394"/>
@@ -425,7 +425,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/networkAccess.cpp" line="60"/>
         <source>Checking installed version of</source>
-        <translation>正在检查的已安装版本</translation>
+        <translation>正在检查已安装版本</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="65"/>
@@ -533,7 +533,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/basicdownloader.cpp" line="332"/>
         <source>Checking installed version of</source>
-        <translation>正在检查的已安装版本</translation>
+        <translation>正在检查已安装版本</translation>
     </message>
     <message>
         <location filename="../src/basicdownloader.cpp" line="358"/>
@@ -567,7 +567,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/configure.cpp" line="68"/>
         <source>Select A Cookie File</source>
-        <translation>选择一个Cookie文件</translation>
+        <translation>选择Cookie文件</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="97"/>
