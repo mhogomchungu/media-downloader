@@ -24,6 +24,7 @@
 #include "settings.h"
 #include "context.hpp"
 #include "downloadmanager.h"
+#include "tableWidget.h"
 
 class tabManager ;
 
@@ -52,69 +53,23 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
-	QTableWidget& m_table ;
+	tableWidget m_table ;
 
 	bool m_running ;
 
 	downloadManager m_ccmd ;
 
-	template< typename Function >
-	class options
+	struct opts
 	{
-	public:
-		options( QPushButton& p,const Context& ctx,bool d,Function function ) :
-			m_button( p ),
-			m_ctx( ctx ),
-			m_debug( d ),
-			m_done( std::move( function ) )
-		{
-		}
-		void done( utility::ProcessExitState e )
-		{
-			m_done( std::move( e ) ) ;
-		}
-		options& tabManagerEnableAll( bool )
-		{
-			return *this ;
-		}
-		options& listRequested( const QList< QByteArray >& )
-		{
-			return *this ;
-		}
-		bool listRequested()
-		{
-			return false ;
-		}
-		options& enableCancel( bool e )
-		{
-			Q_UNUSED( e )
-			//m_button.setEnabled( e ) ;
-
-			return *this ;
-		}
-		bool debug()
-		{
-			return m_debug ;
-		}
-		QString downloadFolder() const
-		{
-			return m_ctx.Settings().downloadFolder() ;
-		}
-		const QProcessEnvironment& processEnvironment() const
-		{
-			return m_ctx.Engines().processEnvironment() ;
-		}
-	private:
-		QPushButton& m_button ;
-		const Context& m_ctx ;
-		bool m_debug ;
-		Function m_done ;
+		const Context& ctx ;
+		bool debug ;
+		bool listRequested ;
 	} ;
 
-	template< typename Function >
-	auto make_options( QPushButton& p,const Context& ctx,bool d,Function function )
+	template< typename Functions >
+	auto make_options( playlistdownloader::opts opts,Functions f )
 	{
-		return playlistdownloader::options< Function >( p,ctx,d,std::move( function ) ) ;
+		return utility::options< playlistdownloader::opts,Functions >( std::move( opts ),std::move( f ) ) ;
 	}
 };
 

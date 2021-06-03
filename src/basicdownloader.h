@@ -27,6 +27,7 @@
 #include "settings.h"
 #include "utility.h"
 #include "context.hpp"
+#include "tableWidget.h"
 
 class basicdownloader : public QObject
 {
@@ -50,59 +51,21 @@ public:
 	basicdownloader& setAsActive() ;
 	basicdownloader& hideTableList() ;
 private:
-	class options
+	struct opts
 	{
-	public:
-		options( QPushButton& p,
-			 const Context& ctx,
-			 const engines::engine& engine,
-			 QTableWidget& table,
-			 bool d,
-			 bool l ) :
-			m_button( p ),
-			m_ctx( ctx ),
-			m_engine( engine ),
-			m_table( table ),
-			m_debug( d ),
-			m_listRequested( l )
-		{
-		}
+		const engines::engine& engine ;
+		QTableWidget& table ;
 
-		void done( utility::ProcessExitState ) ;
-
-		basicdownloader::options& tabManagerEnableAll( bool e ) ;
-		basicdownloader::options& listRequested( const QList< QByteArray >& e ) ;
-
-		basicdownloader::options& enableCancel( bool e )
-		{
-			m_button.setEnabled( e ) ;
-
-			return *this ;
-		}
-		bool listRequested()
-		{
-			return m_listRequested ;
-		}
-		bool debug()
-		{
-			return m_debug ;
-		}
-		QString downloadFolder() const
-		{
-			return m_ctx.Settings().downloadFolder() ;
-		}
-		const QProcessEnvironment& processEnvironment() const
-		{
-			return m_ctx.Engines().processEnvironment() ;
-		}
-	private:
-		QPushButton& m_button ;
-		const Context& m_ctx ;
-		const engines::engine& m_engine ;
-		QTableWidget& m_table ;
-		bool m_debug ;
-		bool m_listRequested ;
+		const Context& ctx ;
+		bool debug ;
+		bool listRequested ;
 	} ;
+
+	template< typename Functions >
+	auto make_options( basicdownloader::opts opts,Functions functions )
+	{
+		return utility::options< basicdownloader::opts,Functions >( std::move( opts ),std::move( functions ) ) ;
+	}
 
 	size_t m_counter = 0 ;
 	const Context& m_ctx ;
@@ -110,9 +73,10 @@ private:
 	bool m_debug ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
-	QTableWidget& m_tableList ;
+	tableWidget m_tableList ;
 	QStringList m_optionsList ;
-	QTableWidget m_bogusTable ;
+	QTableWidget m_bogusTableOriginal ;
+	tableWidget m_bogusTable ;
 
 	void setDefaultEngine() ;
 
@@ -122,7 +86,6 @@ private:
 		  bool list_requested ) ;
 
 	void changeDefaultEngine( int index ) ;
-	void tabManagerEnableAll( bool ) ;
 	void listRequested( const QList< QByteArray >& ) ;
 	void list() ;
 	void download( const engines::engine&,

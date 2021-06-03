@@ -475,23 +475,6 @@ QStringList utility::updateOptions( const engines::engine& engine,
 	return opts ;
 }
 
-void utility::setTableWidget( QTableWidget& m,const utility::tableWidgetOptions& s )
-{
-	m.verticalHeader()->setSectionResizeMode( QHeaderView::ResizeToContents ) ;
-
-	m.verticalHeader()->setMinimumSectionSize( 30 ) ;
-
-	m.horizontalHeader()->setStretchLastSection( true ) ;
-
-	m.setMouseTracking( s.mouseTracking ) ;
-
-	m.setContextMenuPolicy( s.customContextPolicy ) ;
-
-	m.setEditTriggers( s.editTrigger ) ;
-	m.setFocusPolicy( s.focusPolicy ) ;
-	m.setSelectionMode( s.selectionMode ) ;
-}
-
 int utility::concurrentID()
 {
 	static int id = -1 ;
@@ -499,76 +482,6 @@ int utility::concurrentID()
 	id++ ;
 
 	return id ;
-}
-
-void utility::selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber )
-{
-	if( current && previous && previous->row() == current->row() ){
-
-		auto table = current->tableWidget() ;
-
-		table->setCurrentCell( current->row(),table->columnCount() - 1 ) ;
-	}else{
-		auto _update_table_row = [ & ]( QTableWidgetItem * item,bool setSelected ){
-
-			if( item ){
-
-				auto table = item->tableWidget() ;
-
-				auto row = item->row() ;
-				auto col = table->columnCount() ;
-
-				for( int i = firstColumnNumber ; i < col ; i++ ){
-
-					table->item( row,i )->setSelected( setSelected ) ;
-				}
-
-				if( setSelected ){
-
-					table->setCurrentCell( row,col - 1 ) ;
-				}
-
-				table->setFocus() ;
-			}
-		} ;
-
-		_update_table_row( current,true ) ;
-		_update_table_row( previous,false ) ;
-	}
-}
-
-void utility::addItem( QTableWidget& table,const QString& text,const QFont& font,int alignment )
-{
-	utility::addItem( table,QStringList{ text },font,alignment ) ;
-}
-
-void utility::clear( QTableWidget& table )
-{
-	int m = table.rowCount() ;
-
-	for( int i = 0 ; i < m ; i++ ){
-
-		table.removeRow( 0 ) ;
-	}
-}
-
-void utility::addItem( QTableWidget& table,const QStringList& text,const QFont& font,int alignment )
-{
-	auto row = table.rowCount() ;
-	auto columns = table.columnCount() ;
-
-	table.insertRow( row ) ;
-
-	for( int it = 0 ; it < columns ; it++ ){
-
-		auto item = new QTableWidgetItem() ;
-
-		item->setText( text.at( it ) ) ;
-		item->setTextAlignment( alignment ) ;
-		item->setFont( font ) ;
-
-		table.setItem( row,it,item ) ;
-	}
 }
 
 QString utility::failedToFindExecutableString( const QString& cmd )
@@ -587,4 +500,14 @@ QString utility::clipboardText()
 	}else{
 		return {} ;
 	}
+}
+
+QString utility::downloadFolder( const Context& ctx )
+{
+	return ctx.Settings().downloadFolder() ;
+}
+
+const QProcessEnvironment& utility::processEnvironment( const Context& ctx )
+{
+	return ctx.Engines().processEnvironment() ;
 }

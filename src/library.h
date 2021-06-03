@@ -26,6 +26,7 @@
 
 #include "settings.h"
 #include "utility.h"
+#include "tableWidget.h"
 
 class tabManager ;
 
@@ -49,7 +50,7 @@ private:
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
-	QTableWidget& m_table ;
+	tableWidget m_table ;
 	QString m_downloadFolder ;
 	QString m_currentPath ;
 };

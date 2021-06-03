@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -181,7 +181,7 @@
        <rect>
         <x>10</x>
         <y>0</y>
-        <width>771</width>
+        <width>781</width>
         <height>311</height>
        </rect>
       </property>
@@ -478,6 +478,93 @@
         <property name="text">
          <string/>
         </property>
+       </widget>
+       <widget class="QFrame" name="BDFrame">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>0</y>
+          <width>741</width>
+          <height>401</height>
+         </rect>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QTableWidget" name="TableWidgetBatchDownloaderList">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>721</width>
+           <height>351</height>
+          </rect>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="tabKeyNavigation">
+          <bool>false</bool>
+         </property>
+         <property name="showDropIndicator" stdset="0">
+          <bool>false</bool>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <column>
+          <property name="text">
+           <string>Format Code</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Extension</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Resolution</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Note</string>
+          </property>
+         </column>
+        </widget>
+        <widget class="QPushButton" name="pbBatchDownloaderSet">
+         <property name="geometry">
+          <rect>
+           <x>370</x>
+           <y>360</y>
+           <width>151</width>
+           <height>33</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Set</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pbCancelBatchDownloder">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>360</y>
+           <width>151</width>
+           <height>33</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_2">
@@ -975,7 +1062,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1026,7 +1113,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QCheckBox" name="cbConfigureShowVersionInfo">
         <property name="geometry">
          <rect>
-          <x>188</x>
+          <x>190</x>
           <y>260</y>
           <width>421</width>
           <height>31</height>
@@ -1136,7 +1223,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QCheckBox" name="cbConfigureBatchDownloadConcurrently">
         <property name="geometry">
          <rect>
-          <x>188</x>
+          <x>190</x>
           <y>280</y>
           <width>421</width>
           <height>31</height>
@@ -1178,7 +1265,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QCheckBox" name="cbUseSystemVersionIfAvailable">
         <property name="geometry">
          <rect>
-          <x>188</x>
+          <x>190</x>
           <y>240</y>
           <width>421</width>
           <height>31</height>
@@ -1421,6 +1508,7 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>plainTextEditLogger</tabstop>
   <tabstop>bdTableWidgetList</tabstop>
   <tabstop>lineEditURL</tabstop>
+  <tabstop>pbPasteClipboard</tabstop>
   <tabstop>lineEditOptions</tabstop>
   <tabstop>cbEngineType</tabstop>
   <tabstop>pbCancel</tabstop>
@@ -1428,9 +1516,9 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbList</tabstop>
   <tabstop>pbEntries</tabstop>
   <tabstop>pbQuit</tabstop>
-  <tabstop>tabWidgetBatchDownlader</tabstop>
   <tabstop>tableWidgetBD</tabstop>
   <tabstop>lineEditBDUrl</tabstop>
+  <tabstop>pbBDPasteClipboard</tabstop>
   <tabstop>lineEditBDUrlOptions</tabstop>
   <tabstop>cbEngineTypeBD</tabstop>
   <tabstop>pbBDCancel</tabstop>
@@ -1438,6 +1526,9 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbBDAdd</tabstop>
   <tabstop>pbBDOptions</tabstop>
   <tabstop>pbBDQuit</tabstop>
+  <tabstop>TableWidgetBatchDownloaderList</tabstop>
+  <tabstop>pbCancelBatchDownloder</tabstop>
+  <tabstop>pbBatchDownloaderSet</tabstop>
   <tabstop>lineEditFileDownloader</tabstop>
   <tabstop>pbFileDownloaderFilePath</tabstop>
   <tabstop>lineEditFileOptions</tabstop>
@@ -1446,6 +1537,7 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbFileDownloaderQuit</tabstop>
   <tabstop>tableWidgetPl</tabstop>
   <tabstop>lineEditPLUrl</tabstop>
+  <tabstop>pbPLPasteClipboard</tabstop>
   <tabstop>lineEditPLDownloadRange</tabstop>
   <tabstop>lineEditPLUrlOptions</tabstop>
   <tabstop>cbEngineTypePD</tabstop>
@@ -1455,12 +1547,12 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbPLOptions</tabstop>
   <tabstop>pbPLQuit</tabstop>
   <tabstop>tableWidgetLibrary</tabstop>
-  <tabstop>pbLibraryUp</tabstop>
   <tabstop>pbLibraryHome</tabstop>
+  <tabstop>pbLibraryUp</tabstop>
   <tabstop>pbLibraryDowloadFolder</tabstop>
   <tabstop>pbLibraryRefresh</tabstop>
   <tabstop>pbLibraryQuit</tabstop>
-  <tabstop>tabWidgetConfigure</tabstop>
+  <tabstop>pbConfigureQuit</tabstop>
   <tabstop>cbConfigureLanguage</tabstop>
   <tabstop>lineEditConfigureScaleFactor</tabstop>
   <tabstop>lineEditConfigureDownloadPath</tabstop>
@@ -1469,18 +1561,21 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>pbConfigureAddAPlugin</tabstop>
   <tabstop>pbConfigureRemoveAPlugin</tabstop>
   <tabstop>comboBoxConfigureDarkTheme</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>cbUseSystemVersionIfAvailable</tabstop>
   <tabstop>cbConfigureShowVersionInfo</tabstop>
   <tabstop>cbConfigureBatchDownloadConcurrently</tabstop>
   <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
   <tabstop>textEditConfigurePresetOptions</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>
+  <tabstop>tabWidgetConfigure</tabstop>
   <tabstop>cbConfigureEngines</tabstop>
+  <tabstop>lineEditConfigureCookiePath</tabstop>
+  <tabstop>pbConfigureCookiePath</tabstop>
   <tabstop>lineEditConfigureDownloadOptions</tabstop>
   <tabstop>pbConfigureEngineDefaultOptions</tabstop>
   <tabstop>pbConfigureSave</tabstop>
-  <tabstop>pbConfigureQuit</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>tabWidgetBatchDownlader</tabstop>
  </tabstops>
  <resources/>
  <connections/>

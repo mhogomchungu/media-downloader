@@ -20,6 +20,7 @@
 #include "library.h"
 #include "basicdownloader.h"
 #include "tabmanager.h"
+#include "tableWidget.h"
 
 #include <QDir>
 
@@ -27,20 +28,18 @@ library::library( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
-	m_table( *m_ui.tableWidgetLibrary ),
+	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font() ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
 	m_currentPath( m_settings.libraryDownloadFolder() )
 {
-	m_table.hideColumn( 2 ) ;
+	m_table.get().hideColumn( 2 ) ;
 
-	utility::setTableWidget( m_table,utility::tableWidgetOptions() ) ;
+	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
-	connect( &m_table,&QTableWidget::currentItemChanged,[]( QTableWidgetItem * c,QTableWidgetItem * p ){
-
-		utility::selectRow( c,p,1 ) ;
+		m_table.selectRow( c,p,1 ) ;
 	} ) ;
 
-	connect( &m_table,&QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
+	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
 		QMenu m ;
 
@@ -48,9 +47,9 @@ library::library( const Context& ctx ) :
 
 			auto row = m_table.currentRow() ;
 
-			if( row != -1 && m_table.item( row,1 )->isSelected() ){
+			if( row != -1 && m_table.item( row,1 ).isSelected() ){
 
-				auto m = m_currentPath + "/" + m_table.item( row,1 )->text() ;
+				auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
 
 				m_ctx.TabManager().disableAll() ;
 
@@ -139,13 +138,13 @@ library::library( const Context& ctx ) :
 		this->showContents( m_currentPath ) ;
 	} ) ;
 
-	connect( &m_table,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
+	m_table.connect( &QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
 
 		Q_UNUSED( column )
 
-		auto s = m_table.item( row,1 )->text() ;
+		auto s = m_table.item( row,1 ).text() ;
 
-		if( m_table.item( row,2 )->text() == "folder" ){
+		if( m_table.item( row,2 ).text() == "folder" ){
 
 			m_currentPath +=  "/" + s ;
 
@@ -212,8 +211,10 @@ void library::tabExited()
 {
 }
 
-static void _addItem( QTableWidget& table,const QString& text,const QFont& font,bool file )
+static void _addItem( tableWidget& t,const QString& text,const QFont& font,bool file )
 {
+	auto& table = t.get() ;
+
 	auto row = table.rowCount() ;
 
 	table.insertRow( row ) ;
@@ -262,9 +263,9 @@ void library::showContents( const QString& path,bool disableUi )
 {
 	m_settings.setlibraryDownloadFolder( m_currentPath ) ;
 
-	utility::clear( m_table ) ;
+	m_table.clear() ;
 
-	m_table.setHorizontalHeaderItem( 1,new QTableWidgetItem( m_currentPath ) ) ;
+	m_table.get().setHorizontalHeaderItem( 1,new QTableWidgetItem( m_currentPath ) ) ;
 
 	if( disableUi ){
 
@@ -347,7 +348,9 @@ void library::showContents( const QString& path,bool disableUi )
 
 		if( m_table.rowCount() > 0 ){
 
-			m_table.setCurrentCell( m_table.rowCount() - 1,m_table.columnCount() - 1 ) ;
+			auto& t = m_table.get() ;
+
+			t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
 		}
 	} ) ;
 }

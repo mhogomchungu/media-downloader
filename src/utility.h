@@ -39,6 +39,8 @@
 
 class Context ;
 
+class tabManager ;
+
 namespace Ui
 {
 	class MainWindow ;
@@ -449,7 +451,7 @@ namespace utility
 			return ;
 		}
 
-		options.tabManagerEnableAll( false ) ;
+		options.disableAll() ;
 
 		utility::run( exe,cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
 
@@ -579,15 +581,6 @@ namespace utility
 			return true ;
 		} ) ;
 	}
-
-	struct tableWidgetOptions
-	{
-		QFlags< QAbstractItemView::EditTrigger > editTrigger = QAbstractItemView::NoEditTriggers ;
-		Qt::ContextMenuPolicy customContextPolicy = Qt::CustomContextMenu ;
-		Qt::FocusPolicy focusPolicy = Qt::NoFocus ;
-		QAbstractItemView::SelectionMode selectionMode = QAbstractItemView::NoSelection ;
-		bool mouseTracking = true ;
-	};
 
 	template< typename List,
 		  std::enable_if_t< std::is_lvalue_reference< List >::value,int > = 0 >
@@ -803,12 +796,6 @@ namespace utility
 
 	int concurrentID() ;
 
-	void setTableWidget( QTableWidget&,const tableWidgetOptions& = tableWidgetOptions() ) ;
-	void addItem( QTableWidget&,const QStringList&,const QFont&,int alignment = Qt::AlignCenter ) ;
-	void addItem( QTableWidget&,const QString&,const QFont&,int alignment = Qt::AlignCenter ) ;
-	void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
-
-	void clear( QTableWidget& ) ;
 	void wait( int time ) ;
 	void waitForOneSecond() ;
 	void openDownloadFolderPath( const QString& ) ;
@@ -822,6 +809,9 @@ namespace utility
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;
+
+	QString downloadFolder( const Context& ctx ) ;
+	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
 
 	QStringList updateOptions( const engines::engine& engine,
 				   settings&,
@@ -837,6 +827,83 @@ namespace utility
 		auto s = static_cast< void( * )( const engines::engine&,QProcess& ) >( utility::terminateProcess ) ;
 
 		return utility::make_conn( obj,memFunction,s ) ;
+	}
+
+	struct opts
+	{
+		const Context& ctx ;
+		const engines::engine& engine ;
+		QTableWidget& table ;
+		bool debug ;
+		bool listRequested ;
+		QString downloadFolder() const ;
+		const QProcessEnvironment& processEnvironment() const ;
+	} ;
+
+	template< typename Opts,typename Functions >
+	class options
+	{
+	public:
+		options( Opts opts,Functions functions ) :
+			m_opts( std::move( opts ) ),
+			m_functions( std::move( functions ) )
+		{
+		}
+		void done( utility::ProcessExitState e )
+		{
+			m_functions.done( std::move( e ),m_opts ) ;
+		}
+		void listRequested( const QList< QByteArray >& e )
+		{
+			m_functions.list( e ) ;
+		}
+		bool listRequested()
+		{
+			return m_opts.listRequested ;
+		}
+		bool debug()
+		{
+			return m_opts.debug ;
+		}
+		void disableAll()
+		{
+			m_functions.disableAll( m_opts ) ;
+		}
+		QString downloadFolder() const
+		{
+			return utility::downloadFolder( m_opts.ctx ) ;
+		}
+		const QProcessEnvironment& processEnvironment() const
+		{
+			return utility::processEnvironment( m_opts.ctx ) ;
+		}
+	private:
+		Opts m_opts ;
+		Functions m_functions ;
+	} ;
+
+	template< typename List,typename DisableAll,typename Done >
+	struct Functions
+	{
+		List list ;
+		DisableAll disableAll ;
+		Done done ;
+	} ;
+
+	template< typename List,typename DisableAll,typename Done >
+	Functions< List,DisableAll,Done > OptionsFunctions( List list,DisableAll disableAll,Done done )
+	{
+		return { std::move( list ),std::move( disableAll ),std::move( done ) } ;
+	}
+
+	template< typename DisableAll,typename Done >
+	auto OptionsFunctions( DisableAll disableAll,Done done )
+	{
+		auto aa = []( const QList< QByteArray >& ){} ;
+
+		using type = Functions< decltype( aa ),DisableAll,Done > ;
+
+		return type{ std::move( aa ),std::move( disableAll ),std::move( done ) } ;
 	}
 }
 

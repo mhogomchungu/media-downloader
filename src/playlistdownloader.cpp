@@ -19,6 +19,7 @@
 
 #include "playlistdownloader.h"
 #include "tabmanager.h"
+#include "tableWidget.h"
 
 #include <QFileDialog>
 
@@ -28,16 +29,16 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_table( *m_ui.tableWidgetPl ),
+	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font() ),
 	m_running( false ),
 	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings )
 {
 	this->resetMenu() ;
 
-	utility::setTableWidget( m_table ) ;
+	auto& t = m_table.get() ;
 
-	m_table.hideColumn( 1 ) ;
-	m_table.hideColumn( 2 ) ;
+	t.hideColumn( 1 ) ;
+	t.hideColumn( 2 ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
 
@@ -46,11 +47,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		m_ui.lineEditPLUrl->setText( utility::clipboardText() ) ;
 	} ) ;
 
-	connect( &m_table,&QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
+	m_table.connect( &QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
 
 		Q_UNUSED( column )
 
-		m_ctx.Engines().openUrls( *m_table.item( row,0 ),
+		m_ctx.Engines().openUrls( m_table.item( row,0 ),
 					  m_ui.cbEngineTypePD->currentText() ) ;
 	} ) ;
 
@@ -227,13 +228,13 @@ void playlistdownloader::download()
 
 void playlistdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table,m_ui.lineEditPLUrlOptions->text() ) ;
+	downloadManager::index indexes( m_table.get(),m_ui.lineEditPLUrlOptions->text() ) ;
 
 	auto m = m_ui.lineEditPLDownloadRange->text() ;
 
 	auto _add = [ & ]( int s ){
 
-		auto e = m_table.item( s,2 )->text() ;
+		auto e = m_table.item( s,2 ).text() ;
 
 		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
@@ -312,30 +313,35 @@ void playlistdownloader::download( const engines::engine& engine )
 
 void playlistdownloader::download( const engines::engine& engine,int index )
 {
-	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ &engine,index,this ]( utility::ProcessExitState e ){
+	auto functions = utility::OptionsFunctions( []( const playlistdownloader::opts& ){},
+				[ &engine,index,this ]( utility::ProcessExitState e,const playlistdownloader::opts& ){
 
-		m_ccmd.monitorForFinished( engine,index,std::move( e ),[ this ]( const engines::engine& engine,int index ){
+			auto aa = [ this ]( const engines::engine& engine,int index ){
 
-			this->download( engine,index ) ;
+				this->download( engine,index ) ;
+			} ;
 
-		},[ &engine,this ]( const downloadManager::finishedStatus& f ){
+			auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
 
-			m_running = !f.allFinished() ;
+				m_running = !f.allFinished() ;
 
-			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
-		} ) ;
-	} ) ;
+				utility::updateFinishedState( engine,m_settings,m_table.get(),f ) ;
+			} ;
+
+			m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
+		}
+	) ;
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
 
 	m_ccmd.download( engine,
 			 index,
-			 m_table.item( index,1 )->text(),
-			 std::move( aa ),
+			 m_table.item( index,1 ).text(),
+			 playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false },std::move( functions ) ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
 						     engine,
 						     m_ctx.logger(),
-						     *m_table.item( index,0 ),
+						     m_table.item( index,0 ),
 						     utility::concurrentID() ) ) ;
 }
 
@@ -347,8 +353,6 @@ void playlistdownloader::getList()
 
 		return ;
 	}
-
-	m_ctx.TabManager().disableAll() ;
 
 	m_ui.pbPLCancel->setEnabled( true ) ;
 
@@ -372,27 +376,33 @@ void playlistdownloader::getList()
 
 	opts.append( m_ui.lineEditPLUrl->text() ) ;
 
-	auto aa = playlistdownloader::make_options( *m_ui.pbPLCancel,m_ctx,m_ctx.debug(),[ this ]( utility::ProcessExitState ){
+	auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
-		m_running = false ;
-		m_ctx.TabManager().enableAll() ;
-		m_ui.pbPLCancel->setEnabled( false ) ;
-	} ) ;
+			opts.ctx.TabManager().disableAll() ;
+
+			m_ui.pbPLCancel->setEnabled( true ) ;
+
+		},[ this ]( utility::ProcessExitState,const playlistdownloader::opts& ){
+
+			m_running = false ;
+			m_ctx.TabManager().enableAll() ;
+			m_ui.pbPLCancel->setEnabled( false ) ;
+		}
+	) ;
 
 	m_running = true ;
 
-	auto bb = []( QTableWidget& table,const QString& txt,const QFont& font ){
+	auto bb = []( QTableWidget& table,const QString& txt ){
 
 		auto s = downloadManager::finishedStatus::notStarted() ;
-		utility::addItem( table,{ txt,txt,s },font,Qt::AlignCenter ) ;
+		tableWidget::addItem( table,{ txt,txt,s },Qt::AlignCenter ) ;
 	} ;
 
 	utility::run( engine,
 		      opts,
 		      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality,
-		      std::move( aa ),
-		      make_loggerPlaylistDownloader( m_table,
-						     m_ctx.mainWidget().font(),
+		      playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false },std::move( functions ) ),
+		      make_loggerPlaylistDownloader( m_table.get(),
 						     m_ctx.logger(),
 						     engine.playListUrlPrefix(),
 						     utility::concurrentID(),
@@ -403,7 +413,7 @@ void playlistdownloader::getList()
 
 void playlistdownloader::clearScreen()
 {
-	utility::clear( m_table ) ;
+	m_table.clear() ;
 
 	m_ui.lineEditPLUrlOptions->clear() ;
 	m_ui.lineEditPLDownloadRange->clear() ;

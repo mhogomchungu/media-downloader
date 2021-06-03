@@ -32,7 +32,8 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_ui( m_ctx.Ui() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_tableList( *m_ui.bdTableWidgetList )
+	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font() ),
+	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font() )
 {
 	this->setAsActive() ;
 
@@ -40,45 +41,23 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	m_tableList.setVisible( false ) ;
 
-	utility::tableWidgetOptions opts ;
+	tableWidget::tableWidgetOptions opts ;
 
 	opts.customContextPolicy = Qt::NoContextMenu ;
 	opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
 
-	utility::setTableWidget( m_tableList,opts ) ;
+	m_tableList.setTableWidget( opts ) ;
 
 	connect( m_ui.pbPasteClipboard,&QPushButton::clicked,[ this ](){
 
 		m_ui.lineEditURL->setText( utility::clipboardText() ) ;
 	} ) ;
 
-	connect( &m_tableList,&QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
+	m_tableList.connect( &QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
 
-		if( item->isSelected() ){
+		if( item ){
 
-			auto text = m_tableList.item( item->row(),0 )->text() ;
-
-			if( !m_optionsList.contains( text ) ){
-
-				m_optionsList.append( text ) ;
-			}
-		}
-
-		for( int row = 0 ; row < m_tableList.rowCount() ; row++ ){
-
-			auto item = m_tableList.item( row,0 ) ;
-
-			if( !item->isSelected() ){
-
-				m_optionsList.removeAll( item->text() ) ;
-			}
-		}
-
-		if( m_optionsList.isEmpty() ){
-
-			m_ui.lineEditOptions->clear() ;
-		}else{
-			m_ui.lineEditOptions->setText( m_optionsList.join( "+" ) ) ;
+			m_tableList.selectMediaOptions( m_optionsList,*item,*m_ui.lineEditOptions ) ;
 		}
 	} ) ;
 
@@ -114,12 +93,14 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 		}
 	} ) ;
 
-	m_bogusTable.insertRow( 0 ) ;
+	auto& table = m_bogusTable.get() ;
+
+	table.insertRow( 0 ) ;
 
 	for( int s = 0 ; s < 3 ; s++ ){
 
-		m_bogusTable.insertColumn( s ) ;
-		m_bogusTable.setItem( 0,s,new QTableWidgetItem ) ;
+		table.insertColumn( s ) ;
+		table.setItem( 0,s,new QTableWidgetItem ) ;
 	}
 }
 
@@ -293,16 +274,6 @@ void basicdownloader::setDefaultEngine()
 	m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
 }
 
-void basicdownloader::tabManagerEnableAll( bool e )
-{
-	if( e ){
-
-		m_tabManager.enableAll() ;
-	}else{
-		m_tabManager.disableAll() ;
-	}
-}
-
 void basicdownloader::retranslateUi()
 {
 	this->resetMenu() ;
@@ -384,43 +355,9 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 		}
 	}
 
-	QStringList m ;
-
 	const auto& engine = m_ctx.Engines().defaultEngine( m_ui.cbEngineType->currentText() ) ;
 
-	utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
-
-		auto a = utility::split( s,' ',true ) ;
-
-		if( a.size() > 1 ){
-
-			if( engine.breakShowListIfContains( a ) ){
-
-				return true ;
-			}else{
-				m.insert( 0,s ) ;
-			}
-		}
-
-		return false ;
-	} ) ;
-
-	for( const auto& it : m ){
-
-		auto a = utility::split( it,' ',true ) ;
-
-		if( a.size() > 3 ){
-
-			auto format     = a.takeAt( 0 ) ;
-			auto extension  = a.takeAt( 0 ) ;
-			auto resolution = a.takeAt( 0 ) ;
-			auto notes      = a.join( " " ) ;
-
-			QStringList args{ format,extension,resolution,notes } ;
-
-			utility::addItem( m_tableList,args,m_ctx.mainWidget().font() ) ;
-		}
-	}
+	m_tableList.showOptions( engine,args ) ;
 
 	m_tableList.setEnabled( true ) ;
 }
@@ -431,17 +368,17 @@ void basicdownloader::list()
 
 	m_tableList.setVisible( true ) ;
 
-	utility::clear( m_tableList ) ;
+	m_tableList.clear() ;
 
 	m_optionsList.clear() ;
 
 	m_ui.lineEditOptions->clear() ;
 
-	m_ui.pbCancel->setEnabled( true ) ;
-
 	auto url = m_ui.lineEditURL->text() ;
 
-	const auto& backend = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ;
+	auto m = m_settings.defaultEngine( settings::tabName::basic ) ;
+
+	const auto& backend = m_ctx.Engines().defaultEngine( m ) ;
 
 	auto args = backend.defaultListCmdOptions() ;
 	args.append( url.split( ' ' ) ) ;
@@ -464,11 +401,11 @@ void basicdownloader::download( const QString& url )
 
 	const auto& engine = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ;
 
-	utility::clear( m_bogusTable ) ;
+	m_bogusTable.clear() ;
 
 	QStringList args{ m.at( 0 ),m.at( 0 ),downloadManager::finishedStatus::notStarted() } ;
 
-	utility::addItem( m_bogusTable,args,m_ctx.mainWidget().font() ) ;
+	m_bogusTable.addItem( args ) ;
 
 	this->download( engine,m_ui.lineEditOptions->text(),m,false ) ;
 }
@@ -509,10 +446,37 @@ void basicdownloader::run( const engines::engine& engine,
 			   const QString& quality,
 			   bool list_requested )
 {
+	auto functions = utility::OptionsFunctions( [ this ]( const QList< QByteArray >& args ){
+
+			this->listRequested( args ) ;
+
+		},[]( const basicdownloader::opts& opts ){
+
+			opts.ctx.TabManager().disableAll() ;
+
+		},[ this ]( utility::ProcessExitState m,const basicdownloader::opts& opts ){
+
+			m_ctx.TabManager().enableAll() ;
+
+			m_ui.pbCancel->setEnabled( false ) ;
+
+			if( !opts.listRequested ){
+
+				auto a = downloadManager::finishedStatus( 0,true,std::move( m ) ) ;
+
+				auto& s = opts.ctx.Settings() ;
+
+				utility::updateFinishedState( opts.engine,s,opts.table,std::move( a ) ) ;
+			}
+		}
+	 ) ;
+
+	basicdownloader::opts opts{ engine,m_bogusTable.get(),m_ctx,m_debug,list_requested } ;
+
 	utility::run( engine,
 		      args,
 		      quality,
-		      basicdownloader::options( *m_ui.pbCancel,m_ctx,engine,m_bogusTable,m_debug,list_requested ),
+		      basicdownloader::make_options( std::move( opts ),std::move( functions ) ),
 		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
 		      utility::make_term_conn( m_ui.pbCancel,&QPushButton::clicked ) ) ;
 }
@@ -596,36 +560,4 @@ void basicdownloader::appQuit()
 	m_settings.setTabNumber( m_ui.tabWidget->currentIndex() ) ;
 
 	QCoreApplication::quit() ;
-}
-
-void basicdownloader::options::done( utility::ProcessExitState m )
-{
-	this->tabManagerEnableAll( true ).enableCancel( false ) ;
-
-	if( !m_listRequested ){
-
-		utility::updateFinishedState( m_engine,
-					      m_ctx.Settings(),
-					      m_table,
-					      downloadManager::finishedStatus( 0,true,std::move( m ) ) ) ;
-	}
-}
-
-basicdownloader::options& basicdownloader::options::tabManagerEnableAll( bool e )
-{
-	if( e ){
-
-		m_ctx.TabManager().enableAll() ;
-	}else{
-		m_ctx.TabManager().disableAll() ;
-	}
-
-	return *this ;
-}
-
-basicdownloader::options& basicdownloader::options::listRequested( const QList< QByteArray >& e )
-{
-	m_ctx.TabManager().basicDownloader().listRequested( e ) ;
-
-	return *this ;
 }

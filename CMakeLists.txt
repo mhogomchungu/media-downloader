@@ -76,6 +76,7 @@ set(SRC
     src/networkAccess.cpp
     src/logger.cpp
     src/engines.cpp
+    src/tableWidget.cpp
     src/library.cpp
     src/downloadmanager.cpp
     src/engines/youtube-dl.cpp
