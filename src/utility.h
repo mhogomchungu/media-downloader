@@ -371,6 +371,15 @@ namespace utility
 			m_options( std::move( options ) ),
 			m_channels( channels )
 		{
+			if( m_engine.replaceOutputWithProgressReport() ){
+
+				QObject::connect( &m_timer,&QTimer::timeout,[ this ]{
+
+					this->postData( m_engine.bogusData(),false ) ;
+				} ) ;
+
+				m_timer.start( 1000 ) ;
+			}
 		}
 		void setCancelConnection( QMetaObject::Connection conn )
 		{
@@ -384,8 +393,13 @@ namespace utility
 		{
 			m_cancelled = true ;
 		}
-		void postData( QByteArray data )
+		void postData( QByteArray data,bool stopTimer = true )
 		{
+			if( stopTimer ){
+
+				m_timer.stop() ;
+			}
+
 			if( !m_cancelled ){
 
 				m_data += data ;
@@ -406,6 +420,8 @@ namespace utility
 		}
 		void disconnect()
 		{
+			m_timer.stop() ;
+
 			QObject::disconnect( m_conn ) ;
 		}
 		Options& options()
@@ -425,6 +441,7 @@ namespace utility
 		bool m_cancelled ;
 		Options m_options ;
 		ProcessOutputChannels m_channels ;
+		QTimer m_timer ;
 	} ;
 
 	template< typename Connection,

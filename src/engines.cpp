@@ -161,6 +161,12 @@ void engines::openUrls( const QString& path ) const
 	QDesktopServices::openUrl( m ) ;
 }
 
+const QString& engines::linesToSkip()
+{
+	static QString m = "[Media Downloader Bogus Data]" ;
+	return m ;
+}
+
 void engines::updateEngines( bool addAll )
 {
 	auto _engine_add = [ & ]( engines::engine m ){

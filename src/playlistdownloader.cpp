@@ -313,24 +313,24 @@ void playlistdownloader::download( const engines::engine& engine )
 
 void playlistdownloader::download( const engines::engine& engine,int index )
 {
-	auto functions = utility::OptionsFunctions( []( const playlistdownloader::opts& ){},
-				[ &engine,index,this ]( utility::ProcessExitState e,const playlistdownloader::opts& ){
+	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const playlistdownloader::opts& ){
 
-			auto aa = [ this ]( const engines::engine& engine,int index ){
+		auto aa = [ this ]( const engines::engine& engine,int index ){
 
-				this->download( engine,index ) ;
-			} ;
+			this->download( engine,index ) ;
+		} ;
 
-			auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
+		auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
 
-				m_running = !f.allFinished() ;
+			m_running = !f.allFinished() ;
 
-				utility::updateFinishedState( engine,m_settings,m_table.get(),f ) ;
-			} ;
+			utility::updateFinishedState( engine,m_settings,m_table.get(),f ) ;
+		} ;
 
-			m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
-		}
-	) ;
+		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
+	} ;
+
+	auto functions = utility::OptionsFunctions( []( const playlistdownloader::opts& ){},std::move( aa ) ) ;
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
 

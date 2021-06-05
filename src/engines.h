@@ -35,7 +35,6 @@
 #include "logger.h"
 
 class settings ;
-struct concurrentDownloadManagerFinishedStatus ;
 
 class engines{
 public:
@@ -450,6 +449,15 @@ public:
 		{
 			return m_controlStructure ;
 		}
+		const QByteArray& bogusData() const
+		{
+		        static QByteArray m = engines::linesToSkip().toUtf8() ;
+			return m ;
+		}
+		const QString& linesToSkip() const
+		{
+		        return engines::linesToSkip() ;
+		}
 		bool usingPrivateBackend() const
 		{
 			return m_usingPrivateBackend ;
@@ -543,6 +551,7 @@ public:
 	engines( Logger&,settings& ) ;
 	void openUrls( QTableWidgetItem&,const QString& engineName = QString() ) const ;
 	void openUrls( const QString& path ) const ;
+	static const QString& linesToSkip() ;
 private:
 	void updateEngines( bool ) ;
 	Logger& m_logger ;
