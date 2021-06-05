@@ -23,9 +23,8 @@
 
 #include "utility.h"
 
-Logger::Logger( QPlainTextEdit& e,const QString& s ) :
-	m_textEdit( e ),
-	m_lines( s )
+Logger::Logger( QPlainTextEdit& e ) :
+	m_textEdit( e )
 {
 	m_textEdit.setReadOnly( true ) ;
 }
@@ -53,16 +52,6 @@ void Logger::update()
 	m_textEdit.setPlainText( m_lines.toString() ) ;
 
 	m_textEdit.moveCursor( QTextCursor::End ) ;
-}
-
-const QString& _set_nothing()
-{
-	static QString m ;
-	return m ;
-}
-
-Logger::Data::Data() : m_skipData( _set_nothing() )
-{
 }
 
 QStringList Logger::Data::toStringList() const

@@ -32,10 +32,6 @@ public:
 	class Data
 	{
 	public:
-		Data() ;
-		Data( const QString& s ) : m_skipData( s )
-		{
-		}
 		bool isEmpty() const
 		{
 			return m_lines.empty() ;
@@ -152,14 +148,11 @@ public:
 		template< typename It >
 		void add( const It& it,const QString& text,int id )
 		{
-			if( text != m_skipData ){
+			if( it != m_lines.rbegin() ){
 
-				if( it != m_lines.rbegin() ){
-
-					m_lines.emplace( it.base(),text,id ) ;
-				}else{
-					m_lines.emplace_back( text,id ) ;
-				}
+				m_lines.emplace( it.base(),text,id ) ;
+			}else{
+				m_lines.emplace_back( text,id ) ;
 			}
 		}
 		class line
@@ -200,10 +193,9 @@ public:
 			int m_id ;
 		} ;
 		std::vector< Logger::Data::line > m_lines ;
-		const QString& m_skipData ;
 	} ;
 
-	Logger( QPlainTextEdit&,const QString& ) ;
+	Logger( QPlainTextEdit& ) ;
 	void add( const QString&,int id = -1 ) ;
 	void clear() ;
 	template< typename Function >

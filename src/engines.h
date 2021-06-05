@@ -313,6 +313,7 @@ public:
 			settings& Settings() ;
 		private:
 			settings& m_settings ;
+			engines::engine::functions::preProcessing m_genericProgress ;
 		} ;
 
 		engine( Logger& logger ) : m_valid( false ),m_showListBreaker( logger )

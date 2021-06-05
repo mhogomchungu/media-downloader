@@ -1059,6 +1059,27 @@ void engines::engine::functions::processData( const engines::engine& engine,
 					      QByteArray data,
 					      int id )
 {
+	if( data == engine.bogusData() ){
+
+		const auto& e = m_genericProgress.text() ;
+
+		if( outPut.isEmpty() ){
+
+			outPut.add( e,id ) ;
+		}else{
+			auto& s = outPut.lastText() ;
+
+			if( s.startsWith( engines::engine::functions::preProcessing::processingText() ) ){
+
+				outPut.replaceLast( e ) ;
+			}else{
+				outPut.add( e,id ) ;
+			}
+		}
+
+		return ;
+	}
+
 	for( const auto& it : engine.removeText() ){
 
 		data.replace( it.toUtf8(),"" ) ;
