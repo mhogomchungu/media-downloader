@@ -32,6 +32,13 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
 {
+	tableWidget::tableWidgetOptions opts ;
+
+	opts.customContextPolicy = Qt::NoContextMenu ;
+	opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
+
+	m_tableWidgetBDList.setTableWidget( opts ) ;
+
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
 	auto& t = m_table.get() ;
@@ -42,13 +49,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ui.pbBDDownload->setEnabled( false ) ;
 
 	m_ui.pbBDCancel->setEnabled( false ) ;
-
-	tableWidget::tableWidgetOptions opts ;
-
-	opts.customContextPolicy = Qt::NoContextMenu ;
-	opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
-
-	m_tableWidgetBDList.setTableWidget( opts ) ;
 
 	m_ui.BDFrame->hide() ;
 
@@ -66,7 +66,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( item ){
 
-			auto m = m_lineEdit.text() ;
+			auto m = m_tableWidgetBDList.item( item->row(),0 ).text() ;
 
 			if( !m.isEmpty() ){
 

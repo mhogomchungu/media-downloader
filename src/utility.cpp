@@ -281,31 +281,8 @@ bool utility::platformIsNOTWindows()
 	return !utility::platformIsWindows() ;
 }
 
-static void _add( QMenu * menu,const QStringList& args )
-{
-	for( const auto& it : args ){
-
-		auto a = it ;
-
-		a.replace( "Best-audiovideo(",QObject::tr( "Best-audiovideo" ) + "(" ) ;
-		a.replace( "Best-audio(",QObject::tr( "Best-audio" ) + "(" ) ;
-
-		auto b = a.lastIndexOf( '(' ) ;
-
-		if( b != -1 ){
-
-			auto m = a.mid( 0,b ) ;
-			auto mm = a.mid( b + 1 ) ;
-			mm.truncate( mm.size() - 1 ) ;
-			menu->addAction( m )->setObjectName( mm ) ;
-		}else{
-			menu->addAction( it )->setObjectName( it ) ;
-		}
-	}
-}
-
 QMenu * utility::details::sMo( const Context& ctx,
-			       const QStringList& opts,
+			       const QStringList&,
 			       bool addClear,
 			       QPushButton * w )
 {
@@ -328,16 +305,15 @@ QMenu * utility::details::sMo( const Context& ctx,
 
 	menu->addSeparator() ;
 
-	_add( menu,settings.presetOptionsList() ) ;
+	settings.presetOptions( [ & ]( const QString& uiName,const QString& options ){
 
-	if( !opts.empty() ){
+		auto a = uiName ;
 
-		menu->addSeparator() ;
+		a.replace( "Best-audiovideo",QObject::tr( "Best-audiovideo" ) ) ;
+		a.replace( "Best-audio",QObject::tr( "Best-audio" ) ) ;
 
-		translator::entry ss( QObject::tr( "Found Options" ),"Found Options","Found Options" ) ;
-
-		_add( translator.addMenu( menu,std::move( ss ) ),opts ) ;
-	}
+		menu->addAction( a )->setObjectName( options ) ;
+	} ) ;
 
 	if( addClear ){
 

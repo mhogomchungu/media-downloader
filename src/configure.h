@@ -23,6 +23,7 @@
 #include "utility.h"
 #include "context.hpp"
 #include "networkAccess.h"
+#include "tableWidget.h"
 
 #include <QMenu>
 
@@ -44,15 +45,19 @@ public:
 	void updateEnginesList( const QStringList& e ) ;
 private:
 	void enableConcurrentTextField() ;
-	const Context& m_ctx ;
 	void saveOptions() ;
 	void setEngineOptions( const QString& ) ;
+	void savePresetOptions() ;
+	void showOptions() ;
+
+	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
 	engines& m_engines ;
 	networkAccess m_networkAccess ;
+	tableWidget m_tablePresetOptions ;
 	QMenu m_menu ;
 };
 

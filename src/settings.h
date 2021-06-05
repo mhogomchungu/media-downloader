@@ -34,6 +34,10 @@
 class Logger ;
 class QApplication ;
 
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+
 class settings
 {
 public:
@@ -214,10 +218,74 @@ public:
 	void setPresetOptions( const QString& ) ;
 	void setLastUsedOption( const QString& engineName,const QString& options,settings::tabName ) ;
 	void setPresetOptions( const QStringList& ) ;
+	void setPresetJsonDefaultOptions() ;
 	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;
 	void setLocalizationLanguage( const QString& language ) ;
+
+	class presetOptionsAdder
+	{
+	public:
+		presetOptionsAdder( const presetOptionsAdder& ) = default ;
+
+		presetOptionsAdder( settings& s ) : m_settings( s )
+		{
+		}
+		void add( const QString& uiName,const QString& options )
+		{
+			QJsonObject o ;
+
+			o.insert( "uiName",uiName ) ;
+			o.insert( "options",options ) ;
+
+			m_arr.append( o ) ;
+		}
+		~presetOptionsAdder()
+		{
+			m_settings.setPresetJsonOptions( QJsonDocument( m_arr ).toJson( QJsonDocument::Compact ) ) ;
+		}
+	private:
+		QJsonArray m_arr ;
+		settings& m_settings ;
+	};
+
+	presetOptionsAdder setpresetOptions()
+	{
+		return presetOptionsAdder( *this ) ;
+	}
+
+	template< typename Function >
+	void presetOptions( Function function )
+	{
+		QJsonParseError err ;
+
+		auto json = QJsonDocument::fromJson( this->presetJsonOptions().toUtf8(),&err ) ;
+
+		if( err.error == QJsonParseError::NoError ){
+
+			const auto arr = json.array() ;
+
+			for( const auto& it : arr ){
+
+				auto obj = it.toObject() ;
+
+				if( !obj.isEmpty() ){
+
+					auto a = obj.value( "uiName" ).toString() ;
+					auto b = obj.value( "options" ).toString() ;
+
+					if( !a.isEmpty() && !b.isEmpty() ){
+
+						function( a,b ) ;
+					}
+				}
+			}
+		}
+	}
 private:
+	QString presetJsonOptions() ;
+	void setPresetJsonOptions( const QString& ) ;
+
 	bool m_EnableHighDpiScaling ;
 	std::unique_ptr< QSettings > m_settingsP ;
 	QSettings& m_settings ;

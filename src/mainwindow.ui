@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1062,7 +1062,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1309,22 +1309,12 @@ Each Link Should Be In Its Own Line.</string>
        <attribute name="title">
         <string>Preset Options</string>
        </attribute>
-       <widget class="QTextEdit" name="textEditConfigurePresetOptions">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>10</y>
-          <width>681</width>
-          <height>301</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
         <property name="geometry">
          <rect>
-          <x>300</x>
+          <x>200</x>
           <y>320</y>
-          <width>161</width>
+          <width>181</width>
           <height>31</height>
          </rect>
         </property>
@@ -1333,6 +1323,109 @@ Each Link Should Be In Its Own Line.</string>
         </property>
         <property name="text">
          <string>Set Defaults</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="tableWidgetConfigurePresetOptions">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>741</width>
+          <height>251</height>
+         </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="tabKeyNavigation">
+         <bool>false</bool>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectItems</enum>
+        </property>
+        <property name="gridStyle">
+         <enum>Qt::SolidLine</enum>
+        </property>
+        <column>
+         <property name="text">
+          <string>Ui Name</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string notr="true">Options</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureAddToPresetList">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>320</y>
+          <width>181</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigureUiName">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>260</y>
+          <width>531</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigurePresetOptions">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>290</y>
+          <width>531</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelConfugureUiName">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>260</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ui Name</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelConfigureOptionsPresetOptiions">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>290</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Options</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </widget>
@@ -1565,7 +1658,6 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>cbConfigureShowVersionInfo</tabstop>
   <tabstop>cbConfigureBatchDownloadConcurrently</tabstop>
   <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
-  <tabstop>textEditConfigurePresetOptions</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>
   <tabstop>tabWidgetConfigure</tabstop>
   <tabstop>cbConfigureEngines</tabstop>

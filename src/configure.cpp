@@ -33,7 +33,8 @@ configure::configure( const Context& ctx ) :
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_engines( m_ctx.Engines() ),
-	m_networkAccess( m_ctx )
+	m_networkAccess( m_ctx ),
+	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font() )
 {
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
 
@@ -51,6 +52,34 @@ configure::configure( const Context& ctx ) :
 
 			m_settings.setDarkMode( modes.unTranslatedAt( index ) ) ;
 		}
+	} ) ;
+
+	connect( m_ui.pbConfigureAddToPresetList,&QPushButton::clicked,[ this ](){
+
+		auto a = m_ui.lineEditConfigureUiName->text() ;
+		auto b = m_ui.lineEditConfigurePresetOptions->text() ;
+
+		if( !a.isEmpty() && !b.isEmpty() ){
+
+			m_tablePresetOptions.addItem( { a,b } ) ;
+		}
+	} ) ;
+
+	m_tablePresetOptions.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
+
+		QMenu m ;
+
+		connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
+
+			auto row = m_tablePresetOptions.currentRow() ;
+
+			if( row != -1 ){
+
+				m_tablePresetOptions.removeRow( row ) ;
+			}
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
 	} ) ;
 
 	connect( m_ui.cbConfigureEngines,cc,[ this,modes = std::move( modes ) ]( int index ){
@@ -169,11 +198,11 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
-	connect( m_ui.pbConfigureSetPresetDefaults,&QPushButton::clicked,[ & ](){
+	connect( m_ui.pbConfigureSetPresetDefaults,&QPushButton::clicked,[ this ](){
 
-		m_settings.setPresetToDefaults() ;
+		m_settings.setPresetJsonDefaultOptions() ;
 
-		m_ui.textEditConfigurePresetOptions->setPlainText( m_settings.presetOptions() ) ;
+		this->showOptions() ;
 	} ) ;
 
 	m_ui.pbConfigureDownloadPath->setIcon( [](){
@@ -214,8 +243,6 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.lineEditConfigureDownloadPath->setText( m_settings.downloadFolder() ) ;
 
-	m_ui.textEditConfigurePresetOptions->setText( m_settings.presetOptions() ) ;
-
 	m_ui.cbConfigureShowVersionInfo->setChecked( m_settings.showVersionInfoWhenStarting() ) ;
 
 	m_ui.cbConfigureBatchDownloadConcurrently->setChecked( m_settings.concurrentDownloading() ) ;
@@ -225,6 +252,8 @@ configure::configure( const Context& ctx ) :
 	m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
 
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( QString::number( m_settings.maxConcurrentDownloads() ) ) ;
+
+	this->showOptions() ;
 }
 
 void configure::init_done()
@@ -300,7 +329,6 @@ void configure::enableConcurrentTextField()
 void configure::saveOptions()
 {
 	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
-	m_settings.setPresetOptions( m_ui.textEditConfigurePresetOptions->toPlainText() ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
 	m_settings.setConcurrentDownloading( m_ui.cbConfigureBatchDownloadConcurrently->isChecked() ) ;
@@ -345,6 +373,7 @@ void configure::saveOptions()
 		}
 	}
 
+	this->savePresetOptions() ;
 	m_ctx.TabManager().resetMenu() ;
 }
 
@@ -371,6 +400,57 @@ void configure::setEngineOptions( const QString& e )
 		m_ui.lineEditConfigureCookiePath->setEnabled( enable ) ;
 		m_ui.pbConfigureCookiePath->setEnabled( enable ) ;
 		m_ui.labelPathToCookieFile->setEnabled( enable ) ;
+	}
+}
+
+void configure::savePresetOptions()
+{
+	auto presetOptions = m_settings.setpresetOptions() ;
+
+	auto& table = m_tablePresetOptions.get() ;
+
+	auto rowCount = table.rowCount() ;
+
+	for( int i = 0 ; i < rowCount ; i++ ){
+
+		auto uiName = table.item( i,0 )->text() ;
+		auto options = table.item( i,1 )->text() ;
+
+		presetOptions.add( uiName,options ) ;
+	}
+}
+
+void configure::showOptions()
+{
+	auto mm = m_settings.presetOptions() ;
+
+	m_tablePresetOptions.clear() ;
+
+	if( mm.isEmpty() ){
+
+		m_settings.presetOptions( [ this ]( const QString& uiName,const QString& options ){
+
+			m_tablePresetOptions.addItem( { uiName,options } ) ;
+		} ) ;
+	}else{
+		for( const auto& it : utility::split( mm,',',true ) ){
+
+			auto b = it.indexOf( '(' ) ;
+
+			if( b != -1 ){
+
+				auto a = it ;
+				auto c = a.mid( 0,b ) ;
+				auto cc = a.mid( b + 1 ) ;
+				cc.truncate( cc.size() - 1 ) ;
+
+				m_tablePresetOptions.addItem( { c,cc } ) ;
+			}
+		}
+
+		this->savePresetOptions() ;
+
+		m_settings.setPresetOptions( QStringList() ) ;
 	}
 }
 
@@ -414,6 +494,12 @@ void configure::enableAll()
 		m_ui.labelPathToCookieFile->setEnabled( enable ) ;
 	}
 
+	m_ui.tableWidgetConfigurePresetOptions->setEnabled( true ) ;
+	m_ui.lineEditConfigurePresetOptions->setEnabled( true ) ;
+	m_ui.lineEditConfigureUiName->setEnabled( true ) ;
+	m_ui.labelConfugureUiName->setEnabled( true ) ;
+	m_ui.labelConfigureOptionsPresetOptiions->setEnabled( true ) ;
+	m_ui.pbConfigureAddToPresetList->setEnabled( true ) ;
 	m_ui.pbConfigureEngineDefaultOptions->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadOptions->setEnabled( true ) ;
 	m_ui.labelConfigureOptions->setEnabled( true ) ;
@@ -427,7 +513,6 @@ void configure::enableAll()
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
 	m_ui.labelConfigureLanguage->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
-	m_ui.textEditConfigurePresetOptions->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( true ) ;
@@ -451,6 +536,13 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui.tableWidgetConfigurePresetOptions->setEnabled( false ) ;
+	m_ui.lineEditConfigurePresetOptions->setEnabled( false ) ;
+	m_ui.lineEditConfigureUiName->setEnabled( false ) ;
+	m_ui.labelConfugureUiName->setEnabled( false ) ;
+	m_ui.labelConfigureOptionsPresetOptiions->setEnabled( false ) ;
+	m_ui.pbConfigureAddToPresetList->setEnabled( false ) ;
+	m_ui.tableWidgetConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.labelPathToCookieFile->setEnabled( false ) ;
 	m_ui.lineEditConfigureCookiePath->setEnabled( false ) ;
 	m_ui.pbConfigureCookiePath->setEnabled( false ) ;
@@ -475,7 +567,6 @@ void configure::disableAll()
 	m_ui.pbConfigureQuit->setEnabled( false ) ;
 	m_ui.lineEditConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( false ) ;
-	m_ui.textEditConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.pbConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( false ) ;

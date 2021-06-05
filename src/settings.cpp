@@ -191,6 +191,8 @@ void settings::setPresetToDefaults()
 	m_settings.setValue( "PresetOptionsDefaults",s ) ;
 
 	m_settings.setValue( "PresetOptions",m_settings.value( "PresetOptionsDefaults" ).toStringList() ) ;
+
+	this->setPresetJsonOptions( QString() ) ;
 }
 
 void settings::setPresetOptions( const QString& e )
@@ -205,6 +207,21 @@ void settings::setPresetOptions( const QStringList& m )
 	m_settings.setValue( "PresetOptions",m ) ;
 }
 
+void settings::setPresetJsonOptions( const QString& e )
+{
+	if( e.isEmpty() ){
+
+		m_settings.setValue( "PresetJsonOptions",QByteArray() ) ;
+	}else{
+		m_settings.setValue( "PresetJsonOptions",e.toUtf8().toHex() ) ;
+	}
+}
+
+void settings::setPresetJsonDefaultOptions()
+{
+	this->setPresetToDefaults() ;
+}
+
 QString settings::presetOptions()
 {
 	if( !m_settings.contains( "PresetOptions" ) ){
@@ -213,6 +230,18 @@ QString settings::presetOptions()
 	}
 
 	return m_settings.value( "PresetOptions" ).toStringList().join( ',' ) ;
+}
+
+QString settings::presetJsonOptions()
+{
+	if( !m_settings.contains( "PresetJsonOptions" ) ){
+
+		this->setPresetJsonDefaultOptions() ;
+	}
+
+	auto a = m_settings.value( "PresetJsonOptions" ).toByteArray() ;
+
+	return QByteArray::fromHex( a ) ;
 }
 
 QStringList settings::presetOptionsList()
