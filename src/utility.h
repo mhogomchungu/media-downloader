@@ -375,7 +375,7 @@ namespace utility
 
 				QObject::connect( &m_timer,&QTimer::timeout,[ this ]{
 
-					this->postData( m_engine.bogusData(),false ) ;
+					this->postData( QByteArray(),false ) ;
 				} ) ;
 
 				m_timer.start( 1000 ) ;

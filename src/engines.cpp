@@ -161,12 +161,6 @@ void engines::openUrls( const QString& path ) const
 	QDesktopServices::openUrl( m ) ;
 }
 
-const QString& engines::linesToSkip()
-{
-	static QString m = "[Media Downloader Bogus Data]" ;
-	return m ;
-}
-
 void engines::updateEngines( bool addAll )
 {
 	auto _engine_add = [ & ]( engines::engine m ){
@@ -1059,7 +1053,7 @@ void engines::engine::functions::processData( const engines::engine& engine,
 					      QByteArray data,
 					      int id )
 {
-	if( data == engine.bogusData() ){
+	if( engine.replaceOutputWithProgressReport() ){
 
 		const auto& e = m_genericProgress.text() ;
 
@@ -1211,7 +1205,7 @@ QString engines::engine::functions::preProcessing::processingText()
 
 const QString& engines::engine::functions::preProcessing::text()
 {
-	if( m_counter < 8 ){
+	if( m_counter < 16 ){
 
 		m_txt += " ..." ;
 	}else{
@@ -1236,7 +1230,7 @@ engines::engine::functions::postProcessing::postProcessing() :
 
 const QString& engines::engine::functions::postProcessing::text( const QString& e )
 {
-	if( m_counter < 8 ){
+	if( m_counter < 16 ){
 
 		m_tmp += " ..." ;
 	}else{
