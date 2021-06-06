@@ -232,29 +232,56 @@ public:
 			public:
 				template< typename Args >
 				finishedState( const Args& a ) :
-					m_success( a.success() )
+				        m_success( a.success() ),
+				        m_cancelled( a.cancelled() ),
+				        m_duration( a.duration() )
 				{
 				}
 				bool success() const
 				{
 					return m_success ;
 				}
+				bool cancelled() const
+				{
+				        return m_cancelled ;
+				}
+				int duration() const
+				{
+				        return m_duration ;
+				}
 			private:
 				bool m_success ;
+				bool m_cancelled ;
+				int m_duration ;
 			};
 
 			static QString processCompleteStateText( const engine::engine::functions::finishedState& ) ;
+
+			class timer
+			{
+			public:
+				static bool timerText( const QString& e ) ;
+				static QString timerText() ;
+				static QString startTimerText() ;
+				static QString stringElapsedTime( int ) ;
+				int elapsedTime() ;
+				QString stringElapsedTime() ;
+			private:
+				qint64 m_startTime = QDateTime().currentMSecsSinceEpoch() ;
+			};
 
 			class preProcessing
 			{
 			public:
 				preProcessing() ;
+				preProcessing( const QString& ) ;
 				static QString processingText() ;
 				const QString& text() ;
 			private:
 				int m_counter = 0 ;
 				QString m_counterDots ;
 				QString m_txt ;
+				QString m_processingDefaultText ;
 			};
 
 			class postProcessing
@@ -262,11 +289,14 @@ public:
 			public:
 				static QString processingText() ;
 				postProcessing() ;
+				postProcessing( const QString& ) ;
+
 				const QString& text( const QString& ) ;
 			private:
 				int m_counter = 0 ;
 				QString m_counterDots ;
 				QString m_txt ;
+				QString m_processingDefaultText ;
 			};
 
 			class filter{

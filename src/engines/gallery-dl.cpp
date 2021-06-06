@@ -98,12 +98,13 @@ QString gallery_dl::updateTextOnCompleteDownlod( const engines::engine&,
 						 const engines::engine::functions::finishedState& f )
 {
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
+	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
 
 	if( f.success() ){
 
-		return uiText + "\n" + m ;
+		return e + "\n" + uiText + "\n" + m ;
 	}else{
-		return bkText + "\n" + m ;
+		return e + "\n" + bkText + "\n" + m ;
 	}
 }
 
@@ -129,16 +130,22 @@ const QString& gallery_dl::gallery_dlFilter::operator()( const engines::engine&,
 		}
 	}
 
-	if( QDir::fromNativeSeparators( data.last() ).contains( "/gallery-dl/" ) ){
+	if( !m.isEmpty() ){
 
 		m_tmp = m.join( "\n" ) ;
 	}else{
-		if( m.isEmpty() ){
+		const auto& s = data.last() ;
 
-			return m_processing.text() ;
+		if( s.startsWith( "[media-downloader] cmd:" ) ){
+
+			auto m = engines::engine::functions::timer::startTimerText() ;
+
+			m_tmp = QObject::tr( "Downloading" ) + "\n" + m ;
 		}else{
-			m_tmp = m.join( "\n" ) + "\n" + m_processing.text() ;
+			m_tmp = QObject::tr( "Downloading" ) + "\n" + s ;
 		}
+
+		return m_tmp ;
 	}
 
 	return m_tmp ;

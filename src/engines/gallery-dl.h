@@ -39,7 +39,6 @@ public:
 		virtual ~gallery_dlFilter() override ;
 	private:
 		QString m_tmp ;
-		engines::engine::functions::preProcessing m_processing ;
 	} ;
 
 	std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) override ;

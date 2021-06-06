@@ -120,7 +120,9 @@ static void _openUrls( QTableWidgetItem& item,settings& settings,bool galleryDl 
 	if( downloadManager::finishedStatus::finishedWithSuccess( *item.tableWidget(),item.row() ) ){
 
 		auto m = utility::split( item.text(),'\n',true ) ;
+
 		m.removeLast() ;
+		m.removeFirst() ;
 
 		for( const auto& it : m ){
 
@@ -796,7 +798,11 @@ engines::enginePaths::enginePaths( settings& s )
 
 QString engines::engine::functions::processCompleteStateText( const engine::engine::functions::finishedState& f )
 {
-	if( f.success() ){
+	if( f.cancelled() ){
+
+		return QObject::tr( "Download cancelled" ) ;
+
+	}else if( f.success() ){
 
 		return QObject::tr( "Download completed" ) ;
 	}else{
@@ -876,12 +882,13 @@ QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::
 	Q_UNUSED( uiText )
 
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
+	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
 
 	if( f.success() ){
 
-		return bkText + "\n" + m ;
+		return e + "\n" + bkText + "\n" + m ;
 	}else{
-		return bkText + "\n" + m ;
+		return e + "\n" + bkText + "\n" + m ;
 	}
 }
 
@@ -1055,7 +1062,10 @@ void engines::engine::functions::processData( const engines::engine& engine,
 {
 	outPut.replaceOrAdd( engine,e,id,[]( const engines::engine&,const QString& line ){
 
-		return line.startsWith( engines::engine::functions::preProcessing::processingText() ) ;
+		auto a = line.startsWith( engines::engine::functions::preProcessing::processingText() ) ;
+		auto b = engines::engine::functions::timer::timerText( line ) ;
+
+		return a || b ;
 
 	},[]( const QString& ){
 
@@ -1187,7 +1197,13 @@ const QString& engines::engine::functions::filter::quality()
 	return m_quality ;
 }
 
-engines::engine::functions::preProcessing::preProcessing()
+engines::engine::functions::preProcessing::preProcessing() :
+	m_processingDefaultText( engines::engine::functions::preProcessing::processingText() )
+{
+}
+
+engines::engine::functions::preProcessing::preProcessing( const QString& e ) :
+	m_processingDefaultText( e )
 {
 }
 
@@ -1206,7 +1222,7 @@ const QString& engines::engine::functions::preProcessing::text()
 		m_counter = 0 ;
 	}
 
-	m_txt = engines::engine::functions::preProcessing::processingText() + m_counterDots ;
+	m_txt = m_processingDefaultText + m_counterDots ;
 
 	m_counter++ ;
 
@@ -1218,8 +1234,15 @@ QString engines::engine::functions::postProcessing::processingText()
 	return QObject::tr( "Post Processing" ) ;
 }
 
-engines::engine::functions::postProcessing::postProcessing()
+engines::engine::functions::postProcessing::postProcessing() :
+	m_processingDefaultText( engines::engine::functions::postProcessing::processingText() )
 {
+}
+
+engines::engine::functions::postProcessing::postProcessing( const QString& e ) :
+	m_processingDefaultText( e )
+{
+
 }
 
 const QString& engines::engine::functions::postProcessing::text( const QString& e )
@@ -1234,7 +1257,7 @@ const QString& engines::engine::functions::postProcessing::text( const QString& 
 
 	m_counter++ ;
 
-	m_txt = e + "\n" + engines::engine::functions::postProcessing::processingText() + m_counterDots ;
+	m_txt = e + "\n" + m_processingDefaultText + m_counterDots ;
 
 	return m_txt ;
 }
@@ -1274,4 +1297,49 @@ bool engines::engine::showListBreaker::breakerFound( const QStringList& e ) cons
 	}
 
 	return false ;
+}
+
+bool engines::engine::functions::timer::timerText( const QString& e )
+{
+	return e.startsWith( engines::engine::functions::timer::timerText() ) ;
+}
+
+QString engines::engine::functions::timer::timerText()
+{
+	return QObject::tr( "Elapsed Time:" ) + " " ;
+}
+
+QString engines::engine::functions::timer::startTimerText()
+{
+	return QObject::tr( "Elapsed Time:" ) + " 00:00:00" ;
+}
+
+QString engines::engine::functions::timer::stringElapsedTime( int milliseconds )
+{
+	if( milliseconds <= 0 ){
+
+		return QObject::tr( "Elapsed Time:" ) + " " + QString( "00:00:00" ) ;
+	}
+
+	int seconds      = milliseconds / 1000;
+	milliseconds     = milliseconds % 1000;
+	int minutes      = seconds / 60 ;
+	seconds          = seconds % 60 ;
+	int hours        = minutes / 60 ;
+	minutes          = minutes % 60 ;
+
+	QTime time ;
+	time.setHMS( hours,minutes,seconds,milliseconds ) ;
+
+	return QObject::tr( "Elapsed Time:" ) + " " + time.toString( "hh:mm:ss" ) ;
+}
+
+int engines::engine::functions::timer::elapsedTime()
+{
+	return static_cast< int >( QDateTime().currentMSecsSinceEpoch() - m_startTime ) ;
+}
+
+QString engines::engine::functions::timer::stringElapsedTime()
+{
+	return engines::engine::functions::timer::stringElapsedTime( this->elapsedTime() ) ;
 }

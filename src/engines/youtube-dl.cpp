@@ -265,6 +265,7 @@ QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
 	Q_UNUSED( bkText )
 
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
+	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
 
 	if( f.success() ){
 
@@ -278,9 +279,9 @@ QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
 			}
 		}
 
-		return a.join( "\n" ) + "\n" + m ;
+		return e + "\n" + a.join( "\n" ) + "\n" + m ;
 	}else{
-		return uiText + "\n" + m ;
+		return e + "\n" + uiText + "\n" + m ;
 	}
 }
 

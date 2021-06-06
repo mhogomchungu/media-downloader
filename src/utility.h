@@ -303,9 +303,10 @@ namespace utility
 	class ProcessExitState
 	{
 	public:
-		ProcessExitState( bool c,int s,QProcess::ExitStatus e ) :
+		ProcessExitState( bool c,int s,int d,QProcess::ExitStatus e ) :
 			m_cancelled( c ),
 			m_exitCode( s ),
+			m_duration( d ),
 			m_exitStatus( e )
 		{
 		}
@@ -325,9 +326,14 @@ namespace utility
 		{
 			return m_exitCode == 0 && m_exitStatus == QProcess::ExitStatus::NormalExit ;
 		}
+		int duration() const
+		{
+			return m_duration ;
+		}
 	private:
 		bool m_cancelled = false ;
 		int m_exitCode ;
+		int m_duration ;
 		QProcess::ExitStatus m_exitStatus ;
 	};
 
@@ -377,7 +383,7 @@ namespace utility
 
 					m_logger.add( [ this ]( Logger::Data& e,int id ){
 
-						m_engine.processData( e,m_genericProgress.text(),id ) ;
+						m_engine.processData( e,m_timeCounter.stringElapsedTime(),id ) ;
 					} ) ;
 				} ) ;
 
@@ -388,20 +394,13 @@ namespace utility
 		{
 			m_conn = std::move( conn ) ;
 		}
-		bool cancelled()
-		{
-			return m_cancelled ;
-		}
 		void cancel()
 		{
 			m_cancelled = true ;
 		}
-		void postData( QByteArray data,bool stopTimer = true )
+		void postData( QByteArray data )
 		{
-			if( stopTimer ){
-
-				m_timer.stop() ;
-			}
+			m_timer.stop() ;
 
 			if( !m_cancelled ){
 
@@ -416,23 +415,23 @@ namespace utility
 				} ) ;
 			}
 		}
-		template< typename Function >
-		void listRequested( Function function )
+		bool debug()
 		{
-			if( m_options.listRequested() ){
-
-				function( utility::split( m_data,'\n' ) ) ;
-			}
+			return m_options.debug() ;
 		}
-		void disconnect()
+		void done( int s,QProcess::ExitStatus e )
 		{
 			m_timer.stop() ;
 
 			QObject::disconnect( m_conn ) ;
-		}
-		Options& options()
-		{
-			return m_options ;
+
+			if( m_options.listRequested() ){
+
+				m_options.listRequested( utility::split( m_data,'\n' ) ) ;
+			}
+
+			auto m = m_timeCounter.elapsedTime() ;
+			m_options.done( ProcessExitState( m_cancelled,s,m,std::move( e ) ) ) ;
 		}
 		const ProcessOutputChannels& outputChannels()
 		{
@@ -440,7 +439,6 @@ namespace utility
 		}
 	private:
 		const engines::engine& m_engine ;
-		bool m_list_requested ;
 		bool m_cancelled ;
 		QMetaObject::Connection m_conn ;
 		Tlogger m_logger ;
@@ -448,7 +446,7 @@ namespace utility
 		Options m_options ;
 		ProcessOutputChannels m_channels ;
 		QTimer m_timer ;
-		engines::engine::functions::preProcessing m_genericProgress ;
+		engines::engine::functions::timer m_timeCounter ;
 	} ;
 
 	template< typename Connection,
@@ -470,7 +468,7 @@ namespace utility
 
 			logger.add( utility::failedToFindExecutableString( exe ) ) ;
 
-			options.done( ProcessExitState( false,-1,QProcess::ExitStatus::NormalExit ) ) ;
+			options.done( ProcessExitState( false,-1,-1,QProcess::ExitStatus::NormalExit ) ) ;
 
 			return ;
 		}
@@ -497,14 +495,15 @@ namespace utility
 			using ctx_t = utility::context< Tlogger,Options > ;
 
 			auto ctx = std::make_shared< ctx_t >( engine,std::move( logger ),std::move( options ),channels ) ;
-
-			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,
-					[ &engine,&exe,ctx,function = std::move( conn.function ) ](){
+\
+			auto fnt = [ &engine,&exe,ctx,function = std::move( conn.function ) ](){
 
 				ctx->cancel() ;
 
 				function( engine,exe ) ;
-			} ) ) ;
+			} ;
+
+			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,std::move( fnt ) ) ) ;
 
 			return ctx ;
 
@@ -514,18 +513,11 @@ namespace utility
 
 		},[]( int s,QProcess::ExitStatus e,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
 
-			ctx->disconnect() ;
-
-			ctx->listRequested( [ & ]( const QList< QByteArray >& e ){
-
-				ctx->options().listRequested( e ) ;
-			} ) ;
-
-			ctx->options().done( ProcessExitState( ctx->cancelled(),s,e ) ) ;
+			ctx->done( s,std::move( e ) ) ;
 
 		},[]( QProcess::ProcessChannel channel,QByteArray data,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
 
-			if( ctx->options().debug() ){
+			if( ctx->debug() ){
 
 				qDebug() << data ;
 				qDebug() << "------------------------" ;
@@ -789,13 +781,11 @@ namespace utility
 
 		auto item = table.item( index,0 ) ;
 
-		if( es.cancelled() ){
+		auto a = item->text() ;
 
-			item->setText( backUpUrl ) ;
-		}else{
-			auto a = item->text() ;
+		item->setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ) ) ;
 
-			item->setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ) ) ;
+		if( !es.cancelled() ){
 
 			if( es.success() ){
 
