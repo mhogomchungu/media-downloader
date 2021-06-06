@@ -253,6 +253,7 @@ public:
 				const QString& text() ;
 			private:
 				int m_counter = 0 ;
+				QString m_counterDots ;
 				QString m_txt ;
 			};
 
@@ -264,8 +265,8 @@ public:
 				const QString& text( const QString& ) ;
 			private:
 				int m_counter = 0 ;
+				QString m_counterDots ;
 				QString m_txt ;
-				QString m_tmp ;
 			};
 
 			class filter{
@@ -304,6 +305,11 @@ public:
 						  QByteArray,
 						  int id ) ;
 
+			virtual void processData( const engines::engine& engine,
+						  Logger::Data&,
+						  const QString&,
+						  int id ) ;
+
 			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
 							       const QString& quality,
 							       const QStringList& userOptions,
@@ -313,7 +319,6 @@ public:
 			settings& Settings() ;
 		private:
 			settings& m_settings ;
-			engines::engine::functions::preProcessing m_genericProgress ;
 		} ;
 
 		engine( Logger& logger ) : m_valid( false ),m_showListBreaker( logger )
@@ -360,6 +365,10 @@ public:
 		void processData( Logger::Data& outPut,QByteArray data,int id ) const
 		{
 			m_functions->processData( *this,outPut,std::move( data ),id ) ;
+		}
+		void processData( Logger::Data& outPut,const QString& data,int id ) const
+		{
+			m_functions->processData( *this,outPut,data,id ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{

@@ -366,8 +366,8 @@ namespace utility
 			 Options options,
 			 ProcessOutputChannels channels ) :
 			m_engine( engine ),
-			m_logger( std::move( logger ) ),
 			m_cancelled( false ),
+			m_logger( std::move( logger ) ),
 			m_options( std::move( options ) ),
 			m_channels( channels )
 		{
@@ -375,7 +375,10 @@ namespace utility
 
 				QObject::connect( &m_timer,&QTimer::timeout,[ this ]{
 
-					this->postData( QByteArray(),false ) ;
+					m_logger.add( [ this ]( Logger::Data& e,int id ){
+
+						m_engine.processData( e,m_genericProgress.text(),id ) ;
+					} ) ;
 				} ) ;
 
 				m_timer.start( 1000 ) ;
@@ -402,7 +405,10 @@ namespace utility
 
 			if( !m_cancelled ){
 
-				m_data += data ;
+				if( m_options.listRequested() ){
+
+					m_data += data ;
+				}
 
 				m_logger.add( [ this,data = std::move( data ) ]( Logger::Data& e,int id ){
 
@@ -435,13 +441,14 @@ namespace utility
 	private:
 		const engines::engine& m_engine ;
 		bool m_list_requested ;
+		bool m_cancelled ;
 		QMetaObject::Connection m_conn ;
 		Tlogger m_logger ;
 		QByteArray m_data ;
-		bool m_cancelled ;
 		Options m_options ;
 		ProcessOutputChannels m_channels ;
 		QTimer m_timer ;
+		engines::engine::functions::preProcessing m_genericProgress ;
 	} ;
 
 	template< typename Connection,

@@ -1050,30 +1050,24 @@ static void _add( const QByteArray& data,
 
 void engines::engine::functions::processData( const engines::engine& engine,
 					      Logger::Data& outPut,
+					      const QString& e,
+					      int id )
+{
+	outPut.replaceOrAdd( engine,e,id,[]( const engines::engine&,const QString& line ){
+
+		return line.startsWith( engines::engine::functions::preProcessing::processingText() ) ;
+
+	},[]( const QString& ){
+
+		return false ;
+	} ) ;
+}
+
+void engines::engine::functions::processData( const engines::engine& engine,
+					      Logger::Data& outPut,
 					      QByteArray data,
 					      int id )
 {
-	if( engine.replaceOutputWithProgressReport() ){
-
-		const auto& e = m_genericProgress.text() ;
-
-		if( outPut.isEmpty() ){
-
-			outPut.add( e,id ) ;
-		}else{
-			auto& s = outPut.lastText() ;
-
-			if( s.startsWith( engines::engine::functions::preProcessing::processingText() ) ){
-
-				outPut.replaceLast( e ) ;
-			}else{
-				outPut.add( e,id ) ;
-			}
-		}
-
-		return ;
-	}
-
 	for( const auto& it : engine.removeText() ){
 
 		data.replace( it.toUtf8(),"" ) ;
@@ -1193,8 +1187,7 @@ const QString& engines::engine::functions::filter::quality()
 	return m_quality ;
 }
 
-engines::engine::functions::preProcessing::preProcessing() :
-	m_txt( engines::engine::functions::preProcessing::processingText() )
+engines::engine::functions::preProcessing::preProcessing()
 {
 }
 
@@ -1207,11 +1200,13 @@ const QString& engines::engine::functions::preProcessing::text()
 {
 	if( m_counter < 16 ){
 
-		m_txt += " ..." ;
+		m_counterDots += " ..." ;
 	}else{
+		m_counterDots = " ..." ;
 		m_counter = 0 ;
-		m_txt = engines::engine::functions::preProcessing::processingText() + " ..." ;
 	}
+
+	m_txt = engines::engine::functions::preProcessing::processingText() + m_counterDots ;
 
 	m_counter++ ;
 
@@ -1223,8 +1218,7 @@ QString engines::engine::functions::postProcessing::processingText()
 	return QObject::tr( "Post Processing" ) ;
 }
 
-engines::engine::functions::postProcessing::postProcessing() :
-	m_tmp( engines::engine::functions::postProcessing::processingText() )
+engines::engine::functions::postProcessing::postProcessing()
 {
 }
 
@@ -1232,15 +1226,15 @@ const QString& engines::engine::functions::postProcessing::text( const QString& 
 {
 	if( m_counter < 16 ){
 
-		m_tmp += " ..." ;
+		m_counterDots += " ..." ;
 	}else{
+		m_counterDots = " ..." ;
 		m_counter = 0 ;
-		m_tmp = engines::engine::functions::postProcessing::processingText() + " ..." ;
 	}
 
 	m_counter++ ;
 
-	m_txt = e + "\n" + m_tmp ;
+	m_txt = e + "\n" + engines::engine::functions::postProcessing::processingText() + m_counterDots ;
 
 	return m_txt ;
 }
