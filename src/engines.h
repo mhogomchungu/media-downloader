@@ -321,6 +321,9 @@ public:
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
 
+			QString updateTextOnCompleteDownlod( const QString& uiText,
+							     const engine::engine::functions::finishedState& ) ;
+
 			virtual QString updateTextOnCompleteDownlod( const engines::engine&,
 								     const QString& uiText,
 								     const QString& bkText,

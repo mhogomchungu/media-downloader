@@ -121,7 +121,7 @@ static void _openUrls( QTableWidgetItem& item,settings& settings,bool galleryDl 
 
 		auto m = utility::split( item.text(),'\n',true ) ;
 
-		m.removeLast() ;
+		m.removeFirst() ;
 		m.removeFirst() ;
 
 		for( const auto& it : m ){
@@ -874,6 +874,15 @@ QString engines::engine::functions::commandString( const engines::engine::exeArg
 	return m ;
 }
 
+QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,
+								 const engines::engine::functions::finishedState& f )
+{
+	auto m = engines::engine::functions::processCompleteStateText( f ) ;
+	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
+
+	return m + "\n" + e + "\n" + uiText ;
+}
+
 QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::engine&,
 								 const QString& uiText,
 								 const QString& bkText,
@@ -881,14 +890,11 @@ QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::
 {
 	Q_UNUSED( uiText )
 
-	auto m = engines::engine::functions::processCompleteStateText( f ) ;
-	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
-
 	if( f.success() ){
 
-		return e + "\n" + bkText + "\n" + m ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
 	}else{
-		return e + "\n" + bkText + "\n" + m ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
 	}
 }
 

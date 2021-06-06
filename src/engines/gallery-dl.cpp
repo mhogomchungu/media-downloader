@@ -102,9 +102,9 @@ QString gallery_dl::updateTextOnCompleteDownlod( const engines::engine&,
 
 	if( f.success() ){
 
-		return e + "\n" + uiText + "\n" + m ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,f ) ;
 	}else{
-		return e + "\n" + bkText + "\n" + m ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
 	}
 }
 

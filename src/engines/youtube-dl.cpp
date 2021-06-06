@@ -279,9 +279,9 @@ QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
 			}
 		}
 
-		return e + "\n" + a.join( "\n" ) + "\n" + m ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( "\n" ),f ) ;
 	}else{
-		return e + "\n" + uiText + "\n" + m ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,f ) ;
 	}
 }
 
