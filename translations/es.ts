@@ -54,6 +54,7 @@
         <location filename="../src/mainwindow.ui" line="347"/>
         <location filename="../src/mainwindow.ui" line="651"/>
         <location filename="../src/mainwindow.ui" line="719"/>
+        <location filename="../src/mainwindow.ui" line="1425"/>
         <source>Options</source>
         <translation>Opciones</translation>
     </message>
@@ -63,7 +64,7 @@
         <location filename="../src/mainwindow.ui" line="597"/>
         <location filename="../src/mainwindow.ui" line="803"/>
         <location filename="../src/mainwindow.ui" line="995"/>
-        <location filename="../src/mainwindow.ui" line="1462"/>
+        <location filename="../src/mainwindow.ui" line="1555"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Salir</translation>
@@ -230,13 +231,13 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Tema Oscuro (Requiere Reinicar)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1332"/>
+        <location filename="../src/mainwindow.ui" line="1322"/>
         <source>Reset Option To Its Default</source>
         <translation>Restablecer Opción a su Valor Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1335"/>
-        <location filename="../src/mainwindow.ui" line="1408"/>
+        <location filename="../src/mainwindow.ui" line="1325"/>
+        <location filename="../src/mainwindow.ui" line="1501"/>
         <source>Set Defaults</source>
         <translation>Establecer Predeterminados</translation>
     </message>
@@ -276,32 +277,43 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Eliminar complemento</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1475"/>
+        <location filename="../src/mainwindow.ui" line="1568"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1341"/>
+        <location filename="../src/mainwindow.ui" line="1434"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Opciones predeterminadas del Motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1363"/>
+        <location filename="../src/mainwindow.ui" line="1357"/>
+        <location filename="../src/mainwindow.ui" line="1409"/>
+        <source>Ui Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1376"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1456"/>
         <source>Engine&apos;s Name</source>
         <translation>Nombre del Motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1382"/>
+        <location filename="../src/mainwindow.ui" line="1475"/>
         <source>Default Download Options</source>
         <translation>Opciones Predeterminadas de Descarga</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1421"/>
+        <location filename="../src/mainwindow.ui" line="1514"/>
         <source>Path To Cookie FIle</source>
         <translation>Ruta al archivo de Cookies</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1481"/>
+        <location filename="../src/mainwindow.ui" line="1574"/>
         <source>About</source>
         <translation>Acerca</translation>
     </message>
@@ -309,27 +321,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="290"/>
+        <location filename="../src/utility.cpp" line="312"/>
         <source>Best-audiovideo</source>
         <translation>Mejor audio-video</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="291"/>
+        <location filename="../src/utility.cpp" line="313"/>
         <source>Best-audio</source>
         <translation>Mejor-audio</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="324"/>
+        <location filename="../src/utility.cpp" line="301"/>
         <source>Preset Options</source>
         <translation>Opciones Preestablecidas</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="337"/>
-        <source>Found Options</source>
-        <translation>Opciones Encontradas</translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="358"/>
+        <location filename="../src/utility.cpp" line="334"/>
         <source>Open Download Folder</source>
         <translation>Abrir Carpeta de Descargas</translation>
     </message>
@@ -379,12 +386,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Turco (Turquía)</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="352"/>
+        <location filename="../src/utility.cpp" line="328"/>
         <source>Clear Screen</source>
         <translation>Limpiar Pantalla</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="346"/>
+        <location filename="../src/utility.cpp" line="322"/>
         <source>Clear Options</source>
         <translation>Limpiar Opciones</translation>
     </message>
@@ -399,36 +406,49 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Ruta de descarga: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="172"/>
+        <location filename="../src/engines.cpp" line="174"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Error, no se pudo encontrar el ejecutable del backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="358"/>
+        <location filename="../src/engines.cpp" line="360"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Motor &quot;%1&quot; requiere al menos la versión &quot;%2&quot; de Media Downloader</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="562"/>
-        <location filename="../src/engines.cpp" line="731"/>
-        <location filename="../src/utility.cpp" line="489"/>
+        <location filename="../src/engines.cpp" line="564"/>
+        <location filename="../src/engines.cpp" line="733"/>
+        <location filename="../src/utility.cpp" line="465"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Fallo para encontrar el ejecutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="705"/>
+        <location filename="../src/engines.cpp" line="707"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1117"/>
+        <location filename="../src/engines.cpp" line="803"/>
+        <source>Download cancelled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="1142"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1132"/>
+        <location filename="../src/engines.cpp" line="1157"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="1309"/>
+        <location filename="../src/engines.cpp" line="1314"/>
+        <location filename="../src/engines.cpp" line="1321"/>
+        <location filename="../src/engines.cpp" line="1334"/>
+        <source>Elapsed Time:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="60"/>
@@ -456,7 +476,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Iniciar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="803"/>
+        <location filename="../src/engines.cpp" line="809"/>
         <location filename="../src/networkAccess.cpp" line="136"/>
         <location filename="../src/networkAccess.cpp" line="212"/>
         <source>Download Failed</source>
@@ -468,6 +488,8 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Error al analizar el archivo json de github</translation>
     </message>
     <message>
+        <location filename="../src/engines/gallery-dl.cpp" line="143"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="145"/>
         <location filename="../src/networkAccess.cpp" line="200"/>
         <location filename="../src/networkAccess.cpp" line="250"/>
         <location filename="../src/networkAccess.cpp" line="260"/>
@@ -490,12 +512,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1182"/>
+        <location filename="../src/engines.cpp" line="1212"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="801"/>
+        <location filename="../src/engines.cpp" line="807"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
@@ -505,27 +527,27 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1202"/>
+        <location filename="../src/engines.cpp" line="1234"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="153"/>
+        <location filename="../src/settings.h" line="157"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="154"/>
+        <location filename="../src/settings.h" line="158"/>
         <source>Dark Theme 1</source>
         <translation>Tema Oscuro 1</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="155"/>
+        <location filename="../src/settings.h" line="159"/>
         <source>Dark Theme 2</source>
         <translation>Tema Oscuro 2</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="156"/>
+        <location filename="../src/settings.h" line="160"/>
         <source>Dark Theme 3</source>
         <translation>Tema Oscuro 3</translation>
     </message>
@@ -557,12 +579,12 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="136"/>
+        <location filename="../src/batchdownloader.cpp" line="147"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="148"/>
+        <location filename="../src/batchdownloader.cpp" line="159"/>
         <source>Get List</source>
         <translation type="unfinished">Obtener Lista</translation>
     </message>
@@ -578,23 +600,28 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="68"/>
+        <location filename="../src/configure.cpp" line="72"/>
+        <source>Remove</source>
+        <translation type="unfinished">Eliminar</translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="97"/>
         <source>Select A Cookie File</source>
         <translation>Seleccionar un Archivo de Cookies</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="97"/>
+        <location filename="../src/configure.cpp" line="126"/>
         <source>Select An Engine File</source>
         <translation>Seleccionar un Archivo de Motor</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="124"/>
-        <location filename="../src/configure.cpp" line="265"/>
+        <location filename="../src/configure.cpp" line="153"/>
+        <location filename="../src/configure.cpp" line="294"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="187"/>
+        <location filename="../src/configure.cpp" line="216"/>
         <source>Set Download Folder</source>
         <translation>Establecer Carpeta para Descargas</translation>
     </message>

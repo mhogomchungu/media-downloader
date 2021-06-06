@@ -54,6 +54,7 @@
         <location filename="../src/mainwindow.ui" line="347"/>
         <location filename="../src/mainwindow.ui" line="651"/>
         <location filename="../src/mainwindow.ui" line="719"/>
+        <location filename="../src/mainwindow.ui" line="1425"/>
         <source>Options</source>
         <translation>Opcje</translation>
     </message>
@@ -63,7 +64,7 @@
         <location filename="../src/mainwindow.ui" line="597"/>
         <location filename="../src/mainwindow.ui" line="803"/>
         <location filename="../src/mainwindow.ui" line="995"/>
-        <location filename="../src/mainwindow.ui" line="1462"/>
+        <location filename="../src/mainwindow.ui" line="1555"/>
         <location filename="../src/mainwindow.cpp" line="59"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
@@ -232,13 +233,13 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Ciemny motyw (wymaga restartu)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1332"/>
+        <location filename="../src/mainwindow.ui" line="1322"/>
         <source>Reset Option To Its Default</source>
         <translation>Ustawienia domyślne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1335"/>
-        <location filename="../src/mainwindow.ui" line="1408"/>
+        <location filename="../src/mainwindow.ui" line="1325"/>
+        <location filename="../src/mainwindow.ui" line="1501"/>
         <source>Set Defaults</source>
         <translation>Ustaw domyślne</translation>
     </message>
@@ -278,32 +279,43 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Usuń wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1475"/>
+        <location filename="../src/mainwindow.ui" line="1568"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1341"/>
+        <location filename="../src/mainwindow.ui" line="1434"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Domyślne opcje silnika</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1363"/>
+        <location filename="../src/mainwindow.ui" line="1357"/>
+        <location filename="../src/mainwindow.ui" line="1409"/>
+        <source>Ui Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1376"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1456"/>
         <source>Engine&apos;s Name</source>
         <translation>Silnik</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1382"/>
+        <location filename="../src/mainwindow.ui" line="1475"/>
         <source>Default Download Options</source>
         <translation>Domyślne opcje pobierania</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1421"/>
+        <location filename="../src/mainwindow.ui" line="1514"/>
         <source>Path To Cookie FIle</source>
         <translation>Scieżka do ciasteczka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1481"/>
+        <location filename="../src/mainwindow.ui" line="1574"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
@@ -311,37 +323,32 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="346"/>
+        <location filename="../src/utility.cpp" line="322"/>
         <source>Clear Options</source>
         <translation>Wyczyść opcje</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="352"/>
+        <location filename="../src/utility.cpp" line="328"/>
         <source>Clear Screen</source>
         <translation>Wyczyść okno</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="324"/>
+        <location filename="../src/utility.cpp" line="301"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="290"/>
+        <location filename="../src/utility.cpp" line="312"/>
         <source>Best-audiovideo</source>
         <translation>Najlepsze audio i video</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="291"/>
+        <location filename="../src/utility.cpp" line="313"/>
         <source>Best-audio</source>
         <translation>Najlepsze audio</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="337"/>
-        <source>Found Options</source>
-        <translation>Znalezione opcje</translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="358"/>
+        <location filename="../src/utility.cpp" line="334"/>
         <source>Open Download Folder</source>
         <translation>Otwórz katalog z pobranymi plikami</translation>
     </message>
@@ -401,36 +408,49 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Scieżka pobierania: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="172"/>
+        <location filename="../src/engines.cpp" line="174"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Błąd, plik wykonywalny &quot;%1&quot; nie został znaleziony</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="358"/>
+        <location filename="../src/engines.cpp" line="360"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Silnik &quot;%1&quot; wymaga aplikacji Media Downloader w wersji &quot;%2&quot; lub wyższej</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="562"/>
-        <location filename="../src/engines.cpp" line="731"/>
-        <location filename="../src/utility.cpp" line="489"/>
+        <location filename="../src/engines.cpp" line="564"/>
+        <location filename="../src/engines.cpp" line="733"/>
+        <location filename="../src/utility.cpp" line="465"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="705"/>
+        <location filename="../src/engines.cpp" line="707"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1117"/>
+        <location filename="../src/engines.cpp" line="803"/>
+        <source>Download cancelled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="1142"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1132"/>
+        <location filename="../src/engines.cpp" line="1157"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="1309"/>
+        <location filename="../src/engines.cpp" line="1314"/>
+        <location filename="../src/engines.cpp" line="1321"/>
+        <location filename="../src/engines.cpp" line="1334"/>
+        <source>Elapsed Time:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="60"/>
@@ -458,7 +478,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Rozpocznij pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="803"/>
+        <location filename="../src/engines.cpp" line="809"/>
         <location filename="../src/networkAccess.cpp" line="136"/>
         <location filename="../src/networkAccess.cpp" line="212"/>
         <source>Download Failed</source>
@@ -470,6 +490,8 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Nieudane parsowanie pliku json z gihuba</translation>
     </message>
     <message>
+        <location filename="../src/engines/gallery-dl.cpp" line="143"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="145"/>
         <location filename="../src/networkAccess.cpp" line="200"/>
         <location filename="../src/networkAccess.cpp" line="250"/>
         <location filename="../src/networkAccess.cpp" line="260"/>
@@ -492,12 +514,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1182"/>
+        <location filename="../src/engines.cpp" line="1212"/>
         <source>Processing</source>
         <translation>Przetwarzanie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="801"/>
+        <location filename="../src/engines.cpp" line="807"/>
         <source>Download completed</source>
         <translation>Poberanie zakończone</translation>
     </message>
@@ -507,27 +529,27 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana katalogu pobierania na domyślny</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1202"/>
+        <location filename="../src/engines.cpp" line="1234"/>
         <source>Post Processing</source>
         <translation>Post processing</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="153"/>
+        <location filename="../src/settings.h" line="157"/>
         <source>Normal</source>
         <translation>Normalny</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="154"/>
+        <location filename="../src/settings.h" line="158"/>
         <source>Dark Theme 1</source>
         <translation>Ciemny motyw nr 1</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="155"/>
+        <location filename="../src/settings.h" line="159"/>
         <source>Dark Theme 2</source>
         <translation>Ciemny motyw nr 2</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="156"/>
+        <location filename="../src/settings.h" line="160"/>
         <source>Dark Theme 3</source>
         <translation>Ciemny motyw nr 3</translation>
     </message>
@@ -559,12 +581,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="136"/>
+        <location filename="../src/batchdownloader.cpp" line="147"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="148"/>
+        <location filename="../src/batchdownloader.cpp" line="159"/>
         <source>Get List</source>
         <translation type="unfinished">Pobierz listę</translation>
     </message>
@@ -580,23 +602,28 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="68"/>
+        <location filename="../src/configure.cpp" line="72"/>
+        <source>Remove</source>
+        <translation type="unfinished">Usuń</translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="97"/>
         <source>Select A Cookie File</source>
         <translation>Wybierz plik ciasteczka</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="97"/>
+        <location filename="../src/configure.cpp" line="126"/>
         <source>Select An Engine File</source>
         <translation>Wybierz plik silnika</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="124"/>
-        <location filename="../src/configure.cpp" line="265"/>
+        <location filename="../src/configure.cpp" line="153"/>
+        <location filename="../src/configure.cpp" line="294"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="187"/>
+        <location filename="../src/configure.cpp" line="216"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
     </message>
