@@ -262,12 +262,14 @@ QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
 						 const QString& bkText,
 						 const engines::engine::functions::finishedState& f )
 {
-	Q_UNUSED( bkText )
-
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
 	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
 
-	if( f.success() ){
+	if( f.cancelled() ){
+
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
+
+	}else if( f.success() ){
 
 		QStringList a ;
 

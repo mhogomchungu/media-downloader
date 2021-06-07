@@ -122,7 +122,6 @@ static void _openUrls( QTableWidgetItem& item,settings& settings,bool galleryDl 
 		auto m = utility::split( item.text(),'\n',true ) ;
 
 		m.removeFirst() ;
-		m.removeFirst() ;
 
 		for( const auto& it : m ){
 
@@ -880,7 +879,7 @@ QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& 
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
 	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
 
-	return m + "\n" + e + "\n" + uiText ;
+	return m + ", " + e + "\n" + uiText ;
 }
 
 QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::engine&,
