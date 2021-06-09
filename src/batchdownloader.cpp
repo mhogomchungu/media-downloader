@@ -165,18 +165,23 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			QMenu m ;
 
-			auto ac = m.addAction( tr( "Cancel" ) ) ;
+			auto ac = m.addAction( tr( "Open" ) ) ;
+
+			ac->setEnabled( finishSuccess ) ;
+
+			connect( ac,&QAction::triggered,[ this,row ](){
+
+				auto m = m_ui.cbEngineTypeBD->currentText() ;
+				m_ctx.Engines().openUrls( m_table.item( row,0 ),m ) ;
+			} ) ;
+
+			ac = m.addAction( tr( "Cancel" ) ) ;
 
 			ac->setEnabled( running ) ;
 
-			connect( ac,&QAction::triggered,[ this ](){
+			connect( ac,&QAction::triggered,[ this,row ](){
 
-				auto row = m_table.currentRow() ;
-
-				if( row != -1 ){
-
-					m_terminator.terminateSignal( row ) ;
-				}
+				m_terminator.terminateSignal( row ) ;
 			} ) ;
 
 			ac = m.addAction( tr( "Remove" ) ) ;
@@ -201,27 +206,22 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			ac = m.addAction( tr( "Download" ) ) ;
 			ac->setEnabled( !running && !finishSuccess ) ;
 
-			connect( ac,&QAction::triggered,[ this ](){
+			connect( ac,&QAction::triggered,[ this,row ](){
 
-				auto row = m_table.currentRow() ;
+				auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
 
-				if( row != -1 ){
+				const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
 
-					auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
+				downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
 
-					const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+				auto e = m_table.item( row,2 ).text() ;
 
-					downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
+				if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
-					auto e = m_table.item( row,2 ).text() ;
-
-					if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
-
-						indexes.add( row ) ;
-					}
-
-					this->download( engine,std::move( indexes ) ) ;
+					indexes.add( row ) ;
 				}
+
+				this->download( engine,std::move( indexes ) ) ;
 			} ) ;
 
 			m.exec( QCursor::pos() ) ;

@@ -391,7 +391,6 @@ namespace utility
 		}
 	signals :
 		void terminateSignal( int index ) ;
-		void bogus() ;
 	private:
 		static bool terminate( const engines::engine&,
 				       QProcess& exe,

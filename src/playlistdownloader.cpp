@@ -61,7 +61,17 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		QMenu m ;
 
-		auto ac = m.addAction( tr( "Cancel" ) ) ;
+		auto ac = m.addAction( tr( "Open" ) ) ;
+
+		ac->setEnabled( finishSuccess ) ;
+
+		connect( ac,&QAction::triggered,[ this,row ](){
+
+			auto m = m_ui.cbEngineTypePD->currentText() ;
+			m_ctx.Engines().openUrls( m_table.item( row,0 ),m ) ;
+		} ) ;
+
+		ac = m.addAction( tr( "Cancel" ) ) ;
 		ac->setEnabled( running ) ;
 
 		connect( ac,&QAction::triggered,[ this,row ](){
@@ -83,27 +93,22 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		ac = m.addAction( tr( "Download" ) ) ;
 		ac->setEnabled( !running && !finishSuccess ) ;
 
-		connect( ac,&QAction::triggered,[ this ](){
+		connect( ac,&QAction::triggered,[ this,row ](){
 
-			auto row = m_table.currentRow() ;
+			downloadManager::index indexes( m_table.get(),m_ui.lineEditPLUrlOptions->text() ) ;
 
-			if( row != -1 ){
+			auto e = m_table.item( row,2 ).text() ;
 
-				downloadManager::index indexes( m_table.get(),m_ui.lineEditPLUrlOptions->text() ) ;
+			if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
-				auto e = m_table.item( row,2 ).text() ;
-
-				if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
-
-					indexes.add( row ) ;
-				}
-
-				auto m = m_settings.defaultEngine( settings::tabName::playlist ) ;
-
-				const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
-
-				this->download( engine,std::move( indexes ) ) ;
+				indexes.add( row ) ;
 			}
+
+			auto m = m_settings.defaultEngine( settings::tabName::playlist ) ;
+
+			const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+
+			this->download( engine,std::move( indexes ) ) ;
 		} ) ;
 
 		m.exec( QCursor::pos() ) ;

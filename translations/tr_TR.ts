@@ -582,21 +582,26 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <name>batchdownloader</name>
     <message>
         <location filename="../src/batchdownloader.cpp" line="168"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="178"/>
         <source>Cancel</source>
         <translation type="unfinished">İptal</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="182"/>
+        <location filename="../src/batchdownloader.cpp" line="187"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="193"/>
+        <location filename="../src/batchdownloader.cpp" line="198"/>
         <source>Get List</source>
         <translation type="unfinished">Liste Al</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="201"/>
+        <location filename="../src/batchdownloader.cpp" line="206"/>
         <source>Download</source>
         <translation type="unfinished">İndir</translation>
     </message>
@@ -655,16 +660,21 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <name>playlistdownloader</name>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="64"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="74"/>
         <source>Cancel</source>
         <translation type="unfinished">İptal</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="72"/>
+        <location filename="../src/playlistdownloader.cpp" line="82"/>
         <source>Remove</source>
         <translation type="unfinished">Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="83"/>
+        <location filename="../src/playlistdownloader.cpp" line="93"/>
         <source>Download</source>
         <translation type="unfinished">İndir</translation>
     </message>
