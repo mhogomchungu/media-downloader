@@ -90,6 +90,14 @@ void tableWidget::clear()
 	}
 }
 
+void tableWidget::selectLast( QTableWidget& t )
+{
+	if( t.rowCount() > 0 ){
+
+		t.setCurrentCell( t.rowCount() - 1,t.columnCount() - 1 ) ;
+	}
+}
+
 void tableWidget::setVisible( bool e )
 {
 	m_table.setVisible( e ) ;
@@ -98,6 +106,11 @@ void tableWidget::setVisible( bool e )
 int tableWidget::rowCount() const
 {
 	return m_table.rowCount() ;
+}
+
+void tableWidget::selectLast()
+{
+	tableWidget::selectLast( m_table ) ;
 }
 
 void tableWidget::setEnabled( bool e )

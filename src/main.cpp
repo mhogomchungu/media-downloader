@@ -31,7 +31,7 @@ int main( int argc,char * argv[] )
 
 		if( argc > 2 && std::strcmp( argv[ 1 ],"-T" ) == 0 ){
 
-			return utility::terminateProcess( std::strtoul( argv[ 2 ],nullptr,10 ) ) ;
+			return utility::Terminator::terminateProcess( std::strtoul( argv[ 2 ],nullptr,10 ) ) ;
 		}
 	}
 

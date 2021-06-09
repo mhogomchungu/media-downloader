@@ -32,12 +32,20 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
 {
-	tableWidget::tableWidgetOptions opts ;
+	m_tableWidgetBDList.setTableWidget( [](){
 
-	opts.customContextPolicy = Qt::NoContextMenu ;
-	opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
+		tableWidget::tableWidgetOptions opts ;
 
-	m_tableWidgetBDList.setTableWidget( opts ) ;
+		opts.customContextPolicy = Qt::NoContextMenu ;
+		opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
+
+		return opts ;
+	}() ) ;
+
+	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+
+		m_table.selectRow( c,p,0 ) ;
+	} ) ;
 
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
@@ -94,6 +102,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		m_ui.BDFrame->hide() ;
 	} ) ;
 
+	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
+
+		m_terminator.terminateAll( m_table.get() ) ;
+	} ) ;
+
 	connect( m_ui.pbBDPasteClipboard,&QPushButton::clicked,[ this ](){
 
 		auto m = utility::clipboardText() ;
@@ -136,33 +149,82 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
-		if( m_running ){
+		if( m_table.rowCount() > 0 ){
 
+			auto row = m_table.currentRow() ;
 
-		}else{
-			if( m_table.rowCount() > 0 ){
+			if( row == -1 ){
 
-				QMenu m ;
-
-				connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
-
-					auto row = m_table.currentRow() ;
-
-					if( row != -1 ){
-
-						m_table.removeRow( row ) ;
-
-						m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
-					}
-				} ) ;
-
-				connect( m.addAction( tr( "Get List" ) ),&QAction::triggered,[ this ](){
-
-					this->showList() ;
-				} ) ;
-
-				m.exec( QCursor::pos() ) ;
+				return ;
 			}
+
+			auto txt = m_table.item( row,2 ).text() ;
+
+			auto running = downloadManager::finishedStatus::running( txt ) ;
+			auto finishSuccess = downloadManager::finishedStatus::finishedWithSuccess( txt ) ;
+
+			QMenu m ;
+
+			auto ac = m.addAction( tr( "Cancel" ) ) ;
+
+			ac->setEnabled( running ) ;
+
+			connect( ac,&QAction::triggered,[ this ](){
+
+				auto row = m_table.currentRow() ;
+
+				if( row != -1 ){
+
+					m_terminator.terminateSignal( row ) ;
+				}
+			} ) ;
+
+			ac = m.addAction( tr( "Remove" ) ) ;
+
+			ac->setEnabled( !m_running ) ;
+
+			connect( ac,&QAction::triggered,[ this,row ](){
+
+				m_table.removeRow( row ) ;
+
+				m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
+			} ) ;
+
+			ac = m.addAction( tr( "Get List" ) ) ;
+			ac->setEnabled( !running ) ;
+
+			connect( ac,&QAction::triggered,[ this ](){
+
+				this->showList() ;
+			} ) ;
+
+			ac = m.addAction( tr( "Download" ) ) ;
+			ac->setEnabled( !running && !finishSuccess ) ;
+
+			connect( ac,&QAction::triggered,[ this ](){
+
+				auto row = m_table.currentRow() ;
+
+				if( row != -1 ){
+
+					auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
+
+					const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+
+					downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
+
+					auto e = m_table.item( row,2 ).text() ;
+
+					if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
+
+						indexes.add( row ) ;
+					}
+
+					this->download( engine,std::move( indexes ) ) ;
+				}
+			} ) ;
+
+			m.exec( QCursor::pos() ) ;
 		}
 	} ) ;
 
@@ -329,14 +391,14 @@ void batchdownloader::showList()
 		}
 	) ;
 
-	batchdownloader::opts opts{ m_ctx,m_debug,true } ;
+	batchdownloader::opts opts{ m_ctx,m_debug,true,-1 } ;
 
 	utility::run( engine,
 		      args,
 		      QString(),
 		      batchdownloader::make_options( std::move( opts ),std::move( functions ) ),
 		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
-		      utility::make_term_conn( m_ui.pbCancelBatchDownloder,&QPushButton::clicked ) ) ;
+		      utility::Terminator::setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ) ;
 }
 
 static void _set_variables( Ui::MainWindow& ui,
@@ -345,6 +407,8 @@ static void _set_variables( Ui::MainWindow& ui,
 			    const QString& state )
 {
 	table.addItem( { url,url,state } ) ;
+
+	table.selectLast() ;
 
 	ui.lineEditBDUrl->clear() ;
 
@@ -419,30 +483,18 @@ void batchdownloader::addToList( const QString& a,bool doNotGetTitle )
 	}
 }
 
-void batchdownloader::download( const engines::engine& engine )
+void batchdownloader::download( const engines::engine& engine,downloadManager::index indexes )
 {
+	if( indexes.empty() ){
+
+		return ;
+	}
+
 	m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
 				      m_ui.lineEditBDUrlOptions->text(),
 				      settings::tabName::batch ) ;
 
 	this->addToList( m_ui.lineEditBDUrl->text(),true ) ;
-
-	downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
-
-	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
-
-		auto e = m_table.item( s,2 ).text() ;
-
-		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
-
-			indexes.add( s ) ;
-		}
-	}
-
-	if( indexes.empty() ){
-
-		return ;
-	}
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
@@ -459,6 +511,23 @@ void batchdownloader::download( const engines::engine& engine )
 
 		this->download( engine,index ) ;
 	} ) ;
+}
+
+void batchdownloader::download( const engines::engine& engine )
+{
+	downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
+
+	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
+
+		auto e = m_table.item( s,2 ).text() ;
+
+		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
+
+			indexes.add( s ) ;
+		}
+	}
+
+	this->download( engine,std::move( indexes ) ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,int index )
@@ -485,7 +554,8 @@ void batchdownloader::download( const engines::engine& engine,int index )
 	m_ccmd.download( engine,
 			 index,
 			 m_table.item( index,1 ).text(),
-			 batchdownloader::make_options( { m_ctx,m_debug,false },std::move( functions ) ),
+			 m_terminator,
+			 batchdownloader::make_options( { m_ctx,m_debug,false,index },std::move( functions ) ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
 						     engine,
 						     m_ctx.logger(),

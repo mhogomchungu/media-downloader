@@ -42,7 +42,8 @@ public:
 	void tabExited() ;
 	void updateEnginesList( const QStringList& ) ;
 private:
-	void download() ;
+	void download() ;	
+	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
 	void getList() ;
@@ -59,11 +60,14 @@ private:
 
 	downloadManager m_ccmd ;
 
+	utility::Terminator m_terminator ;
+
 	struct opts
 	{
 		const Context& ctx ;
 		bool debug ;
 		bool listRequested ;
+		int index ;
 	} ;
 
 	template< typename Functions >

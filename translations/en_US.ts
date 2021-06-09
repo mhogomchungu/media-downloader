@@ -406,47 +406,47 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="174"/>
+        <location filename="../src/engines.cpp" line="173"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="360"/>
+        <location filename="../src/engines.cpp" line="359"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="564"/>
-        <location filename="../src/engines.cpp" line="733"/>
-        <location filename="../src/utility.cpp" line="465"/>
+        <location filename="../src/engines.cpp" line="563"/>
+        <location filename="../src/engines.cpp" line="732"/>
+        <location filename="../src/utility.cpp" line="453"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="707"/>
+        <location filename="../src/engines.cpp" line="706"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="803"/>
+        <location filename="../src/engines.cpp" line="802"/>
         <source>Download cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1142"/>
+        <location filename="../src/engines.cpp" line="1147"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1157"/>
+        <location filename="../src/engines.cpp" line="1162"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1309"/>
         <location filename="../src/engines.cpp" line="1314"/>
-        <location filename="../src/engines.cpp" line="1321"/>
-        <location filename="../src/engines.cpp" line="1334"/>
+        <location filename="../src/engines.cpp" line="1319"/>
+        <location filename="../src/engines.cpp" line="1326"/>
+        <location filename="../src/engines.cpp" line="1339"/>
         <source>Elapsed Time:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -476,7 +476,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="809"/>
+        <location filename="../src/engines.cpp" line="808"/>
         <location filename="../src/networkAccess.cpp" line="136"/>
         <location filename="../src/networkAccess.cpp" line="212"/>
         <source>Download Failed</source>
@@ -512,12 +512,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1212"/>
+        <location filename="../src/engines.cpp" line="1217"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="807"/>
+        <location filename="../src/engines.cpp" line="806"/>
         <source>Download completed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -527,7 +527,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1234"/>
+        <location filename="../src/engines.cpp" line="1239"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -579,13 +579,23 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="147"/>
+        <location filename="../src/batchdownloader.cpp" line="168"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="182"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="159"/>
+        <location filename="../src/batchdownloader.cpp" line="193"/>
         <source>Get List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="201"/>
+        <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -636,6 +646,24 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/library.cpp" line="74"/>
         <source>Delete All</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>playlistdownloader</name>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="64"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="72"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="83"/>
+        <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

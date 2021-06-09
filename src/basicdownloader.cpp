@@ -471,14 +471,14 @@ void basicdownloader::run( const engines::engine& engine,
 		}
 	 ) ;
 
-	basicdownloader::opts opts{ engine,m_bogusTable.get(),m_ctx,m_debug,list_requested } ;
+	basicdownloader::opts opts{ engine,m_bogusTable.get(),m_ctx,m_debug,list_requested,-1 } ;
 
 	utility::run( engine,
 		      args,
 		      quality,
 		      basicdownloader::make_options( std::move( opts ),std::move( functions ) ),
 		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
-		      utility::make_term_conn( m_ui.pbCancel,&QPushButton::clicked ) ) ;
+		      utility::Terminator::setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ) ;
 }
 
 void basicdownloader::updateEngines()

@@ -59,6 +59,7 @@ private:
 		const Context& ctx ;
 		bool debug ;
 		bool listRequested ;
+		int index ;
 	} ;
 
 	template< typename Functions >

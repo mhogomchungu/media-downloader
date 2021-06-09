@@ -93,7 +93,57 @@ namespace utility
 	QStringList split( const QString& e,const char * token ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
 	QList< QByteArray > split( const QByteArray& e,QChar token = '\n' ) ;
+
+	struct args
+	{
+		args( const QString& e )
+		{
+			if( !e.isEmpty() ){
+
+				otherOptions = utility::split( e,' ',true ) ;
+
+				if( !otherOptions.isEmpty() ){
+
+					quality = otherOptions.takeFirst() ;
+				}
+			}
+		}
+		QString quality ;
+		QStringList otherOptions ;
+	} ;
+
+	namespace details
+	{
+		QMenu * sMo( const Context&,
+			     const QStringList& opts,
+			     bool addClear,
+			     QPushButton * w ) ;
+	}
+
 	QString failedToFindExecutableString( const QString& cmd ) ;
+	int concurrentID() ;
+
+	void wait( int time ) ;
+	void waitForOneSecond() ;
+	void openDownloadFolderPath( const QString& ) ;
+	QString homePath() ;
+	QString python3Path() ;
+	QString clipboardText() ;
+	bool platformIsWindows() ;
+	bool platformIs32BitWindows() ;
+	bool platformIsLinux() ;
+	bool platformIsOSX() ;
+	bool platformIsNOTWindows() ;
+
+	QString downloadFolder( const Context& ctx ) ;
+	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
+
+	QStringList updateOptions( const engines::engine& engine,
+				   settings&,
+				   const utility::args& args,
+				   const QStringList& urls ) ;
+
+	bool hasDigitsOnly( const QString& e ) ;
 
 	class selectedAction
 	{
@@ -128,32 +178,6 @@ namespace utility
 	private:
 		QAction * m_ac ;
 	};
-
-	struct args
-	{
-		args( const QString& e )
-		{
-			if( !e.isEmpty() ){
-
-				otherOptions = utility::split( e,' ',true ) ;
-
-				if( !otherOptions.isEmpty() ){
-
-					quality = otherOptions.takeFirst() ;
-				}
-			}
-		}
-		QString quality ;
-		QStringList otherOptions ;
-	} ;
-
-	namespace details
-	{
-		QMenu * sMo( const Context&,
-			     const QStringList& opts,
-			     bool addClear,
-			     QPushButton * w ) ;
-	}
 
 	template< typename Function >
 	void setMenuOptions( const Context& ctx,
@@ -276,29 +300,121 @@ namespace utility
 		utility::run( cmd,args,[]( QProcess& ){},std::move( w ),std::move( p ) ) ;
 	}
 
-	template< typename Object,
-		  typename ObjectMemberFunction,
-		  typename Function >
-	struct Conn
+	template< typename Function,typename FunctionConnect >
+	class Conn
 	{
-		Conn( Object obj,ObjectMemberFunction pointer,Function function ) :
-			obj( obj ),
-			pointer( pointer ),
-			function( std::move( function ) )
+	public:
+		typedef Function function_type ;
+		Conn( Function function,
+		      FunctionConnect functionConnect ) :
+			m_function( std::move( function ) ),
+			m_functionConnect( std::move( functionConnect ) )
 		{
 		}
-		Object obj ;
-		ObjectMemberFunction pointer ;
-		Function function ;
+		template< typename Fnt >
+		void connect( Fnt function )
+		{
+			auto fnt = [ this,function = std::move( function ) ]( int index ){
+
+				function( m_function,index ) ;
+			} ;
+
+			m_conn = m_functionConnect( std::move( fnt ) ) ;
+		}
+		void disconnect()
+		{
+			QObject::disconnect( m_conn ) ;
+		}
+	private:
+		Function m_function ;
+		FunctionConnect m_functionConnect ;
+		QMetaObject::Connection m_conn ;
 	};
 
-	template< typename Object,
-		  typename ObjectMemberFunction,
-		  typename Function >
-	static auto make_conn( Object obj,ObjectMemberFunction memFunction,Function function )
+	class Terminator : public QObject
 	{
-		return Conn< Object,ObjectMemberFunction,Function >( obj,memFunction,std::move( function ) ) ;
-	}
+		Q_OBJECT
+	public:
+		static int terminateProcess( unsigned long pid ) ;
+
+		template< typename Object,typename Member >
+		static auto setUp( Object obj,Member member,int idx )
+		{
+			auto function = []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+
+				return terminate( engine,exe,index,idx ) ;
+			} ;
+
+			auto functionConnect = [ idx,obj,member ]( auto function ){
+
+				auto ff = [ idx,function = std::move( function ) ](){
+
+					function( idx ) ;
+				} ;
+
+				return QObject::connect( obj,member,std::move( ff ) ) ;
+			} ;
+
+			using type0 = decltype( function ) ;
+			using type1 = decltype( functionConnect ) ;
+
+			return Conn< type0,type1 >( std::move( function ),std::move( functionConnect ) ) ;
+		}
+		auto setUp()
+		{
+			auto function = []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+
+				return terminate( engine,exe,index,idx ) ;
+			} ;
+
+			auto functionConnect = [ this ]( auto function ){
+
+				auto ff = [ this,function = std::move( function ) ]( int index ){
+
+					function( index ) ;
+				} ;
+
+				return QObject::connect( this,&utility::Terminator::terminateSignal,std::move( ff ) ) ;
+			} ;
+
+			using type0 = decltype( function ) ;
+			using type1 = decltype( functionConnect ) ;
+
+			return Conn< type0,type1 >( std::move( function ),std::move( functionConnect ) ) ;
+		}
+		void terminateAll( QTableWidget& t )
+		{
+			for( int i = 0 ; i < t.rowCount() ; i++ ){
+
+				this->terminateSignal( i ) ;
+			}
+		}
+	signals :
+		void terminateSignal( int index ) ;
+		void bogus() ;
+	private:
+		static bool terminate( const engines::engine&,
+				       QProcess& exe,
+				       int index,
+				       int idx )
+		{
+			if( index == idx ){
+
+				if( utility::platformIsWindows() ){
+
+					QStringList args{ "-T",QString::number( exe.processId() ) } ;
+
+					QProcess::startDetached( "media-downloader.exe",args ) ;
+				}else{
+					exe.terminate() ;
+				}
+
+				return true ;
+			}else{
+				return false ;
+			}
+		}
+	};
 
 	class ProcessExitState
 	{
@@ -363,19 +479,23 @@ namespace utility
 	} ;
 
 	template< typename Tlogger,
-		  typename Options >
+		  typename Options,
+		  typename Connection >
 	class context
 	{
 	public:
 		context( const engines::engine& engine,
+			 QProcess& exe,
+			 ProcessOutputChannels channels,
 			 Tlogger logger,
 			 Options options,
-			 ProcessOutputChannels channels ) :
+			 Connection conn ) :
 			m_engine( engine ),
-			m_cancelled( false ),
 			m_logger( std::move( logger ) ),
 			m_options( std::move( options ) ),
-			m_channels( channels )
+			m_conn( std::move( conn ) ),
+			m_channels( channels ),
+			m_cancelled( false )
 		{
 			if( m_engine.replaceOutputWithProgressReport() ){
 
@@ -389,14 +509,18 @@ namespace utility
 
 				m_timer.start( 1000 ) ;
 			}
-		}
-		void setCancelConnection( QMetaObject::Connection conn )
-		{
-			m_conn = std::move( conn ) ;
-		}
-		void cancel()
-		{
-			m_cancelled = true ;
+
+			m_conn.connect( [ this,&exe ]( typename Connection::function_type& function,int index ){
+
+				auto m = function( m_engine,exe,m_options.index(),index ) ;
+
+				if( m ){
+
+					m_cancelled = true ;
+				}
+
+				return m ;
+			} ) ;
 		}
 		void postData( QByteArray data )
 		{
@@ -421,9 +545,9 @@ namespace utility
 		}
 		void done( int s,QProcess::ExitStatus e )
 		{
-			m_timer.stop() ;
+			m_conn.disconnect() ;
 
-			QObject::disconnect( m_conn ) ;
+			m_timer.stop() ;
 
 			if( m_options.listRequested() ){
 
@@ -439,14 +563,14 @@ namespace utility
 		}
 	private:
 		const engines::engine& m_engine ;
-		bool m_cancelled ;
-		QMetaObject::Connection m_conn ;
 		Tlogger m_logger ;
-		QByteArray m_data ;
 		Options m_options ;
+		Connection m_conn ;
 		ProcessOutputChannels m_channels ;
 		QTimer m_timer ;
 		engines::engine::functions::timer m_timeCounter ;
+		QByteArray m_data ;
+		bool m_cancelled ;
 	} ;
 
 	template< typename Connection,
@@ -475,6 +599,10 @@ namespace utility
 
 		options.disableAll() ;
 
+		using ctx_t = utility::context< Tlogger,Options,Connection > ;
+
+		using unique_ptr_ctx_t = std::unique_ptr< ctx_t > ;
+
 		utility::run( exe,cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
 
 			exe.setProcessEnvironment( options.processEnvironment() ) ;
@@ -492,30 +620,22 @@ namespace utility
 
 			exe.setProcessChannelMode( channels.channelMode() ) ;
 
-			using ctx_t = utility::context< Tlogger,Options > ;
-
-			auto ctx = std::make_shared< ctx_t >( engine,std::move( logger ),std::move( options ),channels ) ;
-\
-			auto fnt = [ &engine,&exe,ctx,function = std::move( conn.function ) ](){
-
-				ctx->cancel() ;
-
-				function( engine,exe ) ;
-			} ;
-
-			ctx->setCancelConnection( QObject::connect( conn.obj,conn.pointer,std::move( fnt ) ) ) ;
-
-			return ctx ;
+			return std::make_unique< ctx_t >( engine,
+							  exe,
+							  channels,
+							  std::move( logger ),
+							  std::move( options ),
+							  std::move( conn ) ) ;
 
 		},[ &engine,quality ]( QProcess& exe ){
 
 			engine.sendCredentials( quality,exe ) ;
 
-		},[]( int s,QProcess::ExitStatus e,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
+		},[]( int s,QProcess::ExitStatus e,unique_ptr_ctx_t& ctx ){
 
 			ctx->done( s,std::move( e ) ) ;
 
-		},[]( QProcess::ProcessChannel channel,QByteArray data,std::shared_ptr< utility::context< Tlogger,Options > >& ctx ){
+		},[]( QProcess::ProcessChannel channel,QByteArray data,unique_ptr_ctx_t& ctx ){
 
 			if( ctx->debug() ){
 
@@ -808,41 +928,6 @@ namespace utility
 		}
 	}
 
-	int concurrentID() ;
-
-	void wait( int time ) ;
-	void waitForOneSecond() ;
-	void openDownloadFolderPath( const QString& ) ;
-	QString homePath() ;
-	QString python3Path() ;
-	QString clipboardText() ;
-	int terminateProcess( unsigned long pid ) ;
-	void terminateProcess( const engines::engine&,QProcess& ) ;
-	bool platformIsWindows() ;
-	bool platformIs32BitWindows() ;
-	bool platformIsLinux() ;
-	bool platformIsOSX() ;
-	bool platformIsNOTWindows() ;
-
-	QString downloadFolder( const Context& ctx ) ;
-	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
-
-	QStringList updateOptions( const engines::engine& engine,
-				   settings&,
-				   const utility::args& args,
-				   const QStringList& urls ) ;
-
-	bool hasDigitsOnly( const QString& e ) ;
-
-	template< typename Object,
-		  typename ObjectMemberFunction >
-	static auto make_term_conn( Object obj,ObjectMemberFunction memFunction )
-	{
-		auto s = static_cast< void( * )( const engines::engine&,QProcess& ) >( utility::terminateProcess ) ;
-
-		return utility::make_conn( obj,memFunction,s ) ;
-	}
-
 	struct opts
 	{
 		const Context& ctx ;
@@ -874,6 +959,10 @@ namespace utility
 		bool listRequested()
 		{
 			return m_opts.listRequested ;
+		}
+		int index()
+		{
+			return m_opts.index ;
 		}
 		bool debug()
 		{

@@ -81,7 +81,7 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-int utility::terminateProcess( unsigned long )
+int utility::Terminator::terminateProcess( unsigned long )
 {
 	return 0 ;
 }
@@ -120,7 +120,7 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-int utility::terminateProcess( unsigned long )
+int utility::Terminator::terminateProcess( unsigned long )
 {
 	return 0 ;
 }
@@ -153,7 +153,7 @@ auto unique_ptr( Type type,Deleter&& deleter )
 			   std::forward< Deleter >( deleter ),type ) ;
 }
 
-int utility::terminateProcess( unsigned long pid )
+int utility::Terminator::terminateProcess( unsigned long pid )
 {
 	FreeConsole() ;
 
@@ -399,18 +399,6 @@ void utility::openDownloadFolderPath( const QString& url )
 	}
 }
 
-void utility::terminateProcess( const engines::engine&,QProcess& exe )
-{
-	if( utility::platformIsWindows() ){
-
-		QStringList args{ "-T",QString::number( exe.processId() ) } ;
-
-		QProcess::startDetached( "media-downloader.exe",args ) ;
-	}else{
-		exe.terminate() ;
-	}
-}
-
 QStringList utility::updateOptions( const engines::engine& engine,
 				    settings& settings,
 				    const utility::args& args,
@@ -487,7 +475,3 @@ const QProcessEnvironment& utility::processEnvironment( const Context& ctx )
 {
 	return ctx.Engines().processEnvironment() ;
 }
-
-
-
-

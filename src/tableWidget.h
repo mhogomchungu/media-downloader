@@ -40,6 +40,7 @@ public:
 	};
 
 	static void addItem( QTableWidget&,const QStringList&,int alignment = Qt::AlignCenter ) ;
+	static void selectLast( QTableWidget& ) ;
 
 	void setTableWidget( const tableWidget::tableWidgetOptions& ) ;
 	void addItem( const QStringList&,int alignment = Qt::AlignCenter ) ;
@@ -48,6 +49,7 @@ public:
 	void clear() ;
 	void setVisible( bool ) ;
 	int rowCount() const ;
+	void selectLast() ;
 	void setEnabled( bool ) ;
 	int currentRow() const ;
 	void removeRow( int ) ;

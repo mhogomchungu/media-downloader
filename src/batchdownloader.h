@@ -74,6 +74,7 @@ private:
 	void clearScreen() ;
 	void showList() ;
 	void addToList( const QString&,bool ) ;
+	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
 	const Context& m_ctx ;
@@ -88,6 +89,8 @@ private:
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;
 
+	utility::Terminator m_terminator ;
+
 	downloadManager m_ccmd ;
 
 	struct opts
@@ -95,6 +98,7 @@ private:
 		const Context& ctx ;
 		bool debug ;
 		bool listRequested ;
+		int index ;
 	} ;
 
 	template< typename Functions >

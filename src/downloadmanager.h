@@ -245,11 +245,10 @@ public:
 	void download( const engines::engine& engine,
 		       int index,
 		       const QString& url,
+		       utility::Terminator& terminator,
 		       Options opts,
 		       Logger logger )
 	{
-		Q_UNUSED( index )
-
 		m_index->next() ;
 
 		auto u = url ;
@@ -261,12 +260,16 @@ public:
 
 		const auto& quality = m_index->options().quality ;
 
+		auto& table = m_index->table() ;
+
+		table.item( index,2 )->setText( finishedStatus::running() ) ;
+
 		utility::run( engine,
 			      utility::updateOptions( engine,m_settings,quality,{ u } ),
 			      quality,
 			      std::move( opts ),
 			      std::move( logger ),
-			      utility::make_term_conn( &m_cancelButton,&QPushButton::clicked ) ) ;
+			      terminator.setUp() ) ;
 	}
 private:
 	void uiEnableAll( bool e ) ;
