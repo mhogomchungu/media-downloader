@@ -606,6 +606,23 @@ void settings::setLocalizationLanguage( const QString& language )
 	m_settings.setValue( "Language",language ) ;
 }
 
+void settings::setWindowDimensions( const QString& window,const QString& dimenstion )
+{
+	m_settings.setValue( "WindowDimensions_" + window,dimenstion ) ;
+}
+
+QString settings::windowsDimensions( const QString& window)
+{
+	auto m = "WindowDimensions_" + window ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,QString() ) ;
+	}
+
+	return m_settings.value( m ).toString() ;
+}
+
 QString settings::localizationLanguage()
 {
 	if( !m_settings.contains( "Language" ) ){

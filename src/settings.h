@@ -179,6 +179,7 @@ public:
 	QString darkMode() ;
 	QString defaultEngine( settings::tabName ) ;
 	QString cookieFilePath( const QString& engineName ) ;
+	QString windowsDimensions( const QString& windowName ) ;
 
 	QStringList engineDefaultDownloadOptions( const QString& engineName ) ;
 
@@ -222,6 +223,7 @@ public:
 	void setPresetToDefaults() ;
 	void setDownloadFolder( const QString& ) ;
 	void setLocalizationLanguage( const QString& language ) ;
+	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
 
 	class presetOptionsAdder
 	{

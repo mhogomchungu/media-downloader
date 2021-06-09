@@ -36,11 +36,11 @@ static std::unique_ptr< Ui::MainWindow > _init_ui( QMainWindow& mw )
 MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_qApp( app ),
 	m_ui( _init_ui( *this ) ),
-	m_showTrayIcon( s.showTrayIcon() ),
-	m_logger( *m_ui->plainTextEditLogger ),
+	m_logger( *m_ui->plainTextEditLogger,this,s ),
 	m_engines( m_logger,s ),
 	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,app.arguments().contains( "--debug" ) ),
-	m_settings( s )
+	m_settings( s ),
+	m_showTrayIcon( s.showTrayIcon() )
 {
 	this->window()->setFixedSize( this->window()->size() ) ;
 

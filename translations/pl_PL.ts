@@ -581,27 +581,33 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="168"/>
+        <location filename="../src/batchdownloader.cpp" line="158"/>
+        <location filename="../src/batchdownloader.cpp" line="236"/>
+        <source>Show Log Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="177"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="178"/>
+        <location filename="../src/batchdownloader.cpp" line="187"/>
         <source>Cancel</source>
         <translation type="unfinished">Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="187"/>
+        <location filename="../src/batchdownloader.cpp" line="196"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="198"/>
+        <location filename="../src/batchdownloader.cpp" line="207"/>
         <source>Get List</source>
         <translation type="unfinished">Pobierz listę</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="206"/>
+        <location filename="../src/batchdownloader.cpp" line="215"/>
         <source>Download</source>
         <translation type="unfinished">Pobierz</translation>
     </message>
@@ -657,24 +663,43 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
 </context>
 <context>
+    <name>logWindow</name>
+    <message>
+        <location filename="../src/logwindow.ui" line="17"/>
+        <source>Log Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/logwindow.ui" line="45"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="64"/>
+        <location filename="../src/playlistdownloader.cpp" line="56"/>
+        <location filename="../src/playlistdownloader.cpp" line="125"/>
+        <source>Show Log Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="75"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="74"/>
+        <location filename="../src/playlistdownloader.cpp" line="85"/>
         <source>Cancel</source>
         <translation type="unfinished">Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="82"/>
+        <location filename="../src/playlistdownloader.cpp" line="93"/>
         <source>Remove</source>
         <translation type="unfinished">Usuń</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="93"/>
+        <location filename="../src/playlistdownloader.cpp" line="104"/>
         <source>Download</source>
         <translation type="unfinished">Pobierz</translation>
     </message>

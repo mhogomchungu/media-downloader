@@ -26,6 +26,8 @@
 #include <QTableWidgetItem>
 #include <QDebug>
 
+#include "logwindow.h"
+
 class Logger
 {
 public:
@@ -195,7 +197,7 @@ public:
 		std::vector< Logger::Data::line > m_lines ;
 	} ;
 
-	Logger( QPlainTextEdit& ) ;
+	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
 	void add( const QString&,int id = -1 ) ;
 	void clear() ;
 	template< typename Function >
@@ -205,13 +207,16 @@ public:
 
 		this->update() ;
 	}
+	void showLogWindow() ;
 	Logger( const Logger& ) = delete ;
 	Logger& operator=( const Logger& ) = delete ;
 	Logger( Logger&& ) = delete ;
 	Logger& operator=( Logger&& ) = delete ;
 private:
 	void update() ;
+	logWindow m_logWindiw ;
 	QPlainTextEdit& m_textEdit ;
+	QPlainTextEdit& m_textEdit0 ;
 	Logger::Data m_lines ;
 } ;
 

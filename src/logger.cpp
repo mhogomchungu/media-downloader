@@ -23,10 +23,13 @@
 
 #include "utility.h"
 
-Logger::Logger( QPlainTextEdit& e ) :
-	m_textEdit( e )
+Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
+	m_logWindiw( nullptr,s ),
+	m_textEdit( e ),
+	m_textEdit0( m_logWindiw.view() )
 {
 	m_textEdit.setReadOnly( true ) ;
+	m_textEdit0.setReadOnly( true ) ;
 }
 
 void Logger::add( const QString& s,int id )
@@ -45,13 +48,21 @@ void Logger::clear()
 {
 	m_lines.clear() ;
 	m_textEdit.clear() ;
+	m_textEdit0.clear() ;
+}
+
+void Logger::showLogWindow()
+{
+	m_logWindiw.Show() ;
 }
 
 void Logger::update()
 {
-	m_textEdit.setPlainText( m_lines.toString() ) ;
-
+	auto m = m_lines.toString() ;
+	m_textEdit.setPlainText( m ) ;
+	m_textEdit0.setPlainText( m ) ;
 	m_textEdit.moveCursor( QTextCursor::End ) ;
+	m_textEdit0.moveCursor( QTextCursor::End ) ;
 }
 
 QStringList Logger::Data::toStringList() const

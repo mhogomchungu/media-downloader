@@ -17,46 +17,29 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef LOGWINDOW_H
+#define LOGWINDOW_H
 
-#include <QMainWindow>
-#include <QCloseEvent>
-#include <QSystemTrayIcon>
-#include <QString>
-#include <QStringList>
-#include <QMenu>
+#include <QWidget>
+#include <QPlainTextEdit>
 
-#include "tabmanager.h"
-#include "engines.h"
-#include "logger.h"
-#include "logwindow.h"
+class settings ;
 
-#include <QApplication>
-
-namespace Ui
-{
-	class MainWindow ;
+namespace Ui {
+class logWindow;
 }
 
-class MainWindow : public QMainWindow
+class logWindow : public QWidget
 {
 	Q_OBJECT
 public:
-	MainWindow( QApplication&,settings&,translator& ) ;
-	void retranslateUi() ;
-	int exec() ;
-	~MainWindow() ;
-private:	
-	QSystemTrayIcon m_trayIcon ;
-	QApplication& m_qApp ;
-	std::unique_ptr< Ui::MainWindow > m_ui ;
-	Logger m_logger ;
-	engines m_engines ;
-	tabManager m_tabManager ;
+	explicit logWindow( QWidget * parent,settings& ) ;
+	~logWindow() ;
+	QPlainTextEdit& view() ;
+	void Show() ;
+private:
+	Ui::logWindow * m_ui ;
 	settings& m_settings ;
-	bool m_showTrayIcon ;
-	void closeEvent( QCloseEvent * ) ;
 };
 
-#endif // MAINWINDOW_H
+#endif // LOGWINDOW_H

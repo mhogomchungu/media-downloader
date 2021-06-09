@@ -15,6 +15,7 @@ library.cpp \
 settings.cpp \
 tabmanager.cpp \
 utility.cpp \
+logwindow.cpp \
 engines/youtube-dl.cpp \
 engines/gallery-dl.cpp
 
@@ -31,7 +32,8 @@ tabmanager.h \
 utility.h \
 
 FORMS += \
-mainwindow.ui
+mainwindow.ui \
+logwindow.ui
 
 TRANSLATIONS = \
 ../translations/en_US.ts \

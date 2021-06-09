@@ -49,10 +49,12 @@ configure_file(
 add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 set(UI_FILES
-    src/mainwindow.ui)
+    src/mainwindow.ui
+    src/logwindow.ui)
 
 set(MOC_FILES
     src/mainwindow.h
+    src/logwindow.h
     src/basicdownloader.h
     src/batchdownloader.h
     src/batchfiledownloader.h
@@ -62,6 +64,7 @@ set(MOC_FILES
 
 set(SRC
     src/mainwindow.cpp
+    src/logwindow.cpp
     src/main.cpp
     src/settings.cpp
     src/utility.cpp

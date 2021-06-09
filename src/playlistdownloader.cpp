@@ -51,6 +51,17 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		if( row == -1 ){
 
+			QMenu m ;
+
+			auto ac = m.addAction( tr( "Show Log Window" ) ) ;
+
+			connect( ac,&QAction::triggered,[ this ](){
+
+				m_ctx.logger().showLogWindow() ;
+			} ) ;
+
+			m.exec( QCursor::pos() ) ;
+
 			return ;
 		}
 
@@ -109,6 +120,13 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
 
 			this->download( engine,std::move( indexes ) ) ;
+		} ) ;
+
+		ac = m.addAction( tr( "Show Log Window" ) ) ;
+
+		connect( ac,&QAction::triggered,[ this ](){
+
+			m_ctx.logger().showLogWindow() ;
 		} ) ;
 
 		m.exec( QCursor::pos() ) ;

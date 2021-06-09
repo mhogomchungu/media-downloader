@@ -149,83 +149,98 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
-		if( m_table.rowCount() > 0 ){
+		auto row = m_table.currentRow() ;
 
-			auto row = m_table.currentRow() ;
-
-			if( row == -1 ){
-
-				return ;
-			}
-
-			auto txt = m_table.item( row,2 ).text() ;
-
-			auto running = downloadManager::finishedStatus::running( txt ) ;
-			auto finishSuccess = downloadManager::finishedStatus::finishedWithSuccess( txt ) ;
+		if( row == -1 ){
 
 			QMenu m ;
 
-			auto ac = m.addAction( tr( "Open" ) ) ;
-
-			ac->setEnabled( finishSuccess ) ;
-
-			connect( ac,&QAction::triggered,[ this,row ](){
-
-				auto m = m_ui.cbEngineTypeBD->currentText() ;
-				m_ctx.Engines().openUrls( m_table.item( row,0 ),m ) ;
-			} ) ;
-
-			ac = m.addAction( tr( "Cancel" ) ) ;
-
-			ac->setEnabled( running ) ;
-
-			connect( ac,&QAction::triggered,[ this,row ](){
-
-				m_terminator.terminateSignal( row ) ;
-			} ) ;
-
-			ac = m.addAction( tr( "Remove" ) ) ;
-
-			ac->setEnabled( !m_running ) ;
-
-			connect( ac,&QAction::triggered,[ this,row ](){
-
-				m_table.removeRow( row ) ;
-
-				m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
-			} ) ;
-
-			ac = m.addAction( tr( "Get List" ) ) ;
-			ac->setEnabled( !running ) ;
+			auto ac = m.addAction( tr( "Show Log Window" ) ) ;
 
 			connect( ac,&QAction::triggered,[ this ](){
 
-				this->showList() ;
-			} ) ;
-
-			ac = m.addAction( tr( "Download" ) ) ;
-			ac->setEnabled( !running && !finishSuccess ) ;
-
-			connect( ac,&QAction::triggered,[ this,row ](){
-
-				auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-				const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
-
-				downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
-
-				auto e = m_table.item( row,2 ).text() ;
-
-				if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
-
-					indexes.add( row ) ;
-				}
-
-				this->download( engine,std::move( indexes ) ) ;
+				m_ctx.logger().showLogWindow() ;
 			} ) ;
 
 			m.exec( QCursor::pos() ) ;
+
+			return ;
 		}
+
+		auto txt = m_table.item( row,2 ).text() ;
+
+		auto running = downloadManager::finishedStatus::running( txt ) ;
+		auto finishSuccess = downloadManager::finishedStatus::finishedWithSuccess( txt ) ;
+
+		QMenu m ;
+
+		auto ac = m.addAction( tr( "Open" ) ) ;
+
+		ac->setEnabled( finishSuccess ) ;
+
+		connect( ac,&QAction::triggered,[ this,row ](){
+
+			auto m = m_ui.cbEngineTypeBD->currentText() ;
+			m_ctx.Engines().openUrls( m_table.item( row,0 ),m ) ;
+		} ) ;
+
+		ac = m.addAction( tr( "Cancel" ) ) ;
+
+		ac->setEnabled( running ) ;
+
+		connect( ac,&QAction::triggered,[ this,row ](){
+
+			m_terminator.terminateSignal( row ) ;
+		} ) ;
+
+		ac = m.addAction( tr( "Remove" ) ) ;
+
+		ac->setEnabled( !m_running ) ;
+
+		connect( ac,&QAction::triggered,[ this,row ](){
+
+			m_table.removeRow( row ) ;
+
+			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
+		} ) ;
+
+		ac = m.addAction( tr( "Get List" ) ) ;
+		ac->setEnabled( !running ) ;
+
+		connect( ac,&QAction::triggered,[ this ](){
+
+			this->showList() ;
+		} ) ;
+
+		ac = m.addAction( tr( "Download" ) ) ;
+		ac->setEnabled( !running && !finishSuccess ) ;
+
+		connect( ac,&QAction::triggered,[ this,row ](){
+
+			auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
+
+			const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+
+			downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
+
+			auto e = m_table.item( row,2 ).text() ;
+
+			if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
+
+				indexes.add( row ) ;
+			}
+
+			this->download( engine,std::move( indexes ) ) ;
+		} ) ;
+
+		ac = m.addAction( tr( "Show Log Window" ) ) ;
+
+		connect( ac,&QAction::triggered,[ this ](){
+
+			m_ctx.logger().showLogWindow() ;
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
 	} ) ;
 
 	connect( m_ui.pbBDQuit,&QPushButton::clicked,[ this ](){
