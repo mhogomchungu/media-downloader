@@ -199,7 +199,7 @@ public:
 			this->uiEnableAll( true ) ;
 			m_cancelButton.setEnabled( false ) ;
 
-			finished( { index,false,std::move( exitState ) } ) ;
+			finished( { index,true,std::move( exitState ) } ) ;
 		}else{
 			m_counter++ ;
 
