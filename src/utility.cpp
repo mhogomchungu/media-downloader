@@ -284,6 +284,7 @@ bool utility::platformIsNOTWindows()
 QMenu * utility::details::sMo( const Context& ctx,
 			       const QStringList&,
 			       bool addClear,
+			       bool addOpenFolder,
 			       QPushButton * w )
 {
 	auto m = w->menu() ;
@@ -315,21 +316,20 @@ QMenu * utility::details::sMo( const Context& ctx,
 		menu->addAction( a )->setObjectName( options ) ;
 	} ) ;
 
-	if( addClear ){
+	if( addClear ){		
 
 		menu->addSeparator() ;
 
-		translator::entry ss( QObject::tr( "Clear Options" ),
-						   utility::selectedAction::CLEAROPTIONS,
-						   utility::selectedAction::CLEAROPTIONS ) ;
-
-		translator.addAction( menu,std::move( ss ) ) ;
-
-		translator::entry sx( QObject::tr( "Clear Screen" ),
+		translator::entry sx( QObject::tr( "Clear" ),
 						   utility::selectedAction::CLEARSCREEN,
 						   utility::selectedAction::CLEARSCREEN ) ;
 
 		translator.addAction( menu,std::move( sx ) ) ;
+	}
+
+	if( addOpenFolder ){
+
+		menu->addSeparator() ;
 
 		translator::entry mm( QObject::tr( "Open Download Folder" ),
 						   utility::selectedAction::OPENFOLDER,

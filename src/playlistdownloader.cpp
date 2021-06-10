@@ -49,20 +49,23 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		auto row = m_table.currentRow() ;
 
+		auto function = [ this ]( const utility::contextState& c ){
+
+			if( c.showLogWindow() ){
+
+				m_ctx.logger().showLogWindow() ;
+
+			}else if( c.clear() ){
+
+				m_table.clear() ;
+			}
+		} ;
+
 		if( row == -1 ){
 
 			QMenu m ;
 
-			auto ac = m.addAction( tr( "Show Log Window" ) ) ;
-
-			connect( ac,&QAction::triggered,[ this ](){
-
-				m_ctx.logger().showLogWindow() ;
-			} ) ;
-
-			m.exec( QCursor::pos() ) ;
-
-			return ;
+			return utility::appendContextMenu( m,m_running,function ) ;
 		}
 
 		auto txt = m_table.item( row,2 ).text() ;
@@ -87,7 +90,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		connect( ac,&QAction::triggered,[ this,row ](){
 
-			m_terminator.terminateSignal( row ) ;
+			m_terminator.terminate( row ) ;
 		} ) ;
 
 		ac = m.addAction( tr( "Remove" ) ) ;
@@ -122,14 +125,9 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			this->download( engine,std::move( indexes ) ) ;
 		} ) ;
 
-		ac = m.addAction( tr( "Show Log Window" ) ) ;
+		m.addSeparator() ;
 
-		connect( ac,&QAction::triggered,[ this ](){
-
-			m_ctx.logger().showLogWindow() ;
-		} ) ;
-
-		m.exec( QCursor::pos() ) ;
+		utility::appendContextMenu( m,{ m_running,finishSuccess },function ) ;
 	} ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
@@ -230,7 +228,7 @@ void playlistdownloader::disableAll()
 
 void playlistdownloader::resetMenu()
 {
-	utility::setMenuOptions( m_ctx,{},true,m_ui.pbPLOptions,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,{},false,true,m_ui.pbPLOptions,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 

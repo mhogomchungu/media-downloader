@@ -321,18 +321,24 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="312"/>
+        <location filename="../src/utility.cpp" line="313"/>
         <source>Best-audiovideo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="313"/>
+        <location filename="../src/utility.cpp" line="314"/>
         <source>Best-audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="301"/>
+        <location filename="../src/utility.cpp" line="302"/>
         <source>Preset Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="323"/>
+        <location filename="../src/utility.h" line="209"/>
+        <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -383,16 +389,6 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/translator.cpp" line="32"/>
         <source>Turkish (Turkey)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="328"/>
-        <source>Clear Screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="322"/>
-        <source>Clear Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -551,27 +547,32 @@ Each Link Should Be In Its Own Line.</source>
         <source>Dark Theme 3</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/utility.h" line="200"/>
+        <source>Show Log Window</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <location filename="../src/basicdownloader.cpp" line="193"/>
-        <location filename="../src/basicdownloader.cpp" line="323"/>
+        <location filename="../src/basicdownloader.cpp" line="321"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="303"/>
+        <location filename="../src/basicdownloader.cpp" line="301"/>
         <source>Checking installed version of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="329"/>
+        <location filename="../src/basicdownloader.cpp" line="327"/>
         <source>Found version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="333"/>
+        <location filename="../src/basicdownloader.cpp" line="331"/>
         <source>Executable Path</source>
         <translation type="unfinished"></translation>
     </message>
@@ -579,33 +580,27 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="158"/>
-        <location filename="../src/batchdownloader.cpp" line="236"/>
-        <source>Show Log Window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="177"/>
+        <location filename="../src/batchdownloader.cpp" line="180"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="187"/>
+        <location filename="../src/batchdownloader.cpp" line="190"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="196"/>
+        <location filename="../src/batchdownloader.cpp" line="199"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="207"/>
+        <location filename="../src/batchdownloader.cpp" line="210"/>
         <source>Get List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="215"/>
+        <location filename="../src/batchdownloader.cpp" line="218"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -676,28 +671,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="56"/>
-        <location filename="../src/playlistdownloader.cpp" line="125"/>
-        <source>Show Log Window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/playlistdownloader.cpp" line="75"/>
+        <location filename="../src/playlistdownloader.cpp" line="78"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="85"/>
+        <location filename="../src/playlistdownloader.cpp" line="88"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="93"/>
+        <location filename="../src/playlistdownloader.cpp" line="96"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="104"/>
+        <location filename="../src/playlistdownloader.cpp" line="107"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>

@@ -117,6 +117,7 @@ namespace utility
 		QMenu * sMo( const Context&,
 			     const QStringList& opts,
 			     bool addClear,
+			     bool addOpenFolder,
 			     QPushButton * w ) ;
 	}
 
@@ -134,7 +135,6 @@ namespace utility
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;
-
 	QString downloadFolder( const Context& ctx ) ;
 	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
 
@@ -144,6 +144,81 @@ namespace utility
 				   const QStringList& urls ) ;
 
 	bool hasDigitsOnly( const QString& e ) ;
+
+	class contextState
+	{
+	public:
+		contextState() :
+			m_running( false ),
+			m_finishedSuccess( false )
+		{
+		}
+		contextState( bool r ) :
+			m_running( r ),
+			m_finishedSuccess( false )
+		{
+		}
+		contextState( bool r,bool f ) :
+			m_running( r ),
+			m_finishedSuccess( f )
+		{
+		}
+		bool running() const
+		{
+			return m_running ;
+		}
+		bool finishedSuccess() const
+		{
+			return m_finishedSuccess ;
+		}
+		bool showLogWindow() const
+		{
+			return m_showLogWindow ;
+		}
+		void setShowLogWindow()
+		{
+			m_showLogWindow = true ;
+		}
+		bool clear() const
+		{
+			return m_clear ;
+		}
+		void setClear()
+		{
+			m_clear = true ;
+		}
+	private:
+		bool m_running ;
+		bool m_finishedSuccess ;
+		bool m_showLogWindow = false ;
+		bool m_clear = false ;
+	};
+
+	template< typename Function >
+	void appendContextMenu( QMenu& m,utility::contextState c,Function& function )
+	{
+		auto ac = m.addAction( QObject::tr( "Show Log Window" ) ) ;
+
+		QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
+
+			c.setShowLogWindow() ;
+
+			function( c ) ;
+		} ) ;
+
+		ac = m.addAction( QObject::tr( "Clear" ) ) ;
+
+		ac->setEnabled( !c.running() ) ;
+
+		QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
+
+			c.setClear() ;
+
+			function( c ) ;
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
+	}
 
 	class selectedAction
 	{
@@ -183,10 +258,11 @@ namespace utility
 	void setMenuOptions( const Context& ctx,
 			     const QStringList& opts,
 			     bool addClear,
+			     bool addOpenFolder,
 			     QPushButton * w,
 			     Function function )
 	{
-		auto menu = details::sMo( ctx,opts,addClear,w ) ;
+		auto menu = details::sMo( ctx,opts,addClear,addOpenFolder,w ) ;
 		QObject::connect( menu,&QMenu::triggered,std::move( function ) ) ;
 	}
 
@@ -342,7 +418,7 @@ namespace utility
 		{
 			auto function = []( const engines::engine& engine,QProcess& exe,int index,int idx ){
 
-				return terminate( engine,exe,index,idx ) ;
+				return terminateProcess( engine,exe,index,idx ) ;
 			} ;
 
 			auto functionConnect = [ idx,obj,member ]( auto function ){
@@ -364,7 +440,7 @@ namespace utility
 		{
 			auto function = []( const engines::engine& engine,QProcess& exe,int index,int idx ){
 
-				return terminate( engine,exe,index,idx ) ;
+				return terminateProcess( engine,exe,index,idx ) ;
 			} ;
 
 			auto functionConnect = [ this ]( auto function ){
@@ -374,7 +450,7 @@ namespace utility
 					function( index ) ;
 				} ;
 
-				return QObject::connect( this,&utility::Terminator::terminateSignal,std::move( ff ) ) ;
+				return QObject::connect( this,&utility::Terminator::terminate,std::move( ff ) ) ;
 			} ;
 
 			using type0 = decltype( function ) ;
@@ -386,16 +462,13 @@ namespace utility
 		{
 			for( int i = 0 ; i < t.rowCount() ; i++ ){
 
-				this->terminateSignal( i ) ;
+				this->terminate( i ) ;
 			}
 		}
 	signals :
-		void terminateSignal( int index ) ;
+		void terminate( int index ) ;
 	private:
-		static bool terminate( const engines::engine&,
-				       QProcess& exe,
-				       int index,
-				       int idx )
+		static bool terminateProcess( const engines::engine&,QProcess& exe,int index,int idx )
 		{
 			if( index == idx ){
 

@@ -199,7 +199,7 @@ void basicdownloader::printEngineVersionInfo( const engines::engine& engine )
 
 void basicdownloader::resetMenu( const QStringList& args )
 {
-	utility::setMenuOptions( m_ctx,args,true,m_ui.pbEntries,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,args,true,true,m_ui.pbEntries,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 
@@ -210,8 +210,6 @@ void basicdownloader::resetMenu( const QStringList& args )
 		}else if( ac.clearScreen() ){
 
 			m_ctx.logger().clear() ;
-			m_ui.lineEditURL->clear() ;
-			m_ui.lineEditOptions->clear() ;
 
 		}else if( ac.openFolderPath() ){
 

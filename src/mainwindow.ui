@@ -268,7 +268,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -574,9 +574,9 @@
        <widget class="QPushButton" name="pbFileDownloaderDownload">
         <property name="geometry">
          <rect>
-          <x>222</x>
+          <x>140</x>
           <y>360</y>
-          <width>111</width>
+          <width>151</width>
           <height>33</height>
          </rect>
         </property>
@@ -587,9 +587,9 @@
        <widget class="QPushButton" name="pbFileDownloaderQuit">
         <property name="geometry">
          <rect>
-          <x>442</x>
+          <x>500</x>
           <y>360</y>
-          <width>111</width>
+          <width>151</width>
           <height>33</height>
          </rect>
         </property>
@@ -641,9 +641,9 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbFileDownloaderOptions">
         <property name="geometry">
          <rect>
-          <x>332</x>
+          <x>290</x>
           <y>360</y>
-          <width>111</width>
+          <width>211</width>
           <height>33</height>
          </rect>
         </property>

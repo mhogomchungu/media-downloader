@@ -323,19 +323,25 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="312"/>
+        <location filename="../src/utility.cpp" line="313"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="313"/>
+        <location filename="../src/utility.cpp" line="314"/>
         <source>Best-audio</source>
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="301"/>
+        <location filename="../src/utility.cpp" line="302"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="323"/>
+        <location filename="../src/utility.h" line="209"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="334"/>
@@ -386,16 +392,6 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/translator.cpp" line="32"/>
         <source>Turkish (Turkey)</source>
         <translation>土耳其语 (土耳其)</translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="328"/>
-        <source>Clear Screen</source>
-        <translation>清除屏幕</translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="322"/>
-        <source>Clear Options</source>
-        <translation>清除选项</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="109"/>
@@ -553,27 +549,32 @@ Each Link Should Be In Its Own Line.</source>
         <source>Dark Theme 3</source>
         <translation>暗黑主题3</translation>
     </message>
+    <message>
+        <location filename="../src/utility.h" line="200"/>
+        <source>Show Log Window</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <location filename="../src/basicdownloader.cpp" line="193"/>
-        <location filename="../src/basicdownloader.cpp" line="323"/>
+        <location filename="../src/basicdownloader.cpp" line="321"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="303"/>
+        <location filename="../src/basicdownloader.cpp" line="301"/>
         <source>Checking installed version of</source>
         <translation>正在检查已安装版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="329"/>
+        <location filename="../src/basicdownloader.cpp" line="327"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="333"/>
+        <location filename="../src/basicdownloader.cpp" line="331"/>
         <source>Executable Path</source>
         <translation>可执行文件路径</translation>
     </message>
@@ -581,33 +582,27 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="158"/>
-        <location filename="../src/batchdownloader.cpp" line="236"/>
-        <source>Show Log Window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="177"/>
+        <location filename="../src/batchdownloader.cpp" line="180"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="187"/>
+        <location filename="../src/batchdownloader.cpp" line="190"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="196"/>
+        <location filename="../src/batchdownloader.cpp" line="199"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="207"/>
+        <location filename="../src/batchdownloader.cpp" line="210"/>
         <source>Get List</source>
         <translation type="unfinished">获取画质列表</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="215"/>
+        <location filename="../src/batchdownloader.cpp" line="218"/>
         <source>Download</source>
         <translation type="unfinished">下载</translation>
     </message>
@@ -678,28 +673,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="56"/>
-        <location filename="../src/playlistdownloader.cpp" line="125"/>
-        <source>Show Log Window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/playlistdownloader.cpp" line="75"/>
+        <location filename="../src/playlistdownloader.cpp" line="78"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="85"/>
+        <location filename="../src/playlistdownloader.cpp" line="88"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="93"/>
+        <location filename="../src/playlistdownloader.cpp" line="96"/>
         <source>Remove</source>
         <translation type="unfinished">移除</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="104"/>
+        <location filename="../src/playlistdownloader.cpp" line="107"/>
         <source>Download</source>
         <translation type="unfinished">下载</translation>
     </message>

@@ -76,7 +76,7 @@ void batchfiledownloader::enableAll()
 
 void batchfiledownloader::resetMenu()
 {
-	utility::setMenuOptions( m_ctx,{},false,m_ui.pbFileDownloaderOptions,[ this ]( QAction * ac ){
+	utility::setMenuOptions( m_ctx,{},false,true,m_ui.pbFileDownloaderOptions,[ this ]( QAction * ac ){
 
 		m_ui.lineEditFileOptions->setText( ac->objectName() ) ;
 
