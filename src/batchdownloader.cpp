@@ -43,6 +43,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		return opts ;
 	}() ) ;
 
+	m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::batch ) ) ;
+
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
 		m_table.selectRow( c,p,m_table.startPosition() ) ;
@@ -477,6 +479,8 @@ void batchdownloader::addItem( const QString& url,const QString& thumbnail )
 
 					auto w = s.thumbnailWidth( settings::tabName::batch ) ;
 					auto h = s.thumbnailHeight( settings::tabName::batch ) ;
+
+					m_table.get().setColumnWidth( 0,w ) ;
 
 					pixmap = pixmap.scaled( w,h ) ;
 

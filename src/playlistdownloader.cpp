@@ -44,6 +44,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		m_table.hideColumns( 0,2,3 ) ;
 	}
 
+	m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
+
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
 		m_table.selectRow( c,p,m_table.startPosition() ) ;

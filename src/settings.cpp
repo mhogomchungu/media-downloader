@@ -420,7 +420,7 @@ int settings::thumbnailWidth( settings::tabName s )
 
 	if( !m_settings.contains( m ) ){
 
-		m_settings.setValue( m,120 ) ;
+		m_settings.setValue( m,128 ) ;
 	}
 
 	return m_settings.value( m ).toInt() ;
@@ -432,7 +432,7 @@ int settings::thumbnailHeight( settings::tabName s )
 
 	if( !m_settings.contains( m ) ){
 
-		m_settings.setValue( m,60 ) ;
+		m_settings.setValue( m,72 ) ;
 	}
 
 	return m_settings.value( m ).toInt() ;
