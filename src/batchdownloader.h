@@ -77,15 +77,20 @@ private:
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
+	void addItem( const QString& url,const QString& thumbnail ) ;
+
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
+	bool m_showThumbnails ;
 	tableWidget m_table ;
 	tableWidget m_tableWidgetBDList ;
 	bool m_running ;
 	bool m_debug ;
+	int m_networkRunning = false ;
+
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;
 

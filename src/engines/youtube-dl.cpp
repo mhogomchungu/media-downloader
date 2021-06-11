@@ -130,6 +130,7 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 
 			arr.append( "--get-id" ) ;
 			arr.append( "--get-title" ) ;
+			arr.append( "--get-thumbnail" ) ;
 
 			return arr ;
 		}() ) ;
@@ -202,6 +203,7 @@ void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 
 			arr.append( "--get-id" ) ;
 			arr.append( "--get-title" ) ;
+			arr.append( "--get-thumbnail" ) ;
 
 			return arr ;
 		}() ) ;

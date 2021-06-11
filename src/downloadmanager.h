@@ -28,8 +28,8 @@
 
 #include "engines.h"
 #include "context.hpp"
-
 #include "utility.h"
+#include "tableWidget.h"
 
 class downloadManager
 {
@@ -77,17 +77,17 @@ public:
 		{
 			return finishedWithSuccess() == e  ;
 		}
-		static bool finishedCancelled( QTableWidget& e,int row )
+		static bool finishedCancelled( tableWidget& e,int row )
 		{
-			return finishedCancelled( e.item( row,2 )->text() ) ;
+			return finishedCancelled( e.runningState( row ) ) ;
 		}
-		static bool finishedWithError( QTableWidget& e,int row )
+		static bool finishedWithError( tableWidget& e,int row )
 		{
-			return finishedWithError( e.item( row,2 )->text() ) ;
+			return finishedWithError( e.runningState( row ) ) ;
 		}
-		static bool finishedWithSuccess( QTableWidget& e,int row )
+		static bool finishedWithSuccess( tableWidget& e,int row )
 		{
-			return finishedWithSuccess( e.item( row,2 )->text() ) ;
+			return finishedWithSuccess( e.runningState( row ) ) ;
 		}
 		void setState( QTableWidgetItem& item ) const
 		{
@@ -243,7 +243,7 @@ public:
 	}
 	template< typename Options,typename Logger >
 	void download( const engines::engine& engine,
-		       int index,
+		       QTableWidgetItem& index,
 		       const QString& url,
 		       utility::Terminator& terminator,
 		       Options opts,
@@ -260,9 +260,7 @@ public:
 
 		const auto& quality = m_index->options().quality ;
 
-		auto& table = m_index->table() ;
-
-		table.item( index,2 )->setText( finishedStatus::running() ) ;
+		index.setText( finishedStatus::running() ) ;
 
 		utility::run( engine,
 			      utility::updateOptions( engine,m_settings,quality,{ u } ),

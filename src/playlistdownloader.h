@@ -56,7 +56,9 @@ private:
 	tabManager& m_tabManager ;
 	tableWidget m_table ;
 
+	bool m_showThumbnails ;
 	bool m_running ;
+	int m_networkRunning = 0 ;
 
 	downloadManager m_ccmd ;
 

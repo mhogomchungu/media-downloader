@@ -27,6 +27,7 @@
 #include "downloadmanager.h"
 #include "utility.h"
 #include "version.h"
+#include "tableWidget.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -115,11 +116,11 @@ engines::engines( Logger& l,settings& s ) :
 	this->updateEngines( true ) ;
 }
 
-static void _openUrls( QTableWidgetItem& item,settings& settings,bool galleryDl )
+static void _openUrls( tableWidget& table,int row,settings& settings,bool galleryDl )
 {
-	if( downloadManager::finishedStatus::finishedWithSuccess( *item.tableWidget(),item.row() ) ){
+	if( downloadManager::finishedStatus::finishedWithSuccess( table,row ) ){
 
-		auto m = utility::split( item.text(),'\n',true ) ;
+		auto m = utility::split( table.uiText( row ),'\n',true ) ;
 
 		m.removeFirst() ;
 
@@ -134,23 +135,25 @@ static void _openUrls( QTableWidgetItem& item,settings& settings,bool galleryDl 
 			}else{
 				auto m = QUrl::fromLocalFile( settings.downloadFolder() + "/" + it ) ;
 
+				qDebug() << m ;
+
 				QDesktopServices::openUrl( m ) ;
 			}
 		}
 	}
 }
 
-void engines::openUrls( QTableWidgetItem& item,const QString& engineName ) const
+void engines::openUrls( tableWidget& table,int row,const QString& engineName ) const
 {
 	if( engineName.isEmpty() ){
 
-		_openUrls( item,m_settings,false ) ;
+		_openUrls( table,row,m_settings,false ) ;
 	}else{
 		const auto& engine = this->getEngineByName( engineName ) ;
 
 		if( engine && ( engine->likeYoutubeDl() || engine->name() == "gallery-dl" ) ) {
 
-			_openUrls( item,m_settings,engine->name() == "gallery-dl" ) ;
+			_openUrls( table,row,m_settings,engine->name() == "gallery-dl" ) ;
 		}
 	}
 }

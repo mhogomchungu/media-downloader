@@ -39,10 +39,46 @@ public:
 		bool mouseTracking = true ;
 	};
 
-	static void addItem( QTableWidget&,const QStringList&,int alignment = Qt::AlignCenter ) ;
-	static void selectLast( QTableWidget& ) ;
+	QTableWidgetItem& uiTextItem( int row ) const
+	{
+		return *m_table.item( row,m_init ) ;
+	}
+	QTableWidgetItem& bkTextItem( int row ) const
+	{
+		return *m_table.item( row,m_init + 1 ) ;
+	}
+	QTableWidgetItem& runningStateItem( int row ) const
+	{
+		return *m_table.item( row,m_init + 2 ) ;
+	}
+	QString uiText( int row ) const
+	{
+		return this->uiTextItem( row ).text() ;
+	}
+	QString bkText( int row ) const
+	{
+		return this->bkTextItem( row ).text() ;
+	}
+	QString runningState( int row ) const
+	{
+		return this->runningStateItem( row ).text() ;
+	}
+	int startPosition() const
+	{
+		return m_init ;
+	}
+	template< typename ... T >
+	void hideColumns( T ... t )
+	{
+		for( auto it : { t ... } ){
 
+			m_table.hideColumn( it ) ;
+		}
+	}
 	void setTableWidget( const tableWidget::tableWidgetOptions& ) ;
+	void replace( const QPixmap&,const QStringList&,int row,int alignment = Qt::AlignCenter ) ;
+	int addRow() ;
+	int addItem( const QPixmap&,const QStringList&,int alignment = Qt::AlignCenter ) ;
 	void addItem( const QStringList&,int alignment = Qt::AlignCenter ) ;
 	void addItem( const QString&,int alignment = Qt::AlignCenter ) ;
 	void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
@@ -56,7 +92,7 @@ public:
 	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts ) ;
 	void showOptions( const engines::engine& engine,const QList< QByteArray >& args ) ;
 
-	tableWidget( QTableWidget& t,const QFont& font ) ;
+	tableWidget( QTableWidget& t,const QFont& font,int init ) ;
 
 	QTableWidgetItem& item( int row,int column ) const ;
 
@@ -70,6 +106,7 @@ public:
 private:
 	QTableWidget& m_table ;
 	const QFont& m_font ;
+	int m_init ;
 } ;
 
 #endif

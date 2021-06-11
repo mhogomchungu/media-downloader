@@ -268,7 +268,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -292,6 +292,11 @@
         <property name="showGrid">
          <bool>false</bool>
         </property>
+        <column>
+         <property name="text">
+          <string>Thumbnail</string>
+         </property>
+        </column>
         <column>
          <property name="text">
           <string>Url To Download</string>
@@ -846,6 +851,11 @@ Each Link Should Be In Its Own Line.</string>
       </property>
       <column>
        <property name="text">
+        <string>Thumbnail</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Url To Download</string>
        </property>
       </column>
@@ -1062,7 +1072,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1220,7 +1230,7 @@ Each Link Should Be In Its Own Line.</string>
          <string>Add a Plugin</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="cbConfigureBatchDownloadConcurrently">
+       <widget class="QCheckBox" name="cbConfigureShowThumbnails">
         <property name="geometry">
          <rect>
           <x>190</x>
@@ -1230,7 +1240,7 @@ Each Link Should Be In Its Own Line.</string>
          </rect>
         </property>
         <property name="text">
-         <string>Batch Download Concurrently</string>
+         <string>Show Thumbnail (Need A Restart)</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="lineEditConfigureMaximuConcurrentDownloads">
@@ -1656,7 +1666,7 @@ Each Link Should Be In Its Own Line.</string>
   <tabstop>comboBoxConfigureDarkTheme</tabstop>
   <tabstop>cbUseSystemVersionIfAvailable</tabstop>
   <tabstop>cbConfigureShowVersionInfo</tabstop>
-  <tabstop>cbConfigureBatchDownloadConcurrently</tabstop>
+  <tabstop>cbConfigureShowThumbnails</tabstop>
   <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>
   <tabstop>tabWidgetConfigure</tabstop>

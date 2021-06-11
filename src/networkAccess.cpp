@@ -34,19 +34,6 @@
 #include <QJsonArray>
 #include <QDir>
 
-static QNetworkRequest _network_request( const QString& url )
-{
-	QNetworkRequest networkRequest( url ) ;
-#if QT_VERSION >= QT_VERSION_CHECK( 5,9,0 )
-	networkRequest.setAttribute( QNetworkRequest::RedirectPolicyAttribute,QNetworkRequest::NoLessSafeRedirectPolicy ) ;
-#else
-	#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
-		networkRequest.setAttribute( QNetworkRequest::FollowRedirectsAttribute,true ) ;
-	#endif
-#endif
-	return networkRequest ;
-}
-
 networkAccess::networkAccess( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
@@ -68,6 +55,19 @@ networkAccess::networkAccess( const Context& ctx ) :
 			e.add( QObject::tr( "Found version" ) + ": " + s ) ;
 		}
 	}
+}
+
+QNetworkRequest networkAccess::networkRequest( const QString& url )
+{
+	QNetworkRequest networkRequest( url ) ;
+#if QT_VERSION >= QT_VERSION_CHECK( 5,9,0 )
+	networkRequest.setAttribute( QNetworkRequest::RedirectPolicyAttribute,QNetworkRequest::NoLessSafeRedirectPolicy ) ;
+#else
+	#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+		networkRequest.setAttribute( QNetworkRequest::FollowRedirectsAttribute,true ) ;
+	#endif
+#endif
+	return networkRequest ;
 }
 
 void networkAccess::download( const engines::engine& engine )
@@ -117,7 +117,7 @@ void networkAccess::download( const engines::engine& engine )
 
 	QString url( engine.downloadUrl() ) ;
 
-	auto networkReply = m_accessManager.get( _network_request( url ) ) ;
+	auto networkReply = m_accessManager.get( this->networkRequest( url ) ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ this,&engine ]( qint64 received,qint64 total ){
 
@@ -201,7 +201,7 @@ void networkAccess::download( const metadata& metadata,const engines::engine& en
 
 	this->post( engine,QObject::tr( "Destination" ) + ": " + filePath ) ;
 
-	auto networkReply = m_accessManager.get( _network_request( metadata.url ) ) ;
+	auto networkReply = m_accessManager.get( this->networkRequest( metadata.url ) ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
 

@@ -28,6 +28,8 @@
 #if MD_NETWORK_SUPPORT
 
 #include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkReply>
+
 #include <QFile>
 #include <QStringList>
 
@@ -49,7 +51,20 @@ public:
 			return false ;
 		#endif
 	}
+
+	template< typename Function >
+	void getResource( const QString& url,Function function )
+	{
+		auto networkReply = m_accessManager.get( this->networkRequest( url ) ) ;
+
+		QObject::connect( networkReply,&QNetworkReply::finished,[ networkReply,function = std::move( function ) ](){
+
+			function( networkReply->readAll() ) ;
+		} ) ;
+	}
 private:
+	QNetworkRequest networkRequest( const QString& url ) ;
+
 	struct metadata
 	{
 		qint64 size ;
@@ -79,6 +94,11 @@ public:
 	}
 	void download( const engines::engine& )
 	{
+	}
+	template< typename Function >
+	void getResource( const QString&,Function function )
+	{
+		function( QByteArray() ) ;
 	}
 private:
 

@@ -316,11 +316,11 @@ static auto make_loggerBatchDownloader( Function function,
 	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,logger,item,id ) ;
 }
 
-template< typename AddToTable >
+template< typename AddToTable,typename TableWidget >
 class loggerPlaylistDownloader
 {
 public:
-	loggerPlaylistDownloader( QTableWidget& t,
+	loggerPlaylistDownloader( TableWidget& t,
 				  Logger& logger,
 				  const QString& u,
 				  int id,
@@ -359,19 +359,20 @@ public:
 private:
 	void update()
 	{
-		auto s = m_lines.size() ;
+		auto s = m_lines.toStringList() ;
+		auto m = s.size() ;
 
-		if( s > 0 && s % 2 == 0 ){
+		if( m > 2 && m % 3 == 0 ){
 
-			auto a = m_urlPrefix + m_lines.lastText() ;
-			auto b = m_lines.secondFromLast() ;
-			auto c = a + "\n" + b ;
+			const auto& first  = s[ m - 3 ] ;
+			const auto& second = s[ m - 2 ] ;
+			const auto& last   = s[ m - 1 ] ;
 
-			m_addToTable( m_table,c ) ;
+			m_addToTable( m_table,m_urlPrefix + second + "\n" + first,last ) ;
 		}
 	}
 private:
-	QTableWidget& m_table ;
+	TableWidget& m_table ;
 	Logger& m_logger ;
 	const QString& m_urlPrefix ;
 	Logger::Data m_lines ;
@@ -379,13 +380,13 @@ private:
 	AddToTable m_addToTable ;
 };
 
-template< typename AddToTable >
-auto make_loggerPlaylistDownloader( QTableWidget& t,
+template< typename AddToTable,typename TableWidget >
+auto make_loggerPlaylistDownloader( TableWidget& t,
 				    Logger& logger,
 				    const QString& u,
 				    int id,
 				    AddToTable add )
 {
-	return loggerPlaylistDownloader< AddToTable >( t,logger,u,id,std::move( add ) ) ;
+	return loggerPlaylistDownloader< AddToTable,TableWidget >( t,logger,u,id,std::move( add ) ) ;
 }
 #endif

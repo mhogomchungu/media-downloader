@@ -20,6 +20,7 @@
 #include "playlistdownloader.h"
 #include "tabmanager.h"
 #include "tableWidget.h"
+#include "networkAccess.h"
 
 #include <QFileDialog>
 
@@ -29,20 +30,23 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font() ),
+	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),1 ),
+	m_showThumbnails( true ),
 	m_running( false ),
 	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings )
 {
 	this->resetMenu() ;
 
-	auto& t = m_table.get() ;
+	if( m_showThumbnails ){
 
-	t.hideColumn( 1 ) ;
-	t.hideColumn( 2 ) ;
+		m_table.hideColumns( 2,3 ) ;
+	}else{
+		m_table.hideColumns( 0,2,3 ) ;
+	}
 
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
-		m_table.selectRow( c,p,0 ) ;
+		m_table.selectRow( c,p,m_table.startPosition() ) ;
 	} ) ;
 
 	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
@@ -68,7 +72,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			return utility::appendContextMenu( m,m_running,function ) ;
 		}
 
-		auto txt = m_table.item( row,2 ).text() ;
+		auto txt = m_table.runningState( row ) ;
 
 		auto running = downloadManager::finishedStatus::running( txt ) ;
 		auto finishSuccess = downloadManager::finishedStatus::finishedWithSuccess( txt ) ;
@@ -82,7 +86,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		connect( ac,&QAction::triggered,[ this,row ](){
 
 			auto m = m_ui.cbEngineTypePD->currentText() ;
-			m_ctx.Engines().openUrls( m_table.item( row,0 ),m ) ;
+			m_ctx.Engines().openUrls( m_table,row,m ) ;
 		} ) ;
 
 		ac = m.addAction( tr( "Cancel" ) ) ;
@@ -95,7 +99,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		ac = m.addAction( tr( "Remove" ) ) ;
 
-		ac->setEnabled( !m_running ) ;
+		ac->setEnabled( !m_running && !m_networkRunning ) ;
 
 		connect( ac,&QAction::triggered,[ this,row ](){
 
@@ -111,7 +115,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			downloadManager::index indexes( m_table.get(),m_ui.lineEditPLUrlOptions->text() ) ;
 
-			auto e = m_table.item( row,2 ).text() ;
+			auto e = m_table.runningState( row ) ;
 
 			if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
@@ -139,6 +143,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbPLCancel,&QPushButton::clicked,[ this ](){
 
+		m_networkRunning = 0 ;
+
 		m_terminator.terminateAll( m_table.get() ) ;
 	} ) ;
 
@@ -146,7 +152,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		Q_UNUSED( column )
 
-		m_ctx.Engines().openUrls( m_table.item( row,0 ),
+		m_ctx.Engines().openUrls( m_table,
+					  row,
 					  m_ui.cbEngineTypePD->currentText() ) ;
 	} ) ;
 
@@ -353,7 +360,7 @@ void playlistdownloader::download( const engines::engine& engine )
 	
 	auto _add = [ & ]( int s ){
 
-		auto e = m_table.item( s,2 ).text() ;
+		auto e = m_table.runningState( s ) ;
 
 		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
@@ -424,7 +431,7 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 			m_running = !f.allFinished() ;
 
-			utility::updateFinishedState( engine,m_settings,m_table.get(),f ) ;
+			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
@@ -435,14 +442,14 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
 
 	m_ccmd.download( engine,
-			 index,
-			 m_table.item( index,1 ).text(),
+			 m_table.runningStateItem( index ),
+			 m_table.bkText( index ),
 			 m_terminator,
 			 playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
 						     engine,
 						     m_ctx.logger(),
-						     m_table.item( index,0 ),
+						     m_table.uiTextItem( index ),
 						     utility::concurrentID() ) ) ;
 }
 
@@ -471,8 +478,13 @@ void playlistdownloader::getList()
 
 	if( !range.isEmpty() ){
 
-		opts.append( engine.playlistItemsArgument() ) ;
-		opts.append( range ) ;
+		if( range.startsWith( "--" ) ){
+
+			opts.append( utility::split( range,' ',true ) ) ;
+		}else{
+			opts.append( engine.playlistItemsArgument() ) ;
+			opts.append( range ) ;
+		}
 	}
 
 	opts.append( m_ui.lineEditPLUrl->text() ) ;
@@ -493,18 +505,69 @@ void playlistdownloader::getList()
 
 	m_running = true ;
 
-	auto bb = []( QTableWidget& table,const QString& txt ){
+	m_networkRunning = 0 ;
+
+	auto bb = [ this ]( tableWidget& table,const QString& txt,const QString& urlThumbnail ){
+
+		settings& ss = m_ctx.Settings() ;
+
+		auto width = ss.thumbnailWidth( settings::tabName::playlist ) ;
+		auto height = ss.thumbnailHeight( settings::tabName::playlist ) ;
 
 		auto s = downloadManager::finishedStatus::notStarted() ;
-		tableWidget::addItem( table,{ txt,txt,s },Qt::AlignCenter ) ;
-		tableWidget::selectLast( table ) ;
+
+		table.selectLast() ;
+
+		if( !m_showThumbnails ){
+
+			auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
+
+			table.addItem( pixmap,{ txt,txt,s },Qt::AlignCenter ) ;
+
+			table.selectLast() ;
+
+			return ;
+		}
+
+		if( networkAccess::hasNetworkSupport() ){
+
+			auto& network = m_ctx.TabManager().Configure().network() ;
+
+			m_networkRunning++ ;
+
+			int row = table.addRow() ;
+
+			network.getResource( urlThumbnail,[ this,&table,s,txt,row,width,height ]( QByteArray data ){
+
+				QPixmap pixmap ;
+
+				if( pixmap.loadFromData( data ) ){
+
+					pixmap = pixmap.scaled( width,height ) ;	
+				}else{
+					pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
+				}
+
+				table.replace( pixmap,{ txt,txt,s },row ) ;
+
+				table.selectLast() ;
+
+				m_networkRunning-- ;
+			} ) ;
+		}else{
+			auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
+
+			table.addItem( pixmap,{ txt,txt,s },Qt::AlignCenter ) ;
+
+			table.selectLast() ;
+		}
 	} ;
 
 	utility::run( engine,
 		      opts,
 		      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality,
 		      playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,-1 },std::move( functions ) ),
-		      make_loggerPlaylistDownloader( m_table.get(),
+		      make_loggerPlaylistDownloader( m_table,
 						     m_ctx.logger(),
 						     engine.playListUrlPrefix(),
 						     utility::concurrentID(),

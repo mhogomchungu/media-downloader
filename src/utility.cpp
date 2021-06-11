@@ -22,6 +22,7 @@
 #include "settings.h"
 #include "context.hpp"
 #include "downloadmanager.h"
+#include "tableWidget.h"
 
 #include <QEventLoop>
 #include <QDesktopServices>

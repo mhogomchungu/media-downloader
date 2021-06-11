@@ -37,6 +37,8 @@
 
 #include "engines.h"
 
+#include "tableWidget.h"
+
 class Context ;
 
 class tabManager ;
@@ -445,7 +447,7 @@ namespace utility
 
 			auto functionConnect = [ this ]( auto function ){
 
-				auto ff = [ this,function = std::move( function ) ]( int index ){
+				auto ff = [ function = std::move( function ) ]( int index ){
 
 					function( index ) ;
 				} ;
@@ -961,21 +963,21 @@ namespace utility
 	template< typename FinishedState >
 	void updateFinishedState( const engines::engine& engine,
 				  settings& s,
-				  QTableWidget& table,
+				  tableWidget& table,
 				  const FinishedState& f )
 	{
 		const auto& index = f.index() ;
 		const auto& es = f.exitState() ;
 
-		f.setState( *table.item( index,2 ) ) ;
+		f.setState( table.runningStateItem( index ) ) ;
 
-		const auto backUpUrl = table.item( index,1 )->text() ;
+		const auto backUpUrl = table.bkText( index ) ;
 
-		auto item = table.item( index,0 ) ;
+		auto& item = table.uiTextItem( index ) ;
 
-		auto a = item->text() ;
+		auto a = item.text() ;
 
-		item->setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ) ) ;
+		item.setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ) ) ;
 
 		if( !es.cancelled() ){
 

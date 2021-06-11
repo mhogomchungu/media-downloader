@@ -304,16 +304,6 @@ bool settings::useSystemProvidedVersionIfAvailable()
 	return m_settings.value( "UseSystemProvidedVersionIfAvailable" ).toBool() ;
 }
 
-bool settings::doNotGetUrlTitle()
-{
-	if( !m_settings.contains( "DoNotGetURLTitle" ) ){
-
-		m_settings.setValue( "DoNotGetURLTitle",true ) ;
-	}
-
-	return m_settings.value( "DoNotGetURLTitle" ).toBool() ;
-}
-
 QStringList settings::engineDefaultDownloadOptions( const QString& engineName )
 {
 	auto m = "EngineDefaultDownloadOptions_" + engineName ;
@@ -395,9 +385,57 @@ void settings::setUseSystemProvidedVersionIfAvailable( bool e )
 	m_settings.setValue( "UseSystemProvidedVersionIfAvailable",e ) ;
 }
 
-void settings::setConcurrentDownloading( bool e )
+void settings::setShowThumbnails( bool e )
 {
-	m_settings.setValue( "ConcurrentDownloading",e ) ;
+	m_settings.setValue( "ShowThumbnails",e ) ;
+}
+
+bool settings::showThumbnails()
+{
+	if( !m_settings.contains( "ShowThumbnails" ) ){
+
+		m_settings.setValue( "ShowThumbnails",false ) ;
+	}
+
+	return m_settings.value( "ShowThumbnails" ).toBool() ;
+}
+
+static QString _thumbnailTabName( const QString& s, settings::tabName e )
+{
+	if( e == settings::tabName::batch ){
+
+		return s + "_batch" ;
+
+	}else if( e == settings::tabName::playlist ){
+
+		return s + "_playlist" ;
+	}else{
+		return "" ;
+	}
+}
+
+int settings::thumbnailWidth( settings::tabName s )
+{
+	auto m = _thumbnailTabName( "ThumbnailWidth",s ) ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,120 ) ;
+	}
+
+	return m_settings.value( m ).toInt() ;
+}
+
+int settings::thumbnailHeight( settings::tabName s )
+{
+	auto m = _thumbnailTabName( "ThumbnailHeight",s ) ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,60 ) ;
+	}
+
+	return m_settings.value( m ).toInt() ;
 }
 
 void settings::setShowVersionInfoWhenStarting( bool e )

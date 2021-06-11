@@ -28,7 +28,7 @@ library::library( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
-	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font() ),
+	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font(),1 ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
 	m_currentPath( m_settings.libraryDownloadFolder() )
 {
@@ -36,7 +36,7 @@ library::library( const Context& ctx ) :
 
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
-		m_table.selectRow( c,p,1 ) ;
+		m_table.selectRow( c,p,m_table.startPosition() ) ;
 	} ) ;
 
 	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
@@ -47,9 +47,9 @@ library::library( const Context& ctx ) :
 
 			auto row = m_table.currentRow() ;
 
-			if( row != -1 && m_table.item( row,1 ).isSelected() ){
+			if( row != -1 && m_table.uiTextItem( row ).isSelected() ){
 
-				auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
+				auto m = m_currentPath + "/" + m_table.uiText( row ) ;
 
 				m_ctx.TabManager().disableAll() ;
 
@@ -142,9 +142,9 @@ library::library( const Context& ctx ) :
 
 		Q_UNUSED( column )
 
-		auto s = m_table.item( row,1 ).text() ;
+		auto s = m_table.uiText( row ) ;
 
-		if( m_table.item( row,2 ).text() == "folder" ){
+		if( m_table.bkText( row ) == "folder" ){
 
 			m_currentPath +=  "/" + s ;
 
@@ -237,10 +237,10 @@ static void _addItem( tableWidget& t,const QString& text,const QFont& font,bool 
 	if( file ){
 
 		item1->setText( "file" ) ;
-		label ->setPixmap( QIcon( ":/video" ).pixmap( 25,25 ) ) ;
+		label ->setPixmap( QIcon( ":/video" ).pixmap( 30,40 ) ) ;
 	}else{
 		item1->setText( "folder" ) ;
-		label ->setPixmap( QIcon( ":/folder" ).pixmap( 25,25 ) ) ;
+		label ->setPixmap( QIcon( ":/folder" ).pixmap( 30,40 ) ) ;
 	}
 
 	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;

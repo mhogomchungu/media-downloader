@@ -39,6 +39,64 @@ void tableWidget::setTableWidget( const tableWidget::tableWidgetOptions& s )
 	m_table.setSelectionMode( s.selectionMode ) ;
 }
 
+void tableWidget::replace( const QPixmap& p,const QStringList& list,int row,int alignment )
+{
+	auto label = new QLabel() ;
+	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
+	label ->setPixmap( p ) ;
+
+	m_table.setCellWidget( row,0,label ) ;
+
+	for( int i = 0 ; i < list.size() ; i++ ){
+
+		auto item = m_table.item( row,i + 1 ) ;
+		item->setText( list.at( i ) ) ;
+		item->setTextAlignment( alignment ) ;
+	}
+}
+
+int tableWidget::addRow()
+{
+	auto row = m_table.rowCount() ;
+
+	m_table.insertRow( row ) ;
+
+	for( int i = 0 ; i < m_table.columnCount() ; i++ ){
+
+		auto item = new QTableWidgetItem() ;
+
+		m_table.setItem( row,i,item ) ;
+	}
+
+	return row ;
+}
+
+int tableWidget::addItem( const QPixmap& p,const QStringList& list,int alignment )
+{
+	auto row = m_table.rowCount() ;
+
+	m_table.insertRow( row ) ;
+
+	for( int i = 0 ; i < list.size() ; i++ ){
+
+		auto item = new QTableWidgetItem() ;
+
+		item->setText( list.at( i ) ) ;
+
+		item->setTextAlignment( alignment ) ;
+
+		m_table.setItem( row,i + 1,item ) ;
+	}
+
+	auto label = new QLabel() ;
+	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
+	label ->setPixmap( p ) ;
+
+	m_table.setCellWidget( row,0,label ) ;
+
+	return row ;
+}
+
 void tableWidget::selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber )
 {
 	if( current && previous && previous->row() == current->row() ){
@@ -90,14 +148,6 @@ void tableWidget::clear()
 	}
 }
 
-void tableWidget::selectLast( QTableWidget& t )
-{
-	if( t.rowCount() > 0 ){
-
-		t.setCurrentCell( t.rowCount() - 1,t.columnCount() - 1 ) ;
-	}
-}
-
 void tableWidget::setVisible( bool e )
 {
 	m_table.setVisible( e ) ;
@@ -110,7 +160,10 @@ int tableWidget::rowCount() const
 
 void tableWidget::selectLast()
 {
-	tableWidget::selectLast( m_table ) ;
+	if( m_table.rowCount() > 0 ){
+
+		m_table.setCurrentCell( m_table.rowCount() - 1,m_table.columnCount() - 1 ) ;
+	}
 }
 
 void tableWidget::setEnabled( bool e )
@@ -199,7 +252,10 @@ void tableWidget::showOptions( const engines::engine& engine,const QList<QByteAr
 	}
 }
 
-tableWidget::tableWidget( QTableWidget& t,const QFont& font ) : m_table( t ),m_font( font )
+tableWidget::tableWidget( QTableWidget& t,const QFont& font,int init ) :
+	m_table( t ),
+	m_font( font ),
+	m_init( init )
 {
 	this->setTableWidget( tableWidget::tableWidgetOptions() ) ;
 }
@@ -214,12 +270,12 @@ QTableWidget& tableWidget::get()
 	return m_table ;
 }
 
-void tableWidget::addItem( QTableWidget& table,const QStringList& text,int alignment )
+void tableWidget::addItem( const QStringList& text,int alignment )
 {
-	auto row = table.rowCount() ;
-	auto columns = table.columnCount() ;
+	auto row = m_table.rowCount() ;
+	auto columns = m_table.columnCount() ;
 
-	table.insertRow( row ) ;
+	m_table.insertRow( row ) ;
 
 	for( int it = 0 ; it < columns ; it++ ){
 
@@ -227,13 +283,8 @@ void tableWidget::addItem( QTableWidget& table,const QStringList& text,int align
 
 		item->setText( text.at( it ) ) ;
 		item->setTextAlignment( alignment ) ;
-		//item->setFont( m_font ) ;
+		item->setFont( m_font ) ;
 
-		table.setItem( row,it,item ) ;
+		m_table.setItem( row,it,item ) ;
 	}
-}
-
-void tableWidget::addItem( const QStringList& text,int alignment )
-{
-	tableWidget::addItem( m_table,text,alignment ) ;
 }

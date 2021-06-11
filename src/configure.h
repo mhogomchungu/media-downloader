@@ -43,8 +43,8 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void updateEnginesList( const QStringList& e ) ;
+	networkAccess& network() ;
 private:
-	void enableConcurrentTextField() ;
 	void saveOptions() ;
 	void setEngineOptions( const QString& ) ;
 	void savePresetOptions() ;

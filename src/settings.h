@@ -201,7 +201,10 @@ public:
 	bool showVersionInfoWhenStarting() ;
 	bool concurrentDownloading() ;
 	bool useSystemProvidedVersionIfAvailable() ;
-	bool doNotGetUrlTitle() ;
+	bool showThumbnails() ;
+
+	int thumbnailWidth( settings::tabName ) ;
+	int thumbnailHeight( settings::tabName ) ;
 
 	void setEngineDefaultDownloadOptions( const QString& engineName,const QStringList& options ) ;
 
@@ -209,7 +212,7 @@ public:
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
-	void setConcurrentDownloading( bool ) ;
+	void setShowThumbnails( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setDarkMode( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;

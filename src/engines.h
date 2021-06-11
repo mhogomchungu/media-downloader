@@ -34,6 +34,7 @@
 
 #include "logger.h"
 
+class tableWidget ;
 class settings ;
 
 class engines{
@@ -583,7 +584,7 @@ public:
 	engines::engine getEngineByPath( const QString& path ) const ;
 	const enginePaths& engineDirPaths() const ;
 	engines( Logger&,settings& ) ;
-	void openUrls( QTableWidgetItem&,const QString& engineName = QString() ) const ;
+	void openUrls( tableWidget&,int row,const QString& engineName = QString() ) const ;
 	void openUrls( const QString& path ) const ;
 private:
 	void updateEngines( bool ) ;

@@ -32,8 +32,8 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_ui( m_ctx.Ui() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font() ),
-	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font() )
+	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font(),0 ),
+	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0 )
 {
 	this->setAsActive() ;
 
@@ -469,7 +469,7 @@ void basicdownloader::run( const engines::engine& engine,
 		}
 	 ) ;
 
-	basicdownloader::opts opts{ engine,m_bogusTable.get(),m_ctx,m_debug,list_requested,-1 } ;
+	basicdownloader::opts opts{ engine,m_bogusTable,m_ctx,m_debug,list_requested,-1 } ;
 
 	utility::run( engine,
 		      args,

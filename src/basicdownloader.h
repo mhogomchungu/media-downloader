@@ -54,7 +54,7 @@ private:
 	struct opts
 	{
 		const engines::engine& engine ;
-		QTableWidget& table ;
+		tableWidget& table ;
 
 		const Context& ctx ;
 		bool debug ;
