@@ -172,7 +172,7 @@ public:
 		size_t m_index = 0 ;
 		std::vector< int > m_entries ;
 		QTableWidget& m_table ;
-		const QString& m_opts ;
+		QString m_opts ;
 	};
 
         downloadManager( const Context& ctx,

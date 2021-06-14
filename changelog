@@ -52,3 +52,9 @@ Version 1.2.0(April 1st, 2021)
 - Add support for gallery-dl extension(https://github.com/mikf/gallery-dl).
  [Windows]
 - Update bundled OpenSSL to version 1.1.1j.
+
+  Version 1.5.0(Unreleased)
+  [All]
+- Show thumbnails in the playlist downloader tab and in the batch downloader tab. An option has to be set in the
+  configure tab to enable thumbnails to show up in the batch downloader tab becuse  fetching thumbnails
+  is a slow process.
