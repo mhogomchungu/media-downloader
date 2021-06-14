@@ -89,6 +89,7 @@ public:
 	void setEnabled( bool ) ;
 	int currentRow() const ;
 	void removeRow( int ) ;
+	bool noneAreRunning() ;
 	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts ) ;
 	void showOptions( const engines::engine& engine,const QList< QByteArray >& args ) ;
 

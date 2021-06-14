@@ -426,14 +426,14 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 		auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
 
-			if( f.allFinished() ){
+			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
+
+			if( m_table.noneAreRunning() ){
 
 				m_ctx.TabManager().enableAll() ;
+
+				m_running = !f.allFinished() ;
 			}
-
-			m_running = !f.allFinished() ;
-
-			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;

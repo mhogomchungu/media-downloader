@@ -164,7 +164,7 @@ public:
 		{
 			return m_entries.empty() ;
 		}
-		const utility::args& options() const
+		const QString& options() const
 		{
 			return m_opts ;
 		}
@@ -172,7 +172,7 @@ public:
 		size_t m_index = 0 ;
 		std::vector< int > m_entries ;
 		QTableWidget& m_table ;
-		utility::args m_opts ;
+		const QString& m_opts ;
 	};
 
         downloadManager( const Context& ctx,
@@ -267,13 +267,13 @@ public:
 	{
 		m_index->next() ;
 
-		const auto& quality = m_index->options().quality ;
+		const auto& m = m_index->options() ;
 
 		index.setText( finishedStatus::running() ) ;
 
 		utility::run( engine,
-			      utility::updateOptions( engine,m_settings,quality,{ url } ),
-			      quality,
+			      utility::updateOptions( engine,m_settings,m,{ url } ),
+			      utility::args( m ).quality,
 			      std::move( opts ),
 			      std::move( logger ),
 			      terminator.setUp() ) ;

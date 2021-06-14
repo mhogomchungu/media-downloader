@@ -352,7 +352,7 @@ void batchdownloader::download( const engines::engine& engine,
 
 		if( m_showThumbnails ){
 
-			downloadManager::index indexes( m_table.get(),"" ) ;
+			downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
 
 			indexes.add( -1 ) ;
 
@@ -377,7 +377,7 @@ void batchdownloader::download( const engines::engine& engine,
 
 		if( f ){
 
-			downloadManager::index indexes( m_table.get(),"" ) ;
+			downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
 
 			for( int i = 0 ; i < list.size() ; i++ ){
 
@@ -677,12 +677,12 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 		auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
 
-			if( f.allFinished() ){
+			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
+
+			if( m_table.noneAreRunning() ){
 
 				m_ctx.TabManager().enableAll() ;
 			}
-
-			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;

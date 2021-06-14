@@ -19,6 +19,7 @@
 
 #include "tableWidget.h"
 #include "utility.h"
+#include "downloadmanager.h"
 
 #include <QHeaderView>
 
@@ -179,6 +180,19 @@ int tableWidget::currentRow() const
 void tableWidget::removeRow( int s )
 {
 	m_table.removeRow( s ) ;
+}
+
+bool tableWidget::noneAreRunning()
+{
+	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+
+		if( downloadManager::finishedStatus::running( this->runningState( i ) ) ){
+
+			return false ;
+		}
+	}
+
+	return true ;
 }
 
 void tableWidget::selectMediaOptions( QStringList& optionsList,
