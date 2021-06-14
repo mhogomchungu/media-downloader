@@ -93,6 +93,26 @@ public:
 				return {} ;
 			}
 		}
+		QString toLine() const
+		{
+			if( this->isNotEmpty() ){
+
+				auto it = m_lines.begin() ;
+
+				auto m = it->text() ;
+
+				it++ ;
+
+				for( ; it != m_lines.end() ; it++ ){
+
+					m += it->text() ;
+				}
+
+				return m ;
+			}else{
+				return {} ;
+			}
+		}
 		void removeLast()
 		{
 			m_lines.pop_back() ;
@@ -359,17 +379,7 @@ public:
 private:
 	void update()
 	{
-		auto s = m_lines.toStringList() ;
-		auto m = s.size() ;
-
-		if( m > 2 && m % 3 == 0 ){
-
-			const auto& first  = s[ m - 3 ] ;
-			const auto& second = s[ m - 2 ] ;
-			const auto& last   = s[ m - 1 ] ;
-
-			m_addToTable( m_table,m_urlPrefix + second + "\n" + first,last ) ;
-		}
+		m_addToTable( m_table,m_lines ) ;
 	}
 private:
 	TableWidget& m_table ;

@@ -1329,6 +1329,13 @@ QString engines::engine::functions::timer::stringElapsedTime( int milliseconds )
 		return QObject::tr( "Elapsed Time:" ) + " " + QString( "00:00:00" ) ;
 	}
 
+	auto m = engines::engine::functions::timer::duration( milliseconds ) ;
+
+	return QObject::tr( "Elapsed Time:" ) + " " + m ;
+}
+
+QString engines::engine::functions::timer::duration( int milliseconds )
+{
 	int seconds      = milliseconds / 1000;
 	milliseconds     = milliseconds % 1000;
 	int minutes      = seconds / 60 ;
@@ -1339,7 +1346,7 @@ QString engines::engine::functions::timer::stringElapsedTime( int milliseconds )
 	QTime time ;
 	time.setHMS( hours,minutes,seconds,milliseconds ) ;
 
-	return QObject::tr( "Elapsed Time:" ) + " " + time.toString( "hh:mm:ss" ) ;
+	return time.toString( "hh:mm:ss" ) ;
 }
 
 int engines::engine::functions::timer::elapsedTime()

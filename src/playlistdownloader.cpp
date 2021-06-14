@@ -39,12 +39,12 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	if( m_showThumbnails ){
 
+		m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
+
 		m_table.hideColumns( 2,3 ) ;
 	}else{
 		m_table.hideColumns( 0,2,3 ) ;
 	}
-
-	m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
 
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
@@ -341,12 +341,7 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 	m_ccmd.download( std::move( indexes ),engine,[ this ](){
 
-		if( m_settings.concurrentDownloading() ){
-
-			return m_settings.maxConcurrentDownloads() ;
-		}else{
-			return 1 ;
-		}
+		return m_settings.maxConcurrentDownloads() ;
 
 	}(),[ this ]( const engines::engine& engine,int index ){
 
@@ -431,6 +426,11 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 		auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
 
+			if( f.allFinished() ){
+
+				m_ctx.TabManager().enableAll() ;
+			}
+
 			m_running = !f.allFinished() ;
 
 			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
@@ -445,7 +445,7 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 	m_ccmd.download( engine,
 			 m_table.runningStateItem( index ),
-			 m_table.bkText( index ),
+			 m_table.url( index ),
 			 m_terminator,
 			 playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
@@ -472,7 +472,7 @@ void playlistdownloader::getList()
 
 	QStringList opts ;
 
-	opts.append( engine.playListIdArguments() ) ;
+	opts.append( "--dump-json" ) ;
 
 	auto range = m_ui.lineEditPLDownloadRange->text() ;
 
@@ -509,7 +509,67 @@ void playlistdownloader::getList()
 
 	m_networkRunning = 0 ;
 
-	auto bb = [ this ]( tableWidget& table,const QString& txt,const QString& urlThumbnail ){
+	auto bb = [ this ]( tableWidget& table,Logger::Data& data ){
+
+		auto mmm = data.toLine() ;
+
+		auto oo = mmm.indexOf( '{' ) ;
+
+		if( oo == -1 ){
+
+			qDebug() << "0. Failed to parse json data" ;
+
+			return ;
+		}
+
+		int counter = 0 ;
+		int index = 0 ;
+
+		while( true ){
+
+			if( index >= mmm.size() ){
+
+				auto m = QString::number( index + 1 ) + " bytes" ;
+
+				qDebug() << "1. Failed to parse json data, incomplete data received: " + m ;
+
+				return ;
+			}
+
+			auto a = mmm[ index ] ;
+
+			if( a == '{' ){
+
+				counter++ ;
+
+			}else if( a == '}' ){
+
+				counter-- ;
+
+				if( counter == 0 ){
+
+					break ;
+				}
+			}
+
+			index++ ;
+		}
+
+		qDebug() << "2. sufficient data received: " << QString::number( index + 1 ) ;
+
+		auto aa = mmm.mid( oo,index + 1 ) ;
+
+		utility::MediaEntry media( aa.toUtf8() ) ;
+
+		if( !media.valid() ){
+
+			qDebug() << "3. Failed to parse json data: " + media.errorString() ;
+
+			return ;
+		}else{
+			data.clear() ;
+			data.add( mmm.mid( index + 1 ) ) ;
+		}
 
 		settings& ss = m_ctx.Settings() ;
 
@@ -524,7 +584,7 @@ void playlistdownloader::getList()
 
 			auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
 
-			table.addItem( pixmap,{ txt,txt,s },Qt::AlignCenter ) ;
+			table.addItem( pixmap,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
 
 			table.selectLast() ;
 
@@ -539,18 +599,22 @@ void playlistdownloader::getList()
 
 			int row = table.addRow() ;
 
-			network.getResource( urlThumbnail,[ this,&table,s,txt,row,width,height ]( QByteArray data ){
+			auto thumbnailUrl = media.thumbnailUrl() ;
+
+			network.getResource( thumbnailUrl,
+					     [ this,&table,s,row,width,
+					     height,media = std::move( media ) ]( QByteArray data ){
 
 				QPixmap pixmap ;
 
 				if( pixmap.loadFromData( data ) ){
 
-					pixmap = pixmap.scaled( width,height ) ;	
+					pixmap = pixmap.scaled( width,height ) ;
 				}else{
 					pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
 				}
 
-				table.replace( pixmap,{ txt,txt,s },row ) ;
+				table.replace( pixmap,{ media.uiText(),media.url(),s },row ) ;
 
 				table.selectLast() ;
 
@@ -559,7 +623,7 @@ void playlistdownloader::getList()
 		}else{
 			auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
 
-			table.addItem( pixmap,{ txt,txt,s },Qt::AlignCenter ) ;
+			table.addItem( pixmap,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
 
 			table.selectLast() ;
 		}

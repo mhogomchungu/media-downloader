@@ -265,6 +265,7 @@ public:
 				static QString timerText() ;
 				static QString startTimerText() ;
 				static QString stringElapsedTime( int ) ;
+				static QString duration( int ) ;
 				int elapsedTime() ;
 				QString stringElapsedTime() ;
 			private:

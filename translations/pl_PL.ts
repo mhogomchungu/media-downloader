@@ -219,6 +219,11 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zaktualizuj silnik</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1243"/>
+        <source>Show Thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1266"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maksymalna liczba plików pobieranych rownolegle</translation>
@@ -288,11 +293,6 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <location filename="../src/mainwindow.ui" line="1444"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Domyślne opcje silnika</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1243"/>
-        <source>Show Thumbnail (Need A Restart)</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1367"/>
@@ -450,7 +450,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <location filename="../src/engines.cpp" line="1317"/>
         <location filename="../src/engines.cpp" line="1322"/>
         <location filename="../src/engines.cpp" line="1329"/>
-        <location filename="../src/engines.cpp" line="1342"/>
+        <location filename="../src/engines.cpp" line="1334"/>
         <source>Elapsed Time:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -560,6 +560,16 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <source>Show Log Window</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/utility.h" line="917"/>
+        <source>Upload Date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.h" line="925"/>
+        <source>Duration:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -588,27 +598,27 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="188"/>
+        <location filename="../src/batchdownloader.cpp" line="183"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="198"/>
+        <location filename="../src/batchdownloader.cpp" line="193"/>
         <source>Cancel</source>
         <translation type="unfinished">Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="207"/>
+        <location filename="../src/batchdownloader.cpp" line="202"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="218"/>
+        <location filename="../src/batchdownloader.cpp" line="213"/>
         <source>Get List</source>
         <translation type="unfinished">Pobierz listę</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="226"/>
+        <location filename="../src/batchdownloader.cpp" line="221"/>
         <source>Download</source>
         <translation type="unfinished">Pobierz</translation>
     </message>

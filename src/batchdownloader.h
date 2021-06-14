@@ -66,18 +66,19 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void updateEnginesList( const QStringList& ) ;
-	void download( const engines::engine&,
-		       const QString& opts,
-		       const QStringList&,
-		       bool doNotGetTitle ) ;
+	void download( const engines::engine&,const QString& opts,const QStringList& ) ;
+	void setThumbnailColumnSize( bool ) ;
 private:
 	void clearScreen() ;
 	void showList() ;
-	void addToList( const QString&,bool ) ;
+	void addToList( const QString& ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
-	void addItem( const QString& url,const QString& thumbnail ) ;
+	void addItem( int,bool,utility::MediaEntry ) ;
+	void addItemUi( int,bool,utility::MediaEntry ) ;
+	void addItemUi( const QPixmap& pixmap,int,bool,utility::MediaEntry ) ;
+	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
 
 	const Context& m_ctx ;
 	settings& m_settings ;
@@ -98,12 +99,73 @@ private:
 
 	downloadManager m_ccmd ;
 
+	class BatchLogger
+	{
+	public:
+		BatchLogger( Logger& l ) :
+			m_logger( l ),
+			m_id( utility::concurrentID() )
+		{
+		}
+		void add( const QString& e )
+		{
+			m_logger.add( e ) ;
+			//m_lines.add( e ) ;
+		}
+		void clear()
+		{
+		}
+		template< typename Function >
+		void add( const Function& function )
+		{
+			m_logger.add( function,m_id ) ;
+			function( m_lines,m_id ) ;
+		}
+		QByteArray data() const
+		{
+			return m_lines.toLine().toUtf8() ;
+		}
+	private:
+		Logger::Data m_lines ;
+		Logger& m_logger ;
+		int m_id ;
+	};
+
+	class BatchLoggerWrapper
+	{
+	public:
+		BatchLoggerWrapper( Logger& l ) :
+			m_logger( std::make_shared< BatchLogger >( l ) )
+		{
+		}
+		void add( const QString& e )
+		{
+			m_logger->add( e ) ;
+		}
+		void clear()
+		{
+			m_logger->clear() ;
+		}
+		template< typename Function >
+		void add( const Function& function )
+		{
+			m_logger->add( function ) ;
+		}
+		QByteArray data() const
+		{
+			return m_logger->data() ;
+		}
+	private:
+		std::shared_ptr< BatchLogger > m_logger ;
+	};
+
 	struct opts
 	{
 		const Context& ctx ;
 		bool debug ;
 		bool listRequested ;
 		int index ;
+		BatchLoggerWrapper batchLogger ;
 	} ;
 
 	template< typename Functions >

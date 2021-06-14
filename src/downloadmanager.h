@@ -196,7 +196,6 @@ public:
 	{
 		if( m_cancelled ){
 
-			this->uiEnableAll( true ) ;
 			m_cancelButton.setEnabled( false ) ;
 
 			finished( { index,true,std::move( exitState ) } ) ;
@@ -205,7 +204,6 @@ public:
 
 			if( m_counter == m_index->count() ){
 
-				this->uiEnableAll( true ) ;
 				m_cancelButton.setEnabled( false ) ;
 
 				finished( { index,true,std::move( exitState ) } ) ;
@@ -243,6 +241,24 @@ public:
 	}
 	template< typename Options,typename Logger >
 	void download( const engines::engine& engine,
+		       const QString& cliOptions,
+		       const QString& url,
+		       utility::Terminator& terminator,
+		       Options opts,
+		       Logger logger )
+	{
+		m_index->next() ;
+
+		utility::run( engine,
+			      { cliOptions,url },
+			      "",
+			      std::move( opts ),
+			      std::move( logger ),
+			      terminator.setUp() ) ;
+	}
+
+	template< typename Options,typename Logger >
+	void download( const engines::engine& engine,
 		       QTableWidgetItem& index,
 		       const QString& url,
 		       utility::Terminator& terminator,
@@ -251,19 +267,12 @@ public:
 	{
 		m_index->next() ;
 
-		auto u = url ;
-
-		if( !u.isEmpty() ){
-
-			u = utility::split( u,'\n',true ).at( 0 ) ;
-		}
-
 		const auto& quality = m_index->options().quality ;
 
 		index.setText( finishedStatus::running() ) ;
 
 		utility::run( engine,
-			      utility::updateOptions( engine,m_settings,quality,{ u } ),
+			      utility::updateOptions( engine,m_settings,quality,{ url } ),
 			      quality,
 			      std::move( opts ),
 			      std::move( logger ),

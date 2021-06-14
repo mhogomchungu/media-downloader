@@ -118,7 +118,7 @@ void batchfiledownloader::download()
 
 		const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
 
-		m_tabManager.batchDownloader().download( engine,options,l,true ) ;
+		m_tabManager.batchDownloader().download( engine,options,l ) ;
 	}
 }
 

@@ -865,11 +865,11 @@ namespace utility
 
 			m_pointer = new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
 		}
-		S& get()
+		S& get() const
 		{
 			return *m_pointer ;
 		}
-		S * operator->()
+		S * operator->() const
 		{
 			return m_pointer ;
 		}
@@ -880,7 +880,7 @@ namespace utility
 				m_pointer->~S() ;
 			}
 		}
-		bool created()
+		bool created() const
 		{
 			return m_pointer ;
 		}
@@ -891,6 +891,115 @@ namespace utility
 		#else
 			typename std::aligned_storage< sizeof( S ),alignof( S ) >::type m_storage ;
 		#endif
+	};
+
+	class MediaEntry
+	{
+	public:
+		MediaEntry( const QString& url ) :
+			m_url( url ),
+			m_json( QByteArray() )
+		{
+		}
+		MediaEntry( const QString& uiText,const QString& url ) :
+			m_title( uiText ),
+			m_url( url ),
+			m_json( QByteArray() )
+		{
+		}
+		MediaEntry( const QByteArray& data ) : m_json( data )
+		{
+			if( m_json ){
+
+				auto object = m_json.doc().object() ;
+
+				m_title        = object.value( "title" ).toString() ;
+				m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
+				m_url          = object.value( "webpage_url" ).toString() ;
+				m_uploadDate   = object.value( "upload_date" ).toString() ;
+
+				if( !m_uploadDate.isEmpty() ){
+
+					m_uploadDate = QObject::tr( "Upload Date:" ) + " " + m_uploadDate ;
+				}
+
+				auto d = object.value( "duration" ).toInt() ;
+
+				if( d != 0 ){
+
+					auto s = engines::engine::functions::timer::duration( d * 1000 ) ;
+					m_duration = QObject::tr( "Duration:" ) + " " + s ;
+				}
+			}
+		}
+		const QString& thumbnailUrl() const
+		{
+			return m_thumbnailUrl ;
+		}
+		const QString& title() const
+		{
+			return m_title ;
+		}
+		const QString& url() const
+		{
+			return m_url ;
+		}
+		QString uiText() const
+		{
+			auto title = [ & ](){
+
+				if( m_title.isEmpty() || m_title == "\n" ){
+
+					return m_url ;
+				}else{
+					return m_title ;
+				}
+			}() ;
+
+			if( m_duration.isEmpty() ){
+
+				if( m_uploadDate.isEmpty() ){
+
+					return title ;
+				}else{
+					return m_uploadDate + "\n" + title ;
+				}
+			}else{
+				if( m_uploadDate.isEmpty() ){
+
+					return m_duration + "\n" + title ;
+				}else{
+					return m_duration + "\n" + m_uploadDate + "\n" + title ;
+				}
+			}
+		}
+		const QString& uploadDate() const
+		{
+			return m_uploadDate ;
+		}
+		bool valid() const
+		{
+			return m_json ;
+		}
+		const QJsonDocument& doc() const
+		{
+			return m_json.doc() ;
+		}
+		QString errorString() const
+		{
+			return m_json.errorString() ;
+		}
+		const QString& duration() const
+		{
+			return m_duration ;
+		}
+	private:
+		QString m_thumbnailUrl ;
+		QString m_title ;
+		QString m_uploadDate ;
+		QString m_url ;
+		QString m_duration ;
+		engines::Json m_json ;
 	};
 
 	template< typename BackGroundTask,
@@ -971,7 +1080,7 @@ namespace utility
 
 		f.setState( table.runningStateItem( index ) ) ;
 
-		const auto backUpUrl = table.bkText( index ) ;
+		const auto backUpUrl = table.url( index ) ;
 
 		auto& item = table.uiTextItem( index ) ;
 

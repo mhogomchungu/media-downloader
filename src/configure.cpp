@@ -324,10 +324,14 @@ networkAccess& configure::network()
 
 void configure::saveOptions()
 {
+	auto m =m_ui.cbConfigureShowThumbnails->isChecked() ;
+
+	m_ctx.TabManager().batchDownloader().setThumbnailColumnSize( m ) ;
+
+	m_settings.setShowThumbnails( m ) ;
 	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
-	m_settings.setShowThumbnails( m_ui.cbConfigureShowThumbnails->isChecked() ) ;
 	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;

@@ -144,7 +144,7 @@ library::library( const Context& ctx ) :
 
 		auto s = m_table.uiText( row ) ;
 
-		if( m_table.bkText( row ) == "folder" ){
+		if( m_table.url( row ) == "folder" ){
 
 			m_currentPath +=  "/" + s ;
 

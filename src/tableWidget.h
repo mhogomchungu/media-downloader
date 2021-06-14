@@ -43,7 +43,7 @@ public:
 	{
 		return *m_table.item( row,m_init ) ;
 	}
-	QTableWidgetItem& bkTextItem( int row ) const
+	QTableWidgetItem& urlTextItem( int row ) const
 	{
 		return *m_table.item( row,m_init + 1 ) ;
 	}
@@ -55,9 +55,9 @@ public:
 	{
 		return this->uiTextItem( row ).text() ;
 	}
-	QString bkText( int row ) const
+	QString url( int row ) const
 	{
-		return this->bkTextItem( row ).text() ;
+		return this->urlTextItem( row ).text() ;
 	}
 	QString runningState( int row ) const
 	{
