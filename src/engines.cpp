@@ -191,6 +191,11 @@ void engines::updateEngines( bool addAll )
 
 		_engine_add( { *this,m_logger,"ffmpeg","-version",0,2 } ) ;
 
+		if( utility::platformIsWindows() ){
+
+			_engine_add( { *this,m_logger,"AtomicParsley","-v",0,2 } ) ;
+		}
+
 		for( const auto& it : this->getEngines() ){
 
 			const auto& e = it.exePath().exe() ;
