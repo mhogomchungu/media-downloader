@@ -78,6 +78,7 @@ private:
 	QStringList m_optionsList ;
 	QTableWidget m_bogusTableOriginal ;
 	tableWidget m_bogusTable ;
+	utility::Terminator m_terminator ;
 
 	void setDefaultEngine() ;
 

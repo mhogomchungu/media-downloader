@@ -638,7 +638,7 @@ void playlistdownloader::getList()
 						     engine.playListUrlPrefix(),
 						     utility::concurrentID(),
 						     std::move( bb ) ),
-		      utility::Terminator::setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ),
+		      m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ),
 		      QProcess::ProcessChannel::StandardOutput ) ;
 }
 

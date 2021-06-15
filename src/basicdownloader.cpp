@@ -476,7 +476,7 @@ void basicdownloader::run( const engines::engine& engine,
 		      quality,
 		      basicdownloader::make_options( std::move( opts ),std::move( functions ) ),
 		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
-		      utility::Terminator::setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ) ;
+		      m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ) ;
 }
 
 void basicdownloader::updateEngines()

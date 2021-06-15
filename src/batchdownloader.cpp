@@ -536,7 +536,7 @@ void batchdownloader::showList()
 		      QString(),
 		      batchdownloader::make_options( std::move( opts ),std::move( functions ) ),
 		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
-		      utility::Terminator::setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ) ;
+		      m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ) ;
 }
 
 void batchdownloader::addItemUi( const QPixmap& pixmap,

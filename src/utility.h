@@ -416,14 +416,14 @@ namespace utility
 		static int terminateProcess( unsigned long pid ) ;
 
 		template< typename Object,typename Member >
-		static auto setUp( Object obj,Member member,int idx )
+		auto setUp( Object obj,Member member,int idx )
 		{
 			auto function = []( const engines::engine& engine,QProcess& exe,int index,int idx ){
 
 				return terminateProcess( engine,exe,index,idx ) ;
 			} ;
 
-			auto functionConnect = [ idx,obj,member ]( auto function ){
+			auto functionConnect = [ idx,obj,member,this ]( auto function ){
 
 				auto ff = [ idx,function = std::move( function ) ](){
 
