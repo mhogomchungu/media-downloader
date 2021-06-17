@@ -114,15 +114,6 @@ namespace utility
 		QStringList otherOptions ;
 	} ;
 
-	namespace details
-	{
-		QMenu * sMo( const Context&,
-			     const QStringList& opts,
-			     bool addClear,
-			     bool addOpenFolder,
-			     QPushButton * w ) ;
-	}
-
 	QString failedToFindExecutableString( const QString& cmd ) ;
 	int concurrentID() ;
 
@@ -197,7 +188,7 @@ namespace utility
 	};
 
 	template< typename Function >
-	void appendContextMenu( QMenu& m,utility::contextState c,Function& function )
+	void appendContextMenu( QMenu& m,utility::contextState c,Function function )
 	{
 		auto ac = m.addAction( QObject::tr( "Show Log Window" ) ) ;
 
@@ -256,6 +247,13 @@ namespace utility
 		QAction * m_ac ;
 	};
 
+	QMenu * setUpMenu( const Context& ctx,
+			   const QStringList&,
+			   bool addClear,
+			   bool addOpenFolder,
+			   bool combineText,
+			   QWidget * parent ) ;
+
 	template< typename Function >
 	void setMenuOptions( const Context& ctx,
 			     const QStringList& opts,
@@ -264,7 +262,17 @@ namespace utility
 			     QPushButton * w,
 			     Function function )
 	{
-		auto menu = details::sMo( ctx,opts,addClear,addOpenFolder,w ) ;
+		auto m = w->menu() ;
+
+		if( m ){
+
+			m->deleteLater() ;
+		}
+
+		auto menu = utility::setUpMenu( ctx,opts,addClear,addOpenFolder,false,w ) ;
+
+		w->setMenu( menu ) ;
+
 		QObject::connect( menu,&QMenu::triggered,std::move( function ) ) ;
 	}
 

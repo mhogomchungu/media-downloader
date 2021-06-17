@@ -41,9 +41,9 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
 
-		m_table.hideColumns( 2,3 ) ;
+		m_table.hideColumns( 2,3,4 ) ;
 	}else{
-		m_table.hideColumns( 0,2,3 ) ;
+		m_table.hideColumns( 0,2,3,4 ) ;
 	}
 
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
@@ -71,7 +71,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			QMenu m ;
 
-			return utility::appendContextMenu( m,m_running,function ) ;
+			return utility::appendContextMenu( m,m_running,std::move( function ) ) ;
 		}
 
 		auto txt = m_table.runningState( row ) ;
@@ -115,13 +115,20 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		connect( ac,&QAction::triggered,[ this,row ](){
 
-			downloadManager::index indexes( m_table.get(),m_ui.lineEditPLUrlOptions->text() ) ;
+			downloadManager::index indexes( m_table.get() ) ;
 
 			auto e = m_table.runningState( row ) ;
 
 			if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
-				indexes.add( row ) ;
+				auto u = m_table.downloadingOptions( row ) ;
+
+				if( u.isEmpty() ){
+
+					indexes.add( row,m_ui.lineEditPLUrlOptions->text() ) ;
+				}else{
+					indexes.add( row,u ) ;
+				}
 			}
 
 			auto m = m_settings.defaultEngine( settings::tabName::playlist ) ;
@@ -131,9 +138,31 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			this->download( engine,std::move( indexes ) ) ;
 		} ) ;
 
+		auto subMenu = utility::setUpMenu( m_ctx,{},false,false,true,&m ) ;
+
+		subMenu->setEnabled( !finishSuccess ) ;
+
+		subMenu->setTitle( QObject::tr( "Preset Options" ) ) ;
+
+		connect( subMenu,&QMenu::triggered,[ this,row ]( QAction * ac ){
+
+			auto m = utility::split( ac->objectName(),'\n',true ) ;
+
+			qDebug() << m ;
+
+			if( m.size() > 1 ){
+
+				m_table.setDownloadingOptions( row,m[ 0 ],m[ 1 ] ) ;
+			}else{
+				m_table.setDownloadingOptions( row,m[ 0 ] ) ;
+			}
+		} ) ;
+
+		m.addMenu( subMenu ) ;
+
 		m.addSeparator() ;
 
-		utility::appendContextMenu( m,{ m_running,finishSuccess },function ) ;
+		utility::appendContextMenu( m,{ m_running,finishSuccess },std::move( function ) ) ;
 	} ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
@@ -351,11 +380,11 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 void playlistdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table.get(),m_ui.lineEditPLUrlOptions->text() ) ;
+	downloadManager::index indexes( m_table.get() ) ;
 
 	auto m = m_ui.lineEditPLDownloadRange->text() ;
 	
-	auto _add = [ & ]( int s ){
+	auto _add = [ & ]( int s,const QString& opts ){
 
 		auto e = m_table.runningState( s ) ;
 
@@ -363,10 +392,19 @@ void playlistdownloader::download( const engines::engine& engine )
 
 			if( s >= 0 && s < m_table.rowCount() ){
 
-				indexes.add( s ) ;
+				auto u = m_table.downloadingOptions( s ) ;
+
+				if( u.isEmpty() ){
+
+					indexes.add( s,opts ) ;
+				}else{
+					indexes.add( s,u ) ;
+				}
 			}
 		}
 	} ;
+
+	auto opts = m_ui.lineEditPLUrlOptions->text() ;
 
 	if( m.isEmpty() ){
 
@@ -374,7 +412,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 		for( int i = 0 ; i < count ; i++ ){
 
-			_add( i ) ;
+			_add( i,opts ) ;
 		}
 	}else{
 		const auto s = utility::split( m,',',true ) ;
@@ -396,7 +434,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 						for(  ; a <= b ; a++ ){
 
-							_add( a - 1 ) ;
+							_add( a - 1,opts ) ;
 						}
 					}
 				}
@@ -406,7 +444,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 				if( ok ){
 
-					_add( e - 1 ) ;
+					_add( e - 1,opts ) ;
 				}
 			}
 		}

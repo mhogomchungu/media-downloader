@@ -50,6 +50,14 @@ public:
 	QTableWidgetItem& runningStateItem( int row ) const
 	{
 		return *m_table.item( row,m_init + 2 ) ;
+	}	
+	QTableWidgetItem& downloadingOptionsItem( int row ) const
+	{
+		return *m_table.item( row,m_init + 3 ) ;
+	}
+	QString downloadingOptions( int row ) const
+	{
+		return this->downloadingOptionsItem( row ).text() ;
 	}
 	QString uiText( int row ) const
 	{
@@ -63,6 +71,7 @@ public:
 	{
 		return this->runningStateItem( row ).text() ;
 	}
+	void setDownloadingOptions( int row,const QString& options,const QString& title = QString() ) ;
 	int startPosition() const
 	{
 		return m_init ;

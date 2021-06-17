@@ -295,8 +295,6 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 					   QStringList& urls,
 					   QStringList& ourOptions )
 {
-	Q_UNUSED( urls )
-
 	if( userOptions.contains( "--yes-playlist" ) ){
 
 		ourOptions.removeAll( "--no-playlist" ) ;
@@ -306,7 +304,12 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 
 	if( quality.isEmpty() ){
 
-		ourOptions.append( "best" ) ;
+		if( urls.size() == 1 && urls.at( 0 ).contains( "youtube" ) ){
+
+			ourOptions.append( "bestvideo+bestaudio" ) ;
+		}else{
+			ourOptions.append( "best" ) ;
+		}
 	}else{
 		ourOptions.append( quality ) ;
 	}

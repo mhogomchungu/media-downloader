@@ -127,18 +127,21 @@ public:
 	class index
 	{
 	public:
-		index( QTableWidget& t,const QString& options ) :
-			m_table( t ),
-			m_opts( options )
+		index( QTableWidget& t ) :
+			m_table( t )
 		{
 		}
 		int value() const
 		{
-			return m_entries[ m_index ] ;
+			return m_entries[ m_index ].index ;
 		}
 		int value( int s ) const
 		{
-			return m_entries[ static_cast< size_t >( s ) ] ;
+			return m_entries[ static_cast< size_t >( s ) ].index ;
+		}
+		const QString& options( int s ) const
+		{
+			return m_entries[ static_cast< size_t >( s ) ].options ;
 		}
 		int count() const
 		{
@@ -156,9 +159,9 @@ public:
 		{
 			return m_table ;
 		}
-		void add( int s )
+		void add( int index,const QString& url )
 		{
-			m_entries.emplace_back( s ) ;
+			m_entries.emplace_back( index,url ) ;
 		}
 		bool empty() const
 		{
@@ -166,13 +169,22 @@ public:
 		}
 		const QString& options() const
 		{
-			return m_opts ;
+			return this->options( static_cast< int >( m_index ) ) ;
 		}
 	private:
+		struct entry
+		{
+			entry( int i,const QString& o ) :
+				index( i ),
+				options( o )
+			{
+			}
+			int index ;
+			QString options ;
+		} ;
 		size_t m_index = 0 ;
-		std::vector< int > m_entries ;
+		std::vector< entry > m_entries ;
 		QTableWidget& m_table ;
-		QString m_opts ;
 	};
 
         downloadManager( const Context& ctx,
@@ -265,9 +277,9 @@ public:
 		       Options opts,
 		       Logger logger )
 	{
-		m_index->next() ;
-
 		const auto& m = m_index->options() ;
+
+		m_index->next() ;
 
 		index.setText( finishedStatus::running() ) ;
 

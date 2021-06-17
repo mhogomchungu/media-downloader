@@ -50,7 +50,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
-	m_table.hideColumns( 2,3 ) ;
+	m_table.hideColumns( 2,3,4 ) ;
 
 	this->setThumbnailColumnSize( m_showThumbnails ) ;
 
@@ -78,7 +78,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			if( !m.isEmpty() ){
 
-				m_ui.lineEditBDUrlOptions->setText( m ) ;
+				m_table.setDownloadingOptions( m_table.currentRow(),m ) ;
 			}
 
 			m_ui.BDFrame->hide() ;
@@ -91,7 +91,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			m_ui.lineEditBDUrlOptions->setText( m ) ;
+			m_table.setDownloadingOptions( m_table.currentRow(),m ) ;
 		}
 
 		m_ui.BDFrame->hide() ;
@@ -170,7 +170,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			QMenu m ;
 
-			return utility::appendContextMenu( m,m_running,function ) ;
+			return utility::appendContextMenu( m,m_running,std::move( function ) ) ;
 		}
 
 		auto txt = m_table.runningState( row ) ;
@@ -227,21 +227,48 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
 
-			downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
+			downloadManager::index indexes( m_table.get() ) ;
 
 			auto e = m_table.runningState( row ) ;
 
 			if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
-				indexes.add( row ) ;
+				auto u = m_table.downloadingOptions( row ) ;
+
+				if( u.isEmpty() ){
+
+					indexes.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
+				}else{
+					indexes.add( row,u ) ;
+				}
 			}
 
 			this->download( engine,std::move( indexes ) ) ;
 		} ) ;
 
+		auto subMenu = utility::setUpMenu( m_ctx,{},false,false,true,&m ) ;
+
+		subMenu->setTitle( QObject::tr( "Preset Options" ) ) ;
+
+		subMenu->setEnabled( !finishSuccess ) ;
+
+		connect( subMenu,&QMenu::triggered,[ this,row ]( QAction * ac ){
+
+			auto m = utility::split( ac->objectName(),'\n',true ) ;
+
+			if( m.size() > 1 ){
+
+				m_table.setDownloadingOptions( row,m[ 0 ],m[ 1 ] ) ;
+			}else{
+				m_table.setDownloadingOptions( row,m[ 0 ] ) ;
+			}
+		} ) ;
+
+		m.addMenu( subMenu ) ;
+
 		m.addSeparator() ;
 
-		utility::appendContextMenu( m,{ m_running,finishSuccess },function ) ;
+		utility::appendContextMenu( m,{ m_running,finishSuccess },std::move( function ) ) ;
 	} ) ;
 
 	connect( m_ui.pbBDQuit,&QPushButton::clicked,[ this ](){
@@ -352,9 +379,9 @@ void batchdownloader::download( const engines::engine& engine,
 
 		if( m_showThumbnails ){
 
-			downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
+			downloadManager::index indexes( m_table.get() ) ;
 
-			indexes.add( -1 ) ;
+			indexes.add( -1,m_ui.lineEditBDUrlOptions->text() ) ;
 
 			const auto& m = list.at( 0 ) ;
 
@@ -377,13 +404,15 @@ void batchdownloader::download( const engines::engine& engine,
 
 		if( f ){
 
-			downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
+			downloadManager::index indexes( m_table.get() ) ;
+
+			auto m = m_ui.lineEditBDUrlOptions->text() ;
 
 			for( int i = 0 ; i < list.size() ; i++ ){
 
 				this->addItemUi( -1,false,list[ i ] ) ;
 
-				indexes.add( i ) ;
+				indexes.add( i,m ) ;
 			}
 
 			m_ccmd.download( std::move( indexes ),engine,[ this ](){
@@ -651,7 +680,7 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table.get(),m_ui.lineEditBDUrlOptions->text() ) ;
+	downloadManager::index indexes( m_table.get() ) ;
 
 	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
 
@@ -659,7 +688,14 @@ void batchdownloader::download( const engines::engine& engine )
 
 		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
-			indexes.add( s ) ;
+			auto u = m_table.downloadingOptions( s ) ;
+
+			if( u.isEmpty() ){
+
+				indexes.add( s,m_ui.lineEditBDUrlOptions->text() ) ;
+			}else{
+				indexes.add( s,u ) ;
+			}
 		}
 	}
 

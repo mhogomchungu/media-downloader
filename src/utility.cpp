@@ -282,20 +282,14 @@ bool utility::platformIsNOTWindows()
 	return !utility::platformIsWindows() ;
 }
 
-QMenu * utility::details::sMo( const Context& ctx,
-			       const QStringList&,
-			       bool addClear,
-			       bool addOpenFolder,
-			       QPushButton * w )
+QMenu * utility::setUpMenu( const Context& ctx,
+			    const QStringList&,
+			    bool addClear,
+			    bool addOpenFolder,
+			    bool combineText,
+			    QWidget * parent )
 {
-	auto m = w->menu() ;
-
-	if( m ){
-
-		m->deleteLater() ;
-	}
-
-	auto menu = new QMenu( w ) ;
+	auto menu = new QMenu( parent ) ;
 
 	auto& translator = ctx.Translator() ;
 	auto& settings = ctx.Settings() ;
@@ -314,10 +308,15 @@ QMenu * utility::details::sMo( const Context& ctx,
 		a.replace( "Best-audiovideo",QObject::tr( "Best-audiovideo" ) ) ;
 		a.replace( "Best-audio",QObject::tr( "Best-audio" ) ) ;
 
-		menu->addAction( a )->setObjectName( options ) ;
+		if( combineText ){
+
+			menu->addAction( a )->setObjectName( options + "\n" + a ) ;
+		}else{
+			menu->addAction( a )->setObjectName( options ) ;
+		}
 	} ) ;
 
-	if( addClear ){		
+	if( addClear ){
 
 		menu->addSeparator() ;
 
@@ -338,8 +337,6 @@ QMenu * utility::details::sMo( const Context& ctx,
 
 		translator.addAction( menu,std::move( mm ) ) ;
 	}
-
-	w->setMenu( menu ) ;
 
 	return menu ;
 }

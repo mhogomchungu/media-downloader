@@ -12,6 +12,7 @@ translator.cpp \
 mainwindow.cpp \
 playlistdownloader.cpp \
 library.cpp \
+tableWidget.cpp \
 settings.cpp \
 tabmanager.cpp \
 utility.cpp \

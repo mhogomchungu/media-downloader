@@ -23,6 +23,40 @@
 
 #include <QHeaderView>
 
+void tableWidget::setDownloadingOptions( int row,const QString& mm,const QString& title )
+{
+	auto& item = this->uiTextItem( row ) ;
+
+	auto txt = item.text() ;
+
+	auto m = [ & ](){
+
+		if( title.isEmpty() ){
+
+			return mm ;
+		}else{
+			if( title.size() > 32 ){
+
+				return title.mid( 0,32 ) + " ..." ;
+			}else{
+				return title ;
+			}
+		}
+	}() ;
+
+	auto u = QObject::tr( "Download Options" ) + " : " ;
+
+	if( txt.startsWith( u ) ){
+
+		auto s = txt.indexOf( '\n' ) ;
+		item.setText( u + m + "\n" + txt.mid( s + 1 ) ) ;
+	}else{
+		item.setText( u + m + "\n" + item.text() ) ;
+	}
+
+	this->downloadingOptionsItem( row ).setText( mm ) ;
+}
+
 void tableWidget::setTableWidget( const tableWidget::tableWidgetOptions& s )
 {
 	m_table.verticalHeader()->setSectionResizeMode( QHeaderView::ResizeToContents ) ;
@@ -77,6 +111,8 @@ int tableWidget::addItem( const QPixmap& p,const QStringList& list,int alignment
 	auto row = m_table.rowCount() ;
 
 	m_table.insertRow( row ) ;
+
+	m_table.setItem( row,m_table.columnCount() -1,new QTableWidgetItem() ) ;
 
 	for( int i = 0 ; i < list.size() ; i++ ){
 
@@ -287,11 +323,12 @@ QTableWidget& tableWidget::get()
 void tableWidget::addItem( const QStringList& text,int alignment )
 {
 	auto row = m_table.rowCount() ;
-	auto columns = m_table.columnCount() ;
 
 	m_table.insertRow( row ) ;
 
-	for( int it = 0 ; it < columns ; it++ ){
+	m_table.setItem( row,m_table.columnCount() -1,new QTableWidgetItem() ) ;
+
+	for( int it = 0 ; it < text.size() ; it++ ){
 
 		auto item = new QTableWidgetItem() ;
 
