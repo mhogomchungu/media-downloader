@@ -148,8 +148,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			auto m = utility::split( ac->objectName(),'\n',true ) ;
 
-			qDebug() << m ;
-
 			if( m.size() > 1 ){
 
 				m_table.setDownloadingOptions( row,m[ 0 ],m[ 1 ] ) ;

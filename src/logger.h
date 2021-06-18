@@ -228,16 +228,17 @@ public:
 		this->update() ;
 	}
 	void showLogWindow() ;
+	void updateView( bool e ) ;
 	Logger( const Logger& ) = delete ;
 	Logger& operator=( const Logger& ) = delete ;
 	Logger( Logger&& ) = delete ;
 	Logger& operator=( Logger&& ) = delete ;
 private:
 	void update() ;
-	logWindow m_logWindiw ;
+	logWindow m_logWindow ;
 	QPlainTextEdit& m_textEdit ;
-	QPlainTextEdit& m_textEdit0 ;
 	Logger::Data m_lines ;
+	bool m_updateView = false ;
 } ;
 
 class LoggerWrapper

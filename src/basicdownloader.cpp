@@ -512,10 +512,12 @@ void basicdownloader::tabEntered()
 	auto m = m_settings.lastUsedOption( m_ui.cbEngineType->currentText(),settings::tabName::basic ) ;
 	m_ui.lineEditOptions->setText( m ) ;
 	m_ui.lineEditURL->setFocus() ;
+	m_ctx.logger().updateView( true ) ;
 }
 
 void basicdownloader::tabExited()
 {
+	m_ctx.logger().updateView( false ) ;
 }
 
 void basicdownloader::enableQuit()

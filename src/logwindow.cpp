@@ -30,6 +30,8 @@ logWindow::logWindow( QWidget * parent,settings& s ) :
 {
 	m_ui->setupUi( this ) ;
 
+	m_ui->plainTextEdit->setReadOnly( true ) ;
+
 	connect( m_ui->pbClose,&QPushButton::clicked,[ this ](){
 
 		const auto& r = this->window()->geometry() ;
@@ -50,9 +52,18 @@ logWindow::~logWindow()
 	delete m_ui ;
 }
 
-QPlainTextEdit& logWindow::view()
+void logWindow::update( const QString& m )
 {
-	return *m_ui->plainTextEdit ;
+	if( this->isVisible() ){
+
+		this->setText( m ) ;
+	}
+}
+
+void logWindow::setText( const QString& e )
+{
+	m_ui->plainTextEdit->setPlainText( e ) ;
+	m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
 }
 
 void logWindow::Show()
@@ -77,4 +88,16 @@ void logWindow::Show()
 	}
 
 	this->show() ;
+}
+
+void logWindow::clear()
+{
+	m_ui->plainTextEdit->clear() ;
+}
+
+void logWindow::closeEvent( QCloseEvent * e )
+{
+	e->ignore() ;
+	this->hide() ;
+	this->clear() ;
 }

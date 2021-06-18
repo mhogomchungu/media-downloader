@@ -24,12 +24,10 @@
 #include "utility.h"
 
 Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
-	m_logWindiw( nullptr,s ),
-	m_textEdit( e ),
-	m_textEdit0( m_logWindiw.view() )
+	m_logWindow( nullptr,s ),
+	m_textEdit( e )
 {
 	m_textEdit.setReadOnly( true ) ;
-	m_textEdit0.setReadOnly( true ) ;
 }
 
 void Logger::add( const QString& s,int id )
@@ -48,21 +46,33 @@ void Logger::clear()
 {
 	m_lines.clear() ;
 	m_textEdit.clear() ;
-	m_textEdit0.clear() ;
+	m_logWindow.clear() ;
 }
 
 void Logger::showLogWindow()
 {
-	m_logWindiw.Show() ;
+	m_logWindow.setText( m_textEdit.toPlainText() ) ;
+	m_logWindow.Show() ;
+}
+
+void Logger::updateView( bool e )
+{
+	m_updateView = e ;
+	this->update() ;
 }
 
 void Logger::update()
-{
-	auto m = m_lines.toString() ;
-	m_textEdit.setPlainText( m ) ;
-	m_textEdit0.setPlainText( m ) ;
-	m_textEdit.moveCursor( QTextCursor::End ) ;
-	m_textEdit0.moveCursor( QTextCursor::End ) ;
+{	
+	if( m_updateView ){
+
+		auto m = m_lines.toString() ;
+
+		m_textEdit.setPlainText( m ) ;
+		m_textEdit.moveCursor( QTextCursor::End ) ;
+		m_logWindow.update( m ) ;
+	}else{
+		m_logWindow.update( m_lines ) ;
+	}
 }
 
 QStringList Logger::Data::toStringList() const

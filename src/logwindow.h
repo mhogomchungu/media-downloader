@@ -22,6 +22,7 @@
 
 #include <QWidget>
 #include <QPlainTextEdit>
+#include <QCloseEvent>
 
 class settings ;
 
@@ -34,10 +35,21 @@ class logWindow : public QWidget
 	Q_OBJECT
 public:
 	explicit logWindow( QWidget * parent,settings& ) ;
-	~logWindow() ;
-	QPlainTextEdit& view() ;
+	~logWindow() override ;
+	void update( const QString& ) ;
+	void setText( const QString& ) ;
+	template< typename LoggerData >
+	void update( const LoggerData& e )
+	{
+		if( this->isVisible() ){
+
+			this->setText( e.toString() ) ;
+		}
+	}
 	void Show() ;
+	void clear() ;
 private:
+	void closeEvent( QCloseEvent * ) override ;
 	Ui::logWindow * m_ui ;
 	settings& m_settings ;
 };
