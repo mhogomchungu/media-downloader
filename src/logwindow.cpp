@@ -32,18 +32,9 @@ logWindow::logWindow( QWidget * parent,settings& s ) :
 
 	m_ui->plainTextEdit->setReadOnly( true ) ;
 
-	connect( m_ui->pbClose,&QPushButton::clicked,[ this ](){
+	connect( m_ui->pbClose,&QPushButton::clicked,[ this ](){		
 
-		const auto& r = this->window()->geometry() ;
-
-		auto x = QString::number( r.x() ) ;
-		auto y = QString::number( r.y() ) ;
-		auto w = QString::number( r.width() ) ;
-		auto h = QString::number( r.height() ) ;
-
-		m_settings.setWindowDimensions( "LogWindow",x + "-" + y + "-" + w + "-" + h ) ;
-
-		this->hide() ;
+		this->Hide() ;
 	} ) ;
 }
 
@@ -64,6 +55,21 @@ void logWindow::setText( const QString& e )
 {
 	m_ui->plainTextEdit->setPlainText( e ) ;
 	m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
+}
+
+void logWindow::Hide()
+{
+	const auto& r = this->window()->geometry() ;
+
+	auto x = QString::number( r.x() ) ;
+	auto y = QString::number( r.y() ) ;
+	auto w = QString::number( r.width() ) ;
+	auto h = QString::number( r.height() ) ;
+
+	m_settings.setWindowDimensions( "LogWindow",x + "-" + y + "-" + w + "-" + h ) ;
+
+	this->hide() ;
+	this->clear() ;
 }
 
 void logWindow::Show()
@@ -98,6 +104,5 @@ void logWindow::clear()
 void logWindow::closeEvent( QCloseEvent * e )
 {
 	e->ignore() ;
-	this->hide() ;
-	this->clear() ;
+	this->Hide() ;
 }

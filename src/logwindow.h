@@ -46,6 +46,7 @@ public:
 			this->setText( e.toString() ) ;
 		}
 	}
+	void Hide() ;
 	void Show() ;
 	void clear() ;
 private:

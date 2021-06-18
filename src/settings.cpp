@@ -649,7 +649,7 @@ void settings::setWindowDimensions( const QString& window,const QString& dimenst
 	m_settings.setValue( "WindowDimensions_" + window,dimenstion ) ;
 }
 
-QString settings::windowsDimensions( const QString& window)
+QString settings::windowsDimensions( const QString& window )
 {
 	auto m = "WindowDimensions_" + window ;
 
