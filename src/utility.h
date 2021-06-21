@@ -417,6 +417,12 @@ namespace utility
 		QMetaObject::Connection m_conn ;
 	};
 
+	template< typename Function,typename FunctionConnect >
+	utility::Conn< Function,FunctionConnect > make_conn( Function f,FunctionConnect c )
+	{
+		return utility::Conn< Function,FunctionConnect >( std::move( f ),std::move( c ) ) ;
+	}
+
 	class Terminator : public QObject
 	{
 		Q_OBJECT
@@ -426,47 +432,32 @@ namespace utility
 		template< typename Object,typename Member >
 		auto setUp( Object obj,Member member,int idx )
 		{
-			auto function = []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
 
 				return terminateProcess( engine,exe,index,idx ) ;
-			} ;
 
-			auto functionConnect = [ idx,obj,member,this ]( auto function ){
+			},[ idx,obj,member ]( auto function ){
 
-				auto ff = [ idx,function = std::move( function ) ](){
+				return QObject::connect( obj,member,[ idx,function = std::move( function ) ](){
 
 					function( idx ) ;
-				} ;
-
-				return QObject::connect( obj,member,std::move( ff ) ) ;
-			} ;
-
-			using type0 = decltype( function ) ;
-			using type1 = decltype( functionConnect ) ;
-
-			return Conn< type0,type1 >( std::move( function ),std::move( functionConnect ) ) ;
+				} ) ;
+			} ) ;
 		}
 		auto setUp()
 		{
-			auto function = []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
 
 				return terminateProcess( engine,exe,index,idx ) ;
-			} ;
 
-			auto functionConnect = [ this ]( auto function ){
+			},[ this ]( auto function ){
 
-				auto ff = [ function = std::move( function ) ]( int index ){
+				return QObject::connect( this,&utility::Terminator::terminate,
+							 [ function = std::move( function ) ]( int index ){
 
 					function( index ) ;
-				} ;
-
-				return QObject::connect( this,&utility::Terminator::terminate,std::move( ff ) ) ;
-			} ;
-
-			using type0 = decltype( function ) ;
-			using type1 = decltype( functionConnect ) ;
-
-			return Conn< type0,type1 >( std::move( function ),std::move( functionConnect ) ) ;
+				} ) ;
+			} ) ;
 		}
 		void terminateAll( QTableWidget& t )
 		{
