@@ -121,7 +121,7 @@
         <location filename="../src/mainwindow.ui" line="297"/>
         <location filename="../src/mainwindow.ui" line="859"/>
         <source>Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniatura</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="302"/>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="562"/>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Establecer</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="582"/>
@@ -219,7 +219,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1253"/>
         <source>Show Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Miniaturas</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
@@ -296,12 +296,12 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/mainwindow.ui" line="1377"/>
         <location filename="../src/mainwindow.ui" line="1429"/>
         <source>Ui Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Numbre IU</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1396"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1476"/>
@@ -347,7 +347,7 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/utility.cpp" line="323"/>
         <location filename="../src/utility.h" line="202"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpiar</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="334"/>
@@ -434,7 +434,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="810"/>
         <source>Download cancelled</source>
-        <translation type="unfinished"></translation>
+        <translation>Descarga cancelada</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1155"/>
@@ -452,7 +452,7 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/engines.cpp" line="1334"/>
         <location filename="../src/engines.cpp" line="1339"/>
         <source>Elapsed Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiempo transcurrido:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="47"/>
@@ -558,22 +558,22 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/utility.h" line="193"/>
         <source>Show Log Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Ventana de Registro</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="931"/>
         <source>Upload Date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fecha de Subida:</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="939"/>
         <source>Duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Duración:</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="47"/>
         <source>Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones de Descarga</translation>
     </message>
 </context>
 <context>
@@ -605,12 +605,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/batchdownloader.cpp" line="183"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="193"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="202"/>
@@ -620,12 +620,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/batchdownloader.cpp" line="213"/>
         <source>Get List</source>
-        <translation type="unfinished">Obtener Lista</translation>
+        <translation>Obtener Lista</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="221"/>
         <source>Download</source>
-        <translation type="unfinished">Descargar</translation>
+        <translation>Descargar</translation>
     </message>
 </context>
 <context>
@@ -641,7 +641,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/configure.cpp" line="75"/>
         <source>Remove</source>
-        <translation type="unfinished">Eliminar</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="100"/>
@@ -683,12 +683,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/logwindow.ui" line="17"/>
         <source>Log Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ventana de Registro</translation>
     </message>
     <message>
         <location filename="../src/logwindow.ui" line="45"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerrar</translation>
     </message>
 </context>
 <context>
@@ -696,22 +696,22 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="84"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="94"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="102"/>
         <source>Remove</source>
-        <translation type="unfinished">Eliminar</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="113"/>
         <source>Download</source>
-        <translation type="unfinished">Descargar</translation>
+        <translation>Descargar</translation>
     </message>
 </context>
 </TS>
