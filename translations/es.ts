@@ -639,28 +639,28 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="72"/>
+        <location filename="../src/configure.cpp" line="75"/>
         <source>Remove</source>
         <translation type="unfinished">Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="97"/>
+        <location filename="../src/configure.cpp" line="100"/>
         <source>Select A Cookie File</source>
         <translation>Seleccionar un Archivo de Cookies</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="126"/>
+        <location filename="../src/configure.cpp" line="129"/>
         <source>Select An Engine File</source>
         <translation>Seleccionar un Archivo de Motor</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="153"/>
-        <location filename="../src/configure.cpp" line="293"/>
+        <location filename="../src/configure.cpp" line="156"/>
+        <location filename="../src/configure.cpp" line="296"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="216"/>
+        <location filename="../src/configure.cpp" line="219"/>
         <source>Set Download Folder</source>
         <translation>Establecer Carpeta para Descargas</translation>
     </message>

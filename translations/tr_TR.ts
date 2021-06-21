@@ -641,28 +641,28 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="72"/>
+        <location filename="../src/configure.cpp" line="75"/>
         <source>Remove</source>
         <translation type="unfinished">Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="97"/>
+        <location filename="../src/configure.cpp" line="100"/>
         <source>Select A Cookie File</source>
         <translation>Bir Çerez Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="126"/>
+        <location filename="../src/configure.cpp" line="129"/>
         <source>Select An Engine File</source>
         <translation>Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="153"/>
-        <location filename="../src/configure.cpp" line="293"/>
+        <location filename="../src/configure.cpp" line="156"/>
+        <location filename="../src/configure.cpp" line="296"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="216"/>
+        <location filename="../src/configure.cpp" line="219"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>

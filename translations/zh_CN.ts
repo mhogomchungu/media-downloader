@@ -641,28 +641,28 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="72"/>
+        <location filename="../src/configure.cpp" line="75"/>
         <source>Remove</source>
         <translation type="unfinished">移除</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="97"/>
+        <location filename="../src/configure.cpp" line="100"/>
         <source>Select A Cookie File</source>
         <translation>选择Cookie文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="126"/>
+        <location filename="../src/configure.cpp" line="129"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="153"/>
-        <location filename="../src/configure.cpp" line="293"/>
+        <location filename="../src/configure.cpp" line="156"/>
+        <location filename="../src/configure.cpp" line="296"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="216"/>
+        <location filename="../src/configure.cpp" line="219"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>

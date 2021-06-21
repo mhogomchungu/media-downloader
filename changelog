@@ -56,5 +56,9 @@ Version 1.2.0(April 1st, 2021)
   Version 1.5.0(Unreleased)
   [All]
 - Show thumbnails in the playlist downloader tab and in the batch downloader tab. An option has to be set in the
-  configure tab to enable thumbnails to show up in the batch downloader tab becuse  fetching thumbnails
+  configure tab to enable thumbnails to show up in the batch downloader tab becouse  fetching thumbnails
   is a slow process.
+- Make it possible to start downloading or cancel an ongoing download at an individual entry in the batch downloader
+  or playlist downloader tab.
+- Make it possible to set downloading option per entry in the batch downloader or playlist downloader that overrides
+  global options that are set in the "Enter Options" field.

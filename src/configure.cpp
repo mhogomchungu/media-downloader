@@ -62,6 +62,9 @@ configure::configure( const Context& ctx ) :
 		if( !a.isEmpty() && !b.isEmpty() ){
 
 			m_tablePresetOptions.addItem( { a,b } ) ;
+
+			m_ui.lineEditConfigureUiName->clear() ;
+			m_ui.lineEditConfigurePresetOptions->clear() ;
 		}
 	} ) ;
 
