@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1078,11 +1078,11 @@ Each Link Should Be In Its Own Line.</string>
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>391</height>
+        <height>401</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1332,8 +1332,8 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>320</y>
+          <x>210</x>
+          <y>330</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -1351,7 +1351,7 @@ Each Link Should Be In Its Own Line.</string>
           <x>10</x>
           <y>10</y>
           <width>741</width>
-          <height>251</height>
+          <height>261</height>
          </rect>
         </property>
         <property name="editTriggers">
@@ -1383,24 +1383,11 @@ Each Link Should Be In Its Own Line.</string>
          </property>
         </column>
        </widget>
-       <widget class="QPushButton" name="pbConfigureAddToPresetList">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>320</y>
-          <width>181</width>
-          <height>33</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Add</string>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="lineEditConfigureUiName">
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>260</y>
+          <y>270</y>
           <width>531</width>
           <height>31</height>
          </rect>
@@ -1410,7 +1397,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>290</y>
+          <y>300</y>
           <width>531</width>
           <height>31</height>
          </rect>
@@ -1420,7 +1407,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>260</y>
+          <y>270</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -1436,7 +1423,7 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>290</y>
+          <y>300</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -1446,6 +1433,22 @@ Each Link Should Be In Its Own Line.</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureAddToPresetList">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>330</y>
+          <width>181</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Reset Option To Its Default</string>
+        </property>
+        <property name="text">
+         <string>Add</string>
         </property>
        </widget>
       </widget>
