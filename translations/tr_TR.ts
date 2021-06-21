@@ -121,7 +121,7 @@
         <location filename="../src/mainwindow.ui" line="297"/>
         <location filename="../src/mainwindow.ui" line="859"/>
         <source>Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Tırnak Resim</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="302"/>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="562"/>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Ayarla</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="582"/>
@@ -221,7 +221,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1253"/>
         <source>Show Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Tırnak Resimlerini Göster</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1276"/>
@@ -298,12 +298,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <location filename="../src/mainwindow.ui" line="1377"/>
         <location filename="../src/mainwindow.ui" line="1429"/>
         <source>Ui Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ui Adı</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1396"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1476"/>
@@ -349,7 +349,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <location filename="../src/utility.cpp" line="323"/>
         <location filename="../src/utility.h" line="202"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Temizle</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="334"/>
@@ -436,7 +436,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/engines.cpp" line="810"/>
         <source>Download cancelled</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme iptal edildi</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1155"/>
@@ -454,7 +454,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <location filename="../src/engines.cpp" line="1334"/>
         <location filename="../src/engines.cpp" line="1339"/>
         <source>Elapsed Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçen Zaman:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="47"/>
@@ -560,22 +560,22 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/utility.h" line="193"/>
         <source>Show Log Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Günlük Penceresini Göster</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="931"/>
         <source>Upload Date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Yükleme Tarihi:</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="939"/>
         <source>Duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Süre:</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="47"/>
         <source>Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Seçenekleri</translation>
     </message>
 </context>
 <context>
@@ -607,12 +607,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/batchdownloader.cpp" line="183"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Aç</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="193"/>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="202"/>
@@ -622,12 +622,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/batchdownloader.cpp" line="213"/>
         <source>Get List</source>
-        <translation type="unfinished">Liste Al</translation>
+        <translation>Liste Al</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="221"/>
         <source>Download</source>
-        <translation type="unfinished">İndir</translation>
+        <translation>İndir</translation>
     </message>
 </context>
 <context>
@@ -643,7 +643,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/configure.cpp" line="75"/>
         <source>Remove</source>
-        <translation type="unfinished">Çıkar</translation>
+        <translation>Çıkar</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="100"/>
@@ -685,12 +685,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/logwindow.ui" line="17"/>
         <source>Log Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Pencere Günlüğü</translation>
     </message>
     <message>
         <location filename="../src/logwindow.ui" line="45"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapat</translation>
     </message>
 </context>
 <context>
@@ -698,22 +698,22 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="84"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Aç</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="94"/>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="102"/>
         <source>Remove</source>
-        <translation type="unfinished">Çıkar</translation>
+        <translation>Çıkar</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="113"/>
         <source>Download</source>
-        <translation type="unfinished">İndir</translation>
+        <translation>İndir</translation>
     </message>
 </context>
 </TS>
