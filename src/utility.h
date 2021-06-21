@@ -434,9 +434,11 @@ namespace utility
 		{
 			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
 
-				return terminateProcess( engine,exe,index,idx ) ;
+				return utility::Terminator::terminateProcess( engine,exe,index,idx ) ;
 
-			},[ idx,obj,member ]( auto function ){
+			},[ idx,obj,member,this ]( auto function ){
+
+				Q_UNUSED( this ) //Older version of gcc seems to require capturing "this".
 
 				return QObject::connect( obj,member,[ idx,function = std::move( function ) ](){
 
@@ -448,7 +450,7 @@ namespace utility
 		{
 			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
 
-				return terminateProcess( engine,exe,index,idx ) ;
+				return utility::Terminator::terminateProcess( engine,exe,index,idx ) ;
 
 			},[ this ]( auto function ){
 
