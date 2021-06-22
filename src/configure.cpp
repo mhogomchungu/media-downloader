@@ -351,7 +351,7 @@ void configure::saveOptions()
 
 			if( m == 0 ){
 
-				m_settings.setMaxConcurrentDownloads( 1 ) ;
+				m_settings.setMaxConcurrentDownloads( 4 ) ;
 			}else{
 				m_settings.setMaxConcurrentDownloads( m ) ;
 			}
@@ -509,6 +509,7 @@ void configure::enableAll()
 	m_ui.cbConfigureEngines->setEnabled( true ) ;
 	m_ui.labelConfigureEngines->setEnabled( true ) ;
 	m_ui.pbConfigureSave->setEnabled( true ) ;
+	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( true ) ;
 	m_ui.comboBoxConfigureDarkTheme->setEnabled( true ) ;
 	m_ui.pbConfigureDownload->setEnabled( true ) ;
 	m_ui.labelConfigureTheme->setEnabled( true ) ;
