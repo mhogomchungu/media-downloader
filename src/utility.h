@@ -970,7 +970,7 @@ namespace utility
 
 					return m_duration + "\n" + title ;
 				}else{
-					return m_duration + "\n" + m_uploadDate + "\n" + title ;
+					return m_duration + ", " + m_uploadDate + "\n" + title ;
 				}
 			}
 		}

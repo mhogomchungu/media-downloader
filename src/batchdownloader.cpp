@@ -452,20 +452,25 @@ void batchdownloader::showThumbnail( const engines::engine& engine,int index,con
 
 		auto bb = [ this,&engine,&opts,url,autoDownload ]( const downloadManager::finishedStatus& f ){
 
-			utility::MediaEntry m( opts.batchLogger.data() ) ;
-
-			if( m.valid() ){
-
-				this->addItem( f.index(),f.allFinished(),std::move( m ) ) ;
-			}else{
-				qDebug() << m.errorString() ;
+			if( f.exitState().cancelled() ){
 
 				this->addItem( f.index(),f.allFinished(),url ) ;
-			}
+			}else{
+				utility::MediaEntry m( opts.batchLogger.data() ) ;
 
-			if( f.allFinished() && autoDownload ){
+				if( m.valid() ){
 
-				this->download( engine ) ;
+					this->addItem( f.index(),f.allFinished(),std::move( m ) ) ;
+				}else{
+					qDebug() << m.errorString() ;
+
+					this->addItem( f.index(),f.allFinished(),url ) ;
+				}
+
+				if( f.allFinished() && autoDownload ){
+
+					this->download( engine ) ;
+				}
 			}
 		} ;
 
@@ -481,7 +486,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,int index,con
 	m_ccmd.download( engine,
 			 "--dump-json",
 			 index == -1 ? url : m_table.url( index ),
-			 m_terminator,
+			 m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
 			 batchdownloader::make_options( { m_ctx,m_debug,false,index,wrapper },std::move( functions ) ),
 			 wrapper ) ;
 }
@@ -731,7 +736,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 	m_ccmd.download( engine,
 			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
-			 m_terminator,
+			 m_terminator.setUp(),
 			 batchdownloader::make_options( { m_ctx,m_debug,false,index,BatchLoggerWrapper( m_ctx.logger() ) },std::move( functions ) ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
 						     engine,

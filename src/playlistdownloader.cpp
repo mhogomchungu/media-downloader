@@ -482,7 +482,7 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 	m_ccmd.download( engine,
 			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
-			 m_terminator,
+			 m_terminator.setUp(),
 			 playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
 						     engine,

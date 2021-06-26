@@ -251,11 +251,11 @@ public:
 			concurrentDownload( engine,m_index->value( s ) ) ;
 		}
 	}
-	template< typename Options,typename Logger >
+	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,
 		       const QString& cliOptions,
 		       const QString& url,
-		       utility::Terminator& terminator,
+		       TermSignal conn,
 		       Options opts,
 		       Logger logger )
 	{
@@ -266,14 +266,13 @@ public:
 			      "",
 			      std::move( opts ),
 			      std::move( logger ),
-			      terminator.setUp() ) ;
+			      std::move( conn ) ) ;
 	}
-
-	template< typename Options,typename Logger >
+	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,
 		       QTableWidgetItem& index,
 		       const QString& url,
-		       utility::Terminator& terminator,
+		       TermSignal terminator,
 		       Options opts,
 		       Logger logger )
 	{
@@ -288,7 +287,7 @@ public:
 			      utility::args( m ).quality,
 			      std::move( opts ),
 			      std::move( logger ),
-			      terminator.setUp() ) ;
+			      std::move( terminator ) ) ;
 	}
 private:
 	void uiEnableAll( bool e ) ;

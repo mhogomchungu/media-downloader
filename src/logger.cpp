@@ -51,7 +51,7 @@ void Logger::clear()
 
 void Logger::showLogWindow()
 {
-	m_logWindow.setText( m_textEdit.toPlainText() ) ;
+	m_logWindow.setText( m_lines.toString() ) ;
 	m_logWindow.Show() ;
 }
 
