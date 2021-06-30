@@ -60,6 +60,8 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 		auto mm = QDir::currentPath() ;
 
+		s += separator + mm ;
+
 		auto m = QDir( mm + "/3rdParty" ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
 
 		for( const auto& it : m ){
