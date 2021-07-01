@@ -34,6 +34,18 @@
 #include <QJsonArray>
 #include <QDir>
 
+#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
+static QString _sslLibraryVersionString()
+{
+	return QSslSocket::sslLibraryBuildVersionString() ;
+}
+#else
+static QString _sslLibraryVersionString()
+{
+	return {} ;
+}
+#endif
+
 networkAccess::networkAccess( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
@@ -48,7 +60,7 @@ networkAccess::networkAccess( const Context& ctx ) :
 
 		if( s.isEmpty() ){
 
-			auto q = QSslSocket::sslLibraryBuildVersionString() ;
+			auto q = _sslLibraryVersionString() ;
 			auto m = QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( q ) ;
 			e.add( m ) ;
 		}else{

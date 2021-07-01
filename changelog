@@ -53,7 +53,7 @@ Version 1.2.0(April 1st, 2021)
  [Windows]
 - Update bundled OpenSSL to version 1.1.1j.
 
-  Version 1.5.0(Unreleased)
+  Version 1.5.0(July 1st, 2021)
   [All]
 - Show thumbnails in the playlist downloader tab and in the batch downloader tab. An option has to be set in the
   configure tab to enable thumbnails to show up in the batch downloader tab because  fetching thumbnails

@@ -195,7 +195,7 @@ void engines::updateEngines( bool addAll )
 
 		if( utility::platformIsWindows() ){
 
-			_engine_add( { *this,m_logger,"AtomicParsley","-v",0,2 } ) ;
+			//_engine_add( { *this,m_logger,"AtomicParsley","-v",0,2 } ) ;
 		}
 
 		for( const auto& it : this->getEngines() ){

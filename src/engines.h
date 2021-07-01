@@ -27,6 +27,7 @@
 #include <QJsonDocument>
 #include <QDir>
 #include <QProcess>
+#include <QDateTime>
 
 #include <vector>
 #include <functional>
