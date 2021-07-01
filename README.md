@@ -35,20 +35,18 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 
 #### Prerequisite for Microsoft Windows
 
-1. Make sure [Microsoft Visual C++ 2010 Service Pack 1 Redistributable Package (x86)](https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe) is installed before continuing.
-
-2. Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of youtube-dl.
+1. Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of youtube-dl.
 
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.4.0/MediaDownloader-1.4.0.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.5.0/MediaDownloader-1.5.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self contained version that keeps everything in the application folder.
 
-Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.4.0/MediaDownloader-1.4.0.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.5.0/MediaDownloader-1.5.0.zip).
 
 ### Binary packages for Linux distributions
 
