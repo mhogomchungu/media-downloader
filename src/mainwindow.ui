@@ -1599,10 +1599,10 @@ Each Link Should Be In Its Own Line.</string>
      <widget class="QLabel" name="TextLabelAbout">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>60</y>
-        <width>571</width>
-        <height>291</height>
+        <x>10</x>
+        <y>10</y>
+        <width>771</width>
+        <height>411</height>
        </rect>
       </property>
       <property name="text">

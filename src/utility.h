@@ -91,6 +91,7 @@ namespace utility
 	template< typename T >
 	void asConst( const T&& ) = delete ;
 
+	QStringList splitPreserveQuotes( const QString& ) ;
 	QStringList split( const QString& e,char token,bool skipEmptyParts ) ;
 	QStringList split( const QString& e,const char * token ) ;
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
@@ -102,7 +103,7 @@ namespace utility
 		{
 			if( !e.isEmpty() ){
 
-				otherOptions = utility::split( e,' ',true ) ;
+				otherOptions = utility::splitPreserveQuotes( e ) ;
 
 				if( !otherOptions.isEmpty() ){
 
@@ -142,23 +143,23 @@ namespace utility
 	{
 	public:
 		contextState() :
-			m_running( false ),
+			m_noneAreRunning( true ),
 			m_finishedSuccess( false )
 		{
 		}
 		contextState( bool r ) :
-			m_running( r ),
+			m_noneAreRunning( r ),
 			m_finishedSuccess( false )
 		{
 		}
 		contextState( bool r,bool f ) :
-			m_running( r ),
+			m_noneAreRunning( r ),
 			m_finishedSuccess( f )
 		{
 		}
-		bool running() const
+		bool noneAreRunning() const
 		{
-			return m_running ;
+			return m_noneAreRunning ;
 		}
 		bool finishedSuccess() const
 		{
@@ -181,7 +182,7 @@ namespace utility
 			m_clear = true ;
 		}
 	private:
-		bool m_running ;
+		bool m_noneAreRunning ;
 		bool m_finishedSuccess ;
 		bool m_showLogWindow = false ;
 		bool m_clear = false ;
@@ -201,7 +202,7 @@ namespace utility
 
 		ac = m.addAction( QObject::tr( "Clear" ) ) ;
 
-		ac->setEnabled( !c.running() ) ;
+		ac->setEnabled( c.noneAreRunning() ) ;
 
 		QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
 
@@ -856,15 +857,47 @@ namespace utility
 	class storage
 	{
 	public:
-		template< typename ... T >
-		void create( T&& ... t )
+		storage()
 		{
-			if( m_pointer ){
-
-				m_pointer->~S() ;
-			}
-
-			m_pointer = new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
+		}
+		storage( const storage& s )
+		{
+			this->set( s.get() ) ;
+		}
+		storage( storage& s )
+		{
+			this->set( s.get() ) ;
+		}
+		storage( storage&& s )
+		{
+			this->set( std::move( s.get() ) ) ;
+		}
+		template< typename ... T >
+		storage( T&& ... t )
+		{
+			this->set( std::forward< T >( t ) ... ) ;
+		}
+		storage& operator=( const storage& s )
+		{
+			return this->set( s.get() ) ;
+		}
+		storage& operator=( storage& s )
+		{
+			return this->set( s.get() ) ;
+		}
+		storage& operator=( storage&& s )
+		{
+			return this->set( std::move( s.get() ) ) ;
+		}
+		template< typename T >
+		storage& operator=( T&& t )
+		{
+			return this->set( std::forward< T >( t ) ) ;
+		}
+		template< typename ... T >
+		S& put( T&& ... t )
+		{
+			return this->set( std::forward< T >( t ) ... ).get() ;
 		}
 		S& get() const
 		{
@@ -886,6 +919,17 @@ namespace utility
 			return m_pointer ;
 		}
 	private:
+		template< typename ... T >
+		storage& set( T&& ... t )
+		{
+			if( m_pointer ){
+
+				m_pointer->~S() ;
+			}
+
+			m_pointer = new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
+			return *this ;
+		}
 		S * m_pointer = nullptr ;
 		#if __cplusplus >= 201703L
 			alignas( S ) std::byte m_storage[ sizeof( S ) ] ;
@@ -1018,7 +1062,7 @@ namespace utility
 		}
 		void run() override
 		{
-			m_storage.create( m_bgt() ) ;
+			m_storage = m_bgt() ;
 		}
 		void then()
 		{

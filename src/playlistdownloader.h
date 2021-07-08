@@ -48,7 +48,7 @@ private:
 	void download( const engines::engine&,int ) ;
 	void getList() ;
 	void clearScreen() ;
-
+	bool enabled() ;
 	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
@@ -57,7 +57,6 @@ private:
 	tableWidget m_table ;
 
 	bool m_showThumbnails ;
-	bool m_running ;
 	int m_networkRunning = 0 ;
 
 	downloadManager m_ccmd ;

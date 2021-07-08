@@ -29,7 +29,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_showThumbnails( m_settings.showThumbnails() ),
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1 ),
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font(),0 ),
-	m_running( false ),
 	m_debug( ctx.debug() ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
 {
@@ -170,7 +169,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			QMenu m ;
 
-			return utility::appendContextMenu( m,m_running,std::move( function ) ) ;
+			return utility::appendContextMenu( m,m_table.noneAreRunning(),std::move( function ) ) ;
 		}
 
 		auto txt = m_table.runningState( row ) ;
@@ -201,7 +200,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		ac = m.addAction( tr( "Remove" ) ) ;
 
-		ac->setEnabled( !m_running ) ;
+		ac->setEnabled( m_table.noneAreRunning() ) ;
 
 		connect( ac,&QAction::triggered,[ this,row ](){
 
@@ -268,7 +267,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		m.addSeparator() ;
 
-		utility::appendContextMenu( m,{ m_running,finishSuccess },std::move( function ) ) ;
+		utility::appendContextMenu( m,{ m_table.noneAreRunning(),finishSuccess },std::move( function ) ) ;
 	} ) ;
 
 	connect( m_ui.pbBDQuit,&QPushButton::clicked,[ this ](){
@@ -747,8 +746,6 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 void batchdownloader::enableAll()
 {
-	m_running = false ;
-
 	m_table.setEnabled( true ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( true ) ;
 	m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
@@ -768,7 +765,6 @@ void batchdownloader::enableAll()
 
 void batchdownloader::disableAll()
 {
-	m_running = true ;
 	m_table.setEnabled( false ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineTypeBD->setEnabled( false ) ;

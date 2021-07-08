@@ -187,7 +187,7 @@ public:
 		QTableWidget& m_table ;
 	};
 
-        downloadManager( const Context& ctx,
+	downloadManager( const Context& ctx,
 	                 QPushButton& cancelButton,
 	                 settings& s ) :
 		m_ctx( ctx ),
@@ -235,7 +235,7 @@ public:
 		       int maxNumberOfConcurrency,
 		       ConcurrentDownload concurrentDownload )
 	{
-		m_index.create( std::move( index ) ) ;
+		m_index = std::move( index ) ;
 
 		m_counter = 0 ;
 		m_cancelled = false ;

@@ -32,7 +32,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),1 ),
 	m_showThumbnails( true ),
-	m_running( false ),
 	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings )
 {
 	this->resetMenu() ;
@@ -71,7 +70,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			QMenu m ;
 
-			return utility::appendContextMenu( m,m_running,std::move( function ) ) ;
+			return utility::appendContextMenu( m,this->enabled(),std::move( function ) ) ;
 		}
 
 		auto txt = m_table.runningState( row ) ;
@@ -101,7 +100,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		ac = m.addAction( tr( "Remove" ) ) ;
 
-		ac->setEnabled( !m_running && !m_networkRunning ) ;
+		ac->setEnabled( m_table.noneAreRunning() && !m_networkRunning ) ;
 
 		connect( ac,&QAction::triggered,[ this,row ](){
 
@@ -160,7 +159,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		m.addSeparator() ;
 
-		utility::appendContextMenu( m,{ m_running,finishSuccess },std::move( function ) ) ;
+		utility::appendContextMenu( m,{ this->enabled(),finishSuccess },std::move( function ) ) ;
 	} ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
@@ -294,7 +293,7 @@ void playlistdownloader::retranslateUi()
 
 void playlistdownloader::tabEntered()
 {
-	if( !m_running ){
+	if( m_table.noneAreRunning() ){
 
 		m_ui.pbPLOptions->setEnabled( m_table.rowCount() > 0 ) ;
 		m_ui.pbPLCancel->setEnabled( false ) ;
@@ -361,8 +360,6 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 		return ;
 	}
-
-	m_running = true ;
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
@@ -467,8 +464,6 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 			if( m_table.noneAreRunning() ){
 
 				m_ctx.TabManager().enableAll() ;
-
-				m_running = !f.allFinished() ;
 			}
 		} ;
 
@@ -535,13 +530,10 @@ void playlistdownloader::getList()
 
 		},[ this ]( utility::ProcessExitState,const playlistdownloader::opts& ){
 
-			m_running = false ;
 			m_ctx.TabManager().enableAll() ;
 			m_ui.pbPLCancel->setEnabled( false ) ;
 		}
 	) ;
-
-	m_running = true ;
 
 	m_networkRunning = 0 ;
 
@@ -685,4 +677,9 @@ void playlistdownloader::clearScreen()
 	m_ui.lineEditPLUrlOptions->clear() ;
 	m_ui.lineEditPLDownloadRange->clear() ;
 	m_ui.lineEditPLUrl->clear() ;
+}
+
+bool playlistdownloader::enabled()
+{
+	return m_ui.lineEditPLUrl->isEnabled() ;
 }

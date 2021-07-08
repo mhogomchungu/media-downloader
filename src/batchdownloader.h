@@ -88,7 +88,6 @@ private:
 	bool m_showThumbnails ;
 	tableWidget m_table ;
 	tableWidget m_tableWidgetBDList ;
-	bool m_running ;
 	bool m_debug ;
 	int m_networkRunning = false ;
 
