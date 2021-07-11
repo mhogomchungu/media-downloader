@@ -169,12 +169,20 @@ public:
 			class cmd
 			{
 			public:
-				cmd( const engines::engine::exeArgs& exeArgs,const QStringList& args ) :
+				cmd( const engines::engine::exeArgs& exeArgs,
+				     const QStringList& args,
+				     const QString& downloadPath = QString() ) :
 					m_args( exeArgs.exe() ),
 					m_exe( m_args.takeAt( 0 ) )
 				{
 					m_args.append( exeArgs.args() ) ;
 					m_args.append( args ) ;
+
+					for( auto& it : m_args ){
+
+						it.replace( "{MediaDownloaderDownloadPath}",downloadPath ) ;
+						it.replace( "{MediaDownloaderCWD}",QDir::currentPath() ) ;
+					}
 				}
 				const QString& exe() const
 				{

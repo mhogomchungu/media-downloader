@@ -425,7 +425,7 @@ void basicdownloader::download( const engines::engine& engine,
 
 	if( update ){
 
-		m_ui.lineEditOptions->setText( args.quality + " " + args.otherOptions.join( ' ' ) ) ;
+		m_ui.lineEditOptions->setText( args.quality() + " " + args.otherOptions().join( ' ' ) ) ;
 
 		m_ui.lineEditURL->setText( urls.join( ' ' ) ) ;
 	}
@@ -436,7 +436,7 @@ void basicdownloader::download( const engines::engine& engine,
 
 	auto opts = utility::updateOptions( engine,m_settings,args,urls ) ;
 
-	this->run( engine,opts,args.quality,false ) ;
+	this->run( engine,opts,args.quality(),false ) ;
 }
 
 void basicdownloader::run( const engines::engine& engine,

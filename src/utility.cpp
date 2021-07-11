@@ -473,14 +473,14 @@ QStringList utility::updateOptions( const engines::engine& engine,
 		}
 	}() ;
 
-	for( const auto& it : args.otherOptions ){
+	for( const auto& it : args.otherOptions() ){
 
 		opts.append( it ) ;
 	}
 
 	auto url = urls ;
 
-	engine.updateDownLoadCmdOptions( args.quality,args.otherOptions,url,opts ) ;
+	engine.updateDownLoadCmdOptions( args.quality(),args.otherOptions(),url,opts ) ;
 
 	opts.append( url ) ;
 

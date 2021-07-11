@@ -114,7 +114,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		connect( ac,&QAction::triggered,[ this,row ](){
 
-			downloadManager::index indexes( m_table.get() ) ;
+			downloadManager::index indexes( m_table ) ;
 
 			auto e = m_table.runningState( row ) ;
 
@@ -375,7 +375,7 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 void playlistdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table.get() ) ;
+	downloadManager::index indexes( m_table ) ;
 
 	auto m = m_ui.lineEditPLDownloadRange->text() ;
 	
@@ -479,7 +479,7 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 			 m_table.url( index ),
 			 m_terminator.setUp(),
 			 playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ),
-			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
+			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
 						     engine,
 						     m_ctx.logger(),
 						     m_table.uiTextItem( index ),
@@ -659,7 +659,7 @@ void playlistdownloader::getList()
 
 	utility::run( engine,
 		      opts,
-		      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality,
+		      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality(),
 		      playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,-1 },std::move( functions ) ),
 		      make_loggerPlaylistDownloader( m_table,
 						     m_ctx.logger(),

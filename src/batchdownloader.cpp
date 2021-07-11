@@ -226,7 +226,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
 
-			downloadManager::index indexes( m_table.get() ) ;
+			downloadManager::index indexes( m_table ) ;
 
 			auto e = m_table.runningState( row ) ;
 
@@ -378,7 +378,7 @@ void batchdownloader::download( const engines::engine& engine,
 
 		if( m_showThumbnails ){
 
-			downloadManager::index indexes( m_table.get() ) ;
+			downloadManager::index indexes( m_table ) ;
 
 			indexes.add( -1,m_ui.lineEditBDUrlOptions->text() ) ;
 
@@ -403,7 +403,7 @@ void batchdownloader::download( const engines::engine& engine,
 
 		if( f ){
 
-			downloadManager::index indexes( m_table.get() ) ;
+			downloadManager::index indexes( m_table ) ;
 
 			auto m = m_ui.lineEditBDUrlOptions->text() ;
 
@@ -684,7 +684,7 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table.get() ) ;
+	downloadManager::index indexes( m_table ) ;
 
 	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
 
@@ -737,7 +737,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 			 m_table.url( index ),
 			 m_terminator.setUp(),
 			 batchdownloader::make_options( { m_ctx,m_debug,false,index,BatchLoggerWrapper( m_ctx.logger() ) },std::move( functions ) ),
-			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality ),
+			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
 						     engine,
 						     m_ctx.logger(),
 						     m_table.uiTextItem( index ),

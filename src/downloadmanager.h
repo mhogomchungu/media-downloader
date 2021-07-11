@@ -127,7 +127,7 @@ public:
 	class index
 	{
 	public:
-		index( QTableWidget& t ) :
+		index( tableWidget& t ) :
 			m_table( t )
 		{
 		}
@@ -155,7 +155,7 @@ public:
 		{
 			return m_index < m_entries.size() ;
 		}
-		QTableWidget& table() const
+		tableWidget& table() const
 		{
 			return m_table ;
 		}
@@ -184,7 +184,7 @@ public:
 		} ;
 		size_t m_index = 0 ;
 		std::vector< entry > m_entries ;
-		QTableWidget& m_table ;
+		tableWidget& m_table ;
 	};
 
 	downloadManager( const Context& ctx,
@@ -216,7 +216,10 @@ public:
 
 			if( m_counter == m_index->count() ){
 
-				m_cancelButton.setEnabled( false ) ;
+				if( m_index->table().noneAreRunning() ){
+
+					m_cancelButton.setEnabled( false ) ;
+				}
 
 				finished( { index,true,std::move( exitState ) } ) ;
 			}else{
@@ -284,7 +287,7 @@ public:
 
 		utility::run( engine,
 			      utility::updateOptions( engine,m_settings,m,{ url } ),
-			      utility::args( m ).quality,
+			      utility::args( m ).quality(),
 			      std::move( opts ),
 			      std::move( logger ),
 			      std::move( terminator ) ) ;

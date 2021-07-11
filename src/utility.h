@@ -97,22 +97,32 @@ namespace utility
 	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
 	QList< QByteArray > split( const QByteArray& e,QChar token = '\n' ) ;
 
-	struct args
+	class args
 	{
+	public:
 		args( const QString& e )
 		{
 			if( !e.isEmpty() ){
 
-				otherOptions = utility::splitPreserveQuotes( e ) ;
+				m_otherOptions = utility::splitPreserveQuotes( e ) ;
 
-				if( !otherOptions.isEmpty() ){
+				if( !m_otherOptions.isEmpty() ){
 
-					quality = otherOptions.takeFirst() ;
+					m_quality = m_otherOptions.takeFirst() ;
 				}
 			}
 		}
-		QString quality ;
-		QStringList otherOptions ;
+		const QString& quality() const
+		{
+			return m_quality ;
+		}
+		const QStringList& otherOptions() const
+		{
+			return m_otherOptions ;
+		}
+	private:
+		QString m_quality ;
+		QStringList m_otherOptions ;
 	} ;
 
 	QString failedToFindExecutableString( const QString& cmd ) ;
@@ -660,7 +670,7 @@ namespace utility
 		  Connection conn,
 		  ProcessOutputChannels channels = ProcessOutputChannels() )
 	{
-		engines::engine::exeArgs::cmd cmd( engine.exePath(),args ) ;
+		engines::engine::exeArgs::cmd cmd( engine.exePath(),args,options.downloadFolder() ) ;
 
 		const auto& exe = cmd.exe() ;
 
