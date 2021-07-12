@@ -40,7 +40,8 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_engines( m_logger,s ),
 	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,app.arguments().contains( "--debug" ) ),
 	m_settings( s ),
-	m_showTrayIcon( s.showTrayIcon() )
+	m_showTrayIcon( s.showTrayIcon() ),
+	m_defaultWindowTitle( this->window()->windowTitle() )
 {
 	this->window()->setFixedSize( this->window()->size() ) ;
 
@@ -119,6 +120,20 @@ int MainWindow::exec()
 {
 	this->show() ;
 	return m_qApp.exec() ;
+}
+void MainWindow::setTitle( const QString& )
+{
+//	if( m.isEmpty() ){
+
+//		this->resetTitle() ;
+//	}else{
+//		this->window()->setWindowTitle( m ) ;
+//	}
+}
+
+void MainWindow::resetTitle()
+{
+	this->setTitle( m_defaultWindowTitle ) ;
 }
 
 MainWindow::~MainWindow()

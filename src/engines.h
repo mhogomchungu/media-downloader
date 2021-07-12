@@ -118,6 +118,7 @@ public:
 		        m_filePath( path ),m_file( m_filePath ),m_logger( logger )
 		{
 		}
+		void write( const QString& ) ;
 		void write( const QJsonDocument&,
 			    QJsonDocument::JsonFormat = QJsonDocument::Indented ) ;
 		void write( const QJsonObject&,
@@ -180,7 +181,7 @@ public:
 
 					for( auto& it : m_args ){
 
-						it.replace( "{MediaDownloaderDownloadPath}",downloadPath ) ;
+						it.replace( "{MediaDownloaderDefaultDownloadPath}",downloadPath ) ;
 						it.replace( "{MediaDownloaderCWD}",QDir::currentPath() ) ;
 					}
 				}

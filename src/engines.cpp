@@ -137,8 +137,6 @@ static void _openUrls( tableWidget& table,int row,settings& settings,bool galler
 			}else{
 				auto m = QUrl::fromLocalFile( settings.downloadFolder() + "/" + it ) ;
 
-				qDebug() << m ;
-
 				QDesktopServices::openUrl( m ) ;
 			}
 		}
@@ -1146,6 +1144,16 @@ engines::engine::functions::functions( settings& s ) :
 settings& engines::engine::functions::Settings()
 {
 	return m_settings ;
+}
+
+void engines::file::write( const QString& e )
+{
+	if( m_file.open( QIODevice::WriteOnly ) ){
+
+		m_file.write( e.toUtf8() ) ;
+	}else{
+		m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+	}
 }
 
 void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat format )

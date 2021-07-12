@@ -54,7 +54,7 @@
         <location filename="../src/mainwindow.ui" line="357"/>
         <location filename="../src/mainwindow.ui" line="661"/>
         <location filename="../src/mainwindow.ui" line="729"/>
-        <location filename="../src/mainwindow.ui" line="1445"/>
+        <location filename="../src/mainwindow.ui" line="1432"/>
         <source>Options</source>
         <translation>画质选项</translation>
     </message>
@@ -64,8 +64,8 @@
         <location filename="../src/mainwindow.ui" line="607"/>
         <location filename="../src/mainwindow.ui" line="813"/>
         <location filename="../src/mainwindow.ui" line="1015"/>
-        <location filename="../src/mainwindow.ui" line="1575"/>
-        <location filename="../src/mainwindow.cpp" line="59"/>
+        <location filename="../src/mainwindow.ui" line="1578"/>
+        <location filename="../src/mainwindow.cpp" line="60"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
@@ -240,12 +240,13 @@ Each Link Should Be In Its Own Line.</source>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1342"/>
+        <location filename="../src/mainwindow.ui" line="1448"/>
         <source>Reset Option To Its Default</source>
         <translation>将选项重置为默认值</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1345"/>
-        <location filename="../src/mainwindow.ui" line="1521"/>
+        <location filename="../src/mainwindow.ui" line="1524"/>
         <source>Set Defaults</source>
         <translation>设置为默认值</translation>
     </message>
@@ -285,43 +286,43 @@ Each Link Should Be In Its Own Line.</source>
         <translation>移除插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1588"/>
+        <location filename="../src/mainwindow.ui" line="1591"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1454"/>
+        <location filename="../src/mainwindow.ui" line="1457"/>
         <source>Engine&apos;s Default Options</source>
         <translation>引擎默认选项</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1377"/>
-        <location filename="../src/mainwindow.ui" line="1429"/>
+        <location filename="../src/mainwindow.ui" line="1416"/>
         <source>Ui Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1396"/>
+        <location filename="../src/mainwindow.ui" line="1451"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1476"/>
+        <location filename="../src/mainwindow.ui" line="1479"/>
         <source>Engine&apos;s Name</source>
         <translation>引擎名称</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1495"/>
+        <location filename="../src/mainwindow.ui" line="1498"/>
         <source>Default Download Options</source>
         <translation>默认下载选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1534"/>
+        <location filename="../src/mainwindow.ui" line="1537"/>
         <source>Path To Cookie FIle</source>
         <translation>Cookie文件路径</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1594"/>
+        <location filename="../src/mainwindow.ui" line="1597"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
@@ -329,30 +330,40 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="308"/>
+        <location filename="../src/utility.cpp" line="368"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="309"/>
+        <location filename="../src/utility.cpp" line="369"/>
         <source>Best-audio</source>
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="251"/>
-        <location filename="../src/playlistdownloader.cpp" line="145"/>
-        <location filename="../src/utility.cpp" line="297"/>
+        <location filename="../src/utility.cpp" line="539"/>
+        <source>Save List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="542"/>
+        <source>Save List To File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="253"/>
+        <location filename="../src/playlistdownloader.cpp" line="147"/>
+        <location filename="../src/utility.cpp" line="357"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="323"/>
-        <location filename="../src/utility.h" line="202"/>
+        <location filename="../src/utility.cpp" line="383"/>
+        <location filename="../src/utility.h" line="213"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="334"/>
+        <location filename="../src/utility.cpp" line="394"/>
         <source>Open Download Folder</source>
         <translation>打开下载文件夹</translation>
     </message>
@@ -402,12 +413,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>土耳其语 (土耳其)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="110"/>
+        <location filename="../src/engines.cpp" line="112"/>
         <source>Running in portable mode</source>
         <translation>在便携模式下运行</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="111"/>
+        <location filename="../src/engines.cpp" line="113"/>
         <source>Download path: </source>
         <translation>下载文件路径: </translation>
     </message>
@@ -424,7 +435,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="571"/>
         <location filename="../src/engines.cpp" line="740"/>
-        <location filename="../src/utility.cpp" line="451"/>
+        <location filename="../src/utility.cpp" line="511"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
@@ -440,85 +451,86 @@ Each Link Should Be In Its Own Line.</source>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1155"/>
+        <location filename="../src/engines.cpp" line="1165"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1170"/>
+        <location filename="../src/engines.cpp" line="1180"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1322"/>
-        <location filename="../src/engines.cpp" line="1327"/>
-        <location filename="../src/engines.cpp" line="1334"/>
-        <location filename="../src/engines.cpp" line="1339"/>
+        <location filename="../src/engines.cpp" line="1332"/>
+        <location filename="../src/engines.cpp" line="1337"/>
+        <location filename="../src/engines.cpp" line="1344"/>
+        <location filename="../src/engines.cpp" line="1349"/>
         <source>Elapsed Time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="47"/>
+        <location filename="../src/networkAccess.cpp" line="59"/>
         <source>Checking installed version of</source>
         <translation>正在检查已安装版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="52"/>
+        <location filename="../src/networkAccess.cpp" line="64"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="55"/>
+        <location filename="../src/networkAccess.cpp" line="67"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="106"/>
+        <location filename="../src/networkAccess.cpp" line="118"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>下载失败，无法创建以下路径: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="112"/>
+        <location filename="../src/networkAccess.cpp" line="124"/>
         <source>Start Downloading</source>
         <translation>开始下载</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="816"/>
-        <location filename="../src/networkAccess.cpp" line="136"/>
-        <location filename="../src/networkAccess.cpp" line="212"/>
+        <location filename="../src/networkAccess.cpp" line="148"/>
+        <location filename="../src/networkAccess.cpp" line="224"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="148"/>
+        <location filename="../src/networkAccess.cpp" line="160"/>
         <source>Failed to parse json file from github</source>
         <translation>无法从github解析json文件</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="143"/>
         <location filename="../src/engines/gallery-dl.cpp" line="145"/>
-        <location filename="../src/networkAccess.cpp" line="200"/>
-        <location filename="../src/networkAccess.cpp" line="250"/>
-        <location filename="../src/networkAccess.cpp" line="260"/>
+        <location filename="../src/networkAccess.cpp" line="212"/>
+        <location filename="../src/networkAccess.cpp" line="262"/>
+        <location filename="../src/networkAccess.cpp" line="272"/>
         <source>Downloading</source>
         <translation>下载中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="202"/>
+        <location filename="../src/networkAccess.cpp" line="214"/>
         <source>Destination</source>
         <translation>目的地</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="220"/>
+        <location filename="../src/networkAccess.cpp" line="232"/>
         <source>Download complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="224"/>
+        <location filename="../src/networkAccess.cpp" line="236"/>
         <source>Renaming file to: </source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1225"/>
+        <location filename="../src/engines.cpp" line="1235"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
@@ -528,12 +540,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>下载已完成</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="149"/>
+        <location filename="../src/settings.cpp" line="166"/>
         <source>Resetting download folder to default</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1247"/>
+        <location filename="../src/engines.cpp" line="1257"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
@@ -558,23 +570,28 @@ Each Link Should Be In Its Own Line.</source>
         <translation>暗黑主题3</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="193"/>
+        <location filename="../src/utility.h" line="204"/>
         <source>Show Log Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="931"/>
+        <location filename="../src/utility.h" line="978"/>
         <source>Upload Date:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="939"/>
+        <location filename="../src/utility.h" line="986"/>
         <source>Duration:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="47"/>
         <source>Download Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/tableWidget.cpp" line="328"/>
+        <source>Download Remaining: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

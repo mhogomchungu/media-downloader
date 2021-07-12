@@ -46,8 +46,11 @@ public:
 	MainWindow( QApplication&,settings&,translator& ) ;
 	void retranslateUi() ;
 	int exec() ;
+	void setTitle( const QString& m ) ;
+	void resetTitle() ;
+
 	~MainWindow() ;
-private:	
+private:
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
 	std::unique_ptr< Ui::MainWindow > m_ui ;
@@ -56,6 +59,7 @@ private:
 	tabManager m_tabManager ;
 	settings& m_settings ;
 	bool m_showTrayIcon ;
+	QString m_defaultWindowTitle ;
 	void closeEvent( QCloseEvent * ) ;
 };
 

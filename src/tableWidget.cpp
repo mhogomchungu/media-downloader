@@ -302,6 +302,34 @@ void tableWidget::showOptions( const engines::engine& engine,const QList<QByteAr
 	}
 }
 
+QString tableWidget::completeProgress( int )
+{
+	return {} ;
+#if 0
+	QString m ;
+
+	int rowCount = m_table.rowCount() ;
+	int e = 0 ;
+
+	for( int i = index ; i < rowCount ; i++ ){
+
+		auto s = this->runningState( i ) ;
+
+		if( downloadManager::finishedStatus::notStarted( s ) ){
+
+			e++ ;
+		}
+	}
+
+	if( e == 0 ){
+
+		return {} ;
+	}else{
+		return QObject::tr( "Download Remaining: %1" ).arg( QString::number( e ) ) ;
+	}
+#endif
+}
+
 tableWidget::tableWidget( QTableWidget& t,const QFont& font,int init ) :
 	m_table( t ),
 	m_font( font ),

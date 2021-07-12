@@ -28,6 +28,7 @@
 #include <QDesktopServices>
 #include <QClipboard>
 #include <QMimeData>
+#include <QFileDialog>
 
 const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
@@ -531,4 +532,34 @@ QString utility::downloadFolder( const Context& ctx )
 const QProcessEnvironment& utility::processEnvironment( const Context& ctx )
 {
 	return ctx.Engines().processEnvironment() ;
+}
+
+void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWidget )
+{
+	QObject::connect( m.addAction( QObject::tr( "Save List" ) ),&QAction::triggered,[ &ctx,&tableWidget ](){
+
+		auto e = QFileDialog::getSaveFileName( &ctx.mainWidget(),
+						       QObject::tr( "Save List To File" ),
+						       QDir::homePath() + "/MediaDowloaderList.txt" ) ;
+
+		if( !e.isEmpty() ){
+
+			auto m = [ & ](){
+
+				if( QFile::exists( e ) ){
+
+					return utility::split( engines::file( e,ctx.logger() ).readAll(),'\n',true ) ;
+				}else{
+					return QStringList{} ;
+				}
+			}() ;
+
+			for( int i = 0 ; i < tableWidget.rowCount() ; i++ ){
+
+				m.append( tableWidget.url( i ) ) ;
+			}
+
+			engines::file( e,ctx.logger() ).write( m.join( "\n" ) ) ;
+		}
+	} ) ;
 }

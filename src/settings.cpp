@@ -130,7 +130,12 @@ void settings::setMaxConcurrentDownloads( int s )
 
 void settings::setDownloadFolder( const QString& m )
 {
-	m_settings.setValue( "DownloadFolder",m ) ;
+	if( m.isEmpty() ){
+
+		m_settings.setValue( "DownloadFolder","{MediaDownloaderDefaultDownloadPath}" ) ;
+	}else{
+		m_settings.setValue( "DownloadFolder",m ) ;
+	}
 }
 
 template< typename Function >
@@ -142,25 +147,52 @@ static QString _downloadFolder( QSettings& settings,bool portableVersion,Functio
 
 			auto m = settings.value( "DownloadFolder" ).toString() ;
 
+			if( m.startsWith( "{MediaDownloaderCWD}" ) ){
+
+				m.replace( "{MediaDownloaderCWD}",QDir::currentPath() ) ;
+
+				return m ;
+			}
+			if( m.startsWith( "{MediaDownloaderDefaultDownloadPath}" ) ){
+
+				m.replace( "{MediaDownloaderDefaultDownloadPath}",QDir::currentPath() + "/Downloads" ) ;
+
+				return m ;
+			}
 			if( QFile::exists( m ) ){
 
 				return m ;
 			}else{
 				function( QObject::tr( "Resetting download folder to default" ) ) ;
-				settings.remove( "DownloadFolder" ) ;
+				settings.setValue( "DownloadFolder","{MediaDownloaderDefaultDownloadPath}" ) ;
 				return QDir::currentPath() + "/Downloads" ;
 			}
 		}else{
+			settings.setValue( "DownloadFolder","{MediaDownloaderDefaultDownloadPath}" ) ;
 			return QDir::currentPath() + "/Downloads" ;
 		}
+	}else{
+		if( !settings.contains( "DownloadFolder" ) ){
+
+			settings.setValue( "DownloadFolder","{MediaDownloaderDefaultDownloadPath}" ) ;
+		}
+
+		auto m = settings.value( "DownloadFolder" ).toString() ;
+
+		if( m.startsWith( "{MediaDownloaderCWD}" ) ){
+
+			m.replace( "{MediaDownloaderCWD}",QDir::currentPath() ) ;
+
+			return m ;
+		}
+
+		if( m.startsWith( "{MediaDownloaderDefaultDownloadPath}" ) ){
+
+			m.replace( "{MediaDownloaderDefaultDownloadPath}",utility::homePath() ) ;
+		}
+
+		return m ;
 	}
-
-	if( !settings.contains( "DownloadFolder" ) ){
-
-		settings.setValue( "DownloadFolder",utility::homePath() ) ;
-	}
-
-	return settings.value( "DownloadFolder" ).toString() ;
 }
 
 QString settings::downloadFolder()

@@ -327,7 +327,7 @@ networkAccess& configure::network()
 
 void configure::saveOptions()
 {
-	auto m =m_ui.cbConfigureShowThumbnails->isChecked() ;
+	auto m = m_ui.cbConfigureShowThumbnails->isChecked() ;
 
 	m_ctx.TabManager().batchDownloader().setThumbnailColumnSize( m ) ;
 

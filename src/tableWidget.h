@@ -101,7 +101,7 @@ public:
 	bool noneAreRunning() ;
 	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts ) ;
 	void showOptions( const engines::engine& engine,const QList< QByteArray >& args ) ;
-
+	QString completeProgress( int index ) ;
 	tableWidget( QTableWidget& t,const QFont& font,int init ) ;
 
 	QTableWidgetItem& item( int row,int column ) const ;

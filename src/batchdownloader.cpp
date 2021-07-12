@@ -19,6 +19,7 @@
 
 #include "batchdownloader.h"
 #include "tabmanager.h"
+#include "mainwindow.h"
 
 batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -244,6 +245,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			this->download( engine,std::move( indexes ) ) ;
 		} ) ;
+
+		utility::saveDownloadList( m_ctx,m,m_table ) ;
 
 		auto subMenu = utility::setUpMenu( m_ctx,{},false,false,true,&m ) ;
 
@@ -715,7 +718,7 @@ void batchdownloader::download( const engines::engine& engine,int index )
 			this->download( engine,index ) ;
 		} ;
 
-		auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
+		auto bb = [ &engine,index,this ]( const downloadManager::finishedStatus& f ){
 
 			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
 
@@ -723,6 +726,8 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 				m_ctx.TabManager().enableAll() ;
 			}
+
+			m_ctx.mainWindow().setTitle( m_table.completeProgress( index ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
@@ -731,6 +736,8 @@ void batchdownloader::download( const engines::engine& engine,int index )
 	auto functions = utility::OptionsFunctions( []( const batchdownloader::opts& ){},std::move( aa ) ) ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
+
+	m_ctx.mainWindow().setTitle( m_table.completeProgress( index ) ) ;
 
 	m_ccmd.download( engine,
 			 m_table.runningStateItem( index ),
