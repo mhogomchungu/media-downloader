@@ -350,6 +350,12 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
 
 			downloadCounter++ ;
 		}
+		if( e.contains( "has already been recorded in archive" ) ){
+
+			m_tmp = QObject::tr( "Media Already In Archive" ) ;
+
+			return m_tmp ;
+		}
 	}
 
 	const auto& l = data.last() ;

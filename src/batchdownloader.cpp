@@ -675,6 +675,8 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
+	m_ctx.mainWindow().setTitle( QString() ) ;
+
 	m_ccmd.download( std::move( indexes ),engine,[ this ](){
 
 		return m_settings.maxConcurrentDownloads() ;
@@ -736,8 +738,6 @@ void batchdownloader::download( const engines::engine& engine,int index )
 	auto functions = utility::OptionsFunctions( []( const batchdownloader::opts& ){},std::move( aa ) ) ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
-
-	m_ctx.mainWindow().setTitle( m_table.completeProgress( index ) ) ;
 
 	m_ccmd.download( engine,
 			 m_table.runningStateItem( index ),

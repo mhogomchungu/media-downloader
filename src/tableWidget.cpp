@@ -200,6 +200,7 @@ void tableWidget::selectLast()
 	if( m_table.rowCount() > 0 ){
 
 		m_table.setCurrentCell( m_table.rowCount() - 1,m_table.columnCount() - 1 ) ;
+		m_table.scrollToBottom() ;
 	}
 }
 
@@ -304,30 +305,45 @@ void tableWidget::showOptions( const engines::engine& engine,const QList<QByteAr
 
 QString tableWidget::completeProgress( int )
 {
-	return {} ;
-#if 0
-	QString m ;
+	int completed = 0 ;
+	int errored = 0 ;
+	int cancelled = 0 ;
+	int notStarted = 0 ;
 
-	int rowCount = m_table.rowCount() ;
-	int e = 0 ;
-
-	for( int i = index ; i < rowCount ; i++ ){
+	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
 
 		auto s = this->runningState( i ) ;
 
 		if( downloadManager::finishedStatus::notStarted( s ) ){
 
-			e++ ;
+			notStarted++ ;
+		}
+		if( downloadManager::finishedStatus::finishedWithSuccess( s ) ){
+
+			completed++ ;
+		}
+		if( downloadManager::finishedStatus::finishedWithError( s ) ){
+
+			errored++ ;
+		}
+		if( downloadManager::finishedStatus::finishedCancelled( s ) ){
+
+			cancelled++ ;
 		}
 	}
 
-	if( e == 0 ){
+	auto a = QString::number( ( completed + errored + cancelled ) * 100 / m_table.rowCount() ) ;
+	auto b = QString::number( notStarted ) ;
+	auto c = QString::number( completed ) ;
+	auto d = QString::number( errored ) ;
+	auto e = QString::number( cancelled ) ;
 
-		return {} ;
-	}else{
-		return QObject::tr( "Download Remaining: %1" ).arg( QString::number( e ) ) ;
+	if( a == "100.00" || a == "100,00" ){
+
+		a = "100" ;
 	}
-#endif
+
+	return QObject::tr( "Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5" ).arg( a,b,c,d,e ) ;
 }
 
 tableWidget::tableWidget( QTableWidget& t,const QFont& font,int init ) :

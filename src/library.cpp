@@ -30,7 +30,7 @@ library::library( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font(),1 ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
-	m_currentPath( m_settings.libraryDownloadFolder() )
+	m_currentPath( m_downloadFolder )
 {
 	m_table.get().hideColumn( 2 ) ;
 
@@ -261,8 +261,6 @@ qint64 _created_time( QFileInfo& e )
 
 void library::showContents( const QString& path,bool disableUi )
 {
-	m_settings.setlibraryDownloadFolder( m_currentPath ) ;
-
 	m_table.clear() ;
 
 	m_table.get().setHorizontalHeaderItem( 1,new QTableWidgetItem( m_currentPath ) ) ;

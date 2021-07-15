@@ -34,7 +34,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),1 ),
 	m_showThumbnails( true ),
 	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings )
-{
+{	
 	this->resetMenu() ;
 
 	if( m_showThumbnails ){
@@ -365,6 +365,8 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 	}
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
+
+	m_ctx.mainWindow().setTitle( QString() ) ;
 
 	m_ccmd.download( std::move( indexes ),engine,[ this ](){
 

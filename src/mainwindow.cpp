@@ -121,14 +121,14 @@ int MainWindow::exec()
 	this->show() ;
 	return m_qApp.exec() ;
 }
-void MainWindow::setTitle( const QString& )
+void MainWindow::setTitle( const QString& m )
 {
-//	if( m.isEmpty() ){
+	if( m.isEmpty() ){
 
-//		this->resetTitle() ;
-//	}else{
-//		this->window()->setWindowTitle( m ) ;
-//	}
+		this->resetTitle() ;
+	}else{
+		this->window()->setWindowTitle( m ) ;
+	}
 }
 
 void MainWindow::resetTitle()
