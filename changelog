@@ -62,3 +62,8 @@ Version 1.2.0(April 1st, 2021)
   or playlist downloader tab.
 - Make it possible to set downloading option per entry in the batch downloader or playlist downloader that overrides
   global options that are set in the "Enter Options" field.
+
+  Version 1.6.0(Unreleased)
+  - Add a context menu in the batch downloader tab and playlist downloader tab to save add added entries to disk.
+  - Show progress in the title bar when downloading media through the batch downloader tab and playlist downloader tab.
+  -
