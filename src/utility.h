@@ -978,11 +978,11 @@ namespace utility
 					m_uploadDate = QObject::tr( "Upload Date:" ) + " " + m_uploadDate ;
 				}
 
-				auto d = object.value( "duration" ).toInt() ;
+				m_intDuration = object.value( "duration" ).toInt() ;
 
-				if( d != 0 ){
+				if( m_intDuration != 0 ){
 
-					auto s = engines::engine::functions::timer::duration( d * 1000 ) ;
+					auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
 					m_duration = QObject::tr( "Duration:" ) + " " + s ;
 				}
 			}
@@ -1048,12 +1048,17 @@ namespace utility
 		{
 			return m_duration ;
 		}
+		int intDuration() const
+		{
+			return m_intDuration ;
+		}
 	private:
 		QString m_thumbnailUrl ;
 		QString m_title ;
 		QString m_uploadDate ;
 		QString m_url ;
 		QString m_duration ;
+		int m_intDuration ;
 		engines::Json m_json ;
 	};
 

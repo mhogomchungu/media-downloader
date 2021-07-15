@@ -523,7 +523,10 @@ void playlistdownloader::getList()
 			opts.append( utility::split( range,' ',true ) ) ;
 		}else{
 			opts.append( engine.playlistItemsArgument() ) ;
-			opts.append( range ) ;
+
+			auto m = utility::split( range,' ',true ) ;
+
+			opts.append( m ) ;
 		}
 	}
 
@@ -544,124 +547,27 @@ void playlistdownloader::getList()
 
 	m_networkRunning = 0 ;
 
-	auto bb = [ this ]( tableWidget& table,Logger::Data& data ){
+	QString maxMediaLength ;
 
-		auto mmm = data.toLine() ;
+	for( int i = 0 ; i < opts.size() ; i++ ){
 
-		auto oo = mmm.indexOf( '{' ) ;
+		if( opts[ i ] == "--max-media-length" ){
 
-		if( oo == -1 ){
+			if( i + 1 < opts.size() ){
 
-			qDebug() << "0. Failed to parse json data" ;
-
-			return ;
-		}
-
-		int counter = 0 ;
-		int index = 0 ;
-
-		while( true ){
-
-			if( index >= mmm.size() ){
-
-				auto m = QString::number( index + 1 ) + " bytes" ;
-
-				qDebug() << "1. Failed to parse json data, incomplete data received: " + m ;
-
-				return ;
+				maxMediaLength = opts[ i + 1 ] ;
+				opts.removeAt( i + 1 ) ;
 			}
 
-			auto a = mmm[ index ] ;
+			opts.removeAt( i ) ;
 
-			if( a == '{' ){
-
-				counter++ ;
-
-			}else if( a == '}' ){
-
-				counter-- ;
-
-				if( counter == 0 ){
-
-					break ;
-				}
-			}
-
-			index++ ;
+			break ;
 		}
+	}
 
-		qDebug() << "2. sufficient data received: " << QString::number( index + 1 ) ;
+	auto bb = [ maxMediaLength,this ]( tableWidget& table,Logger::Data& data ){
 
-		auto aa = mmm.mid( oo,index + 1 ) ;
-
-		utility::MediaEntry media( aa.toUtf8() ) ;
-
-		if( !media.valid() ){
-
-			qDebug() << "3. Failed to parse json data: " + media.errorString() ;
-
-			return ;
-		}else{
-			data.clear() ;
-			data.add( mmm.mid( index + 1 ) ) ;
-		}
-
-		settings& ss = m_ctx.Settings() ;
-
-		auto width = ss.thumbnailWidth( settings::tabName::playlist ) ;
-		auto height = ss.thumbnailHeight( settings::tabName::playlist ) ;
-
-		auto s = downloadManager::finishedStatus::notStarted() ;
-
-		table.selectLast() ;
-
-		if( !m_showThumbnails ){
-
-			auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
-
-			table.addItem( pixmap,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
-
-			table.selectLast() ;
-
-			return ;
-		}
-
-		if( networkAccess::hasNetworkSupport() ){
-
-			auto& network = m_ctx.TabManager().Configure().network() ;
-
-			m_networkRunning++ ;
-
-			int row = table.addRow() ;
-
-			auto thumbnailUrl = media.thumbnailUrl() ;
-
-			network.getResource( thumbnailUrl,
-					     [ this,&table,s,row,width,
-					     height,media = std::move( media ) ]( QByteArray data ){
-
-				QPixmap pixmap ;
-
-				if( pixmap.loadFromData( data ) ){
-
-					pixmap = pixmap.scaled( width,height ) ;
-				}else{
-					pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
-				}
-
-				table.replace( pixmap,{ media.uiText(),media.url(),s },row ) ;
-
-				table.selectLast() ;
-
-				m_networkRunning-- ;
-			} ) ;
-		}else{
-			auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
-
-			table.addItem( pixmap,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
-
-			table.selectLast() ;
-		}
+		this->parseJson( maxMediaLength,table,data ) ;
 	} ;
 
 	utility::run( engine,
@@ -689,4 +595,131 @@ void playlistdownloader::clearScreen()
 bool playlistdownloader::enabled()
 {
 	return m_ui.lineEditPLUrl->isEnabled() ;
+}
+
+void playlistdownloader::parseJson( const QString& maxMediaLength,tableWidget& table,Logger::Data& data )
+{
+	auto mmm = data.toLine() ;
+
+	auto oo = mmm.indexOf( '{' ) ;
+
+	if( oo == -1 ){
+
+		qDebug() << "0. Failed to parse json data" ;
+
+		return ;
+	}
+
+	int counter = 0 ;
+	int index = 0 ;
+
+	while( true ){
+
+		if( index >= mmm.size() ){
+
+			auto m = QString::number( index + 1 ) + " bytes" ;
+
+			qDebug() << "1. Failed to parse json data, incomplete data received: " + m ;
+
+			return ;
+		}
+
+		auto a = mmm[ index ] ;
+
+		if( a == '{' ){
+
+			counter++ ;
+
+		}else if( a == '}' ){
+
+			counter-- ;
+
+			if( counter == 0 ){
+
+				break ;
+			}
+		}
+
+		index++ ;
+	}
+
+	qDebug() << "2. sufficient data received: " << QString::number( index + 1 ) ;
+
+	auto aa = mmm.mid( oo,index + 1 ) ;
+
+	utility::MediaEntry media( aa.toUtf8() ) ;
+
+	if( !media.valid() ){
+
+		qDebug() << "3. Failed to parse json data: " + media.errorString() ;
+
+		return ;
+	}else{
+		data.clear() ;
+		data.add( mmm.mid( index + 1 ) ) ;
+	}
+
+	auto maxMl = engines::engine::functions::timer::toSeconds( maxMediaLength ) ;
+
+	if( maxMl > 0 && media.intDuration() > maxMl ){
+
+		return ;
+	}
+
+	settings& ss = m_ctx.Settings() ;
+
+	auto width = ss.thumbnailWidth( settings::tabName::playlist ) ;
+	auto height = ss.thumbnailHeight( settings::tabName::playlist ) ;
+
+	auto s = downloadManager::finishedStatus::notStarted() ;
+
+	table.selectLast() ;
+
+	if( !m_showThumbnails ){
+
+		auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
+
+		table.addItem( pixmap,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+
+		table.selectLast() ;
+
+		return ;
+	}
+
+	if( networkAccess::hasNetworkSupport() ){
+
+		auto& network = m_ctx.TabManager().Configure().network() ;
+
+		m_networkRunning++ ;
+
+		int row = table.addRow() ;
+
+		auto thumbnailUrl = media.thumbnailUrl() ;
+
+		network.getResource( thumbnailUrl,
+				     [ this,&table,s,row,width,
+				     height,media = std::move( media ) ]( QByteArray data ){
+
+			QPixmap pixmap ;
+
+			if( pixmap.loadFromData( data ) ){
+
+				pixmap = pixmap.scaled( width,height ) ;
+			}else{
+				pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
+			}
+
+			table.replace( pixmap,{ media.uiText(),media.url(),s },row ) ;
+
+			table.selectLast() ;
+
+			m_networkRunning-- ;
+		} ) ;
+	}else{
+		auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
+
+		table.addItem( pixmap,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+
+		table.selectLast() ;
+	}
 }

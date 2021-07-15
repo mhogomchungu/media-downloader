@@ -276,6 +276,7 @@ public:
 				static QString startTimerText() ;
 				static QString stringElapsedTime( int ) ;
 				static QString duration( int ) ;
+				static int toSeconds( const QString& ) ;
 				int elapsedTime() ;
 				QString stringElapsedTime() ;
 			private:

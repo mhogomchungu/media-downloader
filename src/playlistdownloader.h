@@ -46,6 +46,8 @@ private:
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
+	void parseJson( const QString&,tableWidget& table,Logger::Data& data ) ;
+
 	void getList() ;
 	void clearScreen() ;
 	bool enabled() ;

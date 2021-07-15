@@ -1364,6 +1364,39 @@ QString engines::engine::functions::timer::duration( int milliseconds )
 	return time.toString( "hh:mm:ss" ) ;
 }
 
+int engines::engine::functions::timer::toSeconds( const QString& e )
+{
+	auto _toNumber = []( const QString& e ){
+
+		return e.toInt() ;
+	} ;
+
+	if( e.endsWith( "m" ) ){
+
+		auto s = e ;
+		s.replace( "m","" ) ;
+
+		return 60 * _toNumber( s ) ;
+	}
+
+	auto m = utility::split( e,':',true ) ;
+
+	if( m.size() == 3 ){
+
+		return 3600 * _toNumber( m[ 0 ] ) + 60 * _toNumber( m[ 1 ] ) + _toNumber( m[ 2 ] ) ;
+
+	}else if( m.size() == 2 ){
+
+		return 3600 * _toNumber( m[ 0 ] ) + 360 * _toNumber( m[ 1 ] ) ;
+
+	}else if( m.size() == 1 ){
+
+		return 3600 * _toNumber( m[ 0 ] ) ;
+	}else{
+		return 0 ;
+	}
+}
+
 int engines::engine::functions::timer::elapsedTime()
 {
 	return static_cast< int >( QDateTime().currentMSecsSinceEpoch() - m_startTime ) ;
