@@ -590,8 +590,13 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="328"/>
-        <source>Download Remaining: %1</source>
+        <location filename="../src/tableWidget.cpp" line="346"/>
+        <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/youtube-dl.cpp" line="355"/>
+        <source>Media Already In Archive</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
