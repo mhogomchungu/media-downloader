@@ -102,6 +102,14 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		m_ui.BDFrame->hide() ;
 	} ) ;
 
+	connect( m_ui.pbBDOptionsHistory,&QPushButton::clicked,[ this ](){
+
+		utility::showHistory( *m_ui.lineEditBDUrlOptions,
+				      m_settings.getOptionsHistory( settings::tabName::batch ),
+				      m_settings,
+				      settings::tabName::batch ) ;
+	} ) ;
+
 	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
 
 		m_terminator.terminateAll( m_table.get() ) ;
@@ -739,6 +747,8 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
+	m_settings.addOptionsHistory( m,settings::tabName::batch ) ;
+
 	m_ccmd.download( engine,
 			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
@@ -768,11 +778,13 @@ void batchdownloader::enableAll()
 	m_ui.pbBatchDownloaderSet->setEnabled( true ) ;
 	m_ui.pbCancelBatchDownloder->setEnabled( true ) ;
 	m_ui.TableWidgetBatchDownloaderList->setEnabled( true ) ;
+	m_ui.pbBDOptionsHistory->setEnabled( true ) ;
 }
 
 void batchdownloader::disableAll()
 {
 	m_table.setEnabled( false ) ;
+	m_ui.pbBDOptionsHistory->setEnabled( false ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineTypeBD->setEnabled( false ) ;
 	m_ui.labelBDEngineName->setEnabled( false ) ;

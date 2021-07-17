@@ -179,6 +179,23 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		m_terminator.terminateAll( m_table.get() ) ;
 	} ) ;
 
+	connect( m_ui.pbPLOptionsHistory,&QPushButton::clicked,[ this ](){
+
+		utility::showHistory( *m_ui.lineEditPLUrlOptions,
+				      m_settings.getOptionsHistory( settings::tabName::playlist ),
+				      m_settings,
+				      settings::tabName::playlist ) ;
+	} ) ;
+
+	connect( m_ui.pbPLRangeHistory,&QPushButton::clicked,[ this ](){
+
+		utility::showHistory( *m_ui.lineEditPLDownloadRange,
+				      m_settings.playlistRangeHistory(),
+				      m_settings,
+				      settings::tabName::playlist,
+				      true ) ;
+	} ) ;
+
 	m_table.connect( &QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
 
 		Q_UNUSED( column )
@@ -243,10 +260,14 @@ void playlistdownloader::enableAll()
 	m_ui.pbPLGetList->setEnabled( true ) ;
 	m_ui.labelPLEngineName->setEnabled( true ) ;
 	m_ui.cbEngineTypePD->setEnabled( true ) ;
+	m_ui.pbPLRangeHistory->setEnabled( true ) ;
+	m_ui.pbPLOptionsHistory->setEnabled( true ) ;
 }
 
 void playlistdownloader::disableAll()
 {
+	m_ui.pbPLOptionsHistory->setEnabled( false ) ;
+	m_ui.pbPLRangeHistory->setEnabled( false ) ;
 	m_ui.pbPLPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineTypePD->setEnabled( false ) ;
 	m_ui.labelPLEngineName->setEnabled( false ) ;
@@ -481,6 +502,8 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
 
+	m_settings.addOptionsHistory( m,settings::tabName::playlist ) ;
+
 	m_ccmd.download( engine,
 			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
@@ -513,6 +536,8 @@ void playlistdownloader::getList()
 	opts.append( "--dump-json" ) ;
 
 	auto range = m_ui.lineEditPLDownloadRange->text() ;
+
+	m_settings.addToplaylistRangeHistory( range ) ;
 
 	m_ui.lineEditPLDownloadRange->clear() ;
 

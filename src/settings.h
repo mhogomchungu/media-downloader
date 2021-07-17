@@ -182,6 +182,8 @@ public:
 	QString windowsDimensions( const QString& windowName ) ;
 
 	QStringList engineDefaultDownloadOptions( const QString& engineName ) ;
+	QStringList getOptionsHistory( settings::tabName ) ;
+	QStringList playlistRangeHistory() ;
 
 	QString lastUsedOption( const QString&,settings::tabName ) ;
 
@@ -206,8 +208,11 @@ public:
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
 
+	void clearOptionsHistory( settings::tabName ) ;
 	void setEngineDefaultDownloadOptions( const QString& engineName,const QStringList& options ) ;
-
+	void addToplaylistRangeHistory( const QString& ) ;
+	void clearPlaylistRangeHistory() ;
+	void addOptionsHistory( const QString&,settings::tabName ) ;
 	void setTheme( QApplication& ) ;
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;

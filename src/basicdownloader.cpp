@@ -77,6 +77,14 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 		this->download( m_ui.lineEditURL->text() ) ;
 	} ) ;
 
+	connect( m_ui.pbOptionsHistory,&QPushButton::clicked,[ this ](){
+
+		utility::showHistory( *m_ui.lineEditOptions,
+				      m_settings.getOptionsHistory( settings::tabName::basic ),
+				      m_settings,
+				      settings::tabName::basic ) ;
+	} ) ;
+
 	connect( m_ui.pbQuit,&QPushButton::clicked,[ this ](){
 
 		this->appQuit() ;
@@ -405,7 +413,11 @@ void basicdownloader::download( const QString& url )
 
 	m_bogusTable.addItem( args ) ;
 
-	this->download( engine,m_ui.lineEditOptions->text(),m,false ) ;
+	auto s = m_ui.lineEditOptions->text() ;
+
+	m_settings.addOptionsHistory( s,settings::tabName::basic ) ;
+
+	this->download( engine,s,m,false ) ;
 }
 
 void basicdownloader::download( const engines::engine& engine,
@@ -527,6 +539,7 @@ void basicdownloader::enableQuit()
 
 void basicdownloader::enableAll()
 {
+	m_ui.pbOptionsHistory->setEnabled( true ) ;
 	m_ui.pbPasteClipboard->setEnabled( true ) ;
 	m_ui.cbEngineType->setEnabled( true ) ;
 	m_ui.pbEntries->setEnabled( true ) ;
@@ -542,6 +555,7 @@ void basicdownloader::enableAll()
 
 void basicdownloader::disableAll()
 {
+	m_ui.pbOptionsHistory->setEnabled( false ) ;
 	m_ui.pbPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineType->setEnabled( false ) ;
 	m_ui.pbQuit->setEnabled( false ) ;

@@ -56,6 +56,96 @@ QString settings::darkMode()
 	return m_settings.value( "DarkModeName" ).toString() ;
 }
 
+static QString _getOptionsHistoryTabName( settings::tabName e )
+{
+	if( e == settings::tabName::basic ){
+
+		return "BasicDownloaderOptionsHistory" ;
+
+	}else if( e == settings::tabName::batch ){
+
+		return "BatchDownloaderOptionsHistory" ;
+
+	}else if( e == settings::tabName::playlist ){
+
+		return "PlaylistDownloaderOptionsHistory" ;
+	}else{
+		return "" ;
+	}
+}
+
+QStringList settings::getOptionsHistory( settings::tabName e )
+{
+	auto m = _getOptionsHistoryTabName( e ) ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,QStringList() ) ;
+	}
+
+	return m_settings.value( m ).toStringList() ;
+}
+
+void settings::clearOptionsHistory( settings::tabName e )
+{
+	m_settings.setValue( _getOptionsHistoryTabName( e ),QStringList() ) ;
+}
+
+void settings::addToplaylistRangeHistory( const QString& e )
+{
+	if( !e.isEmpty() ){
+
+		auto m = this->playlistRangeHistory() ;
+
+		if( !m.contains( e ) ){
+
+			if( m.size() == 5 ){
+
+				m.removeLast() ;
+			}
+
+			m.insert( 0,e ) ;
+
+			m_settings.setValue( "PlaylistRangeHistory",m ) ;
+		}
+	}
+}
+
+void settings::clearPlaylistRangeHistory()
+{
+	m_settings.setValue( "PlaylistRangeHistory",QStringList() ) ;
+}
+
+QStringList settings::playlistRangeHistory()
+{
+	if( !m_settings.contains( "PlaylistRangeHistory" ) ){
+
+		m_settings.setValue( "PlaylistRangeHistory",QStringList() ) ;
+	}
+
+	return m_settings.value( "PlaylistRangeHistory" ).toStringList() ;
+}
+
+void settings::addOptionsHistory( const QString& e,settings::tabName s )
+{
+	if( !e.isEmpty() ){
+
+		auto m = this->getOptionsHistory( s ) ;
+
+		if( !m.contains( e ) ){
+
+			if( m.size() == 5 ){
+
+				m.removeLast() ;
+			}
+
+			m.insert( 0,e ) ;
+
+			m_settings.setValue( _getOptionsHistoryTabName( s ),m ) ;
+		}
+	}
+}
+
 void settings::setDarkMode( const QString& e )
 {
 	m_settings.setValue( "DarkModeName",e ) ;

@@ -198,6 +198,54 @@ namespace utility
 		bool m_clear = false ;
 	};
 
+	template< typename Settings,typename TabName >
+	inline void showHistory( QLineEdit& lineEdit,
+				 const QStringList& history,
+				 Settings& settings,
+				 TabName tabName,
+				 bool playlistDownloader = false )
+	{
+		if( !history.isEmpty() ){
+
+			QMenu m ;
+
+			QObject::connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
+
+				auto m = ac->objectName() ;
+
+				if( m == "Clear" ){
+
+					if( playlistDownloader ){
+
+						settings.clearPlaylistRangeHistory() ;
+					}else{
+						settings.clearOptionsHistory( tabName ) ;
+					}
+				}else{
+					lineEdit.setText( ac->objectName() ) ;
+				}
+			} ) ;
+
+			for( const auto& it : history ){
+
+				if( it.size() < 64 ){
+
+					m.addAction( it )->setObjectName( it ) ;
+				}else{
+					auto a = it.mid( 0,32 ) ;
+					auto b = it.mid( it.size() - 32 ) ;
+					m.addAction( a + "..." + b )->setObjectName( it ) ;
+				}
+			}
+
+			m.addSeparator() ;
+
+			m.addAction( QObject::tr( "Clear" ) )->setObjectName( "Clear" ) ;
+
+			m.exec( QCursor::pos() ) ;
+		}
+	}
+
 	template< typename Function >
 	void appendContextMenu( QMenu& m,utility::contextState c,Function function )
 	{
