@@ -356,16 +356,16 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="261"/>
-        <location filename="../src/playlistdownloader.cpp" line="147"/>
+        <location filename="../src/batchdownloader.cpp" line="275"/>
+        <location filename="../src/playlistdownloader.cpp" line="186"/>
         <location filename="../src/utility.cpp" line="357"/>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="383"/>
-        <location filename="../src/utility.h" line="243"/>
-        <location filename="../src/utility.h" line="261"/>
+        <location filename="../src/utility.h" line="249"/>
+        <location filename="../src/utility.h" line="269"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -577,17 +577,17 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="252"/>
+        <location filename="../src/utility.h" line="260"/>
         <source>Show Log Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="1026"/>
+        <location filename="../src/utility.h" line="1034"/>
         <source>Upload Date:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="1034"/>
+        <location filename="../src/utility.h" line="1042"/>
         <source>Duration:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -610,23 +610,23 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="201"/>
-        <location filename="../src/basicdownloader.cpp" line="329"/>
+        <location filename="../src/basicdownloader.cpp" line="207"/>
+        <location filename="../src/basicdownloader.cpp" line="335"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="309"/>
+        <location filename="../src/basicdownloader.cpp" line="315"/>
         <source>Checking installed version of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="335"/>
+        <location filename="../src/basicdownloader.cpp" line="341"/>
         <source>Found version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="339"/>
+        <location filename="../src/basicdownloader.cpp" line="345"/>
         <source>Executable Path</source>
         <translation type="unfinished"></translation>
     </message>
@@ -634,27 +634,27 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="191"/>
+        <location filename="../src/batchdownloader.cpp" line="205"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="201"/>
+        <location filename="../src/batchdownloader.cpp" line="215"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="210"/>
+        <location filename="../src/batchdownloader.cpp" line="224"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="221"/>
+        <location filename="../src/batchdownloader.cpp" line="235"/>
         <source>Get List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="229"/>
+        <location filename="../src/batchdownloader.cpp" line="243"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -725,22 +725,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="84"/>
+        <location filename="../src/playlistdownloader.cpp" line="123"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="94"/>
+        <location filename="../src/playlistdownloader.cpp" line="133"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="102"/>
+        <location filename="../src/playlistdownloader.cpp" line="141"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="113"/>
+        <location filename="../src/playlistdownloader.cpp" line="152"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
