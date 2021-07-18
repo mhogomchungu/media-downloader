@@ -199,13 +199,17 @@ namespace utility
 	};
 
 	template< typename Settings,typename TabName >
-	inline void showHistory( QLineEdit& lineEdit,
+	inline bool showHistory( QLineEdit& lineEdit,
 				 const QStringList& history,
 				 Settings& settings,
 				 TabName tabName,
 				 bool playlistDownloader = false )
 	{
-		if( !history.isEmpty() ){
+		if( history.isEmpty() ){
+
+			return false ;
+		}else{
+			bool s = false ;
 
 			QMenu m ;
 
@@ -222,6 +226,8 @@ namespace utility
 						settings.clearOptionsHistory( tabName ) ;
 					}
 				}else{
+					s = true ;
+
 					lineEdit.setText( ac->objectName() ) ;
 				}
 			} ) ;
@@ -243,6 +249,8 @@ namespace utility
 			m.addAction( QObject::tr( "Clear" ) )->setObjectName( "Clear" ) ;
 
 			m.exec( QCursor::pos() ) ;
+
+			return s ;
 		}
 	}
 

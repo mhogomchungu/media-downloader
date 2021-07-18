@@ -79,10 +79,16 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbOptionsHistory,&QPushButton::clicked,[ this ](){
 
-		utility::showHistory( *m_ui.lineEditOptions,
-				      m_settings.getOptionsHistory( settings::tabName::basic ),
-				      m_settings,
-				      settings::tabName::basic ) ;
+		auto s = utility::showHistory( *m_ui.lineEditOptions,
+					       m_settings.getOptionsHistory( settings::tabName::basic ),
+					       m_settings,settings::tabName::basic ) ;
+
+		if( s ){
+
+			m_tableList.setVisible( false ) ;
+
+			this->download( m_ui.lineEditURL->text() ) ;
+		}
 	} ) ;
 
 	connect( m_ui.pbQuit,&QPushButton::clicked,[ this ](){

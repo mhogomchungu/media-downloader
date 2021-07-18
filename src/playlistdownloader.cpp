@@ -25,6 +25,45 @@
 
 #include <QFileDialog>
 
+class customOptions
+{
+public:
+	customOptions( QStringList& opts )
+	{
+		this->takeOption( opts,"--max-media-length",m_maxMediaLength ) ;
+		this->takeOption( opts,"--min-media-length",m_minMediaLength ) ;
+	}
+	int maxMediaLength() const
+	{
+		return engines::engine::functions::timer::toSeconds( m_maxMediaLength ) ;
+	}
+	int minMediaLength() const
+	{
+		return engines::engine::functions::timer::toSeconds( m_minMediaLength ) ;
+	}
+private:
+	void takeOption( QStringList& opts,const QString& opt,QString& value )
+	{
+		for( int i = 0 ; i < opts.size() ; i++ ){
+
+			if( opts[ i ] == opt ){
+
+				if( i + 1 < opts.size() ){
+
+					value = opts[ i + 1 ] ;
+					opts.removeAt( i + 1 ) ;
+				}
+
+				opts.removeAt( i ) ;
+
+				break ;
+			}
+		}
+	}
+	QString m_maxMediaLength ;
+	QString m_minMediaLength ;
+};
+
 playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
@@ -181,10 +220,20 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbPLOptionsHistory,&QPushButton::clicked,[ this ](){
 
-		utility::showHistory( *m_ui.lineEditPLUrlOptions,
-				      m_settings.getOptionsHistory( settings::tabName::playlist ),
-				      m_settings,
-				      settings::tabName::playlist ) ;
+		auto s = utility::showHistory( *m_ui.lineEditPLUrlOptions,
+					       m_settings.getOptionsHistory( settings::tabName::playlist ),
+					       m_settings,
+					       settings::tabName::playlist ) ;
+
+		if( s ){
+
+			this->download() ;
+		}
+	} ) ;
+
+	connect( m_ui.pbPLDownload,&QPushButton::clicked,[ this ](){
+
+		this->download() ;
 	} ) ;
 
 	connect( m_ui.pbPLRangeHistory,&QPushButton::clicked,[ this ](){
@@ -226,11 +275,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	connect( m_ui.pbPLGetList,&QPushButton::clicked,[ this ](){
 
 		this->getList() ;
-	} ) ;
-
-	connect( m_ui.pbPLDownload,&QPushButton::clicked,[ this ](){
-
-		this->download() ;
 	} ) ;
 
 	connect( m_ui.pbPLQuit,&QPushButton::clicked,[ this ](){
@@ -572,27 +616,11 @@ void playlistdownloader::getList()
 
 	m_networkRunning = 0 ;
 
-	QString maxMediaLength ;
+	customOptions copts( opts ) ;
 
-	for( int i = 0 ; i < opts.size() ; i++ ){
+	auto bb = [ copts = std::move( copts ),this ]( tableWidget& table,Logger::Data& data ){
 
-		if( opts[ i ] == "--max-media-length" ){
-
-			if( i + 1 < opts.size() ){
-
-				maxMediaLength = opts[ i + 1 ] ;
-				opts.removeAt( i + 1 ) ;
-			}
-
-			opts.removeAt( i ) ;
-
-			break ;
-		}
-	}
-
-	auto bb = [ maxMediaLength,this ]( tableWidget& table,Logger::Data& data ){
-
-		this->parseJson( maxMediaLength,table,data ) ;
+		this->parseJson( std::move( copts ),table,data ) ;
 	} ;
 
 	utility::run( engine,
@@ -622,7 +650,7 @@ bool playlistdownloader::enabled()
 	return m_ui.lineEditPLUrl->isEnabled() ;
 }
 
-void playlistdownloader::parseJson( const QString& maxMediaLength,tableWidget& table,Logger::Data& data )
+void playlistdownloader::parseJson( const customOptions& copts,tableWidget& table,Logger::Data& data )
 {
 	auto mmm = data.toLine() ;
 
@@ -684,9 +712,16 @@ void playlistdownloader::parseJson( const QString& maxMediaLength,tableWidget& t
 		data.add( mmm.mid( index + 1 ) ) ;
 	}
 
-	auto maxMl = engines::engine::functions::timer::toSeconds( maxMediaLength ) ;
+	auto max = copts.maxMediaLength() ;
 
-	if( maxMl > 0 && media.intDuration() > maxMl ){
+	if( max > 0 && media.intDuration() > max ){
+
+		return ;
+	}
+
+	auto min = copts.minMediaLength() ;
+
+	if( min > 0 && media.intDuration() < min ){
 
 		return ;
 	}

@@ -102,12 +102,26 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		m_ui.BDFrame->hide() ;
 	} ) ;
 
+
 	connect( m_ui.pbBDOptionsHistory,&QPushButton::clicked,[ this ](){
 
-		utility::showHistory( *m_ui.lineEditBDUrlOptions,
-				      m_settings.getOptionsHistory( settings::tabName::batch ),
-				      m_settings,
-				      settings::tabName::batch ) ;
+		auto s = utility::showHistory( *m_ui.lineEditBDUrlOptions,
+					       m_settings.getOptionsHistory( settings::tabName::batch ),
+					       m_settings,settings::tabName::batch ) ;
+
+		if( s ){
+
+			auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
+
+			this->download( m_ctx.Engines().defaultEngine( m ) ) ;
+		}
+	} ) ;
+
+	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
+
+		auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
+
+		this->download( m_ctx.Engines().defaultEngine( m ) ) ;
 	} ) ;
 
 	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
@@ -299,13 +313,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			this->addToList( m ) ;
 		}
-	} ) ;
-
-	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
-
-		auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-		this->download( m_ctx.Engines().defaultEngine( m ) ) ;
 	} ) ;
 }
 
