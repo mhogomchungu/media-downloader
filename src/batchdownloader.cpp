@@ -21,6 +21,18 @@
 #include "tabmanager.h"
 #include "mainwindow.h"
 
+#include <QMetaObject>
+
+static QPixmap _setVideoThumbnail( const Context& ctx )
+{
+	auto& settings = ctx.Settings() ;
+
+	auto w = settings.thumbnailWidth( settings::tabName::batch ) ;
+	auto h = settings.thumbnailHeight( settings::tabName::batch ) ;
+
+	return QIcon( ":/video" ).pixmap( w,h ) ;
+}
+
 batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
@@ -31,8 +43,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1 ),
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font(),0 ),
 	m_debug( ctx.debug() ),
+	m_defaultVideoThumbnail( _setVideoThumbnail( m_ctx ) ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
 {
+	qRegisterMetaType< ItemEntry >() ;
+
 	m_tableWidgetBDList.setTableWidget( [](){
 
 		tableWidget::tableWidgetOptions opts ;
@@ -411,7 +426,7 @@ void batchdownloader::download( const engines::engine& engine,
 				this->showThumbnail( engine,index,m,false ) ;
 			} ) ;
 		}else{
-			this->addItemUi( -1,false,list.at( 0 ) ) ;
+			this->addItemUi( m_defaultVideoThumbnail,-1,false,list.at( 0 ) ) ;
 		}
 
 	}else if( list.size() <= m_settings.maxConcurrentDownloads() ){
@@ -427,7 +442,7 @@ void batchdownloader::download( const engines::engine& engine,
 
 			for( int i = 0 ; i < list.size() ; i++ ){
 
-				this->addItemUi( -1,false,list[ i ] ) ;
+				this->addItemUi( m_defaultVideoThumbnail,-1,false,list[ i ] ) ;
 
 				indexes.add( i,m ) ;
 			}
@@ -441,20 +456,22 @@ void batchdownloader::download( const engines::engine& engine,
 				this->showThumbnail( engine,index,m,true ) ;
 			} ) ;
 		}else{
-			for( const auto& it : list ){
-
-				this->addItemUi( -1,false,it ) ;
-			}
-
-			return this->download( engine ) ;
+			this->addItemUiSlot( { engine,list } ) ;
 		}
 	}else{
-		for( const auto& it : list ){
+		this->addItemUiSlot( { engine,list } ) ;
+	}
+}
 
-			this->addItemUi( -1,false,it ) ;
-		}
+void batchdownloader::addItemUiSlot( ItemEntry m )
+{
+	if( m.hasNext() ){
 
-		return this->download( engine ) ;
+		this->addItemUi( m_defaultVideoThumbnail,-1,false,m.next() ) ;
+
+		QMetaObject::invokeMethod( this,"addItemUiSlot",Qt::QueuedConnection,Q_ARG( ItemEntry,m ) ) ;
+	}else{
+		this->download( m.engine() ) ;
 	}
 }
 
@@ -619,12 +636,7 @@ void batchdownloader::addItemUi( const QPixmap& pixmap,
 
 void batchdownloader::addItemUi( int index,bool enableAll,utility::MediaEntry media )
 {
-	auto w = m_settings.thumbnailWidth( settings::tabName::batch ) ;
-	auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
-
-	auto pixmap = QIcon( ":/video" ).pixmap( w,h ) ;
-
-	this->addItemUi( pixmap,index,enableAll,std::move( media ) ) ;
+	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,std::move( media ) ) ;
 }
 
 void batchdownloader::addItem( int index,bool enableAll,utility::MediaEntry media )

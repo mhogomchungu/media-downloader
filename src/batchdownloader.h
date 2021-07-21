@@ -31,6 +31,36 @@
 
 class tabManager ;
 
+class ItemEntry
+{
+public:
+	ItemEntry()
+	{
+	}
+	ItemEntry( const engines::engine& engine,const QStringList& list ) :
+		m_engine( &engine ),
+		m_list( list )
+	{
+	}
+	QString next()
+	{
+		return m_list.takeFirst() ;
+	}
+	bool hasNext() const
+	{
+		return !m_list.isEmpty() ;
+	}
+	const engines::engine& engine()
+	{
+		return *m_engine ;
+	}
+private:
+	const engines::engine * m_engine ;
+	QStringList m_list ;
+};
+
+Q_DECLARE_METATYPE( ItemEntry )
+
 class batchdownloader : public QObject
 {
 	Q_OBJECT
@@ -68,6 +98,8 @@ public:
 	void updateEnginesList( const QStringList& ) ;
 	void download( const engines::engine&,const QString& opts,const QStringList& ) ;
 	void setThumbnailColumnSize( bool ) ;
+private slots:
+	void addItemUiSlot( ItemEntry ) ;
 private:
 	void clearScreen() ;
 	void showList() ;
@@ -90,9 +122,9 @@ private:
 	tableWidget m_tableWidgetBDList ;
 	bool m_debug ;
 	int m_networkRunning = false ;
-
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;
+	QPixmap m_defaultVideoThumbnail ;
 
 	utility::Terminator m_terminator ;
 
