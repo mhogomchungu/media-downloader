@@ -338,41 +338,41 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="368"/>
+        <location filename="../src/utility.cpp" line="389"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="369"/>
+        <location filename="../src/utility.cpp" line="390"/>
         <source>Best-audio</source>
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="539"/>
+        <location filename="../src/utility.cpp" line="560"/>
         <source>Save List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="542"/>
+        <location filename="../src/utility.cpp" line="563"/>
         <source>Save List To File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="275"/>
+        <location filename="../src/batchdownloader.cpp" line="290"/>
         <location filename="../src/playlistdownloader.cpp" line="186"/>
-        <location filename="../src/utility.cpp" line="357"/>
+        <location filename="../src/utility.cpp" line="378"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="383"/>
+        <location filename="../src/utility.cpp" line="404"/>
         <location filename="../src/utility.h" line="249"/>
         <location filename="../src/utility.h" line="269"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="394"/>
+        <location filename="../src/utility.cpp" line="415"/>
         <source>Open Download Folder</source>
         <translation>打开下载文件夹</translation>
     </message>
@@ -444,7 +444,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="571"/>
         <location filename="../src/engines.cpp" line="740"/>
-        <location filename="../src/utility.cpp" line="511"/>
+        <location filename="../src/utility.cpp" line="532"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
@@ -584,12 +584,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="1034"/>
+        <location filename="../src/utility.h" line="1026"/>
         <source>Upload Date:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="1042"/>
+        <location filename="../src/utility.h" line="1034"/>
         <source>Duration:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -636,29 +636,29 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="205"/>
+        <location filename="../src/batchdownloader.cpp" line="220"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="215"/>
+        <location filename="../src/batchdownloader.cpp" line="230"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="224"/>
+        <location filename="../src/batchdownloader.cpp" line="239"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="235"/>
+        <location filename="../src/batchdownloader.cpp" line="250"/>
         <source>Get List</source>
-        <translation type="unfinished">获取画质列表</translation>
+        <translation>获取画质列表</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="243"/>
+        <location filename="../src/batchdownloader.cpp" line="258"/>
         <source>Download</source>
-        <translation type="unfinished">下载</translation>
+        <translation>下载</translation>
     </message>
 </context>
 <context>
@@ -674,7 +674,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/configure.cpp" line="75"/>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="100"/>
@@ -734,17 +734,17 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="141"/>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="152"/>
         <source>Download</source>
-        <translation type="unfinished">下载</translation>
+        <translation>下载</translation>
     </message>
 </context>
 </TS>

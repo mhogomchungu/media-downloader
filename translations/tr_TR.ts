@@ -338,41 +338,41 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="368"/>
+        <location filename="../src/utility.cpp" line="389"/>
         <source>Best-audiovideo</source>
         <translation>En iyi sesli video</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="369"/>
+        <location filename="../src/utility.cpp" line="390"/>
         <source>Best-audio</source>
         <translation>En iyi ses</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="539"/>
+        <location filename="../src/utility.cpp" line="560"/>
         <source>Save List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="542"/>
+        <location filename="../src/utility.cpp" line="563"/>
         <source>Save List To File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="275"/>
+        <location filename="../src/batchdownloader.cpp" line="290"/>
         <location filename="../src/playlistdownloader.cpp" line="186"/>
-        <location filename="../src/utility.cpp" line="357"/>
+        <location filename="../src/utility.cpp" line="378"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="383"/>
+        <location filename="../src/utility.cpp" line="404"/>
         <location filename="../src/utility.h" line="249"/>
         <location filename="../src/utility.h" line="269"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="394"/>
+        <location filename="../src/utility.cpp" line="415"/>
         <source>Open Download Folder</source>
         <translation>İndirme Klasörünü Aç</translation>
     </message>
@@ -444,7 +444,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/engines.cpp" line="571"/>
         <location filename="../src/engines.cpp" line="740"/>
-        <location filename="../src/utility.cpp" line="511"/>
+        <location filename="../src/utility.cpp" line="532"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>&quot;%1&quot; yürütülebilir dosyası bulunamadı</translation>
     </message>
@@ -584,12 +584,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Günlük Penceresini Göster</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="1034"/>
+        <location filename="../src/utility.h" line="1026"/>
         <source>Upload Date:</source>
         <translation>Yükleme Tarihi:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="1042"/>
+        <location filename="../src/utility.h" line="1034"/>
         <source>Duration:</source>
         <translation>Süre:</translation>
     </message>
@@ -636,27 +636,27 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="205"/>
+        <location filename="../src/batchdownloader.cpp" line="220"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="215"/>
+        <location filename="../src/batchdownloader.cpp" line="230"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="224"/>
+        <location filename="../src/batchdownloader.cpp" line="239"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="235"/>
+        <location filename="../src/batchdownloader.cpp" line="250"/>
         <source>Get List</source>
         <translation>Liste Al</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="243"/>
+        <location filename="../src/batchdownloader.cpp" line="258"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
