@@ -538,20 +538,12 @@ namespace utility
 	signals :
 		void terminate( int index ) ;
 	private:
+		static bool processTerminate( QProcess& ) ;
 		static bool terminateProcess( const engines::engine&,QProcess& exe,int index,int idx )
 		{
 			if( index == idx ){
 
-				if( utility::platformIsWindows() ){
-
-					QStringList args{ "-T",QString::number( exe.processId() ) } ;
-
-					QProcess::startDetached( "media-downloader.exe",args ) ;
-				}else{
-					exe.terminate() ;
-				}
-
-				return true ;
+				return processTerminate( exe ) ;
 			}else{
 				return false ;
 			}

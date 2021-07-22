@@ -337,6 +337,27 @@ bool utility::platformIsOSX()
 
 #endif
 
+bool utility::Terminator::processTerminate( QProcess& exe )
+{
+	if( utility::platformIsWindows() ){
+
+		if( exe.state() == QProcess::ProcessState::Running ){
+
+			//QStringList args{ "-T",QString::number( exe.processId() ) } ;
+
+			//QProcess::startDetached( "media-downloader.exe",args ) ;
+
+			QStringList args{ "/F","/PID",QString::number( exe.processId() ) } ;
+
+			QProcess::startDetached( "taskkill",args ) ;
+		}
+	}else{
+		exe.terminate() ;
+	}
+
+	return true ;
+}
+
 bool utility::platformIsNOTWindows()
 {
 	return !utility::platformIsWindows() ;
