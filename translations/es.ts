@@ -113,7 +113,7 @@
         <location filename="../src/mainwindow.ui" line="999"/>
         <location filename="../src/mainwindow.ui" line="1015"/>
         <source>Recently Used</source>
-        <translation type="unfinished"></translation>
+        <translation>Usados Recientemente</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="275"/>
@@ -348,12 +348,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/utility.cpp" line="560"/>
         <source>Save List</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Lista</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="563"/>
         <source>Save List To File</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar Lista en Archivo</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="290"/>
@@ -599,12 +599,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/tableWidget.cpp" line="346"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>Completados: %1%, Sin iniciar: %2, Exitosos: %3, Fallidos: %4, Cancelados: %5</translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="355"/>
         <source>Media Already In Archive</source>
-        <translation type="unfinished"></translation>
+        <translation>Medio ya existe en archivo</translation>
     </message>
 </context>
 <context>
