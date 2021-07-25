@@ -184,6 +184,7 @@ public:
 	QStringList engineDefaultDownloadOptions( const QString& engineName ) ;
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
+	QStringList playlistUrlHistory() ;
 
 	QString lastUsedOption( const QString&,settings::tabName ) ;
 
@@ -204,6 +205,9 @@ public:
 	bool concurrentDownloading() ;
 	bool useSystemProvidedVersionIfAvailable() ;
 	bool showThumbnails() ;
+	bool saveHistory() ;
+
+	int historySize() ;
 
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
@@ -212,6 +216,8 @@ public:
 	void setEngineDefaultDownloadOptions( const QString& engineName,const QStringList& options ) ;
 	void addToplaylistRangeHistory( const QString& ) ;
 	void clearPlaylistRangeHistory() ;
+	void addToplaylistUrlHistory( const QString& ) ;
+	void clearPlaylistUrlHistory() ;
 	void addOptionsHistory( const QString&,settings::tabName ) ;
 	void setTheme( QApplication& ) ;
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;

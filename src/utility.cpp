@@ -584,3 +584,8 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 		}
 	} ) ;
 }
+
+bool utility::isRelativePath( const QString& e )
+{
+	return QDir::isRelativePath( e ) ;
+}

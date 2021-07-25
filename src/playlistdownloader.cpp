@@ -28,10 +28,33 @@
 class customOptions
 {
 public:
-	customOptions( QStringList& opts )
+	customOptions( const Context& ctx,QStringList& opts,QStringList& eOpts )
 	{
+		QString downloadArchive ;
+
 		this->takeOption( opts,"--max-media-length",m_maxMediaLength ) ;
 		this->takeOption( opts,"--min-media-length",m_minMediaLength ) ;
+		this->takeOption( opts,"--download-archive",downloadArchive ) ;
+
+		if( downloadArchive.isEmpty() && !eOpts.isEmpty() ){
+
+			this->takeOption( eOpts,"--download-archive",downloadArchive ) ;
+		}
+
+		if( !downloadArchive.isEmpty() ){
+
+			if( utility::isRelativePath( downloadArchive ) ){
+
+				downloadArchive = ctx.Settings().downloadFolder() + "/" + downloadArchive ;
+			}
+
+			if( QFile::exists( downloadArchive ) ){
+
+				m_file = std::make_unique< QFile >( downloadArchive ) ;
+
+				m_file->open( QIODevice::ReadOnly ) ;
+			}
+		}
 	}
 	int maxMediaLength() const
 	{
@@ -40,6 +63,25 @@ public:
 	int minMediaLength() const
 	{
 		return engines::engine::functions::timer::toSeconds( m_minMediaLength ) ;
+	}
+	bool contains( const QString& e ) const
+	{
+		if( m_file && m_file->isOpen() ){
+
+			QTextStream txt( m_file.get() ) ;
+
+			while( !txt.atEnd() ){
+
+				auto s = txt.readLine() ;
+
+				if( s.contains( e ) ){
+
+					return true ;
+				}
+			}
+		}
+
+		return false ;
 	}
 private:
 	void takeOption( QStringList& opts,const QString& opt,QString& value )
@@ -62,6 +104,7 @@ private:
 	}
 	QString m_maxMediaLength ;
 	QString m_minMediaLength ;
+	std::unique_ptr< QFile > m_file ;
 };
 
 playlistdownloader::playlistdownloader( Context& ctx ) :
@@ -242,7 +285,16 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 				      m_settings.playlistRangeHistory(),
 				      m_settings,
 				      settings::tabName::playlist,
-				      true ) ;
+				      utility::PlayListButtonName::DownloadRange ) ;
+	} ) ;
+
+	connect( m_ui.pbPLRecentlyUsedUrl,&QPushButton::clicked,[ this ](){
+
+		utility::showHistory( *m_ui.lineEditPLUrl,
+				      m_settings.playlistUrlHistory(),
+				      m_settings,
+				      settings::tabName::playlist,
+				      utility::PlayListButtonName::PlaylistUrl ) ;
 	} ) ;
 
 	m_table.connect( &QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
@@ -289,6 +341,7 @@ void playlistdownloader::init_done()
 
 void playlistdownloader::enableAll()
 {
+	m_ui.pbPLRecentlyUsedUrl->setEnabled( true ) ;
 	m_ui.pbPLPasteClipboard->setEnabled( true ) ;
 	m_ui.lineEditPLUrl->setEnabled( true ) ;
 	m_ui.labelPLEnterOptions->setEnabled( true ) ;
@@ -310,6 +363,7 @@ void playlistdownloader::enableAll()
 
 void playlistdownloader::disableAll()
 {
+	m_ui.pbPLRecentlyUsedUrl->setEnabled( false ) ;
 	m_ui.pbPLOptionsHistory->setEnabled( false ) ;
 	m_ui.pbPLRangeHistory->setEnabled( false ) ;
 	m_ui.pbPLPasteClipboard->setEnabled( false ) ;
@@ -569,6 +623,10 @@ void playlistdownloader::getList()
 		return ;
 	}
 
+	auto options = utility::split( url,' ',true ) ;
+
+	options.append( utility::split( m_ui.lineEditPLUrlOptions->text(),' ',true ) ) ;
+
 	m_ui.pbPLCancel->setEnabled( true ) ;
 
 	auto m = m_settings.defaultEngine( settings::tabName::playlist ) ;
@@ -582,6 +640,7 @@ void playlistdownloader::getList()
 	auto range = m_ui.lineEditPLDownloadRange->text() ;
 
 	m_settings.addToplaylistRangeHistory( range ) ;
+	m_settings.addToplaylistUrlHistory( url ) ;
 
 	m_ui.lineEditPLDownloadRange->clear() ;
 
@@ -599,7 +658,7 @@ void playlistdownloader::getList()
 		}
 	}
 
-	opts.append( m_ui.lineEditPLUrl->text() ) ;
+	opts.append( options.first() ) ;
 
 	auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
@@ -616,9 +675,7 @@ void playlistdownloader::getList()
 
 	m_networkRunning = 0 ;
 
-	customOptions copts( opts ) ;
-
-	auto bb = [ copts = std::move( copts ),this ]( tableWidget& table,Logger::Data& data ){
+	auto bb = [ copts = customOptions( m_ctx,opts,options ),this ]( tableWidget& table,Logger::Data& data ){
 
 		this->parseJson( std::move( copts ),table,data ) ;
 	} ;
@@ -710,6 +767,13 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 	}else{
 		data.clear() ;
 		data.add( mmm.mid( index + 1 ) ) ;
+	}
+
+	if( copts.contains( media.id() ) ){
+
+		auto m = tr( "Skipping a media with an id of \"%1\" because it is already in the archive file." ).arg( media.id() ) ;
+		m_ctx.logger().add( m ) ;
+		return ;
 	}
 
 	auto max = copts.maxMediaLength() ;

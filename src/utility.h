@@ -139,6 +139,7 @@ namespace utility
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;
+	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
 	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
 
@@ -198,12 +199,13 @@ namespace utility
 		bool m_clear = false ;
 	};
 
+	enum class PlayListButtonName{ DownloadRange,PlaylistUrl,None } ;
 	template< typename Settings,typename TabName >
 	inline bool showHistory( QLineEdit& lineEdit,
 				 const QStringList& history,
 				 Settings& settings,
 				 TabName tabName,
-				 bool playlistDownloader = false )
+				 PlayListButtonName pbn = PlayListButtonName::None )
 	{
 		if( history.isEmpty() ){
 
@@ -219,11 +221,15 @@ namespace utility
 
 				if( m == "Clear" ){
 
-					if( playlistDownloader ){
+					if( pbn == utility::PlayListButtonName::None ){
+
+						settings.clearOptionsHistory( tabName ) ;
+
+					}else if( pbn == utility::PlayListButtonName::DownloadRange ){
 
 						settings.clearPlaylistRangeHistory() ;
 					}else{
-						settings.clearOptionsHistory( tabName ) ;
+						settings.clearPlaylistUrlHistory() ;
 					}
 				}else{
 					s = true ;
@@ -240,7 +246,9 @@ namespace utility
 				}else{
 					auto a = it.mid( 0,32 ) ;
 					auto b = it.mid( it.size() - 32 ) ;
-					m.addAction( a + "..." + b )->setObjectName( it ) ;
+					auto ac = m.addAction( a + "..." + b ) ;
+					ac->setObjectName( it ) ;
+					ac->setToolTip( it ) ;
 				}
 			}
 
@@ -1020,6 +1028,7 @@ namespace utility
 				m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
 				m_url          = object.value( "webpage_url" ).toString() ;
 				m_uploadDate   = object.value( "upload_date" ).toString() ;
+				m_id           = object.value( "id" ).toString() ;
 
 				if( !m_uploadDate.isEmpty() ){
 
@@ -1096,6 +1105,10 @@ namespace utility
 		{
 			return m_duration ;
 		}
+		const QString& id() const
+		{
+			return m_id ;
+		}
 		int intDuration() const
 		{
 			return m_intDuration ;
@@ -1106,6 +1119,7 @@ namespace utility
 		QString m_uploadDate ;
 		QString m_url ;
 		QString m_duration ;
+		QString m_id ;
 		int m_intDuration ;
 		engines::Json m_json ;
 	};

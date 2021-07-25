@@ -91,29 +91,72 @@ void settings::clearOptionsHistory( settings::tabName e )
 	m_settings.setValue( _getOptionsHistoryTabName( e ),QStringList() ) ;
 }
 
-void settings::addToplaylistRangeHistory( const QString& e )
+static void _addToHistory( QSettings& settings,
+			   QStringList&& history,
+			   const QString& key,
+			   const QString& input,
+			   int max )
 {
-	if( !e.isEmpty() ){
+	if( !input.isEmpty() ){
 
-		auto m = this->playlistRangeHistory() ;
+		if( !history.contains( input ) ){
 
-		if( !m.contains( e ) ){
+			if( history.size() == max ){
 
-			if( m.size() == 5 ){
-
-				m.removeLast() ;
+				history.removeLast() ;
 			}
 
-			m.insert( 0,e ) ;
+			history.insert( 0,input ) ;
 
-			m_settings.setValue( "PlaylistRangeHistory",m ) ;
+			settings.setValue( key,history ) ;
 		}
+	}
+}
+
+void settings::addToplaylistRangeHistory( const QString& e )
+{
+	if( this->saveHistory() ){
+
+		_addToHistory( m_settings,
+			       this->playlistRangeHistory(),
+			       "PlaylistRangeHistory",
+			       e,
+			       this->historySize() ) ;
+	}
+}
+
+void settings::addToplaylistUrlHistory( const QString& e )
+{
+	if( this->saveHistory() ){
+
+		_addToHistory( m_settings,
+			       this->playlistUrlHistory(),
+			       "PlaylistUrlHistory",
+			       e,
+			       this->historySize() ) ;
+	}
+}
+
+void settings::addOptionsHistory( const QString& e,settings::tabName s )
+{
+	if( this->saveHistory() ){
+
+		_addToHistory( m_settings,
+			       this->getOptionsHistory( s ),
+			       _getOptionsHistoryTabName( s ),
+			       e,
+			       this->historySize() ) ;
 	}
 }
 
 void settings::clearPlaylistRangeHistory()
 {
 	m_settings.setValue( "PlaylistRangeHistory",QStringList() ) ;
+}
+
+void settings::clearPlaylistUrlHistory()
+{
+	m_settings.setValue( "PlaylistUrlHistory",QStringList() ) ;
 }
 
 QStringList settings::playlistRangeHistory()
@@ -126,24 +169,14 @@ QStringList settings::playlistRangeHistory()
 	return m_settings.value( "PlaylistRangeHistory" ).toStringList() ;
 }
 
-void settings::addOptionsHistory( const QString& e,settings::tabName s )
+QStringList settings::playlistUrlHistory()
 {
-	if( !e.isEmpty() ){
+	if( !m_settings.contains( "PlaylistUrlHistory" ) ){
 
-		auto m = this->getOptionsHistory( s ) ;
-
-		if( !m.contains( e ) ){
-
-			if( m.size() == 5 ){
-
-				m.removeLast() ;
-			}
-
-			m.insert( 0,e ) ;
-
-			m_settings.setValue( _getOptionsHistoryTabName( s ),m ) ;
-		}
+		m_settings.setValue( "PlaylistUrlHistory",QStringList() ) ;
 	}
+
+	return m_settings.value( "PlaylistUrlHistory" ).toStringList() ;
 }
 
 void settings::setDarkMode( const QString& e )
@@ -525,6 +558,26 @@ bool settings::showThumbnails()
 	}
 
 	return m_settings.value( "ShowThumbnails" ).toBool() ;
+}
+
+bool settings::saveHistory()
+{
+	if( !m_settings.contains( "SaveHistory" ) ){
+
+		m_settings.setValue( "SaveHistory",true ) ;
+	}
+
+	return m_settings.value( "SaveHistory" ).toBool() ;
+}
+
+int settings::historySize()
+{
+	if( !m_settings.contains( "HistorySize" ) ){
+
+		m_settings.setValue( "HistorySize",10 ) ;
+	}
+
+	return m_settings.value( "HistorySize" ).toInt() ;
 }
 
 static QString _thumbnailTabName( const QString& s, settings::tabName e )
