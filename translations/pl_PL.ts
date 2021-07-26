@@ -113,7 +113,7 @@
         <location filename="../src/mainwindow.ui" line="999"/>
         <location filename="../src/mainwindow.ui" line="1015"/>
         <source>Recently Used</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostatnio używane</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="275"/>
@@ -369,12 +369,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/utility.cpp" line="560"/>
         <source>Save List</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz listę</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="563"/>
         <source>Save List To File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz listę do pliku</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="43"/>
@@ -601,12 +601,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/tableWidget.cpp" line="346"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukończono: %1%, oczekujące: %2, zakończone: %3, zakończone z błędem: %4, anulowane: %5</translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="355"/>
         <source>Media Already In Archive</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik znajduje się już w archiwum</translation>
     </message>
 </context>
 <context>
