@@ -715,8 +715,6 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 	if( oo == -1 ){
 
-		qDebug() << "0. Failed to parse json data" ;
-
 		return ;
 	}
 
@@ -728,8 +726,6 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 		if( index >= mmm.size() ){
 
 			auto m = QString::number( index + 1 ) + " bytes" ;
-
-			qDebug() << "1. Failed to parse json data, incomplete data received: " + m ;
 
 			return ;
 		}
@@ -753,15 +749,11 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 		index++ ;
 	}
 
-	qDebug() << "2. sufficient data received: " << QString::number( index + 1 ) ;
-
 	auto aa = mmm.mid( oo,index + 1 ) ;
 
 	utility::MediaEntry media( aa.toUtf8() ) ;
 
 	if( !media.valid() ){
-
-		qDebug() << "3. Failed to parse json data: " + media.errorString() ;
 
 		return ;
 	}else{
