@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -284,7 +284,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -672,7 +672,7 @@ Each Link Should Be In Its Own Line.</string>
          <rect>
           <x>652</x>
           <y>300</y>
-          <width>41</width>
+          <width>31</width>
           <height>33</height>
          </rect>
         </property>
@@ -739,6 +739,22 @@ Each Link Should Be In Its Own Line.</string>
           <width>511</width>
           <height>31</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbFileDownloaderOptionsHistory">
+        <property name="geometry">
+         <rect>
+          <x>652</x>
+          <y>330</y>
+          <width>31</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Recently Used</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
@@ -1182,8 +1198,8 @@ Each Link Should Be In Its Own Line.</string>
         <property name="geometry">
          <rect>
           <x>608</x>
-          <y>90</y>
-          <width>41</width>
+          <y>88</y>
+          <width>31</width>
           <height>31</height>
          </rect>
         </property>
@@ -1414,7 +1430,7 @@ Each Link Should Be In Its Own Line.</string>
          <rect>
           <x>210</x>
           <y>330</y>
-          <width>181</width>
+          <width>176</width>
           <height>31</height>
          </rect>
         </property>
@@ -1518,7 +1534,7 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QPushButton" name="pbConfigureAddToPresetList">
         <property name="geometry">
          <rect>
-          <x>390</x>
+          <x>386</x>
           <y>330</y>
           <width>181</width>
           <height>31</height>

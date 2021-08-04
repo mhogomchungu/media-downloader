@@ -54,6 +54,18 @@ batchfiledownloader::batchfiledownloader( const Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbFileDownloaderOptionsHistory,&QPushButton::clicked,[ this ](){
+
+		auto s = utility::showHistory( *m_ui.lineEditFileOptions,
+					       m_settings.getOptionsHistory( settings::tabName::batch ),
+					       m_settings,settings::tabName::batch ) ;
+
+		if( s ){
+
+			this->download() ;
+		}
+	} ) ;
+
 	this->resetMenu() ;
 }
 
@@ -72,6 +84,7 @@ void batchfiledownloader::enableAll()
 	m_ui.labelFileDownloader->setEnabled( true ) ;
 	m_ui.labelFileDownloederPath->setEnabled( true ) ;
 	m_ui.labelFileDownloederPathOptions->setEnabled( true ) ;
+	m_ui.pbFileDownloaderOptionsHistory->setEnabled( true ) ;
 }
 
 void batchfiledownloader::resetMenu()
@@ -133,4 +146,5 @@ void batchfiledownloader::disableAll()
 	m_ui.labelFileDownloader->setEnabled( false ) ;
 	m_ui.labelFileDownloederPath->setEnabled( false ) ;
 	m_ui.labelFileDownloederPathOptions->setEnabled( false ) ;
+	m_ui.pbFileDownloaderOptionsHistory->setEnabled( false ) ;
 }

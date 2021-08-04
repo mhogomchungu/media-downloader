@@ -725,8 +725,6 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 		if( index >= mmm.size() ){
 
-			auto m = QString::number( index + 1 ) + " bytes" ;
-
 			return ;
 		}
 

@@ -63,7 +63,9 @@ Version 1.2.0(April 1st, 2021)
 - Make it possible to set downloading option per entry in the batch downloader or playlist downloader that overrides
   global options that are set in the "Enter Options" field.
 
-  Version 1.6.0(Unreleased)
+  Version 1.6.0(August 4th, 2021)
   - Add a context menu in the batch downloader tab and playlist downloader tab to save add added entries to disk.
   - Show progress in the title bar when downloading media through the batch downloader tab and playlist downloader tab.
   - Add "--max-media-length" and "--min-media-length" options to exclude playlist entries that falls outside the media lenght boundary.
+  - Update translations.
+  - Add ability to show history of receantly used commands in all relevant places.
