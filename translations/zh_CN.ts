@@ -113,7 +113,7 @@
         <location filename="../src/mainwindow.ui" line="999"/>
         <location filename="../src/mainwindow.ui" line="1015"/>
         <source>Recently Used</source>
-        <translation type="unfinished"></translation>
+        <translation>最近使用</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="275"/>
@@ -129,7 +129,7 @@
         <location filename="../src/mainwindow.ui" line="313"/>
         <location filename="../src/mainwindow.ui" line="891"/>
         <source>Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>缩略图</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="318"/>
@@ -145,7 +145,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="594"/>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="614"/>
@@ -229,7 +229,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1317"/>
         <source>Show Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>显示缩略图</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1340"/>
@@ -307,12 +307,12 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/mainwindow.ui" line="1441"/>
         <location filename="../src/mainwindow.ui" line="1480"/>
         <source>Ui Name</source>
-        <translation type="unfinished"></translation>
+        <translation>分辨率名称</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1515"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>添加</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1543"/>
@@ -350,12 +350,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/utility.cpp" line="560"/>
         <source>Save List</source>
-        <translation type="unfinished"></translation>
+        <translation>保存列表</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="563"/>
         <source>Save List To File</source>
-        <translation type="unfinished"></translation>
+        <translation>保存列表到文件</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="290"/>
@@ -369,7 +369,7 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/utility.h" line="249"/>
         <location filename="../src/utility.h" line="269"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>清除</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="415"/>
@@ -456,7 +456,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="810"/>
         <source>Download cancelled</source>
-        <translation type="unfinished"></translation>
+        <translation>下载已取消</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1155"/>
@@ -475,7 +475,7 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/engines.cpp" line="1344"/>
         <location filename="../src/engines.cpp" line="1349"/>
         <source>Elapsed Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>已用时间:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="59"/>
@@ -581,32 +581,32 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/utility.h" line="260"/>
         <source>Show Log Window</source>
-        <translation type="unfinished"></translation>
+        <translation>显示日志窗口</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="1026"/>
         <source>Upload Date:</source>
-        <translation type="unfinished"></translation>
+        <translation>上传日期:</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="1034"/>
         <source>Duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>持续时间</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="47"/>
         <source>Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>下载选项</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="346"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5</translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="355"/>
         <source>Media Already In Archive</source>
-        <translation type="unfinished"></translation>
+        <translation>已存档的媒体</translation>
     </message>
 </context>
 <context>
@@ -638,7 +638,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/batchdownloader.cpp" line="220"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>打开</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="230"/>
@@ -716,12 +716,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/logwindow.ui" line="17"/>
         <source>Log Window</source>
-        <translation type="unfinished"></translation>
+        <translation>日志窗口</translation>
     </message>
     <message>
         <location filename="../src/logwindow.ui" line="45"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭</translation>
     </message>
 </context>
 <context>
@@ -729,7 +729,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="123"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>打开</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
