@@ -117,7 +117,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		m_ui.BDFrame->hide() ;
 	} ) ;
 
-
 	connect( m_ui.pbBDOptionsHistory,&QPushButton::clicked,[ this ](){
 
 		auto s = utility::showHistory( *m_ui.lineEditBDUrlOptions,
@@ -569,6 +568,15 @@ void batchdownloader::showList()
 	if( args.isEmpty() ){
 
 		return ;
+	}
+
+	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
+	const auto& ca = engine.cookieArgument() ;
+
+	if( !cookiePath.isEmpty() && !ca.isEmpty() ){
+
+		args.append( ca ) ;
+		args.append( cookiePath ) ;
 	}
 
 	m_optionsList.clear() ;

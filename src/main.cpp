@@ -22,28 +22,24 @@
 #include "translator.h"
 #include "utility"
 
-#include <cstring>
-#include <cstdlib>
-
 int main( int argc,char * argv[] )
 {
-	if( utility::platformIsWindows() ){
+	const auto m = utility::Terminator::terminate( argc,argv ) ;
 
-		if( argc > 2 && std::strcmp( argv[ 1 ],"-T" ) == 0 ){
+	if( m ){
 
-			return utility::Terminator::terminateProcess( std::strtoul( argv[ 2 ],nullptr,10 ) ) ;
-		}
+		return m.value() ;
+	}else{
+		settings settings ;
+
+		QApplication app( argc,argv ) ;
+
+		app.setApplicationName( "media-downloader" ) ;
+
+		settings.setTheme( app ) ;
+
+		translator translator( settings,app ) ;
+
+		return MainWindow( app,settings,translator ).exec() ;
 	}
-
-	settings settings ;
-
-	QApplication app( argc,argv ) ;
-
-	app.setApplicationName( "media-downloader" ) ;
-
-	settings.setTheme( app ) ;
-
-	translator translator( settings,app ) ;
-
-	return MainWindow( app,settings,translator ).exec() ;
 }

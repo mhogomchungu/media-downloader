@@ -498,66 +498,6 @@ namespace utility
 		return utility::Conn< Function,FunctionConnect >( std::move( f ),std::move( c ) ) ;
 	}
 
-	class Terminator : public QObject
-	{
-		Q_OBJECT
-	public:
-		static int terminateProcess( unsigned long pid ) ;
-
-		template< typename Object,typename Member >
-		auto setUp( Object obj,Member member,int idx )
-		{
-			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
-
-				return utility::Terminator::terminateProcess( engine,exe,index,idx ) ;
-
-			},[ idx,obj,member,this ]( auto function ){
-
-				Q_UNUSED( this ) //Older version of gcc seems to require capturing "this".
-
-				return QObject::connect( obj,member,[ idx,function = std::move( function ) ](){
-
-					function( idx ) ;
-				} ) ;
-			} ) ;
-		}
-		auto setUp()
-		{
-			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
-
-				return utility::Terminator::terminateProcess( engine,exe,index,idx ) ;
-
-			},[ this ]( auto function ){
-
-				return QObject::connect( this,&utility::Terminator::terminate,
-							 [ function = std::move( function ) ]( int index ){
-
-					function( index ) ;
-				} ) ;
-			} ) ;
-		}
-		void terminateAll( QTableWidget& t )
-		{
-			for( int i = 0 ; i < t.rowCount() ; i++ ){
-
-				this->terminate( i ) ;
-			}
-		}
-	signals :
-		void terminate( int index ) ;
-	private:
-		static bool processTerminate( QProcess& ) ;
-		static bool terminateProcess( const engines::engine&,QProcess& exe,int index,int idx )
-		{
-			if( index == idx ){
-
-				return processTerminate( exe ) ;
-			}else{
-				return false ;
-			}
-		}
-	};
-
 	class ProcessExitState
 	{
 	public:
@@ -965,11 +905,19 @@ namespace utility
 		{
 			return this->set( std::forward< T >( t ) ... ).get() ;
 		}
-		S& get() const
+		S& get()
 		{
 			return *m_pointer ;
 		}
-		S * operator->() const
+		S * operator->()
+		{
+			return m_pointer ;
+		}
+		const S& get() const
+		{
+			return *m_pointer ;
+		}
+		const S * operator->() const
 		{
 			return m_pointer ;
 		}
@@ -978,6 +926,7 @@ namespace utility
 			if( m_pointer ){
 
 				m_pointer->~S() ;
+				m_pointer = nullptr ;
 			}
 		}
 		bool created() const
@@ -1002,6 +951,116 @@ namespace utility
 		#else
 			typename std::aligned_storage< sizeof( S ),alignof( S ) >::type m_storage ;
 		#endif
+	};
+
+	template< typename T >
+	class result
+	{
+	public:
+		result()
+		{
+		}
+		template< typename S >
+		result( S&& e ) : m_value( std::forward< S >( e ) )
+		{
+		}
+		const T * operator->() const
+		{
+			return m_value.operator->() ;
+		}
+		const T& value() const
+		{
+			return m_value.get() ;
+		}
+		const T& operator*() const
+		{
+			return this->value() ;
+		}
+		T * operator->()
+		{
+			return m_value.operator->() ;
+		}
+		T& value()
+		{
+			return m_value.get() ;
+		}
+		T& operator*()
+		{
+			return this->value() ;
+		}
+		bool has_value() const
+		{
+			return m_value.created() ;
+		}
+		operator bool() const
+		{
+			return this->has_value() ;
+		}
+	private:
+		utility::storage< T > m_value ;
+	} ;
+
+	class Terminator : public QObject
+	{
+		Q_OBJECT
+	public:
+		static utility::result< int > terminate( int argc,char ** argv ) ;
+
+		template< typename Object,typename Member >
+		auto setUp( Object obj,Member member,int idx )
+		{
+			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+
+				return utility::Terminator::terminate( engine,exe,index,idx ) ;
+
+			},[ idx,obj,member,this ]( auto function ){
+
+				Q_UNUSED( this ) //Older version of gcc seems to require capturing "this".
+
+				return QObject::connect( obj,member,[ idx,function = std::move( function ) ](){
+
+					function( idx ) ;
+				} ) ;
+			} ) ;
+		}
+		auto setUp()
+		{
+			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+
+				return utility::Terminator::terminate( engine,exe,index,idx ) ;
+
+			},[ this ]( auto function ){
+
+				using e = void( Terminator::* )( int ) ;
+
+				auto m = static_cast< e >( &utility::Terminator::terminate ) ;
+
+				return QObject::connect( this,m,[ function = std::move( function ) ]( int index ){
+
+					function( index ) ;
+				} ) ;
+			} ) ;
+		}
+		void terminateAll( QTableWidget& t )
+		{
+			for( int i = 0 ; i < t.rowCount() ; i++ ){
+
+				this->terminate( i ) ;
+			}
+		}
+	signals :
+		void terminate( int index ) ;
+	private:
+		static bool terminate( QProcess& ) ;
+		static bool terminate( const engines::engine&,QProcess& exe,int index,int idx )
+		{
+			if( index == idx ){
+
+				return utility::Terminator::terminate( exe ) ;
+			}else{
+				return false ;
+			}
+		}
 	};
 
 	class MediaEntry

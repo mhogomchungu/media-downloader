@@ -250,7 +250,7 @@ static void _addItem( tableWidget& t,const QString& text,const QFont& font,bool 
 	table.setItem( row,2,item1 ) ;
 }
 
-qint64 _created_time( QFileInfo& e )
+static qint64 _created_time( QFileInfo& e )
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
 	return e.birthTime().toMSecsSinceEpoch() ;
@@ -287,7 +287,7 @@ void library::showContents( const QString& path,bool disableUi )
 
 		struct entry
 		{
-			entry( bool f,qint64 d,const QString& p ) :
+			entry( bool f,qint64 d,QString p ) :
 				file( f ),
 				dateCreated( d ),
 				path( std::move( p ) )

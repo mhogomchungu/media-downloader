@@ -328,11 +328,11 @@ private:
 } ;
 
 template< typename Function,typename Engine >
-static auto make_loggerBatchDownloader( Function function,
-					Engine& engine,
-					Logger& logger,
-					QTableWidgetItem& item,
-					int id )
+auto make_loggerBatchDownloader( Function function,
+				 Engine& engine,
+				 Logger& logger,
+				 QTableWidgetItem& item,
+				 int id )
 {
 	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,logger,item,id ) ;
 }

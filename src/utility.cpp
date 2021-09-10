@@ -142,11 +142,6 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-int utility::Terminator::terminateProcess( unsigned long )
-{
-	return 0 ;
-}
-
 QString utility::python3Path()
 {
 	return QStandardPaths::findExecutable( "python3" ) ;
@@ -155,6 +150,11 @@ QString utility::python3Path()
 bool utility::platformIs32BitWindows()
 {
 	return false ;
+}
+
+utility::result< int > utility::Terminator::terminate( int,char ** )
+{
+	return {} ;
 }
 
 #endif
@@ -181,9 +181,9 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-int utility::Terminator::terminateProcess( unsigned long )
+utility::result< int > utility::Terminator::terminate( int,char ** )
 {
-	return 0 ;
+	return {} ;
 }
 
 bool utility::platformIs32BitWindows()
@@ -196,6 +196,9 @@ bool utility::platformIs32BitWindows()
 #ifdef Q_OS_WIN
 
 #include <windows.h>
+
+#include <cstring>
+#include <cstdlib>
 
 template< typename Function,typename Deleter,typename ... Arguments >
 auto unique_rsc( Function&& function,Deleter&& deleter,Arguments&& ... args )
@@ -214,7 +217,7 @@ auto unique_ptr( Type type,Deleter&& deleter )
 			   std::forward< Deleter >( deleter ),type ) ;
 }
 
-int utility::Terminator::terminateProcess( unsigned long pid )
+static int _terminateWindowApp( unsigned long pid )
 {
 	FreeConsole() ;
 
@@ -229,6 +232,16 @@ int utility::Terminator::terminateProcess( unsigned long pid )
 	}
 
 	return 1 ;
+}
+
+utility::result< int > utility::Terminator::terminate( int argc,char ** argv )
+{
+	if( argc > 2 && std::strcmp( argv[ 1 ],"-T" ) == 0 ){
+
+		return _terminateWindowApp( std::strtoul( argv[ 2 ],nullptr,10 ) ) ;
+	}else{
+		return {} ;
+	}
 }
 
 static HKEY _reg_open_key( const char * subKey,HKEY hkey )
@@ -337,7 +350,7 @@ bool utility::platformIsOSX()
 
 #endif
 
-bool utility::Terminator::processTerminate( QProcess& exe )
+bool utility::Terminator::terminate( QProcess& exe )
 {
 	if( utility::platformIsWindows() ){
 
@@ -447,23 +460,14 @@ QString utility::homePath()
 
 void utility::waitForOneSecond()
 {
-	utility::wait( 1 ) ;
+	utility::wait( 1000 ) ;
 }
 
 void utility::wait( int time )
 {
 	QEventLoop e ;
 
-	utility::Timer( 1,[ & ]( int counter ){
-
-		if( counter == time ){
-
-			e.exit() ;
-			return true ;
-		}else{
-			return false ;
-		}
-	} ) ;
+	utility::Timer( time,[ & ](){ e.exit() ;} ) ;
 
 	e.exec() ;
 }
