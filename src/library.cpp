@@ -53,7 +53,7 @@ library::library( const Context& ctx ) :
 
 				m_ctx.TabManager().disableAll() ;
 
-				utility::runInBgThread( [ m ](){
+				util::runInBgThread( [ m ](){
 
 					if( QFileInfo( m ).isFile() ){
 
@@ -75,7 +75,7 @@ library::library( const Context& ctx ) :
 
 			m_ctx.TabManager().disableAll() ;
 
-			utility::runInBgThread( [ this ](){
+			util::runInBgThread( [ this ](){
 
 				auto mode = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 
@@ -270,7 +270,7 @@ void library::showContents( const QString& path,bool disableUi )
 		m_ctx.TabManager().disableAll() ;
 	}
 
-	utility::runInBgThread( [ path ](){
+	util::runInBgThread( [ path ](){
 
 		auto mode = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 

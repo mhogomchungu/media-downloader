@@ -39,6 +39,8 @@
 
 #include "tableWidget.h"
 
+#include "util.hpp"
+
 class Context ;
 
 class tabManager ;
@@ -50,53 +52,6 @@ namespace Ui
 
 namespace utility
 {
-	namespace types
-	{
-		#if __cplusplus >= 201703L
-			template<typename Function,typename ... Args>
-			using result_of = std::invoke_result_t<Function,Args ...> ;
-		#else
-			template<typename Function,typename ... Args>
-			using result_of = std::result_of_t<Function(Args ...)> ;
-		#endif
-
-		template<typename ReturnType,typename Function,typename ... Args>
-		using imp = std::enable_if_t<std::is_same<result_of<Function,Args...>,ReturnType>::value,int> ;
-
-		template<typename ReturnType,typename Function,typename ... Args>
-		using has_same_return_type = std::enable_if_t<std::is_same<result_of<Function,Args...>,ReturnType>::value,int> ;
-
-		template<typename Function,typename ... Args>
-		using has_argument = imp<result_of<Function,Args...>,Function,Args...> ;
-
-		template<typename Function>
-		using has_no_argument = imp<result_of<Function>,Function> ;
-
-		template<typename Function,typename ... Args>
-		using has_void_return_type = has_same_return_type<void,Function,Args...> ;
-
-		template<typename Function,typename ... Args>
-		using has_bool_return_type = has_same_return_type<bool,Function,Args...> ;
-
-		template<typename Function,typename ... Args>
-		using has_non_void_return_type = std::enable_if_t<!std::is_void<result_of<Function,Args...>>::value,int> ;
-	}
-
-	template< typename T >
-	typename std::add_const<T>::type& asConst( T& t )
-	{
-		return t ;
-	}
-
-	template< typename T >
-	void asConst( const T&& ) = delete ;
-
-	QStringList splitPreserveQuotes( const QString& ) ;
-	QStringList split( const QString& e,char token,bool skipEmptyParts ) ;
-	QStringList split( const QString& e,const char * token ) ;
-	QList< QByteArray > split( const QByteArray& e,char token = '\n' ) ;
-	QList< QByteArray > split( const QByteArray& e,QChar token = '\n' ) ;
-
 	class args
 	{
 	public:
@@ -104,7 +59,7 @@ namespace utility
 		{
 			if( !e.isEmpty() ){
 
-				m_otherOptions = utility::splitPreserveQuotes( e ) ;
+				m_otherOptions = util::splitPreserveQuotes( e ) ;
 
 				if( !m_otherOptions.isEmpty() ){
 
@@ -351,114 +306,10 @@ namespace utility
 		QObject::connect( menu,&QMenu::triggered,std::move( function ) ) ;
 	}
 
-	template< typename WhenCreated,
-		  typename WhenStarted,
-		  typename WhenDone,
-		  typename WithData,
-		  utility::types::has_non_void_return_type< WhenCreated,QProcess& > = 0 >
-	void run( const QString& cmd,
-		  const QStringList& args,
-		  WhenCreated whenCreated,
-		  WhenStarted whenStarted,
-		  WhenDone whenDone,
-		  WithData withData )
-	{
-		auto exe = new QProcess() ;
-
-		using type = utility::types::result_of< WhenCreated,QProcess& > ;
-
-		auto data = std::make_shared< type >( whenCreated( *exe ) ) ;
-
-		QObject::connect( exe,&QProcess::readyReadStandardOutput,
-				  [ exe,data,withData = std::move( withData ) ](){
-
-			withData( QProcess::ProcessChannel::StandardOutput,
-				  exe->readAllStandardOutput(),*data ) ;
-		} ) ;
-
-		QObject::connect( exe,&QProcess::readyReadStandardError,
-				  [ exe,data,withData = std::move( withData ) ](){
-
-			withData( QProcess::ProcessChannel::StandardError,
-				  exe->readAllStandardError(),*data ) ;
-		} ) ;
-
-		using process = void( QProcess::* )( int,QProcess::ExitStatus ) ;
-
-		auto s = static_cast< process >( &QProcess::finished ) ;
-
-		QObject::connect( exe,s,[ data,exe,whenDone = std::move( whenDone ) ]
-				  ( int e,QProcess::ExitStatus ss ){
-
-			whenDone( e,ss,*data ) ;
-
-			exe->deleteLater() ;
-		} ) ;
-
-		QObject::connect( exe,&QProcess::started,
-				  [ exe,whenStarted = std::move( whenStarted ) ](){
-
-			whenStarted( *exe ) ;
-		} ) ;
-
-		exe->start( cmd,args ) ;		
-	}
-
-	template< typename WhenCreated,
-		  typename WhenStarted,
-		  typename WhenDone,
-		  typename WithData,
-		  utility::types::has_void_return_type< WhenCreated,QProcess& > = 0 >
-	void run( const QString& cmd,
-		  const QStringList& args,
-		  WhenCreated whenCreated,
-		  WhenStarted whenStarted,
-		  WhenDone whenDone,
-		  WithData withData )
-	{
-		auto exe = new QProcess() ;
-
-		whenCreated( *exe ) ;
-
-		QObject::connect( exe,&QProcess::readyReadStandardOutput,
-				  [ exe,withData = std::move( withData ) ](){
-
-			withData( QProcess::ProcessChannel::StandardOutput,
-				  exe->readAllStandardOutput() ) ;
-		} ) ;
-
-		QObject::connect( exe,&QProcess::readyReadStandardError,
-				  [ exe,withData = std::move( withData ) ](){
-
-			withData( QProcess::ProcessChannel::StandardError,
-				  exe->readAllStandardError() ) ;
-		} ) ;
-
-		using type = void( QProcess::* )( int,QProcess::ExitStatus ) ;
-
-		auto s = static_cast< type >( &QProcess::finished ) ;
-
-		QObject::connect( exe,s,[ exe,whenDone = std::move( whenDone ) ]
-				  ( int e,QProcess::ExitStatus ss ){
-
-			whenDone( e,ss ) ;
-
-			exe->deleteLater() ;
-		} ) ;
-
-		QObject::connect( exe,&QProcess::started,
-				  [ exe,whenStarted = std::move( whenStarted ) ](){
-
-			whenStarted( *exe ) ;
-		} ) ;
-
-		exe->start( cmd,args ) ;
-	}
-
 	template< typename WhenDone,typename WithData >
 	void run( const QString& cmd,const QStringList& args,WhenDone w,WithData p )
 	{
-		utility::run( cmd,args,[]( QProcess& ){},std::move( w ),std::move( p ) ) ;
+		util::run( cmd,args,[]( QProcess& ){},std::move( w ),std::move( p ) ) ;
 	}
 
 	template< typename Function,typename FunctionConnect >
@@ -497,6 +348,69 @@ namespace utility
 	{
 		return utility::Conn< Function,FunctionConnect >( std::move( f ),std::move( c ) ) ;
 	}
+
+	class Terminator : public QObject
+	{
+		Q_OBJECT
+	public:
+		static util::result< int > terminate( int argc,char ** argv ) ;
+
+		template< typename Object,typename Member >
+		auto setUp( Object obj,Member member,int idx )
+		{
+			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+
+				return utility::Terminator::terminate( engine,exe,index,idx ) ;
+
+			},[ idx,obj,member,this ]( auto function ){
+
+				Q_UNUSED( this ) //Older version of gcc seems to require capturing "this".
+
+				return QObject::connect( obj,member,[ idx,function = std::move( function ) ](){
+
+					function( idx ) ;
+				} ) ;
+			} ) ;
+		}
+		auto setUp()
+		{
+			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+
+				return utility::Terminator::terminate( engine,exe,index,idx ) ;
+
+			},[ this ]( auto function ){
+
+				using e = void( Terminator::* )( int ) ;
+
+				auto m = static_cast< e >( &utility::Terminator::terminate ) ;
+
+				return QObject::connect( this,m,[ function = std::move( function ) ]( int index ){
+
+					function( index ) ;
+				} ) ;
+			} ) ;
+		}
+		void terminateAll( QTableWidget& t )
+		{
+			for( int i = 0 ; i < t.rowCount() ; i++ ){
+
+				this->terminate( i ) ;
+			}
+		}
+	signals :
+		void terminate( int index ) ;
+	private:
+		static bool terminate( QProcess& ) ;
+		static bool terminate( const engines::engine&,QProcess& exe,int index,int idx )
+		{
+			if( index == idx ){
+
+				return utility::Terminator::terminate( exe ) ;
+			}else{
+				return false ;
+			}
+		}
+	};
 
 	class ProcessExitState
 	{
@@ -633,7 +547,7 @@ namespace utility
 
 			if( m_options.listRequested() ){
 
-				m_options.listRequested( utility::split( m_data,'\n' ) ) ;
+				m_options.listRequested( util::split( m_data,'\n' ) ) ;
 			}
 
 			auto m = m_timeCounter.elapsedTime() ;
@@ -685,7 +599,7 @@ namespace utility
 
 		using unique_ptr_ctx_t = std::unique_ptr< ctx_t > ;
 
-		utility::run( exe,cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
+		util::run( exe,cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
 
 			exe.setProcessEnvironment( options.processEnvironment() ) ;
 
@@ -747,59 +661,6 @@ namespace utility
 		} ) ;
 	}
 
-	/*
-	 * Function must take an int and must return bool
-	 */
-	template< typename Function,utility::types::has_bool_return_type<Function,int > = 0 >
-	void Timer( int interval,Function&& function )
-	{
-		class Timer{
-		public:
-			Timer( int interval,Function&& function ) :
-				m_function( std::forward< Function >( function ) )
-			{
-				auto timer = new QTimer() ;
-
-				QObject::connect( timer,&QTimer::timeout,[ timer,this ](){
-
-					m_counter++ ;
-
-					if( m_function( m_counter ) ){
-
-						timer->stop() ;
-
-						timer->deleteLater() ;
-
-						delete this ;
-					}
-				} ) ;
-
-				timer->start( interval ) ;
-			}
-		private:
-			int m_counter = 0 ;
-			Function m_function ;
-		} ;
-
-		new Timer( interval,std::forward< Function >( function ) ) ;
-	}
-
-	/*
-	 * Function must takes no argument and will be called once when the interval pass
-	 */
-	template< typename Function,utility::types::has_no_argument< Function > = 0 >
-	void Timer( int interval,Function&& function )
-	{
-		utility::Timer( interval,[ function = std::forward< Function >( function ) ]( int s ){
-
-			Q_UNUSED( s )
-
-			function() ;
-
-			return true ;
-		} ) ;
-	}
-
 	template< typename List,
 		  std::enable_if_t< std::is_lvalue_reference< List >::value,int > = 0 >
 	class reverseIterator
@@ -828,7 +689,7 @@ namespace utility
 			return m_list[ s ] ;
 		}
 		template< typename Function,
-			  utility::types::has_bool_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
+			  util::types::has_bool_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
 		void forEach( Function function )
 		{
 			while( this->hasNext() ){
@@ -840,7 +701,7 @@ namespace utility
 			}
 		}
 		template< typename Function,
-			  utility::types::has_void_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
+			  util::types::has_void_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
 		void forEach( Function function )
 		{
 			while( this->hasNext() ){
@@ -858,210 +719,6 @@ namespace utility
 	{
 		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
 	}
-
-	template< typename S >
-	class storage
-	{
-	public:
-		storage()
-		{
-		}
-		storage( const storage& s )
-		{
-			this->set( s.get() ) ;
-		}
-		storage( storage& s )
-		{
-			this->set( s.get() ) ;
-		}
-		storage( storage&& s )
-		{
-			this->set( std::move( s.get() ) ) ;
-		}
-		template< typename ... T >
-		storage( T&& ... t )
-		{
-			this->set( std::forward< T >( t ) ... ) ;
-		}
-		storage& operator=( const storage& s )
-		{
-			return this->set( s.get() ) ;
-		}
-		storage& operator=( storage& s )
-		{
-			return this->set( s.get() ) ;
-		}
-		storage& operator=( storage&& s )
-		{
-			return this->set( std::move( s.get() ) ) ;
-		}
-		template< typename T >
-		storage& operator=( T&& t )
-		{
-			return this->set( std::forward< T >( t ) ) ;
-		}
-		template< typename ... T >
-		S& put( T&& ... t )
-		{
-			return this->set( std::forward< T >( t ) ... ).get() ;
-		}
-		S& get()
-		{
-			return *m_pointer ;
-		}
-		S * operator->()
-		{
-			return m_pointer ;
-		}
-		const S& get() const
-		{
-			return *m_pointer ;
-		}
-		const S * operator->() const
-		{
-			return m_pointer ;
-		}
-		~storage()
-		{
-			if( m_pointer ){
-
-				m_pointer->~S() ;
-				m_pointer = nullptr ;
-			}
-		}
-		bool created() const
-		{
-			return m_pointer ;
-		}
-	private:
-		template< typename ... T >
-		storage& set( T&& ... t )
-		{
-			if( m_pointer ){
-
-				m_pointer->~S() ;
-			}
-
-			m_pointer = new ( &m_storage ) S( std::forward< T >( t ) ... ) ;
-			return *this ;
-		}
-		S * m_pointer = nullptr ;
-		#if __cplusplus >= 201703L
-			alignas( S ) std::byte m_storage[ sizeof( S ) ] ;
-		#else
-			typename std::aligned_storage< sizeof( S ),alignof( S ) >::type m_storage ;
-		#endif
-	};
-
-	template< typename T >
-	class result
-	{
-	public:
-		result()
-		{
-		}
-		template< typename S >
-		result( S&& e ) : m_value( std::forward< S >( e ) )
-		{
-		}
-		const T * operator->() const
-		{
-			return m_value.operator->() ;
-		}
-		const T& value() const
-		{
-			return m_value.get() ;
-		}
-		const T& operator*() const
-		{
-			return this->value() ;
-		}
-		T * operator->()
-		{
-			return m_value.operator->() ;
-		}
-		T& value()
-		{
-			return m_value.get() ;
-		}
-		T& operator*()
-		{
-			return this->value() ;
-		}
-		bool has_value() const
-		{
-			return m_value.created() ;
-		}
-		operator bool() const
-		{
-			return this->has_value() ;
-		}
-	private:
-		utility::storage< T > m_value ;
-	} ;
-
-	class Terminator : public QObject
-	{
-		Q_OBJECT
-	public:
-		static utility::result< int > terminate( int argc,char ** argv ) ;
-
-		template< typename Object,typename Member >
-		auto setUp( Object obj,Member member,int idx )
-		{
-			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
-
-				return utility::Terminator::terminate( engine,exe,index,idx ) ;
-
-			},[ idx,obj,member,this ]( auto function ){
-
-				Q_UNUSED( this ) //Older version of gcc seems to require capturing "this".
-
-				return QObject::connect( obj,member,[ idx,function = std::move( function ) ](){
-
-					function( idx ) ;
-				} ) ;
-			} ) ;
-		}
-		auto setUp()
-		{
-			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
-
-				return utility::Terminator::terminate( engine,exe,index,idx ) ;
-
-			},[ this ]( auto function ){
-
-				using e = void( Terminator::* )( int ) ;
-
-				auto m = static_cast< e >( &utility::Terminator::terminate ) ;
-
-				return QObject::connect( this,m,[ function = std::move( function ) ]( int index ){
-
-					function( index ) ;
-				} ) ;
-			} ) ;
-		}
-		void terminateAll( QTableWidget& t )
-		{
-			for( int i = 0 ; i < t.rowCount() ; i++ ){
-
-				this->terminate( i ) ;
-			}
-		}
-	signals :
-		void terminate( int index ) ;
-	private:
-		static bool terminate( QProcess& ) ;
-		static bool terminate( const engines::engine&,QProcess& exe,int index,int idx )
-		{
-			if( index == idx ){
-
-				return utility::Terminator::terminate( exe ) ;
-			}else{
-				return false ;
-			}
-		}
-	};
 
 	class MediaEntry
 	{
@@ -1180,75 +837,8 @@ namespace utility
 		QString m_duration ;
 		QString m_id ;
 		int m_intDuration ;
-		engines::Json m_json ;
+		util::Json m_json ;
 	};
-
-	template< typename BackGroundTask,
-		  typename UiThreadResult >
-	class Thread : public QThread
-	{
-	public:
-		Thread( BackGroundTask bgt,UiThreadResult fgt ) :
-			m_bgt( std::move( bgt ) ),
-			m_fgt( std::move( fgt ) )
-		{
-			connect( this,&QThread::finished,this,&Thread::then,Qt::QueuedConnection ) ;
-
-			this->start() ;
-		}
-		void run() override
-		{
-			m_storage = m_bgt() ;
-		}
-		void then()
-		{
-			m_fgt( std::move( m_storage.get() ) ) ;
-
-			this->deleteLater() ;
-		}
-	private:
-		BackGroundTask m_bgt ;
-		UiThreadResult m_fgt ;
-
-		utility::storage< utility::types::result_of< BackGroundTask > > m_storage ;
-	};
-
-	template< typename BackGroundTask,
-		  typename UiThreadResult,
-		  utility::types::has_non_void_return_type< BackGroundTask > = 0 >
-	void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
-	{
-		new Thread< BackGroundTask,UiThreadResult >( std::move( bgt ),std::move( fgt ) ) ;
-	}
-
-	template< typename BackGroundTask,
-		  typename UiThreadResult,
-		  utility::types::has_void_return_type< BackGroundTask > = 0 >
-	void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
-	{
-		return utility::runInBgThread( [ bgt = std::move( bgt ) ](){
-
-			bgt() ;
-
-			return 0 ;
-
-		},[ fgt = std::move( fgt ) ]( int ){
-
-			fgt() ;
-		} ) ;
-	}
-
-	template< typename BackGroundTask >
-	void runInBgThread( BackGroundTask bgt )
-	{
-		return utility::runInBgThread( [ bgt = std::move( bgt ) ](){
-
-			bgt() ;
-
-			return 0 ;
-
-		},[]( int ){} ) ;
-	}
 
 	template< typename FinishedState >
 	void updateFinishedState( const engines::engine& engine,
@@ -1282,7 +872,7 @@ namespace utility
 
 				if( !a.isEmpty() ){
 
-					auto args = utility::split( a,' ',true ) ;
+					auto args = util::split( a,' ',true ) ;
 
 					auto exe = args.takeAt( 0 ) ;
 

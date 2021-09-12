@@ -77,5 +77,5 @@ void Logger::update()
 
 QStringList Logger::Data::toStringList() const
 {
-	return utility::split( this->toString(),'\n',true ) ;
+	return util::split( this->toString(),'\n',true ) ;
 }

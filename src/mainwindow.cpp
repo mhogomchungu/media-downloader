@@ -81,7 +81,7 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 
 			m_trayIcon.show() ;
 		}else{
-			utility::Timer( 1000,[ this ]( int counter ){
+			util::Timer( 1000,[ this ]( int counter ){
 
 				if( QSystemTrayIcon::isSystemTrayAvailable() ){
 

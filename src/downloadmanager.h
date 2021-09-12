@@ -295,7 +295,7 @@ public:
 private:
 	void uiEnableAll( bool e ) ;
 	int m_counter ;
-	utility::storage< downloadManager::index > m_index ;
+	util::storage< downloadManager::index > m_index ;
 	bool m_cancelled ;
 	const Context& m_ctx ;
 	QPushButton& m_cancelButton ;

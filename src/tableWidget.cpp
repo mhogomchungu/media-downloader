@@ -270,7 +270,7 @@ void tableWidget::showOptions( const engines::engine& engine,const QList<QByteAr
 
 	utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
 
-		auto a = utility::split( s,' ',true ) ;
+		auto a = util::split( s,' ',true ) ;
 
 		if( a.size() > 1 ){
 
@@ -287,7 +287,7 @@ void tableWidget::showOptions( const engines::engine& engine,const QList<QByteAr
 
 	for( const auto& it : m ){
 
-		auto a = utility::split( it,' ',true ) ;
+		auto a = util::split( it,' ',true ) ;
 
 		if( a.size() > 3 ){
 

@@ -292,7 +292,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		connect( subMenu,&QMenu::triggered,[ this,row ]( QAction * ac ){
 
-			auto m = utility::split( ac->objectName(),'\n',true ) ;
+			auto m = util::split( ac->objectName(),'\n',true ) ;
 
 			if( m.size() > 1 ){
 

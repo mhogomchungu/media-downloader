@@ -354,7 +354,7 @@ void settings::setPresetOptions( const QString& e )
 {
 	auto m = e ;
 	m.replace( "\n","" ) ;
-	this->setPresetOptions( utility::split( m,',',true ) ) ;
+	this->setPresetOptions( util::split( m,',',true ) ) ;
 }
 
 void settings::setPresetOptions( const QStringList& m )
@@ -401,7 +401,7 @@ QString settings::presetJsonOptions()
 
 QStringList settings::presetOptionsList()
 {
-	return utility::split( this->presetOptions(),',',true ) ;
+	return util::split( this->presetOptions(),',',true ) ;
 }
 
 bool settings::showTrayIcon()

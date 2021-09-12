@@ -125,7 +125,7 @@ void batchfiledownloader::download()
 
 	if( !list.isEmpty() ){
 
-		auto l = utility::split( list,'\n',true ) ;
+		auto l = util::split( list,'\n',true ) ;
 
 		auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
 

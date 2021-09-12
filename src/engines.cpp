@@ -122,7 +122,7 @@ static void _openUrls( tableWidget& table,int row,settings& settings,bool galler
 {
 	if( downloadManager::finishedStatus::finishedWithSuccess( table,row ) ){
 
-		auto m = utility::split( table.uiText( row ),'\n',true ) ;
+		auto m = util::split( table.uiText( row ),'\n',true ) ;
 
 		m.removeFirst() ;
 
@@ -167,15 +167,15 @@ void engines::openUrls( const QString& path ) const
 
 void engines::updateEngines( bool addAll )
 {
-	auto _engine_add = [ & ]( engines::engine m ){
+	auto _engine_add = [ & ]( util::result< engines::engine > m ){
 
-		if( m.valid() ){
+		if( m ){
 
-			if( m.exePath().isEmpty() && !m.usingPrivateBackend() ){
+			if( m->exePath().isEmpty() && !m->usingPrivateBackend() ){
 
-				m_logger.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m.name() ) ) ;
+				m_logger.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m->name() ) ) ;
 			}else{
-				m_backends.emplace_back( std::move( m ) ) ;
+				m_backends.emplace_back( std::move( m.value() ) ) ;
 			}
 		}
 	} ;
@@ -235,7 +235,7 @@ const engines::engine& engines::defaultEngine( const QString& name ) const
 	}
 }
 
-engines::result_ref< const engines::engine& > engines::getEngineByName( const QString& name ) const
+util::result_ref< const engines::engine& > engines::getEngineByName( const QString& name ) const
 {
 	for( const auto& it : m_backends ){
 
@@ -248,109 +248,11 @@ engines::result_ref< const engines::engine& > engines::getEngineByName( const QS
 	return {} ;
 }
 
-class version{
-public:
-	version( int major,int minor,int patch ) :
-		m_valid( true ),m_major( major ),m_minor( minor ),m_patch( patch )
-	{
-	}
-	template< typename T >
-	version( const T& e )
-	{
-		auto s = utility::split( e,'.',true ) ;
-
-		int m = s.size() ;
-
-		if( m == 1 ){
-
-			m_major = s.at( 0 ).toInt( &m_valid ) ;
-
-		}else if( m == 2 ){
-
-			m_major = s.at( 0 ).toInt( &m_valid ) ;
-
-			if( m_valid ){
-
-				m_minor = s.at( 1 ).toInt( &m_valid ) ;
-			}
-
-		}else if( m >= 3 ) {
-
-			m_major = s.at( 0 ).toInt( &m_valid ) ;
-
-			if( m_valid ){
-
-				m_minor = s.at( 1 ).toInt( &m_valid ) ;
-
-				if( m_valid ){
-
-					m_patch = s.at( 2 ).toInt( &m_valid ) ;
-				}
-			}
-		}
-	}
-	bool valid() const
-	{
-		return m_valid ;
-	}
-	bool operator==( const version& other ) const
-	{
-		return m_major == other.m_major && m_minor == other.m_minor && m_patch == other.m_patch ;
-	}
-	bool operator<( const version& other ) const
-	{
-		if( m_major < other.m_major ){
-
-			return true ;
-
-		}else if( m_major == other.m_major ){
-
-			if( m_minor < other.m_minor ){
-
-				return true ;
-
-			}else if( m_minor == other.m_minor ){
-
-				return m_patch < other.m_patch ;
-			}
-		}
-
-		return false ;
-	}
-	/*
-	 * a != b equal to !(a == b)
-	 * a <= b equal to (a < b) || (a == b)
-	 * a >= b equal to !(a < b)
-	 * a > b  equal to !(a <= b)
-	 */
-	bool operator>=( const version& other ) const
-	{
-		return !( *this < other ) ;
-	}
-	bool operator<=( const version& other ) const
-	{
-		return ( *this < other ) || ( *this == other ) ;
-	}
-	bool operator!=( const version& other ) const
-	{
-		return !( *this == other ) ;
-	}
-	bool operator>( const version& other ) const
-	{
-		return !( *this <= other ) ;
-	}
-private:
-	bool m_valid = false ;
-	int m_major = 0 ;
-	int m_minor = 0 ;
-	int m_patch = 0 ;
-};
-
-engines::engine engines::getEngineByPath( const QString& e ) const
+util::result< engines::engine > engines::getEngineByPath( const QString& e ) const
 {
 	auto path = m_enginePaths.configPath( e ) ;
 
-	engines::Json json( engines::file( path,m_logger ).readAll() ) ;
+	util::Json json( engines::file( path,m_logger ).readAll() ) ;
 
 	if( json ){
 
@@ -360,7 +262,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 		if( !minVersion.isEmpty() ){
 
-			if( version( minVersion ) > VERSION ){
+			if( util::version( minVersion ) > VERSION ){
 
 				auto name = object.value( "Name" ).toString() ;
 
@@ -368,7 +270,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 
 				m_logger.add( m.arg( name,minVersion ) ) ;
 
-				return { m_logger } ;
+				return {} ;
 			}
 		}
 
@@ -405,7 +307,7 @@ engines::engine engines::getEngineByPath( const QString& e ) const
 			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
 		}
 	}else{
-		return { m_logger } ;
+		return {} ;
 	}
 }
 
@@ -452,7 +354,7 @@ const QProcessEnvironment& engines::processEnvironment() const
 
 void engines::addEngine( const QByteArray& data,const QString& path )
 {
-	engines::Json json( data ) ;
+	util::Json json( data ) ;
 
 	if( json ){
 
@@ -504,20 +406,20 @@ void engines::removeEngine( const QString& e )
 {
 	const auto engine = this->getEngineByPath( e ) ;
 
-	if( engine.valid() ){
+	if( engine && engine->valid() ){
 
 		QFile::remove( m_enginePaths.configPath( e ) ) ;
 
-		const auto& exe = engine.exePath().realExe() ;
+		const auto& exe = engine->exePath().realExe() ;
 
-		if( engine.usingPrivateBackend() && QFile::exists( exe ) ){
+		if( engine->usingPrivateBackend() && QFile::exists( exe ) ){
 
 			QFile::remove( exe ) ;
 		}
 
 		if( m_backends.size() > 0 ){
 
-			const auto& name = engine.name() ;
+			const auto& name = engine->name() ;
 
 			auto _reset_default = [ & ]( const QString& name,settings::tabName n ){
 
@@ -545,6 +447,10 @@ QStringList engines::enginesList() const
 	m.removeAll( "youtube-dl.json" ) ;
 
 	return m ;
+}
+
+engines::engine::engine( Logger& logger ) : m_showListBreaker( logger )
+{
 }
 
 engines::engine::engine( const engines& engines,
@@ -576,7 +482,7 @@ engines::engine::engine( const engines& engines,
 
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
-			 const engines::Json& json,
+			 const util::Json& json,
 			 const engines& engines,
 			 std::unique_ptr< engine::functions > functions ) :
 	m_jsonObject( json.doc().object() ),
@@ -767,12 +673,12 @@ bool engines::engine::breakShowListIfContains( const QStringList& e ) const
 
 QString engines::engine::versionString( const QString& data ) const
 {
-	auto a = utility::split( data,'\n',true ) ;
+	auto a = util::split( data,'\n',true ) ;
 
 	if( m_line < a.size() ){
 
 		auto b = a[ m_line ] ;
-		auto c = utility::split( b,' ',true ) ;
+		auto c = util::split( b,' ',true ) ;
 
 		if( m_position < c.size() ){
 
@@ -832,13 +738,13 @@ void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,co
 
 	if( !a.isEmpty() && !e.isEmpty() ){
 
-		auto args = utility::split( a,' ',true ) ;
+		auto args = util::split( a,' ',true ) ;
 		auto exe = args.takeAt( 0 ) ;
 		args.append( "bla bla bla" ) ;
 
 		bool success = false ;
 
-		for( const auto& it : utility::split( e,'\n',true ) ){
+		for( const auto& it : util::split( e,'\n',true ) ){
 
 			auto b = m_settings.downloadFolder() + it ;
 
@@ -853,7 +759,7 @@ void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,co
 
 		if( !success && !s.isEmpty() ){
 
-			auto b = m_settings.downloadFolder() + "/" + utility::split( s,'/',true ).last() ;
+			auto b = m_settings.downloadFolder() + "/" + util::split( s,'/',true ).last() ;
 
 			if( QFile::exists( b ) ){
 
@@ -1026,7 +932,7 @@ static void _add( const QByteArray& data,
 		  Logger::Data& outPut,
 		  int id )
 {
-	for( const auto& e : utility::split( data,token ) ){
+	for( const auto& e : util::split( data,token ) ){
 
 		if( _skip_line( e,engine ) ){
 
@@ -1104,12 +1010,12 @@ void engines::engine::functions::processData( const engines::engine& engine,
 
 	}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
 
-		for( const auto& m : utility::split( data,sp[ 0 ][ 0 ] ) ){
+		for( const auto& m : util::split( data,sp[ 0 ][ 0 ] ) ){
 
 			_add( m,sp[ 1 ][ 0 ],engine,outPut,id ) ;
 		}
 	}else{
-		for( const auto& m : utility::split( data,'\r' ) ){
+		for( const auto& m : util::split( data,'\r' ) ){
 
 			_add( m,'\n',engine,outPut,id ) ;
 		}
@@ -1379,7 +1285,7 @@ int engines::engine::functions::timer::toSeconds( const QString& e )
 		return 60 * _toNumber( s ) ;
 	}
 
-	auto m = utility::split( e,':',true ) ;
+	auto m = util::split( e,':',true ) ;
 
 	if( m.size() == 3 ){
 

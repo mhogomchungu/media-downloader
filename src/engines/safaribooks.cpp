@@ -133,7 +133,7 @@ void safaribooks::sendCredentials( const engines::engine& engine,
 			exe.write( engine.userName().toUtf8() + "\n" ) ;
 			exe.write( engine.password().toUtf8() + "\n" ) ;
 		}else{
-			auto m = utility::split( credentials,':',true ) ;
+			auto m = util::split( credentials,':',true ) ;
 
 			if( m.size() > 1 ){
 
@@ -156,7 +156,7 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine& engine,
 
 	if( urls.size() > 0 ){
 
-		urls[ 0 ] = utility::split( urls[ 0 ],'/',true ).last() ;
+		urls[ 0 ] = util::split( urls[ 0 ],'/',true ).last() ;
 	}
 
 	ourOptions.append( "--destination" ) ;

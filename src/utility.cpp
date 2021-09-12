@@ -34,97 +34,6 @@ const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
 const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
-
-QStringList utility::splitPreserveQuotes( const QString& e )
-{
-#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
-	QStringList args ;
-	QString tmp ;
-	int quoteCount = 0 ;
-	bool inQuote = false ;
-
-	for( int i = 0 ; i < e.size() ; ++i ) {
-
-		const auto& s = e.at( i ) ;
-
-		if( s == '"' ){
-
-			quoteCount++ ;
-
-			if( quoteCount == 3 ) {
-
-				quoteCount = 0 ;
-				tmp.append( s ) ;
-			}
-
-			continue ;
-		}
-
-		if( quoteCount ){
-
-			if( quoteCount == 1 ){
-
-				inQuote = !inQuote ;
-			}
-
-			quoteCount = 0 ;
-		}
-
-		if( !inQuote && s.isSpace() ){
-
-			if( !tmp.isEmpty() ){
-
-				args.append( tmp ) ;
-				tmp.clear() ;
-			}
-		}else{
-			tmp.append( s ) ;
-		}
-	}
-
-	if( !tmp.isEmpty() ){
-
-		args.append( tmp ) ;
-	}
-
-	return args ;
-#else
-	return QProcess::splitCommand( e ) ;
-#endif
-}
-
-QStringList utility::split( const QString& e,char token,bool skipEmptyParts )
-{
-	if( skipEmptyParts ){
-		#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
-			return e.split( token,QString::SkipEmptyParts ) ;
-		#else
-			return e.split( token,Qt::SkipEmptyParts ) ;
-		#endif
-	}else{
-		return e.split( token ) ;
-	}
-}
-
-QStringList utility::split( const QString& e,const char * token )
-{
-#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
-	return e.split( token,QString::SkipEmptyParts ) ;
-#else
-	return e.split( token,Qt::SkipEmptyParts ) ;
-#endif
-}
-
-QList< QByteArray > utility::split( const QByteArray& e,char token )
-{
-	return e.split( token ) ;
-}
-
-QList<QByteArray> utility::split( const QByteArray& e,QChar token )
-{
-	return e.split( token.toLatin1() ) ;
-}
-
 #ifdef Q_OS_LINUX
 
 bool utility::platformIsLinux()
@@ -152,7 +61,7 @@ bool utility::platformIs32BitWindows()
 	return false ;
 }
 
-utility::result< int > utility::Terminator::terminate( int,char ** )
+util::result< int > utility::Terminator::terminate( int,char ** )
 {
 	return {} ;
 }
@@ -181,7 +90,7 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-utility::result< int > utility::Terminator::terminate( int,char ** )
+util::result< int > utility::Terminator::terminate( int,char ** )
 {
 	return {} ;
 }
@@ -234,7 +143,7 @@ static int _terminateWindowApp( unsigned long pid )
 	return 1 ;
 }
 
-utility::result< int > utility::Terminator::terminate( int argc,char ** argv )
+util::result< int > utility::Terminator::terminate( int argc,char ** argv )
 {
 	if( argc > 2 && std::strcmp( argv[ 1 ],"-T" ) == 0 ){
 
@@ -467,7 +376,7 @@ void utility::wait( int time )
 {
 	QEventLoop e ;
 
-	utility::Timer( time,[ & ](){ e.exit() ;} ) ;
+	util::Timer( time,[ & ](){ e.exit() ;} ) ;
 
 	e.exec() ;
 }
@@ -573,7 +482,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 				if( QFile::exists( e ) ){
 
-					return utility::split( engines::file( e,ctx.logger() ).readAll(),'\n',true ) ;
+					return util::split( engines::file( e,ctx.logger() ).readAll(),'\n',true ) ;
 				}else{
 					return QStringList{} ;
 				}

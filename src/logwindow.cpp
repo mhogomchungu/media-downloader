@@ -78,7 +78,7 @@ void logWindow::Show()
 
 	if( !w.isEmpty() ){
 
-		auto m = utility::split( w,'-',true ) ;
+		auto m = util::split( w,'-',true ) ;
 
 		if( m.size() == 4 ){
 

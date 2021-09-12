@@ -153,7 +153,7 @@ void networkAccess::download( const engines::engine& engine )
 
 		metadata metadata ;
 
-		engines::Json json( networkReply->readAll() ) ;
+		util::Json json( networkReply->readAll() ) ;
 
 		if( !json ){
 

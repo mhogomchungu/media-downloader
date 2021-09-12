@@ -134,7 +134,7 @@ configure::configure( const Context& ctx ) :
 
 			if( !d.isEmpty() ){
 
-				m_ctx.Engines().addEngine( d,utility::split( m,'/',true ).last() ) ;
+				m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last() ) ;
 
 				m_ctx.TabManager().basicDownloader().setAsActive().downloadDefaultEngine() ;
 			}
@@ -366,7 +366,7 @@ void configure::saveOptions()
 
 		auto m = m_ui.lineEditConfigureDownloadOptions->text() ;
 
-		auto e = utility::split( m,' ',true ) ;
+		auto e = util::split( m,' ',true ) ;
 
 		m_settings.setEngineDefaultDownloadOptions( ss->name(),e ) ;
 
@@ -436,7 +436,7 @@ void configure::showOptions()
 			m_tablePresetOptions.addItem( { uiName,options } ) ;
 		} ) ;
 	}else{
-		for( const auto& it : utility::split( mm,',',true ) ){
+		for( const auto& it : util::split( mm,',',true ) ){
 
 			auto b = it.indexOf( '(' ) ;
 

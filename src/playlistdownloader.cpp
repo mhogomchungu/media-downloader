@@ -230,7 +230,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		connect( subMenu,&QMenu::triggered,[ this,row ]( QAction * ac ){
 
-			auto m = utility::split( ac->objectName(),'\n',true ) ;
+			auto m = util::split( ac->objectName(),'\n',true ) ;
 
 			if( m.size() > 1 ){
 
@@ -534,13 +534,13 @@ void playlistdownloader::download( const engines::engine& engine )
 			_add( i,opts ) ;
 		}
 	}else{
-		const auto s = utility::split( m,',',true ) ;
+		const auto s = util::split( m,',',true ) ;
 
 		for( const auto& it : s ){
 
 			if( it.contains( "-" ) ){
 
-				const auto ss = utility::split( it,'-',true ) ;
+				const auto ss = util::split( it,'-',true ) ;
 
 				if( ss.size() == 2 ){
 
@@ -623,9 +623,9 @@ void playlistdownloader::getList()
 		return ;
 	}
 
-	auto options = utility::split( url,' ',true ) ;
+	auto options = util::split( url,' ',true ) ;
 
-	options.append( utility::split( m_ui.lineEditPLUrlOptions->text(),' ',true ) ) ;
+	options.append( util::split( m_ui.lineEditPLUrlOptions->text(),' ',true ) ) ;
 
 	m_ui.pbPLCancel->setEnabled( true ) ;
 
@@ -648,11 +648,11 @@ void playlistdownloader::getList()
 
 		if( range.startsWith( "--" ) ){
 
-			opts.append( utility::split( range,' ',true ) ) ;
+			opts.append( util::split( range,' ',true ) ) ;
 		}else{
 			opts.append( engine.playlistItemsArgument() ) ;
 
-			auto m = utility::split( range,' ',true ) ;
+			auto m = util::split( range,' ',true ) ;
 
 			opts.append( m ) ;
 		}

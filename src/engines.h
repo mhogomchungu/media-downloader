@@ -34,88 +34,18 @@
 #include <memory>
 
 #include "logger.h"
+#include "util.hpp"
 
 class tableWidget ;
 class settings ;
 
 class engines{
 public:
-	template< typename T,std::enable_if_t< std::is_reference< T >::value,int > = 0 >
-	class result_ref
-	{
-	public:
-		result_ref() : m_value( nullptr )
-		{
-		}
-		result_ref( T e ) : m_value( std::addressof( e ) )
-		{
-		}
-		typename std::remove_reference< T >::type * operator->() const
-		{
-			return m_value ;
-		}
-		T& value() const
-		{
-			return *m_value ;
-		}
-		T& operator*() const
-		{
-			return this->value() ;
-		}
-		bool has_value() const
-		{
-			return m_value ;
-		}
-		operator bool() const
-		{
-			return this->has_value() ;
-		}
-	private:
-		typename std::remove_reference< T >::type * m_value ;
-	} ;
-
-	class Json
-	{
-	public:
-		Json( const QByteArray& data ) :
-			m_doc( QJsonDocument::fromJson( data,&m_error ) )
-		{
-		}
-		Json( const QJsonObject& obj ) :
-			m_doc( obj )
-		{
-			m_error.error = QJsonParseError::NoError ;
-		}
-		Json( QJsonParseError error ) :
-			m_error( std::move( error ) )
-		{
-		}
-		Json( QJsonDocument doc ) : m_doc( std::move( doc ) )
-		{
-			m_error.error = QJsonParseError::NoError ;
-		}
-		const QJsonDocument& doc() const
-		{
-			return m_doc ;
-		}
-		QString errorString() const
-		{
-			return m_error.errorString() ;
-		}
-		operator bool() const
-		{
-			return m_error.error == QJsonParseError::NoError ;
-		}
-	private:
-		QJsonParseError m_error ;
-		QJsonDocument m_doc ;
-	} ;
-
 	class file
 	{
 	public:
-	        file( const QString& path,Logger& logger ) :
-		        m_filePath( path ),m_file( m_filePath ),m_logger( logger )
+		file( const QString& path,Logger& logger ) :
+			m_filePath( path ),m_file( m_filePath ),m_logger( logger )
 		{
 		}
 		void write( const QString& ) ;
@@ -367,9 +297,7 @@ public:
 			settings& m_settings ;
 		} ;
 
-		engine( Logger& logger ) : m_valid( false ),m_showListBreaker( logger )
-		{
-		}
+		engine( Logger& l ) ;
 
 		engine( const engines& engines,
 			Logger& logger,
@@ -380,7 +308,7 @@ public:
 
 		engine( Logger& logger,
 			const enginePaths& ePaths,
-		        const engines::Json& json,
+			const util::Json& json,
 			const engines& engines,
 			std::unique_ptr< engines::engine::functions > ) ;
 
@@ -592,8 +520,8 @@ public:
 	QStringList enginesList() const ;
 	const std::vector< engine >& getEngines() const ;
 	const engine& defaultEngine( const QString& ) const ;
-	engines::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
-	engines::engine getEngineByPath( const QString& path ) const ;
+	util::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
+	util::result< engines::engine > getEngineByPath( const QString& path ) const ;
 	const enginePaths& engineDirPaths() const ;
 	engines( Logger&,settings& ) ;
 	void openUrls( tableWidget&,int row,const QString& engineName = QString() ) const ;

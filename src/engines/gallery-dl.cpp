@@ -73,12 +73,12 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 	if( !a.isEmpty() && !e.isEmpty() ){
 
-		auto args = utility::split( a,' ',true ) ;
+		auto args = util::split( a,' ',true ) ;
 		auto exe = args.takeAt( 0 ) ;
 		args.append( "bla bla bla" ) ;
 		auto pos = args.size() - 1 ;
 
-		for( const auto& it : utility::split( e,'\n',true ) ){
+		for( const auto& it : util::split( e,'\n',true ) ){
 
 			auto b = settings.downloadFolder() + "/gallery-dl/" + it ;
 

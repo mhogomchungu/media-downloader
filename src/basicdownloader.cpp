@@ -308,7 +308,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	utility::run( cmd.exe(),cmd.args(),[ this,&engine ]( QProcess& exe ){
+	util::run( cmd.exe(),cmd.args(),[ this,&engine ]( QProcess& exe ){
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
@@ -409,7 +409,7 @@ void basicdownloader::download( const QString& url )
 				      m_ui.lineEditOptions->text(),
 				      settings::tabName::basic ) ;
 
-	auto m = utility::split( url,' ',true ) ;
+	auto m = util::split( url,' ',true ) ;
 
 	const auto& engine = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ;
 
