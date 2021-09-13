@@ -31,22 +31,16 @@ gallery_dl::~gallery_dl()
 }
 
 void gallery_dl::updateDownLoadCmdOptions( const engines::engine& engine,
-					   const QString& quality,
-					   const QStringList& userOptions,
-					   QStringList& urls,
-					   QStringList& ourOptions )
-{
-	Q_UNUSED( userOptions )
-	Q_UNUSED( urls )
-
+					   const engines::engine::functions::updateOpts& s )
+{	
 	if( !engine.optionsArgument().isEmpty() ){
 
-		ourOptions.append( engine.optionsArgument() ) ;
+		s.ourOptions.append( engine.optionsArgument() ) ;
 	}
 
-	if( !quality.isEmpty() ){
+	if( !s.quality.isEmpty() ){
 
-		ourOptions.append( quality ) ;
+		s.ourOptions.append( s.quality ) ;
 	}
 }
 

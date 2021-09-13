@@ -32,8 +32,5 @@ public:
 			      const QString&,
 			      QProcess& ) override ;
 	void updateDownLoadCmdOptions( const engines::engine& engine,
-				       const QString& quality,
-				       const QStringList& userOptions,
-				       QStringList& urls,
-				       QStringList& ourOptions ) override ;
+				       const engines::engine::functions::updateOpts& ) override ;
 };

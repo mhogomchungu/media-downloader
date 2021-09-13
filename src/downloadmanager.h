@@ -171,6 +171,23 @@ public:
 		{
 			return this->options( static_cast< int >( m_index ) ) ;
 		}
+		QString indexAsString() const
+		{
+			return this->indexAsString( m_index ) ;
+		}
+		template< typename T>
+		QString indexAsString( T s ) const
+		{
+			auto m = QString::number( s + 1 ) ;
+			auto r = QString::number( m_table.rowCount() + 1 ) ;
+
+			while( r.size() > m.size() ){
+
+				m = "0" + m ;
+			}
+
+			return m ;
+		}
 	private:
 		struct entry
 		{
@@ -281,13 +298,17 @@ public:
 	{
 		const auto& m = m_index->options() ;
 
+		auto indexAsString = m_index->indexAsString() ;
+
 		m_index->next() ;
 
 		index.setText( finishedStatus::running() ) ;
 
+		utility::args args( m ) ;
+
 		utility::run( engine,
-			      utility::updateOptions( engine,m_settings,m,{ url } ),
-			      utility::args( m ).quality(),
+			      utility::updateOptions( engine,m_settings,args,indexAsString,{ url } ),
+			      args.quality(),
 			      std::move( opts ),
 			      std::move( logger ),
 			      std::move( terminator ) ) ;

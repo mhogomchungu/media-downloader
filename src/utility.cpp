@@ -394,6 +394,7 @@ void utility::openDownloadFolderPath( const QString& url )
 QStringList utility::updateOptions( const engines::engine& engine,
 				    settings& settings,
 				    const utility::args& args,
+				    const QString& indexAsString,
 				    const QStringList& urls )
 {
 	auto opts = [ & ](){
@@ -415,7 +416,7 @@ QStringList utility::updateOptions( const engines::engine& engine,
 
 	auto url = urls ;
 
-	engine.updateDownLoadCmdOptions( args.quality(),args.otherOptions(),url,opts ) ;
+	engine.updateDownLoadCmdOptions( { args.quality(),args.otherOptions(),indexAsString,url,opts } ) ;
 
 	opts.append( url ) ;
 

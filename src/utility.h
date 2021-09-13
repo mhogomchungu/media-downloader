@@ -101,6 +101,7 @@ namespace utility
 	QStringList updateOptions( const engines::engine& engine,
 				   settings&,
 				   const utility::args& args,
+				   const QString& indexAsString,
 				   const QStringList& urls ) ;
 
 	bool hasDigitsOnly( const QString& e ) ;

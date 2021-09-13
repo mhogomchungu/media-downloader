@@ -286,11 +286,18 @@ public:
 						  const QString&,
 						  int id ) ;
 
+			struct updateOpts
+			{
+				const QString& quality ;
+				const QStringList& userOptions ;
+				const QString& indexAsString ;
+				QStringList& urls ;
+				QStringList& ourOptions ;
+			};
+
 			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
-							       const QString& quality,
-							       const QStringList& userOptions,
-		                                               QStringList& urls,
-							       QStringList& ourOptions ) ;
+							       const engines::engine::functions::updateOpts& ) ;
+
 			functions( settings& ) ;
 			settings& Settings() ;
 		private:
@@ -366,12 +373,9 @@ public:
 		{
 			return m_functions->updateTextOnCompleteDownlod( *this,uiText,bkText,f ) ;
 		}
-		void updateDownLoadCmdOptions( const QString& quality,
-					       const QStringList& userOptions,
-		                               QStringList& urls,
-					       QStringList& ourOptions ) const
+		void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& u ) const
 		{
-		        m_functions->updateDownLoadCmdOptions( *this,quality,userOptions,urls,ourOptions ) ;
+			m_functions->updateDownLoadCmdOptions( *this,u ) ;
 		}
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{

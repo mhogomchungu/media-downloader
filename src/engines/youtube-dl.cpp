@@ -290,25 +290,39 @@ QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
 }
 
 void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
-					   const QString& quality,
-					   const QStringList& userOptions,
-					   QStringList& urls,
-					   QStringList& ourOptions )
+					   const engines::engine::functions::updateOpts& s )
 {
-	Q_UNUSED( urls )
+	if( s.userOptions.contains( "--yes-playlist" ) ){
 
-	if( userOptions.contains( "--yes-playlist" ) ){
-
-		ourOptions.removeAll( "--no-playlist" ) ;
+		s.ourOptions.removeAll( "--no-playlist" ) ;
 	}
 
-	ourOptions.append( engine.optionsArgument() ) ;
+	s.ourOptions.append( engine.optionsArgument() ) ;
 
-	if( quality.isEmpty() ){
+	if( s.quality.isEmpty() ){
 
-		ourOptions.append( "bestvideo+bestaudio/best" ) ;
+		s.ourOptions.append( "bestvideo+bestaudio/best" ) ;
 	}else{
-		ourOptions.append( quality ) ;
+		s.ourOptions.append( s.quality ) ;
+	}
+
+	if( !s.indexAsString.isEmpty() ){
+
+		for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
+
+			if( s.ourOptions[ m ] == "-o" ){
+
+				if( m + 1 < s.ourOptions.size() ){
+
+					auto& e = s.ourOptions[ m + 1 ] ;
+
+					e.replace( "%(autonumber)s",s.indexAsString ) ;
+					e.replace( "%(playlist_index)s",s.indexAsString ) ;
+
+					break ;
+				}
+			}
+		}
 	}
 }
 

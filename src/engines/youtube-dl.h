@@ -53,10 +53,7 @@ public:
 					     const engines::engine::functions::finishedState& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine& engine,
-				       const QString& quality,
-				       const QStringList& userOptions,
-				       QStringList& urls,
-				       QStringList& ourOptions ) override ;
+				       const engines::engine::functions::updateOpts& ) override ;
 
 	static void init( Logger& logger,const engines::enginePaths& enginePath ) ;
 	youtube_dl( settings& ) ;

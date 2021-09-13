@@ -147,32 +147,27 @@ void safaribooks::sendCredentials( const engines::engine& engine,
 }
 
 void safaribooks::updateDownLoadCmdOptions( const engines::engine& engine,
-					    const QString& quality,
-					    const QStringList& userOptions,
-					    QStringList& urls,
-					    QStringList& ourOptions )
+					    const engines::engine::functions::updateOpts& s )
 {
-	Q_UNUSED( userOptions )
+	if( s.urls.size() > 0 ){
 
-	if( urls.size() > 0 ){
-
-		urls[ 0 ] = util::split( urls[ 0 ],'/',true ).last() ;
+		s.urls[ 0 ] = util::split( s.urls[ 0 ],'/',true ).last() ;
 	}
 
-	ourOptions.append( "--destination" ) ;
-	ourOptions.append( engines::engine::functions::Settings().downloadFolder() ) ;
+	s.ourOptions.append( "--destination" ) ;
+	s.ourOptions.append( engines::engine::functions::Settings().downloadFolder() ) ;
 
-	if( utility::platformIsWindows() || !quality.isEmpty() ){
+	if( utility::platformIsWindows() || !s.quality.isEmpty() ){
 
-		ourOptions.append( "--cred" ) ;
+		s.ourOptions.append( "--cred" ) ;
 
-		if( quality.isEmpty() ){
+		if( s.quality.isEmpty() ){
 
-			ourOptions.append( engine.userName() + ":" + engine.password() ) ;
+			s.ourOptions.append( engine.userName() + ":" + engine.password() ) ;
 		}else{
-			ourOptions.append( quality ) ;
+			s.ourOptions.append( s.quality ) ;
 		}
 	}else{
-		ourOptions.append( "--login" ) ;
+		s.ourOptions.append( "--login" ) ;
 	}
 }
