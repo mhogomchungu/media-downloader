@@ -48,22 +48,25 @@ public:
 
 		const auto m = this->optionIsSetWithArgument( eOpts,"--download-archive" ) ;
 
-		if( m && !m->isEmpty() ){
+		if( m_breakOnExisting || m_skipOnExisting ){
 
-			auto mm = m.value() ;
+			if( m && !m->isEmpty() ){
 
-			if( utility::isRelativePath( mm ) ){
+				auto mm = m.value() ;
 
-				mm = ctx.Settings().downloadFolder() + "/" + mm ;
-			}
+				if( utility::isRelativePath( mm ) ){
 
-			if( QFile::exists( mm ) ){
+					mm = ctx.Settings().downloadFolder() + "/" + mm ;
+				}
 
-				QFile file( mm ) ;
+				if( QFile::exists( mm ) ){
 
-				if( file.open( QIODevice::ReadOnly ) ){
+					QFile file( mm ) ;
 
-					m_downloadArchive = file.readAll() ;
+					if( file.open( QIODevice::ReadOnly ) ){
+
+						m_downloadArchive = file.readAll() ;
+					}
 				}
 			}
 		}
@@ -78,7 +81,12 @@ public:
 	}
 	bool contains( const QString& e ) const
 	{
-		return m_downloadArchive.contains( e + "\n" ) ;
+		if( m_downloadArchive.isEmpty() ){
+
+			return false ;
+		}else{
+			return m_downloadArchive.contains( e.toUtf8() + "\n" ) ;
+		}
 	}
 	bool breakOnExisting() const
 	{
@@ -89,7 +97,7 @@ public:
 		return m_skipOnExisting ;
 	}
 private:
-	template< typename T>
+	template< typename T >
 	bool optionIsSet( QStringList& opts,const T& opt )
 	{
 		for( int i = 0 ; i < opts.size() ; i++ ){
@@ -104,7 +112,7 @@ private:
 
 		return false ;
 	}
-	template< typename T>
+	template< typename T >
 	util::result< QString > optionIsSetWithArgument( QStringList& opts,const T& opt )
 	{
 		util::result< QString > m ;
@@ -131,7 +139,7 @@ private:
 	bool m_skipOnExisting = false ;
 	QString m_maxMediaLength ;
 	QString m_minMediaLength ;
-	QString m_downloadArchive ;
+	QByteArray m_downloadArchive ;
 };
 
 playlistdownloader::playlistdownloader( Context& ctx ) :
@@ -791,9 +799,6 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 		if( copts.skipOnExisting() ){
 
-			auto m = tr( "Skipping a media with an id of \"%1\" because it is already in the archive file." ).arg( media.id() ) ;
-			m_ctx.logger().add( m ) ;
-
 			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
 
 			auto a = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
@@ -806,8 +811,6 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 		}else if( copts.breakOnExisting() ){
 
-			auto m = tr( "Stopping processing because an id of \"%1\" is already in the archive file." ).arg( media.id() ) ;
-			m_ctx.logger().add( m ) ;
 			m_ui.pbPLCancel->click() ;
 			return ;
 		}
