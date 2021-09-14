@@ -67,6 +67,8 @@ private:
 
 	utility::Terminator m_terminator ;
 
+	QPixmap m_defaultVideoThumbnailIcon ;
+
 	struct opts
 	{
 		const Context& ctx ;

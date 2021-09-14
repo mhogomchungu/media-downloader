@@ -690,6 +690,14 @@ QByteArray settings::highDpiScalingFactor()
 	return m_settings.value( "EnabledHighDpiScalingFactor" ).toByteArray() ;
 }
 
+QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
+{
+	auto width = this->thumbnailWidth( m ) ;
+	auto height = this->thumbnailHeight( m ) ;
+
+	return QIcon( ":/video" ).pixmap( width,height ) ;
+}
+
 bool settings::enabledHighDpiScaling()
 {
 	return m_EnableHighDpiScaling ;

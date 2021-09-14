@@ -25,6 +25,7 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QComboBox>
+#include <QPixmap>
 
 #include <vector>
 #include <memory>
@@ -194,6 +195,8 @@ public:
 	QStringList configPaths() ;
 
 	QByteArray highDpiScalingFactor() ;
+
+	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
 	static bool portableVersion() ;
 	static QString portableVersionConfigPath() ;

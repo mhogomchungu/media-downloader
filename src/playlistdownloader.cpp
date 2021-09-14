@@ -30,29 +30,41 @@ class customOptions
 public:
 	customOptions( const Context& ctx,QStringList& opts,QStringList& eOpts )
 	{
-		QString downloadArchive ;
+		auto a = this->optionIsSetWithArgument( opts,"--max-media-length" ) ;
+		auto b = this->optionIsSetWithArgument( opts,"--min-media-length" ) ;
 
-		this->takeOption( opts,"--max-media-length",m_maxMediaLength ) ;
-		this->takeOption( opts,"--min-media-length",m_minMediaLength ) ;
-		this->takeOption( opts,"--download-archive",downloadArchive ) ;
+		if( a ){
 
-		if( downloadArchive.isEmpty() && !eOpts.isEmpty() ){
-
-			this->takeOption( eOpts,"--download-archive",downloadArchive ) ;
+			m_maxMediaLength = a.value() ;
 		}
 
-		if( !downloadArchive.isEmpty() ){
+		if( b ){
 
-			if( utility::isRelativePath( downloadArchive ) ){
+			m_minMediaLength = b.value() ;
+		}
 
-				downloadArchive = ctx.Settings().downloadFolder() + "/" + downloadArchive ;
+		m_breakOnExisting = this->optionIsSet( opts,"--break-on-existing" ) ;
+		m_skipOnExisting  = this->optionIsSet( opts,"--skip-on-existing" ) ;
+
+		const auto m = this->optionIsSetWithArgument( eOpts,"--download-archive" ) ;
+
+		if( m && !m->isEmpty() ){
+
+			auto mm = m.value() ;
+
+			if( utility::isRelativePath( mm ) ){
+
+				mm = ctx.Settings().downloadFolder() + "/" + mm ;
 			}
 
-			if( QFile::exists( downloadArchive ) ){
+			if( QFile::exists( mm ) ){
 
-				m_file = std::make_unique< QFile >( downloadArchive ) ;
+				QFile file( mm ) ;
 
-				m_file->open( QIODevice::ReadOnly ) ;
+				if( file.open( QIODevice::ReadOnly ) ){
+
+					m_downloadArchive = file.readAll() ;
+				}
 			}
 		}
 	}
@@ -66,33 +78,44 @@ public:
 	}
 	bool contains( const QString& e ) const
 	{
-		if( m_file && m_file->isOpen() ){
+		return m_downloadArchive.contains( e + "\n" ) ;
+	}
+	bool breakOnExisting() const
+	{
+		return m_breakOnExisting ;
+	}
+	bool skipOnExisting() const
+	{
+		return m_skipOnExisting ;
+	}
+private:
+	template< typename T>
+	bool optionIsSet( QStringList& opts,const T& opt )
+	{
+		for( int i = 0 ; i < opts.size() ; i++ ){
 
-			QTextStream txt( m_file.get() ) ;
+			if( opts[ i ] == opt ){
 
-			while( !txt.atEnd() ){
+				opts.removeAt( i ) ;
 
-				auto s = txt.readLine() ;
-
-				if( s.contains( e ) ){
-
-					return true ;
-				}
+				return true ;
 			}
 		}
 
 		return false ;
 	}
-private:
-	void takeOption( QStringList& opts,const QString& opt,QString& value )
+	template< typename T>
+	util::result< QString > optionIsSetWithArgument( QStringList& opts,const T& opt )
 	{
+		util::result< QString > m ;
+
 		for( int i = 0 ; i < opts.size() ; i++ ){
 
 			if( opts[ i ] == opt ){
 
 				if( i + 1 < opts.size() ){
 
-					value = opts[ i + 1 ] ;
+					m.set( opts[ i + 1 ] ) ;
 					opts.removeAt( i + 1 ) ;
 				}
 
@@ -101,10 +124,14 @@ private:
 				break ;
 			}
 		}
+
+		return m ;
 	}
+	bool m_breakOnExisting = false ;
+	bool m_skipOnExisting = false ;
 	QString m_maxMediaLength ;
 	QString m_minMediaLength ;
-	std::unique_ptr< QFile > m_file ;
+	QString m_downloadArchive ;
 };
 
 playlistdownloader::playlistdownloader( Context& ctx ) :
@@ -115,7 +142,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),1 ),
 	m_showThumbnails( true ),
-	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings )
+	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings ),
+	m_defaultVideoThumbnailIcon( m_settings.defaultVideoThumbnailIcon( settings::tabName::playlist ) )
 {	
 	this->resetMenu() ;
 
@@ -757,13 +785,32 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 	}else{
 		data.clear() ;
 		data.add( mmm.mid( index + 1 ) ) ;
-	}
+	}	
 
 	if( copts.contains( media.id() ) ){
 
-		auto m = tr( "Skipping a media with an id of \"%1\" because it is already in the archive file." ).arg( media.id() ) ;
-		m_ctx.logger().add( m ) ;
-		return ;
+		if( copts.skipOnExisting() ){
+
+			auto m = tr( "Skipping a media with an id of \"%1\" because it is already in the archive file." ).arg( media.id() ) ;
+			m_ctx.logger().add( m ) ;
+
+			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
+
+			auto a = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
+
+			table.addItem( m_defaultVideoThumbnailIcon,{ a,media.url(),s },Qt::AlignCenter ) ;
+
+			table.selectLast() ;
+
+			return ;
+
+		}else if( copts.breakOnExisting() ){
+
+			auto m = tr( "Stopping processing because an id of \"%1\" is already in the archive file." ).arg( media.id() ) ;
+			m_ctx.logger().add( m ) ;
+			m_ui.pbPLCancel->click() ;
+			return ;
+		}
 	}
 
 	auto max = copts.maxMediaLength() ;
@@ -780,20 +827,13 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 		return ;
 	}
 
-	settings& ss = m_ctx.Settings() ;
-
-	auto width = ss.thumbnailWidth( settings::tabName::playlist ) ;
-	auto height = ss.thumbnailHeight( settings::tabName::playlist ) ;
-
 	auto s = downloadManager::finishedStatus::notStarted() ;
 
 	table.selectLast() ;
 
 	if( !m_showThumbnails ){
 
-		auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
-
-		table.addItem( pixmap,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
 
 		table.selectLast() ;
 
@@ -811,28 +851,28 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
 		network.getResource( thumbnailUrl,
-				     [ this,&table,s,row,width,
-				     height,media = std::move( media ) ]( QByteArray data ){
+				     [ this,&table,s,row,
+				     media = std::move( media ) ]( QByteArray data ){
 
 			QPixmap pixmap ;
 
 			if( pixmap.loadFromData( data ) ){
 
-				pixmap = pixmap.scaled( width,height ) ;
-			}else{
-				pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
-			}
+				auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
+				auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
 
-			table.replace( pixmap,{ media.uiText(),media.url(),s },row ) ;
+				pixmap = pixmap.scaled( width,height ) ;
+				table.replace( pixmap,{ media.uiText(),media.url(),s },row ) ;
+			}else{
+				table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },row ) ;
+			}
 
 			table.selectLast() ;
 
 			m_networkRunning-- ;
 		} ) ;
 	}else{
-		auto pixmap = QIcon( ":/video" ).pixmap( width,height ) ;
-
-		table.addItem( pixmap,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
 
 		table.selectLast() ;
 	}

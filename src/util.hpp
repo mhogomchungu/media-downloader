@@ -319,6 +319,11 @@ public:
 	{
 		return this->value() ;
 	}
+	template< typename ... S >
+	void set( S&& ... s )
+	{
+		m_value.put( std::forward< S >( s ) ... ) ;
+	}
 	T * operator->()
 	{
 		return m_value.operator->() ;

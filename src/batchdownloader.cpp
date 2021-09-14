@@ -23,16 +23,6 @@
 
 #include <QMetaObject>
 
-static QPixmap _setVideoThumbnail( const Context& ctx )
-{
-	auto& settings = ctx.Settings() ;
-
-	auto w = settings.thumbnailWidth( settings::tabName::batch ) ;
-	auto h = settings.thumbnailHeight( settings::tabName::batch ) ;
-
-	return QIcon( ":/video" ).pixmap( w,h ) ;
-}
-
 batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
@@ -43,7 +33,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1 ),
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font(),0 ),
 	m_debug( ctx.debug() ),
-	m_defaultVideoThumbnail( _setVideoThumbnail( m_ctx ) ),
+	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
 {
 	qRegisterMetaType< ItemEntry >() ;
