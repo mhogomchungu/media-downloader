@@ -464,21 +464,21 @@ bool settings::useSystemProvidedVersionIfAvailable()
 	return m_settings.value( "UseSystemProvidedVersionIfAvailable" ).toBool() ;
 }
 
-QStringList settings::engineDefaultDownloadOptions( const QString& engineName )
+QString settings::engineDefaultDownloadOptions( const QString& engineName )
 {
-	auto m = "EngineDefaultDownloadOptions_" + engineName ;
+	auto m = "EngineDefaultDownloadingOptions_" + engineName ;
 
 	if( !m_settings.contains( m ) ){
 
-		m_settings.setValue( m,QStringList() ) ;
+		m_settings.setValue( m,QString() ) ;
 	}
 
-	return m_settings.value( m ).toStringList() ;
+	return m_settings.value( m ).toString() ;
 }
 
-void settings::setEngineDefaultDownloadOptions( const QString& engineName,const QStringList& options )
+void settings::setEngineDefaultDownloadOptions( const QString& engineName,const QString& options )
 {
-	auto m = "EngineDefaultDownloadOptions_" + engineName ;
+	auto m = "EngineDefaultDownloadingOptions_" + engineName ;
 
 	m_settings.setValue( m,options ) ;
 }

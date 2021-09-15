@@ -30,6 +30,7 @@
 
 #include <type_traits>
 #include <memory>
+#include <iostream>
 
 #include "translator.h"
 
@@ -52,6 +53,37 @@ namespace Ui
 
 namespace utility
 {
+	struct Debug
+	{
+		template< typename T >
+		Debug& operator<<( const T& e )
+		{
+			std::cout << e << std::endl ;
+			return *this ;
+		}
+		Debug& operator<<( const QString& e )
+		{
+			std::cout << e.toStdString() << std::endl ;
+			return *this ;
+		}
+		Debug& operator<<( const QByteArray& e )
+		{
+			std::cout << e.data() << std::endl ;
+			return *this ;
+		}
+		Debug& operator<<( const QStringList& e )
+		{
+			for( const auto& s : e ){
+
+				std::cout<< s.toStdString() << std::endl ;
+			}
+			std::cout << std::endl ;
+			return *this ;
+		}
+	};
+
+	extern Debug debug ;
+
 	class args
 	{
 	public:
@@ -79,6 +111,31 @@ namespace utility
 		QString m_quality ;
 		QStringList m_otherOptions ;
 	} ;
+
+	template< typename T >
+	void removeArgument( QStringList& s,const T& e )
+	{
+		s.removeAll( e ) ;
+	}
+
+	template< typename T >
+	void removeArgumentWithOption( QStringList& s,const T& e )
+	{
+		for( int i = 0 ; i < s.size() ; i++ ){
+
+			if( s[ i ] == e ){
+
+				if( i + 1 < s.size() ){
+
+					s.removeAt( i + 1 ) ;
+				}
+
+				s.removeAt( i ) ;
+
+				break ;
+			}
+		}
+	}
 
 	QString failedToFindExecutableString( const QString& cmd ) ;
 	int concurrentID() ;

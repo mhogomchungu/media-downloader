@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -787,7 +787,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="text">
-       <string>Download Range:</string>
+       <string>Get List Options:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -829,7 +829,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="text">
-       <string>Enter Options:</string>
+       <string>Download Options:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -25,34 +25,84 @@
 
 #include <QFileDialog>
 
+class arguments
+{
+public:
+	arguments( QStringList& args ) : m_args( args )
+	{
+	}
+	template< typename T >
+	bool hasOption( const T& opt,bool remove ) const
+	{
+		for( int i = 0 ; i < m_args.size() ; i++ ){
+
+			if( m_args[ i ] == opt ){
+
+				if( remove ){
+
+					m_args.removeAt( i ) ;
+				}
+
+				return true ;
+			}
+		}
+
+		return false ;
+	}
+	template< typename T >
+	void hasOption( const T& opt,QString& result,bool remove ) const
+	{
+		for( int i = 0 ; i < m_args.size() ; i++ ){
+
+			if( m_args[ i ] == opt ){
+
+				if( i + 1 < m_args.size() ){
+
+					result = m_args[ i + 1 ] ;
+
+					if( remove ){
+
+						m_args.removeAt( i + 1 ) ;
+					}
+				}
+
+				if( remove ){
+
+					m_args.removeAt( i ) ;
+				}
+			}
+		}
+	}
+private:
+	QStringList& m_args ;
+};
+
 class customOptions
 {
 public:
-	customOptions( const Context& ctx,QStringList& opts,QStringList& eOpts )
+	customOptions( const Context& ctx,
+		       QStringList& rangeOptions,
+		       settings& settings,
+		       const engines::engine& engine )
 	{
-		auto a = this->optionIsSetWithArgument( opts,"--max-media-length" ) ;
-		auto b = this->optionIsSetWithArgument( opts,"--min-media-length" ) ;
+		arguments Opts( rangeOptions ) ;
 
-		if( a ){
+		Opts.hasOption( "--max-media-length",m_maxMediaLength,true ) ;
+		Opts.hasOption( "--min-media-length",m_minMediaLength,true ) ;
 
-			m_maxMediaLength = a.value() ;
-		}
-
-		if( b ){
-
-			m_minMediaLength = b.value() ;
-		}
-
-		m_breakOnExisting = this->optionIsSet( opts,"--break-on-existing" ) ;
-		m_skipOnExisting  = this->optionIsSet( opts,"--skip-on-existing" ) ;
-
-		const auto m = this->optionIsSetWithArgument( eOpts,"--download-archive" ) ;
+		m_breakOnExisting = Opts.hasOption( "--break-on-existing",true ) ;
+		m_skipOnExisting  = Opts.hasOption( "--skip-on-existing",true ) ;
 
 		if( m_breakOnExisting || m_skipOnExisting ){
 
-			if( m && !m->isEmpty() ){
+			QString mm ;
 
-				auto mm = m.value() ;
+			auto s = settings.engineDefaultDownloadOptions( engine.name() ) ;
+			auto ss = util::splitPreserveQuotes( s ) ;
+
+			arguments( ss ).hasOption( "--download-archive",mm,false ) ;
+
+			if( !mm.isEmpty() ){
 
 				if( utility::isRelativePath( mm ) ){
 
@@ -97,44 +147,6 @@ public:
 		return m_skipOnExisting ;
 	}
 private:
-	template< typename T >
-	bool optionIsSet( QStringList& opts,const T& opt )
-	{
-		for( int i = 0 ; i < opts.size() ; i++ ){
-
-			if( opts[ i ] == opt ){
-
-				opts.removeAt( i ) ;
-
-				return true ;
-			}
-		}
-
-		return false ;
-	}
-	template< typename T >
-	util::result< QString > optionIsSetWithArgument( QStringList& opts,const T& opt )
-	{
-		util::result< QString > m ;
-
-		for( int i = 0 ; i < opts.size() ; i++ ){
-
-			if( opts[ i ] == opt ){
-
-				if( i + 1 < opts.size() ){
-
-					m.set( opts[ i + 1 ] ) ;
-					opts.removeAt( i + 1 ) ;
-				}
-
-				opts.removeAt( i ) ;
-
-				break ;
-			}
-		}
-
-		return m ;
-	}
 	bool m_breakOnExisting = false ;
 	bool m_skipOnExisting = false ;
 	QString m_maxMediaLength ;
@@ -537,8 +549,6 @@ void playlistdownloader::download( const engines::engine& engine )
 {
 	downloadManager::index indexes( m_table ) ;
 
-	auto m = m_ui.lineEditPLDownloadRange->text() ;
-	
 	auto _add = [ & ]( int s,const QString& opts ){
 
 		auto e = m_table.runningState( s ) ;
@@ -561,48 +571,11 @@ void playlistdownloader::download( const engines::engine& engine )
 
 	auto opts = m_ui.lineEditPLUrlOptions->text() ;
 
-	if( m.isEmpty() ){
+	int count = m_table.rowCount() ;
 
-		int count = m_table.rowCount() ;
+	for( int i = 0 ; i < count ; i++ ){
 
-		for( int i = 0 ; i < count ; i++ ){
-
-			_add( i,opts ) ;
-		}
-	}else{
-		const auto s = util::split( m,',',true ) ;
-
-		for( const auto& it : s ){
-
-			if( it.contains( "-" ) ){
-
-				const auto ss = util::split( it,'-',true ) ;
-
-				if( ss.size() == 2 ){
-
-					bool ok ;
-					bool ok1 ;
-					auto a = ss.at( 0 ).toInt( &ok ) ;
-					auto b = ss.at( 1 ).toInt( &ok1 ) ;
-
-					if( ok && ok1 ){
-
-						for(  ; a <= b ; a++ ){
-
-							_add( a - 1,opts ) ;
-						}
-					}
-				}
-			}else{
-				bool ok ;
-				auto e = it.toInt( &ok ) ;
-
-				if( ok ){
-
-					_add( e - 1,opts ) ;
-				}
-			}
-		}
+		_add( i,opts ) ;
 	}
 
 	this->download( engine,std::move( indexes ) ) ;
@@ -659,9 +632,7 @@ void playlistdownloader::getList()
 		return ;
 	}
 
-	auto options = util::split( url,' ',true ) ;
-
-	options.append( util::split( m_ui.lineEditPLUrlOptions->text(),' ',true ) ) ;
+	url = util::split( url,' ',true ).first() ;
 
 	m_ui.pbPLCancel->setEnabled( true ) ;
 
@@ -678,8 +649,6 @@ void playlistdownloader::getList()
 	m_settings.addToplaylistRangeHistory( range ) ;
 	m_settings.addToplaylistUrlHistory( url ) ;
 
-	m_ui.lineEditPLDownloadRange->clear() ;
-
 	if( !range.isEmpty() ){
 
 		if( range.startsWith( "--" ) ){
@@ -694,7 +663,7 @@ void playlistdownloader::getList()
 		}
 	}
 
-	opts.append( options.first() ) ;
+	opts.append( url ) ;
 
 	auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
@@ -711,7 +680,7 @@ void playlistdownloader::getList()
 
 	m_networkRunning = 0 ;
 
-	auto bb = [ copts = customOptions( m_ctx,opts,options ),this ]( tableWidget& table,Logger::Data& data ){
+	auto bb = [ copts = customOptions( m_ctx,opts,m_settings,engine ),this ]( tableWidget& table,Logger::Data& data ){
 
 		this->parseJson( std::move( copts ),table,data ) ;
 	} ;

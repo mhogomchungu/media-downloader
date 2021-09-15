@@ -316,7 +316,7 @@ const engines::enginePaths& engines::engineDirPaths() const
 	return m_enginePaths ;
 }
 
-static QStringList _toStringList( const QJsonValue& value ){
+static QStringList _toStringList( const QJsonValue& value,bool protectSpace = false ){
 
 	QStringList m ;
 
@@ -324,7 +324,14 @@ static QStringList _toStringList( const QJsonValue& value ){
 
 	for( const auto& it : array ){
 
-		m.append( it.toString() ) ;
+		auto s = it.toString() ;
+
+		if( s.contains( ' ' ) && protectSpace ){
+
+			m.append( "\"" + s + "\"" ) ;
+		}else{
+			m.append( s ) ;
+		}
 	}
 
 	return m ;
@@ -512,7 +519,7 @@ engines::engine::engine( Logger& logger,
 	m_splitLinesBy( _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ),
 	m_removeText( _toStringList( m_jsonObject.value( "RemoveText" ) ) ),
 	m_skiptLineWithText( _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ),
-	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ) ) ),
+	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ),true ) ),
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ),
 	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() ),
 	m_showListBreaker( logger,m_jsonObject.value( "ShowListTableBoundary" ).toObject() )

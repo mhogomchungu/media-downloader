@@ -234,9 +234,9 @@ configure::configure( const Context& ctx ) :
 
 		if( s ){
 
-			const auto& m = s->defaultDownLoadCmdOptions() ;
+			auto m = s->defaultDownLoadCmdOptions().join( " " ) ;
 
-			m_ui.lineEditConfigureDownloadOptions->setText( m.join( " " ) ) ;
+			m_ui.lineEditConfigureDownloadOptions->setText( m ) ;
 
 			m_settings.setEngineDefaultDownloadOptions( s->name(),m ) ;
 		}
@@ -366,9 +366,7 @@ void configure::saveOptions()
 
 		auto m = m_ui.lineEditConfigureDownloadOptions->text() ;
 
-		auto e = util::split( m,' ',true ) ;
-
-		m_settings.setEngineDefaultDownloadOptions( ss->name(),e ) ;
+		m_settings.setEngineDefaultDownloadOptions( ss->name(),m ) ;
 
 		if( !ss->cookieArgument().isEmpty() ){
 
@@ -391,10 +389,10 @@ void configure::setEngineOptions( const QString& e )
 		if( m.isEmpty() ){
 
 			const auto& e = s->defaultDownLoadCmdOptions() ;
-			m_settings.setEngineDefaultDownloadOptions( s->name(),e ) ;
+			m_settings.setEngineDefaultDownloadOptions( s->name(),e.join( " " ) ) ;
 			m_ui.lineEditConfigureDownloadOptions->setText( e.join( " " ) ) ;
 		}else{
-			m_ui.lineEditConfigureDownloadOptions->setText( m.join( " " ) ) ;
+			m_ui.lineEditConfigureDownloadOptions->setText( m ) ;
 		}
 
 		auto enable = !s->cookieArgument().isEmpty() ;

@@ -36,6 +36,11 @@ const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
 #ifdef Q_OS_LINUX
 
+namespace utility {
+
+	Debug debug ;
+}
+
 bool utility::platformIsLinux()
 {
 	return true ;
@@ -405,7 +410,7 @@ QStringList utility::updateOptions( const engines::engine& engine,
 
 			return engine.defaultDownLoadCmdOptions() ;
 		}else{
-			return m ;
+			return util::splitPreserveQuotes( m ) ;
 		}
 	}() ;
 
