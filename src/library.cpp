@@ -30,7 +30,9 @@ library::library( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font(),1 ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
-	m_currentPath( m_downloadFolder )
+	m_currentPath( m_downloadFolder ),
+	m_folderIcon( QIcon( ":/folder" ).pixmap( 30,40 ) ),
+	m_videoIcon( QIcon( ":/video" ).pixmap( 30,40 ) )
 {
 	m_table.get().hideColumn( 2 ) ;
 
@@ -77,9 +79,7 @@ library::library( const Context& ctx ) :
 
 			util::runInBgThread( [ this ](){
 
-				auto mode = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
-
-				for( const auto& it : QDir( m_currentPath ).entryList( mode ) ){
+				for( const auto& it : QDir( m_currentPath ).entryList( m_dirFilter ) ){
 
 					auto m = m_currentPath + "/" + it ;
 
@@ -211,7 +211,12 @@ void library::tabExited()
 {
 }
 
-static void _addItem( tableWidget& t,const QString& text,const QFont& font,bool file )
+struct Icon{
+	const QString& type ;
+	const QPixmap& icon ;
+};
+
+static void _addItem( tableWidget& t,const QString& text,const QFont& font,const Icon& icon )
 {
 	auto& table = t.get() ;
 
@@ -234,14 +239,8 @@ static void _addItem( tableWidget& t,const QString& text,const QFont& font,bool 
 
 	auto label = new QLabel() ;
 
-	if( file ){
-
-		item1->setText( "file" ) ;
-		label ->setPixmap( QIcon( ":/video" ).pixmap( 30,40 ) ) ;
-	}else{
-		item1->setText( "folder" ) ;
-		label ->setPixmap( QIcon( ":/folder" ).pixmap( 30,40 ) ) ;
-	}
+	item1->setText( icon.type ) ;
+	label ->setPixmap( icon.icon ) ;
 
 	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
 
@@ -270,11 +269,9 @@ void library::showContents( const QString& path,bool disableUi )
 		m_ctx.TabManager().disableAll() ;
 	}
 
-	util::runInBgThread( [ path ](){
+	util::runInBgThread( [ path,this ](){
 
-		auto mode = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
-
-		return QDir( path ).entryList( mode ) ;
+		return QDir( path ).entryList( m_dirFilter ) ;
 
 	},[ path,disableUi,this ]( const QStringList& m ){
 
@@ -336,12 +333,12 @@ void library::showContents( const QString& path,bool disableUi )
 
 		for( const auto& it : folders ){
 
-			_addItem( m_table,it.path,font,false ) ;
+			_addItem( m_table,it.path,font,{ "folder",m_folderIcon } ) ;
 		}
 
 		for( const auto& it : files ){
 
-			_addItem( m_table,it.path,font,true ) ;
+			_addItem( m_table,it.path,font,{ "file",m_videoIcon } ) ;
 		}
 
 		if( m_table.rowCount() > 0 ){

@@ -44,11 +44,10 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 	}
 }
 
-std::unique_ptr< engines::engine::functions::filter> gallery_dl::Filter( const QString& e )
+engines::engine::functions::DataFilter gallery_dl::Filter( const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;
-
-	return std::make_unique< gallery_dl::gallery_dlFilter >( e,s ) ;
+	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),e,s } ;
 }
 
 void gallery_dl::updateOptions( QJsonObject& object,settings& )

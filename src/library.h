@@ -23,6 +23,7 @@
 #include "context.hpp"
 #include <QString>
 #include <QStringList>
+#include <QDir>
 
 #include "settings.h"
 #include "utility.h"
@@ -53,6 +54,9 @@ private:
 	tableWidget m_table ;
 	QString m_downloadFolder ;
 	QString m_currentPath ;
+	const QDir::Filters m_dirFilter = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+	QPixmap m_folderIcon ;
+	QPixmap m_videoIcon ;
 };
 
 #endif

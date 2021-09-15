@@ -44,6 +44,14 @@ namespace types
 		using result_of = std::result_of_t<Function(Args ...)> ;
 	#endif
 
+	template< typename T >
+	struct type_identity{
+		using type = T ;
+	} ;
+
+	template< typename T >
+	using type_identity_t = typename type_identity< T >::type ;
+
 	template<typename ReturnType,typename Function,typename ... Args>
 	using imp = std::enable_if_t<std::is_same<result_of<Function,Args...>,ReturnType>::value,int> ;
 

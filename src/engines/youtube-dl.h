@@ -43,7 +43,7 @@ public:
 		QString m_fileName ;
 	} ;
 
-	std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( const QString& ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 

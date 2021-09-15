@@ -570,6 +570,16 @@ bool settings::saveHistory()
 	return m_settings.value( "SaveHistory" ).toBool() ;
 }
 
+int settings::stringTruncationSize()
+{
+	if( !m_settings.contains( "StringTruncationSize" ) ){
+
+		m_settings.setValue( "StringTruncationSize",100 ) ;
+	}
+
+	return m_settings.value( "StringTruncationSize" ).toInt() ;
+}
+
 int settings::historySize()
 {
 	if( !m_settings.contains( "HistorySize" ) ){

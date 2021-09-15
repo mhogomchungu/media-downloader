@@ -232,9 +232,9 @@ void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 	object.insert( "UsePrivateExecutable",!settings.useSystemProvidedVersionIfAvailable() ) ;
 }
 
-std::unique_ptr< engines::engine::functions::filter > youtube_dl::Filter( const QString& e )
+engines::engine::functions::DataFilter youtube_dl::Filter( const QString& e )
 {
-	return std::make_unique< youtube_dl::youtube_dlFilter >( e ) ;
+	return { util::types::type_identity< youtube_dl::youtube_dlFilter >(),e } ;
 }
 
 void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )

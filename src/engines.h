@@ -256,7 +256,22 @@ public:
 
 			virtual ~functions() ;
 
-			virtual std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) ;
+			class DataFilter{
+			public:
+				template< typename Type,typename ... Args >
+				DataFilter( Type,Args&& ... args ) :
+					m_filter( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
+				{
+				}
+				engines::engine::functions::filter& operator*()
+				{
+					return *m_filter;
+				}
+			private:
+				std::unique_ptr< engines::engine::functions::filter > m_filter ;
+			};
+
+			virtual DataFilter Filter( const QString& ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
 
@@ -363,7 +378,7 @@ public:
 		{
 			return m_defaultDownLoadCmdOptions ;
 		}
-		std::unique_ptr< engines::engine::functions::filter > filter( const QString& quality ) const
+		engines::engine::functions::DataFilter filter( const QString& quality ) const
 		{
 			return m_functions->Filter( quality ) ;
 		}

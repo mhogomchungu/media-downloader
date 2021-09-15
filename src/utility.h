@@ -196,12 +196,16 @@ namespace utility
 
 			for( const auto& it : history ){
 
-				if( it.size() < 64 ){
+				auto ss = settings.stringTruncationSize() ;
+
+				if( it.size() < ss ){
 
 					m.addAction( it )->setObjectName( it ) ;
 				}else{
-					auto a = it.mid( 0,32 ) ;
-					auto b = it.mid( it.size() - 32 ) ;
+					auto sss = ss / 2 ;
+
+					auto a = it.mid( 0,sss ) ;
+					auto b = it.mid( it.size() - sss ) ;
 					auto ac = m.addAction( a + "..." + b ) ;
 					ac->setObjectName( it ) ;
 					ac->setToolTip( it ) ;

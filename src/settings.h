@@ -210,6 +210,7 @@ public:
 	bool showThumbnails() ;
 	bool saveHistory() ;
 
+	int stringTruncationSize() ;
 	int historySize() ;
 
 	int thumbnailWidth( settings::tabName ) ;

@@ -41,7 +41,7 @@ public:
 		QString m_tmp ;
 	} ;
 
-	std::unique_ptr< engines::engine::functions::filter > Filter( const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( const QString& ) override ;
 
 	void updateOptions( QJsonObject&,settings& ) override ;
 

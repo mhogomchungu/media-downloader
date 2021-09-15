@@ -727,9 +727,9 @@ engines::engine::functions::~functions()
 {
 }
 
-std::unique_ptr< engines::engine::functions::filter > engines::engine::functions::Filter( const QString& e )
+engines::engine::functions::DataFilter engines::engine::functions::Filter( const QString& e )
 {
-	return std::make_unique< engines::engine::functions::filter >( e ) ;
+	return { util::types::type_identity< engines::engine::functions::filter >(),e } ;
 }
 
 void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,const QString& s )
