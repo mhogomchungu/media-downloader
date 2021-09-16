@@ -167,6 +167,15 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 {	
 	this->resetMenu() ;
 
+	m_ui.lineEditPLDownloadRange->setText( m_settings.playlistRangeHistoryLastUsed() ) ;
+
+	m_ui.cbPlaylistDownloaderSaveHistory->setChecked( m_settings.playlistDownloaderSaveHistory() ) ;
+
+	connect( m_ui.cbPlaylistDownloaderSaveHistory,&QCheckBox::toggled,[ this ]( bool e ){
+
+		m_settings.setPlaylistDownloaderSaveHistory( e ) ;
+	} ) ;
+
 	if( m_showThumbnails ){
 
 		m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
@@ -389,6 +398,7 @@ void playlistdownloader::init_done()
 
 void playlistdownloader::enableAll()
 {
+	m_ui.cbPlaylistDownloaderSaveHistory->setEnabled( true ) ;
 	m_ui.pbPLRecentlyUsedUrl->setEnabled( true ) ;
 	m_ui.pbPLPasteClipboard->setEnabled( true ) ;
 	m_ui.lineEditPLUrl->setEnabled( true ) ;
@@ -411,6 +421,7 @@ void playlistdownloader::enableAll()
 
 void playlistdownloader::disableAll()
 {
+	m_ui.cbPlaylistDownloaderSaveHistory->setEnabled( false ) ;
 	m_ui.pbPLRecentlyUsedUrl->setEnabled( false ) ;
 	m_ui.pbPLOptionsHistory->setEnabled( false ) ;
 	m_ui.pbPLRangeHistory->setEnabled( false ) ;
@@ -647,6 +658,9 @@ void playlistdownloader::getList()
 	auto range = m_ui.lineEditPLDownloadRange->text() ;
 
 	m_settings.addToplaylistRangeHistory( range ) ;
+
+	m_settings.setPlaylistRangeHistoryLastUsed( range ) ;
+
 	m_settings.addToplaylistUrlHistory( url ) ;
 
 	if( !range.isEmpty() ){

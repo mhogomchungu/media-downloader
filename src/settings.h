@@ -182,6 +182,7 @@ public:
 	QString cookieFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
 	QString engineDefaultDownloadOptions( const QString& engineName ) ;
+	QString playlistRangeHistoryLastUsed() ;
 
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
@@ -209,6 +210,7 @@ public:
 	bool useSystemProvidedVersionIfAvailable() ;
 	bool showThumbnails() ;
 	bool saveHistory() ;
+	bool playlistDownloaderSaveHistory() ;
 
 	int stringTruncationSize() ;
 	int historySize() ;
@@ -228,8 +230,10 @@ public:
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
 	void setShowThumbnails( bool ) ;
+	void setPlaylistDownloaderSaveHistory( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setDarkMode( const QString& ) ;
+	void setPlaylistRangeHistoryLastUsed( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;
 	void setCookieFilePath( const QString& engineName,const QString& cookieFilePath ) ;

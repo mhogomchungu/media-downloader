@@ -1050,6 +1050,22 @@ Each Link Should Be In Its Own Line.</string>
        <string/>
       </property>
      </widget>
+     <widget class="QCheckBox" name="cbPlaylistDownloaderSaveHistory">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>280</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Save History</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_5">
      <attribute name="title">

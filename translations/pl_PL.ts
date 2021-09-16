@@ -53,7 +53,7 @@
         <location filename="../src/mainwindow.ui" line="373"/>
         <location filename="../src/mainwindow.ui" line="693"/>
         <location filename="../src/mainwindow.ui" line="777"/>
-        <location filename="../src/mainwindow.ui" line="1528"/>
+        <location filename="../src/mainwindow.ui" line="1544"/>
         <source>Options</source>
         <translation>Opcje</translation>
     </message>
@@ -62,8 +62,8 @@
         <location filename="../src/mainwindow.ui" line="386"/>
         <location filename="../src/mainwindow.ui" line="639"/>
         <location filename="../src/mainwindow.ui" line="861"/>
-        <location filename="../src/mainwindow.ui" line="1111"/>
-        <location filename="../src/mainwindow.ui" line="1674"/>
+        <location filename="../src/mainwindow.ui" line="1127"/>
+        <location filename="../src/mainwindow.ui" line="1690"/>
         <location filename="../src/mainwindow.cpp" line="60"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
@@ -183,124 +183,129 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>podaj adres playlisty:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1056"/>
+        <location filename="../src/mainwindow.ui" line="1063"/>
+        <source>Save History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1072"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1087"/>
+        <location filename="../src/mainwindow.ui" line="1103"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1124"/>
+        <location filename="../src/mainwindow.ui" line="1140"/>
         <source>Up</source>
         <translation>W górę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1137"/>
+        <location filename="../src/mainwindow.ui" line="1153"/>
         <source>Refresh</source>
         <translation>Odśwież</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1150"/>
+        <location filename="../src/mainwindow.ui" line="1166"/>
         <source>Open Folder</source>
         <translation>Otwórz katalog</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1163"/>
+        <location filename="../src/mainwindow.ui" line="1179"/>
         <source>Home</source>
         <translation>Katalog domyślny</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1169"/>
+        <location filename="../src/mainwindow.ui" line="1185"/>
         <source>Configure</source>
         <translation>Konfiguracja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1185"/>
+        <location filename="../src/mainwindow.ui" line="1201"/>
         <source>General Options</source>
         <translation>Opcje ogólne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1291"/>
+        <location filename="../src/mainwindow.ui" line="1307"/>
         <source>Update Engine</source>
         <translation>Zaktualizuj silnik</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1349"/>
+        <location filename="../src/mainwindow.ui" line="1365"/>
         <source>Show Thumbnails</source>
         <translation>Pokaż miniaturki</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1372"/>
+        <location filename="../src/mainwindow.ui" line="1388"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maksymalna liczba plików pobieranych rownolegle</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1391"/>
+        <location filename="../src/mainwindow.ui" line="1407"/>
         <source>Use System Executables If Available</source>
         <translation>Używaj systemowych aplikacji, jeśli są dostępne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1414"/>
+        <location filename="../src/mainwindow.ui" line="1430"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation>Ciemny motyw (wymaga restartu)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1438"/>
-        <location filename="../src/mainwindow.ui" line="1544"/>
+        <location filename="../src/mainwindow.ui" line="1454"/>
+        <location filename="../src/mainwindow.ui" line="1560"/>
         <source>Reset Option To Its Default</source>
         <translation>Ustawienia domyślne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1441"/>
-        <location filename="../src/mainwindow.ui" line="1620"/>
+        <location filename="../src/mainwindow.ui" line="1457"/>
+        <location filename="../src/mainwindow.ui" line="1636"/>
         <source>Set Defaults</source>
         <translation>Ustaw domyślne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1317"/>
+        <location filename="../src/mainwindow.ui" line="1333"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Skala interfejsu aplikacji (wymaga restartu)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1426"/>
+        <location filename="../src/mainwindow.ui" line="1442"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1272"/>
+        <location filename="../src/mainwindow.ui" line="1288"/>
         <source>Download Path</source>
         <translation>Katalog pobieranych plików</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1220"/>
+        <location filename="../src/mainwindow.ui" line="1236"/>
         <source>Select Language</source>
         <translation>Wybierz język</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1239"/>
+        <location filename="../src/mainwindow.ui" line="1255"/>
         <source>Show Version Info When Starting</source>
         <translation>Pokaż informacje nt wersji przy uruchamianiu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1336"/>
+        <location filename="../src/mainwindow.ui" line="1352"/>
         <source>Add a Plugin</source>
         <translation>Dodaj wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1304"/>
+        <location filename="../src/mainwindow.ui" line="1320"/>
         <source>Remove A Plugin</source>
         <translation>Usuń wtyczkę</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1687"/>
+        <location filename="../src/mainwindow.ui" line="1703"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1553"/>
+        <location filename="../src/mainwindow.ui" line="1569"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Domyślne opcje silnika</translation>
     </message>
@@ -310,33 +315,33 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1473"/>
-        <location filename="../src/mainwindow.ui" line="1512"/>
+        <location filename="../src/mainwindow.ui" line="1489"/>
+        <location filename="../src/mainwindow.ui" line="1528"/>
         <source>Ui Name</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1547"/>
+        <location filename="../src/mainwindow.ui" line="1563"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1575"/>
+        <location filename="../src/mainwindow.ui" line="1591"/>
         <source>Engine&apos;s Name</source>
         <translation>Silnik</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1594"/>
+        <location filename="../src/mainwindow.ui" line="1610"/>
         <source>Default Download Options</source>
         <translation>Domyślne opcje pobierania</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1633"/>
+        <location filename="../src/mainwindow.ui" line="1649"/>
         <source>Path To Cookie FIle</source>
         <translation>Scieżka do ciasteczka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1693"/>
+        <location filename="../src/mainwindow.ui" line="1709"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
@@ -345,7 +350,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <name>QObject</name>
     <message>
         <location filename="../src/batchdownloader.cpp" line="279"/>
-        <location filename="../src/playlistdownloader.cpp" line="277"/>
+        <location filename="../src/playlistdownloader.cpp" line="286"/>
         <location filename="../src/utility.cpp" line="305"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
@@ -555,7 +560,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Poberanie zakończone</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="289"/>
+        <location filename="../src/settings.cpp" line="301"/>
         <source>Resetting download folder to default</source>
         <translation>Zmiana katalogu pobierania na domyślny</translation>
     </message>
@@ -611,7 +616,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="374"/>
-        <location filename="../src/playlistdownloader.cpp" line="778"/>
+        <location filename="../src/playlistdownloader.cpp" line="792"/>
         <source>Media Already In Archive</source>
         <translation>Plik znajduje się już w archiwum</translation>
     </message>
@@ -734,22 +739,22 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="214"/>
+        <location filename="../src/playlistdownloader.cpp" line="223"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="224"/>
+        <location filename="../src/playlistdownloader.cpp" line="233"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="232"/>
+        <location filename="../src/playlistdownloader.cpp" line="241"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="243"/>
+        <location filename="../src/playlistdownloader.cpp" line="252"/>
         <source>Download</source>
         <translation>Pobierz</translation>
     </message>

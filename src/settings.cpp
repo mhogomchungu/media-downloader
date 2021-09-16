@@ -97,19 +97,16 @@ static void _addToHistory( QSettings& settings,
 			   const QString& input,
 			   int max )
 {
-	if( !input.isEmpty() ){
+	if( !input.isEmpty() && !history.contains( input ) ){
 
-		if( !history.contains( input ) ){
+		if( history.size() == max ){
 
-			if( history.size() == max ){
-
-				history.removeLast() ;
-			}
-
-			history.insert( 0,input ) ;
-
-			settings.setValue( key,history ) ;
+			history.removeLast() ;
 		}
+
+		history.insert( 0,input ) ;
+
+		settings.setValue( key,history ) ;
 	}
 }
 
@@ -127,7 +124,7 @@ void settings::addToplaylistRangeHistory( const QString& e )
 
 void settings::addToplaylistUrlHistory( const QString& e )
 {
-	if( this->saveHistory() ){
+	if( this->playlistDownloaderSaveHistory() ){
 
 		_addToHistory( m_settings,
 			       this->playlistUrlHistory(),
@@ -182,6 +179,21 @@ QStringList settings::playlistUrlHistory()
 void settings::setDarkMode( const QString& e )
 {
 	m_settings.setValue( "DarkModeName",e ) ;
+}
+
+void settings::setPlaylistRangeHistoryLastUsed( const QString& e )
+{
+	m_settings.setValue( "playlistRangeHistoryLastUsed",e ) ;
+}
+
+QString settings::playlistRangeHistoryLastUsed()
+{
+	if( !m_settings.contains( "playlistRangeHistoryLastUsed" ) ){
+
+		m_settings.setValue( "playlistRangeHistoryLastUsed",QString() ) ;
+	}
+
+	return m_settings.value( "playlistRangeHistoryLastUsed" ).toString() ;
 }
 
 static std::unique_ptr< QSettings > _init()
@@ -568,6 +580,21 @@ bool settings::saveHistory()
 	}
 
 	return m_settings.value( "SaveHistory" ).toBool() ;
+}
+
+bool settings::playlistDownloaderSaveHistory()
+{
+	if( !m_settings.contains( "PlaylistDownloaderSaveHistory" ) ){
+
+		m_settings.setValue( "PlaylistDownloaderSaveHistory",true ) ;
+	}
+
+	return m_settings.value( "PlaylistDownloaderSaveHistory" ).toBool() ;
+}
+
+void settings::setPlaylistDownloaderSaveHistory( bool e )
+{
+	m_settings.setValue( "PlaylistDownloaderSaveHistory",e ) ;
 }
 
 int settings::stringTruncationSize()
