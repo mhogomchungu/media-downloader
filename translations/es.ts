@@ -588,12 +588,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Mostrar Ventana de Registro</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="813"/>
+        <location filename="../src/utility.h" line="812"/>
         <source>Upload Date:</source>
         <translation>Fecha de Subida:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="821"/>
+        <location filename="../src/utility.h" line="820"/>
         <source>Duration:</source>
         <translation>Duración:</translation>
     </message>
@@ -608,8 +608,8 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Completados: %1%, Sin iniciar: %2, Exitosos: %3, Fallidos: %4, Cancelados: %5</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="369"/>
-        <location filename="../src/playlistdownloader.cpp" line="773"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="374"/>
+        <location filename="../src/playlistdownloader.cpp" line="778"/>
         <source>Media Already In Archive</source>
         <translation>Medio ya existe en archivo</translation>
     </message>

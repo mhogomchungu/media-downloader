@@ -263,7 +263,7 @@ public:
 					m_filter( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 				{
 				}
-				engines::engine::functions::filter& operator*()
+				engines::engine::functions::filter& operator*() const
 				{
 					return *m_filter;
 				}

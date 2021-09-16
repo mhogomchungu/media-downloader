@@ -378,7 +378,6 @@ namespace utility
 	class Conn
 	{
 	public:
-		typedef Function function_type ;
 		Conn( Function function,
 		      FunctionConnect functionConnect ) :
 			m_function( std::move( function ) ),
@@ -568,7 +567,7 @@ namespace utility
 				m_timer.start( 1000 ) ;
 			}
 
-			m_conn.connect( [ this,&exe ]( typename Connection::function_type& function,int index ){
+			m_conn.connect( [ this,&exe ]( auto& function,int index ){
 
 				auto m = function( m_engine,exe,m_options.index(),index ) ;
 
@@ -697,8 +696,8 @@ namespace utility
 
 			if( ctx->debug() ){
 
-				qDebug() << data ;
-				qDebug() << "------------------------" ;
+				utility::Debug() << data ;
+				utility::Debug() << "------------------------" ;
 			}
 
 			const auto& channels = ctx->outputChannels() ;
@@ -943,17 +942,6 @@ namespace utility
 			}
 		}
 	}
-
-	struct opts
-	{
-		const Context& ctx ;
-		const engines::engine& engine ;
-		QTableWidget& table ;
-		bool debug ;
-		bool listRequested ;
-		QString downloadFolder() const ;
-		const QProcessEnvironment& processEnvironment() const ;
-	} ;
 
 	template< typename Opts,typename Functions >
 	class options
