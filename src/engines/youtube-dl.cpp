@@ -297,6 +297,11 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 		s.ourOptions.removeAll( "--no-playlist" ) ;
 	}
 
+	if( !s.ourOptions.contains( "--newline" ) ){
+
+		s.ourOptions.append( "--newline" ) ;
+	}
+
 	s.ourOptions.append( engine.optionsArgument() ) ;
 
 	if( s.quality.isEmpty() ){

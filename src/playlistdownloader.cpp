@@ -766,7 +766,12 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 	if( copts.contains( media.id() ) ){
 
-		if( copts.skipOnExisting() ){
+		if( copts.breakOnExisting() ){
+
+			m_ui.pbPLCancel->click() ;
+			return ;
+
+		}else if( copts.skipOnExisting() ){
 
 			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
 
@@ -776,11 +781,6 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 			table.selectLast() ;
 
-			return ;
-
-		}else if( copts.breakOnExisting() ){
-
-			m_ui.pbPLCancel->click() ;
 			return ;
 		}
 	}
