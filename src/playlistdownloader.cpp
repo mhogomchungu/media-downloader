@@ -80,12 +80,12 @@ private:
 class customOptions
 {
 public:
-	customOptions( const Context& ctx,
-		       QStringList& rangeOptions,
+	customOptions( QStringList&& opts,
 		       settings& settings,
-		       const engines::engine& engine )
+		       const engines::engine& engine ) :
+		m_options( std::move( opts ) )
 	{
-		arguments Opts( rangeOptions ) ;
+		arguments Opts( m_options ) ;
 
 		Opts.hasOption( "--max-media-length",m_maxMediaLength,true ) ;
 		Opts.hasOption( "--min-media-length",m_minMediaLength,true ) ;
@@ -106,20 +106,42 @@ public:
 
 				if( utility::isRelativePath( mm ) ){
 
-					mm = ctx.Settings().downloadFolder() + "/" + mm ;
+					mm = settings.downloadFolder() + "/" + mm ;
 				}
 
-				if( QFile::exists( mm ) ){
+				auto _readData = [ & ]( const QString& mm ){
 
-					QFile file( mm ) ;
+					if( QFile::exists( mm ) ){
 
-					if( file.open( QIODevice::ReadOnly ) ){
+						QFile file( mm ) ;
 
-						m_downloadArchive = file.readAll() ;
+						if( file.open( QIODevice::ReadOnly ) ){
+
+							m_downloadArchive = file.readAll() ;
+
+							return true ;
+						}
+					}
+
+					return false ;
+				} ;
+
+				if( !_readData( mm ) ){
+
+					if( mm.startsWith( '"' ) && mm.endsWith( '"' ) ){
+
+						mm.remove( 0,1 ) ;
+						mm.remove( mm.size() - 1 ) ;
+
+						_readData( mm ) ;
 					}
 				}
 			}
 		}
+	}
+	const QStringList& options() const
+	{
+		return m_options ;
 	}
 	int maxMediaLength() const
 	{
@@ -149,6 +171,7 @@ public:
 private:
 	bool m_breakOnExisting = false ;
 	bool m_skipOnExisting = false ;
+	QStringList m_options ;
 	QString m_maxMediaLength ;
 	QString m_minMediaLength ;
 	QByteArray m_downloadArchive ;
@@ -679,37 +702,46 @@ void playlistdownloader::getList()
 
 	opts.append( url ) ;
 
-	auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
-
-			opts.ctx.TabManager().disableAll() ;
-
-			m_ui.pbPLCancel->setEnabled( true ) ;
-
-		},[ this ]( utility::ProcessExitState,const playlistdownloader::opts& ){
-
-			m_ctx.TabManager().enableAll() ;
-			m_ui.pbPLCancel->setEnabled( false ) ;
-		}
-	) ;
-
 	m_networkRunning = 0 ;
 
-	auto bb = [ copts = customOptions( m_ctx,opts,m_settings,engine ),this ]( tableWidget& table,Logger::Data& data ){
+	util::runInBgThread( [ &engine,this,opts = std::move( opts ) ]()mutable{
 
-		this->parseJson( std::move( copts ),table,data ) ;
-	} ;
+		return customOptions( std::move( opts ),m_settings,engine ) ;
 
-	utility::run( engine,
-		      opts,
-		      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality(),
-		      playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,-1 },std::move( functions ) ),
-		      make_loggerPlaylistDownloader( m_table,
-						     m_ctx.logger(),
-						     engine.playListUrlPrefix(),
-						     utility::concurrentID(),
-						     std::move( bb ) ),
-		      m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ),
-		      QProcess::ProcessChannel::StandardOutput ) ;
+	},[ this,&engine ]( customOptions&& c ){
+
+		auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
+
+				opts.ctx.TabManager().disableAll() ;
+
+				m_ui.pbPLCancel->setEnabled( true ) ;
+
+			},[ this ]( utility::ProcessExitState,const playlistdownloader::opts& ){
+
+				m_ctx.TabManager().enableAll() ;
+				m_ui.pbPLCancel->setEnabled( false ) ;
+			}
+		) ;
+
+		auto opts = c.options() ;
+
+		auto bb = [ copts = std::move( c ),this ]( tableWidget& table,Logger::Data& data ){
+
+			this->parseJson( copts,table,data ) ;
+		} ;
+
+		utility::run( engine,
+			      opts,
+			      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality(),
+			      playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,-1 },std::move( functions ) ),
+			      make_loggerPlaylistDownloader( m_table,
+							     m_ctx.logger(),
+							     engine.playListUrlPrefix(),
+							     utility::concurrentID(),
+							     std::move( bb ) ),
+			      m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ),
+			      QProcess::ProcessChannel::StandardOutput ) ;
+	} ) ;
 }
 
 void playlistdownloader::clearScreen()

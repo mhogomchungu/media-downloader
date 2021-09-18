@@ -552,7 +552,26 @@ private:
 	std::vector< engine > m_backends ;
 	enginePaths m_enginePaths ;
 	QProcessEnvironment m_processEnvironment ;
+
+	class configDefaultEngine
+	{
+	public:
+		configDefaultEngine( Logger& logger,const enginePaths& enginePath ) ;
+
+		const QString& name() const
+		{
+			return m_name ;
+		}
+		const QString& configFileName() const
+		{
+			return m_configFileName ;
+		}
+	private:
+		QString m_name ;
+		QString m_configFileName ;
+	} ;
+
+	engines::configDefaultEngine m_defaultEngine ;
 };
 
 #endif
-

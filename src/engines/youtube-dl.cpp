@@ -55,19 +55,37 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
-void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
+void youtube_dl::init( const QString& name,
+		       const QString& configFileName,
+		       Logger& logger,
+		       const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.configPath( "youtube-dl.json" ) ;
+	auto m = enginePath.configPath( configFileName ) ;
 
 	if( !QFile::exists( m ) ){
 
 		QJsonObject mainObj ;
 
-		mainObj.insert( "CommandName","youtube-dl" ) ;
+		if( name == "youtube-dl" ){
 
-		mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
+			mainObj.insert( "CommandName","youtube-dl" ) ;
 
-		mainObj.insert( "Name","youtube-dl" ) ;
+			mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
+
+			mainObj.insert( "Name",name ) ;
+
+			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
+		}else{
+			mainObj.insert( "CommandName","yt-dlp" ) ;
+
+			mainObj.insert( "CommandNameWindows","yt-dlp.exe" ) ;
+
+			mainObj.insert( "CommandName32BitWindows","yt-dlp_x86.exe" ) ;
+
+			mainObj.insert( "Name",name ) ;
+
+			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
+		}
 
 		mainObj.insert( "CookieArgument","--cookies" ) ;
 
@@ -142,8 +160,6 @@ void youtube_dl::init( Logger& logger,const engines::enginePaths& enginePath )
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
 		mainObj.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
-
-		mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 
 		mainObj.insert( "VersionArgument","--version" ) ;
 

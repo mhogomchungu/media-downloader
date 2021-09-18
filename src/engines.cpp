@@ -105,16 +105,14 @@ engines::engines( Logger& l,settings& s ) :
 	m_logger( l ),
 	m_settings( s ),
 	m_enginePaths( m_settings ),
-	m_processEnvironment( _getEnvPaths( m_enginePaths,m_settings ) )
+	m_processEnvironment( _getEnvPaths( m_enginePaths,m_settings ) ),
+	m_defaultEngine( l,s )
 {
 	if( settings::portableVersion() ){
 
 		m_logger.add( QObject::tr( "Running in portable mode" ) ) ;
 		m_logger.add( QObject::tr( "Download path: " ) + m_settings.downloadFolder( m_logger ) ) ;
 	}
-
-	youtube_dl::init( m_logger,m_enginePaths ) ;
-
 	this->updateEngines( true ) ;
 }
 
@@ -180,7 +178,7 @@ void engines::updateEngines( bool addAll )
 		}
 	} ;
 
-	_engine_add( this->getEngineByPath( "youtube-dl.json" ) ) ;
+	_engine_add( this->getEngineByPath( m_defaultEngine.configFileName() ) ) ;
 
 	for( const auto& it : this->enginesList() ){
 
@@ -451,7 +449,7 @@ QStringList engines::enginesList() const
 {
 	auto m = QDir( m_enginePaths.configPath() ).entryList( QDir::Filter::Files ) ;
 
-	m.removeAll( "youtube-dl.json" ) ;
+	m.removeAll( m_defaultEngine.configFileName() ) ;
 
 	return m ;
 }
@@ -1312,4 +1310,11 @@ int engines::engine::functions::timer::elapsedTime()
 QString engines::engine::functions::timer::stringElapsedTime()
 {
 	return engines::engine::functions::timer::stringElapsedTime( this->elapsedTime() ) ;
+}
+
+engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePaths& enginePath ) :
+	m_name( "youtube-dl" ),
+	m_configFileName( m_name + ".json" )
+{
+	youtube_dl::init( this->name(),this->configFileName(),logger,enginePath ) ;
 }
