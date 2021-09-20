@@ -368,7 +368,7 @@ Each Link Should Be In Its Own Line.</source>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="279"/>
-        <location filename="../src/playlistdownloader.cpp" line="286"/>
+        <location filename="../src/playlistdownloader.cpp" line="309"/>
         <location filename="../src/utility.cpp" line="305"/>
         <source>Preset Options</source>
         <translation>Opciones Preestablecidas</translation>
@@ -431,58 +431,58 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Turco (Turquía)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="112"/>
+        <location filename="../src/engines.cpp" line="113"/>
         <source>Running in portable mode</source>
         <translation>Ejecutando en modo portable</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="113"/>
+        <location filename="../src/engines.cpp" line="114"/>
         <source>Download path: </source>
         <translation>Ruta de descarga: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="176"/>
+        <location filename="../src/engines.cpp" line="174"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Error, no se pudo encontrar el ejecutable del backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="269"/>
+        <location filename="../src/engines.cpp" line="267"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Motor &quot;%1&quot; requiere al menos la versión &quot;%2&quot; de Media Downloader</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="484"/>
-        <location filename="../src/engines.cpp" line="653"/>
+        <location filename="../src/engines.cpp" line="482"/>
+        <location filename="../src/engines.cpp" line="651"/>
         <location filename="../src/utility.cpp" line="451"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Fallo para encontrar el ejecutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="627"/>
+        <location filename="../src/engines.cpp" line="625"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="723"/>
+        <location filename="../src/engines.cpp" line="721"/>
         <source>Download cancelled</source>
         <translation>Descarga cancelada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1062"/>
-        <location filename="../src/engines.cpp" line="1072"/>
+        <location filename="../src/engines.cpp" line="1060"/>
+        <location filename="../src/engines.cpp" line="1070"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1087"/>
+        <location filename="../src/engines.cpp" line="1085"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1239"/>
-        <location filename="../src/engines.cpp" line="1244"/>
-        <location filename="../src/engines.cpp" line="1251"/>
-        <location filename="../src/engines.cpp" line="1256"/>
+        <location filename="../src/engines.cpp" line="1237"/>
+        <location filename="../src/engines.cpp" line="1242"/>
+        <location filename="../src/engines.cpp" line="1249"/>
+        <location filename="../src/engines.cpp" line="1254"/>
         <source>Elapsed Time:</source>
         <translation>Tiempo transcurrido:</translation>
     </message>
@@ -512,7 +512,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Iniciar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="729"/>
+        <location filename="../src/engines.cpp" line="727"/>
         <location filename="../src/networkAccess.cpp" line="148"/>
         <location filename="../src/networkAccess.cpp" line="224"/>
         <source>Download Failed</source>
@@ -548,12 +548,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1142"/>
+        <location filename="../src/engines.cpp" line="1140"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="727"/>
+        <location filename="../src/engines.cpp" line="725"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
@@ -563,7 +563,7 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1164"/>
+        <location filename="../src/engines.cpp" line="1162"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>
@@ -613,8 +613,8 @@ Each Link Should Be In Its Own Line.</source>
         <translation>Completados: %1%, Sin iniciar: %2, Exitosos: %3, Fallidos: %4, Cancelados: %5</translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="374"/>
-        <location filename="../src/playlistdownloader.cpp" line="792"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="390"/>
+        <location filename="../src/playlistdownloader.cpp" line="824"/>
         <source>Media Already In Archive</source>
         <translation>Medio ya existe en archivo</translation>
     </message>
@@ -737,22 +737,22 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="223"/>
+        <location filename="../src/playlistdownloader.cpp" line="246"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="233"/>
+        <location filename="../src/playlistdownloader.cpp" line="256"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="241"/>
+        <location filename="../src/playlistdownloader.cpp" line="264"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="252"/>
+        <location filename="../src/playlistdownloader.cpp" line="275"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>

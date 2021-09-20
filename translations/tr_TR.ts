@@ -370,7 +370,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="279"/>
-        <location filename="../src/playlistdownloader.cpp" line="286"/>
+        <location filename="../src/playlistdownloader.cpp" line="309"/>
         <location filename="../src/utility.cpp" line="305"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
@@ -433,58 +433,58 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Türkçe (Türkiye)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="112"/>
+        <location filename="../src/engines.cpp" line="113"/>
         <source>Running in portable mode</source>
         <translation>Taşınabilir modda çalışıyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="113"/>
+        <location filename="../src/engines.cpp" line="114"/>
         <source>Download path: </source>
         <translation>İndirme yolu: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="176"/>
+        <location filename="../src/engines.cpp" line="174"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Hata, &quot;%1&quot; arka uçta yürütülebilir dosya bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="269"/>
+        <location filename="../src/engines.cpp" line="267"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>&quot;%1&quot; motoru, Medya İndiricinin en az &quot;%2&quot; sürümünü gerektiriyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="484"/>
-        <location filename="../src/engines.cpp" line="653"/>
+        <location filename="../src/engines.cpp" line="482"/>
+        <location filename="../src/engines.cpp" line="651"/>
         <location filename="../src/utility.cpp" line="451"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>&quot;%1&quot; yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="627"/>
+        <location filename="../src/engines.cpp" line="625"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>&quot;%1&quot; arka uç için python3 yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="723"/>
+        <location filename="../src/engines.cpp" line="721"/>
         <source>Download cancelled</source>
         <translation>İndirme iptal edildi</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1062"/>
-        <location filename="../src/engines.cpp" line="1072"/>
+        <location filename="../src/engines.cpp" line="1060"/>
+        <location filename="../src/engines.cpp" line="1070"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1087"/>
+        <location filename="../src/engines.cpp" line="1085"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1239"/>
-        <location filename="../src/engines.cpp" line="1244"/>
-        <location filename="../src/engines.cpp" line="1251"/>
-        <location filename="../src/engines.cpp" line="1256"/>
+        <location filename="../src/engines.cpp" line="1237"/>
+        <location filename="../src/engines.cpp" line="1242"/>
+        <location filename="../src/engines.cpp" line="1249"/>
+        <location filename="../src/engines.cpp" line="1254"/>
         <source>Elapsed Time:</source>
         <translation>Geçen Zaman:</translation>
     </message>
@@ -514,7 +514,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>İndirmeye Başlayın</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="729"/>
+        <location filename="../src/engines.cpp" line="727"/>
         <location filename="../src/networkAccess.cpp" line="148"/>
         <location filename="../src/networkAccess.cpp" line="224"/>
         <source>Download Failed</source>
@@ -550,12 +550,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1142"/>
+        <location filename="../src/engines.cpp" line="1140"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="727"/>
+        <location filename="../src/engines.cpp" line="725"/>
         <source>Download completed</source>
         <translation>İndirme tamamlandı</translation>
     </message>
@@ -565,7 +565,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1164"/>
+        <location filename="../src/engines.cpp" line="1162"/>
         <source>Post Processing</source>
         <translation>Rötuş</translation>
     </message>
@@ -615,8 +615,8 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/youtube-dl.cpp" line="374"/>
-        <location filename="../src/playlistdownloader.cpp" line="792"/>
+        <location filename="../src/engines/youtube-dl.cpp" line="390"/>
+        <location filename="../src/playlistdownloader.cpp" line="824"/>
         <source>Media Already In Archive</source>
         <translation type="unfinished"></translation>
     </message>
@@ -739,22 +739,22 @@ Her Link Kendi Satırında Olmalıdır.</translation>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="223"/>
+        <location filename="../src/playlistdownloader.cpp" line="246"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="233"/>
+        <location filename="../src/playlistdownloader.cpp" line="256"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="241"/>
+        <location filename="../src/playlistdownloader.cpp" line="264"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="252"/>
+        <location filename="../src/playlistdownloader.cpp" line="275"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
