@@ -163,8 +163,44 @@ void engines::openUrls( const QString& path ) const
 	QDesktopServices::openUrl( m ) ;
 }
 
+static util::result< engines::engine > _get_engine_by_path( const QString& e,
+							    const engines& engines,
+							    Logger& logger,
+							    const engines::enginePaths& enginePaths )
+{
+	auto path = enginePaths.configPath( e ) ;
+
+	util::Json json( engines::file( path,logger ).readAll() ) ;
+
+	if( json ){
+
+		auto object = json.doc().object() ;
+
+		auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
+
+		if( !minVersion.isEmpty() ){
+
+			if( util::version( minVersion ) > VERSION ){
+
+				auto name = object.value( "Name" ).toString() ;
+
+				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
+
+				logger.add( m.arg( name,minVersion ) ) ;
+
+				return {} ;
+			}
+		}
+
+		return { logger,enginePaths,object,engines } ;
+	}else{
+		return {} ;
+	}
+}
 void engines::updateEngines( bool addAll )
 {
+	m_backends.clear() ;
+
 	auto _engine_add = [ & ]( util::result< engines::engine > m ){
 
 		if( m ){
@@ -178,11 +214,11 @@ void engines::updateEngines( bool addAll )
 		}
 	} ;
 
-	_engine_add( this->getEngineByPath( m_defaultEngine.configFileName() ) ) ;
+	_engine_add( _get_engine_by_path( m_defaultEngine.configFileName(),*this,m_logger,m_enginePaths ) ) ;
 
 	for( const auto& it : this->enginesList() ){
 
-		_engine_add( this->getEngineByPath( it ) ) ;
+		_engine_add( _get_engine_by_path( it,*this,m_logger,m_enginePaths ) ) ;
 	}
 
 	if( addAll ){
@@ -203,6 +239,28 @@ void engines::updateEngines( bool addAll )
 				_engine_add( { *this,m_logger,"python3","--version",0,1 } ) ;
 				break ;
 			}
+		}
+	}
+
+	for( auto& it : m_backends ){
+
+		const auto& name = it.name() ;
+
+		if( it.likeYoutubeDl() ){
+
+			it.setBackend< youtube_dl >( *this ) ;
+
+		}else if( name == "safaribooks" ){
+
+			it.setBackend< safaribooks >( *this ) ;
+
+		}else if( name == "gallery-dl" ){
+
+			it.setBackend< gallery_dl >( *this ) ;
+
+		}else if( it.mainEngine() ){
+
+			it.setBackend< generic >( *this ) ;
 		}
 	}
 }
@@ -246,69 +304,6 @@ util::result_ref< const engines::engine& > engines::getEngineByName( const QStri
 	return {} ;
 }
 
-util::result< engines::engine > engines::getEngineByPath( const QString& e ) const
-{
-	auto path = m_enginePaths.configPath( e ) ;
-
-	util::Json json( engines::file( path,m_logger ).readAll() ) ;
-
-	if( json ){
-
-		auto object = json.doc().object() ;
-
-		auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
-
-		if( !minVersion.isEmpty() ){
-
-			if( util::version( minVersion ) > VERSION ){
-
-				auto name = object.value( "Name" ).toString() ;
-
-				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
-
-				m_logger.add( m.arg( name,minVersion ) ) ;
-
-				return {} ;
-			}
-		}
-
-		auto name = object.value( "Name" ).toString() ;
-
-		if( object.value( "LikeYoutubeDl" ).toBool( false ) || name == "youtube-dl" ){
-
-			auto functions = std::make_unique< youtube_dl >( m_settings ) ;
-
-			functions->updateOptions( object,m_settings ) ;
-
-			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
-
-		}else if( name == "safaribooks" ){
-
-			auto functions = std::make_unique< safaribooks >( m_settings ) ;
-
-			functions->updateOptions( object,m_settings ) ;
-
-			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
-
-		}else if( name == "gallery-dl" ){
-
-			auto functions = std::make_unique< gallery_dl >( m_settings ) ;
-
-			functions->updateOptions( object,m_settings ) ;
-
-			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
-		}else{
-			auto functions = std::make_unique< generic >( m_settings ) ;
-
-			functions->updateOptions( object,m_settings ) ;
-
-			return { m_logger,m_enginePaths,object,*this,std::move( functions ) } ;
-		}
-	}else{
-		return {} ;
-	}
-}
-
 const engines::enginePaths& engines::engineDirPaths() const
 {
 	return m_enginePaths ;
@@ -333,6 +328,11 @@ static QStringList _toStringList( const QJsonValue& value,bool protectSpace = fa
 	}
 
 	return m ;
+}
+
+settings& engines::Settings() const
+{
+	return m_settings ;
 }
 
 QString engines::findExecutable( const QString& exeName ) const
@@ -391,8 +391,6 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 					}
 				}
 
-				m_backends.clear() ;
-
 				m_settings.setDefaultEngine( name,settings::tabName::basic ) ;
 				m_settings.setDefaultEngine( name,settings::tabName::batch ) ;
 
@@ -409,7 +407,7 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 
 void engines::removeEngine( const QString& e )
 {
-	const auto engine = this->getEngineByPath( e ) ;
+	const auto engine = _get_engine_by_path( e,*this,m_logger,m_enginePaths ) ;
 
 	if( engine && engine->valid() ){
 
@@ -438,8 +436,6 @@ void engines::removeEngine( const QString& e )
 			_reset_default( name,settings::tabName::batch ) ;
 			_reset_default( name,settings::tabName::playlist ) ;
 		}
-
-		m_backends.clear() ;
 
 		this->updateEngines( false ) ;
 	}
@@ -488,10 +484,8 @@ engines::engine::engine( const engines& engines,
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
 			 const util::Json& json,
-			 const engines& engines,
-			 std::unique_ptr< engine::functions > functions ) :
+			 const engines& engines ) :
 	m_jsonObject( json.doc().object() ),
-	m_functions( std::move( functions ) ),
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
@@ -776,10 +770,6 @@ void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,co
 	}
 }
 
-void engines::engine::functions::updateOptions( QJsonObject&,settings& )
-{
-}
-
 QString engines::engine::functions::commandString( const engines::engine::exeArgs::cmd& cmd )
 {
 	auto m = "\"" + cmd.exe() + "\"" ;
@@ -801,8 +791,7 @@ QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& 
 	return m + ", " + e + "\n" + uiText ;
 }
 
-QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::engine&,
-								 const QString& uiText,
+QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,
 								 const QString& bkText,
 								 const engine::engine::functions::finishedState& f )
 {
@@ -816,9 +805,7 @@ QString engines::engine::functions::updateTextOnCompleteDownlod( const engines::
 	}
 }
 
-void engines::engine::functions::sendCredentials( const engines::engine&,
-						  const QString&,
-						  QProcess& )
+void engines::engine::functions::sendCredentials( const QString&,QProcess& )
 {
 }
 
@@ -979,12 +966,11 @@ static void _add( const QByteArray& data,
 	}
 }
 
-void engines::engine::functions::processData( const engines::engine& engine,
-					      Logger::Data& outPut,
+void engines::engine::functions::processData( Logger::Data& outPut,
 					      const QString& e,
 					      int id )
 {
-	outPut.replaceOrAdd( engine,e,id,[]( const engines::engine&,const QString& line ){
+	outPut.replaceOrAdd( m_engine,e,id,[]( const engines::engine&,const QString& line ){
 
 		auto a = line.startsWith( engines::engine::functions::preProcessing::processingText() ) ;
 		auto b = engines::engine::functions::timer::timerText( line ) ;
@@ -997,42 +983,40 @@ void engines::engine::functions::processData( const engines::engine& engine,
 	} ) ;
 }
 
-void engines::engine::functions::processData( const engines::engine& engine,
-					      Logger::Data& outPut,
+void engines::engine::functions::processData( Logger::Data& outPut,
 					      QByteArray data,
 					      int id )
 {
-	for( const auto& it : engine.removeText() ){
+	for( const auto& it : m_engine.removeText() ){
 
 		data.replace( it.toUtf8(),"" ) ;
 	}
 
-	const auto& sp = engine.splitLinesBy() ;
+	const auto& sp = m_engine.splitLinesBy() ;
 
 	if( sp.size() == 1 && sp[ 0 ].size() > 0 ){
 
-		_add( data,sp[ 0 ][ 0 ],engine,outPut,id ) ;
+		_add( data,sp[ 0 ][ 0 ],m_engine,outPut,id ) ;
 
 	}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
 
 		for( const auto& m : util::split( data,sp[ 0 ][ 0 ] ) ){
 
-			_add( m,sp[ 1 ][ 0 ],engine,outPut,id ) ;
+			_add( m,sp[ 1 ][ 0 ],m_engine,outPut,id ) ;
 		}
 	}else{
 		for( const auto& m : util::split( data,'\r' ) ){
 
-			_add( m,'\n',engine,outPut,id ) ;
+			_add( m,'\n',m_engine,outPut,id ) ;
 		}
 	}
 }
 
-void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine& engine,
-							   const engines::engine::functions::updateOpts& s )
+void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
-	if( !engine.optionsArgument().isEmpty() ){
+	if( !m_engine.optionsArgument().isEmpty() ){
 
-		s.ourOptions.append( engine.optionsArgument() ) ;
+		s.ourOptions.append( m_engine.optionsArgument() ) ;
 	}
 
 	if( !s.quality.isEmpty() ){
@@ -1041,8 +1025,8 @@ void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine
 	}
 }
 
-engines::engine::functions::functions( settings& s ) :
-	m_settings( s )
+engines::engine::functions::functions( settings& s,const engines::engine& engine ) :
+	m_settings( s ),m_engine( engine )
 {
 }
 

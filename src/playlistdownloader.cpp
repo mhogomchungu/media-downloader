@@ -109,31 +109,13 @@ public:
 					mm = settings.downloadFolder() + "/" + mm ;
 				}
 
-				auto _readData = [ & ]( const QString& mm ){
+				if( QFile::exists( mm ) ){
 
-					if( QFile::exists( mm ) ){
+					QFile file( mm ) ;
 
-						QFile file( mm ) ;
+					if( file.open( QIODevice::ReadOnly ) ){
 
-						if( file.open( QIODevice::ReadOnly ) ){
-
-							m_downloadArchive = file.readAll() ;
-
-							return true ;
-						}
-					}
-
-					return false ;
-				} ;
-
-				if( !_readData( mm ) ){
-
-					if( mm.startsWith( '"' ) && mm.endsWith( '"' ) ){
-
-						mm.remove( 0,1 ) ;
-						mm.remove( mm.size() - 1 ) ;
-
-						_readData( mm ) ;
+						m_downloadArchive = file.readAll() ;
 					}
 				}
 			}

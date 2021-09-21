@@ -23,14 +23,13 @@
 class safaribooks : public engines::engine::functions
 {
 public:
-	safaribooks( settings& s ) ;
+	safaribooks( const engines&,const engines::engine&,QJsonObject& ) ;
 	~safaribooks() override ;
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
-	void updateOptions( QJsonObject&,settings& ) override ;
 	QString commandString( const engines::engine::exeArgs::cmd& ) override ;
-	void sendCredentials( const engines::engine& engine,
-			      const QString&,
-			      QProcess& ) override ;
-	void updateDownLoadCmdOptions( const engines::engine& engine,
-				       const engines::engine::functions::updateOpts& ) override ;
+	void sendCredentials( const QString&,QProcess& ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
+private:
+	const engines& m_engines ;
+	const engines::engine& m_engine ;
 };

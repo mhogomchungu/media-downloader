@@ -21,21 +21,25 @@
 #include "../settings.h"
 #include "../downloadmanager.h"
 
-gallery_dl::gallery_dl( settings& s ) :
-	engines::engine::functions( s )
+gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
+	engines::engine::functions( engines.Settings(),engine ),
+	m_engines( engines ),m_engine( engine )
 {
+	if( !object.contains( "CookieArgument" ) ){
+
+		object.insert( "CookieArgument","--cookies" ) ;
+	}
 }
 
 gallery_dl::~gallery_dl()
 {
 }
 
-void gallery_dl::updateDownLoadCmdOptions( const engines::engine& engine,
-					   const engines::engine::functions::updateOpts& s )
+void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {	
-	if( !engine.optionsArgument().isEmpty() ){
+	if( !m_engine.optionsArgument().isEmpty() ){
 
-		s.ourOptions.append( engine.optionsArgument() ) ;
+		s.ourOptions.append( m_engine.optionsArgument() ) ;
 	}
 
 	if( !s.quality.isEmpty() ){
@@ -48,14 +52,6 @@ engines::engine::functions::DataFilter gallery_dl::Filter( const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;
 	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),e,s } ;
-}
-
-void gallery_dl::updateOptions( QJsonObject& object,settings& )
-{
-	if( !object.contains( "CookieArgument" ) ){
-
-		object.insert( "CookieArgument","--cookies" ) ;
-	}
 }
 
 void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -85,8 +81,7 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 	}
 }
 
-QString gallery_dl::updateTextOnCompleteDownlod( const engines::engine&,
-						 const QString& uiText,
+QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
 						 const engines::engine::functions::finishedState& f )
 {

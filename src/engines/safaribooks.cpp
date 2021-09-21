@@ -24,20 +24,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-safaribooks::safaribooks( settings& s ) :
-	engines::engine::functions( s )
-{
-}
-
-safaribooks::~safaribooks()
-{
-}
-
-void safaribooks::runCommandOnDownloadedFile( const QString&,const QString& )
-{
-}
-
-void safaribooks::updateOptions( QJsonObject& object,settings& )
+safaribooks::safaribooks( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
+	engines::engine::functions( engines.Settings(),engine ),
+	m_engines( engines ),m_engine( engine )
 {
 	if( !object.contains( "ControlJsonStructure" ) ){
 
@@ -103,6 +92,14 @@ void safaribooks::updateOptions( QJsonObject& object,settings& )
 	}
 }
 
+safaribooks::~safaribooks()
+{
+}
+
+void safaribooks::runCommandOnDownloadedFile( const QString&,const QString& )
+{
+}
+
 QString safaribooks::commandString( const engines::engine::exeArgs::cmd& cmd )
 {
 	auto m = "\"" + cmd.exe() + "\"" ;
@@ -122,16 +119,14 @@ QString safaribooks::commandString( const engines::engine::exeArgs::cmd& cmd )
 	return m ;
 }
 
-void safaribooks::sendCredentials( const engines::engine& engine,
-				   const QString& credentials,
-				   QProcess& exe )
+void safaribooks::sendCredentials( const QString& credentials,QProcess& exe )
 {
 	if( utility::platformIsNOTWindows() ){
 
 		if( credentials.isEmpty() ){
 
-			exe.write( engine.userName().toUtf8() + "\n" ) ;
-			exe.write( engine.password().toUtf8() + "\n" ) ;
+			exe.write( m_engine.userName().toUtf8() + "\n" ) ;
+			exe.write( m_engine.password().toUtf8() + "\n" ) ;
 		}else{
 			auto m = util::split( credentials,':',true ) ;
 
@@ -146,8 +141,7 @@ void safaribooks::sendCredentials( const engines::engine& engine,
 	}
 }
 
-void safaribooks::updateDownLoadCmdOptions( const engines::engine& engine,
-					    const engines::engine::functions::updateOpts& s )
+void safaribooks::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
 	if( s.urls.size() > 0 ){
 
@@ -163,7 +157,7 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine& engine,
 
 		if( s.quality.isEmpty() ){
 
-			s.ourOptions.append( engine.userName() + ":" + engine.password() ) ;
+			s.ourOptions.append( m_engine.userName() + ":" + m_engine.password() ) ;
 		}else{
 			s.ourOptions.append( s.quality ) ;
 		}

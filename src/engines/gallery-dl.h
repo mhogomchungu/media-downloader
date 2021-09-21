@@ -27,7 +27,7 @@ class gallery_dl : public engines::engine::functions
 {
 public:
 	~gallery_dl() override ;
-	gallery_dl( settings& ) ;
+	gallery_dl( const engines&,const engines::engine&,QJsonObject& ) ;
 
 	class gallery_dlFilter : public engines::engine::functions::filter
 	{
@@ -43,15 +43,14 @@ public:
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;
 
-	void updateOptions( QJsonObject&,settings& ) override ;
-
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
-	QString updateTextOnCompleteDownlod( const engines::engine& engine,
-					     const QString& uiText,
+	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const engines::engine::functions::finishedState& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine& engine,
-				       const engines::engine::functions::updateOpts& ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
+private:
+	const engines& m_engines ;
+	const engines::engine& m_engine ;
 };

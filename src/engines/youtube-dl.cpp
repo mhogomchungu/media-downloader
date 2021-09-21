@@ -183,16 +183,9 @@ void youtube_dl::init( const QString& name,
 	}
 }
 
-youtube_dl::youtube_dl( settings& s ) :
-	engines::engine::functions( s )
-{
-}
-
-youtube_dl::~youtube_dl()
-{
-}
-
-void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
+youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
+	engines::engine::functions( engines.Settings(),engine ),
+	m_engines( engines ),m_engine( engine )
 {
 	if( !object.contains( "CookieArgument" ) ){
 
@@ -225,6 +218,11 @@ void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 		}() ) ;
 	}
 
+	if( !object.contains( "LikeYoutubeDl" ) ){
+
+		object.insert( "LikeYoutubeDl",true ) ;
+	}
+
 	if( !object.contains( "ControlJsonStructure" ) ){
 
 		object.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
@@ -245,7 +243,11 @@ void youtube_dl::updateOptions( QJsonObject& object,settings& settings )
 		object.insert( "PlayListUrlPrefix","https://youtube.com/watch?v=" ) ;
 	}
 
-	object.insert( "UsePrivateExecutable",!settings.useSystemProvidedVersionIfAvailable() ) ;
+	object.insert( "UsePrivateExecutable",!engines.Settings().useSystemProvidedVersionIfAvailable() ) ;
+}
+
+youtube_dl::~youtube_dl()
+{
 }
 
 engines::engine::functions::DataFilter youtube_dl::Filter( const QString& e )
@@ -275,8 +277,7 @@ void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 	}
 }
 
-QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
-						 const QString& uiText,
+QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
 						 const engines::engine::functions::finishedState& f )
 {
@@ -305,8 +306,7 @@ QString youtube_dl::updateTextOnCompleteDownlod( const engines::engine&,
 	}
 }
 
-void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
-					   const engines::engine::functions::updateOpts& s )
+void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
 	if( s.userOptions.contains( "--yes-playlist" ) ){
 
@@ -318,7 +318,7 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine& engine,
 		s.ourOptions.append( "--newline" ) ;
 	}
 
-	s.ourOptions.append( engine.optionsArgument() ) ;
+	s.ourOptions.append( m_engine.optionsArgument() ) ;
 
 	if( s.quality.isEmpty() ){
 

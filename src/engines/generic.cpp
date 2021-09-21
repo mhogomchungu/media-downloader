@@ -19,8 +19,8 @@
 
 #include "generic.h"
 
-generic::generic( settings& s ) :
-	engines::engine::functions( s )
+generic::generic( const engines& e,const engines::engine& s,QJsonObject& ) :
+	engines::engine::functions( e.Settings(),s )
 {
 }
 

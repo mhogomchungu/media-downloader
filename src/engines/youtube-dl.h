@@ -26,8 +26,6 @@ class youtube_dl : public engines::engine::functions
 public:
 	~youtube_dl() override ;
 
-	void updateOptions( QJsonObject&,settings& ) override ;
-
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{
 	public:
@@ -47,18 +45,19 @@ public:
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
-	QString updateTextOnCompleteDownlod( const engines::engine& engine,
-					     const QString& uiText,
+	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const engines::engine::functions::finishedState& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine& engine,
-				       const engines::engine::functions::updateOpts& ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 
 	static void init( const QString& name,
 			  const QString& configFileName,
 			  Logger& logger,
 			  const engines::enginePaths& enginePath ) ;
-	youtube_dl( settings& ) ;
+	youtube_dl( const engines&,const engines::engine&,QJsonObject& ) ;
 	static QJsonObject defaultControlStructure() ;
+private:
+	const engines& m_engines ;
+	const engines::engine& m_engine ;
 };

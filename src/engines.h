@@ -275,31 +275,20 @@ public:
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
 
-			virtual void updateOptions( QJsonObject&,settings& ) ;
-
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
 
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const engine::engine::functions::finishedState& ) ;
 
-			virtual QString updateTextOnCompleteDownlod( const engines::engine&,
-								     const QString& uiText,
+			virtual QString updateTextOnCompleteDownlod( const QString& uiText,
 								     const QString& bkText,
 								     const engine::engine::functions::finishedState& ) ;
 
-		        virtual void sendCredentials( const engines::engine&,
-		                                      const QString&,
-						      QProcess& ) ;
+			virtual void sendCredentials( const QString&,QProcess& ) ;
 
-			virtual void processData( const engines::engine& engine,
-						  Logger::Data&,
-						  QByteArray,
-						  int id ) ;
+			virtual void processData( Logger::Data&,QByteArray,int id ) ;
 
-			virtual void processData( const engines::engine& engine,
-						  Logger::Data&,
-						  const QString&,
-						  int id ) ;
+			virtual void processData( Logger::Data&,const QString&,int id ) ;
 
 			struct updateOpts
 			{
@@ -310,13 +299,13 @@ public:
 				QStringList& ourOptions ;
 			};
 
-			virtual void updateDownLoadCmdOptions( const engines::engine& engine,
-							       const engines::engine::functions::updateOpts& ) ;
+			virtual void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) ;
 
-			functions( settings& ) ;
+			functions( settings&,const engines::engine& ) ;
 			settings& Settings() ;
 		private:
 			settings& m_settings ;
+			const engines::engine& m_engine ;
 		} ;
 
 		engine( Logger& l ) ;
@@ -331,14 +320,22 @@ public:
 		engine( Logger& logger,
 			const enginePaths& ePaths,
 			const util::Json& json,
-			const engines& engines,
-			std::unique_ptr< engines::engine::functions > ) ;
+			const engines& engines ) ;
 
 		const QString& name() const
 		{
 			return m_name ;
 		}
 
+		template< typename backend,typename ... Args >
+		void setBackend( const engines& engines,Args&& ... args )
+		{
+			m_functions = std::make_unique< backend >( engines,
+								   *this,
+								   m_jsonObject,
+								   std::forward< Args >( args ) ... ) ;
+
+		}
 		const QString& commandName() const ;
 
 		bool breakShowListIfContains( const QStringList& e ) const ;
@@ -360,11 +357,11 @@ public:
 		}
 		void processData( Logger::Data& outPut,QByteArray data,int id ) const
 		{
-			m_functions->processData( *this,outPut,std::move( data ),id ) ;
+			m_functions->processData( outPut,std::move( data ),id ) ;
 		}
 		void processData( Logger::Data& outPut,const QString& data,int id ) const
 		{
-			m_functions->processData( *this,outPut,data,id ) ;
+			m_functions->processData( outPut,data,id ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{
@@ -386,15 +383,15 @@ public:
 						     const QString& bkText,
 						     const engine::engine::functions::finishedState& f ) const
 		{
-			return m_functions->updateTextOnCompleteDownlod( *this,uiText,bkText,f ) ;
+			return m_functions->updateTextOnCompleteDownlod( uiText,bkText,f ) ;
 		}
 		void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& u ) const
 		{
-			m_functions->updateDownLoadCmdOptions( *this,u ) ;
+			m_functions->updateDownLoadCmdOptions( u ) ;
 		}
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{
-			m_functions->sendCredentials( *this,credentials,exe ) ;
+			m_functions->sendCredentials( credentials,exe ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{
@@ -532,6 +529,7 @@ public:
 			bool m_valid = false ;
 		} m_showListBreaker ;
 	};
+	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
 	void addEngine( const QByteArray& data,const QString& path ) ;
@@ -540,7 +538,6 @@ public:
 	const std::vector< engine >& getEngines() const ;
 	const engine& defaultEngine( const QString& ) const ;
 	util::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
-	util::result< engines::engine > getEngineByPath( const QString& path ) const ;
 	const enginePaths& engineDirPaths() const ;
 	engines( Logger&,settings& ) ;
 	void openUrls( tableWidget&,int row,const QString& engineName = QString() ) const ;

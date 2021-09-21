@@ -25,6 +25,6 @@ class generic : public engines::engine::functions
 {
 public:
 	~generic() override ;
-	generic( settings& ) ;
+	generic( const engines& e,const engines::engine& s,QJsonObject& ) ;
 private:
 };
