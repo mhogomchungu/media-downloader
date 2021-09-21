@@ -264,9 +264,10 @@ public:
 					m_filter( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 				{
 				}
-				engines::engine::functions::filter& operator*() const
+				const QString& operator()( const Logger::Data& e )
 				{
-					return *m_filter;
+					auto& function = *m_filter ;
+					return function( e ) ;
 				}
 			private:
 				std::unique_ptr< engines::engine::functions::filter > m_filter ;

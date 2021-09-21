@@ -69,3 +69,14 @@ Version 1.2.0(April 1st, 2021)
   - Add "--max-media-length" and "--min-media-length" options to exclude playlist entries that falls outside the media lenght boundary.
   - Update translations.
   - Add ability to show history of receantly used commands in all relevant places.
+
+  Version 1.6.0(Unrelease)
+  - Switch default engine from youtube-dl to yt-dlp.
+  - Add "--break-on-existing" playlist downloader option to stop processing playlist when the id of a current entry is found in the
+    archive file. This option goes in the "Get List Options" text field in the playlist downloader tab.
+  - Add "--skip-on-existing" playlist downloader option to show in the UI a playlist's current entry when its id is in the archive file
+    but not downloading its media. This option goes in the "Get List Options" text field in the playlist downloader tab.
+  - Add a checkbox in the playlist downloader tab to save entered playlist for processing.
+  - Above three options in combination with manual setting of archive file option
+    (configure tab->engine default option tab->"default download options" text field  makes it possible to
+    easily monitor and download new entries in playlists.

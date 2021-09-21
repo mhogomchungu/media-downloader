@@ -312,8 +312,7 @@ private:
 	{
 		if( m_lines.isNotEmpty() ){
 
-			auto& function = *m_function ;
-			m_tableWidgetItem.setText( function( m_lines ) ) ;
+			m_tableWidgetItem.setText( m_function( m_lines ) ) ;
 		}
 	}
 	QTableWidgetItem& m_tableWidgetItem ;
