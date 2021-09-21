@@ -32,9 +32,9 @@ public:
 	class gallery_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		gallery_dlFilter( const QString&,settings& ) ;
+		gallery_dlFilter( const QString&,settings&,const engines::engine& ) ;
 
-		const QString& operator()( const engines::engine&,const Logger::Data& e ) override ;
+		const QString& operator()( const Logger::Data& e ) override ;
 
 		virtual ~gallery_dlFilter() override ;
 	private:
@@ -52,5 +52,4 @@ public:
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 private:
 	const engines& m_engines ;
-	const engines::engine& m_engine ;
 };

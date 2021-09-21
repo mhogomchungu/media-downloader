@@ -728,7 +728,7 @@ engines::engine::functions::~functions()
 
 engines::engine::functions::DataFilter engines::engine::functions::Filter( const QString& e )
 {
-	return { util::types::type_identity< engines::engine::functions::filter >(),e } ;
+	return { util::types::type_identity< engines::engine::functions::filter >(),e,m_engine } ;
 }
 
 void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,const QString& s )
@@ -966,9 +966,7 @@ static void _add( const QByteArray& data,
 	}
 }
 
-void engines::engine::functions::processData( Logger::Data& outPut,
-					      const QString& e,
-					      int id )
+void engines::engine::functions::processData( Logger::Data& outPut,const QString& e,int id )
 {
 	outPut.replaceOrAdd( m_engine,e,id,[]( const engines::engine&,const QString& line ){
 
@@ -983,9 +981,7 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 	} ) ;
 }
 
-void engines::engine::functions::processData( Logger::Data& outPut,
-					      QByteArray data,
-					      int id )
+void engines::engine::functions::processData( Logger::Data& outPut,QByteArray data,int id )
 {
 	for( const auto& it : m_engine.removeText() ){
 
@@ -1030,9 +1026,14 @@ engines::engine::functions::functions( settings& s,const engines::engine& engine
 {
 }
 
-settings& engines::engine::functions::Settings()
+settings& engines::engine::functions::Settings() const
 {
 	return m_settings ;
+}
+
+const engines::engine& engines::engine::functions::engine() const
+{
+	return m_engine ;
 }
 
 void engines::file::write( const QString& e )
@@ -1072,15 +1073,14 @@ QByteArray engines::file::readAll()
 	}
 }
 
-engines::engine::functions::filter::filter( const QString& e ) :
-	m_quality( e )
+engines::engine::functions::filter::filter( const QString& e,const engines::engine& engine ) :
+	m_quality( e ),m_engine( engine )
 {
 }
 
-const QString& engines::engine::functions::filter::operator()( const engines::engine& engine,
-							       const Logger::Data& s )
+const QString& engines::engine::functions::filter::operator()( const Logger::Data& s )
 {
-	if( engine.replaceOutputWithProgressReport() ){
+	if( m_engine.replaceOutputWithProgressReport() ){
 
 		return m_processing.text() ;
 
@@ -1104,7 +1104,7 @@ engines::engine::functions::filter::~filter()
 {
 }
 
-const QString& engines::engine::functions::filter::quality()
+const QString& engines::engine::functions::filter::quality() const
 {
 	return m_quality ;
 }

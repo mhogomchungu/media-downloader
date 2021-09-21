@@ -29,9 +29,9 @@ public:
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		youtube_dlFilter( const QString& ) ;
+		youtube_dlFilter( const QString&,const engines::engine& ) ;
 
-		const QString& operator()( const engines::engine&,const Logger::Data& e ) override ;
+		const QString& operator()( const Logger::Data& e ) override ;
 
 		virtual ~youtube_dlFilter() override ;
 	private:

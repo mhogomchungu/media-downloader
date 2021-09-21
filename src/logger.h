@@ -268,19 +268,16 @@ private:
 	int m_id ;
 };
 
-template< typename Function,
-	  typename Engine >
+template< typename Function >
 class loggerBatchDownloader
 {
 public:
 	loggerBatchDownloader( Function function,
-			       Engine& engine,
 			       Logger& logger,
 			       QTableWidgetItem& item,
 			       int id ) :
 		m_tableWidgetItem( item ),
 		m_function( std::move( function ) ),
-		m_engine( engine ),
 		m_logger( logger ),
 		m_id( id )
 	{
@@ -316,25 +313,23 @@ private:
 		if( m_lines.isNotEmpty() ){
 
 			auto& function = *m_function ;
-			m_tableWidgetItem.setText( function( m_engine,m_lines ) ) ;
+			m_tableWidgetItem.setText( function( m_lines ) ) ;
 		}
 	}
 	QTableWidgetItem& m_tableWidgetItem ;
 	Function m_function ;
-	Engine& m_engine ;
 	Logger& m_logger ;
 	Logger::Data m_lines ;
 	int m_id ;
 } ;
 
-template< typename Function,typename Engine >
+template< typename Function >
 auto make_loggerBatchDownloader( Function function,
-				 Engine& engine,
 				 Logger& logger,
 				 QTableWidgetItem& item,
 				 int id )
 {
-	return loggerBatchDownloader< Function,Engine >( std::move( function ),engine,logger,item,id ) ;
+	return loggerBatchDownloader< Function >( std::move( function ),logger,item,id ) ;
 }
 
 template< typename AddToTable,typename TableWidget >

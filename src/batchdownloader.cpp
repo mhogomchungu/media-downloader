@@ -236,8 +236,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
+		auto mm = m_settings.defaultEngine( settings::tabName::batch ) ;
+
+		const auto& engine = m_ctx.Engines().defaultEngine( mm ) ;
+
 		ac = m.addAction( tr( "Get List" ) ) ;
-		ac->setEnabled( !running ) ;
+		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
 
 		connect( ac,&QAction::triggered,[ this ](){
 
@@ -247,11 +251,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		ac = m.addAction( tr( "Download" ) ) ;
 		ac->setEnabled( !running && !finishSuccess ) ;
 
-		connect( ac,&QAction::triggered,[ this,row ](){
-
-			auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-			const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+		connect( ac,&QAction::triggered,[ &engine,this,row ](){
 
 			downloadManager::index indexes( m_table ) ;
 
@@ -772,7 +772,6 @@ void batchdownloader::download( const engines::engine& engine,int index )
 			 m_terminator.setUp(),
 			 batchdownloader::make_options( { m_ctx,m_debug,false,index,BatchLoggerWrapper( m_ctx.logger() ) },std::move( functions ) ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
-						     engine,
 						     m_ctx.logger(),
 						     m_table.uiTextItem( index ),
 						     utility::concurrentID() ) ) ;

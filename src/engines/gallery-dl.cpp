@@ -23,7 +23,7 @@
 
 gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
 	engines::engine::functions( engines.Settings(),engine ),
-	m_engines( engines ),m_engine( engine )
+	m_engines( engines )
 {
 	if( !object.contains( "CookieArgument" ) ){
 
@@ -37,9 +37,11 @@ gallery_dl::~gallery_dl()
 
 void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {	
-	if( !m_engine.optionsArgument().isEmpty() ){
+	const auto& engine = engines::engine::functions::engine() ;
 
-		s.ourOptions.append( m_engine.optionsArgument() ) ;
+	if( !engine.optionsArgument().isEmpty() ){
+
+		s.ourOptions.append( engine.optionsArgument() ) ;
 	}
 
 	if( !s.quality.isEmpty() ){
@@ -51,7 +53,9 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 engines::engine::functions::DataFilter gallery_dl::Filter( const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;
-	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),e,s } ;
+	const auto& engine = engines::engine::functions::engine() ;
+
+	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),e,s,engine } ;
 }
 
 void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -96,13 +100,12 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings& ) :
-	engines::engine::functions::filter( e )
+gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings&,const engines::engine& engine ) :
+	engines::engine::functions::filter( e,engine )
 {
 }
 
-const QString& gallery_dl::gallery_dlFilter::operator()( const engines::engine&,
-							 const Logger::Data& s )
+const QString& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )
 {
 	const auto data = s.toStringList() ;
 

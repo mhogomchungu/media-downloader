@@ -633,7 +633,6 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 			 m_terminator.setUp(),
 			 playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ),
 			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
-						     engine,
 						     m_ctx.logger(),
 						     m_table.uiTextItem( index ),
 						     utility::concurrentID() ) ) ;

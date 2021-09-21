@@ -244,14 +244,15 @@ public:
 
 			class filter{
 			public:
-				filter( const QString& quality ) ;
-				virtual const QString& operator()( const engines::engine&,const Logger::Data& e ) ;
+				filter( const QString& quality,const engines::engine& engine ) ;
+				virtual const QString& operator()( const Logger::Data& e ) ;
 				virtual ~filter() ;
 			protected:
-				const QString& quality() ;
+				const QString& quality() const ;
 			private:
 				engines::engine::functions::preProcessing m_processing ;
 				QString m_quality ;
+				const engines::engine& m_engine ;
 			} ;
 
 			virtual ~functions() ;
@@ -302,7 +303,8 @@ public:
 			virtual void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) ;
 
 			functions( settings&,const engines::engine& ) ;
-			settings& Settings() ;
+			settings& Settings() const ;
+			const engines::engine& engine() const ;
 		private:
 			settings& m_settings ;
 			const engines::engine& m_engine ;

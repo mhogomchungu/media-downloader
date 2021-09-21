@@ -252,7 +252,7 @@ youtube_dl::~youtube_dl()
 
 engines::engine::functions::DataFilter youtube_dl::Filter( const QString& e )
 {
-	return { util::types::type_identity< youtube_dl::youtube_dlFilter >(),e } ;
+	return { util::types::type_identity< youtube_dl::youtube_dlFilter >(),e,m_engine } ;
 }
 
 void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -347,13 +347,12 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 	}
 }
 
-youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e ) :
-	engines::engine::functions::filter( e )
+youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::engine& engine ) :
+	engines::engine::functions::filter( e,engine )
 {
 }
 
-const QString& youtube_dl::youtube_dlFilter::operator()( const engines::engine&,
-							 const Logger::Data& s )
+const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 {
 	int downloadCounter = 0 ;
 
