@@ -1297,7 +1297,7 @@ QString engines::engine::functions::timer::stringElapsedTime()
 }
 
 engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePaths& enginePath ) :
-	m_name( "youtube-dl" ),
+	m_name( "yt-dlp" ),
 	m_configFileName( m_name + ".json" )
 {
 	youtube_dl::init( this->name(),this->configFileName(),logger,enginePath ) ;
