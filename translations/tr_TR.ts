@@ -114,7 +114,7 @@
         <location filename="../src/mainwindow.ui" line="1031"/>
         <location filename="../src/mainwindow.ui" line="1047"/>
         <source>Recently Used</source>
-        <translation type="unfinished"></translation>
+        <translation>Yakında Kullanılan</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="275"/>
@@ -175,7 +175,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="832"/>
         <source>Download Options:</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Seçenekleri:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="874"/>
@@ -185,7 +185,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1063"/>
         <source>Save History</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçmişi Kaydet</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1072"/>
@@ -312,7 +312,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="790"/>
         <source>Get List Options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste Seçeneklerini Getir</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1489"/>
@@ -361,12 +361,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/utility.cpp" line="479"/>
         <source>Save List</source>
-        <translation type="unfinished"></translation>
+        <translation>Listeyi Kaydet</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="482"/>
         <source>Save List To File</source>
-        <translation type="unfinished"></translation>
+        <translation>Listeyi Dosyaya Kaydet</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="279"/>
@@ -618,7 +618,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
         <location filename="../src/engines/youtube-dl.cpp" line="390"/>
         <location filename="../src/playlistdownloader.cpp" line="806"/>
         <source>Media Already In Archive</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya Zaten Arşivde</translation>
     </message>
 </context>
 <context>
