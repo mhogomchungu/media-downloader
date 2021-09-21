@@ -68,6 +68,17 @@ void youtube_dl::init( const QString& name,
 
 		if( name == "youtube-dl" ){
 
+			mainObj.insert( "ShowListTableBoundary",[](){
+
+				QJsonObject obj ;
+
+				obj.insert( "ColumnNumber","0" ) ;
+				obj.insert( "Comparator","equals" ) ;
+				obj.insert( "String","format" ) ;
+
+				return obj ;
+			}() ) ;
+
 			mainObj.insert( "CommandName","youtube-dl" ) ;
 
 			mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
@@ -76,6 +87,17 @@ void youtube_dl::init( const QString& name,
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 		}else{
+			mainObj.insert( "ShowListTableBoundary",[](){
+
+				QJsonObject obj ;
+
+				obj.insert( "ColumnNumber","0" ) ;
+				obj.insert( "Comparator","contains" ) ;
+				obj.insert( "String","--" ) ;
+
+				return obj ;
+			}() ) ;
+
 			mainObj.insert( "CommandName","yt-dlp" ) ;
 
 			mainObj.insert( "CommandNameWindows","yt-dlp.exe" ) ;
@@ -106,18 +128,6 @@ void youtube_dl::init( const QString& name,
 			arr.append( "-F" ) ;
 			return arr ;
 		}() ) ;
-
-		mainObj.insert( "ShowListTableBoundary",[](){
-
-			QJsonObject obj ;
-
-			obj.insert( "ColumnNumber","0" ) ;
-			obj.insert( "Comparator","equals" ) ;
-			obj.insert( "String","format" ) ;
-
-			return obj ;
-		}() ) ;
-
 
 		mainObj.insert( "SkipLineWithText",[](){
 
@@ -187,6 +197,24 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 	engines::engine::functions( engines.Settings(),engine ),
 	m_engines( engines ),m_engine( engine )
 {
+	if( !object.contains( "ShowListTableBoundary" ) ){
+
+		QJsonObject obj ;
+
+		if( m_engine.name() == "youtube-dl" ){
+
+			obj.insert( "ColumnNumber","0" ) ;
+			obj.insert( "Comparator","equals" ) ;
+			obj.insert( "String","format" ) ;
+		}else{
+			obj.insert( "ColumnNumber","0" ) ;
+			obj.insert( "Comparator","contains" ) ;
+			obj.insert( "String","--" ) ;
+		}
+
+		object.insert( "ShowListTableBoundary",obj ) ;
+	}
+
 	if( !object.contains( "CookieArgument" ) ){
 
 		object.insert( "CookieArgument","--cookies" ) ;
@@ -360,7 +388,7 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 
 	for( const auto& e : data ){
 
-		if( e.startsWith( "ERROR: " ) ){
+		if( e.startsWith( "ERROR: " ) || e.startsWith( "yt-dlp: error:" ) ){
 
 			m_tmp = e ;
 			return m_tmp ;
