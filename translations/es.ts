@@ -173,7 +173,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="832"/>
         <source>Download Options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones de descarga:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="874"/>
@@ -183,7 +183,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1063"/>
         <source>Save History</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar historial</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1072"/>
@@ -310,7 +310,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="790"/>
         <source>Get List Options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Obtener lista de opciones:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1489"/>
