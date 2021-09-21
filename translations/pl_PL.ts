@@ -350,7 +350,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <name>QObject</name>
     <message>
         <location filename="../src/batchdownloader.cpp" line="279"/>
-        <location filename="../src/playlistdownloader.cpp" line="309"/>
+        <location filename="../src/playlistdownloader.cpp" line="291"/>
         <location filename="../src/utility.cpp" line="305"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
@@ -443,48 +443,48 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Scieżka pobierania: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="174"/>
+        <location filename="../src/engines.cpp" line="210"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Błąd, plik wykonywalny &quot;%1&quot; nie został znaleziony</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="267"/>
+        <location filename="../src/engines.cpp" line="187"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Silnik &quot;%1&quot; wymaga aplikacji Media Downloader w wersji &quot;%2&quot; lub wyższej</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="482"/>
-        <location filename="../src/engines.cpp" line="651"/>
+        <location filename="../src/engines.cpp" line="478"/>
+        <location filename="../src/engines.cpp" line="645"/>
         <location filename="../src/utility.cpp" line="451"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="625"/>
+        <location filename="../src/engines.cpp" line="619"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="721"/>
+        <location filename="../src/engines.cpp" line="715"/>
         <source>Download cancelled</source>
         <translation>Pobieranie przerwane</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1060"/>
-        <location filename="../src/engines.cpp" line="1070"/>
+        <location filename="../src/engines.cpp" line="1044"/>
+        <location filename="../src/engines.cpp" line="1054"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1085"/>
+        <location filename="../src/engines.cpp" line="1069"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1237"/>
-        <location filename="../src/engines.cpp" line="1242"/>
-        <location filename="../src/engines.cpp" line="1249"/>
-        <location filename="../src/engines.cpp" line="1254"/>
+        <location filename="../src/engines.cpp" line="1221"/>
+        <location filename="../src/engines.cpp" line="1226"/>
+        <location filename="../src/engines.cpp" line="1233"/>
+        <location filename="../src/engines.cpp" line="1238"/>
         <source>Elapsed Time:</source>
         <translation>Czas:</translation>
     </message>
@@ -514,7 +514,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Rozpocznij pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="727"/>
+        <location filename="../src/engines.cpp" line="721"/>
         <location filename="../src/networkAccess.cpp" line="148"/>
         <location filename="../src/networkAccess.cpp" line="224"/>
         <source>Download Failed</source>
@@ -526,8 +526,8 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Nieudane parsowanie pliku json z gihuba</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="136"/>
-        <location filename="../src/engines/gallery-dl.cpp" line="138"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="131"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="133"/>
         <location filename="../src/networkAccess.cpp" line="212"/>
         <location filename="../src/networkAccess.cpp" line="262"/>
         <location filename="../src/networkAccess.cpp" line="272"/>
@@ -550,12 +550,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1140"/>
+        <location filename="../src/engines.cpp" line="1124"/>
         <source>Processing</source>
         <translation>Przetwarzanie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="725"/>
+        <location filename="../src/engines.cpp" line="719"/>
         <source>Download completed</source>
         <translation>Poberanie zakończone</translation>
     </message>
@@ -565,7 +565,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana katalogu pobierania na domyślny</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1162"/>
+        <location filename="../src/engines.cpp" line="1146"/>
         <source>Post Processing</source>
         <translation>Post processing</translation>
     </message>
@@ -616,7 +616,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
     <message>
         <location filename="../src/engines/youtube-dl.cpp" line="390"/>
-        <location filename="../src/playlistdownloader.cpp" line="824"/>
+        <location filename="../src/playlistdownloader.cpp" line="806"/>
         <source>Media Already In Archive</source>
         <translation>Plik znajduje się już w archiwum</translation>
     </message>
@@ -739,22 +739,22 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="246"/>
+        <location filename="../src/playlistdownloader.cpp" line="228"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="256"/>
+        <location filename="../src/playlistdownloader.cpp" line="238"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="264"/>
+        <location filename="../src/playlistdownloader.cpp" line="246"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="275"/>
+        <location filename="../src/playlistdownloader.cpp" line="257"/>
         <source>Download</source>
         <translation>Pobierz</translation>
     </message>
