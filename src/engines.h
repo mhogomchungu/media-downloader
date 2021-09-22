@@ -255,8 +255,6 @@ public:
 				const engines::engine& m_engine ;
 			} ;
 
-			virtual ~functions() ;
-
 			class DataFilter{
 			public:
 				template< typename Type,typename ... Args >
@@ -272,6 +270,8 @@ public:
 			private:
 				std::unique_ptr< engines::engine::functions::filter > m_filter ;
 			};
+
+			virtual ~functions() ;
 
 			virtual DataFilter Filter( const QString& ) ;
 
