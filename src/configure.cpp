@@ -134,9 +134,10 @@ configure::configure( const Context& ctx ) :
 
 			if( !d.isEmpty() ){
 
-				m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last() ) ;
+				if( m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last() ) ){
 
-				m_ctx.TabManager().basicDownloader().setAsActive().downloadDefaultEngine() ;
+					m_ctx.TabManager().basicDownloader().setAsActive().downloadDefaultEngine() ;
+				}
 			}
 		}
 	} ) ;

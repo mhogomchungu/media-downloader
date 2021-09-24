@@ -535,7 +535,7 @@ public:
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
-	void addEngine( const QByteArray& data,const QString& path ) ;
+	bool addEngine( const QByteArray& data,const QString& path ) ;
 	void removeEngine( const QString& name ) ;
 	QStringList enginesList() const ;
 	const std::vector< engine >& getEngines() const ;

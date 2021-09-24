@@ -352,7 +352,7 @@ const QProcessEnvironment& engines::processEnvironment() const
 	return m_processEnvironment ;
 }
 
-void engines::addEngine( const QByteArray& data,const QString& path )
+bool engines::addEngine( const QByteArray& data,const QString& path )
 {
 	util::Json json( data ) ;
 
@@ -395,9 +395,15 @@ void engines::addEngine( const QByteArray& data,const QString& path )
 				}
 
 				this->updateEngines( false ) ;
+
+				return true ;
 			}
 		}
 	}
+
+	m_logger.add( QObject::tr( "Failed To Load A Plugin" ) + ": " + json.errorString() ) ;
+
+	return false ;
 }
 
 void engines::removeEngine( const QString& e )
