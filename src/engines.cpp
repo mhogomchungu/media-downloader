@@ -810,166 +810,212 @@ void engines::engine::functions::sendCredentials( const QString&,QProcess& )
 {
 }
 
-static bool _meet_condition( const QString& line,const QJsonObject& obj )
+class updateLogger
 {
-	if( obj.contains( "startsWith" ) ){
+public:
+	updateLogger( const QByteArray& data,const engines::engine& engine,Logger::Data& outPut,int id ) :
+		m_engine( engine ),
+		m_outPut( outPut ),
+		m_id( id )
+	{
+		const auto& sp = engine.splitLinesBy() ;
 
-		return line.startsWith( obj.value( "startsWith" ).toString() ) ;
-	}
+		if( sp.size() == 1 && sp[ 0 ].size() > 0 ){
 
-	if( obj.contains( "endsWith" ) ){
+			this->add( data,sp[ 0 ][ 0 ] ) ;
 
-		return line.endsWith( obj.value( "endsWith" ).toString() ) ;
-	}
+		}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
 
-	if( obj.contains( "contains" ) ){
+			for( const auto& m : util::split( data,sp[ 0 ][ 0 ] ) ){
 
-		return line.contains( obj.value( "contains" ).toString() ) ;
-	}
-
-	if( obj.contains( "containsAny" ) ){
-
-		const auto arr = obj.value( "containsAny" ).toArray() ;
-
-		for( const auto& it : arr ){
-
-			if( line.contains( it.toString() ) ) {
-
-				return true ;
+				this->add( m,sp[ 1 ][ 0 ] ) ;
 			}
+		}else{
+			for( const auto& m : util::split( data,'\r' ) ){
+
+				this->add( m,'\n' ) ;
+			}
+		}
+	}
+private:
+	bool meetCondition( const QString& line,const QJsonObject& obj ) const
+	{
+		if( obj.contains( "startsWith" ) ){
+
+			return line.startsWith( obj.value( "startsWith" ).toString() ) ;
+		}
+
+		if( obj.contains( "endsWith" ) ){
+
+			return line.endsWith( obj.value( "endsWith" ).toString() ) ;
+		}
+
+		if( obj.contains( "contains" ) ){
+
+			return line.contains( obj.value( "contains" ).toString() ) ;
+		}
+
+		if( obj.contains( "containsAny" ) ){
+
+			const auto arr = obj.value( "containsAny" ).toArray() ;
+
+			for( const auto& it : arr ){
+
+				if( line.contains( it.toString() ) ) {
+
+					return true ;
+				}
+			}
+
+			return false ;
+		}
+
+		if( obj.contains( "containsAll" ) ){
+
+			const auto arr = obj.value( "containsAll" ).toArray() ;
+
+			for( const auto& it : arr ){
+
+				if( !line.contains( it.toString() ) ) {
+
+					return false ;
+				}
+			}
+
+			return true ;
 		}
 
 		return false ;
 	}
+	bool meetCondition( const QString& line ) const
+	{
+		const auto& obj = m_engine.controlStructure() ;
 
-	if( obj.contains( "containsAll" ) ){
+		auto connector = obj.value( "Connector" ).toString() ;
 
-		const auto arr = obj.value( "containsAll" ).toArray() ;
+		if( connector.isEmpty() ){
 
-		for( const auto& it : arr ){
+			auto oo = obj.value( "lhs" ) ;
 
-			if( !line.contains( it.toString() ) ) {
+			if( oo.isObject() ){
 
-				return false ;
-			}
-		}
-
-		return true ;
-	}
-
-	return false ;
-}
-
-static bool _meet_condition( const engines::engine& engine,const QString& line )
-{
-	const auto& obj = engine.controlStructure() ;
-
-	auto connector = obj.value( "Connector" ).toString() ;
-
-	if( connector.isEmpty() ){
-
-		auto oo = obj.value( "lhs" ) ;
-
-		if( oo.isObject() ){
-
-			return _meet_condition( line,oo.toObject() ) ;
-		}else{
-			return false ;
-		}
-	}else{
-		auto obj1 = obj.value( "lhs" ) ;
-		auto obj2 = obj.value( "rhs" ) ;
-
-		if( obj1.isObject() && obj2.isObject() ){
-
-			auto a = _meet_condition( line,obj1.toObject() ) ;
-			auto b = _meet_condition( line,obj2.toObject() ) ;
-
-			if( connector == "&&" ){
-
-				return a && b ;
-
-			}else if( connector == "||" ){
-
-				return a || b ;
+				return this->meetCondition( line,oo.toObject() ) ;
 			}else{
 				return false ;
 			}
 		}else{
-			return false ;
-		}
-	}
-}
+			auto obj1 = obj.value( "lhs" ) ;
+			auto obj2 = obj.value( "rhs" ) ;
 
-static bool _skip_line( const QByteArray& line,const engines::engine& engine )
-{
-	if( line.isEmpty() ){
+			if( obj1.isObject() && obj2.isObject() ){
 
-		return true ;
-	}else{
-		for( const auto& it : engine.skiptLineWithText() ){
+				auto a = this->meetCondition( line,obj1.toObject() ) ;
+				auto b = this->meetCondition( line,obj2.toObject() ) ;
 
-			if( line.contains( it.toUtf8() ) ){
+				if( connector == "&&" ){
 
-				return true ;
-			}
-		}
+					return a && b ;
 
-		return false ;
-	}
-}
+				}else if( connector == "||" ){
 
-static void _add( const QByteArray& data,
-		  QChar token,
-		  const engines::engine& engine,
-		  Logger::Data& outPut,
-		  int id )
-{
-	for( const auto& e : util::split( data,token ) ){
-
-		if( _skip_line( e,engine ) ){
-
-			continue ;
-
-		}else if( _meet_condition( engine,e ) ){
-
-			if( id == -1 ){
-
-				if( outPut.isEmpty() ){
-
-					outPut.add( e ) ;
+					return a || b ;
 				}else{
-					auto& s = outPut.lastText() ;
-
-					if( _meet_condition( engine,s ) ){
-
-						outPut.replaceLast( e ) ;
-					}else{
-						outPut.add( e ) ;
-					}
+					return false ;
 				}
 			}else{
-				auto s = static_cast< bool( * )( const engines::engine&,const QString& ) >( _meet_condition ) ;
-
-				outPut.replaceOrAdd( engine,e,id,s,[ &engine ]( const QString& e ){
-
-					if( engine.likeYoutubeDl() ){
-
-						return e.startsWith( "[download] 100.0%" ) ;
-					}else{
-						return false ;
-					}
-				} ) ;
+				return false ;
 			}
-		}else{
-			outPut.add( e,id ) ;
 		}
+	}
+	bool skipLine( const QByteArray& line ) const
+	{
+		if( line.isEmpty() ){
+
+			return true ;
+		}else{
+			for( const auto& it : m_engine.skiptLineWithText() ){
+
+				if( line.contains( it.toUtf8() ) ){
+
+					return true ;
+				}
+			}
+
+			return false ;
+		}
+	}
+	void add( const QByteArray& data,QChar token ) const
+	{
+		for( const auto& e : util::split( data,token ) ){
+
+			if( this->skipLine( e ) ){
+
+				continue ;
+
+			}else if( this->meetCondition( e ) ){
+
+				if( m_id == -1 ){
+
+					if( m_outPut.isEmpty() ){
+
+						m_outPut.add( e ) ;
+					}else{
+						auto& s = m_outPut.lastText() ;
+
+						if( this->meetCondition( s ) ){
+
+							m_outPut.replaceLast( e ) ;
+						}else{
+							m_outPut.add( e ) ;
+						}
+					}
+				}else{
+					m_outPut.replaceOrAdd( e,m_id,[ this ]( const QString& e ){
+
+						return this->meetCondition( e ) ;
+
+					},[ this ]( const QString& e ){
+
+						if( m_engine.likeYoutubeDl() ){
+
+							return e.startsWith( "[download] 100.0%" ) ;
+						}else{
+							return false ;
+						}
+					} ) ;
+				}
+			}else{
+				m_outPut.add( e,m_id ) ;
+			}
+		}
+	}
+	const engines::engine& m_engine ;
+	Logger::Data& m_outPut ;
+	int m_id ;
+};
+
+void engines::engine::functions::processData( Logger::Data& outPut,const QByteArray& data,int id )
+{
+	const auto& txt = m_engine.removeText() ;
+
+	if( txt.isEmpty() ){
+
+		updateLogger( data,m_engine,outPut,id ) ;
+	}else{
+		auto dd = data ;
+
+		for( const auto& it : txt ){
+
+			dd.replace( it.toUtf8(),"" ) ;
+		}
+
+		updateLogger( dd,m_engine,outPut,id ) ;
 	}
 }
 
 void engines::engine::functions::processData( Logger::Data& outPut,const QString& e,int id )
 {
-	outPut.replaceOrAdd( m_engine,e,id,[]( const engines::engine&,const QString& line ){
+	outPut.replaceOrAdd( e,id,[]( const QString& line ){
 
 		auto a = line.startsWith( engines::engine::functions::preProcessing::processingText() ) ;
 		auto b = engines::engine::functions::timer::timerText( line ) ;
@@ -980,33 +1026,6 @@ void engines::engine::functions::processData( Logger::Data& outPut,const QString
 
 		return false ;
 	} ) ;
-}
-
-void engines::engine::functions::processData( Logger::Data& outPut,QByteArray data,int id )
-{
-	for( const auto& it : m_engine.removeText() ){
-
-		data.replace( it.toUtf8(),"" ) ;
-	}
-
-	const auto& sp = m_engine.splitLinesBy() ;
-
-	if( sp.size() == 1 && sp[ 0 ].size() > 0 ){
-
-		_add( data,sp[ 0 ][ 0 ],m_engine,outPut,id ) ;
-
-	}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
-
-		for( const auto& m : util::split( data,sp[ 0 ][ 0 ] ) ){
-
-			_add( m,sp[ 1 ][ 0 ],m_engine,outPut,id ) ;
-		}
-	}else{
-		for( const auto& m : util::split( data,'\r' ) ){
-
-			_add( m,'\n',m_engine,outPut,id ) ;
-		}
-	}
 }
 
 void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )

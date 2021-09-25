@@ -121,26 +121,20 @@ public:
 		{
 			m_lines.rbegin()->replace( e ) ;
 		}
-		template< typename Function,
-			  typename Add,
-			  typename Arg >
-		void replaceOrAdd( const Arg& arg,const QString& text,int id,Function function,Add add )
+		template< typename Function,typename Add>
+		void replaceOrAdd( const QString& text,int id,Function function,Add add )
 		{
-			_replaceOrAdd( arg,text,id,std::move( function ),std::move( add ) ) ;
+			_replaceOrAdd( text,id,std::move( function ),std::move( add ) ) ;
 		}
 		void add( const QString& text,int id = -1 )
 		{
-			_replaceOrAdd( 0,
-				       text,
-				       id,
-				       []( const int&,const QString& ){ return false ; },
-				       []( const QString& ){ return false ; } ) ;
+			auto _false = []( const QString& ){ return false ; } ;
+
+			_replaceOrAdd( text,id,_false,_false ) ;
 		}
 	private:
-		template< typename Function,
-			  typename Add,
-			  typename Arg >
-		void _replaceOrAdd( const Arg& arg,const QString& text,int id,Function function,Add add )
+		template< typename Function,typename Add >
+		void _replaceOrAdd( const QString& text,int id,Function function,Add add )
 		{
 			if( id != -1 ){
 
@@ -148,7 +142,7 @@ public:
 
 					if( it->id() == id ){
 
-						if( function( arg,it->text() ) ){
+						if( function( it->text() ) ){
 
 							if( add( it->text() ) ){
 

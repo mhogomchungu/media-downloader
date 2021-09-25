@@ -288,7 +288,7 @@ public:
 
 			virtual void sendCredentials( const QString&,QProcess& ) ;
 
-			virtual void processData( Logger::Data&,QByteArray,int id ) ;
+			virtual void processData( Logger::Data&,const QByteArray&,int id ) ;
 
 			virtual void processData( Logger::Data&,const QString&,int id ) ;
 
@@ -358,9 +358,9 @@ public:
 		{
 			return m_downloadUrl ;
 		}
-		void processData( Logger::Data& outPut,QByteArray data,int id ) const
+		void processData( Logger::Data& outPut,const QByteArray& data,int id ) const
 		{
-			m_functions->processData( outPut,std::move( data ),id ) ;
+			m_functions->processData( outPut,data,id ) ;
 		}
 		void processData( Logger::Data& outPut,const QString& data,int id ) const
 		{

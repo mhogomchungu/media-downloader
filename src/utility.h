@@ -579,7 +579,7 @@ namespace utility
 				return m ;
 			} ) ;
 		}
-		void postData( QByteArray data )
+		void postData( const QByteArray& data )
 		{
 			m_timer.stop() ;
 
@@ -590,9 +590,9 @@ namespace utility
 					m_data += data ;
 				}
 
-				m_logger.add( [ this,data = std::move( data ) ]( Logger::Data& e,int id ){
+				m_logger.add( [ this,&data ]( Logger::Data& e,int id ){
 
-					m_engine.processData( e,std::move( data ),id ) ;
+					m_engine.processData( e,data,id ) ;
 				} ) ;
 			}
 		}
