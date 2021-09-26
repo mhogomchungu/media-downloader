@@ -143,6 +143,14 @@ public:
 		{
 			return m_entries[ static_cast< size_t >( s ) ].options ;
 		}
+		bool forceDownload( int s ) const
+		{
+			return m_entries[ static_cast< size_t >( s ) ].forceDownload ;
+		}
+		bool forceDownload() const
+		{
+			return m_entries[ m_index ].forceDownload ;
+		}
 		int count() const
 		{
 			return static_cast< int >( m_entries.size() ) ;
@@ -159,9 +167,9 @@ public:
 		{
 			return m_table ;
 		}
-		void add( int index,const QString& url )
+		void add( int index,const QString& url,bool forceUpdate = false )
 		{
-			m_entries.emplace_back( index,url ) ;
+			m_entries.emplace_back( index,url,forceUpdate ) ;
 		}
 		bool empty() const
 		{
@@ -191,13 +199,15 @@ public:
 	private:
 		struct entry
 		{
-			entry( int i,const QString& o ) :
+			entry( int i,const QString& o,bool s ) :
 				index( i ),
-				options( o )
+				options( o ),
+				forceDownload( s )
 			{
 			}
 			int index ;
 			QString options ;
+			bool forceDownload ;
 		} ;
 		size_t m_index = 0 ;
 		std::vector< entry > m_entries ;
@@ -300,14 +310,18 @@ public:
 
 		auto indexAsString = m_index->indexAsString() ;
 
+		bool forceDownload = m_index->forceDownload() ;
+
 		m_index->next() ;
 
 		index.setText( finishedStatus::running() ) ;
 
 		utility::args args( m ) ;
 
+		utility::updateOptionsStruct opt{ engine,m_settings,args,indexAsString,forceDownload,{ url } } ;
+
 		utility::run( engine,
-			      utility::updateOptions( engine,m_settings,args,indexAsString,{ url } ),
+			      utility::updateOptions( opt ),
 			      args.quality(),
 			      std::move( opts ),
 			      std::move( logger ),

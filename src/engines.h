@@ -325,6 +325,11 @@ public:
 			const util::Json& json,
 			const engines& engines ) ;
 
+		static QString mediaAlreadInArchiveText()
+		{
+			return QObject::tr( "Media Already In Archive" ) ;
+		}
+
 		const QString& name() const
 		{
 			return m_name ;

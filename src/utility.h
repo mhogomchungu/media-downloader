@@ -111,6 +111,69 @@ namespace utility
 		QString m_quality ;
 		QStringList m_otherOptions ;
 	} ;
+	class arguments
+	{
+	public:
+		arguments( QStringList& args ) : m_args( args )
+		{
+		}
+		template< typename T >
+		bool hasOption( const T& opt,bool remove ) const
+		{
+			for( int i = 0 ; i < m_args.size() ; i++ ){
+
+				if( m_args[ i ] == opt ){
+
+					if( remove ){
+
+						m_args.removeAt( i ) ;
+					}
+
+					return true ;
+				}
+			}
+
+			return false ;
+		}
+		template< typename T >
+		void removeOptionWithArgument( const T& opt ) const
+		{
+			QString m ;
+			this->hasOption( opt,m,true ) ;
+		}
+		template< typename T >
+		void removeOption( const T& opt ) const
+		{
+			QString m ;
+			this->hasOption( opt,true ) ;
+		}
+		template< typename T >
+		void hasOption( const T& opt,QString& result,bool remove ) const
+		{
+			for( int i = 0 ; i < m_args.size() ; i++ ){
+
+				if( m_args[ i ] == opt ){
+
+					if( i + 1 < m_args.size() ){
+
+						result = m_args[ i + 1 ] ;
+
+						if( remove ){
+
+							m_args.removeAt( i + 1 ) ;
+						}
+					}
+
+					if( remove ){
+
+						m_args.removeAt( i ) ;
+					}
+				}
+			}
+		}
+	private:
+		QStringList& m_args ;
+	};
 
 	template< typename T >
 	void removeArgument( QStringList& s,const T& e )
@@ -155,11 +218,17 @@ namespace utility
 	QString downloadFolder( const Context& ctx ) ;
 	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
 
-	QStringList updateOptions( const engines::engine& engine,
-				   settings&,
-				   const utility::args& args,
-				   const QString& indexAsString,
-				   const QStringList& urls ) ;
+	struct updateOptionsStruct
+	{
+		const engines::engine& engine ;
+		settings& stts;
+		const utility::args& args ;
+		const QString& indexAsString ;
+		bool forceDownload ;
+		const QStringList& urls ;
+	};
+
+	QStringList updateOptions( const updateOptionsStruct& ) ;
 
 	bool hasDigitsOnly( const QString& e ) ;
 
@@ -277,6 +346,42 @@ namespace utility
 
 			return s ;
 		}
+	}
+
+	template< typename Function,typename AddAction >
+	void addDownloadContextMenu( bool running,
+				     bool finishSuccess,
+				     QMenu& m,
+				     int row,
+				     Function function,
+				     AddAction addAction )
+	{
+		bool forceDownload = false ;
+
+		QAction * ac ;
+
+		if( finishSuccess ){
+
+			if( running ){
+
+				ac = m.addAction( QObject::tr( "Download" ) ) ;
+				ac->setEnabled( false ) ;
+			}else{
+				if( function( row ) ){
+
+					ac = m.addAction( QObject::tr( "Force Download" ) ) ;
+					forceDownload = true ;
+				}else{
+					ac = m.addAction( QObject::tr( "Download" ) ) ;
+					ac->setEnabled( !running && !finishSuccess ) ;
+				}
+			}
+		}else{
+			ac = m.addAction( QObject::tr( "Download" ) ) ;
+			ac->setEnabled( !running && !finishSuccess ) ;
+		}
+
+		addAction( ac,forceDownload,row ) ;
 	}
 
 	template< typename Function >

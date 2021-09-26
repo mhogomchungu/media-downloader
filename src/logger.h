@@ -121,7 +121,7 @@ public:
 		{
 			m_lines.rbegin()->replace( e ) ;
 		}
-		template< typename Function,typename Add>
+		template< typename Function,typename Add >
 		void replaceOrAdd( const QString& text,int id,Function function,Add add )
 		{
 			_replaceOrAdd( text,id,std::move( function ),std::move( add ) ) ;

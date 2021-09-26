@@ -26,6 +26,7 @@
 
 library::library( const Context& ctx ) :
 	m_ctx( ctx ),
+	m_enableDisableUi( false ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font(),1 ),
@@ -176,22 +177,28 @@ void library::init_done()
 
 void library::enableAll()
 {
-	m_table.setEnabled( true ) ;
-	m_ui.pbLibraryQuit->setEnabled( true ) ;
-	m_ui.pbLibraryHome->setEnabled( true ) ;
-	m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
-	m_ui.pbLibraryRefresh->setEnabled( true ) ;
-	m_ui.pbLibraryUp->setEnabled( true ) ;
+	if( m_enableDisableUi ){
+
+		m_table.setEnabled( true ) ;
+		m_ui.pbLibraryQuit->setEnabled( true ) ;
+		m_ui.pbLibraryHome->setEnabled( true ) ;
+		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
+		m_ui.pbLibraryRefresh->setEnabled( true ) ;
+		m_ui.pbLibraryUp->setEnabled( true ) ;
+	}
 }
 
 void library::disableAll()
 {
-	m_table.setEnabled( false ) ;
-	m_ui.pbLibraryQuit->setEnabled( false ) ;
-	m_ui.pbLibraryHome->setEnabled( false ) ;
-	m_ui.pbLibraryDowloadFolder->setEnabled( false ) ;
-	m_ui.pbLibraryRefresh->setEnabled( false ) ;
-	m_ui.pbLibraryUp->setEnabled( false ) ;
+	if( m_enableDisableUi ){
+
+		m_table.setEnabled( false ) ;
+		m_ui.pbLibraryQuit->setEnabled( false ) ;
+		m_ui.pbLibraryHome->setEnabled( false ) ;
+		m_ui.pbLibraryDowloadFolder->setEnabled( false ) ;
+		m_ui.pbLibraryRefresh->setEnabled( false ) ;
+		m_ui.pbLibraryUp->setEnabled( false ) ;
+	}
 }
 
 void library::resetMenu()

@@ -246,30 +246,36 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		connect( ac,&QAction::triggered,[ this ](){
 
 			this->showList() ;
-		} ) ;
+		} ) ;		
 
-		ac = m.addAction( tr( "Download" ) ) ;
-		ac->setEnabled( !running && !finishSuccess ) ;
+		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
 
-		connect( ac,&QAction::triggered,[ &engine,this,row ](){
+			auto m = m_table.uiText( row ) ;
 
-			downloadManager::index indexes( m_table ) ;
+			return m.endsWith( "\n" + engines::engine::mediaAlreadInArchiveText() ) ;
 
-			auto e = m_table.runningState( row ) ;
+		},[ this,&engine ]( QAction * ac,bool forceDownload,int row ){
 
-			if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
+			connect( ac,&QAction::triggered,[ &engine,this,row,forceDownload ](){
 
-				auto u = m_table.downloadingOptions( row ) ;
+				downloadManager::index indexes( m_table ) ;
 
-				if( u.isEmpty() ){
+				auto e = m_table.runningState( row ) ;
 
-					indexes.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
-				}else{
-					indexes.add( row,u ) ;
+				if( !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ){
+
+					auto u = m_table.downloadingOptions( row ) ;
+
+					if( u.isEmpty() ){
+
+						indexes.add( row,m_ui.lineEditBDUrlOptions->text(),forceDownload ) ;
+					}else{
+						indexes.add( row,u,forceDownload ) ;
+					}
 				}
-			}
 
-			this->download( engine,std::move( indexes ) ) ;
+					this->download( engine,std::move( indexes ) ) ;
+			} ) ;
 		} ) ;
 
 		utility::saveDownloadList( m_ctx,m,m_table ) ;

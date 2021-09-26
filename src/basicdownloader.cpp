@@ -452,7 +452,7 @@ void basicdownloader::download( const engines::engine& engine,
 
 	m_ui.pbCancel->setEnabled( true ) ;
 
-	auto opts = utility::updateOptions( engine,m_settings,args,QString(),urls ) ;
+	auto opts = utility::updateOptions( { engine,m_settings,args,QString(),false,urls } ) ;
 
 	this->run( engine,opts,args.quality(),false ) ;
 }

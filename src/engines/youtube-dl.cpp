@@ -414,7 +414,7 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 		}
 		if( e.contains( "has already been recorded in archive" ) ){
 
-			m_tmp = QObject::tr( "Media Already In Archive" ) ;
+			m_tmp = engines::engine::mediaAlreadInArchiveText() ;
 
 			return m_tmp ;
 		}

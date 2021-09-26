@@ -25,58 +25,6 @@
 
 #include <QFileDialog>
 
-class arguments
-{
-public:
-	arguments( QStringList& args ) : m_args( args )
-	{
-	}
-	template< typename T >
-	bool hasOption( const T& opt,bool remove ) const
-	{
-		for( int i = 0 ; i < m_args.size() ; i++ ){
-
-			if( m_args[ i ] == opt ){
-
-				if( remove ){
-
-					m_args.removeAt( i ) ;
-				}
-
-				return true ;
-			}
-		}
-
-		return false ;
-	}
-	template< typename T >
-	void hasOption( const T& opt,QString& result,bool remove ) const
-	{
-		for( int i = 0 ; i < m_args.size() ; i++ ){
-
-			if( m_args[ i ] == opt ){
-
-				if( i + 1 < m_args.size() ){
-
-					result = m_args[ i + 1 ] ;
-
-					if( remove ){
-
-						m_args.removeAt( i + 1 ) ;
-					}
-				}
-
-				if( remove ){
-
-					m_args.removeAt( i ) ;
-				}
-			}
-		}
-	}
-private:
-	QStringList& m_args ;
-};
-
 class customOptions
 {
 public:
@@ -85,7 +33,7 @@ public:
 		       const engines::engine& engine ) :
 		m_options( std::move( opts ) )
 	{
-		arguments Opts( m_options ) ;
+		utility::arguments Opts( m_options ) ;
 
 		Opts.hasOption( "--max-media-length",m_maxMediaLength,true ) ;
 		Opts.hasOption( "--min-media-length",m_minMediaLength,true ) ;
@@ -100,7 +48,7 @@ public:
 			auto s = settings.engineDefaultDownloadOptions( engine.name() ) ;
 			auto ss = util::splitPreserveQuotes( s ) ;
 
-			arguments( ss ).hasOption( "--download-archive",mm,false ) ;
+			utility::arguments( ss ).hasOption( "--download-archive",mm,false ) ;
 
 			if( !mm.isEmpty() ){
 
@@ -254,32 +202,38 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
-		ac = m.addAction( tr( "Download" ) ) ;
-		ac->setEnabled( !running && !finishSuccess ) ;
+		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
 
-		connect( ac,&QAction::triggered,[ this,row ](){
+			auto m = m_table.uiText( row ) ;
 
-			downloadManager::index indexes( m_table ) ;
+			return m.startsWith( engines::engine::mediaAlreadInArchiveText() + "\n" ) ;
 
-			auto e = m_table.runningState( row ) ;
+		},[ this ]( QAction * ac,bool forceDownload,int row ){
 
-			if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
+			connect( ac,&QAction::triggered,[ this,row,forceDownload ](){
 
-				auto u = m_table.downloadingOptions( row ) ;
+				downloadManager::index indexes( m_table ) ;
 
-				if( u.isEmpty() ){
+				auto e = m_table.runningState( row ) ;
 
-					indexes.add( row,m_ui.lineEditPLUrlOptions->text() ) ;
-				}else{
-					indexes.add( row,u ) ;
+				if( !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ){
+
+					auto u = m_table.downloadingOptions( row ) ;
+
+					if( u.isEmpty() ){
+
+						indexes.add( row,m_ui.lineEditPLUrlOptions->text() ) ;
+					}else{
+						indexes.add( row,u ) ;
+					}
 				}
-			}
 
-			auto m = m_settings.defaultEngine( settings::tabName::playlist ) ;
+				auto m = m_settings.defaultEngine( settings::tabName::playlist ) ;
 
-			const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+				const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
 
-			this->download( engine,std::move( indexes ) ) ;
+				this->download( engine,std::move( indexes ) ) ;
+			} ) ;
 		} ) ;
 
 		utility::saveDownloadList( m_ctx,m,m_table ) ;

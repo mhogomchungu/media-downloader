@@ -396,12 +396,15 @@ void utility::openDownloadFolderPath( const QString& url )
 	}
 }
 
-QStringList utility::updateOptions( const engines::engine& engine,
-				    settings& settings,
-				    const utility::args& args,
-				    const QString& indexAsString,
-				    const QStringList& urls )
+QStringList utility::updateOptions( const updateOptionsStruct& s )
 {
+	const engines::engine& engine = s.engine ;
+	settings& settings            = s.stts ;
+	const utility::args& args     = s.args ;
+	const QString& indexAsString  = s.indexAsString ;
+	const QStringList& urls       = s.urls ;
+	bool forceDownload            = s.forceDownload ;
+
 	auto opts = [ & ](){
 
 		auto m = settings.engineDefaultDownloadOptions( engine.name() ) ;
@@ -432,6 +435,11 @@ QStringList utility::updateOptions( const engines::engine& engine,
 
 		opts.append( ca ) ;
 		opts.append( cv ) ;
+	}
+
+	if( forceDownload ){
+
+		utility::arguments( opts ).removeOptionWithArgument( "--download-archive" ) ;
 	}
 
 	return opts ;
