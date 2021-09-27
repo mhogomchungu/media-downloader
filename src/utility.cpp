@@ -405,6 +405,7 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 	const QString& indexAsString   = s.indexAsString ;
 	const QStringList& urls        = s.urls ;
 	bool forceDownload             = s.forceDownload ;
+	const QString& downloadPath    = settings.downloadFolder() ;
 
 	auto opts = [ & ](){
 
@@ -440,7 +441,9 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 	for( auto& it : opts ){
 
-		it.replace( "{MediaDownloaderDataPath}",ep.dataPath() ) ;
+		it.replace( utility::stringConstants::mediaDownloaderDataPath(),ep.dataPath() ) ;
+		it.replace( utility::stringConstants::mediaDownloaderDefaultDownloadPath(),downloadPath ) ;
+		it.replace( utility::stringConstants::mediaDownloaderCWD(),QDir::currentPath() ) ;
 	}
 
 	if( forceDownload ){

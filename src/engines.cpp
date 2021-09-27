@@ -504,7 +504,6 @@ engines::engine::engine( Logger& logger,
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_optionsArgument( m_jsonObject.value( "OptionsArgument" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() ),
-	m_playListUrlPrefix( m_jsonObject.value( "PlayListUrlPrefix" ).toString() ),
 	m_playlistItemsArgument( m_jsonObject.value( "PlaylistItemsArgument" ).toString() ),
 	m_batchFileArgument( m_jsonObject.value( "BatchFileArgument" ).toString() ),
 	m_cookieArgument( m_jsonObject.value( "CookieArgument" ).toString() ),
@@ -559,7 +558,9 @@ engines::engine::engine( Logger& logger,
 		}
 	}
 
-	if( m_exeFolderPath == "${default}" || m_exeFolderPath == "${BackendPath}" ){
+	auto defaultPath = utility::stringConstants::defaultPath() ;
+
+	if( m_exeFolderPath == defaultPath || m_exeFolderPath == "${BackendPath}" ){
 
 		m_exeFolderPath = ePaths.binPath() ;
 	}

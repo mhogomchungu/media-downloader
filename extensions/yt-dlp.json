@@ -3,8 +3,8 @@
     "BatchFileArgument": "-a",
     "CanDownloadPlaylist": true,
     "CommandName": "yt-dlp",
-    "CommandNameWindows": "yt-dlp.exe",
     "CommandName32BitWindows": "yt-dlp_x86.exe",
+    "CommandNameWindows": "yt-dlp.exe",
     "ControlJsonStructure": {
         "Connector": "&&",
         "lhs": {
@@ -14,28 +14,45 @@
             "contains": "ETA"
         }
     },
+    "CookieArgument": "--cookies",
     "DefaultDownLoadCmdOptions": [
         "--newline",
         "--ignore-config",
-        "--no-playlist"
+        "--no-playlist",
+        "-o",
+        "%(title)s-%(id)s.%(ext)s",
+        "--download-archive",
+        "{MediaDownloaderDataPath}/download_archive.txt"
     ],
     "DefaultListCmdOptions": [
         "-F",
-         "--list-formats-old"
+        "--list-formats-old"
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
     "LikeYoutubeDl": true,
     "Name": "yt-dlp",
     "OptionsArgument": "-f",
+    "PlayListIdArguments": [
+        "--get-id",
+        "--get-title",
+        "--get-thumbnail"
+    ],
+    "PlaylistItemsArgument": "--playlist-items",
     "RemoveText": [
     ],
+    "ReplaceOutputWithProgressReport": false,
+    "RequiredMinimumVersionOfMediaDownloader": "1.6.0",
+    "ShowListTableBoundary": {
+        "ColumnNumber": "0",
+        "Comparator": "contains",
+        "String": "--"
+    },
     "SkipLineWithText": [
         "(pass -k to keep)"
     ],
     "SplitLinesBy": [
         "\n"
     ],
-    "UsePrivateExecutable": true,
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 0

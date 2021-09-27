@@ -267,7 +267,9 @@ void settings::setDownloadFolder( const QString& m )
 {
 	if( m.isEmpty() ){
 
-		m_settings.setValue( "DownloadFolder","{MediaDownloaderDefaultDownloadPath}" ) ;
+		auto s = utility::stringConstants::mediaDownloaderDefaultDownloadPath() ;
+
+		m_settings.setValue( "DownloadFolder",s ) ;
 	}else{
 		m_settings.setValue( "DownloadFolder",m ) ;
 	}
@@ -276,54 +278,60 @@ void settings::setDownloadFolder( const QString& m )
 template< typename Function >
 static QString _downloadFolder( QSettings& settings,bool portableVersion,Function function )
 {
+	auto mediaDownloaderCWD = utility::stringConstants::mediaDownloaderCWD() ;
+
+	auto mediaDownloaderDefaultDownloadPath = utility::stringConstants::mediaDownloaderDefaultDownloadPath() ;
+
 	if( portableVersion ){
 
 		if( settings.contains( "DownloadFolder" ) ){
 
 			auto m = settings.value( "DownloadFolder" ).toString() ;
 
-			if( m.startsWith( "{MediaDownloaderCWD}" ) ){
+			if( m.startsWith( mediaDownloaderCWD ) ){
 
-				m.replace( "{MediaDownloaderCWD}",QDir::currentPath() ) ;
-
-				return m ;
-			}
-			if( m.startsWith( "{MediaDownloaderDefaultDownloadPath}" ) ){
-
-				m.replace( "{MediaDownloaderDefaultDownloadPath}",QDir::currentPath() + "/Downloads" ) ;
+				m.replace( mediaDownloaderCWD,QDir::currentPath() ) ;
 
 				return m ;
 			}
+
+			if( m.startsWith( mediaDownloaderDefaultDownloadPath ) ){
+
+				m.replace( mediaDownloaderDefaultDownloadPath,QDir::currentPath() + "/Downloads" ) ;
+
+				return m ;
+			}
+
 			if( QFile::exists( m ) ){
 
 				return m ;
 			}else{
 				function( QObject::tr( "Resetting download folder to default" ) ) ;
-				settings.setValue( "DownloadFolder","{MediaDownloaderDefaultDownloadPath}" ) ;
+				settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
 				return QDir::currentPath() + "/Downloads" ;
 			}
 		}else{
-			settings.setValue( "DownloadFolder","{MediaDownloaderDefaultDownloadPath}" ) ;
+			settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
 			return QDir::currentPath() + "/Downloads" ;
 		}
 	}else{
 		if( !settings.contains( "DownloadFolder" ) ){
 
-			settings.setValue( "DownloadFolder","{MediaDownloaderDefaultDownloadPath}" ) ;
+			settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
 		}
 
 		auto m = settings.value( "DownloadFolder" ).toString() ;
 
-		if( m.startsWith( "{MediaDownloaderCWD}" ) ){
+		if( m.startsWith( mediaDownloaderCWD ) ){
 
-			m.replace( "{MediaDownloaderCWD}",QDir::currentPath() ) ;
+			m.replace( mediaDownloaderCWD,QDir::currentPath() ) ;
 
 			return m ;
 		}
 
-		if( m.startsWith( "{MediaDownloaderDefaultDownloadPath}" ) ){
+		if( m.startsWith( mediaDownloaderDefaultDownloadPath ) ){
 
-			m.replace( "{MediaDownloaderDefaultDownloadPath}",utility::homePath() ) ;
+			m.replace( mediaDownloaderDefaultDownloadPath,utility::homePath() ) ;
 		}
 
 		return m ;

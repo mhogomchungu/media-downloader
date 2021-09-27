@@ -266,10 +266,7 @@ template< typename Function >
 class loggerBatchDownloader
 {
 public:
-	loggerBatchDownloader( Function function,
-			       Logger& logger,
-			       QTableWidgetItem& item,
-			       int id ) :
+	loggerBatchDownloader( Function function,Logger& logger,QTableWidgetItem& item,int id ) :
 		m_tableWidgetItem( item ),
 		m_function( std::move( function ) ),
 		m_logger( logger ),
@@ -317,10 +314,7 @@ private:
 } ;
 
 template< typename Function >
-auto make_loggerBatchDownloader( Function function,
-				 Logger& logger,
-				 QTableWidgetItem& item,
-				 int id )
+auto make_loggerBatchDownloader( Function function,Logger& logger,QTableWidgetItem& item,int id )
 {
 	return loggerBatchDownloader< Function >( std::move( function ),logger,item,id ) ;
 }
@@ -329,14 +323,9 @@ template< typename AddToTable,typename TableWidget >
 class loggerPlaylistDownloader
 {
 public:
-	loggerPlaylistDownloader( TableWidget& t,
-				  Logger& logger,
-				  const QString& u,
-				  int id,
-				  AddToTable add ) :
+	loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add ) :
 		m_table( t ),
 		m_logger( logger ),
-		m_urlPrefix( u ),
 		m_id( id ),
 		m_addToTable( std::move( add ) )
 	{
@@ -373,19 +362,14 @@ private:
 private:
 	TableWidget& m_table ;
 	Logger& m_logger ;
-	const QString& m_urlPrefix ;
 	Logger::Data m_lines ;
 	int m_id ;
 	AddToTable m_addToTable ;
 };
 
 template< typename AddToTable,typename TableWidget >
-auto make_loggerPlaylistDownloader( TableWidget& t,
-				    Logger& logger,
-				    const QString& u,
-				    int id,
-				    AddToTable add )
+auto make_loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add )
 {
-	return loggerPlaylistDownloader< AddToTable,TableWidget >( t,logger,u,id,std::move( add ) ) ;
+	return loggerPlaylistDownloader< AddToTable,TableWidget >( t,logger,id,std::move( add ) ) ;
 }
 #endif

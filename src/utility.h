@@ -84,6 +84,28 @@ namespace utility
 
 	extern Debug debug ;
 
+	class stringConstants
+	{
+	public:
+		static QString mediaDownloaderDataPath()
+		{
+			return "{MediaDownloaderDataPath}" ;
+		}
+		static QString mediaDownloaderDefaultDownloadPath()
+		{
+			return "{MediaDownloaderDefaultDownloadPath}" ;
+		}
+		static QString mediaDownloaderCWD()
+		{
+			return "{MediaDownloaderCWD}" ;
+		}
+		static QString defaultPath()
+		{
+			return "${default}" ;
+		}
+	private:
+	};
+
 	class args
 	{
 	public:
@@ -747,7 +769,7 @@ namespace utility
 		  Connection conn,
 		  ProcessOutputChannels channels = ProcessOutputChannels() )
 	{
-		engines::engine::exeArgs::cmd cmd( engine.exePath(),args,options.downloadFolder() ) ;
+		engines::engine::exeArgs::cmd cmd( engine.exePath(),args ) ;
 
 		const auto& exe = cmd.exe() ;
 

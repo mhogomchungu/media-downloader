@@ -13,10 +13,15 @@
             "contains": "ETA"
         }
     },
+    "CookieArgument": "--cookies",
     "DefaultDownLoadCmdOptions": [
         "--newline",
         "--ignore-config",
-        "--no-playlist"
+        "--no-playlist",
+        "-o",
+        "%(title)s-%(id)s.%(ext)s",
+        "--download-archive",
+        "{MediaDownloaderDataPath}/download_archive.txt"
     ],
     "DefaultListCmdOptions": [
         "-F"
@@ -25,15 +30,27 @@
     "LikeYoutubeDl": true,
     "Name": "youtube-dl",
     "OptionsArgument": "-f",
+    "PlayListIdArguments": [
+        "--get-id",
+        "--get-title",
+        "--get-thumbnail"
+    ],
+    "PlaylistItemsArgument": "--playlist-items",
     "RemoveText": [
     ],
+    "ReplaceOutputWithProgressReport": false,
+    "RequiredMinimumVersionOfMediaDownloader": "1.6.0",
+    "ShowListTableBoundary": {
+        "ColumnNumber": "0",
+        "Comparator": "equals",
+        "String": "format"
+    },
     "SkipLineWithText": [
         "(pass -k to keep)"
     ],
     "SplitLinesBy": [
         "\n"
     ],
-    "UsePrivateExecutable": true,
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 0

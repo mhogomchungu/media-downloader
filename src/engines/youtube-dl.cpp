@@ -79,6 +79,13 @@ void youtube_dl::init( const QString& name,
 				return obj ;
 			}() ) ;
 
+			mainObj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+				arr.append( "-F" ) ;
+				return arr ;
+			}() ) ;
+
 			mainObj.insert( "CommandName","youtube-dl" ) ;
 
 			mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
@@ -98,6 +105,15 @@ void youtube_dl::init( const QString& name,
 				return obj ;
 			}() ) ;
 
+			mainObj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+				arr.append( "-F" ) ;
+				arr.append( "--list-formats-old" ) ;
+
+				return arr ;
+			}() ) ;
+
 			mainObj.insert( "CommandName","yt-dlp" ) ;
 
 			mainObj.insert( "CommandNameWindows","yt-dlp.exe" ) ;
@@ -115,21 +131,16 @@ void youtube_dl::init( const QString& name,
 
 			QJsonArray arr ;
 
+			auto m = utility::stringConstants::mediaDownloaderDataPath() ;
+
 			arr.append( "--newline" ) ;
 			arr.append( "--ignore-config" ) ;
 			arr.append( "--no-playlist" ) ;
 			arr.append( "-o" ) ;
 			arr.append( "%(title)s-%(id)s.%(ext)s" ) ;
 			arr.append( "--download-archive" ) ;
-			arr.append( "{MediaDownloaderDataPath}/download_archive.txt" ) ;
+			arr.append( m + "/download_archive.txt" ) ;
 
-			return arr ;
-		}() ) ;
-
-		mainObj.insert( "DefaultListCmdOptions",[](){
-
-			QJsonArray arr ;
-			arr.append( "-F" ) ;
 			return arr ;
 		}() ) ;
 
@@ -167,9 +178,7 @@ void youtube_dl::init( const QString& name,
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader",QString() ) ;
-
-		mainObj.insert( "PlayListUrlPrefix","https://youtube.com/watch?v=" ) ;
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","1.6.1" ) ;
 
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
@@ -179,7 +188,7 @@ void youtube_dl::init( const QString& name,
 
 		mainObj.insert( "OptionsArgument","-f" ) ;
 
-		mainObj.insert( "BackendPath","${default}" ) ;
+		mainObj.insert( "BackendPath",utility::stringConstants::defaultPath() ) ;
 
 		mainObj.insert( "VersionStringLine",0 ) ;
 

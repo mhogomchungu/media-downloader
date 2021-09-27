@@ -672,7 +672,6 @@ void playlistdownloader::getList()
 			      playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,-1 },std::move( functions ) ),
 			      make_loggerPlaylistDownloader( m_table,
 							     m_ctx.logger(),
-							     engine.playListUrlPrefix(),
 							     utility::concurrentID(),
 							     std::move( bb ) ),
 			      m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ),
