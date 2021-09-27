@@ -175,7 +175,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="832"/>
         <source>Download Options:</source>
-        <translation type="unfinished"></translation>
+        <translation>下载选项:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="874"/>
@@ -185,7 +185,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="1063"/>
         <source>Save History</source>
-        <translation type="unfinished"></translation>
+        <translation>保存历史</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1072"/>
@@ -312,7 +312,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="790"/>
         <source>Get List Options:</source>
-        <translation type="unfinished"></translation>
+        <translation>获取列表选项:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1489"/>
@@ -455,7 +455,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="404"/>
         <source>Failed To Load A Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>加载一个插件失败</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="479"/>
@@ -604,7 +604,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/utility.h" line="372"/>
         <source>Force Download</source>
-        <translation type="unfinished"></translation>
+        <translation>强制下载</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="390"/>
