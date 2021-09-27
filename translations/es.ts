@@ -453,7 +453,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/engines.cpp" line="404"/>
         <source>Failed To Load A Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Falló al cargar un Complemento</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="479"/>
@@ -602,7 +602,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/utility.h" line="372"/>
         <source>Force Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Forzar Descarga</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="390"/>
