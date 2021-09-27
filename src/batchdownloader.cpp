@@ -274,7 +274,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 					}
 				}
 
-					this->download( engine,std::move( indexes ) ) ;
+				this->download( engine,std::move( indexes ) ) ;
 			} ) ;
 		} ) ;
 
