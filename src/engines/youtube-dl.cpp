@@ -178,7 +178,7 @@ void youtube_dl::init( const QString& name,
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","1.6.1" ) ;
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","1.6.0" ) ;
 
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
@@ -277,11 +277,6 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 	if( !object.contains( "PlaylistItemsArgument" ) ){
 
 		object.insert( "PlaylistItemsArgument","--playlist-items" ) ;
-	}
-
-	if( !object.contains( "PlayListUrlPrefix" ) ){
-
-		object.insert( "PlayListUrlPrefix","https://youtube.com/watch?v=" ) ;
 	}
 
 	object.insert( "UsePrivateExecutable",!engines.Settings().useSystemProvidedVersionIfAvailable() ) ;

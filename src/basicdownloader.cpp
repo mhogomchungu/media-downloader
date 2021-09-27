@@ -158,6 +158,8 @@ void basicdownloader::printEngineVersionInfo()
 		m_counter++ ;
 
 		this->printEngineVersionInfo( engine ) ;
+	}else{
+		this->setDefaultEngine() ;
 	}
 }
 
