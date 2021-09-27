@@ -455,7 +455,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/engines.cpp" line="404"/>
         <source>Failed To Load A Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklenti Yüklenemedi</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="479"/>
@@ -604,7 +604,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/utility.h" line="372"/>
         <source>Force Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Zorla İndir</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="390"/>
@@ -629,7 +629,7 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/tableWidget.cpp" line="346"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamamlanan: %1%, Başlatılmayan: %2, Başarılı: %3, Başarısız: %4, İptal Edilen: %5</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="759"/>
