@@ -3,11 +3,13 @@
     "BatchFileArgument": "",
     "CanDownloadPlaylist": false,
     "CommandName": "safaribooks.py",
-    "CommandNameWindows": "safaribooks.py",
+    "CommandNameWindows": "safaribooks.exe",
     "CommandNames": [
         "python3",
         "-u",
         "${BackendPath}/${CommandName}"
+    ],
+    "CommandNamesWindows": [
     ],
     "ControlJsonStructure": {
         "Connector": "&&",
