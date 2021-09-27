@@ -398,12 +398,13 @@ void utility::openDownloadFolderPath( const QString& url )
 
 QStringList utility::updateOptions( const updateOptionsStruct& s )
 {
-	const engines::engine& engine = s.engine ;
-	settings& settings            = s.stts ;
-	const utility::args& args     = s.args ;
-	const QString& indexAsString  = s.indexAsString ;
-	const QStringList& urls       = s.urls ;
-	bool forceDownload            = s.forceDownload ;
+	const engines::engine& engine  = s.engine ;
+	const engines::enginePaths& ep = s.enginePaths ;
+	settings& settings             = s.stts ;
+	const utility::args& args      = s.args ;
+	const QString& indexAsString   = s.indexAsString ;
+	const QStringList& urls        = s.urls ;
+	bool forceDownload             = s.forceDownload ;
 
 	auto opts = [ & ](){
 
@@ -435,6 +436,11 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 		opts.append( ca ) ;
 		opts.append( cv ) ;
+	}
+
+	for( auto& it : opts ){
+
+		it.replace( "{MediaDownloaderDataPath}",ep.dataPath() ) ;
 	}
 
 	if( forceDownload ){

@@ -73,22 +73,31 @@ public:
 		{
 			return m_binPath ;
 		}
-		const QString& configPath() const
+		const QString& enginePath() const
 		{
-			return m_configPath ;
+			return m_enginePath ;
+		}
+		const QString& dataPath() const
+		{
+			return m_dataPath ;
+		}
+		QString dataPath( const QString& e ) const
+		{
+			return m_dataPath + "/" + e ;
 		}
 		QString binPath( const QString& e ) const
 		{
 			return m_binPath + "/" + e ;
 		}
-		QString configPath( const QString& e ) const
+		QString enginePath( const QString& e ) const
 		{
-			return m_configPath + "/" + e ;
+			return m_enginePath + "/" + e ;
 		}
 	private:
 		QString m_binPath ;
-		QString m_configPath ;
+		QString m_enginePath ;
 		QString m_basePath ;
+		QString m_dataPath ;
 	};
 
 	class engine

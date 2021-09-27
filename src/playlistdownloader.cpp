@@ -582,6 +582,7 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 	m_settings.addOptionsHistory( m,settings::tabName::playlist ) ;
 
 	m_ccmd.download( engine,
+			 m_ctx.Engines().engineDirPaths(),
 			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
 			 m_terminator.setUp(),

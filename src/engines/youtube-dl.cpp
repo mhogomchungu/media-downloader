@@ -60,7 +60,7 @@ void youtube_dl::init( const QString& name,
 		       Logger& logger,
 		       const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.configPath( configFileName ) ;
+	auto m = enginePath.enginePath( configFileName ) ;
 
 	if( !QFile::exists( m ) ){
 
@@ -118,6 +118,10 @@ void youtube_dl::init( const QString& name,
 			arr.append( "--newline" ) ;
 			arr.append( "--ignore-config" ) ;
 			arr.append( "--no-playlist" ) ;
+			arr.append( "-o" ) ;
+			arr.append( "%(title)s-%(id)s.%(ext)s" ) ;
+			arr.append( "--download-archive" ) ;
+			arr.append( "{MediaDownloaderDataPath}/download_archive.txt" ) ;
 
 			return arr ;
 		}() ) ;

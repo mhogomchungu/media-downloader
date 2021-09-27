@@ -168,7 +168,7 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 							    Logger& logger,
 							    const engines::enginePaths& enginePaths )
 {
-	auto path = enginePaths.configPath( e ) ;
+	auto path = enginePaths.enginePath( e ) ;
 
 	util::Json json( engines::file( path,logger ).readAll() ) ;
 
@@ -364,7 +364,7 @@ bool engines::addEngine( const QByteArray& data,const QString& path )
 
 		if( !name.isEmpty() ){
 
-			auto e = m_enginePaths.configPath( path ) ;
+			auto e = m_enginePaths.enginePath( path ) ;
 
 			QFile f( e ) ;
 
@@ -412,7 +412,7 @@ void engines::removeEngine( const QString& e )
 
 	if( engine && engine->valid() ){
 
-		QFile::remove( m_enginePaths.configPath( e ) ) ;
+		QFile::remove( m_enginePaths.enginePath( e ) ) ;
 
 		const auto& exe = engine->exePath().realExe() ;
 
@@ -444,7 +444,7 @@ void engines::removeEngine( const QString& e )
 
 QStringList engines::enginesList() const
 {
-	auto m = QDir( m_enginePaths.configPath() ).entryList( QDir::Filter::Files ) ;
+	auto m = QDir( m_enginePaths.enginePath() ).entryList( QDir::Filter::Files ) ;
 
 	m.removeAll( m_defaultEngine.configFileName() ) ;
 
@@ -701,12 +701,16 @@ engines::enginePaths::enginePaths( settings& s )
 		m_basePath = QDir::homePath() + "/.config/media-downloader/" ;
 	}
 
-	m_binPath = m_basePath + "/bin" ;
-	m_configPath = m_basePath + "/engines.v1" ;
+	m_binPath    = m_basePath + "/bin" ;
+	m_enginePath = m_basePath + "/engines.v1" ;
+	m_dataPath   = m_basePath + "/data" ;
 
-	QDir().mkpath( m_basePath ) ;
-	QDir().mkpath( m_binPath ) ;
-	QDir().mkpath( m_configPath ) ;
+	QDir dir ;
+
+	dir.mkpath( m_basePath ) ;
+	dir.mkpath( m_binPath ) ;
+	dir.mkpath( m_enginePath ) ;
+	dir.mkpath( m_dataPath ) ;
 }
 
 QString engines::engine::functions::processCompleteStateText( const engine::engine::functions::finishedState& f )

@@ -221,6 +221,7 @@ namespace utility
 	struct updateOptionsStruct
 	{
 		const engines::engine& engine ;
+		const engines::enginePaths& enginePaths ;
 		settings& stts;
 		const utility::args& args ;
 		const QString& indexAsString ;

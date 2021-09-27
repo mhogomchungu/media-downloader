@@ -300,6 +300,7 @@ public:
 	}
 	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,
+		       const engines::enginePaths& ep,
 		       QTableWidgetItem& index,
 		       const QString& url,
 		       TermSignal terminator,
@@ -308,9 +309,9 @@ public:
 	{
 		const auto& m = m_index->options() ;
 
-		auto indexAsString = m_index->indexAsString() ;
+		auto iString = m_index->indexAsString() ;
 
-		bool forceDownload = m_index->forceDownload() ;
+		bool fd = m_index->forceDownload() ;
 
 		m_index->next() ;
 
@@ -318,7 +319,7 @@ public:
 
 		utility::args args( m ) ;
 
-		utility::updateOptionsStruct opt{ engine,m_settings,args,indexAsString,forceDownload,{ url } } ;
+		utility::updateOptionsStruct opt{ engine,ep,m_settings,args,iString,fd,{ url } } ;
 
 		utility::run( engine,
 			      utility::updateOptions( opt ),
