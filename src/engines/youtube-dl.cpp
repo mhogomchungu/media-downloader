@@ -90,8 +90,6 @@ void youtube_dl::init( const QString& name,
 
 			mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
 
-			mainObj.insert( "Name",name ) ;
-
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 		}else{
 			mainObj.insert( "ShowListTableBoundary",[](){
@@ -120,10 +118,10 @@ void youtube_dl::init( const QString& name,
 
 			mainObj.insert( "CommandName32BitWindows","yt-dlp_x86.exe" ) ;
 
-			mainObj.insert( "Name",name ) ;
-
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
+
+		mainObj.insert( "Name",name ) ;
 
 		mainObj.insert( "CookieArgument","--cookies" ) ;
 
@@ -131,15 +129,15 @@ void youtube_dl::init( const QString& name,
 
 			QJsonArray arr ;
 
-			auto m = utility::stringConstants::mediaDownloaderDataPath() ;
-
 			arr.append( "--newline" ) ;
 			arr.append( "--ignore-config" ) ;
 			arr.append( "--no-playlist" ) ;
 			arr.append( "-o" ) ;
 			arr.append( "%(title)s-%(id)s.%(ext)s" ) ;
-			arr.append( "--download-archive" ) ;
-			arr.append( m + "/download_archive.txt" ) ;
+
+			//auto m = utility::stringConstants::mediaDownloaderDataPath() ;
+			//arr.append( "--download-archive" ) ;
+			//arr.append( m + "/download_archive.txt" ) ;
 
 			return arr ;
 		}() ) ;
@@ -178,7 +176,7 @@ void youtube_dl::init( const QString& name,
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","1.6.0" ) ;
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader",QString() ) ;
 
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 

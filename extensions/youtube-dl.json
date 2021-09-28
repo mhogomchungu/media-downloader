@@ -19,9 +19,7 @@
         "--ignore-config",
         "--no-playlist",
         "-o",
-        "%(title)s-%(id)s.%(ext)s",
-        "--download-archive",
-        "{MediaDownloaderDataPath}/download_archive.txt"
+        "%(title)s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
         "-F"
@@ -39,7 +37,7 @@
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "1.6.0",
+    "RequiredMinimumVersionOfMediaDownloader": "",
     "ShowListTableBoundary": {
         "ColumnNumber": "0",
         "Comparator": "equals",
