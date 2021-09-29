@@ -60,6 +60,7 @@ private:
 	tabManager& m_tabManager ;
 	tableWidget m_table ;
 
+	bool m_gettingPlaylist = false ;
 	bool m_showThumbnails ;
 	int m_networkRunning = 0 ;
 

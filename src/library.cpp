@@ -26,7 +26,7 @@
 
 library::library( const Context& ctx ) :
 	m_ctx( ctx ),
-	m_enableDisableUi( false ),
+	m_enableGlobalUiChanges( false ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font(),1 ),
@@ -54,7 +54,7 @@ library::library( const Context& ctx ) :
 
 				auto m = m_currentPath + "/" + m_table.uiText( row ) ;
 
-				m_ctx.TabManager().disableAll() ;
+				this->internalDisableAll() ;
 
 				util::runInBgThread( [ m ](){
 
@@ -69,14 +69,14 @@ library::library( const Context& ctx ) :
 
 					m_table.removeRow( row ) ;
 
-					m_ctx.TabManager().enableAll() ;
+					this->internalEnableAll() ;
 				} ) ;
 			}
 		} ) ;
 
 		connect( m.addAction( tr( "Delete All" ) ),&QAction::triggered,[ this ](){
 
-			m_ctx.TabManager().disableAll() ;
+			this->internalDisableAll() ;
 
 			util::runInBgThread( [ this ](){
 
@@ -100,7 +100,7 @@ library::library( const Context& ctx ) :
 
 				this->showContents( m_currentPath ) ;
 
-				m_ctx.TabManager().enableAll() ;
+				this->internalEnableAll() ;
 			} ) ;
 		} ) ;
 
@@ -177,28 +177,12 @@ void library::init_done()
 
 void library::enableAll()
 {
-	if( m_enableDisableUi ){
-
-		m_table.setEnabled( true ) ;
-		m_ui.pbLibraryQuit->setEnabled( true ) ;
-		m_ui.pbLibraryHome->setEnabled( true ) ;
-		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
-		m_ui.pbLibraryRefresh->setEnabled( true ) ;
-		m_ui.pbLibraryUp->setEnabled( true ) ;
-	}
+	this->enableAll( m_enableGlobalUiChanges ) ;
 }
 
 void library::disableAll()
 {
-	if( m_enableDisableUi ){
-
-		m_table.setEnabled( false ) ;
-		m_ui.pbLibraryQuit->setEnabled( false ) ;
-		m_ui.pbLibraryHome->setEnabled( false ) ;
-		m_ui.pbLibraryDowloadFolder->setEnabled( false ) ;
-		m_ui.pbLibraryRefresh->setEnabled( false ) ;
-		m_ui.pbLibraryUp->setEnabled( false ) ;
-	}
+	this->disableAll( m_enableGlobalUiChanges ) ;
 }
 
 void library::resetMenu()
@@ -216,6 +200,52 @@ void library::tabEntered()
 
 void library::tabExited()
 {
+}
+
+void library::enableAll( bool e )
+{
+	if( e ){
+
+		m_table.setEnabled( true ) ;
+		m_ui.pbLibraryQuit->setEnabled( true ) ;
+		m_ui.pbLibraryHome->setEnabled( true ) ;
+		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
+		m_ui.pbLibraryRefresh->setEnabled( true ) ;
+		m_ui.pbLibraryUp->setEnabled( true ) ;
+	}
+}
+
+void library::disableAll( bool e )
+{
+	if( e ){
+
+		m_table.setEnabled( false ) ;
+		m_ui.pbLibraryQuit->setEnabled( false ) ;
+		m_ui.pbLibraryHome->setEnabled( false ) ;
+		m_ui.pbLibraryDowloadFolder->setEnabled( false ) ;
+		m_ui.pbLibraryRefresh->setEnabled( false ) ;
+		m_ui.pbLibraryUp->setEnabled( false ) ;
+	}
+}
+
+void library::internalEnableAll()
+{
+	if( m_enableGlobalUiChanges ){
+
+		m_ctx.TabManager().enableAll() ;
+	}else{
+		this->enableAll( true ) ;
+	}
+}
+
+void library::internalDisableAll()
+{
+	if( m_enableGlobalUiChanges ){
+
+		m_ctx.TabManager().disableAll() ;
+	}else{
+		this->disableAll( true ) ;
+	}
 }
 
 struct Icon{
@@ -273,7 +303,7 @@ void library::showContents( const QString& path,bool disableUi )
 
 	if( disableUi ){
 
-		m_ctx.TabManager().disableAll() ;
+		this->internalDisableAll() ;
 	}
 
 	util::runInBgThread( [ path,this ](){
@@ -284,7 +314,7 @@ void library::showContents( const QString& path,bool disableUi )
 
 		if( disableUi ){
 
-			m_ctx.TabManager().enableAll() ;
+			this->internalEnableAll() ;
 		}
 
 		auto& font = m_ctx.mainWidget().font() ;

@@ -433,7 +433,7 @@ void playlistdownloader::retranslateUi()
 
 void playlistdownloader::tabEntered()
 {
-	if( m_table.noneAreRunning() ){
+	if( m_table.noneAreRunning() && !m_gettingPlaylist ){
 
 		m_ui.pbPLOptions->setEnabled( m_table.rowCount() > 0 ) ;
 		m_ui.pbPLCancel->setEnabled( false ) ;
@@ -649,12 +649,13 @@ void playlistdownloader::getList()
 		auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
 				opts.ctx.TabManager().disableAll() ;
-
+				m_gettingPlaylist = true ;
 				m_ui.pbPLCancel->setEnabled( true ) ;
 
 			},[ this ]( utility::ProcessExitState,const playlistdownloader::opts& ){
 
 				m_ctx.TabManager().enableAll() ;
+				m_gettingPlaylist = false ;
 				m_ui.pbPLCancel->setEnabled( false ) ;
 			}
 		) ;

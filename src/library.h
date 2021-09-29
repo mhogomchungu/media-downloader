@@ -46,10 +46,14 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 private:
+	void enableAll( bool ) ;
+	void disableAll( bool ) ;
+	void internalEnableAll() ;
+	void internalDisableAll() ;
 	void showContents( const QString&,bool disableUi = true ) ;
 	void moveUp() ;
 	const Context& m_ctx ;
-	bool m_enableDisableUi ;
+	bool m_enableGlobalUiChanges ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	tableWidget m_table ;
