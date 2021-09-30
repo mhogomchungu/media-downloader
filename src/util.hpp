@@ -507,7 +507,6 @@ void Timer( int interval,Function&& function )
 		return true ;
 	} ) ;
 }
-
 template< typename WhenCreated,
 	  typename WhenStarted,
 	  typename WhenDone,
@@ -520,45 +519,62 @@ void run( const QString& cmd,
 	  WhenDone whenDone,
 	  WithData withData )
 {
-	auto exe = new QProcess() ;
+	class process : public QObject
+	{
+	public:
+		process( const QString& cmd,
+			 const QStringList& args,
+			 WhenCreated&& whenCreated,
+			 WhenStarted&& whenStarted,
+			 WhenDone&& whenDone,
+			 WithData&& withData ) :
+			m_data( whenCreated( m_exe ) )
+		{
+			QObject::connect( &m_exe,&QProcess::started,
+					  [ this,whenStarted = std::move( whenStarted ) ](){
 
-	using type = util::types::result_of< WhenCreated,QProcess& > ;
+				whenStarted( m_exe ) ;
+			} ) ;
 
-	auto data = std::make_shared< type >( whenCreated( *exe ) ) ;
+			QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,
+					  [ this,withData = std::move( withData ) ](){
 
-	QObject::connect( exe,&QProcess::readyReadStandardOutput,
-			  [ exe,data,withData = std::move( withData ) ](){
+				withData( QProcess::ProcessChannel::StandardOutput,
+					  m_exe.readAllStandardOutput(),m_data ) ;
+			} ) ;
 
-		withData( QProcess::ProcessChannel::StandardOutput,
-			  exe->readAllStandardOutput(),*data ) ;
-	} ) ;
+			QObject::connect( &m_exe,&QProcess::readyReadStandardError,
+					  [ this,withData = std::move( withData ) ](){
 
-	QObject::connect( exe,&QProcess::readyReadStandardError,
-			  [ exe,data,withData = std::move( withData ) ](){
+				withData( QProcess::ProcessChannel::StandardError,
+					  m_exe.readAllStandardError(),m_data ) ;
+			} ) ;
 
-		withData( QProcess::ProcessChannel::StandardError,
-			  exe->readAllStandardError(),*data ) ;
-	} ) ;
+			using cc = void( QProcess::* )( int,QProcess::ExitStatus ) ;
 
-	using process = void( QProcess::* )( int,QProcess::ExitStatus ) ;
+			auto s = static_cast< cc >( &QProcess::finished ) ;
 
-	auto s = static_cast< process >( &QProcess::finished ) ;
+			QObject::connect( &m_exe,s,[ this,whenDone = std::move( whenDone ) ]
+					  ( int e,QProcess::ExitStatus ss ){
 
-	QObject::connect( exe,s,[ data,exe,whenDone = std::move( whenDone ) ]
-			  ( int e,QProcess::ExitStatus ss ){
+				whenDone( e,ss,m_data ) ;
 
-		whenDone( e,ss,*data ) ;
+				this->deleteLater() ;
+			} ) ;
 
-		exe->deleteLater() ;
-	} ) ;
+			m_exe.start( cmd,args ) ;
+		}
+	private:
+		QProcess m_exe ;
+		util::types::result_of< WhenCreated,QProcess& > m_data ;
+	};
 
-	QObject::connect( exe,&QProcess::started,
-			  [ exe,whenStarted = std::move( whenStarted ) ](){
-
-		whenStarted( *exe ) ;
-	} ) ;
-
-	exe->start( cmd,args ) ;
+	new process( cmd,
+		     args,
+		     std::move( whenCreated ),
+		     std::move( whenStarted ),
+		     std::move( whenDone ),
+		     std::move( withData ) ) ;
 }
 
 template< typename WhenCreated,
@@ -573,43 +589,46 @@ void run( const QString& cmd,
 	  WhenDone whenDone,
 	  WithData withData )
 {
-	auto exe = new QProcess() ;
+	util::run( cmd,args,[ whenCreated = std::move( whenCreated ) ]( QProcess& exe ){
 
-	whenCreated( *exe ) ;
+		   whenCreated( exe ) ;
+		   return 0 ;
 
-	QObject::connect( exe,&QProcess::readyReadStandardOutput,
-			  [ exe,withData = std::move( withData ) ](){
+	},[ whenStarted = std::move( whenStarted ) ]( QProcess& exe ){
 
-		withData( QProcess::ProcessChannel::StandardOutput,
-			  exe->readAllStandardOutput() ) ;
-	} ) ;
+		whenStarted( exe ) ;
 
-	QObject::connect( exe,&QProcess::readyReadStandardError,
-			  [ exe,withData = std::move( withData ) ](){
-
-		withData( QProcess::ProcessChannel::StandardError,
-			  exe->readAllStandardError() ) ;
-	} ) ;
-
-	using type = void( QProcess::* )( int,QProcess::ExitStatus ) ;
-
-	auto s = static_cast< type >( &QProcess::finished ) ;
-
-	QObject::connect( exe,s,[ exe,whenDone = std::move( whenDone ) ]
-			  ( int e,QProcess::ExitStatus ss ){
+	},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,int ){
 
 		whenDone( e,ss ) ;
 
-		exe->deleteLater() ;
+	},[ withData = std::move( withData ) ]( QProcess::ProcessChannel channel,QByteArray&& data,int ){
+
+		withData( channel,std::move( data ) ) ;
 	} ) ;
+}
 
-	QObject::connect( exe,&QProcess::started,
-			  [ exe,whenStarted = std::move( whenStarted ) ](){
+template< typename WhenDone >
+void run( const QString& cmd,
+	  const QStringList& args,
+	  WhenDone whenDone,
+	  QProcess::ProcessChannelMode m = QProcess::MergedChannels )
+{
+	util::run( cmd,args,[ m ]( QProcess& exe ){
 
-		whenStarted( *exe ) ;
+		   exe.setProcessChannelMode( m ) ;
+		   return QByteArray() ;
+
+	},[]( QProcess& ){
+
+	},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,const QByteArray& data ){
+
+		whenDone( e,ss,data ) ;
+
+	},[]( QProcess::ProcessChannel,QByteArray&& data,QByteArray& buffer ){
+
+		buffer += std::move( data ) ;
 	} ) ;
-
-	exe->start( cmd,args ) ;
 }
 
 class version{
