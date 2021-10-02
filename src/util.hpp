@@ -614,20 +614,25 @@ void run( const QString& cmd,
 	  WhenDone whenDone,
 	  QProcess::ProcessChannelMode m = QProcess::MergedChannels )
 {
+	struct buffer
+	{
+		QByteArray data ;
+	};
+
 	util::run( cmd,args,[ m ]( QProcess& exe ){
 
 		   exe.setProcessChannelMode( m ) ;
-		   return QByteArray() ;
+		   return buffer() ;
 
 	},[]( QProcess& ){
 
-	},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,const QByteArray& data ){
+	},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,buffer& buff ){
 
-		whenDone( e,ss,data ) ;
+		whenDone( e,ss,std::move( buff.data ) ) ;
 
-	},[]( QProcess::ProcessChannel,QByteArray&& data,QByteArray& buffer ){
+	},[]( QProcess::ProcessChannel,QByteArray&& data,buffer& buff ){
 
-		buffer += std::move( data ) ;
+		buff.data += std::move( data ) ;
 	} ) ;
 }
 
