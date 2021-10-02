@@ -175,7 +175,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="832"/>
         <source>Download Options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje pobierania:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="874"/>
@@ -185,7 +185,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="1063"/>
         <source>Save History</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz historię</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1072"/>
@@ -312,7 +312,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/mainwindow.ui" line="790"/>
         <source>Get List Options:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje pobierania listy:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1489"/>
@@ -455,7 +455,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/engines.cpp" line="404"/>
         <source>Failed To Load A Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Niepowodzenie podczas ładowania wtyczki</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="479"/>
@@ -604,7 +604,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/utility.h" line="372"/>
         <source>Force Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymuś pobieranie</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="390"/>
