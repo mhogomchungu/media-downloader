@@ -70,7 +70,7 @@ Version 1.2.0(April 1st, 2021)
   - Update translations.
   - Add ability to show history of receantly used commands in all relevant places.
 
-  Version 1.7.0(Unreleased)
+  Version 1.7.0(October 2nd, 2021)
   - Switch default engine from youtube-dl to yt-dlp.
   - Add "--break-on-existing" playlist downloader option to stop processing playlist when the id of a current entry is found in the
     archive file. This option goes in the "Get List Options" text field in the playlist downloader tab.
