@@ -426,12 +426,24 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 		}
 	}
 
-	const auto& l = data.last() ;
+	if( s.lastLineIsProgressLine() ){
 
-	if( l.startsWith( "[download]  " ) && l.contains( " ETA " ) ){
+		const auto& mm = s.lastText() ;
 
-		m_tmp = l ;
-		m_tmp.replace( "[download]  ","" ) ;
+		auto w = mm.indexOf( ' ' ) ;
+
+		if( w != -1 ){
+
+			for( ; w < mm.size() ; w++ ){
+
+				if( mm[ w ] != ' ' ){
+
+					break ;
+				}
+			}
+		}
+
+		m_tmp = mm.mid( w ) ;
 		m_tmp = m_fileName + "\n" + m_tmp ;
 
 		return m_tmp ;

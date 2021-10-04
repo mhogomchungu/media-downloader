@@ -1,0 +1,64 @@
+{
+    "BackendPath": "${default}",
+    "BatchFileArgument": "-a",
+    "CanDownloadPlaylist": true,
+    "CommandName": "yt-dlp",
+    "CommandName32BitWindows": "yt-dlp_x86.exe",
+    "CommandNameWindows": "yt-dlp.exe",
+    "ControlJsonStructure": {
+        "Connector": "&&",
+        "lhs": {
+            "startsWith": "[#"
+        },
+        "rhs": {
+            "contains": "CN:"
+        }
+    },
+     "CommandNames": [
+        "stdbuf",
+        "-o",
+        "L",
+        "yt-dlp"
+    ],
+    "CookieArgument": "--cookies",
+    "DefaultDownLoadCmdOptions": [
+        "--downloader",
+        "aria2c",
+        "--ignore-config",
+        "--no-playlist",
+        "-o",
+        "%(title)s-%(id)s.%(ext)s"
+    ],
+    "DefaultListCmdOptions": [
+        "-F",
+        "--list-formats-old"
+    ],
+    "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
+    "LikeYoutubeDl": true,
+    "Name": "yt-dlp-aria2c",
+    "OptionsArgument": "-f",
+    "PlayListIdArguments": [
+        "--get-id",
+        "--get-title",
+        "--get-thumbnail"
+    ],
+    "PlaylistItemsArgument": "--playlist-items",
+    "RemoveText": [
+    ],
+    "ReplaceOutputWithProgressReport": false,
+    "RequiredMinimumVersionOfMediaDownloader": "",
+    "ShowListTableBoundary": {
+        "ColumnNumber": "0",
+        "Comparator": "contains",
+        "String": "--"
+    },
+    "SkipLineWithText": [
+        "(pass -k to keep)"
+    ],
+    "SplitLinesBy": [
+        "\n"
+    ],
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 0
+}

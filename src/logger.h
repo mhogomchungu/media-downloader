@@ -66,6 +66,10 @@ public:
 		{
 			return m_lines[ m_lines.size() - 1 ].text() ;
 		}
+		bool lastLineIsProgressLine() const
+		{
+			return m_lines[ m_lines.size() - 1 ].progressLine() ;
+		}
 		void clear()
 		{
 			m_lines.clear() ;
@@ -174,9 +178,10 @@ public:
 		class line
 		{
 		public:
-			line( const QString& text,int id ) :
+			line( const QString& text,int id,bool p = false ) :
 				m_text( text ),
-				m_id( id )
+				m_id( id ),
+				m_progressLine( p )
 			{
 			}
 			line( const QString& text ) :
@@ -192,6 +197,14 @@ public:
 			{
 				return m_text ;
 			}
+			bool progressLine() const
+			{
+				return m_progressLine ;
+			}
+			bool progressLine()
+			{
+				return m_progressLine ;
+			}
 			int id()
 			{
 				return m_id ;
@@ -202,11 +215,13 @@ public:
 			}
 			void replace( const QString& text )
 			{
+				m_progressLine = true ;
 				m_text = text ;
 			}
 		private:
 			QString m_text ;
 			int m_id ;
+			bool m_progressLine ;
 		} ;
 		std::vector< Logger::Data::line > m_lines ;
 	} ;

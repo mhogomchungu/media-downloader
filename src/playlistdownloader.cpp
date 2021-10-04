@@ -806,7 +806,7 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 		network.getResource( thumbnailUrl,
 				     [ this,&table,s,row,
-				     media = std::move( media ) ]( QByteArray data ){
+				     media = std::move( media ) ]( const QByteArray& data ){
 
 			QPixmap pixmap ;
 
