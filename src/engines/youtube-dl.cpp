@@ -441,6 +441,8 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 					break ;
 				}
 			}
+		}else{
+			w = 0 ;
 		}
 
 		m_tmp = mm.mid( w ) ;

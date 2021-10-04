@@ -225,6 +225,8 @@ void engines::updateEngines( bool addAll )
 
 		_engine_add( { *this,m_logger,"ffmpeg","-version",0,2 } ) ;
 
+		_engine_add( { *this,m_logger,"aria2c","--version",0,2 } ) ;
+
 		for( const auto& it : this->getEngines() ){
 
 			const auto& e = it.exePath().exe() ;

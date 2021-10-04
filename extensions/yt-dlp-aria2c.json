@@ -14,7 +14,7 @@
             "contains": "CN:"
         }
     },
-     "CommandNames": [
+    "CommandNames": [
         "stdbuf",
         "-o",
         "L",
@@ -53,10 +53,12 @@
         "String": "--"
     },
     "SkipLineWithText": [
-        "(pass -k to keep)"
+        "(pass -k to keep)",
+        "                                                                               "
     ],
     "SplitLinesBy": [
-        "\n"
+        "\n",
+        "\r"
     ],
     "VersionArgument": "--version",
     "VersionStringLine": 0,
