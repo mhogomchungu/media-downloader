@@ -103,6 +103,14 @@ namespace utility
 		{
 			return "${default}" ;
 		}
+		static QString backendPath()
+		{
+			return "${BackendPath}" ;
+		}
+		static QString commandName()
+		{
+			return "${CommandName}" ;
+		}
 	private:
 	};
 

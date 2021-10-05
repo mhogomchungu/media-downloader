@@ -1,0 +1,50 @@
+{
+    "BackendPath": "${default}",
+    "BatchFileArgument": "",
+    "CanDownloadPlaylist": false,
+    "CommandName": "aria2c",
+    "CommandNameWindows": "aria2c.exe",
+    "CommandNames": [
+        "stdbuf",
+        "-o",
+        "L",
+        "aria2c"
+    ],
+    "ControlJsonStructure": {
+        "Connector": "&&",
+        "lhs": {
+            "startsWith": "[#"
+        },
+        "rhs": {
+            "contains": "CN:"
+        }
+    },
+    "CookieArgument": "",
+    "DefaultDownLoadCmdOptions": [
+    ],
+    "DefaultListCmdOptions": [
+    ],
+    "DownloadUrl": "",
+    "LikeYoutubeDl": false,
+    "Name": "aria2c",
+    "OptionsArgument": "",
+    "PlayListIdArguments": [
+    ],
+    "PlaylistItemsArgument": "",
+    "RemoveText": [
+    ],
+    "ReplaceOutputWithProgressReport": false,
+    "RequiredMinimumVersionOfMediaDownloader": "",
+    "ShowListTableBoundary": {
+    },
+    "SkipLineWithText": [
+        "                                                                               "
+    ],
+    "SplitLinesBy": [
+        "\n",
+        "\r"
+    ],
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 2
+}

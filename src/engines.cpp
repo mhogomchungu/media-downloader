@@ -23,6 +23,7 @@
 #include "engines/generic.h"
 #include "engines/safaribooks.h"
 #include "engines/gallery-dl.h"
+#include "engines/aria2c.h"
 
 #include "downloadmanager.h"
 #include "utility.h"
@@ -133,9 +134,19 @@ static void _openUrls( tableWidget& table,int row,settings& settings,bool galler
 
 				QDesktopServices::openUrl( m ) ;
 			}else{
-				auto m = QUrl::fromLocalFile( settings.downloadFolder() + "/" + it ) ;
+				auto s = QDir::fromNativeSeparators( it ) ;
+				auto ss = QDir::fromNativeSeparators( settings.downloadFolder() ) ;
 
-				QDesktopServices::openUrl( m ) ;
+				if( s.startsWith( ss ) ){
+
+					auto m = QUrl::fromLocalFile( s ) ;
+
+					QDesktopServices::openUrl( m ) ;
+				}else{
+					auto m = QUrl::fromLocalFile( settings.downloadFolder() + "/" + it ) ;
+
+					QDesktopServices::openUrl( m ) ;
+				}
 			}
 		}
 	}
@@ -149,7 +160,7 @@ void engines::openUrls( tableWidget& table,int row,const QString& engineName ) c
 	}else{
 		const auto& engine = this->getEngineByName( engineName ) ;
 
-		if( engine && ( engine->likeYoutubeDl() || engine->name() == "gallery-dl" ) ) {
+		if( engine ) {
 
 			_openUrls( table,row,m_settings,engine->name() == "gallery-dl" ) ;
 		}
@@ -254,6 +265,10 @@ void engines::updateEngines( bool addAll )
 		}else if( name == "gallery-dl" ){
 
 			it.setBackend< gallery_dl >( *this ) ;
+
+		}else if( name == "aria2c" ){
+
+			it.setBackend< aria2c >( *this ) ;
 
 		}else if( it.mainEngine() ){
 
@@ -561,8 +576,9 @@ engines::engine::engine( Logger& logger,
 	}
 
 	auto defaultPath = utility::stringConstants::defaultPath() ;
+	auto backendPath = utility::stringConstants::backendPath() ;
 
-	if( m_exeFolderPath == defaultPath || m_exeFolderPath == "${BackendPath}" ){
+	if( m_exeFolderPath == defaultPath || m_exeFolderPath == backendPath ){
 
 		m_exeFolderPath = ePaths.binPath() ;
 	}
@@ -596,8 +612,8 @@ engines::engine::engine( Logger& logger,
 
 		for( auto& it : cmdNames ){
 
-			it.replace( "${BackendPath}",ePaths.binPath() ) ;
-			it.replace( "${CommandName}",commandName ) ;
+			it.replace( backendPath,ePaths.binPath() ) ;
+			it.replace( utility::stringConstants::commandName(),commandName ) ;
 		}
 
 		auto subCmd = [ & ]()->QString{
@@ -1328,4 +1344,9 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 	m_configFileName( m_name + ".json" )
 {
 	youtube_dl::init( this->name(),this->configFileName(),logger,enginePath ) ;
+
+	if( utility::platformIsWindows() ){
+
+		aria2c::init( "aria2c","aria2c.json",logger,enginePath ) ;
+	}
 }

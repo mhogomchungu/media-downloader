@@ -64,6 +64,7 @@ Version 1.2.0(April 1st, 2021)
   global options that are set in the "Enter Options" field.
 
   Version 1.6.0(August 4th, 2021)
+    [All]
   - Add a context menu in the batch downloader tab and playlist downloader tab to save add added entries to disk.
   - Show progress in the title bar when downloading media through the batch downloader tab and playlist downloader tab.
   - Add "--max-media-length" and "--min-media-length" options to exclude playlist entries that falls outside the media lenght boundary.
@@ -71,6 +72,7 @@ Version 1.2.0(April 1st, 2021)
   - Add ability to show history of receantly used commands in all relevant places.
 
   Version 1.7.0(October 2nd, 2021)
+    [All]
   - Switch default engine from youtube-dl to yt-dlp.
   - Add "--break-on-existing" playlist downloader option to stop processing playlist when the id of a current entry is found in the
     archive file. This option goes in the "Get List Options" text field in the playlist downloader tab.
@@ -80,3 +82,11 @@ Version 1.2.0(April 1st, 2021)
   - Above three options in combination with manual setting of archive file option
     (configure tab->engine default option tab->"default download options" text field  makes it possible to
     easily monitor and download new entries in playlists.
+
+  Version 1.8.0(Unreleased)
+    [Windows]
+  - Bundle "aria2c" binary.
+  - Bundle "aria2c" extension.
+    [All]
+  - Add support for "yt-dlp-aria2c" extension that causes yt-dlp extension to use aria2c as its downloader.
+  - Add support for "aria2c" extension.

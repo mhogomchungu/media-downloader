@@ -18,7 +18,7 @@
         "stdbuf",
         "-o",
         "L",
-        "yt-dlp"
+        "${BackendPath}/yt-dlp"
     ],
     "CookieArgument": "--cookies",
     "DefaultDownLoadCmdOptions": [

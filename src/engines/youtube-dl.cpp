@@ -445,8 +445,7 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 			w = 0 ;
 		}
 
-		m_tmp = mm.mid( w ) ;
-		m_tmp = m_fileName + "\n" + m_tmp ;
+		m_tmp = m_fileName + "\n" + mm.mid( w ) ;
 
 		return m_tmp ;
 	}

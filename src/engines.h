@@ -266,8 +266,7 @@ public:
 				}
 				const QString& operator()( const Logger::Data& e )
 				{
-					auto& function = *m_filter ;
-					return function( e ) ;
+					return ( *m_filter )( e ) ;
 				}
 			private:
 				std::unique_ptr< engines::engine::functions::filter > m_filter ;

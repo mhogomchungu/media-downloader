@@ -85,6 +85,7 @@ set(SRC
     src/engines/youtube-dl.cpp
     src/engines/safaribooks.cpp
     src/engines/generic.cpp
+    src/engines/aria2c.cpp
     src/engines/gallery-dl.cpp)
 
 set(RESOURCES
