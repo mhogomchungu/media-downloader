@@ -219,6 +219,8 @@ const QString& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )
 
 		m_tmp = mm.mid( w ) ;
 
+		m_tmp = m_tmp.mid( 0,m_tmp.size() - 1 ) ;
+
 		return m_tmp ;
 	}
 

@@ -1147,6 +1147,11 @@ engines::engine::functions::filter::~filter()
 {
 }
 
+const engines::engine& engines::engine::functions::filter::engine() const
+{
+	return m_engine ;
+}
+
 const QString& engines::engine::functions::filter::quality() const
 {
 	return m_quality ;

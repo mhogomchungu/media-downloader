@@ -249,6 +249,7 @@ public:
 				filter( const QString& quality,const engines::engine& engine ) ;
 				virtual const QString& operator()( const Logger::Data& e ) ;
 				virtual ~filter() ;
+				const engines::engine& engine() const ;
 			protected:
 				const QString& quality() const ;
 			private:

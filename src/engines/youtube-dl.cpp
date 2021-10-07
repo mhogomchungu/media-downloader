@@ -382,7 +382,7 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 }
 
 youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::engine& engine ) :
-	engines::engine::functions::filter( e,engine )
+	engines::engine::functions::filter( e,engine ),m_engine( engine )
 {
 }
 
@@ -445,7 +445,14 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 			w = 0 ;
 		}
 
-		m_tmp = m_fileName + "\n" + mm.mid( w ) ;
+		if( m_engine.name() == "yt-dlp-aria2c" ){
+
+			auto ss = mm.mid( w ) ;
+
+			m_tmp = m_fileName + "\n" + ss.mid( 0,ss.size() - 1 ) ;
+		}else{
+			m_tmp = m_fileName + "\n" + mm.mid( w ) ;
+		}
 
 		return m_tmp ;
 	}

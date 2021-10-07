@@ -39,6 +39,7 @@ public:
 		engines::engine::functions::postProcessing m_postProcessing ;
 		QString m_tmp ;
 		QString m_fileName ;
+		const engines::engine& m_engine ;
 	} ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;
