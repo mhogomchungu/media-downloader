@@ -23,8 +23,7 @@
         "%(title)s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
-        "-F",
-        "--list-formats-old"
+        "-F"
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
     "LikeYoutubeDl": true,
@@ -45,6 +44,13 @@
         "Comparator": "contains",
         "String": "--"
     },
+    "ShowListTableExtraBoundaries": [
+        {
+            "ColumnNumber": "0",
+            "Comparator": "equals",
+            "String": "format"
+        }
+    ],
     "SkipLineWithText": [
         "(pass -k to keep)"
     ],

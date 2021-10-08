@@ -18,6 +18,7 @@
  */
 
 #include <QByteArray>
+#include <QJsonArray>
 
 #include "../engines.h"
 
@@ -39,8 +40,9 @@ public:
 		engines::engine::functions::postProcessing m_postProcessing ;
 		QString m_tmp ;
 		QString m_fileName ;
-		const engines::engine& m_engine ;
 	} ;
+
+	virtual bool breakShowListIfContains( const QStringList& ) override ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;
 
@@ -61,4 +63,5 @@ public:
 private:
 	const engines& m_engines ;
 	const engines::engine& m_engine ;
+	QJsonArray m_objs ;
 };

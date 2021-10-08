@@ -250,29 +250,31 @@ void engines::updateEngines( bool addAll )
 		}
 	}
 
+	const auto& engines = *this ;
+
 	for( auto& it : m_backends ){
 
 		const auto& name = it.name() ;
 
 		if( it.likeYoutubeDl() ){
 
-			it.setBackend< youtube_dl >( *this ) ;
+			it.setBackend< youtube_dl >( engines ) ;
 
 		}else if( name == "safaribooks" ){
 
-			it.setBackend< safaribooks >( *this ) ;
+			it.setBackend< safaribooks >( engines ) ;
 
 		}else if( name == "gallery-dl" ){
 
-			it.setBackend< gallery_dl >( *this ) ;
+			it.setBackend< gallery_dl >( engines ) ;
 
 		}else if( name == "aria2c" ){
 
-			it.setBackend< aria2c >( *this ) ;
+			it.setBackend< aria2c >( engines ) ;
 
 		}else if( it.mainEngine() ){
 
-			it.setBackend< generic >( *this ) ;
+			it.setBackend< generic >( engines ) ;
 		}
 	}
 }
@@ -468,7 +470,7 @@ QStringList engines::enginesList() const
 	return m ;
 }
 
-engines::engine::engine( Logger& logger ) : m_showListBreaker( logger )
+engines::engine::engine( Logger& )
 {
 }
 
@@ -485,8 +487,7 @@ engines::engine::engine( const engines& engines,
 	m_name( name ),
 	m_commandName( name ),
 	m_commandNameWindows( m_commandName + ".exe" ),
-	m_versionArgument( versionArgument ),
-	m_showListBreaker( logger )
+	m_versionArgument( versionArgument )
 {
 	auto m = engines.findExecutable( m_commandName ) ;
 
@@ -530,8 +531,7 @@ engines::engine::engine( Logger& logger,
 	m_skiptLineWithText( _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ),
 	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ),true ) ),
 	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ),
-	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() ),
-	m_showListBreaker( logger,m_jsonObject.value( "ShowListTableBoundary" ).toObject() )
+	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() )
 {
 	if( utility::platformIs32BitWindows() ){
 
@@ -682,12 +682,7 @@ const QString& engines::engine::commandName() const
 
 bool engines::engine::breakShowListIfContains( const QStringList& e ) const
 {
-	if( m_showListBreaker ){
-
-		return m_showListBreaker.breakerFound( e ) ;
-	}else{
-		return e.at( 0 ) == "format" || e.at( 2 ).contains( "-" ) ;
-	}
+	return m_functions->breakShowListIfContains( e ) ;
 }
 
 QString engines::engine::versionString( const QString& data ) const
@@ -748,6 +743,11 @@ QString engines::engine::functions::processCompleteStateText( const engine::engi
 
 engines::engine::functions::~functions()
 {
+}
+
+bool engines::engine::functions::breakShowListIfContains( const QStringList& )
+{
+	return false ;
 }
 
 engines::engine::functions::DataFilter engines::engine::functions::Filter( const QString& e )
@@ -1220,43 +1220,6 @@ const QString& engines::engine::functions::postProcessing::text( const QString& 
 	m_txt = e + "\n" + m_processingDefaultText + m_counterDots ;
 
 	return m_txt ;
-}
-
-engines::engine::showListBreaker::showListBreaker( Logger& )
-{
-}
-
-engines::engine::showListBreaker::showListBreaker( Logger&,QJsonObject o ) :
-	m_obj( std::move( o ) )
-{
-	if( !m_obj.isEmpty() ){
-
-		auto a = m_obj.value( "ColumnNumber" ).toString() ;
-		m_cmp  = m_obj.value( "Comparator" ).toString() ;
-		m_text = m_obj.value( "String" ).toString() ;
-
-		if( !a.isEmpty() && !m_cmp.isEmpty() && !m_text.isEmpty() ){
-
-			m_number = a.toInt( &m_valid ) ;
-		}
-	}
-}
-
-bool engines::engine::showListBreaker::breakerFound( const QStringList& e ) const
-{
-	if( m_number < e.size() ){
-
-		if( m_cmp == "equals" ){
-
-			return m_text == e[ m_number ] ;
-
-		}else if( m_cmp == "contains" ){
-
-			return e[ m_number ].contains( m_text ) ;
-		}
-	}
-
-	return false ;
 }
 
 bool engines::engine::functions::timer::timerText( const QString& e )

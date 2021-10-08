@@ -26,6 +26,9 @@ public:
 			  const QString& configFileName,
 			  Logger& logger,
 			  const engines::enginePaths& enginePath ) ;
+
+	static void trimProgressLine( QString& ) ;
+
 	~aria2c() override ;
 
 	aria2c( const engines&,const engines::engine&,QJsonObject& ) ;

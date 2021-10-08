@@ -137,6 +137,11 @@ void aria2c::init( const QString& name,
 	}
 }
 
+void aria2c::trimProgressLine( QString& e )
+{
+	e.truncate( e.size() - 1 ) ;
+}
+
 aria2c::~aria2c()
 {
 }
@@ -219,7 +224,7 @@ const QString& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )
 
 		m_tmp = mm.mid( w ) ;
 
-		m_tmp = m_tmp.mid( 0,m_tmp.size() - 1 ) ;
+		aria2c::trimProgressLine( m_tmp ) ;
 
 		return m_tmp ;
 	}

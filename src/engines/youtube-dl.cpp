@@ -28,6 +28,8 @@
 
 #include "../downloadmanager.h"
 
+#include "aria2c.h"
+
 static QJsonObject _defaultControlStructure()
 {
 	QJsonObject obj ;
@@ -79,12 +81,7 @@ void youtube_dl::init( const QString& name,
 				return obj ;
 			}() ) ;
 
-			mainObj.insert( "DefaultListCmdOptions",[](){
-
-				QJsonArray arr ;
-				arr.append( "-F" ) ;
-				return arr ;
-			}() ) ;
+			mainObj.insert( "ShowListTableExtraBoundaries",QJsonArray() ) ;
 
 			mainObj.insert( "CommandName","youtube-dl" ) ;
 
@@ -103,11 +100,17 @@ void youtube_dl::init( const QString& name,
 				return obj ;
 			}() ) ;
 
-			mainObj.insert( "DefaultListCmdOptions",[](){
+			mainObj.insert( "ShowListTableExtraBoundaries",[](){
 
 				QJsonArray arr ;
-				arr.append( "-F" ) ;
-				arr.append( "--list-formats-old" ) ;
+
+				QJsonObject obj ;
+
+				obj.insert( "ColumnNumber","0" ) ;
+				obj.insert( "Comparator","equals" ) ;
+				obj.insert( "String","format" ) ;
+
+				arr.append( obj ) ;
 
 				return arr ;
 			}() ) ;
@@ -120,6 +123,14 @@ void youtube_dl::init( const QString& name,
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
+
+		mainObj.insert( "DefaultListCmdOptions",[](){
+
+			QJsonArray arr ;
+			arr.append( "-F" ) ;
+
+			return arr ;
+		}() ) ;
 
 		mainObj.insert( "Name",name ) ;
 
@@ -134,10 +145,6 @@ void youtube_dl::init( const QString& name,
 			arr.append( "--no-playlist" ) ;
 			arr.append( "-o" ) ;
 			arr.append( "%(title)s-%(id)s.%(ext)s" ) ;
-
-			//auto m = utility::stringConstants::mediaDownloaderDataPath() ;
-			//arr.append( "--download-archive" ) ;
-			//arr.append( m + "/download_archive.txt" ) ;
 
 			return arr ;
 		}() ) ;
@@ -226,6 +233,29 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 		object.insert( "ShowListTableBoundary",obj ) ;
 	}
 
+	if( !object.contains( "ShowListTableExtraBoundaries" ) ){
+
+		if( m_engine.name() == "youtube-dl" ){
+
+			object.insert( "ShowListTableExtraBoundaries",QJsonArray() ) ;
+		}else{
+			object.insert( "ShowListTableExtraBoundaries",[](){
+
+				QJsonArray arr ;
+
+				QJsonObject obj ;
+
+				obj.insert( "ColumnNumber","0" ) ;
+				obj.insert( "Comparator","equals" ) ;
+				obj.insert( "String","format" ) ;
+
+				arr.append( obj ) ;
+
+				return arr ;
+			}() ) ;
+		}
+	}
+
 	if( !object.contains( "CookieArgument" ) ){
 
 		object.insert( "CookieArgument","--cookies" ) ;
@@ -278,10 +308,63 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 	}
 
 	object.insert( "UsePrivateExecutable",!engines.Settings().useSystemProvidedVersionIfAvailable() ) ;
+
+	m_objs = object.value( "ShowListTableExtraBoundaries" ).toArray() ;
+	m_objs.insert( 0,object.value( "ShowListTableBoundary" ).toObject() ) ;
 }
 
 youtube_dl::~youtube_dl()
 {
+}
+
+bool youtube_dl::breakShowListIfContains( const QStringList& e )
+{
+	auto _match_found = []( const QJsonObject& obj,const QStringList& e ){
+
+		auto a    = obj.value( "ColumnNumber" ).toString() ;
+		auto cmp  = obj.value( "Comparator" ).toString() ;
+		auto text = obj.value( "String" ).toString() ;
+
+		if( !a.isEmpty() && !cmp.isEmpty() && !text.isEmpty() ){
+
+			bool valid ;
+			auto number = a.toInt( &valid ) ;
+
+			if( valid && number < e.size() ){
+
+				if( cmp == "equals" ){
+
+					return text == e[ number ] ;
+
+				}else if( cmp == "contains" ){
+
+					return e[ number ].contains( text ) ;
+				}
+			}
+		}
+
+		return false ;
+	} ;
+
+	if( m_objs.size() == 0 ){
+
+		if( e.size() > 1 ){
+
+			return e.at( 0 ) == "format" || e.at( 2 ).contains( "-" ) ;
+		}else{
+			return false ;
+		}
+	}else{
+		for( const auto& it : util::asConst( m_objs ) ){
+
+			if( it.isObject() && _match_found( it.toObject(),e ) ){
+
+				return true ;
+			}
+		}
+
+		return false ;
+	}
 }
 
 engines::engine::functions::DataFilter youtube_dl::Filter( const QString& e )
@@ -382,7 +465,7 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 }
 
 youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::engine& engine ) :
-	engines::engine::functions::filter( e,engine ),m_engine( engine )
+	engines::engine::functions::filter( e,engine )
 {
 }
 
@@ -445,13 +528,13 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 			w = 0 ;
 		}
 
-		if( m_engine.name() == "yt-dlp-aria2c" ){
+		m_tmp = m_fileName + "\n" + mm.mid( w ) ;
 
-			auto ss = mm.mid( w ) ;
+		const auto& engine = engines::engine::functions::filter::engine() ;
 
-			m_tmp = m_fileName + "\n" + ss.mid( 0,ss.size() - 1 ) ;
-		}else{
-			m_tmp = m_fileName + "\n" + mm.mid( w ) ;
+		if( engine.name() == "yt-dlp-aria2c" ){
+
+			aria2c::trimProgressLine( m_tmp ) ;
 		}
 
 		return m_tmp ;

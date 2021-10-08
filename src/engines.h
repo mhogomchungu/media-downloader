@@ -275,6 +275,8 @@ public:
 
 			virtual ~functions() ;
 
+			virtual bool breakShowListIfContains( const QStringList& ) ;
+
 			virtual DataFilter Filter( const QString& ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
@@ -344,7 +346,6 @@ public:
 								   *this,
 								   m_jsonObject,
 								   std::forward< Args >( args ) ... ) ;
-
 		}
 		const QString& commandName() const ;
 
@@ -520,24 +521,6 @@ public:
 		QJsonObject m_controlStructure ;
 
 		exeArgs m_exePath ;
-
-		class showListBreaker
-		{
-		public:
-			showListBreaker( Logger& l ) ;
-			showListBreaker( Logger& l,QJsonObject o ) ;
-			bool breakerFound( const QStringList& e ) const ;
-			operator bool() const
-			{
-				return m_valid ;
-			}
-		private:
-			QJsonObject m_obj ;
-			QString m_cmp ;
-			QString m_text ;
-			int m_number ;
-			bool m_valid = false ;
-		} m_showListBreaker ;
 	};
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
