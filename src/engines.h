@@ -130,9 +130,7 @@ public:
 				QString m_exe ;
 			} ;
 
-			exeArgs()
-			{
-			}
+			exeArgs() = default;
 			exeArgs( const QString& e ) :
 				m_exe( e ),m_realExe( e )
 			{

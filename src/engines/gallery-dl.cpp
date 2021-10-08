@@ -89,9 +89,6 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
 						 const engines::engine::functions::finishedState& f )
 {
-	auto m = engines::engine::functions::processCompleteStateText( f ) ;
-	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
-
 	if( f.success() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,f ) ;

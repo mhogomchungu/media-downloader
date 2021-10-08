@@ -119,13 +119,13 @@ void batchfiledownloader::download()
 		return ;
 	}
 
-	auto options = m_ui.lineEditFileOptions->text() ;
-
 	QString list = engines::file( url,m_ctx.logger() ).readAll() ;
 
 	if( !list.isEmpty() ){
 
 		auto l = util::split( list,'\n',true ) ;
+
+		auto options = m_ui.lineEditFileOptions->text();
 
 		auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
 

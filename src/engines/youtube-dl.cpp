@@ -379,11 +379,11 @@ void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 	if( !a.isEmpty() && !e.isEmpty() ){
 
-		auto args = util::split( a,' ',true ) ;
-
 		auto b = settings.downloadFolder() + "/" + util::split( e,'\n',true ).at( 0 ) ;
 
 		if( QFile::exists( b ) ){
+
+			auto args = util::split(a, ' ', true);
 
 			args.append( b ) ;
 
@@ -398,9 +398,6 @@ QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
 						 const engines::engine::functions::finishedState& f )
 {
-	auto m = engines::engine::functions::processCompleteStateText( f ) ;
-	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
-
 	if( f.cancelled() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;

@@ -174,7 +174,6 @@ namespace utility
 		template< typename T >
 		void removeOption( const T& opt ) const
 		{
-			QString m ;
 			this->hasOption( opt,true ) ;
 		}
 		template< typename T >
