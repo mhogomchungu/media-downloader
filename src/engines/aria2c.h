@@ -40,7 +40,7 @@ public:
 
 		const QString& operator()( const Logger::Data& e ) override ;
 
-		virtual ~aria2c_dlFilter() override ;
+		~aria2c_dlFilter() override ;
 	private:
 		engines::engine::functions::preProcessing m_preProcessing ;
 		QString m_tmp ;

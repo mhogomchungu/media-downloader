@@ -34,7 +34,7 @@ public:
 
 		const QString& operator()( const Logger::Data& e ) override ;
 
-		virtual ~youtube_dlFilter() override ;
+		~youtube_dlFilter() override ;
 	private:
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
@@ -42,7 +42,7 @@ public:
 		QString m_fileName ;
 	} ;
 
-	virtual bool breakShowListIfContains( const QStringList& ) override ;
+	bool breakShowListIfContains( const QStringList& ) override ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;
 
@@ -58,8 +58,8 @@ public:
 			  const QString& configFileName,
 			  Logger& logger,
 			  const engines::enginePaths& enginePath ) ;
+
 	youtube_dl( const engines&,const engines::engine&,QJsonObject& ) ;
-	static QJsonObject defaultControlStructure() ;
 private:
 	const engines& m_engines ;
 	const engines::engine& m_engine ;

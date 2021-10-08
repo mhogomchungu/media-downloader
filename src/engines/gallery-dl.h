@@ -36,7 +36,7 @@ public:
 
 		const QString& operator()( const Logger::Data& e ) override ;
 
-		virtual ~gallery_dlFilter() override ;
+		~gallery_dlFilter() override ;
 	private:
 		QString m_tmp ;
 	} ;
