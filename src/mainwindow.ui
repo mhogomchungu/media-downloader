@@ -1194,7 +1194,7 @@ Each Link Should Be In Its Own Line.</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1226,9 +1226,9 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelConfigureLanguage">
         <property name="geometry">
          <rect>
-          <x>0</x>
+          <x>10</x>
           <y>10</y>
-          <width>181</width>
+          <width>171</width>
           <height>31</height>
          </rect>
         </property>
@@ -1278,9 +1278,9 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>-2</x>
+          <x>8</x>
           <y>90</y>
-          <width>181</width>
+          <width>171</width>
           <height>31</height>
          </rect>
         </property>
@@ -1323,9 +1323,9 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelConfigureScaleFactor">
         <property name="geometry">
          <rect>
-          <x>-2</x>
+          <x>8</x>
           <y>50</y>
-          <width>181</width>
+          <width>171</width>
           <height>31</height>
          </rect>
         </property>
@@ -1378,9 +1378,9 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelMaximumConcurrentDownloads">
         <property name="geometry">
          <rect>
-          <x>-2</x>
+          <x>8</x>
           <y>310</y>
-          <width>181</width>
+          <width>171</width>
           <height>31</height>
          </rect>
         </property>
@@ -1420,9 +1420,9 @@ Each Link Should Be In Its Own Line.</string>
        <widget class="QLabel" name="labelConfigureTheme">
         <property name="geometry">
          <rect>
-          <x>-2</x>
+          <x>8</x>
           <y>210</y>
-          <width>181</width>
+          <width>171</width>
           <height>31</height>
          </rect>
         </property>
