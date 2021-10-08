@@ -45,9 +45,7 @@ public:
 	class darkModes
 	{
 	public:
-		darkModes()
-		{
-		}
+		darkModes() = default;
 		darkModes( const QString& m ) : m_theme( m )
 		{
 		}

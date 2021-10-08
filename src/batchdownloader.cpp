@@ -614,7 +614,7 @@ void batchdownloader::showList()
 void batchdownloader::addItemUi( const QPixmap& pixmap,
 				 int index,
 				 bool enableAll,
-				 utility::MediaEntry media )
+				 const utility::MediaEntry& media )
 {
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
@@ -638,12 +638,12 @@ void batchdownloader::addItemUi( const QPixmap& pixmap,
 	}
 }
 
-void batchdownloader::addItemUi( int index,bool enableAll,utility::MediaEntry media )
+void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEntry& media )
 {
 	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,std::move( media ) ) ;
 }
 
-void batchdownloader::addItem( int index,bool enableAll,utility::MediaEntry media )
+void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntry& media )
 {
 	if( media.thumbnailUrl().isEmpty() ){
 

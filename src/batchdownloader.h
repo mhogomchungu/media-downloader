@@ -34,9 +34,7 @@ class tabManager ;
 class ItemEntry
 {
 public:
-	ItemEntry()
-	{
-	}
+	ItemEntry() = default;
 	ItemEntry( const engines::engine& engine,const QStringList& list ) :
 		m_engine( &engine ),
 		m_list( list )
@@ -107,9 +105,9 @@ private:
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
-	void addItem( int,bool,utility::MediaEntry ) ;
-	void addItemUi( int,bool,utility::MediaEntry ) ;
-	void addItemUi( const QPixmap& pixmap,int,bool,utility::MediaEntry ) ;
+	void addItem( int,bool,const utility::MediaEntry& ) ;
+	void addItemUi( int,bool,const utility::MediaEntry& ) ;
+	void addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
 	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
 
 	const Context& m_ctx ;

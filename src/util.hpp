@@ -214,9 +214,7 @@ template< typename S >
 class storage
 {
 public:
-	storage()
-	{
-	}
+	storage() = default;
 	storage( const storage& s )
 	{
 		this->set( s.get() ) ;
@@ -308,9 +306,7 @@ template< typename T >
 class result
 {
 public:
-	result()
-	{
-	}
+	result() = default;
 	template< typename ... S >
 	result( S&& ... e ) : m_value( std::forward< S >( e ) ... )
 	{

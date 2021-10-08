@@ -136,9 +136,7 @@ void MainWindow::resetTitle()
 	this->setTitle( m_defaultWindowTitle ) ;
 }
 
-MainWindow::~MainWindow()
-{
-}
+MainWindow::~MainWindow() = default;
 
 void MainWindow::closeEvent( QCloseEvent * e )
 {
