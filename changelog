@@ -90,3 +90,4 @@ Version 1.2.0(April 1st, 2021)
     [All]
   - Add support for "yt-dlp-aria2c" extension that causes yt-dlp extension to use aria2c as its downloader.
   - Add support for "aria2c" extension.
+  - Add Russian translations.

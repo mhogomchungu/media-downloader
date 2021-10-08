@@ -367,8 +367,8 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="331"/>
-        <location filename="../src/utility.h" line="343"/>
-        <location filename="../src/utility.h" line="399"/>
+        <location filename="../src/utility.h" line="374"/>
+        <location filename="../src/utility.h" line="430"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
@@ -378,12 +378,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Otwórz katalog z pobranymi plikami</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="487"/>
+        <location filename="../src/utility.cpp" line="496"/>
         <source>Save List</source>
         <translation>Zapisz listę</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="490"/>
+        <location filename="../src/utility.cpp" line="499"/>
         <source>Save List To File</source>
         <translation>Zapisz listę do pliku</translation>
     </message>
@@ -433,63 +433,63 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>polski (Polska)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="113"/>
+        <location filename="../src/engines.cpp" line="114"/>
         <source>Running in portable mode</source>
         <translation>Uruchamianie w trybie portable</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="114"/>
+        <location filename="../src/engines.cpp" line="115"/>
         <source>Download path: </source>
         <translation>Scieżka pobierania: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="210"/>
+        <location filename="../src/engines.cpp" line="221"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Błąd, plik wykonywalny &quot;%1&quot; nie został znaleziony</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="187"/>
+        <location filename="../src/engines.cpp" line="198"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Silnik &quot;%1&quot; wymaga aplikacji Media Downloader w wersji &quot;%2&quot; lub wyższej</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="404"/>
+        <location filename="../src/engines.cpp" line="423"/>
         <source>Failed To Load A Plugin</source>
         <translation>Niepowodzenie podczas ładowania wtyczki</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="479"/>
-        <location filename="../src/engines.cpp" line="646"/>
-        <location filename="../src/utility.cpp" line="459"/>
+        <location filename="../src/engines.cpp" line="497"/>
+        <location filename="../src/engines.cpp" line="665"/>
+        <location filename="../src/utility.cpp" line="468"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="620"/>
+        <location filename="../src/engines.cpp" line="639"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="716"/>
+        <location filename="../src/engines.cpp" line="734"/>
         <source>Download cancelled</source>
         <translation>Pobieranie przerwane</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1065"/>
-        <location filename="../src/engines.cpp" line="1075"/>
+        <location filename="../src/engines.cpp" line="1088"/>
+        <location filename="../src/engines.cpp" line="1098"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1090"/>
+        <location filename="../src/engines.cpp" line="1113"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1241"/>
-        <location filename="../src/engines.cpp" line="1246"/>
-        <location filename="../src/engines.cpp" line="1253"/>
-        <location filename="../src/engines.cpp" line="1258"/>
+        <location filename="../src/engines.cpp" line="1232"/>
+        <location filename="../src/engines.cpp" line="1237"/>
+        <location filename="../src/engines.cpp" line="1244"/>
+        <location filename="../src/engines.cpp" line="1249"/>
         <source>Elapsed Time:</source>
         <translation>Czas:</translation>
     </message>
@@ -519,7 +519,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Rozpocznij pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="722"/>
+        <location filename="../src/engines.cpp" line="740"/>
         <location filename="../src/networkAccess.cpp" line="148"/>
         <location filename="../src/networkAccess.cpp" line="224"/>
         <source>Download Failed</source>
@@ -555,22 +555,22 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1144"/>
+        <location filename="../src/engines.cpp" line="1172"/>
         <source>Processing</source>
         <translation>Przetwarzanie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="720"/>
+        <location filename="../src/engines.cpp" line="738"/>
         <source>Download completed</source>
         <translation>Poberanie zakończone</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="301"/>
+        <location filename="../src/settings.cpp" line="309"/>
         <source>Resetting download folder to default</source>
         <translation>Zmiana katalogu pobierania na domyślny</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1166"/>
+        <location filename="../src/engines.cpp" line="1194"/>
         <source>Post Processing</source>
         <translation>Post processing</translation>
     </message>
@@ -595,29 +595,29 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Ciemny motyw nr 3</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="367"/>
-        <location filename="../src/utility.h" line="375"/>
-        <location filename="../src/utility.h" line="380"/>
+        <location filename="../src/utility.h" line="398"/>
+        <location filename="../src/utility.h" line="406"/>
+        <location filename="../src/utility.h" line="411"/>
         <source>Download</source>
         <translation>Pobierz</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="372"/>
+        <location filename="../src/utility.h" line="403"/>
         <source>Force Download</source>
         <translation>Wymuś pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="390"/>
+        <location filename="../src/utility.h" line="421"/>
         <source>Show Log Window</source>
         <translation>Pokaż logi</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="917"/>
+        <location filename="../src/utility.h" line="948"/>
         <source>Upload Date:</source>
         <translation>Data opublikowania:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="925"/>
+        <location filename="../src/utility.h" line="956"/>
         <source>Duration:</source>
         <translation>Czas trwania:</translation>
     </message>
@@ -632,7 +632,7 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <translation>Ukończono: %1%, oczekujące: %2, zakończone: %3, zakończone z błędem: %4, anulowane: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="759"/>
+        <location filename="../src/playlistdownloader.cpp" line="760"/>
         <source>Media Already In Archive</source>
         <translation>Plik znajduje się już w archiwum</translation>
     </message>
@@ -640,23 +640,23 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
 <context>
     <name>basicdownloader</name>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="207"/>
-        <location filename="../src/basicdownloader.cpp" line="335"/>
+        <location filename="../src/basicdownloader.cpp" line="209"/>
+        <location filename="../src/basicdownloader.cpp" line="337"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="315"/>
+        <location filename="../src/basicdownloader.cpp" line="317"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="341"/>
+        <location filename="../src/basicdownloader.cpp" line="343"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>
     <message>
-        <location filename="../src/basicdownloader.cpp" line="345"/>
+        <location filename="../src/basicdownloader.cpp" line="347"/>
         <source>Executable Path</source>
         <translation>Ścieżka aplikacji</translation>
     </message>

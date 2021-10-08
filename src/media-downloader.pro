@@ -42,3 +42,4 @@ TRANSLATIONS = \
 ../translations/zh_CN.ts \
 ../translations/es.ts \
 ../translations/tr_TR.ts \
+../translations/ru_RU.ts
