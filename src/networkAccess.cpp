@@ -151,7 +151,7 @@ void networkAccess::download( const engines::engine& engine )
 			return ;
 		}
 
-		metadata metadata ;
+		networkAccess::metadata metadata ;
 
 		util::Json json( networkReply->readAll() ) ;
 
@@ -199,7 +199,7 @@ void networkAccess::download( const engines::engine& engine )
 	} ) ;
 }
 
-void networkAccess::download( const metadata& metadata,const engines::engine& engine )
+void networkAccess::download( const networkAccess::metadata& metadata,const engines::engine& engine )
 {
 	QString filePath = engine.exePath().realExe() + ".tmp" ;
 

@@ -53,36 +53,18 @@ namespace Ui
 
 namespace utility
 {
-	struct Debug
+	struct debug
 	{
 		template< typename T >
-		Debug& operator<<( const T& e )
+		debug& operator<<( const T& e )
 		{
 			std::cout << e << std::endl ;
 			return *this ;
 		}
-		Debug& operator<<( const QString& e )
-		{
-			std::cout << e.toStdString() << std::endl ;
-			return *this ;
-		}
-		Debug& operator<<( const QByteArray& e )
-		{
-			std::cout << e.data() << std::endl ;
-			return *this ;
-		}
-		Debug& operator<<( const QStringList& e )
-		{
-			for( const auto& s : e ){
-
-				std::cout<< s.toStdString() << std::endl ;
-			}
-			std::cout << std::endl ;
-			return *this ;
-		}
+		debug& operator<<( const QString& e ) ;
+		debug& operator<<( const QByteArray& e ) ;
+		debug& operator<<( const QStringList& e ) ;
 	};
-
-	extern Debug debug ;
 
 	class stringConstants
 	{
@@ -513,8 +495,7 @@ namespace utility
 	class Conn
 	{
 	public:
-		Conn( Function function,
-		      FunctionConnect functionConnect ) :
+		Conn( Function function,FunctionConnect functionConnect ) :
 			m_function( std::move( function ) ),
 			m_functionConnect( std::move( functionConnect ) )
 		{
@@ -677,31 +658,24 @@ namespace utility
 	{
 	public:
 		context( const engines::engine& engine,
-			 QProcess& exe,
 			 ProcessOutputChannels channels,
-			 Tlogger logger,
-			 Options options,
-			 Connection conn ) :
+			 Tlogger&& logger,
+			 Options&& options,
+			 Connection&& conn ) :
 			m_engine( engine ),
 			m_logger( std::move( logger ) ),
 			m_options( std::move( options ) ),
 			m_conn( std::move( conn ) ),
 			m_channels( channels ),
+			m_timer( std::make_unique< QTimer >() ),
 			m_cancelled( false )
 		{
-			if( m_engine.replaceOutputWithProgressReport() ){
-
-				QObject::connect( &m_timer,&QTimer::timeout,[ this ]{
-
-					m_logger.add( [ this ]( Logger::Data& e,int id ){
-
-						m_engine.processData( e,m_timeCounter.stringElapsedTime(),id ) ;
-					} ) ;
-				} ) ;
-
-				m_timer.start( 1000 ) ;
-			}
-
+		}
+		void whenCreated()
+		{
+		}
+		void whenStarted( QProcess& exe )
+		{
 			m_conn.connect( [ this,&exe ]( auto& function,int index ){
 
 				auto m = function( m_engine,exe,m_options.index(),index ) ;
@@ -713,10 +687,43 @@ namespace utility
 
 				return m ;
 			} ) ;
+
+			if( m_engine.replaceOutputWithProgressReport() ){
+
+				QObject::connect( m_timer.get(),&QTimer::timeout,[ this ]{
+
+					m_logger.add( [ this ]( Logger::Data& e,int id ){
+
+						m_engine.processData( e,m_timeCounter.stringElapsedTime(),id ) ;
+					} ) ;
+				} ) ;
+
+				m_timer->start( 1000 ) ;
+			}
 		}
-		void postData( const QByteArray& data )
+		void whenDone( int s,QProcess::ExitStatus e )
 		{
-			m_timer.stop() ;
+			m_conn.disconnect() ;
+
+			m_timer->stop() ;
+
+			if( m_options.listRequested() ){
+
+				m_options.listRequested( util::split( m_data,'\n' ) ) ;
+			}
+
+			auto m = m_timeCounter.elapsedTime() ;
+			m_options.done( ProcessExitState( m_cancelled,s,m,std::move( e ) ) ) ;
+		}
+		void withData( const QByteArray& data )
+		{			
+			if( m_options.debug() ){
+
+				utility::debug() << data ;
+				utility::debug() << "------------------------" ;
+			}
+
+			m_timer->stop() ;
 
 			if( !m_cancelled ){
 
@@ -731,27 +738,17 @@ namespace utility
 				} ) ;
 			}
 		}
-		bool debug()
-		{
-			return m_options.debug() ;
-		}
-		void done( int s,QProcess::ExitStatus e )
-		{
-			m_conn.disconnect() ;
-
-			m_timer.stop() ;
-
-			if( m_options.listRequested() ){
-
-				m_options.listRequested( util::split( m_data,'\n' ) ) ;
-			}
-
-			auto m = m_timeCounter.elapsedTime() ;
-			m_options.done( ProcessExitState( m_cancelled,s,m,std::move( e ) ) ) ;
-		}
 		const ProcessOutputChannels& outputChannels()
 		{
 			return m_channels ;
+		}
+		Tlogger& logger()
+		{
+			return m_logger ;
+		}
+		Options& options()
+		{
+			return m_options ;
 		}
 	private:
 		const engines::engine& m_engine ;
@@ -759,7 +756,7 @@ namespace utility
 		Options m_options ;
 		Connection m_conn ;
 		ProcessOutputChannels m_channels ;
-		QTimer m_timer ;
+		std::unique_ptr< QTimer > m_timer ;
 		engines::engine::functions::timer m_timeCounter ;
 		QByteArray m_data ;
 		bool m_cancelled ;
@@ -791,17 +788,19 @@ namespace utility
 
 		options.disableAll() ;
 
-		using ctx_t = utility::context< Tlogger,Options,Connection > ;
+		utility::context< Tlogger,Options,Connection > ctx( engine,
+								    channels,
+								    std::move( logger ),
+								    std::move( options ),
+								    std::move( conn ) ) ;
 
-		using unique_ptr_ctx_t = std::unique_ptr< ctx_t > ;
-
-		util::run( exe,cmd.args(),[ &,logger = std::move( logger ),options = std::move( options ) ]( QProcess& exe )mutable{
+		util::run( exe,cmd.args(),[ &,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
 
 			exe.setProcessEnvironment( options.processEnvironment() ) ;
 
-			logger.add( "cmd: " + engine.commandString( cmd ) ) ;
+			ctx.logger().add( "cmd: " + engine.commandString( cmd ) ) ;
 
-			const auto& df = options.downloadFolder() ;
+			const auto& df = ctx.options().downloadFolder() ;
 
 			if( !QFile::exists( df ) ){
 
@@ -812,34 +811,27 @@ namespace utility
 
 			exe.setProcessChannelMode( channels.channelMode() ) ;
 
-			return std::make_unique< ctx_t >( engine,
-							  exe,
-							  channels,
-							  std::move( logger ),
-							  std::move( options ),
-							  std::move( conn ) ) ;
+			ctx.whenCreated() ;
 
-		},[ &engine,quality ]( QProcess& exe ){
+			return std::move( ctx ) ;
+
+		},[ &engine,quality ]( QProcess& exe,auto& ctx ){
+
+			ctx.whenStarted( exe ) ;
 
 			engine.sendCredentials( quality,exe ) ;
 
-		},[]( int s,QProcess::ExitStatus e,unique_ptr_ctx_t& ctx ){
+		},[]( int s,QProcess::ExitStatus e,auto& ctx ){
 
-			ctx->done( s,std::move( e ) ) ;
+			ctx.whenDone( s,std::move( e ) ) ;
 
-		},[]( QProcess::ProcessChannel channel,QByteArray data,unique_ptr_ctx_t& ctx ){
+		},[]( QProcess::ProcessChannel channel,const QByteArray& data,auto& ctx ){
 
-			if( ctx->debug() ){
-
-				utility::Debug() << data ;
-				utility::Debug() << "------------------------" ;
-			}
-
-			const auto& channels = ctx->outputChannels() ;
+			const auto& channels = ctx.outputChannels() ;
 
 			if( channels.channelMode() == QProcess::ProcessChannelMode::MergedChannels ){
 
-				ctx->postData( std::move( data ) ) ;
+				ctx.withData( data ) ;
 
 			}else if( channels.channelMode() == QProcess::ProcessChannelMode::SeparateChannels ){
 
@@ -847,11 +839,11 @@ namespace utility
 
 				if( c == QProcess::ProcessChannel::StandardOutput && channel == c ){
 
-					ctx->postData( std::move( data ) ) ;
+					ctx.withData( data ) ;
 
 				}else if( c == QProcess::ProcessChannel::StandardError && channel == c ){
 
-					ctx->postData( std::move( data ) ) ;
+					ctx.withData( data ) ;
 				}
 			}
 		} ) ;

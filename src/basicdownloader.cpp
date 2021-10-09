@@ -318,7 +318,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		return ctx( engine,m_ctx ) ;
 
-	},[]( QProcess& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
+	},[]( QProcess&,ctx& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
 
 		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 

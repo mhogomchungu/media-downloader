@@ -503,6 +503,7 @@ void Timer( int interval,Function&& function )
 		return true ;
 	} ) ;
 }
+
 template< typename WhenCreated,
 	  typename WhenStarted,
 	  typename WhenDone,
@@ -529,7 +530,7 @@ void run( const QString& cmd,
 			QObject::connect( &m_exe,&QProcess::started,
 					  [ this,whenStarted = std::move( whenStarted ) ](){
 
-				whenStarted( m_exe ) ;
+				whenStarted( m_exe,m_data ) ;
 			} ) ;
 
 			QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,
@@ -590,7 +591,7 @@ void run( const QString& cmd,
 		   whenCreated( exe ) ;
 		   return 0 ;
 
-	},[ whenStarted = std::move( whenStarted ) ]( QProcess& exe ){
+	},[ whenStarted = std::move( whenStarted ) ]( QProcess& exe,int ){
 
 		whenStarted( exe ) ;
 

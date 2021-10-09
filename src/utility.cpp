@@ -36,11 +36,6 @@ const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
 #ifdef Q_OS_LINUX
 
-namespace utility {
-
-	Debug debug ;
-}
-
 bool utility::platformIsLinux()
 {
 	return true ;
@@ -263,6 +258,28 @@ bool utility::platformIsOSX()
 }
 
 #endif
+
+utility::debug& utility::debug::operator<<( const QString& e )
+{
+	std::cout << e.toStdString() << std::endl ;
+	return *this ;
+}
+
+utility::debug& utility::debug::operator<<( const QStringList& e )
+{
+	for( const auto& s : e ){
+
+		std::cout<< s.toStdString() << std::endl ;
+	}
+	std::cout << std::endl ;
+	return *this ;
+}
+
+utility::debug& utility::debug::operator<<( const QByteArray& e )
+{
+	std::cout << e.data() << std::endl ;
+	return *this ;
+}
 
 bool utility::Terminator::terminate( QProcess& exe )
 {
