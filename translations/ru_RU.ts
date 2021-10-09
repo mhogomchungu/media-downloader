@@ -165,7 +165,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/mainwindow.ui" line="706"/>
         <source>Enter File Path:</source>
-        <translation>Путь файла</translation>
+        <translation>Путь файла:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="765"/>
@@ -501,7 +501,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/networkAccess.cpp" line="64"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
-        <translation type="unfinished">Не удалось найти информацию о версии, убедитесь, что &quot;%1&quot; установлен и работает правильно</translation>
+        <translation>Не удалось найти информацию о версии, убедитесь, что &quot;%1&quot; установлен и работает правильно</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
