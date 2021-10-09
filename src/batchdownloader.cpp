@@ -647,7 +647,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 {
 	if( media.thumbnailUrl().isEmpty() ){
 
-		this->addItemUi( index,enableAll,std::move( media ) ) ;
+		this->addItemUi( index,enableAll,media ) ;
 	}else{
 		if( networkAccess::hasNetworkSupport() ){
 
@@ -655,10 +655,8 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 			m_networkRunning++ ;
 
-			auto thumbnailUrl = media.thumbnailUrl() ;
-
-			network.getResource( thumbnailUrl,
-					     [ this,enableAll,media = std::move( media ),index ]( QByteArray data ){
+			network.getResource( media.thumbnailUrl(),
+					     [ this,enableAll,media = media,index ]( const QByteArray& data ){
 
 				QPixmap pixmap ;
 
@@ -669,15 +667,15 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 					pixmap = pixmap.scaled( w,h ) ;
 
-					this->addItemUi( pixmap,index,enableAll,std::move( media ) ) ;
+					this->addItemUi( pixmap,index,enableAll,media ) ;
 				}else{
-					this->addItemUi( index,enableAll,std::move( media ) ) ;
+					this->addItemUi( index,enableAll,media ) ;
 				}
 
 				m_networkRunning-- ;
 			} ) ;
 		}else{
-			this->addItemUi( index,enableAll,std::move( media ) ) ;
+			this->addItemUi( index,enableAll,media ) ;
 		}
 	}
 }
