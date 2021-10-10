@@ -31,6 +31,8 @@ class engines ;
 
 class QWidget ;
 
+#include<QString>
+
 namespace Ui
 {
 	class MainWindow ;
@@ -46,7 +48,7 @@ public:
 		 Logger& l,
 		 engines& e,
 		 tabManager& tm,
-		 bool debug ) :
+		 QString debug ) :
 		m_settings( s ),
 		m_translator( t ),
 		m_mainUi( m ),
@@ -90,7 +92,7 @@ public:
 	{
 		return m_logger ;
 	}
-	bool debug() const
+	const QString& debug() const
 	{
 		return m_debug ;
 	}
@@ -103,7 +105,7 @@ private:
 	Logger& m_logger ;
 	engines& m_engines ;
 	tabManager& m_tabManager ;
-	bool m_debug ;
+	QString m_debug ;
 };
 
 #endif

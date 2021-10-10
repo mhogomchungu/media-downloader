@@ -73,7 +73,7 @@ private:
 	struct opts
 	{
 		const Context& ctx ;
-		bool debug ;
+		QString debug ;
 		bool listRequested ;
 		int index ;
 	} ;

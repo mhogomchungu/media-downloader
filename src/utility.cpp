@@ -261,24 +261,31 @@ bool utility::platformIsOSX()
 
 utility::debug& utility::debug::operator<<( const QString& e )
 {
-	std::cout << e.toStdString() << std::endl ;
-	return *this ;
+	return _print( e.toStdString().c_str() ) ;
 }
 
 utility::debug& utility::debug::operator<<( const QStringList& e )
 {
-	for( const auto& s : e ){
+	if( e.isEmpty() ){
 
-		std::cout<< s.toStdString() << std::endl ;
+		return _print( "()" ) ;
+	}else{
+		QString m = "(\"" + e.at( 0 ) + "\"" ;
+
+		for( int s = 1 ; s < e.size() ; s++ ){
+
+			m += ", \"" + e.at( s ) + "\"" ;
+		}
+
+		m += ")";
+
+		return _print( m.toStdString().c_str() ) ;
 	}
-	std::cout << std::endl ;
-	return *this ;
 }
 
 utility::debug& utility::debug::operator<<( const QByteArray& e )
 {
-	std::cout << e.data() << std::endl ;
-	return *this ;
+	return _print( e.data() ) ;
 }
 
 bool utility::Terminator::terminate( QProcess& exe )

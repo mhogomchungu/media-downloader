@@ -118,7 +118,7 @@ private:
 	bool m_showThumbnails ;
 	tableWidget m_table ;
 	tableWidget m_tableWidgetBDList ;
-	bool m_debug ;
+	QString m_debug ;
 	int m_networkRunning = false ;
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;
@@ -191,7 +191,7 @@ private:
 	struct opts
 	{
 		const Context& ctx ;
-		bool debug ;
+		QString debug ;
 		bool listRequested ;
 		int index ;
 		BatchLoggerWrapper batchLogger ;

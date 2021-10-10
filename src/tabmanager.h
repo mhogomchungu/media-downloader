@@ -39,7 +39,7 @@ public:
 		    Ui::MainWindow& m,
 		    QWidget& w,
 		    MainWindow& mw,
-		    bool debug ) :
+		    QString debug ) :
 		m_currentTab( s.tabNumber() ),
 		m_ctx( s,t,m,w,mw,l,e,*this,debug ),
 		m_about( m_ctx ),

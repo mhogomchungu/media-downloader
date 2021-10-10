@@ -57,7 +57,7 @@ private:
 		tableWidget& table ;
 
 		const Context& ctx ;
-		bool debug ;
+		QString debug ;
 		bool listRequested ;
 		int index ;
 	} ;
@@ -71,7 +71,7 @@ private:
 	size_t m_counter = 0 ;
 	const Context& m_ctx ;
 	settings& m_settings ;
-	bool m_debug ;
+	QString m_debug ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
 	tableWidget m_tableList ;

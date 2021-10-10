@@ -27,6 +27,7 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QThread>
+#include <QDebug>
 
 #include <type_traits>
 #include <memory>
@@ -53,17 +54,39 @@ namespace Ui
 
 namespace utility
 {
-	struct debug
+	class debug
 	{
+	public:
+		debug( const QString& e = QString() ) :
+			m_switch( e )
+		{
+		}
 		template< typename T >
 		debug& operator<<( const T& e )
 		{
-			std::cout << e << std::endl ;
-			return *this ;
+			return _print( e ) ;
 		}
 		debug& operator<<( const QString& e ) ;
 		debug& operator<<( const QByteArray& e ) ;
 		debug& operator<<( const QStringList& e ) ;
+	private:
+		template< typename T >
+		debug& _print( const T& e )
+		{
+			if( !m_switch.isEmpty() ){
+
+				if( m_switch == "--debug" ){
+
+					std::cout << e << std::endl ;
+
+				}else if( m_switch == "--qdebug" ){
+
+					qDebug() << e ;
+				}
+			}
+			return *this ;
+		}
+		QString m_switch ;
 	};
 
 	class stringConstants
@@ -717,11 +740,8 @@ namespace utility
 		}
 		void withData( const QByteArray& data )
 		{			
-			if( m_options.debug() ){
-
-				utility::debug() << data ;
-				utility::debug() << "------------------------" ;
-			}
+			utility::debug( m_options.debug() ) << data ;
+			utility::debug( m_options.debug() ) << "-------------------------------" ;
 
 			m_timer->stop() ;
 
@@ -1093,7 +1113,7 @@ namespace utility
 		{
 			return m_opts.index ;
 		}
-		bool debug()
+		const QString& debug()
 		{
 			return m_opts.debug ;
 		}

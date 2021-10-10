@@ -49,7 +49,7 @@ public:
 	void setTitle( const QString& m ) ;
 	void resetTitle() ;
 
-	~MainWindow() ;
+	~MainWindow() override ;
 private:
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
@@ -60,7 +60,7 @@ private:
 	settings& m_settings ;
 	bool m_showTrayIcon ;
 	QString m_defaultWindowTitle ;
-	void closeEvent( QCloseEvent * ) ;
+	void closeEvent( QCloseEvent * ) override ;
 };
 
 #endif // MAINWINDOW_H

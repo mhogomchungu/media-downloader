@@ -33,12 +33,25 @@ static std::unique_ptr< Ui::MainWindow > _init_ui( QMainWindow& mw )
 	return m ;
 }
 
+static QString _debug( const QStringList& e )
+{
+	if( e.contains( "--debug" ) ){
+
+		return "--debug" ;
+	}else if( e.contains( "--qdebug" ) ){
+
+		return "--qdebug" ;
+	}else{
+		return "" ;
+	}
+}
+
 MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 	m_qApp( app ),
 	m_ui( _init_ui( *this ) ),
 	m_logger( *m_ui->plainTextEditLogger,this,s ),
 	m_engines( m_logger,s ),
-	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,app.arguments().contains( "--debug" ) ),
+	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,_debug( app.arguments() ) ),
 	m_settings( s ),
 	m_showTrayIcon( s.showTrayIcon() ),
 	m_defaultWindowTitle( this->window()->windowTitle() )
