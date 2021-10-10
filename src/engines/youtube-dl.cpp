@@ -469,6 +469,7 @@ youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::
 const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 {
 	int downloadCounter = 0 ;
+	int downloadCountExpected = -1 ;
 
 	const auto data = s.toStringList() ;
 
@@ -493,6 +494,25 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 
 			m_fileName = e.mid( e.indexOf( "\"" ) + 1 ) ;
 			m_fileName.truncate( m_fileName.size() - 1 ) ;
+		}
+		if( e.startsWith( "[info] " ) && e.contains( " Downloading 1 format(s): " ) ){
+
+			int r = e.lastIndexOf( ' ' ) ;
+
+			if( r != -1 ){
+
+				auto m = e.mid( r + 1 ) ;
+
+				downloadCountExpected = 1 ;
+
+				for( const auto& it : m ){
+
+					if( it == '+' ){
+
+						downloadCountExpected++ ;
+					}
+				}
+			}
 		}
 		if( e.startsWith( "[download] 100% of " ) ){
 
@@ -537,11 +557,21 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 		return m_tmp ;
 	}
 
-	if( downloadCounter == 0 ){
+	if( downloadCountExpected == -1 ){
 
-		return m_preProcessing.text() ;
+		if( downloadCounter == 0 ){
+
+			return m_preProcessing.text() ;
+		}else{
+			return m_postProcessing.text( m_fileName ) ;
+		}
 	}else{
-		return m_postProcessing.text( m_fileName ) ;
+		if( downloadCounter == downloadCountExpected ){
+
+			return m_postProcessing.text( m_fileName ) ;
+		}else{
+			return m_preProcessing.text() ;
+		}
 	}
 }
 

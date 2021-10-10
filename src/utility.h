@@ -786,15 +786,13 @@ namespace utility
 			return ;
 		}
 
-		options.disableAll() ;
+		using ctx_t = utility::context< Tlogger,Options,Connection > ;
 
-		utility::context< Tlogger,Options,Connection > ctx( engine,
-								    channels,
-								    std::move( logger ),
-								    std::move( options ),
-								    std::move( conn ) ) ;
+		ctx_t ctx( engine,channels,std::move( logger ),std::move( options ),std::move( conn ) ) ;
 
 		util::run( exe,cmd.args(),[ &,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
+
+			ctx.options().disableAll() ;
 
 			exe.setProcessEnvironment( options.processEnvironment() ) ;
 
