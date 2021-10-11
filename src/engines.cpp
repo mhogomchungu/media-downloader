@@ -616,18 +616,26 @@ engines::engine::engine( Logger& logger,
 			it.replace( utility::stringConstants::commandName(),commandName ) ;
 		}
 
-		auto subCmd = [ & ]()->QString{
+		auto subCmd = cmd ;
 
-			for( const auto& it : cmdNames ){
+		for( auto& it : cmdNames ){
 
-				if( it.endsWith( commandName ) ){
+			if( it.endsWith( commandName ) ){
 
-					return it ;
+				if( it == commandName ){
+
+					auto m = engines.findExecutable( commandName ) ;
+
+					if( !m.isEmpty() ){
+
+						it = m ;
+						subCmd = m ;
+					}
+				}else{
+					subCmd = it ;
 				}
 			}
-
-			return cmd ;
-		}() ;
+		}
 
 		if( cmd == "python3" ){
 

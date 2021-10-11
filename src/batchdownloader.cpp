@@ -603,12 +603,13 @@ void batchdownloader::showList()
 
 	batchdownloader::opts opts{ m_ctx,m_debug,true,-1,BatchLoggerWrapper( m_ctx.logger() ) } ;
 
-	utility::run( engine,
-		      args,
-		      QString(),
-		      batchdownloader::make_options( std::move( opts ),std::move( functions ) ),
-		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
-		      m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ) ;
+	auto oopts  = batchdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
+	auto logger = LoggerWrapper( m_ctx.logger(),utility::concurrentID() ) ;
+	auto term   = m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ;
+
+	auto ctx    = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ) ) ;
+
+	utility::run( args,QString(),std::move( ctx ) ) ;
 }
 
 void batchdownloader::addItemUi( const QPixmap& pixmap,
@@ -770,16 +771,22 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 	m_settings.addOptionsHistory( m,settings::tabName::batch ) ;
 
+	batchdownloader::opts opts{ m_ctx,m_debug,false,index,BatchLoggerWrapper( m_ctx.logger() ) } ;
+
+	auto oopts = batchdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
+
+	auto logger = make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
+						  m_ctx.logger(),
+						  m_table.uiTextItem( index ),
+						  utility::concurrentID() ) ;
+
 	m_ccmd.download( engine,
 			 m_ctx.Engines().engineDirPaths(),
 			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
 			 m_terminator.setUp(),
-			 batchdownloader::make_options( { m_ctx,m_debug,false,index,BatchLoggerWrapper( m_ctx.logger() ) },std::move( functions ) ),
-			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
-						     m_ctx.logger(),
-						     m_table.uiTextItem( index ),
-						     utility::concurrentID() ) ) ;
+			 std::move( oopts ),
+			 std::move( logger ) ) ;
 }
 
 void batchdownloader::enableAll()

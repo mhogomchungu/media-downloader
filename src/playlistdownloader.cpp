@@ -581,16 +581,18 @@ void playlistdownloader::download( const engines::engine& engine,int index )
 
 	m_settings.addOptionsHistory( m,settings::tabName::playlist ) ;
 
+	auto oopts  = playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ) ;
+	auto logger = make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
+						  m_ctx.logger(),
+						  m_table.uiTextItem( index ),
+						  utility::concurrentID() ) ;
 	m_ccmd.download( engine,
 			 m_ctx.Engines().engineDirPaths(),
 			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
 			 m_terminator.setUp(),
-			 playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ),
-			 make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
-						     m_ctx.logger(),
-						     m_table.uiTextItem( index ),
-						     utility::concurrentID() ) ) ;
+			 std::move( oopts ),
+			 std::move( logger ) ) ;
 }
 
 void playlistdownloader::getList()
@@ -667,16 +669,20 @@ void playlistdownloader::getList()
 			this->parseJson( copts,table,data ) ;
 		} ;
 
-		utility::run( engine,
-			      opts,
-			      utility::args( m_ui.lineEditPLUrlOptions->text() ).quality(),
-			      playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,-1 },std::move( functions ) ),
-			      make_loggerPlaylistDownloader( m_table,
-							     m_ctx.logger(),
-							     utility::concurrentID(),
-							     std::move( bb ) ),
-			      m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ),
-			      QProcess::ProcessChannel::StandardOutput ) ;
+		auto id     = utility::concurrentID() ;
+		auto oopts  = playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,-1 },std::move( functions ) ) ;
+		auto logger = make_loggerPlaylistDownloader( m_table,m_ctx.logger(),id,std::move( bb ) ) ;
+		auto term   = m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ) ;
+		auto ch     = QProcess::ProcessChannel::StandardOutput ;
+		auto argsq  = utility::args( m_ui.lineEditPLUrlOptions->text() ).quality() ;
+
+		auto ctx = utility::make_ctx( engine,
+					      std::move( oopts ),
+					      std::move( logger ),
+					      std::move( term ),
+					      ch ) ;
+
+		utility::run( opts,argsq,std::move( ctx ) ) ;
 	} ) ;
 }
 

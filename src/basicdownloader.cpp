@@ -35,16 +35,6 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font(),0 ),
 	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0 )
 {
-	QStringList ee{ "dd","fff","aaa" } ;
-
-	qDebug() << ee ;
-	qDebug() << "----------" ;
-
-	utility::debug( "--debug" ) << ee ;
-	utility::debug( "--debug" ) << "-----------" ;
-	utility::debug( "--qdebug" ) << ee;
-	utility::debug( "--qdebug" ) << "-----------" ;
-
 	this->setAsActive() ;
 
 	m_ui.pbCancel->setEnabled( false ) ;
@@ -503,12 +493,13 @@ void basicdownloader::run( const engines::engine& engine,
 
 	basicdownloader::opts opts{ engine,m_bogusTable,m_ctx,m_debug,list_requested,-1 } ;
 
-	utility::run( engine,
-		      args,
-		      quality,
-		      basicdownloader::make_options( std::move( opts ),std::move( functions ) ),
-		      LoggerWrapper( m_ctx.logger(),utility::concurrentID() ),
-		      m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ) ;
+	auto oopts  = basicdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
+	auto logger = LoggerWrapper( m_ctx.logger(),utility::concurrentID() ) ;
+	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
+
+	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ) ) ;
+
+	utility::run( args,quality,std::move( ctx ) ) ;
 }
 
 void basicdownloader::updateEngines()

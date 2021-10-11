@@ -770,6 +770,10 @@ namespace utility
 		{
 			return m_options ;
 		}
+		const engines::engine& engine()
+		{
+			return m_engine ;
+		}
 	private:
 		const engines::engine& m_engine ;
 		Tlogger m_logger ;
@@ -785,38 +789,40 @@ namespace utility
 	template< typename Connection,
 		  typename Tlogger,
 		  typename Options >
-	void run( const engines::engine& engine,
-		  const QStringList& args,
-		  const QString& quality,
-		  Options options,
-		  Tlogger logger,
-		  Connection conn,
-		  ProcessOutputChannels channels = ProcessOutputChannels() )
+	auto make_ctx( const engines::engine& engine,
+		       Options options,
+		       Tlogger logger,
+		       Connection conn,
+		       ProcessOutputChannels channels = ProcessOutputChannels() )
 	{
-		engines::engine::exeArgs::cmd cmd( engine.exePath(),args ) ;
+		using ctx = utility::context< Tlogger,Options,Connection > ;
+
+		return ctx( engine,channels,std::move( logger ),std::move( options ),std::move( conn ) ) ;
+	}
+
+	template< typename Ctx >
+	void run( const QStringList& args,const QString& quality,Ctx ctx )
+	{
+		engines::engine::exeArgs::cmd cmd( ctx.engine().exePath(),args ) ;
 
 		const auto& exe = cmd.exe() ;
 
 		if( !QFile::exists( exe ) ){
 
-			logger.add( utility::failedToFindExecutableString( exe ) ) ;
+			ctx.logger().add( utility::failedToFindExecutableString( exe ) ) ;
 
-			options.done( ProcessExitState( false,-1,-1,QProcess::ExitStatus::NormalExit ) ) ;
+			ctx.options().done( ProcessExitState( false,-1,-1,QProcess::ExitStatus::NormalExit ) ) ;
 
 			return ;
 		}
-
-		using ctx_t = utility::context< Tlogger,Options,Connection > ;
-
-		ctx_t ctx( engine,channels,std::move( logger ),std::move( options ),std::move( conn ) ) ;
 
 		util::run( exe,cmd.args(),[ &,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
 
 			ctx.options().disableAll() ;
 
-			exe.setProcessEnvironment( options.processEnvironment() ) ;
+			exe.setProcessEnvironment( ctx.options().processEnvironment() ) ;
 
-			ctx.logger().add( "cmd: " + engine.commandString( cmd ) ) ;
+			ctx.logger().add( "cmd: " + ctx.engine().commandString( cmd ) ) ;
 
 			const auto& df = ctx.options().downloadFolder() ;
 
@@ -827,17 +833,17 @@ namespace utility
 
 			exe.setWorkingDirectory( df ) ;
 
-			exe.setProcessChannelMode( channels.channelMode() ) ;
+			exe.setProcessChannelMode( ctx.outputChannels().channelMode() ) ;
 
 			ctx.whenCreated() ;
 
 			return std::move( ctx ) ;
 
-		},[ &engine,quality ]( QProcess& exe,auto& ctx ){
+		},[ quality ]( QProcess& exe,auto& ctx ){
 
 			ctx.whenStarted( exe ) ;
 
-			engine.sendCredentials( quality,exe ) ;
+			ctx.engine().sendCredentials( quality,exe ) ;
 
 		},[]( int s,QProcess::ExitStatus e,auto& ctx ){
 

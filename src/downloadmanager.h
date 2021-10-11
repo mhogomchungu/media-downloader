@@ -291,12 +291,9 @@ public:
 	{
 		m_index->next() ;
 
-		utility::run( engine,
-			      { cliOptions,url },
-			      "",
-			      std::move( opts ),
-			      std::move( logger ),
-			      std::move( conn ) ) ;
+		auto ctx = utility::make_ctx( engine,std::move( opts ),std::move( logger ),std::move( conn ) ) ;
+
+		utility::run( { cliOptions,url },QString(),std::move( ctx ) ) ;
 	}
 	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,
@@ -321,12 +318,9 @@ public:
 
 		utility::updateOptionsStruct opt{ engine,ep,m_settings,args,iString,fd,{ url } } ;
 
-		utility::run( engine,
-			      utility::updateOptions( opt ),
-			      args.quality(),
-			      std::move( opts ),
-			      std::move( logger ),
-			      std::move( terminator ) ) ;
+		auto ctx = utility::make_ctx( engine,std::move( opts ),std::move( logger ),std::move( terminator ) ) ;
+
+		utility::run( utility::updateOptions( opt ),args.quality(),std::move( ctx ) ) ;
 	}
 private:
 	void uiEnableAll( bool e ) ;
