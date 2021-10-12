@@ -298,7 +298,7 @@ bool utility::Terminator::terminate( QProcess& exe )
 
 			//QProcess::startDetached( "media-downloader.exe",args ) ;
 
-			QStringList args{ "/F","/PID",QString::number( exe.processId() ) } ;
+			QStringList args{ "/F","/T","/PID",QString::number( exe.processId() ) } ;
 
 			QProcess::startDetached( "taskkill",args ) ;
 		}

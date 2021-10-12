@@ -45,7 +45,7 @@
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "",
+    "RequiredMinimumVersionOfMediaDownloader": "1.8.0",
     "ShowListTableBoundary": {
         "ColumnNumber": "0",
         "Comparator": "contains",
