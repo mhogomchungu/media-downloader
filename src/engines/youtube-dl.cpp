@@ -213,7 +213,7 @@ void youtube_dl::init( const QString& name,
 
 youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
 	engines::engine::functions( engines.Settings(),engine ),
-	m_engines( engines ),m_engine( engine )
+	m_engine( engine )
 {
 	if( !object.contains( "ShowListTableBoundary" ) ){
 

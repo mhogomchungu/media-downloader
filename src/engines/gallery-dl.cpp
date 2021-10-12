@@ -22,8 +22,7 @@
 #include "../downloadmanager.h"
 
 gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
-	engines::engine::functions( engines.Settings(),engine ),
-	m_engines( engines )
+	engines::engine::functions( engines.Settings(),engine )
 {
 	if( !object.contains( "CookieArgument" ) ){
 

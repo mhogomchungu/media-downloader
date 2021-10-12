@@ -51,5 +51,4 @@ public:
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 private:
-	const engines& m_engines ;
 };

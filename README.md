@@ -19,7 +19,7 @@ downloads may cause the host to ban you.
 
 5. The GUI offers an ability to download playlist from websites that supports them like youtube.
 
-5. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish and Turkish.
+5. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish, Turkish and Russian.
 
 ## Donations
 Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
@@ -35,18 +35,18 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 
 #### Prerequisite for Microsoft Windows
 
-1. Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of youtube-dl.
+1. Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of yt-dlp.
 
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.7.0/MediaDownloader-1.7.0.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.8.0/MediaDownloader-1.8.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self contained version that keeps everything in the application folder.
 
-Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.7.0/MediaDownloader-1.7.0.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.8.0/MediaDownloader-1.8.0.zip).
 
 ### Binary packages for Linux distributions
 
