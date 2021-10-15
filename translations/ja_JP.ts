@@ -64,7 +64,7 @@
         <location filename="../src/mainwindow.ui" line="861"/>
         <location filename="../src/mainwindow.ui" line="1127"/>
         <location filename="../src/mainwindow.ui" line="1690"/>
-        <location filename="../src/mainwindow.cpp" line="73"/>
+        <location filename="../src/mainwindow.cpp" line="74"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
@@ -438,6 +438,11 @@ Each Link Should Be In Its Own Line.</source>
         <translation>ロシア語 (ロシア)</translation>
     </message>
     <message>
+        <location filename="../src/translator.cpp" line="34"/>
+        <source>Japanese (Japan)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/engines.cpp" line="114"/>
         <source>Running in portable mode</source>
         <translation>ポータブルモードで実行中</translation>
@@ -617,12 +622,12 @@ Each Link Should Be In Its Own Line.</source>
         <translation>ログウィンドウを表示</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="963"/>
+        <location filename="../src/utility.h" line="955"/>
         <source>Upload Date:</source>
         <translation>アップロード日時:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="971"/>
+        <location filename="../src/utility.h" line="963"/>
         <source>Duration:</source>
         <translation>再生時間:</translation>
     </message>
@@ -687,10 +692,6 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/batchdownloader.cpp" line="243"/>
         <source>Get List</source>
         <translation>リストを取得</translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation type="vanished">ダウンロード</translation>
     </message>
 </context>
 <context>
@@ -772,10 +773,6 @@ Each Link Should Be In Its Own Line.</source>
         <location filename="../src/playlistdownloader.cpp" line="194"/>
         <source>Remove</source>
         <translation>削除</translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation type="vanished">ダウンロード</translation>
     </message>
 </context>
 </TS>
