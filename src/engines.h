@@ -125,6 +125,10 @@ public:
 				{
 					return m_args ;
 				}
+				bool valid()
+				{
+					return QFile::exists( m_exe ) ;
+				}
 			private:
 				QStringList m_args ;
 				QString m_exe ;

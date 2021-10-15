@@ -694,10 +694,26 @@ namespace utility
 			m_cancelled( false )
 		{
 		}
-		void whenCreated()
+		void whenCreated( QProcess& exe,const engines::engine::exeArgs::cmd& cmd )
 		{
+			m_options.disableAll() ;
+
+			exe.setProcessEnvironment( m_options.processEnvironment() ) ;
+
+			m_logger.add( "cmd: " + m_engine.commandString( cmd ) ) ;
+
+			const auto& df = m_options.downloadFolder() ;
+
+			if( !QFile::exists( df ) ){
+
+				QDir().mkpath( df ) ;
+			}
+
+			exe.setWorkingDirectory( df ) ;
+
+			exe.setProcessChannelMode( m_channels.channelMode() ) ;
 		}
-		void whenStarted( QProcess& exe )
+		void whenStarted( QProcess& exe,const QString& credentials )
 		{
 			m_conn.connect( [ this,&exe ]( auto& function,int index ){
 
@@ -723,6 +739,8 @@ namespace utility
 
 				m_timer->start( 1000 ) ;
 			}
+
+			m_engine.sendCredentials( credentials,exe ) ;
 		}
 		void whenDone( int s,QProcess::ExitStatus e )
 		{
@@ -738,41 +756,58 @@ namespace utility
 			auto m = m_timeCounter.elapsedTime() ;
 			m_options.done( ProcessExitState( m_cancelled,s,m,std::move( e ) ) ) ;
 		}
-		void withData( const QByteArray& data )
-		{			
-			utility::debug( m_options.debug() ) << data ;
-			utility::debug( m_options.debug() ) << "-------------------------------" ;
+		void withData( QProcess::ProcessChannel channel,const QByteArray& data )
+		{
+			auto _withData = [ & ]( const QByteArray& data ){
 
-			m_timer->stop() ;
+				utility::debug( m_options.debug() ) << data ;
+				utility::debug( m_options.debug() ) << "-------------------------------" ;
 
-			if( !m_cancelled ){
+				m_timer->stop() ;
 
-				if( m_options.listRequested() ){
+				if( !m_cancelled ){
 
-					m_data += data ;
+					if( m_options.listRequested() ){
+
+						m_data += data ;
+					}
+
+					m_logger.add( [ this,&data ]( Logger::Data& e,int id ){
+
+						m_engine.processData( e,data,id ) ;
+					} ) ;
 				}
+			} ;
 
-				m_logger.add( [ this,&data ]( Logger::Data& e,int id ){
+			auto mode = m_channels.channelMode() ;
 
-					m_engine.processData( e,data,id ) ;
-				} ) ;
+			if( mode == QProcess::ProcessChannelMode::MergedChannels ){
+
+				_withData( data ) ;
+
+			}else if( mode == QProcess::ProcessChannelMode::SeparateChannels ){
+
+				auto c = m_channels.channel() ;
+
+				if( channel == c ){
+
+					_withData( data ) ;
+
+				}else if( channel == c ){
+
+					_withData( data ) ;
+				}
 			}
 		}
-		const ProcessOutputChannels& outputChannels()
+		engines::engine::exeArgs::cmd cmd( const QStringList& args )
 		{
-			return m_channels ;
+			return { m_engine.exePath(),args } ;
 		}
-		Tlogger& logger()
+		void logError( const engines::engine::exeArgs::cmd& exe )
 		{
-			return m_logger ;
-		}
-		Options& options()
-		{
-			return m_options ;
-		}
-		const engines::engine& engine()
-		{
-			return m_engine ;
+			m_logger.add( utility::failedToFindExecutableString( exe.exe() ) ) ;
+
+			m_options.done( ProcessExitState( false,-1,-1,QProcess::ExitStatus::NormalExit ) ) ;
 		}
 	private:
 		const engines::engine& m_engine ;
@@ -801,76 +836,33 @@ namespace utility
 	}
 
 	template< typename Ctx >
-	void run( const QStringList& args,const QString& quality,Ctx ctx )
+	void run( const QStringList& args,const QString& credentials,Ctx ctx )
 	{
-		engines::engine::exeArgs::cmd cmd( ctx.engine().exePath(),args ) ;
+		auto cmd = ctx.cmd( args ) ;
 
-		const auto& exe = cmd.exe() ;
+		if( cmd.valid() ){
 
-		if( !QFile::exists( exe ) ){
+			util::run( cmd.exe(),cmd.args(),[ &cmd,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
 
-			ctx.logger().add( utility::failedToFindExecutableString( exe ) ) ;
+				ctx.whenCreated( exe,cmd ) ;
 
-			ctx.options().done( ProcessExitState( false,-1,-1,QProcess::ExitStatus::NormalExit ) ) ;
+				return std::move( ctx ) ;
 
-			return ;
+			},[ credentials ]( QProcess& exe,auto& ctx ){
+
+				ctx.whenStarted( exe,credentials ) ;
+
+			},[]( int s,QProcess::ExitStatus e,auto& ctx ){
+
+				ctx.whenDone( s,std::move( e ) ) ;
+
+			},[]( QProcess::ProcessChannel channel,const QByteArray& data,auto& ctx ){
+
+				ctx.withData( channel,data ) ;
+			} ) ;
+		}else{
+			ctx.logError( cmd ) ;
 		}
-
-		util::run( exe,cmd.args(),[ &,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
-
-			ctx.options().disableAll() ;
-
-			exe.setProcessEnvironment( ctx.options().processEnvironment() ) ;
-
-			ctx.logger().add( "cmd: " + ctx.engine().commandString( cmd ) ) ;
-
-			const auto& df = ctx.options().downloadFolder() ;
-
-			if( !QFile::exists( df ) ){
-
-				QDir().mkpath( df ) ;
-			}
-
-			exe.setWorkingDirectory( df ) ;
-
-			exe.setProcessChannelMode( ctx.outputChannels().channelMode() ) ;
-
-			ctx.whenCreated() ;
-
-			return std::move( ctx ) ;
-
-		},[ quality ]( QProcess& exe,auto& ctx ){
-
-			ctx.whenStarted( exe ) ;
-
-			ctx.engine().sendCredentials( quality,exe ) ;
-
-		},[]( int s,QProcess::ExitStatus e,auto& ctx ){
-
-			ctx.whenDone( s,std::move( e ) ) ;
-
-		},[]( QProcess::ProcessChannel channel,const QByteArray& data,auto& ctx ){
-
-			const auto& channels = ctx.outputChannels() ;
-
-			if( channels.channelMode() == QProcess::ProcessChannelMode::MergedChannels ){
-
-				ctx.withData( data ) ;
-
-			}else if( channels.channelMode() == QProcess::ProcessChannelMode::SeparateChannels ){
-
-				auto c = channels.channel() ;
-
-				if( c == QProcess::ProcessChannel::StandardOutput && channel == c ){
-
-					ctx.withData( data ) ;
-
-				}else if( c == QProcess::ProcessChannel::StandardError && channel == c ){
-
-					ctx.withData( data ) ;
-				}
-			}
-		} ) ;
 	}
 
 	template< typename List,
