@@ -279,7 +279,7 @@ public:
 
 			virtual bool breakShowListIfContains( const QStringList& ) ;
 
-			virtual DataFilter Filter( const QString& ) ;
+			virtual engines::engine::functions::DataFilter Filter( const QString& ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
 

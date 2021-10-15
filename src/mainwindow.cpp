@@ -38,6 +38,7 @@ static QString _debug( const QStringList& e )
 	if( e.contains( "--debug" ) ){
 
 		return "--debug" ;
+
 	}else if( e.contains( "--qdebug" ) ){
 
 		return "--qdebug" ;
@@ -116,7 +117,6 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
 						return false ;
 					}
 				}
-
 			} ) ;
 		}
 

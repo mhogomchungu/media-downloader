@@ -31,6 +31,7 @@ translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settin
 	this->addString( QObject::tr( "Chinese (China)" ),"Chinese (China)","zh_CN" ) ;
 	this->addString( QObject::tr( "Turkish (Turkey)" ),"Turkish (Turkey)","tr_TR" ) ;
 	this->addString( QObject::tr( "Russian (Russia)" ),"Russian (Russia)","ru_RU" ) ;
+	this->addString( QObject::tr( "Japanese (Japan)" ),"Japanese (Japan)","ja_JP" ) ;
 
 	this->setDefaultLanguage() ;
 }
