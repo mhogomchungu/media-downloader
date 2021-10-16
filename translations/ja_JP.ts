@@ -440,7 +440,7 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/translator.cpp" line="34"/>
         <source>Japanese (Japan)</source>
-        <translation type="unfinished"></translation>
+        <translation>日本語 (日本)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="114"/>
