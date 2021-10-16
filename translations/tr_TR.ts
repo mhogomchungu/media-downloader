@@ -420,12 +420,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/translator.cpp" line="30"/>
         <source>Spanish (Spain)</source>
-        <translation>İspanyolca</translation>
+        <translation>İspanyolca (İspanya)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="31"/>
         <source>Chinese (China)</source>
-        <translation>Çince</translation>
+        <translation>Çince (Çin)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="32"/>
@@ -435,12 +435,12 @@ Her Link Kendi Satırında Olmalıdır.</translation>
     <message>
         <location filename="../src/translator.cpp" line="33"/>
         <source>Russian (Russia)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rusça (Rusya)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="34"/>
         <source>Japanese (Japan)</source>
-        <translation type="unfinished"></translation>
+        <translation>Japonca (Japonya)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="114"/>
