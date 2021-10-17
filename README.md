@@ -2,7 +2,7 @@
 
 This project is a Qt/C++ based GUI frontend to CLI multiple CLI based tools that deal with downloading online media.
 
-[Youtube-dl](https://github.com/ytdl-org/youtube-dl) CLI tool is the default supported tool and other tools can be added by
+[yt-dlp](https://github.com/yt-dlp/yt-dlp) CLI tool is the default supported tool and other tools can be added by
 downloading their extension and a list of supported extensions is managed [here](https://github.com/mhogomchungu/media-downloader/wiki/Extensions).
 
 

@@ -336,7 +336,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 			ctx.context.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() ) ) ;
 
-			m_tabManager.enableAll() ;
+			ctx.context.TabManager().enableAll() ;
 		}else{
 			auto& logger = ctx.context.logger() ;
 
@@ -347,7 +347,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 				logger.add( tr( "Executable Path" ) + ": " + ctx.engine.exePath().realExe() ) ;
 			}
 
-			m_tabManager.enableAll() ;
+			ctx.context.TabManager().enableAll() ;
 		}
 
 		this->printEngineVersionInfo() ;
@@ -476,7 +476,7 @@ void basicdownloader::run( const engines::engine& engine,
 
 		},[ this ]( utility::ProcessExitState m,const basicdownloader::opts& opts ){
 
-			m_ctx.TabManager().enableAll() ;
+			opts.ctx.TabManager().enableAll() ;
 
 			m_ui.pbCancel->setEnabled( false ) ;
 
