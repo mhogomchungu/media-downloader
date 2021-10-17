@@ -435,12 +435,12 @@ Each Link Should Be In Its Own Line.</source>
     <message>
         <location filename="../src/translator.cpp" line="33"/>
         <source>Russian (Russia)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="34"/>
         <source>Japanese (Japan)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="114"/>
