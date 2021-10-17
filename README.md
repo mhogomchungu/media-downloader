@@ -40,13 +40,13 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.8.0/MediaDownloader-1.8.0.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.9.0/MediaDownloader-1.9.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self contained version that keeps everything in the application folder.
 
-Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.8.0/MediaDownloader-1.8.0.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/1.9.0/MediaDownloader-1.9.0.zip).
 
 ### Binary packages for Linux distributions
 
