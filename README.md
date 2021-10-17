@@ -19,7 +19,8 @@ downloads may cause the host to ban you.
 
 5. The GUI offers an ability to download playlist from websites that supports them like youtube.
 
-5. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish, Turkish and Russian.
+5. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish,
+Turkish, Russian and Japanese.
 
 ## Donations
 Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
