@@ -430,12 +430,12 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
     <message>
         <location filename="../src/translator.cpp" line="33"/>
         <source>Russian (Russia)</source>
-        <translation type="unfinished"></translation>
+        <translation>rosyjski (Rosja)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="34"/>
         <source>Japanese (Japan)</source>
-        <translation type="unfinished"></translation>
+        <translation>japoński (Japonia)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
