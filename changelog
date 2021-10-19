@@ -92,6 +92,11 @@ Version 1.2.0(April 1st, 2021)
   - Add support for "aria2c" extension.
   - Add Russian translations.
 
-    Version 1.9.0(October 17th, 2021)
+  Version 1.9.0(October 17th, 2021)
     [All]
     - Add Japanese translations,
+
+  Version 2.0.0(Unreleased)
+    [All]
+    - Add "-u" commnd line option to add a Url to the application's batch downloder tab. This feature is useful when used
+    with browser extensions that can open links in external application and it can be used to quickly add a link to the application..
