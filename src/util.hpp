@@ -27,6 +27,10 @@
 #include <QProcess>
 #include <QThread>
 #include <QTimer>
+#include <QFile>
+
+#include <QtNetwork/QLocalServer>
+#include <QtNetwork/QLocalSocket>
 
 #include <functional>
 #include <memory>
@@ -731,5 +735,101 @@ private:
 	int m_patch = 0 ;
 };
 
+template< typename MainApp,typename Args  >
+class oneinstance
+{
+public:
+	oneinstance( const QString& socketPath,
+		     const QString& argument,
+		     Args args ) :
+		m_serverPath( socketPath ),
+		m_argument( argument ),
+		m_args( std::move( args ) )
+	{
+		QTimer::singleShot( 0,[ this ](){
+
+			this->run() ;
+		} ) ;
+	}
+	~oneinstance()
+	{
+		if( m_localServer.isListening() ){
+
+			m_localServer.close() ;
+			QFile::remove( m_serverPath ) ;
+		}
+	}
+private:
+	void run()
+	{
+		m_mainApp = std::move( m_args ) ;
+
+		if( QFile::exists( m_serverPath ) ){
+
+			QObject::connect( &m_localSocket,&QLocalSocket::connected,[ this ](){
+
+				m_mainApp->anotherInstanceRunning() ;
+
+				if( !m_argument.isEmpty() ){
+
+					m_localSocket.write( m_argument.toUtf8() ) ;
+					m_localSocket.waitForBytesWritten() ;
+				}
+
+				m_localSocket.close() ;
+
+				m_mainApp->exit() ;
+			} ) ;
+
+		#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
+			using cs = void( QLocalSocket::* )( QLocalSocket::LocalSocketError ) ;
+
+			QObject::connect( &m_localSocket,static_cast< cs >( &QLocalSocket::error ),[ this ]( QLocalSocket::LocalSocketError e ){
+
+				Q_UNUSED( e )
+				m_mainApp->previousVersionCrashed() ;
+				QFile::remove( m_serverPath ) ;
+				this->start() ;
+			} ) ;
+		#else
+			QObject::connect( &m_localSocket,&QLocalSocket::errorOccurred,[ this ]( QLocalSocket::LocalSocketError e ){
+
+				m_mainApp->previousVersionCrashed() ;
+				Q_UNUSED( e )
+				QFile::remove( m_serverPath ) ;
+				this->start() ;
+			} ) ;
+	#endif
+			m_localSocket.connectToServer( m_serverPath ) ;
+		}else{
+			this->start() ;
+		}
+	}
+	void start( void )
+	{
+		m_mainApp->start( m_argument ) ;
+
+		QObject::connect( &m_localServer,&QLocalServer::newConnection,[ this ](){
+
+			auto s = m_localServer.nextPendingConnection() ;
+
+			QObject::connect( s,&QLocalSocket::readyRead,[ this,s ]{
+
+				m_mainApp->event( s->readAll() ) ;
+				s->deleteLater() ;
+			} ) ;
+		} ) ;
+
+		m_localServer.listen( m_serverPath ) ;
+	}
+	QLocalServer m_localServer ;
+	QLocalSocket m_localSocket ;
+	QString m_serverPath ;
+	QString m_argument ;
+	util::storage< MainApp > m_mainApp ;
+	Args m_args ;
+};
+
 }
+
 #endif

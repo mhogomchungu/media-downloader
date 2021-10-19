@@ -110,6 +110,10 @@ void batchfiledownloader::tabExited()
 {
 }
 
+void batchfiledownloader::gotEvent( const QString& )
+{
+}
+
 void batchfiledownloader::download()
 {
 	auto url = m_ui.lineEditFileDownloader->text() ;
@@ -127,7 +131,9 @@ void batchfiledownloader::download()
 
 		auto options = m_ui.lineEditFileOptions->text();
 
-		auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
+		auto mm = m_ctx.Engines().defaultEngineName() ;
+
+		auto m = m_settings.defaultEngine( settings::tabName::batch,mm ) ;
 
 		const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
 

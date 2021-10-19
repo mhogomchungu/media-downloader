@@ -115,17 +115,13 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( s ){
 
-			auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-			this->download( m_ctx.Engines().defaultEngine( m ) ) ;
+			this->download( this->defaultEngine() ) ;
 		}
 	} ) ;
 
 	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
 
-		auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-		this->download( m_ctx.Engines().defaultEngine( m ) ) ;
+		this->download( this->defaultEngine() ) ;
 	} ) ;
 
 	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
@@ -236,9 +232,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
-		auto mm = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-		const auto& engine = m_ctx.Engines().defaultEngine( mm ) ;
+		const auto& engine = this->defaultEngine() ;
 
 		ac = m.addAction( tr( "Get List" ) ) ;
 		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
@@ -350,9 +344,7 @@ void batchdownloader::resetMenu()
 		}else{
 			m_ui.lineEditBDUrlOptions->setText( ac.objectName() ) ;
 
-			auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-			this->download( m_ctx.Engines().defaultEngine( m ) ) ;
+			this->download( this->defaultEngine() ) ;
 		}
 	} ) ;
 }
@@ -374,6 +366,18 @@ void batchdownloader::tabExited()
 {
 }
 
+void batchdownloader::gotEvent( const QString& m )
+{
+	if( !m.isEmpty() ){
+
+		m_ui.tabWidget->setCurrentIndex( 1 ) ;
+
+		m_ui.lineEditBDUrl->setText( m ) ;
+
+		this->addToList( m ) ;
+	}
+}
+
 void batchdownloader::updateEnginesList( const QStringList& e )
 {
 	auto& comboBox = *m_ui.cbEngineTypeBD ;
@@ -388,7 +392,7 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 	auto s = settings::tabName::batch ;
 
 	this->setUpdefaultEngine( comboBox,
-				  m_settings.defaultEngine( s ),
+				  this->defaultEngineName(),
 				  [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
@@ -468,6 +472,16 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 	}else{
 		this->download( m.engine() ) ;
 	}
+}
+
+QString batchdownloader::defaultEngineName()
+{
+	return m_settings.defaultEngine( settings::tabName::batch,m_ctx.Engines().defaultEngineName() ) ;
+}
+
+const engines::engine& batchdownloader::defaultEngine()
+{
+	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
 }
 
 void batchdownloader::showThumbnail( const engines::engine& engine,int index,const QString& url,bool autoDownload )
@@ -555,9 +569,7 @@ void batchdownloader::showList()
 		return ;
 	}
 
-	auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-	const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+	const auto& engine = this->defaultEngine() ;
 
 	auto args = engine.defaultListCmdOptions() ;
 
@@ -683,13 +695,9 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 void batchdownloader::addToList( const QString& url )
 {
-	auto m = m_settings.defaultEngine( settings::tabName::batch ) ;
-
-	const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
-
 	auto e = m_ui.lineEditBDUrlOptions->text() ;
 
-	this->download( engine,e,{ url } ) ;
+	this->download( this->defaultEngine(),e,{ url } ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,downloadManager::index indexes )

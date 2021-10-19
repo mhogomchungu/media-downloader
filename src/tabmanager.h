@@ -95,6 +95,15 @@ public:
 			}
 		} ) ;
 	}
+	tabManager& gotEvent( const QString& e )
+	{
+		m_basicdownloader.gotEvent( e ) ;
+		m_batchdownloader.gotEvent( e ) ;
+		m_batchfiledownloader.gotEvent( e ) ;
+		m_playlistdownloader.gotEvent( e ) ;
+
+		return *this ;
+	}
 	tabManager& enableAll()
 	{
 		m_about.enableAll() ;

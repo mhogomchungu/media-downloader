@@ -47,12 +47,12 @@ static QString _debug( const QStringList& e )
 	}
 }
 
-MainWindow::MainWindow( QApplication& app,settings& s,translator& t ) :
+MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStringList& args ) :
 	m_qApp( app ),
 	m_ui( _init_ui( *this ) ),
 	m_logger( *m_ui->plainTextEditLogger,this,s ),
 	m_engines( m_logger,s ),
-	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,_debug( app.arguments() ) ),
+	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,_debug( args ) ),
 	m_settings( s ),
 	m_showTrayIcon( s.showTrayIcon() ),
 	m_defaultWindowTitle( this->window()->windowTitle() )
@@ -147,6 +147,26 @@ void MainWindow::setTitle( const QString& m )
 void MainWindow::resetTitle()
 {
 	this->setTitle( m_defaultWindowTitle ) ;
+}
+
+void MainWindow::Show( const QString& )
+{
+	this->show() ;
+}
+
+void MainWindow::processEvent( const QString& e )
+{
+	m_tabManager.gotEvent( e ) ;
+}
+
+void MainWindow::quitApp()
+{
+	m_tabManager.basicDownloader().appQuit() ;
+}
+
+void MainWindow::log( const QString& e )
+{
+	m_logger.add( e,-1 ) ;
 }
 
 MainWindow::~MainWindow() = default;

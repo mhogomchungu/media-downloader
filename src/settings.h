@@ -176,7 +176,7 @@ public:
 	QString commandOnSuccessfulDownload() ;
 	QString commandWhenAllFinished() ;
 	QString darkMode() ;
-	QString defaultEngine( settings::tabName ) ;
+	QString defaultEngine( settings::tabName,const QString& ) ;
 	QString cookieFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
 	QString engineDefaultDownloadOptions( const QString& engineName ) ;

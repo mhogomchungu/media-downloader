@@ -253,9 +253,19 @@ basicdownloader& basicdownloader::hideTableList()
 	return *this ;
 }
 
+QString basicdownloader::defaultEngineName()
+{
+	return m_settings.defaultEngine( settings::tabName::basic,m_ctx.Engines().defaultEngineName() ) ;
+}
+
+const engines::engine& basicdownloader::defaultEngine()
+{
+	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
+}
+
 void basicdownloader::setDefaultEngine()
 {
-	auto m = m_settings.defaultEngine( settings::tabName::basic ) ;
+	auto m = this->defaultEngineName() ;
 
 	for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
 
@@ -390,9 +400,7 @@ void basicdownloader::list()
 
 	auto url = m_ui.lineEditURL->text() ;
 
-	auto m = m_settings.defaultEngine( settings::tabName::basic ) ;
-
-	const auto& backend = m_ctx.Engines().defaultEngine( m ) ;
+	const auto& backend = this->defaultEngine() ;
 
 	auto args = backend.defaultListCmdOptions() ;
 	args.append( url.split( ' ' ) ) ;
@@ -413,7 +421,7 @@ void basicdownloader::download( const QString& url )
 
 	auto m = util::split( url,' ',true ) ;
 
-	const auto& engine = m_ctx.Engines().defaultEngine( m_settings.defaultEngine( settings::tabName::basic ) ) ;
+	const auto& engine = this->defaultEngine() ;
 
 	m_bogusTable.clear() ;
 
@@ -525,9 +533,7 @@ void basicdownloader::downloadDefaultEngine()
 
 	m_counter = static_cast< size_t >( -1 ) ;
 
-	auto m = m_settings.defaultEngine( settings::tabName::basic ) ;
-
-	this->printEngineVersionInfo( m_ctx.Engines().defaultEngine( m ) ) ;
+	this->printEngineVersionInfo( this->defaultEngine() ) ;
 }
 
 void basicdownloader::tabEntered()
@@ -585,4 +591,9 @@ void basicdownloader::appQuit()
 	m_settings.setTabNumber( m_ui.tabWidget->currentIndex() ) ;
 
 	QCoreApplication::quit() ;
+}
+
+void basicdownloader::gotEvent( const QString& )
+{
+
 }

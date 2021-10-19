@@ -93,12 +93,16 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void gotEvent( const QString& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void download( const engines::engine&,const QString& opts,const QStringList& ) ;
 	void setThumbnailColumnSize( bool ) ;
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 private:
+	QString defaultEngineName() ;
+	const engines::engine& defaultEngine() ;
+
 	void clearScreen() ;
 	void showList() ;
 	void addToList( const QString& ) ;

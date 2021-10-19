@@ -174,6 +174,11 @@ void engines::openUrls( const QString& path ) const
 	QDesktopServices::openUrl( m ) ;
 }
 
+const QString& engines::defaultEngineName() const
+{
+	return m_defaultEngine.name() ;
+}
+
 static util::result< engines::engine > _get_engine_by_path( const QString& e,
 							    const engines& engines,
 							    Logger& logger,
@@ -446,7 +451,7 @@ void engines::removeEngine( const QString& e )
 
 			auto _reset_default = [ & ]( const QString& name,settings::tabName n ){
 
-				if( name == m_settings.defaultEngine( n ) ){
+				if( name == m_settings.defaultEngine( n,this->defaultEngineName() ) ){
 
 					m_settings.setDefaultEngine( m_backends[ 0 ].name(),n ) ;
 				}
@@ -733,6 +738,18 @@ engines::enginePaths::enginePaths( settings& s )
 	dir.mkpath( m_binPath ) ;
 	dir.mkpath( m_enginePath ) ;
 	dir.mkpath( m_dataPath ) ;
+}
+
+QString engines::enginePaths::socketPath()
+{
+	if( utility::platformIsWindows() ){
+
+		return "\\\\.\\pipe\\MediaDownloaderIPC" ;
+	}else{
+		auto m = m_basePath + "/tmp" ;
+		QDir().mkpath( m ) ;
+		return m  + "/ipc" ;
+	}
 }
 
 QString engines::engine::functions::processCompleteStateText( const engine::engine::functions::finishedState& f )

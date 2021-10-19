@@ -43,12 +43,15 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 public:
-	MainWindow( QApplication&,settings&,translator& ) ;
+	MainWindow( QApplication&,settings&,translator&,const QStringList& ) ;
 	void retranslateUi() ;
 	int exec() ;
 	void setTitle( const QString& m ) ;
 	void resetTitle() ;
-
+	void Show( const QString& e ) ;
+	void processEvent( const QString& e ) ;
+	void quitApp() ;
+	void log( const QString& ) ;
 	~MainWindow() override ;
 private:
 	QSystemTrayIcon m_trayIcon ;

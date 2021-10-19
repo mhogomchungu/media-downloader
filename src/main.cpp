@@ -21,6 +21,47 @@
 #include "settings.h"
 #include "translator.h"
 #include "utility"
+#include "util.hpp"
+
+class myApp
+{
+public:
+	struct args
+	{
+		QApplication& app ;
+		settings& s ;
+		const QStringList& args ;
+	};
+	myApp( const myApp::args& a ) :
+		m_traslator( a.s,a.app ),
+		m_app( a.app,a.s,m_traslator,a.args )
+	{
+	}
+	void start( const QString& e )
+	{
+		m_app.Show( e ) ;
+		m_app.processEvent( e ) ;
+	}
+	void exit()
+	{
+		m_app.quitApp() ;
+	}
+	void event( const QString& e )
+	{
+		m_app.processEvent( e ) ;
+	}
+	void anotherInstanceRunning()
+	{
+		m_app.log( QObject::tr( "There seem to be another instance running,exiting this one" ) ) ;
+	}
+	void previousVersionCrashed()
+	{
+		m_app.log( QObject::tr( "Previous instance seem to have crashed,trying to clean up before starting" ) ) ;
+	}
+private:
+	translator m_traslator ;
+	MainWindow m_app ;
+};
 
 int main( int argc,char * argv[] )
 {
@@ -32,14 +73,22 @@ int main( int argc,char * argv[] )
 	}else{
 		settings settings ;
 
-		QApplication app( argc,argv ) ;
+		QApplication mqApp( argc,argv ) ;
 
-		app.setApplicationName( "media-downloader" ) ;
+		settings.setTheme( mqApp ) ;
 
-		settings.setTheme( app ) ;
+		mqApp.setApplicationName( "media-downloader" ) ;
 
-		translator translator( settings,app ) ;
+		auto args = mqApp.arguments() ;
 
-		return MainWindow( app,settings,translator ).exec() ;
+		auto spath = engines::enginePaths( settings ).socketPath() ;
+
+		QString x ;
+
+		utility::arguments( args ).hasOption( "-u",x,false ) ;
+
+		util::oneinstance< myApp,myApp::args > instance( spath,x,{ mqApp,settings,args } ) ;
+
+		return mqApp.exec() ;
 	}
 }

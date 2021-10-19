@@ -36,6 +36,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void gotEvent( const QString& ) ;
 private:
 	void download() ;
 	const Context& m_ctx ;

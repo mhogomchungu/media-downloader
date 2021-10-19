@@ -42,8 +42,12 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void gotEvent( const QString& ) ;
 	void updateEnginesList( const QStringList& ) ;
 private:
+	QString defaultEngineName() ;
+	const engines::engine& defaultEngine() ;
+
 	void download() ;	
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;

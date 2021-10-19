@@ -93,6 +93,7 @@ public:
 		{
 			return m_enginePath + "/" + e ;
 		}
+		QString socketPath() ;
 	private:
 		QString m_binPath ;
 		QString m_enginePath ;
@@ -537,6 +538,7 @@ public:
 	engines( Logger&,settings& ) ;
 	void openUrls( tableWidget&,int row,const QString& engineName = QString() ) const ;
 	void openUrls( const QString& path ) const ;
+	const QString& defaultEngineName() const ;
 private:
 	void updateEngines( bool ) ;
 	Logger& m_logger ;

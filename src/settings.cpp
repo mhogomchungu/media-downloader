@@ -713,13 +713,13 @@ void settings::setDefaultEngine( const QString& e,settings::tabName n )
 	m_settings.setValue( _getDefaultEngineName( n ),e ) ;
 }
 
-QString settings::defaultEngine( settings::tabName n )
+QString settings::defaultEngine( settings::tabName n,const QString& engineName )
 {
 	auto m = _getDefaultEngineName( n ) ;
 
 	if( !m_settings.contains( m ) ){
 
-		m_settings.setValue( m,"youtube-dl" ) ;
+		m_settings.setValue( m,engineName ) ;
 	}
 
 	return m_settings.value( m ).toString() ;

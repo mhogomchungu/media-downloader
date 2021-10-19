@@ -43,6 +43,7 @@ public:
 	void enableAll() ;
 	void disableAll() ;
 	void appQuit() ;
+	void gotEvent( const QString& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
 	void checkAndPrintInstalledVersion( const engines::engine& ) ;
@@ -51,6 +52,9 @@ public:
 	basicdownloader& setAsActive() ;
 	basicdownloader& hideTableList() ;
 private:
+	QString defaultEngineName() ;
+	const engines::engine& defaultEngine() ;
+
 	struct opts
 	{
 		const engines::engine& engine ;
