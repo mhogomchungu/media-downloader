@@ -229,23 +229,23 @@ static std::unique_ptr< QSettings > _init()
 	}else{
 		if( utility::platformIsWindows() ){
 
-            auto appPath      = _configPath() + "/media-downloader" ;
-            auto settingsPath = appPath + "/settings" ;
+			auto appPath      = _configPath() + "/media-downloader" ;
+			auto settingsPath = appPath + "/settings" ;
 
-            if( QFile::exists( settingsPath ) ){
+			if( QFile::exists( settingsPath ) ){
 
-                return _set_config( appPath ) ;
+				return _set_config( appPath ) ;
 			}else{
 				/*
 				 * Migrating from registry based config to text file config.
 				 */
 				QSettings oldSettings( "media-downloader","media-downloader" ) ;
 
-                auto newSettings = _set_config( appPath ) ;
+				auto newSettings = _set_config( appPath ) ;
 
-                const auto keys = oldSettings.allKeys() ;
+				const auto keys = oldSettings.allKeys() ;
 
-                for( const auto& it : keys ){
+				for( const auto& it : keys ){
 
 					newSettings->setValue( it,oldSettings.value( it ) ) ;
 				}
