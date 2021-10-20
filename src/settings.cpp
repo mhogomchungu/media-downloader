@@ -214,10 +214,7 @@ QString settings::playlistRangeHistoryLastUsed()
 
 static std::unique_ptr< QSettings > _set_config( const QString& path )
 {
-	QCoreApplication::setOrganizationName( "media-downloader" ) ;
-	QCoreApplication::setApplicationName( "media-downloader" ) ;
-
-	QDir().mkpath( path + "/settings/" ) ;
+    QDir().mkpath( path + "/settings/" ) ;
 
 	auto m = path + "/settings/settings.ini" ;
 
@@ -232,20 +229,23 @@ static std::unique_ptr< QSettings > _init()
 	}else{
 		if( utility::platformIsWindows() ){
 
-			auto path = _configPath() ;
+            auto appPath      = _configPath() + "/media-downloader" ;
+            auto settingsPath = appPath + "/settings" ;
 
-			if( QFile::exists( path + "/settings/" ) ){
+            if( QFile::exists( settingsPath ) ){
 
-				return _set_config( path ) ;
+                return _set_config( appPath ) ;
 			}else{
 				/*
 				 * Migrating from registry based config to text file config.
 				 */
 				QSettings oldSettings( "media-downloader","media-downloader" ) ;
 
-				auto newSettings = _set_config( path ) ;
+                auto newSettings = _set_config( appPath ) ;
 
-				for( const auto& it : oldSettings.allKeys() ){
+                const auto keys = oldSettings.allKeys() ;
+
+                for( const auto& it : keys ){
 
 					newSettings->setValue( it,oldSettings.value( it ) ) ;
 				}
