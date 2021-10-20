@@ -718,16 +718,7 @@ QString engines::engine::versionString( const QString& data ) const
 
 engines::enginePaths::enginePaths( settings& s )
 {
-	auto m = s.configPaths() ;
-
-	if( !m.isEmpty() ){
-
-		m_basePath = m.first() ;
-	}else{
-		//?????
-		m_basePath = QDir::homePath() + "/.config/media-downloader/" ;
-	}
-
+	m_basePath   = s.configPaths() ;
 	m_binPath    = m_basePath + "/bin" ;
 	m_enginePath = m_basePath + "/engines.v1" ;
 	m_dataPath   = m_basePath + "/data" ;

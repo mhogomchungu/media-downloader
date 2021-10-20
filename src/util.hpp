@@ -609,31 +609,56 @@ void run( const QString& cmd,
 	} ) ;
 }
 
+struct run_result
+{
+	int exitCode ;
+	QProcess::ExitStatus exitStatus ;
+	QByteArray stdOut ;
+	QByteArray stdError ;
+};
+
 template< typename WhenDone >
 void run( const QString& cmd,
 	  const QStringList& args,
 	  WhenDone whenDone,
-	  QProcess::ProcessChannelMode m = QProcess::MergedChannels )
+	  QProcess::ProcessChannelMode m = QProcess::SeparateChannels )
 {
-	struct buffer
-	{
-		QByteArray data ;
-	};
+	util::run( cmd,args,[ & ]( QProcess& exe ){
 
-	util::run( cmd,args,[ m ]( QProcess& exe ){
+		struct context
+		{
+			context( QProcess::ProcessChannelMode c ) :
+				channel( c )
+			{
+			}
+			QProcess::ProcessChannelMode channel ;
+			QByteArray stdOut ;
+			QByteArray stdError ;
+		};
 
-		   exe.setProcessChannelMode( m ) ;
-		   return buffer() ;
+		exe.setProcessChannelMode( m ) ;
 
-	},[]( QProcess& ){
+		return context( m ) ;
 
-	},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,buffer& buff ){
+	},[]( QProcess&,auto& ){
 
-		whenDone( e,ss,std::move( buff.data ) ) ;
+	},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,auto& ctx ){
 
-	},[]( QProcess::ProcessChannel,QByteArray&& data,buffer& buff ){
+		whenDone( { e,ss,std::move( ctx.stdOut ),std::move( ctx.stdError ) } ) ;
 
-		buff.data += std::move( data ) ;
+	},[]( QProcess::ProcessChannel c,QByteArray&& data,auto& ctx ){
+
+		if( ctx.channel == QProcess::MergedChannels ){
+
+			ctx.stdOut += std::move( data ) ;
+		}else{
+			if( c == QProcess::ProcessChannel::StandardOutput ){
+
+				ctx.stdOut += std::move( data ) ;
+			}else{
+				ctx.stdError += std::move( data ) ;
+			}
+		}
 	} ) ;
 }
 
@@ -799,7 +824,7 @@ private:
 				QFile::remove( m_serverPath ) ;
 				this->start() ;
 			} ) ;
-	#endif
+		#endif
 			m_localSocket.connectToServer( m_serverPath ) ;
 		}else{
 			this->start() ;

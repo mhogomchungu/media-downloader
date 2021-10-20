@@ -28,6 +28,22 @@
 #include <QFile>
 #include <QStyleFactory>
 
+static QString _configPath()
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+	auto s = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
+
+	if( s.isEmpty() ){
+
+		return QDir::homePath() + "/.config/media-downloader/" ;
+	}else{
+		return s.first() ;
+	}
+#else
+	return QDir::homePath() + "/.config/media-downloader/" ;
+#endif
+}
+
 bool settings::portableVersion()
 {
 	if( utility::platformIsWindows() ){
@@ -196,20 +212,51 @@ QString settings::playlistRangeHistoryLastUsed()
 	return m_settings.value( "playlistRangeHistoryLastUsed" ).toString() ;
 }
 
+static std::unique_ptr< QSettings > _set_config( const QString& path )
+{
+	QCoreApplication::setOrganizationName( "media-downloader" ) ;
+	QCoreApplication::setApplicationName( "media-downloader" ) ;
+
+	QDir().mkpath( path + "/settings/" ) ;
+
+	auto m = path + "/settings/settings.ini" ;
+
+	return std::make_unique< QSettings >( m,QSettings::IniFormat ) ;
+}
+
 static std::unique_ptr< QSettings > _init()
 {
 	if( settings::portableVersion() ){
 
-		QCoreApplication::setOrganizationName( "media-downloader" ) ;
-		QCoreApplication::setApplicationName( "media-downloader" ) ;
-
-		QDir().mkpath( settings::portableVersionConfigPath() + "/settings/" ) ;
-
-		auto m = settings::portableVersionConfigPath() + "/settings/settings.ini" ;
-
-		return std::make_unique< QSettings >( m,QSettings::IniFormat ) ;
+		return _set_config( settings::portableVersionConfigPath() ) ;
 	}else{
-		return std::make_unique< QSettings >( "media-downloader","media-downloader" ) ;
+		if( utility::platformIsWindows() ){
+
+			auto path = _configPath() ;
+
+			if( QFile::exists( path + "/settings/" ) ){
+
+				return _set_config( path ) ;
+			}else{
+				/*
+				 * Migrating from registry based config to text file config.
+				 */
+				QSettings oldSettings( "media-downloader","media-downloader" ) ;
+
+				auto newSettings = _set_config( path ) ;
+
+				for( const auto& it : oldSettings.allKeys() ){
+
+					newSettings->setValue( it,oldSettings.value( it ) ) ;
+				}
+
+				oldSettings.clear() ;
+
+				return newSettings ;
+			}
+		}else{
+			return std::make_unique< QSettings >( "media-downloader","media-downloader" ) ;
+		}
 	}
 }
 
@@ -600,6 +647,16 @@ bool settings::playlistDownloaderSaveHistory()
 	return m_settings.value( "PlaylistDownloaderSaveHistory" ).toBool() ;
 }
 
+bool settings::singleInstance()
+{
+	if( !m_settings.contains( "SingleInstance" ) ){
+
+		m_settings.setValue( "SingleInstance",true ) ;
+	}
+
+	return m_settings.value( "SingleInstance" ).toBool() ;
+}
+
 void settings::setPlaylistDownloaderSaveHistory( bool e )
 {
 	m_settings.setValue( "PlaylistDownloaderSaveHistory",e ) ;
@@ -780,17 +837,14 @@ QStringList settings::localizationLanguages()
 	return m ;
 }
 
-QStringList settings::configPaths()
+QString settings::configPaths()
 {
 	if( settings::portableVersion() ){
 
-		return { settings::portableVersionConfigPath() } ;
+		return settings::portableVersionConfigPath() ;
+	}else{
+		return _configPath() ;
 	}
-#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
-	return QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
-#else
-	return QStringList{ QDir::homePath() + "/.config/media-downloader/" } ;
-#endif
 }
 
 QString settings::commandOnSuccessfulDownload()

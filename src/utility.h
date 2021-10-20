@@ -173,8 +173,7 @@ namespace utility
 		template< typename T >
 		void removeOptionWithArgument( const T& opt ) const
 		{
-			QString m ;
-			this->hasOption( opt,m,true ) ;
+			this->hasValue( opt,true ) ;
 		}
 		template< typename T >
 		void removeOption( const T& opt ) const
@@ -182,8 +181,10 @@ namespace utility
 			this->hasOption( opt,true ) ;
 		}
 		template< typename T >
-		void hasOption( const T& opt,QString& result,bool remove ) const
+		QString hasValue( const T& opt,bool remove ) const
 		{
+			QString result ;
+
 			for( int i = 0 ; i < m_args.size() ; i++ ){
 
 				if( m_args[ i ] == opt ){
@@ -204,6 +205,8 @@ namespace utility
 					}
 				}
 			}
+
+			return result ;
 		}
 	private:
 		QStringList& m_args ;

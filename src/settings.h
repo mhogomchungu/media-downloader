@@ -181,6 +181,7 @@ public:
 	QString windowsDimensions( const QString& windowName ) ;
 	QString engineDefaultDownloadOptions( const QString& engineName ) ;
 	QString playlistRangeHistoryLastUsed() ;
+	QString configPaths() ;
 
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
@@ -190,8 +191,6 @@ public:
 
 	QStringList presetOptionsList() ;
 	QStringList localizationLanguages() ;
-
-	QStringList configPaths() ;
 
 	QByteArray highDpiScalingFactor() ;
 
@@ -209,6 +208,7 @@ public:
 	bool showThumbnails() ;
 	bool saveHistory() ;
 	bool playlistDownloaderSaveHistory() ;
+	bool singleInstance() ;
 
 	int stringTruncationSize() ;
 	int historySize() ;

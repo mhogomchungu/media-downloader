@@ -307,20 +307,20 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 {
 	m_tabManager.disableAll() ;
 
-	struct ctx
-	{
-		ctx( const engines::engine& e,const Context& c ) :
-			engine( e ),context( c )
-		{
-		}
-		QByteArray data ;
-		const engines::engine& engine ;
-		const Context& context ;
-	} ;
-
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
 	util::run( cmd.exe(),cmd.args(),[ this,&engine ]( QProcess& exe ){
+
+		struct ctx
+		{
+			ctx( const engines::engine& e,const Context& c ) :
+				engine( e ),context( c )
+			{
+			}
+			QByteArray data ;
+			const engines::engine& engine ;
+			const Context& context ;
+		} ;
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
@@ -328,7 +328,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		return ctx( engine,m_ctx ) ;
 
-	},[]( QProcess&,ctx& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,ctx& ctx ){
+	},[]( QProcess&,auto& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,auto& ctx ){
 
 		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 
@@ -362,7 +362,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		this->printEngineVersionInfo() ;
 
-	},[]( QProcess::ProcessChannel,const QByteArray& data,ctx& ctx ){
+	},[]( QProcess::ProcessChannel,const QByteArray& data,auto& ctx ){
 
 		ctx.data += data ;
 	} ) ;

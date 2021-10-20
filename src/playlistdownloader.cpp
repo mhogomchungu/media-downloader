@@ -35,20 +35,18 @@ public:
 	{
 		utility::arguments Opts( m_options ) ;
 
-		Opts.hasOption( "--max-media-length",m_maxMediaLength,true ) ;
-		Opts.hasOption( "--min-media-length",m_minMediaLength,true ) ;
+		m_maxMediaLength = Opts.hasValue( "--max-media-length",true ) ;
+		m_minMediaLength = Opts.hasValue( "--min-media-length",true ) ;
 
 		m_breakOnExisting = Opts.hasOption( "--break-on-existing",true ) ;
 		m_skipOnExisting  = Opts.hasOption( "--skip-on-existing",true ) ;
 
 		if( m_breakOnExisting || m_skipOnExisting ){
 
-			QString mm ;
-
 			auto s = settings.engineDefaultDownloadOptions( engine.name() ) ;
 			auto ss = util::splitPreserveQuotes( s ) ;
 
-			utility::arguments( ss ).hasOption( "--download-archive",mm,false ) ;
+			auto mm = utility::arguments( ss ).hasValue( "--download-archive",false ) ;
 
 			if( !mm.isEmpty() ){
 

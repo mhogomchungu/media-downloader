@@ -83,12 +83,18 @@ int main( int argc,char * argv[] )
 
 		auto spath = engines::enginePaths( settings ).socketPath() ;
 
-		QString x ;
+		utility::arguments opts( args ) ;
 
-		utility::arguments( args ).hasOption( "-u",x,false ) ;
+		if( opts.hasOption( "-s",false ) || !settings.singleInstance() ){
 
-		util::oneinstance< myApp,myApp::args > instance( spath,x,{ mqApp,settings,args } ) ;
+			translator traslator( settings,mqApp ) ;
+			return MainWindow( mqApp,settings,traslator,args ).exec() ;
+		}else{
+			auto url = opts.hasValue( "-u",false ) ;
 
-		return mqApp.exec() ;
+			util::oneinstance< myApp,myApp::args > instance( spath,url,{ mqApp,settings,args } ) ;
+
+			return mqApp.exec() ;
+		}
 	}
 }
