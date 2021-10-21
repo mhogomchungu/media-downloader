@@ -795,10 +795,6 @@ namespace utility
 				if( channel == c ){
 
 					_withData( data ) ;
-
-				}else if( channel == c ){
-
-					_withData( data ) ;
 				}
 			}
 		}

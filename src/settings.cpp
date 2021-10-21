@@ -214,7 +214,7 @@ QString settings::playlistRangeHistoryLastUsed()
 
 static std::unique_ptr< QSettings > _set_config( const QString& path )
 {
-    QDir().mkpath( path + "/settings/" ) ;
+	QDir().mkpath( path + "/settings" ) ;
 
 	auto m = path + "/settings/settings.ini" ;
 
