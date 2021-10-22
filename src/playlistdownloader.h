@@ -52,7 +52,7 @@ private:
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
-	void parseJson( const customOptions&,tableWidget& table,Logger::Data& data ) ;
+	void parseJson( const customOptions&,bool,tableWidget& table,Logger::Data& data ) ;
 
 	void getList() ;
 	void clearScreen() ;

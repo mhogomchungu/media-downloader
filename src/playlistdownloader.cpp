@@ -650,13 +650,38 @@ void playlistdownloader::getList()
 
 	},[ this,&engine ]( customOptions&& c ){
 
+		class Monitor
+		{
+		public:
+			bool stop()
+			{
+				m_continue = false ;
+				m_counter++ ;
+				return m_counter == 1 ;
+			}
+			bool stillProcessing()
+			{
+				return m_continue ;
+			}
+		private:
+			int m_counter = 0 ;
+			bool m_continue = true ;
+		};
+
+		auto monitor = std::make_shared< Monitor >() ;
+
 		auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
 				opts.ctx.TabManager().disableAll() ;
 				m_gettingPlaylist = true ;
 				m_ui.pbPLCancel->setEnabled( true ) ;
 
-			},[ this ]( utility::ProcessExitState,const playlistdownloader::opts& ){
+			},[ this,monitor ]( utility::ProcessExitState,const playlistdownloader::opts& ){
+
+				if( monitor->stop() ){
+
+					m_table.removeRow( 0 ) ;
+				}
 
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
@@ -666,9 +691,9 @@ void playlistdownloader::getList()
 
 		auto opts = c.options() ;
 
-		auto bb = [ copts = std::move( c ),this ]( tableWidget& table,Logger::Data& data ){
+		auto bb = [ copts = std::move( c ),this,monitor ]( tableWidget& table,Logger::Data& data ){
 
-			this->parseJson( copts,table,data ) ;
+			this->parseJson( copts,monitor->stop(),table,data ) ;
 		} ;
 
 		auto id     = utility::concurrentID() ;
@@ -677,6 +702,29 @@ void playlistdownloader::getList()
 		auto term   = m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ) ;
 		auto ch     = QProcess::ProcessChannel::StandardOutput ;
 		auto argsq  = utility::args( m_ui.lineEditPLUrlOptions->text() ).quality() ;
+
+		logger.clear() ;
+
+		auto s = tr( "This May Take A Very Long Time" ) ;
+		auto d = engines::engine::functions::timer::stringElapsedTime( 0 ) ;
+
+		m_table.addItem( m_defaultVideoThumbnailIcon,{ d + "\n" + s,"","" },Qt::AlignCenter ) ;
+
+		util::Timer( 1000,[ this,monitor,s ]( int counter ){
+
+			if( monitor->stillProcessing() ){
+
+				auto duration = engines::engine::functions::timer::stringElapsedTime( counter * 1000 ) ;
+
+				m_table.uiTextItem( 0 ).setText( duration + "\n" + s ) ;
+
+				return false ;
+			}else{
+				return true ;
+			}
+		} ) ;
+
+		m_table.selectLast() ;
 
 		auto ctx = utility::make_ctx( engine,
 					      std::move( oopts ),
@@ -702,7 +750,10 @@ bool playlistdownloader::enabled()
 	return m_ui.lineEditPLUrl->isEnabled() ;
 }
 
-void playlistdownloader::parseJson( const customOptions& copts,tableWidget& table,Logger::Data& data )
+void playlistdownloader::parseJson( const customOptions& copts,
+				    bool replace,
+				    tableWidget& table,
+				    Logger::Data& data )
 {
 	auto mmm = data.toLine() ;
 
@@ -767,7 +818,12 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 			auto a = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
 
-			table.addItem( m_defaultVideoThumbnailIcon,{ a,media.url(),s },Qt::AlignCenter ) ;
+			if( replace ){
+
+				table.replace( m_defaultVideoThumbnailIcon,{ a,media.url(),s },Qt::AlignCenter ) ;
+			}else{
+				table.addItem( m_defaultVideoThumbnailIcon,{ a,media.url(),s },Qt::AlignCenter ) ;
+			}
 
 			table.selectLast() ;
 
@@ -795,7 +851,12 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 	if( !m_showThumbnails ){
 
-		table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		if( replace ){
+
+			table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		}else{
+			table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		}
 
 		table.selectLast() ;
 
@@ -808,7 +869,16 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 
 		m_networkRunning++ ;
 
-		int row = table.addRow() ;
+		int row ;
+
+		if( replace ){
+
+			row = 0 ;
+		}else{
+			row = table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		}
+
+		table.selectLast() ;
 
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
@@ -829,12 +899,15 @@ void playlistdownloader::parseJson( const customOptions& copts,tableWidget& tabl
 				table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },row ) ;
 			}
 
-			table.selectLast() ;
-
 			m_networkRunning-- ;
 		} ) ;
 	}else{
-		table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		if( replace ){
+
+			table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		}else{
+			table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+		}
 
 		table.selectLast() ;
 	}

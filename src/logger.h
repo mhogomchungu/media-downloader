@@ -344,7 +344,6 @@ public:
 		m_id( id ),
 		m_addToTable( std::move( add ) )
 	{
-		this->clear() ;
 	}
 	void add( const QString& e )
 	{
