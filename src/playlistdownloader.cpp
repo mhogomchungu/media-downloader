@@ -24,6 +24,7 @@
 #include "mainwindow.h"
 
 #include <QFileDialog>
+#include <QClipboard>
 
 class customOptions
 {
@@ -198,6 +199,18 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			m_table.removeRow( row ) ;
 
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
+		} ) ;
+
+		ac = m.addAction( tr( "Copy Url" ) ) ;
+
+		connect( ac,&QAction::triggered,[ this,row ](){
+
+			auto m = QApplication::clipboard() ;
+
+			if( m ){
+
+				m->setText( m_table.url( row ) ) ;
+			}
 		} ) ;
 
 		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){

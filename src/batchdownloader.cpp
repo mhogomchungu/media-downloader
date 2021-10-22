@@ -22,6 +22,7 @@
 #include "mainwindow.h"
 
 #include <QMetaObject>
+#include <QClipboard>
 
 batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -217,6 +218,18 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		connect( ac,&QAction::triggered,[ this,row ](){
 
 			m_terminator.terminate( row ) ;
+		} ) ;
+
+		ac = m.addAction( tr( "Copy Url" ) ) ;
+
+		connect( ac,&QAction::triggered,[ this,row ](){
+
+			auto m = QApplication::clipboard() ;
+
+			if( m ){
+
+				m->setText( m_table.url( row ) ) ;
+			}
 		} ) ;
 
 		ac = m.addAction( tr( "Remove" ) ) ;
