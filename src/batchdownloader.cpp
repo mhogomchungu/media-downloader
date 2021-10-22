@@ -135,8 +135,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			m_ui.lineEditBDUrl->setText( m ) ;
-
 			this->addToList( m ) ;
 		}
 	} ) ;
@@ -315,6 +313,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
+			m_ui.lineEditBDUrl->clear() ;
+
 			this->addToList( m ) ;
 		}
 	} ) ;
@@ -372,8 +372,6 @@ void batchdownloader::gotEvent( const QString& m )
 
 		m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
-		m_ui.lineEditBDUrl->setText( m ) ;
-
 		this->addToList( m ) ;
 	}
 }
@@ -412,9 +410,36 @@ void batchdownloader::download( const engines::engine& engine,
 
 			downloadManager::index indexes( m_table ) ;
 
-			indexes.add( -1,m_ui.lineEditBDUrlOptions->text() ) ;
+			auto state = downloadManager::finishedStatus::running() ;
 
 			const auto& m = list.at( 0 ) ;
+
+			int row = m_table.addItem( m_defaultVideoThumbnail,{ "...\n" + m,m,state } ) ;
+
+			util::Timer( 1000,[ this,row ]( int counter ){
+
+				if( downloadManager::finishedStatus::running( m_table.runningState( row ) ) ){
+
+					QString m = "..." ;
+
+					int max = counter % 4 ;
+
+					for( int s = 0 ; s < max ; s++ ){
+
+						m += " ..." ;
+					}
+
+					m_table.uiTextItem( row ).setText( m + "\n" + m_table.url( row ) ) ;
+
+					return false ;
+				}else{
+					return true ;
+				}
+			} ) ;
+
+			m_table.selectLast() ;
+
+			indexes.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
 
 			m_ccmd.download( std::move( indexes ),engine,[ this ](){
 
@@ -495,22 +520,22 @@ void batchdownloader::showThumbnail( const engines::engine& engine,int index,con
 
 		auto bb = [ this,&engine,&opts,url,autoDownload ]( const downloadManager::finishedStatus& f ){
 
+			auto allFinished = f.allFinished() ;
+
 			if( f.exitState().cancelled() ){
 
-				this->addItem( f.index(),f.allFinished(),url ) ;
+				this->addItem( f.index(),allFinished,url ) ;
 			}else{
 				utility::MediaEntry m( opts.batchLogger.data() ) ;
 
 				if( m.valid() ){
 
-					this->addItem( f.index(),f.allFinished(),std::move( m ) ) ;
+					this->addItem( f.index(),allFinished,std::move( m ) ) ;
 				}else{
-					qDebug() << m.errorString() ;
-
-					this->addItem( f.index(),f.allFinished(),url ) ;
+					this->addItem( f.index(),allFinished,url ) ;
 				}
 
-				if( f.allFinished() && autoDownload ){
+				if( allFinished && autoDownload ){
 
 					this->download( engine ) ;
 				}
@@ -520,7 +545,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,int index,con
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
 	} ;
 
-	auto functions = utility::OptionsFunctions( []( const batchdownloader::opts& ){},std::move( aa ) ) ;
+	auto functions = utility::OptionsFunctions( [ this ]( const batchdownloader::opts& ){
+
+		m_ui.pbBDPasteClipboard->setEnabled( true ) ;
+
+		m_ui.pbBDAdd->setEnabled( true ) ;
+
+		m_ui.lineEditBDUrl->setEnabled( true ) ;
+
+	},std::move( aa ) ) ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
@@ -624,24 +657,33 @@ void batchdownloader::showList()
 	utility::run( args,QString(),std::move( ctx ) ) ;
 }
 
-void batchdownloader::addItemUi( const QPixmap& pixmap,
-				 int index,
-				 bool enableAll,
-				 const utility::MediaEntry& media )
+static void _addItemUi( const QPixmap& pixmap,
+			int index,
+			tableWidget& table,
+			Ui::MainWindow& ui,
+			const utility::MediaEntry& media )
 {
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
 	if( index == -1 ){
 
-		m_table.addItem( pixmap,{ media.uiText(),media.url(),state },Qt::AlignCenter ) ;
-		m_table.selectLast() ;
+		table.addItem( pixmap,{ media.uiText(),media.url(),state },Qt::AlignCenter ) ;
+		table.selectLast() ;
 	}else{
-		m_table.replace( pixmap,{ media.uiText(),media.url(),state },index ) ;
+		table.replace( pixmap,{ media.uiText(),media.url(),state },index ) ;
 	}
 
-	m_ui.lineEditBDUrl->clear() ;
+	ui.lineEditBDUrl->clear() ;
 
-	m_ui.lineEditBDUrl->setFocus() ;
+	ui.lineEditBDUrl->setFocus() ;
+}
+
+void batchdownloader::addItemUi( const QPixmap& pixmap,
+				 int index,
+				 bool enableAll,
+				 const utility::MediaEntry& media )
+{
+	_addItemUi( pixmap,index,m_table,m_ui,media ) ;
 
 	m_ui.pbBDDownload->setEnabled( true ) ;
 
@@ -653,7 +695,7 @@ void batchdownloader::addItemUi( const QPixmap& pixmap,
 
 void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEntry& media )
 {
-	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,std::move( media ) ) ;
+	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,media ) ;
 }
 
 void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntry& media )
@@ -669,7 +711,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 			m_networkRunning++ ;
 
 			network.getResource( media.thumbnailUrl(),
-					     [ this,enableAll,media = media,index ]( const QByteArray& data ){
+					     [ this,media = media,index ]( const QByteArray& data ){
 
 				QPixmap pixmap ;
 
@@ -679,10 +721,17 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 					auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
 
 					pixmap = pixmap.scaled( w,h ) ;
-
-					this->addItemUi( pixmap,index,enableAll,media ) ;
 				}else{
-					this->addItemUi( index,enableAll,media ) ;
+					pixmap = m_defaultVideoThumbnail ;
+				}
+
+				_addItemUi( pixmap,index,m_table,m_ui,media ) ;
+
+				if( m_table.noneAreRunning() ){
+
+					m_ui.pbBDDownload->setEnabled( true ) ;
+
+					m_ctx.TabManager().enableAll() ;
 				}
 
 				m_networkRunning-- ;
