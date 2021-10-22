@@ -52,11 +52,11 @@ public:
 	}
 	void anotherInstanceRunning()
 	{
-		m_app.log( QObject::tr( "There seem to be another instance running,exiting this one" ) ) ;
+		//m_app.log( QObject::tr( "There seem to be another instance running,exiting this one" ) ) ;
 	}
 	void previousVersionCrashed()
 	{
-		m_app.log( QObject::tr( "Previous instance seem to have crashed,trying to clean up before starting" ) ) ;
+		//m_app.log( QObject::tr( "Previous instance seem to have crashed,trying to clean up before starting" ) ) ;
 	}
 private:
 	translator m_traslator ;

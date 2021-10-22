@@ -646,16 +646,6 @@ Każdy link powinien znajdować się w osobnej linii pliku.</translation>
         <source>Media Already In Archive</source>
         <translation>Plik znajduje się już w archiwum</translation>
     </message>
-    <message>
-        <location filename="../src/main.cpp" line="55"/>
-        <source>There seem to be another instance running,exiting this one</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main.cpp" line="59"/>
-        <source>Previous instance seem to have crashed,trying to clean up before starting</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>basicdownloader</name>

@@ -644,16 +644,6 @@ Each Link Should Be In Its Own Line.</source>
         <source>Media Already In Archive</source>
         <translation>Medio ya existe en archivo</translation>
     </message>
-    <message>
-        <location filename="../src/main.cpp" line="55"/>
-        <source>There seem to be another instance running,exiting this one</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main.cpp" line="59"/>
-        <source>Previous instance seem to have crashed,trying to clean up before starting</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>basicdownloader</name>
