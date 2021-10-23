@@ -287,6 +287,8 @@ public:
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
 
+			virtual QStringList dumpJsonArguments() ;
+
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const engine::engine::functions::finishedState& ) ;
 
@@ -362,6 +364,10 @@ public:
 
 		QString versionString( const QString& data ) const ;
 
+		const util::version& versionInfo() const
+		{
+			return m_version ;
+		}
 		const QString& optionsArgument() const
 		{
 			return m_optionsArgument ;
@@ -369,6 +375,10 @@ public:
 		const QString& downloadUrl() const
 		{
 			return m_downloadUrl ;
+		}
+		QStringList dumpJsonArguments() const
+		{
+			return m_functions->dumpJsonArguments() ;
 		}
 		void processData( Logger::Data& outPut,const QByteArray& data,int id ) const
 		{
@@ -493,6 +503,7 @@ public:
 			return m_replaceOutputWithProgressReport ;
 		}
 	private:
+		mutable util::version m_version ;
 		QJsonObject m_jsonObject ;
 		std::unique_ptr< engines::engine::functions > m_functions ;
 		int m_line ;

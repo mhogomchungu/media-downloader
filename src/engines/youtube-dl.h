@@ -42,6 +42,8 @@ public:
 		QString m_fileName ;
 	} ;
 
+	QStringList dumpJsonArguments() override ;
+
 	bool breakShowListIfContains( const QStringList& ) override ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;
@@ -61,6 +63,7 @@ public:
 
 	youtube_dl( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	const engines& m_engines ;
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
 };

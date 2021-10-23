@@ -213,6 +213,7 @@ void youtube_dl::init( const QString& name,
 
 youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
 	engines::engine::functions( engines.Settings(),engine ),
+	m_engines( engines ),
 	m_engine( engine )
 {
 	if( !object.contains( "ShowListTableBoundary" ) ){
@@ -315,6 +316,24 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 
 youtube_dl::~youtube_dl()
 {
+}
+
+QStringList youtube_dl::dumpJsonArguments()
+{
+	if( m_engine.name().contains( "yt-dlp" ) ){
+
+		const auto& e = m_engines.getEngineByName( "yt-dlp" ) ;
+
+		if( e.has_value() ){
+
+			if( e->versionInfo() >= "2021.10.22" ){
+
+				return QStringList{ "--dump-json","--no-check-formats" } ;
+			}
+		}
+	}
+
+	return engines::engine::functions::dumpJsonArguments() ;
 }
 
 bool youtube_dl::breakShowListIfContains( const QStringList& e )

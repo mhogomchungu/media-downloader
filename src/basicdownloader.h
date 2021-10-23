@@ -73,6 +73,7 @@ private:
 	}
 
 	size_t m_counter = 0 ;
+	size_t m_maxCounter ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	QString m_debug ;

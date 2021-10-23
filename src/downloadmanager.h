@@ -283,7 +283,7 @@ public:
 	}
 	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,
-		       const QString& cliOptions,
+		       QStringList cliOptions,
 		       const QString& url,
 		       TermSignal conn,
 		       Options opts,
@@ -291,9 +291,11 @@ public:
 	{
 		m_index->next() ;
 
+		cliOptions.append( url ) ;
+
 		auto ctx = utility::make_ctx( engine,std::move( opts ),std::move( logger ),std::move( conn ) ) ;
 
-		utility::run( { cliOptions,url },QString(),std::move( ctx ) ) ;
+		utility::run( cliOptions,QString(),std::move( ctx ) ) ;
 	}
 	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,

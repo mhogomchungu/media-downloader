@@ -549,3 +549,62 @@ bool utility::isRelativePath( const QString& e )
 {
 	return QDir::isRelativePath( e ) ;
 }
+
+utility::MediaEntry::MediaEntry(const QByteArray & data) : m_json( data )
+{
+	if( m_json ){
+
+		auto object = m_json.doc().object() ;
+
+		m_title        = object.value( "title" ).toString() ;
+		m_url          = object.value( "webpage_url" ).toString() ;
+		m_uploadDate   = object.value( "upload_date" ).toString() ;
+		m_id           = object.value( "id" ).toString() ;
+
+		//m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
+		m_thumbnailUrl = QString( "https://img.youtube.com/vi/%1/hqdefault.jpg" ).arg( m_id ) ;
+
+		if( !m_uploadDate.isEmpty() ){
+
+			m_uploadDate = QObject::tr( "Upload Date:" ) + " " + m_uploadDate ;
+		}
+
+		m_intDuration = object.value( "duration" ).toInt() ;
+
+		if( m_intDuration != 0 ){
+
+			auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
+			m_duration = QObject::tr( "Duration:" ) + " " + s ;
+		}
+	}
+}
+
+QString utility::MediaEntry::uiText() const
+{
+	auto title = [ & ](){
+
+		if( m_title.isEmpty() || m_title == "\n" ){
+
+			return m_url ;
+		}else{
+			return m_title ;
+		}
+	}() ;
+
+	if( m_duration.isEmpty() ){
+
+		if( m_uploadDate.isEmpty() ){
+
+			return title ;
+		}else{
+			return m_uploadDate + "\n" + title ;
+		}
+	}else{
+		if( m_uploadDate.isEmpty() ){
+
+			return m_duration + "\n" + title ;
+		}else{
+			return m_duration + ", " + m_uploadDate + "\n" + title ;
+		}
+	}
+}

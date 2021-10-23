@@ -136,9 +136,12 @@ void basicdownloader::init_done()
 
 		if( m_settings.showVersionInfoWhenStarting() ){
 
+			m_maxCounter = engines.size() ;
+
 			this->printEngineVersionInfo() ;
 		}else{
-			m_counter = static_cast< size_t >( -1 ) ;
+			m_maxCounter = 1 ;
+			this->printEngineVersionInfo() ;
 		}
 	}else{
 		m_tabManager.disableAll() ;
@@ -151,7 +154,7 @@ void basicdownloader::printEngineVersionInfo()
 {
 	const auto& engines = m_ctx.Engines().getEngines() ;
 
-	if( m_counter < engines.size() ){
+	if( m_counter < m_maxCounter ){
 
 		const auto& engine = engines[ m_counter ] ;
 

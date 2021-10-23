@@ -664,6 +664,9 @@ void run( const QString& cmd,
 
 class version{
 public:
+	version()
+	{
+	}
 	version( int major,int minor,int patch ) :
 		m_valid( true ),m_major( major ),m_minor( minor ),m_patch( patch )
 	{

@@ -627,9 +627,7 @@ void playlistdownloader::getList()
 
 	const auto& engine = this->defaultEngine() ;
 
-	QStringList opts ;
-
-	opts.append( "--dump-json" ) ;
+	auto opts = engine.dumpJsonArguments() ;
 
 	auto range = m_ui.lineEditPLDownloadRange->text() ;
 
@@ -663,25 +661,7 @@ void playlistdownloader::getList()
 
 	},[ this,&engine ]( customOptions&& c ){
 
-		class Monitor
-		{
-		public:
-			bool stop()
-			{
-				m_continue = false ;
-				m_counter++ ;
-				return m_counter == 1 ;
-			}
-			bool stillProcessing()
-			{
-				return m_continue ;
-			}
-		private:
-			int m_counter = 0 ;
-			bool m_continue = true ;
-		};
-
-		auto monitor = std::make_shared< Monitor >() ;
+		auto monitor = std::make_shared< Monitor >( m_table ) ;
 
 		auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
@@ -691,10 +671,7 @@ void playlistdownloader::getList()
 
 			},[ this,monitor ]( utility::ProcessExitState,const playlistdownloader::opts& ){
 
-				if( monitor->stop() ){
-
-					m_table.removeRow( 0 ) ;
-				}
+				monitor->stop() ;
 
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
@@ -706,7 +683,7 @@ void playlistdownloader::getList()
 
 		auto bb = [ copts = std::move( c ),this,monitor ]( tableWidget& table,Logger::Data& data ){
 
-			this->parseJson( copts,monitor->stop(),table,data ) ;
+			this->parseJson( copts,*monitor,table,data ) ;
 		} ;
 
 		auto id     = utility::concurrentID() ;
@@ -733,6 +710,8 @@ void playlistdownloader::getList()
 
 				return false ;
 			}else{
+				monitor->removeBanner() ;
+
 				return true ;
 			}
 		} ) ;
@@ -764,7 +743,7 @@ bool playlistdownloader::enabled()
 }
 
 void playlistdownloader::parseJson( const customOptions& copts,
-				    bool replace,
+				    playlistdownloader::Monitor& monitor,
 				    tableWidget& table,
 				    Logger::Data& data )
 {
@@ -818,6 +797,10 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		data.add( mmm.mid( index + 1 ) ) ;
 	}	
 
+	auto r = monitor.replace() ;
+	auto replace = r.replace ;
+	auto row = r.row ;
+
 	if( copts.contains( media.id() ) ){
 
 		if( copts.breakOnExisting() ){
@@ -833,9 +816,9 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 			if( replace ){
 
-				table.replace( m_defaultVideoThumbnailIcon,{ a,media.url(),s },Qt::AlignCenter ) ;
+				table.replace( m_defaultVideoThumbnailIcon,{ a,media.url(),s },row ) ;
 			}else{
-				table.addItem( m_defaultVideoThumbnailIcon,{ a,media.url(),s },Qt::AlignCenter ) ;
+				table.addItem( m_defaultVideoThumbnailIcon,{ a,media.url(),s } ) ;
 			}
 
 			table.selectLast() ;
@@ -866,9 +849,9 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 		if( replace ){
 
-			table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+			table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },row ) ;
 		}else{
-			table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+			table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s } ) ;
 		}
 
 		table.selectLast() ;
@@ -882,21 +865,10 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 		m_networkRunning++ ;
 
-		int row ;
-
-		if( replace ){
-
-			row = 0 ;
-		}else{
-			row = table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
-		}
-
-		table.selectLast() ;
-
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
 		network.getResource( thumbnailUrl,
-				     [ this,&table,s,row,
+				     [ this,&table,s,replace,row,
 				     media = std::move( media ) ]( const QByteArray& data ){
 
 			QPixmap pixmap ;
@@ -907,19 +879,28 @@ void playlistdownloader::parseJson( const customOptions& copts,
 				auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
 
 				pixmap = pixmap.scaled( width,height ) ;
+			}else{
+				pixmap = m_defaultVideoThumbnailIcon ;
+
+			}
+
+			if( replace ){
+
 				table.replace( pixmap,{ media.uiText(),media.url(),s },row ) ;
 			}else{
-				table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },row ) ;
+				table.addItem( pixmap,{ media.uiText(),media.url(),s } ) ;
 			}
+
+			table.selectLast() ;
 
 			m_networkRunning-- ;
 		} ) ;
 	}else{
 		if( replace ){
 
-			table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+			table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },row ) ;
 		}else{
-			table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },Qt::AlignCenter ) ;
+			table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s } ) ;
 		}
 
 		table.selectLast() ;

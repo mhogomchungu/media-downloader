@@ -404,7 +404,7 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 
 void batchdownloader::showThumbnail( const engines::engine& engine,const QStringList& list )
 {
-	if( m_showThumbnails ){
+	if( m_showThumbnails && engine.likeYoutubeDl() ){
 
 		for( const auto& it : list ){
 
@@ -546,7 +546,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,int index,con
 	BatchLoggerWrapper wrapper( m_ctx.logger() ) ;
 
 	m_ccmd.download( engine,
-			 "--dump-json",
+			 engine.dumpJsonArguments(),
 			 index == -1 ? url : m_table.url( index ),
 			 m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
 			 batchdownloader::make_options( { m_ctx,m_debug,false,index,wrapper },std::move( functions ) ),

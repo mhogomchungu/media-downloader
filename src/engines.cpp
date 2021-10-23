@@ -709,7 +709,9 @@ QString engines::engine::versionString( const QString& data ) const
 
 		if( m_position < c.size() ){
 
-			return c[ m_position ] ;
+			const auto& m = c[ m_position ] ;
+			m_version = m ;
+			return m ;
 		}
 	}
 
@@ -820,6 +822,11 @@ QString engines::engine::functions::commandString( const engines::engine::exeArg
 	}
 
 	return m ;
+}
+
+QStringList engines::engine::functions::dumpJsonArguments()
+{
+	return { "--dump-json" } ;
 }
 
 QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,

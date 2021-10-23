@@ -52,7 +52,6 @@ private:
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
-	void parseJson( const customOptions&,bool,tableWidget& table,Logger::Data& data ) ;
 
 	void getList() ;
 	void clearScreen() ;
@@ -73,6 +72,46 @@ private:
 	utility::Terminator m_terminator ;
 
 	QPixmap m_defaultVideoThumbnailIcon ;
+
+	class Monitor
+	{
+	public:
+		struct Replace
+		{
+			bool replace ;
+			int row ;
+		};
+		Monitor( tableWidget& t ) :
+			m_table( t )
+		{
+		}
+		void stop()
+		{
+			m_table.runningStateItem( 0 ).setText( "blabla" ) ;
+		}
+		Monitor::Replace replace() const
+		{
+			return { m_table.runningState( 0 ).isEmpty(),0 } ;
+		}
+		bool stillProcessing() const
+		{
+			return m_table.runningState( 0 ).isEmpty() ;
+		}
+		void removeBanner()
+		{
+			if( m_table.runningState( 0 ) == "blabla" ){
+
+				m_table.removeRow( 0 ) ;
+			}
+		}
+	private:
+		tableWidget& m_table ;
+	};
+
+	void parseJson( const customOptions&,
+			playlistdownloader::Monitor&,
+			tableWidget& table,
+			Logger::Data& data ) ;
 
 	struct opts
 	{
