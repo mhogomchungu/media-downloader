@@ -57,7 +57,6 @@ set(MOC_FILES
     src/logwindow.h
     src/basicdownloader.h
     src/batchdownloader.h
-    src/batchfiledownloader.h
     src/configure.h
     src/library.h
     src/playlistdownloader.h)
@@ -72,7 +71,6 @@ set(SRC
     src/about.cpp
     src/batchdownloader.cpp
     src/tabmanager.cpp
-    src/batchfiledownloader.cpp
     src/configure.cpp
     src/translator.cpp
     src/playlistdownloader.cpp

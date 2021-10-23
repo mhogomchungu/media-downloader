@@ -23,7 +23,6 @@
 #include "about.h"
 #include "basicdownloader.h"
 #include "batchdownloader.h"
-#include "batchfiledownloader.h"
 #include "configure.h"
 #include "playlistdownloader.h"
 #include "context.hpp"
@@ -46,7 +45,6 @@ public:
 		m_configure( m_ctx ),
 		m_basicdownloader( m_ctx ),
 		m_batchdownloader( m_ctx ),
-		m_batchfiledownloader( m_ctx ),
 		m_playlistdownloader( m_ctx ),
 		m_library( m_ctx )
 	{
@@ -54,7 +52,6 @@ public:
 		m_configure.init_done() ;
 		m_basicdownloader.init_done() ;
 		m_batchdownloader.init_done() ;
-		m_batchfiledownloader.init_done() ;
 		m_playlistdownloader.init_done() ;
 		m_library.init_done() ;
 
@@ -99,7 +96,6 @@ public:
 	{
 		m_basicdownloader.gotEvent( e ) ;
 		m_batchdownloader.gotEvent( e ) ;
-		m_batchfiledownloader.gotEvent( e ) ;
 		m_playlistdownloader.gotEvent( e ) ;
 
 		return *this ;
@@ -110,7 +106,6 @@ public:
 		m_configure.enableAll() ;
 		m_basicdownloader.enableAll() ;
 		m_batchdownloader.enableAll() ;
-		m_batchfiledownloader.enableAll() ;
 		m_playlistdownloader.enableAll() ;
 		m_library.enableAll() ;
 
@@ -124,7 +119,6 @@ public:
 		m_configure.disableAll() ;
 		m_basicdownloader.disableAll() ;
 		m_batchdownloader.disableAll() ;
-		m_batchfiledownloader.disableAll() ;
 		m_playlistdownloader.disableAll() ;
 		m_library.disableAll() ;
 
@@ -138,7 +132,6 @@ public:
 		m_configure.resetMenu() ;
 		m_basicdownloader.resetMenu() ;
 		m_batchdownloader.resetMenu() ;
-		m_batchfiledownloader.resetMenu() ;
 		m_playlistdownloader.resetMenu() ;
 		m_library.resetMenu() ;
 
@@ -150,7 +143,6 @@ public:
 		m_configure.retranslateUi() ;
 		m_basicdownloader.retranslateUi() ;
 		m_batchdownloader.retranslateUi() ;
-		m_batchfiledownloader.retranslateUi() ;
 		m_playlistdownloader.retranslateUi() ;
 		m_library.retranslateUi() ;
 
@@ -184,7 +176,6 @@ private:
 	configure m_configure ;
 	basicdownloader m_basicdownloader ;
 	batchdownloader m_batchdownloader ;
-	batchfiledownloader m_batchfiledownloader ;
 	playlistdownloader m_playlistdownloader ;
 	library m_library ;
 } ;

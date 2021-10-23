@@ -15,104 +15,99 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="53"/>
-        <location filename="../src/mainwindow.ui" line="399"/>
-        <location filename="../src/mainwindow.ui" line="607"/>
-        <location filename="../src/mainwindow.ui" line="954"/>
+        <location filename="../src/mainwindow.ui" line="287"/>
+        <location filename="../src/mainwindow.ui" line="591"/>
+        <location filename="../src/mainwindow.ui" line="787"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="66"/>
-        <location filename="../src/mainwindow.ui" line="941"/>
+        <location filename="../src/mainwindow.ui" line="774"/>
         <source>Get List</source>
         <translation>リストを取得</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
-        <location filename="../src/mainwindow.ui" line="444"/>
+        <location filename="../src/mainwindow.ui" line="418"/>
         <source>Enter URL:</source>
         <translation>URLを入力:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="425"/>
-        <location filename="../src/mainwindow.ui" line="725"/>
+        <location filename="../src/mainwindow.ui" line="345"/>
         <source>Enter Options:</source>
         <translation>オプションを入力:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
-        <location filename="../src/mainwindow.ui" line="360"/>
-        <location filename="../src/mainwindow.ui" line="626"/>
-        <location filename="../src/mainwindow.ui" line="809"/>
+        <location filename="../src/mainwindow.ui" line="313"/>
+        <location filename="../src/mainwindow.ui" line="642"/>
         <source>Download</source>
         <translation>ダウンロード</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="150"/>
-        <location filename="../src/mainwindow.ui" line="373"/>
-        <location filename="../src/mainwindow.ui" line="693"/>
-        <location filename="../src/mainwindow.ui" line="777"/>
-        <location filename="../src/mainwindow.ui" line="1544"/>
+        <location filename="../src/mainwindow.ui" line="300"/>
+        <location filename="../src/mainwindow.ui" line="610"/>
+        <location filename="../src/mainwindow.ui" line="1377"/>
         <source>Options</source>
         <translation>オプション</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="163"/>
-        <location filename="../src/mainwindow.ui" line="386"/>
-        <location filename="../src/mainwindow.ui" line="639"/>
-        <location filename="../src/mainwindow.ui" line="861"/>
-        <location filename="../src/mainwindow.ui" line="1127"/>
-        <location filename="../src/mainwindow.ui" line="1690"/>
+        <location filename="../src/mainwindow.ui" line="437"/>
+        <location filename="../src/mainwindow.ui" line="694"/>
+        <location filename="../src/mainwindow.ui" line="960"/>
+        <location filename="../src/mainwindow.ui" line="1523"/>
         <location filename="../src/mainwindow.cpp" line="74"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="202"/>
-        <location filename="../src/mainwindow.ui" line="565"/>
+        <location filename="../src/mainwindow.ui" line="549"/>
         <source>Format Code</source>
         <translation>フォーマットコード</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="207"/>
-        <location filename="../src/mainwindow.ui" line="570"/>
+        <location filename="../src/mainwindow.ui" line="554"/>
         <source>Extension</source>
         <translation>拡張子</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="212"/>
-        <location filename="../src/mainwindow.ui" line="575"/>
+        <location filename="../src/mainwindow.ui" line="559"/>
         <source>Resolution</source>
         <translation>解像度</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="217"/>
-        <location filename="../src/mainwindow.ui" line="580"/>
+        <location filename="../src/mainwindow.ui" line="564"/>
         <source>Note</source>
         <translation>詳細</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="231"/>
-        <location filename="../src/mainwindow.ui" line="483"/>
-        <location filename="../src/mainwindow.ui" line="980"/>
+        <location filename="../src/mainwindow.ui" line="326"/>
+        <location filename="../src/mainwindow.ui" line="813"/>
         <source>Engine Name:</source>
         <translation>エンジン名:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="250"/>
-        <location filename="../src/mainwindow.ui" line="502"/>
-        <location filename="../src/mainwindow.ui" line="999"/>
+        <location filename="../src/mainwindow.ui" line="450"/>
+        <location filename="../src/mainwindow.ui" line="832"/>
         <source>Paste Clipboard Content</source>
         <translation>クリップボードの内容を貼り付け</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="266"/>
-        <location filename="../src/mainwindow.ui" line="518"/>
-        <location filename="../src/mainwindow.ui" line="754"/>
-        <location filename="../src/mainwindow.ui" line="1015"/>
-        <location filename="../src/mainwindow.ui" line="1031"/>
-        <location filename="../src/mainwindow.ui" line="1047"/>
+        <location filename="../src/mainwindow.ui" line="502"/>
+        <location filename="../src/mainwindow.ui" line="848"/>
+        <location filename="../src/mainwindow.ui" line="864"/>
+        <location filename="../src/mainwindow.ui" line="880"/>
         <source>Recently Used</source>
         <translation>最近使用したもの</translation>
     </message>
@@ -122,226 +117,202 @@
         <translation>一括ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="291"/>
-        <source>Download Multiple Urls</source>
-        <translation>複数のURLをダウンロード</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="313"/>
-        <location filename="../src/mainwindow.ui" line="907"/>
+        <location filename="../src/mainwindow.ui" line="374"/>
+        <location filename="../src/mainwindow.ui" line="740"/>
         <source>Thumbnail</source>
         <translation>サムネイル</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="318"/>
-        <location filename="../src/mainwindow.ui" line="912"/>
+        <location filename="../src/mainwindow.ui" line="379"/>
+        <location filename="../src/mainwindow.ui" line="745"/>
         <source>Url To Download</source>
         <translation>ダウンロードするURL</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="347"/>
+        <location filename="../src/mainwindow.ui" line="466"/>
         <source>Add Url To List</source>
         <translation>リストにURLを追加</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="594"/>
+        <location filename="../src/mainwindow.ui" line="578"/>
         <source>Set</source>
         <translation>セット</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="614"/>
-        <source>Download Multiple Urls From A File</source>
-        <translation>ファイルから複数のURLをダウンロード</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="652"/>
-        <source>Set A File That Contain Links To Be Downloaded.
-
-Each Link Should Be In Its Own Line.</source>
-        <translation>ダウンロードするリンクを含んだファイルをセットしてください。
-
-1行につき1リンクの形式である必要があります。</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="706"/>
-        <source>Enter File Path:</source>
-        <translation>ファイルの場所を入力:</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="765"/>
+        <location filename="../src/mainwindow.ui" line="598"/>
         <source>Playlist Downloader</source>
         <translation>プレイリストダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="874"/>
+        <location filename="../src/mainwindow.ui" line="707"/>
         <source>Enter Playlist URL:</source>
         <translation>プレイリストのURLを入力:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1063"/>
+        <location filename="../src/mainwindow.ui" line="896"/>
         <source>Save History</source>
         <translation>履歴を保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1072"/>
+        <location filename="../src/mainwindow.ui" line="905"/>
         <source>Library</source>
         <translation>ライブラリ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1103"/>
+        <location filename="../src/mainwindow.ui" line="936"/>
         <source>Type</source>
         <translation>種類</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1140"/>
+        <location filename="../src/mainwindow.ui" line="973"/>
         <source>Up</source>
         <translation>上のフォルダへ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1153"/>
+        <location filename="../src/mainwindow.ui" line="986"/>
         <source>Refresh</source>
         <translation>表示を更新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1166"/>
+        <location filename="../src/mainwindow.ui" line="999"/>
         <source>Open Folder</source>
         <translation>フォルダを開く</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1179"/>
+        <location filename="../src/mainwindow.ui" line="1012"/>
         <source>Home</source>
         <translation>ホームへ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1185"/>
+        <location filename="../src/mainwindow.ui" line="1018"/>
         <source>Configure</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1201"/>
+        <location filename="../src/mainwindow.ui" line="1034"/>
         <source>General Options</source>
         <translation>全般設定</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1307"/>
+        <location filename="../src/mainwindow.ui" line="1140"/>
         <source>Update Engine</source>
         <translation>エンジンを更新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1365"/>
+        <location filename="../src/mainwindow.ui" line="1198"/>
         <source>Show Thumbnails</source>
         <translation>サムネイルを表示</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1388"/>
+        <location filename="../src/mainwindow.ui" line="1221"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>最大同時ダウンロード数</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1407"/>
+        <location filename="../src/mainwindow.ui" line="1240"/>
         <source>Use System Executables If Available</source>
         <translation>あらかじめインストールされている実行ファイルを優先して使用する</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1430"/>
+        <location filename="../src/mainwindow.ui" line="1263"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation>ダークテーマ (再起動が必要)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1454"/>
-        <location filename="../src/mainwindow.ui" line="1560"/>
+        <location filename="../src/mainwindow.ui" line="1287"/>
+        <location filename="../src/mainwindow.ui" line="1393"/>
         <source>Reset Option To Its Default</source>
         <translation>オプションをデフォルトに戻す</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1457"/>
-        <location filename="../src/mainwindow.ui" line="1636"/>
+        <location filename="../src/mainwindow.ui" line="1290"/>
+        <location filename="../src/mainwindow.ui" line="1469"/>
         <source>Set Defaults</source>
         <translation>デフォルトに戻す</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1333"/>
+        <location filename="../src/mainwindow.ui" line="1166"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>表示倍率 (再起動が必要)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1442"/>
+        <location filename="../src/mainwindow.ui" line="1275"/>
         <source>Preset Options</source>
         <translation>プリセット設定</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1288"/>
+        <location filename="../src/mainwindow.ui" line="1121"/>
         <source>Download Path</source>
         <translation>ダウンロードの場所</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1236"/>
+        <location filename="../src/mainwindow.ui" line="1069"/>
         <source>Select Language</source>
         <translation>言語を選択</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1255"/>
+        <location filename="../src/mainwindow.ui" line="1088"/>
         <source>Show Version Info When Starting</source>
         <translation>開始時にバージョン情報を表示</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1352"/>
+        <location filename="../src/mainwindow.ui" line="1185"/>
         <source>Add a Plugin</source>
         <translation>プラグインを追加</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1320"/>
+        <location filename="../src/mainwindow.ui" line="1153"/>
         <source>Remove A Plugin</source>
         <translation>プラグインを削除</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1703"/>
+        <location filename="../src/mainwindow.ui" line="1536"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1569"/>
+        <location filename="../src/mainwindow.ui" line="1402"/>
         <source>Engine&apos;s Default Options</source>
         <translation>エンジンのデフォルト設定</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="790"/>
+        <location filename="../src/mainwindow.ui" line="623"/>
         <source>Get List Options:</source>
         <translation>リスト取得オプション:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="832"/>
+        <location filename="../src/mainwindow.ui" line="665"/>
         <source>Download Options:</source>
         <translation>ダウンロードオプション:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1489"/>
-        <location filename="../src/mainwindow.ui" line="1528"/>
+        <location filename="../src/mainwindow.ui" line="1322"/>
+        <location filename="../src/mainwindow.ui" line="1361"/>
         <source>Ui Name</source>
         <translation>表示名</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1563"/>
+        <location filename="../src/mainwindow.ui" line="1396"/>
         <source>Add</source>
         <translation>追加</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1591"/>
+        <location filename="../src/mainwindow.ui" line="1424"/>
         <source>Engine&apos;s Name</source>
         <translation>エンジン名</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1610"/>
+        <location filename="../src/mainwindow.ui" line="1443"/>
         <source>Default Download Options</source>
         <translation>デフォルトのダウンロードオプション</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1649"/>
+        <location filename="../src/mainwindow.ui" line="1482"/>
         <source>Path To Cookie FIle</source>
         <translation>Cookieファイルの場所</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1709"/>
+        <location filename="../src/mainwindow.ui" line="1542"/>
         <source>About</source>
         <translation>バージョン情報</translation>
     </message>
@@ -360,16 +331,17 @@ Each Link Should Be In Its Own Line.</source>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="520"/>
-        <source>Save List</source>
-        <translation>リストを保存</translation>
-    </message>
-    <message>
         <location filename="../src/utility.cpp" line="523"/>
         <source>Save List To File</source>
         <translation>ファイルにリストを保存</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="290"/>
+        <location filename="../src/batchdownloader.cpp" line="468"/>
+        <source>Get List From File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="285"/>
         <location filename="../src/playlistdownloader.cpp" line="252"/>
         <location filename="../src/utility.cpp" line="329"/>
         <source>Preset Options</source>
@@ -674,37 +646,34 @@ Each Link Should Be In Its Own Line.</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="204"/>
+        <location filename="../src/batchdownloader.cpp" line="472"/>
+        <source>Set Batch File</source>
+        <translation type="unfinished">バッチファイルをセット</translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="197"/>
         <source>Open</source>
         <translation>開く</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="214"/>
+        <location filename="../src/batchdownloader.cpp" line="207"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="223"/>
+        <location filename="../src/batchdownloader.cpp" line="216"/>
         <source>Copy Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="235"/>
+        <location filename="../src/batchdownloader.cpp" line="228"/>
         <source>Remove</source>
         <translation>削除</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="248"/>
-        <source>Get List</source>
-        <translation>リストを取得</translation>
-    </message>
-</context>
-<context>
-    <name>batchfiledownloader</name>
-    <message>
-        <location filename="../src/batchfiledownloader.cpp" line="49"/>
-        <source>Set Batch File</source>
-        <translation>バッチファイルをセット</translation>
+        <location filename="../src/batchdownloader.cpp" line="241"/>
+        <source>Show Media Options</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

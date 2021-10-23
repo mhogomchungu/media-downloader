@@ -3,7 +3,6 @@ SOURCES += \
 about.cpp \
 basicdownloader.cpp \
 batchdownloader.cpp \
-batchfiledownloader.cpp \
 configure.cpp \
 networkAccess.cpp \
 main.cpp \
@@ -24,7 +23,6 @@ HEADERS += \
 about.h \
 basicdownloader.h \
 batchdownloader.h \
-batchfiledownloader.h \
 configure.h \
 mainwindow.h \
 playlistdownloader.h \

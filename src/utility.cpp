@@ -517,7 +517,7 @@ const QProcessEnvironment& utility::processEnvironment( const Context& ctx )
 
 void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWidget )
 {
-	QObject::connect( m.addAction( QObject::tr( "Save List" ) ),&QAction::triggered,[ &ctx,&tableWidget ](){
+	QObject::connect( m.addAction( QObject::tr( "Save List To File" ) ),&QAction::triggered,[ &ctx,&tableWidget ](){
 
 		auto e = QFileDialog::getSaveFileName( &ctx.mainWidget(),
 						       QObject::tr( "Save List To File" ),

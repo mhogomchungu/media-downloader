@@ -23,6 +23,7 @@
 
 #include <QMetaObject>
 #include <QClipboard>
+#include <QFileDialog>
 
 batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -53,8 +54,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		m_table.selectRow( c,p,m_table.startPosition() ) ;
 	} ) ;
-
-	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
 
 	m_table.hideColumns( 2,3,4 ) ;
 
@@ -163,14 +162,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		}
 	} ) ;
 
-	connect( m_ui.tabWidgetBatchDownlader,&QTabWidget::currentChanged,[ this ]( int s ){
-
-		if( s == 0 ){
-
-			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
-		}
-	} ) ;
-
 	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
 		auto row = m_table.currentRow() ;
@@ -190,6 +181,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		if( row == -1 ){
 
 			QMenu m ;
+
+			this->getListFromFile( m ) ;
 
 			return utility::appendContextMenu( m,m_table.noneAreRunning(),std::move( function ) ) ;
 		}
@@ -245,7 +238,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		const auto& engine = this->defaultEngine() ;
 
-		ac = m.addAction( tr( "Get List" ) ) ;
+		ac = m.addAction( tr( "Show Media Options" ) ) ;
 		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
 
 		connect( ac,&QAction::triggered,[ this ](){
@@ -282,6 +275,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 				this->download( engine,std::move( indexes ) ) ;
 			} ) ;
 		} ) ;
+
+		this->getListFromFile( m ) ;
 
 		utility::saveDownloadList( m_ctx,m,m_table ) ;
 
@@ -407,27 +402,17 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 				  [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
-void batchdownloader::download( const engines::engine& engine,
-				const QString& opts,
-				const QStringList& list )
+void batchdownloader::showThumbnail( const engines::engine& engine,const QStringList& list )
 {
-	m_ui.tabWidget->setCurrentIndex( 1 ) ;
+	if( m_showThumbnails ){
 
-	m_ui.tabWidgetBatchDownlader->setCurrentIndex( 0 ) ;
-
-	m_ui.lineEditBDUrlOptions->setText( opts ) ;
-
-	if( list.size() == 1 ){
-
-		if( m_showThumbnails ){
+		for( const auto& it : list ){
 
 			downloadManager::index indexes( m_table ) ;
 
 			auto state = downloadManager::finishedStatus::running() ;
 
-			const auto& m = list.at( 0 ) ;
-
-			int row = m_table.addItem( m_defaultVideoThumbnail,{ "...\n" + m,m,state } ) ;
+			int row = m_table.addItem( m_defaultVideoThumbnail,{ "...\n" + it,it,state } ) ;
 
 			util::Timer( 1000,[ this,row ]( int counter ){
 
@@ -458,42 +443,10 @@ void batchdownloader::download( const engines::engine& engine,
 
 				return m_settings.maxConcurrentDownloads() ;
 
-			}(),[ this,m ]( const engines::engine& engine,int index ){
+			}(),[ this,it ]( const engines::engine& engine,int index ){
 
-				this->showThumbnail( engine,index,m,false ) ;
+				this->showThumbnail( engine,index,it,false ) ;
 			} ) ;
-		}else{
-			this->addItemUi( m_defaultVideoThumbnail,-1,false,list.at( 0 ) ) ;
-		}
-
-	}else if( list.size() <= m_settings.maxConcurrentDownloads() ){
-
-		auto f = false ;
-		//auto f = m_showThumbnails ;
-
-		if( f ){
-
-			downloadManager::index indexes( m_table ) ;
-
-			auto m = m_ui.lineEditBDUrlOptions->text() ;
-
-			for( int i = 0 ; i < list.size() ; i++ ){
-
-				this->addItemUi( m_defaultVideoThumbnail,-1,false,list[ i ] ) ;
-
-				indexes.add( i,m ) ;
-			}
-
-			m_ccmd.download( std::move( indexes ),engine,[ this ](){
-
-				return m_settings.maxConcurrentDownloads() ;
-
-			}(),[ this,m = list[ 0 ] ]( const engines::engine& engine,int index ){
-
-				this->showThumbnail( engine,index,m,true ) ;
-			} ) ;
-		}else{
-			this->addItemUiSlot( { engine,list } ) ;
 		}
 	}else{
 		this->addItemUiSlot( { engine,list } ) ;
@@ -507,9 +460,31 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 		this->addItemUi( m_defaultVideoThumbnail,-1,false,m.next() ) ;
 
 		QMetaObject::invokeMethod( this,"addItemUiSlot",Qt::QueuedConnection,Q_ARG( ItemEntry,m ) ) ;
-	}else{
-		this->download( m.engine() ) ;
 	}
+}
+
+void batchdownloader::getListFromFile( QMenu& m )
+{
+	auto ac = m.addAction( QObject::tr( "Get List From File" ) ) ;
+
+	QObject::connect( ac,&QAction::triggered,[ this ](){
+
+		auto e = QFileDialog::getOpenFileName( &m_ctx.mainWindow(),tr( "Set Batch File" ),QDir::homePath() ) ;
+
+		if( !e.isEmpty() ){
+
+			QString list = engines::file( e,m_ctx.logger() ).readAll() ;
+
+			if( !list.isEmpty() ){
+
+				auto l = util::split( list,'\n',true ) ;
+
+				const auto& engine = this->defaultEngine() ;
+
+				this->showThumbnail( engine,l ) ;
+			}
+		}
+	} ) ;
 }
 
 QString batchdownloader::defaultEngineName()
@@ -757,9 +732,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 void batchdownloader::addToList( const QString& url )
 {
-	auto e = m_ui.lineEditBDUrlOptions->text() ;
-
-	this->download( this->defaultEngine(),e,{ url } ) ;
+	this->showThumbnail( this->defaultEngine(),{ url } ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,downloadManager::index indexes )
