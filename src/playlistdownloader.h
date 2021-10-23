@@ -87,7 +87,10 @@ private:
 		}
 		void stop()
 		{
-			m_table.runningStateItem( 0 ).setText( "blabla" ) ;
+			if( !m_doingNetworking ){
+
+				m_table.runningStateItem( 0 ).setText( "blabla" ) ;
+			}
 		}
 		Monitor::Replace replace() const
 		{
@@ -97,19 +100,24 @@ private:
 		{
 			return m_table.runningState( 0 ).isEmpty() ;
 		}
-		void removeBanner()
+		void doingNetworking()
 		{
-			if( m_table.runningState( 0 ) == "blabla" ){
+			m_doingNetworking = true ;
+		}
+		~Monitor()
+		{
+			if( m_table.rowCount() > 0 && m_table.runningState( 0 ) == "blabla" ){
 
 				m_table.removeRow( 0 ) ;
 			}
 		}
 	private:
+		bool m_doingNetworking = false ;
 		tableWidget& m_table ;
 	};
 
 	void parseJson( const customOptions&,
-			playlistdownloader::Monitor&,
+			const std::shared_ptr< playlistdownloader::Monitor >&,
 			tableWidget& table,
 			Logger::Data& data ) ;
 

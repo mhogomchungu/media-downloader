@@ -683,7 +683,7 @@ void playlistdownloader::getList()
 
 		auto bb = [ copts = std::move( c ),this,monitor ]( tableWidget& table,Logger::Data& data ){
 
-			this->parseJson( copts,*monitor,table,data ) ;
+			this->parseJson( copts,monitor,table,data ) ;
 		} ;
 
 		auto id     = utility::concurrentID() ;
@@ -710,8 +710,6 @@ void playlistdownloader::getList()
 
 				return false ;
 			}else{
-				monitor->removeBanner() ;
-
 				return true ;
 			}
 		} ) ;
@@ -743,7 +741,7 @@ bool playlistdownloader::enabled()
 }
 
 void playlistdownloader::parseJson( const customOptions& copts,
-				    playlistdownloader::Monitor& monitor,
+				    const std::shared_ptr< playlistdownloader::Monitor >& monitor,
 				    tableWidget& table,
 				    Logger::Data& data )
 {
@@ -797,7 +795,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		data.add( mmm.mid( index + 1 ) ) ;
 	}	
 
-	auto r = monitor.replace() ;
+	auto r = monitor->replace() ;
 	auto replace = r.replace ;
 	auto row = r.row ;
 
@@ -868,8 +866,10 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
 		network.getResource( thumbnailUrl,
-				     [ this,&table,s,replace,row,
+				     [ this,&table,s,replace,row,monitor,
 				     media = std::move( media ) ]( const QByteArray& data ){
+
+			monitor->doingNetworking() ;
 
 			QPixmap pixmap ;
 

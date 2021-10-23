@@ -550,7 +550,7 @@ bool utility::isRelativePath( const QString& e )
 	return QDir::isRelativePath( e ) ;
 }
 
-utility::MediaEntry::MediaEntry(const QByteArray & data) : m_json( data )
+utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
 {
 	if( m_json ){
 
@@ -561,8 +561,12 @@ utility::MediaEntry::MediaEntry(const QByteArray & data) : m_json( data )
 		m_uploadDate   = object.value( "upload_date" ).toString() ;
 		m_id           = object.value( "id" ).toString() ;
 
-		//m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
-		m_thumbnailUrl = QString( "https://img.youtube.com/vi/%1/hqdefault.jpg" ).arg( m_id ) ;
+		if( m_url.contains( "youtube.com" ) || m_url.contains( "youtu.be" ) ){
+
+			m_thumbnailUrl = QString( "https://img.youtube.com/vi/%1/hqdefault.jpg" ).arg( m_id ) ;
+		}else{
+			m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
+		}
 
 		if( !m_uploadDate.isEmpty() ){
 

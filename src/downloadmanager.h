@@ -287,13 +287,18 @@ public:
 		       const QString& url,
 		       TermSignal conn,
 		       Options opts,
-		       Logger logger )
+		       Logger logger,
+		       utility::ProcessOutputChannels channel = QProcess::ProcessChannel::StandardOutput )
 	{
 		m_index->next() ;
 
 		cliOptions.append( url ) ;
 
-		auto ctx = utility::make_ctx( engine,std::move( opts ),std::move( logger ),std::move( conn ) ) ;
+		auto ctx = utility::make_ctx( engine,
+					      std::move( opts ),
+					      std::move( logger ),
+					      std::move( conn ),
+					      channel ) ;
 
 		utility::run( cliOptions,QString(),std::move( ctx ) ) ;
 	}
@@ -304,7 +309,8 @@ public:
 		       const QString& url,
 		       TermSignal terminator,
 		       Options opts,
-		       Logger logger )
+		       Logger logger,
+		       utility::ProcessOutputChannels channel = QProcess::ProcessChannel::StandardOutput )
 	{
 		const auto& m = m_index->options() ;
 
@@ -320,7 +326,11 @@ public:
 
 		utility::updateOptionsStruct opt{ engine,ep,m_settings,args,iString,fd,{ url } } ;
 
-		auto ctx = utility::make_ctx( engine,std::move( opts ),std::move( logger ),std::move( terminator ) ) ;
+		auto ctx = utility::make_ctx( engine,
+					      std::move( opts ),
+					      std::move( logger ),
+					      std::move( terminator ),
+					      channel ) ;
 
 		utility::run( utility::updateOptions( opt ),args.quality(),std::move( ctx ) ) ;
 	}
