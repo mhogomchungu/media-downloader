@@ -338,7 +338,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="468"/>
         <source>Get List From File</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyadan Liste Al</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="285"/>
@@ -673,7 +673,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="241"/>
         <source>Show Media Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya Seçeneklerini Göster</translation>
     </message>
 </context>
 <context>
@@ -751,12 +751,12 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="204"/>
         <source>Copy Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Url Kopyala</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="721"/>
         <source>This May Take A Very Long Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu Çok Uzun Zaman Alabilir</translation>
     </message>
 </context>
 </TS>
