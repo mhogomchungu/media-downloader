@@ -54,6 +54,7 @@ public:
 		void write( const QJsonObject&,
 			    QJsonDocument::JsonFormat = QJsonDocument::Indented ) ;
 		QByteArray readAll() ;
+		QStringList readAllAsLines() ;
 	private:
 		QString m_filePath ;
 		QFile m_file ;

@@ -473,15 +473,13 @@ void batchdownloader::getListFromFile( QMenu& m )
 
 		if( !e.isEmpty() ){
 
-			QString list = engines::file( e,m_ctx.logger() ).readAll() ;
+			auto list = engines::file( e,m_ctx.logger() ).readAllAsLines() ;
 
 			if( !list.isEmpty() ){
 
-				auto l = util::split( list,'\n',true ) ;
-
 				const auto& engine = this->defaultEngine() ;
 
-				this->showThumbnail( engine,l ) ;
+				this->showThumbnail( engine,list ) ;
 			}
 		}
 	} ) ;

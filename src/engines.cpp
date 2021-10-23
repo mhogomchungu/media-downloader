@@ -1132,6 +1132,23 @@ QByteArray engines::file::readAll()
 	}
 }
 
+QStringList engines::file::readAllAsLines()
+{
+	QStringList m ;
+
+	if( m_file.open( QIODevice::ReadOnly ) ){
+
+		while( !m_file.atEnd() ){
+
+			m.append( m_file.readLine() ) ;
+		}
+	}else{
+		m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
+	}
+
+	return m ;
+}
+
 engines::engine::functions::filter::filter( const QString& e,const engines::engine& engine ) :
 	m_quality( e ),m_engine( engine )
 {

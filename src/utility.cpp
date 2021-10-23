@@ -529,7 +529,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 				if( QFile::exists( e ) ){
 
-					return util::split( engines::file( e,ctx.logger() ).readAll(),'\n',true ) ;
+					return engines::file( e,ctx.logger() ).readAllAsLines() ;
 				}else{
 					return QStringList{} ;
 				}
