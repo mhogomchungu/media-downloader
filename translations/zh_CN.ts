@@ -648,7 +648,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="472"/>
         <source>Set Batch File</source>
-        <translation type="unfinished">选择批量下载地址的文件</translation>
+        <translation>选择批量下载地址的文件</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="197"/>

@@ -648,7 +648,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="472"/>
         <source>Set Batch File</source>
-        <translation type="unfinished">Establecer Archivo de Lotes</translation>
+        <translation>Establecer Archivo de Lotes</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="197"/>

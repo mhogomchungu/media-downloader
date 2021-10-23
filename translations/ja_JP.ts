@@ -648,7 +648,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="472"/>
         <source>Set Batch File</source>
-        <translation type="unfinished">バッチファイルをセット</translation>
+        <translation>バッチファイルをセット</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="197"/>

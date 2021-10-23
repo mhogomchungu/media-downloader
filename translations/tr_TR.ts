@@ -648,7 +648,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="472"/>
         <source>Set Batch File</source>
-        <translation type="unfinished">Toplu Dosya Ayarla</translation>
+        <translation>Toplu Dosya Ayarla</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="197"/>
