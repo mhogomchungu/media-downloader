@@ -139,9 +139,6 @@ void basicdownloader::init_done()
 			m_maxCounter = engines.size() ;
 
 			this->printEngineVersionInfo() ;
-		}else{
-			m_maxCounter = 1 ;
-			this->printEngineVersionInfo() ;
 		}
 	}else{
 		m_tabManager.disableAll() ;

@@ -320,19 +320,6 @@ youtube_dl::~youtube_dl()
 
 QStringList youtube_dl::dumpJsonArguments()
 {
-	if( m_engine.name().contains( "yt-dlp" ) ){
-
-		const auto& e = m_engines.getEngineByName( "yt-dlp" ) ;
-
-		if( e.has_value() ){
-
-			if( e->versionInfo() >= "2021.10.22" ){
-
-				return QStringList{ "--dump-json","--no-check-formats" } ;
-			}
-		}
-	}
-
 	return engines::engine::functions::dumpJsonArguments() ;
 }
 

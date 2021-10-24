@@ -661,7 +661,7 @@ void playlistdownloader::getList()
 
 	},[ this,&engine ]( customOptions&& c ){
 
-		auto monitor = std::make_shared< Monitor >( m_table ) ;
+		auto monitor = std::make_shared< playlistdownloader::Monitor >( m_table ) ;
 
 		auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
@@ -881,7 +881,6 @@ void playlistdownloader::parseJson( const customOptions& copts,
 				pixmap = pixmap.scaled( width,height ) ;
 			}else{
 				pixmap = m_defaultVideoThumbnailIcon ;
-
 			}
 
 			if( replace ){
