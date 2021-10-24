@@ -318,9 +318,29 @@ youtube_dl::~youtube_dl()
 {
 }
 
+static QString _dumpJsonArgs()
+{
+	QJsonObject obj ;
+
+	obj.insert( "title","%(title)s" ) ;
+	obj.insert( "webpage_url","%(webpage_url)s" ) ;
+	obj.insert( "upload_date","%(upload_date)s" ) ;
+	obj.insert( "id","%(id)s" ) ;
+	obj.insert( "thumbnail","%(thumbnail)s" ) ;
+
+	return QJsonDocument( obj ).toJson( QJsonDocument::Compact ) ;
+}
+
 QStringList youtube_dl::dumpJsonArguments()
 {
-	return engines::engine::functions::dumpJsonArguments() ;
+	if( m_engine.name() == "youtube-dl" ){
+
+		return engines::engine::functions::dumpJsonArguments() ;
+	}else{
+		static auto a = _dumpJsonArgs() ;
+
+		return { "--print",a } ;
+	}
 }
 
 bool youtube_dl::breakShowListIfContains( const QStringList& e )
