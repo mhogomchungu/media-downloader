@@ -43,7 +43,7 @@ public:
 	void enableAll() ;
 	void disableAll() ;
 	void appQuit() ;
-	void gotEvent( const QString& e ) ;
+	void gotEvent( const QByteArray& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
 	void checkAndPrintInstalledVersion( const engines::engine& ) ;

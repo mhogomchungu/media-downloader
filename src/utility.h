@@ -153,7 +153,7 @@ namespace utility
 		{
 		}
 		template< typename T >
-		bool hasOption( const T& opt,bool remove ) const
+		bool hasOption( const T& opt,bool remove = false ) const
 		{
 			for( int i = 0 ; i < m_args.size() ; i++ ){
 
@@ -181,7 +181,7 @@ namespace utility
 			this->hasOption( opt,true ) ;
 		}
 		template< typename T >
-		QString hasValue( const T& opt,bool remove ) const
+		QString hasValue( const T& opt,bool remove = false ) const
 		{
 			QString result ;
 

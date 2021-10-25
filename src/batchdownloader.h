@@ -93,7 +93,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
-	void gotEvent( const QString& ) ;
+	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void setThumbnailColumnSize( bool ) ;
 private slots:
@@ -104,8 +104,8 @@ private:
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
 	void showList() ;
-	void addToList( const QString& ) ;
-	void showThumbnail( const engines::engine&,const QStringList& ) ;
+	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
+	void showThumbnail( const engines::engine&,const QStringList&,bool = false,bool = false ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;

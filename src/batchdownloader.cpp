@@ -401,13 +401,26 @@ void batchdownloader::tabExited()
 {
 }
 
-void batchdownloader::gotEvent( const QString& m )
+void batchdownloader::gotEvent( const QByteArray& m )
 {
-	if( !m.isEmpty() ){
+	m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
-		m_ui.tabWidget->setCurrentIndex( 1 ) ;
+	QJsonParseError err ;
+	auto jsonDoc = QJsonDocument::fromJson( m,&err ) ;
 
-		this->addToList( m ) ;
+	if( err.error == QJsonParseError::NoError ){
+
+		QJsonObject jsonArgs = jsonDoc.object() ;
+
+		auto url = jsonArgs.value( "-u" ).toString() ;
+
+		if( !url.isEmpty() ){
+
+			auto autoDownload = jsonArgs.value( "-a" ).toBool( false ) ;
+			auto showThumbnail = jsonArgs.value( "-s" ).toBool( false ) ;
+
+			this->addToList( url,autoDownload,showThumbnail ) ;
+		}
 	}
 }
 
@@ -429,9 +442,33 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 				  [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
-void batchdownloader::showThumbnail( const engines::engine& engine,const QStringList& list )
+void batchdownloader::showThumbnail( const engines::engine& engine,
+				     const QStringList& list,
+				     bool autoDownload,
+				     bool showThumbnails )
 {
-	if( m_showThumbnails && engine.likeYoutubeDl() ){
+	if( list.isEmpty() ){
+
+		return ;
+	}
+
+	if( autoDownload && !showThumbnails ){
+
+		const auto& url = list.first() ;
+
+		auto state = downloadManager::finishedStatus::running() ;
+
+		int row = m_table.addItem( m_defaultVideoThumbnail,{ url,url,state } ) ;
+
+		m_table.selectLast() ;
+
+		downloadManager::index index( m_table ) ;
+
+		index.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
+
+		this->download( engine,std::move( index ) ) ;
+
+	}else if( m_showThumbnails && engine.likeYoutubeDl() ){
 
 		for( const auto& it : list ){
 
@@ -470,9 +507,9 @@ void batchdownloader::showThumbnail( const engines::engine& engine,const QString
 
 				return m_settings.maxConcurrentDownloads() ;
 
-			}(),[ this,it ]( const engines::engine& engine,int index ){
+			}(),[ this,it,autoDownload ]( const engines::engine& engine,int index ){
 
-				this->showThumbnail( engine,index,it,false ) ;
+				this->showThumbnail( engine,index,it,autoDownload ) ;
 			} ) ;
 		}
 	}else{
@@ -522,7 +559,10 @@ const engines::engine& batchdownloader::defaultEngine()
 	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
 }
 
-void batchdownloader::showThumbnail( const engines::engine& engine,int index,const QString& url,bool autoDownload )
+void batchdownloader::showThumbnail( const engines::engine& engine,
+				     int index,
+				     const QString& url,
+				     bool autoDownload )
 {
 	auto aa = [ &engine,index,this,url,autoDownload ]( utility::ProcessExitState e,const batchdownloader::opts& opts ){
 
@@ -758,9 +798,9 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 	}
 }
 
-void batchdownloader::addToList( const QString& url )
+void batchdownloader::addToList( const QString& url,bool autoDownload,bool showThumbnails )
 {
-	this->showThumbnail( this->defaultEngine(),{ url } ) ;
+	this->showThumbnail( this->defaultEngine(),{ url },autoDownload,showThumbnails ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,downloadManager::index indexes )

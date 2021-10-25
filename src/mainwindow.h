@@ -45,11 +45,10 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow( QApplication&,settings&,translator&,const QStringList& ) ;
 	void retranslateUi() ;
-	int exec() ;
 	void setTitle( const QString& m ) ;
 	void resetTitle() ;
-	void Show( const QString& e ) ;
-	void processEvent( const QString& e ) ;
+	void Show() ;
+	void processEvent( const QByteArray& e ) ;
 	void quitApp() ;
 	void log( const QString& ) ;
 	~MainWindow() override ;

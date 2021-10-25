@@ -42,7 +42,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
-	void gotEvent( const QString& ) ;
+	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
 private:
 	QString defaultEngineName() ;

@@ -593,7 +593,7 @@ void basicdownloader::appQuit()
 	QCoreApplication::quit() ;
 }
 
-void basicdownloader::gotEvent( const QString& )
+void basicdownloader::gotEvent( const QByteArray& )
 {
 
 }

@@ -129,11 +129,6 @@ void MainWindow::retranslateUi()
 	m_ui->retranslateUi( this ) ;
 }
 
-int MainWindow::exec()
-{
-	this->show() ;
-	return m_qApp.exec() ;
-}
 void MainWindow::setTitle( const QString& m )
 {
 	if( m.isEmpty() ){
@@ -149,12 +144,12 @@ void MainWindow::resetTitle()
 	this->setTitle( m_defaultWindowTitle ) ;
 }
 
-void MainWindow::Show( const QString& )
+void MainWindow::Show()
 {
 	this->show() ;
 }
 
-void MainWindow::processEvent( const QString& e )
+void MainWindow::processEvent( const QByteArray& e )
 {
 	m_tabManager.gotEvent( e ) ;
 }

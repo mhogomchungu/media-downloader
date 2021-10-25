@@ -37,16 +37,16 @@ public:
 		m_app( a.app,a.s,m_traslator,a.args )
 	{
 	}
-	void start( const QString& e )
+	void start( const QByteArray& e )
 	{
-		m_app.Show( e ) ;
+		m_app.Show() ;
 		m_app.processEvent( e ) ;
 	}
 	void exit()
 	{
 		m_app.quitApp() ;
 	}
-	void event( const QString& e )
+	void event( const QByteArray& e )
 	{
 		m_app.processEvent( e ) ;
 	}
@@ -85,14 +85,25 @@ int main( int argc,char * argv[] )
 
 		utility::arguments opts( args ) ;
 
-		if( opts.hasOption( "-s",false ) || !settings.singleInstance() ){
+		QJsonObject jsonArgs ;
 
-			translator traslator( settings,mqApp ) ;
-			return MainWindow( mqApp,settings,traslator,args ).exec() ;
+		jsonArgs.insert( "-u",opts.hasValue( "-u" ) ) ;
+		jsonArgs.insert( "-a",opts.hasOption( "-a" ) ) ;
+		jsonArgs.insert( "-s",opts.hasOption( "-s" ) ) ;
+
+		auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
+
+		if( opts.hasOption( "-s" ) || !settings.singleInstance() ){
+
+			myApp::args mOpts{ mqApp,settings,args } ;
+
+			myApp mApp( mOpts ) ;
+
+			mApp.start( json ) ;
+
+			return mqApp.exec() ;
 		}else{
-			auto url = opts.hasValue( "-u",false ) ;
-
-			util::oneinstance< myApp,myApp::args > instance( spath,url,{ mqApp,settings,args } ) ;
+			util::oneinstance< myApp,myApp::args > instance( spath,json,{ mqApp,settings,args } ) ;
 
 			return mqApp.exec() ;
 		}

@@ -768,7 +768,7 @@ class oneinstance
 {
 public:
 	oneinstance( const QString& socketPath,
-		     const QString& argument,
+		     const QByteArray& argument,
 		     Args args ) :
 		m_serverPath( socketPath ),
 		m_argument( argument ),
@@ -800,7 +800,7 @@ private:
 
 				if( !m_argument.isEmpty() ){
 
-					m_localSocket.write( m_argument.toUtf8() ) ;
+					m_localSocket.write( m_argument ) ;
 					m_localSocket.waitForBytesWritten() ;
 				}
 
@@ -853,7 +853,7 @@ private:
 	QLocalServer m_localServer ;
 	QLocalSocket m_localSocket ;
 	QString m_serverPath ;
-	QString m_argument ;
+	QByteArray m_argument ;
 	util::storage< MainApp > m_mainApp ;
 	Args m_args ;
 };

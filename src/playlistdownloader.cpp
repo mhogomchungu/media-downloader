@@ -47,7 +47,7 @@ public:
 			auto s = settings.engineDefaultDownloadOptions( engine.name() ) ;
 			auto ss = util::splitPreserveQuotes( s ) ;
 
-			auto mm = utility::arguments( ss ).hasValue( "--download-archive",false ) ;
+			auto mm = utility::arguments( ss ).hasValue( "--download-archive" ) ;
 
 			if( !mm.isEmpty() ){
 
@@ -486,7 +486,7 @@ void playlistdownloader::tabExited()
 {
 }
 
-void playlistdownloader::gotEvent( const QString& )
+void playlistdownloader::gotEvent( const QByteArray& )
 {
 }
 

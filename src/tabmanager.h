@@ -92,7 +92,7 @@ public:
 			}
 		} ) ;
 	}
-	tabManager& gotEvent( const QString& e )
+	tabManager& gotEvent( const QByteArray& e )
 	{
 		m_basicdownloader.gotEvent( e ) ;
 		m_batchdownloader.gotEvent( e ) ;
