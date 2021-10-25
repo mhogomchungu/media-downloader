@@ -250,7 +250,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		utility::saveDownloadList( m_ctx,m,m_table ) ;
 
-		auto mm = m.addMenu( tableWidget::engineName() ) ;
+		auto mm = m.addMenu( tableWidget::engineName().replace( ":","" ) ) ;
 
 		mm->setEnabled( !finishSuccess ) ;
 
