@@ -23,8 +23,26 @@
 
 #include <QHeaderView>
 
-void tableWidget::setDownloadingOptions( int row,const QString& mm,const QString& title )
+QString tableWidget::engineName()
 {
+	return QObject::tr( "Engine Name:" ) + " " ;
+}
+
+void tableWidget::setDownloadingOptions( tableWidget::type type,
+					 int row,
+					 const QString& mm,
+					 const QString& title )
+{
+	auto optionName = [ & ](){
+
+		if( type == tableWidget::type::DownloadOptions ){
+
+			return QObject::tr( "Download Options" ) + ": " ;
+		}else{
+			return tableWidget::engineName() ;
+		}
+	}() ;
+
 	auto& item = this->uiTextItem( row ) ;
 
 	auto txt = item.text() ;
@@ -44,17 +62,29 @@ void tableWidget::setDownloadingOptions( int row,const QString& mm,const QString
 		}
 	}() ;
 
-	auto u = QObject::tr( "Download Options" ) + " : " ;
+	if( txt.contains( optionName ) ){
 
-	if( txt.startsWith( u ) ){
+		auto mm = util::split( txt,'\n',true ) ;
 
-		auto s = txt.indexOf( '\n' ) ;
-		item.setText( u + m + "\n" + txt.mid( s + 1 ) ) ;
+		for( auto& it : mm ){
+
+			if( it.startsWith( optionName ) ){
+
+				it = optionName + m ;
+
+				break ;
+			}
+		}
+
+		item.setText( mm.join( '\n' ) ) ;
 	}else{
-		item.setText( u + m + "\n" + item.text() ) ;
+		item.setText( optionName + m + "\n" + item.text() ) ;
 	}
 
-	this->downloadingOptionsItem( row ).setText( mm ) ;
+	if( type == tableWidget::type::DownloadOptions ){
+
+		this->downloadingOptionsItem( row ).setText( mm ) ;
+	}
 }
 
 void tableWidget::setTableWidget( const tableWidget::tableWidgetOptions& s )

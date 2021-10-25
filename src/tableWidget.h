@@ -71,7 +71,13 @@ public:
 	{
 		return this->runningStateItem( row ).text() ;
 	}
-	void setDownloadingOptions( int row,const QString& options,const QString& title = QString() ) ;
+	enum class type{ DownloadOptions,EngineName } ;
+
+	static QString engineName() ;
+	void setDownloadingOptions( tableWidget::type,
+				    int row,
+				    const QString& options,
+				    const QString& title = QString() ) ;
 	int startPosition() const
 	{
 		return m_init ;

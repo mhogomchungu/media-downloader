@@ -606,3 +606,32 @@ QString utility::MediaEntry::uiText() const
 		}
 	}
 }
+
+const engines::engine& utility::resolveEngine( const QString& uiText,
+					       const engines::engine& engine,
+					       const engines& engines )
+{
+	auto u = tableWidget::engineName() ;
+
+	if( uiText.contains( u ) ){
+
+		const auto mm = util::split( uiText,'\n',true ) ;
+
+		for( const auto& it : mm ){
+
+			if( it.startsWith( u ) ){
+
+				auto s = it.mid( u.size() ) ;
+
+				const auto& ee = engines.getEngineByName( s ) ;
+
+				if( ee.has_value() ){
+
+					return ee.value() ;
+				}
+			}
+		}
+	}
+
+	return engine ;
+}

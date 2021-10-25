@@ -104,13 +104,38 @@ void youtube_dl::init( const QString& name,
 
 				QJsonArray arr ;
 
-				QJsonObject obj ;
+				arr.append( [](){
 
-				obj.insert( "ColumnNumber","0" ) ;
-				obj.insert( "Comparator","equals" ) ;
-				obj.insert( "String","format" ) ;
+					QJsonObject obj ;
 
-				arr.append( obj ) ;
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","equals" ) ;
+					obj.insert( "String","format" ) ;
+
+					return obj ;
+				}() ) ;
+
+				arr.append( [](){
+
+					QJsonObject obj ;
+
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","contains" ) ;
+					obj.insert( "String","--" ) ;
+
+					return obj ;
+				}() ) ;
+
+				arr.append( [](){
+
+					QJsonObject obj ;
+
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","equals" ) ;
+					obj.insert( "String","ID" ) ;
+
+					return obj ;
+				}() ) ;
 
 				return arr ;
 			}() ) ;
@@ -244,17 +269,60 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 
 				QJsonArray arr ;
 
-				QJsonObject obj ;
+				arr.append( [](){
 
-				obj.insert( "ColumnNumber","0" ) ;
-				obj.insert( "Comparator","equals" ) ;
-				obj.insert( "String","format" ) ;
+					QJsonObject obj ;
 
-				arr.append( obj ) ;
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","equals" ) ;
+					obj.insert( "String","format" ) ;
+
+					return obj ;
+				}() ) ;
+
+				arr.append( [](){
+
+					QJsonObject obj ;
+
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","contains" ) ;
+					obj.insert( "String","─" ) ;
+
+					return obj ;
+				}() ) ;
+
+				arr.append( [](){
+
+					QJsonObject obj ;
+
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","contains" ) ;
+					obj.insert( "String","ID" ) ;
+
+					return obj ;
+				}() ) ;
 
 				return arr ;
 			}() ) ;
 		}
+	}else{
+		auto arr = object.value( "ShowListTableExtraBoundaries" ).toArray() ;
+
+		if( m_engine.name() != "youtube-dl" ){
+
+			arr.append( [](){
+
+				QJsonObject obj ;
+
+				obj.insert( "ColumnNumber","0" ) ;
+				obj.insert( "Comparator","contains" ) ;
+				obj.insert( "String","ID" ) ;
+
+				return obj ;
+			}() ) ;
+		}
+
+		object.insert( "ShowListTableExtraBoundaries",arr ) ;
 	}
 
 	if( !object.contains( "CookieArgument" ) ){

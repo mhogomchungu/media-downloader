@@ -83,7 +83,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			if( !m.isEmpty() ){
 
-				m_table.setDownloadingOptions( m_table.currentRow(),m ) ;
+				auto u = tableWidget::type::DownloadOptions ;
+
+				m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
 			}
 
 			m_ui.BDFrame->hide() ;
@@ -96,7 +98,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			m_table.setDownloadingOptions( m_table.currentRow(),m ) ;
+			auto u = tableWidget::type::DownloadOptions ;
+
+			m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
 		}
 
 		m_ui.BDFrame->hide() ;
@@ -280,6 +284,27 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		utility::saveDownloadList( m_ctx,m,m_table ) ;
 
+		auto mm = m.addMenu( tableWidget::engineName() ) ;
+
+		mm->setEnabled( !finishSuccess ) ;
+
+		for( const auto& it : m_ctx.Engines().getEngines() ){
+
+			if( it.mainEngine() ){
+
+				const auto& e = it.name() ;
+
+				mm->addAction( e )->setObjectName( e ) ;
+			}
+		}
+
+		connect( mm,&QMenu::triggered,[ this ]( QAction * ac ){
+
+			auto u = tableWidget::type::EngineName ;
+
+			m_table.setDownloadingOptions( u,m_table.currentRow(),ac->objectName() ) ;
+		} ) ;
+
 		auto subMenu = utility::setUpMenu( m_ctx,{},false,false,true,&m ) ;
 
 		subMenu->setTitle( QObject::tr( "Preset Options" ) ) ;
@@ -290,11 +315,13 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			auto m = util::split( ac->objectName(),'\n',true ) ;
 
+			auto u = tableWidget::type::DownloadOptions ;
+
 			if( m.size() > 1 ){
 
-				m_table.setDownloadingOptions( row,m[ 0 ],m[ 1 ] ) ;
+				m_table.setDownloadingOptions( u,row,m[ 0 ],m[ 1 ] ) ;
 			}else{
-				m_table.setDownloadingOptions( row,m[ 0 ] ) ;
+				m_table.setDownloadingOptions( u,row,m[ 0 ] ) ;
 			}
 		} ) ;
 
@@ -588,7 +615,10 @@ void batchdownloader::showList()
 		return ;
 	}
 
-	const auto& engine = this->defaultEngine() ;
+	const auto& engine = utility::resolveEngine( m_table.uiText( row ),
+						     this->defaultEngine(),
+						     m_ctx.Engines() ) ;
+
 
 	auto args = engine.defaultListCmdOptions() ;
 
@@ -782,8 +812,10 @@ void batchdownloader::download( const engines::engine& engine )
 	this->download( engine,std::move( indexes ) ) ;
 }
 
-void batchdownloader::download( const engines::engine& engine,int index )
+void batchdownloader::download( const engines::engine& eng,int index )
 {
+	const auto& engine = utility::resolveEngine( m_table.uiText( index ),eng,m_ctx.Engines() ) ;
+
 	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const batchdownloader::opts& ){
 
 		auto aa = [ this ]( const engines::engine& engine,int index ){

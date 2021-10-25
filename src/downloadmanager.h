@@ -288,7 +288,7 @@ public:
 		       TermSignal conn,
 		       Options opts,
 		       Logger logger,
-		       utility::ProcessOutputChannels channel = QProcess::ProcessChannel::StandardOutput )
+		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
 	{
 		m_index->next() ;
 
@@ -310,7 +310,7 @@ public:
 		       TermSignal terminator,
 		       Options opts,
 		       Logger logger,
-		       utility::ProcessOutputChannels channel = QProcess::ProcessChannel::StandardOutput )
+		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
 	{
 		const auto& m = m_index->options() ;
 
