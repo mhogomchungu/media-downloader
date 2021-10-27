@@ -28,6 +28,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QFile>
+#include <QApplication>
 
 #include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
@@ -761,6 +762,31 @@ private:
 	int m_major = 0 ;
 	int m_minor = 0 ;
 	int m_patch = 0 ;
+};
+
+template< typename MainApp,typename MainAppArgs >
+class multipleInstance{
+public:
+	multipleInstance( QApplication& qapp,MainAppArgs args,const QByteArray& aa ) :
+		m_qApp( qapp ),
+		m_appArgs( std::move( args ) ),
+		m_argument( aa )
+	{
+		QTimer::singleShot( 0,[ this ](){
+
+			m_mainApp = std::move( m_appArgs ) ;
+			m_mainApp->start( m_argument ) ;
+		} ) ;
+	}
+	int exec()
+	{
+		return m_qApp.exec() ;
+	}
+private:
+	QApplication& m_qApp ;
+	MainAppArgs m_appArgs ;
+	QByteArray m_argument ;
+	util::storage< MainApp > m_mainApp ;
 };
 
 template< typename Exit,typename OIR,typename PIC >

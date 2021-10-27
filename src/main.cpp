@@ -89,11 +89,7 @@ int main( int argc,char * argv[] )
 
 		if( opts.hasOption( "-s" ) || !settings.singleInstance() ){
 
-			myApp mApp( mArgs ) ;
-
-			mApp.start( json ) ;
-
-			return mqApp.exec() ;
+			return util::multipleInstance< myApp,myApp::args >( mqApp,std::move( mArgs ),json ).exec() ;
 		}else{
 			auto instanceArgs = util::make_instance_args( [ & ]{
 
