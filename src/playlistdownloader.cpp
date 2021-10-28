@@ -895,11 +895,11 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
+		monitor->doingNetworking() ;
+
 		network.getResource( thumbnailUrl,
 				     [ this,&table,s,replace,row,monitor,
 				     media = std::move( media ) ]( const QByteArray& data ){
-
-			monitor->doingNetworking() ;
 
 			QPixmap pixmap ;
 

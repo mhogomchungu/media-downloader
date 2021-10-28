@@ -106,7 +106,7 @@ private:
 		}
 		~Monitor()
 		{
-			if( m_table.rowCount() > 0 && m_table.runningState( 0 ) == "blabla" ){
+			if( m_table.rowCount() > 0 && m_table.url( 0 ).isEmpty() ){
 
 				m_table.removeRow( 0 ) ;
 			}
