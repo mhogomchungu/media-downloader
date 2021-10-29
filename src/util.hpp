@@ -789,18 +789,17 @@ private:
 	util::storage< MainApp > m_mainApp ;
 };
 
-template< typename Exit,typename OIR,typename PIC >
+template< typename OIR,typename PIC >
 struct instanceArgs
 {
-	Exit exit ;
 	OIR otherInstanceRunning ;
 	PIC otherInstanceCrashed ;
 };
 
-template< typename Exit,typename OIR,typename PIC >
-auto make_instance_args( Exit exit,OIR r,PIC c )
+template< typename OIR,typename PIC >
+auto make_oneinstance_args( OIR r,PIC c )
 {
-	return instanceArgs< Exit,OIR,PIC >{ std::move( exit ),std::move( r ),std::move( c ) } ;
+	return instanceArgs< OIR,PIC >{ std::move( r ),std::move( c ) } ;
 }
 
 template< typename MainApp,typename MainAppArgs,typename InstanceArgs >
@@ -836,8 +835,6 @@ private:
 
 			QObject::connect( &m_localSocket,&QLocalSocket::connected,[ this ](){
 
-				m_iargs.otherInstanceRunning() ;
-
 				if( !m_argument.isEmpty() ){
 
 					m_localSocket.write( m_argument ) ;
@@ -846,7 +843,7 @@ private:
 
 				m_localSocket.close() ;
 
-				m_iargs.exit() ;
+				m_iargs.otherInstanceRunning() ;
 			} ) ;
 
 		#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )

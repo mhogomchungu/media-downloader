@@ -91,11 +91,10 @@ int main( int argc,char * argv[] )
 
 			return util::multipleInstance< myApp,myApp::args >( mqApp,std::move( mArgs ),json ).exec() ;
 		}else{
-			auto instanceArgs = util::make_instance_args( [ & ]{
+			auto instanceArgs = util::make_oneinstance_args( [ & ](){
 
-				mqApp.exit() ;
-			},[](){
 				std::cout << "There seem to be another instance running,exiting this one" << std::endl ;
+				mqApp.exit() ;
 			},[](){
 				std::cout << "Previous instance seem to have crashed,trying to clean up before starting" << std::endl ;
 			} ) ;
