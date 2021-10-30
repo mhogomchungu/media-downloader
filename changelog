@@ -83,7 +83,7 @@ Version 1.2.0(April 1st, 2021)
     (configure tab->engine default option tab->"default download options" text field  makes it possible to
     easily monitor and download new entries in playlists.
 
-  Version 1.8.0(October 2nd, 2021)
+  Version 1.8.0(October 12nd, 2021)
     [Windows]
   - Bundle "aria2c" binary.
   - Bundle "aria2c" extension.

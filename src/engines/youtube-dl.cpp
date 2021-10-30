@@ -513,13 +513,14 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 		s.ourOptions.append( "--newline" ) ;
 	}
 
-	s.ourOptions.append( m_engine.optionsArgument() ) ;
+	if( !s.quality.isEmpty() ){
 
-	if( s.quality.isEmpty() ){
+		if( s.quality.compare( "Default",Qt::CaseInsensitive ) ){
 
-		s.ourOptions.append( "bestvideo+bestaudio/best" ) ;
-	}else{
-		s.ourOptions.append( s.quality ) ;
+			s.ourOptions.append( m_engine.optionsArgument() ) ;
+
+			s.ourOptions.append( s.quality ) ;
+		}
 	}
 
 	if( !s.indexAsString.isEmpty() ){

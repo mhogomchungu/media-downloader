@@ -408,7 +408,9 @@ void settings::setPresetToDefaults()
 		       "1080p(bestvideo[height=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio)",
 		       "1440p(bestvideo[height=1440][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio)",
 		       "2160p(bestvideo[height=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio)",
-		       "Best-audiovideo(bestvideo+bestaudio)","Best-audio(bestaudio -x --embed-thumbnail --audio-format mp3)" } ;
+		       "Default(Default)",
+		       "Best-audiovideo(bestvideo+bestaudio)",
+		       "Best-audio(bestaudio -x --embed-thumbnail --audio-format mp3)" } ;
 
 	m_settings.setValue( "PresetOptionsDefaults",s ) ;
 
