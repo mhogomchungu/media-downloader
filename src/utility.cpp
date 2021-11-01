@@ -521,26 +521,33 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 		auto e = QFileDialog::getSaveFileName( &ctx.mainWidget(),
 						       QObject::tr( "Save List To File" ),
-						       QDir::homePath() + "/MediaDowloaderList.txt" ) ;
+						       utility::homePath() + "/MediaDowloaderList.txt" ) ;
 
 		if( !e.isEmpty() ){
 
-			auto m = [ & ](){
+			QJsonArray arr ;
 
-				if( QFile::exists( e ) ){
+			tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
 
-					return engines::file( e,ctx.logger() ).readAllAsLines() ;
-				}else{
-					return QStringList{} ;
+				if( !downloadManager::finishedStatus::finishedWithSuccess( e.runningState ) ){
+
+					arr.append( [ & ](){
+
+						QJsonObject obj ;
+
+						obj.insert( "url",e.url ) ;
+						obj.insert( "uiText",e.uiText ) ;
+						//QString img = tableWidget::thumbnailData( e.thumbnail.image ) ;
+						//obj.insert( "thumbnail",img ) ;
+
+						return obj ;
+					}() ) ;
 				}
-			}() ;
+			} ) ;
 
-			for( int i = 0 ; i < tableWidget.rowCount() ; i++ ){
+			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
 
-				m.append( tableWidget.url( i ) ) ;
-			}
-
-			engines::file( e,ctx.logger() ).write( m.join( "\n" ) ) ;
+			engines::file( e,ctx.logger() ).write( stuff ) ;
 		}
 	} ) ;
 }

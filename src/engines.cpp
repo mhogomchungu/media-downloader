@@ -1147,7 +1147,12 @@ QStringList engines::file::readAllAsLines()
 
 		while( !m_file.atEnd() ){
 
-			m.append( m_file.readLine() ) ;
+			auto s = m_file.readLine().trimmed() ;
+
+			if( !s.isEmpty() ){
+
+				m.append( s ) ;
+			}
 		}
 	}else{
 		m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;

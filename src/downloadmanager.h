@@ -89,17 +89,17 @@ public:
 		{
 			return finishedWithSuccess( e.runningState( row ) ) ;
 		}
-		void setState( QTableWidgetItem& item ) const
+		QString setState() const
 		{
 			if( this->exitState().cancelled()){
 
-				item.setText( finishedCancelled() ) ;
+				return finishedCancelled() ;
 
 			}else if( this->exitState().success() ){
 
-				item.setText( finishedWithSuccess() ) ;
+				return finishedWithSuccess() ;
 			}else{
-				item.setText( finishedWithError() ) ;
+				return finishedWithError() ;
 			}
 		}
 		int index() const
@@ -305,7 +305,6 @@ public:
 	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,
 		       const engines::enginePaths& ep,
-		       QTableWidgetItem& index,
 		       const QString& url,
 		       TermSignal terminator,
 		       Options opts,
@@ -319,8 +318,6 @@ public:
 		bool fd = m_index->forceDownload() ;
 
 		m_index->next() ;
-
-		index.setText( finishedStatus::running() ) ;
 
 		utility::args args( m ) ;
 

@@ -32,7 +32,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_ui( m_ctx.Ui() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font(),0 ),
+	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font() ),
 	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0 )
 {
 	this->setAsActive() ;
@@ -381,7 +381,10 @@ void basicdownloader::listRequested( const QList< QByteArray >& args )
 
 	const auto& engine = m_ctx.Engines().defaultEngine( m_ui.cbEngineType->currentText() ) ;
 
-	m_tableList.showOptions( engine,args ) ;
+	utility::showOptions( engine,args,[ this ]( const QStringList& s ){
+
+		m_tableList.add( s ) ;
+	} ) ;
 
 	m_tableList.setEnabled( true ) ;
 }
@@ -425,9 +428,10 @@ void basicdownloader::download( const QString& url )
 
 	m_bogusTable.clear() ;
 
-	QStringList args{ m.at( 0 ),m.at( 0 ),downloadManager::finishedStatus::notStarted() } ;
+	auto uiText = m.at( 0 ) ;
+	auto state = downloadManager::finishedStatus::notStarted() ;
 
-	m_bogusTable.addItem( args ) ;
+	m_bogusTable.addItem( { uiText,uiText,state } ) ;
 
 	auto s = m_ui.lineEditOptions->text() ;
 

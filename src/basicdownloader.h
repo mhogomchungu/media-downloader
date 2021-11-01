@@ -79,7 +79,7 @@ private:
 	QString m_debug ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
-	tableWidget m_tableList ;
+	tableMiniWidget< int > m_tableList ;
 	QStringList m_optionsList ;
 	QTableWidget m_bogusTableOriginal ;
 	tableWidget m_bogusTable ;

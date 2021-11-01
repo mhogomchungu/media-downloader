@@ -89,7 +89,7 @@ private:
 		{
 			if( !m_doingNetworking ){
 
-				m_table.runningStateItem( 0 ).setText( "blabla" ) ;
+				m_table.setRunningState( "blabla",0 ) ;
 			}
 		}
 		Monitor::Replace replace() const

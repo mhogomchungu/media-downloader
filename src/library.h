@@ -52,11 +52,13 @@ private:
 	void internalDisableAll() ;
 	void showContents( const QString&,bool disableUi = true ) ;
 	void moveUp() ;
+	enum class ICON{ FILE,FOLDER } ;
+	void addItem( const QString& text,library::ICON ) ;
 	const Context& m_ctx ;
 	bool m_enableGlobalUiChanges ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
-	tableWidget m_table ;
+	tableMiniWidget< ICON > m_table ;
 	QString m_downloadFolder ;
 	QString m_currentPath ;
 	const QDir::Filters m_dirFilter = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;

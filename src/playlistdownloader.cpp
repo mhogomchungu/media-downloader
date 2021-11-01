@@ -128,14 +128,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		m_settings.setPlaylistDownloaderSaveHistory( e ) ;
 	} ) ;
 
-	if( m_showThumbnails ){
-
-		m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
-
-		m_table.hideColumns( 2,3,4 ) ;
-	}else{
-		m_table.hideColumns( 0,2,3,4 ) ;
-	}
+	m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
 
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
@@ -628,14 +621,21 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	m_settings.addOptionsHistory( m,settings::tabName::playlist ) ;
 
+	auto updater = [ this,index ]( const QString& e ){
+
+		m_table.setUiText( e,index ) ;
+	} ;
+
 	auto oopts  = playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ) ;
 	auto logger = make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
 						  m_ctx.logger(),
-						  m_table.uiTextItem( index ),
+						  std::move( updater ),
 						  utility::concurrentID() ) ;
+
+	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
+
 	m_ccmd.download( engine,
 			 m_ctx.Engines().engineDirPaths(),
-			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
 			 m_terminator.setUp(),
 			 std::move( oopts ),
@@ -728,7 +728,7 @@ void playlistdownloader::getList()
 		auto s = tr( "This May Take A Very Long Time" ) ;
 		auto d = engines::engine::functions::timer::stringElapsedTime( 0 ) ;
 
-		m_table.addItem( m_defaultVideoThumbnailIcon,{ d + "\n" + s,"","" },Qt::AlignCenter ) ;
+		m_table.addItem( { m_defaultVideoThumbnailIcon,d + "\n" + s,"","" } ) ;
 
 		util::Timer( 1000,[ this,monitor,s ]( int counter ){
 
@@ -736,7 +736,7 @@ void playlistdownloader::getList()
 
 				auto duration = engines::engine::functions::timer::stringElapsedTime( counter * 1000 ) ;
 
-				m_table.uiTextItem( 0 ).setText( duration + "\n" + s ) ;
+				m_table.setUiText( duration + "\n" + s,0 ) ;
 
 				return false ;
 			}else{
@@ -825,9 +825,22 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		data.add( mmm.mid( index + 1 ) ) ;
 	}	
 
-	auto r = monitor->replace() ;
-	auto replace = r.replace ;
-	auto row = r.row ;
+	auto _show = [ monitor,&table ]( const QPixmap& thumbnail,
+					 const QString& uiText,
+					 const QString& url,
+					 const QString& runningState )
+	{
+		auto r = monitor->replace() ;
+		auto replace = r.replace ;
+		auto row = r.row ;
+
+		if( replace ){
+
+			table.replace( { thumbnail,uiText,url,runningState },row ) ;
+		}else{
+			table.addItem( { thumbnail,uiText,url,runningState } ) ;
+		}
+	} ;
 
 	if( copts.contains( media.id() ) ){
 
@@ -842,12 +855,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 			auto a = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
 
-			if( replace ){
-
-				table.replace( m_defaultVideoThumbnailIcon,{ a,media.url(),s },row ) ;
-			}else{
-				table.addItem( m_defaultVideoThumbnailIcon,{ a,media.url(),s } ) ;
-			}
+			_show( m_defaultVideoThumbnailIcon,a,media.url(),s ) ;
 
 			table.selectLast() ;
 
@@ -875,12 +883,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 	if( !m_showThumbnails ){
 
-		if( replace ){
-
-			table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },row ) ;
-		}else{
-			table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s } ) ;
-		}
+		_show( m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s ) ;
 
 		table.selectLast() ;
 
@@ -898,7 +901,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		monitor->doingNetworking() ;
 
 		network.getResource( thumbnailUrl,
-				     [ this,&table,s,replace,row,monitor,
+				     [ this,&table,s,_show = std::move( _show ),
 				     media = std::move( media ) ]( const QByteArray& data ){
 
 			QPixmap pixmap ;
@@ -913,24 +916,14 @@ void playlistdownloader::parseJson( const customOptions& copts,
 				pixmap = m_defaultVideoThumbnailIcon ;
 			}
 
-			if( replace ){
-
-				table.replace( pixmap,{ media.uiText(),media.url(),s },row ) ;
-			}else{
-				table.addItem( pixmap,{ media.uiText(),media.url(),s } ) ;
-			}
+			_show( pixmap,media.uiText(),media.url(),s ) ;
 
 			table.selectLast() ;
 
 			m_networkRunning-- ;
 		} ) ;
 	}else{
-		if( replace ){
-
-			table.replace( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s },row ) ;
-		}else{
-			table.addItem( m_defaultVideoThumbnailIcon,{ media.uiText(),media.url(),s } ) ;
-		}
+		_show( m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s ) ;
 
 		table.selectLast() ;
 	}

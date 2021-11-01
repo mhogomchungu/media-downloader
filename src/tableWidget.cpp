@@ -22,6 +22,32 @@
 #include "downloadmanager.h"
 
 #include <QHeaderView>
+#include <QBuffer>
+
+QString tableWidget::thumbnailData( int row ) const
+{
+	const auto& s = m_items[ static_cast< size_t >( row ) ] ;
+
+	if( s.thumbnail.isSet ){
+
+		QBuffer buffer ;
+
+		s.thumbnail.image.save( &buffer,"PNG" ) ;
+
+		return buffer.buffer().toHex() ;
+	}else{
+		return {} ;
+	}
+}
+
+QByteArray tableWidget::thumbnailData( const QPixmap& image )
+{
+	QBuffer buffer ;
+
+	image.save( &buffer,"PNG" ) ;
+
+	return buffer.buffer().toHex() ;
+}
 
 QString tableWidget::engineName()
 {
@@ -43,9 +69,7 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 		}
 	}() ;
 
-	auto& item = this->uiTextItem( row ) ;
-
-	auto txt = item.text() ;
+	const auto txt = this->uiText( row ) ;
 
 	auto m = [ & ](){
 
@@ -76,48 +100,46 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 			}
 		}
 
-		item.setText( mm.join( '\n' ) ) ;
+		this->setUiText( mm.join( '\n' ),row ) ;
 	}else{
-		item.setText( optionName + m + "\n" + item.text() ) ;
+		this->setUiText( optionName + m + "\n" + txt,row ) ;
 	}
 
 	if( type == tableWidget::type::DownloadOptions ){
 
-		this->downloadingOptionsItem( row ).setText( mm ) ;
+		this->setDownloadingOptions( mm,row ) ;
 	}
 }
 
-void tableWidget::setTableWidget( const tableWidget::tableWidgetOptions& s )
+void tableWidget::setTableWidget( QTableWidget& table,const tableWidget::tableWidgetOptions& s )
 {
-	m_table.verticalHeader()->setSectionResizeMode( QHeaderView::ResizeToContents ) ;
+	table.verticalHeader()->setSectionResizeMode( QHeaderView::ResizeToContents ) ;
 
-	m_table.verticalHeader()->setMinimumSectionSize( 30 ) ;
+	table.verticalHeader()->setMinimumSectionSize( 30 ) ;
 
-	m_table.horizontalHeader()->setStretchLastSection( true ) ;
+	table.horizontalHeader()->setStretchLastSection( true ) ;
 
-	m_table.setMouseTracking( s.mouseTracking ) ;
+	table.setMouseTracking( s.mouseTracking ) ;
 
-	m_table.setContextMenuPolicy( s.customContextPolicy ) ;
+	table.setContextMenuPolicy( s.customContextPolicy ) ;
 
-	m_table.setEditTriggers( s.editTrigger ) ;
-	m_table.setFocusPolicy( s.focusPolicy ) ;
-	m_table.setSelectionMode( s.selectionMode ) ;
+	table.setEditTriggers( s.editTrigger ) ;
+	table.setFocusPolicy( s.focusPolicy ) ;
+	table.setSelectionMode( s.selectionMode ) ;
 }
 
-void tableWidget::replace( const QPixmap& p,const QStringList& list,int row,int alignment )
+void tableWidget::replace( tableWidget::entry e,int r )
 {
+	auto row = static_cast< size_t >( r ) ;
+
+	m_items[ row ] = std::move( e ) ;
+
 	auto label = new QLabel() ;
-	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
-	label ->setPixmap( p ) ;
+	label->setAlignment( Qt::AlignCenter ) ;
+	label ->setPixmap( m_items[ row ].thumbnail.image ) ;
 
-	m_table.setCellWidget( row,0,label ) ;
-
-	for( int i = 0 ; i < list.size() ; i++ ){
-
-		auto item = m_table.item( row,i + 1 ) ;
-		item->setText( list.at( i ) ) ;
-		item->setTextAlignment( alignment ) ;
-	}
+	m_table.setCellWidget( r,0,label ) ;
+	m_table.item( r,1 )->setText( m_items[ row ].uiText ) ;
 }
 
 int tableWidget::addRow()
@@ -129,37 +151,33 @@ int tableWidget::addRow()
 	for( int i = 0 ; i < m_table.columnCount() ; i++ ){
 
 		auto item = new QTableWidgetItem() ;
-
+		item->setTextAlignment( Qt::AlignCenter ) ;
 		m_table.setItem( row,i,item ) ;
 	}
 
 	return row ;
 }
 
-int tableWidget::addItem( const QPixmap& p,const QStringList& list,int alignment )
+int tableWidget::addItem( tableWidget::entry e )
 {
+	m_items.emplace_back( std::move( e ) ) ;
+
+	const auto& entry = m_items.back() ;
+
 	auto row = m_table.rowCount() ;
 
 	m_table.insertRow( row ) ;
 
-	m_table.setItem( row,m_table.columnCount() -1,new QTableWidgetItem() ) ;
-
-	for( int i = 0 ; i < list.size() ; i++ ){
-
-		auto item = new QTableWidgetItem() ;
-
-		item->setText( list.at( i ) ) ;
-
-		item->setTextAlignment( alignment ) ;
-
-		m_table.setItem( row,i + 1,item ) ;
-	}
-
 	auto label = new QLabel() ;
 	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
-	label ->setPixmap( p ) ;
+	label ->setPixmap( entry.thumbnail.image ) ;
 
 	m_table.setCellWidget( row,0,label ) ;
+
+	auto item = new QTableWidgetItem( entry.uiText ) ;
+	item->setTextAlignment( entry.alignment ) ;
+
+	m_table.setItem( row,1,item ) ;
 
 	return row ;
 }
@@ -200,11 +218,6 @@ void tableWidget::selectRow( QTableWidgetItem * current,QTableWidgetItem * previ
 	}
 }
 
-void tableWidget::addItem( const QString& text,int alignment )
-{
-	this->addItem( QStringList{ text },alignment ) ;
-}
-
 void tableWidget::clear()
 {
 	int m = m_table.rowCount() ;
@@ -213,6 +226,8 @@ void tableWidget::clear()
 
 		m_table.removeRow( 0 ) ;
 	}
+
+	m_items.clear() ;
 }
 
 void tableWidget::setVisible( bool e )
@@ -247,6 +262,12 @@ int tableWidget::currentRow() const
 void tableWidget::removeRow( int s )
 {
 	m_table.removeRow( s ) ;
+	m_items.erase( m_items.begin() + s ) ;
+}
+
+bool tableWidget::isSelected( int row )
+{
+	return m_table.item( row,m_init )->isSelected() ;
 }
 
 bool tableWidget::noneAreRunning()
@@ -262,77 +283,6 @@ bool tableWidget::noneAreRunning()
 	return true ;
 }
 
-void tableWidget::selectMediaOptions( QStringList& optionsList,
-				      QTableWidgetItem& item,
-				      QLineEdit& opts )
-{
-	if( item.isSelected() ){
-
-		auto text = this->item( item.row(),0 ).text() ;
-
-		if( !optionsList.contains( text ) ){
-
-			optionsList.append( text ) ;
-		}
-	}
-
-	for( int row = 0 ; row < this->rowCount() ; row++ ){
-
-		auto& item = this->item( row,0 ) ;
-
-		if( !item.isSelected() ){
-
-			optionsList.removeAll( item.text() ) ;
-		}
-	}
-
-	if( optionsList.isEmpty() ){
-
-		opts.clear() ;
-	}else{
-		opts.setText( optionsList.join( "+" ) ) ;
-	}
-}
-
-void tableWidget::showOptions( const engines::engine& engine,const QList<QByteArray>& args )
-{
-	QStringList m ;
-
-	utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
-
-		auto a = util::split( s,' ',true ) ;
-
-		if( a.size() > 1 ){
-
-			if( engine.breakShowListIfContains( a ) ){
-
-				return true ;
-			}else{
-				m.insert( 0,s ) ;
-			}
-		}
-
-		return false ;
-	} ) ;
-
-	for( const auto& it : m ){
-
-		auto a = util::split( it,' ',true ) ;
-
-		if( a.size() > 3 ){
-
-			auto format     = a.takeAt( 0 ) ;
-			auto extension  = a.takeAt( 0 ) ;
-			auto resolution = a.takeAt( 0 ) ;
-			auto notes      = a.join( " " ) ;
-
-			QStringList args{ format,extension,resolution,notes } ;
-
-			this->addItem( args ) ;
-		}
-	}
-}
-
 QString tableWidget::completeProgress( int )
 {
 	int completed = 0 ;
@@ -342,7 +292,7 @@ QString tableWidget::completeProgress( int )
 
 	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
 
-		auto s = this->runningState( i ) ;
+		const auto& s = this->runningState( i ) ;
 
 		if( downloadManager::finishedStatus::notStarted( s ) ){
 
@@ -381,7 +331,7 @@ tableWidget::tableWidget( QTableWidget& t,const QFont& font,int init ) :
 	m_font( font ),
 	m_init( init )
 {
-	this->setTableWidget( tableWidget::tableWidgetOptions() ) ;
+	this->setTableWidget( m_table,tableWidget::tableWidgetOptions() ) ;
 }
 
 QTableWidgetItem& tableWidget::item( int row,int column ) const
@@ -394,22 +344,6 @@ QTableWidget& tableWidget::get()
 	return m_table ;
 }
 
-void tableWidget::addItem( const QStringList& text,int alignment )
-{
-	auto row = m_table.rowCount() ;
 
-	m_table.insertRow( row ) ;
 
-	m_table.setItem( row,m_table.columnCount() -1,new QTableWidgetItem() ) ;
 
-	for( int it = 0 ; it < text.size() ; it++ ){
-
-		auto item = new QTableWidgetItem() ;
-
-		item->setText( text.at( it ) ) ;
-		item->setTextAlignment( alignment ) ;
-		item->setFont( m_font ) ;
-
-		m_table.setItem( row,it,item ) ;
-	}
-}

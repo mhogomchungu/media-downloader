@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -376,22 +376,7 @@
       </column>
       <column>
        <property name="text">
-        <string>Url To Download</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">Back Up Url To Download</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">Status</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">DownloadOptions</string>
+        <string>UiText</string>
        </property>
       </column>
      </widget>
@@ -742,22 +727,7 @@
       </column>
       <column>
        <property name="text">
-        <string>Url To Download</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">Back Up Url To Download</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">Status</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">DownloadingOptions</string>
+        <string>UiText</string>
        </property>
       </column>
      </widget>
@@ -939,11 +909,6 @@
       <column>
        <property name="text">
         <string notr="true">Name</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">TypeName</string>
        </property>
       </column>
      </widget>

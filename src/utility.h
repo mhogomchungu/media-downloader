@@ -926,7 +926,48 @@ namespace utility
 	{
 		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
 	}
+	template< typename Function >
+	void showOptions( const engines::engine& engine,
+			  const QList<QByteArray>& args,
+			  Function function )
+	{
+		Q_UNUSED( engine )
+		Q_UNUSED( args )
 
+		QStringList m ;
+
+		utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
+
+			auto a = util::split( s,' ',true ) ;
+
+			if( a.size() > 1 ){
+
+				if( engine.breakShowListIfContains( a ) ){
+
+					return true ;
+				}else{
+					m.insert( 0,s ) ;
+				}
+			}
+
+			return false ;
+		} ) ;
+
+		for( const auto& it : m ){
+
+			auto a = util::split( it,' ',true ) ;
+
+			if( a.size() > 3 ){
+
+				auto format     = a.takeAt( 0 ) ;
+				auto extension  = a.takeAt( 0 ) ;
+				auto resolution = a.takeAt( 0 ) ;
+				auto notes      = a.join( " " ) ;
+
+				function( { format,extension,resolution,notes } ) ;
+			}
+		}
+	}
 	class MediaEntry
 	{
 	public:
@@ -1005,15 +1046,13 @@ namespace utility
 		const auto& index = f.index() ;
 		const auto& es = f.exitState() ;
 
-		f.setState( table.runningStateItem( index ) ) ;
+		table.setRunningState( f.setState(),index ) ;
 
 		const auto backUpUrl = table.url( index ) ;
 
-		auto& item = table.uiTextItem( index ) ;
+		auto a = table.uiText( index ) ;
 
-		auto a = item.text() ;
-
-		item.setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ) ) ;
+		table.setUiText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ),index ) ;
 
 		if( !es.cancelled() ){
 

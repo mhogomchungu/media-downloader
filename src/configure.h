@@ -57,7 +57,7 @@ private:
 	tabManager& m_tabManager ;
 	engines& m_engines ;
 	networkAccess m_networkAccess ;
-	tableWidget m_tablePresetOptions ;
+	tableMiniWidget< int > m_tablePresetOptions ;
 	QMenu m_menu ;
 };
 

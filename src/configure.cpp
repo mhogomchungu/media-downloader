@@ -34,7 +34,7 @@ configure::configure( const Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_engines( m_ctx.Engines() ),
 	m_networkAccess( m_ctx ),
-	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font(),0 )
+	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font() )
 {
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
 
@@ -45,6 +45,11 @@ configure::configure( const Context& ctx ) :
 	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
 
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
+
+	m_tablePresetOptions.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+
+		m_tablePresetOptions.selectRow( c,p,0 ) ;
+	} ) ;
 
 	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,modes = std::move( modes ) ]( int index ){
 
@@ -61,7 +66,7 @@ configure::configure( const Context& ctx ) :
 
 		if( !a.isEmpty() && !b.isEmpty() ){
 
-			m_tablePresetOptions.addItem( { a,b } ) ;
+			m_tablePresetOptions.add( { a,b } ) ;
 
 			m_ui.lineEditConfigureUiName->clear() ;
 			m_ui.lineEditConfigurePresetOptions->clear() ;
@@ -262,6 +267,7 @@ configure::configure( const Context& ctx ) :
 
 void configure::init_done()
 {
+	m_tablePresetOptions.selectLast() ;
 }
 
 void configure::retranslateUi()
@@ -428,12 +434,14 @@ void configure::showOptions()
 
 	m_tablePresetOptions.clear() ;
 
+	auto _addItem = [ this ]( const QString& uiName,const QString& options ){
+
+		m_tablePresetOptions.add( { uiName,options } ) ;
+	} ;
+
 	if( mm.isEmpty() ){
 
-		m_settings.presetOptions( [ this ]( const QString& uiName,const QString& options ){
-
-			m_tablePresetOptions.addItem( { uiName,options } ) ;
-		} ) ;
+		m_settings.presetOptions( _addItem ) ;
 	}else{
 		for( const auto& it : util::split( mm,',',true ) ){
 
@@ -446,7 +454,7 @@ void configure::showOptions()
 				auto cc = a.mid( b + 1 ) ;
 				cc.truncate( cc.size() - 1 ) ;
 
-				m_tablePresetOptions.addItem( { c,cc } ) ;
+				_addItem( c,cc ) ;
 			}
 		}
 
