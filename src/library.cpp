@@ -258,9 +258,9 @@ void library::addItem( const QString& text,library::ICON type )
 
 		if( type == library::ICON::FILE ){
 
-            label->setPixmap( m_videoIcon ) ;
+			label->setPixmap( m_videoIcon ) ;
 		}else{
-            label->setPixmap( m_folderIcon ) ;
+			label->setPixmap( m_folderIcon ) ;
 		}
 
 		label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
