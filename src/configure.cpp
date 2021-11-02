@@ -68,6 +68,8 @@ configure::configure( const Context& ctx ) :
 
 			m_tablePresetOptions.add( { a,b } ) ;
 
+			m_tablePresetOptions.selectLast() ;
+
 			m_ui.lineEditConfigureUiName->clear() ;
 			m_ui.lineEditConfigurePresetOptions->clear() ;
 		}

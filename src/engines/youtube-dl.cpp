@@ -88,7 +88,25 @@ void youtube_dl::init( const QString& name,
 			mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
+
+			mainObj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+				arr.append( "-F" ) ;
+
+				return arr ;
+			}() ) ;
 		}else{
+			mainObj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--print" ) ;
+				arr.append( "%(formats)j" ) ;
+
+				return arr ;
+			}() ) ;
+
 			mainObj.insert( "ShowListTableBoundary",[](){
 
 				QJsonObject obj ;
@@ -148,14 +166,6 @@ void youtube_dl::init( const QString& name,
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
-
-		mainObj.insert( "DefaultListCmdOptions",[](){
-
-			QJsonArray arr ;
-			arr.append( "-F" ) ;
-
-			return arr ;
-		}() ) ;
 
 		mainObj.insert( "Name",name ) ;
 
@@ -380,10 +390,110 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 
 	m_objs = object.value( "ShowListTableExtraBoundaries" ).toArray() ;
 	m_objs.insert( 0,object.value( "ShowListTableBoundary" ).toObject() ) ;
+
+	if( m_engine.name().contains( "yt-dlp" ) ){
+
+		object.insert( "DefaultListCmdOptions",[](){
+
+			QJsonArray arr ;
+
+			arr.append( "--print" ) ;
+			arr.append( "%(formats)j" ) ;
+
+			return arr ;
+		}() ) ;
+	}else{
+		if( !object.contains( "DefaultListCmdOptions" ) ){
+
+			object.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+				arr.append( "-F" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+	}
 }
 
 youtube_dl::~youtube_dl()
 {
+}
+
+std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
+{
+	if( !m_engine.name().contains( "yt-dlp" ) ){
+
+		return engines::engine::functions::mediaProperties( e ) ;
+	}
+
+	QJsonParseError err ;
+
+	auto json = QJsonDocument::fromJson( e,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		std::vector< QStringList > m ;
+
+		const auto array = json.array() ;
+
+		QLocale locale ;
+
+		auto _append = [ & ]( QString& s,const char * str,const QString& sstr ){
+
+			if( sstr == "none" || sstr == "0" ){
+
+				return ;
+			}
+
+			s += str + sstr + ", " ;
+		} ;
+
+		for( const auto& it : array ){
+
+			auto obj = it.toObject() ;
+
+			auto id        = obj.value( "format_id" ).toString() ;
+			auto ext       = obj.value( "ext" ).toString() ;
+			auto rsn       = obj.value( "resolution" ).toString() ;
+
+			auto fileSize  = locale.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
+			auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
+			auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
+
+			auto container = obj.value( "container" ).toString() ;
+			auto proto     = obj.value( "protocol" ).toString() ;
+			auto vcodec    = obj.value( "vcodec" ).toString() ;
+			auto video_ext = obj.value( "video_ext" ).toString() ;
+			auto acodec    = obj.value( "acodec" ).toString() ;
+			auto audio_ext = obj.value( "audio_ext" ).toString() ;
+
+			QString s ;
+
+			if( container.isEmpty() ){
+
+				s = QString( "Proto: %1, File Size: %2\n" ).arg( proto,fileSize ) ;
+			}else{
+				s = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ).arg( proto,fileSize,container ) ;
+			}
+
+			_append( s,"acodec: ",acodec ) ;
+			_append( s,"vcodec: ",vcodec ) ;
+			_append( s,"tbr: ",tbr ) ;
+			_append( s,"vbr: ",vbr ) ;
+
+			if( s.endsWith( ", " ) ){
+
+				s.truncate( s.size() - 2 ) ;
+			}
+
+			m.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+		}
+
+		return m ;
+	}else{
+		return {} ;
+	}
 }
 
 QStringList youtube_dl::dumpJsonArguments()

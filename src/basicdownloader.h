@@ -93,7 +93,7 @@ private:
 		  bool list_requested ) ;
 
 	void changeDefaultEngine( int index ) ;
-	void listRequested( const QList< QByteArray >& ) ;
+	void listRequested( const QByteArray& ) ;
 	void list() ;
 	void download( const engines::engine&,
 		       const utility::args&,

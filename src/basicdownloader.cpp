@@ -368,23 +368,20 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 	} ) ;
 }
 
-void basicdownloader::listRequested( const QList< QByteArray >& args )
+void basicdownloader::listRequested( const QByteArray& a )
 {
-	for( const auto& it : args ){
+	if( a.contains( "ERROR:" ) ){
 
-		if( it.contains( "ERROR:" ) ){
-
-			m_tableList.setVisible( false ) ;
-			return ;
-		}
+		m_tableList.setVisible( false ) ;
+		return ;
 	}
 
 	const auto& engine = m_ctx.Engines().defaultEngine( m_ui.cbEngineType->currentText() ) ;
 
-	utility::showOptions( engine,args,[ this ]( const QStringList& s ){
+	for( const auto& m : engine.mediaProperties( a ) ){
 
-		m_tableList.add( s ) ;
-	} ) ;
+		m_tableList.add( m ) ;
+	}
 
 	m_tableList.setEnabled( true ) ;
 }
@@ -478,9 +475,9 @@ void basicdownloader::run( const engines::engine& engine,
 			   const QString& quality,
 			   bool list_requested )
 {
-	auto functions = utility::OptionsFunctions( [ this ]( const QList< QByteArray >& args ){
+	auto functions = utility::OptionsFunctions( [ this ]( QByteArray args ){
 
-			this->listRequested( args ) ;
+			this->listRequested( std::move( args ) ) ;
 
 		},[]( const basicdownloader::opts& opts ){
 

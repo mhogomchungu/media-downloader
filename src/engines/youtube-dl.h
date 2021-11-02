@@ -42,6 +42,8 @@ public:
 		QString m_fileName ;
 	} ;
 
+	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
+
 	QStringList dumpJsonArguments() override ;
 
 	bool breakShowListIfContains( const QStringList& ) override ;

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -376,7 +376,7 @@
       </column>
       <column>
        <property name="text">
-        <string>UiText</string>
+        <string>Url To Download</string>
        </property>
       </column>
      </widget>
@@ -727,7 +727,7 @@
       </column>
       <column>
        <property name="text">
-        <string>UiText</string>
+        <string>Url To Download</string>
        </property>
       </column>
      </widget>

@@ -489,10 +489,10 @@ engines::engine::engine( const engines& engines,
 	m_position( position ),
 	m_valid( true ),
 	m_mainEngine( false ),
+	m_versionArgument( versionArgument ),
 	m_name( name ),
 	m_commandName( name ),
-	m_commandNameWindows( m_commandName + ".exe" ),
-	m_versionArgument( versionArgument )
+	m_commandNameWindows( m_commandName + ".exe" )
 {
 	auto m = engines.findExecutable( m_commandName ) ;
 
@@ -505,6 +505,26 @@ engines::engine::engine( const engines& engines,
 	}
 }
 
+void engines::engine::updateOptions()
+{
+	m_controlStructure                = m_jsonObject.value( "ControlJsonStructure" ).toObject() ;
+	m_canDownloadPlaylist             = m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ;
+	m_replaceOutputWithProgressReport = m_jsonObject.value( "ReplaceOutputWithProgressReport" ).toBool( false ) ;
+	m_userName                        = m_jsonObject.value( "UserName" ).toString() ;
+	m_password                        = m_jsonObject.value( "Password" ).toString() ;
+	m_optionsArgument                 = m_jsonObject.value( "OptionsArgument" ).toString() ;
+	m_downloadUrl                     = m_jsonObject.value( "DownloadUrl" ).toString() ;
+	m_playlistItemsArgument           = m_jsonObject.value( "PlaylistItemsArgument" ).toString() ;
+	m_batchFileArgument               = m_jsonObject.value( "BatchFileArgument" ).toString() ;
+	m_cookieArgument                  = m_jsonObject.value( "CookieArgument" ).toString() ;
+	m_playListIdArguments             = _toStringList( m_jsonObject.value( "PlayListIdArguments" ) ) ;
+	m_splitLinesBy                    = _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ;
+	m_removeText                      = _toStringList( m_jsonObject.value( "RemoveText" ) ) ;
+	m_skiptLineWithText               = _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ;
+	m_defaultDownLoadCmdOptions       = _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ),true ) ;
+	m_defaultListCmdOptions           = _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ;
+}
+
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
 			 const util::Json& json,
@@ -514,29 +534,13 @@ engines::engine::engine( Logger& logger,
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
 	m_usingPrivateBackend( m_jsonObject.value( "UsePrivateExecutable" ).toBool() ),
-	m_canDownloadPlaylist( m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ),
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
 	m_mainEngine( true ),
-	m_replaceOutputWithProgressReport( m_jsonObject.value( "ReplaceOutputWithProgressReport" ).toBool( false ) ),
+	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
 	m_commandNameWindows( m_jsonObject.value( "CommandNameWindows" ).toString() ),
-	m_userName( m_jsonObject.value( "UserName" ).toString() ),
-	m_password( m_jsonObject.value( "Password" ).toString() ),
-	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
-	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
-	m_optionsArgument( m_jsonObject.value( "OptionsArgument" ).toString() ),
-	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() ),
-	m_playlistItemsArgument( m_jsonObject.value( "PlaylistItemsArgument" ).toString() ),
-	m_batchFileArgument( m_jsonObject.value( "BatchFileArgument" ).toString() ),
-	m_cookieArgument( m_jsonObject.value( "CookieArgument" ).toString() ),
-	m_playListIdArguments( _toStringList( m_jsonObject.value( "PlayListIdArguments" ) ) ),
-	m_splitLinesBy( _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ),
-	m_removeText( _toStringList( m_jsonObject.value( "RemoveText" ) ) ),
-	m_skiptLineWithText( _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ),
-	m_defaultDownLoadCmdOptions( _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ),true ) ),
-	m_defaultListCmdOptions( _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ),
-	m_controlStructure( m_jsonObject.value( "ControlJsonStructure" ).toObject() )
+	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() )
 {
 	if( utility::platformIs32BitWindows() ){
 
@@ -761,6 +765,49 @@ QString engines::engine::functions::processCompleteStateText( const engine::engi
 
 engines::engine::functions::~functions()
 {
+}
+
+std::vector< QStringList > engines::engine::functions::mediaProperties( const QByteArray& e )
+{
+	auto args = util::split( e,'\n' ) ;
+
+	QStringList m ;
+
+	utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
+
+		auto a = util::split( s,' ',true ) ;
+
+		if( a.size() > 1 ){
+
+			if( m_engine.breakShowListIfContains( a ) ){
+
+				return true ;
+			}else{
+				m.insert( 0,s ) ;
+			}
+		}
+
+		return false ;
+	} ) ;
+
+	std::vector< QStringList > s ;
+
+	for( const auto& it : m ){
+
+		auto a = util::split( it,' ',true ) ;
+
+		if( a.size() > 3 ){
+
+			auto format     = a.takeAt( 0 ) ;
+			auto extension  = a.takeAt( 0 ) ;
+			auto resolution = a.takeAt( 0 ) ;
+			auto notes      = a.join( " " ) ;
+
+			s.emplace_back( QStringList{ format,extension,resolution,notes } ) ;
+		}
+	}
+
+	return s ;
 }
 
 bool engines::engine::functions::breakShowListIfContains( const QStringList& )

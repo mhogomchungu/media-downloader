@@ -279,6 +279,8 @@ public:
 
 			virtual ~functions() ;
 
+			virtual std::vector< QStringList > mediaProperties( const QByteArray& ) ;
+
 			virtual bool breakShowListIfContains( const QStringList& ) ;
 
 			virtual engines::engine::functions::DataFilter Filter( const QString& ) ;
@@ -352,6 +354,8 @@ public:
 								   *this,
 								   m_jsonObject,
 								   std::forward< Args >( args ) ... ) ;
+
+			this->updateOptions() ;
 		}
 		const QString& commandName() const ;
 
@@ -417,6 +421,10 @@ public:
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{
 			m_functions->sendCredentials( credentials,exe ) ;
+		}
+		std::vector< QStringList > mediaProperties( const QByteArray& e ) const
+		{
+			return m_functions->mediaProperties( e ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{
@@ -503,6 +511,7 @@ public:
 			return m_replaceOutputWithProgressReport ;
 		}
 	private:
+		void updateOptions() ;
 		mutable util::version m_version ;
 		QJsonObject m_jsonObject ;
 		std::unique_ptr< engines::engine::functions > m_functions ;
@@ -514,13 +523,13 @@ public:
 		bool m_likeYoutubeDl ;
 		bool m_mainEngine ;
 		bool m_replaceOutputWithProgressReport ;
+		QString m_versionArgument ;
 		QString m_name ;
 		QString m_commandName ;
 		QString m_commandNameWindows ;
 		QString m_userName ;
 		QString m_password ;
 		QString m_exeFolderPath ;
-		QString m_versionArgument ;
 		QString m_optionsArgument ;
 		QString m_downloadUrl ;
 		QString m_playListUrlPrefix ;

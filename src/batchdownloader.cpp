@@ -731,12 +731,15 @@ void batchdownloader::showList()
 
 	m_ctx.TabManager().disableAll() ;
 
-	auto functions = utility::OptionsFunctions( [ this,&engine ]( const QList< QByteArray >& args ){
+	auto functions = utility::OptionsFunctions( [ this,&engine ]( const QByteArray& a ){
 
-			utility::showOptions( engine,args,[ this ]( const QStringList& s ){
+			if( !a.contains( "ERROR:" ) ){
 
-				m_tableWidgetBDList.add( s ) ;
-			} ) ;
+				for( const auto& m : engine.mediaProperties( a ) ){
+
+					m_tableWidgetBDList.add( m ) ;
+				}
+			}
 
 		},[ this ]( const batchdownloader::opts& opts ){
 
