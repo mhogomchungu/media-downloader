@@ -23,7 +23,8 @@
         "%(title)s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
-        "-F"
+        "--print",
+        "%(formats)j"
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
     "LikeYoutubeDl": true,
@@ -49,6 +50,16 @@
             "ColumnNumber": "0",
             "Comparator": "equals",
             "String": "format"
+        },
+        {
+            "ColumnNumber": "0",
+            "Comparator": "contains",
+            "String": "--"
+        },
+        {
+            "ColumnNumber": "0",
+            "Comparator": "equals",
+            "String": "ID"
         }
     ],
     "SkipLineWithText": [

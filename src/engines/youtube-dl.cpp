@@ -451,7 +451,7 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 
 		for( const auto& it : array ){
 
-			auto obj = it.toObject() ;
+			auto obj       = it.toObject() ;
 
 			auto id        = obj.value( "format_id" ).toString() ;
 			auto ext       = obj.value( "ext" ).toString() ;
@@ -502,7 +502,7 @@ QStringList youtube_dl::dumpJsonArguments()
 
 		return engines::engine::functions::dumpJsonArguments() ;
 	}else{
-		static auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j})R" ;
+		auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j})R" ;
 
 		return { "--print",a } ;
 	}
