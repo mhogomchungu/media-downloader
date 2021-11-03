@@ -437,7 +437,7 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 
 		const auto array = json.array() ;
 
-		QLocale locale ;
+		utility::locale s ;
 
 		auto _append = [ & ]( QString& s,const char * str,const QString& sstr ){
 
@@ -457,7 +457,7 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 			auto ext       = obj.value( "ext" ).toString() ;
 			auto rsn       = obj.value( "resolution" ).toString() ;
 
-			auto fileSize  = locale.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
+			auto fileSize  = s.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
 			auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
 			auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
 

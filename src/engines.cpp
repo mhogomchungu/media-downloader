@@ -513,7 +513,6 @@ void engines::engine::updateOptions()
 	m_userName                        = m_jsonObject.value( "UserName" ).toString() ;
 	m_password                        = m_jsonObject.value( "Password" ).toString() ;
 	m_optionsArgument                 = m_jsonObject.value( "OptionsArgument" ).toString() ;
-	m_downloadUrl                     = m_jsonObject.value( "DownloadUrl" ).toString() ;
 	m_playlistItemsArgument           = m_jsonObject.value( "PlaylistItemsArgument" ).toString() ;
 	m_batchFileArgument               = m_jsonObject.value( "BatchFileArgument" ).toString() ;
 	m_cookieArgument                  = m_jsonObject.value( "CookieArgument" ).toString() ;
@@ -540,7 +539,8 @@ engines::engine::engine( Logger& logger,
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
 	m_commandNameWindows( m_jsonObject.value( "CommandNameWindows" ).toString() ),
-	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() )
+	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
+	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
 	if( utility::platformIs32BitWindows() ){
 

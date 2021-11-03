@@ -252,12 +252,14 @@ void networkAccess::download( const networkAccess::metadata& metadata,const engi
 
 		m_file.write( networkReply->readAll() ) ;
 
+		utility::locale locale ;
+
 		auto perc = double( received )  * 100 / double( metadata.size ) ;
-		auto totalSize = QString::number( metadata.size ) ;
-		auto current   = QString::number( received ) ;
+		auto totalSize = locale.formattedDataSize( metadata.size ) ;
+		auto current   = locale.formattedDataSize( received ) ;
 		auto percentage = QString::number( perc,'f',2 ) ;
 
-		auto m = QString( "%1/%2 bytes(%3%)" ).arg( current,totalSize,percentage ) ;
+		auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
 
 		this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m ) ;
 	} ) ;

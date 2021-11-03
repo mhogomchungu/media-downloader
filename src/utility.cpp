@@ -642,3 +642,42 @@ const engines::engine& utility::resolveEngine( const QString& uiText,
 
 	return engine ;
 }
+
+QString utility::locale::formattedDataSize( qint64 s ) const
+{
+#if QT_VERSION < QT_VERSION_CHECK( 5,10,0 )
+	return m_locale.formattedDataSize( s ) ;
+#else
+	std::array< const char *,7 > sizes = { "EiB", "PiB", "TiB", "GiB", "MiB", "KiB", "B" };
+
+	qint64  multiplier = 1024ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL ;
+
+	QString result ;
+
+	for( size_t i = 0; i < sizes.size() ; i++, multiplier /= 1024 ){
+
+		if( s < multiplier ){
+
+			continue ;
+		}
+
+		if( s % multiplier == 0 ){
+
+			auto a = QString::number( s / multiplier ) ;
+			auto b = sizes[ i ] ;
+
+			result = QString( "%1 %2" ).arg( a,b ) ;
+		}else{
+			auto a = static_cast< double >( s ) / static_cast< double >( multiplier ) ;
+			auto b = sizes[ i ] ;
+			auto c = QString::number( a,'f',2 ) ;
+
+			result = QString( "%1 %2" ).arg( c,b ) ;
+		}
+
+	    return result ;
+	}
+
+	return {} ;
+#endif
+}

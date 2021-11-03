@@ -259,6 +259,14 @@ namespace utility
 	QString downloadFolder( const Context& ctx ) ;
 	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
 
+	class locale
+	{
+	public:
+		QString formattedDataSize( qint64 ) const ;
+	private:
+		QLocale m_locale ;
+	};
+
 	struct updateOptionsStruct
 	{
 		const engines::engine& engine ;
