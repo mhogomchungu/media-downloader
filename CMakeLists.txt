@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set( PGR_VERSION "1.9.0" )
+set( PGR_VERSION "2.0.0" )
 set( COPYRIGHT_YEARS "2021" )
 
 INCLUDE(GNUInstallDirs)
@@ -23,7 +23,7 @@ if(WIN32)
     set(ENABLE_NETWORKING "true")
 else()
     #This is necessary with whatever version of cmake that is in debian 8
-    #add_definitions(-std=c++14)
+    add_definitions(-std=c++14)
     if(NOT DEFINED ENABLE_NETWORKING)
 	set(ENABLE_NETWORKING "true")
     endif()

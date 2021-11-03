@@ -101,14 +101,20 @@ public:
 			url( url ),
 			uiText( uiText ),
 			runningState( runningState ),
-			thumbnail( { true,thumbnail } )
+			thumbnail( thumbnail )
 		{
 		}
 		QString url ;
 		QString uiText ;
 		QString runningState ;
 		QString downloadingOptions ;
-		struct thumbnail{
+		struct tnail{
+			tnail( const QPixmap& p ) : isSet( true ),image( p )
+			{
+			}
+			tnail()
+			{
+			}
 			bool isSet = false ;
 			QPixmap image ;
 		} thumbnail ;

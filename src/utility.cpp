@@ -645,16 +645,16 @@ const engines::engine& utility::resolveEngine( const QString& uiText,
 
 QString utility::locale::formattedDataSize( qint64 s ) const
 {
-#if QT_VERSION < QT_VERSION_CHECK( 5,10,0 )
+#if QT_VERSION >= QT_VERSION_CHECK( 5,14,0 )
 	return m_locale.formattedDataSize( s ) ;
 #else
-	std::array< const char *,7 > sizes = { "EiB", "PiB", "TiB", "GiB", "MiB", "KiB", "B" };
+	std::array< const char *,7 > sizes = { "EiB", "PiB", "TiB", "GiB", "MiB", "KiB", "B" } ;
 
 	qint64  multiplier = 1024ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL ;
 
 	QString result ;
 
-	for( size_t i = 0; i < sizes.size() ; i++, multiplier /= 1024 ){
+	for( size_t i = 0 ; i < sizes.size() ; i++,multiplier /= 1024 ){
 
 		if( s < multiplier ){
 
