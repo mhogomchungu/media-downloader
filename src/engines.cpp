@@ -152,19 +152,14 @@ static void _openUrls( tableWidget& table,int row,settings& settings,bool galler
 	}
 }
 
-void engines::openUrls( tableWidget& table,int row,const QString& engineName ) const
+void engines::openUrls( tableWidget& table,int row ) const
 {
-	if( engineName.isEmpty() ){
+	_openUrls( table,row,m_settings,false ) ;
+}
 
-		_openUrls( table,row,m_settings,false ) ;
-	}else{
-		const auto& engine = this->getEngineByName( engineName ) ;
-
-		if( engine ) {
-
-			_openUrls( table,row,m_settings,engine->name() == "gallery-dl" ) ;
-		}
-	}
+void engines::openUrls( tableWidget& table,int row,const engines::engine& engine ) const
+{
+	_openUrls( table,row,m_settings,engine.name() == "gallery-dl" ) ;
 }
 
 void engines::openUrls( const QString& path ) const

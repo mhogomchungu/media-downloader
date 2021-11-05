@@ -557,7 +557,8 @@ public:
 	util::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	const enginePaths& engineDirPaths() const ;
 	engines( Logger&,settings& ) ;
-	void openUrls( tableWidget&,int row,const QString& engineName = QString() ) const ;
+	void openUrls( tableWidget&,int row ) const ;
+	void openUrls( tableWidget&,int row,const engines::engine& ) const ;
 	void openUrls( const QString& path ) const ;
 	const QString& defaultEngineName() const ;
 private:

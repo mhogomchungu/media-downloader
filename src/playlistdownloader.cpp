@@ -176,8 +176,12 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		connect( ac,&QAction::triggered,[ this,row ](){
 
-			auto m = m_ui.cbEngineTypePD->currentText() ;
-			m_ctx.Engines().openUrls( m_table,row,m ) ;
+			const auto& engine = utility::resolveEngine( m_table,
+								     this->defaultEngine(),
+								     m_ctx.Engines(),
+								     row ) ;
+
+			m_ctx.Engines().openUrls( m_table,row,engine ) ;
 		} ) ;
 
 		ac = m.addAction( tr( "Cancel" ) ) ;
@@ -345,9 +349,12 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		Q_UNUSED( column )
 
-		m_ctx.Engines().openUrls( m_table,
-					  row,
-					  m_ui.cbEngineTypePD->currentText() ) ;
+		const auto& engine = utility::resolveEngine( m_table,
+							     this->defaultEngine(),
+							     m_ctx.Engines(),
+							     row ) ;
+
+		m_ctx.Engines().openUrls( m_table,row,engine ) ;
 	} ) ;
 
 	connect( m_ui.cbEngineTypePD,s,[ & ]( int s ){
