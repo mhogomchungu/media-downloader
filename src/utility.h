@@ -237,9 +237,10 @@ namespace utility
 		}
 	}
 
-	const engines::engine& resolveEngine( const QString& uiText,
-					      const engines::engine& eng,
-					      const engines& engines ) ;
+	const engines::engine& resolveEngine( const tableWidget&,
+					      const engines::engine&,
+					      const engines& engines,
+					      int row ) ;
 
 	QString failedToFindExecutableString( const QString& cmd ) ;
 	int concurrentID() ;

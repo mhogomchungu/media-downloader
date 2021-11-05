@@ -700,10 +700,7 @@ void batchdownloader::showList()
 		return ;
 	}
 
-	const auto& engine = utility::resolveEngine( m_table.uiText( row ),
-						     this->defaultEngine(),
-						     m_ctx.Engines() ) ;
-
+	const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
 
 	auto args = engine.defaultListCmdOptions() ;
 
@@ -906,7 +903,7 @@ void batchdownloader::download( const engines::engine& engine )
 
 void batchdownloader::download( const engines::engine& eng,int index )
 {
-	const auto& engine = utility::resolveEngine( m_table.uiText( index ),eng,m_ctx.Engines() ) ;
+	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
 	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const batchdownloader::opts& ){
 

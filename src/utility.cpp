@@ -614,33 +614,26 @@ QString utility::MediaEntry::uiText() const
 	}
 }
 
-const engines::engine& utility::resolveEngine( const QString& uiText,
+const engines::engine& utility::resolveEngine( const tableWidget& table,
 					       const engines::engine& engine,
-					       const engines& engines )
+					       const engines& engines,
+					       int row )
 {
-	auto u = tableWidget::engineName() ;
+	const auto& engineName = table.engineName( row ) ;
 
-	if( uiText.contains( u ) ){
+	if( engineName.isEmpty() ){
 
-		const auto mm = util::split( uiText,'\n',true ) ;
+		return engine ;
+	}else{
+		const auto& ee = engines.getEngineByName( engineName ) ;
 
-		for( const auto& it : mm ){
+		if( ee.has_value() ){
 
-			if( it.startsWith( u ) ){
-
-				auto s = it.mid( u.size() ) ;
-
-				const auto& ee = engines.getEngineByName( s ) ;
-
-				if( ee.has_value() ){
-
-					return ee.value() ;
-				}
-			}
+			return ee.value() ;
+		}else{
+			return engine ;
 		}
 	}
-
-	return engine ;
 }
 
 QString utility::locale::formattedDataSize( qint64 s ) const

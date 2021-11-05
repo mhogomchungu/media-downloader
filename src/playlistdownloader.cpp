@@ -591,7 +591,7 @@ void playlistdownloader::download( const engines::engine& engine )
 
 void playlistdownloader::download( const engines::engine& eng,int index )
 {
-	const auto& engine = utility::resolveEngine( m_table.uiText( index ),eng,m_ctx.Engines() ) ;
+	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
 	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const playlistdownloader::opts& ){
 

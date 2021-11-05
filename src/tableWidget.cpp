@@ -108,6 +108,10 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 	if( type == tableWidget::type::DownloadOptions ){
 
 		this->setDownloadingOptions( mm,row ) ;
+
+	}else if( type == tableWidget::type::EngineName ){
+
+		this->setEngineName( mm,row ) ;
 	}
 }
 

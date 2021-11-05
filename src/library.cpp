@@ -250,9 +250,7 @@ void library::addItem( const QString& text,library::ICON type )
 {
 	auto row = m_table.addRow( type ) ;
 
-	auto& table = m_table.get() ;
-
-	table.setCellWidget( row,0,[ & ](){
+	m_table.get().setCellWidget( row,0,[ & ](){
 
 		auto label = new QLabel() ;
 
@@ -263,21 +261,16 @@ void library::addItem( const QString& text,library::ICON type )
 			label->setPixmap( m_folderIcon ) ;
 		}
 
-		label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
+		label->setAlignment( Qt::AlignCenter ) ;
 
 		return label ;
 	}() ) ;
 
-	table.setItem( row,1,[ & ](){
+	auto& item = m_table.item( row,1 ) ;
 
-		auto item = new QTableWidgetItem() ;
-
-		item->setText( text ) ;
-		item->setTextAlignment( Qt::AlignCenter ) ;
-		item->setFont( m_ctx.mainWidget().font() ) ;
-
-		return item ;
-	}() ) ;
+	item.setText( text ) ;
+	item.setTextAlignment( Qt::AlignCenter ) ;
+	item.setFont( m_ctx.mainWidget().font() ) ;
 }
 
 static qint64 _created_time( QFileInfo& e )
