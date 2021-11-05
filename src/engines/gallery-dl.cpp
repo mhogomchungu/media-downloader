@@ -43,7 +43,7 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 		s.ourOptions.append( engine.optionsArgument() ) ;
 	}
 
-	if( !s.quality.isEmpty() ){
+	if( !s.quality.isEmpty() && s.quality.compare( "Default",Qt::CaseInsensitive ) ){
 
 		s.ourOptions.append( s.quality ) ;
 	}
