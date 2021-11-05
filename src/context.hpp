@@ -31,6 +31,10 @@ class engines ;
 
 class QWidget ;
 
+namespace utility{
+class downloadDefaultOptions ;
+}
+
 #include<QString>
 
 namespace Ui
@@ -47,6 +51,7 @@ public:
 		 MainWindow& mw,
 		 Logger& l,
 		 engines& e,
+		 utility::downloadDefaultOptions& d,
 		 tabManager& tm,
 		 QString debug ) :
 		m_settings( s ),
@@ -56,9 +61,14 @@ public:
 		m_mainWindow( mw ),
 		m_logger( l ),
 		m_engines( e ),
+		m_downloadDefaultOptions( d ),
 		m_tabManager( tm ),
 		m_debug( debug )
 	{
+	}
+	utility::downloadDefaultOptions& downloadDefaultOptions() const
+	{
+		return m_downloadDefaultOptions ;
 	}
 	engines& Engines() const
 	{
@@ -104,6 +114,7 @@ private:
 	MainWindow& m_mainWindow ;
 	Logger& m_logger ;
 	engines& m_engines ;
+	utility::downloadDefaultOptions& m_downloadDefaultOptions ;
 	tabManager& m_tabManager ;
 	QString m_debug ;
 };

@@ -28,6 +28,10 @@
 #include "context.hpp"
 #include "library.h"
 
+namespace utility{
+class downloadDefaultOptions ;
+}
+
 class tabManager
 {
 public:
@@ -38,9 +42,10 @@ public:
 		    Ui::MainWindow& m,
 		    QWidget& w,
 		    MainWindow& mw,
+		    utility::downloadDefaultOptions& d,
 		    QString debug ) :
 		m_currentTab( s.tabNumber() ),
-		m_ctx( s,t,m,w,mw,l,e,*this,debug ),
+		m_ctx( s,t,m,w,mw,l,e,d,*this,debug ),
 		m_about( m_ctx ),
 		m_configure( m_ctx ),
 		m_basicdownloader( m_ctx ),

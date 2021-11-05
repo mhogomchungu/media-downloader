@@ -674,3 +674,103 @@ QString utility::locale::formattedDataSize( qint64 s ) const
 	return {} ;
 #endif
 }
+
+utility::downloadDefaultOptions::downloadDefaultOptions( const engines::enginePaths& s )
+{
+	auto path = s.dataPath( "downloadDefaultOptions.json" ) ;
+
+	if( QFile::exists( path ) ){
+
+		QJsonParseError err ;
+
+		QFile file( path ) ;
+
+		file.open( QIODevice::ReadOnly ) ;
+
+		auto doc = QJsonDocument::fromJson( file.readAll(),&err ) ;
+
+		if( err.error == QJsonParseError::NoError ){
+
+			m_jsonArray = doc.array() ;
+		}
+	}else{
+		QJsonArray arr ;
+
+		arr.append( [](){
+
+			QJsonObject obj ;
+
+			obj.insert( "url","" ) ;
+			obj.insert( "comparator","" ) ;
+			obj.insert( "engine","" ) ;
+			obj.insert( "downloadOption","" ) ;
+
+			return obj ;
+		}() ) ;
+
+		QFile p( path ) ;
+		p.open( QIODevice::WriteOnly ) ;
+		p.write( QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ) ;
+	}
+}
+
+void utility::downloadDefaultOptions::setDownloadOptions( int row,tableWidget& table )
+{
+	for( const auto& it : util::asConst( m_jsonArray ) ){
+
+		const auto& rowUrl = table.url( row ) ;
+
+		auto obj = it.toObject() ;
+
+		auto cmp = obj.value( "comparator" ).toString() ;
+		auto url = obj.value( "url" ).toString() ;
+		auto eng = obj.value( "engine" ).toString() ;
+		auto opt = obj.value( "downloadOption" ).toString() ;
+
+		auto dlo = tableWidget::type::DownloadOptions ;
+		auto en  = tableWidget::type::EngineName ;
+
+		if( cmp == "contains" && rowUrl.contains( url ) ){
+
+			if( !opt.isEmpty() ){
+
+				table.setDownloadingOptions( dlo,row,opt ) ;
+			}
+
+			if( !eng.isEmpty() ){
+
+				table.setDownloadingOptions( en,row,eng ) ;
+			}
+
+			break ;
+
+		}else if( cmp == "startsWith" && rowUrl.startsWith( url ) ){
+
+			if( !opt.isEmpty() ){
+
+				table.setDownloadingOptions( dlo,row,opt ) ;
+			}
+
+			if( !eng.isEmpty() ){
+
+				table.setDownloadingOptions( en,row,eng ) ;
+			}
+
+			break ;
+
+		}else if( cmp == "endsWith" && rowUrl.endsWith( url ) ){
+
+			if( !opt.isEmpty() ){
+
+				table.setDownloadingOptions( dlo,row,opt ) ;
+			}
+
+			if( !eng.isEmpty() ){
+
+				table.setDownloadingOptions( en,row,eng ) ;
+			}
+
+			break ;
+		}
+	}
+}

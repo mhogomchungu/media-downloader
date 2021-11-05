@@ -58,6 +58,7 @@ private:
 	std::unique_ptr< Ui::MainWindow > m_ui ;
 	Logger m_logger ;
 	engines m_engines ;
+	utility::downloadDefaultOptions m_ddo ;
 	tabManager m_tabManager ;
 	settings& m_settings ;
 	bool m_showTrayIcon ;

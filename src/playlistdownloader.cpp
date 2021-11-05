@@ -825,7 +825,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		data.add( mmm.mid( index + 1 ) ) ;
 	}	
 
-	auto _show = [ monitor,&table ]( const QPixmap& thumbnail,
+	auto _show = [ this,monitor,&table ]( const QPixmap& thumbnail,
 					 const QString& uiText,
 					 const QString& url,
 					 const QString& runningState )
@@ -834,12 +834,18 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		auto replace = r.replace ;
 		auto row = r.row ;
 
+		int index ;
+
 		if( replace ){
+
+			index = row ;
 
 			table.replace( { thumbnail,uiText,url,runningState },row ) ;
 		}else{
-			table.addItem( { thumbnail,uiText,url,runningState } ) ;
+			index = table.addItem( { thumbnail,uiText,url,runningState } ) ;
 		}
+
+		m_ctx.downloadDefaultOptions().setDownloadOptions( index,table ) ;
 	} ;
 
 	if( copts.contains( media.id() ) ){

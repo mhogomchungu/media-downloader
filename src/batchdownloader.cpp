@@ -761,25 +761,29 @@ void batchdownloader::showList()
 	utility::run( args,QString(),std::move( ctx ) ) ;
 }
 
-static void _addItemUi( const QPixmap& pixmap,
-			int index,
-			tableWidget& table,
-			Ui::MainWindow& ui,
-			const utility::MediaEntry& media )
+static int _addItemUi( const QPixmap& pixmap,
+		       int index,
+		       tableWidget& table,
+		       Ui::MainWindow& ui,
+		       const utility::MediaEntry& media )
 {
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
+	int row ;
 	if( index == -1 ){
 
-		table.addItem( { pixmap,media.uiText(),media.url(),state } ) ;
+		row = table.addItem( { pixmap,media.uiText(),media.url(),state } ) ;
 		table.selectLast() ;
 	}else{
+		row = index ;
 		table.replace( { pixmap,media.uiText(),media.url(),state },index ) ;
 	}
 
 	ui.lineEditBDUrl->clear() ;
 
 	ui.lineEditBDUrl->setFocus() ;
+
+	return row ;
 }
 
 void batchdownloader::addItemUi( const QPixmap& pixmap,
@@ -787,7 +791,9 @@ void batchdownloader::addItemUi( const QPixmap& pixmap,
 				 bool enableAll,
 				 const utility::MediaEntry& media )
 {
-	_addItemUi( pixmap,index,m_table,m_ui,media ) ;
+	auto row = _addItemUi( pixmap,index,m_table,m_ui,media ) ;
+
+	m_ctx.downloadDefaultOptions().setDownloadOptions( row,m_table ) ;
 
 	m_ui.pbBDDownload->setEnabled( true ) ;
 
