@@ -27,6 +27,7 @@
 #include <QDebug>
 
 #include "logwindow.h"
+#include "util.hpp"
 
 class Logger
 {
@@ -135,7 +136,7 @@ public:
 			auto _false = []( const QString& ){ return false ; } ;
 
 			_replaceOrAdd( text,id,_false,_false ) ;
-		}
+		}		
 	private:
 		template< typename Function,typename Add >
 		void _replaceOrAdd( const QString& text,int id,Function function,Add add )
@@ -242,6 +243,41 @@ public:
 	Logger& operator=( const Logger& ) = delete ;
 	Logger( Logger&& ) = delete ;
 	Logger& operator=( Logger&& ) = delete ;
+
+	class updateLogger
+	{
+	public:
+		struct args
+		{
+			template< typename Engine >
+			args( const Engine& engine ) :
+				controlStructure( engine.controlStructure() ),
+				skipLinesWithText( engine.skiptLineWithText() ),
+				splitLinesBy( engine.splitLinesBy() ),
+				likeYoutubeDl( engine.likeYoutubeDl() )
+			{
+			}
+			const QJsonObject& controlStructure ;
+			const QStringList& skipLinesWithText ;
+			const QStringList& splitLinesBy ;
+			const bool likeYoutubeDl ;
+		} ;
+		template< typename Engine >
+		updateLogger( const QByteArray& data,const Engine& engine,Logger::Data& outPut,int id ) :
+			m_args( engine ),m_outPut( outPut ),m_id( id )
+		{
+			this->run( data ) ;
+		}
+	private:
+		void run( const QByteArray& data ) ;
+		bool meetCondition( const QString& line,const QJsonObject& obj ) const ;
+		bool meetCondition( const QString& line ) const ;
+		bool skipLine( const QByteArray& line ) const ;
+		void add( const QByteArray& data,QChar token ) const ;
+		updateLogger::args m_args ;
+		Logger::Data& m_outPut ;
+		int m_id ;
+	};
 private:
 	void update() ;
 	logWindow m_logWindow ;

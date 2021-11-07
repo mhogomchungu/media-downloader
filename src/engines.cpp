@@ -898,197 +898,13 @@ void engines::engine::functions::sendCredentials( const QString&,QProcess& )
 {
 }
 
-class updateLogger
-{
-public:
-	updateLogger( const QByteArray& data,const engines::engine& engine,Logger::Data& outPut,int id ) :
-		m_engine( engine ),
-		m_outPut( outPut ),
-		m_id( id )
-	{
-		const auto& sp = engine.splitLinesBy() ;
-
-		if( sp.size() == 1 && sp[ 0 ].size() > 0 ){
-
-			this->add( data,sp[ 0 ][ 0 ] ) ;
-
-		}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
-
-			for( const auto& m : util::split( data,sp[ 0 ][ 0 ] ) ){
-
-				this->add( m,sp[ 1 ][ 0 ] ) ;
-			}
-		}else{
-			for( const auto& m : util::split( data,'\r' ) ){
-
-				this->add( m,'\n' ) ;
-			}
-		}
-	}
-private:
-	bool meetCondition( const QString& line,const QJsonObject& obj ) const
-	{
-		if( obj.contains( "startsWith" ) ){
-
-			return line.startsWith( obj.value( "startsWith" ).toString() ) ;
-		}
-
-		if( obj.contains( "endsWith" ) ){
-
-			return line.endsWith( obj.value( "endsWith" ).toString() ) ;
-		}
-
-		if( obj.contains( "contains" ) ){
-
-			return line.contains( obj.value( "contains" ).toString() ) ;
-		}
-
-		if( obj.contains( "containsAny" ) ){
-
-			const auto arr = obj.value( "containsAny" ).toArray() ;
-
-			for( const auto& it : arr ){
-
-				if( line.contains( it.toString() ) ) {
-
-					return true ;
-				}
-			}
-
-			return false ;
-		}
-
-		if( obj.contains( "containsAll" ) ){
-
-			const auto arr = obj.value( "containsAll" ).toArray() ;
-
-			for( const auto& it : arr ){
-
-				if( !line.contains( it.toString() ) ) {
-
-					return false ;
-				}
-			}
-
-			return true ;
-		}
-
-		return false ;
-	}
-	bool meetCondition( const QString& line ) const
-	{
-		const auto& obj = m_engine.controlStructure() ;
-
-		auto connector = obj.value( "Connector" ).toString() ;
-
-		if( connector.isEmpty() ){
-
-			auto oo = obj.value( "lhs" ) ;
-
-			if( oo.isObject() ){
-
-				return this->meetCondition( line,oo.toObject() ) ;
-			}else{
-				return false ;
-			}
-		}else{
-			auto obj1 = obj.value( "lhs" ) ;
-			auto obj2 = obj.value( "rhs" ) ;
-
-			if( obj1.isObject() && obj2.isObject() ){
-
-				auto a = this->meetCondition( line,obj1.toObject() ) ;
-				auto b = this->meetCondition( line,obj2.toObject() ) ;
-
-				if( connector == "&&" ){
-
-					return a && b ;
-
-				}else if( connector == "||" ){
-
-					return a || b ;
-				}else{
-					return false ;
-				}
-			}else{
-				return false ;
-			}
-		}
-	}
-	bool skipLine( const QByteArray& line ) const
-	{
-		if( line.isEmpty() ){
-
-			return true ;
-		}else{
-			for( const auto& it : m_engine.skiptLineWithText() ){
-
-				if( line.contains( it.toUtf8() ) ){
-
-					return true ;
-				}
-			}
-
-			return false ;
-		}
-	}
-	void add( const QByteArray& data,QChar token ) const
-	{
-		for( const auto& e : util::split( data,token ) ){
-
-			if( this->skipLine( e ) ){
-
-				continue ;
-
-			}else if( this->meetCondition( e ) ){
-
-				if( m_id == -1 ){
-
-					if( m_outPut.isEmpty() ){
-
-						m_outPut.add( e ) ;
-					}else{
-						auto& s = m_outPut.lastText() ;
-
-						if( this->meetCondition( s ) ){
-
-							m_outPut.replaceLast( e ) ;
-						}else{
-							m_outPut.add( e ) ;
-						}
-					}
-				}else{
-					m_outPut.replaceOrAdd( e,m_id,[ this ]( const QString& e ){
-
-						return this->meetCondition( e ) ;
-
-					},[ this ]( const QString& e ){
-
-						if( m_engine.likeYoutubeDl() ){
-
-							return e.startsWith( "[download] 100.0%" ) ;
-						}else{
-							return false ;
-						}
-					} ) ;
-				}
-			}else{
-				m_outPut.add( e,m_id ) ;
-			}
-		}
-	}
-	const engines::engine& m_engine ;
-	Logger::Data& m_outPut ;
-	int m_id ;
-};
-
 void engines::engine::functions::processData( Logger::Data& outPut,const QByteArray& data,int id )
 {
 	const auto& txt = m_engine.removeText() ;
 
 	if( txt.isEmpty() ){
 
-		updateLogger( data,m_engine,outPut,id ) ;
+		Logger::updateLogger( data,m_engine,outPut,id ) ;
 	}else{
 		auto dd = data ;
 
@@ -1097,7 +913,7 @@ void engines::engine::functions::processData( Logger::Data& outPut,const QByteAr
 			dd.replace( it.toUtf8(),"" ) ;
 		}
 
-		updateLogger( dd,m_engine,outPut,id ) ;
+		Logger::updateLogger( dd,m_engine,outPut,id ) ;
 	}
 }
 

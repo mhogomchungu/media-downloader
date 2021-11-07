@@ -434,6 +434,7 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 	if( err.error == QJsonParseError::NoError ){
 
 		std::vector< QStringList > m ;
+		std::vector< QStringList > mm ;
 
 		const auto array = json.array() ;
 
@@ -468,6 +469,11 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 			auto acodec    = obj.value( "acodec" ).toString() ;
 			auto audio_ext = obj.value( "audio_ext" ).toString() ;
 
+			if( acodec == "none" && !rsn.isEmpty() && rsn != "audio only" ){
+
+				rsn += "\nvideo only" ;
+			}
+
 			QString s ;
 
 			if( container.isEmpty() ){
@@ -487,7 +493,17 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 				s.truncate( s.size() - 2 ) ;
 			}
 
-			m.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			if( rsn != "audio only" && !rsn.contains( "video only" ) ){
+
+				mm.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			}else{
+				m.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			}
+		}
+
+		for( auto& it : mm ){
+
+			m.emplace_back( std::move( it ) ) ;
 		}
 
 		return m ;
