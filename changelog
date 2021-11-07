@@ -101,3 +101,8 @@ Version 1.2.0(April 1st, 2021)
     - Add "-u" commnd line option to add a Url to the application's batch downloder tab. This feature is useful when used
     with browser extensions that can open links in external application and it can be used to quickly add a link to the application.
     - Add "-a" commnd line option to automatically start downloading Url added with "-u" option.
+
+  Version 2.1.0(Unreleased)
+    - Add a config only option to set what engine should be used and with what options based on entered url. This ability allows for
+    example to say "i want gallery-dl engine to automatically be set if added link is from instagram" or to say
+    "i want yt-dlp to be used with download option of mp4-mobile with any link from streamable.com".
