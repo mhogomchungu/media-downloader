@@ -73,53 +73,7 @@ private:
 
 	QPixmap m_defaultVideoThumbnailIcon ;
 
-	class Monitor
-	{
-	public:
-		struct Replace
-		{
-			bool replace ;
-			int row ;
-		};
-		Monitor( tableWidget& t ) :
-			m_table( t )
-		{
-		}
-		void stop()
-		{
-			if( !m_doingNetworking ){
-
-				m_table.setRunningState( "blabla",0 ) ;
-			}
-		}
-		Monitor::Replace replace() const
-		{
-			return { m_table.runningState( 0 ).isEmpty(),0 } ;
-		}
-		bool stillProcessing() const
-		{
-			return m_table.runningState( 0 ).isEmpty() ;
-		}
-		void doingNetworking()
-		{
-			m_doingNetworking = true ;
-		}
-		~Monitor()
-		{
-			if( m_table.rowCount() > 0 && m_table.url( 0 ).isEmpty() ){
-
-				m_table.removeRow( 0 ) ;
-			}
-		}
-	private:
-		bool m_doingNetworking = false ;
-		tableWidget& m_table ;
-	};
-
-	void parseJson( const customOptions&,
-			const std::shared_ptr< playlistdownloader::Monitor >&,
-			tableWidget& table,
-			Logger::Data& data ) ;
+	void parseJson( const customOptions&,tableWidget& table,Logger::Data& data ) ;
 
 	struct opts
 	{

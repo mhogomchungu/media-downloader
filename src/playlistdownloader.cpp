@@ -698,7 +698,22 @@ void playlistdownloader::getList()
 
 	},[ this,&engine ]( customOptions&& c ){
 
-		auto monitor = std::make_shared< playlistdownloader::Monitor >( m_table ) ;
+		class Monitor
+		{
+		public:
+			void stop()
+			{
+				m_running = false ;
+			}
+			bool stillProcessing() const
+			{
+				return m_running ;
+			}
+		private:
+			bool m_running = true ;
+		};
+
+		auto monitor = std::make_shared< Monitor >() ;
 
 		auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
@@ -720,7 +735,7 @@ void playlistdownloader::getList()
 
 		auto bb = [ copts = std::move( c ),this,monitor ]( tableWidget& table,Logger::Data& data ){
 
-			this->parseJson( copts,monitor,table,data ) ;
+			this->parseJson( copts,table,data ) ;
 		} ;
 
 		auto id     = utility::concurrentID() ;
@@ -735,7 +750,12 @@ void playlistdownloader::getList()
 		auto s = tr( "This May Take A Very Long Time" ) ;
 		auto d = engines::engine::functions::timer::stringElapsedTime( 0 ) ;
 
-		m_table.addItem( { m_defaultVideoThumbnailIcon,d + "\n" + s,"","" } ) ;
+		QIcon icon( ":/media-downloader" ) ;
+
+		auto w = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
+		auto h = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
+
+		m_table.addItem( { icon.pixmap( w,h ),d + "\n" + s,"","" } ) ;
 
 		util::Timer( 1000,[ this,monitor,s ]( int counter ){
 
@@ -778,7 +798,6 @@ bool playlistdownloader::enabled()
 }
 
 void playlistdownloader::parseJson( const customOptions& copts,
-				    const std::shared_ptr< playlistdownloader::Monitor >& monitor,
 				    tableWidget& table,
 				    Logger::Data& data )
 {
@@ -832,27 +851,11 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		data.add( mmm.mid( index + 1 ) ) ;
 	}	
 
-	auto _show = [ this,monitor,&table ]( const QPixmap& thumbnail,
-					 const QString& uiText,
-					 const QString& url,
-					 const QString& runningState )
+	auto _show = [ this,&table ]( const tableWidget::entry& e )
 	{
-		auto r = monitor->replace() ;
-		auto replace = r.replace ;
-		auto row = r.row ;
+		auto row = table.addItem( e ) ;
 
-		int index ;
-
-		if( replace ){
-
-			index = row ;
-
-			table.replace( { thumbnail,uiText,url,runningState },row ) ;
-		}else{
-			index = table.addItem( { thumbnail,uiText,url,runningState } ) ;
-		}
-
-		m_ctx.downloadDefaultOptions().setDownloadOptions( index,table ) ;
+		m_ctx.downloadDefaultOptions().setDownloadOptions( row,table ) ;
 	} ;
 
 	if( copts.contains( media.id() ) ){
@@ -868,7 +871,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 			auto a = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
 
-			_show( m_defaultVideoThumbnailIcon,a,media.url(),s ) ;
+			_show( { m_defaultVideoThumbnailIcon,a,media.url(),s } ) ;
 
 			table.selectLast() ;
 
@@ -896,7 +899,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 	if( !m_showThumbnails ){
 
-		_show( m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s ) ;
+		_show( { m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s } ) ;
 
 		table.selectLast() ;
 
@@ -910,8 +913,6 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		m_networkRunning++ ;
 
 		auto thumbnailUrl = media.thumbnailUrl() ;
-
-		monitor->doingNetworking() ;
 
 		network.getResource( thumbnailUrl,
 				     [ this,&table,s,_show = std::move( _show ),
@@ -929,14 +930,14 @@ void playlistdownloader::parseJson( const customOptions& copts,
 				pixmap = m_defaultVideoThumbnailIcon ;
 			}
 
-			_show( pixmap,media.uiText(),media.url(),s ) ;
+			_show( { pixmap,media.uiText(),media.url(),s } ) ;
 
 			table.selectLast() ;
 
 			m_networkRunning-- ;
 		} ) ;
 	}else{
-		_show( m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s ) ;
+		_show( { m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s } ) ;
 
 		table.selectLast() ;
 	}

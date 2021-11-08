@@ -529,20 +529,23 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 			tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
 
-				if( !downloadManager::finishedStatus::finishedWithSuccess( e.runningState ) ){
+				using df = downloadManager::finishedStatus ;
+				auto m = df::finishedWithSuccess( e.runningState ) ;
 
-					arr.append( [ & ](){
+				if( e.url.isEmpty() || m ){
 
-						QJsonObject obj ;
-
-						obj.insert( "url",e.url ) ;
-						obj.insert( "uiText",e.uiText ) ;
-						//QString img = tableWidget::thumbnailData( e.thumbnail.image ) ;
-						//obj.insert( "thumbnail",img ) ;
-
-						return obj ;
-					}() ) ;
+					return ;
 				}
+
+				arr.append( [ & ](){
+
+					QJsonObject obj ;
+
+					obj.insert( "url",e.url ) ;
+					obj.insert( "uiText",e.uiText ) ;
+
+					return obj ;
+				}() ) ;
 			} ) ;
 
 			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
