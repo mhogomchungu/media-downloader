@@ -82,8 +82,10 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 	return networkRequest ;
 }
 
-void networkAccess::download( const engines::engine& engine,bool Continue )
+void networkAccess::download( const engines::Iterator& iter )
 {
+	const auto& engine = iter.engine() ;
+
 	auto exeFolderPath = [ &engine ](){
 
 		auto a = QDir::fromNativeSeparators( engine.exePath().realExe() ) ;
@@ -139,15 +141,21 @@ void networkAccess::download( const engines::engine& engine,bool Continue )
 		this->post( engine,"..." ) ;
 	} ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,Continue ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter ](){
 
 		networkReply->deleteLater() ;
 
 		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
 
 			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
+
 			m_tabManager.enableAll() ;
-			m_tabManager.basicDownloader().printEngineVersionInfo() ;
+
+			if( iter.hasNext() ){
+
+				m_tabManager.basicDownloader().printEngineVersionInfo( iter.next() ) ;
+			}
+
 			return ;
 		}
 
@@ -158,8 +166,14 @@ void networkAccess::download( const engines::engine& engine,bool Continue )
 		if( !json ){
 
 			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString() ) ;
+
 			m_tabManager.enableAll() ;
-			m_tabManager.basicDownloader().printEngineVersionInfo() ;
+
+			if( iter.hasNext() ){
+
+				m_tabManager.basicDownloader().printEngineVersionInfo( iter.next() ) ;
+			}
+
 			return ;
 		}
 
@@ -195,14 +209,15 @@ void networkAccess::download( const engines::engine& engine,bool Continue )
 			}
 		}
 
-		this->download( metadata,engine,Continue ) ;
+		this->download( metadata,iter ) ;
 	} ) ;
 }
 
 void networkAccess::download( const networkAccess::metadata& metadata,
-			      const engines::engine& engine,
-			      bool Continue )
+			      const engines::Iterator& iter )
 {
+	const auto& engine = iter.engine() ;
+
 	QString filePath = engine.exePath().realExe() + ".tmp" ;
 
 	m_file.setFileName( filePath ) ;
@@ -217,7 +232,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 	auto networkReply = m_accessManager.get( this->networkRequest( metadata.url ) ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,Continue ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter ](){
 
 		networkReply->deleteLater() ;
 
@@ -227,7 +242,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 			m_tabManager.enableAll() ;
 
-			m_tabManager.basicDownloader().printEngineVersionInfo() ;
+			m_tabManager.basicDownloader().printEngineVersionInfo( iter ) ;
 		}else{
 			m_file.close() ;
 
@@ -243,7 +258,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 
-			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( engine,Continue ) ;
+			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( iter ) ;
 		}
 	} ) ;
 

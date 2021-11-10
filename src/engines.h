@@ -552,7 +552,6 @@ public:
 	bool addEngine( const QByteArray& data,const QString& path ) ;
 	void removeEngine( const QString& name ) ;
 	QStringList enginesList() const ;
-	const std::vector< engine >& getEngines() const ;
 	const engine& defaultEngine( const QString& ) const ;
 	util::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	const enginePaths& engineDirPaths() const ;
@@ -561,6 +560,47 @@ public:
 	void openUrls( tableWidget&,int row,const engines::engine& ) const ;
 	void openUrls( const QString& path ) const ;
 	const QString& defaultEngineName() const ;
+	class Iterator
+	{
+	public:
+		Iterator( const std::vector< engines::engine >& engines ) :
+			m_maxCounter( engines.size() ),
+			m_engines( &engines )
+		{
+		}
+		Iterator( const engines::engine& engine ) :
+			m_maxCounter( 1 ),
+			m_engine( &engine )
+		{
+		}
+		bool hasNext() const
+		{
+			return m_counter + 1 < m_maxCounter ;
+		}
+		engines::Iterator next() const
+		{
+			auto m = *this ;
+			m.m_counter++ ;
+			return m ;
+		}
+		const engines::engine& engine() const
+		{
+			if( m_engine ){
+
+				return *m_engine ;
+			}else{
+				return ( *m_engines )[ m_counter ] ;
+			}
+		}
+	private:
+		size_t m_counter = 0 ;
+		size_t m_maxCounter ;
+		const engines::engine * m_engine = nullptr ;
+		const std::vector< engines::engine > * m_engines = nullptr ;
+	} ;
+
+	const std::vector< engine >& getEngines() const ;
+	engines::Iterator getEnginesIterator() const ;
 private:
 	void updateEngines( bool ) ;
 	Logger& m_logger ;

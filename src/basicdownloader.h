@@ -28,6 +28,7 @@
 #include "utility.h"
 #include "context.hpp"
 #include "tableWidget.h"
+#include "networkAccess.h"
 
 class basicdownloader : public QObject
 {
@@ -46,8 +47,8 @@ public:
 	void gotEvent( const QByteArray& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
-	void checkAndPrintInstalledVersion( const engines::engine&,bool Continue ) ;
-	void printEngineVersionInfo() ;
+	void checkAndPrintInstalledVersion( const engines::Iterator& ) ;
+	void printEngineVersionInfo( const engines::Iterator& ) ;
 	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;
 	basicdownloader& hideTableList() ;
@@ -72,8 +73,6 @@ private:
 		return utility::options< basicdownloader::opts,Functions >( std::move( opts ),std::move( functions ) ) ;
 	}
 
-	size_t m_counter = 0 ;
-	size_t m_maxCounter ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	QString m_debug ;
@@ -105,7 +104,6 @@ private:
 		       bool = true ) ;
 	void download( const QString& ) ;
 	void exit() ;
-	void printEngineVersionInfo( const engines::engine& ) ;
 } ;
 
 #endif

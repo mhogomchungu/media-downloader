@@ -284,6 +284,11 @@ const std::vector< engines::engine >& engines::getEngines() const
 	return m_backends ;
 }
 
+engines::Iterator engines::getEnginesIterator() const
+{
+	return m_backends ;
+}
+
 const engines::engine& engines::defaultEngine( const QString& name ) const
 {
 	auto m =  this->getEngineByName( name ) ;

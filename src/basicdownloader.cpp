@@ -136,30 +136,19 @@ void basicdownloader::init_done()
 
 		if( m_settings.showVersionInfoWhenStarting() ){
 
-			m_maxCounter = engines.size() ;
+			const auto& engines = m_ctx.Engines().getEngines() ;
 
-			this->printEngineVersionInfo() ;
+			if( engines.size() > 0 ){
+
+				this->printEngineVersionInfo( engines ) ;
+			}else{
+				this->setDefaultEngine() ;
+			}
 		}
 	}else{
 		m_tabManager.disableAll() ;
 
 		m_ui.pbQuit->setEnabled( true ) ;
-	}
-}
-
-void basicdownloader::printEngineVersionInfo()
-{
-	const auto& engines = m_ctx.Engines().getEngines() ;
-
-	if( m_counter < m_maxCounter ){
-
-		const auto& engine = engines[ m_counter ] ;
-
-		m_counter++ ;
-
-		this->printEngineVersionInfo( engine ) ;
-	}else{
-		this->setDefaultEngine() ;
 	}
 }
 
@@ -191,24 +180,26 @@ QStringList basicdownloader::enginesList()
 	return m ;
 }
 
-void basicdownloader::printEngineVersionInfo( const engines::engine& engine )
+void basicdownloader::printEngineVersionInfo( const engines::Iterator& iter )
 {
+	const auto& engine = iter.engine() ;
+
 	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() && networkAccess::hasNetworkSupport() ){
 
 		if( engine.backendExists() ){
 
-			this->checkAndPrintInstalledVersion( engine,true ) ;
+			this->checkAndPrintInstalledVersion( iter ) ;
 
 		}else if( !engine.exePath().realExe().isEmpty() ){
 
-			m_ctx.TabManager().Configure().downloadFromGitHub( engine,true ) ;
+			m_ctx.TabManager().Configure().downloadFromGitHub( iter ) ;
 		}
 	}else{
 		if( engine.exePath().isEmpty() ){
 
 			m_ctx.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 		}else{
-			this->checkAndPrintInstalledVersion( engine,true ) ;
+			this->checkAndPrintInstalledVersion( iter ) ;
 		}
 	}
 }
@@ -303,38 +294,42 @@ void basicdownloader::retranslateUi()
 	this->resetMenu() ;
 }
 
-void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engine,bool Continue )
+void basicdownloader::checkAndPrintInstalledVersion( const engines::Iterator& iter )
 {
+	const auto& engine = iter.engine() ;
+
 	m_tabManager.disableAll() ;
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	util::run( cmd.exe(),cmd.args(),[ this,&engine ]( QProcess& exe ){
+	util::run( cmd.exe(),cmd.args(),[ this,iter ]( QProcess& exe ){
 
 		struct ctx
 		{
-			ctx( const engines::engine& e,const Context& c ) :
-				engine( e ),context( c )
+			ctx( engines::Iterator e,const Context& c ) :
+				iter( e ),context( c )
 			{
 			}
 			QByteArray data ;
-			const engines::engine& engine ;
+			engines::Iterator iter ;
 			const Context& context ;
 		} ;
 
 		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
 
-		m_ctx.logger().add( tr( "Checking installed version of" ) + " " + engine.name() ) ;
+		m_ctx.logger().add( tr( "Checking installed version of" ) + " " + iter.engine().name() ) ;
 
-		return ctx( engine,m_ctx ) ;
+		return ctx( iter,m_ctx ) ;
 
-	},[]( QProcess&,auto& ){},[ this,Continue ]( int exitCode,QProcess::ExitStatus exitStatus,auto& ctx ){
+	},[]( QProcess&,const auto& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,const auto& ctx ){
+
+		const auto& engine = ctx.iter.engine() ;
 
 		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 
 			for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
 
-				if( m_ui.cbEngineType->itemText( i ) == ctx.engine.name() ){
+				if( m_ui.cbEngineType->itemText( i ) == engine.name() ){
 
 					m_ui.cbEngineType->removeItem( i ) ;
 
@@ -344,25 +339,25 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 				}
 			}
 
-			ctx.context.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() ) ) ;
+			ctx.context.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 
 			ctx.context.TabManager().enableAll() ;
 		}else{
 			auto& logger = ctx.context.logger() ;
 
-			logger.add( tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ) ;
+			logger.add( tr( "Found version" ) + ": " + engine.versionString( ctx.data ) ) ;
 
 			if( !ctx.context.debug().isEmpty() ){
 
-				logger.add( tr( "Executable Path" ) + ": " + ctx.engine.exePath().realExe() ) ;
+				logger.add( tr( "Executable Path" ) + ": " + engine.exePath().realExe() ) ;
 			}
 
 			ctx.context.TabManager().enableAll() ;
 		}
 
-		if( Continue ){
+		if( ctx.iter.hasNext() ){
 
-			this->printEngineVersionInfo() ;
+			this->printEngineVersionInfo( ctx.iter.next() ) ;
 		}
 
 	},[]( QProcess::ProcessChannel,const QByteArray& data,auto& ctx ){
@@ -534,9 +529,6 @@ void basicdownloader::updateEngines()
 void basicdownloader::downloadDefaultEngine()
 {
 	this->updateEngines() ;
-
-	m_counter = static_cast< size_t >( -1 ) ;
-
 	this->printEngineVersionInfo( this->defaultEngine() ) ;
 }
 

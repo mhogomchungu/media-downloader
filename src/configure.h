@@ -39,7 +39,7 @@ public:
 	void disableAll() ;
 	void resetMenu() ;
 	void retranslateUi() ;
-	void downloadFromGitHub( const engines::engine&,bool ) ;
+	void downloadFromGitHub( const engines::Iterator& ) ;
 	void tabEntered() ;
 	void tabExited() ;
 	void updateEnginesList( const QStringList& e ) ;
