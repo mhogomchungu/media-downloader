@@ -183,7 +183,7 @@ configure::configure( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			this->downloadFromGitHub( m_ctx.Engines().defaultEngine( m ) ) ;
+			this->downloadFromGitHub( m_ctx.Engines().defaultEngine( m ),false ) ;
 		}
 	} ) ;
 
@@ -279,9 +279,9 @@ void configure::retranslateUi()
 	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
 }
 
-void configure::downloadFromGitHub( const engines::engine& engine )
+void configure::downloadFromGitHub( const engines::engine& engine,bool Continue )
 {
-	m_networkAccess.download( engine ) ;
+	m_networkAccess.download( engine,Continue ) ;
 }
 
 void configure::tabEntered()

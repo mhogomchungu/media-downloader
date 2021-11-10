@@ -42,7 +42,7 @@ class networkAccess
 {
 public:
 	networkAccess( const Context& ) ;
-	void download( const engines::engine& ) ;
+	void download( const engines::engine&,bool Continue ) ;
 	static bool hasNetworkSupport()
 	{
 		#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -71,7 +71,7 @@ private:
 		QString url ;
 		QString sha256 ;
 	};
-	void download( const networkAccess::metadata&,const engines::engine& ) ;
+	void download( const networkAccess::metadata&,const engines::engine&,bool ) ;
 	void post( const engines::engine&,const QString& ) ;
 	const Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;
@@ -92,7 +92,7 @@ public:
 	networkAccess( const Context& )
 	{
 	}
-	void download( const engines::engine& )
+	void download( const engines::engine&,bool )
 	{
 	}
 	template< typename Function >

@@ -46,7 +46,7 @@ public:
 	void gotEvent( const QByteArray& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
-	void checkAndPrintInstalledVersion( const engines::engine& ) ;
+	void checkAndPrintInstalledVersion( const engines::engine&,bool Continue ) ;
 	void printEngineVersionInfo() ;
 	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;

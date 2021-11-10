@@ -197,18 +197,18 @@ void basicdownloader::printEngineVersionInfo( const engines::engine& engine )
 
 		if( engine.backendExists() ){
 
-			this->checkAndPrintInstalledVersion( engine ) ;
+			this->checkAndPrintInstalledVersion( engine,true ) ;
 
 		}else if( !engine.exePath().realExe().isEmpty() ){
 
-			m_ctx.TabManager().Configure().downloadFromGitHub( engine ) ;
+			m_ctx.TabManager().Configure().downloadFromGitHub( engine,true ) ;
 		}
 	}else{
 		if( engine.exePath().isEmpty() ){
 
 			m_ctx.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 		}else{
-			this->checkAndPrintInstalledVersion( engine ) ;
+			this->checkAndPrintInstalledVersion( engine,true ) ;
 		}
 	}
 }
@@ -303,7 +303,7 @@ void basicdownloader::retranslateUi()
 	this->resetMenu() ;
 }
 
-void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engine )
+void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engine,bool Continue )
 {
 	m_tabManager.disableAll() ;
 
@@ -328,7 +328,7 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 
 		return ctx( engine,m_ctx ) ;
 
-	},[]( QProcess&,auto& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,auto& ctx ){
+	},[]( QProcess&,auto& ){},[ this,Continue ]( int exitCode,QProcess::ExitStatus exitStatus,auto& ctx ){
 
 		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
 
@@ -360,7 +360,10 @@ void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engi
 			ctx.context.TabManager().enableAll() ;
 		}
 
-		this->printEngineVersionInfo() ;
+		if( Continue ){
+
+			this->printEngineVersionInfo() ;
+		}
 
 	},[]( QProcess::ProcessChannel,const QByteArray& data,auto& ctx ){
 

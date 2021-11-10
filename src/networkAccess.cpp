@@ -82,7 +82,7 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 	return networkRequest ;
 }
 
-void networkAccess::download( const engines::engine& engine )
+void networkAccess::download( const engines::engine& engine,bool Continue )
 {
 	auto exeFolderPath = [ &engine ](){
 
@@ -139,7 +139,7 @@ void networkAccess::download( const engines::engine& engine )
 		this->post( engine,"..." ) ;
 	} ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,Continue ](){
 
 		networkReply->deleteLater() ;
 
@@ -195,11 +195,13 @@ void networkAccess::download( const engines::engine& engine )
 			}
 		}
 
-		this->download( metadata,engine ) ;
+		this->download( metadata,engine,Continue ) ;
 	} ) ;
 }
 
-void networkAccess::download( const networkAccess::metadata& metadata,const engines::engine& engine )
+void networkAccess::download( const networkAccess::metadata& metadata,
+			      const engines::engine& engine,
+			      bool Continue )
 {
 	QString filePath = engine.exePath().realExe() + ".tmp" ;
 
@@ -215,7 +217,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,const engi
 
 	auto networkReply = m_accessManager.get( this->networkRequest( metadata.url ) ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,Continue ](){
 
 		networkReply->deleteLater() ;
 
@@ -241,7 +243,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,const engi
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 
-			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( engine ) ;
+			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( engine,Continue ) ;
 		}
 	} ) ;
 
