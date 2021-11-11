@@ -43,7 +43,6 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void updateEnginesList( const QStringList& e ) ;
-	networkAccess& network() ;
 private:
 	void saveOptions() ;
 	void setEngineOptions( const QString& ) ;
@@ -56,7 +55,6 @@ private:
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
 	engines& m_engines ;
-	networkAccess m_networkAccess ;
 	tableMiniWidget< int > m_tablePresetOptions ;
 	QMenu m_menu ;
 };

@@ -823,7 +823,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 	}else{
 		if( networkAccess::hasNetworkSupport() ){
 
-			auto& network = m_ctx.TabManager().Configure().network() ;
+			auto& network = m_ctx.versionInfo().network() ;
 
 			m_networkRunning++ ;
 

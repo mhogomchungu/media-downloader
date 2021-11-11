@@ -573,6 +573,10 @@ public:
 			m_engine( &engine )
 		{
 		}
+		size_t size() const
+		{
+			return m_maxCounter ;
+		}
 		bool hasNext() const
 		{
 			return m_counter + 1 < m_maxCounter ;

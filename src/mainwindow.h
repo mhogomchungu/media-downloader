@@ -59,6 +59,7 @@ private:
 	Logger m_logger ;
 	engines m_engines ;
 	utility::downloadDefaultOptions m_ddo ;
+	utility::versionInfo m_cou ;
 	tabManager m_tabManager ;
 	settings& m_settings ;
 	bool m_showTrayIcon ;

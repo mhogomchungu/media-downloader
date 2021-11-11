@@ -47,8 +47,8 @@ public:
 	void gotEvent( const QByteArray& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
-	void checkAndPrintInstalledVersion( const engines::Iterator& ) ;
-	void printEngineVersionInfo( const engines::Iterator& ) ;
+	void setDefaultEngine() ;
+
 	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;
 	basicdownloader& hideTableList() ;
@@ -83,8 +83,6 @@ private:
 	QTableWidget m_bogusTableOriginal ;
 	tableWidget m_bogusTable ;
 	utility::Terminator m_terminator ;
-
-	void setDefaultEngine() ;
 
 	void run( const engines::engine& engine,
 		  const QStringList& args,

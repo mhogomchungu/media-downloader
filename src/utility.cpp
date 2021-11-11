@@ -23,6 +23,7 @@
 #include "context.hpp"
 #include "downloadmanager.h"
 #include "tableWidget.h"
+#include "tabmanager.h"
 
 #include <QEventLoop>
 #include <QDesktopServices>
@@ -776,4 +777,80 @@ void utility::downloadDefaultOptions::setDownloadOptions( int row,tableWidget& t
 			break ;
 		}
 	}
+}
+
+void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter )
+{
+	const auto& engine = iter.engine() ;
+
+	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() && networkAccess::hasNetworkSupport() ){
+
+		if( engine.backendExists() ){
+
+			this->check( iter ) ;
+
+		}else if( !engine.exePath().realExe().isEmpty() ){
+
+			m_networkAccess->download( iter ) ;
+		}
+	}else{
+		if( engine.exePath().isEmpty() ){
+
+			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
+		}else{
+			this->check( iter ) ;
+		}
+	}
+}
+
+void utility::versionInfo::check( const engines::Iterator& iter )
+{
+	const auto& engine = iter.engine() ;
+
+	m_ctx->TabManager().disableAll() ;
+
+	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
+
+	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + iter.engine().name() ) ;
+
+	util::run( cmd.exe(),cmd.args(),[ iter,this ]( const util::run_result& r ){
+
+		const auto& engine = iter.engine() ;
+
+		if( r.success() ){
+
+			auto& logger = m_ctx->logger() ;
+
+			logger.add( QObject::tr( "Found version" ) + ": " + engine.versionString( r.stdOut ) ) ;
+
+			if( !m_ctx->debug().isEmpty() ){
+
+				logger.add( QObject::tr( "Executable Path" ) + ": " + engine.exePath().realExe() ) ;
+			}
+
+			m_ctx->TabManager().enableAll() ;
+		}else{
+			for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
+
+				if( m_ui.cbEngineType->itemText( i ) == engine.name() ){
+
+					m_ui.cbEngineType->removeItem( i ) ;
+
+					m_ctx->TabManager().basicDownloader().setDefaultEngine() ;
+
+					break ;
+				}
+			}
+
+			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
+
+			m_ctx->TabManager().enableAll() ;
+		}
+
+		if( iter.hasNext() ){
+
+			this->printEngineVersionInfo( iter.next() ) ;
+		}
+
+	},QProcess::ProcessChannelMode::MergedChannels ) ;
 }

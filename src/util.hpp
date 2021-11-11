@@ -612,6 +612,10 @@ void run( const QString& cmd,
 
 struct run_result
 {
+	bool success() const
+	{
+		return exitCode == 0 && exitStatus == QProcess::ExitStatus::NormalExit ;
+	}
 	int exitCode ;
 	QProcess::ExitStatus exitStatus ;
 	QByteArray stdOut ;

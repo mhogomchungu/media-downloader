@@ -43,6 +43,8 @@
 
 #include "util.hpp"
 
+#include "networkAccess.h"
+
 class Context ;
 
 class tabManager ;
@@ -626,6 +628,45 @@ namespace utility
 				return false ;
 			}
 		}
+	};
+
+	class versionInfo
+	{
+	public:
+		versionInfo( Ui::MainWindow& ui ) : m_ui( ui )
+		{
+		}
+		void setContext( const Context& ctx )
+		{
+			m_ctx = &ctx ;
+			m_networkAccess = ctx ;
+		}
+		template< typename Then >
+		void setVersion( const engines::engine& engine,Then then ){
+
+			engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
+
+			util::run( cmd.exe(),cmd.args(),[ &engine,then = std::move( then ) ]( const util::run_result& r ){
+
+				if( r.success() ){
+
+					engine.versionString( r.stdOut ) ;
+				}
+
+				then( r.success() ) ;
+
+			},QProcess::ProcessChannelMode::MergedChannels ) ;
+		}
+		void check( const engines::Iterator& iter ) ;
+		networkAccess& network()
+		{
+			return m_networkAccess.get() ;
+		}
+	private:
+		void printEngineVersionInfo( const engines::Iterator& iter ) ;
+		const Context * m_ctx ;
+		util::storage< networkAccess > m_networkAccess ;
+		Ui::MainWindow& m_ui ;
 	};
 
 	class downloadDefaultOptions

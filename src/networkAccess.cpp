@@ -153,7 +153,7 @@ void networkAccess::download( const engines::Iterator& iter )
 
 			if( iter.hasNext() ){
 
-				m_tabManager.basicDownloader().printEngineVersionInfo( iter.next() ) ;
+				m_ctx.versionInfo().check( iter.next() ) ;
 			}
 
 			return ;
@@ -171,7 +171,7 @@ void networkAccess::download( const engines::Iterator& iter )
 
 			if( iter.hasNext() ){
 
-				m_tabManager.basicDownloader().printEngineVersionInfo( iter.next() ) ;
+				m_ctx.versionInfo().check( iter.next() ) ;
 			}
 
 			return ;
@@ -242,7 +242,10 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 			m_tabManager.enableAll() ;
 
-			m_tabManager.basicDownloader().printEngineVersionInfo( iter ) ;
+			if( iter.hasNext() ){
+
+				m_ctx.versionInfo().check( iter.next() ) ;
+			}
 		}else{
 			m_file.close() ;
 
@@ -258,7 +261,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 
-			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( iter ) ;
+			m_ctx.versionInfo().check( iter ) ;
 		}
 	} ) ;
 

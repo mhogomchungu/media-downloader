@@ -33,7 +33,6 @@ configure::configure( const Context& ctx ) :
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_engines( m_ctx.Engines() ),
-	m_networkAccess( m_ctx ),
 	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font() )
 {
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
@@ -281,7 +280,7 @@ void configure::retranslateUi()
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )
 {
-	m_networkAccess.download( iter ) ;
+	m_ctx.versionInfo().network().download( iter ) ;
 }
 
 void configure::tabEntered()
@@ -327,11 +326,6 @@ void configure::updateEnginesList( const QStringList& e )
 
 	cb.setCurrentIndex( 0 ) ;
 	this->setEngineOptions( cb.currentText() ) ;
-}
-
-networkAccess& configure::network()
-{
-	return m_networkAccess ;
 }
 
 void configure::saveOptions()

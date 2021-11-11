@@ -28,10 +28,6 @@
 #include "context.hpp"
 #include "library.h"
 
-namespace utility{
-class downloadDefaultOptions ;
-}
-
 class tabManager
 {
 public:
@@ -43,9 +39,10 @@ public:
 		    QWidget& w,
 		    MainWindow& mw,
 		    utility::downloadDefaultOptions& d,
+		    utility::versionInfo& u,
 		    QString debug ) :
 		m_currentTab( s.tabNumber() ),
-		m_ctx( s,t,m,w,mw,l,e,d,*this,debug ),
+		m_ctx( s,t,m,w,mw,l,e,d,u,*this,debug ),
 		m_about( m_ctx ),
 		m_configure( m_ctx ),
 		m_basicdownloader( m_ctx ),
@@ -53,6 +50,8 @@ public:
 		m_playlistdownloader( m_ctx ),
 		m_library( m_ctx )
 	{
+		u.setContext( m_ctx ) ;
+
 		m_about.init_done() ;
 		m_configure.init_done() ;
 		m_basicdownloader.init_done() ;
@@ -96,6 +95,10 @@ public:
 				m_currentTab = index ;
 			}
 		} ) ;
+	}
+	const Context& context()
+	{
+		return m_ctx ;
 	}
 	tabManager& gotEvent( const QByteArray& e )
 	{

@@ -908,7 +908,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 	if( networkAccess::hasNetworkSupport() ){
 
-		auto& network = m_ctx.TabManager().Configure().network() ;
+		auto& network = m_ctx.versionInfo().network() ;
 
 		m_networkRunning++ ;
 
