@@ -733,7 +733,7 @@ void playlistdownloader::getList()
 
 		auto opts = c.options() ;
 
-		auto bb = [ copts = std::move( c ),this,monitor ]( tableWidget& table,Logger::Data& data ){
+		auto bb = [ copts = std::move( c ),this ]( tableWidget& table,Logger::Data& data ){
 
 			this->parseJson( copts,table,data ) ;
 		} ;

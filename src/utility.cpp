@@ -811,7 +811,7 @@ void utility::versionInfo::check( const engines::Iterator& iter )
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + iter.engine().name() ) ;
+	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name() ) ;
 
 	util::run( cmd.exe(),cmd.args(),[ iter,this ]( const util::run_result& r ){
 
