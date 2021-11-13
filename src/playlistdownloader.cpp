@@ -511,13 +511,11 @@ void playlistdownloader::updateEnginesList( const QStringList& e )
 		}
 	}
 
-	auto &m = m_ctx.TabManager().batchDownloader() ;
-
 	auto s = settings::tabName::playlist ;
 
-	m.setUpdefaultEngine( comboBox,
-			      this->defaultEngineName(),
-			      [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
+	utility::setUpdefaultEngine( comboBox,
+				     this->defaultEngineName(),
+				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
 QString playlistdownloader::defaultEngineName()

@@ -140,9 +140,15 @@ configure::configure( const Context& ctx ) :
 
 			if( !d.isEmpty() ){
 
-				if( m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last() ) ){
+				auto name = m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last() ) ;
 
-					m_ctx.TabManager().basicDownloader().setAsActive().downloadDefaultEngine() ;
+				if( !name.isEmpty() ){
+
+					auto& t = m_ctx.TabManager() ;
+
+					t.basicDownloader().setAsActive() ;
+					t.setDefaultEngines() ;
+					m_ctx.versionInfo().check( m_ctx.Engines().defaultEngine( name ) ) ;
 				}
 			}
 		}
@@ -166,7 +172,11 @@ configure::configure( const Context& ctx ) :
 
 			m_ctx.Engines().removeEngine( ac->objectName() ) ;
 
-			m_ctx.TabManager().basicDownloader().setAsActive().updateEngines() ;
+			auto& t = m_ctx.TabManager() ;
+
+			t.basicDownloader().setAsActive() ;
+
+			t.setDefaultEngines() ;
 		} ) ;
 
 		m.exec( QCursor::pos() ) ;

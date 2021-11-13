@@ -500,7 +500,12 @@ public:
 		}
 		bool backendExists() const
 		{
-			return QFile::exists( m_exePath.realExe() ) ;
+			if( m_broken ){
+
+				return false ;
+			}else{
+				return QFile::exists( m_exePath.realExe() ) ;
+			}
 		}
 		bool mainEngine() const
 		{
@@ -509,6 +514,14 @@ public:
 		bool replaceOutputWithProgressReport() const
 		{
 			return m_replaceOutputWithProgressReport ;
+		}
+		void setBroken() const
+		{
+			m_broken = true ;
+		}
+		bool broken() const
+		{
+			return m_broken ;
 		}
 	private:
 		void updateOptions() ;
@@ -523,6 +536,7 @@ public:
 		bool m_likeYoutubeDl ;
 		bool m_mainEngine ;
 		bool m_replaceOutputWithProgressReport ;
+		mutable bool m_broken = false ;
 		QString m_versionArgument ;
 		QString m_name ;
 		QString m_commandName ;
@@ -549,7 +563,7 @@ public:
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
-	bool addEngine( const QByteArray& data,const QString& path ) ;
+	QString addEngine( const QByteArray& data,const QString& path ) ;
 	void removeEngine( const QString& name ) ;
 	QStringList enginesList() const ;
 	const engine& defaultEngine( const QString& ) const ;

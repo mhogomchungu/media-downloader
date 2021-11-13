@@ -442,9 +442,9 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 
 	auto s = settings::tabName::batch ;
 
-	this->setUpdefaultEngine( comboBox,
-				  this->defaultEngineName(),
-				  [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
+	utility::setUpdefaultEngine( comboBox,
+				     this->defaultEngineName(),
+				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
 void batchdownloader::showThumbnail( const engines::engine& engine,

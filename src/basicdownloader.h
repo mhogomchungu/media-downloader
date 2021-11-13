@@ -36,8 +36,6 @@ class basicdownloader : public QObject
 public:
 	basicdownloader( const Context& ) ;
 	void init_done() ;
-	void updateEngines() ;
-	void downloadDefaultEngine() ;
 	void tabEntered() ;
 	void tabExited() ;
 	void enableQuit() ;
@@ -47,7 +45,7 @@ public:
 	void gotEvent( const QByteArray& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
-	void setDefaultEngine() ;
+	void updateEnginesList( const QStringList& ) ;
 
 	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;

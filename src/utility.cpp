@@ -779,7 +779,7 @@ void utility::downloadDefaultOptions::setDownloadOptions( int row,tableWidget& t
 	}
 }
 
-void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter )
+void utility::versionInfo::check( const engines::Iterator& iter )
 {
 	const auto& engine = iter.engine() ;
 
@@ -787,7 +787,7 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 		if( engine.backendExists() ){
 
-			this->check( iter ) ;
+			this->printEngineVersionInfo( iter ) ;
 
 		}else if( !engine.exePath().realExe().isEmpty() ){
 
@@ -798,12 +798,16 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 		}else{
-			this->check( iter ) ;
+			this->printEngineVersionInfo( iter ) ;
 		}
 	}
 }
 
-void utility::versionInfo::check( const engines::Iterator& iter )
+utility::versionInfo::~versionInfo()
+{
+}
+
+void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter )
 {
 	const auto& engine = iter.engine() ;
 
@@ -830,26 +834,18 @@ void utility::versionInfo::check( const engines::Iterator& iter )
 
 			m_ctx->TabManager().enableAll() ;
 		}else{
-			for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
-
-				if( m_ui.cbEngineType->itemText( i ) == engine.name() ){
-
-					m_ui.cbEngineType->removeItem( i ) ;
-
-					m_ctx->TabManager().basicDownloader().setDefaultEngine() ;
-
-					break ;
-				}
-			}
-
 			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 
 			m_ctx->TabManager().enableAll() ;
+
+			engine.setBroken() ;
 		}
 
 		if( iter.hasNext() ){
 
-			this->printEngineVersionInfo( iter.next() ) ;
+			this->check( iter.next() ) ;
+		}else{
+			emit vinfoDone() ;
 		}
 
 	},QProcess::ProcessChannelMode::MergedChannels ) ;

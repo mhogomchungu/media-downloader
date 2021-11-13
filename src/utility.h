@@ -630,9 +630,34 @@ namespace utility
 		}
 	};
 
-	class versionInfo
+	template< typename Function >
+	void setUpdefaultEngine( QComboBox& comboBox,
+				 const QString& defaultEngine,
+				 Function function )
 	{
+		for( int s = 0 ; s < comboBox.count() ; s++ ){
+
+			if( comboBox.itemText( s ) == defaultEngine ){
+
+				comboBox.setCurrentIndex( s ) ;
+
+				return ;
+			}
+		}
+
+		if( comboBox.count() > 0 ){
+
+			comboBox.setCurrentIndex( 0 ) ;
+			function( comboBox.itemText( 0 ) ) ;
+		}
+	}
+
+	class versionInfo : public QObject
+	{
+		Q_OBJECT
 	public:
+		~versionInfo() override ;
+
 		versionInfo( Ui::MainWindow& ui ) : m_ui( ui )
 		{
 		}
@@ -662,6 +687,8 @@ namespace utility
 		{
 			return m_networkAccess.get() ;
 		}
+	signals:
+		void vinfoDone() ;
 	private:
 		void printEngineVersionInfo( const engines::Iterator& iter ) ;
 		const Context * m_ctx ;

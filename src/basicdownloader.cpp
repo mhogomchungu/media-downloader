@@ -120,31 +120,6 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	const auto& engines = m_ctx.Engines().getEngines() ;
-
-	if( engines.size() > 0 ){
-
-		for( const auto& engine : engines ){
-
-			if( engine.mainEngine() ){
-
-				m_ui.cbEngineType->addItem( engine.name() ) ;
-			}
-		}
-
-		this->setDefaultEngine() ;
-
-		if( m_settings.showVersionInfoWhenStarting() ){
-
-			auto iterator = m_ctx.Engines().getEnginesIterator() ;
-
-			m_ctx.versionInfo().check( iterator ) ;
-		}
-	}else{
-		m_tabManager.disableAll() ;
-
-		m_ui.pbQuit->setEnabled( true ) ;
-	}
 }
 
 void basicdownloader::changeDefaultEngine( int s )
@@ -157,7 +132,7 @@ void basicdownloader::changeDefaultEngine( int s )
 
 		m_settings.setDefaultEngine( engine.value().name(),settings::tabName::basic ) ;
 
-		this->setDefaultEngine() ;
+		m_ctx.TabManager().setDefaultEngines() ;
 	}else{
 		m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
 	}
@@ -225,39 +200,22 @@ const engines::engine& basicdownloader::defaultEngine()
 	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
 }
 
-void basicdownloader::setDefaultEngine()
+void basicdownloader::updateEnginesList( const QStringList& e )
 {
-	auto m = this->defaultEngineName() ;
+	auto& comboBox = *m_ui.cbEngineType ;
 
-	for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
+	comboBox.clear() ;
 
-		if( m_ui.cbEngineType->itemText( i ) == m ){
+	for( const auto& it : e ){
 
-			m_ui.cbEngineType->setCurrentIndex( i ) ;
-
-			auto e = this->enginesList() ;
-
-			auto& t = m_ctx.TabManager() ;
-
-			t.batchDownloader().updateEnginesList( e ) ;
-			t.playlistDownloader().updateEnginesList( e ) ;
-			t.Configure().updateEnginesList( e ) ;
-
-			const auto& s = m_ctx.Engines().getEngineByName( m ) ;
-
-			if( s ){
-
-				m_ui.pbList->setEnabled( !s->defaultListCmdOptions().isEmpty() ) ;
-			}
-
-			return ;
-		}
+		comboBox.addItem( it ) ;
 	}
 
-	m_settings.setDefaultEngine( m_ui.cbEngineType->itemText( 0 ),settings::tabName::basic ) ;
-	m_ui.cbEngineType->setCurrentIndex( 0 ) ;
-	m_ctx.TabManager().batchDownloader().updateEnginesList( this->enginesList() ) ;
-	m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
+	auto s = settings::tabName::basic ;
+
+	utility::setUpdefaultEngine( comboBox,
+				     this->defaultEngineName(),
+				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
 void basicdownloader::retranslateUi()
@@ -406,29 +364,6 @@ void basicdownloader::run( const engines::engine& engine,
 	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ) ) ;
 
 	utility::run( args,quality,std::move( ctx ) ) ;
-}
-
-void basicdownloader::updateEngines()
-{
-	const auto& engines = m_ctx.Engines().getEngines() ;
-
-	m_ui.cbEngineType->clear() ;
-
-	if( engines.size() > 0 ){
-
-		for( const auto& engine : engines ){
-
-			m_ui.cbEngineType->addItem( engine.name() ) ;
-		}
-
-		this->setDefaultEngine() ;
-	}
-}
-
-void basicdownloader::downloadDefaultEngine()
-{
-	this->updateEngines() ;
-	m_ctx.versionInfo().check( this->defaultEngine() ) ;
 }
 
 void basicdownloader::tabEntered()
