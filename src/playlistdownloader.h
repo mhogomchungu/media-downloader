@@ -100,6 +100,7 @@ private:
 		void add( const QString& uiName,const QString& url,const QString& Opts ) ;
 		void remove( int ) ;
 		void setVisible( bool ) ;
+		const QString& archivePath() const ;
 		struct entry
 		{
 			entry()
@@ -122,6 +123,7 @@ private:
 	private:
 		void save() ;
 		QString m_path ;
+		QString m_archivePath ;
 		tableMiniWidget< int >& m_table ;
 		QWidget& m_ui ;
 		QJsonArray m_array ;

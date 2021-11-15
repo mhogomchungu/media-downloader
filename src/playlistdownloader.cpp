@@ -30,6 +30,7 @@ class customOptions
 {
 public:
 	customOptions( QStringList&& opts,
+		       const QString& downloadArchivePath,
 		       settings& settings,
 		       const engines::engine& engine ) :
 		m_options( std::move( opts ) )
@@ -48,6 +49,11 @@ public:
 			auto ss = util::splitPreserveQuotes( s ) ;
 
 			auto mm = utility::arguments( ss ).hasValue( "--download-archive" ) ;
+
+			if( mm.isEmpty() ){
+
+				mm = downloadArchivePath ;
+			}
 
 			if( !mm.isEmpty() ){
 
@@ -752,6 +758,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
 
 	m_ccmd.download( engine,
+			 m_subscription.archivePath(),
 			 m_ctx.Engines().engineDirPaths(),
 			 m_table.url( index ),
 			 m_terminator.setUp(),
@@ -808,7 +815,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter )
 
 	util::runInBgThread( [ &engine,this,opts = std::move( opts ) ]()mutable{
 
-		return customOptions( std::move( opts ),m_settings,engine ) ;
+		return customOptions( std::move( opts ),m_subscription.archivePath(),m_settings,engine ) ;
 
 	},[ this,&engine,iter = std::move( iter ) ]( customOptions&& c )mutable{
 
@@ -1088,6 +1095,7 @@ playlistdownloader::subscription::subscription( const Context& e,
 						tableMiniWidget< int >& t,
 						QWidget& w ) :
 	m_path( e.Engines().engineDirPaths().dataPath( "subscriptions.json" ) ),
+	m_archivePath( e.Engines().engineDirPaths().dataPath( "subscriptions_archive_file.txt" ) ),
 	m_table( t ),
 	m_ui( w )
 {
@@ -1154,6 +1162,11 @@ void playlistdownloader::subscription::setVisible( bool e )
 		m_ui.setVisible( e ) ;
 		m_table.clear() ;
 	}
+}
+
+const QString& playlistdownloader::subscription::archivePath() const
+{
+	return m_archivePath ;
 }
 
 std::vector< playlistdownloader::subscription::entry > playlistdownloader::subscription::entries()

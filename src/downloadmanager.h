@@ -304,6 +304,7 @@ public:
 	}
 	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,
+		       const QString& archivePath,
 		       const engines::enginePaths& ep,
 		       const QString& url,
 		       TermSignal terminator,
@@ -321,7 +322,7 @@ public:
 
 		utility::args args( m ) ;
 
-		utility::updateOptionsStruct opt{ engine,ep,m_settings,args,iString,fd,{ url } } ;
+		utility::updateOptionsStruct opt{ engine,archivePath,ep,m_settings,args,iString,fd,{ url } } ;
 
 		auto ctx = utility::make_ctx( engine,
 					      std::move( opts ),

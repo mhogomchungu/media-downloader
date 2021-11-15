@@ -963,6 +963,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
 
 	m_ccmd.download( engine,
+			 QString(),
 			 m_ctx.Engines().engineDirPaths(),
 			 m_table.url( index ),
 			 m_terminator.setUp(),

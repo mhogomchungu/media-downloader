@@ -273,6 +273,7 @@ namespace utility
 	struct updateOptionsStruct
 	{
 		const engines::engine& engine ;
+		const QString& archivePath ;
 		const engines::enginePaths& enginePaths ;
 		settings& stts;
 		const utility::args& args ;
@@ -367,9 +368,7 @@ namespace utility
 					}else{
 						settings.clearPlaylistUrlHistory() ;
 					}
-
-				}else if( m != "UpdateAll" ){
-
+				}else{
 					s = true ;
 
 					lineEdit.setText( ac->objectName() ) ;
