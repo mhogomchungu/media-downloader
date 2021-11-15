@@ -394,9 +394,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		auto entries = m_subscription.entries() ;
 
-		for( const auto& it : entries ){
+		for( auto it = entries.rbegin() ; it != entries.rend() ; it++ ){
 
-			m.addAction( it.uiName )->setObjectName( it.url ) ;
+			const auto& s = *it ;
+
+			m.addAction( s.uiName )->setObjectName( s.url ) ;
 		}
 
 		m.addSeparator() ;
@@ -769,6 +771,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 void playlistdownloader::getList( playlistdownloader::listIterator iter )
 {
 	m_allCompleted = false ;
+	m_dataReceived = false ;
 
 	auto url = iter.url() ;
 
@@ -857,6 +860,11 @@ void playlistdownloader::getList( customOptions&& c,
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
 				m_ui.pbPLCancel->setEnabled( false ) ;
+
+				if( !m_dataReceived ){
+
+					m_showTimer = false ;
+				}
 			}
 		}
 	) ;
@@ -864,6 +872,8 @@ void playlistdownloader::getList( customOptions&& c,
 	auto opts = c.options() ;
 
 	auto bb = [ copts = std::move( c ),this ]( tableWidget& table,Logger::Data& data ){
+
+		m_dataReceived = true ;
 
 		this->parseJson( copts,table,data ) ;
 	} ;
@@ -1194,9 +1204,9 @@ std::vector< playlistdownloader::subscription::entry > playlistdownloader::subsc
 
 	std::vector< subscription::entry > e ;
 
-	for( const auto& it : util::asConst( m_array ) ){
+	for( int i = m_array.size() - 1 ; i >= 0 ; i-- ){
 
-		auto m = it.toObject() ;
+		auto m = m_array[ i ].toObject() ;
 
 		auto a = m.value( "uiName" ).toString() ;
 		auto b = m.value( "url" ).toString() ;

@@ -68,6 +68,7 @@ private:
 	bool m_autoDownload ;
 	bool m_allCompleted ;
 	bool m_stoppedOnExisting ;
+	bool m_dataReceived ;
 
 	int m_networkRunning = 0 ;
 
@@ -146,19 +147,19 @@ private:
 		}
 		const QString& url() const
 		{
-			return m_list[ 0 ].url ;
+			return m_list.back().url ;
 		}
 		const QString& uiName() const
 		{
-			return m_list[ 0 ].uiName ;
+			return m_list.back().uiName ;
 		}
 		const QString& listOptions() const
 		{
-			return m_list[ 0 ].getListOptions ;
+			return m_list.back().getListOptions ;
 		}
 		listIterator next() const
 		{
-			m_list.erase( m_list.begin() ) ;
+			m_list.pop_back() ;
 			return std::move( m_list ) ;
 		}
 	private:
