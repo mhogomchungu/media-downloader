@@ -837,7 +837,7 @@
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pbPLRecentlyUsedUrl">
+     <widget class="QPushButton" name="pbPlSubscription">
       <property name="geometry">
        <rect>
         <x>650</x>
@@ -847,27 +847,181 @@
        </rect>
       </property>
       <property name="toolTip">
-       <string>Recently Used</string>
+       <string>Subscriptions</string>
       </property>
       <property name="text">
        <string/>
       </property>
      </widget>
-     <widget class="QCheckBox" name="cbPlaylistDownloaderSaveHistory">
+     <widget class="QWidget" name="widgetPlDownloader" native="true">
       <property name="geometry">
        <rect>
-        <x>680</x>
-        <y>280</y>
-        <width>31</width>
-        <height>31</height>
+        <x>10</x>
+        <y>0</y>
+        <width>771</width>
+        <height>441</height>
        </rect>
       </property>
-      <property name="toolTip">
-       <string>Save History</string>
+      <property name="autoFillBackground">
+       <bool>true</bool>
       </property>
-      <property name="text">
-       <string/>
-      </property>
+      <widget class="QLabel" name="labelPlSubscriptionUiName">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>310</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Ui Name</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditPlSubscriptionUrl">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>340</y>
+         <width>461</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditPlSubscriptionUiName">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>310</y>
+         <width>461</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="tableWidgetPlDownloaderSubscription">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>10</y>
+         <width>771</width>
+         <height>301</height>
+        </rect>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="tabKeyNavigation">
+        <bool>false</bool>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::NoSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <property name="gridStyle">
+        <enum>Qt::SolidLine</enum>
+       </property>
+       <column>
+        <property name="text">
+         <string>Ui Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string notr="true">Url</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QPushButton" name="pbPlSubscriptionAdd">
+       <property name="geometry">
+        <rect>
+         <x>390</x>
+         <y>400</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelPlSubscriptionUrl">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>340</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Url</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pbPlSubscriptionDone">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>400</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Done</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditPlSubscriptionGetListOptions">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>370</y>
+         <width>461</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelPlSubscriptionListOptions">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>370</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Get List Options:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_5">
@@ -992,7 +1146,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">

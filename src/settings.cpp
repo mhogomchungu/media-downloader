@@ -138,18 +138,6 @@ void settings::addToplaylistRangeHistory( const QString& e )
 	}
 }
 
-void settings::addToplaylistUrlHistory( const QString& e )
-{
-	if( this->playlistDownloaderSaveHistory() ){
-
-		_addToHistory( m_settings,
-			       this->playlistUrlHistory(),
-			       "PlaylistUrlHistory",
-			       e,
-			       this->historySize() ) ;
-	}
-}
-
 void settings::addOptionsHistory( const QString& e,settings::tabName s )
 {
 	if( this->saveHistory() ){
@@ -164,7 +152,7 @@ void settings::addOptionsHistory( const QString& e,settings::tabName s )
 
 void settings::clearPlaylistRangeHistory()
 {
-	m_settings.setValue( "PlaylistRangeHistory",QStringList() ) ;
+	m_settings.setValue( "PlaylistRangeHistory",QStringList{ "--break-on-existing" } ) ;
 }
 
 void settings::clearPlaylistUrlHistory()
@@ -176,7 +164,7 @@ QStringList settings::playlistRangeHistory()
 {
 	if( !m_settings.contains( "PlaylistRangeHistory" ) ){
 
-		m_settings.setValue( "PlaylistRangeHistory",QStringList() ) ;
+		m_settings.setValue( "PlaylistRangeHistory",QStringList{ "--break-on-existing" } ) ;
 	}
 
 	return m_settings.value( "PlaylistRangeHistory" ).toStringList() ;
@@ -206,7 +194,7 @@ QString settings::playlistRangeHistoryLastUsed()
 {
 	if( !m_settings.contains( "playlistRangeHistoryLastUsed" ) ){
 
-		m_settings.setValue( "playlistRangeHistoryLastUsed",QString() ) ;
+		m_settings.setValue( "playlistRangeHistoryLastUsed",QString( "--break-on-existing" ) ) ;
 	}
 
 	return m_settings.value( "playlistRangeHistoryLastUsed" ).toString() ;

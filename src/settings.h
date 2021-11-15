@@ -220,7 +220,6 @@ public:
 	void setEngineDefaultDownloadOptions( const QString& engineName,const QString& options ) ;
 	void addToplaylistRangeHistory( const QString& ) ;
 	void clearPlaylistRangeHistory() ;
-	void addToplaylistUrlHistory( const QString& ) ;
 	void clearPlaylistUrlHistory() ;
 	void addOptionsHistory( const QString&,settings::tabName ) ;
 	void setTheme( QApplication& ) ;

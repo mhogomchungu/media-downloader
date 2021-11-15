@@ -335,12 +335,13 @@ namespace utility
 	};
 
 	enum class PlayListButtonName{ DownloadRange,PlaylistUrl,None } ;
-	template< typename Settings,typename TabName >
-	inline bool showHistory( QLineEdit& lineEdit,
-				 const QStringList& history,
-				 Settings& settings,
-				 TabName tabName,
-				 PlayListButtonName pbn = PlayListButtonName::None )
+	template< typename Settings,typename TabName,typename Function >
+	bool showHistory( QLineEdit& lineEdit,
+			  const QStringList& history,
+			  Settings& settings,
+			  TabName tabName,
+			  Function function,
+			  PlayListButtonName pbn = PlayListButtonName::None )
 	{
 		if( history.isEmpty() ){
 
@@ -366,7 +367,9 @@ namespace utility
 					}else{
 						settings.clearPlaylistUrlHistory() ;
 					}
-				}else{
+
+				}else if( m != "UpdateAll" ){
+
 					s = true ;
 
 					lineEdit.setText( ac->objectName() ) ;
@@ -393,12 +396,25 @@ namespace utility
 
 			m.addSeparator() ;
 
+			function( m ) ;
+
+			m.addSeparator() ;
+
 			m.addAction( QObject::tr( "Clear" ) )->setObjectName( "Clear" ) ;
 
 			m.exec( QCursor::pos() ) ;
 
 			return s ;
 		}
+	}
+	template< typename Settings,typename TabName >
+	bool showHistory( QLineEdit& lineEdit,
+			  const QStringList& history,
+			  Settings& settings,
+			  TabName tabName,
+			  PlayListButtonName pbn = PlayListButtonName::None )
+	{
+		return utility::showHistory( lineEdit,history,settings,tabName,[]( QMenu& ){},pbn ) ;
 	}
 
 	template< typename Function,typename AddAction >

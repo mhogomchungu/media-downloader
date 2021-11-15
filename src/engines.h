@@ -500,12 +500,7 @@ public:
 		}
 		bool backendExists() const
 		{
-			if( m_broken ){
-
-				return false ;
-			}else{
-				return QFile::exists( m_exePath.realExe() ) ;
-			}
+			return QFile::exists( m_exePath.realExe() ) ;
 		}
 		bool mainEngine() const
 		{

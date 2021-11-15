@@ -50,7 +50,7 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="300"/>
         <location filename="../src/mainwindow.ui" line="595"/>
-        <location filename="../src/mainwindow.ui" line="1342"/>
+        <location filename="../src/mainwindow.ui" line="1496"/>
         <source>Options</source>
         <translation>Opciones</translation>
     </message>
@@ -58,8 +58,8 @@
         <location filename="../src/mainwindow.ui" line="163"/>
         <location filename="../src/mainwindow.ui" line="422"/>
         <location filename="../src/mainwindow.ui" line="679"/>
-        <location filename="../src/mainwindow.ui" line="925"/>
-        <location filename="../src/mainwindow.ui" line="1488"/>
+        <location filename="../src/mainwindow.ui" line="1079"/>
+        <location filename="../src/mainwindow.ui" line="1642"/>
         <location filename="../src/mainwindow.cpp" line="76"/>
         <source>Quit</source>
         <translation>Salir</translation>
@@ -107,7 +107,6 @@
         <location filename="../src/mainwindow.ui" line="487"/>
         <location filename="../src/mainwindow.ui" line="818"/>
         <location filename="../src/mainwindow.ui" line="834"/>
-        <location filename="../src/mainwindow.ui" line="850"/>
         <source>Recently Used</source>
         <translation>Usados Recientemente</translation>
     </message>
@@ -154,165 +153,179 @@
         <translation>URL de Lista de Reproducción:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="866"/>
-        <source>Save History</source>
-        <translation>Guardar historial</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="875"/>
+        <location filename="../src/mainwindow.ui" line="1029"/>
         <source>Library</source>
         <translation>Biblioteca</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="906"/>
+        <location filename="../src/mainwindow.ui" line="1060"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="938"/>
+        <location filename="../src/mainwindow.ui" line="1092"/>
         <source>Up</source>
         <translation>Arriba</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="951"/>
+        <location filename="../src/mainwindow.ui" line="1105"/>
         <source>Refresh</source>
         <translation>Referescar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="964"/>
+        <location filename="../src/mainwindow.ui" line="1118"/>
         <source>Open Folder</source>
         <translation>Abrir Carpeta</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="977"/>
+        <location filename="../src/mainwindow.ui" line="1131"/>
         <source>Home</source>
         <translation>Inicio</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="983"/>
+        <location filename="../src/mainwindow.ui" line="1137"/>
         <source>Configure</source>
         <translation>Configurar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="999"/>
+        <location filename="../src/mainwindow.ui" line="1153"/>
         <source>General Options</source>
         <translation>Opciones Generales</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1105"/>
+        <location filename="../src/mainwindow.ui" line="1259"/>
         <source>Update Engine</source>
         <translation>Actualizar Motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1163"/>
+        <location filename="../src/mainwindow.ui" line="1317"/>
         <source>Show Thumbnails</source>
         <translation>Mostrar Miniaturas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1186"/>
+        <location filename="../src/mainwindow.ui" line="1340"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Descargas Simultáneas Máximas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1205"/>
+        <location filename="../src/mainwindow.ui" line="1359"/>
         <source>Use System Executables If Available</source>
         <translation>Usar Ejecutables del Sistema si están disponibles</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1228"/>
+        <location filename="../src/mainwindow.ui" line="1382"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation>Tema Oscuro (Requiere Reinicar)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1252"/>
-        <location filename="../src/mainwindow.ui" line="1358"/>
+        <location filename="../src/mainwindow.ui" line="1406"/>
+        <location filename="../src/mainwindow.ui" line="1512"/>
         <source>Reset Option To Its Default</source>
         <translation>Restablecer Opción a su Valor Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1255"/>
-        <location filename="../src/mainwindow.ui" line="1434"/>
+        <location filename="../src/mainwindow.ui" line="1409"/>
+        <location filename="../src/mainwindow.ui" line="1588"/>
         <source>Set Defaults</source>
         <translation>Establecer Predeterminados</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1131"/>
+        <location filename="../src/mainwindow.ui" line="1285"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Factor de Escala (Necesita Reiniciar)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1240"/>
+        <location filename="../src/mainwindow.ui" line="1394"/>
         <source>Preset Options</source>
         <translation>Opciones Predeterminadas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1086"/>
+        <location filename="../src/mainwindow.ui" line="1240"/>
         <source>Download Path</source>
         <translation>Ruta para Descargas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1034"/>
+        <location filename="../src/mainwindow.ui" line="1188"/>
         <source>Select Language</source>
         <translation>Seleccionar Idioma</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1053"/>
+        <location filename="../src/mainwindow.ui" line="1207"/>
         <source>Show Version Info When Starting</source>
         <translation>Mostrar información de la versión al comenzar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1150"/>
+        <location filename="../src/mainwindow.ui" line="1304"/>
         <source>Add a Plugin</source>
         <translation>Añadir complemento</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1118"/>
+        <location filename="../src/mainwindow.ui" line="1272"/>
         <source>Remove A Plugin</source>
         <translation>Eliminar complemento</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1501"/>
+        <location filename="../src/mainwindow.ui" line="1655"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1367"/>
+        <location filename="../src/mainwindow.ui" line="1521"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Opciones predeterminadas del Motor</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="608"/>
+        <location filename="../src/mainwindow.ui" line="1016"/>
         <source>Get List Options:</source>
         <translation>Obtener lista de opciones:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1287"/>
-        <location filename="../src/mainwindow.ui" line="1326"/>
+        <location filename="../src/mainwindow.ui" line="850"/>
+        <source>Subscriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="878"/>
+        <location filename="../src/mainwindow.ui" line="936"/>
+        <location filename="../src/mainwindow.ui" line="1441"/>
+        <location filename="../src/mainwindow.ui" line="1480"/>
         <source>Ui Name</source>
         <translation>Numbre IU</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1361"/>
+        <location filename="../src/mainwindow.ui" line="958"/>
+        <location filename="../src/mainwindow.ui" line="1515"/>
         <source>Add</source>
         <translation>Añadir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1389"/>
+        <location filename="../src/mainwindow.ui" line="971"/>
+        <source>Url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="993"/>
+        <source>Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1543"/>
         <source>Engine&apos;s Name</source>
         <translation>Nombre del Motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1408"/>
+        <location filename="../src/mainwindow.ui" line="1562"/>
         <source>Default Download Options</source>
         <translation>Opciones Predeterminadas de Descarga</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1447"/>
+        <location filename="../src/mainwindow.ui" line="1601"/>
         <source>Path To Cookie FIle</source>
         <translation>Ruta al archivo de Cookies</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1507"/>
+        <location filename="../src/mainwindow.ui" line="1661"/>
         <source>About</source>
         <translation>Acerca</translation>
     </message>
@@ -336,7 +349,7 @@
         <translation>Guardar Lista en Archivo</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="828"/>
+        <location filename="../src/utility.cpp" line="832"/>
         <source>Executable Path</source>
         <translation>Ruta Ejecutable</translation>
     </message>
@@ -352,15 +365,15 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="315"/>
-        <location filename="../src/playlistdownloader.cpp" line="275"/>
+        <location filename="../src/playlistdownloader.cpp" line="319"/>
         <location filename="../src/utility.cpp" line="330"/>
         <source>Preset Options</source>
         <translation>Opciones Preestablecidas</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="356"/>
-        <location filename="../src/utility.h" line="396"/>
-        <location filename="../src/utility.h" line="452"/>
+        <location filename="../src/utility.h" line="403"/>
+        <location filename="../src/utility.h" line="468"/>
         <source>Clear</source>
         <translation>Limpiar</translation>
     </message>
@@ -488,20 +501,20 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="59"/>
-        <location filename="../src/utility.cpp" line="814"/>
+        <location filename="../src/utility.cpp" line="818"/>
         <source>Checking installed version of</source>
         <translation>Comprobando la versión instalada de</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="64"/>
         <location filename="../src/utility.cpp" line="799"/>
-        <location filename="../src/utility.cpp" line="845"/>
+        <location filename="../src/utility.cpp" line="837"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>No se pudo encontrar la información de la versión, asegúrese de que &quot;%1&quot; esté instalado y funcione correctamente</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/utility.cpp" line="824"/>
+        <location filename="../src/utility.cpp" line="828"/>
         <source>Found version</source>
         <translation>Versión Encontrada</translation>
     </message>
@@ -562,7 +575,7 @@
         <translation>Descarga completada</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="356"/>
+        <location filename="../src/settings.cpp" line="344"/>
         <source>Resetting download folder to default</source>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
@@ -592,19 +605,19 @@
         <translation>Tema Oscuro 3</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="420"/>
-        <location filename="../src/utility.h" line="428"/>
-        <location filename="../src/utility.h" line="433"/>
+        <location filename="../src/utility.h" line="436"/>
+        <location filename="../src/utility.h" line="444"/>
+        <location filename="../src/utility.h" line="449"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="425"/>
+        <location filename="../src/utility.h" line="441"/>
         <source>Force Download</source>
         <translation>Forzar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="443"/>
+        <location filename="../src/utility.h" line="459"/>
         <source>Show Log Window</source>
         <translation>Mostrar Ventana de Registro</translation>
     </message>
@@ -629,7 +642,7 @@
         <translation>Completados: %1%, Sin iniciar: %2, Exitosos: %3, Fallidos: %4, Cancelados: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="872"/>
+        <location filename="../src/playlistdownloader.cpp" line="1015"/>
         <source>Media Already In Archive</source>
         <translation>Medio ya existe en archivo</translation>
     </message>
@@ -685,13 +698,13 @@
         <translation>Seleccionar un Archivo de Motor</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="163"/>
-        <location filename="../src/configure.cpp" line="304"/>
+        <location filename="../src/configure.cpp" line="169"/>
+        <location filename="../src/configure.cpp" line="314"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="226"/>
+        <location filename="../src/configure.cpp" line="236"/>
         <source>Set Download Folder</source>
         <translation>Establecer Carpeta para Descargas</translation>
     </message>
@@ -725,27 +738,48 @@
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="173"/>
+        <location filename="../src/playlistdownloader.cpp" line="217"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="187"/>
+        <location filename="../src/playlistdownloader.cpp" line="231"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="195"/>
+        <location filename="../src/playlistdownloader.cpp" line="173"/>
+        <location filename="../src/playlistdownloader.cpp" line="239"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="206"/>
+        <location filename="../src/playlistdownloader.cpp" line="122"/>
+        <source>Get List Options:</source>
+        <translation>Obtener lista de opciones:</translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="250"/>
         <source>Copy Url</source>
         <translation>Copiar URL</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="750"/>
+        <location filename="../src/playlistdownloader.cpp" line="400"/>
+        <source>Show All Updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="406"/>
+        <source>Download All Updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="414"/>
+        <source>Manage Subscriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="877"/>
         <source>This May Take A Very Long Time</source>
         <translation>Ésto Podría Demorar Mucho Tiempo</translation>
     </message>
