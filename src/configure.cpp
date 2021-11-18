@@ -33,7 +33,8 @@ configure::configure( const Context& ctx ) :
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_engines( m_ctx.Engines() ),
-	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font() )
+	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font() ),
+	m_presetOptions( m_ctx,m_settings )
 {
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
 
@@ -220,7 +221,8 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureSetPresetDefaults,&QPushButton::clicked,[ this ](){
 
-		m_settings.setPresetJsonDefaultOptions() ;
+		m_presetOptions.setDefaults() ;
+		m_tablePresetOptions.clear() ;
 
 		this->showOptions() ;
 	} ) ;
@@ -419,55 +421,27 @@ void configure::setEngineOptions( const QString& e )
 
 void configure::savePresetOptions()
 {
-	auto presetOptions = m_settings.setpresetOptions() ;
-
 	auto& table = m_tablePresetOptions.get() ;
 
 	auto rowCount = table.rowCount() ;
+
+	m_presetOptions.clear() ;
 
 	for( int i = 0 ; i < rowCount ; i++ ){
 
 		auto uiName = table.item( i,0 )->text() ;
 		auto options = table.item( i,1 )->text() ;
 
-		presetOptions.add( uiName,options ) ;
+		m_presetOptions.add( uiName,options ) ;
 	}
 }
 
 void configure::showOptions()
 {
-	auto mm = m_settings.presetOptions() ;
-
-	m_tablePresetOptions.clear() ;
-
-	auto _addItem = [ this ]( const QString& uiName,const QString& options ){
+	this->presetOptionsForEach( [ this ]( const QString& uiName,const QString& options ){
 
 		m_tablePresetOptions.add( { uiName,options } ) ;
-	} ;
-
-	if( mm.isEmpty() ){
-
-		m_settings.presetOptions( _addItem ) ;
-	}else{
-		for( const auto& it : util::split( mm,',',true ) ){
-
-			auto b = it.indexOf( '(' ) ;
-
-			if( b != -1 ){
-
-				auto a = it ;
-				auto c = a.mid( 0,b ) ;
-				auto cc = a.mid( b + 1 ) ;
-				cc.truncate( cc.size() - 1 ) ;
-
-				_addItem( c,cc ) ;
-			}
-		}
-
-		this->savePresetOptions() ;
-
-		m_settings.setPresetOptions( QStringList() ) ;
-	}
+	} )  ;
 }
 
 void configure::resetMenu()
@@ -588,4 +562,131 @@ void configure::disableAll()
 	m_ui.labelConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.cbConfigureShowThumbnails->setEnabled( false ) ;
+}
+
+configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
+	m_path( ctx.Engines().engineDirPaths().dataPath( "presetOptions.json" ) )
+{
+	QJsonParseError err ;
+
+	QSettings& m = s.bk() ;
+
+	QByteArray data ;
+
+	if( QFile::exists( m_path ) ){
+
+		QFile f( m_path ) ;
+
+		f.open( QIODevice::ReadOnly ) ;
+
+		data = f.readAll() ;
+
+	}else if( m.contains( "PresetJsonOptions" ) ){
+
+		auto a = m.value( "PresetJsonOptions" ).toByteArray() ;
+
+		m.remove( "PresetJsonOptions" ) ;
+
+		data = QByteArray::fromHex( a ) ;
+	}else{
+		data = this->defaultData() ;
+	}
+
+	auto json = QJsonDocument::fromJson( data,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		m_array = json.array() ;
+	}
+}
+
+configure::presetOptions::~presetOptions()
+{
+	QFile f( m_path ) ;
+	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
+	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+}
+
+void configure::presetOptions::clear()
+{
+	auto s = m_array.size() ;
+
+	for( int i = 0 ; i < s ; i++ ){
+
+		m_array.removeAt( 0 ) ;
+	}
+}
+
+void configure::presetOptions::setDefaults()
+{
+	this->clear() ;
+
+	QJsonParseError err ;
+
+	auto json = QJsonDocument::fromJson( this->defaultData(),&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		m_array = json.array() ;
+	}
+}
+
+void configure::presetOptions::add( const QString& uiName,const QString& options )
+{
+	QJsonObject o ;
+
+	o.insert( "uiName",uiName ) ;
+	o.insert( "options",options ) ;
+
+	m_array.append( o ) ;
+}
+
+QByteArray configure::presetOptions::defaultData()
+{
+	return R"R([
+    {
+	"options": "bestvideo[height=144][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=144]+bestaudio",
+	"uiName": "144p"
+    },
+    {
+	"options": "bestvideo[height=240][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=240]+bestaudio",
+	"uiName": "240p"
+    },
+    {
+	"options": "bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=360]+bestaudio",
+	"uiName": "360p"
+    },
+    {
+	"options": "bestvideo[height=480][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=480]+bestaudio",
+	"uiName": "480p"
+    },
+    {
+	"options": "bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=720]+bestaudio",
+	"uiName": "720p"
+    },
+    {
+	"options": "bestvideo[height=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio",
+	"uiName": "1080p"
+    },
+    {
+	"options": "bestvideo[height=1440][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio",
+	"uiName": "1440p"
+    },
+    {
+	"options": "bestvideo[height=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio",
+	"uiName": "2160p"
+    },
+    {
+	"options": "Default",
+	"uiName": "Default"
+    },
+    {
+	"options": "bestvideo+bestaudio",
+	"uiName": "Best-audiovideo"
+    },
+    {
+	"options": "bestaudio -x --embed-thumbnail --audio-format mp3",
+	"uiName": "Best-audio"
+    }
+])R";
 }

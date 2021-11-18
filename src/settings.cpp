@@ -268,6 +268,11 @@ settings::settings() :
 	}
 }
 
+QSettings& settings::bk()
+{
+	return m_settings ;
+}
+
 void settings::setTabNumber( int s )
 {
 	m_settings.setValue( "TabNumber",s ) ;
@@ -384,81 +389,6 @@ QString settings::downloadFolder( Logger& logger )
 
 		logger.add( e ) ;
 	} ) ;
-}
-
-void settings::setPresetToDefaults()
-{
-	QStringList s{ "144p(bestvideo[height=144][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=144]+bestaudio)",
-		       "240p(bestvideo[height=240][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=240]+bestaudio)",
-		       "360p(bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=360]+bestaudio)",
-		       "480p(bestvideo[height=480][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=480]+bestaudio)",
-		       "720p(bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=720]+bestaudio)",
-		       "1080p(bestvideo[height=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio)",
-		       "1440p(bestvideo[height=1440][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio)",
-		       "2160p(bestvideo[height=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio)",
-		       "Default(Default)",
-		       "Best-audiovideo(bestvideo+bestaudio)",
-		       "Best-audio(bestaudio -x --embed-thumbnail --audio-format mp3)" } ;
-
-	m_settings.setValue( "PresetOptionsDefaults",s ) ;
-
-	m_settings.setValue( "PresetOptions",m_settings.value( "PresetOptionsDefaults" ).toStringList() ) ;
-
-	this->setPresetJsonOptions( QString() ) ;
-}
-
-void settings::setPresetOptions( const QString& e )
-{
-	auto m = e ;
-	m.replace( "\n","" ) ;
-	this->setPresetOptions( util::split( m,',',true ) ) ;
-}
-
-void settings::setPresetOptions( const QStringList& m )
-{
-	m_settings.setValue( "PresetOptions",m ) ;
-}
-
-void settings::setPresetJsonOptions( const QString& e )
-{
-	if( e.isEmpty() ){
-
-		m_settings.setValue( "PresetJsonOptions",QByteArray() ) ;
-	}else{
-		m_settings.setValue( "PresetJsonOptions",e.toUtf8().toHex() ) ;
-	}
-}
-
-void settings::setPresetJsonDefaultOptions()
-{
-	this->setPresetToDefaults() ;
-}
-
-QString settings::presetOptions()
-{
-	if( !m_settings.contains( "PresetOptions" ) ){
-
-		this->setPresetToDefaults() ;
-	}
-
-	return m_settings.value( "PresetOptions" ).toStringList().join( ',' ) ;
-}
-
-QString settings::presetJsonOptions()
-{
-	if( !m_settings.contains( "PresetJsonOptions" ) ){
-
-		this->setPresetJsonDefaultOptions() ;
-	}
-
-	auto a = m_settings.value( "PresetJsonOptions" ).toByteArray() ;
-
-	return QByteArray::fromHex( a ) ;
-}
-
-QStringList settings::presetOptionsList()
-{
-	return util::split( this->presetOptions(),',',true ) ;
 }
 
 bool settings::showTrayIcon()

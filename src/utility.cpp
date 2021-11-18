@@ -325,7 +325,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 	auto menu = new QMenu( parent ) ;
 
 	auto& translator = ctx.Translator() ;
-	auto& settings = ctx.Settings() ;
+	auto& configure = ctx.TabManager().Configure() ;
 
 	translator::entry ss( QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
 	auto ac = translator.addAction( menu,std::move( ss ) ) ;
@@ -334,7 +334,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 	menu->addSeparator() ;
 
-	settings.presetOptions( [ & ]( const QString& uiName,const QString& options ){
+	configure.presetOptionsForEach( [ & ]( const QString& uiName,const QString& options ){
 
 		auto a = uiName ;
 

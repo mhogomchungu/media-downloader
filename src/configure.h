@@ -43,7 +43,44 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void updateEnginesList( const QStringList& e ) ;
+	template< typename Function >
+	void presetOptionsForEach( const Function& function )
+	{
+		m_presetOptions.forEach( function ) ;
+	}
 private:
+	class presetOptions
+	{
+	public:
+		presetOptions( const Context&,settings& ) ;
+		~presetOptions() ;
+		void clear() ;
+		void setDefaults() ;
+		void add( const QString& uiName,const QString& options ) ;
+		template< typename Function >
+		void forEach( const Function& function )
+		{
+			for( const auto& it : util::asConst( m_array ) ){
+
+				auto obj = it.toObject() ;
+
+				if( !obj.isEmpty() ){
+
+					auto a = obj.value( "uiName" ).toString() ;
+					auto b = obj.value( "options" ).toString() ;
+
+					if( !a.isEmpty() && !b.isEmpty() ){
+
+						function( a,b ) ;
+					}
+				}
+			}
+		}
+	private:
+		QByteArray defaultData() ;
+		QString m_path ;
+		QJsonArray m_array ;
+	};
 	void saveOptions() ;
 	void setEngineOptions( const QString& ) ;
 	void savePresetOptions() ;
@@ -57,6 +94,7 @@ private:
 	engines& m_engines ;
 	tableMiniWidget< int > m_tablePresetOptions ;
 	QMenu m_menu ;
+	presetOptions m_presetOptions ;
 };
 
 #endif
