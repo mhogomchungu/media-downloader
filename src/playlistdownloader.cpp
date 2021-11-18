@@ -26,14 +26,16 @@
 #include <QFileDialog>
 #include <QClipboard>
 
-class customOptions
+class playlistdownloader::customOptions
 {
 public:
 	customOptions( QStringList&& opts,
 		       const QString& downloadArchivePath,
 		       settings& settings,
+		       playlistdownloader::archiveFileManager& am,
 		       const engines::engine& engine ) :
-		m_options( std::move( opts ) )
+		m_options( std::move( opts ) ),
+		m_archiveFileManager( am )
 	{
 		utility::arguments Opts( m_options ) ;
 
@@ -61,17 +63,9 @@ public:
 
 					mm = settings.downloadFolder() + "/" + mm ;
 				}
-
-				if( QFile::exists( mm ) ){
-
-					QFile file( mm ) ;
-
-					if( file.open( QIODevice::ReadOnly ) ){
-
-						m_downloadArchive = file.readAll() ;
-					}
-				}
 			}
+
+			m_archiveFileManager.setPath( mm ) ;
 		}
 	}
 	const QStringList& options() const
@@ -88,11 +82,13 @@ public:
 	}
 	bool contains( const QString& e ) const
 	{
-		if( m_downloadArchive.isEmpty() ){
+		const auto& m = m_archiveFileManager.data() ;
+
+		if( m.isEmpty() ){
 
 			return false ;
 		}else{
-			return m_downloadArchive.contains( e.toUtf8() + "\n" ) ;
+			return m.contains( e.toUtf8() + "\n" ) ;
 		}
 	}
 	bool breakOnExisting() const
@@ -109,7 +105,7 @@ private:
 	QStringList m_options ;
 	QString m_maxMediaLength ;
 	QString m_minMediaLength ;
-	QByteArray m_downloadArchive ;
+	playlistdownloader::archiveFileManager& m_archiveFileManager ;
 };
 
 playlistdownloader::playlistdownloader( Context& ctx ) :
@@ -770,8 +766,8 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 void playlistdownloader::getList( playlistdownloader::listIterator iter )
 {
-	m_allCompleted = false ;
 	m_dataReceived = false ;
+	m_stoppedOnExisting = false ;
 
 	auto url = iter.url() ;
 
@@ -818,7 +814,11 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter )
 
 	util::runInBgThread( [ &engine,this,opts = std::move( opts ) ]()mutable{
 
-		return customOptions( std::move( opts ),m_subscription.archivePath(),m_settings,engine ) ;
+		return customOptions( std::move( opts ),
+				      m_subscription.archivePath(),
+				      m_settings,
+				      m_archiveFileManager,
+				      engine ) ;
 
 	},[ this,&engine,iter = std::move( iter ) ]( customOptions&& c )mutable{
 
@@ -830,6 +830,8 @@ void playlistdownloader::getList( customOptions&& c,
 				  const engines::engine& engine,
 				  playlistdownloader::listIterator iter )
 {
+	bool lastOne = !iter.hasNext() ;
+
 	auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
 			opts.ctx.TabManager().disableAll() ;
@@ -844,7 +846,6 @@ void playlistdownloader::getList( customOptions&& c,
 
 					this->getList( iter.next() ) ;
 				}else{
-					m_allCompleted = true ;
 					m_showTimer = false ;
 					m_ctx.TabManager().enableAll() ;
 					m_gettingPlaylist = false ;
@@ -855,8 +856,6 @@ void playlistdownloader::getList( customOptions&& c,
 
 				this->getList( iter.next() ) ;
 			}else{
-				m_allCompleted = true ;
-
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
 				m_ui.pbPLCancel->setEnabled( false ) ;
@@ -871,11 +870,11 @@ void playlistdownloader::getList( customOptions&& c,
 
 	auto opts = c.options() ;
 
-	auto bb = [ copts = std::move( c ),this ]( tableWidget& table,Logger::Data& data ){
+	auto bb = [ copts = std::move( c ),this,lastOne ]( tableWidget& table,Logger::Data& data ){
 
 		m_dataReceived = true ;
 
-		this->parseJson( copts,table,data ) ;
+		this->parseJson( copts,lastOne,table,data ) ;
 	} ;
 
 	auto id     = utility::concurrentID() ;
@@ -884,8 +883,6 @@ void playlistdownloader::getList( customOptions&& c,
 	auto term   = m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ) ;
 	auto ch     = QProcess::ProcessChannel::StandardOutput ;
 	auto argsq  = utility::args( m_ui.lineEditPLUrlOptions->text() ).quality() ;
-
-	m_stoppedOnExisting = false ;
 
 	if( !m_gettingPlaylist ){
 
@@ -947,6 +944,7 @@ bool playlistdownloader::enabled()
 }
 
 void playlistdownloader::parseJson( const customOptions& copts,
+				    bool lastOne,
 				    tableWidget& table,
 				    Logger::Data& data )
 {
@@ -1000,13 +998,13 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		data.add( mmm.mid( index + 1 ) ) ;
 	}	
 
-	auto _show = [ this,&table ]( const tableWidget::entry& e )
+	auto _show = [ this,&table,lastOne ]( const tableWidget::entry& e )
 	{
 		auto row = table.addItem( e ) ;
 
 		m_ctx.downloadDefaultOptions().setDownloadOptions( row,table ) ;
 
-		if( m_allCompleted ){
+		if( lastOne ){
 
 			if( m_autoDownload ){
 
@@ -1225,4 +1223,45 @@ void playlistdownloader::subscription::save()
 	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
 
 	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+}
+
+void playlistdownloader::archiveFileManager::setPath( const QString& e )
+{
+	if( !e.isEmpty() && QFile::exists( e ) ){
+
+		if( m_path != e ){
+
+			m_path = e ;
+
+			QFile file( m_path ) ;
+
+			if( file.open( QIODevice::ReadOnly ) ){
+
+				m_data = file.readAll() ;
+			}else{
+				this->clear() ;
+			}
+
+		}else if( m_data.isEmpty() ){
+
+			QFile file( m_path ) ;
+
+			if( file.open( QIODevice::ReadOnly ) ){
+
+				m_data = file.readAll() ;
+			}
+		}
+	}else{
+		this->clear() ;
+	}
+}
+
+const QByteArray& playlistdownloader::archiveFileManager::data() const
+{
+	return m_data ;
+}
+
+void playlistdownloader::archiveFileManager::clear()
+{
+	m_data.clear() ;
 }

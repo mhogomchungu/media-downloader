@@ -28,8 +28,6 @@
 
 class tabManager ;
 
-class customOptions ;
-
 class playlistdownloader : public QObject
 {
         Q_OBJECT
@@ -66,7 +64,6 @@ private:
 	bool m_showThumbnails ;
 	bool m_showTimer ;
 	bool m_autoDownload ;
-	bool m_allCompleted ;
 	bool m_stoppedOnExisting ;
 	bool m_dataReceived ;
 
@@ -78,7 +75,12 @@ private:
 
 	QPixmap m_defaultVideoThumbnailIcon ;
 
-	void parseJson( const customOptions&,tableWidget& table,Logger::Data& data ) ;
+	class customOptions ;
+
+	void parseJson( const playlistdownloader::customOptions&,
+			bool,
+			tableWidget& table,
+			Logger::Data& data ) ;
 
 	struct opts
 	{
@@ -93,6 +95,19 @@ private:
 	{
 		return utility::options< playlistdownloader::opts,Functions >( std::move( opts ),std::move( f ) ) ;
 	}
+
+	class archiveFileManager
+	{
+	public:
+		void setPath( const QString& ) ;
+		const QByteArray& data() const ;
+		void clear() ;
+	private:
+		QString m_path ;
+		QByteArray m_data ;
+	};
+
+	archiveFileManager m_archiveFileManager ;
 
 	class subscription
 	{
