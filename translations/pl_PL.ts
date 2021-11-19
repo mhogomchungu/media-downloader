@@ -305,7 +305,6 @@
     <message>
         <location filename="../src/mainwindow.ui" line="971"/>
         <location filename="../src/mainwindow.ui" line="1641"/>
-        <location filename="../src/mainwindow.ui" line="1691"/>
         <source>Url</source>
         <translation type="unfinished"></translation>
     </message>
@@ -337,6 +336,11 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1660"/>
         <source>Set What Url Should Be Managed By What Engine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1691"/>
+        <source>Url Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
