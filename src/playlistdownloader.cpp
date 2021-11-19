@@ -1002,7 +1002,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 	{
 		auto row = table.addItem( e ) ;
 
-		m_ctx.downloadDefaultOptions().setDownloadOptions( row,table ) ;
+		m_ctx.TabManager().Configure().setDownloadOptions( row,table ) ;
 
 		if( lastOne ){
 

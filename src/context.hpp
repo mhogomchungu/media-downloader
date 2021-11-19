@@ -52,7 +52,6 @@ public:
 		 MainWindow& mw,
 		 Logger& l,
 		 engines& e,
-		 utility::downloadDefaultOptions& d,
 		 utility::versionInfo& u,
 		 tabManager& tm,
 		 QString debug ) :
@@ -63,15 +62,10 @@ public:
 		m_mainWindow( mw ),
 		m_logger( l ),
 		m_engines( e ),
-		m_downloadDefaultOptions( d ),
 		m_versionInfo( u ),
 		m_tabManager( tm ),
 		m_debug( debug )
 	{
-	}
-	utility::downloadDefaultOptions& downloadDefaultOptions() const
-	{
-		return m_downloadDefaultOptions ;
 	}
 	utility::versionInfo& versionInfo() const
 	{
@@ -121,7 +115,6 @@ private:
 	MainWindow& m_mainWindow ;
 	Logger& m_logger ;
 	engines& m_engines ;
-	utility::downloadDefaultOptions& m_downloadDefaultOptions ;
 	utility::versionInfo& m_versionInfo ;
 	tabManager& m_tabManager ;
 	QString m_debug ;

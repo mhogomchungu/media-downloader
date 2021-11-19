@@ -38,7 +38,6 @@ public:
 		    Ui::MainWindow& ui,
 		    QWidget& w,
 		    MainWindow& mw,
-		    utility::downloadDefaultOptions& d,
 		    utility::versionInfo& u,
 		    QString debug ) ;
 	void init_done( Ui::MainWindow& ui,settings& settings ) ;

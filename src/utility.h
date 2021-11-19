@@ -711,15 +711,6 @@ namespace utility
 		Ui::MainWindow& m_ui ;
 	};
 
-	class downloadDefaultOptions
-	{
-	public:
-		downloadDefaultOptions( const engines::enginePaths& ) ;
-		void setDownloadOptions( int row,tableWidget& ) ;
-	private:
-		QJsonArray m_jsonArray ;
-	};
-
 	class ProcessExitState
 	{
 	public:

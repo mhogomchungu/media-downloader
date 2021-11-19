@@ -800,7 +800,7 @@ void batchdownloader::addItemUi( const QPixmap& pixmap,
 {
 	auto row = _addItemUi( pixmap,index,m_table,m_ui,media ) ;
 
-	m_ctx.downloadDefaultOptions().setDownloadOptions( row,m_table ) ;
+	m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
 
 	m_ui.pbBDDownload->setEnabled( true ) ;
 
