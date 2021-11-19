@@ -18,6 +18,7 @@
         <location filename="../src/mainwindow.ui" line="287"/>
         <location filename="../src/mainwindow.ui" line="576"/>
         <location filename="../src/mainwindow.ui" line="757"/>
+        <location filename="../src/mainwindow.ui" line="1756"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -51,6 +52,7 @@
         <location filename="../src/mainwindow.ui" line="300"/>
         <location filename="../src/mainwindow.ui" line="595"/>
         <location filename="../src/mainwindow.ui" line="1496"/>
+        <location filename="../src/mainwindow.ui" line="1707"/>
         <source>Options</source>
         <translation>画质选项</translation>
     </message>
@@ -59,8 +61,8 @@
         <location filename="../src/mainwindow.ui" line="422"/>
         <location filename="../src/mainwindow.ui" line="679"/>
         <location filename="../src/mainwindow.ui" line="1079"/>
-        <location filename="../src/mainwindow.ui" line="1642"/>
-        <location filename="../src/mainwindow.cpp" line="76"/>
+        <location filename="../src/mainwindow.ui" line="1772"/>
+        <location filename="../src/mainwindow.cpp" line="75"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
@@ -265,7 +267,7 @@
         <translation>移除插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1655"/>
+        <location filename="../src/mainwindow.ui" line="1785"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -296,11 +298,14 @@
     <message>
         <location filename="../src/mainwindow.ui" line="958"/>
         <location filename="../src/mainwindow.ui" line="1515"/>
+        <location filename="../src/mainwindow.ui" line="1743"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="971"/>
+        <location filename="../src/mainwindow.ui" line="1641"/>
+        <location filename="../src/mainwindow.ui" line="1691"/>
         <source>Url</source>
         <translation type="unfinished"></translation>
     </message>
@@ -325,7 +330,17 @@
         <translation>Cookie文件路径</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1661"/>
+        <location filename="../src/mainwindow.ui" line="1646"/>
+        <source>Download Options</source>
+        <translation>下载选项</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1660"/>
+        <source>Set What Url Should Be Managed By What Engine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1791"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
@@ -343,13 +358,13 @@
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="521"/>
-        <location filename="../src/utility.cpp" line="524"/>
+        <location filename="../src/utility.cpp" line="528"/>
+        <location filename="../src/utility.cpp" line="531"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="832"/>
+        <location filename="../src/utility.cpp" line="739"/>
         <source>Executable Path</source>
         <translation>可执行文件路径</translation>
     </message>
@@ -365,15 +380,15 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="315"/>
-        <location filename="../src/playlistdownloader.cpp" line="319"/>
+        <location filename="../src/playlistdownloader.cpp" line="321"/>
         <location filename="../src/utility.cpp" line="330"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="356"/>
-        <location filename="../src/utility.h" line="403"/>
-        <location filename="../src/utility.h" line="468"/>
+        <location filename="../src/utility.h" line="402"/>
+        <location filename="../src/utility.h" line="467"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
@@ -465,7 +480,7 @@
     <message>
         <location filename="../src/engines.cpp" line="502"/>
         <location filename="../src/engines.cpp" line="682"/>
-        <location filename="../src/utility.cpp" line="493"/>
+        <location filename="../src/utility.cpp" line="500"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
@@ -501,20 +516,20 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="59"/>
-        <location filename="../src/utility.cpp" line="818"/>
+        <location filename="../src/utility.cpp" line="725"/>
         <source>Checking installed version of</source>
         <translation>正在检查已安装版本</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="64"/>
-        <location filename="../src/utility.cpp" line="799"/>
-        <location filename="../src/utility.cpp" line="837"/>
+        <location filename="../src/utility.cpp" line="706"/>
+        <location filename="../src/utility.cpp" line="744"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/utility.cpp" line="828"/>
+        <location filename="../src/utility.cpp" line="735"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
@@ -575,7 +590,7 @@
         <translation>下载已完成</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="344"/>
+        <location filename="../src/settings.cpp" line="349"/>
         <source>Resetting download folder to default</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
@@ -605,29 +620,29 @@
         <translation>暗黑主题3</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="436"/>
-        <location filename="../src/utility.h" line="444"/>
-        <location filename="../src/utility.h" line="449"/>
+        <location filename="../src/utility.h" line="435"/>
+        <location filename="../src/utility.h" line="443"/>
+        <location filename="../src/utility.h" line="448"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="441"/>
+        <location filename="../src/utility.h" line="440"/>
         <source>Force Download</source>
         <translation>强制下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="459"/>
+        <location filename="../src/utility.h" line="458"/>
         <source>Show Log Window</source>
         <translation>显示日志窗口</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="578"/>
+        <location filename="../src/utility.cpp" line="585"/>
         <source>Upload Date:</source>
         <translation>上传日期:</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="586"/>
+        <location filename="../src/utility.cpp" line="593"/>
         <source>Duration:</source>
         <translation>持续时间:</translation>
     </message>
@@ -642,7 +657,7 @@
         <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1015"/>
+        <location filename="../src/playlistdownloader.cpp" line="1030"/>
         <source>Media Already In Archive</source>
         <translation>已存档的媒体</translation>
     </message>
@@ -683,28 +698,38 @@
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="81"/>
+        <location filename="../src/configure.cpp" line="91"/>
+        <source>Add</source>
+        <translation>添加</translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="96"/>
+        <source>Delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="141"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="106"/>
+        <location filename="../src/configure.cpp" line="166"/>
         <source>Select A Cookie File</source>
         <translation>选择Cookie文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="135"/>
+        <location filename="../src/configure.cpp" line="195"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="169"/>
-        <location filename="../src/configure.cpp" line="314"/>
+        <location filename="../src/configure.cpp" line="229"/>
+        <location filename="../src/configure.cpp" line="375"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="236"/>
+        <location filename="../src/configure.cpp" line="297"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
@@ -738,48 +763,48 @@
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="217"/>
+        <location filename="../src/playlistdownloader.cpp" line="219"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="231"/>
+        <location filename="../src/playlistdownloader.cpp" line="233"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="173"/>
-        <location filename="../src/playlistdownloader.cpp" line="239"/>
+        <location filename="../src/playlistdownloader.cpp" line="175"/>
+        <location filename="../src/playlistdownloader.cpp" line="241"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="122"/>
+        <location filename="../src/playlistdownloader.cpp" line="124"/>
         <source>Get List Options:</source>
         <translation>获取列表选项:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="250"/>
+        <location filename="../src/playlistdownloader.cpp" line="252"/>
         <source>Copy Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="400"/>
+        <location filename="../src/playlistdownloader.cpp" line="404"/>
         <source>Show All Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="406"/>
+        <location filename="../src/playlistdownloader.cpp" line="410"/>
         <source>Download All Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="414"/>
+        <location filename="../src/playlistdownloader.cpp" line="418"/>
         <source>Manage Subscriptions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="877"/>
+        <location filename="../src/playlistdownloader.cpp" line="891"/>
         <source>This May Take A Very Long Time</source>
         <translation type="unfinished"></translation>
     </message>
