@@ -32,10 +32,8 @@ public:
 	customOptions( QStringList&& opts,
 		       const QString& downloadArchivePath,
 		       settings& settings,
-		       playlistdownloader::archiveFileManager& am,
 		       const engines::engine& engine ) :
-		m_options( std::move( opts ) ),
-		m_archiveFileManager( am )
+		m_options( std::move( opts ) )
 	{
 		utility::arguments Opts( m_options ) ;
 
@@ -65,7 +63,15 @@ public:
 				}
 			}
 
-			m_archiveFileManager.setPath( mm ) ;
+			if( !mm.isEmpty() && QFile::exists( mm ) ){
+
+				QFile file( mm ) ;
+
+				if( file.open( QIODevice::ReadOnly ) ){
+
+					m_archiveFileData = file.readAll() ;
+				}
+			}
 		}
 	}
 	const QStringList& options() const
@@ -82,13 +88,11 @@ public:
 	}
 	bool contains( const QString& e ) const
 	{
-		const auto& m = m_archiveFileManager.data() ;
-
-		if( m.isEmpty() ){
+		if( m_archiveFileData.isEmpty() ){
 
 			return false ;
 		}else{
-			return m.contains( e.toUtf8() + "\n" ) ;
+			return m_archiveFileData.contains( e.toUtf8() + "\n" ) ;
 		}
 	}
 	bool breakOnExisting() const
@@ -105,7 +109,7 @@ private:
 	QStringList m_options ;
 	QString m_maxMediaLength ;
 	QString m_minMediaLength ;
-	playlistdownloader::archiveFileManager& m_archiveFileManager ;
+	QByteArray m_archiveFileData ;
 };
 
 playlistdownloader::playlistdownloader( Context& ctx ) :
@@ -116,7 +120,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),1 ),
 	m_subscriptionTable( *m_ui.tableWidgetPlDownloaderSubscription,m_ctx.mainWidget().font() ),
-	m_showThumbnails( true ),
 	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings ),
 	m_defaultVideoThumbnailIcon( m_settings.defaultVideoThumbnailIcon( settings::tabName::playlist ) ),
 	m_subscription( m_ctx,m_subscriptionTable,*m_ui.widgetPlDownloader )
@@ -768,6 +771,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter )
 {
 	m_dataReceived = false ;
 	m_stoppedOnExisting = false ;
+	m_meaw = false ;
 
 	auto url = iter.url() ;
 
@@ -817,7 +821,6 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter )
 		return customOptions( std::move( opts ),
 				      m_subscription.archivePath(),
 				      m_settings,
-				      m_archiveFileManager,
 				      engine ) ;
 
 	},[ this,&engine,iter = std::move( iter ) ]( customOptions&& c )mutable{
@@ -830,8 +833,6 @@ void playlistdownloader::getList( customOptions&& c,
 				  const engines::engine& engine,
 				  playlistdownloader::listIterator iter )
 {
-	bool lastOne = !iter.hasNext() ;
-
 	auto functions = utility::OptionsFunctions( [ this ]( const playlistdownloader::opts& opts ){
 
 			opts.ctx.TabManager().disableAll() ;
@@ -840,7 +841,24 @@ void playlistdownloader::getList( customOptions&& c,
 
 		},[ this,iter = std::move( iter ) ]( utility::ProcessExitState st,const playlistdownloader::opts& ){
 
-			if( st.cancelled() ){
+			if( m_meaw ){
+
+				if( iter.hasNext() ){
+
+					this->getList( iter.next() ) ;
+				}else{
+					if( m_autoDownload ){
+
+						this->download() ;
+					}else{
+						m_showTimer = false ;
+						m_ctx.TabManager().enableAll() ;
+						m_gettingPlaylist = false ;
+						m_ui.pbPLCancel->setEnabled( false ) ;
+					}
+				}
+
+			}else if( st.cancelled() ){
 
 				if( m_stoppedOnExisting && iter.hasNext() ){
 
@@ -870,11 +888,11 @@ void playlistdownloader::getList( customOptions&& c,
 
 	auto opts = c.options() ;
 
-	auto bb = [ copts = std::move( c ),this,lastOne ]( tableWidget& table,Logger::Data& data ){
+	auto bb = [ copts = std::move( c ),this ]( tableWidget& table,Logger::Data& data ){
 
 		m_dataReceived = true ;
 
-		this->parseJson( copts,lastOne,table,data ) ;
+		this->parseJson( copts,table,data ) ;
 	} ;
 
 	auto id     = utility::concurrentID() ;
@@ -944,7 +962,6 @@ bool playlistdownloader::enabled()
 }
 
 void playlistdownloader::parseJson( const customOptions& copts,
-				    bool lastOne,
 				    tableWidget& table,
 				    Logger::Data& data )
 {
@@ -986,6 +1003,8 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		index++ ;
 	}
 
+	m_meaw = false ;
+
 	auto aa = mmm.mid( oo,index + 1 ) ;
 
 	utility::MediaEntry media( aa.toUtf8() ) ;
@@ -998,13 +1017,13 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		data.add( mmm.mid( index + 1 ) ) ;
 	}	
 
-	auto _show = [ this,&table,lastOne ]( const tableWidget::entry& e )
+	auto _show = [ this,&table ]( const tableWidget::entry& e )
 	{
 		auto row = table.addItem( e ) ;
 
 		m_ctx.TabManager().Configure().setDownloadOptions( row,table ) ;
 
-		if( lastOne ){
+		if( !m_ui.pbPLCancel->isEnabled() ){
 
 			if( m_autoDownload ){
 
@@ -1033,6 +1052,8 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 			table.selectLast() ;
 
+			m_meaw = true ;
+
 			return ;
 		}
 	}
@@ -1054,15 +1075,6 @@ void playlistdownloader::parseJson( const customOptions& copts,
 	auto s = downloadManager::finishedStatus::notStarted() ;
 
 	table.selectLast() ;
-
-	if( !m_showThumbnails ){
-
-		_show( { m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s } ) ;
-
-		table.selectLast() ;
-
-		return ;
-	}
 
 	if( networkAccess::hasNetworkSupport() ){
 
@@ -1096,6 +1108,8 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		_show( { m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s } ) ;
 
 		table.selectLast() ;
+
+		m_meaw = true ;
 	}
 }
 
@@ -1223,45 +1237,4 @@ void playlistdownloader::subscription::save()
 	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
 
 	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
-}
-
-void playlistdownloader::archiveFileManager::setPath( const QString& e )
-{
-	if( !e.isEmpty() && QFile::exists( e ) ){
-
-		if( m_path != e ){
-
-			m_path = e ;
-
-			QFile file( m_path ) ;
-
-			if( file.open( QIODevice::ReadOnly ) ){
-
-				m_data = file.readAll() ;
-			}else{
-				this->clear() ;
-			}
-
-		}else if( m_data.isEmpty() ){
-
-			QFile file( m_path ) ;
-
-			if( file.open( QIODevice::ReadOnly ) ){
-
-				m_data = file.readAll() ;
-			}
-		}
-	}else{
-		this->clear() ;
-	}
-}
-
-const QByteArray& playlistdownloader::archiveFileManager::data() const
-{
-	return m_data ;
-}
-
-void playlistdownloader::archiveFileManager::clear()
-{
-	m_data.clear() ;
 }

@@ -53,6 +53,7 @@ private:
 
 	void clearScreen() ;
 	bool enabled() ;
+
 	Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
@@ -65,6 +66,7 @@ private:
 	bool m_showTimer ;
 	bool m_autoDownload ;
 	bool m_stoppedOnExisting ;
+	bool m_meaw ;
 	bool m_dataReceived ;
 
 	int m_networkRunning = 0 ;
@@ -78,7 +80,6 @@ private:
 	class customOptions ;
 
 	void parseJson( const playlistdownloader::customOptions&,
-			bool,
 			tableWidget& table,
 			Logger::Data& data ) ;
 
@@ -95,19 +96,6 @@ private:
 	{
 		return utility::options< playlistdownloader::opts,Functions >( std::move( opts ),std::move( f ) ) ;
 	}
-
-	class archiveFileManager
-	{
-	public:
-		void setPath( const QString& ) ;
-		const QByteArray& data() const ;
-		void clear() ;
-	private:
-		QString m_path ;
-		QByteArray m_data ;
-	};
-
-	archiveFileManager m_archiveFileManager ;
 
 	class subscription
 	{
