@@ -745,6 +745,8 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
 
+	m_settings.addOptionsHistory( m,settings::tabName::playlist ) ;
+
 	auto updater = [ this,index ]( const QString& e ){
 
 		m_table.setUiText( e,index ) ;
