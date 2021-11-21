@@ -424,7 +424,6 @@ void utility::openDownloadFolderPath( const QString& url )
 QStringList utility::updateOptions( const updateOptionsStruct& s )
 {
 	const engines::engine& engine  = s.engine ;
-	const QString& archivePath     = s.archivePath ;
 	const engines::enginePaths& ep = s.enginePaths ;
 	settings& settings             = s.stts ;
 	const utility::args& args      = s.args ;
@@ -444,12 +443,6 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 			return util::splitPreserveQuotes( m ) ;
 		}
 	}() ;
-
-	if( !opts.contains( "--download-archive" ) && !archivePath.isEmpty() ){
-
-		opts.append( "--download-archive" ) ;
-		opts.append( archivePath ) ;
-	}
 
 	for( const auto& it : args.otherOptions() ){
 

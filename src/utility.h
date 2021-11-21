@@ -273,7 +273,6 @@ namespace utility
 	struct updateOptionsStruct
 	{
 		const engines::engine& engine ;
-		const QString& archivePath ;
 		const engines::enginePaths& enginePaths ;
 		settings& stts;
 		const utility::args& args ;

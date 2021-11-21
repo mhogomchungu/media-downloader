@@ -760,8 +760,21 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
 
+	auto optsUpdater = [ this ]( QStringList opts ){
+
+		const auto& archivePath = m_subscription.archivePath() ;
+
+		if( !opts.contains( "--download-archive" ) && !archivePath.isEmpty() ){
+
+			opts.append( "--download-archive" ) ;
+			opts.append( archivePath ) ;
+		}
+
+		return opts ;
+	} ;
+
 	m_ccmd.download( engine,
-			 m_subscription.archivePath(),
+			 optsUpdater,
 			 m_ctx.Engines().engineDirPaths(),
 			 m_table.url( index ),
 			 m_terminator.setUp(),
