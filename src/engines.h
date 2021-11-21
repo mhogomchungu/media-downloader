@@ -292,10 +292,12 @@ public:
 			virtual QStringList dumpJsonArguments() ;
 
 			QString updateTextOnCompleteDownlod( const QString& uiText,
+							     const QString& downloadingOptions,
 							     const engine::engine::functions::finishedState& ) ;
 
 			virtual QString updateTextOnCompleteDownlod( const QString& uiText,
 								     const QString& bkText,
+								     const QString& downloadingOptions,
 								     const engine::engine::functions::finishedState& ) ;
 
 			virtual void sendCredentials( const QString&,QProcess& ) ;
@@ -410,9 +412,10 @@ public:
 		}
 		QString updateTextOnCompleteDownlod( const QString& uiText,
 						     const QString& bkText,
+						     const QString& dopts,
 						     const engine::engine::functions::finishedState& f ) const
 		{
-			return m_functions->updateTextOnCompleteDownlod( uiText,bkText,f ) ;
+			return m_functions->updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
 		}
 		void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& u ) const
 		{

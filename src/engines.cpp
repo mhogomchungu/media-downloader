@@ -877,25 +877,32 @@ QStringList engines::engine::functions::dumpJsonArguments()
 }
 
 QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,
+								 const QString& dopts,
 								 const engines::engine::functions::finishedState& f )
 {
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
 	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
 
-	return m + ", " + e + "\n" + uiText ;
+	if( dopts.isEmpty() ){
+
+		return m + ", " + e + "\n" + uiText ;
+	}else{
+		return dopts + "\n" + m + ", " + e + "\n" + uiText ;
+	}
 }
 
 QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,
 								 const QString& bkText,
+								 const QString& dopts,
 								 const engine::engine::functions::finishedState& f )
 {
 	Q_UNUSED( uiText )
 
 	if( f.success() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}
 }
 

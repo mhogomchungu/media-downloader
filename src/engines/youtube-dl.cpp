@@ -603,11 +603,12 @@ void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
+						 const QString& dopts,
 						 const engines::engine::functions::finishedState& f )
 {
 	if( f.cancelled() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 
 	}else if( f.success() ){
 
@@ -621,9 +622,9 @@ QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
 			}
 		}
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( "\n" ),f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}
 }
 

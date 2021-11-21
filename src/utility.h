@@ -1097,11 +1097,13 @@ namespace utility
 
 		table.setRunningState( f.setState(),index ) ;
 
-		const auto backUpUrl = table.url( index ) ;
+		auto backUpUrl = table.url( index ) ;
+
+		auto ss = table.downloadingOptionsUi( index ) ;
 
 		auto a = table.uiText( index ) ;
 
-		table.setUiText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ),index ) ;
+		table.setUiText( engine.updateTextOnCompleteDownlod( a,backUpUrl,ss,es ),index ) ;
 
 		if( !es.cancelled() ){
 

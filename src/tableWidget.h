@@ -44,6 +44,10 @@ public:
 	{
 		this->item( row ).downloadingOptions = s ;
 	}
+	void setDownloadingOptionsUi( const QString& s,int row )
+	{
+		this->item( row ).downloadingOptionsUi = s ;
+	}
 	void setEngineName( const QString& s,int row )
 	{
 		this->item( row ).engineName = s ;
@@ -60,6 +64,10 @@ public:
 	const QString& downloadingOptions( int row ) const
 	{
 		return this->item( row ).downloadingOptions ;
+	}
+	const QString& downloadingOptionsUi( int row ) const
+	{
+		return this->item( row ).downloadingOptionsUi ;
 	}
 	const QString& uiText( int row ) const
 	{
@@ -116,6 +124,7 @@ public:
 		QString uiText ;
 		QString runningState ;
 		QString downloadingOptions ;
+		QString downloadingOptionsUi ;
 		QString engineName ;
 		struct tnail{
 			tnail( const QPixmap& p ) : isSet( true ),image( p )

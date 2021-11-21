@@ -161,7 +161,9 @@ engines::engine::functions::DataFilter aria2c::Filter( const QString& e )
 }
 
 QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
-					     const QString& bkText,const finishedState& f )
+					     const QString& bkText,
+					     const QString& dopts,
+					     const finishedState& f )
 {
 	if( f.success() ){
 
@@ -170,7 +172,7 @@ QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return m + ", " + e + "\n" + uiText ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,bkText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
 	}
 }
 

@@ -105,6 +105,32 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 		this->setUiText( optionName + m + "\n" + txt,row ) ;
 	}
 
+	auto optText = this->downloadingOptionsUi( row ) ;
+
+	if( optText.contains( optionName ) ){
+
+		auto mm = util::split( optText,'\n',true ) ;
+
+		for( auto& it : mm ){
+
+			if( it.startsWith( optionName ) ){
+
+				it = optionName + m ;
+
+				break ;
+			}
+		}
+
+		this->setDownloadingOptionsUi( mm.join( '\n' ),row ) ;
+	}else{
+		if( optText.isEmpty() ){
+
+			this->setDownloadingOptionsUi( optionName + m,row ) ;
+		}else{
+			this->setDownloadingOptionsUi( optionName + m + "\n" + optText,row ) ;
+		}
+	}
+
 	if( type == tableWidget::type::DownloadOptions ){
 
 		this->setDownloadingOptions( mm,row ) ;

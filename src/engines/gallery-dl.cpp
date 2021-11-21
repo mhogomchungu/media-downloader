@@ -89,13 +89,14 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
+						 const QString& dopts,
 						 const engines::engine::functions::finishedState& f )
 {
 	if( f.success() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}
 }
 
