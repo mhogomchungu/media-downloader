@@ -947,7 +947,10 @@ void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine
 	if( !s.quality.isEmpty() ){
 
 		s.ourOptions.append( s.quality ) ;
-	}
+	}	
+
+	s.ourOptions.removeAll( "Default" ) ;
+	s.ourOptions.removeAll( "default" ) ;
 }
 
 engines::engine::functions::functions( settings& s,const engines::engine& engine ) :

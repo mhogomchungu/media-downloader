@@ -35,7 +35,7 @@ gallery_dl::~gallery_dl()
 }
 
 void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
-{	
+{
 	const auto& engine = engines::engine::functions::engine() ;
 
 	if( !engine.optionsArgument().isEmpty() ){
@@ -43,10 +43,13 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 		s.ourOptions.append( engine.optionsArgument() ) ;
 	}
 
-	if( !s.quality.isEmpty() && s.quality.compare( "Default",Qt::CaseInsensitive ) ){
+	if( !s.quality.isEmpty() ){
 
 		s.ourOptions.append( s.quality ) ;
 	}
+
+	s.ourOptions.removeAll( "Default" ) ;
+	s.ourOptions.removeAll( "default" ) ;
 }
 
 engines::engine::functions::DataFilter gallery_dl::Filter( const QString& e )

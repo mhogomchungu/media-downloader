@@ -183,10 +183,14 @@ void aria2c::updateDownLoadCmdOptions( const updateOpts& e )
 		e.ourOptions.append( "-d" ) ;
 		e.ourOptions.append( m_engines.Settings().downloadFolder() ) ;
 	}
-	if( !e.quality.isEmpty() && e.quality.compare( "Default",Qt::CaseInsensitive ) ){
+
+	if( !e.quality.isEmpty() ){
 
 		e.ourOptions.append( e.quality ) ;
 	}
+
+	e.ourOptions.removeAll( "Default" ) ;
+	e.ourOptions.removeAll( "default" ) ;
 }
 
 aria2c::aria2c_dlFilter::aria2c_dlFilter( const QString& e,settings&,const engines::engine& engine ) :

@@ -164,4 +164,7 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine::functions::up
 	}else{
 		s.ourOptions.append( "--login" ) ;
 	}
+
+	s.ourOptions.removeAll( "Default" ) ;
+	s.ourOptions.removeAll( "default" ) ;
 }
