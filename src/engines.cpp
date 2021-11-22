@@ -883,7 +883,7 @@ QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& 
 	auto m = engines::engine::functions::processCompleteStateText( f ) ;
 	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
 
-	if( dopts.isEmpty() ){
+	if( dopts.isEmpty() || f.success() ){
 
 		return m + ", " + e + "\n" + uiText ;
 	}else{
