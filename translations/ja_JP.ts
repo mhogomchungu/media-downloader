@@ -285,7 +285,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="850"/>
         <source>Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>ブックマーク</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="878"/>
@@ -306,11 +306,13 @@
         <location filename="../src/mainwindow.ui" line="971"/>
         <location filename="../src/mainwindow.ui" line="1641"/>
         <source>Url</source>
+        <translation>URL</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="993"/>
         <source>Done</source>
+        <translation>完了</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -336,11 +338,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1660"/>
         <source>Set What Url Should Be Managed By What Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>どのURLをどのエンジンで処理するかを設定</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1691"/>
         <source>Url Filter</source>
+        <translation>URLフィルタ</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -795,16 +798,19 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="404"/>
         <source>Show All Updated</source>
+        <translation>すべての更新を表示</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="410"/>
         <source>Download All Updated</source>
+        <translation>すべての更新をダウンロード</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="418"/>
         <source>Manage Subscriptions</source>
+        <translation>ブックマークを管理</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
