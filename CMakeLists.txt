@@ -20,22 +20,12 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 if(WIN32)
-    set(ENABLE_NETWORKING "true")
 else()
     #This is necessary with whatever version of cmake that is in debian 8
     add_definitions(-std=c++14)
-    if(NOT DEFINED ENABLE_NETWORKING)
-	set(ENABLE_NETWORKING "true")
-    endif()
 endif()
 
-if(ENABLE_NETWORKING)
-    find_package(Qt5 COMPONENTS Core Widgets Network REQUIRED)
-    file(WRITE ${PROJECT_BINARY_DIR}/network_support.h "#define MD_NETWORK_SUPPORT 1")
-else()
-    find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
-    file(WRITE ${PROJECT_BINARY_DIR}/network_support.h "#define MD_NETWORK_SUPPORT 0")
-endif()
+find_package(Qt5 COMPONENTS Core Widgets Network REQUIRED)
 
 include_directories(${PROJECT_BINARY_DIR})
 
@@ -99,11 +89,7 @@ else()
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
 endif()
 
-if(ENABLE_NETWORKING)
-    target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
-else()
-    target_link_libraries(media-downloader Qt5::Widgets Qt5::Core)
-endif()
+target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
 
 install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 

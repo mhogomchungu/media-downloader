@@ -19,13 +19,9 @@
 #ifndef NETWORK_ACCESS_H
 #define NETWORK_ACCESS_H
 
-#include "network_support.h"
-
 #include "context.hpp"
 
 #include "engines.h"
-
-#if MD_NETWORK_SUPPORT
 
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
@@ -80,32 +76,6 @@ private:
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
 };
-
-#else
-
-class networkAccess
-{
-public:
-	static bool hasNetworkSupport()
-	{
-		return false ;
-	}
-	networkAccess( const Context& )
-	{
-	}
-	void download( const engines::engine&,const engines::Iterator& )
-	{
-	}
-	template< typename Function >
-	void getResource( const QString&,Function function )
-	{
-		function( QByteArray() ) ;
-	}
-private:
-
-};
-
-#endif
 
 #endif
 

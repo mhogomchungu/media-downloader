@@ -192,7 +192,6 @@ private:
 		return m_items[ static_cast< size_t >( s ) ] ;
 	}
 	QTableWidget& m_table ;
-	const QFont& m_font ;
 	int m_init ;
 
 	std::vector< tableWidget::entry > m_items ;

@@ -131,29 +131,29 @@ public:
 			m_table( t )
 		{
 		}
-		int value() const
-		{
-			return m_entries[ m_index ].index ;
-		}
 		int value( int s ) const
 		{
-			return m_entries[ static_cast< size_t >( s ) ].index ;
+			return this->Entry( s ).index ;
 		}
 		const QString& options( int s ) const
 		{
-			return m_entries[ static_cast< size_t >( s ) ].options ;
+			return this->Entry( s ).options ;
 		}
 		bool forceDownload( int s ) const
 		{
-			return m_entries[ static_cast< size_t >( s ) ].forceDownload ;
+			return this->Entry( s ).forceDownload ;
 		}
 		bool forceDownload() const
 		{
-			return m_entries[ m_index ].forceDownload ;
+			return this->forceDownload( m_index ) ;
 		}
-		int count() const
+		int value() const
 		{
-			return static_cast< int >( m_entries.size() ) ;
+			return this->value( m_index ) ;
+		}
+		size_t count() const
+		{
+			return m_entries.size() ;
 		}
 		void next()
 		{
@@ -161,7 +161,7 @@ public:
 		}
 		bool hasNext() const
 		{
-			return m_index < m_entries.size() ;
+			return static_cast< size_t >( m_index ) < m_entries.size() ;
 		}
 		tableWidget& table() const
 		{
@@ -177,13 +177,13 @@ public:
 		}
 		const QString& options() const
 		{
-			return this->options( static_cast< int >( m_index ) ) ;
+			return this->options( m_index ) ;
 		}
 		QString indexAsString() const
 		{
 			return this->indexAsString( m_index ) ;
 		}
-		template< typename T>
+		template< typename T >
 		QString indexAsString( T s ) const
 		{
 			auto m = QString::number( s + 1 ) ;
@@ -209,7 +209,11 @@ public:
 			QString options ;
 			bool forceDownload ;
 		} ;
-		size_t m_index = 0 ;
+		const entry& Entry( int s ) const
+		{
+			return m_entries[ static_cast< size_t >( s ) ] ;
+		}
+		int m_index = 0 ;
 		std::vector< entry > m_entries ;
 		tableWidget& m_table ;
 	};
@@ -262,7 +266,7 @@ public:
 	template< typename ConcurrentDownload >
 	void download( downloadManager::index index,
 		       const engines::engine& engine,
-		       int maxNumberOfConcurrency,
+		       size_t maxNumberOfConcurrency,
 		       ConcurrentDownload concurrentDownload )
 	{
 		m_index = std::move( index ) ;
@@ -276,7 +280,7 @@ public:
 
 		auto min = std::min( m_index->count(),maxNumberOfConcurrency ) ;
 
-		for( int s = 0 ; s < min ; s++ ){
+		for( size_t s = 0 ; s < min ; s++ ){
 
 			concurrentDownload( engine,m_index->value( s ) ) ;
 		}
@@ -336,7 +340,7 @@ public:
 	}
 private:
 	void uiEnableAll( bool e ) ;
-	int m_counter ;
+	size_t m_counter ;
 	util::storage< downloadManager::index > m_index ;
 	bool m_cancelled ;
 	const Context& m_ctx ;

@@ -356,9 +356,8 @@ QString tableWidget::completeProgress( int )
 	return QObject::tr( "Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5" ).arg( a,b,c,d,e ) ;
 }
 
-tableWidget::tableWidget( QTableWidget& t,const QFont& font,int init ) :
+tableWidget::tableWidget( QTableWidget& t,const QFont&,int init ) :
 	m_table( t ),
-	m_font( font ),
 	m_init( init )
 {
 	this->setTableWidget( m_table,tableWidget::tableWidgetOptions() ) ;

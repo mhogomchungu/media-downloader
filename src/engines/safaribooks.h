@@ -30,6 +30,5 @@ public:
 	void sendCredentials( const QString&,QProcess& ) override ;
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 private:
-	const engines& m_engines ;
 	const engines::engine& m_engine ;
 };

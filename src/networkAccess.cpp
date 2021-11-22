@@ -19,8 +19,6 @@
 
 #include "networkAccess.h"
 
-#if MD_NETWORK_SUPPORT
-
 #include "networkAccess.h"
 #include "tabmanager.h"
 #include "basicdownloader.h"
@@ -314,5 +312,3 @@ void networkAccess::post( const engines::engine& engine,const QString& e )
 		}
 	},-1 ) ;
 }
-
-#endif
