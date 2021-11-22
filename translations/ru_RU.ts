@@ -285,7 +285,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="850"/>
         <source>Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Подписки</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="878"/>
@@ -306,12 +306,12 @@
         <location filename="../src/mainwindow.ui" line="971"/>
         <location filename="../src/mainwindow.ui" line="1641"/>
         <source>Url</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="993"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Готово</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1543"/>
@@ -336,12 +336,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1660"/>
         <source>Set What Url Should Be Managed By What Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Привязка URL к движку</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1691"/>
         <source>Url Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр URL</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1791"/>
@@ -795,17 +795,17 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="404"/>
         <source>Show All Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать все обновленные</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="410"/>
         <source>Download All Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить все обновленные</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="418"/>
         <source>Manage Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление подписками</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="891"/>
