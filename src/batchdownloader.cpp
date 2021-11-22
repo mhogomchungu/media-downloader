@@ -932,6 +932,8 @@ void batchdownloader::download( const engines::engine& eng,int index )
 			if( m_table.noneAreRunning() ){
 
 				m_ctx.TabManager().enableAll() ;
+
+				m_ui.pbBDCancel->setEnabled( false ) ;
 			}
 
 			m_ctx.mainWindow().setTitle( m_table.completeProgress( index ) ) ;
