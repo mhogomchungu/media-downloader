@@ -33,9 +33,13 @@ configure::configure( const Context& ctx ) :
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_engines( m_ctx.Engines() ),
-	m_networkAccess( m_ctx ),
-	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font(),0 )
+	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font() ),
+	m_tableUrlToDefaultEngine( *m_ui.tableWidgetConfigureUrl,m_ctx.mainWidget().font() ),
+	m_presetOptions( m_ctx,m_settings ),
+	m_downloadDefaultOptions( m_ctx )
 {
+	m_ui.widgetConfigureManageUrl->setVisible( false ) ;
+
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
 
 	m_ui.tabWidgetConfigure->setCurrentIndex( 0 ) ;
@@ -45,6 +49,16 @@ configure::configure( const Context& ctx ) :
 	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
 
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
+
+	m_tablePresetOptions.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+
+		m_tablePresetOptions.selectRow( c,p,0 ) ;
+	} ) ;
+
+	m_tableUrlToDefaultEngine.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+
+		m_tablePresetOptions.selectRow( c,p,0 ) ;
+	} ) ;
 
 	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,modes = std::move( modes ) ]( int index ){
 
@@ -61,10 +75,62 @@ configure::configure( const Context& ctx ) :
 
 		if( !a.isEmpty() && !b.isEmpty() ){
 
-			m_tablePresetOptions.addItem( { a,b } ) ;
+			m_tablePresetOptions.add( { a,b } ) ;
+
+			m_tablePresetOptions.selectLast() ;
 
 			m_ui.lineEditConfigureUiName->clear() ;
 			m_ui.lineEditConfigurePresetOptions->clear() ;
+		}
+	} ) ;
+
+	m_tableUrlToDefaultEngine.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
+
+		QMenu m ;
+
+		connect( m.addAction( tr( "Add" ) ),&QAction::triggered,[ this ](){
+
+			m_ui.widgetConfigureManageUrl->setVisible( true ) ;
+		} ) ;
+
+		connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this ](){
+
+			auto m = m_tableUrlToDefaultEngine.currentRow() ;
+
+			if( m != -1 ){
+
+				m_downloadDefaultOptions.remove( m_tableUrlToDefaultEngine.stuffAt( m ) ) ;
+				m_tableUrlToDefaultEngine.removeRow( m ) ;
+				m_tableUrlToDefaultEngine.selectLast() ;
+			}
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
+	} ) ;
+
+	connect( m_ui.pbConfigureManageUrlCancel,&QPushButton::clicked,[ this ](){
+
+		m_ui.widgetConfigureManageUrl->setVisible( false ) ;
+	} ) ;
+
+	connect( m_ui.pbConfigureManageUrl,&QPushButton::clicked,[ this ](){
+
+		auto a = m_ui.lineEditConfigureManageUrl->text() ;
+		auto b = m_ui.lineEditConfigureManageOptions->text() ;
+		auto c = m_ui.cbConfigureEngines->currentText() ;
+
+		if( !a.isEmpty() && !b.isEmpty() ){
+
+			m_ui.lineEditConfigureManageUrl->clear() ;
+			m_ui.lineEditConfigureManageOptions->clear() ;
+
+			auto obj = m_downloadDefaultOptions.add( a,b,c ) ;
+
+			m_tableUrlToDefaultEngine.add( { a,b },std::move( obj ) ) ;
+
+			m_tableUrlToDefaultEngine.selectLast() ;
+
+			m_ui.widgetConfigureManageUrl->setVisible( false ) ;
 		}
 	} ) ;
 
@@ -134,9 +200,15 @@ configure::configure( const Context& ctx ) :
 
 			if( !d.isEmpty() ){
 
-				if( m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last() ) ){
+				auto name = m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last() ) ;
 
-					m_ctx.TabManager().basicDownloader().setAsActive().downloadDefaultEngine() ;
+				if( !name.isEmpty() ){
+
+					auto& t = m_ctx.TabManager() ;
+
+					t.basicDownloader().setAsActive() ;
+					t.setDefaultEngines() ;
+					m_ctx.versionInfo().check( m_ctx.Engines().defaultEngine( name ) ) ;
 				}
 			}
 		}
@@ -160,7 +232,11 @@ configure::configure( const Context& ctx ) :
 
 			m_ctx.Engines().removeEngine( ac->objectName() ) ;
 
-			m_ctx.TabManager().basicDownloader().setAsActive().updateEngines() ;
+			auto& t = m_ctx.TabManager() ;
+
+			t.basicDownloader().setAsActive() ;
+
+			t.setDefaultEngines() ;
 		} ) ;
 
 		m.exec( QCursor::pos() ) ;
@@ -204,7 +280,8 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureSetPresetDefaults,&QPushButton::clicked,[ this ](){
 
-		m_settings.setPresetJsonDefaultOptions() ;
+		m_presetOptions.setDefaults() ;
+		m_tablePresetOptions.clear() ;
 
 		this->showOptions() ;
 	} ) ;
@@ -262,6 +339,7 @@ configure::configure( const Context& ctx ) :
 
 void configure::init_done()
 {
+	m_tablePresetOptions.selectLast() ;
 }
 
 void configure::retranslateUi()
@@ -271,9 +349,9 @@ void configure::retranslateUi()
 	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
 }
 
-void configure::downloadFromGitHub( const engines::engine& engine )
+void configure::downloadFromGitHub( const engines::Iterator& iter )
 {
-	m_networkAccess.download( engine ) ;
+	m_ctx.versionInfo().network().download( iter ) ;
 }
 
 void configure::tabEntered()
@@ -321,13 +399,15 @@ void configure::updateEnginesList( const QStringList& e )
 	this->setEngineOptions( cb.currentText() ) ;
 }
 
-networkAccess& configure::network()
+void configure::setDownloadOptions( int row,tableWidget& table )
 {
-	return m_networkAccess ;
+	m_downloadDefaultOptions.setDownloadOptions( row,table ) ;
 }
 
 void configure::saveOptions()
 {
+	m_downloadDefaultOptions.save() ;
+
 	auto m = m_ui.cbConfigureShowThumbnails->isChecked() ;
 
 	m_ctx.TabManager().batchDownloader().setThumbnailColumnSize( m ) ;
@@ -385,6 +465,22 @@ void configure::setEngineOptions( const QString& e )
 
 	if( s ){
 
+		const auto& engineName = s->name() ;
+
+		m_tableUrlToDefaultEngine.clear() ;
+
+		m_downloadDefaultOptions.forEach( [ this,&engineName ]( const downloadDefaultOptions::opts& e,QJsonObject obj ){
+
+			if( engineName.isEmpty() || engineName == e.engine ){
+
+				m_tableUrlToDefaultEngine.add( { e.url,e.downloadOptions },std::move( obj ) ) ;
+			}
+
+			return false ;
+		} ) ;
+
+		m_tableUrlToDefaultEngine.selectLast() ;
+
 		auto m = m_settings.engineDefaultDownloadOptions( s->name() ) ;
 
 		if( m.isEmpty() ){
@@ -407,53 +503,27 @@ void configure::setEngineOptions( const QString& e )
 
 void configure::savePresetOptions()
 {
-	auto presetOptions = m_settings.setpresetOptions() ;
-
 	auto& table = m_tablePresetOptions.get() ;
 
 	auto rowCount = table.rowCount() ;
+
+	m_presetOptions.clear() ;
 
 	for( int i = 0 ; i < rowCount ; i++ ){
 
 		auto uiName = table.item( i,0 )->text() ;
 		auto options = table.item( i,1 )->text() ;
 
-		presetOptions.add( uiName,options ) ;
+		m_presetOptions.add( uiName,options ) ;
 	}
 }
 
 void configure::showOptions()
 {
-	auto mm = m_settings.presetOptions() ;
+	this->presetOptionsForEach( [ this ]( const QString& uiName,const QString& options ){
 
-	m_tablePresetOptions.clear() ;
-
-	if( mm.isEmpty() ){
-
-		m_settings.presetOptions( [ this ]( const QString& uiName,const QString& options ){
-
-			m_tablePresetOptions.addItem( { uiName,options } ) ;
-		} ) ;
-	}else{
-		for( const auto& it : util::split( mm,',',true ) ){
-
-			auto b = it.indexOf( '(' ) ;
-
-			if( b != -1 ){
-
-				auto a = it ;
-				auto c = a.mid( 0,b ) ;
-				auto cc = a.mid( b + 1 ) ;
-				cc.truncate( cc.size() - 1 ) ;
-
-				m_tablePresetOptions.addItem( { c,cc } ) ;
-			}
-		}
-
-		this->savePresetOptions() ;
-
-		m_settings.setPresetOptions( QStringList() ) ;
-	}
+		m_tablePresetOptions.add( { uiName,options } ) ;
+	} )  ;
 }
 
 void configure::resetMenu()
@@ -574,4 +644,200 @@ void configure::disableAll()
 	m_ui.labelConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.cbConfigureShowThumbnails->setEnabled( false ) ;
+}
+
+configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
+	m_path( ctx.Engines().engineDirPaths().dataPath( "presetOptions.json" ) )
+{
+	QJsonParseError err ;
+
+	QSettings& m = s.bk() ;
+
+	QByteArray data ;
+
+	if( QFile::exists( m_path ) ){
+
+		QFile f( m_path ) ;
+
+		f.open( QIODevice::ReadOnly ) ;
+
+		data = f.readAll() ;
+
+	}else if( m.contains( "PresetJsonOptions" ) ){
+
+		auto a = m.value( "PresetJsonOptions" ).toByteArray() ;
+
+		m.remove( "PresetJsonOptions" ) ;
+
+		data = QByteArray::fromHex( a ) ;
+	}else{
+		data = this->defaultData() ;
+	}
+
+	auto json = QJsonDocument::fromJson( data,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		m_array = json.array() ;
+	}
+}
+
+configure::presetOptions::~presetOptions()
+{
+	QFile f( m_path ) ;
+	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
+	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+}
+
+void configure::presetOptions::clear()
+{
+	auto s = m_array.size() ;
+
+	for( int i = 0 ; i < s ; i++ ){
+
+		m_array.removeAt( 0 ) ;
+	}
+}
+
+void configure::presetOptions::setDefaults()
+{
+	this->clear() ;
+
+	QJsonParseError err ;
+
+	auto json = QJsonDocument::fromJson( this->defaultData(),&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		m_array = json.array() ;
+	}
+}
+
+void configure::presetOptions::add( const QString& uiName,const QString& options )
+{
+	QJsonObject o ;
+
+	o.insert( "uiName",uiName ) ;
+	o.insert( "options",options ) ;
+
+	m_array.append( o ) ;
+}
+
+QByteArray configure::presetOptions::defaultData()
+{
+	return R"R([
+    {
+	"options": "bestvideo[height=144][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=144]+bestaudio",
+	"uiName": "144p"
+    },
+    {
+	"options": "bestvideo[height=240][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=240]+bestaudio",
+	"uiName": "240p"
+    },
+    {
+	"options": "bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=360]+bestaudio",
+	"uiName": "360p"
+    },
+    {
+	"options": "bestvideo[height=480][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=480]+bestaudio",
+	"uiName": "480p"
+    },
+    {
+	"options": "bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=720]+bestaudio",
+	"uiName": "720p"
+    },
+    {
+	"options": "bestvideo[height=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio",
+	"uiName": "1080p"
+    },
+    {
+	"options": "bestvideo[height=1440][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio",
+	"uiName": "1440p"
+    },
+    {
+	"options": "bestvideo[height=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio",
+	"uiName": "2160p"
+    },
+    {
+	"options": "Default",
+	"uiName": "Default"
+    },
+    {
+	"options": "bestvideo+bestaudio",
+	"uiName": "Best-audiovideo"
+    },
+    {
+	"options": "bestaudio -x --embed-thumbnail --audio-format mp3",
+	"uiName": "Best-audio"
+    }
+])R";
+}
+
+configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx ) :
+	m_path( ctx.Engines().engineDirPaths().dataPath( "downloadDefaultOptions.json" ) )
+{
+	QJsonParseError err ;
+
+	if( QFile::exists( m_path ) ){
+
+		QFile f( m_path ) ;
+
+		f.open( QIODevice::ReadOnly ) ;
+
+		auto json = QJsonDocument::fromJson( f.readAll(),&err ) ;
+
+		if( err.error == QJsonParseError::NoError ){
+
+			m_array = json.array() ;
+		}
+	}
+}
+
+void configure::downloadDefaultOptions::save()
+{
+	QFile f( m_path ) ;
+	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
+	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+}
+
+QJsonObject configure::downloadDefaultOptions::add( const QString& url,
+						    const QString& opts,
+						    const QString& engineName )
+{
+	QJsonObject obj ;
+
+	obj.insert( "comparator","contains" ) ;
+	obj.insert( "downloadOption",opts ) ;
+	obj.insert( "engine",engineName ) ;
+	obj.insert( "url",url ) ;
+
+	m_array.append( obj ) ;
+
+	return obj ;
+}
+
+QJsonObject configure::downloadDefaultOptions::add( const configure::downloadDefaultOptions::opts& e )
+{
+	QJsonObject obj ;
+
+	obj.insert( "comparator",e.comparator ) ;
+	obj.insert( "downloadOption",e.downloadOptions ) ;
+	obj.insert( "engine",e.engine ) ;
+	obj.insert( "url",e.url ) ;
+
+	m_array.append( obj ) ;
+
+	return obj ;
+}
+
+void configure::downloadDefaultOptions::remove( const QJsonObject& e )
+{
+	for( int i = 0 ; i < m_array.size() ; i++ ){
+
+		if( m_array[ i ].toObject() == e ){
+
+			m_array.removeAt( i ) ;
+			break ;
+		}
+	}
 }

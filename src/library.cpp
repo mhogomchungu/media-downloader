@@ -29,17 +29,15 @@ library::library( const Context& ctx ) :
 	m_enableGlobalUiChanges( false ),
 	m_settings( m_ctx.Settings() ),
 	m_ui( m_ctx.Ui() ),
-	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font(),1 ),
+	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font() ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
 	m_currentPath( m_downloadFolder ),
 	m_folderIcon( QIcon( ":/folder" ).pixmap( 30,40 ) ),
 	m_videoIcon( QIcon( ":/video" ).pixmap( 30,40 ) )
 {
-	m_table.get().hideColumn( 2 ) ;
-
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
-		m_table.selectRow( c,p,m_table.startPosition() ) ;
+		m_table.selectRow( c,p,1 ) ;
 	} ) ;
 
 	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
@@ -50,9 +48,9 @@ library::library( const Context& ctx ) :
 
 			auto row = m_table.currentRow() ;
 
-			if( row != -1 && m_table.uiTextItem( row ).isSelected() ){
+			if( row != -1 && m_table.isSelected( row ) ){
 
-				auto m = m_currentPath + "/" + m_table.uiText( row ) ;
+				auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
 
 				this->internalDisableAll() ;
 
@@ -143,9 +141,9 @@ library::library( const Context& ctx ) :
 
 		Q_UNUSED( column )
 
-		auto s = m_table.uiText( row ) ;
+		auto s = m_table.item( row,1 ).text() ;
 
-		if( m_table.url( row ) == "folder" ){
+		if( m_table.stuffAt( row ) == library::ICON::FOLDER ){
 
 			m_currentPath +=  "/" + s ;
 
@@ -248,42 +246,31 @@ void library::internalDisableAll()
 	}
 }
 
-struct Icon{
-	const QString& type ;
-	const QPixmap& icon ;
-};
-
-static void _addItem( tableWidget& t,const QString& text,const QFont& font,const Icon& icon )
+void library::addItem( const QString& text,library::ICON type )
 {
-	auto& table = t.get() ;
+	auto row = m_table.addRow( type ) ;
 
-	auto row = table.rowCount() ;
+	m_table.get().setCellWidget( row,0,[ & ](){
 
-	table.insertRow( row ) ;
+		auto label = new QLabel() ;
 
-	auto item = new QTableWidgetItem() ;
+		if( type == library::ICON::FILE ){
 
-	item->setText( text ) ;
-	item->setTextAlignment( Qt::AlignCenter ) ;
-	item->setFont( font ) ;
+			label->setPixmap( m_videoIcon ) ;
+		}else{
+			label->setPixmap( m_folderIcon ) ;
+		}
 
-	table.setItem( row,1,item ) ;
+		label->setAlignment( Qt::AlignCenter ) ;
 
-	item = new QTableWidgetItem() ;
-	auto item1 = new QTableWidgetItem() ;
+		return label ;
+	}() ) ;
 
-	item->setTextAlignment( Qt::AlignCenter ) ;
+	auto& item = m_table.item( row,1 ) ;
 
-	auto label = new QLabel() ;
-
-	item1->setText( icon.type ) ;
-	label ->setPixmap( icon.icon ) ;
-
-	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
-
-	table.setCellWidget( row,0,label ) ;
-
-	table.setItem( row,2,item1 ) ;
+	item.setText( text ) ;
+	item.setTextAlignment( Qt::AlignCenter ) ;
+	item.setFont( m_ctx.mainWidget().font() ) ;
 }
 
 static qint64 _created_time( QFileInfo& e )
@@ -316,8 +303,6 @@ void library::showContents( const QString& path,bool disableUi )
 
 			this->internalEnableAll() ;
 		}
-
-		auto& font = m_ctx.mainWidget().font() ;
 
 		struct entry
 		{
@@ -370,12 +355,12 @@ void library::showContents( const QString& path,bool disableUi )
 
 		for( const auto& it : folders ){
 
-			_addItem( m_table,it.path,font,{ "folder",m_folderIcon } ) ;
+			this->addItem( it.path,library::ICON::FOLDER ) ;
 		}
 
 		for( const auto& it : files ){
 
-			_addItem( m_table,it.path,font,{ "file",m_videoIcon } ) ;
+			this->addItem( it.path,library::ICON::FILE ) ;
 		}
 
 		if( m_table.rowCount() > 0 ){

@@ -28,6 +28,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QFile>
+#include <QApplication>
 
 #include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
@@ -611,6 +612,10 @@ void run( const QString& cmd,
 
 struct run_result
 {
+	bool success() const
+	{
+		return exitCode == 0 && exitStatus == QProcess::ExitStatus::NormalExit ;
+	}
 	int exitCode ;
 	QProcess::ExitStatus exitStatus ;
 	QByteArray stdOut ;
@@ -664,6 +669,9 @@ void run( const QString& cmd,
 
 class version{
 public:
+	version()
+	{
+	}
 	version( int major,int minor,int patch ) :
 		m_valid( true ),m_major( major ),m_minor( minor ),m_patch( patch )
 	{
@@ -760,16 +768,56 @@ private:
 	int m_patch = 0 ;
 };
 
-template< typename MainApp,typename Args  >
+template< typename MainApp,typename MainAppArgs >
+class multipleInstance{
+public:
+	multipleInstance( QApplication& qapp,MainAppArgs args,const QByteArray& aa ) :
+		m_qApp( qapp ),
+		m_appArgs( std::move( args ) ),
+		m_argument( aa )
+	{
+		QTimer::singleShot( 0,[ this ](){
+
+			m_mainApp = std::move( m_appArgs ) ;
+			m_mainApp->start( m_argument ) ;
+		} ) ;
+	}
+	int exec()
+	{
+		return m_qApp.exec() ;
+	}
+private:
+	QApplication& m_qApp ;
+	MainAppArgs m_appArgs ;
+	QByteArray m_argument ;
+	util::storage< MainApp > m_mainApp ;
+};
+
+template< typename OIR,typename PIC >
+struct instanceArgs
+{
+	OIR otherInstanceRunning ;
+	PIC otherInstanceCrashed ;
+};
+
+template< typename OIR,typename PIC >
+auto make_oneinstance_args( OIR r,PIC c )
+{
+	return instanceArgs< OIR,PIC >{ std::move( r ),std::move( c ) } ;
+}
+
+template< typename MainApp,typename MainAppArgs,typename InstanceArgs >
 class oneinstance
 {
 public:
 	oneinstance( const QString& socketPath,
-		     const QString& argument,
-		     Args args ) :
+		     const QByteArray& argument,
+		     MainAppArgs args,
+		     InstanceArgs iargs ) :
 		m_serverPath( socketPath ),
 		m_argument( argument ),
-		m_args( std::move( args ) )
+		m_args( std::move( args ) ),
+		m_iargs( std::move( iargs ) )
 	{
 		QTimer::singleShot( 0,[ this ](){
 
@@ -787,23 +835,19 @@ public:
 private:
 	void run()
 	{
-		m_mainApp = std::move( m_args ) ;
-
 		if( QFile::exists( m_serverPath ) ){
 
 			QObject::connect( &m_localSocket,&QLocalSocket::connected,[ this ](){
 
-				m_mainApp->anotherInstanceRunning() ;
-
 				if( !m_argument.isEmpty() ){
 
-					m_localSocket.write( m_argument.toUtf8() ) ;
+					m_localSocket.write( m_argument ) ;
 					m_localSocket.waitForBytesWritten() ;
 				}
 
 				m_localSocket.close() ;
 
-				m_mainApp->exit() ;
+				m_iargs.otherInstanceRunning() ;
 			} ) ;
 
 		#if QT_VERSION < QT_VERSION_CHECK( 5,15,0 )
@@ -812,14 +856,14 @@ private:
 			QObject::connect( &m_localSocket,static_cast< cs >( &QLocalSocket::error ),[ this ]( QLocalSocket::LocalSocketError e ){
 
 				Q_UNUSED( e )
-				m_mainApp->previousVersionCrashed() ;
+				m_iargs.otherInstanceCrashed() ;
 				QFile::remove( m_serverPath ) ;
 				this->start() ;
 			} ) ;
 		#else
 			QObject::connect( &m_localSocket,&QLocalSocket::errorOccurred,[ this ]( QLocalSocket::LocalSocketError e ){
 
-				m_mainApp->previousVersionCrashed() ;
+				m_iargs.otherInstanceCrashed() ;
 				Q_UNUSED( e )
 				QFile::remove( m_serverPath ) ;
 				this->start() ;
@@ -832,6 +876,8 @@ private:
 	}
 	void start( void )
 	{
+		m_mainApp = std::move( m_args ) ;
+
 		m_mainApp->start( m_argument ) ;
 
 		QObject::connect( &m_localServer,&QLocalServer::newConnection,[ this ](){
@@ -850,9 +896,10 @@ private:
 	QLocalServer m_localServer ;
 	QLocalSocket m_localSocket ;
 	QString m_serverPath ;
-	QString m_argument ;
+	QByteArray m_argument ;
 	util::storage< MainApp > m_mainApp ;
-	Args m_args ;
+	MainAppArgs m_args ;
+	InstanceArgs m_iargs ;
 };
 
 }

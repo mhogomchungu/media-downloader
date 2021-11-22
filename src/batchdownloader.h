@@ -31,16 +31,92 @@
 
 class tabManager ;
 
+class Items{
+public:
+	struct entry
+	{
+		entry( const QString& uiText,const QString& url ) :
+			uiText( uiText ),url( url )
+		{
+		}
+		QString uiText ;
+		QString url ;
+	} ;
+	Items() = default ;
+	Items( const QString& url )
+	{
+		m_entries.emplace_back( url,url ) ;
+	}
+	Items( const QString& uiText,const QString& url )
+	{
+		m_entries.emplace_back( uiText,url ) ;
+	}
+	void add( const QString& uiText,const QString& url )
+	{
+		m_entries.emplace_back( uiText,url ) ;
+	}
+	void add( const QString& url )
+	{
+		m_entries.emplace_back( url,url ) ;
+	}
+	const Items::entry& at( size_t s ) const
+	{
+		return m_entries[ s ] ;
+	}
+	const Items::entry& first() const
+	{
+		return m_entries[ 0 ] ;
+	}
+	size_t size() const
+	{
+		return m_entries.size() ;
+	}
+	bool hasOneEntry() const
+	{
+		return m_entries.size() == 1 ;
+	}
+	Items::entry takeFirst()
+	{
+		auto m = m_entries[ 0 ] ;
+
+		m_entries.erase( m_entries.begin() ) ;
+
+		return m ;
+	}
+	bool isEmpty() const
+	{
+		return m_entries.size() == 0 ;
+	}
+	auto begin()
+	{
+		return m_entries.begin() ;
+	}
+	auto end()
+	{
+		return m_entries.end() ;
+	}
+	auto begin() const
+	{
+		return m_entries.begin() ;
+	}
+	auto end() const
+	{
+		return m_entries.end() ;
+	}
+private:
+	std::vector< entry > m_entries ;
+};
+
 class ItemEntry
 {
 public:
 	ItemEntry() = default;
-	ItemEntry( const engines::engine& engine,const QStringList& list ) :
+	ItemEntry( const engines::engine& engine,Items list ) :
 		m_engine( &engine ),
-		m_list( list )
+		m_list( std::move( list ) )
 	{
 	}
-	QString next()
+	Items::entry next()
 	{
 		return m_list.takeFirst() ;
 	}
@@ -54,7 +130,7 @@ public:
 	}
 private:
 	const engines::engine * m_engine ;
-	QStringList m_list ;
+	Items m_list ;
 };
 
 Q_DECLARE_METATYPE( ItemEntry )
@@ -63,28 +139,6 @@ class batchdownloader : public QObject
 {
 	Q_OBJECT
 public:
-	template< typename Function >
-	void setUpdefaultEngine( QComboBox& comboBox,
-				 const QString& defaultEngine,
-				 Function function )
-	{
-		for( int s = 0 ; s < comboBox.count() ; s++ ){
-
-			if( comboBox.itemText( s ) == defaultEngine ){
-
-				comboBox.setCurrentIndex( s ) ;
-
-				return ;
-			}
-		}
-
-		if( comboBox.count() > 0 ){
-
-			comboBox.setCurrentIndex( 0 ) ;
-			function( comboBox.itemText( 0 ) ) ;
-		}
-	}
-
 	batchdownloader( const Context& ) ;
 	void init_done() ;
 	void enableAll() ;
@@ -93,7 +147,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
-	void gotEvent( const QString& ) ;
+	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void setThumbnailColumnSize( bool ) ;
 private slots:
@@ -104,8 +158,7 @@ private:
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
 	void showList() ;
-	void addToList( const QString& ) ;
-	void showThumbnail( const engines::engine&,const QStringList& ) ;
+	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
@@ -114,6 +167,8 @@ private:
 	void addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
 	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
 
+	void showThumbnail( const engines::engine&,Items,bool = false,bool = false ) ;
+
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
@@ -121,7 +176,7 @@ private:
 	tabManager& m_tabManager ;
 	bool m_showThumbnails ;
 	tableWidget m_table ;
-	tableWidget m_tableWidgetBDList ;
+	tableMiniWidget< int > m_tableWidgetBDList ;
 	QString m_debug ;
 	int m_networkRunning = false ;
 	QStringList m_optionsList ;

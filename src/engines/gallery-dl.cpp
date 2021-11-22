@@ -35,7 +35,7 @@ gallery_dl::~gallery_dl()
 }
 
 void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
-{	
+{
 	const auto& engine = engines::engine::functions::engine() ;
 
 	if( !engine.optionsArgument().isEmpty() ){
@@ -47,6 +47,9 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 
 		s.ourOptions.append( s.quality ) ;
 	}
+
+	s.ourOptions.removeAll( "Default" ) ;
+	s.ourOptions.removeAll( "default" ) ;
 }
 
 engines::engine::functions::DataFilter gallery_dl::Filter( const QString& e )
@@ -86,13 +89,14 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
+						 const QString& dopts,
 						 const engines::engine::functions::finishedState& f )
 {
 	if( f.success() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}
 }
 

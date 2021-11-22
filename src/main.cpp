@@ -29,34 +29,26 @@ public:
 	struct args
 	{
 		QApplication& app ;
-		settings& s ;
+		settings& Settings ;
 		const QStringList& args ;
 	};
-	myApp( const myApp::args& a ) :
-		m_traslator( a.s,a.app ),
-		m_app( a.app,a.s,m_traslator,a.args )
+	myApp( const myApp::args& args ) :
+		m_traslator( args.Settings,args.app ),
+		m_app( args.app,args.Settings,m_traslator,args.args )
 	{
 	}
-	void start( const QString& e )
+	void start( const QByteArray& e )
 	{
-		m_app.Show( e ) ;
+		m_app.Show() ;
 		m_app.processEvent( e ) ;
 	}
 	void exit()
 	{
 		m_app.quitApp() ;
 	}
-	void event( const QString& e )
+	void event( const QByteArray& e )
 	{
 		m_app.processEvent( e ) ;
-	}
-	void anotherInstanceRunning()
-	{
-		//m_app.log( QObject::tr( "There seem to be another instance running,exiting this one" ) ) ;
-	}
-	void previousVersionCrashed()
-	{
-		//m_app.log( QObject::tr( "Previous instance seem to have crashed,trying to clean up before starting" ) ) ;
 	}
 private:
 	translator m_traslator ;
@@ -85,14 +77,34 @@ int main( int argc,char * argv[] )
 
 		utility::arguments opts( args ) ;
 
-		if( opts.hasOption( "-s",false ) || !settings.singleInstance() ){
+		QJsonObject jsonArgs ;
 
-			translator traslator( settings,mqApp ) ;
-			return MainWindow( mqApp,settings,traslator,args ).exec() ;
+		jsonArgs.insert( "-u",opts.hasValue( "-u" ) ) ;
+		jsonArgs.insert( "-a",opts.hasOption( "-a" ) ) ;
+		jsonArgs.insert( "-s",opts.hasOption( "-s" ) ) ;
+
+		auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
+
+		myApp::args mArgs{ mqApp,settings,args } ;
+
+		if( opts.hasOption( "-s" ) || !settings.singleInstance() ){
+
+			return util::multipleInstance< myApp,myApp::args >( mqApp,std::move( mArgs ),json ).exec() ;
 		}else{
-			auto url = opts.hasValue( "-u",false ) ;
+			auto instanceArgs = util::make_oneinstance_args( [ & ](){
 
-			util::oneinstance< myApp,myApp::args > instance( spath,url,{ mqApp,settings,args } ) ;
+				std::cout << "There seem to be another instance running,exiting this one" << std::endl ;
+				mqApp.exit() ;
+			},[](){
+				std::cout << "Previous instance seem to have crashed,trying to clean up before starting" << std::endl ;
+			} ) ;
+
+			using type = decltype( instanceArgs ) ;
+
+			util::oneinstance< myApp,myApp::args,type > instance( spath,
+									      json,
+									      std::move( mArgs ),
+									      std::move( instanceArgs ) ) ;
 
 			return mqApp.exec() ;
 		}

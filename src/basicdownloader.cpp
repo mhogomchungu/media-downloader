@@ -32,7 +32,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_ui( m_ctx.Ui() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font(),0 ),
+	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font() ),
 	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0 )
 {
 	this->setAsActive() ;
@@ -120,47 +120,6 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 void basicdownloader::init_done()
 {
-	const auto& engines = m_ctx.Engines().getEngines() ;
-
-	if( engines.size() > 0 ){
-
-		for( const auto& engine : engines ){
-
-			if( engine.mainEngine() ){
-
-				m_ui.cbEngineType->addItem( engine.name() ) ;
-			}
-		}
-
-		this->setDefaultEngine() ;
-
-		if( m_settings.showVersionInfoWhenStarting() ){
-
-			this->printEngineVersionInfo() ;
-		}else{
-			m_counter = static_cast< size_t >( -1 ) ;
-		}
-	}else{
-		m_tabManager.disableAll() ;
-
-		m_ui.pbQuit->setEnabled( true ) ;
-	}
-}
-
-void basicdownloader::printEngineVersionInfo()
-{
-	const auto& engines = m_ctx.Engines().getEngines() ;
-
-	if( m_counter < engines.size() ){
-
-		const auto& engine = engines[ m_counter ] ;
-
-		m_counter++ ;
-
-		this->printEngineVersionInfo( engine ) ;
-	}else{
-		this->setDefaultEngine() ;
-	}
 }
 
 void basicdownloader::changeDefaultEngine( int s )
@@ -173,7 +132,7 @@ void basicdownloader::changeDefaultEngine( int s )
 
 		m_settings.setDefaultEngine( engine.value().name(),settings::tabName::basic ) ;
 
-		this->setDefaultEngine() ;
+		m_ctx.TabManager().setDefaultEngines() ;
 	}else{
 		m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
 	}
@@ -189,28 +148,6 @@ QStringList basicdownloader::enginesList()
 	}
 
 	return m ;
-}
-
-void basicdownloader::printEngineVersionInfo( const engines::engine& engine )
-{
-	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() && networkAccess::hasNetworkSupport() ){
-
-		if( engine.backendExists() ){
-
-			this->checkAndPrintInstalledVersion( engine ) ;
-
-		}else if( !engine.exePath().realExe().isEmpty() ){
-
-			m_ctx.TabManager().Configure().downloadFromGitHub( engine ) ;
-		}
-	}else{
-		if( engine.exePath().isEmpty() ){
-
-			m_ctx.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
-		}else{
-			this->checkAndPrintInstalledVersion( engine ) ;
-		}
-	}
 }
 
 void basicdownloader::resetMenu( const QStringList& args )
@@ -263,39 +200,22 @@ const engines::engine& basicdownloader::defaultEngine()
 	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
 }
 
-void basicdownloader::setDefaultEngine()
+void basicdownloader::updateEnginesList( const QStringList& e )
 {
-	auto m = this->defaultEngineName() ;
+	auto& comboBox = *m_ui.cbEngineType ;
 
-	for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
+	comboBox.clear() ;
 
-		if( m_ui.cbEngineType->itemText( i ) == m ){
+	for( const auto& it : e ){
 
-			m_ui.cbEngineType->setCurrentIndex( i ) ;
-
-			auto e = this->enginesList() ;
-
-			auto& t = m_ctx.TabManager() ;
-
-			t.batchDownloader().updateEnginesList( e ) ;
-			t.playlistDownloader().updateEnginesList( e ) ;
-			t.Configure().updateEnginesList( e ) ;
-
-			const auto& s = m_ctx.Engines().getEngineByName( m ) ;
-
-			if( s ){
-
-				m_ui.pbList->setEnabled( !s->defaultListCmdOptions().isEmpty() ) ;
-			}
-
-			return ;
-		}
+		comboBox.addItem( it ) ;
 	}
 
-	m_settings.setDefaultEngine( m_ui.cbEngineType->itemText( 0 ),settings::tabName::basic ) ;
-	m_ui.cbEngineType->setCurrentIndex( 0 ) ;
-	m_ctx.TabManager().batchDownloader().updateEnginesList( this->enginesList() ) ;
-	m_ctx.TabManager().playlistDownloader().updateEnginesList( this->enginesList() ) ;
+	auto s = settings::tabName::basic ;
+
+	utility::setUpdefaultEngine( comboBox,
+				     this->defaultEngineName(),
+				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
 void basicdownloader::retranslateUi()
@@ -303,85 +223,20 @@ void basicdownloader::retranslateUi()
 	this->resetMenu() ;
 }
 
-void basicdownloader::checkAndPrintInstalledVersion( const engines::engine& engine )
+void basicdownloader::listRequested( const QByteArray& a )
 {
-	m_tabManager.disableAll() ;
+	if( a.contains( "ERROR:" ) ){
 
-	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
-
-	util::run( cmd.exe(),cmd.args(),[ this,&engine ]( QProcess& exe ){
-
-		struct ctx
-		{
-			ctx( const engines::engine& e,const Context& c ) :
-				engine( e ),context( c )
-			{
-			}
-			QByteArray data ;
-			const engines::engine& engine ;
-			const Context& context ;
-		} ;
-
-		exe.setProcessChannelMode( QProcess::ProcessChannelMode::MergedChannels ) ;
-
-		m_ctx.logger().add( tr( "Checking installed version of" ) + " " + engine.name() ) ;
-
-		return ctx( engine,m_ctx ) ;
-
-	},[]( QProcess&,auto& ){},[ this ]( int exitCode,QProcess::ExitStatus exitStatus,auto& ctx ){
-
-		if( exitStatus == QProcess::ExitStatus::CrashExit || exitCode != 0 ){
-
-			for( int i = 0 ; i < m_ui.cbEngineType->count() ; i++ ){
-
-				if( m_ui.cbEngineType->itemText( i ) == ctx.engine.name() ){
-
-					m_ui.cbEngineType->removeItem( i ) ;
-
-					this->setDefaultEngine() ;
-
-					break ;
-				}
-			}
-
-			ctx.context.logger().add( tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( ctx.engine.name() ) ) ;
-
-			ctx.context.TabManager().enableAll() ;
-		}else{
-			auto& logger = ctx.context.logger() ;
-
-			logger.add( tr( "Found version" ) + ": " + ctx.engine.versionString( ctx.data ) ) ;
-
-			if( !ctx.context.debug().isEmpty() ){
-
-				logger.add( tr( "Executable Path" ) + ": " + ctx.engine.exePath().realExe() ) ;
-			}
-
-			ctx.context.TabManager().enableAll() ;
-		}
-
-		this->printEngineVersionInfo() ;
-
-	},[]( QProcess::ProcessChannel,const QByteArray& data,auto& ctx ){
-
-		ctx.data += data ;
-	} ) ;
-}
-
-void basicdownloader::listRequested( const QList< QByteArray >& args )
-{
-	for( const auto& it : args ){
-
-		if( it.contains( "ERROR:" ) ){
-
-			m_tableList.setVisible( false ) ;
-			return ;
-		}
+		m_tableList.setVisible( false ) ;
+		return ;
 	}
 
 	const auto& engine = m_ctx.Engines().defaultEngine( m_ui.cbEngineType->currentText() ) ;
 
-	m_tableList.showOptions( engine,args ) ;
+	for( const auto& m : engine.mediaProperties( a ) ){
+
+		m_tableList.add( m ) ;
+	}
 
 	m_tableList.setEnabled( true ) ;
 }
@@ -425,9 +280,10 @@ void basicdownloader::download( const QString& url )
 
 	m_bogusTable.clear() ;
 
-	QStringList args{ m.at( 0 ),m.at( 0 ),downloadManager::finishedStatus::notStarted() } ;
+	auto uiText = m.at( 0 ) ;
+	auto state = downloadManager::finishedStatus::notStarted() ;
 
-	m_bogusTable.addItem( args ) ;
+	m_bogusTable.addItem( { uiText,uiText,state } ) ;
 
 	auto s = m_ui.lineEditOptions->text() ;
 
@@ -474,9 +330,9 @@ void basicdownloader::run( const engines::engine& engine,
 			   const QString& quality,
 			   bool list_requested )
 {
-	auto functions = utility::OptionsFunctions( [ this ]( const QList< QByteArray >& args ){
+	auto functions = utility::OptionsFunctions( [ this ]( QByteArray args ){
 
-			this->listRequested( args ) ;
+			this->listRequested( std::move( args ) ) ;
 
 		},[]( const basicdownloader::opts& opts ){
 
@@ -508,32 +364,6 @@ void basicdownloader::run( const engines::engine& engine,
 	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ) ) ;
 
 	utility::run( args,quality,std::move( ctx ) ) ;
-}
-
-void basicdownloader::updateEngines()
-{
-	const auto& engines = m_ctx.Engines().getEngines() ;
-
-	m_ui.cbEngineType->clear() ;
-
-	if( engines.size() > 0 ){
-
-		for( const auto& engine : engines ){
-
-			m_ui.cbEngineType->addItem( engine.name() ) ;
-		}
-
-		this->setDefaultEngine() ;
-	}
-}
-
-void basicdownloader::downloadDefaultEngine()
-{
-	this->updateEngines() ;
-
-	m_counter = static_cast< size_t >( -1 ) ;
-
-	this->printEngineVersionInfo( this->defaultEngine() ) ;
 }
 
 void basicdownloader::tabEntered()
@@ -593,7 +423,7 @@ void basicdownloader::appQuit()
 	QCoreApplication::quit() ;
 }
 
-void basicdownloader::gotEvent( const QString& )
+void basicdownloader::gotEvent( const QByteArray& )
 {
 
 }

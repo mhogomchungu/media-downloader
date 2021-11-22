@@ -27,6 +27,8 @@
 
 #include "engines.h"
 
+#include <vector>
+
 class tableWidget
 {
 public:
@@ -38,40 +40,55 @@ public:
 		QAbstractItemView::SelectionMode selectionMode = QAbstractItemView::NoSelection ;
 		bool mouseTracking = true ;
 	};
-
-	QTableWidgetItem& uiTextItem( int row ) const
+	void setDownloadingOptions( const QString& s,int row )
 	{
-		return *m_table.item( row,m_init ) ;
+		this->item( row ).downloadingOptions = s ;
 	}
-	QTableWidgetItem& urlTextItem( int row ) const
+	void setDownloadingOptionsUi( const QString& s,int row )
 	{
-		return *m_table.item( row,m_init + 1 ) ;
+		this->item( row ).downloadingOptionsUi = s ;
 	}
-	QTableWidgetItem& runningStateItem( int row ) const
+	void setEngineName( const QString& s,int row )
 	{
-		return *m_table.item( row,m_init + 2 ) ;
-	}	
-	QTableWidgetItem& downloadingOptionsItem( int row ) const
-	{
-		return *m_table.item( row,m_init + 3 ) ;
+		this->item( row ).engineName = s ;
 	}
-	QString downloadingOptions( int row ) const
+	void setUiText( const QString& s,int row )
 	{
-		return this->downloadingOptionsItem( row ).text() ;
+		this->item( row ).uiText = s ;
+		m_table.item( row,1 )->setText( s ) ;
 	}
-	QString uiText( int row ) const
+	void setRunningState( const QString& s,int row )
 	{
-		return this->uiTextItem( row ).text() ;
+		this->item( row ).runningState = s ;
 	}
-	QString url( int row ) const
+	const QString& downloadingOptions( int row ) const
 	{
-		return this->urlTextItem( row ).text() ;
+		return this->item( row ).downloadingOptions ;
 	}
-	QString runningState( int row ) const
+	const QString& downloadingOptionsUi( int row ) const
 	{
-		return this->runningStateItem( row ).text() ;
+		return this->item( row ).downloadingOptionsUi ;
 	}
-	void setDownloadingOptions( int row,const QString& options,const QString& title = QString() ) ;
+	const QString& uiText( int row ) const
+	{
+		return this->item( row ).uiText ;
+	}
+	const QString& url( int row ) const
+	{
+		return this->item( row ).url ;
+	}
+	const QString& engineName( int row ) const
+	{
+		return this->item( row ).engineName ;
+	}
+	const QPixmap& thumbnail( int row ) const
+	{
+		return this->item( row ).thumbnail.image ;
+	}
+	const QString& runningState( int row ) const
+	{
+		return this->item( row ).runningState ;
+	}
 	int startPosition() const
 	{
 		return m_init ;
@@ -84,24 +101,76 @@ public:
 			m_table.hideColumn( it ) ;
 		}
 	}
-	void setTableWidget( const tableWidget::tableWidgetOptions& ) ;
-	void replace( const QPixmap&,const QStringList&,int row,int alignment = Qt::AlignCenter ) ;
+	struct entry{
+		entry( const QString& uiText,
+		       const QString& url,
+		       const QString& runningState ) :
+			url( url ),
+			uiText( uiText ),
+			runningState( runningState )
+		{
+		}
+		entry( const QPixmap& thumbnail,
+		       const QString& uiText,
+		       const QString& url,
+		       const QString& runningState ) :
+			url( url ),
+			uiText( uiText ),
+			runningState( runningState ),
+			thumbnail( thumbnail )
+		{
+		}
+		QString url ;
+		QString uiText ;
+		QString runningState ;
+		QString downloadingOptions ;
+		QString downloadingOptionsUi ;
+		QString engineName ;
+		struct tnail{
+			tnail( const QPixmap& p ) : isSet( true ),image( p )
+			{
+			}
+			tnail()
+			{
+			}
+			bool isSet = false ;
+			QPixmap image ;
+		} thumbnail ;
+		int alignment = Qt::AlignCenter ;
+	} ;
+	template< typename Function >
+	void forEach( Function function )
+	{
+		for( const auto& it : m_items ){
+
+			function( it ) ;
+		}
+	}
+	enum class type{ DownloadOptions,EngineName } ;
+
+	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
+	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;
+	static QByteArray thumbnailData( const QPixmap& ) ;
+	static QString engineName() ;
+	void setDownloadingOptions( tableWidget::type,
+				    int row,
+				    const QString& options,
+				    const QString& title = QString() ) ;
+	QString thumbnailData( int row ) const ;
+	QString completeProgress( int index ) ;
 	int addRow() ;
-	int addItem( const QPixmap&,const QStringList&,int alignment = Qt::AlignCenter ) ;
-	void addItem( const QStringList&,int alignment = Qt::AlignCenter ) ;
-	void addItem( const QString&,int alignment = Qt::AlignCenter ) ;
-	void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
+	int addItem( tableWidget::entry ) ;
+	int rowCount() const ;
+	int currentRow() const ;
+	void replace( tableWidget::entry,int row ) ;
 	void clear() ;
 	void setVisible( bool ) ;
-	int rowCount() const ;
 	void selectLast() ;
 	void setEnabled( bool ) ;
-	int currentRow() const ;
 	void removeRow( int ) ;
+	bool isSelected( int ) ;
 	bool noneAreRunning() ;
-	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts ) ;
-	void showOptions( const engines::engine& engine,const QList< QByteArray >& args ) ;
-	QString completeProgress( int index ) ;
+
 	tableWidget( QTableWidget& t,const QFont& font,int init ) ;
 
 	QTableWidgetItem& item( int row,int column ) const ;
@@ -114,9 +183,157 @@ public:
 		QObject::connect( &m_table,m,std::move( c ) ) ;
 	}
 private:
+	tableWidget::entry& item( int s )
+	{
+		return m_items[ static_cast< size_t >( s ) ] ;
+	}
+	const tableWidget::entry& item( int s ) const
+	{
+		return m_items[ static_cast< size_t >( s ) ] ;
+	}
 	QTableWidget& m_table ;
 	const QFont& m_font ;
 	int m_init ;
+
+	std::vector< tableWidget::entry > m_items ;
 } ;
+
+template< typename Stuff >
+class tableMiniWidget
+{
+public:
+	tableMiniWidget( QTableWidget& t,const QFont& ) : m_table( t )
+	{
+		tableWidget::setTableWidget( m_table,tableWidget::tableWidgetOptions() ) ;
+	}
+	template< typename MemberFunction,typename Callback >
+	void connect( MemberFunction m,Callback c )
+	{
+		QObject::connect( &m_table,m,std::move( c ) ) ;
+	}
+	void setTableWidget( const tableWidget::tableWidgetOptions& opts )
+	{
+		tableWidget::setTableWidget( m_table,opts ) ;
+	}
+	int rowCount()
+	{
+		return m_table.rowCount() ;
+	}	
+	void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int s )
+	{
+		tableWidget::selectRow( current,previous,s ) ;
+	}
+	bool isSelected( int row )
+	{
+		return m_table.item( row,m_table.columnCount() - 1 )->isSelected() ;
+	}
+	void setVisible( bool e )
+	{
+		m_table.setVisible( e ) ;
+	}
+	QTableWidgetItem& item( int row,int column )
+	{
+		return *m_table.item( row,column ) ;
+	}
+	void clear()
+	{
+		int m = m_table.rowCount() ;
+
+		for( int i = 0 ; i < m ; i++ ){
+
+			m_table.removeRow( 0 ) ;
+		}
+		m_stuff.clear() ;
+	}
+	int currentRow()
+	{
+		return m_table.currentRow() ;
+	}
+	void removeRow( int s )
+	{
+		m_table.removeRow( s ) ;
+		m_stuff.erase( m_stuff.begin() + s ) ;
+	}
+	void setEnabled( bool e )
+	{
+		m_table.setEnabled( e ) ;
+	}
+	QTableWidget& get()
+	{
+		return m_table ;
+	}
+	const Stuff& stuffAt( int s )
+	{
+		return m_stuff[ static_cast< size_t >( s ) ] ;
+	}
+	int addRow( Stuff stuff = Stuff() )
+	{
+		auto row = m_table.rowCount() ;
+
+		m_table.insertRow( row ) ;
+		m_stuff.emplace_back( std::move( stuff ) ) ;
+
+		for( int i = 0 ; i < m_table.columnCount() ; i++ ){
+
+			auto item = new QTableWidgetItem() ;
+			item->setTextAlignment( Qt::AlignCenter ) ;
+			m_table.setItem( row,i,item ) ;
+		}
+
+		return row ;
+	}
+	void add( const QStringList& entries,Stuff stuff = Stuff() )
+	{
+		if( entries.size() == m_table.columnCount() ){
+
+			int row = this->addRow( std::move( stuff ) ) ;
+
+			for( int col = 0 ; col < entries.size() ; col++ ){
+
+				m_table.item( row,col )->setText( entries[ col ] ) ;
+			}
+		}
+	}
+	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts )
+	{
+		if( item.isSelected() ){
+
+			auto text = this->item( item.row(),0 ).text() ;
+
+			if( !optionsList.contains( text ) ){
+
+				optionsList.append( text ) ;
+			}
+		}
+
+		for( int row = 0 ; row < this->rowCount() ; row++ ){
+
+			auto& item = this->item( row,0 ) ;
+
+			if( !item.isSelected() ){
+
+				optionsList.removeAll( item.text() ) ;
+			}
+		}
+
+		if( optionsList.isEmpty() ){
+
+			opts.clear() ;
+		}else{
+			opts.setText( optionsList.join( "+" ) ) ;
+		}
+	}
+	void selectLast()
+	{
+		if( m_table.rowCount() > 0 ){
+
+			m_table.setCurrentCell( m_table.rowCount() - 1,m_table.columnCount() - 1 ) ;
+			m_table.scrollToBottom() ;
+		}
+	}
+private:
+	QTableWidget& m_table ;
+	std::vector< Stuff > m_stuff ;
+};
 
 #endif

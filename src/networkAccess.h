@@ -35,6 +35,7 @@
 
 #include "context.hpp"
 #include "settings.h"
+#include "engines.h"
 
 class basicdownloader ;
 
@@ -42,7 +43,7 @@ class networkAccess
 {
 public:
 	networkAccess( const Context& ) ;
-	void download( const engines::engine& ) ;
+	void download( const engines::Iterator& ) ;
 	static bool hasNetworkSupport()
 	{
 		#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -71,7 +72,7 @@ private:
 		QString url ;
 		QString sha256 ;
 	};
-	void download( const networkAccess::metadata&,const engines::engine& ) ;
+	void download( const networkAccess::metadata&,const engines::Iterator& ) ;
 	void post( const engines::engine&,const QString& ) ;
 	const Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;
@@ -92,7 +93,7 @@ public:
 	networkAccess( const Context& )
 	{
 	}
-	void download( const engines::engine& )
+	void download( const engines::engine&,const engines::Iterator& )
 	{
 	}
 	template< typename Function >

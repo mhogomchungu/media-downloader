@@ -88,7 +88,25 @@ void youtube_dl::init( const QString& name,
 			mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
+
+			mainObj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+				arr.append( "-F" ) ;
+
+				return arr ;
+			}() ) ;
 		}else{
+			mainObj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--print" ) ;
+				arr.append( "%(formats)j" ) ;
+
+				return arr ;
+			}() ) ;
+
 			mainObj.insert( "ShowListTableBoundary",[](){
 
 				QJsonObject obj ;
@@ -104,13 +122,38 @@ void youtube_dl::init( const QString& name,
 
 				QJsonArray arr ;
 
-				QJsonObject obj ;
+				arr.append( [](){
 
-				obj.insert( "ColumnNumber","0" ) ;
-				obj.insert( "Comparator","equals" ) ;
-				obj.insert( "String","format" ) ;
+					QJsonObject obj ;
 
-				arr.append( obj ) ;
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","equals" ) ;
+					obj.insert( "String","format" ) ;
+
+					return obj ;
+				}() ) ;
+
+				arr.append( [](){
+
+					QJsonObject obj ;
+
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","contains" ) ;
+					obj.insert( "String","--" ) ;
+
+					return obj ;
+				}() ) ;
+
+				arr.append( [](){
+
+					QJsonObject obj ;
+
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","equals" ) ;
+					obj.insert( "String","ID" ) ;
+
+					return obj ;
+				}() ) ;
 
 				return arr ;
 			}() ) ;
@@ -123,14 +166,6 @@ void youtube_dl::init( const QString& name,
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
-
-		mainObj.insert( "DefaultListCmdOptions",[](){
-
-			QJsonArray arr ;
-			arr.append( "-F" ) ;
-
-			return arr ;
-		}() ) ;
 
 		mainObj.insert( "Name",name ) ;
 
@@ -213,6 +248,7 @@ void youtube_dl::init( const QString& name,
 
 youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
 	engines::engine::functions( engines.Settings(),engine ),
+	m_engines( engines ),
 	m_engine( engine )
 {
 	if( !object.contains( "ShowListTableBoundary" ) ){
@@ -243,17 +279,60 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 
 				QJsonArray arr ;
 
-				QJsonObject obj ;
+				arr.append( [](){
 
-				obj.insert( "ColumnNumber","0" ) ;
-				obj.insert( "Comparator","equals" ) ;
-				obj.insert( "String","format" ) ;
+					QJsonObject obj ;
 
-				arr.append( obj ) ;
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","equals" ) ;
+					obj.insert( "String","format" ) ;
+
+					return obj ;
+				}() ) ;
+
+				arr.append( [](){
+
+					QJsonObject obj ;
+
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","contains" ) ;
+					obj.insert( "String","─" ) ;
+
+					return obj ;
+				}() ) ;
+
+				arr.append( [](){
+
+					QJsonObject obj ;
+
+					obj.insert( "ColumnNumber","0" ) ;
+					obj.insert( "Comparator","contains" ) ;
+					obj.insert( "String","ID" ) ;
+
+					return obj ;
+				}() ) ;
 
 				return arr ;
 			}() ) ;
 		}
+	}else{
+		auto arr = object.value( "ShowListTableExtraBoundaries" ).toArray() ;
+
+		if( m_engine.name() != "youtube-dl" ){
+
+			arr.append( [](){
+
+				QJsonObject obj ;
+
+				obj.insert( "ColumnNumber","0" ) ;
+				obj.insert( "Comparator","contains" ) ;
+				obj.insert( "String","ID" ) ;
+
+				return obj ;
+			}() ) ;
+		}
+
+		object.insert( "ShowListTableExtraBoundaries",arr ) ;
 	}
 
 	if( !object.contains( "CookieArgument" ) ){
@@ -311,10 +390,138 @@ youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJs
 
 	m_objs = object.value( "ShowListTableExtraBoundaries" ).toArray() ;
 	m_objs.insert( 0,object.value( "ShowListTableBoundary" ).toObject() ) ;
+
+	if( m_engine.name().contains( "yt-dlp" ) ){
+
+		object.insert( "DefaultListCmdOptions",[](){
+
+			QJsonArray arr ;
+
+			arr.append( "--print" ) ;
+			arr.append( "%(formats)j" ) ;
+
+			return arr ;
+		}() ) ;
+	}else{
+		if( !object.contains( "DefaultListCmdOptions" ) ){
+
+			object.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+				arr.append( "-F" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+	}
 }
 
 youtube_dl::~youtube_dl()
 {
+}
+
+std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
+{
+	if( !m_engine.name().contains( "yt-dlp" ) ){
+
+		return engines::engine::functions::mediaProperties( e ) ;
+	}
+
+	QJsonParseError err ;
+
+	auto json = QJsonDocument::fromJson( e,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		std::vector< QStringList > m ;
+		std::vector< QStringList > mm ;
+
+		const auto array = json.array() ;
+
+		utility::locale s ;
+
+		auto _append = [ & ]( QString& s,const char * str,const QString& sstr ){
+
+			if( sstr == "none" || sstr == "0" ){
+
+				return ;
+			}
+
+			s += str + sstr + ", " ;
+		} ;
+
+		for( const auto& it : array ){
+
+			auto obj       = it.toObject() ;
+
+			auto id        = obj.value( "format_id" ).toString() ;
+			auto ext       = obj.value( "ext" ).toString() ;
+			auto rsn       = obj.value( "resolution" ).toString() ;
+
+			auto fileSize  = s.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
+			auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
+			auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
+
+			auto container = obj.value( "container" ).toString() ;
+			auto proto     = obj.value( "protocol" ).toString() ;
+			auto vcodec    = obj.value( "vcodec" ).toString() ;
+			auto video_ext = obj.value( "video_ext" ).toString() ;
+			auto acodec    = obj.value( "acodec" ).toString() ;
+			auto audio_ext = obj.value( "audio_ext" ).toString() ;
+
+			if( acodec == "none" && !rsn.isEmpty() && rsn != "audio only" ){
+
+				rsn += "\nvideo only" ;
+			}
+
+			QString s ;
+
+			if( container.isEmpty() ){
+
+				s = QString( "Proto: %1, File Size: %2\n" ).arg( proto,fileSize ) ;
+			}else{
+				s = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ).arg( proto,fileSize,container ) ;
+			}
+
+			_append( s,"acodec: ",acodec ) ;
+			_append( s,"vcodec: ",vcodec ) ;
+			_append( s,"tbr: ",tbr ) ;
+			_append( s,"vbr: ",vbr ) ;
+
+			if( s.endsWith( ", " ) ){
+
+				s.truncate( s.size() - 2 ) ;
+			}
+
+			if( rsn != "audio only" && !rsn.contains( "video only" ) ){
+
+				mm.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			}else{
+				m.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			}
+		}
+
+		for( auto& it : mm ){
+
+			m.emplace_back( std::move( it ) ) ;
+		}
+
+		return m ;
+	}else{
+		return {} ;
+	}
+}
+
+QStringList youtube_dl::dumpJsonArguments()
+{
+	if( m_engine.name() == "youtube-dl" ){
+
+		return engines::engine::functions::dumpJsonArguments() ;
+	}else{
+		auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j})R" ;
+
+		return { "--print",a } ;
+	}
 }
 
 bool youtube_dl::breakShowListIfContains( const QStringList& e )
@@ -396,11 +603,12 @@ void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
+						 const QString& dopts,
 						 const engines::engine::functions::finishedState& f )
 {
 	if( f.cancelled() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 
 	}else if( f.success() ){
 
@@ -414,9 +622,9 @@ QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
 			}
 		}
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( "\n" ),f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}
 }
 
@@ -432,12 +640,10 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 		s.ourOptions.append( "--newline" ) ;
 	}
 
-	s.ourOptions.append( m_engine.optionsArgument() ) ;
+	if( !s.quality.isEmpty() && s.quality.compare( "Default",Qt::CaseInsensitive ) ){
 
-	if( s.quality.isEmpty() ){
+		s.ourOptions.append( m_engine.optionsArgument() ) ;
 
-		s.ourOptions.append( "bestvideo+bestaudio/best" ) ;
-	}else{
 		s.ourOptions.append( s.quality ) ;
 	}
 

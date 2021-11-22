@@ -28,6 +28,7 @@
 #include "utility.h"
 #include "context.hpp"
 #include "tableWidget.h"
+#include "networkAccess.h"
 
 class basicdownloader : public QObject
 {
@@ -35,19 +36,17 @@ class basicdownloader : public QObject
 public:
 	basicdownloader( const Context& ) ;
 	void init_done() ;
-	void updateEngines() ;
-	void downloadDefaultEngine() ;
 	void tabEntered() ;
 	void tabExited() ;
 	void enableQuit() ;
 	void enableAll() ;
 	void disableAll() ;
 	void appQuit() ;
-	void gotEvent( const QString& e ) ;
+	void gotEvent( const QByteArray& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
-	void checkAndPrintInstalledVersion( const engines::engine& ) ;
-	void printEngineVersionInfo() ;
+	void updateEnginesList( const QStringList& ) ;
+
 	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;
 	basicdownloader& hideTableList() ;
@@ -72,19 +71,16 @@ private:
 		return utility::options< basicdownloader::opts,Functions >( std::move( opts ),std::move( functions ) ) ;
 	}
 
-	size_t m_counter = 0 ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	QString m_debug ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
-	tableWidget m_tableList ;
+	tableMiniWidget< int > m_tableList ;
 	QStringList m_optionsList ;
 	QTableWidget m_bogusTableOriginal ;
 	tableWidget m_bogusTable ;
 	utility::Terminator m_terminator ;
-
-	void setDefaultEngine() ;
 
 	void run( const engines::engine& engine,
 		  const QStringList& args,
@@ -92,7 +88,7 @@ private:
 		  bool list_requested ) ;
 
 	void changeDefaultEngine( int index ) ;
-	void listRequested( const QList< QByteArray >& ) ;
+	void listRequested( const QByteArray& ) ;
 	void list() ;
 	void download( const engines::engine&,
 		       const utility::args&,
@@ -104,7 +100,6 @@ private:
 		       bool = true ) ;
 	void download( const QString& ) ;
 	void exit() ;
-	void printEngineVersionInfo( const engines::engine& ) ;
 } ;
 
 #endif

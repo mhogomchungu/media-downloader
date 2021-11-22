@@ -35,119 +35,18 @@ public:
 		    translator& t,
 		    engines& e,
 		    Logger& l,
-		    Ui::MainWindow& m,
+		    Ui::MainWindow& ui,
 		    QWidget& w,
 		    MainWindow& mw,
-		    QString debug ) :
-		m_currentTab( s.tabNumber() ),
-		m_ctx( s,t,m,w,mw,l,e,*this,debug ),
-		m_about( m_ctx ),
-		m_configure( m_ctx ),
-		m_basicdownloader( m_ctx ),
-		m_batchdownloader( m_ctx ),
-		m_playlistdownloader( m_ctx ),
-		m_library( m_ctx )
-	{
-		m_about.init_done() ;
-		m_configure.init_done() ;
-		m_basicdownloader.init_done() ;
-		m_batchdownloader.init_done() ;
-		m_playlistdownloader.init_done() ;
-		m_library.init_done() ;
-
-		m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
-
-		switch( s.tabNumber() ) {
-			case 0 : m_basicdownloader.tabEntered() ; break ;
-			case 1 : m_batchdownloader.tabEntered() ; break ;
-			case 2 : m_playlistdownloader.tabEntered() ; break ;
-			case 3 : m_library.tabEntered() ; break ;
-			case 4 : m_configure.tabEntered() ; break ;
-			case 5 : m_about.tabEntered() ; break ;
-		}
-
-		QObject::connect( m.tabWidget,&QTabWidget::currentChanged,[ this ]( int index ){
-
-			switch( index ) {
-				case 0 : m_basicdownloader.tabEntered() ; break ;
-				case 1 : m_batchdownloader.tabEntered() ; break ;
-				case 2 : m_playlistdownloader.tabEntered() ; break ;
-				case 3 : m_library.tabEntered() ; break ;
-				case 4 : m_configure.tabEntered() ; break ;
-				case 5 : m_about.tabEntered() ; break ;
-			}
-
-			if( m_currentTab != index ){
-
-				switch( m_currentTab ) {
-					case 0 : m_basicdownloader.tabExited() ; break ;
-					case 1 : m_batchdownloader.tabExited() ; break ;
-					case 2 : m_playlistdownloader.tabExited() ; break ;
-					case 3 : m_library.tabExited() ; break ;
-					case 4 : m_configure.tabExited() ; break ;
-					case 5 : m_about.tabExited() ; break ;
-				}
-
-				m_currentTab = index ;
-			}
-		} ) ;
-	}
-	tabManager& gotEvent( const QString& e )
-	{
-		m_basicdownloader.gotEvent( e ) ;
-		m_batchdownloader.gotEvent( e ) ;
-		m_playlistdownloader.gotEvent( e ) ;
-
-		return *this ;
-	}
-	tabManager& enableAll()
-	{
-		m_about.enableAll() ;
-		m_configure.enableAll() ;
-		m_basicdownloader.enableAll() ;
-		m_batchdownloader.enableAll() ;
-		m_playlistdownloader.enableAll() ;
-		m_library.enableAll() ;
-
-		m_uiEnabled = true ;
-
-		return *this ;
-	}
-	tabManager& disableAll()
-	{
-		m_about.disableAll() ;
-		m_configure.disableAll() ;
-		m_basicdownloader.disableAll() ;
-		m_batchdownloader.disableAll() ;
-		m_playlistdownloader.disableAll() ;
-		m_library.disableAll() ;
-
-		m_uiEnabled = false ;
-
-		return *this ;
-	}
-	tabManager& resetMenu()
-	{
-		m_about.resetMenu() ;
-		m_configure.resetMenu() ;
-		m_basicdownloader.resetMenu() ;
-		m_batchdownloader.resetMenu() ;
-		m_playlistdownloader.resetMenu() ;
-		m_library.resetMenu() ;
-
-		return *this ;
-	}
-	tabManager& reTranslateUi()
-	{		
-		m_about.retranslateUi() ;
-		m_configure.retranslateUi() ;
-		m_basicdownloader.retranslateUi() ;
-		m_batchdownloader.retranslateUi() ;
-		m_playlistdownloader.retranslateUi() ;
-		m_library.retranslateUi() ;
-
-		return *this ;
-	}
+		    utility::versionInfo& u,
+		    QString debug ) ;
+	void init_done( Ui::MainWindow& ui,settings& settings ) ;
+	void setDefaultEngines() ;
+	tabManager& gotEvent( const QByteArray& e ) ;
+	tabManager& enableAll();
+	tabManager& disableAll();
+	tabManager& resetMenu();
+	tabManager& reTranslateUi();
 	basicdownloader& basicDownloader()
 	{
 		return m_basicdownloader ;
@@ -178,6 +77,7 @@ private:
 	batchdownloader m_batchdownloader ;
 	playlistdownloader m_playlistdownloader ;
 	library m_library ;
+	QMetaObject::Connection m_initConnection ;
 } ;
 
 #endif

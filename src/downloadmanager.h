@@ -89,17 +89,17 @@ public:
 		{
 			return finishedWithSuccess( e.runningState( row ) ) ;
 		}
-		void setState( QTableWidgetItem& item ) const
+		QString setState() const
 		{
 			if( this->exitState().cancelled()){
 
-				item.setText( finishedCancelled() ) ;
+				return finishedCancelled() ;
 
 			}else if( this->exitState().success() ){
 
-				item.setText( finishedWithSuccess() ) ;
+				return finishedWithSuccess() ;
 			}else{
-				item.setText( finishedWithError() ) ;
+				return finishedWithError() ;
 			}
 		}
 		int index() const
@@ -283,26 +283,34 @@ public:
 	}
 	template< typename Options,typename Logger,typename TermSignal >
 	void download( const engines::engine& engine,
-		       const QString& cliOptions,
+		       QStringList cliOptions,
 		       const QString& url,
 		       TermSignal conn,
 		       Options opts,
-		       Logger logger )
+		       Logger logger,
+		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
 	{
 		m_index->next() ;
 
-		auto ctx = utility::make_ctx( engine,std::move( opts ),std::move( logger ),std::move( conn ) ) ;
+		cliOptions.append( url ) ;
 
-		utility::run( { cliOptions,url },QString(),std::move( ctx ) ) ;
+		auto ctx = utility::make_ctx( engine,
+					      std::move( opts ),
+					      std::move( logger ),
+					      std::move( conn ),
+					      channel ) ;
+
+		utility::run( cliOptions,QString(),std::move( ctx ) ) ;
 	}
-	template< typename Options,typename Logger,typename TermSignal >
+	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
 	void download( const engines::engine& engine,
+		       const OptionUpdater& optsUpdater,
 		       const engines::enginePaths& ep,
-		       QTableWidgetItem& index,
 		       const QString& url,
 		       TermSignal terminator,
 		       Options opts,
-		       Logger logger )
+		       Logger logger,
+		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
 	{
 		const auto& m = m_index->options() ;
 
@@ -312,15 +320,19 @@ public:
 
 		m_index->next() ;
 
-		index.setText( finishedStatus::running() ) ;
-
 		utility::args args( m ) ;
 
 		utility::updateOptionsStruct opt{ engine,ep,m_settings,args,iString,fd,{ url } } ;
 
-		auto ctx = utility::make_ctx( engine,std::move( opts ),std::move( logger ),std::move( terminator ) ) ;
+		auto ctx = utility::make_ctx( engine,
+					      std::move( opts ),
+					      std::move( logger ),
+					      std::move( terminator ),
+					      channel ) ;
 
-		utility::run( utility::updateOptions( opt ),args.quality(),std::move( ctx ) ) ;
+		utility::run( optsUpdater( utility::updateOptions( opt ) ),
+			      args.quality(),
+			      std::move( ctx ) ) ;
 	}
 private:
 	void uiEnableAll( bool e ) ;

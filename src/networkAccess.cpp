@@ -82,8 +82,10 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 	return networkRequest ;
 }
 
-void networkAccess::download( const engines::engine& engine )
+void networkAccess::download( const engines::Iterator& iter )
 {
+	const auto& engine = iter.engine() ;
+
 	auto exeFolderPath = [ &engine ](){
 
 		auto a = QDir::fromNativeSeparators( engine.exePath().realExe() ) ;
@@ -139,15 +141,21 @@ void networkAccess::download( const engines::engine& engine )
 		this->post( engine,"..." ) ;
 	} ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter ](){
 
 		networkReply->deleteLater() ;
 
 		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
 
 			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
+
 			m_tabManager.enableAll() ;
-			m_tabManager.basicDownloader().printEngineVersionInfo() ;
+
+			if( iter.hasNext() ){
+
+				m_ctx.versionInfo().check( iter.next() ) ;
+			}
+
 			return ;
 		}
 
@@ -158,8 +166,14 @@ void networkAccess::download( const engines::engine& engine )
 		if( !json ){
 
 			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString() ) ;
+
 			m_tabManager.enableAll() ;
-			m_tabManager.basicDownloader().printEngineVersionInfo() ;
+
+			if( iter.hasNext() ){
+
+				m_ctx.versionInfo().check( iter.next() ) ;
+			}
+
 			return ;
 		}
 
@@ -195,12 +209,15 @@ void networkAccess::download( const engines::engine& engine )
 			}
 		}
 
-		this->download( metadata,engine ) ;
+		this->download( metadata,iter ) ;
 	} ) ;
 }
 
-void networkAccess::download( const networkAccess::metadata& metadata,const engines::engine& engine )
+void networkAccess::download( const networkAccess::metadata& metadata,
+			      const engines::Iterator& iter )
 {
+	const auto& engine = iter.engine() ;
+
 	QString filePath = engine.exePath().realExe() + ".tmp" ;
 
 	m_file.setFileName( filePath ) ;
@@ -215,7 +232,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,const engi
 
 	auto networkReply = m_accessManager.get( this->networkRequest( metadata.url ) ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter ](){
 
 		networkReply->deleteLater() ;
 
@@ -225,7 +242,10 @@ void networkAccess::download( const networkAccess::metadata& metadata,const engi
 
 			m_tabManager.enableAll() ;
 
-			m_tabManager.basicDownloader().printEngineVersionInfo() ;
+			if( iter.hasNext() ){
+
+				m_ctx.versionInfo().check( iter.next() ) ;
+			}
 		}else{
 			m_file.close() ;
 
@@ -241,7 +261,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,const engi
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 
-			m_tabManager.basicDownloader().checkAndPrintInstalledVersion( engine ) ;
+			m_ctx.versionInfo().check( iter ) ;
 		}
 	} ) ;
 
@@ -252,12 +272,14 @@ void networkAccess::download( const networkAccess::metadata& metadata,const engi
 
 		m_file.write( networkReply->readAll() ) ;
 
+		utility::locale locale ;
+
 		auto perc = double( received )  * 100 / double( metadata.size ) ;
-		auto totalSize = QString::number( metadata.size ) ;
-		auto current   = QString::number( received ) ;
+		auto totalSize = locale.formattedDataSize( metadata.size ) ;
+		auto current   = locale.formattedDataSize( received ) ;
 		auto percentage = QString::number( perc,'f',2 ) ;
 
-		auto m = QString( "%1/%2 bytes(%3%)" ).arg( current,totalSize,percentage ) ;
+		auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
 
 		this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m ) ;
 	} ) ;

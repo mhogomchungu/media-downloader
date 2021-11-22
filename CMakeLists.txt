@@ -10,13 +10,10 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set( PGR_VERSION "1.9.0" )
+set( PGR_VERSION "2.0.0" )
 set( COPYRIGHT_YEARS "2021" )
 
 INCLUDE(GNUInstallDirs)
-
-#This is necessary with whatever version of cmake that is in debian 8
-add_definitions(-std=c++14)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions(-Qunused-arguments)
@@ -25,6 +22,8 @@ endif()
 if(WIN32)
     set(ENABLE_NETWORKING "true")
 else()
+    #This is necessary with whatever version of cmake that is in debian 8
+    add_definitions(-std=c++14)
     if(NOT DEFINED ENABLE_NETWORKING)
 	set(ENABLE_NETWORKING "true")
     endif()
@@ -92,7 +91,8 @@ set(RESOURCES
     src/3rdParty/QDarkStyleSheet-3.0.2/qdarkstyle/dark/style.qrc )
 
 if(WIN32)
-    add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
+    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/src/appicon.rc")
+    add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES} ${APP_ICON_RESOURCE_WINDOWS})
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -pedantic")
 else()
     add_executable(media-downloader ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})

@@ -33,7 +33,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_showThumbnails( m_settings.showThumbnails() ),
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1 ),
-	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font(),0 ),
+	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font() ),
 	m_debug( ctx.debug() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
@@ -54,8 +54,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		m_table.selectRow( c,p,m_table.startPosition() ) ;
 	} ) ;
-
-	m_table.hideColumns( 2,3,4 ) ;
 
 	this->setThumbnailColumnSize( m_showThumbnails ) ;
 
@@ -83,7 +81,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			if( !m.isEmpty() ){
 
-				m_table.setDownloadingOptions( m_table.currentRow(),m ) ;
+				auto u = tableWidget::type::DownloadOptions ;
+
+				m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
 			}
 
 			m_ui.BDFrame->hide() ;
@@ -96,7 +96,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			m_table.setDownloadingOptions( m_table.currentRow(),m ) ;
+			auto u = tableWidget::type::DownloadOptions ;
+
+			m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
 		}
 
 		m_ui.BDFrame->hide() ;
@@ -143,9 +145,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		Q_UNUSED( column )
 
-		m_ctx.Engines().openUrls( m_table,
-					  row,
-					  m_ui.cbEngineTypeBD->currentText() ) ;
+		const auto& engine = utility::resolveEngine( m_table,
+							     this->defaultEngine(),
+							     m_ctx.Engines(),
+							     row ) ;
+
+		m_ctx.Engines().openUrls( m_table,row,engine ) ;
 	} ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
@@ -200,8 +205,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		connect( ac,&QAction::triggered,[ this,row ](){
 
-			auto m = m_ui.cbEngineTypeBD->currentText() ;
-			m_ctx.Engines().openUrls( m_table,row,m ) ;
+			const auto& engine = utility::resolveEngine( m_table,
+								     this->defaultEngine(),
+								     m_ctx.Engines(),
+								     row ) ;
+
+			m_ctx.Engines().openUrls( m_table,row,engine ) ;
 		} ) ;
 
 		ac = m.addAction( tr( "Cancel" ) ) ;
@@ -280,6 +289,27 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		utility::saveDownloadList( m_ctx,m,m_table ) ;
 
+		auto mm = m.addMenu( tableWidget::engineName().replace( ":","" ) ) ;
+
+		mm->setEnabled( !finishSuccess ) ;
+
+		for( const auto& it : m_ctx.Engines().getEngines() ){
+
+			if( it.mainEngine() ){
+
+				const auto& e = it.name() ;
+
+				mm->addAction( e )->setObjectName( e ) ;
+			}
+		}
+
+		connect( mm,&QMenu::triggered,[ this ]( QAction * ac ){
+
+			auto u = tableWidget::type::EngineName ;
+
+			m_table.setDownloadingOptions( u,m_table.currentRow(),ac->objectName() ) ;
+		} ) ;
+
 		auto subMenu = utility::setUpMenu( m_ctx,{},false,false,true,&m ) ;
 
 		subMenu->setTitle( QObject::tr( "Preset Options" ) ) ;
@@ -290,11 +320,13 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			auto m = util::split( ac->objectName(),'\n',true ) ;
 
+			auto u = tableWidget::type::DownloadOptions ;
+
 			if( m.size() > 1 ){
 
-				m_table.setDownloadingOptions( row,m[ 0 ],m[ 1 ] ) ;
+				m_table.setDownloadingOptions( u,row,m[ 0 ],m[ 1 ] ) ;
 			}else{
-				m_table.setDownloadingOptions( row,m[ 0 ] ) ;
+				m_table.setDownloadingOptions( u,row,m[ 0 ] ) ;
 			}
 		} ) ;
 
@@ -374,13 +406,26 @@ void batchdownloader::tabExited()
 {
 }
 
-void batchdownloader::gotEvent( const QString& m )
+void batchdownloader::gotEvent( const QByteArray& m )
 {
-	if( !m.isEmpty() ){
+	QJsonParseError err ;
+	auto jsonDoc = QJsonDocument::fromJson( m,&err ) ;
 
-		m_ui.tabWidget->setCurrentIndex( 1 ) ;
+	if( err.error == QJsonParseError::NoError ){
 
-		this->addToList( m ) ;
+		QJsonObject jsonArgs = jsonDoc.object() ;
+
+		auto url = jsonArgs.value( "-u" ).toString() ;
+
+		if( !url.isEmpty() ){
+
+			m_ui.tabWidget->setCurrentIndex( 1 ) ;
+
+			auto autoDownload = jsonArgs.value( "-a" ).toBool( false ) ;
+			auto showThumbnail = jsonArgs.value( "-s" ).toBool( false ) ;
+
+			this->addToList( url,autoDownload,showThumbnail ) ;
+		}
 	}
 }
 
@@ -397,14 +442,38 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 
 	auto s = settings::tabName::batch ;
 
-	this->setUpdefaultEngine( comboBox,
-				  this->defaultEngineName(),
-				  [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
+	utility::setUpdefaultEngine( comboBox,
+				     this->defaultEngineName(),
+				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
-void batchdownloader::showThumbnail( const engines::engine& engine,const QStringList& list )
+void batchdownloader::showThumbnail( const engines::engine& engine,
+				     Items list,
+				     bool autoDownload,
+				     bool showThumbnails )
 {
-	if( m_showThumbnails ){
+	if( list.isEmpty() ){
+
+		return ;
+	}
+
+	if( autoDownload && !showThumbnails && list.hasOneEntry() ){
+
+		const auto& s = list.first() ;
+
+		auto state = downloadManager::finishedStatus::running() ;
+
+		int row = m_table.addItem( { m_defaultVideoThumbnail,s.uiText,s.url,state } ) ;
+
+		m_table.selectLast() ;
+
+		downloadManager::index index( m_table ) ;
+
+		index.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
+
+		this->download( engine,std::move( index ) ) ;
+
+	}else if( m_showThumbnails && engine.likeYoutubeDl() ){
 
 		for( const auto& it : list ){
 
@@ -412,9 +481,11 @@ void batchdownloader::showThumbnail( const engines::engine& engine,const QString
 
 			auto state = downloadManager::finishedStatus::running() ;
 
-			int row = m_table.addItem( m_defaultVideoThumbnail,{ "...\n" + it,it,state } ) ;
+			auto uiText = it.uiText ;
 
-			util::Timer( 1000,[ this,row ]( int counter ){
+			int row = m_table.addItem( { m_defaultVideoThumbnail,"...\n" + it.uiText,it.url,state } ) ;
+
+			util::Timer( 1000,[ this,row,uiText ]( int counter ){
 
 				if( downloadManager::finishedStatus::running( m_table.runningState( row ) ) ){
 
@@ -427,7 +498,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,const QString
 						m += " ..." ;
 					}
 
-					m_table.uiTextItem( row ).setText( m + "\n" + m_table.url( row ) ) ;
+					m_table.setUiText( m + "\n" + uiText,row ) ;
 
 					return false ;
 				}else{
@@ -439,17 +510,19 @@ void batchdownloader::showThumbnail( const engines::engine& engine,const QString
 
 			indexes.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
 
+			auto url = it.url ;
+
 			m_ccmd.download( std::move( indexes ),engine,[ this ](){
 
 				return m_settings.maxConcurrentDownloads() ;
 
-			}(),[ this,it ]( const engines::engine& engine,int index ){
+			}(),[ this,url,autoDownload ]( const engines::engine& engine,int index ){
 
-				this->showThumbnail( engine,index,it,false ) ;
+				this->showThumbnail( engine,index,url,autoDownload ) ;
 			} ) ;
 		}
 	}else{
-		this->addItemUiSlot( { engine,list } ) ;
+		this->addItemUiSlot( { engine,std::move( list ) } ) ;
 	}
 }
 
@@ -457,7 +530,9 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 {
 	if( m.hasNext() ){
 
-		this->addItemUi( m_defaultVideoThumbnail,-1,false,m.next() ) ;
+		auto s = m.next() ;
+
+		this->addItemUi( m_defaultVideoThumbnail,-1,false,{ s.uiText,s.url } ) ;
 
 		QMetaObject::invokeMethod( this,"addItemUiSlot",Qt::QueuedConnection,Q_ARG( ItemEntry,m ) ) ;
 	}
@@ -469,21 +544,60 @@ void batchdownloader::getListFromFile( QMenu& m )
 
 	QObject::connect( ac,&QAction::triggered,[ this ](){
 
-		auto e = QFileDialog::getOpenFileName( &m_ctx.mainWindow(),tr( "Set Batch File" ),QDir::homePath() ) ;
+		auto e = QFileDialog::getOpenFileName( &m_ctx.mainWindow(),
+						       tr( "Set Batch File" ),
+						       utility::homePath() ) ;
 
-		if( !e.isEmpty() ){
+		if( e.isEmpty() ){
 
-			QString list = engines::file( e,m_ctx.logger() ).readAll() ;
+			return ;
+		}
 
-			if( !list.isEmpty() ){
+		auto list = engines::file( e,m_ctx.logger() ).readAll() ;
 
-				auto l = util::split( list,'\n',true ) ;
+		if( list.isEmpty() ){
+
+			return ;
+		}
+
+		if( list.startsWith( '[' ) ){
+
+			QJsonParseError err ;
+
+			auto json = QJsonDocument::fromJson( list,&err ) ;
+
+			if( err.error == QJsonParseError::NoError ){
+
+				const auto array = json.array() ;
+
+				Items items ;
+
+				for( const auto& it : array ){
+
+					auto obj = it.toObject() ;
+
+					auto url = obj.value( "url" ).toString() ;
+					auto uiText = obj.value( "uiText" ).toString() ;
+
+					items.add( uiText,url ) ;
+				}
 
 				const auto& engine = this->defaultEngine() ;
 
-				this->showThumbnail( engine,l ) ;
+				return this->showThumbnail( engine,std::move( items ) ) ;
 			}
 		}
+
+		Items items ;
+
+		for( const auto& it : util::split( list,'\n',true ) ){
+
+		     items.add( it ) ;
+		}
+
+		const auto& engine = this->defaultEngine() ;
+
+		this->showThumbnail( engine,std::move( items ) ) ;
 	} ) ;
 }
 
@@ -497,7 +611,10 @@ const engines::engine& batchdownloader::defaultEngine()
 	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
 }
 
-void batchdownloader::showThumbnail( const engines::engine& engine,int index,const QString& url,bool autoDownload )
+void batchdownloader::showThumbnail( const engines::engine& engine,
+				     int index,
+				     const QString& url,
+				     bool autoDownload )
 {
 	auto aa = [ &engine,index,this,url,autoDownload ]( utility::ProcessExitState e,const batchdownloader::opts& opts ){
 
@@ -548,7 +665,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,int index,con
 	BatchLoggerWrapper wrapper( m_ctx.logger() ) ;
 
 	m_ccmd.download( engine,
-			 "--dump-json",
+			 engine.dumpJsonArguments(),
 			 index == -1 ? url : m_table.url( index ),
 			 m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
 			 batchdownloader::make_options( { m_ctx,m_debug,false,index,wrapper },std::move( functions ) ),
@@ -590,7 +707,7 @@ void batchdownloader::showList()
 		return ;
 	}
 
-	const auto& engine = this->defaultEngine() ;
+	const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
 
 	auto args = engine.defaultListCmdOptions() ;
 
@@ -618,9 +735,15 @@ void batchdownloader::showList()
 
 	m_ctx.TabManager().disableAll() ;
 
-	auto functions = utility::OptionsFunctions( [ this,&engine ]( const QList< QByteArray >& args ){
+	auto functions = utility::OptionsFunctions( [ this,&engine ]( const QByteArray& a ){
 
-			m_tableWidgetBDList.showOptions( engine,args ) ;
+			if( !a.contains( "ERROR:" ) ){
+
+				for( const auto& m : engine.mediaProperties( a ) ){
+
+					m_tableWidgetBDList.add( m ) ;
+				}
+			}
 
 		},[ this ]( const batchdownloader::opts& opts ){
 
@@ -645,25 +768,29 @@ void batchdownloader::showList()
 	utility::run( args,QString(),std::move( ctx ) ) ;
 }
 
-static void _addItemUi( const QPixmap& pixmap,
-			int index,
-			tableWidget& table,
-			Ui::MainWindow& ui,
-			const utility::MediaEntry& media )
+static int _addItemUi( const QPixmap& pixmap,
+		       int index,
+		       tableWidget& table,
+		       Ui::MainWindow& ui,
+		       const utility::MediaEntry& media )
 {
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
+	int row ;
 	if( index == -1 ){
 
-		table.addItem( pixmap,{ media.uiText(),media.url(),state },Qt::AlignCenter ) ;
+		row = table.addItem( { pixmap,media.uiText(),media.url(),state } ) ;
 		table.selectLast() ;
 	}else{
-		table.replace( pixmap,{ media.uiText(),media.url(),state },index ) ;
+		row = index ;
+		table.replace( { pixmap,media.uiText(),media.url(),state },index ) ;
 	}
 
 	ui.lineEditBDUrl->clear() ;
 
 	ui.lineEditBDUrl->setFocus() ;
+
+	return row ;
 }
 
 void batchdownloader::addItemUi( const QPixmap& pixmap,
@@ -671,7 +798,9 @@ void batchdownloader::addItemUi( const QPixmap& pixmap,
 				 bool enableAll,
 				 const utility::MediaEntry& media )
 {
-	_addItemUi( pixmap,index,m_table,m_ui,media ) ;
+	auto row = _addItemUi( pixmap,index,m_table,m_ui,media ) ;
+
+	m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
 
 	m_ui.pbBDDownload->setEnabled( true ) ;
 
@@ -694,12 +823,13 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 	}else{
 		if( networkAccess::hasNetworkSupport() ){
 
-			auto& network = m_ctx.TabManager().Configure().network() ;
+			auto& network = m_ctx.versionInfo().network() ;
 
 			m_networkRunning++ ;
 
-			network.getResource( media.thumbnailUrl(),
-					     [ this,media = media,index ]( const QByteArray& data ){
+			const auto& u = media.thumbnailUrl() ;
+
+			network.getResource( u,[ this,media,index ]( const QByteArray& data ){
 
 				QPixmap pixmap ;
 
@@ -730,9 +860,9 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 	}
 }
 
-void batchdownloader::addToList( const QString& url )
+void batchdownloader::addToList( const QString& url,bool autoDownload,bool showThumbnails )
 {
-	this->showThumbnail( this->defaultEngine(),{ url } ) ;
+	this->showThumbnail( this->defaultEngine(),url,autoDownload,showThumbnails ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,downloadManager::index indexes )
@@ -784,8 +914,10 @@ void batchdownloader::download( const engines::engine& engine )
 	this->download( engine,std::move( indexes ) ) ;
 }
 
-void batchdownloader::download( const engines::engine& engine,int index )
+void batchdownloader::download( const engines::engine& eng,int index )
 {
+	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
+
 	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const batchdownloader::opts& ){
 
 		auto aa = [ this ]( const engines::engine& engine,int index ){
@@ -818,14 +950,21 @@ void batchdownloader::download( const engines::engine& engine,int index )
 
 	auto oopts = batchdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
 
+	auto updater = [ this,index ]( const QString& e ){
+
+		m_table.setUiText( e,index ) ;
+	} ;
+
 	auto logger = make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
 						  m_ctx.logger(),
-						  m_table.uiTextItem( index ),
+						  std::move( updater ),
 						  utility::concurrentID() ) ;
 
+	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
+
 	m_ccmd.download( engine,
+			 []( QStringList opts ){ return opts ; },
 			 m_ctx.Engines().engineDirPaths(),
-			 m_table.runningStateItem( index ),
 			 m_table.url( index ),
 			 m_terminator.setUp(),
 			 std::move( oopts ),

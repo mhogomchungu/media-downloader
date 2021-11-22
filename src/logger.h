@@ -27,6 +27,7 @@
 #include <QDebug>
 
 #include "logwindow.h"
+#include "util.hpp"
 
 class Logger
 {
@@ -135,7 +136,7 @@ public:
 			auto _false = []( const QString& ){ return false ; } ;
 
 			_replaceOrAdd( text,id,_false,_false ) ;
-		}
+		}		
 	private:
 		template< typename Function,typename Add >
 		void _replaceOrAdd( const QString& text,int id,Function function,Add add )
@@ -242,6 +243,41 @@ public:
 	Logger& operator=( const Logger& ) = delete ;
 	Logger( Logger&& ) = delete ;
 	Logger& operator=( Logger&& ) = delete ;
+
+	class updateLogger
+	{
+	public:
+		struct args
+		{
+			template< typename Engine >
+			args( const Engine& engine ) :
+				controlStructure( engine.controlStructure() ),
+				skipLinesWithText( engine.skiptLineWithText() ),
+				splitLinesBy( engine.splitLinesBy() ),
+				likeYoutubeDl( engine.likeYoutubeDl() )
+			{
+			}
+			const QJsonObject& controlStructure ;
+			const QStringList& skipLinesWithText ;
+			const QStringList& splitLinesBy ;
+			const bool likeYoutubeDl ;
+		} ;
+		template< typename Engine >
+		updateLogger( const QByteArray& data,const Engine& engine,Logger::Data& outPut,int id ) :
+			m_args( engine ),m_outPut( outPut ),m_id( id )
+		{
+			this->run( data ) ;
+		}
+	private:
+		void run( const QByteArray& data ) ;
+		bool meetCondition( const QString& line,const QJsonObject& obj ) const ;
+		bool meetCondition( const QString& line ) const ;
+		bool skipLine( const QByteArray& line ) const ;
+		void add( const QByteArray& data,QChar token ) const ;
+		updateLogger::args m_args ;
+		Logger::Data& m_outPut ;
+		int m_id ;
+	};
 private:
 	void update() ;
 	logWindow m_logWindow ;
@@ -277,12 +313,12 @@ private:
 	int m_id ;
 };
 
-template< typename Function >
+template< typename Function,typename functionUpdate >
 class loggerBatchDownloader
 {
 public:
-	loggerBatchDownloader( Function function,Logger& logger,QTableWidgetItem& item,int id ) :
-		m_tableWidgetItem( item ),
+	loggerBatchDownloader( Function function,Logger& logger,functionUpdate ff,int id ) :
+		m_functionUpdate( ff ),
 		m_function( std::move( function ) ),
 		m_logger( logger ),
 		m_id( id )
@@ -303,7 +339,7 @@ public:
 	}
 	void clear()
 	{
-		m_tableWidgetItem.setText( "" ) ;
+		m_functionUpdate( "" ) ;
 		m_lines.clear() ;
 	}
 	template< typename F >
@@ -318,20 +354,23 @@ private:
 	{
 		if( m_lines.isNotEmpty() ){
 
-			m_tableWidgetItem.setText( m_function( m_lines ) ) ;
+			m_functionUpdate( m_function( m_lines ) ) ;
 		}
 	}
-	QTableWidgetItem& m_tableWidgetItem ;
+	functionUpdate m_functionUpdate ;
 	Function m_function ;
 	Logger& m_logger ;
 	Logger::Data m_lines ;
 	int m_id ;
 } ;
 
-template< typename Function >
-auto make_loggerBatchDownloader( Function function,Logger& logger,QTableWidgetItem& item,int id )
+template< typename Function,typename functionUpdate >
+auto make_loggerBatchDownloader( Function function,Logger& logger,functionUpdate fu,int id )
 {
-	return loggerBatchDownloader< Function >( std::move( function ),logger,item,id ) ;
+	return loggerBatchDownloader< Function,functionUpdate >( std::move( function ),
+								 logger,
+								 std::move( fu ),
+								 id ) ;
 }
 
 template< typename AddToTable,typename TableWidget >

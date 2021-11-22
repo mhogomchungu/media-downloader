@@ -23,6 +23,7 @@
 #include "context.hpp"
 #include "downloadmanager.h"
 #include "tableWidget.h"
+#include "tabmanager.h"
 
 #include <QEventLoop>
 #include <QDesktopServices>
@@ -324,7 +325,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 	auto menu = new QMenu( parent ) ;
 
 	auto& translator = ctx.Translator() ;
-	auto& settings = ctx.Settings() ;
+	auto& configure = ctx.TabManager().Configure() ;
 
 	translator::entry ss( QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
 	auto ac = translator.addAction( menu,std::move( ss ) ) ;
@@ -333,7 +334,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 	menu->addSeparator() ;
 
-	settings.presetOptions( [ & ]( const QString& uiName,const QString& options ){
+	configure.presetOptionsForEach( [ & ]( const QString& uiName,const QString& options ){
 
 		auto a = uiName ;
 
@@ -521,26 +522,36 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 		auto e = QFileDialog::getSaveFileName( &ctx.mainWidget(),
 						       QObject::tr( "Save List To File" ),
-						       QDir::homePath() + "/MediaDowloaderList.txt" ) ;
+						       utility::homePath() + "/MediaDowloaderList.txt" ) ;
 
 		if( !e.isEmpty() ){
 
-			auto m = [ & ](){
+			QJsonArray arr ;
 
-				if( QFile::exists( e ) ){
+			tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
 
-					return util::split( engines::file( e,ctx.logger() ).readAll(),'\n',true ) ;
-				}else{
-					return QStringList{} ;
+				using df = downloadManager::finishedStatus ;
+				auto m = df::finishedWithSuccess( e.runningState ) ;
+
+				if( e.url.isEmpty() || m ){
+
+					return ;
 				}
-			}() ;
 
-			for( int i = 0 ; i < tableWidget.rowCount() ; i++ ){
+				arr.append( [ & ](){
 
-				m.append( tableWidget.url( i ) ) ;
-			}
+					QJsonObject obj ;
 
-			engines::file( e,ctx.logger() ).write( m.join( "\n" ) ) ;
+					obj.insert( "url",e.url ) ;
+					obj.insert( "uiText",e.uiText ) ;
+
+					return obj ;
+				}() ) ;
+			} ) ;
+
+			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
+
+			engines::file( e,ctx.logger() ).write( stuff ) ;
 		}
 	} ) ;
 }
@@ -548,4 +559,194 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 bool utility::isRelativePath( const QString& e )
 {
 	return QDir::isRelativePath( e ) ;
+}
+
+utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
+{
+	if( m_json ){
+
+		auto object = m_json.doc().object() ;
+
+		m_title        = object.value( "title" ).toString() ;
+		m_url          = object.value( "webpage_url" ).toString() ;
+		m_uploadDate   = object.value( "upload_date" ).toString() ;
+		m_id           = object.value( "id" ).toString() ;
+		m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
+
+		if( !m_uploadDate.isEmpty() ){
+
+			m_uploadDate = QObject::tr( "Upload Date:" ) + " " + m_uploadDate ;
+		}
+
+		m_intDuration = object.value( "duration" ).toInt() ;
+
+		if( m_intDuration != 0 ){
+
+			auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
+			m_duration = QObject::tr( "Duration:" ) + " " + s ;
+		}
+	}
+}
+
+QString utility::MediaEntry::uiText() const
+{
+	auto title = [ & ](){
+
+		if( m_title.isEmpty() || m_title == "\n" ){
+
+			return m_url ;
+		}else{
+			return m_title ;
+		}
+	}() ;
+
+	if( m_duration.isEmpty() ){
+
+		if( m_uploadDate.isEmpty() ){
+
+			return title ;
+		}else{
+			return m_uploadDate + "\n" + title ;
+		}
+	}else{
+		if( m_uploadDate.isEmpty() ){
+
+			return m_duration + "\n" + title ;
+		}else{
+			return m_duration + ", " + m_uploadDate + "\n" + title ;
+		}
+	}
+}
+
+const engines::engine& utility::resolveEngine( const tableWidget& table,
+					       const engines::engine& engine,
+					       const engines& engines,
+					       int row )
+{
+	const auto& engineName = table.engineName( row ) ;
+
+	if( engineName.isEmpty() ){
+
+		return engine ;
+	}else{
+		const auto& ee = engines.getEngineByName( engineName ) ;
+
+		if( ee.has_value() ){
+
+			return ee.value() ;
+		}else{
+			return engine ;
+		}
+	}
+}
+
+QString utility::locale::formattedDataSize( qint64 s ) const
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,14,0 )
+	return m_locale.formattedDataSize( s ) ;
+#else
+	std::array< const char *,7 > sizes = { "EiB", "PiB", "TiB", "GiB", "MiB", "KiB", "B" } ;
+
+	qint64  multiplier = 1024ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL * 1024ULL ;
+
+	QString result ;
+
+	for( size_t i = 0 ; i < sizes.size() ; i++,multiplier /= 1024 ){
+
+		if( s < multiplier ){
+
+			continue ;
+		}
+
+		if( s % multiplier == 0 ){
+
+			auto a = QString::number( s / multiplier ) ;
+			auto b = sizes[ i ] ;
+
+			result = QString( "%1 %2" ).arg( a,b ) ;
+		}else{
+			auto a = static_cast< double >( s ) / static_cast< double >( multiplier ) ;
+			auto b = sizes[ i ] ;
+			auto c = QString::number( a,'f',2 ) ;
+
+			result = QString( "%1 %2" ).arg( c,b ) ;
+		}
+
+	    return result ;
+	}
+
+	return {} ;
+#endif
+}
+
+void utility::versionInfo::check( const engines::Iterator& iter )
+{
+	const auto& engine = iter.engine() ;
+
+	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() && networkAccess::hasNetworkSupport() ){
+
+		if( engine.backendExists() ){
+
+			this->printEngineVersionInfo( iter ) ;
+
+		}else if( !engine.exePath().realExe().isEmpty() ){
+
+			m_networkAccess->download( iter ) ;
+		}
+	}else{
+		if( engine.exePath().isEmpty() ){
+
+			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
+		}else{
+			this->printEngineVersionInfo( iter ) ;
+		}
+	}
+}
+
+utility::versionInfo::~versionInfo()
+{
+}
+
+void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter )
+{
+	const auto& engine = iter.engine() ;
+
+	m_ctx->TabManager().disableAll() ;
+
+	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
+
+	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name() ) ;
+
+	util::run( cmd.exe(),cmd.args(),[ iter,this ]( const util::run_result& r ){
+
+		const auto& engine = iter.engine() ;
+
+		if( r.success() ){
+
+			auto& logger = m_ctx->logger() ;
+
+			logger.add( QObject::tr( "Found version" ) + ": " + engine.versionString( r.stdOut ) ) ;
+
+			if( !m_ctx->debug().isEmpty() ){
+
+				logger.add( QObject::tr( "Executable Path" ) + ": " + engine.exePath().realExe() ) ;
+			}
+
+			m_ctx->TabManager().enableAll() ;
+		}else{
+			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
+
+			m_ctx->TabManager().enableAll() ;
+
+			engine.setBroken() ;
+		}
+
+		if( iter.hasNext() ){
+
+			this->check( iter.next() ) ;
+		}else{
+			emit vinfoDone() ;
+		}
+
+	},QProcess::ProcessChannelMode::MergedChannels ) ;
 }

@@ -43,6 +43,8 @@
 
 #include "util.hpp"
 
+#include "networkAccess.h"
+
 class Context ;
 
 class tabManager ;
@@ -153,7 +155,7 @@ namespace utility
 		{
 		}
 		template< typename T >
-		bool hasOption( const T& opt,bool remove ) const
+		bool hasOption( const T& opt,bool remove = false ) const
 		{
 			for( int i = 0 ; i < m_args.size() ; i++ ){
 
@@ -181,7 +183,7 @@ namespace utility
 			this->hasOption( opt,true ) ;
 		}
 		template< typename T >
-		QString hasValue( const T& opt,bool remove ) const
+		QString hasValue( const T& opt,bool remove = false ) const
 		{
 			QString result ;
 
@@ -237,6 +239,11 @@ namespace utility
 		}
 	}
 
+	const engines::engine& resolveEngine( const tableWidget&,
+					      const engines::engine&,
+					      const engines& engines,
+					      int row ) ;
+
 	QString failedToFindExecutableString( const QString& cmd ) ;
 	int concurrentID() ;
 	void saveDownloadList( const Context&,QMenu&,tableWidget& ) ;
@@ -254,6 +261,14 @@ namespace utility
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
 	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
+
+	class locale
+	{
+	public:
+		QString formattedDataSize( qint64 ) const ;
+	private:
+		QLocale m_locale ;
+	};
 
 	struct updateOptionsStruct
 	{
@@ -320,12 +335,13 @@ namespace utility
 	};
 
 	enum class PlayListButtonName{ DownloadRange,PlaylistUrl,None } ;
-	template< typename Settings,typename TabName >
-	inline bool showHistory( QLineEdit& lineEdit,
-				 const QStringList& history,
-				 Settings& settings,
-				 TabName tabName,
-				 PlayListButtonName pbn = PlayListButtonName::None )
+	template< typename Settings,typename TabName,typename Function >
+	bool showHistory( QLineEdit& lineEdit,
+			  const QStringList& history,
+			  Settings& settings,
+			  TabName tabName,
+			  Function function,
+			  PlayListButtonName pbn = PlayListButtonName::None )
 	{
 		if( history.isEmpty() ){
 
@@ -378,12 +394,25 @@ namespace utility
 
 			m.addSeparator() ;
 
+			function( m ) ;
+
+			m.addSeparator() ;
+
 			m.addAction( QObject::tr( "Clear" ) )->setObjectName( "Clear" ) ;
 
 			m.exec( QCursor::pos() ) ;
 
 			return s ;
 		}
+	}
+	template< typename Settings,typename TabName >
+	bool showHistory( QLineEdit& lineEdit,
+			  const QStringList& history,
+			  Settings& settings,
+			  TabName tabName,
+			  PlayListButtonName pbn = PlayListButtonName::None )
+	{
+		return utility::showHistory( lineEdit,history,settings,tabName,[]( QMenu& ){},pbn ) ;
 	}
 
 	template< typename Function,typename AddAction >
@@ -615,6 +644,72 @@ namespace utility
 		}
 	};
 
+	template< typename Function >
+	void setUpdefaultEngine( QComboBox& comboBox,
+				 const QString& defaultEngine,
+				 Function function )
+	{
+		for( int s = 0 ; s < comboBox.count() ; s++ ){
+
+			if( comboBox.itemText( s ) == defaultEngine ){
+
+				comboBox.setCurrentIndex( s ) ;
+
+				return ;
+			}
+		}
+
+		if( comboBox.count() > 0 ){
+
+			comboBox.setCurrentIndex( 0 ) ;
+			function( comboBox.itemText( 0 ) ) ;
+		}
+	}
+
+	class versionInfo : public QObject
+	{
+		Q_OBJECT
+	public:
+		~versionInfo() override ;
+
+		versionInfo( Ui::MainWindow& ui ) : m_ui( ui )
+		{
+		}
+		void setContext( const Context& ctx )
+		{
+			m_ctx = &ctx ;
+			m_networkAccess = ctx ;
+		}
+		template< typename Then >
+		void setVersion( const engines::engine& engine,Then then ){
+
+			engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
+
+			util::run( cmd.exe(),cmd.args(),[ &engine,then = std::move( then ) ]( const util::run_result& r ){
+
+				if( r.success() ){
+
+					engine.versionString( r.stdOut ) ;
+				}
+
+				then( r.success() ) ;
+
+			},QProcess::ProcessChannelMode::MergedChannels ) ;
+		}
+		void check( const engines::Iterator& iter ) ;
+		networkAccess& network()
+		{
+			return m_networkAccess.get() ;
+		}
+	signals:
+		void vinfoDone() ;
+	private:
+		void printEngineVersionInfo( const engines::Iterator& iter ) ;
+		const Context * m_ctx ;
+		util::storage< networkAccess > m_networkAccess ;
+		Ui::MainWindow& m_ui ;
+	};
+
 	class ProcessExitState
 	{
 	public:
@@ -753,7 +848,7 @@ namespace utility
 
 			if( m_options.listRequested() ){
 
-				m_options.listRequested( util::split( m_data,'\n' ) ) ;
+				m_options.listRequested( std::move( m_data ) ) ;
 			}
 
 			auto m = m_timeCounter.elapsedTime() ;
@@ -827,7 +922,7 @@ namespace utility
 		       Options options,
 		       Tlogger logger,
 		       Connection conn,
-		       ProcessOutputChannels channels = ProcessOutputChannels() )
+		       utility::ProcessOutputChannels channels = utility::ProcessOutputChannels() )
 	{
 		using ctx = utility::context< Tlogger,Options,Connection > ;
 
@@ -922,7 +1017,6 @@ namespace utility
 	{
 		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
 	}
-
 	class MediaEntry
 	{
 	public:
@@ -937,32 +1031,10 @@ namespace utility
 			m_json( QByteArray() )
 		{
 		}
-		MediaEntry( const QByteArray& data ) : m_json( data )
-		{
-			if( m_json ){
 
-				auto object = m_json.doc().object() ;
+		MediaEntry( const QByteArray& data ) ;
+		QString uiText() const ;
 
-				m_title        = object.value( "title" ).toString() ;
-				m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
-				m_url          = object.value( "webpage_url" ).toString() ;
-				m_uploadDate   = object.value( "upload_date" ).toString() ;
-				m_id           = object.value( "id" ).toString() ;
-
-				if( !m_uploadDate.isEmpty() ){
-
-					m_uploadDate = QObject::tr( "Upload Date:" ) + " " + m_uploadDate ;
-				}
-
-				m_intDuration = object.value( "duration" ).toInt() ;
-
-				if( m_intDuration != 0 ){
-
-					auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
-					m_duration = QObject::tr( "Duration:" ) + " " + s ;
-				}
-			}
-		}
 		const QString& thumbnailUrl() const
 		{
 			return m_thumbnailUrl ;
@@ -974,35 +1046,6 @@ namespace utility
 		const QString& url() const
 		{
 			return m_url ;
-		}
-		QString uiText() const
-		{
-			auto title = [ & ](){
-
-				if( m_title.isEmpty() || m_title == "\n" ){
-
-					return m_url ;
-				}else{
-					return m_title ;
-				}
-			}() ;
-
-			if( m_duration.isEmpty() ){
-
-				if( m_uploadDate.isEmpty() ){
-
-					return title ;
-				}else{
-					return m_uploadDate + "\n" + title ;
-				}
-			}else{
-				if( m_uploadDate.isEmpty() ){
-
-					return m_duration + "\n" + title ;
-				}else{
-					return m_duration + ", " + m_uploadDate + "\n" + title ;
-				}
-			}
 		}
 		const QString& uploadDate() const
 		{
@@ -1052,15 +1095,15 @@ namespace utility
 		const auto& index = f.index() ;
 		const auto& es = f.exitState() ;
 
-		f.setState( table.runningStateItem( index ) ) ;
+		table.setRunningState( f.setState(),index ) ;
 
-		const auto backUpUrl = table.url( index ) ;
+		auto backUpUrl = table.url( index ) ;
 
-		auto& item = table.uiTextItem( index ) ;
+		auto ss = table.downloadingOptionsUi( index ) ;
 
-		auto a = item.text() ;
+		auto a = table.uiText( index ) ;
 
-		item.setText( engine.updateTextOnCompleteDownlod( a,backUpUrl,es ) ) ;
+		table.setUiText( engine.updateTextOnCompleteDownlod( a,backUpUrl,ss,es ),index ) ;
 
 		if( !es.cancelled() ){
 
@@ -1098,9 +1141,9 @@ namespace utility
 		{
 			m_functions.done( std::move( e ),m_opts ) ;
 		}
-		void listRequested( const QList< QByteArray >& e )
+		void listRequested( QByteArray e )
 		{
-			m_functions.list( e ) ;
+			m_functions.list( std::move( e ) ) ;
 		}
 		bool listRequested()
 		{
@@ -1148,7 +1191,7 @@ namespace utility
 	template< typename DisableAll,typename Done >
 	auto OptionsFunctions( DisableAll disableAll,Done done )
 	{
-		auto aa = []( const QList< QByteArray >& ){} ;
+		auto aa = []( QByteArray ){} ;
 
 		using type = Functions< decltype( aa ),DisableAll,Done > ;
 

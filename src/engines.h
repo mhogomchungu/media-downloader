@@ -54,6 +54,7 @@ public:
 		void write( const QJsonObject&,
 			    QJsonDocument::JsonFormat = QJsonDocument::Indented ) ;
 		QByteArray readAll() ;
+		QStringList readAllAsLines() ;
 	private:
 		QString m_filePath ;
 		QFile m_file ;
@@ -278,6 +279,8 @@ public:
 
 			virtual ~functions() ;
 
+			virtual std::vector< QStringList > mediaProperties( const QByteArray& ) ;
+
 			virtual bool breakShowListIfContains( const QStringList& ) ;
 
 			virtual engines::engine::functions::DataFilter Filter( const QString& ) ;
@@ -286,11 +289,15 @@ public:
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
 
+			virtual QStringList dumpJsonArguments() ;
+
 			QString updateTextOnCompleteDownlod( const QString& uiText,
+							     const QString& downloadingOptions,
 							     const engine::engine::functions::finishedState& ) ;
 
 			virtual QString updateTextOnCompleteDownlod( const QString& uiText,
 								     const QString& bkText,
+								     const QString& downloadingOptions,
 								     const engine::engine::functions::finishedState& ) ;
 
 			virtual void sendCredentials( const QString&,QProcess& ) ;
@@ -349,6 +356,8 @@ public:
 								   *this,
 								   m_jsonObject,
 								   std::forward< Args >( args ) ... ) ;
+
+			this->updateOptions() ;
 		}
 		const QString& commandName() const ;
 
@@ -361,6 +370,10 @@ public:
 
 		QString versionString( const QString& data ) const ;
 
+		const util::version& versionInfo() const
+		{
+			return m_version ;
+		}
 		const QString& optionsArgument() const
 		{
 			return m_optionsArgument ;
@@ -368,6 +381,10 @@ public:
 		const QString& downloadUrl() const
 		{
 			return m_downloadUrl ;
+		}
+		QStringList dumpJsonArguments() const
+		{
+			return m_functions->dumpJsonArguments() ;
 		}
 		void processData( Logger::Data& outPut,const QByteArray& data,int id ) const
 		{
@@ -395,9 +412,10 @@ public:
 		}
 		QString updateTextOnCompleteDownlod( const QString& uiText,
 						     const QString& bkText,
+						     const QString& dopts,
 						     const engine::engine::functions::finishedState& f ) const
 		{
-			return m_functions->updateTextOnCompleteDownlod( uiText,bkText,f ) ;
+			return m_functions->updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
 		}
 		void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& u ) const
 		{
@@ -406,6 +424,10 @@ public:
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{
 			m_functions->sendCredentials( credentials,exe ) ;
+		}
+		std::vector< QStringList > mediaProperties( const QByteArray& e ) const
+		{
+			return m_functions->mediaProperties( e ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{
@@ -491,7 +513,17 @@ public:
 		{
 			return m_replaceOutputWithProgressReport ;
 		}
+		void setBroken() const
+		{
+			m_broken = true ;
+		}
+		bool broken() const
+		{
+			return m_broken ;
+		}
 	private:
+		void updateOptions() ;
+		mutable util::version m_version ;
 		QJsonObject m_jsonObject ;
 		std::unique_ptr< engines::engine::functions > m_functions ;
 		int m_line ;
@@ -502,13 +534,14 @@ public:
 		bool m_likeYoutubeDl ;
 		bool m_mainEngine ;
 		bool m_replaceOutputWithProgressReport ;
+		mutable bool m_broken = false ;
+		QString m_versionArgument ;
 		QString m_name ;
 		QString m_commandName ;
 		QString m_commandNameWindows ;
 		QString m_userName ;
 		QString m_password ;
 		QString m_exeFolderPath ;
-		QString m_versionArgument ;
 		QString m_optionsArgument ;
 		QString m_downloadUrl ;
 		QString m_playListUrlPrefix ;
@@ -528,17 +561,62 @@ public:
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
-	bool addEngine( const QByteArray& data,const QString& path ) ;
+	QString addEngine( const QByteArray& data,const QString& path ) ;
 	void removeEngine( const QString& name ) ;
 	QStringList enginesList() const ;
-	const std::vector< engine >& getEngines() const ;
 	const engine& defaultEngine( const QString& ) const ;
 	util::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	const enginePaths& engineDirPaths() const ;
 	engines( Logger&,settings& ) ;
-	void openUrls( tableWidget&,int row,const QString& engineName = QString() ) const ;
+	void openUrls( tableWidget&,int row ) const ;
+	void openUrls( tableWidget&,int row,const engines::engine& ) const ;
 	void openUrls( const QString& path ) const ;
 	const QString& defaultEngineName() const ;
+	class Iterator
+	{
+	public:
+		Iterator( const std::vector< engines::engine >& engines ) :
+			m_maxCounter( engines.size() ),
+			m_engines( &engines )
+		{
+		}
+		Iterator( const engines::engine& engine ) :
+			m_maxCounter( 1 ),
+			m_engine( &engine )
+		{
+		}
+		size_t size() const
+		{
+			return m_maxCounter ;
+		}
+		bool hasNext() const
+		{
+			return m_counter + 1 < m_maxCounter ;
+		}
+		engines::Iterator next() const
+		{
+			auto m = *this ;
+			m.m_counter++ ;
+			return m ;
+		}
+		const engines::engine& engine() const
+		{
+			if( m_engine ){
+
+				return *m_engine ;
+			}else{
+				return ( *m_engines )[ m_counter ] ;
+			}
+		}
+	private:
+		size_t m_counter = 0 ;
+		size_t m_maxCounter ;
+		const engines::engine * m_engine = nullptr ;
+		const std::vector< engines::engine > * m_engines = nullptr ;
+	} ;
+
+	const std::vector< engine >& getEngines() const ;
+	engines::Iterator getEnginesIterator() const ;
 private:
 	void updateEngines( bool ) ;
 	Logger& m_logger ;

@@ -42,6 +42,10 @@ public:
 		QString m_fileName ;
 	} ;
 
+	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
+
+	QStringList dumpJsonArguments() override ;
+
 	bool breakShowListIfContains( const QStringList& ) override ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;
@@ -50,6 +54,7 @@ public:
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
+					     const QString& downloadingOptions,
 					     const engines::engine::functions::finishedState& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
@@ -61,6 +66,7 @@ public:
 
 	youtube_dl( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	const engines& m_engines ;
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
 };

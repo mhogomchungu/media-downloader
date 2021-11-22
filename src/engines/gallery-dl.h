@@ -47,6 +47,7 @@ public:
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
+					     const QString& downloadingOptions,
 					     const engines::engine::functions::finishedState& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;

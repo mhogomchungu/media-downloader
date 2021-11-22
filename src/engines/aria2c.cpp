@@ -161,7 +161,9 @@ engines::engine::functions::DataFilter aria2c::Filter( const QString& e )
 }
 
 QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
-					     const QString& bkText,const finishedState& f )
+					     const QString& bkText,
+					     const QString& dopts,
+					     const finishedState& f )
 {
 	if( f.success() ){
 
@@ -170,7 +172,7 @@ QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return m + ", " + e + "\n" + uiText ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,bkText,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
 	}
 }
 
@@ -183,6 +185,14 @@ void aria2c::updateDownLoadCmdOptions( const updateOpts& e )
 		e.ourOptions.append( "-d" ) ;
 		e.ourOptions.append( m_engines.Settings().downloadFolder() ) ;
 	}
+
+	if( !e.quality.isEmpty() ){
+
+		e.ourOptions.append( e.quality ) ;
+	}
+
+	e.ourOptions.removeAll( "Default" ) ;
+	e.ourOptions.removeAll( "default" ) ;
 }
 
 aria2c::aria2c_dlFilter::aria2c_dlFilter( const QString& e,settings&,const engines::engine& engine ) :

@@ -379,21 +379,6 @@
         <string>Url To Download</string>
        </property>
       </column>
-      <column>
-       <property name="text">
-        <string notr="true">Back Up Url To Download</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">Status</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">DownloadOptions</string>
-       </property>
-      </column>
      </widget>
      <widget class="QLineEdit" name="lineEditBDUrl">
       <property name="geometry">
@@ -745,21 +730,6 @@
         <string>Url To Download</string>
        </property>
       </column>
-      <column>
-       <property name="text">
-        <string notr="true">Back Up Url To Download</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">Status</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">DownloadingOptions</string>
-       </property>
-      </column>
      </widget>
      <widget class="QPushButton" name="pbPLGetList">
       <property name="geometry">
@@ -867,7 +837,7 @@
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pbPLRecentlyUsedUrl">
+     <widget class="QPushButton" name="pbPlSubscription">
       <property name="geometry">
        <rect>
         <x>650</x>
@@ -877,27 +847,181 @@
        </rect>
       </property>
       <property name="toolTip">
-       <string>Recently Used</string>
+       <string>Subscriptions</string>
       </property>
       <property name="text">
        <string/>
       </property>
      </widget>
-     <widget class="QCheckBox" name="cbPlaylistDownloaderSaveHistory">
+     <widget class="QWidget" name="widgetPlDownloader" native="true">
       <property name="geometry">
        <rect>
-        <x>680</x>
-        <y>280</y>
-        <width>31</width>
-        <height>31</height>
+        <x>10</x>
+        <y>0</y>
+        <width>771</width>
+        <height>441</height>
        </rect>
       </property>
-      <property name="toolTip">
-       <string>Save History</string>
+      <property name="autoFillBackground">
+       <bool>true</bool>
       </property>
-      <property name="text">
-       <string/>
-      </property>
+      <widget class="QLabel" name="labelPlSubscriptionUiName">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>310</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Ui Name</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditPlSubscriptionUrl">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>340</y>
+         <width>461</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditPlSubscriptionUiName">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>310</y>
+         <width>461</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTableWidget" name="tableWidgetPlDownloaderSubscription">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>10</y>
+         <width>771</width>
+         <height>301</height>
+        </rect>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="tabKeyNavigation">
+        <bool>false</bool>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::NoSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <property name="gridStyle">
+        <enum>Qt::SolidLine</enum>
+       </property>
+       <column>
+        <property name="text">
+         <string>Ui Name</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string notr="true">Url</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QPushButton" name="pbPlSubscriptionAdd">
+       <property name="geometry">
+        <rect>
+         <x>390</x>
+         <y>400</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelPlSubscriptionUrl">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>340</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Url</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pbPlSubscriptionDone">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>400</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Done</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEditPlSubscriptionGetListOptions">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>370</y>
+         <width>461</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelPlSubscriptionListOptions">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>370</y>
+         <width>151</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Get List Options:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_5">
@@ -939,11 +1063,6 @@
       <column>
        <property name="text">
         <string notr="true">Name</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string notr="true">TypeName</string>
        </property>
       </column>
      </widget>
@@ -1027,7 +1146,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1404,8 +1523,8 @@
        <widget class="QComboBox" name="cbConfigureEngines">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>130</y>
+          <x>190</x>
+          <y>30</y>
           <width>361</width>
           <height>31</height>
          </rect>
@@ -1414,8 +1533,8 @@
        <widget class="QLabel" name="labelConfigureEngines">
         <property name="geometry">
          <rect>
-          <x>200</x>
-          <y>100</y>
+          <x>190</x>
+          <y>0</y>
           <width>361</width>
           <height>31</height>
          </rect>
@@ -1433,10 +1552,10 @@
        <widget class="QLabel" name="labelConfigureOptions">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>230</y>
+          <x>80</x>
+          <y>120</y>
           <width>581</width>
-          <height>41</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
@@ -1449,8 +1568,8 @@
        <widget class="QLineEdit" name="lineEditConfigureDownloadOptions">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>270</y>
+          <x>80</x>
+          <y>150</y>
           <width>581</width>
           <height>31</height>
          </rect>
@@ -1459,9 +1578,9 @@
        <widget class="QPushButton" name="pbConfigureEngineDefaultOptions">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>310</y>
-          <width>161</width>
+          <x>230</x>
+          <y>330</y>
+          <width>311</width>
           <height>33</height>
          </rect>
         </property>
@@ -1472,10 +1591,10 @@
        <widget class="QLabel" name="labelPathToCookieFile">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>160</y>
+          <x>80</x>
+          <y>60</y>
           <width>581</width>
-          <height>41</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
@@ -1488,8 +1607,8 @@
        <widget class="QLineEdit" name="lineEditConfigureCookiePath">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>200</y>
+          <x>80</x>
+          <y>90</y>
           <width>581</width>
           <height>31</height>
          </rect>
@@ -1498,15 +1617,145 @@
        <widget class="QPushButton" name="pbConfigureCookiePath">
         <property name="geometry">
          <rect>
-          <x>670</x>
-          <y>200</y>
+          <x>660</x>
+          <y>90</y>
           <width>31</width>
-          <height>33</height>
+          <height>31</height>
          </rect>
         </property>
         <property name="text">
          <string/>
         </property>
+       </widget>
+       <widget class="QTableWidget" name="tableWidgetConfigureUrl">
+        <property name="geometry">
+         <rect>
+          <x>85</x>
+          <y>210</y>
+          <width>571</width>
+          <height>121</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>Url</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Download Options</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>180</y>
+          <width>741</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set What Url Should Be Managed By What Engine</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QWidget" name="widgetConfigureManageUrl" native="true">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>180</y>
+          <width>581</width>
+          <height>191</height>
+         </rect>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <widget class="QLabel" name="label_4">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>20</y>
+           <width>581</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Url Filter</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>80</y>
+           <width>571</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Options</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEditConfigureManageUrl">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>50</y>
+           <width>421</width>
+           <height>31</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEditConfigureManageOptions">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>110</y>
+           <width>421</width>
+           <height>31</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pbConfigureManageUrl">
+         <property name="geometry">
+          <rect>
+           <x>306</x>
+           <y>150</y>
+           <width>151</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pbConfigureManageUrlCancel">
+         <property name="geometry">
+          <rect>
+           <x>156</x>
+           <y>150</y>
+           <width>151</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
@@ -1514,7 +1763,7 @@
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>400</y>
+        <y>403</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -1527,7 +1776,7 @@
       <property name="geometry">
        <rect>
         <x>250</x>
-        <y>400</y>
+        <y>403</y>
         <width>151</width>
         <height>31</height>
        </rect>
