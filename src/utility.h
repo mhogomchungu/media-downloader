@@ -452,7 +452,7 @@ namespace utility
 	}
 
 	template< typename Function >
-	void appendContextMenu( QMenu& m,utility::contextState c,Function function,bool showClear = true )
+	void appendContextMenu( QMenu& m,utility::contextState c,const Function& function,bool showClear = true )
 	{
 		auto ac = m.addAction( QObject::tr( "Show Log Window" ) ) ;
 

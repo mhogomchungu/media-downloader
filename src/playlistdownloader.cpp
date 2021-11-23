@@ -187,7 +187,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
 		auto row = m_table.currentRow() ;
-		auto txt = m_table.runningState( row ) ;
 
 		auto function = [ this ]( const utility::contextState& c ){
 
@@ -201,17 +200,22 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			}
 		} ;
 
-		if( row == -1 || txt.isEmpty() ){
+		QMenu m ;
 
-			QMenu m ;
+		if( row == -1 ){
 
-			return utility::appendContextMenu( m,this->enabled(),std::move( function ),false ) ;
+			return utility::appendContextMenu( m,this->enabled(),function,false ) ;
+		}
+
+		auto txt = m_table.runningState( row ) ;
+
+		if( txt.isEmpty() ){
+
+			return utility::appendContextMenu( m,this->enabled(),function,false ) ;
 		}
 
 		auto running = downloadManager::finishedStatus::running( txt ) ;
 		auto finishSuccess = downloadManager::finishedStatus::finishedWithSuccess( txt ) ;
-
-		QMenu m ;
 
 		auto ac = m.addAction( tr( "Open" ) ) ;
 
@@ -335,7 +339,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		m.addSeparator() ;
 
-		utility::appendContextMenu( m,{ this->enabled(),finishSuccess },std::move( function ) ) ;
+		utility::appendContextMenu( m,{ this->enabled(),finishSuccess },function ) ;
 	} ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;

@@ -183,21 +183,19 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			}
 		} ;
 
-		if( row == -1 ){
+		QMenu m ;
 
-			QMenu m ;
+		if( row == -1 ){
 
 			this->getListFromFile( m ) ;
 
-			return utility::appendContextMenu( m,m_table.noneAreRunning(),std::move( function ) ) ;
+			return utility::appendContextMenu( m,m_table.noneAreRunning(),function ) ;
 		}
 
 		auto txt = m_table.runningState( row ) ;
 
 		auto running = downloadManager::finishedStatus::running( txt ) ;
 		auto finishSuccess = downloadManager::finishedStatus::finishedWithSuccess( txt ) ;
-
-		QMenu m ;
 
 		auto ac = m.addAction( tr( "Open" ) ) ;
 
@@ -334,7 +332,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		m.addSeparator() ;
 
-		utility::appendContextMenu( m,{ m_table.noneAreRunning(),finishSuccess },std::move( function ) ) ;
+		utility::appendContextMenu( m,{ m_table.noneAreRunning(),finishSuccess },function ) ;
 	} ) ;
 
 	connect( m_ui.pbBDQuit,&QPushButton::clicked,[ this ](){
