@@ -187,6 +187,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
 		auto row = m_table.currentRow() ;
+		auto txt = m_table.runningState( row ) ;
 
 		auto function = [ this ]( const utility::contextState& c ){
 
@@ -200,18 +201,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			}
 		} ;
 
-		if( row == -1 ){
+		if( row == -1 || txt.isEmpty() ){
 
 			QMenu m ;
 
-			return utility::appendContextMenu( m,this->enabled(),std::move( function ) ) ;
-		}
-
-		auto txt = m_table.runningState( row ) ;
-
-		if( txt.isEmpty() ){
-
-			return ;
+			return utility::appendContextMenu( m,this->enabled(),std::move( function ),false ) ;
 		}
 
 		auto running = downloadManager::finishedStatus::running( txt ) ;

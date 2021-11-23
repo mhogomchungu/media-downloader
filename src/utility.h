@@ -452,7 +452,7 @@ namespace utility
 	}
 
 	template< typename Function >
-	void appendContextMenu( QMenu& m,utility::contextState c,Function function )
+	void appendContextMenu( QMenu& m,utility::contextState c,Function function,bool showClear = true )
 	{
 		auto ac = m.addAction( QObject::tr( "Show Log Window" ) ) ;
 
@@ -463,16 +463,19 @@ namespace utility
 			function( c ) ;
 		} ) ;
 
-		ac = m.addAction( QObject::tr( "Clear" ) ) ;
+		if( showClear ){
 
-		ac->setEnabled( c.noneAreRunning() ) ;
+			ac = m.addAction( QObject::tr( "Clear" ) ) ;
 
-		QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
+			ac->setEnabled( c.noneAreRunning() ) ;
 
-			c.setClear() ;
+			QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
 
-			function( c ) ;
-		} ) ;
+				c.setClear() ;
+
+				function( c ) ;
+			} ) ;
+		}
 
 		m.exec( QCursor::pos() ) ;
 	}
