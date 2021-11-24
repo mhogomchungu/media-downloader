@@ -493,6 +493,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
+			m_autoDownload = false ;
+
 			this->getList( m ) ;
 		}
 	} ) ;
