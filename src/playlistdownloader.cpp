@@ -1029,7 +1029,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		return ;
 	}else{
 		data.clear() ;
-		data.add( mmm.mid( index + 1 ) ) ;
+		data.add( mmm.mid( index + 1 ).trimmed() ) ;
 	}	
 
 	auto _show = [ this,&table ]( const tableWidget::entry& e )
