@@ -167,7 +167,7 @@ public:
 	QSettings& bk() ;
 
 	int tabNumber() ;
-	int maxConcurrentDownloads() ;
+	size_t maxConcurrentDownloads() ;
 
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;

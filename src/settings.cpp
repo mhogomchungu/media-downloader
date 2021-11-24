@@ -288,14 +288,14 @@ int settings::tabNumber()
 	return m_settings.value( "TabNumber" ).toInt() ;
 }
 
-int settings::maxConcurrentDownloads()
+size_t settings::maxConcurrentDownloads()
 {
 	if( !m_settings.contains( "MaxConcurrentDownloads" ) ){
 
 		m_settings.setValue( "MaxConcurrentDownloads",4 ) ;
 	}
 
-	return m_settings.value( "MaxConcurrentDownloads" ).toInt() ;
+	return static_cast< size_t >( m_settings.value( "MaxConcurrentDownloads" ).toInt() ) ;
 }
 
 void settings::setMaxConcurrentDownloads( int s )
