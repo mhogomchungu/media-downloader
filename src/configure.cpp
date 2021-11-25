@@ -119,7 +119,12 @@ configure::configure( const Context& ctx ) :
 		auto b = m_ui.lineEditConfigureManageOptions->text() ;
 		auto c = m_ui.cbConfigureEngines->currentText() ;
 
-		if( !a.isEmpty() && !b.isEmpty() ){
+		if( !a.isEmpty() ){
+
+			if( b.isEmpty() ){
+
+				b = "Default" ;
+			}
 
 			m_ui.lineEditConfigureManageUrl->clear() ;
 			m_ui.lineEditConfigureManageOptions->clear() ;
