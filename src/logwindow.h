@@ -25,6 +25,7 @@
 #include <QCloseEvent>
 
 class settings ;
+class Logger ;
 
 namespace Ui {
 class logWindow;
@@ -34,7 +35,7 @@ class logWindow : public QWidget
 {
 	Q_OBJECT
 public:
-	explicit logWindow( QWidget * parent,settings& ) ;
+	logWindow( QWidget * parent,settings&,Logger& ) ;
 	~logWindow() override ;
 	void update( const QString& ) ;
 	void setText( const QString& ) ;

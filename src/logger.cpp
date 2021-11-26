@@ -24,7 +24,7 @@
 #include "utility.h"
 
 Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
-	m_logWindow( nullptr,s ),
+	m_logWindow( nullptr,s,*this ),
 	m_textEdit( e )
 {
 	m_textEdit.setReadOnly( true ) ;

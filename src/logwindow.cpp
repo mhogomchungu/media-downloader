@@ -22,8 +22,9 @@
 
 #include "settings.h"
 #include "utility.h"
+#include "logger.h"
 
-logWindow::logWindow( QWidget * parent,settings& s ) :
+logWindow::logWindow( QWidget * parent,settings& s,Logger& logger ) :
 	QWidget( parent ),
 	m_ui( new Ui::logWindow ),
 	m_settings( s )
@@ -37,9 +38,9 @@ logWindow::logWindow( QWidget * parent,settings& s ) :
 		this->Hide() ;
 	} ) ;
 
-	connect( m_ui->pbClear,&QPushButton::clicked,[ this ](){
+	connect( m_ui->pbClear,&QPushButton::clicked,[ &logger ](){
 
-		this->clear() ;
+		logger.clear() ;
 	} ) ;
 }
 
