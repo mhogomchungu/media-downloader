@@ -79,7 +79,8 @@ private:
 
 	class customOptions ;
 
-	void parseJson( const playlistdownloader::customOptions&,
+	enum class Loop{ Continue,Break } ;
+	Loop parseJson( const playlistdownloader::customOptions&,
 			tableWidget& table,
 			Logger::Data& data ) ;
 

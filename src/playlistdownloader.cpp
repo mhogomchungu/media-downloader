@@ -907,7 +907,13 @@ void playlistdownloader::getList( customOptions&& c,
 
 		m_dataReceived = true ;
 
-		this->parseJson( copts,table,data ) ;
+		while( true ){
+
+			if( this->parseJson( copts,table,data ) == Loop::Break ){
+
+				break ;
+			}
+		}
 	} ;
 
 	auto id     = utility::concurrentID() ;
@@ -976,9 +982,9 @@ bool playlistdownloader::enabled()
 	return m_ui.lineEditPLUrl->isEnabled() ;
 }
 
-void playlistdownloader::parseJson( const customOptions& copts,
-				    tableWidget& table,
-				    Logger::Data& data )
+playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& copts,
+							tableWidget& table,
+							Logger::Data& data )
 {
 	auto mmm = data.toLine() ;
 
@@ -986,7 +992,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 	if( oo == -1 ){
 
-		return ;
+		return Loop::Break ;
 	}
 
 	int counter = 0 ;
@@ -996,7 +1002,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 		if( index >= mmm.size() ){
 
-			return ;
+			return Loop::Break ;
 		}
 
 		auto a = mmm[ index ] ;
@@ -1026,7 +1032,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 	if( !media.valid() ){
 
-		return ;
+		return Loop::Break ;
 	}else{
 		data.clear() ;
 		data.add( mmm.mid( index + 1 ) ) ;
@@ -1055,7 +1061,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 			m_stoppedOnExisting = true ;
 			m_ui.pbPLCancel->click() ;
-			return ;
+			return Loop::Break ;
 
 		}else if( copts.skipOnExisting() ){
 
@@ -1067,7 +1073,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 			table.selectLast() ;
 
-			return ;
+			return Loop::Continue ;
 		}
 	}
 
@@ -1075,14 +1081,14 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 	if( max > 0 && media.intDuration() > max ){
 
-		return ;
+		return Loop::Continue ;
 	}
 
 	auto min = copts.minMediaLength() ;
 
 	if( min > 0 && media.intDuration() < min ){
 
-		return ;
+		return Loop::Continue ;
 	}
 
 	auto s = downloadManager::finishedStatus::notStarted() ;
@@ -1124,6 +1130,8 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 		table.selectLast() ;
 	}
+
+	return Loop::Continue ;
 }
 
 playlistdownloader::subscription::subscription( const Context& e,
