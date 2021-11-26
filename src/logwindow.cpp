@@ -36,6 +36,11 @@ logWindow::logWindow( QWidget * parent,settings& s ) :
 
 		this->Hide() ;
 	} ) ;
+
+	connect( m_ui->pbClear,&QPushButton::clicked,[ this ](){
+
+		this->clear() ;
+	} ) ;
 }
 
 logWindow::~logWindow()

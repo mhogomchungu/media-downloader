@@ -629,7 +629,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 				this->addItem( f.index(),allFinished,url ) ;
 			}else{
-				utility::MediaEntry m( opts.batchLogger.data() ) ;
+				utility::MediaEntry m( url,opts.batchLogger.data() ) ;
 
 				if( m.valid() ){
 

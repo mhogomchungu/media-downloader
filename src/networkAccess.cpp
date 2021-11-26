@@ -285,7 +285,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 void networkAccess::post( const engines::engine& engine,const QString& e )
 {
-	m_ctx.logger().add( [ &engine,&e ]( Logger::Data& s,int id ){
+	m_ctx.logger().add( [ &engine,&e ]( Logger::Data& s,int id,bool ){
 
 		Q_UNUSED( id )
 

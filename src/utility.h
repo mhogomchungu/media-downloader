@@ -832,9 +832,9 @@ namespace utility
 
 				QObject::connect( m_timer.get(),&QTimer::timeout,[ this ]{
 
-					m_logger.add( [ this ]( Logger::Data& e,int id ){
+					m_logger.add( [ this ]( Logger::Data& e,int id,bool s ){
 
-						m_engine.processData( e,m_timeCounter.stringElapsedTime(),id ) ;
+						m_engine.processData( e,m_timeCounter.stringElapsedTime(),id,s ) ;
 					} ) ;
 				} ) ;
 
@@ -873,9 +873,9 @@ namespace utility
 						m_data += data ;
 					}
 
-					m_logger.add( [ this,&data ]( Logger::Data& e,int id ){
+					m_logger.add( [ this,&data ]( Logger::Data& e,int id,bool s ){
 
-						m_engine.processData( e,data,id ) ;
+						m_engine.processData( e,data,id,s ) ;
 					} ) ;
 				}
 			} ;

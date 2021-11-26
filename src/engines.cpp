@@ -910,13 +910,16 @@ void engines::engine::functions::sendCredentials( const QString&,QProcess& )
 {
 }
 
-void engines::engine::functions::processData( Logger::Data& outPut,const QByteArray& data,int id )
+void engines::engine::functions::processData( Logger::Data& outPut,
+					      const QByteArray& data,
+					      int id,
+					      bool readableJson )
 {
 	const auto& txt = m_engine.removeText() ;
 
 	if( txt.isEmpty() ){
 
-		Logger::updateLogger( data,m_engine,outPut,id ) ;
+		Logger::updateLogger( data,m_engine,outPut,id,readableJson ) ;
 	}else{
 		auto dd = data ;
 
@@ -925,12 +928,14 @@ void engines::engine::functions::processData( Logger::Data& outPut,const QByteAr
 			dd.replace( it.toUtf8(),"" ) ;
 		}
 
-		Logger::updateLogger( dd,m_engine,outPut,id ) ;
+		Logger::updateLogger( dd,m_engine,outPut,id,readableJson ) ;
 	}
 }
 
-void engines::engine::functions::processData( Logger::Data& outPut,const QString& e,int id )
+void engines::engine::functions::processData( Logger::Data& outPut,const QString& e,int id,bool readableJson )
 {
+	Q_UNUSED( readableJson )
+
 	outPut.replaceOrAdd( e,id,[]( const QString& line ){
 
 		auto a = line.startsWith( engines::engine::functions::preProcessing::processingText() ) ;

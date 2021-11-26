@@ -233,7 +233,7 @@ public:
 	template< typename Function >
 	void add( const Function& function,int id )
 	{
-		function( m_lines,id ) ;
+		function( m_lines,id,true ) ;
 
 		this->update() ;
 	}
@@ -263,13 +263,17 @@ public:
 			const bool likeYoutubeDl ;
 		} ;
 		template< typename Engine >
-		updateLogger( const QByteArray& data,const Engine& engine,Logger::Data& outPut,int id ) :
+		updateLogger( const QByteArray& data,
+			      const Engine& engine,
+			      Logger::Data& outPut,
+			      int id,
+			      bool humanReadableJson ) :
 			m_args( engine ),m_outPut( outPut ),m_id( id )
 		{
-			this->run( data ) ;
+			this->run( humanReadableJson,data ) ;
 		}
 	private:
-		void run( const QByteArray& data ) ;
+		void run( bool humanReadableJson,const QByteArray& data ) ;
 		bool meetCondition( const QString& line,const QJsonObject& obj ) const ;
 		bool meetCondition( const QString& line ) const ;
 		bool skipLine( const QByteArray& line ) const ;
@@ -346,7 +350,7 @@ public:
 	void add( const F& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,-1 ) ;
+		function( m_lines,-1,false ) ;
 		this->update() ;
 	}
 private:
@@ -403,7 +407,7 @@ public:
 	void add( const Function& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,-1 ) ;
+		function( m_lines,-1,false ) ;
 
 		this->update() ;
 	}

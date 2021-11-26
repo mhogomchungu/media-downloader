@@ -207,7 +207,7 @@ private:
 		void add( const Function& function )
 		{
 			m_logger.add( function,m_id ) ;
-			function( m_lines,m_id ) ;
+			function( m_lines,m_id,false ) ;
 		}
 		QByteArray data() const
 		{

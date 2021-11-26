@@ -517,9 +517,10 @@ QStringList youtube_dl::dumpJsonArguments()
 
 		return engines::engine::functions::dumpJsonArguments() ;
 	}else{
+		//auto a = R"R({"url":%(url)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j})R" ;
 		auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j})R" ;
 
-		return { "--print",a } ;
+		return { "--newline","--print",a } ;
 	}
 }
 

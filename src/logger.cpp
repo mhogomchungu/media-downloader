@@ -80,9 +80,9 @@ QStringList Logger::Data::toStringList() const
 	return util::split( this->toString(),'\n',true ) ;
 }
 
-void Logger::updateLogger::run( const QByteArray& data )
+void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
 {
-	if( m_args.likeYoutubeDl ){
+	if( m_args.likeYoutubeDl && humanReadableJson ){
 
 		if( data.startsWith( '[' ) || data.startsWith( '{' ) ){
 

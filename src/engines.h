@@ -302,9 +302,9 @@ public:
 
 			virtual void sendCredentials( const QString&,QProcess& ) ;
 
-			virtual void processData( Logger::Data&,const QByteArray&,int id ) ;
+			virtual void processData( Logger::Data&,const QByteArray&,int id,bool readableJson ) ;
 
-			virtual void processData( Logger::Data&,const QString&,int id ) ;
+			virtual void processData( Logger::Data&,const QString&,int id,bool readableJson ) ;
 
 			struct updateOpts
 			{
@@ -386,13 +386,13 @@ public:
 		{
 			return m_functions->dumpJsonArguments() ;
 		}
-		void processData( Logger::Data& outPut,const QByteArray& data,int id ) const
+		void processData( Logger::Data& outPut,const QByteArray& data,int id,bool readableJson ) const
 		{
-			m_functions->processData( outPut,data,id ) ;
+			m_functions->processData( outPut,data,id,readableJson ) ;
 		}
-		void processData( Logger::Data& outPut,const QString& data,int id ) const
+		void processData( Logger::Data& outPut,const QString& data,int id,bool readableJson ) const
 		{
-			m_functions->processData( outPut,data,id ) ;
+			m_functions->processData( outPut,data,id,readableJson ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{

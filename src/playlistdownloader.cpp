@@ -1018,7 +1018,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		index++ ;
 	}
 
-	m_meaw = false ;
+	m_meaw = true ;
 
 	auto aa = mmm.mid( oo,index + 1 ) ;
 
@@ -1029,7 +1029,7 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		return ;
 	}else{
 		data.clear() ;
-		data.add( mmm.mid( index + 1 ).trimmed() ) ;
+		data.add( mmm.mid( index + 1 ) ) ;
 	}	
 
 	auto _show = [ this,&table ]( const tableWidget::entry& e )
@@ -1067,8 +1067,6 @@ void playlistdownloader::parseJson( const customOptions& copts,
 
 			table.selectLast() ;
 
-			m_meaw = true ;
-
 			return ;
 		}
 	}
@@ -1092,6 +1090,8 @@ void playlistdownloader::parseJson( const customOptions& copts,
 	table.selectLast() ;
 
 	if( networkAccess::hasNetworkSupport() ){
+
+		m_meaw = false ;
 
 		auto& network = m_ctx.versionInfo().network() ;
 
@@ -1123,8 +1123,6 @@ void playlistdownloader::parseJson( const customOptions& copts,
 		_show( { m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s } ) ;
 
 		table.selectLast() ;
-
-		m_meaw = true ;
 	}
 }
 
