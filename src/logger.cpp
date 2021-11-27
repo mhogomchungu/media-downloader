@@ -30,7 +30,7 @@ Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_textEdit.setReadOnly( true ) ;
 }
 
-void Logger::add( const QString& s,int id )
+void Logger::add( const QByteArray& s,int id )
 {
 	if( s.startsWith( "[media-downloader]" ) ){
 
@@ -63,21 +63,21 @@ void Logger::updateView( bool e )
 
 void Logger::update()
 {	
-	if( m_updateView ){
+	auto m = m_lines.toString() ;
 
-		auto m = m_lines.toString() ;
+	if( m_updateView ){
 
 		m_textEdit.setPlainText( m ) ;
 		m_textEdit.moveCursor( QTextCursor::End ) ;
 		m_logWindow.update( m ) ;
 	}else{
-		m_logWindow.update( m_lines ) ;
+		m_logWindow.update( m ) ;
 	}
 }
 
-QStringList Logger::Data::toStringList() const
+QList< QByteArray > Logger::Data::toStringList() const
 {
-	return util::split( this->toString(),'\n',true ) ;
+	return util::split( this->toString(),'\n' ) ;
 }
 
 void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
@@ -121,8 +121,10 @@ void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
 	}
 }
 
-bool Logger::updateLogger::meetCondition( const QString& line,const QJsonObject& obj ) const
+bool Logger::updateLogger::meetCondition( const QByteArray& l,const QJsonObject& obj ) const
 {
+	QString line = l ;
+
 	if( obj.contains( "startsWith" ) ){
 
 		return line.startsWith( obj.value( "startsWith" ).toString() ) ;
@@ -171,7 +173,7 @@ bool Logger::updateLogger::meetCondition( const QString& line,const QJsonObject&
 	return false ;
 }
 
-bool Logger::updateLogger::meetCondition( const QString& line ) const
+bool Logger::updateLogger::meetCondition( const QByteArray& line ) const
 {
 	const auto& obj = m_args.controlStructure ;
 
@@ -256,7 +258,7 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 					}
 				}
 			}else{
-				m_outPut.replaceOrAdd( e,m_id,[ this ]( const QString& e ){
+				m_outPut.replaceOrAdd( e,m_id,[ this ]( const QByteArray& e ){
 
 					return this->meetCondition( e ) ;
 

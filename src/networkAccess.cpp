@@ -283,13 +283,17 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 	} ) ;
 }
 
-void networkAccess::post( const engines::engine& engine,const QString& e )
+void networkAccess::post( const engines::engine& engine,const QString& m )
 {
-	m_ctx.logger().add( [ &engine,&e ]( Logger::Data& s,int id,bool ){
+	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool ){
+
+		auto e = m.toUtf8() ;
 
 		Q_UNUSED( id )
 
-		auto prefix = QObject::tr( "Downloading" ) + " " + engine.name() ;
+		auto p = QObject::tr( "Downloading" ) + " " + engine.name() ;
+
+		auto prefix = p.toUtf8() ;
 
 		if( s.isEmpty() ){
 

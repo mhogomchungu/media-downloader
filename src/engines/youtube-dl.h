@@ -32,14 +32,14 @@ public:
 	public:
 		youtube_dlFilter( const QString&,const engines::engine& ) ;
 
-		const QString& operator()( const Logger::Data& e ) override ;
+		const QByteArray& operator()( const Logger::Data& e ) override ;
 
 		~youtube_dlFilter() override ;
 	private:
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
-		QString m_tmp ;
-		QString m_fileName ;
+		QByteArray m_tmp ;
+		QByteArray m_fileName ;
 	} ;
 
 	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;

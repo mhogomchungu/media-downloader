@@ -137,7 +137,7 @@ void aria2c::init( const QString& name,
 	}
 }
 
-void aria2c::trimProgressLine( QString& e )
+void aria2c::trimProgressLine( QByteArray& e )
 {
 	e.truncate( e.size() - 1 ) ;
 }
@@ -200,7 +200,7 @@ aria2c::aria2c_dlFilter::aria2c_dlFilter( const QString& e,settings&,const engin
 {
 }
 
-const QString& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )
+const QByteArray& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )
 {
 	const auto data = s.toStringList() ;
 

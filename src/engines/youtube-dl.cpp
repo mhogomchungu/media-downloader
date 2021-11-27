@@ -672,7 +672,7 @@ youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::
 {
 }
 
-const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
+const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 {
 	int downloadCounter = 0 ;
 	int downloadCountExpected = -1 ;
@@ -726,7 +726,7 @@ const QString& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 		}
 		if( e.contains( "has already been recorded in archive" ) ){
 
-			m_tmp = engines::engine::mediaAlreadInArchiveText() ;
+			m_tmp = engines::engine::mediaAlreadInArchiveText().toUtf8() ;
 
 			return m_tmp ;
 		}

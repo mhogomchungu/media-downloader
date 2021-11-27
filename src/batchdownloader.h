@@ -197,6 +197,10 @@ private:
 		}
 		void add( const QString& e )
 		{
+			this->add( e.toUtf8() ) ;
+		}
+		void add( const QByteArray& e )
+		{
 			m_logger.add( e ) ;
 			//m_lines.add( e ) ;
 		}
@@ -211,7 +215,7 @@ private:
 		}
 		QByteArray data() const
 		{
-			return m_lines.toLine().toUtf8() ;
+			return m_lines.toLine() ;
 		}
 	private:
 		Logger::Data m_lines ;
@@ -226,7 +230,7 @@ private:
 			m_logger( std::make_shared< BatchLogger >( l ) )
 		{
 		}
-		void add( const QString& e )
+		void add( const QByteArray& e )
 		{
 			m_logger->add( e ) ;
 		}

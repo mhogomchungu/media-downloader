@@ -37,16 +37,13 @@ class logWindow : public QWidget
 public:
 	logWindow( QWidget * parent,settings&,Logger& ) ;
 	~logWindow() override ;
-	void update( const QString& ) ;
-	void setText( const QString& ) ;
+	void setText( const QByteArray& ) ;
 	template< typename LoggerData >
 	void update( const LoggerData& e )
 	{
-		if( this->isVisible() ){
-
-			this->setText( e.toString() ) ;
-		}
+		this->update( e.toString() ) ;
 	}
+	void update( const QByteArray& e ) ;
 	void Hide() ;
 	void Show() ;
 	void clear() ;

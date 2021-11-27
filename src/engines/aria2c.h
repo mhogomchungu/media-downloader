@@ -27,7 +27,7 @@ public:
 			  Logger& logger,
 			  const engines::enginePaths& enginePath ) ;
 
-	static void trimProgressLine( QString& ) ;
+	static void trimProgressLine( QByteArray& ) ;
 
 	~aria2c() override ;
 
@@ -38,13 +38,13 @@ public:
 	public:
 		aria2c_dlFilter( const QString&,settings&,const engines::engine& ) ;
 
-		const QString& operator()( const Logger::Data& e ) override ;
+		const QByteArray& operator()( const Logger::Data& e ) override ;
 
 		~aria2c_dlFilter() override ;
 	private:
 		engines::engine::functions::preProcessing m_preProcessing ;
-		QString m_tmp ;
-		QString m_fileName ;
+		QByteArray m_tmp ;
+		QByteArray m_fileName ;
 	} ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;

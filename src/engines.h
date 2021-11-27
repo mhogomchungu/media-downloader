@@ -224,34 +224,34 @@ public:
 			public:
 				preProcessing() ;
 				preProcessing( const QString& ) ;
-				static QString processingText() ;
-				const QString& text() ;
+				static QByteArray processingText() ;
+				const QByteArray& text() ;
 			private:
 				int m_counter = 0 ;
-				QString m_counterDots ;
-				QString m_txt ;
-				QString m_processingDefaultText ;
+				QByteArray m_counterDots ;
+				QByteArray m_txt ;
+				QByteArray m_processingDefaultText ;
 			};
 
 			class postProcessing
 			{
 			public:
-				static QString processingText() ;
+				static QByteArray processingText() ;
 				postProcessing() ;
 				postProcessing( const QString& ) ;
 
-				const QString& text( const QString& ) ;
+				const QByteArray& text( const QString& ) ;
 			private:
 				int m_counter = 0 ;
-				QString m_counterDots ;
-				QString m_txt ;
-				QString m_processingDefaultText ;
+				QByteArray m_counterDots ;
+				QByteArray m_txt ;
+				QByteArray m_processingDefaultText ;
 			};
 
 			class filter{
 			public:
 				filter( const QString& quality,const engines::engine& engine ) ;
-				virtual const QString& operator()( const Logger::Data& e ) ;
+				virtual const QByteArray& operator()( const Logger::Data& e ) ;
 				virtual ~filter() ;
 				const engines::engine& engine() const ;
 			protected:
@@ -269,7 +269,7 @@ public:
 					m_filter( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 				{
 				}
-				const QString& operator()( const Logger::Data& e )
+				const QByteArray& operator()( const Logger::Data& e )
 				{
 					return ( *m_filter )( e ) ;
 				}

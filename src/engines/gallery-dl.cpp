@@ -105,7 +105,7 @@ gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings&,const
 {
 }
 
-const QString& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )
+const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )
 {
 	const auto data = s.toStringList() ;
 
@@ -123,7 +123,7 @@ const QString& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )
 
 	if( !m.isEmpty() ){
 
-		m_tmp = m.join( "\n" ) ;
+		m_tmp = m.join( "\n" ).toUtf8() ;
 	}else{
 		const auto& s = data.last() ;
 
@@ -131,9 +131,13 @@ const QString& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )
 
 			auto m = engines::engine::functions::timer::startTimerText() ;
 
-			m_tmp = QObject::tr( "Downloading" ) + "\n" + m ;
+			auto mm = QObject::tr( "Downloading" ) + "\n" + m ;
+
+			m_tmp = mm.toUtf8() ;
 		}else{
-			m_tmp = QObject::tr( "Downloading" ) + "\n" + s ;
+			auto mm = QObject::tr( "Downloading" ) + "\n" + s ;
+
+			m_tmp = mm.toUtf8() ;
 		}
 
 		return m_tmp ;

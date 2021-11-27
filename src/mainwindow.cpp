@@ -160,7 +160,7 @@ void MainWindow::quitApp()
 	m_tabManager.basicDownloader().appQuit() ;
 }
 
-void MainWindow::log( const QString& e )
+void MainWindow::log( const QByteArray& e )
 {
 	m_logger.add( e,-1 ) ;
 }

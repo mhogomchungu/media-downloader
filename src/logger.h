@@ -47,7 +47,7 @@ public:
 		{
 			return m_lines.size() ;
 		}
-		const QString& operator[]( size_t s ) const
+		const QByteArray& operator[]( size_t s ) const
 		{
 			return m_lines[ s ].text() ;
 		}
@@ -59,11 +59,7 @@ public:
 				function( it.id(),it.text() ) ;
 			}
 		}
-		const QString& secondFromLast() const
-		{
-			return m_lines[ m_lines.size() - 2 ].text() ;
-		}
-		const QString& lastText() const
+		const QByteArray& lastText() const
 		{
 			return m_lines[ m_lines.size() - 1 ].text() ;
 		}
@@ -76,9 +72,9 @@ public:
 			m_lines.clear() ;
 		}
 
-		QStringList toStringList() const ;
+		QList< QByteArray > toStringList() const ;
 
-		QString toString() const
+		QByteArray toString() const
 		{
 			if( this->isNotEmpty() ){
 
@@ -98,7 +94,7 @@ public:
 				return {} ;
 			}
 		}
-		QString toLine() const
+		QByteArray toLine() const
 		{
 			if( this->isNotEmpty() ){
 
@@ -122,24 +118,24 @@ public:
 		{
 			m_lines.pop_back() ;
 		}
-		void replaceLast( const QString& e )
+		void replaceLast( const QByteArray& e )
 		{
 			m_lines.rbegin()->replace( e ) ;
 		}
 		template< typename Function,typename Add >
-		void replaceOrAdd( const QString& text,int id,Function function,Add add )
+		void replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
 		{
 			_replaceOrAdd( text,id,std::move( function ),std::move( add ) ) ;
 		}
-		void add( const QString& text,int id = -1 )
+		void add( const QByteArray& text,int id = -1 )
 		{
-			auto _false = []( const QString& ){ return false ; } ;
+			auto _false = []( const QByteArray& ){ return false ; } ;
 
 			_replaceOrAdd( text,id,_false,_false ) ;
 		}		
 	private:
 		template< typename Function,typename Add >
-		void _replaceOrAdd( const QString& text,int id,Function function,Add add )
+		void _replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
 		{
 			if( id != -1 ){
 
@@ -167,7 +163,7 @@ public:
 			m_lines.emplace_back( text,id ) ;
 		}
 		template< typename It >
-		void add( const It& it,const QString& text,int id )
+		void add( const It& it,const QByteArray& text,int id )
 		{
 			if( it != m_lines.rbegin() ){
 
@@ -179,22 +175,18 @@ public:
 		class line
 		{
 		public:
-			line( const QString& text,int id,bool p = false ) :
+			line( const QByteArray& text,int id,bool p = false ) :
 				m_text( text ),
 				m_id( id ),
 				m_progressLine( p )
 			{
 			}
-			line( const QString& text ) :
+			line( const QByteArray& text ) :
 				m_text( text ),
 				m_id( -1 )
 			{
 			}
-			const QString& text() const
-			{
-				return m_text ;
-			}
-			const QString& text()
+			const QByteArray& text() const
 			{
 				return m_text ;
 			}
@@ -202,25 +194,17 @@ public:
 			{
 				return m_progressLine ;
 			}
-			bool progressLine()
-			{
-				return m_progressLine ;
-			}
-			int id()
-			{
-				return m_id ;
-			}
 			int id() const
 			{
 				return m_id ;
 			}
-			void replace( const QString& text )
+			void replace( const QByteArray& text )
 			{
 				m_progressLine = true ;
 				m_text = text ;
 			}
 		private:
-			QString m_text ;
+			QByteArray m_text ;
 			int m_id ;
 			bool m_progressLine ;
 		} ;
@@ -228,7 +212,11 @@ public:
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
-	void add( const QString&,int id = -1 ) ;
+	void add( const QString& s )
+	{
+		this->add( s.toUtf8() ) ;
+	}
+	void add( const QByteArray&,int id = -1 ) ;
 	void clear() ;
 	template< typename Function >
 	void add( const Function& function,int id )
@@ -274,8 +262,8 @@ public:
 		}
 	private:
 		void run( bool humanReadableJson,const QByteArray& data ) ;
-		bool meetCondition( const QString& line,const QJsonObject& obj ) const ;
-		bool meetCondition( const QString& line ) const ;
+		bool meetCondition( const QByteArray& line,const QJsonObject& obj ) const ;
+		bool meetCondition( const QByteArray& line ) const ;
 		bool skipLine( const QByteArray& line ) const ;
 		void add( const QByteArray& data,QChar token ) const ;
 		updateLogger::args m_args ;
@@ -300,6 +288,10 @@ public:
 	{
 	}
 	void add( const QString& e )
+	{
+		this->add( e.toUtf8() ) ;
+	}
+	void add( const QByteArray& e )
 	{
 		m_logger->add( e,m_id ) ;
 	}
@@ -328,7 +320,11 @@ public:
 		m_id( id )
 	{
 	}
-	void add( const QString& s )
+	void add( const QString& e )
+	{
+		this->add( e.toUtf8() ) ;
+	}
+	void add( const QByteArray& s )
 	{
 		m_logger.add( s,m_id ) ;
 
@@ -390,6 +386,10 @@ public:
 	}
 	void add( const QString& e )
 	{
+		this->add( e.toUtf8() ) ;
+	}
+	void add( const QByteArray& e )
+	{
 		m_logger.add( e,m_id ) ;
 	}
 	void clear()
@@ -408,12 +408,6 @@ public:
 	{
 		m_logger.add( function,m_id ) ;
 		function( m_lines,-1,false ) ;
-
-		this->update() ;
-	}
-private:
-	void update()
-	{
 		m_addToTable( m_table,m_lines ) ;
 	}
 private:

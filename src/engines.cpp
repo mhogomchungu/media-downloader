@@ -936,7 +936,7 @@ void engines::engine::functions::processData( Logger::Data& outPut,const QString
 {
 	Q_UNUSED( readableJson )
 
-	outPut.replaceOrAdd( e,id,[]( const QString& line ){
+	outPut.replaceOrAdd( e.toUtf8(),id,[]( const QString& line ){
 
 		auto a = line.startsWith( engines::engine::functions::preProcessing::processingText() ) ;
 		auto b = engines::engine::functions::timer::timerText( line ) ;
@@ -1044,7 +1044,7 @@ engines::engine::functions::filter::filter( const QString& e,const engines::engi
 {
 }
 
-const QString& engines::engine::functions::filter::operator()( const Logger::Data& s )
+const QByteArray& engines::engine::functions::filter::operator()( const Logger::Data& s )
 {
 	if( m_engine.replaceOutputWithProgressReport() ){
 
@@ -1052,7 +1052,7 @@ const QString& engines::engine::functions::filter::operator()( const Logger::Dat
 
 	}else if( s.isEmpty() ){
 
-		static QString e ;
+		static QByteArray e ;
 		return e ;
 	}else{
 		const auto& m = s.lastText() ;
@@ -1086,16 +1086,16 @@ engines::engine::functions::preProcessing::preProcessing() :
 }
 
 engines::engine::functions::preProcessing::preProcessing( const QString& e ) :
-	m_processingDefaultText( e )
+	m_processingDefaultText( e.toUtf8() )
 {
 }
 
-QString engines::engine::functions::preProcessing::processingText()
+QByteArray engines::engine::functions::preProcessing::processingText()
 {
-	return QObject::tr( "Processing" ) ;
+	return QObject::tr( "Processing" ).toUtf8() ;
 }
 
-const QString& engines::engine::functions::preProcessing::text()
+const QByteArray& engines::engine::functions::preProcessing::text()
 {
 	if( m_counter < 16 ){
 
@@ -1112,9 +1112,9 @@ const QString& engines::engine::functions::preProcessing::text()
 	return m_txt ;
 }
 
-QString engines::engine::functions::postProcessing::processingText()
+QByteArray engines::engine::functions::postProcessing::processingText()
 {
-	return QObject::tr( "Post Processing" ) ;
+	return QObject::tr( "Post Processing" ).toUtf8() ;
 }
 
 engines::engine::functions::postProcessing::postProcessing() :
@@ -1123,12 +1123,11 @@ engines::engine::functions::postProcessing::postProcessing() :
 }
 
 engines::engine::functions::postProcessing::postProcessing( const QString& e ) :
-	m_processingDefaultText( e )
+	m_processingDefaultText( e.toUtf8() )
 {
-
 }
 
-const QString& engines::engine::functions::postProcessing::text( const QString& e )
+const QByteArray& engines::engine::functions::postProcessing::text( const QString& e )
 {
 	if( m_counter < 16 ){
 
@@ -1140,7 +1139,9 @@ const QString& engines::engine::functions::postProcessing::text( const QString& 
 
 	m_counter++ ;
 
-	m_txt = e + "\n" + m_processingDefaultText + m_counterDots ;
+	auto m = e + "\n" + m_processingDefaultText + m_counterDots ;
+
+	m_txt = m.toUtf8() ;
 
 	return m_txt ;
 }

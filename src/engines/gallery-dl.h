@@ -34,11 +34,11 @@ public:
 	public:
 		gallery_dlFilter( const QString&,settings&,const engines::engine& ) ;
 
-		const QString& operator()( const Logger::Data& e ) override ;
+		const QByteArray& operator()( const Logger::Data& e ) override ;
 
 		~gallery_dlFilter() override ;
 	private:
-		QString m_tmp ;
+		QByteArray m_tmp ;
 	} ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;

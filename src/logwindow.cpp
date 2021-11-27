@@ -49,18 +49,18 @@ logWindow::~logWindow()
 	delete m_ui ;
 }
 
-void logWindow::update( const QString& m )
-{
-	if( this->isVisible() ){
-
-		this->setText( m ) ;
-	}
-}
-
-void logWindow::setText( const QString& e )
+void logWindow::setText( const QByteArray& e )
 {
 	m_ui->plainTextEdit->setPlainText( e ) ;
 	m_ui->plainTextEdit->moveCursor( QTextCursor::End ) ;
+}
+
+void logWindow::update( const QByteArray& e )
+{
+	if( this->isVisible() ){
+
+		this->setText( e ) ;
+	}
 }
 
 void logWindow::Hide()
