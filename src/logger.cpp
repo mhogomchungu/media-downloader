@@ -69,10 +69,9 @@ void Logger::update()
 
 		m_textEdit.setPlainText( m ) ;
 		m_textEdit.moveCursor( QTextCursor::End ) ;
-		m_logWindow.update( m ) ;
-	}else{
-		m_logWindow.update( m ) ;
 	}
+
+	m_logWindow.update( m ) ;
 }
 
 QList< QByteArray > Logger::Data::toStringList() const
@@ -123,7 +122,7 @@ void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
 
 bool Logger::updateLogger::meetCondition( const QByteArray& l,const QJsonObject& obj ) const
 {
-	QString line = l ;
+	const QString line = l ;
 
 	if( obj.contains( "startsWith" ) ){
 

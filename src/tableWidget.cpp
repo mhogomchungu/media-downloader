@@ -372,7 +372,3 @@ QTableWidget& tableWidget::get()
 {
 	return m_table ;
 }
-
-
-
-

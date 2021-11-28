@@ -123,7 +123,9 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings ),
 	m_defaultVideoThumbnailIcon( m_settings.defaultVideoThumbnailIcon( settings::tabName::playlist ) ),
 	m_subscription( m_ctx,m_subscriptionTable,*m_ui.widgetPlDownloader )
-{	
+{
+	m_ui.tableWidgetPlDownloaderSubscription->setColumnWidth( 0,180 ) ;
+
 	m_ui.labelPlSubscriptionListOptions->setText( tr( "Get List Options:" ).replace( ":","" ) ) ;
 
 	m_subscription.setVisible( false ) ;

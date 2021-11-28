@@ -217,7 +217,7 @@ public:
 	int rowCount()
 	{
 		return m_table.rowCount() ;
-	}	
+	}
 	void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int s )
 	{
 		tableWidget::selectRow( current,previous,s ) ;

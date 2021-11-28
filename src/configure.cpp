@@ -38,6 +38,8 @@ configure::configure( const Context& ctx ) :
 	m_presetOptions( m_ctx,m_settings ),
 	m_downloadDefaultOptions( m_ctx )
 {
+	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
+
 	m_ui.widgetConfigureManageUrl->setVisible( false ) ;
 
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
