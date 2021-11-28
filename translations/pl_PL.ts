@@ -285,7 +285,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="850"/>
         <source>Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Subskrypcje</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="878"/>
@@ -306,12 +306,12 @@
         <location filename="../src/mainwindow.ui" line="971"/>
         <location filename="../src/mainwindow.ui" line="1641"/>
         <source>Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Adres</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="993"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Gotowe</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1543"/>
@@ -336,12 +336,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1660"/>
         <source>Set What Url Should Be Managed By What Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Przypisz silniki do adresów</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1691"/>
         <source>Url Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr adresów</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1791"/>
@@ -800,17 +800,17 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="405"/>
         <source>Show All Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wszystkie zaktualizowane</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="411"/>
         <source>Download All Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobierz wszystkie zaktualizowane</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="419"/>
         <source>Manage Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzaj subskrypcjami</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="924"/>
