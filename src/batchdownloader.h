@@ -201,8 +201,7 @@ private:
 		}
 		void add( const QByteArray& e )
 		{
-			m_logger.add( e ) ;
-			//m_lines.add( e ) ;
+			m_logger.add( e,m_id ) ;
 		}
 		void clear()
 		{
@@ -212,6 +211,10 @@ private:
 		{
 			m_logger.add( function,m_id ) ;
 			function( m_lines,m_id,false ) ;
+		}
+		void logError( const QByteArray& data )
+		{
+			m_logger.logError( data,m_id ) ;
 		}
 		QByteArray data() const
 		{
@@ -246,6 +249,10 @@ private:
 		QByteArray data() const
 		{
 			return m_logger->data() ;
+		}
+		void logError( const QByteArray& data )
+		{
+			m_logger->logError( data ) ;
 		}
 	private:
 		std::shared_ptr< BatchLogger > m_logger ;

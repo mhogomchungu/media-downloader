@@ -225,6 +225,14 @@ public:
 
 		this->update() ;
 	}
+	void logError( const QByteArray& data,int id )
+	{
+		auto function = []( const QByteArray& ){ return true ; } ;
+
+		m_lines.replaceOrAdd( data,id,function,function ) ;
+
+		this->update() ;
+	}
 	void showLogWindow() ;
 	void updateView( bool e ) ;
 	Logger( const Logger& ) = delete ;
@@ -295,6 +303,10 @@ public:
 	{
 		m_logger->add( e,m_id ) ;
 	}
+	void logError( const QByteArray& data )
+	{
+		m_logger->logError( data,m_id ) ;
+	}
 	void clear()
 	{
 		m_logger->clear() ;
@@ -348,6 +360,10 @@ public:
 		m_logger.add( function,m_id ) ;
 		function( m_lines,-1,false ) ;
 		this->update() ;
+	}
+	void logError( const QByteArray& data )
+	{
+		m_logger.logError( data,m_id ) ;
 	}
 private:
 	void update()
@@ -409,6 +425,10 @@ public:
 		m_logger.add( function,m_id ) ;
 		function( m_lines,-1,false ) ;
 		m_addToTable( m_table,m_lines ) ;
+	}
+	void logError( const QByteArray& data )
+	{
+		m_logger.logError( data,m_id ) ;
 	}
 private:
 	TableWidget& m_table ;

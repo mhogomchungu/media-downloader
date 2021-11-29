@@ -667,7 +667,8 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			 index == -1 ? url : m_table.url( index ),
 			 m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
 			 batchdownloader::make_options( { m_ctx,m_debug,false,index,wrapper },std::move( functions ) ),
-			 wrapper ) ;
+			 wrapper,
+			 QProcess::ProcessChannel::StandardOutput ) ;
 }
 
 void batchdownloader::setThumbnailColumnSize( bool e )

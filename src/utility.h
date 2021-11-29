@@ -890,9 +890,11 @@ namespace utility
 
 				auto c = m_channels.channel() ;
 
-				if( channel == c ){
+				if( c == QProcess::ProcessChannel::StandardOutput && c == channel ){
 
 					_withData( data ) ;
+				}else{
+					m_logger.logError( data ) ;
 				}
 			}
 		}
