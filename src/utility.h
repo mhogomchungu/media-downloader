@@ -1035,7 +1035,7 @@ namespace utility
 		{
 		}
 
-		MediaEntry( const QByteArray& data ) ;
+		MediaEntry( const QString& url,const QByteArray& data ) ;
 		QString uiText() const ;
 
 		const QString& thumbnailUrl() const

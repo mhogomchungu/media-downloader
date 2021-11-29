@@ -1028,7 +1028,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 	m_meaw = true ;
 
-	utility::MediaEntry media( mmm.mid( oo,index + 1 ) ) ;
+	utility::MediaEntry media( "",mmm.mid( oo,index + 1 ) ) ;
 
 	if( !media.valid() ){
 

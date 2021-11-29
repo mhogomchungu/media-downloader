@@ -561,8 +561,10 @@ bool utility::isRelativePath( const QString& e )
 	return QDir::isRelativePath( e ) ;
 }
 
-utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
+utility::MediaEntry::MediaEntry( const QString& url,const QByteArray& data ) : m_json( data )
 {
+	Q_UNUSED( url )
+
 	if( m_json ){
 
 		auto object = m_json.doc().object() ;
