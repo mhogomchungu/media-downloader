@@ -805,6 +805,7 @@ void batchdownloader::addItemUi( const QPixmap& pixmap,
 	if( enableAll ){
 
 		m_ctx.TabManager().enableAll() ;
+		m_ui.pbBDCancel->setEnabled( false ) ;
 	}
 }
 
