@@ -843,11 +843,15 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 				_addItemUi( pixmap,index,m_table,m_ui,media ) ;
 
+				m_ctx.TabManager().Configure().setDownloadOptions( index,m_table ) ;
+
 				if( m_table.noneAreRunning() ){
 
 					m_ui.pbBDDownload->setEnabled( true ) ;
 
 					m_ctx.TabManager().enableAll() ;
+
+					m_ui.pbBDCancel->setEnabled( false ) ;
 				}
 
 				m_networkRunning-- ;
