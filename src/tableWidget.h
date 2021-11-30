@@ -281,7 +281,7 @@ public:
 
 		return row ;
 	}
-	void add( const QStringList& entries,Stuff stuff = Stuff() )
+	int add( const QStringList& entries,Stuff stuff = Stuff() )
 	{
 		if( entries.size() == m_table.columnCount() ){
 
@@ -291,7 +291,11 @@ public:
 
 				m_table.item( row,col )->setText( entries[ col ] ) ;
 			}
+
+			return row ;
 		}
+
+		return -1 ;
 	}
 	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts )
 	{

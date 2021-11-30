@@ -808,11 +808,12 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter )
 
 		listOpts = m_ui.lineEditPLDownloadRange->text() ;
 
-		m_settings.addToplaylistRangeHistory( listOpts ) ;
+		if( !listOpts.isEmpty() ){
 
-		m_settings.setPlaylistRangeHistoryLastUsed( listOpts ) ;
-	}else{
-		m_ui.lineEditPLDownloadRange->setText( listOpts ) ;
+			m_settings.addToplaylistRangeHistory( listOpts ) ;
+
+			m_settings.setPlaylistRangeHistoryLastUsed( listOpts ) ;
+		}
 	}
 
 	if( !listOpts.isEmpty() ){
@@ -1194,8 +1195,12 @@ void playlistdownloader::subscription::setVisible( bool e )
 
 			auto a = m.value( "uiName" ).toString() ;
 			auto b = m.value( "url" ).toString() ;
+			auto c = tr( "Get List Options:" ) + " " + m.value( "getListOptions" ).toString() ;
 
-			m_table.add( { a,b } ) ;
+			int row = m_table.add( { a,b } ) ;
+
+			m_table.item( row,0 ).setToolTip( c ) ;
+			m_table.item( row,1 ).setToolTip( c ) ;
 		}
 
 		m_table.selectLast() ;
