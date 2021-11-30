@@ -285,7 +285,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="850"/>
         <source>Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="878"/>
@@ -306,12 +306,12 @@
         <location filename="../src/mainwindow.ui" line="971"/>
         <location filename="../src/mainwindow.ui" line="1641"/>
         <source>Url</source>
-        <translation type="unfinished"></translation>
+        <translation>链接地址</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="993"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>完成</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1543"/>
@@ -336,12 +336,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1660"/>
         <source>Set What Url Should Be Managed By What Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>设置哪个引擎应该管理哪个链接地址</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1691"/>
         <source>Url Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>链接地址过滤器</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1791"/>
@@ -380,7 +380,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="541"/>
         <source>Get List From File</source>
-        <translation type="unfinished"></translation>
+        <translation>从文件从获取列表</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="313"/>
@@ -686,7 +686,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="223"/>
         <source>Copy Url</source>
-        <translation type="unfinished"></translation>
+        <translation>复制链接地址</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="235"/>
@@ -696,7 +696,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="248"/>
         <source>Show Media Options</source>
-        <translation type="unfinished"></translation>
+        <translation>显示媒体设置</translation>
     </message>
 </context>
 <context>
@@ -795,27 +795,27 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="253"/>
         <source>Copy Url</source>
-        <translation type="unfinished"></translation>
+        <translation>复制链接地址</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="405"/>
         <source>Show All Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>显示所有更新</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="411"/>
         <source>Download All Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>下载所有更新</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="419"/>
         <source>Manage Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>管理订阅</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="924"/>
         <source>This May Take A Very Long Time</source>
-        <translation type="unfinished"></translation>
+        <translation>这可能需要很长时间</translation>
     </message>
 </context>
 </TS>
