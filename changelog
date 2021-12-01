@@ -102,7 +102,7 @@ Version 1.2.0(April 1st, 2021)
     with browser extensions that can open links in external application and it can be used to quickly add a link to the application.
     - Add "-a" commnd line option to automatically start downloading Url added with "-u" option.
 
-  Version 2.1.0(Unreleased)
+  Version 2.1.0(December 1st, 2021)
     - Add ability to set what engine should be used and with what options based on entered url. This ability allows for
       example to say "i want yt-dlp to be used with download option of "mp4-mobile" with any link from streamable.com".
     - Add ability to bookmark channels in the playlist downloader tab to make it easier to monitor favorite channels.
