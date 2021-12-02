@@ -772,7 +772,7 @@ const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& 
 			return m_postProcessing.text( m_fileName ) ;
 		}
 	}else{
-		if( downloadCounter == downloadCountExpected ){
+		if( downloadCounter >= downloadCountExpected ){
 
 			return m_postProcessing.text( m_fileName ) ;
 		}else{
