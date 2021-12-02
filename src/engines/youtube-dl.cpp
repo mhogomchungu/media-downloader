@@ -720,7 +720,7 @@ const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& 
 				}
 			}
 		}
-		if( e.startsWith( "[download] 100% of " ) ){
+		if( e.startsWith( "[download] 100% of " ) && e.contains( " in " ) ){
 
 			downloadCounter++ ;
 		}
@@ -772,7 +772,7 @@ const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& 
 			return m_postProcessing.text( m_fileName ) ;
 		}
 	}else{
-		if( downloadCounter >= downloadCountExpected ){
+		if( downloadCounter == downloadCountExpected ){
 
 			return m_postProcessing.text( m_fileName ) ;
 		}else{
