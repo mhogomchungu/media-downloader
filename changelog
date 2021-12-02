@@ -106,3 +106,6 @@ Version 1.2.0(April 1st, 2021)
     - Add ability to set what engine should be used and with what options based on entered url. This ability allows for
       example to say "i want yt-dlp to be used with download option of "mp4-mobile" with any link from streamable.com".
     - Add ability to bookmark channels in the playlist downloader tab to make it easier to monitor favorite channels.
+
+  Version 2.1.1(December 2st, 2021)
+    - Fix a bug caused by a change in yt-dlp output.
