@@ -419,19 +419,6 @@ youtube_dl::~youtube_dl()
 {
 }
 
-void youtube_dl::processData( Logger::Data& outPut,
-			      const QByteArray& data,
-			      int id,
-			      bool readableJson )
-{
-	if( data.startsWith( "progress:" ) ){
-
-		engines::engine::functions::processData( outPut,data.mid( 9 ),id,readableJson ) ;
-	}else{
-		engines::engine::functions::processData( outPut,data,id,readableJson ) ;
-	}
-}
-
 std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 {
 	if( !m_engine.name().contains( "yt-dlp" ) ){
@@ -690,7 +677,7 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 	if( m_engine.name().contains( "yt-dlp" ) ){
 
 		s.ourOptions.append( "--progress-template" ) ;
-		s.ourOptions.append( "progress:[download]%(progress._percent_str)s of %(progress._total_bytes_str)s at %(progress._speed_str)s ETA %(progress._eta_str)s" ) ;
+		s.ourOptions.append( "download:[download] %(progress._percent_str)s of %(progress._total_bytes_str)s at %(progress._speed_str)s ETA %(progress._eta_str)s" ) ;
 		s.ourOptions.append( "--progress-template" ) ;
 		s.ourOptions.append( "postprocess:postprocessing" ) ;
 	}

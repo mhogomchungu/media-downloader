@@ -45,11 +45,6 @@ public:
 		QByteArray m_fileName ;
 	} ;
 
-	void processData( Logger::Data& outPut,
-			  const QByteArray& data,
-			  int id,
-			  bool readableJson ) override ;
-
 	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
 
 	QStringList dumpJsonArguments() override ;
