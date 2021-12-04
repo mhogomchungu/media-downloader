@@ -669,12 +669,12 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 		}
 	}
 
-	while( s.ourOptions.contains( "--progress-template" ) ){
-
-		utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
-	}
-
 	if( m_engine.name().contains( "yt-dlp" ) ){
+
+		while( s.ourOptions.contains( "--progress-template" ) ){
+
+			utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
+		}
 
 		s.ourOptions.append( "--progress-template" ) ;
 		s.ourOptions.append( "download:[download] %(progress._percent_str)s of %(progress._total_bytes_str)s at %(progress._speed_str)s ETA %(progress._eta_str)s" ) ;
