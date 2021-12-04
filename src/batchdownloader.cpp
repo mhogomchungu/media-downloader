@@ -958,6 +958,8 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	auto updater = [ this,index ]( const QString& e ){
 
+		utility::debug( "--debug" ) << e ;
+
 		m_table.setUiText( e,index ) ;
 	} ;
 

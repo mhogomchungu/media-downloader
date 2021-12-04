@@ -36,11 +36,19 @@ public:
 
 		~youtube_dlFilter() override ;
 	private:
+		const QByteArray& youtubedlOutput( const Logger::Data& ) ;
+		const QByteArray& ytdlpOutput( const Logger::Data& ) ;
+		bool m_likeYtdlp ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
 	} ;
+
+	void processData( Logger::Data& outPut,
+			  const QByteArray& data,
+			  int id,
+			  bool readableJson ) override ;
 
 	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
 

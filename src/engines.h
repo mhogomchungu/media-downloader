@@ -223,9 +223,11 @@ public:
 			{
 			public:
 				preProcessing() ;
-				preProcessing( const QString& ) ;
+				preProcessing( const QByteArray& ) ;
+
 				static QByteArray processingText() ;
 				const QByteArray& text() ;
+				const QByteArray& text( const QByteArray& ) ;
 			private:
 				int m_counter = 0 ;
 				QByteArray m_counterDots ;
@@ -238,9 +240,9 @@ public:
 			public:
 				static QByteArray processingText() ;
 				postProcessing() ;
-				postProcessing( const QString& ) ;
+				postProcessing( const QByteArray& ) ;
 
-				const QByteArray& text( const QString& ) ;
+				const QByteArray& text( const QByteArray& ) ;
 			private:
 				int m_counter = 0 ;
 				QByteArray m_counterDots ;

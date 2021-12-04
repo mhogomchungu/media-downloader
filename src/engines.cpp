@@ -1085,8 +1085,8 @@ engines::engine::functions::preProcessing::preProcessing() :
 {
 }
 
-engines::engine::functions::preProcessing::preProcessing( const QString& e ) :
-	m_processingDefaultText( e.toUtf8() )
+engines::engine::functions::preProcessing::preProcessing( const QByteArray& e ) :
+	m_processingDefaultText( e )
 {
 }
 
@@ -1112,22 +1112,7 @@ const QByteArray& engines::engine::functions::preProcessing::text()
 	return m_txt ;
 }
 
-QByteArray engines::engine::functions::postProcessing::processingText()
-{
-	return QObject::tr( "Post Processing" ).toUtf8() ;
-}
-
-engines::engine::functions::postProcessing::postProcessing() :
-	m_processingDefaultText( engines::engine::functions::postProcessing::processingText() )
-{
-}
-
-engines::engine::functions::postProcessing::postProcessing( const QString& e ) :
-	m_processingDefaultText( e.toUtf8() )
-{
-}
-
-const QByteArray& engines::engine::functions::postProcessing::text( const QString& e )
+const QByteArray& engines::engine::functions::preProcessing::text( const QByteArray& e )
 {
 	if( m_counter < 16 ){
 
@@ -1139,9 +1124,39 @@ const QByteArray& engines::engine::functions::postProcessing::text( const QStrin
 
 	m_counter++ ;
 
-	auto m = e + "\n" + m_processingDefaultText + m_counterDots ;
+	m_txt = e + "\n" + m_processingDefaultText + m_counterDots ;
 
-	m_txt = m.toUtf8() ;
+	return m_txt ;
+}
+
+QByteArray engines::engine::functions::postProcessing::processingText()
+{
+	return QObject::tr( "Post Processing" ).toUtf8() ;
+}
+
+engines::engine::functions::postProcessing::postProcessing() :
+	m_processingDefaultText( engines::engine::functions::postProcessing::processingText() )
+{
+}
+
+engines::engine::functions::postProcessing::postProcessing( const QByteArray& e ) :
+	m_processingDefaultText( e )
+{
+}
+
+const QByteArray& engines::engine::functions::postProcessing::text( const QByteArray& e )
+{
+	if( m_counter < 16 ){
+
+		m_counterDots += " ..." ;
+	}else{
+		m_counterDots = " ..." ;
+		m_counter = 0 ;
+	}
+
+	m_counter++ ;
+
+	m_txt = e + "\n" + m_processingDefaultText + m_counterDots ;
 
 	return m_txt ;
 }

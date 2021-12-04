@@ -419,6 +419,19 @@ youtube_dl::~youtube_dl()
 {
 }
 
+void youtube_dl::processData( Logger::Data& outPut,
+			      const QByteArray& data,
+			      int id,
+			      bool readableJson )
+{
+	if( data.startsWith( "progress:" ) ){
+
+		engines::engine::functions::processData( outPut,data.mid( 9 ),id,readableJson ) ;
+	}else{
+		engines::engine::functions::processData( outPut,data,id,readableJson ) ;
+	}
+}
+
 std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 {
 	if( !m_engine.name().contains( "yt-dlp" ) ){
@@ -616,7 +629,10 @@ QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
 
 		for( const auto& it : util::split( uiText,'\n',true ) ){
 
-			if( !it.contains( engines::engine::functions::postProcessing::processingText() ) ){
+			auto x = engines::engine::functions::postProcessing::processingText() ;
+			auto y = engines::engine::functions::preProcessing::processingText() ;
+
+			if( !it.contains( x ) && !it.contains( y ) ){
 
 				a.append( it ) ;
 			}
@@ -665,17 +681,110 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 			}
 		}
 	}
+
+	while( s.ourOptions.contains( "--progress-template" ) ){
+
+		utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
+	}
+
+	if( m_engine.name().contains( "yt-dlp" ) ){
+
+		s.ourOptions.append( "--progress-template" ) ;
+		s.ourOptions.append( "progress:[download]%(progress._percent_str)s of %(progress._total_bytes_str)s at %(progress._speed_str)s ETA %(progress._eta_str)s" ) ;
+		s.ourOptions.append( "--progress-template" ) ;
+		s.ourOptions.append( "postprocess:postprocessing" ) ;
+	}
 }
 
 youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::engine& engine ) :
-	engines::engine::functions::filter( e,engine )
+	engines::engine::functions::filter( e,engine ),
+	m_likeYtdlp( engine.name().contains( "yt-dlp" ) )
 {
 }
 
 const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
 {
-	int downloadCounter = 0 ;
-	int downloadCountExpected = -1 ;
+	if( m_likeYtdlp ){
+
+		return this->ytdlpOutput( s ) ;
+	}else{
+		return this->youtubedlOutput( s ) ;
+	}
+}
+
+youtube_dl::youtube_dlFilter::~youtube_dlFilter()
+{
+}
+
+const QByteArray& youtube_dl::youtube_dlFilter::youtubedlOutput( const Logger::Data& s )
+{
+	const auto data = s.toStringList() ;
+
+	for( const auto& e : data ){
+
+		if( e.startsWith( "ERROR: " ) ){
+
+			m_tmp = e ;
+			return m_tmp ;
+		}
+		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){
+
+			m_fileName = e.mid( e.indexOf( " " ) + 1 ) ;
+			m_fileName.truncate( m_fileName.indexOf( " has already been downloaded" ) ) ;
+			return m_fileName ;
+		}
+		if( e.contains( "] Destination: " ) ){
+
+			m_fileName = e.mid( e.indexOf( "] Destination: " ) + 15 ) ;
+		}
+		if( e.contains( " Merging formats into \"" ) ){
+
+			m_fileName = e.mid( e.indexOf( "\"" ) + 1 ) ;
+			m_fileName.truncate( m_fileName.size() - 1 ) ;
+		}
+		if( e.contains( "has already been recorded in archive" ) ){
+
+			m_tmp = engines::engine::mediaAlreadInArchiveText().toUtf8() ;
+
+			return m_tmp ;
+		}
+	}
+
+	if( s.lastLineIsProgressLine() ){
+
+		const auto& mm = s.lastText() ;
+
+		auto w = mm.indexOf( ' ' ) ;
+
+		if( w != -1 ){
+
+			for( ; w < mm.size() ; w++ ){
+
+				if( mm[ w ] != ' ' ){
+
+					break ;
+				}
+			}
+		}else{
+			w = 0 ;
+		}
+
+		m_tmp = m_fileName + "\n" + mm.mid( w ) ;
+
+		return m_tmp ;
+	}
+
+	if( m_fileName.isEmpty() ){
+
+		return m_preProcessing.text() ;
+	}else{
+		return m_preProcessing.text( m_fileName ) ;
+	}
+}
+
+const QByteArray& youtube_dl::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
+{
+	bool downloadingCompleted = false ;
 
 	const auto data = s.toStringList() ;
 
@@ -701,34 +810,15 @@ const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& 
 			m_fileName = e.mid( e.indexOf( "\"" ) + 1 ) ;
 			m_fileName.truncate( m_fileName.size() - 1 ) ;
 		}
-		if( e.startsWith( "[info] " ) && e.contains( " Downloading 1 format(s): " ) ){
-
-			int r = e.lastIndexOf( ' ' ) ;
-
-			if( r != -1 ){
-
-				auto m = e.mid( r + 1 ) ;
-
-				downloadCountExpected = 1 ;
-
-				for( const auto& it : m ){
-
-					if( it == '+' ){
-
-						downloadCountExpected++ ;
-					}
-				}
-			}
-		}
-		if( e.startsWith( "[download] 100% of " ) && e.contains( " in " ) ){
-
-			downloadCounter++ ;
-		}
 		if( e.contains( "has already been recorded in archive" ) ){
 
 			m_tmp = engines::engine::mediaAlreadInArchiveText().toUtf8() ;
 
 			return m_tmp ;
+		}
+		if( e == "postprocessing" ){
+
+			downloadingCompleted = true ;
 		}
 	}
 
@@ -763,24 +853,10 @@ const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& 
 		return m_tmp ;
 	}
 
-	if( downloadCountExpected == -1 ){
+	if( downloadingCompleted ){
 
-		if( downloadCounter == 0 ){
-
-			return m_preProcessing.text() ;
-		}else{
-			return m_postProcessing.text( m_fileName ) ;
-		}
+		return m_postProcessing.text( m_fileName ) ;
 	}else{
-		if( downloadCounter == downloadCountExpected ){
-
-			return m_postProcessing.text( m_fileName ) ;
-		}else{
-			return m_preProcessing.text() ;
-		}
+		return m_preProcessing.text() ;
 	}
-}
-
-youtube_dl::youtube_dlFilter::~youtube_dlFilter()
-{
 }
