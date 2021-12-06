@@ -57,10 +57,10 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
-void youtube_dl::init( const QString& name,
-		       const QString& configFileName,
-		       Logger& logger,
-		       const engines::enginePaths& enginePath )
+QJsonObject youtube_dl::init( const QString& name,
+			      const QString& configFileName,
+			      Logger& logger,
+			      const engines::enginePaths& enginePath )
 {
 	auto m = enginePath.enginePath( configFileName ) ;
 
@@ -80,8 +80,6 @@ void youtube_dl::init( const QString& name,
 
 				return obj ;
 			}() ) ;
-
-			mainObj.insert( "ShowListTableExtraBoundaries",QJsonArray() ) ;
 
 			mainObj.insert( "CommandName","youtube-dl" ) ;
 
@@ -103,57 +101,6 @@ void youtube_dl::init( const QString& name,
 
 				arr.append( "--print" ) ;
 				arr.append( "%(formats)j" ) ;
-
-				return arr ;
-			}() ) ;
-
-			mainObj.insert( "ShowListTableBoundary",[](){
-
-				QJsonObject obj ;
-
-				obj.insert( "ColumnNumber","0" ) ;
-				obj.insert( "Comparator","contains" ) ;
-				obj.insert( "String","--" ) ;
-
-				return obj ;
-			}() ) ;
-
-			mainObj.insert( "ShowListTableExtraBoundaries",[](){
-
-				QJsonArray arr ;
-
-				arr.append( [](){
-
-					QJsonObject obj ;
-
-					obj.insert( "ColumnNumber","0" ) ;
-					obj.insert( "Comparator","equals" ) ;
-					obj.insert( "String","format" ) ;
-
-					return obj ;
-				}() ) ;
-
-				arr.append( [](){
-
-					QJsonObject obj ;
-
-					obj.insert( "ColumnNumber","0" ) ;
-					obj.insert( "Comparator","contains" ) ;
-					obj.insert( "String","--" ) ;
-
-					return obj ;
-				}() ) ;
-
-				arr.append( [](){
-
-					QJsonObject obj ;
-
-					obj.insert( "ColumnNumber","0" ) ;
-					obj.insert( "Comparator","equals" ) ;
-					obj.insert( "String","ID" ) ;
-
-					return obj ;
-				}() ) ;
 
 				return arr ;
 			}() ) ;
@@ -207,18 +154,7 @@ void youtube_dl::init( const QString& name,
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "PlayListIdArguments",[](){
-
-			QJsonArray arr ;
-
-			arr.append( "--get-id" ) ;
-			arr.append( "--get-title" ) ;
-			arr.append( "--get-thumbnail" ) ;
-
-			return arr ;
-		}() ) ;
-
-		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader",QString() ) ;
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.1.1" ) ;
 
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
@@ -243,174 +179,38 @@ void youtube_dl::init( const QString& name,
 		mainObj.insert( "ReplaceOutputWithProgressReport",false ) ;
 
 		engines::file( m,logger ).write( mainObj ) ;
+
+		return mainObj ;
+	}else{
+		return QJsonObject() ;
 	}
 }
 
-youtube_dl::youtube_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
+youtube_dl::youtube_dl( const engines& engines,
+			const engines::engine& engine,
+			QJsonObject& obj,
+			Logger& logger,
+			const engines::enginePaths& enginePath ) :
 	engines::engine::functions( engines.Settings(),engine ),
 	m_engine( engine )
 {
-	if( !object.contains( "ShowListTableBoundary" ) ){
+	auto name = obj.value( "Name" ).toString() ;
 
-		QJsonObject obj ;
+	if( name == "youtube-dl" || name == "yt-dlp" ){
 
-		if( m_engine.name() == "youtube-dl" ){
+		auto version = obj.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
 
-			obj.insert( "ColumnNumber","0" ) ;
-			obj.insert( "Comparator","equals" ) ;
-			obj.insert( "String","format" ) ;
-		}else{
-			obj.insert( "ColumnNumber","0" ) ;
-			obj.insert( "Comparator","contains" ) ;
-			obj.insert( "String","--" ) ;
-		}
+		if( version.isEmpty() || util::version( version ) < "2.1.1" ){
 
-		object.insert( "ShowListTableBoundary",obj ) ;
-	}
+			auto configFileName = name + ".json" ;
 
-	if( !object.contains( "ShowListTableExtraBoundaries" ) ){
+			auto m = enginePath.enginePath( configFileName ) ;
 
-		if( m_engine.name() == "youtube-dl" ){
+			QFile::remove( m ) ;
 
-			object.insert( "ShowListTableExtraBoundaries",QJsonArray() ) ;
-		}else{
-			object.insert( "ShowListTableExtraBoundaries",[](){
+			while( QFile::exists( m ) ){}
 
-				QJsonArray arr ;
-
-				arr.append( [](){
-
-					QJsonObject obj ;
-
-					obj.insert( "ColumnNumber","0" ) ;
-					obj.insert( "Comparator","equals" ) ;
-					obj.insert( "String","format" ) ;
-
-					return obj ;
-				}() ) ;
-
-				arr.append( [](){
-
-					QJsonObject obj ;
-
-					obj.insert( "ColumnNumber","0" ) ;
-					obj.insert( "Comparator","contains" ) ;
-					obj.insert( "String","─" ) ;
-
-					return obj ;
-				}() ) ;
-
-				arr.append( [](){
-
-					QJsonObject obj ;
-
-					obj.insert( "ColumnNumber","0" ) ;
-					obj.insert( "Comparator","contains" ) ;
-					obj.insert( "String","ID" ) ;
-
-					return obj ;
-				}() ) ;
-
-				return arr ;
-			}() ) ;
-		}
-	}else{
-		auto arr = object.value( "ShowListTableExtraBoundaries" ).toArray() ;
-
-		if( m_engine.name() != "youtube-dl" ){
-
-			arr.append( [](){
-
-				QJsonObject obj ;
-
-				obj.insert( "ColumnNumber","0" ) ;
-				obj.insert( "Comparator","contains" ) ;
-				obj.insert( "String","ID" ) ;
-
-				return obj ;
-			}() ) ;
-		}
-
-		object.insert( "ShowListTableExtraBoundaries",arr ) ;
-	}
-
-	if( !object.contains( "CookieArgument" ) ){
-
-		object.insert( "CookieArgument","--cookies" ) ;
-	}
-
-	if( !object.contains( "SkipLineWithText" ) ){
-
-		object.insert( "SkipLineWithText",[](){
-
-			QJsonArray arr ;
-
-			arr.append( "(pass -k to keep)" ) ;
-
-			return arr ;
-		}() ) ;
-	}
-
-	if( !object.contains( "PlayListIdArguments" ) ){
-
-		object.insert( "PlayListIdArguments",[](){
-
-			QJsonArray arr ;
-
-			arr.append( "--get-id" ) ;
-			arr.append( "--get-title" ) ;
-			arr.append( "--get-thumbnail" ) ;
-
-			return arr ;
-		}() ) ;
-	}
-
-	if( !object.contains( "LikeYoutubeDl" ) ){
-
-		object.insert( "LikeYoutubeDl",true ) ;
-	}
-
-	if( !object.contains( "ControlJsonStructure" ) ){
-
-		object.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
-	}
-
-	if( !object.contains( "PlayListIdArgument" ) ){
-
-		object.insert( "PlayListIdArgument","--get-id" ) ;
-	}
-
-	if( !object.contains( "PlaylistItemsArgument" ) ){
-
-		object.insert( "PlaylistItemsArgument","--playlist-items" ) ;
-	}
-
-	object.insert( "UsePrivateExecutable",!engines.Settings().useSystemProvidedVersionIfAvailable() ) ;
-
-	m_objs = object.value( "ShowListTableExtraBoundaries" ).toArray() ;
-	m_objs.insert( 0,object.value( "ShowListTableBoundary" ).toObject() ) ;
-
-	if( m_engine.name().contains( "yt-dlp" ) ){
-
-		object.insert( "DefaultListCmdOptions",[](){
-
-			QJsonArray arr ;
-
-			arr.append( "--print" ) ;
-			arr.append( "%(formats)j" ) ;
-
-			return arr ;
-		}() ) ;
-	}else{
-		if( !object.contains( "DefaultListCmdOptions" ) ){
-
-			object.insert( "DefaultListCmdOptions",[](){
-
-				QJsonArray arr ;
-				arr.append( "-F" ) ;
-
-				return arr ;
-			}() ) ;
+			obj = youtube_dl::init( name,configFileName,logger,enginePath ) ;
 		}
 	}
 }

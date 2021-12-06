@@ -258,7 +258,7 @@ void engines::updateEngines( bool addAll )
 
 		if( it.likeYoutubeDl() ){
 
-			it.setBackend< youtube_dl >( engines ) ;
+			it.setBackend< youtube_dl >( engines,m_logger,m_enginePaths ) ;
 
 		}else if( name == "safaribooks" ){
 

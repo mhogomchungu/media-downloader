@@ -28,16 +28,11 @@
     "LikeYoutubeDl": true,
     "Name": "youtube-dl",
     "OptionsArgument": "-f",
-    "PlayListIdArguments": [
-        "--get-id",
-        "--get-title",
-        "--get-thumbnail"
-    ],
     "PlaylistItemsArgument": "--playlist-items",
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "",
+    "RequiredMinimumVersionOfMediaDownloader": "2.1.1",
     "ShowListTableBoundary": {
         "ColumnNumber": "0",
         "Comparator": "equals",

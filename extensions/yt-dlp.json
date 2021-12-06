@@ -30,38 +30,11 @@
     "LikeYoutubeDl": true,
     "Name": "yt-dlp",
     "OptionsArgument": "-f",
-    "PlayListIdArguments": [
-        "--get-id",
-        "--get-title",
-        "--get-thumbnail"
-    ],
     "PlaylistItemsArgument": "--playlist-items",
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "",
-    "ShowListTableBoundary": {
-        "ColumnNumber": "0",
-        "Comparator": "contains",
-        "String": "--"
-    },
-    "ShowListTableExtraBoundaries": [
-        {
-            "ColumnNumber": "0",
-            "Comparator": "equals",
-            "String": "format"
-        },
-        {
-            "ColumnNumber": "0",
-            "Comparator": "contains",
-            "String": "--"
-        },
-        {
-            "ColumnNumber": "0",
-            "Comparator": "equals",
-            "String": "ID"
-        }
-    ],
+    "RequiredMinimumVersionOfMediaDownloader": "2.1.1",
     "SkipLineWithText": [
         "(pass -k to keep)"
     ],

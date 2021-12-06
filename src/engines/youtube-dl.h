@@ -62,12 +62,16 @@ public:
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 
-	static void init( const QString& name,
-			  const QString& configFileName,
-			  Logger& logger,
-			  const engines::enginePaths& enginePath ) ;
+	static QJsonObject init( const QString& name,
+				 const QString& configFileName,
+				 Logger& logger,
+				 const engines::enginePaths& enginePath ) ;
 
-	youtube_dl( const engines&,const engines::engine&,QJsonObject& ) ;
+	youtube_dl( const engines&,
+		    const engines::engine&,
+		    QJsonObject&,
+		    Logger& logger,
+		    const engines::enginePaths& ) ;
 private:
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
