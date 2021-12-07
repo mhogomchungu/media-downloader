@@ -62,7 +62,7 @@
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "",
+    "RequiredMinimumVersionOfMediaDownloader": "2.2.0",
     "ShowListTableBoundary": {
     },
     "SkipLineWithText": [

@@ -51,13 +51,13 @@
     "OptionsArgument": "",
     "RemoveText": [
     ],
+    "ReplaceOutputWithProgressReport": true,
+    "RequiredMinimumVersionOfMediaDownloader": "2.2.0",
     "SkipLineWithText": [
     ],
     "SplitLinesBy": [
         "\n"
     ],
-    "ReplaceOutputWithProgressReport": true,
-    "UsePrivateExecutable": true,
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 0

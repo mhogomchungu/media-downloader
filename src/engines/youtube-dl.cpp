@@ -290,6 +290,8 @@ QJsonObject youtube_dl::init( const QString& name,
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
 
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.2.0" ) ;
+
 		mainObj.insert( "Name",name ) ;
 
 		mainObj.insert( "CookieArgument","--cookies" ) ;

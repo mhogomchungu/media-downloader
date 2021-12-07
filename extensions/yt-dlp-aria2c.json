@@ -61,7 +61,7 @@
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "1.8.0",
+    "RequiredMinimumVersionOfMediaDownloader": "2.2.0",
     "SkipLineWithText": [
         "(pass -k to keep)",
         "                                                                               "

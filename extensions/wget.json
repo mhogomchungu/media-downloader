@@ -48,7 +48,8 @@
     "DownloadUrl": "",
     "Name": "wget",
     "OptionsArgument": "--progress=bar:force",
-    "UsePrivateExecutable": false,
+    "ReplaceOutputWithProgressReport": false,
+    "RequiredMinimumVersionOfMediaDownloader": "2.2.0",
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 2

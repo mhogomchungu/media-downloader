@@ -64,11 +64,12 @@
         "\u001b[41m",
         "\u001b[43m"
     ],
+    "ReplaceOutputWithProgressReport": false,
+    "RequiredMinimumVersionOfMediaDownloader": "2.2.0",
     "SplitLinesBy": [
         "\r",
         "\n"
     ],
-    "UsePrivateExecutable": true,
     "UserName": "",
     "VersionArgument": "--version",
     "VersionStringLine": 0,
