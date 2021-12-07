@@ -6,12 +6,18 @@
         "Generic": {
             "amd64": {
                 "Args": [
+                    "stdbuf",
+                    "-o",
+                    "L",
                     "yt-dlp"
                 ],
                 "Name": "yt-dlp"
             },
             "x86": {
                 "Args": [
+                    "stdbuf",
+                    "-o",
+                    "L",
                     "yt-dlp"
                 ],
                 "Name": "yt-dlp"
