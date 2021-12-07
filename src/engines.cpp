@@ -602,29 +602,27 @@ engines::engine::engine( Logger& logger,
 	}else{
 		auto cmdNames = [ & ](){
 
-			auto cmdObj = cmd.toObject() ;
+			auto obj = [ & ](){
 
-			m_commandName = cmdObj.value( "Name" ).toString() ;
+				if( utility::platformIsWindows() ){
 
-			if( utility::platformIsWindows() ){
-
-				auto win = cmdObj.value( "Windows" ).toObject() ;
-
-				if( utility::platformIs32Bit() ){
-
-					return _toStringList( win.value( "x86" ).toArray() ) ;
+					return cmd.toObject().value( "Windows" ).toObject() ;
 				}else{
-					return _toStringList( win.value( "amd64" ).toArray() ) ;
+					return cmd.toObject().value( "Generic" ).toObject() ;
 				}
+			}() ;
+
+			if( utility::platformIs32Bit() ){
+
+				auto o = obj.value( "x86" ).toObject() ;
+
+				m_commandName = o.value( "Name" ).toString() ;
+				return _toStringList( o.value( "Args" ).toArray() ) ;
 			}else{
-				auto win = cmdObj.value( "Generic" ).toObject() ;
+				auto o = obj.value( "amd64" ).toObject() ;
 
-				if( utility::platformIs32Bit() ){
-
-					return _toStringList( win.value( "x86" ).toArray() ) ;
-				}else{
-					return _toStringList( win.value( "amd64" ).toArray() ) ;
-				}
+				m_commandName = o.value( "Name" ).toString() ;
+				return _toStringList( o.value( "Args" ).toArray() ) ;
 			}
 		}() ;
 

@@ -4,21 +4,32 @@
     "CanDownloadPlaylist": true,
     "Cmd": {
         "Generic": {
-            "amd64": [
-                "youtube-dl"
-            ],
-            "x86": [
-                "youtube-dl"
-            ]
+            "amd64": {
+                "Args": [
+                    "youtube-dl"
+                ],
+                "Name": "youtube-dl"
+            },
+            "x86": {
+                "Args": [
+                    "youtube-dl"
+                ],
+                "Name": "youtube-dl"
+            }
         },
-        "Name": "youtube-dl",
         "Windows": {
-            "amd64": [
-                "youtube-dl.exe"
-            ],
-            "x86": [
-                "youtube-dl.exe"
-            ]
+            "amd64": {
+                "Args": [
+                    "youtube-dl.exe"
+                ],
+                "Name": "youtube-dl.exe"
+            },
+            "x86": {
+                "Args": [
+                    "youtube-dl.exe"
+                ],
+                "Name": "youtube-dl.exe"
+            }
         }
     },
     "ControlJsonStructure": {

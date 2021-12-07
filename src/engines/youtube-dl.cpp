@@ -85,28 +85,44 @@ QJsonObject youtube_dl::init( const QString& name,
 
 				QJsonObject e ;
 
-				e.insert( "Name","youtube-dl" ) ;
-
 				e.insert( "Generic",[](){
 
 					QJsonObject e ;
 
 					e.insert( "x86",[](){
 
-						QJsonArray arr ;
+						QJsonObject a ;
 
-						arr.append( "youtube-dl" ) ;
+						a.insert( "Name","youtube-dl" ) ;
 
-						return arr ;
+						a.insert( "Args",[](){
+
+							QJsonArray arr ;
+
+							arr.append( "youtube-dl" ) ;
+
+							return arr ;
+						}() ) ;
+
+						return a ;
 					}() ) ;
 
 					e.insert( "amd64",[](){
 
-						QJsonArray arr ;
+						QJsonObject a ;
 
-						arr.append( "youtube-dl" ) ;
+						a.insert( "Name","youtube-dl" ) ;
 
-						return arr ;
+						a.insert( "Args",[](){
+
+							QJsonArray arr ;
+
+							arr.append( "youtube-dl" ) ;
+
+							return arr ;
+						}() ) ;
+
+						return a ;
 					}() ) ;
 
 					return e ;
@@ -118,20 +134,38 @@ QJsonObject youtube_dl::init( const QString& name,
 
 					e.insert( "x86",[](){
 
-						QJsonArray arr ;
+						QJsonObject a ;
 
-						arr.append( "youtube-dl.exe" ) ;
+						a.insert( "Name","youtube-dl.exe" ) ;
 
-						return arr ;
+						a.insert( "Args",[](){
+
+							QJsonArray arr ;
+
+							arr.append( "youtube-dl.exe" ) ;
+
+							return arr ;
+						}() ) ;
+
+						return a ;
 					}() ) ;
 
 					e.insert( "amd64",[](){
 
-						QJsonArray arr ;
+						QJsonObject a ;
 
-						arr.append( "youtube-dl.exe" ) ;
+						a.insert( "Name","youtube-dl.exe" ) ;
 
-						return arr ;
+						a.insert( "Args",[](){
+
+							QJsonArray arr ;
+
+							arr.append( "youtube-dl.exe" ) ;
+
+							return arr ;
+						}() ) ;
+
+						return a ;
 					}() ) ;
 
 					return e ;
@@ -154,28 +188,44 @@ QJsonObject youtube_dl::init( const QString& name,
 
 				QJsonObject e ;
 
-				e.insert( "Name","yt-dlp" ) ;
-
 				e.insert( "Generic",[](){
 
 					QJsonObject e ;
 
 					e.insert( "x86",[](){
 
-						QJsonArray arr ;
+						QJsonObject a ;
 
-						arr.append( "yt-dlp" ) ;
+						a.insert( "Name","yt-dlp" ) ;
 
-						return arr ;
+						a.insert( "Args",[](){
+
+							QJsonArray arr ;
+
+							arr.append( "yt-dlp" ) ;
+
+							return arr ;
+						}() ) ;
+
+						return a ;
 					}() ) ;
 
 					e.insert( "amd64",[](){
 
-						QJsonArray arr ;
+						QJsonObject a ;
 
-						arr.append( "yt-dlp" ) ;
+						a.insert( "Name","yt-dlp" ) ;
 
-						return arr ;
+						a.insert( "Args",[](){
+
+							QJsonArray arr ;
+
+							arr.append( "yt-dlp" ) ;
+
+							return arr ;
+						}() ) ;
+
+						return a ;
 					}() ) ;
 
 					return e ;
@@ -187,20 +237,38 @@ QJsonObject youtube_dl::init( const QString& name,
 
 					e.insert( "x86",[](){
 
-						QJsonArray arr ;
+						QJsonObject a ;
 
-						arr.append( "yt-dlp_x86.exe" ) ;
+						a.insert( "Name","yt-dlp_x86.exe" ) ;
 
-						return arr ;
+						a.insert( "Args",[](){
+
+							QJsonArray arr ;
+
+							arr.append( "yt-dlp_x86.exe" ) ;
+
+							return arr ;
+						}() ) ;
+
+						return a ;
 					}() ) ;
 
 					e.insert( "amd64",[](){
 
-						QJsonArray arr ;
+						QJsonObject a ;
 
-						arr.append( "yt-dlp.exe" ) ;
+						a.insert( "Name","yt-dlp.exe" ) ;
 
-						return arr ;
+						a.insert( "Args",[](){
+
+							QJsonArray arr ;
+
+							arr.append( "yt-dlp.exe" ) ;
+
+							return arr ;
+						}() ) ;
+
+						return a ;
 					}() ) ;
 
 					return e ;

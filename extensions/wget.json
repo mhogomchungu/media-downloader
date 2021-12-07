@@ -1,24 +1,35 @@
 {
-    "BackendPath": "",
+    "BackendPath": "${default}",
     "BatchFileArgument": "-i",
     "CanDownloadPlaylist": false,
     "Cmd": {
         "Generic": {
-            "amd64": [
-                "wget"
-            ],
-            "x86": [
-                "wget"
-            ]
+            "amd64": {
+                "Args": [
+                    "wget"
+                ],
+                "Name": "wget"
+            },
+            "x86": {
+                "Args": [
+                    "wget"
+                ],
+                "Name": "wget"
+            }
         },
-        "Name": "wget",
         "Windows": {
-            "amd64": [
-                "wget.exe"
-            ],
-            "x86": [
-                "wget.exe"
-            ]
+            "amd64": {
+                "Args": [
+                    "wget.exe"
+                ],
+                "Name": "wget.exe"
+            },
+            "x86": {
+                "Args": [
+                    "wget.exe"
+                ],
+                "Name": "wget.exe"
+            }
         }
     },
     "ControlJsonStructure": {

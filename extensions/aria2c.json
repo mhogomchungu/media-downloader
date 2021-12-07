@@ -4,27 +4,38 @@
     "CanDownloadPlaylist": false,
     "Cmd": {
         "Generic": {
-            "amd64": [
-                "stdbuf",
-                "-o",
-                "L",
-                "aria2c"
-            ],
-            "x86": [
-                "stdbuf",
-                "-o",
-                "L",
-                "aria2c"
-            ]
+            "amd64": {
+                "Args": [
+                    "stdbuf",
+                    "-o",
+                    "L",
+                    "aria2c"
+                ],
+                "Name": "aria2c"
+            },
+            "x86": {
+                "Args": [
+                    "stdbuf",
+                    "-o",
+                    "L",
+                    "aria2c"
+                ],
+                "Name": "aria2c"
+            }
         },
-        "Name": "aria2c",
         "Windows": {
-            "amd64": [
-                "aria2c.exe"
-            ],
-            "x86": [
-                "aria2c.exe"
-            ]
+            "amd64": {
+                "Args": [
+                    "aria2c.exe"
+                ],
+                "Name": "aria2c.exe"
+            },
+            "x86": {
+                "Args": [
+                    "aria2c.exe"
+                ],
+                "Name": "aria2c.exe"
+            }
         }
     },
     "ControlJsonStructure": {

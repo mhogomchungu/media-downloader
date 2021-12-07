@@ -4,30 +4,34 @@
     "CanDownloadPlaylist": true,
     "Cmd": {
         "Generic": {
-            "amd64": [
-                "stdbuf",
-                "-o",
-                "L",
-                "yt-dlp"
-            ],
-            "x86": [
-                "stdbuf",
-                "-o",
-                "L",
-                "yt-dlp"
-            ]
+            "amd64": {
+                "Args": [
+                    "yt-dlp"
+                ],
+                "Name": "yt-dlp"
+            },
+            "x86": {
+                "Args": [
+                    "yt-dlp"
+                ],
+                "Name": "yt-dlp"
+            }
         },
-        "Name": "yt-dlp",
         "Windows": {
-            "amd64": [
-                "yt-dlp.exe"
-            ],
-            "x86": [
-                "yt-dlp_x86.exe"
-            ]
+            "amd64": {
+                "Args": [
+                    "yt-dlp.exe"
+                ],
+                "Name": "yt-dlp.exe"
+            },
+            "x86": {
+                "Args": [
+                    "yt-dlp_x86.exe"
+                ],
+                "Name": "yt-dlp_x86.exe"
+            }
         }
     },
-    "CommandName": "yt-dlp",
     "ControlJsonStructure": {
         "Connector": "&&",
         "lhs": {

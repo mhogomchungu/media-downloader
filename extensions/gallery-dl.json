@@ -4,21 +4,32 @@
     "CanDownloadPlaylist": false,
     "Cmd": {
         "Generic": {
-            "amd64": [
-                "gallery-dl.bin"
-            ],
-            "x86": [
-                "gallery-dl.bin"
-            ]
+            "amd64": {
+                "Args": [
+                    "gallery-dl.bin"
+                ],
+                "Name": "gallery-dl.bin"
+            },
+            "x86": {
+                "Args": [
+                    "gallery-dl.bin"
+                ],
+                "Name": "gallery-dl.bin"
+            }
         },
-        "Name": "gallery-dl.bin",
         "Windows": {
-            "amd64": [
-                "gallery-dl.exe"
-            ],
-            "x86": [
-                "gallery-dl.exe"
-            ]
+            "amd64": {
+                "Args": [
+                    "gallery-dl.exe"
+                ],
+                "Name": "gallery-dl.exe"
+            },
+            "x86": {
+                "Args": [
+                    "gallery-dl.exe"
+                ],
+                "Name": "gallery-dl.exe"
+            }
         }
     },
     "ControlJsonStructure": {

@@ -4,25 +4,36 @@
     "CanDownloadPlaylist": false,
     "Cmd": {
         "Generic": {
-            "amd64": [
-                "python3",
-                "-u",
-                "${BackendPath}/${CommandName}"
-            ],
-            "x86": [
-                "python3",
-                "-u",
-                "${BackendPath}/${CommandName}"
-            ]
+            "amd64": {
+                "Args": [
+                    "python3",
+                    "-u",
+                    "${BackendPath}/${CommandName}"
+                ],
+                "Name": "safaribooks.py"
+            },
+            "x86": {
+                "Args": [
+                    "python3",
+                    "-u",
+                    "${BackendPath}/${CommandName}"
+                ],
+                "Name": "safaribooks.py"
+            }
         },
-        "Name": "safaribooks.py",
         "Windows": {
-            "amd64": [
-                "safaribooks.exe"
-            ],
-            "x86": [
-                "safaribooks.exe"
-            ]
+            "amd64": {
+                "Args": [
+                    "safaribooks.exe"
+                ],
+                "Name": "safaribooks.exe"
+            },
+            "x86": {
+                "Args": [
+                    "safaribooks.exe"
+                ],
+                "Name": "safaribooks.exe"
+            }
         }
     },
     "ControlJsonStructure": {
