@@ -2,14 +2,31 @@
     "BackendPath": "${default}",
     "BatchFileArgument": "",
     "CanDownloadPlaylist": false,
-    "CommandName": "aria2c",
-    "CommandNameWindows": "aria2c.exe",
-    "CommandNames": [
-        "stdbuf",
-        "-o",
-        "L",
-        "aria2c"
-    ],
+    "Cmd": {
+        "Generic": {
+            "amd64": [
+                "stdbuf",
+                "-o",
+                "L",
+                "aria2c"
+            ],
+            "x86": [
+                "stdbuf",
+                "-o",
+                "L",
+                "aria2c"
+            ]
+        },
+        "Name": "aria2c",
+        "Windows": {
+            "amd64": [
+                "aria2c.exe"
+            ],
+            "x86": [
+                "aria2c.exe"
+            ]
+        }
+    },
     "ControlJsonStructure": {
         "Connector": "&&",
         "lhs": {

@@ -84,9 +84,11 @@ void networkAccess::download( const engines::Iterator& iter )
 {
 	const auto& engine = iter.engine() ;
 
-	auto exeFolderPath = [ &engine ](){
+	auto exePath = engine.exePath().realExe() ;
 
-		auto a = QDir::fromNativeSeparators( engine.exePath().realExe() ) ;
+	auto exeFolderPath = [ &exePath ](){
+
+		auto a = QDir::fromNativeSeparators( exePath ) ;
 
 		auto aa = a.lastIndexOf( '/' ) ;
 
@@ -102,9 +104,16 @@ void networkAccess::download( const engines::Iterator& iter )
 
 	if( !exeFolderPath.startsWith( internalBinPath ) ){
 
-		//this->post( engine,QObject::tr( "Failed to download, updating externally managed executables is not supported" ) ) ;
+		auto m = QDir::fromNativeSeparators( exePath ) ;
 
-		return ;
+		auto a = m.lastIndexOf( '/' ) ;
+
+		if( a == -1 ){
+
+			exePath = internalBinPath + "/" + exePath ;
+		}else{
+			exePath = internalBinPath + "/" + m.mid(( a + 1 ) ) ;
+		}
 	}
 
 	QDir dir ;
@@ -139,7 +148,7 @@ void networkAccess::download( const engines::Iterator& iter )
 		this->post( engine,"..." ) ;
 	} ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter,exePath ](){
 
 		networkReply->deleteLater() ;
 
@@ -207,16 +216,17 @@ void networkAccess::download( const engines::Iterator& iter )
 			}
 		}
 
-		this->download( metadata,iter ) ;
+		this->download( metadata,iter,exePath ) ;
 	} ) ;
 }
 
 void networkAccess::download( const networkAccess::metadata& metadata,
-			      const engines::Iterator& iter )
+			      const engines::Iterator& iter,
+			      const QString& path )
 {
 	const auto& engine = iter.engine() ;
 
-	QString filePath = engine.exePath().realExe() + ".tmp" ;
+	QString filePath = path + ".tmp" ;
 
 	m_file.setFileName( filePath ) ;
 
@@ -230,7 +240,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 	auto networkReply = m_accessManager.get( this->networkRequest( metadata.url ) ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter,path ](){
 
 		networkReply->deleteLater() ;
 
@@ -249,13 +259,11 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 			this->post( engine,QObject::tr( "Download complete" ) ) ;
 
-			const auto& e = engine.exePath().realExe() ;
+			this->post( engine,QObject::tr( "Renaming file to: " ) + path ) ;
 
-			this->post( engine,QObject::tr( "Renaming file to: " ) + e ) ;
+			QFile::remove( path ) ;
 
-			QFile::remove( e ) ;
-
-			m_file.rename( e ) ;
+			m_file.rename( path ) ;
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 

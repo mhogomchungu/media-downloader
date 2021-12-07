@@ -68,7 +68,7 @@ private:
 		QString url ;
 		QString sha256 ;
 	};
-	void download( const networkAccess::metadata&,const engines::Iterator& ) ;
+	void download( const networkAccess::metadata&,const engines::Iterator&,const QString& path ) ;
 	void post( const engines::engine&,const QString& ) ;
 	const Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;

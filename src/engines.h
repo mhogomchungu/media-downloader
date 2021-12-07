@@ -471,10 +471,6 @@ public:
 		{
 			return m_playListUrlPrefix ;
 		}
-		const QStringList& playListIdArguments() const
-		{
-			return m_playListIdArguments ;
-		}
 		const QString& playlistItemsArgument() const
 		{
 			return m_playlistItemsArgument ;
@@ -525,6 +521,15 @@ public:
 		}
 	private:
 		void updateOptions() ;
+
+		void parseMultipleCmdArgs( Logger& logger,const engines& engines ) ;
+
+		void parseMultipleCmdArgs( QStringList&,
+					   const QString&,
+					   Logger& logger,
+					   const enginePaths& ePaths,
+					   const engines& engines ) ;
+
 		mutable util::version m_version ;
 		QJsonObject m_jsonObject ;
 		std::unique_ptr< engines::engine::functions > m_functions ;
@@ -540,7 +545,6 @@ public:
 		QString m_versionArgument ;
 		QString m_name ;
 		QString m_commandName ;
-		QString m_commandNameWindows ;
 		QString m_userName ;
 		QString m_password ;
 		QString m_exeFolderPath ;
@@ -550,7 +554,6 @@ public:
 		QString m_playlistItemsArgument ;
 		QString m_batchFileArgument ;
 		QString m_cookieArgument ;
-		QStringList m_playListIdArguments ;
 		QStringList m_splitLinesBy ;
 		QStringList m_removeText ;
 		QStringList m_skiptLineWithText ;

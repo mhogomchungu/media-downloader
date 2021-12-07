@@ -30,6 +30,7 @@
 #include <QClipboard>
 #include <QMimeData>
 #include <QFileDialog>
+#include <QSysInfo>
 
 const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
@@ -55,11 +56,6 @@ bool utility::platformIsWindows()
 QString utility::python3Path()
 {
 	return QStandardPaths::findExecutable( "python3" ) ;
-}
-
-bool utility::platformIs32BitWindows()
-{
-	return false ;
 }
 
 util::result< int > utility::Terminator::terminate( int,char ** )
@@ -94,11 +90,6 @@ bool utility::platformIsWindows()
 util::result< int > utility::Terminator::terminate( int,char ** )
 {
 	return {} ;
-}
-
-bool utility::platformIs32BitWindows()
-{
-	return false ;
 }
 
 #endif
@@ -234,13 +225,6 @@ QString utility::python3Path()
 	}
 
 	return {} ;
-}
-
-#include <QSysInfo>
-
-bool utility::platformIs32BitWindows()
-{
-	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
 }
 
 bool utility::platformIsWindows()
@@ -719,6 +703,18 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name() ) ;
 
+	if( !m_ctx->debug().isEmpty() ){
+
+		auto exe = "cmd: \"" + cmd.exe() + "\"" ;
+
+		for( const auto& it : cmd.args() ){
+
+			exe += " \"" + it + "\"" ;
+		}
+
+		m_ctx->logger().add( exe ) ;
+	}
+
 	util::run( cmd.exe(),cmd.args(),[ iter,this ]( const util::run_result& r ){
 
 		const auto& engine = iter.engine() ;
@@ -728,11 +724,6 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 			auto& logger = m_ctx->logger() ;
 
 			logger.add( QObject::tr( "Found version" ) + ": " + engine.versionString( r.stdOut ) ) ;
-
-			if( !m_ctx->debug().isEmpty() ){
-
-				logger.add( QObject::tr( "Executable Path" ) + ": " + engine.exePath().realExe() ) ;
-			}
 
 			m_ctx->TabManager().enableAll() ;
 		}else{
@@ -751,4 +742,9 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 		}
 
 	},QProcess::ProcessChannelMode::MergedChannels ) ;
+}
+
+bool utility::platformIs32Bit()
+{
+	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
 }

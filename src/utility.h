@@ -254,7 +254,7 @@ namespace utility
 	QString python3Path() ;
 	QString clipboardText() ;
 	bool platformIsWindows() ;
-	bool platformIs32BitWindows() ;
+	bool platformIs32Bit() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformIsNOTWindows() ;

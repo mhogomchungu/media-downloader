@@ -2,8 +2,25 @@
     "BackendPath": "${default}",
     "BatchFileArgument": "",
     "CanDownloadPlaylist": false,
-    "CommandName": "gallery-dl.bin",
-    "CommandNameWindows": "gallery-dl.exe",
+    "Cmd": {
+        "Generic": {
+            "amd64": [
+                "gallery-dl.bin"
+            ],
+            "x86": [
+                "gallery-dl.bin"
+            ]
+        },
+        "Name": "gallery-dl.bin",
+        "Windows": {
+            "amd64": [
+                "gallery-dl.exe"
+            ],
+            "x86": [
+                "gallery-dl.exe"
+            ]
+        }
+    },
     "ControlJsonStructure": {
         "Connector": "",
         "lhs": {

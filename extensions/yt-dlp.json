@@ -2,9 +2,25 @@
     "BackendPath": "${default}",
     "BatchFileArgument": "-a",
     "CanDownloadPlaylist": true,
-    "CommandName": "yt-dlp",
-    "CommandName32BitWindows": "yt-dlp_x86.exe",
-    "CommandNameWindows": "yt-dlp.exe",
+    "Cmd": {
+        "Generic": {
+            "amd64": [
+                "yt-dlp"
+            ],
+            "x86": [
+                "yt-dlp"
+            ]
+        },
+        "Name": "yt-dlp",
+        "Windows": {
+            "amd64": [
+                "yt-dlp.exe"
+            ],
+            "x86": [
+                "yt-dlp_x86.exe"
+            ]
+        }
+    },
     "ControlJsonStructure": {
         "Connector": "&&",
         "lhs": {
@@ -34,7 +50,6 @@
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "2.1.1",
     "SkipLineWithText": [
         "(pass -k to keep)"
     ],

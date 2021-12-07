@@ -2,7 +2,25 @@
     "BackendPath": "",
     "BatchFileArgument": "-i",
     "CanDownloadPlaylist": false,
-    "CommandName": "wget",
+    "Cmd": {
+        "Generic": {
+            "amd64": [
+                "wget"
+            ],
+            "x86": [
+                "wget"
+            ]
+        },
+        "Name": "wget",
+        "Windows": {
+            "amd64": [
+                "wget.exe"
+            ],
+            "x86": [
+                "wget.exe"
+            ]
+        }
+    },
     "ControlJsonStructure": {
         "lhs": {
             "containsAny": [

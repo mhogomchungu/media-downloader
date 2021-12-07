@@ -491,8 +491,7 @@ engines::engine::engine( const engines& engines,
 	m_mainEngine( false ),
 	m_versionArgument( versionArgument ),
 	m_name( name ),
-	m_commandName( name ),
-	m_commandNameWindows( m_commandName + ".exe" )
+	m_commandName( utility::platformIsWindows() ? name + ".exe" : name )
 {
 	auto m = engines.findExecutable( m_commandName ) ;
 
@@ -516,7 +515,6 @@ void engines::engine::updateOptions()
 	m_playlistItemsArgument           = m_jsonObject.value( "PlaylistItemsArgument" ).toString() ;
 	m_batchFileArgument               = m_jsonObject.value( "BatchFileArgument" ).toString() ;
 	m_cookieArgument                  = m_jsonObject.value( "CookieArgument" ).toString() ;
-	m_playListIdArguments             = _toStringList( m_jsonObject.value( "PlayListIdArguments" ) ) ;
 	m_splitLinesBy                    = _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ;
 	m_removeText                      = _toStringList( m_jsonObject.value( "RemoveText" ) ) ;
 	m_skiptLineWithText               = _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ;
@@ -532,58 +530,13 @@ engines::engine::engine( Logger& logger,
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
-	m_usingPrivateBackend( m_jsonObject.value( "UsePrivateExecutable" ).toBool() ),
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
 	m_mainEngine( true ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
-	m_commandName( m_jsonObject.value( "CommandName" ).toString() ),
-	m_commandNameWindows( m_jsonObject.value( "CommandNameWindows" ).toString() ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
-	if( utility::platformIs32BitWindows() ){
-
-		auto m = m_jsonObject.value( "CommandName32BitWindows" ).toString() ;
-
-		if( !m.isEmpty() ){
-
-			m_commandNameWindows = m ;
-		}
-	}
-
-	auto cmdNames = [ & ](){
-
-		if( utility::platformIsWindows() ){
-
-			if( utility::platformIs32BitWindows() ){
-
-				auto m = _toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
-
-				if( !m.isEmpty() ){
-
-					return m ;
-				}else{
-					return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
-				}
-			}else{
-				return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
-			}
-		}else{
-			return _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
-		}
-	}() ;
-
-	if( utility::platformIsWindows() && m_commandNameWindows.isEmpty() ){
-
-		if( m_commandName.endsWith( ".exe" ) ){
-
-			m_commandNameWindows = m_commandName ;
-		}else{
-			m_commandNameWindows = m_commandName + ".exe" ;
-		}
-	}
-
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
 
@@ -592,109 +545,184 @@ engines::engine::engine( Logger& logger,
 		m_exeFolderPath = ePaths.binPath() ;
 	}
 
-	const auto& commandName = this->commandName() ;
+	auto cmd = m_jsonObject.value( "Cmd" ) ;
 
-	if( cmdNames.isEmpty() ){
+	if( cmd.isUndefined() ){
 
-		if( this->usingPrivateBackend() && !m_exeFolderPath.isEmpty() ){
+		if( utility::platformIsWindows() ){
 
-			m_exePath = m_exeFolderPath + "/" + commandName ;
-		}else{
-			auto m = engines.findExecutable( commandName ) ;
+			m_commandName = m_jsonObject.value( "CommandNameWindows" ).toString() ;
 
-			if( m.isEmpty() ){
+			if( utility::platformIs32Bit() ){
 
-				if( !this->downloadUrl().isEmpty() && !m_exeFolderPath.isEmpty() ){
+				auto m = m_jsonObject.value( "CommandName32BitWindows" ).toString() ;
 
-					m_usingPrivateBackend = true ;
-					m_exePath = m_exeFolderPath + "/" + commandName ;
-				}else{
-					m_valid = false ;
-					logger.add( utility::failedToFindExecutableString( commandName ) ) ;
+				if( !m.isEmpty() ){
+
+					m_commandName = m ;
 				}
-			}else{
-				m_exePath = m ;
 			}
+
+			if( !m_commandName.endsWith( ".exe" ) ){
+
+				m_commandName += ".exe" ;
+			}
+		}else{
+			m_commandName = m_jsonObject.value( "CommandName" ).toString() ;
 		}
-	}else{
-		auto cmd = cmdNames.takeAt( 0 ) ;
 
-		for( auto& it : cmdNames ){
+		auto cmdNames = [ & ](){
 
-			it.replace( backendPath,ePaths.binPath() ) ;
-			it.replace( utility::stringConstants::commandName(),commandName ) ;
-		}
+			if( utility::platformIsWindows() ){
 
-		auto subCmd = cmd ;
+				if( utility::platformIs32Bit() ){
 
-		for( auto& it : cmdNames ){
-
-			if( it.endsWith( commandName ) ){
-
-				if( it == commandName ){
-
-					auto m = engines.findExecutable( commandName ) ;
+					auto m = _toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
 
 					if( !m.isEmpty() ){
 
-						it = m ;
-						subCmd = m ;
+						return m ;
+					}else{
+						return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
 					}
 				}else{
-					subCmd = it ;
+					return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
 				}
+			}else{
+				return _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
+			}
+		}() ;
+
+		if( cmdNames.isEmpty() ){
+
+			this->parseMultipleCmdArgs( logger,engines ) ;
+		}else{
+			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines ) ;
+		}
+	}else{
+		auto cmdNames = [ & ](){
+
+			auto cmdObj = cmd.toObject() ;
+
+			m_commandName = cmdObj.value( "Name" ).toString() ;
+
+			if( utility::platformIsWindows() ){
+
+				auto win = cmdObj.value( "Windows" ).toObject() ;
+
+				if( utility::platformIs32Bit() ){
+
+					return _toStringList( win.value( "x86" ).toArray() ) ;
+				}else{
+					return _toStringList( win.value( "amd64" ).toArray() ) ;
+				}
+			}else{
+				auto win = cmdObj.value( "Generic" ).toObject() ;
+
+				if( utility::platformIs32Bit() ){
+
+					return _toStringList( win.value( "x86" ).toArray() ) ;
+				}else{
+					return _toStringList( win.value( "amd64" ).toArray() ) ;
+				}
+			}
+		}() ;
+
+		if( cmdNames.size() == 1 ){
+
+			this->parseMultipleCmdArgs( logger,engines ) ;
+		}else{
+			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines ) ;
+		}
+	}
+}
+
+void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engines )
+{
+	auto m = engines.findExecutable( m_commandName ) ;
+
+	if( m.isEmpty() ){
+
+		if( !this->downloadUrl().isEmpty() && !m_exeFolderPath.isEmpty() ){
+
+			m_usingPrivateBackend = true ;
+			m_exePath = m_exeFolderPath + "/" + m_commandName ;
+		}else{
+			m_valid = false ;
+			logger.add( utility::failedToFindExecutableString( m_commandName ) ) ;
+		}
+	}else{
+		m_exePath = m ;
+	}
+}
+
+void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
+					    const QString& backendPath,
+					    Logger& logger,
+					    const enginePaths& ePaths,
+					    const engines& engines  )
+{
+	auto cmd = cmdNames.takeAt( 0 ) ;
+
+	for( auto& it : cmdNames ){
+
+		it.replace( backendPath,ePaths.binPath() ) ;
+		it.replace( utility::stringConstants::commandName(),m_commandName ) ;
+	}
+
+	auto subCmd = cmd ;
+
+	for( auto& it : cmdNames ){
+
+		if( it.endsWith( m_commandName ) ){
+
+			if( it == m_commandName ){
+
+				auto m = engines.findExecutable( m_commandName ) ;
+
+				if( !m.isEmpty() ){
+
+					it = m ;
+					subCmd = m ;
+				}
+			}else{
+				subCmd = it ;
 			}
 		}
+	}
 
-		if( cmd == "python3" ){
+	if( cmd == "python3" ){
 
-			auto m = engines.findExecutable( "python3" ) ;
+		auto m = engines.findExecutable( "python3" ) ;
 
-			if( m.isEmpty() ){
+		if( m.isEmpty() ){
 
-				m_valid = false ;
-				logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ) ) ;
-			}else{
-				if( utility::platformIsWindows() ){
-					/*
-					 * 1. Python's getpass() cant seem to read data from QProcess on Windows.
-					 *
-					 * 2. Investigate using winpty as a work around.
-					 *
-					 * 3. In the mean time, credentials on windows are sent as CLI arguments.
-					 */
-
-					//auto cwd = QDir().currentPath() ;
-					//auto w = cwd + "\\winpty-0.4.3-cygwin-2.8.0-x64\\bin\\winpty.exe" ;
-					//m_exePath = { { w,"-Xallow-non-tty","-Xplain",m },ee,cmdNames } ;
-
-					m_exePath = { m,subCmd,cmdNames } ;
-				}else{
-					m_exePath = { m,subCmd,cmdNames } ;
-				}
-			}
+			m_valid = false ;
+			logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ) ) ;
 		}else{
-			auto m = engines.findExecutable( cmd ) ;
+			if( utility::platformIsWindows() ){
 
-			if( m.isEmpty() ){
-
-				m_valid = false ;
-				logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
+				m_exePath = { m,subCmd,cmdNames } ;
 			}else{
 				m_exePath = { m,subCmd,cmdNames } ;
 			}
+		}
+	}else{
+		auto m = engines.findExecutable( cmd ) ;
+
+		if( m.isEmpty() ){
+
+			m_valid = false ;
+			logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
+		}else{
+			m_exePath = { m,subCmd,cmdNames } ;
 		}
 	}
 }
 
 const QString& engines::engine::commandName() const
 {
-	if( utility::platformIsWindows() ){
-
-		return m_commandNameWindows ;
-	}else{
-		return m_commandName ;
-	}
+	return m_commandName ;
 }
 
 bool engines::engine::breakShowListIfContains( const QStringList& e ) const

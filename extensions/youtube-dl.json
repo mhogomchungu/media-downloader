@@ -2,8 +2,25 @@
     "BackendPath": "${default}",
     "BatchFileArgument": "-a",
     "CanDownloadPlaylist": true,
-    "CommandName": "youtube-dl",
-    "CommandNameWindows": "youtube-dl.exe",
+    "Cmd": {
+        "Generic": {
+            "amd64": [
+                "youtube-dl"
+            ],
+            "x86": [
+                "youtube-dl"
+            ]
+        },
+        "Name": "youtube-dl",
+        "Windows": {
+            "amd64": [
+                "youtube-dl.exe"
+            ],
+            "x86": [
+                "youtube-dl.exe"
+            ]
+        }
+    },
     "ControlJsonStructure": {
         "Connector": "&&",
         "lhs": {
@@ -32,7 +49,6 @@
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "2.1.1",
     "ShowListTableBoundary": {
         "ColumnNumber": "0",
         "Comparator": "equals",

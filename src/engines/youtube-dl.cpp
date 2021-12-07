@@ -81,9 +81,64 @@ QJsonObject youtube_dl::init( const QString& name,
 				return obj ;
 			}() ) ;
 
-			mainObj.insert( "CommandName","youtube-dl" ) ;
+			mainObj.insert( "Cmd",[](){
 
-			mainObj.insert( "CommandNameWindows","youtube-dl.exe" ) ;
+				QJsonObject e ;
+
+				e.insert( "Name","youtube-dl" ) ;
+
+				e.insert( "Generic",[](){
+
+					QJsonObject e ;
+
+					e.insert( "x86",[](){
+
+						QJsonArray arr ;
+
+						arr.append( "youtube-dl" ) ;
+
+						return arr ;
+					}() ) ;
+
+					e.insert( "amd64",[](){
+
+						QJsonArray arr ;
+
+						arr.append( "youtube-dl" ) ;
+
+						return arr ;
+					}() ) ;
+
+					return e ;
+				}() ) ;
+
+				e.insert( "Windows",[](){
+
+					QJsonObject e ;
+
+					e.insert( "x86",[](){
+
+						QJsonArray arr ;
+
+						arr.append( "youtube-dl.exe" ) ;
+
+						return arr ;
+					}() ) ;
+
+					e.insert( "amd64",[](){
+
+						QJsonArray arr ;
+
+						arr.append( "youtube-dl.exe" ) ;
+
+						return arr ;
+					}() ) ;
+
+					return e ;
+				}() ) ;
+
+				return e ;
+			}() ) ;
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 
@@ -95,6 +150,65 @@ QJsonObject youtube_dl::init( const QString& name,
 				return arr ;
 			}() ) ;
 		}else{
+			mainObj.insert( "Cmd",[](){
+
+				QJsonObject e ;
+
+				e.insert( "Name","yt-dlp" ) ;
+
+				e.insert( "Generic",[](){
+
+					QJsonObject e ;
+
+					e.insert( "x86",[](){
+
+						QJsonArray arr ;
+
+						arr.append( "yt-dlp" ) ;
+
+						return arr ;
+					}() ) ;
+
+					e.insert( "amd64",[](){
+
+						QJsonArray arr ;
+
+						arr.append( "yt-dlp" ) ;
+
+						return arr ;
+					}() ) ;
+
+					return e ;
+				}() ) ;
+
+				e.insert( "Windows",[](){
+
+					QJsonObject e ;
+
+					e.insert( "x86",[](){
+
+						QJsonArray arr ;
+
+						arr.append( "yt-dlp_x86.exe" ) ;
+
+						return arr ;
+					}() ) ;
+
+					e.insert( "amd64",[](){
+
+						QJsonArray arr ;
+
+						arr.append( "yt-dlp.exe" ) ;
+
+						return arr ;
+					}() ) ;
+
+					return e ;
+				}() ) ;
+
+				return e ;
+			}() ) ;
+
 			mainObj.insert( "DefaultListCmdOptions",[](){
 
 				QJsonArray arr ;
@@ -104,12 +218,6 @@ QJsonObject youtube_dl::init( const QString& name,
 
 				return arr ;
 			}() ) ;
-
-			mainObj.insert( "CommandName","yt-dlp" ) ;
-
-			mainObj.insert( "CommandNameWindows","yt-dlp.exe" ) ;
-
-			mainObj.insert( "CommandName32BitWindows","yt-dlp_x86.exe" ) ;
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
@@ -154,8 +262,6 @@ QJsonObject youtube_dl::init( const QString& name,
 			return arr ;
 		}() ) ;
 
-		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.1.1" ) ;
-
 		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
 		mainObj.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
@@ -198,9 +304,7 @@ youtube_dl::youtube_dl( const engines& engines,
 
 	if( name == "youtube-dl" || name == "yt-dlp" ){
 
-		auto version = obj.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
-
-		if( version.isEmpty() || util::version( version ) < "2.1.1" ){
+		if( obj.value( "Cmd" ).isUndefined() ){
 
 			auto configFileName = name + ".json" ;
 

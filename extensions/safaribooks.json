@@ -2,15 +2,29 @@
     "BackendPath": "${default}",
     "BatchFileArgument": "",
     "CanDownloadPlaylist": false,
-    "CommandName": "safaribooks.py",
-    "CommandNameWindows": "safaribooks.exe",
-    "CommandNames": [
-        "python3",
-        "-u",
-        "${BackendPath}/${CommandName}"
-    ],
-    "CommandNamesWindows": [
-    ],
+    "Cmd": {
+        "Generic": {
+            "amd64": [
+                "python3",
+                "-u",
+                "${BackendPath}/${CommandName}"
+            ],
+            "x86": [
+                "python3",
+                "-u",
+                "${BackendPath}/${CommandName}"
+            ]
+        },
+        "Name": "safaribooks.py",
+        "Windows": {
+            "amd64": [
+                "safaribooks.exe"
+            ],
+            "x86": [
+                "safaribooks.exe"
+            ]
+        }
+    },
     "ControlJsonStructure": {
         "Connector": "&&",
         "lhs": {
