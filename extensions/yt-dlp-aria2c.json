@@ -57,7 +57,8 @@
         "%(title)s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
-        "-F"
+        "--print",
+        "%(formats)j"
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
     "LikeYoutubeDl": true,
