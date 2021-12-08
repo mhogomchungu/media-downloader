@@ -229,7 +229,7 @@ public:
 	{
 		auto function = []( const QByteArray& ){ return true ; } ;
 
-		m_lines.replaceOrAdd( data,id,function,function ) ;
+		m_lines.replaceOrAdd( "[media-downloader][std error]: " + data,id,function,function ) ;
 
 		this->update() ;
 	}
