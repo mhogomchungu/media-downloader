@@ -761,8 +761,9 @@ void batchdownloader::showList()
 	auto oopts  = batchdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
 	auto logger = LoggerWrapper( m_ctx.logger(),utility::concurrentID() ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ;
+	auto ch     = QProcess::ProcessChannel::StandardOutput ;
 
-	auto ctx    = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ) ) ;
+	auto ctx    = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ),ch ) ;
 
 	utility::run( args,QString(),std::move( ctx ) ) ;
 }

@@ -927,7 +927,7 @@ namespace utility
 		       Options options,
 		       Tlogger logger,
 		       Connection conn,
-		       utility::ProcessOutputChannels channels = utility::ProcessOutputChannels() )
+		       utility::ProcessOutputChannels channels )
 	{
 		using ctx = utility::context< Tlogger,Options,Connection > ;
 

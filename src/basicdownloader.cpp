@@ -360,8 +360,9 @@ void basicdownloader::run( const engines::engine& engine,
 	auto oopts  = basicdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
 	auto logger = LoggerWrapper( m_ctx.logger(),utility::concurrentID() ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
+	auto ch     = utility::ProcessOutputChannels() ;
 
-	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ) ) ;
+	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ),ch ) ;
 
 	utility::run( args,quality,std::move( ctx ) ) ;
 }
