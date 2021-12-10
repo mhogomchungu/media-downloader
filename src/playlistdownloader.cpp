@@ -754,10 +754,13 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		m_table.setUiText( e,index ) ;
 	} ;
 
+	auto error = []( const QByteArray& ){} ;
+
 	auto oopts  = playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ) ;
 	auto logger = make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
 						  m_ctx.logger(),
 						  std::move( updater ),
+						  std::move( error ),
 						  utility::concurrentID() ) ;
 
 	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;

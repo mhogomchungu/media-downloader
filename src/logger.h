@@ -321,13 +321,14 @@ private:
 	int m_id ;
 };
 
-template< typename Function,typename functionUpdate >
+template< typename Function,typename FunctionUpdate,typename Error >
 class loggerBatchDownloader
 {
 public:
-	loggerBatchDownloader( Function function,Logger& logger,functionUpdate ff,int id ) :
+	loggerBatchDownloader( Function function,Logger& logger,FunctionUpdate ff,Error err,int id ) :
 		m_functionUpdate( std::move( ff ) ),
 		m_function( std::move( function ) ),
+		m_error( std::move( err ) ),
 		m_logger( logger ),
 		m_id( id )
 	{
@@ -363,6 +364,7 @@ public:
 	}
 	void logError( const QByteArray& data )
 	{
+		m_error( data ) ;
 		m_logger.logError( data,m_id ) ;
 	}
 private:
@@ -373,19 +375,21 @@ private:
 			m_functionUpdate( m_function( m_lines ) ) ;
 		}
 	}
-	functionUpdate m_functionUpdate ;
+	FunctionUpdate m_functionUpdate ;
 	Function m_function ;
+	Error m_error ;
 	Logger& m_logger ;
 	Logger::Data m_lines ;
 	int m_id ;
 } ;
 
-template< typename Function,typename functionUpdate >
-auto make_loggerBatchDownloader( Function function,Logger& logger,functionUpdate fu,int id )
+template< typename Function,typename FunctionUpdate,typename Error >
+auto make_loggerBatchDownloader( Function function,Logger& logger,FunctionUpdate fu,Error err,int id )
 {
-	return loggerBatchDownloader< Function,functionUpdate >( std::move( function ),
+	return loggerBatchDownloader< Function,FunctionUpdate,Error >( std::move( function ),
 								 logger,
 								 std::move( fu ),
+								 std::move( err ),
 								 id ) ;
 }
 
