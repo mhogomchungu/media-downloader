@@ -229,7 +229,7 @@ public:
 	{
 		auto function = []( const QByteArray& ){ return true ; } ;
 
-		m_lines.replaceOrAdd( "[media-downloader][std error]: " + data,id,function,function ) ;
+		m_lines.replaceOrAdd( "[media-downloader][std error] " + data,id,function,function ) ;
 
 		this->update() ;
 	}
@@ -326,7 +326,7 @@ class loggerBatchDownloader
 {
 public:
 	loggerBatchDownloader( Function function,Logger& logger,functionUpdate ff,int id ) :
-		m_functionUpdate( ff ),
+		m_functionUpdate( std::move( ff ) ),
 		m_function( std::move( function ) ),
 		m_logger( logger ),
 		m_id( id )
