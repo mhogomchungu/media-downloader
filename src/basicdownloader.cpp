@@ -225,7 +225,7 @@ void basicdownloader::retranslateUi()
 
 void basicdownloader::listRequested( const QByteArray& a )
 {
-	if( a.contains( "ERROR:" ) ){
+	if( a.contains( "ERROR:" ) || a.isEmpty() ){
 
 		m_tableList.setVisible( false ) ;
 		return ;
@@ -330,9 +330,9 @@ void basicdownloader::run( const engines::engine& engine,
 			   const QString& quality,
 			   bool list_requested )
 {
-	auto functions = utility::OptionsFunctions( [ this ]( QByteArray args ){
+	auto functions = utility::OptionsFunctions( [ this ]( const QByteArray& args ){
 
-			this->listRequested( std::move( args ) ) ;
+			this->listRequested( args ) ;
 
 		},[]( const basicdownloader::opts& opts ){
 
@@ -360,9 +360,16 @@ void basicdownloader::run( const engines::engine& engine,
 	auto oopts  = basicdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
 	auto logger = LoggerWrapper( m_ctx.logger(),utility::concurrentID() ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
-	auto ch     = utility::ProcessOutputChannels() ;
 
-	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ),ch ) ;
+	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ),[ & ](){
+
+		if( list_requested ){
+
+			return utility::ProcessOutputChannels( QProcess::ProcessChannel::StandardOutput ) ;
+		}else{
+			return utility::ProcessOutputChannels() ;
+		}
+	}() ) ;
 
 	utility::run( args,quality,std::move( ctx ) ) ;
 }
