@@ -957,7 +957,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	auto oopts = batchdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
 
-	auto updater = [ this,index ]( const QString& e ){
+	auto updater = [ this,index ]( const QByteArray& e ){
 
 		m_table.setUiText( e,index ) ;
 	} ;

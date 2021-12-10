@@ -749,7 +749,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	m_settings.addOptionsHistory( m,settings::tabName::playlist ) ;
 
-	auto updater = [ this,index ]( const QString& e ){
+	auto updater = [ this,index ]( const QByteArray& e ){
 
 		m_table.setUiText( e,index ) ;
 	} ;
