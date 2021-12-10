@@ -118,6 +118,14 @@ namespace utility
 		{
 			return "${CommandName}" ;
 		}
+		static QString postProcessMarker()
+		{
+			return "DoneDownloading" ;
+		}
+		static bool postProcessMarker( const QByteArray& e )
+		{
+			return e.startsWith( "DoneDownloading" ) ;
+		}
 	private:
 	};
 

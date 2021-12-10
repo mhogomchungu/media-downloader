@@ -79,6 +79,11 @@ QList< QByteArray > Logger::Data::toStringList() const
 	return util::split( this->toString(),'\n' ) ;
 }
 
+bool Logger::Data::postProcessText( const QByteArray& data )
+{
+	return utility::stringConstants::postProcessMarker( data ) ;
+}
+
 void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
 {
 	if( m_args.likeYoutubeDl && humanReadableJson ){
@@ -261,7 +266,7 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 					return this->meetCondition( e ) ;
 
-				},[ this ]( const QString& e ){
+				},[ this ]( const QByteArray& e ){
 
 					if( m_args.likeYoutubeDl ){
 

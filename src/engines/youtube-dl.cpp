@@ -653,7 +653,7 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 		s.ourOptions.append( "--progress-template" ) ;
 		s.ourOptions.append( "download:[download] %(progress._percent_str)s of %(progress._total_bytes_str)s at %(progress._speed_str)s ETA %(progress._eta_str)s" ) ;
 		s.ourOptions.append( "--progress-template" ) ;
-		s.ourOptions.append( "postprocess:postprocessing" ) ;
+		s.ourOptions.append( "postprocess:" + utility::stringConstants::postProcessMarker() ) ;
 	}
 }
 
@@ -745,8 +745,6 @@ const QByteArray& youtube_dl::youtube_dlFilter::youtubedlOutput( const Logger::D
 
 const QByteArray& youtube_dl::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 {
-	bool downloadingCompleted = false ;
-
 	const auto data = s.toStringList() ;
 
 	for( const auto& e : data ){
@@ -776,10 +774,6 @@ const QByteArray& youtube_dl::youtube_dlFilter::ytdlpOutput( const Logger::Data&
 			m_tmp = engines::engine::mediaAlreadInArchiveText().toUtf8() ;
 
 			return m_tmp ;
-		}
-		if( e == "postprocessing" ){
-
-			downloadingCompleted = true ;
 		}
 	}
 
@@ -814,7 +808,7 @@ const QByteArray& youtube_dl::youtube_dlFilter::ytdlpOutput( const Logger::Data&
 		return m_tmp ;
 	}
 
-	if( downloadingCompleted ){
+	if( s.doneDownloading() ){
 
 		return m_postProcessing.text( m_fileName ) ;
 	}else{

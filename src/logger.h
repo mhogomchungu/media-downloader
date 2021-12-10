@@ -67,6 +67,10 @@ public:
 		{
 			return m_lines[ m_lines.size() - 1 ].progressLine() ;
 		}
+		bool doneDownloading() const
+		{
+			return m_doneDownloading ;
+		}
 		void clear()
 		{
 			m_lines.clear() ;
@@ -134,9 +138,17 @@ public:
 			_replaceOrAdd( text,id,_false,_false ) ;
 		}		
 	private:
+		bool postProcessText( const QByteArray& data ) ;
 		template< typename Function,typename Add >
 		void _replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
 		{
+			if( this->postProcessText( text ) ){
+
+				m_doneDownloading = true ;
+
+				return ;
+			}
+
 			if( id != -1 ){
 
 				for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
@@ -209,6 +221,7 @@ public:
 			bool m_progressLine ;
 		} ;
 		std::vector< Logger::Data::line > m_lines ;
+		bool m_doneDownloading = false ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
