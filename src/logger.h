@@ -136,9 +136,10 @@ public:
 			auto _false = []( const QByteArray& ){ return false ; } ;
 
 			_replaceOrAdd( text,id,_false,_false ) ;
-		}		
+		}
 	private:
 		bool postProcessText( const QByteArray& data ) ;
+
 		template< typename Function,typename Add >
 		void _replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
 		{

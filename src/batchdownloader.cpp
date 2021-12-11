@@ -736,7 +736,7 @@ void batchdownloader::showList()
 
 	auto functions = utility::OptionsFunctions( [ this,&engine ]( const QByteArray& a ){
 
-			if( !a.contains( "ERROR:" ) ){
+			if( !a.isEmpty() ){
 
 				for( const auto& m : engine.mediaProperties( a ) ){
 

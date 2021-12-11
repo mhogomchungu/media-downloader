@@ -225,20 +225,21 @@ void basicdownloader::retranslateUi()
 
 void basicdownloader::listRequested( const QByteArray& a )
 {
-	if( a.contains( "ERROR:" ) || a.isEmpty() ){
+	if( a.isEmpty() ){
 
 		m_tableList.setVisible( false ) ;
-		return ;
+	}else{
+		auto m = m_ui.cbEngineType->currentText() ;
+
+		const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+
+		for( const auto& m : engine.mediaProperties( a ) ){
+
+			m_tableList.add( m ) ;
+		}
+
+		m_tableList.setEnabled( true ) ;
 	}
-
-	const auto& engine = m_ctx.Engines().defaultEngine( m_ui.cbEngineType->currentText() ) ;
-
-	for( const auto& m : engine.mediaProperties( a ) ){
-
-		m_tableList.add( m ) ;
-	}
-
-	m_tableList.setEnabled( true ) ;
 }
 
 void basicdownloader::list()
@@ -433,5 +434,4 @@ void basicdownloader::appQuit()
 
 void basicdownloader::gotEvent( const QByteArray& )
 {
-
 }
