@@ -335,13 +335,13 @@ private:
 	int m_id ;
 };
 
-template< typename Function,typename FunctionUpdate,typename Error >
+template< typename F,typename U,typename E >
 class loggerBatchDownloader
 {
 public:
-	loggerBatchDownloader( Function function,Logger& logger,FunctionUpdate ff,Error err,int id ) :
-		m_functionUpdate( std::move( ff ) ),
+	loggerBatchDownloader( F function,Logger& logger,U ff,E err,int id ) :
 		m_function( std::move( function ) ),
+		m_functionUpdate( std::move( ff ) ),
 		m_error( std::move( err ) ),
 		m_logger( logger ),
 		m_id( id )
@@ -369,8 +369,8 @@ public:
 		m_functionUpdate( "" ) ;
 		m_lines.clear() ;
 	}
-	template< typename F >
-	void add( const F& function )
+	template< typename G >
+	void add( const G& function )
 	{
 		m_logger.add( function,m_id ) ;
 		function( m_lines,-1,false ) ;
@@ -389,22 +389,20 @@ private:
 			m_functionUpdate( m_function( m_lines ) ) ;
 		}
 	}
-	FunctionUpdate m_functionUpdate ;
-	Function m_function ;
-	Error m_error ;
+	F m_function ;
+	U m_functionUpdate ;
+	E m_error ;
 	Logger& m_logger ;
 	Logger::Data m_lines ;
 	int m_id ;
 } ;
 
-template< typename Function,typename FunctionUpdate,typename Error >
-auto make_loggerBatchDownloader( Function function,Logger& logger,FunctionUpdate fu,Error err,int id )
+template< typename F,typename U,typename E >
+auto make_loggerBatchDownloader( F function,Logger& logger,U fu,E err,int id )
 {
-	return loggerBatchDownloader< Function,FunctionUpdate,Error >( std::move( function ),
-								 logger,
-								 std::move( fu ),
-								 std::move( err ),
-								 id ) ;
+	using lbd = loggerBatchDownloader< F,U,E > ;
+
+	return lbd( std::move( function ),logger,std::move( fu ),std::move( err ),id ) ;
 }
 
 template< typename AddToTable,typename TableWidget >
@@ -459,6 +457,8 @@ private:
 template< typename AddToTable,typename TableWidget >
 auto make_loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add )
 {
-	return loggerPlaylistDownloader< AddToTable,TableWidget >( t,logger,id,std::move( add ) ) ;
+	using lpd = loggerPlaylistDownloader< AddToTable,TableWidget > ;
+
+	return lpd( t,logger,id,std::move( add ) ) ;
 }
 #endif
