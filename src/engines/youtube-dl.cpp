@@ -386,6 +386,18 @@ youtube_dl::youtube_dl( const engines& engines,
 
 			obj = youtube_dl::init( name,configFileName,logger,enginePath ) ;
 		}
+
+	}else if( name.contains( "yt-dlp" ) ){
+
+		obj.insert( "DefaultListCmdOptions",[](){
+
+			QJsonArray arr ;
+
+			arr.append( "--print" ) ;
+			arr.append( "%(formats)j" ) ;
+
+			return arr ;
+		}() ) ;
 	}
 }
 
@@ -398,91 +410,99 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 	if( !m_engine.name().contains( "yt-dlp" ) ){
 
 		return engines::engine::functions::mediaProperties( e ) ;
-	}
-
-	QJsonParseError err ;
-
-	auto json = QJsonDocument::fromJson( e,&err ) ;
-
-	if( err.error == QJsonParseError::NoError ){
-
-		std::vector< QStringList > m ;
-		std::vector< QStringList > mm ;
-
-		const auto array = json.array() ;
-
-		utility::locale s ;
-
-		auto _append = [ & ]( QString& s,const char * str,const QString& sstr ){
-
-			if( sstr == "none" || sstr == "0" ){
-
-				return ;
-			}
-
-			s += str + sstr + ", " ;
-		} ;
-
-		for( const auto& it : array ){
-
-			auto obj       = it.toObject() ;
-
-			auto id        = obj.value( "format_id" ).toString() ;
-			auto ext       = obj.value( "ext" ).toString() ;
-			auto rsn       = obj.value( "resolution" ).toString() ;
-
-			auto fileSize  = s.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
-			auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
-			auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
-
-			auto container = obj.value( "container" ).toString() ;
-			auto proto     = obj.value( "protocol" ).toString() ;
-			auto vcodec    = obj.value( "vcodec" ).toString() ;
-			auto video_ext = obj.value( "video_ext" ).toString() ;
-			auto acodec    = obj.value( "acodec" ).toString() ;
-			auto audio_ext = obj.value( "audio_ext" ).toString() ;
-
-			if( acodec == "none" && !rsn.isEmpty() && rsn != "audio only" ){
-
-				rsn += "\nvideo only" ;
-			}
-
-			QString s ;
-
-			if( container.isEmpty() ){
-
-				s = QString( "Proto: %1, File Size: %2\n" ).arg( proto,fileSize ) ;
-			}else{
-				s = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ).arg( proto,fileSize,container ) ;
-			}
-
-			_append( s,"acodec: ",acodec ) ;
-			_append( s,"vcodec: ",vcodec ) ;
-			_append( s,"tbr: ",tbr ) ;
-			_append( s,"vbr: ",vbr ) ;
-
-			if( s.endsWith( ", " ) ){
-
-				s.truncate( s.size() - 2 ) ;
-			}
-
-			if( rsn != "audio only" && !rsn.contains( "video only" ) ){
-
-				mm.emplace_back( QStringList{ id,ext,rsn,s } ) ;
-			}else{
-				m.emplace_back( QStringList{ id,ext,rsn,s } ) ;
-			}
-		}
-
-		for( auto& it : mm ){
-
-			m.emplace_back( std::move( it ) ) ;
-		}
-
-		return m ;
 	}else{
-		return {} ;
+		QJsonParseError err ;
+
+		auto json = QJsonDocument::fromJson( e,&err ) ;
+
+		if( err.error == QJsonParseError::NoError ){
+
+			return this->mediaProperties( json.array() ) ;
+		}else{
+			return {} ;
+		}
 	}
+}
+
+std::vector< QStringList > youtube_dl::mediaProperties( const QJsonArray& array )
+{
+	if( m_engine.name() == "youtube-dl" ){
+
+		return engines::engine::functions::mediaProperties( array ) ;
+	}
+
+	std::vector< QStringList > m ;
+	std::vector< QStringList > mm ;
+
+	utility::locale s ;
+
+	auto _append = [ & ]( QString& s,const char * str,const QString& sstr ){
+
+		if( sstr == "none" || sstr == "0" ){
+
+			return ;
+		}
+
+		s += str + sstr + ", " ;
+	} ;
+
+	for( const auto& it : array ){
+
+		auto obj       = it.toObject() ;
+
+		auto id        = obj.value( "format_id" ).toString() ;
+		auto ext       = obj.value( "ext" ).toString() ;
+		auto rsn       = obj.value( "resolution" ).toString() ;
+
+		auto fileSize  = s.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
+		auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
+		auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
+
+		auto container = obj.value( "container" ).toString() ;
+		auto proto     = obj.value( "protocol" ).toString() ;
+		auto vcodec    = obj.value( "vcodec" ).toString() ;
+		auto video_ext = obj.value( "video_ext" ).toString() ;
+		auto acodec    = obj.value( "acodec" ).toString() ;
+		auto audio_ext = obj.value( "audio_ext" ).toString() ;
+
+		if( acodec == "none" && !rsn.isEmpty() && rsn != "audio only" ){
+
+			rsn += "\nvideo only" ;
+		}
+
+		QString s ;
+
+		if( container.isEmpty() ){
+
+			s = QString( "Proto: %1, File Size: %2\n" ).arg( proto,fileSize ) ;
+		}else{
+			s = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ).arg( proto,fileSize,container ) ;
+		}
+
+		_append( s,"acodec: ",acodec ) ;
+		_append( s,"vcodec: ",vcodec ) ;
+		_append( s,"tbr: ",tbr ) ;
+		_append( s,"vbr: ",vbr ) ;
+
+		if( s.endsWith( ", " ) ){
+
+			s.truncate( s.size() - 2 ) ;
+		}
+
+		if( rsn != "audio only" && !rsn.contains( "video only" ) ){
+
+			mm.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+		}else{
+			m.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+		}
+	}
+
+	for( auto& it : mm ){
+
+		m.emplace_back( std::move( it ) ) ;
+	}
+
+	return m ;
 }
 
 QStringList youtube_dl::dumpJsonArguments()
@@ -492,7 +512,7 @@ QStringList youtube_dl::dumpJsonArguments()
 		return engines::engine::functions::dumpJsonArguments() ;
 	}else{
 		//auto a = R"R({"url":%(url)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j})R" ;
-		auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j})R" ;
+		auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j})R" ;
 
 		return { "--newline","--print",a } ;
 	}

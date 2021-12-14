@@ -842,6 +842,11 @@ std::vector< QStringList > engines::engine::functions::mediaProperties( const QB
 	return s ;
 }
 
+std::vector< QStringList > engines::engine::functions::mediaProperties( const QJsonArray& )
+{
+	return {} ;
+}
+
 bool engines::engine::functions::breakShowListIfContains( const QStringList& )
 {
 	return false ;

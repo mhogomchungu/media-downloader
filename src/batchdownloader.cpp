@@ -536,6 +536,14 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 	}
 }
 
+void batchdownloader::showBDFrame()
+{
+	m_optionsList.clear() ;
+	m_tableWidgetBDList.clear() ;
+	m_ui.BDFrame->show() ;
+	m_ui.pbCancelBatchDownloder->setFocus() ;
+}
+
 void batchdownloader::getListFromFile( QMenu& m )
 {
 	auto ac = m.addAction( QObject::tr( "Get List From File" ) ) ;
@@ -662,8 +670,19 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	BatchLoggerWrapper wrapper( m_ctx.logger() ) ;
 
+	auto args = engine.dumpJsonArguments() ;
+
+	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
+	const auto& ca = engine.cookieArgument() ;
+
+	if( !cookiePath.isEmpty() && !ca.isEmpty() ){
+
+		args.append( ca ) ;
+		args.append( cookiePath ) ;
+	}
+
 	m_ccmd.download( engine,
-			 engine.dumpJsonArguments(),
+			 args,
 			 index == -1 ? url : m_table.url( index ),
 			 m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
 			 batchdownloader::make_options( { m_ctx,m_debug,false,index,wrapper },std::move( functions ) ),
@@ -708,6 +727,25 @@ void batchdownloader::showList()
 
 	const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
 
+	const auto& formats = m_table.formats( row ) ;
+
+	if( !formats.isEmpty() ){
+
+		const auto ss = engine.mediaProperties( formats ) ;
+
+		if( !ss.empty() ){
+
+			this->showBDFrame() ;
+
+			for( const auto& m : ss ){
+
+				m_tableWidgetBDList.add( m ) ;
+			}
+
+			return ;
+		}
+	}
+
 	auto args = engine.defaultListCmdOptions() ;
 
 	if( args.isEmpty() ){
@@ -724,11 +762,7 @@ void batchdownloader::showList()
 		args.append( cookiePath ) ;
 	}
 
-	m_optionsList.clear() ;
-
-	m_tableWidgetBDList.clear() ;
-
-	m_ui.BDFrame->show() ;
+	this->showBDFrame() ;
 
 	args.append( m_table.url( row ) ) ;
 
@@ -779,11 +813,11 @@ static int _addItemUi( const QPixmap& pixmap,
 	int row ;
 	if( index == -1 ){
 
-		row = table.addItem( { pixmap,media.uiText(),media.url(),state } ) ;
+		row = table.addItem( { pixmap,media.uiText(),media.url(),state,media.formats() } ) ;
 		table.selectLast() ;
 	}else{
 		row = index ;
-		table.replace( { pixmap,media.uiText(),media.url(),state },index ) ;
+		table.replace( { pixmap,media.uiText(),media.url(),state,media.formats() },index ) ;
 	}
 
 	ui.lineEditBDUrl->clear() ;

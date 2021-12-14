@@ -1084,6 +1084,10 @@ namespace utility
 		{
 			return m_id ;
 		}
+		const QJsonArray& formats() const
+		{
+			return m_formats ;
+		}
 		int intDuration() const
 		{
 			return m_intDuration ;
@@ -1095,6 +1099,7 @@ namespace utility
 		QString m_url ;
 		QString m_duration ;
 		QString m_id ;
+		QJsonArray m_formats ;
 		int m_intDuration ;
 		util::Json m_json ;
 	};

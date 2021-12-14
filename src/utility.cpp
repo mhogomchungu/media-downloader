@@ -558,6 +558,7 @@ utility::MediaEntry::MediaEntry( const QString& url,const QByteArray& data ) : m
 		m_uploadDate   = object.value( "upload_date" ).toString() ;
 		m_id           = object.value( "id" ).toString() ;
 		m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
+		m_formats      = object.value( "formats" ).toArray() ;
 
 		if( !m_uploadDate.isEmpty() ){
 

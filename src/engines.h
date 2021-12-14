@@ -283,6 +283,8 @@ public:
 
 			virtual std::vector< QStringList > mediaProperties( const QByteArray& ) ;
 
+			virtual std::vector< QStringList > mediaProperties( const QJsonArray& ) ;
+
 			virtual bool breakShowListIfContains( const QStringList& ) ;
 
 			virtual engines::engine::functions::DataFilter Filter( const QString& ) ;
@@ -428,6 +430,10 @@ public:
 			m_functions->sendCredentials( credentials,exe ) ;
 		}
 		std::vector< QStringList > mediaProperties( const QByteArray& e ) const
+		{
+			return m_functions->mediaProperties( e ) ;
+		}
+		std::vector< QStringList > mediaProperties( const QJsonArray& e ) const
 		{
 			return m_functions->mediaProperties( e ) ;
 		}

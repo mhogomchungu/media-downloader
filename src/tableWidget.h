@@ -24,6 +24,7 @@
 #include <QTableWidget>
 #include <QObject>
 #include <QLineEdit>
+#include <QJsonArray>
 
 #include "engines.h"
 
@@ -81,6 +82,10 @@ public:
 	{
 		return this->item( row ).engineName ;
 	}
+	const QJsonArray& formats( int row ) const
+	{
+		return this->item( row ).formats ;
+	}
 	const QPixmap& thumbnail( int row ) const
 	{
 		return this->item( row ).thumbnail.image ;
@@ -104,19 +109,23 @@ public:
 	struct entry{
 		entry( const QString& uiText,
 		       const QString& url,
-		       const QString& runningState ) :
+		       const QString& runningState,
+		       const QJsonArray& arr = QJsonArray() ) :
 			url( url ),
 			uiText( uiText ),
-			runningState( runningState )
+			runningState( runningState ),
+			formats( arr )
 		{
 		}
 		entry( const QPixmap& thumbnail,
 		       const QString& uiText,
 		       const QString& url,
-		       const QString& runningState ) :
+		       const QString& runningState,
+		       const QJsonArray& arr = QJsonArray() ) :
 			url( url ),
 			uiText( uiText ),
 			runningState( runningState ),
+			formats( arr ),
 			thumbnail( thumbnail )
 		{
 		}
@@ -126,6 +135,7 @@ public:
 		QString downloadingOptions ;
 		QString downloadingOptionsUi ;
 		QString engineName ;
+		QJsonArray formats ;
 		struct tnail{
 			tnail( const QPixmap& p ) : isSet( true ),image( p )
 			{

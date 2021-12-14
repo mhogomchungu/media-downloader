@@ -153,6 +153,7 @@ public:
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 private:
+	void showBDFrame() ;
 	void getListFromFile( QMenu& ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;

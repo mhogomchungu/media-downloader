@@ -47,6 +47,8 @@ public:
 
 	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
 
+	std::vector< QStringList > mediaProperties( const QJsonArray& ) override ;
+
 	QStringList dumpJsonArguments() override ;
 
 	bool breakShowListIfContains( const QStringList& ) override ;
