@@ -431,8 +431,9 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QJsonArray& array 
 		return engines::engine::functions::mediaProperties( array ) ;
 	}
 
-	std::vector< QStringList > m ;
-	std::vector< QStringList > mm ;
+	std::vector< QStringList > firstToShow ;
+	std::vector< QStringList > secondToShow ;
+	std::vector< QStringList > thirdtToShow ;
 
 	utility::locale s ;
 
@@ -465,9 +466,26 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QJsonArray& array 
 		auto acodec    = obj.value( "acodec" ).toString() ;
 		auto audio_ext = obj.value( "audio_ext" ).toString() ;
 
-		if( acodec == "none" && !rsn.isEmpty() && rsn != "audio only" ){
+		if( !rsn.isEmpty() ){
 
-			rsn += "\nvideo only" ;
+			if( rsn != "audio only" ){
+
+				bool hasVideo = vcodec != "none" ;
+				bool hasAudio = acodec != "none" ;
+
+				if( hasVideo && hasAudio ){
+
+					rsn += "\naudio video" ;
+
+				}else if( hasVideo && !hasAudio ){
+
+					rsn += "\nvideo only" ;
+
+				}else if( !hasVideo && hasAudio ){
+
+					rsn += "\naudio only" ;
+				}
+			}
 		}
 
 		QString s ;
@@ -489,20 +507,29 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QJsonArray& array 
 			s.truncate( s.size() - 2 ) ;
 		}
 
-		if( rsn != "audio only" && !rsn.contains( "video only" ) ){
+		if( ext == "mhtml" ){
 
-			mm.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			firstToShow.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+
+		}else if( rsn != "audio only" && !rsn.contains( "video only" ) ){
+
+			thirdtToShow.emplace_back( QStringList{ id,ext,rsn,s } ) ;
 		}else{
-			m.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			secondToShow.emplace_back( QStringList{ id,ext,rsn,s } ) ;
 		}
 	}
 
-	for( auto& it : mm ){
+	for( auto& it : secondToShow ){
 
-		m.emplace_back( std::move( it ) ) ;
+		firstToShow.emplace_back( std::move( it ) ) ;
 	}
 
-	return m ;
+	for( auto& it : thirdtToShow ){
+
+		firstToShow.emplace_back( std::move( it ) ) ;
+	}
+
+	return firstToShow ;
 }
 
 QStringList youtube_dl::dumpJsonArguments()
@@ -511,7 +538,6 @@ QStringList youtube_dl::dumpJsonArguments()
 
 		return engines::engine::functions::dumpJsonArguments() ;
 	}else{
-		//auto a = R"R({"url":%(url)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j})R" ;
 		auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j})R" ;
 
 		return { "--newline","--print",a } ;
