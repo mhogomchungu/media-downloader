@@ -47,7 +47,7 @@
         "--ignore-config",
         "--no-playlist",
         "-o",
-        "%(title)s-%(id)s.%(ext)s"
+        "%(title).200s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
         "-F"
