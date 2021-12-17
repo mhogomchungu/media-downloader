@@ -304,7 +304,7 @@ QJsonObject youtube_dl::init( const QString& name,
 			arr.append( "--ignore-config" ) ;
 			arr.append( "--no-playlist" ) ;
 			arr.append( "-o" ) ;
-			arr.append( "%(title)s-%(id)s.%(ext)s" ) ;
+			arr.append( "%(title).200s-%(id)s.%(ext)s" ) ;
 
 			return arr ;
 		}() ) ;

@@ -145,7 +145,11 @@ public:
 		{
 			if( this->postProcessText( text ) ){
 
-				m_doneDownloading = true ;
+				if( !m_doneDownloading ){
+
+					m_lines.emplace_back( "[media-downloader] Done downloading",id ) ;
+					m_doneDownloading = true ;
+				}
 
 				return ;
 			}
