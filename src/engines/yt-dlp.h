@@ -22,10 +22,10 @@
 
 #include "../engines.h"
 
-class youtube_dl : public engines::engine::functions
+class yt_dlp : public engines::engine::functions
 {
 public:
-	~youtube_dl() override ;
+	~yt_dlp() override ;
 
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{
@@ -69,11 +69,11 @@ public:
 				 Logger& logger,
 				 const engines::enginePaths& enginePath ) ;
 
-	youtube_dl( const engines&,
-		    const engines::engine&,
-		    QJsonObject&,
-		    Logger& logger,
-		    const engines::enginePaths& ) ;
+	yt_dlp( const engines&,
+		const engines::engine&,
+		QJsonObject&,
+		Logger& logger,
+		const engines::enginePaths& ) ;
 private:
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;

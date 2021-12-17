@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "youtube-dl.h"
+#include "yt-dlp.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -57,10 +57,10 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
-QJsonObject youtube_dl::init( const QString& name,
-			      const QString& configFileName,
-			      Logger& logger,
-			      const engines::enginePaths& enginePath )
+QJsonObject yt_dlp::init( const QString& name,
+			  const QString& configFileName,
+			  Logger& logger,
+			  const engines::enginePaths& enginePath )
 {
 	auto m = enginePath.enginePath( configFileName ) ;
 
@@ -362,11 +362,11 @@ QJsonObject youtube_dl::init( const QString& name,
 	}
 }
 
-youtube_dl::youtube_dl( const engines& engines,
-			const engines::engine& engine,
-			QJsonObject& obj,
-			Logger& logger,
-			const engines::enginePaths& enginePath ) :
+yt_dlp::yt_dlp( const engines& engines,
+		const engines::engine& engine,
+		QJsonObject& obj,
+		Logger& logger,
+		const engines::enginePaths& enginePath ) :
 	engines::engine::functions( engines.Settings(),engine ),
 	m_engine( engine )
 {
@@ -384,7 +384,7 @@ youtube_dl::youtube_dl( const engines& engines,
 
 			while( QFile::exists( m ) ){}
 
-			obj = youtube_dl::init( name,configFileName,logger,enginePath ) ;
+			obj = yt_dlp::init( name,configFileName,logger,enginePath ) ;
 		}
 
 	}else if( name.contains( "yt-dlp" ) ){
@@ -401,11 +401,11 @@ youtube_dl::youtube_dl( const engines& engines,
 	}
 }
 
-youtube_dl::~youtube_dl()
+yt_dlp::~yt_dlp()
 {
 }
 
-std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
+std::vector< QStringList > yt_dlp::mediaProperties( const QByteArray& e )
 {
 	if( !m_engine.name().contains( "yt-dlp" ) ){
 
@@ -424,7 +424,7 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QByteArray& e )
 	}
 }
 
-std::vector< QStringList > youtube_dl::mediaProperties( const QJsonArray& array )
+std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 {
 	if( m_engine.name() == "youtube-dl" ){
 
@@ -532,7 +532,7 @@ std::vector< QStringList > youtube_dl::mediaProperties( const QJsonArray& array 
 	return firstToShow ;
 }
 
-QStringList youtube_dl::dumpJsonArguments()
+QStringList yt_dlp::dumpJsonArguments()
 {
 	if( m_engine.name() == "youtube-dl" ){
 
@@ -544,7 +544,7 @@ QStringList youtube_dl::dumpJsonArguments()
 	}
 }
 
-bool youtube_dl::breakShowListIfContains( const QStringList& e )
+bool yt_dlp::breakShowListIfContains( const QStringList& e )
 {
 	auto _match_found = []( const QJsonObject& obj,const QStringList& e ){
 
@@ -594,12 +594,12 @@ bool youtube_dl::breakShowListIfContains( const QStringList& e )
 	}
 }
 
-engines::engine::functions::DataFilter youtube_dl::Filter( const QString& e )
+engines::engine::functions::DataFilter yt_dlp::Filter( const QString& e )
 {
-	return { util::types::type_identity< youtube_dl::youtube_dlFilter >(),e,m_engine } ;
+	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),e,m_engine } ;
 }
 
-void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
+void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
 {
 	auto& settings = engines::engine::functions::Settings() ;
 	auto a = settings.commandOnSuccessfulDownload() ;
@@ -621,10 +621,10 @@ void youtube_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 	}
 }
 
-QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
-						 const QString& bkText,
-						 const QString& dopts,
-						 const engines::engine::functions::finishedState& f )
+QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
+					     const QString& bkText,
+					     const QString& dopts,
+					     const engines::engine::functions::finishedState& f )
 {
 	if( f.cancelled() ){
 
@@ -651,7 +651,7 @@ QString youtube_dl::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
+void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
 	if( s.userOptions.contains( "--yes-playlist" ) ){
 
@@ -703,13 +703,13 @@ void youtube_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 	}
 }
 
-youtube_dl::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::engine& engine ) :
+yt_dlp::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::engine& engine ) :
 	engines::engine::functions::filter( e,engine ),
 	m_likeYtdlp( engine.name().contains( "yt-dlp" ) )
 {
 }
 
-const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& s )
+const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 {
 	if( m_likeYtdlp ){
 
@@ -719,11 +719,11 @@ const QByteArray& youtube_dl::youtube_dlFilter::operator()( const Logger::Data& 
 	}
 }
 
-youtube_dl::youtube_dlFilter::~youtube_dlFilter()
+yt_dlp::youtube_dlFilter::~youtube_dlFilter()
 {
 }
 
-const QByteArray& youtube_dl::youtube_dlFilter::youtubedlOutput( const Logger::Data& s )
+const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data& s )
 {
 	const auto data = s.toStringList() ;
 
@@ -789,7 +789,7 @@ const QByteArray& youtube_dl::youtube_dlFilter::youtubedlOutput( const Logger::D
 	}
 }
 
-const QByteArray& youtube_dl::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
+const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 {
 	const auto data = s.toStringList() ;
 

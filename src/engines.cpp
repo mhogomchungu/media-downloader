@@ -19,7 +19,7 @@
 
 #include "engines.h"
 
-#include "engines/youtube-dl.h"
+#include "engines/yt-dlp.h"
 #include "engines/generic.h"
 #include "engines/safaribooks.h"
 #include "engines/gallery-dl.h"
@@ -258,7 +258,7 @@ void engines::updateEngines( bool addAll )
 
 		if( it.likeYoutubeDl() ){
 
-			it.setBackend< youtube_dl >( engines,m_logger,m_enginePaths ) ;
+			it.setBackend< yt_dlp >( engines,m_logger,m_enginePaths ) ;
 
 		}else if( name == "safaribooks" ){
 
@@ -1287,7 +1287,7 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 	m_name( "yt-dlp" ),
 	m_configFileName( m_name + ".json" )
 {
-	youtube_dl::init( this->name(),this->configFileName(),logger,enginePath ) ;
+	yt_dlp::init( this->name(),this->configFileName(),logger,enginePath ) ;
 
 	if( utility::platformIsWindows() ){
 
