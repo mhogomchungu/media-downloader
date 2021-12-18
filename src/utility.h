@@ -270,6 +270,33 @@ namespace utility
 	QString downloadFolder( const Context& ctx ) ;
 	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
 
+	class addJsonCmd
+	{
+	public:
+		struct entry
+		{
+			QString platform ;
+			struct arch{
+				QString archName ;
+				QString exeName ;
+				QStringList exeArgs ;
+			} ;
+			std::vector< arch > platformData ;
+		} ;
+		addJsonCmd( QJsonObject& obj ) :
+			m_mainObj( obj )
+		{
+		}
+		void add( const addJsonCmd::entry& e ) ;
+		void done()
+		{
+			m_mainObj.insert( "Cmd",m_obj ) ;
+		}
+	private:
+		QJsonObject& m_mainObj ;
+		QJsonObject m_obj ;
+	};
+
 	class locale
 	{
 	public:

@@ -749,3 +749,38 @@ bool utility::platformIs32Bit()
 {
 	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
 }
+
+void utility::addJsonCmd::add( const entry& e )
+{
+	m_obj.insert( e.platform,[ & ]{
+
+		QJsonObject s ;
+
+		for( const auto& it : e.platformData ){
+
+			s.insert( it.archName,[ & ](){
+
+				QJsonObject a ;
+
+				a.insert( "Name",it.exeName ) ;
+
+				a.insert( "Args",[ & ](){
+
+					QJsonArray arr ;
+
+					for( const auto& xt : it.exeArgs ){
+
+						arr.append( xt ) ;
+					}
+
+					return arr ;
+				}() ) ;
+
+				return a ;
+			}() ) ;
+		}
+
+		return s ;
+
+	}() ) ;
+}

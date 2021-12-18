@@ -81,98 +81,15 @@ QJsonObject yt_dlp::init( const QString& name,
 				return obj ;
 			}() ) ;
 
-			mainObj.insert( "Cmd",[](){
+			utility::addJsonCmd json( mainObj ) ;
 
-				QJsonObject e ;
+			json.add( { { "Generic" },{ { "x86","youtube-dl",{ "youtube-dl" } },
+						    { "amd64","youtube-dl",{ "youtube-dl" } } } } ) ;
 
-				e.insert( "Generic",[](){
+			json.add( { { "Windows" },{ { "x86","youtube-dl.exe",{ "youtube-dl.exe" } },
+						    { "amd64","youtube-dl.exe",{ "youtube-dl.exe" } } } } ) ;
 
-					QJsonObject e ;
-
-					e.insert( "x86",[](){
-
-						QJsonObject a ;
-
-						a.insert( "Name","youtube-dl" ) ;
-
-						a.insert( "Args",[](){
-
-							QJsonArray arr ;
-
-							arr.append( "youtube-dl" ) ;
-
-							return arr ;
-						}() ) ;
-
-						return a ;
-					}() ) ;
-
-					e.insert( "amd64",[](){
-
-						QJsonObject a ;
-
-						a.insert( "Name","youtube-dl" ) ;
-
-						a.insert( "Args",[](){
-
-							QJsonArray arr ;
-
-							arr.append( "youtube-dl" ) ;
-
-							return arr ;
-						}() ) ;
-
-						return a ;
-					}() ) ;
-
-					return e ;
-				}() ) ;
-
-				e.insert( "Windows",[](){
-
-					QJsonObject e ;
-
-					e.insert( "x86",[](){
-
-						QJsonObject a ;
-
-						a.insert( "Name","youtube-dl.exe" ) ;
-
-						a.insert( "Args",[](){
-
-							QJsonArray arr ;
-
-							arr.append( "youtube-dl.exe" ) ;
-
-							return arr ;
-						}() ) ;
-
-						return a ;
-					}() ) ;
-
-					e.insert( "amd64",[](){
-
-						QJsonObject a ;
-
-						a.insert( "Name","youtube-dl.exe" ) ;
-
-						a.insert( "Args",[](){
-
-							QJsonArray arr ;
-
-							arr.append( "youtube-dl.exe" ) ;
-
-							return arr ;
-						}() ) ;
-
-						return a ;
-					}() ) ;
-
-					return e ;
-				}() ) ;
-
-				return e ;
-			}() ) ;
+			json.done() ;
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
 
@@ -184,98 +101,15 @@ QJsonObject yt_dlp::init( const QString& name,
 				return arr ;
 			}() ) ;
 		}else{
-			mainObj.insert( "Cmd",[](){
+			utility::addJsonCmd json( mainObj ) ;
 
-				QJsonObject e ;
+			json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
+						    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
 
-				e.insert( "Generic",[](){
+			json.add( { { "Windows" },{ { "x86","yt-dlp_x86.exe",{ "yt-dlp_x86.exe" } },
+						    { "amd64","yt-dlp.exe",{ "yt-dlp.exe" } } } } ) ;
 
-					QJsonObject e ;
-
-					e.insert( "x86",[](){
-
-						QJsonObject a ;
-
-						a.insert( "Name","yt-dlp" ) ;
-
-						a.insert( "Args",[](){
-
-							QJsonArray arr ;
-
-							arr.append( "yt-dlp" ) ;
-
-							return arr ;
-						}() ) ;
-
-						return a ;
-					}() ) ;
-
-					e.insert( "amd64",[](){
-
-						QJsonObject a ;
-
-						a.insert( "Name","yt-dlp" ) ;
-
-						a.insert( "Args",[](){
-
-							QJsonArray arr ;
-
-							arr.append( "yt-dlp" ) ;
-
-							return arr ;
-						}() ) ;
-
-						return a ;
-					}() ) ;
-
-					return e ;
-				}() ) ;
-
-				e.insert( "Windows",[](){
-
-					QJsonObject e ;
-
-					e.insert( "x86",[](){
-
-						QJsonObject a ;
-
-						a.insert( "Name","yt-dlp_x86.exe" ) ;
-
-						a.insert( "Args",[](){
-
-							QJsonArray arr ;
-
-							arr.append( "yt-dlp_x86.exe" ) ;
-
-							return arr ;
-						}() ) ;
-
-						return a ;
-					}() ) ;
-
-					e.insert( "amd64",[](){
-
-						QJsonObject a ;
-
-						a.insert( "Name","yt-dlp.exe" ) ;
-
-						a.insert( "Args",[](){
-
-							QJsonArray arr ;
-
-							arr.append( "yt-dlp.exe" ) ;
-
-							return arr ;
-						}() ) ;
-
-						return a ;
-					}() ) ;
-
-					return e ;
-				}() ) ;
-
-				return e ;
-			}() ) ;
+			json.done() ;
 
 			mainObj.insert( "DefaultListCmdOptions",[](){
 
@@ -381,8 +215,6 @@ yt_dlp::yt_dlp( const engines& engines,
 			auto m = enginePath.enginePath( configFileName ) ;
 
 			QFile::remove( m ) ;
-
-			while( QFile::exists( m ) ){}
 
 			obj = yt_dlp::init( name,configFileName,logger,enginePath ) ;
 		}

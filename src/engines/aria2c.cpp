@@ -36,10 +36,6 @@ void aria2c::init( const QString& name,
 
 		mainObj.insert( "DefaultListCmdOptions",QJsonArray() ) ;
 
-		mainObj.insert( "CommandName",name ) ;
-
-		mainObj.insert( "CommandNameWindows",name + ".exe" ) ;
-
 		mainObj.insert( "DownloadUrl","" ) ;
 
 		mainObj.insert( "Name",name ) ;
@@ -55,20 +51,17 @@ void aria2c::init( const QString& name,
 			return arr ;
 		}() ) ;
 
-		if( utility::platformIsLinux() ){
+		utility::addJsonCmd json( mainObj ) ;
 
-			mainObj.insert( "CommandNames",[ & ](){
+		json.add( { { "Generic" },{ { "x86",name,{ "stdbuf","-o","L",name } },
+					    { "amd64",name,{ "stdbuf","-o","L",name } } } } ) ;
 
-				QJsonArray arr ;
+		auto exe = name + ".exe" ;
 
-				arr.append( "stdbuf" ) ;
-				arr.append( "-o" ) ;
-				arr.append( "L" ) ;
-				arr.append( name ) ;
+		json.add( { { "Windows" },{ { "x86",exe,{ exe } },
+					    { "amd64",exe,{ exe } } } } ) ;
 
-				return arr ;
-			}() ) ;
-		}
+		json.done() ;
 
 		mainObj.insert( "RemoveText",QJsonArray() ) ;
 
@@ -84,7 +77,7 @@ void aria2c::init( const QString& name,
 
 		mainObj.insert( "PlayListIdArguments",QJsonArray() ) ;
 
-		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader",QString() ) ;
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.2.0" ) ;
 
 		mainObj.insert( "PlaylistItemsArgument","" ) ;
 
