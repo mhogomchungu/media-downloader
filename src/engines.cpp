@@ -608,6 +608,16 @@ engines::engine::engine( Logger& logger,
 
 					return cmd.toObject().value( "Windows" ).toObject() ;
 				}else{
+					if( utility::platformIsOSX() ){
+
+						auto m = cmd.toObject().value( "MacOS" ) ;
+
+						if( !m.isUndefined() ){
+
+							return m.toObject() ;
+						}
+					}
+
 					return cmd.toObject().value( "Generic" ).toObject() ;
 				}
 			}() ;

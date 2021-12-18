@@ -750,7 +750,7 @@ bool utility::platformIs32Bit()
 	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
 }
 
-void utility::addJsonCmd::add( const entry& e )
+void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 {
 	m_obj.insert( e.platform,[ & ]{
 
