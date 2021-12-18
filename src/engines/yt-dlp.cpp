@@ -659,31 +659,38 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 
 		const auto& mm = s.lastText() ;
 
-		auto w = mm.indexOf( ' ' ) ;
+		if( mm.startsWith( "[DL:" ) ){
 
-		if( w != -1 ){
-
-			for( ; w < mm.size() ; w++ ){
-
-				if( mm[ w ] != ' ' ){
-
-					break ;
-				}
-			}
+			//aria2c when doing concurrent downloads
+			m_tmp = m_fileName + "\n" + mm ;
+			return m_tmp ;
 		}else{
-			w = 0 ;
+			auto w = mm.indexOf( ' ' ) ;
+
+			if( w != -1 ){
+
+				for( ; w < mm.size() ; w++ ){
+
+					if( mm[ w ] != ' ' ){
+
+						break ;
+					}
+				}
+			}else{
+				w = 0 ;
+			}
+
+			m_tmp = m_fileName + "\n" + mm.mid( w ) ;
+
+			const auto& engine = engines::engine::functions::filter::engine() ;
+
+			if( engine.name() == "yt-dlp-aria2c" ){
+
+				aria2c::trimProgressLine( m_tmp ) ;
+			}
+
+			return m_tmp ;
 		}
-
-		m_tmp = m_fileName + "\n" + mm.mid( w ) ;
-
-		const auto& engine = engines::engine::functions::filter::engine() ;
-
-		if( engine.name() == "yt-dlp-aria2c" ){
-
-			aria2c::trimProgressLine( m_tmp ) ;
-		}
-
-		return m_tmp ;
 	}
 
 	if( s.doneDownloading() ){

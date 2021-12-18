@@ -238,11 +238,43 @@ bool Logger::updateLogger::skipLine( const QByteArray& line ) const
 
 void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 {
+	bool aria2c = m_args.name.contains( "aria2c" ) ;
+
 	for( const auto& e : util::split( data,token ) ){
 
 		if( this->skipLine( e ) ){
 
 			continue ;
+
+		}else if( aria2c && e.startsWith( "[DL:" ) ){
+
+			//aria2c when doing concurrent downloads
+
+			if( m_id == -1 ){
+
+				if( m_outPut.isEmpty() ){
+
+					m_outPut.add( e ) ;
+				}else{
+					auto& s = m_outPut.lastText() ;
+
+					if( s.startsWith( "[DL:" ) ){
+
+						m_outPut.replaceLast( e ) ;
+					}else{
+						m_outPut.add( e ) ;
+					}
+				}
+			}else{
+				m_outPut.replaceOrAdd( e,m_id,[]( const QByteArray& e ){
+
+					return e.startsWith( "[DL:" ) ;
+
+				},[]( const QByteArray& ){
+
+					return false ;
+				} ) ;
+			}
 
 		}else if( this->meetCondition( e ) ){
 

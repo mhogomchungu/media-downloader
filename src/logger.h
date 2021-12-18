@@ -268,12 +268,14 @@ public:
 				controlStructure( engine.controlStructure() ),
 				skipLinesWithText( engine.skiptLineWithText() ),
 				splitLinesBy( engine.splitLinesBy() ),
+				name( engine.name() ),
 				likeYoutubeDl( engine.likeYoutubeDl() )
 			{
 			}
 			const QJsonObject& controlStructure ;
 			const QStringList& skipLinesWithText ;
 			const QStringList& splitLinesBy ;
+			const QString& name ;
 			const bool likeYoutubeDl ;
 		} ;
 		template< typename Engine >
