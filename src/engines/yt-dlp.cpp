@@ -661,7 +661,19 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 
 		if( mm.startsWith( "[DL:" ) ){
 
-			//aria2c when doing concurrent downloads
+			/*
+			 * aria2c when doing concurrent downloads
+			 */
+
+			m_tmp = m_fileName + "\n" + mm ;
+			return m_tmp ;
+
+		}else if( mm.startsWith( "frame=" ) || mm.startsWith( "size=" ) ){
+
+			/*
+			 * ffmpeg output
+			 */
+
 			m_tmp = m_fileName + "\n" + mm ;
 			return m_tmp ;
 		}else{
