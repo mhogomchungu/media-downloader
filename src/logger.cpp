@@ -236,6 +236,38 @@ bool Logger::updateLogger::skipLine( const QByteArray& line ) const
 	}
 }
 
+template< typename MeetCondition,typename AddReplace >
+static void _add_or_replace( Logger::Data& outPut,
+			     int id,
+			     const QByteArray& e,
+			     MeetCondition meetCondition,
+			     AddReplace addReplace )
+{
+	if( id == -1 ){
+
+		if( outPut.isEmpty() ){
+
+			outPut.add( e ) ;
+		}else{
+			if( meetCondition( outPut.lastText() ) ){
+
+				outPut.replaceLast( e ) ;
+			}else{
+				outPut.add( e ) ;
+			}
+		}
+	}else{
+		outPut.replaceOrAdd( e,id,[ & ]( const QByteArray& e ){
+
+			return meetCondition( e ) ;
+
+		},[ & ]( const QByteArray& e ){
+
+			return addReplace( e ) ;
+		} ) ;
+	}
+}
+
 void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 {
 	bool aria2c = m_args.name.contains( "aria2c" ) ;
@@ -246,68 +278,47 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 			continue ;
 
+		}else if( aria2c && e.startsWith( "[download]" ) && e.contains( "ETA" ) ){
+
+			//yt-dlp-aria2c when yt-dlp decides to use internal downloader
+
+			_add_or_replace( m_outPut,m_id,e,[]( const QByteArray& s ){
+
+				return s.startsWith( "[download]" ) && s.contains( "ETA" ) ;
+
+			},[]( const QByteArray& ){
+
+				return false ;
+			} ) ;
+
 		}else if( aria2c && e.startsWith( "[DL:" ) ){
 
 			//aria2c when doing concurrent downloads
 
-			if( m_id == -1 ){
+			_add_or_replace( m_outPut,m_id,e,[]( const QByteArray& s ){
 
-				if( m_outPut.isEmpty() ){
+				return s.startsWith( "[DL:" ) ;
 
-					m_outPut.add( e ) ;
-				}else{
-					auto& s = m_outPut.lastText() ;
+			},[]( const QByteArray& ){
 
-					if( s.startsWith( "[DL:" ) ){
-
-						m_outPut.replaceLast( e ) ;
-					}else{
-						m_outPut.add( e ) ;
-					}
-				}
-			}else{
-				m_outPut.replaceOrAdd( e,m_id,[]( const QByteArray& e ){
-
-					return e.startsWith( "[DL:" ) ;
-
-				},[]( const QByteArray& ){
-
-					return false ;
-				} ) ;
-			}
+				return false ;
+			} ) ;
 
 		}else if( this->meetCondition( e ) ){
 
-			if( m_id == -1 ){
+			_add_or_replace( m_outPut,m_id,e,[ this ]( const QByteArray& s ){
 
-				if( m_outPut.isEmpty() ){
+				return this->meetCondition( s )  ;
 
-					m_outPut.add( e ) ;
+			},[ this ]( const QByteArray& e ){
+
+				if( m_args.likeYoutubeDl ){
+
+					return e.startsWith( "[download] 100.0%" ) ;
 				}else{
-					auto& s = m_outPut.lastText() ;
-
-					if( this->meetCondition( s ) ){
-
-						m_outPut.replaceLast( e ) ;
-					}else{
-						m_outPut.add( e ) ;
-					}
+					return false ;
 				}
-			}else{
-				m_outPut.replaceOrAdd( e,m_id,[ this ]( const QByteArray& e ){
-
-					return this->meetCondition( e ) ;
-
-				},[ this ]( const QByteArray& e ){
-
-					if( m_args.likeYoutubeDl ){
-
-						return e.startsWith( "[download] 100.0%" ) ;
-					}else{
-						return false ;
-					}
-				} ) ;
-			}
+			} ) ;
 		}else{
 			m_outPut.add( e,m_id ) ;
 		}
