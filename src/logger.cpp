@@ -271,6 +271,7 @@ static void _add_or_replace( Logger::Data& outPut,
 void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 {
 	bool aria2c = m_args.name.contains( "aria2c" ) ;
+	bool ffmpeg = m_args.name.contains( "ffmpeg" ) ;
 
 	for( const auto& e : util::split( data,token ) ){
 
@@ -278,7 +279,7 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 			continue ;
 
-		}else if( aria2c && e.startsWith( "[download]" ) && e.contains( "ETA" ) ){
+		}else if( ( aria2c || ffmpeg ) && e.startsWith( "[download]" ) && e.contains( "ETA" ) ){
 
 			/*
 			 * yt-dlp-aria2c when yt-dlp decides to use internal downloader

@@ -33,12 +33,12 @@
         }
     },
     "ControlJsonStructure": {
-        "Connector": "&&",
+        "Connector": "||",
         "lhs": {
             "startsWith": "frame="
         },
         "rhs": {
-            "contains": ""
+            "startsWith": "size="
         }
     },
     "CookieArgument": "--cookies",
