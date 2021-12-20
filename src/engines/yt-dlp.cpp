@@ -593,6 +593,16 @@ const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data&
 
 		const auto& mm = s.lastText() ;
 
+		if( mm.startsWith( "frame=" ) || mm.startsWith( "size=" ) ){
+
+			/*
+			* ffmpeg output
+			*/
+
+			m_tmp = m_fileName + "\n" + mm ;
+			return m_tmp ;
+		}
+
 		auto w = mm.indexOf( ' ' ) ;
 
 		if( w != -1 ){
