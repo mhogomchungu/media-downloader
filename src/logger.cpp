@@ -280,7 +280,9 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 		}else if( aria2c && e.startsWith( "[download]" ) && e.contains( "ETA" ) ){
 
-			//yt-dlp-aria2c when yt-dlp decides to use internal downloader
+			/*
+			 * yt-dlp-aria2c when yt-dlp decides to use internal downloader
+			 */
 
 			_add_or_replace( m_outPut,m_id,e,[]( const QByteArray& s ){
 
@@ -293,7 +295,9 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 		}else if( aria2c && e.startsWith( "[DL:" ) ){
 
-			//aria2c when doing concurrent downloads
+			/*
+			 * aria2c when doing concurrent downloads
+			 */
 
 			_add_or_replace( m_outPut,m_id,e,[]( const QByteArray& s ){
 
