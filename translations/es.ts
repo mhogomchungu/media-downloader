@@ -352,25 +352,20 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="341"/>
+        <location filename="../src/utility.cpp" line="325"/>
         <source>Best-audiovideo</source>
         <translation>Mejor audio-video</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="342"/>
+        <location filename="../src/utility.cpp" line="326"/>
         <source>Best-audio</source>
         <translation>Mejor-audio</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="521"/>
-        <location filename="../src/utility.cpp" line="524"/>
+        <location filename="../src/utility.cpp" line="505"/>
+        <location filename="../src/utility.cpp" line="508"/>
         <source>Save List To File</source>
         <translation>Guardar Lista en Archivo</translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="734"/>
-        <source>Executable Path</source>
-        <translation>Ruta Ejecutable</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="54"/>
@@ -378,26 +373,26 @@
         <translation>Nombre del motor:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="541"/>
+        <location filename="../src/batchdownloader.cpp" line="549"/>
         <source>Get List From File</source>
         <translation>Obtener Lista desde Archivo</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="313"/>
         <location filename="../src/playlistdownloader.cpp" line="324"/>
-        <location filename="../src/utility.cpp" line="330"/>
+        <location filename="../src/utility.cpp" line="314"/>
         <source>Preset Options</source>
         <translation>Opciones Preestablecidas</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="356"/>
-        <location filename="../src/utility.h" line="401"/>
-        <location filename="../src/utility.h" line="468"/>
+        <location filename="../src/utility.cpp" line="340"/>
+        <location filename="../src/utility.h" line="436"/>
+        <location filename="../src/utility.h" line="503"/>
         <source>Clear</source>
         <translation>Limpiar</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="367"/>
+        <location filename="../src/utility.cpp" line="351"/>
         <source>Open Download Folder</source>
         <translation>Abrir Carpeta de Descargas</translation>
     </message>
@@ -482,114 +477,114 @@
         <translation>Falló al cargar un Complemento</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="502"/>
-        <location filename="../src/engines.cpp" line="682"/>
-        <location filename="../src/utility.cpp" line="493"/>
+        <location filename="../src/engines.cpp" line="501"/>
+        <location filename="../src/engines.cpp" line="730"/>
+        <location filename="../src/utility.cpp" line="477"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Fallo para encontrar el ejecutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="656"/>
+        <location filename="../src/engines.cpp" line="715"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="756"/>
+        <location filename="../src/engines.cpp" line="798"/>
         <source>Download cancelled</source>
         <translation>Descarga cancelada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="989"/>
-        <location filename="../src/engines.cpp" line="999"/>
+        <location filename="../src/engines.cpp" line="1036"/>
+        <location filename="../src/engines.cpp" line="1046"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1014"/>
-        <location filename="../src/engines.cpp" line="1036"/>
+        <location filename="../src/engines.cpp" line="1061"/>
+        <location filename="../src/engines.cpp" line="1083"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1156"/>
-        <location filename="../src/engines.cpp" line="1161"/>
-        <location filename="../src/engines.cpp" line="1168"/>
-        <location filename="../src/engines.cpp" line="1173"/>
+        <location filename="../src/engines.cpp" line="1218"/>
+        <location filename="../src/engines.cpp" line="1223"/>
+        <location filename="../src/engines.cpp" line="1230"/>
+        <location filename="../src/engines.cpp" line="1235"/>
         <source>Elapsed Time:</source>
         <translation>Tiempo transcurrido:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="57"/>
-        <location filename="../src/utility.cpp" line="720"/>
+        <location filename="../src/utility.cpp" line="705"/>
         <source>Checking installed version of</source>
         <translation>Comprobando la versión instalada de</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="62"/>
-        <location filename="../src/utility.cpp" line="701"/>
-        <location filename="../src/utility.cpp" line="739"/>
+        <location filename="../src/utility.cpp" line="686"/>
+        <location filename="../src/utility.cpp" line="731"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>No se pudo encontrar la información de la versión, asegúrese de que &quot;%1&quot; esté instalado y funcione correctamente</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="65"/>
-        <location filename="../src/utility.cpp" line="730"/>
+        <location filename="../src/utility.cpp" line="727"/>
         <source>Found version</source>
         <translation>Versión Encontrada</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="118"/>
+        <location filename="../src/networkAccess.cpp" line="127"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Error al descargar, no se puede crear la siguiente ruta: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="124"/>
+        <location filename="../src/networkAccess.cpp" line="133"/>
         <source>Start Downloading</source>
         <translation>Iniciar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="762"/>
-        <location filename="../src/networkAccess.cpp" line="148"/>
-        <location filename="../src/networkAccess.cpp" line="239"/>
+        <location filename="../src/engines.cpp" line="804"/>
+        <location filename="../src/networkAccess.cpp" line="157"/>
+        <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
         <translation>Falló descarga</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="166"/>
+        <location filename="../src/networkAccess.cpp" line="175"/>
         <source>Failed to parse json file from github</source>
         <translation>Error al analizar el archivo json de github</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="134"/>
         <location filename="../src/engines/gallery-dl.cpp" line="138"/>
-        <location filename="../src/networkAccess.cpp" line="227"/>
-        <location filename="../src/networkAccess.cpp" line="282"/>
-        <location filename="../src/networkAccess.cpp" line="294"/>
+        <location filename="../src/networkAccess.cpp" line="237"/>
+        <location filename="../src/networkAccess.cpp" line="288"/>
+        <location filename="../src/networkAccess.cpp" line="300"/>
         <source>Downloading</source>
         <translation>Descargando</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="229"/>
+        <location filename="../src/networkAccess.cpp" line="239"/>
         <source>Destination</source>
         <translation>Destino</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="250"/>
+        <location filename="../src/networkAccess.cpp" line="260"/>
         <source>Download complete</source>
         <translation>Descarga completa</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="254"/>
+        <location filename="../src/networkAccess.cpp" line="262"/>
         <source>Renaming file to: </source>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1095"/>
+        <location filename="../src/engines.cpp" line="1142"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="760"/>
+        <location filename="../src/engines.cpp" line="802"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
@@ -599,7 +594,7 @@
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1117"/>
+        <location filename="../src/engines.cpp" line="1181"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>
@@ -624,29 +619,29 @@
         <translation>Tema Oscuro 3</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="434"/>
-        <location filename="../src/utility.h" line="442"/>
-        <location filename="../src/utility.h" line="447"/>
+        <location filename="../src/utility.h" line="469"/>
+        <location filename="../src/utility.h" line="477"/>
+        <location filename="../src/utility.h" line="482"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="439"/>
+        <location filename="../src/utility.h" line="474"/>
         <source>Force Download</source>
         <translation>Forzar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="457"/>
+        <location filename="../src/utility.h" line="492"/>
         <source>Show Log Window</source>
         <translation>Mostrar Ventana de Registro</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="580"/>
+        <location filename="../src/utility.cpp" line="565"/>
         <source>Upload Date:</source>
         <translation>Fecha de Subida:</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="588"/>
+        <location filename="../src/utility.cpp" line="573"/>
         <source>Duration:</source>
         <translation>Duración:</translation>
     </message>
@@ -661,7 +656,7 @@
         <translation>Completados: %1%, Sin iniciar: %2, Exitosos: %3, Fallidos: %4, Cancelados: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1071"/>
+        <location filename="../src/playlistdownloader.cpp" line="1074"/>
         <source>Media Already In Archive</source>
         <translation>Medio ya existe en archivo</translation>
     </message>
@@ -669,7 +664,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="546"/>
+        <location filename="../src/batchdownloader.cpp" line="554"/>
         <source>Set Batch File</source>
         <translation>Establecer Archivo de Lotes</translation>
     </message>
@@ -789,7 +784,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1198"/>
+        <location filename="../src/playlistdownloader.cpp" line="1201"/>
         <source>Get List Options:</source>
         <translation>Obtener lista de opciones:</translation>
     </message>
@@ -814,7 +809,7 @@
         <translation>Gestionar Subscripciones</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="933"/>
+        <location filename="../src/playlistdownloader.cpp" line="936"/>
         <source>This May Take A Very Long Time</source>
         <translation>Ésto Podría Demorar Mucho Tiempo</translation>
     </message>

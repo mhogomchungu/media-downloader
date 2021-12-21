@@ -272,13 +272,11 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 	} ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::downloadProgress,
-			  [ this,metadata,networkReply,&engine ]( qint64 received,qint64 total ){
+			  [ this,metadata,networkReply,&engine,locale = utility::locale() ]( qint64 received,qint64 total ){
 
 		Q_UNUSED( total )
 
 		m_file.write( networkReply->readAll() ) ;
-
-		utility::locale locale ;
 
 		auto perc = double( received )  * 100 / double( metadata.size ) ;
 		auto totalSize = locale.formattedDataSize( metadata.size ) ;
