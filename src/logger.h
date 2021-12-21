@@ -284,7 +284,13 @@ public:
 			      Logger::Data& outPut,
 			      int id,
 			      bool humanReadableJson ) :
-			m_args( engine ),m_outPut( outPut ),m_id( id )
+			m_args( engine ),
+			m_outPut( outPut ),
+			m_id( id ),
+			m_aria2c( m_args.name.contains( "aria2c" ) ),
+			m_ffmpeg( m_args.name.contains( "ffmpeg" ) ),
+			m_yt_dlp( m_args.name == "yt-dlp" ),
+			m_ytdl( m_args.name == "youtube-dl" )
 		{
 			this->run( humanReadableJson,data ) ;
 		}
@@ -297,6 +303,10 @@ public:
 		updateLogger::args m_args ;
 		Logger::Data& m_outPut ;
 		int m_id ;
+		bool m_aria2c ;
+		bool m_ffmpeg ;
+		bool m_yt_dlp ;
+		bool m_ytdl ;
 	};
 private:
 	void update() ;

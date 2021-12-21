@@ -270,18 +270,13 @@ static void _add_or_replace( Logger::Data& outPut,
 
 void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 {
-	bool aria2c = m_args.name.contains( "aria2c" ) ;
-	bool ffmpeg = m_args.name.contains( "ffmpeg" ) ;
-	bool yt_dlp = m_args.name == "yt-dlp" ;
-	bool ytdl   = m_args.name == "youtube-dl" ;
-
 	for( const auto& e : util::split( data,token ) ){
 
 		if( this->skipLine( e ) ){
 
 			continue ;
 
-		}else if( ( yt_dlp || ytdl ) && ( e.startsWith( "frame=" ) || e.startsWith( "size=" ) ) ){
+		}else if( ( m_yt_dlp || m_ytdl ) && ( e.startsWith( "frame=" ) || e.startsWith( "size=" ) ) ){
 
 			/*
 			 * youtube-dl or yt-dlp and they decided to use ffmpeg as an external downloader
@@ -296,7 +291,7 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 				return false ;
 			} ) ;
 
-		}else if( ( aria2c || ffmpeg ) && e.startsWith( "[download]" ) && e.contains( "ETA" ) ){
+		}else if( ( m_aria2c || m_ffmpeg ) && e.startsWith( "[download]" ) && e.contains( "ETA" ) ){
 
 			/*
 			 * yt-dlp-aria2c/yt-dlp-ffmpeg and yt-dlp decided to use internal downloader
@@ -311,7 +306,7 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 				return false ;
 			} ) ;
 
-		}else if( aria2c && e.startsWith( "[DL:" ) ){
+		}else if( m_aria2c && e.startsWith( "[DL:" ) ){
 
 			/*
 			 * aria2c when doing concurrent downloads
