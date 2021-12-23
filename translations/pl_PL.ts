@@ -447,6 +447,11 @@
         <translation>japoński (Japonia)</translation>
     </message>
     <message>
+        <location filename="../src/translator.cpp" line="35"/>
+        <source>French (France)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/translator.cpp" line="28"/>
         <source>Polish (Poland)</source>
         <translation>polski (Polska)</translation>
@@ -478,38 +483,38 @@
     </message>
     <message>
         <location filename="../src/engines.cpp" line="501"/>
-        <location filename="../src/engines.cpp" line="730"/>
+        <location filename="../src/engines.cpp" line="732"/>
         <location filename="../src/utility.cpp" line="477"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="715"/>
+        <location filename="../src/engines.cpp" line="717"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="798"/>
+        <location filename="../src/engines.cpp" line="800"/>
         <source>Download cancelled</source>
         <translation>Pobieranie przerwane</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1036"/>
-        <location filename="../src/engines.cpp" line="1046"/>
+        <location filename="../src/engines.cpp" line="1038"/>
+        <location filename="../src/engines.cpp" line="1048"/>
         <source>Failed to open file for writing</source>
         <translation>Błąd podczas zapisu do pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1061"/>
-        <location filename="../src/engines.cpp" line="1083"/>
+        <location filename="../src/engines.cpp" line="1063"/>
+        <location filename="../src/engines.cpp" line="1085"/>
         <source>Failed to open file for reading</source>
         <translation>Błąd podczas odczytu pliku</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1218"/>
-        <location filename="../src/engines.cpp" line="1223"/>
-        <location filename="../src/engines.cpp" line="1230"/>
-        <location filename="../src/engines.cpp" line="1235"/>
+        <location filename="../src/engines.cpp" line="1220"/>
+        <location filename="../src/engines.cpp" line="1225"/>
+        <location filename="../src/engines.cpp" line="1232"/>
+        <location filename="../src/engines.cpp" line="1237"/>
         <source>Elapsed Time:</source>
         <translation>Czas:</translation>
     </message>
@@ -543,7 +548,7 @@
         <translation>Rozpocznij pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="804"/>
+        <location filename="../src/engines.cpp" line="806"/>
         <location filename="../src/networkAccess.cpp" line="157"/>
         <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
@@ -579,22 +584,22 @@
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1142"/>
+        <location filename="../src/engines.cpp" line="1144"/>
         <source>Processing</source>
         <translation>Przetwarzanie</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="802"/>
+        <location filename="../src/engines.cpp" line="804"/>
         <source>Download completed</source>
         <translation>Poberanie zakończone</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="349"/>
+        <location filename="../src/settings.cpp" line="359"/>
         <source>Resetting download folder to default</source>
         <translation>Zmiana katalogu pobierania na domyślny</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1181"/>
+        <location filename="../src/engines.cpp" line="1183"/>
         <source>Post Processing</source>
         <translation>Post processing</translation>
     </message>
