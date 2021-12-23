@@ -118,6 +118,10 @@ public:
 				return {} ;
 			}
 		}
+		void removeFirst()
+		{
+			m_lines.erase( m_lines.begin() ) ;
+		}
 		void removeLast()
 		{
 			m_lines.pop_back() ;
@@ -314,6 +318,7 @@ private:
 	QPlainTextEdit& m_textEdit ;
 	Logger::Data m_lines ;
 	bool m_updateView = false ;
+	size_t m_maxLoggerLines ;
 } ;
 
 class LoggerWrapper

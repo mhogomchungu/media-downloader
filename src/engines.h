@@ -542,7 +542,7 @@ public:
 		int m_line ;
 		int m_position ;
 		bool m_valid ;
-		bool m_usingPrivateBackend ;
+		bool m_usingPrivateBackend = false ;
 		bool m_canDownloadPlaylist ;
 		bool m_likeYoutubeDl ;
 		bool m_mainEngine ;

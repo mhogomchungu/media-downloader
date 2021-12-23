@@ -25,7 +25,8 @@
 
 Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_logWindow( nullptr,s,*this ),
-	m_textEdit( e )
+	m_textEdit( e ),
+	m_maxLoggerLines( static_cast< size_t >( s.maxLoggerLines() ) )
 {
 	m_textEdit.setReadOnly( true ) ;
 }
@@ -62,7 +63,15 @@ void Logger::updateView( bool e )
 }
 
 void Logger::update()
-{	
+{
+	if( m_maxLoggerLines > 100 ){
+
+		while( m_lines.size() >= m_maxLoggerLines ){
+
+			m_lines.removeFirst() ;
+		}
+	}
+
 	auto m = m_lines.toString() ;
 
 	if( m_updateView ){

@@ -166,7 +166,6 @@ public:
 
 	QSettings& bk() ;
 
-	int tabNumber() ;
 	size_t maxConcurrentDownloads() ;
 
 	QString downloadFolder() ;
@@ -212,7 +211,8 @@ public:
 
 	int stringTruncationSize() ;
 	int historySize() ;
-
+	int tabNumber() ;
+	int maxLoggerLines() ;
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
 

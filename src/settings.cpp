@@ -288,6 +288,16 @@ int settings::tabNumber()
 	return m_settings.value( "TabNumber" ).toInt() ;
 }
 
+int settings::maxLoggerLines()
+{
+	if( !m_settings.contains( "maxLoggerLines" ) ){
+
+		m_settings.setValue( "maxLoggerLines",500 ) ;
+	}
+
+	return m_settings.value( "maxLoggerLines" ).toInt() ;
+}
+
 size_t settings::maxConcurrentDownloads()
 {
 	if( !m_settings.contains( "MaxConcurrentDownloads" ) ){

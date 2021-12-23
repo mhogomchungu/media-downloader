@@ -668,13 +668,15 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 					    const QString& backendPath,
 					    Logger& logger,
 					    const enginePaths& ePaths,
-					    const engines& engines  )
+					    const engines& engines )
 {
 	if( cmdNames.isEmpty() ){
 
 		m_valid = false ;
 		return ;
 	}
+
+	this->parseMultipleCmdArgs( logger,engines ) ;
 
 	auto cmd = cmdNames.takeAt( 0 ) ;
 
