@@ -457,84 +457,84 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="123"/>
+        <location filename="../src/engines.cpp" line="126"/>
         <source>Running in portable mode</source>
         <translation>在便携模式下运行</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="124"/>
+        <location filename="../src/engines.cpp" line="127"/>
         <source>Download path: </source>
         <translation>下载文件路径: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="230"/>
+        <location filename="../src/engines.cpp" line="233"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>错误，找不到后端的可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="207"/>
+        <location filename="../src/engines.cpp" line="210"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>引擎 &quot;%1&quot; 至少需要Media Downloader版本 &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="114"/>
+        <location filename="../src/engines.cpp" line="116"/>
         <source>To Disable These Checks, Do The Following:-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="115"/>
+        <location filename="../src/engines.cpp" line="117"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="116"/>
+        <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="117"/>
+        <location filename="../src/engines.cpp" line="119"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="437"/>
+        <location filename="../src/engines.cpp" line="440"/>
         <source>Failed To Load A Plugin</source>
         <translation>加载一个插件失败</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="510"/>
-        <location filename="../src/engines.cpp" line="741"/>
+        <location filename="../src/engines.cpp" line="513"/>
+        <location filename="../src/engines.cpp" line="744"/>
         <location filename="../src/utility.cpp" line="477"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="726"/>
+        <location filename="../src/engines.cpp" line="729"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="809"/>
+        <location filename="../src/engines.cpp" line="812"/>
         <source>Download cancelled</source>
         <translation>下载已取消</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1047"/>
-        <location filename="../src/engines.cpp" line="1057"/>
+        <location filename="../src/engines.cpp" line="1050"/>
+        <location filename="../src/engines.cpp" line="1060"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1072"/>
-        <location filename="../src/engines.cpp" line="1094"/>
+        <location filename="../src/engines.cpp" line="1075"/>
+        <location filename="../src/engines.cpp" line="1097"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1229"/>
-        <location filename="../src/engines.cpp" line="1234"/>
-        <location filename="../src/engines.cpp" line="1241"/>
-        <location filename="../src/engines.cpp" line="1246"/>
+        <location filename="../src/engines.cpp" line="1232"/>
+        <location filename="../src/engines.cpp" line="1237"/>
+        <location filename="../src/engines.cpp" line="1244"/>
+        <location filename="../src/engines.cpp" line="1249"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
@@ -568,7 +568,7 @@
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="815"/>
+        <location filename="../src/engines.cpp" line="818"/>
         <location filename="../src/networkAccess.cpp" line="157"/>
         <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
@@ -604,12 +604,12 @@
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1153"/>
+        <location filename="../src/engines.cpp" line="1156"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="813"/>
+        <location filename="../src/engines.cpp" line="816"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -619,7 +619,7 @@
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1192"/>
+        <location filename="../src/engines.cpp" line="1195"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>

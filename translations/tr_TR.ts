@@ -457,84 +457,84 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="123"/>
+        <location filename="../src/engines.cpp" line="126"/>
         <source>Running in portable mode</source>
         <translation>Taşınabilir modda çalışıyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="124"/>
+        <location filename="../src/engines.cpp" line="127"/>
         <source>Download path: </source>
         <translation>İndirme yolu: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="230"/>
+        <location filename="../src/engines.cpp" line="233"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Hata, &quot;%1&quot; arka uçta yürütülebilir dosya bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="207"/>
+        <location filename="../src/engines.cpp" line="210"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>&quot;%1&quot; motoru, Medya İndiricinin en az &quot;%2&quot; sürümünü gerektiriyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="114"/>
+        <location filename="../src/engines.cpp" line="116"/>
         <source>To Disable These Checks, Do The Following:-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="115"/>
+        <location filename="../src/engines.cpp" line="117"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="116"/>
+        <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="117"/>
+        <location filename="../src/engines.cpp" line="119"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="437"/>
+        <location filename="../src/engines.cpp" line="440"/>
         <source>Failed To Load A Plugin</source>
         <translation>Eklenti Yüklenemedi</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="510"/>
-        <location filename="../src/engines.cpp" line="741"/>
+        <location filename="../src/engines.cpp" line="513"/>
+        <location filename="../src/engines.cpp" line="744"/>
         <location filename="../src/utility.cpp" line="477"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>&quot;%1&quot; yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="726"/>
+        <location filename="../src/engines.cpp" line="729"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>&quot;%1&quot; arka uç için python3 yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="809"/>
+        <location filename="../src/engines.cpp" line="812"/>
         <source>Download cancelled</source>
         <translation>İndirme iptal edildi</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1047"/>
-        <location filename="../src/engines.cpp" line="1057"/>
+        <location filename="../src/engines.cpp" line="1050"/>
+        <location filename="../src/engines.cpp" line="1060"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1072"/>
-        <location filename="../src/engines.cpp" line="1094"/>
+        <location filename="../src/engines.cpp" line="1075"/>
+        <location filename="../src/engines.cpp" line="1097"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1229"/>
-        <location filename="../src/engines.cpp" line="1234"/>
-        <location filename="../src/engines.cpp" line="1241"/>
-        <location filename="../src/engines.cpp" line="1246"/>
+        <location filename="../src/engines.cpp" line="1232"/>
+        <location filename="../src/engines.cpp" line="1237"/>
+        <location filename="../src/engines.cpp" line="1244"/>
+        <location filename="../src/engines.cpp" line="1249"/>
         <source>Elapsed Time:</source>
         <translation>Geçen Zaman:</translation>
     </message>
@@ -568,7 +568,7 @@
         <translation>İndirmeye Başlayın</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="815"/>
+        <location filename="../src/engines.cpp" line="818"/>
         <location filename="../src/networkAccess.cpp" line="157"/>
         <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
@@ -604,12 +604,12 @@
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1153"/>
+        <location filename="../src/engines.cpp" line="1156"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="813"/>
+        <location filename="../src/engines.cpp" line="816"/>
         <source>Download completed</source>
         <translation>İndirme tamamlandı</translation>
     </message>
@@ -619,7 +619,7 @@
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1192"/>
+        <location filename="../src/engines.cpp" line="1195"/>
         <source>Post Processing</source>
         <translation>Rötuş</translation>
     </message>

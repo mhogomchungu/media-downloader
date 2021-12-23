@@ -109,14 +109,17 @@ engines::engines( Logger& l,settings& s ) :
 	m_processEnvironment( _getEnvPaths( m_enginePaths,m_settings ) ),
 	m_defaultEngine( l,s )
 {
-	m_logger.add( QByteArray( "*****************************************************" ) ) ;
+	if( s.showVersionInfoWhenStarting() ){
 
-	m_logger.add( QObject::tr( "To Disable These Checks, Do The Following:-" ) ) ;
-	m_logger.add( QObject::tr( "1. Go To \"Configure\" Tab." ) ) ;
-	m_logger.add( QObject::tr( "2. Go To \"General Options\" Sub Tab." ) ) ;
-	m_logger.add( QObject::tr( "3. Uncheck \"Show Version Info When Starting\"." ) ) ;
+		m_logger.add( QByteArray( "*****************************************************" ) ) ;
 
-	m_logger.add( QByteArray( "*****************************************************" ) ) ;
+		m_logger.add( QObject::tr( "To Disable These Checks, Do The Following:-" ) ) ;
+		m_logger.add( QObject::tr( "1. Go To \"Configure\" Tab." ) ) ;
+		m_logger.add( QObject::tr( "2. Go To \"General Options\" Sub Tab." ) ) ;
+		m_logger.add( QObject::tr( "3. Uncheck \"Show Version Info When Starting\"." ) ) ;
+
+		m_logger.add( QByteArray( "*****************************************************" ) ) ;
+	}
 
 	if( settings::portableVersion() ){
 

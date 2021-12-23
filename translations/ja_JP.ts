@@ -457,84 +457,84 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="123"/>
+        <location filename="../src/engines.cpp" line="126"/>
         <source>Running in portable mode</source>
         <translation>ポータブルモードで実行中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="124"/>
+        <location filename="../src/engines.cpp" line="127"/>
         <source>Download path: </source>
         <translation>ダウンロードの場所: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="230"/>
+        <location filename="../src/engines.cpp" line="233"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>エラー, バックエンド &quot;%1&quot; の実行ファイルが見つかりません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="207"/>
+        <location filename="../src/engines.cpp" line="210"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>エンジン &quot;%1&quot; には少なくともバージョン &quot;%2&quot; 以上のMedia Downloaderが必要です</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="114"/>
+        <location filename="../src/engines.cpp" line="116"/>
         <source>To Disable These Checks, Do The Following:-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="115"/>
+        <location filename="../src/engines.cpp" line="117"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="116"/>
+        <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="117"/>
+        <location filename="../src/engines.cpp" line="119"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="437"/>
+        <location filename="../src/engines.cpp" line="440"/>
         <source>Failed To Load A Plugin</source>
         <translation>プラグインを読み込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="510"/>
-        <location filename="../src/engines.cpp" line="741"/>
+        <location filename="../src/engines.cpp" line="513"/>
+        <location filename="../src/engines.cpp" line="744"/>
         <location filename="../src/utility.cpp" line="477"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>実行ファイル &quot;%1&quot; が見つかりません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="726"/>
+        <location filename="../src/engines.cpp" line="729"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>バックエンド &quot;%1&quot; のためのpython3実行ファイルが見つかりません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="809"/>
+        <location filename="../src/engines.cpp" line="812"/>
         <source>Download cancelled</source>
         <translation>ダウンロードがキャンセルされました</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1047"/>
-        <location filename="../src/engines.cpp" line="1057"/>
+        <location filename="../src/engines.cpp" line="1050"/>
+        <location filename="../src/engines.cpp" line="1060"/>
         <source>Failed to open file for writing</source>
         <translation>ファイルに書き込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1072"/>
-        <location filename="../src/engines.cpp" line="1094"/>
+        <location filename="../src/engines.cpp" line="1075"/>
+        <location filename="../src/engines.cpp" line="1097"/>
         <source>Failed to open file for reading</source>
         <translation>ファイルが読み込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1229"/>
-        <location filename="../src/engines.cpp" line="1234"/>
-        <location filename="../src/engines.cpp" line="1241"/>
-        <location filename="../src/engines.cpp" line="1246"/>
+        <location filename="../src/engines.cpp" line="1232"/>
+        <location filename="../src/engines.cpp" line="1237"/>
+        <location filename="../src/engines.cpp" line="1244"/>
+        <location filename="../src/engines.cpp" line="1249"/>
         <source>Elapsed Time:</source>
         <translation>経過時間:</translation>
     </message>
@@ -568,7 +568,7 @@
         <translation>ダウンロード開始</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="815"/>
+        <location filename="../src/engines.cpp" line="818"/>
         <location filename="../src/networkAccess.cpp" line="157"/>
         <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
@@ -604,12 +604,12 @@
         <translation>ファイル名を変更: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1153"/>
+        <location filename="../src/engines.cpp" line="1156"/>
         <source>Processing</source>
         <translation>処理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="813"/>
+        <location filename="../src/engines.cpp" line="816"/>
         <source>Download completed</source>
         <translation>ダウンロード完了</translation>
     </message>
@@ -619,7 +619,7 @@
         <translation>ダウンロードフォルダをデフォルトにリセット</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1192"/>
+        <location filename="../src/engines.cpp" line="1195"/>
         <source>Post Processing</source>
         <translation>後処理</translation>
     </message>
