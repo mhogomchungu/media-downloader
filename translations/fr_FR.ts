@@ -452,64 +452,89 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="114"/>
+        <location filename="../src/translator.cpp" line="35"/>
+        <source>French (France)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="123"/>
         <source>Running in portable mode</source>
         <translation>Exécuter en mode portable</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="115"/>
+        <location filename="../src/engines.cpp" line="124"/>
         <source>Download path: </source>
         <translation>Chemin du téléchargement: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="221"/>
+        <location filename="../src/engines.cpp" line="230"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Erreur, l&apos;exécutable vers le programme &quot;%1&quot; n&apos;a pas été trouvé</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="198"/>
+        <location filename="../src/engines.cpp" line="207"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Le moteur &quot;%1&quot; nécessite au moins la version &quot;%2&quot; de Media Downloader</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="428"/>
+        <location filename="../src/engines.cpp" line="114"/>
+        <source>To Disable These Checks, Do The Following:-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="115"/>
+        <source>1. Go To &quot;Configure&quot; Tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="116"/>
+        <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="117"/>
+        <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="437"/>
         <source>Failed To Load A Plugin</source>
         <translation>Echec à charger le plugin</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="501"/>
-        <location filename="../src/engines.cpp" line="730"/>
+        <location filename="../src/engines.cpp" line="510"/>
+        <location filename="../src/engines.cpp" line="741"/>
         <location filename="../src/utility.cpp" line="477"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Echec à trouver l&apos;exécutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="715"/>
+        <location filename="../src/engines.cpp" line="726"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Echec à trouver python3 executable pour le programme &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="798"/>
+        <location filename="../src/engines.cpp" line="809"/>
         <source>Download cancelled</source>
         <translation>Téléchargement annulé</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1036"/>
-        <location filename="../src/engines.cpp" line="1046"/>
+        <location filename="../src/engines.cpp" line="1047"/>
+        <location filename="../src/engines.cpp" line="1057"/>
         <source>Failed to open file for writing</source>
         <translation>Echec à ouvrir le fichier en écriture</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1061"/>
-        <location filename="../src/engines.cpp" line="1083"/>
+        <location filename="../src/engines.cpp" line="1072"/>
+        <location filename="../src/engines.cpp" line="1094"/>
         <source>Failed to open file for reading</source>
         <translation>Echec à ouvrir le fichier en lecture</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1218"/>
-        <location filename="../src/engines.cpp" line="1223"/>
-        <location filename="../src/engines.cpp" line="1230"/>
-        <location filename="../src/engines.cpp" line="1235"/>
+        <location filename="../src/engines.cpp" line="1229"/>
+        <location filename="../src/engines.cpp" line="1234"/>
+        <location filename="../src/engines.cpp" line="1241"/>
+        <location filename="../src/engines.cpp" line="1246"/>
         <source>Elapsed Time:</source>
         <translation>Temps écoulé:</translation>
     </message>
@@ -543,7 +568,7 @@
         <translation>Débuter le téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="804"/>
+        <location filename="../src/engines.cpp" line="815"/>
         <location filename="../src/networkAccess.cpp" line="157"/>
         <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
@@ -579,22 +604,22 @@
         <translation>Renommer le fichier en : </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1142"/>
+        <location filename="../src/engines.cpp" line="1153"/>
         <source>Processing</source>
         <translation>Traitement</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="802"/>
+        <location filename="../src/engines.cpp" line="813"/>
         <source>Download completed</source>
         <translation>Téléchargement complet</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="349"/>
+        <location filename="../src/settings.cpp" line="359"/>
         <source>Resetting download folder to default</source>
         <translation>Reset du dossier de téléchargement par défaut</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1181"/>
+        <location filename="../src/engines.cpp" line="1192"/>
         <source>Post Processing</source>
         <translation>Post Traitement</translation>
     </message>

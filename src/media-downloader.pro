@@ -41,4 +41,5 @@ TRANSLATIONS = \
 ../translations/es.ts \
 ../translations/tr_TR.ts \
 ../translations/ru_RU.ts \
-../translations/ja_JP.ts
+../translations/ja_JP.ts \
+../translations/fr_FR.ts
