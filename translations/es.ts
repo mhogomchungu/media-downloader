@@ -454,7 +454,7 @@
     <message>
         <location filename="../src/translator.cpp" line="35"/>
         <source>French (France)</source>
-        <translation type="unfinished"></translation>
+        <translation>Francés (Francia)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="123"/>
@@ -479,22 +479,22 @@
     <message>
         <location filename="../src/engines.cpp" line="114"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation type="unfinished"></translation>
+        <translation>Para desactivar estas verificaciones, haga lo siguiente</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="115"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>1. Vaya a la pestaña &quot;Configurar&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="116"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>2. Vaya a la sub-pestaña &quot;Opciones Generales&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="117"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>3: Descative la casilla &quot;Mostrar Información de Versión al Iniciar&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="437"/>
