@@ -457,64 +457,84 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="114"/>
+        <location filename="../src/engines.cpp" line="123"/>
         <source>Running in portable mode</source>
         <translation>Запущен в портативном режиме</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="115"/>
+        <location filename="../src/engines.cpp" line="124"/>
         <source>Download path: </source>
         <translation>Путь загрузки: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="221"/>
+        <location filename="../src/engines.cpp" line="230"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Ошибка, не удалось найти исполняемый файл для серверной части &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="198"/>
+        <location filename="../src/engines.cpp" line="207"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Для плагина &quot;%1&quot; требуется по крайней мере &quot;%2&quot; версия Media Downloader</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="428"/>
+        <location filename="../src/engines.cpp" line="114"/>
+        <source>To Disable These Checks, Do The Following:-</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="115"/>
+        <source>1. Go To &quot;Configure&quot; Tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="116"/>
+        <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="117"/>
+        <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="437"/>
         <source>Failed To Load A Plugin</source>
         <translation>Не удалось загрузить плагин</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="501"/>
-        <location filename="../src/engines.cpp" line="732"/>
+        <location filename="../src/engines.cpp" line="510"/>
+        <location filename="../src/engines.cpp" line="741"/>
         <location filename="../src/utility.cpp" line="477"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Не удалось найти исполняемый файл &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="717"/>
+        <location filename="../src/engines.cpp" line="726"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Не удалось найти исполняемый файл python3 для серверной части &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="800"/>
+        <location filename="../src/engines.cpp" line="809"/>
         <source>Download cancelled</source>
         <translation>Загрузка отменена</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1038"/>
-        <location filename="../src/engines.cpp" line="1048"/>
+        <location filename="../src/engines.cpp" line="1047"/>
+        <location filename="../src/engines.cpp" line="1057"/>
         <source>Failed to open file for writing</source>
         <translation>Не удалось открыть файл для записи</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1063"/>
-        <location filename="../src/engines.cpp" line="1085"/>
+        <location filename="../src/engines.cpp" line="1072"/>
+        <location filename="../src/engines.cpp" line="1094"/>
         <source>Failed to open file for reading</source>
         <translation>Не удалось открыть файл для чтения</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1220"/>
-        <location filename="../src/engines.cpp" line="1225"/>
-        <location filename="../src/engines.cpp" line="1232"/>
-        <location filename="../src/engines.cpp" line="1237"/>
+        <location filename="../src/engines.cpp" line="1229"/>
+        <location filename="../src/engines.cpp" line="1234"/>
+        <location filename="../src/engines.cpp" line="1241"/>
+        <location filename="../src/engines.cpp" line="1246"/>
         <source>Elapsed Time:</source>
         <translation>Прошедшее время:</translation>
     </message>
@@ -548,7 +568,7 @@
         <translation>Начать загрузку</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="806"/>
+        <location filename="../src/engines.cpp" line="815"/>
         <location filename="../src/networkAccess.cpp" line="157"/>
         <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
@@ -584,12 +604,12 @@
         <translation>Переименовать файл как: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1144"/>
+        <location filename="../src/engines.cpp" line="1153"/>
         <source>Processing</source>
         <translation>Обработка</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="804"/>
+        <location filename="../src/engines.cpp" line="813"/>
         <source>Download completed</source>
         <translation>Загрузка завершена</translation>
     </message>
@@ -599,7 +619,7 @@
         <translation>Сброс папки загрузки на по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1183"/>
+        <location filename="../src/engines.cpp" line="1192"/>
         <source>Post Processing</source>
         <translation>Постобработка</translation>
     </message>
