@@ -306,12 +306,12 @@
         <location filename="../src/mainwindow.ui" line="971"/>
         <location filename="../src/mainwindow.ui" line="1641"/>
         <source>Url</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="993"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>完了</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1543"/>
@@ -341,7 +341,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1691"/>
         <source>Url Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>URLフィルター</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1791"/>
@@ -454,7 +454,7 @@
     <message>
         <location filename="../src/translator.cpp" line="35"/>
         <source>French (France)</source>
-        <translation type="unfinished"></translation>
+        <translation>フランス語 (フランス)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="126"/>
@@ -479,22 +479,22 @@
     <message>
         <location filename="../src/engines.cpp" line="116"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation type="unfinished"></translation>
+        <translation>これらのチェックをオフにするには、次の操作を行ってください。</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="117"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>1. 「設定」タブを開く</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>2. 「全般設定」タブを開く</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="119"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>3. 「開始時にバージョン情報を表示」をオフにする</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="440"/>
@@ -821,17 +821,17 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="407"/>
         <source>Show All Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>すべての更新を表示</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="413"/>
         <source>Download All Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>すべての更新をダウンロード</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="421"/>
         <source>Manage Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>ブックマークを管理</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="936"/>
