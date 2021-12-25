@@ -379,7 +379,7 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="313"/>
-        <location filename="../src/playlistdownloader.cpp" line="324"/>
+        <location filename="../src/playlistdownloader.cpp" line="325"/>
         <location filename="../src/utility.cpp" line="314"/>
         <source>Preset Options</source>
         <translation>Opciones Preestablecidas</translation>
@@ -681,7 +681,7 @@
         <translation>Completados: %1%, Sin iniciar: %2, Exitosos: %3, Fallidos: %4, Cancelados: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1074"/>
+        <location filename="../src/playlistdownloader.cpp" line="1101"/>
         <source>Media Already In Archive</source>
         <translation>Medio ya existe en archivo</translation>
     </message>
@@ -792,49 +792,54 @@
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="222"/>
+        <location filename="../src/playlistdownloader.cpp" line="223"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="236"/>
+        <location filename="../src/playlistdownloader.cpp" line="237"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="180"/>
-        <location filename="../src/playlistdownloader.cpp" line="244"/>
+        <location filename="../src/playlistdownloader.cpp" line="181"/>
+        <location filename="../src/playlistdownloader.cpp" line="245"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1201"/>
+        <location filename="../src/playlistdownloader.cpp" line="130"/>
+        <location filename="../src/playlistdownloader.cpp" line="1228"/>
         <source>Get List Options:</source>
         <translation>Obtener lista de opciones:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="255"/>
+        <location filename="../src/playlistdownloader.cpp" line="256"/>
         <source>Copy Url</source>
         <translation>Copiar URL</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="407"/>
+        <location filename="../src/playlistdownloader.cpp" line="408"/>
         <source>Show All Updated</source>
         <translation>Mostrar todo lo actualizado</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="413"/>
+        <location filename="../src/playlistdownloader.cpp" line="414"/>
         <source>Download All Updated</source>
         <translation>Descargar todo lo actualizado</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="421"/>
+        <location filename="../src/playlistdownloader.cpp" line="422"/>
         <source>Manage Subscriptions</source>
         <translation>Gestionar Subscripciones</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="936"/>
+        <location filename="../src/playlistdownloader.cpp" line="941"/>
+        <source>Number of Pages Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="125"/>
         <source>This May Take A Very Long Time</source>
         <translation>Ésto Podría Demorar Mucho Tiempo</translation>
     </message>

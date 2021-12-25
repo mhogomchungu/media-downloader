@@ -426,15 +426,16 @@ auto make_loggerBatchDownloader( F function,Logger& logger,U fu,E err,int id )
 	return lbd( std::move( function ),logger,std::move( fu ),std::move( err ),id ) ;
 }
 
-template< typename AddToTable,typename TableWidget >
+template< typename AddToTable,typename TableWidget,typename Error >
 class loggerPlaylistDownloader
 {
 public:
-	loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add ) :
+	loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add,Error error ) :
 		m_table( t ),
 		m_logger( logger ),
 		m_id( id ),
-		m_addToTable( std::move( add ) )
+		m_addToTable( std::move( add ) ),
+		m_error( std::move( error ) )
 	{
 	}
 	void add( const QString& e )
@@ -465,7 +466,10 @@ public:
 	}
 	void logError( const QByteArray& data )
 	{
-		m_logger.logError( data,m_id ) ;
+		if( m_error( data ) ){
+
+			m_logger.logError( data,m_id ) ;
+		}
 	}
 private:
 	TableWidget& m_table ;
@@ -473,13 +477,14 @@ private:
 	Logger::Data m_lines ;
 	int m_id ;
 	AddToTable m_addToTable ;
+	Error m_error ;
 };
 
-template< typename AddToTable,typename TableWidget >
-auto make_loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add )
+template< typename AddToTable,typename TableWidget,typename Error >
+auto make_loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add,Error err )
 {
-	using lpd = loggerPlaylistDownloader< AddToTable,TableWidget > ;
+	using lpd = loggerPlaylistDownloader< AddToTable,TableWidget,Error > ;
 
-	return lpd( t,logger,id,std::move( add ) ) ;
+	return lpd( t,logger,id,std::move( add ),std::move( err ) ) ;
 }
 #endif

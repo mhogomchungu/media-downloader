@@ -122,6 +122,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_subscriptionTable( *m_ui.tableWidgetPlDownloaderSubscription,m_ctx.mainWidget().font() ),
 	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings ),
 	m_defaultVideoThumbnailIcon( m_settings.defaultVideoThumbnailIcon( settings::tabName::playlist ) ),
+	m_banner( m_table ),
 	m_subscription( m_ctx,m_subscriptionTable,*m_ui.widgetPlDownloader )
 {
 	m_ui.tableWidgetPlDownloaderSubscription->setColumnWidth( 0,180 ) ;
@@ -509,6 +510,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 void playlistdownloader::init_done()
 {
+	m_banner.setBanner( tr( "This May Take A Very Long Time" ) ) ;
 }
 
 void playlistdownloader::enableAll()
@@ -833,6 +835,8 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter )
 		}
 	}
 
+	opts.append( "-v" ) ;
+
 	opts.append( url ) ;
 
 	m_networkRunning = 0 ;
@@ -909,7 +913,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 	auto opts = c.options() ;
 
-	auto bb = [ copts = std::move( c ),this ]( tableWidget& table,Logger::Data& data ){
+	auto stdOut = [ copts = std::move( c ),this ]( tableWidget& table,Logger::Data& data ){
 
 		m_dataReceived = true ;
 
@@ -922,9 +926,31 @@ void playlistdownloader::getList( customOptions&& c,
 		}
 	} ;
 
+	auto stdError = [ this ]( const QByteArray& e ){
+
+		auto s = e.indexOf( "page" ) ;
+
+		if( s != -1 && e.contains( "Downloading API JSON" ) ){
+
+			auto m = e.mid( s ) ;
+
+			s = m.indexOf( ':' ) ;
+
+			if( s != -1 ){
+
+				m = m.mid( 0,s ).mid( 4 ) ;
+				m_banner.updateProgress( tr( "Number of Pages Downloaded" ) + ": " + m ) ;
+			}
+
+			return false ;
+		}
+
+		return e.contains( "ERROR:" ) || e.contains( "WARNING" ) ;
+	} ;
+
 	auto id     = utility::concurrentID() ;
 	auto oopts  = playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,-1 },std::move( functions ) ) ;
-	auto logger = make_loggerPlaylistDownloader( m_table,m_ctx.logger(),id,std::move( bb ) ) ;
+	auto logger = make_loggerPlaylistDownloader( m_table,m_ctx.logger(),id,std::move( stdOut ),std::move( stdError ) ) ;
 	auto term   = m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ) ;
 	auto ch     = QProcess::ProcessChannel::StandardOutput ;
 	auto argsq  = utility::args( m_ui.lineEditPLUrlOptions->text() ).quality() ;
@@ -932,8 +958,8 @@ void playlistdownloader::getList( customOptions&& c,
 	if( !m_gettingPlaylist ){
 
 		logger.clear() ;
+		m_banner.clear() ;
 
-		auto s = tr( "This May Take A Very Long Time" ) ;
 		auto d = engines::engine::functions::timer::stringElapsedTime( 0 ) ;
 
 		QIcon icon( ":/media-downloader" ) ;
@@ -941,19 +967,15 @@ void playlistdownloader::getList( customOptions&& c,
 		auto w = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
 		auto h = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
 
-		m_table.addItem( { icon.pixmap( w,h ),d + "\n" + s,"","" } ) ;
+		m_table.addItem( { icon.pixmap( w,h ),d + "\n" + m_banner.txt(),"","" } ) ;
 
 		m_showTimer = true ;
 
-		util::Timer( 1000,[ this,s ]( int counter ){
+		util::Timer( 1000,[ this ]( int counter ){
 
 			if( m_showTimer ){
 
-				using tt = engines::engine::functions ;
-
-				auto duration = tt::timer::stringElapsedTime( counter * 1000 ) ;
-
-				m_table.setUiText( duration + "\n" + s,0 ) ;
+				m_banner.updateCounter( counter ) ;
 
 				return false ;
 			}else{
@@ -1266,4 +1288,18 @@ void playlistdownloader::subscription::save()
 	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
 
 	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+}
+
+void playlistdownloader::banner::updateCounter( int counter )
+{
+	using tt = engines::engine::functions ;
+
+	auto duration = tt::timer::stringElapsedTime( counter * 1000 ) ;
+
+	if( m_progress.isEmpty() ){
+
+		m_table.setUiText( duration + "\n" + m_txt,0 ) ;
+	}else{
+		m_table.setUiText( duration + "\n" + m_txt + "\n" + m_progress,0 ) ;
+	}
 }

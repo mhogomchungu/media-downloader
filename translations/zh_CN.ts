@@ -379,7 +379,7 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="313"/>
-        <location filename="../src/playlistdownloader.cpp" line="324"/>
+        <location filename="../src/playlistdownloader.cpp" line="325"/>
         <location filename="../src/utility.cpp" line="314"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
@@ -681,7 +681,7 @@
         <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1074"/>
+        <location filename="../src/playlistdownloader.cpp" line="1101"/>
         <source>Media Already In Archive</source>
         <translation>已存档的媒体</translation>
     </message>
@@ -792,49 +792,54 @@
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="222"/>
+        <location filename="../src/playlistdownloader.cpp" line="223"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="236"/>
+        <location filename="../src/playlistdownloader.cpp" line="237"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="180"/>
-        <location filename="../src/playlistdownloader.cpp" line="244"/>
+        <location filename="../src/playlistdownloader.cpp" line="181"/>
+        <location filename="../src/playlistdownloader.cpp" line="245"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1201"/>
+        <location filename="../src/playlistdownloader.cpp" line="130"/>
+        <location filename="../src/playlistdownloader.cpp" line="1228"/>
         <source>Get List Options:</source>
         <translation>获取列表选项:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="255"/>
+        <location filename="../src/playlistdownloader.cpp" line="256"/>
         <source>Copy Url</source>
         <translation>复制链接地址</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="407"/>
+        <location filename="../src/playlistdownloader.cpp" line="408"/>
         <source>Show All Updated</source>
         <translation>显示所有更新</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="413"/>
+        <location filename="../src/playlistdownloader.cpp" line="414"/>
         <source>Download All Updated</source>
         <translation>下载所有更新</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="421"/>
+        <location filename="../src/playlistdownloader.cpp" line="422"/>
         <source>Manage Subscriptions</source>
         <translation>管理订阅</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="936"/>
+        <location filename="../src/playlistdownloader.cpp" line="941"/>
+        <source>Number of Pages Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="125"/>
         <source>This May Take A Very Long Time</source>
         <translation>这可能需要很长时间</translation>
     </message>
