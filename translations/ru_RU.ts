@@ -454,7 +454,7 @@
     <message>
         <location filename="../src/translator.cpp" line="35"/>
         <source>French (France)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="126"/>
@@ -479,22 +479,22 @@
     <message>
         <location filename="../src/engines.cpp" line="116"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы отключить эти проверки, сделайте следующее:</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="117"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>1. Перейдите на вкладку &quot;Настройка&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>2. Перейдите на суб-вклаку &quot;Общие параметры&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="119"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>3. Снимите флаг &quot;Показывать информацию о версии при запуске&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="440"/>
