@@ -716,7 +716,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="248"/>
         <source>Show Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>コメントを表示</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="256"/>
@@ -841,7 +841,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="942"/>
         <source>Number of Pages Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードしたページ数</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="513"/>
