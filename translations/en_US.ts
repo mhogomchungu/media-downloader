@@ -373,12 +373,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="549"/>
+        <location filename="../src/batchdownloader.cpp" line="562"/>
         <source>Get List From File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="313"/>
+        <location filename="../src/batchdownloader.cpp" line="321"/>
         <location filename="../src/playlistdownloader.cpp" line="325"/>
         <location filename="../src/utility.cpp" line="314"/>
         <source>Preset Options</source>
@@ -681,7 +681,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1101"/>
+        <location filename="../src/playlistdownloader.cpp" line="1096"/>
         <source>Media Already In Archive</source>
         <translation type="unfinished"></translation>
     </message>
@@ -689,7 +689,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="554"/>
+        <location filename="../src/batchdownloader.cpp" line="567"/>
         <source>Set Batch File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -715,6 +715,11 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="248"/>
+        <source>Show Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="256"/>
         <source>Show Media Options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -809,7 +814,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1228"/>
+        <location filename="../src/playlistdownloader.cpp" line="1223"/>
         <source>Get List Options:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -834,12 +839,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="941"/>
+        <location filename="../src/playlistdownloader.cpp" line="942"/>
         <source>Number of Pages Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="125"/>
+        <location filename="../src/playlistdownloader.cpp" line="513"/>
         <source>This May Take A Very Long Time</source>
         <translation type="unfinished"></translation>
     </message>

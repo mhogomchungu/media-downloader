@@ -245,6 +245,14 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		const auto& engine = this->defaultEngine() ;
 
+		ac = m.addAction( tr( "Show Comments" ) ) ;
+		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
+
+		connect( ac,&QAction::triggered,[ this ](){
+
+			this->showComments() ;
+		} ) ;
+
 		ac = m.addAction( tr( "Show Media Options" ) ) ;
 		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
 
@@ -534,6 +542,11 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 
 		QMetaObject::invokeMethod( this,"addItemUiSlot",Qt::QueuedConnection,Q_ARG( ItemEntry,m ) ) ;
 	}
+}
+
+void batchdownloader::showComments()
+{
+
 }
 
 void batchdownloader::showBDFrame()
