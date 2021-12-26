@@ -331,7 +331,7 @@ void basicdownloader::run( const engines::engine& engine,
 			   const QString& quality,
 			   bool list_requested )
 {
-	auto functions = utility::OptionsFunctions( [ this ]( const QByteArray& args ){
+	auto functions = utility::OptionsFunctions( [ this ]( const utility::ProcessExitState&,const QByteArray& args ){
 
 			this->listRequested( args ) ;
 

@@ -92,13 +92,40 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBatchDownloaderSet,&QPushButton::clicked,[ this ](){
 
-		auto m = m_lineEdit.text() ;
+		auto txt = m_ui.pbBatchDownloaderSet->text() ;
 
-		if( !m.isEmpty() ){
+		if( txt == tr( "Save" ) ){
 
-			auto u = tableWidget::type::DownloadOptions ;
+			auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),
+							       QObject::tr( "Save List To File" ),
+							       utility::homePath() + "/MediaDowloaderComments.txt" ) ;
 
-			m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
+			if( e.isEmpty() ){
+
+				return ;
+			}
+
+			int rowCount = m_tableWidgetBDList.rowCount() ;
+
+			QJsonArray arr ;
+
+			for( int i = 0 ; i < rowCount ; i++ ){
+
+				arr.append( m_tableWidgetBDList.stuffAt( i ) ) ;
+			}
+
+			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
+
+			engines::file( e,m_ctx.logger() ).write( stuff ) ;
+		}else{
+			auto m = m_lineEdit.text() ;
+
+			if( !m.isEmpty() ){
+
+				auto u = tableWidget::type::DownloadOptions ;
+
+				m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
+			}
 		}
 
 		m_ui.BDFrame->hide() ;
@@ -250,7 +277,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		connect( ac,&QAction::triggered,[ this ](){
 
-			this->showComments() ;
+			this->showList( true ) ;
 		} ) ;
 
 		ac = m.addAction( tr( "Show Media Options" ) ) ;
@@ -258,7 +285,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		connect( ac,&QAction::triggered,[ this ](){
 
-			this->showList() ;
+			this->showList( false ) ;
 		} ) ;		
 
 		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
@@ -544,13 +571,83 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 	}
 }
 
-void batchdownloader::showComments()
+void batchdownloader::showComments( const QByteArray& e )
 {
+	QJsonParseError err ;
 
+	auto doc = QJsonDocument::fromJson( e,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		const auto arr = doc.array() ;
+
+		for( const auto& it : arr ){
+
+			auto obj = it.toObject() ;
+
+			auto id        = obj.value( "id" ).toString() ;
+			auto parent    = obj.value( "parent" ).toString() ;
+			auto txt       = obj.value( "text" ).toString() ;
+			auto author    = obj.value( "author" ).toString() ;
+			auto comment   = tr( "Author" ) + ": " + author ;
+			auto timestamp = obj.value( "timestamp" ) ;
+
+			if( !timestamp.isUndefined() ){
+
+				auto a = timestamp.toInt() ;
+				auto b = QDateTime::fromSecsSinceEpoch( a ).toString() ;
+
+				if( !b.isEmpty() ){
+
+					comment += "\n" + tr( "Timestamp" ) + ": " + b ;
+				}
+			}
+
+			if( parent != "root" ){
+
+				for( const auto& xt : arr ){
+
+					auto xobj = xt.toObject() ;
+
+					auto xd = xobj.value( "id" ).toString() ;
+
+					if( xd == parent ){
+
+						auto xauthor = xobj.value( "author" ).toString() ;
+
+						comment += "\n" + tr( "Replies to" ) + ": " + xauthor ;
+
+						break ;
+					}
+				}
+			}
+
+			comment += "\n" + tr( "Text" ) + ": " + txt ;
+
+			m_tableWidgetBDList.add( { "","","",comment },obj ) ;
+		}
+	}
 }
 
-void batchdownloader::showBDFrame()
+void batchdownloader::showBDFrame( bool hideColums )
 {
+	auto& table = m_tableWidgetBDList.get() ;
+
+	if( hideColums ){
+
+		table.hideColumn( 0 ) ;
+		table.hideColumn( 1 ) ;
+		table.hideColumn( 2 ) ;
+
+		m_ui.pbBatchDownloaderSet->setText( tr( "Save" ) ) ;
+	}else{
+		table.showColumn( 0 ) ;
+		table.showColumn( 1 ) ;
+		table.showColumn( 2 ) ;
+
+		m_ui.pbBatchDownloaderSet->setText( tr( "Set" ) ) ;
+	}
+
 	m_optionsList.clear() ;
 	m_tableWidgetBDList.clear() ;
 	m_ui.BDFrame->show() ;
@@ -727,7 +824,7 @@ void batchdownloader::clearScreen()
 	m_ui.lineEditBDUrl->clear() ;
 }
 
-void batchdownloader::showList()
+void batchdownloader::showList( bool showComments )
 {
 	auto& table = m_table.get() ;
 
@@ -740,30 +837,35 @@ void batchdownloader::showList()
 
 	const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
 
-	const auto& formats = m_table.formats( row ) ;
+	QStringList args ;
 
-	if( !formats.isEmpty() ){
+	if( showComments ){
 
-		const auto ss = engine.mediaProperties( formats ) ;
+		args = engine.defaultCommentsCmdOptions() ;
+		this->showBDFrame( true ) ;
+	}else{
+		args = engine.defaultListCmdOptions() ;
 
-		if( !ss.empty() ){
+		const auto& formats = m_table.formats( row ) ;
 
-			this->showBDFrame() ;
+		if( !formats.isEmpty() ){
 
-			for( const auto& m : ss ){
+			const auto ss = engine.mediaProperties( formats ) ;
 
-				m_tableWidgetBDList.add( m ) ;
+			if( !ss.empty() ){
+
+				this->showBDFrame( false ) ;
+
+				for( const auto& m : ss ){
+
+					m_tableWidgetBDList.add( m ) ;
+				}
+
+				return ;
 			}
-
-			return ;
 		}
-	}
 
-	auto args = engine.defaultListCmdOptions() ;
-
-	if( args.isEmpty() ){
-
-		return ;
+		this->showBDFrame( false ) ;
 	}
 
 	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
@@ -775,19 +877,22 @@ void batchdownloader::showList()
 		args.append( cookiePath ) ;
 	}
 
-	this->showBDFrame() ;
-
 	args.append( m_table.url( row ) ) ;
 
 	m_ctx.TabManager().disableAll() ;
 
-	auto functions = utility::OptionsFunctions( [ this,&engine ]( const QByteArray& a ){
+	auto functions = utility::OptionsFunctions( [ this,&engine,showComments ]( const utility::ProcessExitState& s,const QByteArray& a ){
 
-			if( !a.isEmpty() ){
+			if( s.success() && !a.isEmpty() ){
 
-				for( const auto& m : engine.mediaProperties( a ) ){
+				if( showComments ){
 
-					m_tableWidgetBDList.add( m ) ;
+					this->showComments( a ) ;
+				}else{
+					for( const auto& m : engine.mediaProperties( a ) ){
+
+						m_tableWidgetBDList.add( m ) ;
+					}
 				}
 			}
 

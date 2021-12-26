@@ -441,6 +441,10 @@ public:
 		{
 			return m_defaultListCmdOptions ;
 		}
+		const QStringList& defaultCommentsCmdOptions() const
+		{
+			return m_defaultCommentsCmdOptions ;
+		}
 		const QStringList& skiptLineWithText() const
 		{
 			return m_skiptLineWithText ;
@@ -565,6 +569,7 @@ public:
 		QStringList m_skiptLineWithText ;
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
+		QStringList m_defaultCommentsCmdOptions ;
 		QJsonObject m_controlStructure ;
 
 		exeArgs m_exePath ;

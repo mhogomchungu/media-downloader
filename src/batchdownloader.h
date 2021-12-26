@@ -153,12 +153,13 @@ public:
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 private:
-	void showBDFrame() ;
+	void showComments( const QByteArray& ) ;
+	void showBDFrame( bool ) ;
 	void getListFromFile( QMenu& ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
-	void showList() ;
+	void showList( bool ) ;
 	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
@@ -177,7 +178,7 @@ private:
 	tabManager& m_tabManager ;
 	bool m_showThumbnails ;
 	tableWidget m_table ;
-	tableMiniWidget< int > m_tableWidgetBDList ;
+	tableMiniWidget< QJsonObject > m_tableWidgetBDList ;
 	QString m_debug ;
 	int m_networkRunning = false ;
 	QStringList m_optionsList ;

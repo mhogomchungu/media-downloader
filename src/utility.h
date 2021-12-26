@@ -884,13 +884,16 @@ namespace utility
 
 			m_timer->stop() ;
 
+			auto m = m_timeCounter.elapsedTime() ;
+
+			ProcessExitState state( m_cancelled,s,m,std::move( e ) ) ;
+
 			if( m_options.listRequested() ){
 
-				m_options.listRequested( std::move( m_data ) ) ;
+				m_options.listRequested( state,std::move( m_data ) ) ;
 			}
 
-			auto m = m_timeCounter.elapsedTime() ;
-			m_options.done( ProcessExitState( m_cancelled,s,m,std::move( e ) ) ) ;
+			m_options.done( std::move( state ) ) ;
 		}
 		void withData( QProcess::ProcessChannel channel,const QByteArray& data )
 		{
@@ -1186,9 +1189,9 @@ namespace utility
 		{
 			m_functions.done( std::move( e ),m_opts ) ;
 		}
-		void listRequested( QByteArray e )
+		void listRequested( const utility::ProcessExitState& s,QByteArray e )
 		{
-			m_functions.list( std::move( e ) ) ;
+			m_functions.list( s,std::move( e ) ) ;
 		}
 		bool listRequested()
 		{
@@ -1236,7 +1239,7 @@ namespace utility
 	template< typename DisableAll,typename Done >
 	auto OptionsFunctions( DisableAll disableAll,Done done )
 	{
-		auto aa = []( QByteArray ){} ;
+		auto aa = []( const utility::ProcessExitState&,QByteArray ){} ;
 
 		using type = Functions< decltype( aa ),DisableAll,Done > ;
 

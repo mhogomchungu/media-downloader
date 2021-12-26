@@ -100,6 +100,17 @@ QJsonObject yt_dlp::init( const QString& name,
 
 				return arr ;
 			}() ) ;
+
+			mainObj.insert( "DefaultCommentsCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--get-comments" ) ;
+				arr.append( "--no-download" ) ;
+				arr.append( "--dump-json" ) ;
+
+				return arr ;
+			}() ) ;
 		}else{
 			utility::addJsonCmd json( mainObj ) ;
 
@@ -117,6 +128,18 @@ QJsonObject yt_dlp::init( const QString& name,
 
 				arr.append( "--print" ) ;
 				arr.append( "%(formats)j" ) ;
+
+				return arr ;
+			}() ) ;
+
+			mainObj.insert( "DefaultCommentsCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--get-comments" ) ;
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "%(comments)j" ) ;
 
 				return arr ;
 			}() ) ;
@@ -230,6 +253,21 @@ yt_dlp::yt_dlp( const engines& engines,
 
 			return arr ;
 		}() ) ;
+
+		if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
+
+			obj.insert( "DefaultCommentsCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--get-comments" ) ;
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "%(comments)j" ) ;
+
+				return arr ;
+			}() ) ;
+		}
 	}
 }
 

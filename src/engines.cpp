@@ -532,6 +532,7 @@ void engines::engine::updateOptions()
 	m_skiptLineWithText               = _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ;
 	m_defaultDownLoadCmdOptions       = _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ),true ) ;
 	m_defaultListCmdOptions           = _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ;
+	m_defaultCommentsCmdOptions       = _toStringList( m_jsonObject.value( "DefaultCommentsCmdOptions" ) ) ;
 }
 
 engines::engine::engine( Logger& logger,
