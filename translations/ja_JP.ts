@@ -373,12 +373,12 @@
         <translation>エンジン名:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="549"/>
+        <location filename="../src/batchdownloader.cpp" line="562"/>
         <source>Get List From File</source>
         <translation>ファイルからリストを読み込む</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="313"/>
+        <location filename="../src/batchdownloader.cpp" line="321"/>
         <location filename="../src/playlistdownloader.cpp" line="325"/>
         <location filename="../src/utility.cpp" line="314"/>
         <source>Preset Options</source>
@@ -681,7 +681,7 @@
         <translation>完了: %1%, 開始前: %2, 成功: %3, 失敗: %4, キャンセル: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1101"/>
+        <location filename="../src/playlistdownloader.cpp" line="1096"/>
         <source>Media Already In Archive</source>
         <translation>メディアは既にアーカイブにあります</translation>
     </message>
@@ -689,7 +689,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="554"/>
+        <location filename="../src/batchdownloader.cpp" line="567"/>
         <source>Set Batch File</source>
         <translation>バッチファイルをセット</translation>
     </message>
@@ -715,6 +715,11 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="248"/>
+        <source>Show Comments</source>
+        <translation>コメントを表示</translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="256"/>
         <source>Show Media Options</source>
         <translation>メディアオプションを表示</translation>
     </message>
@@ -809,7 +814,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1228"/>
+        <location filename="../src/playlistdownloader.cpp" line="1223"/>
         <source>Get List Options:</source>
         <translation>リスト取得オプション:</translation>
     </message>
@@ -834,12 +839,12 @@
         <translation>ブックマークを管理</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="941"/>
+        <location filename="../src/playlistdownloader.cpp" line="942"/>
         <source>Number of Pages Downloaded</source>
         <translation>ダウンロードしたページ数</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="125"/>
+        <location filename="../src/playlistdownloader.cpp" line="513"/>
         <source>This May Take A Very Long Time</source>
         <translation>これは非常に長い時間が掛かる場合があります</translation>
     </message>
