@@ -134,6 +134,38 @@ private:
 		QJsonArray m_array ;
 	};
 
+	class banner
+	{
+	public:
+		banner( tableWidget& table) :
+			m_table( table )
+		{
+		}
+		void clear()
+		{
+			m_progress.clear() ;
+		}
+		void setBanner( const QString& s )
+		{
+			m_txt = s ;
+		}
+		void updateProgress( const QString& progress )
+		{
+			m_progress = progress ;
+		}
+		const QString& txt() const
+		{
+			return m_txt ;
+		}
+		void updateCounter( int counter ) ;
+	private:
+		tableWidget& m_table ;
+		QString m_txt ;
+		QString m_progress ;
+	} ;
+
+	banner m_banner ;
+
 	class listIterator
 	{
 	public:

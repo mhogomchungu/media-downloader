@@ -373,13 +373,13 @@
         <translation>Плагин:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="549"/>
+        <location filename="../src/batchdownloader.cpp" line="562"/>
         <source>Get List From File</source>
         <translation>Получить список из файла</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="313"/>
-        <location filename="../src/playlistdownloader.cpp" line="324"/>
+        <location filename="../src/batchdownloader.cpp" line="321"/>
+        <location filename="../src/playlistdownloader.cpp" line="325"/>
         <location filename="../src/utility.cpp" line="314"/>
         <source>Preset Options</source>
         <translation>Пресеты параметров</translation>
@@ -454,7 +454,7 @@
     <message>
         <location filename="../src/translator.cpp" line="35"/>
         <source>French (France)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="126"/>
@@ -479,22 +479,22 @@
     <message>
         <location filename="../src/engines.cpp" line="116"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы отключить эти проверки, сделайте следующее:</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="117"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>1. Перейдите на вкладку &quot;Настройка&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>2. Перейдите на суб-вклаку &quot;Общие параметры&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="119"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>3. Снимите флаг &quot;Показывать информацию о версии при запуске&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="440"/>
@@ -681,7 +681,7 @@
         <translation>Завершено: %1%, Не запущено: %2, Успешно: %3, Не удалось: %4, Отменено: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1074"/>
+        <location filename="../src/playlistdownloader.cpp" line="1096"/>
         <source>Media Already In Archive</source>
         <translation>Медиа уже в архиве</translation>
     </message>
@@ -689,7 +689,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="554"/>
+        <location filename="../src/batchdownloader.cpp" line="567"/>
         <source>Set Batch File</source>
         <translation>Установить пакетный файл</translation>
     </message>
@@ -715,6 +715,11 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="248"/>
+        <source>Show Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="256"/>
         <source>Show Media Options</source>
         <translation>Показать параметры медиа</translation>
     </message>
@@ -792,49 +797,54 @@
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="222"/>
+        <location filename="../src/playlistdownloader.cpp" line="223"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="236"/>
+        <location filename="../src/playlistdownloader.cpp" line="237"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="180"/>
-        <location filename="../src/playlistdownloader.cpp" line="244"/>
+        <location filename="../src/playlistdownloader.cpp" line="181"/>
+        <location filename="../src/playlistdownloader.cpp" line="245"/>
         <source>Remove</source>
         <translation>Убрать</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1201"/>
+        <location filename="../src/playlistdownloader.cpp" line="130"/>
+        <location filename="../src/playlistdownloader.cpp" line="1223"/>
         <source>Get List Options:</source>
         <translation>Параметры списка:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="255"/>
+        <location filename="../src/playlistdownloader.cpp" line="256"/>
         <source>Copy Url</source>
         <translation>Копировать URL</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="407"/>
+        <location filename="../src/playlistdownloader.cpp" line="408"/>
         <source>Show All Updated</source>
         <translation>Показать все обновленные</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="413"/>
+        <location filename="../src/playlistdownloader.cpp" line="414"/>
         <source>Download All Updated</source>
         <translation>Загрузить все обновленные</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="421"/>
+        <location filename="../src/playlistdownloader.cpp" line="422"/>
         <source>Manage Subscriptions</source>
         <translation>Управление подписками</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="936"/>
+        <location filename="../src/playlistdownloader.cpp" line="942"/>
+        <source>Number of Pages Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="513"/>
         <source>This May Take A Very Long Time</source>
         <translation>Это может занять очень много времени</translation>
     </message>
