@@ -450,7 +450,7 @@
     <message>
         <location filename="../src/translator.cpp" line="35"/>
         <source>French (France)</source>
-        <translation type="unfinished"></translation>
+        <translation>francuski (Francja)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -480,22 +480,22 @@
     <message>
         <location filename="../src/engines.cpp" line="116"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation type="unfinished"></translation>
+        <translation>Aby wyłączyć te powiadomienia:</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="117"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do zakładki &quot;konfiguracja&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do zakładki &quot;opcje ogólne&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="119"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odznacz &quot;Pokaż informacje nt wersji przy uruchamianiu&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="440"/>
@@ -723,7 +723,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="275"/>
         <source>Show Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż komentarze</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="283"/>
@@ -733,22 +733,22 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="592"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="602"/>
         <source>Timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="618"/>
         <source>Replies to</source>
-        <translation type="unfinished"></translation>
+        <translation>Odpowiedź dla</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="625"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Treść</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="648"/>
@@ -873,7 +873,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="942"/>
         <source>Number of Pages Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba pobranych stron</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="513"/>
