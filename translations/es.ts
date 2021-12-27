@@ -723,7 +723,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="275"/>
         <source>Show Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Componentes</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="283"/>
@@ -733,22 +733,22 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="592"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="602"/>
         <source>Timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Marca de Tiempo</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="618"/>
         <source>Replies to</source>
-        <translation type="unfinished"></translation>
+        <translation>Respoder a</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="625"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="648"/>
@@ -873,7 +873,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="942"/>
         <source>Number of Pages Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de Páginas Descargadas</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="513"/>
