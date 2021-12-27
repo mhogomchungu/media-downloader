@@ -455,7 +455,7 @@
     <message>
         <location filename="../src/translator.cpp" line="35"/>
         <source>French (France)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fransızca (Fıransa)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="126"/>
@@ -480,22 +480,22 @@
     <message>
         <location filename="../src/engines.cpp" line="116"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu Kontrolleri Devre Dışı Bırakmak İçin Aşağıdakileri Yapın:-</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="117"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>1. &quot;Yapılandırma&quot; sekmesine git</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>2. &quot;Genel Ayarlar&quot; alt sekmesine git</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="119"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>3. &quot;Başlarken Sürüm Bilgisini Göster&quot; seçili olmasın.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="440"/>
@@ -723,7 +723,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="275"/>
         <source>Show Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Yorumları Göster</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="283"/>
@@ -733,22 +733,22 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="592"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazar</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="602"/>
         <source>Timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Damga zamanı</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="618"/>
         <source>Replies to</source>
-        <translation type="unfinished"></translation>
+        <translation>Yanıtlar</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="625"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="648"/>
