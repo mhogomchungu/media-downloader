@@ -241,18 +241,22 @@ yt_dlp::yt_dlp( const engines& engines,
 
 			obj = yt_dlp::init( name,configFileName,logger,enginePath ) ;
 		}
+	}
 
-	}else if( name.contains( "yt-dlp" ) ){
+	if( name.contains( "yt-dlp" ) ){
 
-		obj.insert( "DefaultListCmdOptions",[](){
+		if( !obj.contains( "DefaultListCmdOptions" ) ){
 
-			QJsonArray arr ;
+			obj.insert( "DefaultListCmdOptions",[](){
 
-			arr.append( "--print" ) ;
-			arr.append( "%(formats)j" ) ;
+				QJsonArray arr ;
 
-			return arr ;
-		}() ) ;
+				arr.append( "--print" ) ;
+				arr.append( "%(formats)j" ) ;
+
+				return arr ;
+			}() ) ;
+		}
 
 		if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
 
@@ -264,6 +268,19 @@ yt_dlp::yt_dlp( const engines& engines,
 				arr.append( "--no-download" ) ;
 				arr.append( "--print" ) ;
 				arr.append( "%(comments)j" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+
+	}else if( name == "youtube-dl" ){
+
+		if( !obj.contains( "DefaultListCmdOptions" ) ){
+
+			obj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+				arr.append( "-F" ) ;
 
 				return arr ;
 			}() ) ;

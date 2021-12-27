@@ -150,6 +150,7 @@ public:
 	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void setThumbnailColumnSize( bool ) ;
+	void showComments( const engines::engine&,const QString& ) ;
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 private:
@@ -159,7 +160,7 @@ private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
-	void showList( bool ) ;
+	void showList( bool,const engines::engine&,const QString&,int ) ;
 	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;

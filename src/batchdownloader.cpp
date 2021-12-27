@@ -270,22 +270,32 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
-		const auto& engine = this->defaultEngine() ;
+		const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
 
 		ac = m.addAction( tr( "Show Comments" ) ) ;
-		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
+		ac->setEnabled( !running && engine.name().contains( "yt-dlp" ) ) ;
 
-		connect( ac,&QAction::triggered,[ this ](){
+		connect( ac,&QAction::triggered,[ this,&engine ](){
 
-			this->showList( true ) ;
+			auto row = m_table.currentRow() ;
+
+			if( row != -1 ){
+
+				this->showList( true,engine,m_table.url( row ),row ) ;
+			}
 		} ) ;
 
 		ac = m.addAction( tr( "Show Media Options" ) ) ;
 		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
 
-		connect( ac,&QAction::triggered,[ this ](){
+		connect( ac,&QAction::triggered,[ this,&engine ](){
 
-			this->showList( false ) ;
+			auto row = m_table.currentRow() ;
+
+			if( row != -1 ){
+
+				this->showList( false,engine,m_table.url( row ),row ) ;
+			}
 		} ) ;		
 
 		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
@@ -817,6 +827,13 @@ void batchdownloader::setThumbnailColumnSize( bool e )
 	}
 }
 
+void batchdownloader::showComments( const engines::engine& engine,const QString& url )
+{
+	m_ctx.Ui().tabWidget->setCurrentIndex( 1 ) ;
+
+	this->showList( true,engine,url,-1 ) ;
+}
+
 void batchdownloader::clearScreen()
 {
 	m_table.clear() ;
@@ -824,19 +841,11 @@ void batchdownloader::clearScreen()
 	m_ui.lineEditBDUrl->clear() ;
 }
 
-void batchdownloader::showList( bool showComments )
+void batchdownloader::showList( bool showComments,
+				const engines::engine& engine,
+				const QString& url,
+				int row )
 {
-	auto& table = m_table.get() ;
-
-	auto row = table.currentRow() ;
-
-	if( row == -1 ){
-
-		return ;
-	}
-
-	const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
-
 	QStringList args ;
 
 	if( showComments ){
@@ -844,6 +853,13 @@ void batchdownloader::showList( bool showComments )
 		args = engine.defaultCommentsCmdOptions() ;
 		this->showBDFrame( true ) ;
 	}else{
+		if( row == -1 ){
+
+			return ;
+		}
+
+		this->showBDFrame( false ) ;
+
 		args = engine.defaultListCmdOptions() ;
 
 		const auto& formats = m_table.formats( row ) ;
@@ -854,8 +870,6 @@ void batchdownloader::showList( bool showComments )
 
 			if( !ss.empty() ){
 
-				this->showBDFrame( false ) ;
-
 				for( const auto& m : ss ){
 
 					m_tableWidgetBDList.add( m ) ;
@@ -864,8 +878,6 @@ void batchdownloader::showList( bool showComments )
 				return ;
 			}
 		}
-
-		this->showBDFrame( false ) ;
 	}
 
 	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
@@ -877,7 +889,7 @@ void batchdownloader::showList( bool showComments )
 		args.append( cookiePath ) ;
 	}
 
-	args.append( m_table.url( row ) ) ;
+	args.append( url ) ;
 
 	m_ctx.TabManager().disableAll() ;
 

@@ -112,4 +112,5 @@ Version 1.2.0(April 1st, 2021)
 
   Version 2.2.0(December 2st, 2021)
     - Add French translations.
-    - Various changes and improvements..
+    - Add ability to show and save comments in batch downloader tab and playlist downloader tab.
+    - Various changes and improvements.

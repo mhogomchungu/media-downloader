@@ -265,6 +265,21 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			}
 		} ) ;
 
+		const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
+
+		ac = m.addAction( tr( "Show Comments" ) ) ;
+		ac->setEnabled( !running && engine.name().contains( "yt-dlp" ) ) ;
+
+		connect( ac,&QAction::triggered,[ this,&engine ](){
+
+			auto row = m_table.currentRow() ;
+
+			if( row != -1 ){
+
+				m_ctx.TabManager().batchDownloader().showComments( engine,m_table.url( row ) ) ;
+			}
+		} ) ;
+
 		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
 
 			auto m = m_table.uiText( row ) ;
