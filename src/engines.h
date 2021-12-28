@@ -287,6 +287,8 @@ public:
 
 			virtual bool breakShowListIfContains( const QStringList& ) ;
 
+			virtual bool supportsShowingComments() ;
+
 			virtual engines::engine::functions::DataFilter Filter( const QString& ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
@@ -500,6 +502,10 @@ public:
 		bool valid() const
 		{
 			return m_valid ;
+		}
+		bool supportShowingComments() const
+		{
+			return m_functions->supportsShowingComments() ;
 		}
 		bool canDownloadPlaylist() const
 		{

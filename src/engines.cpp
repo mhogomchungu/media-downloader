@@ -880,6 +880,11 @@ bool engines::engine::functions::breakShowListIfContains( const QStringList& )
 	return false ;
 }
 
+bool engines::engine::functions::supportsShowingComments()
+{
+	return false ;
+}
+
 engines::engine::functions::DataFilter engines::engine::functions::Filter( const QString& e )
 {
 	return { util::types::type_identity< engines::engine::functions::filter >(),e,m_engine } ;

@@ -53,6 +53,8 @@ public:
 
 	bool breakShowListIfContains( const QStringList& ) override ;
 
+	bool supportsShowingComments() override ;
+
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;

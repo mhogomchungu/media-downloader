@@ -100,17 +100,6 @@ QJsonObject yt_dlp::init( const QString& name,
 
 				return arr ;
 			}() ) ;
-
-			mainObj.insert( "DefaultCommentsCmdOptions",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--get-comments" ) ;
-				arr.append( "--no-download" ) ;
-				arr.append( "--dump-json" ) ;
-
-				return arr ;
-			}() ) ;
 		}else{
 			utility::addJsonCmd json( mainObj ) ;
 
@@ -245,18 +234,15 @@ yt_dlp::yt_dlp( const engines& engines,
 
 	if( name.contains( "yt-dlp" ) ){
 
-		if( !obj.contains( "DefaultListCmdOptions" ) ){
+		obj.insert( "DefaultListCmdOptions",[](){
 
-			obj.insert( "DefaultListCmdOptions",[](){
+			QJsonArray arr ;
 
-				QJsonArray arr ;
+			arr.append( "--print" ) ;
+			arr.append( "%(formats)j" ) ;
 
-				arr.append( "--print" ) ;
-				arr.append( "%(formats)j" ) ;
-
-				return arr ;
-			}() ) ;
-		}
+			return arr ;
+		}() ) ;
 
 		if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
 
@@ -272,9 +258,7 @@ yt_dlp::yt_dlp( const engines& engines,
 				return arr ;
 			}() ) ;
 		}
-
-	}else if( name == "youtube-dl" ){
-
+	}else{
 		if( !obj.contains( "DefaultListCmdOptions" ) ){
 
 			obj.insert( "DefaultListCmdOptions",[](){
@@ -479,6 +463,11 @@ bool yt_dlp::breakShowListIfContains( const QStringList& e )
 
 		return false ;
 	}
+}
+
+bool yt_dlp::supportsShowingComments()
+{
+	return m_engine.name().contains( "yt-dlp" ) ;
 }
 
 engines::engine::functions::DataFilter yt_dlp::Filter( const QString& e )

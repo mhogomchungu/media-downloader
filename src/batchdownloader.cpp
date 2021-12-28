@@ -273,7 +273,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
 
 		ac = m.addAction( tr( "Show Comments" ) ) ;
-		ac->setEnabled( !running && engine.name().contains( "yt-dlp" ) ) ;
+		ac->setEnabled( engine.supportShowingComments() ) ;
 
 		connect( ac,&QAction::triggered,[ this,&engine ](){
 
