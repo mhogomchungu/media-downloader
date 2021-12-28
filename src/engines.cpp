@@ -699,7 +699,7 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 		it.replace( utility::stringConstants::commandName(),m_commandName ) ;
 	}
 
-	auto subCmd = cmd ;
+	QString subCmd ;
 
 	for( auto& it : cmdNames ){
 
@@ -709,8 +709,11 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 
 				auto m = engines.findExecutable( m_commandName ) ;
 
-				if( !m.isEmpty() ){
+				if( m.isEmpty() ){
 
+					subCmd = m_exeFolderPath + "/" + it ;
+					it = subCmd ;
+				}else{
 					it = m ;
 					subCmd = m ;
 				}
