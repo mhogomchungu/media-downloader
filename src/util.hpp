@@ -432,7 +432,7 @@ template< typename BackGroundTask,
 	  util::types::has_void_return_type< BackGroundTask > = 0 >
 void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 {
-	return util::runInBgThread( [ bgt = std::move( bgt ) ](){
+	util::runInBgThread( [ bgt = std::move( bgt ) ](){
 
 		bgt() ;
 
@@ -447,7 +447,7 @@ void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 template< typename BackGroundTask >
 void runInBgThread( BackGroundTask bgt )
 {
-	return util::runInBgThread( [ bgt = std::move( bgt ) ](){
+	util::runInBgThread( [ bgt = std::move( bgt ) ](){
 
 		bgt() ;
 
@@ -530,6 +530,7 @@ void run( const QString& cmd,
 			 WhenStarted&& whenStarted,
 			 WhenDone&& whenDone,
 			 WithData&& withData ) :
+			m_withData( std::move( withData ) ),
 			m_data( whenCreated( m_exe ) )
 		{
 			QObject::connect( &m_exe,&QProcess::started,
@@ -538,18 +539,16 @@ void run( const QString& cmd,
 				whenStarted( m_exe,m_data ) ;
 			} ) ;
 
-			QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,
-					  [ this,withData = std::move( withData ) ](){
+			QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,[ this ](){
 
-				withData( QProcess::ProcessChannel::StandardOutput,
-					  m_exe.readAllStandardOutput(),m_data ) ;
+				m_withData( QProcess::ProcessChannel::StandardOutput,
+					    m_exe.readAllStandardOutput(),m_data ) ;
 			} ) ;
 
-			QObject::connect( &m_exe,&QProcess::readyReadStandardError,
-					  [ this,withData = std::move( withData ) ](){
+			QObject::connect( &m_exe,&QProcess::readyReadStandardError,[ this ](){
 
-				withData( QProcess::ProcessChannel::StandardError,
-					  m_exe.readAllStandardError(),m_data ) ;
+				m_withData( QProcess::ProcessChannel::StandardError,
+					    m_exe.readAllStandardError(),m_data ) ;
 			} ) ;
 
 			using cc = void( QProcess::* )( int,QProcess::ExitStatus ) ;
@@ -568,6 +567,7 @@ void run( const QString& cmd,
 		}
 	private:
 		QProcess m_exe ;
+		WithData m_withData ;
 		util::types::result_of< WhenCreated,QProcess& > m_data ;
 	};
 
