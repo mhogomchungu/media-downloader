@@ -98,7 +98,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),
 							       QObject::tr( "Save List To File" ),
-							       utility::homePath() + "/MediaDowloaderComments.txt" ) ;
+							       m_commentsFileName ) ;
 
 			if( e.isEmpty() ){
 
@@ -126,9 +126,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 				m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
 			}
-		}
 
-		m_ui.BDFrame->hide() ;
+			m_ui.BDFrame->hide() ;
+		}
 	} ) ;
 
 	connect( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,[ this ](){
@@ -589,7 +589,18 @@ void batchdownloader::showComments( const QByteArray& e )
 
 	if( err.error == QJsonParseError::NoError ){
 
-		const auto arr = doc.array() ;
+		auto obj = doc.object() ;
+
+		auto f = obj.value( "title" ).toString() ;
+
+		if( f.isEmpty() ){
+
+			m_commentsFileName = utility::homePath() + "/MediaDowloaderComments.txt" ;
+		}else{
+			m_commentsFileName = utility::homePath() + "/" + f + ".txt" ;
+		}
+
+		const auto arr = obj.value( "comments" ).toArray() ;
 
 		for( const auto& it : arr ){
 

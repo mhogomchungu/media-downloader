@@ -128,7 +128,7 @@ QJsonObject yt_dlp::init( const QString& name,
 				arr.append( "--get-comments" ) ;
 				arr.append( "--no-download" ) ;
 				arr.append( "--print" ) ;
-				arr.append( "%(comments)j" ) ;
+				arr.append( "{\"title\":%(title)j,\"comments\":%(comments)j}" ) ;
 
 				return arr ;
 			}() ) ;
@@ -244,20 +244,17 @@ yt_dlp::yt_dlp( const engines& engines,
 			return arr ;
 		}() ) ;
 
-		if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
+		obj.insert( "DefaultCommentsCmdOptions",[](){
 
-			obj.insert( "DefaultCommentsCmdOptions",[](){
+			QJsonArray arr ;
 
-				QJsonArray arr ;
+			arr.append( "--get-comments" ) ;
+			arr.append( "--no-download" ) ;
+			arr.append( "--print" ) ;
+			arr.append( "{\"title\":%(title)j,\"comments\":%(comments)j}" ) ;
 
-				arr.append( "--get-comments" ) ;
-				arr.append( "--no-download" ) ;
-				arr.append( "--print" ) ;
-				arr.append( "%(comments)j" ) ;
-
-				return arr ;
-			}() ) ;
-		}
+			return arr ;
+		}() ) ;
 	}else{
 		if( !obj.contains( "DefaultListCmdOptions" ) ){
 

@@ -181,6 +181,7 @@ private:
 	tableWidget m_table ;
 	tableMiniWidget< QJsonObject > m_tableWidgetBDList ;
 	QString m_debug ;
+	QString m_commentsFileName ;
 	int m_networkRunning = false ;
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;

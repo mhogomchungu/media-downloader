@@ -48,6 +48,12 @@
         }
     },
     "CookieArgument": "--cookies",
+    "DefaultCommentsCmdOptions": [
+        "--get-comments",
+        "--no-download",
+        "--print",
+        "{\"title\":%(title)j,\"comments\":%(comments)j}"
+    ],
     "DefaultDownLoadCmdOptions": [
         "--downloader",
         "aria2c",
