@@ -114,9 +114,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 				arr.append( m_tableWidgetBDList.stuffAt( i ) ) ;
 			}
 
-			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
-
-			engines::file( e,m_ctx.logger() ).write( stuff ) ;
+			this->saveComments( arr,e ) ;
 		}else{
 			auto m = m_lineEdit.text() ;
 
@@ -581,6 +579,58 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 	}
 }
 
+void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePath )
+{
+	QJsonArray objs ;
+
+	for( const auto& it : arr ){
+
+		auto obj = it.toObject() ;
+
+		auto parent = obj.value( "parent" ).toString() ;
+
+		if( parent == "root" ){
+
+			objs.append( obj ) ;
+		}else{
+			for( int i = 0 ; i < objs.size() ; i++ ){
+
+				auto xobj = objs.at( i ).toObject() ;
+
+				if( xobj.value( "id" ).toString() == parent ){
+
+					auto replies = xobj.value( "text replies" ) ;
+
+					if( replies.isUndefined() ){
+
+						QJsonArray arr ;
+						arr.append( obj ) ;
+
+						xobj.insert( "text replies",arr ) ;
+
+						objs.removeAt( i ) ;
+						objs.insert( i,xobj ) ;
+					}else{
+						auto arr = replies.toArray() ;
+
+						arr.append( obj ) ;
+						xobj.insert( "text replies",arr ) ;
+
+						objs.removeAt( i ) ;
+						objs.insert( i,xobj ) ;
+					}
+
+					break ;
+				}
+			}
+		}
+	}
+
+	auto data = QJsonDocument( objs ).toJson( QJsonDocument::Indented ) ;
+
+	engines::file( filePath,m_ctx.logger() ).write( data ) ;
+}
+
 void batchdownloader::showComments( const QByteArray& e )
 {
 	QJsonParseError err ;
@@ -644,6 +694,8 @@ void batchdownloader::showComments( const QByteArray& e )
 			}
 
 			comment += "\n" + tr( "Text" ) + ": " + txt ;
+
+			obj.remove( "author_thumbnail" ) ;
 
 			m_tableWidgetBDList.add( { "","","",comment },obj ) ;
 		}

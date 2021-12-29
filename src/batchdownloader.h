@@ -154,6 +154,7 @@ public:
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 private:
+	void saveComments( const QJsonArray&,const QString& filePath ) ;
 	void showComments( const QByteArray& ) ;
 	void showBDFrame( bool ) ;
 	void getListFromFile( QMenu& ) ;
