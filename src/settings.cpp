@@ -66,7 +66,7 @@ bool settings::monitorClipboardContents()
 {
 	if( !m_settings.contains( "MonitorClipboardContents" ) ){
 
-		m_settings.setValue( "MonitorClipboardContents",true ) ;
+		m_settings.setValue( "MonitorClipboardContents",false ) ;
 	}
 
 	return m_settings.value( "MonitorClipboardContents" ).toBool() ;

@@ -897,11 +897,11 @@ void batchdownloader::showComments( const engines::engine& engine,const QString&
 	this->showList( true,engine,url,-1 ) ;
 }
 
-void batchdownloader::clipboardData( const QString& e )
+void batchdownloader::clipboardData( const QString& url )
 {
 	if( m_tabManager.currentTab() == 1 ){
 
-		m_ui.lineEditBDUrl->setText( e ) ;
+		this->addToList( url,false,m_settings.showThumbnails() ) ;
 	}
 }
 
