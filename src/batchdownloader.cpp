@@ -583,6 +583,26 @@ void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePat
 {
 	QJsonArray objs ;
 
+	auto _add_object = [ & ]( const QJsonObject& obj,int position ){
+
+		QJsonObject oo ;
+
+		oo.insert( "id",obj.value( "id" ) ) ;
+		oo.insert( "parent",obj.value( "parent" ) ) ;
+		oo.insert( "author",obj.value( "author" ) ) ;
+		oo.insert( "text",obj.value( "text" ) ) ;
+		oo.insert( "date",obj.value( "date" ) ) ;
+		oo.insert( "text replies",obj.value( "text replies" ) ) ;
+
+		if( position == -1 ){
+
+			objs.append( oo ) ;
+		}else{
+			objs.removeAt( position ) ;
+			objs.insert( position,oo ) ;
+		}
+	} ;
+
 	for( const auto& it : arr ){
 
 		auto obj = it.toObject() ;
@@ -591,7 +611,7 @@ void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePat
 
 		if( parent == "root" ){
 
-			objs.append( obj ) ;
+			_add_object( obj,-1 ) ;
 		}else{
 			for( int i = 0 ; i < objs.size() ; i++ ){
 
@@ -599,26 +619,28 @@ void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePat
 
 				if( xobj.value( "id" ).toString() == parent ){
 
-					auto replies = xobj.value( "text replies" ) ;
+					auto replies = [ & ](){
 
-					if( replies.isUndefined() ){
+						auto arr = xobj.value( "text replies" ) ;
 
-						QJsonArray arr ;
-						arr.append( obj ) ;
+						if( arr.isUndefined() ){
 
-						xobj.insert( "text replies",arr ) ;
+							return QJsonArray() ;
+						}else{
+							return arr.toArray() ;
+						}
+					}() ;
 
-						objs.removeAt( i ) ;
-						objs.insert( i,xobj ) ;
-					}else{
-						auto arr = replies.toArray() ;
+					QJsonObject oo ;
 
-						arr.append( obj ) ;
-						xobj.insert( "text replies",arr ) ;
+					oo.insert( "author",obj.value( "author" ) ) ;
+					oo.insert( "text",obj.value( "text" ) ) ;
+					oo.insert( "date",obj.value( "date" ) ) ;
 
-						objs.removeAt( i ) ;
-						objs.insert( i,xobj ) ;
-					}
+					replies.append( oo ) ;
+					xobj.insert( "text replies",replies ) ;
+
+					_add_object( xobj,i ) ;
 
 					break ;
 				}
@@ -626,7 +648,19 @@ void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePat
 		}
 	}
 
-	auto data = QJsonDocument( objs ).toJson( QJsonDocument::Indented ) ;
+	QJsonArray finalArr ;
+
+	for( const auto& it : util::asConst( objs ) ){
+
+		auto obj = it.toObject() ;
+
+		obj.remove( "parent" ) ;
+		obj.remove( "id" ) ;
+
+		finalArr.append( obj ) ;
+	}
+
+	auto data = QJsonDocument( finalArr ).toJson( QJsonDocument::Indented ) ;
 
 	engines::file( filePath,m_ctx.logger() ).write( data ) ;
 }
@@ -649,7 +683,6 @@ void batchdownloader::showComments( const QByteArray& e )
 		}else{
 			m_commentsFileName = utility::homePath() + "/" + f + ".txt" ;
 		}
-
 		const auto arr = obj.value( "comments" ).toArray() ;
 
 		for( const auto& it : arr ){
@@ -671,6 +704,8 @@ void batchdownloader::showComments( const QByteArray& e )
 				if( !b.isEmpty() ){
 
 					comment += "\n" + tr( "Timestamp" ) + ": " + b ;
+
+					obj.insert( "date",b ) ;
 				}
 			}
 
@@ -694,8 +729,6 @@ void batchdownloader::showComments( const QByteArray& e )
 			}
 
 			comment += "\n" + tr( "Text" ) + ": " + txt ;
-
-			obj.remove( "author_thumbnail" ) ;
 
 			m_tableWidgetBDList.add( { "","","",comment },obj ) ;
 		}

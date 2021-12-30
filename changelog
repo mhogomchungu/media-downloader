@@ -113,5 +113,5 @@ Version 1.2.0(April 1st, 2021)
   Version 2.2.0(December 2st, 2021)
     - Add French translations.
     - Add ability to show and save comments in batch downloader tab and playlist downloader tab.
-    - Automatically add clipboard contents to the active tab if it contains url. Can be disabled with a config option.
+    - Automatically add clipboard contents to the active tab if it contains url. Off by default for now.
     - Various changes and improvements.
