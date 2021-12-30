@@ -44,7 +44,12 @@ tabManager::tabManager( settings& s,
 
 	if( m && s.monitorClipboardContents() ){
 
-		QObject::connect( m,&QClipboard::changed,[ this,m ](){
+		QObject::connect( m,&QClipboard::changed,[ this,m ]( QClipboard::Mode mode ){
+
+			if( mode != QClipboard::Mode::Clipboard ){
+
+				return ;
+			}
 
 			auto s = m->mimeData() ;
 
@@ -62,8 +67,6 @@ tabManager::tabManager( settings& s,
 						m_batchdownloader.clipboardData( txt ) ;
 						m_playlistdownloader.clipboardData( txt ) ;
 					}
-
-					m->clear() ;
 				}
 			}
 		} ) ;
