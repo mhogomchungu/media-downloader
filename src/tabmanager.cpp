@@ -19,6 +19,9 @@
 
 #include "tabmanager.h"
 
+#include <QMimeData>
+#include <QClipboard>
+
 tabManager::tabManager( settings& s,
 			translator& t,
 			engines& e,
@@ -37,6 +40,35 @@ tabManager::tabManager( settings& s,
 	m_playlistdownloader( m_ctx ),
 	m_library( m_ctx )
 {
+	auto m = QApplication::clipboard() ;
+
+	if( m && s.monitorClipboardContents() ){
+
+		QObject::connect( m,&QClipboard::changed,[ this,m ](){
+
+			auto s = m->mimeData() ;
+
+			if( s ){
+
+				auto e = m->mimeData() ;
+
+				if( e->hasText() ){
+
+					auto txt = e->text() ;
+
+					if( txt.startsWith( "http" ) ){
+
+						m_basicdownloader.clipboardData( txt ) ;
+						m_batchdownloader.clipboardData( txt ) ;
+						m_playlistdownloader.clipboardData( txt ) ;
+					}
+
+					m->clear() ;
+				}
+			}
+		} ) ;
+	}
+
 	u.setContext( m_ctx ) ;
 
 	const auto& engines = m_ctx.Engines().getEngines() ;
@@ -139,6 +171,11 @@ void tabManager::setDefaultEngines()
 	m_batchdownloader.updateEnginesList( s ) ;
 	m_playlistdownloader.updateEnginesList( s ) ;
 	m_configure.updateEnginesList( s ) ;
+}
+
+int tabManager::currentTab()
+{
+	return m_currentTab ;
 }
 
 tabManager& tabManager::gotEvent( const QByteArray& e )

@@ -198,6 +198,7 @@ public:
 	static bool portableVersion() ;
 	static QString portableVersionConfigPath() ;
 
+	bool monitorClipboardContents() ;
 	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
 	bool autoDownload() ;

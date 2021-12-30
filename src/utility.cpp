@@ -480,14 +480,18 @@ QString utility::failedToFindExecutableString( const QString& cmd )
 QString utility::clipboardText()
 {
 	auto m = QApplication::clipboard() ;
-	auto e = m->mimeData() ;
 
-	if( e->hasText() ){
+	if( m ){
 
-		return e->text() ;
-	}else{
-		return {} ;
+		auto e = m->mimeData() ;
+
+		if( e->hasText() ){
+
+			return e->text() ;
+		}
 	}
+
+	return {} ;
 }
 
 QString utility::downloadFolder( const Context& ctx )

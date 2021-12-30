@@ -46,6 +46,7 @@ public:
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
 	void updateEnginesList( const QStringList& ) ;
+	void clipboardData( const QString& ) ;
 
 	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;

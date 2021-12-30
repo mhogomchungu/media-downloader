@@ -62,6 +62,16 @@ QString settings::portableVersionConfigPath()
 	return QDir::currentPath() + "/local" ;
 }
 
+bool settings::monitorClipboardContents()
+{
+	if( !m_settings.contains( "MonitorClipboardContents" ) ){
+
+		m_settings.setValue( "MonitorClipboardContents",true ) ;
+	}
+
+	return m_settings.value( "MonitorClipboardContents" ).toBool() ;
+}
+
 QString settings::darkMode()
 {
 	if( !m_settings.contains( "DarkModeName" ) ){

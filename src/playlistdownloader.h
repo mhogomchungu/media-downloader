@@ -42,6 +42,7 @@ public:
 	void tabExited() ;
 	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
+	void clipboardData( const QString& ) ;
 private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;

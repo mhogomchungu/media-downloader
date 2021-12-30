@@ -897,6 +897,14 @@ void batchdownloader::showComments( const engines::engine& engine,const QString&
 	this->showList( true,engine,url,-1 ) ;
 }
 
+void batchdownloader::clipboardData( const QString& e )
+{
+	if( m_tabManager.currentTab() == 1 ){
+
+		m_ui.lineEditBDUrl->setText( e ) ;
+	}
+}
+
 void batchdownloader::clearScreen()
 {
 	m_table.clear() ;

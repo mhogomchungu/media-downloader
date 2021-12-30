@@ -151,6 +151,7 @@ public:
 	void updateEnginesList( const QStringList& ) ;
 	void setThumbnailColumnSize( bool ) ;
 	void showComments( const engines::engine&,const QString& ) ;
+	void clipboardData( const QString& ) ;
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 private:
