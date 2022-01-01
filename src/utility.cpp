@@ -32,6 +32,8 @@
 #include <QFileDialog>
 #include <QSysInfo>
 
+#include <ctime>
+
 const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
 const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
@@ -787,4 +789,11 @@ void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 		return s ;
 
 	}() ) ;
+}
+
+
+QString utility::fromSecsSinceEpoch( qint64 s )
+{
+	std::time_t epoch = static_cast< std::time_t >( s ) ;
+	return QString( std::asctime( std::gmtime( &epoch ) ) ).trimmed() ;
 }

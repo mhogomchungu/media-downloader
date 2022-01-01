@@ -110,8 +110,9 @@ Version 1.2.0(April 1st, 2021)
   Version 2.1.1(December 2st, 2021)
     - Fix a bug caused by a change in yt-dlp output.
 
-  Version 2.2.0(December 2st, 2021)
+  Version 2.2.0(January 1st, 2022)
     - Add French translations.
     - Add ability to show and save comments in batch downloader tab and playlist downloader tab.
-    - Automatically add clipboard contents to the active tab if it contains url. Off by default for now.
+    - Automatically add clipboard contents to the active tab if it contains url. Off by default for now and
+      look for option "MonitorClipboardContents" in the app's config file set it to true to enable it.
     - Various changes and improvements.

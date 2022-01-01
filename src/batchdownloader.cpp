@@ -699,7 +699,7 @@ void batchdownloader::showComments( const QByteArray& e )
 			if( !timestamp.isUndefined() ){
 
 				auto a = timestamp.toInt() ;
-				auto b = QDateTime::fromSecsSinceEpoch( a ).toString() ;
+				auto b = utility::fromSecsSinceEpoch( a ) ;
 
 				if( !b.isEmpty() ){
 

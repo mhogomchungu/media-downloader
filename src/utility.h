@@ -261,6 +261,7 @@ namespace utility
 	QString homePath() ;
 	QString python3Path() ;
 	QString clipboardText() ;
+	QString fromSecsSinceEpoch( qint64 ) ;
 	bool platformIsWindows() ;
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;
