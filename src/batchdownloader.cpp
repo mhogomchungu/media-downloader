@@ -681,7 +681,17 @@ void batchdownloader::showComments( const QByteArray& e )
 
 			m_commentsFileName = utility::homePath() + "/MediaDowloaderComments.txt" ;
 		}else{
-			m_commentsFileName = utility::homePath() + "/" + f + ".txt" ;
+			f.replace( '<','_' ) ;
+			f.replace( '>','_' ) ;
+			f.replace( ':','_' ) ;
+			f.replace( '"','_' ) ;
+			f.replace( '/','_' ) ;
+			f.replace( '\\','_' ) ;
+			f.replace( '|','_' ) ;
+			f.replace( '?','_' ) ;
+			f.replace( '*','_' ) ;
+
+			m_commentsFileName = utility::homePath() + "/" + f.mid( 0,200 ) + ".txt" ;
 		}
 		const auto arr = obj.value( "comments" ).toArray() ;
 
