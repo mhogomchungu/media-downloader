@@ -1219,7 +1219,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 				m_ui.pbBDCancel->setEnabled( false ) ;
 			}
 
-			m_ctx.mainWindow().setTitle( m_table.completeProgress( index ) ) ;
+			m_ctx.mainWindow().setTitle( m_table.completeProgress( 0,index ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;

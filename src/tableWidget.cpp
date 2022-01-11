@@ -313,14 +313,14 @@ bool tableWidget::noneAreRunning()
 	return true ;
 }
 
-QString tableWidget::completeProgress( int )
+QString tableWidget::completeProgress( int firstRow,int )
 {
 	int completed = 0 ;
 	int errored = 0 ;
 	int cancelled = 0 ;
 	int notStarted = 0 ;
 
-	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+	for( int i = firstRow ; i < m_table.rowCount() ; i++ ){
 
 		const auto& s = this->runningState( i ) ;
 

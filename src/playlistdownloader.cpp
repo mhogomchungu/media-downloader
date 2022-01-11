@@ -762,7 +762,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 				m_showTimer = false ;
 			}
 
-			m_ctx.mainWindow().setTitle( m_table.completeProgress( index ) ) ;
+			m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,index ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;

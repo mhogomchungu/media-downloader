@@ -167,7 +167,7 @@ public:
 				    const QString& options,
 				    const QString& title = QString() ) ;
 	QString thumbnailData( int row ) const ;
-	QString completeProgress( int index ) ;
+	QString completeProgress( int firstRow,int index ) ;
 	int addRow() ;
 	int addItem( tableWidget::entry ) ;
 	int rowCount() const ;
