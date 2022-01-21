@@ -36,7 +36,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font() ),
 	m_debug( ctx.debug() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
-	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
+	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings ),
+	m_downloadingComments( tr( "Downloading comments" ).toUtf8() )
 {
 	qRegisterMetaType< ItemEntry >() ;
 
@@ -713,7 +714,7 @@ void batchdownloader::showComments( const QByteArray& e )
 
 				if( !b.isEmpty() ){
 
-					comment += "\n" + tr( "Timestamp" ) + ": " + b ;
+					comment += "\n" + tr( "Date" ) + ": " + b ;
 
 					obj.insert( "date",b ) ;
 				}
@@ -972,7 +973,7 @@ void batchdownloader::showList( bool showComments,
 
 		this->showBDFrame( true ) ;
 
-		m_tableWidgetBDList.add( { "","","","\nDownloading comment API JSON\n" },QJsonObject() ) ;
+		m_tableWidgetBDList.add( { "","","","\n" + m_downloadingComments + "\n" } ) ;
 	}else{
 		if( row == -1 ){
 
@@ -1050,23 +1051,31 @@ void batchdownloader::showList( bool showComments,
 
 		if( showComments ){
 
-			if( data.contains( "WARNING" ) ){
-
-				return true ;
-
-			}else if( data.contains( "ERROR" ) ){
-
-				m_tableWidgetBDList.replace( { "","","",data },0,QJsonObject() ) ;
+			if( data.contains( "WARNING" ) || data.contains( "ERROR" ) ){
 
 				return true ;
 			}
-			if( data.contains( "Downloading comment API JSON" ) ){
+			if( data.contains( "Downloading comment API JSON reply " ) ){
 
-				auto m = data.indexOf( "Downloading" ) ;
+				auto m = data.indexOf( '(' ) ;
 
-				auto w = "\n" + data.mid( m ).trimmed() + "\n" ;
+				if( m != -1 ){
 
-				m_tableWidgetBDList.replace( { "","","",w },0,QJsonObject() ) ;
+					m++ ;
+
+					auto w = data.mid( m ) ;
+					w.truncate( w.size() - 2 ) ;
+
+					w = "\n" + m_downloadingComments + ": " + w + "\n" ;
+
+					m_tableWidgetBDList.replace( { "","","",w },0 ) ;
+				}else{
+					auto m = data.indexOf( "Downloading" ) ;
+
+					auto w = "\n" + data.mid( m ).trimmed() + "\n" ;
+
+					m_tableWidgetBDList.replace( { "","","",w },0 ) ;
+				}
 			}
 
 			return false ;

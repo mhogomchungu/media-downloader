@@ -193,6 +193,8 @@ private:
 
 	downloadManager m_ccmd ;
 
+	QByteArray m_downloadingComments ;
+
 	class BatchLogger
 	{
 	public:
