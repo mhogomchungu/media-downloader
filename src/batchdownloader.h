@@ -232,11 +232,13 @@ private:
 		int m_id ;
 	};
 
+	template< typename LogFilter >
 	class BatchLoggerWrapper
 	{
 	public:
-		BatchLoggerWrapper( Logger& l ) :
-			m_logger( std::make_shared< BatchLogger >( l ) )
+		BatchLoggerWrapper( Logger& l,LogFilter f ) :
+			m_logger( std::make_shared< BatchLogger >( l ) ),
+			m_logFilter( std::move( f ) )
 		{
 		}
 		void add( const QByteArray& e )
@@ -258,26 +260,43 @@ private:
 		}
 		void logError( const QByteArray& data )
 		{
-			m_logger->logError( data ) ;
+			if( m_logFilter( data ) ){
+
+				m_logger->logError( data ) ;
+			}
 		}
 	private:
 		std::shared_ptr< BatchLogger > m_logger ;
+		LogFilter m_logFilter ;
 	};
 
+	template< typename LogFilter >
+	BatchLoggerWrapper< LogFilter > make_logger( Logger& l,LogFilter f )
+	{
+		return { l,std::move( f ) } ;
+	}
+
+	template< typename LogFilter >
 	struct opts
 	{
 		const Context& ctx ;
 		QString debug ;
 		bool listRequested ;
 		int index ;
-		BatchLoggerWrapper batchLogger ;
+		BatchLoggerWrapper< LogFilter > batchLogger ;
 	} ;
 
-	template< typename Functions >
-
-	auto make_options( batchdownloader::opts opts,Functions f )
+	template< typename LogFilter,typename Functions >
+	auto make_options( const Context& ctx,
+			   QString debug,
+			   bool listRequested,
+			   int index,
+			   BatchLoggerWrapper< LogFilter > logger,
+			   Functions f )
 	{
-		return utility::options< batchdownloader::opts,Functions >( std::move( opts ),std::move( f ) ) ;
+		opts< LogFilter > oo{ ctx,debug,listRequested,index,std::move( logger ) } ;
+
+		return utility::options< opts< LogFilter >,Functions >( std::move( oo ),std::move( f ) ) ;
 	}
 };
 

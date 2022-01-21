@@ -307,6 +307,18 @@ public:
 
 		return -1 ;
 	}
+	void replace( const QStringList& entries,int row,Stuff stuff = Stuff() )
+	{
+		if( entries.size() == m_table.columnCount() ){
+
+			m_stuff[ row ] = std::move( stuff ) ;
+
+			for( int col = 0 ; col < entries.size() ; col++ ){
+
+				m_table.item( row,col )->setText( entries[ col ] ) ;
+			}
+		}
+	}
 	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts )
 	{
 		if( item.isSelected() ){
