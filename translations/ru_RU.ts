@@ -702,7 +702,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="40"/>
         <source>Downloading comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка комментариев</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="98"/>
@@ -728,7 +728,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="274"/>
         <source>Show Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать комментарии</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="287"/>
@@ -738,22 +738,22 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="707"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Автор</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="717"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="735"/>
         <source>Replies to</source>
-        <translation type="unfinished"></translation>
+        <translation>Ответы на</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="742"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="765"/>
@@ -863,7 +863,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="270"/>
         <source>Show Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать комментарии</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="423"/>
@@ -883,7 +883,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="965"/>
         <source>Number of Pages Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Кол-во загруженных страниц</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="528"/>
