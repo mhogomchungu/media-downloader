@@ -217,19 +217,19 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1382"/>
         <source>Dark Theme(Need A Restart)</source>
-        <translation>Темная тема (требуется перезагрузка)</translation>
+        <translation>Темная тема (требуется перезапуск)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1406"/>
         <location filename="../src/mainwindow.ui" line="1512"/>
         <source>Reset Option To Its Default</source>
-        <translation>Сбросить параметры к умолчаниям</translation>
+        <translation>Сбросить параметры до начальных</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1409"/>
         <location filename="../src/mainwindow.ui" line="1588"/>
         <source>Set Defaults</source>
-        <translation>Установить по умолчанию</translation>
+        <translation>Сброс</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1285"/>
@@ -490,7 +490,7 @@
     <message>
         <location filename="../src/engines.cpp" line="118"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation>2. Перейдите на суб-вклаку &quot;Общие параметры&quot;</translation>
+        <translation>2. Перейдите на суб-вкладку &quot;Общие параметры&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="119"/>
@@ -627,7 +627,7 @@
     <message>
         <location filename="../src/settings.h" line="156"/>
         <source>Normal</source>
-        <translation>Нормальный</translation>
+        <translation>Обычеая</translation>
     </message>
     <message>
         <location filename="../src/settings.h" line="157"/>
@@ -702,7 +702,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="40"/>
         <source>Downloading comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка комментариев</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="98"/>
@@ -728,7 +728,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="274"/>
         <source>Show Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать комментарии</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="287"/>
@@ -738,22 +738,22 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="707"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Автор</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="717"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="735"/>
         <source>Replies to</source>
-        <translation type="unfinished"></translation>
+        <translation>Ответы на</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="742"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="765"/>
@@ -863,7 +863,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="270"/>
         <source>Show Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать комментарии</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="423"/>
@@ -883,7 +883,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="965"/>
         <source>Number of Pages Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Кол-во загруженных страниц</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="528"/>
