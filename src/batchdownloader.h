@@ -278,27 +278,27 @@ private:
 		return { l,std::move( f ) } ;
 	}
 
-	template< typename LogFilter >
+	template< typename Logger >
 	struct opts
 	{
 		const Context& ctx ;
 		QString debug ;
 		bool listRequested ;
 		int index ;
-		BatchLoggerWrapper< LogFilter > batchLogger ;
+		Logger batchLogger ;
 	} ;
 
-	template< typename LogFilter,typename Functions >
+	template< typename Logger,typename Functions >
 	auto make_options( const Context& ctx,
 			   QString debug,
 			   bool listRequested,
 			   int index,
-			   BatchLoggerWrapper< LogFilter > logger,
+			   Logger logger,
 			   Functions f )
 	{
-		opts< LogFilter > oo{ ctx,debug,listRequested,index,std::move( logger ) } ;
+		opts< Logger > oo{ ctx,debug,listRequested,index,std::move( logger ) } ;
 
-		return utility::options< opts< LogFilter >,Functions >( std::move( oo ),std::move( f ) ) ;
+		return utility::options< opts< Logger >,Functions >( std::move( oo ),std::move( f ) ) ;
 	}
 };
 
