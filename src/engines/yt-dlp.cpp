@@ -326,6 +326,7 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		auto fileSize  = s.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
 		auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
 		auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
+		auto abr       = QString::number( obj.value( "abr" ).toDouble() ) ;
 
 		auto container = obj.value( "container" ).toString() ;
 		auto proto     = obj.value( "protocol" ).toString() ;
@@ -369,6 +370,7 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		_append( s,"vcodec: ",vcodec ) ;
 		_append( s,"tbr: ",tbr ) ;
 		_append( s,"vbr: ",vbr ) ;
+		_append( s,"abr: ",abr ) ;
 
 		if( s.endsWith( ", " ) ){
 
