@@ -26,6 +26,7 @@
 #include <QByteArray>
 #include <QComboBox>
 #include <QPixmap>
+#include <QDir>
 
 #include <vector>
 #include <memory>
@@ -42,12 +43,24 @@ class QApplication ;
 class settings
 {
 public:
-	class darkModes
+	class themes
 	{
 	public:
-		darkModes() = default;
-		darkModes( const QString& m ) : m_theme( m )
+		themes() = default ;
+		themes( const QString& themeName,const QString& themePath )  :
+			m_theme( themeName ),
+			m_themePath( themePath )
 		{
+			this->updateThemes() ;
+
+			if( !this->typesUntranslated().contains( m_theme ) ){
+
+				m_theme = this->unTranslatedAt( 0 ) ;
+			}
+		}
+		themes( const QString& themePath ) : m_themePath( themePath )
+		{
+			this->updateThemes() ;
 		}
 		QStringList typesUntranslated() const
 		{
@@ -103,7 +116,7 @@ public:
 
 			return 0 ;
 		}
-		bool darkModeIsSet() const
+		bool usingThemes() const
 		{
 			return this->unTranslatedAt( 0 ) != m_theme ;
 		}
@@ -115,7 +128,33 @@ public:
 
 			cb.setCurrentIndex( this->unTranslatedIndexAt( dm ) ) ;
 		}
+		QString defaultFusionThemePath()
+		{
+			return m_themePath + "/Default.json" ;
+		}
+		QString themeFullPath()
+		{
+			if( m_theme == "Qt Fusion" ){
+
+				return this->defaultFusionThemePath() ;
+			}else{
+				return m_themePath + "/" + m_theme + ".json" ;
+			}
+		}
 	private:
+		void updateThemes()
+		{
+			auto s = QDir( m_themePath ).entryList( QDir::Filter::Files ) ;
+
+			s.removeOne( "Default.json" ) ;
+
+			for( auto& it : s ){
+
+				it.replace( ".json","" ) ;
+
+				m_strings.emplace_back( it,it ) ;
+			}
+		}
 		int indexAt( const QString& e,const QStringList& s ) const
 		{
 			for( int i = 0 ; i < s.size() ; i++ ){
@@ -130,8 +169,13 @@ public:
 		}
 
 		QString m_theme ;
+		QString m_themePath ;
 
 		struct Pair{
+			Pair( const QString& u,const QString& t ) :
+				untranslated( u ),translated( t )
+			{
+			}
 			QString untranslated ;
 			QString translated ;
 		};

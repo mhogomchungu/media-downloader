@@ -46,9 +46,9 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.tabWidgetConfigure->setCurrentIndex( 0 ) ;
 
-	settings::darkModes modes ;
+	settings::themes themes( m_engines.engineDirPaths().themePath() ) ;
 
-	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
+	themes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
 
@@ -62,11 +62,11 @@ configure::configure( const Context& ctx ) :
 		m_tablePresetOptions.selectRow( c,p,0 ) ;
 	} ) ;
 
-	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,modes = std::move( modes ) ]( int index ){
+	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,themes = std::move( themes ) ]( int index ){
 
 		if( index != -1 ){
 
-			m_settings.setThemeName( modes.unTranslatedAt( index ) ) ;
+			m_settings.setThemeName( themes.unTranslatedAt( index ) ) ;
 		}
 	} ) ;
 
@@ -158,7 +158,7 @@ configure::configure( const Context& ctx ) :
 		m.exec( QCursor::pos() ) ;
 	} ) ;
 
-	connect( m_ui.cbConfigureEngines,cc,[ this,modes = std::move( modes ) ]( int index ){
+	connect( m_ui.cbConfigureEngines,cc,[ this,themes = std::move( themes ) ]( int index ){
 
 		if( index != -1 ){
 
@@ -353,7 +353,7 @@ void configure::retranslateUi()
 {
 	this->resetMenu() ;
 
-	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
+	settings::themes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 }
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )

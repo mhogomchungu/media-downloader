@@ -69,7 +69,7 @@ int main( int argc,char * argv[] )
 
 		engines::enginePaths paths( settings ) ;
 
-		settings.setTheme( mqApp,paths.dataPath( "fushionTheme.json" ) ) ;
+		settings.setTheme( mqApp,paths.themePath() ) ;
 
 		mqApp.setApplicationName( "media-downloader" ) ;
 

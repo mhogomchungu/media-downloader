@@ -76,7 +76,7 @@ QString settings::themeName()
 {
 	if( !m_settings.contains( "ThemeName" ) ){
 
-		m_settings.setValue( "ThemeName",settings::darkModes().unTranslatedAt( 0 ) ) ;
+		m_settings.setValue( "ThemeName",settings::themes().unTranslatedAt( 0 ) ) ;
 	}
 
 	return m_settings.value( "ThemeName" ).toString() ;
@@ -507,11 +507,13 @@ void settings::setCookieFilePath( const QString& engineName,const QString& cooki
 	m_settings.setValue( "CookieFilePath_" + engineName,cookieFilePath ) ;
 }
 
-void settings::setTheme( QApplication& app,const QString& fushionThemePath )
+void settings::setTheme( QApplication& app,const QString& themeBasePath )
 {
-	settings::darkModes darkModes( this->themeName() ) ;
+	settings::themes themes( this->themeName(),themeBasePath ) ;
 
-	if( darkModes.darkModeIsSet() ){
+	if( themes.usingThemes() ){
+
+		QDir().mkpath( themeBasePath ) ;
 
 		auto _setDefault = []( QApplication& app ){
 
@@ -544,7 +546,9 @@ void settings::setTheme( QApplication& app,const QString& fushionThemePath )
 			app.setStyleSheet( "QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }" ) ;
 		} ;
 
-		if( !QFile::exists( fushionThemePath ) ){
+		auto fusionPath = themes.defaultFusionThemePath() ;
+
+		if( !QFile::exists( fusionPath ) ){
 
 			QJsonObject obj ;
 
@@ -780,7 +784,7 @@ void settings::setTheme( QApplication& app,const QString& fushionThemePath )
 
 			obj.insert( "QToolTipStyleSheet","QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }" ) ;
 
-			QFile f( fushionThemePath ) ;
+			QFile f( fusionPath ) ;
 
 			if( f.open( QIODevice::WriteOnly ) ){
 
@@ -790,7 +794,7 @@ void settings::setTheme( QApplication& app,const QString& fushionThemePath )
 			}
 		}
 
-		QFile f( fushionThemePath ) ;
+		QFile f( themes.themeFullPath() ) ;
 
 		if( !f.open( QIODevice::ReadOnly ) ){
 

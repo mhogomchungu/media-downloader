@@ -90,6 +90,10 @@ public:
 		{
 			return m_binPath + "/" + e ;
 		}
+		QString themePath() const
+		{
+			return m_basePath + "/themes" ;
+		}
 		QString enginePath( const QString& e ) const
 		{
 			return m_enginePath + "/" + e ;
