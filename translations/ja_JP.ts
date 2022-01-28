@@ -15,7 +15,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="53"/>
-        <location filename="../src/mainwindow.ui" line="287"/>
+        <location filename="../src/mainwindow.ui" line="464"/>
         <location filename="../src/mainwindow.ui" line="576"/>
         <location filename="../src/mainwindow.ui" line="757"/>
         <location filename="../src/mainwindow.ui" line="1756"/>
@@ -30,26 +30,26 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
-        <location filename="../src/mainwindow.ui" line="403"/>
+        <location filename="../src/mainwindow.ui" line="364"/>
         <source>Enter URL:</source>
         <translation>URLを入力:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="345"/>
+        <location filename="../src/mainwindow.ui" line="306"/>
         <source>Enter Options:</source>
         <translation>オプションを入力:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
-        <location filename="../src/mainwindow.ui" line="313"/>
+        <location filename="../src/mainwindow.ui" line="438"/>
         <location filename="../src/mainwindow.ui" line="627"/>
         <source>Download</source>
         <translation>ダウンロード</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="150"/>
-        <location filename="../src/mainwindow.ui" line="300"/>
+        <location filename="../src/mainwindow.ui" line="451"/>
         <location filename="../src/mainwindow.ui" line="595"/>
         <location filename="../src/mainwindow.ui" line="1496"/>
         <location filename="../src/mainwindow.ui" line="1707"/>
@@ -58,7 +58,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="163"/>
-        <location filename="../src/mainwindow.ui" line="422"/>
+        <location filename="../src/mainwindow.ui" line="490"/>
         <location filename="../src/mainwindow.ui" line="679"/>
         <location filename="../src/mainwindow.ui" line="1079"/>
         <location filename="../src/mainwindow.ui" line="1772"/>
@@ -92,21 +92,21 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="231"/>
-        <location filename="../src/mainwindow.ui" line="326"/>
+        <location filename="../src/mainwindow.ui" line="287"/>
         <location filename="../src/mainwindow.ui" line="783"/>
         <source>Engine Name:</source>
         <translation>エンジン名:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="250"/>
-        <location filename="../src/mainwindow.ui" line="435"/>
+        <location filename="../src/mainwindow.ui" line="383"/>
         <location filename="../src/mainwindow.ui" line="802"/>
         <source>Paste Clipboard Content</source>
         <translation>クリップボードの内容を貼り付け</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="266"/>
-        <location filename="../src/mainwindow.ui" line="487"/>
+        <location filename="../src/mainwindow.ui" line="422"/>
         <location filename="../src/mainwindow.ui" line="818"/>
         <location filename="../src/mainwindow.ui" line="834"/>
         <source>Recently Used</source>
@@ -118,19 +118,19 @@
         <translation>一括ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="374"/>
+        <location filename="../src/mainwindow.ui" line="335"/>
         <location filename="../src/mainwindow.ui" line="725"/>
         <source>Thumbnail</source>
         <translation>サムネイル</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="379"/>
+        <location filename="../src/mainwindow.ui" line="340"/>
         <location filename="../src/mainwindow.ui" line="730"/>
         <source>Url To Download</source>
         <translation>ダウンロードするURL</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="451"/>
+        <location filename="../src/mainwindow.ui" line="477"/>
         <source>Add Url To List</source>
         <translation>リストにURLを追加</translation>
     </message>
@@ -625,24 +625,14 @@
         <translation>後処理</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="156"/>
+        <location filename="../src/settings.h" line="139"/>
         <source>Normal</source>
         <translation>ノーマル</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="157"/>
-        <source>Dark Theme 1</source>
-        <translation>ダークテーマ1</translation>
-    </message>
-    <message>
-        <location filename="../src/settings.h" line="158"/>
-        <source>Dark Theme 2</source>
-        <translation>ダークテーマ2</translation>
-    </message>
-    <message>
-        <location filename="../src/settings.h" line="159"/>
-        <source>Dark Theme 3</source>
-        <translation>ダークテーマ3</translation>
+        <location filename="../src/settings.h" line="140"/>
+        <source>Qt Fusion</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="470"/>

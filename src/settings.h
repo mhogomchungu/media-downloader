@@ -103,26 +103,9 @@ public:
 
 			return 0 ;
 		}
-		bool fusionTheme() const
-		{
-			return m_theme == "Dark Theme 1" ;
-		}
 		bool darkModeIsSet() const
 		{
 			return this->unTranslatedAt( 0 ) != m_theme ;
-		}
-		QString themeFileName() const
-		{
-			if( m_theme == "Dark Theme 2" ){
-
-				return ":dark.qss" ;
-
-			}else if( m_theme == "Dark Theme 3" ){
-
-				return ":qdarkstyle/dark/style.qss" ;
-			}else{
-				return QString() ;
-			}
 		}
 		void setComboBox( QComboBox& cb,const QString& dm ) const
 		{
@@ -153,11 +136,8 @@ public:
 			QString translated ;
 		};
 
-		std::vector<Pair> m_strings{ { "Normal",QObject::tr( "Normal" ) },
-					     { "Dark Theme 1",QObject::tr( "Dark Theme 1" ) },
-					     { "Dark Theme 2",QObject::tr( "Dark Theme 2" ) },
-					     { "Dark Theme 3",QObject::tr( "Dark Theme 3" ) },
-					   } ;
+		std::vector< Pair > m_strings{ { "Normal",QObject::tr( "Normal" ) },
+					       { "Qt Fusion",QObject::tr( "Qt Fusion" ) } } ;
 	} ;
 
 	enum class tabName{ basic,batch,playlist } ;
@@ -175,7 +155,7 @@ public:
 	QString localizationLanguage() ;
 	QString commandOnSuccessfulDownload() ;
 	QString commandWhenAllFinished() ;
-	QString darkMode() ;
+	QString themeName() ;
 	QString defaultEngine( settings::tabName,const QString& ) ;
 	QString cookieFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
@@ -230,7 +210,7 @@ public:
 	void setShowThumbnails( bool ) ;
 	void setPlaylistDownloaderSaveHistory( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
-	void setDarkMode( const QString& ) ;
+	void setThemeName( const QString& ) ;
 	void setPlaylistRangeHistoryLastUsed( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;

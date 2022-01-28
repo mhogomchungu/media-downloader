@@ -48,7 +48,7 @@ configure::configure( const Context& ctx ) :
 
 	settings::darkModes modes ;
 
-	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
+	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
 
@@ -66,7 +66,7 @@ configure::configure( const Context& ctx ) :
 
 		if( index != -1 ){
 
-			m_settings.setDarkMode( modes.unTranslatedAt( index ) ) ;
+			m_settings.setThemeName( modes.unTranslatedAt( index ) ) ;
 		}
 	} ) ;
 
@@ -353,7 +353,7 @@ void configure::retranslateUi()
 {
 	this->resetMenu() ;
 
-	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
+	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 }
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )

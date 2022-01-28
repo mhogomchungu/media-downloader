@@ -75,10 +75,7 @@ set(SRC
     src/engines/aria2c.cpp
     src/engines/gallery-dl.cpp)
 
-set(RESOURCES
-    src/icon.qrc
-    src/3rdParty/BreezeStyleSheets/breeze.qrc
-    src/3rdParty/QDarkStyleSheet-3.0.2/qdarkstyle/dark/style.qrc )
+set(RESOURCES  src/icon.qrc )
 
 if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/src/appicon.rc")
