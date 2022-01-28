@@ -67,13 +67,15 @@ int main( int argc,char * argv[] )
 
 		QApplication mqApp( argc,argv ) ;
 
-		settings.setTheme( mqApp ) ;
+		engines::enginePaths paths( settings ) ;
+
+		settings.setTheme( mqApp,paths.dataPath( "fushionTheme.json" ) ) ;
 
 		mqApp.setApplicationName( "media-downloader" ) ;
 
 		auto args = mqApp.arguments() ;
 
-		auto spath = engines::enginePaths( settings ).socketPath() ;
+		auto spath = paths.socketPath() ;
 
 		utility::arguments opts( args ) ;
 
