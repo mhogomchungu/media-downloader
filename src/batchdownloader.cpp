@@ -62,7 +62,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_ui.pbBDCancel->setEnabled( false ) ;
 
-	m_ui.BDFrame->hide() ;
+	m_ui.BDFrame->setVisible( false ) ;
 
 	this->resetMenu() ;
 

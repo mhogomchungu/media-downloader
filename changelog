@@ -116,3 +116,6 @@ Version 1.2.0(April 1st, 2021)
     - Automatically add clipboard contents to the active tab if it contains url. Off by default for now and
       look for option "MonitorClipboardContents" in the app's config file set it to true to enable it.
     - Various changes and improvements.
+
+  Version 2.2.1(Unreleased)
+    - Make it possible to customize fusion dark theme by saving theme options in a config file.
