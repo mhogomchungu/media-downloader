@@ -57,58 +57,51 @@ private:
 
 int main( int argc,char * argv[] )
 {
-	const auto m = utility::Terminator::terminate( argc,argv ) ;
+	settings settings ;
 
-	if( m ){
+	QApplication mqApp( argc,argv ) ;
 
-		return m.value() ;
+	engines::enginePaths paths( settings ) ;
+
+	settings.setTheme( mqApp,paths.themePath() ) ;
+
+	mqApp.setApplicationName( "media-downloader" ) ;
+
+	auto args = mqApp.arguments() ;
+
+	auto spath = paths.socketPath() ;
+
+	utility::arguments opts( args ) ;
+
+	QJsonObject jsonArgs ;
+
+	jsonArgs.insert( "-u",opts.hasValue( "-u" ) ) ;
+	jsonArgs.insert( "-a",opts.hasOption( "-a" ) ) ;
+	jsonArgs.insert( "-s",opts.hasOption( "-s" ) ) ;
+
+	auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
+
+	myApp::args mArgs{ mqApp,settings,args } ;
+
+	if( opts.hasOption( "-s" ) || !settings.singleInstance() ){
+
+		return util::multipleInstance< myApp,myApp::args >( mqApp,std::move( mArgs ),json ).exec() ;
 	}else{
-		settings settings ;
+		auto instanceArgs = util::make_oneinstance_args( [ & ](){
 
-		QApplication mqApp( argc,argv ) ;
+			std::cout << "There seem to be another instance running,exiting this one" << std::endl ;
+			mqApp.exit() ;
+		},[](){
+			std::cout << "Previous instance seem to have crashed,trying to clean up before starting" << std::endl ;
+		} ) ;
 
-		engines::enginePaths paths( settings ) ;
+		using type = decltype( instanceArgs ) ;
 
-		settings.setTheme( mqApp,paths.themePath() ) ;
+		util::oneinstance< myApp,myApp::args,type > instance( spath,
+								      json,
+								      std::move( mArgs ),
+								      std::move( instanceArgs ) ) ;
 
-		mqApp.setApplicationName( "media-downloader" ) ;
-
-		auto args = mqApp.arguments() ;
-
-		auto spath = paths.socketPath() ;
-
-		utility::arguments opts( args ) ;
-
-		QJsonObject jsonArgs ;
-
-		jsonArgs.insert( "-u",opts.hasValue( "-u" ) ) ;
-		jsonArgs.insert( "-a",opts.hasOption( "-a" ) ) ;
-		jsonArgs.insert( "-s",opts.hasOption( "-s" ) ) ;
-
-		auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
-
-		myApp::args mArgs{ mqApp,settings,args } ;
-
-		if( opts.hasOption( "-s" ) || !settings.singleInstance() ){
-
-			return util::multipleInstance< myApp,myApp::args >( mqApp,std::move( mArgs ),json ).exec() ;
-		}else{
-			auto instanceArgs = util::make_oneinstance_args( [ & ](){
-
-				std::cout << "There seem to be another instance running,exiting this one" << std::endl ;
-				mqApp.exit() ;
-			},[](){
-				std::cout << "Previous instance seem to have crashed,trying to clean up before starting" << std::endl ;
-			} ) ;
-
-			using type = decltype( instanceArgs ) ;
-
-			util::oneinstance< myApp,myApp::args,type > instance( spath,
-									      json,
-									      std::move( mArgs ),
-									      std::move( instanceArgs ) ) ;
-
-			return mqApp.exec() ;
-		}
+		return mqApp.exec() ;
 	}
 }
