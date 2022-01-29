@@ -18,7 +18,7 @@
         <location filename="../src/mainwindow.ui" line="464"/>
         <location filename="../src/mainwindow.ui" line="576"/>
         <location filename="../src/mainwindow.ui" line="757"/>
-        <location filename="../src/mainwindow.ui" line="1756"/>
+        <location filename="../src/mainwindow.ui" line="1769"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
@@ -51,8 +51,8 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="451"/>
         <location filename="../src/mainwindow.ui" line="595"/>
-        <location filename="../src/mainwindow.ui" line="1496"/>
-        <location filename="../src/mainwindow.ui" line="1707"/>
+        <location filename="../src/mainwindow.ui" line="1509"/>
+        <location filename="../src/mainwindow.ui" line="1720"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="490"/>
         <location filename="../src/mainwindow.ui" line="679"/>
         <location filename="../src/mainwindow.ui" line="1079"/>
-        <location filename="../src/mainwindow.ui" line="1772"/>
+        <location filename="../src/mainwindow.ui" line="1785"/>
         <location filename="../src/mainwindow.cpp" line="75"/>
         <source>Quit</source>
         <translation>Quitter</translation>
@@ -220,14 +220,14 @@
         <translation>Thème Sombre (nécessite Restart)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1406"/>
-        <location filename="../src/mainwindow.ui" line="1512"/>
+        <location filename="../src/mainwindow.ui" line="1419"/>
+        <location filename="../src/mainwindow.ui" line="1525"/>
         <source>Reset Option To Its Default</source>
         <translation>Reset des options par défaut</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1409"/>
-        <location filename="../src/mainwindow.ui" line="1588"/>
+        <location filename="../src/mainwindow.ui" line="1422"/>
+        <location filename="../src/mainwindow.ui" line="1601"/>
         <source>Set Defaults</source>
         <translation>Définir par défaut</translation>
     </message>
@@ -237,7 +237,7 @@
         <translation>Facteur d&apos;échelle (nécessite Restart)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1394"/>
+        <location filename="../src/mainwindow.ui" line="1407"/>
         <source>Preset Options</source>
         <translation>Options de préselection</translation>
     </message>
@@ -267,12 +267,12 @@
         <translation>Retirer un plugin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1785"/>
+        <location filename="../src/mainwindow.ui" line="1798"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1521"/>
+        <location filename="../src/mainwindow.ui" line="1534"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Options par défaut du moteur</translation>
     </message>
@@ -290,21 +290,21 @@
     <message>
         <location filename="../src/mainwindow.ui" line="878"/>
         <location filename="../src/mainwindow.ui" line="936"/>
-        <location filename="../src/mainwindow.ui" line="1441"/>
-        <location filename="../src/mainwindow.ui" line="1480"/>
+        <location filename="../src/mainwindow.ui" line="1454"/>
+        <location filename="../src/mainwindow.ui" line="1493"/>
         <source>Ui Name</source>
         <translation>Nom Ui</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="958"/>
-        <location filename="../src/mainwindow.ui" line="1515"/>
-        <location filename="../src/mainwindow.ui" line="1743"/>
+        <location filename="../src/mainwindow.ui" line="1528"/>
+        <location filename="../src/mainwindow.ui" line="1756"/>
         <source>Add</source>
         <translation>Ajouter</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="971"/>
-        <location filename="../src/mainwindow.ui" line="1641"/>
+        <location filename="../src/mainwindow.ui" line="1654"/>
         <source>Url</source>
         <translation>URL</translation>
     </message>
@@ -314,37 +314,37 @@
         <translation>Fait</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1543"/>
+        <location filename="../src/mainwindow.ui" line="1556"/>
         <source>Engine&apos;s Name</source>
         <translation>Nom du moteur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1562"/>
+        <location filename="../src/mainwindow.ui" line="1575"/>
         <source>Default Download Options</source>
         <translation>Options par défaut du téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1601"/>
+        <location filename="../src/mainwindow.ui" line="1614"/>
         <source>Path To Cookie FIle</source>
         <translation>Chemin du fichier cookie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1646"/>
+        <location filename="../src/mainwindow.ui" line="1659"/>
         <source>Download Options</source>
         <translation>Options de téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1660"/>
+        <location filename="../src/mainwindow.ui" line="1673"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Définir quelle URL sera traitée par quel moteur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1691"/>
+        <location filename="../src/mainwindow.ui" line="1704"/>
         <source>Url Filter</source>
         <translation>Filtre URL</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1791"/>
+        <location filename="../src/mainwindow.ui" line="1804"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
@@ -615,7 +615,7 @@
         <translation>Téléchargement complet</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="369"/>
+        <location filename="../src/settings.cpp" line="367"/>
         <source>Resetting download folder to default</source>
         <translation>Reset du dossier de téléchargement par défaut</translation>
     </message>
@@ -625,13 +625,13 @@
         <translation>Post Traitement</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="139"/>
+        <location filename="../src/settings.h" line="600"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="140"/>
-        <source>Qt Fusion</source>
+        <location filename="../src/settings.h" line="601"/>
+        <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -754,38 +754,38 @@
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="93"/>
+        <location filename="../src/configure.cpp" line="106"/>
         <source>Add</source>
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="98"/>
+        <location filename="../src/configure.cpp" line="111"/>
         <source>Delete</source>
         <translation>Effacer</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="148"/>
+        <location filename="../src/configure.cpp" line="161"/>
         <source>Remove</source>
         <translation>Retirer</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="173"/>
+        <location filename="../src/configure.cpp" line="186"/>
         <source>Select A Cookie File</source>
         <translation>Sélectionner un fichier cookie</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="202"/>
+        <location filename="../src/configure.cpp" line="215"/>
         <source>Select An Engine File</source>
         <translation>Sélectionner un fichier moteur</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="236"/>
-        <location filename="../src/configure.cpp" line="382"/>
+        <location filename="../src/configure.cpp" line="249"/>
+        <location filename="../src/configure.cpp" line="395"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="304"/>
+        <location filename="../src/configure.cpp" line="317"/>
         <source>Set Download Folder</source>
         <translation>Définir le répertoire de téléchargement</translation>
     </message>

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1142,11 +1142,11 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>441</height>
+        <height>431</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1165,7 +1165,7 @@
        <widget class="QPushButton" name="pbConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>608</x>
+          <x>618</x>
           <y>88</y>
           <width>31</width>
           <height>31</height>
@@ -1386,6 +1386,19 @@
         </property>
         <property name="wordWrap">
          <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbOpenThemeFolder">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>210</y>
+          <width>31</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>
@@ -1617,7 +1630,7 @@
        <widget class="QPushButton" name="pbConfigureCookiePath">
         <property name="geometry">
          <rect>
-          <x>660</x>
+          <x>670</x>
           <y>90</y>
           <width>31</width>
           <height>31</height>

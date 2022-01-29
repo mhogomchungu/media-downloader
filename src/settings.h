@@ -130,15 +130,15 @@ public:
 
 			cb.setCurrentIndex( this->unTranslatedIndexAt( dm ) ) ;
 		}
-		QString defaultFusionThemePath()
+		QString defaultthemeFullPath()
 		{
-			return m_themePath + "/Default.json" ;
+			return m_themePath + "/" + m_defaultDarkTheme + ".json" ;
 		}
 		QString themeFullPath()
 		{
-			if( m_theme == "Qt Fusion" ){
+			if( m_theme == m_defaultDarkTheme ){
 
-				return this->defaultFusionThemePath() ;
+				return this->defaultthemeFullPath() ;
 			}else{
 				return m_themePath + "/" + m_theme + ".json" ;
 			}
@@ -563,7 +563,7 @@ public:
 		{
 			auto s = QDir( m_themePath ).entryList( QDir::Filter::Files ) ;
 
-			s.removeOne( "Default.json" ) ;
+			s.removeOne( m_defaultDarkTheme + ".json" ) ;
 
 			for( auto& it : s ){
 
@@ -587,6 +587,7 @@ public:
 
 		QString m_theme ;
 		QString m_themePath ;
+		QString m_defaultDarkTheme = "Dark" ;
 
 		struct Pair{
 			Pair( const QString& u,const QString& t ) :
@@ -598,7 +599,7 @@ public:
 		};
 
 		std::vector< Pair > m_strings{ { "Normal",QObject::tr( "Normal" ) },
-					       { "Qt Fusion",QObject::tr( "Qt Fusion" ) } } ;
+					       { "Dark",QObject::tr( "Dark" ) } } ;
 	} ;
 
 	enum class tabName{ basic,batch,playlist } ;

@@ -25,6 +25,7 @@
 
 #include <QFileDialog>
 #include <QFile>
+#include <QDesktopServices>
 
 configure::configure( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -46,7 +47,9 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.tabWidgetConfigure->setCurrentIndex( 0 ) ;
 
-	settings::themes themes( m_engines.engineDirPaths().themePath() ) ;
+	auto themesFolderPath = m_engines.engineDirPaths().themePath() ;
+
+	settings::themes themes( themesFolderPath ) ;
 
 	themes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 
@@ -60,6 +63,16 @@ configure::configure( const Context& ctx ) :
 	m_tableUrlToDefaultEngine.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
 		m_tablePresetOptions.selectRow( c,p,0 ) ;
+	} ) ;
+
+	connect( m_ui.pbOpenThemeFolder,&QPushButton::clicked,[ this,themesFolderPath ](){
+
+		auto a = QFileDialog::getOpenFileName( &m_mainWindow,"",themesFolderPath,"" ) ;
+
+		if( !a.isEmpty() ){
+
+			QDesktopServices::openUrl( a ) ;
+		}
 	} ) ;
 
 	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,themes = std::move( themes ) ]( int index ){
@@ -158,7 +171,7 @@ configure::configure( const Context& ctx ) :
 		m.exec( QCursor::pos() ) ;
 	} ) ;
 
-	connect( m_ui.cbConfigureEngines,cc,[ this,themes = std::move( themes ) ]( int index ){
+	connect( m_ui.cbConfigureEngines,cc,[ this ]( int index ){
 
 		if( index != -1 ){
 

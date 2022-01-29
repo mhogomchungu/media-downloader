@@ -513,7 +513,7 @@ void settings::setTheme( QApplication& app,const QString& themeBasePath )
 
 		QDir().mkpath( themeBasePath ) ;
 
-		auto fusionPath = themes.defaultFusionThemePath() ;
+		auto fusionPath = themes.defaultthemeFullPath() ;
 
 		if( !QFile::exists( fusionPath ) ){
 
