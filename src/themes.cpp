@@ -110,12 +110,12 @@ void themes::setComboBox( QComboBox& cb,const QString& dm ) const
 	cb.setCurrentIndex( this->unTranslatedIndexAt( dm ) ) ;
 }
 
-QString themes::defaultthemeFullPath()
+QString themes::defaultthemeFullPath() const
 {
 	return m_themePath + "/" + m_defaultDarkTheme + ".json" ;
 }
 
-QString themes::themeFullPath()
+QString themes::themeFullPath() const
 {
 	if( m_theme == m_defaultDarkTheme ){
 
@@ -125,12 +125,12 @@ QString themes::themeFullPath()
 	}
 }
 
-void themes::setDefaultTheme(QApplication & app)
+void themes::setDefaultTheme( QApplication& app ) const
 {
 	this->setTheme( app,this->defaultTheme() ) ;
 }
 
-void themes::setTheme( QApplication& app,const QJsonObject& obj )
+void themes::setTheme( QApplication& app,const QJsonObject& obj ) const
 {
 	app.setStyle( QStyleFactory::create( "Fusion" ) ) ;
 
@@ -163,7 +163,7 @@ void themes::setTheme( QApplication& app,const QJsonObject& obj )
 	}
 }
 
-QJsonObject themes::defaultTheme()
+QJsonObject themes::defaultTheme() const
 {
 	QJsonObject obj ;
 
@@ -384,7 +384,7 @@ QJsonObject themes::defaultTheme()
 	return obj ;
 }
 
-QColor themes::getColor( const QString& e,const QJsonObject& obj )
+QColor themes::getColor( const QString& e,const QJsonObject& obj ) const
 {
 	auto _qtColor = []( const QString& aa )->QColor{
 

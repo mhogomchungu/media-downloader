@@ -13,6 +13,7 @@ playlistdownloader.cpp \
 library.cpp \
 tableWidget.cpp \
 settings.cpp \
+themes.cpp \
 tabmanager.cpp \
 utility.cpp \
 logwindow.cpp \
@@ -24,6 +25,7 @@ about.h \
 basicdownloader.h \
 batchdownloader.h \
 configure.h \
+themes.h \
 mainwindow.h \
 playlistdownloader.h \
 settings.h \

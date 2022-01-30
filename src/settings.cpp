@@ -514,17 +514,15 @@ void settings::setTheme( QApplication& app,const QString& themeBasePath )
 
 		QDir().mkpath( themeBasePath ) ;
 
-		auto fusionPath = ths.defaultthemeFullPath() ;
+		auto defaultThemePath = ths.defaultthemeFullPath() ;
 
-		if( !QFile::exists( fusionPath ) ){
+		if( !QFile::exists( defaultThemePath ) ){
 
-			auto obj = ths.defaultTheme() ;
-
-			QFile f( fusionPath ) ;
+			QFile f( defaultThemePath ) ;
 
 			if( f.open( QIODevice::WriteOnly ) ){
 
-				f.write( QJsonDocument( obj ).toJson( QJsonDocument::JsonFormat::Indented ) ) ;
+				f.write( QJsonDocument( ths.defaultTheme() ).toJson( QJsonDocument::Indented ) ) ;
 			}
 		}
 

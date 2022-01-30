@@ -614,7 +614,7 @@
         <translation>Téléchargement complet</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="367"/>
+        <location filename="../src/settings.cpp" line="368"/>
         <source>Resetting download folder to default</source>
         <translation>Reset du dossier de téléchargement par défaut</translation>
     </message>
@@ -622,16 +622,6 @@
         <location filename="../src/engines.cpp" line="1204"/>
         <source>Post Processing</source>
         <translation>Post Traitement</translation>
-    </message>
-    <message>
-        <location filename="../src/settings.h" line="601"/>
-        <source>Normal</source>
-        <translation>Normal</translation>
-    </message>
-    <message>
-        <location filename="../src/settings.h" line="602"/>
-        <source>Dark</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="470"/>
@@ -674,6 +664,16 @@
         <location filename="../src/playlistdownloader.cpp" line="1119"/>
         <source>Media Already In Archive</source>
         <translation>Media déjà dans l&apos;archive</translation>
+    </message>
+    <message>
+        <location filename="../src/themes.h" line="71"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/themes.h" line="72"/>
+        <source>Dark</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -753,38 +753,38 @@
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="106"/>
+        <location filename="../src/configure.cpp" line="107"/>
         <source>Add</source>
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="111"/>
+        <location filename="../src/configure.cpp" line="112"/>
         <source>Delete</source>
         <translation>Effacer</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="161"/>
+        <location filename="../src/configure.cpp" line="162"/>
         <source>Remove</source>
         <translation>Retirer</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="186"/>
+        <location filename="../src/configure.cpp" line="187"/>
         <source>Select A Cookie File</source>
         <translation>Sélectionner un fichier cookie</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="215"/>
+        <location filename="../src/configure.cpp" line="216"/>
         <source>Select An Engine File</source>
         <translation>Sélectionner un fichier moteur</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="249"/>
-        <location filename="../src/configure.cpp" line="395"/>
+        <location filename="../src/configure.cpp" line="250"/>
+        <location filename="../src/configure.cpp" line="396"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="317"/>
+        <location filename="../src/configure.cpp" line="318"/>
         <source>Set Download Folder</source>
         <translation>Définir le répertoire de téléchargement</translation>
     </message>

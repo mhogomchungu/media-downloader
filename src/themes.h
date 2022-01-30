@@ -45,13 +45,13 @@ public:
 	int unTranslatedIndexAt( const QString& e ) const ;
 	bool usingThemes() const ;
 	void setComboBox( QComboBox& cb,const QString& dm ) const ;
-	QString defaultthemeFullPath() ;
-	QString themeFullPath() ;
-	void setDefaultTheme( QApplication& app ) ;
-	void setTheme( QApplication& app,const QJsonObject& obj ) ;
-	QJsonObject defaultTheme() ;
+	QString defaultthemeFullPath() const ;
+	QString themeFullPath() const ;
+	void setDefaultTheme( QApplication& app ) const ;
+	void setTheme( QApplication& app,const QJsonObject& obj ) const ;
+	QJsonObject defaultTheme() const ;
 private:
-	QColor getColor( const QString& e,const QJsonObject& obj ) ;
+	QColor getColor( const QString& e,const QJsonObject& obj ) const ;
 	void updateThemes() ;
 	int indexAt( const QString& e,const QStringList& s ) const ;
 
