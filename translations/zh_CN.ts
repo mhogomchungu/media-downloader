@@ -221,7 +221,6 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1419"/>
-        <location filename="../src/mainwindow.ui" line="1525"/>
         <source>Reset Option To Its Default</source>
         <translation>将选项重置为默认值</translation>
     </message>
@@ -625,12 +624,12 @@
         <translation>后期处理</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="600"/>
+        <location filename="../src/settings.h" line="601"/>
         <source>Normal</source>
         <translation>常规</translation>
     </message>
     <message>
-        <location filename="../src/settings.h" line="601"/>
+        <location filename="../src/settings.h" line="602"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1146,7 +1146,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1522,7 +1522,7 @@
          </rect>
         </property>
         <property name="toolTip">
-         <string>Reset Option To Its Default</string>
+         <string/>
         </property>
         <property name="text">
          <string>Add</string>
