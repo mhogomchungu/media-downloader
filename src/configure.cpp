@@ -22,6 +22,7 @@
 #include "mainwindow.h"
 #include "networkAccess.h"
 #include "utility.h"
+#include "themes.h"
 
 #include <QFileDialog>
 #include <QFile>
@@ -49,9 +50,9 @@ configure::configure( const Context& ctx ) :
 
 	auto themesFolderPath = m_engines.engineDirPaths().themePath() ;
 
-	settings::themes themes( themesFolderPath ) ;
+	themes ths( themesFolderPath ) ;
 
-	themes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
+	ths.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
 
@@ -75,11 +76,11 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
-	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,themes = std::move( themes ) ]( int index ){
+	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,ths = std::move( ths ) ]( int index ){
 
 		if( index != -1 ){
 
-			m_settings.setThemeName( themes.unTranslatedAt( index ) ) ;
+			m_settings.setThemeName( ths.unTranslatedAt( index ) ) ;
 		}
 	} ) ;
 
@@ -366,7 +367,7 @@ void configure::retranslateUi()
 {
 	this->resetMenu() ;
 
-	settings::themes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
+	themes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 }
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )

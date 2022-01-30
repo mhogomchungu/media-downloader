@@ -22,6 +22,7 @@
 #include "locale_path.h"
 #include "translator.h"
 #include "logger.h"
+#include "themes.h"
 
 #include <QDir>
 #include <QFile>
@@ -74,7 +75,7 @@ QString settings::themeName()
 {
 	if( !m_settings.contains( "ThemeName" ) ){
 
-		m_settings.setValue( "ThemeName",settings::themes().unTranslatedAt( 0 ) ) ;
+		m_settings.setValue( "ThemeName",themes().unTranslatedAt( 0 ) ) ;
 	}
 
 	return m_settings.value( "ThemeName" ).toString() ;
@@ -507,17 +508,17 @@ void settings::setCookieFilePath( const QString& engineName,const QString& cooki
 
 void settings::setTheme( QApplication& app,const QString& themeBasePath )
 {
-	settings::themes themes( this->themeName(),themeBasePath ) ;
+	themes ths( this->themeName(),themeBasePath ) ;
 
-	if( themes.usingThemes() ){
+	if( ths.usingThemes() ){
 
 		QDir().mkpath( themeBasePath ) ;
 
-		auto fusionPath = themes.defaultthemeFullPath() ;
+		auto fusionPath = ths.defaultthemeFullPath() ;
 
 		if( !QFile::exists( fusionPath ) ){
 
-			auto obj = themes.defaultTheme() ;
+			auto obj = ths.defaultTheme() ;
 
 			QFile f( fusionPath ) ;
 
@@ -527,20 +528,20 @@ void settings::setTheme( QApplication& app,const QString& themeBasePath )
 			}
 		}
 
-		QFile f( themes.themeFullPath() ) ;
+		QFile f( ths.themeFullPath() ) ;
 
 		if( !f.open( QIODevice::ReadOnly ) ){
 
-			themes.setDefaultTheme( app ) ;
+			ths.setDefaultTheme( app ) ;
 		}else{
 			auto obj = QJsonDocument::fromJson( f.readAll() ).object() ;
 
 			if( obj.isEmpty() ){
 
-				return themes.setDefaultTheme( app ) ;
+				return ths.setDefaultTheme( app ) ;
 			}
 
-			themes.setTheme( app,obj ) ;
+			ths.setTheme( app,obj ) ;
 		}
 	}
 }

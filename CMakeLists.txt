@@ -58,6 +58,7 @@ set(SRC
     src/utility.cpp
     src/basicdownloader.cpp
     src/about.cpp
+    src/themes.cpp
     src/batchdownloader.cpp
     src/tabmanager.cpp
     src/configure.cpp
