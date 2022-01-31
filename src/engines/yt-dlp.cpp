@@ -305,14 +305,28 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 
 	utility::locale s ;
 
-	auto _append = [ & ]( QString& s,const char * str,const QString& sstr ){
+	enum class mediaType{ audioOnly,videoOnly,audioVideo,unknown } ;
 
-		if( sstr == "none" || sstr == "0" ){
+	auto _append = [ & ]( QString& s,const char * str,const QString& sstr,bool formatBitrate ){
+
+		if( sstr == "none" || sstr.isEmpty() ){
 
 			return ;
 		}
 
-		s += str + sstr + ", " ;
+		if( formatBitrate ){
+
+			auto m = sstr.indexOf( '.' ) ;
+
+			if( m == -1 ){
+
+				s += str + sstr + "k, " ;
+			}else{
+				s += str + sstr.mid( 0,m ) + "k, " ;
+			}
+		}else{
+			s += str + sstr + ", " ;
+		}
 	} ;
 
 	for( const auto& it : array ){
@@ -327,6 +341,7 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
 		auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
 		auto abr       = QString::number( obj.value( "abr" ).toDouble() ) ;
+		auto asr       = QString::number( obj.value( "asr" ).toInt() ) ;
 
 		auto container = obj.value( "container" ).toString() ;
 		auto proto     = obj.value( "protocol" ).toString() ;
@@ -335,10 +350,14 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		auto acodec    = obj.value( "acodec" ).toString() ;
 		auto audio_ext = obj.value( "audio_ext" ).toString() ;
 
+		mediaType mt = mediaType::unknown ;
+
 		if( !rsn.isEmpty() ){
 
-			if( rsn != "audio only" ){
+			if( rsn == "audio only" ){
 
+				mt = mediaType::audioOnly ;
+			}else{
 				bool hasVideo = vcodec != "none" ;
 				bool hasAudio = acodec != "none" ;
 
@@ -346,13 +365,19 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 
 					rsn += "\naudio video" ;
 
+					mt = mediaType::audioVideo ;
+
 				}else if( hasVideo && !hasAudio ){
 
 					rsn += "\nvideo only" ;
 
+					mt = mediaType::videoOnly ;
+
 				}else if( !hasVideo && hasAudio ){
 
 					rsn += "\naudio only" ;
+
+					mt = mediaType::audioOnly ;
 				}
 			}
 		}
@@ -366,11 +391,32 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 			s = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ).arg( proto,fileSize,container ) ;
 		}
 
-		_append( s,"acodec: ",acodec ) ;
-		_append( s,"vcodec: ",vcodec ) ;
-		_append( s,"tbr: ",tbr ) ;
-		_append( s,"vbr: ",vbr ) ;
-		_append( s,"abr: ",abr ) ;
+		_append( s,"acodec: ",acodec,false ) ;
+		_append( s,"vcodec: ",vcodec,false ) ;
+
+		if( tbr != "0" ){
+
+			_append( s,"tbr: ",tbr,true ) ;
+		}
+
+		if( asr != "0" ){
+
+			_append( s,"asr: ",asr + "Hz",false ) ;
+		}
+
+		if( mt == mediaType::audioVideo ){
+
+			_append( s,"vbr: ",vbr,true ) ;
+			_append( s,"abr: ",abr,true ) ;
+
+		}else if( mt == mediaType::audioOnly ){
+
+			_append( s,"abr: ",abr,true ) ;
+
+		}else if( mt == mediaType::videoOnly ){
+
+			_append( s,"vbr: ",vbr,true ) ;
+		}
 
 		if( s.endsWith( ", " ) ){
 
