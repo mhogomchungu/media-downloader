@@ -203,8 +203,13 @@ configure::configure( const Context& ctx ) :
 		this->saveOptions() ;
 	} ) ;
 
-	connect( m_ui.cbConfigureShowThumbnails,&QCheckBox::stateChanged,[]( int ){
+	connect( m_ui.cbShowTrayIcon,&QCheckBox::stateChanged,[ this ]( int s ){
 
+		auto checked = s == Qt::CheckState::Checked ;
+
+		m_settings.setshowTrayIcon( checked ) ;
+
+		m_ctx.mainWindow().showTrayIcon( checked ) ;
 	} ) ;
 
 	connect( m_ui.cbUseSystemVersionIfAvailable,&QCheckBox::stateChanged,[]( int ){
@@ -350,6 +355,8 @@ configure::configure( const Context& ctx ) :
 	m_ui.cbConfigureShowThumbnails->setChecked( m_settings.showThumbnails() ) ;
 
 	m_ui.cbUseSystemVersionIfAvailable->setChecked( m_settings.useSystemProvidedVersionIfAvailable() ) ;
+
+	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
 
 	m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
 

@@ -64,33 +64,33 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStrin
 
 	this->window()->setWindowIcon( icon ) ;
 
-	if( m_showTrayIcon ){
+	m_trayIcon.setIcon( icon ) ;
 
-		m_trayIcon.setIcon( icon ) ;
+	m_trayIcon.setContextMenu( [ this,&t ](){
 
-		m_trayIcon.setContextMenu( [ this,&t ](){
+		auto m = new QMenu( this ) ;
 
-			auto m = new QMenu( this ) ;
+		auto ac = t.addAction( m,{ tr( "Quit" ),"Quit","Quit" },true ) ;
 
-			auto ac = t.addAction( m,{ tr( "Quit" ),"Quit","Quit" },true ) ;
+		connect( ac,&QAction::triggered,[ this ](){
 
-			connect( ac,&QAction::triggered,[ this ](){
-
-				m_tabManager.basicDownloader().appQuit() ;
-			} ) ;
-
-			return m ;
-		}() ) ;
-
-		connect( &m_trayIcon,&QSystemTrayIcon::activated,[ this ]( QSystemTrayIcon::ActivationReason ){
-
-			if( this->isVisible() ){
-
-				this->hide() ;
-			}else{
-				this->show() ;
-			}
+			m_tabManager.basicDownloader().appQuit() ;
 		} ) ;
+
+		return m ;
+	}() ) ;
+
+	connect( &m_trayIcon,&QSystemTrayIcon::activated,[ this ]( QSystemTrayIcon::ActivationReason ){
+
+		if( this->isVisible() ){
+
+			this->hide() ;
+		}else{
+			this->show() ;
+		}
+	} ) ;
+
+	if( m_showTrayIcon ){
 
 		if( QSystemTrayIcon::isSystemTrayAvailable() ){
 
@@ -122,6 +122,16 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStrin
 		}
 
 		m_trayIcon.show() ;
+	}
+}
+
+void MainWindow::showTrayIcon( bool e )
+{
+	if( e ){
+
+		m_trayIcon.show() ;
+	}else{
+		m_trayIcon.hide() ;
 	}
 }
 

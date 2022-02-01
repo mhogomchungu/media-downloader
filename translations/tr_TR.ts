@@ -18,7 +18,7 @@
         <location filename="../src/mainwindow.ui" line="464"/>
         <location filename="../src/mainwindow.ui" line="576"/>
         <location filename="../src/mainwindow.ui" line="757"/>
-        <location filename="../src/mainwindow.ui" line="1769"/>
+        <location filename="../src/mainwindow.ui" line="1782"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
@@ -51,8 +51,8 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="451"/>
         <location filename="../src/mainwindow.ui" line="595"/>
-        <location filename="../src/mainwindow.ui" line="1509"/>
-        <location filename="../src/mainwindow.ui" line="1720"/>
+        <location filename="../src/mainwindow.ui" line="1522"/>
+        <location filename="../src/mainwindow.ui" line="1733"/>
         <source>Options</source>
         <translation>Seçenekler</translation>
     </message>
@@ -61,8 +61,8 @@
         <location filename="../src/mainwindow.ui" line="490"/>
         <location filename="../src/mainwindow.ui" line="679"/>
         <location filename="../src/mainwindow.ui" line="1079"/>
-        <location filename="../src/mainwindow.ui" line="1785"/>
-        <location filename="../src/mainwindow.cpp" line="75"/>
+        <location filename="../src/mainwindow.ui" line="1798"/>
+        <location filename="../src/mainwindow.cpp" line="73"/>
         <source>Quit</source>
         <translation>Çıkış</translation>
     </message>
@@ -220,13 +220,18 @@
         <translation>Koyu Tema (Yeniden Başlatılması Gerekiyor)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1419"/>
+        <location filename="../src/mainwindow.ui" line="1414"/>
+        <source>Show Tray Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1432"/>
         <source>Reset Option To Its Default</source>
         <translation>Seçeneği Varsayılanına Sıfırla</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1422"/>
-        <location filename="../src/mainwindow.ui" line="1601"/>
+        <location filename="../src/mainwindow.ui" line="1435"/>
+        <location filename="../src/mainwindow.ui" line="1614"/>
         <source>Set Defaults</source>
         <translation>Varsayılanları Ayarla</translation>
     </message>
@@ -236,7 +241,7 @@
         <translation>Ölçek Faktörü (Yeniden Başlatılması Gerekiyor)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1407"/>
+        <location filename="../src/mainwindow.ui" line="1420"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>
@@ -266,12 +271,12 @@
         <translation>Bir Eklentiyi Kaldır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1798"/>
+        <location filename="../src/mainwindow.ui" line="1811"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1534"/>
+        <location filename="../src/mainwindow.ui" line="1547"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Varsayılan Motor Seçenekleri</translation>
     </message>
@@ -289,21 +294,21 @@
     <message>
         <location filename="../src/mainwindow.ui" line="878"/>
         <location filename="../src/mainwindow.ui" line="936"/>
-        <location filename="../src/mainwindow.ui" line="1454"/>
-        <location filename="../src/mainwindow.ui" line="1493"/>
+        <location filename="../src/mainwindow.ui" line="1467"/>
+        <location filename="../src/mainwindow.ui" line="1506"/>
         <source>Ui Name</source>
         <translation>Ui Adı</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="958"/>
-        <location filename="../src/mainwindow.ui" line="1528"/>
-        <location filename="../src/mainwindow.ui" line="1756"/>
+        <location filename="../src/mainwindow.ui" line="1541"/>
+        <location filename="../src/mainwindow.ui" line="1769"/>
         <source>Add</source>
         <translation>Ekle</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="971"/>
-        <location filename="../src/mainwindow.ui" line="1654"/>
+        <location filename="../src/mainwindow.ui" line="1667"/>
         <source>Url</source>
         <translation>Url</translation>
     </message>
@@ -313,37 +318,37 @@
         <translation>Bitti</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1556"/>
+        <location filename="../src/mainwindow.ui" line="1569"/>
         <source>Engine&apos;s Name</source>
         <translation>Motor Adı</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1575"/>
+        <location filename="../src/mainwindow.ui" line="1588"/>
         <source>Default Download Options</source>
         <translation>Varsayılan İndirme Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1614"/>
+        <location filename="../src/mainwindow.ui" line="1627"/>
         <source>Path To Cookie FIle</source>
         <translation>Çerez Dosyasına Giden Yol</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1659"/>
+        <location filename="../src/mainwindow.ui" line="1672"/>
         <source>Download Options</source>
         <translation>İndirme Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1673"/>
+        <location filename="../src/mainwindow.ui" line="1686"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Hangi URL&apos;nin Hangi Motor Tarafından Yönetileceğini Ayarlayın</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1704"/>
+        <location filename="../src/mainwindow.ui" line="1717"/>
         <source>Url Filter</source>
         <translation>Url Filtresi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1804"/>
+        <location filename="../src/mainwindow.ui" line="1817"/>
         <source>About</source>
         <translation>Hakkında</translation>
     </message>
@@ -773,18 +778,18 @@
         <translation>Bir Çerez Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="216"/>
+        <location filename="../src/configure.cpp" line="221"/>
         <source>Select An Engine File</source>
         <translation>Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="250"/>
-        <location filename="../src/configure.cpp" line="396"/>
+        <location filename="../src/configure.cpp" line="255"/>
+        <location filename="../src/configure.cpp" line="403"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="318"/>
+        <location filename="../src/configure.cpp" line="323"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>

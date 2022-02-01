@@ -1146,7 +1146,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1198,7 +1198,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>260</y>
+          <y>270</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1308,7 +1308,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>280</y>
+          <y>300</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1320,8 +1320,8 @@
        <widget class="QLineEdit" name="lineEditConfigureMaximuConcurrentDownloads">
         <property name="geometry">
          <rect>
-          <x>188</x>
-          <y>310</y>
+          <x>190</x>
+          <y>360</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1330,8 +1330,8 @@
        <widget class="QLabel" name="labelMaximumConcurrentDownloads">
         <property name="geometry">
          <rect>
-          <x>8</x>
-          <y>310</y>
+          <x>10</x>
+          <y>360</y>
           <width>171</width>
           <height>31</height>
          </rect>
@@ -1399,6 +1399,19 @@
         </property>
         <property name="text">
          <string/>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbShowTrayIcon">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>330</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show Tray Icon</string>
         </property>
        </widget>
       </widget>

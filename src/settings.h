@@ -107,6 +107,7 @@ public:
 	void clearPlaylistRangeHistory() ;
 	void clearPlaylistUrlHistory() ;
 	void addOptionsHistory( const QString&,settings::tabName ) ;
+	void setshowTrayIcon( bool ) ;
 	void setTheme( QApplication&,const QString& ) ;
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;

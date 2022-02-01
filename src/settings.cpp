@@ -420,6 +420,11 @@ bool settings::showTrayIcon()
 	return m_settings.value( "ShowTrayIcon" ).toBool() ;
 }
 
+void settings::setshowTrayIcon( bool e )
+{
+	m_settings.setValue( "ShowTrayIcon",e ) ;
+}
+
 bool settings::autoDownload()
 {
 	if( !m_settings.contains( "AutoDownload" ) ){
