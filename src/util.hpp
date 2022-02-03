@@ -768,19 +768,53 @@ private:
 	int m_patch = 0 ;
 };
 
+#if QT_VERSION < QT_VERSION_CHECK( 5,4,0 )
+	class exec : public QObject
+	{
+		Q_OBJECT
+	public:
+		exec( std::function< void() > function ) : m_function( std::move( function ) )
+		{
+			QTimer::singleShot( 0,this,SLOT( run() ) ) ;
+		}
+	private slots:
+		void run()
+		{
+			m_function() ;
+		}
+	private:
+		std::function< void() > m_function ;
+	} ;
+#else
+	class exec
+	{
+	public:
+		template< typename Function >
+		exec( Function function )
+		{
+			QTimer::singleShot( 0,[ function = std::move( function ) ]{
+
+				function() ;
+			} ) ;
+		}
+	private:
+	} ;
+#endif
+
 template< typename MainApp,typename MainAppArgs >
 class multipleInstance{
 public:
 	multipleInstance( QApplication& qapp,MainAppArgs args,const QByteArray& aa ) :
 		m_qApp( qapp ),
 		m_appArgs( std::move( args ) ),
-		m_argument( aa )
+		m_argument( aa ),
+		m_exec( [ this ](){ this->run() ; } )
 	{
-		QTimer::singleShot( 0,[ this ](){
-
-			m_mainApp = std::move( m_appArgs ) ;
-			m_mainApp->start( m_argument ) ;
-		} ) ;
+	}
+	void run()
+	{
+		m_mainApp = std::move( m_appArgs ) ;
+		m_mainApp->start( m_argument ) ;
 	}
 	int exec()
 	{
@@ -791,6 +825,7 @@ private:
 	MainAppArgs m_appArgs ;
 	QByteArray m_argument ;
 	util::storage< MainApp > m_mainApp ;
+	util::exec m_exec ;
 };
 
 template< typename OIR,typename PIC >
@@ -817,12 +852,9 @@ public:
 		m_serverPath( socketPath ),
 		m_argument( argument ),
 		m_args( std::move( args ) ),
-		m_iargs( std::move( iargs ) )
+		m_iargs( std::move( iargs ) ),
+		m_exec( [ this ](){ this->run() ; } )
 	{
-		QTimer::singleShot( 0,[ this ](){
-
-			this->run() ;
-		} ) ;
 	}
 	~oneinstance()
 	{
@@ -900,6 +932,7 @@ private:
 	util::storage< MainApp > m_mainApp ;
 	MainAppArgs m_args ;
 	InstanceArgs m_iargs ;
+	util::exec m_exec ;
 };
 
 }

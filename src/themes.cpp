@@ -384,117 +384,117 @@ QJsonObject themes::defaultTheme() const
 	return obj ;
 }
 
+static QColor _qtColor( const QString& aa )
+{
+	if( aa == "Qt::color0" ){
+
+		return Qt::color0 ;
+
+	}else if( aa == "Qt::color1" ){
+
+		return Qt::color1 ;
+
+	}else if( aa == "Qt::black" ){
+
+		return Qt::black ;
+
+	}else if( aa == "Qt::white" ){
+
+		return Qt::white ;
+
+	}else if( aa == "Qt::darkGray" ){
+
+		return Qt::darkGray ;
+
+	}else if( aa == "Qt::gray" ){
+
+		return Qt::gray ;
+
+	}else if( aa == "Qt::lightGray" ){
+
+		return Qt::lightGray ;
+
+	}else if( aa == "Qt::red" ){
+
+		return Qt::red ;
+
+	}else if( aa == "Qt::green" ){
+
+		return Qt::green ;
+
+	}else if( aa == "Qt::blue" ){
+
+		return Qt::blue ;
+
+	}else if( aa == "Qt::cyan" ){
+
+		return Qt::cyan ;
+
+	}else if( aa == "Qt::magenta" ){
+
+		return Qt::magenta ;
+
+	}else if( aa == "Qt::yellow" ){
+
+		return Qt::yellow ;
+
+	}else if( aa == "Qt::darkRed" ){
+
+		return Qt::darkRed ;
+
+	}else if( aa == "Qt::darkGreen" ){
+
+		return Qt::darkGreen ;
+
+	}else if( aa == "Qt::darkBlue" ){
+
+		return Qt::darkBlue ;
+
+	}else if( aa == "Qt::darkCyan" ){
+
+		return Qt::darkCyan ;
+
+	}else if( aa == "Qt::darkMagenta" ){
+
+		return Qt::darkMagenta ;
+
+	}else if( aa == "Qt::darkYellow" ){
+
+		return Qt::darkYellow ;
+
+	}else if( aa == "Qt::transparent" ){
+
+		return Qt::transparent ;
+	}else{
+		return {} ;
+	}
+}
+
+static QColor _getRGBA( const QJsonArray& aa )
+{
+	if( aa.size() == 3 ){
+
+		auto a = aa[ 0 ].toInt() ;
+		auto b = aa[ 1 ].toInt() ;
+		auto c = aa[ 2 ].toInt() ;
+
+		return QColor( a,b,c ) ;
+
+	}else if( aa.size() == 4 ){
+
+		auto a = aa[ 0 ].toInt() ;
+		auto b = aa[ 1 ].toInt() ;
+		auto c = aa[ 2 ].toInt() ;
+		auto d = aa[ 3 ].toInt() ;
+
+		return QColor( a,b,c,d ) ;
+	}else{
+		return {} ;
+	}
+}
+
 QColor themes::getColor( const QString& e,const QJsonObject& obj ) const
 {
-	auto _qtColor = []( const QString& aa )->QColor{
-
-		if( aa == "Qt::color0" ){
-
-			return Qt::color0 ;
-
-		}else if( aa == "Qt::color1" ){
-
-			return Qt::color1 ;
-
-		}else if( aa == "Qt::black" ){
-
-			return Qt::black ;
-
-		}else if( aa == "Qt::white" ){
-
-			return Qt::white ;
-
-		}else if( aa == "Qt::darkGray" ){
-
-			return Qt::darkGray ;
-
-		}else if( aa == "Qt::gray" ){
-
-			return Qt::gray ;
-
-		}else if( aa == "Qt::lightGray" ){
-
-			return Qt::lightGray ;
-
-		}else if( aa == "Qt::red" ){
-
-			return Qt::red ;
-
-		}else if( aa == "Qt::green" ){
-
-			return Qt::green ;
-
-		}else if( aa == "Qt::blue" ){
-
-			return Qt::blue ;
-
-		}else if( aa == "Qt::cyan" ){
-
-			return Qt::cyan ;
-
-		}else if( aa == "Qt::magenta" ){
-
-			return Qt::magenta ;
-
-		}else if( aa == "Qt::yellow" ){
-
-			return Qt::yellow ;
-
-		}else if( aa == "Qt::darkRed" ){
-
-			return Qt::darkRed ;
-
-		}else if( aa == "Qt::darkGreen" ){
-
-			return Qt::darkGreen ;
-
-		}else if( aa == "Qt::darkBlue" ){
-
-			return Qt::darkBlue ;
-
-		}else if( aa == "Qt::darkCyan" ){
-
-			return Qt::darkCyan ;
-
-		}else if( aa == "Qt::darkMagenta" ){
-
-			return Qt::darkMagenta ;
-
-		}else if( aa == "Qt::darkYellow" ){
-
-			return Qt::darkYellow ;
-
-		}else if( aa == "Qt::transparent" ){
-
-			return Qt::transparent ;
-		}else{
-			return {} ;
-		}
-	} ;
-
-	auto _getRGBA = []( const QJsonArray& aa )->QColor{
-
-		if( aa.size() == 3 ){
-
-			auto a = aa[ 0 ].toInt() ;
-			auto b = aa[ 1 ].toInt() ;
-			auto c = aa[ 2 ].toInt() ;
-
-			return QColor( a,b,c ) ;
-
-		}else if( aa.size() == 4 ){
-
-			auto a = aa[ 0 ].toInt() ;
-			auto b = aa[ 1 ].toInt() ;
-			auto c = aa[ 2 ].toInt() ;
-			auto d = aa[ 3 ].toInt() ;
-
-			return QColor( a,b,c,d ) ;
-		}else{
-			return {} ;
-		}
-	} ;
-
 	auto oo = obj.value( e ).toObject() ;
 
 	auto a = oo.value( "rgba" ) ;

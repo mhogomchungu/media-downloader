@@ -41,14 +41,26 @@ set(UI_FILES
     src/mainwindow.ui
     src/logwindow.ui)
 
-set(MOC_FILES
-    src/mainwindow.h
-    src/logwindow.h
-    src/basicdownloader.h
-    src/batchdownloader.h
-    src/configure.h
-    src/library.h
-    src/playlistdownloader.h)
+if(Qt5Core_VERSION VERSION_LESS 5.4.0)
+    set(MOC_FILES
+	src/mainwindow.h
+	src/logwindow.h
+	src/basicdownloader.h
+	src/batchdownloader.h
+	src/configure.h
+	src/library.h
+	src/playlistdownloader.h
+	src/util.hpp)
+else()
+    set(MOC_FILES
+	src/mainwindow.h
+	src/logwindow.h
+	src/basicdownloader.h
+	src/batchdownloader.h
+	src/configure.h
+	src/library.h
+	src/playlistdownloader.h)
+endif()
 
 set(SRC
     src/mainwindow.cpp
@@ -76,7 +88,7 @@ set(SRC
     src/engines/aria2c.cpp
     src/engines/gallery-dl.cpp)
 
-set(RESOURCES  src/icon.qrc )
+set(RESOURCES src/icon.qrc )
 
 if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/src/appicon.rc")
