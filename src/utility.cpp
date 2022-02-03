@@ -523,12 +523,12 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 			if( uploader.isEmpty() ){
 
-				filePath = utility::homePath() + "/MediaDowloaderList-" + uploader + ".txt" ;
+				filePath = utility::homePath() + "/MediaDowloaderList-" + uploader + ".json" ;
 			}else{
-				filePath = utility::homePath() + "/MediaDowloaderList.txt" ;
+				filePath = utility::homePath() + "/MediaDowloaderList.json" ;
 			}
 		}else{
-			filePath = utility::homePath() + "/MediaDowloaderList.txt" ;
+			filePath = utility::homePath() + "/MediaDowloaderList.json" ;
 		}
 
 		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
@@ -539,7 +539,9 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 				obj.insert( "runningState",e.runningState ) ;
 
-				if( e.uiText.contains( '\n' ) ){
+				const auto& m = e.uiText ;
+
+				if( m.startsWith( downloadOpts ) || m.startsWith( engineName ) ){
 
 					const auto m = util::split( e.uiText,'\n',true ) ;
 
@@ -564,12 +566,12 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 			}
 		} ) ;
 
-		auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
-
 		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),
 						       QObject::tr( "Save List To File" ),
 						       filePath ) ;
 		if( !s.isEmpty() ){
+
+			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
 
 			engines::file( s,ctx.logger() ).write( stuff ) ;
 		}
