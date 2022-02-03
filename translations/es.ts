@@ -368,12 +368,12 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="101"/>
         <location filename="../src/utility.cpp" line="511"/>
-        <location filename="../src/utility.cpp" line="514"/>
+        <location filename="../src/utility.cpp" line="561"/>
         <source>Save List To File</source>
         <translation>Guardar Lista en Archivo</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="54"/>
+        <location filename="../src/utility.h" line="139"/>
         <source>Engine Name:</source>
         <translation>Nombre del motor:</translation>
     </message>
@@ -391,8 +391,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="342"/>
-        <location filename="../src/utility.h" line="437"/>
-        <location filename="../src/utility.h" line="504"/>
+        <location filename="../src/utility.h" line="453"/>
+        <location filename="../src/utility.h" line="520"/>
         <source>Clear</source>
         <translation>Limpiar</translation>
     </message>
@@ -545,20 +545,20 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="57"/>
-        <location filename="../src/utility.cpp" line="711"/>
+        <location filename="../src/utility.cpp" line="749"/>
         <source>Checking installed version of</source>
         <translation>Comprobando la versión instalada de</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="62"/>
-        <location filename="../src/utility.cpp" line="692"/>
-        <location filename="../src/utility.cpp" line="737"/>
+        <location filename="../src/utility.cpp" line="730"/>
+        <location filename="../src/utility.cpp" line="775"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>No se pudo encontrar la información de la versión, asegúrese de que &quot;%1&quot; esté instalado y funcione correctamente</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="65"/>
-        <location filename="../src/utility.cpp" line="733"/>
+        <location filename="../src/utility.cpp" line="771"/>
         <source>Found version</source>
         <translation>Versión Encontrada</translation>
     </message>
@@ -629,39 +629,39 @@
         <translation>Post Procesamiento</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="470"/>
-        <location filename="../src/utility.h" line="478"/>
-        <location filename="../src/utility.h" line="483"/>
+        <location filename="../src/utility.h" line="486"/>
+        <location filename="../src/utility.h" line="494"/>
+        <location filename="../src/utility.h" line="499"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="475"/>
+        <location filename="../src/utility.h" line="491"/>
         <source>Force Download</source>
         <translation>Forzar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="493"/>
+        <location filename="../src/utility.h" line="509"/>
         <source>Show Log Window</source>
         <translation>Mostrar Ventana de Registro</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="571"/>
+        <location filename="../src/utility.h" line="131"/>
         <source>Upload Date:</source>
         <translation>Fecha de Subida:</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="579"/>
+        <location filename="../src/utility.h" line="135"/>
         <source>Duration:</source>
         <translation>Duración:</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="66"/>
+        <location filename="../src/utility.h" line="143"/>
         <source>Download Options</source>
         <translation>Opciones de Descarga</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="356"/>
+        <location filename="../src/tableWidget.cpp" line="351"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>Completados: %1%, Sin iniciar: %2, Exitosos: %3, Fallidos: %4, Cancelados: %5</translation>
     </message>
@@ -857,7 +857,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="270"/>
         <source>Show Comments</source>
-        <translation type="unfinished">Mostrar Componentes</translation>
+        <translation>Mostrar Componentes</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="423"/>

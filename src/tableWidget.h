@@ -82,9 +82,9 @@ public:
 	{
 		return this->item( row ).engineName ;
 	}
-	const QJsonArray& formats( int row ) const
+	const QJsonArray& mediaProperties( int row ) const
 	{
-		return this->item( row ).formats ;
+		return this->item( row ).mediaProperties ;
 	}
 	const QPixmap& thumbnail( int row ) const
 	{
@@ -109,23 +109,43 @@ public:
 	struct entry{
 		entry( const QString& uiText,
 		       const QString& url,
-		       const QString& runningState,
-		       const QJsonArray& arr = QJsonArray() ) :
+		       const QString& runningState ) :
+			url( url ),
+			uiText( uiText ),
+			runningState( runningState )
+		{
+		}
+		entry( const QPixmap& thumbnail,
+		       const QString& uiText,
+		       const QString& url,
+		       const QString& runningState ) :
 			url( url ),
 			uiText( uiText ),
 			runningState( runningState ),
-			formats( arr )
+			thumbnail( thumbnail )
 		{
 		}
 		entry( const QPixmap& thumbnail,
 		       const QString& uiText,
 		       const QString& url,
 		       const QString& runningState,
-		       const QJsonArray& arr = QJsonArray() ) :
+		       const QJsonArray& arr ) :
 			url( url ),
 			uiText( uiText ),
 			runningState( runningState ),
-			formats( arr ),
+			mediaProperties( arr ),
+			thumbnail( thumbnail )
+		{
+		}
+		entry( const QPixmap& thumbnail,
+		       const QString& uiText,
+		       const QString& url,
+		       const QString& runningState,
+		       const QJsonObject& obj ) :
+			url( url ),
+			uiText( uiText ),
+			runningState( runningState ),
+			uiJson( obj ),
 			thumbnail( thumbnail )
 		{
 		}
@@ -135,7 +155,9 @@ public:
 		QString downloadingOptions ;
 		QString downloadingOptionsUi ;
 		QString engineName ;
-		QJsonArray formats ;
+		QJsonArray mediaProperties ;
+		QJsonObject uiJson ;
+
 		struct tnail{
 			tnail( const QPixmap& p ) : isSet( true ),image( p )
 			{
@@ -156,12 +178,16 @@ public:
 			function( it ) ;
 		}
 	}
+	const tableWidget::entry& entryAt( size_t s )
+	{
+		return m_items[ s ] ;
+	}
 	enum class type{ DownloadOptions,EngineName } ;
 
 	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;
 	static QByteArray thumbnailData( const QPixmap& ) ;
-	static QString engineName() ;
+
 	void setDownloadingOptions( tableWidget::type,
 				    int row,
 				    const QString& options,

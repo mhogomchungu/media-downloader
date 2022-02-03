@@ -356,7 +356,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/tableWidget.cpp" line="54"/>
+        <location filename="../src/utility.h" line="139"/>
         <source>Engine Name:</source>
         <translation>Silnik:</translation>
     </message>
@@ -384,8 +384,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="342"/>
-        <location filename="../src/utility.h" line="437"/>
-        <location filename="../src/utility.h" line="504"/>
+        <location filename="../src/utility.h" line="453"/>
+        <location filename="../src/utility.h" line="520"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
@@ -397,7 +397,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="101"/>
         <location filename="../src/utility.cpp" line="511"/>
-        <location filename="../src/utility.cpp" line="514"/>
+        <location filename="../src/utility.cpp" line="561"/>
         <source>Save List To File</source>
         <translation>Zapisz listę do pliku</translation>
     </message>
@@ -545,20 +545,20 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="57"/>
-        <location filename="../src/utility.cpp" line="711"/>
+        <location filename="../src/utility.cpp" line="749"/>
         <source>Checking installed version of</source>
         <translation>Sprawdzanie wersji programu</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="62"/>
-        <location filename="../src/utility.cpp" line="692"/>
-        <location filename="../src/utility.cpp" line="737"/>
+        <location filename="../src/utility.cpp" line="730"/>
+        <location filename="../src/utility.cpp" line="775"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Nie udało się ustalić wersji programu &quot;%1&quot;. Upewnij się, że jest zainstalowany i działa poprawnie</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="65"/>
-        <location filename="../src/utility.cpp" line="733"/>
+        <location filename="../src/utility.cpp" line="771"/>
         <source>Found version</source>
         <translation>Wersja</translation>
     </message>
@@ -629,39 +629,39 @@
         <translation>Post processing</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="470"/>
-        <location filename="../src/utility.h" line="478"/>
-        <location filename="../src/utility.h" line="483"/>
+        <location filename="../src/utility.h" line="486"/>
+        <location filename="../src/utility.h" line="494"/>
+        <location filename="../src/utility.h" line="499"/>
         <source>Download</source>
         <translation>Pobierz</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="475"/>
+        <location filename="../src/utility.h" line="491"/>
         <source>Force Download</source>
         <translation>Wymuś pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="493"/>
+        <location filename="../src/utility.h" line="509"/>
         <source>Show Log Window</source>
         <translation>Pokaż logi</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="571"/>
+        <location filename="../src/utility.h" line="131"/>
         <source>Upload Date:</source>
         <translation>Data opublikowania:</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="579"/>
+        <location filename="../src/utility.h" line="135"/>
         <source>Duration:</source>
         <translation>Czas trwania:</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="66"/>
+        <location filename="../src/utility.h" line="143"/>
         <source>Download Options</source>
         <translation>Opcje pobierania</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="356"/>
+        <location filename="../src/tableWidget.cpp" line="351"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>Ukończono: %1%, oczekujące: %2, zakończone: %3, zakończone z błędem: %4, anulowane: %5</translation>
     </message>
@@ -857,7 +857,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="270"/>
         <source>Show Comments</source>
-        <translation type="unfinished">Pokaż komentarze</translation>
+        <translation>Pokaż komentarze</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="423"/>

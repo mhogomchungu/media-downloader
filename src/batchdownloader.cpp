@@ -331,7 +331,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		utility::saveDownloadList( m_ctx,m,m_table ) ;
 
-		auto mm = m.addMenu( tableWidget::engineName().replace( ":","" ) ) ;
+		auto mm = m.addMenu( utility::stringConstants::engineName().replace( ":","" ) ) ;
 
 		mm->setEnabled( !finishSuccess ) ;
 
@@ -809,10 +809,54 @@ void batchdownloader::getListFromFile( QMenu& m )
 
 					auto obj = it.toObject() ;
 
-					auto url = obj.value( "url" ).toString() ;
-					auto uiText = obj.value( "uiText" ).toString() ;
+					auto uiText = obj.value( "uiText" ) ;
 
-					items.add( uiText,url ) ;
+					auto url = obj.value( "url" ).toString() ;
+
+					if( uiText.isUndefined() ){
+
+						auto d = utility::stringConstants::duration() + " ";
+						auto u = utility::stringConstants::uploadDate() + " " ;
+
+						auto title    = obj.value( "title" ).toString() ;
+						auto duration = d + obj.value( "duration" ).toString() ;
+						auto date     = u + obj.value( "uploadDate" ).toString() ;
+
+						auto engineName   = obj.value( "engineName" ).toString() ;
+						auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
+
+						QString opts ;
+
+						if( !engineName.isEmpty() ){
+
+							opts = utility::stringConstants::engineName() + engineName ;
+						}
+
+						if( !downloadOpts.isEmpty() ){
+
+							auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
+
+							if( opts.isEmpty() ){
+
+								opts = dopts ;
+							}else{
+								opts += "\n" + dopts ;
+							}
+						}
+
+						if( opts.isEmpty() ){
+
+							auto txt = duration + ", " + date + "\n" + title ;
+
+							items.add( txt,url ) ;
+						}else{
+							auto txt = opts + "\n" + duration + ", " + date + "\n" + title ;
+
+							items.add( txt,url ) ;
+						}
+					}else{
+						items.add( uiText.toString(),url ) ;
+					}
 				}
 
 				const auto& engine = this->defaultEngine() ;
@@ -984,11 +1028,11 @@ void batchdownloader::showList( bool showComments,
 
 		args = engine.defaultListCmdOptions() ;
 
-		const auto& formats = m_table.formats( row ) ;
+		const auto& mp = m_table.mediaProperties( row ) ;
 
-		if( !formats.isEmpty() ){
+		if( !mp.isEmpty() ){
 
-			const auto ss = engine.mediaProperties( formats ) ;
+			const auto ss = engine.mediaProperties( mp ) ;
 
 			if( !ss.empty() ){
 

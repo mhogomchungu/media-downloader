@@ -454,7 +454,7 @@ QStringList yt_dlp::dumpJsonArguments()
 
 		return engines::engine::functions::dumpJsonArguments() ;
 	}else{
-		auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j})R" ;
+		auto a = R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j})R" ;
 
 		return { "--newline","--print",a } ;
 	}

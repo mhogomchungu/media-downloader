@@ -510,38 +510,59 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 {
 	QObject::connect( m.addAction( QObject::tr( "Save List To File" ) ),&QAction::triggered,[ &ctx,&tableWidget ](){
 
-		auto e = QFileDialog::getSaveFileName( &ctx.mainWidget(),
-						       QObject::tr( "Save List To File" ),
-						       utility::homePath() + "/MediaDowloaderList.txt" ) ;
+		QJsonArray arr ;
 
-		if( !e.isEmpty() ){
+		auto downloadOpts = utility::stringConstants::downloadOptions() ;
+		auto engineName = utility::stringConstants::engineName() ;
 
-			QJsonArray arr ;
+		QString uploader ;
 
-			tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
+		if( tableWidget.rowCount() > 1 ){
 
-				using df = downloadManager::finishedStatus ;
-				auto m = df::finishedWithSuccess( e.runningState ) ;
+			uploader = tableWidget.entryAt( 1 ).uiJson.value( "uploader" ).toString() ;
+		}
 
-				if( e.url.isEmpty() || m ){
+		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
 
-					return ;
+			if( !e.url.isEmpty() ){
+
+				auto obj = e.uiJson ;
+
+				obj.insert( "runningState",e.runningState ) ;
+
+				if( e.uiText.contains( '\n' ) ){
+
+					const auto m = util::split( e.uiText,'\n',true ) ;
+
+					for( const auto& it : m ){
+
+						if( it.startsWith( downloadOpts ) ){
+
+							auto m = it.indexOf( ':' ) ;
+
+							obj.insert( "downloadOptions",it.mid( m + 2 ) ) ;
+
+						}else if( it.startsWith( engineName ) ){
+
+							auto m = it.indexOf( ':' ) ;
+
+							obj.insert( "engineName",it.mid( m + 2 ) ) ;
+						}
+					}
 				}
 
-				arr.append( [ & ](){
+				arr.append( obj ) ;
+			}
+		} ) ;
 
-					QJsonObject obj ;
+		auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
 
-					obj.insert( "url",e.url ) ;
-					obj.insert( "uiText",e.uiText ) ;
+		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),
+						       QObject::tr( "Save List To File" ),
+						       utility::homePath() + "/MediaDowloaderList-" + uploader + ".txt" ) ;
+		if( !s.isEmpty() ){
 
-					return obj ;
-				}() ) ;
-			} ) ;
-
-			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
-
-			engines::file( e,ctx.logger() ).write( stuff ) ;
+			engines::file( s,ctx.logger() ).write( stuff ) ;
 		}
 	} ) ;
 }
@@ -551,10 +572,8 @@ bool utility::isRelativePath( const QString& e )
 	return QDir::isRelativePath( e ) ;
 }
 
-utility::MediaEntry::MediaEntry( const QString& url,const QByteArray& data ) : m_json( data )
+utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
 {
-	Q_UNUSED( url )
-
 	if( m_json ){
 
 		auto object = m_json.doc().object() ;
@@ -565,10 +584,11 @@ utility::MediaEntry::MediaEntry( const QString& url,const QByteArray& data ) : m
 		m_id           = object.value( "id" ).toString() ;
 		m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
 		m_formats      = object.value( "formats" ).toArray() ;
+		m_uploader     = object.value( "uploader" ).toString() ;
 
 		if( !m_uploadDate.isEmpty() ){
 
-			m_uploadDate = QObject::tr( "Upload Date:" ) + " " + m_uploadDate ;
+			m_uploadDate = utility::stringConstants::uploadDate() + " " + m_uploadDate ;
 		}
 
 		m_intDuration = object.value( "duration" ).toInt() ;
@@ -576,7 +596,7 @@ utility::MediaEntry::MediaEntry( const QString& url,const QByteArray& data ) : m
 		if( m_intDuration != 0 ){
 
 			auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
-			m_duration = QObject::tr( "Duration:" ) + " " + s ;
+			m_duration = utility::stringConstants::duration() + " " + s ;
 		}
 	}
 }
@@ -609,6 +629,22 @@ QString utility::MediaEntry::uiText() const
 			return m_duration + ", " + m_uploadDate + "\n" + title ;
 		}
 	}
+}
+
+QJsonObject utility::MediaEntry::uiJson() const
+{
+	QJsonObject obj ;
+
+	auto u = QString( m_uploadDate ).replace( utility::stringConstants::uploadDate() + " ","" ) ;
+	auto d = QString( m_duration ).replace( utility::stringConstants::duration() + " ","" ) ;
+
+	obj.insert( "title",m_title ) ;
+	obj.insert( "url",m_url ) ;
+	obj.insert( "duration",d ) ;
+	obj.insert( "uploadDate",u ) ;
+	obj.insert( "uploader",m_uploader ) ;
+
+	return obj ;
 }
 
 const engines::engine& utility::resolveEngine( const tableWidget& table,

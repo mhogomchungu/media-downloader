@@ -49,11 +49,6 @@ QByteArray tableWidget::thumbnailData( const QPixmap& image )
 	return buffer.buffer().toHex() ;
 }
 
-QString tableWidget::engineName()
-{
-	return QObject::tr( "Engine Name:" ) + " " ;
-}
-
 void tableWidget::setDownloadingOptions( tableWidget::type type,
 					 int row,
 					 const QString& mm,
@@ -63,9 +58,9 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 
 		if( type == tableWidget::type::DownloadOptions ){
 
-			return QObject::tr( "Download Options" ) + ": " ;
+			return utility::stringConstants::downloadOptions() + ": " ;
 		}else{
-			return tableWidget::engineName() ;
+			return utility::stringConstants::engineName() ;
 		}
 	}() ;
 

@@ -126,6 +126,22 @@ namespace utility
 		{
 			return e.startsWith( "DoneDownloading" ) ;
 		}
+		static QString uploadDate()
+		{
+			return QObject::tr( "Upload Date:" ) ;
+		}
+		static QString duration()
+		{
+			return QObject::tr( "Duration:" ) ;
+		}
+		static QString engineName()
+		{
+			return QObject::tr( "Engine Name:" ) + " " ;
+		}
+		static QString downloadOptions()
+		{
+			return QObject::tr( "Download Options" ) ;
+		}
 	private:
 	};
 
@@ -1076,7 +1092,8 @@ namespace utility
 		{
 		}
 
-		MediaEntry( const QString& url,const QByteArray& data ) ;
+		MediaEntry( const QByteArray& data ) ;
+
 		QString uiText() const ;
 
 		const QString& thumbnailUrl() const
@@ -1119,6 +1136,7 @@ namespace utility
 		{
 			return m_formats ;
 		}
+		QJsonObject uiJson() const ;
 		int intDuration() const
 		{
 			return m_intDuration ;
@@ -1130,6 +1148,7 @@ namespace utility
 		QString m_url ;
 		QString m_duration ;
 		QString m_id ;
+		QString m_uploader ;
 		QJsonArray m_formats ;
 		int m_intDuration ;
 		util::Json m_json ;

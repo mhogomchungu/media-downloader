@@ -85,6 +85,8 @@ private:
 			tableWidget& table,
 			Logger::Data& data ) ;
 
+	void showEntry( tableWidget& table,tableWidget::entry e ) ;
+
 	struct opts
 	{
 		const Context& ctx ;

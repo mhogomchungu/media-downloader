@@ -368,12 +368,12 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="101"/>
         <location filename="../src/utility.cpp" line="511"/>
-        <location filename="../src/utility.cpp" line="514"/>
+        <location filename="../src/utility.cpp" line="561"/>
         <source>Save List To File</source>
         <translation>Listeyi Dosyaya Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="54"/>
+        <location filename="../src/utility.h" line="139"/>
         <source>Engine Name:</source>
         <translation>Motor Adı:</translation>
     </message>
@@ -391,8 +391,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="342"/>
-        <location filename="../src/utility.h" line="437"/>
-        <location filename="../src/utility.h" line="504"/>
+        <location filename="../src/utility.h" line="453"/>
+        <location filename="../src/utility.h" line="520"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
@@ -545,20 +545,20 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="57"/>
-        <location filename="../src/utility.cpp" line="711"/>
+        <location filename="../src/utility.cpp" line="749"/>
         <source>Checking installed version of</source>
         <translation>Yüklü sürümü kontrol ediliyor</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="62"/>
-        <location filename="../src/utility.cpp" line="692"/>
-        <location filename="../src/utility.cpp" line="737"/>
+        <location filename="../src/utility.cpp" line="730"/>
+        <location filename="../src/utility.cpp" line="775"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Sürüm bilgisi bulunamadı, &quot;%1&quot; yüklendiğinden ve düzgün çalıştığından emin olun</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="65"/>
-        <location filename="../src/utility.cpp" line="733"/>
+        <location filename="../src/utility.cpp" line="771"/>
         <source>Found version</source>
         <translation>Bulunan sürüm</translation>
     </message>
@@ -629,39 +629,39 @@
         <translation>Rötuş</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="470"/>
-        <location filename="../src/utility.h" line="478"/>
-        <location filename="../src/utility.h" line="483"/>
+        <location filename="../src/utility.h" line="486"/>
+        <location filename="../src/utility.h" line="494"/>
+        <location filename="../src/utility.h" line="499"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="475"/>
+        <location filename="../src/utility.h" line="491"/>
         <source>Force Download</source>
         <translation>Zorla İndir</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="493"/>
+        <location filename="../src/utility.h" line="509"/>
         <source>Show Log Window</source>
         <translation>Günlük Penceresini Göster</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="571"/>
+        <location filename="../src/utility.h" line="131"/>
         <source>Upload Date:</source>
         <translation>Yükleme Tarihi:</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="579"/>
+        <location filename="../src/utility.h" line="135"/>
         <source>Duration:</source>
         <translation>Süre:</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="66"/>
+        <location filename="../src/utility.h" line="143"/>
         <source>Download Options</source>
         <translation>İndirme Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="356"/>
+        <location filename="../src/tableWidget.cpp" line="351"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>Tamamlanan: %1%, Başlatılmayan: %2, Başarılı: %3, Başarısız: %4, İptal Edilen: %5</translation>
     </message>
@@ -857,7 +857,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="270"/>
         <source>Show Comments</source>
-        <translation type="unfinished">Yorumları Göster</translation>
+        <translation>Yorumları Göster</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="423"/>
