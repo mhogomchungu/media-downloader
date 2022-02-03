@@ -329,7 +329,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		this->getListFromFile( m ) ;
 
-		utility::saveDownloadList( m_ctx,m,m_table ) ;
+		utility::saveDownloadList( m_ctx,m,m_table,false ) ;
 
 		auto mm = m.addMenu( utility::stringConstants::engineName().replace( ":","" ) ) ;
 

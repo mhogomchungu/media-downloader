@@ -270,7 +270,7 @@ namespace utility
 
 	QString failedToFindExecutableString( const QString& cmd ) ;
 	int concurrentID() ;
-	void saveDownloadList( const Context&,QMenu&,tableWidget& ) ;
+	void saveDownloadList( const Context&,QMenu&,tableWidget&,bool ) ;
 	void wait( int time ) ;
 	void waitForOneSecond() ;
 	void openDownloadFolderPath( const QString& ) ;

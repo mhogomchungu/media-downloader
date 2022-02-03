@@ -310,7 +310,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			} ) ;
 		} ) ;
 
-		utility::saveDownloadList( m_ctx,m,m_table ) ;
+		utility::saveDownloadList( m_ctx,m,m_table,true ) ;
 
 		auto mm = m.addMenu( utility::stringConstants::engineName().replace( ":","" ) ) ;
 

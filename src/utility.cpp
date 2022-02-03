@@ -506,20 +506,29 @@ const QProcessEnvironment& utility::processEnvironment( const Context& ctx )
 	return ctx.Engines().processEnvironment() ;
 }
 
-void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWidget )
+void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWidget,bool pld )
 {
-	QObject::connect( m.addAction( QObject::tr( "Save List To File" ) ),&QAction::triggered,[ &ctx,&tableWidget ](){
+	QObject::connect( m.addAction( QObject::tr( "Save List To File" ) ),&QAction::triggered,[ &ctx,&tableWidget,pld ](){
 
 		QJsonArray arr ;
 
 		auto downloadOpts = utility::stringConstants::downloadOptions() ;
 		auto engineName = utility::stringConstants::engineName() ;
 
-		QString uploader ;
+		QString filePath ;
 
-		if( tableWidget.rowCount() > 1 ){
+		if( pld && tableWidget.rowCount() > 1 ){
 
-			uploader = tableWidget.entryAt( 1 ).uiJson.value( "uploader" ).toString() ;
+			auto uploader = tableWidget.entryAt( 1 ).uiJson.value( "uploader" ).toString() ;
+
+			if( uploader.isEmpty() ){
+
+				filePath = utility::homePath() + "/MediaDowloaderList-" + uploader + ".txt" ;
+			}else{
+				filePath = utility::homePath() + "/MediaDowloaderList.txt" ;
+			}
+		}else{
+			filePath = utility::homePath() + "/MediaDowloaderList.txt" ;
 		}
 
 		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
@@ -559,7 +568,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),
 						       QObject::tr( "Save List To File" ),
-						       utility::homePath() + "/MediaDowloaderList-" + uploader + ".txt" ) ;
+						       filePath ) ;
 		if( !s.isEmpty() ){
 
 			engines::file( s,ctx.logger() ).write( stuff ) ;
