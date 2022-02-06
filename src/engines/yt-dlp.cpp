@@ -133,6 +133,17 @@ QJsonObject yt_dlp::init( const QString& name,
 				return arr ;
 			}() ) ;
 
+			mainObj.insert( "DefaultSubstitlesCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "{\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
+
+				return arr ;
+			}() ) ;
+
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
 
@@ -244,17 +255,34 @@ yt_dlp::yt_dlp( const engines& engines,
 			return arr ;
 		}() ) ;
 
-		obj.insert( "DefaultCommentsCmdOptions",[](){
+		if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
 
-			QJsonArray arr ;
+			obj.insert( "DefaultCommentsCmdOptions",[](){
 
-			arr.append( "--get-comments" ) ;
-			arr.append( "--no-download" ) ;
-			arr.append( "--print" ) ;
-			arr.append( "{\"title\":%(title)j,\"comments\":%(comments)j}" ) ;
+				QJsonArray arr ;
 
-			return arr ;
-		}() ) ;
+				arr.append( "--get-comments" ) ;
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "{\"title\":%(title)j,\"comments\":%(comments)j}" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+
+		if( !obj.contains( "DefaultSubstitlesCmdOptions" ) ){
+
+			obj.insert( "DefaultSubstitlesCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "{\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
+
+				return arr ;
+			}() ) ;
+		}
 	}else{
 		if( !obj.contains( "DefaultListCmdOptions" ) ){
 

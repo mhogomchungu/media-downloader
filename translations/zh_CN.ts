@@ -366,9 +366,9 @@
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="101"/>
+        <location filename="../src/batchdownloader.cpp" line="114"/>
         <location filename="../src/utility.cpp" line="511"/>
-        <location filename="../src/utility.cpp" line="561"/>
+        <location filename="../src/utility.cpp" line="570"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>
@@ -378,12 +378,12 @@
         <translation>引擎名称:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="776"/>
+        <location filename="../src/batchdownloader.cpp" line="944"/>
         <source>Get List From File</source>
         <translation>从文件从获取列表</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="357"/>
+        <location filename="../src/batchdownloader.cpp" line="394"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
         <location filename="../src/utility.cpp" line="316"/>
         <source>Preset Options</source>
@@ -391,8 +391,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="342"/>
-        <location filename="../src/utility.h" line="453"/>
-        <location filename="../src/utility.h" line="520"/>
+        <location filename="../src/utility.h" line="458"/>
+        <location filename="../src/utility.h" line="525"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
@@ -508,57 +508,57 @@
     </message>
     <message>
         <location filename="../src/engines.cpp" line="513"/>
-        <location filename="../src/engines.cpp" line="748"/>
+        <location filename="../src/engines.cpp" line="749"/>
         <location filename="../src/utility.cpp" line="479"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="733"/>
+        <location filename="../src/engines.cpp" line="734"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="816"/>
+        <location filename="../src/engines.cpp" line="817"/>
         <source>Download cancelled</source>
         <translation>下载已取消</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1059"/>
-        <location filename="../src/engines.cpp" line="1069"/>
+        <location filename="../src/engines.cpp" line="1060"/>
+        <location filename="../src/engines.cpp" line="1070"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1084"/>
-        <location filename="../src/engines.cpp" line="1106"/>
+        <location filename="../src/engines.cpp" line="1085"/>
+        <location filename="../src/engines.cpp" line="1107"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1241"/>
-        <location filename="../src/engines.cpp" line="1246"/>
-        <location filename="../src/engines.cpp" line="1253"/>
-        <location filename="../src/engines.cpp" line="1258"/>
+        <location filename="../src/engines.cpp" line="1242"/>
+        <location filename="../src/engines.cpp" line="1247"/>
+        <location filename="../src/engines.cpp" line="1254"/>
+        <location filename="../src/engines.cpp" line="1259"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="57"/>
-        <location filename="../src/utility.cpp" line="749"/>
+        <location filename="../src/utility.cpp" line="758"/>
         <source>Checking installed version of</source>
         <translation>正在检查已安装版本</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="62"/>
-        <location filename="../src/utility.cpp" line="730"/>
-        <location filename="../src/utility.cpp" line="775"/>
+        <location filename="../src/utility.cpp" line="739"/>
+        <location filename="../src/utility.cpp" line="784"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="65"/>
-        <location filename="../src/utility.cpp" line="771"/>
+        <location filename="../src/utility.cpp" line="780"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
@@ -573,7 +573,7 @@
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="822"/>
+        <location filename="../src/engines.cpp" line="823"/>
         <location filename="../src/networkAccess.cpp" line="157"/>
         <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
@@ -609,12 +609,12 @@
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1165"/>
+        <location filename="../src/engines.cpp" line="1166"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="820"/>
+        <location filename="../src/engines.cpp" line="821"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -624,24 +624,24 @@
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1204"/>
+        <location filename="../src/engines.cpp" line="1205"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="486"/>
-        <location filename="../src/utility.h" line="494"/>
+        <location filename="../src/utility.h" line="491"/>
         <location filename="../src/utility.h" line="499"/>
+        <location filename="../src/utility.h" line="504"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="491"/>
+        <location filename="../src/utility.h" line="496"/>
         <source>Force Download</source>
         <translation>强制下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="509"/>
+        <location filename="../src/utility.h" line="514"/>
         <source>Show Log Window</source>
         <translation>显示日志窗口</translation>
     </message>
@@ -657,16 +657,21 @@
     </message>
     <message>
         <location filename="../src/utility.h" line="143"/>
+        <source>Subtitle Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.h" line="147"/>
         <source>Download Options</source>
         <translation>下载选项</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="351"/>
+        <location filename="../src/tableWidget.cpp" line="359"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1119"/>
+        <location filename="../src/playlistdownloader.cpp" line="1102"/>
         <source>Media Already In Archive</source>
         <translation>已存档的媒体</translation>
     </message>
@@ -684,12 +689,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="781"/>
+        <location filename="../src/batchdownloader.cpp" line="949"/>
         <source>Set Batch File</source>
         <translation>选择批量下载地址的文件</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="226"/>
+        <location filename="../src/batchdownloader.cpp" line="251"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -699,60 +704,85 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="98"/>
-        <location filename="../src/batchdownloader.cpp" line="759"/>
+        <location filename="../src/batchdownloader.cpp" line="926"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="240"/>
+        <location filename="../src/batchdownloader.cpp" line="265"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="249"/>
+        <location filename="../src/batchdownloader.cpp" line="274"/>
         <source>Copy Url</source>
         <translation>复制链接地址</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="261"/>
+        <location filename="../src/batchdownloader.cpp" line="286"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="274"/>
+        <location filename="../src/batchdownloader.cpp" line="299"/>
+        <source>Show Subtitles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="314"/>
         <source>Show Comments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="287"/>
+        <location filename="../src/batchdownloader.cpp" line="327"/>
         <source>Show Media Options</source>
         <translation>显示媒体设置</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="707"/>
+        <location filename="../src/batchdownloader.cpp" line="744"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="717"/>
+        <location filename="../src/batchdownloader.cpp" line="754"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="735"/>
+        <location filename="../src/batchdownloader.cpp" line="772"/>
         <source>Replies to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="742"/>
+        <location filename="../src/batchdownloader.cpp" line="779"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="765"/>
+        <location filename="../src/batchdownloader.cpp" line="815"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="817"/>
+        <source>Formats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="819"/>
+        <source>Type</source>
+        <translation type="unfinished">类型</translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="918"/>
+        <location filename="../src/batchdownloader.cpp" line="933"/>
         <source>Set</source>
         <translation>设置</translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="1187"/>
+        <source>Downloading subtitles</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -845,7 +875,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1246"/>
+        <location filename="../src/playlistdownloader.cpp" line="1254"/>
         <source>Get List Options:</source>
         <translation>获取列表选项:</translation>
     </message>

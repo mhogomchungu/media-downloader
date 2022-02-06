@@ -59,8 +59,12 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 		if( type == tableWidget::type::DownloadOptions ){
 
 			return utility::stringConstants::downloadOptions() + ": " ;
-		}else{
+
+		}else if( type == tableWidget::type::EngineName ){
+
 			return utility::stringConstants::engineName() ;
+		}else{
+			return utility::stringConstants::subtitle() + ": " ;
 		}
 	}() ;
 
@@ -133,6 +137,10 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 	}else if( type == tableWidget::type::EngineName ){
 
 		this->setEngineName( mm,row ) ;
+
+	}else if( type == tableWidget::type::subtitleOption ){
+
+		this->setSubTitle( mm,row ) ;
 	}
 }
 

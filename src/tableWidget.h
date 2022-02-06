@@ -53,6 +53,10 @@ public:
 	{
 		this->item( row ).engineName = s ;
 	}
+	void setSubTitle( const QString& s,int row )
+	{
+		this->item( row ).subtitle = s ;
+	}
 	void setUiText( const QString& s,int row )
 	{
 		this->item( row ).uiText = s ;
@@ -81,6 +85,10 @@ public:
 	const QString& engineName( int row ) const
 	{
 		return this->item( row ).engineName ;
+	}
+	const QString& subTitle( int row ) const
+	{
+		return this->item( row ).subtitle ;
 	}
 	const QJsonArray& mediaProperties( int row ) const
 	{
@@ -155,6 +163,7 @@ public:
 		QString downloadingOptions ;
 		QString downloadingOptionsUi ;
 		QString engineName ;
+		QString subtitle ;
 		QJsonArray mediaProperties ;
 		QJsonObject uiJson ;
 
@@ -182,7 +191,7 @@ public:
 	{
 		return m_items[ s ] ;
 	}
-	enum class type{ DownloadOptions,EngineName } ;
+	enum class type{ DownloadOptions,EngineName,subtitleOption } ;
 
 	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;

@@ -138,6 +138,10 @@ namespace utility
 		{
 			return QObject::tr( "Engine Name:" ) + " " ;
 		}
+		static QString subtitle()
+		{
+			return QObject::tr( "Subtitle Name" ) ;
+		}
 		static QString downloadOptions()
 		{
 			return QObject::tr( "Download Options" ) ;
@@ -277,7 +281,8 @@ namespace utility
 	QString homePath() ;
 	QString python3Path() ;
 	QString clipboardText() ;
-	QString fromSecsSinceEpoch( qint64 ) ;
+	QString fromSecsSinceEpoch( qint64 ) ;	
+	QString setDownloadOptions( tableWidget&,int,const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;

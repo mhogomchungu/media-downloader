@@ -844,3 +844,34 @@ QString utility::fromSecsSinceEpoch( qint64 s )
 	std::time_t epoch = static_cast< std::time_t >( s ) ;
 	return QString( std::asctime( std::gmtime( &epoch ) ) ).trimmed() ;
 }
+
+QString utility::setDownloadOptions( tableWidget& table,int row,const QString& downloadOpts )
+{
+	auto u = table.downloadingOptions( row ) ;
+
+	auto m = table.subTitle( row ) ;
+
+	if( !m.isEmpty() ){
+
+		auto s = util::split( m,' ',true ) ;
+
+		if( s.at( 0 ) =="ac:" ){
+
+			m = " --write-auto-subs --sub-langs " + s.at( 1 ) ;
+		}else{
+			m = " --write-subs --sub-langs " + s.at( 1 ) ;
+		}
+	}
+
+	if( u.isEmpty() ){
+
+		if( downloadOpts.isEmpty() ){
+
+			return "Default" + m ;
+		}else{
+			return downloadOpts + m ;
+		}
+	}else{
+		return u + m ;
+	}
+}

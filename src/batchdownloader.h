@@ -155,14 +155,17 @@ public:
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 private:
+	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;
+	void showList( batchdownloader::listType,const engines::engine&,const QString&,int ) ;
+	void showBDFrame( batchdownloader::listType ) ;
 	void saveComments( const QJsonArray&,const QString& filePath ) ;
 	void showComments( const QByteArray& ) ;
-	void showBDFrame( bool ) ;
+	void showSubtitles( const QByteArray& ) ;
+	QString setSubtitleString( const QJsonObject&,const QString& ) ;
 	void getListFromFile( QMenu& ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
-	void showList( bool,const engines::engine&,const QString&,int ) ;
 	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
@@ -188,6 +191,7 @@ private:
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;
 	QPixmap m_defaultVideoThumbnail ;
+	batchdownloader::listType m_listType ;
 
 	utility::Terminator m_terminator ;
 
