@@ -282,7 +282,7 @@ namespace utility
 	QString python3Path() ;
 	QString clipboardText() ;
 	QString fromSecsSinceEpoch( qint64 ) ;	
-	QString setDownloadOptions( tableWidget&,int,const QString& ) ;
+	QString setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;

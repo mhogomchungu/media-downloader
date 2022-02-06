@@ -845,7 +845,10 @@ QString utility::fromSecsSinceEpoch( qint64 s )
 	return QString( std::asctime( std::gmtime( &epoch ) ) ).trimmed() ;
 }
 
-QString utility::setDownloadOptions( tableWidget& table,int row,const QString& downloadOpts )
+QString utility::setDownloadOptions( const engines::engine& engine,
+				     tableWidget& table,
+				     int row,
+				     const QString& downloadOpts )
 {
 	auto u = table.downloadingOptions( row ) ;
 
@@ -855,11 +858,13 @@ QString utility::setDownloadOptions( tableWidget& table,int row,const QString& d
 
 		auto s = util::split( m,' ',true ) ;
 
-		if( s.at( 0 ) =="ac:" ){
+		auto e = engine.defaultSubtitleDownloadOptions().join( " " ) ;
 
-			m = " --write-auto-subs --sub-langs " + s.at( 1 ) ;
+		if( s.at( 0 ) == "ac:" ){
+
+			m = " " + e + " --write-auto-subs --sub-langs " + s.at( 1 ) ;
 		}else{
-			m = " --write-subs --sub-langs " + s.at( 1 ) ;
+			m = " " + e + " --sub-langs " + s.at( 1 ) ;
 		}
 	}
 

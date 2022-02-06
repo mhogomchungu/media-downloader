@@ -355,7 +355,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 					auto m = m_ui.lineEditBDUrlOptions->text() ;
 
-					auto u = utility::setDownloadOptions( m_table,row,m ) ;
+					auto u = utility::setDownloadOptions( engine,m_table,row,m ) ;
 
 					indexes.add( row,u,forceDownload ) ;
 				}
@@ -1459,7 +1459,7 @@ void batchdownloader::download( const engines::engine& engine )
 		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
 			auto m = m_ui.lineEditBDUrlOptions->text() ;
-			auto u = utility::setDownloadOptions( m_table,s,m ) ;
+			auto u = utility::setDownloadOptions( engine,m_table,s,m ) ;
 
 			indexes.add( s,u ) ;
 		}

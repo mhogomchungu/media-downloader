@@ -534,6 +534,7 @@ void engines::engine::updateOptions()
 	m_defaultListCmdOptions           = _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ;
 	m_defaultCommentsCmdOptions       = _toStringList( m_jsonObject.value( "DefaultCommentsCmdOptions" ) ) ;
 	m_defaultSubstitlesCmdOptions     = _toStringList( m_jsonObject.value( "DefaultSubstitlesCmdOptions" ) ) ;
+	m_defaultSubtitleDownloadOptions  = _toStringList( m_jsonObject.value( "DefaultSubtitleDownloadOptions" ) ) ;
 }
 
 engines::engine::engine( Logger& logger,

@@ -144,6 +144,15 @@ QJsonObject yt_dlp::init( const QString& name,
 				return arr ;
 			}() ) ;
 
+			mainObj.insert( "DefaultSubtitleDownloadOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--embed-subs" ) ;
+
+				return arr ;
+			}() ) ;
+
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
 
@@ -279,6 +288,18 @@ yt_dlp::yt_dlp( const engines& engines,
 				arr.append( "--no-download" ) ;
 				arr.append( "--print" ) ;
 				arr.append( "{\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+
+		if( !obj.contains( "DefaultSubtitleDownloadOptions" ) ){
+
+			obj.insert( "DefaultSubtitleDownloadOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--embed-subs" ) ;
 
 				return arr ;
 			}() ) ;
