@@ -398,11 +398,14 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		auto video_ext = obj.value( "video_ext" ).toString() ;
 		auto acodec    = obj.value( "acodec" ).toString() ;
 		auto audio_ext = obj.value( "audio_ext" ).toString() ;
+		auto fmtNotes  = obj.value( "format_note" ).toString() ;
 
 		mediaType mt = mediaType::unknown ;
 
-		if( !rsn.isEmpty() ){
+		if( rsn.isEmpty() ){
 
+			rsn = fmtNotes ;
+		}else{
 			if( rsn == "audio only" ){
 
 				mt = mediaType::audioOnly ;
@@ -429,6 +432,8 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 					mt = mediaType::audioOnly ;
 				}
 			}
+
+			rsn += "\n" + fmtNotes ;
 		}
 
 		QString s ;
