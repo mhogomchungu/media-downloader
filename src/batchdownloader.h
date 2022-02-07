@@ -161,6 +161,8 @@ private:
 	void saveComments( const QJsonArray&,const QString& filePath ) ;
 	void showComments( const QByteArray& ) ;
 	void showSubtitles( const QByteArray& ) ;
+	void saveSubtitles() ;
+	void normalizeFilePath( QString& ) ;
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
 	void getListFromFile( QMenu& ) ;
 	QString defaultEngineName() ;

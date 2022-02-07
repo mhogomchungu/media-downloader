@@ -45,8 +45,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		tableWidget::tableWidgetOptions opts ;
 
-		opts.customContextPolicy = Qt::NoContextMenu ;
-		opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
+		opts.selectionMode = QAbstractItemView::ExtendedSelection ;
 
 		return opts ;
 	}() ) ;
@@ -66,9 +65,17 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	this->resetMenu() ;
 
+	m_tableWidgetBDList.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
+
+		if( m_listType == batchdownloader::listType::SUBTITLES ){
+
+			this->saveSubtitles() ;
+		}
+	} ) ;
+
 	m_tableWidgetBDList.connect( &QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
 
-		if( item ){
+		if( item && m_listType == batchdownloader::listType::MEDIA_OPTIONS ){
 
 			m_tableWidgetBDList.selectMediaOptions( m_optionsList,*item,m_lineEdit ) ;
 		}
@@ -703,6 +710,21 @@ void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePat
 	engines::file( filePath,m_ctx.logger() ).write( data ) ;
 }
 
+void batchdownloader::normalizeFilePath( QString& e )
+{
+	if( utility::platformIsWindows() ){
+
+		e.replace( '<','_' ) ;
+		e.replace( '>','_' ) ;
+		e.replace( ':','_' ) ;
+		e.replace( '"','_' ) ;
+		e.replace( '/','_' ) ;
+		e.replace( '\\','_' ) ;
+		e.replace( '|','_' ) ;
+		e.replace( '?','_' ) ;
+		e.replace( '*','_' ) ;
+	}
+}
 void batchdownloader::showComments( const QByteArray& e )
 {
 	QJsonParseError err ;
@@ -717,19 +739,11 @@ void batchdownloader::showComments( const QByteArray& e )
 
 		if( f.isEmpty() ){
 
-			m_commentsFileName = utility::homePath() + "/MediaDowloaderComments.txt" ;
+			m_commentsFileName = utility::homePath() + "/MediaDowloaderComments.json" ;
 		}else{
-			f.replace( '<','_' ) ;
-			f.replace( '>','_' ) ;
-			f.replace( ':','_' ) ;
-			f.replace( '"','_' ) ;
-			f.replace( '/','_' ) ;
-			f.replace( '\\','_' ) ;
-			f.replace( '|','_' ) ;
-			f.replace( '?','_' ) ;
-			f.replace( '*','_' ) ;
+			this->normalizeFilePath( f ) ;
 
-			m_commentsFileName = utility::homePath() + "/" + f.mid( 0,200 ) + ".txt" ;
+			m_commentsFileName = utility::homePath() + "/" + f.mid( 0,200 ) + ".json" ;
 		}
 		const auto arr = obj.value( "comments" ).toArray() ;
 
@@ -785,61 +799,82 @@ void batchdownloader::showComments( const QByteArray& e )
 
 void batchdownloader::showSubtitles( const QByteArray& e )
 {
-	QJsonParseError err ;
-
-	auto doc = QJsonDocument::fromJson( e,&err ) ;
-
 	class language
 	{
 	public:
-		language( QString m ) :
-			m_name( std::move( m ) )
+		language( const QJsonObject::ConstIterator& it ) :
+			m_name( it.key() )
 		{
-		}
-		void add( const QJsonObject& obj )
-		{
-			m_formats.emplace_back( obj ) ;
+			const auto arr = it.value().toArray() ;
+
+			for( const auto& xt : arr ){
+
+				m_formats.emplace_back( xt.toObject() ) ;
+			}
 		}
 		const QString& name() const
 		{
 			return m_name ;
 		}
-		QString notes( const QString& t ) const
+		QString notes() const
 		{
 			if( m_formats.empty() ){
 
 				return {} ;
 			}else{
-				auto s = m_formats.size() - 1 ;
+				auto it = m_formats.rbegin() ;
 
-				auto name = tr( "Name" ) + ": " + m_formats[ s ].name ;
+				auto name = "Name: " + it->name ;
 
-				auto formats = tr( "Formats" ) + ": " + m_formats[ s ].extension ;
+				auto formats = "Formats: " + it->extension ;
 
-				auto type = tr( "Type" ) + ": " + t ;
+				it++ ;
 
-				for( size_t i = s ; i > 1 ; i-- ){
+				for( ; it != m_formats.rend() ; it++ ){
 
-					formats += ", " + m_formats[ i ].extension ;
+					formats += ", " + it->extension ;
 				}
 
-				return name + "\n" + type + "\n" + formats ;
+				return name + "\n" + formats ;
 			}
+		}
+		QJsonArray subtitles() const
+		{
+			QJsonArray arr ;
+
+			for( const auto& it : m_formats ){
+
+				QJsonObject obj ;
+
+				obj.insert( "name",it.name ) ;
+				obj.insert( "ext",it.extension ) ;
+				obj.insert( "url",it.url ) ;
+
+				arr.append( obj ) ;
+			}
+
+			return arr ;
 		}
 	private:
 		struct fmt
 		{
 			fmt( const QJsonObject& obj ) :
 				name( obj.value( "name" ).toString() ),
-				extension( obj.value( "ext" ).toString() )
+				extension( obj.value( "ext" ).toString() ),
+				url( obj.value( "url" ).toString() )
 			{
 			}
 			QString name ;
 			QString extension ;
+			QString url ;
 		};
 		QString m_name ;
 		std::vector< fmt > m_formats ;
-	};
+	} ;
+
+	QJsonParseError err ;
+
+	auto doc = QJsonDocument::fromJson( e,&err ) ;
 
 	if( err.error == QJsonParseError::NoError ){
 
@@ -847,22 +882,11 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 			std::vector< language > languages ;
 
-			const QJsonObject obj = j.toObject() ;
+			auto obj = j.toObject() ;
 
 			for( auto it = obj.begin() ; it != obj.end() ; it++ ){
 
-				const auto arr = it.value().toArray() ;
-
-				language l( it.key() ) ;
-
-				for( const auto& xt : arr ){
-
-					auto obj = xt.toObject() ;
-
-					l.add( obj ) ;
-				}
-
-				languages.emplace_back( std::move( l ) ) ;
+				languages.emplace_back( it ) ;
 			}
 
 			std::sort( languages.begin(),languages.end(),[]( const language& l,const language& r ){
@@ -875,20 +899,115 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 		auto obj = doc.object() ;
 
-		for( const auto& it : _parse( obj.value( "automatic_captions" ) ) ){
+		auto title = obj.value( "title" ).toString() ;
+
+		auto _add = [ & ]( const language& l,const QString& m ){
 
 			QJsonObject obj ;
-			obj.insert( "type","automatic_captions" ) ;
-			m_tableWidgetBDList.add( { it.name(),"","",it.notes( "automatic_captions" ) },obj ) ;
-		}
+
+			obj.insert( "title",title ) ;
+			obj.insert( "subtitles",l.subtitles() ) ;
+			obj.insert( "type",m ) ;
+
+			return obj ;
+		} ;
 
 		for( const auto& it : _parse( obj.value( "subtitles" ) ) ){
 
-			QJsonObject obj ;
-			obj.insert( "type","subtitles" ) ;
-			m_tableWidgetBDList.add( { it.name(),"","",it.notes( "subtitles" ) },obj ) ;
+			auto obj = _add( it,"subtitles" ) ;
+
+			m_tableWidgetBDList.add( { it.name(),"subtitles","",it.notes() },obj ) ;
+		}
+
+		for( const auto& it : _parse( obj.value( "automatic_captions" ) ) ){
+
+			auto obj = _add( it,"automatic_captions" ) ;
+
+			m_tableWidgetBDList.add( { it.name(),"automatic\ncaptions","",it.notes() },obj ) ;
 		}
 	}
+}
+
+void batchdownloader::saveSubtitles()
+{
+	auto row = m_tableWidgetBDList.currentRow() ;
+
+	if( row == -1 ){
+
+		return ;
+	}
+
+	const auto& s = m_tableWidgetBDList.stuffAt( row ) ;
+
+	auto title = s.value( "title" ).toString() ;
+	const auto subtitles = s.value( "subtitles" ).toArray() ;
+
+	if( subtitles.isEmpty() ){
+
+		return ;
+	}
+
+	this->normalizeFilePath( title ) ;
+
+	struct entry
+	{
+		entry( const QJsonObject& obj ) :
+			name( obj.value( "name" ).toString() ),
+			ext( obj.value( "ext" ).toString() ),
+			url( obj.value( "url" ).toString() )
+		{
+		}
+		QString name ;
+		QString ext ;
+		QString url ;
+	};
+
+	std::vector< entry > entries ;
+
+	QMenu m ;
+
+	for( int s = subtitles.size() - 1 ; s >= 0 ; s-- ){
+
+		const auto& it = subtitles[ s ] ;
+
+		entries.emplace_back( it.toObject() ) ;
+
+		const auto& ext = entries.back().ext ;
+
+		m.addAction( tr( "Download" ) + " " + ext )->setObjectName( ext ) ;
+	}
+
+	connect( &m,&QMenu::triggered,[ this,title,entries = std::move( entries ) ]( QAction * ac ){
+
+		auto ext = ac->objectName() ;
+
+		for( const auto& it : entries ){
+
+			if( it.ext == ext ){
+
+				auto m = utility::homePath() + "/" + title + "." + it.ext ;
+
+				auto s = QObject::tr( "Save Subtitle To File" ) ;
+				auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),s,m ) ;
+
+				if( !e.isEmpty() ){
+
+					auto& network = m_ctx.versionInfo().network() ;
+
+					network.getResource( it.url,[ m ]( const QByteArray& data ){
+
+						QFile f( m ) ;
+						f.open( QIODevice::WriteOnly ) ;
+						f.write( data ) ;
+					} ) ;
+				}
+
+				break ;
+			}
+		}
+	} ) ;
+
+	m.exec( QCursor::pos() ) ;
 }
 
 QString batchdownloader::setSubtitleString( const QJsonObject& obj,const QString& m )
@@ -927,7 +1046,6 @@ void batchdownloader::showBDFrame( batchdownloader::listType m )
 
 	}else if( m == batchdownloader::listType::SUBTITLES ){
 
-		table.hideColumn( 1 ) ;
 		table.hideColumn( 2 ) ;
 
 		m_ui.pbBatchDownloaderSet->setText( tr( "Set" ) ) ;

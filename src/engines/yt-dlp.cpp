@@ -139,7 +139,7 @@ QJsonObject yt_dlp::init( const QString& name,
 
 				arr.append( "--no-download" ) ;
 				arr.append( "--print" ) ;
-				arr.append( "{\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
+				arr.append( "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
 
 				return arr ;
 			}() ) ;
@@ -287,7 +287,7 @@ yt_dlp::yt_dlp( const engines& engines,
 
 				arr.append( "--no-download" ) ;
 				arr.append( "--print" ) ;
-				arr.append( "{\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
+				arr.append( "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
 
 				return arr ;
 			}() ) ;
