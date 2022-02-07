@@ -366,11 +366,16 @@
         <translation>Лучшее аудио</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="114"/>
+        <location filename="../src/batchdownloader.cpp" line="121"/>
         <location filename="../src/utility.cpp" line="511"/>
         <location filename="../src/utility.cpp" line="570"/>
         <source>Save List To File</source>
         <translation>Сохранить список в файл</translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="990"/>
+        <source>Save Subtitle To File</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="139"/>
@@ -378,12 +383,12 @@
         <translation>Плагин:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="944"/>
+        <location filename="../src/batchdownloader.cpp" line="1062"/>
         <source>Get List From File</source>
         <translation>Получить список из файла</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="394"/>
+        <location filename="../src/batchdownloader.cpp" line="401"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
         <location filename="../src/utility.cpp" line="316"/>
         <source>Preset Options</source>
@@ -508,38 +513,38 @@
     </message>
     <message>
         <location filename="../src/engines.cpp" line="513"/>
-        <location filename="../src/engines.cpp" line="749"/>
+        <location filename="../src/engines.cpp" line="750"/>
         <location filename="../src/utility.cpp" line="479"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Не удалось найти исполняемый файл &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="734"/>
+        <location filename="../src/engines.cpp" line="735"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Не удалось найти исполняемый файл python3 для серверной части &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="817"/>
+        <location filename="../src/engines.cpp" line="818"/>
         <source>Download cancelled</source>
         <translation>Загрузка отменена</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1060"/>
-        <location filename="../src/engines.cpp" line="1070"/>
+        <location filename="../src/engines.cpp" line="1061"/>
+        <location filename="../src/engines.cpp" line="1071"/>
         <source>Failed to open file for writing</source>
         <translation>Не удалось открыть файл для записи</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1085"/>
-        <location filename="../src/engines.cpp" line="1107"/>
+        <location filename="../src/engines.cpp" line="1086"/>
+        <location filename="../src/engines.cpp" line="1108"/>
         <source>Failed to open file for reading</source>
         <translation>Не удалось открыть файл для чтения</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1242"/>
-        <location filename="../src/engines.cpp" line="1247"/>
-        <location filename="../src/engines.cpp" line="1254"/>
-        <location filename="../src/engines.cpp" line="1259"/>
+        <location filename="../src/engines.cpp" line="1243"/>
+        <location filename="../src/engines.cpp" line="1248"/>
+        <location filename="../src/engines.cpp" line="1255"/>
+        <location filename="../src/engines.cpp" line="1260"/>
         <source>Elapsed Time:</source>
         <translation>Прошедшее время:</translation>
     </message>
@@ -573,7 +578,7 @@
         <translation>Начать загрузку</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="823"/>
+        <location filename="../src/engines.cpp" line="824"/>
         <location filename="../src/networkAccess.cpp" line="157"/>
         <location filename="../src/networkAccess.cpp" line="249"/>
         <source>Download Failed</source>
@@ -609,12 +614,12 @@
         <translation>Переименовать файл как: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1166"/>
+        <location filename="../src/engines.cpp" line="1167"/>
         <source>Processing</source>
         <translation>Обработка</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="821"/>
+        <location filename="../src/engines.cpp" line="822"/>
         <source>Download completed</source>
         <translation>Загрузка завершена</translation>
     </message>
@@ -624,7 +629,7 @@
         <translation>Сброс папки загрузки на по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1205"/>
+        <location filename="../src/engines.cpp" line="1206"/>
         <source>Post Processing</source>
         <translation>Постобработка</translation>
     </message>
@@ -689,12 +694,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="949"/>
+        <location filename="../src/batchdownloader.cpp" line="1067"/>
         <source>Set Batch File</source>
         <translation>Установить пакетный файл</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="251"/>
+        <location filename="../src/batchdownloader.cpp" line="258"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
@@ -704,83 +709,73 @@
         <translation>Загрузка комментариев</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="926"/>
+        <location filename="../src/batchdownloader.cpp" line="977"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="1045"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="265"/>
+        <location filename="../src/batchdownloader.cpp" line="272"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="274"/>
+        <location filename="../src/batchdownloader.cpp" line="281"/>
         <source>Copy Url</source>
         <translation>Копировать URL</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="286"/>
+        <location filename="../src/batchdownloader.cpp" line="293"/>
         <source>Remove</source>
         <translation>Убрать</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="299"/>
+        <location filename="../src/batchdownloader.cpp" line="306"/>
         <source>Show Subtitles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="314"/>
+        <location filename="../src/batchdownloader.cpp" line="321"/>
         <source>Show Comments</source>
         <translation>Показать комментарии</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="327"/>
+        <location filename="../src/batchdownloader.cpp" line="334"/>
         <source>Show Media Options</source>
         <translation>Показать параметры медиа</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="744"/>
+        <location filename="../src/batchdownloader.cpp" line="758"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="754"/>
+        <location filename="../src/batchdownloader.cpp" line="768"/>
         <source>Date</source>
         <translation>Дата</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="772"/>
+        <location filename="../src/batchdownloader.cpp" line="786"/>
         <source>Replies to</source>
         <translation>Ответы на</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="779"/>
+        <location filename="../src/batchdownloader.cpp" line="793"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="815"/>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="817"/>
-        <source>Formats</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="819"/>
-        <source>Type</source>
-        <translation type="unfinished">Тип</translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="918"/>
-        <location filename="../src/batchdownloader.cpp" line="933"/>
+        <location filename="../src/batchdownloader.cpp" line="1037"/>
+        <location filename="../src/batchdownloader.cpp" line="1051"/>
         <source>Set</source>
         <translation>Установить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1187"/>
+        <location filename="../src/batchdownloader.cpp" line="1305"/>
         <source>Downloading subtitles</source>
         <translation type="unfinished"></translation>
     </message>
