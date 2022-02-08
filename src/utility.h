@@ -1029,8 +1029,8 @@ namespace utility
 	class reverseIterator
 	{
 	public:
-		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::value_type value_type ;
-		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::size_type size_type ;
+		typedef typename std::remove_reference_t< std::remove_cv_t< List > >::value_type value_type ;
+		typedef typename std::remove_reference_t< std::remove_cv_t< List > >::size_type size_type ;
 
 	        reverseIterator( List s ) :
 		        m_list( s ),
@@ -1047,9 +1047,11 @@ namespace utility
 		}
 		auto& next()
 		{
-			auto s = static_cast< typename reverseIterator< List >::size_type >( m_index-- ) ;
-
-			return m_list[ s ] ;
+			return m_list[ this->nextValue() ] ;
+		}
+		auto nextAsValue()
+		{
+			return m_list[ this->nextValue() ] ;
 		}
 		template< typename Function,
 			  util::types::has_bool_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
@@ -1057,7 +1059,7 @@ namespace utility
 		{
 			while( this->hasNext() ){
 
-				if( function( this->next() ) ){
+				if( function( m_list[ this->nextValue() ] ) ){
 
 					break ;
 				}
@@ -1069,10 +1071,14 @@ namespace utility
 		{
 			while( this->hasNext() ){
 
-				function( this->next() ) ;
+				function( m_list[ this->nextValue() ] ) ;
 			}
 		}
 	private:
+		auto nextValue()
+		{
+			return static_cast< typename reverseIterator< List >::size_type >( m_index-- ) ;
+		}
 		List m_list ;
 		int m_index ;
 	} ;

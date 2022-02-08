@@ -803,14 +803,9 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 	{
 	public:
 		language( const QJsonObject::ConstIterator& it ) :
-			m_name( it.key() )
+			m_name( it.key() ),
+			m_formats( it.value().toArray() )
 		{
-			const auto arr = it.value().toArray() ;
-
-			for( const auto& xt : arr ){
-
-				m_formats.emplace_back( xt.toObject() ) ;
-			}
 		}
 		const QString& name() const
 		{
@@ -818,58 +813,33 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 		}
 		QString notes() const
 		{
-			if( m_formats.empty() ){
+			if( m_formats.isEmpty() ){
 
 				return {} ;
 			}else{
-				auto it = m_formats.rbegin() ;
+				auto iter = utility::make_reverseIterator( m_formats ) ;
 
-				auto name = "Name: " + it->name ;
+				auto obj = iter.nextAsValue().toObject() ;
 
-				auto formats = "Formats: " + it->extension ;
+				auto name = "Name: " + obj.value( "name" ).toString() ;
 
-				it++ ;
+				auto formats = "Formats: " + obj.value( "ext" ).toString() ;
 
-				for( ; it != m_formats.rend() ; it++ ){
+				iter.forEach( [ & ]( const QJsonValue& v ){
 
-					formats += ", " + it->extension ;
-				}
+					formats += ", " + v.toObject().value( "ext" ).toString() ;
+				} ) ;
 
 				return name + "\n" + formats ;
 			}
 		}
-		QJsonArray subtitles() const
+		const QJsonArray& subtitles() const
 		{
-			QJsonArray arr ;
-
-			for( const auto& it : m_formats ){
-
-				QJsonObject obj ;
-
-				obj.insert( "name",it.name ) ;
-				obj.insert( "ext",it.extension ) ;
-				obj.insert( "url",it.url ) ;
-
-				arr.append( obj ) ;
-			}
-
-			return arr ;
+			return m_formats ;
 		}
 	private:
-		struct fmt
-		{
-			fmt( const QJsonObject& obj ) :
-				name( obj.value( "name" ).toString() ),
-				extension( obj.value( "ext" ).toString() ),
-				url( obj.value( "url" ).toString() )
-			{
-			}
-			QString name ;
-			QString extension ;
-			QString url ;
-		};
 		QString m_name ;
-		std::vector< fmt > m_formats ;
+		QJsonArray m_formats ;
 	} ;
 
 	QJsonParseError err ;
@@ -940,7 +910,7 @@ void batchdownloader::saveSubtitles()
 	const auto& s = m_tableWidgetBDList.stuffAt( row ) ;
 
 	auto title = s.value( "title" ).toString() ;
-	const auto subtitles = s.value( "subtitles" ).toArray() ;
+	auto subtitles = s.value( "subtitles" ).toArray() ;
 
 	if( subtitles.isEmpty() ){
 
@@ -966,16 +936,14 @@ void batchdownloader::saveSubtitles()
 
 	QMenu m ;
 
-	for( int s = subtitles.size() - 1 ; s >= 0 ; s-- ){
+	utility::make_reverseIterator( subtitles ).forEach( [ & ]( const QJsonValue& v ){
 
-		const auto& it = subtitles[ s ] ;
-
-		entries.emplace_back( it.toObject() ) ;
+		entries.emplace_back( v.toObject() ) ;
 
 		const auto& ext = entries.back().ext ;
 
 		m.addAction( tr( "Download" ) + " " + ext )->setObjectName( ext ) ;
-	}
+	} ) ;
 
 	connect( &m,&QMenu::triggered,[ this,title,entries = std::move( entries ) ]( QAction * ac ){
 
