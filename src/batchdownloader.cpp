@@ -997,11 +997,12 @@ void batchdownloader::showBDFrame( batchdownloader::listType m )
 
 	auto& table = m_tableWidgetBDList.get() ;
 
-	if( m == batchdownloader::listType::MEDIA_OPTIONS ){
+	table.showColumn( 0 ) ;
+	table.showColumn( 1 ) ;
+	table.showColumn( 2 ) ;
+	table.showColumn( 3 ) ;
 
-		table.showColumn( 0 ) ;
-		table.showColumn( 1 ) ;
-		table.showColumn( 2 ) ;
+	if( m == batchdownloader::listType::MEDIA_OPTIONS ){
 
 		m_ui.pbBatchDownloaderSet->setText( tr( "Set" ) ) ;
 
