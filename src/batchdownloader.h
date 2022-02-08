@@ -240,6 +240,18 @@ private:
 		int m_id ;
 	};
 
+	class subtitlesTimer
+	{
+	public:
+		subtitlesTimer( tableMiniWidget< QJsonObject >& table ) ;
+		void start() ;
+		void stop() ;
+	private:
+		engines::engine::functions::preProcessing m_banner ;
+		QTimer m_timer ;
+		tableMiniWidget< QJsonObject >& m_table ;
+	} m_subtitlesTimer ;
+
 	template< typename LogFilter >
 	class BatchLoggerWrapper
 	{

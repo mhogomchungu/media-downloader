@@ -37,7 +37,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings ),
-	m_downloadingComments( tr( "Downloading comments" ).toUtf8() )
+	m_downloadingComments( tr( "Downloading comments" ).toUtf8() ),
+	m_subtitlesTimer( m_tableWidgetBDList )
 {
 	qRegisterMetaType< ItemEntry >() ;
 
@@ -886,14 +887,14 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 			auto obj = _add( it,"subtitles" ) ;
 
-			m_tableWidgetBDList.add( { it.name(),"subtitles","",it.notes() },obj ) ;
+			m_tableWidgetBDList.add( { it.name(),"subtitle","",it.notes() },obj ) ;
 		}
 
 		for( const auto& it : _parse( obj.value( "automatic_captions" ) ) ){
 
 			auto obj = _add( it,"automatic_captions" ) ;
 
-			m_tableWidgetBDList.add( { it.name(),"automatic\ncaptions","",it.notes() },obj ) ;
+			m_tableWidgetBDList.add( { it.name(),"automatic\ncaption","",it.notes() },obj ) ;
 		}
 	}
 }
@@ -1272,6 +1273,8 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		m_tableWidgetBDList.add( { "","","","\n" + tr( "Downloading subtitles" ) + "\n" } ) ;
 
+		m_subtitlesTimer.start() ;
+
 	}else if( listType == batchdownloader::listType::COMMENTS ){
 
 		args = engine.defaultCommentsCmdOptions() ;
@@ -1324,6 +1327,11 @@ void batchdownloader::showList( batchdownloader::listType listType,
 	auto functions = utility::OptionsFunctions( [ this,&engine,listType ]( const utility::ProcessExitState& s,const QByteArray& a ){
 
 			if( listType != batchdownloader::listType::MEDIA_OPTIONS ){
+
+				if( listType == batchdownloader::listType::SUBTITLES ){
+
+					m_subtitlesTimer.stop() ;
+				}
 
 				m_tableWidgetBDList.removeRow( 0 ) ;
 			}
@@ -1657,4 +1665,25 @@ void batchdownloader::disableAll()
 	m_ui.pbBatchDownloaderSet->setEnabled( false ) ;
 	m_ui.pbCancelBatchDownloder->setEnabled( false ) ;
 	m_ui.TableWidgetBatchDownloaderList->setEnabled( false ) ;
+}
+
+batchdownloader::subtitlesTimer::subtitlesTimer( tableMiniWidget< QJsonObject> & table ) :
+	m_banner( tr( "Downloading subtitles" ).toUtf8(),8 ),
+	m_table( table )
+{
+	connect( &m_timer,&QTimer::timeout,[ this ](){
+
+		m_table.item( 0,3 ).setText( "\n" + m_banner.text() + "\n" ) ;
+	} ) ;
+}
+
+void batchdownloader::subtitlesTimer::start()
+{
+	m_banner.reset() ;
+	m_timer.start( 1000 ) ;
+}
+
+void batchdownloader::subtitlesTimer::stop()
+{
+	m_timer.stop() ;
 }

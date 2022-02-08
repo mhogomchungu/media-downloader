@@ -227,12 +227,14 @@ public:
 			{
 			public:
 				preProcessing() ;
-				preProcessing( const QByteArray& ) ;
+				preProcessing( const QByteArray&,int = 16 ) ;
 
 				static QByteArray processingText() ;
+				void reset() ;
 				const QByteArray& text() ;
 				const QByteArray& text( const QByteArray& ) ;
 			private:
+				int m_maxCounter ;
 				int m_counter = 0 ;
 				QByteArray m_counterDots ;
 				QByteArray m_txt ;

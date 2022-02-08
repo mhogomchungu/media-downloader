@@ -1157,7 +1157,8 @@ engines::engine::functions::preProcessing::preProcessing() :
 {
 }
 
-engines::engine::functions::preProcessing::preProcessing( const QByteArray& e ) :
+engines::engine::functions::preProcessing::preProcessing( const QByteArray& e,int s ) :
+	m_maxCounter( s ),
 	m_processingDefaultText( e )
 {
 }
@@ -1167,9 +1168,15 @@ QByteArray engines::engine::functions::preProcessing::processingText()
 	return QObject::tr( "Processing" ).toUtf8() ;
 }
 
+void engines::engine::functions::preProcessing::reset()
+{
+	m_counter = 0 ;
+	m_counterDots = " ..." ;
+}
+
 const QByteArray& engines::engine::functions::preProcessing::text()
 {
-	if( m_counter < 16 ){
+	if( m_counter < m_maxCounter ){
 
 		m_counterDots += " ..." ;
 	}else{
