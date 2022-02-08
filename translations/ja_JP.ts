@@ -366,14 +366,14 @@
         <translation>最高音質</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="121"/>
+        <location filename="../src/batchdownloader.cpp" line="122"/>
         <location filename="../src/utility.cpp" line="511"/>
         <location filename="../src/utility.cpp" line="570"/>
         <source>Save List To File</source>
         <translation>ファイルにリストを保存</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="990"/>
+        <location filename="../src/batchdownloader.cpp" line="959"/>
         <source>Save Subtitle To File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -383,12 +383,12 @@
         <translation>エンジン名:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1062"/>
+        <location filename="../src/batchdownloader.cpp" line="1031"/>
         <source>Get List From File</source>
         <translation>ファイルからリストを読み込む</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="401"/>
+        <location filename="../src/batchdownloader.cpp" line="402"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
         <location filename="../src/utility.cpp" line="316"/>
         <source>Preset Options</source>
@@ -541,10 +541,10 @@
         <translation>ファイルが読み込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1243"/>
-        <location filename="../src/engines.cpp" line="1248"/>
+        <location filename="../src/engines.cpp" line="1250"/>
         <location filename="../src/engines.cpp" line="1255"/>
-        <location filename="../src/engines.cpp" line="1260"/>
+        <location filename="../src/engines.cpp" line="1262"/>
+        <location filename="../src/engines.cpp" line="1267"/>
         <source>Elapsed Time:</source>
         <translation>経過時間:</translation>
     </message>
@@ -614,7 +614,7 @@
         <translation>ファイル名を変更: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1167"/>
+        <location filename="../src/engines.cpp" line="1168"/>
         <source>Processing</source>
         <translation>処理中</translation>
     </message>
@@ -629,7 +629,7 @@
         <translation>ダウンロードフォルダをデフォルトにリセット</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1206"/>
+        <location filename="../src/engines.cpp" line="1213"/>
         <source>Post Processing</source>
         <translation>後処理</translation>
     </message>
@@ -694,12 +694,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1067"/>
+        <location filename="../src/batchdownloader.cpp" line="1036"/>
         <source>Set Batch File</source>
         <translation>バッチファイルをセット</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="258"/>
+        <location filename="../src/batchdownloader.cpp" line="259"/>
         <source>Open</source>
         <translation>開く</translation>
     </message>
@@ -709,73 +709,74 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="977"/>
+        <location filename="../src/batchdownloader.cpp" line="946"/>
         <source>Download</source>
         <translation type="unfinished">ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1045"/>
+        <location filename="../src/batchdownloader.cpp" line="1014"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="272"/>
+        <location filename="../src/batchdownloader.cpp" line="273"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="281"/>
+        <location filename="../src/batchdownloader.cpp" line="282"/>
         <source>Copy Url</source>
         <translation>URLをコピー</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="293"/>
+        <location filename="../src/batchdownloader.cpp" line="294"/>
         <source>Remove</source>
         <translation>削除</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="306"/>
+        <location filename="../src/batchdownloader.cpp" line="307"/>
         <source>Show Subtitles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="321"/>
+        <location filename="../src/batchdownloader.cpp" line="322"/>
         <source>Show Comments</source>
         <translation>コメントを表示</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="334"/>
+        <location filename="../src/batchdownloader.cpp" line="335"/>
         <source>Show Media Options</source>
         <translation>メディアオプションを表示</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="758"/>
+        <location filename="../src/batchdownloader.cpp" line="759"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="768"/>
+        <location filename="../src/batchdownloader.cpp" line="769"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="786"/>
+        <location filename="../src/batchdownloader.cpp" line="787"/>
         <source>Replies to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="793"/>
+        <location filename="../src/batchdownloader.cpp" line="794"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1037"/>
-        <location filename="../src/batchdownloader.cpp" line="1051"/>
+        <location filename="../src/batchdownloader.cpp" line="1006"/>
+        <location filename="../src/batchdownloader.cpp" line="1020"/>
         <source>Set</source>
         <translation>セット</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1305"/>
+        <location filename="../src/batchdownloader.cpp" line="1274"/>
+        <location filename="../src/batchdownloader.cpp" line="1671"/>
         <source>Downloading subtitles</source>
         <translation type="unfinished"></translation>
     </message>

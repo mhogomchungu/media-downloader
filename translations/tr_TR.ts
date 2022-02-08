@@ -366,14 +366,14 @@
         <translation>En iyi ses</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="121"/>
+        <location filename="../src/batchdownloader.cpp" line="122"/>
         <location filename="../src/utility.cpp" line="511"/>
         <location filename="../src/utility.cpp" line="570"/>
         <source>Save List To File</source>
         <translation>Listeyi Dosyaya Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="990"/>
+        <location filename="../src/batchdownloader.cpp" line="959"/>
         <source>Save Subtitle To File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -383,12 +383,12 @@
         <translation>Motor Adı:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1062"/>
+        <location filename="../src/batchdownloader.cpp" line="1031"/>
         <source>Get List From File</source>
         <translation>Dosyadan Liste Al</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="401"/>
+        <location filename="../src/batchdownloader.cpp" line="402"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
         <location filename="../src/utility.cpp" line="316"/>
         <source>Preset Options</source>
@@ -541,10 +541,10 @@
         <translation>Dosya okumak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1243"/>
-        <location filename="../src/engines.cpp" line="1248"/>
+        <location filename="../src/engines.cpp" line="1250"/>
         <location filename="../src/engines.cpp" line="1255"/>
-        <location filename="../src/engines.cpp" line="1260"/>
+        <location filename="../src/engines.cpp" line="1262"/>
+        <location filename="../src/engines.cpp" line="1267"/>
         <source>Elapsed Time:</source>
         <translation>Geçen Zaman:</translation>
     </message>
@@ -614,7 +614,7 @@
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1167"/>
+        <location filename="../src/engines.cpp" line="1168"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
@@ -629,7 +629,7 @@
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1206"/>
+        <location filename="../src/engines.cpp" line="1213"/>
         <source>Post Processing</source>
         <translation>Rötuş</translation>
     </message>
@@ -694,12 +694,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1067"/>
+        <location filename="../src/batchdownloader.cpp" line="1036"/>
         <source>Set Batch File</source>
         <translation>Toplu Dosya Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="258"/>
+        <location filename="../src/batchdownloader.cpp" line="259"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
@@ -709,73 +709,74 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="977"/>
+        <location filename="../src/batchdownloader.cpp" line="946"/>
         <source>Download</source>
         <translation type="unfinished">İndir</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1045"/>
+        <location filename="../src/batchdownloader.cpp" line="1014"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="272"/>
+        <location filename="../src/batchdownloader.cpp" line="273"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="281"/>
+        <location filename="../src/batchdownloader.cpp" line="282"/>
         <source>Copy Url</source>
         <translation>Url Kopyala</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="293"/>
+        <location filename="../src/batchdownloader.cpp" line="294"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="306"/>
+        <location filename="../src/batchdownloader.cpp" line="307"/>
         <source>Show Subtitles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="321"/>
+        <location filename="../src/batchdownloader.cpp" line="322"/>
         <source>Show Comments</source>
         <translation>Yorumları Göster</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="334"/>
+        <location filename="../src/batchdownloader.cpp" line="335"/>
         <source>Show Media Options</source>
         <translation>Medya Seçeneklerini Göster</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="758"/>
+        <location filename="../src/batchdownloader.cpp" line="759"/>
         <source>Author</source>
         <translation>Yazar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="768"/>
+        <location filename="../src/batchdownloader.cpp" line="769"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="786"/>
+        <location filename="../src/batchdownloader.cpp" line="787"/>
         <source>Replies to</source>
         <translation>Yanıtlar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="793"/>
+        <location filename="../src/batchdownloader.cpp" line="794"/>
         <source>Text</source>
         <translation>Metin</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1037"/>
-        <location filename="../src/batchdownloader.cpp" line="1051"/>
+        <location filename="../src/batchdownloader.cpp" line="1006"/>
+        <location filename="../src/batchdownloader.cpp" line="1020"/>
         <source>Set</source>
         <translation>Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1305"/>
+        <location filename="../src/batchdownloader.cpp" line="1274"/>
+        <location filename="../src/batchdownloader.cpp" line="1671"/>
         <source>Downloading subtitles</source>
         <translation type="unfinished"></translation>
     </message>
