@@ -164,6 +164,7 @@ private:
 	void saveSubtitles() ;
 	void normalizeFilePath( QString& ) ;
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
+	void parseDataFromFile( const QByteArray& ) ;
 	void getListFromFile( QMenu& ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;

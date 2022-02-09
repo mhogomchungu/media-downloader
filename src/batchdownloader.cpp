@@ -1027,6 +1027,122 @@ void batchdownloader::showBDFrame( batchdownloader::listType m )
 	m_ui.pbCancelBatchDownloder->setFocus() ;
 }
 
+void batchdownloader::parseDataFromFile( const QByteArray& data )
+{
+	QJsonParseError err ;
+
+	auto json = QJsonDocument::fromJson( data,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		const auto array = json.array() ;
+
+		Items items ;
+
+		for( const auto& it : array ){
+
+			auto obj = it.toObject() ;
+
+			auto uiText = obj.value( "uiText" ) ;
+
+			auto url = obj.value( "url" ).toString() ;
+
+			if( uiText.isUndefined() ){
+
+				auto d = utility::stringConstants::duration() + " ";
+				auto u = utility::stringConstants::uploadDate() + " " ;
+
+				auto title    = obj.value( "title" ).toString() ;
+				auto duration = obj.value( "duration" ).toString() ;
+				auto date     = obj.value( "uploadDate" ).toString() ;
+
+				auto engineName   = obj.value( "engineName" ).toString() ;
+				auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
+
+				if( !duration.isEmpty() ){
+
+					duration = d + duration ;
+				}
+
+				if( !date.isEmpty() ){
+
+					date = u + date ;
+				}
+
+				QString durationAndDate ;
+
+				if( !duration.isEmpty() && !date.isEmpty() ){
+
+					durationAndDate = duration + ", " + date ;
+
+				}else if( duration.isEmpty() ){
+
+					if( date.isEmpty() ){
+
+
+					}else{
+						durationAndDate = date ;
+					}
+
+				}else if( date.isEmpty() ){
+
+					if( duration.isEmpty() ){
+
+					}else{
+						durationAndDate = duration ;
+					}
+				}
+
+				QString opts ;
+
+				if( !engineName.isEmpty() ){
+
+					opts = utility::stringConstants::engineName() + engineName ;
+				}
+
+				if( !downloadOpts.isEmpty() ){
+
+					auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
+
+					if( opts.isEmpty() ){
+
+						opts = dopts ;
+					}else{
+						opts += "\n" + dopts ;
+					}
+				}
+
+				if( opts.isEmpty() ){
+
+					if( durationAndDate.isEmpty() ){
+
+						items.add( title,url ) ;
+					}else{
+						auto txt = durationAndDate + "\n" + title ;
+
+						items.add( txt,url ) ;
+					}
+				}else{
+					if( durationAndDate.isEmpty() ){
+
+						items.add( title,url ) ;
+					}else{
+						auto txt = opts + "\n" + durationAndDate + "\n" + title ;
+
+						items.add( txt,url ) ;
+					}
+				}
+			}else{
+				items.add( uiText.toString(),url ) ;
+			}
+		}
+
+		const auto& engine = this->defaultEngine() ;
+
+		this->showThumbnail( engine,std::move( items ) ) ;
+	}
+}
+
 void batchdownloader::getListFromFile( QMenu& m )
 {
 	auto ac = m.addAction( QObject::tr( "Get List From File" ) ) ;
@@ -1051,86 +1167,19 @@ void batchdownloader::getListFromFile( QMenu& m )
 
 		if( list.startsWith( '[' ) ){
 
-			QJsonParseError err ;
+			this->parseDataFromFile( list ) ;
+		}else{
+			Items items ;
 
-			auto json = QJsonDocument::fromJson( list,&err ) ;
+			for( const auto& it : util::split( list,'\n',true ) ){
 
-			if( err.error == QJsonParseError::NoError ){
-
-				const auto array = json.array() ;
-
-				Items items ;
-
-				for( const auto& it : array ){
-
-					auto obj = it.toObject() ;
-
-					auto uiText = obj.value( "uiText" ) ;
-
-					auto url = obj.value( "url" ).toString() ;
-
-					if( uiText.isUndefined() ){
-
-						auto d = utility::stringConstants::duration() + " ";
-						auto u = utility::stringConstants::uploadDate() + " " ;
-
-						auto title    = obj.value( "title" ).toString() ;
-						auto duration = d + obj.value( "duration" ).toString() ;
-						auto date     = u + obj.value( "uploadDate" ).toString() ;
-
-						auto engineName   = obj.value( "engineName" ).toString() ;
-						auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
-
-						QString opts ;
-
-						if( !engineName.isEmpty() ){
-
-							opts = utility::stringConstants::engineName() + engineName ;
-						}
-
-						if( !downloadOpts.isEmpty() ){
-
-							auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
-
-							if( opts.isEmpty() ){
-
-								opts = dopts ;
-							}else{
-								opts += "\n" + dopts ;
-							}
-						}
-
-						if( opts.isEmpty() ){
-
-							auto txt = duration + ", " + date + "\n" + title ;
-
-							items.add( txt,url ) ;
-						}else{
-							auto txt = opts + "\n" + duration + ", " + date + "\n" + title ;
-
-							items.add( txt,url ) ;
-						}
-					}else{
-						items.add( uiText.toString(),url ) ;
-					}
-				}
-
-				const auto& engine = this->defaultEngine() ;
-
-				return this->showThumbnail( engine,std::move( items ) ) ;
+			     items.add( it ) ;
 			}
+
+			const auto& engine = this->defaultEngine() ;
+
+			this->showThumbnail( engine,std::move( items ) ) ;
 		}
-
-		Items items ;
-
-		for( const auto& it : util::split( list,'\n',true ) ){
-
-		     items.add( it ) ;
-		}
-
-		const auto& engine = this->defaultEngine() ;
-
-		this->showThumbnail( engine,std::move( items ) ) ;
 	} ) ;
 }
 
@@ -1427,11 +1476,11 @@ static int _addItemUi( const QPixmap& pixmap,
 	int row ;
 	if( index == -1 ){
 
-		row = table.addItem( { pixmap,media.uiText(),media.url(),state,media.formats() } ) ;
+		row = table.addItem( { pixmap,media.uiText(),media.url(),state,media.uiJson() } ) ;
 		table.selectLast() ;
 	}else{
 		row = index ;
-		table.replace( { pixmap,media.uiText(),media.url(),state,media.formats() },index ) ;
+		table.replace( { pixmap,media.uiText(),media.url(),state,media.uiJson() },index ) ;
 	}
 
 	ui.lineEditBDUrl->clear() ;
