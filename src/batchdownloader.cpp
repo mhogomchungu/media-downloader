@@ -1043,97 +1043,90 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 
 			auto obj = it.toObject() ;
 
-			auto uiText = obj.value( "uiText" ) ;
-
 			auto url = obj.value( "url" ).toString() ;
 
-			if( uiText.isUndefined() ){
+			auto d = utility::stringConstants::duration() + " ";
+			auto u = utility::stringConstants::uploadDate() + " " ;
 
-				auto d = utility::stringConstants::duration() + " ";
-				auto u = utility::stringConstants::uploadDate() + " " ;
+			auto title    = obj.value( "title" ).toString() ;
+			auto duration = obj.value( "duration" ).toString() ;
+			auto date     = obj.value( "uploadDate" ).toString() ;
 
-				auto title    = obj.value( "title" ).toString() ;
-				auto duration = obj.value( "duration" ).toString() ;
-				auto date     = obj.value( "uploadDate" ).toString() ;
+			auto engineName   = obj.value( "engineName" ).toString() ;
+			auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
 
-				auto engineName   = obj.value( "engineName" ).toString() ;
-				auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
+			if( !duration.isEmpty() ){
 
-				if( !duration.isEmpty() ){
+				duration = d + duration ;
+			}
 
-					duration = d + duration ;
+			if( !date.isEmpty() ){
+
+				date = u + date ;
+			}
+
+			QString durationAndDate ;
+
+			if( !duration.isEmpty() && !date.isEmpty() ){
+
+				durationAndDate = duration + ", " + date ;
+
+			}else if( duration.isEmpty() ){
+
+				if( date.isEmpty() ){
+
+
+				}else{
+					durationAndDate = date ;
 				}
 
-				if( !date.isEmpty() ){
+			}else if( date.isEmpty() ){
 
-					date = u + date ;
+				if( duration.isEmpty() ){
+
+				}else{
+					durationAndDate = duration ;
 				}
+			}
 
-				QString durationAndDate ;
+			QString opts ;
 
-				if( !duration.isEmpty() && !date.isEmpty() ){
+			if( !engineName.isEmpty() ){
 
-					durationAndDate = duration + ", " + date ;
+				opts = utility::stringConstants::engineName() + engineName ;
+			}
 
-				}else if( duration.isEmpty() ){
+			if( !downloadOpts.isEmpty() ){
 
-					if( date.isEmpty() ){
-
-
-					}else{
-						durationAndDate = date ;
-					}
-
-				}else if( date.isEmpty() ){
-
-					if( duration.isEmpty() ){
-
-					}else{
-						durationAndDate = duration ;
-					}
-				}
-
-				QString opts ;
-
-				if( !engineName.isEmpty() ){
-
-					opts = utility::stringConstants::engineName() + engineName ;
-				}
-
-				if( !downloadOpts.isEmpty() ){
-
-					auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
-
-					if( opts.isEmpty() ){
-
-						opts = dopts ;
-					}else{
-						opts += "\n" + dopts ;
-					}
-				}
+				auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
 
 				if( opts.isEmpty() ){
 
-					if( durationAndDate.isEmpty() ){
-
-						items.add( title,url ) ;
-					}else{
-						auto txt = durationAndDate + "\n" + title ;
-
-						items.add( txt,url ) ;
-					}
+					opts = dopts ;
 				}else{
-					if( durationAndDate.isEmpty() ){
+					opts += "\n" + dopts ;
+				}
+			}
 
-						items.add( title,url ) ;
-					}else{
-						auto txt = opts + "\n" + durationAndDate + "\n" + title ;
+			if( opts.isEmpty() ){
 
-						items.add( txt,url ) ;
-					}
+				if( durationAndDate.isEmpty() ){
+
+					items.add( title,url ) ;
+				}else{
+					auto txt = durationAndDate + "\n" + title ;
+
+					items.add( txt,url ) ;
 				}
 			}else{
-				items.add( uiText.toString(),url ) ;
+				if( durationAndDate.isEmpty() ){
+
+					items.add( title,url ) ;
+				}else{
+					auto txt = opts + "\n" + durationAndDate + "\n" + title ;
+
+					items.add( txt,url ) ;
+				}
 			}
 		}
 
