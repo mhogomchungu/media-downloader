@@ -1058,7 +1058,7 @@ void engines::file::write( const QString& e )
 
 		m_file.write( e.toUtf8() ) ;
 	}else{
-		m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+		this->failToOpenForWriting() ;
 	}
 }
 
@@ -1068,7 +1068,7 @@ void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat fo
 
 		m_file.write( doc.toJson( format ) ) ;
 	}else{
-		m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+		this->failToOpenForWriting() ;
 	}
 }
 
@@ -1083,8 +1083,7 @@ QByteArray engines::file::readAll()
 
 		return m_file.readAll() ;
 	}else{
-		m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
-
+		this->failToOpenForReading() ;
 		return QByteArray() ;
 	}
 }
@@ -1105,10 +1104,20 @@ QStringList engines::file::readAllAsLines()
 			}
 		}
 	}else{
-		m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
+		this->failToOpenForReading() ;
 	}
 
 	return m ;
+}
+
+void engines::file::failToOpenForWriting()
+{
+	m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+}
+
+void engines::file::failToOpenForReading()
+{
+	m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
 }
 
 engines::engine::functions::filter::filter( const QString& e,const engines::engine& engine ) :

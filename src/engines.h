@@ -55,7 +55,40 @@ public:
 			    QJsonDocument::JsonFormat = QJsonDocument::Indented ) ;
 		QByteArray readAll() ;
 		QStringList readAllAsLines() ;
+		template< typename Function >
+		static void readAll( const QString& filePath,Logger& logger,Function function )
+		{
+			struct result
+			{
+				bool success ;
+				QByteArray data ;
+			};
+
+			util::runInBgThread( [ filePath ]()->result{
+
+				QFile f( filePath ) ;
+
+				if( f.open( QIODevice::ReadOnly ) ){
+
+					return { true,f.readAll() } ;
+				}else{
+					return { false,{} } ;
+				}
+
+			},[ &logger,filePath,function = std::move( function ) ]( result r ){
+
+				if( r.success ){
+
+					function( true,r.data ) ;
+				}else{
+					engines::file( filePath,logger ).failToOpenForReading() ;
+					function( false,r.data ) ;
+				}
+			} ) ;
+		}
 	private:
+		void failToOpenForReading() ;
+		void failToOpenForWriting() ;
 		QString m_filePath ;
 		QFile m_file ;
 		Logger& m_logger ;

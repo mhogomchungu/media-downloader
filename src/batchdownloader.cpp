@@ -1027,6 +1027,110 @@ void batchdownloader::showBDFrame( batchdownloader::listType m )
 	m_ui.pbCancelBatchDownloder->setFocus() ;
 }
 
+template< typename Function >
+static void _parseDataFromFile( Items& items,
+				const QJsonArray& array,
+				const QString& urlKey,
+				const QString& uploadDate,
+				const Function& converter )
+{
+	for( const auto& it : array ){
+
+		auto obj = it.toObject() ;
+
+		if( obj.isEmpty() ){
+
+			continue ;
+		}
+
+		auto url = obj.value( urlKey ).toString() ;
+
+		auto d = utility::stringConstants::duration() + " " ;
+		auto u = utility::stringConstants::uploadDate() + " " ;
+
+		auto title    = obj.value( "title" ).toString() ;
+		auto duration = converter( obj.value( "duration" ) ) ;
+		auto date     = obj.value( uploadDate ).toString() ;
+
+		auto engineName   = obj.value( "engineName" ).toString() ;
+		auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
+
+		if( !duration.isEmpty() ){
+
+			duration = d + duration ;
+		}
+
+		if( !date.isEmpty() ){
+
+			date = u + date ;
+		}
+
+		QString durationAndDate ;
+
+		if( !duration.isEmpty() && !date.isEmpty() ){
+
+			durationAndDate = duration + ", " + date ;
+
+		}else if( duration.isEmpty() ){
+
+			if( date.isEmpty() ){
+
+
+			}else{
+				durationAndDate = date ;
+			}
+
+		}else if( date.isEmpty() ){
+
+			if( duration.isEmpty() ){
+
+			}else{
+				durationAndDate = duration ;
+			}
+		}
+
+		QString opts ;
+
+		if( !engineName.isEmpty() ){
+
+			opts = utility::stringConstants::engineName() + engineName ;
+		}
+
+		if( !downloadOpts.isEmpty() ){
+
+			auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
+
+			if( opts.isEmpty() ){
+
+				opts = dopts ;
+			}else{
+				opts += "\n" + dopts ;
+			}
+		}
+
+		if( opts.isEmpty() ){
+
+			if( durationAndDate.isEmpty() ){
+
+				items.add( title,url ) ;
+			}else{
+				auto txt = durationAndDate + "\n" + title ;
+
+				items.add( txt,url ) ;
+			}
+		}else{
+			if( durationAndDate.isEmpty() ){
+
+				items.add( title,url ) ;
+			}else{
+				auto txt = opts + "\n" + durationAndDate + "\n" + title ;
+
+				items.add( txt,url ) ;
+			}
+		}
+	}
+}
+
 void batchdownloader::parseDataFromFile( const QByteArray& data )
 {
 	QJsonParseError err ;
@@ -1035,98 +1139,35 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 
 	if( err.error == QJsonParseError::NoError ){
 
-		const auto array = json.array() ;
-
+		auto obj = json.object() ;
 		Items items ;
 
-		for( const auto& it : array ){
+		if( obj.isEmpty() ){
 
-			auto obj = it.toObject() ;
+			/*
+			 * File created by us
+			 */
+			auto function = []( const QJsonValue& e ){
 
-			auto url = obj.value( "url" ).toString() ;
+				return e.toString() ;
+			} ;
 
-			auto d = utility::stringConstants::duration() + " ";
-			auto u = utility::stringConstants::uploadDate() + " " ;
+			_parseDataFromFile( items,json.array(),"url","uploadDate",function ) ;
+		}else{
+			/*
+			 * File created with yt-dlp
+			 */
+			auto array = obj.value( "entries" ).toArray() ;
 
-			auto title    = obj.value( "title" ).toString() ;
-			auto duration = obj.value( "duration" ).toString() ;
-			auto date     = obj.value( "uploadDate" ).toString() ;
+			auto function = []( const QJsonValue& e ){
 
-			auto engineName   = obj.value( "engineName" ).toString() ;
-			auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
+				using tt = engines::engine::functions::timer ;
+				return tt::duration( e.toInt() * 1000 ) ;
+			} ;
 
-			if( !duration.isEmpty() ){
+			if( !array.isEmpty() ){
 
-				duration = d + duration ;
-			}
-
-			if( !date.isEmpty() ){
-
-				date = u + date ;
-			}
-
-			QString durationAndDate ;
-
-			if( !duration.isEmpty() && !date.isEmpty() ){
-
-				durationAndDate = duration + ", " + date ;
-
-			}else if( duration.isEmpty() ){
-
-				if( date.isEmpty() ){
-
-
-				}else{
-					durationAndDate = date ;
-				}
-
-			}else if( date.isEmpty() ){
-
-				if( duration.isEmpty() ){
-
-				}else{
-					durationAndDate = duration ;
-				}
-			}
-
-			QString opts ;
-
-			if( !engineName.isEmpty() ){
-
-				opts = utility::stringConstants::engineName() + engineName ;
-			}
-
-			if( !downloadOpts.isEmpty() ){
-
-				auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
-
-				if( opts.isEmpty() ){
-
-					opts = dopts ;
-				}else{
-					opts += "\n" + dopts ;
-				}
-			}
-
-			if( opts.isEmpty() ){
-
-				if( durationAndDate.isEmpty() ){
-
-					items.add( title,url ) ;
-				}else{
-					auto txt = durationAndDate + "\n" + title ;
-
-					items.add( txt,url ) ;
-				}
-			}else{
-				if( durationAndDate.isEmpty() ){
-
-					items.add( title,url ) ;
-				}else{
-					auto txt = opts + "\n" + durationAndDate + "\n" + title ;
-
-					items.add( txt,url ) ;
-				}
+				_parseDataFromFile( items,array,"webpage_url","upload_date",function ) ;
 			}
 		}
 
@@ -1151,28 +1192,27 @@ void batchdownloader::getListFromFile( QMenu& m )
 			return ;
 		}
 
-		auto list = engines::file( e,m_ctx.logger() ).readAll() ;
+		engines::file::readAll( e,m_ctx.logger(),[ this ]( bool,const QByteArray& list ){
 
-		if( list.isEmpty() ){
+			if( !list.isEmpty() ){
 
-			return ;
-		}
+				if( list.startsWith( '[' ) || list.startsWith( '{' ) ){
 
-		if( list.startsWith( '[' ) ){
+					this->parseDataFromFile( list ) ;
+				}else{
+					Items items ;
 
-			this->parseDataFromFile( list ) ;
-		}else{
-			Items items ;
+					for( const auto& it : util::split( list,'\n',true ) ){
 
-			for( const auto& it : util::split( list,'\n',true ) ){
+					     items.add( it ) ;
+					}
 
-			     items.add( it ) ;
+					const auto& engine = this->defaultEngine() ;
+
+					this->showThumbnail( engine,std::move( items ) ) ;
+				}
 			}
-
-			const auto& engine = this->defaultEngine() ;
-
-			this->showThumbnail( engine,std::move( items ) ) ;
-		}
+		} ) ;
 	} ) ;
 }
 

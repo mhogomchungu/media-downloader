@@ -59,7 +59,10 @@ namespace utility
 	class debug
 	{
 	public:
-		debug( const QString& e = QString() ) :
+		debug() : m_switch( "--debug" )
+		{
+		}
+		debug( const QString& e ) :
 			m_switch( e )
 		{
 		}
