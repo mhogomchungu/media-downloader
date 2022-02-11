@@ -79,6 +79,10 @@ void about::tabExited()
 {
 }
 
+void about::exiting()
+{
+}
+
 void about::init_done()
 {
 }

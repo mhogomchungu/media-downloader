@@ -1198,7 +1198,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>270</y>
+          <y>260</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1308,7 +1308,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>300</y>
+          <y>280</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1321,7 +1321,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>360</y>
+          <y>350</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1331,9 +1331,9 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>360</y>
+          <y>340</y>
           <width>171</width>
-          <height>31</height>
+          <height>51</height>
          </rect>
         </property>
         <property name="text">
@@ -1405,13 +1405,26 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>330</y>
+          <y>300</y>
           <width>421</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
          <string>Show Tray Icon</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbAutoSaveNotDownloadedMedia">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>320</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Auto Save Not Downloaded Media</string>
         </property>
        </widget>
       </widget>

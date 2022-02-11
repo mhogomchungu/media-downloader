@@ -25,6 +25,7 @@
 #include <QFileDialog>
 
 #include "tabmanager.h"
+#include "mainwindow.h"
 
 basicdownloader::basicdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -93,7 +94,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbQuit,&QPushButton::clicked,[ this ](){
 
-		this->appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
@@ -433,11 +434,8 @@ void basicdownloader::disableAll()
 	m_ui.lineEditOptions->setEnabled( false ) ;
 }
 
-void basicdownloader::appQuit()
+void basicdownloader::exiting()
 {
-	m_settings.setTabNumber( m_ui.tabWidget->currentIndex() ) ;
-
-	QCoreApplication::quit() ;
 }
 
 void basicdownloader::gotEvent( const QByteArray& )

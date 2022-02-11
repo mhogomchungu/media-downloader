@@ -23,6 +23,7 @@
 #include "networkAccess.h"
 #include "utility.h"
 #include "themes.h"
+#include "mainwindow.h"
 
 #include <QFileDialog>
 #include <QFile>
@@ -195,7 +196,7 @@ configure::configure( const Context& ctx ) :
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		this->saveOptions() ;
-		m_tabManager.basicDownloader().appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
 	connect( m_ui.pbConfigureSave,&QPushButton::clicked,[ this ](){
@@ -356,6 +357,8 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbUseSystemVersionIfAvailable->setChecked( m_settings.useSystemProvidedVersionIfAvailable() ) ;
 
+	m_ui.cbAutoSaveNotDownloadedMedia->setChecked( m_settings.autoSavePlaylistOnExit() ) ;
+
 	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
 
 	m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
@@ -445,6 +448,7 @@ void configure::saveOptions()
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
 	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
+	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
@@ -581,6 +585,10 @@ void configure::resetMenu()
 	m_ui.cbConfigureLanguage->setCurrentIndex( index ) ;
 }
 
+void configure::exiting()
+{
+}
+
 void configure::enableAll()
 {
 	const auto& s = m_engines.getEngineByName( m_ui.cbConfigureEngines->currentText() ) ;
@@ -611,6 +619,7 @@ void configure::enableAll()
 	m_ui.pbConfigureDownload->setEnabled( true ) ;
 	m_ui.labelConfigureTheme->setEnabled( true ) ;
 	m_ui.cbConfigureShowVersionInfo->setEnabled( true ) ;
+	m_ui.cbAutoSaveNotDownloadedMedia->setEnabled( true ) ;
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
 	m_ui.labelConfigureLanguage->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
@@ -647,6 +656,7 @@ void configure::disableAll()
 	m_ui.pbConfigureCookiePath->setEnabled( false ) ;
 	m_ui.pbConfigureEngineDefaultOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigureDownloadOptions->setEnabled( false ) ;
+	m_ui.cbAutoSaveNotDownloadedMedia->setEnabled( false ) ;
 	m_ui.labelConfigureOptions->setEnabled( false ) ;
 	m_ui.cbConfigureEngines->setEnabled( false ) ;
 	m_ui.labelConfigureEngines->setEnabled( false ) ;

@@ -41,7 +41,7 @@ public:
 	void enableQuit() ;
 	void enableAll() ;
 	void disableAll() ;
-	void appQuit() ;
+	void exiting() ;
 	void gotEvent( const QByteArray& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;

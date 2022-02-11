@@ -506,14 +506,115 @@ const QProcessEnvironment& utility::processEnvironment( const Context& ctx )
 	return ctx.Engines().processEnvironment() ;
 }
 
+static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuccess )
+{
+	QJsonArray arr ;
+
+	auto downloadOpts = utility::stringConstants::downloadOptions() ;
+	auto engineName = utility::stringConstants::engineName() ;
+
+	auto _add = [ &downloadOpts,&engineName,&arr ]( const tableWidget::entry& e ){
+
+		if( e.url.isEmpty() ){
+
+			return ;
+		}
+
+		auto obj = e.uiJson ;
+
+		obj.insert( "runningState",e.runningState ) ;
+
+		const auto& m = e.uiText ;
+
+		if( m.startsWith( downloadOpts ) || m.startsWith( engineName ) ){
+
+			const auto m = util::split( e.uiText,'\n',true ) ;
+
+			for( const auto& it : m ){
+
+				if( it.startsWith( downloadOpts ) ){
+
+					auto m = it.indexOf( ':' ) ;
+
+					obj.insert( "downloadOptions",it.mid( m + 2 ) ) ;
+
+				}else if( it.startsWith( engineName ) ){
+
+					auto m = it.indexOf( ':' ) ;
+
+					obj.insert( "engineName",it.mid( m + 2 ) ) ;
+				}
+			}
+		}
+
+		arr.append( obj ) ;
+	} ;
+
+	if( noFinishedSuccess ){
+
+		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
+
+			using gg = downloadManager::finishedStatus ;
+
+			if( !gg::finishedWithSuccess( e.runningState ) ){
+
+				_add( e ) ;
+			}
+		} ) ;
+	}else{
+		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
+
+			_add( e ) ;
+		} ) ;
+	}
+
+	return arr ;
+}
+
+void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool pld )
+{
+	if( ctx.Settings().autoSavePlaylistOnExit() ){
+
+		if( pld ){
+
+			if( tableWidget.rowCount() == 1 ){
+
+				return ;
+			}
+		}else{
+			if( tableWidget.rowCount() == 0 ){
+
+				return ;
+			}
+		}
+
+		auto arr = _saveDownloadList( tableWidget,true ) ;
+
+		auto e = ctx.Engines().engineDirPaths().dataPath( "autoSavedList.json" ) ;
+
+		if( QFile::exists( e ) ){
+
+			auto m = engines::file( e,ctx.logger() ).readAll() ;
+
+			QFile::remove( e ) ;
+
+			const auto rr = QJsonDocument::fromJson( m ).array() ;
+
+			for( const auto& it : rr ){
+
+				arr.append( it ) ;
+			}
+		}
+
+		auto m = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
+
+		engines::file( e,ctx.logger() ).write( m ) ;
+	}
+}
+
 void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWidget,bool pld )
 {
 	QObject::connect( m.addAction( QObject::tr( "Save List To File" ) ),&QAction::triggered,[ &ctx,&tableWidget,pld ](){
-
-		QJsonArray arr ;
-
-		auto downloadOpts = utility::stringConstants::downloadOptions() ;
-		auto engineName = utility::stringConstants::engineName() ;
 
 		QString filePath ;
 
@@ -531,49 +632,16 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 			filePath = utility::homePath() + "/MediaDowloaderList.json" ;
 		}
 
-		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
-
-			if( !e.url.isEmpty() ){
-
-				auto obj = e.uiJson ;
-
-				obj.insert( "runningState",e.runningState ) ;
-
-				const auto& m = e.uiText ;
-
-				if( m.startsWith( downloadOpts ) || m.startsWith( engineName ) ){
-
-					const auto m = util::split( e.uiText,'\n',true ) ;
-
-					for( const auto& it : m ){
-
-						if( it.startsWith( downloadOpts ) ){
-
-							auto m = it.indexOf( ':' ) ;
-
-							obj.insert( "downloadOptions",it.mid( m + 2 ) ) ;
-
-						}else if( it.startsWith( engineName ) ){
-
-							auto m = it.indexOf( ':' ) ;
-
-							obj.insert( "engineName",it.mid( m + 2 ) ) ;
-						}
-					}
-				}
-
-				arr.append( obj ) ;
-			}
-		} ) ;
-
 		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),
 						       QObject::tr( "Save List To File" ),
 						       filePath ) ;
 		if( !s.isEmpty() ){
 
-			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
+			auto e = _saveDownloadList( tableWidget,false ) ;
 
-			engines::file( s,ctx.logger() ).write( stuff ) ;
+			auto m = QJsonDocument( e ).toJson( QJsonDocument::Indented ) ;
+
+			engines::file( s,ctx.logger() ).write( m ) ;
 		}
 	} ) ;
 }

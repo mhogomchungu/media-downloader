@@ -42,6 +42,7 @@ public:
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
+	void exiting() ;
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;

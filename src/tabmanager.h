@@ -48,6 +48,7 @@ public:
 	tabManager& disableAll() ;
 	tabManager& resetMenu() ;
 	tabManager& reTranslateUi() ;
+	tabManager& exiting() ;
 	basicdownloader& basicDownloader()
 	{
 		return m_basicdownloader ;

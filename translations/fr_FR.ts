@@ -18,7 +18,7 @@
         <location filename="../src/mainwindow.ui" line="464"/>
         <location filename="../src/mainwindow.ui" line="576"/>
         <location filename="../src/mainwindow.ui" line="757"/>
-        <location filename="../src/mainwindow.ui" line="1782"/>
+        <location filename="../src/mainwindow.ui" line="1795"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
@@ -51,8 +51,8 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="451"/>
         <location filename="../src/mainwindow.ui" line="595"/>
-        <location filename="../src/mainwindow.ui" line="1522"/>
-        <location filename="../src/mainwindow.ui" line="1733"/>
+        <location filename="../src/mainwindow.ui" line="1535"/>
+        <location filename="../src/mainwindow.ui" line="1746"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
@@ -61,7 +61,7 @@
         <location filename="../src/mainwindow.ui" line="490"/>
         <location filename="../src/mainwindow.ui" line="679"/>
         <location filename="../src/mainwindow.ui" line="1079"/>
-        <location filename="../src/mainwindow.ui" line="1798"/>
+        <location filename="../src/mainwindow.ui" line="1811"/>
         <location filename="../src/mainwindow.cpp" line="73"/>
         <source>Quit</source>
         <translation>Quitter</translation>
@@ -225,13 +225,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1432"/>
+        <location filename="../src/mainwindow.ui" line="1427"/>
+        <source>Auto Save Not Downloaded Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1445"/>
         <source>Reset Option To Its Default</source>
         <translation>Reset des options par défaut</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1435"/>
-        <location filename="../src/mainwindow.ui" line="1614"/>
+        <location filename="../src/mainwindow.ui" line="1448"/>
+        <location filename="../src/mainwindow.ui" line="1627"/>
         <source>Set Defaults</source>
         <translation>Définir par défaut</translation>
     </message>
@@ -241,7 +246,7 @@
         <translation>Facteur d&apos;échelle (nécessite Restart)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1420"/>
+        <location filename="../src/mainwindow.ui" line="1433"/>
         <source>Preset Options</source>
         <translation>Options de préselection</translation>
     </message>
@@ -271,12 +276,12 @@
         <translation>Retirer un plugin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1811"/>
+        <location filename="../src/mainwindow.ui" line="1824"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1547"/>
+        <location filename="../src/mainwindow.ui" line="1560"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Options par défaut du moteur</translation>
     </message>
@@ -294,21 +299,21 @@
     <message>
         <location filename="../src/mainwindow.ui" line="878"/>
         <location filename="../src/mainwindow.ui" line="936"/>
-        <location filename="../src/mainwindow.ui" line="1467"/>
-        <location filename="../src/mainwindow.ui" line="1506"/>
+        <location filename="../src/mainwindow.ui" line="1480"/>
+        <location filename="../src/mainwindow.ui" line="1519"/>
         <source>Ui Name</source>
         <translation>Nom Ui</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="958"/>
-        <location filename="../src/mainwindow.ui" line="1541"/>
-        <location filename="../src/mainwindow.ui" line="1769"/>
+        <location filename="../src/mainwindow.ui" line="1554"/>
+        <location filename="../src/mainwindow.ui" line="1782"/>
         <source>Add</source>
         <translation>Ajouter</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="971"/>
-        <location filename="../src/mainwindow.ui" line="1667"/>
+        <location filename="../src/mainwindow.ui" line="1680"/>
         <source>Url</source>
         <translation>URL</translation>
     </message>
@@ -318,37 +323,37 @@
         <translation>Fait</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1569"/>
+        <location filename="../src/mainwindow.ui" line="1582"/>
         <source>Engine&apos;s Name</source>
         <translation>Nom du moteur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1588"/>
+        <location filename="../src/mainwindow.ui" line="1601"/>
         <source>Default Download Options</source>
         <translation>Options par défaut du téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1627"/>
+        <location filename="../src/mainwindow.ui" line="1640"/>
         <source>Path To Cookie FIle</source>
         <translation>Chemin du fichier cookie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1672"/>
+        <location filename="../src/mainwindow.ui" line="1685"/>
         <source>Download Options</source>
         <translation>Options de téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1686"/>
+        <location filename="../src/mainwindow.ui" line="1699"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Définir quelle URL sera traitée par quel moteur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1717"/>
+        <location filename="../src/mainwindow.ui" line="1730"/>
         <source>Url Filter</source>
         <translation>Filtre URL</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1817"/>
+        <location filename="../src/mainwindow.ui" line="1830"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
@@ -366,29 +371,49 @@
         <translation>Meilleur-audio</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="122"/>
-        <location filename="../src/utility.cpp" line="511"/>
-        <location filename="../src/utility.cpp" line="570"/>
+        <location filename="../src/batchdownloader.cpp" line="123"/>
+        <location filename="../src/utility.cpp" line="617"/>
+        <location filename="../src/utility.cpp" line="636"/>
         <source>Save List To File</source>
         <translation>Enregistrer la liste dans un fichier</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="959"/>
+        <location filename="../src/batchdownloader.cpp" line="736"/>
+        <source>Author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="746"/>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="764"/>
+        <source>Replies to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="771"/>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="988"/>
         <source>Save Subtitle To File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="139"/>
+        <location filename="../src/utility.h" line="142"/>
         <source>Engine Name:</source>
         <translation>Nom du moteur:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1031"/>
+        <location filename="../src/batchdownloader.cpp" line="1244"/>
         <source>Get List From File</source>
         <translation>Obtenir la liste depuis un fichier</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="402"/>
+        <location filename="../src/batchdownloader.cpp" line="403"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
         <location filename="../src/utility.cpp" line="316"/>
         <source>Preset Options</source>
@@ -396,8 +421,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="342"/>
-        <location filename="../src/utility.h" line="458"/>
-        <location filename="../src/utility.h" line="525"/>
+        <location filename="../src/utility.h" line="462"/>
+        <location filename="../src/utility.h" line="529"/>
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
@@ -529,41 +554,39 @@
         <translation>Téléchargement annulé</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1061"/>
-        <location filename="../src/engines.cpp" line="1071"/>
+        <location filename="../src/engines.cpp" line="1115"/>
         <source>Failed to open file for writing</source>
         <translation>Echec à ouvrir le fichier en écriture</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1086"/>
-        <location filename="../src/engines.cpp" line="1108"/>
+        <location filename="../src/engines.cpp" line="1120"/>
         <source>Failed to open file for reading</source>
         <translation>Echec à ouvrir le fichier en lecture</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1250"/>
-        <location filename="../src/engines.cpp" line="1255"/>
-        <location filename="../src/engines.cpp" line="1262"/>
-        <location filename="../src/engines.cpp" line="1267"/>
+        <location filename="../src/engines.cpp" line="1259"/>
+        <location filename="../src/engines.cpp" line="1264"/>
+        <location filename="../src/engines.cpp" line="1271"/>
+        <location filename="../src/engines.cpp" line="1276"/>
         <source>Elapsed Time:</source>
         <translation>Temps écoulé:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="57"/>
-        <location filename="../src/utility.cpp" line="758"/>
+        <location filename="../src/utility.cpp" line="826"/>
         <source>Checking installed version of</source>
         <translation>Test de la version installé de</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="62"/>
-        <location filename="../src/utility.cpp" line="739"/>
-        <location filename="../src/utility.cpp" line="784"/>
+        <location filename="../src/utility.cpp" line="807"/>
+        <location filename="../src/utility.cpp" line="852"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Les informations de version n&apos;ont pas été trouvées, vérifiez que &quot;%1&quot; est bien installé et fonctionne correctement</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="65"/>
-        <location filename="../src/utility.cpp" line="780"/>
+        <location filename="../src/utility.cpp" line="848"/>
         <source>Found version</source>
         <translation>Version trouvée</translation>
     </message>
@@ -614,7 +637,7 @@
         <translation>Renommer le fichier en : </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1168"/>
+        <location filename="../src/engines.cpp" line="1177"/>
         <source>Processing</source>
         <translation>Traitement</translation>
     </message>
@@ -624,49 +647,49 @@
         <translation>Téléchargement complet</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="368"/>
+        <location filename="../src/settings.cpp" line="383"/>
         <source>Resetting download folder to default</source>
         <translation>Reset du dossier de téléchargement par défaut</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1213"/>
+        <location filename="../src/engines.cpp" line="1222"/>
         <source>Post Processing</source>
         <translation>Post Traitement</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="491"/>
-        <location filename="../src/utility.h" line="499"/>
-        <location filename="../src/utility.h" line="504"/>
+        <location filename="../src/utility.h" line="495"/>
+        <location filename="../src/utility.h" line="503"/>
+        <location filename="../src/utility.h" line="508"/>
         <source>Download</source>
         <translation>Télécharger</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="496"/>
+        <location filename="../src/utility.h" line="500"/>
         <source>Force Download</source>
         <translation>Téléchargement forcé</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="514"/>
+        <location filename="../src/utility.h" line="518"/>
         <source>Show Log Window</source>
         <translation>Montrer la fenêtre des journaux</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="131"/>
+        <location filename="../src/utility.h" line="134"/>
         <source>Upload Date:</source>
         <translation>Date de téléversement:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="135"/>
+        <location filename="../src/utility.h" line="138"/>
         <source>Duration:</source>
         <translation>Durée :</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="143"/>
+        <location filename="../src/utility.h" line="146"/>
         <source>Subtitle Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="147"/>
+        <location filename="../src/utility.h" line="150"/>
         <source>Download Options</source>
         <translation>Options de téléchargement</translation>
     </message>
@@ -676,7 +699,7 @@
         <translation>Complétés: %1%, Non débutés: %2, Réussis: %3, Échoués: %4, Annulés: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1102"/>
+        <location filename="../src/playlistdownloader.cpp" line="1107"/>
         <source>Media Already In Archive</source>
         <translation>Media déjà dans l&apos;archive</translation>
     </message>
@@ -694,89 +717,69 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1036"/>
+        <location filename="../src/batchdownloader.cpp" line="1249"/>
         <source>Set Batch File</source>
         <translation>Définir le fichier batch</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="259"/>
+        <location filename="../src/batchdownloader.cpp" line="260"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="40"/>
+        <location filename="../src/batchdownloader.cpp" line="41"/>
         <source>Downloading comments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="946"/>
+        <location filename="../src/batchdownloader.cpp" line="975"/>
         <source>Download</source>
         <translation type="unfinished">Télécharger</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1014"/>
+        <location filename="../src/batchdownloader.cpp" line="1044"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="273"/>
+        <location filename="../src/batchdownloader.cpp" line="274"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="282"/>
+        <location filename="../src/batchdownloader.cpp" line="283"/>
         <source>Copy Url</source>
         <translation>Copier l&apos;URL</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="294"/>
+        <location filename="../src/batchdownloader.cpp" line="295"/>
         <source>Remove</source>
         <translation>Retirer</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="307"/>
+        <location filename="../src/batchdownloader.cpp" line="308"/>
         <source>Show Subtitles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="322"/>
+        <location filename="../src/batchdownloader.cpp" line="323"/>
         <source>Show Comments</source>
         <translation>Montrer les annotations</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="335"/>
+        <location filename="../src/batchdownloader.cpp" line="336"/>
         <source>Show Media Options</source>
         <translation>Montrer les options de média</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="759"/>
-        <source>Author</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="769"/>
-        <source>Date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="787"/>
-        <source>Replies to</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="794"/>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="1006"/>
-        <location filename="../src/batchdownloader.cpp" line="1020"/>
+        <location filename="../src/batchdownloader.cpp" line="1036"/>
+        <location filename="../src/batchdownloader.cpp" line="1050"/>
         <source>Set</source>
         <translation>Définir</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1274"/>
-        <location filename="../src/batchdownloader.cpp" line="1671"/>
+        <location filename="../src/batchdownloader.cpp" line="1397"/>
+        <location filename="../src/batchdownloader.cpp" line="1794"/>
         <source>Downloading subtitles</source>
         <translation type="unfinished"></translation>
     </message>
@@ -784,38 +787,38 @@
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="107"/>
+        <location filename="../src/configure.cpp" line="108"/>
         <source>Add</source>
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="112"/>
+        <location filename="../src/configure.cpp" line="113"/>
         <source>Delete</source>
         <translation>Effacer</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="162"/>
+        <location filename="../src/configure.cpp" line="163"/>
         <source>Remove</source>
         <translation>Retirer</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="187"/>
+        <location filename="../src/configure.cpp" line="188"/>
         <source>Select A Cookie File</source>
         <translation>Sélectionner un fichier cookie</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="221"/>
+        <location filename="../src/configure.cpp" line="222"/>
         <source>Select An Engine File</source>
         <translation>Sélectionner un fichier moteur</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="255"/>
-        <location filename="../src/configure.cpp" line="403"/>
+        <location filename="../src/configure.cpp" line="256"/>
+        <location filename="../src/configure.cpp" line="406"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="323"/>
+        <location filename="../src/configure.cpp" line="324"/>
         <source>Set Download Folder</source>
         <translation>Définir le répertoire de téléchargement</translation>
     </message>
@@ -823,12 +826,12 @@
 <context>
     <name>library</name>
     <message>
-        <location filename="../src/library.cpp" line="47"/>
+        <location filename="../src/library.cpp" line="48"/>
         <source>Delete</source>
         <translation>Effacer</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="75"/>
+        <location filename="../src/library.cpp" line="76"/>
         <source>Delete All</source>
         <translation>Effacer TOUT</translation>
     </message>
@@ -871,7 +874,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1254"/>
+        <location filename="../src/playlistdownloader.cpp" line="1259"/>
         <source>Get List Options:</source>
         <translation>Obtenir la liste des options:</translation>
     </message>
@@ -901,7 +904,7 @@
         <translation>Gérer les souscriptions</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="965"/>
+        <location filename="../src/playlistdownloader.cpp" line="970"/>
         <source>Number of Pages Downloaded</source>
         <translation>Nombre de pages téléchargées</translation>
     </message>

@@ -21,6 +21,7 @@
 #include "basicdownloader.h"
 #include "tabmanager.h"
 #include "tableWidget.h"
+#include "mainwindow.h"
 
 #include <QDir>
 
@@ -107,7 +108,7 @@ library::library( const Context& ctx ) :
 
 	connect( m_ui.pbLibraryQuit,&QPushButton::clicked,[ this ](){
 
-		m_ctx.TabManager().basicDownloader().appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
 	connect( m_ui.pbLibraryDowloadFolder,&QPushButton::clicked,[ this ](){
@@ -184,6 +185,10 @@ void library::disableAll()
 }
 
 void library::resetMenu()
+{
+}
+
+void library::exiting()
 {
 }
 

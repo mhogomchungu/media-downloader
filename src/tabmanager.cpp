@@ -235,9 +235,21 @@ tabManager& tabManager::reTranslateUi()
 	m_about.retranslateUi() ;
 	m_configure.retranslateUi() ;
 	m_basicdownloader.retranslateUi() ;
-	m_batchdownloader.retranslateUi() ;
 	m_playlistdownloader.retranslateUi() ;
 	m_library.retranslateUi() ;
+	m_batchdownloader.retranslateUi() ;
+
+	return *this ;
+}
+
+tabManager& tabManager::exiting()
+{
+	m_about.exiting() ;
+	m_configure.exiting() ;
+	m_basicdownloader.exiting() ;
+	m_batchdownloader.exiting() ;
+	m_playlistdownloader.exiting() ;
+	m_library.exiting() ;
 
 	return *this ;
 }

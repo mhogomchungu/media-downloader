@@ -93,6 +93,7 @@ public:
 	bool saveHistory() ;
 	bool playlistDownloaderSaveHistory() ;
 	bool singleInstance() ;
+	bool autoSavePlaylistOnExit() ;
 
 	int stringTruncationSize() ;
 	int historySize() ;
@@ -106,6 +107,7 @@ public:
 	void addToplaylistRangeHistory( const QString& ) ;
 	void clearPlaylistRangeHistory() ;
 	void clearPlaylistUrlHistory() ;
+	void setAutoSavePlaylistOnExit( bool ) ;
 	void addOptionsHistory( const QString&,settings::tabName ) ;
 	void setshowTrayIcon( bool ) ;
 	void setTheme( QApplication&,const QString& ) ;

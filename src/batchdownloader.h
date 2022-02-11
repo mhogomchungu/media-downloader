@@ -147,6 +147,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void exiting() ;
 	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void setThumbnailColumnSize( bool ) ;
@@ -166,6 +167,7 @@ private:
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
 	void parseDataFromFile( const QByteArray& ) ;
 	void getListFromFile( QMenu& ) ;
+	void getListFromFile( const QString&,bool ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;

@@ -174,6 +174,21 @@ void settings::clearPlaylistUrlHistory()
 	m_settings.setValue( "PlaylistUrlHistory",QStringList() ) ;
 }
 
+void settings::setAutoSavePlaylistOnExit( bool e )
+{
+	m_settings.setValue( "AutoSavePlaylistOnExit",e ) ;
+}
+
+bool settings::autoSavePlaylistOnExit()
+{
+	if( !m_settings.contains( "AutoSavePlaylistOnExit" ) ){
+
+		m_settings.setValue( "AutoSavePlaylistOnExit",true ) ;
+	}
+
+	return m_settings.value( "AutoSavePlaylistOnExit" ).toBool() ;
+}
+
 QStringList settings::playlistRangeHistory()
 {
 	if( !m_settings.contains( "PlaylistRangeHistory" ) ){

@@ -20,6 +20,7 @@
 #include "batchdownloader.h"
 #include "tabmanager.h"
 #include "mainwindow.h"
+#include "mainwindow.h"
 
 #include <QMetaObject>
 #include <QClipboard>
@@ -426,7 +427,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDQuit,&QPushButton::clicked,[ this ](){
 
-		m_tabManager.basicDownloader().appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
 	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
@@ -449,6 +450,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 void batchdownloader::init_done()
 {
+	auto m = m_ctx.Engines().engineDirPaths().dataPath( "autoSavedList.json" ) ;
+
+	if( QFile::exists( m ) ){
+
+		this->getListFromFile( m,true ) ;
+	}
 }
 
 void batchdownloader::resetMenu()
@@ -491,6 +498,11 @@ void batchdownloader::tabEntered()
 
 void batchdownloader::tabExited()
 {
+}
+
+void batchdownloader::exiting()
+{
+	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 
 void batchdownloader::gotEvent( const QByteArray& m )
@@ -1196,6 +1208,38 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 	}
 }
 
+void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
+{
+	engines::file::readAll( e,m_ctx.logger(),[ this,deleteFile,e ]( bool,const QByteArray& list ){
+
+		if( deleteFile ){
+
+			QFile::remove( e ) ;
+
+			m_ui.tabWidget->setCurrentIndex( 1 ) ;
+		}
+
+		if( !list.isEmpty() ){
+
+			if( list.startsWith( '[' ) || list.startsWith( '{' ) ){
+
+				this->parseDataFromFile( list ) ;
+			}else{
+				Items items ;
+
+				for( const auto& it : util::split( list,'\n',true ) ){
+
+				     items.add( it ) ;
+				}
+
+				const auto& engine = this->defaultEngine() ;
+
+				this->showThumbnail( engine,std::move( items ) ) ;
+			}
+		}
+	} ) ;
+}
+
 void batchdownloader::getListFromFile( QMenu& m )
 {
 	auto ac = m.addAction( QObject::tr( "Get List From File" ) ) ;
@@ -1206,32 +1250,10 @@ void batchdownloader::getListFromFile( QMenu& m )
 						       tr( "Set Batch File" ),
 						       utility::homePath() ) ;
 
-		if( e.isEmpty() ){
+		if( !e.isEmpty() ){
 
-			return ;
-		}
-
-		engines::file::readAll( e,m_ctx.logger(),[ this ]( bool,const QByteArray& list ){
-
-			if( !list.isEmpty() ){
-
-				if( list.startsWith( '[' ) || list.startsWith( '{' ) ){
-
-					this->parseDataFromFile( list ) ;
-				}else{
-					Items items ;
-
-					for( const auto& it : util::split( list,'\n',true ) ){
-
-					     items.add( it ) ;
-					}
-
-					const auto& engine = this->defaultEngine() ;
-
-					this->showThumbnail( engine,std::move( items ) ) ;
-				}
-			}
-		} ) ;
+			this->getListFromFile( e,false ) ;
+		}		
 	} ) ;
 }
 

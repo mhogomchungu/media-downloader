@@ -74,7 +74,7 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStrin
 
 		connect( ac,&QAction::triggered,[ this ](){
 
-			m_tabManager.basicDownloader().appQuit() ;
+			this->quitApp() ;
 		} ) ;
 
 		return m ;
@@ -167,7 +167,11 @@ void MainWindow::processEvent( const QByteArray& e )
 
 void MainWindow::quitApp()
 {
-	m_tabManager.basicDownloader().appQuit() ;
+	m_settings.setTabNumber( m_ui->tabWidget->currentIndex() ) ;
+
+	m_tabManager.exiting() ;
+
+	QCoreApplication::quit() ;
 }
 
 void MainWindow::log( const QByteArray& e )
@@ -185,6 +189,6 @@ void MainWindow::closeEvent( QCloseEvent * e )
 
 	if( !m_showTrayIcon ){
 
-		m_tabManager.basicDownloader().appQuit() ;
+		this->quitApp() ;
 	}
 }

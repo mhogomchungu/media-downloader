@@ -519,7 +519,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbPLQuit,&QPushButton::clicked,[ this ](){
 
-		m_tabManager.basicDownloader().appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 }
 
@@ -620,6 +620,11 @@ void playlistdownloader::tabEntered()
 
 void playlistdownloader::tabExited()
 {
+}
+
+void playlistdownloader::exiting()
+{
+	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 
 void playlistdownloader::gotEvent( const QByteArray& )
