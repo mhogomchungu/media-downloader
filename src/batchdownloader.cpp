@@ -625,7 +625,7 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 	}
 }
 
-void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePath )
+static QJsonArray _saveComments( const QJsonArray& arr )
 {
 	QJsonArray objs ;
 
@@ -706,26 +706,68 @@ void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePat
 		finalArr.append( obj ) ;
 	}
 
-	auto data = QJsonDocument( finalArr ).toJson( QJsonDocument::Indented ) ;
+	return finalArr ;
+}
+
+template< typename Function >
+static void _getComments( const QJsonArray& arr,Function function )
+{
+	for( const auto& it : arr ){
+
+		auto obj = it.toObject() ;
+
+		auto id        = obj.value( "id" ).toString() ;
+		auto parent    = obj.value( "parent" ).toString() ;
+		auto txt       = obj.value( "text" ).toString() ;
+		auto author    = obj.value( "author" ).toString() ;
+		auto comment   = QObject::tr( "Author" ) + ": " + author ;
+		auto timestamp = obj.value( "timestamp" ) ;
+
+		if( !timestamp.isUndefined() ){
+
+			auto a = timestamp.toInt() ;
+			auto b = utility::fromSecsSinceEpoch( a ) ;
+
+			if( !b.isEmpty() ){
+
+				comment += "\n" + QObject::tr( "Date" ) + ": " + b ;
+
+				obj.insert( "date",b ) ;
+			}
+		}
+
+		if( parent != "root" ){
+
+			for( const auto& xt : arr ){
+
+				auto xobj = xt.toObject() ;
+
+				auto xd = xobj.value( "id" ).toString() ;
+
+				if( xd == parent ){
+
+					auto xauthor = xobj.value( "author" ).toString() ;
+
+					comment += "\n" + QObject::tr( "Replies to" ) + ": " + xauthor ;
+
+					break ;
+				}
+			}
+		}
+
+		comment += "\n" + QObject::tr( "Text" ) + ": " + txt ;
+
+		function( comment,std::move( obj ) ) ;
+	}
+}
+
+void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePath )
+{
+	auto data = QJsonDocument( _saveComments( arr ) ).toJson( QJsonDocument::Indented ) ;
 
 	engines::file( filePath,m_ctx.logger() ).write( data ) ;
 }
 
-void batchdownloader::normalizeFilePath( QString& e )
-{
-	if( utility::platformIsWindows() ){
-
-		e.replace( '<','_' ) ;
-		e.replace( '>','_' ) ;
-		e.replace( ':','_' ) ;
-		e.replace( '"','_' ) ;
-		e.replace( '/','_' ) ;
-		e.replace( '\\','_' ) ;
-		e.replace( '|','_' ) ;
-		e.replace( '?','_' ) ;
-		e.replace( '*','_' ) ;
-	}
-}
 void batchdownloader::showComments( const QByteArray& e )
 {
 	QJsonParseError err ;
@@ -746,55 +788,29 @@ void batchdownloader::showComments( const QByteArray& e )
 
 			m_commentsFileName = utility::homePath() + "/" + f.mid( 0,200 ) + ".json" ;
 		}
-		const auto arr = obj.value( "comments" ).toArray() ;
 
-		for( const auto& it : arr ){
+		auto arr = obj.value( "comments" ).toArray() ;
 
-			auto obj = it.toObject() ;
+		_getComments( arr,[ this ]( const QString& comment,QJsonObject obj ){
 
-			auto id        = obj.value( "id" ).toString() ;
-			auto parent    = obj.value( "parent" ).toString() ;
-			auto txt       = obj.value( "text" ).toString() ;
-			auto author    = obj.value( "author" ).toString() ;
-			auto comment   = tr( "Author" ) + ": " + author ;
-			auto timestamp = obj.value( "timestamp" ) ;
+			m_tableWidgetBDList.add( { "","","",comment },std::move( obj ) ) ;
+		} ) ;
+	}
+}
 
-			if( !timestamp.isUndefined() ){
+void batchdownloader::normalizeFilePath( QString& e )
+{
+	if( utility::platformIsWindows() ){
 
-				auto a = timestamp.toInt() ;
-				auto b = utility::fromSecsSinceEpoch( a ) ;
-
-				if( !b.isEmpty() ){
-
-					comment += "\n" + tr( "Date" ) + ": " + b ;
-
-					obj.insert( "date",b ) ;
-				}
-			}
-
-			if( parent != "root" ){
-
-				for( const auto& xt : arr ){
-
-					auto xobj = xt.toObject() ;
-
-					auto xd = xobj.value( "id" ).toString() ;
-
-					if( xd == parent ){
-
-						auto xauthor = xobj.value( "author" ).toString() ;
-
-						comment += "\n" + tr( "Replies to" ) + ": " + xauthor ;
-
-						break ;
-					}
-				}
-			}
-
-			comment += "\n" + tr( "Text" ) + ": " + txt ;
-
-			m_tableWidgetBDList.add( { "","","",comment },obj ) ;
-		}
+		e.replace( '<','_' ) ;
+		e.replace( '>','_' ) ;
+		e.replace( ':','_' ) ;
+		e.replace( '"','_' ) ;
+		e.replace( '/','_' ) ;
+		e.replace( '\\','_' ) ;
+		e.replace( '|','_' ) ;
+		e.replace( '?','_' ) ;
+		e.replace( '*','_' ) ;
 	}
 }
 
@@ -887,14 +903,14 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 			auto obj = _add( it,"subtitles" ) ;
 
-			m_tableWidgetBDList.add( { it.name(),"subtitle","",it.notes() },obj ) ;
+			m_tableWidgetBDList.add( { it.name(),"subtitle","",it.notes() },std::move( obj ) ) ;
 		}
 
 		for( const auto& it : _parse( obj.value( "automatic_captions" ) ) ){
 
 			auto obj = _add( it,"automatic_captions" ) ;
 
-			m_tableWidgetBDList.add( { it.name(),"automatic\ncaption","",it.notes() },obj ) ;
+			m_tableWidgetBDList.add( { it.name(),"automatic\ncaption","",it.notes() },std::move( obj ) ) ;
 		}
 	}
 }
@@ -1173,7 +1189,10 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 
 		const auto& engine = this->defaultEngine() ;
 
+		auto m = m_showThumbnails ;
+		m_showThumbnails = false ;
 		this->showThumbnail( engine,std::move( items ) ) ;
+		m_showThumbnails = m ;
 	}
 }
 
