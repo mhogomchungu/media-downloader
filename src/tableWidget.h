@@ -96,7 +96,7 @@ public:
 	}
 	const QPixmap& thumbnail( int row ) const
 	{
-		return this->item( row ).thumbnail.image ;
+		return this->item( row ).thumbnail ;
 	}
 	const QString& runningState( int row ) const
 	{
@@ -115,45 +115,18 @@ public:
 		}
 	}
 	struct entry{
-		entry( const QString& uiText,
-		       const QString& url,
-		       const QString& runningState ) :
-			url( url ),
-			uiText( uiText ),
-			runningState( runningState )
+		entry()
 		{
 		}
+		template< typename MediaProperties >
 		entry( const QPixmap& thumbnail,
-		       const QString& uiText,
-		       const QString& url,
-		       const QString& runningState ) :
-			url( url ),
-			uiText( uiText ),
-			runningState( runningState ),
-			thumbnail( thumbnail )
-		{
-		}
-		entry( const QPixmap& thumbnail,
-		       const QString& uiText,
-		       const QString& url,
-		       const QString& runningState,
-		       const QJsonArray& arr ) :
-			url( url ),
-			uiText( uiText ),
-			runningState( runningState ),
-			mediaProperties( arr ),
-			thumbnail( thumbnail )
-		{
-		}
-		entry( const QPixmap& thumbnail,
-		       const QString& uiText,
-		       const QString& url,
-		       const QString& runningState,
-		       const QJsonObject& obj ) :
-			url( url ),
-			uiText( uiText ),
-			runningState( runningState ),
-			uiJson( obj ),
+		       const QString& rState,
+		       const MediaProperties& media ) :
+			url( media.url() ),
+			uiText( media.uiText() ),
+			runningState( rState ),
+			mediaProperties( media.formats() ),
+			uiJson( media.uiJson() ),
 			thumbnail( thumbnail )
 		{
 		}
@@ -166,17 +139,8 @@ public:
 		QString subtitle ;
 		QJsonArray mediaProperties ;
 		QJsonObject uiJson ;
+		QPixmap thumbnail ;
 
-		struct tnail{
-			tnail( const QPixmap& p ) : isSet( true ),image( p )
-			{
-			}
-			tnail()
-			{
-			}
-			bool isSet = false ;
-			QPixmap image ;
-		} thumbnail ;
 		int alignment = Qt::AlignCenter ;
 	} ;
 	template< typename Function >
@@ -195,13 +159,11 @@ public:
 
 	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;
-	static QByteArray thumbnailData( const QPixmap& ) ;
 
 	void setDownloadingOptions( tableWidget::type,
 				    int row,
 				    const QString& options,
 				    const QString& title = QString() ) ;
-	QString thumbnailData( int row ) const ;
 	QString completeProgress( int firstRow,int index ) ;
 	int addRow() ;
 	int addItem( tableWidget::entry ) ;

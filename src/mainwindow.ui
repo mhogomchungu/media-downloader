@@ -1419,12 +1419,12 @@
          <rect>
           <x>190</x>
           <y>320</y>
-          <width>421</width>
+          <width>561</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>Auto Save Not Downloaded Media</string>
+         <string>Auto Save List Of Not Downloaded Media</string>
         </property>
        </widget>
       </widget>

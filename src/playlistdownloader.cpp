@@ -995,7 +995,12 @@ void playlistdownloader::getList( customOptions&& c,
 		auto w = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
 		auto h = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
 
-		m_table.addItem( { icon.pixmap( w,h ),d + "\n" + m_banner.txt(),"","" } ) ;
+		tableWidget::entry entry ;
+
+		entry.uiText    = d + "\n" + m_banner.txt() ;
+		entry.thumbnail = icon.pixmap( w,h ) ;
+
+		m_table.addItem( std::move( entry ) ) ;
 
 		m_showTimer = true ;
 
@@ -1104,11 +1109,13 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
 
-			auto a = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
-
 			const auto& img = m_defaultVideoThumbnailIcon ;
 
-			this->showEntry( table,{ img,a,media.url(),s,media.uiJson() } ) ;
+			tableWidget::entry entry{ img,s,media } ;
+
+			entry.uiText = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
+
+			this->showEntry( table,std::move( entry ) ) ;
 
 			table.selectLast() ;
 
@@ -1157,11 +1164,11 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 				auto img = pixmap.scaled( width,height ) ;
 
-				this->showEntry( table,{ img,media.uiText(),media.url(),s,media.uiJson() } ) ;
+				this->showEntry( table,{ img,s,media } ) ;
 			}else{
 				const auto& img = m_defaultVideoThumbnailIcon ;
 
-				this->showEntry( table,{ img,media.uiText(),media.url(),s,media.uiJson() } ) ;
+				this->showEntry( table,{ img,s,media } ) ;
 			}
 
 			table.selectLast() ;
@@ -1171,7 +1178,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 	}else{
 		const auto& img = m_defaultVideoThumbnailIcon ;
 
-		this->showEntry( table,{ img,media.uiText(),media.url(),s,media.uiJson() } ) ;
+		this->showEntry( table,{ img,s,media } ) ;
 
 		table.selectLast() ;
 	}

@@ -225,11 +225,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1427"/>
-        <source>Auto Save Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1445"/>
         <source>Reset Option To Its Default</source>
         <translation>Сбросить параметры до начальных</translation>
@@ -323,6 +318,11 @@
         <translation>Готово</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1427"/>
+        <source>Auto Save Lis Of Not Downloaded Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1582"/>
         <source>Engine&apos;s Name</source>
         <translation>Плагин</translation>
@@ -378,27 +378,27 @@
         <translation>Сохранить список в файл</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="736"/>
+        <location filename="../src/batchdownloader.cpp" line="745"/>
         <source>Author</source>
         <translation type="unfinished">Автор</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="746"/>
+        <location filename="../src/batchdownloader.cpp" line="755"/>
         <source>Date</source>
         <translation type="unfinished">Дата</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="764"/>
+        <location filename="../src/batchdownloader.cpp" line="773"/>
         <source>Replies to</source>
         <translation type="unfinished">Ответы на</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="771"/>
+        <location filename="../src/batchdownloader.cpp" line="780"/>
         <source>Text</source>
         <translation type="unfinished">Текст</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="988"/>
+        <location filename="../src/batchdownloader.cpp" line="997"/>
         <source>Save Subtitle To File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -408,7 +408,7 @@
         <translation>Плагин:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1244"/>
+        <location filename="../src/batchdownloader.cpp" line="1255"/>
         <source>Get List From File</source>
         <translation>Получить список из файла</translation>
     </message>
@@ -694,12 +694,12 @@
         <translation>Параметры загрузки</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="359"/>
+        <location filename="../src/tableWidget.cpp" line="334"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>Завершено: %1%, Не запущено: %2, Успешно: %3, Не удалось: %4, Отменено: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1107"/>
+        <location filename="../src/playlistdownloader.cpp" line="1116"/>
         <source>Media Already In Archive</source>
         <translation>Медиа уже в архиве</translation>
     </message>
@@ -717,7 +717,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1249"/>
+        <location filename="../src/batchdownloader.cpp" line="1260"/>
         <source>Set Batch File</source>
         <translation>Установить пакетный файл</translation>
     </message>
@@ -732,12 +732,12 @@
         <translation>Загрузка комментариев</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="975"/>
+        <location filename="../src/batchdownloader.cpp" line="984"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1044"/>
+        <location filename="../src/batchdownloader.cpp" line="1053"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
@@ -772,14 +772,14 @@
         <translation>Показать параметры медиа</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1036"/>
-        <location filename="../src/batchdownloader.cpp" line="1050"/>
+        <location filename="../src/batchdownloader.cpp" line="1045"/>
+        <location filename="../src/batchdownloader.cpp" line="1059"/>
         <source>Set</source>
         <translation>Установить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1397"/>
-        <location filename="../src/batchdownloader.cpp" line="1794"/>
+        <location filename="../src/batchdownloader.cpp" line="1408"/>
+        <location filename="../src/batchdownloader.cpp" line="1804"/>
         <source>Downloading subtitles</source>
         <translation type="unfinished"></translation>
     </message>
@@ -874,7 +874,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1259"/>
+        <location filename="../src/playlistdownloader.cpp" line="1266"/>
         <source>Get List Options:</source>
         <translation>Параметры списка:</translation>
     </message>

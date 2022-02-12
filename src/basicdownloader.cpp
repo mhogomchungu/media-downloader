@@ -293,7 +293,13 @@ void basicdownloader::download( const QString& url )
 	auto uiText = m.at( 0 ) ;
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
-	m_bogusTable.addItem( { uiText,uiText,state } ) ;
+	tableWidget::entry entry ;
+
+	entry.uiText = uiText ;
+	entry.url    = uiText ;
+	entry.runningState = state ;
+
+	m_bogusTable.addItem( std::move( entry ) ) ;
 
 	auto s = m_ui.lineEditOptions->text() ;
 

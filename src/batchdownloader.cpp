@@ -560,9 +560,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		const auto& s = list.first() ;
 
-		auto state = downloadManager::finishedStatus::running() ;
+		tableWidget::entry entry ;
 
-		int row = m_table.addItem( { m_defaultVideoThumbnail,s.uiText,s.url,state } ) ;
+		entry.uiText    = s.uiText ;
+		entry.url       = s.url ;
+		entry.thumbnail = m_defaultVideoThumbnail ;
+
+		entry.runningState = downloadManager::finishedStatus::running() ;
+
+		int row = m_table.addItem( std::move( entry ) ) ;
 
 		m_table.selectLast() ;
 
@@ -578,11 +584,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			downloadManager::index indexes( m_table ) ;
 
-			auto state = downloadManager::finishedStatus::running() ;
+			tableWidget::entry entry ;
 
-			auto uiText = it.uiText ;
+			auto uiText        = it.uiText ;
+			entry.uiText       = "...\n" + uiText ;
+			entry.url          = it.url ;
+			entry.thumbnail    = m_defaultVideoThumbnail ;
+			entry.runningState = downloadManager::finishedStatus::running() ;
 
-			int row = m_table.addItem( { m_defaultVideoThumbnail,"...\n" + it.uiText,it.url,state } ) ;
+			int row = m_table.addItem( std::move( entry ) ) ;
 
 			util::Timer( 1000,[ this,row,uiText ]( int counter ){
 
@@ -1408,29 +1418,27 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		m_tableWidgetBDList.add( { "","","","\n" + m_downloadingComments + "\n" } ) ;
 	}else{
-		if( row == -1 ){
+		if( row != -1 ){
 
-			return ;
-		}
+			this->showBDFrame( listType ) ;
 
-		this->showBDFrame( listType ) ;
+			args = engine.defaultListCmdOptions() ;
 
-		args = engine.defaultListCmdOptions() ;
+			const auto& mp = m_table.mediaProperties( row ) ;
 
-		const auto& mp = m_table.mediaProperties( row ) ;
+			if( !mp.isEmpty() ){
 
-		if( !mp.isEmpty() ){
+				const auto ss = engine.mediaProperties( mp ) ;
 
-			const auto ss = engine.mediaProperties( mp ) ;
+				if( !ss.empty() ){
 
-			if( !ss.empty() ){
+					for( const auto& m : ss ){
 
-				for( const auto& m : ss ){
+						m_tableWidgetBDList.add( m ) ;
+					}
 
-					m_tableWidgetBDList.add( m ) ;
+					return ;
 				}
-
-				return ;
 			}
 		}
 	}
@@ -1548,13 +1556,14 @@ static int _addItemUi( const QPixmap& pixmap,
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
 	int row ;
+
 	if( index == -1 ){
 
-		row = table.addItem( { pixmap,media.uiText(),media.url(),state,media.uiJson() } ) ;
+		row = table.addItem( { pixmap,state,media } ) ;
 		table.selectLast() ;
 	}else{
 		row = index ;
-		table.replace( { pixmap,media.uiText(),media.url(),state,media.uiJson() },index ) ;
+		table.replace( { pixmap,state,media },index ) ;
 	}
 
 	ui.lineEditBDUrl->clear() ;

@@ -24,31 +24,6 @@
 #include <QHeaderView>
 #include <QBuffer>
 
-QString tableWidget::thumbnailData( int row ) const
-{
-	const auto& s = m_items[ static_cast< size_t >( row ) ] ;
-
-	if( s.thumbnail.isSet ){
-
-		QBuffer buffer ;
-
-		s.thumbnail.image.save( &buffer,"PNG" ) ;
-
-		return buffer.buffer().toHex() ;
-	}else{
-		return {} ;
-	}
-}
-
-QByteArray tableWidget::thumbnailData( const QPixmap& image )
-{
-	QBuffer buffer ;
-
-	image.save( &buffer,"PNG" ) ;
-
-	return buffer.buffer().toHex() ;
-}
-
 void tableWidget::setDownloadingOptions( tableWidget::type type,
 					 int row,
 					 const QString& mm,
@@ -169,7 +144,7 @@ void tableWidget::replace( tableWidget::entry e,int r )
 
 	auto label = new QLabel() ;
 	label->setAlignment( Qt::AlignCenter ) ;
-	label ->setPixmap( m_items[ row ].thumbnail.image ) ;
+	label ->setPixmap( m_items[ row ].thumbnail ) ;
 
 	m_table.setCellWidget( r,0,label ) ;
 	m_table.item( r,1 )->setText( m_items[ row ].uiText ) ;
@@ -203,7 +178,7 @@ int tableWidget::addItem( tableWidget::entry e )
 
 	auto label = new QLabel() ;
 	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
-	label ->setPixmap( entry.thumbnail.image ) ;
+	label ->setPixmap( entry.thumbnail ) ;
 
 	m_table.setCellWidget( row,0,label ) ;
 
