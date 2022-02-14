@@ -206,7 +206,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1340"/>
-        <source>Maximum Cuncurrent Downloads</source>
+        <source>Maximum Concurrent Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
