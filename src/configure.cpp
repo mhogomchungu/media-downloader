@@ -633,6 +633,7 @@ void configure::enableAll()
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( true ) ;
 	m_ui.cbConfigureShowThumbnails->setEnabled( true ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( true ) ;
+	m_ui.cbShowTrayIcon->setEnabled( true ) ;
 
 	if( m_settings.enabledHighDpiScaling() ){
 
@@ -644,6 +645,7 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui.cbShowTrayIcon->setEnabled( false ) ;
 	m_ui.tableWidgetConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigureUiName->setEnabled( false ) ;
