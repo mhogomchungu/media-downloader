@@ -205,11 +205,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1340"/>
-        <source>Maximum Concurrent Downloads</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1359"/>
         <source>Use System Executables If Available</source>
         <translation type="unfinished"></translation>
@@ -222,6 +217,11 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1414"/>
         <source>Show Tray Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1427"/>
+        <source>Auto Save List Of Not Downloaded Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -238,6 +238,11 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1285"/>
         <source>Scale Factor(Need A Restart)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1340"/>
+        <source>Maximum Cuncurrent Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -315,11 +320,6 @@
     <message>
         <location filename="../src/mainwindow.ui" line="993"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1427"/>
-        <source>Auto Save Lis Of Not Downloaded Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

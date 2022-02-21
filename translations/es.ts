@@ -225,6 +225,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1427"/>
+        <source>Auto Save List Of Not Downloaded Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1445"/>
         <source>Reset Option To Its Default</source>
         <translation>Restablecer Opción a su Valor Predeterminado</translation>
@@ -318,11 +323,6 @@
         <translation>Hecho</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1427"/>
-        <source>Auto Save Lis Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1582"/>
         <source>Engine&apos;s Name</source>
         <translation>Nombre del Motor</translation>
@@ -380,7 +380,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="745"/>
         <source>Author</source>
-        <translation type="unfinished">Autor</translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="755"/>
@@ -390,12 +390,12 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="773"/>
         <source>Replies to</source>
-        <translation type="unfinished">Respoder a</translation>
+        <translation>Respoder a</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="780"/>
         <source>Text</source>
-        <translation type="unfinished">Texto</translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="997"/>
@@ -734,7 +734,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="984"/>
         <source>Download</source>
-        <translation type="unfinished">Descargar</translation>
+        <translation>Descargar</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1053"/>

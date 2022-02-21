@@ -87,14 +87,6 @@ public:
 	{
 		return m_entries.size() == 0 ;
 	}
-	auto begin()
-	{
-		return m_entries.begin() ;
-	}
-	auto end()
-	{
-		return m_entries.end() ;
-	}
 	auto begin() const
 	{
 		return m_entries.begin() ;

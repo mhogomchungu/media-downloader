@@ -225,6 +225,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1427"/>
+        <source>Auto Save List Of Not Downloaded Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1445"/>
         <source>Reset Option To Its Default</source>
         <translation>Ustawienia domyślne</translation>
@@ -316,11 +321,6 @@
         <location filename="../src/mainwindow.ui" line="993"/>
         <source>Done</source>
         <translation>Gotowe</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1427"/>
-        <source>Auto Save Lis Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1582"/>

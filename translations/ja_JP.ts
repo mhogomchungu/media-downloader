@@ -220,6 +220,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1427"/>
+        <source>Auto Save List Of Not Downloaded Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1445"/>
         <source>Reset Option To Its Default</source>
         <translation>オプションをデフォルトに戻す</translation>
@@ -316,11 +321,6 @@
         <location filename="../src/mainwindow.ui" line="993"/>
         <source>Done</source>
         <translation>完了</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1427"/>
-        <source>Auto Save Lis Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1582"/>
@@ -734,7 +734,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="984"/>
         <source>Download</source>
-        <translation type="unfinished">ダウンロード</translation>
+        <translation>ダウンロード</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1053"/>

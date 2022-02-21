@@ -225,6 +225,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1427"/>
+        <source>Auto Save List Of Not Downloaded Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1445"/>
         <source>Reset Option To Its Default</source>
         <translation>Сбросить параметры до начальных</translation>
@@ -318,11 +323,6 @@
         <translation>Готово</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1427"/>
-        <source>Auto Save Lis Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1582"/>
         <source>Engine&apos;s Name</source>
         <translation>Плагин</translation>
@@ -380,22 +380,22 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="745"/>
         <source>Author</source>
-        <translation type="unfinished">Автор</translation>
+        <translation>Автор</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="755"/>
         <source>Date</source>
-        <translation type="unfinished">Дата</translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="773"/>
         <source>Replies to</source>
-        <translation type="unfinished">Ответы на</translation>
+        <translation>Ответы на</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="780"/>
         <source>Text</source>
-        <translation type="unfinished">Текст</translation>
+        <translation>Текст</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="997"/>
@@ -734,7 +734,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="984"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Начать загрузку</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1053"/>
