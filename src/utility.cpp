@@ -868,7 +868,12 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 bool utility::platformIs32Bit()
 {
+#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
 	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
+#else
+	//?????
+	return false ;
+#endif
 }
 
 void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )

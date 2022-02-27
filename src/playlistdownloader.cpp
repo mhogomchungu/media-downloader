@@ -904,10 +904,10 @@ void playlistdownloader::getList( customOptions&& c,
 
 						this->download() ;
 					}else{
-						m_showTimer = false ;
 						m_ctx.TabManager().enableAll() ;
 						m_gettingPlaylist = false ;
 						m_ui.pbPLCancel->setEnabled( false ) ;
+						m_showTimer = false ;
 					}
 				}
 
@@ -917,10 +917,10 @@ void playlistdownloader::getList( customOptions&& c,
 
 					this->getList( iter.next() ) ;
 				}else{
-					m_showTimer = false ;
 					m_ctx.TabManager().enableAll() ;
 					m_gettingPlaylist = false ;
 					m_ui.pbPLCancel->setEnabled( false ) ;
+					m_showTimer = false ;
 				}
 
 			}else if( iter.hasNext() ){

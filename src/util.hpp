@@ -802,7 +802,8 @@ private:
 #endif
 
 template< typename MainApp,typename MainAppArgs >
-class multipleInstance{
+class multipleInstance
+{
 public:
 	multipleInstance( QApplication& qapp,MainAppArgs args,const QByteArray& aa ) :
 		m_qApp( qapp ),
