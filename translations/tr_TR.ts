@@ -699,7 +699,7 @@
         <translation>Tamamlanan: %1%, Başlatılmayan: %2, Başarılı: %3, Başarısız: %4, İptal Edilen: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1116"/>
+        <location filename="../src/playlistdownloader.cpp" line="1107"/>
         <source>Media Already In Archive</source>
         <translation>Medya Zaten Arşivde</translation>
     </message>
@@ -874,7 +874,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1266"/>
+        <location filename="../src/playlistdownloader.cpp" line="1255"/>
         <source>Get List Options:</source>
         <translation>Liste Seçeneklerini Getir:</translation>
     </message>
@@ -904,8 +904,13 @@
         <translation>Abonelikleri Yönet</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="970"/>
+        <location filename="../src/playlistdownloader.cpp" line="962"/>
         <source>Number of Pages Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="969"/>
+        <source>Downloading video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

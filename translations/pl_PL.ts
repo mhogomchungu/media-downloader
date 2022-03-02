@@ -699,7 +699,7 @@
         <translation>Ukończono: %1%, oczekujące: %2, zakończone: %3, zakończone z błędem: %4, anulowane: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1116"/>
+        <location filename="../src/playlistdownloader.cpp" line="1107"/>
         <source>Media Already In Archive</source>
         <translation>Plik znajduje się już w archiwum</translation>
     </message>
@@ -874,7 +874,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1266"/>
+        <location filename="../src/playlistdownloader.cpp" line="1255"/>
         <source>Get List Options:</source>
         <translation>Opcje pobierania listy:</translation>
     </message>
@@ -904,9 +904,14 @@
         <translation>Zarządzaj subskrypcjami</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="970"/>
+        <location filename="../src/playlistdownloader.cpp" line="962"/>
         <source>Number of Pages Downloaded</source>
         <translation>Liczba pobranych stron</translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="969"/>
+        <source>Downloading video</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="528"/>

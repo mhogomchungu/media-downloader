@@ -699,7 +699,7 @@
         <translation>完了: %1%, 開始前: %2, 成功: %3, 失敗: %4, キャンセル: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1116"/>
+        <location filename="../src/playlistdownloader.cpp" line="1107"/>
         <source>Media Already In Archive</source>
         <translation>メディアは既にアーカイブにあります</translation>
     </message>
@@ -874,7 +874,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1266"/>
+        <location filename="../src/playlistdownloader.cpp" line="1255"/>
         <source>Get List Options:</source>
         <translation>リスト取得オプション:</translation>
     </message>
@@ -904,9 +904,14 @@
         <translation>ブックマークを管理</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="970"/>
+        <location filename="../src/playlistdownloader.cpp" line="962"/>
         <source>Number of Pages Downloaded</source>
         <translation>ダウンロードしたページ数</translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="969"/>
+        <source>Downloading video</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="528"/>

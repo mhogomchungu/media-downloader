@@ -65,7 +65,6 @@ private:
 	tableMiniWidget< int > m_subscriptionTable ;
 	bool m_gettingPlaylist = false ;
 	bool m_showThumbnails ;
-	bool m_showTimer ;
 	bool m_autoDownload ;
 	bool m_stoppedOnExisting ;
 	bool m_meaw ;
@@ -153,10 +152,7 @@ private:
 		{
 			m_txt = s ;
 		}
-		void updateProgress( const QString& progress )
-		{
-			m_progress = progress ;
-		}
+		void updateProgress( const QString& progress ) ;
 		const QString& txt() const
 		{
 			return m_txt ;

@@ -699,7 +699,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1116"/>
+        <location filename="../src/playlistdownloader.cpp" line="1107"/>
         <source>Media Already In Archive</source>
         <translation type="unfinished"></translation>
     </message>
@@ -874,7 +874,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1266"/>
+        <location filename="../src/playlistdownloader.cpp" line="1255"/>
         <source>Get List Options:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -904,8 +904,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="970"/>
+        <location filename="../src/playlistdownloader.cpp" line="962"/>
         <source>Number of Pages Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="969"/>
+        <source>Downloading video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

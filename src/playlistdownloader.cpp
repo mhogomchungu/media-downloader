@@ -763,8 +763,6 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			if( m_table.noneAreRunning() ){
 
 				m_ctx.TabManager().enableAll() ;
-
-				m_showTimer = false ;
 			}
 
 			m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,index ) ) ;
@@ -907,7 +905,6 @@ void playlistdownloader::getList( customOptions&& c,
 						m_ctx.TabManager().enableAll() ;
 						m_gettingPlaylist = false ;
 						m_ui.pbPLCancel->setEnabled( false ) ;
-						m_showTimer = false ;
 					}
 				}
 
@@ -920,7 +917,6 @@ void playlistdownloader::getList( customOptions&& c,
 					m_ctx.TabManager().enableAll() ;
 					m_gettingPlaylist = false ;
 					m_ui.pbPLCancel->setEnabled( false ) ;
-					m_showTimer = false ;
 				}
 
 			}else if( iter.hasNext() ){
@@ -930,11 +926,6 @@ void playlistdownloader::getList( customOptions&& c,
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
 				m_ui.pbPLCancel->setEnabled( false ) ;
-
-				if( !m_dataReceived ){
-
-					m_showTimer = false ;
-				}
 			}
 		}
 	) ;
@@ -967,8 +958,24 @@ void playlistdownloader::getList( customOptions&& c,
 			if( s != -1 ){
 
 				m = m.mid( 0,s ).mid( 4 ) ;
+
 				m_banner.updateProgress( tr( "Number of Pages Downloaded" ) + ": " + m ) ;
 			}
+
+			return false ;
+
+		}else if( e.startsWith( "[download] Downloading video " ) ){
+
+			auto m = tr( "Downloading video" ) + " " + e.mid( 28 ) ;
+
+			auto s = m.indexOf( '\n' ) ;
+
+			if( s != -1 ){
+
+				m = m.mid( 0,s ) ;
+			}
+
+			m_banner.updateProgress( m ) ;
 
 			return false ;
 		}
@@ -988,8 +995,6 @@ void playlistdownloader::getList( customOptions&& c,
 		logger.clear() ;
 		m_banner.clear() ;
 
-		auto d = engines::engine::functions::timer::stringElapsedTime( 0 ) ;
-
 		QIcon icon( ":/media-downloader" ) ;
 
 		auto w = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
@@ -997,24 +1002,10 @@ void playlistdownloader::getList( customOptions&& c,
 
 		tableWidget::entry entry ;
 
-		entry.uiText    = d + "\n" + m_banner.txt() ;
+		entry.uiText    = m_banner.txt() ;
 		entry.thumbnail = icon.pixmap( w,h ) ;
 
 		m_table.addItem( std::move( entry ) ) ;
-
-		m_showTimer = true ;
-
-		util::Timer( 1000,[ this ]( int counter ){
-
-			if( m_showTimer ){
-
-				m_banner.updateCounter( counter ) ;
-
-				return false ;
-			}else{
-				return true ;
-			}
-		} ) ;
 	}
 
 	m_table.selectLast() ;
@@ -1197,8 +1188,6 @@ void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
 		if( m_autoDownload ){
 
 			this->download() ;
-		}else{
-			m_showTimer = false ;
 		}
 	}
 }
@@ -1331,6 +1320,12 @@ void playlistdownloader::subscription::save()
 	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
 
 	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+}
+
+void playlistdownloader::banner::updateProgress( const QString& progress )
+{
+	m_progress = progress ;
+	m_table.setUiText( m_txt + "\n" + m_progress,0 ) ;
 }
 
 void playlistdownloader::banner::updateCounter( int counter )

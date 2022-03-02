@@ -699,7 +699,7 @@
         <translation>Завершено: %1%, Не запущено: %2, Успешно: %3, Не удалось: %4, Отменено: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1116"/>
+        <location filename="../src/playlistdownloader.cpp" line="1107"/>
         <source>Media Already In Archive</source>
         <translation>Медиа уже в архиве</translation>
     </message>
@@ -874,7 +874,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1266"/>
+        <location filename="../src/playlistdownloader.cpp" line="1255"/>
         <source>Get List Options:</source>
         <translation>Параметры списка:</translation>
     </message>
@@ -904,9 +904,14 @@
         <translation>Управление подписками</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="970"/>
+        <location filename="../src/playlistdownloader.cpp" line="962"/>
         <source>Number of Pages Downloaded</source>
         <translation>Кол-во загруженных страниц</translation>
+    </message>
+    <message>
+        <location filename="../src/playlistdownloader.cpp" line="969"/>
+        <source>Downloading video</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="528"/>
