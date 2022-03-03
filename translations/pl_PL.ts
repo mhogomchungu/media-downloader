@@ -368,7 +368,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="745"/>
         <source>Author</source>
-        <translation type="unfinished">Autor</translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="755"/>
@@ -378,12 +378,12 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="773"/>
         <source>Replies to</source>
-        <translation type="unfinished">Odpowiedź dla</translation>
+        <translation>Odpowiedź dla</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="780"/>
         <source>Text</source>
-        <translation type="unfinished">Treść</translation>
+        <translation>Treść</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="997"/>
@@ -734,7 +734,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="984"/>
         <source>Download</source>
-        <translation type="unfinished">Pobierz</translation>
+        <translation>Pobierz</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1053"/>
