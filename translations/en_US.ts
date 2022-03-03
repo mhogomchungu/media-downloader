@@ -910,7 +910,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="969"/>
-        <source>Downloading video</source>
+        <source>Downloading video info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

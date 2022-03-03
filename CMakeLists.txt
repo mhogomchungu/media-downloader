@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set( PGR_VERSION "2.2.0" )
+set( PGR_VERSION "2.2.1" )
 set( COPYRIGHT_YEARS "2021-2022" )
 
 INCLUDE(GNUInstallDirs)
@@ -43,23 +43,23 @@ set(UI_FILES
 
 if(Qt5Core_VERSION VERSION_LESS 5.4.0)
     set(MOC_FILES
-	src/mainwindow.h
-	src/logwindow.h
-	src/basicdownloader.h
-	src/batchdownloader.h
-	src/configure.h
-	src/library.h
-	src/playlistdownloader.h
-	src/util.hpp)
+        src/mainwindow.h
+        src/logwindow.h
+        src/basicdownloader.h
+        src/batchdownloader.h
+        src/configure.h
+        src/library.h
+        src/playlistdownloader.h
+        src/util.hpp)
 else()
     set(MOC_FILES
-	src/mainwindow.h
-	src/logwindow.h
-	src/basicdownloader.h
-	src/batchdownloader.h
-	src/configure.h
-	src/library.h
-	src/playlistdownloader.h)
+        src/mainwindow.h
+        src/logwindow.h
+        src/basicdownloader.h
+        src/batchdownloader.h
+        src/configure.h
+        src/library.h
+        src/playlistdownloader.h)
 endif()
 
 set(SRC

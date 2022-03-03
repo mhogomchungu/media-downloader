@@ -117,7 +117,7 @@ Version 1.2.0(April 1st, 2021)
       look for option "MonitorClipboardContents" in the app's config file set it to true to enable it.
     - Various changes and improvements.
 
-  Version 2.2.1(Unreleased)
+  Version 2.2.1(March 3rd, 2022)
     - Make it possible to customize fusion dark theme by saving theme options in a config file.
-    - Add ability to show in the UI available media subtitles and to download them.
+    - Add ability to show in the UI available media subtitles and to download them or embed them in downloaded file.
     - Add an option to auto save not downloaded media on exit.

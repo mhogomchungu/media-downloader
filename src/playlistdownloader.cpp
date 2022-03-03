@@ -966,7 +966,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 		}else if( e.startsWith( "[download] Downloading video " ) ){
 
-			auto m = tr( "Downloading video" ) + " " + e.mid( 28 ) ;
+			auto m = tr( "Downloading video info" ) + " " + e.mid( 29 ) ;
 
 			auto s = m.indexOf( '\n' ) ;
 
