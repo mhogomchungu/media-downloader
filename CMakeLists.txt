@@ -21,7 +21,7 @@ endif()
 
 if(WIN32)
 else()
-    #This is necessary with whatever version of cmake that is in debian 8
+    #This is necessary with old versions of cmake
     add_definitions(-std=c++14)
 endif()
 
