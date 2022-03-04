@@ -1801,12 +1801,21 @@ void batchdownloader::disableAll()
 }
 
 batchdownloader::subtitlesTimer::subtitlesTimer( tableMiniWidget< QJsonObject> & table ) :
-	m_banner( tr( "Downloading subtitles" ).toUtf8(),8 ),
+	m_banner( tr( "Downloading subtitles" ).toUtf8() + "\n",8 ),
 	m_table( table )
 {
 	connect( &m_timer,&QTimer::timeout,[ this ](){
 
-		m_table.item( 0,3 ).setText( "\n" + m_banner.text() + "\n" ) ;
+		auto m = util::split( m_banner.text(),'\n' ) ;
+
+		if( m.size() == 2 ){
+
+			auto s = m[ 1 ] + "\n" + m[ 0 ] ;
+
+			m_table.item( 0,3 ).setText( s + "\n" ) ;
+		}else{
+			m_table.item( 0,3 ).setText( "\n" + m_banner.text() ) ;
+		}
 	} ) ;
 }
 
