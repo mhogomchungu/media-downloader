@@ -100,6 +100,30 @@ void lux::runCommandOnDownloadedFile( const QString&,const QString& )
 {
 }
 
+bool lux::foundNetworkUrl( const QString& s )
+{
+	if( utility::platformIsWindows() ){
+
+		if( utility::platformIs32Bit() ){
+
+			return s.contains( "Windows_32-bit" ) ;
+		}else{
+			return s.contains( "Windows_64-bit" ) ;
+		}
+
+	}else if( utility::platformIsLinux() ){
+
+		if( utility::platformIs32Bit() ){
+
+			return s.contains( "Linux_32-bit" ) ;
+		}else{
+			return s.contains( "Linux_64-bit" ) ;
+		}
+	}else{
+		return s.contains( "macOS_64-bit" ) ;
+	}
+}
+
 QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 					  const QString& bkText,
 					  const QString& dopts,

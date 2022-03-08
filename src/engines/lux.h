@@ -51,6 +51,8 @@ public:
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
+	bool foundNetworkUrl( const QString& s ) override ;
+
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,

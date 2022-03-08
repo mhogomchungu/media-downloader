@@ -338,6 +338,8 @@ public:
 
 			virtual bool parseOutput( Logger::Data&,const QByteArray& ) ;
 
+			virtual bool foundNetworkUrl( const QString& ) ;
+
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const QString& downloadingOptions,
 							     const engine::engine::functions::finishedState& ) ;
@@ -479,6 +481,10 @@ public:
 		bool parseOutput( Logger::Data& e,const QByteArray& s ) const
 		{
 			return m_functions->parseOutput( e,s ) ;
+		}
+		bool foundNetworkUrl( const QString& s ) const
+		{
+			return m_functions->foundNetworkUrl( s ) ;
 		}
 		std::vector< QStringList > mediaProperties( const QJsonArray& e ) const
 		{

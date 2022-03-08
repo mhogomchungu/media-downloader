@@ -148,7 +148,8 @@ void networkAccess::download( const engines::Iterator& iter )
 		this->post( engine,"..." ) ;
 	} ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter,exePath ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,
+			  [ this,networkReply,&engine,iter,exePath,exeFolderPath ](){
 
 		networkReply->deleteLater() ;
 
@@ -198,7 +199,7 @@ void networkAccess::download( const engines::Iterator& iter )
 
 			auto entry = value.toString() ;
 
-			if( entry == engine.commandName() ){
+			if( engine.foundNetworkUrl( entry ) ){
 
 				auto value = object.value( "browser_download_url" ) ;
 
@@ -208,25 +209,31 @@ void networkAccess::download( const engines::Iterator& iter )
 
 				metadata.size = value.toInt() ;
 
-			}else if( entry == "SHA2-256SUMS" ){
+				metadata.fileName = entry ;
 
-				auto value = object.value( "browser_download_url" ) ;
-
-				metadata.sha256 = value.toString() ;
+				break ;
 			}
 		}
 
-		this->download( metadata,iter,exePath ) ;
+		this->download( metadata,iter,exePath,exeFolderPath ) ;
 	} ) ;
 }
 
 void networkAccess::download( const networkAccess::metadata& metadata,
 			      const engines::Iterator& iter,
-			      const QString& path )
+			      const QString& path,
+			      const QString& exeFolderPath )
 {
 	const auto& engine = iter.engine() ;
 
-	QString filePath = path + ".tmp" ;
+	QString filePath ;
+
+	if( utility::platformIsWindows() && metadata.fileName.endsWith( ".zip" ) ){
+
+		filePath = path + ".tmp.zip" ;
+	}else{
+		filePath = path + ".tmp" ;
+	}
 
 	m_file.setFileName( filePath ) ;
 
@@ -240,7 +247,8 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 	auto networkReply = m_accessManager.get( this->networkRequest( metadata.url ) ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter,path ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,
+			  [ this,networkReply,&engine,iter,path,metadata,filePath,exeFolderPath ](){
 
 		networkReply->deleteLater() ;
 
@@ -259,15 +267,35 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 			this->post( engine,QObject::tr( "Download complete" ) ) ;
 
-			this->post( engine,QObject::tr( "Renaming file to: " ) + path ) ;
+			if( utility::platformIsWindows() && metadata.fileName.endsWith( ".zip" ) ){
 
-			QFile::remove( path ) ;
+				this->post( engine,QObject::tr( "Extracting archive: " ) + filePath ) ;
 
-			m_file.rename( path ) ;
+				QFile::remove( path ) ;
 
-			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
+				auto exe = m_ctx.Engines().findExecutable(  "7z.exe" ) ;
 
-			m_ctx.versionInfo().check( iter ) ;
+				util::run( exe,{ "x",filePath,"-o"+exeFolderPath },[ this,iter,filePath,path ]( const util::run_result& ){
+
+					QFile::remove( filePath ) ;
+
+					QFile f( path ) ;
+
+					f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+
+					m_ctx.versionInfo().check( iter ) ;
+				} ) ;
+			}else{
+				this->post( engine,QObject::tr( "Renaming file to: " ) + path ) ;
+
+				QFile::remove( path ) ;
+
+				m_file.rename( path ) ;
+
+				m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
+
+				m_ctx.versionInfo().check( iter ) ;
+			}
 		}
 	} ) ;
 

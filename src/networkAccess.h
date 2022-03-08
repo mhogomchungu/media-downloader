@@ -66,9 +66,12 @@ private:
 	{
 		qint64 size ;
 		QString url ;
-		QString sha256 ;
+		QString fileName ;
 	};
-	void download( const networkAccess::metadata&,const engines::Iterator&,const QString& path ) ;
+	void download( const networkAccess::metadata&,
+		       const engines::Iterator&,
+		       const QString& path,
+		       const QString& exeFolderPath ) ;
 	void post( const engines::engine&,const QString& ) ;
 	const Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;

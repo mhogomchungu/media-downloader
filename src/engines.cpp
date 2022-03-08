@@ -958,6 +958,11 @@ bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray& )
 	return true ;
 }
 
+bool engines::engine::functions::foundNetworkUrl( const QString& s )
+{
+	return s == m_engine.commandName() ;
+}
+
 QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,
 								 const QString& dopts,
 								 const engines::engine::functions::finishedState& f )
