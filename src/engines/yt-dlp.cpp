@@ -324,10 +324,12 @@ yt_dlp::~yt_dlp()
 
 std::vector< QStringList > yt_dlp::mediaProperties( const QByteArray& e )
 {
-	if( !m_engine.name().contains( "yt-dlp" ) ){
+	if( m_engine.name() == "youtube-dl" ){
 
 		return engines::engine::functions::mediaProperties( e ) ;
-	}else{
+
+	}else if( m_engine.name().contains( "yt-dlp" ) ){
+
 		QJsonParseError err ;
 
 		auto json = QJsonDocument::fromJson( e,&err ) ;
@@ -338,11 +340,18 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QByteArray& e )
 		}else{
 			return {} ;
 		}
+	}else{
+		return {} ;
 	}
 }
 
 std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 {
+	if( array.isEmpty() ){
+
+		return {} ;
+	}
+
 	if( m_engine.name() == "youtube-dl" ){
 
 		return engines::engine::functions::mediaProperties( array ) ;

@@ -336,6 +336,8 @@ public:
 
 			virtual QStringList dumpJsonArguments() ;
 
+			virtual bool parseOutput( Logger::Data&,const QByteArray& ) ;
+
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const QString& downloadingOptions,
 							     const engine::engine::functions::finishedState& ) ;
@@ -473,6 +475,10 @@ public:
 		std::vector< QStringList > mediaProperties( const QByteArray& e ) const
 		{
 			return m_functions->mediaProperties( e ) ;
+		}
+		bool parseOutput( Logger::Data& e,const QByteArray& s ) const
+		{
+			return m_functions->parseOutput( e,s ) ;
 		}
 		std::vector< QStringList > mediaProperties( const QJsonArray& e ) const
 		{

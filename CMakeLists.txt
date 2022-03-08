@@ -86,6 +86,7 @@ set(SRC
     src/engines/safaribooks.cpp
     src/engines/generic.cpp
     src/engines/aria2c.cpp
+    src/engines/lux.cpp
     src/engines/gallery-dl.cpp)
 
 set(RESOURCES src/icon.qrc )

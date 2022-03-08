@@ -95,6 +95,11 @@ bool Logger::Data::postProcessText( const QByteArray& data )
 
 void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
 {
+	if( data.isEmpty() ){
+
+		return ;
+	}
+
 	if( m_args.likeYoutubeDl && humanReadableJson ){
 
 		if( data.startsWith( '[' ) || data.startsWith( '{' ) ){

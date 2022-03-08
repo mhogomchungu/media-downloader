@@ -24,6 +24,7 @@
 #include "engines/safaribooks.h"
 #include "engines/gallery-dl.h"
 #include "engines/aria2c.h"
+#include "engines/lux.h"
 
 #include "downloadmanager.h"
 #include "utility.h"
@@ -283,6 +284,10 @@ void engines::updateEngines( bool addAll )
 		}else if( name == "aria2c" ){
 
 			it.setBackend< aria2c >( engines ) ;
+
+		}else if( name == "lux" ){
+
+			it.setBackend< lux >( engines ) ;
 
 		}else if( it.mainEngine() ){
 
@@ -946,6 +951,11 @@ QString engines::engine::functions::commandString( const engines::engine::exeArg
 QStringList engines::engine::functions::dumpJsonArguments()
 {
 	return { "--dump-json" } ;
+}
+
+bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray& )
+{
+	return true ;
 }
 
 QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,

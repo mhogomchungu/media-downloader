@@ -296,7 +296,10 @@ public:
 			m_yt_dlp( m_args.name == "yt-dlp" ),
 			m_ytdl( m_args.name == "youtube-dl" )
 		{
-			this->run( humanReadableJson,data ) ;
+			if( engine.parseOutput( m_outPut,data ) ){
+
+				this->run( humanReadableJson,data ) ;
+			}
 		}
 	private:
 		void run( bool humanReadableJson,const QByteArray& data ) ;

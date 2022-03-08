@@ -334,7 +334,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		} ) ;
 
 		ac = m.addAction( tr( "Show Media Options" ) ) ;
-		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
+		ac->setEnabled( !running && !engine.defaultListCmdOptions().isEmpty() ) ;
 
 		connect( ac,&QAction::triggered,[ this,&engine ](){
 
