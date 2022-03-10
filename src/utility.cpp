@@ -38,6 +38,15 @@ const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
 const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
+bool utility::platformisOS2()
+{
+#if defined(__OS2__) || defined(OS2) || defined(_OS2)
+	return true ;
+#else
+	return false ;
+#endif
+}
+
 #ifdef Q_OS_LINUX
 
 bool utility::platformIsLinux()

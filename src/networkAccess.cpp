@@ -275,15 +275,25 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 				auto exe = m_ctx.Engines().findExecutable(  "7z.exe" ) ;
 
-				util::run( exe,{ "x",filePath,"-o"+exeFolderPath },[ this,iter,filePath,path ]( const util::run_result& ){
+				util::run( exe,{ "x",filePath,"-o"+exeFolderPath },[ &engine,this,iter,filePath,path ]( const util::run_result& s ){
 
 					QFile::remove( filePath ) ;
 
-					QFile f( path ) ;
+					if( s.success() ){
 
-					f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+						QFile f( path ) ;
 
-					m_ctx.versionInfo().check( iter ) ;
+						f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+
+						m_ctx.versionInfo().check( iter ) ;
+					}else{
+						this->post( engine,s.stdError ) ;
+
+						if( iter.hasNext() ){
+
+							m_ctx.versionInfo().check( iter.next() ) ;
+						}
+					}
 				} ) ;
 			}else{
 				this->post( engine,QObject::tr( "Renaming file to: " ) + path ) ;
