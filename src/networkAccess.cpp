@@ -228,9 +228,13 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 	QString filePath ;
 
-	if( utility::platformIsWindows() && metadata.fileName.endsWith( ".zip" ) ){
+	if( metadata.fileName.endsWith( ".zip" ) ){
 
 		filePath = path + ".tmp.zip" ;
+
+	}else if( metadata.fileName.endsWith( ".tar.gz" ) ){
+
+		filePath = path + ".tmp.tar.gz" ;
 	}else{
 		filePath = path + ".tmp" ;
 	}
@@ -267,15 +271,25 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 			this->post( engine,QObject::tr( "Download complete" ) ) ;
 
-			if( utility::platformIsWindows() && metadata.fileName.endsWith( ".zip" ) ){
+			if( metadata.fileName.endsWith( ".zip" ) || metadata.fileName.endsWith( ".tar.gz" ) ){
 
 				this->post( engine,QObject::tr( "Extracting archive: " ) + filePath ) ;
 
 				QFile::remove( path ) ;
 
-				auto exe = m_ctx.Engines().findExecutable(  "7z.exe" ) ;
+				QString exe ;
+				QStringList args ;
 
-				util::run( exe,{ "x",filePath,"-o"+exeFolderPath },[ &engine,this,iter,filePath,path ]( const util::run_result& s ){
+				if( utility::platformIsWindows() ){
+
+					exe = m_ctx.Engines().findExecutable( "7z.exe" ) ;
+					args = QStringList{ "x",filePath,"-o"+exeFolderPath } ;
+				}else{
+					exe = m_ctx.Engines().findExecutable( "tar" ) ;
+					args = QStringList{ "-x","-f",filePath,"-C",exeFolderPath } ;
+				}
+
+				util::run( exe,args,[ &engine,this,iter,filePath,path ]( const util::run_result& s ){
 
 					QFile::remove( filePath ) ;
 
