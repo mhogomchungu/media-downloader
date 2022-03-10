@@ -291,6 +291,7 @@ namespace utility
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
+	bool platformisOS2() ;
 	bool platformIsNOTWindows() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;

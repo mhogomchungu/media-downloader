@@ -40,6 +40,11 @@ const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
 #if defined(__OS2__) || defined(OS2) || defined(_OS2)
 
+bool utility::platformisOS2()
+{
+	return true ;
+}
+
 bool utility::platformIsLinux()
 {
 	return false ;
@@ -52,7 +57,7 @@ bool utility::platformIsOSX()
 
 bool utility::platformIsWindows()
 {
-	return true ;
+	return false ;
 }
 
 QString utility::python3Path()
@@ -68,6 +73,11 @@ util::result< int > utility::Terminator::terminate( int,char ** )
 #endif
 
 #ifdef Q_OS_LINUX
+
+bool utility::platformisOS2()
+{
+	return false ;
+}
 
 bool utility::platformIsLinux()
 {
@@ -97,6 +107,11 @@ util::result< int > utility::Terminator::terminate( int,char ** )
 #endif
 
 #ifdef Q_OS_MACOS
+
+bool utility::platformisOS2()
+{
+	return false ;
+}
 
 QString utility::python3Path()
 {
@@ -269,6 +284,11 @@ bool utility::platformIsLinux()
 }
 
 bool utility::platformIsOSX()
+{
+	return false ;
+}
+
+bool utility::platformisOS2()
 {
 	return false ;
 }
