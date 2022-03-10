@@ -38,16 +38,46 @@ const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
 const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
+#if defined(__OS2__) || defined(OS2) || defined(_OS2)
+
 bool utility::platformisOS2()
 {
-#if defined(__OS2__) || defined(OS2) || defined(_OS2)
 	return true ;
-#else
-	return false ;
-#endif
 }
 
+bool utility::platformIsLinux()
+{
+	return false ;
+}
+
+bool utility::platformIsOSX()
+{
+	return false ;
+}
+
+bool utility::platformIsWindows()
+{
+	return false ;
+}
+
+QString utility::python3Path()
+{
+	return QStandardPaths::findExecutable( "python3" ) ;
+}
+
+util::result< int > utility::Terminator::terminate( int,char ** )
+{
+	return {} ;
+}
+
+#endif
+
 #ifdef Q_OS_LINUX
+
+bool utility::platformisOS2()
+{
+	return false ;
+}
 
 bool utility::platformIsLinux()
 {
@@ -77,6 +107,11 @@ util::result< int > utility::Terminator::terminate( int,char ** )
 #endif
 
 #ifdef Q_OS_MACOS
+
+bool utility::platformisOS2()
+{
+	return false ;
+}
 
 QString utility::python3Path()
 {
@@ -249,6 +284,11 @@ bool utility::platformIsLinux()
 }
 
 bool utility::platformIsOSX()
+{
+	return false ;
+}
+
+bool utility::platformisOS2()
 {
 	return false ;
 }
