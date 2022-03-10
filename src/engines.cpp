@@ -48,7 +48,7 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	auto separator = [ & ](){
 
-		if( utility::platformIsWindows() || utility::platformisOS2() ){
+		if( utility::platformIsWindows() ){
 
 			return ";" ;
 		}else{
