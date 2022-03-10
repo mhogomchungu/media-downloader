@@ -90,10 +90,27 @@ std::vector<QStringList> lux::mediaProperties( const QJsonArray& arr )
 
 bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data )
 {
-	Q_UNUSED( outPut )
-	Q_UNUSED( data )
+	if( m_hasHeader ){
 
-	return true ;
+		auto m = data.indexOf( ']' ) ;
+
+		if( m != -1 ){
+
+			outPut.replaceLast( data.mid( m + 1 ) ) ;
+		}
+	}else{
+		auto m = outPut.toLine() ;
+
+		if( m.contains( "download with:" ) ){
+
+			outPut.add( "\n" ) ;
+			m_hasHeader = true ;
+		}else{
+			outPut.add( data ) ;
+		}
+	}
+
+	return false ;
 }
 
 void lux::runCommandOnDownloadedFile( const QString&,const QString& )
@@ -174,7 +191,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		return s ;
 	}
 
-	if( m_title.isEmpty() ){
+	if( m_title == "Unknown" ){
 
 		auto m = e.toLine() ;
 
@@ -210,11 +227,13 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		}
 	}
 
-	auto m = s.indexOf( ']' ) ;
+	auto m = s.indexOf( "Merging video parts into " ) ;
 
 	if( m != -1 ){
 
-		m_tmp = m_size + "\n" + m_title + "\n" + s.mid( m + 1 ) ;
+		m_tmp = m_size + "\n" + s.mid( m + 25 ) + "\n" + m_title ;
+	}else{
+		m_tmp = m_size + "\n" + m_title + "\n" + s ;
 	}
 
 	return m_tmp ;

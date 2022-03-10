@@ -98,6 +98,22 @@ public:
 				return {} ;
 			}
 		}
+		auto begin()
+		{
+			return m_lines.begin() ;
+		}
+		auto end()
+		{
+			return m_lines.end() ;
+		}
+		auto begin() const
+		{
+			return m_lines.begin() ;
+		}
+		auto end() const
+		{
+			return m_lines.end() ;
+		}
 		QByteArray toLine() const
 		{
 			if( this->isNotEmpty() ){

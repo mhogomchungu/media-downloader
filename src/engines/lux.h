@@ -37,7 +37,7 @@ public:
 		~lux_dlFilter() override ;
 	private:
 		QByteArray m_tmp ;
-		QByteArray m_title ;
+		QByteArray m_title = "Unknown" ;
 		QByteArray m_size ;
 	} ;
 
@@ -61,4 +61,5 @@ public:
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 private:
 	const engines::engine& m_engine ;
+	bool m_hasHeader = false ;
 };
