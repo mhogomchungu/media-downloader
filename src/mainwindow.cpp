@@ -127,6 +127,8 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStrin
 
 void MainWindow::showTrayIcon( bool e )
 {
+	m_showTrayIcon = e ;
+
 	if( e ){
 
 		m_trayIcon.show() ;
@@ -179,7 +181,7 @@ void MainWindow::log( const QByteArray& e )
 	m_logger.add( e,-1 ) ;
 }
 
-MainWindow::~MainWindow() = default;
+MainWindow::~MainWindow() = default ;
 
 void MainWindow::closeEvent( QCloseEvent * e )
 {
