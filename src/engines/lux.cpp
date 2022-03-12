@@ -92,7 +92,7 @@ bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data )
 {
 	if( m_hasHeader ){
 
-		auto m = data.indexOf( ']' ) ;
+		auto m = data.lastIndexOf( ']' ) ;
 
 		if( m != -1 ){
 
