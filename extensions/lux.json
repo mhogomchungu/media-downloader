@@ -50,7 +50,7 @@
     "SplitLinesBy": [
         "\n"
     ],
-    "ReplaceOutputWithProgressReport": false,
+    "ReplaceOutputWithProgressReport": true,
     "UsePrivateExecutable": true,
     "VersionArgument": "--version",
     "VersionStringLine": 0,
