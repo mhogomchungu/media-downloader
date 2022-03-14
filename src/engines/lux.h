@@ -37,6 +37,7 @@ public:
 		~lux_dlFilter() override ;
 	private:
 		QByteArray m_tmp ;
+		QByteArray m_tmp1 ;
 		QByteArray m_title = "Unknown" ;
 		QByteArray m_size ;
 	} ;
@@ -47,7 +48,7 @@ public:
 
 	std::vector< QStringList > mediaProperties( const QJsonArray& ) override ;
 
-	bool parseOutput( Logger::Data&,const QByteArray& ) override ;
+	bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
@@ -61,5 +62,4 @@ public:
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 private:
 	const engines::engine& m_engine ;
-	bool m_hasHeader = false ;
 };

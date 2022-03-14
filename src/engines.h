@@ -336,7 +336,7 @@ public:
 
 			virtual QStringList dumpJsonArguments() ;
 
-			virtual bool parseOutput( Logger::Data&,const QByteArray& ) ;
+			virtual bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) ;
 
 			virtual bool foundNetworkUrl( const QString& ) ;
 
@@ -351,9 +351,9 @@ public:
 
 			virtual void sendCredentials( const QString&,QProcess& ) ;
 
-			virtual void processData( Logger::Data&,const QByteArray&,int id,bool readableJson ) ;
+			virtual void processData( Logger::Data&,const QByteArray&,int id,bool readableJson,bool mainLogger ) ;
 
-			virtual void processData( Logger::Data&,const QString&,int id,bool readableJson ) ;
+			virtual void processData( Logger::Data&,const QString&,int id,bool readableJson,bool mainLogger ) ;
 
 			struct updateOpts
 			{
@@ -435,13 +435,13 @@ public:
 		{
 			return m_functions->dumpJsonArguments() ;
 		}
-		void processData( Logger::Data& outPut,const QByteArray& data,int id,bool readableJson ) const
+		void processData( Logger::Data& outPut,const QByteArray& data,int id,bool readableJson,bool mainLogger ) const
 		{
-			m_functions->processData( outPut,data,id,readableJson ) ;
+			m_functions->processData( outPut,data,id,readableJson,mainLogger ) ;
 		}
-		void processData( Logger::Data& outPut,const QString& data,int id,bool readableJson ) const
+		void processData( Logger::Data& outPut,const QString& data,int id,bool readableJson,bool mainLogger ) const
 		{
-			m_functions->processData( outPut,data,id,readableJson ) ;
+			m_functions->processData( outPut,data,id,readableJson,mainLogger ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{
@@ -478,9 +478,9 @@ public:
 		{
 			return m_functions->mediaProperties( e ) ;
 		}
-		bool parseOutput( Logger::Data& e,const QByteArray& s ) const
+		bool parseOutput( Logger::Data& e,const QByteArray& s,int id,bool m ) const
 		{
-			return m_functions->parseOutput( e,s ) ;
+			return m_functions->parseOutput( e,s,id,m ) ;
 		}
 		bool foundNetworkUrl( const QString& s ) const
 		{

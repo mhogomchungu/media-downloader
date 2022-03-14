@@ -343,7 +343,7 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 void networkAccess::post( const engines::engine& engine,const QString& m )
 {
-	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool ){
+	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool,bool ){
 
 		auto e = m.toUtf8() ;
 

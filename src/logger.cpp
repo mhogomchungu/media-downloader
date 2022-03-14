@@ -88,6 +88,41 @@ QList< QByteArray > Logger::Data::toStringList() const
 	return util::split( this->toString(),'\n' ) ;
 }
 
+void Logger::Data::luxHack( int id,const QByteArray& data )
+{
+	QByteArray line ;
+
+	for( const auto& it : m_lines ){
+
+		if( it.id() == id ){
+
+			line += it.text() ;
+		}
+	}
+
+	if( line.contains( "download with:" ) ){
+
+		auto m = data.lastIndexOf( ']' ) ;
+
+		if( m != -1 ){
+
+			auto d = data.mid( m + 1 ) ;
+
+			_replaceOrAdd( d,id,[]( const QByteArray& ){
+
+				return true ;
+
+			},[]( const QByteArray& ){
+
+				return false ;
+			} ) ;
+		}
+	}else{
+		this->add( data,id ) ;
+		this->add( "\n",id ) ;
+	}
+}
+
 bool Logger::Data::postProcessText( const QByteArray& data )
 {
 	return utility::stringConstants::postProcessMarker( data ) ;

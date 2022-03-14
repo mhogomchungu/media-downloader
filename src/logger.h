@@ -59,6 +59,17 @@ public:
 				function( it.id(),it.text() ) ;
 			}
 		}
+		template< typename Function >
+		auto reverseForEach( Function function ) const
+		{
+			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
+
+				if( function( it->id(),it->text() ) ){
+
+					break ;
+				}
+			}
+		}
 		const QByteArray& lastText() const
 		{
 			return m_lines[ m_lines.size() - 1 ].text() ;
@@ -97,22 +108,6 @@ public:
 			}else{
 				return {} ;
 			}
-		}
-		auto begin()
-		{
-			return m_lines.begin() ;
-		}
-		auto end()
-		{
-			return m_lines.end() ;
-		}
-		auto begin() const
-		{
-			return m_lines.begin() ;
-		}
-		auto end() const
-		{
-			return m_lines.end() ;
 		}
 		QByteArray toLine() const
 		{
@@ -157,6 +152,7 @@ public:
 
 			_replaceOrAdd( text,id,_false,_false ) ;
 		}
+		void luxHack( int id,const QByteArray& data ) ;
 	private:
 		bool postProcessText( const QByteArray& data ) ;
 
@@ -259,7 +255,7 @@ public:
 	template< typename Function >
 	void add( const Function& function,int id )
 	{
-		function( m_lines,id,true ) ;
+		function( m_lines,id,true,true ) ;
 
 		this->update() ;
 	}
@@ -312,10 +308,7 @@ public:
 			m_yt_dlp( m_args.name == "yt-dlp" ),
 			m_ytdl( m_args.name == "youtube-dl" )
 		{
-			if( engine.parseOutput( m_outPut,data ) ){
-
-				this->run( humanReadableJson,data ) ;
-			}
+			this->run( humanReadableJson,data ) ;
 		}
 	private:
 		void run( bool humanReadableJson,const QByteArray& data ) ;
@@ -413,7 +406,7 @@ public:
 	void add( const G& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,-1,false ) ;
+		function( m_lines,-1,false,false ) ;
 		this->update() ;
 	}
 	void logError( const QByteArray& data )
@@ -480,7 +473,7 @@ public:
 	void add( const Function& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,-1,false ) ;
+		function( m_lines,-1,false,false ) ;
 		m_addToTable( m_table,m_lines ) ;
 	}
 	void logError( const QByteArray& data )

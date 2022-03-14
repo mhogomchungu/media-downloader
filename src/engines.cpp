@@ -953,7 +953,7 @@ QStringList engines::engine::functions::dumpJsonArguments()
 	return { "--dump-json" } ;
 }
 
-bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray& )
+bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray&,int,bool )
 {
 	return true ;
 }
@@ -1000,28 +1000,37 @@ void engines::engine::functions::sendCredentials( const QString&,QProcess& )
 void engines::engine::functions::processData( Logger::Data& outPut,
 					      const QByteArray& data,
 					      int id,
-					      bool readableJson )
+					      bool readableJson,
+					      bool mainLogger )
 {
-	const auto& txt = m_engine.removeText() ;
+	if( m_engine.parseOutput( outPut,data,id,mainLogger ) ){
 
-	if( txt.isEmpty() ){
+		const auto& txt = m_engine.removeText() ;
 
-		Logger::updateLogger( data,m_engine,outPut,id,readableJson ) ;
-	}else{
-		auto dd = data ;
+		if( txt.isEmpty() ){
 
-		for( const auto& it : txt ){
+			Logger::updateLogger( data,m_engine,outPut,id,readableJson ) ;
+		}else{
+			auto dd = data ;
 
-			dd.replace( it.toUtf8(),"" ) ;
+			for( const auto& it : txt ){
+
+				dd.replace( it.toUtf8(),"" ) ;
+			}
+
+			Logger::updateLogger( dd,m_engine,outPut,id,readableJson ) ;
 		}
-
-		Logger::updateLogger( dd,m_engine,outPut,id,readableJson ) ;
 	}
 }
 
-void engines::engine::functions::processData( Logger::Data& outPut,const QString& e,int id,bool readableJson )
+void engines::engine::functions::processData( Logger::Data& outPut,
+					      const QString& e,
+					      int id,
+					      bool readableJson,
+					      bool mainLogger )
 {
 	Q_UNUSED( readableJson )
+	Q_UNUSED( mainLogger )
 
 	outPut.replaceOrAdd( e.toUtf8(),id,[]( const QString& line ){
 

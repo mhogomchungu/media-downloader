@@ -88,27 +88,9 @@ std::vector<QStringList> lux::mediaProperties( const QJsonArray& arr )
 	return ent ;
 }
 
-bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data )
+bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data,int id,bool )
 {
-	if( m_hasHeader ){
-
-		auto m = data.lastIndexOf( ']' ) ;
-
-		if( m != -1 ){
-
-			outPut.replaceLast( data.mid( m + 1 ) ) ;
-		}
-	}else{
-		auto m = outPut.toLine() ;
-
-		if( m.contains( "download with:" ) ){
-
-			outPut.add( "\n" ) ;
-			m_hasHeader = true ;
-		}else{
-			outPut.add( data ) ;
-		}
-	}
+	outPut.luxHack( id,data ) ;
 
 	return false ;
 }
@@ -233,7 +215,23 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 		m_tmp = m_size + "\n" + s.mid( m + 25 ) + "\n" + m_title ;
 	}else{
-		m_tmp = m_size + "\n" + m_title + "\n" + s ;
+		if( s.contains( '\n' ) ){
+
+			auto e = util::split( s,'\n' ) ;
+
+			e.removeAll( "" ) ;
+
+			if( !e.isEmpty() ){
+
+				m_tmp1 = m_size + "\n" + m_title + "\n" + e.last() ;
+			}else{
+				m_tmp1 = m_size + "\n" + m_title + "\n" + s ;
+			}
+		}else{
+			m_tmp1 = m_size + "\n" + m_title + "\n" + s ;
+		}
+
+		return m_tmp1 ;
 	}
 
 	return m_tmp ;
