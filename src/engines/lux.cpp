@@ -184,6 +184,8 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 			m_title = m.mid( a,b - a ).trimmed() ;
 
+			m_title.replace( "\n","" ) ;
+
 			while( m_title.size() > 7 && m_title[ 8 ] == ' ' ){
 
 				m_title.remove( 8,1 ) ;
@@ -201,6 +203,8 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		if( a != -1 && b != -1  && b > a ){
 
 			m_size = m.mid( a,b - a ).trimmed() ;
+
+			m_size.replace( "\n","" ) ;
 
 			while( m_size.size() > 6 && m_size[ 7 ] == ' ' ){
 
