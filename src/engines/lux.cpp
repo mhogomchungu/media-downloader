@@ -173,7 +173,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		return s ;
 	}
 
-	if( m_title == "Unknown" ){
+	if( m_title == "Title: Unknown" ){
 
 		auto m = e.toLine() ;
 
@@ -193,7 +193,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		}
 	}
 
-	if( m_size.isEmpty() ){
+	if( m_size == "Size: Unknown" ){
 
 		auto m = e.toLine() ;
 

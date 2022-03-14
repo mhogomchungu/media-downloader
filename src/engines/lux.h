@@ -38,8 +38,8 @@ public:
 	private:
 		QByteArray m_tmp ;
 		QByteArray m_tmp1 ;
-		QByteArray m_title = "Unknown" ;
-		QByteArray m_size ;
+		QByteArray m_title = "Title: Unknown" ;
+		QByteArray m_size = "Size: Unknown" ;
 	} ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;
