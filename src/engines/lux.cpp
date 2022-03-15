@@ -164,6 +164,8 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 {
 	const auto& s = e.lastText() ;
 
+	auto line = e.toLine() ;
+
 	if( s.startsWith( "[media-downloader]" ) ){
 
 		return m_tmp ;
@@ -175,14 +177,12 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 	if( m_title == "Title: Unknown" ){
 
-		auto m = e.toLine() ;
-
-		auto a = m.indexOf( "Title:" ) ;
-		auto b = m.indexOf( "Type:" ) ;
+		auto a = line.indexOf( "Title:" ) ;
+		auto b = line.indexOf( "Type:" ) ;
 
 		if( a != -1 && b != -1 && b > a ){
 
-			m_title = m.mid( a,b - a ).trimmed() ;
+			m_title = line.mid( a,b - a ).trimmed() ;
 
 			m_title.replace( "\n","" ) ;
 
@@ -195,14 +195,12 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 	if( m_size == "Size: Unknown" ){
 
-		auto m = e.toLine() ;
-
-		auto a = m.indexOf( "Size:" ) ;
-		auto b = m.indexOf( "# download with:" ) ;
+		auto a = line.indexOf( "Size:" ) ;
+		auto b = line.indexOf( "# download with:" ) ;
 
 		if( a != -1 && b != -1  && b > a ){
 
-			m_size = m.mid( a,b - a ).trimmed() ;
+			m_size = line.mid( a,b - a ).trimmed() ;
 
 			m_size.replace( "\n","" ) ;
 
@@ -213,27 +211,46 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		}
 	}
 
-	auto m = s.indexOf( "Merging video parts into " ) ;
+	auto m = line.indexOf( "Merging video parts into " ) ;
 
 	if( m != -1 ){
 
-		m_tmp = m_size + "\n" + s.mid( m + 25 ) + "\n" + m_title ;
+		m_tmp = m_size + "\n" + line.mid( m + 25 ) + "\n" + m_title ;
 	}else{
-		if( s.contains( '\n' ) ){
+		auto a = line.indexOf( "Downloading " ) ;
 
-			auto e = util::split( s,'\n' ) ;
+		if( a != -1 ){
 
-			e.removeAll( "" ) ;
+			m_tmp = line.mid( a + 12 ) ;
 
-			if( !e.isEmpty() ){
+			auto b = m_tmp.indexOf( " error:" ) ;
 
-				m_tmp1 = m_size + "\n" + m_title + "\n" + e.last() ;
-			}else{
-				m_tmp1 = m_size + "\n" + m_title + "\n" + s ;
+			if( b != -1 ){
+
+				m_tmp.truncate( b ) ;
 			}
-		}else{
-			m_tmp1 = m_size + "\n" + m_title + "\n" + s ;
+
+			return m_tmp ;
 		}
+
+		e.reverseForEach( [ & ]( int,const QByteArray& data ){
+
+			if( data.isEmpty() || data == "\n" ){
+
+				return false ;
+			}else{
+				auto e = util::split( data,'\n' ) ;
+
+				if( !e.isEmpty() ){
+
+					m_tmp1 = m_size + "\n" + m_title + "\n" + e.last() ;
+				}else{
+					m_tmp1 = m_size + "\n" + m_title + "\n" + s ;
+				}
+
+				return true ;
+			}
+		} ) ;
 
 		return m_tmp1 ;
 	}

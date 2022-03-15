@@ -60,7 +60,7 @@ public:
 			}
 		}
 		template< typename Function >
-		auto reverseForEach( Function function ) const
+		void reverseForEach( Function function ) const
 		{
 			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
 
