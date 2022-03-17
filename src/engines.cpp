@@ -455,9 +455,10 @@ void engines::removeEngine( const QString& e )
 
 		QFile::remove( m_enginePaths.enginePath( e ) ) ;
 
-		const auto& exe = engine->exePath().realExe() ;
+		auto exe = QDir::fromNativeSeparators( engine->exePath().realExe() ) ;
+		auto binPath = QDir::fromNativeSeparators( m_enginePaths.binPath() ) ;
 
-		if( engine->usingPrivateBackend() && QFile::exists( exe ) ){
+		if( exe.startsWith( binPath ) && QFile::exists( exe ) ){
 
 			QFile::remove( exe ) ;
 		}
