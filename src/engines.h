@@ -267,7 +267,7 @@ public:
 				const QByteArray& text() ;
 				const QByteArray& text( const QByteArray& ) ;
 			private:
-				int m_maxCounter ;
+				int m_maxCounter = 16 ;
 				int m_counter = 0 ;
 				QByteArray m_counterDots ;
 				QByteArray m_txt ;

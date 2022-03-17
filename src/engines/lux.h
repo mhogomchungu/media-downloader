@@ -37,9 +37,9 @@ public:
 		~lux_dlFilter() override ;
 	private:
 		QByteArray m_tmp ;
-		QByteArray m_tmp1 ;
 		QByteArray m_title = "Title: Unknown" ;
 		QByteArray m_size = "Size: Unknown" ;
+		engines::engine::functions::preProcessing m_progress ;
 	} ;
 
 	engines::engine::functions::DataFilter Filter( const QString& ) override ;

@@ -32,9 +32,7 @@ lux::lux( const engines& engines,const engines::engine& engine,QJsonObject& ) :
 
 engines::engine::functions::DataFilter lux::Filter( const QString& e )
 {
-	const auto& engine = engines::engine::functions::engine() ;
-
-	return { util::types::type_identity< lux::lux_dlFilter >(),e,engine } ;
+	return { util::types::type_identity< lux::lux_dlFilter >(),e,m_engine } ;
 }
 
 std::vector<QStringList> lux::mediaProperties( const QByteArray& e )
@@ -168,11 +166,11 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 	if( s.startsWith( "[media-downloader]" ) ){
 
-		return m_tmp ;
+		return m_progress.text() ;
 
 	}else if( s.startsWith( "Elapsed" ) ){
 
-		return s ;
+		return m_progress.text() ;
 	}
 
 	if( m_title == "Title: Unknown" ){
@@ -243,16 +241,16 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 				if( !e.isEmpty() ){
 
-					m_tmp1 = m_size + "\n" + m_title + "\n" + e.last() ;
+					m_tmp = m_size + "\n" + m_title + "\n" + e.last() ;
 				}else{
-					m_tmp1 = m_size + "\n" + m_title + "\n" + s ;
+					m_tmp = m_size + "\n" + m_title + "\n" + s ;
 				}
 
 				return true ;
 			}
 		} ) ;
 
-		return m_tmp1 ;
+		return m_tmp ;
 	}
 
 	return m_tmp ;
