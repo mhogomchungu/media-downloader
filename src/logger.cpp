@@ -100,15 +100,24 @@ void Logger::Data::luxHack( int id,const QByteArray& data )
 		}
 	}
 
-	if( line.contains( "download with:" ) ){
+	if( line.contains( "lux -f " ) ){
 
-		auto m = data.lastIndexOf( ']' ) ;
+		auto a = data.lastIndexOf( ']' ) ;
 
-		if( m != -1 ){
+		if( a != -1 ){
 
-			auto d = data.mid( m + 1 ) ;
+			_replaceOrAdd( [ & ](){
 
-			_replaceOrAdd( d,id,[]( const QByteArray& ){
+				auto b = data.lastIndexOf( '[' ) ;
+
+				if( b != -1 ){
+
+					return data.mid( 0,b ) + "<-->" + data.mid( a + 1 ) ;
+				}else{
+					return data.mid( a + 1 ) ;
+				}
+
+			}(),id,[]( const QByteArray& ){
 
 				return true ;
 
