@@ -701,6 +701,7 @@ public:
 
 	const std::vector< engine >& getEngines() const ;
 	engines::Iterator getEnginesIterator() const ;
+	void setDefaultEngine( const QString& ) ;
 private:
 	void updateEngines( bool ) ;
 	Logger& m_logger ;

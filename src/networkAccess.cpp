@@ -80,7 +80,7 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 	return networkRequest ;
 }
 
-void networkAccess::download( const engines::Iterator& iter )
+void networkAccess::download( const engines::Iterator& iter,const QString& setDefaultEngine )
 {
 	const auto& engine = iter.engine() ;
 
@@ -149,7 +149,7 @@ void networkAccess::download( const engines::Iterator& iter )
 	} ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::finished,
-			  [ this,networkReply,&engine,iter,exePath,exeFolderPath ](){
+			  [ this,networkReply,&engine,iter,exePath,exeFolderPath,setDefaultEngine ](){
 
 		networkReply->deleteLater() ;
 
@@ -215,116 +215,28 @@ void networkAccess::download( const engines::Iterator& iter )
 			}
 		}
 
-		this->download( metadata,iter,exePath,exeFolderPath ) ;
+		this->download( { metadata,iter,exePath,exeFolderPath,setDefaultEngine } ) ;
 	} ) ;
 }
 
-void networkAccess::download( const networkAccess::metadata& metadata,
-			      const engines::Iterator& iter,
-			      const QString& path,
-			      const QString& exeFolderPath )
+void networkAccess::download( networkAccess::Opts opts )
 {
-	const auto& engine = iter.engine() ;
-
-	QString filePath ;
-
-	if( metadata.fileName.endsWith( ".zip" ) ){
-
-		filePath = path + ".tmp.zip" ;
-
-	}else if( metadata.fileName.endsWith( ".tar.gz" ) ){
-
-		filePath = path + ".tmp.tar.gz" ;
-	}else{
-		filePath = path + ".tmp" ;
-	}
-
-	m_file.setFileName( filePath ) ;
+	m_file.setFileName( opts.filePath ) ;
 
 	m_file.remove() ;
 
 	m_file.open( QIODevice::WriteOnly ) ;
 
-	this->post( engine,QObject::tr( "Downloading" ) + ": " + metadata.url ) ;
+	this->post( opts.engine,QObject::tr( "Downloading" ) + ": " + opts.metadata.url ) ;
 
-	this->post( engine,QObject::tr( "Destination" ) + ": " + filePath ) ;
+	this->post( opts.engine,QObject::tr( "Destination" ) + ": " + opts.filePath ) ;
 
-	auto networkReply = m_accessManager.get( this->networkRequest( metadata.url ) ) ;
+	opts.networkReply = m_accessManager.get( this->networkRequest( opts.metadata.url ) ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,
-			  [ this,networkReply,&engine,iter,path,metadata,filePath,exeFolderPath ](){
+	const auto& engine = opts.engine ;
 
-		networkReply->deleteLater() ;
-
-		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
-
-			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
-
-			m_tabManager.enableAll() ;
-
-			if( iter.hasNext() ){
-
-				m_ctx.versionInfo().check( iter.next() ) ;
-			}
-		}else{
-			m_file.close() ;
-
-			this->post( engine,QObject::tr( "Download complete" ) ) ;
-
-			if( metadata.fileName.endsWith( ".zip" ) || metadata.fileName.endsWith( ".tar.gz" ) ){
-
-				this->post( engine,QObject::tr( "Extracting archive: " ) + filePath ) ;
-
-				QFile::remove( path ) ;
-
-				QString exe ;
-				QStringList args ;
-
-				if( utility::platformIsWindows() ){
-
-					exe = m_ctx.Engines().findExecutable( "7z.exe" ) ;
-					args = QStringList{ "x",filePath,"-o"+exeFolderPath } ;
-				}else{
-					exe = m_ctx.Engines().findExecutable( "tar" ) ;
-					args = QStringList{ "-x","-f",filePath,"-C",exeFolderPath } ;
-				}
-
-				util::run( exe,args,[ &engine,this,iter,filePath,path ]( const util::run_result& s ){
-
-					QFile::remove( filePath ) ;
-
-					if( s.success() ){
-
-						QFile f( path ) ;
-
-						f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
-
-						m_ctx.versionInfo().check( iter ) ;
-					}else{
-						this->post( engine,s.stdError ) ;
-
-						if( iter.hasNext() ){
-
-							m_ctx.versionInfo().check( iter.next() ) ;
-						}
-					}
-				} ) ;
-			}else{
-				this->post( engine,QObject::tr( "Renaming file to: " ) + path ) ;
-
-				QFile::remove( path ) ;
-
-				m_file.rename( path ) ;
-
-				m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
-
-				m_ctx.versionInfo().check( iter ) ;
-			}
-		}
-	} ) ;
-
-	QObject::connect( networkReply,&QNetworkReply::downloadProgress,
-			  [ this,metadata,networkReply,&engine,locale = utility::locale() ]( qint64 received,qint64 total ){
+	QObject::connect( opts.networkReply,&QNetworkReply::downloadProgress,
+			  [ this,metadata = opts.metadata,networkReply = opts.networkReply,&engine,locale = utility::locale() ]( qint64 received,qint64 total ){
 
 		Q_UNUSED( total )
 
@@ -339,6 +251,92 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 		this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m ) ;
 	} ) ;
+
+	QObject::connect( opts.networkReply,&QNetworkReply::finished,[ this,opts = std::move( opts ) ]()mutable{
+
+		this->finished( std::move( opts ) ) ;
+	} ) ;
+}
+
+void networkAccess::finished( networkAccess::Opts str )
+{
+	str.networkReply->deleteLater() ;
+
+	if( str.networkReply->error() != QNetworkReply::NetworkError::NoError ){
+
+		this->post( str.engine,QObject::tr( "Download Failed" ) + ": " + str.networkReply->errorString() ) ;
+
+		m_tabManager.enableAll() ;
+
+		if( str.iter.hasNext() ){
+
+			m_ctx.versionInfo().check( str.iter.next() ) ;
+		}
+	}else{
+		m_file.close() ;
+
+		this->post( str.engine,QObject::tr( "Download complete" ) ) ;
+
+		if( str.metadata.fileName.endsWith( ".zip" ) || str.metadata.fileName.endsWith( ".tar.gz" ) ){
+
+			this->post( str.engine,QObject::tr( "Extracting archive: " ) + str.filePath ) ;
+
+			QFile::remove( str.exeBinPath ) ;
+
+			QString exe ;
+			QStringList args ;
+
+			if( utility::platformIsWindows() ){
+
+				exe = m_ctx.Engines().findExecutable( "7z.exe" ) ;
+				args = QStringList{ "x",str.filePath,"-o" + str.exeFolderPath } ;
+			}else{
+				exe = m_ctx.Engines().findExecutable( "tar" ) ;
+				args = QStringList{ "-x","-f",str.filePath,"-C",str.exeFolderPath } ;
+			}
+
+			util::run( exe,args,[ this,str = std::move( str ) ]( const util::run_result& s ){
+
+				QFile::remove( str.filePath ) ;
+
+				if( s.success() ){
+
+					QFile f( str.exeBinPath ) ;
+
+					f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+
+					if( !str.defaultEngine.isEmpty() ){
+
+						utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
+					}
+
+					m_ctx.versionInfo().check( str.iter ) ;
+				}else{
+					this->post( str.engine,s.stdError ) ;
+
+					if( str.iter.hasNext() ){
+
+						m_ctx.versionInfo().check( str.iter.next() ) ;
+					}
+				}
+			} ) ;
+		}else{
+			this->post( str.engine,QObject::tr( "Renaming file to: " ) + str.exeBinPath ) ;
+
+			QFile::remove( str.exeBinPath ) ;
+
+			m_file.rename( str.exeBinPath ) ;
+
+			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
+
+			if( !str.defaultEngine.isEmpty() ){
+
+				utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
+			}
+
+			m_ctx.versionInfo().check( str.iter ) ;
+		}
+	}
 }
 
 void networkAccess::post( const engines::engine& engine,const QString& m )

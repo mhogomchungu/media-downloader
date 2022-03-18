@@ -39,7 +39,7 @@ class networkAccess
 {
 public:
 	networkAccess( const Context& ) ;
-	void download( const engines::Iterator& ) ;
+	void download( const engines::Iterator&,const QString& setDefaultENgine = QString() ) ;
 	static bool hasNetworkSupport()
 	{
 		#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -68,11 +68,48 @@ private:
 		QString url ;
 		QString fileName ;
 	};
-	void download( const networkAccess::metadata&,
-		       const engines::Iterator&,
-		       const QString& path,
-		       const QString& exeFolderPath ) ;
+
+	struct Opts
+	{
+		Opts( networkAccess::metadata m,
+		      engines::Iterator itr,
+		      const QString& exePath,
+		      const QString& efp,
+		      const QString& sde ) :
+			engine( itr.engine() ),
+			iter( std::move( itr ) ),
+			exeBinPath( exePath ),
+			metadata( std::move( m ) ),
+			exeFolderPath( efp ),
+			defaultEngine( sde )
+		{
+			if( metadata.fileName.endsWith( ".zip" ) ){
+
+				filePath = exeBinPath + ".tmp.zip" ;
+
+			}else if( metadata.fileName.endsWith( ".tar.gz" ) ){
+
+				filePath = exeBinPath + ".tmp.tar.gz" ;
+			}else{
+				filePath = exeBinPath + ".tmp" ;
+			}
+		}
+		QNetworkReply * networkReply ;
+		const engines::engine& engine ;
+		engines::Iterator iter ;
+		QString exeBinPath ;
+		networkAccess::metadata metadata ;
+		QString filePath ;
+		QString exeFolderPath ;
+		QString defaultEngine ;
+	};
+
+	void download( networkAccess::Opts ) ;
+
+	void finished( networkAccess::Opts ) ;
+
 	void post( const engines::engine&,const QString& ) ;
+
 	const Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;
 	QFile m_file ;

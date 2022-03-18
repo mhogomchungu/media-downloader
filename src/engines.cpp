@@ -221,6 +221,20 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 		return {} ;
 	}
 }
+
+void engines::setDefaultEngine( const QString& name )
+{
+	m_settings.setDefaultEngine( name,settings::tabName::basic ) ;
+	m_settings.setDefaultEngine( name,settings::tabName::batch ) ;
+
+	const auto& e = this->getEngineByName( name ) ;
+
+	if( e.has_value() && e.value().canDownloadPlaylist() ){
+
+		m_settings.setDefaultEngine( name,settings::tabName::playlist ) ;
+	}
+}
+
 void engines::updateEngines( bool addAll )
 {
 	m_backends.clear() ;
@@ -425,14 +439,6 @@ QString engines::addEngine( const QByteArray& data,const QString& path )
 					}else{
 						utility::waitForOneSecond() ;
 					}
-				}
-
-				m_settings.setDefaultEngine( name,settings::tabName::basic ) ;
-				m_settings.setDefaultEngine( name,settings::tabName::batch ) ;
-
-				if( object.value( "CanDownloadPlaylist" ).toBool( false ) ){
-
-					m_settings.setDefaultEngine( name,settings::tabName::playlist ) ;
 				}
 
 				this->updateEngines( false ) ;

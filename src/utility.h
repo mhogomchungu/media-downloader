@@ -270,6 +270,7 @@ namespace utility
 		}
 	}
 
+	void setDefaultEngine( const Context& ctx,const QString& name );
 	const engines::engine& resolveEngine( const tableWidget&,
 					      const engines::engine&,
 					      const engines& engines,
@@ -761,7 +762,7 @@ namespace utility
 
 			},QProcess::ProcessChannelMode::MergedChannels ) ;
 		}
-		void check( const engines::Iterator& iter ) ;
+		void check( const engines::Iterator& iter,const QString& setDefaultEngine = QString() ) ;
 		networkAccess& network()
 		{
 			return m_networkAccess.get() ;

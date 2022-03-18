@@ -234,8 +234,8 @@ configure::configure( const Context& ctx ) :
 					auto& t = m_ctx.TabManager() ;
 
 					t.basicDownloader().setAsActive() ;
-					t.setDefaultEngines() ;
-					m_ctx.versionInfo().check( m_ctx.Engines().defaultEngine( name ) ) ;
+					const auto& engine = m_ctx.Engines().getEngineByName( name ) ;
+					m_ctx.versionInfo().check( engine.value(),name ) ;
 				}
 			}
 		}

@@ -836,7 +836,7 @@ QString utility::locale::formattedDataSize( qint64 s ) const
 #endif
 }
 
-void utility::versionInfo::check( const engines::Iterator& iter )
+void utility::versionInfo::check( const engines::Iterator& iter,const QString& setDefaultEngine )
 {
 	const auto& engine = iter.engine() ;
 
@@ -846,9 +846,14 @@ void utility::versionInfo::check( const engines::Iterator& iter )
 
 			this->printEngineVersionInfo( iter ) ;
 
+			if( !setDefaultEngine.isEmpty() ){
+
+				utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
+			}
+
 		}else if( !engine.exePath().realExe().isEmpty() ){
 
-			m_networkAccess->download( iter ) ;
+			m_networkAccess->download( iter,setDefaultEngine ) ;
 		}
 	}else{
 		if( engine.exePath().isEmpty() ){
@@ -856,6 +861,11 @@ void utility::versionInfo::check( const engines::Iterator& iter )
 			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 		}else{
 			this->printEngineVersionInfo( iter ) ;
+
+			if( !setDefaultEngine.isEmpty() ){
+
+				utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
+			}
 		}
 	}
 }
@@ -1001,4 +1011,11 @@ QString utility::setDownloadOptions( const engines::engine& engine,
 	}else{
 		return u + m ;
 	}
+}
+
+void utility::setDefaultEngine( const Context& ctx,const QString& name )
+{
+	ctx.Engines().setDefaultEngine( name ) ;
+
+	ctx.TabManager().setDefaultEngines() ;
 }
