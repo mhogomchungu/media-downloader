@@ -60,12 +60,12 @@ QStringList themes::typesTranslated() const
 	return m ;
 }
 
-const QString & themes::translatedAt( int s ) const
+const QString& themes::translatedAt( int s ) const
 {
 	return m_strings[ static_cast< size_t >( s ) ].translated ;
 }
 
-const QString & themes::unTranslatedAt( int s ) const
+const QString& themes::unTranslatedAt( int s ) const
 {
 	return m_strings[ static_cast< size_t >( s ) ].untranslated ;
 }

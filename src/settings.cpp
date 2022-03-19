@@ -530,7 +530,7 @@ void settings::setTheme( QApplication& app,const QString& themeBasePath )
 {
 	themes ths( this->themeName(),themeBasePath ) ;
 
-	if( ths.usingThemes() ){
+	if( !QFile::exists( themeBasePath ) ){
 
 		QDir().mkpath( themeBasePath ) ;
 
@@ -545,6 +545,9 @@ void settings::setTheme( QApplication& app,const QString& themeBasePath )
 				f.write( QJsonDocument( ths.defaultTheme() ).toJson( QJsonDocument::Indented ) ) ;
 			}
 		}
+	}
+
+	if( ths.usingThemes() ){
 
 		QFile f( ths.themeFullPath() ) ;
 
