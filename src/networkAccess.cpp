@@ -305,10 +305,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 					f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 
-					if( !str.defaultEngine.isEmpty() ){
-
-						utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
-					}
+					utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
 					m_ctx.versionInfo().check( str.iter ) ;
 				}else{
@@ -329,10 +326,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
 
-			if( !str.defaultEngine.isEmpty() ){
-
-				utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
-			}
+			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
 			m_ctx.versionInfo().check( str.iter ) ;
 		}

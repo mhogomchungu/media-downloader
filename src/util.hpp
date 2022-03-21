@@ -396,6 +396,11 @@ template< typename BackGroundTask,
 	  util::types::has_non_void_return_type< BackGroundTask > = 0 >
 void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 {
+#if __cplusplus >= 201703L
+	using bgt_t = std::invoke_result_t< BackGroundTask > ;
+#else
+	using bgt_t = std::result_of_t< BackGroundTask() > ;
+#endif
 	class Thread : public QThread
 	{
 	public:
@@ -409,19 +414,26 @@ void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 		}
 		void run() override
 		{
-			m_storage = m_bgt() ;
+			m_pointer = new ( &m_storage ) bgt_t( m_bgt() ) ;
 		}
+	private:
 		void then()
 		{
-			m_fgt( std::move( m_storage.get() ) ) ;
+			m_fgt( std::move( *m_pointer ) ) ;
+
+			m_pointer->~bgt_t() ;
 
 			this->deleteLater() ;
 		}
-	private:
 		BackGroundTask m_bgt ;
 		UiThreadResult m_fgt ;
 
-		util::storage< util::types::result_of< BackGroundTask > > m_storage ;
+#if __cplusplus >= 201703L
+		alignas( bgt_t ) std::byte m_storage[ sizeof( bgt_t ) ] ;
+#else
+		typename std::aligned_storage< sizeof( bgt_t ),alignof( bgt_t ) >::type m_storage ;
+#endif
+		bgt_t * m_pointer ;
 	};
 
 	new Thread( std::move( bgt ),std::move( fgt ) ) ;

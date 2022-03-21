@@ -846,10 +846,7 @@ void utility::versionInfo::check( const engines::Iterator& iter,const QString& s
 
 			this->printEngineVersionInfo( iter ) ;
 
-			if( !setDefaultEngine.isEmpty() ){
-
-				utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
-			}
+			utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
 
 		}else if( !engine.exePath().realExe().isEmpty() ){
 
@@ -862,10 +859,7 @@ void utility::versionInfo::check( const engines::Iterator& iter,const QString& s
 		}else{
 			this->printEngineVersionInfo( iter ) ;
 
-			if( !setDefaultEngine.isEmpty() ){
-
-				utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
-			}
+			utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
 		}
 	}
 }
@@ -1015,7 +1009,10 @@ QString utility::setDownloadOptions( const engines::engine& engine,
 
 void utility::setDefaultEngine( const Context& ctx,const QString& name )
 {
-	ctx.Engines().setDefaultEngine( name ) ;
+	if( !name.isEmpty() ){
 
-	ctx.TabManager().setDefaultEngines() ;
+		ctx.Engines().setDefaultEngine( name ) ;
+
+		ctx.TabManager().setDefaultEngines() ;
+	}
 }
