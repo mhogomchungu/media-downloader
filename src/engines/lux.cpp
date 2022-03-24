@@ -134,7 +134,6 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 
 		auto a = util::split( uiText,'\n',true ) ;
 
-		a.removeFirst() ;
 		a.removeLast() ;
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( '\n' ),dopts,f ) ;
@@ -180,7 +179,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 		if( a != -1 && b != -1 && b > a ){
 
-			m_title = line.mid( a,b - a ).trimmed() ;
+			m_title = line.mid( a,b - a ).trimmed().mid( 7 ) ;
 
 			m_title.replace( "\n","" ) ;
 
@@ -191,29 +190,11 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		}
 	}
 
-	if( m_size == "Size: Unknown" ){
-
-		auto a = line.indexOf( "Size:" ) ;
-		auto b = line.indexOf( "# download with:" ) ;
-
-		if( a != -1 && b != -1  && b > a ){
-
-			m_size = line.mid( a,b - a ).trimmed() ;
-
-			m_size.replace( "\n","" ) ;
-
-			while( m_size.size() > 6 && m_size[ 7 ] == ' ' ){
-
-				m_size.remove( 7,1 ) ;
-			}
-		}
-	}
-
 	auto m = line.indexOf( "Merging video parts into " ) ;
 
 	if( m != -1 ){
 
-		m_tmp = m_size + "\n" + line.mid( m + 25 ) + "\n" + m_title ;
+		m_tmp = line.mid( m + 25 ) + "\n" + m_title ;
 	}else{
 		auto a = line.indexOf( "Downloading " ) ;
 
@@ -241,9 +222,9 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 				if( !e.isEmpty() ){
 
-					m_tmp = m_size + "\n" + m_title + "\n" + e.last() ;
+					m_tmp = m_title + "\n" + e.last() ;
 				}else{
-					m_tmp = m_size + "\n" + m_title + "\n" + s ;
+					m_tmp = m_title + "\n" + s ;
 				}
 
 				return true ;

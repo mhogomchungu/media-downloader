@@ -106,7 +106,7 @@ tabManager::tabManager( settings& s,
 	}
 }
 
-void tabManager::init_done(Ui::MainWindow & ui, settings & settings)
+void tabManager::init_done( Ui::MainWindow& m,settings& s )
 {
 	this->setDefaultEngines() ;
 
@@ -116,9 +116,6 @@ void tabManager::init_done(Ui::MainWindow & ui, settings & settings)
 	m_batchdownloader.init_done() ;
 	m_playlistdownloader.init_done() ;
 	m_library.init_done() ;
-
-	auto& m = ui ;
-	auto& s = settings ;
 
 	m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 

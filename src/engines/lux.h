@@ -38,7 +38,6 @@ public:
 	private:
 		QByteArray m_tmp ;
 		QByteArray m_title = "Title: Unknown" ;
-		QByteArray m_size = "Size: Unknown" ;
 		engines::engine::functions::preProcessing m_progress ;
 	} ;
 
