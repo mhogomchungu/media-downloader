@@ -61,6 +61,11 @@ QString settings::portableVersionConfigPath()
 	return QDir::currentPath() + "/local" ;
 }
 
+void settings::setMonitorClipboardContents( bool e )
+{
+	m_settings.setValue( "MonitorClipboardContents",e ) ;
+}
+
 bool settings::monitorClipboardContents()
 {
 	if( !m_settings.contains( "MonitorClipboardContents" ) ){

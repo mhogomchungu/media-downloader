@@ -380,7 +380,23 @@
        </rect>
       </property>
       <property name="toolTip">
-       <string>Paste Clipboard Content</string>
+       <string>Paste Clipboard Url</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="cbBDMonitorClipboardContent">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>320</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Monitor Clipboard For Url</string>
       </property>
       <property name="text">
        <string/>

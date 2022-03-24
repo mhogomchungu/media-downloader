@@ -195,10 +195,15 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		auto m = utility::clipboardText() ;
 
-		if( !m.isEmpty() ){
+		if( m.startsWith( "http" ) ){
 
 			this->addToList( m ) ;
 		}
+	} ) ;
+
+	connect( m_ui.cbBDMonitorClipboardContent,&QCheckBox::stateChanged,[ this ]( int s ){
+
+		m_settings.setMonitorClipboardContents( s == Qt::CheckState::Checked ) ;
 	} ) ;
 
 	m_table.connect( &QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){

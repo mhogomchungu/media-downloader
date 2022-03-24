@@ -42,11 +42,16 @@ tabManager::tabManager( settings& s,
 {
 	auto m = QApplication::clipboard() ;
 
-	if( m && s.monitorClipboardContents() ){
+	if( m ){
 
-		QObject::connect( m,&QClipboard::changed,[ this,m ]( QClipboard::Mode mode ){
+		QObject::connect( m,&QClipboard::changed,[ this,m,&s ]( QClipboard::Mode mode ){
 
 			if( mode != QClipboard::Mode::Clipboard ){
+
+				return ;
+			}
+
+			if( !s.monitorClipboardContents() ){
 
 				return ;
 			}
@@ -63,9 +68,9 @@ tabManager::tabManager( settings& s,
 
 					if( txt.startsWith( "http" ) ){
 
-						m_basicdownloader.clipboardData( txt ) ;
+						//m_basicdownloader.clipboardData( txt ) ;
 						m_batchdownloader.clipboardData( txt ) ;
-						m_playlistdownloader.clipboardData( txt ) ;
+						//m_playlistdownloader.clipboardData( txt ) ;
 					}
 				}
 			}
