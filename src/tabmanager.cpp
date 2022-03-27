@@ -44,14 +44,9 @@ tabManager::tabManager( settings& s,
 
 	if( m ){
 
-		QObject::connect( m,&QClipboard::changed,[ this,m,&s ]( QClipboard::Mode mode ){
+		QObject::connect( m,&QClipboard::changed,[ this,m ]( QClipboard::Mode mode ){
 
 			if( mode != QClipboard::Mode::Clipboard ){
-
-				return ;
-			}
-
-			if( !s.monitorClipboardContents() ){
 
 				return ;
 			}
@@ -68,9 +63,9 @@ tabManager::tabManager( settings& s,
 
 					if( txt.startsWith( "http" ) ){
 
-						//m_basicdownloader.clipboardData( txt ) ;
+						m_basicdownloader.clipboardData( txt ) ;
 						m_batchdownloader.clipboardData( txt ) ;
-						//m_playlistdownloader.clipboardData( txt ) ;
+						m_playlistdownloader.clipboardData( txt ) ;
 					}
 				}
 			}
@@ -93,16 +88,16 @@ tabManager::tabManager( settings& s,
 
 			auto& vinfo = m_ctx.versionInfo() ;
 
-			m_initConnection = QObject::connect( &vinfo,&utility::versionInfo::vinfoDone,[ this,&ui,&s ](){
+			m_initConnection = QObject::connect( &vinfo,&utility::versionInfo::vinfoDone,[ this ](){
 
 				QObject::disconnect( m_initConnection ) ;
 
-				this->init_done( ui,s ) ;
+				this->init_done() ;
 			} ) ;
 
 			vinfo.check( engines ) ;
 		}else{
-			this->init_done( ui,s ) ;
+			this->init_done() ;
 		}
 	}else{
 		this->disableAll() ;
@@ -111,7 +106,7 @@ tabManager::tabManager( settings& s,
 	}
 }
 
-void tabManager::init_done( Ui::MainWindow& m,settings& s )
+void tabManager::init_done()
 {
 	this->setDefaultEngines() ;
 
@@ -121,6 +116,9 @@ void tabManager::init_done( Ui::MainWindow& m,settings& s )
 	m_batchdownloader.init_done() ;
 	m_playlistdownloader.init_done() ;
 	m_library.init_done() ;
+
+	auto& m = m_ctx.Ui() ;
+	auto& s = m_ctx.Settings() ;
 
 	m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 

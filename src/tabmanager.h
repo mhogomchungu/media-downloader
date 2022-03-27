@@ -40,7 +40,7 @@ public:
 		    MainWindow& mw,
 		    utility::versionInfo& u,
 		    QString debug ) ;
-	void init_done( Ui::MainWindow& ui,settings& settings ) ;
+	void init_done() ;
 	void setDefaultEngines() ;
 	int currentTab() ;
 	tabManager& gotEvent( const QByteArray& e ) ;

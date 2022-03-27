@@ -82,7 +82,7 @@ public:
 	static bool portableVersion() ;
 	static QString portableVersionConfigPath() ;
 
-	bool monitorClipboardContents() ;
+	bool monitorClipboardUrl( settings::tabName ) ;
 	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
 	bool autoDownload() ;
@@ -114,7 +114,7 @@ public:
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
-	void setMonitorClipboardContents( bool ) ;
+	void setMonitorClipboardUrl( bool,settings::tabName ) ;
 	void setShowThumbnails( bool ) ;
 	void setPlaylistDownloaderSaveHistory( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;

@@ -201,9 +201,15 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		}
 	} ) ;
 
+	auto cb = m_settings.monitorClipboardUrl( settings::tabName::batch ) ;
+
+	m_ui.cbBDMonitorClipboardContent->setChecked( cb ) ;
+
 	connect( m_ui.cbBDMonitorClipboardContent,&QCheckBox::stateChanged,[ this ]( int s ){
 
-		m_settings.setMonitorClipboardContents( s == Qt::CheckState::Checked ) ;
+		auto m = s == Qt::CheckState::Checked ;
+
+		m_settings.setMonitorClipboardUrl( m,settings::tabName::batch ) ;
 	} ) ;
 
 	m_table.connect( &QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
@@ -1384,9 +1390,23 @@ void batchdownloader::showComments( const engines::engine& engine,const QString&
 
 void batchdownloader::clipboardData( const QString& url )
 {
-	if( m_tabManager.currentTab() == 1 ){
+	if( m_settings.monitorClipboardUrl( settings::tabName::batch ) ){
 
-		this->addToList( url,false,m_settings.showThumbnails() ) ;
+		bool found = false ;
+
+		m_table.forEach( [ & ]( const tableWidget::entry& it ){
+
+			if( it.url == url ){
+
+				found = true ;
+			}
+		} ) ;
+
+		if( !found ){
+
+			m_ui.tabWidget->setCurrentIndex( 1 ) ;
+			this->addToList( url,false,m_settings.showThumbnails() ) ;
+		}
 	}
 }
 

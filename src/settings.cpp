@@ -61,19 +61,39 @@ QString settings::portableVersionConfigPath()
 	return QDir::currentPath() + "/local" ;
 }
 
-void settings::setMonitorClipboardContents( bool e )
+static QString _monitorClipboadUrl( settings::tabName e )
 {
-	m_settings.setValue( "MonitorClipboardContents",e ) ;
+	if( e == settings::tabName::basic ){
+
+		return "BasicDownloaderMonitorClipboadUrl" ;
+
+	}else if( e == settings::tabName::batch ){
+
+		return "BatchDownloaderMonitorClipboadUrl" ;
+
+	}else if( e == settings::tabName::playlist ){
+
+		return "PlaylistDownloaderMonitorClipboadUrl" ;
+	}else{
+		return "" ;
+	}
 }
 
-bool settings::monitorClipboardContents()
+void settings::setMonitorClipboardUrl( bool e,settings::tabName t )
 {
-	if( !m_settings.contains( "MonitorClipboardContents" ) ){
+	m_settings.setValue( _monitorClipboadUrl( t ),e ) ;
+}
 
-		m_settings.setValue( "MonitorClipboardContents",false ) ;
+bool settings::monitorClipboardUrl( settings::tabName tabName )
+{
+	auto m = _monitorClipboadUrl( tabName ) ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,false ) ;
 	}
 
-	return m_settings.value( "MonitorClipboardContents" ).toBool() ;
+	return m_settings.value( m ).toBool() ;
 }
 
 QString settings::themeName()

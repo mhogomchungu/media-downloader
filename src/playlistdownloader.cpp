@@ -659,12 +659,8 @@ void playlistdownloader::updateEnginesList( const QStringList& e )
 				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
-void playlistdownloader::clipboardData( const QString& e )
+void playlistdownloader::clipboardData( const QString& )
 {
-	if( m_tabManager.currentTab() == 2 ){
-
-		m_ui.lineEditPLUrl->setText( e ) ;
-	}
 }
 
 QString playlistdownloader::defaultEngineName()

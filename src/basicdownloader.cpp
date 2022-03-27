@@ -219,12 +219,8 @@ void basicdownloader::updateEnginesList( const QStringList& e )
 				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
-void basicdownloader::clipboardData( const QString& e )
+void basicdownloader::clipboardData( const QString& )
 {
-	if( m_tabManager.currentTab() == 0 ){
-
-		m_ui.lineEditURL->setText( e ) ;
-	}
 }
 
 void basicdownloader::retranslateUi()
