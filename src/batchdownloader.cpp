@@ -1788,6 +1788,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 void batchdownloader::enableAll()
 {
 	m_table.setEnabled( true ) ;
+	m_ui.cbBDMonitorClipboardContent->setEnabled( true ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( true ) ;
 	m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 	m_ui.pbBDAdd->setEnabled( true ) ;
@@ -1808,6 +1809,7 @@ void batchdownloader::enableAll()
 void batchdownloader::disableAll()
 {
 	m_table.setEnabled( false ) ;
+	m_ui.cbBDMonitorClipboardContent->setEnabled( false ) ;
 	m_ui.pbBDOptionsHistory->setEnabled( false ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineTypeBD->setEnabled( false ) ;
