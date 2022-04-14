@@ -131,12 +131,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="383"/>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить URL из буфера</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
         <source>Monitor Clipboard For Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Мониторить URL в буфере</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="493"/>
@@ -214,11 +214,6 @@
         <translation>Показывать миниатюры</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1356"/>
-        <source>Maximum Cuncurrent Downloads</source>
-        <translation>Одновременных загрузок</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1375"/>
         <source>Use System Executables If Available</source>
         <translation>Использовать системные исполняемые файлы, если они есть</translation>
@@ -231,12 +226,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1430"/>
         <source>Show Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать значок в трее</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1443"/>
         <source>Auto Save List Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Автосохранение списка незагруженных медиа</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1461"/>
@@ -253,6 +248,11 @@
         <location filename="../src/mainwindow.ui" line="1301"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Коэффициент масштабирования (требуется перезагрузка)</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1356"/>
+        <source>Maximum Cuncurrent Downloads</source>
+        <translation>Одновременных загрузок</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1449"/>
@@ -643,7 +643,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="282"/>
         <source>Extracting archive: </source>
-        <translation type="unfinished"></translation>
+        <translation>Распаковка архива: </translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="321"/>
@@ -700,7 +700,7 @@
     <message>
         <location filename="../src/utility.h" line="146"/>
         <source>Subtitle Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название субтитров</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="150"/>
@@ -720,12 +720,12 @@
     <message>
         <location filename="../src/themes.h" line="71"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Обычная</translation>
     </message>
     <message>
         <location filename="../src/themes.h" line="72"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Темная</translation>
     </message>
 </context>
 <context>
@@ -773,7 +773,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="313"/>
         <source>Show Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать субтитры</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="328"/>
@@ -795,7 +795,7 @@
         <location filename="../src/batchdownloader.cpp" line="1413"/>
         <location filename="../src/batchdownloader.cpp" line="1809"/>
         <source>Downloading subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка субтитров</translation>
     </message>
 </context>
 <context>
@@ -925,7 +925,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="969"/>
         <source>Downloading video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка информации о видео</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="528"/>
