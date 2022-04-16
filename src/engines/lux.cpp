@@ -191,8 +191,13 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 	}
 
 	auto m = line.indexOf( "Merging video parts into " ) ;
+	auto mm = line.indexOf( " file already exists, skipping" ) ;
 
-	if( m != -1 ){
+	if( mm != -1 ){
+
+		m_tmp = m_title + "\nblabla" ;
+
+	}else if( m != -1 ){
 
 		m_tmp = line.mid( m + 25 ) + "\n" + m_title ;
 	}else{
