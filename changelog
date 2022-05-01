@@ -121,3 +121,8 @@ Version 1.2.0(April 1st, 2021)
     - Make it possible to customize fusion dark theme by saving theme options in a config file.
     - Add ability to show in the UI available media subtitles and to download them or embed them in downloaded file.
     - Add an option to auto save not downloaded media on exit.
+
+ Version 2.3.0(May 1st, 2022)
+ - Add lux backend. Project page is at: https://github.com/iawia002/lux
+ - Update language translations.
+ - Add a checkbox in batch downloader tab to make it easy to enable/disable monitoring of clipboard for Url.
