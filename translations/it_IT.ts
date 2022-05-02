@@ -53,11 +53,11 @@
     </message>
     <message>
         <source>Remove A Plugin</source>
-        <translation>Rimuovi un plugin</translation>
+        <translation>Rimuovi plugin</translation>
     </message>
     <message>
         <source>Add a Plugin</source>
-        <translation>Aggiungi un plugin</translation>
+        <translation>Aggiungi plugin</translation>
     </message>
     <message>
         <source>Enter Options:</source>
@@ -85,7 +85,7 @@
     </message>
     <message>
         <source>Dark Theme(Need A Restart)</source>
-        <translation>Tema scuro (richiede riavvio)</translation>
+        <translation>Tema interfaccia (richiede riavvio)</translation>
     </message>
     <message>
         <source>Engine Name:</source>
@@ -247,79 +247,21 @@
         <source>Scale Factor(Need A Restart)</source>
         <translation>Fattore di scala (richiede riavvio)</translation>
     </message>
-</context>
-<context>
-    <name>configure</name>
     <message>
-        <source>Add</source>
-        <translation>Aggiungi</translation>
+        <source>Paste Clipboard Url</source>
+        <translation>Inolla URL dagli Appunti</translation>
     </message>
     <message>
-        <source>Select A Cookie File</source>
-        <translation>Seleziona un file cookie</translation>
+        <source>Monitor Clipboard For Url</source>
+        <translation>Monitora Appunti per URL</translation>
     </message>
     <message>
-        <source>Set Download Folder</source>
-        <translation>Imposta cartella download</translation>
+        <source>Show Tray Icon</source>
+        <translation>Visualizza icona barra sistema</translation>
     </message>
     <message>
-        <source>Cancel</source>
-        <translation>Annulla</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Elimina</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Rimuovi</translation>
-    </message>
-    <message>
-        <source>Select An Engine File</source>
-        <translation>Seleziona un file engine</translation>
-    </message>
-</context>
-<context>
-    <name>batchdownloader</name>
-    <message>
-        <source>Set</source>
-        <translation>Imposta</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation>Apri</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Salva</translation>
-    </message>
-    <message>
-        <source>Show Media Options</source>
-        <translation>Visualizza opzioni media</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Annulla</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Rimuovi</translation>
-    </message>
-    <message>
-        <source>Set Batch File</source>
-        <translation>Imposta file batch</translation>
-    </message>
-    <message>
-        <source>Copy Url</source>
-        <translation>Copia URL</translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation>Download</translation>
-    </message>
-    <message>
-        <source>Show Comments</source>
-        <translation>Visualizza commenti</translation>
+        <source>Auto Save List Of Not Downloaded Media</source>
+        <translation>Elenco salvataggio automatico media non scaricati</translation>
     </message>
 </context>
 <context>
@@ -568,6 +510,146 @@
         <source>Failed To Load A Plugin</source>
         <translation>Impossibile caricare un plugin</translation>
     </message>
+    <message>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <source>Save Subtitle To File</source>
+        <translation>Salva sottoitolo nel file</translation>
+    </message>
+    <message>
+        <source>&lt;REDACTED&gt;</source>
+        <translation>&lt;REDATTO&gt;</translation>
+    </message>
+    <message>
+        <source>Extracting archive: </source>
+        <translation>Estrazione archivio: </translation>
+    </message>
+    <message>
+        <source>Normal</source>
+        <translation>Tema normale</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>Tema scuro</translation>
+    </message>
+    <message>
+        <source>Subtitle Name</source>
+        <translation>Nome sottotitolo</translation>
+    </message>
+</context>
+<context>
+    <name>batchdownloader</name>
+    <message>
+        <source>Set</source>
+        <translation>Imposta</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation>Apri</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Salva</translation>
+    </message>
+    <message>
+        <source>Show Media Options</source>
+        <translation>Visualizza opzioni media</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+    <message>
+        <source>Set Batch File</source>
+        <translation>Imposta file batch</translation>
+    </message>
+    <message>
+        <source>Copy Url</source>
+        <translation>Copia URL</translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation>Download</translation>
+    </message>
+    <message>
+        <source>Show Comments</source>
+        <translation>Visualizza commenti</translation>
+    </message>
+    <message>
+        <source>Downloading comments</source>
+        <translation>Download commenti...</translation>
+    </message>
+    <message>
+        <source>Show Subtitles</source>
+        <translation>Visualizza sottotitoli</translation>
+    </message>
+    <message>
+        <source>Downloading subtitles</source>
+        <translation>Download sottotitoli...</translation>
+    </message>
+</context>
+<context>
+    <name>configure</name>
+    <message>
+        <source>Add</source>
+        <translation>Aggiungi</translation>
+    </message>
+    <message>
+        <source>Select A Cookie File</source>
+        <translation>Seleziona un file cookie</translation>
+    </message>
+    <message>
+        <source>Set Download Folder</source>
+        <translation>Imposta cartella download</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annulla</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+    <message>
+        <source>Select An Engine File</source>
+        <translation>Seleziona un file engine</translation>
+    </message>
+</context>
+<context>
+    <name>library</name>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    <message>
+        <source>Delete All</source>
+        <translation>Elimina tutto</translation>
+    </message>
+</context>
+<context>
+    <name>logWindow</name>
+    <message>
+        <source>Clear</source>
+        <translation>Azzera</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Chiudi</translation>
+    </message>
+    <message>
+        <source>Log Window</source>
+        <translation>Finestra registro eventi</translation>
+    </message>
 </context>
 <context>
     <name>playlistdownloader</name>
@@ -615,31 +697,9 @@
         <source>This May Take A Very Long Time</source>
         <translation>Questo potrebbe richiedere molto tempo</translation>
     </message>
-</context>
-<context>
-    <name>logWindow</name>
     <message>
-        <source>Clear</source>
-        <translation>Azzera</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation>Chiudi</translation>
-    </message>
-    <message>
-        <source>Log Window</source>
-        <translation>Finestra registro eventi</translation>
-    </message>
-</context>
-<context>
-    <name>library</name>
-    <message>
-        <source>Delete</source>
-        <translation>Elimina</translation>
-    </message>
-    <message>
-        <source>Delete All</source>
-        <translation>Elimina tutto</translation>
+        <source>Downloading video info</source>
+        <translation>Download info video...</translation>
     </message>
 </context>
 </TS>
