@@ -24,36 +24,6 @@
 #include <QHeaderView>
 #include <QBuffer>
 
-QString tableWidget::thumbnailData( int row ) const
-{
-	const auto& s = m_items[ static_cast< size_t >( row ) ] ;
-
-	if( s.thumbnail.isSet ){
-
-		QBuffer buffer ;
-
-		s.thumbnail.image.save( &buffer,"PNG" ) ;
-
-		return buffer.buffer().toHex() ;
-	}else{
-		return {} ;
-	}
-}
-
-QByteArray tableWidget::thumbnailData( const QPixmap& image )
-{
-	QBuffer buffer ;
-
-	image.save( &buffer,"PNG" ) ;
-
-	return buffer.buffer().toHex() ;
-}
-
-QString tableWidget::engineName()
-{
-	return QObject::tr( "Engine Name:" ) + " " ;
-}
-
 void tableWidget::setDownloadingOptions( tableWidget::type type,
 					 int row,
 					 const QString& mm,
@@ -63,9 +33,13 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 
 		if( type == tableWidget::type::DownloadOptions ){
 
-			return QObject::tr( "Download Options" ) + ": " ;
+			return utility::stringConstants::downloadOptions() + ": " ;
+
+		}else if( type == tableWidget::type::EngineName ){
+
+			return utility::stringConstants::engineName() ;
 		}else{
-			return tableWidget::engineName() ;
+			return utility::stringConstants::subtitle() + ": " ;
 		}
 	}() ;
 
@@ -138,6 +112,10 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 	}else if( type == tableWidget::type::EngineName ){
 
 		this->setEngineName( mm,row ) ;
+
+	}else if( type == tableWidget::type::subtitleOption ){
+
+		this->setSubTitle( mm,row ) ;
 	}
 }
 
@@ -166,7 +144,7 @@ void tableWidget::replace( tableWidget::entry e,int r )
 
 	auto label = new QLabel() ;
 	label->setAlignment( Qt::AlignCenter ) ;
-	label ->setPixmap( m_items[ row ].thumbnail.image ) ;
+	label ->setPixmap( m_items[ row ].thumbnail ) ;
 
 	m_table.setCellWidget( r,0,label ) ;
 	m_table.item( r,1 )->setText( m_items[ row ].uiText ) ;
@@ -200,7 +178,7 @@ int tableWidget::addItem( tableWidget::entry e )
 
 	auto label = new QLabel() ;
 	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
-	label ->setPixmap( entry.thumbnail.image ) ;
+	label ->setPixmap( entry.thumbnail ) ;
 
 	m_table.setCellWidget( row,0,label ) ;
 
@@ -313,14 +291,14 @@ bool tableWidget::noneAreRunning()
 	return true ;
 }
 
-QString tableWidget::completeProgress( int )
+QString tableWidget::completeProgress( int firstRow,int )
 {
 	int completed = 0 ;
 	int errored = 0 ;
 	int cancelled = 0 ;
 	int notStarted = 0 ;
 
-	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+	for( int i = firstRow ; i < m_table.rowCount() ; i++ ){
 
 		const auto& s = this->runningState( i ) ;
 

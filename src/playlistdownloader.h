@@ -40,8 +40,10 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void exiting() ;
 	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
+	void clipboardData( const QString& ) ;
 private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
@@ -63,7 +65,6 @@ private:
 	tableMiniWidget< int > m_subscriptionTable ;
 	bool m_gettingPlaylist = false ;
 	bool m_showThumbnails ;
-	bool m_showTimer ;
 	bool m_autoDownload ;
 	bool m_stoppedOnExisting ;
 	bool m_meaw ;
@@ -83,6 +84,8 @@ private:
 	Loop parseJson( const playlistdownloader::customOptions&,
 			tableWidget& table,
 			Logger::Data& data ) ;
+
+	void showEntry( tableWidget& table,tableWidget::entry e ) ;
 
 	struct opts
 	{
@@ -149,10 +152,7 @@ private:
 		{
 			m_txt = s ;
 		}
-		void updateProgress( const QString& progress )
-		{
-			m_progress = progress ;
-		}
+		void updateProgress( const QString& progress ) ;
 		const QString& txt() const
 		{
 			return m_txt ;

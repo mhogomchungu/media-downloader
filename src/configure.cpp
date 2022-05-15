@@ -22,9 +22,12 @@
 #include "mainwindow.h"
 #include "networkAccess.h"
 #include "utility.h"
+#include "themes.h"
+#include "mainwindow.h"
 
 #include <QFileDialog>
 #include <QFile>
+#include <QDesktopServices>
 
 configure::configure( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -46,9 +49,11 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.tabWidgetConfigure->setCurrentIndex( 0 ) ;
 
-	settings::darkModes modes ;
+	auto themesFolderPath = m_engines.engineDirPaths().themePath() ;
 
-	modes.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
+	themes ths( themesFolderPath ) ;
+
+	ths.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
 
@@ -62,11 +67,21 @@ configure::configure( const Context& ctx ) :
 		m_tablePresetOptions.selectRow( c,p,0 ) ;
 	} ) ;
 
-	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,modes = std::move( modes ) ]( int index ){
+	connect( m_ui.pbOpenThemeFolder,&QPushButton::clicked,[ this,themesFolderPath ](){
+
+		auto a = QFileDialog::getOpenFileName( &m_mainWindow,"",themesFolderPath,"" ) ;
+
+		if( !a.isEmpty() ){
+
+			QDesktopServices::openUrl( a ) ;
+		}
+	} ) ;
+
+	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,ths = std::move( ths ) ]( int index ){
 
 		if( index != -1 ){
 
-			m_settings.setDarkMode( modes.unTranslatedAt( index ) ) ;
+			m_settings.setThemeName( ths.unTranslatedAt( index ) ) ;
 		}
 	} ) ;
 
@@ -158,7 +173,7 @@ configure::configure( const Context& ctx ) :
 		m.exec( QCursor::pos() ) ;
 	} ) ;
 
-	connect( m_ui.cbConfigureEngines,cc,[ this,modes = std::move( modes ) ]( int index ){
+	connect( m_ui.cbConfigureEngines,cc,[ this ]( int index ){
 
 		if( index != -1 ){
 
@@ -181,7 +196,7 @@ configure::configure( const Context& ctx ) :
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		this->saveOptions() ;
-		m_tabManager.basicDownloader().appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
 	connect( m_ui.pbConfigureSave,&QPushButton::clicked,[ this ](){
@@ -189,8 +204,13 @@ configure::configure( const Context& ctx ) :
 		this->saveOptions() ;
 	} ) ;
 
-	connect( m_ui.cbConfigureShowThumbnails,&QCheckBox::stateChanged,[]( int ){
+	connect( m_ui.cbShowTrayIcon,&QCheckBox::stateChanged,[ this ]( int s ){
 
+		auto checked = s == Qt::CheckState::Checked ;
+
+		m_settings.setshowTrayIcon( checked ) ;
+
+		m_ctx.mainWindow().showTrayIcon( checked ) ;
 	} ) ;
 
 	connect( m_ui.cbUseSystemVersionIfAvailable,&QCheckBox::stateChanged,[]( int ){
@@ -214,8 +234,8 @@ configure::configure( const Context& ctx ) :
 					auto& t = m_ctx.TabManager() ;
 
 					t.basicDownloader().setAsActive() ;
-					t.setDefaultEngines() ;
-					m_ctx.versionInfo().check( m_ctx.Engines().defaultEngine( name ) ) ;
+					const auto& engine = m_ctx.Engines().getEngineByName( name ) ;
+					m_ctx.versionInfo().check( engine.value(),name ) ;
 				}
 			}
 		}
@@ -337,6 +357,10 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbUseSystemVersionIfAvailable->setChecked( m_settings.useSystemProvidedVersionIfAvailable() ) ;
 
+	m_ui.cbAutoSaveNotDownloadedMedia->setChecked( m_settings.autoSavePlaylistOnExit() ) ;
+
+	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
+
 	m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
 
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( QString::number( m_settings.maxConcurrentDownloads() ) ) ;
@@ -353,7 +377,7 @@ void configure::retranslateUi()
 {
 	this->resetMenu() ;
 
-	settings::darkModes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.darkMode() ) ;
+	themes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 }
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )
@@ -424,6 +448,7 @@ void configure::saveOptions()
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
 	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
+	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
@@ -529,7 +554,20 @@ void configure::showOptions()
 {
 	this->presetOptionsForEach( [ this ]( const QString& uiName,const QString& options ){
 
-		m_tablePresetOptions.add( { uiName,options } ) ;
+		if( uiName == "Default" ){
+
+			m_tablePresetOptions.add( { tr( "Default" ),options } ) ;
+
+		}else if( uiName == "Best-audio" ){
+
+			m_tablePresetOptions.add( { tr( "Best-audio" ),options } ) ;
+
+		}else if( uiName == "Best-audiovideo" ){
+
+			m_tablePresetOptions.add( { tr( "Best-audiovideo" ),options } ) ;
+		}else{
+			m_tablePresetOptions.add( { uiName,options } ) ;
+		}
 	} )  ;
 }
 
@@ -558,6 +596,10 @@ void configure::resetMenu()
 	}
 
 	m_ui.cbConfigureLanguage->setCurrentIndex( index ) ;
+}
+
+void configure::exiting()
+{
 }
 
 void configure::enableAll()
@@ -590,6 +632,7 @@ void configure::enableAll()
 	m_ui.pbConfigureDownload->setEnabled( true ) ;
 	m_ui.labelConfigureTheme->setEnabled( true ) ;
 	m_ui.cbConfigureShowVersionInfo->setEnabled( true ) ;
+	m_ui.cbAutoSaveNotDownloadedMedia->setEnabled( true ) ;
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
 	m_ui.labelConfigureLanguage->setEnabled( true ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
@@ -603,6 +646,7 @@ void configure::enableAll()
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( true ) ;
 	m_ui.cbConfigureShowThumbnails->setEnabled( true ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( true ) ;
+	m_ui.cbShowTrayIcon->setEnabled( true ) ;
 
 	if( m_settings.enabledHighDpiScaling() ){
 
@@ -614,6 +658,7 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui.cbShowTrayIcon->setEnabled( false ) ;
 	m_ui.tableWidgetConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigureUiName->setEnabled( false ) ;
@@ -626,6 +671,7 @@ void configure::disableAll()
 	m_ui.pbConfigureCookiePath->setEnabled( false ) ;
 	m_ui.pbConfigureEngineDefaultOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigureDownloadOptions->setEnabled( false ) ;
+	m_ui.cbAutoSaveNotDownloadedMedia->setEnabled( false ) ;
 	m_ui.labelConfigureOptions->setEnabled( false ) ;
 	m_ui.cbConfigureEngines->setEnabled( false ) ;
 	m_ui.labelConfigureEngines->setEnabled( false ) ;

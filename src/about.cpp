@@ -49,22 +49,16 @@ void about::retranslateUi()
 
 		if( utility::platformIsWindows() ){
 
-			return "Qt " + version + ": " QTVERSION "\n\n" ;
+			return QObject::tr( "Qt Version" ) + ": " QTVERSION "\n\n" ;
 		}else{
 			return QString() ;
 		}
 	}() ;
 
-	auto about = QString( "%1: %2\n\n%3\
-%4: %5, Francis Banyikwa\n\n%6: mhogomchungu@gmail.com\n\n\
-%7: GPLv2+\n\nThis program is free software; you can redistribute \
-it and/or modify it under the terms of the GNU General Public License \
-as published by the Free Software Foundation; either version 2 of the \
-License, or (at your option) any later version.\n\n\
-This program is distributed in the hope that it will be useful,\
-but WITHOUT ANY WARRANTY; without even the implied warranty of \
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
-GNU General Public License for more details." ) ;
+	auto banner1 = QObject::tr( "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version." ) ;
+	auto banner2 = QObject::tr( "This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details." ) ;
+
+	auto about = QString( "%1: %2\n\n%3%4: %5, Francis Banyikwa\n\n%6: mhogomchungu@gmail.com\n\n%7: GPLv2+\n\n" + banner1 + "\n\n" + banner2 ) ;
 
 	auto m = about.arg( version,VERSION,QtVersion,copyright,COPYRIGHT,email,license ) ;
 
@@ -76,6 +70,10 @@ void about::tabEntered()
 }
 
 void about::tabExited()
+{
+}
+
+void about::exiting()
 {
 }
 

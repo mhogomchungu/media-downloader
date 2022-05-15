@@ -22,7 +22,7 @@ downloads may cause the host to ban you.
 6. The GUI offers ability to manage links to playlist to easily monitor their activities(subscriptions).
 
 7. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish,
-Turkish, Russian and Japanese.
+Turkish, Russian, Japanese and French.
 
 ## Donations
 Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
@@ -43,13 +43,13 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/2.1.1/MediaDownloader-2.1.1.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/2.3.0/MediaDownloader-2.3.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self contained version that keeps everything in the application folder.
 
-Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/2.1.1/MediaDownloader-2.1.1.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/2.3.0/MediaDownloader-2.3.0.zip).
 
 ### Binary packages for Linux distributions
 

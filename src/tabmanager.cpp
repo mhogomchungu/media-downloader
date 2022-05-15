@@ -19,6 +19,9 @@
 
 #include "tabmanager.h"
 
+#include <QMimeData>
+#include <QClipboard>
+
 tabManager::tabManager( settings& s,
 			translator& t,
 			engines& e,
@@ -37,6 +40,38 @@ tabManager::tabManager( settings& s,
 	m_playlistdownloader( m_ctx ),
 	m_library( m_ctx )
 {
+	auto m = QApplication::clipboard() ;
+
+	if( m ){
+
+		QObject::connect( m,&QClipboard::changed,[ this,m ]( QClipboard::Mode mode ){
+
+			if( mode != QClipboard::Mode::Clipboard ){
+
+				return ;
+			}
+
+			auto s = m->mimeData() ;
+
+			if( s ){
+
+				auto e = m->mimeData() ;
+
+				if( e->hasText() ){
+
+					auto txt = e->text() ;
+
+					if( txt.startsWith( "http" ) ){
+
+						m_basicdownloader.clipboardData( txt ) ;
+						m_batchdownloader.clipboardData( txt ) ;
+						m_playlistdownloader.clipboardData( txt ) ;
+					}
+				}
+			}
+		} ) ;
+	}
+
 	u.setContext( m_ctx ) ;
 
 	const auto& engines = m_ctx.Engines().getEngines() ;
@@ -53,16 +88,16 @@ tabManager::tabManager( settings& s,
 
 			auto& vinfo = m_ctx.versionInfo() ;
 
-			m_initConnection = QObject::connect( &vinfo,&utility::versionInfo::vinfoDone,[ this,&ui,&s ](){
+			m_initConnection = QObject::connect( &vinfo,&utility::versionInfo::vinfoDone,[ this ](){
 
 				QObject::disconnect( m_initConnection ) ;
 
-				this->init_done( ui,s ) ;
+				this->init_done() ;
 			} ) ;
 
 			vinfo.check( engines ) ;
 		}else{
-			this->init_done( ui,s ) ;
+			this->init_done() ;
 		}
 	}else{
 		this->disableAll() ;
@@ -71,7 +106,7 @@ tabManager::tabManager( settings& s,
 	}
 }
 
-void tabManager::init_done(Ui::MainWindow & ui, settings & settings)
+void tabManager::init_done()
 {
 	this->setDefaultEngines() ;
 
@@ -82,8 +117,8 @@ void tabManager::init_done(Ui::MainWindow & ui, settings & settings)
 	m_playlistdownloader.init_done() ;
 	m_library.init_done() ;
 
-	auto& m = ui ;
-	auto& s = settings ;
+	auto& m = m_ctx.Ui() ;
+	auto& s = m_ctx.Settings() ;
 
 	m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 
@@ -141,6 +176,11 @@ void tabManager::setDefaultEngines()
 	m_configure.updateEnginesList( s ) ;
 }
 
+int tabManager::currentTab()
+{
+	return m_currentTab ;
+}
+
 tabManager& tabManager::gotEvent( const QByteArray& e )
 {
 	m_basicdownloader.gotEvent( e ) ;
@@ -195,9 +235,21 @@ tabManager& tabManager::reTranslateUi()
 	m_about.retranslateUi() ;
 	m_configure.retranslateUi() ;
 	m_basicdownloader.retranslateUi() ;
-	m_batchdownloader.retranslateUi() ;
 	m_playlistdownloader.retranslateUi() ;
 	m_library.retranslateUi() ;
+	m_batchdownloader.retranslateUi() ;
+
+	return *this ;
+}
+
+tabManager& tabManager::exiting()
+{
+	m_about.exiting() ;
+	m_configure.exiting() ;
+	m_basicdownloader.exiting() ;
+	m_batchdownloader.exiting() ;
+	m_playlistdownloader.exiting() ;
+	m_library.exiting() ;
 
 	return *this ;
 }

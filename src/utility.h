@@ -59,7 +59,10 @@ namespace utility
 	class debug
 	{
 	public:
-		debug( const QString& e = QString() ) :
+		debug() : m_switch( "--debug" )
+		{
+		}
+		debug( const QString& e ) :
 			m_switch( e )
 		{
 		}
@@ -125,6 +128,26 @@ namespace utility
 		static bool postProcessMarker( const QByteArray& e )
 		{
 			return e.startsWith( "DoneDownloading" ) ;
+		}
+		static QString uploadDate()
+		{
+			return QObject::tr( "Upload Date:" ) ;
+		}
+		static QString duration()
+		{
+			return QObject::tr( "Duration:" ) ;
+		}
+		static QString engineName()
+		{
+			return QObject::tr( "Engine Name:" ) + " " ;
+		}
+		static QString subtitle()
+		{
+			return QObject::tr( "Subtitle Name" ) ;
+		}
+		static QString downloadOptions()
+		{
+			return QObject::tr( "Download Options" ) ;
 		}
 	private:
 	};
@@ -247,6 +270,7 @@ namespace utility
 		}
 	}
 
+	void setDefaultEngine( const Context& ctx,const QString& name );
 	const engines::engine& resolveEngine( const tableWidget&,
 					      const engines::engine&,
 					      const engines& engines,
@@ -254,17 +278,21 @@ namespace utility
 
 	QString failedToFindExecutableString( const QString& cmd ) ;
 	int concurrentID() ;
-	void saveDownloadList( const Context&,QMenu&,tableWidget& ) ;
+	void saveDownloadList( const Context&,QMenu&,tableWidget&,bool ) ;
+	void saveDownloadList( const Context&,tableWidget&,bool ) ;
 	void wait( int time ) ;
 	void waitForOneSecond() ;
 	void openDownloadFolderPath( const QString& ) ;
 	QString homePath() ;
 	QString python3Path() ;
 	QString clipboardText() ;
+	QString fromSecsSinceEpoch( qint64 ) ;	
+	QString setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
+	bool platformisOS2() ;
 	bool platformIsNOTWindows() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
@@ -734,7 +762,7 @@ namespace utility
 
 			},QProcess::ProcessChannelMode::MergedChannels ) ;
 		}
-		void check( const engines::Iterator& iter ) ;
+		void check( const engines::Iterator& iter,const QString& setDefaultEngine = QString() ) ;
 		networkAccess& network()
 		{
 			return m_networkAccess.get() ;
@@ -867,9 +895,9 @@ namespace utility
 
 				QObject::connect( m_timer.get(),&QTimer::timeout,[ this ]{
 
-					m_logger.add( [ this ]( Logger::Data& e,int id,bool s ){
+					m_logger.add( [ this ]( Logger::Data& e,int id,bool s,bool m ){
 
-						m_engine.processData( e,m_timeCounter.stringElapsedTime(),id,s ) ;
+						m_engine.processData( e,m_timeCounter.stringElapsedTime(),id,s,m ) ;
 					} ) ;
 				} ) ;
 
@@ -884,13 +912,16 @@ namespace utility
 
 			m_timer->stop() ;
 
+			auto m = m_timeCounter.elapsedTime() ;
+
+			ProcessExitState state( m_cancelled,s,m,std::move( e ) ) ;
+
 			if( m_options.listRequested() ){
 
-				m_options.listRequested( std::move( m_data ) ) ;
+				m_options.listRequested( state,std::move( m_data ) ) ;
 			}
 
-			auto m = m_timeCounter.elapsedTime() ;
-			m_options.done( ProcessExitState( m_cancelled,s,m,std::move( e ) ) ) ;
+			m_options.done( std::move( state ) ) ;
 		}
 		void withData( QProcess::ProcessChannel channel,const QByteArray& data )
 		{
@@ -908,9 +939,9 @@ namespace utility
 						m_data += data ;
 					}
 
-					m_logger.add( [ this,&data ]( Logger::Data& e,int id,bool s ){
+					m_logger.add( [ this,&data ]( Logger::Data& e,int id,bool s,bool m ){
 
-						m_engine.processData( e,data,id,s ) ;
+						m_engine.processData( e,data,id,s,m ) ;
 					} ) ;
 				}
 			} ;
@@ -1004,8 +1035,8 @@ namespace utility
 	class reverseIterator
 	{
 	public:
-		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::value_type value_type ;
-		typedef typename std::remove_reference_t< std::remove_cv_t< List > > ::size_type size_type ;
+		typedef typename std::remove_reference_t< std::remove_cv_t< List > >::value_type value_type ;
+		typedef typename std::remove_reference_t< std::remove_cv_t< List > >::size_type size_type ;
 
 	        reverseIterator( List s ) :
 		        m_list( s ),
@@ -1022,9 +1053,11 @@ namespace utility
 		}
 		auto& next()
 		{
-			auto s = static_cast< typename reverseIterator< List >::size_type >( m_index-- ) ;
-
-			return m_list[ s ] ;
+			return m_list[ this->nextValue() ] ;
+		}
+		auto nextAsValue()
+		{
+			return m_list[ this->nextValue() ] ;
 		}
 		template< typename Function,
 			  util::types::has_bool_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
@@ -1032,7 +1065,7 @@ namespace utility
 		{
 			while( this->hasNext() ){
 
-				if( function( this->next() ) ){
+				if( function( m_list[ this->nextValue() ] ) ){
 
 					break ;
 				}
@@ -1044,10 +1077,14 @@ namespace utility
 		{
 			while( this->hasNext() ){
 
-				function( this->next() ) ;
+				function( m_list[ this->nextValue() ] ) ;
 			}
 		}
 	private:
+		auto nextValue()
+		{
+			return static_cast< typename reverseIterator< List >::size_type >( m_index-- ) ;
+		}
 		List m_list ;
 		int m_index ;
 	} ;
@@ -1072,7 +1109,8 @@ namespace utility
 		{
 		}
 
-		MediaEntry( const QString& url,const QByteArray& data ) ;
+		MediaEntry( const QByteArray& data ) ;
+
 		QString uiText() const ;
 
 		const QString& thumbnailUrl() const
@@ -1115,6 +1153,7 @@ namespace utility
 		{
 			return m_formats ;
 		}
+		QJsonObject uiJson() const ;
 		int intDuration() const
 		{
 			return m_intDuration ;
@@ -1126,6 +1165,7 @@ namespace utility
 		QString m_url ;
 		QString m_duration ;
 		QString m_id ;
+		QString m_uploader ;
 		QJsonArray m_formats ;
 		int m_intDuration ;
 		util::Json m_json ;
@@ -1186,9 +1226,9 @@ namespace utility
 		{
 			m_functions.done( std::move( e ),m_opts ) ;
 		}
-		void listRequested( QByteArray e )
+		void listRequested( const utility::ProcessExitState& s,QByteArray e )
 		{
-			m_functions.list( std::move( e ) ) ;
+			m_functions.list( s,std::move( e ) ) ;
 		}
 		bool listRequested()
 		{
@@ -1236,7 +1276,7 @@ namespace utility
 	template< typename DisableAll,typename Done >
 	auto OptionsFunctions( DisableAll disableAll,Done done )
 	{
-		auto aa = []( QByteArray ){} ;
+		auto aa = []( const utility::ProcessExitState&,QByteArray ){} ;
 
 		using type = Functions< decltype( aa ),DisableAll,Done > ;
 

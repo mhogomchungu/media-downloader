@@ -32,11 +32,52 @@
 #include <QFileDialog>
 #include <QSysInfo>
 
+#include <ctime>
+
 const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
 const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
+#if defined(__OS2__) || defined(OS2) || defined(_OS2)
+
+bool utility::platformisOS2()
+{
+	return true ;
+}
+
+bool utility::platformIsLinux()
+{
+	return false ;
+}
+
+bool utility::platformIsOSX()
+{
+	return false ;
+}
+
+bool utility::platformIsWindows()
+{
+	return false ;
+}
+
+QString utility::python3Path()
+{
+	return QStandardPaths::findExecutable( "python3" ) ;
+}
+
+util::result< int > utility::Terminator::terminate( int,char ** )
+{
+	return {} ;
+}
+
+#endif
+
 #ifdef Q_OS_LINUX
+
+bool utility::platformisOS2()
+{
+	return false ;
+}
 
 bool utility::platformIsLinux()
 {
@@ -66,6 +107,11 @@ util::result< int > utility::Terminator::terminate( int,char ** )
 #endif
 
 #ifdef Q_OS_MACOS
+
+bool utility::platformisOS2()
+{
+	return false ;
+}
 
 QString utility::python3Path()
 {
@@ -242,6 +288,11 @@ bool utility::platformIsOSX()
 	return false ;
 }
 
+bool utility::platformisOS2()
+{
+	return false ;
+}
+
 #endif
 
 utility::debug& utility::debug::operator<<( const QString& e )
@@ -324,6 +375,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 		a.replace( "Best-audiovideo",QObject::tr( "Best-audiovideo" ) ) ;
 		a.replace( "Best-audio",QObject::tr( "Best-audio" ) ) ;
+		a.replace( "Default",QObject::tr( "Default" ) ) ;
 
 		if( combineText ){
 
@@ -480,14 +532,18 @@ QString utility::failedToFindExecutableString( const QString& cmd )
 QString utility::clipboardText()
 {
 	auto m = QApplication::clipboard() ;
-	auto e = m->mimeData() ;
 
-	if( e->hasText() ){
+	if( m ){
 
-		return e->text() ;
-	}else{
-		return {} ;
+		auto e = m->mimeData() ;
+
+		if( e->hasText() ){
+
+			return e->text() ;
+		}
 	}
+
+	return {} ;
 }
 
 QString utility::downloadFolder( const Context& ctx )
@@ -500,42 +556,142 @@ const QProcessEnvironment& utility::processEnvironment( const Context& ctx )
 	return ctx.Engines().processEnvironment() ;
 }
 
-void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWidget )
+static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuccess )
 {
-	QObject::connect( m.addAction( QObject::tr( "Save List To File" ) ),&QAction::triggered,[ &ctx,&tableWidget ](){
+	QJsonArray arr ;
 
-		auto e = QFileDialog::getSaveFileName( &ctx.mainWidget(),
-						       QObject::tr( "Save List To File" ),
-						       utility::homePath() + "/MediaDowloaderList.txt" ) ;
+	auto downloadOpts = utility::stringConstants::downloadOptions() ;
+	auto engineName = utility::stringConstants::engineName() ;
 
-		if( !e.isEmpty() ){
+	auto _add = [ &downloadOpts,&engineName,&arr ]( const tableWidget::entry& e ){
 
-			QJsonArray arr ;
+		if( e.url.isEmpty() ){
 
-			tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
+			return ;
+		}
 
-				using df = downloadManager::finishedStatus ;
-				auto m = df::finishedWithSuccess( e.runningState ) ;
+		auto obj = e.uiJson ;
 
-				if( e.url.isEmpty() || m ){
+		obj.insert( "runningState",e.runningState ) ;
 
-					return ;
+		const auto& m = e.uiText ;
+
+		if( m.startsWith( downloadOpts ) || m.startsWith( engineName ) ){
+
+			const auto m = util::split( e.uiText,'\n',true ) ;
+
+			for( const auto& it : m ){
+
+				if( it.startsWith( downloadOpts ) ){
+
+					auto m = it.indexOf( ':' ) ;
+
+					obj.insert( "downloadOptions",it.mid( m + 2 ) ) ;
+
+				}else if( it.startsWith( engineName ) ){
+
+					auto m = it.indexOf( ':' ) ;
+
+					obj.insert( "engineName",it.mid( m + 2 ) ) ;
 				}
+			}
+		}
 
-				arr.append( [ & ](){
+		arr.append( obj ) ;
+	} ;
 
-					QJsonObject obj ;
+	if( noFinishedSuccess ){
 
-					obj.insert( "url",e.url ) ;
-					obj.insert( "uiText",e.uiText ) ;
+		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
 
-					return obj ;
-				}() ) ;
-			} ) ;
+			using gg = downloadManager::finishedStatus ;
 
-			auto stuff = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
+			if( !gg::finishedWithSuccess( e.runningState ) ){
 
-			engines::file( e,ctx.logger() ).write( stuff ) ;
+				_add( e ) ;
+			}
+		} ) ;
+	}else{
+		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
+
+			_add( e ) ;
+		} ) ;
+	}
+
+	return arr ;
+}
+
+void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool pld )
+{
+	if( ctx.Settings().autoSavePlaylistOnExit() ){
+
+		if( pld ){
+
+			if( tableWidget.rowCount() == 1 ){
+
+				return ;
+			}
+		}else{
+			if( tableWidget.rowCount() == 0 ){
+
+				return ;
+			}
+		}
+
+		auto arr = _saveDownloadList( tableWidget,true ) ;
+
+		auto e = ctx.Engines().engineDirPaths().dataPath( "autoSavedList.json" ) ;
+
+		if( QFile::exists( e ) ){
+
+			auto m = engines::file( e,ctx.logger() ).readAll() ;
+
+			QFile::remove( e ) ;
+
+			const auto rr = QJsonDocument::fromJson( m ).array() ;
+
+			for( const auto& it : rr ){
+
+				arr.append( it ) ;
+			}
+		}
+
+		auto m = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
+
+		engines::file( e,ctx.logger() ).write( m ) ;
+	}
+}
+
+void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWidget,bool pld )
+{
+	QObject::connect( m.addAction( QObject::tr( "Save List To File" ) ),&QAction::triggered,[ &ctx,&tableWidget,pld ](){
+
+		QString filePath ;
+
+		if( pld && tableWidget.rowCount() > 1 ){
+
+			auto uploader = tableWidget.entryAt( 1 ).uiJson.value( "uploader" ).toString() ;
+
+			if( uploader.isEmpty() ){
+
+				filePath = utility::homePath() + "/MediaDowloaderList-" + uploader + ".json" ;
+			}else{
+				filePath = utility::homePath() + "/MediaDowloaderList.json" ;
+			}
+		}else{
+			filePath = utility::homePath() + "/MediaDowloaderList.json" ;
+		}
+
+		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),
+						       QObject::tr( "Save List To File" ),
+						       filePath ) ;
+		if( !s.isEmpty() ){
+
+			auto e = _saveDownloadList( tableWidget,false ) ;
+
+			auto m = QJsonDocument( e ).toJson( QJsonDocument::Indented ) ;
+
+			engines::file( s,ctx.logger() ).write( m ) ;
 		}
 	} ) ;
 }
@@ -545,10 +701,8 @@ bool utility::isRelativePath( const QString& e )
 	return QDir::isRelativePath( e ) ;
 }
 
-utility::MediaEntry::MediaEntry( const QString& url,const QByteArray& data ) : m_json( data )
+utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
 {
-	Q_UNUSED( url )
-
 	if( m_json ){
 
 		auto object = m_json.doc().object() ;
@@ -559,10 +713,11 @@ utility::MediaEntry::MediaEntry( const QString& url,const QByteArray& data ) : m
 		m_id           = object.value( "id" ).toString() ;
 		m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
 		m_formats      = object.value( "formats" ).toArray() ;
+		m_uploader     = object.value( "uploader" ).toString() ;
 
 		if( !m_uploadDate.isEmpty() ){
 
-			m_uploadDate = QObject::tr( "Upload Date:" ) + " " + m_uploadDate ;
+			m_uploadDate = utility::stringConstants::uploadDate() + " " + m_uploadDate ;
 		}
 
 		m_intDuration = object.value( "duration" ).toInt() ;
@@ -570,7 +725,7 @@ utility::MediaEntry::MediaEntry( const QString& url,const QByteArray& data ) : m
 		if( m_intDuration != 0 ){
 
 			auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
-			m_duration = QObject::tr( "Duration:" ) + " " + s ;
+			m_duration = utility::stringConstants::duration() + " " + s ;
 		}
 	}
 }
@@ -603,6 +758,22 @@ QString utility::MediaEntry::uiText() const
 			return m_duration + ", " + m_uploadDate + "\n" + title ;
 		}
 	}
+}
+
+QJsonObject utility::MediaEntry::uiJson() const
+{
+	QJsonObject obj ;
+
+	auto u = QString( m_uploadDate ).replace( utility::stringConstants::uploadDate() + " ","" ) ;
+	auto d = QString( m_duration ).replace( utility::stringConstants::duration() + " ","" ) ;
+
+	obj.insert( "title",m_title ) ;
+	obj.insert( "url",m_url ) ;
+	obj.insert( "duration",d ) ;
+	obj.insert( "uploadDate",u ) ;
+	obj.insert( "uploader",m_uploader ) ;
+
+	return obj ;
 }
 
 const engines::engine& utility::resolveEngine( const tableWidget& table,
@@ -666,7 +837,7 @@ QString utility::locale::formattedDataSize( qint64 s ) const
 #endif
 }
 
-void utility::versionInfo::check( const engines::Iterator& iter )
+void utility::versionInfo::check( const engines::Iterator& iter,const QString& setDefaultEngine )
 {
 	const auto& engine = iter.engine() ;
 
@@ -676,9 +847,11 @@ void utility::versionInfo::check( const engines::Iterator& iter )
 
 			this->printEngineVersionInfo( iter ) ;
 
+			utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
+
 		}else if( !engine.exePath().realExe().isEmpty() ){
 
-			m_networkAccess->download( iter ) ;
+			m_networkAccess->download( iter,setDefaultEngine ) ;
 		}
 	}else{
 		if( engine.exePath().isEmpty() ){
@@ -686,6 +859,8 @@ void utility::versionInfo::check( const engines::Iterator& iter )
 			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
 		}else{
 			this->printEngineVersionInfo( iter ) ;
+
+			utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
 		}
 	}
 }
@@ -747,7 +922,12 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 bool utility::platformIs32Bit()
 {
+#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
 	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
+#else
+	//?????
+	return false ;
+#endif
 }
 
 void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
@@ -783,4 +963,57 @@ void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 		return s ;
 
 	}() ) ;
+}
+
+
+QString utility::fromSecsSinceEpoch( qint64 s )
+{
+	std::time_t epoch = static_cast< std::time_t >( s ) ;
+	return QString( std::asctime( std::gmtime( &epoch ) ) ).trimmed() ;
+}
+
+QString utility::setDownloadOptions( const engines::engine& engine,
+				     tableWidget& table,
+				     int row,
+				     const QString& downloadOpts )
+{
+	auto u = table.downloadingOptions( row ) ;
+
+	auto m = table.subTitle( row ) ;
+
+	if( !m.isEmpty() ){
+
+		auto s = util::split( m,' ',true ) ;
+
+		auto e = engine.defaultSubtitleDownloadOptions().join( " " ) ;
+
+		if( s.at( 0 ) == "ac:" ){
+
+			m = " " + e + " --write-auto-subs --sub-langs " + s.at( 1 ) ;
+		}else{
+			m = " " + e + " --sub-langs " + s.at( 1 ) ;
+		}
+	}
+
+	if( u.isEmpty() ){
+
+		if( downloadOpts.isEmpty() ){
+
+			return "Default" + m ;
+		}else{
+			return downloadOpts + m ;
+		}
+	}else{
+		return u + m ;
+	}
+}
+
+void utility::setDefaultEngine( const Context& ctx,const QString& name )
+{
+	if( !name.isEmpty() ){
+
+		ctx.Engines().setDefaultEngine( name ) ;
+
+		ctx.TabManager().setDefaultEngines() ;
+	}
 }

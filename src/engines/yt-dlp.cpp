@@ -121,6 +121,38 @@ QJsonObject yt_dlp::init( const QString& name,
 				return arr ;
 			}() ) ;
 
+			mainObj.insert( "DefaultCommentsCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--get-comments" ) ;
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "{\"title\":%(title)j,\"comments\":%(comments)j}" ) ;
+
+				return arr ;
+			}() ) ;
+
+			mainObj.insert( "DefaultSubstitlesCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
+
+				return arr ;
+			}() ) ;
+
+			mainObj.insert( "DefaultSubtitleDownloadOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--embed-subs" ) ;
+
+				return arr ;
+			}() ) ;
+
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
 
@@ -218,8 +250,9 @@ yt_dlp::yt_dlp( const engines& engines,
 
 			obj = yt_dlp::init( name,configFileName,logger,enginePath ) ;
 		}
+	}
 
-	}else if( name.contains( "yt-dlp" ) ){
+	if( name.contains( "yt-dlp" ) ){
 
 		obj.insert( "DefaultListCmdOptions",[](){
 
@@ -230,6 +263,58 @@ yt_dlp::yt_dlp( const engines& engines,
 
 			return arr ;
 		}() ) ;
+
+		if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
+
+			obj.insert( "DefaultCommentsCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--get-comments" ) ;
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "{\"title\":%(title)j,\"comments\":%(comments)j}" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+
+		if( !obj.contains( "DefaultSubstitlesCmdOptions" ) ){
+
+			obj.insert( "DefaultSubstitlesCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--no-download" ) ;
+				arr.append( "--print" ) ;
+				arr.append( "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+
+		if( !obj.contains( "DefaultSubtitleDownloadOptions" ) ){
+
+			obj.insert( "DefaultSubtitleDownloadOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--embed-subs" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+	}else{
+		if( !obj.contains( "DefaultListCmdOptions" ) ){
+
+			obj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+				arr.append( "-F" ) ;
+
+				return arr ;
+			}() ) ;
+		}
 	}
 }
 
@@ -239,10 +324,12 @@ yt_dlp::~yt_dlp()
 
 std::vector< QStringList > yt_dlp::mediaProperties( const QByteArray& e )
 {
-	if( !m_engine.name().contains( "yt-dlp" ) ){
+	if( m_engine.name() == "youtube-dl" ){
 
 		return engines::engine::functions::mediaProperties( e ) ;
-	}else{
+
+	}else if( m_engine.name().contains( "yt-dlp" ) ){
+
 		QJsonParseError err ;
 
 		auto json = QJsonDocument::fromJson( e,&err ) ;
@@ -253,11 +340,18 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QByteArray& e )
 		}else{
 			return {} ;
 		}
+	}else{
+		return {} ;
 	}
 }
 
 std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 {
+	if( array.isEmpty() ){
+
+		return {} ;
+	}
+
 	if( m_engine.name() == "youtube-dl" ){
 
 		return engines::engine::functions::mediaProperties( array ) ;
@@ -269,14 +363,28 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 
 	utility::locale s ;
 
-	auto _append = [ & ]( QString& s,const char * str,const QString& sstr ){
+	enum class mediaType{ audioOnly,videoOnly,audioVideo,unknown } ;
 
-		if( sstr == "none" || sstr == "0" ){
+	auto _append = [ & ]( QString& s,const char * str,const QString& sstr,bool formatBitrate ){
+
+		if( sstr == "none" || sstr.isEmpty() ){
 
 			return ;
 		}
 
-		s += str + sstr + ", " ;
+		if( formatBitrate ){
+
+			auto m = sstr.indexOf( '.' ) ;
+
+			if( m == -1 ){
+
+				s += str + sstr + "k, " ;
+			}else{
+				s += str + sstr.mid( 0,m ) + "k, " ;
+			}
+		}else{
+			s += str + sstr + ", " ;
+		}
 	} ;
 
 	for( const auto& it : array ){
@@ -290,6 +398,8 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		auto fileSize  = s.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
 		auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
 		auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
+		auto abr       = QString::number( obj.value( "abr" ).toDouble() ) ;
+		auto asr       = QString::number( obj.value( "asr" ).toInt() ) ;
 
 		auto container = obj.value( "container" ).toString() ;
 		auto proto     = obj.value( "protocol" ).toString() ;
@@ -297,11 +407,18 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		auto video_ext = obj.value( "video_ext" ).toString() ;
 		auto acodec    = obj.value( "acodec" ).toString() ;
 		auto audio_ext = obj.value( "audio_ext" ).toString() ;
+		auto fmtNotes  = obj.value( "format_note" ).toString() ;
 
-		if( !rsn.isEmpty() ){
+		mediaType mt = mediaType::unknown ;
 
-			if( rsn != "audio only" ){
+		if( rsn.isEmpty() ){
 
+			rsn = fmtNotes ;
+		}else{
+			if( rsn == "audio only" ){
+
+				mt = mediaType::audioOnly ;
+			}else{
 				bool hasVideo = vcodec != "none" ;
 				bool hasAudio = acodec != "none" ;
 
@@ -309,15 +426,23 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 
 					rsn += "\naudio video" ;
 
+					mt = mediaType::audioVideo ;
+
 				}else if( hasVideo && !hasAudio ){
 
 					rsn += "\nvideo only" ;
 
+					mt = mediaType::videoOnly ;
+
 				}else if( !hasVideo && hasAudio ){
 
 					rsn += "\naudio only" ;
+
+					mt = mediaType::audioOnly ;
 				}
 			}
+
+			rsn += "\n" + fmtNotes ;
 		}
 
 		QString s ;
@@ -329,10 +454,32 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 			s = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ).arg( proto,fileSize,container ) ;
 		}
 
-		_append( s,"acodec: ",acodec ) ;
-		_append( s,"vcodec: ",vcodec ) ;
-		_append( s,"tbr: ",tbr ) ;
-		_append( s,"vbr: ",vbr ) ;
+		_append( s,"acodec: ",acodec,false ) ;
+		_append( s,"vcodec: ",vcodec,false ) ;
+
+		if( tbr != "0" ){
+
+			_append( s,"tbr: ",tbr,true ) ;
+		}
+
+		if( asr != "0" ){
+
+			_append( s,"asr: ",asr + "Hz",false ) ;
+		}
+
+		if( mt == mediaType::audioVideo ){
+
+			_append( s,"vbr: ",vbr,true ) ;
+			_append( s,"abr: ",abr,true ) ;
+
+		}else if( mt == mediaType::audioOnly ){
+
+			_append( s,"abr: ",abr,true ) ;
+
+		}else if( mt == mediaType::videoOnly ){
+
+			_append( s,"vbr: ",vbr,true ) ;
+		}
 
 		if( s.endsWith( ", " ) ){
 
@@ -370,7 +517,7 @@ QStringList yt_dlp::dumpJsonArguments()
 
 		return engines::engine::functions::dumpJsonArguments() ;
 	}else{
-		auto a = R"R({"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j})R" ;
+		auto a = R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j})R" ;
 
 		return { "--newline","--print",a } ;
 	}
@@ -424,6 +571,11 @@ bool yt_dlp::breakShowListIfContains( const QStringList& e )
 
 		return false ;
 	}
+}
+
+bool yt_dlp::supportsShowingComments()
+{
+	return m_engine.name().contains( "yt-dlp" ) ;
 }
 
 engines::engine::functions::DataFilter yt_dlp::Filter( const QString& e )

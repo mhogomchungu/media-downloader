@@ -10,8 +10,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set( PGR_VERSION "2.2.0.git" )
-set( COPYRIGHT_YEARS "2021" )
+set( PGR_VERSION "2.3.0" )
+set( COPYRIGHT_YEARS "2021-2022" )
 
 INCLUDE(GNUInstallDirs)
 
@@ -21,7 +21,7 @@ endif()
 
 if(WIN32)
 else()
-    #This is necessary with whatever version of cmake that is in debian 8
+    #This is necessary with old versions of cmake
     add_definitions(-std=c++14)
 endif()
 
@@ -41,14 +41,26 @@ set(UI_FILES
     src/mainwindow.ui
     src/logwindow.ui)
 
-set(MOC_FILES
-    src/mainwindow.h
-    src/logwindow.h
-    src/basicdownloader.h
-    src/batchdownloader.h
-    src/configure.h
-    src/library.h
-    src/playlistdownloader.h)
+if(Qt5Core_VERSION VERSION_LESS 5.4.0)
+    set(MOC_FILES
+        src/mainwindow.h
+        src/logwindow.h
+        src/basicdownloader.h
+        src/batchdownloader.h
+        src/configure.h
+        src/library.h
+        src/playlistdownloader.h
+        src/util.hpp)
+else()
+    set(MOC_FILES
+        src/mainwindow.h
+        src/logwindow.h
+        src/basicdownloader.h
+        src/batchdownloader.h
+        src/configure.h
+        src/library.h
+        src/playlistdownloader.h)
+endif()
 
 set(SRC
     src/mainwindow.cpp
@@ -58,6 +70,7 @@ set(SRC
     src/utility.cpp
     src/basicdownloader.cpp
     src/about.cpp
+    src/themes.cpp
     src/batchdownloader.cpp
     src/tabmanager.cpp
     src/configure.cpp
@@ -73,12 +86,10 @@ set(SRC
     src/engines/safaribooks.cpp
     src/engines/generic.cpp
     src/engines/aria2c.cpp
+    src/engines/lux.cpp
     src/engines/gallery-dl.cpp)
 
-set(RESOURCES
-    src/icon.qrc
-    src/3rdParty/BreezeStyleSheets/breeze.qrc
-    src/3rdParty/QDarkStyleSheet-3.0.2/qdarkstyle/dark/style.qrc )
+set(RESOURCES src/icon.qrc )
 
 if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/src/appicon.rc")

@@ -55,7 +55,40 @@ public:
 			    QJsonDocument::JsonFormat = QJsonDocument::Indented ) ;
 		QByteArray readAll() ;
 		QStringList readAllAsLines() ;
+		template< typename Function >
+		static void readAll( const QString& filePath,Logger& logger,Function function )
+		{
+			struct result
+			{
+				bool success ;
+				QByteArray data ;
+			};
+
+			util::runInBgThread( [ filePath ]()->result{
+
+				QFile f( filePath ) ;
+
+				if( f.open( QIODevice::ReadOnly ) ){
+
+					return { true,f.readAll() } ;
+				}else{
+					return { false,{} } ;
+				}
+
+			},[ &logger,filePath,function = std::move( function ) ]( result r ){
+
+				if( r.success ){
+
+					function( true,r.data ) ;
+				}else{
+					engines::file( filePath,logger ).failToOpenForReading() ;
+					function( false,r.data ) ;
+				}
+			} ) ;
+		}
 	private:
+		void failToOpenForReading() ;
+		void failToOpenForWriting() ;
 		QString m_filePath ;
 		QFile m_file ;
 		Logger& m_logger ;
@@ -89,6 +122,10 @@ public:
 		QString binPath( const QString& e ) const
 		{
 			return m_binPath + "/" + e ;
+		}
+		QString themePath() const
+		{
+			return m_basePath + "/themes" ;
 		}
 		QString enginePath( const QString& e ) const
 		{
@@ -223,12 +260,14 @@ public:
 			{
 			public:
 				preProcessing() ;
-				preProcessing( const QByteArray& ) ;
+				preProcessing( const QByteArray&,int = 16 ) ;
 
 				static QByteArray processingText() ;
+				void reset() ;
 				const QByteArray& text() ;
 				const QByteArray& text( const QByteArray& ) ;
 			private:
+				int m_maxCounter = 16 ;
 				int m_counter = 0 ;
 				QByteArray m_counterDots ;
 				QByteArray m_txt ;
@@ -287,6 +326,8 @@ public:
 
 			virtual bool breakShowListIfContains( const QStringList& ) ;
 
+			virtual bool supportsShowingComments() ;
+
 			virtual engines::engine::functions::DataFilter Filter( const QString& ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
@@ -294,6 +335,10 @@ public:
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
 
 			virtual QStringList dumpJsonArguments() ;
+
+			virtual bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) ;
+
+			virtual bool foundNetworkUrl( const QString& ) ;
 
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const QString& downloadingOptions,
@@ -306,9 +351,9 @@ public:
 
 			virtual void sendCredentials( const QString&,QProcess& ) ;
 
-			virtual void processData( Logger::Data&,const QByteArray&,int id,bool readableJson ) ;
+			virtual void processData( Logger::Data&,const QByteArray&,int id,bool readableJson,bool mainLogger ) ;
 
-			virtual void processData( Logger::Data&,const QString&,int id,bool readableJson ) ;
+			virtual void processData( Logger::Data&,const QString&,int id,bool readableJson,bool mainLogger ) ;
 
 			struct updateOpts
 			{
@@ -390,13 +435,13 @@ public:
 		{
 			return m_functions->dumpJsonArguments() ;
 		}
-		void processData( Logger::Data& outPut,const QByteArray& data,int id,bool readableJson ) const
+		void processData( Logger::Data& outPut,const QByteArray& data,int id,bool readableJson,bool mainLogger ) const
 		{
-			m_functions->processData( outPut,data,id,readableJson ) ;
+			m_functions->processData( outPut,data,id,readableJson,mainLogger ) ;
 		}
-		void processData( Logger::Data& outPut,const QString& data,int id,bool readableJson ) const
+		void processData( Logger::Data& outPut,const QString& data,int id,bool readableJson,bool mainLogger ) const
 		{
-			m_functions->processData( outPut,data,id,readableJson ) ;
+			m_functions->processData( outPut,data,id,readableJson,mainLogger ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{
@@ -433,6 +478,14 @@ public:
 		{
 			return m_functions->mediaProperties( e ) ;
 		}
+		bool parseOutput( Logger::Data& e,const QByteArray& s,int id,bool m ) const
+		{
+			return m_functions->parseOutput( e,s,id,m ) ;
+		}
+		bool foundNetworkUrl( const QString& s ) const
+		{
+			return m_functions->foundNetworkUrl( s ) ;
+		}
 		std::vector< QStringList > mediaProperties( const QJsonArray& e ) const
 		{
 			return m_functions->mediaProperties( e ) ;
@@ -440,6 +493,18 @@ public:
 		const QStringList& defaultListCmdOptions() const
 		{
 			return m_defaultListCmdOptions ;
+		}
+		const QStringList& defaultCommentsCmdOptions() const
+		{
+			return m_defaultCommentsCmdOptions ;
+		}
+		const QStringList& defaultSubstitlesCmdOptions() const
+		{
+			return m_defaultSubstitlesCmdOptions ;
+		}
+		const QStringList& defaultSubtitleDownloadOptions() const
+		{
+			return m_defaultSubtitleDownloadOptions ;
 		}
 		const QStringList& skiptLineWithText() const
 		{
@@ -496,6 +561,10 @@ public:
 		bool valid() const
 		{
 			return m_valid ;
+		}
+		bool supportShowingComments() const
+		{
+			return m_functions->supportsShowingComments() ;
 		}
 		bool canDownloadPlaylist() const
 		{
@@ -565,6 +634,10 @@ public:
 		QStringList m_skiptLineWithText ;
 		QStringList m_defaultDownLoadCmdOptions ;
 		QStringList m_defaultListCmdOptions ;
+		QStringList m_defaultCommentsCmdOptions ;
+		QStringList m_defaultSubstitlesCmdOptions ;
+		QStringList m_defaultSubtitleDownloadOptions ;
+
 		QJsonObject m_controlStructure ;
 
 		exeArgs m_exePath ;
@@ -628,6 +701,7 @@ public:
 
 	const std::vector< engine >& getEngines() const ;
 	engines::Iterator getEnginesIterator() const ;
+	void setDefaultEngine( const QString& ) ;
 private:
 	void updateEngines( bool ) ;
 	Logger& m_logger ;

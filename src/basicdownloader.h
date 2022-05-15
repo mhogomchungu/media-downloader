@@ -41,11 +41,12 @@ public:
 	void enableQuit() ;
 	void enableAll() ;
 	void disableAll() ;
-	void appQuit() ;
+	void exiting() ;
 	void gotEvent( const QByteArray& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
 	void updateEnginesList( const QStringList& ) ;
+	void clipboardData( const QString& ) ;
 
 	QStringList enginesList() ;
 	basicdownloader& setAsActive() ;

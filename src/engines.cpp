@@ -24,6 +24,7 @@
 #include "engines/safaribooks.h"
 #include "engines/gallery-dl.h"
 #include "engines/aria2c.h"
+#include "engines/lux.h"
 
 #include "downloadmanager.h"
 #include "utility.h"
@@ -47,7 +48,7 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	auto separator = [ & ](){
 
-		if( utility::platformIsWindows() ){
+		if( utility::platformIsWindows() || utility::platformisOS2() ){
 
 			return ";" ;
 		}else{
@@ -220,6 +221,20 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 		return {} ;
 	}
 }
+
+void engines::setDefaultEngine( const QString& name )
+{
+	m_settings.setDefaultEngine( name,settings::tabName::basic ) ;
+	m_settings.setDefaultEngine( name,settings::tabName::batch ) ;
+
+	const auto& e = this->getEngineByName( name ) ;
+
+	if( e.has_value() && e.value().canDownloadPlaylist() ){
+
+		m_settings.setDefaultEngine( name,settings::tabName::playlist ) ;
+	}
+}
+
 void engines::updateEngines( bool addAll )
 {
 	m_backends.clear() ;
@@ -283,6 +298,10 @@ void engines::updateEngines( bool addAll )
 		}else if( name == "aria2c" ){
 
 			it.setBackend< aria2c >( engines ) ;
+
+		}else if( name == "lux" ){
+
+			it.setBackend< lux >( engines ) ;
 
 		}else if( it.mainEngine() ){
 
@@ -374,7 +393,7 @@ QString engines::findExecutable( const QString& exeName ) const
 	}else{
 		auto path = this->processEnvironment().value( "PATH" ) ;
 
-		if( utility::platformIsWindows() ){
+		if( utility::platformIsWindows() || utility::platformisOS2() ){
 
 			return QStandardPaths::findExecutable( exeName,path.split( ";" ) ) ;
 		}else{
@@ -422,14 +441,6 @@ QString engines::addEngine( const QByteArray& data,const QString& path )
 					}
 				}
 
-				m_settings.setDefaultEngine( name,settings::tabName::basic ) ;
-				m_settings.setDefaultEngine( name,settings::tabName::batch ) ;
-
-				if( object.value( "CanDownloadPlaylist" ).toBool( false ) ){
-
-					m_settings.setDefaultEngine( name,settings::tabName::playlist ) ;
-				}
-
 				this->updateEngines( false ) ;
 
 				return name ;
@@ -450,9 +461,10 @@ void engines::removeEngine( const QString& e )
 
 		QFile::remove( m_enginePaths.enginePath( e ) ) ;
 
-		const auto& exe = engine->exePath().realExe() ;
+		auto exe = QDir::fromNativeSeparators( engine->exePath().realExe() ) ;
+		auto binPath = QDir::fromNativeSeparators( m_enginePaths.binPath() ) ;
 
-		if( engine->usingPrivateBackend() && QFile::exists( exe ) ){
+		if( exe.startsWith( binPath ) && QFile::exists( exe ) ){
 
 			QFile::remove( exe ) ;
 		}
@@ -532,6 +544,9 @@ void engines::engine::updateOptions()
 	m_skiptLineWithText               = _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ;
 	m_defaultDownLoadCmdOptions       = _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ),true ) ;
 	m_defaultListCmdOptions           = _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ;
+	m_defaultCommentsCmdOptions       = _toStringList( m_jsonObject.value( "DefaultCommentsCmdOptions" ) ) ;
+	m_defaultSubstitlesCmdOptions     = _toStringList( m_jsonObject.value( "DefaultSubstitlesCmdOptions" ) ) ;
+	m_defaultSubtitleDownloadOptions  = _toStringList( m_jsonObject.value( "DefaultSubtitleDownloadOptions" ) ) ;
 }
 
 engines::engine::engine( Logger& logger,
@@ -698,7 +713,7 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 		it.replace( utility::stringConstants::commandName(),m_commandName ) ;
 	}
 
-	auto subCmd = cmd ;
+	QString subCmd ;
 
 	for( auto& it : cmdNames ){
 
@@ -708,8 +723,11 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 
 				auto m = engines.findExecutable( m_commandName ) ;
 
-				if( !m.isEmpty() ){
+				if( m.isEmpty() ){
 
+					subCmd = m_exeFolderPath + "/" + it ;
+					it = subCmd ;
+				}else{
 					it = m ;
 					subCmd = m ;
 				}
@@ -876,6 +894,11 @@ bool engines::engine::functions::breakShowListIfContains( const QStringList& )
 	return false ;
 }
 
+bool engines::engine::functions::supportsShowingComments()
+{
+	return false ;
+}
+
 engines::engine::functions::DataFilter engines::engine::functions::Filter( const QString& e )
 {
 	return { util::types::type_identity< engines::engine::functions::filter >(),e,m_engine } ;
@@ -937,6 +960,16 @@ QStringList engines::engine::functions::dumpJsonArguments()
 	return { "--dump-json" } ;
 }
 
+bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray&,int,bool )
+{
+	return true ;
+}
+
+bool engines::engine::functions::foundNetworkUrl( const QString& s )
+{
+	return s == m_engine.commandName() ;
+}
+
 QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,
 								 const QString& dopts,
 								 const engines::engine::functions::finishedState& f )
@@ -974,28 +1007,37 @@ void engines::engine::functions::sendCredentials( const QString&,QProcess& )
 void engines::engine::functions::processData( Logger::Data& outPut,
 					      const QByteArray& data,
 					      int id,
-					      bool readableJson )
+					      bool readableJson,
+					      bool mainLogger )
 {
-	const auto& txt = m_engine.removeText() ;
+	if( m_engine.parseOutput( outPut,data,id,mainLogger ) ){
 
-	if( txt.isEmpty() ){
+		const auto& txt = m_engine.removeText() ;
 
-		Logger::updateLogger( data,m_engine,outPut,id,readableJson ) ;
-	}else{
-		auto dd = data ;
+		if( txt.isEmpty() ){
 
-		for( const auto& it : txt ){
+			Logger::updateLogger( data,m_engine,outPut,id,readableJson ) ;
+		}else{
+			auto dd = data ;
 
-			dd.replace( it.toUtf8(),"" ) ;
+			for( const auto& it : txt ){
+
+				dd.replace( it.toUtf8(),"" ) ;
+			}
+
+			Logger::updateLogger( dd,m_engine,outPut,id,readableJson ) ;
 		}
-
-		Logger::updateLogger( dd,m_engine,outPut,id,readableJson ) ;
 	}
 }
 
-void engines::engine::functions::processData( Logger::Data& outPut,const QString& e,int id,bool readableJson )
+void engines::engine::functions::processData( Logger::Data& outPut,
+					      const QString& e,
+					      int id,
+					      bool readableJson,
+					      bool mainLogger )
 {
 	Q_UNUSED( readableJson )
+	Q_UNUSED( mainLogger )
 
 	outPut.replaceOrAdd( e.toUtf8(),id,[]( const QString& line ){
 
@@ -1047,7 +1089,7 @@ void engines::file::write( const QString& e )
 
 		m_file.write( e.toUtf8() ) ;
 	}else{
-		m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+		this->failToOpenForWriting() ;
 	}
 }
 
@@ -1057,7 +1099,7 @@ void engines::file::write( const QJsonDocument& doc,QJsonDocument::JsonFormat fo
 
 		m_file.write( doc.toJson( format ) ) ;
 	}else{
-		m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+		this->failToOpenForWriting() ;
 	}
 }
 
@@ -1072,8 +1114,7 @@ QByteArray engines::file::readAll()
 
 		return m_file.readAll() ;
 	}else{
-		m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
-
+		this->failToOpenForReading() ;
 		return QByteArray() ;
 	}
 }
@@ -1094,10 +1135,20 @@ QStringList engines::file::readAllAsLines()
 			}
 		}
 	}else{
-		m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
+		this->failToOpenForReading() ;
 	}
 
 	return m ;
+}
+
+void engines::file::failToOpenForWriting()
+{
+	m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+}
+
+void engines::file::failToOpenForReading()
+{
+	m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
 }
 
 engines::engine::functions::filter::filter( const QString& e,const engines::engine& engine ) :
@@ -1146,7 +1197,8 @@ engines::engine::functions::preProcessing::preProcessing() :
 {
 }
 
-engines::engine::functions::preProcessing::preProcessing( const QByteArray& e ) :
+engines::engine::functions::preProcessing::preProcessing( const QByteArray& e,int s ) :
+	m_maxCounter( s ),
 	m_processingDefaultText( e )
 {
 }
@@ -1156,9 +1208,15 @@ QByteArray engines::engine::functions::preProcessing::processingText()
 	return QObject::tr( "Processing" ).toUtf8() ;
 }
 
+void engines::engine::functions::preProcessing::reset()
+{
+	m_counter = 0 ;
+	m_counterDots = " ..." ;
+}
+
 const QByteArray& engines::engine::functions::preProcessing::text()
 {
-	if( m_counter < 16 ){
+	if( m_counter < m_maxCounter ){
 
 		m_counterDots += " ..." ;
 	}else{

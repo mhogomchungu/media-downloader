@@ -87,14 +87,6 @@ public:
 	{
 		return m_entries.size() == 0 ;
 	}
-	auto begin()
-	{
-		return m_entries.begin() ;
-	}
-	auto end()
-	{
-		return m_entries.end() ;
-	}
 	auto begin() const
 	{
 		return m_entries.begin() ;
@@ -147,18 +139,30 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void exiting() ;
 	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void setThumbnailColumnSize( bool ) ;
+	void showComments( const engines::engine&,const QString& ) ;
+	void clipboardData( const QString& ) ;
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 private:
-	void showBDFrame() ;
+	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;
+	void showList( batchdownloader::listType,const engines::engine&,const QString&,int ) ;
+	void showBDFrame( batchdownloader::listType ) ;
+	void saveComments( const QJsonArray&,const QString& filePath ) ;
+	void showComments( const QByteArray& ) ;
+	void showSubtitles( const QByteArray& ) ;
+	void saveSubtitles() ;
+	void normalizeFilePath( QString& ) ;
+	QString setSubtitleString( const QJsonObject&,const QString& ) ;
+	void parseDataFromFile( const QByteArray& ) ;
 	void getListFromFile( QMenu& ) ;
+	void getListFromFile( const QString&,bool ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
-	void showList() ;
 	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
@@ -177,16 +181,20 @@ private:
 	tabManager& m_tabManager ;
 	bool m_showThumbnails ;
 	tableWidget m_table ;
-	tableMiniWidget< int > m_tableWidgetBDList ;
+	tableMiniWidget< QJsonObject > m_tableWidgetBDList ;
 	QString m_debug ;
+	QString m_commentsFileName ;
 	int m_networkRunning = false ;
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;
 	QPixmap m_defaultVideoThumbnail ;
+	batchdownloader::listType m_listType ;
 
 	utility::Terminator m_terminator ;
 
 	downloadManager m_ccmd ;
+
+	QByteArray m_downloadingComments ;
 
 	class BatchLogger
 	{
@@ -211,7 +219,7 @@ private:
 		void add( const Function& function )
 		{
 			m_logger.add( function,m_id ) ;
-			function( m_lines,m_id,false ) ;
+			function( m_lines,m_id,false,false ) ;
 		}
 		void logError( const QByteArray& data )
 		{
@@ -227,11 +235,25 @@ private:
 		int m_id ;
 	};
 
+	class subtitlesTimer
+	{
+	public:
+		subtitlesTimer( tableMiniWidget< QJsonObject >& table ) ;
+		void start() ;
+		void stop() ;
+	private:
+		engines::engine::functions::preProcessing m_banner ;
+		QTimer m_timer ;
+		tableMiniWidget< QJsonObject >& m_table ;
+	} m_subtitlesTimer ;
+
+	template< typename LogFilter >
 	class BatchLoggerWrapper
 	{
 	public:
-		BatchLoggerWrapper( Logger& l ) :
-			m_logger( std::make_shared< BatchLogger >( l ) )
+		BatchLoggerWrapper( Logger& l,LogFilter f ) :
+			m_logger( std::make_shared< BatchLogger >( l ) ),
+			m_logFilter( std::move( f ) )
 		{
 		}
 		void add( const QByteArray& e )
@@ -253,26 +275,43 @@ private:
 		}
 		void logError( const QByteArray& data )
 		{
-			m_logger->logError( data ) ;
+			if( m_logFilter( data ) ){
+
+				m_logger->logError( data ) ;
+			}
 		}
 	private:
 		std::shared_ptr< BatchLogger > m_logger ;
+		LogFilter m_logFilter ;
 	};
 
+	template< typename LogFilter >
+	BatchLoggerWrapper< LogFilter > make_logger( Logger& l,LogFilter f )
+	{
+		return { l,std::move( f ) } ;
+	}
+
+	template< typename Logger >
 	struct opts
 	{
 		const Context& ctx ;
 		QString debug ;
 		bool listRequested ;
 		int index ;
-		BatchLoggerWrapper batchLogger ;
+		Logger batchLogger ;
 	} ;
 
-	template< typename Functions >
-
-	auto make_options( batchdownloader::opts opts,Functions f )
+	template< typename Logger,typename Functions >
+	auto make_options( const Context& ctx,
+			   QString debug,
+			   bool listRequested,
+			   int index,
+			   Logger logger,
+			   Functions f )
 	{
-		return utility::options< batchdownloader::opts,Functions >( std::move( opts ),std::move( f ) ) ;
+		opts< Logger > oo{ ctx,debug,listRequested,index,std::move( logger ) } ;
+
+		return utility::options< opts< Logger >,Functions >( std::move( oo ),std::move( f ) ) ;
 	}
 };
 

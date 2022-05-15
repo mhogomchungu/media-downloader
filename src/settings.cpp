@@ -22,11 +22,10 @@
 #include "locale_path.h"
 #include "translator.h"
 #include "logger.h"
+#include "themes.h"
 
 #include <QDir>
-#include <QApplication>
 #include <QFile>
-#include <QStyleFactory>
 
 static QString _configPath()
 {
@@ -62,14 +61,54 @@ QString settings::portableVersionConfigPath()
 	return QDir::currentPath() + "/local" ;
 }
 
-QString settings::darkMode()
+static QString _monitorClipboadUrl( settings::tabName e )
 {
-	if( !m_settings.contains( "DarkModeName" ) ){
+	if( e == settings::tabName::basic ){
 
-		m_settings.setValue( "DarkModeName",settings::darkModes().unTranslatedAt( 0 ) ) ;
+		return "BasicDownloaderMonitorClipboadUrl" ;
+
+	}else if( e == settings::tabName::batch ){
+
+		return "BatchDownloaderMonitorClipboadUrl" ;
+
+	}else if( e == settings::tabName::playlist ){
+
+		return "PlaylistDownloaderMonitorClipboadUrl" ;
+	}else{
+		return "" ;
+	}
+}
+
+void settings::setMonitorClipboardUrl( bool e,settings::tabName t )
+{
+	m_settings.setValue( _monitorClipboadUrl( t ),e ) ;
+}
+
+bool settings::monitorClipboardUrl( settings::tabName tabName )
+{
+	auto m = _monitorClipboadUrl( tabName ) ;
+
+	if( !m_settings.contains( m ) ){
+
+		m_settings.setValue( m,false ) ;
 	}
 
-	return m_settings.value( "DarkModeName" ).toString() ;
+	return m_settings.value( m ).toBool() ;
+}
+
+QString settings::themeName()
+{
+	if( !m_settings.contains( "ThemeName" ) ){
+
+		m_settings.setValue( "ThemeName",themes().unTranslatedAt( 0 ) ) ;
+	}
+
+	return m_settings.value( "ThemeName" ).toString() ;
+}
+
+void settings::setThemeName( const QString& e )
+{
+	m_settings.setValue( "ThemeName",e ) ;
 }
 
 static QString _getOptionsHistoryTabName( settings::tabName e )
@@ -160,6 +199,21 @@ void settings::clearPlaylistUrlHistory()
 	m_settings.setValue( "PlaylistUrlHistory",QStringList() ) ;
 }
 
+void settings::setAutoSavePlaylistOnExit( bool e )
+{
+	m_settings.setValue( "AutoSavePlaylistOnExit",e ) ;
+}
+
+bool settings::autoSavePlaylistOnExit()
+{
+	if( !m_settings.contains( "AutoSavePlaylistOnExit" ) ){
+
+		m_settings.setValue( "AutoSavePlaylistOnExit",true ) ;
+	}
+
+	return m_settings.value( "AutoSavePlaylistOnExit" ).toBool() ;
+}
+
 QStringList settings::playlistRangeHistory()
 {
 	if( !m_settings.contains( "PlaylistRangeHistory" ) ){
@@ -178,11 +232,6 @@ QStringList settings::playlistUrlHistory()
 	}
 
 	return m_settings.value( "PlaylistUrlHistory" ).toStringList() ;
-}
-
-void settings::setDarkMode( const QString& e )
-{
-	m_settings.setValue( "DarkModeName",e ) ;
 }
 
 void settings::setPlaylistRangeHistoryLastUsed( const QString& e )
@@ -411,6 +460,11 @@ bool settings::showTrayIcon()
 	return m_settings.value( "ShowTrayIcon" ).toBool() ;
 }
 
+void settings::setshowTrayIcon( bool e )
+{
+	m_settings.setValue( "ShowTrayIcon",e ) ;
+}
+
 bool settings::autoDownload()
 {
 	if( !m_settings.contains( "AutoDownload" ) ){
@@ -497,42 +551,43 @@ void settings::setCookieFilePath( const QString& engineName,const QString& cooki
 	m_settings.setValue( "CookieFilePath_" + engineName,cookieFilePath ) ;
 }
 
-void settings::setTheme( QApplication& app )
+void settings::setTheme( QApplication& app,const QString& themeBasePath )
 {
-	settings::darkModes darkModes( this->darkMode() ) ;
+	themes ths( this->themeName(),themeBasePath ) ;
 
-	if( darkModes.darkModeIsSet() ){
+	if( !QFile::exists( themeBasePath ) ){
 
-		if( darkModes.fusionTheme() ){
+		QDir().mkpath( themeBasePath ) ;
 
-			app.setStyle( QStyleFactory::create( "Fusion" ) ) ;
-			QPalette darkPalette ;
-			QColor darkColor = QColor( 45,45,45 ) ;
-			QColor disabledColor = QColor( 127,127,127 ) ;
-			darkPalette.setColor( QPalette::Window,darkColor ) ;
-			darkPalette.setColor( QPalette::WindowText,Qt::white ) ;
-			darkPalette.setColor( QPalette::Base,QColor( 18,18,18 ) ) ;
-			darkPalette.setColor( QPalette::AlternateBase,darkColor ) ;
-			darkPalette.setColor( QPalette::ToolTipBase,Qt::white ) ;
-			darkPalette.setColor( QPalette::ToolTipText,Qt::white ) ;
-			darkPalette.setColor( QPalette::Text,Qt::white ) ;
-			darkPalette.setColor( QPalette::Disabled,QPalette::Text,disabledColor ) ;
-			darkPalette.setColor( QPalette::Button,darkColor ) ;
-			darkPalette.setColor( QPalette::ButtonText,Qt::white ) ;
-			darkPalette.setColor( QPalette::Disabled,QPalette::ButtonText,disabledColor ) ;
-			darkPalette.setColor( QPalette::BrightText,Qt::red) ;
-			darkPalette.setColor( QPalette::Link,QColor( 42,130,218 ) ) ;
-			darkPalette.setColor( QPalette::Highlight,QColor( 42,130,218 ) ) ;
-			darkPalette.setColor( QPalette::HighlightedText,Qt::black ) ;
-			darkPalette.setColor( QPalette::Disabled,QPalette::HighlightedText,disabledColor ) ;
+		auto defaultThemePath = ths.defaultthemeFullPath() ;
 
-			app.setPalette( darkPalette ) ;
+		if( !QFile::exists( defaultThemePath ) ){
 
-			app.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+			QFile f( defaultThemePath ) ;
+
+			if( f.open( QIODevice::WriteOnly ) ){
+
+				f.write( QJsonDocument( ths.defaultTheme() ).toJson( QJsonDocument::Indented ) ) ;
+			}
+		}
+	}
+
+	if( ths.usingThemes() ){
+
+		QFile f( ths.themeFullPath() ) ;
+
+		if( !f.open( QIODevice::ReadOnly ) ){
+
+			ths.setDefaultTheme( app ) ;
 		}else{
-			QFile file( darkModes.themeFileName() ) ;
-			file.open( QFile::ReadOnly ) ;
-			app.setStyleSheet( file.readAll() ) ;
+			auto obj = QJsonDocument::fromJson( f.readAll() ).object() ;
+
+			if( obj.isEmpty() ){
+
+				return ths.setDefaultTheme( app ) ;
+			}
+
+			ths.setTheme( app,obj ) ;
 		}
 	}
 }

@@ -88,6 +88,50 @@ QList< QByteArray > Logger::Data::toStringList() const
 	return util::split( this->toString(),'\n' ) ;
 }
 
+void Logger::Data::luxHack( int id,const QByteArray& data )
+{
+	QByteArray line ;
+
+	for( const auto& it : m_lines ){
+
+		if( it.id() == id ){
+
+			line += it.text() ;
+		}
+	}
+
+	if( line.contains( "lux -f " ) ){
+
+		auto a = data.lastIndexOf( ']' ) ;
+
+		if( a != -1 ){
+
+			_replaceOrAdd( [ & ](){
+
+				auto b = data.lastIndexOf( '[' ) ;
+
+				if( b != -1 ){
+
+					return data.mid( 0,b ) + "<-->" + data.mid( a + 1 ) ;
+				}else{
+					return data.mid( a + 1 ) ;
+				}
+
+			}(),id,[]( const QByteArray& ){
+
+				return true ;
+
+			},[]( const QByteArray& ){
+
+				return false ;
+			} ) ;
+		}
+	}else{
+		this->add( data,id ) ;
+		this->add( "\n",id ) ;
+	}
+}
+
 bool Logger::Data::postProcessText( const QByteArray& data )
 {
 	return utility::stringConstants::postProcessMarker( data ) ;
@@ -95,6 +139,11 @@ bool Logger::Data::postProcessText( const QByteArray& data )
 
 void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
 {
+	if( data.isEmpty() ){
+
+		return ;
+	}
+
 	if( m_args.likeYoutubeDl && humanReadableJson ){
 
 		if( data.startsWith( '[' ) || data.startsWith( '{' ) ){

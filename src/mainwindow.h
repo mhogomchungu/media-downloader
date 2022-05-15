@@ -50,6 +50,7 @@ public:
 	void Show() ;
 	void processEvent( const QByteArray& e ) ;
 	void quitApp() ;
+	void showTrayIcon( bool ) ;
 	void log( const QByteArray& ) ;
 	~MainWindow() override ;
 private:

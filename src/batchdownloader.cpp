@@ -20,6 +20,7 @@
 #include "batchdownloader.h"
 #include "tabmanager.h"
 #include "mainwindow.h"
+#include "mainwindow.h"
 
 #include <QMetaObject>
 #include <QClipboard>
@@ -36,7 +37,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font() ),
 	m_debug( ctx.debug() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
-	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings )
+	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings ),
+	m_downloadingComments( tr( "Downloading comments" ).toUtf8() ),
+	m_subtitlesTimer( m_tableWidgetBDList )
 {
 	qRegisterMetaType< ItemEntry >() ;
 
@@ -44,8 +47,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		tableWidget::tableWidgetOptions opts ;
 
-		opts.customContextPolicy = Qt::NoContextMenu ;
-		opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
+		opts.selectionMode = QAbstractItemView::ExtendedSelection ;
 
 		return opts ;
 	}() ) ;
@@ -61,13 +63,21 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_ui.pbBDCancel->setEnabled( false ) ;
 
-	m_ui.BDFrame->hide() ;
+	m_ui.BDFrame->setVisible( false ) ;
 
 	this->resetMenu() ;
 
+	m_tableWidgetBDList.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
+
+		if( m_listType == batchdownloader::listType::SUBTITLES ){
+
+			this->saveSubtitles() ;
+		}
+	} ) ;
+
 	m_tableWidgetBDList.connect( &QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
 
-		if( item ){
+		if( item && m_listType == batchdownloader::listType::MEDIA_OPTIONS ){
 
 			m_tableWidgetBDList.selectMediaOptions( m_optionsList,*item,m_lineEdit ) ;
 		}
@@ -75,15 +85,28 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_tableWidgetBDList.connect( &QTableWidget::itemDoubleClicked,[ this ]( QTableWidgetItem * item ){
 
-		if( item ){
+		if( item && m_listType != batchdownloader::listType::COMMENTS ){
 
-			auto m = m_tableWidgetBDList.item( item->row(),0 ).text() ;
+			auto row = item->row() ;
+
+			auto m = m_tableWidgetBDList.item( row,0 ).text() ;
 
 			if( !m.isEmpty() ){
 
-				auto u = tableWidget::type::DownloadOptions ;
+				if( m_listType == batchdownloader::listType::SUBTITLES ){
 
-				m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
+					auto u = tableWidget::type::subtitleOption ;
+
+					auto obj = m_tableWidgetBDList.stuffAt( row ) ;
+
+					m = this->setSubtitleString( obj,m ) ;
+
+					m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
+				}else{
+					auto u = tableWidget::type::DownloadOptions ;
+
+					m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
+				}
 			}
 
 			m_ui.BDFrame->hide() ;
@@ -92,16 +115,53 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBatchDownloaderSet,&QPushButton::clicked,[ this ](){
 
-		auto m = m_lineEdit.text() ;
+		auto txt = m_ui.pbBatchDownloaderSet->text() ;
 
-		if( !m.isEmpty() ){
+		if( m_listType == batchdownloader::listType::COMMENTS ){
 
-			auto u = tableWidget::type::DownloadOptions ;
+			auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),
+							       QObject::tr( "Save List To File" ),
+							       m_commentsFileName ) ;
 
-			m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
+			if( e.isEmpty() ){
+
+				return ;
+			}
+
+			int rowCount = m_tableWidgetBDList.rowCount() ;
+
+			QJsonArray arr ;
+
+			for( int i = 0 ; i < rowCount ; i++ ){
+
+				arr.append( m_tableWidgetBDList.stuffAt( i ) ) ;
+			}
+
+			this->saveComments( arr,e ) ;
+		}else{
+			if( m_listType == batchdownloader::listType::SUBTITLES ){
+
+				auto row = m_tableWidgetBDList.currentRow() ;
+
+				auto m = m_tableWidgetBDList.item( row,0 ).text() ;
+
+				auto obj = m_tableWidgetBDList.stuffAt( row ) ;
+
+				m = this->setSubtitleString( obj,m ) ;
+
+				auto u = tableWidget::type::subtitleOption ;
+
+				m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
+			}else{
+				auto m = m_lineEdit.text() ;
+
+				auto u = tableWidget::type::DownloadOptions ;
+
+				m_table.setDownloadingOptions( u,m_table.currentRow(),m ) ;
+			}
+
+			m_ui.BDFrame->hide() ;			
 		}
-
-		m_ui.BDFrame->hide() ;
 	} ) ;
 
 	connect( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,[ this ](){
@@ -135,10 +195,21 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		auto m = utility::clipboardText() ;
 
-		if( !m.isEmpty() ){
+		if( m.startsWith( "http" ) ){
 
 			this->addToList( m ) ;
 		}
+	} ) ;
+
+	auto cb = m_settings.monitorClipboardUrl( settings::tabName::batch ) ;
+
+	m_ui.cbBDMonitorClipboardContent->setChecked( cb ) ;
+
+	connect( m_ui.cbBDMonitorClipboardContent,&QCheckBox::stateChanged,[ this ]( int s ){
+
+		auto m = s == Qt::CheckState::Checked ;
+
+		m_settings.setMonitorClipboardUrl( m,settings::tabName::batch ) ;
 	} ) ;
 
 	m_table.connect( &QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){
@@ -243,22 +314,47 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
-		const auto& engine = this->defaultEngine() ;
+		const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
+
+		ac = m.addAction( tr( "Show Subtitles" ) ) ;
+		ac->setEnabled( !engine.defaultSubstitlesCmdOptions().isEmpty() ) ;
+
+		using ltty = batchdownloader::listType ;
+
+		connect( ac,&QAction::triggered,[ this,&engine ](){
+
+			auto row = m_table.currentRow() ;
+
+			if( row != -1 ){
+
+				this->showList( ltty::SUBTITLES,engine,m_table.url( row ),row ) ;
+			}
+		} ) ;
 
 		ac = m.addAction( tr( "Show Comments" ) ) ;
-		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
+		ac->setEnabled( engine.supportShowingComments() ) ;
 
-		connect( ac,&QAction::triggered,[ this ](){
+		connect( ac,&QAction::triggered,[ this,&engine ](){
 
-			this->showComments() ;
+			auto row = m_table.currentRow() ;
+
+			if( row != -1 ){
+
+				this->showList( ltty::COMMENTS,engine,m_table.url( row ),row ) ;
+			}
 		} ) ;
 
 		ac = m.addAction( tr( "Show Media Options" ) ) ;
-		ac->setEnabled( !running && engine.likeYoutubeDl() ) ;
+		ac->setEnabled( !running && !engine.defaultListCmdOptions().isEmpty() ) ;
 
-		connect( ac,&QAction::triggered,[ this ](){
+		connect( ac,&QAction::triggered,[ this,&engine ](){
 
-			this->showList() ;
+			auto row = m_table.currentRow() ;
+
+			if( row != -1 ){
+
+				this->showList( ltty::MEDIA_OPTIONS,engine,m_table.url( row ),row ) ;
+			}
 		} ) ;		
 
 		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
@@ -277,14 +373,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 				if( !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ){
 
-					auto u = m_table.downloadingOptions( row ) ;
+					auto m = m_ui.lineEditBDUrlOptions->text() ;
 
-					if( u.isEmpty() ){
+					auto u = utility::setDownloadOptions( engine,m_table,row,m ) ;
 
-						indexes.add( row,m_ui.lineEditBDUrlOptions->text(),forceDownload ) ;
-					}else{
-						indexes.add( row,u,forceDownload ) ;
-					}
+					indexes.add( row,u,forceDownload ) ;
 				}
 
 				this->download( engine,std::move( indexes ) ) ;
@@ -293,9 +386,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		this->getListFromFile( m ) ;
 
-		utility::saveDownloadList( m_ctx,m,m_table ) ;
+		utility::saveDownloadList( m_ctx,m,m_table,false ) ;
 
-		auto mm = m.addMenu( tableWidget::engineName().replace( ":","" ) ) ;
+		auto mm = m.addMenu( utility::stringConstants::engineName().replace( ":","" ) ) ;
 
 		mm->setEnabled( !finishSuccess ) ;
 
@@ -345,7 +438,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDQuit,&QPushButton::clicked,[ this ](){
 
-		m_tabManager.basicDownloader().appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
 	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
@@ -368,6 +461,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 void batchdownloader::init_done()
 {
+	auto m = m_ctx.Engines().engineDirPaths().dataPath( "autoSavedList.json" ) ;
+
+	if( QFile::exists( m ) ){
+
+		this->getListFromFile( m,true ) ;
+	}
 }
 
 void batchdownloader::resetMenu()
@@ -410,6 +509,11 @@ void batchdownloader::tabEntered()
 
 void batchdownloader::tabExited()
 {
+}
+
+void batchdownloader::exiting()
+{
+	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 
 void batchdownloader::gotEvent( const QByteArray& m )
@@ -467,9 +571,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		const auto& s = list.first() ;
 
-		auto state = downloadManager::finishedStatus::running() ;
+		tableWidget::entry entry ;
 
-		int row = m_table.addItem( { m_defaultVideoThumbnail,s.uiText,s.url,state } ) ;
+		entry.uiText    = s.uiText ;
+		entry.url       = s.url ;
+		entry.thumbnail = m_defaultVideoThumbnail ;
+
+		entry.runningState = downloadManager::finishedStatus::running() ;
+
+		int row = m_table.addItem( std::move( entry ) ) ;
 
 		m_table.selectLast() ;
 
@@ -485,11 +595,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			downloadManager::index indexes( m_table ) ;
 
-			auto state = downloadManager::finishedStatus::running() ;
+			tableWidget::entry entry ;
 
-			auto uiText = it.uiText ;
+			auto uiText        = it.uiText ;
+			entry.uiText       = "...\n" + uiText ;
+			entry.url          = it.url ;
+			entry.thumbnail    = m_defaultVideoThumbnail ;
+			entry.runningState = downloadManager::finishedStatus::running() ;
 
-			int row = m_table.addItem( { m_defaultVideoThumbnail,"...\n" + it.uiText,it.url,state } ) ;
+			int row = m_table.addItem( std::move( entry ) ) ;
 
 			util::Timer( 1000,[ this,row,uiText ]( int counter ){
 
@@ -544,17 +658,607 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 	}
 }
 
-void batchdownloader::showComments()
+static QJsonArray _saveComments( const QJsonArray& arr )
 {
+	QJsonArray objs ;
 
+	auto _add_object = [ & ]( const QJsonObject& obj,int position ){
+
+		QJsonObject oo ;
+
+		oo.insert( "id",obj.value( "id" ) ) ;
+		oo.insert( "parent",obj.value( "parent" ) ) ;
+		oo.insert( "author",obj.value( "author" ) ) ;
+		oo.insert( "text",obj.value( "text" ) ) ;
+		oo.insert( "date",obj.value( "date" ) ) ;
+		oo.insert( "text replies",obj.value( "text replies" ) ) ;
+
+		if( position == -1 ){
+
+			objs.append( oo ) ;
+		}else{
+			objs.removeAt( position ) ;
+			objs.insert( position,oo ) ;
+		}
+	} ;
+
+	for( const auto& it : arr ){
+
+		auto obj = it.toObject() ;
+
+		auto parent = obj.value( "parent" ).toString() ;
+
+		if( parent == "root" ){
+
+			_add_object( obj,-1 ) ;
+		}else{
+			for( int i = 0 ; i < objs.size() ; i++ ){
+
+				auto xobj = objs.at( i ).toObject() ;
+
+				if( xobj.value( "id" ).toString() == parent ){
+
+					auto replies = [ & ](){
+
+						auto arr = xobj.value( "text replies" ) ;
+
+						if( arr.isUndefined() ){
+
+							return QJsonArray() ;
+						}else{
+							return arr.toArray() ;
+						}
+					}() ;
+
+					QJsonObject oo ;
+
+					oo.insert( "author",obj.value( "author" ) ) ;
+					oo.insert( "text",obj.value( "text" ) ) ;
+					oo.insert( "date",obj.value( "date" ) ) ;
+
+					replies.append( oo ) ;
+					xobj.insert( "text replies",replies ) ;
+
+					_add_object( xobj,i ) ;
+
+					break ;
+				}
+			}
+		}
+	}
+
+	QJsonArray finalArr ;
+
+	for( const auto& it : util::asConst( objs ) ){
+
+		auto obj = it.toObject() ;
+
+		obj.remove( "parent" ) ;
+		obj.remove( "id" ) ;
+
+		finalArr.append( obj ) ;
+	}
+
+	return finalArr ;
 }
 
-void batchdownloader::showBDFrame()
+template< typename Function >
+static void _getComments( const QJsonArray& arr,Function function )
 {
+	for( const auto& it : arr ){
+
+		auto obj = it.toObject() ;
+
+		auto id        = obj.value( "id" ).toString() ;
+		auto parent    = obj.value( "parent" ).toString() ;
+		auto txt       = obj.value( "text" ).toString() ;
+		auto author    = obj.value( "author" ).toString() ;
+		auto comment   = QObject::tr( "Author" ) + ": " + author ;
+		auto timestamp = obj.value( "timestamp" ) ;
+
+		if( !timestamp.isUndefined() ){
+
+			auto a = timestamp.toInt() ;
+			auto b = utility::fromSecsSinceEpoch( a ) ;
+
+			if( !b.isEmpty() ){
+
+				comment += "\n" + QObject::tr( "Date" ) + ": " + b ;
+
+				obj.insert( "date",b ) ;
+			}
+		}
+
+		if( parent != "root" ){
+
+			for( const auto& xt : arr ){
+
+				auto xobj = xt.toObject() ;
+
+				auto xd = xobj.value( "id" ).toString() ;
+
+				if( xd == parent ){
+
+					auto xauthor = xobj.value( "author" ).toString() ;
+
+					comment += "\n" + QObject::tr( "Replies to" ) + ": " + xauthor ;
+
+					break ;
+				}
+			}
+		}
+
+		comment += "\n" + QObject::tr( "Text" ) + ": " + txt ;
+
+		function( comment,std::move( obj ) ) ;
+	}
+}
+
+void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePath )
+{
+	auto data = QJsonDocument( _saveComments( arr ) ).toJson( QJsonDocument::Indented ) ;
+
+	engines::file( filePath,m_ctx.logger() ).write( data ) ;
+}
+
+void batchdownloader::showComments( const QByteArray& e )
+{
+	QJsonParseError err ;
+
+	auto doc = QJsonDocument::fromJson( e,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		auto obj = doc.object() ;
+
+		auto f = obj.value( "title" ).toString() ;
+
+		if( f.isEmpty() ){
+
+			m_commentsFileName = utility::homePath() + "/MediaDowloaderComments.json" ;
+		}else{
+			this->normalizeFilePath( f ) ;
+
+			m_commentsFileName = utility::homePath() + "/" + f.mid( 0,200 ) + ".json" ;
+		}
+
+		auto arr = obj.value( "comments" ).toArray() ;
+
+		_getComments( arr,[ this ]( const QString& comment,QJsonObject obj ){
+
+			m_tableWidgetBDList.add( { "","","",comment },std::move( obj ) ) ;
+		} ) ;
+	}
+}
+
+void batchdownloader::normalizeFilePath( QString& e )
+{
+	if( utility::platformIsWindows() ){
+
+		e.replace( '<','_' ) ;
+		e.replace( '>','_' ) ;
+		e.replace( ':','_' ) ;
+		e.replace( '"','_' ) ;
+		e.replace( '/','_' ) ;
+		e.replace( '\\','_' ) ;
+		e.replace( '|','_' ) ;
+		e.replace( '?','_' ) ;
+		e.replace( '*','_' ) ;
+	}
+}
+
+void batchdownloader::showSubtitles( const QByteArray& e )
+{
+	class language
+	{
+	public:
+		language( const QJsonObject::ConstIterator& it ) :
+			m_name( it.key() ),
+			m_formats( it.value().toArray() )
+		{
+		}
+		const QString& name() const
+		{
+			return m_name ;
+		}
+		QString notes() const
+		{
+			if( m_formats.isEmpty() ){
+
+				return {} ;
+			}else{
+				auto iter = utility::make_reverseIterator( m_formats ) ;
+
+				auto obj = iter.nextAsValue().toObject() ;
+
+				auto name = "Name: " + obj.value( "name" ).toString() ;
+
+				auto formats = "Formats: " + obj.value( "ext" ).toString() ;
+
+				iter.forEach( [ & ]( const QJsonValue& v ){
+
+					formats += ", " + v.toObject().value( "ext" ).toString() ;
+				} ) ;
+
+				return name + "\n" + formats ;
+			}
+		}
+		const QJsonArray& subtitles() const
+		{
+			return m_formats ;
+		}
+	private:
+		QString m_name ;
+		QJsonArray m_formats ;
+	} ;
+
+	QJsonParseError err ;
+
+	auto doc = QJsonDocument::fromJson( e,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		auto _parse = [ &]( const QJsonValue& j ){
+
+			std::vector< language > languages ;
+
+			auto obj = j.toObject() ;
+
+			for( auto it = obj.begin() ; it != obj.end() ; it++ ){
+
+				languages.emplace_back( it ) ;
+			}
+
+			std::sort( languages.begin(),languages.end(),[]( const language& l,const language& r ){
+
+				return l.name() < r.name() ;
+			} ) ;
+
+			return languages ;
+		} ;
+
+		auto obj = doc.object() ;
+
+		auto title = obj.value( "title" ).toString() ;
+
+		auto _add = [ & ]( const language& l,const QString& m ){
+
+			QJsonObject obj ;
+
+			obj.insert( "title",title ) ;
+			obj.insert( "subtitles",l.subtitles() ) ;
+			obj.insert( "type",m ) ;
+
+			return obj ;
+		} ;
+
+		for( const auto& it : _parse( obj.value( "subtitles" ) ) ){
+
+			auto obj = _add( it,"subtitles" ) ;
+
+			m_tableWidgetBDList.add( { it.name(),"subtitle","",it.notes() },std::move( obj ) ) ;
+		}
+
+		for( const auto& it : _parse( obj.value( "automatic_captions" ) ) ){
+
+			auto obj = _add( it,"automatic_captions" ) ;
+
+			m_tableWidgetBDList.add( { it.name(),"automatic\ncaption","",it.notes() },std::move( obj ) ) ;
+		}
+	}
+}
+
+void batchdownloader::saveSubtitles()
+{
+	auto row = m_tableWidgetBDList.currentRow() ;
+
+	if( row == -1 ){
+
+		return ;
+	}
+
+	const auto& s = m_tableWidgetBDList.stuffAt( row ) ;
+
+	auto title = s.value( "title" ).toString() ;
+	auto subtitles = s.value( "subtitles" ).toArray() ;
+
+	if( subtitles.isEmpty() ){
+
+		return ;
+	}
+
+	this->normalizeFilePath( title ) ;
+
+	struct entry
+	{
+		entry( const QJsonObject& obj ) :
+			name( obj.value( "name" ).toString() ),
+			ext( obj.value( "ext" ).toString() ),
+			url( obj.value( "url" ).toString() )
+		{
+		}
+		QString name ;
+		QString ext ;
+		QString url ;
+	};
+
+	std::vector< entry > entries ;
+
+	QMenu m ;
+
+	utility::make_reverseIterator( subtitles ).forEach( [ & ]( const QJsonValue& v ){
+
+		entries.emplace_back( v.toObject() ) ;
+
+		const auto& ext = entries.back().ext ;
+
+		m.addAction( tr( "Download" ) + " " + ext )->setObjectName( ext ) ;
+	} ) ;
+
+	connect( &m,&QMenu::triggered,[ this,title,entries = std::move( entries ) ]( QAction * ac ){
+
+		auto ext = ac->objectName() ;
+
+		for( const auto& it : entries ){
+
+			if( it.ext == ext ){
+
+				auto m = utility::homePath() + "/" + title + "." + it.ext ;
+
+				auto s = QObject::tr( "Save Subtitle To File" ) ;
+				auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),s,m ) ;
+
+				if( !e.isEmpty() ){
+
+					auto& network = m_ctx.versionInfo().network() ;
+
+					network.getResource( it.url,[ m ]( const QByteArray& data ){
+
+						QFile f( m ) ;
+						f.open( QIODevice::WriteOnly ) ;
+						f.write( data ) ;
+					} ) ;
+				}
+
+				break ;
+			}
+		}
+	} ) ;
+
+	m.exec( QCursor::pos() ) ;
+}
+
+QString batchdownloader::setSubtitleString( const QJsonObject& obj,const QString& m )
+{
+	auto type = obj.value( "type" ).toString() ;
+
+	if( type == "automatic_captions" ){
+
+		return "ac: " + m ;
+	}else{
+		return "su: " + m ;
+	}
+}
+
+void batchdownloader::showBDFrame( batchdownloader::listType m )
+{
+	m_listType = m ;
+
+	auto& table = m_tableWidgetBDList.get() ;
+
+	table.showColumn( 0 ) ;
+	table.showColumn( 1 ) ;
+	table.showColumn( 2 ) ;
+	table.showColumn( 3 ) ;
+
+	if( m == batchdownloader::listType::MEDIA_OPTIONS ){
+
+		m_ui.pbBatchDownloaderSet->setText( tr( "Set" ) ) ;
+
+	}else if( m == batchdownloader::listType::COMMENTS ){
+
+		table.hideColumn( 0 ) ;
+		table.hideColumn( 1 ) ;
+		table.hideColumn( 2 ) ;
+
+		m_ui.pbBatchDownloaderSet->setText( tr( "Save" ) ) ;
+
+	}else if( m == batchdownloader::listType::SUBTITLES ){
+
+		table.hideColumn( 2 ) ;
+
+		m_ui.pbBatchDownloaderSet->setText( tr( "Set" ) ) ;
+	}
+
 	m_optionsList.clear() ;
 	m_tableWidgetBDList.clear() ;
 	m_ui.BDFrame->show() ;
 	m_ui.pbCancelBatchDownloder->setFocus() ;
+}
+
+template< typename Function >
+static void _parseDataFromFile( Items& items,
+				const QJsonArray& array,
+				const QString& urlKey,
+				const QString& uploadDate,
+				const Function& converter )
+{
+	for( const auto& it : array ){
+
+		auto obj = it.toObject() ;
+
+		if( obj.isEmpty() ){
+
+			continue ;
+		}
+
+		auto url = obj.value( urlKey ).toString() ;
+
+		auto d = utility::stringConstants::duration() + " " ;
+		auto u = utility::stringConstants::uploadDate() + " " ;
+
+		auto title    = obj.value( "title" ).toString() ;
+		auto duration = converter( obj.value( "duration" ) ) ;
+		auto date     = obj.value( uploadDate ).toString() ;
+
+		auto engineName   = obj.value( "engineName" ).toString() ;
+		auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
+
+		if( !duration.isEmpty() ){
+
+			duration = d + duration ;
+		}
+
+		if( !date.isEmpty() ){
+
+			date = u + date ;
+		}
+
+		QString durationAndDate ;
+
+		if( !duration.isEmpty() && !date.isEmpty() ){
+
+			durationAndDate = duration + ", " + date ;
+
+		}else if( duration.isEmpty() ){
+
+			if( date.isEmpty() ){
+
+
+			}else{
+				durationAndDate = date ;
+			}
+
+		}else if( date.isEmpty() ){
+
+			if( duration.isEmpty() ){
+
+			}else{
+				durationAndDate = duration ;
+			}
+		}
+
+		QString opts ;
+
+		if( !engineName.isEmpty() ){
+
+			opts = utility::stringConstants::engineName() + engineName ;
+		}
+
+		if( !downloadOpts.isEmpty() ){
+
+			auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
+
+			if( opts.isEmpty() ){
+
+				opts = dopts ;
+			}else{
+				opts += "\n" + dopts ;
+			}
+		}
+
+		if( opts.isEmpty() ){
+
+			if( durationAndDate.isEmpty() ){
+
+				items.add( title,url ) ;
+			}else{
+				auto txt = durationAndDate + "\n" + title ;
+
+				items.add( txt,url ) ;
+			}
+		}else{
+			if( durationAndDate.isEmpty() ){
+
+				items.add( title,url ) ;
+			}else{
+				auto txt = opts + "\n" + durationAndDate + "\n" + title ;
+
+				items.add( txt,url ) ;
+			}
+		}
+	}
+}
+
+void batchdownloader::parseDataFromFile( const QByteArray& data )
+{
+	QJsonParseError err ;
+
+	auto json = QJsonDocument::fromJson( data,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		auto obj = json.object() ;
+		Items items ;
+
+		if( obj.isEmpty() ){
+
+			/*
+			 * File created by us
+			 */
+			auto function = []( const QJsonValue& e ){
+
+				return e.toString() ;
+			} ;
+
+			_parseDataFromFile( items,json.array(),"url","uploadDate",function ) ;
+		}else{
+			/*
+			 * File created with yt-dlp
+			 */
+			auto array = obj.value( "entries" ).toArray() ;
+
+			auto function = []( const QJsonValue& e ){
+
+				using tt = engines::engine::functions::timer ;
+				return tt::duration( e.toInt() * 1000 ) ;
+			} ;
+
+			if( !array.isEmpty() ){
+
+				_parseDataFromFile( items,array,"webpage_url","upload_date",function ) ;
+			}
+		}
+
+		const auto& engine = this->defaultEngine() ;
+
+		auto m = m_showThumbnails ;
+		m_showThumbnails = false ;
+		this->showThumbnail( engine,std::move( items ) ) ;
+		m_showThumbnails = m ;
+	}
+}
+
+void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
+{
+	engines::file::readAll( e,m_ctx.logger(),[ this,deleteFile,e ]( bool,const QByteArray& list ){
+
+		if( deleteFile ){
+
+			QFile::remove( e ) ;
+
+			m_ui.tabWidget->setCurrentIndex( 1 ) ;
+		}
+
+		if( !list.isEmpty() ){
+
+			if( list.startsWith( '[' ) || list.startsWith( '{' ) ){
+
+				this->parseDataFromFile( list ) ;
+			}else{
+				Items items ;
+
+				for( const auto& it : util::split( list,'\n',true ) ){
+
+				     items.add( it ) ;
+				}
+
+				const auto& engine = this->defaultEngine() ;
+
+				this->showThumbnail( engine,std::move( items ) ) ;
+			}
+		}
+	} ) ;
 }
 
 void batchdownloader::getListFromFile( QMenu& m )
@@ -567,56 +1271,10 @@ void batchdownloader::getListFromFile( QMenu& m )
 						       tr( "Set Batch File" ),
 						       utility::homePath() ) ;
 
-		if( e.isEmpty() ){
+		if( !e.isEmpty() ){
 
-			return ;
-		}
-
-		auto list = engines::file( e,m_ctx.logger() ).readAll() ;
-
-		if( list.isEmpty() ){
-
-			return ;
-		}
-
-		if( list.startsWith( '[' ) ){
-
-			QJsonParseError err ;
-
-			auto json = QJsonDocument::fromJson( list,&err ) ;
-
-			if( err.error == QJsonParseError::NoError ){
-
-				const auto array = json.array() ;
-
-				Items items ;
-
-				for( const auto& it : array ){
-
-					auto obj = it.toObject() ;
-
-					auto url = obj.value( "url" ).toString() ;
-					auto uiText = obj.value( "uiText" ).toString() ;
-
-					items.add( uiText,url ) ;
-				}
-
-				const auto& engine = this->defaultEngine() ;
-
-				return this->showThumbnail( engine,std::move( items ) ) ;
-			}
-		}
-
-		Items items ;
-
-		for( const auto& it : util::split( list,'\n',true ) ){
-
-		     items.add( it ) ;
-		}
-
-		const auto& engine = this->defaultEngine() ;
-
-		this->showThumbnail( engine,std::move( items ) ) ;
+			this->getListFromFile( e,false ) ;
+		}		
 	} ) ;
 }
 
@@ -635,7 +1293,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 				     const QString& url,
 				     bool autoDownload )
 {
-	auto aa = [ &engine,index,this,url,autoDownload ]( utility::ProcessExitState e,const batchdownloader::opts& opts ){
+	auto aa = [ &engine,index,this,url,autoDownload ]( utility::ProcessExitState e,const auto& opts ){
 
 		auto aa = [ this,autoDownload ]( const engines::engine& engine,int index ){
 
@@ -650,7 +1308,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 				this->addItem( f.index(),allFinished,url ) ;
 			}else{
-				utility::MediaEntry m( url,opts.batchLogger.data() ) ;
+				utility::MediaEntry m( opts.batchLogger.data() ) ;
 
 				if( m.valid() ){
 
@@ -669,7 +1327,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
 	} ;
 
-	auto functions = utility::OptionsFunctions( [ this ]( const batchdownloader::opts& ){
+	auto functions = utility::OptionsFunctions( [ this ]( const auto& ){
 
 		m_ui.pbBDPasteClipboard->setEnabled( true ) ;
 
@@ -681,7 +1339,10 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
-	BatchLoggerWrapper wrapper( m_ctx.logger() ) ;
+	auto wrapper = batchdownloader::make_logger( m_ctx.logger(),[]( const QByteArray& ){
+
+		return true ;
+	} ) ;
 
 	auto args = engine.dumpJsonArguments() ;
 
@@ -698,7 +1359,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			 args,
 			 index == -1 ? url : m_table.url( index ),
 			 m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
-			 batchdownloader::make_options( { m_ctx,m_debug,false,index,wrapper },std::move( functions ) ),
+			 batchdownloader::make_options( m_ctx,m_debug,false,index,wrapper,std::move( functions ) ),
 			 wrapper,
 			 QProcess::ProcessChannel::StandardOutput ) ;
 }
@@ -720,6 +1381,35 @@ void batchdownloader::setThumbnailColumnSize( bool e )
 	}
 }
 
+void batchdownloader::showComments( const engines::engine& engine,const QString& url )
+{
+	m_ctx.Ui().tabWidget->setCurrentIndex( 1 ) ;
+
+	this->showList( batchdownloader::listType::COMMENTS,engine,url,-1 ) ;
+}
+
+void batchdownloader::clipboardData( const QString& url )
+{
+	if( m_settings.monitorClipboardUrl( settings::tabName::batch ) ){
+
+		bool found = false ;
+
+		m_table.forEach( [ & ]( const tableWidget::entry& it ){
+
+			if( it.url == url ){
+
+				found = true ;
+			}
+		} ) ;
+
+		if( !found ){
+
+			m_ui.tabWidget->setCurrentIndex( 1 ) ;
+			this->addToList( url,false,m_settings.showThumbnails() ) ;
+		}
+	}
+}
+
 void batchdownloader::clearScreen()
 {
 	m_table.clear() ;
@@ -727,43 +1417,55 @@ void batchdownloader::clearScreen()
 	m_ui.lineEditBDUrl->clear() ;
 }
 
-void batchdownloader::showList()
+void batchdownloader::showList( batchdownloader::listType listType,
+				const engines::engine& engine,
+				const QString& url,
+				int row )
 {
-	auto& table = m_table.get() ;
+	QStringList args ;
 
-	auto row = table.currentRow() ;
+	if( listType == batchdownloader::listType::SUBTITLES ){
 
-	if( row == -1 ){
+		args = engine.defaultSubstitlesCmdOptions() ;
 
-		return ;
-	}
+		this->showBDFrame( listType ) ;
 
-	const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
+		m_tableWidgetBDList.add( { "","","","\n" + tr( "Downloading subtitles" ) + "\n" } ) ;
 
-	const auto& formats = m_table.formats( row ) ;
+		m_subtitlesTimer.start() ;
 
-	if( !formats.isEmpty() ){
+	}else if( listType == batchdownloader::listType::COMMENTS ){
 
-		const auto ss = engine.mediaProperties( formats ) ;
+		args = engine.defaultCommentsCmdOptions() ;
+		args.append( "--verbose" ) ;
 
-		if( !ss.empty() ){
+		this->showBDFrame( listType ) ;
 
-			this->showBDFrame() ;
+		m_tableWidgetBDList.add( { "","","","\n" + m_downloadingComments + "\n" } ) ;
+	}else{
+		if( row != -1 ){
 
-			for( const auto& m : ss ){
+			this->showBDFrame( listType ) ;
 
-				m_tableWidgetBDList.add( m ) ;
+			args = engine.defaultListCmdOptions() ;
+
+			const auto& mp = m_table.mediaProperties( row ) ;
+
+			if( !mp.isEmpty() ){
+
+				const auto ss = engine.mediaProperties( mp ) ;
+
+				if( !ss.empty() ){
+
+					for( const auto& m : ss ){
+
+						m_tableWidgetBDList.add( m ) ;
+					}
+
+					return ;
+				}
 			}
-
-			return ;
 		}
-	}
-
-	auto args = engine.defaultListCmdOptions() ;
-
-	if( args.isEmpty() ){
-
-		return ;
 	}
 
 	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
@@ -775,42 +1477,97 @@ void batchdownloader::showList()
 		args.append( cookiePath ) ;
 	}
 
-	this->showBDFrame() ;
-
-	args.append( m_table.url( row ) ) ;
+	args.append( url ) ;
 
 	m_ctx.TabManager().disableAll() ;
 
-	auto functions = utility::OptionsFunctions( [ this,&engine ]( const QByteArray& a ){
+	auto functions = utility::OptionsFunctions( [ this,&engine,listType ]( const utility::ProcessExitState& s,const QByteArray& a ){
 
-			if( !a.isEmpty() ){
+			if( listType != batchdownloader::listType::MEDIA_OPTIONS ){
 
-				for( const auto& m : engine.mediaProperties( a ) ){
+				if( listType == batchdownloader::listType::SUBTITLES ){
 
-					m_tableWidgetBDList.add( m ) ;
+					m_subtitlesTimer.stop() ;
+				}
+
+				m_tableWidgetBDList.removeRow( 0 ) ;
+			}
+
+			if( s.success() && !a.isEmpty() ){
+
+				if( listType == batchdownloader::listType::SUBTITLES ){
+
+					this->showSubtitles( a ) ;
+
+				}else if( listType == batchdownloader::listType::COMMENTS ){
+
+					this->showComments( a ) ;
+				}else{
+					for( const auto& m : engine.mediaProperties( a ) ){
+
+						m_tableWidgetBDList.add( m ) ;
+					}
 				}
 			}
 
-		},[ this ]( const batchdownloader::opts& opts ){
+		},[ this ]( const auto& opts ){
 
 			opts.ctx.TabManager().disableAll() ;
 
 			m_ui.pbCancelBatchDownloder->setEnabled( true ) ;
 
-		},[]( utility::ProcessExitState,const batchdownloader::opts& opts ){
+		},[]( utility::ProcessExitState,const auto& opts ){
 
 			opts.ctx.TabManager().enableAll() ;
 		}
 	) ;
 
-	batchdownloader::opts opts{ m_ctx,m_debug,true,-1,BatchLoggerWrapper( m_ctx.logger() ) } ;
+	auto logger = batchdownloader::make_logger( m_ctx.logger(),[ this,listType ]( const QByteArray& data ){
 
-	auto oopts  = batchdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
-	auto logger = LoggerWrapper( m_ctx.logger(),utility::concurrentID() ) ;
+		if( listType == batchdownloader::listType::SUBTITLES ){
+
+			return true ;
+
+		}else if( listType == batchdownloader::listType::COMMENTS ){
+
+			if( data.contains( "WARNING" ) || data.contains( "ERROR" ) ){
+
+				return true ;
+			}
+			if( data.contains( "Downloading comment API JSON reply " ) ){
+
+				auto m = data.indexOf( '(' ) ;
+
+				if( m != -1 ){
+
+					m++ ;
+
+					auto w = data.mid( m ) ;
+					w.truncate( w.size() - 2 ) ;
+
+					w = "\n" + m_downloadingComments + ": " + w + "\n" ;
+
+					m_tableWidgetBDList.replace( { "","","",w },0 ) ;
+				}else{
+					auto m = data.indexOf( "Downloading" ) ;
+
+					auto w = "\n" + data.mid( m ).trimmed() + "\n" ;
+
+					m_tableWidgetBDList.replace( { "","","",w },0 ) ;
+				}
+			}
+
+			return false ;
+		}else{
+			return true ;
+		}
+	} ) ;
+
+	auto oopts  = batchdownloader::make_options( m_ctx,m_debug,true,-1,logger,std::move( functions ) ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ;
 	auto ch     = QProcess::ProcessChannel::StandardOutput ;
 
-	auto ctx    = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ),ch ) ;
+	auto ctx    = utility::make_ctx( engine,std::move( oopts ),logger,std::move( term ),ch ) ;
 
 	utility::run( args,QString(),std::move( ctx ) ) ;
 }
@@ -824,13 +1581,14 @@ static int _addItemUi( const QPixmap& pixmap,
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
 	int row ;
+
 	if( index == -1 ){
 
-		row = table.addItem( { pixmap,media.uiText(),media.url(),state,media.formats() } ) ;
+		row = table.addItem( { pixmap,state,media } ) ;
 		table.selectLast() ;
 	}else{
 		row = index ;
-		table.replace( { pixmap,media.uiText(),media.url(),state,media.formats() },index ) ;
+		table.replace( { pixmap,state,media },index ) ;
 	}
 
 	ui.lineEditBDUrl->clear() ;
@@ -952,14 +1710,10 @@ void batchdownloader::download( const engines::engine& engine )
 
 		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
-			auto u = m_table.downloadingOptions( s ) ;
+			auto m = m_ui.lineEditBDUrlOptions->text() ;
+			auto u = utility::setDownloadOptions( engine,m_table,s,m ) ;
 
-			if( u.isEmpty() ){
-
-				indexes.add( s,m_ui.lineEditBDUrlOptions->text() ) ;
-			}else{
-				indexes.add( s,u ) ;
-			}
+			indexes.add( s,u ) ;
 		}
 	}
 
@@ -970,7 +1724,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 {
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
-	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const batchdownloader::opts& ){
+	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const auto& ){
 
 		auto aa = [ this ]( const engines::engine& engine,int index ){
 
@@ -988,21 +1742,24 @@ void batchdownloader::download( const engines::engine& eng,int index )
 				m_ui.pbBDCancel->setEnabled( false ) ;
 			}
 
-			m_ctx.mainWindow().setTitle( m_table.completeProgress( index ) ) ;
+			m_ctx.mainWindow().setTitle( m_table.completeProgress( 0,index ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
 	} ;
 
-	auto functions = utility::OptionsFunctions( []( const batchdownloader::opts& ){},std::move( aa ) ) ;
+	auto functions = utility::OptionsFunctions( []( const auto& ){},std::move( aa ) ) ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
 	m_settings.addOptionsHistory( m,settings::tabName::batch ) ;
 
-	batchdownloader::opts opts{ m_ctx,m_debug,false,index,BatchLoggerWrapper( m_ctx.logger() ) } ;
+	auto loog = batchdownloader::make_logger( m_ctx.logger(),[]( const QByteArray& ){
 
-	auto oopts = batchdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
+		return true ;
+	} ) ;
+
+	auto oopts = batchdownloader::make_options( m_ctx,m_debug,false,index,loog,std::move( functions ) ) ;
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 
@@ -1031,6 +1788,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 void batchdownloader::enableAll()
 {
 	m_table.setEnabled( true ) ;
+	m_ui.cbBDMonitorClipboardContent->setEnabled( true ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( true ) ;
 	m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 	m_ui.pbBDAdd->setEnabled( true ) ;
@@ -1051,6 +1809,7 @@ void batchdownloader::enableAll()
 void batchdownloader::disableAll()
 {
 	m_table.setEnabled( false ) ;
+	m_ui.cbBDMonitorClipboardContent->setEnabled( false ) ;
 	m_ui.pbBDOptionsHistory->setEnabled( false ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineTypeBD->setEnabled( false ) ;
@@ -1066,4 +1825,34 @@ void batchdownloader::disableAll()
 	m_ui.pbBatchDownloaderSet->setEnabled( false ) ;
 	m_ui.pbCancelBatchDownloder->setEnabled( false ) ;
 	m_ui.TableWidgetBatchDownloaderList->setEnabled( false ) ;
+}
+
+batchdownloader::subtitlesTimer::subtitlesTimer( tableMiniWidget< QJsonObject> & table ) :
+	m_banner( tr( "Downloading subtitles" ).toUtf8() + "\n",8 ),
+	m_table( table )
+{
+	connect( &m_timer,&QTimer::timeout,[ this ](){
+
+		auto m = util::split( m_banner.text(),'\n' ) ;
+
+		if( m.size() == 2 ){
+
+			auto s = m[ 1 ] + "\n" + m[ 0 ] ;
+
+			m_table.item( 0,3 ).setText( s + "\n" ) ;
+		}else{
+			m_table.item( 0,3 ).setText( "\n" + m_banner.text() ) ;
+		}
+	} ) ;
+}
+
+void batchdownloader::subtitlesTimer::start()
+{
+	m_banner.reset() ;
+	m_timer.start( 1000 ) ;
+}
+
+void batchdownloader::subtitlesTimer::stop()
+{
+	m_timer.stop() ;
 }

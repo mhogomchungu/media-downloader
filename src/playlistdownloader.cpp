@@ -265,6 +265,21 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			}
 		} ) ;
 
+		const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
+
+		ac = m.addAction( tr( "Show Comments" ) ) ;
+		ac->setEnabled( engine.supportShowingComments() ) ;
+
+		connect( ac,&QAction::triggered,[ this,&engine ](){
+
+			auto row = m_table.currentRow() ;
+
+			if( row != -1 ){
+
+				m_ctx.TabManager().batchDownloader().showComments( engine,m_table.url( row ) ) ;
+			}
+		} ) ;
+
 		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
 
 			auto m = m_table.uiText( row ) ;
@@ -295,9 +310,9 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			} ) ;
 		} ) ;
 
-		utility::saveDownloadList( m_ctx,m,m_table ) ;
+		utility::saveDownloadList( m_ctx,m,m_table,true ) ;
 
-		auto mm = m.addMenu( tableWidget::engineName().replace( ":","" ) ) ;
+		auto mm = m.addMenu( utility::stringConstants::engineName().replace( ":","" ) ) ;
 
 		mm->setEnabled( !finishSuccess ) ;
 
@@ -504,7 +519,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbPLQuit,&QPushButton::clicked,[ this ](){
 
-		m_tabManager.basicDownloader().appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 }
 
@@ -607,6 +622,11 @@ void playlistdownloader::tabExited()
 {
 }
 
+void playlistdownloader::exiting()
+{
+	utility::saveDownloadList( m_ctx,m_table,false ) ;
+}
+
 void playlistdownloader::gotEvent( const QByteArray& )
 {
 }
@@ -637,6 +657,10 @@ void playlistdownloader::updateEnginesList( const QStringList& e )
 	utility::setUpdefaultEngine( comboBox,
 				     this->defaultEngineName(),
 				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
+}
+
+void playlistdownloader::clipboardData( const QString& )
+{
 }
 
 QString playlistdownloader::defaultEngineName()
@@ -735,11 +759,9 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			if( m_table.noneAreRunning() ){
 
 				m_ctx.TabManager().enableAll() ;
-
-				m_showTimer = false ;
 			}
 
-			m_ctx.mainWindow().setTitle( m_table.completeProgress( index ) ) ;
+			m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,index ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
@@ -876,7 +898,6 @@ void playlistdownloader::getList( customOptions&& c,
 
 						this->download() ;
 					}else{
-						m_showTimer = false ;
 						m_ctx.TabManager().enableAll() ;
 						m_gettingPlaylist = false ;
 						m_ui.pbPLCancel->setEnabled( false ) ;
@@ -889,7 +910,6 @@ void playlistdownloader::getList( customOptions&& c,
 
 					this->getList( iter.next() ) ;
 				}else{
-					m_showTimer = false ;
 					m_ctx.TabManager().enableAll() ;
 					m_gettingPlaylist = false ;
 					m_ui.pbPLCancel->setEnabled( false ) ;
@@ -902,11 +922,6 @@ void playlistdownloader::getList( customOptions&& c,
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
 				m_ui.pbPLCancel->setEnabled( false ) ;
-
-				if( !m_dataReceived ){
-
-					m_showTimer = false ;
-				}
 			}
 		}
 	) ;
@@ -939,8 +954,24 @@ void playlistdownloader::getList( customOptions&& c,
 			if( s != -1 ){
 
 				m = m.mid( 0,s ).mid( 4 ) ;
+
 				m_banner.updateProgress( tr( "Number of Pages Downloaded" ) + ": " + m ) ;
 			}
+
+			return false ;
+
+		}else if( e.startsWith( "[download] Downloading video " ) ){
+
+			auto m = tr( "Downloading video info" ) + " " + e.mid( 29 ) ;
+
+			auto s = m.indexOf( '\n' ) ;
+
+			if( s != -1 ){
+
+				m = m.mid( 0,s ) ;
+			}
+
+			m_banner.updateProgress( m ) ;
 
 			return false ;
 		}
@@ -960,28 +991,17 @@ void playlistdownloader::getList( customOptions&& c,
 		logger.clear() ;
 		m_banner.clear() ;
 
-		auto d = engines::engine::functions::timer::stringElapsedTime( 0 ) ;
-
 		QIcon icon( ":/media-downloader" ) ;
 
 		auto w = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
 		auto h = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
 
-		m_table.addItem( { icon.pixmap( w,h ),d + "\n" + m_banner.txt(),"","" } ) ;
+		tableWidget::entry entry ;
 
-		m_showTimer = true ;
+		entry.uiText    = m_banner.txt() ;
+		entry.thumbnail = icon.pixmap( w,h ) ;
 
-		util::Timer( 1000,[ this ]( int counter ){
-
-			if( m_showTimer ){
-
-				m_banner.updateCounter( counter ) ;
-
-				return false ;
-			}else{
-				return true ;
-			}
-		} ) ;
+		m_table.addItem( std::move( entry ) ) ;
 	}
 
 	m_table.selectLast() ;
@@ -1054,7 +1074,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 	m_meaw = true ;
 
-	utility::MediaEntry media( "",mmm.mid( oo,index + 1 ) ) ;
+	utility::MediaEntry media( mmm.mid( oo,index + 1 ) ) ;
 
 	if( !media.valid() ){
 
@@ -1063,23 +1083,6 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 		data.clear() ;
 		data.add( mmm.mid( index + 1 ) ) ;
 	}	
-
-	auto _show = [ this,&table ]( const tableWidget::entry& e )
-	{
-		auto row = table.addItem( e ) ;
-
-		m_ctx.TabManager().Configure().setDownloadOptions( row,table ) ;
-
-		if( !m_ui.pbPLCancel->isEnabled() ){
-
-			if( m_autoDownload ){
-
-				this->download() ;
-			}else{
-				m_showTimer = false ;
-			}
-		}
-	} ;
 
 	if( copts.contains( media.id() ) ){
 
@@ -1093,9 +1096,13 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
 
-			auto a = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
+			const auto& img = m_defaultVideoThumbnailIcon ;
 
-			_show( { m_defaultVideoThumbnailIcon,a,media.url(),s } ) ;
+			tableWidget::entry entry{ img,s,media } ;
+
+			entry.uiText = QObject::tr( "Media Already In Archive" ) + "\n" + media.uiText() ;
+
+			this->showEntry( table,std::move( entry ) ) ;
 
 			table.selectLast() ;
 
@@ -1132,7 +1139,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
 		network.getResource( thumbnailUrl,
-				     [ this,&table,s,_show = std::move( _show ),
+				     [ this,&table,s,
 				     media = std::move( media ) ]( const QByteArray& data ){
 
 			QPixmap pixmap ;
@@ -1142,9 +1149,13 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 				auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
 				auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
 
-				_show( { pixmap.scaled( width,height ),media.uiText(),media.url(),s } ) ;
+				auto img = pixmap.scaled( width,height ) ;
+
+				this->showEntry( table,{ img,s,media } ) ;
 			}else{
-				_show( { m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s } ) ;
+				const auto& img = m_defaultVideoThumbnailIcon ;
+
+				this->showEntry( table,{ img,s,media } ) ;
 			}
 
 			table.selectLast() ;
@@ -1152,12 +1163,29 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 			m_networkRunning-- ;
 		} ) ;
 	}else{
-		_show( { m_defaultVideoThumbnailIcon,media.uiText(),media.url(),s } ) ;
+		const auto& img = m_defaultVideoThumbnailIcon ;
+
+		this->showEntry( table,{ img,s,media } ) ;
 
 		table.selectLast() ;
 	}
 
 	return Loop::Continue ;
+}
+
+void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
+{
+	auto row = table.addItem( std::move( e ) ) ;
+
+	m_ctx.TabManager().Configure().setDownloadOptions( row,table ) ;
+
+	if( !m_ui.pbPLCancel->isEnabled() ){
+
+		if( m_autoDownload ){
+
+			this->download() ;
+		}
+	}
 }
 
 playlistdownloader::subscription::subscription( const Context& e,
@@ -1288,6 +1316,12 @@ void playlistdownloader::subscription::save()
 	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
 
 	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+}
+
+void playlistdownloader::banner::updateProgress( const QString& progress )
+{
+	m_progress = progress ;
+	m_table.setUiText( m_txt + "\n" + m_progress,0 ) ;
 }
 
 void playlistdownloader::banner::updateCounter( int counter )

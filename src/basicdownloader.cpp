@@ -25,6 +25,7 @@
 #include <QFileDialog>
 
 #include "tabmanager.h"
+#include "mainwindow.h"
 
 basicdownloader::basicdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -93,7 +94,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbQuit,&QPushButton::clicked,[ this ](){
 
-		this->appQuit() ;
+		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;
@@ -218,6 +219,10 @@ void basicdownloader::updateEnginesList( const QStringList& e )
 				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
 }
 
+void basicdownloader::clipboardData( const QString& )
+{
+}
+
 void basicdownloader::retranslateUi()
 {
 	this->resetMenu() ;
@@ -284,7 +289,13 @@ void basicdownloader::download( const QString& url )
 	auto uiText = m.at( 0 ) ;
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
-	m_bogusTable.addItem( { uiText,uiText,state } ) ;
+	tableWidget::entry entry ;
+
+	entry.uiText = uiText ;
+	entry.url    = uiText ;
+	entry.runningState = state ;
+
+	m_bogusTable.addItem( std::move( entry ) ) ;
 
 	auto s = m_ui.lineEditOptions->text() ;
 
@@ -331,7 +342,7 @@ void basicdownloader::run( const engines::engine& engine,
 			   const QString& quality,
 			   bool list_requested )
 {
-	auto functions = utility::OptionsFunctions( [ this ]( const QByteArray& args ){
+	auto functions = utility::OptionsFunctions( [ this ]( const utility::ProcessExitState&,const QByteArray& args ){
 
 			this->listRequested( args ) ;
 
@@ -425,11 +436,8 @@ void basicdownloader::disableAll()
 	m_ui.lineEditOptions->setEnabled( false ) ;
 }
 
-void basicdownloader::appQuit()
+void basicdownloader::exiting()
 {
-	m_settings.setTabNumber( m_ui.tabWidget->currentIndex() ) ;
-
-	QCoreApplication::quit() ;
 }
 
 void basicdownloader::gotEvent( const QByteArray& )

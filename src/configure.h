@@ -38,6 +38,7 @@ public:
 	void enableAll() ;
 	void disableAll() ;
 	void resetMenu() ;
+	void exiting() ;
 	void retranslateUi() ;
 	void downloadFromGitHub( const engines::Iterator& ) ;
 	void tabEntered() ;

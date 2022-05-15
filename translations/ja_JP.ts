@@ -51,6 +51,7 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="467"/>
         <location filename="../src/mainwindow.ui" line="611"/>
+        <location filename="../src/mainwindow.ui" line="1501"/>
         <location filename="../src/mainwindow.ui" line="1551"/>
         <location filename="../src/mainwindow.ui" line="1762"/>
         <source>Options</source>
@@ -461,6 +462,21 @@
         <translation>メールアドレス</translation>
     </message>
     <message>
+        <location filename="../src/about.cpp" line="52"/>
+        <source>Qt Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="58"/>
+        <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="59"/>
+        <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/translator.cpp" line="28"/>
         <source>Polish (Poland)</source>
         <translation>ポーランド語 (ポーランド)</translation>
@@ -499,6 +515,11 @@
         <location filename="../src/translator.cpp" line="35"/>
         <source>French (France)</source>
         <translation>フランス語 (フランス)</translation>
+    </message>
+    <message>
+        <location filename="../src/translator.cpp" line="36"/>
+        <source>Italian (Italy)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="127"/>
@@ -836,6 +857,21 @@
         <source>Set Download Folder</source>
         <translation>ダウンロードフォルダをセット</translation>
     </message>
+    <message>
+        <location filename="../src/configure.cpp" line="559"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="563"/>
+        <source>Best-audio</source>
+        <translation type="unfinished">最高音質</translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="567"/>
+        <source>Best-audiovideo</source>
+        <translation type="unfinished">最高画質・音質</translation>
+    </message>
 </context>
 <context>
     <name>library</name>
@@ -888,7 +924,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1255"/>
+        <location filename="../src/playlistdownloader.cpp" line="1251"/>
         <source>Get List Options:</source>
         <translation>リスト取得オプション:</translation>
     </message>
@@ -918,7 +954,7 @@
         <translation>ブックマークを管理</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="962"/>
+        <location filename="../src/playlistdownloader.cpp" line="958"/>
         <source>Number of Pages Downloaded</source>
         <translation>ダウンロードしたページ数</translation>
     </message>

@@ -80,7 +80,7 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 	return networkRequest ;
 }
 
-void networkAccess::download( const engines::Iterator& iter )
+void networkAccess::download( const engines::Iterator& iter,const QString& setDefaultEngine )
 {
 	const auto& engine = iter.engine() ;
 
@@ -148,7 +148,8 @@ void networkAccess::download( const engines::Iterator& iter )
 		this->post( engine,"..." ) ;
 	} ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter,exePath ](){
+	QObject::connect( networkReply,&QNetworkReply::finished,
+			  [ this,networkReply,&engine,iter,exePath,exeFolderPath,setDefaultEngine ](){
 
 		networkReply->deleteLater() ;
 
@@ -198,7 +199,7 @@ void networkAccess::download( const engines::Iterator& iter )
 
 			auto entry = value.toString() ;
 
-			if( entry == engine.commandName() ){
+			if( engine.foundNetworkUrl( entry ) ){
 
 				auto value = object.value( "browser_download_url" ) ;
 
@@ -208,71 +209,34 @@ void networkAccess::download( const engines::Iterator& iter )
 
 				metadata.size = value.toInt() ;
 
-			}else if( entry == "SHA2-256SUMS" ){
+				metadata.fileName = entry ;
 
-				auto value = object.value( "browser_download_url" ) ;
-
-				metadata.sha256 = value.toString() ;
+				break ;
 			}
 		}
 
-		this->download( metadata,iter,exePath ) ;
+		this->download( { metadata,iter,exePath,exeFolderPath,setDefaultEngine } ) ;
 	} ) ;
 }
 
-void networkAccess::download( const networkAccess::metadata& metadata,
-			      const engines::Iterator& iter,
-			      const QString& path )
+void networkAccess::download( networkAccess::Opts opts )
 {
-	const auto& engine = iter.engine() ;
-
-	QString filePath = path + ".tmp" ;
-
-	m_file.setFileName( filePath ) ;
+	m_file.setFileName( opts.filePath ) ;
 
 	m_file.remove() ;
 
 	m_file.open( QIODevice::WriteOnly ) ;
 
-	this->post( engine,QObject::tr( "Downloading" ) + ": " + metadata.url ) ;
+	this->post( opts.engine,QObject::tr( "Downloading" ) + ": " + opts.metadata.url ) ;
 
-	this->post( engine,QObject::tr( "Destination" ) + ": " + filePath ) ;
+	this->post( opts.engine,QObject::tr( "Destination" ) + ": " + opts.filePath ) ;
 
-	auto networkReply = m_accessManager.get( this->networkRequest( metadata.url ) ) ;
+	opts.networkReply = m_accessManager.get( this->networkRequest( opts.metadata.url ) ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::finished,[ this,networkReply,&engine,iter,path ](){
+	const auto& engine = opts.engine ;
 
-		networkReply->deleteLater() ;
-
-		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
-
-			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
-
-			m_tabManager.enableAll() ;
-
-			if( iter.hasNext() ){
-
-				m_ctx.versionInfo().check( iter.next() ) ;
-			}
-		}else{
-			m_file.close() ;
-
-			this->post( engine,QObject::tr( "Download complete" ) ) ;
-
-			this->post( engine,QObject::tr( "Renaming file to: " ) + path ) ;
-
-			QFile::remove( path ) ;
-
-			m_file.rename( path ) ;
-
-			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
-
-			m_ctx.versionInfo().check( iter ) ;
-		}
-	} ) ;
-
-	QObject::connect( networkReply,&QNetworkReply::downloadProgress,
-			  [ this,metadata,networkReply,&engine,locale = utility::locale() ]( qint64 received,qint64 total ){
+	QObject::connect( opts.networkReply,&QNetworkReply::downloadProgress,
+			  [ this,metadata = opts.metadata,networkReply = opts.networkReply,&engine,locale = utility::locale() ]( qint64 received,qint64 total ){
 
 		Q_UNUSED( total )
 
@@ -287,11 +251,91 @@ void networkAccess::download( const networkAccess::metadata& metadata,
 
 		this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m ) ;
 	} ) ;
+
+	QObject::connect( opts.networkReply,&QNetworkReply::finished,[ this,opts = std::move( opts ) ]()mutable{
+
+		this->finished( std::move( opts ) ) ;
+	} ) ;
+}
+
+void networkAccess::finished( networkAccess::Opts str )
+{
+	str.networkReply->deleteLater() ;
+
+	if( str.networkReply->error() != QNetworkReply::NetworkError::NoError ){
+
+		this->post( str.engine,QObject::tr( "Download Failed" ) + ": " + str.networkReply->errorString() ) ;
+
+		m_tabManager.enableAll() ;
+
+		if( str.iter.hasNext() ){
+
+			m_ctx.versionInfo().check( str.iter.next() ) ;
+		}
+	}else{
+		m_file.close() ;
+
+		this->post( str.engine,QObject::tr( "Download complete" ) ) ;
+
+		if( str.metadata.fileName.endsWith( ".zip" ) || str.metadata.fileName.endsWith( ".tar.gz" ) ){
+
+			this->post( str.engine,QObject::tr( "Extracting archive: " ) + str.filePath ) ;
+
+			QFile::remove( str.exeBinPath ) ;
+
+			QString exe ;
+			QStringList args ;
+
+			if( utility::platformIsWindows() ){
+
+				exe = m_ctx.Engines().findExecutable( "7z.exe" ) ;
+				args = QStringList{ "x",str.filePath,"-o" + str.exeFolderPath } ;
+			}else{
+				exe = m_ctx.Engines().findExecutable( "tar" ) ;
+				args = QStringList{ "-x","-f",str.filePath,"-C",str.exeFolderPath } ;
+			}
+
+			util::run( exe,args,[ this,str = std::move( str ) ]( const util::run_result& s ){
+
+				QFile::remove( str.filePath ) ;
+
+				if( s.success() ){
+
+					QFile f( str.exeBinPath ) ;
+
+					f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+
+					utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
+
+					m_ctx.versionInfo().check( str.iter ) ;
+				}else{
+					this->post( str.engine,s.stdError ) ;
+
+					if( str.iter.hasNext() ){
+
+						m_ctx.versionInfo().check( str.iter.next() ) ;
+					}
+				}
+			} ) ;
+		}else{
+			this->post( str.engine,QObject::tr( "Renaming file to: " ) + str.exeBinPath ) ;
+
+			QFile::remove( str.exeBinPath ) ;
+
+			m_file.rename( str.exeBinPath ) ;
+
+			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
+
+			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
+
+			m_ctx.versionInfo().check( str.iter ) ;
+		}
+	}
 }
 
 void networkAccess::post( const engines::engine& engine,const QString& m )
 {
-	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool ){
+	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool,bool ){
 
 		auto e = m.toUtf8() ;
 

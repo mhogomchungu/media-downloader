@@ -18,46 +18,40 @@
  */
 
 #include <QByteArray>
-#include <QJsonArray>
 
 #include "../engines.h"
 
-class yt_dlp : public engines::engine::functions
+class lux : public engines::engine::functions
 {
 public:
-	~yt_dlp() override ;
+	~lux() override ;
+	lux( const engines&,const engines::engine&,QJsonObject& ) ;
 
-	class youtube_dlFilter : public engines::engine::functions::filter
+	class lux_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		youtube_dlFilter( const QString&,const engines::engine& ) ;
+		lux_dlFilter( const QString&,const engines::engine& ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
-		~youtube_dlFilter() override ;
+		~lux_dlFilter() override ;
 	private:
-		const QByteArray& youtubedlOutput( const Logger::Data& ) ;
-		const QByteArray& ytdlpOutput( const Logger::Data& ) ;
-		bool m_likeYtdlp ;
-		engines::engine::functions::preProcessing m_preProcessing ;
-		engines::engine::functions::postProcessing m_postProcessing ;
 		QByteArray m_tmp ;
-		QByteArray m_fileName ;
+		QByteArray m_title = "Title: Unknown" ;
+		engines::engine::functions::preProcessing m_progress ;
 	} ;
+
+	engines::engine::functions::DataFilter Filter( const QString& ) override ;
 
 	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
 
 	std::vector< QStringList > mediaProperties( const QJsonArray& ) override ;
 
-	QStringList dumpJsonArguments() override ;
-
-	bool breakShowListIfContains( const QStringList& ) override ;
-
-	bool supportsShowingComments() override ;
-
-	engines::engine::functions::DataFilter Filter( const QString& ) override ;
+	bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
+
+	bool foundNetworkUrl( const QString& s ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
@@ -65,18 +59,6 @@ public:
 					     const engines::engine::functions::finishedState& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
-
-	static QJsonObject init( const QString& name,
-				 const QString& configFileName,
-				 Logger& logger,
-				 const engines::enginePaths& enginePath ) ;
-
-	yt_dlp( const engines&,
-		const engines::engine&,
-		QJsonObject&,
-		Logger& logger,
-		const engines::enginePaths& ) ;
 private:
 	const engines::engine& m_engine ;
-	QJsonArray m_objs ;
 };

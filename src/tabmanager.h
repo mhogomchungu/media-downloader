@@ -40,13 +40,15 @@ public:
 		    MainWindow& mw,
 		    utility::versionInfo& u,
 		    QString debug ) ;
-	void init_done( Ui::MainWindow& ui,settings& settings ) ;
+	void init_done() ;
 	void setDefaultEngines() ;
+	int currentTab() ;
 	tabManager& gotEvent( const QByteArray& e ) ;
-	tabManager& enableAll();
-	tabManager& disableAll();
-	tabManager& resetMenu();
-	tabManager& reTranslateUi();
+	tabManager& enableAll() ;
+	tabManager& disableAll() ;
+	tabManager& resetMenu() ;
+	tabManager& reTranslateUi() ;
+	tabManager& exiting() ;
 	basicdownloader& basicDownloader()
 	{
 		return m_basicdownloader ;

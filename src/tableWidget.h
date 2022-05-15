@@ -53,6 +53,10 @@ public:
 	{
 		this->item( row ).engineName = s ;
 	}
+	void setSubTitle( const QString& s,int row )
+	{
+		this->item( row ).subtitle = s ;
+	}
 	void setUiText( const QString& s,int row )
 	{
 		this->item( row ).uiText = s ;
@@ -82,13 +86,17 @@ public:
 	{
 		return this->item( row ).engineName ;
 	}
-	const QJsonArray& formats( int row ) const
+	const QString& subTitle( int row ) const
 	{
-		return this->item( row ).formats ;
+		return this->item( row ).subtitle ;
+	}
+	const QJsonArray& mediaProperties( int row ) const
+	{
+		return this->item( row ).mediaProperties ;
 	}
 	const QPixmap& thumbnail( int row ) const
 	{
-		return this->item( row ).thumbnail.image ;
+		return this->item( row ).thumbnail ;
 	}
 	const QString& runningState( int row ) const
 	{
@@ -107,25 +115,18 @@ public:
 		}
 	}
 	struct entry{
-		entry( const QString& uiText,
-		       const QString& url,
-		       const QString& runningState,
-		       const QJsonArray& arr = QJsonArray() ) :
-			url( url ),
-			uiText( uiText ),
-			runningState( runningState ),
-			formats( arr )
+		entry()
 		{
 		}
+		template< typename MediaProperties >
 		entry( const QPixmap& thumbnail,
-		       const QString& uiText,
-		       const QString& url,
-		       const QString& runningState,
-		       const QJsonArray& arr = QJsonArray() ) :
-			url( url ),
-			uiText( uiText ),
-			runningState( runningState ),
-			formats( arr ),
+		       const QString& rState,
+		       const MediaProperties& media ) :
+			url( media.url() ),
+			uiText( media.uiText() ),
+			runningState( rState ),
+			mediaProperties( media.formats() ),
+			uiJson( media.uiJson() ),
 			thumbnail( thumbnail )
 		{
 		}
@@ -135,17 +136,11 @@ public:
 		QString downloadingOptions ;
 		QString downloadingOptionsUi ;
 		QString engineName ;
-		QJsonArray formats ;
-		struct tnail{
-			tnail( const QPixmap& p ) : isSet( true ),image( p )
-			{
-			}
-			tnail()
-			{
-			}
-			bool isSet = false ;
-			QPixmap image ;
-		} thumbnail ;
+		QString subtitle ;
+		QJsonArray mediaProperties ;
+		QJsonObject uiJson ;
+		QPixmap thumbnail ;
+
 		int alignment = Qt::AlignCenter ;
 	} ;
 	template< typename Function >
@@ -156,18 +151,20 @@ public:
 			function( it ) ;
 		}
 	}
-	enum class type{ DownloadOptions,EngineName } ;
+	const tableWidget::entry& entryAt( size_t s )
+	{
+		return m_items[ s ] ;
+	}
+	enum class type{ DownloadOptions,EngineName,subtitleOption } ;
 
 	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;
-	static QByteArray thumbnailData( const QPixmap& ) ;
-	static QString engineName() ;
+
 	void setDownloadingOptions( tableWidget::type,
 				    int row,
 				    const QString& options,
 				    const QString& title = QString() ) ;
-	QString thumbnailData( int row ) const ;
-	QString completeProgress( int index ) ;
+	QString completeProgress( int firstRow,int index ) ;
 	int addRow() ;
 	int addItem( tableWidget::entry ) ;
 	int rowCount() const ;
@@ -306,6 +303,18 @@ public:
 		}
 
 		return -1 ;
+	}
+	void replace( const QStringList& entries,int row,Stuff stuff = Stuff() )
+	{
+		if( entries.size() == m_table.columnCount() ){
+
+			m_stuff[ row ] = std::move( stuff ) ;
+
+			for( int col = 0 ; col < entries.size() ; col++ ){
+
+				m_table.item( row,col )->setText( entries[ col ] ) ;
+			}
+		}
 	}
 	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts )
 	{

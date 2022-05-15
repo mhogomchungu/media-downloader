@@ -59,6 +59,17 @@ public:
 				function( it.id(),it.text() ) ;
 			}
 		}
+		template< typename Function >
+		void reverseForEach( Function function ) const
+		{
+			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
+
+				if( function( it->id(),it->text() ) ){
+
+					break ;
+				}
+			}
+		}
 		const QByteArray& lastText() const
 		{
 			return m_lines[ m_lines.size() - 1 ].text() ;
@@ -141,6 +152,7 @@ public:
 
 			_replaceOrAdd( text,id,_false,_false ) ;
 		}
+		void luxHack( int id,const QByteArray& data ) ;
 	private:
 		bool postProcessText( const QByteArray& data ) ;
 
@@ -243,7 +255,7 @@ public:
 	template< typename Function >
 	void add( const Function& function,int id )
 	{
-		function( m_lines,id,true ) ;
+		function( m_lines,id,true,true ) ;
 
 		this->update() ;
 	}
@@ -394,7 +406,7 @@ public:
 	void add( const G& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,-1,false ) ;
+		function( m_lines,-1,false,false ) ;
 		this->update() ;
 	}
 	void logError( const QByteArray& data )
@@ -461,7 +473,7 @@ public:
 	void add( const Function& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,-1,false ) ;
+		function( m_lines,-1,false,false ) ;
 		m_addToTable( m_table,m_lines ) ;
 	}
 	void logError( const QByteArray& data )

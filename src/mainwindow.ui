@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>823</width>
-    <height>491</height>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>10</y>
       <width>801</width>
-      <height>471</height>
+      <height>511</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -44,7 +44,7 @@
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>400</y>
+        <y>440</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -57,7 +57,7 @@
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>400</y>
+        <y>440</y>
         <width>201</width>
         <height>33</height>
        </rect>
@@ -70,7 +70,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>310</y>
+        <y>320</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -89,7 +89,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>340</y>
+        <y>360</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -108,7 +108,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>400</y>
+        <y>440</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -121,7 +121,7 @@
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>310</y>
+        <y>320</y>
         <width>501</width>
         <height>31</height>
        </rect>
@@ -131,7 +131,7 @@
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>340</y>
+        <y>360</y>
         <width>501</width>
         <height>31</height>
        </rect>
@@ -141,7 +141,7 @@
       <property name="geometry">
        <rect>
         <x>500</x>
-        <y>400</y>
+        <y>440</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -154,7 +154,7 @@
       <property name="geometry">
        <rect>
         <x>620</x>
-        <y>400</y>
+        <y>440</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -167,7 +167,7 @@
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>370</y>
+        <y>400</y>
         <width>501</width>
         <height>31</height>
        </rect>
@@ -222,7 +222,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>370</y>
+        <y>400</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -240,10 +240,10 @@
      <widget class="QPushButton" name="pbPasteClipboard">
       <property name="geometry">
        <rect>
-        <x>650</x>
-        <y>310</y>
+        <x>660</x>
+        <y>320</y>
         <width>31</width>
-        <height>33</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -256,10 +256,10 @@
      <widget class="QPushButton" name="pbOptionsHistory">
       <property name="geometry">
        <rect>
-        <x>650</x>
-        <y>340</y>
+        <x>660</x>
+        <y>360</y>
         <width>31</width>
-        <height>33</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -274,50 +274,11 @@
      <attribute name="title">
       <string>Batch Downloader</string>
      </attribute>
-     <widget class="QPushButton" name="pbBDCancel">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>400</y>
-        <width>121</width>
-        <height>33</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Cancel</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pbBDOptions">
-      <property name="geometry">
-       <rect>
-        <x>510</x>
-        <y>400</y>
-        <width>121</width>
-        <height>33</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Options</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pbBDDownload">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>400</y>
-        <width>121</width>
-        <height>33</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Download</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="labelBDEngineName">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>370</y>
+        <y>400</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -336,7 +297,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>340</y>
+        <y>360</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -384,7 +345,7 @@
       <property name="geometry">
        <rect>
         <x>170</x>
-        <y>310</y>
+        <y>320</y>
         <width>461</width>
         <height>31</height>
        </rect>
@@ -394,7 +355,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>310</y>
+        <y>320</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -409,53 +370,43 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pbBDQuit">
-      <property name="geometry">
-       <rect>
-        <x>630</x>
-        <y>400</y>
-        <width>121</width>
-        <height>33</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Quit</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pbBDPasteClipboard">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>310</y>
+        <x>640</x>
+        <y>320</y>
         <width>31</width>
-        <height>33</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="toolTip">
-       <string>Paste Clipboard Content</string>
+       <string>Paste Clipboard Url</string>
       </property>
       <property name="text">
        <string/>
       </property>
      </widget>
-     <widget class="QPushButton" name="pbBDAdd">
+     <widget class="QCheckBox" name="cbBDMonitorClipboardContent">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>400</y>
-        <width>221</width>
-        <height>33</height>
+        <x>680</x>
+        <y>320</y>
+        <width>101</width>
+        <height>31</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>Monitor Clipboard For Url</string>
+      </property>
       <property name="text">
-       <string>Add Url To List</string>
+       <string/>
       </property>
      </widget>
      <widget class="QComboBox" name="cbEngineTypeBD">
       <property name="geometry">
        <rect>
         <x>170</x>
-        <y>370</y>
+        <y>400</y>
         <width>461</width>
         <height>31</height>
        </rect>
@@ -468,7 +419,7 @@
       <property name="geometry">
        <rect>
         <x>170</x>
-        <y>340</y>
+        <y>360</y>
         <width>461</width>
         <height>31</height>
        </rect>
@@ -477,10 +428,10 @@
      <widget class="QPushButton" name="pbBDOptionsHistory">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>340</y>
+        <x>640</x>
+        <y>360</y>
         <width>31</width>
-        <height>33</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -490,13 +441,78 @@
        <string/>
       </property>
      </widget>
+     <widget class="QPushButton" name="pbBDDownload">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>440</y>
+        <width>121</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Download</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbBDOptions">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>440</y>
+        <width>121</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Options</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbBDCancel">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>440</y>
+        <width>121</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbBDAdd">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>440</y>
+        <width>221</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add Url To List</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbBDQuit">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>440</y>
+        <width>121</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Quit</string>
+      </property>
+     </widget>
      <widget class="QFrame" name="BDFrame">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>431</height>
+        <height>481</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -514,7 +530,7 @@
          <x>0</x>
          <y>0</y>
          <width>771</width>
-         <height>391</height>
+         <height>431</height>
         </rect>
        </property>
        <property name="editTriggers">
@@ -553,8 +569,8 @@
       <widget class="QPushButton" name="pbBatchDownloaderSet">
        <property name="geometry">
         <rect>
-         <x>390</x>
-         <y>393</y>
+         <x>370</x>
+         <y>440</y>
          <width>151</width>
          <height>33</height>
         </rect>
@@ -566,8 +582,8 @@
       <widget class="QPushButton" name="pbCancelBatchDownloder">
        <property name="geometry">
         <rect>
-         <x>240</x>
-         <y>393</y>
+         <x>220</x>
+         <y>440</y>
          <width>151</width>
          <height>33</height>
         </rect>
@@ -586,7 +602,7 @@
       <property name="geometry">
        <rect>
         <x>500</x>
-        <y>400</y>
+        <y>440</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -599,7 +615,7 @@
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>310</y>
+        <y>320</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -618,7 +634,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>400</y>
+        <y>440</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -631,7 +647,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>310</y>
+        <y>320</y>
         <width>441</width>
         <height>31</height>
        </rect>
@@ -641,7 +657,7 @@
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>340</y>
+        <y>360</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -660,7 +676,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>340</y>
+        <y>360</y>
         <width>441</width>
         <height>31</height>
        </rect>
@@ -670,7 +686,7 @@
       <property name="geometry">
        <rect>
         <x>620</x>
-        <y>400</y>
+        <y>440</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -714,7 +730,7 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>281</height>
+        <height>271</height>
        </rect>
       </property>
       <property name="showGrid">
@@ -735,7 +751,7 @@
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>400</y>
+        <y>440</y>
         <width>201</width>
         <height>33</height>
        </rect>
@@ -748,7 +764,7 @@
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>400</y>
+        <y>440</y>
         <width>121</width>
         <height>33</height>
        </rect>
@@ -761,7 +777,7 @@
       <property name="geometry">
        <rect>
         <x>180</x>
-        <y>370</y>
+        <y>400</y>
         <width>441</width>
         <height>31</height>
        </rect>
@@ -774,7 +790,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>370</y>
+        <y>400</y>
         <width>171</width>
         <height>31</height>
        </rect>
@@ -792,7 +808,7 @@
      <widget class="QPushButton" name="pbPLPasteClipboard">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>630</x>
         <y>280</y>
         <width>31</width>
         <height>33</height>
@@ -808,10 +824,10 @@
      <widget class="QPushButton" name="pbPLRangeHistory">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>310</y>
+        <x>630</x>
+        <y>320</y>
         <width>31</width>
-        <height>33</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -824,10 +840,10 @@
      <widget class="QPushButton" name="pbPLOptionsHistory">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>340</y>
+        <x>630</x>
+        <y>360</y>
         <width>31</width>
-        <height>33</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="toolTip">
@@ -840,7 +856,7 @@
      <widget class="QPushButton" name="pbPlSubscription">
       <property name="geometry">
        <rect>
-        <x>650</x>
+        <x>660</x>
         <y>280</y>
         <width>31</width>
         <height>33</height>
@@ -859,7 +875,7 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>441</height>
+        <height>271</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -910,7 +926,7 @@
          <x>0</x>
          <y>10</y>
          <width>771</width>
-         <height>301</height>
+         <height>261</height>
         </rect>
        </property>
        <property name="editTriggers">
@@ -1034,7 +1050,7 @@
         <x>10</x>
         <y>10</y>
         <width>771</width>
-        <height>391</height>
+        <height>421</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -1070,7 +1086,7 @@
       <property name="geometry">
        <rect>
         <x>630</x>
-        <y>400</y>
+        <y>440</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -1083,7 +1099,7 @@
       <property name="geometry">
        <rect>
         <x>170</x>
-        <y>400</y>
+        <y>440</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -1096,7 +1112,7 @@
       <property name="geometry">
        <rect>
         <x>520</x>
-        <y>400</y>
+        <y>440</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -1109,7 +1125,7 @@
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>400</y>
+        <y>440</y>
         <width>241</width>
         <height>33</height>
        </rect>
@@ -1122,7 +1138,7 @@
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>400</y>
+        <y>440</y>
         <width>111</width>
         <height>33</height>
        </rect>
@@ -1142,11 +1158,11 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>401</height>
+        <height>431</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1165,7 +1181,7 @@
        <widget class="QPushButton" name="pbConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>608</x>
+          <x>618</x>
           <y>88</y>
           <width>31</width>
           <height>31</height>
@@ -1320,8 +1336,8 @@
        <widget class="QLineEdit" name="lineEditConfigureMaximuConcurrentDownloads">
         <property name="geometry">
          <rect>
-          <x>188</x>
-          <y>310</y>
+          <x>190</x>
+          <y>350</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1330,10 +1346,10 @@
        <widget class="QLabel" name="labelMaximumConcurrentDownloads">
         <property name="geometry">
          <rect>
-          <x>8</x>
-          <y>310</y>
+          <x>10</x>
+          <y>340</y>
           <width>171</width>
-          <height>31</height>
+          <height>51</height>
          </rect>
         </property>
         <property name="text">
@@ -1388,6 +1404,45 @@
          <bool>true</bool>
         </property>
        </widget>
+       <widget class="QPushButton" name="pbOpenThemeFolder">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>210</y>
+          <width>31</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbShowTrayIcon">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>300</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show Tray Icon</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbAutoSaveNotDownloadedMedia">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>320</y>
+          <width>511</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Auto Save List Of Not Downloaded Media</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">
@@ -1396,8 +1451,8 @@
        <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
         <property name="geometry">
          <rect>
-          <x>210</x>
-          <y>330</y>
+          <x>214</x>
+          <y>360</y>
           <width>176</width>
           <height>31</height>
          </rect>
@@ -1443,7 +1498,7 @@
         </column>
         <column>
          <property name="text">
-          <string notr="true">Options</string>
+          <string>Options</string>
          </property>
         </column>
        </widget>
@@ -1451,7 +1506,7 @@
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>270</y>
+          <y>280</y>
           <width>531</width>
           <height>31</height>
          </rect>
@@ -1461,7 +1516,7 @@
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>300</y>
+          <y>320</y>
           <width>531</width>
           <height>31</height>
          </rect>
@@ -1471,7 +1526,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>270</y>
+          <y>280</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -1487,7 +1542,7 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>300</y>
+          <y>320</y>
           <width>121</width>
           <height>31</height>
          </rect>
@@ -1502,14 +1557,14 @@
        <widget class="QPushButton" name="pbConfigureAddToPresetList">
         <property name="geometry">
          <rect>
-          <x>386</x>
-          <y>330</y>
+          <x>390</x>
+          <y>360</y>
           <width>181</width>
           <height>31</height>
          </rect>
         </property>
         <property name="toolTip">
-         <string>Reset Option To Its Default</string>
+         <string/>
         </property>
         <property name="text">
          <string>Add</string>
@@ -1579,7 +1634,7 @@
         <property name="geometry">
          <rect>
           <x>230</x>
-          <y>330</y>
+          <y>360</y>
           <width>311</width>
           <height>33</height>
          </rect>
@@ -1617,7 +1672,7 @@
        <widget class="QPushButton" name="pbConfigureCookiePath">
         <property name="geometry">
          <rect>
-          <x>660</x>
+          <x>670</x>
           <y>90</y>
           <width>31</width>
           <height>31</height>
@@ -1633,7 +1688,7 @@
           <x>85</x>
           <y>210</y>
           <width>571</width>
-          <height>121</height>
+          <height>141</height>
          </rect>
         </property>
         <column>
@@ -1672,7 +1727,7 @@
           <x>80</x>
           <y>180</y>
           <width>581</width>
-          <height>191</height>
+          <height>221</height>
          </rect>
         </property>
         <property name="autoFillBackground">
@@ -1733,7 +1788,7 @@
         <widget class="QPushButton" name="pbConfigureManageUrl">
          <property name="geometry">
           <rect>
-           <x>306</x>
+           <x>310</x>
            <y>150</y>
            <width>151</width>
            <height>31</height>
@@ -1746,7 +1801,7 @@
         <widget class="QPushButton" name="pbConfigureManageUrlCancel">
          <property name="geometry">
           <rect>
-           <x>156</x>
+           <x>160</x>
            <y>150</y>
            <width>151</width>
            <height>31</height>
@@ -1763,7 +1818,7 @@
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>403</y>
+        <y>440</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -1776,7 +1831,7 @@
       <property name="geometry">
        <rect>
         <x>250</x>
-        <y>403</y>
+        <y>440</y>
         <width>151</width>
         <height>31</height>
        </rect>

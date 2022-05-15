@@ -396,6 +396,11 @@ template< typename BackGroundTask,
 	  util::types::has_non_void_return_type< BackGroundTask > = 0 >
 void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 {
+#if __cplusplus >= 201703L
+	using bgt_t = std::invoke_result_t< BackGroundTask > ;
+#else
+	using bgt_t = std::result_of_t< BackGroundTask() > ;
+#endif
 	class Thread : public QThread
 	{
 	public:
@@ -409,19 +414,26 @@ void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 		}
 		void run() override
 		{
-			m_storage = m_bgt() ;
+			m_pointer = new ( &m_storage ) bgt_t( m_bgt() ) ;
 		}
+	private:
 		void then()
 		{
-			m_fgt( std::move( m_storage.get() ) ) ;
+			m_fgt( std::move( *m_pointer ) ) ;
+
+			m_pointer->~bgt_t() ;
 
 			this->deleteLater() ;
 		}
-	private:
 		BackGroundTask m_bgt ;
 		UiThreadResult m_fgt ;
 
-		util::storage< util::types::result_of< BackGroundTask > > m_storage ;
+#if __cplusplus >= 201703L
+		alignas( bgt_t ) std::byte m_storage[ sizeof( bgt_t ) ] ;
+#else
+		typename std::aligned_storage< sizeof( bgt_t ),alignof( bgt_t ) >::type m_storage ;
+#endif
+		bgt_t * m_pointer ;
 	};
 
 	new Thread( std::move( bgt ),std::move( fgt ) ) ;
@@ -432,7 +444,7 @@ template< typename BackGroundTask,
 	  util::types::has_void_return_type< BackGroundTask > = 0 >
 void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 {
-	return util::runInBgThread( [ bgt = std::move( bgt ) ](){
+	util::runInBgThread( [ bgt = std::move( bgt ) ](){
 
 		bgt() ;
 
@@ -447,7 +459,7 @@ void runInBgThread( BackGroundTask bgt,UiThreadResult fgt )
 template< typename BackGroundTask >
 void runInBgThread( BackGroundTask bgt )
 {
-	return util::runInBgThread( [ bgt = std::move( bgt ) ](){
+	util::runInBgThread( [ bgt = std::move( bgt ) ](){
 
 		bgt() ;
 
@@ -530,6 +542,7 @@ void run( const QString& cmd,
 			 WhenStarted&& whenStarted,
 			 WhenDone&& whenDone,
 			 WithData&& withData ) :
+			m_withData( std::move( withData ) ),
 			m_data( whenCreated( m_exe ) )
 		{
 			QObject::connect( &m_exe,&QProcess::started,
@@ -538,18 +551,16 @@ void run( const QString& cmd,
 				whenStarted( m_exe,m_data ) ;
 			} ) ;
 
-			QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,
-					  [ this,withData = std::move( withData ) ](){
+			QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,[ this ](){
 
-				withData( QProcess::ProcessChannel::StandardOutput,
-					  m_exe.readAllStandardOutput(),m_data ) ;
+				m_withData( QProcess::ProcessChannel::StandardOutput,
+					    m_exe.readAllStandardOutput(),m_data ) ;
 			} ) ;
 
-			QObject::connect( &m_exe,&QProcess::readyReadStandardError,
-					  [ this,withData = std::move( withData ) ](){
+			QObject::connect( &m_exe,&QProcess::readyReadStandardError,[ this ](){
 
-				withData( QProcess::ProcessChannel::StandardError,
-					  m_exe.readAllStandardError(),m_data ) ;
+				m_withData( QProcess::ProcessChannel::StandardError,
+					    m_exe.readAllStandardError(),m_data ) ;
 			} ) ;
 
 			using cc = void( QProcess::* )( int,QProcess::ExitStatus ) ;
@@ -568,6 +579,7 @@ void run( const QString& cmd,
 		}
 	private:
 		QProcess m_exe ;
+		WithData m_withData ;
 		util::types::result_of< WhenCreated,QProcess& > m_data ;
 	};
 
@@ -768,19 +780,54 @@ private:
 	int m_patch = 0 ;
 };
 
+#if QT_VERSION < QT_VERSION_CHECK( 5,4,0 )
+	class exec : public QObject
+	{
+		Q_OBJECT
+	public:
+		exec( std::function< void() > function ) : m_function( std::move( function ) )
+		{
+			QTimer::singleShot( 0,this,SLOT( run() ) ) ;
+		}
+	private slots:
+		void run()
+		{
+			m_function() ;
+		}
+	private:
+		std::function< void() > m_function ;
+	} ;
+#else
+	class exec
+	{
+	public:
+		template< typename Function >
+		exec( Function function )
+		{
+			QTimer::singleShot( 0,[ function = std::move( function ) ]{
+
+				function() ;
+			} ) ;
+		}
+	private:
+	} ;
+#endif
+
 template< typename MainApp,typename MainAppArgs >
-class multipleInstance{
+class multipleInstance
+{
 public:
 	multipleInstance( QApplication& qapp,MainAppArgs args,const QByteArray& aa ) :
 		m_qApp( qapp ),
 		m_appArgs( std::move( args ) ),
-		m_argument( aa )
+		m_argument( aa ),
+		m_exec( [ this ](){ this->run() ; } )
 	{
-		QTimer::singleShot( 0,[ this ](){
-
-			m_mainApp = std::move( m_appArgs ) ;
-			m_mainApp->start( m_argument ) ;
-		} ) ;
+	}
+	void run()
+	{
+		m_mainApp = std::move( m_appArgs ) ;
+		m_mainApp->start( m_argument ) ;
 	}
 	int exec()
 	{
@@ -791,6 +838,7 @@ private:
 	MainAppArgs m_appArgs ;
 	QByteArray m_argument ;
 	util::storage< MainApp > m_mainApp ;
+	util::exec m_exec ;
 };
 
 template< typename OIR,typename PIC >
@@ -817,12 +865,9 @@ public:
 		m_serverPath( socketPath ),
 		m_argument( argument ),
 		m_args( std::move( args ) ),
-		m_iargs( std::move( iargs ) )
+		m_iargs( std::move( iargs ) ),
+		m_exec( [ this ](){ this->run() ; } )
 	{
-		QTimer::singleShot( 0,[ this ](){
-
-			this->run() ;
-		} ) ;
 	}
 	~oneinstance()
 	{
@@ -900,6 +945,7 @@ private:
 	util::storage< MainApp > m_mainApp ;
 	MainAppArgs m_args ;
 	InstanceArgs m_iargs ;
+	util::exec m_exec ;
 };
 
 }

@@ -26,6 +26,8 @@
 #include <QByteArray>
 #include <QComboBox>
 #include <QPixmap>
+#include <QDir>
+#include <QApplication>
 
 #include <vector>
 #include <memory>
@@ -41,125 +43,7 @@ class QApplication ;
 
 class settings
 {
-public:
-	class darkModes
-	{
-	public:
-		darkModes() = default;
-		darkModes( const QString& m ) : m_theme( m )
-		{
-		}
-		QStringList typesUntranslated() const
-		{
-			QStringList m ;
-
-			for( const auto& it : m_strings ){
-
-				m.append( it.untranslated ) ;
-			}
-
-			return m ;
-		}
-		QStringList typesTranslated() const
-		{
-			QStringList m ;
-
-			for( const auto& it : m_strings ){
-
-				m.append( it.translated ) ;
-			}
-
-			return m ;
-		}
-		const QString& translatedAt( int s ) const
-		{
-			return m_strings[ static_cast< size_t >( s ) ].translated ;
-		}
-		const QString& unTranslatedAt( int s ) const
-		{
-			return m_strings[ static_cast< size_t >( s ) ].untranslated ;
-		}
-		int translatedIndexAt( const QString& e ) const
-		{
-			for( size_t i = 0 ; i < m_strings.size() ; i++ ){
-
-				if( m_strings[ i ].translated == e ){
-
-					return static_cast< int >( i ) ;
-				}
-			}
-
-			return 0 ;
-		}
-		int unTranslatedIndexAt( const QString& e ) const
-		{
-			for( size_t i = 0 ; i < m_strings.size() ; i++ ){
-
-				if( m_strings[ i ].untranslated == e ){
-
-					return static_cast< int >( i ) ;
-				}
-			}
-
-			return 0 ;
-		}
-		bool fusionTheme() const
-		{
-			return m_theme == "Dark Theme 1" ;
-		}
-		bool darkModeIsSet() const
-		{
-			return this->unTranslatedAt( 0 ) != m_theme ;
-		}
-		QString themeFileName() const
-		{
-			if( m_theme == "Dark Theme 2" ){
-
-				return ":dark.qss" ;
-
-			}else if( m_theme == "Dark Theme 3" ){
-
-				return ":qdarkstyle/dark/style.qss" ;
-			}else{
-				return QString() ;
-			}
-		}
-		void setComboBox( QComboBox& cb,const QString& dm ) const
-		{
-			cb.clear() ;
-
-			cb.addItems( this->typesTranslated() ) ;
-
-			cb.setCurrentIndex( this->unTranslatedIndexAt( dm ) ) ;
-		}
-	private:
-		int indexAt( const QString& e,const QStringList& s ) const
-		{
-			for( int i = 0 ; i < s.size() ; i++ ){
-
-				if( s[ i ] == e ){
-
-					return i ;
-				}
-			}
-
-			return 0 ;
-		}
-
-		QString m_theme ;
-
-		struct Pair{
-			QString untranslated ;
-			QString translated ;
-		};
-
-		std::vector<Pair> m_strings{ { "Normal",QObject::tr( "Normal" ) },
-					     { "Dark Theme 1",QObject::tr( "Dark Theme 1" ) },
-					     { "Dark Theme 2",QObject::tr( "Dark Theme 2" ) },
-					     { "Dark Theme 3",QObject::tr( "Dark Theme 3" ) },
-					   } ;
-	} ;
-
+public:	
 	enum class tabName{ basic,batch,playlist } ;
 
 	settings() ;
@@ -175,7 +59,7 @@ public:
 	QString localizationLanguage() ;
 	QString commandOnSuccessfulDownload() ;
 	QString commandWhenAllFinished() ;
-	QString darkMode() ;
+	QString themeName() ;
 	QString defaultEngine( settings::tabName,const QString& ) ;
 	QString cookieFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
@@ -198,6 +82,7 @@ public:
 	static bool portableVersion() ;
 	static QString portableVersionConfigPath() ;
 
+	bool monitorClipboardUrl( settings::tabName ) ;
 	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
 	bool autoDownload() ;
@@ -208,6 +93,7 @@ public:
 	bool saveHistory() ;
 	bool playlistDownloaderSaveHistory() ;
 	bool singleInstance() ;
+	bool autoSavePlaylistOnExit() ;
 
 	int stringTruncationSize() ;
 	int historySize() ;
@@ -221,15 +107,18 @@ public:
 	void addToplaylistRangeHistory( const QString& ) ;
 	void clearPlaylistRangeHistory() ;
 	void clearPlaylistUrlHistory() ;
+	void setAutoSavePlaylistOnExit( bool ) ;
 	void addOptionsHistory( const QString&,settings::tabName ) ;
-	void setTheme( QApplication& ) ;
+	void setshowTrayIcon( bool ) ;
+	void setTheme( QApplication&,const QString& ) ;
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
+	void setMonitorClipboardUrl( bool,settings::tabName ) ;
 	void setShowThumbnails( bool ) ;
 	void setPlaylistDownloaderSaveHistory( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
-	void setDarkMode( const QString& ) ;
+	void setThemeName( const QString& ) ;
 	void setPlaylistRangeHistoryLastUsed( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;
