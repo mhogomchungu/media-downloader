@@ -870,12 +870,12 @@
     <message>
         <location filename="../src/configure.cpp" line="563"/>
         <source>Best-audio</source>
-        <translation type="unfinished">最高音質</translation>
+        <translation>最高音質</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="567"/>
         <source>Best-audiovideo</source>
-        <translation type="unfinished">最高画質・音質</translation>
+        <translation>最高画質・音質</translation>
     </message>
 </context>
 <context>
