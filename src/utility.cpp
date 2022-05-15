@@ -375,6 +375,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 		a.replace( "Best-audiovideo",QObject::tr( "Best-audiovideo" ) ) ;
 		a.replace( "Best-audio",QObject::tr( "Best-audio" ) ) ;
+		a.replace( "Default",QObject::tr( "Default" ) ) ;
 
 		if( combineText ){
 

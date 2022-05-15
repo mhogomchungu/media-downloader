@@ -1162,7 +1162,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1435,7 +1435,7 @@
          <rect>
           <x>190</x>
           <y>320</y>
-          <width>561</width>
+          <width>511</width>
           <height>31</height>
          </rect>
         </property>
@@ -1498,7 +1498,7 @@
         </column>
         <column>
          <property name="text">
-          <string notr="true">Options</string>
+          <string>Options</string>
          </property>
         </column>
        </widget>

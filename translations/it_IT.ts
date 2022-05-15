@@ -519,10 +519,6 @@
         <translation>Salva sottoitolo nel file</translation>
     </message>
     <message>
-        <source>&lt;REDACTED&gt;</source>
-        <translation>&lt;REDATTO&gt;</translation>
-    </message>
-    <message>
         <source>Extracting archive: </source>
         <translation>Estrazione archivio: </translation>
     </message>
@@ -537,6 +533,26 @@
     <message>
         <source>Subtitle Name</source>
         <translation>Nome sottotitolo</translation>
+    </message>
+    <message>
+        <source>Italian (Italy)</source>
+        <translation>Italiano (Italia)</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Predefinita</translation>
+    </message>
+    <message>
+        <source>Qt Version</source>
+        <translation>Versione Qt</translation>
+    </message>
+    <message>
+        <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -623,6 +639,18 @@
     <message>
         <source>Select An Engine File</source>
         <translation>Seleziona un file engine</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Predefinita</translation>
+    </message>
+    <message>
+        <source>Best-audio</source>
+        <translation>Migliori audio/video</translation>
+    </message>
+    <message>
+        <source>Best-audiovideo</source>
+        <translation>Migliori audio/video</translation>
     </message>
 </context>
 <context>

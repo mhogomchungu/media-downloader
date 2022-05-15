@@ -51,6 +51,7 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="467"/>
         <location filename="../src/mainwindow.ui" line="611"/>
+        <location filename="../src/mainwindow.ui" line="1501"/>
         <location filename="../src/mainwindow.ui" line="1551"/>
         <location filename="../src/mainwindow.ui" line="1762"/>
         <source>Options</source>
@@ -380,34 +381,39 @@
         <translation>Лучшее аудио</translation>
     </message>
     <message>
+        <location filename="../src/utility.cpp" line="378"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/batchdownloader.cpp" line="123"/>
-        <location filename="../src/utility.cpp" line="666"/>
-        <location filename="../src/utility.cpp" line="685"/>
+        <location filename="../src/utility.cpp" line="667"/>
+        <location filename="../src/utility.cpp" line="686"/>
         <source>Save List To File</source>
         <translation>Сохранить список в файл</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="750"/>
+        <location filename="../src/batchdownloader.cpp" line="756"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="760"/>
+        <location filename="../src/batchdownloader.cpp" line="766"/>
         <source>Date</source>
         <translation>Дата</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="778"/>
+        <location filename="../src/batchdownloader.cpp" line="784"/>
         <source>Replies to</source>
         <translation>Ответы на</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="785"/>
+        <location filename="../src/batchdownloader.cpp" line="791"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1002"/>
+        <location filename="../src/batchdownloader.cpp" line="1008"/>
         <source>Save Subtitle To File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -417,26 +423,26 @@
         <translation>Плагин:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1260"/>
+        <location filename="../src/batchdownloader.cpp" line="1266"/>
         <source>Get List From File</source>
         <translation>Получить список из файла</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="408"/>
+        <location filename="../src/batchdownloader.cpp" line="414"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
         <location filename="../src/utility.cpp" line="365"/>
         <source>Preset Options</source>
         <translation>Пресеты параметров</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="391"/>
+        <location filename="../src/utility.cpp" line="392"/>
         <location filename="../src/utility.h" line="464"/>
         <location filename="../src/utility.h" line="531"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="402"/>
+        <location filename="../src/utility.cpp" line="403"/>
         <source>Open Download Folder</source>
         <translation>Открыть папку загрузки</translation>
     </message>
@@ -459,6 +465,21 @@
         <location filename="../src/about.cpp" line="46"/>
         <source>Email</source>
         <translation>Электронная почта</translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="52"/>
+        <source>Qt Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="58"/>
+        <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/about.cpp" line="59"/>
+        <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -499,6 +520,11 @@
         <location filename="../src/translator.cpp" line="35"/>
         <source>French (France)</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/translator.cpp" line="36"/>
+        <source>Italian (Italy)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="127"/>
@@ -548,7 +574,7 @@
     <message>
         <location filename="../src/engines.cpp" line="525"/>
         <location filename="../src/engines.cpp" line="762"/>
-        <location filename="../src/utility.cpp" line="528"/>
+        <location filename="../src/utility.cpp" line="529"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Не удалось найти исполняемый файл &quot;%1&quot;</translation>
     </message>
@@ -582,20 +608,20 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="57"/>
-        <location filename="../src/utility.cpp" line="879"/>
+        <location filename="../src/utility.cpp" line="880"/>
         <source>Checking installed version of</source>
         <translation>Проверка установленной версии</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="62"/>
-        <location filename="../src/utility.cpp" line="858"/>
-        <location filename="../src/utility.cpp" line="905"/>
+        <location filename="../src/utility.cpp" line="859"/>
+        <location filename="../src/utility.cpp" line="906"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Не удалось найти информацию о версии, убедитесь, что &quot;%1&quot; установлен и работает правильно</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="65"/>
-        <location filename="../src/utility.cpp" line="901"/>
+        <location filename="../src/utility.cpp" line="902"/>
         <source>Found version</source>
         <translation>Найдена версия</translation>
     </message>
@@ -661,7 +687,7 @@
         <translation>Загрузка завершена</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="388"/>
+        <location filename="../src/settings.cpp" line="408"/>
         <source>Resetting download folder to default</source>
         <translation>Сброс папки загрузки на по умолчанию</translation>
     </message>
@@ -713,7 +739,7 @@
         <translation>Завершено: %1%, Не запущено: %2, Успешно: %3, Не удалось: %4, Отменено: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1107"/>
+        <location filename="../src/playlistdownloader.cpp" line="1103"/>
         <source>Media Already In Archive</source>
         <translation>Медиа уже в архиве</translation>
     </message>
@@ -731,12 +757,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1265"/>
+        <location filename="../src/batchdownloader.cpp" line="1271"/>
         <source>Set Batch File</source>
         <translation>Установить пакетный файл</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="265"/>
+        <location filename="../src/batchdownloader.cpp" line="271"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
@@ -746,54 +772,54 @@
         <translation>Загрузка комментариев</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="989"/>
+        <location filename="../src/batchdownloader.cpp" line="995"/>
         <source>Download</source>
         <translation>Начать загрузку</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1058"/>
+        <location filename="../src/batchdownloader.cpp" line="1064"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="279"/>
+        <location filename="../src/batchdownloader.cpp" line="285"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="288"/>
+        <location filename="../src/batchdownloader.cpp" line="294"/>
         <source>Copy Url</source>
         <translation>Копировать URL</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="300"/>
+        <location filename="../src/batchdownloader.cpp" line="306"/>
         <source>Remove</source>
         <translation>Убрать</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="313"/>
+        <location filename="../src/batchdownloader.cpp" line="319"/>
         <source>Show Subtitles</source>
         <translation>Показать субтитры</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="328"/>
+        <location filename="../src/batchdownloader.cpp" line="334"/>
         <source>Show Comments</source>
         <translation>Показать комментарии</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="341"/>
+        <location filename="../src/batchdownloader.cpp" line="347"/>
         <source>Show Media Options</source>
         <translation>Показать параметры медиа</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1050"/>
-        <location filename="../src/batchdownloader.cpp" line="1064"/>
+        <location filename="../src/batchdownloader.cpp" line="1056"/>
+        <location filename="../src/batchdownloader.cpp" line="1070"/>
         <source>Set</source>
         <translation>Установить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1413"/>
-        <location filename="../src/batchdownloader.cpp" line="1809"/>
+        <location filename="../src/batchdownloader.cpp" line="1433"/>
+        <location filename="../src/batchdownloader.cpp" line="1831"/>
         <source>Downloading subtitles</source>
         <translation>Загрузка субтитров</translation>
     </message>
@@ -835,6 +861,21 @@
         <location filename="../src/configure.cpp" line="324"/>
         <source>Set Download Folder</source>
         <translation>Установить папку загрузки</translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="559"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="563"/>
+        <source>Best-audio</source>
+        <translation type="unfinished">Лучшее аудио</translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="567"/>
+        <source>Best-audiovideo</source>
+        <translation type="unfinished">Лучшее аудио-видео</translation>
     </message>
 </context>
 <context>
@@ -888,7 +929,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="130"/>
-        <location filename="../src/playlistdownloader.cpp" line="1255"/>
+        <location filename="../src/playlistdownloader.cpp" line="1251"/>
         <source>Get List Options:</source>
         <translation>Параметры списка:</translation>
     </message>
@@ -918,12 +959,12 @@
         <translation>Управление подписками</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="962"/>
+        <location filename="../src/playlistdownloader.cpp" line="958"/>
         <source>Number of Pages Downloaded</source>
         <translation>Кол-во загруженных страниц</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="969"/>
+        <location filename="../src/playlistdownloader.cpp" line="965"/>
         <source>Downloading video info</source>
         <translation>Загрузка информации о видео</translation>
     </message>

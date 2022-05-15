@@ -554,7 +554,20 @@ void configure::showOptions()
 {
 	this->presetOptionsForEach( [ this ]( const QString& uiName,const QString& options ){
 
-		m_tablePresetOptions.add( { uiName,options } ) ;
+		if( uiName == "Default" ){
+
+			m_tablePresetOptions.add( { tr( "Default" ),options } ) ;
+
+		}else if( uiName == "Best-audio" ){
+
+			m_tablePresetOptions.add( { tr( "Best-audio" ),options } ) ;
+
+		}else if( uiName == "Best-audiovideo" ){
+
+			m_tablePresetOptions.add( { tr( "Best-audiovideo" ),options } ) ;
+		}else{
+			m_tablePresetOptions.add( { uiName,options } ) ;
+		}
 	} )  ;
 }
 
