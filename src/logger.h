@@ -110,7 +110,7 @@ public:
 		{
 			return !this->isEmpty() ;
 		}
-		void registerDone( int ) ;
+		bool registerDone( int ) ;
 		void add( int id,QByteArray d )
 		{
 			for( auto& it : m_processOutputs ){
@@ -499,9 +499,9 @@ public:
 
 		if( s.startsWith( "[media-downloader]" ) ){
 
-			m_lines.add( s ) ;
+			m_localLogger.add( s ) ;
 		}else{
-			m_lines.add( "[media-downloader] " + s ) ;
+			m_localLogger.add( "[media-downloader] " + s ) ;
 		}
 
 		this->update() ;
@@ -509,13 +509,13 @@ public:
 	void clear()
 	{
 		m_functionUpdate( "" ) ;
-		m_lines.clear() ;
+		m_localLogger.clear() ;
 	}
 	template< typename G >
 	void add( const G& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,m_id,false,false ) ;
+		function( m_localLogger,m_id,false,false ) ;
 		this->update() ;
 	}
 	void registerDone()
@@ -530,16 +530,16 @@ public:
 private:
 	void update()
 	{
-		if( m_lines.isNotEmpty() ){
+		if( m_localLogger.isNotEmpty() ){
 
-			m_functionUpdate( m_function( m_lines ) ) ;
+			m_functionUpdate( m_function( m_localLogger ) ) ;
 		}
 	}
 	F m_function ;
 	U m_functionUpdate ;
 	E m_error ;
 	Logger& m_logger ;
-	Logger::Data m_lines ;
+	Logger::Data m_localLogger ;
 	int m_id ;
 } ;
 
@@ -580,14 +580,14 @@ public:
 			m_table.removeRow( 0 ) ;
 		}
 
-		m_lines.clear() ;
+		m_localLogger.clear() ;
 	}
 	template< typename Function >
 	void add( const Function& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,m_id,false,false ) ;
-		m_addToTable( m_table,m_lines ) ;
+		function( m_localLogger,m_id,false,false ) ;
+		m_addToTable( m_table,m_localLogger ) ;
 	}
 	void registerDone()
 	{
@@ -603,7 +603,7 @@ public:
 private:
 	TableWidget& m_table ;
 	Logger& m_logger ;
-	Logger::Data m_lines ;
+	Logger::Data m_localLogger ;
 	int m_id ;
 	AddToTable m_addToTable ;
 	Error m_error ;

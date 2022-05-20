@@ -33,7 +33,10 @@ Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 
 void Logger::registerDone( int id )
 {
-	m_processOutPuts.registerDone( id ) ;
+	if( m_processOutPuts.registerDone( id ) ){
+
+		this->update() ;
+	}
 }
 
 void Logger::add( const QByteArray& s,int id )
@@ -104,17 +107,20 @@ void Logger::update()
 	m_logWindow.update( m ) ;
 }
 
-void Logger::Data::registerDone( int id )
+bool Logger::Data::registerDone( int id )
 {
 	for( auto& it : m_processOutputs ){
 
 		if( it.processId() == id ){
 
+			this->add( id,"[media-downloader] Done Processing And Shutting Down ..." ) ;
 			it.setProcessAsFinished() ;
 
-			break ;
+			return true ;
 		}
 	}
+
+	return false ;
 }
 
 QList< QByteArray > Logger::Data::toStringList() const
