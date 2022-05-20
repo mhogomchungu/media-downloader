@@ -337,14 +337,14 @@ int settings::tabNumber()
 	return m_settings.value( "TabNumber" ).toInt() ;
 }
 
-int settings::maxLoggerLines()
+int settings::maxLoggerProcesses()
 {
-	if( !m_settings.contains( "maxLoggerLines" ) ){
+	if( !m_settings.contains( "MaxLoggerProcesses" ) ){
 
-		m_settings.setValue( "maxLoggerLines",500 ) ;
+		m_settings.setValue( "MaxLoggerProcesses",0 ) ;
 	}
 
-	return m_settings.value( "maxLoggerLines" ).toInt() ;
+	return m_settings.value( "MaxLoggerProcesses" ).toInt() ;
 }
 
 size_t settings::maxConcurrentDownloads()
@@ -446,7 +446,7 @@ QString settings::downloadFolder( Logger& logger )
 {
 	return _downloadFolder( m_settings,m_portableVersion,[ &logger ]( const QString& e ){
 
-		logger.add( e ) ;
+		logger.add( e,utility::concurrentID() ) ;
 	} ) ;
 }
 

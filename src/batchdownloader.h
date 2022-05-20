@@ -215,6 +215,10 @@ private:
 		void clear()
 		{
 		}
+		void registerDone()
+		{
+			m_logger.registerDone( m_id ) ;
+		}
 		template< typename Function >
 		void add( const Function& function )
 		{
@@ -263,6 +267,10 @@ private:
 		void clear()
 		{
 			m_logger->clear() ;
+		}
+		void registerDone()
+		{
+			m_logger->registerDone() ;
 		}
 		template< typename Function >
 		void add( const Function& function )

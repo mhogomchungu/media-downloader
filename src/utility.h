@@ -74,6 +74,7 @@ namespace utility
 		debug& operator<<( const QString& e ) ;
 		debug& operator<<( const QByteArray& e ) ;
 		debug& operator<<( const QStringList& e ) ;
+		debug& operator<<( const QList<QByteArray>& e ) ;
 	private:
 		template< typename T >
 		debug& _print( const T& e )
@@ -278,6 +279,7 @@ namespace utility
 
 	QString failedToFindExecutableString( const QString& cmd ) ;
 	int concurrentID() ;
+	void initDone() ;
 	void saveDownloadList( const Context&,QMenu&,tableWidget&,bool ) ;
 	void saveDownloadList( const Context&,tableWidget&,bool ) ;
 	void wait( int time ) ;
@@ -922,6 +924,8 @@ namespace utility
 			}
 
 			m_options.done( std::move( state ) ) ;
+
+			m_logger.registerDone() ;
 		}
 		void withData( QProcess::ProcessChannel channel,const QByteArray& data )
 		{

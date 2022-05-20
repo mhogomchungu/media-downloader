@@ -195,7 +195,7 @@ private:
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
 	engines& m_engines ;
-	tableMiniWidget< int > m_tablePresetOptions ;
+	tableMiniWidget< QString > m_tablePresetOptions ;
 	tableMiniWidget< QJsonObject > m_tableUrlToDefaultEngine ;
 	QMenu m_menu ;
 	presetOptions m_presetOptions ;

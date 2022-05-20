@@ -53,7 +53,13 @@ public:
 	basicdownloader& hideTableList() ;
 private:
 	QString defaultEngineName() ;
-	const engines::engine& defaultEngine() ;
+	struct engine
+	{
+		const engines::engine& engine ;
+		int id ;
+	};
+
+	basicdownloader::engine defaultEngine() ;
 
 	struct opts
 	{
@@ -83,19 +89,19 @@ private:
 	tableWidget m_bogusTable ;
 	utility::Terminator m_terminator ;
 
-	void run( const engines::engine& engine,
+	void run( const basicdownloader::engine& engine,
 		  const QStringList& args,
 		  const QString& quality,
 		  bool list_requested ) ;
 
 	void changeDefaultEngine( int index ) ;
-	void listRequested( const QByteArray& ) ;
+	void listRequested( const QByteArray&,int ) ;
 	void list() ;
-	void download( const engines::engine&,
+	void download( const basicdownloader::engine&,
 		       const utility::args&,
 		       const QString& urls,
 		       bool = true ) ;
-	void download( const engines::engine&,
+	void download( const basicdownloader::engine&,
 		       const utility::args&,
 		       const QStringList& urls,
 		       bool = true ) ;

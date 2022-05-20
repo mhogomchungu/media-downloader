@@ -30,7 +30,7 @@ public:
 	class lux_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		lux_dlFilter( const QString&,const engines::engine& ) ;
+		lux_dlFilter( const QString&,const engines::engine&,int ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -39,9 +39,10 @@ public:
 		QByteArray m_tmp ;
 		QByteArray m_title = "Title: Unknown" ;
 		engines::engine::functions::preProcessing m_progress ;
+		int m_processId ;
 	} ;
 
-	engines::engine::functions::DataFilter Filter( const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 
 	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
 

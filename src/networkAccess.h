@@ -75,13 +75,15 @@ private:
 		      engines::Iterator itr,
 		      const QString& exePath,
 		      const QString& efp,
-		      const QString& sde ) :
+		      const QString& sde,
+		      int xd ) :
 			engine( itr.engine() ),
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
 			metadata( std::move( m ) ),
 			exeFolderPath( efp ),
-			defaultEngine( sde )
+			defaultEngine( sde ),
+			id( xd )
 		{
 			if( metadata.fileName.endsWith( ".zip" ) ){
 
@@ -102,13 +104,14 @@ private:
 		QString filePath ;
 		QString exeFolderPath ;
 		QString defaultEngine ;
+		int id ;
 	};
 
 	void download( networkAccess::Opts ) ;
 
 	void finished( networkAccess::Opts ) ;
 
-	void post( const engines::engine&,const QString& ) ;
+	void post( const engines::engine&,const QString&,int ) ;
 
 	const Context& m_ctx ;
 	QNetworkAccessManager m_accessManager ;

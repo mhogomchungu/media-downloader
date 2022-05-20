@@ -578,9 +578,9 @@ bool yt_dlp::supportsShowingComments()
 	return m_engine.name().contains( "yt-dlp" ) ;
 }
 
-engines::engine::functions::DataFilter yt_dlp::Filter( const QString& e )
+engines::engine::functions::DataFilter yt_dlp::Filter( int id,const QString& e )
 {
-	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),e,m_engine } ;
+	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,e,m_engine } ;
 }
 
 void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -687,9 +687,10 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 	}
 }
 
-yt_dlp::youtube_dlFilter::youtube_dlFilter( const QString& e,const engines::engine& engine ) :
-	engines::engine::functions::filter( e,engine ),
-	m_likeYtdlp( engine.name().contains( "yt-dlp" ) )
+yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,const QString& e,const engines::engine& engine ) :
+	engines::engine::functions::filter( e,engine,processId ),
+	m_likeYtdlp( engine.name().contains( "yt-dlp" ) ),
+	m_processId( processId )
 {
 }
 
@@ -809,7 +810,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 			m_fileName = e.mid( e.indexOf( "\"" ) + 1 ) ;
 			m_fileName.truncate( m_fileName.size() - 1 ) ;
 		}
-		if( e.contains( "has already been recorded in archive" ) ){
+		if( e.contains( "has already been recorded" ) ){
 
 			m_tmp = engines::engine::mediaAlreadInArchiveText().toUtf8() ;
 
@@ -867,7 +868,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 		}
 	}
 
-	if( s.doneDownloading() ){
+	if( s.doneDownloading( m_processId ) ){
 
 		return m_postProcessing.text( m_fileName ) ;
 	}else{

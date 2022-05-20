@@ -32,16 +32,17 @@ public:
 	class gallery_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		gallery_dlFilter( const QString&,settings&,const engines::engine& ) ;
+		gallery_dlFilter( const QString&,settings&,const engines::engine&,int ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
 		~gallery_dlFilter() override ;
 	private:
 		QByteArray m_tmp ;
+		int m_processId ;
 	} ;
 
-	engines::engine::functions::DataFilter Filter( const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 

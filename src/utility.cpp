@@ -300,6 +300,25 @@ utility::debug& utility::debug::operator<<( const QString& e )
 	return _print( e.toStdString().c_str() ) ;
 }
 
+utility::debug& utility::debug::operator<<( const QList<QByteArray>& e )
+{
+	if( e.isEmpty() ){
+
+		return _print( "()" ) ;
+	}else{
+		QString m = "(\"" + e.at( 0 ) + "\"" ;
+
+		for( int s = 1 ; s < e.size() ; s++ ){
+
+			m += ", \"" + e.at( s ) + "\"" ;
+		}
+
+		m += ")";
+
+		return _print( m.toStdString().c_str() ) ;
+	}
+}
+
 utility::debug& utility::debug::operator<<( const QStringList& e )
 {
 	if( e.isEmpty() ){
@@ -515,13 +534,25 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 	return opts ;
 }
 
+static bool _initDone = false ;
+
+void utility::initDone()
+{
+	_initDone = true ;
+}
+
 int utility::concurrentID()
 {
-	static int id = -1 ;
+	if( _initDone ){
 
-	id++ ;
+		static int id = 0 ;
 
-	return id ;
+		id++ ;
+
+		return id ;
+	}else{
+		return 0 ;
+	}
 }
 
 QString utility::failedToFindExecutableString( const QString& cmd )
@@ -856,7 +887,7 @@ void utility::versionInfo::check( const engines::Iterator& iter,const QString& s
 	}else{
 		if( engine.exePath().isEmpty() ){
 
-			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
+			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),iter.id() ) ;
 		}else{
 			this->printEngineVersionInfo( iter ) ;
 
@@ -877,7 +908,9 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name() ) ;
+	auto id = utility::concurrentID() ;
+
+	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name(),id ) ;
 
 	if( !m_ctx->debug().isEmpty() ){
 
@@ -888,10 +921,10 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 			exe += " \"" + it + "\"" ;
 		}
 
-		m_ctx->logger().add( exe ) ;
+		m_ctx->logger().add( exe,id ) ;
 	}
 
-	util::run( cmd.exe(),cmd.args(),[ iter,this ]( const util::run_result& r ){
+	util::run( cmd.exe(),cmd.args(),[ iter,this,id ]( const util::run_result& r ){
 
 		const auto& engine = iter.engine() ;
 
@@ -899,11 +932,11 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 			auto& logger = m_ctx->logger() ;
 
-			logger.add( QObject::tr( "Found version" ) + ": " + engine.versionString( r.stdOut ) ) ;
+			logger.add( QObject::tr( "Found version" ) + ": " + engine.versionString( r.stdOut ),id ) ;
 
 			m_ctx->TabManager().enableAll() ;
 		}else{
-			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ) ;
+			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),id ) ;
 
 			m_ctx->TabManager().enableAll() ;
 

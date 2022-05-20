@@ -52,12 +52,12 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 	s.ourOptions.removeAll( "default" ) ;
 }
 
-engines::engine::functions::DataFilter gallery_dl::Filter( const QString& e )
+engines::engine::functions::DataFilter gallery_dl::Filter( int id,const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;
 	const auto& engine = engines::engine::functions::engine() ;
 
-	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),e,s,engine } ;
+	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),e,s,engine,id } ;
 }
 
 void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -100,9 +100,11 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings&,const engines::engine& engine ) :
-	engines::engine::functions::filter( e,engine )
+gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings&,const engines::engine& engine,int id ) :
+	engines::engine::functions::filter( e,engine,id ),
+	m_processId( id )
 {
+	if( m_processId ){}
 }
 
 const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )

@@ -36,7 +36,7 @@ public:
 	class aria2c_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		aria2c_dlFilter( const QString&,settings&,const engines::engine& ) ;
+		aria2c_dlFilter( const QString&,settings&,const engines::engine&,int ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -45,9 +45,10 @@ public:
 		engines::engine::functions::preProcessing m_preProcessing ;
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
+		int m_processId ;
 	} ;
 
-	engines::engine::functions::DataFilter Filter( const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

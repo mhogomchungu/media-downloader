@@ -1285,7 +1285,9 @@ QString batchdownloader::defaultEngineName()
 
 const engines::engine& batchdownloader::defaultEngine()
 {
-	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
+	auto id = utility::concurrentID() ;
+
+	return m_ctx.Engines().defaultEngine( this->defaultEngineName(),id ) ;
 }
 
 void batchdownloader::showThumbnail( const engines::engine& engine,
@@ -1682,6 +1684,8 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 		return ;
 	}
 
+	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
+
 	m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
 				      m_ui.lineEditBDUrlOptions->text(),
 				      settings::tabName::batch ) ;
@@ -1768,11 +1772,13 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	auto error = []( const QByteArray& ){} ;
 
-	auto logger = make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
+	int id = utility::concurrentID() ;
+
+	auto logger = make_loggerBatchDownloader( engine.filter( id,utility::args( m ).quality() ),
 						  m_ctx.logger(),
 						  std::move( updater ),
 						  std::move( error ),
-						  utility::concurrentID() ) ;
+						  id ) ;
 
 	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
 

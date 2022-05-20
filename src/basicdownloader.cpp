@@ -135,7 +135,8 @@ void basicdownloader::changeDefaultEngine( int s )
 
 		m_ctx.TabManager().setDefaultEngines() ;
 	}else{
-		m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ) ) ;
+		auto id = utility::concurrentID() ;
+		m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ),id ) ;
 	}
 }
 
@@ -196,9 +197,10 @@ QString basicdownloader::defaultEngineName()
 	return m_settings.defaultEngine( settings::tabName::basic,m_ctx.Engines().defaultEngineName() ) ;
 }
 
-const engines::engine& basicdownloader::defaultEngine()
+basicdownloader::engine basicdownloader::defaultEngine()
 {
-	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
+	auto id = utility::concurrentID() ;
+	return { m_ctx.Engines().defaultEngine( this->defaultEngineName(),id ),id } ;
 }
 
 void basicdownloader::updateEnginesList( const QStringList& e )
@@ -228,7 +230,7 @@ void basicdownloader::retranslateUi()
 	this->resetMenu() ;
 }
 
-void basicdownloader::listRequested( const QByteArray& a )
+void basicdownloader::listRequested( const QByteArray& a,int id )
 {
 	if( a.isEmpty() ){
 
@@ -236,7 +238,7 @@ void basicdownloader::listRequested( const QByteArray& a )
 	}else{
 		auto m = m_ui.cbEngineType->currentText() ;
 
-		const auto& engine = m_ctx.Engines().defaultEngine( m ) ;
+		const auto& engine = m_ctx.Engines().defaultEngine( m,id ) ;
 
 		for( const auto& m : engine.mediaProperties( a ) ){
 
@@ -263,7 +265,7 @@ void basicdownloader::list()
 
 	const auto& backend = this->defaultEngine() ;
 
-	auto args = backend.defaultListCmdOptions() ;
+	auto args = backend.engine.defaultListCmdOptions() ;
 	args.append( url.split( ' ' ) ) ;
 
 	this->run( backend,args,"",true ) ;
@@ -304,7 +306,7 @@ void basicdownloader::download( const QString& url )
 	this->download( engine,s,m,false ) ;
 }
 
-void basicdownloader::download( const engines::engine& engine,
+void basicdownloader::download( const basicdownloader::engine& engine,
 				const utility::args& args,
 				const QString& url,
 				bool s )
@@ -312,12 +314,14 @@ void basicdownloader::download( const engines::engine& engine,
 	this->download( engine,args,QStringList( url ),s ) ;
 }
 
-void basicdownloader::download( const engines::engine& engine,
+void basicdownloader::download( const basicdownloader::engine& engine,
 				const utility::args& args,
 				const QStringList& urls,
 				bool update )
 {
 	m_tableList.setVisible( false ) ;
+
+	m_ctx.logger().setMaxProcessLog( 1 ) ;
 
 	if( update ){
 
@@ -332,19 +336,22 @@ void basicdownloader::download( const engines::engine& engine,
 
 	const auto& ep = m_ctx.Engines().engineDirPaths() ;
 
-	auto opts = utility::updateOptions( { engine,ep,m_settings,args,QString(),false,urls } ) ;
+	auto opts = utility::updateOptions( { engine.engine,ep,m_settings,args,QString(),false,urls } ) ;
 
 	this->run( engine,opts,args.quality(),false ) ;
 }
 
-void basicdownloader::run( const engines::engine& engine,
+void basicdownloader::run( const basicdownloader::engine& eng,
 			   const QStringList& args,
 			   const QString& quality,
 			   bool list_requested )
 {
-	auto functions = utility::OptionsFunctions( [ this ]( const utility::ProcessExitState&,const QByteArray& args ){
+	auto id = eng.id ;
+	const auto& engine = eng.engine ;
 
-			this->listRequested( args ) ;
+	auto functions = utility::OptionsFunctions( [ this,id ]( const utility::ProcessExitState&,const QByteArray& args ){
+
+			this->listRequested( args,id ) ;
 
 		},[]( const basicdownloader::opts& opts ){
 
@@ -370,7 +377,7 @@ void basicdownloader::run( const engines::engine& engine,
 	basicdownloader::opts opts{ engine,m_bogusTable,m_ctx,m_debug,list_requested,-1 } ;
 
 	auto oopts  = basicdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
-	auto logger = LoggerWrapper( m_ctx.logger(),utility::concurrentID() ) ;
+	auto logger = LoggerWrapper( m_ctx.logger(),id ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
 
 	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ),[ & ](){

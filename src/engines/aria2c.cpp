@@ -145,12 +145,12 @@ aria2c::aria2c( const engines& engines,const engines::engine& engine,QJsonObject
 {
 }
 
-engines::engine::functions::DataFilter aria2c::Filter( const QString& e )
+engines::engine::functions::DataFilter aria2c::Filter( int id,const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;
 	const auto& engine = engines::engine::functions::engine() ;
 
-	return { util::types::type_identity< aria2c::aria2c_dlFilter >(),e,s,engine } ;
+	return { util::types::type_identity< aria2c::aria2c_dlFilter >(),e,s,engine,id } ;
 }
 
 QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
@@ -188,9 +188,11 @@ void aria2c::updateDownLoadCmdOptions( const updateOpts& e )
 	e.ourOptions.removeAll( "default" ) ;
 }
 
-aria2c::aria2c_dlFilter::aria2c_dlFilter( const QString& e,settings&,const engines::engine& engine ) :
-	engines::engine::functions::filter( e,engine )
+aria2c::aria2c_dlFilter::aria2c_dlFilter( const QString& e,settings&,const engines::engine& engine,int id ) :
+	engines::engine::functions::filter( e,engine,id ),
+	m_processId( id )
 {
+	if( m_processId ){}
 }
 
 const QByteArray& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )

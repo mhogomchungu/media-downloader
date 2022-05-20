@@ -30,9 +30,9 @@ lux::lux( const engines& engines,const engines::engine& engine,QJsonObject& ) :
 {
 }
 
-engines::engine::functions::DataFilter lux::Filter( const QString& e )
+engines::engine::functions::DataFilter lux::Filter( int id,const QString& e )
 {
-	return { util::types::type_identity< lux::lux_dlFilter >(),e,m_engine } ;
+	return { util::types::type_identity< lux::lux_dlFilter >(),e,m_engine,id } ;
 }
 
 std::vector<QStringList> lux::mediaProperties( const QByteArray& e )
@@ -152,9 +152,11 @@ void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts
 	}
 }
 
-lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine ) :
-	engines::engine::functions::filter( e,engine )
+lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,int id ) :
+	engines::engine::functions::filter( e,engine,id ),
+	m_processId( id )
 {
+	if( m_processId ){}
 }
 
 const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )

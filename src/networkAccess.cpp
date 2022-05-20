@@ -54,15 +54,17 @@ networkAccess::networkAccess( const Context& ctx ) :
 		auto& e = m_ctx.logger() ;
 		auto s = QSslSocket::sslLibraryVersionString() ;
 
-		e.add( QObject::tr( "Checking installed version of" ) + " OpenSSL" ) ;
+		auto id = utility::concurrentID() ;
+
+		e.add( QObject::tr( "Checking installed version of" ) + " OpenSSL",id ) ;
 
 		if( s.isEmpty() ){
 
 			auto q = _sslLibraryVersionString() ;
 			auto m = QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( q ) ;
-			e.add( m ) ;
+			e.add( m,id ) ;
 		}else{
-			e.add( QObject::tr( "Found version" ) + ": " + s ) ;
+			e.add( QObject::tr( "Found version" ) + ": " + s,id ) ;
 		}
 	}
 }
@@ -120,17 +122,19 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	auto path = engine.exeFolderPath() ;
 
+	int id = utility::concurrentID() ;
+
 	if( !dir.exists( path ) ){
 
 		if( !dir.mkpath( path ) ){
 
-			this->post( engine,QObject::tr( "Failed to download, Following path can not be created: " ) + path ) ;
+			this->post( engine,QObject::tr( "Failed to download, Following path can not be created: " ) + path,id ) ;
 
 			return ;
 		}
 	}
 
-	this->post( engine,QObject::tr( "Start Downloading" ) + " " + engine.name() + " ..." ) ;
+	this->post( engine,QObject::tr( "Start Downloading" ) + " " + engine.name() + " ...",id ) ;
 
 	m_tabManager.disableAll() ;
 
@@ -140,22 +144,22 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	auto networkReply = m_accessManager.get( this->networkRequest( url ) ) ;
 
-	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ this,&engine ]( qint64 received,qint64 total ){
+	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ id,this,&engine ]( qint64 received,qint64 total ){
 
 		Q_UNUSED( received )
 		Q_UNUSED( total )
 
-		this->post( engine,"..." ) ;
+		this->post( engine,"...",id ) ;
 	} ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::finished,
-			  [ this,networkReply,&engine,iter,exePath,exeFolderPath,setDefaultEngine ](){
+			  [ id,this,networkReply,&engine,iter,exePath,exeFolderPath,setDefaultEngine ](){
 
 		networkReply->deleteLater() ;
 
 		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
 
-			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString() ) ;
+			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString(),id ) ;
 
 			m_tabManager.enableAll() ;
 
@@ -173,7 +177,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 		if( !json ){
 
-			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString() ) ;
+			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString(),id ) ;
 
 			m_tabManager.enableAll() ;
 
@@ -215,7 +219,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 			}
 		}
 
-		this->download( { metadata,iter,exePath,exeFolderPath,setDefaultEngine } ) ;
+		this->download( { metadata,iter,exePath,exeFolderPath,setDefaultEngine,id } ) ;
 	} ) ;
 }
 
@@ -227,16 +231,16 @@ void networkAccess::download( networkAccess::Opts opts )
 
 	m_file.open( QIODevice::WriteOnly ) ;
 
-	this->post( opts.engine,QObject::tr( "Downloading" ) + ": " + opts.metadata.url ) ;
+	this->post( opts.engine,QObject::tr( "Downloading" ) + ": " + opts.metadata.url,opts.id ) ;
 
-	this->post( opts.engine,QObject::tr( "Destination" ) + ": " + opts.filePath ) ;
+	this->post( opts.engine,QObject::tr( "Destination" ) + ": " + opts.filePath,opts.id ) ;
 
 	opts.networkReply = m_accessManager.get( this->networkRequest( opts.metadata.url ) ) ;
 
 	const auto& engine = opts.engine ;
 
 	QObject::connect( opts.networkReply,&QNetworkReply::downloadProgress,
-			  [ this,metadata = opts.metadata,networkReply = opts.networkReply,&engine,locale = utility::locale() ]( qint64 received,qint64 total ){
+			  [ id = opts.id,this,metadata = opts.metadata,networkReply = opts.networkReply,&engine,locale = utility::locale() ]( qint64 received,qint64 total ){
 
 		Q_UNUSED( total )
 
@@ -249,7 +253,7 @@ void networkAccess::download( networkAccess::Opts opts )
 
 		auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
 
-		this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m ) ;
+		this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,id ) ;
 	} ) ;
 
 	QObject::connect( opts.networkReply,&QNetworkReply::finished,[ this,opts = std::move( opts ) ]()mutable{
@@ -264,7 +268,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 	if( str.networkReply->error() != QNetworkReply::NetworkError::NoError ){
 
-		this->post( str.engine,QObject::tr( "Download Failed" ) + ": " + str.networkReply->errorString() ) ;
+		this->post( str.engine,QObject::tr( "Download Failed" ) + ": " + str.networkReply->errorString(),str.id ) ;
 
 		m_tabManager.enableAll() ;
 
@@ -275,11 +279,11 @@ void networkAccess::finished( networkAccess::Opts str )
 	}else{
 		m_file.close() ;
 
-		this->post( str.engine,QObject::tr( "Download complete" ) ) ;
+		this->post( str.engine,QObject::tr( "Download complete" ),str.id ) ;
 
 		if( str.metadata.fileName.endsWith( ".zip" ) || str.metadata.fileName.endsWith( ".tar.gz" ) ){
 
-			this->post( str.engine,QObject::tr( "Extracting archive: " ) + str.filePath ) ;
+			this->post( str.engine,QObject::tr( "Extracting archive: " ) + str.filePath,str.id ) ;
 
 			QFile::remove( str.exeBinPath ) ;
 
@@ -309,7 +313,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 					m_ctx.versionInfo().check( str.iter ) ;
 				}else{
-					this->post( str.engine,s.stdError ) ;
+					this->post( str.engine,s.stdError,str.id ) ;
 
 					if( str.iter.hasNext() ){
 
@@ -318,7 +322,7 @@ void networkAccess::finished( networkAccess::Opts str )
 				}
 			} ) ;
 		}else{
-			this->post( str.engine,QObject::tr( "Renaming file to: " ) + str.exeBinPath ) ;
+			this->post( str.engine,QObject::tr( "Renaming file to: " ) + str.exeBinPath,str.id ) ;
 
 			QFile::remove( str.exeBinPath ) ;
 
@@ -333,13 +337,11 @@ void networkAccess::finished( networkAccess::Opts str )
 	}
 }
 
-void networkAccess::post( const engines::engine& engine,const QString& m )
-{
+void networkAccess::post( const engines::engine& engine,const QString& m,int id )
+{	
 	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool,bool ){
 
 		auto e = m.toUtf8() ;
-
-		Q_UNUSED( id )
 
 		auto p = QObject::tr( "Downloading" ) + " " + engine.name() ;
 
@@ -347,22 +349,32 @@ void networkAccess::post( const engines::engine& engine,const QString& m )
 
 		if( s.isEmpty() ){
 
-			s.add( "[media-downloader] " + e ) ;
+			s.add( "[media-downloader] " + e,id ) ;
 
 		}else if( e == "..." ){
 
-			s.replaceLast( s.lastText() + " ..." ) ;
+			auto m = s.getData( id ) ;
+
+			if( m ){
+
+				m.replaceLast( m.lastText() + " ..." ) ;
+			}
 
 		}else if( e.startsWith( prefix ) ){
 
-			if( s.lastText().startsWith( "[media-downloader] " + prefix ) ){
+			auto m = s.getData( id ) ;
 
-				s.removeLast() ;
+			if( m ){
+
+				if( m.lastText().startsWith( "[media-downloader] " + prefix ) ){
+
+					m.removeLast() ;
+				}
 			}
 
-			s.add( "[media-downloader] " + e ) ;
+			s.add( "[media-downloader] " + e,id ) ;
 		}else{
-			s.add( "[media-downloader] " + e ) ;
+			s.add( "[media-downloader] " + e,id ) ;
 		}
-	},-1 ) ;
+	},id ) ;
 }

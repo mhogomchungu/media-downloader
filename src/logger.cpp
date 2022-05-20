@@ -26,18 +26,23 @@
 Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_logWindow( nullptr,s,*this ),
 	m_textEdit( e ),
-	m_maxLoggerLines( static_cast< size_t >( s.maxLoggerLines() ) )
+	m_settings( s )
 {
 	m_textEdit.setReadOnly( true ) ;
+}
+
+void Logger::registerDone( int id )
+{
+	m_processOutPuts.registerDone( id ) ;
 }
 
 void Logger::add( const QByteArray& s,int id )
 {
 	if( s.startsWith( "[media-downloader]" ) ){
 
-		m_lines.add( s,id ) ;
+		m_processOutPuts.add( s,id ) ;
 	}else{
-		m_lines.add( "[media-downloader] " + s,id ) ;
+		m_processOutPuts.add( "[media-downloader] " + s,id ) ;
 	}
 
 	this->update() ;
@@ -45,14 +50,19 @@ void Logger::add( const QByteArray& s,int id )
 
 void Logger::clear()
 {
-	m_lines.clear() ;
+	m_processOutPuts.clear() ;
 	m_textEdit.clear() ;
 	m_logWindow.clear() ;
 }
 
+void Logger::setMaxProcessLog( int s )
+{
+	m_maxProcessLog = s ;
+}
+
 void Logger::showLogWindow()
 {
-	m_logWindow.setText( m_lines.toString() ) ;
+	m_logWindow.setText( m_processOutPuts.toString() ) ;
 	m_logWindow.Show() ;
 }
 
@@ -64,15 +74,26 @@ void Logger::updateView( bool e )
 
 void Logger::update()
 {
-	if( m_maxLoggerLines > 100 ){
+	auto s = m_settings.maxLoggerProcesses() ;
 
-		while( m_lines.size() >= m_maxLoggerLines ){
+	auto e = m_maxProcessLog > s ? m_maxProcessLog : s ;
 
-			m_lines.removeFirst() ;
+	while( true ){
+
+		int current_amount = static_cast< int >( m_processOutPuts.size() ) ;
+
+		if( current_amount > e ){
+
+			if( !m_processOutPuts.removeFirstFinished() ){
+
+				break ;
+			}
+		}else{
+			break ;
 		}
 	}
 
-	auto m = m_lines.toString() ;
+	auto m = m_processOutPuts.toString() ;
 
 	if( m_updateView ){
 
@@ -83,20 +104,51 @@ void Logger::update()
 	m_logWindow.update( m ) ;
 }
 
+void Logger::Data::registerDone( int id )
+{
+	for( auto& it : m_processOutputs ){
+
+		if( it.processId() == id ){
+
+			it.setProcessAsFinished() ;
+
+			break ;
+		}
+	}
+}
+
 QList< QByteArray > Logger::Data::toStringList() const
 {
 	return util::split( this->toString(),'\n' ) ;
+}
+
+bool Logger::Data::removeFirstFinished()
+{
+	for( auto it = m_processOutputs.begin() ; it != m_processOutputs.end() ; it++ ){
+
+		if( it->processFinished() ){
+
+			m_processOutputs.erase( it ) ;
+
+			return true ;
+		}
+	}
+
+	return false ;
 }
 
 void Logger::Data::luxHack( int id,const QByteArray& data )
 {
 	QByteArray line ;
 
-	for( const auto& it : m_lines ){
+	for( const auto& it : m_processOutputs ){
 
-		if( it.id() == id ){
+		if( it.processId() == id ){
 
-			line += it.text() ;
+			for( const auto& xt : it.entries() ){
+
+				line += xt.text() ;
+			}
 		}
 	}
 
@@ -301,29 +353,14 @@ static void _add_or_replace( Logger::Data& outPut,
 			     MeetCondition meetCondition,
 			     AddReplace addReplace )
 {
-	if( id == -1 ){
+	outPut.replaceOrAdd( e,id,[ & ]( const QByteArray& e ){
 
-		if( outPut.isEmpty() ){
+		return meetCondition( e ) ;
 
-			outPut.add( e ) ;
-		}else{
-			if( meetCondition( outPut.lastText() ) ){
+	},[ & ]( const QByteArray& e ){
 
-				outPut.replaceLast( e ) ;
-			}else{
-				outPut.add( e ) ;
-			}
-		}
-	}else{
-		outPut.replaceOrAdd( e,id,[ & ]( const QByteArray& e ){
-
-			return meetCondition( e ) ;
-
-		},[ & ]( const QByteArray& e ){
-
-			return addReplace( e ) ;
-		} ) ;
-	}
+		return addReplace( e ) ;
+	} ) ;
 }
 
 void Logger::updateLogger::add( const QByteArray& data,QChar token ) const

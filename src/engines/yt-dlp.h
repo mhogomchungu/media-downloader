@@ -30,7 +30,7 @@ public:
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		youtube_dlFilter( const QString&,const engines::engine& ) ;
+		youtube_dlFilter( int processId,const QString&,const engines::engine& ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -39,6 +39,7 @@ public:
 		const QByteArray& youtubedlOutput( const Logger::Data& ) ;
 		const QByteArray& ytdlpOutput( const Logger::Data& ) ;
 		bool m_likeYtdlp ;
+		int m_processId ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
 		QByteArray m_tmp ;
@@ -55,7 +56,7 @@ public:
 
 	bool supportsShowingComments() override ;
 
-	engines::engine::functions::DataFilter Filter( const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 

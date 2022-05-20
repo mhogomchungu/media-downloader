@@ -95,7 +95,7 @@ tabManager::tabManager( settings& s,
 				this->init_done() ;
 			} ) ;
 
-			vinfo.check( engines ) ;
+			vinfo.check( { engines,utility::concurrentID() } ) ;
 		}else{
 			this->init_done() ;
 		}
@@ -116,6 +116,8 @@ void tabManager::init_done()
 	m_batchdownloader.init_done() ;
 	m_playlistdownloader.init_done() ;
 	m_library.init_done() ;
+
+	utility::initDone() ;
 
 	auto& m = m_ctx.Ui() ;
 	auto& s = m_ctx.Settings() ;

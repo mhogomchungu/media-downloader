@@ -670,7 +670,9 @@ QString playlistdownloader::defaultEngineName()
 
 const engines::engine& playlistdownloader::defaultEngine()
 {
-	return m_ctx.Engines().defaultEngine( this->defaultEngineName() ) ;
+	auto id = utility::concurrentID() ;
+
+	return m_ctx.Engines().defaultEngine( this->defaultEngineName(),id ) ;
 }
 
 void playlistdownloader::download()
@@ -688,6 +690,10 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 		return ;
 	}
+
+	m_ctx.logger().clear() ;
+
+	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
@@ -780,12 +786,13 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	auto error = []( const QByteArray& ){} ;
 
+	auto id = utility::concurrentID() ;
 	auto oopts  = playlistdownloader::make_options( { m_ctx,m_ctx.debug(),false,index },std::move( functions ) ) ;
-	auto logger = make_loggerBatchDownloader( engine.filter( utility::args( m ).quality() ),
+	auto logger = make_loggerBatchDownloader( engine.filter( id,utility::args( m ).quality() ),
 						  m_ctx.logger(),
 						  std::move( updater ),
 						  std::move( error ),
-						  utility::concurrentID() ) ;
+						  id ) ;
 
 	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
 
@@ -1002,6 +1009,8 @@ void playlistdownloader::getList( customOptions&& c,
 		entry.thumbnail = icon.pixmap( w,h ) ;
 
 		m_table.addItem( std::move( entry ) ) ;
+
+		m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
 	}
 
 	m_table.selectLast() ;
@@ -1176,6 +1185,8 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
 {
 	auto row = table.addItem( std::move( e ) ) ;
+
+	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
 
 	m_ctx.TabManager().Configure().setDownloadOptions( row,table ) ;
 

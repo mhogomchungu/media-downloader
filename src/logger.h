@@ -34,75 +34,164 @@ class Logger
 public:
 	class Data
 	{
+	private:
+		class processOutput
+		{
+		public:
+			class outputEntry
+			{
+			public:
+				outputEntry( QByteArray text,bool p = false ) :
+					m_text( std::move( text ) ),
+					m_progressLine( p )
+				{
+				}
+				const QByteArray& text() const
+				{
+					return m_text ;
+				}
+				bool progressLine() const
+				{
+					return m_progressLine ;
+				}
+				void replace( const QByteArray& text )
+				{
+					m_progressLine = true ;
+					m_text = text ;
+				}
+			private:
+				QByteArray m_text ;
+				bool m_progressLine ;
+			} ;
+			processOutput( int processId,QByteArray d ) : m_processId( processId )
+			{
+				m_data.emplace_back( std::move( d ) ) ;
+			}
+			int processId() const
+			{
+				return m_processId ;
+			}
+			const std::vector< Logger::Data::processOutput::outputEntry >& entries() const
+			{
+				return m_data ;
+			}
+			std::vector< Logger::Data::processOutput::outputEntry >& entries()
+			{
+				return m_data ;
+			}
+			bool doneDownloading() const
+			{
+				return m_doneDownloading ;
+			}
+			void setDoneDownloading()
+			{
+				m_doneDownloading = true ;
+			}
+			void setProcessAsFinished()
+			{
+				m_processFinished = true ;
+			}
+			bool processFinished() const
+			{
+				return m_processFinished ;
+			}
+		private:
+			bool m_processFinished = false ;
+			bool m_doneDownloading = false ;
+			int m_processId ;
+			std::vector< Logger::Data::processOutput::outputEntry > m_data ;
+		};
 	public:
 		bool isEmpty() const
 		{
-			return m_lines.empty() ;
+			return m_processOutputs.empty() ;
 		}
 		bool isNotEmpty() const
 		{
 			return !this->isEmpty() ;
 		}
+		void registerDone( int ) ;
+		void add( int id,QByteArray d )
+		{
+			for( auto& it : m_processOutputs ){
+
+				if( it.processId() == id ){
+
+					it.entries().emplace_back( std::move( d ) ) ;
+
+					return ;
+				}
+			}
+
+			m_processOutputs.emplace_back( id,std::move( d ) ) ;
+		}
 		size_t size() const
 		{
-			return m_lines.size() ;
-		}
-		const QByteArray& operator[]( size_t s ) const
-		{
-			return m_lines[ s ].text() ;
+			return m_processOutputs.size() ;
 		}
 		template< typename Function >
 		void forEach( Function function ) const
 		{
-			for( const auto& it : m_lines ){
+			for( const auto& it : m_processOutputs ){
 
-				function( it.id(),it.text() ) ;
+				auto id = it.processId() ;
+
+				for( const auto& xt : it.entries() ){
+
+					if( function( id,xt.text() ) ){
+
+						return ;
+					}
+				}
 			}
 		}
 		template< typename Function >
 		void reverseForEach( Function function ) const
 		{
-			for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
+			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
 
-				if( function( it->id(),it->text() ) ){
+				auto id = it->processId() ;
 
-					break ;
+				const auto& e = it->entries() ;
+
+				for( auto xt = e.rbegin() ; xt != e.rend() ; xt++ ){
+
+					if( function( id,xt->text() ) ){
+
+						return ;
+					}
 				}
 			}
 		}
-		const QByteArray& lastText() const
-		{
-			return m_lines[ m_lines.size() - 1 ].text() ;
-		}
-		bool lastLineIsProgressLine() const
-		{
-			return m_lines[ m_lines.size() - 1 ].progressLine() ;
-		}
-		bool doneDownloading() const
-		{
-			return m_doneDownloading ;
-		}
 		void clear()
 		{
-			m_lines.clear() ;
+			m_processOutputs.clear() ;
 		}
 
 		QList< QByteArray > toStringList() const ;
-
+		const QByteArray& lastText() const
+		{
+			return m_processOutputs.rbegin()->entries().rbegin()->text() ;
+		}
+		bool lastLineIsProgressLine() const
+		{
+			return m_processOutputs.rbegin()->entries().rbegin()->progressLine() ;
+		}
 		QByteArray toString() const
 		{
 			if( this->isNotEmpty() ){
 
-				auto it = m_lines.begin() ;
+				QByteArray m ;
 
-				auto m = it->text() ;
+				for( const auto& it : m_processOutputs ){
 
-				it++ ;
+					for( const auto& xt : it.entries() ){
 
-				for( ; it != m_lines.end() ; it++ ){
-
-					m += "\n" + it->text() ;
+						m += xt.text() + "\n" ;
+					}
 				}
+
+				m.truncate( m.size() - 1 ) ;
 
 				return m ;
 			}else{
@@ -113,15 +202,14 @@ public:
 		{
 			if( this->isNotEmpty() ){
 
-				auto it = m_lines.begin() ;
+				QByteArray m ;
 
-				auto m = it->text() ;
+				for( const auto& it : m_processOutputs ){
 
-				it++ ;
+					for( const auto& xt : it.entries() ){
 
-				for( ; it != m_lines.end() ; it++ ){
-
-					m += it->text() ;
+						m += xt.text() ;
+					}
 				}
 
 				return m ;
@@ -129,17 +217,59 @@ public:
 				return {} ;
 			}
 		}
-		void removeFirst()
+		bool removeFirstFinished() ;
+		class ProcessData
 		{
-			m_lines.erase( m_lines.begin() ) ;
+		public:
+			ProcessData()
+			{
+			}
+			ProcessData( std::vector< Logger::Data::processOutput::outputEntry >& e ) :
+				m_entries( &e )
+			{
+			}
+			void replaceLast( const QByteArray& e )
+			{
+				m_entries->rbegin()->replace( e ) ;
+			}
+			void removeLast()
+			{
+				m_entries->pop_back() ;
+			}
+			operator bool() const
+			{
+				return m_entries != nullptr ;
+			}
+			const QByteArray& lastText() const
+			{
+				return m_entries->rbegin()->text() ;
+			}
+		private:
+			std::vector< Logger::Data::processOutput::outputEntry > * m_entries = nullptr ;
+		};
+		Logger::Data::ProcessData getData( int id )
+		{
+			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
+
+				if( it->processId() == id ){
+
+					return it->entries() ;
+				}
+			}
+
+			return {} ;
 		}
-		void removeLast()
+		bool doneDownloading( int processId ) const
 		{
-			m_lines.pop_back() ;
-		}
-		void replaceLast( const QByteArray& e )
-		{
-			m_lines.rbegin()->replace( e ) ;
+			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
+
+				if( it->processId() == processId ){
+
+					return it->doneDownloading() ;
+				}
+			}
+
+			return false ;
 		}
 		template< typename Function,typename Add >
 		void replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
@@ -154,6 +284,7 @@ public:
 		}
 		void luxHack( int id,const QByteArray& data ) ;
 	private:
+
 		bool postProcessText( const QByteArray& data ) ;
 
 		template< typename Function,typename Add >
@@ -161,101 +292,65 @@ public:
 		{
 			if( this->postProcessText( text ) ){
 
-				if( !m_doneDownloading ){
+				for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
 
-					m_lines.emplace_back( "[media-downloader] Done downloading",id ) ;
-					m_doneDownloading = true ;
+					if( it->processId() == id && !it->doneDownloading() ){
+
+						it->setDoneDownloading() ;
+					}
 				}
 
 				return ;
 			}
 
-			if( id != -1 ){
+			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
 
-				for( auto it = m_lines.rbegin() ; it != m_lines.rend() ; it++ ){
+				if( it->processId() == id ){
 
-					if( it->id() == id ){
+					auto& ee = it->entries() ;
 
-						if( function( it->text() ) ){
+					if( ee.empty() ){
 
-							if( add( it->text() ) ){
+						ee.emplace_back( text ) ;
+					}else{
+						auto iter = ee.rbegin() ;
 
-								this->add( it,text,id ) ;
+						const auto& s = iter->text() ;
+
+						if( function( s ) ){
+
+							if( add( s ) ){
+
+								ee.emplace_back( text ) ;
 							}else{
-								it->replace( text ) ;
+								iter->replace( text ) ;
 							}
 						}else{
-							this->add( it,text,id ) ;
+							ee.emplace_back( text ) ;
 						}
-
-						return ;
 					}
+
+					return ;
 				}
 			}
 
-			m_lines.emplace_back( text,id ) ;
+			m_processOutputs.emplace_back( id,text ) ;
 		}
-		template< typename It >
-		void add( const It& it,const QByteArray& text,int id )
-		{
-			if( it != m_lines.rbegin() ){
-
-				m_lines.emplace( it.base(),text,id ) ;
-			}else{
-				m_lines.emplace_back( text,id ) ;
-			}
-		}
-		class line
-		{
-		public:
-			line( const QByteArray& text,int id,bool p = false ) :
-				m_text( text ),
-				m_id( id ),
-				m_progressLine( p )
-			{
-			}
-			line( const QByteArray& text ) :
-				m_text( text ),
-				m_id( -1 )
-			{
-			}
-			const QByteArray& text() const
-			{
-				return m_text ;
-			}
-			bool progressLine() const
-			{
-				return m_progressLine ;
-			}
-			int id() const
-			{
-				return m_id ;
-			}
-			void replace( const QByteArray& text )
-			{
-				m_progressLine = true ;
-				m_text = text ;
-			}
-		private:
-			QByteArray m_text ;
-			int m_id ;
-			bool m_progressLine ;
-		} ;
-		std::vector< Logger::Data::line > m_lines ;
-		bool m_doneDownloading = false ;
+		std::list< Logger::Data::processOutput > m_processOutputs ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
-	void add( const QString& s )
+	void add( const QString& s,int id )
 	{
-		this->add( s.toUtf8() ) ;
+		this->add( s.toUtf8(),id ) ;
 	}
-	void add( const QByteArray&,int id = -1 ) ;
+	void registerDone( int ) ;
+	void add( const QByteArray&,int id ) ;
 	void clear() ;
 	template< typename Function >
 	void add( const Function& function,int id )
 	{
-		function( m_lines,id,true,true ) ;
+		function( m_processOutPuts,id,true,true ) ;
 
 		this->update() ;
 	}
@@ -263,10 +358,15 @@ public:
 	{
 		auto function = []( const QByteArray& ){ return true ; } ;
 
-		m_lines.replaceOrAdd( "[media-downloader][std error] " + data,id,function,function ) ;
+		m_processOutPuts.replaceOrAdd( "[media-downloader][std error] " + data,id,function,function ) ;
 
 		this->update() ;
 	}
+	void setMaxProcessLog( size_t s )
+	{
+		this->setMaxProcessLog( static_cast< int >( s ) ) ;
+	}
+	void setMaxProcessLog( int s ) ;
 	void showLogWindow() ;
 	void updateView( bool e ) ;
 	Logger( const Logger& ) = delete ;
@@ -328,9 +428,10 @@ private:
 	void update() ;
 	logWindow m_logWindow ;
 	QPlainTextEdit& m_textEdit ;
-	Logger::Data m_lines ;
+	Logger::Data m_processOutPuts ;
 	bool m_updateView = false ;
-	size_t m_maxLoggerLines ;
+	settings& m_settings ;
+	int m_maxProcessLog ;
 } ;
 
 class LoggerWrapper
@@ -353,6 +454,10 @@ public:
 	void logError( const QByteArray& data )
 	{
 		m_logger->logError( data,m_id ) ;
+	}
+	void registerDone()
+	{
+		m_logger->registerDone( m_id ) ;
 	}
 	void clear()
 	{
@@ -406,8 +511,12 @@ public:
 	void add( const G& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,-1,false,false ) ;
+		function( m_lines,m_id,false,false ) ;
 		this->update() ;
+	}
+	void registerDone()
+	{
+		m_logger.registerDone( m_id ) ;
 	}
 	void logError( const QByteArray& data )
 	{
@@ -473,8 +582,12 @@ public:
 	void add( const Function& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_lines,-1,false,false ) ;
+		function( m_lines,m_id,false,false ) ;
 		m_addToTable( m_table,m_lines ) ;
+	}
+	void registerDone()
+	{
+		m_logger.registerDone( m_id ) ;
 	}
 	void logError( const QByteArray& data )
 	{

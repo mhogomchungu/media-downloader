@@ -221,13 +221,15 @@ configure::configure( const Context& ctx ) :
 
 		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select An Engine File" ),utility::homePath() ) ;
 
+		auto id = utility::concurrentID() ;
+
 		if( !m.isEmpty() ){
 
 			auto d = engines::file( m,m_ctx.logger() ).readAll() ;
 
 			if( !d.isEmpty() ){
 
-				auto name = m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last() ) ;
+				auto name = m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last(),id ) ;
 
 				if( !name.isEmpty() ){
 
@@ -235,7 +237,7 @@ configure::configure( const Context& ctx ) :
 
 					t.basicDownloader().setAsActive() ;
 					const auto& engine = m_ctx.Engines().getEngineByName( name ) ;
-					m_ctx.versionInfo().check( engine.value(),name ) ;
+					m_ctx.versionInfo().check( { engine.value(),id },name ) ;
 				}
 			}
 		}
@@ -257,7 +259,9 @@ configure::configure( const Context& ctx ) :
 
 		connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
 
-			m_ctx.Engines().removeEngine( ac->objectName() ) ;
+			auto id = utility::concurrentID() ;
+
+			m_ctx.Engines().removeEngine( ac->objectName(),id ) ;
 
 			auto& t = m_ctx.TabManager() ;
 
@@ -279,7 +283,8 @@ configure::configure( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			this->downloadFromGitHub( m_ctx.Engines().defaultEngine( m ) ) ;
+			auto id = utility::concurrentID() ;
+			this->downloadFromGitHub( { m_ctx.Engines().defaultEngine( m,id ),id } ) ;
 		}
 	} ) ;
 
@@ -546,7 +551,14 @@ void configure::savePresetOptions()
 		auto uiName = table.item( i,0 )->text() ;
 		auto options = table.item( i,1 )->text() ;
 
-		m_presetOptions.add( uiName,options ) ;
+		const auto& e = m_tablePresetOptions.stuffAt( i ) ;
+
+		if( e.isEmpty() ){
+
+			m_presetOptions.add( uiName,options ) ;
+		}else{
+			m_presetOptions.add( e,options ) ;
+		}
 	}
 }
 
@@ -556,15 +568,15 @@ void configure::showOptions()
 
 		if( uiName == "Default" ){
 
-			m_tablePresetOptions.add( { tr( "Default" ),options } ) ;
+			m_tablePresetOptions.add( { tr( "Default" ),options },"Default" ) ;
 
 		}else if( uiName == "Best-audio" ){
 
-			m_tablePresetOptions.add( { tr( "Best-audio" ),options } ) ;
+			m_tablePresetOptions.add( { tr( "Best-audio" ),options },"Best-audio" ) ;
 
 		}else if( uiName == "Best-audiovideo" ){
 
-			m_tablePresetOptions.add( { tr( "Best-audiovideo" ),options } ) ;
+			m_tablePresetOptions.add( { tr( "Best-audiovideo" ),options },"Best-audiovideo" ) ;
 		}else{
 			m_tablePresetOptions.add( { uiName,options } ) ;
 		}

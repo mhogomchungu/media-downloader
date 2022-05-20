@@ -291,7 +291,7 @@ public:
 
 			class filter{
 			public:
-				filter( const QString& quality,const engines::engine& engine ) ;
+				filter( const QString& quality,const engines::engine& engine,int ) ;
 				virtual const QByteArray& operator()( const Logger::Data& e ) ;
 				virtual ~filter() ;
 				const engines::engine& engine() const ;
@@ -301,6 +301,7 @@ public:
 				engines::engine::functions::preProcessing m_processing ;
 				QString m_quality ;
 				const engines::engine& m_engine ;
+				int m_processId ;
 			} ;
 
 			class DataFilter{
@@ -328,7 +329,7 @@ public:
 
 			virtual bool supportsShowingComments() ;
 
-			virtual engines::engine::functions::DataFilter Filter( const QString& ) ;
+			virtual engines::engine::functions::DataFilter Filter( int,const QString& ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
 
@@ -381,12 +382,14 @@ public:
 			const QString& name,
 			const QString& versionArgument,
 			int line,
-			int position ) ;
+			int position,
+			int id ) ;
 
 		engine( Logger& logger,
 			const enginePaths& ePaths,
 			const util::Json& json,
-			const engines& engines ) ;
+			const engines& engines,
+			int id ) ;
 
 		static QString mediaAlreadInArchiveText()
 		{
@@ -455,9 +458,9 @@ public:
 		{
 			return m_defaultDownLoadCmdOptions ;
 		}
-		engines::engine::functions::DataFilter filter( const QString& quality ) const
+		engines::engine::functions::DataFilter filter( int processId,const QString& quality ) const
 		{
-			return m_functions->Filter( quality ) ;
+			return m_functions->Filter( processId,quality ) ;
 		}
 		QString updateTextOnCompleteDownlod( const QString& uiText,
 						     const QString& bkText,
@@ -597,13 +600,14 @@ public:
 	private:
 		void updateOptions() ;
 
-		void parseMultipleCmdArgs( Logger& logger,const engines& engines ) ;
+		void parseMultipleCmdArgs( Logger& logger,const engines& engines,int ) ;
 
 		void parseMultipleCmdArgs( QStringList&,
 					   const QString&,
 					   Logger& logger,
 					   const enginePaths& ePaths,
-					   const engines& engines ) ;
+					   const engines& engines,
+					   int ) ;
 
 		mutable util::version m_version ;
 		QJsonObject m_jsonObject ;
@@ -645,13 +649,13 @@ public:
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
-	QString addEngine( const QByteArray& data,const QString& path ) ;
-	void removeEngine( const QString& name ) ;
+	QString addEngine( const QByteArray& data,const QString& path,int ) ;
+	void removeEngine( const QString& name,int ) ;
 	QStringList enginesList() const ;
-	const engine& defaultEngine( const QString& ) const ;
+	const engine& defaultEngine( const QString&,int ) const ;
 	util::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	const enginePaths& engineDirPaths() const ;
-	engines( Logger&,settings& ) ;
+	engines( Logger&,settings&,int ) ;
 	void openUrls( tableWidget&,int row ) const ;
 	void openUrls( tableWidget&,int row,const engines::engine& ) const ;
 	void openUrls( const QString& path ) const ;
@@ -659,14 +663,16 @@ public:
 	class Iterator
 	{
 	public:
-		Iterator( const std::vector< engines::engine >& engines ) :
+		Iterator( const std::vector< engines::engine >& engines,int id ) :
 			m_maxCounter( engines.size() ),
-			m_engines( &engines )
+			m_engines( &engines ),
+			m_id( id )
 		{
 		}
-		Iterator( const engines::engine& engine ) :
+		Iterator( const engines::engine& engine,int id ) :
 			m_maxCounter( 1 ),
-			m_engine( &engine )
+			m_engine( &engine ),
+			m_id( id )
 		{
 		}
 		size_t size() const
@@ -692,18 +698,23 @@ public:
 				return ( *m_engines )[ m_counter ] ;
 			}
 		}
+		int id() const
+		{
+			return m_id ;
+		}
 	private:
 		size_t m_counter = 0 ;
 		size_t m_maxCounter ;
 		const engines::engine * m_engine = nullptr ;
 		const std::vector< engines::engine > * m_engines = nullptr ;
+		int m_id ;
 	} ;
 
 	const std::vector< engine >& getEngines() const ;
 	engines::Iterator getEnginesIterator() const ;
 	void setDefaultEngine( const QString& ) ;
 private:
-	void updateEngines( bool ) ;
+	void updateEngines( bool,int ) ;
 	Logger& m_logger ;
 	settings& m_settings ;
 	std::vector< engine > m_backends ;

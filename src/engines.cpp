@@ -103,7 +103,7 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 	return env ;
 }
 
-engines::engines( Logger& l,settings& s ) :
+engines::engines( Logger& l,settings& s,int id ) :
 	m_logger( l ),
 	m_settings( s ),
 	m_enginePaths( m_settings ),
@@ -112,22 +112,22 @@ engines::engines( Logger& l,settings& s ) :
 {
 	if( s.showVersionInfoWhenStarting() ){
 
-		m_logger.add( QByteArray( "*****************************************************" ) ) ;
+		m_logger.add( QByteArray( "*****************************************************" ),id ) ;
 
-		m_logger.add( QObject::tr( "To Disable These Checks, Do The Following:-" ) ) ;
-		m_logger.add( QObject::tr( "1. Go To \"Configure\" Tab." ) ) ;
-		m_logger.add( QObject::tr( "2. Go To \"General Options\" Sub Tab." ) ) ;
-		m_logger.add( QObject::tr( "3. Uncheck \"Show Version Info When Starting\"." ) ) ;
+		m_logger.add( QObject::tr( "To Disable These Checks, Do The Following:-" ),id ) ;
+		m_logger.add( QObject::tr( "1. Go To \"Configure\" Tab." ),id ) ;
+		m_logger.add( QObject::tr( "2. Go To \"General Options\" Sub Tab." ),id ) ;
+		m_logger.add( QObject::tr( "3. Uncheck \"Show Version Info When Starting\"." ),id ) ;
 
-		m_logger.add( QByteArray( "*****************************************************" ) ) ;
+		m_logger.add( QByteArray( "*****************************************************" ),id ) ;
 	}
 
 	if( settings::portableVersion() ){
 
-		m_logger.add( QObject::tr( "Running in portable mode" ) ) ;
-		m_logger.add( QObject::tr( "Download path: " ) + m_settings.downloadFolder( m_logger ) ) ;
+		m_logger.add( QObject::tr( "Running in portable mode" ),id ) ;
+		m_logger.add( QObject::tr( "Download path: " ) + m_settings.downloadFolder( m_logger ),id ) ;
 	}
-	this->updateEngines( true ) ;
+	this->updateEngines( true,id ) ;
 }
 
 static void _openUrls( tableWidget& table,int row,settings& settings,bool galleryDl )
@@ -210,13 +210,13 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 
 				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
 
-				logger.add( m.arg( name,minVersion ) ) ;
+				logger.add( m.arg( name,minVersion ),utility::concurrentID() ) ;
 
 				return {} ;
 			}
 		}
 
-		return { logger,enginePaths,object,engines } ;
+		return { logger,enginePaths,object,engines,utility::concurrentID() } ;
 	}else{
 		return {} ;
 	}
@@ -235,7 +235,7 @@ void engines::setDefaultEngine( const QString& name )
 	}
 }
 
-void engines::updateEngines( bool addAll )
+void engines::updateEngines( bool addAll,int id )
 {
 	m_backends.clear() ;
 
@@ -245,7 +245,7 @@ void engines::updateEngines( bool addAll )
 
 			if( m->exePath().isEmpty() && !m->usingPrivateBackend() ){
 
-				m_logger.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m->name() ) ) ;
+				m_logger.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m->name() ),id ) ;
 			}else{
 				m_backends.emplace_back( std::move( m.value() ) ) ;
 			}
@@ -261,9 +261,9 @@ void engines::updateEngines( bool addAll )
 
 	if( addAll ){
 
-		_engine_add( { *this,m_logger,"ffmpeg","-version",0,2 } ) ;
+		_engine_add( { *this,m_logger,"ffmpeg","-version",0,2,id } ) ;
 
-		_engine_add( { *this,m_logger,"aria2c","--version",0,2 } ) ;
+		_engine_add( { *this,m_logger,"aria2c","--version",0,2,id } ) ;
 
 		for( const auto& it : this->getEngines() ){
 
@@ -271,7 +271,7 @@ void engines::updateEngines( bool addAll )
 
 			if( e.size() > 0 && e.at( 0 ).contains( "python" ) ){
 
-				_engine_add( { *this,m_logger,"python3","--version",0,1 } ) ;
+				_engine_add( { *this,m_logger,"python3","--version",0,1,id } ) ;
 				break ;
 			}
 		}
@@ -317,10 +317,10 @@ const std::vector< engines::engine >& engines::getEngines() const
 
 engines::Iterator engines::getEnginesIterator() const
 {
-	return m_backends ;
+	return { m_backends,utility::concurrentID() } ;
 }
 
-const engines::engine& engines::defaultEngine( const QString& name ) const
+const engines::engine& engines::defaultEngine( const QString& name,int id ) const
 {
 	auto m =  this->getEngineByName( name ) ;
 
@@ -328,7 +328,7 @@ const engines::engine& engines::defaultEngine( const QString& name ) const
 
 		return m.value() ;
 	}else{
-		m_logger.add( "Error: engines::defaultEngine: Unknown Engine: " + name ) ;
+		m_logger.add( "Error: engines::defaultEngine: Unknown Engine: " + name,id ) ;
 
 		if( m_backends.size() > 0 ){
 
@@ -407,7 +407,7 @@ const QProcessEnvironment& engines::processEnvironment() const
 	return m_processEnvironment ;
 }
 
-QString engines::addEngine( const QByteArray& data,const QString& path )
+QString engines::addEngine( const QByteArray& data,const QString& path,int id )
 {
 	util::Json json( data ) ;
 
@@ -441,19 +441,19 @@ QString engines::addEngine( const QByteArray& data,const QString& path )
 					}
 				}
 
-				this->updateEngines( false ) ;
+				this->updateEngines( false,id ) ;
 
 				return name ;
 			}
 		}
 	}
 
-	m_logger.add( QObject::tr( "Failed To Load A Plugin" ) + ": " + json.errorString() ) ;
+	m_logger.add( QObject::tr( "Failed To Load A Plugin" ) + ": " + json.errorString(),id ) ;
 
 	return {} ;
 }
 
-void engines::removeEngine( const QString& e )
+void engines::removeEngine( const QString& e,int id )
 {
 	const auto engine = _get_engine_by_path( e,*this,m_logger,m_enginePaths ) ;
 
@@ -486,7 +486,7 @@ void engines::removeEngine( const QString& e )
 			_reset_default( name,settings::tabName::playlist ) ;
 		}
 
-		this->updateEngines( false ) ;
+		this->updateEngines( false,id ) ;
 	}
 }
 
@@ -508,7 +508,8 @@ engines::engine::engine( const engines& engines,
 			 const QString& name,
 			 const QString& versionArgument,
 			 int line,
-			 int position ) :
+			 int position,
+			 int id ) :
 	m_line( line ),
 	m_position( position ),
 	m_valid( true ),
@@ -522,7 +523,7 @@ engines::engine::engine( const engines& engines,
 	if( m.isEmpty() ){
 
 		m_valid = false ;
-		logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( m_commandName ) ) ;
+		logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( m_commandName ),id ) ;
 	}else{
 		m_exePath = m ;
 	}
@@ -552,7 +553,8 @@ void engines::engine::updateOptions()
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
 			 const util::Json& json,
-			 const engines& engines ) :
+			 const engines& engines,
+			 int id ) :
 	m_jsonObject( json.doc().object() ),
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
@@ -622,9 +624,9 @@ engines::engine::engine( Logger& logger,
 
 		if( cmdNames.isEmpty() ){
 
-			this->parseMultipleCmdArgs( logger,engines ) ;
+			this->parseMultipleCmdArgs( logger,engines,id ) ;
 		}else{
-			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines ) ;
+			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines,id ) ;
 		}
 	}else{
 		auto cmdNames = [ & ](){
@@ -665,14 +667,14 @@ engines::engine::engine( Logger& logger,
 
 		if( cmdNames.size() == 1 ){
 
-			this->parseMultipleCmdArgs( logger,engines ) ;
+			this->parseMultipleCmdArgs( logger,engines,id ) ;
 		}else{
-			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines ) ;
+			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines,id ) ;
 		}
 	}
 }
 
-void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engines )
+void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engines,int id )
 {
 	auto m = engines.findExecutable( m_commandName ) ;
 
@@ -684,7 +686,7 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engine
 			m_exePath = m_exeFolderPath + "/" + m_commandName ;
 		}else{
 			m_valid = false ;
-			logger.add( utility::failedToFindExecutableString( m_commandName ) ) ;
+			logger.add( utility::failedToFindExecutableString( m_commandName ),id ) ;
 		}
 	}else{
 		m_exePath = m ;
@@ -695,7 +697,8 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 					    const QString& backendPath,
 					    Logger& logger,
 					    const enginePaths& ePaths,
-					    const engines& engines )
+					    const engines& engines,
+					    int id )
 {
 	if( cmdNames.isEmpty() ){
 
@@ -703,7 +706,7 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 		return ;
 	}
 
-	this->parseMultipleCmdArgs( logger,engines ) ;
+	this->parseMultipleCmdArgs( logger,engines,id ) ;
 
 	auto cmd = cmdNames.takeAt( 0 ) ;
 
@@ -744,7 +747,7 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 		if( m.isEmpty() ){
 
 			m_valid = false ;
-			logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ) ) ;
+			logger.add( QObject::tr( "Failed to find python3 executable for backend \"%1\"" ).arg( m_name ),id ) ;
 		}else{
 			if( utility::platformIsWindows() ){
 
@@ -759,7 +762,7 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 		if( m.isEmpty() ){
 
 			m_valid = false ;
-			logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ) ) ;
+			logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( cmd ),id ) ;
 		}else{
 			m_exePath = { m,subCmd,cmdNames } ;
 		}
@@ -899,9 +902,9 @@ bool engines::engine::functions::supportsShowingComments()
 	return false ;
 }
 
-engines::engine::functions::DataFilter engines::engine::functions::Filter( const QString& e )
+engines::engine::functions::DataFilter engines::engine::functions::Filter( int id,const QString& e )
 {
-	return { util::types::type_identity< engines::engine::functions::filter >(),e,m_engine } ;
+	return { util::types::type_identity< engines::engine::functions::filter >(),e,m_engine,id } ;
 }
 
 void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,const QString& s )
@@ -1143,17 +1146,20 @@ QStringList engines::file::readAllAsLines()
 
 void engines::file::failToOpenForWriting()
 {
-	m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath ) ;
+	auto id = utility::concurrentID() ;
+	m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath,id ) ;
 }
 
 void engines::file::failToOpenForReading()
 {
-	m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath ) ;
+	auto id = utility::concurrentID() ;
+	m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath,id ) ;
 }
 
-engines::engine::functions::filter::filter( const QString& e,const engines::engine& engine ) :
-	m_quality( e ),m_engine( engine )
+engines::engine::functions::filter::filter( const QString& e,const engines::engine& engine,int id ) :
+	m_quality( e ),m_engine( engine ),m_processId( id )
 {
+	if( m_processId ){}
 }
 
 const QByteArray& engines::engine::functions::filter::operator()( const Logger::Data& s )

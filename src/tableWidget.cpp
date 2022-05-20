@@ -297,8 +297,11 @@ QString tableWidget::completeProgress( int firstRow,int )
 	int errored = 0 ;
 	int cancelled = 0 ;
 	int notStarted = 0 ;
+	int rowCount = 0 ;
 
 	for( int i = firstRow ; i < m_table.rowCount() ; i++ ){
+
+		rowCount++ ;
 
 		const auto& s = this->runningState( i ) ;
 
@@ -320,7 +323,7 @@ QString tableWidget::completeProgress( int firstRow,int )
 		}
 	}
 
-	auto a = QString::number( ( completed + errored + cancelled ) * 100 / m_table.rowCount() ) ;
+	auto a = QString::number( ( completed + errored + cancelled ) * 100 / rowCount ) ;
 	auto b = QString::number( notStarted ) ;
 	auto c = QString::number( completed ) ;
 	auto d = QString::number( errored ) ;

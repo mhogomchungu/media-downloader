@@ -98,7 +98,7 @@ public:
 	int stringTruncationSize() ;
 	int historySize() ;
 	int tabNumber() ;
-	int maxLoggerLines() ;
+	int maxLoggerProcesses() ;
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
 
