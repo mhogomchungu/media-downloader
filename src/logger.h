@@ -271,6 +271,10 @@ public:
 
 			return false ;
 		}
+		bool doneDownloading() const
+		{
+			return m_processOutputs.rbegin()->doneDownloading() ;
+		}
 		template< typename Function,typename Add >
 		void replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
 		{

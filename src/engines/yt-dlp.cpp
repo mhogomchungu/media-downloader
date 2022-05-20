@@ -868,7 +868,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 		}
 	}
 
-	if( s.doneDownloading( m_processId ) ){
+	if( s.doneDownloading() ){
 
 		return m_postProcessing.text( m_fileName ) ;
 	}else{
