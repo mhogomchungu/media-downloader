@@ -654,29 +654,26 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 		s.ourOptions.append( s.quality ) ;
 	}
 
-	if( !s.indexAsString.isEmpty() ){
+	for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
 
-		for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
+		if( s.ourOptions[ m ] == "-o" ){
 
-			if( s.ourOptions[ m ] == "-o" ){
+			if( m + 1 < s.ourOptions.size() ){
 
-				if( m + 1 < s.ourOptions.size() ){
+				auto& e = s.ourOptions[ m + 1 ] ;
 
-					auto& e = s.ourOptions[ m + 1 ] ;
+				e.replace( "%(autonumber)s",s.indexAsString ) ;
+				e.replace( "%(playlist_index)s",s.indexAsString ) ;
+				e.replace( "%(playlist_id)s",s.playlist_id ) ;
+				e.replace( "%(playlist_title)s",s.playlist_title ) ;
+				e.replace( "%(playlist)s",s.playlist ) ;
+				e.replace( "%(playlist_count)s",s.playlist_count ) ;
+				e.replace( "%(playlist_uploader)s",s.playlist_uploader ) ;
+				e.replace( "%(playlist_index)s",s.indexAsString ) ;
+				e.replace( "%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
+				e.replace( "%(n_entries)s",s.n_entries ) ;
 
-					e.replace( "%(autonumber)s",s.indexAsString ) ;
-					e.replace( "%(playlist_index)s",s.indexAsString ) ;
-					e.replace( "%(playlist_id)s",s.playlist_id ) ;
-					e.replace( "%(playlist_title)s",s.playlist_title ) ;
-					e.replace( "%(playlist)s",s.playlist ) ;
-					e.replace( "%(playlist_count)s",s.playlist_count ) ;
-					e.replace( "%(playlist_uploader)s",s.playlist_uploader ) ;
-					e.replace( "%(playlist_index)s",s.indexAsString ) ;
-					e.replace( "%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
-					e.replace( "%(n_entries)s",s.n_entries ) ;
-
-					break ;
-				}
+				m++ ;
 			}
 		}
 	}

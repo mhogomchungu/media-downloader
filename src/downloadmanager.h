@@ -169,7 +169,7 @@ public:
 		}
 		const tableWidget::entry& tableEntryAtIndex()
 		{
-			return m_table.entryAt( m_index ) ;
+			return m_table.entryAt( static_cast< size_t >( m_index + 1 ) ) ;
 		}
 		void add( int index,const QString& url,bool forceUpdate = false )
 		{
