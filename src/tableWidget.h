@@ -125,6 +125,13 @@ public:
 			url( media.url() ),
 			uiText( media.uiText() ),
 			runningState( rState ),
+			playlist( media.playlist() ),
+			playlist_count( media.playlist_count() ),
+			playlist_id( media.playlist_id() ),
+			playlist_title( media.playlist_title() ),
+			playlist_uploader( media.playlist_uploader() ),
+			playlist_uploader_id( media.playlist_id() ),
+			n_entries( media.n_entries() ),
 			mediaProperties( media.formats() ),
 			uiJson( media.uiJson() ),
 			thumbnail( thumbnail )
@@ -137,6 +144,13 @@ public:
 		QString downloadingOptionsUi ;
 		QString engineName ;
 		QString subtitle ;
+		QString playlist ;
+		QString playlist_count ;
+		QString playlist_id ;
+		QString playlist_title ;
+		QString playlist_uploader ;
+		QString playlist_uploader_id ;
+		QString n_entries ;
 		QJsonArray mediaProperties ;
 		QJsonObject uiJson ;
 		QPixmap thumbnail ;

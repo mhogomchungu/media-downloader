@@ -517,7 +517,7 @@ QStringList yt_dlp::dumpJsonArguments()
 
 		return engines::engine::functions::dumpJsonArguments() ;
 	}else{
-		auto a = R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j})R" ;
+		auto a = R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j,"n_entries":%(n_entries)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_count":%(playlist_count)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
 
 		return { "--newline","--print",a } ;
 	}
@@ -666,6 +666,14 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 					e.replace( "%(autonumber)s",s.indexAsString ) ;
 					e.replace( "%(playlist_index)s",s.indexAsString ) ;
+					e.replace( "%(playlist_id)s",s.playlist_id ) ;
+					e.replace( "%(playlist_title)s",s.playlist_title ) ;
+					e.replace( "%(playlist)s",s.playlist ) ;
+					e.replace( "%(playlist_count)s",s.playlist_count ) ;
+					e.replace( "%(playlist_uploader)s",s.playlist_uploader ) ;
+					e.replace( "%(playlist_index)s",s.indexAsString ) ;
+					e.replace( "%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
+					e.replace( "%(n_entries)s",s.n_entries ) ;
 
 					break ;
 				}

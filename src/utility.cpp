@@ -478,6 +478,7 @@ void utility::openDownloadFolderPath( const QString& url )
 
 QStringList utility::updateOptions( const updateOptionsStruct& s )
 {
+	const tableWidget::entry& ent  = s.tableEntry ;
 	const engines::engine& engine  = s.engine ;
 	const engines::enginePaths& ep = s.enginePaths ;
 	settings& settings             = s.stts ;
@@ -506,7 +507,18 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 	auto url = urls ;
 
-	engine.updateDownLoadCmdOptions( { args.quality(),args.otherOptions(),indexAsString,url,opts } ) ;
+	engine.updateDownLoadCmdOptions( { args.quality(),
+					   args.otherOptions(),
+					   indexAsString,
+					   ent.playlist,
+					   ent.playlist_count,
+					   ent.playlist_id,
+					   ent.playlist_title,
+					   ent.playlist_uploader,
+					   ent.playlist_uploader_id,
+					   ent.n_entries,
+					   url,
+					   opts } ) ;
 
 	opts.append( url ) ;
 
@@ -745,6 +757,15 @@ utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
 		m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
 		m_formats      = object.value( "formats" ).toArray() ;
 		m_uploader     = object.value( "uploader" ).toString() ;
+
+		m_playlist             = object.value( "playlist" ).toString() ;
+		m_playlist_id          = object.value( "playlist_id" ).toString() ;
+		m_playlist_title       = object.value( "playlist_title" ).toString() ;
+		m_playlist_uploader    = object.value( "playlist_uploader" ).toString() ;
+		m_playlist_uploader_id = object.value( "playlist_uploader_id" ).toString() ;
+
+		m_n_entries            = QString::number( object.value( "n_entries" ).toInt() ) ;
+		m_playlist_count       = QString::number( object.value( "playlist_count" ).toInt() ) ;
 
 		if( !m_uploadDate.isEmpty() ){
 

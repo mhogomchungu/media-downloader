@@ -356,11 +356,19 @@ public:
 
 			virtual void processData( Logger::Data&,const QString&,int id,bool readableJson,bool mainLogger ) ;
 
+
 			struct updateOpts
 			{
 				const QString& quality ;
 				const QStringList& userOptions ;
 				const QString& indexAsString ;
+				const QString& playlist ;
+				const QString& playlist_count ;
+				const QString& playlist_id ;
+				const QString& playlist_title ;
+				const QString& playlist_uploader ;
+				const QString& playlist_uploader_id ;
+				const QString& n_entries ;
 				QStringList& urls ;
 				QStringList& ourOptions ;
 			};

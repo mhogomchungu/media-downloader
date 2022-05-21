@@ -344,6 +344,7 @@ namespace utility
 		const QString& indexAsString ;
 		bool forceDownload ;
 		const QStringList& urls ;
+		const tableWidget::entry& tableEntry ;
 	};
 
 	QStringList updateOptions( const updateOptionsStruct& ) ;
@@ -1162,6 +1163,34 @@ namespace utility
 		{
 			return m_intDuration ;
 		}
+		const QString& playlist() const
+		{
+			return m_playlist ;
+		}
+		const QString& playlist_uploader() const
+		{
+			return m_playlist_uploader ;
+		}
+		const QString& playlist_count() const
+		{
+			return m_playlist_count ;
+		}
+		const QString& playlist_id() const
+		{
+			return m_playlist_id ;
+		}
+		const QString& playlist_title() const
+		{
+			return m_playlist_title ;
+		}
+		const QString& playlist_uploader_id() const
+		{
+			return m_playlist_uploader_id ;
+		}
+		const QString& n_entries() const
+		{
+			return m_n_entries ;
+		}
 	private:
 		QString m_thumbnailUrl ;
 		QString m_title ;
@@ -1170,6 +1199,14 @@ namespace utility
 		QString m_duration ;
 		QString m_id ;
 		QString m_uploader ;
+		QString m_playlist ;
+		QString m_playlist_count ;
+		QString m_playlist_id ;
+		QString m_playlist_title ;
+		QString m_playlist_uploader ;
+		QString m_playlist_uploader_id ;
+		QString m_n_entries ;
+
 		QJsonArray m_formats ;
 		int m_intDuration ;
 		util::Json m_json ;

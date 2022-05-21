@@ -336,7 +336,7 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 
 	const auto& ep = m_ctx.Engines().engineDirPaths() ;
 
-	auto opts = utility::updateOptions( { engine.engine,ep,m_settings,args,QString(),false,urls } ) ;
+	auto opts = utility::updateOptions( { engine.engine,ep,m_settings,args,QString(),false,urls,{} } ) ;
 
 	this->run( engine,opts,args.quality(),false ) ;
 }

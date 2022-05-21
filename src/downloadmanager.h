@@ -167,6 +167,10 @@ public:
 		{
 			return m_table ;
 		}
+		const tableWidget::entry& tableEntryAtIndex()
+		{
+			return m_table.entryAt( m_index ) ;
+		}
 		void add( int index,const QString& url,bool forceUpdate = false )
 		{
 			m_entries.emplace_back( index,url,forceUpdate ) ;
@@ -322,11 +326,13 @@ public:
 
 		bool fd = m_index->forceDownload() ;
 
+		const auto& e = m_index->tableEntryAtIndex() ;
+
 		m_index->next() ;
 
 		utility::args args( m ) ;
 
-		utility::updateOptionsStruct opt{ engine,ep,m_settings,args,iString,fd,{ url } } ;
+		utility::updateOptionsStruct opt{ engine,ep,m_settings,args,iString,fd,{ url },e } ;
 
 		auto ctx = utility::make_ctx( engine,
 					      std::move( opts ),
