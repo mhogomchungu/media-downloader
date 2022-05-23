@@ -156,7 +156,7 @@ lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,
 	engines::engine::functions::filter( e,engine,id ),
 	m_processId( id )
 {
-	if( m_processId ){}
+	Q_UNUSED( m_processId )
 }
 
 const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )

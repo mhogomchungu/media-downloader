@@ -367,7 +367,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			connect( ac,&QAction::triggered,[ &engine,this,row,forceDownload ](){
 
-				downloadManager::index indexes( m_table ) ;
+				downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
 
 				auto e = m_table.runningState( row ) ;
 
@@ -583,7 +583,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		m_table.selectLast() ;
 
-		downloadManager::index index( m_table ) ;
+		downloadManager::index index( m_table,downloadManager::index::tab::batch ) ;
 
 		index.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
 
@@ -593,7 +593,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		for( const auto& it : list ){
 
-			downloadManager::index indexes( m_table ) ;
+			downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
 
 			tableWidget::entry entry ;
 
@@ -1706,7 +1706,7 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table ) ;
+	downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
 
 	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
 

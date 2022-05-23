@@ -697,6 +697,7 @@ yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,const QString& e,const
 	m_likeYtdlp( engine.name().contains( "yt-dlp" ) ),
 	m_processId( processId )
 {
+	Q_UNUSED( m_processId )
 }
 
 const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )

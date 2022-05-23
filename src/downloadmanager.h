@@ -127,7 +127,10 @@ public:
 	class index
 	{
 	public:
-		index( tableWidget& t ) :
+		enum class tab{ batch = 0,playlist = 1 } ;
+
+		index( tableWidget& t,downloadManager::index::tab i ) :
+			m_init_position( i ),
 			m_table( t )
 		{
 		}
@@ -169,7 +172,8 @@ public:
 		}
 		const tableWidget::entry& tableEntryAtIndex()
 		{
-			return m_table.entryAt( static_cast< size_t >( m_index + 1 ) ) ;
+			auto s = static_cast< int >( m_init_position ) ;
+			return m_table.entryAt( static_cast< size_t >( m_index + s ) ) ;
 		}
 		void add( int index,const QString& url,bool forceUpdate = false )
 		{
@@ -218,6 +222,7 @@ public:
 			return m_entries[ static_cast< size_t >( s ) ] ;
 		}
 		int m_index = 0 ;
+		downloadManager::index::tab m_init_position ;
 		std::vector< entry > m_entries ;
 		tableWidget& m_table ;
 	};

@@ -290,7 +290,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			connect( ac,&QAction::triggered,[ this,row,forceDownload ](){
 
-				downloadManager::index indexes( m_table ) ;
+				downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
 
 				auto e = m_table.runningState( row ) ;
 
@@ -711,7 +711,7 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 void playlistdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table ) ;
+	downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
 
 	auto _add = [ & ]( int s,const QString& opts ){
 

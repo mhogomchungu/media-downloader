@@ -192,7 +192,7 @@ aria2c::aria2c_dlFilter::aria2c_dlFilter( const QString& e,settings&,const engin
 	engines::engine::functions::filter( e,engine,id ),
 	m_processId( id )
 {
-	if( m_processId ){}
+	Q_UNUSED( m_processId )
 }
 
 const QByteArray& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )

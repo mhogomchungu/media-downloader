@@ -104,7 +104,7 @@ gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings&,const
 	engines::engine::functions::filter( e,engine,id ),
 	m_processId( id )
 {
-	if( m_processId ){}
+	Q_UNUSED( m_processId )
 }
 
 const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )

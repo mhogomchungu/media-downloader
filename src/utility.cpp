@@ -882,7 +882,7 @@ QString utility::locale::formattedDataSize( qint64 s ) const
 			result = QString( "%1 %2" ).arg( c,b ) ;
 		}
 
-	    return result ;
+		return result ;
 	}
 
 	return {} ;
