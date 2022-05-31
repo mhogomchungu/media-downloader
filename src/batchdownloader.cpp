@@ -1571,6 +1571,8 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	auto ctx    = utility::make_ctx( engine,std::move( oopts ),logger,std::move( term ),ch ) ;
 
+	m_ctx.logger().setMaxProcessLog( 1 ) ;
+
 	utility::run( args,QString(),std::move( ctx ) ) ;
 }
 
