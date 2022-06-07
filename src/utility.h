@@ -278,6 +278,7 @@ namespace utility
 					      int row ) ;
 
 	QString failedToFindExecutableString( const QString& cmd ) ;
+	int sequentialID() ;
 	int concurrentID() ;
 	void initDone() ;
 	void saveDownloadList( const Context&,QMenu&,tableWidget&,bool ) ;

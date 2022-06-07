@@ -71,6 +71,17 @@ public:
 			{
 				return m_processId ;
 			}
+			struct IdLessThanZero
+			{
+				bool operator()( int id ) const
+				{
+					return id < 0 ;
+				}
+			} ;
+			bool operator==( const IdLessThanZero& id ) const
+			{
+				return id( m_processId ) ;
+			}
 			const std::vector< Logger::Data::processOutput::outputEntry >& entries() const
 			{
 				return m_data ;
@@ -217,6 +228,7 @@ public:
 				return {} ;
 			}
 		}
+		void removeExtraLogs() ;
 		bool removeFirstFinished() ;
 		class ProcessData
 		{
@@ -280,7 +292,7 @@ public:
 		{
 			_replaceOrAdd( text,id,std::move( function ),std::move( add ) ) ;
 		}
-		void add( const QByteArray& text,int id = -1 )
+		void add( const QByteArray& text,int id )
 		{
 			auto _false = []( const QByteArray& ){ return false ; } ;
 
@@ -288,9 +300,7 @@ public:
 		}
 		void luxHack( int id,const QByteArray& data ) ;
 	private:
-
 		bool postProcessText( const QByteArray& data ) ;
-
 		template< typename Function,typename Add >
 		void _replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
 		{
@@ -344,7 +354,7 @@ public:
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
-	void add( const QString& s,int id )
+	void add( const QString& s,int id      )
 	{
 		this->add( s.toUtf8(),id ) ;
 	}
@@ -499,9 +509,9 @@ public:
 
 		if( s.startsWith( "[media-downloader]" ) ){
 
-			m_localLogger.add( s ) ;
+			m_localLogger.add( s,m_id ) ;
 		}else{
-			m_localLogger.add( "[media-downloader] " + s ) ;
+			m_localLogger.add( "[media-downloader] " + s,m_id ) ;
 		}
 
 		this->update() ;

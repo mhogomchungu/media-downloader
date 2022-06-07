@@ -546,25 +546,26 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 	return opts ;
 }
 
-static bool _initDone = false ;
-
 void utility::initDone()
 {
-	_initDone = true ;
+}
+
+int utility::sequentialID()
+{
+	static int id = 0 ;
+
+	--id ;
+
+	return id ;
 }
 
 int utility::concurrentID()
 {
-	if( _initDone ){
+	static int id = -1 ;
 
-		static int id = 0 ;
+	++id ;
 
-		id++ ;
-
-		return id ;
-	}else{
-		return 0 ;
-	}
+	return id ;
 }
 
 QString utility::failedToFindExecutableString( const QString& cmd )
@@ -929,7 +930,7 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	auto id = utility::concurrentID() ;
+	auto id = utility::sequentialID() ;
 
 	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name(),id ) ;
 

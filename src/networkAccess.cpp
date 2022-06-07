@@ -54,7 +54,7 @@ networkAccess::networkAccess( const Context& ctx ) :
 		auto& e = m_ctx.logger() ;
 		auto s = QSslSocket::sslLibraryVersionString() ;
 
-		auto id = utility::concurrentID() ;
+		auto id = utility::sequentialID() ;
 
 		e.add( QObject::tr( "Checking installed version of" ) + " OpenSSL",id ) ;
 
@@ -122,7 +122,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	auto path = engine.exeFolderPath() ;
 
-	int id = utility::concurrentID() ;
+	int id = utility::sequentialID() ;
 
 	if( !dir.exists( path ) ){
 

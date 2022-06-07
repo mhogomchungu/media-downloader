@@ -210,13 +210,13 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 
 				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
 
-				logger.add( m.arg( name,minVersion ),utility::concurrentID() ) ;
+				logger.add( m.arg( name,minVersion ),utility::sequentialID() ) ;
 
 				return {} ;
 			}
 		}
 
-		return { logger,enginePaths,object,engines,utility::concurrentID() } ;
+		return { logger,enginePaths,object,engines,utility::sequentialID() } ;
 	}else{
 		return {} ;
 	}
@@ -317,7 +317,7 @@ const std::vector< engines::engine >& engines::getEngines() const
 
 engines::Iterator engines::getEnginesIterator() const
 {
-	return { m_backends,utility::concurrentID() } ;
+	return { m_backends,utility::sequentialID() } ;
 }
 
 const engines::engine& engines::defaultEngine( const QString& name,int id ) const
@@ -1146,13 +1146,13 @@ QStringList engines::file::readAllAsLines()
 
 void engines::file::failToOpenForWriting()
 {
-	auto id = utility::concurrentID() ;
+	auto id = utility::sequentialID() ;
 	m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath,id ) ;
 }
 
 void engines::file::failToOpenForReading()
 {
-	auto id = utility::concurrentID() ;
+	auto id = utility::sequentialID() ;
 	m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath,id ) ;
 }
 

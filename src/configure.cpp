@@ -221,7 +221,7 @@ configure::configure( const Context& ctx ) :
 
 		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select An Engine File" ),utility::homePath() ) ;
 
-		auto id = utility::concurrentID() ;
+		auto id = utility::sequentialID() ;
 
 		if( !m.isEmpty() ){
 
@@ -259,7 +259,7 @@ configure::configure( const Context& ctx ) :
 
 		connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
 
-			auto id = utility::concurrentID() ;
+			auto id = utility::sequentialID() ;
 
 			m_ctx.Engines().removeEngine( ac->objectName(),id ) ;
 
@@ -283,7 +283,7 @@ configure::configure( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			auto id = utility::concurrentID() ;
+			auto id = utility::sequentialID() ;
 			this->downloadFromGitHub( { m_ctx.Engines().defaultEngine( m,id ),id } ) ;
 		}
 	} ) ;

@@ -446,7 +446,7 @@ QString settings::downloadFolder( Logger& logger )
 {
 	return _downloadFolder( m_settings,m_portableVersion,[ &logger ]( const QString& e ){
 
-		logger.add( e,utility::concurrentID() ) ;
+		logger.add( e,utility::sequentialID() ) ;
 	} ) ;
 }
 

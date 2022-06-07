@@ -1090,7 +1090,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 		return Loop::Break ;
 	}else{
 		data.clear() ;
-		data.add( mmm.mid( index + 1 ) ) ;
+		data.add( mmm.mid( index + 1 ),utility::concurrentID() ) ;
 	}	
 
 	if( copts.contains( media.id() ) ){

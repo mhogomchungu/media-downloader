@@ -60,6 +60,7 @@ void Logger::clear()
 
 void Logger::setMaxProcessLog( int s )
 {
+	m_processOutPuts.removeExtraLogs() ;
 	m_maxProcessLog = s ;
 }
 
@@ -126,6 +127,13 @@ bool Logger::Data::registerDone( int id )
 QList< QByteArray > Logger::Data::toStringList() const
 {
 	return util::split( this->toString(),'\n' ) ;
+}
+
+void Logger::Data::removeExtraLogs()
+{
+	auto& v = m_processOutputs ;
+	auto m = Logger::Data::processOutput::IdLessThanZero() ;
+	v.erase( std::remove( v.begin(),v.end(),m ),v.end() ) ;
 }
 
 bool Logger::Data::removeFirstFinished()
