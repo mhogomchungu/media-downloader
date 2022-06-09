@@ -159,7 +159,7 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine::functions::up
 
 			s.ourOptions.append( m_engine.userName() + ":" + m_engine.password() ) ;
 		}else{
-			s.ourOptions.append( s.quality ) ;
+			s.ourOptions.prepend( s.quality ) ;
 		}
 	}else{
 		s.ourOptions.append( "--login" ) ;

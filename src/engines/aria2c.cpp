@@ -181,7 +181,7 @@ void aria2c::updateDownLoadCmdOptions( const updateOpts& e )
 
 	if( !e.quality.isEmpty() ){
 
-		e.ourOptions.append( e.quality ) ;
+		e.ourOptions.prepend( e.quality ) ;
 	}
 
 	e.ourOptions.removeAll( "Default" ) ;

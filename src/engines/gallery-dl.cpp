@@ -45,7 +45,7 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 
 	if( !s.quality.isEmpty() ){
 
-		s.ourOptions.append( s.quality ) ;
+		s.ourOptions.prepend( s.quality ) ;
 	}
 
 	s.ourOptions.removeAll( "Default" ) ;

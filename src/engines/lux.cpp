@@ -148,7 +148,7 @@ void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts
 
 		s.ourOptions.append( m_engine.optionsArgument() ) ;
 
-		s.ourOptions.append( s.quality ) ;
+		s.ourOptions.prepend( s.quality ) ;
 	}
 }
 
