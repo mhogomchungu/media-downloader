@@ -22,7 +22,7 @@
 #include "../downloadmanager.h"
 #include "../util.hpp"
 
-svtplay_dl::svtplay_dl( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
+svtplay_dl::svtplay_dl( const engines& engines,const engines::engine& engine,QJsonObject& ) :
 	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_processEnvironment( engines::engine::functions::processEnvironment() )
 {
@@ -58,7 +58,7 @@ std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 
 		auto a = util::split( it,' ',true ) ;
 
-		if( a.size() > 6 ){
+		if( a.size() > 5 ){
 
 			auto format     = a.takeAt( 0 ) ;
 			auto method     = "Method: " + a.takeAt( 0 ) ;
