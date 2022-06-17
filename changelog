@@ -126,3 +126,7 @@ Version 1.2.0(April 1st, 2021)
  - Add lux backend. Project page is at: https://github.com/iawia002/lux
  - Update language translations.
  - Add a checkbox in batch downloader tab to make it easy to enable/disable monitoring of clipboard for Url.
+
+ Version 2.3.1(Unreleased)
+ - Add svtplay-dl extension. Project page is at: https://github.com/spaam/svtplay-dl
+ - Add Italian translations.

@@ -37,7 +37,7 @@
             "contains": "ETA"
         }
     },
-    "CookieArgument": "--cookies",
+    "CookieArgument": "",
     "DefaultCommentsCmdOptions": [],
     "DefaultDownLoadCmdOptions": [],
     "DefaultListCmdOptions": [

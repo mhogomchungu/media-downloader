@@ -27,11 +27,6 @@ svtplay_dl::svtplay_dl( const engines& engines,const engines::engine& engine,QJs
 	m_processEnvironment( engines::engine::functions::processEnvironment() )
 {
 	m_processEnvironment.insert( "PYTHONUNBUFFERED","true" ) ;
-
-	if( !object.contains( "CookieArgument" ) ){
-
-		object.insert( "CookieArgument","--cookies" ) ;
-	}
 }
 
 void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s ) const
@@ -63,7 +58,7 @@ std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 
 		auto a = util::split( it,' ',true ) ;
 
-		if( a.size() > 3 ){
+		if( a.size() > 6 ){
 
 			auto format     = a.takeAt( 0 ) ;
 			auto method     = "Method: " + a.takeAt( 0 ) ;
@@ -71,7 +66,6 @@ std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 			auto resolution = a.takeAt( 0 ) ;
 			auto language   = "Language: " + a.takeAt( 0 ) ;
 			auto role       = "Role: " + a.takeAt( 0 ) ;
-
 			auto notes      = method + ", " + language + "\n" + role ;
 
 			s.emplace_back( QStringList{ format,codec,resolution,notes } ) ;
