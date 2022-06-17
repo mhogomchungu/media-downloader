@@ -233,7 +233,7 @@ yt_dlp::yt_dlp( const engines& engines,
 		QJsonObject& obj,
 		Logger& logger,
 		const engines::enginePaths& enginePath ) :
-	engines::engine::functions( engines.Settings(),engine ),
+	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine )
 {
 	auto name = obj.value( "Name" ).toString() ;

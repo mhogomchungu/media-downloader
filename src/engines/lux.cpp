@@ -25,7 +25,7 @@ lux::~lux()
 }
 
 lux::lux( const engines& engines,const engines::engine& engine,QJsonObject& ) :
-	engines::engine::functions( engines.Settings(),engine ),
+	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine )
 {
 }

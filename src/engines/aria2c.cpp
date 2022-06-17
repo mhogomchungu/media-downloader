@@ -140,7 +140,7 @@ aria2c::~aria2c()
 }
 
 aria2c::aria2c( const engines& engines,const engines::engine& engine,QJsonObject& ) :
-	engines::engine::functions( engines.Settings(),engine ),
+	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engines( engines )
 {
 }

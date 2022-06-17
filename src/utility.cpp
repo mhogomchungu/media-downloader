@@ -595,11 +595,6 @@ QString utility::downloadFolder( const Context& ctx )
 	return ctx.Settings().downloadFolder() ;
 }
 
-const QProcessEnvironment& utility::processEnvironment( const Context& ctx )
-{
-	return ctx.Engines().processEnvironment() ;
-}
-
 static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuccess )
 {
 	QJsonArray arr ;

@@ -25,7 +25,7 @@
 #include <QJsonArray>
 
 safaribooks::safaribooks( const engines& engines,const engines::engine& engine,QJsonObject& object ) :
-	engines::engine::functions( engines.Settings(),engine ),
+	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine )
 {
 	if( !object.contains( "ControlJsonStructure" ) ){

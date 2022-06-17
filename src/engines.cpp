@@ -25,6 +25,7 @@
 #include "engines/gallery-dl.h"
 #include "engines/aria2c.h"
 #include "engines/lux.h"
+#include "engines/svtplay-dl.h"
 
 #include "downloadmanager.h"
 #include "utility.h"
@@ -239,7 +240,7 @@ void engines::updateEngines( bool addAll,int id )
 {
 	m_backends.clear() ;
 
-	auto _engine_add = [ & ]( util::result< engines::engine > m ){
+	auto _engine_add = [ & ]( const QString& jsonFile,util::result< engines::engine > m ){
 
 		if( m ){
 
@@ -249,21 +250,23 @@ void engines::updateEngines( bool addAll,int id )
 			}else{
 				m_backends.emplace_back( std::move( m.value() ) ) ;
 			}
+		}else{
+			m_logger.add( QObject::tr( "Error, failed to parse config file \"%1\"" ).arg( jsonFile ),id ) ;
 		}
 	} ;
 
-	_engine_add( _get_engine_by_path( m_defaultEngine.configFileName(),*this,m_logger,m_enginePaths ) ) ;
+	_engine_add( "",_get_engine_by_path( m_defaultEngine.configFileName(),*this,m_logger,m_enginePaths ) ) ;
 
 	for( const auto& it : this->enginesList() ){
 
-		_engine_add( _get_engine_by_path( it,*this,m_logger,m_enginePaths ) ) ;
+		_engine_add( it,_get_engine_by_path( it,*this,m_logger,m_enginePaths ) ) ;
 	}
 
 	if( addAll ){
 
-		_engine_add( { *this,m_logger,"ffmpeg","-version",0,2,id } ) ;
+		_engine_add( "",{ *this,m_logger,"ffmpeg","-version",0,2,id } ) ;
 
-		_engine_add( { *this,m_logger,"aria2c","--version",0,2,id } ) ;
+		_engine_add( "",{ *this,m_logger,"aria2c","--version",0,2,id } ) ;
 
 		for( const auto& it : this->getEngines() ){
 
@@ -271,7 +274,7 @@ void engines::updateEngines( bool addAll,int id )
 
 			if( e.size() > 0 && e.at( 0 ).contains( "python" ) ){
 
-				_engine_add( { *this,m_logger,"python3","--version",0,1,id } ) ;
+				_engine_add( it.name(),{ *this,m_logger,"python3","--version",0,1,id } ) ;
 				break ;
 			}
 		}
@@ -302,6 +305,10 @@ void engines::updateEngines( bool addAll,int id )
 		}else if( name == "lux" ){
 
 			it.setBackend< lux >( engines ) ;
+
+		}else if( name == "svtplay-dl" ){
+
+			it.setBackend< svtplay_dl >( engines ) ;
 
 		}else if( it.mainEngine() ){
 
@@ -844,6 +851,11 @@ engines::engine::functions::~functions()
 {
 }
 
+const QProcessEnvironment& engines::engine::functions::processEnvironment() const
+{
+	return m_processEnvironment ;
+}
+
 std::vector< QStringList > engines::engine::functions::mediaProperties( const QByteArray& e )
 {
 	auto args = util::split( e,'\n' ) ;
@@ -890,6 +902,10 @@ std::vector< QStringList > engines::engine::functions::mediaProperties( const QB
 std::vector< QStringList > engines::engine::functions::mediaProperties( const QJsonArray& )
 {
 	return {} ;
+}
+
+void engines::engine::functions::updateOutPutChannel( QProcess::ProcessChannel& ) const
+{
 }
 
 bool engines::engine::functions::breakShowListIfContains( const QStringList& )
@@ -1071,8 +1087,8 @@ void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine
 	s.ourOptions.removeAll( "default" ) ;
 }
 
-engines::engine::functions::functions( settings& s,const engines::engine& engine ) :
-	m_settings( s ),m_engine( engine )
+engines::engine::functions::functions( settings& s,const engines::engine& engine,const QProcessEnvironment& env ) :
+	m_settings( s ),m_engine( engine ),m_processEnvironment( env )
 {
 }
 

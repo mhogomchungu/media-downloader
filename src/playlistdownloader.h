@@ -96,9 +96,9 @@ private:
 	} ;
 
 	template< typename Functions >
-	auto make_options( playlistdownloader::opts opts,Functions f )
+	auto make_options( const engines::engine& engine,playlistdownloader::opts opts,Functions f )
 	{
-		return utility::options< playlistdownloader::opts,Functions >( std::move( opts ),std::move( f ) ) ;
+		return utility::options< playlistdownloader::opts,Functions >( engine,std::move( opts ),std::move( f ) ) ;
 	}
 
 	class subscription

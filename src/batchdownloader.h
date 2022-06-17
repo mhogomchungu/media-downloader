@@ -311,6 +311,7 @@ private:
 
 	template< typename Logger,typename Functions >
 	auto make_options( const Context& ctx,
+			   const engines::engine& engine,
 			   QString debug,
 			   bool listRequested,
 			   int index,
@@ -319,7 +320,7 @@ private:
 	{
 		opts< Logger > oo{ ctx,debug,listRequested,index,std::move( logger ) } ;
 
-		return utility::options< opts< Logger >,Functions >( std::move( oo ),std::move( f ) ) ;
+		return utility::options< opts< Logger >,Functions >( engine,std::move( oo ),std::move( f ) ) ;
 	}
 };
 

@@ -299,7 +299,6 @@ namespace utility
 	bool platformIsNOTWindows() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
-	const QProcessEnvironment& processEnvironment( const Context& ctx ) ;
 
 	class addJsonCmd
 	{
@@ -962,11 +961,21 @@ namespace utility
 
 				auto c = m_channels.channel() ;
 
-				if( c == QProcess::ProcessChannel::StandardOutput && c == channel ){
+				if( channel == QProcess::ProcessChannel::StandardOutput ){
 
-					_withData( data ) ;
+					if( c == QProcess::ProcessChannel::StandardOutput ){
+
+						_withData( data ) ;
+					}else{
+						//??
+					}
 				}else{
-					m_logger.logError( data ) ;
+					if( c == QProcess::ProcessChannel::StandardError ){
+
+						_withData( data ) ;
+					}else{
+						m_logger.logError( data ) ;
+					}
 				}
 			}
 		}
@@ -1259,7 +1268,8 @@ namespace utility
 	class options
 	{
 	public:
-		options( Opts opts,Functions functions ) :
+		options( const engines::engine& engine,Opts opts,Functions functions ) :
+			m_engine( engine ),
 			m_opts( std::move( opts ) ),
 			m_functions( std::move( functions ) )
 		{
@@ -1294,9 +1304,10 @@ namespace utility
 		}
 		const QProcessEnvironment& processEnvironment() const
 		{
-			return utility::processEnvironment( m_opts.ctx ) ;
+			return m_engine.processEnvironment() ;
 		}
 	private:
+		const engines::engine& m_engine ;
 		Opts m_opts ;
 		Functions m_functions ;
 	} ;

@@ -376,7 +376,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 	basicdownloader::opts opts{ engine,m_bogusTable,m_ctx,m_debug,list_requested,-1 } ;
 
-	auto oopts  = basicdownloader::make_options( std::move( opts ),std::move( functions ) ) ;
+	auto oopts  = basicdownloader::make_options( engine,std::move( opts ),std::move( functions ) ) ;
 	auto logger = LoggerWrapper( m_ctx.logger(),id ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
 

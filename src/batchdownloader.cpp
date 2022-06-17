@@ -1361,7 +1361,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			 args,
 			 index == -1 ? url : m_table.url( index ),
 			 m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
-			 batchdownloader::make_options( m_ctx,m_debug,false,index,wrapper,std::move( functions ) ),
+			 batchdownloader::make_options( m_ctx,engine,m_debug,false,index,wrapper,std::move( functions ) ),
 			 wrapper,
 			 QProcess::ProcessChannel::StandardOutput ) ;
 }
@@ -1565,9 +1565,11 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		}
 	} ) ;
 
-	auto oopts  = batchdownloader::make_options( m_ctx,m_debug,true,-1,logger,std::move( functions ) ) ;
+	auto oopts  = batchdownloader::make_options( m_ctx,engine,m_debug,true,-1,logger,std::move( functions ) ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ;
 	auto ch     = QProcess::ProcessChannel::StandardOutput ;
+
+	engine.updateOutPutChannel( ch ) ;
 
 	auto ctx    = utility::make_ctx( engine,std::move( oopts ),logger,std::move( term ),ch ) ;
 
@@ -1765,7 +1767,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 		return true ;
 	} ) ;
 
-	auto oopts = batchdownloader::make_options( m_ctx,m_debug,false,index,loog,std::move( functions ) ) ;
+	auto oopts = batchdownloader::make_options( m_ctx,engine,m_debug,false,index,loog,std::move( functions ) ) ;
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 

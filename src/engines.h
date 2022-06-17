@@ -321,9 +321,13 @@ public:
 
 			virtual ~functions() ;
 
+			virtual const QProcessEnvironment& processEnvironment() const ;
+
 			virtual std::vector< QStringList > mediaProperties( const QByteArray& ) ;
 
 			virtual std::vector< QStringList > mediaProperties( const QJsonArray& ) ;
+
+			virtual void updateOutPutChannel( QProcess::ProcessChannel& ) const ;
 
 			virtual bool breakShowListIfContains( const QStringList& ) ;
 
@@ -375,12 +379,13 @@ public:
 
 			virtual void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) ;
 
-			functions( settings&,const engines::engine& ) ;
+			functions( settings&,const engines::engine&,const QProcessEnvironment& e ) ;
 			settings& Settings() const ;
 			const engines::engine& engine() const ;
 		private:
 			settings& m_settings ;
 			const engines::engine& m_engine ;
+			const QProcessEnvironment& m_processEnvironment ;
 		} ;
 
 		engine( Logger& l ) ;
@@ -442,6 +447,10 @@ public:
 		{
 			return m_downloadUrl ;
 		}
+		const QProcessEnvironment& processEnvironment() const
+		{
+			return m_functions->processEnvironment() ;
+		}
 		QStringList dumpJsonArguments() const
 		{
 			return m_functions->dumpJsonArguments() ;
@@ -496,6 +505,10 @@ public:
 		bool foundNetworkUrl( const QString& s ) const
 		{
 			return m_functions->foundNetworkUrl( s ) ;
+		}
+		void updateOutPutChannel( QProcess::ProcessChannel& s ) const
+		{
+			m_functions->updateOutPutChannel( s ) ;
 		}
 		std::vector< QStringList > mediaProperties( const QJsonArray& e ) const
 		{

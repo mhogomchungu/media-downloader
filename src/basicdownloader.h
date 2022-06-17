@@ -73,9 +73,9 @@ private:
 	} ;
 
 	template< typename Functions >
-	auto make_options( basicdownloader::opts opts,Functions functions )
+	auto make_options( const engines::engine& engine,basicdownloader::opts opts,Functions functions )
 	{
-		return utility::options< basicdownloader::opts,Functions >( std::move( opts ),std::move( functions ) ) ;
+		return utility::options< basicdownloader::opts,Functions >( engine,std::move( opts ),std::move( functions ) ) ;
 	}
 
 	const Context& m_ctx ;
