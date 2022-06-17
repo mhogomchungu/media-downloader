@@ -328,7 +328,7 @@
     </message>
     <message>
         <source>Downloading</source>
-        <translation>Download...</translation>
+        <translation>Download</translation>
     </message>
     <message>
         <source>Download Options</source>
@@ -392,7 +392,7 @@
     </message>
     <message>
         <source>Best-audiovideo</source>
-        <translation>Migliori audio/video</translation>
+        <translation>Migliore qualità audio/video</translation>
     </message>
     <message>
         <source>Polish (Poland)</source>
@@ -412,7 +412,7 @@
     </message>
     <message>
         <source>Best-audio</source>
-        <translation>Migliori audio/video</translation>
+        <translation>Migliore qualità audio</translation>
     </message>
     <message>
         <source>Download complete</source>
@@ -601,7 +601,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Downloading comments</source>
-        <translation>Download commenti...</translation>
+        <translation>Download commenti</translation>
     </message>
     <message>
         <source>Show Subtitles</source>
@@ -609,7 +609,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Downloading subtitles</source>
-        <translation>Download sottotitoli...</translation>
+        <translation>Download sottotitoli</translation>
     </message>
 </context>
 <context>
@@ -648,11 +648,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Best-audio</source>
-        <translation>Migliori audio/video</translation>
+        <translation>Massima qualità audio</translation>
     </message>
     <message>
         <source>Best-audiovideo</source>
-        <translation>Migliori audio/video</translation>
+        <translation>Massima qualità audio/video</translation>
     </message>
 </context>
 <context>
@@ -729,7 +729,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Downloading video info</source>
-        <translation>Download info video...</translation>
+        <translation>Download info video</translation>
     </message>
 </context>
 </TS>
