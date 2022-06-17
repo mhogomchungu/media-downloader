@@ -34,11 +34,18 @@ void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s ) const
 	s = QProcess::ProcessChannel::StandardError ;
 }
 
+QStringList svtplay_dl::horizontalHeaderLabels() const
+{
+	auto m = engines::engine::functions::horizontalHeaderLabels() ;
+
+	m[ 1 ] = QObject::tr( "Method" ) ;
+
+	return m ;
+}
+
 std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 {
 	auto m = e ;
-
-	m.replace( "INFO: ","" ) ;
 
 	auto mm = util::split( m,'\n',true ) ;
 
@@ -58,15 +65,27 @@ std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 
 		auto a = util::split( it,' ',true ) ;
 
-		if( a.size() > 5 ){
+		auto n = a.size() ;
 
+		if( n > 4 ){
+
+			a.takeAt( 0 ) ;
 			auto format     = a.takeAt( 0 ) ;
 			auto method     = "Method: " + a.takeAt( 0 ) ;
 			auto codec      = a.takeAt( 0 ) ;
 			auto resolution = a.takeAt( 0 ) ;
-			auto language   = "Language: " + a.takeAt( 0 ) ;
-			auto role       = "Role: " + a.takeAt( 0 ) ;
-			auto notes      = method + ", " + language + "\n" + role ;
+			auto notes      = method + "\n" + a.join( ", " ) ;
+
+			s.emplace_back( QStringList{ format,codec,resolution,notes } ) ;
+
+		}else if( n == 3 ){
+
+			a.takeAt( 0 ) ;
+			auto format     = a.takeAt( 0 ) ;
+			auto method     = "Method: " + a.takeAt( 0 ) ;
+			auto codec      = a.takeAt( 0 ) ;
+			auto resolution = "N/A" ;
+			auto notes = method ;
 
 			s.emplace_back( QStringList{ format,codec,resolution,notes } ) ;
 		}

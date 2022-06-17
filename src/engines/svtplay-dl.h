@@ -43,7 +43,9 @@ public:
 		int m_processId ;
 	} ;
 
-	virtual void updateOutPutChannel( QProcess::ProcessChannel& ) const override ;
+	void updateOutPutChannel( QProcess::ProcessChannel& ) const override ;
+
+	QStringList horizontalHeaderLabels() const override ;
 
 	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
 

@@ -547,22 +547,22 @@
        </property>
        <column>
         <property name="text">
-         <string>Format Code</string>
+         <string notr="true">Format Code</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Extension</string>
+         <string notr="true">Extension</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Resolution</string>
+         <string notr="true">Resolution</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Note</string>
+         <string notr="true">Note</string>
         </property>
        </column>
       </widget>

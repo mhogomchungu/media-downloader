@@ -1445,6 +1445,10 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		m_tableWidgetBDList.add( { "","","","\n" + m_downloadingComments + "\n" } ) ;
 	}else{
+		auto& table = m_tableWidgetBDList.get() ;
+
+		table.setHorizontalHeaderLabels( engine.horizontalHeaderLabels() ) ;
+
 		if( row != -1 ){
 
 			this->showBDFrame( listType ) ;

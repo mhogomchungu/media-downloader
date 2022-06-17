@@ -979,6 +979,18 @@ QStringList engines::engine::functions::dumpJsonArguments()
 	return { "--dump-json" } ;
 }
 
+QStringList engines::engine::functions::horizontalHeaderLabels() const
+{
+	QStringList s ;
+
+	s.append( QObject::tr( "Format Code" ) ) ;
+	s.append( QObject::tr( "Extension" ) ) ;
+	s.append( QObject::tr( "Resolution" ) ) ;
+	s.append( QObject::tr( "Note" ) ) ;
+
+	return s ;
+}
+
 bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray&,int,bool )
 {
 	return true ;

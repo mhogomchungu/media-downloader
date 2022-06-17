@@ -341,6 +341,8 @@ public:
 
 			virtual QStringList dumpJsonArguments() ;
 
+			virtual QStringList horizontalHeaderLabels() const ;
+
 			virtual bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) ;
 
 			virtual bool foundNetworkUrl( const QString& ) ;
@@ -505,6 +507,10 @@ public:
 		bool foundNetworkUrl( const QString& s ) const
 		{
 			return m_functions->foundNetworkUrl( s ) ;
+		}
+		QStringList horizontalHeaderLabels() const
+		{
+			return m_functions->horizontalHeaderLabels() ;
 		}
 		void updateOutPutChannel( QProcess::ProcessChannel& s ) const
 		{

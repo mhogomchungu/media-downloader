@@ -18,7 +18,8 @@ tabmanager.cpp \
 utility.cpp \
 logwindow.cpp \
 engines/youtube-dl.cpp \
-engines/gallery-dl.cpp
+engines/gallery-dl.cpp \
+engines/svtplay-dl.cpp
 
 HEADERS += \
 about.h \

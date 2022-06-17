@@ -556,6 +556,30 @@ Puoi ridistribuirlo e/o modificarlo secondo i termini della GNU General Public L
         <translation>Questo programma è distribuito nella speranza che possa essere utile, ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di COMMERCIABILITÀ o IDONEITÀ PER UNO SCOPO PARTICOLARE.
 Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
+    <message>
+        <source>Error, failed to parse config file &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format Code</source>
+        <translation>Codice formato</translation>
+    </message>
+    <message>
+        <source>Extension</source>
+        <translation>Estensioni</translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation>Risoluzione</translation>
+    </message>
+    <message>
+        <source>Method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note</source>
+        <translation>Nota</translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
