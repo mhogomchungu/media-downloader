@@ -145,14 +145,23 @@ const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& 
 
 			return m_tmp ;
 
+		}else if( m.startsWith( "Merge audio, video and subtitle into " ) ){
+
+			m_tmp = m.mid( 37 ) ;
+			return m_tmp ;
+
 		}else if( m.startsWith( "INFO: Merge audio and video into " ) ){
 
-			m_tmp = s.lastText().mid( 33 ) ;
+			m_tmp = m.mid( 33 ) ;
 			return m_tmp ;
 
 		}else if( m.startsWith( "INFO: " ) ){
 
 			return m_tmp ;
+
+		}else if( m.startsWith( "ERROR:" ) ){
+
+			return m ;
 		}else{
 			return m_preProcessing.text() ;
 		}

@@ -174,14 +174,14 @@ void Logger::Data::luxHack( int id,const QByteArray& data )
 
 			_replaceOrAdd( [ & ](){
 
-				auto b = data.lastIndexOf( '[' ) ;
+				//auto b = data.lastIndexOf( '[' ) ;
 
-				if( b != -1 ){
+				//if( b != -1 ){
 
-					return data.mid( 0,b ) + "<-->" + data.mid( a + 1 ) ;
-				}else{
+				//	return data.mid( 0,b ) + "<-->" + data.mid( a + 1 ) ;
+				//}else{
 					return data.mid( a + 1 ) ;
-				}
+				//}
 
 			}(),id,[]( const QByteArray& ){
 
