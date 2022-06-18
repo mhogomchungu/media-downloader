@@ -45,19 +45,14 @@ QStringList svtplay_dl::horizontalHeaderLabels() const
 
 std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 {
-	auto m = e ;
+	auto mm = util::split( e,'\n',true ) ;
 
-	auto mm = util::split( m,'\n',true ) ;
-
-	if( mm.size() > 0 ){
-
-		mm.removeAt( 0 ) ;
-	}
-
-	if( mm.size() == 0 ){
+	if( mm.size() <= 1 ){
 
 		return {} ;
 	}
+
+	mm.removeAt( 0 ) ;
 
 	std::vector< QStringList > s ;
 
