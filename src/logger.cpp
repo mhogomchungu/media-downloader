@@ -163,6 +163,8 @@ void Logger::Data::luxHack( int id,const QByteArray& data )
 
 				line += xt.text() ;
 			}
+
+			break ;
 		}
 	}
 

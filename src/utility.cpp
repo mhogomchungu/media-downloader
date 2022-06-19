@@ -889,7 +889,7 @@ void utility::versionInfo::check( const engines::Iterator& iter,const QString& s
 {
 	const auto& engine = iter.engine() ;
 
-	if( engine.usingPrivateBackend() && !engine.downloadUrl().isEmpty() && networkAccess::hasNetworkSupport() ){
+	if( engine.usingPrivateBackend() && engine.validDownloadUrl() && networkAccess::hasNetworkSupport() ){
 
 		if( engine.backendExists() ){
 

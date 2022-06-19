@@ -449,6 +449,10 @@ public:
 		{
 			return m_downloadUrl ;
 		}
+		bool validDownloadUrl() const
+		{
+			return m_downloadUrl.startsWith( "https://api.github.com" ) ;
+		}
 		const QProcessEnvironment& processEnvironment() const
 		{
 			return m_functions->processEnvironment() ;

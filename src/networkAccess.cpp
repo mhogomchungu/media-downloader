@@ -140,9 +140,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	QString url( engine.downloadUrl() ) ;
-
-	auto networkReply = m_accessManager.get( this->networkRequest( url ) ) ;
+	auto networkReply = m_accessManager.get( this->networkRequest( engine.downloadUrl() ) ) ;
 
 	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ id,this,&engine ]( qint64 received,qint64 total ){
 

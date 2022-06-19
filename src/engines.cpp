@@ -687,7 +687,7 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engine
 
 	if( m.isEmpty() ){
 
-		if( !this->downloadUrl().isEmpty() && !m_exeFolderPath.isEmpty() ){
+		if( this->validDownloadUrl() && !m_exeFolderPath.isEmpty() ){
 
 			m_usingPrivateBackend = true ;
 			m_exePath = m_exeFolderPath + "/" + m_commandName ;
@@ -805,6 +805,8 @@ QString engines::engine::versionString( const QString& data ) const
 
 	return {} ;
 }
+
+
 
 engines::enginePaths::enginePaths( settings& s )
 {
