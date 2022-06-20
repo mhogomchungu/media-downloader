@@ -26,6 +26,7 @@
 #include "engines/aria2c.h"
 #include "engines/lux.h"
 #include "engines/svtplay-dl.h"
+#include "engines/you-get.h"
 
 #include "downloadmanager.h"
 #include "utility.h"
@@ -305,6 +306,10 @@ void engines::updateEngines( bool addAll,int id )
 		}else if( name == "lux" ){
 
 			it.setBackend< lux >( engines ) ;
+
+		}else if( name == "you-get" ){
+
+			it.setBackend< you_get >( engines ) ;
 
 		}else if( name == "svtplay-dl" ){
 
@@ -806,8 +811,6 @@ QString engines::engine::versionString( const QString& data ) const
 	return {} ;
 }
 
-
-
 engines::enginePaths::enginePaths( settings& s )
 {
 	m_basePath   = s.configPaths() ;
@@ -1012,9 +1015,19 @@ QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& 
 
 	if( dopts.isEmpty() || f.success() ){
 
-		return m + ", " + e + "\n" + uiText ;
+		if( uiText.isEmpty() ){
+
+			return m + ", " + e ;
+		}else{
+			return m + ", " + e + "\n" + uiText ;
+		}
 	}else{
-		return dopts + "\n" + m + ", " + e + "\n" + uiText ;
+		if( uiText.isEmpty() ){
+
+			return dopts + "\n" + m + ", " + e ;
+		}else{
+			return dopts + "\n" + m + ", " + e + "\n" + uiText ;
+		}
 	}
 }
 

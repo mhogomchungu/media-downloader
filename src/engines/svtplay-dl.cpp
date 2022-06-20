@@ -102,7 +102,7 @@ void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 {
 	const auto& engine = engines::engine::functions::engine() ;
 
-	if( !( s.quality == "default" || s.quality == "Default" ) ){
+	if( !s.quality.isEmpty() && !( s.quality == "default" || s.quality == "Default" ) ){
 
 		s.ourOptions.append( engine.optionsArgument() ) ;
 		s.ourOptions.append( s.quality ) ;
