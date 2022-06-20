@@ -275,7 +275,12 @@ void engines::updateEngines( bool addAll,int id )
 
 			if( e.size() > 0 && e.at( 0 ).contains( "python" ) ){
 
-				_engine_add( it.name(),{ *this,m_logger,"python3","--version",0,1,id } ) ;
+				if( utility::platformIsWindows() ){
+
+					_engine_add( it.name(),{ *this,m_logger,"python","--version",0,1,id } ) ;
+				}else{
+					_engine_add( it.name(),{ *this,m_logger,"python3","--version",0,1,id } ) ;
+				}
 				break ;
 			}
 		}
@@ -399,7 +404,7 @@ settings& engines::Settings() const
 
 QString engines::findExecutable( const QString& exeName ) const
 {
-	if( exeName == "python3" ){
+	if( exeName == "python3" || exeName == "python" ){
 
 		return utility::python3Path() ;
 	}else{
@@ -407,7 +412,26 @@ QString engines::findExecutable( const QString& exeName ) const
 
 		if( utility::platformIsWindows() || utility::platformisOS2() ){
 
-			return QStandardPaths::findExecutable( exeName,path.split( ";" ) ) ;
+			const auto e = path.split( ";" ) ;
+
+			auto s = QStandardPaths::findExecutable( exeName,e ) ;
+
+			if( s.isEmpty() ){
+
+				for( const auto& it : e ){
+
+					auto m = it + "/" + exeName ;
+
+					if( QFile::exists( m ) ){
+
+						return m ;
+					}
+				}
+
+				return {} ;
+			}else{
+				return s ;
+			}
 		}else{
 			return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;
 		}
