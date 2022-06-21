@@ -126,9 +126,13 @@ namespace utility
 		{
 			return "DoneDownloading" ;
 		}
-		static bool postProcessMarker( const QByteArray& e )
+		static QByteArray doneDownloadingText()
 		{
-			return e.startsWith( "DoneDownloading" ) ;
+			return "[media-downloader] Done Processing And Shutting Down ..." ;
+		}
+		static bool doneDownloadingText( const QByteArray& e )
+		{
+			return e == "[media-downloader] Done Processing And Shutting Down ..." ;
 		}
 		static QString uploadDate()
 		{
@@ -911,6 +915,13 @@ namespace utility
 		}
 		void whenDone( int s,QProcess::ExitStatus e )
 		{
+			m_logger.add( [ this ]( Logger::Data& e,int id,bool s,bool m ){
+
+				auto d = utility::stringConstants::doneDownloadingText() ;
+
+				m_engine.processData( e,d,id,s,m ) ;
+			} ) ;
+
 			m_conn.disconnect() ;
 
 			m_timer->stop() ;

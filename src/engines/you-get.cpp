@@ -69,17 +69,6 @@ you_get::~you_get()
 {
 }
 
-void you_get::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
-{
-	const auto& engine = engines::engine::functions::engine() ;
-
-	if( !s.quality.isEmpty() && !( s.quality == "default" || s.quality == "Default" ) ){
-
-		s.ourOptions.append( engine.optionsArgument() ) ;
-		s.ourOptions.append( s.quality ) ;
-	}
-}
-
 engines::engine::functions::DataFilter you_get::Filter( int id,const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;
@@ -95,14 +84,7 @@ QString you_get::updateTextOnCompleteDownlod( const QString& uiText,
 {
 	if( f.success() ){
 
-		auto m = util::split( uiText,'\n',true ) ;
-
-		if( m.size() == 2 ){
-
-			m.removeAt( 1 ) ;
-		}
-
-		return engines::engine::functions::updateTextOnCompleteDownlod( m.join( "\n" ),dopts,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}else{
 		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}
@@ -117,7 +99,11 @@ you_get::you_getFilter::you_getFilter( const QString& e,settings&,const engines:
 
 const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
 {
-	if( s.lastLineIsProgressLine() ){
+	if( s.doneDownloading() ){
+
+		return m_title ;
+
+	}else if( s.lastLineIsProgressLine() ){
 
 		if( m_title.isEmpty() ){
 
@@ -129,6 +115,11 @@ const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
 	}else{
 		auto m = s.toLine() ;
 
+		auto strLen = []( const char * s ){
+
+			return static_cast< int >( std::strlen( s ) ) ;
+		} ;
+
 		if( m_title.isEmpty() ){
 
 			auto a = m.indexOf( "title:               " ) ;
@@ -136,7 +127,7 @@ const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
 
 			if( a != -1 && b != -1 ){
 
-				int s = static_cast< int >( std::strlen( "title:               " ) ) ;
+				auto s = strLen( "title:               " ) ;
 				m_title = m.mid( a + s,b - ( a + s ) ) ;
 			}
 		}
@@ -146,7 +137,7 @@ const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
 
 		if( a != -1 && b != -1 ){
 
-			int s = static_cast< int >( std::strlen( "Skipping ./" ) ) ;
+			auto s = strLen( "Skipping ./" ) ;
 
 			m_title = m.mid( a + s, b - ( a + s ) ) ;
 
@@ -165,20 +156,14 @@ const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
 
 				if( a != -1 && b != -1 ){
 
-					int s = static_cast< int >( std::strlen( "Merged into " ) ) ;
+					auto s = strLen( "Merged into " ) ;
 					m_title = m.mid( a + s, b - ( a + s ) ) ;
 
 					return m_title ;
 				}
 			}
 
-			if( m_title.isEmpty() ){
-
-				return m_preProcessing.text() ;
-			}else{
-				m_tmp = m_title + "\n" + m_preProcessing.text() ;
-				return m_tmp ;
-			}
+			return m_preProcessing.text() ;
 		}
 	}
 }

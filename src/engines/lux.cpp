@@ -142,16 +142,6 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
-{
-	if( !s.quality.isEmpty() && s.quality.compare( "Default",Qt::CaseInsensitive ) ){
-
-		s.ourOptions.append( m_engine.optionsArgument() ) ;
-
-		s.ourOptions.prepend( s.quality ) ;
-	}
-}
-
 lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,int id ) :
 	engines::engine::functions::filter( e,engine,id ),
 	m_processId( id )

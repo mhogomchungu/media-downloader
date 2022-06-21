@@ -1124,15 +1124,22 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 
 void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
-	if( !m_engine.optionsArgument().isEmpty() ){
+	const auto& args = m_engine.optionsArgument() ;
 
-		s.ourOptions.append( m_engine.optionsArgument() ) ;
+	if( args.isEmpty() ){
+
+		if( !s.quality.isEmpty() ){
+
+			s.ourOptions.prepend( s.quality ) ;
+		}
+	}else{
+		if( !s.quality.isEmpty() && s.quality.compare( "Default",Qt::CaseInsensitive ) ){
+
+			s.ourOptions.append( args ) ;
+
+			s.ourOptions.append( s.quality ) ;
+		}
 	}
-
-	if( !s.quality.isEmpty() ){
-
-		s.ourOptions.append( s.quality ) ;
-	}	
 
 	s.ourOptions.removeAll( "Default" ) ;
 	s.ourOptions.removeAll( "default" ) ;

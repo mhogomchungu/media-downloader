@@ -114,7 +114,6 @@ bool Logger::Data::registerDone( int id )
 
 		if( it.processId() == id ){
 
-			this->add( id,"[media-downloader] Done Processing And Shutting Down ..." ) ;
 			it.setProcessAsFinished() ;
 
 			return true ;
@@ -124,10 +123,7 @@ bool Logger::Data::registerDone( int id )
 	return false ;
 }
 
-QList< QByteArray > Logger::Data::toStringList() const
-{
-	return util::split( this->toString(),'\n' ) ;
-}
+
 
 void Logger::Data::removeExtraLogs()
 {
@@ -200,9 +196,9 @@ void Logger::Data::luxHack( int id,const QByteArray& data )
 	}
 }
 
-bool Logger::Data::postProcessText( const QByteArray& data )
+bool Logger::Data::doneDownloadingText( const QByteArray& data )
 {
-	return utility::stringConstants::postProcessMarker( data ) ;
+	return utility::stringConstants::doneDownloadingText( data ) ;
 }
 
 void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )

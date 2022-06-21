@@ -178,8 +178,20 @@ public:
 		{
 			m_processOutputs.clear() ;
 		}
+		QList< QByteArray > toStringList() const
+		{
+			QList< QByteArray > s ;
 
-		QList< QByteArray > toStringList() const ;
+			for( const auto& it : m_processOutputs ){
+
+				for( const auto& xt : it.entries() ){
+
+					s.append( xt.text() ) ;
+				}
+			}
+
+			return s ;
+		}
 		const QByteArray& lastText() const
 		{
 			return m_processOutputs.rbegin()->entries().rbegin()->text() ;
@@ -271,13 +283,13 @@ public:
 
 			return {} ;
 		}
-		bool doneDownloading( int processId ) const
+		bool doneDownloading( int id ) const
 		{
-			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
+			for( const auto& it : m_processOutputs ){
 
-				if( it->processId() == processId ){
+				if( it.processId() == id ){
 
-					return it->doneDownloading() ;
+					return it.doneDownloading() ;
 				}
 			}
 
@@ -300,26 +312,18 @@ public:
 		}
 		void luxHack( int id,const QByteArray& data ) ;
 	private:
-		bool postProcessText( const QByteArray& data ) ;
+		bool doneDownloadingText( const QByteArray& data ) ;
 		template< typename Function,typename Add >
 		void _replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
 		{
-			if( this->postProcessText( text ) ){
-
-				for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
-
-					if( it->processId() == id && !it->doneDownloading() ){
-
-						it->setDoneDownloading() ;
-					}
-				}
-
-				return ;
-			}
-
 			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
 
 				if( it->processId() == id ){
+
+					if( this->doneDownloadingText( text ) ){
+
+						it->setDoneDownloading() ;
+					}
 
 					auto& ee = it->entries() ;
 

@@ -98,17 +98,6 @@ svtplay_dl::~svtplay_dl()
 {
 }
 
-void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
-{
-	const auto& engine = engines::engine::functions::engine() ;
-
-	if( !s.quality.isEmpty() && !( s.quality == "default" || s.quality == "Default" ) ){
-
-		s.ourOptions.append( engine.optionsArgument() ) ;
-		s.ourOptions.append( s.quality ) ;
-	}
-}
-
 engines::engine::functions::DataFilter svtplay_dl::Filter( int id,const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;
@@ -139,7 +128,11 @@ svtplay_dl::svtplay_dlFilter::svtplay_dlFilter( const QString& e,settings&,const
 
 const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& s )
 {
-	if( s.lastLineIsProgressLine() ){
+	if( s.doneDownloading() ){
+
+		return m_tmp ;
+
+	}else if( s.lastLineIsProgressLine() ){
 
 		return s.lastText() ;
 	}else{

@@ -223,7 +223,7 @@ private:
 		void add( const Function& function )
 		{
 			m_logger.add( function,m_id ) ;
-			function( m_lines,m_id,false,false ) ;
+			function( m_localLogger,m_id,false,false ) ;
 		}
 		void logError( const QByteArray& data )
 		{
@@ -231,10 +231,10 @@ private:
 		}
 		QByteArray data() const
 		{
-			return m_lines.toLine() ;
+			return m_localLogger.toLine() ;
 		}
 	private:
-		Logger::Data m_lines ;
+		Logger::Data m_localLogger ;
 		Logger& m_logger ;
 		int m_id ;
 	};

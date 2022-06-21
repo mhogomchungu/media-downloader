@@ -34,24 +34,6 @@ gallery_dl::~gallery_dl()
 {
 }
 
-void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
-{
-	const auto& engine = engines::engine::functions::engine() ;
-
-	if( !engine.optionsArgument().isEmpty() ){
-
-		s.ourOptions.append( engine.optionsArgument() ) ;
-	}
-
-	if( !s.quality.isEmpty() ){
-
-		s.ourOptions.prepend( s.quality ) ;
-	}
-
-	s.ourOptions.removeAll( "Default" ) ;
-	s.ourOptions.removeAll( "default" ) ;
-}
-
 engines::engine::functions::DataFilter gallery_dl::Filter( int id,const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;

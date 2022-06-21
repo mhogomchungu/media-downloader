@@ -52,7 +52,5 @@ public:
 					     const QString& bkText,
 					     const QString& downloadingOptions,
 					     const engines::engine::functions::finishedState& ) override ;
-
-	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 private:
 };
