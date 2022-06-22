@@ -340,11 +340,11 @@ public:
 		struct luxResult
 		{
 			enum class ac{ replace,add,nothing } ;
-			ac action  ;
+			ac action ;
 			QByteArray data ;
 		};
 		template< typename Function >
-		void luxHack( int id,const QByteArray& data,Function function )
+		void luxHack( int id,const QByteArray& data,Logger::Data& outPut,Function function )
 		{
 			for( auto& it : m_processOutputs ){
 
@@ -369,7 +369,7 @@ public:
 
 					auto iter = ee.rbegin() ;
 
-					auto r = function( it->allData(),data ) ;
+					auto r = function( outPut,it->allData(),data ) ;
 
 					if( r.action == Logger::Data::luxResult::ac::nothing ){
 
