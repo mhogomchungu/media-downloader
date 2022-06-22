@@ -344,7 +344,7 @@ public:
 			QByteArray data ;
 		};
 		template< typename Function >
-		void luxHack( int id,const QByteArray& data,Logger::Data& outPut,Function function )
+		void luxHack( int id,const QByteArray& data,Logger::Data& outPut,const Function& function )
 		{
 			for( auto& it : m_processOutputs ){
 

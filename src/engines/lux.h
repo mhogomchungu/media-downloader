@@ -60,7 +60,15 @@ public:
 					     const QString& downloadingOptions,
 					     const engines::engine::functions::finishedState& ) override ;
 private:
-	Logger::Data::luxResult parseOutput( Logger::Data&,const QByteArray&,const QByteArray& ) ;
 	const engines::engine& m_engine ;
-	utility::locale m_locale ;
+
+	class parseOutput
+	{
+	public:
+		Logger::Data::luxResult operator()( Logger::Data& outPut,
+						    const QByteArray& allData,
+						    const QByteArray& lastData ) const ;
+	private:
+		utility::locale m_locale ;
+	} m_parseOutput ;
 };

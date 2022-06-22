@@ -86,9 +86,10 @@ std::vector<QStringList> lux::mediaProperties( const QJsonArray& arr )
 	return ent ;
 }
 
-Logger::Data::luxResult lux::parseOutput( Logger::Data& outPut,
-					  const QByteArray& allData,
-					  const QByteArray& lastData )
+
+Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
+						      const QByteArray& allData,
+						      const QByteArray& lastData ) const
 {
 	if( lastData.startsWith( "[media-downloader]" ) ){
 
@@ -130,6 +131,7 @@ Logger::Data::luxResult lux::parseOutput( Logger::Data& outPut,
 				auto mmm = util::split( mm.at( 1 ),")" ).at( 0 ) ;
 
 				lux.fileSizeInt = mmm.toLongLong() ;
+				lux.fileSizeString = m_locale.formattedDataSize( lux.fileSizeInt ) ;
 			}
 		}
 	}
@@ -190,10 +192,7 @@ Logger::Data::luxResult lux::parseOutput( Logger::Data& outPut,
 
 bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data,int id,bool )
 {
-	outPut.luxHack( id,data,outPut,[ this ]( Logger::Data& outPut,const QByteArray& allData,const QByteArray& lastData ){
-
-		return this->parseOutput( outPut,allData,lastData ) ;
-	} ) ;
+	outPut.luxHack( id,data,outPut,m_parseOutput ) ;
 
 	return false ;
 }
