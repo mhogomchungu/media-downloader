@@ -88,7 +88,105 @@ std::vector<QStringList> lux::mediaProperties( const QJsonArray& arr )
 
 bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data,int id,bool )
 {
-	outPut.luxHack( id,data ) ;
+	outPut.luxHack( id,data,[ this,&outPut ]( const QByteArray& allData,const QByteArray& lastData ){
+
+		if( lastData.startsWith( "[media-downloader]" ) ){
+
+			return Logger::Data::luxResult{ false,lastData } ;
+		}
+
+		auto ee = allData.indexOf( "\n\n" ) ;
+
+		QByteArray header ;
+
+		if( ee != -1 ){
+
+			header = allData.mid( 0,ee ) ;
+		}
+
+		auto& lux = outPut.luxHackStuff() ;
+
+		if( lux.fileSizeString.isEmpty() ){
+
+			auto s = header ;
+
+			s.replace( " ","" ) ;
+			s.replace( "\n","" ) ;
+
+			auto a = s.indexOf( "Size:" ) ;
+			auto b = s.indexOf( "Bytes)" ) ;
+
+			if( a != -1 && b != -1 ){
+
+				lux.fileSizeString = s.mid( a + 5,a + 5 - b ) ;
+				lux.fileSizeString.replace( "Bytes","" ) ;
+
+				auto mm = util::split( lux.fileSizeString,"(" ) ;
+
+				if( mm.size() == 2 ){
+
+					lux.fileSizeString = mm.at( 0 ) ;
+
+					auto mmm = util::split( mm.at( 1 ),")" ).at( 0 ) ;
+
+					lux.fileSizeInt = mmm.toLongLong() ;
+				}
+			}
+		}
+
+		auto ss = allData.indexOf( "-]" ) ;
+
+		if( ss == -1 ){
+
+			ss = allData.indexOf( ">]" ) ;
+		}
+
+		if( ss == -1 ){
+
+			ss = allData.indexOf( "=]" ) ;
+
+			if( ss != -1 ){
+
+				return Logger::Data::luxResult{ true,lastData } ;
+			}
+		}
+
+		if( ss != -1 ){
+
+			auto s = util::split( allData.mid( ss + 1 ),' ' ) ;
+
+			if( s.size() > 1 ){
+
+				auto a = s.at( s.size() - 1 ) ;
+				auto b = s.at( s.size() - 2 ) ;
+				auto c = b ;
+
+				b.replace( "%","" ) ;
+
+				bool ok ;
+				auto bb = qint64( b.toDouble( &ok ) * double( lux.fileSizeInt ) / 100 ) ;
+
+				if( ok ){
+
+					auto bbb = m_locale.formattedDataSize( bb ) ;
+
+					auto aa = "Time left: " + a ;
+					auto bb = "Downloaded: " + bbb + " / " + lux.fileSizeString ;
+					auto cc = "(" + c + ")" ;
+
+					auto ggg = aa + ", " + bb + " " + cc ;
+
+					return Logger::Data::luxResult{ true,header + "\n" + ggg.toUtf8() } ;
+				}else{
+					return Logger::Data::luxResult{ true,header + "\n" + lastData } ;
+				}
+			}else{
+				return Logger::Data::luxResult{ false,header + "\n" + lastData } ;
+			}
+		}else{
+			return Logger::Data::luxResult{ false,header } ;
+		}
+	} ) ;
 
 	return false ;
 }
@@ -132,11 +230,7 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 
 	}else if( f.success() ){
 
-		auto a = util::split( uiText,'\n',true ) ;
-
-		a.removeLast() ;
-
-		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( '\n' ),dopts,f ) ;
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}else{
 		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}
@@ -153,85 +247,70 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 {
 	const auto& s = e.lastText() ;
 
-	auto line = e.toLine() ;
+	auto line = e.allData() ;
 
+	auto ss = s.indexOf( "Time left:" ) ;
+
+	if( ss != -1 && m_title != "Title: Unknown" ){
+
+		m_tmp = m_title + "\n" + s.mid( ss ) ;
+
+		return m_tmp ;
+	}
 	if( s.startsWith( "[media-downloader]" ) ){
 
-		return m_progress.text() ;
+		if( s.startsWith( "[media-downloader] Done Processing And Shutting Down ..." ) ){
+
+			return m_title ;
+		}else{
+			return m_progress.text() ;
+		}
 
 	}else if( s.startsWith( "Elapsed" ) ){
 
 		return m_progress.text() ;
 	}
 
-	if( m_title == "Title: Unknown" ){
+	auto m = util::split( line,'\n' ) ;
 
-		auto a = line.indexOf( "Title:" ) ;
-		auto b = line.indexOf( "Type:" ) ;
+	for( int i = 0 ; i < m.size() ; i++ ){
 
-		if( a != -1 && b != -1 && b > a ){
+		const auto& it = m[ i ] ;
 
-			m_title = line.mid( a,b - a ).trimmed().mid( 7 ) ;
+		if( m_title == "Title: Unknown" ){
 
-			m_title.replace( "\n","" ) ;
+			if( it.contains( "Title:" ) ){
 
-			while( m_title.size() > 7 && m_title[ 8 ] == ' ' ){
-
-				m_title.remove( 8,1 ) ;
+				m_title = it.mid( 12 ) ;
 			}
 		}
-	}
 
-	auto m = line.indexOf( "Merging video parts into " ) ;
-	auto mm = line.indexOf( " file already exists, skipping" ) ;
+		if( it.contains( ": file already exists, skipping" ) ){
 
-	if( mm != -1 ){
+			auto s = util::split( it,'\n' ) ;
 
-		m_tmp = m_title + "\nblabla" ;
+			for( const auto& ss : s ){
 
-	}else if( m != -1 ){
+				auto m = ss.indexOf( ": file already exists, skipping" ) ;
 
-		m_tmp = line.mid( m + 25 ) + "\n" + m_title ;
-	}else{
-		auto a = line.indexOf( "Downloading " ) ;
+				if( m != -1 ){
 
-		if( a != -1 ){
+					m_title = ss.mid( 0,m ) ;
 
-			m_tmp = line.mid( a + 12 ) ;
-
-			auto b = m_tmp.indexOf( " error:" ) ;
-
-			if( b != -1 ){
-
-				m_tmp.truncate( b ) ;
-			}
-
-			return m_tmp ;
-		}
-
-		e.reverseForEach( [ & ]( int,const QByteArray& data ){
-
-			if( data.isEmpty() || data == "\n" ){
-
-				return false ;
-			}else{
-				auto e = util::split( data,'\n' ) ;
-
-				if( !e.isEmpty() ){
-
-					m_tmp = m_title + "\n" + e.last() ;
-				}else{
-					m_tmp = m_title + "\n" + s ;
+					return m_title ;
 				}
-
-				return true ;
 			}
-		} ) ;
+		}else{
+			auto m = it.indexOf( "Merging video parts into " ) ;
 
-		return m_tmp ;
+			if( m != -1 ){
+
+				m_title = it.mid( m + 25 ) ;
+			}
+		}
 	}
 
-	return m_tmp ;
+	return m_title ;
 }
 
 lux::lux_dlFilter::~lux_dlFilter()

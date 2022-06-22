@@ -38,6 +38,11 @@ public:
 		class processOutput
 		{
 		public:
+			struct luxStuff
+			{
+				QString fileSizeString ;
+				qint64 fileSizeInt = 0 ;
+			};
 			class outputEntry
 			{
 			public:
@@ -106,10 +111,24 @@ public:
 			{
 				return m_processFinished ;
 			}
+			void addData( const QByteArray& e )
+			{
+				m_allData += e ;
+			}
+			const QByteArray& allData() const
+			{
+				return m_allData ;
+			}
+			luxStuff& luxHackStuff()
+			{
+				return m_luxStuff ;
+			}
 		private:
 			bool m_processFinished = false ;
 			bool m_doneDownloading = false ;
 			int m_processId ;
+			QByteArray m_allData ;
+			luxStuff m_luxStuff ;
 			std::vector< Logger::Data::processOutput::outputEntry > m_data ;
 		};
 	public:
@@ -283,6 +302,10 @@ public:
 
 			return {} ;
 		}
+		Logger::Data::processOutput::luxStuff& luxHackStuff()
+		{
+			return m_processOutputs.rbegin()->luxHackStuff() ;
+		}
 		bool doneDownloading( int id ) const
 		{
 			for( const auto& it : m_processOutputs ){
@@ -299,6 +322,10 @@ public:
 		{
 			return m_processOutputs.rbegin()->doneDownloading() ;
 		}
+		const QByteArray& allData() const
+		{
+			return m_processOutputs.rbegin()->allData() ;
+		}
 		template< typename Function,typename Add >
 		void replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
 		{
@@ -310,7 +337,57 @@ public:
 
 			_replaceOrAdd( text,id,_false,_false ) ;
 		}
-		void luxHack( int id,const QByteArray& data ) ;
+		struct luxResult
+		{
+			bool replace ;
+			QByteArray data ;
+		};
+		template< typename Function >
+		void luxHack( int id,const QByteArray& data,Function function )
+		{
+			for( auto& it : m_processOutputs ){
+
+				if( it.processId() == id ){
+
+					it.addData( data ) ;
+
+					break ;
+				}
+			}
+
+			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
+
+				if( it->processId() == id ){
+
+					if( this->doneDownloadingText( data ) ){
+
+						it->setDoneDownloading() ;
+					}
+
+					auto& ee = it->entries() ;
+
+					auto iter = ee.rbegin() ;
+
+					auto r = function( it->allData(),data ) ;
+
+					if( r.replace ){
+
+						if( ee.size() == 1 ){
+
+							ee.emplace_back( r.data ) ;
+						}else{
+							iter->replace( r.data ) ;
+						}
+					}else{
+						ee.emplace_back( r.data ) ;
+					}
+
+					return ;
+				}
+			}
+
+			m_processOutputs.emplace_back( id,data ) ;
+		}
 	private:
 		bool doneDownloadingText( const QByteArray& data ) ;
 		template< typename Function,typename Add >

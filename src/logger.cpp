@@ -147,55 +147,6 @@ bool Logger::Data::removeFirstFinished()
 	return false ;
 }
 
-void Logger::Data::luxHack( int id,const QByteArray& data )
-{
-	QByteArray line ;
-
-	for( const auto& it : m_processOutputs ){
-
-		if( it.processId() == id ){
-
-			for( const auto& xt : it.entries() ){
-
-				line += xt.text() ;
-			}
-
-			break ;
-		}
-	}
-
-	if( line.contains( "lux -f " ) ){
-
-		auto a = data.lastIndexOf( ']' ) ;
-
-		if( a != -1 ){
-
-			_replaceOrAdd( [ & ](){
-
-				//auto b = data.lastIndexOf( '[' ) ;
-
-				//if( b != -1 ){
-
-				//	return data.mid( 0,b ) + "<-->" + data.mid( a + 1 ) ;
-				//}else{
-					return data.mid( a + 1 ) ;
-				//}
-
-			}(),id,[]( const QByteArray& ){
-
-				return true ;
-
-			},[]( const QByteArray& ){
-
-				return false ;
-			} ) ;
-		}
-	}else{
-		this->add( data,id ) ;
-		this->add( "\n",id ) ;
-	}
-}
-
 bool Logger::Data::doneDownloadingText( const QByteArray& data )
 {
 	return utility::stringConstants::doneDownloadingText( data ) ;

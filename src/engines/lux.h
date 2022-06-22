@@ -20,6 +20,7 @@
 #include <QByteArray>
 
 #include "../engines.h"
+#include "../utility.h"
 
 class lux : public engines::engine::functions
 {
@@ -60,4 +61,5 @@ public:
 					     const engines::engine::functions::finishedState& ) override ;
 private:
 	const engines::engine& m_engine ;
+	utility::locale m_locale ;
 };
