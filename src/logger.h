@@ -339,7 +339,8 @@ public:
 		}
 		struct luxResult
 		{
-			bool replace ;
+			enum class ac{ replace,add,nothing } ;
+			ac action  ;
 			QByteArray data ;
 		};
 		template< typename Function >
@@ -370,7 +371,9 @@ public:
 
 					auto r = function( it->allData(),data ) ;
 
-					if( r.replace ){
+					if( r.action == Logger::Data::luxResult::ac::nothing ){
+
+					}else if( r.action == Logger::Data::luxResult::ac::replace ){
 
 						if( ee.size() == 1 ){
 

@@ -88,11 +88,11 @@ std::vector<QStringList> lux::mediaProperties( const QJsonArray& arr )
 
 bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data,int id,bool )
 {
-	outPut.luxHack( id,data,[ this,&outPut ]( const QByteArray& allData,const QByteArray& lastData ){
+	outPut.luxHack( id,data,[ this,&outPut ]( const QByteArray& allData,const QByteArray& lastData )->Logger::Data::luxResult{
 
 		if( lastData.startsWith( "[media-downloader]" ) ){
 
-			return Logger::Data::luxResult{ false,lastData } ;
+			return { Logger::Data::luxResult::ac::add,lastData } ;
 		}
 
 		auto ee = allData.indexOf( "\n\n" ) ;
@@ -147,7 +147,7 @@ bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data,int id,bool )
 
 			if( ss != -1 ){
 
-				return Logger::Data::luxResult{ true,lastData } ;
+				return { Logger::Data::luxResult::ac::replace,lastData } ;
 			}
 		}
 
@@ -176,15 +176,15 @@ bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data,int id,bool )
 
 					auto ggg = aa + ", " + bb + " " + cc ;
 
-					return Logger::Data::luxResult{ true,header + "\n" + ggg.toUtf8() } ;
+					return { Logger::Data::luxResult::ac::replace,header + "\n" + ggg.toUtf8() } ;
 				}else{
-					return Logger::Data::luxResult{ true,header + "\n" + lastData } ;
+					return { Logger::Data::luxResult::ac::replace,header + "\n" + lastData } ;
 				}
 			}else{
-				return Logger::Data::luxResult{ false,header + "\n" + lastData } ;
+				return { Logger::Data::luxResult::ac::add,header + "\n" + lastData } ;
 			}
 		}else{
-			return Logger::Data::luxResult{ false,header } ;
+			return { Logger::Data::luxResult::ac::add,header } ;
 		}
 	} ) ;
 
@@ -251,7 +251,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 	auto ss = s.indexOf( "Time left:" ) ;
 
-	if( ss != -1 && m_title != "Title: Unknown" ){
+	if( ss != -1 && m_title != "Title: Unknown" && !m_title.isEmpty() ){
 
 		m_tmp = m_title + "\n" + s.mid( ss ) ;
 
@@ -281,13 +281,18 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 			if( it.contains( "Title:" ) ){
 
-				m_title = it.mid( 12 ) ;
+				m_title = it.mid( 12 ).trimmed() ;
+
+				if( m_title.isEmpty() ){
+
+					m_title = "Title: Unknown" ;
+				}
 			}
 		}
 
 		if( it.contains( ": file already exists, skipping" ) ){
 
-			auto s = util::split( it,'\n' ) ;
+			const auto s = util::split( it,'\n' ) ;
 
 			for( const auto& ss : s ){
 
