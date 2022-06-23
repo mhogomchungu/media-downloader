@@ -113,9 +113,11 @@ public:
 			{
 				return m_processFinished ;
 			}
-			void addData( const QByteArray& e )
+			const QByteArray& allData( const QByteArray& e )
 			{
 				m_allData += e ;
+
+				return m_allData ;
 			}
 			const QByteArray& allData() const
 			{
@@ -356,16 +358,6 @@ public:
 		template< typename Function >
 		void luxHack( int id,const QByteArray& data,Logger::Data& outPut,const Function& function )
 		{
-			for( auto& it : m_processOutputs ){
-
-				if( it.processId() == id ){
-
-					it.addData( data ) ;
-
-					break ;
-				}
-			}
-
 			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
 
 				if( it->processId() == id ){
@@ -379,7 +371,7 @@ public:
 
 					auto iter = ee.rbegin() ;
 
-					auto r = function( outPut,it->allData(),data ) ;
+					auto r = function( outPut,it->allData( data ),data ) ;
 
 					if( r.action == Logger::Data::luxResult::ac::nothing ){
 
