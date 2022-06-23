@@ -144,6 +144,8 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 					luxHeader.fileSizeString = m_locale.formattedDataSize( luxHeader.fileSizeInt ).toUtf8() ;
 
 					return { Logger::Data::luxResult::ac::add,luxHeader.data + "\n" + lastData } ;
+				}else{
+					return { Logger::Data::luxResult::ac::nothing,QByteArray() } ;
 				}
 			}
 		}else{
@@ -151,16 +153,16 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 		}
 	}
 
-	auto ss = allData.indexOf( "-]" ) ;
+	auto ss = allData.lastIndexOf( "-]" ) ;
 
 	if( ss == -1 ){
 
-		ss = allData.indexOf( ">]" ) ;
+		ss = allData.lastIndexOf( ">]" ) ;
 	}
 
 	if( ss == -1 ){
 
-		ss = allData.indexOf( "=]" ) ;
+		ss = allData.lastIndexOf( "=]" ) ;
 
 		if( ss != -1 ){
 
