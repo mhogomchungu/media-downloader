@@ -91,48 +91,65 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 						      const QByteArray& allData,
 						      const QByteArray& lastData ) const
 {
+	auto& luxHeader = outPut.LuxHeader() ;
+
 	if( lastData.startsWith( "[media-downloader]" ) ){
 
 		return { Logger::Data::luxResult::ac::add,lastData } ;
 	}
 
-	auto ee = allData.indexOf( "\n\n" ) ;
+	if( lastData.contains( "file already exists, skipping" ) ){
 
-	QByteArray header ;
-
-	if( ee != -1 ){
-
-		header = allData.mid( 0,ee ) ;
+		return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + lastData } ;
 	}
 
-	auto& lux = outPut.luxHackStuff() ;
+	utility::debug() << lastData ;
 
-	if( lux.fileSizeString.isEmpty() ){
+	if( luxHeader.data.isEmpty() ){
 
-		auto s = header ;
+		auto ee = allData.indexOf( "...\n\n" ) ;
 
-		s.replace( " ","" ) ;
-		s.replace( "\n","" ) ;
+		if( ee != -1 ){
 
-		auto a = s.indexOf( "Size:" ) ;
-		auto b = s.indexOf( "Bytes)" ) ;
+			luxHeader.data = allData.mid( 0,ee ) ;
 
-		if( a != -1 && b != -1 ){
+			auto aa = luxHeader.data.indexOf( "Title:" ) ;
+			auto bb = luxHeader.data.indexOf( "Type:" ) ;
 
-			lux.fileSizeString = s.mid( a + 5,a + 5 - b ) ;
-			lux.fileSizeString.replace( "Bytes","" ) ;
+			if( aa != -1 && bb != -1 ){
 
-			auto mm = util::split( lux.fileSizeString,"(" ) ;
-
-			if( mm.size() == 2 ){
-
-				lux.fileSizeString = mm.at( 0 ) ;
-
-				auto mmm = util::split( mm.at( 1 ),")" ).at( 0 ) ;
-
-				lux.fileSizeInt = mmm.toLongLong() ;
-				lux.fileSizeString = m_locale.formattedDataSize( lux.fileSizeInt ) ;
+				luxHeader.title = luxHeader.data.mid( aa + 6,bb - aa - 6 ).trimmed() ;
 			}
+
+			auto s = luxHeader.data ;
+
+			s.replace( " ","" ) ;
+			s.replace( "\n","" ) ;
+
+			auto a = s.indexOf( "Size:" ) ;
+			auto b = s.indexOf( "Bytes)" ) ;
+
+			if( a != -1 && b != -1 ){
+
+				auto j = s.mid( a + 5,a + 5 - b ) ;
+				j.replace( "Bytes","" ) ;
+
+				auto mm = util::split( j,'(' ) ;
+
+				if( mm.size() == 2 ){
+
+					j = mm.at( 0 ) ;
+
+					auto mmm = util::split( mm.at( 1 ),")" ).at( 0 ) ;
+
+					luxHeader.fileSizeInt = mmm.toLongLong() ;
+					luxHeader.fileSizeString = m_locale.formattedDataSize( luxHeader.fileSizeInt ).toUtf8() ;
+
+					return { Logger::Data::luxResult::ac::nothing,luxHeader.data + "\n" + lastData } ;
+				}
+			}
+		}else{
+			return { Logger::Data::luxResult::ac::add,lastData } ;
 		}
 	}
 
@@ -166,27 +183,27 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 			b.replace( "%","" ) ;
 
 			bool ok ;
-			auto bb = qint64( b.toDouble( &ok ) * double( lux.fileSizeInt ) / 100 ) ;
+			auto bb = qint64( b.toDouble( &ok ) * double( luxHeader.fileSizeInt ) / 100 ) ;
 
 			if( ok ){
 
 				auto bbb = m_locale.formattedDataSize( bb ) ;
 
 				auto aa = "Time left: " + a ;
-				auto bb = "Downloaded: " + bbb + " / " + lux.fileSizeString ;
+				auto bb = "Downloaded: " + bbb + " / " + luxHeader.fileSizeString ;
 				auto cc = "(" + c + ")" ;
 
 				auto ggg = aa + ", " + bb + " " + cc ;
 
-				return { Logger::Data::luxResult::ac::replace,header + "\n" + ggg.toUtf8() } ;
+				return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + ggg.toUtf8() } ;
 			}else{
-				return { Logger::Data::luxResult::ac::replace,header + "\n" + lastData } ;
+				return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + lastData } ;
 			}
 		}else{
-			return { Logger::Data::luxResult::ac::add,header + "\n" + lastData } ;
+			return { Logger::Data::luxResult::ac::add,luxHeader.data + "\n" + lastData } ;
 		}
 	}else{
-		return { Logger::Data::luxResult::ac::add,header } ;
+		return { Logger::Data::luxResult::ac::add,luxHeader.data } ;
 	}
 }
 
@@ -253,21 +270,24 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 {
 	const auto& s = e.lastText() ;
 
-	auto line = e.allData() ;
-
 	auto ss = s.indexOf( "Time left:" ) ;
 
-	if( ss != -1 && m_title != "Title: Unknown" && !m_title.isEmpty() ){
+	if( ss != -1  ){
 
-		m_tmp = m_title + "\n" + s.mid( ss ) ;
+		m_tmp1 = e.LuxHeader().title + "\n" + s.mid( ss ) ;
 
-		return m_tmp ;
+		return m_tmp1 ;
 	}
 	if( s.startsWith( "[media-downloader]" ) ){
 
 		if( s.startsWith( "[media-downloader] Done Processing And Shutting Down ..." ) ){
 
-			return m_title ;
+			if( m_tmp.isEmpty() ){
+
+				return e.LuxHeader().title ;
+			}else{
+				return m_tmp ;
+			}
 		}else{
 			return m_progress.text() ;
 		}
@@ -277,24 +297,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		return m_progress.text() ;
 	}
 
-	auto m = util::split( line,'\n' ) ;
-
-	for( int i = 0 ; i < m.size() ; i++ ){
-
-		const auto& it = m[ i ] ;
-
-		if( m_title == "Title: Unknown" ){
-
-			if( it.contains( "Title:" ) ){
-
-				m_title = it.mid( 12 ).trimmed() ;
-
-				if( m_title.isEmpty() ){
-
-					m_title = "Title: Unknown" ;
-				}
-			}
-		}
+	for( const auto& it : util::split( e.allData(),'\n' ) ){
 
 		if( it.contains( ": file already exists, skipping" ) ){
 
@@ -306,22 +309,29 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 				if( m != -1 ){
 
-					m_title = ss.mid( 0,m ) ;
+					m_tmp = ss.mid( 0,m ) ;
 
-					return m_title ;
+					return m_tmp ;
 				}
 			}
+		}else if( it.contains( "status: ERROR, reason:" ) ){
+
+			m_tmp = it ;
+
+			return m_tmp ;
 		}else{
 			auto m = it.indexOf( "Merging video parts into " ) ;
 
 			if( m != -1 ){
 
-				m_title = it.mid( m + 25 ) ;
+				m_tmp = it.mid( m + 25 ) ;
+
+				return m_tmp ;
 			}
 		}
 	}
 
-	return m_title ;
+	return e.LuxHeader().title ;
 }
 
 lux::lux_dlFilter::~lux_dlFilter()

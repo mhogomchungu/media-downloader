@@ -37,8 +37,8 @@ public:
 
 		~lux_dlFilter() override ;
 	private:
+		QByteArray m_tmp1 ;
 		QByteArray m_tmp ;
-		QByteArray m_title = "Title: Unknown" ;
 		engines::engine::functions::preProcessing m_progress ;
 		int m_processId ;
 	} ;

@@ -38,9 +38,11 @@ public:
 		class processOutput
 		{
 		public:
-			struct luxStuff
+			struct luxHeader
 			{
-				QString fileSizeString ;
+				QByteArray data ;
+				QByteArray title ;
+				QByteArray fileSizeString ;
 				qint64 fileSizeInt = 0 ;
 			};
 			class outputEntry
@@ -119,16 +121,20 @@ public:
 			{
 				return m_allData ;
 			}
-			luxStuff& luxHackStuff()
+			Logger::Data::processOutput::luxHeader& LuxHeader()
 			{
-				return m_luxStuff ;
+				return m_luxHeader ;
+			}
+			const Logger::Data::processOutput::luxHeader& LuxHeader() const
+			{
+				return m_luxHeader ;
 			}
 		private:
 			bool m_processFinished = false ;
 			bool m_doneDownloading = false ;
 			int m_processId ;
 			QByteArray m_allData ;
-			luxStuff m_luxStuff ;
+			Logger::Data::processOutput::luxHeader m_luxHeader ;
 			std::vector< Logger::Data::processOutput::outputEntry > m_data ;
 		};
 	public:
@@ -302,9 +308,13 @@ public:
 
 			return {} ;
 		}
-		Logger::Data::processOutput::luxStuff& luxHackStuff()
+		Logger::Data::processOutput::luxHeader& LuxHeader()
 		{
-			return m_processOutputs.rbegin()->luxHackStuff() ;
+			return m_processOutputs.begin()->LuxHeader() ;
+		}
+		const Logger::Data::processOutput::luxHeader& LuxHeader() const
+		{
+			return m_processOutputs.begin()->LuxHeader() ;
 		}
 		bool doneDownloading( int id ) const
 		{
