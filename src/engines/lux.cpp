@@ -103,8 +103,6 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 		return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + lastData } ;
 	}
 
-	utility::debug() << lastData ;
-
 	if( luxHeader.data.isEmpty() ){
 
 		auto ee = allData.indexOf( "...\n\n" ) ;
@@ -145,11 +143,11 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 					luxHeader.fileSizeInt = mmm.toLongLong() ;
 					luxHeader.fileSizeString = m_locale.formattedDataSize( luxHeader.fileSizeInt ).toUtf8() ;
 
-					return { Logger::Data::luxResult::ac::nothing,luxHeader.data + "\n" + lastData } ;
+					return { Logger::Data::luxResult::ac::add,luxHeader.data + "\n" + lastData } ;
 				}
 			}
 		}else{
-			return { Logger::Data::luxResult::ac::add,lastData } ;
+			return { Logger::Data::luxResult::ac::nothing,QByteArray() } ;
 		}
 	}
 
