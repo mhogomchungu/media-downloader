@@ -87,21 +87,12 @@ std::vector<QStringList> lux::mediaProperties( const QJsonArray& arr )
 }
 
 
-Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
+Logger::Data::luxResult lux::parseOutput::operator()( int processId,
+						      Logger::Data& outPut,
 						      const QByteArray& allData,
 						      const QByteArray& lastData ) const
 {
-	auto& luxHeader = outPut.LuxHeader() ;
-
-	if( lastData.startsWith( "[media-downloader]" ) ){
-
-		return { Logger::Data::luxResult::ac::add,lastData } ;
-	}
-
-	if( lastData.contains( "file already exists, skipping" ) ){
-
-		return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + lastData } ;
-	}
+	auto& luxHeader = outPut.LuxHeader( processId ).value() ;
 
 	if( luxHeader.data.isEmpty() ){
 
@@ -109,7 +100,14 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 
 		if( ee != -1 ){
 
-			luxHeader.data = allData.mid( 0,ee ) ;
+			auto mm = allData.lastIndexOf( "Site:" ) ;
+
+			if( mm != -1 ){
+
+				luxHeader.data = allData.mid( mm,ee ) ;
+			}else{
+				luxHeader.data = allData.mid( 0,ee ) ;
+			}
 
 			auto aa = luxHeader.data.indexOf( "Title:" ) ;
 			auto bb = luxHeader.data.indexOf( "Type:" ) ;
@@ -143,13 +141,14 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 					luxHeader.fileSizeInt = mmm.toLongLong() ;
 					luxHeader.fileSizeString = m_locale.formattedDataSize( luxHeader.fileSizeInt ).toUtf8() ;
 
-					return { Logger::Data::luxResult::ac::add,luxHeader.data + "\n" + lastData } ;
-				}else{
-					return { Logger::Data::luxResult::ac::nothing,QByteArray() } ;
+					return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + lastData } ;
 				}
 			}
 		}else{
-			return { Logger::Data::luxResult::ac::nothing,QByteArray() } ;
+			if( allData.contains( "Site:" ) ){
+
+				return { Logger::Data::luxResult::ac::nothing,QByteArray() } ;
+			}
 		}
 	}
 
@@ -203,7 +202,7 @@ Logger::Data::luxResult lux::parseOutput::operator()( Logger::Data& outPut,
 			return { Logger::Data::luxResult::ac::add,luxHeader.data + "\n" + lastData } ;
 		}
 	}else{
-		return { Logger::Data::luxResult::ac::add,luxHeader.data } ;
+		return { Logger::Data::luxResult::ac::add,lastData } ;
 	}
 }
 
@@ -263,7 +262,6 @@ lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,
 	engines::engine::functions::filter( e,engine,id ),
 	m_processId( id )
 {
-	Q_UNUSED( m_processId )
 }
 
 const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
@@ -272,9 +270,11 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 	auto ss = s.indexOf( "Time left:" ) ;
 
+	const auto& luksHeader = e.LuxHeader( m_processId ).value() ;
+
 	if( ss != -1  ){
 
-		m_tmp1 = e.LuxHeader().title + "\n" + s.mid( ss ) ;
+		m_tmp1 = luksHeader.title + "\n" + s.mid( ss ) ;
 
 		return m_tmp1 ;
 	}
@@ -284,7 +284,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 			if( m_tmp.isEmpty() ){
 
-				return e.LuxHeader().title ;
+				return luksHeader.title ;
 			}else{
 				return m_tmp ;
 			}
@@ -297,7 +297,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		return m_progress.text() ;
 	}
 
-	for( const auto& it : util::split( e.allData(),'\n' ) ){
+	for( const auto& it : util::split( e.allData( m_processId ).value(),'\n' ) ){
 
 		if( it.contains( ": file already exists, skipping" ) ){
 
@@ -331,7 +331,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		}
 	}
 
-	return e.LuxHeader().title ;
+	return luksHeader.title ;
 }
 
 lux::lux_dlFilter::~lux_dlFilter()

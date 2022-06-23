@@ -65,7 +65,8 @@ private:
 	class parseOutput
 	{
 	public:
-		Logger::Data::luxResult operator()( Logger::Data& outPut,
+		Logger::Data::luxResult operator()( int id,
+						    Logger::Data& outPut,
 						    const QByteArray& allData,
 						    const QByteArray& lastData ) const ;
 	private:

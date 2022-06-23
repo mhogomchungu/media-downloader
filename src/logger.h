@@ -310,13 +310,29 @@ public:
 
 			return {} ;
 		}
-		Logger::Data::processOutput::luxHeader& LuxHeader()
+		util::result_ref< Logger::Data::processOutput::luxHeader& > LuxHeader( int id )
 		{
-			return m_processOutputs.begin()->LuxHeader() ;
+			for( auto& it : m_processOutputs ){
+
+				if( it.processId() == id ){
+
+					return it.LuxHeader() ;
+				}
+			}
+
+			return {} ;
 		}
-		const Logger::Data::processOutput::luxHeader& LuxHeader() const
+		util::result_ref< const Logger::Data::processOutput::luxHeader& > LuxHeader( int id ) const
 		{
-			return m_processOutputs.begin()->LuxHeader() ;
+			for( const auto& it : m_processOutputs ){
+
+				if( it.processId() == id ){
+
+					return it.LuxHeader() ;
+				}
+			}
+
+			return {} ;
 		}
 		bool doneDownloading( int id ) const
 		{
@@ -334,9 +350,17 @@ public:
 		{
 			return m_processOutputs.rbegin()->doneDownloading() ;
 		}
-		const QByteArray& allData() const
+		util::result_ref< const QByteArray& > allData( int id ) const
 		{
-			return m_processOutputs.rbegin()->allData() ;
+			for( const auto& it : m_processOutputs ){
+
+				if( it.processId() == id ){
+
+					return it.allData() ;
+				}
+			}
+
+			return {} ;
 		}
 		template< typename Function,typename Add >
 		void replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
@@ -371,7 +395,7 @@ public:
 
 					auto iter = ee.rbegin() ;
 
-					auto r = function( outPut,it->allData( data ),data ) ;
+					auto r = function( id,outPut,it->allData( data ),data ) ;
 
 					if( r.action == Logger::Data::luxResult::ac::nothing ){
 
