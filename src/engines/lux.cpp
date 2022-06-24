@@ -92,6 +92,11 @@ Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 						      const QByteArray& allData,
 						      const QByteArray& lastData ) const
 {
+	if( lastData.startsWith( "[media-downloader]" ) ){
+
+		return { Logger::Data::luxResult::ac::add,lastData } ;
+	}
+
 	auto& luxHeader = outPut.LuxHeader( processId ).value() ;
 
 	if( luxHeader.data.isEmpty() ){
@@ -117,7 +122,7 @@ Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 				luxHeader.title = luxHeader.data.mid( aa + 6,bb - aa - 6 ).trimmed() ;
 			}
 
-			auto s = luxHeader.data ;
+			auto s = luxHeader.data.simplified() ;
 
 			s.replace( " ","" ) ;
 			s.replace( "\n","" ) ;
@@ -152,21 +157,23 @@ Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 		}
 	}
 
-	auto ss = allData.lastIndexOf( "-]" ) ;
+	auto ss = allData.lastIndexOf( "=]" ) ;
+
+	if( ss != -1 ){
+
+		auto mm = allData.indexOf( "Merging video parts into " ) ;
+
+		if( mm != -1 ){
+
+			return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + allData.mid( mm ) } ;
+		}
+	}
+
+	ss = allData.lastIndexOf( "-]" ) ;
 
 	if( ss == -1 ){
 
 		ss = allData.lastIndexOf( ">]" ) ;
-	}
-
-	if( ss == -1 ){
-
-		ss = allData.lastIndexOf( "=]" ) ;
-
-		if( ss != -1 ){
-
-			return { Logger::Data::luxResult::ac::replace,lastData } ;
-		}
 	}
 
 	if( ss != -1 ){
@@ -266,11 +273,18 @@ lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,
 
 const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 {
+	const auto& eee = e.LuxHeader( m_processId ) ;
+
+	if( !eee.has_value() ){
+
+		//Should not get here
+		return e.lastText() ;
+	}
 	const auto& s = e.lastText() ;
 
 	auto ss = s.indexOf( "Time left:" ) ;
 
-	const auto& luksHeader = e.LuxHeader( m_processId ).value() ;
+	const auto& luksHeader = eee.value() ;
 
 	if( ss != -1  ){
 
@@ -297,7 +311,16 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		return m_progress.text() ;
 	}
 
-	for( const auto& it : util::split( e.allData( m_processId ).value(),'\n' ) ){
+	const auto& ee = e.allData( m_processId ) ;
+
+	if( !ee.has_value() ){
+
+		//Should not get here
+
+		return luksHeader.title ;
+	}
+
+	for( const auto& it : util::split( ee.value(),'\n' ) ){
 
 		if( it.contains( ": file already exists, skipping" ) ){
 
