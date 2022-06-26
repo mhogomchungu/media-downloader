@@ -42,12 +42,13 @@
         }
     },
     "DefaultDownLoadCmdOptions": [
+        "--progress=bar:force"
     ],
     "DefaultListCmdOptions": [
     ],
     "DownloadUrl": "",
     "Name": "wget",
-    "OptionsArgument": "--progress=bar:force",
+    "OptionsArgument": "",
     "ReplaceOutputWithProgressReport": false,
     "RequiredMinimumVersionOfMediaDownloader": "2.2.0",
     "VersionArgument": "--version",

@@ -301,6 +301,7 @@ public:
 				engines::engine::functions::preProcessing m_processing ;
 				QString m_quality ;
 				const engines::engine& m_engine ;
+				QByteArray m_tmp ;
 				int m_processId ;
 			} ;
 

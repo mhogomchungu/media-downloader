@@ -25,6 +25,7 @@
 #include "engines/gallery-dl.h"
 #include "engines/aria2c.h"
 #include "engines/lux.h"
+#include "engines/wget.h"
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
 
@@ -319,6 +320,10 @@ void engines::updateEngines( bool addAll,int id )
 		}else if( name == "svtplay-dl" ){
 
 			it.setBackend< svtplay_dl >( engines ) ;
+
+		}else if( name == "wget" ){
+
+			it.setBackend< wget >( engines ) ;
 
 		}else if( it.mainEngine() ){
 
@@ -1247,13 +1252,18 @@ const QByteArray& engines::engine::functions::filter::operator()( const Logger::
 		static QByteArray e ;
 		return e ;
 	}else{
-		const auto& m = s.lastText() ;
+		if( utility::stringConstants::doneDownloadingText( s.lastText() ) ){
 
-		if( m.startsWith( "[media-downloader] cmd:" ) ){
-
-			return m_processing.text() ;
+			return m_tmp ;
 		}else{
-			return m ;
+			m_tmp = s.lastText() ;
+
+			if( m_tmp.startsWith( "[media-downloader] cmd:" ) ){
+
+				return m_processing.text() ;
+			}else{
+				return m_tmp ;
+			}
 		}
 	}
 }

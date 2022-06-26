@@ -294,7 +294,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 	}
 	if( s.startsWith( "[media-downloader]" ) ){
 
-		if( s.startsWith( "[media-downloader] Done Processing And Shutting Down ..." ) ){
+		if( utility::stringConstants::doneDownloadingText( s ) ){
 
 			if( m_tmp.isEmpty() ){
 

@@ -87,6 +87,7 @@ set(SRC
     src/engines/generic.cpp
     src/engines/aria2c.cpp
     src/engines/lux.cpp
+    src/engines/wget.cpp
     src/engines/svtplay-dl.cpp
     src/engines/you-get.cpp
     src/engines/gallery-dl.cpp)

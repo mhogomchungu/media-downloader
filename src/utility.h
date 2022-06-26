@@ -126,13 +126,24 @@ namespace utility
 		{
 			return "DoneDownloading" ;
 		}
-		static QByteArray doneDownloadingText()
+		template< typename T >
+		static QByteArray doneDownloadingText( const T& p )
 		{
-			return "[media-downloader] Done Processing And Shutting Down ..." ;
+			if( p.cancelled() ){
+
+				return "[media-downloader] Download Cancelled" ;
+
+			}else if( p.success() ){
+
+				return "[media-downloader] Download Completed Successfully" ;
+			}else{
+				return "[media-downloader] Download Failed" ;
+			}
+
 		}
 		static bool doneDownloadingText( const QByteArray& e )
 		{
-			return e == "[media-downloader] Done Processing And Shutting Down ..." ;
+			return e.startsWith( "[media-downloader] Download " ) ;
 		}
 		static QString uploadDate()
 		{
@@ -915,13 +926,6 @@ namespace utility
 		}
 		void whenDone( int s,QProcess::ExitStatus e )
 		{
-			m_logger.add( [ this ]( Logger::Data& e,int id,bool s,bool m ){
-
-				auto d = utility::stringConstants::doneDownloadingText() ;
-
-				m_engine.processData( e,d,id,s,m ) ;
-			} ) ;
-
 			m_conn.disconnect() ;
 
 			m_timer->stop() ;
@@ -934,6 +938,13 @@ namespace utility
 
 				m_options.listRequested( state,std::move( m_data ) ) ;
 			}
+
+			m_logger.add( [ &,this ]( Logger::Data& e,int id,bool s,bool m ){
+
+				auto d = utility::stringConstants::doneDownloadingText( state ) ;
+
+				m_engine.processData( e,d,id,s,m ) ;
+			} ) ;
 
 			m_options.done( std::move( state ) ) ;
 
