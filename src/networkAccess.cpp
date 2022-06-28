@@ -337,7 +337,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 void networkAccess::post( const engines::engine& engine,const QString& m,int id )
 {	
-	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool,bool ){
+	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool ){
 
 		auto e = m.toUtf8() ;
 

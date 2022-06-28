@@ -178,7 +178,7 @@ void MainWindow::quitApp()
 
 void MainWindow::log( const QByteArray& e )
 {
-	m_logger.add( e,-1 ) ;
+	m_logger.add( e,utility::sequentialID() ) ;
 }
 
 MainWindow::~MainWindow() = default ;

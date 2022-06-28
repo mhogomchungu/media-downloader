@@ -22,6 +22,7 @@
 #include "translator.h"
 #include "utility"
 #include "util.hpp"
+#include "engines/tests.h"
 
 class myApp
 {
@@ -68,6 +69,11 @@ int main( int argc,char * argv[] )
 	mqApp.setApplicationName( "media-downloader" ) ;
 
 	auto args = mqApp.arguments() ;
+
+	//if( tests::test_engine( args,mqApp ) ){
+
+	//	return 0 ;
+	//}
 
 	auto spath = paths.socketPath() ;
 

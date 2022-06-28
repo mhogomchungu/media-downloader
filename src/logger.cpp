@@ -26,6 +26,7 @@
 Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_logWindow( nullptr,s,*this ),
 	m_textEdit( e ),
+	m_processOutPuts( true ),
 	m_settings( s )
 {
 	m_textEdit.setReadOnly( true ) ;

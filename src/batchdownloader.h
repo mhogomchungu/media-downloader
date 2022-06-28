@@ -200,6 +200,7 @@ private:
 	{
 	public:
 		BatchLogger( Logger& l ) :
+			m_localLogger( false ),
 			m_logger( l ),
 			m_id( utility::concurrentID() )
 		{
@@ -223,7 +224,7 @@ private:
 		void add( const Function& function )
 		{
 			m_logger.add( function,m_id ) ;
-			function( m_localLogger,m_id,false,false ) ;
+			function( m_localLogger,m_id,false ) ;
 		}
 		void logError( const QByteArray& data )
 		{

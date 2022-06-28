@@ -82,6 +82,7 @@ set(SRC
     src/tableWidget.cpp
     src/library.cpp
     src/downloadmanager.cpp
+    src/engines/tests.cpp
     src/engines/yt-dlp.cpp
     src/engines/safaribooks.cpp
     src/engines/generic.cpp

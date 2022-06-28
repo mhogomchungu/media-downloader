@@ -140,6 +140,13 @@ public:
 			std::vector< Logger::Data::processOutput::outputEntry > m_data ;
 		};
 	public:
+		Data( bool s ) : m_mainLogger( s )
+		{
+		}
+		bool mainLogger() const
+		{
+			return m_mainLogger ;
+		}
 		bool isEmpty() const
 		{
 			return m_processOutputs.empty() ;
@@ -461,10 +468,11 @@ public:
 			m_processOutputs.emplace_back( id,text ) ;
 		}
 		std::list< Logger::Data::processOutput > m_processOutputs ;
+		bool m_mainLogger ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
-	void add( const QString& s,int id      )
+	void add( const QString& s,int id )
 	{
 		this->add( s.toUtf8(),id ) ;
 	}
@@ -474,7 +482,7 @@ public:
 	template< typename Function >
 	void add( const Function& function,int id )
 	{
-		function( m_processOutPuts,id,true,true ) ;
+		function( m_processOutPuts,id,true ) ;
 
 		this->update() ;
 	}
@@ -606,6 +614,7 @@ public:
 		m_functionUpdate( std::move( ff ) ),
 		m_error( std::move( err ) ),
 		m_logger( logger ),
+		m_localLogger( false ),
 		m_id( id )
 	{
 	}
@@ -635,7 +644,7 @@ public:
 	void add( const G& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_localLogger,m_id,false,false ) ;
+		function( m_localLogger,m_id,false ) ;
 		this->update() ;
 	}
 	void registerDone()
@@ -678,6 +687,7 @@ public:
 	loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add,Error error ) :
 		m_table( t ),
 		m_logger( logger ),
+		m_localLogger( false ),
 		m_id( id ),
 		m_addToTable( std::move( add ) ),
 		m_error( std::move( error ) )
@@ -706,7 +716,7 @@ public:
 	void add( const Function& function )
 	{
 		m_logger.add( function,m_id ) ;
-		function( m_localLogger,m_id,false,false ) ;
+		function( m_localLogger,m_id,false ) ;
 		m_addToTable( m_table,m_localLogger ) ;
 	}
 	void registerDone()

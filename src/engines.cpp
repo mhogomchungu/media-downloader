@@ -1082,10 +1082,9 @@ void engines::engine::functions::sendCredentials( const QString&,QProcess& )
 void engines::engine::functions::processData( Logger::Data& outPut,
 					      const QByteArray& data,
 					      int id,
-					      bool readableJson,
-					      bool mainLogger )
+					      bool readableJson )
 {
-	if( m_engine.parseOutput( outPut,data,id,mainLogger ) ){
+	if( m_engine.parseOutput( outPut,data,id,readableJson ) ){
 
 		const auto& txt = m_engine.removeText() ;
 
@@ -1108,11 +1107,9 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 void engines::engine::functions::processData( Logger::Data& outPut,
 					      const QString& e,
 					      int id,
-					      bool readableJson,
-					      bool mainLogger )
+					      bool readableJson )
 {
 	Q_UNUSED( readableJson )
-	Q_UNUSED( mainLogger )
 
 	outPut.replaceOrAdd( e.toUtf8(),id,[]( const QString& line ){
 
