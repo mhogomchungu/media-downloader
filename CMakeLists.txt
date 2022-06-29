@@ -145,7 +145,7 @@ file(WRITE ${PROJECT_BINARY_DIR}/media-downloader_windows_installer.iss
 #define MyAppPublisher       \"Francis Banyikwa\"
 #define MyAppURL             \"https://github.com/mhogomchungu/media-downloader\"
 #define MyAppExeName         \"media-downloader.exe\"
-#define MyAppCopyright       \"2021-2022, Francis Banyikwa\"
+#define MyAppCopyright       \"${COPYRIGHT_YEARS}, Francis Banyikwa\"
 #define MyLibrariesLocation  \"C:\\projects\\media-downloader.libraries.Qt-${Qt5Core_VERSION}\\\"
 #define MyEXELocation        \"${PROJECT_BINARY_DIR}\\media-downloader.exe\"
 #define MyBuildPath          \"${PROJECT_BINARY_DIR}\"
@@ -192,7 +192,7 @@ Source: {#MyLibrariesLocation}\\imageformats\\*; DestDir: {app}\\imageformats; F
 Source: {#MyLibrariesLocation}\\styles\\*; DestDir: {app}\\styles; Flags: ignoreversion
 Source: {#MyLibrariesLocation}\\platforms\\*; DestDir: {app}\\platforms; Flags: ignoreversion
 Source: {#MyLibrariesLocation}\\3rdParty\\*; DestDir: {app}\\3rdParty; Flags: ignoreversion recursesubdirs
-Source: {#MyLibrariesLocation}\\translations\\*; DestDir: {app}\\translations; Flags: ignoreversion
+Source: {#MySourcesPath}\\translations\\*; DestDir: {app}\\translations; Flags: ignoreversion
 Source: {#MySourcesPath}\\src\\media-downloader.ico; DestDir: {app}\\icons; Flags: ignoreversion
 
 ; NOTE: Don't use \"Flags: ignoreversion\" on any shared system files
