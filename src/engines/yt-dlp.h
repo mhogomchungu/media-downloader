@@ -67,6 +67,8 @@ public:
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 
+	void updateGetPlaylistCmdOptions( QStringList& ) override ;
+
 	static QJsonObject init( const QString& name,
 				 const QString& configFileName,
 				 Logger& logger,
@@ -76,8 +78,10 @@ public:
 		const engines::engine&,
 		QJsonObject&,
 		Logger& logger,
-		const engines::enginePaths& ) ;
+		const engines::enginePaths&,
+		const util::version& ) ;
 private:
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
+	const util::version& m_version ;
 };

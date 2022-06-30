@@ -295,7 +295,7 @@ void engines::updateEngines( bool addAll,int id )
 
 		if( it.likeYoutubeDl() ){
 
-			it.setBackend< yt_dlp >( engines,m_logger,m_enginePaths ) ;
+			it.setBackend< yt_dlp >( engines,m_logger,m_enginePaths,it.versionInfo() ) ;
 
 		}else if( name == "safaribooks" ){
 
@@ -1145,6 +1145,10 @@ void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine
 
 	s.ourOptions.removeAll( "Default" ) ;
 	s.ourOptions.removeAll( "default" ) ;
+}
+
+void engines::engine::functions::updateGetPlaylistCmdOptions( QStringList& )
+{
 }
 
 engines::engine::functions::functions( settings& s,const engines::engine& engine,const QProcessEnvironment& env ) :

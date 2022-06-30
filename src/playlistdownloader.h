@@ -53,6 +53,7 @@ private:
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;
 
+	void showBanner() ;
 	void clearScreen() ;
 	bool enabled() ;
 
@@ -202,7 +203,7 @@ private:
 		mutable std::vector< subscription::entry > m_list ;
 	};
 
-	void getList( playlistdownloader::listIterator ) ;
+	void getList( playlistdownloader::listIterator,const engines::engine& ) ;
 	void getList( customOptions&&,const engines::engine&,listIterator ) ;
 
 	subscription m_subscription ;

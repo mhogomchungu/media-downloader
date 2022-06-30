@@ -232,9 +232,11 @@ yt_dlp::yt_dlp( const engines& engines,
 		const engines::engine& engine,
 		QJsonObject& obj,
 		Logger& logger,
-		const engines::enginePaths& enginePath ) :
+		const engines::enginePaths& enginePath,
+		const util::version& version ) :
 	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
-	m_engine( engine )
+	m_engine( engine ),
+	m_version( version )
 {
 	auto name = obj.value( "Name" ).toString() ;
 
@@ -682,6 +684,17 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 		s.ourOptions.append( "--progress-template" ) ;
 		s.ourOptions.append( "download:[download] %(progress._percent_str)s of %(progress._total_bytes_str)s at %(progress._speed_str)s ETA %(progress._eta_str)s" ) ;
+	}
+}
+
+void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
+{
+	if( m_version.valid() ){
+
+		if( m_version >= "2022.06.22" ){
+
+			e.append( "--lazy-playlist" ) ;
+		}
 	}
 }
 

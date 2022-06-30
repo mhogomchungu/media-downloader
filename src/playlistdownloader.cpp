@@ -440,15 +440,29 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			auto s = ac->objectName() ;
 
+			auto _run = [ this ]( std::vector< playlistdownloader::subscription::entry >&& e ){
+
+				const auto& engine = this->defaultEngine() ;
+
+				this->showBanner() ;
+
+				engine.updateVersionInfo( [ this,&engine,e = std::move( e ) ](){
+
+					auto a = e ;
+
+					this->getList( std::move( a ),engine ) ;
+				} ) ;
+			} ;
+
 			if( s == "Download All Updated" ){
 
 				m_autoDownload = true ;
 
-				this->getList( std::move( entries ) ) ;
+				_run( std::move( entries ) ) ;
 
 			}else if( s == "Show All Updated" ){
 
-				this->getList( std::move( entries ) ) ;
+				_run( std::move( entries ) ) ;
 
 			}else if( s == "Manage Subscriptions" ){
 
@@ -464,7 +478,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 						ss.emplace_back( it.uiName,it.url,it.getListOptions ) ;
 
-						this->getList( std::move( ss ) ) ;
+						_run( std::move( ss ) ) ;
 
 						break ;
 					}
@@ -513,7 +527,14 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			m_autoDownload = false ;
 
-			this->getList( m ) ;
+			const auto& engine = this->defaultEngine() ;
+
+			this->showBanner() ;
+
+			engine.updateVersionInfo( [ m,this,&engine ](){
+
+				this->getList( m,engine ) ;
+			} ) ;
 		}
 	} ) ;
 
@@ -818,7 +839,29 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			 std::move( logger ) ) ;
 }
 
-void playlistdownloader::getList( playlistdownloader::listIterator iter )
+void playlistdownloader::showBanner()
+{
+	m_table.clear() ;
+	m_banner.clear() ;
+
+	QIcon icon( ":/media-downloader" ) ;
+
+	auto w = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
+	auto h = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
+
+	tableWidget::entry entry ;
+
+	entry.uiText    = m_banner.txt() ;
+	entry.thumbnail = icon.pixmap( w,h ) ;
+
+	m_table.addItem( std::move( entry ) ) ;
+	m_table.selectLast() ;
+
+	m_ctx.TabManager().disableAll() ;
+}
+
+void playlistdownloader::getList( playlistdownloader::listIterator iter,
+				  const engines::engine& engine )
 {
 	m_dataReceived = false ;
 	m_stoppedOnExisting = false ;
@@ -831,8 +874,6 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter )
 	m_ui.lineEditPLUrl->setText( url ) ;
 
 	m_ui.pbPLCancel->setEnabled( true ) ;
-
-	const auto& engine = this->defaultEngine() ;
 
 	auto opts = engine.dumpJsonArguments() ;
 
@@ -864,6 +905,8 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter )
 		}
 	}
 
+	engine.updateGetPlaylistCmdOptions( opts ) ;
+
 	opts.append( "-v" ) ;
 
 	opts.append( url ) ;
@@ -893,13 +936,13 @@ void playlistdownloader::getList( customOptions&& c,
 			m_gettingPlaylist = true ;
 			m_ui.pbPLCancel->setEnabled( true ) ;
 
-		},[ this,iter = std::move( iter ) ]( utility::ProcessExitState st,const playlistdownloader::opts& ){
+		},[ &engine,this,iter = std::move( iter ) ]( utility::ProcessExitState st,const playlistdownloader::opts& ){
 
 			if( m_meaw ){
 
 				if( iter.hasNext() ){
 
-					this->getList( iter.next() ) ;
+					this->getList( iter.next(),engine ) ;
 				}else{
 					if( m_autoDownload ){
 
@@ -915,7 +958,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 				if( m_stoppedOnExisting && iter.hasNext() ){
 
-					this->getList( iter.next() ) ;
+					this->getList( iter.next(),engine ) ;
 				}else{
 					m_ctx.TabManager().enableAll() ;
 					m_gettingPlaylist = false ;
@@ -924,7 +967,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 			}else if( iter.hasNext() ){
 
-				this->getList( iter.next() ) ;
+				this->getList( iter.next(),engine ) ;
 			}else{
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
@@ -996,19 +1039,8 @@ void playlistdownloader::getList( customOptions&& c,
 	if( !m_gettingPlaylist ){
 
 		logger.clear() ;
-		m_banner.clear() ;
 
-		QIcon icon( ":/media-downloader" ) ;
-
-		auto w = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
-		auto h = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
-
-		tableWidget::entry entry ;
-
-		entry.uiText    = m_banner.txt() ;
-		entry.thumbnail = icon.pixmap( w,h ) ;
-
-		m_table.addItem( std::move( entry ) ) ;
+		this->showBanner() ;
 
 		m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
 	}

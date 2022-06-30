@@ -381,6 +381,8 @@ public:
 
 			virtual void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) ;
 
+			virtual void updateGetPlaylistCmdOptions( QStringList& ) ;
+
 			functions( settings&,const engines::engine&,const QProcessEnvironment& e ) ;
 			settings& Settings() const ;
 			const engines::engine& engine() const ;
@@ -414,6 +416,39 @@ public:
 		const QString& name() const
 		{
 			return m_name ;
+		}
+
+		template<typename Function,typename ... Args >
+		void updateVersionInfo( Function function ) const
+		{
+			const auto& engine = *this ;
+
+			if( engine.name().contains( "yt-dlp" ) ){
+
+				const auto& e = engine.versionInfo() ;
+
+				if( e.valid() ){
+
+					function() ;
+				}else{
+					const auto& exe = engine.exePath() ;
+					QStringList args{ engine.versionArgument() } ;
+
+					engines::engine::exeArgs::cmd cmd( exe,args ) ;
+
+					util::run( cmd.exe(),cmd.args(),[ &engine,function = std::move( function ) ]( const util::run_result& e ){
+
+						if( e.success() ){
+
+							engine.versionString( e.stdOut ) ;
+						}
+
+						function() ;
+					} ) ;
+				}
+			}else{
+				function() ;
+			}
 		}
 
 		template< typename backend,typename ... Args >
@@ -503,6 +538,10 @@ public:
 		std::vector< QStringList > mediaProperties( const QByteArray& e ) const
 		{
 			return m_functions->mediaProperties( e ) ;
+		}
+		void updateGetPlaylistCmdOptions( QStringList& e ) const
+		{
+			m_functions->updateGetPlaylistCmdOptions( e ) ;
 		}
 		bool parseOutput( Logger::Data& e,const QByteArray& s,int id,bool m ) const
 		{
