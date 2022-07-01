@@ -418,7 +418,7 @@ public:
 			return m_name ;
 		}
 
-		template<typename Function,typename ... Args >
+		template< typename Function >
 		void updateVersionInfo( Function function ) const
 		{
 			const auto& engine = *this ;
