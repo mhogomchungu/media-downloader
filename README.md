@@ -29,7 +29,9 @@ Donations are very much appreciated, Please contact me using mhogomchungu _at__ 
 
 ## Extensions
 
-Read the [extensions](https://github.com/mhogomchungu/media-downloader/wiki/Extensions) page for further information.
+Media Downloade is a GUI front end to [yt-dlp](https://github.com/yt-dlp/yt-dlp), [youtube-dl](https://github.com/ytdl-org/youtube-dl/), [gallery-dl](https://github.com/mikf/gallery-dl), [lux](https://github.com/iawia002/lux), [you-get](https://github.com/soimort/you-get), [svtplay-dl](https://github.com/spaam/svtplay-dl), [aria2c](https://aria2.github.io/), [wget](https://www.gnu.org/software/wget) and [safari books](https://github.com/mhogomchungu/safaribooks)
+
+Read the [extensions](https://github.com/mhogomchungu/media-downloader/wiki/Extensions) page for further information on these programs and how to install them.
 
 ## FAQ
 A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/media-downloader/wiki/Frequently-Asked-Questions).
