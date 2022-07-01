@@ -10,18 +10,17 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set( PGR_VERSION "2.3.0" )
+set( PGR_VERSION "2.4.0" )
 set( COPYRIGHT_YEARS "2021-2022" )
 
 INCLUDE(GNUInstallDirs)
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_definitions(-Qunused-arguments)
 endif()
 
-if(WIN32)
-else()
-    #This is necessary with old versions of cmake
+if(${CMAKE_VERSION} VERSION_LESS "3.1.0")
+    message("Warning your cmake version is too old(<3.1.0) and code my not compile")
     add_definitions(-std=c++14)
 endif()
 

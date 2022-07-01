@@ -127,6 +127,7 @@ Version 1.2.0(April 1st, 2021)
  - Update language translations.
  - Add a checkbox in batch downloader tab to make it easy to enable/disable monitoring of clipboard for Url.
 
- Version 2.3.1(Unreleased)
+ Version 2.4.0(July 1st, 2022)
  - Add svtplay-dl extension. Project page is at: https://github.com/spaam/svtplay-dl
+ - Add you-get extension. Project page is at: https://github.com/soimort/you-get
  - Add Italian translations.
