@@ -798,7 +798,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data&
 
 const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 {
-	if( s.doneDownloading() ){
+	if( s.doneDownloading() && !m_fileName.isEmpty() ){
 
 		return m_postProcessing.text( m_fileName ) ;
 	}
