@@ -820,7 +820,7 @@ bool engines::engine::breakShowListIfContains( const QStringList& e ) const
 	return m_functions->breakShowListIfContains( e ) ;
 }
 
-QString engines::engine::versionString( const QString& data ) const
+QString engines::engine::setVersionString( const QString& data ) const
 {
 	auto a = util::split( data,'\n',true ) ;
 
@@ -831,8 +831,12 @@ QString engines::engine::versionString( const QString& data ) const
 
 		if( m_position < c.size() ){
 
-			const auto& m = c[ m_position ] ;
+			auto m = c[ m_position ] ;
+
+			m.replace( ",","" ).replace( "v","" ) ;
+
 			m_version = m ;
+
 			return m ;
 		}
 	}

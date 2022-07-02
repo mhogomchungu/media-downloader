@@ -949,7 +949,7 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 
 			auto& logger = m_ctx->logger() ;
 
-			logger.add( QObject::tr( "Found version" ) + ": " + engine.versionString( r.stdOut ),id ) ;
+			logger.add( QObject::tr( "Found version" ) + ": " + engine.setVersionString( r.stdOut ),id ) ;
 
 			m_ctx->TabManager().enableAll() ;
 		}else{

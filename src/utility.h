@@ -773,7 +773,7 @@ namespace utility
 
 				if( r.success() ){
 
-					engine.versionString( r.stdOut ) ;
+					engine.setVersionString( r.stdOut ) ;
 				}
 
 				then( r.success() ) ;

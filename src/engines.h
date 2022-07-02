@@ -440,7 +440,7 @@ public:
 
 						if( e.success() ){
 
-							engine.versionString( e.stdOut ) ;
+							engine.setVersionString( e.stdOut ) ;
 						}
 
 						function() ;
@@ -470,7 +470,7 @@ public:
 			return m_versionArgument ;
 		}
 
-		QString versionString( const QString& data ) const ;
+		QString setVersionString( const QString& data ) const ;
 
 		const util::version& versionInfo() const
 		{
