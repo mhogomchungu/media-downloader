@@ -537,7 +537,7 @@ public:
 			m_id( id ),
 			m_aria2c( m_args.name.contains( "aria2c" ) ),
 			m_ffmpeg( m_args.name.contains( "ffmpeg" ) ),
-			m_yt_dlp( m_args.name == "yt-dlp" ),
+			m_yt_dlp( m_args.name.contains( "yt-dlp" ) ),
 			m_ytdl( m_args.name == "youtube-dl" )
 		{
 			this->run( humanReadableJson,data ) ;
