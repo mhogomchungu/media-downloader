@@ -97,7 +97,16 @@ Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 		return { Logger::Data::luxResult::ac::add,lastData } ;
 	}
 
-	auto& luxHeader = outPut.LuxHeader( processId ).value() ;
+	const auto& lHeader = outPut.LuxHeader( processId ) ;
+
+	if( !lHeader.has_value() ){
+
+		//Should not get here
+
+		return { Logger::Data::luxResult::ac::nothing,QByteArray() } ;
+	}
+
+	auto& luxHeader = lHeader.value() ;
 
 	if( luxHeader.data.isEmpty() ){
 
@@ -280,6 +289,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		//Should not get here
 		return e.lastText() ;
 	}
+
 	const auto& s = e.lastText() ;
 
 	auto ss = s.indexOf( "Time left:" ) ;
