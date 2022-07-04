@@ -58,11 +58,6 @@ private:
 
 int main( int argc,char * argv[] )
 {
-	if( utility::platformIsWindows() ){
-
-		QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
-	}
-
 	settings settings ;
 
 	QApplication mqApp( argc,argv ) ;

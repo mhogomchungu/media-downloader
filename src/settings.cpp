@@ -47,6 +47,8 @@ bool settings::portableVersion()
 {
 	if( utility::platformIsWindows() ){
 
+		QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
+
 		auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
 		auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
 
