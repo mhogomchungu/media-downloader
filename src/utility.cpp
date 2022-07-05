@@ -148,10 +148,10 @@ util::result< int > utility::Terminator::terminate( int,char ** )
 QString utility::windowsApplicationDirPath()
 {
 	std::array< char,1024 > buffer ;
-
 	GetModuleFileNameA( nullptr,buffer.data(),static_cast< DWORD >( buffer.size() ) ) ;
-
-	return buffer.data() ;
+	QString m( buffer.data() ) ;
+	m.replace( "media-downloader.exe","" ) ;
+	return m ;
 }
 
 #else
