@@ -312,6 +312,7 @@ namespace utility
 	bool platformIsOSX() ;
 	bool platformisOS2() ;
 	bool platformIsNOTWindows() ;
+	QString windowsApplicationDirPath() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
 

@@ -142,6 +142,29 @@ util::result< int > utility::Terminator::terminate( int,char ** )
 
 #ifdef Q_OS_WIN
 
+#include<libloaderapi.h>
+#include <array>
+
+QString utility::windowsApplicationDirPath()
+{
+	std::array< char,1024 > buffer ;
+
+	GetModuleFileNameA( nullptr,buffer.data(),static_cast< DWORD >( buffer.size() ) ) ;
+
+	return buffer.data() ;
+}
+
+#else
+
+QString utility::windowsApplicationDirPath()
+{
+	return {} ;
+}
+
+#endif
+
+#ifdef Q_OS_WIN
+
 #include <windows.h>
 
 #include <cstring>

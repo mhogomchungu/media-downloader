@@ -47,7 +47,14 @@ bool settings::portableVersion()
 {
 	if( utility::platformIsWindows() ){
 
-		QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
+		/*
+		 * QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
+		 *
+		 * Above does not work because "QCoreApplication::applicationDirPath()" requires
+		 * QApplication to already exist.
+		 */
+
+		QDir::setCurrent( utility::windowsApplicationDirPath() ) ;
 
 		auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
 		auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
@@ -310,7 +317,7 @@ settings::settings() :
 	QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
 #else
 	m_EnableHighDpiScaling = false ;
-#endif	
+#endif
 	auto m = this->highDpiScalingFactor() ;
 
 	if( m != "1.0" ){
