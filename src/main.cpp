@@ -58,9 +58,9 @@ private:
 
 int main( int argc,char * argv[] )
 {
-	settings settings ;
-
 	QApplication mqApp( argc,argv ) ;
+
+	settings settings ;
 
 	engines::enginePaths paths( settings ) ;
 
