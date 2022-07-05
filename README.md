@@ -43,6 +43,7 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 
 1. Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of yt-dlp.
 
+2. Some backends require python to be installed and their download link is [here](https://www.python.org/downloads/windows/).
 
 #### Installer for Microsoft Windows
 
