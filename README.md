@@ -22,7 +22,7 @@ downloads may cause the host to ban you.
 6. The GUI offers ability to manage links to playlist to easily monitor their activities(subscriptions).
 
 7. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish,
-Turkish, Russian, Japanese and French.
+Turkish, Russian, Japanese, French and Italian.
 
 ## Donations
 Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
