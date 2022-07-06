@@ -582,7 +582,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Swedish (Sweden)</source>
-        <translation type="unfinished"></translation>
+        <translation>Svedese (Svezia)</translation>
     </message>
 </context>
 <context>
