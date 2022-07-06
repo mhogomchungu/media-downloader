@@ -580,6 +580,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
+    <message>
+        <source>Swedish (Sweden)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

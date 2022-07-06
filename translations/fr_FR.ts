@@ -367,24 +367,24 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="395"/>
+        <location filename="../src/utility.cpp" line="418"/>
         <source>Best-audiovideo</source>
         <translation>Meilleur-audiovideo</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="396"/>
+        <location filename="../src/utility.cpp" line="419"/>
         <source>Best-audio</source>
         <translation>Meilleur-audio</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="397"/>
+        <location filename="../src/utility.cpp" line="420"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="123"/>
-        <location filename="../src/utility.cpp" line="706"/>
-        <location filename="../src/utility.cpp" line="725"/>
+        <location filename="../src/utility.cpp" line="729"/>
+        <location filename="../src/utility.cpp" line="748"/>
         <source>Save List To File</source>
         <translation>Enregistrer la liste dans un fichier</translation>
     </message>
@@ -426,19 +426,19 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="414"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
-        <location filename="../src/utility.cpp" line="384"/>
+        <location filename="../src/utility.cpp" line="407"/>
         <source>Preset Options</source>
         <translation>Options de préselection</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="411"/>
-        <location filename="../src/utility.h" line="482"/>
-        <location filename="../src/utility.h" line="549"/>
+        <location filename="../src/utility.cpp" line="434"/>
+        <location filename="../src/utility.h" line="483"/>
+        <location filename="../src/utility.h" line="550"/>
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="422"/>
+        <location filename="../src/utility.cpp" line="445"/>
         <source>Open Download Folder</source>
         <translation>Ouvrir le répertoire de téléchargement</translation>
     </message>
@@ -523,6 +523,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/translator.cpp" line="37"/>
+        <source>Swedish (Sweden)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/engines.cpp" line="130"/>
         <source>Running in portable mode</source>
         <translation>Exécuter en mode portable</translation>
@@ -575,7 +580,7 @@
     <message>
         <location filename="../src/engines.cpp" line="567"/>
         <location filename="../src/engines.cpp" line="806"/>
-        <location filename="../src/utility.cpp" line="573"/>
+        <location filename="../src/utility.cpp" line="596"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Echec à trouver l&apos;exécutable &quot;%1&quot;</translation>
     </message>
@@ -585,64 +590,64 @@
         <translation>Echec à trouver python3 executable pour le programme &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="874"/>
+        <location filename="../src/engines.cpp" line="878"/>
         <source>Download cancelled</source>
         <translation>Téléchargement annulé</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1020"/>
+        <location filename="../src/engines.cpp" line="1024"/>
         <source>Format Code</source>
         <translation>Code du format</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1021"/>
+        <location filename="../src/engines.cpp" line="1025"/>
         <source>Extension</source>
         <translation>Extension</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1022"/>
+        <location filename="../src/engines.cpp" line="1026"/>
         <source>Resolution</source>
         <translation>Résolution</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1023"/>
+        <location filename="../src/engines.cpp" line="1027"/>
         <source>Note</source>
         <translation>détails</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1230"/>
+        <location filename="../src/engines.cpp" line="1234"/>
         <source>Failed to open file for writing</source>
         <translation>Echec à ouvrir le fichier en écriture</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1236"/>
+        <location filename="../src/engines.cpp" line="1240"/>
         <source>Failed to open file for reading</source>
         <translation>Echec à ouvrir le fichier en lecture</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1381"/>
-        <location filename="../src/engines.cpp" line="1386"/>
-        <location filename="../src/engines.cpp" line="1393"/>
-        <location filename="../src/engines.cpp" line="1398"/>
+        <location filename="../src/engines.cpp" line="1385"/>
+        <location filename="../src/engines.cpp" line="1390"/>
+        <location filename="../src/engines.cpp" line="1397"/>
+        <location filename="../src/engines.cpp" line="1402"/>
         <source>Elapsed Time:</source>
         <translation>Temps écoulé:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="59"/>
-        <location filename="../src/utility.cpp" line="930"/>
+        <location filename="../src/utility.cpp" line="953"/>
         <source>Checking installed version of</source>
         <translation>Test de la version installé de</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="64"/>
-        <location filename="../src/utility.cpp" line="907"/>
-        <location filename="../src/utility.cpp" line="956"/>
+        <location filename="../src/utility.cpp" line="930"/>
+        <location filename="../src/utility.cpp" line="979"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Les informations de version n&apos;ont pas été trouvées, vérifiez que &quot;%1&quot; est bien installé et fonctionne correctement</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/utility.cpp" line="952"/>
+        <location filename="../src/utility.cpp" line="975"/>
         <source>Found version</source>
         <translation>Version trouvée</translation>
     </message>
@@ -657,7 +662,7 @@
         <translation>Débuter le téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="880"/>
+        <location filename="../src/engines.cpp" line="884"/>
         <location filename="../src/networkAccess.cpp" line="160"/>
         <location filename="../src/networkAccess.cpp" line="269"/>
         <source>Download Failed</source>
@@ -698,39 +703,39 @@
         <translation>Renommer le fichier en : </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1299"/>
+        <location filename="../src/engines.cpp" line="1303"/>
         <source>Processing</source>
         <translation>Traitement</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="878"/>
+        <location filename="../src/engines.cpp" line="882"/>
         <source>Download completed</source>
         <translation>Téléchargement complet</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="408"/>
+        <location filename="../src/settings.cpp" line="417"/>
         <source>Resetting download folder to default</source>
         <translation>Reset du dossier de téléchargement par défaut</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1344"/>
+        <location filename="../src/engines.cpp" line="1348"/>
         <source>Post Processing</source>
         <translation>Post Traitement</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="515"/>
-        <location filename="../src/utility.h" line="523"/>
-        <location filename="../src/utility.h" line="528"/>
+        <location filename="../src/utility.h" line="516"/>
+        <location filename="../src/utility.h" line="524"/>
+        <location filename="../src/utility.h" line="529"/>
         <source>Download</source>
         <translation>Télécharger</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="520"/>
+        <location filename="../src/utility.h" line="521"/>
         <source>Force Download</source>
         <translation>Téléchargement forcé</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="538"/>
+        <location filename="../src/utility.h" line="539"/>
         <source>Show Log Window</source>
         <translation>Montrer la fenêtre des journaux</translation>
     </message>

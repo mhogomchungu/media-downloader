@@ -34,7 +34,7 @@ translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settin
 	this->addString( QObject::tr( "Japanese (Japan)" ),"Japanese (Japan)","ja_JP" ) ;
 	this->addString( QObject::tr( "French (France)" ),"French (France)","fr_FR" ) ;
 	this->addString( QObject::tr( "Italian (Italy)" ),"Italian (Italy)","it_IT" ) ;
-
+	this->addString( QObject::tr( "Swedish (Sweden)" ),"Swedish (Sweden)","sv_SE" ) ;
 
 	this->setDefaultLanguage() ;
 }
