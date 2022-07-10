@@ -223,6 +223,8 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 void networkAccess::download( networkAccess::Opts opts )
 {
+	opts.engine.updateEnginePaths( m_ctx,opts.filePath,opts.exeBinPath,opts.archiveExtractionPath ) ;
+
 	m_file.setFileName( opts.filePath ) ;
 
 	m_file.remove() ;
@@ -279,7 +281,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 		this->post( str.engine,QObject::tr( "Download complete" ),str.id ) ;
 
-		if( str.metadata.fileName.endsWith( ".zip" ) || str.metadata.fileName.endsWith( ".tar.gz" ) ){
+		if( str.metadata.fileName.endsWith( ".zip" ) || str.metadata.fileName.endsWith( ".tar.xz" ) ){
 
 			this->post( str.engine,QObject::tr( "Extracting archive: " ) + str.filePath,str.id ) ;
 
@@ -291,10 +293,10 @@ void networkAccess::finished( networkAccess::Opts str )
 			if( utility::platformIsWindows() ){
 
 				exe = m_ctx.Engines().findExecutable( "7z.exe" ) ;
-				args = QStringList{ "x",str.filePath,"-o" + str.exeFolderPath } ;
+				args = QStringList{ "x",str.filePath,"-o" + str.archiveExtractionPath } ;
 			}else{
 				exe = m_ctx.Engines().findExecutable( "tar" ) ;
-				args = QStringList{ "-x","-f",str.filePath,"-C",str.exeFolderPath } ;
+				args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
 			}
 
 			util::run( exe,args,[ this,str = std::move( str ) ]( const util::run_result& s ){

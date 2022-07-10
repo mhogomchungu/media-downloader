@@ -66,7 +66,7 @@ public:
 	QString engineDefaultDownloadOptions( const QString& engineName ) ;
 	QString playlistRangeHistoryLastUsed() ;
 	QString configPaths() ;
-
+	QString updatedVersionPath() ;
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
 	QStringList playlistUrlHistory() ;

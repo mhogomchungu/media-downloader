@@ -24,6 +24,7 @@
 #include "downloadmanager.h"
 #include "tableWidget.h"
 #include "tabmanager.h"
+#include "version.h"
 
 #include <QEventLoop>
 #include <QDesktopServices>
@@ -33,6 +34,7 @@
 #include <QSysInfo>
 
 #include <ctime>
+#include <cstring>
 
 const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
@@ -910,6 +912,11 @@ QString utility::locale::formattedDataSize( qint64 s ) const
 
 void utility::versionInfo::check( const engines::Iterator& iter,const QString& setDefaultEngine )
 {
+	if( iter.engine().name() =="media-downloader" ){
+
+		return this->printEngineVersionInfo( iter ) ;
+	}
+
 	const auto& engine = iter.engine() ;
 
 	if( engine.usingPrivateBackend() && engine.validDownloadUrl() && networkAccess::hasNetworkSupport() ){
@@ -938,6 +945,11 @@ void utility::versionInfo::check( const engines::Iterator& iter,const QString& s
 
 utility::versionInfo::~versionInfo()
 {
+}
+
+void utility::versionInfo::updateMediaDownloader( const engines::Iterator& iter )
+{
+	m_networkAccess->download( iter,{} ) ;
 }
 
 void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter )
@@ -1088,5 +1100,66 @@ void utility::setDefaultEngine( const Context& ctx,const QString& name )
 		ctx.Engines().setDefaultEngine( name ) ;
 
 		ctx.TabManager().setDefaultEngines() ;
+	}
+}
+
+bool utility::onlyWantedVersionInfo( int argc,char ** argv )
+{
+	for( int s = 0 ; s < argc ; s++ ){
+
+		if( std::strcmp( argv[ s ],"--version" ) == 0 ){
+
+			std::cout << util::split( VERSION,'\n' ).at( 0 ).constData() << std::endl ;
+
+			return true ;
+		}
+	}
+
+	return false ;
+}
+
+bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
+{
+	auto m = s.updatedVersionPath() ;
+
+	auto exePath = [ & ](){
+
+		if(utility::platformIsWindows() ){
+
+			return m + "/bin/media-downloader.exe" ;
+		}else{
+			return m + "/bin/media-downloader" ;
+		}
+	}() ;
+
+	if( QFile::exists( exePath ) ){
+
+		QStringList args ;
+
+		for( int i = 1 ; i < argc ; i++ ){
+
+			args.append( *( argv + i ) ) ;
+		}
+
+		if( utility::platformIsWindows() ){
+
+			auto env = QProcessEnvironment::systemEnvironment() ;
+			auto paths = env.value( "PATH" ) ;
+			env.insert( "PATH",QDir::currentPath() + ";" + paths ) ;
+
+			QProcess exe ;
+
+			exe.setProgram( exePath ) ;
+			exe.setArguments( args ) ;
+			exe.setProcessEnvironment( env ) ;
+
+			exe.startDetached() ;
+		}else{
+			QProcess::startDetached( exePath,args ) ;
+		}
+
+		return true ;
+	}else{
+		return false ;
 	}
 }

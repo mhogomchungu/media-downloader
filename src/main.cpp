@@ -58,7 +58,17 @@ private:
 
 int main( int argc,char * argv[] )
 {
+	if( utility::onlyWantedVersionInfo( argc,argv ) ){
+
+		return 0 ;
+	}
+
 	settings settings ;
+
+	if( utility::startedUpdatedVersion( settings,argc,argv ) ){
+
+		return 0 ;
+	}
 
 	QApplication mqApp( argc,argv ) ;
 

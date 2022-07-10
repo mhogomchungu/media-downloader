@@ -1162,7 +1162,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1267,7 +1267,7 @@
          <rect>
           <x>188</x>
           <y>130</y>
-          <width>421</width>
+          <width>211</width>
           <height>31</height>
          </rect>
         </property>
@@ -1441,6 +1441,19 @@
         </property>
         <property name="text">
          <string>Auto Save List Of Not Downloaded Media</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbUpdateMediaDownloader">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>130</y>
+          <width>211</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Update MediaDownloader</string>
         </property>
        </widget>
       </widget>

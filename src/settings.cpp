@@ -841,6 +841,16 @@ QString settings::configPaths()
 	}
 }
 
+QString settings::updatedVersionPath()
+{
+	if( m_portableVersion ){
+
+		return QDir::currentPath() + "/updates" ;
+	}else{
+		return _configPath() + "/media-downloader/updates" ;
+	}
+}
+
 QString settings::commandOnSuccessfulDownload()
 {
 	if( !m_settings.contains( "CommandOnSuccessfulDownload" ) ){

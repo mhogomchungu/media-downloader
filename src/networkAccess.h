@@ -81,7 +81,7 @@ private:
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
 			metadata( std::move( m ) ),
-			exeFolderPath( efp ),
+			archiveExtractionPath( efp ),
 			defaultEngine( sde ),
 			id( xd )
 		{
@@ -92,6 +92,10 @@ private:
 			}else if( metadata.fileName.endsWith( ".tar.gz" ) ){
 
 				filePath = exeBinPath + ".tmp.tar.gz" ;
+
+			}else if( metadata.fileName.endsWith( ".tar.xz" ) ){
+
+				filePath = exeBinPath + ".tmp.tar.xz" ;
 			}else{
 				filePath = exeBinPath + ".tmp" ;
 			}
@@ -102,7 +106,7 @@ private:
 		QString exeBinPath ;
 		networkAccess::metadata metadata ;
 		QString filePath ;
-		QString exeFolderPath ;
+		QString archiveExtractionPath ;
 		QString defaultEngine ;
 		int id ;
 	};

@@ -315,6 +315,8 @@ namespace utility
 	QString windowsApplicationDirPath() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
+	bool onlyWantedVersionInfo( int,char ** ) ;
+	bool startedUpdatedVersion( settings&,int,char ** ) ;
 
 	class addJsonCmd
 	{
@@ -781,6 +783,7 @@ namespace utility
 
 			},QProcess::ProcessChannelMode::MergedChannels ) ;
 		}
+		void updateMediaDownloader( const engines::Iterator& iter ) ;
 		void check( const engines::Iterator& iter,const QString& setDefaultEngine = QString() ) ;
 		networkAccess& network()
 		{

@@ -193,6 +193,13 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbUpdateMediaDownloader,&QPushButton::clicked,[ this ](){
+
+		static engines::engine m( m_ctx ) ;
+
+		m_ctx.versionInfo().updateMediaDownloader( { m,utility::sequentialID() } ) ;
+	} ) ;
+
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		this->saveOptions() ;

@@ -38,6 +38,7 @@
 
 class tableWidget ;
 class settings ;
+class Context ;
 
 class engines{
 public:
@@ -115,6 +116,14 @@ public:
 		{
 			return m_dataPath ;
 		}
+		const QString& updatePath() const
+		{
+			return m_updatePath ;
+		}
+		QString updatePath( const QString& e ) const
+		{
+			return m_updatePath + "/" +  e ;
+		}
 		QString dataPath( const QString& e ) const
 		{
 			return m_dataPath + "/" + e ;
@@ -137,6 +146,7 @@ public:
 		QString m_enginePath ;
 		QString m_basePath ;
 		QString m_dataPath ;
+		QString m_updatePath ;
 	};
 
 	class engine
@@ -344,6 +354,8 @@ public:
 
 			virtual QStringList horizontalHeaderLabels() const ;
 
+			virtual void updateEnginePaths( const Context&,QString& filePath,QString& exeBinPath,QString& exeFolderPath ) ;
+
 			virtual bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) ;
 
 			virtual bool foundNetworkUrl( const QString& ) ;
@@ -391,6 +403,8 @@ public:
 			const engines::engine& m_engine ;
 			const QProcessEnvironment& m_processEnvironment ;
 		} ;
+
+		engine( const Context& ) ;
 
 		engine( Logger& l ) ;
 
@@ -562,6 +576,10 @@ public:
 		std::vector< QStringList > mediaProperties( const QJsonArray& e ) const
 		{
 			return m_functions->mediaProperties( e ) ;
+		}
+		void updateEnginePaths( const Context& ctx,QString& filePath,QString& exeBinPath,QString& exeFolderPath ) const
+		{
+			m_functions->updateEnginePaths( ctx,filePath,exeBinPath,exeFolderPath ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{
