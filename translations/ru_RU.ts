@@ -379,7 +379,7 @@
     <message>
         <location filename="../src/utility.cpp" line="420"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>По умолчанию</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="123"/>
@@ -411,7 +411,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="1008"/>
         <source>Save Subtitle To File</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить субтитры в файл</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="158"/>
@@ -465,17 +465,17 @@
     <message>
         <location filename="../src/about.cpp" line="52"/>
         <source>Qt Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия Qt</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="58"/>
-        <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
-        <translation type="unfinished"></translation>
+        <source>Эта программа является бесплатной; вы можете распространять ее и/или изменять в соответствии с условиями GNU General Public License, опубликованной Free Software Foundation; либо версией 2 этой лицензии, либо (по вашему выбору) любой более поздней версией.</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="59"/>
-        <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation type="unfinished"></translation>
+        <source>Эта программа распространяется в надежде, что она окажется полезной, но БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ; даже без подразумеваемых гарантий ТОВАРНОЙ ПРИГОДНОСТИ или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Более подробную информацию см. в GNU General Public License.</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -520,12 +520,12 @@
     <message>
         <location filename="../src/translator.cpp" line="36"/>
         <source>Italian (Italy)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="37"/>
         <source>Swedish (Sweden)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="130"/>
@@ -570,7 +570,7 @@
     <message>
         <location filename="../src/engines.cpp" line="256"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка, не удалось проанализировать конфигурационный файл &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="492"/>
@@ -782,7 +782,7 @@
     <message>
         <location filename="../src/engines/svtplay-dl.cpp" line="41"/>
         <source>Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Метод</translation>
     </message>
 </context>
 <context>
@@ -896,17 +896,17 @@
     <message>
         <location filename="../src/configure.cpp" line="576"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>По умолчанию</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="580"/>
         <source>Best-audio</source>
-        <translation type="unfinished">Лучшее аудио</translation>
+        <translation>Лучшее аудио</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="584"/>
         <source>Best-audiovideo</source>
-        <translation type="unfinished">Лучшее аудио-видео</translation>
+        <translation>Лучшее аудио-видео</translation>
     </message>
 </context>
 <context>
