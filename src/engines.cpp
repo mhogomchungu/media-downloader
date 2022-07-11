@@ -410,37 +410,32 @@ settings& engines::Settings() const
 
 QString engines::findExecutable( const QString& exeName ) const
 {
-	if( exeName == "python3" || exeName == "python" ){
+	auto path = this->processEnvironment().value( "PATH" ) ;
 
-		return utility::python3Path() ;
-	}else{
-		auto path = this->processEnvironment().value( "PATH" ) ;
+	if( utility::platformIsWindows() || utility::platformisOS2() ){
 
-		if( utility::platformIsWindows() || utility::platformisOS2() ){
+		const auto e = path.split( ";" ) ;
 
-			const auto e = path.split( ";" ) ;
+		auto s = QStandardPaths::findExecutable( exeName,e ) ;
 
-			auto s = QStandardPaths::findExecutable( exeName,e ) ;
+		if( s.isEmpty() ){
 
-			if( s.isEmpty() ){
+			for( const auto& it : e ){
 
-				for( const auto& it : e ){
+				auto m = it + "/" + exeName ;
 
-					auto m = it + "/" + exeName ;
+				if( QFile::exists( m ) ){
 
-					if( QFile::exists( m ) ){
-
-						return m ;
-					}
+					return m ;
 				}
-
-				return {} ;
-			}else{
-				return s ;
 			}
+
+			return {} ;
 		}else{
-			return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;
+			return s ;
 		}
+	}else{
+		return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;
 	}
 }
 
@@ -567,8 +562,6 @@ engines::engine::engine( const Context& ctx ) :
 	m_exePath = m_exeFolderPath + "/bin/" + m_commandName ;
 
 	this->setBackend< media_downloader >( ctx.Engines() ) ;
-
-	utility::debug() << "constructing:" + m_exeFolderPath ;
 }
 
 engines::engine::engine( Logger& )
