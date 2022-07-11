@@ -426,24 +426,21 @@ QString engines::findExecutable( const QString& exeName ) const
 
 		const auto e = path.split( ";" ) ;
 
-		auto s = QStandardPaths::findExecutable( exeName,e ) ;
+		QFileInfo info ;
 
-		if( s.isEmpty() ){
+		for( const auto& it : e ){
 
-			for( const auto& it : e ){
+			auto m = it + "/" + exeName ;
 
-				auto m = it + "/" + exeName ;
+			info.setFile( m ) ;
 
-				if( QFile::exists( m ) ){
+			if( info.exists() && info.isFile() ){
 
-					return m ;
-				}
+				return m ;
 			}
-
-			return {} ;
-		}else{
-			return s ;
 		}
+
+		return {} ;
 	}else{
 		return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;
 	}
