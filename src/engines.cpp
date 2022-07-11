@@ -414,6 +414,16 @@ QString engines::findExecutable( const QString& exeName ) const
 
 	if( utility::platformIsWindows() || utility::platformisOS2() ){
 
+		if( !m_settings.portableVersion() && exeName == "python.exe" ){
+
+			auto m = utility::python3Path() ;
+
+			if( !m.isEmpty() ){
+
+				return m ;
+			}
+		}
+
 		const auto e = path.split( ";" ) ;
 
 		auto s = QStandardPaths::findExecutable( exeName,e ) ;
