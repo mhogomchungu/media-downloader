@@ -440,6 +440,23 @@ QString engines::findExecutable( const QString& exeName ) const
 			}
 		}
 
+		if( !exeName.endsWith( ".exe" ) ){
+
+			auto nameExe = exeName + ".exe" ;
+
+			for( const auto& it : e ){
+
+				auto m = it + "/" + nameExe ;
+
+				info.setFile( m ) ;
+
+				if( info.exists() && info.isFile() ){
+
+					return m ;
+				}
+			}
+		}
+
 		return {} ;
 	}else{
 		return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;

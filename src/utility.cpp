@@ -216,11 +216,12 @@ util::result< int > utility::Terminator::terminate( int argc,char ** argv )
 	}
 }
 
-static HKEY _reg_open_key( const char * subKey,HKEY hkey )
+static HKEY _reg_open_key( const char * subKey,HKEY hkey,REGSAM sam )
 {
 	HKEY m ;
-	REGSAM wow64 = KEY_QUERY_VALUE | KEY_WOW64_64KEY ;
-	REGSAM wow32 = KEY_QUERY_VALUE | KEY_WOW64_32KEY ;
+	REGSAM wow64 = KEY_WOW64_64KEY | sam ;
+	REGSAM wow32 = KEY_WOW64_32KEY | sam ;
+
 	unsigned long x = 0 ;
 
 	if( RegOpenKeyExA( hkey,subKey,x,wow64,&m ) == ERROR_SUCCESS ){
@@ -239,7 +240,8 @@ static void _reg_close_key( HKEY hkey )
 {
 	if( hkey != nullptr ){
 
-		RegCloseKey( hkey ) ;
+		// Docs says i should not close predefined keys
+		//RegCloseKey( hkey ) ;
 	}
 }
 
@@ -265,37 +267,69 @@ static QByteArray _reg_get_value( HKEY hkey,const char * key )
 	return {} ;
 }
 
-static QString _readRegistry( const char * subKey,const char * key,HKEY hkey )
+static QString _readRegistry( const char * subKey,const char * key,HKEY hkey,REGSAM sam )
 {
-	auto s = unique_rsc( _reg_open_key,_reg_close_key,subKey,hkey ) ;
+	auto s = unique_rsc( _reg_open_key,_reg_close_key,subKey,hkey,sam ) ;
 
 	return _reg_get_value( s.get(),key ) ;
+}
+
+static void _python3Paths( QStringList& list,HKEY hkey )
+{
+	auto s = unique_rsc( _reg_open_key,
+			     _reg_close_key,
+			     "SOFTWARE\\Python\\PythonCore",
+			     hkey,
+			     KEY_ENUMERATE_SUB_KEYS ) ;
+
+	auto key = s.get() ;
+
+	if( key != nullptr ){
+
+		std::array< char,20000 > buffer ;
+		DWORD size ;
+
+		for( int s = 0 ; ; s++ ){
+
+			size = static_cast< DWORD >( buffer.size() ) ;
+
+			auto m = RegEnumKeyExA( key,s,buffer.data(),&size,nullptr,nullptr,nullptr,nullptr ) ;
+
+			if( m == ERROR_SUCCESS ){
+
+				auto mm =  "SOFTWARE\\Python\\PythonCore\\" + QByteArray( buffer.data() ) + "\\InstallPath" ;
+
+				auto eee = _readRegistry( mm.data(),"ExecutablePath",hkey,KEY_QUERY_VALUE ) ;
+
+				if( !eee.isEmpty() ){
+
+					list.append( eee ) ;
+				}
+			}else{
+				break ;
+			}
+		}
+	}
 }
 
 QString utility::python3Path()
 {
 	std::array< HKEY,2 > hkeys{ HKEY_CURRENT_USER,HKEY_LOCAL_MACHINE } ;
-
-	std::string path = "Software\\Python\\PythonCore\\3.X\\InstallPath" ;
-
-	char * str = &path[ 0 ] ;
+	QStringList list ;
 
 	for( const auto& it : hkeys ){
 
-		for( char s = '9' ; s >= '0' ; s-- ){
-
-			str[ 29 ] = s ;
-
-			auto c = _readRegistry( str,"ExecutablePath",it ) ;
-
-			if( !c.isEmpty() ){
-
-				return c ;
-			}
-		}
+		_python3Paths( list,it ) ;
 	}
 
-	return {} ;
+	if( list.isEmpty() ){
+
+		return {} ;
+	}else{
+		list.sort( Qt::CaseInsensitive ) ;
+
+		return list.last() ;
+	}
 }
 
 bool utility::platformIsWindows()
