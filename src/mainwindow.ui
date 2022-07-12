@@ -1456,6 +1456,19 @@
          <string notr="true">Update MediaDownloader</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="pbOpenBinFolder">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>170</y>
+          <width>31</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">

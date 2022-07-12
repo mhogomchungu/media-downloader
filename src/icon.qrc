@@ -6,5 +6,7 @@
 		 <file>folder.jpeg</file>
 		 <file>file.png</file>
 		 <file>video.png</file>
+		 <file>executable.png</file>
+		 <file>json.jpeg</file>
 	 </qresource>
  </RCC>

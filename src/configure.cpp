@@ -67,14 +67,20 @@ configure::configure( const Context& ctx ) :
 		m_tablePresetOptions.selectRow( c,p,0 ) ;
 	} ) ;
 
-	connect( m_ui.pbOpenThemeFolder,&QPushButton::clicked,[ this,themesFolderPath ](){
+	m_ui.pbOpenThemeFolder->setIcon( QIcon( ":/json" ) ) ;
 
-		auto a = QFileDialog::getOpenFileName( &m_mainWindow,"",themesFolderPath,"" ) ;
+	connect( m_ui.pbOpenThemeFolder,&QPushButton::clicked,[ themesFolderPath ](){
 
-		if( !a.isEmpty() ){
+		QDesktopServices::openUrl( QUrl("file:///" + themesFolderPath,QUrl::TolerantMode ) ) ;
+	} ) ;
 
-			QDesktopServices::openUrl( a ) ;
-		}
+	m_ui.pbOpenBinFolder->setIcon( QIcon( ":/executable" ) ) ;
+
+	connect( m_ui.pbOpenBinFolder,&QPushButton::clicked,[ this,themesFolderPath ](){
+
+		const auto& m = m_engines.engineDirPaths().binPath() ;
+
+		QDesktopServices::openUrl( QUrl("file:///" + m,QUrl::TolerantMode ) ) ;
 	} ) ;
 
 	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,ths = std::move( ths ) ]( int index ){
@@ -192,6 +198,8 @@ configure::configure( const Context& ctx ) :
 			m_ui.lineEditConfigureCookiePath->setText( m ) ;
 		}
 	} ) ;
+
+	m_ui.pbUpdateMediaDownloader->setVisible( false ) ;
 
 	connect( m_ui.pbUpdateMediaDownloader,&QPushButton::clicked,[ this ](){
 
