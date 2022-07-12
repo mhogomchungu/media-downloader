@@ -71,7 +71,7 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbOpenThemeFolder,&QPushButton::clicked,[ themesFolderPath ](){
 
-		QDesktopServices::openUrl( QUrl("file:///" + themesFolderPath,QUrl::TolerantMode ) ) ;
+		QDesktopServices::openUrl( QUrl( "file:///" + themesFolderPath,QUrl::TolerantMode ) ) ;
 	} ) ;
 
 	m_ui.pbOpenBinFolder->setIcon( QIcon( ":/executable" ) ) ;
@@ -80,7 +80,7 @@ configure::configure( const Context& ctx ) :
 
 		const auto& m = m_engines.engineDirPaths().binPath() ;
 
-		QDesktopServices::openUrl( QUrl("file:///" + m,QUrl::TolerantMode ) ) ;
+		QDesktopServices::openUrl( QUrl( "file:///" + m,QUrl::TolerantMode ) ) ;
 	} ) ;
 
 	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,ths = std::move( ths ) ]( int index ){

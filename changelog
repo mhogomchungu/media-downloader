@@ -123,11 +123,18 @@ Version 1.2.0(April 1st, 2021)
     - Add an option to auto save not downloaded media on exit.
 
  Version 2.3.0(May 1st, 2022)
- - Add lux backend. Project page is at: https://github.com/iawia002/lux
- - Update language translations.
- - Add a checkbox in batch downloader tab to make it easy to enable/disable monitoring of clipboard for Url.
+    - Add lux backend. Project page is at: https://github.com/iawia002/lux
+    - Update language translations.
+    - Add a checkbox in batch downloader tab to make it easy to enable/disable monitoring of clipboard for Url.
 
  Version 2.4.0(July 1st, 2022)
- - Add svtplay-dl extension. Project page is at: https://github.com/spaam/svtplay-dl
- - Add you-get extension. Project page is at: https://github.com/soimort/you-get
- - Add Italian translations.
+    - Add svtplay-dl extension. Project page is at: https://github.com/spaam/svtplay-dl
+    - Add you-get extension. Project page is at: https://github.com/soimort/you-get
+    - Add Italian translations.
+
+  Version 2.5.0(Unreleased)
+    [Windows]
+    - Bundle python 3.8.10.
+    [All]
+    - Add Swedish language.
+    - Update translations.
