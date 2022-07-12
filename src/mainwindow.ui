@@ -1267,7 +1267,7 @@
          <rect>
           <x>188</x>
           <y>130</y>
-          <width>211</width>
+          <width>421</width>
           <height>31</height>
          </rect>
         </property>
@@ -1446,14 +1446,14 @@
        <widget class="QPushButton" name="pbUpdateMediaDownloader">
         <property name="geometry">
          <rect>
-          <x>400</x>
+          <x>640</x>
           <y>130</y>
-          <width>211</width>
+          <width>111</width>
           <height>33</height>
          </rect>
         </property>
         <property name="text">
-         <string>Update MediaDownloader</string>
+         <string notr="true">Update MediaDownloader</string>
         </property>
        </widget>
       </widget>
