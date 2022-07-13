@@ -144,15 +144,23 @@ util::result< int > utility::Terminator::terminate( int,char ** )
 
 #ifdef Q_OS_WIN
 
-#include<libloaderapi.h>
+#include <libloaderapi.h>
 #include <array>
 
 QString utility::windowsApplicationDirPath()
 {
-	std::array< char,1024 > buffer ;
+	std::array< char,4096 > buffer ;
+
 	GetModuleFileNameA( nullptr,buffer.data(),static_cast< DWORD >( buffer.size() ) ) ;
-	QString m( buffer.data() ) ;
-	m.replace( "media-downloader.exe","" ) ;
+
+	auto m = QDir::fromNativeSeparators( buffer.data() ) ;
+	auto s = m.lastIndexOf( '/' ) ;
+
+	if( s != -1 ){
+
+		m.truncate( s ) ;
+	}
+
 	return m ;
 }
 
