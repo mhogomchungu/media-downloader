@@ -18,7 +18,7 @@
         <location filename="../src/mainwindow.ui" line="480"/>
         <location filename="../src/mainwindow.ui" line="592"/>
         <location filename="../src/mainwindow.ui" line="773"/>
-        <location filename="../src/mainwindow.ui" line="1811"/>
+        <location filename="../src/mainwindow.ui" line="1837"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
@@ -51,9 +51,9 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="467"/>
         <location filename="../src/mainwindow.ui" line="611"/>
-        <location filename="../src/mainwindow.ui" line="1501"/>
-        <location filename="../src/mainwindow.ui" line="1551"/>
-        <location filename="../src/mainwindow.ui" line="1762"/>
+        <location filename="../src/mainwindow.ui" line="1527"/>
+        <location filename="../src/mainwindow.ui" line="1577"/>
+        <location filename="../src/mainwindow.ui" line="1788"/>
         <source>Options</source>
         <translation>Alternativ</translation>
     </message>
@@ -62,7 +62,7 @@
         <location filename="../src/mainwindow.ui" line="506"/>
         <location filename="../src/mainwindow.ui" line="695"/>
         <location filename="../src/mainwindow.ui" line="1095"/>
-        <location filename="../src/mainwindow.ui" line="1827"/>
+        <location filename="../src/mainwindow.ui" line="1853"/>
         <location filename="../src/mainwindow.cpp" line="73"/>
         <source>Quit</source>
         <translation>Avsluta</translation>
@@ -231,13 +231,13 @@
         <translation>Spara automatiskt en lista över icke nerladdad media</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1461"/>
+        <location filename="../src/mainwindow.ui" line="1487"/>
         <source>Reset Option To Its Default</source>
         <translation>Återställ till standardalternativ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1464"/>
-        <location filename="../src/mainwindow.ui" line="1643"/>
+        <location filename="../src/mainwindow.ui" line="1490"/>
+        <location filename="../src/mainwindow.ui" line="1669"/>
         <source>Set Defaults</source>
         <translation>Ställ in standard</translation>
     </message>
@@ -252,7 +252,7 @@
         <translation>Maximalt antal samtidiga nerladdningar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1449"/>
+        <location filename="../src/mainwindow.ui" line="1475"/>
         <source>Preset Options</source>
         <translation>Förinställda alternativ</translation>
     </message>
@@ -282,12 +282,12 @@
         <translation>Ta bort en plugin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1840"/>
+        <location filename="../src/mainwindow.ui" line="1866"/>
         <source>Save</source>
         <translation>Spara</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1576"/>
+        <location filename="../src/mainwindow.ui" line="1602"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Motorernas standardalternativ</translation>
     </message>
@@ -305,21 +305,21 @@
     <message>
         <location filename="../src/mainwindow.ui" line="894"/>
         <location filename="../src/mainwindow.ui" line="952"/>
-        <location filename="../src/mainwindow.ui" line="1496"/>
-        <location filename="../src/mainwindow.ui" line="1535"/>
+        <location filename="../src/mainwindow.ui" line="1522"/>
+        <location filename="../src/mainwindow.ui" line="1561"/>
         <source>Ui Name</source>
         <translation>Gränssnittsnamn</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="974"/>
-        <location filename="../src/mainwindow.ui" line="1570"/>
-        <location filename="../src/mainwindow.ui" line="1798"/>
+        <location filename="../src/mainwindow.ui" line="1596"/>
+        <location filename="../src/mainwindow.ui" line="1824"/>
         <source>Add</source>
         <translation>Lägg till</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="987"/>
-        <location filename="../src/mainwindow.ui" line="1696"/>
+        <location filename="../src/mainwindow.ui" line="1722"/>
         <source>Url</source>
         <translation>Webbadress</translation>
     </message>
@@ -329,37 +329,37 @@
         <translation>Klar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1598"/>
+        <location filename="../src/mainwindow.ui" line="1624"/>
         <source>Engine&apos;s Name</source>
         <translation>Motorernas namn</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1617"/>
+        <location filename="../src/mainwindow.ui" line="1643"/>
         <source>Default Download Options</source>
         <translation>Standardalternativ för nerladdning</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1656"/>
+        <location filename="../src/mainwindow.ui" line="1682"/>
         <source>Path To Cookie FIle</source>
         <translation>Sökväg till cookie-fil</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1701"/>
+        <location filename="../src/mainwindow.ui" line="1727"/>
         <source>Download Options</source>
         <translation>Nerladdningsalternativ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1715"/>
+        <location filename="../src/mainwindow.ui" line="1741"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Ställ in vilken webbadress som ska hanteras av vilken motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1746"/>
+        <location filename="../src/mainwindow.ui" line="1772"/>
         <source>Url Filter</source>
         <translation>Webbadressfilter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1846"/>
+        <location filename="../src/mainwindow.ui" line="1872"/>
         <source>About</source>
         <translation>Om</translation>
     </message>
@@ -367,24 +367,24 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="395"/>
+        <location filename="../src/utility.cpp" line="454"/>
         <source>Best-audiovideo</source>
         <translation>Bästa-ljudvideo</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="396"/>
+        <location filename="../src/utility.cpp" line="455"/>
         <source>Best-audio</source>
         <translation>Bästa-ljud</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="397"/>
+        <location filename="../src/utility.cpp" line="456"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="123"/>
-        <location filename="../src/utility.cpp" line="706"/>
-        <location filename="../src/utility.cpp" line="725"/>
+        <location filename="../src/utility.cpp" line="765"/>
+        <location filename="../src/utility.cpp" line="784"/>
         <source>Save List To File</source>
         <translation>Spara lista till fil</translation>
     </message>
@@ -426,19 +426,19 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="414"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
-        <location filename="../src/utility.cpp" line="384"/>
+        <location filename="../src/utility.cpp" line="443"/>
         <source>Preset Options</source>
         <translation>Förinställda alternativ</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="411"/>
-        <location filename="../src/utility.h" line="482"/>
-        <location filename="../src/utility.h" line="549"/>
+        <location filename="../src/utility.cpp" line="470"/>
+        <location filename="../src/utility.h" line="485"/>
+        <location filename="../src/utility.h" line="552"/>
         <source>Clear</source>
         <translation>Rensa</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="422"/>
+        <location filename="../src/utility.cpp" line="481"/>
         <source>Open Download Folder</source>
         <translation>Öppna nerladdningsmap</translation>
     </message>
@@ -528,126 +528,126 @@
         <translation>Svenska (Sverige)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="130"/>
+        <location filename="../src/engines.cpp" line="131"/>
         <source>Running in portable mode</source>
         <translation>Körs i portabelt läge</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="131"/>
+        <location filename="../src/engines.cpp" line="132"/>
         <source>Download path: </source>
         <translation>Nerladdningssökväg: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="251"/>
+        <location filename="../src/engines.cpp" line="252"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Fel, den körbara filen &quot;%1&quot; hittades inte</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="214"/>
+        <location filename="../src/engines.cpp" line="215"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Motorn &quot;%1&quot; kräver minst version &quot;%2&quot; av Media downloader</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="120"/>
+        <location filename="../src/engines.cpp" line="121"/>
         <source>To Disable These Checks, Do The Following:-</source>
         <translation>För att inaktivera dessa kontroller gör så här:-</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="121"/>
+        <location filename="../src/engines.cpp" line="122"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
         <translation>1. Gå till fliken &quot;Konfigurera&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="122"/>
+        <location filename="../src/engines.cpp" line="123"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
         <translation>2. Gå till underfliken &quot;Allmänna alternativ&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="123"/>
+        <location filename="../src/engines.cpp" line="124"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
         <translation>3. Kryssa ur &quot;Visa versionsinformation vid start&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="256"/>
+        <location filename="../src/engines.cpp" line="257"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>Fel, kunde inte tolka konfigurationsfilen &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="492"/>
+        <location filename="../src/engines.cpp" line="512"/>
         <source>Failed To Load A Plugin</source>
         <translation>Det gick inte att ladda en plugin</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="567"/>
-        <location filename="../src/engines.cpp" line="806"/>
-        <location filename="../src/utility.cpp" line="573"/>
+        <location filename="../src/engines.cpp" line="615"/>
+        <location filename="../src/engines.cpp" line="854"/>
+        <location filename="../src/utility.cpp" line="632"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Det gick inte att hitta den körbara filen &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="791"/>
+        <location filename="../src/engines.cpp" line="839"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Det gick inte att hitta python3 för programmet &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="874"/>
+        <location filename="../src/engines.cpp" line="927"/>
         <source>Download cancelled</source>
         <translation>Nerladdningen avbruten</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1020"/>
+        <location filename="../src/engines.cpp" line="1073"/>
         <source>Format Code</source>
         <translation>Formatkod</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1021"/>
+        <location filename="../src/engines.cpp" line="1074"/>
         <source>Extension</source>
         <translation>Tillägg</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1022"/>
+        <location filename="../src/engines.cpp" line="1075"/>
         <source>Resolution</source>
         <translation>Upplösning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1023"/>
+        <location filename="../src/engines.cpp" line="1076"/>
         <source>Note</source>
         <translation>Observera</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1230"/>
+        <location filename="../src/engines.cpp" line="1287"/>
         <source>Failed to open file for writing</source>
         <translation>Det gick inte att öppna filen för skrivning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1236"/>
+        <location filename="../src/engines.cpp" line="1293"/>
         <source>Failed to open file for reading</source>
         <translation>Det gick inte att öppna filen för läsning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1381"/>
-        <location filename="../src/engines.cpp" line="1386"/>
-        <location filename="../src/engines.cpp" line="1393"/>
-        <location filename="../src/engines.cpp" line="1398"/>
+        <location filename="../src/engines.cpp" line="1438"/>
+        <location filename="../src/engines.cpp" line="1443"/>
+        <location filename="../src/engines.cpp" line="1450"/>
+        <location filename="../src/engines.cpp" line="1455"/>
         <source>Elapsed Time:</source>
         <translation>Förfluten tid:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="59"/>
-        <location filename="../src/utility.cpp" line="930"/>
+        <location filename="../src/utility.cpp" line="999"/>
         <source>Checking installed version of</source>
         <translation>Kontrollerar installerad version av</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="64"/>
-        <location filename="../src/utility.cpp" line="907"/>
-        <location filename="../src/utility.cpp" line="956"/>
+        <location filename="../src/utility.cpp" line="971"/>
+        <location filename="../src/utility.cpp" line="1025"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Det gick inte att hitta versionsinformation, se till att &quot;%1&quot; är installerad och fungerar som den ska</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/utility.cpp" line="952"/>
+        <location filename="../src/utility.cpp" line="1021"/>
         <source>Found version</source>
         <translation>Funnen version</translation>
     </message>
@@ -662,9 +662,9 @@
         <translation>Starta nerladdningen</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="880"/>
+        <location filename="../src/engines.cpp" line="933"/>
         <location filename="../src/networkAccess.cpp" line="160"/>
-        <location filename="../src/networkAccess.cpp" line="269"/>
+        <location filename="../src/networkAccess.cpp" line="271"/>
         <source>Download Failed</source>
         <translation>Nerladdning misslyckad</translation>
     </message>
@@ -676,66 +676,66 @@
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="118"/>
         <location filename="../src/engines/gallery-dl.cpp" line="122"/>
-        <location filename="../src/networkAccess.cpp" line="232"/>
-        <location filename="../src/networkAccess.cpp" line="254"/>
-        <location filename="../src/networkAccess.cpp" line="344"/>
+        <location filename="../src/networkAccess.cpp" line="234"/>
+        <location filename="../src/networkAccess.cpp" line="256"/>
+        <location filename="../src/networkAccess.cpp" line="346"/>
         <source>Downloading</source>
         <translation>Laddar ner</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="234"/>
+        <location filename="../src/networkAccess.cpp" line="236"/>
         <source>Destination</source>
         <translation>Mål</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="280"/>
+        <location filename="../src/networkAccess.cpp" line="282"/>
         <source>Download complete</source>
         <translation>Nerladdning klar</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="284"/>
+        <location filename="../src/networkAccess.cpp" line="286"/>
         <source>Extracting archive: </source>
         <translation>Packar upp arkiv: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="323"/>
+        <location filename="../src/networkAccess.cpp" line="325"/>
         <source>Renaming file to: </source>
         <translation>Döper om fil till: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1299"/>
+        <location filename="../src/engines.cpp" line="1356"/>
         <source>Processing</source>
         <translation>Arbetar</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="878"/>
+        <location filename="../src/engines.cpp" line="931"/>
         <source>Download completed</source>
         <translation>Nerladdning klar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="408"/>
+        <location filename="../src/settings.cpp" line="417"/>
         <source>Resetting download folder to default</source>
         <translation>Återställer nerladdningsmappen till standard</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1344"/>
+        <location filename="../src/engines.cpp" line="1401"/>
         <source>Post Processing</source>
         <translation>Efterbehandling</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="515"/>
-        <location filename="../src/utility.h" line="523"/>
-        <location filename="../src/utility.h" line="528"/>
+        <location filename="../src/utility.h" line="518"/>
+        <location filename="../src/utility.h" line="526"/>
+        <location filename="../src/utility.h" line="531"/>
         <source>Download</source>
         <translation>Ladda ner</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="520"/>
+        <location filename="../src/utility.h" line="523"/>
         <source>Force Download</source>
         <translation>Tvinga nerladding</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="538"/>
+        <location filename="../src/utility.h" line="541"/>
         <source>Show Log Window</source>
         <translation>Visa loggfönster</translation>
     </message>
@@ -858,53 +858,53 @@
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="108"/>
+        <location filename="../src/configure.cpp" line="114"/>
         <source>Add</source>
         <translation>Lägg till</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="113"/>
+        <location filename="../src/configure.cpp" line="119"/>
         <source>Delete</source>
         <translation>Radera</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="163"/>
+        <location filename="../src/configure.cpp" line="169"/>
         <source>Remove</source>
         <translation>Ta bort</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="188"/>
+        <location filename="../src/configure.cpp" line="194"/>
         <source>Select A Cookie File</source>
         <translation>Välj en cookie-fil</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="222"/>
+        <location filename="../src/configure.cpp" line="237"/>
         <source>Select An Engine File</source>
         <translation>Välj en motorfil</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="263"/>
-        <location filename="../src/configure.cpp" line="416"/>
+        <location filename="../src/configure.cpp" line="278"/>
+        <location filename="../src/configure.cpp" line="431"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="334"/>
+        <location filename="../src/configure.cpp" line="349"/>
         <source>Set Download Folder</source>
         <translation>Ställ in nerladdningsmapp</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="576"/>
+        <location filename="../src/configure.cpp" line="591"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="580"/>
+        <location filename="../src/configure.cpp" line="595"/>
         <source>Best-audio</source>
         <translation>Bästa-ljud</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="584"/>
+        <location filename="../src/configure.cpp" line="599"/>
         <source>Best-audiovideo</source>
         <translation>Bästa-ljudbild</translation>
     </message>
