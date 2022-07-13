@@ -367,24 +367,24 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="454"/>
+        <location filename="../src/utility.cpp" line="462"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="455"/>
+        <location filename="../src/utility.cpp" line="463"/>
         <source>Best-audio</source>
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="456"/>
+        <location filename="../src/utility.cpp" line="464"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="123"/>
-        <location filename="../src/utility.cpp" line="765"/>
-        <location filename="../src/utility.cpp" line="784"/>
+        <location filename="../src/utility.cpp" line="773"/>
+        <location filename="../src/utility.cpp" line="792"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>
@@ -426,19 +426,19 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="414"/>
         <location filename="../src/playlistdownloader.cpp" line="340"/>
-        <location filename="../src/utility.cpp" line="443"/>
+        <location filename="../src/utility.cpp" line="451"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="470"/>
+        <location filename="../src/utility.cpp" line="478"/>
         <location filename="../src/utility.h" line="485"/>
         <location filename="../src/utility.h" line="552"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="481"/>
+        <location filename="../src/utility.cpp" line="489"/>
         <source>Open Download Folder</source>
         <translation>打开下载文件夹</translation>
     </message>
@@ -580,7 +580,7 @@
     <message>
         <location filename="../src/engines.cpp" line="615"/>
         <location filename="../src/engines.cpp" line="854"/>
-        <location filename="../src/utility.cpp" line="632"/>
+        <location filename="../src/utility.cpp" line="640"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
@@ -634,20 +634,20 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="59"/>
-        <location filename="../src/utility.cpp" line="999"/>
+        <location filename="../src/utility.cpp" line="1007"/>
         <source>Checking installed version of</source>
         <translation>正在检查已安装版本</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="64"/>
-        <location filename="../src/utility.cpp" line="971"/>
-        <location filename="../src/utility.cpp" line="1025"/>
+        <location filename="../src/utility.cpp" line="979"/>
+        <location filename="../src/utility.cpp" line="1033"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/utility.cpp" line="1021"/>
+        <location filename="../src/utility.cpp" line="1029"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
@@ -901,12 +901,12 @@
     <message>
         <location filename="../src/configure.cpp" line="595"/>
         <source>Best-audio</source>
-        <translation type="unfinished">最佳音频</translation>
+        <translation>最佳音频</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="599"/>
         <source>Best-audiovideo</source>
-        <translation type="unfinished">最佳音频和视频</translation>
+        <translation>最佳音频和视频</translation>
     </message>
 </context>
 <context>

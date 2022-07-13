@@ -165,7 +165,7 @@ VersionInfoDescription={#MyAppName} installer
 VersionInfoProductName={#MyAppName} {#MyAppVersion}
 VersionInfoVersion={#MyAppVersion}.0
 UninstallDisplayName={#MyAppName}
-UninstallDisplayIcon={#MyEXELocation}
+UninstallDisplayIcon={#MySourcesPath}\\src\\media-downloader.ico
 
 DefaultDirName={pf}\\{#MyAppName}
 LicenseFile={#MySourcesPath}\\LICENSE.txt
