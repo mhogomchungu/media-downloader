@@ -128,12 +128,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="383"/>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Pano URL'sini yapıştır</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
         <source>Monitor Clipboard For Url</source>
-        <translation type="unfinished"></translation>
+        <translation>URL için pano ekranı</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="493"/>
@@ -228,12 +228,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1430"/>
         <source>Show Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistem Çekmecesinde Simge Göster</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1443"/>
         <source>Auto Save List Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirilmeyen Medya Listesini Otomatik Kaydet</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1487"/>
@@ -308,7 +308,7 @@
         <location filename="../src/mainwindow.ui" line="1522"/>
         <location filename="../src/mainwindow.ui" line="1561"/>
         <source>Ui Name</source>
-        <translation>Ui Adı</translation>
+        <translation>Arayüz Adı</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="974"/>
@@ -379,7 +379,7 @@
     <message>
         <location filename="../src/utility.cpp" line="464"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="123"/>
@@ -396,7 +396,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="766"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation >Tarih</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="784"/>
@@ -411,7 +411,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="1008"/>
         <source>Save Subtitle To File</source>
-        <translation type="unfinished"></translation>
+        <translation>Altyazıyı Dosyaya Kaydet</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="158"/>
@@ -465,17 +465,17 @@
     <message>
         <location filename="../src/about.cpp" line="52"/>
         <source>Qt Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Qt Sürümü</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="58"/>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu program ücretsiz bir yazılımdır; Özgür Yazılım Vakfı tarafından yayınlanan GNU Genel Kamu Lisansı koşulları altında yeniden dağıtabilir ve/veya değiştirebilirsiniz; Lisansın 2. sürümü veya (isteğe bağlı olarak) herhangi bir sonraki sürümü.</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="59"/>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu program yararlı olması ümidiyle dağıtılmıştır, ancak HİÇBİR GARANTİ YOKTUR; SATILABİLİRLİK veya BELİRLİ BİR AMACA UYGUNLUK zımni garantisi bile yoktur. Daha fazla ayrıntı için GNU Genel Kamu Lisansına bakınız</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -520,12 +520,12 @@
     <message>
         <location filename="../src/translator.cpp" line="36"/>
         <source>Italian (Italy)</source>
-        <translation type="unfinished"></translation>
+        <translation>İtalyanca (İtalya)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="37"/>
         <source>Swedish (Sweden)</source>
-        <translation type="unfinished"></translation>
+        <translation>İsveççe (İsveç)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="131"/>
@@ -570,7 +570,7 @@
     <message>
         <location filename="../src/engines.cpp" line="257"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Hata, yapılandırma dosyası &quot;%1&quot; ayrıştırılamadı</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="512"/>
@@ -695,7 +695,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="286"/>
         <source>Extracting archive: </source>
-        <translation type="unfinished"></translation>
+        <translation>Açılan arşiv:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="325"/>
@@ -752,7 +752,7 @@
     <message>
         <location filename="../src/utility.h" line="162"/>
         <source>Subtitle Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Altyazı Adı</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="166"/>
@@ -772,17 +772,17 @@
     <message>
         <location filename="../src/themes.h" line="71"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../src/themes.h" line="72"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Koyu</translation>
     </message>
     <message>
         <location filename="../src/engines/svtplay-dl.cpp" line="41"/>
         <source>Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Metod</translation>
     </message>
 </context>
 <context>
@@ -800,7 +800,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="41"/>
         <source>Downloading comments</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirilen yorumlar</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="995"/>
@@ -830,7 +830,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="319"/>
         <source>Show Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Altyazıları Göster</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="334"/>
@@ -852,7 +852,7 @@
         <location filename="../src/batchdownloader.cpp" line="1435"/>
         <location filename="../src/batchdownloader.cpp" line="1845"/>
         <source>Downloading subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirilen altyazılar</translation>
     </message>
 </context>
 <context>
@@ -896,7 +896,7 @@
     <message>
         <location filename="../src/configure.cpp" line="591"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="595"/>
@@ -992,12 +992,12 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1008"/>
         <source>Number of Pages Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirilen Sayfa Sayısı</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1015"/>
         <source>Downloading video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Video bilgisi indiriliyor</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="549"/>
