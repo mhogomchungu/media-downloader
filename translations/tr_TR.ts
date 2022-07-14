@@ -128,7 +128,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="383"/>
         <source>Paste Clipboard Url</source>
-        <translation>Pano URL'sini yapıştır</translation>
+        <translation>Pano URL&apos;sini yapıştır</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
@@ -295,7 +295,7 @@
         <location filename="../src/mainwindow.ui" line="624"/>
         <location filename="../src/mainwindow.ui" line="1032"/>
         <source>Get List Options:</source>
-        <translation>Liste Seçeneklerini Getir</translation>
+        <translation>Liste Seçeneklerini Getir:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="866"/>
@@ -396,7 +396,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="766"/>
         <source>Date</source>
-        <translation >Tarih</translation>
+        <translation>Tarih</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="784"/>
@@ -475,7 +475,7 @@
     <message>
         <location filename="../src/about.cpp" line="59"/>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation>Bu program yararlı olması ümidiyle dağıtılmıştır, ancak HİÇBİR GARANTİ YOKTUR; SATILABİLİRLİK veya BELİRLİ BİR AMACA UYGUNLUK zımni garantisi bile yoktur. Daha fazla ayrıntı için GNU Genel Kamu Lisansına bakınız</translation>
+        <translation>Bu program yararlı olması ümidiyle dağıtılmıştır, ancak HİÇBİR GARANTİ YOKTUR; SATILABİLİRLİK veya BELİRLİ BİR AMACA UYGUNLUK zımni garantisi bile yoktur. Daha fazla ayrıntı için GNU Genel Kamu Lisansına bakınız.</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -555,12 +555,12 @@
     <message>
         <location filename="../src/engines.cpp" line="122"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation>1. &quot;Yapılandırma&quot; sekmesine git</translation>
+        <translation>1. &quot;Yapılandırma&quot; sekmesine git.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="123"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation>2. &quot;Genel Ayarlar&quot; alt sekmesine git</translation>
+        <translation>2. &quot;Genel Ayarlar&quot; alt sekmesine git.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="124"/>
@@ -695,7 +695,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="286"/>
         <source>Extracting archive: </source>
-        <translation>Açılan arşiv:</translation>
+        <translation>Açılan arşiv: </translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="325"/>
