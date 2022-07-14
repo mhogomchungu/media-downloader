@@ -48,6 +48,7 @@ static QString _debug( const QStringList& e )
 }
 
 MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStringList& args ) :
+	m_trayIcon( QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ),
 	m_qApp( app ),
 	m_ui( _init_ui( *this ) ),
 	m_logger( *m_ui->plainTextEditLogger,this,s ),
@@ -60,11 +61,7 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStrin
 {
 	this->window()->setFixedSize( this->window()->size() ) ;
 
-	QIcon icon = QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ;
-
-	this->window()->setWindowIcon( icon ) ;
-
-	m_trayIcon.setIcon( icon ) ;
+	this->window()->setWindowIcon( m_trayIcon.icon() ) ;
 
 	m_trayIcon.setContextMenu( [ this,&t ](){
 
