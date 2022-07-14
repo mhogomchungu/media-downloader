@@ -128,12 +128,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="383"/>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar URL del portapapeles</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
         <source>Monitor Clipboard For Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Supervisar portapapeles para URL</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="493"/>
@@ -228,12 +228,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1430"/>
         <source>Show Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar icono de bandeja</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1443"/>
         <source>Auto Save List Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar automáticamente la lista de medios sin descargar</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1487"/>
@@ -379,7 +379,7 @@
     <message>
         <location filename="../src/utility.cpp" line="464"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Predeterminado</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="123"/>
@@ -396,7 +396,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="766"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Fecha</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="784"/>
@@ -411,7 +411,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="1008"/>
         <source>Save Subtitle To File</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar subtítulo en archivo</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="158"/>
@@ -465,17 +465,17 @@
     <message>
         <location filename="../src/about.cpp" line="52"/>
         <source>Qt Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versón de Qt</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="58"/>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este programa es software libre; puede redistribuirlo y/o modificarlo según los términos de la Licencia Pública General de GNU publicada por la Free Software Foundation; ya sea la versión 2 de la Licencia o (a su elección) cualquier versión posterior.</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="59"/>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este programa se distribuye con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA; sin siquiera la garantía implícita de COMERCIABILIDAD o IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Consulte la Licencia Pública General de GNU para obtener más detalles.</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -520,12 +520,12 @@
     <message>
         <location filename="../src/translator.cpp" line="36"/>
         <source>Italian (Italy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Italiano (Italia)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="37"/>
         <source>Swedish (Sweden)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sueco (Suecia)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="131"/>
@@ -570,7 +570,7 @@
     <message>
         <location filename="../src/engines.cpp" line="257"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Error, imposible analizar el archivo de configuración &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="512"/>
@@ -695,7 +695,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="286"/>
         <source>Extracting archive: </source>
-        <translation type="unfinished"></translation>
+        <translation>Extrayendo archivo: </translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="325"/>
@@ -752,7 +752,7 @@
     <message>
         <location filename="../src/utility.h" line="162"/>
         <source>Subtitle Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del subtítulo</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="166"/>
@@ -772,17 +772,17 @@
     <message>
         <location filename="../src/themes.h" line="71"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../src/themes.h" line="72"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscuro</translation>
     </message>
     <message>
         <location filename="../src/engines/svtplay-dl.cpp" line="41"/>
         <source>Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Método</translation>
     </message>
 </context>
 <context>
@@ -800,7 +800,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="41"/>
         <source>Downloading comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargando comentarios</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="995"/>
@@ -830,7 +830,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="319"/>
         <source>Show Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Subtítulos</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="334"/>
@@ -852,7 +852,7 @@
         <location filename="../src/batchdownloader.cpp" line="1435"/>
         <location filename="../src/batchdownloader.cpp" line="1845"/>
         <source>Downloading subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargando subtítulos</translation>
     </message>
 </context>
 <context>
@@ -896,17 +896,17 @@
     <message>
         <location filename="../src/configure.cpp" line="591"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Predeterminado</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="595"/>
         <source>Best-audio</source>
-        <translation type="unfinished">Mejor-audio</translation>
+        <translation>Mejor-audio</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="599"/>
         <source>Best-audiovideo</source>
-        <translation type="unfinished">Mejor audio-video</translation>
+        <translation>Mejor audio-video</translation>
     </message>
 </context>
 <context>
@@ -997,7 +997,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1015"/>
         <source>Downloading video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargando información de video</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="549"/>
