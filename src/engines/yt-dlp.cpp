@@ -743,8 +743,15 @@ const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data&
 		}
 		if( e.contains( " Merging formats into \"" ) ){
 
-			m_fileName = e.mid( e.indexOf( "\"" ) + 1 ) ;
-			m_fileName.truncate( m_fileName.size() - 1 ) ;
+			auto m = e.mid( e.indexOf( '"' ) + 1 ) ;
+			auto s = m.lastIndexOf( '"' ) ;
+
+			if( s != -1 ){
+
+				m.truncate( s ) ;
+			}
+
+			m_fileName = m ;
 		}
 		if( e.contains( "has already been recorded in archive" ) ){
 
@@ -824,8 +831,15 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 		}
 		if( e.contains( " Merging formats into \"" ) ){
 
-			m_fileName = e.mid( e.indexOf( "\"" ) + 1 ) ;
-			m_fileName.truncate( m_fileName.size() - 1 ) ;
+			auto m = e.mid( e.indexOf( '"' ) + 1 ) ;
+			auto s = m.lastIndexOf( '"' ) ;
+
+			if( s != -1 ){
+
+				m.truncate( s ) ;
+			}
+
+			m_fileName = m ;
 		}
 		if( e.contains( "has already been recorded" ) ){
 
