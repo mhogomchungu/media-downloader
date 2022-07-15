@@ -118,25 +118,6 @@ Deleting original file Так мы ещё не тонули) хорошее на
 #include <QString>
 #include <QEventLoop>
 
-template< typename testClass >
-static void _test_engine( testClass& tc,const char * output )
-{
-	util::Timer( 500,[ list = util::split( output,'\n' ),&tc,counter = 0 ]( int )mutable{
-
-		if( counter < list.size() ){
-
-			std::cout << list.at( counter ).toStdString() << std::endl ;
-
-			counter++ ;
-
-			return false ;
-		}else{
-			tc.done() ;
-			return true ;
-		}
-	} ) ;
-}
-
 static bool _run_test( const QStringList& args )
 {
 	for( const auto& it : args ){
@@ -171,11 +152,11 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 
 					if( it.startsWith( "--media-downloader-test-engine-safaribooks" ) ){
 
-						return _test_engine( *this,safaribooks ) ;
+						return this->testEngine( safaribooks ) ;
 
 					}else if( it.startsWith( "--media-downloader-test-engine-yt-dlp" ) ){
 
-						return _test_engine( *this,yt_dlp ) ;
+						return this->testEngine( yt_dlp ) ;
 					}
 				}
 
@@ -185,8 +166,30 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 			{
 				m_args.app.quit() ;
 			}
+			void testEngine( const char * output )
+			{
+				m_list = util::split( output,'\n' ) ;
+
+				util::Timer( 500,[ this ]( int ){
+
+					if( m_counter < m_list.size() ){
+
+						std::cout << m_list.at( m_counter ).toStdString() << std::endl ;
+
+						m_counter++ ;
+
+						return false ;
+					}else{
+						this->done() ;
+
+						return true ;
+					}
+				} ) ;
+			}
 		private:
+			QList< QByteArray > m_list ;
 			myApp::args m_args ;
+			int m_counter = 0 ;
 		};
 
 		util::multipleInstance< myApp,myApp::args >( app,{ myApp::args{ args,app } },{} ).exec() ;
