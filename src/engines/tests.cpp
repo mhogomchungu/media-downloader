@@ -18,8 +18,7 @@
  */
 #include "tests.h"
 
-static const char * safaribooks = R"R(
-$ python3 safaribooks.py --cred "my_email@gmail.com:MyPassword1!" 9781491958698
+static const char * safaribooks = R"R($ python3 safaribooks.py --cred "my_email@gmail.com:MyPassword1!" 9781491958698
 
        ____     ___         _
       / __/__ _/ _/__ _____(_)
@@ -71,8 +70,47 @@ jQuery, and Mock, along with curre...
     e don't forget to renew your Safari Books Online subscription:
 	https://learning.oreilly.com
 
-[!] Bye!!
-)R" ;
+[!] Bye!!)R" ;
+
+static const char * yt_dlp = R"R([youtube] Gkz9F4GGxOs: Downloading webpage
+[youtube] Gkz9F4GGxOs: Downloading android player API JSON
+[info] Gkz9F4GGxOs: Downloading 1 format(s): 242+250
+[download] Destination: Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].f242.webm
+[download]   0.0% of 42.90MiB at   22.04KiB/s ETA 33:16
+[download]   0.0% of 42.90MiB at   63.79KiB/s ETA 11:28
+[download]   0.0% of 42.90MiB at  146.31KiB/s ETA 05:00
+[download]   0.0% of 42.90MiB at  309.76KiB/s ETA 02:21
+[download]   0.1% of 42.90MiB at  350.52KiB/s ETA 02:05
+[download]   0.1% of 42.90MiB at  461.81KiB/s ETA 01:35
+[download]   0.3% of 42.90MiB at  410.63KiB/s ETA 01:46
+[download]   0.6% of 42.90MiB at  241.69KiB/s ETA 03:00
+[download]   1.0% of 42.90MiB at  164.48KiB/s ETA 04:24
+[download]   1.2% of 42.90MiB at  166.03KiB/s ETA 04:21
+[download]   1.6% of 42.90MiB at  171.56KiB/s ETA 04:11
+[download]   2.1% of 42.90MiB at  176.84KiB/s ETA 04:03
+[download]   2.5% of 42.90MiB at  178.79KiB/s ETA 03:59
+[download]   2.9% of 42.90MiB at  186.78KiB/s ETA 03:48
+[download]  69.1% of 42.90MiB at  152.17KiB/s ETA 01:29
+[download]  99.5% of 42.90MiB at  135.25KiB/s ETA 00:01
+[download]  99.7% of 42.90MiB at  134.26KiB/s ETA 00:01
+[download]  99.9% of 42.90MiB at  134.83KiB/s ETA 00:00
+[download] 100.0% of 42.90MiB at  134.53KiB/s ETA 00:00
+[download] 100% of 42.90MiB in 04:55
+[download] Destination: Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].f250.webm
+[download]   0.0% of 11.47MiB at    7.37KiB/s ETA 26:34
+[download]   0.0% of 11.47MiB at   21.91KiB/s ETA 08:56
+[download]   0.1% of 11.47MiB at   50.74KiB/s ETA 03:51
+[download]   0.1% of 11.47MiB at  107.71KiB/s ETA 01:48
+[download]   0.3% of 11.47MiB at  130.00KiB/s ETA 01:30
+[download]  95.4% of 11.47MiB at  137.81KiB/s ETA 00:03
+[download]  96.6% of 11.47MiB at  138.09KiB/s ETA 00:02
+[download]  97.8% of 11.47MiB at  138.81KiB/s ETA 00:01
+[download]  99.0% of 11.47MiB at  136.19KiB/s ETA 00:00
+[download] 100.0% of 11.47MiB at  136.42KiB/s ETA 00:00
+[download] 100% of 11.47MiB in 01:08
+[Merger] Merging formats into "Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].webm"
+Deleting original file Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].f250.webm (pass -k to keep)
+Deleting original file Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].f242.webm (pass -k to keep))R" ;
 
 #include "../util.hpp"
 #include <iostream>
@@ -81,9 +119,9 @@ jQuery, and Mock, along with curre...
 #include <QEventLoop>
 
 template< typename testClass >
-static void test_safaribooks( testClass& tc )
+static void _test_engine( testClass& tc,const char * output )
 {
-	util::Timer( 500,[ list = util::split( safaribooks,'\n' ),&tc,counter = 0 ]( int )mutable{
+	util::Timer( 500,[ list = util::split( output,'\n' ),&tc,counter = 0 ]( int )mutable{
 
 		if( counter < list.size() ){
 
@@ -133,7 +171,11 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 
 					if( it.startsWith( "--media-downloader-test-engine-safaribooks" ) ){
 
-						return test_safaribooks( *this ) ;
+						return _test_engine( *this,safaribooks ) ;
+
+					}else if( it.startsWith( "--media-downloader-test-engine-yt-dlp" ) ){
+
+						return _test_engine( *this,yt_dlp ) ;
 					}
 				}
 

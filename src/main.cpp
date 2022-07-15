@@ -80,10 +80,10 @@ int main( int argc,char * argv[] )
 
 	auto args = mqApp.arguments() ;
 
-	//if( tests::test_engine( args,mqApp ) ){
+	if( tests::test_engine( args,mqApp ) ){
 
-	//	return 0 ;
-	//}
+		return 0 ;
+	}
 
 	auto spath = paths.socketPath() ;
 
