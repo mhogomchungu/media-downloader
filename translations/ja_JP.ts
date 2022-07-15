@@ -379,7 +379,7 @@
     <message>
         <location filename="../src/utility.cpp" line="464"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>デフォルト</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="123"/>
@@ -465,17 +465,17 @@
     <message>
         <location filename="../src/about.cpp" line="52"/>
         <source>Qt Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Qtバージョン</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="58"/>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
-        <translation type="unfinished"></translation>
+        <translation>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="59"/>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -520,12 +520,12 @@
     <message>
         <location filename="../src/translator.cpp" line="36"/>
         <source>Italian (Italy)</source>
-        <translation type="unfinished"></translation>
+        <translation>イタリア語 (イタリア)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="37"/>
         <source>Swedish (Sweden)</source>
-        <translation type="unfinished"></translation>
+        <translation>スウェーデン語 (スウェーデン)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="131"/>
@@ -570,7 +570,7 @@
     <message>
         <location filename="../src/engines.cpp" line="257"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>エラー, 設定ファイル &quot;%1&quot; の解析に失敗しました</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="512"/>
@@ -782,7 +782,7 @@
     <message>
         <location filename="../src/engines/svtplay-dl.cpp" line="41"/>
         <source>Method</source>
-        <translation type="unfinished"></translation>
+        <translation>メソッド</translation>
     </message>
 </context>
 <context>
@@ -896,7 +896,7 @@
     <message>
         <location filename="../src/configure.cpp" line="591"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>デフォルト</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="595"/>
