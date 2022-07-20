@@ -440,29 +440,17 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			auto s = ac->objectName() ;
 
-			auto _run = [ this ]( std::vector< playlistdownloader::subscription::entry >&& e ){
-
-				const auto& engine = this->defaultEngine() ;
-
-				this->showBanner() ;
-
-				engine.updateVersionInfo( [ this,&engine,e = std::move( e ) ](){
-
-					auto a = e ;
-
-					this->getList( std::move( a ),engine ) ;
-				} ) ;
-			} ;
+			const auto& engine = this->defaultEngine() ;
 
 			if( s == "Download All Updated" ){
 
 				m_autoDownload = true ;
 
-				_run( std::move( entries ) ) ;
+				this->getListing( std::move( entries ),engine ) ;
 
 			}else if( s == "Show All Updated" ){
 
-				_run( std::move( entries ) ) ;
+				this->getListing( std::move( entries ),engine ) ;
 
 			}else if( s == "Manage Subscriptions" ){
 
@@ -478,7 +466,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 						ss.emplace_back( it.uiName,it.url,it.getListOptions ) ;
 
-						_run( std::move( ss ) ) ;
+						this->getListing( std::move( ss ),engine ) ;
 
 						break ;
 					}
@@ -527,14 +515,14 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			m_autoDownload = false ;
 
-			const auto& engine = this->defaultEngine() ;
+			std::vector< subscription::entry > ss ;
 
-			this->showBanner() ;
+			for( const auto& it : util::split( m,' ',true ) ){
 
-			engine.updateVersionInfo( [ m,this,&engine ](){
+				ss.emplace_back( it ) ;
+			}
 
-				this->getList( m,engine ) ;
-			} ) ;
+			this->getListing( std::move( ss ),this->defaultEngine() ) ;
 		}
 	} ) ;
 
@@ -860,6 +848,16 @@ void playlistdownloader::showBanner()
 	m_ctx.TabManager().disableAll() ;
 }
 
+void playlistdownloader::getListing( playlistdownloader::listIterator e,const engines::engine& engine )
+{
+	this->showBanner() ;
+
+	engine.updateVersionInfo( [ this,&engine,e = std::move( e ) ](){
+
+		this->getList( std::move( e ),engine ) ;
+	} ) ;
+}
+
 void playlistdownloader::getList( playlistdownloader::listIterator iter,
 				  const engines::engine& engine )
 {
@@ -877,32 +875,21 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	auto opts = engine.dumpJsonArguments() ;
 
-	auto listOpts = iter.listOptions() ;
+	auto configListOpts = iter.listOptions() ;
+	auto listOptions    = m_ui.lineEditPLDownloadRange->text() ;
 
-	if( listOpts.isEmpty() ){
+	if( !listOptions.isEmpty() ){
 
-		listOpts = m_ui.lineEditPLDownloadRange->text() ;
+		m_settings.addToplaylistRangeHistory( listOptions ) ;
 
-		if( !listOpts.isEmpty() ){
+		m_settings.setPlaylistRangeHistoryLastUsed( listOptions ) ;
 
-			m_settings.addToplaylistRangeHistory( listOpts ) ;
-
-			m_settings.setPlaylistRangeHistoryLastUsed( listOpts ) ;
-		}
+		opts.append( util::split( listOptions,' ',true ) ) ;
 	}
 
-	if( !listOpts.isEmpty() ){
+	if( !configListOpts.isEmpty() ){
 
-		if( listOpts.startsWith( "--" ) ){
-
-			opts.append( util::split( listOpts,' ',true ) ) ;
-		}else{
-			opts.append( engine.playlistItemsArgument() ) ;
-
-			auto m = util::split( listOpts,' ',true ) ;
-
-			opts.append( m ) ;
-		}
+		opts.append( util::split( configListOpts,' ',true ) ) ;
 	}
 
 	engine.updateGetPlaylistCmdOptions( opts ) ;

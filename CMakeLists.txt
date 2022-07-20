@@ -126,8 +126,6 @@ if(WIN32)
     find_path(gcc_PATH gcc.exe)
     find_path(windeployqt_PATH windeployqt.exe PATHS "${CMAKE_PREFIX_PATH}/bin")
 
-    file(WRITE ${PROJECT_BINARY_DIR}/media-downloader.exe.local "")
-
     file(WRITE ${PROJECT_BINARY_DIR}/media-downloader_installer_commands.txt
 "
 set PATH=${gcc_PATH};${libstdc_PATH};%PATH%\r\n

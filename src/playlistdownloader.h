@@ -170,7 +170,7 @@ private:
 	class listIterator
 	{
 	public:
-		listIterator( std::vector< subscription::entry >&& s ) :
+		listIterator( std::vector< playlistdownloader::subscription::entry >&& s ) :
 			m_list( std::move( s ) )
 		{
 		}
@@ -203,6 +203,7 @@ private:
 		mutable std::vector< subscription::entry > m_list ;
 	};
 
+	void getListing( playlistdownloader::listIterator,const engines::engine& ) ;
 	void getList( playlistdownloader::listIterator,const engines::engine& ) ;
 	void getList( customOptions&&,const engines::engine&,listIterator ) ;
 
