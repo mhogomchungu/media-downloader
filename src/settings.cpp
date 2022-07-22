@@ -506,11 +506,6 @@ bool settings::concurrentDownloading()
 
 bool settings::useSystemProvidedVersionIfAvailable()
 {
-	if( utility::platformIsWindows() ){
-
-		m_settings.setValue( "UseSystemProvidedVersionIfAvailable",false ) ;
-	}
-
 	if( !m_settings.contains( "UseSystemProvidedVersionIfAvailable" ) ){
 
 		if( utility::platformIsWindows() ){

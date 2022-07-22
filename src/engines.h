@@ -42,6 +42,8 @@ class Context ;
 
 class engines{
 public:
+	static bool filePathIsValid( const QFileInfo& ) ;
+
 	class file
 	{
 	public:
@@ -176,7 +178,9 @@ public:
 				}
 				bool valid()
 				{
-					return QFile::exists( m_exe ) ;
+					QFileInfo info( m_exe ) ;
+
+					return engines::filePathIsValid( info ) ;
 				}
 			private:
 				QStringList m_args ;
@@ -344,6 +348,8 @@ public:
 
 			virtual bool supportsShowingComments() ;
 
+			virtual bool updateVersionInfo() ;
+
 			virtual engines::engine::functions::DataFilter Filter( int,const QString& ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
@@ -435,13 +441,11 @@ public:
 		template< typename Function >
 		void updateVersionInfo( Function function ) const
 		{
-			const auto& engine = *this ;
+			if( m_functions->updateVersionInfo() ){
 
-			if( engine.name().contains( "yt-dlp" ) ){
+				const auto& engine = *this ;
 
-				const auto& e = engine.versionInfo() ;
-
-				if( e.valid() ){
+				if( engine.versionInfo().valid() ){
 
 					function() ;
 				}else{

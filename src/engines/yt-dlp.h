@@ -56,6 +56,8 @@ public:
 
 	bool supportsShowingComments() override ;
 
+	bool updateVersionInfo() override ;
+
 	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;

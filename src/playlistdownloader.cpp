@@ -854,7 +854,7 @@ void playlistdownloader::getListing( playlistdownloader::listIterator e,const en
 
 	engine.updateVersionInfo( [ this,&engine,e = std::move( e ) ](){
 
-		this->getList( std::move( e ),engine ) ;
+		this->getList( e.take(),engine ) ;
 	} ) ;
 }
 

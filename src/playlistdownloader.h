@@ -197,10 +197,14 @@ private:
 		listIterator next() const
 		{
 			m_list.pop_back() ;
+			return this->take() ;
+		}
+		std::vector< playlistdownloader::subscription::entry >&& take() const
+		{
 			return std::move( m_list ) ;
 		}
 	private:
-		mutable std::vector< subscription::entry > m_list ;
+		mutable std::vector< playlistdownloader::subscription::entry > m_list ;
 	};
 
 	void getListing( playlistdownloader::listIterator,const engines::engine& ) ;

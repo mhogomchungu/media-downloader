@@ -408,58 +408,72 @@ settings& engines::Settings() const
 	return m_settings ;
 }
 
+bool engines::filePathIsValid( const QFileInfo& info )
+{
+	return info.exists() && info.isFile() && info.isExecutable() ;
+}
+
+static QString _findExecutable( const QString& exeName,const QStringList& paths,QFileInfo& info )
+{
+	for( const auto& it : paths ){
+
+		auto m = it + "/" + exeName ;
+
+		info.setFile( m ) ;
+
+		if( engines::filePathIsValid( info ) ){
+
+			return m ;
+		}
+	}
+
+	return {} ;
+}
+
 QString engines::findExecutable( const QString& exeName ) const
 {
-	auto path = this->processEnvironment().value( "PATH" ) ;
+	QFileInfo info( exeName ) ;
 
-	if( utility::platformIsWindows() || utility::platformisOS2() ){
+	if( info.isAbsolute() ){
 
-		if( !m_settings.portableVersion() && exeName == "python.exe" ){
+		return exeName ;
+	}
 
-			auto m = utility::python3Path() ;
+	auto paths = [ this ](){
 
-			if( !m.isEmpty() ){
+		if( utility::platformIsWindows() || utility::platformisOS2() ){
 
-				return m ;
-			}
+			return this->processEnvironment().value( "PATH" ).split( ';' ) ;
+		}else{
+			return this->processEnvironment().value( "PATH" ).split( ':' ) ;
 		}
+	}() ;
 
-		const auto e = path.split( ";" ) ;
+	if( utility::platformIsWindows() && exeName == "python.exe" ){
 
-		QFileInfo info ;
+		if( !m_settings.portableVersion() ){
 
-		for( const auto& it : e ){
+			if( m_settings.useSystemProvidedVersionIfAvailable() ){
 
-			auto m = it + "/" + exeName ;
+				auto m = utility::python3Path() ;
 
-			info.setFile( m ) ;
-
-			if( info.exists() && info.isFile() ){
-
-				return m ;
-			}
-		}
-
-		if( !exeName.endsWith( ".exe" ) ){
-
-			auto nameExe = exeName + ".exe" ;
-
-			for( const auto& it : e ){
-
-				auto m = it + "/" + nameExe ;
-
-				info.setFile( m ) ;
-
-				if( info.exists() && info.isFile() ){
+				if( !m.isEmpty() ){
 
 					return m ;
 				}
 			}
 		}
 
-		return {} ;
+		auto m = _findExecutable( exeName,paths,info ) ;
+
+		if( m.isEmpty() && !exeName.endsWith( ".exe" ) ){
+
+			m = _findExecutable( exeName + ".exe",paths,info ) ;
+		}
+
+		return m ;
 	}else{
-		return QStandardPaths::findExecutable( exeName,path.split( ":" ) ) ;
+		return _findExecutable( exeName,paths,info ) ;
 	}
 }
 
@@ -1001,6 +1015,11 @@ bool engines::engine::functions::breakShowListIfContains( const QStringList& )
 }
 
 bool engines::engine::functions::supportsShowingComments()
+{
+	return false ;
+}
+
+bool engines::engine::functions::updateVersionInfo()
 {
 	return false ;
 }

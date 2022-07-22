@@ -228,10 +228,6 @@ configure::configure( const Context& ctx ) :
 		m_ctx.mainWindow().showTrayIcon( checked ) ;
 	} ) ;
 
-	connect( m_ui.cbUseSystemVersionIfAvailable,&QCheckBox::stateChanged,[]( int ){
-
-	} ) ;
-
 	connect( m_ui.pbConfigureAddAPlugin,&QPushButton::clicked,[ this ](){
 
 		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select An Engine File" ),utility::homePath() ) ;
@@ -386,7 +382,12 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
 
-	m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
+	if( utility::platformIsWindows() ){
+
+		m_ui.cbUseSystemVersionIfAvailable->setEnabled( !m_settings.portableVersion() ) ;
+	}else{
+		m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
+	}
 
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( QString::number( m_settings.maxConcurrentDownloads() ) ) ;
 
@@ -685,7 +686,12 @@ void configure::enableAll()
 		m_ui.lineEditConfigureScaleFactor->setEnabled( true ) ;
 	}
 
-	m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
+	if( utility::platformIsWindows() ){
+
+		m_ui.cbUseSystemVersionIfAvailable->setEnabled( !m_settings.portableVersion() ) ;
+	}else{
+		m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
+	}
 }
 
 void configure::disableAll()
