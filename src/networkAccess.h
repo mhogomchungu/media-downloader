@@ -61,7 +61,7 @@ public:
 	}
 private:
 	QNetworkRequest networkRequest( const QString& url ) ;
-
+	bool isArchive( const QString& ) ;
 	struct metadata
 	{
 		qint64 size ;

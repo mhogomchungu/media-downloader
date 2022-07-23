@@ -310,7 +310,7 @@ void engines::updateEngines( bool addAll,int id )
 
 			it.setBackend< aria2c >( engines ) ;
 
-		}else if( name == "lux" ){
+		}else if( name.contains( "lux" ) ){
 
 			it.setBackend< lux >( engines ) ;
 

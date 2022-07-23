@@ -29,6 +29,11 @@ you_get::you_get( const engines& engines,const engines::engine& engine,QJsonObje
 {
 }
 
+bool you_get::foundNetworkUrl( const QString& url )
+{
+	return url.startsWith( "you-get" ) && url.endsWith( ".tar.gz" ) ;
+}
+
 std::vector<QStringList> you_get::mediaProperties( const QByteArray& e )
 {
 	QJsonParseError err ;

@@ -44,6 +44,8 @@ public:
 		int m_processId ;
 	} ;
 
+	bool foundNetworkUrl( const QString& ) override ;
+
 	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
 
 	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;

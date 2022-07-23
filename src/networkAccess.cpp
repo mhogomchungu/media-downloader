@@ -79,7 +79,12 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 		networkRequest.setAttribute( QNetworkRequest::FollowRedirectsAttribute,true ) ;
 	#endif
 #endif
-	return networkRequest ;
+		return networkRequest ;
+}
+
+bool networkAccess::isArchive( const QString& file )
+{
+	return file.endsWith( ".zip" ) || file.endsWith( ".tar.gz" ) || file.endsWith( ".tar.xz" ) ;
 }
 
 void networkAccess::download( const engines::Iterator& iter,const QString& setDefaultEngine )
@@ -281,7 +286,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 		this->post( str.engine,QObject::tr( "Download complete" ),str.id ) ;
 
-		if( str.metadata.fileName.endsWith( ".zip" ) || str.metadata.fileName.endsWith( ".tar.xz" ) ){
+		if( this->isArchive( str.metadata.fileName ) ){
 
 			this->post( str.engine,QObject::tr( "Extracting archive: " ) + str.filePath,str.id ) ;
 
