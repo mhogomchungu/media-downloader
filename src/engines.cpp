@@ -410,7 +410,12 @@ settings& engines::Settings() const
 
 bool engines::filePathIsValid( const QFileInfo& info )
 {
-	return info.exists() && info.isFile() && info.isExecutable() ;
+	if( utility::platformIsWindows() ){
+
+		return info.exists() && info.isFile() ;
+	}else{
+		return info.exists() && info.isFile() && info.isExecutable() ;
+	}
 }
 
 static QString _findExecutable( const QString& exeName,const QStringList& paths,QFileInfo& info )
@@ -831,8 +836,7 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 
 				if( m.isEmpty() ){
 
-					subCmd = m_exeFolderPath + "/" + it ;
-					it = subCmd ;
+					it.clear() ;
 				}else{
 					it = m ;
 					subCmd = m ;
