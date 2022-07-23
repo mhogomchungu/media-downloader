@@ -128,12 +128,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="383"/>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
         <source>Monitor Clipboard For Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Monitoruj zawartość schowka</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="493"/>
@@ -228,12 +228,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1430"/>
         <source>Show Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż ikonę w trayu</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1443"/>
         <source>Auto Save List Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatycznie zapisz listę niepobranych mediów</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1487"/>
@@ -379,7 +379,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="766"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Data</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="784"/>
@@ -394,7 +394,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="1008"/>
         <source>Save Subtitle To File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz napisy do pliku</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1266"/>
@@ -421,7 +421,7 @@
     <message>
         <location filename="../src/utility.cpp" line="464"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="478"/>
@@ -465,17 +465,19 @@
     <message>
         <location filename="../src/about.cpp" line="52"/>
         <source>Qt Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Wersja Qt</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="58"/>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>http://gnu.org.pl/text/licencja-gnu.html</translatorcomment>
+        <translation>Niniejszy program jest wolnym oprogramowaniem; możesz go rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej Licencji Publicznej GNU, wydanej przez Fundację Wolnego Oprogramowania - według wersji 2-giej tej Licencji lub którejś z późniejszych wersji.</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="59"/>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>http://gnu.org.pl/text/licencja-gnu.html</translatorcomment>
+        <translation>Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH ZASTOSOWAŃ. W celu uzyskania bliższych informacji - Powszechna Licencja Publiczna GNU.</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="29"/>
@@ -515,12 +517,12 @@
     <message>
         <location filename="../src/translator.cpp" line="36"/>
         <source>Italian (Italy)</source>
-        <translation type="unfinished"></translation>
+        <translation>włoski (Włochy)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="37"/>
         <source>Swedish (Sweden)</source>
-        <translation type="unfinished"></translation>
+        <translation>szwedzki (Szwecja)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -550,7 +552,7 @@
     <message>
         <location filename="../src/engines.cpp" line="121"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation>Aby wyłączyć te powiadomienia:</translation>
+        <translation>Aby wyłączyć te powiadomienia:-</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="122"/>
@@ -570,7 +572,7 @@
     <message>
         <location filename="../src/engines.cpp" line="257"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd parsowania pliku konfiguracyjnego &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="512"/>
@@ -695,7 +697,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="286"/>
         <source>Extracting archive: </source>
-        <translation type="unfinished"></translation>
+        <translation>Wypakowywanie archiwum: </translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="325"/>
@@ -752,7 +754,7 @@
     <message>
         <location filename="../src/utility.h" line="162"/>
         <source>Subtitle Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Napisy</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="166"/>
@@ -772,17 +774,17 @@
     <message>
         <location filename="../src/themes.h" line="71"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalny</translation>
     </message>
     <message>
         <location filename="../src/themes.h" line="72"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Ciemny</translation>
     </message>
     <message>
         <location filename="../src/engines/svtplay-dl.cpp" line="41"/>
         <source>Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Metoda</translation>
     </message>
 </context>
 <context>
@@ -800,7 +802,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="41"/>
         <source>Downloading comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobieranie komentarzy</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="995"/>
@@ -830,7 +832,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="319"/>
         <source>Show Subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż napisy</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="334"/>
@@ -852,7 +854,7 @@
         <location filename="../src/batchdownloader.cpp" line="1435"/>
         <location filename="../src/batchdownloader.cpp" line="1845"/>
         <source>Downloading subtitles</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobieranie napisów</translation>
     </message>
 </context>
 <context>
@@ -896,7 +898,7 @@
     <message>
         <location filename="../src/configure.cpp" line="591"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="595"/>
@@ -997,7 +999,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1015"/>
         <source>Downloading video info</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobieranie informacji o pliku wideo</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="549"/>
