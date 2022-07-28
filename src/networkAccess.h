@@ -61,7 +61,6 @@ public:
 	}
 private:
 	QNetworkRequest networkRequest( const QString& url ) ;
-	bool isArchive( const QString& ) ;
 	struct metadata
 	{
 		qint64 size ;
@@ -77,7 +76,6 @@ private:
 		      const QString& efp,
 		      const QString& sde,
 		      int xd ) :
-			engine( itr.engine() ),
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
 			metadata( std::move( m ) ),
@@ -85,29 +83,23 @@ private:
 			defaultEngine( sde ),
 			id( xd )
 		{
-			if( metadata.fileName.endsWith( ".zip" ) ){
+			filePath = archiveExtractionPath + "/" + metadata.fileName ;
 
-				filePath = exeBinPath + ".tmp.zip" ;
+			isArchive = filePath.endsWith( ".zip" ) || filePath.contains( ".tar." ) ;
 
-			}else if( metadata.fileName.endsWith( ".tar.gz" ) ){
+			if( !isArchive ){
 
-				filePath = exeBinPath + ".tmp.tar.gz" ;
-
-			}else if( metadata.fileName.endsWith( ".tar.xz" ) ){
-
-				filePath = exeBinPath + ".tmp.tar.xz" ;
-			}else{
-				filePath = exeBinPath + ".tmp" ;
+				filePath += ".tmp" ;
 			}
 		}
 		QNetworkReply * networkReply ;
-		const engines::engine& engine ;
 		engines::Iterator iter ;
 		QString exeBinPath ;
 		networkAccess::metadata metadata ;
 		QString filePath ;
 		QString archiveExtractionPath ;
 		QString defaultEngine ;
+		bool isArchive ;
 		int id ;
 	};
 

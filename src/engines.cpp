@@ -639,6 +639,7 @@ engines::engine::engine( const engines& engines,
 
 void engines::engine::updateOptions()
 {
+	m_archiveContainsFolder           = m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ;
 	m_controlStructure                = m_jsonObject.value( "ControlJsonStructure" ).toObject() ;
 	m_canDownloadPlaylist             = m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ;
 	m_replaceOutputWithProgressReport = m_jsonObject.value( "ReplaceOutputWithProgressReport" ).toBool( false ) ;
@@ -780,6 +781,11 @@ engines::engine::engine( Logger& logger,
 			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines,id ) ;
 		}
 	}
+}
+
+void engines::engine::updateCmdPath( const QString& e ) const
+{
+	const_cast< engines::engine::exeArgs * >( &m_exePath )->updateRealExe( e ) ;
 }
 
 void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engines,int id )
@@ -1113,6 +1119,10 @@ bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray&,in
 bool engines::engine::functions::foundNetworkUrl( const QString& s )
 {
 	return s == m_engine.commandName() ;
+}
+
+void engines::engine::functions::renameArchiveFolder( const QString& )
+{
 }
 
 QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,

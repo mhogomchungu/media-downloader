@@ -1,4 +1,5 @@
 {
+    "ArchiveContainsFolder": true,
     "BackendPath": "${default}",
     "BatchFileArgument": "-a",
     "CanDownloadPlaylist": false,
@@ -53,7 +54,7 @@
     ],
     "DefaultSubstitlesCmdOptions": [],
     "DefaultSubtitleDownloadOptions": [],
-    "DownloadUrl": "",
+    "DownloadUrl": "https://api.github.com/repos/soimort/you-get/releases/latest",
     "LikeYoutubeDl": false,
     "Name": "you-get",
     "OptionsArgument": "--format",

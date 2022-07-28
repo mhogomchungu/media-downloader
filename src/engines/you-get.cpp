@@ -34,6 +34,29 @@ bool you_get::foundNetworkUrl( const QString& url )
 	return url.startsWith( "you-get" ) && url.endsWith( ".tar.gz" ) ;
 }
 
+void you_get::renameArchiveFolder( const QString& e )
+{
+	const auto m = QDir( e ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+
+	const auto& name = engines::engine::functions::engine().name() ;
+
+	QDir dir ;
+
+	for( const auto& it : m ){
+
+		QFileInfo s( e + "/" + it ) ;
+
+		if( s.isDir() && it.startsWith( name ) ){
+
+			if( it != name ){
+
+				dir.rename( e + "/" + it,e + "/" + name ) ;
+				break ;
+			}
+		}
+	}
+}
+
 std::vector<QStringList> you_get::mediaProperties( const QByteArray& e )
 {
 	QJsonParseError err ;

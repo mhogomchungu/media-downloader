@@ -216,6 +216,16 @@ public:
 			{
 				return m_realExe ;
 			}
+			void updateRealExe( const QString& e )
+			{
+				if( m_exe.at( 0 ) == m_realExe ){
+
+					m_exe[ 0 ] = e ;
+					m_realExe  = e ;
+				}else{
+					m_realExe = e ;
+				}
+			}
 		private:
 			QStringList m_exe ;
 			QString m_realExe ;
@@ -366,6 +376,8 @@ public:
 
 			virtual bool foundNetworkUrl( const QString& ) ;
 
+			virtual void renameArchiveFolder( const QString& ) ;
+
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const QString& downloadingOptions,
 							     const engine::engine::functions::finishedState& ) ;
@@ -479,6 +491,9 @@ public:
 
 			this->updateOptions() ;
 		}
+
+		void updateCmdPath( const QString& e ) const ;
+
 		const QString& commandName() const ;
 
 		bool breakShowListIfContains( const QStringList& e ) const ;
@@ -522,6 +537,10 @@ public:
 		{
 			m_functions->processData( outPut,data,id,readableJson ) ;
 		}
+		void renameArchiveFolder( const QString& e ) const
+		{
+			return m_functions->renameArchiveFolder( e ) ;
+		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{
 			return m_functions->commandString( cmd ) ;
@@ -560,6 +579,10 @@ public:
 		void updateGetPlaylistCmdOptions( QStringList& e ) const
 		{
 			m_functions->updateGetPlaylistCmdOptions( e ) ;
+		}
+		bool archiveContainsFolder() const
+		{
+			return m_archiveContainsFolder ;
 		}
 		bool parseOutput( Logger::Data& e,const QByteArray& s,int id,bool m ) const
 		{
@@ -671,7 +694,8 @@ public:
 		}
 		bool backendExists() const
 		{
-			return QFile::exists( m_exePath.realExe() ) ;
+			QFileInfo m( m_exePath.realExe() ) ;
+			return m.exists() && m.isFile() ;
 		}
 		bool mainEngine() const
 		{
@@ -711,6 +735,7 @@ public:
 		bool m_canDownloadPlaylist ;
 		bool m_likeYoutubeDl ;
 		bool m_mainEngine ;
+		bool m_archiveContainsFolder = false ;
 		bool m_replaceOutputWithProgressReport ;
 		mutable bool m_broken = false ;
 		QString m_versionArgument ;
@@ -736,7 +761,7 @@ public:
 
 		QJsonObject m_controlStructure ;
 
-		exeArgs m_exePath ;
+		engines::engine::exeArgs m_exePath ;
 	};
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;

@@ -51,6 +51,7 @@ static QString _lastComponent( const QString& e )
 		return e.mid( s + 1 ) ;
 	}
 }
+
 void media_downloader::updateEnginePaths( const Context& ctx,
 					  QString& filePath,
 					  QString& exeBinPath,
