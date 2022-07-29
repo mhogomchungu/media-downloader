@@ -297,23 +297,9 @@ void networkAccess::finished( networkAccess::Opts str )
 				QFile::remove( str.exeBinPath ) ;
 			}
 
-			QString exe ;
-			QStringList args ;
+			auto exe = m_ctx.Engines().findExecutable( utility::platformIsWindows() ? "bsdtar.exe" : "tar" ) ;
 
-			if( utility::platformIsWindows() ){
-
-				if( str.filePath.endsWith( ".zip" ) ){
-
-					exe = m_ctx.Engines().findExecutable( "7z.exe" ) ;
-					args = QStringList{ "x",str.filePath,"-o" + str.archiveExtractionPath } ;
-				}else{
-					exe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
-					args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
-				}
-			}else{
-				exe = m_ctx.Engines().findExecutable( "tar" ) ;
-				args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
-			}
+			auto args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
 
 			util::run( exe,args,[ this,str = std::move( str ) ]( const util::run_result& s ){
 
