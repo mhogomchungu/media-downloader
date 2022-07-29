@@ -135,7 +135,9 @@ Version 1.2.0(April 1st, 2021)
   Version 2.5.0(Unreleased)
     [Windows]
     - Bundle python 3.8.10.
+    - Replace bundled 7zip with bsdtar.
     [All]
     - Add Swedish language.
     - Update translations.
     - Add a button in the configure tab to make it easy to reach a folder where binaries are located.
+    - Automatically download and manage folder based you-get executable.

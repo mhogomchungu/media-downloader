@@ -180,7 +180,6 @@ Name: \"quicklaunchicon\"; Description: \"{cm:CreateQuickLaunchIcon}\"; GroupDes
 
 [Files]
 Source: {#MyEXELocation}; DestDir: {app}; Flags: ignoreversion
-Source: {#MyBuildPath}\\media-downloader.exe.local; DestDir: {app}; Flags: ignoreversion
 Source: {#MyLibrariesLocation}\\*.dll; DestDir: {app} ; Flags: ignoreversion
 Source: {#MySourcesPath}\\LICENSE.txt; DestDir: {app}; Flags: ignoreversion
 Source: {#MyLibrariesLocation}\\bearer\\* ; DestDir: {app}\\bearer; Flags: ignoreversion

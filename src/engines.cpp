@@ -535,18 +535,28 @@ QString engines::addEngine( const QByteArray& data,const QString& path,int id )
 
 void engines::removeEngine( const QString& e,int id )
 {
-	const auto engine = _get_engine_by_path( e,*this,m_logger,m_enginePaths ) ;
+	const auto& engine = _get_engine_by_path( e,*this,m_logger,m_enginePaths ) ;
 
 	if( engine && engine->valid() ){
 
 		QFile::remove( m_enginePaths.enginePath( e ) ) ;
 
-		auto exe = QDir::fromNativeSeparators( engine->exePath().realExe() ) ;
-		auto binPath = QDir::fromNativeSeparators( m_enginePaths.binPath() ) ;
+		if( engine->archiveContainsFolder() ){
 
-		if( exe.startsWith( binPath ) && QFile::exists( exe ) ){
+			QFileInfo m( m_enginePaths.binPath( engine->name() ) ) ;
 
-			QFile::remove( exe ) ;
+			if( m.exists() && m.isDir() ){
+
+				QDir( m.filePath() ).removeRecursively() ;
+			}
+		}else{
+			auto exe = QDir::fromNativeSeparators( engine->exePath().realExe() ) ;
+			auto binPath = QDir::fromNativeSeparators( m_enginePaths.binPath() ) ;
+
+			if( exe.startsWith( binPath ) && QFile::exists( exe ) ){
+
+				QFile::remove( exe ) ;
+			}
 		}
 
 		if( m_backends.size() > 0 ){
