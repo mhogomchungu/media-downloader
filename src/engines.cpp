@@ -639,7 +639,6 @@ engines::engine::engine( const engines& engines,
 
 void engines::engine::updateOptions()
 {
-	m_archiveContainsFolder           = m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ;
 	m_controlStructure                = m_jsonObject.value( "ControlJsonStructure" ).toObject() ;
 	m_canDownloadPlaylist             = m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ;
 	m_replaceOutputWithProgressReport = m_jsonObject.value( "ReplaceOutputWithProgressReport" ).toBool( false ) ;
@@ -670,6 +669,7 @@ engines::engine::engine( Logger& logger,
 	m_valid( true ),
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
 	m_mainEngine( true ),
+	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
@@ -842,7 +842,14 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 
 				if( m.isEmpty() ){
 
-					it.clear() ;
+					if( m_archiveContainsFolder ){
+
+						subCmd = m_exeFolderPath + "/" + m_name + "/" + it ;
+					}else{
+						subCmd = m_exeFolderPath + "/" + it ;
+					}
+
+					it = subCmd ;
 				}else{
 					it = m ;
 					subCmd = m ;

@@ -302,8 +302,14 @@ void networkAccess::finished( networkAccess::Opts str )
 
 			if( utility::platformIsWindows() ){
 
-				exe = m_ctx.Engines().findExecutable( "7z.exe" ) ;
-				args = QStringList{ "x",str.filePath,"-o" + str.archiveExtractionPath } ;
+				if( str.filePath.endsWith( ".zip" ) ){
+
+					exe = m_ctx.Engines().findExecutable( "7z.exe" ) ;
+					args = QStringList{ "x",str.filePath,"-o" + str.archiveExtractionPath } ;
+				}else{
+					exe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
+					args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
+				}
 			}else{
 				exe = m_ctx.Engines().findExecutable( "tar" ) ;
 				args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
