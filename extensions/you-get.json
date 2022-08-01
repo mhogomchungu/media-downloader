@@ -62,7 +62,7 @@
     "RemoveText": [
     ],
     "ReplaceOutputWithProgressReport": false,
-    "RequiredMinimumVersionOfMediaDownloader": "",
+    "RequiredMinimumVersionOfMediaDownloader": "2.5.0",
     "SkipLineWithText": [],
     "SplitLinesBy": [
         "\n"

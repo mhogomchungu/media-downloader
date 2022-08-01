@@ -309,8 +309,6 @@ void networkAccess::finished( networkAccess::Opts str )
 
 				if( s.success() ){
 
-					const auto& engine = str.iter.engine() ;
-
 					if( engine.archiveContainsFolder() ){
 
 						engine.renameArchiveFolder( str.archiveExtractionPath ) ;

@@ -132,12 +132,12 @@ Version 1.2.0(April 1st, 2021)
     - Add you-get extension. Project page is at: https://github.com/soimort/you-get
     - Add Italian translations.
 
-  Version 2.5.0(Unreleased)
+  Version 2.5.0(August 1st, 2022)
     [Windows]
     - Bundle python 3.8.10.
     - Replace bundled 7zip with bsdtar.
     [All]
     - Add Swedish language.
-    - Update translations.
+    - Update other langauge translations.
     - Add a button in the configure tab to make it easy to reach a folder where binaries are located.
     - Automatically download and manage folder based you-get executable.
