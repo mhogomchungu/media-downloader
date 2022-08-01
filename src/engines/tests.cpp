@@ -174,7 +174,7 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 
 					if( m_counter < m_list.size() ){
 
-						std::cout << m_list.at( m_counter ).toStdString() << std::endl ;
+						std::cout << m_list.at( m_counter ).constData() << std::endl ;
 
 						m_counter++ ;
 
@@ -192,7 +192,8 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 			int m_counter = 0 ;
 		};
 
-		util::multipleInstance< myApp,myApp::args >( app,{ myApp::args{ args,app } },{} ).exec() ;
+		myApp::args mapp{ args,app } ;
+		util::multipleInstance< myApp,myApp::args >( app,std::move( mapp ),QByteArray() ).exec() ;
 
 		return true ;
 	}else{
