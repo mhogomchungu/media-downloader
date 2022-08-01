@@ -1195,7 +1195,7 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 			exe.setArguments( args ) ;
 			exe.setProcessEnvironment( env ) ;
 
-			exe.startDetached() ;
+			//exe.startDetached() ;
 		}else{
 			QProcess::startDetached( exePath,args ) ;
 		}
