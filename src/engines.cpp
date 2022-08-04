@@ -793,9 +793,18 @@ engines::engine::engine( Logger& logger,
 	}
 }
 
-void engines::engine::updateCmdPath( const QString& e ) const
+QString engines::engine::updateCmdPath( const QString& e ) const
 {
-	const_cast< engines::engine::exeArgs * >( &m_exePath )->updateRealExe( e ) ;
+	auto exe = m_functions->updateCmdPath( e ) ;
+
+	if( exe.isEmpty() ){
+
+		//problems ahead, exe should never be empty
+	}
+
+	const_cast< engines::engine::exeArgs * >( &m_exePath )->updateRealExe( exe ) ;
+
+	return exe ;
 }
 
 void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engines,int id )
@@ -1049,6 +1058,11 @@ bool engines::engine::functions::supportsShowingComments()
 bool engines::engine::functions::updateVersionInfo()
 {
 	return false ;
+}
+
+QString engines::engine::functions::updateCmdPath( const QString& )
+{
+	return {} ;
 }
 
 engines::engine::functions::DataFilter engines::engine::functions::Filter( int id,const QString& e )

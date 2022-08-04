@@ -29,6 +29,13 @@ you_get::you_get( const engines& engines,const engines::engine& engine,QJsonObje
 {
 }
 
+QString you_get::updateCmdPath( const QString& e )
+{
+	const auto& name = engines::engine::functions::engine().name() ;
+
+	return e + "/" + name + "/" + name ;
+}
+
 bool you_get::foundNetworkUrl( const QString& url )
 {
 	return url.startsWith( "you-get" ) && url.endsWith( ".tar.gz" ) ;

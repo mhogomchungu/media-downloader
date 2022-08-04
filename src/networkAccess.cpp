@@ -313,11 +313,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 						engine.renameArchiveFolder( str.archiveExtractionPath ) ;
 
-						const auto& name = engine.name() ;
-
-						auto exe = str.archiveExtractionPath + "/" + name + "/" + name ;
-
-						engine.updateCmdPath( exe ) ;
+						auto exe = engine.updateCmdPath( str.archiveExtractionPath ) ;
 
 						QFile f( exe ) ;
 

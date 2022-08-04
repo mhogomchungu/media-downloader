@@ -360,6 +360,8 @@ public:
 
 			virtual bool updateVersionInfo() ;
 
+			virtual QString updateCmdPath( const QString& ) ;
+
 			virtual engines::engine::functions::DataFilter Filter( int,const QString& ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
@@ -492,7 +494,7 @@ public:
 			this->updateOptions() ;
 		}
 
-		void updateCmdPath( const QString& e ) const ;
+		QString updateCmdPath( const QString& e ) const ;
 
 		const QString& commandName() const ;
 

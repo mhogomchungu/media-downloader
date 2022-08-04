@@ -44,6 +44,8 @@ public:
 		int m_processId ;
 	} ;
 
+	QString updateCmdPath( const QString& ) override ;
+
 	bool foundNetworkUrl( const QString& ) override ;
 
 	void renameArchiveFolder( const QString& ) override ;
