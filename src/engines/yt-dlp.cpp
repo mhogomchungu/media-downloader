@@ -638,7 +638,8 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + bkText ;
 	}
 }
 
@@ -713,6 +714,14 @@ yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,const QString& e,const
 
 const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 {
+	if( s.doneDownloading() ){
+
+		if( !m_fileName.isEmpty() ){
+
+			return m_postProcessing.text( m_fileName ) ;
+		}
+	}
+
 	if( m_likeYtdlp ){
 
 		return this->ytdlpOutput( s ) ;
@@ -740,7 +749,6 @@ const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data&
 
 			m_fileName = e.mid( e.indexOf( " " ) + 1 ) ;
 			m_fileName.truncate( m_fileName.indexOf( " has already been downloaded" ) ) ;
-			return m_fileName ;
 		}
 		if( e.contains( "] Destination: " ) ){
 
@@ -800,21 +808,11 @@ const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data&
 		return m_tmp ;
 	}
 
-	if( m_fileName.isEmpty() ){
-
-		return m_preProcessing.text() ;
-	}else{
-		return m_preProcessing.text( m_fileName ) ;
-	}
+	return m_preProcessing.text() ;
 }
 
 const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 {
-	if( s.doneDownloading() && !m_fileName.isEmpty() ){
-
-		return m_postProcessing.text( m_fileName ) ;
-	}
-
 	const auto data = s.toStringList() ;
 
 	for( const auto& e : data ){
@@ -828,7 +826,6 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 
 			m_fileName = e.mid( e.indexOf( " " ) + 1 ) ;
 			m_fileName.truncate( m_fileName.indexOf( " has already been downloaded" ) ) ;
-			return m_fileName ;
 		}
 		if( e.contains( "] Destination: " ) ){
 
