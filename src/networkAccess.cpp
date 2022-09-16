@@ -24,7 +24,6 @@
 #include "basicdownloader.h"
 #include "engines.h"
 
-#include <QtNetwork/QNetworkReply>
 #include <QFile>
 
 #include <QJsonDocument>
@@ -46,6 +45,7 @@ static QString _sslLibraryVersionString()
 
 networkAccess::networkAccess( const Context& ctx ) :
 	m_ctx( ctx ),
+	m_network( 30000 ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
 	m_tabManager( m_ctx.TabManager() )
 {
@@ -80,6 +80,61 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 	#endif
 #endif
 		return networkRequest ;
+}
+
+void networkAccess::download( const QByteArray& data,const engines::engine& engine,networkAccess::Opts opts )
+{
+	networkAccess::metadata metadata ;
+
+	util::Json json( data ) ;
+
+	if( !json ){
+
+		this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString(),opts.id ) ;
+
+		m_tabManager.enableAll() ;
+
+		if( opts.iter.hasNext() ){
+
+			m_ctx.versionInfo().check( opts.iter.next() ) ;
+		}
+
+		return ;
+	}
+
+	auto object = json.doc().object() ;
+
+	auto value = object.value( "assets" ) ;
+
+	const auto array = value.toArray() ;
+
+	for( const auto& it : array ){
+
+		const auto object = it.toObject() ;
+
+		const auto value = object.value( "name" ) ;
+
+		auto entry = value.toString() ;
+
+		if( engine.foundNetworkUrl( entry ) ){
+
+			auto value = object.value( "browser_download_url" ) ;
+
+			metadata.url = value.toString() ;
+
+			value = object.value( "size" ) ;
+
+			metadata.size = value.toInt() ;
+
+			metadata.fileName = entry ;
+
+			break ;
+		}
+	}
+
+	opts.metadata = std::move( metadata ) ;
+
+	this->download( std::move( opts ) ) ;
 }
 
 void networkAccess::download( const engines::Iterator& iter,const QString& setDefaultEngine )
@@ -128,84 +183,40 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	auto networkReply = m_accessManager.get( this->networkRequest( engine.downloadUrl() ) ) ;
+	networkAccess::Opts opts{ {},iter,exePath,exeFolderPath,setDefaultEngine,id } ;
 
-	QObject::connect( networkReply,&QNetworkReply::downloadProgress,[ id,this,&engine ]( qint64 received,qint64 total ){
+	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine,data = QByteArray() ]( const NetworkAccessManager::progress& p )mutable{
 
-		Q_UNUSED( received )
-		Q_UNUSED( total )
+		data += p.data() ;
 
-		this->post( engine,"...",id ) ;
-	} ) ;
+		if( p.finished() ){
 
-	QObject::connect( networkReply,&QNetworkReply::finished,
-			  [ id,this,networkReply,&engine,iter,exePath,exeFolderPath,setDefaultEngine ](){
+			if( p.success() ){
 
-		networkReply->deleteLater() ;
+				this->download( data,engine,std::move( opts ) ) ;
+			}else{
+				auto m = [ & ](){
 
-		if( networkReply->error() != QNetworkReply::NetworkError::NoError ){
+					if( p.timeOut() ){
 
-			this->post( engine,QObject::tr( "Download Failed" ) + ": " + networkReply->errorString(),id ) ;
+						return QObject::tr( "Download Failed" ) + ": Network TimeOut" ;
+					}else{
+						return QObject::tr( "Download Failed" ) + ": " + p.errorString() ;
+					}
+				}() ;
 
-			m_tabManager.enableAll() ;
+				this->post( engine,m,opts.id ) ;
 
-			if( iter.hasNext() ){
+				m_tabManager.enableAll() ;
 
-				m_ctx.versionInfo().check( iter.next() ) ;
+				if( opts.iter.hasNext() ){
+
+					m_ctx.versionInfo().check( opts.iter.next() ) ;
+				}
 			}
-
-			return ;
+		}else{
+			this->post( engine,"...",opts.id ) ;
 		}
-
-		networkAccess::metadata metadata ;
-
-		util::Json json( networkReply->readAll() ) ;
-
-		if( !json ){
-
-			this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString(),id ) ;
-
-			m_tabManager.enableAll() ;
-
-			if( iter.hasNext() ){
-
-				m_ctx.versionInfo().check( iter.next() ) ;
-			}
-
-			return ;
-		}
-
-		auto object = json.doc().object() ;
-
-		auto value = object.value( "assets" ) ;
-
-		const auto array = value.toArray() ;
-
-		for( const auto& it : array ){
-
-			const auto object = it.toObject() ;
-
-			const auto value = object.value( "name" ) ;
-
-			auto entry = value.toString() ;
-
-			if( engine.foundNetworkUrl( entry ) ){
-
-				auto value = object.value( "browser_download_url" ) ;
-
-				metadata.url = value.toString() ;
-
-				value = object.value( "size" ) ;
-
-				metadata.size = value.toInt() ;
-
-				metadata.fileName = entry ;
-
-				break ;
-			}
-		}
-
-		this->download( { metadata,iter,exePath,exeFolderPath,setDefaultEngine,id } ) ;
 	} ) ;
 }
 
@@ -225,40 +236,45 @@ void networkAccess::download( networkAccess::Opts opts )
 
 	this->post( engine,QObject::tr( "Destination" ) + ": " + opts.filePath,opts.id ) ;
 
-	opts.networkReply = m_accessManager.get( this->networkRequest( opts.metadata.url ) ) ;
+	auto url = this->networkRequest( opts.metadata.url ) ;
 
-	QObject::connect( opts.networkReply,&QNetworkReply::downloadProgress,
-			  [ id = opts.id,this,metadata = opts.metadata,networkReply = opts.networkReply,&engine,locale = utility::locale() ]( qint64 received,qint64 total ){
+	m_network.get( url,[ this,opts = std::move( opts ),&engine,locale = utility::locale() ]( const NetworkAccessManager::progress& p )mutable{
 
-		Q_UNUSED( total )
+		if( p.finished() ){
 
-		m_file.write( networkReply->readAll() ) ;
+			if( !p.success() ){
 
-		auto perc = double( received )  * 100 / double( metadata.size ) ;
-		auto totalSize = locale.formattedDataSize( metadata.size ) ;
-		auto current   = locale.formattedDataSize( received ) ;
-		auto percentage = QString::number( perc,'f',2 ) ;
+				if( p.timeOut() ){
 
-		auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
+					opts.networkError = "Network TimeOut" ;
+				}else{
+					opts.networkError = p.errorString() ;
+				}
+			}
 
-		this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,id ) ;
-	} ) ;
+			this->finished( std::move( opts ) ) ;
+		}else{
+			m_file.write( p.data() ) ;
 
-	QObject::connect( opts.networkReply,&QNetworkReply::finished,[ this,opts = std::move( opts ) ]()mutable{
+			auto perc = double( p.received() )  * 100 / double( opts.metadata.size ) ;
+			auto totalSize = locale.formattedDataSize( opts.metadata.size ) ;
+			auto current   = locale.formattedDataSize( p.received() ) ;
+			auto percentage = QString::number( perc,'f',2 ) ;
 
-		this->finished( std::move( opts ) ) ;
+			auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
+
+			this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,opts.id ) ;
+		}
 	} ) ;
 }
 
 void networkAccess::finished( networkAccess::Opts str )
 {
-	str.networkReply->deleteLater() ;
-
 	const auto& engine = str.iter.engine() ;
 
-	if( str.networkReply->error() != QNetworkReply::NetworkError::NoError ){
+	if( !str.networkError.isEmpty() ){
 
-		this->post( engine,QObject::tr( "Download Failed" ) + ": " + str.networkReply->errorString(),str.id ) ;
+		this->post( engine,QObject::tr( "Download Failed" ) + ": " + str.networkError,str.id ) ;
 
 		m_tabManager.enableAll() ;
 

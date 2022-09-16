@@ -86,4 +86,5 @@ private:
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
 	const util::version& m_version ;
+	const util::version m_supportsLazyPlaylist ;
 };

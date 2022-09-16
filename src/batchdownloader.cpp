@@ -1339,8 +1339,6 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	},std::move( aa ) ) ;
 
-	auto m = m_ui.lineEditBDUrlOptions->text() ;
-
 	auto wrapper = batchdownloader::make_logger( m_ctx.logger(),[]( const QByteArray& ){
 
 		return true ;
@@ -1356,6 +1354,8 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		args.append( ca ) ;
 		args.append( cookiePath ) ;
 	}
+
+	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
 	m_ccmd.download( engine,
 			 args,
@@ -1692,8 +1692,6 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 		return ;
 	}
 
-	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
-
 	m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
 				      m_ui.lineEditBDUrlOptions->text(),
 				      settings::tabName::batch ) ;
@@ -1789,6 +1787,8 @@ void batchdownloader::download( const engines::engine& eng,int index )
 						  id ) ;
 
 	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
+
+	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
 	m_ccmd.download( engine,
 			 []( QStringList opts ){ return opts ; },

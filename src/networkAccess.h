@@ -19,19 +19,15 @@
 #ifndef NETWORK_ACCESS_H
 #define NETWORK_ACCESS_H
 
-#include "context.hpp"
-
-#include "engines.h"
-
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkReply>
-
 #include <QFile>
 #include <QStringList>
 
 #include "context.hpp"
+#include "engines.h"
+#include "context.hpp"
 #include "settings.h"
 #include "engines.h"
+#include "network_access_manager.hpp"
 
 class basicdownloader ;
 
@@ -52,11 +48,9 @@ public:
 	template< typename Function >
 	void getResource( const QString& url,Function function )
 	{
-		auto networkReply = m_accessManager.get( this->networkRequest( url ) ) ;
+		m_network.get( this->networkRequest( url ),[ function = std::move( function ) ]( const NetworkAccessManager::reply& reply ){
 
-		QObject::connect( networkReply,&QNetworkReply::finished,[ networkReply,function = std::move( function ) ](){
-
-			function( networkReply->readAll() ) ;
+			function( reply.data() ) ;
 		} ) ;
 	}
 private:
@@ -92,25 +86,27 @@ private:
 				filePath += ".tmp" ;
 			}
 		}
-		QNetworkReply * networkReply ;
 		engines::Iterator iter ;
 		QString exeBinPath ;
 		networkAccess::metadata metadata ;
 		QString filePath ;
 		QString archiveExtractionPath ;
 		QString defaultEngine ;
+		QString networkError ;
 		bool isArchive ;
 		int id ;
 	};
 
 	void download( networkAccess::Opts ) ;
 
+	void download( const QByteArray&,const engines::engine&,networkAccess::Opts ) ;
+
 	void finished( networkAccess::Opts ) ;
 
 	void post( const engines::engine&,const QString&,int ) ;
 
 	const Context& m_ctx ;
-	QNetworkAccessManager m_accessManager ;
+	NetworkAccessManager m_network ;
 	QFile m_file ;
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;

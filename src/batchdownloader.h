@@ -280,7 +280,11 @@ private:
 		}
 		QByteArray data() const
 		{
-			return m_logger->data() ;
+			auto data = m_logger->data() ;
+
+			data.replace( "[media-downloader] Download Completed Successfully","" ) ;
+
+			return data ;
 		}
 		void logError( const QByteArray& data )
 		{

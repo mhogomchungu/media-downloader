@@ -236,7 +236,8 @@ yt_dlp::yt_dlp( const engines& engines,
 		const util::version& version ) :
 	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
-	m_version( version )
+	m_version( version ),
+	m_supportsLazyPlaylist( "2022.06.22" )
 {
 	auto name = obj.value( "Name" ).toString() ;
 
@@ -697,7 +698,7 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 {
 	if( m_version.valid() ){
 
-		if( m_version >= "2022.06.22" ){
+		if( m_version >= m_supportsLazyPlaylist ){
 
 			e.append( "--lazy-playlist" ) ;
 		}
