@@ -39,7 +39,6 @@
 #include <QTimer>
 
 #include <memory>
-#include <iostream>
 
 class NetworkAccessManager
 {
@@ -200,10 +199,6 @@ private:
 			m_reply( NetworkAccessManager::reply( m_networkReply,timeOut,std::move( m_data ) ) ) ;
 			m_progress( NetworkAccessManager::progress( true,timeOut,m_networkReply,0,0,{} ) ) ;
 		}
-		void progress( qint64 r,qint64 t )
-		{
-			m_progress( NetworkAccessManager::progress( false,false,m_networkReply,r,t,m_networkReply.readAll() ) ) ;
-		}
 		bool firstSeen()
 		{
 			QMutexLocker m( &m_mutex ) ;
@@ -227,25 +222,38 @@ private:
 		{
 			return &m_networkReply ;
 		}
-		void stopTimer()
-		{
-			m_timer.stop() ;
-		}
 		QTimer * timer()
 		{
 			return &m_timer ;
 		}
-		void addData( const QByteArray& data )
+		void addData()
 		{
-			m_data += data ;
+			this->stopTimer() ;
+
+			m_data += m_networkReply.readAll() ;
+		}
+		void progress( qint64 r,qint64 t )
+		{
+			this->stopTimer() ;
+
+			m_progress( NetworkAccessManager::progress( false,false,m_networkReply,r,t,m_networkReply.readAll() ) ) ;
 		}
 		~handle()
 		{
 			m_networkReply.deleteLater() ;
 		}
 	private:
+		void stopTimer()
+		{
+			if( m_stopTimer ){
+
+				m_timer.stop() ;
+				m_stopTimer = false ;
+			}
+		}
 		QByteArray m_data ;
 		bool m_firstSeen = true ;
+		bool m_stopTimer = true ;
 		QTimer m_timer ;
 		Reply m_reply ;
 		Progress m_progress ;
@@ -254,17 +262,24 @@ private:
 		QMetaObject::Connection m_networkConn ;
 		QMetaObject::Connection m_timerConn ;
 	} ;
-	template< typename Handle >
-	void setupReply( Handle& hdl )
+	template< typename Reply,typename Progress,typename Function >
+	void setupReply( QNetworkReply * s,Reply&& reply,Progress&& progress,Function&& function )
 	{
-		hdl->start( m_timeOut,QObject::connect( hdl->networkReply(),&QNetworkReply::finished,[ hdl,this ](){
+		auto hdl = std::make_shared< handle< Reply,Progress > >( std::move( reply ),std::move( progress ),*s,m_mutex ) ;
+
+		QObject::connect( s,&QNetworkReply::downloadProgress,[ &h = *hdl,function = std::move( function ) ]( qint64 r,qint64 t ){
+
+			function( h,r,t ) ;
+		} ) ;
+
+		hdl->start( m_timeOut,QObject::connect( hdl->networkReply(),&QNetworkReply::finished,[ hdl ](){
 
 			if( hdl->firstSeen() ){
 
 				hdl->result( false ) ;
 			}
 
-		} ),QObject::connect( hdl->timer(),&QTimer::timeout,[ hdl,this ](){
+		} ),QObject::connect( hdl->timer(),&QTimer::timeout,[ hdl ](){
 
 			if( hdl->firstSeen() ){
 
@@ -277,42 +292,27 @@ private:
 	template< typename Reply,typename Progress >
 	void setupReply( QNetworkReply * s,Reply&& reply,Progress&& progress )
 	{
-		auto hdl = std::make_shared< handle< Reply,Progress > >( std::move( reply ),std::move( progress ),*s,m_mutex ) ;
+		using handle_t = handle< Reply,Progress > ;
 
-		QObject::connect( s,&QNetworkReply::downloadProgress,[ m = true,h = hdl.get() ]( qint64 r,qint64 t )mutable{
+		this->setupReply( s,std::move( reply ),std::move( progress ),[]( handle_t& h,qint64 r,qint64 t ){
 
-			if( m ){
-
-				h->stopTimer() ;
-
-				m = false ;
-			}
-
-			h->progress( r,t ) ;
+			h.progress( r,t ) ;
 		} ) ;
-
-		this->setupReply( hdl ) ;
 	}
 	template< typename Reply >
 	void setupReply( QNetworkReply * s,Reply&& reply )
 	{
-		auto p = []( const NetworkAccessManager::progress& ){} ;
+		struct progress
+		{
+			void operator()( const NetworkAccessManager::progress& ){}
+		} ;
 
-		auto hdl = std::make_shared< handle< Reply,decltype( p ) > >( std::move( reply ),std::move( p ),*s,m_mutex ) ;
+		using handle_t = handle< Reply,progress > ;
 
-		QObject::connect( s,&QNetworkReply::downloadProgress,[ m = true,s,h = hdl.get() ]( qint64,qint64 )mutable{
+		this->setupReply( s,std::move( reply ),progress(),[]( handle_t& h,qint64,qint64 ){
 
-			if( m ){
-
-				h->stopTimer() ;
-
-				m = false ;
-			}
-
-			h->addData( s->readAll() ) ;
+			h.addData() ;
 		} ) ;
-
-		this->setupReply( hdl ) ;
 	}
 
 	QNetworkAccessManager m_manager ;
