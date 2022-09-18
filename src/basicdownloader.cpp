@@ -334,9 +334,7 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 
 	m_ui.pbCancel->setEnabled( true ) ;
 
-	const auto& ep = m_ctx.Engines().engineDirPaths() ;
-
-	auto opts = utility::updateOptions( { engine.engine,ep,m_settings,args,QString(),false,urls,{} } ) ;
+	auto opts = utility::updateOptions( { engine.engine,m_settings,args,QString(),false,urls,{},m_ctx } ) ;
 
 	this->run( engine,opts,args.quality(),false ) ;
 }

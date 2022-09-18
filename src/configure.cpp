@@ -38,12 +38,12 @@ configure::configure( const Context& ctx ) :
 	m_engines( m_ctx.Engines() ),
 	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font() ),
 	m_tableUrlToDefaultEngine( *m_ui.tableWidgetConfigureUrl,m_ctx.mainWidget().font() ),
+	m_tableDefaultDownloadOptions( *m_ui.tableWidgetEnginesDefaultOptions,m_ctx.mainWidget().font() ),
 	m_presetOptions( m_ctx,m_settings ),
-	m_downloadDefaultOptions( m_ctx )
+	m_downloadDefaultOptions( m_ctx,"downloadDefaultOptions.json" ),
+	m_downloadEngineDefaultOptions( m_ctx,"downloadEngineDefaultOptions.json" )
 {
 	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
-
-	m_ui.widgetConfigureManageUrl->setVisible( false ) ;
 
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
 
@@ -63,6 +63,11 @@ configure::configure( const Context& ctx ) :
 	} ) ;
 
 	m_tableUrlToDefaultEngine.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+
+		m_tablePresetOptions.selectRow( c,p,0 ) ;
+	} ) ;
+
+	m_tableDefaultDownloadOptions.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
 		m_tablePresetOptions.selectRow( c,p,0 ) ;
 	} ) ;
@@ -111,11 +116,6 @@ configure::configure( const Context& ctx ) :
 
 		QMenu m ;
 
-		connect( m.addAction( tr( "Add" ) ),&QAction::triggered,[ this ](){
-
-			m_ui.widgetConfigureManageUrl->setVisible( true ) ;
-		} ) ;
-
 		connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this ](){
 
 			auto m = m_tableUrlToDefaultEngine.currentRow() ;
@@ -131,9 +131,71 @@ configure::configure( const Context& ctx ) :
 		m.exec( QCursor::pos() ) ;
 	} ) ;
 
-	connect( m_ui.pbConfigureManageUrlCancel,&QPushButton::clicked,[ this ](){
+	m_tableDefaultDownloadOptions.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
-		m_ui.widgetConfigureManageUrl->setVisible( false ) ;
+		QMenu m ;
+
+		connect( m.addAction( tr( "Set As Default" ) ),&QAction::triggered,[ this ](){
+
+			auto m = m_tableDefaultDownloadOptions.currentRow() ;
+
+			if( m != -1 ){
+
+				auto mm = m_ui.cbConfigureEngines->currentText() ;
+
+				const auto& s = m_ctx.Engines().getEngineByName( mm ) ;
+
+				if( s ){
+					auto obj = m_tableDefaultDownloadOptions.stuffAt( m ) ;
+
+					m_downloadEngineDefaultOptions.setAsDefault( obj ) ;
+
+					this->populateOptionsTable( s ) ;
+				}
+			}
+		} ) ;
+
+		connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this ](){
+
+			auto m = m_tableDefaultDownloadOptions.currentRow() ;
+
+			if( m != -1 ){
+
+				auto obj = m_tableDefaultDownloadOptions.stuffAt( m ) ;
+				m_downloadEngineDefaultOptions.remove( obj ) ;
+
+				auto mm = m_ui.cbConfigureEngines->currentText() ;
+
+				const auto& s = m_ctx.Engines().getEngineByName( mm ) ;
+
+				this->populateOptionsTable( s ) ;
+			}
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
+	} ) ;
+
+	connect( m_ui.pbAddDefaultDownloadOption,&QPushButton::clicked,[ this ](){
+
+		auto m = m_ui.lineEditAddDefaultDownloadOption->text() ;
+
+		if( !m.isEmpty() ){
+
+			auto mm = m_ui.cbConfigureEngines->currentText() ;
+
+			const auto& s = m_ctx.Engines().getEngineByName( mm ) ;
+
+			if( s ){
+
+				auto obj = m_downloadEngineDefaultOptions.addOpt( "no",s->name(),m ) ;
+
+				m_tableDefaultDownloadOptions.add( { "no",m },std::move( obj ) ) ;
+
+				m_tableDefaultDownloadOptions.selectLast() ;
+
+				m_ui.lineEditAddDefaultDownloadOption->clear() ;
+			}
+		}
 	} ) ;
 
 	connect( m_ui.pbConfigureManageUrl,&QPushButton::clicked,[ this ](){
@@ -157,8 +219,6 @@ configure::configure( const Context& ctx ) :
 			m_tableUrlToDefaultEngine.add( { a,b },std::move( obj ) ) ;
 
 			m_tableUrlToDefaultEngine.selectLast() ;
-
-			m_ui.widgetConfigureManageUrl->setVisible( false ) ;
 		}
 	} ) ;
 
@@ -185,7 +245,19 @@ configure::configure( const Context& ctx ) :
 
 			auto m = m_ui.cbConfigureEngines->itemText( index ) ;
 
-			this->setEngineOptions( m ) ;
+			this->populateOptionsTable( m_engines.getEngineByName( m ) ) ;
+
+			this->setEngineOptions( m,engineOptions::options ) ;
+		}
+	} ) ;
+
+	connect( m_ui.cbConfigureEnginesUrlManager,cc,[ this ]( int index ){
+
+		if( index != -1 ){
+
+			auto m = m_ui.cbConfigureEngines->itemText( index ) ;
+
+			this->setEngineOptions( m,engineOptions::url ) ;
 		}
 	} ) ;
 
@@ -360,11 +432,9 @@ configure::configure( const Context& ctx ) :
 
 		if( s ){
 
-			auto m = s->defaultDownLoadCmdOptions().join( " " ) ;
+			m_downloadEngineDefaultOptions.removeAll( s->name() ) ;
 
-			m_ui.lineEditConfigureDownloadOptions->setText( m ) ;
-
-			m_settings.setEngineDefaultDownloadOptions( s->name(),m ) ;
+			this->populateOptionsTable( s ) ;
 		}
 	} ) ;
 
@@ -432,6 +502,44 @@ void configure::tabEntered()
 	m_menu.addAction( tr( "Cancel" ) ) ;
 
 	m_ui.pbConfigureDownload->setMenu( &m_menu ) ;
+
+	auto mm = m_ui.cbConfigureEngines->currentText() ;
+
+	this->populateOptionsTable( m_engines.getEngineByName( mm ) ) ;
+}
+
+void configure::populateOptionsTable( const util::result_ref< const engines::engine& >& s )
+{
+	m_tableDefaultDownloadOptions.clear() ;
+
+	if( s ){
+
+		m_downloadEngineDefaultOptions.forEach( [ s,this ]( const configure::downloadDefaultOptions::optsEngines& opts,QJsonObject obj ){
+
+			if( s->name() == opts.engine ){
+
+				m_tableDefaultDownloadOptions.add( { opts.inuse,opts.options },std::move( obj ) ) ;
+			}
+
+			return false ;
+		} ) ;
+
+		if( m_tableDefaultDownloadOptions.rowCount() == 0 ){
+
+			const auto& e = s->defaultDownLoadCmdOptions() ;
+
+			if( !e.isEmpty() ){
+
+				auto b = e.join( " " ) ;
+
+				auto obj = m_downloadEngineDefaultOptions.addOpt( "yes",s->name(),b ) ;
+
+				m_tableDefaultDownloadOptions.add( { "yes",b },std::move( obj ) ) ;
+			}
+		}
+
+		m_tableDefaultDownloadOptions.selectLast() ;
+	}
 }
 
 void configure::tabExited()
@@ -442,18 +550,44 @@ void configure::tabExited()
 void configure::updateEnginesList( const QStringList& e )
 {
 	auto& cb = *m_ui.cbConfigureEngines ;
+	auto& xb = *m_ui.cbConfigureEnginesUrlManager ;
 
 	cb.clear() ;
+	xb.clear() ;
 
 	for( const auto& it : e ){
 
 		cb.addItem( it ) ;
+		xb.addItem( it ) ;
 
-		this->setEngineOptions( it ) ;
+		this->setEngineOptions( it,engineOptions::both ) ;
 	}
 
 	cb.setCurrentIndex( 0 ) ;
-	this->setEngineOptions( cb.currentText() ) ;
+	xb.setCurrentIndex( 0 ) ;
+
+	this->setEngineOptions( cb.currentText(),engineOptions::both ) ;
+}
+
+QString configure::engineDefaultDownloadOptions( const QString& engineName )
+{
+	QString options ;
+
+	using mm = configure::downloadDefaultOptions::optsEngines ;
+
+	m_downloadEngineDefaultOptions.forEach( [ & ]( const mm& opts,const QJsonObject& ){
+
+		if( opts.engine == engineName && opts.inuse == "yes" ){
+
+			options = opts.options ;
+
+			return true ;
+		}else{
+			return false ;
+		}
+	} ) ;
+
+	return options ;
 }
 
 void configure::setDownloadOptions( int row,tableWidget& table )
@@ -464,6 +598,7 @@ void configure::setDownloadOptions( int row,tableWidget& table )
 void configure::saveOptions()
 {
 	m_downloadDefaultOptions.save() ;
+	m_downloadEngineDefaultOptions.save() ;
 
 	auto m = m_ui.cbConfigureShowThumbnails->isChecked() ;
 
@@ -503,10 +638,6 @@ void configure::saveOptions()
 
 	if( ss ){
 
-		auto m = m_ui.lineEditConfigureDownloadOptions->text() ;
-
-		m_settings.setEngineDefaultDownloadOptions( ss->name(),m ) ;
-
 		if( !ss->cookieArgument().isEmpty() ){
 
 			m_settings.setCookieFilePath( ss->name(),m_ui.lineEditConfigureCookiePath->text() ) ;
@@ -517,45 +648,52 @@ void configure::saveOptions()
 	m_ctx.TabManager().resetMenu() ;
 }
 
-void configure::setEngineOptions( const QString& e )
+void configure::setEngineOptions( const QString& e,engineOptions tab )
 {
 	const auto& s = m_engines.getEngineByName( e ) ;
 
 	if( s ){
 
-		const auto& engineName = s->name() ;
+		auto _setUpUrl = [ & ](){
 
-		m_tableUrlToDefaultEngine.clear() ;
+			const auto& engineName = s->name() ;
 
-		m_downloadDefaultOptions.forEach( [ this,&engineName ]( const downloadDefaultOptions::opts& e,QJsonObject obj ){
+			m_tableUrlToDefaultEngine.clear() ;
 
-			if( engineName.isEmpty() || engineName == e.engine ){
+			m_downloadDefaultOptions.forEach( [ this,&engineName ]( const downloadDefaultOptions::opts& e,QJsonObject obj ){
 
-				m_tableUrlToDefaultEngine.add( { e.url,e.downloadOptions },std::move( obj ) ) ;
-			}
+				if( engineName.isEmpty() || engineName == e.engine ){
 
-			return false ;
-		} ) ;
+					m_tableUrlToDefaultEngine.add( { e.url,e.downloadOptions },std::move( obj ) ) ;
+				}
 
-		m_tableUrlToDefaultEngine.selectLast() ;
+				return false ;
+			} ) ;
 
-		auto m = m_settings.engineDefaultDownloadOptions( s->name() ) ;
+			m_tableUrlToDefaultEngine.selectLast() ;
+		} ;
 
-		if( m.isEmpty() ){
+		auto _setUpDownloadOptions = [ & ](){
 
-			const auto& e = s->defaultDownLoadCmdOptions() ;
-			m_settings.setEngineDefaultDownloadOptions( s->name(),e.join( " " ) ) ;
-			m_ui.lineEditConfigureDownloadOptions->setText( e.join( " " ) ) ;
+			auto enable = !s->cookieArgument().isEmpty() ;
+
+			m_ui.lineEditConfigureCookiePath->setText( m_settings.cookieFilePath( s->name() ) ) ;
+			m_ui.lineEditConfigureCookiePath->setEnabled( enable ) ;
+			m_ui.pbConfigureCookiePath->setEnabled( enable ) ;
+			m_ui.labelPathToCookieFile->setEnabled( enable ) ;
+		} ;
+
+		if( tab == engineOptions::url ){
+
+			_setUpUrl() ;
+
+		}else if( tab == engineOptions::options ){
+
+			_setUpDownloadOptions() ;
 		}else{
-			m_ui.lineEditConfigureDownloadOptions->setText( m ) ;
+			_setUpUrl() ;
+			_setUpDownloadOptions() ;
 		}
-
-		auto enable = !s->cookieArgument().isEmpty() ;
-
-		m_ui.lineEditConfigureCookiePath->setText( m_settings.cookieFilePath( s->name() ) ) ;
-		m_ui.lineEditConfigureCookiePath->setEnabled( enable ) ;
-		m_ui.pbConfigureCookiePath->setEnabled( enable ) ;
-		m_ui.labelPathToCookieFile->setEnabled( enable ) ;
 	}
 }
 
@@ -655,8 +793,6 @@ void configure::enableAll()
 	m_ui.labelConfigureOptionsPresetOptiions->setEnabled( true ) ;
 	m_ui.pbConfigureAddToPresetList->setEnabled( true ) ;
 	m_ui.pbConfigureEngineDefaultOptions->setEnabled( true ) ;
-	m_ui.lineEditConfigureDownloadOptions->setEnabled( true ) ;
-	m_ui.labelConfigureOptions->setEnabled( true ) ;
 	m_ui.cbConfigureEngines->setEnabled( true ) ;
 	m_ui.labelConfigureEngines->setEnabled( true ) ;
 	m_ui.pbConfigureSave->setEnabled( true ) ;
@@ -708,9 +844,7 @@ void configure::disableAll()
 	m_ui.lineEditConfigureCookiePath->setEnabled( false ) ;
 	m_ui.pbConfigureCookiePath->setEnabled( false ) ;
 	m_ui.pbConfigureEngineDefaultOptions->setEnabled( false ) ;
-	m_ui.lineEditConfigureDownloadOptions->setEnabled( false ) ;
 	m_ui.cbAutoSaveNotDownloadedMedia->setEnabled( false ) ;
-	m_ui.labelConfigureOptions->setEnabled( false ) ;
 	m_ui.cbConfigureEngines->setEnabled( false ) ;
 	m_ui.labelConfigureEngines->setEnabled( false ) ;
 	m_ui.pbConfigureSave->setEnabled( false ) ;
@@ -864,8 +998,8 @@ QByteArray configure::presetOptions::defaultData()
 ])R";
 }
 
-configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx ) :
-	m_path( ctx.Engines().engineDirPaths().dataPath( "downloadDefaultOptions.json" ) )
+configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx,const QString& name ) :
+	m_path( ctx.Engines().engineDirPaths().dataPath( name ) )
 {
 	QJsonParseError err ;
 
@@ -891,20 +1025,54 @@ void configure::downloadDefaultOptions::save()
 	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
 }
 
-QJsonObject configure::downloadDefaultOptions::add( const QString& url,
-						    const QString& opts,
-						    const QString& engineName )
+bool configure::downloadDefaultOptions::isEmpty( const QString& m )
 {
+	for( const auto& it : util::asConst( m_array ) ){
+
+		auto s = it.toObject().value( "engineName" ).toString() ;
+
+		if( s == m ){
+
+			return false ;
+		}
+	}
+
+	return true ;
+}
+
+QJsonObject configure::downloadDefaultOptions::addOpt( const QString& inUse,
+						       const QString& engineName,
+						       const QString& options )
+{
+	for( const auto& it : util::asConst( m_array ) ){
+
+		auto obj = it.toObject() ;
+
+		auto a = obj.value( "options" ).toString() ;
+		auto b = obj.value( "engineName" ).toString() ;
+
+		if( a == options && b == engineName ){
+
+			return obj ;
+		}
+	}
+
 	QJsonObject obj ;
 
-	obj.insert( "comparator","contains" ) ;
-	obj.insert( "downloadOption",opts ) ;
-	obj.insert( "engine",engineName ) ;
-	obj.insert( "url",url ) ;
+	obj.insert( "default",inUse ) ;
+	obj.insert( "options",options ) ;
+	obj.insert( "engineName",engineName ) ;
 
 	m_array.append( obj ) ;
 
 	return obj ;
+}
+
+QJsonObject configure::downloadDefaultOptions::add( const QString& url,
+						    const QString& opts,
+						    const QString& engineName )
+{
+	return this->add( { "contains",opts,engineName,url } ) ;
 }
 
 QJsonObject configure::downloadDefaultOptions::add( const configure::downloadDefaultOptions::opts& e )
@@ -931,4 +1099,89 @@ void configure::downloadDefaultOptions::remove( const QJsonObject& e )
 			break ;
 		}
 	}
+
+	auto engineName = e.value( "engineName" ) ;
+
+	for( int i = 0 ; i < m_array.size() ; i++ ){
+
+		auto obj = m_array[ i ].toObject() ;
+
+		auto name = obj.value( "engineName" ) ;
+
+		if( name == engineName ){
+
+			auto s = obj.value( "default" ) ;
+
+			if( s == "yes" ){
+
+				return ;
+			}
+		}
+	}
+
+	for( int i = 0 ; i < m_array.size() ; i++ ){
+
+		auto obj = m_array[ i ].toObject() ;
+
+		auto name = obj.value( "engineName" ) ;
+
+		if( name == engineName ){
+
+			obj.insert( "default","yes" ) ;
+
+			m_array[ i ] = obj ;
+
+			break ;
+		}
+	}
+}
+
+void configure::downloadDefaultOptions::removeAll( const QString& e )
+{
+	while( [ this,&e ](){
+
+		for( int i = 0 ; i < m_array.size() ; i++ ){
+
+			auto s = m_array[ i ].toObject().value( "engineName" ) ;
+
+			if( s == e ){
+
+				m_array.removeAt( i ) ;
+				return true ;
+			}
+		}
+
+		return false ;
+	}() ){} ;
+}
+
+QJsonObject configure::downloadDefaultOptions::setAsDefault( const QJsonObject& e )
+{
+	auto engineName = e.value( "engineName" ).toString() ;
+	auto options = e.value( "options" ).toString() ;
+
+	QJsonObject xbj ;
+
+	for( int i = 0 ; i < m_array.size() ; i++ ){
+
+		auto obj = m_array[ i ].toObject() ;
+		auto engine = obj.value( "engineName" ).toString() ;
+		auto opts = obj.value( "options" ).toString() ;
+
+		if( engine == engineName ){
+
+			if( options == opts ){
+
+				xbj = obj ;
+
+				obj.insert( "default","yes" ) ;
+			}else{
+				obj.insert( "default","no" ) ;
+			}
+
+			m_array[ i ] = obj ;
+		}
+	}
+
+	return xbj ;
 }

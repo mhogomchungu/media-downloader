@@ -519,25 +519,6 @@ bool settings::useSystemProvidedVersionIfAvailable()
 	return m_settings.value( "UseSystemProvidedVersionIfAvailable" ).toBool() ;
 }
 
-QString settings::engineDefaultDownloadOptions( const QString& engineName )
-{
-	auto m = "EngineDefaultDownloadingOptions_" + engineName ;
-
-	if( !m_settings.contains( m ) ){
-
-		m_settings.setValue( m,QString() ) ;
-	}
-
-	return m_settings.value( m ).toString() ;
-}
-
-void settings::setEngineDefaultDownloadOptions( const QString& engineName,const QString& options )
-{
-	auto m = "EngineDefaultDownloadingOptions_" + engineName ;
-
-	m_settings.setValue( m,options ) ;
-}
-
 QString settings::cookieFilePath( const QString& engineName )
 {
 	auto m = "CookieFilePath_" + engineName ;

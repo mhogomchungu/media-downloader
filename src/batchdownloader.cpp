@@ -1792,8 +1792,8 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	m_ccmd.download( engine,
 			 []( QStringList opts ){ return opts ; },
-			 m_ctx.Engines().engineDirPaths(),
 			 m_table.url( index ),
+			 m_ctx,
 			 m_terminator.setUp(),
 			 std::move( oopts ),
 			 std::move( logger ) ) ;

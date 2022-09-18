@@ -356,13 +356,13 @@ namespace utility
 	struct updateOptionsStruct
 	{
 		const engines::engine& engine ;
-		const engines::enginePaths& enginePaths ;
 		settings& stts;
 		const utility::args& args ;
 		const QString& indexAsString ;
 		bool forceDownload ;
 		const QStringList& urls ;
 		const tableWidget::entry& tableEntry ;
+		const Context& ctx ;
 	};
 
 	QStringList updateOptions( const updateOptionsStruct& ) ;

@@ -44,6 +44,7 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void updateEnginesList( const QStringList& e ) ;
+	QString engineDefaultDownloadOptions( const QString& ) ;
 	void setDownloadOptions( int row,tableWidget& table ) ;
 	template< typename Function >
 	void presetOptionsForEach( const Function& function )
@@ -93,12 +94,46 @@ private:
 			const QString& engine ;
 			const QString& url ;
 		} ;
-		downloadDefaultOptions( const Context& ) ;
+		struct optsEngines
+		{
+			const QString& inuse ;
+			const QString& engine ;
+			const QString& options ;
+		} ;
+		downloadDefaultOptions( const Context&,const QString& ) ;
 		void save() ;
+		bool isEmpty( const QString& ) ;
+		QJsonObject addOpt( const QString&,const QString& engineName,const QString& options ) ;
 		QJsonObject add( const QString& url,const QString& opts,const QString& engineName ) ;
 		QJsonObject add( const configure::downloadDefaultOptions::opts& ) ;
 		void remove( const QJsonObject& ) ;
-		template< typename Function >
+		void removeAll( const QString& ) ;
+		QJsonObject setAsDefault( const QJsonObject& ) ;
+
+		template< typename Function,
+			  typename std::enable_if<std::is_same<util::types::result_of<Function,const configure::downloadDefaultOptions::optsEngines&,QJsonObject>,bool>::value,int >::type = 0 >
+		void forEach( const Function& function )
+		{
+			for( const auto& it : util::asConst( m_array ) ){
+
+				auto obj = it.toObject() ;
+
+				if( !obj.isEmpty() ){
+
+					auto a = obj.value( "default" ).toString() ;
+					auto b = obj.value( "engineName" ).toString() ;
+					auto c = obj.value( "options" ).toString() ;
+
+					if( function( { a,b,c },std::move( obj ) ) ){
+
+						break ;
+					}
+				}
+			}
+		}
+
+		template< typename Function,
+			  typename std::enable_if<std::is_same<util::types::result_of<Function,const configure::downloadDefaultOptions::opts&,QJsonObject>,bool>::value,int >::type = 0 >
 		void forEach( const Function& function )
 		{
 			for( const auto& it : util::asConst( m_array ) ){
@@ -185,9 +220,11 @@ private:
 	};
 
 	void saveOptions() ;
-	void setEngineOptions( const QString& ) ;
+	enum class engineOptions{ url,options,both } ;
+	void setEngineOptions( const QString&,engineOptions ) ;
 	void savePresetOptions() ;
 	void showOptions() ;
+	void populateOptionsTable( const util::result_ref< const engines::engine& >& ) ;
 
 	const Context& m_ctx ;
 	settings& m_settings ;
@@ -197,9 +234,11 @@ private:
 	engines& m_engines ;
 	tableMiniWidget< QString > m_tablePresetOptions ;
 	tableMiniWidget< QJsonObject > m_tableUrlToDefaultEngine ;
+	tableMiniWidget< QJsonObject > m_tableDefaultDownloadOptions ;
 	QMenu m_menu ;
 	presetOptions m_presetOptions ;
 	downloadDefaultOptions m_downloadDefaultOptions ;
+	downloadDefaultOptions m_downloadEngineDefaultOptions ;
 };
 
 #endif

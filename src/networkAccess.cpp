@@ -187,8 +187,6 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine,data = QByteArray() ]( const NetworkAccessManager::progress& p )mutable{
 
-		data += p.data() ;
-
 		if( p.finished() ){
 
 			if( p.success() ){
@@ -215,6 +213,8 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 				}
 			}
 		}else{
+			data += p.data() ;
+
 			this->post( engine,"...",opts.id ) ;
 		}
 	} ) ;

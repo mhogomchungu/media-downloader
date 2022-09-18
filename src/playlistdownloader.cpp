@@ -32,7 +32,8 @@ public:
 	customOptions( QStringList&& opts,
 		       const QString& downloadArchivePath,
 		       settings& settings,
-		       const engines::engine& engine ) :
+		       const engines::engine& engine,
+		       const Context& ctx ) :
 		m_options( std::move( opts ) )
 	{
 		utility::arguments Opts( m_options ) ;
@@ -45,7 +46,7 @@ public:
 
 		if( m_breakOnExisting || m_skipOnExisting ){
 
-			auto s = settings.engineDefaultDownloadOptions( engine.name() ) ;
+			auto s = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
 			auto ss = util::splitPreserveQuotes( s ) ;
 
 			auto mm = utility::arguments( ss ).hasValue( "--download-archive" ) ;
@@ -820,8 +821,8 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	m_ccmd.download( engine,
 			 std::move( optsUpdater ),
-			 m_ctx.Engines().engineDirPaths(),
 			 m_table.url( index ),
+			 m_ctx,
 			 m_terminator.setUp(),
 			 std::move( oopts ),
 			 std::move( logger ) ) ;
@@ -905,7 +906,8 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 		return customOptions( std::move( opts ),
 				      m_subscription.archivePath(),
 				      m_settings,
-				      engine ) ;
+				      engine,
+				      m_ctx ) ;
 
 	},[ this,&engine,iter = std::move( iter ) ]( customOptions&& c )mutable{
 

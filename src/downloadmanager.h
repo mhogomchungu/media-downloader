@@ -318,8 +318,8 @@ public:
 	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
 	void download( const engines::engine& engine,
 		       const OptionUpdater& optsUpdater,
-		       const engines::enginePaths& ep,
 		       const QString& url,
+		       const Context& cctx,
 		       TermSignal terminator,
 		       Options opts,
 		       Logger logger,
@@ -337,7 +337,7 @@ public:
 
 		utility::args args( m ) ;
 
-		utility::updateOptionsStruct opt{ engine,ep,m_settings,args,iString,fd,{ url },e } ;
+		utility::updateOptionsStruct opt{ engine,m_settings,args,iString,fd,{ url },e,cctx } ;
 
 		auto ctx = utility::make_ctx( engine,
 					      std::move( opts ),

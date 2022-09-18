@@ -63,7 +63,6 @@ public:
 	QString defaultEngine( settings::tabName,const QString& ) ;
 	QString cookieFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
-	QString engineDefaultDownloadOptions( const QString& engineName ) ;
 	QString playlistRangeHistoryLastUsed() ;
 	QString configPaths() ;
 	QString updatedVersionPath() ;
@@ -103,7 +102,6 @@ public:
 	int thumbnailHeight( settings::tabName ) ;
 
 	void clearOptionsHistory( settings::tabName ) ;
-	void setEngineDefaultDownloadOptions( const QString& engineName,const QString& options ) ;
 	void addToplaylistRangeHistory( const QString& ) ;
 	void clearPlaylistRangeHistory() ;
 	void clearPlaylistUrlHistory() ;

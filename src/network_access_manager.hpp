@@ -191,7 +191,7 @@ private:
 			m_networkReply( n )
 		{
 		}
-		void result( bool timeOut )
+		void finished( bool timeOut )
 		{
 			QObject::disconnect( m_networkConn ) ;
 			QObject::disconnect( m_timerConn ) ;
@@ -199,15 +199,15 @@ private:
 			m_reply( NetworkAccessManager::reply( m_networkReply,timeOut,std::move( m_data ) ) ) ;
 			m_progress( NetworkAccessManager::progress( true,timeOut,m_networkReply,0,0,{} ) ) ;
 		}
-		bool firstSeen()
+		bool finishedFirst()
 		{
 			QMutexLocker m( &m_mutex ) ;
 
-			auto s = m_firstSeen ;
+			auto s = m_finishedFirst ;
 
-			if( m_firstSeen ){
+			if( m_finishedFirst ){
 
-				m_firstSeen = false ;
+				m_finishedFirst = false ;
 			}
 
 			return s ;
@@ -218,9 +218,9 @@ private:
 			m_timerConn = std::move( tc ) ;
 			m_timer.start( timeOut ) ;
 		}
-		QNetworkReply * networkReply()
+		void abort()
 		{
-			return &m_networkReply ;
+			m_networkReply.abort() ;
 		}
 		QTimer * timer()
 		{
@@ -252,7 +252,7 @@ private:
 			}
 		}
 		QByteArray m_data ;
-		bool m_firstSeen = true ;
+		bool m_finishedFirst = true ;
 		bool m_stopTimer = true ;
 		QTimer m_timer ;
 		Reply m_reply ;
@@ -272,20 +272,20 @@ private:
 			function( h,r,t ) ;
 		} ) ;
 
-		hdl->start( m_timeOut,QObject::connect( hdl->networkReply(),&QNetworkReply::finished,[ hdl ](){
+		hdl->start( m_timeOut,QObject::connect( s,&QNetworkReply::finished,[ hdl ](){
 
-			if( hdl->firstSeen() ){
+			if( hdl->finishedFirst() ){
 
-				hdl->result( false ) ;
+				hdl->finished( false ) ;
 			}
 
 		} ),QObject::connect( hdl->timer(),&QTimer::timeout,[ hdl ](){
 
-			if( hdl->firstSeen() ){
+			if( hdl->finishedFirst() ){
 
-				hdl->result( true ) ;
+				hdl->finished( true ) ;
 
-				hdl->networkReply()->abort() ;
+				hdl->abort() ;
 			}
 		} ) ) ;
 	}

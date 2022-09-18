@@ -547,7 +547,7 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 {
 	const tableWidget::entry& ent  = s.tableEntry ;
 	const engines::engine& engine  = s.engine ;
-	const engines::enginePaths& ep = s.enginePaths ;
+	const engines::enginePaths& ep = s.ctx.Engines().engineDirPaths() ;
 	settings& settings             = s.stts ;
 	const utility::args& args      = s.args ;
 	const QString& indexAsString   = s.indexAsString ;
@@ -557,7 +557,7 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 	auto opts = [ & ](){
 
-		auto m = settings.engineDefaultDownloadOptions( engine.name() ) ;
+		auto m = s.ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
 
 		if( m.isEmpty() ){
 
