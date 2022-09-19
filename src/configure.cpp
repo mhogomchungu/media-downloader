@@ -28,6 +28,7 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QDesktopServices>
+#include <QClipboard>
 
 configure::configure( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -169,6 +170,25 @@ configure::configure( const Context& ctx ) :
 				const auto& s = m_ctx.Engines().getEngineByName( mm ) ;
 
 				this->populateOptionsTable( s ) ;
+			}
+		} ) ;
+
+		connect( m.addAction( tr( "Copy" ) ),&QAction::triggered,[ this ](){
+
+			auto s = m_tableDefaultDownloadOptions.currentRow() ;
+
+			auto m = QApplication::clipboard() ;
+
+			if( s != -1 && m ){
+
+				auto obj = m_tableDefaultDownloadOptions.stuffAt( s ) ;
+
+				auto str = obj.value( "options" ).toString() ;
+
+				if( !str.isEmpty() ){
+
+					m->setText( str ) ;
+				}
 			}
 		} ) ;
 
@@ -786,6 +806,21 @@ void configure::enableAll()
 		m_ui.labelPathToCookieFile->setEnabled( enable ) ;
 	}
 
+	m_ui.label_6->setEnabled( true ) ;
+	m_ui.label_3->setEnabled( true ) ;
+	m_ui.label_4->setEnabled( true ) ;
+	m_ui.label_5->setEnabled( true ) ;
+	m_ui.pbOpenThemeFolder->setEnabled( true ) ;
+	m_ui.pbOpenBinFolder->setEnabled( true ) ;
+	m_ui.cbConfigureEnginesUrlManager->setEnabled( true ) ;
+	m_ui.tableWidgetConfigureUrl->setEnabled( true ) ;
+	m_ui.labelConfigureEngines_2->setEnabled( true ) ;
+	m_ui.pbConfigureManageUrl->setEnabled( true ) ;
+	m_ui.lineEditConfigureManageUrl->setEnabled( true ) ;
+	m_ui.lineEditConfigureManageOptions->setEnabled( true ) ;
+	m_ui.lineEditAddDefaultDownloadOption->setEnabled( true ) ;
+	m_ui.tableWidgetEnginesDefaultOptions->setEnabled( true ) ;
+	m_ui.pbAddDefaultDownloadOption->setEnabled( true ) ;
 	m_ui.tableWidgetConfigurePresetOptions->setEnabled( true ) ;
 	m_ui.lineEditConfigurePresetOptions->setEnabled( true ) ;
 	m_ui.lineEditConfigureUiName->setEnabled( true ) ;
@@ -832,7 +867,22 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui.label_3->setEnabled( false ) ;
+	m_ui.label_4->setEnabled( false ) ;
+	m_ui.label_5->setEnabled( false ) ;
+	m_ui.label_6->setEnabled( false ) ;
+	m_ui.pbOpenThemeFolder->setEnabled( false ) ;
+	m_ui.labelConfigureEngines_2->setEnabled( false ) ;
+	m_ui.cbConfigureEnginesUrlManager->setEnabled( false ) ;
+	m_ui.lineEditConfigureManageUrl->setEnabled( false ) ;
+	m_ui.tableWidgetConfigureUrl->setEnabled( false ) ;
+	m_ui.pbConfigureManageUrl->setEnabled( false ) ;
+	m_ui.pbOpenBinFolder->setEnabled( false ) ;
+	m_ui.lineEditAddDefaultDownloadOption->setEnabled( false ) ;
+	m_ui.tableWidgetEnginesDefaultOptions->setEnabled( false ) ;
 	m_ui.cbShowTrayIcon->setEnabled( false ) ;
+	m_ui.pbAddDefaultDownloadOption->setEnabled( false ) ;
+	m_ui.lineEditConfigureManageOptions->setEnabled( false ) ;
 	m_ui.tableWidgetConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.lineEditConfigureUiName->setEnabled( false ) ;
