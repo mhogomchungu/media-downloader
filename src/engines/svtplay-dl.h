@@ -47,7 +47,7 @@ public:
 
 	QStringList horizontalHeaderLabels() const override ;
 
-	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
+	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) override ;
 
 	const QProcessEnvironment& processEnvironment() const override ;
 

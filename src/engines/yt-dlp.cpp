@@ -325,7 +325,7 @@ yt_dlp::~yt_dlp()
 {
 }
 
-std::vector< QStringList > yt_dlp::mediaProperties( const QByteArray& e )
+std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( const QByteArray& e )
 {
 	if( m_engine.name() == "youtube-dl" ){
 
@@ -348,7 +348,7 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QByteArray& e )
 	}
 }
 
-std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
+std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( const QJsonArray& array )
 {
 	if( array.isEmpty() ){
 
@@ -360,9 +360,9 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		return engines::engine::functions::mediaProperties( array ) ;
 	}
 
-	std::vector< QStringList > firstToShow ;
-	std::vector< QStringList > secondToShow ;
-	std::vector< QStringList > thirdtToShow ;
+	std::vector< engines::engine::functions::mediaInfo > firstToShow ;
+	std::vector< engines::engine::functions::mediaInfo > secondToShow ;
+	std::vector< engines::engine::functions::mediaInfo > thirdtToShow ;
 
 	utility::locale s ;
 
@@ -394,6 +394,7 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 
 		auto obj       = it.toObject() ;
 
+		auto url       = obj.value( "url" ).toString() ;
 		auto id        = obj.value( "format_id" ).toString() ;
 		auto ext       = obj.value( "ext" ).toString() ;
 		auto rsn       = obj.value( "resolution" ).toString() ;
@@ -411,6 +412,7 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 		auto acodec    = obj.value( "acodec" ).toString() ;
 		auto audio_ext = obj.value( "audio_ext" ).toString() ;
 		auto fmtNotes  = obj.value( "format_note" ).toString() ;
+
 
 		mediaType mt = mediaType::unknown ;
 
@@ -489,15 +491,17 @@ std::vector< QStringList > yt_dlp::mediaProperties( const QJsonArray& array )
 			s.truncate( s.size() - 2 ) ;
 		}
 
+		QStringList arr{ url } ;
+
 		if( ext == "mhtml" ){
 
-			firstToShow.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			firstToShow.emplace_back( arr,id,ext,rsn,s ) ;
 
 		}else if( rsn != "audio only" && !rsn.contains( "video only" ) ){
 
-			thirdtToShow.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			thirdtToShow.emplace_back( arr,id,ext,rsn,s ) ;
 		}else{
-			secondToShow.emplace_back( QStringList{ id,ext,rsn,s } ) ;
+			secondToShow.emplace_back( arr,id,ext,rsn,s ) ;
 		}
 	}
 

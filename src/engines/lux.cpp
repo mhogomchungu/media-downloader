@@ -35,7 +35,7 @@ engines::engine::functions::DataFilter lux::Filter( int id,const QString& e )
 	return { util::types::type_identity< lux::lux_dlFilter >(),e,m_engine,id } ;
 }
 
-std::vector<QStringList> lux::mediaProperties( const QByteArray& e )
+std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const QByteArray& e )
 {
 	QJsonParseError err ;
 
@@ -49,9 +49,9 @@ std::vector<QStringList> lux::mediaProperties( const QByteArray& e )
 	}
 }
 
-std::vector<QStringList> lux::mediaProperties( const QJsonArray& arr )
+std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const QJsonArray& arr )
 {
-	std::vector<QStringList> ent ;
+	std::vector<engines::engine::functions::mediaInfo> ent ;
 
 	utility::locale locale ;
 
@@ -79,7 +79,16 @@ std::vector<QStringList> lux::mediaProperties( const QJsonArray& arr )
 			auto notes = "Size: " + size + "\n" + m.join( " " ) ;
 			auto extension = obj.value( "ext" ).toString() ;
 
-			ent.emplace_back( QStringList{ id,extension,resolution,notes } ) ;
+			QStringList urls ;
+
+			const auto parts = obj.value( "parts" ).toArray() ;
+
+			for( const auto& it : parts ){
+
+				urls.append( it.toObject().value( "url" ).toString() ) ;
+			}
+
+			ent.emplace_back( urls,id,extension,resolution,notes ) ;
 		}
 	}
 

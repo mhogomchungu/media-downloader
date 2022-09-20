@@ -45,9 +45,9 @@ public:
 
 	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 
-	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
+	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) override ;
 
-	std::vector< QStringList > mediaProperties( const QJsonArray& ) override ;
+	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& ) override ;
 
 	bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) override ;
 

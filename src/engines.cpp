@@ -993,7 +993,7 @@ const QProcessEnvironment& engines::engine::functions::processEnvironment() cons
 	return m_processEnvironment ;
 }
 
-std::vector< QStringList > engines::engine::functions::mediaProperties( const QByteArray& e )
+std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( const QByteArray& e )
 {
 	auto args = util::split( e,'\n' ) ;
 
@@ -1016,7 +1016,7 @@ std::vector< QStringList > engines::engine::functions::mediaProperties( const QB
 		return false ;
 	} ) ;
 
-	std::vector< QStringList > s ;
+	std::vector< engines::engine::functions::mediaInfo > s ;
 
 	for( const auto& it : m ){
 
@@ -1029,14 +1029,14 @@ std::vector< QStringList > engines::engine::functions::mediaProperties( const QB
 			auto resolution = a.takeAt( 0 ) ;
 			auto notes      = a.join( " " ) ;
 
-			s.emplace_back( QStringList{ format,extension,resolution,notes } ) ;
+			s.emplace_back( format,extension,resolution,notes ) ;
 		}
 	}
 
 	return s ;
 }
 
-std::vector< QStringList > engines::engine::functions::mediaProperties( const QJsonArray& )
+std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( const QJsonArray& )
 {
 	return {} ;
 }

@@ -24,6 +24,7 @@
 #include <QStandardPaths>
 #include <QPlainTextEdit>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QDir>
 #include <QProcess>
@@ -348,9 +349,54 @@ public:
 
 			virtual const QProcessEnvironment& processEnvironment() const ;
 
-			virtual std::vector< QStringList > mediaProperties( const QByteArray& ) ;
+			class mediaInfo
+			{
+			public:
+				mediaInfo()
+				{
+				}
+				mediaInfo( const QStringList& u,const QString& i,const QString& e,const QString& r,const QString& n ) :
+					m_url( u ),m_id( i ),m_extension( e ),m_resolution( r ),m_info( n )
+				{
+				}
+				mediaInfo( const QString& i,const QString& e,const QString& r,const QString& n ) :
+					m_id( i ),m_extension( e ),m_resolution( r ),m_info( n )
+				{
+				}
+				QStringList toStringList() const
+				{
+					return { m_id,m_extension,m_resolution,m_info } ;
+				}
+				QJsonObject toqJsonObject() const
+				{
+					QJsonObject obj ;
 
-			virtual std::vector< QStringList > mediaProperties( const QJsonArray& ) ;
+					QJsonArray arr ;
+
+					for( const auto& it : m_url ){
+
+						arr.append( it ) ;
+					}
+
+					obj.insert( "urls",arr ) ;
+					obj.insert( "id",m_id ) ;
+					obj.insert( "extension",m_extension ) ;
+					obj.insert( "resolution",m_resolution ) ;
+					obj.insert( "info",m_info ) ;
+
+					return obj ;
+				}
+			private:
+				QStringList m_url ;
+				QString m_id ;
+				QString m_extension ;
+				QString m_resolution ;
+				QString m_info ;
+			} ;
+
+			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) ;
+
+			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& ) ;
 
 			virtual void updateOutPutChannel( QProcess::ProcessChannel& ) const ;
 
@@ -574,7 +620,7 @@ public:
 		{
 			m_functions->sendCredentials( credentials,exe ) ;
 		}
-		std::vector< QStringList > mediaProperties( const QByteArray& e ) const
+		std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& e ) const
 		{
 			return m_functions->mediaProperties( e ) ;
 		}
@@ -602,7 +648,7 @@ public:
 		{
 			m_functions->updateOutPutChannel( s ) ;
 		}
-		std::vector< QStringList > mediaProperties( const QJsonArray& e ) const
+		std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& e ) const
 		{
 			return m_functions->mediaProperties( e ) ;
 		}

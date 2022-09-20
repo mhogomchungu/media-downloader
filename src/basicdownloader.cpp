@@ -242,7 +242,7 @@ void basicdownloader::listRequested( const QByteArray& a,int id )
 
 		for( const auto& m : engine.mediaProperties( a ) ){
 
-			m_tableList.add( m ) ;
+			m_tableList.add( m.toStringList(),m ) ;
 		}
 
 		m_tableList.setEnabled( true ) ;

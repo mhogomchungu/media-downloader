@@ -50,7 +50,7 @@ public:
 
 	void renameArchiveFolder( const QString& ) override ;
 
-	std::vector< QStringList > mediaProperties( const QByteArray& ) override ;
+	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) override ;
 
 	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 

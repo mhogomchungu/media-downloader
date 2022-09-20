@@ -43,7 +43,7 @@ QStringList svtplay_dl::horizontalHeaderLabels() const
 	return m ;
 }
 
-std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
+std::vector<engines::engine::functions::mediaInfo> svtplay_dl::mediaProperties( const QByteArray& e )
 {
 	auto mm = util::split( e,'\n',true ) ;
 
@@ -54,7 +54,7 @@ std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 
 	mm.removeAt( 0 ) ;
 
-	std::vector< QStringList > s ;
+	std::vector< engines::engine::functions::mediaInfo > s ;
 
 	for( const auto& it : mm ){
 
@@ -71,7 +71,7 @@ std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 			auto resolution = a.takeAt( 0 ) ;
 			auto notes      = method + "\n" + a.join( ", " ) ;
 
-			s.emplace_back( QStringList{ format,codec,resolution,notes } ) ;
+			s.emplace_back( format,codec,resolution,notes ) ;
 
 		}else if( n == 3 ){
 
@@ -82,7 +82,7 @@ std::vector<QStringList> svtplay_dl::mediaProperties( const QByteArray& e )
 			auto resolution = "N/A" ;
 			auto notes = method ;
 
-			s.emplace_back( QStringList{ format,codec,resolution,notes } ) ;
+			s.emplace_back( format,codec,resolution,notes ) ;
 		}
 	}
 

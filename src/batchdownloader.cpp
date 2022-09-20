@@ -69,7 +69,51 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_tableWidgetBDList.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
 
-		if( m_listType == batchdownloader::listType::SUBTITLES ){
+		if( m_listType == batchdownloader::listType::MEDIA_OPTIONS ){
+
+			auto row = m_tableWidgetBDList.currentRow() ;
+
+			if( row != -1 ){
+
+				const auto arr = m_tableWidgetBDList.stuffAt( row ).value( "urls" ).toArray() ;
+
+				QMenu m ;
+
+				auto clipBoard = QApplication::clipboard() ;
+
+				if( arr.size() == 0 || !clipBoard ){
+
+					m.addAction( tr( "Copy Url" ) )->setEnabled( false ) ;
+				}else{
+					if( arr.size() == 1 ){
+
+						auto url = arr[ 0 ].toString() ;
+
+						connect( m.addAction( tr( "Copy Url" ) ),&QAction::triggered,[ clipBoard,url ](){
+
+							clipBoard->setText( url ) ;
+						} ) ;
+					}else{
+						for( int i = 0 ; i < arr.size() ; i++ ){
+
+							auto e = QString::number( i + 1 ) ;
+
+							auto s = tr( "Copy Url %1" ).arg( e ) ;
+
+							auto url = arr[ i ].toString() ;
+
+							connect( m.addAction( s ),&QAction::triggered,[ clipBoard,url ](){
+
+								clipBoard->setText( url ) ;
+							} ) ;
+						}
+					}
+				}
+
+				m.exec( QCursor::pos() ) ;
+			}
+
+		}else if( m_listType == batchdownloader::listType::SUBTITLES ){
 
 			this->saveSubtitles() ;
 		}
@@ -1465,7 +1509,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 					for( const auto& m : ss ){
 
-						m_tableWidgetBDList.add( m ) ;
+						m_tableWidgetBDList.add( m.toStringList(),m.toqJsonObject() ) ;
 					}
 
 					return ;
@@ -1511,7 +1555,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 				}else{
 					for( const auto& m : engine.mediaProperties( a ) ){
 
-						m_tableWidgetBDList.add( m ) ;
+						m_tableWidgetBDList.add( m.toStringList(),m.toqJsonObject() ) ;
 					}
 				}
 			}

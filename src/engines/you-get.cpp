@@ -64,13 +64,13 @@ void you_get::renameArchiveFolder( const QString& e )
 	}
 }
 
-std::vector<QStringList> you_get::mediaProperties( const QByteArray& e )
+std::vector<engines::engine::functions::mediaInfo> you_get::mediaProperties( const QByteArray& e )
 {
 	QJsonParseError err ;
 
 	auto json = QJsonDocument::fromJson( e,&err ) ;
 
-	std::vector<QStringList> s ;
+	std::vector<engines::engine::functions::mediaInfo> s ;
 
 	if( err.error == QJsonParseError::NoError ){
 
@@ -80,20 +80,39 @@ std::vector<QStringList> you_get::mediaProperties( const QByteArray& e )
 
 		for( auto it = obj.begin() ; it != obj.end() ; it++ ){
 
-			QStringList m ;
+			QStringList l ;
 
 			auto oo = it.value().toObject() ;
 
-			m.append( oo.value( "itag" ).toString() ) ;
-			m.append( oo.value( "container" ).toString() ) ;
-			m.append( oo.value( "quality" ).toString().replace( " ","\n" ) ) ;
+			auto url = oo.value( "url" ) ;
+
+			if( url.isUndefined() ){
+
+				const auto arr = oo.value( "src" ).toArray() ;
+
+				for( const auto& it : arr ){
+
+					const auto xrr = it.toArray() ;
+
+					for( const auto& xt : xrr ){
+
+						l.append( xt.toString() ) ;
+					}
+				}
+			}else{
+				l.append( url.toString() ) ;
+			}
+
+			auto a  = oo.value( "itag" ).toString() ;
+			auto b  = oo.value( "container" ).toString() ;
+			auto c  = oo.value( "quality" ).toString().replace( " ","\n" ) ;
 
 			auto mm = "size: " + locale.formattedDataSize( oo.value( "size" ).toInt() ) ;
 			mm += "\ntype: " + oo.value( "type" ).toString() ;
 
-			m.append( mm ) ;
+			auto d = mm ;
 
-			s.emplace_back( std::move( m ) ) ;
+			s.emplace_back( l,a,b,c,d ) ;
 		}
 	}
 
