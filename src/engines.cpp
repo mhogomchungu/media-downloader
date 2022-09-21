@@ -298,11 +298,11 @@ void engines::updateEngines( bool addAll,int id )
 
 			it.setBackend< yt_dlp >( engines,m_logger,m_enginePaths,it.versionInfo() ) ;
 
-		}else if( name == "safaribooks" ){
+		}else if( name.contains( "safaribooks" ) ){
 
 			it.setBackend< safaribooks >( engines ) ;
 
-		}else if( name == "gallery-dl" ){
+		}else if( name.contains( "gallery-dl" ) ){
 
 			it.setBackend< gallery_dl >( engines ) ;
 
@@ -314,15 +314,15 @@ void engines::updateEngines( bool addAll,int id )
 
 			it.setBackend< lux >( engines ) ;
 
-		}else if( name == "you-get" ){
+		}else if( name.contains( "you-get" ) ){
 
 			it.setBackend< you_get >( engines ) ;
 
-		}else if( name == "svtplay-dl" ){
+		}else if( name.contains( "svtplay-dl" ) ){
 
 			it.setBackend< svtplay_dl >( engines ) ;
 
-		}else if( name == "wget" ){
+		}else if( name.contains( "wget" ) ){
 
 			it.setBackend< wget >( engines ) ;
 

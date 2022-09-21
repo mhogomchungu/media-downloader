@@ -352,9 +352,6 @@ public:
 			class mediaInfo
 			{
 			public:
-				mediaInfo()
-				{
-				}
 				mediaInfo( const QStringList& u,const QString& i,const QString& e,const QString& r,const QString& n ) :
 					m_url( u ),m_id( i ),m_extension( e ),m_resolution( r ),m_info( n )
 				{

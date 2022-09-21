@@ -18,6 +18,29 @@
  */
 #include "tests.h"
 
+static const char * wget = R"R(--2022-09-21 10:34:28--  https://github.com/mhogomchungu/media-downloader/releases/download/2.5.0/media-downloader-2.5.0.tar.xz
+Resolving github.com (github.com)... 140.82.121.4
+Connecting to github.com (github.com)|140.82.121.4|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/330576649/19e6e6dd-ee42-468a-9e82-563508da25d3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20220921%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220921T073454Z&X-Amz-Expires=300&X-Amz-Signature=3162ad8407a245e51b833e94cc7f106c94bc14483c9ecbe1045e06aaebac72c9&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=330576649&response-content-disposition=attachment%3B%20filename%3Dmedia-downloader-2.5.0.tar.xz&response-content-type=application%2Foctet-stream [following]
+--2022-09-21 10:34:29--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/330576649/19e6e6dd-ee42-468a-9e82-563508da25d3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20220921%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220921T073454Z&X-Amz-Expires=300&X-Amz-Signature=3162ad8407a245e51b833e94cc7f106c94bc14483c9ecbe1045e06aaebac72c9&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=330576649&response-content-disposition=attachment%3B%20filename%3Dmedia-downloader-2.5.0.tar.xz&response-content-type=application%2Foctet-stream
+Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.108.133, ...
+Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.110.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 812176 (793K) [application/octet-stream]
+Saving to: ‘media-downloader-2.5.0.tar.xz’
+
+
+	  media-dow   0%[                    ]       0  --.-KB/s
+	 media-down  15%[==>                 ] 119.39K   555KB/s
+	media-downl  32%[=====>              ] 256.13K   604KB/s
+       media-downlo  44%[=======>            ] 352.13K   528KB/s
+      media-downloa  66%[============>       ] 528.13K   596KB/s
+     media-download  84%[===============>    ] 672.13K   604KB/s
+media-downloader-2. 100%[===================>] 793.14K   628KB/s    in 1.3s
+
+2022-09-21 10:34:31 (628 KB/s) - ‘media-downloader-2.5.0.tar.xz’ saved [812176/812176])R" ;
+
 static const char * safaribooks = R"R($ python3 safaribooks.py --cred "my_email@gmail.com:MyPassword1!" 9781491958698
 
        ____     ___         _
@@ -157,6 +180,10 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 					}else if( it.startsWith( "--media-downloader-test-engine-yt-dlp" ) ){
 
 						return this->testEngine( yt_dlp ) ;
+
+					}else if( it.startsWith ( "--media-downloader-test-engine-wget" ) ){
+
+						return this->testEngine( wget ) ;
 					}
 				}
 

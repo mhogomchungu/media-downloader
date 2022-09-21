@@ -27,5 +27,26 @@ public:
 	~wget() override ;
 	wget( const engines& e,const engines::engine& s,QJsonObject& ) ;
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
+
+	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
+
+	QString updateTextOnCompleteDownlod( const QString& uiText,
+					     const QString& bkText,
+					     const QString& downloadingOptions,
+					     const engines::engine::functions::finishedState& ) override ;
+
+	class wgetFilter : public engines::engine::functions::filter
+	{
+	public:
+		wgetFilter( const QString&,const engines::engine&,int ) ;
+
+		const QByteArray& operator()( const Logger::Data& e ) override ;
+
+		~wgetFilter() override ;
+	private:
+		QByteArray m_title ;
+		QByteArray m_tmp ;
+		engines::engine::functions::preProcessing m_preProcessing ;
+	} ;
 private:
 };

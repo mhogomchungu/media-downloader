@@ -567,7 +567,7 @@ void batchdownloader::gotEvent( const QByteArray& m )
 
 	if( err.error == QJsonParseError::NoError ){
 
-		QJsonObject jsonArgs = jsonDoc.object() ;
+		auto jsonArgs = jsonDoc.object() ;
 
 		auto url = jsonArgs.value( "-u" ).toString() ;
 
