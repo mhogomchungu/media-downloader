@@ -46,7 +46,7 @@ class settings
 public:	
 	enum class tabName{ basic,batch,playlist } ;
 
-	settings() ;
+	settings( int,char ** ) ;
 
 	QSettings& bk() ;
 

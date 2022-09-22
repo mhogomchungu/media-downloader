@@ -472,7 +472,7 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
 
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
 		m_ui.cbUseSystemVersionIfAvailable->setEnabled( !m_settings.portableVersion() ) ;
 	}else{
@@ -857,7 +857,7 @@ void configure::enableAll()
 		m_ui.lineEditConfigureScaleFactor->setEnabled( true ) ;
 	}
 
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
 		m_ui.cbUseSystemVersionIfAvailable->setEnabled( !m_settings.portableVersion() ) ;
 	}else{

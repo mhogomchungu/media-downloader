@@ -47,7 +47,7 @@ void about::retranslateUi()
 
 	auto QtVersion = [ & ](){
 
-		if( utility::platformIsWindows() ){
+		if( utility::platformIsLikeWindows() ){
 
 			return QObject::tr( "Qt Version" ) + ": " QTVERSION "\n\n" ;
 		}else{

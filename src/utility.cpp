@@ -1166,7 +1166,7 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 
 	auto exePath = [ & ](){
 
-		if(utility::platformIsWindows() ){
+		if(utility::platformIsLikeWindows() ){
 
 			return m + "/bin/media-downloader.exe" ;
 		}else{
@@ -1204,4 +1204,9 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 	}else{
 		return false ;
 	}
+}
+
+bool utility::platformIsLikeWindows()
+{
+	return utility::platformIsWindows() || utility::platformisOS2() ;
 }

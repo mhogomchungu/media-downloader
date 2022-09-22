@@ -52,7 +52,7 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	auto separator = [ & ](){
 
-		if( utility::platformIsWindows() || utility::platformisOS2() ){
+		if( utility::platformIsLikeWindows() ){
 
 			return ";" ;
 		}else{
@@ -62,7 +62,7 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	auto s = basePath ;
 
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
 		auto mm = QDir::currentPath() ;
 
@@ -410,7 +410,7 @@ settings& engines::Settings() const
 
 bool engines::filePathIsValid( const QFileInfo& info )
 {
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
 		return info.exists() && info.isFile() ;
 	}else{
@@ -596,7 +596,7 @@ engines::engine::engine( const Context& ctx ) :
 	//m_downloadUrl( "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" )
 	m_downloadUrl( "https://api.github.com/repos/mhogomchungu/cryfs-gui/releases/latest" )
 {
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
 		m_commandName = "media-downloader.exe" ;
 	}else{
@@ -634,7 +634,7 @@ engines::engine::engine( const engines& engines,
 	m_mainEngine( false ),
 	m_versionArgument( versionArgument ),
 	m_name( name ),
-	m_commandName( utility::platformIsWindows() ? name + ".exe" : name )
+	m_commandName( utility::platformIsLikeWindows() ? name + ".exe" : name )
 {
 	auto m = engines.findExecutable( m_commandName ) ;
 

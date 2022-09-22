@@ -244,7 +244,7 @@ void lux::runCommandOnDownloadedFile( const QString&,const QString& )
 
 bool lux::foundNetworkUrl( const QString& s )
 {
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
 		if( utility::platformIs32Bit() ){
 

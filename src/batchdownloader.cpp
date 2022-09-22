@@ -877,7 +877,7 @@ void batchdownloader::showComments( const QByteArray& e )
 
 void batchdownloader::normalizeFilePath( QString& e )
 {
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
 		e.replace( '<','_' ) ;
 		e.replace( '>','_' ) ;

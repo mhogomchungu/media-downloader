@@ -63,7 +63,7 @@ int main( int argc,char * argv[] )
 		return 0 ;
 	}
 
-	settings settings ;
+	settings settings( argc,argv ) ;
 
 	//if( utility::startedUpdatedVersion( settings,argc,argv ) ){
 

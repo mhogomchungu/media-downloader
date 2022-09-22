@@ -27,6 +27,14 @@
 #include <QDir>
 #include <QFile>
 
+struct argvs
+{
+	int argc ;
+	char ** argv ;
+} ;
+
+static argvs _argvs ;
+
 static QString _configPath()
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -45,21 +53,52 @@ static QString _configPath()
 
 bool settings::portableVersion()
 {
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
-		/*
-		 * QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
-		 *
-		 * Above does not work because "QCoreApplication::applicationDirPath()" requires
-		 * QApplication to already exist.
-		 */
+		auto appPath = [](){
 
-		QDir::setCurrent( utility::windowsApplicationDirPath() ) ;
+			if( utility::platformIsWindows() ){
 
-		auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
-		auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
+				/*
+				 * QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
+				 *
+				 * Above does not work because "QCoreApplication::applicationDirPath()" requires
+				 * QApplication to already exist.
+				 */
 
-		return a && b ;
+				return utility::windowsApplicationDirPath() ;
+			}else{
+				if( _argvs.argc ){
+
+					auto e = QDir( _argvs.argv[ 0 ] ).absolutePath() ;
+
+					auto m = QDir::fromNativeSeparators( e ) ;
+
+					auto s = m.lastIndexOf( '/' ) ;
+
+					if( s != -1 ){
+
+						m.truncate( s ) ;
+					}
+
+					return m ;
+				}else{
+					return QString() ;
+				}
+			}
+		}() ;
+
+		if( appPath.isEmpty() ){
+
+			return false ;
+		}else{
+			QDir::setCurrent( appPath ) ;
+
+			auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
+			auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
+
+			return a && b ;
+		}
 	}else{
 		return false ;
 	}
@@ -306,7 +345,7 @@ static std::unique_ptr< QSettings > _init()
 	}
 }
 
-settings::settings() :
+settings::settings( int argc,char ** argv ) :
 	m_settingsP( _init() ),
 	m_settings( *m_settingsP ),
 	m_portableVersion( settings::portableVersion() )
@@ -324,6 +363,9 @@ settings::settings() :
 
 		qputenv( "QT_SCALE_FACTOR",m ) ;
 	}
+
+	_argvs.argc = argc ;
+	_argvs.argv = argv ;
 }
 
 QSettings& settings::bk()
