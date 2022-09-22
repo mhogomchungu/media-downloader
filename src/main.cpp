@@ -21,7 +21,7 @@
 #include "settings.h"
 #include "translator.h"
 #include "utility"
-#include "util.hpp"
+#include "utils/single_instance.hpp"
 #include "engines/tests.h"
 
 class myApp
@@ -47,7 +47,7 @@ public:
 	{
 		m_app.quitApp() ;
 	}
-	void event( const QByteArray& e )
+	void hasEvent( const QByteArray& e )
 	{
 		m_app.processEvent( e ) ;
 	}
@@ -97,27 +97,12 @@ int main( int argc,char * argv[] )
 
 	auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
 
-	myApp::args mArgs{ mqApp,settings,args } ;
+	utils::appInfo< myApp,myApp::args > m( { mqApp,settings,args },spath,mqApp,json ) ;
 
 	if( opts.hasOption( "-s" ) || !settings.singleInstance() ){
 
-		return util::multipleInstance< myApp,myApp::args >( mqApp,std::move( mArgs ),json ).exec() ;
+		return utils::runMultiInstances( std::move( m ) ) ;
 	}else{
-		auto instanceArgs = util::make_oneinstance_args( [ & ](){
-
-			std::cout << "There seem to be another instance running,exiting this one" << std::endl ;
-			mqApp.exit() ;
-		},[](){
-			std::cout << "Previous instance seem to have crashed,trying to clean up before starting" << std::endl ;
-		} ) ;
-
-		using type = decltype( instanceArgs ) ;
-
-		util::oneinstance< myApp,myApp::args,type > instance( spath,
-								      json,
-								      std::move( mArgs ),
-								      std::move( instanceArgs ) ) ;
-
-		return mqApp.exec() ;
+		return utils::runOneInstance( std::move( m ) ) ;
 	}
 }

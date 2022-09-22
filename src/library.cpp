@@ -55,7 +55,7 @@ library::library( const Context& ctx ) :
 
 				this->internalDisableAll() ;
 
-				util::runInBgThread( [ m ](){
+				utils::runInBgThread( [ m ](){
 
 					if( QFileInfo( m ).isFile() ){
 
@@ -77,7 +77,7 @@ library::library( const Context& ctx ) :
 
 			this->internalDisableAll() ;
 
-			util::runInBgThread( [ this ](){
+			utils::runInBgThread( [ this ](){
 
 				for( const auto& it : QDir( m_currentPath ).entryList( m_dirFilter ) ){
 
@@ -298,7 +298,7 @@ void library::showContents( const QString& path,bool disableUi )
 		this->internalDisableAll() ;
 	}
 
-	util::runInBgThread( [ path,this ](){
+	utils::runInBgThread( [ path,this ](){
 
 		return QDir( path ).entryList( m_dirFilter ) ;
 

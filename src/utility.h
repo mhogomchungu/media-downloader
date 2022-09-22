@@ -631,7 +631,7 @@ namespace utility
 	template< typename WhenDone,typename WithData >
 	void run( const QString& cmd,const QStringList& args,WhenDone w,WithData p )
 	{
-		util::run( cmd,args,[]( QProcess& ){},std::move( w ),std::move( p ) ) ;
+		utils::run( cmd,args,[]( QProcess& ){},std::move( w ),std::move( p ) ) ;
 	}
 
 	template< typename Function,typename FunctionConnect >
@@ -773,7 +773,7 @@ namespace utility
 
 			engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-			util::run( cmd.exe(),cmd.args(),[ &engine,then = std::move( then ) ]( const util::run_result& r ){
+			utils::run( cmd.exe(),cmd.args(),[ &engine,then = std::move( then ) ]( const utils::run_result& r ){
 
 				if( r.success() ){
 
@@ -1049,7 +1049,7 @@ namespace utility
 
 		if( cmd.valid() ){
 
-			util::run( cmd.exe(),cmd.args(),[ &cmd,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
+			utils::run( cmd.exe(),cmd.args(),[ &cmd,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
 
 				ctx.whenCreated( exe,cmd ) ;
 

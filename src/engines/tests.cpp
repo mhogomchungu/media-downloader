@@ -1,5 +1,6 @@
 /*
  *
+ *
  *  Copyright (c) 2022
  *  name : Francis Banyikwa
  *  email: mhogomchungu@gmail.com
@@ -17,6 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "tests.h"
+#include "../utils/single_instance.hpp"
 
 static const char * wget = R"R(--2022-09-21 10:34:28--  https://github.com/mhogomchungu/media-downloader/releases/download/2.5.0/media-downloader-2.5.0.tar.xz
 Resolving github.com (github.com)... 140.82.121.4
@@ -219,8 +221,7 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 			int m_counter = 0 ;
 		};
 
-		myApp::args mapp{ args,app } ;
-		util::multipleInstance< myApp,myApp::args >( app,std::move( mapp ),QByteArray() ).exec() ;
+		utils::runMultiInstances( utils::appInfo< myApp,myApp::args >( { args,app },"",app,"" ) ) ;
 
 		return true ;
 	}else{

@@ -36,6 +36,7 @@
 
 #include "logger.h"
 #include "util.hpp"
+#include "utils/threads.hpp"
 
 class tableWidget ;
 class settings ;
@@ -68,7 +69,7 @@ public:
 				QByteArray data ;
 			};
 
-			util::runInBgThread( [ filePath ]()->result{
+			utils::runInBgThread( [ filePath ]()->result{
 
 				QFile f( filePath ) ;
 
@@ -511,7 +512,7 @@ public:
 
 					engines::engine::exeArgs::cmd cmd( exe,args ) ;
 
-					util::run( cmd.exe(),cmd.args(),[ &engine,function = std::move( function ) ]( const util::run_result& e ){
+					utils::run( cmd.exe(),cmd.args(),[ &engine,function = std::move( function ) ]( const utils::run_result& e ){
 
 						if( e.success() ){
 

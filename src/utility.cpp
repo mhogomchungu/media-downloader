@@ -1018,7 +1018,7 @@ void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter
 		m_ctx->logger().add( exe,id ) ;
 	}
 
-	util::run( cmd.exe(),cmd.args(),[ iter,this,id ]( const util::run_result& r ){
+	utils::run( cmd.exe(),cmd.args(),[ iter,this,id ]( const utils::run_result& r ){
 
 		const auto& engine = iter.engine() ;
 

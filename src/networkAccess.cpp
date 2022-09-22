@@ -317,7 +317,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 			auto args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
 
-			util::run( exe,args,[ this,str = std::move( str ) ]( const util::run_result& s ){
+			utils::run( exe,args,[ this,str = std::move( str ) ]( const utils::run_result& s ){
 
 				const auto& engine = str.iter.engine() ;
 
