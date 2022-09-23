@@ -71,7 +71,7 @@ private:
 		      int xd ) :
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
-			archiveExtractionPath( efp ),
+			tempPath( efp ),
 			defaultEngine( sde ),
 			id( xd )
 		{
@@ -80,7 +80,7 @@ private:
 		{
 			metadata = std::move( m ) ;
 
-			filePath = archiveExtractionPath + "/" + metadata.fileName ;
+			filePath = tempPath + "/" + metadata.fileName ;
 
 			isArchive = filePath.endsWith( ".zip" ) || filePath.contains( ".tar." ) ;
 
@@ -93,7 +93,7 @@ private:
 		QString exeBinPath ;
 		networkAccess::metadata metadata ;
 		QString filePath ;
-		QString archiveExtractionPath ;
+		QString tempPath ;
 		QString defaultEngine ;
 		QString networkError ;
 		bool isArchive ;

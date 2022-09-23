@@ -224,7 +224,7 @@ void networkAccess::download( networkAccess::Opts opts )
 {
 	const auto& engine = opts.iter.engine() ;
 
-	engine.updateEnginePaths( m_ctx,opts.filePath,opts.exeBinPath,opts.archiveExtractionPath ) ;
+	engine.updateEnginePaths( m_ctx,opts.filePath,opts.exeBinPath,opts.tempPath ) ;
 
 	m_file.setFileName( opts.filePath ) ;
 
@@ -324,7 +324,7 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 	if( engine.archiveContainsFolder() ){
 
-		auto m = str.archiveExtractionPath + "/" + engine.name() ;
+		auto m = str.tempPath + "/" + engine.name() ;
 		//this->post( str.engine,QObject::tr( "Removing Folder: " ) + m,str.id ) ;
 
 		QDir( m ).removeRecursively() ;
@@ -334,7 +334,7 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 	auto exe = m_ctx.Engines().findExecutable( utility::platformIsWindows() ? "bsdtar.exe" : "tar" ) ;
 
-	auto args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
+	auto args = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
 
 	utils::qprocess::run( exe,args,[ this,str = std::move( str ) ]( const utils::qprocess::outPut& s ){
 
@@ -346,9 +346,9 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 			if( engine.archiveContainsFolder() ){
 
-				engine.renameArchiveFolder( str.archiveExtractionPath ) ;
+				engine.renameArchiveFolder( str.tempPath ) ;
 
-				auto exe = engine.updateCmdPath( str.archiveExtractionPath ) ;
+				auto exe = engine.updateCmdPath( str.tempPath ) ;
 
 				QFile f( exe ) ;
 
