@@ -901,7 +901,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	m_networkRunning = 0 ;
 
-	utils::runInBgThread( [ &engine,this,opts = std::move( opts ) ]()mutable{
+	utils::qthread::run( [ &engine,this,opts = std::move( opts ) ]()mutable{
 
 		return customOptions( std::move( opts ),
 				      m_subscription.archivePath(),

@@ -97,12 +97,12 @@ int main( int argc,char * argv[] )
 
 	auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
 
-	utils::appInfo< myApp,myApp::args > m( { mqApp,settings,args },spath,mqApp,json ) ;
+	utils::app::appInfo< myApp,myApp::args > m( { mqApp,settings,args },spath,mqApp,json ) ;
 
 	if( opts.hasOption( "-s" ) || !settings.singleInstance() ){
 
-		return utils::runMultiInstances( std::move( m ) ) ;
+		return utils::app::runMultiInstances( std::move( m ) ) ;
 	}else{
-		return utils::runOneInstance( std::move( m ) ) ;
+		return utils::app::runOneInstance( std::move( m ) ) ;
 	}
 }

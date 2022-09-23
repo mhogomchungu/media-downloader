@@ -69,7 +69,7 @@ public:
 				QByteArray data ;
 			};
 
-			utils::runInBgThread( [ filePath ]()->result{
+			utils::qthread::run( [ filePath ]()->result{
 
 				QFile f( filePath ) ;
 
@@ -512,7 +512,7 @@ public:
 
 					engines::engine::exeArgs::cmd cmd( exe,args ) ;
 
-					utils::run( cmd.exe(),cmd.args(),[ &engine,function = std::move( function ) ]( const utils::run_result& e ){
+					utils::qprocess::run( cmd.exe(),cmd.args(),[ &engine,function = std::move( function ) ]( const utils::qprocess::outPut& e ){
 
 						if( e.success() ){
 

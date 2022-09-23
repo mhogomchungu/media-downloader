@@ -221,7 +221,7 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 			int m_counter = 0 ;
 		};
 
-		utils::runMultiInstances( utils::appInfo< myApp,myApp::args >( { args,app },"",app,"" ) ) ;
+		utils::app::runMultiInstances( utils::app::appInfo< myApp,myApp::args >( { args,app },"",app,"" ) ) ;
 
 		return true ;
 	}else{

@@ -49,7 +49,7 @@ if(Qt5Core_VERSION VERSION_LESS 5.4.0)
         src/configure.h
         src/library.h
         src/playlistdownloader.h
-        src/util.hpp)
+        src/utils/single_instance.hpp)
 else()
     set(MOC_FILES
         src/mainwindow.h

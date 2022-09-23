@@ -185,7 +185,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	networkAccess::Opts opts{ {},iter,exePath,exeFolderPath,setDefaultEngine,id } ;
 
-	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine,data = QByteArray() ]( const NetworkAccessManager::progress& p )mutable{
+	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine,data = QByteArray() ]( const utils::NetworkAccessManager::progress& p )mutable{
 
 		if( p.finished() ){
 
@@ -238,7 +238,7 @@ void networkAccess::download( networkAccess::Opts opts )
 
 	auto url = this->networkRequest( opts.metadata.url ) ;
 
-	m_network.get( url,[ this,opts = std::move( opts ),&engine,locale = utility::locale() ]( const NetworkAccessManager::progress& p )mutable{
+	m_network.get( url,[ this,opts = std::move( opts ),&engine,locale = utility::locale() ]( const utils::NetworkAccessManager::progress& p )mutable{
 
 		if( p.finished() ){
 
@@ -317,7 +317,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 			auto args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
 
-			utils::run( exe,args,[ this,str = std::move( str ) ]( const utils::run_result& s ){
+			utils::qprocess::run( exe,args,[ this,str = std::move( str ) ]( const utils::qprocess::outPut& s ){
 
 				const auto& engine = str.iter.engine() ;
 
