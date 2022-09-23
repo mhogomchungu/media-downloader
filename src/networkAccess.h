@@ -64,19 +64,22 @@ private:
 
 	struct Opts
 	{
-		Opts( networkAccess::metadata m,
-		      engines::Iterator itr,
+		Opts( engines::Iterator itr,
 		      const QString& exePath,
 		      const QString& efp,
 		      const QString& sde,
 		      int xd ) :
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
-			metadata( std::move( m ) ),
 			archiveExtractionPath( efp ),
 			defaultEngine( sde ),
 			id( xd )
 		{
+		}
+		void add( networkAccess::metadata&& m )
+		{
+			metadata = std::move( m ) ;
+
 			filePath = archiveExtractionPath + "/" + metadata.fileName ;
 
 			isArchive = filePath.endsWith( ".zip" ) || filePath.contains( ".tar." ) ;
@@ -96,6 +99,8 @@ private:
 		bool isArchive ;
 		int id ;
 	};
+
+	void extractArchive( const engines::engine&,networkAccess::Opts ) ;
 
 	void download( networkAccess::Opts ) ;
 

@@ -132,7 +132,7 @@ void networkAccess::download( const QByteArray& data,const engines::engine& engi
 		}
 	}
 
-	opts.metadata = std::move( metadata ) ;
+	opts.add( std::move( metadata ) ) ;
 
 	this->download( std::move( opts ) ) ;
 }
@@ -183,7 +183,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	networkAccess::Opts opts{ {},iter,exePath,exeFolderPath,setDefaultEngine,id } ;
+	networkAccess::Opts opts{ iter,exePath,exeFolderPath,setDefaultEngine,id } ;
 
 	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine,data = QByteArray() ]( const utils::network::progress& p )mutable{
 
@@ -285,7 +285,7 @@ void networkAccess::finished( networkAccess::Opts str )
 	}else{
 		if( m_file.size() != str.metadata.size ){
 
-			//????
+			//this->post( engine,QObject::tr( "ERROR" ),str.id ) ;
 
 			if( str.iter.hasNext() ){
 
@@ -301,57 +301,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 		if( str.isArchive ){
 
-			this->post( engine,QObject::tr( "Extracting archive: " ) + str.filePath,str.id ) ;
-
-			if( engine.archiveContainsFolder() ){
-
-				auto m = str.archiveExtractionPath + "/" + engine.name() ;
-				//this->post( str.engine,QObject::tr( "Removing Folder: " ) + m,str.id ) ;
-
-				QDir( m ).removeRecursively() ;
-			}else{
-				QFile::remove( str.exeBinPath ) ;
-			}
-
-			auto exe = m_ctx.Engines().findExecutable( utility::platformIsWindows() ? "bsdtar.exe" : "tar" ) ;
-
-			auto args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
-
-			utils::qprocess::run( exe,args,[ this,str = std::move( str ) ]( const utils::qprocess::outPut& s ){
-
-				const auto& engine = str.iter.engine() ;
-
-				QFile::remove( str.filePath ) ;
-
-				if( s.success() ){
-
-					if( engine.archiveContainsFolder() ){
-
-						engine.renameArchiveFolder( str.archiveExtractionPath ) ;
-
-						auto exe = engine.updateCmdPath( str.archiveExtractionPath ) ;
-
-						QFile f( exe ) ;
-
-						f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
-					}else{
-						QFile f( str.exeBinPath ) ;
-
-						f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
-					}
-
-					utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
-
-					m_ctx.versionInfo().check( str.iter ) ;
-				}else{
-					this->post( engine,s.stdError,str.id ) ;
-
-					if( str.iter.hasNext() ){
-
-						m_ctx.versionInfo().check( str.iter.next() ) ;
-					}
-				}
-			} ) ;
+			this->extractArchive( engine,std::move( str ) ) ;
 		}else{
 			this->post( engine,QObject::tr( "Renaming file to: " ) + str.exeBinPath,str.id ) ;
 
@@ -366,6 +316,61 @@ void networkAccess::finished( networkAccess::Opts str )
 			m_ctx.versionInfo().check( str.iter ) ;
 		}
 	}
+}
+
+void networkAccess::extractArchive( const engines::engine& engine,networkAccess::Opts str )
+{
+	this->post( engine,QObject::tr( "Extracting archive: " ) + str.filePath,str.id ) ;
+
+	if( engine.archiveContainsFolder() ){
+
+		auto m = str.archiveExtractionPath + "/" + engine.name() ;
+		//this->post( str.engine,QObject::tr( "Removing Folder: " ) + m,str.id ) ;
+
+		QDir( m ).removeRecursively() ;
+	}else{
+		QFile::remove( str.exeBinPath ) ;
+	}
+
+	auto exe = m_ctx.Engines().findExecutable( utility::platformIsWindows() ? "bsdtar.exe" : "tar" ) ;
+
+	auto args = QStringList{ "-x","-f",str.filePath,"-C",str.archiveExtractionPath } ;
+
+	utils::qprocess::run( exe,args,[ this,str = std::move( str ) ]( const utils::qprocess::outPut& s ){
+
+		const auto& engine = str.iter.engine() ;
+
+		QFile::remove( str.filePath ) ;
+
+		if( s.success() ){
+
+			if( engine.archiveContainsFolder() ){
+
+				engine.renameArchiveFolder( str.archiveExtractionPath ) ;
+
+				auto exe = engine.updateCmdPath( str.archiveExtractionPath ) ;
+
+				QFile f( exe ) ;
+
+				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+			}else{
+				QFile f( str.exeBinPath ) ;
+
+				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+			}
+
+			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
+
+			m_ctx.versionInfo().check( str.iter ) ;
+		}else{
+			this->post( engine,s.stdError,str.id ) ;
+
+			if( str.iter.hasNext() ){
+
+				m_ctx.versionInfo().check( str.iter.next() ) ;
+			}
+		}
+	} ) ;
 }
 
 void networkAccess::post( const engines::engine& engine,const QString& m,int id )
