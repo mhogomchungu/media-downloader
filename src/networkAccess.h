@@ -48,7 +48,7 @@ public:
 	template< typename Function >
 	void getResource( const QString& url,Function function )
 	{
-		m_network.get( this->networkRequest( url ),[ function = std::move( function ) ]( const utils::NetworkAccessManager::reply& reply ){
+		m_network.get( this->networkRequest( url ),[ function = std::move( function ) ]( const utils::network::reply& reply ){
 
 			function( reply.data() ) ;
 		} ) ;
@@ -106,7 +106,7 @@ private:
 	void post( const engines::engine&,const QString&,int ) ;
 
 	const Context& m_ctx ;
-	utils::NetworkAccessManager m_network ;
+	utils::network::manager m_network ;
 	QFile m_file ;
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
