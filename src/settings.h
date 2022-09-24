@@ -94,6 +94,7 @@ public:
 	bool singleInstance() ;
 	bool autoSavePlaylistOnExit() ;
 
+	int networkTimeOut() ;
 	int stringTruncationSize() ;
 	int historySize() ;
 	int tabNumber() ;

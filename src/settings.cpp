@@ -262,6 +262,16 @@ bool settings::autoSavePlaylistOnExit()
 	return m_settings.value( "AutoSavePlaylistOnExit" ).toBool() ;
 }
 
+int settings::networkTimeOut()
+{
+	if( !m_settings.contains( "NetworkTimeOutInSeconds" ) ){
+
+		m_settings.setValue( "NetworkTimeOutInSeconds",30 ) ;
+	}
+
+	return m_settings.value( "NetworkTimeOutInSeconds" ).toInt() * 1000 ;
+}
+
 QStringList settings::playlistRangeHistory()
 {
 	if( !m_settings.contains( "PlaylistRangeHistory" ) ){

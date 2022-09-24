@@ -100,6 +100,8 @@ private:
 		int id ;
 	};
 
+	QString downloadFailed() ;
+
 	void extractArchive( const engines::engine&,networkAccess::Opts ) ;
 
 	void download( networkAccess::Opts ) ;

@@ -45,7 +45,7 @@ static QString _sslLibraryVersionString()
 
 networkAccess::networkAccess( const Context& ctx ) :
 	m_ctx( ctx ),
-	m_network( 30000 ),
+	m_network( m_ctx.Settings().networkTimeOut() ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
 	m_tabManager( m_ctx.TabManager() )
 {
@@ -80,6 +80,12 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 	#endif
 #endif
 		return networkRequest ;
+}
+
+QString networkAccess::downloadFailed()
+{
+	auto m = QString::number( m_ctx.Settings().networkTimeOut() / 1000 ) ;
+	return QObject::tr( "Network Failed To Respond Within %1 seconds" ).arg( m ) ;
 }
 
 void networkAccess::download( const QByteArray& data,const engines::engine& engine,networkAccess::Opts opts )
@@ -197,7 +203,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 					if( p.timeOut() ){
 
-						return QObject::tr( "Download Failed" ) + ": Network TimeOut" ;
+						return QObject::tr( "Download Failed" ) + ": " + this->downloadFailed() ;
 					}else{
 						return QObject::tr( "Download Failed" ) + ": " + p.errorString() ;
 					}
@@ -246,7 +252,7 @@ void networkAccess::download( networkAccess::Opts opts )
 
 				if( p.timeOut() ){
 
-					opts.networkError = "Network TimeOut" ;
+					opts.networkError = QObject::tr( "Download Failed" ) + ": " + this->downloadFailed() ;  ;
 				}else{
 					opts.networkError = p.errorString() ;
 				}
@@ -274,7 +280,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 	if( !str.networkError.isEmpty() ){
 
-		this->post( engine,QObject::tr( "Download Failed" ) + ": " + str.networkError,str.id ) ;
+		this->post( engine,str.networkError,str.id ) ;
 
 		m_tabManager.enableAll() ;
 

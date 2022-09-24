@@ -193,8 +193,8 @@ namespace utils
 					QObject::disconnect( m_networkConn ) ;
 					QObject::disconnect( m_timerConn ) ;
 					m_timer.stop() ;
-					m_reply( network::reply( m_networkReply,timeOut,std::move( m_data ) ) ) ;
-					m_progress( network::progress( true,timeOut,m_networkReply,0,0,{} ) ) ;
+					m_reply( { m_networkReply,timeOut,std::move( m_data ) } ) ;
+					m_progress( { true,timeOut,m_networkReply,0,0,{} } ) ;
 				}
 				bool firstSeen()
 				{
@@ -233,7 +233,10 @@ namespace utils
 				{
 					this->stopTimer() ;
 
-					m_progress( network::progress( false,false,m_networkReply,r,t,m_networkReply.readAll() ) ) ;
+					if( r != 0 ){
+
+						m_progress( { false,false,m_networkReply,r,t,m_networkReply.readAll() } ) ;
+					}
 				}
 				~handle()
 				{
