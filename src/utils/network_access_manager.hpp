@@ -42,46 +42,56 @@ namespace utils
 				template<typename Function,typename ... Args>
 				using result_of = std::result_of_t<Function(Args ...)> ;
 			#endif
+
+			class NetworkReply
+			{
+			public:
+				NetworkReply( QNetworkReply& n,bool f,bool t ) :
+					m_networkReply( n ),m_finished( f ),m_timeOut( t )
+				{
+				}
+				bool finished() const
+				{
+					return m_finished ;
+				}
+				bool success() const
+				{
+					return m_networkReply.error() == QNetworkReply::NoError && !m_timeOut ;
+				}
+				bool timeOut() const
+				{
+					return m_timeOut ;
+				}
+				QByteArray data() const
+				{
+					return m_networkReply.readAll() ;
+				}
+				QNetworkReply::NetworkError error() const
+				{
+					return m_networkReply.error() ;
+				}
+				QString errorString() const
+				{
+					return m_networkReply.errorString() ;
+				}
+				QNetworkReply& networkReply() const
+				{
+					return m_networkReply ;
+				}
+			private:
+				QNetworkReply& m_networkReply ;
+				bool m_finished ;
+				bool m_timeOut ;
+			};
 		}
-		class progress
+		class progress : public details::NetworkReply
 		{
 		public:
-			progress( bool finished,bool timeOut,QNetworkReply& networkReply,qint64 r,qint64 t,QByteArray&& data ) :
-				m_finished( finished ),
-				m_timeOut( timeOut ),
-				m_networkReply( networkReply ),
+			progress( bool finished,bool timeOut,QNetworkReply& networkReply,qint64 r,qint64 t ) :
+				details::NetworkReply( networkReply,finished,timeOut ),
 				m_received( r ),
-				m_total( t ),
-				m_data( std::move( data ) )
+				m_total( t )
 			{
-			}
-			bool finished() const
-			{
-				return m_finished ;
-			}
-			bool success() const
-			{
-				return m_networkReply.error() == QNetworkReply::NoError && !m_timeOut ;
-			}
-			bool timeOut() const
-			{
-				return m_timeOut ;
-			}
-			QByteArray data() const
-			{
-				return std::move( const_cast< progress * >( this )->m_data ) ;
-			}
-			QNetworkReply::NetworkError error() const
-			{
-				return m_networkReply.error() ;
-			}
-			QString errorString() const
-			{
-				return m_networkReply.errorString() ;
-			}
-			QNetworkReply& networkReply() const
-			{
-				return m_networkReply ;
 			}
 			qint64 received() const
 			{
@@ -92,56 +102,16 @@ namespace utils
 				return m_total ;
 			}
 		private:
-			bool m_finished ;
-			bool m_timeOut ;
-			QNetworkReply& m_networkReply ;
 			qint64 m_received ;
 			qint64 m_total ;
-			QByteArray m_data ;
 		} ;
-		class reply
+		class reply : public details::NetworkReply
 		{
 		public:
-			reply( QNetworkReply& n,bool t,QByteArray&& d ) :
-				m_data( std::move( d ) ),
-				m_networkReply( n ),
-				m_timeOut( t )
+			reply( QNetworkReply& n,bool timeOut ) : details::NetworkReply( n,true,timeOut )
 			{
 			}
-			bool finished() const
-			{
-				return true ;
-			}
-			bool success() const
-			{
-				return m_networkReply.error() == QNetworkReply::NoError && !m_timeOut ;
-			}
-			bool timeOut() const
-			{
-				return m_timeOut ;
-			}
-			QByteArray data() const
-			{
-				return std::move( const_cast< reply * >( this )->m_data ) ;
-			}
-			QNetworkReply::NetworkError error() const
-			{
-				return m_networkReply.error() ;
-			}
-			QString errorString() const
-			{
-				return m_networkReply.errorString() ;
-			}
-			QNetworkReply& networkReply() const
-			{
-				return m_networkReply ;
-			}
-		private:
-			QByteArray m_data ;
-			QNetworkReply& m_networkReply ;
-			bool m_timeOut ;
 		} ;
-
 		class manager
 		{
 		public:
@@ -193,8 +163,8 @@ namespace utils
 					QObject::disconnect( m_networkConn ) ;
 					QObject::disconnect( m_timerConn ) ;
 					m_timer.stop() ;
-					m_reply( { m_networkReply,timeOut,std::move( m_data ) } ) ;
-					m_progress( { true,timeOut,m_networkReply,0,0,{} } ) ;
+					m_reply( { m_networkReply,timeOut } ) ;
+					m_progress( { true,timeOut,m_networkReply,0,0 } ) ;
 				}
 				bool firstSeen()
 				{
@@ -223,26 +193,6 @@ namespace utils
 				{
 					return &m_timer ;
 				}
-				void addData()
-				{
-					this->stopTimer() ;
-
-					m_data += m_networkReply.readAll() ;
-				}
-				void progress( qint64 r,qint64 t )
-				{
-					this->stopTimer() ;
-
-					if( r != 0 ){
-
-						m_progress( { false,false,m_networkReply,r,t,m_networkReply.readAll() } ) ;
-					}
-				}
-				~handle()
-				{
-					m_networkReply.deleteLater() ;
-				}
-			private:
 				void stopTimer()
 				{
 					if( m_stopTimer ){
@@ -251,7 +201,18 @@ namespace utils
 						m_stopTimer = false ;
 					}
 				}
-				QByteArray m_data ;
+				void progress( qint64 r,qint64 t )
+				{
+					if( r != 0 ){
+
+						m_progress( { false,false,m_networkReply,r,t } ) ;
+					}
+				}
+				~handle()
+				{
+					m_networkReply.deleteLater() ;
+				}
+			private:
 				bool m_firstSeen = true ;
 				bool m_stopTimer = true ;
 				QTimer m_timer ;
@@ -268,6 +229,8 @@ namespace utils
 				auto hdl = std::make_shared< handle< Reply,Progress > >( std::move( reply ),std::move( progress ),*s,m_mutex ) ;
 
 				QObject::connect( s,&QNetworkReply::downloadProgress,[ &h = *hdl,function = std::move( function ) ]( qint64 r,qint64 t ){
+
+					h.stopTimer() ;
 
 					function( h,r,t ) ;
 				} ) ;
@@ -309,10 +272,7 @@ namespace utils
 
 				using handle_t = handle< Reply,progress > ;
 
-				this->setupReply( s,std::move( reply ),progress(),[]( handle_t& h,qint64,qint64 ){
-
-					h.addData() ;
-				} ) ;
+				this->setupReply( s,std::move( reply ),progress(),[]( handle_t&,qint64,qint64 ){} ) ;
 			}
 
 			QNetworkAccessManager m_manager ;

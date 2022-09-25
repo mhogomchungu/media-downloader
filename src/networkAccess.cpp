@@ -191,13 +191,13 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	networkAccess::Opts opts{ iter,exePath,exeFolderPath,setDefaultEngine,id } ;
 
-	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine,data = QByteArray() ]( const utils::network::progress& p )mutable{
+	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine ]( const utils::network::progress& p )mutable{
 
 		if( p.finished() ){
 
 			if( p.success() ){
 
-				this->download( data,engine,std::move( opts ) ) ;
+				this->download( p.data(),engine,std::move( opts ) ) ;
 			}else{
 				auto m = [ & ](){
 
@@ -219,8 +219,6 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 				}
 			}
 		}else{
-			data += p.data() ;
-
 			this->post( engine,"...",opts.id ) ;
 		}
 	} ) ;
