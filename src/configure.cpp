@@ -256,6 +256,21 @@ configure::configure( const Context& ctx ) :
 			}
 		} ) ;
 
+		connect( m.addAction( tr( "Copy" ) ),&QAction::triggered,[ this ](){
+
+			auto row = m_tablePresetOptions.currentRow() ;
+
+			if( row != -1 ){
+
+				auto mm = QApplication::clipboard() ;
+
+				if( mm ){
+
+					mm->setText( m_tablePresetOptions.item( row,1 ).text() ) ;
+				}
+			}
+		} ) ;
+
 		m.exec( QCursor::pos() ) ;
 	} ) ;
 
