@@ -88,7 +88,7 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 	auto line = e.toString() ;
 
-	if( !line.contains( "Saving to: ‘" ) ){
+	if( !line.contains( "Saving to: " ) ){
 
 		return m_preProcessing.text() ;
 	}
@@ -97,11 +97,13 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 		for( const auto& it : util::split( line,'\n' ) ){
 
-			if( it.startsWith( "Saving to: ‘" ) ){
+			if( it.startsWith( "Saving to: " ) ){
 
 				m_title = it.mid( 11 ) ;
 				m_title.replace( "‘","" ) ;
 				m_title.replace( "’","" ) ;
+				m_title.replace( "'","" ) ;
+				m_title.replace( "'","" ) ;
 
 				break ;
 			}
