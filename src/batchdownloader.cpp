@@ -1275,7 +1275,7 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 
 void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 {
-	engines::file::readAll( e,m_ctx.logger(),[ this,deleteFile,e ]( bool,const QByteArray& list ){
+	engines::file::readAll( e,m_ctx.logger(),[ this,deleteFile,e ]( bool,QByteArray list ){
 
 		if( deleteFile ){
 
@@ -1290,11 +1290,13 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 
 				this->parseDataFromFile( list ) ;
 			}else{
+				list.replace( "\r\n","\n" ) ;
+
 				Items items ;
 
 				for( const auto& it : util::split( list,'\n',true ) ){
 
-				     items.add( it ) ;
+					items.add( it ) ;
 				}
 
 				const auto& engine = this->defaultEngine() ;
