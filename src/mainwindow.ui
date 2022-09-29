@@ -805,6 +805,38 @@
        <bool>true</bool>
       </property>
      </widget>
+     <widget class="QPushButton" name="pbClearArchiveFile">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>320</y>
+        <width>31</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Clear Internal Archive File</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="cbUseInternalArchiveFile">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>320</y>
+        <width>21</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Use Internal Archive File</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
      <widget class="QPushButton" name="pbPLPasteClipboard">
       <property name="geometry">
        <rect>
@@ -856,7 +888,7 @@
      <widget class="QPushButton" name="pbPlSubscription">
       <property name="geometry">
        <rect>
-        <x>660</x>
+        <x>670</x>
         <y>280</y>
         <width>31</width>
         <height>33</height>

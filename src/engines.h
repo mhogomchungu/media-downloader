@@ -132,6 +132,10 @@ public:
 		{
 			return m_dataPath + "/" + e ;
 		}
+		QString subscriptionsArchiveFilePath() const
+		{
+			return m_dataPath + "/subscriptions_archive_file.txt" ;
+		}
 		QString binPath( const QString& e ) const
 		{
 			return m_binPath + "/" + e ;

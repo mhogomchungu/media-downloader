@@ -93,6 +93,7 @@ public:
 	bool playlistDownloaderSaveHistory() ;
 	bool singleInstance() ;
 	bool autoSavePlaylistOnExit() ;
+	bool useInternalArchiveFile() ;
 
 	int networkTimeOut() ;
 	int stringTruncationSize() ;
@@ -102,6 +103,7 @@ public:
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
 
+	void setUseInternalArchiveFile( bool ) ;
 	void clearOptionsHistory( settings::tabName ) ;
 	void addToplaylistRangeHistory( const QString& ) ;
 	void clearPlaylistRangeHistory() ;

@@ -262,6 +262,21 @@ bool settings::autoSavePlaylistOnExit()
 	return m_settings.value( "AutoSavePlaylistOnExit" ).toBool() ;
 }
 
+bool settings::useInternalArchiveFile()
+{
+	if( !m_settings.contains( "UseInternalArchiveFile" ) ){
+
+		m_settings.setValue( "UseInternalArchiveFile",true ) ;
+	}
+
+	return m_settings.value( "UseInternalArchiveFile" ).toBool() ;
+}
+
+void settings::setUseInternalArchiveFile( bool e )
+{
+	m_settings.setValue( "UseInternalArchiveFile",e ) ;
+}
+
 int settings::networkTimeOut()
 {
 	if( !m_settings.contains( "NetworkTimeOutInSeconds" ) ){

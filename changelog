@@ -141,3 +141,11 @@ Version 1.2.0(April 1st, 2021)
     - Update other langauge translations.
     - Add a button in the configure tab to make it easy to reach a folder where binaries are located.
     - Automatically download and manage folder based you-get executable.
+
+  Version 2.6.0(Unreleased)
+    [Windows]
+    - Bundle wget 1.21.3.
+    [All]
+    - Add GUI options in playlist downloader tab to enable/disable internal archive file and to clear it.
+    - Fix a bug that prevented downloading of urls from a file if the file use "\r\n" as line separator.
+    - Add ability to have multiple profiles for downloading options.

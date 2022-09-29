@@ -31,7 +31,6 @@ class playlistdownloader::customOptions
 public:
 	customOptions( QStringList&& opts,
 		       const QString& downloadArchivePath,
-		       settings& settings,
 		       const engines::engine& engine,
 		       const Context& ctx ) :
 		m_options( std::move( opts ) )
@@ -47,22 +46,20 @@ public:
 		if( m_breakOnExisting || m_skipOnExisting ){
 
 			auto s = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
+
+			if( ctx.Settings().useInternalArchiveFile() ){
+
+				QFile file( downloadArchivePath ) ;
+
+				if( file.open( QIODevice::ReadOnly ) ){
+
+					m_archiveFileData = file.readAll() ;
+				}
+			}
+
 			auto ss = util::splitPreserveQuotes( s ) ;
 
 			auto mm = utility::arguments( ss ).hasValue( "--download-archive" ) ;
-
-			if( mm.isEmpty() ){
-
-				mm = downloadArchivePath ;
-			}
-
-			if( !mm.isEmpty() ){
-
-				if( utility::isRelativePath( mm ) ){
-
-					mm = settings.downloadFolder() + "/" + mm ;
-				}
-			}
 
 			if( !mm.isEmpty() && QFile::exists( mm ) ){
 
@@ -70,7 +67,7 @@ public:
 
 				if( file.open( QIODevice::ReadOnly ) ){
 
-					m_archiveFileData = file.readAll() ;
+					m_archiveFileData.append( "\n" + file.readAll() ) ;
 				}
 			}
 		}
@@ -133,6 +130,21 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_subscription.setVisible( false ) ;
 
 	this->resetMenu() ;
+
+	connect( m_ui.pbClearArchiveFile,&QPushButton::clicked,[ this ](){
+
+		auto m = m_ctx.Engines().engineDirPaths().subscriptionsArchiveFilePath() ;
+		QFile f( m ) ;
+		f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
+		f.write( "" ) ;
+	} ) ;
+
+	m_ui.cbUseInternalArchiveFile->setChecked( m_ctx.Settings().useInternalArchiveFile() ) ;
+
+	connect( m_ui.cbUseInternalArchiveFile,&QCheckBox::toggled,[ this ]( bool e ){
+
+		m_ctx.Settings().setUseInternalArchiveFile( e ) ;
+	} ) ;
 
 	m_ui.lineEditPLDownloadRange->setText( m_settings.playlistRangeHistoryLastUsed() ) ;
 
@@ -540,6 +552,8 @@ void playlistdownloader::init_done()
 
 void playlistdownloader::enableAll()
 {
+	m_ui.pbClearArchiveFile->setEnabled( true ) ;
+	m_ui.cbUseInternalArchiveFile->setEnabled( true ) ;
 	m_ui.pbPlSubscription->setEnabled( true ) ;
 	m_ui.pbPLPasteClipboard->setEnabled( true ) ;
 	m_ui.lineEditPLUrl->setEnabled( true ) ;
@@ -562,6 +576,8 @@ void playlistdownloader::enableAll()
 
 void playlistdownloader::disableAll()
 {
+	m_ui.pbClearArchiveFile->setEnabled( false ) ;
+	m_ui.cbUseInternalArchiveFile->setEnabled( false ) ;
 	m_ui.pbPlSubscription->setEnabled( false ) ;
 	m_ui.pbPLOptionsHistory->setEnabled( false ) ;
 	m_ui.pbPLRangeHistory->setEnabled( false ) ;
@@ -808,12 +824,10 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	auto optsUpdater = [ this ]( QStringList opts ){
 
-		const auto& archivePath = m_subscription.archivePath() ;
-
-		if( !opts.contains( "--download-archive" ) && !archivePath.isEmpty() ){
+		if( m_ctx.Settings().useInternalArchiveFile() ){
 
 			opts.append( "--download-archive" ) ;
-			opts.append( archivePath ) ;
+			opts.append( m_subscription.archivePath() ) ;
 		}
 
 		return opts ;
@@ -905,7 +919,6 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 		return customOptions( std::move( opts ),
 				      m_subscription.archivePath(),
-				      m_settings,
 				      engine,
 				      m_ctx ) ;
 
@@ -1224,7 +1237,7 @@ playlistdownloader::subscription::subscription( const Context& e,
 						tableMiniWidget< int >& t,
 						QWidget& w ) :
 	m_path( e.Engines().engineDirPaths().dataPath( "subscriptions.json" ) ),
-	m_archivePath( e.Engines().engineDirPaths().dataPath( "subscriptions_archive_file.txt" ) ),
+	m_archivePath( e.Engines().engineDirPaths().subscriptionsArchiveFilePath() ),
 	m_table( t ),
 	m_ui( w )
 {

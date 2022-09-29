@@ -68,10 +68,6 @@
         <translation>Nome engine</translation>
     </message>
     <message>
-        <source>Default Download Options</source>
-        <translation>Opzioni predefinite download</translation>
-    </message>
-    <message>
         <source>General Options</source>
         <translation>Opzioni generali</translation>
     </message>
@@ -262,6 +258,26 @@
     <message>
         <source>Auto Save List Of Not Downloaded Media</source>
         <translation>Elenco salvataggio automatico media non scaricati</translation>
+    </message>
+    <message>
+        <source>Clear Internal Archive File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Internal Archive File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Options To Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Url Manager</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -584,6 +600,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Swedish (Sweden)</source>
         <translation>Svedese (Svezia)</translation>
     </message>
+    <message>
+        <source>Network Failed To Respond Within %1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -639,13 +659,13 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Downloading subtitles</source>
         <translation>Download sottotitoli</translation>
     </message>
+    <message>
+        <source>Copy Url %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>configure</name>
-    <message>
-        <source>Add</source>
-        <translation>Aggiungi</translation>
-    </message>
     <message>
         <source>Select A Cookie File</source>
         <translation>Seleziona un file cookie</translation>
@@ -681,6 +701,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Best-audiovideo</source>
         <translation>Massima qualità audio/video</translation>
+    </message>
+    <message>
+        <source>Set As Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

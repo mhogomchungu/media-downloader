@@ -222,7 +222,7 @@ configure::configure( const Context& ctx ) :
 
 		auto a = m_ui.lineEditConfigureManageUrl->text() ;
 		auto b = m_ui.lineEditConfigureManageOptions->text() ;
-		auto c = m_ui.cbConfigureEngines->currentText() ;
+		auto c = m_ui.cbConfigureEnginesUrlManager->currentText() ;
 
 		if( !a.isEmpty() ){
 
