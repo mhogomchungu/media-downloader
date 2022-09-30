@@ -261,23 +261,23 @@
     </message>
     <message>
         <source>Clear Internal Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Azzera file archivio interno</translation>
     </message>
     <message>
         <source>Use Internal Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa file archivio interno</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Predefinito</translation>
     </message>
     <message>
         <source>Options To Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni da aggiungere</translation>
     </message>
     <message>
         <source>Url Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestione URL</translation>
     </message>
 </context>
 <context>
@@ -602,7 +602,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Network Failed To Respond Within %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>La rete non ha risposto entro %1 secondi</translation>
     </message>
 </context>
 <context>
@@ -661,7 +661,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Copy Url %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia URL %1</translation>
     </message>
 </context>
 <context>
@@ -704,11 +704,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Set As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta come predefinito</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia</translation>
     </message>
 </context>
 <context>
