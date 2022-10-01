@@ -142,7 +142,7 @@ Version 1.2.0(April 1st, 2021)
     - Add a button in the configure tab to make it easy to reach a folder where binaries are located.
     - Automatically download and manage folder based you-get executable.
 
-  Version 2.6.0(Unreleased)
+  Version 2.6.0(October 1st, 2022)
     [Windows]
     - Bundle wget 1.21.3.
     [All]
