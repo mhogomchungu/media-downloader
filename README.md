@@ -37,11 +37,11 @@ Read the [extensions](https://github.com/mhogomchungu/media-downloader/wiki/Exte
 ## FAQ
 A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/media-downloader/wiki/Frequently-Asked-Questions).
 
-## Binary packages
-
 #### Prerequisite before running for the first time
 
 Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of yt-dlp. Installing most extensions will also cause media-downloader to access the internet to download extension's executable.
+
+## Binary packages
 
 #### Installer for Microsoft Windows
 
