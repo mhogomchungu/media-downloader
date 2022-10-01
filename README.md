@@ -39,11 +39,9 @@ A Frequently asked Questions' page is [here](https://github.com/mhogomchungu/med
 
 ## Binary packages
 
-#### Prerequisite for Microsoft Windows
+#### Prerequisite before running for the first time
 
-1. Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of yt-dlp.
-
-2. Some backends require python to be installed and their download link is [here](https://www.python.org/downloads/windows/).
+Make sure you have access to the internet before you run media-downloader for the first time because it will attempt to use the internet to download the latest version of yt-dlp. Installing most extensions will also cause media-downloader to access the internet to download extension's executable.
 
 #### Installer for Microsoft Windows
 
