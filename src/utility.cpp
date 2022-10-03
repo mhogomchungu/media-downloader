@@ -952,100 +952,7 @@ QString utility::locale::formattedDataSize( qint64 s ) const
 #endif
 }
 
-void utility::versionInfo::check( const engines::Iterator& iter,const QString& setDefaultEngine )
-{
-	if( iter.engine().name() =="media-downloader" ){
 
-		return this->printEngineVersionInfo( iter ) ;
-	}
-
-	const auto& engine = iter.engine() ;
-
-	if( engine.usingPrivateBackend() && engine.validDownloadUrl() && networkAccess::hasNetworkSupport() ){
-
-		if( engine.backendExists() ){
-
-			this->printEngineVersionInfo( iter ) ;
-
-			utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
-
-		}else if( !engine.exePath().realExe().isEmpty() ){
-
-			m_networkAccess->download( iter,setDefaultEngine ) ;
-		}
-	}else{
-		if( engine.exePath().isEmpty() ){
-
-			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),iter.id() ) ;
-		}else{
-			this->printEngineVersionInfo( iter ) ;
-
-			utility::setDefaultEngine( *m_ctx,setDefaultEngine ) ;
-		}
-	}
-}
-
-utility::versionInfo::~versionInfo()
-{
-}
-
-void utility::versionInfo::updateMediaDownloader( const engines::Iterator& iter )
-{
-	m_networkAccess->download( iter,{} ) ;
-}
-
-void utility::versionInfo::printEngineVersionInfo( const engines::Iterator& iter )
-{
-	const auto& engine = iter.engine() ;
-
-	m_ctx->TabManager().disableAll() ;
-
-	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
-
-	auto id = utility::sequentialID() ;
-
-	m_ctx->logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name(),id ) ;
-
-	if( !m_ctx->debug().isEmpty() ){
-
-		auto exe = "cmd: \"" + cmd.exe() + "\"" ;
-
-		for( const auto& it : cmd.args() ){
-
-			exe += " \"" + it + "\"" ;
-		}
-
-		m_ctx->logger().add( exe,id ) ;
-	}
-
-	utils::qprocess::run( cmd.exe(),cmd.args(),[ iter,this,id ]( const utils::qprocess::outPut& r ){
-
-		const auto& engine = iter.engine() ;
-
-		if( r.success() ){
-
-			auto& logger = m_ctx->logger() ;
-
-			logger.add( QObject::tr( "Found version" ) + ": " + engine.setVersionString( r.stdOut ),id ) ;
-
-			m_ctx->TabManager().enableAll() ;
-		}else{
-			m_ctx->logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),id ) ;
-
-			m_ctx->TabManager().enableAll() ;
-
-			engine.setBroken() ;
-		}
-
-		if( iter.hasNext() ){
-
-			this->check( iter.next() ) ;
-		}else{
-			emit vinfoDone() ;
-		}
-
-	},QProcess::ProcessChannelMode::MergedChannels ) ;
-}
 
 bool utility::platformIs32Bit()
 {
@@ -1209,4 +1116,9 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 bool utility::platformIsLikeWindows()
 {
 	return utility::platformIsWindows() || utility::platformisOS2() ;
+}
+
+QString utility::installedVersionOfMediaDownloader()
+{
+	return VERSION ;
 }

@@ -27,6 +27,7 @@
 #include "playlistdownloader.h"
 #include "context.hpp"
 #include "library.h"
+#include "networkAccess.h"
 
 class tabManager
 {
@@ -38,7 +39,6 @@ public:
 		    Ui::MainWindow& ui,
 		    QWidget& w,
 		    MainWindow& mw,
-		    utility::versionInfo& u,
 		    QString debug ) ;
 	void init_done() ;
 	void setDefaultEngines() ;
@@ -65,6 +65,10 @@ public:
 	{
 		return m_configure ;
 	}
+	networkAccess& network()
+	{
+		return m_network ;
+	}
 	bool uiEnabled()
 	{
 		return m_uiEnabled ;
@@ -73,13 +77,13 @@ private:
 	int m_currentTab ;
 	bool m_uiEnabled = true ;
 	Context m_ctx ;
+	networkAccess m_network ;
 	about m_about ;
 	configure m_configure ;
 	basicdownloader m_basicdownloader ;
 	batchdownloader m_batchdownloader ;
 	playlistdownloader m_playlistdownloader ;
 	library m_library ;
-	QMetaObject::Connection m_initConnection ;
 } ;
 
 #endif

@@ -1060,9 +1060,9 @@ bool engines::engine::functions::updateVersionInfo()
 	return false ;
 }
 
-QString engines::engine::functions::updateCmdPath( const QString& )
+QString engines::engine::functions::updateCmdPath( const QString& e )
 {
-	return {} ;
+	return e ;
 }
 
 engines::engine::functions::DataFilter engines::engine::functions::Filter( int id,const QString& e )

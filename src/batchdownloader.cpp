@@ -1054,9 +1054,7 @@ void batchdownloader::saveSubtitles()
 
 				if( !e.isEmpty() ){
 
-					auto& network = m_ctx.versionInfo().network() ;
-
-					network.getResource( it.url,[ m ]( const QByteArray& data ){
+					m_ctx.network().get( it.url,[ m ]( const QByteArray& data ){
 
 						QFile f( m ) ;
 						f.open( QIODevice::WriteOnly ) ;
@@ -1685,13 +1683,11 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 	}else{
 		if( networkAccess::hasNetworkSupport() ){
 
-			auto& network = m_ctx.versionInfo().network() ;
-
 			m_networkRunning++ ;
 
 			const auto& u = media.thumbnailUrl() ;
 
-			network.getResource( u,[ this,media,index ]( const QByteArray& data ){
+			m_ctx.network().get( u,[ this,media,index ]( const QByteArray& data ){
 
 				QPixmap pixmap ;
 

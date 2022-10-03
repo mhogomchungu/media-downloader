@@ -272,6 +272,21 @@ bool settings::useInternalArchiveFile()
 	return m_settings.value( "UseInternalArchiveFile" ).toBool() ;
 }
 
+bool settings::checkForUpdates()
+{
+	if( !m_settings.contains( "CheckForUpdates" ) ){
+
+		m_settings.setValue( "CheckForUpdates",utility::platformIsWindows() ) ;
+	}
+
+	return m_settings.value( "CheckForUpdates" ).toBool() ;
+}
+
+void settings::setCheckForUpdates( bool e )
+{
+	m_settings.setValue( "CheckForUpdates",e ) ;
+}
+
 void settings::setUseInternalArchiveFile( bool e )
 {
 	m_settings.setValue( "UseInternalArchiveFile",e ) ;

@@ -1175,19 +1175,19 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 		m_meaw = false ;
 
-		auto& network = m_ctx.versionInfo().network() ;
+		auto& network = m_ctx.network() ;
 
 		m_networkRunning++ ;
 
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
-		network.getResource( thumbnailUrl,
-				     [ this,&table,s,
-				     media = std::move( media ) ]( const QByteArray& data ){
+		network.get( thumbnailUrl,
+			     [ this,&table,s,
+			     media = std::move( media ) ]( const QByteArray& data ){
 
 			QPixmap pixmap ;
 
-			if( pixmap.loadFromData( data ) ){
+			if( !data.isEmpty() && pixmap.loadFromData( data ) ){
 
 				auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
 				auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;

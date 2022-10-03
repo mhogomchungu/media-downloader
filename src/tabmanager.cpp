@@ -29,10 +29,10 @@ tabManager::tabManager( settings& s,
 			Ui::MainWindow& ui,
 			QWidget& w,
 			MainWindow& mw,
-			utility::versionInfo& u,
 			QString debug ) :
 	m_currentTab( s.tabNumber() ),
-	m_ctx( s,t,ui,w,mw,l,e,u,*this,debug ),
+	m_ctx( s,t,ui,w,mw,l,e,*this,debug ),
+	m_network( m_ctx ),
 	m_about( m_ctx ),
 	m_configure( m_ctx ),
 	m_basicdownloader( m_ctx ),
@@ -72,8 +72,6 @@ tabManager::tabManager( settings& s,
 		} ) ;
 	}
 
-	u.setContext( m_ctx ) ;
-
 	const auto& engines = m_ctx.Engines().getEngines() ;
 
 	if( engines.size() > 0 ){
@@ -86,16 +84,24 @@ tabManager::tabManager( settings& s,
 
 			m_ctx.logger().updateView( true ) ;
 
-			auto& vinfo = m_ctx.versionInfo() ;
+			class meaw : public versionInfo::doneInterface
+			{
+			public:
+				meaw( tabManager * t ) : m_parent( t )
+				{
+				}
+				void operator()()
+				{
+					m_parent->init_done() ;
+				}
+			private:
+				tabManager * m_parent ;
+			} ;
 
-			m_initConnection = QObject::connect( &vinfo,&utility::versionInfo::vinfoDone,[ this ](){
+			auto& vinfo = m_ctx.getVersionInfo() ;
 
-				QObject::disconnect( m_initConnection ) ;
-
-				this->init_done() ;
-			} ) ;
-
-			vinfo.check( { engines,utility::sequentialID() } ) ;
+			vinfo.check( { engines,utility::sequentialID() },
+				     { util::types::type_identity< meaw >(),this } ) ;
 		}else{
 			this->init_done() ;
 		}

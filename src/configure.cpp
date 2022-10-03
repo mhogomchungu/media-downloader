@@ -312,7 +312,7 @@ configure::configure( const Context& ctx ) :
 
 		static engines::engine m( m_ctx ) ;
 
-		m_ctx.versionInfo().updateMediaDownloader( { m,utility::sequentialID() } ) ;
+		m_ctx.getVersionInfo().updateMediaDownloader( { m,utility::sequentialID() } ) ;
 	} ) ;
 
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
@@ -359,7 +359,7 @@ configure::configure( const Context& ctx ) :
 
 					if( engine ){
 
-						m_ctx.versionInfo().check( { engine.value(),id },name ) ;
+						m_ctx.getVersionInfo().check( { engine.value(),id },name ) ;
 					}
 				}
 			}
@@ -485,6 +485,8 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbAutoSaveNotDownloadedMedia->setChecked( m_settings.autoSavePlaylistOnExit() ) ;
 
+	m_ui.cbCheckForUpdates->setChecked( m_settings.checkForUpdates() ) ;
+
 	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
 
 	if( utility::platformIsLikeWindows() ){
@@ -502,6 +504,29 @@ configure::configure( const Context& ctx ) :
 void configure::init_done()
 {
 	m_tablePresetOptions.selectLast() ;
+
+	if( m_settings.checkForUpdates() ){
+
+		auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
+
+		m_ctx.network().get( url,[ this ]( const QByteArray& data ){
+
+			if( !data.isEmpty() ){
+
+				auto e = QJsonDocument::fromJson( data ) ;
+
+				auto latestVersion = e.object().value( "tag_name" ).toString() ;
+				auto installedVersion = utility::installedVersionOfMediaDownloader() ;
+
+				if( !latestVersion.isEmpty() && ( latestVersion != installedVersion ) ){
+
+					auto m = tr( "Your Current Version(%1) Is Not The Latest Version(%2)" ) ;
+
+					m_ctx.mainWindow().setTitle( m.arg( installedVersion,latestVersion ) ) ;
+				}
+			}
+		} ) ;
+	}
 }
 
 void configure::retranslateUi()
@@ -513,7 +538,7 @@ void configure::retranslateUi()
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )
 {
-	m_ctx.versionInfo().network().download( iter ) ;
+	m_ctx.network().download( iter ) ;
 }
 
 void configure::tabEntered()
@@ -645,6 +670,7 @@ void configure::saveOptions()
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
 	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
+	m_settings.setCheckForUpdates( m_ui.cbCheckForUpdates->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
@@ -825,6 +851,7 @@ void configure::enableAll()
 	m_ui.label_3->setEnabled( true ) ;
 	m_ui.label_4->setEnabled( true ) ;
 	m_ui.label_5->setEnabled( true ) ;
+	m_ui.cbCheckForUpdates->setEnabled( true ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( true ) ;
 	m_ui.pbOpenBinFolder->setEnabled( true ) ;
 	m_ui.cbConfigureEnginesUrlManager->setEnabled( true ) ;
@@ -886,6 +913,7 @@ void configure::disableAll()
 	m_ui.label_4->setEnabled( false ) ;
 	m_ui.label_5->setEnabled( false ) ;
 	m_ui.label_6->setEnabled( false ) ;
+	m_ui.cbCheckForUpdates->setEnabled( false ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( false ) ;
 	m_ui.labelConfigureEngines_2->setEnabled( false ) ;
 	m_ui.cbConfigureEnginesUrlManager->setEnabled( false ) ;

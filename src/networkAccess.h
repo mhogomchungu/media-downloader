@@ -19,23 +19,23 @@
 #ifndef NETWORK_ACCESS_H
 #define NETWORK_ACCESS_H
 
+#include <memory>
+
 #include <QFile>
 #include <QStringList>
 
-#include "context.hpp"
-#include "engines.h"
-#include "context.hpp"
-#include "settings.h"
 #include "engines.h"
 #include "utils/network_access_manager.hpp"
 
 class basicdownloader ;
+class Context ;
+class tabManager ;
 
 class networkAccess
 {
 public:
 	networkAccess( const Context& ) ;
-	void download( const engines::Iterator&,const QString& setDefaultENgine = QString() ) ;
+
 	static bool hasNetworkSupport()
 	{
 		#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -45,15 +45,32 @@ public:
 		#endif
 	}
 
+	void download( const engines::Iterator& iter,const QString& setDefaultENgine = QString() ) const
+	{
+		const_cast< networkAccess * >( this )->download( iter,setDefaultENgine ) ;
+	}
+
 	template< typename Function >
-	void getResource( const QString& url,Function function )
+	void get( const QString& url,Function function ) const
+	{
+		const_cast< networkAccess * >( this )->get( url,std::move( function ) ) ;
+	}
+private:
+	void download( const engines::Iterator&,const QString& setDefaultENgine = QString() ) ;
+
+	template< typename Function >
+	void get( const QString& url,Function&& function )
 	{
 		m_network.get( this->networkRequest( url ),[ function = std::move( function ) ]( const utils::network::reply& reply ){
 
-			function( reply.data() ) ;
+			if( reply.success() ){
+
+				function( reply.data() ) ;
+			}else{
+				function( {} ) ;
+			}
 		} ) ;
 	}
-private:
 	QNetworkRequest networkRequest( const QString& url ) ;
 	struct metadata
 	{
@@ -89,6 +106,16 @@ private:
 				filePath += ".tmp" ;
 			}
 		}
+		void openFile()
+		{
+			m_file = std::make_unique< QFile >( this->filePath ) ;
+			m_file->remove() ;
+			m_file->open( QIODevice::WriteOnly ) ;
+		}
+		QFile& file()
+		{
+			return *m_file ;
+		}
 		engines::Iterator iter ;
 		QString exeBinPath ;
 		networkAccess::metadata metadata ;
@@ -96,6 +123,7 @@ private:
 		QString tempPath ;
 		QString defaultEngine ;
 		QString networkError ;
+		std::unique_ptr< QFile > m_file ;
 		bool isArchive ;
 		int id ;
 	};
@@ -114,7 +142,6 @@ private:
 
 	const Context& m_ctx ;
 	utils::network::manager m_network ;
-	QFile m_file ;
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
 };

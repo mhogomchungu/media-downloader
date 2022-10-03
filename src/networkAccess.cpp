@@ -22,7 +22,9 @@
 #include "networkAccess.h"
 #include "tabmanager.h"
 #include "basicdownloader.h"
-#include "engines.h"
+#include "settings.h"
+
+#include "context.hpp"
 
 #include <QFile>
 
@@ -102,7 +104,7 @@ void networkAccess::download( const QByteArray& data,const engines::engine& engi
 
 		if( opts.iter.hasNext() ){
 
-			m_ctx.versionInfo().check( opts.iter.next() ) ;
+			m_ctx.getVersionInfo().check( opts.iter.next() ) ;
 		}
 
 		return ;
@@ -147,25 +149,21 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 {
 	const auto& engine = iter.engine() ;
 
-	auto exePath = engine.exePath().realExe() ;
+	auto exeFolderPath = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().binPath() ) ;
 
-	auto exeFolderPath = m_ctx.Engines().engineDirPaths().binPath() ;
+	auto m = QDir::fromNativeSeparators( engine.exePath().realExe() ) ;
 
-	auto internalBinPath = QDir::fromNativeSeparators( exeFolderPath ) ;
+	auto a = m.lastIndexOf( '/' ) ;
 
-	if( !exeFolderPath.startsWith( internalBinPath ) ){
-
-		auto m = QDir::fromNativeSeparators( exePath ) ;
-
-		auto a = m.lastIndexOf( '/' ) ;
+	auto exePath = [ & ](){
 
 		if( a == -1 ){
 
-			exePath = internalBinPath + "/" + exePath ;
+			return exeFolderPath + "/" + m ;
 		}else{
-			exePath = internalBinPath + "/" + m.mid(( a + 1 ) ) ;
+			return exeFolderPath + "/" + m.mid( ( a + 1 ) ) ;
 		}
-	}
+	}() ;
 
 	QDir dir ;
 
@@ -215,7 +213,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 				if( opts.iter.hasNext() ){
 
-					m_ctx.versionInfo().check( opts.iter.next() ) ;
+					m_ctx.getVersionInfo().check( opts.iter.next() ) ;
 				}
 			}
 		}else{
@@ -230,11 +228,7 @@ void networkAccess::download( networkAccess::Opts opts )
 
 	engine.updateEnginePaths( m_ctx,opts.filePath,opts.exeBinPath,opts.tempPath ) ;
 
-	m_file.setFileName( opts.filePath ) ;
-
-	m_file.remove() ;
-
-	m_file.open( QIODevice::WriteOnly ) ;
+	opts.openFile() ;
 
 	this->post( engine,QObject::tr( "Downloading" ) + ": " + opts.metadata.url,opts.id ) ;
 
@@ -258,7 +252,7 @@ void networkAccess::download( networkAccess::Opts opts )
 
 			this->finished( std::move( opts ) ) ;
 		}else{
-			m_file.write( p.data() ) ;
+			opts.file().write( p.data() ) ;
 
 			auto perc = double( p.received() )  * 100 / double( opts.metadata.size ) ;
 			auto totalSize = locale.formattedDataSize( opts.metadata.size ) ;
@@ -284,22 +278,10 @@ void networkAccess::finished( networkAccess::Opts str )
 
 		if( str.iter.hasNext() ){
 
-			m_ctx.versionInfo().check( str.iter.next() ) ;
+			m_ctx.getVersionInfo().check( str.iter.next() ) ;
 		}
 	}else{
-		if( m_file.size() != str.metadata.size ){
-
-			//this->post( engine,QObject::tr( "ERROR" ),str.id ) ;
-
-			if( str.iter.hasNext() ){
-
-				m_ctx.versionInfo().check( str.iter.next() ) ;
-			}
-
-			return ;
-		}
-
-		m_file.close() ;
+		str.file().close() ;
 
 		this->post( engine,QObject::tr( "Download complete" ),str.id ) ;
 
@@ -311,13 +293,17 @@ void networkAccess::finished( networkAccess::Opts str )
 
 			QFile::remove( str.exeBinPath ) ;
 
-			m_file.rename( str.exeBinPath ) ;
+			auto& qfile = str.file() ;
 
-			m_file.setPermissions( m_file.permissions() | QFileDevice::ExeOwner ) ;
+			qfile.rename( str.exeBinPath ) ;
+
+			qfile.setPermissions( qfile.permissions() | QFileDevice::ExeOwner ) ;
+
+			engine.updateCmdPath( str.exeBinPath ) ;
 
 			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
-			m_ctx.versionInfo().check( str.iter ) ;
+			m_ctx.getVersionInfo().check( str.iter ) ;
 		}
 	}
 }
@@ -365,13 +351,13 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
-			m_ctx.versionInfo().check( str.iter ) ;
+			m_ctx.getVersionInfo().check( str.iter ) ;
 		}else{
 			this->post( engine,s.stdError,str.id ) ;
 
 			if( str.iter.hasNext() ){
 
-				m_ctx.versionInfo().check( str.iter.next() ) ;
+				m_ctx.getVersionInfo().check( str.iter.next() ) ;
 			}
 		}
 	} ) ;

@@ -29,11 +29,13 @@ class MainWindowUi ;
 class Logger ;
 class engines ;
 
+#include "networkAccess.h"
+#include "versionInfo.h"
+
 class QWidget ;
 
 namespace utility{
 	class downloadDefaultOptions ;
-	class versionInfo ;
 }
 
 #include<QString>
@@ -52,7 +54,6 @@ public:
 		 MainWindow& mw,
 		 Logger& l,
 		 engines& e,
-		 utility::versionInfo& u,
 		 tabManager& tm,
 		 QString debug ) :
 		m_settings( s ),
@@ -62,14 +63,19 @@ public:
 		m_mainWindow( mw ),
 		m_logger( l ),
 		m_engines( e ),
-		m_versionInfo( u ),
 		m_tabManager( tm ),
-		m_debug( debug )
+		m_debug( debug ),
+		m_networkAccess( *this ),
+		m_versionInfo( m,*this )
 	{
 	}
-	utility::versionInfo& versionInfo() const
+	const versionInfo& getVersionInfo() const
 	{
 		return m_versionInfo ;
+	}
+	const networkAccess& network() const
+	{
+		return m_networkAccess ;
 	}
 	engines& Engines() const
 	{
@@ -115,9 +121,10 @@ private:
 	MainWindow& m_mainWindow ;
 	Logger& m_logger ;
 	engines& m_engines ;
-	utility::versionInfo& m_versionInfo ;
 	tabManager& m_tabManager ;
 	QString m_debug ;
+	networkAccess m_networkAccess ;
+	versionInfo m_versionInfo ;
 };
 
 #endif
