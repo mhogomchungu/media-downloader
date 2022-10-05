@@ -335,7 +335,7 @@ public:
 
 		m_index->next() ;
 
-		utility::args args( m ) ;
+		utility::args args( m,engine ) ;
 
 		utility::updateOptionsStruct opt{ engine,m_settings,args,iString,fd,{ url },e,cctx } ;
 

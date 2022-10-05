@@ -23,6 +23,8 @@
 class safaribooks : public engines::engine::functions
 {
 public:
+	static const char * testData() ;
+
 	safaribooks( const engines&,const engines::engine&,QJsonObject& ) ;
 	~safaribooks() override ;
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;

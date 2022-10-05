@@ -24,6 +24,8 @@
 class wget : public engines::engine::functions
 {
 public:
+	static const char * testData() ;
+
 	~wget() override ;
 	wget( const engines& e,const engines::engine& s,QJsonObject& ) ;
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;

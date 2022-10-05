@@ -20,6 +20,103 @@
 #include "wget.h"
 #include "../utility.h"
 
+const char * wget::testData()
+{
+	return R"R(--2022-10-05 11:56:40--  https://github.com/mhogomchungu/sirikali/releases/download/1.5.0/SiriKali-1.5.0.setup.exe
+Resolving github.com (github.com)... 140.82.121.3
+Connecting to github.com (github.com)|140.82.121.3|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/65425538/6cb063b1-2305-4976-8e9c-5c80d3bcf3d6?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20221005%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221005T085725Z&X-Amz-Expires=300&X-Amz-Signature=864c663c14e313927c42dae49a60622869b1b3067f41d93f6773aedf79f18fed&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=65425538&response-content-disposition=attachment%3B%20filename%3DSiriKali-1.5.0.setup.exe&response-content-type=application%2Foctet-stream [following]
+--2022-10-05 11:56:45--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/65425538/6cb063b1-2305-4976-8e9c-5c80d3bcf3d6?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20221005%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221005T085725Z&X-Amz-Expires=300&X-Amz-Signature=864c663c14e313927c42dae49a60622869b1b3067f41d93f6773aedf79f18fed&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=65425538&response-content-disposition=attachment%3B%20filename%3DSiriKali-1.5.0.setup.exe&response-content-type=application%2Foctet-stream
+Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.109.133, ...
+Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.111.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 12486371 (12M) [application/octet-stream]
+Saving to: ‘SiriKali-1.5.0.setup.exe’
+
+
+SiriKali-1.5.0.setu   0%[                    ]       0  --.-KB/s
+SiriKali-1.5.0.setu   0%[                    ]  71.39K   316KB/s
+SiriKali-1.5.0.setu   1%[                    ] 231.39K   529KB/s
+SiriKali-1.5.0.setu   3%[                    ] 407.39K   630KB/s
+SiriKali-1.5.0.setu   4%[                    ] 583.39K   688KB/s
+SiriKali-1.5.0.setu   5%[>                   ] 705.20K   629KB/s
+SiriKali-1.5.0.setu   7%[>                   ] 945.20K   710KB/s
+SiriKali-1.5.0.setu   9%[>                   ]   1.09M   730KB/s
+SiriKali-1.5.0.setu  10%[=>                  ]   1.28M   756KB/s
+SiriKali-1.5.0.setu  12%[=>                  ]   1.47M   778KB/s
+SiriKali-1.5.0.setu  14%[=>                  ]   1.69M   807KB/s
+SiriKali-1.5.0.setu  15%[==>                 ]   1.80M   722KB/s
+SiriKali-1.5.0.setu  17%[==>                 ]   2.12M   789KB/s
+SiriKali-1.5.0.setu  19%[==>                 ]   2.34M   808KB/s
+SiriKali-1.5.0.setu  20%[===>                ]   2.49M   805KB/s    eta 12s
+SiriKali-1.5.0.setu  23%[===>                ]   2.75M   833KB/s    eta 12s
+SiriKali-1.5.0.setu  24%[===>                ]   2.92M   848KB/s    eta 12s
+SiriKali-1.5.0.setu  25%[====>               ]   3.08M   857KB/s    eta 12s
+SiriKali-1.5.0.setu  27%[====>               ]   3.29M   866KB/s    eta 12s
+SiriKali-1.5.0.setu  29%[====>               ]   3.53M   889KB/s    eta 10s
+SiriKali-1.5.0.setu  31%[=====>              ]   3.78M   940KB/s    eta 10s
+SiriKali-1.5.0.setu  33%[=====>              ]   3.96M   928KB/s    eta 10s
+SiriKali-1.5.0.setu  34%[=====>              ]   4.06M   896KB/s    eta 10s
+SiriKali-1.5.0.setu  34%[=====>              ]   4.10M   841KB/s    eta 10s
+SiriKali-1.5.0.setu  34%[=====>              ]   4.11M   709KB/s    eta 11s
+SiriKali-1.5.0.setu  35%[======>             ]   4.25M   690KB/s    eta 11s
+SiriKali-1.5.0.setu  36%[======>             ]   4.30M   548KB/s    eta 12s
+SiriKali-1.5.0.setu  36%[======>             ]   4.33M   555KB/s    eta 12s
+SiriKali-1.5.0.setu  36%[======>             ]   4.39M   472KB/s    eta 12s
+SiriKali-1.5.0.setu  38%[======>             ]   4.56M   468KB/s    eta 12s
+SiriKali-1.5.0.setu  38%[======>             ]   4.61M   441KB/s    eta 13s
+SiriKali-1.5.0.setu  39%[======>             ]   4.67M   405KB/s    eta 13s
+SiriKali-1.5.0.setu  39%[======>             ]   4.73M   339KB/s    eta 14s
+SiriKali-1.5.0.setu  40%[=======>            ]   4.86M   335KB/s    eta 14s
+SiriKali-1.5.0.setu  42%[=======>            ]   5.07M   340KB/s    eta 14s
+SiriKali-1.5.0.setu  43%[=======>            ]   5.19M   326KB/s    eta 14s
+SiriKali-1.5.0.setu  44%[=======>            ]   5.31M   318KB/s    eta 14s
+SiriKali-1.5.0.setu  45%[========>           ]   5.45M   285KB/s    eta 12s
+SiriKali-1.5.0.setu  47%[========>           ]   5.65M   299KB/s    eta 12s
+SiriKali-1.5.0.setu  49%[========>           ]   5.86M   328KB/s    eta 12s
+SiriKali-1.5.0.setu  51%[=========>          ]   6.08M   401KB/s    eta 12s
+SiriKali-1.5.0.setu  51%[=========>          ]   6.19M   395KB/s    eta 12s
+SiriKali-1.5.0.setu  52%[=========>          ]   6.28M   499KB/s    eta 10s
+SiriKali-1.5.0.setu  53%[=========>          ]   6.39M   511KB/s    eta 10s
+SiriKali-1.5.0.setu  54%[=========>          ]   6.51M   531KB/s    eta 10s
+SiriKali-1.5.0.setu  55%[==========>         ]   6.62M   529KB/s    eta 10s
+SiriKali-1.5.0.setu  56%[==========>         ]   6.73M   546KB/s    eta 10s
+SiriKali-1.5.0.setu  57%[==========>         ]   6.84M   551KB/s    eta 9s
+SiriKali-1.5.0.setu  58%[==========>         ]   7.01M   678KB/s    eta 9s
+SiriKali-1.5.0.setu  60%[===========>        ]   7.17M   669KB/s    eta 9s
+SiriKali-1.5.0.setu  61%[===========>        ]   7.36M   692KB/s    eta 9s
+SiriKali-1.5.0.setu  63%[===========>        ]   7.51M   674KB/s    eta 9s
+SiriKali-1.5.0.setu  65%[============>       ]   7.85M   743KB/s    eta 7s
+SiriKali-1.5.0.setu  67%[============>       ]   8.07M   748KB/s    eta 7s
+SiriKali-1.5.0.setu  68%[============>       ]   8.21M   709KB/s    eta 7s
+SiriKali-1.5.0.setu  70%[=============>      ]   8.41M   713KB/s    eta 7s
+SiriKali-1.5.0.setu  72%[=============>      ]   8.65M   746KB/s    eta 7s
+SiriKali-1.5.0.setu  74%[=============>      ]   8.81M   781KB/s    eta 5s
+SiriKali-1.5.0.setu  75%[==============>     ]   8.94M   784KB/s    eta 5s
+SiriKali-1.5.0.setu  76%[==============>     ]   9.06M   774KB/s    eta 5s
+SiriKali-1.5.0.setu  76%[==============>     ]   9.15M   778KB/s    eta 5s
+SiriKali-1.5.0.setu  78%[==============>     ]   9.29M   784KB/s    eta 5s
+SiriKali-1.5.0.setu  78%[==============>     ]   9.40M   784KB/s    eta 4s
+SiriKali-1.5.0.setu  80%[===============>    ]   9.56M   782KB/s    eta 4s
+SiriKali-1.5.0.setu  81%[===============>    ]   9.76M   801KB/s    eta 4s
+SiriKali-1.5.0.setu  84%[===============>    ]  10.07M   832KB/s    eta 4s
+SiriKali-1.5.0.setu  85%[================>   ]  10.23M   827KB/s    eta 4s
+SiriKali-1.5.0.setu  88%[================>   ]  10.49M   836KB/s    eta 2s
+SiriKali-1.5.0.setu  89%[================>   ]  10.67M   834KB/s    eta 2s
+SiriKali-1.5.0.setu  91%[=================>  ]  10.90M   848KB/s    eta 2s
+SiriKali-1.5.0.setu  92%[=================>  ]  11.03M   840KB/s    eta 2s
+SiriKali-1.5.0.setu  94%[=================>  ]  11.21M   837KB/s    eta 2s
+SiriKali-1.5.0.setu  94%[=================>  ]  11.28M   784KB/s    eta 1s
+SiriKali-1.5.0.setu  96%[==================> ]  11.45M   792KB/s    eta 1s
+SiriKali-1.5.0.setu  97%[==================> ]  11.60M   803KB/s    eta 1s
+SiriKali-1.5.0.setu  98%[==================> ]  11.74M   809KB/s    eta 1s
+SiriKali-1.5.0.setu  99%[==================> ]  11.87M   818KB/s    eta 1s
+SiriKali-1.5.0.setu 100%[===================>]  11.91M   826KB/s    in 19s
+
+2022-10-05 11:57:06 (654 KB/s) - ‘SiriKali-1.5.0.setup.exe’ saved [12486371/12486371])R" ;
+}
+
 wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 	engines::engine::functions( e.Settings(),s,e.processEnvironment() )
 {
@@ -77,6 +174,55 @@ wget::~wget()
 wget::wgetFilter::wgetFilter( const QString& e,const engines::engine& engine,int id ) :
 	engines::engine::functions::filter( e,engine,id )
 {
+}
+
+static QByteArray _uiText( const QByteArray& e,const QByteArray& p )
+{
+	QString result = "\n" ;
+
+	auto m = util::split( e,' ',true ) ;
+
+	auto size = m.size() ;
+
+	if( size > 1 ){
+
+		result += QObject::tr( "Speed:" ) + " " + m[ 1 ] ;
+	}
+
+	if( size > 3 ){
+
+		auto w = m[ 3 ] ;
+
+		auto t = QObject::tr( "Time Left" ) ;
+
+		if( result.endsWith( ", " ) ){
+
+			result += t + ": " + w ;
+		}else{
+			result += ", " + t + ": " + w ;
+		}
+	}
+
+	if( size ){
+
+		auto w = m[ 0 ] ;
+
+		auto t = QObject::tr( "Downloaded" ) ;
+
+		if( result.endsWith( ", " ) ){
+
+			result += t + ": " + w ;
+		}else{
+			result += ", " + t + ": " + w ;
+		}
+
+		if( !p.isEmpty() ){
+
+			result += " (" + p + ")" ;
+		}
+	}
+
+	return result.toUtf8() ;
 }
 
 const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
@@ -144,7 +290,7 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 					auto bb = l.mid( b + 1 ) ;
 
-					m_tmp = m_title + "\n" + aa + " " + bb ;
+					m_tmp = m_title + _uiText( bb,aa ) ;
 				}else{
 					m_tmp = m_title + "\n" + m_preProcessing.text() ;
 				}
@@ -153,7 +299,7 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 				if( b != -1 ){
 
-					m_tmp = m_title + "\n" + m.mid( b + 1 ) ;
+					m_tmp = m_title + m_title + _uiText( m.mid( b + 1 ),"" ) ;
 				}else{
 					return m_preProcessing.text() ;
 				}

@@ -171,18 +171,7 @@ namespace utility
 	class args
 	{
 	public:
-		args( const QString& e )
-		{
-			if( !e.isEmpty() ){
-
-				m_otherOptions = util::splitPreserveQuotes( e ) ;
-
-				if( !m_otherOptions.isEmpty() ){
-
-					m_quality = m_otherOptions.takeFirst() ;
-				}
-			}
-		}
+		args( const QString& e,const engines::engine& ) ;
 		const QString& quality() const
 		{
 			return m_quality ;

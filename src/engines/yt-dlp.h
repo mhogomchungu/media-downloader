@@ -25,6 +25,8 @@
 class yt_dlp : public engines::engine::functions
 {
 public:
+	static const char * testData() ;
+
 	~yt_dlp() override ;
 
 	class youtube_dlFilter : public engines::engine::functions::filter

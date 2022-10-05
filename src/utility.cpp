@@ -1122,3 +1122,38 @@ QString utility::installedVersionOfMediaDownloader()
 {
 	return VERSION ;
 }
+
+utility::args::args( const QString& e,const engines::engine& engine )
+{
+	if( !e.isEmpty() ){
+
+		m_otherOptions = util::splitPreserveQuotes( e ) ;
+
+		const auto& q = engine.optionsArgument() ;
+
+		if( !m_otherOptions.isEmpty() ){
+
+			if( !m_otherOptions.at( 0 ).startsWith( "-" ) ){
+
+				m_quality = m_otherOptions.takeFirst() ;
+
+			}else if( !q.isEmpty() ){
+
+				for( int s = m_otherOptions.size() - 1 ; s >= 0  ; s-- ){
+
+					if( q == m_otherOptions[ s ] ){
+
+						if( s < m_otherOptions.size() ){
+
+							m_quality = m_otherOptions.takeAt( s + 1 ) ;
+						}
+
+						break ;
+					}
+				}
+
+				m_otherOptions.removeAll( q ) ;
+			}
+		}
+	}
+}

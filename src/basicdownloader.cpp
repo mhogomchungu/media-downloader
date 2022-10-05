@@ -303,7 +303,7 @@ void basicdownloader::download( const QString& url )
 
 	m_settings.addOptionsHistory( s,settings::tabName::basic ) ;
 
-	this->download( engine,s,m,false ) ;
+	this->download( engine,{ s,engine.engine },m,false ) ;
 }
 
 void basicdownloader::download( const basicdownloader::engine& engine,

@@ -1822,7 +1822,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	int id = utility::concurrentID() ;
 
-	auto logger = make_loggerBatchDownloader( engine.filter( id,utility::args( m ).quality() ),
+	auto logger = make_loggerBatchDownloader( engine.filter( id,utility::args( m,engine ).quality() ),
 						  m_ctx.logger(),
 						  std::move( updater ),
 						  std::move( error ),

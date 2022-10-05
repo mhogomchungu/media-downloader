@@ -213,8 +213,8 @@ Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 
 				auto bbb = m_locale.formattedDataSize( bb ) ;
 
-				auto aa = "Time left: " + a ;
-				auto bb = "Downloaded: " + bbb + " / " + luxHeader.fileSizeString ;
+				auto aa = QObject::tr( "Time Left" ) + ": " + a ;
+				auto bb = QObject::tr( "Downloaded" ) + ": " + bbb + " / " + luxHeader.fileSizeString ;
 				auto cc = "(" + c + ")" ;
 
 				auto ggg = aa + ", " + bb + " " + cc ;

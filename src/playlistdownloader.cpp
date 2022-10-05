@@ -814,7 +814,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	auto id = utility::concurrentID() ;
 	auto oopts  = playlistdownloader::make_options( engine,{ m_ctx,m_ctx.debug(),false,index },std::move( functions ) ) ;
-	auto logger = make_loggerBatchDownloader( engine.filter( id,utility::args( m ).quality() ),
+	auto logger = make_loggerBatchDownloader( engine.filter( id,utility::args( m,engine ).quality() ),
 						  m_ctx.logger(),
 						  std::move( updater ),
 						  std::move( error ),
@@ -1036,7 +1036,7 @@ void playlistdownloader::getList( customOptions&& c,
 	auto logger = make_loggerPlaylistDownloader( m_table,m_ctx.logger(),id,std::move( stdOut ),std::move( stdError ) ) ;
 	auto term   = m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ) ;
 	auto ch     = QProcess::ProcessChannel::StandardOutput ;
-	auto argsq  = utility::args( m_ui.lineEditPLUrlOptions->text() ).quality() ;
+	auto argsq  = utility::args( m_ui.lineEditPLUrlOptions->text(),engine ).quality() ;
 
 	if( !m_gettingPlaylist ){
 
