@@ -279,6 +279,10 @@
         <source>Url Manager</source>
         <translation>Gestione URL</translation>
     </message>
+    <message>
+        <source>Check For Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -709,6 +713,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
+    </message>
+    <message>
+        <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

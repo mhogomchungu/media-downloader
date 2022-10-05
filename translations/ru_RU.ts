@@ -50,9 +50,9 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="467"/>
         <location filename="../src/mainwindow.ui" line="611"/>
-        <location filename="../src/mainwindow.ui" line="1559"/>
-        <location filename="../src/mainwindow.ui" line="1609"/>
-        <location filename="../src/mainwindow.ui" line="1852"/>
+        <location filename="../src/mainwindow.ui" line="1572"/>
+        <location filename="../src/mainwindow.ui" line="1622"/>
+        <location filename="../src/mainwindow.ui" line="1865"/>
         <source>Options</source>
         <translation>Параметры</translation>
     </message>
@@ -61,8 +61,8 @@
         <location filename="../src/mainwindow.ui" line="506"/>
         <location filename="../src/mainwindow.ui" line="695"/>
         <location filename="../src/mainwindow.ui" line="1127"/>
-        <location filename="../src/mainwindow.ui" line="1935"/>
-        <location filename="../src/mainwindow.cpp" line="70"/>
+        <location filename="../src/mainwindow.ui" line="1948"/>
+        <location filename="../src/mainwindow.cpp" line="69"/>
         <source>Quit</source>
         <translation>Выйти</translation>
     </message>
@@ -240,13 +240,18 @@
         <translation>Автосохранение списка незагруженных медиа</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1519"/>
+        <location filename="../src/mainwindow.ui" line="1514"/>
+        <source>Check For Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1532"/>
         <source>Reset Option To Its Default</source>
         <translation>Сбросить параметры до начальных</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1522"/>
-        <location filename="../src/mainwindow.ui" line="1675"/>
+        <location filename="../src/mainwindow.ui" line="1535"/>
+        <location filename="../src/mainwindow.ui" line="1688"/>
         <source>Set Defaults</source>
         <translation>Сброс</translation>
     </message>
@@ -261,7 +266,7 @@
         <translation>Одновременных загрузок</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1507"/>
+        <location filename="../src/mainwindow.ui" line="1520"/>
         <source>Preset Options</source>
         <translation>Пресеты параметров</translation>
     </message>
@@ -291,13 +296,13 @@
         <translation>Удалить плагин</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1948"/>
+        <location filename="../src/mainwindow.ui" line="1961"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1634"/>
-        <location filename="../src/mainwindow.ui" line="1733"/>
+        <location filename="../src/mainwindow.ui" line="1647"/>
+        <location filename="../src/mainwindow.ui" line="1746"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Параметры плагина по умолчанию</translation>
     </message>
@@ -315,22 +320,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="926"/>
         <location filename="../src/mainwindow.ui" line="984"/>
-        <location filename="../src/mainwindow.ui" line="1554"/>
-        <location filename="../src/mainwindow.ui" line="1593"/>
+        <location filename="../src/mainwindow.ui" line="1567"/>
+        <location filename="../src/mainwindow.ui" line="1606"/>
         <source>Ui Name</source>
         <translation>Имя UI</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1006"/>
-        <location filename="../src/mainwindow.ui" line="1628"/>
-        <location filename="../src/mainwindow.ui" line="1747"/>
-        <location filename="../src/mainwindow.ui" line="1891"/>
+        <location filename="../src/mainwindow.ui" line="1641"/>
+        <location filename="../src/mainwindow.ui" line="1760"/>
+        <location filename="../src/mainwindow.ui" line="1904"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1019"/>
-        <location filename="../src/mainwindow.ui" line="1795"/>
+        <location filename="../src/mainwindow.ui" line="1808"/>
         <source>Url</source>
         <translation>URL</translation>
     </message>
@@ -340,48 +345,48 @@
         <translation>Готово</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1656"/>
-        <location filename="../src/mainwindow.ui" line="1914"/>
+        <location filename="../src/mainwindow.ui" line="1669"/>
+        <location filename="../src/mainwindow.ui" line="1927"/>
         <source>Engine&apos;s Name</source>
         <translation>Плагин</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1688"/>
+        <location filename="../src/mainwindow.ui" line="1701"/>
         <source>Path To Cookie FIle</source>
         <translation>Путь к файлу cookie</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1728"/>
+        <location filename="../src/mainwindow.ui" line="1741"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1770"/>
+        <location filename="../src/mainwindow.ui" line="1783"/>
         <source>Options To Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1782"/>
+        <location filename="../src/mainwindow.ui" line="1795"/>
         <source>Url Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1800"/>
+        <location filename="../src/mainwindow.ui" line="1813"/>
         <source>Download Options</source>
         <translation>Параметры загрузки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1814"/>
+        <location filename="../src/mainwindow.ui" line="1827"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Привязка URL к движку</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1833"/>
+        <location filename="../src/mainwindow.ui" line="1846"/>
         <source>Url Filter</source>
         <translation>Фильтр URL</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1954"/>
+        <location filename="../src/mainwindow.ui" line="1967"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
@@ -441,7 +446,7 @@
         <translation>Плагин:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1312"/>
+        <location filename="../src/batchdownloader.cpp" line="1310"/>
         <source>Get List From File</source>
         <translation>Получить список из файла</translation>
     </message>
@@ -454,8 +459,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="478"/>
-        <location filename="../src/utility.h" line="486"/>
-        <location filename="../src/utility.h" line="553"/>
+        <location filename="../src/utility.h" line="476"/>
+        <location filename="../src/utility.h" line="543"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
@@ -655,78 +660,74 @@
         <translation>Прошедшее время:</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="59"/>
-        <location filename="../src/utility.cpp" line="1007"/>
+        <location filename="../src/networkAccess.cpp" line="61"/>
         <source>Checking installed version of</source>
         <translation>Проверка установленной версии</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="64"/>
-        <location filename="../src/utility.cpp" line="979"/>
-        <location filename="../src/utility.cpp" line="1033"/>
+        <location filename="../src/networkAccess.cpp" line="66"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Не удалось найти информацию о версии, убедитесь, что &quot;%1&quot; установлен и работает правильно</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/utility.cpp" line="1029"/>
+        <location filename="../src/networkAccess.cpp" line="69"/>
         <source>Found version</source>
         <translation>Найдена версия</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="88"/>
+        <location filename="../src/networkAccess.cpp" line="90"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="180"/>
+        <location filename="../src/networkAccess.cpp" line="178"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Не удалось загрузить, не удается создать путь: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="186"/>
+        <location filename="../src/networkAccess.cpp" line="184"/>
         <source>Start Downloading</source>
         <translation>Начать загрузку</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="983"/>
+        <location filename="../src/networkAccess.cpp" line="204"/>
         <location filename="../src/networkAccess.cpp" line="206"/>
-        <location filename="../src/networkAccess.cpp" line="208"/>
-        <location filename="../src/networkAccess.cpp" line="253"/>
+        <location filename="../src/networkAccess.cpp" line="247"/>
         <source>Download Failed</source>
         <translation>Не удалось загрузить</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="99"/>
+        <location filename="../src/networkAccess.cpp" line="101"/>
         <source>Failed to parse json file from github</source>
         <translation>Не удалось проанализировать JSON-файл из github</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="118"/>
         <location filename="../src/engines/gallery-dl.cpp" line="122"/>
-        <location filename="../src/networkAccess.cpp" line="239"/>
-        <location filename="../src/networkAccess.cpp" line="270"/>
-        <location filename="../src/networkAccess.cpp" line="386"/>
+        <location filename="../src/networkAccess.cpp" line="233"/>
+        <location filename="../src/networkAccess.cpp" line="264"/>
+        <location filename="../src/networkAccess.cpp" line="372"/>
         <source>Downloading</source>
         <translation>Загружается</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="241"/>
+        <location filename="../src/networkAccess.cpp" line="235"/>
         <source>Destination</source>
         <translation>Место назначения</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="304"/>
+        <location filename="../src/networkAccess.cpp" line="286"/>
         <source>Download complete</source>
         <translation>Загрузка завершена</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="327"/>
+        <location filename="../src/networkAccess.cpp" line="313"/>
         <source>Extracting archive: </source>
         <translation>Распаковка архива: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="310"/>
+        <location filename="../src/networkAccess.cpp" line="292"/>
         <source>Renaming file to: </source>
         <translation>Переименовать файл как: </translation>
     </message>
@@ -741,7 +742,7 @@
         <translation>Загрузка завершена</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="484"/>
+        <location filename="../src/settings.cpp" line="499"/>
         <source>Resetting download folder to default</source>
         <translation>Сброс папки загрузки на по умолчанию</translation>
     </message>
@@ -751,19 +752,19 @@
         <translation>Постобработка</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="519"/>
-        <location filename="../src/utility.h" line="527"/>
-        <location filename="../src/utility.h" line="532"/>
+        <location filename="../src/utility.h" line="509"/>
+        <location filename="../src/utility.h" line="517"/>
+        <location filename="../src/utility.h" line="522"/>
         <source>Download</source>
         <translation>Загрузить</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="524"/>
+        <location filename="../src/utility.h" line="514"/>
         <source>Force Download</source>
         <translation>Форсировать загрузку</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="542"/>
+        <location filename="../src/utility.h" line="532"/>
         <source>Show Log Window</source>
         <translation>Показать окно журнала</translation>
     </message>
@@ -816,7 +817,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1317"/>
+        <location filename="../src/batchdownloader.cpp" line="1315"/>
         <source>Set Batch File</source>
         <translation>Установить пакетный файл</translation>
     </message>
@@ -836,7 +837,7 @@
         <translation>Начать загрузку</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1108"/>
+        <location filename="../src/batchdownloader.cpp" line="1106"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
@@ -878,14 +879,14 @@
         <translation>Показать параметры медиа</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1100"/>
-        <location filename="../src/batchdownloader.cpp" line="1114"/>
+        <location filename="../src/batchdownloader.cpp" line="1098"/>
+        <location filename="../src/batchdownloader.cpp" line="1112"/>
         <source>Set</source>
         <translation>Установить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1481"/>
-        <location filename="../src/batchdownloader.cpp" line="1891"/>
+        <location filename="../src/batchdownloader.cpp" line="1479"/>
+        <location filename="../src/batchdownloader.cpp" line="1887"/>
         <source>Downloading subtitles</source>
         <translation>Загрузка субтитров</translation>
     </message>
@@ -926,7 +927,7 @@
     </message>
     <message>
         <location filename="../src/configure.cpp" line="381"/>
-        <location filename="../src/configure.cpp" line="537"/>
+        <location filename="../src/configure.cpp" line="562"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -936,17 +937,22 @@
         <translation>Установить папку загрузки</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="765"/>
+        <location filename="../src/configure.cpp" line="523"/>
+        <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="791"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="769"/>
+        <location filename="../src/configure.cpp" line="795"/>
         <source>Best-audio</source>
         <translation>Лучшее аудио</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="773"/>
+        <location filename="../src/configure.cpp" line="799"/>
         <source>Best-audiovideo</source>
         <translation>Лучшее аудио-видео</translation>
     </message>
