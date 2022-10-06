@@ -194,7 +194,16 @@ public:
 		template< typename T >
 		QString indexAsString( T s ) const
 		{
-			auto m = QString::number( s + 1 ) ;
+			auto m = [ & ](){
+
+				if( m_init_position == index::tab::batch ){
+
+					return QString::number( s + 1 ) ;
+				}else{
+					return QString::number( s ) ;
+				}
+			}() ;
+
 			auto r = QString::number( m_table.rowCount() + 1 ) ;
 
 			while( r.size() > m.size() ){
