@@ -189,7 +189,7 @@ public:
 		}
 		QString indexAsString() const
 		{
-			return this->indexAsString( m_index ) ;
+			return this->indexAsString( this->Entry( m_index ).index ) ;
 		}
 		template< typename T >
 		QString indexAsString( T s ) const
