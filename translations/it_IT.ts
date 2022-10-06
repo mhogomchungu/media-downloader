@@ -281,7 +281,7 @@
     </message>
     <message>
         <source>Check For Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Controlla aggiornamenti</translation>
     </message>
 </context>
 <context>
@@ -716,7 +716,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>La versione attuale (%1) non è la versione aggiornata (%2)</translation>
     </message>
 </context>
 <context>
