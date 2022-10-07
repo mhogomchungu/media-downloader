@@ -319,7 +319,7 @@ public:
 	{
 		const auto& m = m_index->options() ;
 
-		auto uiIndex = m_index->uiIndex() ;
+		const auto& uiIndex = m_index->uiIndex() ;
 
 		bool fd = m_index->forceDownload() ;
 

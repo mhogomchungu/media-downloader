@@ -367,7 +367,7 @@ namespace utility
 		const engines::engine& engine ;
 		settings& stts;
 		const utility::args& args ;
-		utility::uiIndex uiIndex ;
+		const utility::uiIndex& uiIndex ;
 		bool forceDownload ;
 		const QStringList& urls ;
 		const tableWidget::entry& tableEntry ;
