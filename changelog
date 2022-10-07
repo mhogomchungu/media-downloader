@@ -149,3 +149,8 @@ Version 1.2.0(April 1st, 2021)
     - Add GUI options in playlist downloader tab to enable/disable internal archive file and to clear it.
     - Fix a bug that prevented downloading of urls from a file if the file use "\r\n" as line separator.
     - Add ability to have multiple profiles for downloading options.
+
+  Version 2.7.0(Unreleased)
+    [All]
+    - Add German translations.
+    - Add a GUI option to check for Media Downloader update on startup.
