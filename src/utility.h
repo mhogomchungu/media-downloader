@@ -355,9 +355,10 @@ namespace utility
 		{
 		}
 
-		QString toString( const QStringList& ) const ;
-		QString toString() const ;
+		QString toString( bool,const QStringList& ) const ;
 	private:
+		QString toString( int ) const ;
+
 		int m_index ;
 		int m_total ;
 	} ;

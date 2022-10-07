@@ -1158,26 +1158,35 @@ utility::args::args( const QString& e,const engines::engine& engine )
 	}
 }
 
-QString utility::uiIndex::toString( const QStringList& e ) const
+QString utility::uiIndex::toString( bool pad,const QStringList& e ) const
 {
-	for( int m = 0 ; m < e.size() ; m++ ){
+	auto start = [ & ](){
 
-		if( e[ m ] == "--autonumber-start" ){
+		for( int m = 0 ; m < e.size() ; m++ ){
 
-			if( m + 1 < e.size() ){
+			if( e[ m ] == "--autonumber-start" ){
 
-				auto s = e[ m + 1 ].toInt() - 1 ;
-				return QString::number( m_index + s ) ;
+				if( m + 1 < e.size() ){
+
+					return e[ m + 1 ].toInt() - 1 ;
+				}
 			}
 		}
-	}
 
-	return QString::number( m_index ) ;
+		return 0 ;
+	}() ;
+
+	if( pad ){
+
+		return this->toString( start + m_index ) ;
+	}else{
+		return QString::number( start + m_index ) ;
+	}
 }
 
-QString utility::uiIndex::toString() const
+QString utility::uiIndex::toString( int index ) const
 {
-	auto s = QString::number( m_index ) ;
+	auto s = QString::number( index ) ;
 
 	auto m = QString::number( m_total ) ;
 
