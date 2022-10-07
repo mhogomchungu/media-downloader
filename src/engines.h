@@ -42,6 +42,10 @@ class tableWidget ;
 class settings ;
 class Context ;
 
+namespace utility {
+	class uiIndex ;
+}
+
 class engines{
 public:
 	static bool filePathIsValid( const QFileInfo& ) ;
@@ -447,7 +451,7 @@ public:
 			{
 				const QString& quality ;
 				const QStringList& userOptions ;
-				const QString& indexAsString ;
+				const utility::uiIndex& uiIndex ;
 				const QString& playlist ;
 				const QString& playlist_count ;
 				const QString& playlist_id ;

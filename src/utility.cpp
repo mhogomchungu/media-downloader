@@ -550,7 +550,7 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 	const engines::enginePaths& ep = s.ctx.Engines().engineDirPaths() ;
 	settings& settings             = s.stts ;
 	const utility::args& args      = s.args ;
-	const QString& indexAsString   = s.indexAsString ;
+	const utility::uiIndex& uiIndex = s.uiIndex;
 	const QStringList& urls        = s.urls ;
 	bool forceDownload             = s.forceDownload ;
 	const QString& downloadPath    = settings.downloadFolder() ;
@@ -576,7 +576,7 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 	engine.updateDownLoadCmdOptions( { args.quality(),
 					   args.otherOptions(),
-					   indexAsString,
+					   uiIndex,
 					   ent.playlist,
 					   ent.playlist_count,
 					   ent.playlist_id,
@@ -1156,4 +1156,35 @@ utility::args::args( const QString& e,const engines::engine& engine )
 			}
 		}
 	}
+}
+
+QString utility::uiIndex::toString( const QStringList& e ) const
+{
+	for( int m = 0 ; m < e.size() ; m++ ){
+
+		if( e[ m ] == "--autonumber-start" ){
+
+			if( m + 1 < e.size() ){
+
+				auto s = e[ m + 1 ].toInt() - 1 ;
+				return QString::number( m_index + s ) ;
+			}
+		}
+	}
+
+	return QString::number( m_index ) ;
+}
+
+QString utility::uiIndex::toString() const
+{
+	auto s = QString::number( m_index ) ;
+
+	auto m = QString::number( m_total ) ;
+
+	while( s.size() < m.size() ){
+
+		s.insert( 0,'0' ) ;
+	}
+
+	return s ;
 }

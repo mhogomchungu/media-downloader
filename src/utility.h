@@ -344,12 +344,30 @@ namespace utility
 		QLocale m_locale ;
 	};
 
+	class uiIndex
+	{
+	public:
+		uiIndex() : m_index( 0 ),m_total( 0 )
+		{
+		}
+		uiIndex( int index,int total ) :
+			m_index( index ),m_total( total )
+		{
+		}
+
+		QString toString( const QStringList& ) const ;
+		QString toString() const ;
+	private:
+		int m_index ;
+		int m_total ;
+	} ;
+
 	struct updateOptionsStruct
 	{
 		const engines::engine& engine ;
 		settings& stts;
 		const utility::args& args ;
-		const QString& indexAsString ;
+		utility::uiIndex uiIndex ;
 		bool forceDownload ;
 		const QStringList& urls ;
 		const tableWidget::entry& tableEntry ;

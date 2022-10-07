@@ -712,14 +712,13 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 				auto& e = s.ourOptions[ m + 1 ] ;
 
-				e.replace( "%(autonumber)s",s.indexAsString ) ;
-				e.replace( "%(playlist_index)s",s.indexAsString ) ;
+				e.replace( "%(autonumber)s",s.uiIndex.toString( s.ourOptions ) ) ;
+				e.replace( "%(playlist_index)s",s.uiIndex.toString() ) ;
 				e.replace( "%(playlist_id)s",s.playlist_id ) ;
 				e.replace( "%(playlist_title)s",s.playlist_title ) ;
 				e.replace( "%(playlist)s",s.playlist ) ;
 				e.replace( "%(playlist_count)s",s.playlist_count ) ;
 				e.replace( "%(playlist_uploader)s",s.playlist_uploader ) ;
-				e.replace( "%(playlist_index)s",s.indexAsString ) ;
 				e.replace( "%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
 				e.replace( "%(n_entries)s",s.n_entries ) ;
 

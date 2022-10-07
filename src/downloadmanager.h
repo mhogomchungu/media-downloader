@@ -187,31 +187,14 @@ public:
 		{
 			return this->options( m_index ) ;
 		}
-		QString indexAsString() const
+		utility::uiIndex uiIndex() const
 		{
-			return this->indexAsString( this->Entry( m_index ).index ) ;
-		}
-		template< typename T >
-		QString indexAsString( T s ) const
-		{
-			auto m = [ & ](){
+			if( m_init_position == index::tab::batch ){
 
-				if( m_init_position == index::tab::batch ){
-
-					return QString::number( s + 1 ) ;
-				}else{
-					return QString::number( s ) ;
-				}
-			}() ;
-
-			auto r = QString::number( m_table.rowCount() + 1 ) ;
-
-			while( r.size() > m.size() ){
-
-				m = "0" + m ;
+				return { this->Entry( m_index ).index + 1,m_table.rowCount() } ;
+			}else{
+				return { this->Entry( m_index ).index,m_table.rowCount() } ;
 			}
-
-			return m ;
 		}
 	private:
 		struct entry
@@ -336,7 +319,7 @@ public:
 	{
 		const auto& m = m_index->options() ;
 
-		auto iString = m_index->indexAsString() ;
+		auto uiIndex = m_index->uiIndex() ;
 
 		bool fd = m_index->forceDownload() ;
 
@@ -346,7 +329,7 @@ public:
 
 		utility::args args( m,engine ) ;
 
-		utility::updateOptionsStruct opt{ engine,m_settings,args,iString,fd,{ url },e,cctx } ;
+		utility::updateOptionsStruct opt{ engine,m_settings,args,uiIndex,fd,{ url },e,cctx } ;
 
 		auto ctx = utility::make_ctx( engine,
 					      std::move( opts ),
