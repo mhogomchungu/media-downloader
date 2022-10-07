@@ -608,6 +608,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>La rete non ha risposto entro %1 secondi</translation>
     </message>
+    <message>
+        <source>German (Germany)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

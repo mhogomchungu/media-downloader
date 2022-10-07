@@ -459,8 +459,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="478"/>
-        <location filename="../src/utility.h" line="476"/>
-        <location filename="../src/utility.h" line="543"/>
+        <location filename="../src/utility.h" line="495"/>
+        <location filename="../src/utility.h" line="562"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -552,6 +552,11 @@
     <message>
         <location filename="../src/translator.cpp" line="37"/>
         <source>Swedish (Sweden)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/translator.cpp" line="38"/>
+        <source>German (Germany)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -752,19 +757,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="509"/>
-        <location filename="../src/utility.h" line="517"/>
-        <location filename="../src/utility.h" line="522"/>
+        <location filename="../src/utility.h" line="528"/>
+        <location filename="../src/utility.h" line="536"/>
+        <location filename="../src/utility.h" line="541"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="514"/>
+        <location filename="../src/utility.h" line="533"/>
         <source>Force Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="532"/>
+        <location filename="../src/utility.h" line="551"/>
         <source>Show Log Window</source>
         <translation type="unfinished"></translation>
     </message>

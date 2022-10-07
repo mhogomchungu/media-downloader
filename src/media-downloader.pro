@@ -47,4 +47,5 @@ TRANSLATIONS = \
 ../translations/ja_JP.ts \
 ../translations/fr_FR.ts \
 ../translations/it_IT.ts \
-../translations/sv_SE.ts
+../translations/sv_SE.ts \
+../translations/de_DE.ts
