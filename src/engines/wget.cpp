@@ -117,6 +117,105 @@ SiriKali-1.5.0.setu 100%[===================>]  11.91M   826KB/s    in 19s
 2022-10-05 11:57:06 (654 KB/s) - ‘SiriKali-1.5.0.setup.exe’ saved [12486371/12486371])R" ;
 }
 
+void wget::init( const QString& name,
+		 const QString& configFileName,
+		 Logger& logger,
+		 const engines::enginePaths& enginePath )
+{
+	auto m = enginePath.enginePath( configFileName ) ;
+
+	if( !QFile::exists( m ) ){
+
+		QJsonObject mainObj ;
+
+		mainObj.insert( "ShowListTableBoundary",QJsonObject() ) ;
+
+		mainObj.insert( "DefaultListCmdOptions",QJsonArray() ) ;
+
+		mainObj.insert( "DownloadUrl","" ) ;
+
+		mainObj.insert( "Name",name ) ;
+
+		mainObj.insert( "CookieArgument","" ) ;
+
+		mainObj.insert( "DefaultDownLoadCmdOptions",[](){
+
+			QJsonArray arr ;
+			arr.append( "--progress=bar:force" ) ;
+			return arr ;
+		}() ) ;
+
+		mainObj.insert( "SkipLineWithText",QJsonArray() ) ;
+
+		utility::addJsonCmd json( mainObj ) ;
+
+		json.add( { { "Generic" },{ { "x86",name,{ name } },
+					    { "amd64",name,{ name } } } } ) ;
+
+		auto exe = name + ".exe" ;
+
+		json.add( { { "Windows" },{ { "x86",exe,{ exe } },
+					    { "amd64",exe,{ exe } } } } ) ;
+
+		json.done() ;
+
+		mainObj.insert( "RemoveText",QJsonArray() ) ;
+
+		mainObj.insert( "SplitLinesBy",QJsonArray() ) ;
+
+		mainObj.insert( "PlayListIdArguments",QJsonArray() ) ;
+
+		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.2.0" ) ;
+
+		mainObj.insert( "PlaylistItemsArgument","" ) ;
+
+		mainObj.insert( "ControlJsonStructure",[](){
+
+			QJsonObject obj ;
+
+			obj.insert( "lhs",[](){
+
+				QJsonObject obj ;
+
+				obj.insert( "containsAny",[](){
+
+					QJsonArray arr ;
+
+					arr.append( "%[" ) ;
+					arr.append( "% [" ) ;
+					arr.append( "<=>" ) ;
+
+					return arr ;
+				}() ) ;
+
+				return obj ;
+			}() ) ;
+
+			return obj ;
+		}() ) ;
+
+		mainObj.insert( "VersionArgument","--version" ) ;
+
+		mainObj.insert( "OptionsArgument","" ) ;
+
+		mainObj.insert( "BackendPath",utility::stringConstants::defaultPath() ) ;
+
+		mainObj.insert( "VersionStringLine",0 ) ;
+
+		mainObj.insert( "VersionStringPosition",2 ) ;
+
+		mainObj.insert( "BatchFileArgument","-i" ) ;
+
+		mainObj.insert( "CanDownloadPlaylist",false ) ;
+
+		mainObj.insert( "LikeYoutubeDl",false ) ;
+
+		mainObj.insert( "ReplaceOutputWithProgressReport",false ) ;
+
+		engines::file( m,logger ).write( mainObj ) ;
+	}
+}
+
 wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 	engines::engine::functions( e.Settings(),s,e.processEnvironment() )
 {

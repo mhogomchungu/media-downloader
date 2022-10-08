@@ -1586,5 +1586,6 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 	if( utility::platformIsWindows() ){
 
 		aria2c::init( "aria2c","aria2c.json",logger,enginePath ) ;
+		wget::init( "wget","wget.json",logger,enginePath ) ;
 	}
 }
