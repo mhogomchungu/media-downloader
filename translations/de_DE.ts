@@ -217,7 +217,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1365"/>
         <source>Show Thumbnails</source>
-        <translation>Thumbnails anzeigen</translation>
+        <translation>Vorschaubilder anzeigen</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1407"/>
@@ -242,7 +242,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1514"/>
         <source>Check For Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Auf Updates prüfen</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1532"/>
@@ -824,7 +824,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="1315"/>
         <source>Set Batch File</source>
-        <translation>Batch-Datei festelegen</translation>
+        <translation>Batch-Datei festlegen</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="315"/>
@@ -944,7 +944,7 @@
     <message>
         <location filename="../src/configure.cpp" line="523"/>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ihre aktuelle Version(%1) ist nicht die neueste Version(%2)</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="791"/>
