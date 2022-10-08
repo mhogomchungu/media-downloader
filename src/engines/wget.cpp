@@ -221,7 +221,7 @@ static QByteArray _uiText( const QByteArray& e,const QByteArray& p,const QByteAr
 			result += ", " + t + ": " + w ;
 		}
 
-		if( !length.isEmpty() ){
+		if( !length.isEmpty() && length != "N/A" ){
 
 			result += " / " + length ;
 		}
@@ -253,37 +253,47 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 		const auto lines = util::split( line,'\n' ) ;
 
-		for( const auto& it : lines ){
+		if( m_title.isEmpty() ){
 
-			if( it.startsWith( "Saving to: " ) ){
+			for( const auto& it : lines ){
 
-				m_title = it.mid( 11 ) ;
-				m_title.replace( "‘","" ) ;
-				m_title.replace( "’","" ) ;
-				m_title.replace( "'","" ) ;
-				m_title.replace( "'","" ) ;
+				if( it.startsWith( "Saving to: " ) ){
 
-				break ;
+					m_title = it.mid( 11 ) ;
+					m_title.replace( "‘","" ) ;
+					m_title.replace( "’","" ) ;
+					m_title.replace( "'","" ) ;
+					m_title.replace( "'","" ) ;
+
+					break ;
+				}
 			}
 		}
 
-		for( const auto& it : lines ){
+		if( m_length.isEmpty() ){
 
-			if( it.startsWith( "Length: " ) ){
+			for( const auto& it : lines ){
 
-				auto m = util::split( it,' ',true ) ;
+				if( it.startsWith( "Length: " ) ){
 
-				if( m.size() > 2 ){
+					auto m = util::split( it,' ',true ) ;
 
-					m_length = m[ 2 ].toUtf8() ;
+					if( m.size() > 2 ){
 
-					m_length.replace( "(","" ) ;
-					m_length.replace( ")","" ) ;
-					m_length.replace( ",","" ) ;
+						if( m[ 1 ] == "unspecified" ){
 
+							m_length = "N/A" ;
+						}else{
+							m_length = m[ 2 ].toUtf8() ;
+
+							m_length.replace( "(","" ) ;
+							m_length.replace( ")","" ) ;
+							m_length.replace( ",","" ) ;
+						}
+					}
+
+					break ;
 				}
-
-				break ;
 			}
 		}
 	}
@@ -331,7 +341,7 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 				if( b != -1 ){
 
-					m_tmp = m_title + m_title + _uiText( m.mid( b + 1 ),"",m_length ) ;
+					m_tmp = m_title + _uiText( m.mid( b + 1 ),"",m_length ) ;
 				}else{
 					return m_preProcessing.text() ;
 				}
