@@ -47,6 +47,7 @@ public:
 		~wgetFilter() override ;
 	private:
 		QByteArray m_title ;
+		QByteArray m_length ;
 		QByteArray m_tmp ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 	} ;

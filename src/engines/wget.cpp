@@ -176,7 +176,7 @@ wget::wgetFilter::wgetFilter( const QString& e,const engines::engine& engine,int
 {
 }
 
-static QByteArray _uiText( const QByteArray& e,const QByteArray& p )
+static QByteArray _uiText( const QByteArray& e,const QByteArray& p,const QByteArray& length )
 {
 	QString result = "\n" ;
 
@@ -201,6 +201,11 @@ static QByteArray _uiText( const QByteArray& e,const QByteArray& p )
 		}else{
 			result += ", " + t + ": " + w ;
 		}
+
+		if( size > 4 ){
+
+			result += " " + m[ 4 ] ;
+		}
 	}
 
 	if( size ){
@@ -214,6 +219,11 @@ static QByteArray _uiText( const QByteArray& e,const QByteArray& p )
 			result += t + ": " + w ;
 		}else{
 			result += ", " + t + ": " + w ;
+		}
+
+		if( !length.isEmpty() ){
+
+			result += " / " + length ;
 		}
 
 		if( !p.isEmpty() ){
@@ -239,9 +249,11 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 		return m_preProcessing.text() ;
 	}
 
-	if( m_title.isEmpty() ){
+	if( m_title.isEmpty() || m_length.isEmpty() ){
 
-		for( const auto& it : util::split( line,'\n' ) ){
+		const auto lines = util::split( line,'\n' ) ;
+
+		for( const auto& it : lines ){
 
 			if( it.startsWith( "Saving to: " ) ){
 
@@ -250,6 +262,26 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 				m_title.replace( "’","" ) ;
 				m_title.replace( "'","" ) ;
 				m_title.replace( "'","" ) ;
+
+				break ;
+			}
+		}
+
+		for( const auto& it : lines ){
+
+			if( it.startsWith( "Length: " ) ){
+
+				auto m = util::split( it,' ',true ) ;
+
+				if( m.size() > 2 ){
+
+					m_length = m[ 2 ].toUtf8() ;
+
+					m_length.replace( "(","" ) ;
+					m_length.replace( ")","" ) ;
+					m_length.replace( ",","" ) ;
+
+				}
 
 				break ;
 			}
@@ -290,7 +322,7 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 					auto bb = l.mid( b + 1 ) ;
 
-					m_tmp = m_title + _uiText( bb,aa ) ;
+					m_tmp = m_title + _uiText( bb,aa,m_length ) ;
 				}else{
 					m_tmp = m_title + "\n" + m_preProcessing.text() ;
 				}
@@ -299,7 +331,7 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 				if( b != -1 ){
 
-					m_tmp = m_title + m_title + _uiText( m.mid( b + 1 ),"" ) ;
+					m_tmp = m_title + m_title + _uiText( m.mid( b + 1 ),"",m_length ) ;
 				}else{
 					return m_preProcessing.text() ;
 				}
