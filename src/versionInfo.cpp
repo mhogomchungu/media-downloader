@@ -106,7 +106,7 @@ void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,versionI
 
 		if( iter.hasNext() ){
 
-			this->check( iter.next(),rd ) ;
+			this->check( iter.next(),rd.move() ) ;
 		}else{
 			rd() ;
 		}

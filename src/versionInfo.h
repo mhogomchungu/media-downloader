@@ -49,18 +49,22 @@ public:
 	public:
 		template< typename Type,typename ... Args >
 		reportDone( Type,Args&& ... args ) :
-			m_handle( std::make_shared< typename Type::type >( std::forward< Args >( args ) ... ) )
+			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 		{
 		}
-		reportDone() : m_handle( std::make_shared< doneInterface >() )
+		reportDone() : m_handle( std::make_unique< doneInterface >() )
 		{
 		}
 		void operator()() const
 		{
 			( *m_handle )() ;
 		}
+		reportDone move() const
+		{
+			return std::move( *const_cast< reportDone * >( this ) ) ;
+		}
 	private:
-		std::shared_ptr< doneInterface > m_handle ;
+		std::unique_ptr< doneInterface > m_handle ;
 	} ;
 	~versionInfo() override
 	{
