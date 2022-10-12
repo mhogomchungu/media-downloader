@@ -165,6 +165,10 @@ namespace utility
 		{
 			return QObject::tr( "Download Options" ) ;
 		}
+		static QString downloadTimeInterval()
+		{
+			return QObject::tr( "Download Time Interval" ) ;
+		}
 	private:
 	};
 

@@ -569,9 +569,9 @@
       <widget class="QPushButton" name="pbBatchDownloaderSet">
        <property name="geometry">
         <rect>
-         <x>370</x>
+         <x>390</x>
          <y>440</y>
-         <width>151</width>
+         <width>161</width>
          <height>33</height>
         </rect>
        </property>
@@ -584,7 +584,7 @@
         <rect>
          <x>220</x>
          <y>440</y>
-         <width>151</width>
+         <width>161</width>
          <height>33</height>
         </rect>
        </property>
@@ -592,6 +592,100 @@
         <string>Cancel</string>
        </property>
       </widget>
+     </widget>
+     <widget class="QLabel" name="labelSetTimeIntervals">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>116</y>
+        <width>591</width>
+        <height>241</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditEndTimeInterval">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>230</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditStartTimeInterval">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>190</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>190</y>
+        <width>211</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start Time(HH:MM:SS):</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbSetTimeIntervals">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>270</y>
+        <width>131</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Set</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>230</y>
+        <width>201</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>End Time(HH:MM:SS):</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbCancelSetTimeInterval">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>270</y>
+        <width>131</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_4">

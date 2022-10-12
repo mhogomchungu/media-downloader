@@ -57,6 +57,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		m_table.selectRow( c,p,m_table.startPosition() ) ;
 	} ) ;
 
+	this->setVisibleMediaSectionCut( false ) ;
+
 	this->setThumbnailColumnSize( m_showThumbnails ) ;
 
 	m_ui.pbBDDownload->setEnabled( false ) ;
@@ -159,8 +161,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBatchDownloaderSet,&QPushButton::clicked,[ this ](){
 
-		auto txt = m_ui.pbBatchDownloaderSet->text() ;
-
 		if( m_listType == batchdownloader::listType::COMMENTS ){
 
 			auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),
@@ -233,6 +233,35 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
 
 		m_terminator.terminateAll( m_table.get() ) ;
+	} ) ;
+
+	connect( m_ui.pbSetTimeIntervals,&QPushButton::clicked,[ this ](){
+
+		this->setVisibleMediaSectionCut( false ) ;
+
+		auto row = m_table.currentRow() ;
+
+		if( row != -1 ){
+
+			auto a = m_ui.lineEditStartTimeInterval->text() ;
+			auto b = m_ui.lineEditEndTimeInterval->text() ;
+
+			if( !a.isEmpty() && !b.isEmpty() ){
+
+				auto u = tableWidget::type::DownloadTimeInterval ;
+
+				m_table.setDownloadingOptions( u,row,a + "-" + b ) ;
+			}else{
+				auto u = tableWidget::type::DownloadTimeInterval ;
+
+				m_table.setDownloadingOptions( u,row,"N/A" ) ;
+			}
+		}
+	} ) ;
+
+	connect( m_ui.pbCancelSetTimeInterval,&QPushButton::clicked,[ this ](){
+
+		this->setVisibleMediaSectionCut( false ) ;
 	} ) ;
 
 	connect( m_ui.pbBDPasteClipboard,&QPushButton::clicked,[ this ](){
@@ -400,6 +429,14 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 				this->showList( ltty::MEDIA_OPTIONS,engine,m_table.url( row ),row ) ;
 			}
 		} ) ;		
+
+		ac = m.addAction( tr( "Download Media Part" ) ) ;
+		ac->setEnabled( !finishSuccess && engine.canDownloadMediaPart() ) ;
+
+		connect( ac,&QAction::triggered,[ this ](){
+
+			this->setVisibleMediaSectionCut( true ) ;
+		} ) ;
 
 		utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
 
@@ -891,6 +928,17 @@ void batchdownloader::normalizeFilePath( QString& e )
 	}
 }
 
+void batchdownloader::setVisibleMediaSectionCut( bool e )
+{
+	m_ui.labelSetTimeIntervals->setVisible( e ) ;
+	m_ui.pbCancelSetTimeInterval->setVisible( e ) ;
+	m_ui.pbSetTimeIntervals->setVisible( e ) ;
+	m_ui.lineEditStartTimeInterval->setVisible( e ) ;
+	m_ui.lineEditEndTimeInterval->setVisible( e ) ;
+	m_ui.label_8->setVisible( e ) ;
+	m_ui.label_9->setVisible( e ) ;
+}
+
 void batchdownloader::showSubtitles( const QByteArray& e )
 {
 	class language
@@ -1212,7 +1260,9 @@ static void _parseDataFromFile( Items& items,
 		}else{
 			if( durationAndDate.isEmpty() ){
 
-				items.add( title,url ) ;
+				auto txt = opts + "\n" + title ;
+
+				items.add( txt,url ) ;
 			}else{
 				auto txt = opts + "\n" + durationAndDate + "\n" + title ;
 

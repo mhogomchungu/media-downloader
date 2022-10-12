@@ -57,6 +57,10 @@ public:
 	{
 		this->item( row ).subtitle = s ;
 	}
+	void setTimeInterval( const QString& s,int row )
+	{
+		this->item( row ).timeInterval = s ;
+	}
 	void setUiText( const QString& s,int row )
 	{
 		this->item( row ).uiText = s ;
@@ -89,6 +93,10 @@ public:
 	const QString& subTitle( int row ) const
 	{
 		return this->item( row ).subtitle ;
+	}
+	const QString& timeInterval( int row ) const
+	{
+		return this->item( row ).timeInterval ;
 	}
 	const QJsonArray& mediaProperties( int row ) const
 	{
@@ -144,6 +152,7 @@ public:
 		QString downloadingOptionsUi ;
 		QString engineName ;
 		QString subtitle ;
+		QString timeInterval ;
 		QString playlist ;
 		QString playlist_count ;
 		QString playlist_id ;
@@ -169,7 +178,7 @@ public:
 	{
 		return m_items[ s ] ;
 	}
-	enum class type{ DownloadOptions,EngineName,subtitleOption } ;
+	enum class type{ DownloadOptions,EngineName,subtitleOption,DownloadTimeInterval } ;
 
 	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;

@@ -283,6 +283,14 @@
         <source>Check For Updates</source>
         <translation>Controlla aggiornamenti</translation>
     </message>
+    <message>
+        <source>Start Time(HH:MM:SS):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>End Time(HH:MM:SS):</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -612,6 +620,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>German (Germany)</source>
         <translation>Tedesco (Germania)</translation>
     </message>
+    <message>
+        <source>Download Time Interval</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -670,6 +682,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Copy Url %1</source>
         <translation>Copia URL %1</translation>
+    </message>
+    <message>
+        <source>Download Media Part</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

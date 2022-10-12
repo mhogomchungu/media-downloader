@@ -17,13 +17,14 @@
         <location filename="../src/mainwindow.ui" line="53"/>
         <location filename="../src/mainwindow.ui" line="480"/>
         <location filename="../src/mainwindow.ui" line="592"/>
-        <location filename="../src/mainwindow.ui" line="773"/>
+        <location filename="../src/mainwindow.ui" line="687"/>
+        <location filename="../src/mainwindow.ui" line="867"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="66"/>
-        <location filename="../src/mainwindow.ui" line="760"/>
+        <location filename="../src/mainwindow.ui" line="854"/>
         <source>Get List</source>
         <translation>Liste holen</translation>
     </message>
@@ -42,26 +43,26 @@
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
         <location filename="../src/mainwindow.ui" line="454"/>
-        <location filename="../src/mainwindow.ui" line="643"/>
+        <location filename="../src/mainwindow.ui" line="737"/>
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="467"/>
-        <location filename="../src/mainwindow.ui" line="611"/>
-        <location filename="../src/mainwindow.ui" line="1572"/>
-        <location filename="../src/mainwindow.ui" line="1622"/>
-        <location filename="../src/mainwindow.ui" line="1865"/>
+        <location filename="../src/mainwindow.ui" line="705"/>
+        <location filename="../src/mainwindow.ui" line="1666"/>
+        <location filename="../src/mainwindow.ui" line="1716"/>
+        <location filename="../src/mainwindow.ui" line="1959"/>
         <source>Options</source>
         <translation>Optionen</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="163"/>
         <location filename="../src/mainwindow.ui" line="506"/>
-        <location filename="../src/mainwindow.ui" line="695"/>
-        <location filename="../src/mainwindow.ui" line="1127"/>
-        <location filename="../src/mainwindow.ui" line="1948"/>
+        <location filename="../src/mainwindow.ui" line="789"/>
+        <location filename="../src/mainwindow.ui" line="1221"/>
+        <location filename="../src/mainwindow.ui" line="2042"/>
         <location filename="../src/mainwindow.cpp" line="69"/>
         <source>Quit</source>
         <translation>Beenden</translation>
@@ -89,21 +90,21 @@
     <message>
         <location filename="../src/mainwindow.ui" line="231"/>
         <location filename="../src/mainwindow.ui" line="287"/>
-        <location filename="../src/mainwindow.ui" line="799"/>
+        <location filename="../src/mainwindow.ui" line="893"/>
         <source>Engine Name:</source>
         <translation>Tool zum Herunterladen:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="250"/>
-        <location filename="../src/mainwindow.ui" line="850"/>
+        <location filename="../src/mainwindow.ui" line="944"/>
         <source>Paste Clipboard Content</source>
         <translation>Inhalt der Zwischenablage einfügen</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="266"/>
         <location filename="../src/mainwindow.ui" line="438"/>
-        <location filename="../src/mainwindow.ui" line="866"/>
-        <location filename="../src/mainwindow.ui" line="882"/>
+        <location filename="../src/mainwindow.ui" line="960"/>
+        <location filename="../src/mainwindow.ui" line="976"/>
         <source>Recently Used</source>
         <translation>Kürzlich verwendet</translation>
     </message>
@@ -114,13 +115,13 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="335"/>
-        <location filename="../src/mainwindow.ui" line="741"/>
+        <location filename="../src/mainwindow.ui" line="835"/>
         <source>Thumbnail</source>
         <translation>Vorschaubild</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="340"/>
-        <location filename="../src/mainwindow.ui" line="746"/>
+        <location filename="../src/mainwindow.ui" line="840"/>
         <source>Url To Download</source>
         <translation>Url zum Herunterladen</translation>
     </message>
@@ -141,252 +142,263 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="579"/>
+        <location filename="../src/mainwindow.ui" line="658"/>
         <source>Set</source>
         <translation>Einstellen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="599"/>
+        <location filename="../src/mainwindow.ui" line="642"/>
+        <source>Start Time(HH:MM:SS):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="671"/>
+        <source>End Time(HH:MM:SS):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="693"/>
         <source>Playlist Downloader</source>
         <translation>Downloader Wiedergabeliste</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="666"/>
+        <location filename="../src/mainwindow.ui" line="760"/>
         <source>Download Options:</source>
         <translation>Download-Optionen:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="708"/>
+        <location filename="../src/mainwindow.ui" line="802"/>
         <source>Enter Playlist URL:</source>
         <translation>Eingabe der URL-Wiedergabeliste:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="818"/>
+        <location filename="../src/mainwindow.ui" line="912"/>
         <source>Clear Internal Archive File</source>
         <translation>Lösche interne Archivdatei</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="834"/>
+        <location filename="../src/mainwindow.ui" line="928"/>
         <source>Use Internal Archive File</source>
         <translation>Verwende Interne Archivdatei</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1077"/>
+        <location filename="../src/mainwindow.ui" line="1171"/>
         <source>Library</source>
         <translation>Bibliothek</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1108"/>
+        <location filename="../src/mainwindow.ui" line="1202"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1140"/>
+        <location filename="../src/mainwindow.ui" line="1234"/>
         <source>Up</source>
         <translation>Hoch</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1153"/>
+        <location filename="../src/mainwindow.ui" line="1247"/>
         <source>Refresh</source>
         <translation>Auffrischen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1166"/>
+        <location filename="../src/mainwindow.ui" line="1260"/>
         <source>Open Folder</source>
         <translation>Öffne Ordner</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1179"/>
+        <location filename="../src/mainwindow.ui" line="1273"/>
         <source>Home</source>
         <translation>Startseite</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1185"/>
+        <location filename="../src/mainwindow.ui" line="1279"/>
         <source>Configure</source>
         <translation>Konfigurieren</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1201"/>
+        <location filename="../src/mainwindow.ui" line="1295"/>
         <source>General Options</source>
         <translation>Allgemeine Optionen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1307"/>
+        <location filename="../src/mainwindow.ui" line="1401"/>
         <source>Update Engine</source>
         <translation>Downlaod Tools aktualisieren</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1365"/>
+        <location filename="../src/mainwindow.ui" line="1459"/>
         <source>Show Thumbnails</source>
         <translation>Vorschaubilder anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1407"/>
+        <location filename="../src/mainwindow.ui" line="1501"/>
         <source>Use System Executables If Available</source>
         <translation>Verwende ausführbare Systemdateien, falls verfügbar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1430"/>
+        <location filename="../src/mainwindow.ui" line="1524"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation>Dunkles Thema (Neustart erforderlich)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1462"/>
+        <location filename="../src/mainwindow.ui" line="1556"/>
         <source>Show Tray Icon</source>
         <translation>Tray-Symbol anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1475"/>
+        <location filename="../src/mainwindow.ui" line="1569"/>
         <source>Auto Save List Of Not Downloaded Media</source>
         <translation>Speichere automatisch die Liste der nicht heruntergeladenen Medien</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1514"/>
+        <location filename="../src/mainwindow.ui" line="1608"/>
         <source>Check For Updates</source>
         <translation>Auf Updates prüfen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1532"/>
+        <location filename="../src/mainwindow.ui" line="1626"/>
         <source>Reset Option To Its Default</source>
         <translation>Option auf Standardwerte zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1535"/>
-        <location filename="../src/mainwindow.ui" line="1688"/>
+        <location filename="../src/mainwindow.ui" line="1629"/>
+        <location filename="../src/mainwindow.ui" line="1782"/>
         <source>Set Defaults</source>
         <translation>Standardeinstellungen festlegen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1333"/>
+        <location filename="../src/mainwindow.ui" line="1427"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Skalierungsfaktor (Neustart erforderlich)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1388"/>
+        <location filename="../src/mainwindow.ui" line="1482"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maximale gleichzeitige Downloads</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1520"/>
+        <location filename="../src/mainwindow.ui" line="1614"/>
         <source>Preset Options</source>
         <translation>Voreingestellte Optionen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1288"/>
+        <location filename="../src/mainwindow.ui" line="1382"/>
         <source>Download Path</source>
         <translation>Download-Pfad</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1236"/>
+        <location filename="../src/mainwindow.ui" line="1330"/>
         <source>Select Language</source>
         <translation>Sprache auswählen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1255"/>
+        <location filename="../src/mainwindow.ui" line="1349"/>
         <source>Show Version Info When Starting</source>
         <translation>Beim Start Versionsinformationen anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1352"/>
+        <location filename="../src/mainwindow.ui" line="1446"/>
         <source>Add a Plugin</source>
         <translation>Plugin hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1320"/>
+        <location filename="../src/mainwindow.ui" line="1414"/>
         <source>Remove A Plugin</source>
         <translation>Plugin löschen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1961"/>
+        <location filename="../src/mainwindow.ui" line="2055"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1647"/>
-        <location filename="../src/mainwindow.ui" line="1746"/>
+        <location filename="../src/mainwindow.ui" line="1741"/>
+        <location filename="../src/mainwindow.ui" line="1840"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Download-Tools Standardoptionen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="624"/>
-        <location filename="../src/mainwindow.ui" line="1064"/>
+        <location filename="../src/mainwindow.ui" line="718"/>
+        <location filename="../src/mainwindow.ui" line="1158"/>
         <source>Get List Options:</source>
         <translation>Listenoptionen abrufen:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="898"/>
+        <location filename="../src/mainwindow.ui" line="992"/>
         <source>Subscriptions</source>
         <translation>Abonnements</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="926"/>
-        <location filename="../src/mainwindow.ui" line="984"/>
-        <location filename="../src/mainwindow.ui" line="1567"/>
-        <location filename="../src/mainwindow.ui" line="1606"/>
+        <location filename="../src/mainwindow.ui" line="1020"/>
+        <location filename="../src/mainwindow.ui" line="1078"/>
+        <location filename="../src/mainwindow.ui" line="1661"/>
+        <location filename="../src/mainwindow.ui" line="1700"/>
         <source>Ui Name</source>
         <translation>Ui-Name</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1006"/>
-        <location filename="../src/mainwindow.ui" line="1641"/>
-        <location filename="../src/mainwindow.ui" line="1760"/>
-        <location filename="../src/mainwindow.ui" line="1904"/>
+        <location filename="../src/mainwindow.ui" line="1100"/>
+        <location filename="../src/mainwindow.ui" line="1735"/>
+        <location filename="../src/mainwindow.ui" line="1854"/>
+        <location filename="../src/mainwindow.ui" line="1998"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1019"/>
-        <location filename="../src/mainwindow.ui" line="1808"/>
+        <location filename="../src/mainwindow.ui" line="1113"/>
+        <location filename="../src/mainwindow.ui" line="1902"/>
         <source>Url</source>
         <translation>Url</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1041"/>
+        <location filename="../src/mainwindow.ui" line="1135"/>
         <source>Done</source>
         <translation>Fertig</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1669"/>
-        <location filename="../src/mainwindow.ui" line="1927"/>
+        <location filename="../src/mainwindow.ui" line="1763"/>
+        <location filename="../src/mainwindow.ui" line="2021"/>
         <source>Engine&apos;s Name</source>
         <translation>Download-Tools Name</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1701"/>
+        <location filename="../src/mainwindow.ui" line="1795"/>
         <source>Path To Cookie FIle</source>
         <translation>Pfad der Cookie-Datei</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1741"/>
+        <location filename="../src/mainwindow.ui" line="1835"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1783"/>
+        <location filename="../src/mainwindow.ui" line="1877"/>
         <source>Options To Add</source>
         <translation>Optionen zum Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1795"/>
+        <location filename="../src/mainwindow.ui" line="1889"/>
         <source>Url Manager</source>
         <translation>Url-Verwaltung</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1813"/>
+        <location filename="../src/mainwindow.ui" line="1907"/>
         <source>Download Options</source>
         <translation>Download Optionen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1827"/>
+        <location filename="../src/mainwindow.ui" line="1921"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Festlegen, welche Url von welchem Download-Tools verwaltet werden soll</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1846"/>
+        <location filename="../src/mainwindow.ui" line="1940"/>
         <source>Url Filter</source>
         <translation>Url-Filter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1967"/>
+        <location filename="../src/mainwindow.ui" line="2061"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
@@ -416,27 +428,27 @@
         <translation>Speichere in Dateiliste</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="800"/>
+        <location filename="../src/batchdownloader.cpp" line="837"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="810"/>
+        <location filename="../src/batchdownloader.cpp" line="847"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="828"/>
+        <location filename="../src/batchdownloader.cpp" line="865"/>
         <source>Replies to</source>
         <translation>Antworten an</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="835"/>
+        <location filename="../src/batchdownloader.cpp" line="872"/>
         <source>Text</source>
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1052"/>
+        <location filename="../src/batchdownloader.cpp" line="1100"/>
         <source>Save Subtitle To File</source>
         <translation>Speichere Untertitel in Datei</translation>
     </message>
@@ -446,12 +458,12 @@
         <translation>Download-Tool Name:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1310"/>
+        <location filename="../src/batchdownloader.cpp" line="1360"/>
         <source>Get List From File</source>
         <translation>Liste aus Datei holen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="458"/>
+        <location filename="../src/batchdownloader.cpp" line="495"/>
         <location filename="../src/playlistdownloader.cpp" line="353"/>
         <location filename="../src/utility.cpp" line="451"/>
         <source>Preset Options</source>
@@ -459,8 +471,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="478"/>
-        <location filename="../src/utility.h" line="495"/>
-        <location filename="../src/utility.h" line="562"/>
+        <location filename="../src/utility.h" line="499"/>
+        <location filename="../src/utility.h" line="566"/>
         <source>Clear</source>
         <translation>Löschen</translation>
     </message>
@@ -757,19 +769,19 @@
         <translation>Nachbearbeitung</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="528"/>
-        <location filename="../src/utility.h" line="536"/>
-        <location filename="../src/utility.h" line="541"/>
+        <location filename="../src/utility.h" line="532"/>
+        <location filename="../src/utility.h" line="540"/>
+        <location filename="../src/utility.h" line="545"/>
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="533"/>
+        <location filename="../src/utility.h" line="537"/>
         <source>Force Download</source>
         <translation>Erzwinge Herunterladen</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="551"/>
+        <location filename="../src/utility.h" line="555"/>
         <source>Show Log Window</source>
         <translation>Log-Fenster anzeigen</translation>
     </message>
@@ -781,7 +793,7 @@
     <message>
         <location filename="../src/utility.h" line="154"/>
         <source>Duration:</source>
-        <translation>Dauer</translation>
+        <translation>Dauer:</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="162"/>
@@ -794,7 +806,12 @@
         <translation>Optionen zum Herunterladen</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="337"/>
+        <location filename="../src/utility.h" line="170"/>
+        <source>Download Time Interval</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/tableWidget.cpp" line="345"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>Abgeschlossen: %1%, Nicht gestartet: %2, Erfolgreich: %3, Fehlgeschlagen: %4, Abgebrochen: %5</translation>
     </message>
@@ -822,12 +839,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1315"/>
+        <location filename="../src/batchdownloader.cpp" line="1365"/>
         <source>Set Batch File</source>
         <translation>Batch-Datei festlegen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="315"/>
+        <location filename="../src/batchdownloader.cpp" line="344"/>
         <source>Open</source>
         <translation>Öffnen</translation>
     </message>
@@ -837,61 +854,66 @@
         <translation>Herunterladen von Kommentaren</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1039"/>
+        <location filename="../src/batchdownloader.cpp" line="1087"/>
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1106"/>
+        <location filename="../src/batchdownloader.cpp" line="1154"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="329"/>
+        <location filename="../src/batchdownloader.cpp" line="358"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="86"/>
-        <location filename="../src/batchdownloader.cpp" line="92"/>
-        <location filename="../src/batchdownloader.cpp" line="338"/>
+        <location filename="../src/batchdownloader.cpp" line="88"/>
+        <location filename="../src/batchdownloader.cpp" line="94"/>
+        <location filename="../src/batchdownloader.cpp" line="367"/>
         <source>Copy Url</source>
         <translation>Kopiere Url</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="101"/>
+        <location filename="../src/batchdownloader.cpp" line="103"/>
         <source>Copy Url %1</source>
         <translation>Kopiere Url %1</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="350"/>
+        <location filename="../src/batchdownloader.cpp" line="379"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="363"/>
+        <location filename="../src/batchdownloader.cpp" line="392"/>
         <source>Show Subtitles</source>
         <translation>Zeige Untertitel</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="378"/>
+        <location filename="../src/batchdownloader.cpp" line="407"/>
         <source>Show Comments</source>
         <translation>Zeige Kommentare</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="391"/>
+        <location filename="../src/batchdownloader.cpp" line="420"/>
         <source>Show Media Options</source>
         <translation>Zeige Medienoptionen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1098"/>
-        <location filename="../src/batchdownloader.cpp" line="1112"/>
+        <location filename="../src/batchdownloader.cpp" line="433"/>
+        <source>Download Media Part</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="1146"/>
+        <location filename="../src/batchdownloader.cpp" line="1160"/>
         <source>Set</source>
         <translation>Einstellen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1479"/>
-        <location filename="../src/batchdownloader.cpp" line="1887"/>
+        <location filename="../src/batchdownloader.cpp" line="1529"/>
+        <location filename="../src/batchdownloader.cpp" line="1937"/>
         <source>Downloading subtitles</source>
         <translation>Herunterladen von Untertiteln</translation>
     </message>

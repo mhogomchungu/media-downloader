@@ -156,6 +156,7 @@ private:
 	void showSubtitles( const QByteArray& ) ;
 	void saveSubtitles() ;
 	void normalizeFilePath( QString& ) ;
+	void setVisibleMediaSectionCut( bool ) ;
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
 	void parseDataFromFile( const QByteArray& ) ;
 	void getListFromFile( QMenu& ) ;

@@ -1011,8 +1011,6 @@ QString utility::setDownloadOptions( const engines::engine& engine,
 				     int row,
 				     const QString& downloadOpts )
 {
-	auto u = table.downloadingOptions( row ) ;
-
 	auto m = table.subTitle( row ) ;
 
 	if( !m.isEmpty() ){
@@ -1028,6 +1026,15 @@ QString utility::setDownloadOptions( const engines::engine& engine,
 			m = " " + e + " --sub-langs " + s.at( 1 ) ;
 		}
 	}
+
+	auto z = table.timeInterval( row ) ;
+
+	if( !z.isEmpty() && z != "N/A" ){
+
+		m += " --download-sections *" + z ;
+	}
+
+	auto u = table.downloadingOptions( row ) ;
 
 	if( u.isEmpty() ){
 

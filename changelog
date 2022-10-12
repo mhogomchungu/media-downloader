@@ -154,3 +154,4 @@ Version 1.2.0(April 1st, 2021)
     [All]
     - Add German translations.
     - Add a GUI option to check for Media Downloader update on startup.
+    - Add a GUI option to download a section of a media in batch downloader tab.

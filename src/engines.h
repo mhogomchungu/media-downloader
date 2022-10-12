@@ -726,6 +726,10 @@ public:
 		{
 			return m_controlStructure ;
 		}
+		bool canDownloadMediaPart() const
+		{
+			return this->name().contains( "yt-dlp" ) ;
+		}
 		bool usingPrivateBackend() const
 		{
 			return m_usingPrivateBackend ;
