@@ -420,8 +420,6 @@ public:
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
 
-			virtual QStringList dumpJsonArguments() ;
-
 			virtual QStringList horizontalHeaderLabels() const ;
 
 			virtual void updateEnginePaths( const Context&,QString& filePath,QString& exeBinPath,QString& exeFolderPath ) ;
@@ -579,10 +577,6 @@ public:
 		{
 			return m_functions->processEnvironment() ;
 		}
-		QStringList dumpJsonArguments() const
-		{
-			return m_functions->dumpJsonArguments() ;
-		}
 		void processData( Logger::Data& outPut,const QByteArray& data,int id,bool readableJson ) const
 		{
 			m_functions->processData( outPut,data,id,readableJson ) ;
@@ -606,6 +600,10 @@ public:
 		const QStringList& defaultDownLoadCmdOptions() const
 		{
 			return m_defaultDownLoadCmdOptions ;
+		}
+		const QStringList& dumpJsonArguments() const
+		{
+			return m_dumpJsonArguments ;
 		}
 		engines::engine::functions::DataFilter filter( int processId,const QString& quality ) const
 		{
@@ -808,6 +806,7 @@ public:
 		QString m_playlistItemsArgument ;
 		QString m_batchFileArgument ;
 		QString m_cookieArgument ;
+		QStringList m_dumpJsonArguments ;
 		QStringList m_splitLinesBy ;
 		QStringList m_removeText ;
 		QStringList m_skiptLineWithText ;

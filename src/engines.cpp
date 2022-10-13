@@ -658,6 +658,7 @@ void engines::engine::updateOptions()
 	m_playlistItemsArgument           = m_jsonObject.value( "PlaylistItemsArgument" ).toString() ;
 	m_batchFileArgument               = m_jsonObject.value( "BatchFileArgument" ).toString() ;
 	m_cookieArgument                  = m_jsonObject.value( "CookieArgument" ).toString() ;
+	m_dumpJsonArguments               = _toStringList( m_jsonObject.value( "DumptJsonArguments" ) ) ;
 	m_splitLinesBy                    = _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ;
 	m_removeText                      = _toStringList( m_jsonObject.value( "RemoveText" ) ) ;
 	m_skiptLineWithText               = _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ;
@@ -1119,11 +1120,6 @@ QString engines::engine::functions::commandString( const engines::engine::exeArg
 	}
 
 	return m ;
-}
-
-QStringList engines::engine::functions::dumpJsonArguments()
-{
-	return { "--dump-json" } ;
 }
 
 QStringList engines::engine::functions::horizontalHeaderLabels() const

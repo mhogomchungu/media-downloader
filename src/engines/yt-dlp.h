@@ -52,8 +52,6 @@ public:
 
 	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& ) override ;
 
-	QStringList dumpJsonArguments() override ;
-
 	bool breakShowListIfContains( const QStringList& ) override ;
 
 	bool supportsShowingComments() override ;

@@ -143,6 +143,15 @@ QJsonObject yt_dlp::init( const QString& name,
 
 				return arr ;
 			}() ) ;
+
+			mainObj.insert( "DumptJsonArguments",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--dump-json" ) ;
+
+				return arr ;
+			}() ) ;
 		}else{
 			utility::addJsonCmd json( mainObj ) ;
 
@@ -160,6 +169,20 @@ QJsonObject yt_dlp::init( const QString& name,
 
 				arr.append( "--print" ) ;
 				arr.append( "%(formats)j" ) ;
+
+				return arr ;
+			}() ) ;
+
+			mainObj.insert( "DumptJsonArguments",[](){
+
+				QJsonArray arr ;
+
+				auto a = R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j,"n_entries":%(n_entries)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_count":%(playlist_count)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
+
+				arr.append( "--newline" ) ;
+				arr.append( "--print" ) ;
+
+				arr.append( a ) ;
 
 				return arr ;
 			}() ) ;
@@ -300,15 +323,35 @@ yt_dlp::yt_dlp( const engines& engines,
 
 	if( name.contains( "yt-dlp" ) ){
 
-		obj.insert( "DefaultListCmdOptions",[](){
+		if( !obj.contains( "DumptJsonArguments" ) ){
 
-			QJsonArray arr ;
+			obj.insert( "DumptJsonArguments",[](){
 
-			arr.append( "--print" ) ;
-			arr.append( "%(formats)j" ) ;
+				QJsonArray arr ;
 
-			return arr ;
-		}() ) ;
+				auto a = R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j,"n_entries":%(n_entries)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_count":%(playlist_count)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
+
+				arr.append( "--newline" ) ;
+				arr.append( "--print" ) ;
+
+				arr.append( a ) ;
+
+				return arr ;
+			}() ) ;
+		}
+
+		if( !obj.contains( "DumptJsonArguments" ) ){
+
+			obj.insert( "DefaultListCmdOptions",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--print" ) ;
+				arr.append( "%(formats)j" ) ;
+
+				return arr ;
+			}() ) ;
+		}
 
 		if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
 
@@ -351,6 +394,18 @@ yt_dlp::yt_dlp( const engines& engines,
 			}() ) ;
 		}
 	}else{
+		if( !obj.contains( "DumptJsonArguments" ) ){
+
+			obj.insert( "DumptJsonArguments",[](){
+
+				QJsonArray arr ;
+
+				arr.append( "--dump-json" ) ;
+
+				return arr ;
+			}() ) ;
+		}
+
 		if( !obj.contains( "DefaultListCmdOptions" ) ){
 
 			obj.insert( "DefaultListCmdOptions",[](){
@@ -558,18 +613,6 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( co
 	}
 
 	return firstToShow ;
-}
-
-QStringList yt_dlp::dumpJsonArguments()
-{
-	if( m_engine.name() == "youtube-dl" ){
-
-		return engines::engine::functions::dumpJsonArguments() ;
-	}else{
-		auto a = R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats)j,"n_entries":%(n_entries)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_count":%(playlist_count)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
-
-		return { "--newline","--print",a } ;
-	}
 }
 
 bool yt_dlp::breakShowListIfContains( const QStringList& e )
