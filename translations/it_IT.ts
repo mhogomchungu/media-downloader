@@ -285,11 +285,11 @@
     </message>
     <message>
         <source>Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Orario iniziale(OO:MM:SS):</translation>
     </message>
     <message>
         <source>End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Orario Finale (OO:MM:SS):</translation>
     </message>
 </context>
 <context>
@@ -622,7 +622,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Download Time Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervallo tempo download</translation>
     </message>
 </context>
 <context>
@@ -685,7 +685,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Download Media Part</source>
-        <translation type="unfinished"></translation>
+        <translation>Scarica parte multimediale</translation>
     </message>
 </context>
 <context>
