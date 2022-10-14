@@ -770,7 +770,16 @@ void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool
 
 void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWidget,bool pld )
 {
-	QObject::connect( m.addAction( QObject::tr( "Save List To File" ) ),&QAction::triggered,[ &ctx,&tableWidget,pld ](){
+	m.setToolTipsVisible( true ) ;
+
+	auto dialogTxt = QObject::tr( "Save List To File" ) ;
+	auto toolTip = QObject::tr( "Filename with \".txt\" Extension Will Save Urls Only" ) ;
+
+	auto ac = m.addAction( dialogTxt ) ;
+
+	ac->setToolTip( toolTip ) ;
+
+	QObject::connect( ac,&QAction::triggered,[ &ctx,&tableWidget,pld,toolTip ](){
 
 		QString filePath ;
 
@@ -778,7 +787,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 			auto uploader = tableWidget.entryAt( 1 ).uiJson.value( "uploader" ).toString() ;
 
-			if( uploader.isEmpty() ){
+			if( !uploader.isEmpty() ){
 
 				filePath = utility::homePath() + "/MediaDowloaderList-" + uploader + ".json" ;
 			}else{
@@ -789,15 +798,27 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 		}
 
 		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),
-						       QObject::tr( "Save List To File" ),
+						       toolTip,
 						       filePath ) ;
 		if( !s.isEmpty() ){
 
-			auto e = _saveDownloadList( tableWidget,false ) ;
+			const auto e = _saveDownloadList( tableWidget,false ) ;
 
-			auto m = QJsonDocument( e ).toJson( QJsonDocument::Indented ) ;
+			if( s.endsWith( ".json" ) ){
 
-			engines::file( s,ctx.logger() ).write( m ) ;
+				auto m = QJsonDocument( e ).toJson( QJsonDocument::Indented ) ;
+
+				engines::file( s,ctx.logger() ).write( m ) ;
+			}else{
+				QByteArray m ;
+
+				for( const auto& it : e ){
+
+					m.append( it.toObject().value( "url" ).toString().toUtf8() + "\n" ) ;
+				}
+
+				engines::file( s,ctx.logger() ).write( m ) ;
+			}
 		}
 	} ) ;
 }
