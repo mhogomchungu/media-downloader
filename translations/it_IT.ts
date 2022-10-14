@@ -291,6 +291,10 @@
         <source>End Time(HH:MM:SS):</source>
         <translation>Orario Finale (OO:MM:SS):</translation>
     </message>
+    <message>
+        <source>Set Download Options</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>

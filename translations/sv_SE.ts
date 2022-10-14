@@ -15,54 +15,54 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="53"/>
-        <location filename="../src/mainwindow.ui" line="480"/>
-        <location filename="../src/mainwindow.ui" line="592"/>
-        <location filename="../src/mainwindow.ui" line="687"/>
-        <location filename="../src/mainwindow.ui" line="867"/>
+        <location filename="../src/mainwindow.ui" line="512"/>
+        <location filename="../src/mainwindow.ui" line="624"/>
+        <location filename="../src/mainwindow.ui" line="719"/>
+        <location filename="../src/mainwindow.ui" line="899"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="66"/>
-        <location filename="../src/mainwindow.ui" line="854"/>
+        <location filename="../src/mainwindow.ui" line="886"/>
         <source>Get List</source>
         <translation>Hämta lista</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="79"/>
-        <location filename="../src/mainwindow.ui" line="364"/>
+        <location filename="../src/mainwindow.ui" line="380"/>
         <source>Enter URL:</source>
         <translation>Ange webbadress:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="306"/>
+        <location filename="../src/mainwindow.ui" line="322"/>
         <source>Enter Options:</source>
         <translation>Ange alternativ:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
-        <location filename="../src/mainwindow.ui" line="454"/>
-        <location filename="../src/mainwindow.ui" line="737"/>
+        <location filename="../src/mainwindow.ui" line="486"/>
+        <location filename="../src/mainwindow.ui" line="769"/>
         <source>Download</source>
         <translation>Ladda ner</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="150"/>
-        <location filename="../src/mainwindow.ui" line="467"/>
-        <location filename="../src/mainwindow.ui" line="705"/>
-        <location filename="../src/mainwindow.ui" line="1666"/>
-        <location filename="../src/mainwindow.ui" line="1716"/>
-        <location filename="../src/mainwindow.ui" line="1959"/>
+        <location filename="../src/mainwindow.ui" line="499"/>
+        <location filename="../src/mainwindow.ui" line="737"/>
+        <location filename="../src/mainwindow.ui" line="1714"/>
+        <location filename="../src/mainwindow.ui" line="1764"/>
+        <location filename="../src/mainwindow.ui" line="2007"/>
         <source>Options</source>
         <translation>Alternativ</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="163"/>
-        <location filename="../src/mainwindow.ui" line="506"/>
-        <location filename="../src/mainwindow.ui" line="789"/>
-        <location filename="../src/mainwindow.ui" line="1221"/>
-        <location filename="../src/mainwindow.ui" line="2042"/>
+        <location filename="../src/mainwindow.ui" line="538"/>
+        <location filename="../src/mainwindow.ui" line="821"/>
+        <location filename="../src/mainwindow.ui" line="1269"/>
+        <location filename="../src/mainwindow.ui" line="2090"/>
         <location filename="../src/mainwindow.cpp" line="69"/>
         <source>Quit</source>
         <translation>Avsluta</translation>
@@ -89,316 +89,323 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="231"/>
-        <location filename="../src/mainwindow.ui" line="287"/>
-        <location filename="../src/mainwindow.ui" line="893"/>
+        <location filename="../src/mainwindow.ui" line="303"/>
+        <location filename="../src/mainwindow.ui" line="925"/>
         <source>Engine Name:</source>
         <translation>Motornamn:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="250"/>
-        <location filename="../src/mainwindow.ui" line="944"/>
+        <location filename="../src/mainwindow.ui" line="976"/>
         <source>Paste Clipboard Content</source>
         <translation>Klistra in urklippsinnehåll</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="266"/>
-        <location filename="../src/mainwindow.ui" line="438"/>
-        <location filename="../src/mainwindow.ui" line="960"/>
-        <location filename="../src/mainwindow.ui" line="976"/>
+        <location filename="../src/mainwindow.ui" line="454"/>
+        <location filename="../src/mainwindow.ui" line="992"/>
+        <location filename="../src/mainwindow.ui" line="1008"/>
         <source>Recently Used</source>
         <translation>Nyligen använd</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="275"/>
+        <location filename="../src/mainwindow.ui" line="282"/>
+        <location filename="../src/mainwindow.ui" line="470"/>
+        <location filename="../src/mainwindow.ui" line="1024"/>
+        <source>Set Download Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="291"/>
         <source>Batch Downloader</source>
         <translation>Flernerladdare</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="335"/>
-        <location filename="../src/mainwindow.ui" line="835"/>
+        <location filename="../src/mainwindow.ui" line="351"/>
+        <location filename="../src/mainwindow.ui" line="867"/>
         <source>Thumbnail</source>
         <translation>Miniatyr</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="340"/>
-        <location filename="../src/mainwindow.ui" line="840"/>
+        <location filename="../src/mainwindow.ui" line="356"/>
+        <location filename="../src/mainwindow.ui" line="872"/>
         <source>Url To Download</source>
         <translation>Webbadress att ladda ner</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="383"/>
+        <location filename="../src/mainwindow.ui" line="399"/>
         <source>Paste Clipboard Url</source>
         <translation>Klistra in urklippswebbadress</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="399"/>
+        <location filename="../src/mainwindow.ui" line="415"/>
         <source>Monitor Clipboard For Url</source>
         <translation>Övervaka urklippet efter webbadresser</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="493"/>
+        <location filename="../src/mainwindow.ui" line="525"/>
         <source>Add Url To List</source>
         <translation>Lägg till webbadressen i listan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="579"/>
-        <location filename="../src/mainwindow.ui" line="658"/>
+        <location filename="../src/mainwindow.ui" line="611"/>
+        <location filename="../src/mainwindow.ui" line="690"/>
         <source>Set</source>
         <translation>Ställ in</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="642"/>
+        <location filename="../src/mainwindow.ui" line="674"/>
         <source>Start Time(HH:MM:SS):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="671"/>
+        <location filename="../src/mainwindow.ui" line="703"/>
         <source>End Time(HH:MM:SS):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="693"/>
+        <location filename="../src/mainwindow.ui" line="725"/>
         <source>Playlist Downloader</source>
         <translation>Spellistnerladdare</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="760"/>
+        <location filename="../src/mainwindow.ui" line="792"/>
         <source>Download Options:</source>
         <translation>Nerladdningsalternativ:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="802"/>
+        <location filename="../src/mainwindow.ui" line="834"/>
         <source>Enter Playlist URL:</source>
         <translation>Ange spellistwebbadress:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="912"/>
+        <location filename="../src/mainwindow.ui" line="944"/>
         <source>Clear Internal Archive File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="928"/>
+        <location filename="../src/mainwindow.ui" line="960"/>
         <source>Use Internal Archive File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1171"/>
+        <location filename="../src/mainwindow.ui" line="1219"/>
         <source>Library</source>
         <translation>Bibliotek</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1202"/>
+        <location filename="../src/mainwindow.ui" line="1250"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1234"/>
+        <location filename="../src/mainwindow.ui" line="1282"/>
         <source>Up</source>
         <translation>Upp</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1247"/>
+        <location filename="../src/mainwindow.ui" line="1295"/>
         <source>Refresh</source>
         <translation>Uppdatera</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1260"/>
+        <location filename="../src/mainwindow.ui" line="1308"/>
         <source>Open Folder</source>
         <translation>Öppna mapp</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1273"/>
+        <location filename="../src/mainwindow.ui" line="1321"/>
         <source>Home</source>
         <translation>Hem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1279"/>
+        <location filename="../src/mainwindow.ui" line="1327"/>
         <source>Configure</source>
         <translation>Konfigurera</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1295"/>
+        <location filename="../src/mainwindow.ui" line="1343"/>
         <source>General Options</source>
         <translation>Allmänna alternativ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1401"/>
+        <location filename="../src/mainwindow.ui" line="1449"/>
         <source>Update Engine</source>
         <translation>Uppdatera motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1459"/>
+        <location filename="../src/mainwindow.ui" line="1507"/>
         <source>Show Thumbnails</source>
         <translation>Visa miniatyrer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1501"/>
+        <location filename="../src/mainwindow.ui" line="1549"/>
         <source>Use System Executables If Available</source>
         <translation>Använd systemkörbara filer om tillgängliga</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1524"/>
+        <location filename="../src/mainwindow.ui" line="1572"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation>Mörkt tema (kräver omstart)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1556"/>
+        <location filename="../src/mainwindow.ui" line="1604"/>
         <source>Show Tray Icon</source>
         <translation>Visa ikon i meddelandefältet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1569"/>
+        <location filename="../src/mainwindow.ui" line="1617"/>
         <source>Auto Save List Of Not Downloaded Media</source>
         <translation>Spara automatiskt en lista över icke nerladdad media</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1608"/>
+        <location filename="../src/mainwindow.ui" line="1656"/>
         <source>Check For Updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1626"/>
+        <location filename="../src/mainwindow.ui" line="1674"/>
         <source>Reset Option To Its Default</source>
         <translation>Återställ till standardalternativ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1629"/>
-        <location filename="../src/mainwindow.ui" line="1782"/>
+        <location filename="../src/mainwindow.ui" line="1677"/>
+        <location filename="../src/mainwindow.ui" line="1830"/>
         <source>Set Defaults</source>
         <translation>Ställ in standard</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1427"/>
+        <location filename="../src/mainwindow.ui" line="1475"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Skalfaktor (kräver omstart)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1482"/>
+        <location filename="../src/mainwindow.ui" line="1530"/>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maximalt antal samtidiga nerladdningar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1614"/>
+        <location filename="../src/mainwindow.ui" line="1662"/>
         <source>Preset Options</source>
         <translation>Förinställda alternativ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1382"/>
+        <location filename="../src/mainwindow.ui" line="1430"/>
         <source>Download Path</source>
         <translation>Nerladdningssökväg</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1330"/>
+        <location filename="../src/mainwindow.ui" line="1378"/>
         <source>Select Language</source>
         <translation>Välj språk</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1349"/>
+        <location filename="../src/mainwindow.ui" line="1397"/>
         <source>Show Version Info When Starting</source>
         <translation>Visa versionsinformation vid start</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1446"/>
+        <location filename="../src/mainwindow.ui" line="1494"/>
         <source>Add a Plugin</source>
         <translation>Lägg till en plugin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1414"/>
+        <location filename="../src/mainwindow.ui" line="1462"/>
         <source>Remove A Plugin</source>
         <translation>Ta bort en plugin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2055"/>
+        <location filename="../src/mainwindow.ui" line="2103"/>
         <source>Save</source>
         <translation>Spara</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1741"/>
-        <location filename="../src/mainwindow.ui" line="1840"/>
+        <location filename="../src/mainwindow.ui" line="1789"/>
+        <location filename="../src/mainwindow.ui" line="1888"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Motorernas standardalternativ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="718"/>
-        <location filename="../src/mainwindow.ui" line="1158"/>
+        <location filename="../src/mainwindow.ui" line="750"/>
+        <location filename="../src/mainwindow.ui" line="1206"/>
         <source>Get List Options:</source>
         <translation>Hämta listalternativ:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="992"/>
+        <location filename="../src/mainwindow.ui" line="1040"/>
         <source>Subscriptions</source>
         <translation>Prenumerationer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1020"/>
-        <location filename="../src/mainwindow.ui" line="1078"/>
-        <location filename="../src/mainwindow.ui" line="1661"/>
-        <location filename="../src/mainwindow.ui" line="1700"/>
+        <location filename="../src/mainwindow.ui" line="1068"/>
+        <location filename="../src/mainwindow.ui" line="1126"/>
+        <location filename="../src/mainwindow.ui" line="1709"/>
+        <location filename="../src/mainwindow.ui" line="1748"/>
         <source>Ui Name</source>
         <translation>Gränssnittsnamn</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1100"/>
-        <location filename="../src/mainwindow.ui" line="1735"/>
-        <location filename="../src/mainwindow.ui" line="1854"/>
-        <location filename="../src/mainwindow.ui" line="1998"/>
+        <location filename="../src/mainwindow.ui" line="1148"/>
+        <location filename="../src/mainwindow.ui" line="1783"/>
+        <location filename="../src/mainwindow.ui" line="1902"/>
+        <location filename="../src/mainwindow.ui" line="2046"/>
         <source>Add</source>
         <translation>Lägg till</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1113"/>
-        <location filename="../src/mainwindow.ui" line="1902"/>
+        <location filename="../src/mainwindow.ui" line="1161"/>
+        <location filename="../src/mainwindow.ui" line="1950"/>
         <source>Url</source>
         <translation>Webbadress</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1135"/>
+        <location filename="../src/mainwindow.ui" line="1183"/>
         <source>Done</source>
         <translation>Klar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1763"/>
-        <location filename="../src/mainwindow.ui" line="2021"/>
+        <location filename="../src/mainwindow.ui" line="1811"/>
+        <location filename="../src/mainwindow.ui" line="2069"/>
         <source>Engine&apos;s Name</source>
         <translation>Motorernas namn</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1795"/>
+        <location filename="../src/mainwindow.ui" line="1843"/>
         <source>Path To Cookie FIle</source>
         <translation>Sökväg till cookie-fil</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1835"/>
+        <location filename="../src/mainwindow.ui" line="1883"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1877"/>
+        <location filename="../src/mainwindow.ui" line="1925"/>
         <source>Options To Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1889"/>
+        <location filename="../src/mainwindow.ui" line="1937"/>
         <source>Url Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1907"/>
+        <location filename="../src/mainwindow.ui" line="1955"/>
         <source>Download Options</source>
         <translation>Nerladdningsalternativ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1921"/>
+        <location filename="../src/mainwindow.ui" line="1969"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Ställ in vilken webbadress som ska hanteras av vilken motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1940"/>
+        <location filename="../src/mainwindow.ui" line="1988"/>
         <source>Url Filter</source>
         <translation>Webbadressfilter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2061"/>
+        <location filename="../src/mainwindow.ui" line="2109"/>
         <source>About</source>
         <translation>Om</translation>
     </message>
@@ -421,34 +428,34 @@
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="167"/>
+        <location filename="../src/batchdownloader.cpp" line="173"/>
         <location filename="../src/utility.cpp" line="773"/>
         <location filename="../src/utility.cpp" line="792"/>
         <source>Save List To File</source>
         <translation>Spara lista till fil</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="837"/>
+        <location filename="../src/batchdownloader.cpp" line="843"/>
         <source>Author</source>
         <translation>Upphovsman</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="847"/>
+        <location filename="../src/batchdownloader.cpp" line="853"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="865"/>
+        <location filename="../src/batchdownloader.cpp" line="871"/>
         <source>Replies to</source>
         <translation>Svar till</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="872"/>
+        <location filename="../src/batchdownloader.cpp" line="878"/>
         <source>Text</source>
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1100"/>
+        <location filename="../src/batchdownloader.cpp" line="1106"/>
         <source>Save Subtitle To File</source>
         <translation>Spara undertext till fil</translation>
     </message>
@@ -458,13 +465,13 @@
         <translation>Motornamn:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1360"/>
+        <location filename="../src/batchdownloader.cpp" line="1366"/>
         <source>Get List From File</source>
         <translation>Hämta lista från fil</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="495"/>
-        <location filename="../src/playlistdownloader.cpp" line="353"/>
+        <location filename="../src/batchdownloader.cpp" line="501"/>
+        <location filename="../src/playlistdownloader.cpp" line="359"/>
         <location filename="../src/utility.cpp" line="451"/>
         <source>Preset Options</source>
         <translation>Förinställda alternativ</translation>
@@ -623,56 +630,56 @@
     </message>
     <message>
         <location filename="../src/engines.cpp" line="644"/>
-        <location filename="../src/engines.cpp" line="904"/>
+        <location filename="../src/engines.cpp" line="905"/>
         <location filename="../src/utility.cpp" line="640"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Det gick inte att hitta den körbara filen &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="889"/>
+        <location filename="../src/engines.cpp" line="890"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Det gick inte att hitta python3 för programmet &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="977"/>
+        <location filename="../src/engines.cpp" line="978"/>
         <source>Download cancelled</source>
         <translation>Nerladdningen avbruten</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1133"/>
+        <location filename="../src/engines.cpp" line="1129"/>
         <source>Format Code</source>
         <translation>Formatkod</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1134"/>
+        <location filename="../src/engines.cpp" line="1130"/>
         <source>Extension</source>
         <translation>Tillägg</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1135"/>
+        <location filename="../src/engines.cpp" line="1131"/>
         <source>Resolution</source>
         <translation>Upplösning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1136"/>
+        <location filename="../src/engines.cpp" line="1132"/>
         <source>Note</source>
         <translation>Observera</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1351"/>
+        <location filename="../src/engines.cpp" line="1347"/>
         <source>Failed to open file for writing</source>
         <translation>Det gick inte att öppna filen för skrivning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1357"/>
+        <location filename="../src/engines.cpp" line="1353"/>
         <source>Failed to open file for reading</source>
         <translation>Det gick inte att öppna filen för läsning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1502"/>
-        <location filename="../src/engines.cpp" line="1507"/>
-        <location filename="../src/engines.cpp" line="1514"/>
-        <location filename="../src/engines.cpp" line="1519"/>
+        <location filename="../src/engines.cpp" line="1498"/>
+        <location filename="../src/engines.cpp" line="1503"/>
+        <location filename="../src/engines.cpp" line="1510"/>
+        <location filename="../src/engines.cpp" line="1515"/>
         <source>Elapsed Time:</source>
         <translation>Förfluten tid:</translation>
     </message>
@@ -707,7 +714,7 @@
         <translation>Starta nerladdningen</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="983"/>
+        <location filename="../src/engines.cpp" line="984"/>
         <location filename="../src/networkAccess.cpp" line="204"/>
         <location filename="../src/networkAccess.cpp" line="206"/>
         <location filename="../src/networkAccess.cpp" line="247"/>
@@ -749,12 +756,12 @@
         <translation>Döper om fil till: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1420"/>
+        <location filename="../src/engines.cpp" line="1416"/>
         <source>Processing</source>
         <translation>Arbetar</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="981"/>
+        <location filename="../src/engines.cpp" line="982"/>
         <source>Download completed</source>
         <translation>Nerladdning klar</translation>
     </message>
@@ -764,7 +771,7 @@
         <translation>Återställer nerladdningsmappen till standard</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1465"/>
+        <location filename="../src/engines.cpp" line="1461"/>
         <source>Post Processing</source>
         <translation>Efterbehandling</translation>
     </message>
@@ -816,7 +823,7 @@
         <translation>Klara: %1%, Ej påbörjade: %2, Lyckade: %3, Misslyckade: %4, Avbrutna: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1146"/>
+        <location filename="../src/playlistdownloader.cpp" line="1154"/>
         <source>Media Already In Archive</source>
         <translation>Media finns redan i arkivet</translation>
     </message>
@@ -839,12 +846,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1365"/>
+        <location filename="../src/batchdownloader.cpp" line="1371"/>
         <source>Set Batch File</source>
         <translation>Ställ in flernerladdningsfil</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="344"/>
+        <location filename="../src/batchdownloader.cpp" line="350"/>
         <source>Open</source>
         <translation>Öppna</translation>
     </message>
@@ -854,24 +861,24 @@
         <translation>Laddar ner kommentarer</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1087"/>
+        <location filename="../src/batchdownloader.cpp" line="1093"/>
         <source>Download</source>
         <translation>Ladda ner</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1154"/>
+        <location filename="../src/batchdownloader.cpp" line="1160"/>
         <source>Save</source>
         <translation>Spara</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="358"/>
+        <location filename="../src/batchdownloader.cpp" line="364"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="88"/>
         <location filename="../src/batchdownloader.cpp" line="94"/>
-        <location filename="../src/batchdownloader.cpp" line="367"/>
+        <location filename="../src/batchdownloader.cpp" line="373"/>
         <source>Copy Url</source>
         <translation>Kopiera webbadress</translation>
     </message>
@@ -881,39 +888,39 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="379"/>
+        <location filename="../src/batchdownloader.cpp" line="385"/>
         <source>Remove</source>
         <translation>Ta bort</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="392"/>
+        <location filename="../src/batchdownloader.cpp" line="398"/>
         <source>Show Subtitles</source>
         <translation>Visa undertexter</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="407"/>
+        <location filename="../src/batchdownloader.cpp" line="413"/>
         <source>Show Comments</source>
         <translation>Visa kommentarer</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="420"/>
+        <location filename="../src/batchdownloader.cpp" line="426"/>
         <source>Show Media Options</source>
         <translation>Visa mediaalternativ</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="433"/>
+        <location filename="../src/batchdownloader.cpp" line="439"/>
         <source>Download Media Part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1146"/>
-        <location filename="../src/batchdownloader.cpp" line="1160"/>
+        <location filename="../src/batchdownloader.cpp" line="1152"/>
+        <location filename="../src/batchdownloader.cpp" line="1166"/>
         <source>Set</source>
         <translation>Ställ in</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1529"/>
-        <location filename="../src/batchdownloader.cpp" line="1937"/>
+        <location filename="../src/batchdownloader.cpp" line="1535"/>
+        <location filename="../src/batchdownloader.cpp" line="1954"/>
         <source>Downloading subtitles</source>
         <translation>Laddar ner undertexter</translation>
     </message>
@@ -969,17 +976,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="791"/>
+        <location filename="../src/configure.cpp" line="822"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="795"/>
+        <location filename="../src/configure.cpp" line="826"/>
         <source>Best-audio</source>
         <translation>Bästa-ljud</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="799"/>
+        <location filename="../src/configure.cpp" line="830"/>
         <source>Best-audiovideo</source>
         <translation>Bästa-ljudbild</translation>
     </message>
@@ -1018,64 +1025,64 @@
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="236"/>
+        <location filename="../src/playlistdownloader.cpp" line="242"/>
         <source>Open</source>
         <translation>Öppna</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="250"/>
+        <location filename="../src/playlistdownloader.cpp" line="256"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="194"/>
-        <location filename="../src/playlistdownloader.cpp" line="258"/>
+        <location filename="../src/playlistdownloader.cpp" line="200"/>
+        <location filename="../src/playlistdownloader.cpp" line="264"/>
         <source>Remove</source>
         <translation>Ta bort</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="128"/>
-        <location filename="../src/playlistdownloader.cpp" line="1296"/>
+        <location filename="../src/playlistdownloader.cpp" line="1304"/>
         <source>Get List Options:</source>
         <translation>Hämta listalternativ:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="269"/>
+        <location filename="../src/playlistdownloader.cpp" line="275"/>
         <source>Copy Url</source>
         <translation>Kopiera webbadress</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="283"/>
+        <location filename="../src/playlistdownloader.cpp" line="289"/>
         <source>Show Comments</source>
         <translation>Visa kommentarer</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="436"/>
+        <location filename="../src/playlistdownloader.cpp" line="442"/>
         <source>Show All Updated</source>
         <translation>Visa alla uppdaterade</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="442"/>
+        <location filename="../src/playlistdownloader.cpp" line="448"/>
         <source>Download All Updated</source>
         <translation>Ladda ner alla uppdaterade</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="450"/>
+        <location filename="../src/playlistdownloader.cpp" line="456"/>
         <source>Manage Subscriptions</source>
         <translation>Hantera prenumerationer</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1010"/>
+        <location filename="../src/playlistdownloader.cpp" line="1018"/>
         <source>Number of Pages Downloaded</source>
         <translation>Antalet nerladdade sidor</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1017"/>
+        <location filename="../src/playlistdownloader.cpp" line="1025"/>
         <source>Downloading video info</source>
         <translation>Laddar ner videoinformation</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="550"/>
+        <location filename="../src/playlistdownloader.cpp" line="556"/>
         <source>This May Take A Very Long Time</source>
         <translation>Detta kan ta väldigt lång tid</translation>
     </message>
