@@ -1884,9 +1884,9 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	auto updateOpts = []( QStringList opts ){
 
-		opts.append( "--match-filter" ) ;
-		opts.append( "!playlist" ) ;
-		opts.append( "--break-on-reject" ) ;
+		opts.prepend( "--break-on-reject" ) ;
+		opts.prepend( "!playlist" ) ;
+		opts.prepend( "--match-filter" ) ;
 
 		return opts ;
 	} ;
