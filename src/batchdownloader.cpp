@@ -1882,8 +1882,17 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
+	auto updateOpts = []( QStringList opts ){
+
+		opts.append( "--match-filter" ) ;
+		opts.append( "!playlist" ) ;
+		opts.append( "--break-on-reject" ) ;
+
+		return opts ;
+	} ;
+
 	m_ccmd.download( engine,
-			 []( QStringList opts ){ return opts ; },
+			 std::move( updateOpts ),
 			 m_table.url( index ),
 			 m_ctx,
 			 m_terminator.setUp(),
