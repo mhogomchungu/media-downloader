@@ -62,6 +62,12 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbOptionsDownloadOptions,&QPushButton::clicked,[ this ](){
+
+		auto& t = m_ctx.TabManager().Configure() ;
+		t.engineDefaultDownloadOptions( this->defaultEngineName(),*m_ui.lineEditOptions ) ;
+	} ) ;
+
 	connect( m_ui.pbList,&QPushButton::clicked,[ this ](){
 
 		m_tableList.setVisible( false ) ;
@@ -411,6 +417,7 @@ void basicdownloader::enableQuit()
 
 void basicdownloader::enableAll()
 {
+	m_ui.pbOptionsDownloadOptions->setEnabled( true ) ;
 	m_ui.pbOptionsHistory->setEnabled( true ) ;
 	m_ui.pbPasteClipboard->setEnabled( true ) ;
 	m_ui.cbEngineType->setEnabled( true ) ;
@@ -427,6 +434,7 @@ void basicdownloader::enableAll()
 
 void basicdownloader::disableAll()
 {
+	m_ui.pbOptionsDownloadOptions->setEnabled( false ) ;
 	m_ui.pbOptionsHistory->setEnabled( false ) ;
 	m_ui.pbPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineType->setEnabled( false ) ;

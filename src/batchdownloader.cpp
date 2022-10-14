@@ -121,6 +121,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbBDOptionsDownload,&QPushButton::clicked,[ this ](){
+
+		auto& t = m_ctx.TabManager().Configure() ;
+		t.engineDefaultDownloadOptions( this->defaultEngineName(),*m_ui.lineEditBDUrlOptions ) ;
+	} ) ;
+
 	m_tableWidgetBDList.connect( &QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
 
 		if( item && m_listType == batchdownloader::listType::MEDIA_OPTIONS ){
@@ -1903,6 +1909,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 void batchdownloader::enableAll()
 {
 	m_table.setEnabled( true ) ;
+	m_ui.pbBDOptionsDownload->setEnabled( true ) ;
 	m_ui.cbBDMonitorClipboardContent->setEnabled( true ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( true ) ;
 	m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
@@ -1924,6 +1931,7 @@ void batchdownloader::enableAll()
 void batchdownloader::disableAll()
 {
 	m_table.setEnabled( false ) ;
+	m_ui.pbBDOptionsDownload->setEnabled( false ) ;
 	m_ui.cbBDMonitorClipboardContent->setEnabled( false ) ;
 	m_ui.pbBDOptionsHistory->setEnabled( false ) ;
 	m_ui.pbBDPasteClipboard->setEnabled( false ) ;

@@ -45,6 +45,7 @@ public:
 	void tabExited() ;
 	void updateEnginesList( const QStringList& e ) ;
 	QString engineDefaultDownloadOptions( const QString& ) ;
+	void engineDefaultDownloadOptions( const QString&,QLineEdit& ) ;
 	void setDownloadOptions( int row,tableWidget& table ) ;
 	template< typename Function >
 	void presetOptionsForEach( const Function& function )

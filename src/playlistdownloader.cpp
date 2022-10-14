@@ -171,6 +171,12 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbPLDownloadOptions,&QPushButton::clicked,[ this ](){
+
+		auto& t = m_ctx.TabManager().Configure() ;
+		t.engineDefaultDownloadOptions( this->defaultEngineName(),*m_ui.lineEditPLUrlOptions ) ;
+	} ) ;
+
 	m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
 
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
@@ -572,10 +578,12 @@ void playlistdownloader::enableAll()
 	m_ui.cbEngineTypePD->setEnabled( true ) ;
 	m_ui.pbPLRangeHistory->setEnabled( true ) ;
 	m_ui.pbPLOptionsHistory->setEnabled( true ) ;
+	m_ui.pbPLDownloadOptions->setEnabled( true ) ;
 }
 
 void playlistdownloader::disableAll()
 {
+	m_ui.pbPLDownloadOptions->setEnabled( false ) ;
 	m_ui.pbClearArchiveFile->setEnabled( false ) ;
 	m_ui.cbUseInternalArchiveFile->setEnabled( false ) ;
 	m_ui.pbPlSubscription->setEnabled( false ) ;

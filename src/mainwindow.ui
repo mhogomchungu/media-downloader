@@ -269,6 +269,22 @@
        <string/>
       </property>
      </widget>
+     <widget class="QPushButton" name="pbOptionsDownloadOptions">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>360</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Set Download Options</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabBatchDownloader">
      <attribute name="title">
@@ -436,6 +452,22 @@
       </property>
       <property name="toolTip">
        <string>Recently Used</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbBDOptionsDownload">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>360</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Set Download Options</string>
       </property>
       <property name="text">
        <string/>
@@ -974,6 +1006,22 @@
       </property>
       <property name="toolTip">
        <string>Recently Used</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbPLDownloadOptions">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>360</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Set Download Options</string>
       </property>
       <property name="text">
        <string/>
