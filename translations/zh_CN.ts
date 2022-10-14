@@ -428,9 +428,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/utility.cpp" line="776"/>
+        <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/batchdownloader.cpp" line="173"/>
-        <location filename="../src/utility.cpp" line="773"/>
-        <location filename="../src/utility.cpp" line="792"/>
+        <location filename="../src/utility.cpp" line="775"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>

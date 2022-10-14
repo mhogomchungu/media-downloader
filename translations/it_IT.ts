@@ -628,6 +628,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Download Time Interval</source>
         <translation>Intervallo tempo download</translation>
     </message>
+    <message>
+        <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
