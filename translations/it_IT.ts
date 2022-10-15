@@ -300,7 +300,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Yt-dlp Text Encoding</source>
+        <source>Text Encoding</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

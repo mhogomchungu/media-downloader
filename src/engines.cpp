@@ -919,19 +919,7 @@ bool engines::engine::breakShowListIfContains( const QStringList& e ) const
 	return m_functions->breakShowListIfContains( e ) ;
 }
 
-void engines::engine::setTextEncondig( settings& s,QStringList& opts) const
-{
-	if( m_name.contains( "yt-dlp" ) ){
 
-		const auto& e = s.textEncoding() ;
-
-		if( !e.isEmpty() ){
-
-			opts.append( "--encoding" ) ;
-			opts.append( e ) ;
-		}
-	}
-}
 
 QString engines::engine::setVersionString( const QString& data ) const
 {
@@ -1073,6 +1061,10 @@ bool engines::engine::functions::supportsShowingComments()
 bool engines::engine::functions::updateVersionInfo()
 {
 	return false ;
+}
+
+void engines::engine::functions::setTextEncondig( settings&,QStringList& )
+{
 }
 
 QString engines::engine::functions::updateCmdPath( const QString& e )

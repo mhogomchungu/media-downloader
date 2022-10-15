@@ -269,11 +269,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1708"/>
-        <source>Yt-dlp Text Encoding</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1732"/>
         <source>Reset Option To Its Default</source>
         <translation>Restablecer Opción a su Valor Predeterminado</translation>
@@ -371,6 +366,11 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1478"/>
         <source>Update Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1708"/>
+        <source>Text Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -655,45 +655,45 @@
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="992"/>
+        <location filename="../src/engines.cpp" line="980"/>
         <source>Download cancelled</source>
         <translation>Descarga cancelada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1143"/>
+        <location filename="../src/engines.cpp" line="1135"/>
         <source>Format Code</source>
         <translation>Código de formato</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1144"/>
+        <location filename="../src/engines.cpp" line="1136"/>
         <source>Extension</source>
         <translation>Extensión</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1145"/>
+        <location filename="../src/engines.cpp" line="1137"/>
         <source>Resolution</source>
         <translation>Resolución</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1146"/>
+        <location filename="../src/engines.cpp" line="1138"/>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1361"/>
+        <location filename="../src/engines.cpp" line="1353"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1367"/>
+        <location filename="../src/engines.cpp" line="1359"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1512"/>
-        <location filename="../src/engines.cpp" line="1517"/>
-        <location filename="../src/engines.cpp" line="1524"/>
-        <location filename="../src/engines.cpp" line="1529"/>
+        <location filename="../src/engines.cpp" line="1504"/>
+        <location filename="../src/engines.cpp" line="1509"/>
+        <location filename="../src/engines.cpp" line="1516"/>
+        <location filename="../src/engines.cpp" line="1521"/>
         <source>Elapsed Time:</source>
         <translation>Tiempo transcurrido:</translation>
     </message>
@@ -728,7 +728,7 @@
         <translation>Iniciar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="998"/>
+        <location filename="../src/engines.cpp" line="986"/>
         <location filename="../src/networkAccess.cpp" line="204"/>
         <location filename="../src/networkAccess.cpp" line="206"/>
         <location filename="../src/networkAccess.cpp" line="247"/>
@@ -770,12 +770,12 @@
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1430"/>
+        <location filename="../src/engines.cpp" line="1422"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="996"/>
+        <location filename="../src/engines.cpp" line="984"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
@@ -785,7 +785,7 @@
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1475"/>
+        <location filename="../src/engines.cpp" line="1467"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>

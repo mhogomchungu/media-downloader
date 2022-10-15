@@ -1705,7 +1705,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Yt-dlp Text Encoding</string>
+         <string>Text Encoding</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

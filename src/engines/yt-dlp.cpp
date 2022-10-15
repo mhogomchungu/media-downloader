@@ -675,6 +675,17 @@ bool yt_dlp::updateVersionInfo()
 	return m_engine.name().contains( "yt-dlp" ) ;
 }
 
+void yt_dlp::setTextEncondig( settings& s,QStringList& opts )
+{
+	const auto& e = s.textEncoding() ;
+
+	if( !e.isEmpty() ){
+
+		opts.append( "--encoding" ) ;
+		opts.append( e ) ;
+	}
+}
+
 engines::engine::functions::DataFilter yt_dlp::Filter( int id,const QString& e )
 {
 	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,e,m_engine } ;

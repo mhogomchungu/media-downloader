@@ -412,6 +412,8 @@ public:
 
 			virtual bool updateVersionInfo() ;
 
+			virtual void setTextEncondig( settings&,QStringList& opts ) ;
+
 			virtual QString updateCmdPath( const QString& ) ;
 
 			virtual engines::engine::functions::DataFilter Filter( int,const QString& ) ;
@@ -555,7 +557,6 @@ public:
 			return m_versionArgument ;
 		}
 
-		void setTextEncondig( settings&,QStringList& opts ) const;
 		QString setVersionString( const QString& data ) const ;
 
 		const util::version& versionInfo() const
@@ -573,6 +574,10 @@ public:
 		bool validDownloadUrl() const
 		{
 			return m_downloadUrl.startsWith( "https://api.github.com" ) ;
+		}		
+		void setTextEncondig( settings& s,QStringList& opts ) const
+		{
+			m_functions->setTextEncondig( s,opts ) ;
 		}
 		const QProcessEnvironment& processEnvironment() const
 		{

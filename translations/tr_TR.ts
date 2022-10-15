@@ -269,11 +269,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1708"/>
-        <source>Yt-dlp Text Encoding</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1732"/>
         <source>Reset Option To Its Default</source>
         <translation>Seçeneği Varsayılanına Sıfırla</translation>
@@ -371,6 +366,11 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1478"/>
         <source>Update Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1708"/>
+        <source>Text Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -655,45 +655,45 @@
         <translation>&quot;%1&quot; arka uç için python3 yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="992"/>
+        <location filename="../src/engines.cpp" line="980"/>
         <source>Download cancelled</source>
         <translation>İndirme iptal edildi</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1143"/>
+        <location filename="../src/engines.cpp" line="1135"/>
         <source>Format Code</source>
         <translation>Format Kodu</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1144"/>
+        <location filename="../src/engines.cpp" line="1136"/>
         <source>Extension</source>
         <translation>Eklentiler</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1145"/>
+        <location filename="../src/engines.cpp" line="1137"/>
         <source>Resolution</source>
         <translation>Çözünürlük</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1146"/>
+        <location filename="../src/engines.cpp" line="1138"/>
         <source>Note</source>
         <translation>Not</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1361"/>
+        <location filename="../src/engines.cpp" line="1353"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1367"/>
+        <location filename="../src/engines.cpp" line="1359"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1512"/>
-        <location filename="../src/engines.cpp" line="1517"/>
-        <location filename="../src/engines.cpp" line="1524"/>
-        <location filename="../src/engines.cpp" line="1529"/>
+        <location filename="../src/engines.cpp" line="1504"/>
+        <location filename="../src/engines.cpp" line="1509"/>
+        <location filename="../src/engines.cpp" line="1516"/>
+        <location filename="../src/engines.cpp" line="1521"/>
         <source>Elapsed Time:</source>
         <translation>Geçen Zaman:</translation>
     </message>
@@ -728,7 +728,7 @@
         <translation>İndirmeye Başlayın</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="998"/>
+        <location filename="../src/engines.cpp" line="986"/>
         <location filename="../src/networkAccess.cpp" line="204"/>
         <location filename="../src/networkAccess.cpp" line="206"/>
         <location filename="../src/networkAccess.cpp" line="247"/>
@@ -770,12 +770,12 @@
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1430"/>
+        <location filename="../src/engines.cpp" line="1422"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="996"/>
+        <location filename="../src/engines.cpp" line="984"/>
         <source>Download completed</source>
         <translation>İndirme tamamlandı</translation>
     </message>
@@ -785,7 +785,7 @@
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1475"/>
+        <location filename="../src/engines.cpp" line="1467"/>
         <source>Post Processing</source>
         <translation>Rötuş</translation>
     </message>

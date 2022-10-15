@@ -264,11 +264,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1708"/>
-        <source>Yt-dlp Text Encoding</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1732"/>
         <source>Reset Option To Its Default</source>
         <translation>オプションをデフォルトに戻す</translation>
@@ -371,6 +366,11 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1478"/>
         <source>Update Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1708"/>
+        <source>Text Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -655,45 +655,45 @@
         <translation>バックエンド &quot;%1&quot; のためのpython3実行ファイルが見つかりません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="992"/>
+        <location filename="../src/engines.cpp" line="980"/>
         <source>Download cancelled</source>
         <translation>ダウンロードがキャンセルされました</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1143"/>
+        <location filename="../src/engines.cpp" line="1135"/>
         <source>Format Code</source>
         <translation>フォーマットコード</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1144"/>
+        <location filename="../src/engines.cpp" line="1136"/>
         <source>Extension</source>
         <translation>拡張子</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1145"/>
+        <location filename="../src/engines.cpp" line="1137"/>
         <source>Resolution</source>
         <translation>解像度</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1146"/>
+        <location filename="../src/engines.cpp" line="1138"/>
         <source>Note</source>
         <translation>詳細</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1361"/>
+        <location filename="../src/engines.cpp" line="1353"/>
         <source>Failed to open file for writing</source>
         <translation>ファイルに書き込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1367"/>
+        <location filename="../src/engines.cpp" line="1359"/>
         <source>Failed to open file for reading</source>
         <translation>ファイルが読み込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1512"/>
-        <location filename="../src/engines.cpp" line="1517"/>
-        <location filename="../src/engines.cpp" line="1524"/>
-        <location filename="../src/engines.cpp" line="1529"/>
+        <location filename="../src/engines.cpp" line="1504"/>
+        <location filename="../src/engines.cpp" line="1509"/>
+        <location filename="../src/engines.cpp" line="1516"/>
+        <location filename="../src/engines.cpp" line="1521"/>
         <source>Elapsed Time:</source>
         <translation>経過時間:</translation>
     </message>
@@ -728,7 +728,7 @@
         <translation>ダウンロード開始</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="998"/>
+        <location filename="../src/engines.cpp" line="986"/>
         <location filename="../src/networkAccess.cpp" line="204"/>
         <location filename="../src/networkAccess.cpp" line="206"/>
         <location filename="../src/networkAccess.cpp" line="247"/>
@@ -770,12 +770,12 @@
         <translation>ファイル名を変更: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1430"/>
+        <location filename="../src/engines.cpp" line="1422"/>
         <source>Processing</source>
         <translation>処理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="996"/>
+        <location filename="../src/engines.cpp" line="984"/>
         <source>Download completed</source>
         <translation>ダウンロード完了</translation>
     </message>
@@ -785,7 +785,7 @@
         <translation>ダウンロードフォルダをデフォルトにリセット</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1475"/>
+        <location filename="../src/engines.cpp" line="1467"/>
         <source>Post Processing</source>
         <translation>後処理</translation>
     </message>
