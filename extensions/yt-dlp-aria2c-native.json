@@ -1,0 +1,91 @@
+{
+    "BackendPath": "${default}",
+    "BatchFileArgument": "-a",
+    "CanDownloadPlaylist": true,
+    "Cmd": {
+        "Generic": {
+            "amd64": {
+                "Args": [
+                    "stdbuf",
+                    "-o",
+                    "L",
+                    "yt-dlp"
+                ],
+                "Name": "yt-dlp"
+            },
+            "x86": {
+                "Args": [
+                    "stdbuf",
+                    "-o",
+                    "L",
+                    "yt-dlp"
+                ],
+                "Name": "yt-dlp"
+            }
+        },
+        "Windows": {
+            "amd64": {
+                "Args": [
+                    "yt-dlp.exe"
+                ],
+                "Name": "yt-dlp.exe"
+            },
+            "x86": {
+                "Args": [
+                    "yt-dlp_x86.exe"
+                ],
+                "Name": "yt-dlp_x86.exe"
+            }
+        }
+    },
+    "ControlJsonStructure": {
+        "Connector": "&&",
+        "lhs": {
+            "startsWith": "[#"
+        },
+        "rhs": {
+            "contains": "CN:"
+        }
+    },
+    "CookieArgument": "--cookies",
+    "DefaultCommentsCmdOptions": [
+        "--get-comments",
+        "--no-download",
+        "--print",
+        "{\"title\":%(title)j,\"comments\":%(comments)j}"
+    ],
+    "DefaultDownLoadCmdOptions": [
+        "--downloader",
+        "aria2c",
+        "--downloader",
+        "dash,m3u8:native",
+        "--ignore-config",
+        "--no-playlist",
+        "-o",
+        "%(title).200s-%(id)s.%(ext)s"
+    ],
+    "DefaultListCmdOptions": [
+        "--print",
+        "%(formats)j"
+    ],
+    "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
+    "LikeYoutubeDl": true,
+    "Name": "yt-dlp-aria2c-native",
+    "OptionsArgument": "-f",
+    "PlaylistItemsArgument": "--playlist-items",
+    "RemoveText": [
+    ],
+    "ReplaceOutputWithProgressReport": false,
+    "RequiredMinimumVersionOfMediaDownloader": "2.2.0",
+    "SkipLineWithText": [
+        "(pass -k to keep)",
+        "                                                                               "
+    ],
+    "SplitLinesBy": [
+        "\n",
+        "\r"
+    ],
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 0
+}
