@@ -1224,7 +1224,7 @@
         <x>10</x>
         <y>10</y>
         <width>771</width>
-        <height>421</height>
+        <height>381</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -1319,6 +1319,35 @@
       </property>
       <property name="text">
        <string>Home</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="cbLibraryTabEnable">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>390</y>
+        <width>21</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelLibraryWarning">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>386</y>
+        <width>651</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>

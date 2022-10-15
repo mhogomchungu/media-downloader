@@ -673,7 +673,7 @@ void configure::engineDefaultDownloadOptions( const QString& engineName,QLineEdi
 		m.addAction( it ) ;
 	}
 
-	connect( &m,&QMenu::triggered,[ this,&txt ]( QAction * ac ){
+	connect( &m,&QMenu::triggered,[ &txt ]( QAction * ac ){
 
 		txt.setText( ac->text() ) ;
 	} ) ;

@@ -282,19 +282,19 @@ bool settings::checkForUpdates()
 	return m_settings.value( "CheckForUpdates" ).toBool() ;
 }
 
-bool settings::disableLibraryTab()
+bool settings::enableLibraryTab()
 {
-	if( !m_settings.contains( "DisableLibraryTab" ) ){
+	if( !m_settings.contains( "EnableLibraryTab" ) ){
 
-		m_settings.setValue( "DisableLibraryTab",false ) ;
+		m_settings.setValue( "EnableLibraryTab",false ) ;
 	}
 
-	return m_settings.value( "DisableLibraryTab" ).toBool() ;
+	return m_settings.value( "EnableLibraryTab" ).toBool() ;
 }
 
-void settings::setDisableLibraryTab( bool e )
+void settings::setEnableLibraryTab( bool e )
 {
-	m_settings.setValue( "DisableLibraryTab",e ) ;
+	m_settings.setValue( "EnableLibraryTab",e ) ;
 }
 
 void settings::setCheckForUpdates( bool e )

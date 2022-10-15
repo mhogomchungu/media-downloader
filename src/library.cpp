@@ -29,7 +29,7 @@ library::library( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_enableGlobalUiChanges( false ),
 	m_settings( m_ctx.Settings() ),
-	m_disabled( m_settings.disableLibraryTab() ),
+	m_enabled( m_settings.enableLibraryTab() ),
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font() ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
@@ -37,12 +37,27 @@ library::library( const Context& ctx ) :
 	m_folderIcon( QIcon( ":/folder" ).pixmap( 30,40 ) ),
 	m_videoIcon( QIcon( ":/video" ).pixmap( 30,40 ) )
 {
-	if( m_disabled ){
+	m_ui.cbLibraryTabEnable->setChecked( m_enabled ) ;
 
-		this->disableAll( true ) ;
-		m_ui.pbLibraryQuit->setEnabled( true ) ;
-		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
-	}
+	connect( m_ui.cbLibraryTabEnable,&QCheckBox::clicked,[ this ]( bool e ){
+
+		m_enabled = e ;
+
+		m_settings.setEnableLibraryTab( e ) ;
+
+		if( e ){
+
+			this->enableAll( true ) ;
+			this->showContents( m_currentPath,m_ctx.TabManager().uiEnabled() ) ;
+		}else{
+			m_table.clear() ;
+			this->disableAll( true ) ;
+			m_ui.pbLibraryQuit->setEnabled( true ) ;
+			m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
+			m_ui.cbLibraryTabEnable->setEnabled( true ) ;
+			m_ui.labelLibraryWarning->setEnabled( true ) ;
+		}
+	} ) ;
 
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
@@ -180,11 +195,24 @@ void library::moveUp()
 
 void library::init_done()
 {
+	if( m_enabled ){
+
+		this->enableAll( true ) ;
+	}else{
+		this->disableAll( true ) ;
+		m_ui.pbLibraryQuit->setEnabled( true ) ;
+		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
+		m_ui.cbLibraryTabEnable->setEnabled( true ) ;
+		m_ui.labelLibraryWarning->setEnabled( true ) ;
+	}
 }
 
 void library::enableAll()
 {
-	if( !m_disabled ){
+	m_ui.cbLibraryTabEnable->setEnabled( true ) ;
+	m_ui.labelLibraryWarning->setEnabled( true ) ;
+
+	if( m_enabled ){
 
 		this->enableAll( m_enableGlobalUiChanges ) ;
 	}
@@ -192,7 +220,7 @@ void library::enableAll()
 
 void library::disableAll()
 {
-	if( !m_disabled ){
+	if( m_enabled ){
 
 		this->disableAll( m_enableGlobalUiChanges ) ;
 	}
@@ -212,7 +240,7 @@ void library::retranslateUi()
 
 void library::tabEntered()
 {
-	if( !m_disabled ){
+	if( m_enabled ){
 
 		this->showContents( m_currentPath,m_ctx.TabManager().uiEnabled() ) ;
 	}
@@ -227,6 +255,8 @@ void library::enableAll( bool e )
 	if( e ){
 
 		m_table.setEnabled( true ) ;
+		m_ui.cbLibraryTabEnable->setEnabled( true ) ;
+		m_ui.labelLibraryWarning->setEnabled( true ) ;
 		m_ui.pbLibraryQuit->setEnabled( true ) ;
 		m_ui.pbLibraryHome->setEnabled( true ) ;
 		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
@@ -240,6 +270,8 @@ void library::disableAll( bool e )
 	if( e ){
 
 		m_table.setEnabled( false ) ;
+		m_ui.cbLibraryTabEnable->setEnabled( false ) ;
+		m_ui.labelLibraryWarning->setEnabled( false ) ;
 		m_ui.pbLibraryQuit->setEnabled( false ) ;
 		m_ui.pbLibraryHome->setEnabled( false ) ;
 		m_ui.pbLibraryDowloadFolder->setEnabled( false ) ;
@@ -250,27 +282,21 @@ void library::disableAll( bool e )
 
 void library::internalEnableAll()
 {
-	if( !m_disabled ){
+	if( m_enableGlobalUiChanges ){
 
-		if( m_enableGlobalUiChanges ){
-
-			m_ctx.TabManager().enableAll() ;
-		}else{
-			this->enableAll( true ) ;
-		}
+		m_ctx.TabManager().enableAll() ;
+	}else{
+		this->enableAll( true ) ;
 	}
 }
 
 void library::internalDisableAll()
 {
-	if( !m_disabled ){
+	if( m_enableGlobalUiChanges ){
 
-		if( m_enableGlobalUiChanges ){
-
-			m_ctx.TabManager().disableAll() ;
-		}else{
-			this->disableAll( true ) ;
-		}
+		m_ctx.TabManager().disableAll() ;
+	}else{
+		this->disableAll( true ) ;
 	}
 }
 

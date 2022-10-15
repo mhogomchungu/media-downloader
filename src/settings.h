@@ -95,7 +95,7 @@ public:
 	bool autoSavePlaylistOnExit() ;
 	bool useInternalArchiveFile() ;
 	bool checkForUpdates() ;
-	bool disableLibraryTab() ;
+	bool enableLibraryTab() ;
 
 	int networkTimeOut() ;
 	int stringTruncationSize() ;
@@ -118,7 +118,7 @@ public:
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
-	void setDisableLibraryTab( bool ) ;
+	void setEnableLibraryTab( bool ) ;
 	void setMonitorClipboardUrl( bool,settings::tabName ) ;
 	void setShowThumbnails( bool ) ;
 	void setPlaylistDownloaderSaveHistory( bool ) ;

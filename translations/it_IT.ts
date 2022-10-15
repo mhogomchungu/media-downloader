@@ -295,6 +295,10 @@
         <source>Set Download Options</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
