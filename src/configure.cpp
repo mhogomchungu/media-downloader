@@ -485,6 +485,8 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbAutoSaveNotDownloadedMedia->setChecked( m_settings.autoSavePlaylistOnExit() ) ;
 
+	m_ui.lineEditConfigureTextEncoding->setText( m_settings.textEncoding() ) ;
+
 	m_ui.cbCheckForUpdates->setChecked( m_settings.checkForUpdates() ) ;
 
 	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
@@ -702,6 +704,7 @@ void configure::saveOptions()
 	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
 	m_settings.setCheckForUpdates( m_ui.cbCheckForUpdates->isChecked() ) ;
+	m_settings.setTextEncoding( m_ui.lineEditConfigureTextEncoding->text() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
@@ -882,6 +885,8 @@ void configure::enableAll()
 	m_ui.label_3->setEnabled( true ) ;
 	m_ui.label_4->setEnabled( true ) ;
 	m_ui.label_5->setEnabled( true ) ;
+	m_ui.lineEditConfigureTextEncoding->setEnabled( true ) ;
+	m_ui.labelConfigureTextEncoding->setEnabled( true ) ;
 	m_ui.cbCheckForUpdates->setEnabled( true ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( true ) ;
 	m_ui.pbOpenBinFolder->setEnabled( true ) ;
@@ -944,6 +949,8 @@ void configure::disableAll()
 	m_ui.label_4->setEnabled( false ) ;
 	m_ui.label_5->setEnabled( false ) ;
 	m_ui.label_6->setEnabled( false ) ;
+	m_ui.lineEditConfigureTextEncoding->setEnabled( false ) ;
+	m_ui.labelConfigureTextEncoding->setEnabled( false ) ;
 	m_ui.cbCheckForUpdates->setEnabled( false ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( false ) ;
 	m_ui.labelConfigureEngines_2->setEnabled( false ) ;

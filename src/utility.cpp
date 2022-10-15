@@ -587,8 +587,6 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 					   url,
 					   opts } ) ;
 
-	opts.append( url ) ;
-
 	const auto& ca = engine.cookieArgument() ;
 	const auto& cv = settings.cookieFilePath( engine.name() ) ;
 
@@ -609,6 +607,16 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 		utility::arguments( opts ).removeOptionWithArgument( "--download-archive" ) ;
 	}
+
+	const auto& enc = settings.textEncoding() ;
+
+	if( !enc.isEmpty() ){
+
+		opts.append( "--encoding" ) ;
+		opts.append( enc ) ;
+	}
+
+	opts.append( url ) ;
 
 	return opts ;
 }

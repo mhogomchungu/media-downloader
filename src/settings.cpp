@@ -797,6 +797,21 @@ void settings::setHighDpiScalingFactor( const QString& m )
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;
 }
 
+QString settings::textEncoding()
+{
+	if( !m_settings.contains( "TextEncoding" ) ){
+
+		m_settings.setValue( "TextEncoding",QString() ) ;
+	}
+
+	return m_settings.value( "TextEncoding" ).toString() ;
+}
+
+void settings::setTextEncoding( const QString& e )
+{
+	m_settings.setValue( "TextEncoding",e ) ;
+}
+
 void settings::setlibraryDownloadFolder( const QString& e )
 {
 	m_settings.setValue( "LibraryDownloadFolder",QDir::fromNativeSeparators( e ) ) ;

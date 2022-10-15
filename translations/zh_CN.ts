@@ -51,9 +51,9 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="499"/>
         <location filename="../src/mainwindow.ui" line="737"/>
-        <location filename="../src/mainwindow.ui" line="1743"/>
-        <location filename="../src/mainwindow.ui" line="1793"/>
-        <location filename="../src/mainwindow.ui" line="2036"/>
+        <location filename="../src/mainwindow.ui" line="1772"/>
+        <location filename="../src/mainwindow.ui" line="1822"/>
+        <location filename="../src/mainwindow.ui" line="2065"/>
         <source>Options</source>
         <translation>画质选项</translation>
     </message>
@@ -62,7 +62,7 @@
         <location filename="../src/mainwindow.ui" line="538"/>
         <location filename="../src/mainwindow.ui" line="821"/>
         <location filename="../src/mainwindow.ui" line="1269"/>
-        <location filename="../src/mainwindow.ui" line="2119"/>
+        <location filename="../src/mainwindow.ui" line="2148"/>
         <location filename="../src/mainwindow.cpp" line="69"/>
         <source>Quit</source>
         <translation>退出</translation>
@@ -234,11 +234,6 @@
         <translation>常规设置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1478"/>
-        <source>Update Engine</source>
-        <translation>更新引擎</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1536"/>
         <source>Show Thumbnails</source>
         <translation>显示缩略图</translation>
@@ -274,13 +269,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1703"/>
+        <location filename="../src/mainwindow.ui" line="1732"/>
         <source>Reset Option To Its Default</source>
         <translation>将选项重置为默认值</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1706"/>
-        <location filename="../src/mainwindow.ui" line="1859"/>
+        <location filename="../src/mainwindow.ui" line="1735"/>
+        <location filename="../src/mainwindow.ui" line="1888"/>
         <source>Set Defaults</source>
         <translation>设置为默认值</translation>
     </message>
@@ -290,7 +285,7 @@
         <translation>窗口缩放比例(需要重启程序)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1691"/>
+        <location filename="../src/mainwindow.ui" line="1720"/>
         <source>Preset Options</source>
         <translation>预设画质选项</translation>
     </message>
@@ -320,13 +315,13 @@
         <translation>移除插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2132"/>
+        <location filename="../src/mainwindow.ui" line="2161"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1818"/>
-        <location filename="../src/mainwindow.ui" line="1917"/>
+        <location filename="../src/mainwindow.ui" line="1847"/>
+        <location filename="../src/mainwindow.ui" line="1946"/>
         <source>Engine&apos;s Default Options</source>
         <translation>引擎默认选项</translation>
     </message>
@@ -344,22 +339,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1068"/>
         <location filename="../src/mainwindow.ui" line="1126"/>
-        <location filename="../src/mainwindow.ui" line="1738"/>
-        <location filename="../src/mainwindow.ui" line="1777"/>
+        <location filename="../src/mainwindow.ui" line="1767"/>
+        <location filename="../src/mainwindow.ui" line="1806"/>
         <source>Ui Name</source>
         <translation>分辨率名称</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1148"/>
-        <location filename="../src/mainwindow.ui" line="1812"/>
-        <location filename="../src/mainwindow.ui" line="1931"/>
-        <location filename="../src/mainwindow.ui" line="2075"/>
+        <location filename="../src/mainwindow.ui" line="1841"/>
+        <location filename="../src/mainwindow.ui" line="1960"/>
+        <location filename="../src/mainwindow.ui" line="2104"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1161"/>
-        <location filename="../src/mainwindow.ui" line="1979"/>
+        <location filename="../src/mainwindow.ui" line="2008"/>
         <source>Url</source>
         <translation>链接地址</translation>
     </message>
@@ -369,48 +364,58 @@
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1840"/>
-        <location filename="../src/mainwindow.ui" line="2098"/>
+        <location filename="../src/mainwindow.ui" line="1478"/>
+        <source>Update Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1708"/>
+        <source>Text Encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1869"/>
+        <location filename="../src/mainwindow.ui" line="2127"/>
         <source>Engine&apos;s Name</source>
         <translation>引擎名称</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1872"/>
+        <location filename="../src/mainwindow.ui" line="1901"/>
         <source>Path To Cookie FIle</source>
         <translation>Cookie文件路径</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1912"/>
+        <location filename="../src/mainwindow.ui" line="1941"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1954"/>
+        <location filename="../src/mainwindow.ui" line="1983"/>
         <source>Options To Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1966"/>
+        <location filename="../src/mainwindow.ui" line="1995"/>
         <source>Url Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1984"/>
+        <location filename="../src/mainwindow.ui" line="2013"/>
         <source>Download Options</source>
         <translation>下载选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1998"/>
+        <location filename="../src/mainwindow.ui" line="2027"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>设置哪个引擎应该管理哪个链接地址</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2017"/>
+        <location filename="../src/mainwindow.ui" line="2046"/>
         <source>Url Filter</source>
         <translation>链接地址过滤器</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2138"/>
+        <location filename="../src/mainwindow.ui" line="2167"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
@@ -433,13 +438,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="776"/>
+        <location filename="../src/utility.cpp" line="784"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="173"/>
-        <location filename="../src/utility.cpp" line="775"/>
+        <location filename="../src/utility.cpp" line="783"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>
@@ -640,7 +645,7 @@
     <message>
         <location filename="../src/engines.cpp" line="644"/>
         <location filename="../src/engines.cpp" line="905"/>
-        <location filename="../src/utility.cpp" line="640"/>
+        <location filename="../src/utility.cpp" line="648"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
@@ -832,7 +837,7 @@
         <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1154"/>
+        <location filename="../src/playlistdownloader.cpp" line="1162"/>
         <source>Media Already In Archive</source>
         <translation>已存档的媒体</translation>
     </message>
@@ -928,8 +933,8 @@
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1535"/>
-        <location filename="../src/batchdownloader.cpp" line="1954"/>
+        <location filename="../src/batchdownloader.cpp" line="1543"/>
+        <location filename="../src/batchdownloader.cpp" line="1970"/>
         <source>Downloading subtitles</source>
         <translation type="unfinished"></translation>
     </message>
@@ -970,7 +975,7 @@
     </message>
     <message>
         <location filename="../src/configure.cpp" line="381"/>
-        <location filename="../src/configure.cpp" line="562"/>
+        <location filename="../src/configure.cpp" line="564"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -980,22 +985,22 @@
         <translation>选择下载文件夹</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="523"/>
+        <location filename="../src/configure.cpp" line="525"/>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="822"/>
+        <location filename="../src/configure.cpp" line="825"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="826"/>
+        <location filename="../src/configure.cpp" line="829"/>
         <source>Best-audio</source>
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="830"/>
+        <location filename="../src/configure.cpp" line="833"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>
@@ -1051,7 +1056,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="128"/>
-        <location filename="../src/playlistdownloader.cpp" line="1304"/>
+        <location filename="../src/playlistdownloader.cpp" line="1312"/>
         <source>Get List Options:</source>
         <translation>获取列表选项:</translation>
     </message>
@@ -1081,12 +1086,12 @@
         <translation>管理订阅</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1018"/>
+        <location filename="../src/playlistdownloader.cpp" line="1026"/>
         <source>Number of Pages Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1025"/>
+        <location filename="../src/playlistdownloader.cpp" line="1033"/>
         <source>Downloading video info</source>
         <translation type="unfinished"></translation>
     </message>

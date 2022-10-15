@@ -164,10 +164,6 @@
         <translation>Aggiorna</translation>
     </message>
     <message>
-        <source>Update Engine</source>
-        <translation>Aggiorna engine</translation>
-    </message>
-    <message>
         <source>Engine&apos;s Default Options</source>
         <translation>Opzioni predefinite engine</translation>
     </message>
@@ -297,6 +293,14 @@
     </message>
     <message>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update Plugin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text Encoding</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

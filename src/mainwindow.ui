@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1468,22 +1468,22 @@
        <widget class="QPushButton" name="pbConfigureDownload">
         <property name="geometry">
          <rect>
-          <x>188</x>
-          <y>130</y>
-          <width>421</width>
+          <x>480</x>
+          <y>170</y>
+          <width>131</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>Update Engine</string>
+         <string>Update Plugin</string>
         </property>
        </widget>
        <widget class="QPushButton" name="pbConfigureRemoveAPlugin">
         <property name="geometry">
          <rect>
-          <x>398</x>
+          <x>330</x>
           <y>170</y>
-          <width>211</width>
+          <width>141</width>
           <height>31</height>
          </rect>
         </property>
@@ -1513,9 +1513,9 @@
        <widget class="QPushButton" name="pbConfigureAddAPlugin">
         <property name="geometry">
          <rect>
-          <x>188</x>
+          <x>190</x>
           <y>170</y>
-          <width>211</width>
+          <width>131</width>
           <height>31</height>
          </rect>
         </property>
@@ -1683,6 +1683,35 @@
         </property>
         <property name="text">
          <string>Check For Updates</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigureTextEncoding">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>130</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelConfigureTextEncoding">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>130</y>
+          <width>171</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Text Encoding</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>

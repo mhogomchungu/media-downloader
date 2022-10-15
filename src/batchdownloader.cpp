@@ -1455,6 +1455,14 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		args.append( cookiePath ) ;
 	}
 
+	const auto& enc = m_settings.textEncoding() ;
+
+	if( !enc.isEmpty() ){
+
+		args.append( "--encoding" ) ;
+		args.append( enc ) ;
+	}
+
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
 	m_ccmd.download( engine,
@@ -1581,6 +1589,14 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		args.append( ca ) ;
 		args.append( cookiePath ) ;
+	}
+
+	const auto& enc = m_settings.textEncoding() ;
+
+	if( !enc.isEmpty() ){
+
+		args.append( "--encoding" ) ;
+		args.append( enc ) ;
 	}
 
 	args.append( url ) ;

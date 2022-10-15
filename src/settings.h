@@ -65,6 +65,7 @@ public:
 	QString windowsDimensions( const QString& windowName ) ;
 	QString playlistRangeHistoryLastUsed() ;
 	QString configPaths() ;
+	QString textEncoding() ;
 	QString updatedVersionPath() ;
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
@@ -126,6 +127,7 @@ public:
 	void setThemeName( const QString& ) ;
 	void setPlaylistRangeHistoryLastUsed( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
+	void setTextEncoding( const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;
 	void setCookieFilePath( const QString& engineName,const QString& cookieFilePath ) ;
 	void setDefaultEngine( const QString&,settings::tabName ) ;

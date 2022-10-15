@@ -915,6 +915,14 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 		opts.append( util::split( configListOpts,' ',true ) ) ;
 	}
 
+	const auto& enc = m_settings.textEncoding() ;
+
+	if( !enc.isEmpty() ){
+
+		opts.append( "--encoding" ) ;
+		opts.append( enc ) ;
+	}
+
 	engine.updateGetPlaylistCmdOptions( opts ) ;
 
 	opts.append( "-v" ) ;
