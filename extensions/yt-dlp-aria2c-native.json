@@ -70,7 +70,7 @@
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
     "LikeYoutubeDl": true,
-    "Name": "yt-dlp-aria2c",
+    "Name": "yt-dlp-aria2c-native",
     "OptionsArgument": "-f",
     "PlaylistItemsArgument": "--playlist-items",
     "RemoveText": [
