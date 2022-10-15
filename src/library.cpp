@@ -29,6 +29,7 @@ library::library( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_enableGlobalUiChanges( false ),
 	m_settings( m_ctx.Settings() ),
+	m_disabled( m_settings.disableLibraryTab() ),
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font() ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
@@ -36,6 +37,13 @@ library::library( const Context& ctx ) :
 	m_folderIcon( QIcon( ":/folder" ).pixmap( 30,40 ) ),
 	m_videoIcon( QIcon( ":/video" ).pixmap( 30,40 ) )
 {
+	if( m_disabled ){
+
+		this->disableAll( true ) ;
+		m_ui.pbLibraryQuit->setEnabled( true ) ;
+		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
+	}
+
 	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
 		m_table.selectRow( c,p,1 ) ;
@@ -176,12 +184,18 @@ void library::init_done()
 
 void library::enableAll()
 {
-	this->enableAll( m_enableGlobalUiChanges ) ;
+	if( !m_disabled ){
+
+		this->enableAll( m_enableGlobalUiChanges ) ;
+	}
 }
 
 void library::disableAll()
 {
-	this->disableAll( m_enableGlobalUiChanges ) ;
+	if( !m_disabled ){
+
+		this->disableAll( m_enableGlobalUiChanges ) ;
+	}
 }
 
 void library::resetMenu()
@@ -198,7 +212,10 @@ void library::retranslateUi()
 
 void library::tabEntered()
 {
-	this->showContents( m_currentPath,m_ctx.TabManager().uiEnabled() ) ;
+	if( !m_disabled ){
+
+		this->showContents( m_currentPath,m_ctx.TabManager().uiEnabled() ) ;
+	}
 }
 
 void library::tabExited()
@@ -233,21 +250,27 @@ void library::disableAll( bool e )
 
 void library::internalEnableAll()
 {
-	if( m_enableGlobalUiChanges ){
+	if( !m_disabled ){
 
-		m_ctx.TabManager().enableAll() ;
-	}else{
-		this->enableAll( true ) ;
+		if( m_enableGlobalUiChanges ){
+
+			m_ctx.TabManager().enableAll() ;
+		}else{
+			this->enableAll( true ) ;
+		}
 	}
 }
 
 void library::internalDisableAll()
 {
-	if( m_enableGlobalUiChanges ){
+	if( !m_disabled ){
 
-		m_ctx.TabManager().disableAll() ;
-	}else{
-		this->disableAll( true ) ;
+		if( m_enableGlobalUiChanges ){
+
+			m_ctx.TabManager().disableAll() ;
+		}else{
+			this->disableAll( true ) ;
+		}
 	}
 }
 

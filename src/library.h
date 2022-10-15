@@ -58,6 +58,7 @@ private:
 	const Context& m_ctx ;
 	bool m_enableGlobalUiChanges ;
 	settings& m_settings ;
+	bool m_disabled ;
 	Ui::MainWindow& m_ui ;
 	tableMiniWidget< ICON > m_table ;
 	QString m_downloadFolder ;

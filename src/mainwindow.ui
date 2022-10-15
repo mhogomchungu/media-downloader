@@ -720,7 +720,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_4">
+    <widget class="QWidget" name="tabPlayListDownloader">
      <attribute name="title">
       <string>Playlist Downloader</string>
      </attribute>
@@ -1214,7 +1214,7 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_5">
+    <widget class="QWidget" name="tabLibrary">
      <attribute name="title">
       <string>Library</string>
      </attribute>
@@ -1322,7 +1322,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_3">
+    <widget class="QWidget" name="tabConfigure">
      <attribute name="title">
       <string>Configure</string>
      </attribute>
