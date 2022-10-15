@@ -915,7 +915,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 		opts.append( util::split( configListOpts,' ',true ) ) ;
 	}
 
-	engine.setTextEncondig( m_settings,opts ) ;
+	engine.setTextEncondig( opts ) ;
 	engine.updateGetPlaylistCmdOptions( opts ) ;
 
 	opts.append( "-v" ) ;

@@ -1455,7 +1455,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		args.append( cookiePath ) ;
 	}
 
-	engine.setTextEncondig( m_settings,args ) ;
+	engine.setTextEncondig( args ) ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
@@ -1585,7 +1585,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		args.append( cookiePath ) ;
 	}
 
-	engine.setTextEncondig( m_settings,args ) ;
+	engine.setTextEncondig( args ) ;
 
 	args.append( url ) ;
 

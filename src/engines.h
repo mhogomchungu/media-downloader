@@ -412,7 +412,7 @@ public:
 
 			virtual bool updateVersionInfo() ;
 
-			virtual void setTextEncondig( settings&,QStringList& opts ) ;
+			virtual void setTextEncondig( const QString&,QStringList& opts ) ;
 
 			virtual QString updateCmdPath( const QString& ) ;
 
@@ -575,9 +575,9 @@ public:
 		{
 			return m_downloadUrl.startsWith( "https://api.github.com" ) ;
 		}		
-		void setTextEncondig( settings& s,QStringList& opts ) const
+		void setTextEncondig( QStringList& opts ) const
 		{
-			m_functions->setTextEncondig( s,opts ) ;
+			m_functions->setTextEncondig( m_encodingArgument,opts ) ;
 		}
 		const QProcessEnvironment& processEnvironment() const
 		{
@@ -812,6 +812,7 @@ public:
 		QString m_playlistItemsArgument ;
 		QString m_batchFileArgument ;
 		QString m_cookieArgument ;
+		QString m_encodingArgument ;
 		QStringList m_dumpJsonArguments ;
 		QStringList m_splitLinesBy ;
 		QStringList m_removeText ;

@@ -608,7 +608,7 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 		utility::arguments( opts ).removeOptionWithArgument( "--download-archive" ) ;
 	}
 
-	engine.setTextEncondig( settings,opts ) ;
+	engine.setTextEncondig( opts ) ;
 
 	opts.append( url ) ;
 

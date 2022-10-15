@@ -658,6 +658,7 @@ void engines::engine::updateOptions()
 	m_playlistItemsArgument           = m_jsonObject.value( "PlaylistItemsArgument" ).toString() ;
 	m_batchFileArgument               = m_jsonObject.value( "BatchFileArgument" ).toString() ;
 	m_cookieArgument                  = m_jsonObject.value( "CookieArgument" ).toString() ;
+	m_encodingArgument                = m_jsonObject.value( "EncodingArgument" ).toString() ;
 	m_dumpJsonArguments               = _toStringList( m_jsonObject.value( "DumptJsonArguments" ) ) ;
 	m_splitLinesBy                    = _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ;
 	m_removeText                      = _toStringList( m_jsonObject.value( "RemoveText" ) ) ;
@@ -1063,7 +1064,7 @@ bool engines::engine::functions::updateVersionInfo()
 	return false ;
 }
 
-void engines::engine::functions::setTextEncondig( settings&,QStringList& )
+void engines::engine::functions::setTextEncondig( const QString&,QStringList& )
 {
 }
 

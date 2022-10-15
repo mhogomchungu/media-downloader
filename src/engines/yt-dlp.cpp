@@ -222,6 +222,8 @@ QJsonObject yt_dlp::init( const QString& name,
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
 
+		mainObj.insert( "EncodingArgument","--encoding" ) ;
+
 		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.2.0" ) ;
 
 		mainObj.insert( "Name",name ) ;
@@ -319,6 +321,11 @@ yt_dlp::yt_dlp( const engines& engines,
 
 			obj = yt_dlp::init( name,configFileName,logger,enginePath ) ;
 		}
+	}
+
+	if( !obj.contains( "EncodingArgument" ) ){
+
+		obj.insert( "EncodingArgument","--encoding" ) ;
 	}
 
 	if( name.contains( "yt-dlp" ) ){
@@ -675,13 +682,13 @@ bool yt_dlp::updateVersionInfo()
 	return m_engine.name().contains( "yt-dlp" ) ;
 }
 
-void yt_dlp::setTextEncondig( settings& s,QStringList& opts )
+void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 {
-	const auto& e = s.textEncoding() ;
+	const auto& e = engines::engine::functions::Settings().textEncoding() ;
 
-	if( !e.isEmpty() ){
+	if( !e.isEmpty() && !args.isEmpty() ){
 
-		opts.append( "--encoding" ) ;
+		opts.append( args ) ;
 		opts.append( e ) ;
 	}
 }

@@ -58,7 +58,7 @@ public:
 
 	bool updateVersionInfo() override ;
 
-	void setTextEncondig( settings&,QStringList& ) override ;
+	void setTextEncondig( const QString&,QStringList& ) override ;
 
 	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 
