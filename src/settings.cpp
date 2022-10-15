@@ -799,17 +799,17 @@ void settings::setHighDpiScalingFactor( const QString& m )
 
 QString settings::textEncoding()
 {
-	if( !m_settings.contains( "TextEncoding" ) ){
+	if( !m_settings.contains( "YtDlpTextEncoding" ) ){
 
-		m_settings.setValue( "TextEncoding",QString() ) ;
+		m_settings.setValue( "YtDlpTextEncoding",QString() ) ;
 	}
 
-	return m_settings.value( "TextEncoding" ).toString() ;
+	return m_settings.value( "YtDlpTextEncoding" ).toString() ;
 }
 
 void settings::setTextEncoding( const QString& e )
 {
-	m_settings.setValue( "TextEncoding",e ) ;
+	m_settings.setValue( "YtDlpTextEncoding",e ) ;
 }
 
 void settings::setlibraryDownloadFolder( const QString& e )

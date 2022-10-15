@@ -1455,13 +1455,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		args.append( cookiePath ) ;
 	}
 
-	const auto& enc = m_settings.textEncoding() ;
-
-	if( !enc.isEmpty() ){
-
-		args.append( "--encoding" ) ;
-		args.append( enc ) ;
-	}
+	engine.setTextEncondig( m_settings,args ) ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
@@ -1591,13 +1585,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		args.append( cookiePath ) ;
 	}
 
-	const auto& enc = m_settings.textEncoding() ;
-
-	if( !enc.isEmpty() ){
-
-		args.append( "--encoding" ) ;
-		args.append( enc ) ;
-	}
+	engine.setTextEncondig( m_settings,args ) ;
 
 	args.append( url ) ;
 

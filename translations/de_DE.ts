@@ -264,6 +264,11 @@
         <translation>Auf Updates prüfen</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1708"/>
+        <source>Yt-dlp Text Encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1732"/>
         <source>Reset Option To Its Default</source>
         <translation>Option auf Standardwerte zurücksetzen</translation>
@@ -369,11 +374,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1708"/>
-        <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1869"/>
         <location filename="../src/mainwindow.ui" line="2127"/>
         <source>Engine&apos;s Name</source>
@@ -438,13 +438,13 @@
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="784"/>
+        <location filename="../src/utility.cpp" line="778"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="173"/>
-        <location filename="../src/utility.cpp" line="783"/>
+        <location filename="../src/utility.cpp" line="777"/>
         <source>Save List To File</source>
         <translation>Speichere in Dateiliste</translation>
     </message>
@@ -645,7 +645,7 @@
     <message>
         <location filename="../src/engines.cpp" line="644"/>
         <location filename="../src/engines.cpp" line="905"/>
-        <location filename="../src/utility.cpp" line="648"/>
+        <location filename="../src/utility.cpp" line="642"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Die ausführbare Datei &quot;%1&quot; konnte nicht gefunden werden;</translation>
     </message>
@@ -655,45 +655,45 @@
         <translation>Die ausführbare Datei python3 für das Backend &quot;%1&quot; konnte nicht gefunden werden;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="978"/>
+        <location filename="../src/engines.cpp" line="992"/>
         <source>Download cancelled</source>
         <translation>Download abgebrochen</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1129"/>
+        <location filename="../src/engines.cpp" line="1143"/>
         <source>Format Code</source>
         <translation>Format-Code</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1130"/>
+        <location filename="../src/engines.cpp" line="1144"/>
         <source>Extension</source>
         <translation>Erweiterungen</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1131"/>
+        <location filename="../src/engines.cpp" line="1145"/>
         <source>Resolution</source>
         <translation>Auflösung</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1132"/>
+        <location filename="../src/engines.cpp" line="1146"/>
         <source>Note</source>
         <translation>Hinweis</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1347"/>
+        <location filename="../src/engines.cpp" line="1361"/>
         <source>Failed to open file for writing</source>
         <translation>Datei konnte nicht zum Schreiben geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1353"/>
+        <location filename="../src/engines.cpp" line="1367"/>
         <source>Failed to open file for reading</source>
         <translation>Datei konnte nicht zum Lesen geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1498"/>
-        <location filename="../src/engines.cpp" line="1503"/>
-        <location filename="../src/engines.cpp" line="1510"/>
-        <location filename="../src/engines.cpp" line="1515"/>
+        <location filename="../src/engines.cpp" line="1512"/>
+        <location filename="../src/engines.cpp" line="1517"/>
+        <location filename="../src/engines.cpp" line="1524"/>
+        <location filename="../src/engines.cpp" line="1529"/>
         <source>Elapsed Time:</source>
         <translation>Verstrichene Zeit:</translation>
     </message>
@@ -728,7 +728,7 @@
         <translation>Herunterladen starten</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="984"/>
+        <location filename="../src/engines.cpp" line="998"/>
         <location filename="../src/networkAccess.cpp" line="204"/>
         <location filename="../src/networkAccess.cpp" line="206"/>
         <location filename="../src/networkAccess.cpp" line="247"/>
@@ -770,12 +770,12 @@
         <translation>Umbenennung der Datei in: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1416"/>
+        <location filename="../src/engines.cpp" line="1430"/>
         <source>Processing</source>
         <translation>Verarbeitung</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="982"/>
+        <location filename="../src/engines.cpp" line="996"/>
         <source>Download completed</source>
         <translation>Herunterladen abgeschlossen</translation>
     </message>
@@ -785,7 +785,7 @@
         <translation>Setze Download-Ordner auf Standard zurück</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1461"/>
+        <location filename="../src/engines.cpp" line="1475"/>
         <source>Post Processing</source>
         <translation>Nachbearbeitung</translation>
     </message>
@@ -837,7 +837,7 @@
         <translation>Abgeschlossen: %1%, Nicht gestartet: %2, Erfolgreich: %3, Fehlgeschlagen: %4, Abgebrochen: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1162"/>
+        <location filename="../src/playlistdownloader.cpp" line="1155"/>
         <source>Media Already In Archive</source>
         <translation>Bereits archivierte Medien</translation>
     </message>
@@ -933,8 +933,8 @@
         <translation>Einstellen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1543"/>
-        <location filename="../src/batchdownloader.cpp" line="1970"/>
+        <location filename="../src/batchdownloader.cpp" line="1537"/>
+        <location filename="../src/batchdownloader.cpp" line="1958"/>
         <source>Downloading subtitles</source>
         <translation>Herunterladen von Untertiteln</translation>
     </message>
@@ -1056,7 +1056,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="128"/>
-        <location filename="../src/playlistdownloader.cpp" line="1312"/>
+        <location filename="../src/playlistdownloader.cpp" line="1305"/>
         <source>Get List Options:</source>
         <translation>Listenoptionen abrufen:</translation>
     </message>
@@ -1086,12 +1086,12 @@
         <translation>Abos verwalten</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1026"/>
+        <location filename="../src/playlistdownloader.cpp" line="1019"/>
         <source>Number of Pages Downloaded</source>
         <translation>Anzahl der heruntergeladenen Seiten</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1033"/>
+        <location filename="../src/playlistdownloader.cpp" line="1026"/>
         <source>Downloading video info</source>
         <translation>Herunterladen von Videodaten</translation>
     </message>

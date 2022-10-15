@@ -555,6 +555,7 @@ public:
 			return m_versionArgument ;
 		}
 
+		void setTextEncondig( settings&,QStringList& opts ) const;
 		QString setVersionString( const QString& data ) const ;
 
 		const util::version& versionInfo() const

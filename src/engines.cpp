@@ -919,6 +919,20 @@ bool engines::engine::breakShowListIfContains( const QStringList& e ) const
 	return m_functions->breakShowListIfContains( e ) ;
 }
 
+void engines::engine::setTextEncondig( settings& s,QStringList& opts) const
+{
+	if( m_name.contains( "yt-dlp" ) ){
+
+		const auto& e = s.textEncoding() ;
+
+		if( !e.isEmpty() ){
+
+			opts.append( "--encoding" ) ;
+			opts.append( e ) ;
+		}
+	}
+}
+
 QString engines::engine::setVersionString( const QString& data ) const
 {
 	auto a = util::split( data,'\n',true ) ;
