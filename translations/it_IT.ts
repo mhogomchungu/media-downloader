@@ -289,19 +289,19 @@
     </message>
     <message>
         <source>Set Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta opzioni download</translation>
     </message>
     <message>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita scheda Libreria (può causare il blocco dell&apos;interfaccia utente per molto tempo se la cartella di download ha troppe voci)</translation>
     </message>
     <message>
         <source>Update Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiorna plugin</translation>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codifica testo</translation>
     </message>
 </context>
 <context>
@@ -638,7 +638,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Il nome file con estensione &quot;.txt&quot; salverà solo gli URL</translation>
     </message>
 </context>
 <context>
