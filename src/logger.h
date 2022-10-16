@@ -41,6 +41,7 @@ public:
 			struct luxHeader
 			{
 				QByteArray data ;
+				QByteArray timeLeft ;
 				QByteArray title ;
 				QByteArray fileSizeString ;
 				qint64 fileSizeInt = 0 ;

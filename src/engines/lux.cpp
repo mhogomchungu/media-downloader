@@ -119,6 +119,8 @@ Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 
 	if( luxHeader.data.isEmpty() ){
 
+		luxHeader.timeLeft = QObject::tr( "Time Left" ).toUtf8() ;
+
 		auto ee = allData.indexOf( "...\n\n" ) ;
 
 		if( ee != -1 ){
@@ -213,7 +215,7 @@ Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 
 				auto bbb = m_locale.formattedDataSize( bb ) ;
 
-				auto aa = QObject::tr( "Time Left" ) + ": " + a ;
+				auto aa = luxHeader.timeLeft + ": " + a ;
 				auto bb = QObject::tr( "Downloaded" ) + ": " + bbb + " / " + luxHeader.fileSizeString ;
 				auto cc = "(" + c + ")" ;
 
@@ -301,9 +303,9 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 	const auto& s = e.lastText() ;
 
-	auto ss = s.indexOf( "Time left:" ) ;
-
 	const auto& luksHeader = eee.value() ;
+
+	auto ss = s.indexOf( luksHeader.timeLeft ) ;
 
 	if( ss != -1  ){
 
@@ -373,7 +375,9 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		}
 	}
 
-	return luksHeader.title ;
+	m_tmp = luksHeader.title + "\n" + m_progress.text() ;
+
+	return m_tmp ;
 }
 
 lux::lux_dlFilter::~lux_dlFilter()
