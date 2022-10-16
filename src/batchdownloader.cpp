@@ -1892,11 +1892,9 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
-	auto updateOpts = []( QStringList opts ){
+	auto updateOpts = [ &engine ]( QStringList opts ){
 
-		opts.prepend( "--break-on-reject" ) ;
-		opts.prepend( "!playlist" ) ;
-		opts.prepend( "--match-filter" ) ;
+		engine.updateLocalOptions( opts ) ;
 
 		return opts ;
 	} ;

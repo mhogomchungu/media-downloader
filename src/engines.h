@@ -504,6 +504,16 @@ public:
 			return m_name ;
 		}
 
+		void updateLocalOptions( QStringList& opts ) const
+		{
+			if( this->name().contains( "yt-dlp" ) ){
+
+				opts.prepend( "--break-on-reject" ) ;
+				opts.prepend( "!playlist" ) ;
+				opts.prepend( "--match-filter" ) ;
+			}
+		}
+
 		template< typename Function >
 		void updateVersionInfo( Function function ) const
 		{
