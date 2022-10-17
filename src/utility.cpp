@@ -677,10 +677,7 @@ static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuc
 {
 	QJsonArray arr ;
 
-	auto downloadOpts = utility::stringConstants::downloadOptions() ;
-	auto engineName = utility::stringConstants::engineName() ;
-
-	auto _add = [ &downloadOpts,&engineName,&arr ]( const tableWidget::entry& e ){
+	auto _add = [ & ]( const tableWidget::entry& e ){
 
 		if( e.url.isEmpty() ){
 
@@ -691,28 +688,11 @@ static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuc
 
 		obj.insert( "runningState",e.runningState ) ;
 
-		const auto& m = e.uiText ;
+		obj.insert( "downloadOptions",e.downloadingOptions ) ;
 
-		if( m.startsWith( downloadOpts ) || m.startsWith( engineName ) ){
+		obj.insert( "engineName",e.engineName ) ;
 
-			const auto m = util::split( e.uiText,'\n',true ) ;
-
-			for( const auto& it : m ){
-
-				if( it.startsWith( downloadOpts ) ){
-
-					auto m = it.indexOf( ':' ) ;
-
-					obj.insert( "downloadOptions",it.mid( m + 2 ) ) ;
-
-				}else if( it.startsWith( engineName ) ){
-
-					auto m = it.indexOf( ':' ) ;
-
-					obj.insert( "engineName",it.mid( m + 2 ) ) ;
-				}
-			}
-		}
+		obj.insert( "downloadExtraOptions",e.extraDownloadingOptions ) ;
 
 		arr.append( obj ) ;
 	} ;

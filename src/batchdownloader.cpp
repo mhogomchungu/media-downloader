@@ -1208,6 +1208,7 @@ static void _parseDataFromFile( Items& items,
 
 		auto engineName   = obj.value( "engineName" ).toString() ;
 		auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
+		auto downloadExtOpts = obj.value( "downloadExtraOptions" ).toString() ;
 
 		if( !duration.isEmpty() ){
 
@@ -1228,7 +1229,6 @@ static void _parseDataFromFile( Items& items,
 		}else if( duration.isEmpty() ){
 
 			if( date.isEmpty() ){
-
 
 			}else{
 				durationAndDate = date ;
@@ -1253,6 +1253,18 @@ static void _parseDataFromFile( Items& items,
 		if( !downloadOpts.isEmpty() ){
 
 			auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
+
+			if( opts.isEmpty() ){
+
+				opts = dopts ;
+			}else{
+				opts += "\n" + dopts ;
+			}
+		}
+
+		if( !downloadExtOpts.isEmpty() ){
+
+			auto dopts = utility::stringConstants::downloadExtendedOptions() + ": " + downloadExtOpts ;
 
 			if( opts.isEmpty() ){
 
