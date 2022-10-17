@@ -124,7 +124,16 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	connect( m_ui.pbBDOptionsDownload,&QPushButton::clicked,[ this ](){
 
 		auto& t = m_ctx.TabManager().Configure() ;
-		t.engineDefaultDownloadOptions( this->defaultEngineName(),*m_ui.lineEditBDUrlOptions ) ;
+
+		t.engineDefaultDownloadOptions( this->defaultEngineName(),[ this ]( const QString& e ){
+
+			for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+
+				auto u = tableWidget::type::DownloadExtendedOptions ;
+
+				m_table.setDownloadingOptions( u,i,e ) ;
+			}
+		} ) ;
 	} ) ;
 
 	m_tableWidgetBDList.connect( &QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
@@ -464,7 +473,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 					auto u = utility::setDownloadOptions( engine,m_table,row,m ) ;
 
-					indexes.add( row,u,forceDownload ) ;
+					indexes.add( row,std::move( u ),forceDownload ) ;
 				}
 
 				this->download( engine,std::move( indexes ) ) ;

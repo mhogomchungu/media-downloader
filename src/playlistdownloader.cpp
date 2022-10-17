@@ -174,7 +174,16 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	connect( m_ui.pbPLDownloadOptions,&QPushButton::clicked,[ this ](){
 
 		auto& t = m_ctx.TabManager().Configure() ;
-		t.engineDefaultDownloadOptions( this->defaultEngineName(),*m_ui.lineEditPLUrlOptions ) ;
+
+		t.engineDefaultDownloadOptions( this->defaultEngineName(),[ this ]( const QString& e ){
+
+			for( int i = 1 ; i < m_table.rowCount() ; i++ ){
+
+				auto u = tableWidget::type::DownloadExtendedOptions ;
+
+				m_table.setDownloadingOptions( u,i,e ) ;
+			}
+		} ) ;
 	} ) ;
 
 	m_table.get().setColumnWidth( 0,m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ) ;
@@ -305,9 +314,9 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			return m.startsWith( engines::engine::mediaAlreadInArchiveText() + "\n" ) ;
 
-		},[ this ]( QAction * ac,bool forceDownload,int row ){
+		},[ this,&engine ]( QAction * ac,bool forceDownload,int row ){
 
-			connect( ac,&QAction::triggered,[ this,row,forceDownload ](){
+			connect( ac,&QAction::triggered,[ &engine,this,row,forceDownload ](){
 
 				downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
 
@@ -319,9 +328,15 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 					if( u.isEmpty() ){
 
-						indexes.add( row,m_ui.lineEditPLUrlOptions->text() ) ;
+						auto m = m_ui.lineEditPLUrlOptions->text() ;
+
+						auto mm = utility::setDownloadOptions( engine,m_table,row,m ) ;
+
+						indexes.add( row,std::move( mm ) ) ;
 					}else{
-						indexes.add( row,u ) ;
+						auto uu = utility::setDownloadOptions( engine,m_table,row,u ) ;
+
+						indexes.add( row,std::move( uu ) ) ;
 					}
 				}
 
@@ -761,9 +776,13 @@ void playlistdownloader::download( const engines::engine& engine )
 
 				if( u.isEmpty() ){
 
-					indexes.add( s,opts ) ;
+					auto oo = utility::setDownloadOptions( engine,m_table,s,opts ) ;
+
+					indexes.add( s,std::move( oo ) ) ;
 				}else{
-					indexes.add( s,u ) ;
+					auto uu = utility::setDownloadOptions( engine,m_table,s,u ) ;
+
+					indexes.add( s,std::move( uu ) ) ;
 				}
 			}
 		}

@@ -87,6 +87,7 @@ private:
 	QStringList m_optionsList ;
 	QTableWidget m_bogusTableOriginal ;
 	tableWidget m_bogusTable ;
+	utility::downLoadOptions m_extraOptions ;
 	utility::Terminator m_terminator ;
 
 	void run( const basicdownloader::engine& engine,

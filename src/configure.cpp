@@ -652,36 +652,7 @@ QString configure::engineDefaultDownloadOptions( const QString& engineName )
 	return options ;
 }
 
-void configure::engineDefaultDownloadOptions( const QString& engineName,QLineEdit& txt )
-{
-	QStringList options ;
 
-	using mm = configure::downloadDefaultOptions::optsEngines ;
-
-	m_downloadEngineDefaultOptions.forEach( [ & ]( const mm& opts,const QJsonObject& ){
-
-		if( opts.engine == engineName ){
-
-			options.append( opts.options ) ;
-		}
-
-		return false ;
-	} ) ;
-
-	QMenu m ;
-
-	for( const auto& it : options ){
-
-		m.addAction( it ) ;
-	}
-
-	connect( &m,&QMenu::triggered,[ &txt ]( QAction * ac ){
-
-		txt.setText( ac->text() ) ;
-	} ) ;
-
-	m.exec( QCursor::pos() ) ;
-}
 
 void configure::setDownloadOptions( int row,tableWidget& table )
 {

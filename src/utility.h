@@ -165,6 +165,10 @@ namespace utility
 		{
 			return QObject::tr( "Download Options" ) ;
 		}
+		static QString downloadExtendedOptions()
+		{
+			return QObject::tr( "Extra Downloading Options" ) ;
+		}
 		static QString downloadTimeInterval()
 		{
 			return QObject::tr( "Download Time Interval" ) ;
@@ -298,8 +302,19 @@ namespace utility
 	QString homePath() ;
 	QString python3Path() ;
 	QString clipboardText() ;
-	QString fromSecsSinceEpoch( qint64 ) ;	
-	QString setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& ) ;
+	QString fromSecsSinceEpoch( qint64 ) ;
+	struct downLoadOptions
+	{
+		downLoadOptions()
+		{
+		}
+		downLoadOptions( QString e ) : downloadOptions( std::move( e ) )
+		{
+		}
+		bool hasExtraOptions = false ;
+		QString downloadOptions ;
+	} ;
+	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;
@@ -369,6 +384,7 @@ namespace utility
 
 	struct updateOptionsStruct
 	{
+		const utility::downLoadOptions& dopts ;
 		const engines::engine& engine ;
 		settings& stts;
 		const utility::args& args ;

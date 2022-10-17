@@ -550,20 +550,29 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 	const engines::enginePaths& ep = s.ctx.Engines().engineDirPaths() ;
 	settings& settings             = s.stts ;
 	const utility::args& args      = s.args ;
-	const utility::uiIndex& uiIndex = s.uiIndex;
 	const QStringList& urls        = s.urls ;
 	bool forceDownload             = s.forceDownload ;
 	const QString& downloadPath    = settings.downloadFolder() ;
 
+	const utility::uiIndex& uiIndex       = s.uiIndex;
+	const utility::downLoadOptions& dopts = s.dopts ;
+
 	auto opts = [ & ](){
 
-		auto m = s.ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
+		if( dopts.hasExtraOptions ){
 
-		if( m.isEmpty() ){
-
-			return engine.defaultDownLoadCmdOptions() ;
+			return QStringList() ;
 		}else{
-			return util::splitPreserveQuotes( m ) ;
+			auto& t = s.ctx.TabManager().Configure() ;
+
+			auto m = t.engineDefaultDownloadOptions( engine.name() ) ;
+
+			if( m.isEmpty() ){
+
+				return engine.defaultDownLoadCmdOptions() ;
+			}else{
+				return util::splitPreserveQuotes( m ) ;
+			}
 		}
 	}() ;
 
@@ -1029,11 +1038,13 @@ QString utility::fromSecsSinceEpoch( qint64 s )
 	return QString( std::asctime( std::gmtime( &epoch ) ) ).trimmed() ;
 }
 
-QString utility::setDownloadOptions( const engines::engine& engine,
-				     tableWidget& table,
-				     int row,
-				     const QString& downloadOpts )
+utility::downLoadOptions utility::setDownloadOptions( const engines::engine& engine,
+						      tableWidget& table,
+						      int row,
+						      const QString& downloadOpts )
 {
+	utility::downLoadOptions opts ;
+
 	auto m = table.subTitle( row ) ;
 
 	if( !m.isEmpty() ){
@@ -1057,19 +1068,33 @@ QString utility::setDownloadOptions( const engines::engine& engine,
 		m += " --download-sections *" + z ;
 	}
 
-	auto u = table.downloadingOptions( row ) ;
+	auto zz = table.extraDownloadOptions( row ) ;
 
-	if( u.isEmpty() ){
+	if( !zz.isEmpty() ){
 
-		if( downloadOpts.isEmpty() ){
+		opts.hasExtraOptions = true ;
 
-			return "Default" + m ;
-		}else{
-			return downloadOpts + m ;
-		}
-	}else{
-		return u + m ;
+		m += " " + zz + " " ;
 	}
+
+	opts.downloadOptions = [ & ](){
+
+		auto u = table.downloadingOptions( row ) ;
+
+		if( u.isEmpty() ){
+
+			if( downloadOpts.isEmpty() ){
+
+				return "Default" + m ;
+			}else{
+				return downloadOpts + m ;
+			}
+		}else{
+			return u + m ;
+		}
+	}() ;
+
+	return opts ;
 }
 
 void utility::setDefaultEngine( const Context& ctx,const QString& name )

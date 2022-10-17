@@ -65,7 +65,12 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	connect( m_ui.pbOptionsDownloadOptions,&QPushButton::clicked,[ this ](){
 
 		auto& t = m_ctx.TabManager().Configure() ;
-		t.engineDefaultDownloadOptions( this->defaultEngineName(),*m_ui.lineEditOptions ) ;
+
+		t.engineDefaultDownloadOptions( this->defaultEngineName(),[ this ]( const QString& e ){
+
+			m_extraOptions.hasExtraOptions = true ;
+			m_extraOptions.downloadOptions = e ;
+		} ) ;
 	} ) ;
 
 	connect( m_ui.pbList,&QPushButton::clicked,[ this ](){
@@ -307,6 +312,10 @@ void basicdownloader::download( const QString& url )
 
 	auto s = m_ui.lineEditOptions->text() ;
 
+	if( !m_extraOptions.downloadOptions.isEmpty() ){
+
+		s += " " + m_extraOptions.downloadOptions ;
+	}
 	m_settings.addOptionsHistory( s,settings::tabName::basic ) ;
 
 	this->download( engine,{ s,engine.engine },m,false ) ;
@@ -340,7 +349,7 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 
 	m_ui.pbCancel->setEnabled( true ) ;
 
-	auto opts = utility::updateOptions( { engine.engine,m_settings,args,{},false,urls,{},m_ctx } ) ;
+	auto opts = utility::updateOptions( { m_extraOptions,engine.engine,m_settings,args,{},false,urls,{},m_ctx } ) ;
 
 	this->run( engine,opts,args.quality(),false ) ;
 }

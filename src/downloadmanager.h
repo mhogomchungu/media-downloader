@@ -138,7 +138,7 @@ public:
 		{
 			return this->Entry( s ).index ;
 		}
-		const QString& options( int s ) const
+		const utility::downLoadOptions& options( int s ) const
 		{
 			return this->Entry( s ).options ;
 		}
@@ -175,15 +175,15 @@ public:
 			auto s = static_cast< int >( m_init_position ) ;
 			return m_table.entryAt( static_cast< size_t >( m_index + s ) ) ;
 		}
-		void add( int index,const QString& url,bool forceUpdate = false )
+		void add( int index,utility::downLoadOptions opts,bool forceUpdate = false )
 		{
-			m_entries.emplace_back( index,url,forceUpdate ) ;
+			m_entries.emplace_back( index,std::move( opts ),forceUpdate ) ;
 		}
 		bool empty() const
 		{
 			return m_entries.empty() ;
 		}
-		const QString& options() const
+		const utility::downLoadOptions& options() const
 		{
 			return this->options( m_index ) ;
 		}
@@ -199,14 +199,14 @@ public:
 	private:
 		struct entry
 		{
-			entry( int i,const QString& o,bool s ) :
+			entry( int i,utility::downLoadOptions o,bool s ) :
 				index( i ),
-				options( o ),
+				options( std::move( o ) ),
 				forceDownload( s )
 			{
 			}
 			int index ;
-			QString options ;
+			utility::downLoadOptions options ;
 			bool forceDownload ;
 		} ;
 		const entry& Entry( int s ) const
@@ -327,9 +327,9 @@ public:
 
 		m_index->next() ;
 
-		utility::args args( m,engine ) ;
+		utility::args args( m.downloadOptions,engine ) ;
 
-		utility::updateOptionsStruct opt{ engine,m_settings,args,uiIndex,fd,{ url },e,cctx } ;
+		utility::updateOptionsStruct opt{ m,engine,m_settings,args,uiIndex,fd,{ url },e,cctx } ;
 
 		auto ctx = utility::make_ctx( engine,
 					      std::move( opts ),

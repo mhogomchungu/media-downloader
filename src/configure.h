@@ -45,7 +45,37 @@ public:
 	void tabExited() ;
 	void updateEnginesList( const QStringList& e ) ;
 	QString engineDefaultDownloadOptions( const QString& ) ;
-	void engineDefaultDownloadOptions( const QString&,QLineEdit& ) ;
+	template< typename Function >
+	void engineDefaultDownloadOptions( const QString& engineName,Function function )
+	{
+		QStringList options ;
+
+		using mm = configure::downloadDefaultOptions::optsEngines ;
+
+		m_downloadEngineDefaultOptions.forEach( [ & ]( const mm& opts,const QJsonObject& ){
+
+			if( opts.engine == engineName ){
+
+				options.append( opts.options ) ;
+			}
+
+			return false ;
+		} ) ;
+
+		QMenu m ;
+
+		for( const auto& it : options ){
+
+			m.addAction( it ) ;
+		}
+
+		connect( &m,&QMenu::triggered,[ &function ]( QAction * ac ){
+
+			function( ac->text() ) ;
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
+	}
 	void setDownloadOptions( int row,tableWidget& table ) ;
 	template< typename Function >
 	void presetOptionsForEach( const Function& function )

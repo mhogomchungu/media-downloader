@@ -640,6 +640,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>Il nome file con estensione &quot;.txt&quot; salverà solo gli URL</translation>
     </message>
+    <message>
+        <source>Extra Downloading Options</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

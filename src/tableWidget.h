@@ -61,6 +61,10 @@ public:
 	{
 		this->item( row ).timeInterval = s ;
 	}
+	void setExtraDownloadOptions( const QString& s,int row )
+	{
+		this->item( row ).extraDownloadingOptions = s ;
+	}
 	void setUiText( const QString& s,int row )
 	{
 		this->item( row ).uiText = s ;
@@ -93,6 +97,10 @@ public:
 	const QString& subTitle( int row ) const
 	{
 		return this->item( row ).subtitle ;
+	}
+	const QString& extraDownloadOptions( int row ) const
+	{
+		return this->item( row ).extraDownloadingOptions ;
 	}
 	const QString& timeInterval( int row ) const
 	{
@@ -153,6 +161,7 @@ public:
 		QString engineName ;
 		QString subtitle ;
 		QString timeInterval ;
+		QString extraDownloadingOptions ;
 		QString playlist ;
 		QString playlist_count ;
 		QString playlist_id ;
@@ -178,7 +187,11 @@ public:
 	{
 		return m_items[ s ] ;
 	}
-	enum class type{ DownloadOptions,EngineName,subtitleOption,DownloadTimeInterval } ;
+	enum class type{ DownloadOptions,
+			 DownloadExtendedOptions,
+			 EngineName,
+			 subtitleOption,
+			 DownloadTimeInterval } ;
 
 	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;

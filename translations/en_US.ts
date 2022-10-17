@@ -438,38 +438,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="778"/>
+        <location filename="../src/utility.cpp" line="787"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="173"/>
-        <location filename="../src/utility.cpp" line="777"/>
+        <location filename="../src/batchdownloader.cpp" line="182"/>
+        <location filename="../src/utility.cpp" line="786"/>
         <source>Save List To File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="843"/>
+        <location filename="../src/batchdownloader.cpp" line="852"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="853"/>
+        <location filename="../src/batchdownloader.cpp" line="862"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="871"/>
+        <location filename="../src/batchdownloader.cpp" line="880"/>
         <source>Replies to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="878"/>
+        <location filename="../src/batchdownloader.cpp" line="887"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1106"/>
+        <location filename="../src/batchdownloader.cpp" line="1115"/>
         <source>Save Subtitle To File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -479,21 +479,21 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1366"/>
+        <location filename="../src/batchdownloader.cpp" line="1375"/>
         <source>Get List From File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="501"/>
-        <location filename="../src/playlistdownloader.cpp" line="359"/>
+        <location filename="../src/batchdownloader.cpp" line="510"/>
+        <location filename="../src/playlistdownloader.cpp" line="374"/>
         <location filename="../src/utility.cpp" line="451"/>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="478"/>
-        <location filename="../src/utility.h" line="499"/>
-        <location filename="../src/utility.h" line="566"/>
+        <location filename="../src/utility.h" line="515"/>
+        <location filename="../src/utility.h" line="582"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -644,56 +644,56 @@
     </message>
     <message>
         <location filename="../src/engines.cpp" line="644"/>
-        <location filename="../src/engines.cpp" line="905"/>
-        <location filename="../src/utility.cpp" line="642"/>
+        <location filename="../src/engines.cpp" line="906"/>
+        <location filename="../src/utility.cpp" line="651"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="890"/>
+        <location filename="../src/engines.cpp" line="891"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="980"/>
+        <location filename="../src/engines.cpp" line="981"/>
         <source>Download cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1135"/>
+        <location filename="../src/engines.cpp" line="1136"/>
         <source>Format Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1136"/>
+        <location filename="../src/engines.cpp" line="1137"/>
         <source>Extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1137"/>
+        <location filename="../src/engines.cpp" line="1138"/>
         <source>Resolution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1138"/>
+        <location filename="../src/engines.cpp" line="1139"/>
         <source>Note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1353"/>
+        <location filename="../src/engines.cpp" line="1354"/>
         <source>Failed to open file for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1359"/>
+        <location filename="../src/engines.cpp" line="1360"/>
         <source>Failed to open file for reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1504"/>
-        <location filename="../src/engines.cpp" line="1509"/>
-        <location filename="../src/engines.cpp" line="1516"/>
-        <location filename="../src/engines.cpp" line="1521"/>
+        <location filename="../src/engines.cpp" line="1505"/>
+        <location filename="../src/engines.cpp" line="1510"/>
+        <location filename="../src/engines.cpp" line="1517"/>
+        <location filename="../src/engines.cpp" line="1522"/>
         <source>Elapsed Time:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -728,7 +728,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="986"/>
+        <location filename="../src/engines.cpp" line="987"/>
         <location filename="../src/networkAccess.cpp" line="204"/>
         <location filename="../src/networkAccess.cpp" line="206"/>
         <location filename="../src/networkAccess.cpp" line="247"/>
@@ -770,12 +770,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1422"/>
+        <location filename="../src/engines.cpp" line="1423"/>
         <source>Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="984"/>
+        <location filename="../src/engines.cpp" line="985"/>
         <source>Download completed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -785,24 +785,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1467"/>
+        <location filename="../src/engines.cpp" line="1468"/>
         <source>Post Processing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="532"/>
-        <location filename="../src/utility.h" line="540"/>
-        <location filename="../src/utility.h" line="545"/>
+        <location filename="../src/utility.h" line="548"/>
+        <location filename="../src/utility.h" line="556"/>
+        <location filename="../src/utility.h" line="561"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="537"/>
+        <location filename="../src/utility.h" line="553"/>
         <source>Force Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="555"/>
+        <location filename="../src/utility.h" line="571"/>
         <source>Show Log Window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -828,16 +828,21 @@
     </message>
     <message>
         <location filename="../src/utility.h" line="170"/>
+        <source>Extra Downloading Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.h" line="174"/>
         <source>Download Time Interval</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="345"/>
+        <location filename="../src/tableWidget.cpp" line="353"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1155"/>
+        <location filename="../src/playlistdownloader.cpp" line="1174"/>
         <source>Media Already In Archive</source>
         <translation type="unfinished"></translation>
     </message>
@@ -860,12 +865,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1371"/>
+        <location filename="../src/batchdownloader.cpp" line="1380"/>
         <source>Set Batch File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="350"/>
+        <location filename="../src/batchdownloader.cpp" line="359"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -875,24 +880,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1093"/>
+        <location filename="../src/batchdownloader.cpp" line="1102"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1160"/>
+        <location filename="../src/batchdownloader.cpp" line="1169"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="364"/>
+        <location filename="../src/batchdownloader.cpp" line="373"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="88"/>
         <location filename="../src/batchdownloader.cpp" line="94"/>
-        <location filename="../src/batchdownloader.cpp" line="373"/>
+        <location filename="../src/batchdownloader.cpp" line="382"/>
         <source>Copy Url</source>
         <translation type="unfinished"></translation>
     </message>
@@ -902,39 +907,39 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="385"/>
+        <location filename="../src/batchdownloader.cpp" line="394"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="398"/>
+        <location filename="../src/batchdownloader.cpp" line="407"/>
         <source>Show Subtitles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="413"/>
+        <location filename="../src/batchdownloader.cpp" line="422"/>
         <source>Show Comments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="426"/>
+        <location filename="../src/batchdownloader.cpp" line="435"/>
         <source>Show Media Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="439"/>
+        <location filename="../src/batchdownloader.cpp" line="448"/>
         <source>Download Media Part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1152"/>
-        <location filename="../src/batchdownloader.cpp" line="1166"/>
+        <location filename="../src/batchdownloader.cpp" line="1161"/>
+        <location filename="../src/batchdownloader.cpp" line="1175"/>
         <source>Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1537"/>
-        <location filename="../src/batchdownloader.cpp" line="1958"/>
+        <location filename="../src/batchdownloader.cpp" line="1546"/>
+        <location filename="../src/batchdownloader.cpp" line="1965"/>
         <source>Downloading subtitles</source>
         <translation type="unfinished"></translation>
     </message>
@@ -990,17 +995,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="825"/>
+        <location filename="../src/configure.cpp" line="796"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="829"/>
+        <location filename="../src/configure.cpp" line="800"/>
         <source>Best-audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="833"/>
+        <location filename="../src/configure.cpp" line="804"/>
         <source>Best-audiovideo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1039,64 +1044,64 @@
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="242"/>
+        <location filename="../src/playlistdownloader.cpp" line="251"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="256"/>
+        <location filename="../src/playlistdownloader.cpp" line="265"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="200"/>
-        <location filename="../src/playlistdownloader.cpp" line="264"/>
+        <location filename="../src/playlistdownloader.cpp" line="209"/>
+        <location filename="../src/playlistdownloader.cpp" line="273"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="128"/>
-        <location filename="../src/playlistdownloader.cpp" line="1305"/>
+        <location filename="../src/playlistdownloader.cpp" line="1324"/>
         <source>Get List Options:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="275"/>
+        <location filename="../src/playlistdownloader.cpp" line="284"/>
         <source>Copy Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="289"/>
+        <location filename="../src/playlistdownloader.cpp" line="298"/>
         <source>Show Comments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="442"/>
+        <location filename="../src/playlistdownloader.cpp" line="457"/>
         <source>Show All Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="448"/>
+        <location filename="../src/playlistdownloader.cpp" line="463"/>
         <source>Download All Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="456"/>
+        <location filename="../src/playlistdownloader.cpp" line="471"/>
         <source>Manage Subscriptions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1019"/>
+        <location filename="../src/playlistdownloader.cpp" line="1038"/>
         <source>Number of Pages Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1026"/>
+        <location filename="../src/playlistdownloader.cpp" line="1045"/>
         <source>Downloading video info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="556"/>
+        <location filename="../src/playlistdownloader.cpp" line="571"/>
         <source>This May Take A Very Long Time</source>
         <translation type="unfinished"></translation>
     </message>
