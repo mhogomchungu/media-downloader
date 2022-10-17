@@ -675,7 +675,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		auto row = this->addItemUi( m_defaultVideoThumbnail,-1,m_table,m_ui,s.toJson() ) ;
 
-		std::cout << "eeeee:" + s.toJson().toStdString() << std::endl ;
+		m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
 
 		m_table.selectLast() ;
 
@@ -753,6 +753,8 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 		m_table.setEngineName( s.engineName,row ) ;
 		m_table.setDownloadingOptions( s.downloadOptions,row ) ;
 		m_table.setExtraDownloadOptions( s.downloadExtraOptions,row ) ;
+
+		m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
 
 		QMetaObject::invokeMethod( this,"addItemUiSlot",Qt::QueuedConnection,Q_ARG( ItemEntry,m ) ) ;
 	}
