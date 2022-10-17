@@ -628,7 +628,7 @@ void batchdownloader::gotEvent( const QByteArray& m )
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
 			auto autoDownload = jsonArgs.value( "-a" ).toBool( false ) ;
-			auto showThumbnail = jsonArgs.value( "-s" ).toBool( false ) ;
+			auto showThumbnail = jsonArgs.value( "-e" ).toBool( false ) ;
 
 			this->addToList( url,autoDownload,showThumbnail ) ;
 		}
@@ -667,15 +667,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		const auto& s = list.first() ;
 
-		tableWidget::entry entry ;
+		tableWidget::entry entry( list.first() ) ;
 
-		entry.uiText    = s.uiText ;
-		entry.url       = s.url ;
 		entry.thumbnail = m_defaultVideoThumbnail ;
 
 		entry.runningState = downloadManager::finishedStatus::running() ;
 
-		int row = m_table.addItem( std::move( entry ) ) ;
+		auto row = this->addItemUi( m_defaultVideoThumbnail,-1,m_table,m_ui,s.toJson() ) ;
+
+		std::cout << "eeeee:" + s.toJson().toStdString() << std::endl ;
 
 		m_table.selectLast() ;
 
@@ -691,11 +691,10 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
 
-			tableWidget::entry entry ;
+			tableWidget::entry entry( it ) ;
 
 			auto uiText        = it.uiText ;
 			entry.uiText       = "...\n" + uiText ;
-			entry.url          = it.url ;
 			entry.thumbnail    = m_defaultVideoThumbnail ;
 			entry.runningState = downloadManager::finishedStatus::running() ;
 
@@ -748,7 +747,12 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 
 		auto s = m.next() ;
 
-		this->addItemUi( m_defaultVideoThumbnail,-1,false,{ s.uiText,s.url } ) ;
+		auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,s.toJson() ) ;
+
+		m_table.setUiText( s.uiText,row ) ;
+		m_table.setEngineName( s.engineName,row ) ;
+		m_table.setDownloadingOptions( s.downloadOptions,row ) ;
+		m_table.setExtraDownloadOptions( s.downloadExtraOptions,row ) ;
 
 		QMetaObject::invokeMethod( this,"addItemUiSlot",Qt::QueuedConnection,Q_ARG( ItemEntry,m ) ) ;
 	}
@@ -1188,7 +1192,9 @@ static void _parseDataFromFile( Items& items,
 				const QString& uploadDate,
 				const Function& converter )
 {
-	for( const auto& it : array ){
+	for( int i = 0 ; i < array.size() ; i++ ){
+
+		const auto& it = array[ i ] ;
 
 		auto obj = it.toObject() ;
 
@@ -1198,6 +1204,8 @@ static void _parseDataFromFile( Items& items,
 		}
 
 		auto url = obj.value( urlKey ).toString() ;
+
+		obj.insert( "webpage_url",url ) ;
 
 		auto d = utility::stringConstants::duration() + " " ;
 		auto u = utility::stringConstants::uploadDate() + " " ;
@@ -1278,24 +1286,25 @@ static void _parseDataFromFile( Items& items,
 
 			if( durationAndDate.isEmpty() ){
 
-				items.add( title,url ) ;
+				obj.insert( "uiText",title ) ;
 			}else{
 				auto txt = durationAndDate + "\n" + title ;
-
-				items.add( txt,url ) ;
+				obj.insert( "uiText",txt ) ;
 			}
 		}else{
 			if( durationAndDate.isEmpty() ){
 
 				auto txt = opts + "\n" + title ;
 
-				items.add( txt,url ) ;
+				obj.insert( "uiText",txt ) ;
 			}else{
 				auto txt = opts + "\n" + durationAndDate + "\n" + title ;
 
-				items.add( txt,url ) ;
+				obj.insert( "uiText",txt ) ;
 			}
 		}
+
+		items.add( std::move( obj ) ) ;
 	}
 }
 
@@ -1487,6 +1496,52 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			 batchdownloader::make_options( m_ctx,engine,m_debug,false,index,wrapper,std::move( functions ) ),
 			 wrapper,
 			 QProcess::ProcessChannel::StandardOutput ) ;
+}
+
+int batchdownloader::addItemUi( const QPixmap& pixmap,
+				int index,
+				tableWidget& table,
+				Ui::MainWindow& ui,
+				const utility::MediaEntry& media )
+{
+	auto state = downloadManager::finishedStatus::notStarted() ;
+
+	int row ;
+
+	if( index == -1 ){
+
+		row = table.addItem( { pixmap,state,media } ) ;
+		table.selectLast() ;
+	}else{
+		row = index ;
+		table.replace( { pixmap,state,media },index ) ;
+	}
+
+	ui.lineEditBDUrl->clear() ;
+
+	ui.lineEditBDUrl->setFocus() ;
+
+	return row ;
+}
+
+int batchdownloader::addItemUi( const QPixmap& pixmap,
+				int index,
+				bool enableAll,
+				const utility::MediaEntry& media )
+{
+	auto row = this->addItemUi( pixmap,index,m_table,m_ui,media ) ;
+
+	m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
+
+	m_ui.pbBDDownload->setEnabled( true ) ;
+
+	if( enableAll ){
+
+		m_ctx.TabManager().enableAll() ;
+		m_ui.pbBDCancel->setEnabled( false ) ;
+	}
+
+	return row ;
 }
 
 void batchdownloader::setThumbnailColumnSize( bool e )
@@ -1707,50 +1762,6 @@ void batchdownloader::showList( batchdownloader::listType listType,
 	utility::run( args,QString(),std::move( ctx ) ) ;
 }
 
-static int _addItemUi( const QPixmap& pixmap,
-		       int index,
-		       tableWidget& table,
-		       Ui::MainWindow& ui,
-		       const utility::MediaEntry& media )
-{
-	auto state = downloadManager::finishedStatus::notStarted() ;
-
-	int row ;
-
-	if( index == -1 ){
-
-		row = table.addItem( { pixmap,state,media } ) ;
-		table.selectLast() ;
-	}else{
-		row = index ;
-		table.replace( { pixmap,state,media },index ) ;
-	}
-
-	ui.lineEditBDUrl->clear() ;
-
-	ui.lineEditBDUrl->setFocus() ;
-
-	return row ;
-}
-
-void batchdownloader::addItemUi( const QPixmap& pixmap,
-				 int index,
-				 bool enableAll,
-				 const utility::MediaEntry& media )
-{
-	auto row = _addItemUi( pixmap,index,m_table,m_ui,media ) ;
-
-	m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
-
-	m_ui.pbBDDownload->setEnabled( true ) ;
-
-	if( enableAll ){
-
-		m_ctx.TabManager().enableAll() ;
-		m_ui.pbBDCancel->setEnabled( false ) ;
-	}
-}
-
 void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEntry& media )
 {
 	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,media ) ;
@@ -1782,7 +1793,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 					pixmap = m_defaultVideoThumbnail ;
 				}
 
-				_addItemUi( pixmap,index,m_table,m_ui,media ) ;
+				this->addItemUi( pixmap,index,m_table,m_ui,media ) ;
 
 				m_ctx.TabManager().Configure().setDownloadOptions( index,m_table ) ;
 

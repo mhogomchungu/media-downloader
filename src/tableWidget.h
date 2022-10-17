@@ -134,6 +134,15 @@ public:
 		entry()
 		{
 		}
+		template< typename BatchDownloaderItem >
+		entry( const BatchDownloaderItem& s ) :
+			url( s.url ),
+			uiText( s.uiText ),
+			downloadingOptions( s.downloadOptions ),
+			engineName( s.engineName ),
+			extraDownloadingOptions( s.downloadExtraOptions )
+		{
+		}
 		template< typename MediaProperties >
 		entry( const QPixmap& thumbnail,
 		       const QString& rState,

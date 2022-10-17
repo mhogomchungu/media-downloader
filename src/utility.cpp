@@ -897,7 +897,7 @@ QJsonObject utility::MediaEntry::uiJson() const
 	obj.insert( "title",m_title ) ;
 	obj.insert( "url",m_url ) ;
 	obj.insert( "duration",d ) ;
-	obj.insert( "uploadDate",u ) ;
+	obj.insert( "upload_date",u ) ;
 	obj.insert( "uploader",m_uploader ) ;
 
 	return obj ;

@@ -35,12 +35,71 @@ class Items{
 public:
 	struct entry
 	{
-		entry( const QString& uiText,const QString& url ) :
-			uiText( uiText ),url( url )
+		entry( const QString& u,const QString& l ) : url( l ),uiText( u ),title( u )
 		{
+			obj.insert( "webpage_url",url ) ;
+			obj.insert( "uiText",uiText ) ;
+			obj.insert( "title",title ) ;
+			obj.insert( "engineName","" ) ;
+			obj.insert( "downloadOptions","" ) ;
+			obj.insert( "downloadExtraOptions","" ) ;
+			obj.insert( "uploader","" ) ;
+			obj.insert( "runningState","" ) ;
+			obj.insert( "uploadDate","" ) ;
+			obj.insert( "duration","" ) ;
 		}
-		QString uiText ;
+		entry( QJsonObject o ) : obj( std::move( o ) ),
+			url( obj.value( "webpage_url" ).toString() ),
+			uiText( obj.value( "uiText" ).toString() + "\n" + url ),
+			title( obj.value( "title" ).toString() ),
+			engineName( obj.value( "engineName" ).toString() ),
+			downloadOptions( obj.value( "downloadOptions" ).toString() ),
+			downloadExtraOptions( obj.value( "downloadExtraOptions" ).toString() )
+		{
+			auto m = obj.value( "duration" ).toString() ;
+
+			if( !m.isEmpty() ){
+
+				auto mm = util::split( m,':',true ) ;
+
+				if( mm.size() > 2 ){
+
+					auto a = mm[ 0 ].toInt() ;
+					auto b = mm[ 1 ].toInt() ;
+					auto c = mm[ 2 ].toInt() ;
+
+					auto d = a * 3600 + b * 60 + c ;
+
+					obj.insert( "duration",d ) ;
+
+				}else if( mm.size() == 2 ){
+
+					auto a = mm[ 0 ].toInt() ;
+					auto b = mm[ 1 ].toInt() ;
+
+					auto d = a * 60 + b ;
+
+					obj.insert( "duration",d ) ;
+
+				}else if( mm.size() == 1 ){
+
+					obj.insert( "duration",mm[ 0 ].toInt() ) ;
+				}else{
+					obj.insert( "duration",0 ) ;
+				}
+			}
+		}
+		QByteArray toJson() const
+		{
+			return QJsonDocument( obj ).toJson( QJsonDocument::JsonFormat::Compact ) ;
+		}
+		QJsonObject obj ;
 		QString url ;
+		QString uiText ;
+		QString title ;
+		QString engineName ;
+		QString downloadOptions ;
+		QString downloadExtraOptions ;
 	} ;
 	Items() = default ;
 	Items( const QString& url )
@@ -51,9 +110,9 @@ public:
 	{
 		m_entries.emplace_back( uiText,url ) ;
 	}
-	void add( const QString& uiText,const QString& url )
+	void add( QJsonObject obj )
 	{
-		m_entries.emplace_back( uiText,url ) ;
+		m_entries.emplace_back( std::move( obj ) ) ;
 	}
 	void add( const QString& url )
 	{
@@ -170,9 +229,13 @@ private:
 	void download( const engines::engine&,int ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;
 	void addItemUi( int,bool,const utility::MediaEntry& ) ;
-	void addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
+	int addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
 	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
-
+	int addItemUi( const QPixmap& pixmap,
+		       int index,
+		       tableWidget& table,
+		       Ui::MainWindow& ui,
+		       const utility::MediaEntry& media ) ;
 	void showThumbnail( const engines::engine&,Items,bool = false,bool = false ) ;
 
 	const Context& m_ctx ;

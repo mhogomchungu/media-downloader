@@ -1128,8 +1128,8 @@ namespace utility
 			m_json( QByteArray() )
 		{
 		}
-		MediaEntry( const QString& uiText,const QString& url ) :
-			m_title( uiText ),
+		MediaEntry( const QString& title,const QString& url ) :
+			m_title( title ),
 			m_url( url ),
 			m_json( QByteArray() )
 		{
