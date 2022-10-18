@@ -438,38 +438,38 @@
         <translation>Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="787"/>
+        <location filename="../src/utility.cpp" line="767"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="182"/>
-        <location filename="../src/utility.cpp" line="786"/>
+        <location filename="../src/utility.cpp" line="766"/>
         <source>Save List To File</source>
         <translation>Guardar Lista en Archivo</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="852"/>
+        <location filename="../src/batchdownloader.cpp" line="858"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="862"/>
+        <location filename="../src/batchdownloader.cpp" line="868"/>
         <source>Date</source>
         <translation>Fecha</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="880"/>
+        <location filename="../src/batchdownloader.cpp" line="886"/>
         <source>Replies to</source>
         <translation>Respoder a</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="887"/>
+        <location filename="../src/batchdownloader.cpp" line="893"/>
         <source>Text</source>
         <translation>Texto</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1115"/>
+        <location filename="../src/batchdownloader.cpp" line="1121"/>
         <source>Save Subtitle To File</source>
         <translation>Guardar subtítulo en archivo</translation>
     </message>
@@ -479,7 +479,7 @@
         <translation>Nombre del motor:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1375"/>
+        <location filename="../src/batchdownloader.cpp" line="1398"/>
         <source>Get List From File</source>
         <translation>Obtener Lista desde Archivo</translation>
     </message>
@@ -865,7 +865,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1380"/>
+        <location filename="../src/batchdownloader.cpp" line="1403"/>
         <source>Set Batch File</source>
         <translation>Establecer Archivo de Lotes</translation>
     </message>
@@ -880,12 +880,12 @@
         <translation>Descargando comentarios</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1102"/>
+        <location filename="../src/batchdownloader.cpp" line="1108"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1169"/>
+        <location filename="../src/batchdownloader.cpp" line="1175"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
@@ -932,14 +932,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1161"/>
-        <location filename="../src/batchdownloader.cpp" line="1175"/>
+        <location filename="../src/batchdownloader.cpp" line="1167"/>
+        <location filename="../src/batchdownloader.cpp" line="1181"/>
         <source>Set</source>
         <translation>Establecer</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1546"/>
-        <location filename="../src/batchdownloader.cpp" line="1965"/>
+        <location filename="../src/batchdownloader.cpp" line="1615"/>
+        <location filename="../src/batchdownloader.cpp" line="1990"/>
         <source>Downloading subtitles</source>
         <translation>Descargando subtítulos</translation>
     </message>
