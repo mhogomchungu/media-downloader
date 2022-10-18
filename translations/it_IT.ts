@@ -642,7 +642,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Extra Downloading Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni extra download</translation>
     </message>
 </context>
 <context>
