@@ -112,8 +112,8 @@
         <location filename="../src/mainwindow.ui" line="282"/>
         <location filename="../src/mainwindow.ui" line="470"/>
         <location filename="../src/mainwindow.ui" line="1024"/>
-        <source>Set Download Options</source>
-        <translation type="unfinished"></translation>
+        <source>Установить параметры загрузки</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="291"/>
@@ -156,12 +156,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="674"/>
         <source>Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Время начала (HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="703"/>
         <source>End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Время окончания (HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="725"/>
@@ -181,12 +181,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="944"/>
         <source>Clear Internal Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить внутренний архивный файл</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="960"/>
         <source>Use Internal Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать внутренний архивный файл</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1219"/>
@@ -221,7 +221,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1347"/>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить вкладку 'Библиотека' (если в папке загрузки много записей, то GUI заиснет на долгое время)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1356"/>
@@ -261,7 +261,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1685"/>
         <source>Check For Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Проверить обновления</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1732"/>
@@ -366,12 +366,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1478"/>
         <source>Update Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить плагин</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1708"/>
         <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Кодировка текста заголовков</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1869"/>
@@ -387,17 +387,17 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1941"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>По умолчанию</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1983"/>
         <source>Options To Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая строка</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1995"/>
         <source>Url Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Mенеджер адресов</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="2013"/>
@@ -440,7 +440,7 @@
     <message>
         <location filename="../src/utility.cpp" line="767"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя файла с расширением '.txt' сохранит только URL-адреса</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="182"/>
@@ -590,7 +590,7 @@
     <message>
         <location filename="../src/translator.cpp" line="38"/>
         <source>German (Germany)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="131"/>
@@ -715,7 +715,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="90"/>
         <source>Network Failed To Respond Within %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть не отвечает %1 сек.</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="178"/>
@@ -829,12 +829,12 @@
     <message>
         <location filename="../src/utility.h" line="170"/>
         <source>Extra Downloading Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Доп. параметры загрузки</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="174"/>
         <source>Download Time Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Время загрузки</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="353"/>
@@ -904,7 +904,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="103"/>
         <source>Copy Url %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Копировать URL %1</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="394"/>
@@ -929,7 +929,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="448"/>
         <source>Download Media Part</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить часть мультимедиа</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1167"/>
@@ -955,13 +955,13 @@
     <message>
         <location filename="../src/configure.cpp" line="139"/>
         <source>Set As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить по умолчанию</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="176"/>
         <location filename="../src/configure.cpp" line="259"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Копировать</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="249"/>
@@ -992,7 +992,7 @@
     <message>
         <location filename="../src/configure.cpp" line="525"/>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваша версия (%1) не является последней (%2)</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="796"/>
