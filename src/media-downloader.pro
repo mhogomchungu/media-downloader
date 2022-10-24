@@ -19,7 +19,9 @@ utility.cpp \
 logwindow.cpp \
 engines/youtube-dl.cpp \
 engines/gallery-dl.cpp \
-engines/svtplay-dl.cpp
+engines/svtplay-dl.cpp \
+engines/lux.cpp \
+engines/wget.cpp
 
 HEADERS += \
 about.h \

@@ -644,6 +644,18 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Extra Downloading Options</source>
         <translation>Opzioni extra download</translation>
     </message>
+    <message>
+        <source>Time Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speed:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

@@ -113,7 +113,7 @@
         <location filename="../src/mainwindow.ui" line="470"/>
         <location filename="../src/mainwindow.ui" line="1024"/>
         <source>Set Download Options</source>
-        <translation type="Ställ in nerladdningsalternativ"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="291"/>
@@ -156,12 +156,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="674"/>
         <source>Start Time(HH:MM:SS):</source>
-        <translation type="Starttid(HH:MM:SS):"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="703"/>
         <source>End Time(HH:MM:SS):</source>
-        <translation type="Sluttid(HH:MM:SS):"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="725"/>
@@ -181,12 +181,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="944"/>
         <source>Clear Internal Archive File</source>
-        <translation type="Rensa intern arkivfil"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="960"/>
         <source>Use Internal Archive File</source>
-        <translation type="Använd intern arkivfil"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1219"/>
@@ -221,7 +221,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1347"/>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation type="Aktivera biblioteksfliken (Kan göra att användargränssnittet fryser under en mycket lång tid om nerladdningsmappen har för många poster)"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1356"/>
@@ -261,7 +261,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1685"/>
         <source>Check For Updates</source>
-        <translation type="Sök efter uppdateringar"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1732"/>
@@ -366,12 +366,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1478"/>
         <source>Update Plugin</source>
-        <translation type="Uppdatera tillägg"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1708"/>
         <source>Text Encoding</source>
-        <translation type="Textkodning"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1869"/>
@@ -387,17 +387,17 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1941"/>
         <source>Default</source>
-        <translation type="Standard"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1983"/>
         <source>Options To Add</source>
-        <translation type="Alternativ att lägga till"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1995"/>
         <source>Url Manager</source>
-        <translation type="Webbadresshanterare"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="2013"/>
@@ -438,13 +438,13 @@
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="767"/>
+        <location filename="../src/utility.cpp" line="779"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation type="Filnamn med tillägget &quot;.txt&quot; kommer endast att spara webbadresser"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="182"/>
-        <location filename="../src/utility.cpp" line="766"/>
+        <location filename="../src/utility.cpp" line="778"/>
         <source>Save List To File</source>
         <translation>Spara lista till fil</translation>
     </message>
@@ -590,7 +590,7 @@
     <message>
         <location filename="../src/translator.cpp" line="38"/>
         <source>German (Germany)</source>
-        <translation type="Tyska (Tyskland)"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="131"/>
@@ -715,7 +715,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="90"/>
         <source>Network Failed To Respond Within %1 seconds</source>
-        <translation type="Nätverket kunde inte svara inom %1 sekunder"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="178"/>
@@ -829,12 +829,12 @@
     <message>
         <location filename="../src/utility.h" line="170"/>
         <source>Extra Downloading Options</source>
-        <translation type="Extra nerladdningsalternativ"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="174"/>
         <source>Download Time Interval</source>
-        <translation type="Tidsinterval för nerladdningar"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="353"/>
@@ -860,6 +860,23 @@
         <location filename="../src/engines/svtplay-dl.cpp" line="41"/>
         <source>Method</source>
         <translation>Metod</translation>
+    </message>
+    <message>
+        <location filename="../src/engines/lux.cpp" line="122"/>
+        <location filename="../src/engines/wget.cpp" line="295"/>
+        <source>Time Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/lux.cpp" line="219"/>
+        <location filename="../src/engines/wget.cpp" line="314"/>
+        <source>Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/wget.cpp" line="288"/>
+        <source>Speed:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -904,7 +921,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="103"/>
         <source>Copy Url %1</source>
-        <translation type="Kopiera webbadress %1"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="394"/>
@@ -929,7 +946,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="448"/>
         <source>Download Media Part</source>
-        <translation type="Ladda ner mediadel"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1167"/>
@@ -955,13 +972,13 @@
     <message>
         <location filename="../src/configure.cpp" line="139"/>
         <source>Set As Default</source>
-        <translation type="Ange som standard"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="176"/>
         <location filename="../src/configure.cpp" line="259"/>
         <source>Copy</source>
-        <translation type="Kopiera"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="249"/>
@@ -992,20 +1009,20 @@
     <message>
         <location filename="../src/configure.cpp" line="525"/>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
-        <translation type="Din nuvarande version (%1) är inte den senaste versionen (%2)"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="796"/>
+        <location filename="../src/configure.cpp" line="794"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="800"/>
+        <location filename="../src/configure.cpp" line="798"/>
         <source>Best-audio</source>
         <translation>Bästa-ljud</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="804"/>
+        <location filename="../src/configure.cpp" line="802"/>
         <source>Best-audiovideo</source>
         <translation>Bästa-ljudbild</translation>
     </message>

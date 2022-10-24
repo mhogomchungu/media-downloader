@@ -221,7 +221,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1347"/>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation>Включить вкладку 'Библиотека' (если в папке загрузки много записей, то GUI заиснет на долгое время)</translation>
+        <translation>Включить вкладку &apos;Библиотека&apos; (если в папке загрузки много записей, то GUI заиснет на долгое время)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1356"/>
@@ -438,13 +438,13 @@
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="767"/>
+        <location filename="../src/utility.cpp" line="779"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation>Имя файла с расширением '.txt' сохранит только URL-адреса</translation>
+        <translation>Имя файла с расширением &apos;.txt&apos; сохранит только URL-адреса</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="182"/>
-        <location filename="../src/utility.cpp" line="766"/>
+        <location filename="../src/utility.cpp" line="778"/>
         <source>Save List To File</source>
         <translation>Сохранить список в файл</translation>
     </message>
@@ -861,6 +861,23 @@
         <source>Method</source>
         <translation>Метод</translation>
     </message>
+    <message>
+        <location filename="../src/engines/lux.cpp" line="122"/>
+        <location filename="../src/engines/wget.cpp" line="295"/>
+        <source>Time Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/lux.cpp" line="219"/>
+        <location filename="../src/engines/wget.cpp" line="314"/>
+        <source>Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/wget.cpp" line="288"/>
+        <source>Speed:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -995,17 +1012,17 @@
         <translation>Ваша версия (%1) не является последней (%2)</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="796"/>
+        <location filename="../src/configure.cpp" line="794"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="800"/>
+        <location filename="../src/configure.cpp" line="798"/>
         <source>Best-audio</source>
         <translation>Лучшее аудио</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="804"/>
+        <location filename="../src/configure.cpp" line="802"/>
         <source>Best-audiovideo</source>
         <translation>Лучшее аудио-видео</translation>
     </message>

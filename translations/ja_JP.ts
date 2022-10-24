@@ -438,13 +438,13 @@
         <translation>デフォルト</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="767"/>
+        <location filename="../src/utility.cpp" line="779"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>拡張子が&quot;.txt&quot;のファイル名の場合、URLのみを保存します</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="182"/>
-        <location filename="../src/utility.cpp" line="766"/>
+        <location filename="../src/utility.cpp" line="778"/>
         <source>Save List To File</source>
         <translation>ファイルにリストを保存</translation>
     </message>
@@ -861,6 +861,23 @@
         <source>Method</source>
         <translation>メソッド</translation>
     </message>
+    <message>
+        <location filename="../src/engines/lux.cpp" line="122"/>
+        <location filename="../src/engines/wget.cpp" line="295"/>
+        <source>Time Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/lux.cpp" line="219"/>
+        <location filename="../src/engines/wget.cpp" line="314"/>
+        <source>Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/wget.cpp" line="288"/>
+        <source>Speed:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -995,17 +1012,17 @@
         <translation>現在のバージョン(%1)は最新バージョン(%2)ではありません</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="796"/>
+        <location filename="../src/configure.cpp" line="794"/>
         <source>Default</source>
         <translation>デフォルト</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="800"/>
+        <location filename="../src/configure.cpp" line="798"/>
         <source>Best-audio</source>
         <translation>最高音質</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="804"/>
+        <location filename="../src/configure.cpp" line="802"/>
         <source>Best-audiovideo</source>
         <translation>最高画質・音質</translation>
     </message>

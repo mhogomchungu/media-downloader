@@ -492,13 +492,13 @@
         <translation>Otwórz katalog z pobranymi plikami</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="767"/>
+        <location filename="../src/utility.cpp" line="779"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>Plik z rozszerzeniem &quot;.txt&quot; będzie zawierał jedynie adresy</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="182"/>
-        <location filename="../src/utility.cpp" line="766"/>
+        <location filename="../src/utility.cpp" line="778"/>
         <source>Save List To File</source>
         <translation>Zapisz listę do pliku</translation>
     </message>
@@ -863,6 +863,23 @@
         <source>Method</source>
         <translation>Metoda</translation>
     </message>
+    <message>
+        <location filename="../src/engines/lux.cpp" line="122"/>
+        <location filename="../src/engines/wget.cpp" line="295"/>
+        <source>Time Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/lux.cpp" line="219"/>
+        <location filename="../src/engines/wget.cpp" line="314"/>
+        <source>Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/wget.cpp" line="288"/>
+        <source>Speed:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -997,17 +1014,17 @@
         <translation>Dostępna jest nowsza wersja programu %2. Obecnie korzystasz z %1</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="796"/>
+        <location filename="../src/configure.cpp" line="794"/>
         <source>Default</source>
         <translation>Domyślne</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="800"/>
+        <location filename="../src/configure.cpp" line="798"/>
         <source>Best-audio</source>
         <translation>Najlepsze audio</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="804"/>
+        <location filename="../src/configure.cpp" line="802"/>
         <source>Best-audiovideo</source>
         <translation>Najlepsze audio i video</translation>
     </message>
