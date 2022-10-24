@@ -112,8 +112,8 @@
         <location filename="../src/mainwindow.ui" line="282"/>
         <location filename="../src/mainwindow.ui" line="470"/>
         <location filename="../src/mainwindow.ui" line="1024"/>
-        <source>Установить параметры загрузки</source>
-        <translation></translation>
+        <source>Set Download Options</source>
+        <translation>Установить параметры загрузки</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="291"/>
