@@ -686,6 +686,18 @@ static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuc
 
 		auto obj = e.uiJson ;
 
+		auto title = obj.value( "title" ).toString() ;
+
+		if( !title.isEmpty() ){
+
+			auto url = obj.value( "url" ).toString() ;
+
+			if( title == url ){
+
+				obj.insert( "title","" ) ;
+			}
+		}
+
 		obj.insert( "runningState",e.runningState ) ;
 
 		obj.insert( "downloadOptions",e.downloadingOptions ) ;

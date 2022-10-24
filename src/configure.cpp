@@ -652,8 +652,6 @@ QString configure::engineDefaultDownloadOptions( const QString& engineName )
 	return options ;
 }
 
-
-
 void configure::setDownloadOptions( int row,tableWidget& table )
 {
 	m_downloadDefaultOptions.setDownloadOptions( row,table ) ;
