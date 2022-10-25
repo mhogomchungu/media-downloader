@@ -119,11 +119,11 @@ Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 
 	if( luxHeader.data.isEmpty() ){
 
-		luxHeader.timeLeft = QObject::tr( "Time Left" ).toUtf8() ;
-
 		auto ee = allData.indexOf( "...\n\n" ) ;
 
 		if( ee != -1 ){
+
+			luxHeader.timeLeft = QObject::tr( "Time Left" ).toUtf8() ;
 
 			auto mm = allData.lastIndexOf( "Site:" ) ;
 
@@ -287,6 +287,7 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 
 lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,int id ) :
 	engines::engine::functions::filter( e,engine,id ),
+	m_banner( ".. " + QObject::tr( "This May Take A Very Long Time" ).toUtf8() + " .." ),
 	m_processId( id )
 {
 }
@@ -303,16 +304,29 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 	const auto& s = e.lastText() ;
 
+	if( s.startsWith( "[media-downloader] cmd: " ) ){
+
+		return m_banner ;
+	}
+
 	const auto& luksHeader = eee.value() ;
+
+	if( luksHeader.data.isEmpty() ){
+
+		m_tmp1 = m_banner + "\n" + s ;
+
+		return m_tmp1 ;
+	}
 
 	auto ss = s.indexOf( luksHeader.timeLeft ) ;
 
-	if( ss != -1  ){
+	if( ss != -1 ){
 
 		m_tmp1 = luksHeader.title + "\n" + s.mid( ss ) ;
 
 		return m_tmp1 ;
 	}
+
 	if( s.startsWith( "[media-downloader]" ) ){
 
 		if( utility::stringConstants::doneDownloadingText( s ) ){

@@ -47,6 +47,7 @@ public:
 	void Hide() ;
 	void Show() ;
 	void clear() ;
+	void retranslateUi() ;
 private:
 	void closeEvent( QCloseEvent * ) override ;
 	Ui::logWindow * m_ui ;

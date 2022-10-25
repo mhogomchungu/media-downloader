@@ -107,6 +107,11 @@ void logWindow::clear()
 	m_ui->plainTextEdit->clear() ;
 }
 
+void logWindow::retranslateUi()
+{
+	m_ui->retranslateUi( this ) ;
+}
+
 void logWindow::closeEvent( QCloseEvent * e )
 {
 	e->ignore() ;

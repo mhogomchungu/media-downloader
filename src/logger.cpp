@@ -71,6 +71,11 @@ void Logger::showLogWindow()
 	m_logWindow.Show() ;
 }
 
+void Logger::reTranslateLogWindow()
+{
+	m_logWindow.retranslateUi() ;
+}
+
 void Logger::updateView( bool e )
 {
 	m_updateView = e ;

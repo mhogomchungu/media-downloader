@@ -37,6 +37,7 @@ public:
 
 		~lux_dlFilter() override ;
 	private:
+		QByteArray m_banner ;
 		QByteArray m_tmp1 ;
 		QByteArray m_tmp ;
 		engines::engine::functions::preProcessing m_progress ;

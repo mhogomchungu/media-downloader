@@ -501,6 +501,7 @@ public:
 	}
 	void setMaxProcessLog( int s ) ;
 	void showLogWindow() ;
+	void reTranslateLogWindow() ;
 	void updateView( bool e ) ;
 	Logger( const Logger& ) = delete ;
 	Logger& operator=( const Logger& ) = delete ;

@@ -430,6 +430,8 @@ configure::configure( const Context& ctx ) :
 			m_ctx.mainWindow().retranslateUi() ;
 
 			m_tabManager.reTranslateUi() ;
+
+			m_ctx.logger().reTranslateLogWindow() ;
 		}
 	} ) ;
 

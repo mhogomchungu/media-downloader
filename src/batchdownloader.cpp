@@ -1284,23 +1284,31 @@ static void _parseDataFromFile( Items& items,
 			}
 		}
 
+		auto _set_title = []( const QString& e ){
+
+			if( e.isEmpty() ){
+
+				return QString() ;
+			}else{
+				return "\n" + e ;
+			}
+		} ;
+
 		if( opts.isEmpty() ){
 
 			if( durationAndDate.isEmpty() ){
 
 				obj.insert( "uiText",title ) ;
 			}else{
-				auto txt = durationAndDate + "\n" + title ;
+				auto txt = durationAndDate + _set_title( title ) ;
 				obj.insert( "uiText",txt ) ;
 			}
 		}else{
 			if( durationAndDate.isEmpty() ){
 
-				auto txt = opts + "\n" + title ;
-
-				obj.insert( "uiText",txt ) ;
+				obj.insert( "uiText",opts + _set_title( title ) ) ;
 			}else{
-				auto txt = opts + "\n" + durationAndDate + "\n" + title ;
+				auto txt = opts + "\n" + durationAndDate + _set_title( title ) ;
 
 				obj.insert( "uiText",txt ) ;
 			}
