@@ -28,11 +28,11 @@ namespace utils
 	{
 		namespace details{
 			#if __cplusplus >= 201703L
-				template<typename Function>
-				using result_of = std::invoke_result_t<Function> ;
+				template< typename Function,typename ... Args >
+				using result_of = std::invoke_result_t< Function,Args ... > ;
 			#else
-				template<typename Function>
-				using result_of = std::result_of_t< Function() > ;
+				template< typename Function,typename ... Args >
+				using result_of = std::result_of_t< Function( Args ... ) > ;
 			#endif
 		}
 
@@ -108,6 +108,82 @@ namespace utils
 				return 0 ;
 
 			},[]( int ){} ) ;
+		}
+
+		template< typename Object,
+			  typename Method,
+			  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+		void run( Object obj,Method method )
+		{
+			run( [ obj,method ](){ ( obj->*method )() ; } ) ;
+		}
+
+		namespace details
+		{
+			template< typename Obj,typename M >
+			auto function( Obj o,M m )
+			{
+				return ( o->*m )() ;
+			}
+			template< typename Function,
+				  typename Obj1,
+				  typename M1,
+				  typename Obj2,
+				  typename M2,
+				  typename std::enable_if< std::is_void< details::result_of< Function,Obj1,M1 > >::value,int >::type = 0 >
+			void run1( Function,Obj1 obj,M1 method,Obj2 obj1,M2 method1 )
+			{
+				run( [ obj,method ](){
+
+					( obj->*method )() ;
+
+				},[ obj1,method1 ]() {
+
+					( obj1->*method1 )() ;
+				} ) ;
+			}
+			template< typename Function,
+			typename Obj1,
+			typename M1,
+			typename Obj2,
+			typename M2,
+			typename std::enable_if< !std::is_void< details::result_of< Function,Obj1,M1 > >::value,int >::type = 0 >
+			void run1( Function,Obj1 obj,M1 method,Obj2 obj1,M2 method1 )
+			{
+				run( [ obj,method ](){
+
+					return ( obj->*method )() ;
+
+				},[ obj1,method1 ]( details::result_of< Function,Obj1,M1 >&& value ) {
+
+					( obj1->*method1 )( std::move( value ) ) ;
+				} ) ;
+			}
+		}
+
+		template< typename ObjectUiThread,
+			  typename MethodUiThread,
+			  typename ObjectBGThread,
+			  typename MethodBGThread,
+			  typename std::enable_if< std::is_pointer< ObjectUiThread >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< MethodUiThread >::value,int >::type = 0,
+			  typename std::enable_if< std::is_pointer< ObjectBGThread >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< MethodBGThread >::value,int >::type = 0 >
+		void run( ObjectUiThread obj,MethodUiThread method,ObjectBGThread obj1,MethodBGThread method1 )
+		{
+			details::run1( details::function< ObjectUiThread,MethodUiThread >,obj,method,obj1,method1 ) ;
+		}
+
+		template< typename ObjectUiThread,
+			  typename MethodUiThread,
+			  typename MethodBGThread,
+			  typename std::enable_if< std::is_pointer< ObjectUiThread >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< MethodUiThread >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< MethodBGThread >::value,int >::type = 0 >
+		void run( ObjectUiThread obj,MethodUiThread method,MethodBGThread method1 )
+		{
+			details::run1( details::function< ObjectUiThread,MethodUiThread >,obj,method,obj,method1 ) ;
 		}
 
 		template< typename BackGroundTask,

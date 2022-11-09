@@ -117,7 +117,7 @@ configure::configure( const Context& ctx ) :
 
 		QMenu m ;
 
-		connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this ](){
+		connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
 
 			auto m = m_tableUrlToDefaultEngine.currentRow() ;
 
@@ -156,7 +156,7 @@ configure::configure( const Context& ctx ) :
 			}
 		} ) ;
 
-		connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this ](){
+		connect( m.addAction( tr( "Remove" ) ),&QAction::triggered,[ this ](){
 
 			auto m = m_tableDefaultDownloadOptions.currentRow() ;
 

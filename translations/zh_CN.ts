@@ -35,12 +35,6 @@
         <translation>输入视频链接地址:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="322"/>
-        <source>Enter Options:</source>
-        <translation>输入画质选项:</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="117"/>
         <location filename="../src/mainwindow.ui" line="486"/>
         <location filename="../src/mainwindow.ui" line="769"/>
@@ -169,6 +163,8 @@
         <translation>播放列表下载</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="98"/>
+        <location filename="../src/mainwindow.ui" line="322"/>
         <location filename="../src/mainwindow.ui" line="792"/>
         <source>Download Options:</source>
         <translation>下载选项:</translation>
@@ -479,7 +475,7 @@
         <translation>引擎名称:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1398"/>
+        <location filename="../src/batchdownloader.cpp" line="1406"/>
         <source>Get List From File</source>
         <translation>从文件从获取列表</translation>
     </message>
@@ -862,7 +858,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="122"/>
+        <location filename="../src/engines/lux.cpp" line="126"/>
         <location filename="../src/engines/wget.cpp" line="295"/>
         <source>Time Left</source>
         <translation type="unfinished"></translation>
@@ -874,6 +870,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/engines/lux.cpp" line="290"/>
+        <source>This May Take A Very Long Time</source>
+        <translation>这可能需要很长时间</translation>
+    </message>
+    <message>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>
@@ -882,7 +883,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1403"/>
+        <location filename="../src/batchdownloader.cpp" line="1411"/>
         <source>Set Batch File</source>
         <translation>选择批量下载地址的文件</translation>
     </message>
@@ -955,20 +956,14 @@
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1615"/>
-        <location filename="../src/batchdownloader.cpp" line="1990"/>
+        <location filename="../src/batchdownloader.cpp" line="1623"/>
+        <location filename="../src/batchdownloader.cpp" line="1998"/>
         <source>Downloading subtitles</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>configure</name>
-    <message>
-        <location filename="../src/configure.cpp" line="120"/>
-        <location filename="../src/configure.cpp" line="159"/>
-        <source>Delete</source>
-        <translation>删除</translation>
-    </message>
     <message>
         <location filename="../src/configure.cpp" line="139"/>
         <source>Set As Default</source>
@@ -981,6 +976,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/configure.cpp" line="120"/>
+        <location filename="../src/configure.cpp" line="159"/>
         <location filename="../src/configure.cpp" line="249"/>
         <source>Remove</source>
         <translation>移除</translation>
@@ -997,32 +994,32 @@
     </message>
     <message>
         <location filename="../src/configure.cpp" line="381"/>
-        <location filename="../src/configure.cpp" line="564"/>
+        <location filename="../src/configure.cpp" line="566"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="452"/>
+        <location filename="../src/configure.cpp" line="454"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="525"/>
+        <location filename="../src/configure.cpp" line="527"/>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="794"/>
+        <location filename="../src/configure.cpp" line="796"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="798"/>
+        <location filename="../src/configure.cpp" line="800"/>
         <source>Best-audio</source>
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="802"/>
+        <location filename="../src/configure.cpp" line="804"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>

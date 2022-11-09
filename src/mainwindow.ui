@@ -95,7 +95,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Enter Options:</string>
+       <string>Download Options:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -319,7 +319,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Enter Options:</string>
+       <string>Download Options:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -60,10 +60,6 @@
         <translation>Aggiungi plugin</translation>
     </message>
     <message>
-        <source>Enter Options:</source>
-        <translation>Opzioni (download):</translation>
-    </message>
-    <message>
         <source>Engine&apos;s Name</source>
         <translation>Nome engine</translation>
     </message>
@@ -656,6 +652,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Speed:</source>
         <translation>Velocità:</translation>
     </message>
+    <message>
+        <source>This May Take A Very Long Time</source>
+        <translation type="unfinished">Questo potrebbe richiedere molto tempo</translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -733,10 +733,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Cancel</source>
         <translation>Annulla</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Elimina</translation>
     </message>
     <message>
         <source>Remove</source>

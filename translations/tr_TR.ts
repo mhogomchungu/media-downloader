@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="14"/>
         <source>Media Downloader</source>
-        <translation>Medya İndirici</translation>
+        <translation>DeleteMedya İndirici</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="31"/>
@@ -33,12 +33,6 @@
         <location filename="../src/mainwindow.ui" line="380"/>
         <source>Enter URL:</source>
         <translation>URL Girin:</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="322"/>
-        <source>Enter Options:</source>
-        <translation>Seçenekler Girin:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="117"/>
@@ -169,6 +163,8 @@
         <translation>Oynatma Listesi İndirici</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="98"/>
+        <location filename="../src/mainwindow.ui" line="322"/>
         <location filename="../src/mainwindow.ui" line="792"/>
         <source>Download Options:</source>
         <translation>İndirme Seçenekleri:</translation>
@@ -387,7 +383,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1941"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1983"/>
@@ -479,7 +475,7 @@
         <translation>Motor Adı:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1398"/>
+        <location filename="../src/batchdownloader.cpp" line="1406"/>
         <source>Get List From File</source>
         <translation>Dosyadan Liste Al</translation>
     </message>
@@ -862,7 +858,7 @@
         <translation>Metod</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="122"/>
+        <location filename="../src/engines/lux.cpp" line="126"/>
         <location filename="../src/engines/wget.cpp" line="295"/>
         <source>Time Left</source>
         <translation type="unfinished"></translation>
@@ -874,6 +870,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/engines/lux.cpp" line="290"/>
+        <source>This May Take A Very Long Time</source>
+        <translation>Bu Çok Uzun Zaman Alabilir</translation>
+    </message>
+    <message>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>
@@ -882,7 +883,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1403"/>
+        <location filename="../src/batchdownloader.cpp" line="1411"/>
         <source>Set Batch File</source>
         <translation>Toplu Dosya Ayarla</translation>
     </message>
@@ -955,20 +956,14 @@
         <translation>Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1615"/>
-        <location filename="../src/batchdownloader.cpp" line="1990"/>
+        <location filename="../src/batchdownloader.cpp" line="1623"/>
+        <location filename="../src/batchdownloader.cpp" line="1998"/>
         <source>Downloading subtitles</source>
         <translation>İndirilen altyazılar</translation>
     </message>
 </context>
 <context>
     <name>configure</name>
-    <message>
-        <location filename="../src/configure.cpp" line="120"/>
-        <location filename="../src/configure.cpp" line="159"/>
-        <source>Delete</source>
-        <translation>Sil</translation>
-    </message>
     <message>
         <location filename="../src/configure.cpp" line="139"/>
         <source>Set As Default</source>
@@ -981,6 +976,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/configure.cpp" line="120"/>
+        <location filename="../src/configure.cpp" line="159"/>
         <location filename="../src/configure.cpp" line="249"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
@@ -997,32 +994,32 @@
     </message>
     <message>
         <location filename="../src/configure.cpp" line="381"/>
-        <location filename="../src/configure.cpp" line="564"/>
+        <location filename="../src/configure.cpp" line="566"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="452"/>
+        <location filename="../src/configure.cpp" line="454"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="525"/>
+        <location filename="../src/configure.cpp" line="527"/>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="794"/>
+        <location filename="../src/configure.cpp" line="796"/>
         <source>Default</source>
         <translation>Varsayılan</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="798"/>
+        <location filename="../src/configure.cpp" line="800"/>
         <source>Best-audio</source>
         <translation>En iyi ses</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="802"/>
+        <location filename="../src/configure.cpp" line="804"/>
         <source>Best-audiovideo</source>
         <translation>En iyi sesli video</translation>
     </message>

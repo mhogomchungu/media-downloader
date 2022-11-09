@@ -35,12 +35,6 @@
         <translation>URL-адрес:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="322"/>
-        <source>Enter Options:</source>
-        <translation>Параметры:</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="117"/>
         <location filename="../src/mainwindow.ui" line="486"/>
         <location filename="../src/mainwindow.ui" line="769"/>
@@ -169,6 +163,8 @@
         <translation>Загрузчик плейлистов</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="98"/>
+        <location filename="../src/mainwindow.ui" line="322"/>
         <location filename="../src/mainwindow.ui" line="792"/>
         <source>Download Options:</source>
         <translation>Параметры загрузки:</translation>
@@ -479,7 +475,7 @@
         <translation>Плагин:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1398"/>
+        <location filename="../src/batchdownloader.cpp" line="1406"/>
         <source>Get List From File</source>
         <translation>Получить список из файла</translation>
     </message>
@@ -615,22 +611,22 @@
     <message>
         <location filename="../src/engines.cpp" line="121"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation>Чтобы отключить эти проверки, сделайте следующее:</translation>
+        <translation>Чтобы отключить эти проверки, сделайте следующее:-</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="122"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation>1. Перейдите на вкладку &quot;Настройка&quot;</translation>
+        <translation>1. Перейдите на вкладку &quot;Настройка&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="123"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation>2. Перейдите на суб-вкладку &quot;Общие параметры&quot;</translation>
+        <translation>2. Перейдите на суб-вкладку &quot;Общие параметры&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="124"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation>3. Снимите флаг &quot;Показывать информацию о версии при запуске&quot;</translation>
+        <translation>3. Снимите флаг &quot;Показывать информацию о версии при запуске&quot;.</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="257"/>
@@ -862,7 +858,7 @@
         <translation>Метод</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="122"/>
+        <location filename="../src/engines/lux.cpp" line="126"/>
         <location filename="../src/engines/wget.cpp" line="295"/>
         <source>Time Left</source>
         <translation type="unfinished"></translation>
@@ -874,6 +870,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/engines/lux.cpp" line="290"/>
+        <source>This May Take A Very Long Time</source>
+        <translation>Это может занять очень много времени</translation>
+    </message>
+    <message>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>
@@ -882,7 +883,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1403"/>
+        <location filename="../src/batchdownloader.cpp" line="1411"/>
         <source>Set Batch File</source>
         <translation>Установить пакетный файл</translation>
     </message>
@@ -955,20 +956,14 @@
         <translation>Установить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1615"/>
-        <location filename="../src/batchdownloader.cpp" line="1990"/>
+        <location filename="../src/batchdownloader.cpp" line="1623"/>
+        <location filename="../src/batchdownloader.cpp" line="1998"/>
         <source>Downloading subtitles</source>
         <translation>Загрузка субтитров</translation>
     </message>
 </context>
 <context>
     <name>configure</name>
-    <message>
-        <location filename="../src/configure.cpp" line="120"/>
-        <location filename="../src/configure.cpp" line="159"/>
-        <source>Delete</source>
-        <translation>Установить папку загрузки</translation>
-    </message>
     <message>
         <location filename="../src/configure.cpp" line="139"/>
         <source>Set As Default</source>
@@ -981,6 +976,8 @@
         <translation>Копировать</translation>
     </message>
     <message>
+        <location filename="../src/configure.cpp" line="120"/>
+        <location filename="../src/configure.cpp" line="159"/>
         <location filename="../src/configure.cpp" line="249"/>
         <source>Remove</source>
         <translation>Убрать</translation>
@@ -997,32 +994,32 @@
     </message>
     <message>
         <location filename="../src/configure.cpp" line="381"/>
-        <location filename="../src/configure.cpp" line="564"/>
+        <location filename="../src/configure.cpp" line="566"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="452"/>
+        <location filename="../src/configure.cpp" line="454"/>
         <source>Set Download Folder</source>
         <translation>Установить папку загрузки</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="525"/>
+        <location filename="../src/configure.cpp" line="527"/>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
         <translation>Ваша версия (%1) не является последней (%2)</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="794"/>
+        <location filename="../src/configure.cpp" line="796"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="798"/>
+        <location filename="../src/configure.cpp" line="800"/>
         <source>Best-audio</source>
         <translation>Лучшее аудио</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="802"/>
+        <location filename="../src/configure.cpp" line="804"/>
         <source>Best-audiovideo</source>
         <translation>Лучшее аудио-видео</translation>
     </message>

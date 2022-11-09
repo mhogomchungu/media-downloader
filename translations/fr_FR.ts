@@ -35,12 +35,6 @@
         <translation>Entrer l&apos; URL:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="322"/>
-        <source>Enter Options:</source>
-        <translation>Entrer les options:</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="117"/>
         <location filename="../src/mainwindow.ui" line="486"/>
         <location filename="../src/mainwindow.ui" line="769"/>
@@ -169,6 +163,8 @@
         <translation>Téléchargeur Liste de lecture</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="98"/>
+        <location filename="../src/mainwindow.ui" line="322"/>
         <location filename="../src/mainwindow.ui" line="792"/>
         <source>Download Options:</source>
         <translation>Options de téléchargements :</translation>
@@ -479,7 +475,7 @@
         <translation>Nom du moteur:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1398"/>
+        <location filename="../src/batchdownloader.cpp" line="1406"/>
         <source>Get List From File</source>
         <translation>Obtenir la liste depuis un fichier</translation>
     </message>
@@ -862,7 +858,7 @@
         <translation>Méthode</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="122"/>
+        <location filename="../src/engines/lux.cpp" line="126"/>
         <location filename="../src/engines/wget.cpp" line="295"/>
         <source>Time Left</source>
         <translation type="unfinished"></translation>
@@ -874,6 +870,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/engines/lux.cpp" line="290"/>
+        <source>This May Take A Very Long Time</source>
+        <translation>Ceci peut prendre un certain temps</translation>
+    </message>
+    <message>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>
@@ -882,7 +883,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1403"/>
+        <location filename="../src/batchdownloader.cpp" line="1411"/>
         <source>Set Batch File</source>
         <translation>Définir le fichier batch</translation>
     </message>
@@ -955,20 +956,14 @@
         <translation>Définir</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1615"/>
-        <location filename="../src/batchdownloader.cpp" line="1990"/>
+        <location filename="../src/batchdownloader.cpp" line="1623"/>
+        <location filename="../src/batchdownloader.cpp" line="1998"/>
         <source>Downloading subtitles</source>
         <translation>Téléchargement des sous-titres</translation>
     </message>
 </context>
 <context>
     <name>configure</name>
-    <message>
-        <location filename="../src/configure.cpp" line="120"/>
-        <location filename="../src/configure.cpp" line="159"/>
-        <source>Delete</source>
-        <translation>Effacer</translation>
-    </message>
     <message>
         <location filename="../src/configure.cpp" line="139"/>
         <source>Set As Default</source>
@@ -981,6 +976,8 @@
         <translation>Copier</translation>
     </message>
     <message>
+        <location filename="../src/configure.cpp" line="120"/>
+        <location filename="../src/configure.cpp" line="159"/>
         <location filename="../src/configure.cpp" line="249"/>
         <source>Remove</source>
         <translation>Retirer</translation>
@@ -997,32 +994,32 @@
     </message>
     <message>
         <location filename="../src/configure.cpp" line="381"/>
-        <location filename="../src/configure.cpp" line="564"/>
+        <location filename="../src/configure.cpp" line="566"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="452"/>
+        <location filename="../src/configure.cpp" line="454"/>
         <source>Set Download Folder</source>
         <translation>Définir le répertoire de téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="525"/>
+        <location filename="../src/configure.cpp" line="527"/>
         <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
         <translation>Votre version actuelle (%1) n&apos;est pas la dernière version (%2)</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="794"/>
+        <location filename="../src/configure.cpp" line="796"/>
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="798"/>
+        <location filename="../src/configure.cpp" line="800"/>
         <source>Best-audio</source>
         <translation>Meilleur-audio</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="802"/>
+        <location filename="../src/configure.cpp" line="804"/>
         <source>Best-audiovideo</source>
         <translation>Meilleur-audiovideo</translation>
     </message>
