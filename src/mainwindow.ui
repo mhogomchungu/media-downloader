@@ -1365,7 +1365,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1541,7 +1541,7 @@
          <rect>
           <x>190</x>
           <y>370</y>
-          <width>421</width>
+          <width>431</width>
           <height>31</height>
          </rect>
         </property>
@@ -1649,8 +1649,8 @@
        <widget class="QPushButton" name="pbUpdateMediaDownloader">
         <property name="geometry">
          <rect>
-          <x>640</x>
-          <y>130</y>
+          <x>600</x>
+          <y>300</y>
           <width>111</width>
           <height>33</height>
          </rect>
@@ -1722,9 +1722,9 @@
        <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
         <property name="geometry">
          <rect>
-          <x>214</x>
+          <x>129</x>
           <y>370</y>
-          <width>176</width>
+          <width>251</width>
           <height>31</height>
          </rect>
         </property>
@@ -1778,7 +1778,7 @@
          <rect>
           <x>130</x>
           <y>290</y>
-          <width>531</width>
+          <width>501</width>
           <height>31</height>
          </rect>
         </property>
@@ -1788,7 +1788,7 @@
          <rect>
           <x>130</x>
           <y>330</y>
-          <width>531</width>
+          <width>501</width>
           <height>31</height>
          </rect>
         </property>
@@ -1828,9 +1828,9 @@
        <widget class="QPushButton" name="pbConfigureAddToPresetList">
         <property name="geometry">
          <rect>
-          <x>390</x>
+          <x>380</x>
           <y>370</y>
-          <width>181</width>
+          <width>251</width>
           <height>31</height>
          </rect>
         </property>
@@ -1878,9 +1878,9 @@
        <widget class="QPushButton" name="pbConfigureEngineDefaultOptions">
         <property name="geometry">
          <rect>
-          <x>230</x>
+          <x>60</x>
           <y>370</y>
-          <width>151</width>
+          <width>321</width>
           <height>33</height>
          </rect>
         </property>
@@ -1952,7 +1952,7 @@
          <rect>
           <x>380</x>
           <y>370</y>
-          <width>151</width>
+          <width>321</width>
           <height>33</height>
          </rect>
         </property>
@@ -2138,9 +2138,9 @@
      <widget class="QPushButton" name="pbConfigureQuit">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>395</x>
         <y>440</y>
-        <width>151</width>
+        <width>221</width>
         <height>31</height>
        </rect>
       </property>
@@ -2151,9 +2151,9 @@
      <widget class="QPushButton" name="pbConfigureSave">
       <property name="geometry">
        <rect>
-        <x>250</x>
+        <x>170</x>
         <y>440</y>
-        <width>151</width>
+        <width>225</width>
         <height>31</height>
        </rect>
       </property>
