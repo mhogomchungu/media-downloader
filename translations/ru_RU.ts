@@ -1029,7 +1029,7 @@
     <message>
         <location filename="../src/library.cpp" line="71"/>
         <source>Delete</source>
-        <translation>Установить папку загрузки</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../src/library.cpp" line="99"/>
