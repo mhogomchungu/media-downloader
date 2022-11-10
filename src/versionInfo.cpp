@@ -85,7 +85,7 @@ void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,versionI
 		m_ctx.logger().add( exe,id ) ;
 	}
 
-	utils::qprocess::run( cmd.exe(),cmd.args(),[ iter,this,id,rd = std::move( rd ) ]( const utils::qprocess::outPut& r ){
+	utils::qprocess::run( cmd.exe(),cmd.args(),[ iter,this,id,rd ]( const utils::qprocess::outPut& r ){
 
 		const auto& engine = iter.engine() ;
 
@@ -106,7 +106,7 @@ void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,versionI
 
 		if( iter.hasNext() ){
 
-			this->check( iter.next(),rd.move() ) ;
+			this->check( iter.next(),rd ) ;
 		}else{
 			rd() ;
 		}

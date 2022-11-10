@@ -108,7 +108,7 @@ private:
 		}
 		void openFile()
 		{
-			m_file = std::make_unique< QFile >( this->filePath ) ;
+			m_file = std::make_shared< QFile >( this->filePath ) ;
 			m_file->remove() ;
 			m_file->open( QIODevice::WriteOnly ) ;
 		}
@@ -123,7 +123,11 @@ private:
 		QString tempPath ;
 		QString defaultEngine ;
 		QString networkError ;
-		std::unique_ptr< QFile > m_file ;
+		/*
+		 * We are using make_shared because old versions of gcc do not work with
+		 * unique_ptr when moving the class to lambda capture area
+		 */
+		std::shared_ptr< QFile > m_file ;
 		bool isArchive ;
 		int id ;
 	};

@@ -150,8 +150,9 @@ Version 1.2.0(April 1st, 2021)
     - Fix a bug that prevented downloading of urls from a file if the file use "\r\n" as line separator.
     - Add ability to have multiple profiles for downloading options.
 
-  Version 2.7.0(Unreleased)
+  Version 2.7.0(Novermber 10th, 2022)
     [All]
     - Add German translations.
     - Add a GUI option to check for Media Downloader update on startup.
     - Add a GUI option to download a section of a media in batch downloader tab.
+    - Update other langauge translations.

@@ -49,22 +49,22 @@ public:
 	public:
 		template< typename Type,typename ... Args >
 		reportDone( Type,Args&& ... args ) :
-			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
+			m_handle( std::make_shared< typename Type::type >( std::forward< Args >( args ) ... ) )
 		{
 		}
-		reportDone() : m_handle( std::make_unique< doneInterface >() )
+		reportDone() : m_handle( std::make_shared< doneInterface >() )
 		{
 		}
 		void operator()() const
 		{
 			( *m_handle )() ;
 		}
-		reportDone move() const
-		{
-			return std::move( *const_cast< reportDone * >( this ) ) ;
-		}
 	private:
-		std::unique_ptr< doneInterface > m_handle ;
+		/*
+		 * We are using make_shared because old versions of gcc do not work with
+		 * unique_ptr when moving the class to lambda capture area
+		 */
+		std::shared_ptr< doneInterface > m_handle ;
 	} ;
 	~versionInfo() override
 	{
