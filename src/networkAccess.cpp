@@ -193,7 +193,7 @@ void networkAccess::download( const engines::Iterator& iter,
 
 	networkAccess::Opts opts{ iter,exePath,exeFolderPath,setDefaultEngine,id,showVinfo } ;
 
-	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine,showVinfo ]( const utils::network::progress& p )mutable{
+	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine ]( const utils::network::progress& p )mutable{
 
 		if( p.finished() ){
 
