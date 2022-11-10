@@ -76,35 +76,33 @@ tabManager::tabManager( settings& s,
 
 	if( engines.size() > 0 ){
 
-		if( s.showVersionInfoWhenStarting() ){
+		s.setTabNumber( 0 ) ;
 
-			s.setTabNumber( 0 ) ;
+		ui.tabWidget->setCurrentIndex( 0 ) ;
 
-			ui.tabWidget->setCurrentIndex( 0 ) ;
+		m_ctx.logger().updateView( true ) ;
 
-			m_ctx.logger().updateView( true ) ;
-
-			class meaw : public versionInfo::doneInterface
+		class meaw : public versionInfo::doneInterface
+		{
+		public:
+			meaw( tabManager * t ) : m_parent( t )
 			{
-			public:
-				meaw( tabManager * t ) : m_parent( t )
-				{
-				}
-				void operator()()
-				{
-					m_parent->init_done() ;
-				}
-			private:
-				tabManager * m_parent ;
-			} ;
+			}
+			void operator()()
+			{
+				m_parent->init_done() ;
+			}
+		private:
+			tabManager * m_parent ;
+		} ;
 
-			auto& vinfo = m_ctx.getVersionInfo() ;
+		auto& vinfo = m_ctx.getVersionInfo() ;
 
-			vinfo.check( { engines,utility::sequentialID() },
-				     { util::types::type_identity< meaw >(),this } ) ;
-		}else{
-			this->init_done() ;
-		}
+
+		vinfo.check( { engines,utility::sequentialID() },
+			     { s.showVersionInfoWhenStarting(),false },
+			     { util::types::type_identity< meaw >(),this },
+			     m_ctx.Engines().defaultEngineName() ) ;
 	}else{
 		this->disableAll() ;
 

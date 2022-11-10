@@ -156,3 +156,7 @@ Version 1.2.0(April 1st, 2021)
     - Add a GUI option to check for Media Downloader update on startup.
     - Add a GUI option to download a section of a media in batch downloader tab.
     - Update other langauge translations.
+
+  Version 2.8.0(Unreleased)
+    [All]
+    - Download all missing executables on startup if they are not present for some reason.

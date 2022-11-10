@@ -44,10 +44,16 @@ public:
 			return false ;
 		#endif
 	}
-
-	void download( const engines::Iterator& iter,const QString& setDefaultENgine = QString() ) const
+	struct showVersionInfo
 	{
-		const_cast< networkAccess * >( this )->download( iter,setDefaultENgine ) ;
+		bool show ;
+		bool setAfterDownloading ;
+	};
+	void download( const engines::Iterator& iter,
+		       networkAccess::showVersionInfo showVinfo,
+		       const QString& setDefaultENgine = QString() ) const
+	{
+		const_cast< networkAccess * >( this )->download( iter,showVinfo,setDefaultENgine ) ;
 	}
 
 	template< typename Function >
@@ -56,7 +62,9 @@ public:
 		const_cast< networkAccess * >( this )->get( url,std::move( function ) ) ;
 	}
 private:
-	void download( const engines::Iterator&,const QString& setDefaultENgine = QString() ) ;
+	void download( const engines::Iterator&,
+		       networkAccess::showVersionInfo,
+		       const QString& setDefaultENgine = QString() ) ;
 
 	template< typename Function >
 	void get( const QString& url,Function&& function )
@@ -85,11 +93,13 @@ private:
 		      const QString& exePath,
 		      const QString& efp,
 		      const QString& sde,
-		      int xd ) :
+		      int xd,
+		      networkAccess::showVersionInfo svf ) :
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
 			tempPath( efp ),
 			defaultEngine( sde ),
+			showVinfo( svf ),
 			id( xd )
 		{
 		}
@@ -129,6 +139,7 @@ private:
 		 */
 		std::shared_ptr< QFile > m_file ;
 		bool isArchive ;
+		networkAccess::showVersionInfo showVinfo ;
 		int id ;
 	};
 

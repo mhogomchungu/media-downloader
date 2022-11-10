@@ -542,7 +542,7 @@ void configure::retranslateUi()
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )
 {
-	m_ctx.network().download( iter ) ;
+	m_ctx.network().download( iter,{ true,false } ) ;
 }
 
 void configure::tabEntered()

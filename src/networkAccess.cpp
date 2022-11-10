@@ -90,7 +90,9 @@ QString networkAccess::downloadFailed()
 	return QObject::tr( "Network Failed To Respond Within %1 seconds" ).arg( m ) ;
 }
 
-void networkAccess::download( const QByteArray& data,const engines::engine& engine,networkAccess::Opts opts )
+void networkAccess::download( const QByteArray& data,
+			      const engines::engine& engine,
+			      networkAccess::Opts opts )
 {
 	networkAccess::metadata metadata ;
 
@@ -104,7 +106,7 @@ void networkAccess::download( const QByteArray& data,const engines::engine& engi
 
 		if( opts.iter.hasNext() ){
 
-			m_ctx.getVersionInfo().check( opts.iter.next() ) ;
+			m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo ) ;
 		}
 
 		return ;
@@ -145,7 +147,9 @@ void networkAccess::download( const QByteArray& data,const engines::engine& engi
 	this->download( std::move( opts ) ) ;
 }
 
-void networkAccess::download( const engines::Iterator& iter,const QString& setDefaultEngine )
+void networkAccess::download( const engines::Iterator& iter,
+			      networkAccess::showVersionInfo showVinfo,
+			      const QString& setDefaultEngine )
 {
 	const auto& engine = iter.engine() ;
 
@@ -187,9 +191,9 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	networkAccess::Opts opts{ iter,exePath,exeFolderPath,setDefaultEngine,id } ;
+	networkAccess::Opts opts{ iter,exePath,exeFolderPath,setDefaultEngine,id,showVinfo } ;
 
-	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine ]( const utils::network::progress& p )mutable{
+	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine,showVinfo ]( const utils::network::progress& p )mutable{
 
 		if( p.finished() ){
 
@@ -213,7 +217,7 @@ void networkAccess::download( const engines::Iterator& iter,const QString& setDe
 
 				if( opts.iter.hasNext() ){
 
-					m_ctx.getVersionInfo().check( opts.iter.next() ) ;
+					m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo ) ;
 				}
 			}
 		}else{
@@ -278,7 +282,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 		if( str.iter.hasNext() ){
 
-			m_ctx.getVersionInfo().check( str.iter.next() ) ;
+			m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo ) ;
 		}
 	}else{
 		str.file().close() ;
@@ -303,7 +307,10 @@ void networkAccess::finished( networkAccess::Opts str )
 
 			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
-			m_ctx.getVersionInfo().check( str.iter ) ;
+			auto m = str.showVinfo ;
+			m.setAfterDownloading = true ;
+
+			m_ctx.getVersionInfo().check( str.iter,m ) ;
 		}
 	}
 }
@@ -351,13 +358,13 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
-			m_ctx.getVersionInfo().check( str.iter ) ;
+			m_ctx.getVersionInfo().check( str.iter,str.showVinfo ) ;
 		}else{
 			this->post( engine,s.stdError,str.id ) ;
 
 			if( str.iter.hasNext() ){
 
-				m_ctx.getVersionInfo().check( str.iter.next() ) ;
+				m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo ) ;
 			}
 		}
 	} ) ;

@@ -27,41 +27,76 @@ void versionInfo::updateMediaDownloader( const engines::Iterator& iter ) const
 }
 
 void versionInfo::check( const engines::Iterator& iter,
+			 networkAccess::showVersionInfo showVinfo,
 			 versionInfo::reportDone rd,
 			 const QString& setDefaultEngine ) const
 {
 	if( iter.engine().name() =="media-downloader" ){
 
-		return this->printEngineVersionInfo( iter,std::move( rd ) ) ;
+		return this->printEngineVersionInfo( iter,showVinfo,std::move( rd ) ) ;
 	}
 
 	const auto& engine = iter.engine() ;
+
+	auto m = showVinfo.setAfterDownloading ;
+
+	showVinfo.setAfterDownloading = false ;
 
 	if( engine.usingPrivateBackend() && engine.validDownloadUrl() && networkAccess::hasNetworkSupport() ){
 
 		if( engine.backendExists() ){
 
-			this->printEngineVersionInfo( iter,std::move( rd ) ) ;
+			if( m || showVinfo.show ){
 
-			utility::setDefaultEngine( m_ctx,setDefaultEngine ) ;
+				this->printEngineVersionInfo( iter,showVinfo,std::move( rd ) ) ;
 
-		}else if( !engine.exePath().realExe().isEmpty() ){
+				utility::setDefaultEngine( m_ctx,setDefaultEngine ) ;
+			}else{
+				if( iter.hasNext() ){
 
-			m_ctx.network().download( iter,setDefaultEngine ) ;
+					this->check( iter.next(),showVinfo,rd ) ;
+				}else{
+					rd() ;
+				}
+			}
+		}else{
+			m_ctx.network().download( iter,showVinfo,setDefaultEngine ) ;
 		}
 	}else{
-		if( engine.exePath().isEmpty() ){
+		if( engine.backendExists() ){
 
-			m_ctx.logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),iter.id() ) ;
+			if( showVinfo.show || m ){
+
+				this->printEngineVersionInfo( iter,showVinfo,std::move( rd ) ) ;
+
+				utility::setDefaultEngine( m_ctx,setDefaultEngine ) ;
+			}else{
+				if( iter.hasNext() ){
+
+					this->check( iter.next(),showVinfo,rd ) ;
+				}else{
+					rd() ;
+				}
+			}
 		}else{
-			this->printEngineVersionInfo( iter,std::move( rd ) ) ;
+			if( showVinfo.show ){
 
-			utility::setDefaultEngine( m_ctx,setDefaultEngine ) ;
+				m_ctx.logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),iter.id() ) ;
+			}else{
+				if( iter.hasNext() ){
+
+					this->check( iter.next(),showVinfo,rd ) ;
+				}else{
+					rd() ;
+				}
+			}
 		}
 	}
 }
 
-void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,versionInfo::reportDone rd ) const
+void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,
+					  networkAccess::showVersionInfo showVinfo,
+					  versionInfo::reportDone rd ) const
 {
 	const auto& engine = iter.engine() ;
 
@@ -85,7 +120,7 @@ void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,versionI
 		m_ctx.logger().add( exe,id ) ;
 	}
 
-	utils::qprocess::run( cmd.exe(),cmd.args(),[ iter,this,id,rd ]( const utils::qprocess::outPut& r ){
+	utils::qprocess::run( cmd.exe(),cmd.args(),[ iter,this,id,rd,showVinfo ]( const utils::qprocess::outPut& r ){
 
 		const auto& engine = iter.engine() ;
 
@@ -106,7 +141,7 @@ void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,versionI
 
 		if( iter.hasNext() ){
 
-			this->check( iter.next(),rd ) ;
+			this->check( iter.next(),showVinfo,rd ) ;
 		}else{
 			rd() ;
 		}

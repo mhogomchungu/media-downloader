@@ -91,13 +91,16 @@ public:
 	void updateMediaDownloader( const engines::Iterator& iter ) const ;
 	void check( const engines::Iterator& iter,const QString& setDefaultEngine ) const
 	{
-		this->check( iter,versionInfo::reportDone(),setDefaultEngine ) ;
+		this->check( iter,{ false,false },versionInfo::reportDone(),setDefaultEngine ) ;
 	}
 	void check( const engines::Iterator& iter,
+		    networkAccess::showVersionInfo showVersionInfo,
 		    versionInfo::reportDone = versionInfo::reportDone(),
 		    const QString& setDefaultEngine = QString() ) const ;
 private:
-	void printEngineVersionInfo( const engines::Iterator& iter,versionInfo::reportDone ) const ;
+	void printEngineVersionInfo( const engines::Iterator& iter,
+				     networkAccess::showVersionInfo,
+				     versionInfo::reportDone ) const ;
 	Ui::MainWindow& m_ui ;
 	const Context& m_ctx ;
 };
