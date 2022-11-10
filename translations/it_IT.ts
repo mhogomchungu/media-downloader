@@ -654,7 +654,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>This May Take A Very Long Time</source>
-        <translation type="unfinished">Questo potrebbe richiedere molto tempo</translation>
+        <translation>Questo potrebbe richiedere molto tempo</translation>
     </message>
 </context>
 <context>
