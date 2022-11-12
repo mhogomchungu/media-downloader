@@ -120,7 +120,9 @@ void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,
 		m_ctx.logger().add( exe,id ) ;
 	}
 
-	utils::qprocess::run( cmd.exe(),cmd.args(),[ iter,this,id,rd,showVinfo ]( const utils::qprocess::outPut& r ){
+	auto mm = QProcess::ProcessChannelMode::MergedChannels ;
+
+	utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ iter,this,id,rd,showVinfo ]( const utils::qprocess::outPut& r ){
 
 		const auto& engine = iter.engine() ;
 
@@ -145,8 +147,7 @@ void versionInfo::printEngineVersionInfo( const engines::Iterator& iter,
 		}else{
 			rd() ;
 		}
-
-	},QProcess::ProcessChannelMode::MergedChannels ) ;
+	} ) ;
 }
 
 versionInfo::doneInterface::~doneInterface()

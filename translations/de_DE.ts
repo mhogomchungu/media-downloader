@@ -150,12 +150,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="674"/>
         <source>Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Startzeit(HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="703"/>
         <source>End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Endzeit(HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="725"/>
@@ -217,7 +217,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1347"/>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivieren der Registerkarte "Bibliothek" (kann dazu führen, dass die Benutzeroberfläche für eine sehr lange Zeit einfriert, wenn der Download-Ordner zu viele Einträge hat)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1356"/>
@@ -362,12 +362,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1478"/>
         <source>Update Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin aktualisieren</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1708"/>
         <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Textkodierung</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1869"/>
@@ -452,7 +452,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="868"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="886"/>
@@ -825,12 +825,12 @@
     <message>
         <location filename="../src/utility.h" line="170"/>
         <source>Extra Downloading Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Zusätzliche Optionen zum Herunterladen</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="174"/>
         <source>Download Time Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Download Zeitintervall</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="353"/>
@@ -861,13 +861,13 @@
         <location filename="../src/engines/lux.cpp" line="126"/>
         <location filename="../src/engines/wget.cpp" line="295"/>
         <source>Time Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbleibende Zeit</translation>
     </message>
     <message>
         <location filename="../src/engines/lux.cpp" line="219"/>
         <location filename="../src/engines/wget.cpp" line="314"/>
         <source>Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Heruntergeladen</translation>
     </message>
     <message>
         <location filename="../src/engines/lux.cpp" line="290"/>
@@ -877,7 +877,7 @@
     <message>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geschwindigkeit</translation>
     </message>
 </context>
 <context>
@@ -947,7 +947,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="448"/>
         <source>Download Media Part</source>
-        <translation type="unfinished"></translation>
+        <translation>Medienteil herunterladen</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1167"/>

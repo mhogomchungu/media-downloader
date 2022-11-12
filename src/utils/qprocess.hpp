@@ -161,8 +161,8 @@ namespace utils
 		template< typename WhenDone >
 		void run( const QString& cmd,
 			  const QStringList& args,
-			  WhenDone whenDone,
-			  QProcess::ProcessChannelMode m = QProcess::SeparateChannels )
+			  QProcess::ProcessChannelMode m,
+			  WhenDone whenDone )
 		{
 			run( cmd,args,[ & ]( QProcess& exe ){
 
@@ -201,6 +201,12 @@ namespace utils
 					}
 				}
 			} ) ;
+		}
+
+		template< typename WhenDone >
+		void run( const QString& cmd,const QStringList& args,WhenDone whenDone )
+		{
+			run( cmd,args,QProcess::SeparateChannels,std::move( whenDone ) ) ;
 		}
 	}
 }
