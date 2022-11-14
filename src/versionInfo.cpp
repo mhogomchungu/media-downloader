@@ -93,6 +93,8 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 {
+	m_ctx.TabManager().disableAll() ;
+
 	const auto& engine = vInfo.engine() ;
 
 	auto id = utility::sequentialID() ;
@@ -122,8 +124,6 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 			}
 		}
 	}
-
-	m_ctx.TabManager().disableAll() ;
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
@@ -159,7 +159,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 			if( !url.isEmpty() && m_ctx.Settings().checkForEnginesUpdates() ){
 
-				m_ctx.network().get( engine.downloadUrl(),[ &logger,id,this,vInfo = vInfo.move() ]( const QByteArray& m ){
+				m_ctx.network().get( url,[ &logger,id,this,vInfo = vInfo.move() ]( const QByteArray& m ){
 
 					const auto& engine = vInfo.engine() ;
 

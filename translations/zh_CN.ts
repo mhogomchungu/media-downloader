@@ -651,45 +651,45 @@
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="981"/>
+        <location filename="../src/engines.cpp" line="979"/>
         <source>Download cancelled</source>
         <translation>下载已取消</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1136"/>
+        <location filename="../src/engines.cpp" line="1134"/>
         <source>Format Code</source>
         <translation>格式代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1137"/>
+        <location filename="../src/engines.cpp" line="1135"/>
         <source>Extension</source>
         <translation>扩展</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1138"/>
+        <location filename="../src/engines.cpp" line="1136"/>
         <source>Resolution</source>
         <translation>分辨率</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1139"/>
+        <location filename="../src/engines.cpp" line="1137"/>
         <source>Note</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1354"/>
+        <location filename="../src/engines.cpp" line="1376"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1360"/>
+        <location filename="../src/engines.cpp" line="1382"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1505"/>
-        <location filename="../src/engines.cpp" line="1510"/>
-        <location filename="../src/engines.cpp" line="1517"/>
-        <location filename="../src/engines.cpp" line="1522"/>
+        <location filename="../src/engines.cpp" line="1527"/>
+        <location filename="../src/engines.cpp" line="1532"/>
+        <location filename="../src/engines.cpp" line="1539"/>
+        <location filename="../src/engines.cpp" line="1544"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
@@ -714,74 +714,74 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="178"/>
+        <location filename="../src/networkAccess.cpp" line="182"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>下载失败，无法创建以下路径: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="184"/>
+        <location filename="../src/networkAccess.cpp" line="188"/>
         <source>Start Downloading</source>
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="987"/>
-        <location filename="../src/networkAccess.cpp" line="204"/>
-        <location filename="../src/networkAccess.cpp" line="206"/>
-        <location filename="../src/networkAccess.cpp" line="247"/>
+        <location filename="../src/engines.cpp" line="985"/>
+        <location filename="../src/networkAccess.cpp" line="208"/>
+        <location filename="../src/networkAccess.cpp" line="210"/>
+        <location filename="../src/networkAccess.cpp" line="251"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="101"/>
+        <location filename="../src/networkAccess.cpp" line="103"/>
         <source>Failed to parse json file from github</source>
         <translation>无法从github解析json文件</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="118"/>
         <location filename="../src/engines/gallery-dl.cpp" line="122"/>
-        <location filename="../src/networkAccess.cpp" line="233"/>
-        <location filename="../src/networkAccess.cpp" line="264"/>
-        <location filename="../src/networkAccess.cpp" line="372"/>
+        <location filename="../src/networkAccess.cpp" line="237"/>
+        <location filename="../src/networkAccess.cpp" line="268"/>
+        <location filename="../src/networkAccess.cpp" line="379"/>
         <source>Downloading</source>
         <translation>下载中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="235"/>
+        <location filename="../src/networkAccess.cpp" line="239"/>
         <source>Destination</source>
         <translation>目的地</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="286"/>
+        <location filename="../src/networkAccess.cpp" line="290"/>
         <source>Download complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="313"/>
+        <location filename="../src/networkAccess.cpp" line="320"/>
         <source>Extracting archive: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="292"/>
+        <location filename="../src/networkAccess.cpp" line="296"/>
         <source>Renaming file to: </source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1423"/>
+        <location filename="../src/engines.cpp" line="1445"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="985"/>
+        <location filename="../src/engines.cpp" line="983"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="514"/>
+        <location filename="../src/settings.cpp" line="524"/>
         <source>Resetting download folder to default</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1468"/>
+        <location filename="../src/engines.cpp" line="1490"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>

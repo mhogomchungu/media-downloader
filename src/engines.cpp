@@ -1154,7 +1154,7 @@ engines::engine::functions::onlineVersion engines::engine::functions::versionInf
 	auto doc = QJsonDocument::fromJson( e,&err ) ;
 
 	if( err.error == QJsonParseError::NoError ){
-		\
+
 		auto version = doc.object().value( "tag_name" ).toString() ;
 
 		if( version.contains( "v" ) || version.contains( "," ) ){

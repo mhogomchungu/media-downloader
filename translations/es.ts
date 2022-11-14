@@ -651,45 +651,45 @@
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="981"/>
+        <location filename="../src/engines.cpp" line="979"/>
         <source>Download cancelled</source>
         <translation>Descarga cancelada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1136"/>
+        <location filename="../src/engines.cpp" line="1134"/>
         <source>Format Code</source>
         <translation>Código de formato</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1137"/>
+        <location filename="../src/engines.cpp" line="1135"/>
         <source>Extension</source>
         <translation>Extensión</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1138"/>
+        <location filename="../src/engines.cpp" line="1136"/>
         <source>Resolution</source>
         <translation>Resolución</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1139"/>
+        <location filename="../src/engines.cpp" line="1137"/>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1354"/>
+        <location filename="../src/engines.cpp" line="1376"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1360"/>
+        <location filename="../src/engines.cpp" line="1382"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1505"/>
-        <location filename="../src/engines.cpp" line="1510"/>
-        <location filename="../src/engines.cpp" line="1517"/>
-        <location filename="../src/engines.cpp" line="1522"/>
+        <location filename="../src/engines.cpp" line="1527"/>
+        <location filename="../src/engines.cpp" line="1532"/>
+        <location filename="../src/engines.cpp" line="1539"/>
+        <location filename="../src/engines.cpp" line="1544"/>
         <source>Elapsed Time:</source>
         <translation>Tiempo transcurrido:</translation>
     </message>
@@ -714,74 +714,74 @@
         <translation>La red falló en responder en %1 segundos</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="178"/>
+        <location filename="../src/networkAccess.cpp" line="182"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Error al descargar, no se puede crear la siguiente ruta: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="184"/>
+        <location filename="../src/networkAccess.cpp" line="188"/>
         <source>Start Downloading</source>
         <translation>Iniciar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="987"/>
-        <location filename="../src/networkAccess.cpp" line="204"/>
-        <location filename="../src/networkAccess.cpp" line="206"/>
-        <location filename="../src/networkAccess.cpp" line="247"/>
+        <location filename="../src/engines.cpp" line="985"/>
+        <location filename="../src/networkAccess.cpp" line="208"/>
+        <location filename="../src/networkAccess.cpp" line="210"/>
+        <location filename="../src/networkAccess.cpp" line="251"/>
         <source>Download Failed</source>
         <translation>Falló descarga</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="101"/>
+        <location filename="../src/networkAccess.cpp" line="103"/>
         <source>Failed to parse json file from github</source>
         <translation>Error al analizar el archivo json de github</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="118"/>
         <location filename="../src/engines/gallery-dl.cpp" line="122"/>
-        <location filename="../src/networkAccess.cpp" line="233"/>
-        <location filename="../src/networkAccess.cpp" line="264"/>
-        <location filename="../src/networkAccess.cpp" line="372"/>
+        <location filename="../src/networkAccess.cpp" line="237"/>
+        <location filename="../src/networkAccess.cpp" line="268"/>
+        <location filename="../src/networkAccess.cpp" line="379"/>
         <source>Downloading</source>
         <translation>Descargando</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="235"/>
+        <location filename="../src/networkAccess.cpp" line="239"/>
         <source>Destination</source>
         <translation>Destino</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="286"/>
+        <location filename="../src/networkAccess.cpp" line="290"/>
         <source>Download complete</source>
         <translation>Descarga completa</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="313"/>
+        <location filename="../src/networkAccess.cpp" line="320"/>
         <source>Extracting archive: </source>
         <translation>Extrayendo archivo: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="292"/>
+        <location filename="../src/networkAccess.cpp" line="296"/>
         <source>Renaming file to: </source>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1423"/>
+        <location filename="../src/engines.cpp" line="1445"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="985"/>
+        <location filename="../src/engines.cpp" line="983"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="514"/>
+        <location filename="../src/settings.cpp" line="524"/>
         <source>Resetting download folder to default</source>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1468"/>
+        <location filename="../src/engines.cpp" line="1490"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>

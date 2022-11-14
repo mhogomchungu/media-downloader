@@ -651,45 +651,45 @@
         <translation>Det gick inte att hitta python3 för programmet &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="981"/>
+        <location filename="../src/engines.cpp" line="979"/>
         <source>Download cancelled</source>
         <translation>Nerladdningen avbruten</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1136"/>
+        <location filename="../src/engines.cpp" line="1134"/>
         <source>Format Code</source>
         <translation>Formatkod</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1137"/>
+        <location filename="../src/engines.cpp" line="1135"/>
         <source>Extension</source>
         <translation>Tillägg</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1138"/>
+        <location filename="../src/engines.cpp" line="1136"/>
         <source>Resolution</source>
         <translation>Upplösning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1139"/>
+        <location filename="../src/engines.cpp" line="1137"/>
         <source>Note</source>
         <translation>Observera</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1354"/>
+        <location filename="../src/engines.cpp" line="1376"/>
         <source>Failed to open file for writing</source>
         <translation>Det gick inte att öppna filen för skrivning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1360"/>
+        <location filename="../src/engines.cpp" line="1382"/>
         <source>Failed to open file for reading</source>
         <translation>Det gick inte att öppna filen för läsning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1505"/>
-        <location filename="../src/engines.cpp" line="1510"/>
-        <location filename="../src/engines.cpp" line="1517"/>
-        <location filename="../src/engines.cpp" line="1522"/>
+        <location filename="../src/engines.cpp" line="1527"/>
+        <location filename="../src/engines.cpp" line="1532"/>
+        <location filename="../src/engines.cpp" line="1539"/>
+        <location filename="../src/engines.cpp" line="1544"/>
         <source>Elapsed Time:</source>
         <translation>Förfluten tid:</translation>
     </message>
@@ -714,74 +714,74 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="178"/>
+        <location filename="../src/networkAccess.cpp" line="182"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Det gick inte att ladda ner, följande sökväg kan inte skapas: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="184"/>
+        <location filename="../src/networkAccess.cpp" line="188"/>
         <source>Start Downloading</source>
         <translation>Starta nerladdningen</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="987"/>
-        <location filename="../src/networkAccess.cpp" line="204"/>
-        <location filename="../src/networkAccess.cpp" line="206"/>
-        <location filename="../src/networkAccess.cpp" line="247"/>
+        <location filename="../src/engines.cpp" line="985"/>
+        <location filename="../src/networkAccess.cpp" line="208"/>
+        <location filename="../src/networkAccess.cpp" line="210"/>
+        <location filename="../src/networkAccess.cpp" line="251"/>
         <source>Download Failed</source>
         <translation>Nerladdning misslyckad</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="101"/>
+        <location filename="../src/networkAccess.cpp" line="103"/>
         <source>Failed to parse json file from github</source>
         <translation>Det gick inte att tolka json-filen från Github</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="118"/>
         <location filename="../src/engines/gallery-dl.cpp" line="122"/>
-        <location filename="../src/networkAccess.cpp" line="233"/>
-        <location filename="../src/networkAccess.cpp" line="264"/>
-        <location filename="../src/networkAccess.cpp" line="372"/>
+        <location filename="../src/networkAccess.cpp" line="237"/>
+        <location filename="../src/networkAccess.cpp" line="268"/>
+        <location filename="../src/networkAccess.cpp" line="379"/>
         <source>Downloading</source>
         <translation>Laddar ner</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="235"/>
+        <location filename="../src/networkAccess.cpp" line="239"/>
         <source>Destination</source>
         <translation>Mål</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="286"/>
+        <location filename="../src/networkAccess.cpp" line="290"/>
         <source>Download complete</source>
         <translation>Nerladdning klar</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="313"/>
+        <location filename="../src/networkAccess.cpp" line="320"/>
         <source>Extracting archive: </source>
         <translation>Packar upp arkiv: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="292"/>
+        <location filename="../src/networkAccess.cpp" line="296"/>
         <source>Renaming file to: </source>
         <translation>Döper om fil till: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1423"/>
+        <location filename="../src/engines.cpp" line="1445"/>
         <source>Processing</source>
         <translation>Arbetar</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="985"/>
+        <location filename="../src/engines.cpp" line="983"/>
         <source>Download completed</source>
         <translation>Nerladdning klar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="514"/>
+        <location filename="../src/settings.cpp" line="524"/>
         <source>Resetting download folder to default</source>
         <translation>Återställer nerladdningsmappen till standard</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1468"/>
+        <location filename="../src/engines.cpp" line="1490"/>
         <source>Post Processing</source>
         <translation>Efterbehandling</translation>
     </message>
