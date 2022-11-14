@@ -695,16 +695,21 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="61"/>
+        <location filename="../src/versionInfo.cpp" line="102"/>
         <source>Checking installed version of</source>
         <translation>Test de la version installé de</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="66"/>
+        <location filename="../src/versionInfo.cpp" line="79"/>
+        <location filename="../src/versionInfo.cpp" line="195"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Les informations de version n&apos;ont pas été trouvées, vérifiez que &quot;%1&quot; est bien installé et fonctionne correctement</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="69"/>
+        <location filename="../src/versionInfo.cpp" line="114"/>
+        <location filename="../src/versionInfo.cpp" line="156"/>
         <source>Found version</source>
         <translation>Version trouvée</translation>
     </message>
@@ -877,6 +882,11 @@
     <message>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="175"/>
+        <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -656,6 +656,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>This May Take A Very Long Time</source>
         <translation>Questo potrebbe richiedere molto tempo</translation>
     </message>
+    <message>
+        <source>Newest Version Is %1, Updating</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

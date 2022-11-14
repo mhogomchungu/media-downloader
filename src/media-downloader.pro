@@ -16,6 +16,7 @@ settings.cpp \
 themes.cpp \
 tabmanager.cpp \
 utility.cpp \
+versionInfo.cpp \
 logwindow.cpp \
 engines/youtube-dl.cpp \
 engines/gallery-dl.cpp \

@@ -695,16 +695,21 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="61"/>
+        <location filename="../src/versionInfo.cpp" line="102"/>
         <source>Checking installed version of</source>
         <translation>正在检查已安装版本</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="66"/>
+        <location filename="../src/versionInfo.cpp" line="79"/>
+        <location filename="../src/versionInfo.cpp" line="195"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="69"/>
+        <location filename="../src/versionInfo.cpp" line="114"/>
+        <location filename="../src/versionInfo.cpp" line="156"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
@@ -877,6 +882,11 @@
     <message>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="175"/>
+        <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
