@@ -540,7 +540,7 @@ public:
 	{
 		return !( *this <= other ) ;
 	}
-	QString toString()
+	QString toString() const
 	{
 		auto a = QString::number( m_major ) ;
 		auto b = QString::number( m_minor ) ;

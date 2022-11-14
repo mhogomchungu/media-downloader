@@ -95,13 +95,37 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 {
 	const auto& engine = vInfo.engine() ;
 
-	m_ctx.TabManager().disableAll() ;
-
-	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
-
 	auto id = utility::sequentialID() ;
 
 	m_ctx.logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name(),id ) ;
+
+	if( engine.name().contains( "yt-dlp" ) && engine.name() != "yt-dlp" ){
+
+		const auto& e = m_ctx.Engines().getEngineByName( "yt-dlp" ) ;
+
+		if( e.has_value() ){
+
+			const auto& version = e.value().versionInfo() ;
+
+			if( version.valid() ){
+
+				m_ctx.logger().add( QObject::tr( "Found version" ) + ": " + version.toString(),id ) ;
+
+				if( vInfo.hasNext() ){
+
+					this->check( vInfo.next() ) ;
+				}else{
+					vInfo.reportDone() ;
+				}
+
+				return ;
+			}
+		}
+	}
+
+	m_ctx.TabManager().disableAll() ;
+
+	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
 	if( !m_ctx.debug().isEmpty() ){
 
