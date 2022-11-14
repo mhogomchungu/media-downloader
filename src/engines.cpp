@@ -920,8 +920,6 @@ bool engines::engine::breakShowListIfContains( const QStringList& e ) const
 	return m_functions->breakShowListIfContains( e ) ;
 }
 
-
-
 QString engines::engine::setVersionString( const QString& data ) const
 {
 	auto a = util::split( data,'\n',true ) ;
@@ -1148,6 +1146,30 @@ void engines::engine::functions::updateEnginePaths( const Context&,QString&,QStr
 bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray&,int,bool )
 {
 	return true ;
+}
+
+engines::engine::functions::onlineVersion engines::engine::functions::versionInfoFromGithub( const QByteArray& e )
+{
+	QJsonParseError err ;
+	auto doc = QJsonDocument::fromJson( e,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+		\
+		auto version = doc.object().value( "tag_name" ).toString() ;
+
+		if( version.contains( "v" ) || version.contains( "," ) ){
+
+			auto m = version ;
+
+			m.replace( ",","" ).replace( "v","" ) ;
+
+			return { version,m } ;
+		}else{
+			return { version,version } ;
+		}
+	}else{
+		return { {},{} } ;
+	}
 }
 
 bool engines::engine::functions::foundNetworkUrl( const QString& s )

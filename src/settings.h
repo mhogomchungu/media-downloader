@@ -97,6 +97,7 @@ public:
 	bool useInternalArchiveFile() ;
 	bool checkForUpdates() ;
 	bool enableLibraryTab() ;
+	bool checkForEnginesUpdates() ;
 
 	int networkTimeOut() ;
 	int stringTruncationSize() ;

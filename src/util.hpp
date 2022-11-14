@@ -540,6 +540,14 @@ public:
 	{
 		return !( *this <= other ) ;
 	}
+	QString toString()
+	{
+		auto a = QString::number( m_major ) ;
+		auto b = QString::number( m_minor ) ;
+		auto c = QString::number( m_patch ) ;
+
+		return a + "." + b + "." + c ;
+	}
 private:
 	bool m_valid = false ;
 	int m_major = 0 ;

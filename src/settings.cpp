@@ -292,6 +292,16 @@ bool settings::enableLibraryTab()
 	return m_settings.value( "EnableLibraryTab" ).toBool() ;
 }
 
+bool settings::checkForEnginesUpdates()
+{
+	if( !m_settings.contains( "CheckForEnginesUpdates" ) ){
+
+		m_settings.setValue( "CheckForEnginesUpdates",false ) ;
+	}
+
+	return m_settings.value( "CheckForEnginesUpdates" ).toBool() ;
+}
+
 void settings::setEnableLibraryTab( bool e )
 {
 	m_settings.setValue( "EnableLibraryTab",e ) ;

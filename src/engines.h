@@ -428,6 +428,14 @@ public:
 
 			virtual bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) ;
 
+			struct onlineVersion
+			{
+				QString stringVersion ;
+				util::version version ;
+			};
+
+			virtual engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& ) ;
+
 			virtual bool foundNetworkUrl( const QString& ) ;
 
 			virtual void renameArchiveFolder( const QString& ) ;
@@ -659,6 +667,10 @@ public:
 		bool foundNetworkUrl( const QString& s ) const
 		{
 			return m_functions->foundNetworkUrl( s ) ;
+		}
+		engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& e ) const
+		{
+			return m_functions->versionInfoFromGithub( e ) ;
 		}
 		QStringList horizontalHeaderLabels() const
 		{

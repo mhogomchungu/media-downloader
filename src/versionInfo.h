@@ -91,16 +91,85 @@ public:
 	void updateMediaDownloader( const engines::Iterator& iter ) const ;
 	void check( const engines::Iterator& iter,const QString& setDefaultEngine ) const
 	{
-		this->check( iter,{ false,false },versionInfo::reportDone(),setDefaultEngine ) ;
+		this->check( { iter,{ false,false },versionInfo::reportDone(),setDefaultEngine } ) ;
 	}
 	void check( const engines::Iterator& iter,
 		    networkAccess::showVersionInfo showVersionInfo,
-		    versionInfo::reportDone = versionInfo::reportDone(),
-		    const QString& setDefaultEngine = QString() ) const ;
+		    versionInfo::reportDone rd = versionInfo::reportDone(),
+		    const QString& defaultEngine = QString() ) const
+	{
+		this->check( { iter,showVersionInfo,std::move( rd ),defaultEngine } ) ;
+	}
+	class printVinfo
+	{
+	public:
+		printVinfo( const engines::Iterator& iter,
+			    networkAccess::showVersionInfo showVinfo,
+			    versionInfo::reportDone rd,
+			    QString setDefaultEngine ) :
+			m_iter( iter ),
+			m_showVinfo( showVinfo ),
+			m_rd( std::move( rd ) ),
+			m_setDefaultEngine( std::move( setDefaultEngine ) )
+		{
+		}
+		const engines::Iterator& iter() const
+		{
+			return m_iter ;
+		}
+		const engines::engine& engine() const
+		{
+			return m_iter.engine() ;
+		}
+		bool hasNext() const
+		{
+			return m_iter.hasNext() ;
+		}
+		printVinfo next() const
+		{
+			auto m = std::move( *const_cast< printVinfo * >( this ) ) ;
+
+			m.m_iter = m.m_iter.next() ;
+
+			return m ;
+		}
+		printVinfo move() const
+		{
+			return std::move( *const_cast< printVinfo * >( this ) ) ;
+		}
+		void reportDone() const
+		{
+			m_rd() ;
+		}
+		bool show() const
+		{
+			return this->showVersionInfo().show ;
+		}
+		const networkAccess::showVersionInfo& showVersionInfo() const
+		{
+			return m_showVinfo ;
+		}
+		const QString& defaultEngine() const
+		{
+			return m_setDefaultEngine ;
+		}
+		bool setAfterDownloading( bool e )
+		{
+			auto m = m_showVinfo.setAfterDownloading ;
+
+			m_showVinfo.setAfterDownloading = e ;
+
+			return m ;
+		}
+	private:
+		engines::Iterator m_iter ;
+		networkAccess::showVersionInfo m_showVinfo ;
+		versionInfo::reportDone m_rd ;
+		QString m_setDefaultEngine ;
+	} ;
+	void check( versionInfo::printVinfo ) const ;
 private:
-	void printEngineVersionInfo( const engines::Iterator& iter,
-				     networkAccess::showVersionInfo,
-				     versionInfo::reportDone ) const ;
+	void printEngineVersionInfo( versionInfo::printVinfo ) const ;
 	Ui::MainWindow& m_ui ;
 	const Context& m_ctx ;
 };

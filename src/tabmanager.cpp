@@ -99,10 +99,10 @@ tabManager::tabManager( settings& s,
 		auto& vinfo = m_ctx.getVersionInfo() ;
 
 
-		vinfo.check( { engines,utility::sequentialID() },
+		vinfo.check( { { engines,utility::sequentialID() },
 			     { s.showVersionInfoWhenStarting(),false },
 			     { util::types::type_identity< meaw >(),this },
-			     m_ctx.Engines().defaultEngineName() ) ;
+			     m_ctx.Engines().defaultEngineName() } ) ;
 	}else{
 		this->disableAll() ;
 
