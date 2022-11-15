@@ -576,6 +576,7 @@ public:
 		}
 
 		QString setVersionString( const QString& data ) const ;
+		QString versionString( const QString& data ) const ;
 
 		const util::version& versionInfo() const
 		{

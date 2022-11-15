@@ -69,15 +69,15 @@ public:
 	~versionInfo() override
 	{
 	}
-	versionInfo( Ui::MainWindow& ui,const Context& ctx ) : m_ui( ui ),m_ctx( ctx )
-	{
-	}
+	versionInfo( Ui::MainWindow& ui,const Context& ctx ) ;
 	template< typename Then >
 	void setVersion( const engines::engine& engine,Then then ) const
 	{
 		engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-		utils::qprocess::run( cmd.exe(),cmd.args(),[ &engine,then = std::move( then ) ]( const utils::qprocess::outPut& r ){
+		auto mm = QProcess::ProcessChannelMode::MergedChannels ;
+
+		utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ &engine,then = std::move( then ) ]( const utils::qprocess::outPut& r ){
 
 			if( r.success() ){
 
@@ -85,9 +85,9 @@ public:
 			}
 
 			then( r.success() ) ;
-
-		},QProcess::ProcessChannelMode::MergedChannels ) ;
+		} ) ;
 	}
+	void log( const QString& msg,int id ) const ;
 	void updateMediaDownloader( const engines::Iterator& iter ) const ;
 	void check( const engines::Iterator& iter,const QString& setDefaultEngine ) const
 	{
@@ -172,6 +172,7 @@ private:
 	void printEngineVersionInfo( versionInfo::printVinfo ) const ;
 	Ui::MainWindow& m_ui ;
 	const Context& m_ctx ;
+	bool m_checkForEnginesUpdates ;
 };
 
 #endif

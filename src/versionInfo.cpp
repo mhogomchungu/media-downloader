@@ -21,6 +21,18 @@
 #include "context.hpp"
 #include "tabmanager.h"
 
+versionInfo::versionInfo( Ui::MainWindow& ui,const Context& ctx ) :
+	m_ui( ui ),
+	m_ctx( ctx ),
+	m_checkForEnginesUpdates( m_ctx.Settings().checkForEnginesUpdates() )
+{
+}
+
+void versionInfo::log( const QString& msg,int id ) const
+{
+	m_ctx.logger().add( msg,id ) ;
+}
+
 void versionInfo::updateMediaDownloader( const engines::Iterator& iter ) const
 {
 	m_ctx.network().download( iter,{} ) ;
@@ -78,7 +90,7 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 				auto m = QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ) ;
 
-				m_ctx.logger().add( m,vinfo.iter().id() ) ;
+				this->log( m,vinfo.iter().id() ) ;
 			}else{
 				if( vinfo.hasNext() ){
 
@@ -99,7 +111,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 	auto id = utility::sequentialID() ;
 
-	m_ctx.logger().add( QObject::tr( "Checking installed version of" ) + " " + engine.name(),id ) ;
+	this->log( QObject::tr( "Checking installed version of" ) + " " + engine.name(),id ) ;
 
 	if( engine.name().contains( "yt-dlp" ) && engine.name() != "yt-dlp" ){
 
@@ -111,7 +123,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 			if( version.valid() ){
 
-				m_ctx.logger().add( QObject::tr( "Found version" ) + ": " + version.toString(),id ) ;
+				this->log( QObject::tr( "Found version" ) + ": " + version.toString(),id ) ;
 
 				if( vInfo.hasNext() ){
 
@@ -151,15 +163,13 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 		if( r.success() ){
 
-			auto& logger = m_ctx.logger() ;
-
-			logger.add( QObject::tr( "Found version" ) + ": " + engine.setVersionString( r.stdOut ),id ) ;
+			this->log( QObject::tr( "Found version" ) + ": " + engine.setVersionString( r.stdOut ),id ) ;
 
 			const auto& url = engine.downloadUrl() ;
 
-			if( !url.isEmpty() && m_ctx.Settings().checkForEnginesUpdates() ){
+			if( !url.isEmpty() && m_checkForEnginesUpdates ){
 
-				m_ctx.network().get( url,[ &logger,id,this,vInfo = vInfo.move() ]( const QByteArray& m ){
+				m_ctx.network().get( url,[ id,this,vInfo = vInfo.move() ]( const QByteArray& m ){
 
 					const auto& engine = vInfo.engine() ;
 
@@ -172,7 +182,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 						auto m = versionOnline.stringVersion ;
 
-						logger.add( QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ,id ) ;
+						this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ,id ) ;
 
 						m_ctx.network().download( vInfo.iter(),vInfo.showVersionInfo(),vInfo.defaultEngine() ) ;
 					}else{
@@ -192,7 +202,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 				m_ctx.TabManager().enableAll() ;
 			}
 		}else{
-			m_ctx.logger().add( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),id ) ;
+			this->log( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),id ) ;
 
 			m_ctx.TabManager().enableAll() ;
 

@@ -85,23 +85,22 @@ tabManager::tabManager( settings& s,
 		class meaw : public versionInfo::doneInterface
 		{
 		public:
-			meaw( tabManager * t ) : m_parent( t )
+			meaw( tabManager& t ) : m_parent( t )
 			{
 			}
 			void operator()()
 			{
-				m_parent->init_done() ;
+				m_parent.init_done() ;
 			}
 		private:
-			tabManager * m_parent ;
+			tabManager& m_parent ;
 		} ;
 
 		auto& vinfo = m_ctx.getVersionInfo() ;
 
-
 		vinfo.check( { { engines,utility::sequentialID() },
 			     { s.showVersionInfoWhenStarting(),false },
-			     { util::types::type_identity< meaw >(),this },
+			     { util::types::type_identity< meaw >(),*this },
 			     m_ctx.Engines().defaultEngineName() } ) ;
 	}else{
 		this->disableAll() ;

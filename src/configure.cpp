@@ -519,15 +519,14 @@ void configure::init_done()
 
 				auto e = QJsonDocument::fromJson( data ) ;
 
-				auto latestVersion = e.object().value( "tag_name" ).toString() ;
-				auto installedVersion = utility::installedVersionOfMediaDownloader() ;
+				auto lv = e.object().value( "tag_name" ).toString() ;
+				auto iv = utility::installedVersionOfMediaDownloader() ;
 
-				if( !latestVersion.isEmpty() && ( latestVersion != installedVersion ) ){
+				configure::versionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
 
-					auto m = tr( "Your Current Version(%1) Is Not The Latest Version(%2)" ) ;
+				vInfo.append( "Media Downloader",iv,lv  ) ;
 
-					m_ctx.mainWindow().setTitle( m.arg( installedVersion,latestVersion ) ) ;
-				}
+				this->checkForEnginesUpdates( std::move( vInfo ) ) ;
 			}
 		} ) ;
 	}
@@ -603,6 +602,110 @@ void configure::populateOptionsTable( const util::result_ref< const engines::eng
 		}
 
 		m_tableDefaultDownloadOptions.selectLast() ;
+	}
+}
+
+void configure::checkForEnginesUpdates( configure::versionInfo vInfo )
+{
+	const auto& engine = vInfo.engine() ;
+
+	const auto& url = engine.downloadUrl() ;
+
+	if( url.isEmpty() ){
+
+		if( vInfo.hasNext() ){
+
+			return this->checkForEnginesUpdates( vInfo.next() ) ;
+		}else{
+			return this->done( std::move( vInfo ) ) ;
+		}
+	}
+
+	if( engine.name().contains( "yt-dlp" ) && engine.name() != "yt-dlp" ){
+
+		if( vInfo.hasNext() ){
+
+			return this->checkForEnginesUpdates( vInfo.next() ) ;
+		}else{
+			return this->done( std::move( vInfo ) ) ;
+		}
+	}
+
+	m_ctx.network().get( url,[ this,vInfo = std::move( vInfo ) ]( const QByteArray& m ){
+
+		auto lv = vInfo.engine().versionInfoFromGithub( m ) ;
+
+		if( lv.version.valid() ){
+
+			const auto& engine = vInfo.engine() ;
+
+			engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
+
+			auto mm = QProcess::ProcessChannelMode::MergedChannels ;
+
+			utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ lv = std::move( lv ),this,vInfo = vInfo.move() ]( const utils::qprocess::outPut& r ){
+
+				if( r.success() ){
+
+					const auto& engine = vInfo.engine() ;
+
+					util::version iv = engine.versionString( r.stdOut ) ;
+
+					auto infov = vInfo.move() ;
+
+					infov.append( engine.name(),std::move( iv ),std::move( lv.version ) ) ;
+
+					if( infov.hasNext() ){
+
+						return this->checkForEnginesUpdates( infov.next() ) ;
+					}else{
+						this->done( infov.move() ) ;
+					}
+				}else{
+					if( vInfo.hasNext() ){
+
+						return this->checkForEnginesUpdates( vInfo.next() ) ;
+					}else{
+						this->done( vInfo.move() ) ;
+					}
+				}
+			} ) ;
+		}else{
+			if( vInfo.hasNext() ){
+
+				return this->checkForEnginesUpdates( vInfo.next() ) ;
+			}else{
+				this->done( vInfo.move() ) ;
+			}
+		}
+	} ) ;
+}
+
+void configure::done( configure::versionInfo vInfo )
+{
+	QStringList m ;
+
+	QStringList mm ;
+
+	QString s = "%1: %2\n%3: %4\n%5: %6\n" ;
+
+	auto nt = tr( "Engine Name" ) ;
+	auto it = tr( "Installed Version" ) ;
+	auto lt = tr( "Latest Version" ) ;
+
+	vInfo.report( [ & ]( const QString& name,const QString& iv,const QString& lv ){
+
+		mm.append( name ) ;
+		m.append( s.arg( nt,name,it,iv,lt,lv ) ) ;
+	} ) ;
+
+	if( m.size() ){
+
+		m_ctx.mainWindow().setTitle( tr( "There Is An Update For " ) + mm.join( ", " ) ) ;
+
+		auto s = tr( "Update Found" ) ;
+
+		m_ctx.logger().add( s + "\n" + m.join( "\n" ),utility::concurrentID() ) ;
 	}
 }
 

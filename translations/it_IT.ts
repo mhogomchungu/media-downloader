@@ -767,8 +767,24 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>Copia</translation>
     </message>
     <message>
-        <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
-        <translation>La versione attuale (%1) non è la versione aggiornata (%2)</translation>
+        <source>Engine Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There Is An Update For </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update Found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

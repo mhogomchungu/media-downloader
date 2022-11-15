@@ -651,65 +651,65 @@
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="979"/>
+        <location filename="../src/engines.cpp" line="989"/>
         <source>Download cancelled</source>
         <translation>Descarga cancelada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1134"/>
+        <location filename="../src/engines.cpp" line="1144"/>
         <source>Format Code</source>
         <translation>Código de formato</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1135"/>
+        <location filename="../src/engines.cpp" line="1145"/>
         <source>Extension</source>
         <translation>Extensión</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1136"/>
+        <location filename="../src/engines.cpp" line="1146"/>
         <source>Resolution</source>
         <translation>Resolución</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1137"/>
+        <location filename="../src/engines.cpp" line="1147"/>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1376"/>
+        <location filename="../src/engines.cpp" line="1386"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1382"/>
+        <location filename="../src/engines.cpp" line="1392"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1527"/>
-        <location filename="../src/engines.cpp" line="1532"/>
-        <location filename="../src/engines.cpp" line="1539"/>
-        <location filename="../src/engines.cpp" line="1544"/>
+        <location filename="../src/engines.cpp" line="1537"/>
+        <location filename="../src/engines.cpp" line="1542"/>
+        <location filename="../src/engines.cpp" line="1549"/>
+        <location filename="../src/engines.cpp" line="1554"/>
         <source>Elapsed Time:</source>
         <translation>Tiempo transcurrido:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="61"/>
-        <location filename="../src/versionInfo.cpp" line="102"/>
+        <location filename="../src/versionInfo.cpp" line="114"/>
         <source>Checking installed version of</source>
         <translation>Comprobando la versión instalada de</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="66"/>
-        <location filename="../src/versionInfo.cpp" line="79"/>
-        <location filename="../src/versionInfo.cpp" line="195"/>
+        <location filename="../src/versionInfo.cpp" line="91"/>
+        <location filename="../src/versionInfo.cpp" line="205"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>No se pudo encontrar la información de la versión, asegúrese de que &quot;%1&quot; esté instalado y funcione correctamente</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="69"/>
-        <location filename="../src/versionInfo.cpp" line="114"/>
-        <location filename="../src/versionInfo.cpp" line="156"/>
+        <location filename="../src/versionInfo.cpp" line="126"/>
+        <location filename="../src/versionInfo.cpp" line="166"/>
         <source>Found version</source>
         <translation>Versión Encontrada</translation>
     </message>
@@ -729,7 +729,7 @@
         <translation>Iniciar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="985"/>
+        <location filename="../src/engines.cpp" line="995"/>
         <location filename="../src/networkAccess.cpp" line="208"/>
         <location filename="../src/networkAccess.cpp" line="210"/>
         <location filename="../src/networkAccess.cpp" line="251"/>
@@ -771,12 +771,12 @@
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1445"/>
+        <location filename="../src/engines.cpp" line="1455"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="983"/>
+        <location filename="../src/engines.cpp" line="993"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
@@ -786,7 +786,7 @@
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1490"/>
+        <location filename="../src/engines.cpp" line="1500"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>
@@ -885,7 +885,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="175"/>
+        <location filename="../src/versionInfo.cpp" line="185"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1004,7 +1004,7 @@
     </message>
     <message>
         <location filename="../src/configure.cpp" line="381"/>
-        <location filename="../src/configure.cpp" line="566"/>
+        <location filename="../src/configure.cpp" line="565"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -1014,22 +1014,42 @@
         <translation>Establecer Carpeta para Descargas</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="527"/>
-        <source>Your Current Version(%1) Is Not The Latest Version(%2)</source>
-        <translation>Su versión actual (%1) no es la última versión (%2)</translation>
+        <location filename="../src/configure.cpp" line="692"/>
+        <source>Engine Name</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="796"/>
+        <location filename="../src/configure.cpp" line="693"/>
+        <source>Installed Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="694"/>
+        <source>Latest Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="704"/>
+        <source>There Is An Update For </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="706"/>
+        <source>Update Found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="899"/>
         <source>Default</source>
         <translation>Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="800"/>
+        <location filename="../src/configure.cpp" line="903"/>
         <source>Best-audio</source>
         <translation>Mejor-audio</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="804"/>
+        <location filename="../src/configure.cpp" line="907"/>
         <source>Best-audiovideo</source>
         <translation>Mejor audio-video</translation>
     </message>
