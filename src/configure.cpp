@@ -649,7 +649,7 @@ void configure::checkForEnginesUpdates( configure::versionInfo vInfo )
 
 					const auto& engine = vInfo.engine() ;
 
-					util::version iv = engine.versionString( r.stdOut ) ;
+					util::version iv = engine.setVersionString( r.stdOut ) ;
 
 					auto infov = vInfo.move() ;
 
