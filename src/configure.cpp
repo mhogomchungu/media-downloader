@@ -524,7 +524,7 @@ void configure::init_done()
 
 				configure::versionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
 
-				vInfo.append( "Media Downloader",iv,lv  ) ;
+				vInfo.append( "Media Downloader",iv,lv ) ;
 
 				this->checkForEnginesUpdates( std::move( vInfo ) ) ;
 			}

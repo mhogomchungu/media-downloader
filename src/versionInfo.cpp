@@ -40,7 +40,7 @@ void versionInfo::updateMediaDownloader( const engines::Iterator& iter ) const
 
 void versionInfo::check( versionInfo::printVinfo vinfo ) const
 {
-	if( vinfo.engine().name() =="media-downloader" ){
+	if( vinfo.engine().name() == "media-downloader" ){
 
 		return this->printEngineVersionInfo( std::move( vinfo ) ) ;
 	}

@@ -253,7 +253,7 @@ private:
 	class versionInfo
 	{
 	public:
-		versionInfo( engines::Iterator iter ) : m_iter( iter )
+		versionInfo( engines::Iterator iter ) : m_iter( std::move( iter ) )
 		{
 		}
 		void append( const QString& engineName,util::version iv,util::version lv )
@@ -338,4 +338,3 @@ private:
 };
 
 #endif
-

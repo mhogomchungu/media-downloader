@@ -296,7 +296,7 @@ bool settings::checkForEnginesUpdates()
 {
 	if( !m_settings.contains( "CheckForEnginesUpdates" ) ){
 
-		m_settings.setValue( "CheckForEnginesUpdates",false ) ;
+		m_settings.setValue( "CheckForEnginesUpdates",true ) ;
 	}
 
 	return m_settings.value( "CheckForEnginesUpdates" ).toBool() ;
