@@ -250,77 +250,12 @@ private:
 		QJsonArray m_array ;
 	};
 
-	class versionInfo
-	{
-	public:
-		versionInfo( engines::Iterator iter ) : m_iter( std::move( iter ) )
-		{
-		}
-		void append( const QString& engineName,util::version iv,util::version lv )
-		{
-			if( iv.valid() && lv.valid() ){
-
-				m_enginesInfo.emplace_back( engineName,std::move( iv ),std::move( lv ) ) ;
-			}
-		}
-		const engines::engine& engine() const
-		{
-			return m_iter.engine() ;
-		}
-		bool hasNext() const
-		{
-			return m_iter.hasNext() ;
-		}
-		versionInfo next() const
-		{
-			auto m = this->move() ;
-
-			m.m_iter = m_iter.next() ;
-
-			return m ;
-		}
-		versionInfo move() const
-		{
-			return std::move( *const_cast< configure::versionInfo * >( this ) ) ;
-		}
-		template< typename Function >
-		void report( Function function ) const
-		{
-			for( const auto& m : m_enginesInfo ){
-
-				if( m.installedVersion < m.latestVersion ){
-
-					const auto& a = m.engineName ;
-					const auto& b = m.installedVersion.toString() ;
-					const auto& c = m.latestVersion.toString() ;
-
-					function( a,b,c ) ;
-				}
-			}
-		}
-	private:
-		engines::Iterator m_iter ;
-		struct engineInfo
-		{
-			engineInfo( const QString& e,util::version i,util::version l ) :
-				engineName( e ),installedVersion( std::move( i ) ),latestVersion( std::move( l ) )
-			{
-			}
-			QString engineName ;
-			util::version installedVersion ;
-			util::version latestVersion ;
-		} ;
-		std::vector< engineInfo > m_enginesInfo ;
-	} ;
-
 	void saveOptions() ;
 	enum class engineOptions{ url,options,both } ;
 	void setEngineOptions( const QString&,engineOptions ) ;
 	void savePresetOptions() ;
 	void showOptions() ;
 	void populateOptionsTable( const util::result_ref< const engines::engine& >& ) ;
-	void checkForEnginesUpdates( configure::versionInfo ) ;
-	void done( configure::versionInfo vInfo ) ;
 
 	const Context& m_ctx ;
 	settings& m_settings ;

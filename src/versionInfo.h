@@ -41,6 +41,10 @@ public:
 		virtual void operator()()
 		{
 		}
+		virtual bool booting()
+		{
+			return false ;
+		}
 		virtual ~doneInterface() ;
 	} ;
 
@@ -58,6 +62,10 @@ public:
 		void operator()() const
 		{
 			( *m_handle )() ;
+		}
+		bool booting() const
+		{
+			return m_handle->booting() ;
 		}
 	private:
 		/*
@@ -153,6 +161,10 @@ public:
 		{
 			return m_setDefaultEngine ;
 		}
+		bool booting() const
+		{
+			return m_rd.booting() ;
+		}
 		bool setAfterDownloading( bool e )
 		{
 			auto m = m_showVinfo.setAfterDownloading ;
@@ -167,7 +179,75 @@ public:
 		versionInfo::reportDone m_rd ;
 		QString m_setDefaultEngine ;
 	} ;
+
+	class extensionVersionInfo
+	{
+	public:
+		extensionVersionInfo( engines::Iterator iter ) : m_iter( std::move( iter ) )
+		{
+		}
+		void append( const QString& engineName,util::version iv,util::version lv )
+		{
+			if( iv.valid() && lv.valid() ){
+
+				m_enginesInfo.emplace_back( engineName,std::move( iv ),std::move( lv ) ) ;
+			}
+		}
+		const engines::engine& engine() const
+		{
+			return m_iter.engine() ;
+		}
+		bool hasNext() const
+		{
+			return m_iter.hasNext() ;
+		}
+		extensionVersionInfo next() const
+		{
+			auto m = this->move() ;
+
+			m.m_iter = m_iter.next() ;
+
+			return m ;
+		}
+		extensionVersionInfo move() const
+		{
+			return std::move( *const_cast< versionInfo::extensionVersionInfo * >( this ) ) ;
+		}
+		template< typename Function >
+		void report( Function function ) const
+		{
+			for( const auto& m : m_enginesInfo ){
+
+				if( m.installedVersion < m.latestVersion ){
+
+					const auto& a = m.engineName ;
+					const auto& b = m.installedVersion.toString() ;
+					const auto& c = m.latestVersion.toString() ;
+
+					function( a,b,c ) ;
+				}
+			}
+		}
+	private:
+		engines::Iterator m_iter ;
+		struct engineInfo
+		{
+			engineInfo( const QString& e,util::version i,util::version l ) :
+				engineName( e ),installedVersion( std::move( i ) ),latestVersion( std::move( l ) )
+			{
+			}
+			QString engineName ;
+			util::version installedVersion ;
+			util::version latestVersion ;
+		} ;
+		std::vector< engineInfo > m_enginesInfo ;
+	} ;
+
+	void checkForEnginesUpdates( versionInfo::extensionVersionInfo ) const ;
+	void done( versionInfo::extensionVersionInfo ) const ;
+	void done( versionInfo::printVinfo ) const ;
 	void check( versionInfo::printVinfo ) const ;
+	void checkForUpdates() const ;
 private:
 	void printEngineVersionInfo( versionInfo::printVinfo ) const ;
 	Ui::MainWindow& m_ui ;

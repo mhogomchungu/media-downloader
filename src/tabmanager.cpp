@@ -88,9 +88,13 @@ tabManager::tabManager( settings& s,
 			meaw( tabManager& t ) : m_parent( t )
 			{
 			}
-			void operator()()
+			void operator()() override
 			{
 				m_parent.init_done() ;
+			}
+			bool booting() override
+			{
+				return true ;
 			}
 		private:
 			tabManager& m_parent ;
