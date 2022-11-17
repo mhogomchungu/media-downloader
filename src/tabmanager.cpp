@@ -90,6 +90,8 @@ tabManager::tabManager( settings& s,
 			}
 			void operator()() override
 			{
+				qDebug() << "ssss" ;
+
 				m_parent.init_done() ;
 			}
 			bool booting() override

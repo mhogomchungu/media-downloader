@@ -1244,3 +1244,15 @@ QString utility::uiIndex::toString( int index ) const
 
 	return s ;
 }
+
+void utility::setPermissions( QFile& qfile )
+{
+	qfile.setPermissions( qfile.permissions() | QFileDevice::ExeOwner ) ;
+}
+
+void utility::setPermissions( const QString& e )
+{
+	QFile s( e ) ;
+
+	utility::setPermissions( s ) ;
+}

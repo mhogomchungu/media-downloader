@@ -298,6 +298,8 @@ namespace utility
 	void wait( int time ) ;
 	void waitForOneSecond() ;
 	void openDownloadFolderPath( const QString& ) ;
+	void setPermissions( QFile& ) ;
+	void setPermissions( const QString& ) ;
 	QString installedVersionOfMediaDownloader() ;
 	QString homePath() ;
 	QString python3Path() ;

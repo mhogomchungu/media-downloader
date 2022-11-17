@@ -34,6 +34,64 @@ class tabManager ;
 class networkAccess
 {
 public:
+	struct iter
+	{
+		virtual ~iter() ;
+		virtual const engines::engine& engine() = 0 ;
+		virtual bool hasNext() = 0 ;
+		virtual void moveToNext() = 0 ;
+		virtual void reportDone() = 0 ;
+		virtual const QString& setDefaultEngine() = 0 ;
+		virtual const engines::Iterator& itr() = 0 ;
+	} ;
+
+	class iterator
+	{
+	public:
+		template< typename Type,typename ... Args >
+		iterator( Type,Args&& ... args ) :
+			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
+		{
+		}
+		iterator()
+		{
+		}
+		bool hasNext() const
+		{
+			return m_handle->hasNext() ;
+		}
+		networkAccess::iterator next() const
+		{
+			auto m = this->move() ;
+
+			m.m_handle->moveToNext() ;
+
+			return m ;
+		}
+		networkAccess::iterator move() const
+		{
+			return std::move( *const_cast< networkAccess::iterator * >( this ) ) ;
+		}
+		const engines::engine& engine() const
+		{
+			return m_handle->engine() ;
+		}
+		void reportDone() const
+		{
+			m_handle->reportDone() ;
+		}
+		const QString& setDefaultEngine()
+		{
+			return m_handle->setDefaultEngine() ;
+		}
+		const engines::Iterator& itr() const
+		{
+			return m_handle->itr() ;
+		}
+	private:
+		std::unique_ptr< networkAccess::iter > m_handle ;
+	} ;
+
 	networkAccess( const Context& ) ;
 
 	static bool hasNetworkSupport()
@@ -49,22 +107,57 @@ public:
 		bool show ;
 		bool setAfterDownloading ;
 	};
-	void download( const engines::Iterator& iter,
-		       networkAccess::showVersionInfo showVinfo,
-		       const QString& setDefaultENgine = QString() ) const
+	void download( engines::Iterator iter,networkAccess::showVersionInfo v ) const
 	{
-		const_cast< networkAccess * >( this )->download( iter,showVinfo,setDefaultENgine ) ;
-	}
+		class meaw : public networkAccess::iter
+		{
+		public:
+			meaw( engines::Iterator m ) : m_iter( std::move( m ) )
+			{
+			}
+			const engines::engine& engine() override
+			{
+				return m_iter.engine() ;
+			}
+			bool hasNext() override
+			{
+				return m_iter.hasNext() ;
+			}
+			void moveToNext() override
+			{
+				m_iter = m_iter.next() ;
+			}
+			void reportDone() override
+			{
+			}
+			const QString& setDefaultEngine() override
+			{
+				return m_defaultEngineName ;
+			}
+			const engines::Iterator& itr() override
+			{
+				return m_iter ;
+			}
+		private:
+			QString m_defaultEngineName ;
+			engines::Iterator m_iter ;
+		};
 
+		this->download( { util::types::type_identity< meaw >(),std::move( iter ) },v ) ;
+	}
+	void download( networkAccess::iterator iter,
+		       networkAccess::showVersionInfo showVinfo ) const
+	{
+		const_cast< networkAccess * >( this )->download( std::move( iter ),showVinfo ) ;
+	}
 	template< typename Function >
 	void get( const QString& url,Function function ) const
 	{
 		const_cast< networkAccess * >( this )->get( url,std::move( function ) ) ;
 	}
 private:
-	void download( const engines::Iterator&,
-		       networkAccess::showVersionInfo,
-		       const QString& setDefaultENgine = QString() ) ;
+	void download( networkAccess::iterator,
+		       networkAccess::showVersionInfo ) ;
 
 	template< typename Function >
 	void get( const QString& url,Function&& function )
@@ -89,7 +182,7 @@ private:
 
 	struct Opts
 	{
-		Opts( engines::Iterator itr,
+		Opts( networkAccess::iterator itr,
 		      const QString& exePath,
 		      const QString& efp,
 		      const QString& sde,
@@ -126,7 +219,7 @@ private:
 		{
 			return *m_file ;
 		}
-		engines::Iterator iter ;
+		networkAccess::iterator iter ;
 		QString exeBinPath ;
 		networkAccess::metadata metadata ;
 		QString filePath ;

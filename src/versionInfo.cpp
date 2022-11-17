@@ -34,11 +34,6 @@ void versionInfo::log( const QString& msg,int id ) const
 	m_ctx.logger().add( msg,id ) ;
 }
 
-void versionInfo::updateMediaDownloader( const engines::Iterator& iter ) const
-{
-	m_ctx.network().download( iter,{} ) ;
-}
-
 void versionInfo::done( versionInfo::extensionVersionInfo vInfo ) const
 {
 	QStringList m ;
@@ -177,7 +172,9 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 				this->done( std::move( vinfo ) ) ;
 			}
 		}else{
-			m_ctx.network().download( vinfo.iter(),vinfo.showVersionInfo(),vinfo.defaultEngine() ) ;
+			auto ee = vinfo.showVersionInfo() ;
+
+			m_ctx.network().download( this->wrap( std::move( vinfo ) ),ee ) ;
 		}
 	}else{
 		if( engine.backendExists() ){
@@ -231,6 +228,45 @@ void versionInfo::checkForUpdates() const
 	}
 }
 
+networkAccess::iterator versionInfo::wrap( printVinfo m ) const
+{
+	class meaw : public networkAccess::iter
+	{
+	public:
+		meaw( printVinfo m ) : m_vInfo( std::move( m ) )
+		{
+		}
+		const engines::engine& engine() override
+		{
+			return m_vInfo.engine() ;
+		}
+		bool hasNext() override
+		{
+			return m_vInfo.hasNext() ;
+		}
+		void moveToNext() override
+		{
+			m_vInfo = m_vInfo.next() ;
+		}
+		void reportDone() override
+		{
+			m_vInfo.reportDone() ;
+		}
+		const QString& setDefaultEngine() override
+		{
+			return m_vInfo.defaultEngine() ;
+		}
+		const engines::Iterator& itr() override
+		{
+			return m_vInfo.iter() ;
+		}
+	private:
+		printVinfo m_vInfo ;
+	};
+
+	return { util::types::type_identity< meaw >(),std::move( m ) } ;
+}
+
 void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 {
 	m_ctx.TabManager().disableAll() ;
@@ -253,7 +289,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 				this->log( QObject::tr( "Found version" ) + ": " + version.toString(),id ) ;
 
-				return this->done( vInfo ) ;
+				return this->done( std::move( vInfo ) ) ;
 			}
 		}
 	}
@@ -274,9 +310,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 	auto mm = QProcess::ProcessChannelMode::MergedChannels ;
 
-	QFile qfile( cmd.exe() ) ;
-
-	qfile.setPermissions( qfile.permissions() | QFileDevice::ExeOwner ) ;
+	utility::setPermissions( cmd.exe() ) ;
 
 	utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ this,id,vInfo = std::move( vInfo ) ]( const utils::qprocess::outPut& r ){
 
@@ -305,11 +339,13 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 						this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ,id ) ;
 
-						m_ctx.network().download( vInfo.iter(),vInfo.showVersionInfo(),vInfo.defaultEngine() ) ;
+						auto ee = vInfo.showVersionInfo() ;
+
+						m_ctx.network().download( this->wrap( vInfo.move() ),ee ) ;
 					}else{
 						m_ctx.TabManager().enableAll() ;
 
-						this->done( std::move( vInfo ) ) ;
+						this->done( vInfo.move() ) ;
 					}
 				} ) ;
 
@@ -325,7 +361,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 			engine.setBroken() ;
 		}
 
-		this->done( std::move( vInfo ) ) ;
+		this->done( vInfo.move() ) ;
 	} ) ;
 }
 

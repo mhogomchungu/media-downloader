@@ -53,10 +53,10 @@ public:
 	public:
 		template< typename Type,typename ... Args >
 		reportDone( Type,Args&& ... args ) :
-			m_handle( std::make_shared< typename Type::type >( std::forward< Args >( args ) ... ) )
+			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 		{
 		}
-		reportDone() : m_handle( std::make_shared< doneInterface >() )
+		reportDone() : m_handle( std::make_unique< doneInterface >() )
 		{
 		}
 		void operator()() const
@@ -68,11 +68,7 @@ public:
 			return m_handle->booting() ;
 		}
 	private:
-		/*
-		 * We are using make_shared because old versions of gcc do not work with
-		 * unique_ptr when moving the class to lambda capture area
-		 */
-		std::shared_ptr< doneInterface > m_handle ;
+		std::unique_ptr< doneInterface > m_handle ;
 	} ;
 	~versionInfo() override
 	{
@@ -95,30 +91,27 @@ public:
 			then( r.success() ) ;
 		} ) ;
 	}
-	void log( const QString& msg,int id ) const ;
-	void updateMediaDownloader( const engines::Iterator& iter ) const ;
-	void check( const engines::Iterator& iter,const QString& setDefaultEngine ) const
-	{
-		this->check( { iter,{ false,false },versionInfo::reportDone(),setDefaultEngine } ) ;
-	}
-	void check( const engines::Iterator& iter,
-		    networkAccess::showVersionInfo showVersionInfo,
-		    versionInfo::reportDone rd = versionInfo::reportDone(),
-		    const QString& defaultEngine = QString() ) const
-	{
-		this->check( { iter,showVersionInfo,std::move( rd ),defaultEngine } ) ;
-	}
 	class printVinfo
 	{
 	public:
-		printVinfo( const engines::Iterator& iter,
+		printVinfo( engines::Iterator iter,
 			    networkAccess::showVersionInfo showVinfo,
 			    versionInfo::reportDone rd,
 			    QString setDefaultEngine ) :
-			m_iter( iter ),
+			m_iter( std::move( iter ) ),
 			m_showVinfo( showVinfo ),
 			m_rd( std::move( rd ) ),
-			m_setDefaultEngine( std::move( setDefaultEngine ) )
+			m_setDefaultEngine( std::move( setDefaultEngine ) ),
+			m_fromNetwork( false )
+		{
+		}
+		printVinfo( networkAccess::iterator iter,
+			    networkAccess::showVersionInfo showVinfo ) :
+			m_networkIter( std::move( iter ) ),
+			m_iter( m_networkIter.itr() ),
+			m_showVinfo( showVinfo ),
+			m_setDefaultEngine( m_networkIter.setDefaultEngine() ),
+			m_fromNetwork( true )
 		{
 		}
 		const engines::Iterator& iter() const
@@ -147,7 +140,12 @@ public:
 		}
 		void reportDone() const
 		{
-			m_rd() ;
+			if( m_fromNetwork ){
+
+				m_networkIter.reportDone() ;
+			}else{
+				m_rd() ;
+			}
 		}
 		bool show() const
 		{
@@ -174,10 +172,12 @@ public:
 			return m ;
 		}
 	private:
+		networkAccess::iterator m_networkIter ;
 		engines::Iterator m_iter ;
 		networkAccess::showVersionInfo m_showVinfo ;
 		versionInfo::reportDone m_rd ;
 		QString m_setDefaultEngine ;
+		bool m_fromNetwork ;
 	} ;
 
 	class extensionVersionInfo
@@ -243,12 +243,23 @@ public:
 		std::vector< engineInfo > m_enginesInfo ;
 	} ;
 
+	void log( const QString& msg,int id ) const ;
 	void checkForEnginesUpdates( versionInfo::extensionVersionInfo ) const ;
 	void done( versionInfo::extensionVersionInfo ) const ;
 	void done( versionInfo::printVinfo ) const ;
 	void check( versionInfo::printVinfo ) const ;
+	void check( networkAccess::iterator iter,networkAccess::showVersionInfo v ) const
+	{
+		this->check( { std::move( iter ),std::move( v ) } ) ;
+	}
+	void check( const engines::Iterator& iter,const QString& setDefaultEngine ) const
+	{
+		this->check( { iter,{ false,false },versionInfo::reportDone(),setDefaultEngine } ) ;
+	}
 	void checkForUpdates() const ;
 private:
+	networkAccess::iterator wrap( versionInfo::printVinfo ) const ;
+
 	void printEngineVersionInfo( versionInfo::printVinfo ) const ;
 	Ui::MainWindow& m_ui ;
 	const Context& m_ctx ;

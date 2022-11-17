@@ -147,10 +147,11 @@ void networkAccess::download( const QByteArray& data,
 	this->download( std::move( opts ) ) ;
 }
 
-void networkAccess::download( const engines::Iterator& iter,
-			      networkAccess::showVersionInfo showVinfo,
-			      const QString& setDefaultEngine )
+void networkAccess::download( networkAccess::iterator iter,
+			      networkAccess::showVersionInfo showVinfo )
 {
+	auto setDefaultEngine = iter.setDefaultEngine() ;
+
 	const auto& engine = iter.engine() ;
 
 	auto exeFolderPath = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().binPath() ) ;
@@ -191,7 +192,7 @@ void networkAccess::download( const engines::Iterator& iter,
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	networkAccess::Opts opts{ iter,exePath,exeFolderPath,setDefaultEngine,id,showVinfo } ;
+	networkAccess::Opts opts{ std::move( iter ),exePath,exeFolderPath,setDefaultEngine,id,showVinfo } ;
 
 	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine ]( const utils::network::progress& p )mutable{
 
@@ -218,6 +219,8 @@ void networkAccess::download( const engines::Iterator& iter,
 				if( opts.iter.hasNext() ){
 
 					m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo ) ;
+				}else{
+					opts.iter.reportDone() ;
 				}
 			}
 		}else{
@@ -283,6 +286,8 @@ void networkAccess::finished( networkAccess::Opts str )
 		if( str.iter.hasNext() ){
 
 			m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo ) ;
+		}else{
+			str.iter.reportDone() ;
 		}
 	}else{
 		str.file().close() ;
@@ -301,7 +306,7 @@ void networkAccess::finished( networkAccess::Opts str )
 
 			qfile.rename( str.exeBinPath ) ;
 
-			qfile.setPermissions( qfile.permissions() | QFileDevice::ExeOwner ) ;
+			utility::setPermissions( qfile ) ;
 
 			engine.updateCmdPath( str.exeBinPath ) ;
 
@@ -310,7 +315,7 @@ void networkAccess::finished( networkAccess::Opts str )
 			auto m = str.showVinfo ;
 			m.setAfterDownloading = true ;
 
-			m_ctx.getVersionInfo().check( str.iter,m ) ;
+			m_ctx.getVersionInfo().check( std::move( str.iter ),m ) ;
 		}
 	}
 }
@@ -358,13 +363,15 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
-			m_ctx.getVersionInfo().check( str.iter,str.showVinfo ) ;
+			m_ctx.getVersionInfo().check( str.iter.move(),str.showVinfo ) ;
 		}else{
 			this->post( engine,s.stdError,str.id ) ;
 
 			if( str.iter.hasNext() ){
 
 				m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo ) ;
+			}else{
+				str.iter.reportDone() ;
 			}
 		}
 	} ) ;
@@ -410,4 +417,8 @@ void networkAccess::post( const engines::engine& engine,const QString& m,int id 
 			s.add( "[media-downloader] " + e,id ) ;
 		}
 	},id ) ;
+}
+
+networkAccess::iter::~iter()
+{
 }
