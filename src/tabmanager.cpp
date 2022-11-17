@@ -105,7 +105,7 @@ tabManager::tabManager( settings& s,
 		vinfo.check( { { engines,utility::sequentialID() },
 			     { s.showVersionInfoWhenStarting(),false },
 			     { util::types::type_identity< meaw >(),*this },
-			     m_ctx.Engines().defaultEngineName() } ) ;
+			     QString() } ) ;
 	}else{
 		this->disableAll() ;
 

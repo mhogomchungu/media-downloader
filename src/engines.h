@@ -484,8 +484,6 @@ public:
 			const QProcessEnvironment& m_processEnvironment ;
 		} ;
 
-		engine( const Context& ) ;
-
 		engine( Logger& l ) ;
 
 		engine( const engines& engines,

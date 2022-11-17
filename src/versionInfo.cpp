@@ -160,11 +160,6 @@ void versionInfo::checkForEnginesUpdates( versionInfo::extensionVersionInfo vInf
 
 void versionInfo::check( versionInfo::printVinfo vinfo ) const
 {
-	if( vinfo.engine().name() == "media-downloader" ){
-
-		return this->printEngineVersionInfo( std::move( vinfo ) ) ;
-	}
-
 	const auto& engine = vinfo.engine() ;
 
 	auto m = vinfo.setAfterDownloading( false ) ;

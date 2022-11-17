@@ -589,34 +589,6 @@ QStringList engines::enginesList() const
 	return m ;
 }
 
-engines::engine::engine( const Context& ctx ) :
-	m_usingPrivateBackend( true ),
-	m_versionArgument( "--version" ),
-	m_name( "media-downloader" ),
-	//m_downloadUrl( "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" )
-	m_downloadUrl( "https://api.github.com/repos/mhogomchungu/cryfs-gui/releases/latest" )
-{
-	if( utility::platformIsLikeWindows() ){
-
-		m_commandName = "media-downloader.exe" ;
-	}else{
-		m_commandName = "media-downloader" ;
-	}
-
-	const auto& s = ctx.Settings() ;
-
-	if( s.portableVersion() ){
-
-		m_exeFolderPath = s.portableVersionConfigPath() + "/updates" ;
-	}else{
-		m_exeFolderPath = ctx.Engines().engineDirPaths().updatePath() ;
-	}
-
-	m_exePath = m_exeFolderPath + "/bin/" + m_commandName ;
-
-	this->setBackend< media_downloader >( ctx.Engines() ) ;
-}
-
 engines::engine::engine( Logger& )
 {
 }

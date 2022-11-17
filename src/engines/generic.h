@@ -28,18 +28,3 @@ public:
 	generic( const engines& e,const engines::engine& s,QJsonObject& ) ;
 private:
 };
-
-class media_downloader : public engines::engine::functions
-{
-public:
-	~media_downloader() override ;
-
-	media_downloader( const engines& e,const engines::engine&,QJsonObject& ) ;
-	void updateEnginePaths( const Context&,
-				QString& filePath,
-				QString& exeBinPath,
-				QString& archiveExtractionPath ) override ;
-
-	bool foundNetworkUrl( const QString& s ) override ;
-private:
-};
