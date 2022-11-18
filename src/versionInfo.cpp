@@ -70,7 +70,7 @@ void versionInfo::done( printVinfo vinfo ) const
 	}else{
 		vinfo.reportDone() ;
 
-		if( vinfo.booting() ){
+		if( vinfo.booting() && m_ctx.Settings().checkForUpdates() ){
 
 			this->checkForUpdates() ;
 		}
@@ -202,30 +202,29 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 void versionInfo::checkForUpdates() const
 {
-	if( m_ctx.Settings().checkForUpdates() ){
+	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
 
-		auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
+	m_ctx.network().get( url,[ this ]( const QByteArray& data ){
 
-		m_ctx.network().get( url,[ this ]( const QByteArray& data ){
+		QJsonParseError err ;
 
-			if( !data.isEmpty() ){
+		auto e = QJsonDocument::fromJson( data,&err ) ;
 
-				auto e = QJsonDocument::fromJson( data ) ;
+		if( err.error == QJsonParseError::NoError ){
 
-				auto lv = e.object().value( "tag_name" ).toString() ;
-				auto iv = utility::installedVersionOfMediaDownloader() ;
+			auto lv = e.object().value( "tag_name" ).toString() ;
+			auto iv = utility::installedVersionOfMediaDownloader() ;
 
-				versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
+			versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
 
-				vInfo.append( "Media Downloader",iv,lv ) ;
+			vInfo.append( "Media Downloader",iv,lv ) ;
 
-				if( !m_ctx.Settings().checkForEnginesUpdates() ){
+			if( !m_ctx.Settings().checkForEnginesUpdates() ){
 
-					this->checkForEnginesUpdates( std::move( vInfo ) ) ;
-				}
+				this->checkForEnginesUpdates( std::move( vInfo ) ) ;
 			}
-		} ) ;
-	}
+		}
+	} ) ;
 }
 
 networkAccess::iterator versionInfo::wrap( printVinfo m ) const
