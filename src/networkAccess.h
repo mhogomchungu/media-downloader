@@ -80,7 +80,7 @@ public:
 		{
 			m_handle->reportDone() ;
 		}
-		const QString& setDefaultEngine()
+		const QString& setDefaultEngine() const
 		{
 			return m_handle->setDefaultEngine() ;
 		}
@@ -145,22 +145,11 @@ public:
 
 		this->download( { util::types::type_identity< meaw >(),std::move( iter ) },v ) ;
 	}
-	void download( networkAccess::iterator iter,
-		       networkAccess::showVersionInfo showVinfo ) const
-	{
-		const_cast< networkAccess * >( this )->download( std::move( iter ),showVinfo ) ;
-	}
-	template< typename Function >
-	void get( const QString& url,Function function ) const
-	{
-		const_cast< networkAccess * >( this )->get( url,std::move( function ) ) ;
-	}
-private:
-	void download( networkAccess::iterator,
-		       networkAccess::showVersionInfo ) ;
+
+	void download( networkAccess::iterator,networkAccess::showVersionInfo ) const ;
 
 	template< typename Function >
-	void get( const QString& url,Function&& function )
+	void get( const QString& url,Function&& function ) const
 	{
 		m_network.get( this->networkRequest( url ),[ function = std::move( function ) ]( const utils::network::reply& reply ){
 
@@ -172,7 +161,8 @@ private:
 			}
 		} ) ;
 	}
-	QNetworkRequest networkRequest( const QString& url ) ;
+private:
+
 	struct metadata
 	{
 		qint64 size ;
@@ -236,17 +226,19 @@ private:
 		int id ;
 	};
 
-	QString downloadFailed() ;
+	QString downloadFailed() const ;
 
-	void extractArchive( const engines::engine&,networkAccess::Opts ) ;
+	QNetworkRequest networkRequest( const QString& url ) const ;
 
-	void download( networkAccess::Opts ) ;
+	void extractArchive( const engines::engine&,networkAccess::Opts ) const ;
 
-	void download( const QByteArray&,const engines::engine&,networkAccess::Opts ) ;
+	void download( networkAccess::Opts ) const ;
 
-	void finished( networkAccess::Opts ) ;
+	void download( const QByteArray&,const engines::engine&,networkAccess::Opts ) const ;
 
-	void post( const engines::engine&,const QString&,int ) ;
+	void finished( networkAccess::Opts ) const ;
+
+	void post( const engines::engine&,const QString&,int ) const ;
 
 	const Context& m_ctx ;
 	utils::network::manager m_network ;

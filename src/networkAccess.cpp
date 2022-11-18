@@ -71,7 +71,7 @@ networkAccess::networkAccess( const Context& ctx ) :
 	}
 }
 
-QNetworkRequest networkAccess::networkRequest( const QString& url )
+QNetworkRequest networkAccess::networkRequest( const QString& url ) const
 {
 	QNetworkRequest networkRequest( url ) ;
 #if QT_VERSION >= QT_VERSION_CHECK( 5,9,0 )
@@ -84,7 +84,7 @@ QNetworkRequest networkAccess::networkRequest( const QString& url )
 		return networkRequest ;
 }
 
-QString networkAccess::downloadFailed()
+QString networkAccess::downloadFailed() const
 {
 	auto m = QString::number( m_ctx.Settings().networkTimeOut() / 1000 ) ;
 	return QObject::tr( "Network Failed To Respond Within %1 seconds" ).arg( m ) ;
@@ -92,7 +92,7 @@ QString networkAccess::downloadFailed()
 
 void networkAccess::download( const QByteArray& data,
 			      const engines::engine& engine,
-			      networkAccess::Opts opts )
+			      networkAccess::Opts opts ) const
 {
 	networkAccess::metadata metadata ;
 
@@ -148,7 +148,7 @@ void networkAccess::download( const QByteArray& data,
 }
 
 void networkAccess::download( networkAccess::iterator iter,
-			      networkAccess::showVersionInfo showVinfo )
+			      networkAccess::showVersionInfo showVinfo ) const
 {
 	auto setDefaultEngine = iter.setDefaultEngine() ;
 
@@ -229,7 +229,7 @@ void networkAccess::download( networkAccess::iterator iter,
 	} ) ;
 }
 
-void networkAccess::download( networkAccess::Opts opts )
+void networkAccess::download( networkAccess::Opts opts ) const
 {
 	const auto& engine = opts.iter.engine() ;
 
@@ -273,7 +273,7 @@ void networkAccess::download( networkAccess::Opts opts )
 	} ) ;
 }
 
-void networkAccess::finished( networkAccess::Opts str )
+void networkAccess::finished( networkAccess::Opts str ) const
 {
 	const auto& engine = str.iter.engine() ;
 
@@ -320,7 +320,7 @@ void networkAccess::finished( networkAccess::Opts str )
 	}
 }
 
-void networkAccess::extractArchive( const engines::engine& engine,networkAccess::Opts str )
+void networkAccess::extractArchive( const engines::engine& engine,networkAccess::Opts str ) const
 {
 	this->post( engine,QObject::tr( "Extracting archive: " ) + str.filePath,str.id ) ;
 
@@ -377,7 +377,7 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 	} ) ;
 }
 
-void networkAccess::post( const engines::engine& engine,const QString& m,int id )
+void networkAccess::post( const engines::engine& engine,const QString& m,int id ) const
 {	
 	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool ){
 

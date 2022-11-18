@@ -124,25 +124,25 @@ namespace utils
 			}
 			template< typename Reply,
 				  typename std::enable_if< std::is_void< details::result_of< Reply,network::reply > >::value,int >::type = 0 >
-			void get( const QNetworkRequest& r,Reply reply )
+			void get( const QNetworkRequest& r,Reply reply ) const
 			{
 				this->setupReply( m_manager.get( r ),std::move( reply ) ) ;
 			}
 			template< typename Progress,
 				  typename std::enable_if< std::is_void< details::result_of< Progress,network::progress > >::value,int >::type = 0 >
-			void get( const QNetworkRequest& r,Progress progress )
+			void get( const QNetworkRequest& r,Progress progress ) const
 			{
 				auto reply = []( const network::reply& ){} ;
 
 				this->setupReply( m_manager.get( r ),std::move( reply ),std::move( progress ) ) ;
 			}
 			template< typename Reply,typename Data >
-			void post( const QNetworkRequest& r,const Data& e,Reply reply )
+			void post( const QNetworkRequest& r,const Data& e,Reply reply ) const
 			{
 				this->setupReply( m_manager.post( r,e ),std::move( reply ) ) ;
 			}
 			template< typename Reply >
-			void head( const QNetworkRequest& r,Reply reply )
+			void head( const QNetworkRequest& r,Reply reply ) const
 			{
 				this->setupReply( m_manager.head( r ),std::move( reply ) ) ;
 			}
@@ -224,7 +224,7 @@ namespace utils
 				QMetaObject::Connection m_timerConn ;
 			} ;
 			template< typename Reply,typename Progress,typename Function >
-			void setupReply( QNetworkReply * s,Reply&& reply,Progress&& progress,Function&& function )
+			void setupReply( QNetworkReply * s,Reply&& reply,Progress&& progress,Function&& function ) const
 			{
 				auto hdl = std::make_shared< handle< Reply,Progress > >( std::move( reply ),std::move( progress ),*s,m_mutex ) ;
 
@@ -253,7 +253,7 @@ namespace utils
 				} ) ) ;
 			}
 			template< typename Reply,typename Progress >
-			void setupReply( QNetworkReply * s,Reply&& reply,Progress&& progress )
+			void setupReply( QNetworkReply * s,Reply&& reply,Progress&& progress ) const
 			{
 				using handle_t = handle< Reply,Progress > ;
 
@@ -263,7 +263,7 @@ namespace utils
 				} ) ;
 			}
 			template< typename Reply >
-			void setupReply( QNetworkReply * s,Reply&& reply )
+			void setupReply( QNetworkReply * s,Reply&& reply ) const
 			{
 				struct progress
 				{
@@ -275,9 +275,9 @@ namespace utils
 				this->setupReply( s,std::move( reply ),progress(),[]( handle_t&,qint64,qint64 ){} ) ;
 			}
 
-			QNetworkAccessManager m_manager ;
+			mutable QNetworkAccessManager m_manager ;
 			int m_timeOut ;
-			QMutex m_mutex ;
+			mutable QMutex m_mutex ;
 		} ;
 	}
 }
