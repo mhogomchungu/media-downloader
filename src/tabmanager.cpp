@@ -82,7 +82,7 @@ tabManager::tabManager( settings& s,
 
 		m_ctx.logger().updateView( true ) ;
 
-		class meaw : public versionInfo::doneInterface
+		class meaw : public versionInfo::idone
 		{
 		public:
 			meaw( tabManager& t ) : m_parent( t )
@@ -90,8 +90,6 @@ tabManager::tabManager( settings& s,
 			}
 			void operator()() override
 			{
-				qDebug() << "ssss" ;
-
 				m_parent.init_done() ;
 			}
 			bool booting() override
@@ -106,8 +104,7 @@ tabManager::tabManager( settings& s,
 
 		vinfo.check( { { engines,utility::sequentialID() },
 			     { s.showVersionInfoWhenStarting(),false },
-			     { util::types::type_identity< meaw >(),*this },
-			     QString() } ) ;
+			     { util::types::type_identity< meaw >(),*this } } ) ;
 	}else{
 		this->disableAll() ;
 

@@ -150,8 +150,6 @@ void networkAccess::download( const QByteArray& data,
 void networkAccess::download( networkAccess::iterator iter,
 			      networkAccess::showVersionInfo showVinfo ) const
 {
-	auto setDefaultEngine = iter.setDefaultEngine() ;
-
 	const auto& engine = iter.engine() ;
 
 	auto exeFolderPath = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().binPath() ) ;
@@ -192,7 +190,7 @@ void networkAccess::download( networkAccess::iterator iter,
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	networkAccess::Opts opts{ std::move( iter ),exePath,exeFolderPath,setDefaultEngine,id,showVinfo } ;
+	networkAccess::Opts opts{ std::move( iter ),exePath,exeFolderPath,id,showVinfo } ;
 
 	m_network.get( this->networkRequest( engine.downloadUrl() ),[ opts = std::move( opts ),this,&engine ]( const utils::network::progress& p )mutable{
 
@@ -310,7 +308,6 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 			engine.updateCmdPath( str.exeBinPath ) ;
 
-			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
 			auto m = str.showVinfo ;
 			m.setAfterDownloading = true ;
@@ -360,8 +357,6 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 			}
-
-			utility::setDefaultEngine( m_ctx,str.defaultEngine ) ;
 
 			m_ctx.getVersionInfo().check( str.iter.move(),str.showVinfo ) ;
 		}else{

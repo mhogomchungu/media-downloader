@@ -22,8 +22,7 @@
 #include "tabmanager.h"
 #include "mainwindow.h"
 
-versionInfo::versionInfo( Ui::MainWindow& ui,const Context& ctx ) :
-	m_ui( ui ),
+versionInfo::versionInfo( Ui::MainWindow&,const Context& ctx ) :
 	m_ctx( ctx ),
 	m_checkForEnginesUpdates( m_ctx.Settings().checkForEnginesUpdates() )
 {
@@ -42,9 +41,9 @@ void versionInfo::done( versionInfo::extensionVersionInfo vInfo ) const
 
 	QString s = "%1: %2\n%3: %4\n%5: %6\n" ;
 
-	auto nt = tr( "Engine Name" ) ;
-	auto it = tr( "Installed Version" ) ;
-	auto lt = tr( "Latest Version" ) ;
+	auto nt = QObject::tr( "Engine Name" ) ;
+	auto it = QObject::tr( "Installed Version" ) ;
+	auto lt = QObject::tr( "Latest Version" ) ;
 
 	vInfo.report( [ & ]( const QString& name,const QString& iv,const QString& lv ){
 
@@ -54,9 +53,9 @@ void versionInfo::done( versionInfo::extensionVersionInfo vInfo ) const
 
 	if( m.size() ){
 
-		m_ctx.mainWindow().setTitle( tr( "There Is An Update For " ) + mm.join( ", " ) ) ;
+		m_ctx.mainWindow().setTitle( QObject::tr( "There Is An Update For " ) + mm.join( ", " ) ) ;
 
-		auto s = tr( "Update Found" ) ;
+		auto s = QObject::tr( "Update Found" ) ;
 
 		m_ctx.logger().add( s + "\n" + m.join( "\n" ),utility::concurrentID() ) ;
 	}
@@ -165,8 +164,6 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 			if( m || vinfo.show() ){
 
-				utility::setDefaultEngine( m_ctx,vinfo.defaultEngine() ) ;
-
 				this->printEngineVersionInfo( std::move( vinfo ) ) ;
 			}else{
 				this->done( std::move( vinfo ) ) ;
@@ -180,8 +177,6 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 		if( engine.backendExists() ){
 
 			if( vinfo.show() || m ){
-
-				utility::setDefaultEngine( m_ctx,vinfo.defaultEngine() ) ;
 
 				this->printEngineVersionInfo( std::move( vinfo ) ) ;
 			}else{
@@ -250,10 +245,6 @@ networkAccess::iterator versionInfo::wrap( printVinfo m ) const
 		void reportDone() override
 		{
 			m_vInfo.reportDone() ;
-		}
-		const QString& setDefaultEngine() override
-		{
-			return m_vInfo.defaultEngine() ;
 		}
 		const engines::Iterator& itr() override
 		{
@@ -364,6 +355,6 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 	} ) ;
 }
 
-versionInfo::doneInterface::~doneInterface()
+versionInfo::idone::~idone()
 {
 }

@@ -48,7 +48,6 @@ if(Qt5Core_VERSION VERSION_LESS 5.4.0)
         src/batchdownloader.h
         src/configure.h
         src/library.h
-	src/versionInfo.h
         src/playlistdownloader.h
         src/utils/single_instance.hpp)
 else()
@@ -59,7 +58,6 @@ else()
         src/batchdownloader.h
         src/configure.h
         src/library.h
-	src/versionInfo.h
         src/playlistdownloader.h)
 endif()
 

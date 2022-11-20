@@ -24,6 +24,7 @@
 #include "utility.h"
 #include "themes.h"
 #include "mainwindow.h"
+#include "versionInfo.h"
 
 #include <QFileDialog>
 #include <QFile>
@@ -337,30 +338,55 @@ configure::configure( const Context& ctx ) :
 
 		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select An Engine File" ),utility::homePath() ) ;
 
+		if( m.isEmpty() ){
+
+			return ;
+		}
+
 		auto id = utility::sequentialID() ;
 
-		if( !m.isEmpty() ){
+		auto d = engines::file( m,m_ctx.logger() ).readAll() ;
 
-			auto d = engines::file( m,m_ctx.logger() ).readAll() ;
+		if( d.isEmpty() ){
 
-			if( !d.isEmpty() ){
+			return ;
+		}
 
-				auto name = m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last(),id ) ;
+		auto name = m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last(),id ) ;
 
-				if( !name.isEmpty() ){
+		if( name.isEmpty() ){
 
-					auto& t = m_ctx.TabManager() ;
+			return ;
+		}
 
-					t.basicDownloader().setAsActive() ;
+		auto& t = m_ctx.TabManager() ;
 
-					const auto& engine = m_ctx.Engines().getEngineByName( name ) ;
+		t.basicDownloader().setAsActive() ;
 
-					if( engine ){
+		const auto& engine = m_ctx.Engines().getEngineByName( name ) ;
 
-						m_ctx.getVersionInfo().check( { engine.value(),id },name ) ;
-					}
+		if( engine ){
+
+			class woof : public versionInfo::idone
+			{
+			public:
+				woof( const Context& ctx,QString de ) :
+					m_ctx( ctx ),m_defaultEngine( std::move( de ) )
+				{
 				}
-			}
+				void operator()() override
+				{
+					utility::setDefaultEngine( m_ctx,m_defaultEngine ) ;
+				}
+			private:
+				const Context& m_ctx ;
+				QString m_defaultEngine ;
+			} ;
+
+			auto& m = m_ctx.getVersionInfo() ;
+
+			m.check( { engine.value(),id },
+				 { util::types::type_identity< woof >(),m_ctx,std::move( name ) } ) ;
 		}
 	} ) ;
 

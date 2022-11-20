@@ -32,11 +32,10 @@ namespace Ui
 	class MainWindow ;
 }
 
-class versionInfo : public QObject
+class versionInfo
 {
-	Q_OBJECT
 public:
-	struct doneInterface
+	struct idone
 	{
 		virtual void operator()()
 		{
@@ -45,7 +44,7 @@ public:
 		{
 			return false ;
 		}
-		virtual ~doneInterface() ;
+		virtual ~idone() ;
 	} ;
 
 	class reportDone
@@ -56,7 +55,7 @@ public:
 			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 		{
 		}
-		reportDone() : m_handle( std::make_unique< doneInterface >() )
+		reportDone() : m_handle( std::make_unique< idone >() )
 		{
 		}
 		void operator()() const
@@ -68,9 +67,9 @@ public:
 			return m_handle->booting() ;
 		}
 	private:
-		std::unique_ptr< doneInterface > m_handle ;
+		std::unique_ptr< idone > m_handle ;
 	} ;
-	~versionInfo() override
+	~versionInfo()
 	{
 	}
 	versionInfo( Ui::MainWindow& ui,const Context& ctx ) ;
@@ -96,12 +95,10 @@ public:
 	public:
 		printVinfo( engines::Iterator iter,
 			    networkAccess::showVersionInfo showVinfo,
-			    versionInfo::reportDone rd,
-			    QString setDefaultEngine ) :
+			    versionInfo::reportDone rd ) :
 			m_iter( std::move( iter ) ),
 			m_showVinfo( showVinfo ),
 			m_rd( std::move( rd ) ),
-			m_setDefaultEngine( std::move( setDefaultEngine ) ),
 			m_fromNetwork( false )
 		{
 		}
@@ -110,7 +107,6 @@ public:
 			m_networkIter( std::move( iter ) ),
 			m_iter( m_networkIter.itr() ),
 			m_showVinfo( showVinfo ),
-			m_setDefaultEngine( m_networkIter.setDefaultEngine() ),
 			m_fromNetwork( true )
 		{
 		}
@@ -155,10 +151,6 @@ public:
 		{
 			return m_showVinfo ;
 		}
-		const QString& defaultEngine() const
-		{
-			return m_setDefaultEngine ;
-		}
 		bool booting() const
 		{
 			return m_rd.booting() ;
@@ -176,7 +168,6 @@ public:
 		engines::Iterator m_iter ;
 		networkAccess::showVersionInfo m_showVinfo ;
 		versionInfo::reportDone m_rd ;
-		QString m_setDefaultEngine ;
 		bool m_fromNetwork ;
 	} ;
 
@@ -252,16 +243,15 @@ public:
 	{
 		this->check( { std::move( iter ),std::move( v ) } ) ;
 	}
-	void check( const engines::Iterator& iter,const QString& setDefaultEngine ) const
+	void check( const engines::Iterator& iter,versionInfo::reportDone rd ) const
 	{
-		this->check( { iter,{ false,false },versionInfo::reportDone(),setDefaultEngine } ) ;
+		this->check( { iter,{ false,false },std::move( rd ) } ) ;
 	}
 	void checkForUpdates() const ;
 private:
 	networkAccess::iterator wrap( versionInfo::printVinfo ) const ;
 
 	void printEngineVersionInfo( versionInfo::printVinfo ) const ;
-	Ui::MainWindow& m_ui ;
 	const Context& m_ctx ;
 	bool m_checkForEnginesUpdates ;
 };

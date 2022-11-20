@@ -41,7 +41,6 @@ public:
 		virtual bool hasNext() = 0 ;
 		virtual void moveToNext() = 0 ;
 		virtual void reportDone() = 0 ;
-		virtual const QString& setDefaultEngine() = 0 ;
 		virtual const engines::Iterator& itr() = 0 ;
 	} ;
 
@@ -79,10 +78,6 @@ public:
 		void reportDone() const
 		{
 			m_handle->reportDone() ;
-		}
-		const QString& setDefaultEngine() const
-		{
-			return m_handle->setDefaultEngine() ;
 		}
 		const engines::Iterator& itr() const
 		{
@@ -130,16 +125,11 @@ public:
 			void reportDone() override
 			{
 			}
-			const QString& setDefaultEngine() override
-			{
-				return m_defaultEngineName ;
-			}
 			const engines::Iterator& itr() override
 			{
 				return m_iter ;
 			}
 		private:
-			QString m_defaultEngineName ;
 			engines::Iterator m_iter ;
 		};
 
@@ -175,13 +165,11 @@ private:
 		Opts( networkAccess::iterator itr,
 		      const QString& exePath,
 		      const QString& efp,
-		      const QString& sde,
 		      int xd,
 		      networkAccess::showVersionInfo svf ) :
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
 			tempPath( efp ),
-			defaultEngine( sde ),
 			showVinfo( svf ),
 			id( xd )
 		{
@@ -201,7 +189,7 @@ private:
 		}
 		void openFile()
 		{
-			m_file = std::make_shared< QFile >( this->filePath ) ;
+			m_file = std::make_unique< QFile >( this->filePath ) ;
 			m_file->remove() ;
 			m_file->open( QIODevice::WriteOnly ) ;
 		}
@@ -214,13 +202,8 @@ private:
 		networkAccess::metadata metadata ;
 		QString filePath ;
 		QString tempPath ;
-		QString defaultEngine ;
 		QString networkError ;
-		/*
-		 * We are using make_shared because old versions of gcc do not work with
-		 * unique_ptr when moving the class to lambda capture area
-		 */
-		std::shared_ptr< QFile > m_file ;
+		std::unique_ptr< QFile > m_file ;
 		bool isArchive ;
 		networkAccess::showVersionInfo showVinfo ;
 		int id ;
