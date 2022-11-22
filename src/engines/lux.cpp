@@ -20,6 +20,8 @@
 #include "lux.h"
 #include "../utility.h"
 
+#include <QCryptographicHash>
+
 lux::~lux()
 {
 }
@@ -265,6 +267,40 @@ bool lux::foundNetworkUrl( const QString& s )
 		}
 	}else{
 		return s.contains( "macOS_64-bit" ) ;
+	}
+}
+
+void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
+{
+	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
+
+	for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
+
+		if( s.ourOptions[ m ] == "-O" ){
+
+			if( m + 1 < s.ourOptions.size() ){
+
+				auto& e = s.ourOptions[ m + 1 ] ;
+
+				auto r = s.uiIndex.toString( true,s.ourOptions ) ;
+
+				e.replace( "%(autonumber)s",r ) ;
+
+				e.replace( "%(id)s",[ &r ](){
+
+					auto m = QDateTime::currentSecsSinceEpoch() ;
+					auto e = QString::number( m ) + r ;
+
+					QCryptographicHash hash( QCryptographicHash::Sha256 ) ;
+
+					hash.addData( e.toUtf8() ) ;
+
+					return hash.result().toHex().mid( 0,8 ) ;
+				}() ) ;
+
+				break ;
+			}
+		}
 	}
 }
 

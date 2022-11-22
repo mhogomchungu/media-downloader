@@ -56,6 +56,8 @@ public:
 
 	bool foundNetworkUrl( const QString& s ) override ;
 
+	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
+
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,
