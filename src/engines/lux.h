@@ -26,12 +26,12 @@ class lux : public engines::engine::functions
 {
 public:
 	~lux() override ;
-	lux( const engines&,const engines::engine&,QJsonObject& ) ;
+	lux( const engines&,const engines::engine&,QJsonObject&,const QString& downloadFolder ) ;
 
 	class lux_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		lux_dlFilter( const QString&,const engines::engine&,int ) ;
+		lux_dlFilter( const QString&,const engines::engine&,int,QByteArray ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -42,6 +42,7 @@ public:
 		QByteArray m_tmp ;
 		engines::engine::functions::preProcessing m_progress ;
 		int m_processId ;
+		QByteArray m_downloadFolder ;
 	} ;
 
 	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
@@ -64,6 +65,7 @@ public:
 					     const engines::engine::functions::finishedState& ) override ;
 private:
 	const engines::engine& m_engine ;
+	QString m_downloadFolder ;
 
 	class parseOutput
 	{

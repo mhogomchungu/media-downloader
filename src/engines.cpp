@@ -312,7 +312,7 @@ void engines::updateEngines( bool addAll,int id )
 
 		}else if( name.contains( "lux" ) ){
 
-			it.setBackend< lux >( engines ) ;
+			it.setBackend< lux >( engines,m_settings.downloadFolder() ) ;
 
 		}else if( name.contains( "you-get" ) ){
 

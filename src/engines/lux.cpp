@@ -19,6 +19,7 @@
 
 #include "lux.h"
 #include "../utility.h"
+#include "../utils/threads.hpp"
 
 #include <QCryptographicHash>
 
@@ -26,15 +27,16 @@ lux::~lux()
 {
 }
 
-lux::lux( const engines& engines,const engines::engine& engine,QJsonObject& ) :
+lux::lux( const engines& engines,const engines::engine& engine,QJsonObject&,const QString& df ) :
 	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
-	m_engine( engine )
+	m_engine( engine ),
+	m_downloadFolder( df + "/" )
 {
 }
 
 engines::engine::functions::DataFilter lux::Filter( int id,const QString& e )
 {
-	return { util::types::type_identity< lux::lux_dlFilter >(),e,m_engine,id } ;
+	return { util::types::type_identity< lux::lux_dlFilter >(),e,m_engine,id,m_downloadFolder.toUtf8() } ;
 }
 
 std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const QByteArray& e )
@@ -321,10 +323,11 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,int id ) :
+lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,int id,QByteArray df ) :
 	engines::engine::functions::filter( e,engine,id ),
 	m_banner( ".. " + QObject::tr( "This May Take A Very Long Time" ).toUtf8() + " .." ),
-	m_processId( id )
+	m_processId( id ),
+	m_downloadFolder( std::move( df ) )
 {
 }
 
@@ -419,6 +422,31 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 			if( m != -1 ){
 
 				m_tmp = it.mid( m + 25 ) ;
+
+				auto title = luksHeader.title ;
+
+				if( m_tmp.contains( "%(title)s" ) && !title.isEmpty() ) {
+
+					auto originalFileName = m_downloadFolder + m_tmp ;
+					auto newFileName = originalFileName ;
+
+					newFileName.replace( "%(title)s",title ) ;
+
+					m_tmp = newFileName.mid( m_downloadFolder.size() ) ;
+
+					utils::qthread::run( [ originalFileName,newFileName ](){
+
+						for( int i = 0 ; i < 5 ; i++ ){
+
+							if( QFile::rename( originalFileName,newFileName ) ){
+
+								break ;
+							}else{
+								QThread::currentThread()->msleep( 500 ) ;
+							}
+						}
+					} ) ;
+				}
 
 				return m_tmp ;
 			}

@@ -22,6 +22,8 @@
 
 #include <type_traits>
 
+#pragma once
+
 namespace utils
 {
 	namespace qthread
