@@ -37,6 +37,9 @@ public:
 
 		~lux_dlFilter() override ;
 	private:
+		const QByteArray& renameTitle( const QByteArray& ) ;
+		QByteArray m_cmd ;
+		QByteArray m_fileName ;
 		QByteArray m_banner ;
 		QByteArray m_tmp1 ;
 		QByteArray m_tmp ;

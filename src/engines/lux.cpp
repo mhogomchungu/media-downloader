@@ -345,6 +345,8 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 	if( s.startsWith( "[media-downloader] cmd: " ) ){
 
+		m_cmd = s ;
+
 		return m_banner ;
 	}
 
@@ -370,12 +372,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 		if( utility::stringConstants::doneDownloadingText( s ) ){
 
-			if( m_tmp.isEmpty() ){
-
-				return luksHeader.title ;
-			}else{
-				return m_tmp ;
-			}
+			return this->renameTitle( luksHeader.title ) ;
 		}else{
 			return m_progress.text() ;
 		}
@@ -421,47 +418,9 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 			if( m != -1 ){
 
-				m_tmp = it.mid( m + 25 ) ;
+				m_fileName = it.mid( m + 25 ) ;
 
-				if( m_tmp.contains( "%(title)s" ) && !luksHeader.title.isEmpty() ) {
-
-					auto originalFileName = m_downloadFolder + m_tmp ;
-					auto newFileName = originalFileName ;
-
-					newFileName.replace( "%(title)s",luksHeader.title ) ;
-
-					if( QFile::exists( newFileName ) ){
-
-						auto a = newFileName.lastIndexOf( '.' ) ;
-
-						if( a != -1 ){
-
-							auto fn = newFileName.mid( 0,a - 1 ) + "-1" ;
-							auto ext = newFileName.mid( a ) ;
-
-							newFileName = fn + ext ;
-						}
-					}
-
-					m_tmp = newFileName.mid( m_downloadFolder.size() ) ;
-
-					utils::qthread::run( [ originalFileName,newFileName ](){
-
-						QThread::currentThread()->msleep( 500 ) ;
-
-						for( int i = 0 ; i < 4 ; i++ ){
-
-							if( QFile::rename( originalFileName,newFileName ) ){
-
-								break ;
-							}else{
-								QThread::currentThread()->msleep( 500 ) ;
-							}
-						}
-					} ) ;
-				}
-
-				return m_tmp ;
+				return m_fileName ;
 			}
 		}
 	}
@@ -473,4 +432,111 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 lux::lux_dlFilter::~lux_dlFilter()
 {
+}
+
+const QByteArray& lux::lux_dlFilter::renameTitle( const QByteArray& title )
+{
+	if( m_fileName.isEmpty() ){
+
+		/*
+		 * We will get here is no merging took place and hence we have no
+		 * file name.
+		 */
+
+		auto fileName = [ this,&title ](){
+
+			auto m = util::splitPreserveQuotes( m_cmd ) ;
+
+			for( int i = 0 ; i < m.size() ; i++ ){
+
+				if( m[ i ] == "-O" ){
+
+					if( i + 1 < m.size() ){
+
+						auto s = m[ i + 1 ] ;
+
+						return s.toUtf8() ;
+					}
+				}
+			}
+
+			auto s = title ;
+
+			// Got these substitions from lux source code
+			// lux/utils/utils.go:FileName
+
+			s.replace( "\n"," " ) ;
+			s.replace( "","" ) ;
+			s.replace( "/"," " ) ;
+			s.replace( "|","-" ) ;
+			s.replace( ": ","：" ) ;
+			s.replace( ":","：" ) ;
+			s.replace( "'","’" ) ;
+
+			if( utility::platformIsWindows() ){
+
+				s.replace( "\""," " ) ;
+				s.replace( "?"," " ) ;
+				s.replace( "*"," " ) ;
+				s.replace( "\\"," " ) ;
+				s.replace( "<"," " ) ;
+				s.replace( ">"," " ) ;
+			}
+
+			return s ;
+		}() ;
+
+		if( QFile::exists( m_downloadFolder + fileName + ".webm" ) ){
+
+			m_fileName = fileName + ".webm" ;
+
+		}else if( QFile::exists( m_downloadFolder + fileName + ".mp4" ) ){
+
+			m_fileName = fileName + ".mp4" ;
+		}else{
+			m_fileName = fileName ;
+		}
+	}
+
+	if( m_fileName.contains( "%(title)s" ) ){
+
+		auto originalFileName = m_downloadFolder + m_fileName ;
+		auto newFileName = originalFileName ;
+
+		newFileName.replace( "%(title)s",title ) ;
+
+		if( QFile::exists( newFileName ) ){
+
+			auto a = newFileName.lastIndexOf( '.' ) ;
+
+			if( a != -1 ){
+
+				auto fn = newFileName.mid( 0,a - 1 ) + "-1" ;
+				auto ext = newFileName.mid( a ) ;
+
+				newFileName = fn + ext ;
+			}
+		}
+
+		m_fileName = newFileName.mid( m_downloadFolder.size() ) ;
+
+		utils::qthread::run( [ originalFileName,newFileName ](){
+
+			QThread::currentThread()->msleep( 500 ) ;
+
+			for( int i = 0 ; i < 4 ; i++ ){
+
+				if( QFile::rename( originalFileName,newFileName ) ){
+
+					break ;
+				}else{
+					QThread::currentThread()->msleep( 500 ) ;
+				}
+			}
+		} ) ;
+	}
+
+	m_tmp = m_fileName ;
+
+	return m_tmp ;
 }
