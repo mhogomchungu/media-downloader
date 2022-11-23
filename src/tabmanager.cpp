@@ -76,8 +76,6 @@ tabManager::tabManager( settings& s,
 
 	if( engines.size() > 0 ){
 
-		s.setTabNumber( 0 ) ;
-
 		ui.tabWidget->setCurrentIndex( 0 ) ;
 
 		m_ctx.logger().updateView( true ) ;
