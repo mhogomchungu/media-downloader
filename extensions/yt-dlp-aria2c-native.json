@@ -55,6 +55,8 @@
         "{\"title\":%(title)j,\"comments\":%(comments)j}"
     ],
     "DefaultDownLoadCmdOptions": [
+        "--concurrent-fragments",
+        "3",
         "--downloader",
         "aria2c",
         "--downloader",
