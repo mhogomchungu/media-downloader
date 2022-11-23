@@ -423,20 +423,33 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 				m_tmp = it.mid( m + 25 ) ;
 
-				auto title = luksHeader.title ;
-
-				if( m_tmp.contains( "%(title)s" ) && !title.isEmpty() ) {
+				if( m_tmp.contains( "%(title)s" ) && !luksHeader.title.isEmpty() ) {
 
 					auto originalFileName = m_downloadFolder + m_tmp ;
 					auto newFileName = originalFileName ;
 
-					newFileName.replace( "%(title)s",title ) ;
+					newFileName.replace( "%(title)s",luksHeader.title ) ;
+
+					if( QFile::exists( newFileName ) ){
+
+						auto a = newFileName.lastIndexOf( '.' ) ;
+
+						if( a != -1 ){
+
+							auto fn = newFileName.mid( 0,a - 1 ) + "-1" ;
+							auto ext = newFileName.mid( a ) ;
+
+							newFileName = fn + ext ;
+						}
+					}
 
 					m_tmp = newFileName.mid( m_downloadFolder.size() ) ;
 
 					utils::qthread::run( [ originalFileName,newFileName ](){
 
-						for( int i = 0 ; i < 5 ; i++ ){
+						QThread::currentThread()->msleep( 500 ) ;
+
+						for( int i = 0 ; i < 4 ; i++ ){
 
 							if( QFile::rename( originalFileName,newFileName ) ){
 
