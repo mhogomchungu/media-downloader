@@ -434,6 +434,31 @@ lux::lux_dlFilter::~lux_dlFilter()
 {
 }
 
+static void _replaceChars( QByteArray& )
+{
+}
+template< typename ... T >
+static void _replaceChars( QByteArray& e,const char * a,const char * b,T&& ... t )
+{
+	e.replace( a,b ) ;
+	_replaceChars( e,std::forward< T >( t ) ... ) ;
+}
+
+static QByteArray _title( QByteArray title )
+{
+	// Got these substitions from lux source code
+	// https://github.com/iawia002/lux/blob/c97baa8c5325c48618a6e0b243f3e614e7980f43/utils/utils.go#L89
+
+	_replaceChars( title,"\n"," ","/"," ","|","-",": ","：",":","：","'","’" ) ;
+
+	if( utility::platformIsWindows() ){
+
+		_replaceChars( title,"\""," ","?"," ","*"," ","\\"," ","<"," ",">"," " ) ;
+	}
+
+	return title ;
+}
+
 const QByteArray& lux::lux_dlFilter::renameTitle( const QByteArray& title )
 {
 	if( m_fileName.isEmpty() ){
@@ -453,37 +478,12 @@ const QByteArray& lux::lux_dlFilter::renameTitle( const QByteArray& title )
 
 					if( i + 1 < m.size() ){
 
-						auto s = m[ i + 1 ] ;
-
-						return s.toUtf8() ;
+						return m[ i + 1 ].toUtf8() ;
 					}
 				}
 			}
 
-			auto s = title ;
-
-			// Got these substitions from lux source code
-			// lux/utils/utils.go:FileName
-
-			s.replace( "\n"," " ) ;
-			s.replace( "","" ) ;
-			s.replace( "/"," " ) ;
-			s.replace( "|","-" ) ;
-			s.replace( ": ","：" ) ;
-			s.replace( ":","：" ) ;
-			s.replace( "'","’" ) ;
-
-			if( utility::platformIsWindows() ){
-
-				s.replace( "\""," " ) ;
-				s.replace( "?"," " ) ;
-				s.replace( "*"," " ) ;
-				s.replace( "\\"," " ) ;
-				s.replace( "<"," " ) ;
-				s.replace( ">"," " ) ;
-			}
-
-			return s ;
+			return _title( title ) ;
 		}() ;
 
 		if( QFile::exists( m_downloadFolder + fileName + ".webm" ) ){
@@ -503,7 +503,7 @@ const QByteArray& lux::lux_dlFilter::renameTitle( const QByteArray& title )
 		auto originalFileName = m_downloadFolder + m_fileName ;
 		auto newFileName = originalFileName ;
 
-		newFileName.replace( "%(title)s",title ) ;
+		newFileName.replace( "%(title)s",_title( title ) ) ;
 
 		if( QFile::exists( newFileName ) ){
 
