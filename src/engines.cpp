@@ -1576,7 +1576,12 @@ int engines::engine::functions::timer::toSeconds( const QString& e )
 
 qint64 engines::engine::functions::timer::elapsedTime()
 {
-	return QDateTime().currentMSecsSinceEpoch() - m_startTime ;
+	return engines::engine::functions::timer::currentTime() - m_startTime ;
+}
+
+qint64 engines::engine::functions::timer::currentTime()
+{
+	return QDateTime().currentMSecsSinceEpoch() ;
 }
 
 QString engines::engine::functions::timer::stringElapsedTime()
@@ -1586,7 +1591,7 @@ QString engines::engine::functions::timer::stringElapsedTime()
 
 void engines::engine::functions::timer::reset()
 {
-	m_startTime = 0 ;
+	m_startTime = engines::engine::functions::timer::currentTime() ;
 }
 
 engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePaths& enginePath ) :

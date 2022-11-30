@@ -284,11 +284,12 @@ public:
 				static QString stringElapsedTime( qint64 ) ;
 				static QString duration( qint64 ) ;
 				static int toSeconds( const QString& ) ;
+				static qint64 currentTime() ;
 				qint64 elapsedTime() ;
 				QString stringElapsedTime() ;
 				void reset() ;
 			private:
-				qint64 m_startTime = QDateTime().currentMSecsSinceEpoch() ;
+				qint64 m_startTime = engines::engine::functions::timer::currentTime() ;
 			};
 
 			class preProcessing
