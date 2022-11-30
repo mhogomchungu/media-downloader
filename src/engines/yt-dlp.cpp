@@ -765,6 +765,22 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
 
+	bool yt_dl = m_engine.name() == "youtube-dl" ;
+
+	auto _replace = [ &yt_dl ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
+
+		if( yt_dl ){
+
+			txt.replace( original,New ) ;
+		}else{
+			if( txt.contains( original ) ){
+
+				s.append( "--parse-metadata" ) ;
+				s.append( New + ":" + original ) ;
+			}
+		}
+	} ;
+
 	for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
 
 		if( s.ourOptions[ m ] == "-o" ){
@@ -774,17 +790,18 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 				auto& e = s.ourOptions[ m + 1 ] ;
 
 				auto w = s.uiIndex.toString( true,s.ourOptions ) ;
+				auto ww = s.uiIndex.toString( false,s.ourOptions ) ;
 
-				e.replace( "%(autonumber)s",s.uiIndex.toString( false,s.ourOptions ) ) ;
-				e.replace( "%(playlist_index)s",w ) ;
-				e.replace( "%(playlist_autonumber)s",w ) ;
-				e.replace( "%(playlist_id)s",s.playlist_id ) ;
-				e.replace( "%(playlist_title)s",s.playlist_title ) ;
-				e.replace( "%(playlist)s",s.playlist ) ;
-				e.replace( "%(playlist_count)s",s.playlist_count ) ;
-				e.replace( "%(playlist_uploader)s",s.playlist_uploader ) ;
-				e.replace( "%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
-				e.replace( "%(n_entries)s",s.n_entries ) ;
+				_replace( s.ourOptions,e,"%(autonumber)s",ww ) ;
+				_replace( s.ourOptions,e,"%(playlist_index)s",w ) ;
+				_replace( s.ourOptions,e,"%(playlist_autonumber)s",w ) ;
+				_replace( s.ourOptions,e,"%(playlist_id)s",s.playlist_id ) ;
+				_replace( s.ourOptions,e,"%(playlist_title)s",s.playlist_title ) ;
+				_replace( s.ourOptions,e,"%(playlist)s",s.playlist ) ;
+				_replace( s.ourOptions,e,"%(playlist_count)s",s.playlist_count ) ;
+				_replace( s.ourOptions,e,"%(playlist_uploader)s",s.playlist_uploader ) ;
+				_replace( s.ourOptions,e,"%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
+				_replace( s.ourOptions,e,"%(n_entries)s",s.n_entries ) ;
 
 				m++ ;
 			}
