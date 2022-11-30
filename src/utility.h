@@ -788,7 +788,7 @@ namespace utility
 	class ProcessExitState
 	{
 	public:
-		ProcessExitState( bool c,int s,int d,QProcess::ExitStatus e ) :
+		ProcessExitState( bool c,int s,qint64 d,QProcess::ExitStatus e ) :
 			m_cancelled( c ),
 			m_exitCode( s ),
 			m_duration( d ),
@@ -811,14 +811,14 @@ namespace utility
 		{
 			return m_exitCode == 0 && m_exitStatus == QProcess::ExitStatus::NormalExit ;
 		}
-		int duration() const
+		qint64 duration() const
 		{
 			return m_duration ;
 		}
 	private:
 		bool m_cancelled = false ;
 		int m_exitCode ;
-		int m_duration ;
+		qint64 m_duration ;
 		QProcess::ExitStatus m_exitStatus ;
 	};
 

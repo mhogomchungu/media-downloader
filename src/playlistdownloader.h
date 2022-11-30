@@ -148,6 +148,7 @@ private:
 		void clear()
 		{
 			m_progress.clear() ;
+			m_timer.reset() ;
 		}
 		void setBanner( const QString& s )
 		{

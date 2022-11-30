@@ -263,14 +263,14 @@ public:
 				{
 				        return m_cancelled ;
 				}
-				int duration() const
+				qint64 duration() const
 				{
 				        return m_duration ;
 				}
 			private:
 				bool m_success ;
 				bool m_cancelled ;
-				int m_duration ;
+				qint64 m_duration ;
 			};
 
 			static QString processCompleteStateText( const engine::engine::functions::finishedState& ) ;
@@ -281,11 +281,12 @@ public:
 				static bool timerText( const QString& e ) ;
 				static QString timerText() ;
 				static QString startTimerText() ;
-				static QString stringElapsedTime( int ) ;
-				static QString duration( int ) ;
+				static QString stringElapsedTime( qint64 ) ;
+				static QString duration( qint64 ) ;
 				static int toSeconds( const QString& ) ;
-				int elapsedTime() ;
+				qint64 elapsedTime() ;
 				QString stringElapsedTime() ;
+				void reset() ;
 			private:
 				qint64 m_startTime = QDateTime().currentMSecsSinceEpoch() ;
 			};

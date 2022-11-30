@@ -1511,32 +1511,32 @@ QString engines::engine::functions::timer::timerText()
 
 QString engines::engine::functions::timer::startTimerText()
 {
-	return QObject::tr( "Elapsed Time:" ) + " 00:00:00" ;
+	return engines::engine::functions::timer::timerText() + "00:00:00" ;
 }
 
-QString engines::engine::functions::timer::stringElapsedTime( int milliseconds )
+QString engines::engine::functions::timer::stringElapsedTime( qint64 milliseconds )
 {
 	if( milliseconds <= 0 ){
 
-		return QObject::tr( "Elapsed Time:" ) + " " + QString( "00:00:00" ) ;
+		return engines::engine::functions::timer::startTimerText() ;
 	}
 
 	auto m = engines::engine::functions::timer::duration( milliseconds ) ;
 
-	return QObject::tr( "Elapsed Time:" ) + " " + m ;
+	return engines::engine::functions::timer::timerText() + m ;
 }
 
-QString engines::engine::functions::timer::duration( int milliseconds )
+QString engines::engine::functions::timer::duration( qint64 milliseconds )
 {
-	int seconds      = milliseconds / 1000;
-	milliseconds     = milliseconds % 1000;
-	int minutes      = seconds / 60 ;
-	seconds          = seconds % 60 ;
-	int hours        = minutes / 60 ;
-	minutes          = minutes % 60 ;
+	auto seconds = milliseconds / 1000;
+	milliseconds = milliseconds % 1000;
+	auto minutes = seconds / 60 ;
+	seconds      = seconds % 60 ;
+	auto hours   = minutes / 60 ;
+	minutes      = minutes % 60 ;
 
 	QTime time ;
-	time.setHMS( hours,minutes,seconds,milliseconds ) ;
+	time.setHMS( int( hours ),int( minutes ),int( seconds ),int( milliseconds ) ) ;
 
 	return time.toString( "hh:mm:ss" ) ;
 }
@@ -1574,14 +1574,19 @@ int engines::engine::functions::timer::toSeconds( const QString& e )
 	}
 }
 
-int engines::engine::functions::timer::elapsedTime()
+qint64 engines::engine::functions::timer::elapsedTime()
 {
-	return static_cast< int >( QDateTime().currentMSecsSinceEpoch() - m_startTime ) ;
+	return QDateTime().currentMSecsSinceEpoch() - m_startTime ;
 }
 
 QString engines::engine::functions::timer::stringElapsedTime()
 {
 	return engines::engine::functions::timer::stringElapsedTime( this->elapsedTime() ) ;
+}
+
+void engines::engine::functions::timer::reset()
+{
+	m_startTime = 0 ;
 }
 
 engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePaths& enginePath ) :
