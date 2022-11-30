@@ -44,6 +44,9 @@ public:
 		{
 			return false ;
 		}
+		virtual void failed()
+		{
+		}
 		virtual ~idone() ;
 	} ;
 
@@ -65,6 +68,10 @@ public:
 		bool booting() const
 		{
 			return m_handle->booting() ;
+		}
+		void failed() const
+		{
+			m_handle->failed() ;
 		}
 	private:
 		std::unique_ptr< idone > m_handle ;
@@ -141,6 +148,15 @@ public:
 				m_networkIter.reportDone() ;
 			}else{
 				m_rd() ;
+			}
+		}
+		void failed() const
+		{
+			if( m_fromNetwork ){
+
+				m_networkIter.failed() ;
+			}else{
+				m_rd.failed() ;
 			}
 		}
 		bool show() const

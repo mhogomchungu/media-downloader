@@ -158,11 +158,11 @@ private:
 		{
 			return m_txt ;
 		}
-		void updateCounter( int counter ) ;
 	private:
 		tableWidget& m_table ;
 		QString m_txt ;
 		QString m_progress ;
+		engines::engine::functions::timer m_timer ;
 	} ;
 
 	banner m_banner ;

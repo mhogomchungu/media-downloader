@@ -104,6 +104,8 @@ void networkAccess::download( const QByteArray& data,
 
 		m_tabManager.enableAll() ;
 
+		opts.iter.failed() ;
+
 		if( opts.iter.hasNext() ){
 
 			m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo ) ;
@@ -178,6 +180,8 @@ void networkAccess::download( networkAccess::iterator iter,
 
 		if( !dir.mkpath( path ) ){
 
+			iter.failed() ;
+
 			this->post( engine,QObject::tr( "Failed to download, Following path can not be created: " ) + path,id ) ;
 
 			return ;
@@ -214,6 +218,8 @@ void networkAccess::download( networkAccess::iterator iter,
 
 				m_tabManager.enableAll() ;
 
+				opts.iter.failed() ;
+
 				if( opts.iter.hasNext() ){
 
 					m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo ) ;
@@ -246,6 +252,8 @@ void networkAccess::download( networkAccess::Opts opts ) const
 		if( p.finished() ){
 
 			if( !p.success() ){
+
+				opts.iter.failed() ;
 
 				if( p.timeOut() ){
 

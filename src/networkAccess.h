@@ -41,6 +41,7 @@ public:
 		virtual bool hasNext() = 0 ;
 		virtual void moveToNext() = 0 ;
 		virtual void reportDone() = 0 ;
+		virtual void failed() = 0 ;
 		virtual const engines::Iterator& itr() = 0 ;
 	} ;
 
@@ -78,6 +79,10 @@ public:
 		void reportDone() const
 		{
 			m_handle->reportDone() ;
+		}
+		void failed() const
+		{
+			m_handle->failed() ;
 		}
 		const engines::Iterator& itr() const
 		{
@@ -123,6 +128,9 @@ public:
 				m_iter = m_iter.next() ;
 			}
 			void reportDone() override
+			{
+			}
+			void failed() override
 			{
 			}
 			const engines::Iterator& itr() override

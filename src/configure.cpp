@@ -376,11 +376,19 @@ configure::configure( const Context& ctx ) :
 				}
 				void operator()() override
 				{
-					utility::setDefaultEngine( m_ctx,m_defaultEngine ) ;
+					if( m_success ){
+
+						utility::setDefaultEngine( m_ctx,m_defaultEngine ) ;
+					}
+				}
+				void failed() override
+				{
+					m_success = false ;
 				}
 			private:
 				const Context& m_ctx ;
 				QString m_defaultEngine ;
+				bool m_success = true ;
 			} ;
 
 			auto& m = m_ctx.getVersionInfo() ;

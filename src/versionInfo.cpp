@@ -246,6 +246,10 @@ networkAccess::iterator versionInfo::wrap( printVinfo m ) const
 		{
 			m_vInfo.reportDone() ;
 		}
+		void failed() override
+		{
+			m_vInfo.failed() ;
+		}
 		const engines::Iterator& itr() override
 		{
 			return m_vInfo.iter() ;

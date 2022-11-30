@@ -1393,20 +1393,7 @@ void playlistdownloader::subscription::save()
 
 void playlistdownloader::banner::updateProgress( const QString& progress )
 {
-	m_progress = progress ;
+	auto duration = m_timer.stringElapsedTime() ;
+	m_progress = duration + ", " + progress ;
 	m_table.setUiText( m_txt + "\n" + m_progress,0 ) ;
-}
-
-void playlistdownloader::banner::updateCounter( int counter )
-{
-	using tt = engines::engine::functions ;
-
-	auto duration = tt::timer::stringElapsedTime( counter * 1000 ) ;
-
-	if( m_progress.isEmpty() ){
-
-		m_table.setUiText( duration + "\n" + m_txt,0 ) ;
-	}else{
-		m_table.setUiText( duration + "\n" + m_txt + "\n" + m_progress,0 ) ;
-	}
 }
