@@ -423,6 +423,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbPLDownload,&QPushButton::clicked,[ this ](){
 
+		m_banner.clear() ;
 		this->download() ;
 	} ) ;
 
@@ -808,10 +809,14 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 		auto aa = [ this ]( const engines::engine& engine,int index ){
 
+			m_banner.updateTimer() ;
+
 			this->download( engine,index ) ;
 		} ;
 
 		auto bb = [ &engine,index,this ]( const downloadManager::finishedStatus& f ){
+
+			m_banner.updateTimer() ;
 
 			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
 
@@ -833,6 +838,8 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 	m_settings.addOptionsHistory( m,settings::tabName::playlist ) ;
 
 	auto updater = [ this,index ]( const QByteArray& e ){
+
+		m_banner.updateTimer() ;
 
 		m_table.setUiText( e,index ) ;
 	} ;
@@ -1393,7 +1400,15 @@ void playlistdownloader::subscription::save()
 
 void playlistdownloader::banner::updateProgress( const QString& progress )
 {
-	auto duration = m_timer.stringElapsedTime() ;
+	m_time = m_timer.elapsedTime() ;
+	auto duration = engines::engine::functions::timer::stringElapsedTime( m_time ) ;
 	m_progress = duration + ", " + progress ;
 	m_table.setUiText( m_txt + "\n" + m_progress,0 ) ;
+}
+
+void playlistdownloader::banner::updateTimer()
+{
+	auto m = m_timer.elapsedTime() ;
+	auto duration = engines::engine::functions::timer::stringElapsedTime( m_time + m ) ;
+	m_table.setUiText( m_txt + "\n" + duration,0 ) ;
 }

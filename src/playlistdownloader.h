@@ -155,6 +155,7 @@ private:
 			m_txt = s ;
 		}
 		void updateProgress( const QString& progress ) ;
+		void updateTimer() ;
 		const QString& txt() const
 		{
 			return m_txt ;
@@ -163,6 +164,7 @@ private:
 		tableWidget& m_table ;
 		QString m_txt ;
 		QString m_progress ;
+		qint64 m_time ;
 		engines::engine::functions::timer m_timer ;
 	} ;
 
