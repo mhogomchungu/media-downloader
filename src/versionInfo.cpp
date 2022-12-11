@@ -24,7 +24,7 @@
 
 versionInfo::versionInfo( Ui::MainWindow&,const Context& ctx ) :
 	m_ctx( ctx ),
-	m_checkForEnginesUpdates( m_ctx.Settings().checkForEnginesUpdates() )
+	m_checkForUpdates( m_ctx.Settings().checkForUpdates() )
 {
 }
 
@@ -68,11 +68,6 @@ void versionInfo::done( printVinfo vinfo ) const
 		this->check( vinfo.next() ) ;
 	}else{
 		vinfo.reportDone() ;
-
-		if( vinfo.booting() && m_ctx.Settings().checkForUpdates() ){
-
-			this->checkForUpdates() ;
-		}
 	}
 }
 
@@ -113,6 +108,8 @@ void versionInfo::checkForEnginesUpdates( versionInfo::extensionVersionInfo vInf
 			engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
 			auto mm = QProcess::ProcessChannelMode::MergedChannels ;
+
+			utility::setPermissions( cmd.exe() ) ;
 
 			utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ lv = std::move( lv ),this,vInfo = vInfo.move() ]( const utils::qprocess::outPut& r ){
 
@@ -214,10 +211,7 @@ void versionInfo::checkForUpdates() const
 
 			vInfo.append( "Media Downloader",iv,lv ) ;
 
-			if( !m_ctx.Settings().checkForEnginesUpdates() ){
-
-				this->checkForEnginesUpdates( std::move( vInfo ) ) ;
-			}
+			this->checkForEnginesUpdates( std::move( vInfo ) ) ;
 		}
 	} ) ;
 }
@@ -316,7 +310,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 			const auto& url = engine.downloadUrl() ;
 
-			if( !url.isEmpty() && m_checkForEnginesUpdates ){
+			if( !url.isEmpty() && m_checkForUpdates ){
 
 				m_ctx.network().get( url,[ id,this,vInfo = vInfo.move() ]( const QByteArray& m ){
 

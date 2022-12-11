@@ -89,10 +89,15 @@ tabManager::tabManager( settings& s,
 			void operator()() override
 			{
 				m_parent.init_done() ;
-			}
-			bool booting() override
-			{
-				return true ;
+
+				const auto& ctx = m_parent.m_ctx ;
+
+				auto& settings = ctx.Settings() ;
+
+				if( settings.checkForUpdates() && !settings.showVersionInfoWhenStarting() ){
+
+					ctx.getVersionInfo().checkForUpdates() ;
+				}
 			}
 		private:
 			tabManager& m_parent ;

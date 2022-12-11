@@ -40,10 +40,6 @@ public:
 		virtual void operator()()
 		{
 		}
-		virtual bool booting()
-		{
-			return false ;
-		}
 		virtual void failed()
 		{
 		}
@@ -64,10 +60,6 @@ public:
 		void operator()() const
 		{
 			( *m_handle )() ;
-		}
-		bool booting() const
-		{
-			return m_handle->booting() ;
 		}
 		void failed() const
 		{
@@ -167,10 +159,6 @@ public:
 		{
 			return m_showVinfo ;
 		}
-		bool booting() const
-		{
-			return m_rd.booting() ;
-		}
 		bool setAfterDownloading( bool e )
 		{
 			auto m = m_showVinfo.setAfterDownloading ;
@@ -269,7 +257,7 @@ private:
 
 	void printEngineVersionInfo( versionInfo::printVinfo ) const ;
 	const Context& m_ctx ;
-	bool m_checkForEnginesUpdates ;
+	bool m_checkForUpdates ;
 };
 
 #endif

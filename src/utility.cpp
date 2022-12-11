@@ -1247,7 +1247,10 @@ QString utility::uiIndex::toString( int index ) const
 
 void utility::setPermissions( QFile& qfile )
 {
-	qfile.setPermissions( qfile.permissions() | QFileDevice::ExeOwner ) ;
+	if( !QFileInfo( qfile ).isExecutable() ){
+
+		qfile.setPermissions( qfile.permissions() | QFileDevice::ExeOwner ) ;
+	}
 }
 
 void utility::setPermissions( const QString& e )
