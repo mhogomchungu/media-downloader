@@ -53,12 +53,15 @@ A portable version is a self contained version that keeps everything in the appl
 
 Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/2.7.0/MediaDownloader-2.7.0.zip).
 
-### Binary packages for Linux distributions
-
-Binary downloads for a few Linux distributions are [here](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader).
-
 #### Aur package for Arch Linux
 Arch linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
+
+#### Aur package for Fedora
+Media Downloader is in official Fedora repositories and can be installed by running ```sudo dnf -y install media-downloader```
+
+### Binary packages for other Linux distributions
+
+Binary downloads for a few Linux distributions are [here](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader).
 
 #### Binary package for Ubuntu
 To install a binary package in Ubuntu, download a binary package directly and then click it and Ubuntu should offer to install it.
