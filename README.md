@@ -56,7 +56,7 @@ Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu
 #### Aur package for Arch Linux
 Arch linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
 
-#### Aur package for Fedora
+#### Package for Fedora
 Media Downloader is in official Fedora repositories and can be installed by running ```sudo dnf -y install media-downloader```
 
 ### Binary packages for other Linux distributions
