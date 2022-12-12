@@ -40,9 +40,7 @@ public:
 		    QWidget& w,
 		    MainWindow& mw,
 		    QString debug ) ;
-	void init_done() ;
 	void setDefaultEngines() ;
-	int currentTab() ;
 	tabManager& gotEvent( const QByteArray& e ) ;
 	tabManager& enableAll() ;
 	tabManager& disableAll() ;
@@ -65,19 +63,15 @@ public:
 	{
 		return m_configure ;
 	}
-	networkAccess& network()
-	{
-		return m_network ;
-	}
 	bool uiEnabled()
 	{
 		return m_uiEnabled ;
 	}
 private:
+	void init_done() ;
 	int m_currentTab ;
 	bool m_uiEnabled = true ;
 	Context m_ctx ;
-	networkAccess m_network ;
 	about m_about ;
 	configure m_configure ;
 	basicdownloader m_basicdownloader ;

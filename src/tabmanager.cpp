@@ -31,8 +31,7 @@ tabManager::tabManager( settings& s,
 			MainWindow& mw,
 			QString debug ) :
 	m_currentTab( s.tabNumber() ),
-	m_ctx( s,t,ui,w,mw,l,e,*this,debug ),
-	m_network( m_ctx ),
+	m_ctx( s,t,ui,w,mw,l,e,*this,std::move( debug ) ),
 	m_about( m_ctx ),
 	m_configure( m_ctx ),
 	m_basicdownloader( m_ctx ),
@@ -89,15 +88,6 @@ tabManager::tabManager( settings& s,
 			void operator()() override
 			{
 				m_parent.init_done() ;
-
-				const auto& ctx = m_parent.m_ctx ;
-
-				auto& settings = ctx.Settings() ;
-
-				if( settings.checkForUpdates() && !settings.showVersionInfoWhenStarting() ){
-
-					ctx.getVersionInfo().checkForUpdates() ;
-				}
 			}
 		private:
 			tabManager& m_parent ;
@@ -167,6 +157,13 @@ void tabManager::init_done()
 			m_currentTab = index ;
 		}
 	} ) ;
+
+	auto& ss = m_ctx.Settings() ;
+
+	if( ss.checkForUpdates() && !ss.showVersionInfoWhenStarting() ){
+
+		m_ctx.getVersionInfo().checkForUpdates() ;
+	}
 }
 
 void tabManager::setDefaultEngines()
@@ -185,11 +182,6 @@ void tabManager::setDefaultEngines()
 	m_batchdownloader.updateEnginesList( s ) ;
 	m_playlistdownloader.updateEnginesList( s ) ;
 	m_configure.updateEnginesList( s ) ;
-}
-
-int tabManager::currentTab()
-{
-	return m_currentTab ;
 }
 
 tabManager& tabManager::gotEvent( const QByteArray& e )

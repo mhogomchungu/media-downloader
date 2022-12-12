@@ -53,7 +53,7 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStrin
 	m_ui( _init_ui( *this ) ),
 	m_logger( *m_ui->plainTextEditLogger,this,s ),
 	m_engines( m_logger,s,utility::sequentialID() ),
-	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this, _debug( args ) ),
+	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,_debug( args ) ),
 	m_settings( s ),
 	m_showTrayIcon( s.showTrayIcon() ),
 	m_defaultWindowTitle( this->window()->windowTitle() )

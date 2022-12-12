@@ -64,7 +64,7 @@ public:
 		m_logger( l ),
 		m_engines( e ),
 		m_tabManager( tm ),
-		m_debug( debug ),
+		m_debug( std::move( debug ) ),
 		m_networkAccess( *this ),
 		m_versionInfo( m,*this )
 	{
