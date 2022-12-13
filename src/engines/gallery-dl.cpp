@@ -263,7 +263,7 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 	}
 }
 
-void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts & opts )
+void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& opts )
 {
 	opts.ourOptions.append( "-o" ) ;
 	opts.ourOptions.append( "output.mode=terminal" ) ;
