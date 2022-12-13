@@ -23,6 +23,7 @@
 #include "wget.h"
 #include "yt-dlp.h"
 #include "safaribooks.h"
+#include "gallery-dl.h"
 
 #include "../util.hpp"
 #include <iostream>
@@ -73,6 +74,10 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 					}else if( it.startsWith ( "--media-downloader-test-engine-wget" ) ){
 
 						return this->testEngine( wget::testData() ) ;
+
+					}else if( it.startsWith ( "--media-downloader-test-engine-gallery-dl" ) ){
+
+						return this->testEngine( gallery_dl::testData() ) ;
 					}
 				}
 
