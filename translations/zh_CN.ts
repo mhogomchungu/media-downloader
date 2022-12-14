@@ -488,8 +488,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="478"/>
-        <location filename="../src/utility.h" line="515"/>
-        <location filename="../src/utility.h" line="582"/>
+        <location filename="../src/utility.h" line="517"/>
+        <location filename="../src/utility.h" line="584"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
@@ -639,77 +639,74 @@
         <translation>加载一个插件失败</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="644"/>
-        <location filename="../src/engines.cpp" line="906"/>
+        <location filename="../src/engines.cpp" line="616"/>
+        <location filename="../src/engines.cpp" line="878"/>
         <location filename="../src/utility.cpp" line="651"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="891"/>
+        <location filename="../src/engines.cpp" line="863"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="989"/>
+        <location filename="../src/engines.cpp" line="961"/>
         <source>Download cancelled</source>
         <translation>下载已取消</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1144"/>
+        <location filename="../src/engines.cpp" line="1116"/>
         <source>Format Code</source>
         <translation>格式代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1145"/>
+        <location filename="../src/engines.cpp" line="1117"/>
         <source>Extension</source>
         <translation>扩展</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1146"/>
+        <location filename="../src/engines.cpp" line="1118"/>
         <source>Resolution</source>
         <translation>分辨率</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1147"/>
+        <location filename="../src/engines.cpp" line="1119"/>
         <source>Note</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1386"/>
+        <location filename="../src/engines.cpp" line="1358"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1392"/>
+        <location filename="../src/engines.cpp" line="1364"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1537"/>
-        <location filename="../src/engines.cpp" line="1542"/>
-        <location filename="../src/engines.cpp" line="1549"/>
-        <location filename="../src/engines.cpp" line="1554"/>
+        <location filename="../src/engines.cpp" line="1509"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="61"/>
-        <location filename="../src/versionInfo.cpp" line="114"/>
+        <location filename="../src/versionInfo.cpp" line="266"/>
         <source>Checking installed version of</source>
         <translation>正在检查已安装版本</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="66"/>
-        <location filename="../src/versionInfo.cpp" line="91"/>
-        <location filename="../src/versionInfo.cpp" line="205"/>
+        <location filename="../src/versionInfo.cpp" line="185"/>
+        <location filename="../src/versionInfo.cpp" line="345"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>找不到版本信息，请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="69"/>
-        <location filename="../src/versionInfo.cpp" line="126"/>
-        <location filename="../src/versionInfo.cpp" line="166"/>
+        <location filename="../src/versionInfo.cpp" line="278"/>
+        <location filename="../src/versionInfo.cpp" line="309"/>
         <source>Found version</source>
         <translation>找到的版本</translation>
     </message>
@@ -719,20 +716,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="182"/>
+        <location filename="../src/networkAccess.cpp" line="185"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>下载失败，无法创建以下路径: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="188"/>
+        <location filename="../src/networkAccess.cpp" line="191"/>
         <source>Start Downloading</source>
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="995"/>
-        <location filename="../src/networkAccess.cpp" line="208"/>
-        <location filename="../src/networkAccess.cpp" line="210"/>
-        <location filename="../src/networkAccess.cpp" line="251"/>
+        <location filename="../src/engines.cpp" line="967"/>
+        <location filename="../src/networkAccess.cpp" line="211"/>
+        <location filename="../src/networkAccess.cpp" line="213"/>
+        <location filename="../src/networkAccess.cpp" line="260"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
@@ -742,41 +739,39 @@
         <translation>无法从github解析json文件</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="118"/>
-        <location filename="../src/engines/gallery-dl.cpp" line="122"/>
-        <location filename="../src/networkAccess.cpp" line="237"/>
-        <location filename="../src/networkAccess.cpp" line="268"/>
-        <location filename="../src/networkAccess.cpp" line="379"/>
+        <location filename="../src/networkAccess.cpp" line="244"/>
+        <location filename="../src/networkAccess.cpp" line="277"/>
+        <location filename="../src/networkAccess.cpp" line="389"/>
         <source>Downloading</source>
         <translation>下载中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="239"/>
+        <location filename="../src/networkAccess.cpp" line="246"/>
         <source>Destination</source>
         <translation>目的地</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="290"/>
+        <location filename="../src/networkAccess.cpp" line="301"/>
         <source>Download complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="320"/>
+        <location filename="../src/networkAccess.cpp" line="330"/>
         <source>Extracting archive: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="296"/>
+        <location filename="../src/networkAccess.cpp" line="307"/>
         <source>Renaming file to: </source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1455"/>
+        <location filename="../src/engines.cpp" line="1427"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="993"/>
+        <location filename="../src/engines.cpp" line="965"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -786,24 +781,24 @@
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1500"/>
+        <location filename="../src/engines.cpp" line="1472"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="548"/>
-        <location filename="../src/utility.h" line="556"/>
-        <location filename="../src/utility.h" line="561"/>
+        <location filename="../src/utility.h" line="550"/>
+        <location filename="../src/utility.h" line="558"/>
+        <location filename="../src/utility.h" line="563"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="553"/>
+        <location filename="../src/utility.h" line="555"/>
         <source>Force Download</source>
         <translation>强制下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="571"/>
+        <location filename="../src/utility.h" line="573"/>
         <source>Show Log Window</source>
         <translation>显示日志窗口</translation>
     </message>
@@ -843,7 +838,7 @@
         <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1174"/>
+        <location filename="../src/playlistdownloader.cpp" line="1181"/>
         <source>Media Already In Archive</source>
         <translation>已存档的媒体</translation>
     </message>
@@ -863,29 +858,56 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="126"/>
+        <location filename="../src/engines/lux.cpp" line="130"/>
         <location filename="../src/engines/wget.cpp" line="295"/>
         <source>Time Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="219"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="326"/>
+        <location filename="../src/engines/lux.cpp" line="223"/>
         <location filename="../src/engines/wget.cpp" line="314"/>
         <source>Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="290"/>
+        <location filename="../src/engines/lux.cpp" line="328"/>
         <source>This May Take A Very Long Time</source>
         <translation>这可能需要很长时间</translation>
     </message>
     <message>
+        <location filename="../src/engines/gallery-dl.cpp" line="325"/>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="185"/>
+        <location filename="../src/versionInfo.cpp" line="44"/>
+        <source>Engine Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="45"/>
+        <source>Installed Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="46"/>
+        <source>Latest Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="56"/>
+        <source>There Is An Update For </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="58"/>
+        <source>Update Found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="328"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
@@ -975,81 +997,56 @@
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="139"/>
+        <location filename="../src/configure.cpp" line="140"/>
         <source>Set As Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="176"/>
-        <location filename="../src/configure.cpp" line="259"/>
+        <location filename="../src/configure.cpp" line="177"/>
+        <location filename="../src/configure.cpp" line="260"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="120"/>
-        <location filename="../src/configure.cpp" line="159"/>
-        <location filename="../src/configure.cpp" line="249"/>
+        <location filename="../src/configure.cpp" line="121"/>
+        <location filename="../src/configure.cpp" line="160"/>
+        <location filename="../src/configure.cpp" line="250"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="301"/>
+        <location filename="../src/configure.cpp" line="302"/>
         <source>Select A Cookie File</source>
         <translation>选择Cookie文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="340"/>
+        <location filename="../src/configure.cpp" line="339"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="381"/>
-        <location filename="../src/configure.cpp" line="565"/>
+        <location filename="../src/configure.cpp" line="413"/>
+        <location filename="../src/configure.cpp" line="575"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="454"/>
+        <location filename="../src/configure.cpp" line="486"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="692"/>
-        <source>Engine Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="693"/>
-        <source>Installed Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="694"/>
-        <source>Latest Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="704"/>
-        <source>There Is An Update For </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="706"/>
-        <source>Update Found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="899"/>
+        <location filename="../src/configure.cpp" line="805"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="903"/>
+        <location filename="../src/configure.cpp" line="809"/>
         <source>Best-audio</source>
         <translation>最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="907"/>
+        <location filename="../src/configure.cpp" line="813"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>
@@ -1105,7 +1102,7 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="128"/>
-        <location filename="../src/playlistdownloader.cpp" line="1324"/>
+        <location filename="../src/playlistdownloader.cpp" line="1331"/>
         <source>Get List Options:</source>
         <translation>获取列表选项:</translation>
     </message>
@@ -1120,32 +1117,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="457"/>
+        <location filename="../src/playlistdownloader.cpp" line="458"/>
         <source>Show All Updated</source>
         <translation>显示所有更新</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="463"/>
+        <location filename="../src/playlistdownloader.cpp" line="464"/>
         <source>Download All Updated</source>
         <translation>下载所有更新</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="471"/>
+        <location filename="../src/playlistdownloader.cpp" line="472"/>
         <source>Manage Subscriptions</source>
         <translation>管理订阅</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1038"/>
+        <location filename="../src/playlistdownloader.cpp" line="1045"/>
         <source>Number of Pages Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1045"/>
+        <location filename="../src/playlistdownloader.cpp" line="1052"/>
         <source>Downloading video info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="571"/>
+        <location filename="../src/playlistdownloader.cpp" line="572"/>
         <source>This May Take A Very Long Time</source>
         <translation>这可能需要很长时间</translation>
     </message>

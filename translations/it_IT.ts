@@ -660,6 +660,26 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Engine Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installed Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There Is An Update For </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update Found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -765,26 +785,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Engine Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Installed Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There Is An Update For </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Update Found</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
