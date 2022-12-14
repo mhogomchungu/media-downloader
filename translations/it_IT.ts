@@ -658,27 +658,27 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Newest Version Is %1, Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione disponibile %1, in aggiornamento</translation>
     </message>
     <message>
         <source>Engine Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome engine</translation>
     </message>
     <message>
         <source>Installed Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione installata</translation>
     </message>
     <message>
         <source>Latest Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione aggiornata</translation>
     </message>
     <message>
         <source>There Is An Update For </source>
-        <translation type="unfinished"></translation>
+        <translation>C&apos;è un aggiornamento per </translation>
     </message>
     <message>
         <source>Update Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponibile aggiornamento</translation>
     </message>
 </context>
 <context>
