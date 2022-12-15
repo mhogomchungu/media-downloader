@@ -866,7 +866,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="326"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="288"/>
         <location filename="../src/engines/lux.cpp" line="223"/>
         <location filename="../src/engines/wget.cpp" line="314"/>
         <source>Downloaded</source>
@@ -878,7 +878,7 @@
         <translation type="unfinished">To może potrwać bardzo długo</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="325"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="287"/>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>

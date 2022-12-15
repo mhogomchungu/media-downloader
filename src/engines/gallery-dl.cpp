@@ -283,7 +283,9 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 }
 
 gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings&,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( e,engine,id )
+	engines::engine::functions::filter( e,engine,id ),
+	m_speed( QObject::tr( "Speed:" ) ),
+	m_downloaded( QObject::tr( "Downloaded" ) )
 {
 }
 
@@ -322,14 +324,11 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& 
 
 			if( m.size() > 2 ){
 
-				auto a = QObject::tr( "Speed:" ) + " " ;
-				auto b = QObject::tr( "Downloaded" ) + ": " ;
-
 				const auto& p = m[ 0 ] ;
 				const auto& sp = m[ 1 ] ;
 				const auto& ss = m[ 2 ] ;
 
-				auto e = QString( "\n%1%2, %3%4 (%5)" ).arg( a,ss,b,sp,p ) ;
+				auto e = QString( "\n%1 %2, %3: %4 (%5)" ).arg( m_speed,ss,m_downloaded,sp,p ) ;
 
 				m_tmp += e.toUtf8() ;
 			}else{

@@ -40,6 +40,8 @@ public:
 
 		~gallery_dlFilter() override ;
 	private:
+		QString m_speed ;
+		QString m_downloaded ;
 		QByteArray m_tmp ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 	} ;
