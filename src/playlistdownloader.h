@@ -215,7 +215,7 @@ private:
 	void getList( playlistdownloader::listIterator,const engines::engine& ) ;
 	void getList( customOptions&&,const engines::engine&,listIterator ) ;
 
-	QByteArray m_jsonEndMarker = "--deadbeef--" ;
+	QByteArray m_jsonEndMarker = "0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef" ;
 	subscription m_subscription ;
 };
 
