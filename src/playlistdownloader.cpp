@@ -912,7 +912,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 {
 	m_dataReceived = false ;
 	m_stoppedOnExisting = false ;
-	m_meaw = false ;
+	m_stillProcessingJsonOutput = false ;
 
 	auto url = iter.url() ;
 
@@ -923,6 +923,11 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 	m_ui.pbPLCancel->setEnabled( true ) ;
 
 	auto opts = engine.dumpJsonArguments() ;
+
+	if( !opts.isEmpty() ){
+
+		opts.last() += m_jsonEndMarker ;
+	}
 
 	auto configListOpts = iter.listOptions() ;
 	auto listOptions    = m_ui.lineEditPLDownloadRange->text() ;
@@ -975,7 +980,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 		},[ &engine,this,iter = std::move( iter ) ]( utility::ProcessExitState st,const playlistdownloader::opts& ){
 
-			if( m_meaw ){
+			if( m_stillProcessingJsonOutput ){
 
 				if( iter.hasNext() ){
 
@@ -1114,52 +1119,23 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 {
 	auto mmm = data.toLine() ;
 
-	auto oo = mmm.indexOf( '{' ) ;
+	auto end = mmm.indexOf( m_jsonEndMarker ) ;
 
-	if( oo == -1 ){
+	if( end == -1 ){
 
 		return Loop::Break ;
 	}
 
-	int counter = 0 ;
-	int index = 0 ;
+	m_stillProcessingJsonOutput = true ;
 
-	while( true ){
-
-		if( index >= mmm.size() ){
-
-			return Loop::Break ;
-		}
-
-		auto a = mmm[ index ] ;
-
-		if( a == '{' ){
-
-			counter++ ;
-
-		}else if( a == '}' ){
-
-			counter-- ;
-
-			if( counter == 0 ){
-
-				break ;
-			}
-		}
-
-		index++ ;
-	}
-
-	m_meaw = true ;
-
-	utility::MediaEntry media( mmm.mid( oo,index + 1 ) ) ;
+	utility::MediaEntry media( mmm.mid( 0,end ) ) ;
 
 	if( !media.valid() ){
 
 		return Loop::Break ;
 	}else{
 		data.clear() ;
-		data.add( mmm.mid( index + 1 ),utility::concurrentID() ) ;
+		data.add( mmm.mid( end + m_jsonEndMarker.size() ),utility::concurrentID() ) ;
 	}	
 
 	if( copts.contains( media.id() ) ){
@@ -1208,7 +1184,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 	if( networkAccess::hasNetworkSupport() ){
 
-		m_meaw = false ;
+		m_stillProcessingJsonOutput = false ;
 
 		auto& network = m_ctx.network() ;
 

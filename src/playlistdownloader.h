@@ -68,7 +68,7 @@ private:
 	bool m_showThumbnails ;
 	bool m_autoDownload ;
 	bool m_stoppedOnExisting ;
-	bool m_meaw ;
+	bool m_stillProcessingJsonOutput ;
 	bool m_dataReceived ;
 
 	int m_networkRunning = 0 ;
@@ -215,6 +215,7 @@ private:
 	void getList( playlistdownloader::listIterator,const engines::engine& ) ;
 	void getList( customOptions&&,const engines::engine&,listIterator ) ;
 
+	QByteArray m_jsonEndMarker = "--deadbeef--" ;
 	subscription m_subscription ;
 };
 

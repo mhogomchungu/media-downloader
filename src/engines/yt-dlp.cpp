@@ -328,7 +328,7 @@ yt_dlp::yt_dlp( const engines& engines,
 		obj.insert( "EncodingArgument","--encoding" ) ;
 	}
 
-	if( name.contains( "yt-dlp" ) ){
+	if( name.contains( "yt-dlp" ) || name == "ytdl-patched" ){
 
 		if( !obj.contains( "DumptJsonArguments" ) ){
 
@@ -401,6 +401,8 @@ yt_dlp::yt_dlp( const engines& engines,
 			}() ) ;
 		}
 	}else{
+		obj.insert( "CanDownloadPlaylist",false ) ;
+
 		if( !obj.contains( "DumptJsonArguments" ) ){
 
 			obj.insert( "DumptJsonArguments",[](){
