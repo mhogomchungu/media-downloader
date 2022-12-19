@@ -903,7 +903,7 @@ void playlistdownloader::getListing( playlistdownloader::listIterator e,const en
 
 	engine.updateVersionInfo( [ this,&engine,e = std::move( e ) ](){
 
-		this->getList( e.take(),engine ) ;
+		this->getList( e.move(),engine ) ;
 	} ) ;
 }
 
@@ -957,9 +957,9 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 				      engine,
 				      m_ctx ) ;
 
-	},[ this,&engine,iter = std::move( iter ) ]( customOptions&& c )mutable{
+	},[ this,&engine,iter = std::move( iter ) ]( customOptions&& c ){
 
-		this->getList( std::move( c ),engine,std::move( iter ) ) ;
+		this->getList( std::move( c ),engine,iter.move() ) ;
 	} ) ;
 }
 
