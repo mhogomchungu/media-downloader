@@ -288,17 +288,20 @@ void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts
 
 				e.replace( "%(autonumber)s",r ) ;
 
-				e.replace( "%(id)s",[ &r ](){
+				if( e.contains( "%(id)s" ) ){
 
-					auto m = QDateTime::currentSecsSinceEpoch() ;
-					auto e = QString::number( m ) + r ;
+					e.replace( "%(id)s",[ &r ](){
 
-					QCryptographicHash hash( QCryptographicHash::Sha256 ) ;
+						auto m = QDateTime::currentSecsSinceEpoch() ;
+						auto e = QString::number( m ) + r ;
 
-					hash.addData( e.toUtf8() ) ;
+						QCryptographicHash hash( QCryptographicHash::Sha256 ) ;
 
-					return hash.result().toHex().mid( 0,8 ) ;
-				}() ) ;
+						hash.addData( e.toUtf8() ) ;
+
+						return hash.result().toHex().mid( 0,8 ) ;
+					}() ) ;
+				}
 
 				break ;
 			}

@@ -674,12 +674,14 @@ bool yt_dlp::breakShowListIfContains( const QStringList& e )
 
 bool yt_dlp::supportsShowingComments()
 {
-	return m_engine.name().contains( "yt-dlp" ) ;
+	const auto& name = m_engine.name() ;
+	return name.contains( "yt-dlp" ) || name.contains( "ytdl-patched" ) ;
 }
 
 bool yt_dlp::updateVersionInfo()
 {
-	return m_engine.name().contains( "yt-dlp" ) ;
+	const auto& name = m_engine.name() ;
+	return name.contains( "yt-dlp" ) || name.contains( "ytdl-patched" ) ;
 }
 
 void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
