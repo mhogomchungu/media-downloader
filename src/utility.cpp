@@ -410,22 +410,52 @@ utility::debug& utility::debug::operator<<( const QByteArray& e )
 	return _print( e.data() ) ;
 }
 
+static void _delete_children_recursively( const QString& id )
+{
+	auto path = QString( "/proc/%1/task/" ).arg( id ) ;
+
+	auto filter = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+
+	for( const auto& it : QDir( path ).entryList( filter ) ){
+
+		QFile file( path + it + "/children" ) ;
+
+		if( file.open( QIODevice::ReadOnly ) ){
+
+			auto pids = util::split( file.readAll(),' ',true ) ;
+
+			for( const auto& it : pids ){
+
+				_delete_children_recursively( it ) ;
+
+				QProcess::startDetached( "kill",{ "-s","SIGTERM",it } ) ;
+			}
+		}
+	}
+}
+
 bool utility::Terminator::terminate( QProcess& exe )
 {
 	if( utility::platformIsWindows() ){
 
 		if( exe.state() == QProcess::ProcessState::Running ){
 
-			//QStringList args{ "-T",QString::number( exe.processId() ) } ;
-
-			//QProcess::startDetached( "media-downloader.exe",args ) ;
-
 			QStringList args{ "/F","/T","/PID",QString::number( exe.processId() ) } ;
 
 			QProcess::startDetached( "taskkill",args ) ;
 		}
 	}else{
-		exe.terminate() ;
+		if( utility::platformIsLinux() ){
+
+			utils::qthread::run( [ &exe ](){
+
+				_delete_children_recursively( QString::number( exe.processId() ) ) ;
+
+				exe.terminate() ;
+			} ) ;
+		}else{
+			exe.terminate() ;
+		}
 	}
 
 	return true ;
