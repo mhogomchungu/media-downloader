@@ -162,6 +162,6 @@ Version 1.2.0(April 1st, 2021)
     - Download all missing executables on startup if they are not present for some reason.
     - Also check updates for extensions when "check for updates" option is set. This option previously checked
       for Media Downloader updates only,
-    - Check for extensions update and automatically download them if newer version are found when
-      "Show Version Info When Starting" option is set. Automatic downloading can be disabled with a config option
-      named "CheckForEnginesUpdates".
+    - Check for extensions update and automatically download them if newer version are found when both
+      "Show Version Info When Starting" and "check for updates" options are set.
+    - Cancelling a download now also terminates ffmpeg or aria2c if they were started by the download.

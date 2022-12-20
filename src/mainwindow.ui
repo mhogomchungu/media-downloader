@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1059,7 +1059,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>340</y>
+         <y>310</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -1078,7 +1078,7 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>370</y>
+         <y>350</y>
          <width>461</width>
          <height>31</height>
         </rect>
@@ -1088,7 +1088,7 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>340</y>
+         <y>310</y>
          <width>461</width>
          <height>31</height>
         </rect>
@@ -1100,7 +1100,7 @@
          <x>0</x>
          <y>10</y>
          <width>771</width>
-         <height>321</height>
+         <height>291</height>
         </rect>
        </property>
        <property name="editTriggers">
@@ -1152,7 +1152,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>370</y>
+         <y>350</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -1187,7 +1187,7 @@
        <property name="geometry">
         <rect>
          <x>160</x>
-         <y>400</y>
+         <y>390</y>
          <width>461</width>
          <height>31</height>
         </rect>
@@ -1197,7 +1197,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>400</y>
+         <y>390</y>
          <width>151</width>
          <height>31</height>
         </rect>
@@ -1365,7 +1365,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
