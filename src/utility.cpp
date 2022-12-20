@@ -410,7 +410,7 @@ utility::debug& utility::debug::operator<<( const QByteArray& e )
 	return _print( e.data() ) ;
 }
 
-static void _delete_children_recursively( const QString& id )
+static void _kill_children_recursively( const QString& id )
 {
 	auto path = QString( "/proc/%1/task/" ).arg( id ) ;
 
@@ -426,7 +426,7 @@ static void _delete_children_recursively( const QString& id )
 
 			for( const auto& it : pids ){
 
-				_delete_children_recursively( it ) ;
+				_kill_children_recursively( it ) ;
 
 				QProcess exe ;
 				exe.start( "kill",{ "-s","SIGTERM",it } ) ;
@@ -451,7 +451,7 @@ bool utility::Terminator::terminate( QProcess& exe )
 
 			utils::qthread::run( [ &exe ](){
 
-				_delete_children_recursively( QString::number( exe.processId() ) ) ;
+				_kill_children_recursively( QString::number( exe.processId() ) ) ;
 
 				exe.terminate() ;
 			} ) ;
