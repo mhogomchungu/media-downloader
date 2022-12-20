@@ -428,7 +428,9 @@ static void _delete_children_recursively( const QString& id )
 
 				_delete_children_recursively( it ) ;
 
-				QProcess::startDetached( "kill",{ "-s","SIGTERM",it } ) ;
+				QProcess exe ;
+				exe.start( "kill",{ "-s","SIGTERM",it } ) ;
+				exe.waitForFinished( -1 ) ;
 			}
 		}
 	}
