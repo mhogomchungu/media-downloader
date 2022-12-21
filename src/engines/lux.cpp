@@ -23,6 +23,8 @@
 
 #include <QCryptographicHash>
 
+#include <ctime>
+
 lux::~lux()
 {
 }
@@ -292,7 +294,7 @@ void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts
 
 					e.replace( "%(id)s",[ &r ](){
 
-						auto m = QDateTime::currentSecsSinceEpoch() ;
+						auto m = std::time( nullptr ) ;
 						auto e = QString::number( m ) + r ;
 
 						QCryptographicHash hash( QCryptographicHash::Sha256 ) ;

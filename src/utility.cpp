@@ -446,18 +446,17 @@ bool utility::Terminator::terminate( QProcess& exe )
 
 			QProcess::startDetached( "taskkill",args ) ;
 		}
-	}else{
-		if( utility::platformIsLinux() ){
 
-			utils::qthread::run( [ &exe ](){
+	}else if( utility::platformIsLinux() ){
 
-				_kill_children_recursively( QString::number( exe.processId() ) ) ;
+		utils::qthread::run( [ &exe ](){
 
-				exe.terminate() ;
-			} ) ;
-		}else{
+			_kill_children_recursively( QString::number( exe.processId() ) ) ;
+
 			exe.terminate() ;
-		}
+		} ) ;
+	}else{
+		exe.terminate() ;
 	}
 
 	return true ;

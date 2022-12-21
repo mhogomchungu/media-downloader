@@ -26,6 +26,7 @@
 
 #include "engines.h"
 #include "utils/network_access_manager.hpp"
+#include "utils/miscellaneous.hpp"
 
 class basicdownloader ;
 class Context ;
@@ -89,7 +90,7 @@ public:
 			return m_handle->itr() ;
 		}
 	private:
-		std::unique_ptr< networkAccess::iter > m_handle ;
+		utils::misc::unique_ptr< networkAccess::iter > m_handle ;
 	} ;
 
 	networkAccess( const Context& ) ;
@@ -211,7 +212,7 @@ private:
 		QString filePath ;
 		QString tempPath ;
 		QString networkError ;
-		std::unique_ptr< QFile > m_file ;
+		utils::misc::unique_ptr< QFile > m_file ;
 		bool isArchive ;
 		networkAccess::showVersionInfo showVinfo ;
 		int id ;

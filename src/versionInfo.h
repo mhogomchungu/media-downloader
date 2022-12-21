@@ -25,6 +25,8 @@
 #include "utility.h"
 #include "engines.h"
 
+#include "utils/miscellaneous.hpp"
+
 class Context ;
 
 namespace Ui
@@ -66,7 +68,7 @@ public:
 			m_handle->failed() ;
 		}
 	private:
-		std::unique_ptr< idone > m_handle ;
+		utils::misc::unique_ptr< idone > m_handle ;
 	} ;
 	~versionInfo()
 	{
