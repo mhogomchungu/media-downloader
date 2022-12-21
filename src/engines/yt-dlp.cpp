@@ -434,11 +434,13 @@ yt_dlp::~yt_dlp()
 
 std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( const QByteArray& e )
 {
-	if( m_engine.name() == "youtube-dl" ){
+	const auto& name = m_engine.name() ;
+
+	if( name == "youtube-dl" ){
 
 		return engines::engine::functions::mediaProperties( e ) ;
 
-	}else if( m_engine.name().contains( "yt-dlp" ) ){
+	}else if( name.contains( "yt-dlp" ) || name == "ytdl-patched" ){
 
 		QJsonParseError err ;
 
