@@ -24,6 +24,41 @@
 
 namespace utils{
 	namespace misc{
+
+		template< typename Value,typename Opt >
+		bool containsAny( const Value& v,const Opt& opt )
+		{
+			return v.contains( opt ) ;
+		}
+
+		template< typename Value,typename Opt,typename ... Opts >
+		bool containsAny( const Value& v,const Opt& opt,Opts&& ... opts )
+		{
+			if( v.contains( opt ) ){
+
+				return true ;
+			}else{
+				return misc::containsAny( v,std::forward< Opts >( opts ) ... ) ;
+			}
+		}
+
+		template< typename Value,typename Opt >
+		bool containsAll( const Value& v,const Opt& opt )
+		{
+			return v.contains( opt ) ;
+		}
+
+		template< typename Value,typename Opt,typename ... Opts >
+		bool containsAll( const Value& v,const Opt& opt,Opts&& ... opts )
+		{
+			if( !v.contains( opt ) ){
+
+				return false ;
+			}else{
+				return misc::containsAll( v,std::forward< Opts >( opts ) ... ) ;
+			}
+		}
+
 		template< typename T >
 		class unique_ptr
 		{

@@ -21,6 +21,7 @@
 #include "tabmanager.h"
 #include "mainwindow.h"
 #include "mainwindow.h"
+#include "utils/miscellaneous.hpp"
 
 #include <QMetaObject>
 #include <QClipboard>
@@ -1726,20 +1727,25 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		}else if( listType == batchdownloader::listType::COMMENTS ){
 
-			if( data.contains( "WARNING" ) || data.contains( "ERROR" ) ){
+			if( utils::misc::containsAny( data,"WARNING","ERROR" ) ){
 
 				return true ;
 			}
+
 			if( data.contains( "Downloading comment API JSON reply " ) ){
 
 				auto m = data.indexOf( '(' ) ;
 
 				if( m != -1 ){
 
-					m++ ;
+					auto w = data.mid( m + 1 ) ;
 
-					auto w = data.mid( m ) ;
-					w.truncate( w.size() - 2 ) ;
+					m = w.indexOf( '\n' ) ;
+
+					if( m != -1 ){
+
+						w.truncate( m - 1 ) ;
+					}
 
 					w = "\n" + m_downloadingComments + ": " + w + "\n" ;
 
