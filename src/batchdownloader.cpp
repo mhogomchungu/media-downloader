@@ -1832,19 +1832,20 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 void batchdownloader::addToList( const QString& url,bool autoDownload,bool showThumbnails )
 {
+	const auto& engine = this->defaultEngine() ;
+
 	if( utils::misc::containsAny( url,'\n',' ' ) ){
 
 		for( const auto& it : util::split( url,' ',true ) ){
 
 			for( const auto& xt : util::split( it,'\n',true ) ){
 
-				this->showThumbnail( this->defaultEngine(),xt,autoDownload,showThumbnails ) ;
+				this->showThumbnail( engine,xt,autoDownload,showThumbnails ) ;
 			}
 		}
 	}else{
-		this->showThumbnail( this->defaultEngine(),url,autoDownload,showThumbnails ) ;
+		this->showThumbnail( engine,url,autoDownload,showThumbnails ) ;
 	}
-
 }
 
 void batchdownloader::download( const engines::engine& engine,downloadManager::index indexes )
