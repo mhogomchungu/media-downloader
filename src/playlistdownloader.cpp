@@ -1068,7 +1068,7 @@ void playlistdownloader::getList( customOptions&& c,
 			return false ;
 		}
 
-		return e.contains( "ERROR:" ) || e.contains( "WARNING" ) ;
+		return utils::misc::containsAny( e,"ERROR:","WARNING" ) ;
 	} ;
 
 	auto id     = utility::concurrentID() ;
