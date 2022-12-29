@@ -913,6 +913,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 	m_dataReceived = false ;
 	m_stoppedOnExisting = false ;
 	m_stillProcessingJsonOutput = false ;
+	m_downloaderId++ ;
 
 	auto url = iter.url() ;
 
@@ -1061,6 +1062,8 @@ void playlistdownloader::getList( customOptions&& c,
 			if( s != -1 ){
 
 				m = m.mid( 0,s ) ;
+
+				m.replace( " of N/A","" ) ;
 			}
 
 			m_banner.updateProgress( m ) ;
@@ -1193,8 +1196,17 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
 		network.get( thumbnailUrl,
-			     [ this,&table,s,
+			     [ this,&table,s,id = m_downloaderId,
 			     media = std::move( media ) ]( const QByteArray& data ){
+
+			if( id < m_downloaderId ){
+
+				/*
+				 * Network responce took too long and we are now running
+				 * a newer request to get playlist entries
+				 */
+				return ;
+			}
 
 			QPixmap pixmap ;
 

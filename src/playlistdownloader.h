@@ -72,6 +72,7 @@ private:
 	bool m_dataReceived ;
 
 	int m_networkRunning = 0 ;
+	int m_downloaderId = -1 ;
 
 	downloadManager m_ccmd ;
 
