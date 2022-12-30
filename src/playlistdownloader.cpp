@@ -1025,12 +1025,36 @@ void playlistdownloader::getList( customOptions&& c,
 
 		m_dataReceived = true ;
 
-		while( true ){
+		int position = 0 ;
 
-			if( this->parseJson( copts,table,data ) == Loop::Break ){
+		const auto line = data.toLine() ;
 
-				break ;
+		if( line.contains( m_jsonEndMarker ) ){
+
+			while( true ){
+
+				auto m = line.indexOf( m_jsonEndMarker,position ) ;
+
+				if( m == -1 ){
+
+					break ;
+				}else{
+					utility::MediaEntry media( line.mid( position,m ) ) ;
+
+					if( media.valid() ){
+
+						if( this->parseJson( copts,table,std::move( media ) ) ){
+
+							break ;
+						}
+					}
+
+					position = position + m + m_jsonEndMarker.size() ;
+				}
 			}
+
+			data.clear() ;
+			data.add( line.mid( position ),utility::concurrentID() ) ;
 		}
 	} ;
 
@@ -1099,7 +1123,6 @@ void playlistdownloader::getList( customOptions&& c,
 				      ch ) ;
 
 	utility::run( opts,argsq,std::move( ctx ) ) ;
-
 }
 
 void playlistdownloader::clearScreen()
@@ -1116,30 +1139,11 @@ bool playlistdownloader::enabled()
 	return m_ui.lineEditPLUrl->isEnabled() ;
 }
 
-playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& copts,
-							tableWidget& table,
-							Logger::Data& data )
+bool playlistdownloader::parseJson( const customOptions& copts,
+				    tableWidget& table,
+				    utility::MediaEntry media )
 {
-	auto mmm = data.toLine() ;
-
-	auto end = mmm.indexOf( m_jsonEndMarker ) ;
-
-	if( end == -1 ){
-
-		return Loop::Break ;
-	}
-
 	m_stillProcessingJsonOutput = true ;
-
-	utility::MediaEntry media( mmm.mid( 0,end ) ) ;
-
-	if( !media.valid() ){
-
-		return Loop::Break ;
-	}else{
-		data.clear() ;
-		data.add( mmm.mid( end + m_jsonEndMarker.size() ),utility::concurrentID() ) ;
-	}	
 
 	if( copts.contains( media.id() ) ){
 
@@ -1147,7 +1151,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 			m_stoppedOnExisting = true ;
 			m_ui.pbPLCancel->click() ;
-			return Loop::Break ;
+			return true ;
 
 		}else if( copts.skipOnExisting() ){
 
@@ -1163,7 +1167,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 			table.selectLast() ;
 
-			return Loop::Continue ;
+			return false ;
 		}
 	}
 
@@ -1171,14 +1175,14 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 
 	if( max > 0 && media.intDuration() > max ){
 
-		return Loop::Continue ;
+		return false ;
 	}
 
 	auto min = copts.minMediaLength() ;
 
 	if( min > 0 && media.intDuration() < min ){
 
-		return Loop::Continue ;
+		return false ;
 	}
 
 	auto s = downloadManager::finishedStatus::notStarted() ;
@@ -1236,7 +1240,7 @@ playlistdownloader::Loop playlistdownloader::parseJson( const customOptions& cop
 		table.selectLast() ;
 	}
 
-	return Loop::Continue ;
+	return false ;
 }
 
 void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )

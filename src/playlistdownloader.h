@@ -82,10 +82,9 @@ private:
 
 	class customOptions ;
 
-	enum class Loop{ Continue,Break } ;
-	Loop parseJson( const playlistdownloader::customOptions&,
+	bool parseJson( const playlistdownloader::customOptions&,
 			tableWidget& table,
-			Logger::Data& data ) ;
+			utility::MediaEntry ) ;
 
 	void showEntry( tableWidget& table,tableWidget::entry e ) ;
 
