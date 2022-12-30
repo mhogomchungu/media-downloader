@@ -28,6 +28,42 @@
 
 class tabManager ;
 
+class NetworkData
+{
+public:
+	NetworkData() = default;
+	NetworkData( QByteArray data,int id,utility::MediaEntry e,tableWidget& t ) :
+		m_networkData( std::move( data ) ),
+		m_id( id ),
+		m_mediaEntry( std::make_shared< utility::MediaEntry >( std::move( e ) ) ),
+		m_table( &t )
+	{
+	}
+	const QByteArray& data() const
+	{
+		return m_networkData ;
+	}
+	int id() const
+	{
+		return m_id ;
+	}
+	const utility::MediaEntry& media() const
+	{
+		return *m_mediaEntry ;
+	}
+	tableWidget& table() const
+	{
+		return *m_table ;
+	}
+private:
+	QByteArray m_networkData ;
+	int m_id ;
+	std::shared_ptr< utility::MediaEntry > m_mediaEntry ;
+	tableWidget * m_table ;
+};
+
+Q_DECLARE_METATYPE( NetworkData )
+
 class playlistdownloader : public QObject
 {
         Q_OBJECT
@@ -44,6 +80,8 @@ public:
 	void gotEvent( const QByteArray& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void clipboardData( const QString& ) ;
+private slots:
+	void networkData( const NetworkData& ) ;
 private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;

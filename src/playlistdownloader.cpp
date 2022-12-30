@@ -25,6 +25,7 @@
 
 #include <QFileDialog>
 #include <QClipboard>
+#include <QMetaObject>
 
 class playlistdownloader::customOptions
 {
@@ -123,6 +124,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_banner( m_table ),
 	m_subscription( m_ctx,m_subscriptionTable,*m_ui.widgetPlDownloader )
 {
+	qRegisterMetaType< NetworkData >() ;
+
 	m_ui.tableWidgetPlDownloaderSubscription->setColumnWidth( 0,180 ) ;
 
 	m_ui.labelPlSubscriptionListOptions->setText( tr( "Get List Options:" ).replace( ":","" ) ) ;
@@ -1151,6 +1154,7 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 			m_stoppedOnExisting = true ;
 			m_ui.pbPLCancel->click() ;
+
 			return true ;
 
 		}else if( copts.skipOnExisting() ){
@@ -1185,8 +1189,6 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 		return false ;
 	}
 
-	auto s = downloadManager::finishedStatus::notStarted() ;
-
 	table.selectLast() ;
 
 	if( networkAccess::hasNetworkSupport() ){
@@ -1200,39 +1202,19 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
 		network.get( thumbnailUrl,
-			     [ this,&table,s,id = m_downloaderId,
-			     media = std::move( media ) ]( const QByteArray& data ){
+			     [ this,&table,id = m_downloaderId,
+			     media = std::move( media ) ]( QByteArray data ){
 
-			if( id < m_downloaderId ){
+			NetworkData m( std::move( data ),id,std::move( media ),table ) ;
 
-				/*
-				 * Network responce took too long and we are now running
-				 * a newer request to get playlist entries
-				 */
-				return ;
-			}
-
-			QPixmap pixmap ;
-
-			if( !data.isEmpty() && pixmap.loadFromData( data ) ){
-
-				auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
-				auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
-
-				auto img = pixmap.scaled( width,height ) ;
-
-				this->showEntry( table,{ img,s,media } ) ;
-			}else{
-				const auto& img = m_defaultVideoThumbnailIcon ;
-
-				this->showEntry( table,{ img,s,media } ) ;
-			}
-
-			table.selectLast() ;
-
-			m_networkRunning-- ;
+			QMetaObject::invokeMethod( this,
+						   "networkData",
+						   Qt::QueuedConnection,
+						   Q_ARG( NetworkData,std::move( m ) ) ) ;
 		} ) ;
 	}else{
+		auto s = downloadManager::finishedStatus::notStarted() ;
+
 		const auto& img = m_defaultVideoThumbnailIcon ;
 
 		this->showEntry( table,{ img,s,media } ) ;
@@ -1241,6 +1223,44 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 	}
 
 	return false ;
+}
+
+void playlistdownloader::networkData( const NetworkData& m )
+{
+	if( m.id() < m_downloaderId ){
+
+		/*
+		 * Network responce took too long and we are now running
+		 * a newer request to get playlist entries
+		 */
+		return ;
+	}
+
+	const auto& data = m.data() ;
+	auto& table = m.table() ;
+	auto& media = m.media() ;
+
+	QPixmap pixmap ;
+
+	auto s = downloadManager::finishedStatus::notStarted() ;
+
+	if( !data.isEmpty() && pixmap.loadFromData( data ) ){
+
+		auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
+		auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
+
+		auto img = pixmap.scaled( width,height ) ;
+
+		this->showEntry( table,{ img,s,media } ) ;
+	}else{
+		const auto& img = m_defaultVideoThumbnailIcon ;
+
+		this->showEntry( table,{ img,s,media } ) ;
+	}
+
+	table.selectLast() ;
+
+	m_networkRunning-- ;
 }
 
 void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
