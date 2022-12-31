@@ -1214,6 +1214,10 @@ namespace utility
 		{
 			return m_n_entries ;
 		}
+		MediaEntry move() const
+		{
+			return std::move( *const_cast< MediaEntry * >( this ) ) ;
+		}
 	private:
 		QString m_thumbnailUrl ;
 		QString m_title ;

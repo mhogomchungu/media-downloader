@@ -43,6 +43,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_subtitlesTimer( m_tableWidgetBDList )
 {
 	qRegisterMetaType< ItemEntry >() ;
+	qRegisterMetaType< BdNetworkData >() ;
 
 	m_tableWidgetBDList.setTableWidget( [](){
 
@@ -1783,6 +1784,36 @@ void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEn
 	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,media ) ;
 }
 
+void batchdownloader::networkData( const BdNetworkData& m )
+{
+	QPixmap pixmap ;
+
+	if( pixmap.loadFromData( m.data() ) ){
+
+		auto w = m_settings.thumbnailWidth( settings::tabName::batch ) ;
+		auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
+
+		pixmap = pixmap.scaled( w,h ) ;
+	}else{
+		pixmap = m_defaultVideoThumbnail ;
+	}
+
+	this->addItemUi( pixmap,m.index(),m_table,m_ui,m.media() ) ;
+
+	m_ctx.TabManager().Configure().setDownloadOptions( m.index(),m_table ) ;
+
+	if( m_table.noneAreRunning() ){
+
+		m_ui.pbBDDownload->setEnabled( true ) ;
+
+		m_ctx.TabManager().enableAll() ;
+
+		m_ui.pbBDCancel->setEnabled( false ) ;
+	}
+
+	m_networkRunning-- ;
+}
+
 void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntry& media )
 {
 	if( media.thumbnailUrl().isEmpty() ){
@@ -1795,34 +1826,14 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 			const auto& u = media.thumbnailUrl() ;
 
-			m_ctx.network().get( u,[ this,media,index ]( const QByteArray& data ){
+			m_ctx.network().get( u,[ this,media,index ]( QByteArray data ){
 
-				QPixmap pixmap ;
+				BdNetworkData m( std::move( data ),index,media.move() ) ;
 
-				if( pixmap.loadFromData( data ) ){
-
-					auto w = m_settings.thumbnailWidth( settings::tabName::batch ) ;
-					auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
-
-					pixmap = pixmap.scaled( w,h ) ;
-				}else{
-					pixmap = m_defaultVideoThumbnail ;
-				}
-
-				this->addItemUi( pixmap,index,m_table,m_ui,media ) ;
-
-				m_ctx.TabManager().Configure().setDownloadOptions( index,m_table ) ;
-
-				if( m_table.noneAreRunning() ){
-
-					m_ui.pbBDDownload->setEnabled( true ) ;
-
-					m_ctx.TabManager().enableAll() ;
-
-					m_ui.pbBDCancel->setEnabled( false ) ;
-				}
-
-				m_networkRunning-- ;
+				QMetaObject::invokeMethod( this,
+							   "networkData",
+							   Qt::QueuedConnection,
+							   Q_ARG( BdNetworkData,std::move( m ) ) ) ;
 			} ) ;
 		}else{
 			this->addItemUi( index,enableAll,media ) ;

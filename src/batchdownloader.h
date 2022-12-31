@@ -31,6 +31,36 @@
 
 class tabManager ;
 
+class BdNetworkData
+{
+public:
+	BdNetworkData() = default ;
+	BdNetworkData( QByteArray data,int index,utility::MediaEntry e ) :
+		m_networkData( std::move( data ) ),
+		m_index( index ),
+		m_mediaEntry( std::make_shared< utility::MediaEntry >( std::move( e ) ) )
+	{
+	}
+	const QByteArray& data() const
+	{
+		return m_networkData ;
+	}
+	int index() const
+	{
+		return m_index ;
+	}
+	const utility::MediaEntry& media() const
+	{
+		return *m_mediaEntry ;
+	}
+private:
+	QByteArray m_networkData ;
+	int m_index ;
+	std::shared_ptr< utility::MediaEntry > m_mediaEntry ;
+};
+
+Q_DECLARE_METATYPE( BdNetworkData )
+
 class Items{
 public:
 	struct entry
@@ -206,6 +236,7 @@ public:
 	void clipboardData( const QString& ) ;
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
+	void networkData( const BdNetworkData& ) ;
 private:
 	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;
 	void showList( batchdownloader::listType,const engines::engine&,const QString&,int ) ;

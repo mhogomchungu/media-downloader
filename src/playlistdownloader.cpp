@@ -124,7 +124,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_banner( m_table ),
 	m_subscription( m_ctx,m_subscriptionTable,*m_ui.widgetPlDownloader )
 {
-	qRegisterMetaType< NetworkData >() ;
+	qRegisterMetaType< PlNetworkData >() ;
 
 	m_ui.tableWidgetPlDownloaderSubscription->setColumnWidth( 0,180 ) ;
 
@@ -1203,29 +1203,28 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 		network.get( thumbnailUrl,
 			     [ this,&table,id = m_downloaderId,
-			     media = std::move( media ) ]( QByteArray data ){
+			     media = media.move() ]( QByteArray data ){
 
-			NetworkData m( std::move( data ),id,std::move( media ),table ) ;
+			PlNetworkData m( std::move( data ),id,media.move(),table ) ;
 
 			QMetaObject::invokeMethod( this,
 						   "networkData",
 						   Qt::QueuedConnection,
-						   Q_ARG( NetworkData,std::move( m ) ) ) ;
+						   Q_ARG( PlNetworkData,std::move( m ) ) ) ;
 		} ) ;
 	}else{
-		auto s = downloadManager::finishedStatus::notStarted() ;
+		PlNetworkData m( {},m_downloaderId,media.move(),table ) ;
 
-		const auto& img = m_defaultVideoThumbnailIcon ;
-
-		this->showEntry( table,{ img,s,media } ) ;
-
-		table.selectLast() ;
+		QMetaObject::invokeMethod( this,
+					   "networkData",
+					   Qt::QueuedConnection,
+					   Q_ARG( PlNetworkData,std::move( m ) ) ) ;
 	}
 
 	return false ;
 }
 
-void playlistdownloader::networkData( const NetworkData& m )
+void playlistdownloader::networkData( const PlNetworkData& m )
 {
 	if( m.id() < m_downloaderId ){
 

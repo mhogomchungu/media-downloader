@@ -28,11 +28,11 @@
 
 class tabManager ;
 
-class NetworkData
+class PlNetworkData
 {
 public:
-	NetworkData() = default;
-	NetworkData( QByteArray data,int id,utility::MediaEntry e,tableWidget& t ) :
+	PlNetworkData() = default ;
+	PlNetworkData( QByteArray data,int id,utility::MediaEntry e,tableWidget& t ) :
 		m_networkData( std::move( data ) ),
 		m_id( id ),
 		m_mediaEntry( std::make_shared< utility::MediaEntry >( std::move( e ) ) ),
@@ -62,7 +62,7 @@ private:
 	tableWidget * m_table ;
 };
 
-Q_DECLARE_METATYPE( NetworkData )
+Q_DECLARE_METATYPE( PlNetworkData )
 
 class playlistdownloader : public QObject
 {
@@ -81,7 +81,7 @@ public:
 	void updateEnginesList( const QStringList& ) ;
 	void clipboardData( const QString& ) ;
 private slots:
-	void networkData( const NetworkData& ) ;
+	void networkData( const PlNetworkData& ) ;
 private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
