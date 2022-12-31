@@ -744,6 +744,11 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 		return ;
 	}
 
+	if( indexes.count() > 3 ){
+
+		this->resizeTable( true ) ;
+	}
+
 	m_ctx.logger().clear() ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
@@ -826,6 +831,8 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			if( m_table.noneAreRunning() ){
 
 				m_ctx.TabManager().enableAll() ;
+
+				this->resizeTable( false ) ;
 			}
 
 			m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,index ) ) ;
@@ -902,6 +909,8 @@ void playlistdownloader::showBanner()
 
 void playlistdownloader::getListing( playlistdownloader::listIterator e,const engines::engine& engine )
 {
+	this->resizeTable( true ) ;
+
 	this->showBanner() ;
 
 	engine.updateVersionInfo( [ this,&engine,e = std::move( e ) ](){
@@ -997,6 +1006,7 @@ void playlistdownloader::getList( customOptions&& c,
 						m_ctx.TabManager().enableAll() ;
 						m_gettingPlaylist = false ;
 						m_ui.pbPLCancel->setEnabled( false ) ;
+						this->resizeTable( false ) ;
 					}
 				}
 
@@ -1009,6 +1019,7 @@ void playlistdownloader::getList( customOptions&& c,
 					m_ctx.TabManager().enableAll() ;
 					m_gettingPlaylist = false ;
 					m_ui.pbPLCancel->setEnabled( false ) ;
+					this->resizeTable( false ) ;
 				}
 
 			}else if( iter.hasNext() ){
@@ -1018,6 +1029,8 @@ void playlistdownloader::getList( customOptions&& c,
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
 				m_ui.pbPLCancel->setEnabled( false ) ;
+				this->resizeTable( false ) ;
+
 			}
 		}
 	) ;
@@ -1260,6 +1273,26 @@ void playlistdownloader::networkData( const PlNetworkData& m )
 	table.selectLast() ;
 
 	m_networkRunning-- ;
+}
+
+void playlistdownloader::resizeTable( bool e )
+{
+	m_ui.pbPLPasteClipboard->setVisible( !e ) ;
+	m_ui.pbPlSubscription->setVisible( !e ) ;
+	m_ui.pbPLRangeHistory->setVisible( !e ) ;
+	m_ui.pbClearArchiveFile->setVisible( !e ) ;
+	m_ui.cbUseInternalArchiveFile->setVisible( !e ) ;
+	m_ui.pbPLOptionsHistory->setVisible( !e ) ;
+	m_ui.pbPLDownloadOptions->setVisible( !e ) ;
+	m_ui.cbEngineTypePD->setVisible( !e ) ;
+	m_ui.labelPLEngineName->setVisible( !e ) ;
+
+	if( e ){
+
+		m_ui.tableWidgetPl->resize( 771,431 ) ;
+	}else{
+		m_ui.tableWidgetPl->resize( 771,271 ) ;
+	}
 }
 
 void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )

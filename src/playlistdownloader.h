@@ -83,6 +83,7 @@ public:
 private slots:
 	void networkData( const PlNetworkData& ) ;
 private:
+	void resizeTable( bool ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 
