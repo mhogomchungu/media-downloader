@@ -91,7 +91,7 @@ public:
 
 			return false ;
 		}else{
-			return m_archiveFileData.contains( e.toUtf8() + "\n" ) ;
+			return m_archiveFileData.contains( e.toUtf8() ) ;
 		}
 	}
 	bool breakOnExisting() const
@@ -125,6 +125,20 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_subscription( m_ctx,m_subscriptionTable,*m_ui.widgetPlDownloader )
 {
 	qRegisterMetaType< PlNetworkData >() ;
+
+	m_ui.tableWidgetPl->addAction( [ this ](){
+
+		auto ac = new QAction( this ) ;
+
+		ac->setShortcuts( { Qt::Key( Qt::CTRL ) + Qt::Key::Key_S } ) ;
+
+		connect( ac,&QAction::triggered,[ this ](){
+
+			this->resizeTable( playlistdownloader::size::toggle ) ;
+		} ) ;
+
+		return ac ;
+	}() ) ;
 
 	m_ui.tableWidgetPlDownloaderSubscription->setColumnWidth( 0,180 ) ;
 
@@ -669,6 +683,8 @@ void playlistdownloader::tabEntered()
 	m_ui.lineEditPLUrlOptions->setText( m_settings.lastUsedOption( m,settings::tabName::playlist ) ) ;
 
 	m_ui.lineEditPLUrl->setFocus() ;
+
+	this->resizeTable( playlistdownloader::size::small ) ;
 }
 
 void playlistdownloader::tabExited()
@@ -746,7 +762,7 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 	if( indexes.count() > 3 ){
 
-		this->resizeTable( true ) ;
+		this->resizeTable( playlistdownloader::size::large ) ;
 	}
 
 	m_ctx.logger().clear() ;
@@ -832,7 +848,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 				m_ctx.TabManager().enableAll() ;
 
-				this->resizeTable( false ) ;
+				this->resizeTable( playlistdownloader::size::small ) ;
 			}
 
 			m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,index ) ) ;
@@ -909,7 +925,7 @@ void playlistdownloader::showBanner()
 
 void playlistdownloader::getListing( playlistdownloader::listIterator e,const engines::engine& engine )
 {
-	this->resizeTable( true ) ;
+	this->resizeTable( playlistdownloader::size::large ) ;
 
 	this->showBanner() ;
 
@@ -1006,7 +1022,7 @@ void playlistdownloader::getList( customOptions&& c,
 						m_ctx.TabManager().enableAll() ;
 						m_gettingPlaylist = false ;
 						m_ui.pbPLCancel->setEnabled( false ) ;
-						this->resizeTable( false ) ;
+						this->resizeTable( playlistdownloader::size::small ) ;
 					}
 				}
 
@@ -1019,7 +1035,7 @@ void playlistdownloader::getList( customOptions&& c,
 					m_ctx.TabManager().enableAll() ;
 					m_gettingPlaylist = false ;
 					m_ui.pbPLCancel->setEnabled( false ) ;
-					this->resizeTable( false ) ;
+					this->resizeTable( playlistdownloader::size::small ) ;
 				}
 
 			}else if( iter.hasNext() ){
@@ -1029,7 +1045,7 @@ void playlistdownloader::getList( customOptions&& c,
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
 				m_ui.pbPLCancel->setEnabled( false ) ;
-				this->resizeTable( false ) ;
+				this->resizeTable( playlistdownloader::size::small ) ;
 
 			}
 		}
@@ -1275,8 +1291,18 @@ void playlistdownloader::networkData( const PlNetworkData& m )
 	m_networkRunning-- ;
 }
 
-void playlistdownloader::resizeTable( bool e )
+void playlistdownloader::resizeTable( playlistdownloader::size s )
 {
+	bool e = [ & ](){
+
+		if( s == playlistdownloader::size::toggle ){
+
+			return m_ui.pbPLPasteClipboard->isVisible() ;
+		}else{
+			return s == playlistdownloader::size::large ;
+		}
+	}() ;
+
 	m_ui.pbPLPasteClipboard->setVisible( !e ) ;
 	m_ui.pbPlSubscription->setVisible( !e ) ;
 	m_ui.pbPLRangeHistory->setVisible( !e ) ;

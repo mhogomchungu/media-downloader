@@ -57,7 +57,7 @@ void versionInfo::done( versionInfo::extensionVersionInfo vInfo ) const
 
 		auto s = QObject::tr( "Update Found" ) ;
 
-		m_ctx.logger().add( s + "\n" + m.join( "\n" ),utility::concurrentID() ) ;
+		m_ctx.logger().add( s + "\n" + m.join( "\n" ),utility::sequentialID() ) ;
 	}
 }
 

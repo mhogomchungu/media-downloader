@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -727,7 +727,7 @@
      <widget class="QPushButton" name="pbPLOptions">
       <property name="geometry">
        <rect>
-        <x>500</x>
+        <x>490</x>
         <y>440</y>
         <width>121</width>
         <height>33</height>
@@ -774,7 +774,7 @@
        <rect>
         <x>180</x>
         <y>320</y>
-        <width>441</width>
+        <width>431</width>
         <height>31</height>
        </rect>
       </property>
@@ -803,7 +803,7 @@
        <rect>
         <x>180</x>
         <y>360</y>
-        <width>441</width>
+        <width>431</width>
         <height>31</height>
        </rect>
       </property>
@@ -811,7 +811,7 @@
      <widget class="QPushButton" name="pbPLQuit">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>610</x>
         <y>440</y>
         <width>121</width>
         <height>33</height>
@@ -845,7 +845,7 @@
        <rect>
         <x>180</x>
         <y>280</y>
-        <width>441</width>
+        <width>431</width>
         <height>31</height>
        </rect>
       </property>
@@ -878,7 +878,7 @@
        <rect>
         <x>300</x>
         <y>440</y>
-        <width>201</width>
+        <width>191</width>
         <height>33</height>
        </rect>
       </property>
@@ -904,7 +904,7 @@
        <rect>
         <x>180</x>
         <y>400</y>
-        <width>441</width>
+        <width>431</width>
         <height>31</height>
        </rect>
       </property>
@@ -934,7 +934,7 @@
      <widget class="QPushButton" name="pbClearArchiveFile">
       <property name="geometry">
        <rect>
-        <x>670</x>
+        <x>660</x>
         <y>320</y>
         <width>31</width>
         <height>33</height>
@@ -950,7 +950,7 @@
      <widget class="QCheckBox" name="cbUseInternalArchiveFile">
       <property name="geometry">
        <rect>
-        <x>710</x>
+        <x>700</x>
         <y>320</y>
         <width>21</width>
         <height>31</height>
@@ -966,7 +966,7 @@
      <widget class="QPushButton" name="pbPLPasteClipboard">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>620</x>
         <y>280</y>
         <width>31</width>
         <height>33</height>
@@ -982,7 +982,7 @@
      <widget class="QPushButton" name="pbPLRangeHistory">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>620</x>
         <y>320</y>
         <width>31</width>
         <height>31</height>
@@ -998,7 +998,7 @@
      <widget class="QPushButton" name="pbPLOptionsHistory">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>620</x>
         <y>360</y>
         <width>31</width>
         <height>31</height>
@@ -1014,7 +1014,7 @@
      <widget class="QPushButton" name="pbPLDownloadOptions">
       <property name="geometry">
        <rect>
-        <x>670</x>
+        <x>660</x>
         <y>360</y>
         <width>31</width>
         <height>31</height>
@@ -1030,7 +1030,7 @@
      <widget class="QPushButton" name="pbPlSubscription">
       <property name="geometry">
        <rect>
-        <x>670</x>
+        <x>660</x>
         <y>280</y>
         <width>31</width>
         <height>33</height>
@@ -1100,7 +1100,7 @@
          <x>0</x>
          <y>10</y>
          <width>771</width>
-         <height>291</height>
+         <height>261</height>
         </rect>
        </property>
        <property name="editTriggers">

@@ -83,7 +83,8 @@ public:
 private slots:
 	void networkData( const PlNetworkData& ) ;
 private:
-	void resizeTable( bool ) ;
+	enum class size{ small,large,toggle } ;
+	void resizeTable( playlistdownloader::size ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 
