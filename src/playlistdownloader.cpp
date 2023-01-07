@@ -1238,7 +1238,13 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 				this->networkResponce( { reply.data(),{},id,media.move(),table } ) ;
 			}else{
-				this->networkResponce( { {},reply.errorString(),id,media.move(),table } ) ;
+				if( reply.timeOut() ){
+
+					auto m = "Network Request Timed Out" ;
+					this->networkResponce( { {},m,id,media.move(),table } ) ;
+				}else{
+					this->networkResponce( { {},reply.errorString(),id,media.move(),table } ) ;
+				}
 			}
 		} ) ;
 	}else{

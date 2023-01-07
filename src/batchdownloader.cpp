@@ -1843,7 +1843,17 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 								   Qt::QueuedConnection,
 								   Q_ARG( BdNetworkData,std::move( m ) ) ) ;
 				}else{
-					BdNetworkData m( {},reply.errorString(),index,media.move() ) ;
+					auto m = [ & ]()->BdNetworkData{
+
+						if( reply.timeOut() ){
+
+							auto e = "Network Request Timed Out" ;
+
+							return { {},e,index,media.move() } ;
+						}else{
+							return { {},reply.errorString(),index,media.move() } ;
+						}
+					}() ;
 
 					QMetaObject::invokeMethod( this,
 								   "networkData",
