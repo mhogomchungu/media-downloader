@@ -152,12 +152,7 @@ public:
 	{
 		m_network.get( this->networkRequest( url ),[ function = std::move( function ) ]( const utils::network::reply& reply ){
 
-			if( reply.success() ){
-
-				function( reply.data() ) ;
-			}else{
-				function( {} ) ;
-			}
+			function( reply ) ;
 		} ) ;
 	}
 private:

@@ -1232,25 +1232,28 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 		network.get( thumbnailUrl,
 			     [ this,&table,id = m_downloaderId,
-			     media = media.move() ]( QByteArray data ){
+			     media = media.move() ]( const utils::network::reply& reply ){
 
-			PlNetworkData m( std::move( data ),id,media.move(),table ) ;
+			if( reply.success() ){
 
-			QMetaObject::invokeMethod( this,
-						   "networkData",
-						   Qt::QueuedConnection,
-						   Q_ARG( PlNetworkData,std::move( m ) ) ) ;
+				this->networkResponce( { reply.data(),{},id,media.move(),table } ) ;
+			}else{
+				this->networkResponce( { {},reply.errorString(),id,media.move(),table } ) ;
+			}
 		} ) ;
 	}else{
-		PlNetworkData m( {},m_downloaderId,media.move(),table ) ;
-
-		QMetaObject::invokeMethod( this,
-					   "networkData",
-					   Qt::QueuedConnection,
-					   Q_ARG( PlNetworkData,std::move( m ) ) ) ;
+		this->networkResponce( { {},{},m_downloaderId,media.move(),table } ) ;
 	}
 
 	return false ;
+}
+
+void playlistdownloader::networkResponce( PlNetworkData m )
+{
+	QMetaObject::invokeMethod( this,
+				   "networkData",
+				   Qt::QueuedConnection,
+				   Q_ARG( PlNetworkData,std::move( m ) ) ) ;
 }
 
 void playlistdownloader::networkData( const PlNetworkData& m )
@@ -1272,7 +1275,15 @@ void playlistdownloader::networkData( const PlNetworkData& m )
 
 	auto s = downloadManager::finishedStatus::notStarted() ;
 
-	if( !data.isEmpty() && pixmap.loadFromData( data ) ){
+	if( !m.errorString().isEmpty() ){
+
+		const auto& img = m_defaultVideoThumbnailIcon ;
+
+		this->showEntry( table,{ img,s,media } ) ;
+
+		m_ctx.logger().add( "Network Error: " + m.errorString(),utility::concurrentID() ) ;
+
+	}else if( pixmap.loadFromData( data ) ){
 
 		auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
 		auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;

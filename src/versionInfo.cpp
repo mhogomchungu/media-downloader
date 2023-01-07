@@ -97,9 +97,9 @@ void versionInfo::checkForEnginesUpdates( versionInfo::extensionVersionInfo vInf
 		}
 	}
 
-	m_ctx.network().get( url,[ this,vInfo = std::move( vInfo ) ]( const QByteArray& m ){
+	m_ctx.network().get( url,[ this,vInfo = std::move( vInfo ) ]( const utils::network::reply& m ){
 
-		auto lv = vInfo.engine().versionInfoFromGithub( m ) ;
+		auto lv = vInfo.engine().versionInfoFromGithub( m.success() ? m.data() : QByteArray() ) ;
 
 		if( lv.version.valid() ){
 
@@ -196,22 +196,25 @@ void versionInfo::checkForUpdates() const
 {
 	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
 
-	m_ctx.network().get( url,[ this ]( const QByteArray& data ){
+	m_ctx.network().get( url,[ this ]( const utils::network::reply& reply ){
 
-		QJsonParseError err ;
+		if( reply.success() ){
 
-		auto e = QJsonDocument::fromJson( data,&err ) ;
+			QJsonParseError err ;
 
-		if( err.error == QJsonParseError::NoError ){
+			auto e = QJsonDocument::fromJson( reply.data(),&err ) ;
 
-			auto lv = e.object().value( "tag_name" ).toString() ;
-			auto iv = utility::installedVersionOfMediaDownloader() ;
+			if( err.error == QJsonParseError::NoError ){
 
-			versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
+				auto lv = e.object().value( "tag_name" ).toString() ;
+				auto iv = utility::installedVersionOfMediaDownloader() ;
 
-			vInfo.append( "Media Downloader",iv,lv ) ;
+				versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
 
-			this->checkForEnginesUpdates( std::move( vInfo ) ) ;
+				vInfo.append( "Media Downloader",iv,lv ) ;
+
+				this->checkForEnginesUpdates( std::move( vInfo ) ) ;
+			}
 		}
 	} ) ;
 }
@@ -312,11 +315,11 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 			if( !url.isEmpty() && m_checkForUpdates ){
 
-				m_ctx.network().get( url,[ id,this,vInfo = vInfo.move() ]( const QByteArray& m ){
+				m_ctx.network().get( url,[ id,this,vInfo = vInfo.move() ]( const utils::network::reply& m ){
 
 					const auto& engine = vInfo.engine() ;
 
-					const auto& versionOnline = engine.versionInfoFromGithub( m ) ;
+					const auto& versionOnline = engine.versionInfoFromGithub( m.success() ? m.data() : QByteArray() ) ;
 					const auto& installedVersion = engine.versionInfo() ;
 
 					const auto& version = versionOnline.version ;

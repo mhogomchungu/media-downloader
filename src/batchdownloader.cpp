@@ -1125,11 +1125,11 @@ void batchdownloader::saveSubtitles()
 
 				if( !e.isEmpty() ){
 
-					m_ctx.network().get( it.url,[ m ]( const QByteArray& data ){
+					m_ctx.network().get( it.url,[ m ]( const utils::network::reply& reply ){
 
 						QFile f( m ) ;
 						f.open( QIODevice::WriteOnly ) ;
-						f.write( data ) ;
+						f.write( reply.success() ? reply.data() : QByteArray() ) ;
 					} ) ;
 				}
 
@@ -1788,7 +1788,13 @@ void batchdownloader::networkData( const BdNetworkData& m )
 {
 	QPixmap pixmap ;
 
-	if( pixmap.loadFromData( m.data() ) ){
+	if( !m.errorString().isEmpty() ){
+
+		m_ctx.logger().add( "Network Error: " + m.errorString(),utility::concurrentID() ) ;
+
+		pixmap = m_defaultVideoThumbnail ;
+
+	}else if( pixmap.loadFromData( m.data() ) ){
 
 		auto w = m_settings.thumbnailWidth( settings::tabName::batch ) ;
 		auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
@@ -1826,14 +1832,24 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 			const auto& u = media.thumbnailUrl() ;
 
-			m_ctx.network().get( u,[ this,media,index ]( QByteArray data ){
+			m_ctx.network().get( u,[ this,media,index ]( const utils::network::reply& reply ){
 
-				BdNetworkData m( std::move( data ),index,media.move() ) ;
+				if( reply.success() ){
 
-				QMetaObject::invokeMethod( this,
-							   "networkData",
-							   Qt::QueuedConnection,
-							   Q_ARG( BdNetworkData,std::move( m ) ) ) ;
+					BdNetworkData m( reply.data(),{},index,media.move() ) ;
+
+					QMetaObject::invokeMethod( this,
+								   "networkData",
+								   Qt::QueuedConnection,
+								   Q_ARG( BdNetworkData,std::move( m ) ) ) ;
+				}else{
+					BdNetworkData m( {},reply.errorString(),index,media.move() ) ;
+
+					QMetaObject::invokeMethod( this,
+								   "networkData",
+								   Qt::QueuedConnection,
+								   Q_ARG( BdNetworkData,std::move( m ) ) ) ;
+				}
 			} ) ;
 		}else{
 			this->addItemUi( index,enableAll,media ) ;

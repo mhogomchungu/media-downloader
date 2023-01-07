@@ -35,8 +35,9 @@ class BdNetworkData
 {
 public:
 	BdNetworkData() = default ;
-	BdNetworkData( QByteArray data,int index,utility::MediaEntry e ) :
+	BdNetworkData( QByteArray data,QString errorString,int index,utility::MediaEntry e ) :
 		m_networkData( std::move( data ) ),
+		m_errorString( std::move( errorString ) ),
 		m_index( index ),
 		m_mediaEntry( std::make_shared< utility::MediaEntry >( std::move( e ) ) )
 	{
@@ -44,6 +45,10 @@ public:
 	const QByteArray& data() const
 	{
 		return m_networkData ;
+	}
+	const QString& errorString() const
+	{
+		return m_errorString ;
 	}
 	int index() const
 	{
@@ -55,6 +60,7 @@ public:
 	}
 private:
 	QByteArray m_networkData ;
+	QString m_errorString ;
 	int m_index ;
 	std::shared_ptr< utility::MediaEntry > m_mediaEntry ;
 };

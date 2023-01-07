@@ -32,8 +32,9 @@ class PlNetworkData
 {
 public:
 	PlNetworkData() = default ;
-	PlNetworkData( QByteArray data,int id,utility::MediaEntry e,tableWidget& t ) :
+	PlNetworkData( QByteArray data,QString errorString,int id,utility::MediaEntry e,tableWidget& t ) :
 		m_networkData( std::move( data ) ),
+		m_errorString( std::move( errorString ) ),
 		m_id( id ),
 		m_mediaEntry( std::make_shared< utility::MediaEntry >( std::move( e ) ) ),
 		m_table( &t )
@@ -42,6 +43,10 @@ public:
 	const QByteArray& data() const
 	{
 		return m_networkData ;
+	}
+	const QString& errorString() const
+	{
+		return m_errorString ;
 	}
 	int id() const
 	{
@@ -57,6 +62,7 @@ public:
 	}
 private:
 	QByteArray m_networkData ;
+	QString m_errorString ;
 	int m_id ;
 	std::shared_ptr< utility::MediaEntry > m_mediaEntry ;
 	tableWidget * m_table ;
@@ -83,6 +89,8 @@ public:
 private slots:
 	void networkData( const PlNetworkData& ) ;
 private:
+	void networkResponce( PlNetworkData ) ;
+
 	enum class size{ small,large,toggle } ;
 	void resizeTable( playlistdownloader::size ) ;
 	QString defaultEngineName() ;
