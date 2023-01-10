@@ -126,6 +126,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 {
 	qRegisterMetaType< PlNetworkData >() ;
 
+	m_ui.pbPLChangeTableSize->setToolTip( tr( "Hide Controls" ) ) ;
+
 	m_ui.tableWidgetPl->addAction( [ this ](){
 
 		auto ac = new QAction( this ) ;
@@ -444,6 +446,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		this->download() ;
 	} ) ;
 
+	connect( m_ui.pbPLChangeTableSize,&QPushButton::clicked,[ this ](){
+
+		this->resizeTable( playlistdownloader::size::toggle ) ;
+	} ) ;
+
 	connect( m_ui.pbPLRangeHistory,&QPushButton::clicked,[ this ](){
 
 		utility::showHistory( *m_ui.lineEditPLDownloadRange,
@@ -683,8 +690,6 @@ void playlistdownloader::tabEntered()
 	m_ui.lineEditPLUrlOptions->setText( m_settings.lastUsedOption( m,settings::tabName::playlist ) ) ;
 
 	m_ui.lineEditPLUrl->setFocus() ;
-
-	this->resizeTable( playlistdownloader::size::small ) ;
 }
 
 void playlistdownloader::tabExited()
@@ -1022,7 +1027,6 @@ void playlistdownloader::getList( customOptions&& c,
 						m_ctx.TabManager().enableAll() ;
 						m_gettingPlaylist = false ;
 						m_ui.pbPLCancel->setEnabled( false ) ;
-						this->resizeTable( playlistdownloader::size::small ) ;
 					}
 				}
 
@@ -1035,7 +1039,6 @@ void playlistdownloader::getList( customOptions&& c,
 					m_ctx.TabManager().enableAll() ;
 					m_gettingPlaylist = false ;
 					m_ui.pbPLCancel->setEnabled( false ) ;
-					this->resizeTable( playlistdownloader::size::small ) ;
 				}
 
 			}else if( iter.hasNext() ){
@@ -1045,8 +1048,6 @@ void playlistdownloader::getList( customOptions&& c,
 				m_ctx.TabManager().enableAll() ;
 				m_gettingPlaylist = false ;
 				m_ui.pbPLCancel->setEnabled( false ) ;
-				this->resizeTable( playlistdownloader::size::small ) ;
-
 			}
 		}
 	) ;
@@ -1109,7 +1110,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 			return false ;
 
-		}else if( e.startsWith( "[download] Downloading video " ) ){
+		}else if( utils::misc::startsWithAny( e,"[download] Downloading video ","[download] Downloading item " ) ){
 
 			auto m = tr( "Downloading video info" ) + " " + e.mid( 29 ) ;
 
@@ -1234,35 +1235,16 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 			     [ this,&table,id = m_downloaderId,
 			     media = media.move() ]( const utils::network::reply& reply ){
 
-			if( reply.success() ){
-
-				this->networkResponce( { reply.data(),{},id,media.move(),table } ) ;
-			}else{
-				if( reply.timeOut() ){
-
-					auto m = "Network Request Timed Out" ;
-					this->networkResponce( { {},m,id,media.move(),table } ) ;
-				}else{
-					this->networkResponce( { {},reply.errorString(),id,media.move(),table } ) ;
-				}
-			}
+			utility::networkReply( this,"networkData",m_ctx,reply,&table,id,media.move() ) ;
 		} ) ;
 	}else{
-		this->networkResponce( { {},{},m_downloaderId,media.move(),table } ) ;
+		utility::networkReply( this,"networkData",&table,m_downloaderId,media.move() ) ;
 	}
 
 	return false ;
 }
 
-void playlistdownloader::networkResponce( PlNetworkData m )
-{
-	QMetaObject::invokeMethod( this,
-				   "networkData",
-				   Qt::QueuedConnection,
-				   Q_ARG( PlNetworkData,std::move( m ) ) ) ;
-}
-
-void playlistdownloader::networkData( const PlNetworkData& m )
+void playlistdownloader::networkData( utility::networkReply m )
 {
 	if( m.id() < m_downloaderId ){
 
@@ -1273,37 +1255,33 @@ void playlistdownloader::networkData( const PlNetworkData& m )
 		return ;
 	}
 
-	const auto& data = m.data() ;
 	auto& table = m.table() ;
 	auto& media = m.media() ;
 
-	QPixmap pixmap ;
-
 	auto s = downloadManager::finishedStatus::notStarted() ;
 
-	if( !m.errorString().isEmpty() ){
+	if( networkAccess::hasNetworkSupport() ){
 
-		const auto& img = m_defaultVideoThumbnailIcon ;
+		QPixmap pixmap ;
 
-		this->showEntry( table,{ img,s,media } ) ;
+		if( m.success() && pixmap.loadFromData( m.data() ) ){
 
-		m_ctx.logger().add( "Network Error: " + m.errorString(),utility::concurrentID() ) ;
+			auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
+			auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
 
-	}else if( pixmap.loadFromData( data ) ){
+			auto img = pixmap.scaled( width,height ) ;
 
-		auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
-		auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
+			this->showEntry( table,{ img,s,media } ) ;
+		}else{
+			const auto& img = m_defaultVideoThumbnailIcon ;
 
-		auto img = pixmap.scaled( width,height ) ;
-
-		this->showEntry( table,{ img,s,media } ) ;
+			this->showEntry( table,{ img,s,media } ) ;
+		}
 	}else{
 		const auto& img = m_defaultVideoThumbnailIcon ;
 
 		this->showEntry( table,{ img,s,media } ) ;
 	}
-
-	table.selectLast() ;
 
 	m_networkRunning-- ;
 }
@@ -1332,8 +1310,14 @@ void playlistdownloader::resizeTable( playlistdownloader::size s )
 
 	if( e ){
 
+		m_ui.pbPLChangeTableSize->setToolTip( tr( "Show Controls" ) ) ;
+		m_ui.pbPLChangeTableSize->setText( tr( "Show" ) ) ;
+
 		m_ui.tableWidgetPl->resize( 771,431 ) ;
 	}else{
+		m_ui.pbPLChangeTableSize->setToolTip( tr( "Hide Controls" ) ) ;
+		m_ui.pbPLChangeTableSize->setText( tr( "Hide" ) ) ;
+
 		m_ui.tableWidgetPl->resize( 771,271 ) ;
 	}
 }
@@ -1353,6 +1337,8 @@ void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
 			this->download() ;
 		}
 	}
+
+	table.selectLast() ;
 }
 
 playlistdownloader::subscription::subscription( const Context& e,

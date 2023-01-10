@@ -727,7 +727,7 @@
      <widget class="QPushButton" name="pbPLOptions">
       <property name="geometry">
        <rect>
-        <x>490</x>
+        <x>400</x>
         <y>440</y>
         <width>121</width>
         <height>33</height>
@@ -735,6 +735,19 @@
       </property>
       <property name="text">
        <string>Options</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbPLChangeTableSize">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>440</y>
+        <width>121</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Hide</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelPLEnterUrlRange">
@@ -759,7 +772,7 @@
      <widget class="QPushButton" name="pbPLDownload">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>160</x>
         <y>440</y>
         <width>121</width>
         <height>33</height>
@@ -811,7 +824,7 @@
      <widget class="QPushButton" name="pbPLQuit">
       <property name="geometry">
        <rect>
-        <x>610</x>
+        <x>640</x>
         <y>440</y>
         <width>121</width>
         <height>33</height>
@@ -876,9 +889,9 @@
      <widget class="QPushButton" name="pbPLGetList">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>280</x>
         <y>440</y>
-        <width>191</width>
+        <width>121</width>
         <height>33</height>
        </rect>
       </property>
@@ -889,7 +902,7 @@
      <widget class="QPushButton" name="pbPLCancel">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>40</x>
         <y>440</y>
         <width>121</width>
         <height>33</height>
@@ -1049,7 +1062,7 @@
         <x>10</x>
         <y>0</y>
         <width>771</width>
-        <height>471</height>
+        <height>481</height>
        </rect>
       </property>
       <property name="autoFillBackground">

@@ -43,7 +43,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_subtitlesTimer( m_tableWidgetBDList )
 {
 	qRegisterMetaType< ItemEntry >() ;
-	qRegisterMetaType< BdNetworkData >() ;
 
 	m_tableWidgetBDList.setTableWidget( [](){
 
@@ -1125,11 +1124,11 @@ void batchdownloader::saveSubtitles()
 
 				if( !e.isEmpty() ){
 
-					m_ctx.network().get( it.url,[ m ]( const utils::network::reply& reply ){
+					m_ctx.network().get( it.url,[ m,this ]( const utils::network::reply& reply ){
 
 						QFile f( m ) ;
 						f.open( QIODevice::WriteOnly ) ;
-						f.write( reply.success() ? reply.data() : QByteArray() ) ;
+						f.write( utility::networkReply( m_ctx,reply ).data() ) ;
 					} ) ;
 				}
 
@@ -1784,27 +1783,24 @@ void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEn
 	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,media ) ;
 }
 
-void batchdownloader::networkData( const BdNetworkData& m )
+void batchdownloader::networkData( utility::networkReply m )
 {
-	QPixmap pixmap ;
+	if( networkAccess::hasNetworkSupport() ){
 
-	if( !m.errorString().isEmpty() ){
-
-		m_ctx.logger().add( "Network Error: " + m.errorString(),utility::concurrentID() ) ;
-
-		pixmap = m_defaultVideoThumbnail ;
-
-	}else if( pixmap.loadFromData( m.data() ) ){
-
-		auto w = m_settings.thumbnailWidth( settings::tabName::batch ) ;
-		auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
-
-		pixmap = pixmap.scaled( w,h ) ;
+		this->addItemUi( m_defaultVideoThumbnail,m.index(),m_table,m_ui,m.media() ) ;
 	}else{
-		pixmap = m_defaultVideoThumbnail ;
-	}
+		QPixmap pixmap ;
 
-	this->addItemUi( pixmap,m.index(),m_table,m_ui,m.media() ) ;
+		if( m.success() && pixmap.loadFromData( m.data() ) ){
+
+			auto w = m_settings.thumbnailWidth( settings::tabName::batch ) ;
+			auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
+
+			this->addItemUi( pixmap.scaled( w,h ),m.index(),m_table,m_ui,m.media() ) ;
+		}else{
+			this->addItemUi( m_defaultVideoThumbnail,m.index(),m_table,m_ui,m.media() ) ;
+		}
+	}
 
 	m_ctx.TabManager().Configure().setDownloadOptions( m.index(),m_table ) ;
 
@@ -1834,32 +1830,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 			m_ctx.network().get( u,[ this,media,index ]( const utils::network::reply& reply ){
 
-				if( reply.success() ){
-
-					BdNetworkData m( reply.data(),{},index,media.move() ) ;
-
-					QMetaObject::invokeMethod( this,
-								   "networkData",
-								   Qt::QueuedConnection,
-								   Q_ARG( BdNetworkData,std::move( m ) ) ) ;
-				}else{
-					auto m = [ & ]()->BdNetworkData{
-
-						if( reply.timeOut() ){
-
-							auto e = "Network Request Timed Out" ;
-
-							return { {},e,index,media.move() } ;
-						}else{
-							return { {},reply.errorString(),index,media.move() } ;
-						}
-					}() ;
-
-					QMetaObject::invokeMethod( this,
-								   "networkData",
-								   Qt::QueuedConnection,
-								   Q_ARG( BdNetworkData,std::move( m ) ) ) ;
-				}
+				utility::networkReply( this,"networkData",m_ctx,reply,nullptr,index,media.move() ) ;
 			} ) ;
 		}else{
 			this->addItemUi( index,enableAll,media ) ;

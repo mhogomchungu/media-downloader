@@ -183,6 +183,9 @@ static inline QList< QByteArray > split( const QByteArray& e,QChar token )
 class Json
 {
 public:
+	Json()
+	{
+	}
 	Json( const QByteArray& data ) :
 		m_doc( QJsonDocument::fromJson( data,&m_error ) )
 	{

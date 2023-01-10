@@ -87,10 +87,8 @@ public:
 	void updateEnginesList( const QStringList& ) ;
 	void clipboardData( const QString& ) ;
 private slots:
-	void networkData( const PlNetworkData& ) ;
+	void networkData( utility::networkReply ) ;
 private:
-	void networkResponce( PlNetworkData ) ;
-
 	enum class size{ small,large,toggle } ;
 	void resizeTable( playlistdownloader::size ) ;
 	QString defaultEngineName() ;

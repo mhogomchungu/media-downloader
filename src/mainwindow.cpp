@@ -58,6 +58,8 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStrin
 	m_showTrayIcon( s.showTrayIcon() ),
 	m_defaultWindowTitle( this->window()->windowTitle() )
 {
+	qRegisterMetaType< utility::networkReply >() ;
+
 	this->window()->setFixedSize( this->window()->size() ) ;
 
 	this->window()->setWindowIcon( m_trayIcon.icon() ) ;

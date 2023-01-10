@@ -97,9 +97,9 @@ void versionInfo::checkForEnginesUpdates( versionInfo::extensionVersionInfo vInf
 		}
 	}
 
-	m_ctx.network().get( url,[ this,vInfo = std::move( vInfo ) ]( const utils::network::reply& m ){
+	m_ctx.network().get( url,[ this,vInfo = std::move( vInfo ) ]( const utils::network::reply& reply ){
 
-		auto lv = vInfo.engine().versionInfoFromGithub( m.success() ? m.data() : QByteArray() ) ;
+		auto lv = vInfo.engine().versionInfoFromGithub( utility::networkReply( m_ctx,reply ).data() ) ;
 
 		if( lv.version.valid() ){
 
@@ -202,7 +202,7 @@ void versionInfo::checkForUpdates() const
 
 			QJsonParseError err ;
 
-			auto e = QJsonDocument::fromJson( reply.data(),&err ) ;
+			auto e = QJsonDocument::fromJson( utility::networkReply( m_ctx,reply ).data(),&err ) ;
 
 			if( err.error == QJsonParseError::NoError ){
 
@@ -315,11 +315,11 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 			if( !url.isEmpty() && m_checkForUpdates ){
 
-				m_ctx.network().get( url,[ id,this,vInfo = vInfo.move() ]( const utils::network::reply& m ){
+				m_ctx.network().get( url,[ id,this,vInfo = vInfo.move() ]( const utils::network::reply& reply ){
 
 					const auto& engine = vInfo.engine() ;
 
-					const auto& versionOnline = engine.versionInfoFromGithub( m.success() ? m.data() : QByteArray() ) ;
+					const auto& versionOnline = engine.versionInfoFromGithub( utility::networkReply( m_ctx,reply ).data() ) ;
 					const auto& installedVersion = engine.versionInfo() ;
 
 					const auto& version = versionOnline.version ;

@@ -1125,6 +1125,9 @@ namespace utility
 	class MediaEntry
 	{
 	public:
+		MediaEntry()
+		{
+		}
 		MediaEntry( const QString& url ) :
 			m_url( url ),
 			m_json( QByteArray() )
@@ -1237,6 +1240,74 @@ namespace utility
 		QJsonArray m_formats ;
 		int m_intDuration ;
 		util::Json m_json ;
+	} ;
+
+	class networkReply
+	{
+	public:
+		networkReply()
+		{
+		}
+		networkReply( const Context& ctx,const utils::network::reply& reply )
+		{
+			this->getData( ctx,reply ) ;
+		}
+		networkReply( QObject * obj,
+			      const char * member,
+			      tableWidget * t,
+			      int id,
+			      utility::MediaEntry m ) :
+			m_id( id ),
+			m_mediaEntry( std::move( m ) ),
+			m_table( t )
+		{
+			this->invoke( obj,member ) ;
+		}
+		networkReply( QObject * obj,
+			      const char * member,
+			      const Context& ctx,
+			      const utils::network::reply& reply,
+			      tableWidget * t,
+			      int id,
+			      utility::MediaEntry m ) :
+			m_id( id ),
+			m_mediaEntry( std::move( m ) ),
+			m_table( t )
+		{
+			this->getData( ctx,reply ) ;
+			this->invoke( obj,member ) ;
+		}
+		const QByteArray& data() const
+		{
+			return m_data ;
+		}
+		bool success() const
+		{
+			return !m_data.isEmpty() ;
+		}
+		int id() const
+		{
+			return m_id ;
+		}
+		int index() const
+		{
+			return m_id ;
+		}
+		const utility::MediaEntry& media() const
+		{
+			return m_mediaEntry ;
+		}
+		tableWidget& table() const
+		{
+			return *m_table ;
+		}
+	private:
+		void invoke( QObject *,const char * ) ;
+		void getData( const Context& ctx,const utils::network::reply& ) ;
+		QByteArray m_data ;
+		int m_id ;
+		utility::MediaEntry m_mediaEntry ;
+		tableWidget * m_table ;
 	};
 
 	template< typename FinishedState >
@@ -1353,5 +1424,7 @@ namespace utility
 		return type{ std::move( aa ),std::move( disableAll ),std::move( done ) } ;
 	}
 }
+
+Q_DECLARE_METATYPE( utility::networkReply )
 
 #endif

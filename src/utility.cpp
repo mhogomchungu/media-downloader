@@ -1007,8 +1007,6 @@ QString utility::locale::formattedDataSize( qint64 s ) const
 #endif
 }
 
-
-
 bool utility::platformIs32Bit()
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
@@ -1289,4 +1287,29 @@ void utility::setPermissions( const QString& e )
 	QFile s( e ) ;
 
 	utility::setPermissions( s ) ;
+}
+
+void utility::networkReply::invoke( QObject * obj,const char * member )
+{
+	QMetaObject::invokeMethod( obj,
+				   member,
+				   Qt::QueuedConnection,
+				   Q_ARG( utility::networkReply,*this ) ) ;
+}
+
+void utility::networkReply::getData( const Context& ctx,const utils::network::reply& reply )
+{
+	if( reply.success() ){
+
+		m_data = reply.data() ;
+	}else{
+		if( reply.timeOut() ){
+
+			QString m = "Network Error: Network Request Timed Out" ;
+
+			ctx.logger().add( m,utility::concurrentID() ) ;
+		}else{
+			ctx.logger().add( "Network Error: " + reply.errorString(),utility::concurrentID() ) ;
+		}
+	}
 }

@@ -59,6 +59,23 @@ namespace utils{
 			}
 		}
 
+		template< typename Value,typename Opt >
+		bool startsWithAny( const Value& v,const Opt& opt )
+		{
+			return v.startsWith( opt ) ;
+		}
+
+		template< typename Value,typename Opt,typename ... Opts >
+		bool startsWithAny( const Value& v,const Opt& opt,Opts&& ... opts )
+		{
+			if( v.startsWith( opt ) ){
+
+				return true ;
+			}else{
+				return misc::startsWithAny( v,std::forward< Opts >( opts ) ... ) ;
+			}
+		}
+
 		template< typename T >
 		class unique_ptr
 		{
