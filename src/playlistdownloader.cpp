@@ -1283,6 +1283,8 @@ void playlistdownloader::networkData( utility::networkReply m )
 		this->showEntry( table,{ img,s,media } ) ;
 	}
 
+	table.selectLast() ;
+
 	m_networkRunning-- ;
 }
 
@@ -1337,8 +1339,6 @@ void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
 			this->download() ;
 		}
 	}
-
-	table.selectLast() ;
 }
 
 playlistdownloader::subscription::subscription( const Context& e,

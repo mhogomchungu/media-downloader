@@ -299,6 +299,10 @@
         <source>Text Encoding</source>
         <translation>Codifica testo</translation>
     </message>
+    <message>
+        <source>Hide</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -862,6 +866,22 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Downloading video info</source>
         <translation>Download info video</translation>
+    </message>
+    <message>
+        <source>Hide Controls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Controls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
