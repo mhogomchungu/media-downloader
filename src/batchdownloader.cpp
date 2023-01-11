@@ -1787,8 +1787,6 @@ void batchdownloader::networkData( utility::networkReply m )
 {
 	if( networkAccess::hasNetworkSupport() ){
 
-		this->addItemUi( m_defaultVideoThumbnail,m.index(),m_table,m_ui,m.media() ) ;
-	}else{
 		QPixmap pixmap ;
 
 		if( m.success() && pixmap.loadFromData( m.data() ) ){
@@ -1800,6 +1798,8 @@ void batchdownloader::networkData( utility::networkReply m )
 		}else{
 			this->addItemUi( m_defaultVideoThumbnail,m.index(),m_table,m_ui,m.media() ) ;
 		}
+	}else{
+		this->addItemUi( m_defaultVideoThumbnail,m.index(),m_table,m_ui,m.media() ) ;
 	}
 
 	m_ctx.TabManager().Configure().setDownloadOptions( m.index(),m_table ) ;
