@@ -301,7 +301,7 @@
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi</translation>
     </message>
 </context>
 <context>
@@ -869,19 +869,19 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi controlli</translation>
     </message>
     <message>
         <source>Show Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza controlli</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi</translation>
     </message>
 </context>
 </TS>
