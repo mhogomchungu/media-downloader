@@ -307,6 +307,19 @@ bool tableWidget::noneAreRunning()
 	return true ;
 }
 
+bool tableWidget::allFinishedWithSuccess()
+{
+	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+
+		if( !downloadManager::finishedStatus::finishedWithSuccess( this->runningState( i ) ) ){
+
+			return false ;
+		}
+	}
+
+	return true ;
+}
+
 QString tableWidget::completeProgress( int firstRow,int )
 {
 	int completed = 0 ;
@@ -345,7 +358,7 @@ QString tableWidget::completeProgress( int firstRow,int )
 	auto d = QString::number( errored ) ;
 	auto e = QString::number( cancelled ) ;
 
-	if( a == "100.00" || a == "100,00" ){
+	if( a.startsWith( "100" ) ){
 
 		a = "100" ;
 	}

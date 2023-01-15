@@ -201,6 +201,7 @@ private:
 			m_txt = s ;
 		}
 		void updateProgress( const QString& progress ) ;
+		void reportError( const QString& ) ;
 		void updateTimer() ;
 		const QString& txt() const
 		{

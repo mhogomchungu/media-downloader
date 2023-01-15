@@ -853,7 +853,10 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 				m_ctx.TabManager().enableAll() ;
 
-				this->resizeTable( playlistdownloader::size::small ) ;
+				if( m_table.allFinishedWithSuccess() ){
+
+					this->resizeTable( playlistdownloader::size::small ) ;
+				}
 			}
 
 			m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,index ) ) ;
@@ -1012,6 +1015,11 @@ void playlistdownloader::getList( customOptions&& c,
 			m_gettingPlaylist = true ;
 			m_ui.pbPLCancel->setEnabled( true ) ;
 
+			if( m_table.rowCount() < 3 ){
+
+				this->resizeTable( playlistdownloader::size::small ) ;
+			}
+
 		},[ &engine,this,iter = std::move( iter ) ]( utility::ProcessExitState st,const playlistdownloader::opts& ){
 
 			if( m_stillProcessingJsonOutput ){
@@ -1128,7 +1136,20 @@ void playlistdownloader::getList( customOptions&& c,
 			return false ;
 		}
 
-		return utils::misc::containsAny( e,"ERROR:","WARNING" ) ;
+		if( e.startsWith( "ERROR: " ) ){
+
+			if( e.contains( "Temporary failure in name resolution" ) ){
+
+				m_banner.reportError( "ERROR\nNetwork Not Reachable" ) ;
+			}else{
+				auto m = util::split( e,'\n',true ).at( 0 ) ;
+				m_banner.reportError( "ERROR\n" + m.mid( 7 ) ) ;
+			}
+
+			return true ;
+		}
+
+		return e.startsWith( "WARNING" ) ;
 	} ;
 
 	auto id     = utility::concurrentID() ;
@@ -1477,6 +1498,11 @@ void playlistdownloader::banner::updateProgress( const QString& progress )
 	auto duration = engines::engine::functions::timer::stringElapsedTime( m_time ) ;
 	m_progress = duration + ", " + progress ;
 	m_table.setUiText( m_txt + "\n" + m_progress,0 ) ;
+}
+
+void playlistdownloader::banner::reportError( const QString& e )
+{
+	m_table.setUiText( e,0 ) ;
 }
 
 void playlistdownloader::banner::updateTimer()
