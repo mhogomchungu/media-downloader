@@ -305,7 +305,9 @@ yt_dlp::yt_dlp( const engines& engines,
 	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
 	m_version( version ),
-	m_supportsLazyPlaylist( "2022.06.22" )
+	m_likeYtdlp( m_engine.name() != "youtube-dl" ),
+	m_supportsLazyPlaylist( "2022.06.22" ),
+	m_supportsCompactOption( "2023.01.02" )
 {
 	auto name = obj.value( "Name" ).toString() ;
 
@@ -678,14 +680,12 @@ bool yt_dlp::breakShowListIfContains( const QStringList& e )
 
 bool yt_dlp::supportsShowingComments()
 {
-	const auto& name = m_engine.name() ;
-	return name.contains( "yt-dlp" ) || name.contains( "ytdl-patched" ) ;
+	return m_likeYtdlp ;
 }
 
 bool yt_dlp::updateVersionInfo()
 {
-	const auto& name = m_engine.name() ;
-	return name.contains( "yt-dlp" ) || name.contains( "ytdl-patched" ) ;
+	return m_likeYtdlp ;
 }
 
 void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
@@ -701,7 +701,7 @@ void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 
 engines::engine::functions::DataFilter yt_dlp::Filter( int id,const QString& e )
 {
-	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,e,m_engine } ;
+	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,e,m_engine,m_likeYtdlp } ;
 }
 
 void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -771,19 +771,17 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
 
-	bool yt_dl = m_engine.name() == "youtube-dl" ;
+	auto _replace = [ this ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
 
-	auto _replace = [ &yt_dl ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
+		if( m_likeYtdlp ){
 
-		if( yt_dl ){
-
-			txt.replace( original,New ) ;
-		}else{
 			if( txt.contains( original ) ){
 
 				s.append( "--parse-metadata" ) ;
 				s.append( New + ":" + original ) ;
 			}
+		}else{
+			txt.replace( original,New ) ;
 		}
 	} ;
 
@@ -814,7 +812,16 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 		}
 	}
 
-	if( m_engine.name().contains( "yt-dlp" ) ){
+	if( m_likeYtdlp ){
+
+		if( m_version.valid() ){
+
+			if( m_version >= m_supportsCompactOption ){
+
+				s.ourOptions.append( "--compat-options" ) ;
+				s.ourOptions.append( "2022" ) ;
+			}
+		}
 
 		while( s.ourOptions.contains( "--progress-template" ) ){
 
@@ -828,7 +835,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 {
-	if( m_version.valid() ){
+	if( m_likeYtdlp && m_version.valid() ){
 
 		if( m_version >= m_supportsLazyPlaylist ){
 
@@ -837,12 +844,13 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 	}
 }
 
-yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,const QString& e,const engines::engine& engine ) :
+yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
+					    const QString& e,
+					    const engines::engine& engine,
+					    bool likeYtDlp ) :
 	engines::engine::functions::filter( e,engine,processId ),
-	m_likeYtdlp( engine.name().contains( "yt-dlp" ) ),
-	m_processId( processId )
+	m_likeYtdlp( likeYtDlp )
 {
-	Q_UNUSED( m_processId )
 }
 
 const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )

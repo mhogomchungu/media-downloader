@@ -333,25 +333,36 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 				const utility::args& args,
 				const QStringList& urls,
 				bool update )
-{
-	m_tableList.setVisible( false ) ;
+{	
+	engine.engine.updateVersionInfo( [ this,engine,args,urls,update ](){
 
-	m_ctx.logger().setMaxProcessLog( 1 ) ;
+		m_tableList.setVisible( false ) ;
 
-	if( update ){
+		m_ctx.logger().setMaxProcessLog( 1 ) ;
 
-		m_ui.lineEditOptions->setText( args.quality() + " " + args.otherOptions().join( ' ' ) ) ;
+		if( update ){
 
-		m_ui.lineEditURL->setText( urls.join( ' ' ) ) ;
-	}
+			m_ui.lineEditOptions->setText( args.quality() + " " + args.otherOptions().join( ' ' ) ) ;
 
-	m_ui.tabWidget->setCurrentIndex( 0 ) ;
+			m_ui.lineEditURL->setText( urls.join( ' ' ) ) ;
+		}
 
-	m_ui.pbCancel->setEnabled( true ) ;
+		m_ui.tabWidget->setCurrentIndex( 0 ) ;
 
-	auto opts = utility::updateOptions( { m_extraOptions,engine.engine,m_settings,args,{},false,urls,{},m_ctx } ) ;
+		m_ui.pbCancel->setEnabled( true ) ;
 
-	this->run( engine,opts,args.quality(),false ) ;
+		auto opts = utility::updateOptions( { m_extraOptions,
+						      engine.engine,
+						      m_settings,
+						      args,
+						      {},
+						      false,
+						      urls,
+						      {},
+						      m_ctx } ) ;
+
+		this->run( engine,opts,args.quality(),false ) ;
+	} ) ;
 }
 
 void basicdownloader::run( const basicdownloader::engine& eng,

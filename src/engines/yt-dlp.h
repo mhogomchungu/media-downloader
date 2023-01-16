@@ -32,7 +32,7 @@ public:
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		youtube_dlFilter( int processId,const QString&,const engines::engine& ) ;
+		youtube_dlFilter( int processId,const QString&,const engines::engine&,bool ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -41,7 +41,6 @@ public:
 		const QByteArray& youtubedlOutput( const Logger::Data& ) ;
 		const QByteArray& ytdlpOutput( const Logger::Data& ) ;
 		bool m_likeYtdlp ;
-		int m_processId ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
 		QByteArray m_tmp ;
@@ -88,5 +87,7 @@ private:
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
 	const util::version& m_version ;
+	bool m_likeYtdlp ;
 	const util::version m_supportsLazyPlaylist ;
+	const util::version m_supportsCompactOption ;
 };
