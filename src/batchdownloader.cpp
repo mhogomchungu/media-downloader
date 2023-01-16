@@ -1385,7 +1385,7 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 
 				this->parseDataFromFile( list ) ;
 			}else{
-				list.replace( "\r\n","\n" ) ;
+				list.replace( "\r","" ) ;
 
 				Items items ;
 
@@ -1497,6 +1497,8 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 	}
 
 	engine.setTextEncondig( args ) ;
+
+	engine.updateCmdOptions( args ) ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
@@ -1674,6 +1676,8 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	engine.setTextEncondig( args ) ;
 
+	engine.updateCmdOptions( args ) ;
+
 	args.append( url ) ;
 
 	m_ctx.TabManager().disableAll() ;
@@ -1838,22 +1842,29 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 	}
 }
 
-void batchdownloader::addToList( const QString& url,bool autoDownload,bool showThumbnails )
+void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThumbnails )
 {
 	const auto& engine = this->defaultEngine() ;
 
-	if( utils::misc::containsAny( url,'\n',' ' ) ){
+	engine.updateVersionInfo( [ this,&engine,u,autoDownload,showThumbnails ](){
 
-		for( const auto& it : util::split( url,' ',true ) ){
+		auto url = u ;
 
-			for( const auto& xt : util::split( it,'\n',true ) ){
+		url.replace( "\r","" ) ;
 
-				this->showThumbnail( engine,xt,autoDownload,showThumbnails ) ;
+		if( utils::misc::containsAny( url,'\n',' ' ) ){
+
+			for( const auto& it : util::split( url,' ',true ) ){
+
+				for( const auto& xt : util::split( it,'\n',true ) ){
+
+					this->showThumbnail( engine,xt,autoDownload,showThumbnails ) ;
+				}
 			}
+		}else{
+			this->showThumbnail( engine,url,autoDownload,showThumbnails ) ;
 		}
-	}else{
-		this->showThumbnail( engine,url,autoDownload,showThumbnails ) ;
-	}
+	} ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,downloadManager::index indexes )

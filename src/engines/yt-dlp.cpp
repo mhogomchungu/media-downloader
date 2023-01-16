@@ -841,6 +841,24 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 
 			e.append( "--lazy-playlist" ) ;
 		}
+
+		if( m_version >= m_supportsCompactOption ){
+
+			e.append( "--compat-options" ) ;
+			e.append( "2022" ) ;
+		}
+	}
+}
+
+void yt_dlp::updateCmdOptions( QStringList& e )
+{
+	if( m_likeYtdlp && m_version.valid() ){
+
+		if( m_version >= m_supportsCompactOption ){
+
+			e.append( "--compat-options" ) ;
+			e.append( "2022" ) ;
+		}
 	}
 }
 

@@ -477,6 +477,8 @@ public:
 
 			virtual void updateGetPlaylistCmdOptions( QStringList& ) ;
 
+			virtual void updateCmdOptions( QStringList& ) ;
+
 			functions( settings&,const engines::engine&,const QProcessEnvironment& e ) ;
 			settings& Settings() const ;
 			const engines::engine& engine() const ;
@@ -656,6 +658,10 @@ public:
 		void updateGetPlaylistCmdOptions( QStringList& e ) const
 		{
 			m_functions->updateGetPlaylistCmdOptions( e ) ;
+		}
+		void updateCmdOptions( QStringList& e ) const
+		{
+			m_functions->updateCmdOptions( e ) ;
 		}
 		bool archiveContainsFolder() const
 		{

@@ -1279,6 +1279,10 @@ void engines::engine::functions::updateGetPlaylistCmdOptions( QStringList& )
 {
 }
 
+void engines::engine::functions::updateCmdOptions( QStringList& )
+{
+}
+
 engines::engine::functions::functions( settings& s,const engines::engine& engine,const QProcessEnvironment& env ) :
 	m_settings( s ),m_engine( engine ),m_processEnvironment( env )
 {

@@ -72,6 +72,8 @@ public:
 
 	void updateGetPlaylistCmdOptions( QStringList& ) override ;
 
+	void updateCmdOptions( QStringList& ) override ;
+
 	static QJsonObject init( const QString& name,
 				 const QString& configFileName,
 				 Logger& logger,
