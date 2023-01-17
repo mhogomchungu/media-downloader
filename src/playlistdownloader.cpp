@@ -128,20 +128,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	m_ui.pbPLChangeTableSize->setToolTip( tr( "Hide Controls" ) ) ;
 
-	m_ui.tableWidgetPl->addAction( [ this ](){
-
-		auto ac = new QAction( this ) ;
-
-		ac->setShortcuts( { Qt::Key( Qt::CTRL ) + Qt::Key::Key_S } ) ;
-
-		connect( ac,&QAction::triggered,[ this ](){
-
-			this->resizeTable( playlistdownloader::size::toggle ) ;
-		} ) ;
-
-		return ac ;
-	}() ) ;
-
 	m_ui.tableWidgetPlDownloaderSubscription->setColumnWidth( 0,180 ) ;
 
 	m_ui.labelPlSubscriptionListOptions->setText( tr( "Get List Options:" ).replace( ":","" ) ) ;
@@ -765,11 +751,6 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 		return ;
 	}
 
-	if( indexes.count() > 3 ){
-
-		this->resizeTable( playlistdownloader::size::large ) ;
-	}
-
 	m_ctx.logger().clear() ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
@@ -1014,11 +995,6 @@ void playlistdownloader::getList( customOptions&& c,
 			opts.ctx.TabManager().disableAll() ;
 			m_gettingPlaylist = true ;
 			m_ui.pbPLCancel->setEnabled( true ) ;
-
-			if( m_table.rowCount() < 3 ){
-
-				this->resizeTable( playlistdownloader::size::small ) ;
-			}
 
 		},[ &engine,this,iter = std::move( iter ) ]( utility::ProcessExitState st,const playlistdownloader::opts& ){
 
