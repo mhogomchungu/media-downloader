@@ -27,6 +27,7 @@
 #include "engines.h"
 #include "utils/network_access_manager.hpp"
 #include "utils/miscellaneous.hpp"
+#include "utils/qtimer.hpp"
 
 class basicdownloader ;
 class Context ;
@@ -148,14 +149,74 @@ public:
 	void download( networkAccess::iterator,networkAccess::showVersionInfo ) const ;
 
 	template< typename Function >
-	void get( const QString& url,Function&& function ) const
+	void get( const QString& url,Function function ) const
 	{
-		m_network.get( this->networkRequest( url ),[ function = std::move( function ) ]( const utils::network::reply& reply ){
-
-			function( reply ) ;
-		} ) ;
+		this->get( this->make_function( std::move( function ),url ) ) ;
 	}
 private:
+	template< typename Function >
+	class function{
+	public:
+		function( Function&& f,const QString& url ) :
+			m_function( std::move( f ) ),
+			m_url( url )
+		{
+		}
+		function< Function > move() const
+		{
+			return std::move( *const_cast< function< Function > * >( this ) ) ;
+		}
+		bool repeat() const
+		{
+			return m_repeat-- ;
+		}
+		const QString& url() const
+		{
+			return m_url ;
+		}
+		void call( const utils::network::reply& reply ) const
+		{
+			m_function( reply ) ;
+		}
+	private:
+		Function m_function ;
+		QString m_url ;
+		mutable int m_repeat = 1 ;
+	} ;
+	template< typename Function >
+	function< Function > make_function( Function&& fnt,const QString& url ) const
+	{
+		return { std::move( fnt ),url } ;
+	}
+	template< typename Function >
+	void get( Function&& function ) const
+	{
+		auto m = this->networkRequest( function.url() ) ;
+
+		m_network.get( m,[ this,function = function.move() ]( const utils::network::reply& reply ){
+
+			if( !reply.success() ){
+
+				auto error = reply.error() ;
+
+				if( error == QNetworkReply::TemporaryNetworkFailureError ||
+				    error == QNetworkReply::NetworkSessionFailedError ){
+
+					if( function.repeat() ){
+
+						utils::qtimer::run( 1000,[ this,function = function.move() ](){
+
+							this->get( function.move() ) ;
+						} ) ;
+
+						return ;
+					}
+				}
+			}
+
+			function.call( reply ) ;
+		} ) ;
+	}
 
 	struct metadata
 	{
