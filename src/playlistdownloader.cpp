@@ -1096,9 +1096,19 @@ void playlistdownloader::getList( customOptions&& c,
 
 		}else if( utils::misc::startsWithAny( e,"[download] Downloading video ","[download] Downloading item " ) ){
 
-			auto m = tr( "Downloading video info" ) + " " + e.mid( 29 ) ;
+			auto s = [ & ](){
 
-			auto s = m.indexOf( '\n' ) ;
+				if( e.startsWith( "[download] Downloading video " ) ){
+
+					return 29 ;
+				}else{
+					return 28 ;
+				}
+			}() ;
+
+			auto m = tr( "Downloading video info" ) + " " + e.mid( s ) ;
+
+			s = m.indexOf( '\n' ) ;
 
 			if( s != -1 ){
 
