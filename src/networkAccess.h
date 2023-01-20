@@ -155,7 +155,8 @@ public:
 	}
 private:
 	template< typename Function >
-	class function{
+	class function
+	{
 	public:
 		function( Function&& f,const QString& url ) :
 			m_function( std::move( f ) ),
@@ -164,11 +165,11 @@ private:
 		}
 		function< Function > move() const
 		{
-			return std::move( *const_cast< function< Function > * >( this ) ) ;
+			return std::move( this->mutableRef() ) ;
 		}
-		bool repeat() const
+		bool retry() const
 		{
-			return m_repeat-- ;
+			return this->mutableRef().m_retry-- ;
 		}
 		const QString& url() const
 		{
@@ -179,9 +180,13 @@ private:
 			m_function( reply ) ;
 		}
 	private:
+		function< Function >& mutableRef() const
+		{
+			return const_cast< function< Function >& >( *this ) ;
+		}
 		Function m_function ;
 		QString m_url ;
-		mutable int m_repeat = 1 ;
+		int m_retry = 1 ;
 	} ;
 	template< typename Function >
 	function< Function > make_function( Function&& fnt,const QString& url ) const
@@ -195,23 +200,14 @@ private:
 
 		m_network.get( m,[ this,function = function.move() ]( const utils::network::reply& reply ){
 
-			if( !reply.success() ){
+			if( !reply.success() && reply.retry() && function.retry() ){
 
-				auto error = reply.error() ;
+				utils::qtimer::run( 1000,[ this,function = function.move() ](){
 
-				if( error == QNetworkReply::TemporaryNetworkFailureError ||
-				    error == QNetworkReply::NetworkSessionFailedError ){
+					this->get( function.move() ) ;
+				} ) ;
 
-					if( function.repeat() ){
-
-						utils::qtimer::run( 1000,[ this,function = function.move() ](){
-
-							this->get( function.move() ) ;
-						} ) ;
-
-						return ;
-					}
-				}
+				return ;
 			}
 
 			function.call( reply ) ;

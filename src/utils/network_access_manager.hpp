@@ -78,6 +78,13 @@ namespace utils
 				{
 					return m_networkReply ;
 				}
+				bool retry() const
+				{
+					auto error = this->error() ;
+
+					return error == QNetworkReply::TemporaryNetworkFailureError ||
+					       error == QNetworkReply::NetworkSessionFailedError ;
+				}
 			private:
 				QNetworkReply& m_networkReply ;
 				bool m_finished ;
