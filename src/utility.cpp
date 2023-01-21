@@ -885,6 +885,20 @@ utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
 		m_n_entries            = QString::number( object.value( "n_entries" ).toInt() ) ;
 		m_playlist_count       = QString::number( object.value( "playlist_count" ).toInt() ) ;
 
+		if( m_uploadDate.size() == 8 ){
+
+			auto year  = m_uploadDate.mid( 0,4 ).toInt() ;
+			auto month = m_uploadDate.mid( 4,2 ).toInt() ;
+			auto day   = m_uploadDate.mid( 6,2 ).toInt() ;
+
+			QDate d ;
+
+			if( d.setDate( year,month,day ) ){
+
+				m_uploadDate = d.toString() ;
+			}
+		}
+
 		if( !m_uploadDate.isEmpty() ){
 
 			m_uploadDate = utility::stringConstants::uploadDate() + " " + m_uploadDate ;
