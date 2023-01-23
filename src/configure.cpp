@@ -525,6 +525,16 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
 
+	connect( m_ui.cbCheckForUpdates,&QCheckBox::stateChanged,[ this ]( int e ){
+
+		auto s = static_cast< Qt::CheckState >( e ) ;
+
+		if( s == Qt::Checked ){
+
+			m_ctx.getVersionInfo().checkForUpdates() ;
+		}
+	} ) ;
+
 	if( utility::platformIsLikeWindows() ){
 
 		m_ui.cbUseSystemVersionIfAvailable->setEnabled( !m_settings.portableVersion() ) ;

@@ -198,11 +198,13 @@ void versionInfo::checkForUpdates() const
 
 	m_ctx.network().get( url,[ this ]( const utils::network::reply& reply ){
 
+		utility::networkReply nreply( m_ctx,reply ) ;
+
 		if( reply.success() ){
 
 			QJsonParseError err ;
 
-			auto e = QJsonDocument::fromJson( utility::networkReply( m_ctx,reply ).data(),&err ) ;
+			auto e = QJsonDocument::fromJson( nreply.data(),&err ) ;
 
 			if( err.error == QJsonParseError::NoError ){
 
@@ -214,6 +216,10 @@ void versionInfo::checkForUpdates() const
 				vInfo.append( "Media Downloader",iv,lv ) ;
 
 				this->checkForEnginesUpdates( std::move( vInfo ) ) ;
+			}else{
+				m_ctx.logger().add( err.errorString(),utility::sequentialID() ) ;
+
+				this->checkForEnginesUpdates( m_ctx.Engines().getEnginesIterator() ) ;
 			}
 		}
 	} ) ;
