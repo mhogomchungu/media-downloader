@@ -316,15 +316,12 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 					  const QString& dopts,
 					  const engines::engine::functions::finishedState& f )
 {
-	if( f.cancelled() ){
+	if( f.cancelled() || f.success() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
-
-	}else if( f.success() ){
-
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + bkText ;
 	}
 }
 

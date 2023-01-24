@@ -167,8 +167,13 @@ QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
 		auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
 
 		return m + ", " + e + "\n" + uiText ;
-	}else{
+
+	}else if( f.cancelled() ){
+
 		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
+	}else{
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + bkText ;
 	}
 }
 

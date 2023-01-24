@@ -137,9 +137,15 @@ namespace utility
 
 				return "[media-downloader] Download Completed Successfully" ;
 			}else{
-				return "[media-downloader] Download Failed" ;
-			}
+				if( p.exitStatus() == QProcess::NormalExit ){
 
+					auto m = QString::number( p.exitCode() ).toUtf8() ;
+
+					return "[media-downloader] Download Failed(ErrorCode=" + m + ")" ;
+				}else{
+					return "[media-downloader] Download Failed, Engine crashed" ;
+				}
+			}
 		}
 		static bool doneDownloadingText( const QByteArray& e )
 		{

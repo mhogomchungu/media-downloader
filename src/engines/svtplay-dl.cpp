@@ -111,11 +111,12 @@ QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& dopts,
 						 const engines::engine::functions::finishedState& f )
 {
-	if( f.success() ){
+	if( f.success() || f.cancelled() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + bkText ;
 	}
 }
 

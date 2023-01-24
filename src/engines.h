@@ -252,7 +252,9 @@ public:
 				finishedState( const Args& a ) :
 				        m_success( a.success() ),
 				        m_cancelled( a.cancelled() ),
-				        m_duration( a.duration() )
+					m_duration( a.duration() ),
+					m_errorCode( a.exitCode() ),
+					m_exitStatus( a.exitStatus() )
 				{
 				}
 				bool success() const
@@ -267,10 +269,20 @@ public:
 				{
 				        return m_duration ;
 				}
+				int errorCode() const
+				{
+					return m_errorCode ;
+				}
+				QProcess::ExitStatus exitStatus() const
+				{
+					return m_exitStatus ;
+				}
 			private:
 				bool m_success ;
 				bool m_cancelled ;
 				qint64 m_duration ;
+				int m_errorCode ;
+				QProcess::ExitStatus m_exitStatus ;
 			};
 
 			static QString processCompleteStateText( const engine::engine::functions::finishedState& ) ;

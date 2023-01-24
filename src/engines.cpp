@@ -964,7 +964,17 @@ QString engines::engine::functions::processCompleteStateText( const engine::engi
 
 		return QObject::tr( "Download completed" ) ;
 	}else{
-		return QObject::tr( "Download Failed" ) ;
+		if( f.exitStatus() == QProcess::NormalExit ){
+
+			auto m = QString::number( f.errorCode() ) ;
+
+			auto a = QObject::tr( "Download Failed" ) ;
+			auto b = "(" + QObject::tr( "ErrorCode=" ) + m + ")" ;
+
+			return a + b ;
+		}else{
+			return QObject::tr( "Download Failed, Engine crashed" ) ;
+		}
 	}
 }
 
