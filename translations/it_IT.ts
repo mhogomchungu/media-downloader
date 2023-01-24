@@ -684,6 +684,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Update Found</source>
         <translation>Disponibile aggiornamento</translation>
     </message>
+    <message>
+        <source>ErrorCode=</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Failed, Engine crashed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
