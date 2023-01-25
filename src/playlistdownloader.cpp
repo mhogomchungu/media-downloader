@@ -918,7 +918,7 @@ void playlistdownloader::getListing( playlistdownloader::listIterator e,const en
 
 	this->showBanner() ;
 
-	engine.updateVersionInfo( [ this,&engine,e = std::move( e ) ](){
+	engine.updateVersionInfo( m_ctx,[ this,&engine,e = std::move( e ) ](){
 
 		this->getList( e.move(),engine ) ;
 	} ) ;

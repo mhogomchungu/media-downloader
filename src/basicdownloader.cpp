@@ -334,7 +334,7 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 				const QStringList& urls,
 				bool update )
 {	
-	engine.engine.updateVersionInfo( [ this,engine,args,urls,update ](){
+	engine.engine.updateVersionInfo( m_ctx,[ this,engine,args,urls,update ](){
 
 		m_tableList.setVisible( false ) ;
 

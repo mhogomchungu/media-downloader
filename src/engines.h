@@ -536,8 +536,8 @@ public:
 			}
 		}
 
-		template< typename Function >
-		void updateVersionInfo( Function function ) const
+		template< typename Context,typename Function >
+		void updateVersionInfo( const Context& ctx,Function function ) const
 		{
 			if( m_functions->updateVersionInfo() ){
 
@@ -547,6 +547,8 @@ public:
 
 					function() ;
 				}else{
+					ctx.TabManager().disableAll() ;
+
 					const auto& exe = engine.exePath() ;
 					QStringList args{ engine.versionArgument() } ;
 

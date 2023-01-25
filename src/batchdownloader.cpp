@@ -1846,7 +1846,7 @@ void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThu
 {
 	const auto& engine = this->defaultEngine() ;
 
-	engine.updateVersionInfo( [ this,&engine,u,autoDownload,showThumbnails ](){
+	engine.updateVersionInfo( m_ctx,[ this,&engine,u,autoDownload,showThumbnails ](){
 
 		auto url = u ;
 
@@ -1874,15 +1874,17 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 		return ;
 	}
 
-	engine.updateVersionInfo( [ this,&engine,indexes = std::move( indexes ) ](){
+	m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
+				      m_ui.lineEditBDUrlOptions->text(),
+				      settings::tabName::batch ) ;
 
-		m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
-					      m_ui.lineEditBDUrlOptions->text(),
-					      settings::tabName::batch ) ;
+	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-		m_ctx.TabManager().basicDownloader().hideTableList() ;
+	m_ctx.mainWindow().setTitle( QString() ) ;
 
-		m_ctx.mainWindow().setTitle( QString() ) ;
+	m_ctx.TabManager().disableAll() ;
+
+	engine.updateVersionInfo( m_ctx,[ this,&engine,indexes = std::move( indexes ) ](){
 
 		m_ccmd.download( std::move( indexes ),engine,[ this ](){
 
