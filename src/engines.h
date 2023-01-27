@@ -554,12 +554,16 @@ public:
 
 					engines::engine::exeArgs::cmd cmd( exe,args ) ;
 
-					utils::qprocess::run( cmd.exe(),cmd.args(),[ &engine,function = std::move( function ) ]( const utils::qprocess::outPut& e ){
+					this->setPermissions( cmd.exe() ) ;
+
+					utils::qprocess::run( cmd.exe(),cmd.args(),[ &ctx,&engine,function = std::move( function ) ]( const utils::qprocess::outPut& e ){
 
 						if( e.success() ){
 
 							engine.setVersionString( e.stdOut ) ;
 						}
+
+						ctx.TabManager().enableAll() ;
 
 						function() ;
 					} ) ;
@@ -819,6 +823,8 @@ public:
 			return m_broken ;
 		}
 	private:
+		void setPermissions( const QString& ) const ;
+
 		void updateOptions() ;
 
 		void parseMultipleCmdArgs( Logger& logger,const engines& engines,int ) ;

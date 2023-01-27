@@ -926,6 +926,11 @@ QString engines::engine::versionString( const QString& data ) const
 	return {} ;
 }
 
+void engines::engine::setPermissions( const QString& e ) const
+{
+	utility::setPermissions( e ) ;
+}
+
 engines::enginePaths::enginePaths( settings& s )
 {
 	m_basePath   = s.configPaths() ;
