@@ -1145,6 +1145,15 @@ bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray&,in
 	return true ;
 }
 
+bool engines::engine::functions::likeYtdlp()
+{
+	return false ;
+}
+
+void engines::engine::functions::updateLocalOptions( QStringList& )
+{
+}
+
 engines::engine::functions::onlineVersion engines::engine::functions::versionInfoFromGithub( const QByteArray& e )
 {
 	QJsonParseError err ;

@@ -680,12 +680,27 @@ bool yt_dlp::breakShowListIfContains( const QStringList& e )
 
 bool yt_dlp::supportsShowingComments()
 {
-	return m_likeYtdlp ;
+	return this->likeYtdlp() ;
 }
 
 bool yt_dlp::updateVersionInfo()
 {
+	return this->likeYtdlp() ;
+}
+
+bool yt_dlp::likeYtdlp()
+{
 	return m_likeYtdlp ;
+}
+
+void yt_dlp::updateLocalOptions( QStringList& opts )
+{
+	if( this->likeYtdlp() ){
+
+		opts.prepend( "--break-on-reject" ) ;
+		opts.prepend( "!playlist" ) ;
+		opts.prepend( "--match-filter" ) ;
+	}
 }
 
 void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )

@@ -1316,14 +1316,13 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 	if( reply.success() ){
 
 		m_data = reply.data() ;
+
+	}else if( reply.timeOut() ){
+
+		QString m = "Network Error: Network Request Timed Out" ;
+
+		ctx.logger().add( m,utility::concurrentID() ) ;
 	}else{
-		if( reply.timeOut() ){
-
-			QString m = "Network Error: Network Request Timed Out" ;
-
-			ctx.logger().add( m,utility::concurrentID() ) ;
-		}else{
-			ctx.logger().add( "Network Error: " + reply.errorString(),utility::concurrentID() ) ;
-		}
+		ctx.logger().add( "Network Error: " + reply.errorString(),utility::concurrentID() ) ;
 	}
 }

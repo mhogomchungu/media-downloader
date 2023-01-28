@@ -57,6 +57,10 @@ public:
 
 	bool updateVersionInfo() override ;
 
+	bool likeYtdlp() override ;
+
+	void updateLocalOptions( QStringList& ) override ;
+
 	void setTextEncondig( const QString&,QStringList& ) override ;
 
 	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;

@@ -442,6 +442,10 @@ public:
 
 			virtual bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) ;
 
+			virtual bool likeYtdlp() ;
+
+			virtual void updateLocalOptions( QStringList& ) ;
+
 			struct onlineVersion
 			{
 				QString stringVersion ;
@@ -528,12 +532,7 @@ public:
 
 		void updateLocalOptions( QStringList& opts ) const
 		{
-			if( this->name().contains( "yt-dlp" ) ){
-
-				opts.prepend( "--break-on-reject" ) ;
-				opts.prepend( "!playlist" ) ;
-				opts.prepend( "--match-filter" ) ;
-			}
+			m_functions->updateLocalOptions( opts ) ;
 		}
 
 		template< typename Context,typename Function >
