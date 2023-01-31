@@ -316,11 +316,13 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 					  const QString& dopts,
 					  const engines::engine::functions::finishedState& f )
 {
-	Q_UNUSED( uiText )
-
-	if( f.cancelled() || f.success() ){
+	if( f.cancelled() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+
+	}else if( f.success() ){
+
+		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 	}else{
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
 		return m + "\n" + bkText ;

@@ -692,6 +692,22 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Requested Format Is Not Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Temporary Failure In Name Resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invalid Url Entered</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

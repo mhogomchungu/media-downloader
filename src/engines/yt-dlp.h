@@ -38,6 +38,7 @@ public:
 
 		~youtube_dlFilter() override ;
 	private:
+		const char * compatYear() ;
 		const QByteArray& youtubedlOutput( const Logger::Data& ) ;
 		const QByteArray& ytdlpOutput( const Logger::Data& ) ;
 		bool m_likeYtdlp ;
@@ -90,10 +91,9 @@ public:
 		const engines::enginePaths&,
 		const util::version& ) ;
 private:
+	void appendCompatOption( QStringList& ) ;
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
 	const util::version& m_version ;
 	bool m_likeYtdlp ;
-	const util::version m_supportsLazyPlaylist ;
-	const util::version m_supportsCompactOption ;
 };

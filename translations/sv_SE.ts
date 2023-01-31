@@ -656,52 +656,52 @@
         <translation>Det gick inte att hitta python3 för programmet &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="961"/>
+        <location filename="../src/engines.cpp" line="966"/>
         <source>Download cancelled</source>
         <translation>Nerladdningen avbruten</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="972"/>
+        <location filename="../src/engines.cpp" line="977"/>
         <source>ErrorCode=</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="976"/>
+        <location filename="../src/engines.cpp" line="981"/>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1126"/>
+        <location filename="../src/engines.cpp" line="1131"/>
         <source>Format Code</source>
         <translation>Formatkod</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1127"/>
+        <location filename="../src/engines.cpp" line="1132"/>
         <source>Extension</source>
         <translation>Tillägg</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1128"/>
+        <location filename="../src/engines.cpp" line="1133"/>
         <source>Resolution</source>
         <translation>Upplösning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1129"/>
+        <location filename="../src/engines.cpp" line="1134"/>
         <source>Note</source>
         <translation>Observera</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1372"/>
+        <location filename="../src/engines.cpp" line="1386"/>
         <source>Failed to open file for writing</source>
         <translation>Det gick inte att öppna filen för skrivning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1378"/>
+        <location filename="../src/engines.cpp" line="1392"/>
         <source>Failed to open file for reading</source>
         <translation>Det gick inte att öppna filen för läsning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1523"/>
+        <location filename="../src/engines.cpp" line="1537"/>
         <source>Elapsed Time:</source>
         <translation>Förfluten tid:</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>Starta nerladdningen</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="971"/>
+        <location filename="../src/engines.cpp" line="976"/>
         <location filename="../src/networkAccess.cpp" line="211"/>
         <location filename="../src/networkAccess.cpp" line="213"/>
         <location filename="../src/networkAccess.cpp" line="260"/>
@@ -781,12 +781,12 @@
         <translation>Döper om fil till: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1441"/>
+        <location filename="../src/engines.cpp" line="1455"/>
         <source>Processing</source>
         <translation>Arbetar</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="965"/>
+        <location filename="../src/engines.cpp" line="970"/>
         <source>Download completed</source>
         <translation>Nerladdning klar</translation>
     </message>
@@ -796,7 +796,7 @@
         <translation>Återställer nerladdningsmappen till standard</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1486"/>
+        <location filename="../src/engines.cpp" line="1500"/>
         <source>Post Processing</source>
         <translation>Efterbehandling</translation>
     </message>
@@ -879,19 +879,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="289"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="293"/>
         <location filename="../src/engines/lux.cpp" line="225"/>
         <location filename="../src/engines/wget.cpp" line="314"/>
         <source>Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="332"/>
+        <location filename="../src/engines/lux.cpp" line="334"/>
         <source>This May Take A Very Long Time</source>
         <translation>Detta kan ta väldigt lång tid</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="288"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="292"/>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>
@@ -924,6 +924,26 @@
     <message>
         <location filename="../src/versionInfo.cpp" line="337"/>
         <source>Newest Version Is %1, Updating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/yt-dlp.cpp" line="789"/>
+        <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/yt-dlp.cpp" line="794"/>
+        <source>Requested Format Is Not Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/yt-dlp.cpp" line="799"/>
+        <source>Temporary Failure In Name Resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/yt-dlp.cpp" line="804"/>
+        <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1004,7 +1024,7 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1626"/>
-        <location filename="../src/batchdownloader.cpp" line="2039"/>
+        <location filename="../src/batchdownloader.cpp" line="2041"/>
         <source>Downloading subtitles</source>
         <translation>Laddar ner undertexter</translation>
     </message>

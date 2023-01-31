@@ -305,10 +305,10 @@ yt_dlp::yt_dlp( const engines& engines,
 	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
 	m_version( version ),
-	m_likeYtdlp( m_engine.name() != "youtube-dl" ),
-	m_supportsLazyPlaylist( "2022.06.22" ),
-	m_supportsCompactOption( "2023.01.02" )
+	m_likeYtdlp( m_engine.name() != "youtube-dl" )
 {
+	Q_UNUSED( m_version )
+
 	auto name = obj.value( "Name" ).toString() ;
 
 	if( name == "youtube-dl" || name == "yt-dlp" ){
@@ -428,6 +428,19 @@ yt_dlp::yt_dlp( const engines& engines,
 			}() ) ;
 		}
 	}
+}
+
+#define COMPACTYEAR "2022"
+
+void yt_dlp::appendCompatOption( QStringList& e )
+{
+	e.append( "--compat-options" ) ;
+	e.append( COMPACTYEAR ) ;
+}
+
+const char * yt_dlp::youtube_dlFilter::compatYear()
+{
+	return "yt-dlp: error: wrong OPTS for --compat-options: " COMPACTYEAR ;
 }
 
 yt_dlp::~yt_dlp()
@@ -685,7 +698,8 @@ bool yt_dlp::supportsShowingComments()
 
 bool yt_dlp::updateVersionInfo()
 {
-	return this->likeYtdlp() ;
+	return false ;
+	//return this->likeYtdlp() ;
 }
 
 bool yt_dlp::likeYtdlp()
@@ -766,8 +780,30 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 		}
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,f ) ;
-	}else{
+
+	}else if( uiText == "EngineNeedUpdating" ){
+
+		const auto& name = this->engine().name() ;
+		auto version = "2023.01.06" ;
+
+		return QObject::tr( "Please Update \"%1\" To Atleast Version \"%2\"" ).arg( name,version ) ;
+
+	}else if( uiText.contains( "Requested format is not available" ) ){
+
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Requested Format Is Not Available" )+ "\n" + bkText ;
+
+	}else if( uiText.contains( "Temporary failure in name resolution" ) ){
+
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Temporary Failure In Name Resolution" )+ "\n" + bkText ;
+
+	}else if( uiText.contains( " is not a valid URL" ) ){
+
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Invalid Url Entered" ) + "\n" + bkText ;
+	}else {
+		auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 		return m + "\n" + bkText ;
 	}
 }
@@ -829,14 +865,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 	if( m_likeYtdlp ){
 
-		if( m_version.valid() ){
-
-			if( m_version >= m_supportsCompactOption ){
-
-				s.ourOptions.append( "--compat-options" ) ;
-				s.ourOptions.append( "2022" ) ;
-			}
-		}
+		this->appendCompatOption( s.ourOptions ) ;
 
 		while( s.ourOptions.contains( "--progress-template" ) ){
 
@@ -850,30 +879,19 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 {
-	if( m_likeYtdlp && m_version.valid() ){
+	if( this->likeYtdlp() ){
 
-		if( m_version >= m_supportsLazyPlaylist ){
+		e.append( "--lazy-playlist" ) ;
 
-			e.append( "--lazy-playlist" ) ;
-		}
-
-		if( m_version >= m_supportsCompactOption ){
-
-			e.append( "--compat-options" ) ;
-			e.append( "2022" ) ;
-		}
+		this->appendCompatOption( e ) ;
 	}
 }
 
 void yt_dlp::updateCmdOptions( QStringList& e )
 {
-	if( m_likeYtdlp && m_version.valid() ){
+	if( this->likeYtdlp() ){
 
-		if( m_version >= m_supportsCompactOption ){
-
-			e.append( "--compat-options" ) ;
-			e.append( "2022" ) ;
-		}
+		this->appendCompatOption( e ) ;
 	}
 }
 
@@ -991,9 +1009,16 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 
 	for( const auto& e : data ){
 
+		if( e.contains( this->compatYear() ) ){
+
+			m_tmp = "EngineNeedUpdating" ;
+
+			return m_tmp ;
+		}
 		if( e.startsWith( "ERROR: " ) || e.startsWith( "yt-dlp: error:" ) ){
 
 			m_tmp = e ;
+
 			return m_tmp ;
 		}
 		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){

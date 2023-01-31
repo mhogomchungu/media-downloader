@@ -274,9 +274,13 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& dopts,
 						 const engines::engine::functions::finishedState& f )
 {
-	if( f.success() || f.cancelled() ){
+	if( f.success() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+
+	}else if( f.cancelled() ){
+
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}else{
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
 		return m + "\n" + bkText ;

@@ -23,7 +23,8 @@ engines/gallery-dl.cpp \
 engines/svtplay-dl.cpp \
 engines/gallery-dl.cpp \
 engines/lux.cpp \
-engines/wget.cpp
+engines/wget.cpp \
+engines/yt-dlp.cpp
 
 HEADERS += \
 about.h \

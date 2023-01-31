@@ -136,9 +136,19 @@ QString you_get::updateTextOnCompleteDownlod( const QString& uiText,
 					      const QString& dopts,
 					      const engines::engine::functions::finishedState& f )
 {
-	if( f.success() || f.cancelled() ){
+	if( f.success() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+
+	}else if( f.cancelled() ){
+
+		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+
+	}else if( uiText.startsWith( "you-get: [Error]" ) ){
+
+		auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText.mid( 16 ),dopts,f ) ;
+
+		return m + "\n" + bkText ;
 	}else{
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
 		return m + "\n" + bkText ;
@@ -155,6 +165,26 @@ you_get::you_getFilter::you_getFilter( const QString& e,settings&,const engines:
 const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
 {
 	if( s.doneDownloading() ){
+
+		if( m_title.isEmpty() ){
+
+			auto m = s.toStringList() ;
+
+			for( const auto& it : m ){
+
+				if( it.startsWith( "you-get: [Error]" ) ){
+
+					m_title = it ;
+
+					if( m_title.endsWith( '.' ) ){
+
+						m_title.truncate( m_title.size() - 1 ) ;
+					}
+
+					break ;
+				}
+			}
+		}
 
 		return m_title ;
 
