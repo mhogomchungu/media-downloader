@@ -19,8 +19,8 @@
 
 #include "you-get.h"
 #include "../settings.h"
-#include "../downloadmanager.h"
 #include "../util.hpp"
+#include "../utility.h"
 
 #include <cstring>
 

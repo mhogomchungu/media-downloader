@@ -19,7 +19,6 @@
 
 #include "svtplay-dl.h"
 #include "../settings.h"
-#include "../downloadmanager.h"
 #include "../util.hpp"
 
 svtplay_dl::svtplay_dl( const engines& engines,const engines::engine& engine,QJsonObject& ) :

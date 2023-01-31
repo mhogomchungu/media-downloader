@@ -19,7 +19,6 @@
 
 #include "gallery-dl.h"
 #include "../settings.h"
-#include "../downloadmanager.h"
 
 const char * gallery_dl::testData()
 {

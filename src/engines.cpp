@@ -29,7 +29,7 @@
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
 
-#include "downloadmanager.h"
+#include "downloadmanager.hpp"
 #include "utility.h"
 #include "version.h"
 #include "tableWidget.h"

@@ -275,7 +275,7 @@ public:
 		m_counter = 0 ;
 		m_cancelled = false ;
 
-		this->uiEnableAll( false ) ;
+		this->uiEnableAll( m_ctx,false ) ;
 		m_cancelButton.setEnabled( true ) ;
 		m_index->table().setEnabled( true ) ;
 
@@ -342,7 +342,16 @@ public:
 			      std::move( ctx ) ) ;
 	}
 private:
-	void uiEnableAll( bool e ) ;
+	template< typename Cxt >
+	void uiEnableAll( const Cxt& ctx,bool e )
+	{
+		if( e ){
+
+			ctx.TabManager().enableAll() ;
+		}else{
+			ctx.TabManager().disableAll() ;
+		}
+	}
 	size_t m_counter ;
 	util::storage< downloadManager::index > m_index ;
 	bool m_cancelled ;

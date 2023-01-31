@@ -21,7 +21,7 @@
 
 #include "settings.h"
 #include "context.hpp"
-#include "downloadmanager.h"
+#include "downloadmanager.hpp"
 #include "tableWidget.h"
 #include "tabmanager.h"
 #include "version.h"

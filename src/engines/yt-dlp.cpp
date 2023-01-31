@@ -26,8 +26,6 @@
 #include "../networkAccess.h"
 #include "../utility.h"
 
-#include "../downloadmanager.h"
-
 #include "aria2c.h"
 
 const char * yt_dlp::testData()

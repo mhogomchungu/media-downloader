@@ -19,7 +19,7 @@
 
 #include "tableWidget.h"
 #include "utility.h"
-#include "downloadmanager.h"
+#include "downloadmanager.hpp"
 
 #include <QHeaderView>
 #include <QBuffer>
