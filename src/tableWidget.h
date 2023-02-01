@@ -61,6 +61,14 @@ public:
 	{
 		this->item( row ).timeInterval = s ;
 	}
+	void setChapters( const QString& s,int row )
+	{
+		this->item( row ).chapters = s ;
+	}
+	void setSplitByChapters( bool s,int row )
+	{
+		this->item( row ).splitByChapters = s ;
+	}
 	void setExtraDownloadOptions( const QString& s,int row )
 	{
 		this->item( row ).extraDownloadingOptions = s ;
@@ -105,6 +113,14 @@ public:
 	const QString& timeInterval( int row ) const
 	{
 		return this->item( row ).timeInterval ;
+	}
+	const QString& chapters( int row ) const
+	{
+		return this->item( row ).chapters ;
+	}
+	bool splitByChapters( int row ) const
+	{
+		return this->item( row ).splitByChapters ;
 	}
 	const QJsonArray& mediaProperties( int row ) const
 	{
@@ -170,6 +186,7 @@ public:
 		QString engineName ;
 		QString subtitle ;
 		QString timeInterval ;
+		QString chapters ;
 		QString extraDownloadingOptions ;
 		QString playlist ;
 		QString playlist_count ;
@@ -181,7 +198,7 @@ public:
 		QJsonArray mediaProperties ;
 		QJsonObject uiJson ;
 		QPixmap thumbnail ;
-
+		bool splitByChapters ;
 		int alignment = Qt::AlignCenter ;
 	} ;
 	template< typename Function >
@@ -200,7 +217,9 @@ public:
 			 DownloadExtendedOptions,
 			 EngineName,
 			 subtitleOption,
-			 DownloadTimeInterval } ;
+			 DownloadTimeInterval,
+			 DownloadChapters,
+			 SplitByChapters } ;
 
 	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;

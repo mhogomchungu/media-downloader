@@ -179,6 +179,14 @@ namespace utility
 		{
 			return QObject::tr( "Download Time Interval" ) ;
 		}
+		static QString downloadChapters()
+		{
+			return QObject::tr( "Download Chapters" ) ;
+		}
+		static QString splitByChapters()
+		{
+			return QObject::tr( "Split By Chapters" ) ;
+		}
 	private:
 	};
 

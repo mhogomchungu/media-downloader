@@ -46,8 +46,16 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 		}else if( type == tableWidget::type::DownloadExtendedOptions ){
 
 			return utility::stringConstants::downloadExtendedOptions() + ": " ;
-		}else{
+
+		}else if( type == tableWidget::type::DownloadTimeInterval ){
+
 			return utility::stringConstants::downloadTimeInterval() + ": " ;
+
+		}else if( type == tableWidget::type::DownloadChapters ){
+
+			return utility::stringConstants::downloadChapters() + ": " ;
+		}else{
+			return utility::stringConstants::splitByChapters() + ": " ;
 		}
 	}() ;
 
@@ -132,6 +140,14 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 	}else if( type == tableWidget::type::DownloadExtendedOptions ){
 
 		this->setExtraDownloadOptions( mm,row ) ;
+
+	}else if( type == tableWidget::type::DownloadChapters ){
+
+		this->setChapters( mm,row ) ;
+
+	}else if( type == tableWidget::type::SplitByChapters ){
+
+		this->setSplitByChapters( mm == "Yes",row ) ;
 	}
 }
 

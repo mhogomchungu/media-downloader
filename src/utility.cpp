@@ -1098,9 +1098,24 @@ utility::downLoadOptions utility::setDownloadOptions( const engines::engine& eng
 
 	auto z = table.timeInterval( row ) ;
 
-	if( !z.isEmpty() && z != "N/A" ){
+	if( !z.isEmpty() ){
 
 		m += " --download-sections *" + z ;
+	}
+
+	z = table.chapters( row ) ;
+
+	if( !z.isEmpty() ){
+
+		for( const auto& it : util::split( z,',',true ) ){
+
+			m += " --download-sections \"" + it + "\"" ;
+		}
+	}
+
+	if( table.splitByChapters( row ) ){
+
+		m += " --split-chapters" ;
 	}
 
 	auto zz = table.extraDownloadOptions( row ) ;

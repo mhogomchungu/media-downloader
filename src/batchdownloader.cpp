@@ -253,26 +253,47 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbSetTimeIntervals,&QPushButton::clicked,[ this ](){
 
-		this->setVisibleMediaSectionCut( false ) ;
-
 		auto row = m_table.currentRow() ;
 
 		if( row != -1 ){
 
 			auto a = m_ui.lineEditStartTimeInterval->text() ;
 			auto b = m_ui.lineEditEndTimeInterval->text() ;
+			auto c = m_ui.lineEditChapters->text() ;
 
 			if( !a.isEmpty() && !b.isEmpty() ){
 
 				auto u = tableWidget::type::DownloadTimeInterval ;
 
 				m_table.setDownloadingOptions( u,row,a + "-" + b ) ;
-			}else{
-				auto u = tableWidget::type::DownloadTimeInterval ;
 
-				m_table.setDownloadingOptions( u,row,"N/A" ) ;
+			}else if( a.isEmpty() && b.isEmpty() ){
+
+				//Left empty on purpose
+			}else{
+				return ;
+			}
+
+			if( !c.isEmpty() ){
+
+				auto u = tableWidget::type::DownloadChapters ;
+
+				m_table.setDownloadingOptions( u,row,c ) ;
+			}
+
+			if( m_ui.cbSplitByChapters->isChecked() ){
+
+				auto u = tableWidget::type::SplitByChapters ;
+
+				m_table.setDownloadingOptions( u,row,"Yes" ) ;
+			}else{
+				auto u = tableWidget::type::SplitByChapters ;
+
+				m_table.setDownloadingOptions( u,row,"No" ) ;
 			}
 		}
+
+		this->setVisibleMediaSectionCut( false ) ;
 	} ) ;
 
 	connect( m_ui.pbCancelSetTimeInterval,&QPushButton::clicked,[ this ](){
@@ -952,11 +973,21 @@ void batchdownloader::normalizeFilePath( QString& e )
 
 void batchdownloader::setVisibleMediaSectionCut( bool e )
 {
+	if( e ){
+
+		m_ui.lineEditStartTimeInterval->setFocus() ;
+	}else{
+		m_ui.lineEditBDUrl->setFocus() ;
+	}
+
 	m_ui.labelSetTimeIntervals->setVisible( e ) ;
 	m_ui.pbCancelSetTimeInterval->setVisible( e ) ;
 	m_ui.pbSetTimeIntervals->setVisible( e ) ;
+	m_ui.lineEditChapters->setVisible( e ) ;
 	m_ui.lineEditStartTimeInterval->setVisible( e ) ;
 	m_ui.lineEditEndTimeInterval->setVisible( e ) ;
+	m_ui.cbSplitByChapters->setVisible( e ) ;
+	m_ui.label_7->setVisible( e ) ;
 	m_ui.label_8->setVisible( e ) ;
 	m_ui.label_9->setVisible( e ) ;
 }
