@@ -53,4 +53,5 @@ TRANSLATIONS = \
 ../translations/fr_FR.ts \
 ../translations/it_IT.ts \
 ../translations/sv_SE.ts \
-../translations/de_DE.ts
+../translations/de_DE.ts \
+../translations/pt_BR.ts

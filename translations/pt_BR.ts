@@ -6,12 +6,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="14"/>
         <source>Media Downloader</source>
-        <translation type="unfinished">Media Downloader</translation>
+        <translation>Media Downloader</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="31"/>
         <source>Basic Downloader</source>
-        <translation type="unfinished">Downloader Básico</translation>
+        <translation>Downloader Básico</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="53"/>
@@ -145,8 +145,7 @@
         <location filename="../src/mainwindow.ui" line="611"/>
         <location filename="../src/mainwindow.ui" line="690"/>
         <source>Set</source>
-        <translation type="unfinished">Definir
-</translation>
+        <translation>Definir</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="674"/>
@@ -198,8 +197,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1282"/>
         <source>Up</source>
-        <translation type="unfinished">Para cima
-</translation>
+        <translation>Para cima</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1295"/>
@@ -219,8 +217,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1347"/>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation type="unfinished">Ativar Aba Biblioteca (pode causar congelamento da interface por muito tempo se a pasta de download tiver muitas entradas)
-</translation>
+        <translation>Ativar Aba Biblioteca (pode causar congelamento da interface por muito tempo se a pasta de download tiver muitas entradas)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1356"/>
@@ -250,14 +247,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1633"/>
         <source>Show Tray Icon</source>
-        <translation type="unfinished">Mostrar Ícone Da Bandeja
-</translation>
+        <translation>Mostrar Ícone Da Bandeja</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1646"/>
         <source>Auto Save List Of Not Downloaded Media</source>
-        <translation type="unfinished">Salvar Automaticamente Lista De Mídia Não Baixada
-</translation>
+        <translation>Salvar Automaticamente Lista De Mídia Não Baixada</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1685"/>
@@ -267,8 +262,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1732"/>
         <source>Reset Option To Its Default</source>
-        <translation type="unfinished">Redefinir Opção Para a Padrão
-</translation>
+        <translation>Redefinir Opção Para a Padrão</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1735"/>
@@ -279,8 +273,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1504"/>
         <source>Scale Factor(Need A Restart)</source>
-        <translation type="unfinished">Fator De Escala(Precisa reiniciar)
-</translation>
+        <translation>Fator De Escala(Precisa reiniciar)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1559"/>
@@ -295,8 +288,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1459"/>
         <source>Download Path</source>
-        <translation type="unfinished">Download Path
-</translation>
+        <translation>Download Path</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1407"/>
@@ -338,8 +330,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1040"/>
         <source>Subscriptions</source>
-        <translation type="unfinished">Assinaturas
-</translation>
+        <translation>Assinaturas</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1068"/>
@@ -366,8 +357,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1183"/>
         <source>Done</source>
-        <translation type="unfinished">Concluído
-</translation>
+        <translation>Concluído</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1478"/>
@@ -377,8 +367,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1708"/>
         <source>Text Encoding</source>
-        <translation type="unfinished">Codificação De Texto 
-</translation>
+        <translation>Codificação De Texto </translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1869"/>
@@ -389,14 +378,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1901"/>
         <source>Path To Cookie FIle</source>
-        <translation type="unfinished">Path para o arquivo de Cookie
-</translation>
+        <translation>Path para o arquivo de Cookie</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1941"/>
         <source>Default</source>
-        <translation type="unfinished">Default
-</translation>
+        <translation>Default</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1983"/>
@@ -731,8 +718,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="90"/>
         <source>Network Failed To Respond Within %1 seconds</source>
-        <translation type="unfinished">A rede não respondeu em %1 segundos
-</translation>
+        <translation>A rede não respondeu em %1 segundos</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="185"/>
@@ -928,8 +914,7 @@
     <message>
         <location filename="../src/versionInfo.cpp" line="328"/>
         <source>Newest Version Is %1, Updating</source>
-        <translation type="unfinished">A versão mais recente é %1 atualizada
-</translation>
+        <translation>A versão mais recente é %1 atualizada</translation>
     </message>
 </context>
 <context>
@@ -999,7 +984,7 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="448"/>
         <source>Download Media Part</source>
-        <translation type="unfinished">Baixar parte da mídia</translation>
+        <translation>Baixar parte da mídia</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1167"/>
@@ -1124,7 +1109,7 @@
         <location filename="../src/playlistdownloader.cpp" line="128"/>
         <location filename="../src/playlistdownloader.cpp" line="1331"/>
         <source>Get List Options:</source>
-        <translation>Obter opções de lista</translation>
+        <translation>Obter opções de lista:</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="284"/>
@@ -1144,7 +1129,7 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="464"/>
         <source>Download All Updated</source>
-        <translation type="unfinished">Fazer Download de todas atualizações</translation>
+        <translation>Fazer Download de todas atualizações</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="472"/>

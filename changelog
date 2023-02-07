@@ -165,3 +165,7 @@ Version 1.2.0(April 1st, 2021)
     - Check for extensions update and automatically download them if newer version are found when both
       "Show Version Info When Starting" and "check for updates" options are set.
     - Cancelling a download now also terminates ffmpeg or aria2c if they were started by the download.
+
+  Version 2.9.0(Unreleased)
+    - Add Portuguese(Brazilian) translations.
+    - Make entry table in the playlist tab larger after it is populated.
