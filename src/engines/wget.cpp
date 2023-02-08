@@ -261,8 +261,19 @@ QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( m,dopts,f ) ;
 	}else{
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
-		return m + "\n" + bkText ;
+		using functions = engines::engine::functions ;
+
+		if( uiText.contains( "failed: Temporary failure in name resolution" ) ){
+
+			return functions::errorString( f,functions::errors::noNetwork,bkText ) ;
+
+		}else if( uiText.contains( "failed: Name or service not known" ) ){
+
+			return functions::errorString( f,functions::errors::unknownUrl,bkText ) ;
+		}else{
+			auto m = engines::engine::functions::processCompleteStateText( f ) ;
+			return m + "\n" + bkText ;
+		}
 	}
 }
 
@@ -337,6 +348,21 @@ static QByteArray _uiText( const QByteArray& e,const QByteArray& p,const QByteAr
 const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 {
 	if( e.doneDownloading() ){
+
+		auto m = e.toLine() ;
+
+		if( m.contains( "failed: Temporary failure in name resolution" ) ){
+
+			m_tmp = "failed: Temporary failure in name resolution" ;
+
+			return m_tmp ;
+
+		}else if( m.contains( "failed: Name or service not known" ) ){
+
+			m_tmp = "failed: Name or service not known" ;
+
+			return m_tmp ;
+		}
 
 		return m_title ;
 	}

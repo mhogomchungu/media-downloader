@@ -172,8 +172,19 @@ QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
 	}else{
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
-		return m + "\n" + bkText ;
+		using functions = engines::engine::functions ;
+
+		if( uiText.contains( "Unrecognized URI or unsupported protocol" ) ){
+
+			return functions::errorString( f,functions::errors::unknownUrl,bkText ) ;
+
+		}else if( uiText.contains( "failed:No address returned" ) ){
+
+			return functions::errorString( f,functions::errors::noNetwork,bkText ) ;
+		}else{
+			auto m = engines::engine::functions::processCompleteStateText( f ) ;
+			return m + "\n" + bkText ;
+		}
 	}
 }
 
@@ -213,6 +224,16 @@ const QByteArray& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )
 
 			m_fileName = e.mid( e.indexOf( " Download complete: " ) + 20 ) ;
 			break ;
+
+		}else if( e.contains( "Unrecognized URI or unsupported protocol" ) ){
+
+			m_tmp = "Unrecognized URI or unsupported protocol" ;
+			return m_tmp ;
+
+		}else if( e.contains( "failed:No address returned" ) ){
+
+			m_tmp = "failed:No address returned" ;
+			return m_tmp ;
 		}
 	}
 

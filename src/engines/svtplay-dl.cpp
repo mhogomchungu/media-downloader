@@ -110,13 +110,7 @@ QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& dopts,
 						 const engines::engine::functions::finishedState& f )
 {
-	if( uiText.startsWith( "ERROR:" ) ){
-
-		auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText.mid( 6 ),dopts,f ) ;
-
-		return m + "\n" + bkText ;
-
-	}else if( f.success() ){
+	if( f.success() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 
@@ -124,8 +118,25 @@ QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}else{
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
-		return m + "\n" + bkText ;
+		using functions = engines::engine::functions ;
+
+		if( uiText.startsWith( "ERROR:" ) ){
+
+			auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText.mid( 6 ),dopts,f ) ;
+
+			return m + "\n" + bkText ;
+
+		}else if( uiText.contains( "Temporary failure in name resolution" ) ){
+
+			return functions::errorString( f,functions::errors::noNetwork,bkText ) ;
+
+		}else if( uiText.contains( "Name or service not known" ) ){
+
+			return functions::errorString( f,functions::errors::unknownUrl,bkText ) ;
+		}else{
+			auto m = engines::engine::functions::processCompleteStateText( f ) ;
+			return m + "\n" + bkText ;
+		}
 	}
 }
 
@@ -139,6 +150,17 @@ svtplay_dl::svtplay_dlFilter::svtplay_dlFilter( const QString& e,settings&,const
 const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& s )
 {
 	if( s.doneDownloading() ){
+
+		auto m = s.toLine() ;
+
+		if( m.contains( "Temporary failure in name resolution" ) ){
+
+			m_tmp = "Temporary failure in name resolution" ;
+
+		}else if( m.contains( "Name or service not known" ) ){
+
+			m_tmp = "Name or service not known" ;
+		}
 
 		return m_tmp ;
 
