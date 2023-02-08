@@ -971,7 +971,7 @@ QString engines::engine::functions::errorString( const engine::engine::functions
 	}else if( err == engines::engine::functions::errors::noNetwork ){
 
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
-		return m + "\n" + QObject::tr( "Temporary Failure In Name Resolution" ) + "\n" + bkText ;
+		return m + "\n" + QObject::tr( "Network Error Occured" ) + "\n" + bkText ;
 
 	}else if( err == engines::engine::functions::errors::unknownUrl ){
 

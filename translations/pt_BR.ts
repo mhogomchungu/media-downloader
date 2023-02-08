@@ -677,7 +677,7 @@
     </message>
     <message>
         <location filename="../src/engines.cpp" line="974"/>
-        <source>Temporary Failure In Name Resolution</source>
+        <source>Network Error Occured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -705,10 +705,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Temporary Failure In Name Resolution</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
@@ -726,6 +722,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>ErrorCode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Network Error Occured</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

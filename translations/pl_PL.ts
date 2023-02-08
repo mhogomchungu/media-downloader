@@ -673,6 +673,11 @@
         <translation>Nie udało się zlokalizować interpretera python3 dla backendu &quot;%1&quot;</translation>
     </message>
     <message>
+        <location filename="../src/engines.cpp" line="974"/>
+        <source>Network Error Occured</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/engines.cpp" line="989"/>
         <source>Download cancelled</source>
         <translation>Pobieranie przerwane</translation>
@@ -961,11 +966,6 @@
     <message>
         <location filename="../src/engines.cpp" line="969"/>
         <source>Requested Format Is Not Available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/engines.cpp" line="974"/>
-        <source>Temporary Failure In Name Resolution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
