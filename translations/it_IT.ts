@@ -276,14 +276,6 @@
         <translation>Controlla aggiornamenti</translation>
     </message>
     <message>
-        <source>Start Time(HH:MM:SS):</source>
-        <translation>Orario iniziale(OO:MM:SS):</translation>
-    </message>
-    <message>
-        <source>End Time(HH:MM:SS):</source>
-        <translation>Orario Finale (OO:MM:SS):</translation>
-    </message>
-    <message>
         <source>Set Download Options</source>
         <translation>Imposta opzioni download</translation>
     </message>
@@ -302,6 +294,22 @@
     <message>
         <source>Hide</source>
         <translation>Nascondi</translation>
+    </message>
+    <message>
+        <source>Time Interval Start Time(HH:MM:SS):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time Interval End Time(HH:MM:SS):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapters(Comma Separated):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Split By Chapters</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -685,10 +693,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>Disponibile aggiornamento</translation>
     </message>
     <message>
-        <source>ErrorCode=</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -706,6 +710,22 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Invalid Url Entered</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portuguese (Brazil)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Chapters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Split By Chapters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ErrorCode</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

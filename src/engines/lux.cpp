@@ -316,13 +316,27 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 					  const QString& dopts,
 					  const engines::engine::functions::finishedState& f )
 {
+	using functions = engines::engine::functions ;
+
 	if( f.cancelled() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 
 	}else if( f.success() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		return functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+
+	}else if( uiText == "invalid URI for request" ){
+
+		return functions::errorString( f,functions::errors::unknownUrl,bkText ) ;
+
+	}else if( uiText == "connect: cannot assign requested address" ){
+
+		return functions::errorString( f,functions::errors::noNetwork,bkText ) ;
+
+	}else if( uiText == "no stream named " ){
+
+		return functions::errorString( f,functions::errors::unknownFormat,bkText ) ;
 	}else{
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
 		return m + "\n" + bkText ;
@@ -357,8 +371,30 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 	}
 
 	const auto& luksHeader = eee.value() ;
+	const auto& allData = e.allData( m_processId ) ;
 
 	if( luksHeader.data.isEmpty() ){
+
+		if( allData.has_value() ){
+
+			const auto& e = allData.value() ;
+
+			if( e.contains( "invalid URI for request" ) ){
+
+				m_tmp = "invalid URI for request" ;
+				return m_tmp ;
+
+			}else if( e.contains( "connect: cannot assign requested address" ) ){
+
+				m_tmp = "connect: cannot assign requested address" ;
+				return m_tmp ;
+
+			}else if( e.contains( "no stream named " ) ){
+
+				m_tmp = "no stream named " ;
+				return m_tmp ;
+			}
+		}
 
 		m_tmp1 = m_banner + "\n" + s ;
 
@@ -388,16 +424,14 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 		return m_progress.text() ;
 	}
 
-	const auto& ee = e.allData( m_processId ) ;
-
-	if( !ee.has_value() ){
+	if( !allData.has_value() ){
 
 		//Should not get here
 
 		return luksHeader.title ;
 	}
 
-	for( const auto& it : util::split( ee.value(),'\n' ) ){
+	for( const auto& it : util::split( allData.value(),'\n' ) ){
 
 		if( it.contains( ": file already exists, skipping" ) ){
 

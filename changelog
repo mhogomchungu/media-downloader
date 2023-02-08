@@ -169,3 +169,4 @@ Version 1.2.0(April 1st, 2021)
   Version 2.9.0(Unreleased)
     - Add Portuguese(Brazilian) translations.
     - Make entry table in the playlist tab larger after it is populated.
+    - Required minimum version of yt-dlp is 2023.01.06.

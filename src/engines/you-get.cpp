@@ -146,9 +146,16 @@ QString you_get::updateTextOnCompleteDownlod( const QString& uiText,
 
 	}else if( uiText.startsWith( "you-get: [Error]" ) ){
 
-		auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText.mid( 16 ),dopts,f ) ;
+		using functions = engines::engine::functions ;
 
-		return m + "\n" + bkText ;
+		if( uiText.contains( "Invalid video format" ) ){
+
+			return functions::errorString( f,functions::errors::unknownFormat,bkText ) ;
+		}else{
+			auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText.mid( 16 ),dopts,f ) ;
+
+			return m + "\n" + bkText ;
+		}
 	}else{
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
 		return m + "\n" + bkText ;

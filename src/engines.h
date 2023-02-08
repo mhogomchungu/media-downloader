@@ -285,6 +285,10 @@ public:
 				QProcess::ExitStatus m_exitStatus ;
 			};
 
+			enum class errors{ unknownUrl,noNetwork,unknownFormat } ;
+			static QString errorString( const engine::engine::functions::finishedState&,
+						    engines::engine::functions::errors,
+						    const QString& ) ;
 			static QString processCompleteStateText( const engine::engine::functions::finishedState& ) ;
 
 			class timer

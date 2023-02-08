@@ -959,6 +959,29 @@ QString engines::enginePaths::socketPath()
 	}
 }
 
+QString engines::engine::functions::errorString( const engine::engine::functions::finishedState& f,
+						 engines::engine::functions::errors err,
+						 const QString& bkText )
+{
+	if( err == engines::engine::functions::errors::unknownFormat ){
+
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Requested Format Is Not Available" ) + "\n" + bkText ;
+
+	}else if( err == engines::engine::functions::errors::noNetwork ){
+
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Temporary Failure In Name Resolution" ) + "\n" + bkText ;
+
+	}else if( err == engines::engine::functions::errors::unknownUrl ){
+
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Invalid Url Entered" ) + "\n" + bkText ;
+	}else{
+		return {} ;
+	}
+}
+
 QString engines::engine::functions::processCompleteStateText( const engine::engine::functions::finishedState& f )
 {
 	if( f.cancelled() ){
@@ -974,7 +997,7 @@ QString engines::engine::functions::processCompleteStateText( const engine::engi
 			auto m = QString::number( f.errorCode() ) ;
 
 			auto a = QObject::tr( "Download Failed" ) ;
-			auto b = "(" + QObject::tr( "ErrorCode=" ) + m + ")" ;
+			auto b = "(" + QObject::tr( "ErrorCode" ) + "=" + m + ")" ;
 
 			return a + b ;
 		}else{

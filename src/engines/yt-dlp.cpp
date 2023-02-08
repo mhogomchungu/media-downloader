@@ -758,9 +758,11 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& dopts,
 					     const engines::engine::functions::finishedState& f )
 {
+	using functions = engines::engine::functions ;
+
 	if( f.cancelled() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 
 	}else if( f.success() ){
 
@@ -788,18 +790,15 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 	}else if( uiText.contains( "Requested format is not available" ) ){
 
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
-		return m + "\n" + QObject::tr( "Requested Format Is Not Available" )+ "\n" + bkText ;
+		return functions::errorString( f,functions::errors::unknownFormat,bkText ) ;
 
 	}else if( uiText.contains( "Temporary failure in name resolution" ) ){
 
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
-		return m + "\n" + QObject::tr( "Temporary Failure In Name Resolution" )+ "\n" + bkText ;
+		return functions::errorString( f,functions::errors::noNetwork,bkText ) ;
 
 	}else if( uiText.contains( " is not a valid URL" ) ){
 
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
-		return m + "\n" + QObject::tr( "Invalid Url Entered" ) + "\n" + bkText ;
+		return functions::errorString( f,functions::errors::unknownUrl,bkText ) ;
 	}else {
 		auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 		return m + "\n" + bkText ;
