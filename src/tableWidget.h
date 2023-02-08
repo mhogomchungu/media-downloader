@@ -198,7 +198,7 @@ public:
 		QJsonArray mediaProperties ;
 		QJsonObject uiJson ;
 		QPixmap thumbnail ;
-		bool splitByChapters ;
+		bool splitByChapters = false ;
 		int alignment = Qt::AlignCenter ;
 	} ;
 	template< typename Function >
