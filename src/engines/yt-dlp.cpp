@@ -1050,7 +1050,12 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 
 	if( s.lastLineIsProgressLine() ){
 
-		const auto& mm = s.lastText() ;
+		auto mm = s.lastText() ;
+
+		while( mm.contains( "  " ) ){
+
+			mm.replace( "  "," " ) ;
+		}
 
 		if( mm.startsWith( "[DL:" ) ){
 
