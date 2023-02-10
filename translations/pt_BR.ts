@@ -162,27 +162,27 @@
     <message>
         <location filename="../src/mainwindow.ui" line="674"/>
         <source>Time Interval Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo de ínicio do intervalo(HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="706"/>
         <source>Time Interval End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo final do intervalo(HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="748"/>
         <source>Chapters(Comma Separated):</source>
-        <translation type="unfinished"></translation>
+        <translation>Capítulos(Separados por vírgulas):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="767"/>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividido por capítulos</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="798"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="895"/>
@@ -673,17 +673,17 @@
     <message>
         <location filename="../src/engines.cpp" line="969"/>
         <source>Requested Format Is Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato solicitado não está disponível</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="974"/>
         <source>Network Error Occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocorreu um erro de rede</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="979"/>
         <source>Invalid Url Entered</source>
-        <translation type="unfinished"></translation>
+        <translation>URL inválida inserida</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="989"/>
@@ -693,12 +693,12 @@
     <message>
         <location filename="../src/engines.cpp" line="1000"/>
         <source>ErrorCode</source>
-        <translation type="unfinished"></translation>
+        <translation>Código de erro</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1004"/>
         <source>Download Failed, Engine crashed</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha no Download,Engine travou</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1154"/>
@@ -880,12 +880,12 @@
     <message>
         <location filename="../src/utility.h" line="184"/>
         <source>Download Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Download de capítulos</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="188"/>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividido por capítulos</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="382"/>
@@ -969,7 +969,7 @@
     <message>
         <location filename="../src/engines/yt-dlp.cpp" line="789"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor,atualize &quot;%1&quot; para pelo menos a versão &quot;%2&quot;</translation>
     </message>
 </context>
 <context>
@@ -1164,7 +1164,7 @@
         <location filename="../src/playlistdownloader.cpp" line="129"/>
         <location filename="../src/playlistdownloader.cpp" line="1327"/>
         <source>Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar controles</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
@@ -1210,17 +1210,17 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1322"/>
         <source>Show Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar controles</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1323"/>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1328"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="582"/>
