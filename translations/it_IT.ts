@@ -297,19 +297,19 @@
     </message>
     <message>
         <source>Time Interval Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervallo di tempo orario inizio (oo:mm:ss):</translation>
     </message>
     <message>
         <source>Time Interval End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervallo di tempo orario fine (oo:mm:ss):</translation>
     </message>
     <message>
         <source>Chapters(Comma Separated):</source>
-        <translation type="unfinished"></translation>
+        <translation>Capitoli (separati da virgola):</translation>
     </message>
     <message>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividi per capitoli</translation>
     </message>
 </context>
 <context>
@@ -694,39 +694,39 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Download Failed, Engine crashed</source>
-        <translation type="unfinished"></translation>
+        <translation>Download non riuscito, Engine bloccato</translation>
     </message>
     <message>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiorna &quot;%1&quot; almeno alla versione &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Requested Format Is Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Il formato richiesto non è disponibile</translation>
     </message>
     <message>
         <source>Invalid Url Entered</source>
-        <translation type="unfinished"></translation>
+        <translation>URL inserita non valida</translation>
     </message>
     <message>
         <source>Portuguese (Brazil)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portoghese (Brasile)</translation>
     </message>
     <message>
         <source>Download Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Download capitoli</translation>
     </message>
     <message>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividi per capitoli</translation>
     </message>
     <message>
         <source>ErrorCode</source>
-        <translation type="unfinished"></translation>
+        <translation>Codice errore</translation>
     </message>
     <message>
         <source>Network Error Occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Si è verificato un errore di rete</translation>
     </message>
 </context>
 <context>
