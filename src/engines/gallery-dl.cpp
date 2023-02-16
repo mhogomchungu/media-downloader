@@ -264,8 +264,11 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& opts )
 {
-	opts.ourOptions.append( "-o" ) ;
-	opts.ourOptions.append( "output.mode=terminal" ) ;
+	//Intentionally left out
+	//engines::engine::functions::updateDownLoadCmdOptions( opts ) ;
+
+	opts.ourOptions.prepend( "output.mode=terminal" ) ;
+	opts.ourOptions.prepend( "-o" ) ;
 }
 
 QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
