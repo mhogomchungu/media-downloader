@@ -280,6 +280,16 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 	}else if( f.cancelled() ){
 
 		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+
+	}else if( uiText.contains( "Name or service not known" ) ){
+
+		auto m = engines::engine::functions::errors::unknownUrl ;
+		return engines::engine::functions::errorString( f,m,bkText ) ;
+
+	}else if( uiText.contains( "Temporary failure in name resolution" ) ){
+
+		auto m = engines::engine::functions::errors::noNetwork ;
+		return engines::engine::functions::errorString( f,m,bkText ) ;
 	}else{
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
 		return m + "\n" + bkText ;
@@ -295,6 +305,26 @@ gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings&,const
 
 const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )
 {
+	if( s.doneDownloading() ){
+
+		auto m = s.toLine() ;
+
+		if( m.contains( "Unsupported URL" ) ){
+
+			m_tmp = "Name or service not known" ;
+
+		}else if( m.contains( "Temporary failure in name resolution" ) ){
+
+			m_tmp = "Temporary failure in name resolution" ;
+
+		}else if( m.contains( "Name or service not known" ) ){
+
+			m_tmp = "Name or service not known" ;
+		}
+
+		return m_tmp ;
+	}
+
 	const auto data = s.toStringList() ;
 
 	QStringList m ;
