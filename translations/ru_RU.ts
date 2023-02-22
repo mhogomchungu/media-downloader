@@ -162,27 +162,27 @@
     <message>
         <location filename="../src/mainwindow.ui" line="674"/>
         <source>Time Interval Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Время начала (HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="706"/>
         <source>Time Interval End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Время окончания (HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="748"/>
         <source>Chapters(Comma Separated):</source>
-        <translation type="unfinished"></translation>
+        <translation>Главы (через запятую):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="767"/>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Разделить по главам</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="798"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="895"/>
@@ -232,7 +232,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1408"/>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation>Включить вкладку &apos;Библиотека&apos; (если в папке загрузки много записей, то GUI заиснет на долгое время)</translation>
+        <translation>Включить вкладку &apos;Библиотека&apos; (если в папке загрузки много записей, то GUI зависнет на долгое время)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1417"/>
@@ -606,7 +606,7 @@
     <message>
         <location filename="../src/translator.cpp" line="39"/>
         <source>Portuguese (Brazil)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="131"/>
@@ -631,7 +631,7 @@
     <message>
         <location filename="../src/engines.cpp" line="121"/>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation>Чтобы отключить эти проверки, сделайте следующее:-</translation>
+        <translation>Чтобы отключить эти проверки, сделайте следующее:</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="122"/>
@@ -673,7 +673,7 @@
     <message>
         <location filename="../src/engines.cpp" line="974"/>
         <source>Network Error Occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Произошла ошибка сети</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="989"/>
@@ -683,12 +683,12 @@
     <message>
         <location filename="../src/engines.cpp" line="1000"/>
         <source>ErrorCode</source>
-        <translation type="unfinished"></translation>
+        <translation>Код ошибки</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1004"/>
         <source>Download Failed, Engine crashed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка загрузки, сбой плагина</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1154"/>
@@ -870,12 +870,12 @@
     <message>
         <location filename="../src/utility.h" line="184"/>
         <source>Download Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Скачать главы</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="188"/>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Разделить по главам</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="382"/>
@@ -906,14 +906,14 @@
         <location filename="../src/engines/lux.cpp" line="132"/>
         <location filename="../src/engines/wget.cpp" line="295"/>
         <source>Time Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Оставшееся время</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="292"/>
         <location filename="../src/engines/lux.cpp" line="225"/>
         <location filename="../src/engines/wget.cpp" line="314"/>
         <source>Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Загружен</translation>
     </message>
     <message>
         <location filename="../src/engines/lux.cpp" line="348"/>
@@ -924,52 +924,52 @@
         <location filename="../src/engines/gallery-dl.cpp" line="291"/>
         <location filename="../src/engines/wget.cpp" line="288"/>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Скорость:</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="44"/>
         <source>Engine Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Плагин</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="45"/>
         <source>Installed Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Установлена версия</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="46"/>
         <source>Latest Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Последняя версия</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="56"/>
         <source>There Is An Update For </source>
-        <translation type="unfinished"></translation>
+        <translation>Есть обновление для </translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="58"/>
         <source>Update Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Найдено обновление</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="337"/>
         <source>Newest Version Is %1, Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая версия %1, обновление</translation>
     </message>
     <message>
         <location filename="../src/engines/yt-dlp.cpp" line="789"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Пожалуйста, обновите &quot;%1&quot; По крайней мере до версии &quot;%2&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="969"/>
         <source>Requested Format Is Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрошенный формат недоступен</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="979"/>
         <source>Invalid Url Entered</source>
-        <translation type="unfinished"></translation>
+        <translation>Введен неверный URL</translation>
     </message>
 </context>
 <context>
@@ -1164,7 +1164,7 @@
         <location filename="../src/playlistdownloader.cpp" line="129"/>
         <location filename="../src/playlistdownloader.cpp" line="1327"/>
         <source>Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть элементы управления</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
@@ -1210,17 +1210,17 @@
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1322"/>
         <source>Show Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать элементы управления</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1323"/>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1328"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="582"/>
