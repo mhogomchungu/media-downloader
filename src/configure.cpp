@@ -475,10 +475,7 @@ configure::configure( const Context& ctx ) :
 		this->showOptions() ;
 	} ) ;
 
-	m_ui.pbConfigureDownloadPath->setIcon( [](){
-
-		return QIcon( ":folder" ) ;
-	}() ) ;
+	m_ui.pbConfigureDownloadPath->setIcon( QIcon( ":/folder" ) ) ;
 
 	connect( m_ui.pbConfigureDownloadPath,&QPushButton::clicked,[ this ](){
 
