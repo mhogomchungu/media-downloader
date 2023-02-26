@@ -22,8 +22,13 @@
 #include "tabmanager.h"
 #include "tableWidget.h"
 #include "mainwindow.h"
+#include "directoryEntries.h"
+
+#include "utils/miscellaneous.hpp"
 
 #include <QDir>
+
+#include <cstring>
 
 library::library( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -258,6 +263,7 @@ void library::enableAll( bool e )
 		m_ui.cbLibraryTabEnable->setEnabled( true ) ;
 		m_ui.labelLibraryWarning->setEnabled( true ) ;
 		m_ui.pbLibraryQuit->setEnabled( true ) ;
+		m_ui.pbLibraryCancel->setEnabled( true ) ;
 		m_ui.pbLibraryHome->setEnabled( true ) ;
 		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
 		m_ui.pbLibraryRefresh->setEnabled( true ) ;
@@ -273,6 +279,7 @@ void library::disableAll( bool e )
 		m_ui.cbLibraryTabEnable->setEnabled( false ) ;
 		m_ui.labelLibraryWarning->setEnabled( false ) ;
 		m_ui.pbLibraryQuit->setEnabled( false ) ;
+		m_ui.pbLibraryCancel->setEnabled( false ) ;
 		m_ui.pbLibraryHome->setEnabled( false ) ;
 		m_ui.pbLibraryDowloadFolder->setEnabled( false ) ;
 		m_ui.pbLibraryRefresh->setEnabled( false ) ;
@@ -327,15 +334,6 @@ void library::addItem( const QString& text,library::ICON type )
 	item.setFont( m_ctx.mainWidget().font() ) ;
 }
 
-static qint64 _created_time( QFileInfo& e )
-{
-#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
-	return e.birthTime().toMSecsSinceEpoch() ;
-#else
-	return e.created().toMSecsSinceEpoch() ;
-#endif
-}
-
 void library::showContents( const QString& path,bool disableUi )
 {
 	m_table.clear() ;
@@ -347,75 +345,92 @@ void library::showContents( const QString& path,bool disableUi )
 		this->internalDisableAll() ;
 	}
 
-	utils::qthread::run( [ path,this ](){
+	auto supportsCancel = directoryManager::supportsCancel() ;
 
-		return QDir( path ).entryList( m_dirFilter ) ;
+	m_ui.pbLibraryCancel->setEnabled( supportsCancel ) ;
 
-	},[ path,disableUi,this ]( const QStringList& m ){
+	QMetaObject::Connection conn ;
+
+	if( supportsCancel ){
+
+		m_continue = true ;
+
+		conn = QObject::connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ & ](){
+
+			m_continue = false ;
+		} ) ;
+	}
+
+	utils::qthread::run( [ conn,supportsCancel,path,this ](){
+
+		directoryEntries contents ;
+
+		directoryManager dm( path,m_dirFilter ) ;
+
+		if( dm.valid() ){
+
+			if( supportsCancel ){
+
+				if( dm.getFirst( contents ) ){
+
+					int counter = 0 ;
+
+					while( m_continue ){
+
+						counter++ ;
+
+						if( counter % 20 == 0 ){
+
+							/*
+							 * Give UI thread a breather to prevent
+							 * UI hanging, do not know why UI thread
+							 * hangs when we spin too muchon a
+							 * background thread
+							 */
+							QThread::currentThread()->msleep( 500 ) ;
+						}
+
+						if( dm.get( contents ) ){
+
+							break ;
+						}
+					}
+				}
+
+				QObject::disconnect( conn ) ;
+			}else{
+				if( dm.getFirst( contents ) ){
+
+					while( true ){
+
+						if( dm.get( contents ) ){
+
+							break ;
+						}
+					}
+				}
+			}
+		}
+
+		contents.sort() ;
+
+		return contents ;
+
+	},[ disableUi,this ]( const directoryEntries& m ){
 
 		if( disableUi ){
 
 			this->internalEnableAll() ;
 		}
 
-		struct entry
-		{
-			entry( bool f,qint64 d,QString p ) :
-				file( f ),
-				dateCreated( d ),
-				path( std::move( p ) )
-			{
-			}
-			bool file ;
-			qint64 dateCreated ;
-			QString path ;
-		};
+		m.addToList( [ this ]( const QString& e ){
 
-		std::vector< entry > folders ;
-		std::vector< entry > files ;
+			this->addItem( e,library::ICON::FOLDER ) ;
 
-		for( const auto& it : m ){
+		},[ this ]( const QString& e ){
 
-			if( it.startsWith( "info_" ) && it.endsWith( ".log" ) ){
-
-				continue ;
-			}
-
-			auto q = path + "/" + it ;
-
-			auto w = QDir::fromNativeSeparators( it ) ;
-
-			QFileInfo s( q ) ;
-
-			if( s.isFile() ){
-
-				files.emplace_back( true,_created_time( s ),w ) ;
-
-			}else if( s.isDir() ){
-
-				folders.emplace_back( false,_created_time( s ),w ) ;
-			}
-		}
-
-		std::sort( folders.begin(),folders.end(),[]( const entry& lhs,const entry& rhs ){
-
-			return lhs.dateCreated < rhs.dateCreated ;
+			this->addItem( e,library::ICON::FILE ) ;
 		} ) ;
-
-		std::sort( files.begin(),files.end(),[]( const entry& lhs,const entry& rhs ){
-
-			return lhs.dateCreated < rhs.dateCreated ;
-		} ) ;
-
-		for( const auto& it : folders ){
-
-			this->addItem( it.path,library::ICON::FOLDER ) ;
-		}
-
-		for( const auto& it : files ){
-
-			this->addItem( it.path,library::ICON::FILE ) ;
-		}
 
 		if( m_table.rowCount() > 0 ){
 

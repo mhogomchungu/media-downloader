@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1361,7 +1361,7 @@
        <rect>
         <x>280</x>
         <y>440</y>
-        <width>241</width>
+        <width>121</width>
         <height>33</height>
        </rect>
       </property>
@@ -1409,6 +1409,19 @@
       </property>
       <property name="wordWrap">
        <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbLibraryCancel">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>440</y>
+        <width>121</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
       </property>
      </widget>
     </widget>

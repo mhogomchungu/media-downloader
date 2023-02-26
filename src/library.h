@@ -59,13 +59,14 @@ private:
 	bool m_enableGlobalUiChanges ;
 	settings& m_settings ;
 	bool m_enabled ;
+	std::atomic_bool m_continue ;
 	Ui::MainWindow& m_ui ;
 	tableMiniWidget< ICON > m_table ;
 	QString m_downloadFolder ;
 	QString m_currentPath ;
-	const QDir::Filters m_dirFilter = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 	QPixmap m_folderIcon ;
 	QPixmap m_videoIcon ;
+	const QDir::Filters m_dirFilter = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 };
 
 #endif

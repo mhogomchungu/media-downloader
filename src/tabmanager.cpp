@@ -121,6 +121,14 @@ void tabManager::init_done()
 	auto& m = m_ctx.Ui() ;
 	auto& s = m_ctx.Settings() ;
 
+	if( s.tabNumber() == 3 ){
+
+		//We do not want to start with a library tab because it may hang the UI
+		//before it is completely visible
+
+		s.setTabNumber( 0 ) ;
+	}
+
 	m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 
 	switch( s.tabNumber() ) {

@@ -72,6 +72,7 @@ set(SRC
     src/themes.cpp
     src/batchdownloader.cpp
     src/tabmanager.cpp
+    src/directoryEntries.cpp
     src/configure.cpp
     src/versionInfo.cpp
     src/translator.cpp
