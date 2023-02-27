@@ -21,6 +21,7 @@
 #include <QString>
 #include <QPushButton>
 #include <QObject>
+#include <QDir>
 
 #include <atomic>
 #include <vector>
@@ -77,8 +78,6 @@ private:
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-
-#include <QDir>
 
 class directoryManager
 {
@@ -179,9 +178,99 @@ private:
 	directoryEntries m_entries ;
 } ;
 
+#endif
+
+#ifdef Q_OS_WIN
+
+#include <windows.h>
+
+class directoryManager
+{
+public:
+	directoryManager( const QString& path,QDir::Filters,std::atomic_bool& m ) :
+		m_path( QDir::fromNativeSeparators( path ) + "\\*" ),
+		m_continue( m )
+	{
+	}
+	bool valid()
+	{
+		return true ;
+	}
+	static bool supportsCancel()
+	{
+		return true ;
+	}
+	bool Continue()
+	{
+		return m_continue ;
+	}
+	bool wait()
+	{
+		return m_counter++ % 20 == 0 ;
+	}
+	bool readFirst()
+	{
+		m_handle = FindFirstFileA( m_path.toUtf8(),&m_data ) ;
+
+		if( m_handle == INVALID_HANDLE_VALUE ){
+
+			return false ;
+		}else{
+			this->add() ;
+			return true ;
+		}
+	}
+	directoryEntries entries()
+	{
+		m_entries.sort() ;
+		return std::move( m_entries ) ;
+	}
+	bool read()
+	{
+		if( FindNextFileA( m_handle,&m_data ) != 0 ){
+
+			this->add() ;
+
+			return false ;
+		}else{
+			return true ;
+		}
+	}
+	~directoryManager()
+	{
+		FindClose( m_handle ) ;
+	}
+private:
+	void add()
+	{
+		auto m = m_data.cFileName ;
+
+		if( m_entries.valid( m ) ){
+
+			m_filesize.LowPart = m_data.ftCreationTime.dwLowDateTime ;
+			m_filesize.HighPart = m_data.ftCreationTime.dwHighDateTime ;
+
+			if( m_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
+
+				m_entries.addFolder( m_filesize.QuadPart,m ) ;
+			}else{
+				m_entries.addFile( m_filesize.QuadPart,m ) ;
+			}
+		}
+	}
+	QString m_path ;
+	directoryEntries m_entries ;
+	std::atomic_bool& m_continue ;
+	int m_counter = 0 ;
+
+	WIN32_FIND_DATA m_data ;
+	LARGE_INTEGER m_filesize ;
+	HANDLE m_handle ;
+	DWORD m_error = 0 ;
+} ;
+
 #else
 
-#include <QDir>
 #include <QDateTime>
 #include <QString>
 #include <QFileInfo>
