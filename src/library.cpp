@@ -44,6 +44,11 @@ library::library( const Context& ctx ) :
 {
 	m_ui.cbLibraryTabEnable->setChecked( m_enabled ) ;
 
+	QObject::connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ & ](){
+
+		m_continue = false ;
+	} ) ;
+
 	connect( m_ui.cbLibraryTabEnable,&QCheckBox::clicked,[ this ]( bool e ){
 
 		m_enabled = e ;
@@ -345,76 +350,39 @@ void library::showContents( const QString& path,bool disableUi )
 		this->internalDisableAll() ;
 	}
 
-	auto supportsCancel = directoryManager::supportsCancel() ;
+	m_continue = true ;
 
-	m_ui.pbLibraryCancel->setEnabled( supportsCancel ) ;
+	m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
 
-	QMetaObject::Connection conn ;
+	utils::qthread::run( [ path,this ](){
 
-	if( supportsCancel ){
-
-		m_continue = true ;
-
-		conn = QObject::connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ & ](){
-
-			m_continue = false ;
-		} ) ;
-	}
-
-	utils::qthread::run( [ conn,supportsCancel,path,this ](){
-
-		directoryEntries contents ;
-
-		directoryManager dm( path,m_dirFilter ) ;
+		directoryManager dm( path,m_dirFilter,m_continue ) ;
 
 		if( dm.valid() ){
 
-			if( supportsCancel ){
+			if( dm.readFirst() ){
 
-				if( dm.getFirst( contents ) ){
+				while( dm.Continue() ){
 
-					int counter = 0 ;
-
-					while( m_continue ){
-
-						counter++ ;
-
-						if( counter % 20 == 0 ){
-
-							/*
-							 * Give UI thread a breather to prevent
-							 * UI hanging, do not know why UI thread
-							 * hangs when we spin too muchon a
-							 * background thread
-							 */
-							QThread::currentThread()->msleep( 500 ) ;
-						}
-
-						if( dm.get( contents ) ){
-
-							break ;
-						}
+					if( dm.wait() ){
+						/*
+						 * Give UI thread a breather to prevent
+						 * UI hanging, do not know why UI thread
+						 * hangs when we spin too hard on a
+						 * background thread
+						 */
+						QThread::currentThread()->msleep( 500 ) ;
 					}
-				}
 
-				QObject::disconnect( conn ) ;
-			}else{
-				if( dm.getFirst( contents ) ){
+					if( dm.read() ){
 
-					while( true ){
-
-						if( dm.get( contents ) ){
-
-							break ;
-						}
+						break ;
 					}
 				}
 			}
 		}
 
-		contents.sort() ;
-
-		return contents ;
+		return dm.entries() ;
 
 	},[ disableUi,this ]( const directoryEntries& m ){
 

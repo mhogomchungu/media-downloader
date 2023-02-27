@@ -50,6 +50,16 @@ bool directoryEntries::valid( const char * e )
 	return true ;
 }
 
+bool directoryEntries::valid( const QString& m )
+{
+	if( m == ".." || m.startsWith( "." ) || m.startsWith( "info_" ) || m.startsWith( ".log" ) ){
+
+		return false ;
+	}else{
+		return true ;
+	}
+}
+
 void directoryEntries::sort()
 {
 	std::sort( m_folders.begin(),m_folders.end(),[]( const entry& lhs,const entry& rhs ){

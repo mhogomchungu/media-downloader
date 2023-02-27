@@ -22,10 +22,14 @@
 #include <QPushButton>
 #include <QObject>
 
+#include <atomic>
+#include <vector>
+
 class directoryEntries
 {
 public:
-	bool valid( const char * e ) ;
+	bool valid( const char * ) ;
+	bool valid( const QString& ) ;
 	void sort() ;
 	void addFile( qint64 dateCreated,QString path )
 	{
@@ -79,9 +83,10 @@ private:
 class directoryManager
 {
 public:
-	directoryManager( const QString& path,QDir::Filters ) :
+	directoryManager( const QString& path,QDir::Filters,std::atomic_bool& c ) :
 		m_pathManager( path + "/" ),
-		m_handle( opendir( path.toUtf8() ) )
+		m_handle( opendir( path.toUtf8() ) ),
+		m_continue( c )
 	{
 	}
 	bool valid()
@@ -92,11 +97,24 @@ public:
 	{
 		return true ;
 	}
-	bool getFirst( directoryEntries& e )
+	bool readFirst()
 	{
-		return !this->get( e ) ;
+		return !this->read() ;
 	}
-	bool get( directoryEntries& s )
+	bool Continue()
+	{
+		return m_continue ;
+	}
+	bool wait()
+	{
+		return m_counter++ % 20 == 0 ;
+	}
+	directoryEntries entries()
+	{
+		m_entries.sort() ;
+		return std::move( m_entries ) ;
+	}
+	bool read()
 	{
 		auto e = readdir( m_handle ) ;
 
@@ -104,7 +122,7 @@ public:
 
 			const auto name = e->d_name ;
 
-			if( s.valid( name ) ){
+			if( m_entries.valid( name ) ){
 
 				struct stat m ;
 
@@ -112,11 +130,11 @@ public:
 
 					if( S_ISREG( m.st_mode ) ){
 
-						s.addFile( m.st_mtime,name ) ;
+						m_entries.addFile( m.st_mtime,name ) ;
 
 					}else if( S_ISDIR( m.st_mode ) ){
 
-						s.addFolder( m.st_mtime,name ) ;
+						m_entries.addFolder( m.st_mtime,name ) ;
 					}
 				}
 			}
@@ -156,6 +174,9 @@ private:
 
 	pathManager m_pathManager ;
 	DIR * m_handle ;
+	std::atomic_bool& m_continue ;
+	int m_counter = 0 ;
+	directoryEntries m_entries ;
 } ;
 
 #else
@@ -168,7 +189,7 @@ private:
 class directoryManager
 {
 public:
-	directoryManager( const QString& path,QDir::Filters f ) :
+	directoryManager( const QString& path,QDir::Filters f,std::atomic_bool& ) :
 		m_path( path ),
 		m_list( QDir( m_path ).entryList( f ) )
 	{
@@ -181,26 +202,30 @@ public:
 	{
 		return false ;
 	}
-	bool valid( const QString& m )
+	bool Continue()
 	{
-		if( m.startsWith( "info_" ) || m.endsWith( ".log" ) ){
-
-			return false ;
-		}else{
-			return true ;
-		}
+		return true ;
 	}
-	bool getFirst( directoryEntries& entrs )
+	bool wait()
 	{
-		return !this->get( entrs ) ;
+		return false ;
 	}
-	bool get( directoryEntries& entrs )
+	bool readFirst()
+	{
+		return !this->read() ;
+	}
+	directoryEntries entries()
+	{
+		m_entries.sort() ;
+		return std::move( m_entries ) ;
+	}
+	bool read()
 	{
 		if( m_counter < m_list.size() ){
 
 			const auto& m = m_list[ m_counter++ ] ;
 
-			if( this->valid( m ) ){
+			if( m_entries.valid( m ) ){
 
 				auto w = QDir::fromNativeSeparators( m ) ;
 
@@ -208,11 +233,11 @@ public:
 
 				if( m_fileInfo.isFile() ){
 
-					entrs.addFile( this->createdTime( m_fileInfo ),w ) ;
+					m_entries.addFile( this->createdTime( m_fileInfo ),w ) ;
 
 				}else if( m_fileInfo.isDir() ){
 
-					entrs.addFolder( this->createdTime( m_fileInfo ),w ) ;
+					m_entries.addFolder( this->createdTime( m_fileInfo ),w ) ;
 				}
 			}
 
@@ -234,6 +259,7 @@ private:
 	QString m_path ;
 	QStringList m_list ;
 	QFileInfo m_fileInfo ;
+	directoryEntries m_entries ;
 } ;
 
 #endif
