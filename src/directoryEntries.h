@@ -178,7 +178,7 @@ private:
 	directoryEntries m_entries ;
 } ;
 
-#endif
+#else
 
 #ifdef Q_OS_WIN
 
@@ -266,7 +266,6 @@ private:
 	WIN32_FIND_DATA m_data ;
 	LARGE_INTEGER m_filesize ;
 	HANDLE m_handle ;
-	DWORD m_error = 0 ;
 } ;
 
 #else
@@ -350,5 +349,7 @@ private:
 	QFileInfo m_fileInfo ;
 	directoryEntries m_entries ;
 } ;
+
+#endif
 
 #endif
