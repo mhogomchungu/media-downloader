@@ -18,6 +18,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef DIRECTORY_ENTRIES_H
+#define DIRECTORY_ENTRIES_H
+
 #include <QString>
 #include <QPushButton>
 #include <QObject>
@@ -40,17 +43,21 @@ public:
 	{
 		m_folders.emplace_back( dateCreated,std::move( path ) ) ;
 	}
-	template< typename Folders,typename Files >
-	void addToList( Folders folders,Files files ) const
+	quint64 foldersCount()
 	{
-		for( const auto& it : m_folders ){
-
-			folders( it.path ) ;
-		}
-		for( const auto& it : m_files ){
-
-			files( it.path ) ;
-		}
+		return static_cast< quint64 >( m_folders.size() ) ;
+	}
+	quint64 filesCount()
+	{
+		return static_cast< quint64 >( m_files.size() ) ;
+	}
+	const QString& folderAt( quint64 s )
+	{
+		return m_folders[ static_cast< std::size_t >( s ) ].path ;
+	}
+	const QString& fileAt( quint64 s )
+	{
+		return m_files[ static_cast< std::size_t >( s ) ].path ;
 	}
 private:
 	struct entry
@@ -62,7 +69,7 @@ private:
 		}
 		qint64 dateCreated ;
 		QString path ;
-	};
+	} ;
 
 	std::vector< entry > m_folders ;
 	std::vector< entry > m_files ;
@@ -103,10 +110,6 @@ public:
 	bool Continue()
 	{
 		return m_continue ;
-	}
-	bool wait()
-	{
-		return m_counter++ % 20 == 0 ;
 	}
 	directoryEntries entries()
 	{
@@ -174,7 +177,6 @@ private:
 	pathManager m_pathManager ;
 	DIR * m_handle ;
 	std::atomic_bool& m_continue ;
-	int m_counter = 0 ;
 	directoryEntries m_entries ;
 } ;
 
@@ -203,10 +205,6 @@ public:
 	bool Continue()
 	{
 		return m_continue ;
-	}
-	bool wait()
-	{
-		return m_counter++ % 20 == 0 ;
 	}
 	bool readFirst()
 	{
@@ -261,7 +259,6 @@ private:
 	QString m_path ;
 	directoryEntries m_entries ;
 	std::atomic_bool& m_continue ;
-	int m_counter = 0 ;
 
 	WIN32_FIND_DATA m_data ;
 	LARGE_INTEGER m_filesize ;
@@ -293,10 +290,6 @@ public:
 	bool Continue()
 	{
 		return true ;
-	}
-	bool wait()
-	{
-		return false ;
 	}
 	bool readFirst()
 	{
@@ -349,6 +342,8 @@ private:
 	QFileInfo m_fileInfo ;
 	directoryEntries m_entries ;
 } ;
+
+#endif
 
 #endif
 

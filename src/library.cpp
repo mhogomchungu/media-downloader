@@ -22,13 +22,10 @@
 #include "tabmanager.h"
 #include "tableWidget.h"
 #include "mainwindow.h"
-#include "directoryEntries.h"
 
 #include "utils/miscellaneous.hpp"
 
 #include <QDir>
-
-#include <cstring>
 
 library::library( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -339,6 +336,41 @@ void library::addItem( const QString& text,library::ICON type )
 	item.setFont( m_ctx.mainWidget().font() ) ;
 }
 
+void library::addFolderItemAt( quint64 s )
+{
+	if( s < m_directoryEntries.foldersCount() && m_continue ){
+
+		this->addItem( m_directoryEntries.folderAt( s ),library::ICON::FOLDER ) ;
+
+		auto& t = m_table.get() ;
+
+		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
+
+		QMetaObject::invokeMethod( this,"addFolderItemAt",Qt::QueuedConnection,Q_ARG( quint64,++s ) ) ;
+	}else{
+		this->addFileItemAt( 0 ) ;
+	}
+}
+
+void library::addFileItemAt( quint64 s )
+{
+	if( s < m_directoryEntries.filesCount() && m_continue ){
+
+		this->addItem( m_directoryEntries.fileAt( s ),library::ICON::FILE ) ;
+
+		auto& t = m_table.get() ;
+
+		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
+
+		QMetaObject::invokeMethod( this,"addFileItemAt",Qt::QueuedConnection,Q_ARG( quint64,++s ) ) ;
+	}else{
+		if( m_disableUi ){
+
+			this->internalEnableAll() ;
+		}
+	}
+}
+
 void library::showContents( const QString& path,bool disableUi )
 {
 	m_table.clear() ;
@@ -364,16 +396,6 @@ void library::showContents( const QString& path,bool disableUi )
 
 				while( dm.Continue() ){
 
-					if( dm.wait() ){
-						/*
-						 * Give UI thread a breather to prevent
-						 * UI hanging, do not know why UI thread
-						 * hangs when we spin too hard on a
-						 * background thread
-						 */
-						QThread::currentThread()->msleep( 500 ) ;
-					}
-
 					if( dm.read() ){
 
 						break ;
@@ -384,27 +406,14 @@ void library::showContents( const QString& path,bool disableUi )
 
 		return dm.entries() ;
 
-	},[ disableUi,this ]( const directoryEntries& m ){
+	},[ disableUi,this ]( directoryEntries m ){
 
-		if( disableUi ){
+		m_directoryEntries = std::move( m ) ;
 
-			this->internalEnableAll() ;
-		}
+		m_disableUi = disableUi ;
 
-		m.addToList( [ this ]( const QString& e ){
+		m_ui.pbLibraryCancel->setEnabled( true ) ;
 
-			this->addItem( e,library::ICON::FOLDER ) ;
-
-		},[ this ]( const QString& e ){
-
-			this->addItem( e,library::ICON::FILE ) ;
-		} ) ;
-
-		if( m_table.rowCount() > 0 ){
-
-			auto& t = m_table.get() ;
-
-			t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
-		}
+		this->addFolderItemAt( 0 ) ;
 	} ) ;
 }

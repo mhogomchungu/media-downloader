@@ -22,22 +22,12 @@
 
 bool directoryEntries::valid( const char * e )
 {
-	if( std::strcmp( e,"." ) == 0 ){
-
-		return false ;
-	}
-
 	if( std::strcmp( e,".." ) == 0 ){
 
 		return false ;
 	}
 
 	if( std::strncmp( e,"info_",5 ) == 0 ){
-
-		return false ;
-	}
-
-	if( std::strncmp( e,".log",4 ) == 0 ){
 
 		return false ;
 	}
@@ -52,7 +42,7 @@ bool directoryEntries::valid( const char * e )
 
 bool directoryEntries::valid( const QString& m )
 {
-	if( m == ".." || m.startsWith( "." ) || m.startsWith( "info_" ) || m.startsWith( ".log" ) ){
+	if( m == ".." || m.startsWith( "." ) || m.startsWith( "info_" ) ){
 
 		return false ;
 	}else{

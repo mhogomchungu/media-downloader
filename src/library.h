@@ -28,6 +28,7 @@
 #include "settings.h"
 #include "utility.h"
 #include "tableWidget.h"
+#include "directoryEntries.h"
 
 class tabManager ;
 
@@ -46,6 +47,9 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+private slots:
+	void addFolderItemAt( quint64 ) ;
+	void addFileItemAt( quint64 ) ;
 private:
 	void enableAll( bool ) ;
 	void disableAll( bool ) ;
@@ -59,6 +63,7 @@ private:
 	bool m_enableGlobalUiChanges ;
 	settings& m_settings ;
 	bool m_enabled ;
+	bool m_disableUi ;
 	std::atomic_bool m_continue ;
 	Ui::MainWindow& m_ui ;
 	tableMiniWidget< ICON > m_table ;
@@ -66,6 +71,7 @@ private:
 	QString m_currentPath ;
 	QPixmap m_folderIcon ;
 	QPixmap m_videoIcon ;
+	directoryEntries m_directoryEntries ;
 	const QDir::Filters m_dirFilter = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 };
 
