@@ -34,7 +34,18 @@ class directoryEntries
 public:
 	bool valid( const char * ) ;
 	bool valid( const QString& ) ;
-	void sort() ;
+	void sort()
+	{
+		std::sort( m_folders.begin(),m_folders.end(),[]( const entry& lhs,const entry& rhs ){
+
+			return lhs.dateCreated < rhs.dateCreated ;
+		} ) ;
+
+		std::sort( m_files.begin(),m_files.end(),[]( const entry& lhs,const entry& rhs ){
+
+			return lhs.dateCreated < rhs.dateCreated ;
+		} ) ;
+	}
 	void addFile( qint64 dateCreated,QString path )
 	{
 		m_files.emplace_back( dateCreated,std::move( path ) ) ;

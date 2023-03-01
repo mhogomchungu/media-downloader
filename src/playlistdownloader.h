@@ -88,6 +88,8 @@ public:
 	void clipboardData( const QString& ) ;
 private slots:
 	void networkData( utility::networkReply ) ;
+	void addTextToUi( const QByteArray&,int ) ;
+	void reportFinishedStatus( const reportFinished& ) ;
 private:
 	enum class size{ small,large,toggle } ;
 	void resizeTable( playlistdownloader::size ) ;

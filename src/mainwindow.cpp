@@ -59,6 +59,7 @@ MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStrin
 	m_defaultWindowTitle( this->window()->windowTitle() )
 {
 	qRegisterMetaType< utility::networkReply >() ;
+	qRegisterMetaType< reportFinished >() ;
 
 	this->window()->setFixedSize( this->window()->size() ) ;
 

@@ -207,6 +207,8 @@ public:
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 	void networkData( utility::networkReply ) ;
+	void addTextToUi( const QByteArray&,int ) ;
+	void reportFinishedStatus( const reportFinished& ) ;
 private:
 	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;
 	void showList( batchdownloader::listType,const engines::engine&,const QString&,int ) ;

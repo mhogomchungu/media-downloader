@@ -826,21 +826,11 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 		auto bb = [ &engine,index,this ]( const downloadManager::finishedStatus& f ){
 
-			m_banner.updateTimer() ;
+			reportFinished m( index,engine,f ) ;
 
-			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
-
-			if( m_table.noneAreRunning() ){
-
-				m_ctx.TabManager().enableAll() ;
-
-				if( m_table.allFinishedWithSuccess() ){
-
-					this->resizeTable( playlistdownloader::size::small ) ;
-				}
-			}
-
-			m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,index ) ) ;
+			QMetaObject::invokeMethod( this,
+						   "reportFinishedStatus",
+						   Qt::QueuedConnection,Q_ARG( reportFinished,std::move( m ) ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
@@ -854,9 +844,11 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 
-		m_banner.updateTimer() ;
-
-		m_table.setUiText( e,index ) ;
+		QMetaObject::invokeMethod( this,
+					   "addTextToUi",
+					   Qt::QueuedConnection,
+					   Q_ARG( QByteArray,e ),
+					   Q_ARG( int,index ) ) ;
 	} ;
 
 	auto error = []( const QByteArray& ){} ;
@@ -1293,6 +1285,35 @@ void playlistdownloader::networkData( utility::networkReply m )
 	table.selectLast() ;
 
 	m_networkRunning-- ;
+}
+
+void playlistdownloader::addTextToUi( const QByteArray& data,int index )
+{
+	if( downloadManager::finishedStatus::running( m_table.runningState( index ) ) ){
+
+		m_banner.updateTimer() ;
+
+		m_table.setUiText( data,index ) ;
+	}
+}
+
+void playlistdownloader::reportFinishedStatus( const reportFinished& f )
+{
+	m_banner.updateTimer() ;
+
+	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus() ) ;
+
+	if( m_table.noneAreRunning() ){
+
+		m_ctx.TabManager().enableAll() ;
+
+		if( m_table.allFinishedWithSuccess() ){
+
+			this->resizeTable( playlistdownloader::size::small ) ;
+		}
+	}
+
+	m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,f.index() ) ) ;
 }
 
 void playlistdownloader::resizeTable( playlistdownloader::size s )

@@ -138,15 +138,8 @@ public:
 	{
 		return m_init ;
 	}
-	template< typename ... T >
-	void hideColumns( T ... t )
+	struct entry
 	{
-		for( auto it : { t ... } ){
-
-			m_table.hideColumn( it ) ;
-		}
-	}
-	struct entry{
 		entry()
 		{
 		}

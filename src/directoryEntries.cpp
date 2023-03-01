@@ -49,16 +49,3 @@ bool directoryEntries::valid( const QString& m )
 		return true ;
 	}
 }
-
-void directoryEntries::sort()
-{
-	std::sort( m_folders.begin(),m_folders.end(),[]( const entry& lhs,const entry& rhs ){
-
-		return lhs.dateCreated < rhs.dateCreated ;
-	} ) ;
-
-	std::sort( m_files.begin(),m_files.end(),[]( const entry& lhs,const entry& rhs ){
-
-		return lhs.dateCreated < rhs.dateCreated ;
-	} ) ;
-}

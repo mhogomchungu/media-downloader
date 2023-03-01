@@ -247,7 +247,7 @@ void library::retranslateUi()
 
 void library::tabEntered()
 {
-	if( m_enabled ){
+	if( m_enabled && m_table.rowCount() == 0 ){
 
 		this->showContents( m_currentPath,m_ctx.TabManager().uiEnabled() ) ;
 	}

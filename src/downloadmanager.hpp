@@ -118,6 +118,9 @@ public:
 			m_index( i ),m_allFinished( s ),m_exitState( std::move( e ) )
 		{
 		}
+		finishedStatus()
+		{
+		}
 	private:
 		int m_index ;
 		bool m_allFinished ;
@@ -359,5 +362,37 @@ private:
 	QPushButton& m_cancelButton ;
 	settings& m_settings ;
 } ;
+
+class reportFinished
+{
+public:
+	reportFinished()
+	{
+	}
+	reportFinished( int index,const engines::engine& engine,const downloadManager::finishedStatus& status ) :
+		m_index( index ),
+		m_engine( &engine ),
+		m_status( status )
+	{
+	}
+	int index() const
+	{
+		return m_index ;
+	}
+	const engines::engine& engine() const
+	{
+		return *m_engine ;
+	}
+	const downloadManager::finishedStatus& finishedStatus() const
+	{
+		return m_status ;
+	}
+private:
+	int m_index ;
+	const engines::engine * m_engine = nullptr ;
+	downloadManager::finishedStatus m_status ;
+};
+
+Q_DECLARE_METATYPE( reportFinished )
 
 #endif

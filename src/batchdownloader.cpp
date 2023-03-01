@@ -1948,6 +1948,20 @@ void batchdownloader::download( const engines::engine& engine )
 	this->download( engine,std::move( indexes ) ) ;
 }
 
+void batchdownloader::reportFinishedStatus( const reportFinished& f )
+{
+	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus() ) ;
+
+	if( m_table.noneAreRunning() ){
+
+		m_ctx.TabManager().enableAll() ;
+
+		m_ui.pbBDCancel->setEnabled( false ) ;
+	}
+
+	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0,f.index() ) ) ;
+}
+
 void batchdownloader::download( const engines::engine& eng,int index )
 {
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
@@ -1961,16 +1975,11 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 		auto bb = [ &engine,index,this ]( const downloadManager::finishedStatus& f ){
 
-			utility::updateFinishedState( engine,m_settings,m_table,f ) ;
+			reportFinished m( index,engine,f ) ;
 
-			if( m_table.noneAreRunning() ){
-
-				m_ctx.TabManager().enableAll() ;
-
-				m_ui.pbBDCancel->setEnabled( false ) ;
-			}
-
-			m_ctx.mainWindow().setTitle( m_table.completeProgress( 0,index ) ) ;
+			QMetaObject::invokeMethod( this,
+						   "reportFinishedStatus",
+						   Qt::QueuedConnection,Q_ARG( reportFinished,std::move( m ) ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
@@ -1991,7 +2000,11 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 
-		m_table.setUiText( e,index ) ;
+		QMetaObject::invokeMethod( this,
+					   "addTextToUi",
+					   Qt::QueuedConnection,
+					   Q_ARG( QByteArray,e ),
+					   Q_ARG( int,index ) ) ;
 	} ;
 
 	auto error = []( const QByteArray& ){} ;
@@ -2022,6 +2035,14 @@ void batchdownloader::download( const engines::engine& eng,int index )
 			 m_terminator.setUp(),
 			 std::move( oopts ),
 			 std::move( logger ) ) ;
+}
+
+void batchdownloader::addTextToUi( const QByteArray& data,int index )
+{
+	if( downloadManager::finishedStatus::running( m_table.runningState( index ) ) ){
+
+		m_table.setUiText( data,index ) ;
+	}
 }
 
 void batchdownloader::enableAll()

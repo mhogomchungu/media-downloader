@@ -167,6 +167,8 @@ Version 1.2.0(April 1st, 2021)
     - Cancelling a download now also terminates ffmpeg or aria2c if they were started by the download.
 
   Version 2.9.0(Unreleased)
+      [All]
     - Add Portuguese(Brazilian) translations.
     - Make entry table in the playlist tab larger after it is populated.
     - Required minimum version of yt-dlp is 2023.01.06.
+    - Its now possible to cancel populating library tab.
