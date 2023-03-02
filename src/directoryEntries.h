@@ -38,12 +38,12 @@ public:
 	{
 		std::sort( m_folders.begin(),m_folders.end(),[]( const entry& lhs,const entry& rhs ){
 
-			return lhs.dateCreated < rhs.dateCreated ;
+			return rhs.dateCreated < lhs.dateCreated ;
 		} ) ;
 
 		std::sort( m_files.begin(),m_files.end(),[]( const entry& lhs,const entry& rhs ){
 
-			return lhs.dateCreated < rhs.dateCreated ;
+			return rhs.dateCreated < lhs.dateCreated ;
 		} ) ;
 	}
 	void addFile( qint64 dateCreated,QString path )
