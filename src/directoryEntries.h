@@ -31,6 +31,20 @@
 
 class directoryEntries
 {
+private:
+	struct entry
+	{
+		entry( qint64 d,QString p ) :
+			dateCreated( d ),
+			path( std::move( p ) )
+		{
+		}
+		qint64 dateCreated ;
+		QString path ;
+	} ;
+
+	std::vector< entry > m_folders ;
+	std::vector< entry > m_files ;
 public:
 	bool valid( const char * ) ;
 	bool valid( const QString& ) ;
@@ -54,37 +68,49 @@ public:
 	{
 		m_folders.emplace_back( dateCreated,std::move( path ) ) ;
 	}
-	quint64 foldersCount()
+
+	friend class iter ;
+
+	class iter
 	{
-		return static_cast< quint64 >( m_folders.size() ) ;
-	}
-	quint64 filesCount()
-	{
-		return static_cast< quint64 >( m_files.size() ) ;
-	}
-	const QString& folderAt( quint64 s )
-	{
-		return m_folders[ static_cast< std::size_t >( s ) ].path ;
-	}
-	const QString& fileAt( quint64 s )
-	{
-		return m_files[ static_cast< std::size_t >( s ) ].path ;
-	}
-private:
-	struct entry
-	{
-		entry( qint64 d,QString p ) :
-			dateCreated( d ),
-			path( std::move( p ) )
+	public:
+		iter()
 		{
 		}
-		qint64 dateCreated ;
-		QString path ;
+		iter( const std::vector< directoryEntries::entry >& e ) :
+			m_entries( &e )
+		{
+		}
+		bool hasNext() const
+		{
+			return m_position < m_entries->size() ;
+		}
+		const QString& value() const
+		{
+			return m_entries->data()[ m_position ].path ;
+		}
+		iter next() const
+		{
+			auto m = *this ;
+			m.m_position++ ;
+			return m ;
+		}
+	private:
+		size_t m_position = 0 ;
+		const std::vector< directoryEntries::entry > * m_entries = nullptr ;
 	} ;
 
-	std::vector< entry > m_folders ;
-	std::vector< entry > m_files ;
+	directoryEntries::iter directoryIter()
+	{
+		return { m_folders } ;
+	}
+	directoryEntries::iter fileIter()
+	{
+		return { m_files } ;
+	}
 } ;
+
+Q_DECLARE_METATYPE( directoryEntries::iter )
 
 #ifdef Q_OS_LINUX
 

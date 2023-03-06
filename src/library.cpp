@@ -39,6 +39,8 @@ library::library( const Context& ctx ) :
 	m_folderIcon( QIcon( ":/folder" ).pixmap( 30,40 ) ),
 	m_videoIcon( QIcon( ":/video" ).pixmap( 30,40 ) )
 {
+	qRegisterMetaType< directoryEntries::iter >() ;
+
 	m_ui.cbLibraryTabEnable->setChecked( m_enabled ) ;
 
 	QObject::connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ & ](){
@@ -336,34 +338,45 @@ void library::addItem( const QString& text,library::ICON type )
 	item.setFont( m_ctx.mainWidget().font() ) ;
 }
 
-void library::addFolderItemAt( quint64 s )
+void library::addFolder( const directoryEntries::iter& s )
 {
-	if( s < m_directoryEntries.foldersCount() && m_continue ){
+	if( s.hasNext() && m_continue ){
 
-		this->addItem( m_directoryEntries.folderAt( s ),library::ICON::FOLDER ) ;
+		this->addItem( s.value(),library::ICON::FOLDER ) ;
 
 		auto& t = m_table.get() ;
 
 		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
 
-		QMetaObject::invokeMethod( this,"addFolderItemAt",Qt::QueuedConnection,Q_ARG( quint64,++s ) ) ;
+		auto a = "addFolder" ;
+		auto b = Qt::QueuedConnection ;
+
+		QMetaObject::invokeMethod( this,a,b,Q_ARG( directoryEntries::iter,s.next() ) ) ;
 	}else{
-		this->addFileItemAt( 0 ) ;
+		this->addFile( m_directoryEntries.fileIter() ) ;
 	}
 }
 
-void library::addFileItemAt( quint64 s )
+void library::addFile( const directoryEntries::iter& s )
 {
-	if( s < m_directoryEntries.filesCount() && m_continue ){
+	auto& t = m_table.get() ;
 
-		this->addItem( m_directoryEntries.fileAt( s ),library::ICON::FILE ) ;
+	if( s.hasNext() && m_continue ){
 
-		auto& t = m_table.get() ;
+		this->addItem( s.value(),library::ICON::FILE ) ;
 
 		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
 
-		QMetaObject::invokeMethod( this,"addFileItemAt",Qt::QueuedConnection,Q_ARG( quint64,++s ) ) ;
+		auto a = "addFile" ;
+		auto b = Qt::QueuedConnection ;
+
+		QMetaObject::invokeMethod( this,a,b,Q_ARG( directoryEntries::iter,s.next() ) ) ;
 	}else{
+		if( t.rowCount() > 0 ){
+
+			t.setCurrentCell( 0,t.columnCount() - 1 ) ;
+		}
+
 		if( m_disableUi ){
 
 			this->internalEnableAll() ;
@@ -414,6 +427,6 @@ void library::showContents( const QString& path,bool disableUi )
 
 		m_ui.pbLibraryCancel->setEnabled( true ) ;
 
-		this->addFolderItemAt( 0 ) ;
+		this->addFolder( m_directoryEntries.directoryIter() ) ;
 	} ) ;
 }

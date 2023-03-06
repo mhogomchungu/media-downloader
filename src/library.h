@@ -48,8 +48,8 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 private slots:
-	void addFolderItemAt( quint64 ) ;
-	void addFileItemAt( quint64 ) ;
+	void addFolder( const directoryEntries::iter& ) ;
+	void addFile( const directoryEntries::iter& ) ;
 private:
 	void enableAll( bool ) ;
 	void disableAll( bool ) ;

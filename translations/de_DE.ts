@@ -58,7 +58,7 @@
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
         <location filename="../src/mainwindow.ui" line="2222"/>
-        <location filename="../src/mainwindow.cpp" line="71"/>
+        <location filename="../src/mainwindow.cpp" line="72"/>
         <source>Quit</source>
         <translation>Beenden</translation>
     </message>
@@ -884,7 +884,7 @@
         <translation>Abgeschlossen: %1%, Nicht gestartet: %2, Erfolgreich: %3, Fehlgeschlagen: %4, Abgebrochen: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1205"/>
+        <location filename="../src/playlistdownloader.cpp" line="1197"/>
         <source>Media Already In Archive</source>
         <translation>Bereits archivierte Medien</translation>
     </message>
@@ -1050,7 +1050,7 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1657"/>
-        <location filename="../src/batchdownloader.cpp" line="2072"/>
+        <location filename="../src/batchdownloader.cpp" line="2093"/>
         <source>Downloading subtitles</source>
         <translation>Herunterladen von Untertiteln</translation>
     </message>
@@ -1115,12 +1115,12 @@
 <context>
     <name>library</name>
     <message>
-        <location filename="../src/library.cpp" line="76"/>
+        <location filename="../src/library.cpp" line="78"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="104"/>
+        <location filename="../src/library.cpp" line="106"/>
         <source>Delete All</source>
         <translation>Lösche alles</translation>
     </message>
@@ -1163,13 +1163,13 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1327"/>
+        <location filename="../src/playlistdownloader.cpp" line="1348"/>
         <source>Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1411"/>
+        <location filename="../src/playlistdownloader.cpp" line="1432"/>
         <source>Get List Options:</source>
         <translation>Listenoptionen abrufen:</translation>
     </message>
@@ -1199,27 +1199,27 @@
         <translation>Abos verwalten</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1092"/>
+        <location filename="../src/playlistdownloader.cpp" line="1084"/>
         <source>Number of Pages Downloaded</source>
         <translation>Anzahl der heruntergeladenen Seiten</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1109"/>
+        <location filename="../src/playlistdownloader.cpp" line="1101"/>
         <source>Downloading video info</source>
         <translation>Herunterladen von Videodaten</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1322"/>
+        <location filename="../src/playlistdownloader.cpp" line="1343"/>
         <source>Show Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1323"/>
+        <location filename="../src/playlistdownloader.cpp" line="1344"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1328"/>
+        <location filename="../src/playlistdownloader.cpp" line="1349"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>

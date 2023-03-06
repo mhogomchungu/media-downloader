@@ -58,7 +58,7 @@
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
         <location filename="../src/mainwindow.ui" line="2222"/>
-        <location filename="../src/mainwindow.cpp" line="71"/>
+        <location filename="../src/mainwindow.cpp" line="72"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
@@ -884,7 +884,7 @@
         <translation>完了: %1%, 開始前: %2, 成功: %3, 失敗: %4, キャンセル: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1205"/>
+        <location filename="../src/playlistdownloader.cpp" line="1197"/>
         <source>Media Already In Archive</source>
         <translation>メディアは既にアーカイブにあります</translation>
     </message>
@@ -1050,7 +1050,7 @@
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="1657"/>
-        <location filename="../src/batchdownloader.cpp" line="2072"/>
+        <location filename="../src/batchdownloader.cpp" line="2093"/>
         <source>Downloading subtitles</source>
         <translation>字幕をダウンロード中</translation>
     </message>
@@ -1115,12 +1115,12 @@
 <context>
     <name>library</name>
     <message>
-        <location filename="../src/library.cpp" line="76"/>
+        <location filename="../src/library.cpp" line="78"/>
         <source>Delete</source>
         <translation>削除</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="104"/>
+        <location filename="../src/library.cpp" line="106"/>
         <source>Delete All</source>
         <translation>すべて削除</translation>
     </message>
@@ -1163,13 +1163,13 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1327"/>
+        <location filename="../src/playlistdownloader.cpp" line="1348"/>
         <source>Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1411"/>
+        <location filename="../src/playlistdownloader.cpp" line="1432"/>
         <source>Get List Options:</source>
         <translation>リスト取得オプション:</translation>
     </message>
@@ -1199,27 +1199,27 @@
         <translation>ブックマークを管理</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1092"/>
+        <location filename="../src/playlistdownloader.cpp" line="1084"/>
         <source>Number of Pages Downloaded</source>
         <translation>ダウンロードしたページ数</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1109"/>
+        <location filename="../src/playlistdownloader.cpp" line="1101"/>
         <source>Downloading video info</source>
         <translation>ビデオ情報をダウンロード中</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1322"/>
+        <location filename="../src/playlistdownloader.cpp" line="1343"/>
         <source>Show Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1323"/>
+        <location filename="../src/playlistdownloader.cpp" line="1344"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1328"/>
+        <location filename="../src/playlistdownloader.cpp" line="1349"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
