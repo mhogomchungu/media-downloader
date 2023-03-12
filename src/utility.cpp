@@ -1338,6 +1338,6 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 
 		ctx.logger().add( m,utility::concurrentID() ) ;
 	}else{
-		ctx.logger().add( "Network Error: " + reply.errorString(),utility::concurrentID() ) ;
+		ctx.logger().add( "Network Error: " + reply.errorString(),utility::sequentialID() ) ;
 	}
 }
