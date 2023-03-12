@@ -1336,7 +1336,7 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 
 		QString m = "Network Error: Network Request Timed Out" ;
 
-		ctx.logger().add( m,utility::concurrentID() ) ;
+		ctx.logger().add( m,utility::sequentialID() ) ;
 	}else{
 		ctx.logger().add( "Network Error: " + reply.errorString(),utility::sequentialID() ) ;
 	}
