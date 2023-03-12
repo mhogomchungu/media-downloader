@@ -228,8 +228,8 @@ private:
 	void clearScreen() ;
 	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
-	void download( const engines::engine& ) ;
-	void download( const engines::engine&,int ) ;
+	void download( const engines::engine&,int = 0 ) ;
+	void downloadEntry( const engines::engine&,int ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;
 	void addItemUi( int,bool,const utility::MediaEntry& ) ;
 	int addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;

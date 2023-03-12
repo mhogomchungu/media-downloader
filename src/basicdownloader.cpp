@@ -389,7 +389,9 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 			if( !opts.listRequested ){
 
-				auto a = downloadManager::finishedStatus( 0,true,std::move( m ) ) ;
+				auto e = downloadManager::finishedStatus::state::done ;
+
+				auto a = downloadManager::finishedStatus( 0,e,std::move( m ) ) ;
 
 				auto& s = opts.ctx.Settings() ;
 

@@ -1352,7 +1352,7 @@ namespace utility
 				engine.runCommandOnDownloadedFile( a,backUpUrl ) ;
 			}
 
-			if( f.allFinished() ){
+			if( f.done() ){
 
 				auto a = s.commandWhenAllFinished() ;
 

@@ -106,16 +106,25 @@ public:
 		{
 			return m_index ;
 		}
-		bool allFinished() const
+		enum class state{ cancelled,done,running } ;
+		bool continuing() const
 		{
-			return m_allFinished ;
+			return m_state == state::running ;
+		}
+		bool cancelled() const
+		{
+			return m_state == state::cancelled ;
+		}
+		bool done() const
+		{
+			return m_state == state::done ;
 		}
 		const utility::ProcessExitState& exitState() const
 		{
 			return m_exitState ;
 		}
-		finishedStatus( int i,bool s,utility::ProcessExitState e ) :
-			m_index( i ),m_allFinished( s ),m_exitState( std::move( e ) )
+		finishedStatus( int i,state s,utility::ProcessExitState e ) :
+			m_index( i ),m_state( s ),m_exitState( std::move( e ) )
 		{
 		}
 		finishedStatus()
@@ -123,7 +132,7 @@ public:
 		}
 	private:
 		int m_index ;
-		bool m_allFinished ;
+		state m_state ;
 		utility::ProcessExitState m_exitState ;
 	};
 
@@ -245,7 +254,7 @@ public:
 
 			m_cancelButton.setEnabled( false ) ;
 
-			finished( { index,true,std::move( exitState ) } ) ;
+			finished( { index,finishedStatus::state::cancelled,std::move( exitState ) } ) ;
 		}else{
 			m_counter++ ;
 
@@ -256,9 +265,9 @@ public:
 					m_cancelButton.setEnabled( false ) ;
 				}
 
-				finished( { index,true,std::move( exitState ) } ) ;
+				finished( { index,finishedStatus::state::done,std::move( exitState ) } ) ;
 			}else{
-				finished( { index,false,std::move( exitState ) } ) ;
+				finished( { index,finishedStatus::state::running,std::move( exitState ) } ) ;
 
 				if( m_index->hasNext() ){
 

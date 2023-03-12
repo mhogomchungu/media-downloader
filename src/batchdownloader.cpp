@@ -1476,22 +1476,22 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		auto bb = [ this,&engine,&opts,url,autoDownload ]( const downloadManager::finishedStatus& f ){
 
-			auto allFinished = f.allFinished() ;
+			auto enableAll = f.done() || f.cancelled() ;
 
 			if( f.exitState().cancelled() ){
 
-				this->addItem( f.index(),allFinished,url ) ;
+				this->addItem( f.index(),enableAll,url ) ;
 			}else{
 				utility::MediaEntry m( opts.batchLogger.data() ) ;
 
 				if( m.valid() ){
 
-					this->addItem( f.index(),allFinished,std::move( m ) ) ;
+					this->addItem( f.index(),enableAll,std::move( m ) ) ;
 				}else{
-					this->addItem( f.index(),allFinished,url ) ;
+					this->addItem( f.index(),enableAll,url ) ;
 				}
 
-				if( allFinished && autoDownload ){
+				if( f.done() && autoDownload ){
 
 					this->download( engine ) ;
 				}
@@ -1923,16 +1923,16 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 		}(),[ this ]( const engines::engine& engine,int index ){
 
-			this->download( engine,index ) ;
+			this->downloadEntry( engine,index ) ;
 		} ) ;
 	} ) ;
 }
 
-void batchdownloader::download( const engines::engine& engine )
+void batchdownloader::download( const engines::engine& engine,int init )
 {
 	downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
 
-	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
+	for( int s = init ; s < m_table.rowCount() ; s++ ){
 
 		auto e = m_table.runningState( s ) ;
 
@@ -1954,6 +1954,14 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f )
 
 	if( m_table.noneAreRunning() ){
 
+		if( f.finishedStatus().done() && f.index() < m_table.rowCount() - 1 ){
+			/*
+			 * We restart downloading because more entries were added after we
+			 * started downloading
+			 */
+			return this->download( f.engine(),f.index() + 1 ) ;
+		}
+
 		m_ctx.TabManager().enableAll() ;
 
 		m_ui.pbBDCancel->setEnabled( false ) ;
@@ -1962,7 +1970,7 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f )
 	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0,f.index() ) ) ;
 }
 
-void batchdownloader::download( const engines::engine& eng,int index )
+void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 {
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
@@ -1970,7 +1978,7 @@ void batchdownloader::download( const engines::engine& eng,int index )
 
 		auto aa = [ this ]( const engines::engine& engine,int index ){
 
-			this->download( engine,index ) ;
+			this->downloadEntry( engine,index ) ;
 		} ;
 
 		auto bb = [ &engine,index,this ]( const downloadManager::finishedStatus& f ){
@@ -2071,22 +2079,23 @@ void batchdownloader::disableAll()
 {
 	m_table.setEnabled( false ) ;
 	m_ui.pbBDOptionsDownload->setEnabled( false ) ;
-	m_ui.cbBDMonitorClipboardContent->setEnabled( false ) ;
 	m_ui.pbBDOptionsHistory->setEnabled( false ) ;
-	m_ui.pbBDPasteClipboard->setEnabled( false ) ;
 	m_ui.cbEngineTypeBD->setEnabled( false ) ;
 	m_ui.labelBDEngineName->setEnabled( false ) ;
 	m_ui.pbBDDownload->setEnabled( false ) ;
-	m_ui.pbBDAdd->setEnabled( false ) ;
 	m_ui.pbBDOptions->setEnabled( false ) ;
 	m_ui.labelBDEnterOptions->setEnabled( false ) ;
-	m_ui.labelBDEnterUrl->setEnabled( false ) ;
 	m_ui.pbBDQuit->setEnabled( false ) ;
-	m_ui.lineEditBDUrl->setEnabled( false ) ;
 	m_ui.lineEditBDUrlOptions->setEnabled( false ) ;
 	m_ui.pbBatchDownloaderSet->setEnabled( false ) ;
 	m_ui.pbCancelBatchDownloder->setEnabled( false ) ;
 	m_ui.TableWidgetBatchDownloaderList->setEnabled( false ) ;
+
+	//m_ui.cbBDMonitorClipboardContent->setEnabled( false ) ;
+	//m_ui.pbBDPasteClipboard->setEnabled( false ) ;
+	//m_ui.pbBDAdd->setEnabled( false ) ;
+	//m_ui.lineEditBDUrl->setEnabled( false ) ;
+	//m_ui.labelBDEnterUrl->setEnabled( false ) ;
 }
 
 batchdownloader::subtitlesTimer::subtitlesTimer( tableMiniWidget< QJsonObject> & table ) :
