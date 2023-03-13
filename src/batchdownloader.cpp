@@ -20,7 +20,6 @@
 #include "batchdownloader.h"
 #include "tabmanager.h"
 #include "mainwindow.h"
-#include "mainwindow.h"
 #include "utils/miscellaneous.hpp"
 
 #include <QMetaObject>
@@ -485,7 +484,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			connect( ac,&QAction::triggered,[ &engine,this,row,forceDownload ](){
 
-				downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
+				downloadManager::index indexes( m_table,false,downloadManager::index::tab::batch ) ;
 
 				auto e = m_table.runningState( row ) ;
 
@@ -701,7 +700,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		m_table.selectLast() ;
 
-		downloadManager::index index( m_table,downloadManager::index::tab::batch ) ;
+		downloadManager::index index( m_table,false,downloadManager::index::tab::batch ) ;
 
 		index.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
 
@@ -711,7 +710,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		for( const auto& it : list ){
 
-			downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
+			downloadManager::index indexes( m_table,false,downloadManager::index::tab::batch ) ;
 
 			tableWidget::entry entry( it ) ;
 
@@ -1930,7 +1929,7 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 void batchdownloader::download( const engines::engine& engine,int init )
 {
-	downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
+	downloadManager::index indexes( m_table,true,downloadManager::index::tab::batch ) ;
 
 	for( int s = init ; s < m_table.rowCount() ; s++ ){
 
@@ -1952,22 +1951,28 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f )
 {
 	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus() ) ;
 
-	if( m_table.noneAreRunning() ){
+	const auto& e = f.finishedStatus() ;
 
-		if( f.finishedStatus().done() && f.index() < m_table.rowCount() - 1 ){
-			/*
-			 * We restart downloading because more entries were added after we
-			 * started downloading
-			 */
-			return this->download( f.engine(),f.index() + 1 ) ;
+	auto lastIndex = e.lastIndex() ;
+
+	bool moreItemsRemaining = lastIndex < m_table.rowCount() - 1 ;
+
+	if( e.done() && e.batchDownloading() && moreItemsRemaining ){
+		/*
+		 * We restart downloading because more entries were added after we
+		 * started downloading
+		 */
+		this->download( f.engine(),lastIndex + 1 ) ;
+	}else{
+		if( m_table.noneAreRunning() ){
+
+			m_ctx.TabManager().enableAll() ;
+
+			m_ui.pbBDCancel->setEnabled( false ) ;
+
+			m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
 		}
-
-		m_ctx.TabManager().enableAll() ;
-
-		m_ui.pbBDCancel->setEnabled( false ) ;
 	}
-
-	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0,f.index() ) ) ;
 }
 
 void batchdownloader::downloadEntry( const engines::engine& eng,int index )
@@ -1981,13 +1986,12 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 			this->downloadEntry( engine,index ) ;
 		} ;
 
-		auto bb = [ &engine,index,this ]( const downloadManager::finishedStatus& f ){
-
-			reportFinished m( index,engine,f ) ;
+		auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
 
 			QMetaObject::invokeMethod( this,
 						   "reportFinishedStatus",
-						   Qt::QueuedConnection,Q_ARG( reportFinished,std::move( m ) ) ) ;
+						   Qt::QueuedConnection,
+						   Q_ARG( reportFinished,reportFinished( engine,f ) ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;

@@ -336,7 +336,7 @@ bool tableWidget::allFinishedWithSuccess()
 	return true ;
 }
 
-QString tableWidget::completeProgress( int firstRow,int )
+QString tableWidget::completeProgress( int firstRow )
 {
 	int completed = 0 ;
 	int errored = 0 ;

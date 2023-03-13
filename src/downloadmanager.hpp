@@ -106,6 +106,14 @@ public:
 		{
 			return m_index ;
 		}
+		int lastIndex() const
+		{
+			return m_lastIndex ;
+		}
+		bool batchDownloading() const
+		{
+			return m_batchDownloading ;
+		}
 		enum class state{ cancelled,done,running } ;
 		bool continuing() const
 		{
@@ -123,8 +131,20 @@ public:
 		{
 			return m_exitState ;
 		}
-		finishedStatus( int i,state s,utility::ProcessExitState e ) :
-			m_index( i ),m_state( s ),m_exitState( std::move( e ) )
+		finishedStatus( int i,int l,bool m,state s,utility::ProcessExitState e ) :
+			m_index( i ),
+			m_lastIndex( l ),
+			m_batchDownloading( m ),
+			m_state( s ),
+			m_exitState( std::move( e ) )
+		{
+		}
+		finishedStatus( state s,utility::ProcessExitState e ) :
+			m_index( 0 ),
+			m_lastIndex( 0 ),
+			m_batchDownloading( false ),
+			m_state( s ),
+			m_exitState( std::move( e ) )
 		{
 		}
 		finishedStatus()
@@ -132,6 +152,8 @@ public:
 		}
 	private:
 		int m_index ;
+		int m_lastIndex ;
+		bool m_batchDownloading ;
 		state m_state ;
 		utility::ProcessExitState m_exitState ;
 	};
@@ -141,7 +163,8 @@ public:
 	public:
 		enum class tab{ batch = 0,playlist = 1 } ;
 
-		index( tableWidget& t,downloadManager::index::tab i ) :
+		index( tableWidget& t,bool n,downloadManager::index::tab i ) :
+			m_batchDownloading( n ),
 			m_init_position( i ),
 			m_table( t )
 		{
@@ -153,6 +176,10 @@ public:
 		const utility::downLoadOptions& options( int s ) const
 		{
 			return this->Entry( s ).options ;
+		}
+		bool batchDownloading() const
+		{
+			return m_batchDownloading ;
 		}
 		bool forceDownload( int s ) const
 		{
@@ -191,6 +218,10 @@ public:
 		{
 			m_entries.emplace_back( index,std::move( opts ),forceUpdate ) ;
 		}
+		int lastIndex() const
+		{
+			return m_entries.rbegin()->index ;
+		}
 		bool empty() const
 		{
 			return m_entries.empty() ;
@@ -225,6 +256,7 @@ public:
 		{
 			return m_entries[ static_cast< size_t >( s ) ] ;
 		}
+		bool m_batchDownloading ;
 		int m_index = 0 ;
 		downloadManager::index::tab m_init_position ;
 		std::vector< entry > m_entries ;
@@ -254,9 +286,18 @@ public:
 
 			m_cancelButton.setEnabled( false ) ;
 
-			finished( { index,finishedStatus::state::cancelled,std::move( exitState ) } ) ;
+			auto a = index ;
+			auto b = m_index->lastIndex() ;
+			auto c = m_index->batchDownloading() ;
+			auto d = finishedStatus::state::cancelled ;
+
+			finished( { a,b,c,d,std::move( exitState ) } ) ;
 		}else{
 			m_counter++ ;
+
+			auto a = index ;
+			auto b = m_index->lastIndex() ;
+			auto c = m_index->batchDownloading() ;
 
 			if( m_counter == m_index->count() ){
 
@@ -265,9 +306,13 @@ public:
 					m_cancelButton.setEnabled( false ) ;
 				}
 
-				finished( { index,finishedStatus::state::done,std::move( exitState ) } ) ;
+				auto d = finishedStatus::state::done ;
+
+				finished( { a,b,c,d,std::move( exitState ) } ) ;
 			}else{
-				finished( { index,finishedStatus::state::running,std::move( exitState ) } ) ;
+				auto d = finishedStatus::state::running ;
+
+				finished( { a,b,c,d,std::move( exitState ) } ) ;
 
 				if( m_index->hasNext() ){
 
@@ -378,15 +423,10 @@ public:
 	reportFinished()
 	{
 	}
-	reportFinished( int index,const engines::engine& engine,const downloadManager::finishedStatus& status ) :
-		m_index( index ),
+	reportFinished( const engines::engine& engine,const downloadManager::finishedStatus& status ) :
 		m_engine( &engine ),
 		m_status( status )
 	{
-	}
-	int index() const
-	{
-		return m_index ;
 	}
 	const engines::engine& engine() const
 	{
@@ -397,7 +437,6 @@ public:
 		return m_status ;
 	}
 private:
-	int m_index ;
 	const engines::engine * m_engine = nullptr ;
 	downloadManager::finishedStatus m_status ;
 };

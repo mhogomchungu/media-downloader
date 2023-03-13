@@ -221,7 +221,7 @@ public:
 				    int row,
 				    const QString& options,
 				    const QString& title = QString() ) ;
-	QString completeProgress( int firstRow,int index ) ;
+	QString completeProgress( int firstRow ) ;
 	int addRow() ;
 	int addItem( tableWidget::entry ) ;
 	int rowCount() const ;
@@ -234,6 +234,7 @@ public:
 	void removeRow( int ) ;
 	bool isSelected( int ) ;
 	bool noneAreRunning() ;
+
 	bool allFinishedWithSuccess() ;
 
 	tableWidget( QTableWidget& t,const QFont& font,int init ) ;

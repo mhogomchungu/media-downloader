@@ -323,7 +323,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			connect( ac,&QAction::triggered,[ &engine,this,row,forceDownload ](){
 
-				downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
+				downloadManager::index indexes( m_table,false,downloadManager::index::tab::playlist ) ;
 
 				auto e = m_table.runningState( row ) ;
 
@@ -771,7 +771,7 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 void playlistdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
+	downloadManager::index indexes( m_table,true,downloadManager::index::tab::playlist ) ;
 
 	auto _add = [ & ]( int s,const QString& opts ){
 
@@ -824,13 +824,12 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			this->download( engine,index ) ;
 		} ;
 
-		auto bb = [ &engine,index,this ]( const downloadManager::finishedStatus& f ){
-
-			reportFinished m( index,engine,f ) ;
+		auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
 
 			QMetaObject::invokeMethod( this,
 						   "reportFinishedStatus",
-						   Qt::QueuedConnection,Q_ARG( reportFinished,std::move( m ) ) ) ;
+						   Qt::QueuedConnection,
+						   Q_ARG( reportFinished,reportFinished( engine,f ) ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
@@ -1313,7 +1312,7 @@ void playlistdownloader::reportFinishedStatus( const reportFinished& f )
 		}
 	}
 
-	m_ctx.mainWindow().setTitle( m_table.completeProgress( 1,f.index() ) ) ;
+	m_ctx.mainWindow().setTitle( m_table.completeProgress( 1 ) ) ;
 }
 
 void playlistdownloader::resizeTable( playlistdownloader::size s )
