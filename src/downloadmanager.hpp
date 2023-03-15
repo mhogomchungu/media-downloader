@@ -423,9 +423,10 @@ public:
 	reportFinished()
 	{
 	}
-	reportFinished( const engines::engine& engine,const downloadManager::finishedStatus& status ) :
+	reportFinished( const engines::engine& engine,
+			downloadManager::finishedStatus status ) :
 		m_engine( &engine ),
-		m_status( status )
+		m_status( std::move( status ) )
 	{
 	}
 	const engines::engine& engine() const

@@ -1986,12 +1986,12 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 			this->downloadEntry( engine,index ) ;
 		} ;
 
-		auto bb = [ &engine,this ]( const downloadManager::finishedStatus& f ){
+		auto bb = [ &engine,this ]( downloadManager::finishedStatus f ){
 
 			QMetaObject::invokeMethod( this,
 						   "reportFinishedStatus",
 						   Qt::QueuedConnection,
-						   Q_ARG( reportFinished,reportFinished( engine,f ) ) ) ;
+						   Q_ARG( reportFinished,reportFinished( engine,std::move( f ) ) ) ) ;
 		} ;
 
 		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
