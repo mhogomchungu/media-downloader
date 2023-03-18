@@ -507,7 +507,7 @@ yt_dlp::~yt_dlp()
 
 QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
 {
-	static utility::locale locale ;
+	utility::locale locale ;
 
 	auto obj = QJsonDocument::fromJson( e.mid( 11 ) ).object() ;
 
