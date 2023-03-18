@@ -568,7 +568,7 @@ QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
 	}else{
 		auto mm = speed.toDouble() ;
 
-		ss += locale.formattedDataSize( qint64( mm ) ) + "/s eta " ;
+		ss += locale.formattedDataSize( qint64( mm ) ) + "/s ETA " ;
 	}
 
 	if( eta == "NA" ){
