@@ -27,6 +27,8 @@ class yt_dlp : public engines::engine::functions
 public:
 	static const char * testData() ;
 
+	static QByteArray formatYdDlpOutput( const QByteArray& ) ;
+
 	~yt_dlp() override ;
 
 	class youtube_dlFilter : public engines::engine::functions::filter

@@ -30,45 +30,105 @@
 
 const char * yt_dlp::testData()
 {
-	return R"R([youtube] Gkz9F4GGxOs: Downloading webpage
-[youtube] Gkz9F4GGxOs: Downloading android player API JSON
-[info] Gkz9F4GGxOs: Downloading 1 format(s): 242+250
-[download] Destination: Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].f242.webm
-[download]   0.0% of 42.90MiB at   22.04KiB/s ETA 33:16
-[download]   0.0% of 42.90MiB at   63.79KiB/s ETA 11:28
-[download]   0.0% of 42.90MiB at  146.31KiB/s ETA 05:00
-[download]   0.0% of 42.90MiB at  309.76KiB/s ETA 02:21
-[download]   0.1% of 42.90MiB at  350.52KiB/s ETA 02:05
-[download]   0.1% of 42.90MiB at  461.81KiB/s ETA 01:35
-[download]   0.3% of 42.90MiB at  410.63KiB/s ETA 01:46
-[download]   0.6% of 42.90MiB at  241.69KiB/s ETA 03:00
-[download]   1.0% of 42.90MiB at  164.48KiB/s ETA 04:24
-[download]   1.2% of 42.90MiB at  166.03KiB/s ETA 04:21
-[download]   1.6% of 42.90MiB at  171.56KiB/s ETA 04:11
-[download]   2.1% of 42.90MiB at  176.84KiB/s ETA 04:03
-[download]   2.5% of 42.90MiB at  178.79KiB/s ETA 03:59
-[download]   2.9% of 42.90MiB at  186.78KiB/s ETA 03:48
-[download]  69.1% of 42.90MiB at  152.17KiB/s ETA 01:29
-[download]  99.5% of 42.90MiB at  135.25KiB/s ETA 00:01
-[download]  99.7% of 42.90MiB at  134.26KiB/s ETA 00:01
-[download]  99.9% of 42.90MiB at  134.83KiB/s ETA 00:00
-[download] 100.0% of 42.90MiB at  134.53KiB/s ETA 00:00
-[download] 100% of 42.90MiB in 04:55
-[download] Destination: Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].f250.webm
-[download]   0.0% of 11.47MiB at    7.37KiB/s ETA 26:34
-[download]   0.0% of 11.47MiB at   21.91KiB/s ETA 08:56
-[download]   0.1% of 11.47MiB at   50.74KiB/s ETA 03:51
-[download]   0.1% of 11.47MiB at  107.71KiB/s ETA 01:48
-[download]   0.3% of 11.47MiB at  130.00KiB/s ETA 01:30
-[download]  95.4% of 11.47MiB at  137.81KiB/s ETA 00:03
-[download]  96.6% of 11.47MiB at  138.09KiB/s ETA 00:02
-[download]  97.8% of 11.47MiB at  138.81KiB/s ETA 00:01
-[download]  99.0% of 11.47MiB at  136.19KiB/s ETA 00:00
-[download] 100.0% of 11.47MiB at  136.42KiB/s ETA 00:00
-[download] 100% of 11.47MiB in 01:08
-[Merger] Merging formats into "Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].webm"
-Deleting original file Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].f250.webm (pass -k to keep)
-Deleting original file Так мы ещё не тонули) хорошее начало гонки) [Gkz9F4GGxOs].f242.webm (pass -k to keep))R" ;
+	return R"R([youtube] Extracting URL: https://www.youtube.com/watch?v=DqM8lN5oYIQ
+[youtube] DqM8lN5oYIQ: Downloading webpage
+[youtube] DqM8lN5oYIQ: Downloading android player API JSON
+[info] DqM8lN5oYIQ: Downloading 1 format(s): 242+250
+[dashsegments] Total fragments: 2
+[download] Destination: [FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.f242.webm
+[download] {"downloaded_bytes":"1024","ETA":"9085","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"2308.166670786825"}
+[download] {"downloaded_bytes":"3072","ETA":"3041","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"6894.097028533271"}
+[download] {"downloaded_bytes":"7168","ETA":"1309","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"16007.600578439704"}
+[download] {"downloaded_bytes":"15360","ETA":"618","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"33894.52471806959"}
+[download] {"downloaded_bytes":"31744","ETA":"338","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"61904.458799013206"}
+[download] {"downloaded_bytes":"64512","ETA":"188","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"110804.18758456211"}
+[download] {"downloaded_bytes":"130048","ETA":"104","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"199614.373190396"}
+[download] {"downloaded_bytes":"261120","ETA":"66","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"311350.1081777341"}
+[download] {"downloaded_bytes":"523264","ETA":"46","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"438358.8704671926"}
+[download] {"downloaded_bytes":"1047552","ETA":"38","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"520347.03257018956"}
+[download] {"downloaded_bytes":"1687150","ETA":"36","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"533387.5427934055"}
+[download] {"downloaded_bytes":"2243237","ETA":"33","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"561741.2993071564"}
+[download] {"downloaded_bytes":"2912850","ETA":"33","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"545522.0357999972"}
+[download] {"downloaded_bytes":"3410516","ETA":"33","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"529182.3904762757"}
+[download] Got error: The read operation timed out. Retrying (1/10)...
+[download] {"downloaded_bytes":"3411540","ETA":"184","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"94931.37059723618"}
+[download] {"downloaded_bytes":"3413588","ETA":"184","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"94982.60609781978"}
+[download] {"downloaded_bytes":"3417684","ETA":"184","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"95091.72055404988"}
+[download] {"downloaded_bytes":"3425876","ETA":"184","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"95313.96093333402"}
+[download] {"downloaded_bytes":"3442260","ETA":"183","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"95550.50791965693"}
+[download] {"downloaded_bytes":"3475028","ETA":"181","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"96186.96763395301"}
+[download] {"downloaded_bytes":"3540564","ETA":"178","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"97453.39141565803"}
+[download] {"downloaded_bytes":"3671636","ETA":"172","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"100158.71076850696"}
+[download] {"downloaded_bytes":"3933780","ETA":"161","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"105351.72898265478"}
+[download] {"downloaded_bytes":"4318974","ETA":"147","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"112818.31764849504"}
+[download] {"downloaded_bytes":"4727343","ETA":"134","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"120423.48982678542"}
+[download] {"downloaded_bytes":"5146840","ETA":"125","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"125909.89467468052"}
+[download] {"downloaded_bytes":"5405616","ETA":"119","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"130124.82017291748"}
+[download] {"downloaded_bytes":"5794890","ETA":"112","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"134943.9961686846"}
+[download] {"downloaded_bytes":"6072675","ETA":"106","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"139242.74476722535"}
+[download] {"downloaded_bytes":"6487383","ETA":"99","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"144886.2947201563"}
+[download] {"downloaded_bytes":"6843957","ETA":"93","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"150461.2678086423"}
+[download] {"downloaded_bytes":"7345365","ETA":"86","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"156771.06208633882"}
+[download] {"downloaded_bytes":"7712113","ETA":"82","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"160949.32426648482"}
+[download] {"downloaded_bytes":"8057594","ETA":"78","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"164634.86796998224"}
+[download] {"downloaded_bytes":"8394255","ETA":"76","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"165329.03273587"}
+[download] {"downloaded_bytes":"8578144","ETA":"74","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"166086.57107819003"}
+[download] {"downloaded_bytes":"8788056","ETA":"73","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"166826.85308883293"}
+[download] {"downloaded_bytes":"8991928","ETA":"71","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"167932.39852304332"}
+[download] {"downloaded_bytes":"9227104","ETA":"70","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"167768.37084486702"}
+[download] {"downloaded_bytes":"9388828","ETA":"69","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"167245.30252918118"}
+[download] {"downloaded_bytes":"9530921","ETA":"67","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"168560.3697487629"}
+[download] {"downloaded_bytes":"9815107","ETA":"65","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"169731.25337726605"}
+[download] {"downloaded_bytes":"10036241","ETA":"63","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"171032.2210184886"}
+[download] {"downloaded_bytes":"10295512","ETA":"61","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"172446.69390799373"}
+[download] {"downloaded_bytes":"10485760","ETA":"60","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"173029.9962740324"}
+[download] {"downloaded_bytes":"10485760","ETA":"60","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"173022.33349307108"}
+[download] {"downloaded_bytes":"10486784","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"1750.3708801274133"}
+[download] {"downloaded_bytes":"10488832","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"5233.999068962576"}
+[download] {"downloaded_bytes":"10492928","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"12167.922688077086"}
+[download] {"downloaded_bytes":"10501120","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"25889.86023588585"}
+[download] {"downloaded_bytes":"10517504","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"48335.52949889239"}
+[download] {"downloaded_bytes":"10550272","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"74798.11794521647"}
+[download] {"downloaded_bytes":"10615808","ETA":"6","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"113537.05415908484"}
+[download] {"downloaded_bytes":"10746880","ETA":"6","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"158368.77158775582"}
+[download] {"downloaded_bytes":"11007211","ETA":"4","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"165801.77290220343"}
+[download] {"downloaded_bytes":"11181183","ETA":"3","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"182626.39573505012"}
+[download] {"downloaded_bytes":"11443612","ETA":"2","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"199632.3245340071"}
+[download] {"downloaded_bytes":"11708788","ETA":"0","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"209707.98127237352"}
+[download] {"downloaded_bytes":"11796647","ETA":"0","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"56075.20221969847"}
+[download] {"downloaded_bytes":"11796647","ETA":"0","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"56068.910933410865"}
+[download] {"downloaded_bytes":"11796647","ETA":"NA","total_bytes_estimate":"NA","total_bytes":"11796647","speed":"140451.7907306989"}
+[dashsegments] Total fragments: 1
+[download] Destination: [FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.f250.webm
+[download] {"downloaded_bytes":"1024","ETA":"4166","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"1877.0881600069229"}
+[download] {"downloaded_bytes":"3072","ETA":"1393","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"5609.286754494647"}
+[download] {"downloaded_bytes":"7168","ETA":"599","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"13044.76737572774"}
+[download] {"downloaded_bytes":"15360","ETA":"281","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"27738.50536001991"}
+[download] {"downloaded_bytes":"31744","ETA":"147","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"52633.986992512706"}
+[download] {"downloaded_bytes":"64512","ETA":"82","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"94500.08352154797"}
+[download] {"downloaded_bytes":"130048","ETA":"47","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"162792.25518585017"}
+[download] {"downloaded_bytes":"261120","ETA":"25","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"292855.12300958077"}
+[download] {"downloaded_bytes":"523264","ETA":"17","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"419365.08258043684"}
+[download] {"downloaded_bytes":"1047552","ETA":"13","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"513673.9872437038"}
+[download] {"downloaded_bytes":"1709763","ETA":"10","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"580649.2188449841"}
+[download] {"downloaded_bytes":"2441153","ETA":"8","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"637930.5499757356"}
+[download] {"downloaded_bytes":"3270233","ETA":"7","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"648863.1869848456"}
+[download] {"downloaded_bytes":"3953688","ETA":"6","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"631228.8194858104"}
+[download] {"downloaded_bytes":"4512248","ETA":"5","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"605954.9042261117"}
+[download] {"downloaded_bytes":"4984605","ETA":"4","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"580024.1245883891"}
+[download] {"downloaded_bytes":"5396310","ETA":"4","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"564560.0096001641"}
+[download] {"downloaded_bytes":"5822757","ETA":"3","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"539568.81081942"}
+[download] {"downloaded_bytes":"6168686","ETA":"3","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"534567.255447496"}
+[download] {"downloaded_bytes":"6631381","ETA":"2","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"516307.89647017943"}
+[download] {"downloaded_bytes":"6986221","ETA":"1","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"514246.3167705335"}
+[download] {"downloaded_bytes":"7464042","ETA":"0","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"515202.6942332197"}
+[download] {"downloaded_bytes":"7821248","ETA":"0","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"517071.85018308816"}
+[download] {"downloaded_bytes":"7821248","ETA":"0","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"516993.44943826686"}
+[download] {"downloaded_bytes":"7821248","ETA":"NA","total_bytes_estimate":"NA","total_bytes":"7821248","speed":"516245.4840510907"}
+[Merger] Merging formats into "[FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.webm"
+Deleting original file [FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.f242.webm (pass -k to keep)
+Deleting original file [FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.f250.webm (pass -k to keep)
+)R" ;
 }
 
 static QJsonObject _defaultControlStructure()
@@ -443,6 +503,89 @@ const char * yt_dlp::youtube_dlFilter::compatYear()
 
 yt_dlp::~yt_dlp()
 {
+}
+
+QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
+{
+	static utility::locale locale ;
+
+	auto obj = QJsonDocument::fromJson( e.mid( 11 ) ).object() ;
+
+	auto downloaded_str = obj.value( "downloaded_bytes" ).toString() ;
+	auto totalbytesEstimate = obj.value( "total_bytes_estimate" ).toString() ;
+	auto eta = obj.value( "ETA" ).toString() ;
+	auto speed = obj.value( "speed" ).toString() ;
+	auto totalBytes = obj.value( "total_bytes" ).toString() ;
+
+	QString ss = e.mid( 0,11 ) ;
+
+	if( downloaded_str == "NA" ){
+
+		ss += "NA" ;
+	}else{
+		ss += locale.formattedDataSize( qint64( downloaded_str.toDouble() ) )  + " / " ;
+	}
+
+	double percentage = 0 ;
+
+	if( totalBytes != "NA" ){
+
+		auto mm = totalBytes.toDouble() ;
+
+		if( mm != 0 ){
+
+			percentage = downloaded_str.toDouble() / mm ;
+		}
+
+		ss += locale.formattedDataSize( qint64( mm ) ) ;
+
+	}else if( totalbytesEstimate != "NA" ){
+
+		auto mm = totalbytesEstimate.toDouble() ;
+
+		if( mm != 0 ){
+
+			percentage = downloaded_str.toDouble() / mm ;
+		}
+
+		ss += locale.formattedDataSize( qint64( mm ) ) ;
+	}else{
+		ss += "NA" ;
+	}
+
+	percentage *= 100 ;
+
+	if( percentage < 100 ){
+
+		ss += " (" + QString::number( percentage,'f',2 ) + "%) at " ;
+	}else{
+		ss += " (100%) at " ;
+	}
+
+	if( speed == "NA" ){
+
+		ss += "NA ETA " ;
+	}else{
+		auto mm = speed.toDouble() ;
+
+		ss += locale.formattedDataSize( qint64( mm ) ) + "/s eta " ;
+	}
+
+	if( eta == "NA" ){
+
+		ss += "NA" ;
+	}else{
+		auto mm = eta.toInt() ;
+
+		if( mm < 3600 ){
+
+			ss += QTime( 0,0,0,0 ).addSecs( mm ).toString( "mm:ss" ) ;
+		}else{
+			ss += QTime( 0,0,0,0 ).addSecs( mm ).toString( "hh:mm:ss" ) ;
+		}
+	}
+
+	return ss.toUtf8() ;
 }
 
 std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( const QByteArray& e )
@@ -870,7 +1013,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 		}
 
 		s.ourOptions.append( "--progress-template" ) ;
-		s.ourOptions.append( "download:[download] %(progress._percent_str)s of %(progress._total_bytes_str)s at %(progress._speed_str)s ETA %(progress._eta_str)s" ) ;
+		s.ourOptions.append( R"R(download:[download] {"downloaded_bytes":"%(progress.downloaded_bytes)s","ETA":"%(progress.eta)s","total_bytes_estimate":"%(progress.total_bytes_estimate)s","total_bytes":"%(progress.total_bytes)s","speed":"%(progress.speed)s"})R" ) ;
 	}
 }
 
@@ -1049,12 +1192,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 
 	if( s.lastLineIsProgressLine() ){
 
-		auto mm = s.lastText() ;
-
-		while( mm.contains( "  " ) ){
-
-			mm.replace( "  "," " ) ;
-		}
+		const auto& mm = s.lastText() ;
 
 		if( mm.startsWith( "[DL:" ) ){
 
@@ -1073,23 +1211,8 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
 
 			m_tmp = m_fileName + "\n" + mm ;
 			return m_tmp ;
-		}else{
-			auto w = mm.indexOf( ' ' ) ;
-
-			if( w != -1 ){
-
-				for( ; w < mm.size() ; w++ ){
-
-					if( mm[ w ] != ' ' ){
-
-						break ;
-					}
-				}
-			}else{
-				w = 0 ;
-			}
-
-			m_tmp = m_fileName + "\n" + mm.mid( w ) ;
+		}else{ //
+			m_tmp = m_fileName + "\n" + mm.mid( 11 ) ;
 
 			const auto& engine = engines::engine::functions::filter::engine() ;
 

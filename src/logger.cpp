@@ -23,6 +23,8 @@
 
 #include "utility.h"
 
+#include "engines/yt-dlp.h"
+
 Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_logWindow( nullptr,s,*this ),
 	m_textEdit( e ),
@@ -128,8 +130,6 @@ bool Logger::Data::registerDone( int id )
 
 	return false ;
 }
-
-
 
 void Logger::Data::removeExtraLogs()
 {
@@ -387,19 +387,31 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 		}else if( this->meetCondition( e ) ){
 
-			_add_or_replace( m_outPut,m_id,e,[ this ]( const QByteArray& s ){
+			if( m_yt_dlp ){
 
-				return this->meetCondition( s )  ;
+				_add_or_replace( m_outPut,m_id,yt_dlp::formatYdDlpOutput( e ),[ this ]( const QByteArray& s ){
 
-			},[ this ]( const QByteArray& e ){
+					return this->meetCondition( s )  ;
 
-				if( m_args.likeYoutubeDl ){
+				},[ this ]( const QByteArray& ){
 
-					return e.startsWith( "[download] 100.0%" ) ;
-				}else{
 					return false ;
-				}
-			} ) ;
+				} ) ;
+			}else{
+				_add_or_replace( m_outPut,m_id,e,[ this ]( const QByteArray& s ){
+
+					return this->meetCondition( s )  ;
+
+				},[ this ]( const QByteArray& e ){
+
+					if( m_args.likeYoutubeDl ){
+
+						return e.startsWith( "[download] 100.0%" ) ;
+					}else{
+						return false ;
+					}
+				} ) ;
+			}
 		}else{
 			m_outPut.add( e,m_id ) ;
 		}

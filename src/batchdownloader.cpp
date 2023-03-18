@@ -700,7 +700,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		m_table.selectLast() ;
 
-		downloadManager::index index( m_table,false,downloadManager::index::tab::batch ) ;
+		downloadManager::index index( m_table,true,downloadManager::index::tab::batch ) ;
 
 		index.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
 
@@ -710,7 +710,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		for( const auto& it : list ){
 
-			downloadManager::index indexes( m_table,false,downloadManager::index::tab::batch ) ;
+			downloadManager::index indexes( m_table,true,downloadManager::index::tab::batch ) ;
 
 			tableWidget::entry entry( it ) ;
 
