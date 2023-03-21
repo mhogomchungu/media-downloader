@@ -163,10 +163,13 @@ public:
 	public:
 		enum class tab{ batch = 0,playlist = 1 } ;
 
+		index()
+		{
+		}
 		index( tableWidget& t,bool n,downloadManager::index::tab i ) :
 			m_batchDownloading( n ),
 			m_init_position( i ),
-			m_table( t )
+			m_table( &t )
 		{
 		}
 		int value( int s ) const
@@ -207,12 +210,12 @@ public:
 		}
 		tableWidget& table() const
 		{
-			return m_table ;
+			return *m_table ;
 		}
 		const tableWidget::entry& tableEntryAtIndex()
 		{
 			auto s = static_cast< int >( m_init_position ) ;
-			return m_table.entryAt( static_cast< size_t >( m_index + s ) ) ;
+			return m_table->entryAt( static_cast< size_t >( m_index + s ) ) ;
 		}
 		void add( int index,utility::downLoadOptions opts,bool forceUpdate = false )
 		{
@@ -221,6 +224,10 @@ public:
 		int lastIndex() const
 		{
 			return m_entries.rbegin()->index ;
+		}
+		index move() const
+		{
+			return std::move( const_cast< index& >( *this ) ) ;
 		}
 		bool empty() const
 		{
@@ -234,9 +241,9 @@ public:
 		{
 			if( m_init_position == index::tab::batch ){
 
-				return { this->Entry( m_index ).index + 1,m_table.rowCount() } ;
+				return { this->Entry( m_index ).index + 1,m_table->rowCount() } ;
 			}else{
-				return { this->Entry( m_index ).index,m_table.rowCount() } ;
+				return { this->Entry( m_index ).index,m_table->rowCount() } ;
 			}
 		}
 	private:
@@ -260,7 +267,7 @@ public:
 		int m_index = 0 ;
 		downloadManager::index::tab m_init_position ;
 		std::vector< entry > m_entries ;
-		tableWidget& m_table ;
+		tableWidget * m_table ;
 	};
 
 	downloadManager( const Context& ctx,
@@ -287,8 +294,8 @@ public:
 			m_cancelButton.setEnabled( false ) ;
 
 			auto a = index ;
-			auto b = m_index->lastIndex() ;
-			auto c = m_index->batchDownloading() ;
+			auto b = m_index.lastIndex() ;
+			auto c = m_index.batchDownloading() ;
 			auto d = finishedStatus::state::cancelled ;
 
 			finished( { a,b,c,d,std::move( exitState ) } ) ;
@@ -296,12 +303,12 @@ public:
 			m_counter++ ;
 
 			auto a = index ;
-			auto b = m_index->lastIndex() ;
-			auto c = m_index->batchDownloading() ;
+			auto b = m_index.lastIndex() ;
+			auto c = m_index.batchDownloading() ;
 
-			if( m_counter == m_index->count() ){
+			if( m_counter == m_index.count() ){
 
-				if( m_index->table().noneAreRunning() ){
+				if( m_index.table().noneAreRunning() ){
 
 					m_cancelButton.setEnabled( false ) ;
 				}
@@ -314,9 +321,9 @@ public:
 
 				finished( { a,b,c,d,std::move( exitState ) } ) ;
 
-				if( m_index->hasNext() ){
+				if( m_index.hasNext() ){
 
-					function( engine,m_index->value() ) ;
+					function( engine,m_index.value() ) ;
 				}
 			}
 		}
@@ -334,13 +341,13 @@ public:
 
 		this->uiEnableAll( m_ctx,false ) ;
 		m_cancelButton.setEnabled( true ) ;
-		m_index->table().setEnabled( true ) ;
+		m_index.table().setEnabled( true ) ;
 
-		auto min = std::min( m_index->count(),maxNumberOfConcurrency ) ;
+		auto min = std::min( m_index.count(),maxNumberOfConcurrency ) ;
 
 		for( size_t s = 0 ; s < min ; s++ ){
 
-			concurrentDownload( engine,m_index->value( s ) ) ;
+			concurrentDownload( engine,m_index.value( s ) ) ;
 		}
 	}
 	template< typename Options,typename Logger,typename TermSignal >
@@ -352,7 +359,7 @@ public:
 		       Logger logger,
 		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
 	{
-		m_index->next() ;
+		m_index.next() ;
 
 		cliOptions.append( url ) ;
 
@@ -374,15 +381,15 @@ public:
 		       Logger logger,
 		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
 	{
-		const auto& m = m_index->options() ;
+		const auto& m = m_index.options() ;
 
-		const auto& uiIndex = m_index->uiIndex() ;
+		const auto& uiIndex = m_index.uiIndex() ;
 
-		bool fd = m_index->forceDownload() ;
+		bool fd = m_index.forceDownload() ;
 
-		const auto& e = m_index->tableEntryAtIndex() ;
+		const auto& e = m_index.tableEntryAtIndex() ;
 
-		m_index->next() ;
+		m_index.next() ;
 
 		utility::args args( m.downloadOptions,engine ) ;
 
@@ -410,7 +417,7 @@ private:
 		}
 	}
 	size_t m_counter ;
-	util::storage< downloadManager::index > m_index ;
+	downloadManager::index m_index ;
 	bool m_cancelled ;
 	const Context& m_ctx ;
 	QPushButton& m_cancelButton ;

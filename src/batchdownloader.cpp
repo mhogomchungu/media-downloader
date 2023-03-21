@@ -38,6 +38,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_debug( ctx.debug() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings ),
+	m_ccmd_metadata( m_ctx,*m_ui.pbBDCancel,m_settings ),
 	m_downloadingComments( tr( "Downloading comments" ).toUtf8() ),
 	m_subtitlesTimer( m_tableWidgetBDList )
 {
@@ -561,6 +562,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
 
 		m_ccmd.cancelled() ;
+		m_ccmd_metadata.cancelled() ;
 	} ) ;
 
 	connect( m_ui.pbBDAdd,&QPushButton::clicked,[ this ](){
@@ -748,7 +750,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			auto url = it.url ;
 
-			m_ccmd.download( std::move( indexes ),engine,[ this ](){
+			m_ccmd_metadata.download( std::move( indexes ),engine,[ this ](){
 
 				return m_settings.maxConcurrentDownloads() ;
 
@@ -1497,7 +1499,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			}
 		} ;
 
-		m_ccmd.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
+		m_ccmd_metadata.monitorForFinished( engine,index,std::move( e ),std::move( aa ),std::move( bb ) ) ;
 	} ;
 
 	auto functions = utility::OptionsFunctions( [ this ]( const auto& ){
@@ -1532,13 +1534,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
-	m_ccmd.download( engine,
-			 args,
-			 index == -1 ? url : m_table.url( index ),
-			 m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
-			 batchdownloader::make_options( m_ctx,engine,m_debug,false,index,wrapper,std::move( functions ) ),
-			 wrapper,
-			 QProcess::ProcessChannel::StandardOutput ) ;
+	auto mmm = batchdownloader::make_options( m_ctx,engine,m_debug,false,index,wrapper,std::move( functions ) ) ;
+
+	m_ccmd_metadata.download( engine,
+				  args,
+				  index == -1 ? url : m_table.url( index ),
+				  m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
+				  std::move( mmm ),
+				  wrapper,
+				  QProcess::ProcessChannel::StandardOutput ) ;
 }
 
 int batchdownloader::addItemUi( const QPixmap& pixmap,
@@ -1914,9 +1918,9 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 	m_ctx.TabManager().disableAll() ;
 
-	engine.updateVersionInfo( m_ctx,[ this,&engine,indexes = std::move( indexes ) ](){
+	engine.updateVersionInfo( m_ctx,[ this,&engine,indexes = indexes.move() ](){
 
-		m_ccmd.download( std::move( indexes ),engine,[ this ](){
+		m_ccmd.download( indexes.move(),engine,[ this ](){
 
 			return m_settings.maxConcurrentDownloads() ;
 

@@ -101,7 +101,6 @@ std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const Q
 	return ent ;
 }
 
-
 Logger::Data::luxResult lux::parseOutput::operator()( int processId,
 						      Logger::Data& outPut,
 						      const QByteArray& allData,

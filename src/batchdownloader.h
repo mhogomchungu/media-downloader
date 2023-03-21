@@ -260,6 +260,7 @@ private:
 	utility::Terminator m_terminator ;
 
 	downloadManager m_ccmd ;
+	downloadManager m_ccmd_metadata ;
 
 	QByteArray m_downloadingComments ;
 

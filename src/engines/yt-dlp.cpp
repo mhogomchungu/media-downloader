@@ -34,97 +34,52 @@ const char * yt_dlp::testData()
 [youtube] DqM8lN5oYIQ: Downloading webpage
 [youtube] DqM8lN5oYIQ: Downloading android player API JSON
 [info] DqM8lN5oYIQ: Downloading 1 format(s): 242+250
-[dashsegments] Total fragments: 2
+[dashsegments] Total fragments: 1
 [download] Destination: [FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.f242.webm
-[download] {"downloaded_bytes":"1024","ETA":"9085","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"2308.166670786825"}
-[download] {"downloaded_bytes":"3072","ETA":"3041","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"6894.097028533271"}
-[download] {"downloaded_bytes":"7168","ETA":"1309","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"16007.600578439704"}
-[download] {"downloaded_bytes":"15360","ETA":"618","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"33894.52471806959"}
-[download] {"downloaded_bytes":"31744","ETA":"338","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"61904.458799013206"}
-[download] {"downloaded_bytes":"64512","ETA":"188","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"110804.18758456211"}
-[download] {"downloaded_bytes":"130048","ETA":"104","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"199614.373190396"}
-[download] {"downloaded_bytes":"261120","ETA":"66","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"311350.1081777341"}
-[download] {"downloaded_bytes":"523264","ETA":"46","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"438358.8704671926"}
-[download] {"downloaded_bytes":"1047552","ETA":"38","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"520347.03257018956"}
-[download] {"downloaded_bytes":"1687150","ETA":"36","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"533387.5427934055"}
-[download] {"downloaded_bytes":"2243237","ETA":"33","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"561741.2993071564"}
-[download] {"downloaded_bytes":"2912850","ETA":"33","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"545522.0357999972"}
-[download] {"downloaded_bytes":"3410516","ETA":"33","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"529182.3904762757"}
-[download] Got error: The read operation timed out. Retrying (1/10)...
-[download] {"downloaded_bytes":"3411540","ETA":"184","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"94931.37059723618"}
-[download] {"downloaded_bytes":"3413588","ETA":"184","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"94982.60609781978"}
-[download] {"downloaded_bytes":"3417684","ETA":"184","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"95091.72055404988"}
-[download] {"downloaded_bytes":"3425876","ETA":"184","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"95313.96093333402"}
-[download] {"downloaded_bytes":"3442260","ETA":"183","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"95550.50791965693"}
-[download] {"downloaded_bytes":"3475028","ETA":"181","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"96186.96763395301"}
-[download] {"downloaded_bytes":"3540564","ETA":"178","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"97453.39141565803"}
-[download] {"downloaded_bytes":"3671636","ETA":"172","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"100158.71076850696"}
-[download] {"downloaded_bytes":"3933780","ETA":"161","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"105351.72898265478"}
-[download] {"downloaded_bytes":"4318974","ETA":"147","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"112818.31764849504"}
-[download] {"downloaded_bytes":"4727343","ETA":"134","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"120423.48982678542"}
-[download] {"downloaded_bytes":"5146840","ETA":"125","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"125909.89467468052"}
-[download] {"downloaded_bytes":"5405616","ETA":"119","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"130124.82017291748"}
-[download] {"downloaded_bytes":"5794890","ETA":"112","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"134943.9961686846"}
-[download] {"downloaded_bytes":"6072675","ETA":"106","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"139242.74476722535"}
-[download] {"downloaded_bytes":"6487383","ETA":"99","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"144886.2947201563"}
-[download] {"downloaded_bytes":"6843957","ETA":"93","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"150461.2678086423"}
-[download] {"downloaded_bytes":"7345365","ETA":"86","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"156771.06208633882"}
-[download] {"downloaded_bytes":"7712113","ETA":"82","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"160949.32426648482"}
-[download] {"downloaded_bytes":"8057594","ETA":"78","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"164634.86796998224"}
-[download] {"downloaded_bytes":"8394255","ETA":"76","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"165329.03273587"}
-[download] {"downloaded_bytes":"8578144","ETA":"74","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"166086.57107819003"}
-[download] {"downloaded_bytes":"8788056","ETA":"73","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"166826.85308883293"}
-[download] {"downloaded_bytes":"8991928","ETA":"71","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"167932.39852304332"}
-[download] {"downloaded_bytes":"9227104","ETA":"70","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"167768.37084486702"}
-[download] {"downloaded_bytes":"9388828","ETA":"69","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"167245.30252918118"}
-[download] {"downloaded_bytes":"9530921","ETA":"67","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"168560.3697487629"}
-[download] {"downloaded_bytes":"9815107","ETA":"65","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"169731.25337726605"}
-[download] {"downloaded_bytes":"10036241","ETA":"63","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"171032.2210184886"}
-[download] {"downloaded_bytes":"10295512","ETA":"61","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"172446.69390799373"}
-[download] {"downloaded_bytes":"10485760","ETA":"60","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"173029.9962740324"}
-[download] {"downloaded_bytes":"10485760","ETA":"60","total_bytes_estimate":"20971520.0","total_bytes":"NA","speed":"173022.33349307108"}
-[download] {"downloaded_bytes":"10486784","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"1750.3708801274133"}
-[download] {"downloaded_bytes":"10488832","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"5233.999068962576"}
-[download] {"downloaded_bytes":"10492928","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"12167.922688077086"}
-[download] {"downloaded_bytes":"10501120","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"25889.86023588585"}
-[download] {"downloaded_bytes":"10517504","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"48335.52949889239"}
-[download] {"downloaded_bytes":"10550272","ETA":"7","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"74798.11794521647"}
-[download] {"downloaded_bytes":"10615808","ETA":"6","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"113537.05415908484"}
-[download] {"downloaded_bytes":"10746880","ETA":"6","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"158368.77158775582"}
-[download] {"downloaded_bytes":"11007211","ETA":"4","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"165801.77290220343"}
-[download] {"downloaded_bytes":"11181183","ETA":"3","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"182626.39573505012"}
-[download] {"downloaded_bytes":"11443612","ETA":"2","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"199632.3245340071"}
-[download] {"downloaded_bytes":"11708788","ETA":"0","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"209707.98127237352"}
-[download] {"downloaded_bytes":"11796647","ETA":"0","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"56075.20221969847"}
-[download] {"downloaded_bytes":"11796647","ETA":"0","total_bytes_estimate":"11796647.0","total_bytes":"NA","speed":"56068.910933410865"}
-[download] {"downloaded_bytes":"11796647","ETA":"NA","total_bytes_estimate":"NA","total_bytes":"11796647","speed":"140451.7907306989"}
+[download] {"downloaded_bytes":"1024","ETA":"2024","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"4205.4377321208785","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"3072","ETA":"681","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"12492.96024619609","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"7168","ETA":"294","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"28879.359982786562","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"15360","ETA":"138","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"61271.01294571019","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"31744","ETA":"71","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"119244.17022907737","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"64512","ETA":"37","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"222892.98044497383","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"130048","ETA":"21","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"395510.5400371683","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"261120","ETA":"13","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"615272.6300988005","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"523264","ETA":"10","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"789307.0674047392","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"1047552","ETA":"7","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"991841.2367898645","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"2096128","ETA":"11","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"539701.5106410563","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"2620416","ETA":"10","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"555657.2403332724","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"3250934","ETA":"8","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"593664.4964024827","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"4079654","ETA":"6","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"647490.669556527","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"5084645","ETA":"5","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"649995.8416108707","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"5745208","ETA":"4","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"660071.2061481649","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"6494376","ETA":"3","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"638053.5358237876","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"7002658","ETA":"2","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"632498.0757783749","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"7571183","ETA":"1","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"644126.2959821196","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"8405265","ETA":"0","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"646825.3893161287","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"8516822","ETA":"0","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"648829.17022697","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"8516822","ETA":"0","total_bytes_estimate":"8516822.0","total_bytes":"NA","speed":"648691.3877103047","fragment_index":"1","fragment_count":"1"}
+[download] {"downloaded_bytes":"8516822","ETA":"NA","total_bytes_estimate":"NA","total_bytes":"8516822","speed":"647548.5119619261","fragment_index":"NA","fragment_count":"NA"}
 [dashsegments] Total fragments: 1
 [download] Destination: [FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.f250.webm
-[download] {"downloaded_bytes":"1024","ETA":"4166","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"1877.0881600069229"}
-[download] {"downloaded_bytes":"3072","ETA":"1393","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"5609.286754494647"}
-[download] {"downloaded_bytes":"7168","ETA":"599","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"13044.76737572774"}
-[download] {"downloaded_bytes":"15360","ETA":"281","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"27738.50536001991"}
-[download] {"downloaded_bytes":"31744","ETA":"147","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"52633.986992512706"}
-[download] {"downloaded_bytes":"64512","ETA":"82","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"94500.08352154797"}
-[download] {"downloaded_bytes":"130048","ETA":"47","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"162792.25518585017"}
-[download] {"downloaded_bytes":"261120","ETA":"25","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"292855.12300958077"}
-[download] {"downloaded_bytes":"523264","ETA":"17","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"419365.08258043684"}
-[download] {"downloaded_bytes":"1047552","ETA":"13","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"513673.9872437038"}
-[download] {"downloaded_bytes":"1709763","ETA":"10","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"580649.2188449841"}
-[download] {"downloaded_bytes":"2441153","ETA":"8","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"637930.5499757356"}
-[download] {"downloaded_bytes":"3270233","ETA":"7","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"648863.1869848456"}
-[download] {"downloaded_bytes":"3953688","ETA":"6","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"631228.8194858104"}
-[download] {"downloaded_bytes":"4512248","ETA":"5","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"605954.9042261117"}
-[download] {"downloaded_bytes":"4984605","ETA":"4","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"580024.1245883891"}
-[download] {"downloaded_bytes":"5396310","ETA":"4","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"564560.0096001641"}
-[download] {"downloaded_bytes":"5822757","ETA":"3","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"539568.81081942"}
-[download] {"downloaded_bytes":"6168686","ETA":"3","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"534567.255447496"}
-[download] {"downloaded_bytes":"6631381","ETA":"2","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"516307.89647017943"}
-[download] {"downloaded_bytes":"6986221","ETA":"1","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"514246.3167705335"}
-[download] {"downloaded_bytes":"7464042","ETA":"0","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"515202.6942332197"}
-[download] {"downloaded_bytes":"7821248","ETA":"0","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"517071.85018308816"}
-[download] {"downloaded_bytes":"7821248","ETA":"0","total_bytes_estimate":"7821248.0","total_bytes":"NA","speed":"516993.44943826686"}
-[download] {"downloaded_bytes":"7821248","ETA":"NA","total_bytes_estimate":"NA","total_bytes":"7821248","speed":"516245.4840510907"}
+[download] {"downloaded_bytes":"1024","ETA":"2333","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"3344.7087752743537","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"3072","ETA":"783","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"9957.535742686352","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"7168","ETA":"338","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"23047.97608787812","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"15360","ETA":"158","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"49031.21006979723","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"31744","ETA":"84","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"92283.647746798","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"64512","ETA":"49","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"157087.0643755047","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"130048","ETA":"29","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"259078.5387738507","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"261120","ETA":"19","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"383167.0275934139","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"523264","ETA":"15","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"459527.91286858387","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"1047552","ETA":"13","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"489751.04479903803","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"1571447","ETA":"10","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"567566.0064095581","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"2404861","ETA":"8","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"652438.4987728031","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"3312580","ETA":"6","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"705844.7600363521","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"4214063","ETA":"4","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"740102.4380774873","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"5114231","ETA":"3","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"807396.4623096361","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"6521096","ETA":"1","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"892914.8015106986","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"7806721","ETA":"0","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"859446.461866234","fragment_index":"0","fragment_count":"1"}
+[download] {"downloaded_bytes":"7806721","ETA":"0","total_bytes_estimate":"7806721.0","total_bytes":"NA","speed":"859156.1200491043","fragment_index":"1","fragment_count":"1"}
+[download] {"downloaded_bytes":"7806721","ETA":"NA","total_bytes_estimate":"NA","total_bytes":"7806721","speed":"855685.222751013","fragment_index":"NA","fragment_count":"NA"}
 [Merger] Merging formats into "[FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.webm"
 Deleting original file [FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.f242.webm (pass -k to keep)
 Deleting original file [FULL] Ja Morant speaks with Jalen Rose about suspension and time away from Grizzlies ｜ NBA on ESPN-DqM8lN5oYIQ.f250.webm (pass -k to keep)
@@ -568,12 +523,12 @@ QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
 	}else{
 		auto mm = speed.toDouble() ;
 
-		ss += locale.formattedDataSize( qint64( mm ) ) + "/s ETA " ;
+		ss += locale.formattedDataSize( qint64( mm ) ) + "/s, ETA " ;
 	}
 
 	if( eta == "NA" ){
 
-		ss += "NA" ;
+		ss += eta ;
 	}else{
 		auto mm = eta.toInt() ;
 
@@ -596,7 +551,7 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( co
 
 		return engines::engine::functions::mediaProperties( e ) ;
 
-	}else if( name.contains( "yt-dlp" ) || name == "ytdl-patched" ){
+	}else if( m_likeYtdlp ){
 
 		QJsonParseError err ;
 
@@ -1013,7 +968,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 		}
 
 		s.ourOptions.append( "--progress-template" ) ;
-		s.ourOptions.append( R"R(download:[download] {"downloaded_bytes":"%(progress.downloaded_bytes)s","ETA":"%(progress.eta)s","total_bytes_estimate":"%(progress.total_bytes_estimate)s","total_bytes":"%(progress.total_bytes)s","speed":"%(progress.speed)s"})R" ) ;
+		s.ourOptions.append( R"R(download:[download] {"downloaded_bytes":"%(progress.downloaded_bytes)s","ETA":"%(progress.eta)s","total_bytes_estimate":"%(progress.total_bytes_estimate)s","total_bytes":"%(progress.total_bytes)s","speed":"%(progress.speed)s","fragment_index":"%(progress.fragment_index)s","fragment_count":"%(progress.fragment_count)s"})R" ) ;
 	}
 }
 
