@@ -539,7 +539,8 @@ public:
 			m_id( id ),
 			m_aria2c( m_args.name.contains( "aria2c" ) ),
 			m_ffmpeg( m_args.name.contains( "ffmpeg" ) ),
-			m_yt_dlp( m_args.name.contains( "yt-dlp" ) || m_args.name.contains( "ytdl-patched" ) ),
+			m_yt_dlp( m_args.name == "yt-dlp" || m_args.name == "ytdl-patched" ),
+			m_like_yt_dlp( m_args.name.contains( "yt-dlp" ) || m_args.name == "ytdl-patched" ),
 			m_ytdl( m_args.name == "youtube-dl" )
 		{
 			this->run( humanReadableJson,data ) ;
@@ -556,6 +557,7 @@ public:
 		bool m_aria2c ;
 		bool m_ffmpeg ;
 		bool m_yt_dlp ;
+		bool m_like_yt_dlp ;
 		bool m_ytdl ;
 	};
 private:

@@ -340,7 +340,7 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 			continue ;
 
-		}else if( ( m_yt_dlp || m_ytdl ) && ( e.startsWith( "frame=" ) || e.startsWith( "size=" ) ) ){
+		}else if( ( m_like_yt_dlp || m_ytdl ) && ( e.startsWith( "frame=" ) || e.startsWith( "size=" ) ) ){
 
 			/*
 			 * youtube-dl or yt-dlp and they decided to use ffmpeg as an external downloader

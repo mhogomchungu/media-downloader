@@ -962,13 +962,16 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 		this->appendCompatOption( s.ourOptions ) ;
 
-		while( s.ourOptions.contains( "--progress-template" ) ){
+		if( m_engine.name() == "yt-dlp" || m_engine.name() == "ytdl-patched" ){
 
-			utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
+			while( s.ourOptions.contains( "--progress-template" ) ){
+
+				utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
+			}
+
+			s.ourOptions.append( "--progress-template" ) ;
+			s.ourOptions.append( R"R(download:[download] {"downloaded_bytes":"%(progress.downloaded_bytes)s","ETA":"%(progress.eta)s","total_bytes_estimate":"%(progress.total_bytes_estimate)s","total_bytes":"%(progress.total_bytes)s","speed":"%(progress.speed)s","fragment_index":"%(progress.fragment_index)s","fragment_count":"%(progress.fragment_count)s"})R" ) ;
 		}
-
-		s.ourOptions.append( "--progress-template" ) ;
-		s.ourOptions.append( R"R(download:[download] {"downloaded_bytes":"%(progress.downloaded_bytes)s","ETA":"%(progress.eta)s","total_bytes_estimate":"%(progress.total_bytes_estimate)s","total_bytes":"%(progress.total_bytes)s","speed":"%(progress.speed)s","fragment_index":"%(progress.fragment_index)s","fragment_count":"%(progress.fragment_count)s"})R" ) ;
 	}
 }
 
