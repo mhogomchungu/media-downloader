@@ -309,9 +309,9 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.pbUpdateMediaDownloader->setVisible( false ) ;
 
-	connect( m_ui.pbUpdateMediaDownloader,&QPushButton::clicked,[](){
+	connect( m_ui.pbUpdateMediaDownloader,&QPushButton::clicked,[ this ](){
 
-
+		m_ctx.network().updateMediaDownloader() ;
 	} ) ;
 
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){

@@ -257,6 +257,7 @@ void library::tabEntered()
 
 void library::tabExited()
 {
+	m_continue = false ;
 }
 
 void library::enableAll( bool e )

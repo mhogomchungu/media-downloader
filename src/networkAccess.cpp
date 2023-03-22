@@ -71,6 +71,10 @@ networkAccess::networkAccess( const Context& ctx ) :
 	}
 }
 
+void networkAccess::updateMediaDownloader() const
+{
+}
+
 QNetworkRequest networkAccess::networkRequest( const QString& url ) const
 {
 	QNetworkRequest networkRequest( url ) ;

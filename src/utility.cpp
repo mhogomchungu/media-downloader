@@ -1172,12 +1172,12 @@ bool utility::onlyWantedVersionInfo( int argc,char ** argv )
 	return false ;
 }
 
-bool utility::startedUpdatedVersion( settings&,int argc,char ** argv )
+bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 {
 	auto cpath = QDir().currentPath() ;
 
-	auto m = cpath + "/updates.new" ;
-	auto mm = cpath + "/updates" ;
+	auto m = cpath + "/local/update.new" ;
+	auto mm = cpath + "/local/update" ;
 
 	if( QFile::exists( m ) ){
 
@@ -1196,6 +1196,9 @@ bool utility::startedUpdatedVersion( settings&,int argc,char ** argv )
 		for( int i = 1 ; i < argc ; i++ ){
 
 			args.append( *( argv + i ) ) ;
+		}
+
+		if( s.portableVersion() ){
 
 			args.append( "--portable" ) ;
 

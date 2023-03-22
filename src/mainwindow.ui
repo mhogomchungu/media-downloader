@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1723,9 +1723,9 @@
        <widget class="QPushButton" name="pbUpdateMediaDownloader">
         <property name="geometry">
          <rect>
-          <x>600</x>
+          <x>550</x>
           <y>300</y>
-          <width>111</width>
+          <width>161</width>
           <height>33</height>
          </rect>
         </property>

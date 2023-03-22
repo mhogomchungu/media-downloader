@@ -335,6 +335,11 @@ static QString _portable_updated_config_path( int argc,char ** argv )
 
 static bool _portableVersionInit( int argc,char ** argv )
 {
+	if( utility::platformIsWindows() ){
+
+		QDir::setCurrent( utility::windowsApplicationDirPath() ) ;
+	}
+
 	for( int i = 0 ; i < argc ; i++ ){
 
 		if( std::strcmp( argv[ i ],"--portable" ) == 0 ){
@@ -345,26 +350,10 @@ static bool _portableVersionInit( int argc,char ** argv )
 
 	if( utility::platformIsWindows() ){
 
-		/*
-		 * QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
-		 *
-		 * Above does not work because "QCoreApplication::applicationDirPath()" requires
-		 * QApplication to already exist.
-		 */
+		auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
+		auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
 
-		auto appPath = utility::windowsApplicationDirPath() ;
-
-		if( appPath.isEmpty() ){
-
-			return false ;
-		}else{
-			QDir::setCurrent( appPath ) ;
-
-			auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
-			auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
-
-			return a && b ;
-		}
+		return a && b ;
 	}else{
 		return false ;
 	}

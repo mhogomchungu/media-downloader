@@ -146,6 +146,8 @@ public:
 		this->download( { util::types::type_identity< meaw >(),std::move( iter ) },v ) ;
 	}
 
+	void updateMediaDownloader() const ;
+
 	void download( networkAccess::iterator,networkAccess::showVersionInfo ) const ;
 
 	template< typename Function >
