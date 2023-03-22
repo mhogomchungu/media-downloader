@@ -489,7 +489,7 @@ QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
 
 		if( mm != 0 ){
 
-			percentage = downloaded_str.toDouble() / mm ;
+			percentage = downloaded_str.toDouble() * 100 / mm ;
 		}
 
 		ss += locale.formattedDataSize( qint64( mm ) ) ;
@@ -500,7 +500,7 @@ QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
 
 		if( mm != 0 ){
 
-			percentage = downloaded_str.toDouble() / mm ;
+			percentage = downloaded_str.toDouble() * 100 / mm ;
 		}
 
 		ss += locale.formattedDataSize( qint64( mm ) ) ;
@@ -508,36 +508,25 @@ QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
 		ss += "NA" ;
 	}
 
-	percentage *= 100 ;
-
 	if( percentage < 100 ){
 
-		ss += " (" + QString::number( percentage,'f',2 ) + "%) at " ;
+		ss += " (" + QString::number( percentage,'f',2 ) + "%)" ;
 	}else{
-		ss += " (100%) at " ;
+		ss += " (100%)" ;
 	}
 
-	if( speed == "NA" ){
+	if( speed != "NA" ){
 
-		ss += "NA ETA " ;
-	}else{
 		auto mm = speed.toDouble() ;
 
-		ss += locale.formattedDataSize( qint64( mm ) ) + "/s, ETA " ;
+		ss += " at " + locale.formattedDataSize( qint64( mm ) ) + "/s" ;
 	}
 
 	if( eta == "NA" ){
 
-		ss += eta ;
+		ss += ", ETA NA" ;
 	}else{
-		auto mm = eta.toInt() ;
-
-		if( mm < 3600 ){
-
-			ss += QTime( 0,0,0,0 ).addSecs( mm ).toString( "mm:ss" ) ;
-		}else{
-			ss += QTime( 0,0,0,0 ).addSecs( mm ).toString( "hh:mm:ss" ) ;
-		}
+		ss += ", ETA " + locale.secondsToString( eta.toInt() ) ;
 	}
 
 	return ss.toUtf8() ;

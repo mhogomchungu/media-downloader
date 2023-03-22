@@ -393,7 +393,7 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 					return this->meetCondition( s )  ;
 
-				},[ this ]( const QByteArray& ){
+				},[]( const QByteArray& ){
 
 					return false ;
 				} ) ;
