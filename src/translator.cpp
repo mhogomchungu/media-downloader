@@ -70,7 +70,9 @@ void translator::setDefaultLanguage()
 	this->setLanguage( m_settings.localizationLanguage() ) ;
 }
 
-translator::~translator() = default;
+translator::~translator()
+{
+}
 
 const QString& translator::UIName( const QString& internalName )
 {

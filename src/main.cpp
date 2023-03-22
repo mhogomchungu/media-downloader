@@ -65,10 +65,10 @@ int main( int argc,char * argv[] )
 
 	settings settings( argc,argv ) ;
 
-	//if( utility::startedUpdatedVersion( settings,argc,argv ) ){
+	if( utility::startedUpdatedVersion( settings,argc,argv ) ){
 
-	//	return 0 ;
-	//}
+		return 0 ;
+	}
 
 	QApplication mqApp( argc,argv ) ;
 

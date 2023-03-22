@@ -476,7 +476,7 @@ QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
 
 	if( downloaded_str == "NA" ){
 
-		ss += "NA" ;
+		ss += "NA / " ;
 	}else{
 		ss += locale.formattedDataSize( qint64( downloaded_str.toDouble() ) )  + " / " ;
 	}

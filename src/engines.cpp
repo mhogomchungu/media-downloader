@@ -126,7 +126,7 @@ engines::engines( Logger& l,settings& s,int id ) :
 		m_logger.add( QByteArray( "*****************************************************" ),id ) ;
 	}
 
-	if( settings::portableVersion() ){
+	if( m_settings.portableVersion() ){
 
 		m_logger.add( QObject::tr( "Running in portable mode" ),id ) ;
 		m_logger.add( QObject::tr( "Download path: " ) + m_settings.downloadFolder( m_logger ),id ) ;

@@ -27,14 +27,6 @@
 #include <QDir>
 #include <QFile>
 
-struct argvs
-{
-	int argc ;
-	char ** argv ;
-} ;
-
-static argvs _argvs ;
-
 static QString _configPath()
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -53,55 +45,7 @@ static QString _configPath()
 
 bool settings::portableVersion()
 {
-	if( utility::platformIsLikeWindows() ){
-
-		auto appPath = [](){
-
-			if( utility::platformIsWindows() ){
-
-				/*
-				 * QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
-				 *
-				 * Above does not work because "QCoreApplication::applicationDirPath()" requires
-				 * QApplication to already exist.
-				 */
-
-				return utility::windowsApplicationDirPath() ;
-			}else{
-				if( _argvs.argc ){
-
-					auto e = QDir( _argvs.argv[ 0 ] ).absolutePath() ;
-
-					auto m = QDir::fromNativeSeparators( e ) ;
-
-					auto s = m.lastIndexOf( '/' ) ;
-
-					if( s != -1 ){
-
-						m.truncate( s ) ;
-					}
-
-					return m ;
-				}else{
-					return QString() ;
-				}
-			}
-		}() ;
-
-		if( appPath.isEmpty() ){
-
-			return false ;
-		}else{
-			QDir::setCurrent( appPath ) ;
-
-			auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
-			auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
-
-			return a && b ;
-		}
-	}else{
-		return false ;
-	}
+	return m_portableVersion ;
 }
 
 QString settings::portableVersionConfigPath()
@@ -371,9 +315,70 @@ static std::unique_ptr< QSettings > _set_config( const QString& path )
 	return std::make_unique< QSettings >( m,QSettings::IniFormat ) ;
 }
 
-static std::unique_ptr< QSettings > _init()
+#include <cstring>
+
+static QString _portable_updated_config_path( int argc,char ** argv )
 {
-	if( settings::portableVersion() ){
+	for( int i = 0 ; i < argc ; i++ ){
+
+		if( std::strcmp( argv[ i ],"--settingsConfigPath" ) == 0 ){
+
+			if( i + 1 < argc ){
+
+				return argv[ i + 1 ] ;
+			}
+		}
+	}
+
+	return {} ;
+}
+
+static bool _portableVersionInit( int argc,char ** argv )
+{
+	for( int i = 0 ; i < argc ; i++ ){
+
+		if( std::strcmp( argv[ i ],"--portable" ) == 0 ){
+
+			return true ;
+		}
+	}
+
+	if( utility::platformIsWindows() ){
+
+		/*
+		 * QDir::setCurrent( QCoreApplication::applicationDirPath() ) ;
+		 *
+		 * Above does not work because "QCoreApplication::applicationDirPath()" requires
+		 * QApplication to already exist.
+		 */
+
+		auto appPath = utility::windowsApplicationDirPath() ;
+
+		if( appPath.isEmpty() ){
+
+			return false ;
+		}else{
+			QDir::setCurrent( appPath ) ;
+
+			auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
+			auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
+
+			return a && b ;
+		}
+	}else{
+		return false ;
+	}
+}
+
+static std::unique_ptr< QSettings > _init( int argc,char ** argv,bool portableVersion )
+{	
+	auto m = _portable_updated_config_path( argc,argv ) ;
+
+	if( !m.isEmpty() ){
+
+		return _set_config( m ) ;
+
+	}else if( portableVersion ){
 
 		return _set_config( settings::portableVersionConfigPath() ) ;
 	}else{
@@ -411,9 +416,9 @@ static std::unique_ptr< QSettings > _init()
 }
 
 settings::settings( int argc,char ** argv ) :
-	m_settingsP( _init() ),
-	m_settings( *m_settingsP ),
-	m_portableVersion( settings::portableVersion() )
+	m_portableVersion( _portableVersionInit( argc,argv ) ),
+	m_settingsP( _init( argc,argv,m_portableVersion ) ),
+	m_settings( *m_settingsP )
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
@@ -428,9 +433,6 @@ settings::settings( int argc,char ** argv ) :
 
 		qputenv( "QT_SCALE_FACTOR",m ) ;
 	}
-
-	_argvs.argc = argc ;
-	_argvs.argv = argv ;
 }
 
 QSettings& settings::bk()
@@ -555,12 +557,12 @@ static QString _downloadFolder( QSettings& settings,bool portableVersion,Functio
 
 QString settings::downloadFolder()
 {
-	return _downloadFolder( m_settings,m_portableVersion,[]( const QString& ){} ) ;
+	return _downloadFolder( m_settings,this->portableVersion(),[]( const QString& ){} ) ;
 }
 
 QString settings::downloadFolder( Logger& logger )
 {
-	return _downloadFolder( m_settings,m_portableVersion,[ &logger ]( const QString& e ){
+	return _downloadFolder( m_settings,this->portableVersion(),[ &logger ]( const QString& e ){
 
 		logger.add( e,utility::sequentialID() ) ;
 	} ) ;
@@ -936,16 +938,6 @@ QString settings::configPaths()
 		return settings::portableVersionConfigPath() ;
 	}else{
 		return _configPath() ;
-	}
-}
-
-QString settings::updatedVersionPath()
-{
-	if( m_portableVersion ){
-
-		return QDir::currentPath() + "/updates" ;
-	}else{
-		return _configPath() + "/media-downloader/updates" ;
 	}
 }
 

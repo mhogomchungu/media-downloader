@@ -66,7 +66,6 @@ public:
 	QString playlistRangeHistoryLastUsed() ;
 	QString configPaths() ;
 	QString textEncoding() ;
-	QString updatedVersionPath() ;
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
 	QStringList playlistUrlHistory() ;
@@ -79,7 +78,7 @@ public:
 
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
-	static bool portableVersion() ;
+	bool portableVersion() ;
 	static QString portableVersionConfigPath() ;
 
 	bool monitorClipboardUrl( settings::tabName ) ;
@@ -138,9 +137,9 @@ public:
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
 private:
 	bool m_EnableHighDpiScaling ;
+	bool m_portableVersion ;
 	std::unique_ptr< QSettings > m_settingsP ;
 	QSettings& m_settings ;
-	bool m_portableVersion ;
 };
 
 #endif

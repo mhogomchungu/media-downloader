@@ -1172,19 +1172,22 @@ bool utility::onlyWantedVersionInfo( int argc,char ** argv )
 	return false ;
 }
 
-bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
+bool utility::startedUpdatedVersion( settings&,int argc,char ** argv )
 {
-	auto m = s.updatedVersionPath() ;
+	auto cpath = QDir().currentPath() ;
 
-	auto exePath = [ & ](){
+	auto m = cpath + "/updates.new" ;
+	auto mm = cpath + "/updates" ;
 
-		if(utility::platformIsLikeWindows() ){
+	if( QFile::exists( m ) ){
 
-			return m + "/bin/media-downloader.exe" ;
-		}else{
-			return m + "/bin/media-downloader" ;
-		}
-	}() ;
+		QDir dir( mm ) ;
+
+		dir.removeRecursively() ;
+		dir.rename( m,mm ) ;
+	}
+
+	QString exePath = mm + "/media-downloader.exe" ;
 
 	if( QFile::exists( exePath ) ){
 
@@ -1193,6 +1196,12 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 		for( int i = 1 ; i < argc ; i++ ){
 
 			args.append( *( argv + i ) ) ;
+
+			args.append( "--portable" ) ;
+
+			args.append( "--settingsConfigPath" ) ;
+
+			args.append( cpath + "/local" ) ;
 		}
 
 		if( utility::platformIsWindows() ){
@@ -1207,12 +1216,10 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 			exe.setArguments( args ) ;
 			exe.setProcessEnvironment( env ) ;
 
-			//exe.startDetached() ;
+			return exe.startDetached() ;
 		}else{
-			QProcess::startDetached( exePath,args ) ;
+			return QProcess::startDetached( exePath,args ) ;
 		}
-
-		return true ;
 	}else{
 		return false ;
 	}
