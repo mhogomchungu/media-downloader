@@ -307,13 +307,6 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
-	m_ui.pbUpdateMediaDownloader->setVisible( true ) ;
-
-	connect( m_ui.pbUpdateMediaDownloader,&QPushButton::clicked,[ this ](){
-
-		m_ctx.network().updateMediaDownloader() ;
-	} ) ;
-
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		this->saveOptions() ;
@@ -439,7 +432,13 @@ configure::configure( const Context& ctx ) :
 		if( !m.isEmpty() ){
 
 			auto id = utility::sequentialID() ;
-			this->downloadFromGitHub( { m_ctx.Engines().defaultEngine( m,id ),id } ) ;
+
+			if( m == m_ctx.appName() ){
+
+				m_ctx.network().updateMediaDownloader( id ) ;
+			}else{
+				this->downloadFromGitHub( { m_ctx.Engines().defaultEngine( m,id ),id } ) ;
+			}
 		}
 	} ) ;
 
@@ -564,6 +563,14 @@ void configure::downloadFromGitHub( const engines::Iterator& iter )
 void configure::tabEntered()
 {
 	m_menu.clear() ;
+
+	auto ac = m_menu.addAction( m_ctx.appName() ) ;
+
+	ac->setObjectName( m_ctx.appName() ) ;
+
+	ac->setEnabled( utility::platformIsWindows() ) ;
+
+	m_menu.addSeparator() ;
 
 	for( const auto& it : m_ctx.Engines().getEngines() ){
 

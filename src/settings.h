@@ -64,7 +64,7 @@ public:
 	QString cookieFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
 	QString playlistRangeHistoryLastUsed() ;
-	QString configPaths() ;
+	const QString& configPaths() ;
 	QString textEncoding() ;
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
@@ -79,7 +79,6 @@ public:
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
 	bool portableVersion() ;
-	static QString portableVersionConfigPath() ;
 
 	bool monitorClipboardUrl( settings::tabName ) ;
 	bool enabledHighDpiScaling() ;
@@ -97,6 +96,7 @@ public:
 	bool checkForUpdates() ;
 	bool enableLibraryTab() ;
 	bool checkForEnginesUpdates() ;
+	bool notRunningUpdatedVersion() ;
 
 	int networkTimeOut() ;
 	int stringTruncationSize() ;
@@ -136,6 +136,10 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
 private:
+	QString m_dataPath ;
+	QString m_exePath ;
+	QString m_exeOrgPath ;
+
 	bool m_EnableHighDpiScaling ;
 	bool m_portableVersion ;
 	std::unique_ptr< QSettings > m_settingsP ;

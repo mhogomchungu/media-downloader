@@ -1176,7 +1176,7 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 {
 	auto cpath = s.configPaths() ;
 
-	auto m = cpath + "/update.new" ;
+	auto m = cpath + "/update_new" ;
 	auto mm = cpath + "/update" ;
 
 	if( QFile::exists( m ) ){
@@ -1189,7 +1189,17 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 
 	QString exePath = mm + "/media-downloader.exe" ;
 
-	if( QFile::exists( exePath ) ){
+	bool beenHereBefore = false ;
+
+	for( int i = 1 ; i < argc ; i++ ){
+
+		if( std::strcmp( argv[ i ],"--running-updated" ) == 0 ){
+
+			beenHereBefore = true ;
+		}
+	}
+
+	if( QFile::exists( exePath ) && !beenHereBefore ){
 
 		QStringList args ;
 
@@ -1198,31 +1208,37 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 			args.append( *( argv + i ) ) ;
 		}
 
+		args.append( "--running-updated" ) ;
+
+		args.append( "--dataPath" ) ;
+
+		args.append( cpath ) ;
+
 		if( s.portableVersion() ){
 
 			args.append( "--portable" ) ;
-
-			args.append( "--settingsConfigPath" ) ;
-
-			args.append( cpath + "/local" ) ;
 		}
 
-		if( utility::platformIsWindows() ){
+		auto exeDirPath = utility::windowsApplicationDirPath() ;
 
-			auto env = QProcessEnvironment::systemEnvironment() ;
-			auto paths = env.value( "PATH" ) ;
-			env.insert( "PATH",QDir::currentPath() + ";" + paths ) ;
+		args.append( "--exe-org-path" ) ;
+		args.append( exeDirPath ) ;
 
-			QProcess exe ;
+		auto env = QProcessEnvironment::systemEnvironment() ;
+		auto paths = env.value( "PATH" ) ;
+		env.insert( "PATH",exePath + ";" + paths ) ;
 
-			exe.setProgram( exePath ) ;
-			exe.setArguments( args ) ;
-			exe.setProcessEnvironment( env ) ;
+		env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
 
-			return exe.startDetached() ;
-		}else{
-			return QProcess::startDetached( exePath,args ) ;
-		}
+		QProcess exe ;
+
+		exe.setProgram( exePath ) ;
+		exe.setArguments( args ) ;
+		exe.setProcessEnvironment( env ) ;
+
+		exe.startDetached() ;
+
+		return true ;
 	}else{
 		return false ;
 	}

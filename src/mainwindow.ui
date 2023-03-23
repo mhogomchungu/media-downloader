@@ -1720,19 +1720,6 @@
          <string>Auto Save List Of Not Downloaded Media</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pbUpdateMediaDownloader">
-        <property name="geometry">
-         <rect>
-          <x>550</x>
-          <y>300</y>
-          <width>161</width>
-          <height>33</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string notr="true">Update MediaDownloader</string>
-        </property>
-       </widget>
        <widget class="QPushButton" name="pbOpenBinFolder">
         <property name="geometry">
          <rect>

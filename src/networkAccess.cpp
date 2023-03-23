@@ -72,10 +72,8 @@ networkAccess::networkAccess( const Context& ctx ) :
 	}
 }
 
-void networkAccess::updateMediaDownloader() const
+void networkAccess::updateMediaDownloader( int id ) const
 {
-	auto id = utility::sequentialID() ;
-
 	this->post( m_appName,QObject::tr( "Start Downloading" ) + " Media Downloader ...",id ) ;
 
 	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
@@ -151,8 +149,6 @@ void networkAccess::updateMediaDownloader( const QString& uu,const QString& name
 
 	this->post( m_appName,QObject::tr( "Destination" ) + ": " + tmpFile,id ) ;
 
-	return this->extractMediaDownloader( tmpFile,name,id ) ;
-
 	auto url = this->networkRequest( uu ) ;
 
 	auto file = std::make_unique< QFile >( tmpFile ) ;
@@ -176,6 +172,8 @@ void networkAccess::updateMediaDownloader( const QString& uu,const QString& name
 				}() ;
 
 				this->post( m_appName,m,id ) ;
+
+				m_tabManager.enableAll() ;
 			}else{
 				this->extractMediaDownloader( tmpFile,name,id ) ;
 			}
@@ -189,7 +187,7 @@ void networkAccess::updateMediaDownloader( const QString& uu,const QString& name
 
 			auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
 
-			this->post( m_appName,QObject::tr( "Downloading" ) + " " + name + ": " + m,id ) ;
+			this->post( m_appName,QObject::tr( "Downloading" ) + " " + m_appName + ": " + m,id ) ;
 		}
 	} ) ;
 }
@@ -406,7 +404,7 @@ void networkAccess::download( networkAccess::iterator iter,
 
 void networkAccess::removeNotNeededFiles( const QString& folderPath,int id ) const
 {
-	utils::qthread::run( [folderPath,id ](){
+	utils::qthread::run( [folderPath ](){
 
 		const QDir::Filters dirFilter = QDir::Filter::Files |
 						QDir::Filter::Dirs |

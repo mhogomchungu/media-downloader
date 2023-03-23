@@ -947,7 +947,6 @@ engines::enginePaths::enginePaths( settings& s )
 	dir.mkpath( m_binPath ) ;
 	dir.mkpath( m_enginePath ) ;
 	dir.mkpath( m_dataPath ) ;
-	dir.mkpath( m_updateNewPath ) ;
 	dir.mkpath( m_tmp ) ;
 }
 

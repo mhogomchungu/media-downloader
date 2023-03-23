@@ -27,6 +27,8 @@
 #include <QDir>
 #include <QFile>
 
+#include <cstring>
+
 static QString _configPath()
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -36,7 +38,7 @@ static QString _configPath()
 
 		return QDir::homePath() + "/.config/media-downloader/" ;
 	}else{
-		return s.first() ;
+		return s.first() + "/media-downloader/" ;
 	}
 #else
 	return QDir::homePath() + "/.config/media-downloader/" ;
@@ -46,11 +48,6 @@ static QString _configPath()
 bool settings::portableVersion()
 {
 	return m_portableVersion ;
-}
-
-QString settings::portableVersionConfigPath()
-{
-	return QDir::currentPath() + "/local" ;
 }
 
 static QString _monitorClipboadUrl( settings::tabName e )
@@ -246,6 +243,11 @@ bool settings::checkForEnginesUpdates()
 	return m_settings.value( "CheckForEnginesUpdates" ).toBool() ;
 }
 
+bool settings::notRunningUpdatedVersion()
+{
+	return m_exeOrgPath.isEmpty() ;
+}
+
 void settings::setEnableLibraryTab( bool e )
 {
 	m_settings.setValue( "EnableLibraryTab",e ) ;
@@ -315,13 +317,11 @@ static std::unique_ptr< QSettings > _set_config( const QString& path )
 	return std::make_unique< QSettings >( m,QSettings::IniFormat ) ;
 }
 
-#include <cstring>
-
-static QString _portable_updated_config_path( int argc,char ** argv )
+static QString _portable_updated_data_path( int argc,char ** argv )
 {
 	for( int i = 0 ; i < argc ; i++ ){
 
-		if( std::strcmp( argv[ i ],"--settingsConfigPath" ) == 0 ){
+		if( std::strcmp( argv[ i ],"--dataPath" ) == 0 ){
 
 			if( i + 1 < argc ){
 
@@ -333,80 +333,98 @@ static QString _portable_updated_config_path( int argc,char ** argv )
 	return {} ;
 }
 
-static bool _portableVersionInit( int argc,char ** argv )
+static bool _portableVersionInit( int argc,
+				  char ** argv,
+				  QString& dataPath,
+				  QString& exePath,
+				  QString& exeOrgPath )
 {
 	if( utility::platformIsWindows() ){
 
-		QDir::setCurrent( utility::windowsApplicationDirPath() ) ;
-	}
+		exePath = utility::windowsApplicationDirPath() ;
 
-	for( int i = 0 ; i < argc ; i++ ){
+		dataPath = _portable_updated_data_path( argc,argv ) ;
 
-		if( std::strcmp( argv[ i ],"--portable" ) == 0 ){
+		for( int i = 0 ; i < argc ; i++ ){
+
+			if( std::strcmp( argv[ i ],"--exe-org-path" ) == 0 ){
+
+				if( i + 1 < argc ){
+
+					exeOrgPath = argv[ i + 1 ] ;
+				}
+			}
+		}
+
+		for( int i = 0 ; i < argc ; i++ ){
+
+			if( std::strcmp( argv[ i ],"--portable" ) == 0 ){
+
+				return true ;
+			}
+		}
+
+		auto a = exePath  + "/local" ;
+
+		if( QFile::exists( a ) ){
+
+			dataPath = a ;
 
 			return true ;
+		}else{
+			dataPath = _configPath() ;
+
+			return false ;
 		}
-	}
-
-	if( utility::platformIsWindows() ){
-
-		auto a = QFile::exists( settings::portableVersionConfigPath() ) ;
-		auto b = QFile::exists( QDir::currentPath() + "/media-downloader.exe" ) ;
-
-		return a && b ;
 	}else{
+		dataPath = _configPath() ;
+
 		return false ;
 	}
 }
 
-static std::unique_ptr< QSettings > _init( int argc,char ** argv,bool portableVersion )
+static std::unique_ptr< QSettings > _init( const QString& dataPath,bool portableVersion )
 {	
-	auto m = _portable_updated_config_path( argc,argv ) ;
+	if( utility::platformIsWindows() ){
 
-	if( !m.isEmpty() ){
+		if( portableVersion ){
 
-		return _set_config( m ) ;
-
-	}else if( portableVersion ){
-
-		return _set_config( settings::portableVersionConfigPath() ) ;
-	}else{
-		if( utility::platformIsWindows() ){
-
-			auto appPath      = _configPath() + "/media-downloader" ;
-			auto settingsPath = appPath + "/settings" ;
-
-			if( QFile::exists( settingsPath ) ){
-
-				return _set_config( appPath ) ;
-			}else{
-				/*
-				 * Migrating from registry based config to text file config.
-				 */
-				QSettings oldSettings( "media-downloader","media-downloader" ) ;
-
-				auto newSettings = _set_config( appPath ) ;
-
-				const auto keys = oldSettings.allKeys() ;
-
-				for( const auto& it : keys ){
-
-					newSettings->setValue( it,oldSettings.value( it ) ) ;
-				}
-
-				oldSettings.clear() ;
-
-				return newSettings ;
-			}
-		}else{
-			return std::make_unique< QSettings >( "media-downloader","media-downloader" ) ;
+			return _set_config( dataPath ) ;
 		}
+
+		auto appPath      = _configPath() ;
+		auto settingsPath = appPath + "/settings" ;
+
+		if( QFile::exists( settingsPath ) ){
+
+			return _set_config( appPath ) ;
+		}else{
+			/*
+			 * Migrating from registry based config to text file config.
+			 */
+			QSettings oldSettings( "media-downloader","media-downloader" ) ;
+
+			auto newSettings = _set_config( appPath ) ;
+
+			const auto keys = oldSettings.allKeys() ;
+
+			for( const auto& it : keys ){
+
+				newSettings->setValue( it,oldSettings.value( it ) ) ;
+			}
+
+			oldSettings.clear() ;
+
+			return newSettings ;
+		}
+	}else{
+		return _set_config( dataPath ) ;
 	}
 }
 
 settings::settings( int argc,char ** argv ) :
-	m_portableVersion( _portableVersionInit( argc,argv ) ),
-	m_settingsP( _init( argc,argv,m_portableVersion ) ),
+	m_portableVersion( _portableVersionInit( argc,argv,m_dataPath,m_exePath,m_exeOrgPath ) ),
+	m_settingsP( _init( m_dataPath,portableVersion() ) ),
 	m_settings( *m_settingsP )
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -920,14 +938,9 @@ QStringList settings::localizationLanguages()
 	return m ;
 }
 
-QString settings::configPaths()
+const QString& settings::configPaths()
 {
-	if( this->portableVersion() ){
-
-		return settings::portableVersionConfigPath() ;
-	}else{
-		return _configPath() ;
-	}
+	return m_dataPath ;
 }
 
 QString settings::commandOnSuccessfulDownload()
@@ -987,18 +1000,14 @@ void settings::setLastUsedOption( const QString& m,const QString& e,settings::ta
 
 QString settings::localizationLanguagePath()
 {
-	if( m_portableVersion ){
+	if( utility::platformIsWindows() ){
 
-		return QDir().currentPath() + "/translations" ;
+		return m_exePath + "/translations" ;
 	}
 
 	if( !m_settings.contains( "TranslationsPath" ) ){
 
-		if( utility::platformIsWindows() ){
-
-			m_settings.setValue( "TranslationsPath",QDir().currentPath() + "/translations" ) ;
-
-		}else if( utility::platformIsOSX() ){
+		if( utility::platformIsOSX() ){
 
 			m_settings.setValue( "TranslationsPath",TRANSLATION_PATH ) ;
 		}else{
