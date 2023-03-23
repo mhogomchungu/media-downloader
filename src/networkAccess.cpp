@@ -23,7 +23,7 @@
 #include "tabmanager.h"
 #include "basicdownloader.h"
 #include "settings.h"
-
+#include "utils/threads.hpp"
 #include "context.hpp"
 
 #include <QFile>
@@ -49,7 +49,8 @@ networkAccess::networkAccess( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_network( m_ctx.Settings().networkTimeOut() ),
 	m_basicdownloader( m_ctx.TabManager().basicDownloader() ),
-	m_tabManager( m_ctx.TabManager() )
+	m_tabManager( m_ctx.TabManager() ),
+	m_appName( m_ctx.appName() )
 {
 	if( utility::platformIsWindows() && m_ctx.Settings().showVersionInfoWhenStarting() ){
 
@@ -73,6 +74,172 @@ networkAccess::networkAccess( const Context& ctx ) :
 
 void networkAccess::updateMediaDownloader() const
 {
+	auto id = utility::sequentialID() ;
+
+	this->post( m_appName,QObject::tr( "Start Downloading" ) + " Media Downloader ...",id ) ;
+
+	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
+
+	m_tabManager.disableAll() ;
+
+	m_basicdownloader.setAsActive().enableQuit() ;
+
+	m_basicdownloader.setAsActive() ;
+
+	m_network.get( this->networkRequest( url ),[ this,id ]( const utils::network::progress& p )mutable{
+
+		if( p.finished() ){
+
+			if( p.success() ){
+
+				util::Json json( p.data() ) ;
+
+				if( json ){
+
+					auto object = json.doc().object() ;
+
+					auto value = object.value( "assets" ) ;
+
+					const auto array = value.toArray() ;
+
+					for( const auto& it : array ){
+
+						const auto object = it.toObject() ;
+
+						const auto name = object.value( "name" ).toString() ;
+
+						auto url = object.value( "browser_download_url" ).toString() ;
+
+						if( url.endsWith( ".zip" ) ){
+
+							auto size = object.value( "size" ).toDouble() ;
+
+							return this->updateMediaDownloader( url,name,size,id ) ;
+						}
+					}
+
+					this->post( m_appName,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString(),id ) ;
+
+					m_tabManager.enableAll() ;
+				}
+			}else{
+				auto m = [ & ](){
+
+					if( p.timeOut() ){
+
+						return QObject::tr( "Download Failed" ) + ": " + this->downloadFailed() ;
+					}else{
+						return QObject::tr( "Download Failed" ) + ": " + p.errorString() ;
+					}
+				}() ;
+
+				this->post( m_appName,m,id ) ;
+
+				m_tabManager.enableAll() ;
+			}
+		}else{
+			this->post( m_appName,"...",id ) ;
+		}
+	} ) ;
+}
+
+void networkAccess::updateMediaDownloader( const QString& uu,const QString& name,double size,int id ) const
+{
+	auto tmpFile = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().tmp( name ) ) ;
+
+	this->post( m_appName,QObject::tr( "Downloading" ) + ": " + uu,id ) ;
+
+	this->post( m_appName,QObject::tr( "Destination" ) + ": " + tmpFile,id ) ;
+
+	return this->extractMediaDownloader( tmpFile,name,id ) ;
+
+	auto url = this->networkRequest( uu ) ;
+
+	auto file = std::make_unique< QFile >( tmpFile ) ;
+
+	file->open( QIODevice::WriteOnly ) ;
+
+	m_network.get( url,[ this,tmpFile,name,id,file = std::move( file ),locale = utility::locale(),size ]( const utils::network::progress& p )mutable{
+
+		if( p.finished() ){
+
+			if( !p.success() ){
+
+				auto m = [ & ](){
+
+					if( p.timeOut() ){
+
+						return QObject::tr( "Download Failed" ) + ": " + this->downloadFailed() ;
+					}else{
+						return QObject::tr( "Download Failed" ) + ": " + p.errorString() ;
+					}
+				}() ;
+
+				this->post( m_appName,m,id ) ;
+			}else{
+				this->extractMediaDownloader( tmpFile,name,id ) ;
+			}
+		}else{
+			file->write( p.data() ) ;
+
+			auto perc = double( p.received() )  * 100 / size ;
+			auto totalSize = locale.formattedDataSize( qint64( size ) ) ;
+			auto current   = locale.formattedDataSize( p.received() ) ;
+			auto percentage = QString::number( perc,'f',2 ) ;
+
+			auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
+
+			this->post( m_appName,QObject::tr( "Downloading" ) + " " + name + ": " + m,id ) ;
+		}
+	} ) ;
+}
+
+void networkAccess::extractMediaDownloader( const QString& tmpFile,const QString& name,int id ) const
+{
+	this->post( m_appName,QObject::tr( "Extracting archive: " ) + tmpFile,id ) ;
+
+	const auto& paths = m_ctx.Engines().engineDirPaths() ;
+
+	auto tmpPath = paths.basePath() ;
+
+	auto finalPath = paths.updateNewPath() ;
+
+	utils::qthread::run( [ finalPath ](){
+
+		QDir( finalPath ).removeRecursively() ;
+
+	},[ tmpFile,tmpPath,name,finalPath,id,this ](){
+
+		auto exe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
+
+		auto args = QStringList{ "-x","-f",tmpFile,"-C",tmpPath } ;
+
+		utils::qprocess::run( exe,args,QProcess::MergedChannels,[ this,id,name,tmpPath,finalPath ]( const utils::qprocess::outPut& s ){
+
+			//QFile::remove( tmpPath ) ;
+
+			if( s.success() ){
+
+				QDir dir ;
+
+				auto extractedPath = tmpPath + "/" + name.mid( 0,name.size() - 4 ) ;
+
+				dir.rename( extractedPath,finalPath ) ;
+
+				QFile f( finalPath + "/media-downloader.exe" ) ;
+
+				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+
+				this->removeNotNeededFiles( finalPath,id ) ;
+			}else{
+				auto m = QObject::tr( "Failed To Extract" ) ;
+
+				this->post( m_appName,m + ": " + s.stdOut,id ) ;
+			}
+
+			m_tabManager.enableAll() ;
+		} ) ;
+	} ) ;
 }
 
 QNetworkRequest networkAccess::networkRequest( const QString& url ) const
@@ -104,7 +271,7 @@ void networkAccess::download( const QByteArray& data,
 
 	if( !json ){
 
-		this->post( engine,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString(),opts.id ) ;
+		this->post( engine.name(),QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString(),opts.id ) ;
 
 		m_tabManager.enableAll() ;
 
@@ -186,13 +353,13 @@ void networkAccess::download( networkAccess::iterator iter,
 
 			iter.failed() ;
 
-			this->post( engine,QObject::tr( "Failed to download, Following path can not be created: " ) + path,id ) ;
+			this->post( engine.name(),QObject::tr( "Failed to download, Following path can not be created: " ) + path,id ) ;
 
 			return ;
 		}
 	}
 
-	this->post( engine,QObject::tr( "Start Downloading" ) + " " + engine.name() + " ...",id ) ;
+	this->post( engine.name(),QObject::tr( "Start Downloading" ) + " " + engine.name() + " ...",id ) ;
 
 	m_tabManager.disableAll() ;
 
@@ -218,7 +385,7 @@ void networkAccess::download( networkAccess::iterator iter,
 					}
 				}() ;
 
-				this->post( engine,m,opts.id ) ;
+				this->post( engine.name(),m,opts.id ) ;
 
 				m_tabManager.enableAll() ;
 
@@ -232,8 +399,68 @@ void networkAccess::download( networkAccess::iterator iter,
 				}
 			}
 		}else{
-			this->post( engine,"...",opts.id ) ;
+			this->post( engine.name(),"...",opts.id ) ;
 		}
+	} ) ;
+}
+
+void networkAccess::removeNotNeededFiles( const QString& folderPath,int id ) const
+{
+	utils::qthread::run( [folderPath,id ](){
+
+		const QDir::Filters dirFilter = QDir::Filter::Files |
+						QDir::Filter::Dirs |
+						QDir::Filter::NoDotAndDotDot ;
+
+		std::atomic_bool mm( true )  ;
+
+		directoryManager dm( folderPath,dirFilter,mm ) ;
+
+		if( dm.valid() ){
+
+			if( dm.readFirst() ){
+
+				while( true ){
+
+					if( dm.read() ){
+
+						break ;
+					}
+				}
+			}
+		}
+
+		auto entries = dm.entries() ;
+
+		auto fileIter = entries.fileIter() ;
+
+		while( fileIter.hasNext() ){
+
+			const auto& m = fileIter.valueWithNext() ;
+
+			if( m != "media-downloader.exe" ){
+
+				QFile::remove( folderPath + "/" + m ) ;
+			}
+		}
+
+		auto folderIter = entries.directoryIter() ;
+
+		while( folderIter.hasNext() ){
+
+			const auto& m = folderIter.valueWithNext() ;
+
+			if( m != "translations" ){
+
+				QDir( folderPath + "/" + m ).removeRecursively() ;
+			}
+		}
+
+	},[ id,this ](){
+
+		auto m = QObject::tr( "Please Restart To Use New Version" ) ;
+
+		this->post( m_appName,m,id ) ;
 	} ) ;
 }
 
@@ -245,9 +472,9 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 	opts.openFile() ;
 
-	this->post( engine,QObject::tr( "Downloading" ) + ": " + opts.metadata.url,opts.id ) ;
+	this->post( engine.name(),QObject::tr( "Downloading" ) + ": " + opts.metadata.url,opts.id ) ;
 
-	this->post( engine,QObject::tr( "Destination" ) + ": " + opts.filePath,opts.id ) ;
+	this->post( engine.name(),QObject::tr( "Destination" ) + ": " + opts.filePath,opts.id ) ;
 
 	auto url = this->networkRequest( opts.metadata.url ) ;
 
@@ -278,7 +505,7 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 			auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
 
-			this->post( engine,QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,opts.id ) ;
+			this->post( engine.name(),QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,opts.id ) ;
 		}
 	} ) ;
 }
@@ -289,7 +516,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 	if( !str.networkError.isEmpty() ){
 
-		this->post( engine,str.networkError,str.id ) ;
+		this->post( engine.name(),str.networkError,str.id ) ;
 
 		m_tabManager.enableAll() ;
 
@@ -302,13 +529,13 @@ void networkAccess::finished( networkAccess::Opts str ) const
 	}else{
 		str.file().close() ;
 
-		this->post( engine,QObject::tr( "Download complete" ),str.id ) ;
+		this->post( engine.name(),QObject::tr( "Download complete" ),str.id ) ;
 
 		if( str.isArchive ){
 
 			this->extractArchive( engine,std::move( str ) ) ;
 		}else{
-			this->post( engine,QObject::tr( "Renaming file to: " ) + str.exeBinPath,str.id ) ;
+			this->post( engine.name(),QObject::tr( "Renaming file to: " ) + str.exeBinPath,str.id ) ;
 
 			QFile::remove( str.exeBinPath ) ;
 
@@ -320,7 +547,6 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 			engine.updateCmdPath( str.exeBinPath ) ;
 
-
 			auto m = str.showVinfo ;
 			m.setAfterDownloading = true ;
 
@@ -331,12 +557,11 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 void networkAccess::extractArchive( const engines::engine& engine,networkAccess::Opts str ) const
 {
-	this->post( engine,QObject::tr( "Extracting archive: " ) + str.filePath,str.id ) ;
+	this->post( engine.name(),QObject::tr( "Extracting archive: " ) + str.filePath,str.id ) ;
 
 	if( engine.archiveContainsFolder() ){
 
 		auto m = str.tempPath + "/" + engine.name() ;
-		//this->post( str.engine,QObject::tr( "Removing Folder: " ) + m,str.id ) ;
 
 		QDir( m ).removeRecursively() ;
 	}else{
@@ -372,7 +597,7 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 			m_ctx.getVersionInfo().check( str.iter.move(),str.showVinfo ) ;
 		}else{
-			this->post( engine,s.stdError,str.id ) ;
+			this->post( engine.name(),s.stdError,str.id ) ;
 
 			if( str.iter.hasNext() ){
 
@@ -384,13 +609,13 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 	} ) ;
 }
 
-void networkAccess::post( const engines::engine& engine,const QString& m,int id ) const
+void networkAccess::post( const QString& engineName,const QString& m,int id ) const
 {	
-	m_ctx.logger().add( [ &engine,&m ]( Logger::Data& s,int id,bool ){
+	m_ctx.logger().add( [ engineName,&m ]( Logger::Data& s,int id,bool ){
 
 		auto e = m.toUtf8() ;
 
-		auto p = QObject::tr( "Downloading" ) + " " + engine.name() ;
+		auto p = QObject::tr( "Downloading" ) + " " + engineName ;
 
 		auto prefix = p.toUtf8() ;
 

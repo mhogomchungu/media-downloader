@@ -31,7 +31,7 @@ tabManager::tabManager( settings& s,
 			MainWindow& mw,
 			QString debug ) :
 	m_currentTab( s.tabNumber() ),
-	m_ctx( s,t,ui,w,mw,l,e,*this,std::move( debug ) ),
+	m_ctx( s,t,ui,w,mw,l,e,*this,std::move( debug ),"Media Downloader" ),
 	m_about( m_ctx ),
 	m_configure( m_ctx ),
 	m_basicdownloader( m_ctx ),

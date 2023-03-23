@@ -272,6 +272,12 @@ private:
 		int id ;
 	};
 
+	void removeNotNeededFiles( const QString&,int ) const ;
+
+	void updateMediaDownloader( const QString&,const QString&,double,int ) const ;
+
+	void extractMediaDownloader( const QString&,const QString&,int ) const ;
+
 	QString downloadFailed() const ;
 
 	QNetworkRequest networkRequest( const QString& url ) const ;
@@ -284,12 +290,13 @@ private:
 
 	void finished( networkAccess::Opts ) const ;
 
-	void post( const engines::engine&,const QString&,int ) const ;
+	void post( const QString&,const QString&,int ) const ;
 
 	const Context& m_ctx ;
 	utils::network::manager m_network ;
 	basicdownloader& m_basicdownloader ;
 	tabManager& m_tabManager ;
+	const QString& m_appName ;
 };
 
 #endif

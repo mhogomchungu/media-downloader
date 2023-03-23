@@ -922,7 +922,7 @@ QStringList settings::localizationLanguages()
 
 QString settings::configPaths()
 {
-	if( settings::portableVersion() ){
+	if( this->portableVersion() ){
 
 		return settings::portableVersionConfigPath() ;
 	}else{

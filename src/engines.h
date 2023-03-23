@@ -128,6 +128,18 @@ public:
 		{
 			return m_updatePath ;
 		}
+		const QString& tmp() const
+		{
+			return m_tmp ;
+		}
+		const QString updateNewPath() const
+		{
+			return m_updateNewPath ;
+		}
+		QString tmp( const QString& e ) const
+		{
+			return m_tmp + "/" +  e ;
+		}
 		QString updatePath( const QString& e ) const
 		{
 			return m_updatePath + "/" +  e ;
@@ -159,6 +171,8 @@ public:
 		QString m_basePath ;
 		QString m_dataPath ;
 		QString m_updatePath ;
+		QString m_updateNewPath ;
+		QString m_tmp ;
 	};
 
 	class engine

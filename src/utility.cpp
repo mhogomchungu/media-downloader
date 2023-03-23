@@ -1174,10 +1174,10 @@ bool utility::onlyWantedVersionInfo( int argc,char ** argv )
 
 bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 {
-	auto cpath = QDir().currentPath() ;
+	auto cpath = s.configPaths() ;
 
-	auto m = cpath + "/local/update.new" ;
-	auto mm = cpath + "/local/update" ;
+	auto m = cpath + "/update.new" ;
+	auto mm = cpath + "/update" ;
 
 	if( QFile::exists( m ) ){
 

@@ -933,11 +933,13 @@ void engines::engine::setPermissions( const QString& e ) const
 
 engines::enginePaths::enginePaths( settings& s )
 {
-	m_basePath   = s.configPaths() ;
-	m_binPath    = m_basePath + "/bin" ;
-	m_enginePath = m_basePath + "/engines.v1" ;
-	m_dataPath   = m_basePath + "/data" ;
-	m_updatePath = m_basePath + "/updates" ;
+	m_basePath      = s.configPaths() ;
+	m_binPath       = m_basePath + "/bin" ;
+	m_enginePath    = m_basePath + "/engines.v1" ;
+	m_dataPath      = m_basePath + "/data" ;
+	m_updatePath    = m_basePath + "/update" ;
+	m_updateNewPath = m_basePath + "/update_new" ;
+	m_tmp           = m_basePath + "/tmp" ;
 
 	QDir dir ;
 
@@ -945,6 +947,8 @@ engines::enginePaths::enginePaths( settings& s )
 	dir.mkpath( m_binPath ) ;
 	dir.mkpath( m_enginePath ) ;
 	dir.mkpath( m_dataPath ) ;
+	dir.mkpath( m_updateNewPath ) ;
+	dir.mkpath( m_tmp ) ;
 }
 
 QString engines::enginePaths::socketPath()

@@ -55,7 +55,8 @@ public:
 		 Logger& l,
 		 engines& e,
 		 tabManager& tm,
-		 QString debug ) :
+		 QString debug,
+		 QString appName ) :
 		m_settings( s ),
 		m_translator( t ),
 		m_mainUi( m ),
@@ -66,7 +67,8 @@ public:
 		m_tabManager( tm ),
 		m_debug( std::move( debug ) ),
 		m_networkAccess( *this ),
-		m_versionInfo( m,*this )
+		m_versionInfo( m,*this ),
+		m_appName( appName )
 	{
 	}
 	const versionInfo& getVersionInfo() const
@@ -113,6 +115,10 @@ public:
 	{
 		return m_debug ;
 	}
+	const QString& appName() const
+	{
+		return m_appName ;
+	}
 private:
 	settings& m_settings ;
 	translator& m_translator ;
@@ -125,6 +131,7 @@ private:
 	QString m_debug ;
 	networkAccess m_networkAccess ;
 	versionInfo m_versionInfo ;
+	QString m_appName ;
 };
 
 #endif

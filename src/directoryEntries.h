@@ -89,6 +89,10 @@ public:
 		{
 			return m_entries->data()[ m_position ].path ;
 		}
+		const QString& valueWithNext()
+		{
+			return m_entries->data()[ m_position++ ].path ;
+		}
 		iter next() const
 		{
 			auto m = *this ;
