@@ -1251,7 +1251,6 @@ bool utility::platformIsLikeWindows()
 
 QString utility::installedVersionOfMediaDownloader()
 {
-	return "2.8.0" ;
 	return VERSION ;
 }
 
