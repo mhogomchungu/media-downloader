@@ -240,6 +240,7 @@ public:
 		std::vector< engineInfo > m_enginesInfo ;
 	} ;
 
+	void checkEnginesUpdates( const std::vector< engines::engine >& ) const ;
 	void log( const QString& msg,int id ) const ;
 	void checkForEnginesUpdates( versionInfo::extensionVersionInfo ) const ;
 	void done( versionInfo::extensionVersionInfo ) const ;
@@ -254,6 +255,7 @@ public:
 		this->check( { iter,{ false,false },std::move( rd ) } ) ;
 	}
 	void checkForUpdates() const ;
+	void checkMediaDownloaderUpdate( const std::vector< engines::engine >& ) const ;
 private:
 	networkAccess::iterator wrap( versionInfo::printVinfo ) const ;
 

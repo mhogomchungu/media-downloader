@@ -28,6 +28,27 @@ versionInfo::versionInfo( Ui::MainWindow&,const Context& ctx ) :
 {
 }
 
+void versionInfo::checkEnginesUpdates( const std::vector< engines::engine >& engines ) const
+{
+	class meaw : public versionInfo::idone
+	{
+	public:
+		meaw( const Context& t ) : m_ctx( t )
+		{
+		}
+		void operator()() override
+		{
+			m_ctx.TabManager().init_done() ;
+		}
+	private:
+		const Context& m_ctx ;
+	} ;
+
+	this->check( { { engines,utility::sequentialID() },
+		     { m_ctx.Settings().showVersionInfoWhenStarting(),false },
+		     { util::types::type_identity< meaw >(),m_ctx } } ) ;
+}
+
 void versionInfo::log( const QString& msg,int id ) const
 {
 	m_ctx.logger().add( msg,id ) ;
@@ -213,13 +234,85 @@ void versionInfo::checkForUpdates() const
 
 				versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
 
-				vInfo.append( "Media Downloader",iv,lv ) ;
+				vInfo.append( m_ctx.appName(),iv,lv ) ;
 
 				this->checkForEnginesUpdates( std::move( vInfo ) ) ;
 			}else{
 				m_ctx.logger().add( err.errorString(),utility::sequentialID() ) ;
 
 				this->checkForEnginesUpdates( m_ctx.Engines().getEnginesIterator() ) ;
+			}
+		}
+	} ) ;
+}
+
+void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine>& engines ) const
+{
+	if( !m_ctx.Settings().showVersionInfoWhenStarting() ){
+
+		return this->checkEnginesUpdates( engines ) ;
+	}
+
+	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
+
+	auto id = utility::sequentialID() ;
+
+	this->log( QObject::tr( "Checking installed version of" ) + " " + m_ctx.appName(),id ) ;
+
+	this->log( QObject::tr( "Found version" ) + ": " + utility::installedVersionOfMediaDownloader() ,id ) ;
+
+	m_ctx.network().get( url,[ this,id,&engines ]( const utils::network::reply& reply ){
+
+		utility::networkReply nreply( m_ctx,reply ) ;
+
+		if( reply.success() ){
+
+			QJsonParseError err ;
+
+			auto e = QJsonDocument::fromJson( nreply.data(),&err ) ;
+
+			if( err.error == QJsonParseError::NoError ){
+
+				auto lvs = e.object().value( "tag_name" ).toString() ;
+
+				util::version lv = lvs  ;
+				util::version iv = utility::installedVersionOfMediaDownloader() ;
+
+				versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
+
+				vInfo.append( m_ctx.appName(),iv,lv ) ;
+
+				if( lv.valid() && iv < lv ){
+
+					this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( lvs ),id ) ;
+
+					class meaw : public networkAccess::status
+					{
+					public:
+						meaw( const std::vector< engines::engine >& m,const versionInfo& v ) :
+							m_engines( m ),
+							m_parent( v )
+						{
+						}
+						void done()
+						{
+							m_parent.checkEnginesUpdates( m_engines ) ;
+						}
+					private:
+						const std::vector< engines::engine >& m_engines ;
+						const versionInfo& m_parent ;
+					};
+
+					networkAccess::Status s{ util::types::type_identity< meaw >(),engines,*this } ;
+
+					m_ctx.network().updateMediaDownloader( id,std::move( s ) ) ;
+				}else{
+					this->checkEnginesUpdates( engines ) ;
+				}
+			}else{
+				m_ctx.logger().add( err.errorString(),id ) ;
+
+				this->checkEnginesUpdates( engines ) ;
 			}
 		}
 	} ) ;

@@ -72,9 +72,9 @@ networkAccess::networkAccess( const Context& ctx ) :
 	}
 }
 
-void networkAccess::updateMediaDownloader( int id ) const
+void networkAccess::updateMediaDownloader( int id,networkAccess::Status status ) const
 {
-	this->post( m_appName,QObject::tr( "Start Downloading" ) + " Media Downloader ...",id ) ;
+	this->post( m_appName,QObject::tr( "Start Downloading" ) + " " + m_ctx.appName() + "...",id ) ;
 
 	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
 
@@ -84,7 +84,7 @@ void networkAccess::updateMediaDownloader( int id ) const
 
 	m_basicdownloader.setAsActive() ;
 
-	m_network.get( this->networkRequest( url ),[ this,id ]( const utils::network::progress& p )mutable{
+	m_network.get( this->networkRequest( url ),[ this,id,status = status.move() ]( const utils::network::progress& p )mutable{
 
 		if( p.finished() ){
 
@@ -112,9 +112,19 @@ void networkAccess::updateMediaDownloader( int id ) const
 
 							auto size = object.value( "size" ).toDouble() ;
 
-							return this->updateMediaDownloader( url,name,size,id ) ;
+							updateMDOptions md ;
+
+							md.size = size ;
+							md.url  = url ;
+							md.id   = id ;
+							md.name = name ;
+							md.status = status.move() ;
+
+							return this->updateMediaDownloader( md.move() ) ;
 						}
 					}
+
+					status.done() ;
 
 					this->post( m_appName,QObject::tr( "Failed to parse json file from github" ) + ": " + json.errorString(),id ) ;
 
@@ -131,6 +141,8 @@ void networkAccess::updateMediaDownloader( int id ) const
 					}
 				}() ;
 
+				status.done() ;
+
 				this->post( m_appName,m,id ) ;
 
 				m_tabManager.enableAll() ;
@@ -141,21 +153,23 @@ void networkAccess::updateMediaDownloader( int id ) const
 	} ) ;
 }
 
-void networkAccess::updateMediaDownloader( const QString& uu,const QString& name,double size,int id ) const
+void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) const
 {
-	auto tmpFile = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().tmp( name ) ) ;
+	md.tmpFile = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().tmp( md.name ) ) ;
 
-	this->post( m_appName,QObject::tr( "Downloading" ) + ": " + uu,id ) ;
+	QFile::remove( md.tmpFile ) ;
 
-	this->post( m_appName,QObject::tr( "Destination" ) + ": " + tmpFile,id ) ;
+	this->post( m_appName,QObject::tr( "Downloading" ) + ": " + md.url,md.id ) ;
 
-	auto url = this->networkRequest( uu ) ;
+	this->post( m_appName,QObject::tr( "Destination" ) + ": " + md.tmpFile,md.id ) ;
 
-	auto file = std::make_unique< QFile >( tmpFile ) ;
+	auto url = this->networkRequest( md.url ) ;
+
+	auto file = std::make_unique< QFile >( md.tmpFile ) ;
 
 	file->open( QIODevice::WriteOnly ) ;
 
-	m_network.get( url,[ this,tmpFile,name,id,file = std::move( file ),locale = utility::locale(),size ]( const utils::network::progress& p )mutable{
+	m_network.get( url,[ this,file = std::move( file ),locale = utility::locale(),md = md.move() ]( const utils::network::progress& p ){
 
 		if( p.finished() ){
 
@@ -171,71 +185,75 @@ void networkAccess::updateMediaDownloader( const QString& uu,const QString& name
 					}
 				}() ;
 
-				this->post( m_appName,m,id ) ;
+				md.status.done() ;
+
+				this->post( m_appName,m,md.id ) ;
 
 				m_tabManager.enableAll() ;
 			}else{
-				this->extractMediaDownloader( tmpFile,name,id ) ;
+				this->extractMediaDownloader( md.move() ) ;
 			}
 		}else{
 			file->write( p.data() ) ;
 
-			auto perc = double( p.received() )  * 100 / size ;
-			auto totalSize = locale.formattedDataSize( qint64( size ) ) ;
+			auto perc = double( p.received() )  * 100 / md.size ;
+			auto totalSize = locale.formattedDataSize( qint64( md.size ) ) ;
 			auto current   = locale.formattedDataSize( p.received() ) ;
 			auto percentage = QString::number( perc,'f',2 ) ;
 
 			auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
 
-			this->post( m_appName,QObject::tr( "Downloading" ) + " " + m_appName + ": " + m,id ) ;
+			this->post( m_appName,QObject::tr( "Downloading" ) + " " + m_appName + ": " + m,md.id ) ;
 		}
 	} ) ;
 }
 
-void networkAccess::extractMediaDownloader( const QString& tmpFile,const QString& name,int id ) const
+void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) const
 {
-	this->post( m_appName,QObject::tr( "Extracting archive: " ) + tmpFile,id ) ;
+	this->post( m_appName,QObject::tr( "Extracting archive: " ) + md.tmpFile,md.id ) ;
 
 	const auto& paths = m_ctx.Engines().engineDirPaths() ;
 
-	auto tmpPath = paths.basePath() ;
+	md.tmpPath = paths.basePath() ;
 
-	auto finalPath = paths.updateNewPath() ;
+	md.finalPath = paths.updateNewPath() ;
+
+	auto finalPath = md.finalPath ;
 
 	utils::qthread::run( [ finalPath ](){
 
 		QDir( finalPath ).removeRecursively() ;
 
-	},[ tmpFile,tmpPath,name,finalPath,id,this ](){
+	},[ md = md.move(),this ](){
 
 		auto exe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
 
-		auto args = QStringList{ "-x","-f",tmpFile,"-C",tmpPath } ;
+		auto args = QStringList{ "-x","-f",md.tmpFile,"-C",md.tmpPath } ;
 
-		utils::qprocess::run( exe,args,QProcess::MergedChannels,[ this,id,name,tmpPath,finalPath ]( const utils::qprocess::outPut& s ){
+		utils::qprocess::run( exe,args,QProcess::MergedChannels,[ this,md = md.move() ]( const utils::qprocess::outPut& s ){
 
-			//QFile::remove( tmpPath ) ;
+			QFile::remove( md.tmpFile ) ;
 
 			if( s.success() ){
 
 				QDir dir ;
 
-				auto extractedPath = tmpPath + "/" + name.mid( 0,name.size() - 4 ) ;
+				auto extractedPath = md.tmpPath + "/" + md.name.mid( 0,md.name.size() - 4 ) ;
 
-				dir.rename( extractedPath,finalPath ) ;
+				dir.rename( extractedPath,md.finalPath ) ;
 
-				QFile f( finalPath + "/media-downloader.exe" ) ;
+				QFile f( md.finalPath + "/media-downloader.exe" ) ;
 
 				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 
-				this->removeNotNeededFiles( finalPath,id ) ;
+				this->removeNotNeededFiles( md.move() ) ;
 			}else{
+				md.status.done() ;
+
 				auto m = QObject::tr( "Failed To Extract" ) ;
 
-				this->post( m_appName,m + ": " + s.stdOut,id ) ;
+				this->post( m_appName,m + ": " + s.stdOut,md.id ) ;
 			}
-
-			m_tabManager.enableAll() ;
 		} ) ;
 	} ) ;
 }
@@ -402,8 +420,10 @@ void networkAccess::download( networkAccess::iterator iter,
 	} ) ;
 }
 
-void networkAccess::removeNotNeededFiles( const QString& folderPath,int id ) const
+void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) const
 {
+	auto folderPath = md.finalPath ;
+
 	utils::qthread::run( [folderPath ](){
 
 		const QDir::Filters dirFilter = QDir::Filter::Files |
@@ -454,11 +474,13 @@ void networkAccess::removeNotNeededFiles( const QString& folderPath,int id ) con
 			}
 		}
 
-	},[ id,this ](){
+	},[ md = md.move(),this ](){
+
+		md.status.done() ;
 
 		auto m = QObject::tr( "Please Restart To Use New Version" ) ;
 
-		this->post( m_appName,m,id ) ;
+		this->post( m_appName,m,md.id ) ;
 	} ) ;
 }
 

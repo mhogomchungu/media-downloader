@@ -79,25 +79,7 @@ tabManager::tabManager( settings& s,
 
 		m_ctx.logger().updateView( true ) ;
 
-		class meaw : public versionInfo::idone
-		{
-		public:
-			meaw( tabManager& t ) : m_parent( t )
-			{
-			}
-			void operator()() override
-			{
-				m_parent.init_done() ;
-			}
-		private:
-			tabManager& m_parent ;
-		} ;
-
-		auto& vinfo = m_ctx.getVersionInfo() ;
-
-		vinfo.check( { { engines,utility::sequentialID() },
-			     { s.showVersionInfoWhenStarting(),false },
-			     { util::types::type_identity< meaw >(),*this } } ) ;
+		m_ctx.getVersionInfo().checkMediaDownloaderUpdate( engines ) ;
 	}else{
 		this->disableAll() ;
 

@@ -36,6 +36,36 @@ class tabManager ;
 class networkAccess
 {
 public:
+	struct status
+	{
+		virtual void done()
+		{
+		}
+	} ;
+
+	class Status
+	{
+	public:
+		template< typename Type,typename ... Args >
+		Status( Type,Args&& ... args ) :
+			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
+		{
+		}
+		Status() : m_handle( std::make_unique< networkAccess::status>() )
+		{
+		}
+		void done() const
+		{
+			m_handle->done() ;
+		}
+		Status move() const
+		{
+			return std::move( const_cast< Status& >( *this ) ) ;
+		}
+	private:
+		utils::misc::unique_ptr< networkAccess::status > m_handle ;
+	};
+
 	struct iter
 	{
 		virtual ~iter() ;
@@ -146,7 +176,7 @@ public:
 		this->download( { util::types::type_identity< meaw >(),std::move( iter ) },v ) ;
 	}
 
-	void updateMediaDownloader( int ) const ;
+	void updateMediaDownloader( int,networkAccess::Status = networkAccess::Status() ) const ;
 
 	void download( networkAccess::iterator,networkAccess::showVersionInfo ) const ;
 
@@ -272,11 +302,27 @@ private:
 		int id ;
 	};
 
-	void removeNotNeededFiles( const QString&,int ) const ;
+	struct updateMDOptions
+	{
+		QString url ;
+		QString tmpFile ;
+		QString tmpPath ;
+		QString name ;
+		QString finalPath ;
+		int id ;
+		double size ;
+		networkAccess::Status status ;
+		updateMDOptions move() const
+		{
+			return std::move( const_cast< updateMDOptions& >( *this ) ) ;
+		}
+	};
 
-	void updateMediaDownloader( const QString&,const QString&,double,int ) const ;
+	void removeNotNeededFiles( networkAccess::updateMDOptions ) const ;
 
-	void extractMediaDownloader( const QString&,const QString&,int ) const ;
+	void updateMediaDownloader( networkAccess::updateMDOptions ) const ;
+
+	void extractMediaDownloader( networkAccess::updateMDOptions ) const ;
 
 	QString downloadFailed() const ;
 

@@ -67,8 +67,8 @@ public:
 	{
 		return m_uiEnabled ;
 	}
-private:
 	void init_done() ;
+private:
 	int m_currentTab ;
 	bool m_uiEnabled = true ;
 	Context m_ctx ;
