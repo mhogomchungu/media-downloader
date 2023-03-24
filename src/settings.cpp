@@ -418,7 +418,7 @@ static std::unique_ptr< QSettings > _init( const QString& dataPath,bool portable
 			return newSettings ;
 		}
 	}else{
-		return _set_config( dataPath ) ;
+		return std::make_unique< QSettings >( "media-downloader","media-downloader" ) ;
 	}
 }
 
