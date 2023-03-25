@@ -382,15 +382,6 @@ public:
 		m_entries.sort() ;
 		return std::move( m_entries ) ;
 	}
-	void readAll()
-	{
-		if( this->valid() ){
-
-			if( this->readFirst() ){
-
-			}
-		}
-	}
 	directoryEntries readAll()
 	{
 		while( !this->read() ){}

@@ -253,13 +253,18 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 		return this->checkEnginesUpdates( engines ) ;
 	}
 
-	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
-
 	auto id = utility::sequentialID() ;
 
 	this->log( QObject::tr( "Checking installed version of" ) + " " + m_ctx.appName(),id ) ;
 
 	this->log( QObject::tr( "Found version" ) + ": " + utility::installedVersionOfMediaDownloader() ,id ) ;
+
+	if( !m_checkForUpdates ){
+
+		return this->checkEnginesUpdates( engines ) ;
+	}
+
+	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
 
 	m_ctx.network().get( url,[ this,id,&engines ]( const utils::network::reply& reply ){
 
