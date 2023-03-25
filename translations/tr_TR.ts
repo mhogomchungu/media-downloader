@@ -46,9 +46,9 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="499"/>
         <location filename="../src/mainwindow.ui" line="785"/>
-        <location filename="../src/mainwindow.ui" line="1846"/>
-        <location filename="../src/mainwindow.ui" line="1896"/>
-        <location filename="../src/mainwindow.ui" line="2139"/>
+        <location filename="../src/mainwindow.ui" line="1833"/>
+        <location filename="../src/mainwindow.ui" line="1883"/>
+        <location filename="../src/mainwindow.ui" line="2126"/>
         <source>Options</source>
         <translation>Seçenekler</translation>
     </message>
@@ -57,7 +57,7 @@
         <location filename="../src/mainwindow.ui" line="538"/>
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
-        <location filename="../src/mainwindow.ui" line="2222"/>
+        <location filename="../src/mainwindow.ui" line="2209"/>
         <location filename="../src/mainwindow.cpp" line="72"/>
         <source>Quit</source>
         <translation>Çıkış</translation>
@@ -276,18 +276,18 @@
         <translation>İndirilmeyen Medya Listesini Otomatik Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1759"/>
+        <location filename="../src/mainwindow.ui" line="1746"/>
         <source>Check For Updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1806"/>
+        <location filename="../src/mainwindow.ui" line="1793"/>
         <source>Reset Option To Its Default</source>
         <translation>Seçeneği Varsayılanına Sıfırla</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1809"/>
-        <location filename="../src/mainwindow.ui" line="1962"/>
+        <location filename="../src/mainwindow.ui" line="1796"/>
+        <location filename="../src/mainwindow.ui" line="1949"/>
         <source>Set Defaults</source>
         <translation>Varsayılanları Ayarla</translation>
     </message>
@@ -297,7 +297,7 @@
         <translation>Ölçek Faktörü (Yeniden Başlatılması Gerekiyor)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1794"/>
+        <location filename="../src/mainwindow.ui" line="1781"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>
@@ -327,13 +327,13 @@
         <translation>Bir Eklentiyi Kaldır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2235"/>
+        <location filename="../src/mainwindow.ui" line="2222"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1921"/>
-        <location filename="../src/mainwindow.ui" line="2020"/>
+        <location filename="../src/mainwindow.ui" line="1908"/>
+        <location filename="../src/mainwindow.ui" line="2007"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Varsayılan Motor Seçenekleri</translation>
     </message>
@@ -351,22 +351,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1129"/>
         <location filename="../src/mainwindow.ui" line="1187"/>
-        <location filename="../src/mainwindow.ui" line="1841"/>
-        <location filename="../src/mainwindow.ui" line="1880"/>
+        <location filename="../src/mainwindow.ui" line="1828"/>
+        <location filename="../src/mainwindow.ui" line="1867"/>
         <source>Ui Name</source>
         <translation>Arayüz Adı</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1209"/>
-        <location filename="../src/mainwindow.ui" line="1915"/>
-        <location filename="../src/mainwindow.ui" line="2034"/>
-        <location filename="../src/mainwindow.ui" line="2178"/>
+        <location filename="../src/mainwindow.ui" line="1902"/>
+        <location filename="../src/mainwindow.ui" line="2021"/>
+        <location filename="../src/mainwindow.ui" line="2165"/>
         <source>Add</source>
         <translation>Ekle</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1222"/>
-        <location filename="../src/mainwindow.ui" line="2082"/>
+        <location filename="../src/mainwindow.ui" line="2069"/>
         <source>Url</source>
         <translation>Url</translation>
     </message>
@@ -381,53 +381,53 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1782"/>
+        <location filename="../src/mainwindow.ui" line="1769"/>
         <source>Text Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1943"/>
-        <location filename="../src/mainwindow.ui" line="2201"/>
+        <location filename="../src/mainwindow.ui" line="1930"/>
+        <location filename="../src/mainwindow.ui" line="2188"/>
         <source>Engine&apos;s Name</source>
         <translation>Motor Adı</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1975"/>
+        <location filename="../src/mainwindow.ui" line="1962"/>
         <source>Path To Cookie FIle</source>
         <translation>Çerez Dosyasına Giden Yol</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2015"/>
+        <location filename="../src/mainwindow.ui" line="2002"/>
         <source>Default</source>
         <translation>Varsayılan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2057"/>
+        <location filename="../src/mainwindow.ui" line="2044"/>
         <source>Options To Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2069"/>
+        <location filename="../src/mainwindow.ui" line="2056"/>
         <source>Url Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2087"/>
+        <location filename="../src/mainwindow.ui" line="2074"/>
         <source>Download Options</source>
         <translation>İndirme Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2101"/>
+        <location filename="../src/mainwindow.ui" line="2088"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Hangi URL&apos;nin Hangi Motor Tarafından Yönetileceğini Ayarlayın</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2120"/>
+        <location filename="../src/mainwindow.ui" line="2107"/>
         <source>Url Filter</source>
         <translation>Url Filtresi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2241"/>
+        <location filename="../src/mainwindow.ui" line="2228"/>
         <source>About</source>
         <translation>Hakkında</translation>
     </message>
@@ -461,37 +461,37 @@
         <translation>Listeyi Dosyaya Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="880"/>
+        <location filename="../src/batchdownloader.cpp" line="881"/>
         <source>Author</source>
         <translation>Yazar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="890"/>
+        <location filename="../src/batchdownloader.cpp" line="891"/>
         <source>Date</source>
         <translation>Tarih</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="908"/>
+        <location filename="../src/batchdownloader.cpp" line="909"/>
         <source>Replies to</source>
         <translation>Yanıtlar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="915"/>
+        <location filename="../src/batchdownloader.cpp" line="916"/>
         <source>Text</source>
         <translation>Metin</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1153"/>
+        <location filename="../src/batchdownloader.cpp" line="1154"/>
         <source>Save Subtitle To File</source>
         <translation>Altyazıyı Dosyaya Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="163"/>
+        <location filename="../src/utility.h" line="164"/>
         <source>Engine Name:</source>
         <translation>Motor Adı:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1438"/>
+        <location filename="../src/batchdownloader.cpp" line="1439"/>
         <source>Get List From File</source>
         <translation>Dosyadan Liste Al</translation>
     </message>
@@ -504,8 +504,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="509"/>
-        <location filename="../src/utility.h" line="530"/>
-        <location filename="../src/utility.h" line="597"/>
+        <location filename="../src/utility.h" line="540"/>
+        <location filename="../src/utility.h" line="607"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
@@ -672,209 +672,231 @@
         <translation>&quot;%1&quot; arka uç için python3 yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="974"/>
+        <location filename="../src/engines.cpp" line="977"/>
         <source>Network Error Occured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="989"/>
+        <location filename="../src/engines.cpp" line="992"/>
         <source>Download cancelled</source>
         <translation>İndirme iptal edildi</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1000"/>
+        <location filename="../src/engines.cpp" line="1003"/>
         <source>ErrorCode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1004"/>
+        <location filename="../src/engines.cpp" line="1007"/>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1154"/>
+        <location filename="../src/engines.cpp" line="1157"/>
         <source>Format Code</source>
         <translation>Format Kodu</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1155"/>
+        <location filename="../src/engines.cpp" line="1158"/>
         <source>Extension</source>
         <translation>Eklentiler</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1156"/>
+        <location filename="../src/engines.cpp" line="1159"/>
         <source>Resolution</source>
         <translation>Çözünürlük</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1157"/>
+        <location filename="../src/engines.cpp" line="1160"/>
         <source>Note</source>
         <translation>Not</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1409"/>
+        <location filename="../src/engines.cpp" line="1412"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1415"/>
+        <location filename="../src/engines.cpp" line="1418"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1560"/>
+        <location filename="../src/engines.cpp" line="1563"/>
         <source>Elapsed Time:</source>
         <translation>Geçen Zaman:</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="61"/>
-        <location filename="../src/versionInfo.cpp" line="275"/>
+        <location filename="../src/networkAccess.cpp" line="62"/>
+        <location filename="../src/versionInfo.cpp" line="258"/>
+        <location filename="../src/versionInfo.cpp" line="373"/>
         <source>Checking installed version of</source>
         <translation>Yüklü sürümü kontrol ediliyor</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="66"/>
-        <location filename="../src/versionInfo.cpp" line="185"/>
-        <location filename="../src/versionInfo.cpp" line="354"/>
+        <location filename="../src/networkAccess.cpp" line="67"/>
+        <location filename="../src/versionInfo.cpp" line="206"/>
+        <location filename="../src/versionInfo.cpp" line="452"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Sürüm bilgisi bulunamadı, &quot;%1&quot; yüklendiğinden ve düzgün çalıştığından emin olun</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="69"/>
-        <location filename="../src/versionInfo.cpp" line="287"/>
-        <location filename="../src/versionInfo.cpp" line="318"/>
+        <location filename="../src/networkAccess.cpp" line="70"/>
+        <location filename="../src/versionInfo.cpp" line="260"/>
+        <location filename="../src/versionInfo.cpp" line="385"/>
+        <location filename="../src/versionInfo.cpp" line="416"/>
         <source>Found version</source>
         <translation>Bulunan sürüm</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="90"/>
+        <location filename="../src/networkAccess.cpp" line="253"/>
+        <source>Failed To Extract</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="277"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="185"/>
+        <location filename="../src/networkAccess.cpp" line="372"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>İndirilemedi, Aşağıdaki yol oluşturulamıyor: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="191"/>
+        <location filename="../src/networkAccess.cpp" line="77"/>
+        <location filename="../src/networkAccess.cpp" line="378"/>
         <source>Start Downloading</source>
         <translation>İndirmeye Başlayın</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="999"/>
-        <location filename="../src/networkAccess.cpp" line="211"/>
-        <location filename="../src/networkAccess.cpp" line="213"/>
-        <location filename="../src/networkAccess.cpp" line="260"/>
+        <location filename="../src/engines.cpp" line="1002"/>
+        <location filename="../src/networkAccess.cpp" line="138"/>
+        <location filename="../src/networkAccess.cpp" line="140"/>
+        <location filename="../src/networkAccess.cpp" line="182"/>
+        <location filename="../src/networkAccess.cpp" line="184"/>
+        <location filename="../src/networkAccess.cpp" line="398"/>
+        <location filename="../src/networkAccess.cpp" line="400"/>
+        <location filename="../src/networkAccess.cpp" line="489"/>
         <source>Download Failed</source>
         <translation>Yükleme başarısız</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="103"/>
+        <location filename="../src/networkAccess.cpp" line="129"/>
+        <location filename="../src/networkAccess.cpp" line="290"/>
         <source>Failed to parse json file from github</source>
         <translation>Json dosyası github&apos;dan ayrıştırılamadı</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="244"/>
-        <location filename="../src/networkAccess.cpp" line="277"/>
-        <location filename="../src/networkAccess.cpp" line="389"/>
+        <location filename="../src/networkAccess.cpp" line="162"/>
+        <location filename="../src/networkAccess.cpp" line="206"/>
+        <location filename="../src/networkAccess.cpp" line="473"/>
+        <location filename="../src/networkAccess.cpp" line="506"/>
+        <location filename="../src/networkAccess.cpp" line="616"/>
         <source>Downloading</source>
         <translation>İndiriliyor</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="246"/>
+        <location filename="../src/networkAccess.cpp" line="164"/>
+        <location filename="../src/networkAccess.cpp" line="475"/>
         <source>Destination</source>
         <translation>Tanım</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="301"/>
+        <location filename="../src/networkAccess.cpp" line="459"/>
+        <source>Update Complete, Restart To Use New Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="530"/>
         <source>Download complete</source>
         <translation>İndirme tamamlandı</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="330"/>
+        <location filename="../src/networkAccess.cpp" line="213"/>
+        <location filename="../src/networkAccess.cpp" line="558"/>
         <source>Extracting archive: </source>
         <translation>Açılan arşiv: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="307"/>
+        <location filename="../src/networkAccess.cpp" line="536"/>
         <source>Renaming file to: </source>
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1478"/>
+        <location filename="../src/engines.cpp" line="1481"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="993"/>
+        <location filename="../src/engines.cpp" line="996"/>
         <source>Download completed</source>
         <translation>İndirme tamamlandı</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="524"/>
+        <location filename="../src/settings.cpp" line="533"/>
         <source>Resetting download folder to default</source>
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1523"/>
+        <location filename="../src/engines.cpp" line="1526"/>
         <source>Post Processing</source>
         <translation>Rötuş</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="563"/>
-        <location filename="../src/utility.h" line="571"/>
-        <location filename="../src/utility.h" line="576"/>
+        <location filename="../src/utility.h" line="573"/>
+        <location filename="../src/utility.h" line="581"/>
+        <location filename="../src/utility.h" line="586"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="568"/>
+        <location filename="../src/utility.h" line="578"/>
         <source>Force Download</source>
         <translation>Zorla İndir</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="586"/>
+        <location filename="../src/utility.h" line="596"/>
         <source>Show Log Window</source>
         <translation>Günlük Penceresini Göster</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="155"/>
+        <location filename="../src/utility.h" line="156"/>
         <source>Upload Date:</source>
         <translation>Yükleme Tarihi:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="159"/>
+        <location filename="../src/utility.h" line="160"/>
         <source>Duration:</source>
         <translation>Süre:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="167"/>
+        <location filename="../src/utility.h" line="168"/>
         <source>Subtitle Name</source>
         <translation>Altyazı Adı</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="171"/>
+        <location filename="../src/utility.h" line="172"/>
         <source>Download Options</source>
         <translation>İndirme Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="175"/>
+        <location filename="../src/utility.h" line="176"/>
         <source>Extra Downloading Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="179"/>
+        <location filename="../src/utility.h" line="180"/>
         <source>Download Time Interval</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="183"/>
+        <location filename="../src/utility.h" line="184"/>
         <source>Download Chapters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="187"/>
+        <location filename="../src/utility.h" line="188"/>
         <source>Split By Chapters</source>
         <translation type="unfinished"></translation>
     </message>
@@ -884,7 +906,7 @@
         <translation>Tamamlanan: %1%, Başlatılmayan: %2, Başarılı: %3, Başarısız: %4, İptal Edilen: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1197"/>
+        <location filename="../src/playlistdownloader.cpp" line="1196"/>
         <source>Media Already In Archive</source>
         <translation>Medya Zaten Arşivde</translation>
     </message>
@@ -904,20 +926,20 @@
         <translation>Metod</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="132"/>
+        <location filename="../src/engines/lux.cpp" line="131"/>
         <location filename="../src/engines/wget.cpp" line="306"/>
         <source>Time Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="304"/>
-        <location filename="../src/engines/lux.cpp" line="225"/>
+        <location filename="../src/engines/lux.cpp" line="224"/>
         <location filename="../src/engines/wget.cpp" line="325"/>
         <source>Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="348"/>
+        <location filename="../src/engines/lux.cpp" line="347"/>
         <source>This May Take A Very Long Time</source>
         <translation>Bu Çok Uzun Zaman Alabilir</translation>
     </message>
@@ -928,47 +950,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="44"/>
+        <location filename="../src/versionInfo.cpp" line="65"/>
         <source>Engine Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="45"/>
+        <location filename="../src/versionInfo.cpp" line="66"/>
         <source>Installed Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="46"/>
+        <location filename="../src/versionInfo.cpp" line="67"/>
         <source>Latest Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="56"/>
+        <location filename="../src/versionInfo.cpp" line="77"/>
         <source>There Is An Update For </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="58"/>
+        <location filename="../src/versionInfo.cpp" line="79"/>
         <source>Update Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="337"/>
+        <location filename="../src/versionInfo.cpp" line="292"/>
+        <location filename="../src/versionInfo.cpp" line="435"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/yt-dlp.cpp" line="789"/>
+        <location filename="../src/engines/yt-dlp.cpp" line="876"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="969"/>
+        <location filename="../src/engines.cpp" line="972"/>
         <source>Requested Format Is Not Available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="979"/>
+        <location filename="../src/engines.cpp" line="982"/>
         <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
@@ -976,7 +999,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1443"/>
+        <location filename="../src/batchdownloader.cpp" line="1444"/>
         <source>Set Batch File</source>
         <translation>Toplu Dosya Ayarla</translation>
     </message>
@@ -991,12 +1014,12 @@
         <translation>İndirilen yorumlar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1140"/>
+        <location filename="../src/batchdownloader.cpp" line="1141"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1207"/>
+        <location filename="../src/batchdownloader.cpp" line="1208"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
@@ -1043,14 +1066,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1199"/>
-        <location filename="../src/batchdownloader.cpp" line="1213"/>
+        <location filename="../src/batchdownloader.cpp" line="1200"/>
+        <location filename="../src/batchdownloader.cpp" line="1214"/>
         <source>Set</source>
         <translation>Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1657"/>
-        <location filename="../src/batchdownloader.cpp" line="2093"/>
+        <location filename="../src/batchdownloader.cpp" line="1660"/>
+        <location filename="../src/batchdownloader.cpp" line="2110"/>
         <source>Downloading subtitles</source>
         <translation>İndirilen altyazılar</translation>
     </message>
@@ -1081,33 +1104,33 @@
         <translation>Bir Çerez Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="339"/>
+        <location filename="../src/configure.cpp" line="332"/>
         <source>Select An Engine File</source>
         <translation>Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="413"/>
-        <location filename="../src/configure.cpp" line="582"/>
+        <location filename="../src/configure.cpp" line="406"/>
+        <location filename="../src/configure.cpp" line="589"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="483"/>
+        <location filename="../src/configure.cpp" line="482"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="812"/>
+        <location filename="../src/configure.cpp" line="819"/>
         <source>Default</source>
         <translation>Varsayılan</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="816"/>
+        <location filename="../src/configure.cpp" line="823"/>
         <source>Best-audio</source>
         <translation>En iyi ses</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="820"/>
+        <location filename="../src/configure.cpp" line="827"/>
         <source>Best-audiovideo</source>
         <translation>En iyi sesli video</translation>
     </message>
@@ -1115,12 +1138,12 @@
 <context>
     <name>library</name>
     <message>
-        <location filename="../src/library.cpp" line="78"/>
+        <location filename="../src/library.cpp" line="80"/>
         <source>Delete</source>
         <translation>Sil</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="106"/>
+        <location filename="../src/library.cpp" line="108"/>
         <source>Delete All</source>
         <translation>Tümünü Sil</translation>
     </message>
@@ -1163,13 +1186,13 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1348"/>
+        <location filename="../src/playlistdownloader.cpp" line="1347"/>
         <source>Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1432"/>
+        <location filename="../src/playlistdownloader.cpp" line="1431"/>
         <source>Get List Options:</source>
         <translation>Liste Seçeneklerini Getir:</translation>
     </message>
@@ -1199,27 +1222,27 @@
         <translation>Abonelikleri Yönet</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1084"/>
+        <location filename="../src/playlistdownloader.cpp" line="1083"/>
         <source>Number of Pages Downloaded</source>
         <translation>İndirilen Sayfa Sayısı</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1101"/>
+        <location filename="../src/playlistdownloader.cpp" line="1100"/>
         <source>Downloading video info</source>
         <translation>Video bilgisi indiriliyor</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1343"/>
+        <location filename="../src/playlistdownloader.cpp" line="1342"/>
         <source>Show Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1344"/>
+        <location filename="../src/playlistdownloader.cpp" line="1343"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1349"/>
+        <location filename="../src/playlistdownloader.cpp" line="1348"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>

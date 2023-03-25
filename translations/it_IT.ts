@@ -728,6 +728,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Network Error Occured</source>
         <translation>Si è verificato un errore di rete</translation>
     </message>
+    <message>
+        <source>Failed To Extract</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update Complete, Restart To Use New Version</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

@@ -46,9 +46,9 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="499"/>
         <location filename="../src/mainwindow.ui" line="785"/>
-        <location filename="../src/mainwindow.ui" line="1846"/>
-        <location filename="../src/mainwindow.ui" line="1896"/>
-        <location filename="../src/mainwindow.ui" line="2139"/>
+        <location filename="../src/mainwindow.ui" line="1833"/>
+        <location filename="../src/mainwindow.ui" line="1883"/>
+        <location filename="../src/mainwindow.ui" line="2126"/>
         <source>Options</source>
         <translation>オプション</translation>
     </message>
@@ -57,7 +57,7 @@
         <location filename="../src/mainwindow.ui" line="538"/>
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
-        <location filename="../src/mainwindow.ui" line="2222"/>
+        <location filename="../src/mainwindow.ui" line="2209"/>
         <location filename="../src/mainwindow.cpp" line="72"/>
         <source>Quit</source>
         <translation>終了</translation>
@@ -249,18 +249,18 @@
         <translation>ダウンロードしていないメディアのリストを自動保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1759"/>
+        <location filename="../src/mainwindow.ui" line="1746"/>
         <source>Check For Updates</source>
         <translation>更新をチェック</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1806"/>
+        <location filename="../src/mainwindow.ui" line="1793"/>
         <source>Reset Option To Its Default</source>
         <translation>オプションをデフォルトに戻す</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1809"/>
-        <location filename="../src/mainwindow.ui" line="1962"/>
+        <location filename="../src/mainwindow.ui" line="1796"/>
+        <location filename="../src/mainwindow.ui" line="1949"/>
         <source>Set Defaults</source>
         <translation>デフォルトに戻す</translation>
     </message>
@@ -270,7 +270,7 @@
         <translation>表示倍率 (再起動が必要)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1794"/>
+        <location filename="../src/mainwindow.ui" line="1781"/>
         <source>Preset Options</source>
         <translation>プリセット設定</translation>
     </message>
@@ -300,13 +300,13 @@
         <translation>プラグインを削除</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2235"/>
+        <location filename="../src/mainwindow.ui" line="2222"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1921"/>
-        <location filename="../src/mainwindow.ui" line="2020"/>
+        <location filename="../src/mainwindow.ui" line="1908"/>
+        <location filename="../src/mainwindow.ui" line="2007"/>
         <source>Engine&apos;s Default Options</source>
         <translation>エンジンのデフォルト設定</translation>
     </message>
@@ -351,22 +351,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1129"/>
         <location filename="../src/mainwindow.ui" line="1187"/>
-        <location filename="../src/mainwindow.ui" line="1841"/>
-        <location filename="../src/mainwindow.ui" line="1880"/>
+        <location filename="../src/mainwindow.ui" line="1828"/>
+        <location filename="../src/mainwindow.ui" line="1867"/>
         <source>Ui Name</source>
         <translation>表示名</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1209"/>
-        <location filename="../src/mainwindow.ui" line="1915"/>
-        <location filename="../src/mainwindow.ui" line="2034"/>
-        <location filename="../src/mainwindow.ui" line="2178"/>
+        <location filename="../src/mainwindow.ui" line="1902"/>
+        <location filename="../src/mainwindow.ui" line="2021"/>
+        <location filename="../src/mainwindow.ui" line="2165"/>
         <source>Add</source>
         <translation>追加</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1222"/>
-        <location filename="../src/mainwindow.ui" line="2082"/>
+        <location filename="../src/mainwindow.ui" line="2069"/>
         <source>Url</source>
         <translation>URL</translation>
     </message>
@@ -381,53 +381,53 @@
         <translation>プラグインを更新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1782"/>
+        <location filename="../src/mainwindow.ui" line="1769"/>
         <source>Text Encoding</source>
         <translation>テキストエンコーディング</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1943"/>
-        <location filename="../src/mainwindow.ui" line="2201"/>
+        <location filename="../src/mainwindow.ui" line="1930"/>
+        <location filename="../src/mainwindow.ui" line="2188"/>
         <source>Engine&apos;s Name</source>
         <translation>エンジン名</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1975"/>
+        <location filename="../src/mainwindow.ui" line="1962"/>
         <source>Path To Cookie FIle</source>
         <translation>Cookieファイルの場所</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2015"/>
+        <location filename="../src/mainwindow.ui" line="2002"/>
         <source>Default</source>
         <translation>デフォルト</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2057"/>
+        <location filename="../src/mainwindow.ui" line="2044"/>
         <source>Options To Add</source>
         <translation>追加するオプション</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2069"/>
+        <location filename="../src/mainwindow.ui" line="2056"/>
         <source>Url Manager</source>
         <translation>URLマネージャー</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2087"/>
+        <location filename="../src/mainwindow.ui" line="2074"/>
         <source>Download Options</source>
         <translation>ダウンロードオプション</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2101"/>
+        <location filename="../src/mainwindow.ui" line="2088"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>どのURLをどのエンジンで処理するかを設定</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2120"/>
+        <location filename="../src/mainwindow.ui" line="2107"/>
         <source>Url Filter</source>
         <translation>URLフィルター</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2241"/>
+        <location filename="../src/mainwindow.ui" line="2228"/>
         <source>About</source>
         <translation>バージョン情報</translation>
     </message>
@@ -461,37 +461,37 @@
         <translation>ファイルにリストを保存</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="880"/>
+        <location filename="../src/batchdownloader.cpp" line="881"/>
         <source>Author</source>
         <translation>作者</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="890"/>
+        <location filename="../src/batchdownloader.cpp" line="891"/>
         <source>Date</source>
         <translation>日時</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="908"/>
+        <location filename="../src/batchdownloader.cpp" line="909"/>
         <source>Replies to</source>
         <translation>返信</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="915"/>
+        <location filename="../src/batchdownloader.cpp" line="916"/>
         <source>Text</source>
         <translation>テキスト</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1153"/>
+        <location filename="../src/batchdownloader.cpp" line="1154"/>
         <source>Save Subtitle To File</source>
         <translation>字幕をファイルに保存</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="163"/>
+        <location filename="../src/utility.h" line="164"/>
         <source>Engine Name:</source>
         <translation>エンジン名:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1438"/>
+        <location filename="../src/batchdownloader.cpp" line="1439"/>
         <source>Get List From File</source>
         <translation>ファイルからリストを読み込む</translation>
     </message>
@@ -504,8 +504,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="509"/>
-        <location filename="../src/utility.h" line="530"/>
-        <location filename="../src/utility.h" line="597"/>
+        <location filename="../src/utility.h" line="540"/>
+        <location filename="../src/utility.h" line="607"/>
         <source>Clear</source>
         <translation>クリア</translation>
     </message>
@@ -672,209 +672,231 @@
         <translation>バックエンド &quot;%1&quot; のためのpython3実行ファイルが見つかりません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="974"/>
+        <location filename="../src/engines.cpp" line="977"/>
         <source>Network Error Occured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="989"/>
+        <location filename="../src/engines.cpp" line="992"/>
         <source>Download cancelled</source>
         <translation>ダウンロードがキャンセルされました</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1000"/>
+        <location filename="../src/engines.cpp" line="1003"/>
         <source>ErrorCode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1004"/>
+        <location filename="../src/engines.cpp" line="1007"/>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1154"/>
+        <location filename="../src/engines.cpp" line="1157"/>
         <source>Format Code</source>
         <translation>フォーマットコード</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1155"/>
+        <location filename="../src/engines.cpp" line="1158"/>
         <source>Extension</source>
         <translation>拡張子</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1156"/>
+        <location filename="../src/engines.cpp" line="1159"/>
         <source>Resolution</source>
         <translation>解像度</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1157"/>
+        <location filename="../src/engines.cpp" line="1160"/>
         <source>Note</source>
         <translation>詳細</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1409"/>
+        <location filename="../src/engines.cpp" line="1412"/>
         <source>Failed to open file for writing</source>
         <translation>ファイルに書き込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1415"/>
+        <location filename="../src/engines.cpp" line="1418"/>
         <source>Failed to open file for reading</source>
         <translation>ファイルが読み込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1560"/>
+        <location filename="../src/engines.cpp" line="1563"/>
         <source>Elapsed Time:</source>
         <translation>経過時間:</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="61"/>
-        <location filename="../src/versionInfo.cpp" line="275"/>
+        <location filename="../src/networkAccess.cpp" line="62"/>
+        <location filename="../src/versionInfo.cpp" line="258"/>
+        <location filename="../src/versionInfo.cpp" line="373"/>
         <source>Checking installed version of</source>
         <translation>インストールされているバージョンをチェックしています</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="66"/>
-        <location filename="../src/versionInfo.cpp" line="185"/>
-        <location filename="../src/versionInfo.cpp" line="354"/>
+        <location filename="../src/networkAccess.cpp" line="67"/>
+        <location filename="../src/versionInfo.cpp" line="206"/>
+        <location filename="../src/versionInfo.cpp" line="452"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>バージョン情報が見つかりません, &quot;%1&quot;がインストールされていて正常に動作することを確認してください</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="69"/>
-        <location filename="../src/versionInfo.cpp" line="287"/>
-        <location filename="../src/versionInfo.cpp" line="318"/>
+        <location filename="../src/networkAccess.cpp" line="70"/>
+        <location filename="../src/versionInfo.cpp" line="260"/>
+        <location filename="../src/versionInfo.cpp" line="385"/>
+        <location filename="../src/versionInfo.cpp" line="416"/>
         <source>Found version</source>
         <translation>見つかったバージョン</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="90"/>
+        <location filename="../src/networkAccess.cpp" line="253"/>
+        <source>Failed To Extract</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="277"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>ネットワークが %1 秒以内に応答しませんでした</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="185"/>
+        <location filename="../src/networkAccess.cpp" line="372"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>ダウンロードに失敗, 次のパスが作成できません: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="191"/>
+        <location filename="../src/networkAccess.cpp" line="77"/>
+        <location filename="../src/networkAccess.cpp" line="378"/>
         <source>Start Downloading</source>
         <translation>ダウンロード開始</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="999"/>
-        <location filename="../src/networkAccess.cpp" line="211"/>
-        <location filename="../src/networkAccess.cpp" line="213"/>
-        <location filename="../src/networkAccess.cpp" line="260"/>
+        <location filename="../src/engines.cpp" line="1002"/>
+        <location filename="../src/networkAccess.cpp" line="138"/>
+        <location filename="../src/networkAccess.cpp" line="140"/>
+        <location filename="../src/networkAccess.cpp" line="182"/>
+        <location filename="../src/networkAccess.cpp" line="184"/>
+        <location filename="../src/networkAccess.cpp" line="398"/>
+        <location filename="../src/networkAccess.cpp" line="400"/>
+        <location filename="../src/networkAccess.cpp" line="489"/>
         <source>Download Failed</source>
         <translation>ダウンロード失敗</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="103"/>
+        <location filename="../src/networkAccess.cpp" line="129"/>
+        <location filename="../src/networkAccess.cpp" line="290"/>
         <source>Failed to parse json file from github</source>
         <translation>GitHubのJSONファイルの解析に失敗しました</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="244"/>
-        <location filename="../src/networkAccess.cpp" line="277"/>
-        <location filename="../src/networkAccess.cpp" line="389"/>
+        <location filename="../src/networkAccess.cpp" line="162"/>
+        <location filename="../src/networkAccess.cpp" line="206"/>
+        <location filename="../src/networkAccess.cpp" line="473"/>
+        <location filename="../src/networkAccess.cpp" line="506"/>
+        <location filename="../src/networkAccess.cpp" line="616"/>
         <source>Downloading</source>
         <translation>ダウンロード中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="246"/>
+        <location filename="../src/networkAccess.cpp" line="164"/>
+        <location filename="../src/networkAccess.cpp" line="475"/>
         <source>Destination</source>
         <translation>場所</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="301"/>
+        <location filename="../src/networkAccess.cpp" line="459"/>
+        <source>Update Complete, Restart To Use New Version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="530"/>
         <source>Download complete</source>
         <translation>ダウンロード完了</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="330"/>
+        <location filename="../src/networkAccess.cpp" line="213"/>
+        <location filename="../src/networkAccess.cpp" line="558"/>
         <source>Extracting archive: </source>
         <translation>アーカイブを展開: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="307"/>
+        <location filename="../src/networkAccess.cpp" line="536"/>
         <source>Renaming file to: </source>
         <translation>ファイル名を変更: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1478"/>
+        <location filename="../src/engines.cpp" line="1481"/>
         <source>Processing</source>
         <translation>処理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="993"/>
+        <location filename="../src/engines.cpp" line="996"/>
         <source>Download completed</source>
         <translation>ダウンロード完了</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="524"/>
+        <location filename="../src/settings.cpp" line="533"/>
         <source>Resetting download folder to default</source>
         <translation>ダウンロードフォルダをデフォルトにリセット</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1523"/>
+        <location filename="../src/engines.cpp" line="1526"/>
         <source>Post Processing</source>
         <translation>後処理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="563"/>
-        <location filename="../src/utility.h" line="571"/>
-        <location filename="../src/utility.h" line="576"/>
+        <location filename="../src/utility.h" line="573"/>
+        <location filename="../src/utility.h" line="581"/>
+        <location filename="../src/utility.h" line="586"/>
         <source>Download</source>
         <translation>ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="568"/>
+        <location filename="../src/utility.h" line="578"/>
         <source>Force Download</source>
         <translation>強制ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="586"/>
+        <location filename="../src/utility.h" line="596"/>
         <source>Show Log Window</source>
         <translation>ログウィンドウを表示</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="155"/>
+        <location filename="../src/utility.h" line="156"/>
         <source>Upload Date:</source>
         <translation>アップロード日時:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="159"/>
+        <location filename="../src/utility.h" line="160"/>
         <source>Duration:</source>
         <translation>再生時間:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="167"/>
+        <location filename="../src/utility.h" line="168"/>
         <source>Subtitle Name</source>
         <translation>字幕名</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="171"/>
+        <location filename="../src/utility.h" line="172"/>
         <source>Download Options</source>
         <translation>ダウンロードオプション</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="175"/>
+        <location filename="../src/utility.h" line="176"/>
         <source>Extra Downloading Options</source>
         <translation>追加ダウンロードオプション</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="179"/>
+        <location filename="../src/utility.h" line="180"/>
         <source>Download Time Interval</source>
         <translation>ダウンロード間隔</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="183"/>
+        <location filename="../src/utility.h" line="184"/>
         <source>Download Chapters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="187"/>
+        <location filename="../src/utility.h" line="188"/>
         <source>Split By Chapters</source>
         <translation type="unfinished"></translation>
     </message>
@@ -884,7 +906,7 @@
         <translation>完了: %1%, 開始前: %2, 成功: %3, 失敗: %4, キャンセル: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1197"/>
+        <location filename="../src/playlistdownloader.cpp" line="1196"/>
         <source>Media Already In Archive</source>
         <translation>メディアは既にアーカイブにあります</translation>
     </message>
@@ -904,20 +926,20 @@
         <translation>メソッド</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="132"/>
+        <location filename="../src/engines/lux.cpp" line="131"/>
         <location filename="../src/engines/wget.cpp" line="306"/>
         <source>Time Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="304"/>
-        <location filename="../src/engines/lux.cpp" line="225"/>
+        <location filename="../src/engines/lux.cpp" line="224"/>
         <location filename="../src/engines/wget.cpp" line="325"/>
         <source>Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="348"/>
+        <location filename="../src/engines/lux.cpp" line="347"/>
         <source>This May Take A Very Long Time</source>
         <translation type="unfinished">これは非常に長い時間が掛かる場合があります</translation>
     </message>
@@ -928,47 +950,48 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="44"/>
+        <location filename="../src/versionInfo.cpp" line="65"/>
         <source>Engine Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="45"/>
+        <location filename="../src/versionInfo.cpp" line="66"/>
         <source>Installed Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="46"/>
+        <location filename="../src/versionInfo.cpp" line="67"/>
         <source>Latest Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="56"/>
+        <location filename="../src/versionInfo.cpp" line="77"/>
         <source>There Is An Update For </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="58"/>
+        <location filename="../src/versionInfo.cpp" line="79"/>
         <source>Update Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="337"/>
+        <location filename="../src/versionInfo.cpp" line="292"/>
+        <location filename="../src/versionInfo.cpp" line="435"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/yt-dlp.cpp" line="789"/>
+        <location filename="../src/engines/yt-dlp.cpp" line="876"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="969"/>
+        <location filename="../src/engines.cpp" line="972"/>
         <source>Requested Format Is Not Available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="979"/>
+        <location filename="../src/engines.cpp" line="982"/>
         <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
@@ -976,7 +999,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1443"/>
+        <location filename="../src/batchdownloader.cpp" line="1444"/>
         <source>Set Batch File</source>
         <translation>バッチファイルをセット</translation>
     </message>
@@ -991,12 +1014,12 @@
         <translation>コメントをダウンロード中</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1140"/>
+        <location filename="../src/batchdownloader.cpp" line="1141"/>
         <source>Download</source>
         <translation>ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1207"/>
+        <location filename="../src/batchdownloader.cpp" line="1208"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -1043,14 +1066,14 @@
         <translation>メディアパートをダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1199"/>
-        <location filename="../src/batchdownloader.cpp" line="1213"/>
+        <location filename="../src/batchdownloader.cpp" line="1200"/>
+        <location filename="../src/batchdownloader.cpp" line="1214"/>
         <source>Set</source>
         <translation>セット</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1657"/>
-        <location filename="../src/batchdownloader.cpp" line="2093"/>
+        <location filename="../src/batchdownloader.cpp" line="1660"/>
+        <location filename="../src/batchdownloader.cpp" line="2110"/>
         <source>Downloading subtitles</source>
         <translation>字幕をダウンロード中</translation>
     </message>
@@ -1081,33 +1104,33 @@
         <translation>Cookieファイルを選択</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="339"/>
+        <location filename="../src/configure.cpp" line="332"/>
         <source>Select An Engine File</source>
         <translation>エンジンファイルを選択</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="413"/>
-        <location filename="../src/configure.cpp" line="582"/>
+        <location filename="../src/configure.cpp" line="406"/>
+        <location filename="../src/configure.cpp" line="589"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="483"/>
+        <location filename="../src/configure.cpp" line="482"/>
         <source>Set Download Folder</source>
         <translation>ダウンロードフォルダをセット</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="812"/>
+        <location filename="../src/configure.cpp" line="819"/>
         <source>Default</source>
         <translation>デフォルト</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="816"/>
+        <location filename="../src/configure.cpp" line="823"/>
         <source>Best-audio</source>
         <translation>最高音質</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="820"/>
+        <location filename="../src/configure.cpp" line="827"/>
         <source>Best-audiovideo</source>
         <translation>最高画質・音質</translation>
     </message>
@@ -1115,12 +1138,12 @@
 <context>
     <name>library</name>
     <message>
-        <location filename="../src/library.cpp" line="78"/>
+        <location filename="../src/library.cpp" line="80"/>
         <source>Delete</source>
         <translation>削除</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="106"/>
+        <location filename="../src/library.cpp" line="108"/>
         <source>Delete All</source>
         <translation>すべて削除</translation>
     </message>
@@ -1163,13 +1186,13 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1348"/>
+        <location filename="../src/playlistdownloader.cpp" line="1347"/>
         <source>Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1432"/>
+        <location filename="../src/playlistdownloader.cpp" line="1431"/>
         <source>Get List Options:</source>
         <translation>リスト取得オプション:</translation>
     </message>
@@ -1199,27 +1222,27 @@
         <translation>ブックマークを管理</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1084"/>
+        <location filename="../src/playlistdownloader.cpp" line="1083"/>
         <source>Number of Pages Downloaded</source>
         <translation>ダウンロードしたページ数</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1101"/>
+        <location filename="../src/playlistdownloader.cpp" line="1100"/>
         <source>Downloading video info</source>
         <translation>ビデオ情報をダウンロード中</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1343"/>
+        <location filename="../src/playlistdownloader.cpp" line="1342"/>
         <source>Show Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1344"/>
+        <location filename="../src/playlistdownloader.cpp" line="1343"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1349"/>
+        <location filename="../src/playlistdownloader.cpp" line="1348"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
