@@ -130,10 +130,18 @@ Q_DECLARE_METATYPE( directoryEntries::iter )
 class directoryManager
 {
 public:
-	directoryManager( const QString& path,QDir::Filters,std::atomic_bool& c ) :
+	directoryManager( const QString& path,
+			  std::atomic_bool& c,
+			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
 		m_pathManager( path + "/" ),
 		m_handle( opendir( path.toUtf8() ) ),
-		m_continue( c )
+		m_continue( &c )
+	{
+	}
+	directoryManager( const QString& path,
+			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
+		m_pathManager( path + "/" ),
+		m_handle( opendir( path.toUtf8() ) )
 	{
 	}
 	bool valid()
@@ -150,7 +158,16 @@ public:
 	}
 	bool Continue()
 	{
-		return m_continue ;
+		return *m_continue ;
+	}
+	directoryEntries readAll()
+	{
+		if( this->valid() ){
+
+			while( !this->read() ){}
+		}
+
+		return this->entries() ;
 	}
 	directoryEntries entries()
 	{
@@ -217,7 +234,7 @@ private:
 
 	pathManager m_pathManager ;
 	DIR * m_handle ;
-	std::atomic_bool& m_continue ;
+	std::atomic_bool * m_continue ;
 	directoryEntries m_entries ;
 } ;
 
@@ -230,9 +247,16 @@ private:
 class directoryManager
 {
 public:
-	directoryManager( const QString& path,QDir::Filters,std::atomic_bool& m ) :
+	directoryManager( const QString& path,
+			  std::atomic_bool& m,
+			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
 		m_path( QDir::fromNativeSeparators( path ) + "\\*" ),
-		m_continue( m )
+		m_continue( &m )
+	{
+	}
+	directoryManager( const QString& path,
+			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
+		m_path( QDir::fromNativeSeparators( path ) + "\\*" )
 	{
 	}
 	bool valid()
@@ -245,7 +269,16 @@ public:
 	}
 	bool Continue()
 	{
-		return m_continue ;
+		return *m_continue ;
+	}
+	directoryEntries readAll()
+	{
+		if( this->readFirst() ){
+
+			while( !this->read() ){}
+		}
+
+		return this->entries() ;
 	}
 	bool readFirst()
 	{
@@ -299,7 +332,7 @@ private:
 	}
 	QString m_path ;
 	directoryEntries m_entries ;
-	std::atomic_bool& m_continue ;
+	std::atomic_bool * m_continue ;
 
 	WIN32_FIND_DATA m_data ;
 	LARGE_INTEGER m_filesize ;
@@ -315,7 +348,15 @@ private:
 class directoryManager
 {
 public:
-	directoryManager( const QString& path,QDir::Filters f,std::atomic_bool& ) :
+	directoryManager( const QString& path,
+			  std::atomic_bool&,
+			  QDir::Filters f = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
+		m_path( path ),
+		m_list( QDir( m_path ).entryList( f ) )
+	{
+	}
+	directoryManager( const QString& path,
+			  QDir::Filters f = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
 		m_path( path ),
 		m_list( QDir( m_path ).entryList( f ) )
 	{
@@ -340,6 +381,21 @@ public:
 	{
 		m_entries.sort() ;
 		return std::move( m_entries ) ;
+	}
+	void readAll()
+	{
+		if( this->valid() ){
+
+			if( this->readFirst() ){
+
+			}
+		}
+	}
+	directoryEntries readAll()
+	{
+		while( !this->read() ){}
+
+		return this->entries() ;
 	}
 	bool read()
 	{

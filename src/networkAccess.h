@@ -41,6 +41,7 @@ public:
 		virtual void done()
 		{
 		}
+		virtual ~status() ;
 	} ;
 
 	class Status

@@ -426,29 +426,7 @@ void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) co
 
 	utils::qthread::run( [folderPath ](){
 
-		const QDir::Filters dirFilter = QDir::Filter::Files |
-						QDir::Filter::Dirs |
-						QDir::Filter::NoDotAndDotDot ;
-
-		std::atomic_bool mm( true )  ;
-
-		directoryManager dm( folderPath,dirFilter,mm ) ;
-
-		if( dm.valid() ){
-
-			if( dm.readFirst() ){
-
-				while( true ){
-
-					if( dm.read() ){
-
-						break ;
-					}
-				}
-			}
-		}
-
-		auto entries = dm.entries() ;
+		auto entries = directoryManager( folderPath ).readAll() ;
 
 		auto fileIter = entries.fileIter() ;
 
@@ -478,7 +456,7 @@ void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) co
 
 		md.status.done() ;
 
-		auto m = QObject::tr( "Please Restart To Use New Version" ) ;
+		auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
 
 		this->post( m_appName,m,md.id ) ;
 	} ) ;
@@ -672,5 +650,9 @@ void networkAccess::post( const QString& engineName,const QString& m,int id ) co
 }
 
 networkAccess::iter::~iter()
+{
+}
+
+networkAccess::status::~status()
 {
 }

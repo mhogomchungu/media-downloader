@@ -402,7 +402,7 @@ void library::showContents( const QString& path,bool disableUi )
 
 	utils::qthread::run( [ path,this ](){
 
-		directoryManager dm( path,m_dirFilter,m_continue ) ;
+		directoryManager dm( path,m_continue ) ;
 
 		if( dm.valid() ){
 
