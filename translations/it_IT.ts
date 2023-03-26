@@ -730,11 +730,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Failed To Extract</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore nell&apos;estrazione</translation>
     </message>
     <message>
         <source>Update Complete, Restart To Use New Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento completato, riavvia per usare la nuova versione</translation>
     </message>
 </context>
 <context>
