@@ -144,36 +144,31 @@ public:
 		m_handle( opendir( path.toUtf8() ) )
 	{
 	}
-	bool valid()
-	{
-		return m_handle != nullptr ;
-	}
 	static bool supportsCancel()
 	{
 		return true ;
 	}
-	bool readFirst()
-	{
-		return !this->read() ;
-	}
-	bool Continue()
-	{
-		return *m_continue ;
-	}
 	directoryEntries readAll()
 	{
-		if( this->valid() ){
+		if( m_handle ){
 
-			while( !this->read() ){}
+			if( m_continue ){
+
+				while( *m_continue && this->read() ){}
+			}else{
+				while( this->read() ){}
+			}
+
+			m_entries.sort() ;
 		}
 
-		return this->entries() ;
-	}
-	directoryEntries entries()
-	{
-		m_entries.sort() ;
 		return std::move( m_entries ) ;
 	}
+	~directoryManager()
+	{
+		closedir( m_handle ) ;
+	}
+private:
 	bool read()
 	{
 		auto e = readdir( m_handle ) ;
@@ -199,16 +194,11 @@ public:
 				}
 			}
 
-			return false ;
-		}else{
 			return true ;
+		}else{
+			return false ;
 		}
 	}
-	~directoryManager()
-	{
-		closedir( m_handle ) ;
-	}
-private:
 	class pathManager
 	{
 	public:
@@ -259,27 +249,31 @@ public:
 		m_path( QDir::fromNativeSeparators( path ) + "\\*" )
 	{
 	}
-	bool valid()
-	{
-		return true ;
-	}
 	static bool supportsCancel()
 	{
 		return true ;
-	}
-	bool Continue()
-	{
-		return *m_continue ;
 	}
 	directoryEntries readAll()
 	{
 		if( this->readFirst() ){
 
-			while( !this->read() ){}
+			if( m_continue ){
+
+				while( *m_continue && this->read() ){}
+			}else{
+				while( this->read() ){}
+			}
+
+			m_entries.sort() ;
 		}
 
-		return this->entries() ;
+		return std::move( m_entries ) ;
 	}
+	~directoryManager()
+	{
+		FindClose( m_handle ) ;
+	}
+private:
 	bool readFirst()
 	{
 		m_handle = FindFirstFileA( m_path.toUtf8(),&m_data ) ;
@@ -292,27 +286,17 @@ public:
 			return true ;
 		}
 	}
-	directoryEntries entries()
-	{
-		m_entries.sort() ;
-		return std::move( m_entries ) ;
-	}
 	bool read()
 	{
 		if( FindNextFileA( m_handle,&m_data ) != 0 ){
 
 			this->add() ;
 
-			return false ;
-		}else{
 			return true ;
+		}else{
+			return false ;
 		}
 	}
-	~directoryManager()
-	{
-		FindClose( m_handle ) ;
-	}
-private:
 	void add()
 	{
 		auto m = m_data.cFileName ;
@@ -361,33 +345,17 @@ public:
 		m_list( QDir( m_path ).entryList( f ) )
 	{
 	}
-	bool valid()
-	{
-		return true ;
-	}
 	static bool supportsCancel()
 	{
 		return false ;
 	}
-	bool Continue()
-	{
-		return true ;
-	}
-	bool readFirst()
-	{
-		return !this->read() ;
-	}
-	directoryEntries entries()
-	{
-		m_entries.sort() ;
-		return std::move( m_entries ) ;
-	}
 	directoryEntries readAll()
 	{
-		while( !this->read() ){}
+		while( this->read() ){}
 
-		return this->entries() ;
+		return std::move( m_entries ) ;
 	}
+private:
 	bool read()
 	{
 		if( m_counter < m_list.size() ){
@@ -410,12 +378,11 @@ public:
 				}
 			}
 
-			return false ;
-		}else{
 			return true ;
+		}else{
+			return false ;
 		}
 	}
-private:
 	qint64 createdTime( QFileInfo& e )
 	{
 	#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )

@@ -1236,9 +1236,7 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 		exe.setArguments( args ) ;
 		exe.setProcessEnvironment( env ) ;
 
-		exe.startDetached() ;
-
-		return true ;
+		return exe.startDetached() ;
 	}else{
 		return false ;
 	}
