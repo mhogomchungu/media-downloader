@@ -448,7 +448,7 @@ void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) co
 
 			if( m != "translations" ){
 
-				QDir( folderPath + "/" + m ).removeRecursively() ;
+				directoryManager( folderPath + "/" + m ).removeDirectory() ;
 			}
 		}
 

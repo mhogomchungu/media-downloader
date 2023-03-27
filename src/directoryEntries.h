@@ -29,6 +29,8 @@
 #include <atomic>
 #include <vector>
 
+#include "utils/miscellaneous.hpp"
+
 class directoryEntries
 {
 private:
@@ -119,13 +121,14 @@ Q_DECLARE_METATYPE( directoryEntries::iter )
 #ifdef Q_OS_LINUX
 
 #include <array>
-
 #include <cstdio>
 
 #include <limits.h>
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
+#include <cstring>
 
 class directoryManager
 {
@@ -134,7 +137,7 @@ public:
 			  std::atomic_bool& c,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
 		m_pathManager( path + "/" ),
-		m_handle( opendir( path.toUtf8() ) ),
+		m_handle( opendir( path.toUtf8().data() ) ),
 		m_continue( &c )
 	{
 	}
@@ -164,11 +167,76 @@ public:
 
 		return std::move( m_entries ) ;
 	}
+	void removeDirectory()
+	{
+		this->_removeDirectory( m_pathManager.path() ) ;
+	}
 	~directoryManager()
 	{
 		closedir( m_handle ) ;
 	}
 private:
+	void _removeDirectory( const char * path )
+	{
+		pathManager pathM( path ) ;
+
+		auto handle = utils::misc::unique_rsc( opendir,closedir,path ) ;
+		auto dir = handle.get() ;
+
+		if( dir ){
+
+			if( m_continue ){
+
+				while( *m_continue ){
+
+					auto e = readdir( dir ) ;
+
+					if( !e ){
+
+						break ;
+					}else{
+						_removePath( pathM,e->d_name ) ;
+					}
+				}
+			}else{
+				while( true ){
+
+					auto e = readdir( dir ) ;
+
+					if( !e ){
+
+						break ;
+					}else{
+						_removePath( pathM,e->d_name ) ;
+					}
+				}
+			}
+
+			rmdir( path ) ;
+		}
+	}
+	template< typename PM >
+	void _removePath( PM& pathM,const char * name )
+	{
+		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
+
+			struct stat m ;
+
+			auto pp = pathM.setPath( name ) ;
+
+			if( stat( pp,&m ) == 0 ){
+
+				if( S_ISREG( m.st_mode ) ){
+
+					unlink( pp ) ;
+
+				}else if( S_ISDIR( m.st_mode ) ){
+
+					_removeDirectory( pp ) ;
+				}
+			}
+		}
+	}
 	bool read()
 	{
 		auto e = readdir( m_handle ) ;
@@ -213,6 +281,10 @@ private:
 
 			return m_buffer.data() ;
 		}
+		const char * path()
+		{
+			return m_buffer.data() ;
+		}
 	private:
 		void append( std::size_t s,const char * data )
 		{
@@ -234,6 +306,8 @@ private:
 
 #include <windows.h>
 
+#include <QDir>
+
 class directoryManager
 {
 public:
@@ -252,6 +326,10 @@ public:
 	static bool supportsCancel()
 	{
 		return true ;
+	}
+	void removeDirectory()
+	{
+		QDir( m_path ).removeRecursively() ;
 	}
 	directoryEntries readAll()
 	{
@@ -328,6 +406,7 @@ private:
 #include <QDateTime>
 #include <QString>
 #include <QFileInfo>
+#include <QDir>
 
 class directoryManager
 {
@@ -344,6 +423,10 @@ public:
 		m_path( path ),
 		m_list( QDir( m_path ).entryList( f ) )
 	{
+	}
+	void removeDirectory()
+	{
+		QDir( m_path ).removeRecursively() ;
 	}
 	static bool supportsCancel()
 	{

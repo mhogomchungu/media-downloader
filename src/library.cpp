@@ -123,7 +123,7 @@ library::library( const Context& ctx ) :
 
 					}else if( f.isDir() ){
 
-						QDir( m ).removeRecursively() ;
+						directoryManager( m ).removeDirectory() ;
 					}
 				}
 
