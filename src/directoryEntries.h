@@ -191,11 +191,10 @@ private:
 
 					auto e = readdir( dir ) ;
 
-					if( !e ){
-
-						break ;
-					}else{
+					if( e ){
 						_removePath( pathM,e->d_name ) ;
+					}else{
+						break ;
 					}
 				}
 			}else{
@@ -203,11 +202,11 @@ private:
 
 					auto e = readdir( dir ) ;
 
-					if( !e ){
+					if( e ){
 
-						break ;
-					}else{
 						_removePath( pathM,e->d_name ) ;
+					}else{
+						break ;
 					}
 				}
 			}
@@ -296,7 +295,7 @@ private:
 
 	pathManager m_pathManager ;
 	DIR * m_handle ;
-	std::atomic_bool * m_continue ;
+	std::atomic_bool * m_continue = nullptr ;
 	directoryEntries m_entries ;
 } ;
 
@@ -394,7 +393,7 @@ private:
 	}
 	QString m_path ;
 	directoryEntries m_entries ;
-	std::atomic_bool * m_continue ;
+	std::atomic_bool * m_continue = nullptr ;
 
 	WIN32_FIND_DATA m_data ;
 	LARGE_INTEGER m_filesize ;
