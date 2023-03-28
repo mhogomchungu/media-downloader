@@ -136,16 +136,14 @@ public:
 	directoryManager( const QString& path,
 			  std::atomic_bool& c,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_pathManager( path ),
-		m_handle( opendir( path.toUtf8().data() ) ),
+		m_path( path ),
 		m_continue( &c )
 	{
 		*m_continue = true ;
 	}
 	directoryManager( const QString& path,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_pathManager( path ),
-		m_handle( opendir( path.toUtf8() ) )
+		m_path( path )
 	{
 	}
 	static bool supportsCancel()
@@ -154,13 +152,17 @@ public:
 	}
 	directoryEntries readAll()
 	{
-		if( m_handle ){
+		auto handle = utils::misc::unique_rsc( opendir,closedir,m_path.toUtf8().constData() ) ;
+
+		if( handle ){
+
+			pathManager mm( m_path ) ;
 
 			if( m_continue ){
 
-				while( *m_continue && this->read() ){}
+				while( *m_continue && this->read( mm,handle.get() ) ){}
 			}else{
-				while( this->read() ){}
+				while( this->read( mm,handle.get() ) ){}
 			}
 
 			m_entries.sort() ;
@@ -170,17 +172,11 @@ public:
 	}
 	void removeDirectoryContents()
 	{
-		this->_removeDirectory( m_pathManager.path(),[](){} ) ;
+		this->removeDirectory( m_path,[](){} ) ;
 	}
 	void removeDirectory()
 	{
-		auto m = m_pathManager.path() ;
-
-		this->_removeDirectory( m,[ & ](){ rmdir( m ) ;	} ) ;
-	}
-	~directoryManager()
-	{
-		closedir( m_handle ) ;
+		this->removeDirectory( m_path,[ & ](){ rmdir( m_path.toUtf8().constData() ) ; } ) ;
 	}
 private:
 	class pathManager
@@ -217,24 +213,21 @@ private:
 	} ;
 
 	template< typename Function >
-	void _removeDirectory( const char * path,Function function )
+	void removeDirectory( pathManager pm,Function function )
 	{
-		pathManager pathM( path ) ;
+		auto handle = utils::misc::unique_rsc( opendir,closedir,pm.path() ) ;
 
-		auto handle = utils::misc::unique_rsc( opendir,closedir,path ) ;
-		auto dir = handle.get() ;
-
-		if( dir ){
+		if( handle ){
 
 			if( m_continue ){
 
 				while( *m_continue ){
 
-					auto e = readdir( dir ) ;
+					auto e = readdir( handle.get() ) ;
 
 					if( e ){
 
-						_removePath( pathM,e->d_name ) ;
+						this->removePath( pm,e->d_name ) ;
 					}else{
 						break ;
 					}
@@ -242,11 +235,11 @@ private:
 			}else{
 				while( true ){
 
-					auto e = readdir( dir ) ;
+					auto e = readdir( handle.get() ) ;
 
 					if( e ){
 
-						_removePath( pathM,e->d_name ) ;
+						this->removePath( pm,e->d_name ) ;
 					}else{
 						break ;
 					}
@@ -256,13 +249,13 @@ private:
 			function() ;
 		}
 	}
-	void _removePath( pathManager& pathM,const char * name )
+	void removePath( pathManager& pm,const char * name )
 	{
 		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
 			struct stat m ;
 
-			auto pp = pathM.setPath( name ) ;
+			auto pp = pm.setPath( name ) ;
 
 			if( stat( pp,&m ) == 0 ){
 
@@ -272,14 +265,14 @@ private:
 
 				}else if( S_ISDIR( m.st_mode ) ){
 
-					_removeDirectory( pp,[ pp ](){ rmdir( pp ) ; } ) ;
+					this->removeDirectory( { pp },[ pp ](){ rmdir( pp ) ; } ) ;
 				}
 			}
 		}
 	}
-	bool read()
+	bool read( pathManager& mm,DIR * dir )
 	{
-		auto e = readdir( m_handle ) ;
+		auto e = readdir( dir ) ;
 
 		if( e ){
 
@@ -289,7 +282,7 @@ private:
 
 				struct stat m ;
 
-				if( stat( m_pathManager.setPath( name ),&m ) == 0 ){
+				if( stat( mm.setPath( name ),&m ) == 0 ){
 
 					if( S_ISREG( m.st_mode ) ){
 
@@ -307,8 +300,7 @@ private:
 			return false ;
 		}
 	}
-	pathManager m_pathManager ;
-	DIR * m_handle ;
+	QString m_path ;
 	std::atomic_bool * m_continue = nullptr ;
 	directoryEntries m_entries ;
 } ;
