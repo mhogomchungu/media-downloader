@@ -140,6 +140,7 @@ public:
 		m_handle( opendir( path.toUtf8().data() ) ),
 		m_continue( &c )
 	{
+		*m_continue = true ;
 	}
 	directoryManager( const QString& path,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
@@ -317,8 +318,10 @@ private:
 #ifdef Q_OS_WIN
 
 #include <windows.h>
+#include <strsafe.h>
 
-#include <QDir>
+#include <cstring>
+#include <QDebug>
 
 class directoryManager
 {
@@ -326,32 +329,41 @@ public:
 	directoryManager( const QString& path,
 			  std::atomic_bool& m,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_path( QDir::fromNativeSeparators( path ) + "\\*" ),
+		m_path( path ),
 		m_continue( &m )
 	{
+		*m_continue = true ;
 	}
 	directoryManager( const QString& path,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_path( QDir::fromNativeSeparators( path ) + "\\*" )
+		m_path( path )
 	{
 	}
 	static bool supportsCancel()
 	{
 		return true ;
 	}
+	void removeDirectoryContents()
+	{
+		this->removeDirectory( m_path,[](){} ) ;
+	}
 	void removeDirectory()
 	{
-		QDir( m_path ).removeRecursively() ;
+		this->removeDirectory( m_path,[ & ](){ RemoveDirectoryA( m_path.toUtf8().constData() ) ; } ) ;
 	}
 	directoryEntries readAll()
 	{
-		if( this->readFirst() ){
+		handle h( m_path ) ;
+
+		if( h.valid() ){
+
+			this->add( h.data() ) ;
 
 			if( m_continue ){
 
-				while( *m_continue && this->read() ){}
+				while( *m_continue && this->read( h.get() ) ){}
 			}else{
-				while( this->read() ){}
+				while( this->read( h.get() ) ){}
 			}
 
 			m_entries.sort() ;
@@ -361,56 +373,129 @@ public:
 	}
 	~directoryManager()
 	{
-		FindClose( m_handle ) ;
 	}
 private:
-	bool readFirst()
+	class handle
 	{
-		m_handle = FindFirstFileA( m_path.toUtf8(),&m_data ) ;
+	public:
+		handle( const QString& path )
+		{
+			auto m = path + "\\*" ;
+			m_handle = FindFirstFileA( m.toUtf8().constData(),&m_data ) ;
+		}
+		bool valid()
+		{
+			return m_handle != INVALID_HANDLE_VALUE ;
+		}
+		bool findNext()
+		{
+			return FindNextFileA( m_handle,&m_data ) != 0 ;
+		}
+		HANDLE get()
+		{
+			return m_handle ;
+		}
+		const WIN32_FIND_DATA& data()
+		{
+			return m_data ;
+		}
+		~handle()
+		{
+			FindClose( m_handle ) ;
+		}
+	private:
+		WIN32_FIND_DATA m_data ;
+		HANDLE m_handle ;
+	};
+	void removePath( const QString& path,const char * name,const WIN32_FIND_DATA& data )
+	{
+		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
-		if( m_handle == INVALID_HANDLE_VALUE ){
+			if( data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 
-			return false ;
-		}else{
-			this->add() ;
-			return true ;
+				this->removeDirectory( path,[ &path ](){ RemoveDirectoryA( path.toUtf8().constData() ) ; } ) ;
+			}else{
+				DeleteFile( path.toUtf8().constData() ) ;
+			}
 		}
 	}
-	bool read()
+	template< typename Function >
+	void removeDirectory( const QString& path,Function function )
 	{
-		if( FindNextFileA( m_handle,&m_data ) != 0 ){
+		handle h( path ) ;
 
-			this->add() ;
+		if( h.valid() ){
+
+			const auto& mm = h.data() ;
+
+			this->removePath( path + "/" + mm.cFileName,mm.cFileName,mm ) ;
+
+			if( m_continue ){
+
+				while( *m_continue ){
+
+					if( h.findNext() ){
+
+						const auto& m = h.data() ;
+
+						this->removePath( path + "/" + m.cFileName,m.cFileName,m ) ;
+					}else{
+						break ;
+					}
+				}
+			}else{
+				while( true ){
+
+					if( h.findNext() ){
+
+						const auto& m = h.data() ;
+
+						this->removePath( path + "/" + m.cFileName,m.cFileName,m ) ;
+					}else{
+						break ;
+					}
+				}
+			}
+
+			function() ;
+		}
+	}
+	bool read( HANDLE handle )
+	{
+		WIN32_FIND_DATA m ;
+
+		if( FindNextFileA( handle,&m ) != 0 ){
+
+			this->add( m ) ;
 
 			return true ;
 		}else{
 			return false ;
 		}
 	}
-	void add()
+
+	void add( const WIN32_FIND_DATA& data )
 	{
-		auto m = m_data.cFileName ;
+		auto m = data.cFileName ;
 
 		if( m_entries.valid( m ) ){
 
-			m_filesize.LowPart = m_data.ftCreationTime.dwLowDateTime ;
-			m_filesize.HighPart = m_data.ftCreationTime.dwHighDateTime ;
+			LARGE_INTEGER filesize ;
 
-			if( m_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
+			filesize.LowPart = data.ftCreationTime.dwLowDateTime ;
+			filesize.HighPart = data.ftCreationTime.dwHighDateTime ;
 
-				m_entries.addFolder( m_filesize.QuadPart,m ) ;
+			if( data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
+
+				m_entries.addFolder( filesize.QuadPart,m ) ;
 			}else{
-				m_entries.addFile( m_filesize.QuadPart,m ) ;
+				m_entries.addFile( filesize.QuadPart,m ) ;
 			}
 		}
 	}
 	QString m_path ;
 	directoryEntries m_entries ;
 	std::atomic_bool * m_continue = nullptr ;
-
-	WIN32_FIND_DATA m_data ;
-	LARGE_INTEGER m_filesize ;
-	HANDLE m_handle ;
 } ;
 
 #else
@@ -439,6 +524,28 @@ public:
 	void removeDirectory()
 	{
 		QDir( m_path ).removeRecursively() ;
+	}
+	void removeDirectoryContents()
+	{
+		QDir::Filters f = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+
+		QFileInfo m ;
+
+		QString s ;
+
+		for( const auto& it : QDir( m_path ).entryList( f ) ){
+
+			s = m_path + "/" + it ;
+
+			m.setFile( s ) ;
+
+			if( m.isFile() ){
+
+				QFile::remove( s ) ;
+			}else{
+				QDir( s ).removeRecursively() ;
+			}
+		}
 	}
 	static bool supportsCancel()
 	{

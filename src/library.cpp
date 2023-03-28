@@ -87,13 +87,19 @@ library::library( const Context& ctx ) :
 
 				this->internalDisableAll() ;
 
-				utils::qthread::run( [ m ](){
+				m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
 
-					if( QFileInfo( m ).isFile() ){
+				utils::qthread::run( [ this,m ](){
+
+					QFileInfo mm( m ) ;
+
+					if( mm.isFile() ){
 
 						QFile::remove( m ) ;
-					}else{
-						QDir( m ).removeRecursively() ;
+
+					}else if( mm.isDir() ){
+
+						directoryManager( m,m_continue ).removeDirectory() ;
 					}
 
 				},[ row,this ](){
@@ -109,9 +115,10 @@ library::library( const Context& ctx ) :
 
 			this->internalDisableAll() ;
 
+			m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
+
 			utils::qthread::run( [ this ](){
 
-				m_continue = true ;
 				directoryManager( m_currentPath,m_continue ).removeDirectoryContents() ;
 
 			},[ this ](){
@@ -382,8 +389,6 @@ void library::showContents( const QString& path,bool disableUi )
 
 		this->internalDisableAll() ;
 	}
-
-	m_continue = true ;
 
 	m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
 
