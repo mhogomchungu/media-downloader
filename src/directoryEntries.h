@@ -136,14 +136,14 @@ public:
 	directoryManager( const QString& path,
 			  std::atomic_bool& c,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_pathManager( path + "/" ),
+		m_pathManager( path ),
 		m_handle( opendir( path.toUtf8().data() ) ),
 		m_continue( &c )
 	{
 	}
 	directoryManager( const QString& path,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_pathManager( path + "/" ),
+		m_pathManager( path ),
 		m_handle( opendir( path.toUtf8() ) )
 	{
 	}
@@ -167,16 +167,56 @@ public:
 
 		return std::move( m_entries ) ;
 	}
+	void removeDirectoryContents()
+	{
+		this->_removeDirectory( m_pathManager.path(),[](){} ) ;
+	}
 	void removeDirectory()
 	{
-		this->_removeDirectory( m_pathManager.path() ) ;
+		auto m = m_pathManager.path() ;
+
+		this->_removeDirectory( m,[ & ](){ rmdir( m ) ;	} ) ;
 	}
 	~directoryManager()
 	{
 		closedir( m_handle ) ;
 	}
 private:
-	void _removeDirectory( const char * path )
+	class pathManager
+	{
+	public:
+		pathManager( const QString& path )
+		{
+			if( path.endsWith( "/" ) ){
+
+				this->append( 0,path.toUtf8() ) ;
+				m_basePathLocation = path.size() ;
+			}else{
+				this->append( 0,path.toUtf8() + "/" ) ;
+				m_basePathLocation = path.size() + 1 ;
+			}
+		}
+		const char * setPath( const char * path )
+		{
+			this->append( m_basePathLocation,path ) ;
+
+			return m_buffer.data() ;
+		}
+		const char * path()
+		{
+			return m_buffer.data() ;
+		}
+	private:
+		void append( std::size_t s,const char * data )
+		{
+			std::snprintf( m_buffer.data() + s,m_buffer.size() - s,"%s",data ) ;
+		}
+		std::size_t m_basePathLocation ;
+		std::array< char,PATH_MAX > m_buffer ;
+	} ;
+
+	template< typename Function >
+	void _removeDirectory( const char * path,Function function )
 	{
 		pathManager pathM( path ) ;
 
@@ -192,6 +232,7 @@ private:
 					auto e = readdir( dir ) ;
 
 					if( e ){
+
 						_removePath( pathM,e->d_name ) ;
 					}else{
 						break ;
@@ -211,11 +252,10 @@ private:
 				}
 			}
 
-			rmdir( path ) ;
+			function() ;
 		}
 	}
-	template< typename PM >
-	void _removePath( PM& pathM,const char * name )
+	void _removePath( pathManager& pathM,const char * name )
 	{
 		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
@@ -231,7 +271,7 @@ private:
 
 				}else if( S_ISDIR( m.st_mode ) ){
 
-					_removeDirectory( pp ) ;
+					_removeDirectory( pp,[ pp ](){ rmdir( pp ) ; } ) ;
 				}
 			}
 		}
@@ -266,33 +306,6 @@ private:
 			return false ;
 		}
 	}
-	class pathManager
-	{
-	public:
-		pathManager( const QString& path ) :
-			m_basePathLocation( path.size() )
-		{
-			this->append( 0,path.toUtf8() ) ;
-		}
-		const char * setPath( const char * path )
-		{
-			this->append( m_basePathLocation,path ) ;
-
-			return m_buffer.data() ;
-		}
-		const char * path()
-		{
-			return m_buffer.data() ;
-		}
-	private:
-		void append( std::size_t s,const char * data )
-		{
-			std::snprintf( m_buffer.data() + s,m_buffer.size() - s,"%s",data ) ;
-		}
-		std::size_t m_basePathLocation ;
-		std::array< char,PATH_MAX > m_buffer ;
-	} ;
-
 	pathManager m_pathManager ;
 	DIR * m_handle ;
 	std::atomic_bool * m_continue = nullptr ;

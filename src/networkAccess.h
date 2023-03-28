@@ -249,7 +249,7 @@ private:
 
 	struct metadata
 	{
-		qint64 size ;
+		qint64 size = 0 ;
 		QString url ;
 		QString fileName ;
 	};
@@ -298,7 +298,7 @@ private:
 		QString tempPath ;
 		QString networkError ;
 		utils::misc::unique_ptr< QFile > m_file ;
-		bool isArchive ;
+		bool isArchive = false ;
 		networkAccess::showVersionInfo showVinfo ;
 		int id ;
 	};

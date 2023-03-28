@@ -111,21 +111,8 @@ library::library( const Context& ctx ) :
 
 			utils::qthread::run( [ this ](){
 
-				for( const auto& it : QDir( m_currentPath ).entryList( m_dirFilter ) ){
-
-					auto m = m_currentPath + "/" + it ;
-
-					QFileInfo f( m ) ;
-
-					if( f.isFile() ){
-
-						QFile::remove( m ) ;
-
-					}else if( f.isDir() ){
-
-						directoryManager( m ).removeDirectory() ;
-					}
-				}
+				m_continue = true ;
+				directoryManager( m_currentPath,m_continue ).removeDirectoryContents() ;
 
 			},[ this ](){
 
