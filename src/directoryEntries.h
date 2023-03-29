@@ -345,6 +345,18 @@ public:
 	}
 	directoryEntries readAll()
 	{
+		auto _read = [ this ]( handle& h ){
+
+			if( h.findNext() ){
+
+				this->add( h.data() ) ;
+
+				return true ;
+			}else{
+				return false ;
+			}
+		} ;
+
 		handle h( m_path ) ;
 
 		if( h.valid() ){
@@ -353,9 +365,9 @@ public:
 
 			if( m_continue ){
 
-				while( *m_continue && this->read( h.get() ) ){}
+				while( *m_continue && _read( h ) ){}
 			}else{
-				while( this->read( h.get() ) ){}
+				while( _read( h ) ){}
 			}
 
 			m_entries.sort() ;
@@ -452,20 +464,6 @@ private:
 			function() ;
 		}
 	}
-	bool read( HANDLE handle )
-	{
-		WIN32_FIND_DATA m ;
-
-		if( FindNextFileA( handle,&m ) != 0 ){
-
-			this->add( m ) ;
-
-			return true ;
-		}else{
-			return false ;
-		}
-	}
-
 	void add( const WIN32_FIND_DATA& data )
 	{
 		auto m = data.cFileName ;

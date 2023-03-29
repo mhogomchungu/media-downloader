@@ -72,7 +72,6 @@ private:
 	QPixmap m_folderIcon ;
 	QPixmap m_videoIcon ;
 	directoryEntries m_directoryEntries ;
-	const QDir::Filters m_dirFilter = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 };
 
 #endif
