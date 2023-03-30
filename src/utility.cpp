@@ -1157,23 +1157,25 @@ void utility::setDefaultEngine( const Context& ctx,const QString& name )
 	}
 }
 
-bool utility::onlyWantedVersionInfo( int argc,char ** argv )
+bool utility::onlyWantedVersionInfo( const utility::cliArguments& args )
 {
-	for( int s = 0 ; s < argc ; s++ ){
+	if( args.contains( "--version" ) ){
 
-		if( std::strcmp( argv[ s ],"--version" ) == 0 ){
+		std::cout << util::split( VERSION,'\n' ).at( 0 ).constData() << std::endl ;
 
-			std::cout << util::split( VERSION,'\n' ).at( 0 ).constData() << std::endl ;
-
-			return true ;
-		}
+		return true ;
+	}else{
+		return false ;
 	}
-
-	return false ;
 }
 
-bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
+bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& cargs )
 {
+	if( utility::platformIsNOTWindows() ){
+
+		return false ;
+	}
+
 	auto cpath = s.configPaths() ;
 
 	auto m = cpath + "/update_new" ;
@@ -1189,24 +1191,9 @@ bool utility::startedUpdatedVersion( settings& s,int argc,char ** argv )
 
 	QString exePath = mm + "/media-downloader.exe" ;
 
-	bool beenHereBefore = false ;
+	if( QFile::exists( exePath ) && !cargs.contains( "--running-updated" ) ){
 
-	for( int i = 1 ; i < argc ; i++ ){
-
-		if( std::strcmp( argv[ i ],"--running-updated" ) == 0 ){
-
-			beenHereBefore = true ;
-		}
-	}
-
-	if( QFile::exists( exePath ) && !beenHereBefore ){
-
-		QStringList args ;
-
-		for( int i = 1 ; i < argc ; i++ ){
-
-			args.append( *( argv + i ) ) ;
-		}
+		auto args = cargs.arguments() ;
 
 		args.append( "--running-updated" ) ;
 
@@ -1364,4 +1351,45 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 	}else{
 		ctx.logger().add( "Network Error: " + reply.errorString(),utility::sequentialID() ) ;
 	}
+}
+
+bool utility::cliArguments::contains( const char * m ) const
+{
+	for( int i = 0 ; i < m_argc ; i++ ){
+
+		if( std::strcmp( m_argv[ i ],m ) == 0 ){
+
+			return true ;
+		}
+	}
+
+	return false ;
+}
+
+QString utility::cliArguments::value( const char * m ) const
+{
+	for( int i = 0 ; i < m_argc ; i++ ){
+
+		if( std::strcmp( m_argv[ i ],m ) == 0 ){
+
+			if( i + 1 < m_argc ){
+
+				return m_argv[ i + 1 ] ;
+			}
+		}
+	}
+
+	return {} ;
+}
+
+QStringList utility::cliArguments::arguments() const
+{
+	QStringList m ;
+
+	for( int i = 0 ; i < m_argc ; i++ ){
+
+		m.append( m_argv[ i ] ) ;
+	}
+
+	return m ;
 }

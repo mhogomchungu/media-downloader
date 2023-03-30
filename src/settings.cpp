@@ -317,24 +317,7 @@ static std::unique_ptr< QSettings > _set_config( const QString& path )
 	return std::make_unique< QSettings >( m,QSettings::IniFormat ) ;
 }
 
-static QString _portable_updated_data_path( int argc,char ** argv )
-{
-	for( int i = 0 ; i < argc ; i++ ){
-
-		if( std::strcmp( argv[ i ],"--dataPath" ) == 0 ){
-
-			if( i + 1 < argc ){
-
-				return argv[ i + 1 ] ;
-			}
-		}
-	}
-
-	return {} ;
-}
-
-static bool _portableVersionInit( int argc,
-				  char ** argv,
+static bool _portableVersionInit( const utility::cliArguments& args,
 				  QString& dataPath,
 				  QString& exePath,
 				  QString& exeOrgPath )
@@ -343,38 +326,26 @@ static bool _portableVersionInit( int argc,
 
 		exePath = utility::windowsApplicationDirPath() ;
 
-		dataPath = _portable_updated_data_path( argc,argv ) ;
+		exeOrgPath = args.value( "--exe-org-path" ) ;
 
-		for( int i = 0 ; i < argc ; i++ ){
+		if( args.contains( "--portable" ) ){
 
-			if( std::strcmp( argv[ i ],"--exe-org-path" ) == 0 ){
-
-				if( i + 1 < argc ){
-
-					exeOrgPath = argv[ i + 1 ] ;
-				}
-			}
-		}
-
-		for( int i = 0 ; i < argc ; i++ ){
-
-			if( std::strcmp( argv[ i ],"--portable" ) == 0 ){
-
-				return true ;
-			}
-		}
-
-		auto a = exePath  + "/local" ;
-
-		if( QFile::exists( a ) ){
-
-			dataPath = a ;
+			dataPath = args.value( "--dataPath" ) ;
 
 			return true ;
 		}else{
-			dataPath = _configPath() ;
+			auto a = exePath  + "/local" ;
 
-			return false ;
+			if( QFile::exists( a ) ){
+
+				dataPath = a ;
+
+				return true ;
+			}else{
+				dataPath = _configPath() ;
+
+				return false ;
+			}
 		}
 	}else{
 		dataPath = _configPath() ;
@@ -422,8 +393,8 @@ static std::unique_ptr< QSettings > _init( const QString& dataPath,bool portable
 	}
 }
 
-settings::settings( int argc,char ** argv ) :
-	m_portableVersion( _portableVersionInit( argc,argv,m_dataPath,m_exePath,m_exeOrgPath ) ),
+settings::settings( const utility::cliArguments& args ) :
+	m_portableVersion( _portableVersionInit( args,m_dataPath,m_exePath,m_exeOrgPath ) ),
 	m_settingsP( _init( m_dataPath,portableVersion() ) ),
 	m_settings( *m_settingsP )
 {

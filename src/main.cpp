@@ -58,14 +58,16 @@ private:
 
 int main( int argc,char * argv[] )
 {
-	if( utility::onlyWantedVersionInfo( argc,argv ) ){
+	utility::cliArguments cargs( argc,argv ) ;
+
+	if( utility::onlyWantedVersionInfo( cargs ) ){
 
 		return 0 ;
 	}
 
-	settings settings( argc,argv ) ;
+	settings settings( cargs ) ;
 
-	if( utility::platformIsWindows() && utility::startedUpdatedVersion( settings,argc,argv ) ){
+	if( utility::startedUpdatedVersion( settings,cargs ) ){
 
 		return 0 ;
 	}

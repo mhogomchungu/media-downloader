@@ -41,12 +41,16 @@ class QApplication ;
 #include <QJsonArray>
 #include <QJsonDocument>
 
+namespace utility
+{
+	class cliArguments ;
+}
 class settings
 {
 public:	
 	enum class tabName{ basic,batch,playlist } ;
 
-	settings( int,char ** ) ;
+	settings( const utility::cliArguments& ) ;
 
 	QSettings& bk() ;
 

@@ -297,6 +297,20 @@ namespace utility
 		}
 	}
 
+	class cliArguments
+	{
+	public:
+		cliArguments( int argc,char ** argv ) : m_argc( argc ),m_argv( argv )
+		{
+		}
+		bool contains( const char * ) const ;
+		QString value( const char * ) const ;
+		QStringList arguments() const ;
+	private:
+		int m_argc ;
+		char ** m_argv ;
+	} ;
+
 	void setDefaultEngine( const Context& ctx,const QString& name );
 	const engines::engine& resolveEngine( const tableWidget&,
 					      const engines::engine&,
@@ -341,8 +355,8 @@ namespace utility
 	QString windowsApplicationDirPath() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
-	bool onlyWantedVersionInfo( int,char ** ) ;
-	bool startedUpdatedVersion( settings&,int,char ** ) ;
+	bool onlyWantedVersionInfo( const utility::cliArguments& ) ;
+	bool startedUpdatedVersion( settings&,const utility::cliArguments& ) ;
 
 	class addJsonCmd
 	{
