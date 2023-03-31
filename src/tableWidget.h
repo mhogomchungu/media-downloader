@@ -192,7 +192,6 @@ public:
 		QJsonObject uiJson ;
 		QPixmap thumbnail ;
 		bool splitByChapters = false ;
-		int alignment = Qt::AlignCenter ;
 	} ;
 	template< typename Function >
 	void forEach( Function function )
@@ -237,7 +236,7 @@ public:
 
 	bool allFinishedWithSuccess() ;
 
-	tableWidget( QTableWidget& t,const QFont& font,int init ) ;
+	tableWidget( QTableWidget& t,const QFont& font,int init,int textAlignment ) ;
 
 	QTableWidgetItem& item( int row,int column ) const ;
 
@@ -261,6 +260,7 @@ private:
 	int m_init ;
 
 	std::vector< tableWidget::entry > m_items ;
+	int m_textAlignment ;
 } ;
 
 template< typename Stuff >

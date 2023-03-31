@@ -503,7 +503,7 @@ QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
 			percentage = downloaded_str.toDouble() * 100 / mm ;
 		}
 
-		ss += locale.formattedDataSize( qint64( mm ) ) ;
+		ss += "~" + locale.formattedDataSize( qint64( mm ) ) ;
 	}else{
 		ss += "NA" ;
 	}

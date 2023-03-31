@@ -173,8 +173,8 @@ Version 1.2.0(April 1st, 2021)
     - Required minimum version of yt-dlp is 2023.01.06.
     - Its now possible to cancel populating library tab.
 
-      Version 3.0.0(Unreleased)
+      Version 3.0.0(April 1st, 2023)
       [Windows]
       - It is now possible for the app to update itself.
       [All]
-      - None
+      - yt-dlp now works as expected and it shows downloading media size instead of "NA".

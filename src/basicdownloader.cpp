@@ -34,7 +34,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font() ),
-	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0 )
+	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0,m_settings.textAlignment() )
 {
 	this->setAsActive() ;
 

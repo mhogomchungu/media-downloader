@@ -102,6 +102,7 @@ public:
 	bool checkForEnginesUpdates() ;
 	bool notRunningUpdatedVersion() ;
 
+	int textAlignment() ;
 	int networkTimeOut() ;
 	int stringTruncationSize() ;
 	int historySize() ;

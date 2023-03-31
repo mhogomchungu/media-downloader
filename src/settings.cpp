@@ -248,6 +248,32 @@ bool settings::notRunningUpdatedVersion()
 	return m_exeOrgPath.isEmpty() ;
 }
 
+int settings::textAlignment()
+{
+	if( !m_settings.contains( "MainTableTextAlignment" ) ){
+
+		m_settings.setValue( "MainTableTextAlignment","center" ) ;
+	}
+
+	auto m = m_settings.value( "MainTableTextAlignment" ).toString() ;
+
+	if( m == "center" ){
+
+		return Qt::AlignCenter ;
+
+	}else if( m == "left" ){
+
+		return Qt::AlignLeft | Qt::AlignVCenter ;
+
+	}else if( m == "right" ){
+
+		return Qt::AlignRight | Qt::AlignVCenter;
+	}else{
+		m_settings.setValue( "MainTableTextAlignment","center" ) ;
+		return Qt::AlignCenter ;
+	}
+}
+
 void settings::setEnableLibraryTab( bool e )
 {
 	m_settings.setValue( "EnableLibraryTab",e ) ;
