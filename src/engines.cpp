@@ -62,9 +62,9 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	auto s = basePath ;
 
-	if( utility::platformIsLikeWindows() ){
+	if( utility::platformIsWindows() ){
 
-		auto mm = QDir::currentPath() ;
+		auto mm = settings.exeOriginalPath() ;
 
 		s += separator + mm ;
 
@@ -124,6 +124,13 @@ engines::engines( Logger& l,settings& s,int id ) :
 		m_logger.add( QObject::tr( "3. Uncheck \"Show Version Info When Starting\"." ),id ) ;
 
 		m_logger.add( QByteArray( "*****************************************************" ),id ) ;
+	}
+
+	const auto& utxt = m_settings.runningUpdatedText() ;
+
+	if( !utxt.isEmpty() ){
+
+		m_logger.add( utxt,id ) ;
 	}
 
 	if( m_settings.portableVersion() ){

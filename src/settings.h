@@ -56,6 +56,8 @@ public:
 
 	size_t maxConcurrentDownloads() ;
 
+	const QString& exeOriginalPath() ;
+
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;
 	QString downloadFolder( Logger& ) ;
@@ -83,7 +85,7 @@ public:
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
 	bool portableVersion() ;
-
+	const QString& runningUpdatedText() ;
 	bool monitorClipboardUrl( settings::tabName ) ;
 	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
@@ -100,7 +102,6 @@ public:
 	bool checkForUpdates() ;
 	bool enableLibraryTab() ;
 	bool checkForEnginesUpdates() ;
-	bool notRunningUpdatedVersion() ;
 
 	int textAlignment() ;
 	int networkTimeOut() ;
@@ -144,6 +145,7 @@ private:
 	QString m_dataPath ;
 	QString m_exePath ;
 	QString m_exeOrgPath ;
+	QString m_runningUpdated ;
 
 	bool m_EnableHighDpiScaling ;
 	bool m_portableVersion ;

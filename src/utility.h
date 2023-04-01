@@ -304,8 +304,13 @@ namespace utility
 		{
 		}
 		bool contains( const char * ) const ;
+		bool runningUpdated() const ;
+		bool portable() const ;
+		QString dataPath() const ;
+		QString originalPath() const ;
+		QString originalVersion() const ;
 		QString value( const char * ) const ;
-		QStringList arguments() const ;
+		QStringList arguments( const QString&,const QString&,bool ) const ;
 	private:
 		int m_argc ;
 		char ** m_argv ;
@@ -328,7 +333,7 @@ namespace utility
 	void openDownloadFolderPath( const QString& ) ;
 	void setPermissions( QFile& ) ;
 	void setPermissions( const QString& ) ;
-	QString installedVersionOfMediaDownloader() ;
+	QString runningVersionOfMediaDownloader() ;
 	QString homePath() ;
 	QString python3Path() ;
 	QString clipboardText() ;

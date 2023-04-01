@@ -50,6 +50,11 @@ bool settings::portableVersion()
 	return m_portableVersion ;
 }
 
+const QString& settings::runningUpdatedText()
+{
+	return m_runningUpdated ;
+}
+
 static QString _monitorClipboadUrl( settings::tabName e )
 {
 	if( e == settings::tabName::basic ){
@@ -243,11 +248,6 @@ bool settings::checkForEnginesUpdates()
 	return m_settings.value( "CheckForEnginesUpdates" ).toBool() ;
 }
 
-bool settings::notRunningUpdatedVersion()
-{
-	return m_exeOrgPath.isEmpty() ;
-}
-
 int settings::textAlignment()
 {
 	if( !m_settings.contains( "MainTableTextAlignment" ) ){
@@ -352,11 +352,16 @@ static bool _portableVersionInit( const utility::cliArguments& args,
 
 		exePath = utility::windowsApplicationDirPath() ;
 
-		exeOrgPath = args.value( "--exe-org-path" ) ;
+		exeOrgPath = args.originalPath() ;
 
-		if( args.contains( "--portable" ) ){
+		if( exeOrgPath.isEmpty() ){
 
-			dataPath = args.value( "--dataPath" ) ;
+			exeOrgPath = exePath ;
+		}
+
+		if( args.portable() ){
+
+			dataPath = args.dataPath() ;
 
 			return true ;
 		}else{
@@ -423,6 +428,7 @@ settings::settings( const utility::cliArguments& args ) :
 	m_portableVersion( _portableVersionInit( args,m_dataPath,m_exePath,m_exeOrgPath ) ),
 	m_settingsP( _init( m_dataPath,portableVersion() ) ),
 	m_settings( *m_settingsP )
+
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
@@ -436,6 +442,14 @@ settings::settings( const utility::cliArguments& args ) :
 	if( m != "1.0" ){
 
 		qputenv( "QT_SCALE_FACTOR",m ) ;
+	}
+
+	if( args.runningUpdated() ){
+
+		//const auto& m = args.originalVersion() ;
+		//const auto& mm = utility::runningVersionOfMediaDownloader() ;
+
+		//m_runningUpdated = QObject::tr( "Started As Version %1 And Now Running As Version %2" ).arg( m,mm ) ;
 	}
 }
 
@@ -477,6 +491,11 @@ size_t settings::maxConcurrentDownloads()
 	}
 
 	return static_cast< size_t >( m_settings.value( "MaxConcurrentDownloads" ).toInt() ) ;
+}
+
+const QString & settings::exeOriginalPath()
+{
+	return m_exeOrgPath ;
 }
 
 void settings::setMaxConcurrentDownloads( int s )

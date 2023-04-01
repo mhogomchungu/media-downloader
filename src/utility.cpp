@@ -1191,29 +1191,15 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 	QString exePath = mm + "/media-downloader.exe" ;
 
-	if( QFile::exists( exePath ) && !cargs.contains( "--running-updated" ) ){
-
-		auto args = cargs.arguments() ;
-
-		args.append( "--running-updated" ) ;
-
-		args.append( "--dataPath" ) ;
-
-		args.append( cpath ) ;
-
-		if( s.portableVersion() ){
-
-			args.append( "--portable" ) ;
-		}
+	if( QFile::exists( exePath ) && !cargs.runningUpdated() ){
 
 		auto exeDirPath = utility::windowsApplicationDirPath() ;
 
-		args.append( "--exe-org-path" ) ;
-		args.append( exeDirPath ) ;
+		auto args = cargs.arguments( cpath,exeDirPath,s.portableVersion() ) ;
 
 		auto env = QProcessEnvironment::systemEnvironment() ;
-		auto paths = env.value( "PATH" ) ;
-		env.insert( "PATH",exePath + ";" + paths ) ;
+
+		env.insert( "PATH",exeDirPath + ";" + env.value( "PATH" ) ) ;
 
 		env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
 
@@ -1224,7 +1210,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 		exe.setProcessEnvironment( env ) ;
 
 		return exe.startDetached() ;
-	}else{
+	}else{		
 		return false ;
 	}
 }
@@ -1234,7 +1220,7 @@ bool utility::platformIsLikeWindows()
 	return utility::platformIsWindows() || utility::platformisOS2() ;
 }
 
-QString utility::installedVersionOfMediaDownloader()
+QString utility::runningVersionOfMediaDownloader()
 {
 	return VERSION ;
 }
@@ -1366,6 +1352,31 @@ bool utility::cliArguments::contains( const char * m ) const
 	return false ;
 }
 
+bool utility::cliArguments::runningUpdated() const
+{
+	return this->contains( "--running-updated" ) ;
+}
+
+bool utility::cliArguments::portable() const
+{
+	return this->contains( "--portable" ) ;
+}
+
+QString utility::cliArguments::dataPath() const
+{
+	return this->value( "--dataPath" ) ;
+}
+
+QString utility::cliArguments::originalPath() const
+{
+	return this->value( "--exe-org-path" ) ;
+}
+
+QString utility::cliArguments::originalVersion() const
+{
+	return this->value( "--running-version" ) ;
+}
+
 QString utility::cliArguments::value( const char * m ) const
 {
 	for( int i = 0 ; i < m_argc ; i++ ){
@@ -1382,14 +1393,34 @@ QString utility::cliArguments::value( const char * m ) const
 	return {} ;
 }
 
-QStringList utility::cliArguments::arguments() const
+QStringList utility::cliArguments::arguments( const QString& cpath,
+					      const QString& exeDirPath,
+					      bool portableVersion ) const
 {
-	QStringList m ;
+	QStringList args ;
 
 	for( int i = 0 ; i < m_argc ; i++ ){
 
-		m.append( m_argv[ i ] ) ;
+		args.append( m_argv[ i ] ) ;
 	}
 
-	return m ;
+	args.append( "--running-updated" ) ;
+
+	args.append( "--dataPath" ) ;
+
+	args.append( cpath ) ;
+
+	args.append( "--running-version" ) ;
+
+	args.append( utility::runningVersionOfMediaDownloader() ) ;
+
+	if( portableVersion ){
+
+		args.append( "--portable" ) ;
+	}
+
+	args.append( "--exe-org-path" ) ;
+	args.append( exeDirPath ) ;
+
+	return args ;
 }

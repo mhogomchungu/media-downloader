@@ -230,7 +230,7 @@ void versionInfo::checkForUpdates() const
 			if( err.error == QJsonParseError::NoError ){
 
 				auto lv = e.object().value( "tag_name" ).toString() ;
-				auto iv = utility::installedVersionOfMediaDownloader() ;
+				auto iv = utility::runningVersionOfMediaDownloader() ;
 
 				versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
 
@@ -257,7 +257,7 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 
 	this->log( QObject::tr( "Checking installed version of" ) + " " + m_ctx.appName(),id ) ;
 
-	this->log( QObject::tr( "Found version" ) + ": " + utility::installedVersionOfMediaDownloader() ,id ) ;
+	this->log( QObject::tr( "Found version" ) + ": " + utility::runningVersionOfMediaDownloader() ,id ) ;
 
 	if( !m_checkForUpdates ){
 
@@ -281,7 +281,7 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 				auto lvs = e.object().value( "tag_name" ).toString() ;
 
 				util::version lv = lvs  ;
-				util::version iv = utility::installedVersionOfMediaDownloader() ;
+				util::version iv = utility::runningVersionOfMediaDownloader() ;
 
 				versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
 

@@ -435,7 +435,23 @@ configure::configure( const Context& ctx ) :
 
 			if( m == m_ctx.appName() ){
 
-				m_ctx.network().updateMediaDownloader( id ) ;
+				class meaw : public networkAccess::status
+				{
+				public:
+					meaw( const Context& ctx ) : m_ctx( ctx )
+					{
+					}
+					void done()
+					{
+						m_ctx.TabManager().enableAll() ;
+					}
+				private:
+					const Context& m_ctx ;
+				} ;
+
+				networkAccess::Status s{ util::types::type_identity< meaw >(),m_ctx } ;
+
+				m_ctx.network().updateMediaDownloader( id,std::move( s ) ) ;
 			}else{
 				this->downloadFromGitHub( { m_ctx.Engines().defaultEngine( m,id ),id } ) ;
 			}
