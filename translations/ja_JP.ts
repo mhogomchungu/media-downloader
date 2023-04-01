@@ -504,8 +504,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="509"/>
-        <location filename="../src/utility.h" line="540"/>
-        <location filename="../src/utility.h" line="607"/>
+        <location filename="../src/utility.h" line="559"/>
+        <location filename="../src/utility.h" line="626"/>
         <source>Clear</source>
         <translation>クリア</translation>
     </message>
@@ -610,22 +610,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="131"/>
+        <location filename="../src/engines.cpp" line="138"/>
         <source>Running in portable mode</source>
         <translation>ポータブルモードで実行中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="132"/>
+        <location filename="../src/engines.cpp" line="139"/>
         <source>Download path: </source>
         <translation>ダウンロードの場所: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="252"/>
+        <location filename="../src/engines.cpp" line="259"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>エラー, バックエンド &quot;%1&quot; の実行ファイルが見つかりません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="215"/>
+        <location filename="../src/engines.cpp" line="222"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>エンジン &quot;%1&quot; には少なくともバージョン &quot;%2&quot; 以上のMedia Downloaderが必要です</translation>
     </message>
@@ -650,79 +650,79 @@
         <translation>3. 「開始時にバージョン情報を表示」をオフにする.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="257"/>
+        <location filename="../src/engines.cpp" line="264"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>エラー, 設定ファイル &quot;%1&quot; の解析に失敗しました</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="531"/>
+        <location filename="../src/engines.cpp" line="538"/>
         <source>Failed To Load A Plugin</source>
         <translation>プラグインを読み込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="616"/>
-        <location filename="../src/engines.cpp" line="878"/>
+        <location filename="../src/engines.cpp" line="623"/>
+        <location filename="../src/engines.cpp" line="885"/>
         <location filename="../src/utility.cpp" line="682"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>実行ファイル &quot;%1&quot; が見つかりません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="863"/>
+        <location filename="../src/engines.cpp" line="870"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>バックエンド &quot;%1&quot; のためのpython3実行ファイルが見つかりません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="977"/>
+        <location filename="../src/engines.cpp" line="984"/>
         <source>Network Error Occured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="992"/>
+        <location filename="../src/engines.cpp" line="999"/>
         <source>Download cancelled</source>
         <translation>ダウンロードがキャンセルされました</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1003"/>
+        <location filename="../src/engines.cpp" line="1010"/>
         <source>ErrorCode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1007"/>
+        <location filename="../src/engines.cpp" line="1014"/>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1157"/>
+        <location filename="../src/engines.cpp" line="1164"/>
         <source>Format Code</source>
         <translation>フォーマットコード</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1158"/>
+        <location filename="../src/engines.cpp" line="1165"/>
         <source>Extension</source>
         <translation>拡張子</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1159"/>
+        <location filename="../src/engines.cpp" line="1166"/>
         <source>Resolution</source>
         <translation>解像度</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1160"/>
+        <location filename="../src/engines.cpp" line="1167"/>
         <source>Note</source>
         <translation>詳細</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1412"/>
+        <location filename="../src/engines.cpp" line="1419"/>
         <source>Failed to open file for writing</source>
         <translation>ファイルに書き込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1418"/>
+        <location filename="../src/engines.cpp" line="1425"/>
         <source>Failed to open file for reading</source>
         <translation>ファイルが読み込めません</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1563"/>
+        <location filename="../src/engines.cpp" line="1570"/>
         <source>Elapsed Time:</source>
         <translation>経過時間:</translation>
     </message>
@@ -770,7 +770,7 @@
         <translation>ダウンロード開始</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1002"/>
+        <location filename="../src/engines.cpp" line="1009"/>
         <location filename="../src/networkAccess.cpp" line="138"/>
         <location filename="../src/networkAccess.cpp" line="140"/>
         <location filename="../src/networkAccess.cpp" line="182"/>
@@ -824,39 +824,39 @@
         <translation>ファイル名を変更: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1481"/>
+        <location filename="../src/engines.cpp" line="1488"/>
         <source>Processing</source>
         <translation>処理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="996"/>
+        <location filename="../src/engines.cpp" line="1003"/>
         <source>Download completed</source>
         <translation>ダウンロード完了</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="533"/>
+        <location filename="../src/settings.cpp" line="549"/>
         <source>Resetting download folder to default</source>
         <translation>ダウンロードフォルダをデフォルトにリセット</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1526"/>
+        <location filename="../src/engines.cpp" line="1533"/>
         <source>Post Processing</source>
         <translation>後処理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="573"/>
-        <location filename="../src/utility.h" line="581"/>
-        <location filename="../src/utility.h" line="586"/>
+        <location filename="../src/utility.h" line="592"/>
+        <location filename="../src/utility.h" line="600"/>
+        <location filename="../src/utility.h" line="605"/>
         <source>Download</source>
         <translation>ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="578"/>
+        <location filename="../src/utility.h" line="597"/>
         <source>Force Download</source>
         <translation>強制ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="596"/>
+        <location filename="../src/utility.h" line="615"/>
         <source>Show Log Window</source>
         <translation>ログウィンドウを表示</translation>
     </message>
@@ -986,12 +986,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="972"/>
+        <location filename="../src/engines.cpp" line="979"/>
         <source>Requested Format Is Not Available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="982"/>
+        <location filename="../src/engines.cpp" line="989"/>
         <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1110,27 +1110,27 @@
     </message>
     <message>
         <location filename="../src/configure.cpp" line="406"/>
-        <location filename="../src/configure.cpp" line="589"/>
+        <location filename="../src/configure.cpp" line="605"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="482"/>
+        <location filename="../src/configure.cpp" line="498"/>
         <source>Set Download Folder</source>
         <translation>ダウンロードフォルダをセット</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="819"/>
+        <location filename="../src/configure.cpp" line="835"/>
         <source>Default</source>
         <translation>デフォルト</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="823"/>
+        <location filename="../src/configure.cpp" line="839"/>
         <source>Best-audio</source>
         <translation>最高音質</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="827"/>
+        <location filename="../src/configure.cpp" line="843"/>
         <source>Best-audiovideo</source>
         <translation>最高画質・音質</translation>
     </message>
@@ -1143,7 +1143,7 @@
         <translation>削除</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="108"/>
+        <location filename="../src/library.cpp" line="114"/>
         <source>Delete All</source>
         <translation>すべて削除</translation>
     </message>

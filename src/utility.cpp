@@ -1209,7 +1209,12 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 		exe.setArguments( args ) ;
 		exe.setProcessEnvironment( env ) ;
 
+#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
 		return exe.startDetached() ;
+#else
+		exe.start() ;
+		exe.waitForFinished( -1 ) ;
+#endif
 	}else{		
 		return false ;
 	}

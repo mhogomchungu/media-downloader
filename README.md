@@ -45,13 +45,13 @@ Make sure you have access to the internet before you run media-downloader for th
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/2.9.0/MediaDownloader-2.9.0.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/3.0.0/MediaDownloader-3.0.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self contained version that keeps everything in the application folder.
 
-Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/2.9.0/MediaDownloader-2.9.0.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/3.0.0/MediaDownloader-3.0.0.zip).
 
 #### Aur package for Arch Linux
 Arch linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
