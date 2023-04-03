@@ -255,21 +255,21 @@ bool lux::foundNetworkUrl( const QString& s )
 
 		if( utility::platformIs32Bit() ){
 
-			return s.contains( "Windows_32-bit" ) ;
+			return s.contains( "Windows_i386" ) ;
 		}else{
-			return s.contains( "Windows_64-bit" ) ;
+			return s.contains( "Windows_x86_64" ) ;
 		}
 
 	}else if( utility::platformIsLinux() ){
 
 		if( utility::platformIs32Bit() ){
 
-			return s.contains( "Linux_32-bit" ) ;
+			return s.contains( "Linux_i386" ) ;
 		}else{
-			return s.contains( "Linux_64-bit" ) ;
+			return s.contains( "Linux_x86_64" ) ;
 		}
 	}else{
-		return s.contains( "macOS_64-bit" ) ;
+		return false ;
 	}
 }
 

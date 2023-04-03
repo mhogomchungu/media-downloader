@@ -464,6 +464,15 @@ void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) co
 
 void networkAccess::download( networkAccess::Opts opts ) const
 {
+	if( opts.metadata.url.isEmpty() ){
+
+		auto m = QObject::tr( "File Not Found" ) ;
+
+		opts.networkError = QObject::tr( "Download Failed" ) + ": " + m ;
+
+		return this->finished( std::move( opts ) ) ;
+	}
+
 	const auto& engine = opts.iter.engine() ;
 
 	engine.updateEnginePaths( m_ctx,opts.filePath,opts.exeBinPath,opts.tempPath ) ;
