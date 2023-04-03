@@ -37,7 +37,7 @@ translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settin
 	this->addString( QObject::tr( "Swedish (Sweden)" ),"Swedish (Sweden)","sv_SE" ) ;
 	this->addString( QObject::tr( "German (Germany)" ),"German (Germany)","de_DE" ) ;
 	this->addString( QObject::tr( "Portuguese (Brazil)" ),"Portuguese (Brazil)","pt_BR" ) ;
-
+	this->addString( QObject::tr( "Dutch (Netherlands)" ),"Dutch (Netherlands)","nl_NL" ) ;
 	this->setDefaultLanguage() ;
 }
 

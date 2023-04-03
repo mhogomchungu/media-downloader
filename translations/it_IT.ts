@@ -736,6 +736,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Update Complete, Restart To Use New Version</source>
         <translation>Aggiornamento completato, riavvia per usare la nuova versione</translation>
     </message>
+    <message>
+        <source>File Not Found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dutch (Netherlands)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

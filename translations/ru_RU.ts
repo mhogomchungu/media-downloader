@@ -610,6 +610,11 @@
         <translation></translation>
     </message>
     <message>
+        <location filename="../src/translator.cpp" line="40"/>
+        <source>Dutch (Netherlands)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/engines.cpp" line="138"/>
         <source>Running in portable mode</source>
         <translation>Запущен в портативном режиме</translation>
@@ -777,7 +782,8 @@
         <location filename="../src/networkAccess.cpp" line="184"/>
         <location filename="../src/networkAccess.cpp" line="398"/>
         <location filename="../src/networkAccess.cpp" line="400"/>
-        <location filename="../src/networkAccess.cpp" line="489"/>
+        <location filename="../src/networkAccess.cpp" line="471"/>
+        <location filename="../src/networkAccess.cpp" line="498"/>
         <source>Download Failed</source>
         <translation>Не удалось загрузить</translation>
     </message>
@@ -790,15 +796,15 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="162"/>
         <location filename="../src/networkAccess.cpp" line="206"/>
-        <location filename="../src/networkAccess.cpp" line="473"/>
-        <location filename="../src/networkAccess.cpp" line="506"/>
-        <location filename="../src/networkAccess.cpp" line="616"/>
+        <location filename="../src/networkAccess.cpp" line="482"/>
+        <location filename="../src/networkAccess.cpp" line="515"/>
+        <location filename="../src/networkAccess.cpp" line="625"/>
         <source>Downloading</source>
         <translation>Загружается</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="164"/>
-        <location filename="../src/networkAccess.cpp" line="475"/>
+        <location filename="../src/networkAccess.cpp" line="484"/>
         <source>Destination</source>
         <translation>Место назначения</translation>
     </message>
@@ -808,18 +814,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="530"/>
+        <location filename="../src/networkAccess.cpp" line="469"/>
+        <source>File Not Found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="539"/>
         <source>Download complete</source>
         <translation>Загрузка завершена</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="213"/>
-        <location filename="../src/networkAccess.cpp" line="558"/>
+        <location filename="../src/networkAccess.cpp" line="567"/>
         <source>Extracting archive: </source>
         <translation>Распаковка архива: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="536"/>
+        <location filename="../src/networkAccess.cpp" line="545"/>
         <source>Renaming file to: </source>
         <translation>Переименовать файл как: </translation>
     </message>
