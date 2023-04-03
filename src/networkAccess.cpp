@@ -317,13 +317,9 @@ void networkAccess::download( const QByteArray& data,
 
 		if( engine.foundNetworkUrl( entry ) ){
 
-			auto value = object.value( "browser_download_url" ) ;
+			metadata.url = object.value( "browser_download_url" ).toString() ;
 
-			metadata.url = value.toString() ;
-
-			value = object.value( "size" ) ;
-
-			metadata.size = value.toInt() ;
+			metadata.size = object.value( "size" ).toInt() ;
 
 			metadata.fileName = entry ;
 
@@ -464,7 +460,7 @@ void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) co
 
 void networkAccess::download( networkAccess::Opts opts ) const
 {
-	if( opts.metadata.url.isEmpty() ){
+	if( opts.metadata.url.isEmpty() || opts.metadata.fileName.isEmpty() ){
 
 		auto m = QObject::tr( "File Not Found" ) ;
 
@@ -505,14 +501,33 @@ void networkAccess::download( networkAccess::Opts opts ) const
 		}else{
 			opts.file().write( p.data() ) ;
 
-			auto perc = double( p.received() )  * 100 / double( opts.metadata.size ) ;
-			auto totalSize = locale.formattedDataSize( opts.metadata.size ) ;
-			auto current   = locale.formattedDataSize( p.received() ) ;
-			auto percentage = QString::number( perc,'f',2 ) ;
+			auto total = [ & ](){
 
-			auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
+				if( opts.metadata.size == 0 ){
 
-			this->post( engine.name(),QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,opts.id ) ;
+					return p.total() ;
+				}else{
+					return opts.metadata.size ;
+				}
+			}() ;
+
+			if( total == 0 ){
+
+				auto current = locale.formattedDataSize( p.received() ) ;
+
+				auto m = QString( "%1" ).arg( current ) ;
+
+				this->post( engine.name(),QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,opts.id ) ;
+			}else{
+				auto perc = double( p.received() )  * 100 / double( total ) ;
+				auto totalSize = locale.formattedDataSize( total ) ;
+				auto current   = locale.formattedDataSize( p.received() ) ;
+				auto percentage = QString::number( perc,'f',2 ) ;
+
+				auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
+
+				this->post( engine.name(),QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,opts.id ) ;
+			}
 		}
 	} ) ;
 }
