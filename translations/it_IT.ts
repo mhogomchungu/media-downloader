@@ -738,11 +738,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>File non trovato</translation>
     </message>
     <message>
         <source>Dutch (Netherlands)</source>
-        <translation type="unfinished"></translation>
+        <translation>Olandese (Paesi Bassi)</translation>
     </message>
 </context>
 <context>
