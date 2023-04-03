@@ -177,139 +177,139 @@
     </message>
     <message>
         <source>Engine Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Programma naam:</translation>
     </message>
     <message>
         <source>Paste Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Klembordinhoud plakken</translation>
     </message>
     <message>
         <source>Set Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel downloadopties in</translation>
     </message>
     <message>
         <source>Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Batch downloader</translation>
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Klembord-URL plakken</translation>
     </message>
     <message>
         <source>Monitor Clipboard For Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Monitor klembord voor URL</translation>
     </message>
     <message>
         <source>Add Url To List</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg URL toe aan lijst</translation>
     </message>
     <message>
         <source>Time Interval Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Starttijd tijdsinterval (UU:MM:SS):</translation>
     </message>
     <message>
         <source>Time Interval End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Eindtijd tijdsinterval (UU:MM:SS):</translation>
     </message>
     <message>
         <source>Chapters(Comma Separated):</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdstukken (door komma&apos;s gescheiden):</translation>
     </message>
     <message>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Opgesplitst in hoofdstukken</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg</translation>
     </message>
     <message>
         <source>Enter Playlist URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer afspeellijst-URL in:</translation>
     </message>
     <message>
         <source>Clear Internal Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wis intern archiefbestand</translation>
     </message>
     <message>
         <source>Use Internal Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik intern archiefbestand</translation>
     </message>
     <message>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>home</translation>
     </message>
     <message>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabblad Bibliotheek inschakelen (kan ertoe leiden dat de gebruikersinterface voor een zeer lange tijd vastloopt als de downloadmap te veel items bevat)</translation>
     </message>
     <message>
         <source>Update Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Scale Factor(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Schaalfactor (herstart nodig)</translation>
     </message>
     <message>
         <source>Show Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon miniaturen</translation>
     </message>
     <message>
         <source>Maximum Cuncurrent Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale gelijktijdige downloads</translation>
     </message>
     <message>
         <source>Use System Executables If Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik uitvoerbare systeembestanden indien beschikbaar</translation>
     </message>
     <message>
         <source>Show Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon systeemvakpictogram</translation>
     </message>
     <message>
         <source>Auto Save List Of Not Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijst met niet-gedownloade media automatisch opslaan</translation>
     </message>
     <message>
         <source>Check For Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Controleer op updates</translation>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekstcodering</translation>
     </message>
     <message>
         <source>Preset Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Vooraf ingestelde opties</translation>
     </message>
     <message>
         <source>Reset Option To Its Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Optie herstellen naar de standaardwaarde</translation>
     </message>
     <message>
         <source>Engine&apos;s Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Programmas naam</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard</translation>
     </message>
     <message>
         <source>Options To Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Opties om toe te voegen</translation>
     </message>
     <message>
         <source>Url Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>URL-beheerder</translation>
     </message>
     <message>
         <source>Set What Url Should Be Managed By What Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel in welke URL door welke programma moet worden beheerd</translation>
     </message>
     <message>
         <source>Url Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Url Filter</translation>
     </message>
 </context>
 <context>
@@ -532,215 +532,215 @@
     </message>
     <message>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation>Auteursrechten</translation>
     </message>
     <message>
         <source>Qt Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Qt Versie</translation>
     </message>
     <message>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit programma is gratis software; u kunt het herdistribueren en/of wijzigen onder de voorwaarden van de GNU General Public License zoals gepubliceerd door de Free Software Foundation; hetzij versie 2 van de Licentie, of (naar uw keuze) een latere versie.</translation>
     </message>
     <message>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit programma wordt verspreid in de hoop dat het nuttig zal zijn, maar ZONDER ENIGE GARANTIE; zonder zelfs de impliciete garantie van VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD DOEL. Zie de GNU General Public License voor meer details.</translation>
     </message>
     <message>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation type="unfinished"></translation>
+        <translation>Om deze controles uit te schakelen, doet u het volgende:-</translation>
     </message>
     <message>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Programma &quot;%1&quot; vereist minimaal versie &quot;%2&quot; van Media Downloader</translation>
     </message>
     <message>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout, uitvoerbaar bestand naar backend &quot;%1&quot; kan niet worden gevonden</translation>
     </message>
     <message>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout, kan configuratiebestand %1 niet ontleden</translation>
     </message>
     <message>
         <source>Failed to find executable &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan uitvoerbaar bestand &quot;%1&quot; niet vinden</translation>
     </message>
     <message>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan het uitvoerbare bestand van python3 niet vinden voor backend &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Requested Format Is Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Gevraagd formaat is niet beschikbaar</translation>
     </message>
     <message>
         <source>Network Error Occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is een netwerkfout opgetreden</translation>
     </message>
     <message>
         <source>Invalid Url Entered</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldige URL ingevoerd</translation>
     </message>
     <message>
         <source>ErrorCode</source>
-        <translation type="unfinished"></translation>
+        <translation>Foutcode</translation>
     </message>
     <message>
         <source>Download Failed, Engine crashed</source>
-        <translation type="unfinished"></translation>
+        <translation>Download mislukt, programma is gecrasht</translation>
     </message>
     <message>
         <source>Format Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Formaat code</translation>
     </message>
     <message>
         <source>Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensie</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Resolutie</translation>
     </message>
     <message>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation>Opmerking</translation>
     </message>
     <message>
         <source>Failed to open file for writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan het bestand niet openen om te bewerken</translation>
     </message>
     <message>
         <source>Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwerken</translation>
     </message>
     <message>
         <source>Post Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Nabewerking</translation>
     </message>
     <message>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Snelheid:</translation>
     </message>
     <message>
         <source>Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedownload</translation>
     </message>
     <message>
         <source>Time Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijd over</translation>
     </message>
     <message>
         <source>This May Take A Very Long Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit kan erg lang duren</translation>
     </message>
     <message>
         <source>Method</source>
-        <translation type="unfinished"></translation>
+        <translation>Methode</translation>
     </message>
     <message>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Werk &quot;%1&quot; bij naar ten minste versie &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Extracting archive: </source>
-        <translation type="unfinished"></translation>
+        <translation>Archief uitpakken: </translation>
     </message>
     <message>
         <source>Failed To Extract</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan niet uitpakken</translation>
     </message>
     <message>
         <source>Network Failed To Respond Within %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerk reageert niet binnen %1 seconden</translation>
     </message>
     <message>
         <source>Update Complete, Restart To Use New Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Update voltooid, herstart om nieuwe versie te gebruiken</translation>
     </message>
     <message>
         <source>File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestand niet gevonden</translation>
     </message>
     <message>
         <source>Download complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Download compleet</translation>
     </message>
     <message>
         <source>Resetting download folder to default</source>
-        <translation type="unfinished"></translation>
+        <translation>Downloadmap herstellen naar standaard</translation>
     </message>
     <message>
         <source>Italian (Italy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Italiaans (Italie)</translation>
     </message>
     <message>
         <source>Swedish (Sweden)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zweeds (Zweden)</translation>
     </message>
     <message>
         <source>German (Germany)</source>
-        <translation type="unfinished"></translation>
+        <translation>Duits (Duitsland)</translation>
     </message>
     <message>
         <source>Portuguese (Brazil)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugees (Brazilie)</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard</translation>
     </message>
     <message>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestandsnaam met de extensie &quot;.txt&quot; slaat alleen URL&apos;s op</translation>
     </message>
     <message>
         <source>Engine Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Programma naam:</translation>
     </message>
     <message>
         <source>Extra Downloading Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Extra downloadopties</translation>
     </message>
     <message>
         <source>Download Time Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijdsinterval downloaden</translation>
     </message>
     <message>
         <source>Download Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdstukken downloaden</translation>
     </message>
     <message>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Opgesplitst in hoofdstukken</translation>
     </message>
     <message>
         <source>Engine Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Programma naam</translation>
     </message>
     <message>
         <source>Installed Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Geïnstalleerde versie</translation>
     </message>
     <message>
         <source>Latest Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatste versie</translation>
     </message>
     <message>
         <source>There Is An Update For </source>
-        <translation type="unfinished"></translation>
+        <translation>Er is een update voor </translation>
     </message>
     <message>
         <source>Update Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Update gevonden</translation>
     </message>
     <message>
         <source>Newest Version Is %1, Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwste versie %1, Is aan bijwerken</translation>
     </message>
     <message>
         <source>Dutch (Netherlands)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nederlands (Nederland)</translation>
     </message>
 </context>
 <context>
@@ -799,11 +799,11 @@
     </message>
     <message>
         <source>Copy Url %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieer URL %1</translation>
     </message>
     <message>
         <source>Download Media Part</source>
-        <translation type="unfinished"></translation>
+        <translation>Download media onderdeel</translation>
     </message>
 </context>
 <context>
@@ -830,23 +830,23 @@
     </message>
     <message>
         <source>Set As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellen als standaard</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieer</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard</translation>
     </message>
     <message>
         <source>Best-audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Beste audio</translation>
     </message>
     <message>
         <source>Best-audiovideo</source>
-        <translation type="unfinished"></translation>
+        <translation>Beste audiovideo</translation>
     </message>
 </context>
 <context>
@@ -927,19 +927,19 @@
     </message>
     <message>
         <source>Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg controls</translation>
     </message>
     <message>
         <source>Show Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon controls</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg</translation>
     </message>
 </context>
 </TS>
