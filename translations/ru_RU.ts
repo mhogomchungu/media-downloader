@@ -273,7 +273,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1746"/>
         <source>Check For Updates</source>
-        <translation>Проверить обновления</translation>
+        <translation>Проверять обновления</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1793"/>
@@ -542,12 +542,12 @@
     <message>
         <location filename="../src/about.cpp" line="58"/>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта программа является бесплатным ПО; вы можете распространять его и/или изменять в соответствии с условиями GNU General Public License, опубликованной Free Software Foundation; либо версией 2 этой лицензии, либо (по вашему выбору) любой более поздней версией.</translation>
     </message>
     <message>
         <location filename="../src/about.cpp" line="59"/>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта программа распространяется в надежде, что она окажется полезной, но БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ; даже без подразумеваемых гарантий КОММЕРЧЕСКОЙ ПРИГОДНОСТИ или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННЫХ ЦЕЛЕЙ. Более подробную информацию см. в GNU General Public License</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="28"/>
@@ -612,7 +612,7 @@
     <message>
         <location filename="../src/translator.cpp" line="40"/>
         <source>Dutch (Netherlands)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="138"/>
@@ -756,7 +756,7 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="253"/>
         <source>Failed To Extract</source>
-        <translation type="unfinished"></translation>
+        <translation>Извлечение не удалось</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="277"/>
@@ -811,12 +811,12 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="459"/>
         <source>Update Complete, Restart To Use New Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновление завершено, перезапустите, чтобы использовать новую версию</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="469"/>
         <source>File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл не найден</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="539"/>
@@ -994,7 +994,7 @@
     <message>
         <location filename="../src/engines/yt-dlp.cpp" line="876"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation>Пожалуйста, обновите &quot;%1&quot; По крайней мере до версии &quot;%2&quot;</translation>
+        <translation>Обновите &quot;%1&quot; По крайней мере до версии &quot;%2&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="979"/>
