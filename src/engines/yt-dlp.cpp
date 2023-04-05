@@ -993,19 +993,35 @@ yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
 
 const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 {
+	auto m = s.toStringList() ;
+
 	if( s.doneDownloading() ){
 
-		if( !m_fileName.isEmpty() ){
+		for( int i = m.size() - 1 ; i >= 0 ; i-- ){
 
-			return m_postProcessing.text( m_fileName ) ;
+			const auto& e = m[ i ] ;
+
+			if( e.startsWith( "ERROR: " ) ){
+
+				m_tmp = e ;
+
+				return m_tmp ;
+			}
+		}
+
+		if( m_fileName.isEmpty() ){
+
+			return m_tmp ;
+		}else{
+			return m_fileName ;
 		}
 	}
 
 	if( m_likeYtdlp ){
 
-		return this->ytdlpOutput( s ) ;
+		return this->ytdlpOutput( m,s ) ;
 	}else{
-		return this->youtubedlOutput( s ) ;
+		return this->youtubedlOutput( m,s ) ;
 	}
 }
 
@@ -1013,10 +1029,9 @@ yt_dlp::youtube_dlFilter::~youtube_dlFilter()
 {
 }
 
-const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data& s )
+const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const QList<QByteArray>& data,
+							     const Logger::Data& s )
 {
-	const auto data = s.toStringList() ;
-
 	for( const auto& e : data ){
 
 		if( e.startsWith( "ERROR: " ) ){
@@ -1090,10 +1105,9 @@ const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data&
 	return m_preProcessing.text() ;
 }
 
-const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data& s )
+const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const QList<QByteArray>& data,
+							 const Logger::Data& s )
 {
-	const auto data = s.toStringList() ;
-
 	for( const auto& e : data ){
 
 		if( e.contains( this->compatYear() ) ){
