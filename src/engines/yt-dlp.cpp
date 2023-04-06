@@ -993,13 +993,23 @@ yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
 
 const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 {
-	auto m = s.toStringList() ;
+	if( s.lastLineIsProgressLine() ){
+
+		if( m_likeYtdlp ){
+
+			return this->ytdlpProgressLine( s.lastText() ) ;
+		}else{
+			return this->youtubedlProgressLine( s.lastText() ) ;
+		}
+	}
+
+	const auto m = s.toStringList() ;
 
 	if( s.doneDownloading() ){
 
-		for( int i = m.size() - 1 ; i >= 0 ; i-- ){
+		for( auto it = m.rbegin() ; it != m.rend() ; it++ ){
 
-			const auto& e = m[ i ] ;
+			const QByteArray& e = *it ;
 
 			if( e.startsWith( "ERROR: " ) ){
 
@@ -1019,9 +1029,9 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 	if( m_likeYtdlp ){
 
-		return this->ytdlpOutput( m,s ) ;
+		return this->ytdlpOutput( m ) ;
 	}else{
-		return this->youtubedlOutput( m,s ) ;
+		return this->youtubedlOutput( m ) ;
 	}
 }
 
@@ -1029,10 +1039,11 @@ yt_dlp::youtube_dlFilter::~youtube_dlFilter()
 {
 }
 
-const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const QList<QByteArray>& data,
-							     const Logger::Data& s )
+const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const Logger::Data::QByteArrayList& data )
 {
-	for( const auto& e : data ){
+	for( const auto& m : data ){
+
+		const QByteArray& e = m ;
 
 		if( e.startsWith( "ERROR: " ) ){
 
@@ -1068,47 +1079,14 @@ const QByteArray& yt_dlp::youtube_dlFilter::youtubedlOutput( const QList<QByteAr
 		}
 	}
 
-	if( s.lastLineIsProgressLine() ){
-
-		const auto& mm = s.lastText() ;
-
-		if( mm.startsWith( "frame=" ) || mm.startsWith( "size=" ) ){
-
-			/*
-			* ffmpeg output
-			*/
-
-			m_tmp = m_fileName + "\n" + mm ;
-			return m_tmp ;
-		}
-
-		auto w = mm.indexOf( ' ' ) ;
-
-		if( w != -1 ){
-
-			for( ; w < mm.size() ; w++ ){
-
-				if( mm[ w ] != ' ' ){
-
-					break ;
-				}
-			}
-		}else{
-			w = 0 ;
-		}
-
-		m_tmp = m_fileName + "\n" + mm.mid( w ) ;
-
-		return m_tmp ;
-	}
-
 	return m_preProcessing.text() ;
 }
 
-const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const QList<QByteArray>& data,
-							 const Logger::Data& s )
+const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const Logger::Data::QByteArrayList& data )
 {
-	for( const auto& e : data ){
+	for( const auto& m : data ){
+
+		const QByteArray& e = m ;
 
 		if( e.contains( this->compatYear() ) ){
 
@@ -1151,40 +1129,70 @@ const QByteArray& yt_dlp::youtube_dlFilter::ytdlpOutput( const QList<QByteArray>
 		}
 	}
 
-	if( s.lastLineIsProgressLine() ){
+	return m_preProcessing.text() ;
+}
 
-		const auto& mm = s.lastText() ;
+const QByteArray& yt_dlp::youtube_dlFilter::youtubedlProgressLine( const QByteArray& mm )
+{
+	if( mm.startsWith( "frame=" ) || mm.startsWith( "size=" ) ){
 
-		if( mm.startsWith( "[DL:" ) ){
+		/*
+		* ffmpeg output
+		*/
 
-			/*
-			 * aria2c when doing concurrent downloads
-			 */
-
-			m_tmp = m_fileName + "\n" + mm ;
-			return m_tmp ;
-
-		}else if( mm.startsWith( "frame=" ) || mm.startsWith( "size=" ) ){
-
-			/*
-			 * ffmpeg output
-			 */
-
-			m_tmp = m_fileName + "\n" + mm ;
-			return m_tmp ;
-		}else{ //
-			m_tmp = m_fileName + "\n" + mm.mid( 11 ) ;
-
-			const auto& engine = engines::engine::functions::filter::engine() ;
-
-			if( engine.name() == "yt-dlp-aria2c" ){
-
-				aria2c::trimProgressLine( m_tmp ) ;
-			}
-
-			return m_tmp ;
-		}
+		m_tmp = m_fileName + "\n" + mm ;
+		return m_tmp ;
 	}
 
-	return m_preProcessing.text() ;
+	auto w = mm.indexOf( ' ' ) ;
+
+	if( w != -1 ){
+
+		for( ; w < mm.size() ; w++ ){
+
+			if( mm[ w ] != ' ' ){
+
+				break ;
+			}
+		}
+	}else{
+		w = 0 ;
+	}
+
+	m_tmp = m_fileName + "\n" + mm.mid( w ) ;
+
+	return m_tmp ;
+}
+
+const QByteArray& yt_dlp::youtube_dlFilter::ytdlpProgressLine( const QByteArray& mm )
+{
+	if( mm.startsWith( "[DL:" ) ){
+
+		/*
+		 * aria2c when doing concurrent downloads
+		 */
+
+		m_tmp = m_fileName + "\n" + mm ;
+		return m_tmp ;
+
+	}else if( mm.startsWith( "frame=" ) || mm.startsWith( "size=" ) ){
+
+		/*
+		 * ffmpeg output
+		 */
+
+		m_tmp = m_fileName + "\n" + mm ;
+		return m_tmp ;
+	}else{ //
+		m_tmp = m_fileName + "\n" + mm.mid( 11 ) ;
+
+		const auto& engine = engines::engine::functions::filter::engine() ;
+
+		if( engine.name() == "yt-dlp-aria2c" ){
+
+			aria2c::trimProgressLine( m_tmp ) ;
+		}
+
+		return m_tmp ;
+	}
 }

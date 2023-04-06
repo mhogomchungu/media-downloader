@@ -177,7 +177,9 @@ const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
 
 			auto m = s.toStringList() ;
 
-			for( const auto& it : m ){
+			for( const auto& mm : m ){
+
+				const QByteArray& it = mm ;
 
 				if( it.startsWith( "you-get: [Error]" ) ){
 

@@ -29,6 +29,8 @@
 #include "logwindow.h"
 #include "util.hpp"
 
+#include <vector>
+
 class Logger
 {
 public:
@@ -213,9 +215,89 @@ public:
 		{
 			m_processOutputs.clear() ;
 		}
-		QList< QByteArray > toStringList() const
+		class QByteArrayList
 		{
-			QList< QByteArray > s ;
+		public:
+			QByteArrayList()
+			{
+			}
+			auto begin()
+			{
+				return m_array.begin() ;
+			}
+			auto end()
+			{
+				return m_array.end() ;
+			}
+			auto begin() const
+			{
+				return m_array.begin() ;
+			}
+			auto end() const
+			{
+				return m_array.end() ;
+			}
+			auto rbegin()
+			{
+				return m_array.rbegin() ;
+			}
+			auto rend()
+			{
+				return m_array.rend() ;
+			}
+			auto rbegin() const
+			{
+				return m_array.rbegin() ;
+			}
+			auto rend() const
+			{
+				return m_array.rend() ;
+			}
+			void append( const QByteArray& s )
+			{
+				m_array.emplace_back( s ) ;
+			}
+			const QByteArray& last() const
+			{
+				return *m_array.rbegin() ;
+			}
+			const QByteArray& last()
+			{
+				return *m_array.rbegin() ;
+			}
+		private:
+			class ByteArray
+			{
+			public:
+				ByteArray( const QByteArray& s ) : m_array( &s )
+				{
+				}
+				operator const QByteArray&()
+				{
+					return *m_array ;
+				}
+				operator const QByteArray&() const
+				{
+					return *m_array ;
+				}
+				operator QString()
+				{
+					return *m_array ;
+				}
+				operator QString() const
+				{
+					return *m_array ;
+				}
+			private:
+				const QByteArray * m_array ;
+			} ;
+
+			std::vector< ByteArray > m_array ;
+		};
+
+		QByteArrayList toStringList() const
+		{
+			QByteArrayList s ;
 
 			for( const auto& it : m_processOutputs ){
 

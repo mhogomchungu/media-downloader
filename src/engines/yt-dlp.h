@@ -41,8 +41,11 @@ public:
 		~youtube_dlFilter() override ;
 	private:
 		const char * compatYear() ;
-		const QByteArray& youtubedlOutput( const QList<QByteArray>&,const Logger::Data& ) ;
-		const QByteArray& ytdlpOutput( const QList<QByteArray>&,const Logger::Data& ) ;
+		const QByteArray& youtubedlOutput( const Logger::Data::QByteArrayList& ) ;
+		const QByteArray& ytdlpOutput( const Logger::Data::QByteArrayList& ) ;
+		const QByteArray& youtubedlProgressLine( const QByteArray& ) ;
+		const QByteArray& ytdlpProgressLine( const QByteArray& ) ;
+
 		bool m_likeYtdlp ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
