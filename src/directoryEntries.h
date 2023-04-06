@@ -286,11 +286,11 @@ private:
 
 					if( S_ISREG( m.st_mode ) ){
 
-						m_entries.addFile( m.st_mtime,name ) ;
+						m_entries.addFile( m.st_ctime,name ) ;
 
 					}else if( S_ISDIR( m.st_mode ) ){
 
-						m_entries.addFolder( m.st_mtime,name ) ;
+						m_entries.addFolder( m.st_ctime,name ) ;
 					}
 				}
 			}
