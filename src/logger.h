@@ -25,6 +25,7 @@
 #include <QStringList>
 #include <QTableWidgetItem>
 #include <QDebug>
+#include <QTime>
 
 #include "logwindow.h"
 #include "util.hpp"
@@ -34,6 +35,23 @@
 class Logger
 {
 public:
+	class locale
+	{
+	public:
+		QString formattedDataSize( qint64 ) const ;
+		static QString secondsToString( int s )
+		{
+			if( s < 3600 ){
+
+				return QTime( 0,0,0,0 ).addSecs( s ).toString( "mm:ss" ) ;
+			}else{
+				return QTime( 0,0,0,0 ).addSecs( s ).toString( "hh:mm:ss" ) ;
+			}
+		}
+	private:
+		QLocale m_locale ;
+	};
+
 	class Data
 	{
 	private:
@@ -635,6 +653,7 @@ public:
 		void add( const QByteArray& data,QChar token ) const ;
 		updateLogger::args m_args ;
 		Logger::Data& m_outPut ;
+		Logger::locale m_locale ;
 		int m_id ;
 		bool m_aria2c ;
 		bool m_ffmpeg ;

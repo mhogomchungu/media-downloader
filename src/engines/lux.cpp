@@ -59,7 +59,7 @@ std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const Q
 {
 	std::vector<engines::engine::functions::mediaInfo> ent ;
 
-	utility::locale locale ;
+	Logger::locale locale ;
 
 	for( const auto& it : arr ){
 

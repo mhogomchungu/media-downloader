@@ -27,7 +27,7 @@ class yt_dlp : public engines::engine::functions
 public:
 	static const char * testData() ;
 
-	static QByteArray formatYdDlpOutput( const QByteArray& ) ;
+	static QByteArray formatYdDlpOutput( const Logger::locale&,const QByteArray& ) ;
 
 	~yt_dlp() override ;
 

@@ -254,6 +254,35 @@ private:
 		QString fileName ;
 	};
 
+	class File
+	{
+	public:
+		void open( const QString& e )
+		{
+			m_file = std::make_unique< QFile >( e ) ;
+			m_file->remove() ;
+			m_file->open( QIODevice::WriteOnly ) ;
+		}
+		void close()
+		{
+			m_file->close() ;
+		}
+		void rename( const QString& e )
+		{
+			m_file->rename( e ) ;
+		}
+		void write( const QByteArray& e ) const
+		{
+			m_file->write( e ) ;
+		}
+		QFile& handle()
+		{
+			return *m_file ;
+		}
+	private:
+		mutable utils::misc::unique_ptr< QFile > m_file ;
+	};
+
 	struct Opts
 	{
 		Opts( networkAccess::iterator itr,
@@ -281,26 +310,21 @@ private:
 				filePath += ".tmp" ;
 			}
 		}
-		void openFile()
+		Opts move() const
 		{
-			m_file = std::make_unique< QFile >( this->filePath ) ;
-			m_file->remove() ;
-			m_file->open( QIODevice::WriteOnly ) ;
-		}
-		QFile& file()
-		{
-			return *m_file ;
+			return std::move( const_cast< Opts& >( *this ) ) ;
 		}
 		networkAccess::iterator iter ;
 		QString exeBinPath ;
 		networkAccess::metadata metadata ;
 		QString filePath ;
 		QString tempPath ;
-		QString networkError ;
-		utils::misc::unique_ptr< QFile > m_file ;
+		mutable QString networkError ;
 		bool isArchive = false ;
 		networkAccess::showVersionInfo showVinfo ;
 		int id ;
+		Logger::locale locale ;
+		networkAccess::File file ;
 	};
 
 	struct updateMDOptions
@@ -313,10 +337,12 @@ private:
 		int id ;
 		double size ;
 		networkAccess::Status status ;
+		Logger::locale locale ;
+		networkAccess::File file ;
 		updateMDOptions move() const
 		{
 			return std::move( const_cast< updateMDOptions& >( *this ) ) ;
-		}
+		}		
 	};
 
 	void removeNotNeededFiles( networkAccess::updateMDOptions ) const ;

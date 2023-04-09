@@ -82,8 +82,6 @@ void networkAccess::updateMediaDownloader( int id,networkAccess::Status status )
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	m_basicdownloader.setAsActive() ;
-
 	m_network.get( this->networkRequest( url ),[ this,id,status = status.move() ]( const utils::network::progress& p )mutable{
 
 		if( p.finished() ){
@@ -157,19 +155,15 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 {
 	md.tmpFile = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().tmp( md.name ) ) ;
 
-	QFile::remove( md.tmpFile ) ;
-
 	this->post( m_appName,QObject::tr( "Downloading" ) + ": " + md.url,md.id ) ;
 
 	this->post( m_appName,QObject::tr( "Destination" ) + ": " + md.tmpFile,md.id ) ;
 
 	auto url = this->networkRequest( md.url ) ;
 
-	auto file = std::make_unique< QFile >( md.tmpFile ) ;
+	md.file.open( md.tmpFile ) ;
 
-	file->open( QIODevice::WriteOnly ) ;
-
-	m_network.get( url,[ this,file = std::move( file ),locale = utility::locale(),md = md.move() ]( const utils::network::progress& p ){
+	m_network.get( url,[ this,md = md.move() ]( const utils::network::progress& p ){
 
 		if( p.finished() ){
 
@@ -194,11 +188,11 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 				this->extractMediaDownloader( md.move() ) ;
 			}
 		}else{
-			file->write( p.data() ) ;
+			md.file.write( p.data() ) ;
 
 			auto perc = double( p.received() )  * 100 / md.size ;
-			auto totalSize = locale.formattedDataSize( qint64( md.size ) ) ;
-			auto current   = locale.formattedDataSize( p.received() ) ;
+			auto totalSize = md.locale.formattedDataSize( qint64( md.size ) ) ;
+			auto current   = md.locale.formattedDataSize( p.received() ) ;
 			auto percentage = QString::number( perc,'f',2 ) ;
 
 			auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
@@ -466,14 +460,14 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 		opts.networkError = QObject::tr( "Download Failed" ) + ": " + m ;
 
-		return this->finished( std::move( opts ) ) ;
+		return this->finished( opts.move() ) ;
 	}
 
 	const auto& engine = opts.iter.engine() ;
 
 	engine.updateEnginePaths( m_ctx,opts.filePath,opts.exeBinPath,opts.tempPath ) ;
 
-	opts.openFile() ;
+	opts.file.open( opts.filePath ) ;
 
 	this->post( engine.name(),QObject::tr( "Downloading" ) + ": " + opts.metadata.url,opts.id ) ;
 
@@ -481,7 +475,7 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 	auto url = this->networkRequest( opts.metadata.url ) ;
 
-	m_network.get( url,[ this,opts = std::move( opts ),&engine,locale = utility::locale() ]( const utils::network::progress& p )mutable{
+	m_network.get( url,[ this,opts = opts.move(),&engine ]( const utils::network::progress& p ){
 
 		if( p.finished() ){
 
@@ -497,9 +491,9 @@ void networkAccess::download( networkAccess::Opts opts ) const
 				}
 			}
 
-			this->finished( std::move( opts ) ) ;
+			this->finished( opts.move() ) ;
 		}else{
-			opts.file().write( p.data() ) ;
+			opts.file.write( p.data() ) ;
 
 			auto total = [ & ](){
 
@@ -513,15 +507,15 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 			if( total == 0 ){
 
-				auto current = locale.formattedDataSize( p.received() ) ;
+				auto current = opts.locale.formattedDataSize( p.received() ) ;
 
 				auto m = QString( "%1" ).arg( current ) ;
 
 				this->post( engine.name(),QObject::tr( "Downloading" ) + " " + engine.name() + ": " + m,opts.id ) ;
 			}else{
 				auto perc = double( p.received() )  * 100 / double( total ) ;
-				auto totalSize = locale.formattedDataSize( total ) ;
-				auto current   = locale.formattedDataSize( p.received() ) ;
+				auto totalSize = opts.locale.formattedDataSize( total ) ;
+				auto current   = opts.locale.formattedDataSize( p.received() ) ;
 				auto percentage = QString::number( perc,'f',2 ) ;
 
 				auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
@@ -549,7 +543,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 			str.iter.reportDone() ;
 		}
 	}else{
-		str.file().close() ;
+		str.file.close() ;
 
 		this->post( engine.name(),QObject::tr( "Download complete" ),str.id ) ;
 
@@ -561,11 +555,9 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 			QFile::remove( str.exeBinPath ) ;
 
-			auto& qfile = str.file() ;
+			str.file.rename( str.exeBinPath ) ;
 
-			qfile.rename( str.exeBinPath ) ;
-
-			utility::setPermissions( qfile ) ;
+			utility::setPermissions( str.file.handle() ) ;
 
 			engine.updateCmdPath( str.exeBinPath ) ;
 

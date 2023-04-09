@@ -76,7 +76,7 @@ std::vector<engines::engine::functions::mediaInfo> you_get::mediaProperties( con
 
 		const auto obj = json.object().value( "streams" ).toObject() ;
 
-		utility::locale locale ;
+		Logger::locale locale ;
 
 		for( auto it = obj.begin() ; it != obj.end() ; it++ ){
 

@@ -460,10 +460,8 @@ yt_dlp::~yt_dlp()
 {
 }
 
-QByteArray yt_dlp::formatYdDlpOutput( const QByteArray& e )
+QByteArray yt_dlp::formatYdDlpOutput( const Logger::locale& locale,const QByteArray& e )
 {
-	utility::locale locale ;
-
 	auto obj = QJsonDocument::fromJson( e.mid( 11 ) ).object() ;
 
 	auto downloaded_str = obj.value( "downloaded_bytes" ).toString() ;
@@ -573,7 +571,7 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( co
 	std::vector< engines::engine::functions::mediaInfo > secondToShow ;
 	std::vector< engines::engine::functions::mediaInfo > thirdtToShow ;
 
-	utility::locale s ;
+	Logger::locale s ;
 
 	enum class mediaType{ audioOnly,videoOnly,audioVideo,unknown } ;
 
@@ -784,7 +782,6 @@ bool yt_dlp::supportsShowingComments()
 bool yt_dlp::updateVersionInfo()
 {
 	return false ;
-	//return this->likeYtdlp() ;
 }
 
 bool yt_dlp::likeYtdlp()

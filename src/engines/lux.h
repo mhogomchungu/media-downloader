@@ -78,6 +78,6 @@ private:
 						    const QByteArray& allData,
 						    const QByteArray& lastData ) const ;
 	private:
-		utility::locale m_locale ;
+		Logger::locale m_locale ;
 	} m_parseOutput ;
 };

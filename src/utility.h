@@ -390,23 +390,6 @@ namespace utility
 		QJsonObject m_obj ;
 	};
 
-	class locale
-	{
-	public:
-		QString formattedDataSize( qint64 ) const ;
-		static QString secondsToString( int s )
-		{
-			if( s < 3600 ){
-
-				return QTime( 0,0,0,0 ).addSecs( s ).toString( "mm:ss" ) ;
-			}else{
-				return QTime( 0,0,0,0 ).addSecs( s ).toString( "hh:mm:ss" ) ;
-			}
-		}
-	private:
-		QLocale m_locale ;
-	};
-
 	class uiIndex
 	{
 	public:
