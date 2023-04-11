@@ -1750,10 +1750,13 @@ void batchdownloader::showList( batchdownloader::listType listType,
 			opts.ctx.TabManager().disableAll() ;
 
 			m_ui.pbCancelBatchDownloder->setEnabled( true ) ;
+			m_ui.pbCancelBatchDownloder->setFocus() ;
 
-		},[]( utility::ProcessExitState,const auto& opts ){
+		},[ this ]( utility::ProcessExitState,const auto& opts ){
 
 			opts.ctx.TabManager().enableAll() ;
+
+			m_ui.lineEditBDUrl->setFocus() ;
 		}
 	) ;
 
