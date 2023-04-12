@@ -263,11 +263,11 @@ private:
 			m_file->remove() ;
 			m_file->open( QIODevice::WriteOnly ) ;
 		}
-		void close()
+		void close() const
 		{
 			m_file->close() ;
 		}
-		void rename( const QString& e )
+		void rename( const QString& e ) const
 		{
 			m_file->rename( e ) ;
 		}
@@ -275,7 +275,7 @@ private:
 		{
 			m_file->write( e ) ;
 		}
-		QFile& handle()
+		QFile& handle() const
 		{
 			return *m_file ;
 		}

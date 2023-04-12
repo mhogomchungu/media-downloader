@@ -167,6 +167,8 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 
 		if( p.finished() ){
 
+			md.file.close() ;
+
 			if( !p.success() ){
 
 				auto m = [ & ](){
@@ -479,6 +481,8 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 		if( p.finished() ){
 
+			opts.file.close() ;
+
 			if( !p.success() ){
 
 				opts.iter.failed() ;
@@ -543,8 +547,6 @@ void networkAccess::finished( networkAccess::Opts str ) const
 			str.iter.reportDone() ;
 		}
 	}else{
-		str.file.close() ;
-
 		this->post( engine.name(),QObject::tr( "Download complete" ),str.id ) ;
 
 		if( str.isArchive ){
@@ -611,7 +613,9 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 			m_ctx.getVersionInfo().check( str.iter.move(),str.showVinfo ) ;
 		}else{
-			this->post( engine.name(),s.stdError,str.id ) ;
+			auto m = QObject::tr( "Failed To Extract" ) ;
+
+			this->post( engine.name(),m + ": " + s.stdError,str.id ) ;
 
 			if( str.iter.hasNext() ){
 
