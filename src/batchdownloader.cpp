@@ -360,6 +360,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			}else if( c.clear() ){
 
+				m_ctx.mainWindow().resetTitle() ;
+
 				m_table.clear() ;
 			}
 		} ;

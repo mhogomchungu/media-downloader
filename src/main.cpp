@@ -78,8 +78,6 @@ int main( int argc,char * argv[] )
 
 	settings.setTheme( mqApp,paths.themePath() ) ;
 
-	mqApp.setApplicationName( "media-downloader" ) ;
-
 	auto args = mqApp.arguments() ;
 
 	if( tests::test_engine( args,mqApp ) ){

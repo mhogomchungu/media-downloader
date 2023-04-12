@@ -56,13 +56,13 @@ public:
 private:
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
+	QString m_appName ;
 	std::unique_ptr< Ui::MainWindow > m_ui ;
 	Logger m_logger ;
 	engines m_engines ;
 	tabManager m_tabManager ;
 	settings& m_settings ;
 	bool m_showTrayIcon ;
-	QString m_defaultWindowTitle ;
 	void closeEvent( QCloseEvent * ) override ;
 };
 

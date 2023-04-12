@@ -39,6 +39,7 @@ public:
 		    Ui::MainWindow& ui,
 		    QWidget& w,
 		    MainWindow& mw,
+		    const QString& appName,
 		    QString debug ) ;
 	void setDefaultEngines() ;
 	tabManager& gotEvent( const QByteArray& e ) ;

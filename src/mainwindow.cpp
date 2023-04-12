@@ -50,14 +50,16 @@ static QString _debug( const QStringList& e )
 MainWindow::MainWindow( QApplication& app,settings& s,translator& t,const QStringList& args ) :
 	m_trayIcon( QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ),
 	m_qApp( app ),
+	m_appName( "Media Downloader" ),
 	m_ui( _init_ui( *this ) ),
 	m_logger( *m_ui->plainTextEditLogger,this,s ),
 	m_engines( m_logger,s,utility::sequentialID() ),
-	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,_debug( args ) ),
+	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,m_appName,_debug( args ) ),
 	m_settings( s ),
-	m_showTrayIcon( s.showTrayIcon() ),
-	m_defaultWindowTitle( this->window()->windowTitle() )
+	m_showTrayIcon( s.showTrayIcon() )
 {
+	this->setTitle( m_appName ) ;
+
 	qRegisterMetaType< utility::networkReply >() ;
 	qRegisterMetaType< reportFinished >() ;
 
@@ -153,7 +155,7 @@ void MainWindow::setTitle( const QString& m )
 
 void MainWindow::resetTitle()
 {
-	this->setTitle( m_defaultWindowTitle ) ;
+	this->setTitle( m_appName ) ;
 }
 
 void MainWindow::Show()
