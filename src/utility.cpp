@@ -1099,8 +1099,12 @@ utility::downLoadOptions utility::setDownloadOptions( const engines::engine& eng
 			}else{
 				return downloadOpts + m ;
 			}
-		}else{
+
+		}else if( downloadOpts.isEmpty() ){
+
 			return u + m ;
+		}else{
+			return u + m + " " + downloadOpts ;
 		}
 	}() ;
 

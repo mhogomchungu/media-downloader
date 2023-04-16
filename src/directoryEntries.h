@@ -71,8 +71,6 @@ public:
 		m_folders.emplace_back( dateCreated,std::move( path ) ) ;
 	}
 
-	friend class iter ;
-
 	class iter
 	{
 	public:
