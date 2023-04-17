@@ -31,6 +31,8 @@
 
 #include <array>
 #include <cstdio>
+#include <cwchar>
+#include <cstring>
 
 #include <limits.h>
 
@@ -53,48 +55,9 @@ private:
 	std::vector< entry > m_folders ;
 	std::vector< entry > m_files ;
 public:
-	class pathManager
-	{
-	public:
-		pathManager( const char * path )
-		{
-			this->init( path ) ;
-		}
-		pathManager( const QString& path )
-		{
-			this->init( path ) ;
-		}
-		const char * setPath( const char * path )
-		{
-			this->append( m_basePathLocation,path ) ;
-
-			return m_buffer.data() ;
-		}
-		const char * path()
-		{
-			return m_buffer.data() ;
-		}
-	private:
-		void init( const QString& path )
-		{
-			if( path.endsWith( "/" ) ){
-
-				this->append( 0,path.toUtf8() ) ;
-				m_basePathLocation = path.size() ;
-			}else{
-				this->append( 0,path.toUtf8() + "/" ) ;
-				m_basePathLocation = path.size() + 1 ;
-			}
-		}
-		void append( std::size_t s,const char * data )
-		{
-			std::snprintf( m_buffer.data() + s,m_buffer.size() - s,"%s",data ) ;
-		}
-		std::size_t m_basePathLocation ;
-		std::array< char,PATH_MAX > m_buffer ;
-	} ;
-
 	bool valid( const char * ) ;
+	bool valid( const wchar_t * ) ;
+
 	bool valid( const QString& ) ;
 	void sort()
 	{
@@ -196,7 +159,7 @@ public:
 
 		if( handle ){
 
-			directoryEntries::pathManager mm( m_path ) ;
+			pathManager mm( m_path ) ;
 
 			if( m_continue ){
 
@@ -219,8 +182,48 @@ public:
 		this->removeDirectory( m_path,[ & ](){ rmdir( m_path.toUtf8().constData() ) ; } ) ;
 	}
 private:
+	class pathManager
+	{
+	public:
+		pathManager( const char * path )
+		{
+			this->init( path ) ;
+		}
+		pathManager( const QString& path )
+		{
+			this->init( path ) ;
+		}
+		const char * setPath( const char * path )
+		{
+			this->append( m_basePathLocation,path ) ;
+
+			return m_buffer.data() ;
+		}
+		const char * path()
+		{
+			return m_buffer.data() ;
+		}
+	private:
+		void init( const QString& path )
+		{
+			if( path.endsWith( "/" ) ){
+
+				this->append( 0,path.toUtf8() ) ;
+				m_basePathLocation = path.size() ;
+			}else{
+				this->append( 0,path.toUtf8() + "/" ) ;
+				m_basePathLocation = path.size() + 1 ;
+			}
+		}
+		void append( std::size_t s,const char * data )
+		{
+			std::snprintf( m_buffer.data() + s,m_buffer.size() - s,"%s",data ) ;
+		}
+		std::size_t m_basePathLocation ;
+		std::array< char,PATH_MAX > m_buffer ;
+	} ;
 	template< typename Function >
-	void removeDirectory( directoryEntries::pathManager pm,Function function )
+	void removeDirectory( pathManager pm,Function function )
 	{
 		auto handle = utils::misc::unique_rsc( opendir,closedir,pm.path() ) ;
 
@@ -256,7 +259,7 @@ private:
 			function() ;
 		}
 	}
-	void removePath( directoryEntries::pathManager& pm,const char * name )
+	void removePath( pathManager& pm,const char * name )
 	{
 		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
@@ -277,7 +280,7 @@ private:
 			}
 		}
 	}
-	bool read( directoryEntries::pathManager& mm,DIR * dir )
+	bool read( pathManager& mm,DIR * dir )
 	{
 		auto e = readdir( dir ) ;
 
@@ -317,10 +320,6 @@ private:
 #ifdef Q_OS_WIN
 
 #include <windows.h>
-#include <strsafe.h>
-
-#include <cstring>
-#include <QDebug>
 
 class directoryManager
 {
@@ -348,7 +347,7 @@ public:
 	}
 	void removeDirectory()
 	{
-		this->removeDirectory( m_path,[ & ](){ RemoveDirectoryA( m_path.toUtf8().constData() ) ; } ) ;
+		this->removeDirectory( m_path,[ & ](){ RemoveDirectoryW( toWChar( m_path ) ) ; } ) ;
 	}
 	directoryEntries readAll()
 	{
@@ -386,18 +385,105 @@ public:
 	{
 	}
 private:
+	class toWChar
+	{
+	public:
+		toWChar( const QString& e )
+		{
+			std::fill( m_buffer.begin(),m_buffer.end(),L'\0' ) ;
+
+			if( e.size() < int( m_buffer.size() - 1 ) ){
+
+				e.toWCharArray( m_buffer.data() ) ;
+			}else{
+				auto m = e.mid( 0,m_buffer.size() - 1 ) ;
+
+				m.toWCharArray( m_buffer.data() ) ;
+			}
+		}
+		operator const wchar_t *()
+		{
+			return m_buffer.data() ;
+		}
+	private:
+		std::array< wchar_t,PATH_MAX > m_buffer ;
+	} ;
+	class pathManager
+	{
+	public:
+		pathManager( const wchar_t * p )
+		{
+			auto len = std::wcslen( p ) ;
+
+			if( p[ len - 1 ] == L'/' ){
+
+				this->append( 0,p ) ;
+				m_basePathLocation = len ;
+			}else{
+				std::wstring path( p ) ;
+
+				path += L"/" ;
+				this->append( 0,path.data() ) ;
+				m_basePathLocation = len + 1 ;
+			}
+		}
+		pathManager( const QString& path )
+		{
+			if( path.endsWith( "/" ) ){
+
+				this->append( 0,toWChar( path ) ) ;
+				m_basePathLocation = path.size() ;
+			}else{
+				this->append( 0,toWChar( path + "/" ) ) ;
+				m_basePathLocation = path.size() + 1 ;
+			}
+		}
+		const wchar_t * setPath( const wchar_t * path )
+		{
+			this->append( m_basePathLocation,path ) ;
+
+			return m_buffer.data() ;
+		}
+		const wchar_t * path()
+		{
+			return m_buffer.data() ;
+		}
+	private:
+		void append( std::size_t s,const wchar_t * data )
+		{
+			std::swprintf( m_buffer.data() + s,m_buffer.size() - s,L"%ls",data ) ;
+		}
+		std::size_t m_basePathLocation ;
+		std::array< wchar_t,PATH_MAX > m_buffer ;
+	} ;
 	class handle
 	{
 	public:
-		handle( const char * s )
+		handle( const wchar_t * s )
 		{
-			auto m = std::string( s ) + "\\*" ;
-			m_handle = FindFirstFileA( m.c_str(),&m_data ) ;
+			auto m = std::wstring( s ) ;
+
+			if( m[ m.size() - 1 ] == L'/' ){
+
+				m.erase( m.end() - 1 ) ;
+			}
+
+			m += L"\\*" ;
+
+			this->init( m.data() ) ;
 		}
 		handle( const QString& s )
 		{
-			auto m = s + "\\*" ;
-			m_handle = FindFirstFileA( m.toUtf8().constData(),&m_data ) ;
+			auto m = s ;
+
+			if( m.endsWith( "/" ) ){
+
+				m.truncate( m.size() - 1 ) ;
+			}
+
+			m += "\\*" ;
+
+			this->init( toWChar( m ) ) ;
 		}
 		bool valid()
 		{
@@ -405,13 +491,13 @@ private:
 		}
 		bool findNext()
 		{
-			return FindNextFileA( m_handle,&m_data ) != 0 ;
+			return FindNextFileW( m_handle,&m_data ) != 0 ;
 		}
 		HANDLE get()
 		{
 			return m_handle ;
 		}
-		const WIN32_FIND_DATA& data()
+		const WIN32_FIND_DATAW& data()
 		{
 			return m_data ;
 		}
@@ -420,25 +506,29 @@ private:
 			FindClose( m_handle ) ;
 		}
 	private:
-		WIN32_FIND_DATA m_data ;
+		void init( const wchar_t * s )
+		{
+			m_handle = FindFirstFileW( s,&m_data ) ;
+		}
+		WIN32_FIND_DATAW m_data ;
 		HANDLE m_handle ;
 	};
-	void removePath( directoryEntries::pathManager& pm,const char * name,const WIN32_FIND_DATA& data )
+	void removePath( pathManager& pm,const wchar_t * name,const WIN32_FIND_DATAW& data )
 	{
-		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
+		if( std::wcscmp( name,L"." ) != 0 && std::wcscmp( name,L".." ) != 0 ){
 
 			auto m = pm.setPath( name ) ;
 
 			if( data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 
-				this->removeDirectory( m,[ &m ](){ RemoveDirectoryA( m ) ; } ) ;
+				this->removeDirectory( m,[ &m ](){ RemoveDirectoryW( m ) ; } ) ;
 			}else{
-				DeleteFile( m ) ;
+				DeleteFileW( m ) ;
 			}
 		}
 	}
 	template< typename Function >
-	void removeDirectory( directoryEntries::pathManager pm,Function function )
+	void removeDirectory( pathManager pm,Function function )
 	{
 		handle h( pm.path() ) ;
 
@@ -478,7 +568,7 @@ private:
 			function() ;
 		}
 	}
-	void add( const WIN32_FIND_DATA& data )
+	void add( const WIN32_FIND_DATAW& data )
 	{
 		auto m = data.cFileName ;
 
@@ -491,9 +581,9 @@ private:
 
 			if( data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 
-				m_entries.addFolder( filesize.QuadPart,m ) ;
+				m_entries.addFolder( filesize.QuadPart,QString::fromWCharArray( m ) ) ;
 			}else{
-				m_entries.addFile( filesize.QuadPart,m ) ;
+				m_entries.addFile( filesize.QuadPart,QString::fromWCharArray( m ) ) ;
 			}
 		}
 	}

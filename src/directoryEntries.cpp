@@ -40,6 +40,26 @@ bool directoryEntries::valid( const char * e )
 	return true ;
 }
 
+bool directoryEntries::valid( const wchar_t * s )
+{
+	if( std::wcscmp( s,L".." ) == 0 ){
+
+		return false ;
+	}
+
+	if( std::wcsncmp( s,L"info_",5 ) == 0 ){
+
+		return false ;
+	}
+
+	if( *s == L'.' ){
+
+		return false ;
+	}
+
+	return true ;
+}
+
 bool directoryEntries::valid( const QString& m )
 {
 	if( m == ".." || m.startsWith( "." ) || m.startsWith( "info_" ) ){
@@ -49,3 +69,7 @@ bool directoryEntries::valid( const QString& m )
 		return true ;
 	}
 }
+
+
+
+
