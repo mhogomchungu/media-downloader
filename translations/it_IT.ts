@@ -742,11 +742,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Checking installed version of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllo versione installata di %1</translation>
     </message>
     <message>
         <source>Found version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione rilevata: %1</translation>
     </message>
 </context>
 <context>
