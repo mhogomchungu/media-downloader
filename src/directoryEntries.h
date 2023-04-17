@@ -48,6 +48,47 @@ private:
 	std::vector< entry > m_folders ;
 	std::vector< entry > m_files ;
 public:
+	class pathManager
+	{
+	public:
+		pathManager( const char * path )
+		{
+			this->init( path ) ;
+		}
+		pathManager( const QString& path )
+		{
+			this->init( path ) ;
+		}
+		const char * setPath( const char * path )
+		{
+			this->append( m_basePathLocation,path ) ;
+
+			return m_buffer.data() ;
+		}
+		const char * path()
+		{
+			return m_buffer.data() ;
+		}
+	private:
+		void init( const QString& path )
+		{
+			if( path.endsWith( "/" ) ){
+
+				this->append( 0,path.toUtf8() ) ;
+				m_basePathLocation = path.size() ;
+			}else{
+				this->append( 0,path.toUtf8() + "/" ) ;
+				m_basePathLocation = path.size() + 1 ;
+			}
+		}
+		void append( std::size_t s,const char * data )
+		{
+			std::snprintf( m_buffer.data() + s,m_buffer.size() - s,"%s",data ) ;
+		}
+		std::size_t m_basePathLocation ;
+		std::array< char,PATH_MAX > m_buffer ;
+	} ;
+
 	bool valid( const char * ) ;
 	bool valid( const QString& ) ;
 	void sort()
@@ -177,39 +218,6 @@ public:
 		this->removeDirectory( m_path,[ & ](){ rmdir( m_path.toUtf8().constData() ) ; } ) ;
 	}
 private:
-	class pathManager
-	{
-	public:
-		pathManager( const QString& path )
-		{
-			if( path.endsWith( "/" ) ){
-
-				this->append( 0,path.toUtf8() ) ;
-				m_basePathLocation = path.size() ;
-			}else{
-				this->append( 0,path.toUtf8() + "/" ) ;
-				m_basePathLocation = path.size() + 1 ;
-			}
-		}
-		const char * setPath( const char * path )
-		{
-			this->append( m_basePathLocation,path ) ;
-
-			return m_buffer.data() ;
-		}
-		const char * path()
-		{
-			return m_buffer.data() ;
-		}
-	private:
-		void append( std::size_t s,const char * data )
-		{
-			std::snprintf( m_buffer.data() + s,m_buffer.size() - s,"%s",data ) ;
-		}
-		std::size_t m_basePathLocation ;
-		std::array< char,PATH_MAX > m_buffer ;
-	} ;
-
 	template< typename Function >
 	void removeDirectory( pathManager pm,Function function )
 	{
@@ -247,7 +255,7 @@ private:
 			function() ;
 		}
 	}
-	void removePath( pathManager& pm,const char * name )
+	void removePath( directoryEntries::pathManage& pm,const char * name )
 	{
 		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
@@ -263,12 +271,12 @@ private:
 
 				}else if( S_ISDIR( m.st_mode ) ){
 
-					this->removeDirectory( { pp },[ pp ](){ rmdir( pp ) ; } ) ;
+					this->removeDirectory( pp,[ pp ](){ rmdir( pp ) ; } ) ;
 				}
 			}
 		}
 	}
-	bool read( pathManager& mm,DIR * dir )
+	bool read( directoryEntries::pathManage& mm,DIR * dir )
 	{
 		auto e = readdir( dir ) ;
 
@@ -380,9 +388,14 @@ private:
 	class handle
 	{
 	public:
-		handle( const QString& path )
+		handle( const char * s )
 		{
-			auto m = path + "\\*" ;
+			auto m = std::string( s ) + "\\*" ;
+			m_handle = FindFirstFileA( m.c_str(),&m_data ) ;
+		}
+		handle( const QString& s )
+		{
+			auto m = s + "\\*" ;
 			m_handle = FindFirstFileA( m.toUtf8().constData(),&m_data ) ;
 		}
 		bool valid()
@@ -409,28 +422,30 @@ private:
 		WIN32_FIND_DATA m_data ;
 		HANDLE m_handle ;
 	};
-	void removePath( const QString& path,const char * name,const WIN32_FIND_DATA& data )
+	void removePath( directoryEntries::pathManager& pm,const char * name,const WIN32_FIND_DATA& data )
 	{
 		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
+			auto m = pm.setPath( name ) ;
+
 			if( data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 
-				this->removeDirectory( path,[ &path ](){ RemoveDirectoryA( path.toUtf8().constData() ) ; } ) ;
+				this->removeDirectory( m,[ &m ](){ RemoveDirectoryA( m ) ; } ) ;
 			}else{
-				DeleteFile( path.toUtf8().constData() ) ;
+				DeleteFile( m ) ;
 			}
 		}
 	}
 	template< typename Function >
-	void removeDirectory( const QString& path,Function function )
+	void removeDirectory( directoryEntries::pathManager pm,Function function )
 	{
-		handle h( path ) ;
+		handle h( pm.path() ) ;
 
 		if( h.valid() ){
 
 			const auto& mm = h.data() ;
 
-			this->removePath( path + "/" + mm.cFileName,mm.cFileName,mm ) ;
+			this->removePath( pm,mm.cFileName,mm ) ;
 
 			if( m_continue ){
 
@@ -440,7 +455,7 @@ private:
 
 						const auto& m = h.data() ;
 
-						this->removePath( path + "/" + m.cFileName,m.cFileName,m ) ;
+						this->removePath( pm,m.cFileName,m ) ;
 					}else{
 						break ;
 					}
@@ -452,7 +467,7 @@ private:
 
 						const auto& m = h.data() ;
 
-						this->removePath( path + "/" + m.cFileName,m.cFileName,m ) ;
+						this->removePath( pm,m.cFileName,m ) ;
 					}else{
 						break ;
 					}
