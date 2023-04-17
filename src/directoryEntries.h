@@ -29,6 +29,11 @@
 #include <atomic>
 #include <vector>
 
+#include <array>
+#include <cstdio>
+
+#include <limits.h>
+
 #include "utils/miscellaneous.hpp"
 
 class directoryEntries
@@ -159,10 +164,6 @@ Q_DECLARE_METATYPE( directoryEntries::iter )
 
 #ifdef Q_OS_LINUX
 
-#include <array>
-#include <cstdio>
-
-#include <limits.h>
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -195,7 +196,7 @@ public:
 
 		if( handle ){
 
-			pathManager mm( m_path ) ;
+			directoryEntries::pathManager mm( m_path ) ;
 
 			if( m_continue ){
 
@@ -219,7 +220,7 @@ public:
 	}
 private:
 	template< typename Function >
-	void removeDirectory( pathManager pm,Function function )
+	void removeDirectory( directoryEntries::pathManager pm,Function function )
 	{
 		auto handle = utils::misc::unique_rsc( opendir,closedir,pm.path() ) ;
 
@@ -255,7 +256,7 @@ private:
 			function() ;
 		}
 	}
-	void removePath( directoryEntries::pathManage& pm,const char * name )
+	void removePath( directoryEntries::pathManager& pm,const char * name )
 	{
 		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
@@ -276,7 +277,7 @@ private:
 			}
 		}
 	}
-	bool read( directoryEntries::pathManage& mm,DIR * dir )
+	bool read( directoryEntries::pathManager& mm,DIR * dir )
 	{
 		auto e = readdir( dir ) ;
 
