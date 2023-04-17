@@ -24,6 +24,7 @@
 
 versionInfo::versionInfo( Ui::MainWindow&,const Context& ctx ) :
 	m_ctx( ctx ),
+	m_network( m_ctx.network() ),
 	m_checkForUpdates( m_ctx.Settings().checkForUpdates() )
 {
 }
@@ -92,6 +93,58 @@ void versionInfo::done( printVinfo vinfo ) const
 	}
 }
 
+void versionInfo::checkForEnginesUpdates( versionInfo::extensionVersionInfo vInfo,
+					  const utils::network::reply& reply ) const
+{
+	auto lv = vInfo.engine().versionInfoFromGithub( utility::networkReply( m_ctx,reply ).data() ) ;
+
+	if( !lv.version.valid() ){
+
+		if( vInfo.hasNext() ){
+
+			return this->checkForEnginesUpdates( vInfo.next() ) ;
+		}else{
+			return this->done( vInfo.move() ) ;
+		}
+	}
+
+	const auto& engine = vInfo.engine() ;
+
+	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
+
+	auto mm = QProcess::ProcessChannelMode::MergedChannels ;
+
+	utility::setPermissions( cmd.exe() ) ;
+
+	utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ lv = std::move( lv ),this,vInfo = vInfo.move() ]( const utils::qprocess::outPut& r ){
+
+		if( r.success() ){
+
+			const auto& engine = vInfo.engine() ;
+
+			util::version iv = engine.setVersionString( r.stdOut ) ;
+
+			auto infov = vInfo.move() ;
+
+			infov.append( engine.name(),std::move( iv ),std::move( lv.version ) ) ;
+
+			if( infov.hasNext() ){
+
+				return this->checkForEnginesUpdates( infov.next() ) ;
+			}else{
+				this->done( infov.move() ) ;
+			}
+		}else{
+			if( vInfo.hasNext() ){
+
+				return this->checkForEnginesUpdates( vInfo.next() ) ;
+			}else{
+				this->done( vInfo.move() ) ;
+			}
+		}
+	} ) ;
+}
+
 void versionInfo::checkForEnginesUpdates( versionInfo::extensionVersionInfo vInfo ) const
 {
 	const auto& engine = vInfo.engine() ;
@@ -118,55 +171,9 @@ void versionInfo::checkForEnginesUpdates( versionInfo::extensionVersionInfo vInf
 		}
 	}
 
-	m_ctx.network().get( url,[ this,vInfo = std::move( vInfo ) ]( const utils::network::reply& reply ){
+	m_network.get( url,[ this,vInfo = vInfo.move() ]( const utils::network::reply& reply ){
 
-		auto lv = vInfo.engine().versionInfoFromGithub( utility::networkReply( m_ctx,reply ).data() ) ;
-
-		if( lv.version.valid() ){
-
-			const auto& engine = vInfo.engine() ;
-
-			engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
-
-			auto mm = QProcess::ProcessChannelMode::MergedChannels ;
-
-			utility::setPermissions( cmd.exe() ) ;
-
-			utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ lv = std::move( lv ),this,vInfo = vInfo.move() ]( const utils::qprocess::outPut& r ){
-
-				if( r.success() ){
-
-					const auto& engine = vInfo.engine() ;
-
-					util::version iv = engine.setVersionString( r.stdOut ) ;
-
-					auto infov = vInfo.move() ;
-
-					infov.append( engine.name(),std::move( iv ),std::move( lv.version ) ) ;
-
-					if( infov.hasNext() ){
-
-						return this->checkForEnginesUpdates( infov.next() ) ;
-					}else{
-						this->done( infov.move() ) ;
-					}
-				}else{
-					if( vInfo.hasNext() ){
-
-						return this->checkForEnginesUpdates( vInfo.next() ) ;
-					}else{
-						this->done( vInfo.move() ) ;
-					}
-				}
-			} ) ;
-		}else{
-			if( vInfo.hasNext() ){
-
-				return this->checkForEnginesUpdates( vInfo.next() ) ;
-			}else{
-				this->done( vInfo.move() ) ;
-			}
-		}
+		this->checkForEnginesUpdates( vInfo.move(),reply ) ;
 	} ) ;
 }
 
@@ -189,7 +196,7 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 		}else{
 			auto ee = vinfo.showVersionInfo() ;
 
-			m_ctx.network().download( this->wrap( std::move( vinfo ) ),ee ) ;
+			m_network.download( this->wrap( std::move( vinfo ) ),ee ) ;
 		}
 	}else{
 		if( engine.backendExists() ){
@@ -217,7 +224,7 @@ void versionInfo::checkForUpdates() const
 {
 	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
 
-	m_ctx.network().get( url,[ this ]( const utils::network::reply& reply ){
+	m_network.get( url,[ this ]( const utils::network::reply& reply ){
 
 		utility::networkReply nreply( m_ctx,reply ) ;
 
@@ -246,18 +253,73 @@ void versionInfo::checkForUpdates() const
 	} ) ;
 }
 
-void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine>& engines ) const
+void versionInfo::checkMediaDownloaderUpdate( int id,
+					      const QByteArray& data,
+					      const std::vector< engines::engine >& engines ) const
+{
+	QJsonParseError err ;
+
+	auto e = QJsonDocument::fromJson( data,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		auto lvs = e.object().value( "tag_name" ).toString() ;
+
+		util::version lv = lvs  ;
+		util::version iv = utility::runningVersionOfMediaDownloader() ;
+
+		versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
+
+		vInfo.append( m_ctx.appName(),iv,lv ) ;
+
+		if( lv.valid() && iv < lv ){
+
+			this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( lvs ),id ) ;
+
+			class meaw : public networkAccess::status
+			{
+			public:
+				meaw( const std::vector< engines::engine >& m,const versionInfo& v ) :
+					m_engines( m ),
+					m_parent( v )
+				{
+				}
+				void done()
+				{
+					m_parent.checkEnginesUpdates( m_engines ) ;
+				}
+			private:
+				const std::vector< engines::engine >& m_engines ;
+				const versionInfo& m_parent ;
+			} ;
+
+			networkAccess::Status s{ util::types::type_identity< meaw >(),engines,*this } ;
+
+			m_network.updateMediaDownloader( id,std::move( s ) ) ;
+		}else{
+			this->checkEnginesUpdates( engines ) ;
+		}
+	}else{
+		m_ctx.logger().add( err.errorString(),id ) ;
+
+		this->checkEnginesUpdates( engines ) ;
+	}
+}
+
+void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine >& engines ) const
 {
 	if( !m_ctx.Settings().showVersionInfoWhenStarting() ){
 
 		return this->checkEnginesUpdates( engines ) ;
 	}
 
+	m_ctx.TabManager().disableAll() ;
+
 	auto id = utility::sequentialID() ;
 
-	this->log( QObject::tr( "Checking installed version of" ) + " " + m_ctx.appName(),id ) ;
+	this->log( QObject::tr( "Checking installed version of %1" ).arg( m_ctx.appName() ),id ) ;
 
-	this->log( QObject::tr( "Found version" ) + ": " + utility::runningVersionOfMediaDownloader() ,id ) ;
+	this->log( QObject::tr( "Found version: %1" ).arg( utility::runningVersionOfMediaDownloader() ),id ) ;
 
 	if( !m_checkForUpdates ){
 
@@ -266,59 +328,15 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 
 	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
 
-	m_ctx.network().get( url,[ this,id,&engines ]( const utils::network::reply& reply ){
+	m_network.get( url,[ this,id,&engines ]( const utils::network::reply& reply ){
 
 		utility::networkReply nreply( m_ctx,reply ) ;
 
 		if( reply.success() ){
 
-			QJsonParseError err ;
-
-			auto e = QJsonDocument::fromJson( nreply.data(),&err ) ;
-
-			if( err.error == QJsonParseError::NoError ){
-
-				auto lvs = e.object().value( "tag_name" ).toString() ;
-
-				util::version lv = lvs  ;
-				util::version iv = utility::runningVersionOfMediaDownloader() ;
-
-				versionInfo::extensionVersionInfo vInfo = m_ctx.Engines().getEnginesIterator() ;
-
-				vInfo.append( m_ctx.appName(),iv,lv ) ;
-
-				if( lv.valid() && iv < lv ){
-
-					this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( lvs ),id ) ;
-
-					class meaw : public networkAccess::status
-					{
-					public:
-						meaw( const std::vector< engines::engine >& m,const versionInfo& v ) :
-							m_engines( m ),
-							m_parent( v )
-						{
-						}
-						void done()
-						{
-							m_parent.checkEnginesUpdates( m_engines ) ;
-						}
-					private:
-						const std::vector< engines::engine >& m_engines ;
-						const versionInfo& m_parent ;
-					};
-
-					networkAccess::Status s{ util::types::type_identity< meaw >(),engines,*this } ;
-
-					m_ctx.network().updateMediaDownloader( id,std::move( s ) ) ;
-				}else{
-					this->checkEnginesUpdates( engines ) ;
-				}
-			}else{
-				m_ctx.logger().add( err.errorString(),id ) ;
-
-				this->checkEnginesUpdates( engines ) ;
-			}
+			this->checkMediaDownloaderUpdate( id,nreply.data(),engines ) ;
+		}else{
+			m_ctx.TabManager().enableAll() ;
 		}
 	} ) ;
 }
@@ -370,7 +388,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 	auto id = utility::sequentialID() ;
 
-	this->log( QObject::tr( "Checking installed version of" ) + " " + engine.name(),id ) ;
+	this->log( QObject::tr( "Checking installed version of %1" ).arg( engine.name() ),id ) ;
 
 	if( engine.name().contains( "yt-dlp" ) && engine.name() != "yt-dlp" ){
 
@@ -382,7 +400,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 			if( version.valid() ){
 
-				this->log( QObject::tr( "Found version" ) + ": " + version.toString(),id ) ;
+				this->log( QObject::tr( "Found version: %1" ).arg( version.toString() ),id ) ;
 
 				return this->done( std::move( vInfo ) ) ;
 			}
@@ -407,57 +425,71 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 	utility::setPermissions( cmd.exe() ) ;
 
-	utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ this,id,vInfo = std::move( vInfo ) ]( const utils::qprocess::outPut& r ){
+	utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ this,id,vInfo = vInfo.move() ]( const utils::qprocess::outPut& r ){
 
-		const auto& engine = vInfo.engine() ;
+		this->printEngineVersionInfo( vInfo.move(),id,r ) ;
+	} ) ;
+}
 
-		if( r.success() ){
+void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo,
+					  int id,
+					  const utils::qprocess::outPut& r ) const
+{
+	const auto& engine = vInfo.engine() ;
 
-			this->log( QObject::tr( "Found version" ) + ": " + engine.setVersionString( r.stdOut ),id ) ;
+	if( r.success() ){
 
-			const auto& url = engine.downloadUrl() ;
+		this->log( QObject::tr( "Found version: %1" ).arg( engine.setVersionString( r.stdOut ) ),id ) ;
 
-			if( !url.isEmpty() && m_checkForUpdates ){
+		const auto& url = engine.downloadUrl() ;
 
-				m_ctx.network().get( url,[ id,this,vInfo = vInfo.move() ]( const utils::network::reply& reply ){
+		if( !url.isEmpty() && m_checkForUpdates ){
 
-					const auto& engine = vInfo.engine() ;
+			m_network.get( url,[ id,this,vInfo = vInfo.move() ]( const utils::network::reply& reply ){
 
-					const auto& versionOnline = engine.versionInfoFromGithub( utility::networkReply( m_ctx,reply ).data() ) ;
-					const auto& installedVersion = engine.versionInfo() ;
+				this->printEngineVersionInfo( vInfo.move(),id,reply ) ;
+			} ) ;
 
-					const auto& version = versionOnline.version ;
-
-					if( version.valid() && installedVersion.valid() && installedVersion < version ){
-
-						auto m = versionOnline.stringVersion ;
-
-						this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ,id ) ;
-
-						auto ee = vInfo.showVersionInfo() ;
-
-						m_ctx.network().download( this->wrap( vInfo.move() ),ee ) ;
-					}else{
-						m_ctx.TabManager().enableAll() ;
-
-						this->done( vInfo.move() ) ;
-					}
-				} ) ;
-
-				return ;
-			}else{
-				m_ctx.TabManager().enableAll() ;
-			}
+			return ;
 		}else{
-			this->log( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),id ) ;
-
 			m_ctx.TabManager().enableAll() ;
-
-			engine.setBroken() ;
 		}
+	}else{
+		this->log( QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( engine.name() ),id ) ;
+
+		m_ctx.TabManager().enableAll() ;
+
+		engine.setBroken() ;
+	}
+
+	this->done( vInfo.move() ) ;
+}
+
+void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo,
+					  int id,
+					  const utils::network::reply& reply ) const
+{
+	const auto& engine = vInfo.engine() ;
+
+	const auto& versionOnline = engine.versionInfoFromGithub( utility::networkReply( m_ctx,reply ).data() ) ;
+	const auto& installedVersion = engine.versionInfo() ;
+
+	const auto& version = versionOnline.version ;
+
+	if( version.valid() && installedVersion.valid() && installedVersion < version ){
+
+		auto m = versionOnline.stringVersion ;
+
+		this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ,id ) ;
+
+		auto ee = vInfo.showVersionInfo() ;
+
+		m_network.download( this->wrap( vInfo.move() ),ee ) ;
+	}else{
+		m_ctx.TabManager().enableAll() ;
 
 		this->done( vInfo.move() ) ;
-	} ) ;
+	}
 }
 
 versionInfo::idone::~idone()

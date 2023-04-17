@@ -152,10 +152,6 @@
         <translation>Download pad</translation>
     </message>
     <message>
-        <source>Media Downloader</source>
-        <translation>Media Downloader</translation>
-    </message>
-    <message>
         <source>Thumbnail</source>
         <translation>Miniatuur</translation>
     </message>
@@ -741,6 +737,14 @@
     <message>
         <source>Dutch (Netherlands)</source>
         <translation>Nederlands (Nederland)</translation>
+    </message>
+    <message>
+        <source>Checking installed version of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Found version: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

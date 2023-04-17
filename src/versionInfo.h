@@ -257,10 +257,18 @@ public:
 	void checkForUpdates() const ;
 	void checkMediaDownloaderUpdate( const std::vector< engines::engine >& ) const ;
 private:
+	void checkForEnginesUpdates( versionInfo::extensionVersionInfo,const utils::network::reply& ) const ;
+
+	void checkMediaDownloaderUpdate( int,const QByteArray&,const std::vector< engines::engine >& ) const ;
+
 	networkAccess::iterator wrap( versionInfo::printVinfo ) const ;
 
 	void printEngineVersionInfo( versionInfo::printVinfo ) const ;
+	void printEngineVersionInfo( versionInfo::printVinfo,int,const utils::qprocess::outPut& ) const ;
+	void printEngineVersionInfo( versionInfo::printVinfo,int,const utils::network::reply& ) const ;
+
 	const Context& m_ctx ;
+	const networkAccess& m_network ;
 	bool m_checkForUpdates ;
 };
 

@@ -192,10 +192,6 @@
         <translation>Cartella download</translation>
     </message>
     <message>
-        <source>Media Downloader</source>
-        <translation>Media Downloader</translation>
-    </message>
-    <message>
         <source>Thumbnail</source>
         <translation>Miniatura</translation>
     </message>
@@ -743,6 +739,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Dutch (Netherlands)</source>
         <translation>Olandese (Paesi Bassi)</translation>
+    </message>
+    <message>
+        <source>Checking installed version of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Found version: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
