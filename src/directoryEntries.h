@@ -326,20 +326,26 @@ private:
 
 #include <windows.h>
 
+static constexpr int directoryEntriesMaxPathbufferSize()
+{
+	//Windows doc says unicode paths that starts with \\?\ have a max path of 32,767 characters.
+	return 32767 ;
+}
+
 class directoryManager
 {
 public:
 	directoryManager( const QString& path,
 			  std::atomic_bool& m,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_path( path ),
+		m_path( QDir::toNativeSeparators( path.startsWith( "\\\\?\\" ) ? path : "\\\\?\\" + path ) ),
 		m_continue( &m )
 	{
 		*m_continue = true ;
 	}
 	directoryManager( const QString& path,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_path( path )
+		m_path( QDir::toNativeSeparators( path.startsWith( "\\\\?\\" ) ? path : "\\\\?\\" + path ) )
 	{
 	}
 	static bool supportsCancel()
@@ -410,8 +416,12 @@ private:
 		{
 			return m_buffer.data() ;
 		}
+		const wchar_t * data()
+		{
+			return m_buffer.data() ;
+		}
 	private:
-		std::array< wchar_t,PATH_MAX > m_buffer ;
+		std::array< wchar_t,directoryEntriesMaxPathbufferSize() > m_buffer ;
 	} ;
 	class pathManager
 	{
@@ -420,26 +430,26 @@ private:
 		{
 			auto len = std::wcslen( p ) ;
 
-			if( p[ len - 1 ] == L'/' ){
+			if( p[ len - 1 ] == L'\\' ){
 
 				this->append( 0,p ) ;
 				m_basePathLocation = len ;
 			}else{
 				std::wstring path( p ) ;
 
-				path += L"/" ;
+				path += L"\\" ;
 				this->append( 0,path.data() ) ;
 				m_basePathLocation = len + 1 ;
 			}
 		}
 		pathManager( const QString& path )
 		{
-			if( path.endsWith( "/" ) ){
+			if( path.endsWith( "\\" ) ){
 
 				this->append( 0,toWChar( path ) ) ;
 				m_basePathLocation = path.size() ;
 			}else{
-				this->append( 0,toWChar( path + "/" ) ) ;
+				this->append( 0,toWChar( path + "\\" ) ) ;
 				m_basePathLocation = path.size() + 1 ;
 			}
 		}
@@ -459,7 +469,7 @@ private:
 			std::swprintf( m_buffer.data() + s,m_buffer.size() - s,L"%ls",data ) ;
 		}
 		std::size_t m_basePathLocation ;
-		std::array< wchar_t,PATH_MAX > m_buffer ;
+		std::array< wchar_t,directoryEntriesMaxPathbufferSize() > m_buffer ;
 	} ;
 	class handle
 	{
@@ -468,25 +478,23 @@ private:
 		{
 			auto m = std::wstring( s ) ;
 
-			if( m[ m.size() - 1 ] == L'/' ){
+			if( m[ m.size() - 1 ] == L'\\' ){
 
-				m.erase( m.end() - 1 ) ;
+				m += L"*" ;
+			}else{
+				m += L"\\*" ;
 			}
-
-			m += L"\\*" ;
 
 			this->init( m.data() ) ;
 		}
-		handle( const QString& s )
+		handle( QString m )
 		{
-			auto m = s ;
+			if( m.endsWith( "\\" ) ){
 
-			if( m.endsWith( "/" ) ){
-
-				m.truncate( m.size() - 1 ) ;
+				m += "*" ;
+			}else{
+				m += "\\*" ;
 			}
-
-			m += "\\*" ;
 
 			this->init( toWChar( m ) ) ;
 		}
