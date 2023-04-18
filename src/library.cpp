@@ -376,6 +376,8 @@ void library::addFile( const directoryEntries::iter& s )
 
 			this->internalEnableAll() ;
 		}
+
+		m_directoryEntries.clear() ;
 	}
 }
 

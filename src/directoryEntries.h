@@ -59,6 +59,11 @@ public:
 	bool valid( const wchar_t * ) ;
 
 	bool valid( const QString& ) ;
+	void clear()
+	{
+		m_folders.clear() ;
+		m_files.clear() ;
+	}
 	void sort()
 	{
 		std::sort( m_folders.begin(),m_folders.end(),[]( const entry& lhs,const entry& rhs ){
