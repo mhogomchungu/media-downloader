@@ -329,26 +329,20 @@ private:
 
 #include <windows.h>
 
-static constexpr int directoryEntriesMaxPathbufferSize()
-{
-	//Windows doc says unicode paths that starts with \\?\ have a max path of 32,767 characters.
-	return 32767 ;
-}
-
 class directoryManager
 {
 public:
 	directoryManager( const QString& path,
 			  std::atomic_bool& m,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_path( QDir::toNativeSeparators( path.startsWith( "\\\\?\\" ) ? path : "\\\\?\\" + path ) ),
+		m_path( this->setPath( path ) ),
 		m_continue( &m )
 	{
 		*m_continue = true ;
 	}
 	directoryManager( const QString& path,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_path( QDir::toNativeSeparators( path.startsWith( "\\\\?\\" ) ? path : "\\\\?\\" + path ) )
+		m_path( this->setPath( path ) )
 	{
 	}
 	static bool supportsCancel()
@@ -361,7 +355,7 @@ public:
 	}
 	void removeDirectory()
 	{
-		this->removeDirectory( m_path,[ & ](){ RemoveDirectoryW( toWChar( m_path ) ) ; } ) ;
+		this->removeDirectory( m_path,[ & ](){ RemoveDirectoryW( m_path.data() ) ; } ) ;
 	}
 	directoryEntries readAll()
 	{
@@ -394,7 +388,7 @@ public:
 
 			entries.sort() ;
 
-			return entries() ;
+			return entries ;
 		}else{
 			return {} ;
 		}
@@ -403,107 +397,24 @@ public:
 	{
 	}
 private:
-	class toWChar
+	std::wstring setPath( const QString& path )
 	{
-	public:
-		toWChar( const QString& e )
-		{
-			std::fill( m_buffer.begin(),m_buffer.end(),L'\0' ) ;
-
-			if( e.size() < int( m_buffer.size() - 1 ) ){
-
-				e.toWCharArray( m_buffer.data() ) ;
-			}else{
-				auto m = e.mid( 0,m_buffer.size() - 1 ) ;
-
-				m.toWCharArray( m_buffer.data() ) ;
-			}
-		}
-		operator const wchar_t *()
-		{
-			return m_buffer.data() ;
-		}
-		const wchar_t * data()
-		{
-			return m_buffer.data() ;
-		}
-	private:
-		std::array< wchar_t,directoryEntriesMaxPathbufferSize() > m_buffer ;
-	} ;
-	class pathManager
-	{
-	public:
-		pathManager( const wchar_t * p )
-		{
-			auto len = std::wcslen( p ) ;
-
-			if( p[ len - 1 ] == L'\\' ){
-
-				this->append( 0,p ) ;
-				m_basePathLocation = len ;
-			}else{
-				std::wstring path( p ) ;
-
-				path += L"\\" ;
-				this->append( 0,path.data() ) ;
-				m_basePathLocation = len + 1 ;
-			}
-		}
-		pathManager( const QString& path )
-		{
-			if( path.endsWith( "\\" ) ){
-
-				this->append( 0,toWChar( path ) ) ;
-				m_basePathLocation = path.size() ;
-			}else{
-				this->append( 0,toWChar( path + "\\" ) ) ;
-				m_basePathLocation = path.size() + 1 ;
-			}
-		}
-		const wchar_t * setPath( const wchar_t * path )
-		{
-			this->append( m_basePathLocation,path ) ;
-
-			return m_buffer.data() ;
-		}
-		const wchar_t * path()
-		{
-			return m_buffer.data() ;
-		}
-	private:
-		void append( std::size_t s,const wchar_t * data )
-		{
-			std::swprintf( m_buffer.data() + s,m_buffer.size() - s,L"%ls",data ) ;
-		}
-		std::size_t m_basePathLocation ;
-		std::array< wchar_t,directoryEntriesMaxPathbufferSize() > m_buffer ;
-	} ;
+		auto m = QDir::toNativeSeparators( path.startsWith( "\\\\?\\" ) ? path : "\\\\?\\" + path ) ;
+		return m.toStdWString() ;
+	}
 	class handle
 	{
 	public:
-		handle( const wchar_t * s )
+		handle( std::wstring s )
 		{
-			auto m = std::wstring( s ) ;
+			if( *s.rbegin() == L'\\' ){
 
-			if( m[ m.size() - 1 ] == L'\\' ){
-
-				m += L"*" ;
+				s += L"*" ;
 			}else{
-				m += L"\\*" ;
+				s += L"\\*" ;
 			}
 
-			this->init( m.data() ) ;
-		}
-		handle( QString m )
-		{
-			if( m.endsWith( "\\" ) ){
-
-				m += "*" ;
-			}else{
-				m += "\\*" ;
-			}
-
-			this->init( toWChar( m ) ) ;
+			m_handle = FindFirstFileW( s.data(),&m_data ) ;
 		}
 		bool valid()
 		{
@@ -526,37 +437,33 @@ private:
 			FindClose( m_handle ) ;
 		}
 	private:
-		void init( const wchar_t * s )
-		{
-			m_handle = FindFirstFileW( s,&m_data ) ;
-		}
 		WIN32_FIND_DATAW m_data ;
 		HANDLE m_handle ;
 	};
-	void removePath( pathManager& pm,const wchar_t * name,const WIN32_FIND_DATAW& data )
+	void removePath( std::wstring& w,const wchar_t * name,const WIN32_FIND_DATAW& data )
 	{
 		if( std::wcscmp( name,L"." ) != 0 && std::wcscmp( name,L".." ) != 0 ){
 
-			auto m = pm.setPath( name ) ;
+			auto m = w + L'\\' + name ;
 
 			if( data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 
-				this->removeDirectory( m,[ &m ](){ RemoveDirectoryW( m ) ; } ) ;
+				this->removeDirectory( m,[ &m ](){ RemoveDirectoryW( m.data() ) ; } ) ;
 			}else{
-				DeleteFileW( m ) ;
+				DeleteFileW( m.data() ) ;
 			}
 		}
 	}
 	template< typename Function >
-	void removeDirectory( pathManager pm,Function function )
+	void removeDirectory( std::wstring w,Function function )
 	{
-		handle h( pm.path() ) ;
+		handle h( w ) ;
 
 		if( h.valid() ){
 
 			const auto& mm = h.data() ;
 
-			this->removePath( pm,mm.cFileName,mm ) ;
+			this->removePath( w,mm.cFileName,mm ) ;
 
 			if( m_continue ){
 
@@ -566,7 +473,7 @@ private:
 
 						const auto& m = h.data() ;
 
-						this->removePath( pm,m.cFileName,m ) ;
+						this->removePath( w,m.cFileName,m ) ;
 					}else{
 						break ;
 					}
@@ -578,7 +485,7 @@ private:
 
 						const auto& m = h.data() ;
 
-						this->removePath( pm,m.cFileName,m ) ;
+						this->removePath( w,m.cFileName,m ) ;
 					}else{
 						break ;
 					}
@@ -607,7 +514,7 @@ private:
 			}
 		}
 	}
-	QString m_path ;
+	std::wstring m_path ;
 	std::atomic_bool * m_continue = nullptr ;
 } ;
 
