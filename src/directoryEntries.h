@@ -164,19 +164,23 @@ public:
 
 		if( handle ){
 
+			directoryEntries entries ;
+
 			pathManager mm( m_path ) ;
 
 			if( m_continue ){
 
-				while( *m_continue && this->read( mm,handle.get() ) ){}
+				while( *m_continue && this->read( entries,mm,handle.get() ) ){}
 			}else{
-				while( this->read( mm,handle.get() ) ){}
+				while( this->read( entries,mm,handle.get() ) ){}
 			}
 
-			m_entries.sort() ;
-		}
+			entries.sort() ;
 
-		return std::move( m_entries ) ;
+			return entries ;
+		}else{
+			return {} ;
+		}
 	}
 	void removeDirectoryContents()
 	{
@@ -285,7 +289,7 @@ private:
 			}
 		}
 	}
-	bool read( pathManager& mm,DIR * dir )
+	bool read( directoryEntries& entries,pathManager& mm,DIR * dir )
 	{
 		auto e = readdir( dir ) ;
 
@@ -293,7 +297,7 @@ private:
 
 			const auto name = e->d_name ;
 
-			if( m_entries.valid( name ) ){
+			if( entries.valid( name ) ){
 
 				struct stat m ;
 
@@ -301,11 +305,11 @@ private:
 
 					if( S_ISREG( m.st_mode ) ){
 
-						m_entries.addFile( m.st_ctime,name ) ;
+						entries.addFile( m.st_ctime,name ) ;
 
 					}else if( S_ISDIR( m.st_mode ) ){
 
-						m_entries.addFolder( m.st_ctime,name ) ;
+						entries.addFolder( m.st_ctime,name ) ;
 					}
 				}
 			}
@@ -317,7 +321,6 @@ private:
 	}
 	QString m_path ;
 	std::atomic_bool * m_continue = nullptr ;
-	directoryEntries m_entries ;
 } ;
 
 #else
@@ -362,11 +365,11 @@ public:
 	}
 	directoryEntries readAll()
 	{
-		auto _read = [ this ]( handle& h ){
+		auto _read = [ this ]( directoryEntries& entries,handle& h ){
 
 			if( h.findNext() ){
 
-				this->add( h.data() ) ;
+				this->add( entries,h.data() ) ;
 
 				return true ;
 			}else{
@@ -378,19 +381,23 @@ public:
 
 		if( h.valid() ){
 
-			this->add( h.data() ) ;
+			directoryEntries entries ;
+
+			this->add( entries,h.data() ) ;
 
 			if( m_continue ){
 
-				while( *m_continue && _read( h ) ){}
+				while( *m_continue && _read( entries,h ) ){}
 			}else{
-				while( _read( h ) ){}
+				while( _read( entries,h ) ){}
 			}
 
-			m_entries.sort() ;
-		}
+			entries.sort() ;
 
-		return std::move( m_entries ) ;
+			return entries() ;
+		}else{
+			return {} ;
+		}
 	}
 	~directoryManager()
 	{
@@ -581,11 +588,11 @@ private:
 			function() ;
 		}
 	}
-	void add( const WIN32_FIND_DATAW& data )
+	void add( directoryEntries& entries,const WIN32_FIND_DATAW& data )
 	{
 		auto m = data.cFileName ;
 
-		if( m_entries.valid( m ) ){
+		if( entries.valid( m ) ){
 
 			LARGE_INTEGER filesize ;
 
@@ -594,14 +601,13 @@ private:
 
 			if( data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 
-				m_entries.addFolder( filesize.QuadPart,QString::fromWCharArray( m ) ) ;
+				entries.addFolder( filesize.QuadPart,QString::fromWCharArray( m ) ) ;
 			}else{
-				m_entries.addFile( filesize.QuadPart,QString::fromWCharArray( m ) ) ;
+				entries.addFile( filesize.QuadPart,QString::fromWCharArray( m ) ) ;
 			}
 		}
 	}
 	QString m_path ;
-	directoryEntries m_entries ;
 	std::atomic_bool * m_continue = nullptr ;
 } ;
 

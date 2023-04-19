@@ -69,7 +69,3 @@ bool directoryEntries::valid( const QString& m )
 		return true ;
 	}
 }
-
-
-
-
