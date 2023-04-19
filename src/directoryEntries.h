@@ -137,6 +137,7 @@ Q_DECLARE_METATYPE( directoryEntries::iter )
 #include <sys/stat.h>
 #include <unistd.h>
 #include <cstring>
+#include <string>
 
 class directoryManager
 {
@@ -144,14 +145,14 @@ public:
 	directoryManager( const QString& path,
 			  std::atomic_bool& c,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_path( path ),
+		m_path( path.toUtf8().constData() ),
 		m_continue( &c )
 	{
 		*m_continue = true ;
 	}
 	directoryManager( const QString& path,
 			  QDir::Filters = QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) :
-		m_path( path )
+		m_path( path.toUtf8().constData() )
 	{
 	}
 	static bool supportsCancel()
@@ -160,19 +161,17 @@ public:
 	}
 	directoryEntries readAll()
 	{
-		auto handle = utils::misc::unique_rsc( opendir,closedir,m_path.toUtf8().constData() ) ;
+		auto handle = utils::misc::unique_rsc( opendir,closedir,m_path.data() ) ;
 
 		if( handle ){
 
 			directoryEntries entries ;
 
-			pathManager mm( m_path ) ;
-
 			if( m_continue ){
 
-				while( *m_continue && this->read( entries,mm,handle.get() ) ){}
+				while( *m_continue && this->read( entries,m_path,handle.get() ) ){}
 			}else{
-				while( this->read( entries,mm,handle.get() ) ){}
+				while( this->read( entries,m_path,handle.get() ) ){}
 			}
 
 			entries.sort() ;
@@ -188,53 +187,13 @@ public:
 	}
 	void removeDirectory()
 	{
-		this->removeDirectory( m_path,[ & ](){ rmdir( m_path.toUtf8().constData() ) ; } ) ;
+		this->removeDirectory( m_path,[ & ](){ rmdir( m_path.data() ) ; } ) ;
 	}
 private:
-	class pathManager
-	{
-	public:
-		pathManager( const char * path )
-		{
-			this->init( path ) ;
-		}
-		pathManager( const QString& path )
-		{
-			this->init( path ) ;
-		}
-		const char * setPath( const char * path )
-		{
-			this->append( m_basePathLocation,path ) ;
-
-			return m_buffer.data() ;
-		}
-		const char * path()
-		{
-			return m_buffer.data() ;
-		}
-	private:
-		void init( const QString& path )
-		{
-			if( path.endsWith( "/" ) ){
-
-				this->append( 0,path.toUtf8() ) ;
-				m_basePathLocation = path.size() ;
-			}else{
-				this->append( 0,path.toUtf8() + "/" ) ;
-				m_basePathLocation = path.size() + 1 ;
-			}
-		}
-		void append( std::size_t s,const char * data )
-		{
-			std::snprintf( m_buffer.data() + s,m_buffer.size() - s,"%s",data ) ;
-		}
-		std::size_t m_basePathLocation ;
-		std::array< char,PATH_MAX > m_buffer ;
-	} ;
 	template< typename Function >
-	void removeDirectory( pathManager pm,Function function )
+	void removeDirectory( std::string pm,Function function )
 	{
-		auto handle = utils::misc::unique_rsc( opendir,closedir,pm.path() ) ;
+		auto handle = utils::misc::unique_rsc( opendir,closedir,pm.data() ) ;
 
 		if( handle ){
 
@@ -268,28 +227,28 @@ private:
 			function() ;
 		}
 	}
-	void removePath( pathManager& pm,const char * name )
+	void removePath( const std::string& pm,const char * name )
 	{
 		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
 			struct stat m ;
 
-			auto pp = pm.setPath( name ) ;
+			auto pp = pm + "/" + name ;
 
-			if( stat( pp,&m ) == 0 ){
+			if( stat( pp.data(),&m ) == 0 ){
 
 				if( S_ISREG( m.st_mode ) ){
 
-					unlink( pp ) ;
+					unlink( pp.data() ) ;
 
 				}else if( S_ISDIR( m.st_mode ) ){
 
-					this->removeDirectory( pp,[ pp ](){ rmdir( pp ) ; } ) ;
+					this->removeDirectory( pp,[ pp ](){ rmdir( pp.data() ) ; } ) ;
 				}
 			}
 		}
 	}
-	bool read( directoryEntries& entries,pathManager& mm,DIR * dir )
+	bool read( directoryEntries& entries,const std::string& mm,DIR * dir )
 	{
 		auto e = readdir( dir ) ;
 
@@ -301,7 +260,9 @@ private:
 
 				struct stat m ;
 
-				if( stat( mm.setPath( name ),&m ) == 0 ){
+				auto s = mm + '/' + name ;
+
+				if( stat( s.data(),&m ) == 0 ){
 
 					if( S_ISREG( m.st_mode ) ){
 
@@ -319,7 +280,7 @@ private:
 			return false ;
 		}
 	}
-	QString m_path ;
+	std::string m_path ;
 	std::atomic_bool * m_continue = nullptr ;
 } ;
 
