@@ -191,7 +191,7 @@ public:
 	}
 private:
 	template< typename Function >
-	void removeDirectory( std::string pm,Function function )
+	void removeDirectory( const std::string& pm,Function function )
 	{
 		auto handle = utils::misc::unique_rsc( opendir,closedir,pm.data() ) ;
 
@@ -416,7 +416,7 @@ private:
 		}
 	}
 	template< typename Function >
-	void removeDirectory( std::wstring w,Function function )
+	void removeDirectory( const std::string& w,Function function )
 	{
 		handle h( w ) ;
 
