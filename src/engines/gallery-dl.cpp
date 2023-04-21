@@ -266,6 +266,27 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 {
 	engines::engine::functions::updateDownLoadCmdOptions( opts ) ;
 
+	auto _not_contains = []( const engines::engine::functions::updateOpts& opts,const char * e ){
+
+		for( const auto& it : opts.ourOptions ){
+
+			if( it == e ){
+
+				return false ;
+			}
+		}
+
+		return true ;
+	} ;
+
+	if( _not_contains( opts,"-D" ) && _not_contains( opts,"-d" ) ){
+
+		const auto& s = engines::engine::functions::Settings().downloadFolder() ;
+
+		opts.ourOptions.prepend( s + "/gallery-dl" ) ;
+		opts.ourOptions.prepend( "-d" ) ;
+	}
+
 	opts.ourOptions.prepend( "output.mode=terminal" ) ;
 	opts.ourOptions.prepend( "-o" ) ;
 }
@@ -331,17 +352,43 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& 
 
 	QStringList m ;
 
+	if( m_dir.isEmpty() ){
+
+		const QByteArray& e = *data.begin() ;
+
+		if( e.startsWith( "[media-downloader] cmd:" ) ){
+
+			auto m = util::splitPreserveQuotes( e ) ;
+
+			for( int i = 0 ; i < m.size() ; i++ ){
+
+				if( m[ i ] == "-d" && i + 1 < m.size() ){
+
+					m_dir = QDir::fromNativeSeparators( m[ i + 1 ] ).toUtf8() ;
+
+					break ;
+
+				}else if( m[ i ] == "-D" && i + 1 < m.size() ){
+
+					m_dir = QDir::fromNativeSeparators( m[ i + 1 ] ).toUtf8() ;
+
+					break ;
+				}
+			}
+		}
+	}
+
 	for( const auto& e : data ){
 
 		auto u = QDir::fromNativeSeparators( e ) ;
 
-		auto n = u.indexOf( "/gallery-dl/" ) ;
+		auto n = u.indexOf( m_dir ) ;
 
 		if( n != -1 ){
 
-			auto s = u.mid( n + 12 ) ;
+			auto s = u.mid( n + m_dir.size() + 1 ) ;
 
-			if( !m.contains( s ) ){
+			if( !m.contains( s ) && !u.startsWith( "[media-downloader] cmd:" ) ){
 
 				m.append( s ) ;
 			}

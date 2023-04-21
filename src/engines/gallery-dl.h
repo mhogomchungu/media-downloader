@@ -43,6 +43,7 @@ public:
 		QString m_speed ;
 		QString m_downloaded ;
 		QByteArray m_tmp ;
+		QByteArray m_dir ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 	} ;
 

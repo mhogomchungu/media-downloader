@@ -283,6 +283,14 @@ public:
 			{
 				return *m_array.rbegin() ;
 			}
+			size_t size() const
+			{
+				return m_array.size() ;
+			}
+			const QByteArray& operator[]( size_t m ) const
+			{
+				return m_array[ m ] ;
+			}
 		private:
 			class ByteArray
 			{
