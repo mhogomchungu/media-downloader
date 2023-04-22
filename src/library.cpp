@@ -99,7 +99,7 @@ library::library( const Context& ctx ) :
 
 					}else if( mm.isDir() ){
 
-						directoryManager( m,m_continue ).removeDirectory() ;
+						directoryManager::removeDirectory( m,m_continue ) ;
 					}
 
 				},[ row,this ](){
@@ -119,7 +119,7 @@ library::library( const Context& ctx ) :
 
 			utils::qthread::run( [ this ](){
 
-				directoryManager( m_currentPath,m_continue ).removeDirectoryContents() ;
+				directoryManager::removeDirectoryContents( m_currentPath,m_continue ) ;
 
 			},[ this ](){
 
@@ -396,7 +396,7 @@ void library::showContents( const QString& path,bool disableUi )
 
 	utils::qthread::run( [ path,this ](){
 
-		return directoryManager( path,m_continue ).readAll() ;
+		return directoryManager::readAll( path,m_continue ) ;
 
 	},[ disableUi,this ]( directoryEntries m ){
 

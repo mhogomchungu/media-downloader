@@ -418,7 +418,7 @@ void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) co
 
 	utils::qthread::run( [folderPath ](){
 
-		auto entries = directoryManager( folderPath ).readAll() ;
+		auto entries = directoryManager::readAll( folderPath ) ;
 
 		auto fileIter = entries.fileIter() ;
 
@@ -440,7 +440,7 @@ void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) co
 
 			if( m != "translations" ){
 
-				directoryManager( folderPath + "/" + m ).removeDirectory() ;
+				directoryManager::removeDirectory( folderPath + "/" + m ) ;
 			}
 		}
 
