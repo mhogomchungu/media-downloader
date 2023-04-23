@@ -397,7 +397,13 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& 
 
 	if( !m.isEmpty() ){
 
-		m_tmp = m.join( "\n" ).toUtf8() ;
+		if( m.size() < 4 ){
+
+			m_tmp = m.join( "\n" ).toUtf8() ;
+		}else{
+			auto a = QObject::tr( "%1 Already Downloaded" ).arg( QString::number( m.size() - 1 ) ) ;
+			m_tmp = a.toUtf8() + "\n" + m.last().toUtf8() ;
+		}
 
 		if( s.lastLineIsProgressLine() ){
 

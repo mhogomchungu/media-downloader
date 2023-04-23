@@ -746,6 +746,10 @@
         <source>Found version: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 Already Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

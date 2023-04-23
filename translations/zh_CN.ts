@@ -935,10 +935,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="304"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="325"/>
         <location filename="../src/engines/lux.cpp" line="224"/>
         <location filename="../src/engines/wget.cpp" line="325"/>
         <source>Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines/gallery-dl.cpp" line="404"/>
+        <source>%1 Already Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -947,7 +952,7 @@
         <translation>这可能需要很长时间</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="303"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="324"/>
         <location filename="../src/engines/wget.cpp" line="299"/>
         <source>Speed:</source>
         <translation type="unfinished"></translation>

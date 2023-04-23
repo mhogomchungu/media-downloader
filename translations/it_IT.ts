@@ -748,6 +748,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Found version: %1</source>
         <translation>Versione rilevata: %1</translation>
     </message>
+    <message>
+        <source>%1 Already Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
