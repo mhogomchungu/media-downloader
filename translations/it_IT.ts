@@ -750,7 +750,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>%1 Already Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 già scaricato</translation>
     </message>
 </context>
 <context>
