@@ -52,13 +52,13 @@ private:
 		QString path ;
 	} ;
 
-	std::vector< entry > m_folders ;
-	std::vector< entry > m_files ;
+	std::vector< directoryEntries::entry > m_folders ;
+	std::vector< directoryEntries::entry > m_files ;
 public:
 	bool valid( const char * ) ;
 	bool valid( const wchar_t * ) ;
-
 	bool valid( const QString& ) ;
+
 	void clear()
 	{
 		m_folders.clear() ;
