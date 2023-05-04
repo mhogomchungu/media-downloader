@@ -247,7 +247,7 @@ private:
 		WIN32_FIND_DATAW m_data ;
 		HANDLE m_handle ;
 	};
-	void removePath( std::wstring& w,const wchar_t * name,const WIN32_FIND_DATAW& data )
+	void removePath( const std::wstring& w,const wchar_t * name,const WIN32_FIND_DATAW& data )
 	{
 		if( std::wcscmp( name,L"." ) != 0 && std::wcscmp( name,L".." ) != 0 ){
 
@@ -262,7 +262,7 @@ private:
 		}
 	}
 	template< typename Function >
-	void removeDirectory( const std::string& w,Function function )
+	void removeDirectory( const std::wstring& w,Function function )
 	{
 		handle h( w ) ;
 
