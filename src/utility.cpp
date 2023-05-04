@@ -475,32 +475,102 @@ QMenu * utility::setUpMenu( const Context& ctx,
 			    QWidget * parent )
 {
 	auto menu = new QMenu( parent ) ;
+	auto& tr = ctx.Translator() ;
 
-	auto& translator = ctx.Translator() ;
 	auto& configure = ctx.TabManager().Configure() ;
 
-	translator::entry ss( QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
-	auto ac = translator.addAction( menu,std::move( ss ) ) ;
+	struct webEntries
+	{
+		struct entries
+		{
+			entries( const QString& u,const QString& b ) : uiName( u ),bkName( b )
+			{
+			}
+			QString uiName ;
+			QString bkName ;
+		} ;
 
-	ac->setEnabled( false ) ;
+		webEntries( const QString& w,const QString& uiName,const QString& bkName ) : website( w )
+		{
+			values.emplace_back( uiName,bkName ) ;
+		}
 
-	menu->addSeparator() ;
+		QString website ;
+		std::vector< webEntries::entries > values ;
+	} ;
 
-	configure.presetOptionsForEach( [ & ]( const QString& uiName,const QString& options ){
+	class entries
+	{
+	public:
+		void add( const QString& website,const QString& uiName,const QString& bkName )
+		{
+			for( auto& it : m_entries ){
+
+				if( it.website == website ){
+
+					it.values.emplace_back( uiName,bkName ) ;
+
+					return ;
+				}
+			}
+
+			m_entries.emplace_back( website,uiName,bkName ) ;
+		}
+		void sort()
+		{
+		}
+		void add( QMenu * menu,translator& tr )
+		{
+			this->sort() ;
+
+			for( const auto& it : m_entries ){
+
+				if( it.website == "Youtube" ){
+
+					translator::entry ss( QObject::tr( "Youtube Preset Options" ),"Youtube Preset Options","Youtube Preset Options" ) ;
+					tr.addAction( menu,std::move( ss ) )->setEnabled( false ) ;
+
+				}else if( !it.website.isEmpty() ){
+
+					translator::entry ss( it.website + " " + QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
+					tr.addAction( menu,std::move( ss ) )->setEnabled( false ) ;
+				}else{
+					translator::entry ss( QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
+					tr.addAction( menu,std::move( ss ) )->setEnabled( false ) ;
+				}
+
+				for( const auto& xt : it.values ){
+
+					menu->addAction( xt.uiName )->setObjectName( xt.bkName ) ;
+				}
+
+				menu->addSeparator() ;
+			}
+		}
+	private:
+		std::vector< webEntries > m_entries ;
+	} ;
+
+	entries mm ;
+
+	configure.presetOptionsForEach( [ & ]( const QString& uiName,const QString& options,const QString& website ){
 
 		auto a = uiName ;
 
 		a.replace( "Best-audiovideo",QObject::tr( "Best-audiovideo" ) ) ;
-		a.replace( "Best-audio",QObject::tr( "Best-audio" ) ) ;
+		a.replace( "Best-audio MP3",QObject::tr( "Best-audio MP3" ) ) ;
+		a.replace( "Best-audio Default",QObject::tr( "Best-audio Default" ) ) ;
 		a.replace( "Default",QObject::tr( "Default" ) ) ;
 
 		if( combineText ){
 
-			menu->addAction( a )->setObjectName( options + "\n" + a ) ;
+			mm.add( website,a,options + "\n" + a ) ;
 		}else{
-			menu->addAction( a )->setObjectName( options ) ;
+			mm.add( website,a,options ) ;
 		}
 	} ) ;
+
+	mm.add( menu,tr ) ;
 
 	if( addClear ){
 
@@ -510,7 +580,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 						   utility::selectedAction::CLEARSCREEN,
 						   utility::selectedAction::CLEARSCREEN ) ;
 
-		translator.addAction( menu,std::move( sx ) ) ;
+		tr.addAction( menu,std::move( sx ) ) ;
 	}
 
 	if( addOpenFolder ){
@@ -521,7 +591,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 						   utility::selectedAction::OPENFOLDER,
 						   utility::selectedAction::OPENFOLDER ) ;
 
-		translator.addAction( menu,std::move( mm ) ) ;
+		tr.addAction( menu,std::move( mm ) ) ;
 	}
 
 	return menu ;

@@ -307,6 +307,10 @@
         <source>Split By Chapters</source>
         <translation>Dividi per capitoli</translation>
     </message>
+    <message>
+        <source>Website</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -453,10 +457,6 @@
     <message>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Impossibile trovare l&apos;eseguibile &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>Best-audio</source>
-        <translation>Migliore qualità audio</translation>
     </message>
     <message>
         <source>Download complete</source>
@@ -752,6 +752,18 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>%1 Already Downloaded</source>
         <translation>%1 già scaricato</translation>
     </message>
+    <message>
+        <source>Youtube Preset Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best-audio MP3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best-audio Default</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -843,10 +855,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>Predefinita</translation>
     </message>
     <message>
-        <source>Best-audio</source>
-        <translation>Massima qualità audio</translation>
-    </message>
-    <message>
         <source>Best-audiovideo</source>
         <translation>Massima qualità audio/video</translation>
     </message>
@@ -857,6 +865,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
+    </message>
+    <message>
+        <source>Best-audio MP3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best-audio Default</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

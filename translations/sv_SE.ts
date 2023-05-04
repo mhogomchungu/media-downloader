@@ -41,9 +41,9 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="499"/>
         <location filename="../src/mainwindow.ui" line="785"/>
-        <location filename="../src/mainwindow.ui" line="1833"/>
-        <location filename="../src/mainwindow.ui" line="1883"/>
-        <location filename="../src/mainwindow.ui" line="2126"/>
+        <location filename="../src/mainwindow.ui" line="1838"/>
+        <location filename="../src/mainwindow.ui" line="1888"/>
+        <location filename="../src/mainwindow.ui" line="2157"/>
         <source>Options</source>
         <translation>Alternativ</translation>
     </message>
@@ -52,7 +52,7 @@
         <location filename="../src/mainwindow.ui" line="538"/>
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
-        <location filename="../src/mainwindow.ui" line="2209"/>
+        <location filename="../src/mainwindow.ui" line="2240"/>
         <location filename="../src/mainwindow.cpp" line="74"/>
         <source>Quit</source>
         <translation>Avsluta</translation>
@@ -277,7 +277,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1796"/>
-        <location filename="../src/mainwindow.ui" line="1949"/>
+        <location filename="../src/mainwindow.ui" line="1980"/>
         <source>Set Defaults</source>
         <translation>Ställ in standard</translation>
     </message>
@@ -322,13 +322,13 @@
         <translation>Ta bort en plugin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2222"/>
+        <location filename="../src/mainwindow.ui" line="2253"/>
         <source>Save</source>
         <translation>Spara</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1908"/>
-        <location filename="../src/mainwindow.ui" line="2007"/>
+        <location filename="../src/mainwindow.ui" line="1939"/>
+        <location filename="../src/mainwindow.ui" line="2038"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Motorernas standardalternativ</translation>
     </message>
@@ -346,22 +346,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1129"/>
         <location filename="../src/mainwindow.ui" line="1187"/>
-        <location filename="../src/mainwindow.ui" line="1828"/>
-        <location filename="../src/mainwindow.ui" line="1867"/>
+        <location filename="../src/mainwindow.ui" line="1833"/>
+        <location filename="../src/mainwindow.ui" line="1872"/>
         <source>Ui Name</source>
         <translation>Gränssnittsnamn</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1209"/>
-        <location filename="../src/mainwindow.ui" line="1902"/>
-        <location filename="../src/mainwindow.ui" line="2021"/>
-        <location filename="../src/mainwindow.ui" line="2165"/>
+        <location filename="../src/mainwindow.ui" line="1907"/>
+        <location filename="../src/mainwindow.ui" line="2052"/>
+        <location filename="../src/mainwindow.ui" line="2196"/>
         <source>Add</source>
         <translation>Lägg till</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1222"/>
-        <location filename="../src/mainwindow.ui" line="2069"/>
+        <location filename="../src/mainwindow.ui" line="2100"/>
         <source>Url</source>
         <translation>Webbadress</translation>
     </message>
@@ -381,48 +381,54 @@
         <translation></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1828"/>
         <location filename="../src/mainwindow.ui" line="1930"/>
-        <location filename="../src/mainwindow.ui" line="2188"/>
+        <source>Website</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1961"/>
+        <location filename="../src/mainwindow.ui" line="2219"/>
         <source>Engine&apos;s Name</source>
         <translation>Motorernas namn</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1962"/>
+        <location filename="../src/mainwindow.ui" line="1993"/>
         <source>Path To Cookie FIle</source>
         <translation>Sökväg till cookie-fil</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2002"/>
+        <location filename="../src/mainwindow.ui" line="2033"/>
         <source>Default</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2044"/>
+        <location filename="../src/mainwindow.ui" line="2075"/>
         <source>Options To Add</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2056"/>
+        <location filename="../src/mainwindow.ui" line="2087"/>
         <source>Url Manager</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2074"/>
+        <location filename="../src/mainwindow.ui" line="2105"/>
         <source>Download Options</source>
         <translation>Nerladdningsalternativ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2088"/>
+        <location filename="../src/mainwindow.ui" line="2119"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Ställ in vilken webbadress som ska hanteras av vilken motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2107"/>
+        <location filename="../src/mainwindow.ui" line="2138"/>
         <source>Url Filter</source>
         <translation>Webbadressfilter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2228"/>
+        <location filename="../src/mainwindow.ui" line="2259"/>
         <source>About</source>
         <translation>Om</translation>
     </message>
@@ -430,28 +436,38 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="493"/>
+        <location filename="../src/utility.cpp" line="560"/>
         <source>Best-audiovideo</source>
         <translation>Bästa-ljudvideo</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="494"/>
-        <source>Best-audio</source>
-        <translation>Bästa-ljud</translation>
+        <location filename="../src/utility.cpp" line="530"/>
+        <source>Youtube Preset Options</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="495"/>
+        <location filename="../src/utility.cpp" line="561"/>
+        <source>Best-audio MP3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="562"/>
+        <source>Best-audio Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="563"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="810"/>
+        <location filename="../src/utility.cpp" line="880"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="183"/>
-        <location filename="../src/utility.cpp" line="809"/>
+        <location filename="../src/utility.cpp" line="879"/>
         <source>Save List To File</source>
         <translation>Spara lista till fil</translation>
     </message>
@@ -493,19 +509,20 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="534"/>
         <location filename="../src/playlistdownloader.cpp" line="379"/>
-        <location filename="../src/utility.cpp" line="482"/>
+        <location filename="../src/utility.cpp" line="535"/>
+        <location filename="../src/utility.cpp" line="538"/>
         <source>Preset Options</source>
         <translation>Förinställda alternativ</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="509"/>
+        <location filename="../src/utility.cpp" line="579"/>
         <location filename="../src/utility.h" line="542"/>
         <location filename="../src/utility.h" line="609"/>
         <source>Clear</source>
         <translation>Rensa</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="520"/>
+        <location filename="../src/utility.cpp" line="590"/>
         <source>Open Download Folder</source>
         <translation>Öppna nerladdningsmap</translation>
     </message>
@@ -662,7 +679,7 @@
     <message>
         <location filename="../src/engines.cpp" line="623"/>
         <location filename="../src/engines.cpp" line="885"/>
-        <location filename="../src/utility.cpp" line="682"/>
+        <location filename="../src/utility.cpp" line="752"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Det gick inte att hitta den körbara filen &quot;%1&quot;</translation>
     </message>
@@ -1102,56 +1119,61 @@
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="140"/>
+        <location filename="../src/configure.cpp" line="142"/>
         <source>Set As Default</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="177"/>
-        <location filename="../src/configure.cpp" line="260"/>
+        <location filename="../src/configure.cpp" line="179"/>
+        <location filename="../src/configure.cpp" line="262"/>
         <source>Copy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="121"/>
-        <location filename="../src/configure.cpp" line="160"/>
-        <location filename="../src/configure.cpp" line="250"/>
+        <location filename="../src/configure.cpp" line="123"/>
+        <location filename="../src/configure.cpp" line="162"/>
+        <location filename="../src/configure.cpp" line="252"/>
         <source>Remove</source>
         <translation>Ta bort</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="302"/>
+        <location filename="../src/configure.cpp" line="304"/>
         <source>Select A Cookie File</source>
         <translation>Välj en cookie-fil</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="332"/>
+        <location filename="../src/configure.cpp" line="334"/>
         <source>Select An Engine File</source>
         <translation>Välj en motorfil</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="406"/>
-        <location filename="../src/configure.cpp" line="605"/>
+        <location filename="../src/configure.cpp" line="408"/>
+        <location filename="../src/configure.cpp" line="607"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="498"/>
+        <location filename="../src/configure.cpp" line="500"/>
         <source>Set Download Folder</source>
         <translation>Ställ in nerladdningsmapp</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="835"/>
+        <location filename="../src/configure.cpp" line="838"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="839"/>
-        <source>Best-audio</source>
-        <translation>Bästa-ljud</translation>
+        <location filename="../src/configure.cpp" line="842"/>
+        <source>Best-audio MP3</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="843"/>
+        <location filename="../src/configure.cpp" line="846"/>
+        <source>Best-audio Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="850"/>
         <source>Best-audiovideo</source>
         <translation>Bästa-ljudbild</translation>
     </message>

@@ -100,17 +100,19 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureAddToPresetList,&QPushButton::clicked,[ this ](){
 
-		auto a = m_ui.lineEditConfigureUiName->text() ;
-		auto b = m_ui.lineEditConfigurePresetOptions->text() ;
+		auto a = m_ui.lineEditConfigureWebsite->text() ;
+		auto b = m_ui.lineEditConfigureUiName->text() ;
+		auto c = m_ui.lineEditConfigurePresetOptions->text() ;
 
 		if( !a.isEmpty() && !b.isEmpty() ){
 
-			m_tablePresetOptions.add( { a,b } ) ;
+			m_tablePresetOptions.add( { a,b,c } ) ;
 
 			m_tablePresetOptions.selectLast() ;
 
 			m_ui.lineEditConfigureUiName->clear() ;
 			m_ui.lineEditConfigurePresetOptions->clear() ;
+			m_ui.lineEditConfigureWebsite->clear() ;
 		}
 	} ) ;
 
@@ -812,37 +814,42 @@ void configure::savePresetOptions()
 
 	for( int i = 0 ; i < rowCount ; i++ ){
 
-		auto uiName = table.item( i,0 )->text() ;
-		auto options = table.item( i,1 )->text() ;
+		auto website = table.item( i,0 )->text() ;
+		auto uiName  = table.item( i,1 )->text() ;
+		auto options = table.item( i,2 )->text() ;
 
 		const auto& e = m_tablePresetOptions.stuffAt( i ) ;
 
 		if( e.isEmpty() ){
 
-			m_presetOptions.add( uiName,options ) ;
+			m_presetOptions.add( uiName,options,website ) ;
 		}else{
-			m_presetOptions.add( e,options ) ;
+			m_presetOptions.add( e,options,website ) ;
 		}
 	}
 }
 
 void configure::showOptions()
 {
-	this->presetOptionsForEach( [ this ]( const QString& uiName,const QString& options ){
+	m_presetOptions.forEach( [ this ]( const QString& uiName,const QString& options,const QString website ){
 
 		if( uiName == "Default" ){
 
-			m_tablePresetOptions.add( { tr( "Default" ),options },"Default" ) ;
+			m_tablePresetOptions.add( { website,tr( "Default" ),options },"Default" ) ;
 
-		}else if( uiName == "Best-audio" ){
+		}else if( uiName == "Best-audio MP3" ){
 
-			m_tablePresetOptions.add( { tr( "Best-audio" ),options },"Best-audio" ) ;
+			m_tablePresetOptions.add( { website,tr( "Best-audio MP3" ),options },"Best-audio MP3" ) ;
+
+		}else if( uiName == "Best-audio Default" ){
+
+			m_tablePresetOptions.add( { website,tr( "Best-audio Default" ),options },"Best-audio Default" ) ;
 
 		}else if( uiName == "Best-audiovideo" ){
 
-			m_tablePresetOptions.add( { tr( "Best-audiovideo" ),options },"Best-audiovideo" ) ;
+			m_tablePresetOptions.add( { website,tr( "Best-audiovideo" ),options },"Best-audiovideo" ) ;
 		}else{
-			m_tablePresetOptions.add( { uiName,options } ) ;
+			m_tablePresetOptions.add( { website,uiName,options },{} ) ;
 		}
 	} )  ;
 }
@@ -939,6 +946,8 @@ void configure::enableAll()
 	m_ui.cbConfigureShowThumbnails->setEnabled( true ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( true ) ;
 	m_ui.cbShowTrayIcon->setEnabled( true ) ;
+	m_ui.lineEditConfigureWebsite->setEnabled( true ) ;
+	m_ui.labelConfugureWebSite->setEnabled( true ) ;
 
 	if( m_settings.enabledHighDpiScaling() ){
 
@@ -1010,6 +1019,8 @@ void configure::disableAll()
 	m_ui.labelConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.cbConfigureShowThumbnails->setEnabled( false ) ;
+	m_ui.lineEditConfigureWebsite->setEnabled( false ) ;
+	m_ui.labelConfugureWebSite->setEnabled( false ) ;
 }
 
 configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
@@ -1079,12 +1090,13 @@ void configure::presetOptions::setDefaults()
 	}
 }
 
-void configure::presetOptions::add( const QString& uiName,const QString& options )
+void configure::presetOptions::add( const QString& uiName,const QString& options,const QString& website )
 {
 	QJsonObject o ;
 
 	o.insert( "uiName",uiName ) ;
 	o.insert( "options",options ) ;
+	o.insert( "website",website ) ;
 
 	m_array.append( o ) ;
 }
@@ -1094,47 +1106,63 @@ QByteArray configure::presetOptions::defaultData()
 	return R"R([
     {
 	"options": "bestvideo[height=144][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=144]+bestaudio",
-	"uiName": "144p"
+	"uiName": "144p",
+	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=240][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=240]+bestaudio",
-	"uiName": "240p"
+	"uiName": "240p",
+	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=360]+bestaudio",
-	"uiName": "360p"
+	"uiName": "360p",
+	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=480][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=480]+bestaudio",
-	"uiName": "480p"
+	"uiName": "480p",
+	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=720]+bestaudio",
-	"uiName": "720p"
+	"uiName": "720p",
+	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio",
-	"uiName": "1080p"
+	"uiName": "1080p",
+	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=1440][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio",
-	"uiName": "1440p"
+	"uiName": "1440p",
+	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio",
-	"uiName": "2160p"
+	"uiName": "2160p",
+	"website": "Youtube"
     },
     {
 	"options": "Default",
-	"uiName": "Default"
+	"uiName": "Default",
+	"website": "Youtube"
     },
     {
 	"options": "bestvideo+bestaudio",
-	"uiName": "Best-audiovideo"
+	"uiName": "Best-audiovideo",
+	"website": "Youtube"
     },
     {
 	"options": "bestaudio -x --embed-thumbnail --audio-format mp3",
-	"uiName": "Best-audio"
+	"uiName": "Best-audio MP3",
+	"website": "Youtube"
+    },
+    {
+	"options": "bestaudio -x --embed-thumbnail",
+	"uiName": "Best-audio Default",
+	"website": "Youtube"
     }
 ])R";
 }

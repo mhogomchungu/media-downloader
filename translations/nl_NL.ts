@@ -307,6 +307,10 @@
         <source>Url Filter</source>
         <translation>Url Filter</translation>
     </message>
+    <message>
+        <source>Website</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -445,10 +449,6 @@
     <message>
         <source>Checking installed version of</source>
         <translation>Geïnstalleerde versie controleren</translation>
-    </message>
-    <message>
-        <source>Best-audio</source>
-        <translation></translation>
     </message>
     <message>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
@@ -750,6 +750,18 @@
         <source>%1 Already Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Youtube Preset Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best-audio MP3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best-audio Default</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -849,12 +861,16 @@
         <translation>Standaard</translation>
     </message>
     <message>
-        <source>Best-audio</source>
-        <translation>Beste audio</translation>
-    </message>
-    <message>
         <source>Best-audiovideo</source>
         <translation>Beste audiovideo</translation>
+    </message>
+    <message>
+        <source>Best-audio MP3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best-audio Default</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

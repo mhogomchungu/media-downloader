@@ -1439,7 +1439,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1802,7 +1802,7 @@
           <x>10</x>
           <y>10</y>
           <width>741</width>
-          <height>271</height>
+          <height>231</height>
          </rect>
         </property>
         <property name="editTriggers">
@@ -1823,6 +1823,11 @@
         <property name="gridStyle">
          <enum>Qt::SolidLine</enum>
         </property>
+        <column>
+         <property name="text">
+          <string>Website</string>
+         </property>
+        </column>
         <column>
          <property name="text">
           <string>Ui Name</string>
@@ -1900,6 +1905,32 @@
         </property>
         <property name="text">
          <string>Add</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigureWebsite">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>250</y>
+          <width>501</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelConfugureWebSite">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>250</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Website</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </widget>

@@ -90,7 +90,7 @@ private:
 		~presetOptions() ;
 		void clear() ;
 		void setDefaults() ;
-		void add( const QString& uiName,const QString& options ) ;
+		void add( const QString& uiName,const QString& options,const QString& website ) ;
 		template< typename Function >
 		void forEach( const Function& function )
 		{
@@ -102,10 +102,11 @@ private:
 
 					auto a = obj.value( "uiName" ).toString() ;
 					auto b = obj.value( "options" ).toString() ;
+					auto c = obj.value( "website" ).toString() ;
 
 					if( !a.isEmpty() && !b.isEmpty() ){
 
-						function( a,b ) ;
+						function( a,b,c ) ;
 					}
 				}
 			}
@@ -263,6 +264,7 @@ private:
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
 	engines& m_engines ;
+
 	tableMiniWidget< QString > m_tablePresetOptions ;
 	tableMiniWidget< QJsonObject > m_tableUrlToDefaultEngine ;
 	tableMiniWidget< QJsonObject > m_tableDefaultDownloadOptions ;
