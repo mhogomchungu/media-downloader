@@ -525,18 +525,15 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 			for( const auto& it : m_entries ){
 
-				if( it.website == "Youtube" ){
+				if( it.website.isEmpty() ){
 
-					translator::entry ss( QObject::tr( "Youtube Preset Options" ),"Youtube Preset Options","Youtube Preset Options" ) ;
-					tr.addAction( menu,std::move( ss ) )->setEnabled( false ) ;
-
-				}else if( !it.website.isEmpty() ){
-
-					translator::entry ss( it.website + " " + QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
+					translator::entry ss( QObject::tr( "Preset Options" ),"","" ) ;
 					tr.addAction( menu,std::move( ss ) )->setEnabled( false ) ;
 				}else{
-					translator::entry ss( QObject::tr( "Preset Options" ),"Preset Options","Preset Options" ) ;
-					tr.addAction( menu,std::move( ss ) )->setEnabled( false ) ;
+					auto m = QObject::tr( "%1 Preset Options" ).arg( it.website ) ;
+
+					translator::entry ss( m,"","" ) ;
+					tr.addAction( menu,std::move( ss ),false )->setEnabled( false ) ;
 				}
 
 				for( const auto& xt : it.values ){
