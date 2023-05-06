@@ -309,7 +309,7 @@
     </message>
     <message>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Sito web</translation>
     </message>
 </context>
 <context>
@@ -754,15 +754,15 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Youtube Preset Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni YouTube preimpostate</translation>
     </message>
     <message>
         <source>Best-audio MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio MP3 migliore</translation>
     </message>
     <message>
         <source>Best-audio Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio predefinito migliore</translation>
     </message>
 </context>
 <context>
@@ -868,11 +868,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Best-audio MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio MP3 migliore</translation>
     </message>
     <message>
         <source>Best-audio Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio predefinito migliore</translation>
     </message>
 </context>
 <context>
