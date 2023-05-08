@@ -440,7 +440,7 @@
     </message>
     <message>
         <source>Best-audiovideo</source>
-        <translation>Migliore qualità audio/video</translation>
+        <translation>Qualità audio/video migliore</translation>
     </message>
     <message>
         <source>Polish (Poland)</source>
