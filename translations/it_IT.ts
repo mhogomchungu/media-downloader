@@ -753,16 +753,16 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>%1 già scaricato</translation>
     </message>
     <message>
-        <source>Youtube Preset Options</source>
-        <translation>Opzioni YouTube preimpostate</translation>
-    </message>
-    <message>
         <source>Best-audio MP3</source>
         <translation>Audio MP3 migliore</translation>
     </message>
     <message>
         <source>Best-audio Default</source>
         <translation>Audio predefinito migliore</translation>
+    </message>
+    <message>
+        <source>%1 Preset Options</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

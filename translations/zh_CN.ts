@@ -436,38 +436,38 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="560"/>
+        <location filename="../src/utility.cpp" line="557"/>
         <source>Best-audiovideo</source>
         <translation>最佳音频和视频</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="530"/>
-        <source>Youtube Preset Options</source>
+        <location filename="../src/utility.cpp" line="533"/>
+        <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="561"/>
+        <location filename="../src/utility.cpp" line="558"/>
         <source>Best-audio MP3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="562"/>
+        <location filename="../src/utility.cpp" line="559"/>
         <source>Best-audio Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="563"/>
+        <location filename="../src/utility.cpp" line="560"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="880"/>
+        <location filename="../src/utility.cpp" line="877"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="183"/>
-        <location filename="../src/utility.cpp" line="879"/>
+        <location filename="../src/utility.cpp" line="876"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>
@@ -509,20 +509,19 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="534"/>
         <location filename="../src/playlistdownloader.cpp" line="379"/>
-        <location filename="../src/utility.cpp" line="535"/>
-        <location filename="../src/utility.cpp" line="538"/>
+        <location filename="../src/utility.cpp" line="530"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="579"/>
+        <location filename="../src/utility.cpp" line="576"/>
         <location filename="../src/utility.h" line="542"/>
         <location filename="../src/utility.h" line="609"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="590"/>
+        <location filename="../src/utility.cpp" line="587"/>
         <source>Open Download Folder</source>
         <translation>打开下载文件夹</translation>
     </message>
@@ -679,7 +678,7 @@
     <message>
         <location filename="../src/engines.cpp" line="623"/>
         <location filename="../src/engines.cpp" line="885"/>
-        <location filename="../src/utility.cpp" line="752"/>
+        <location filename="../src/utility.cpp" line="749"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>

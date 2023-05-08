@@ -751,15 +751,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Youtube Preset Options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Best-audio MP3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Best-audio Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
