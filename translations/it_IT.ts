@@ -762,7 +762,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>%1 Preset Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni preimpostate %1</translation>
     </message>
 </context>
 <context>
