@@ -478,50 +478,30 @@
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="557"/>
-        <source>Best-audiovideo</source>
-        <translation>Najlepsze audio i video</translation>
-    </message>
-    <message>
         <location filename="../src/utility.cpp" line="533"/>
         <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="558"/>
-        <source>Best-audio MP3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="559"/>
-        <source>Best-audio Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="560"/>
-        <source>Default</source>
-        <translation>Domyślne</translation>
-    </message>
-    <message>
-        <location filename="../src/utility.cpp" line="576"/>
+        <location filename="../src/utility.cpp" line="569"/>
         <location filename="../src/utility.h" line="542"/>
         <location filename="../src/utility.h" line="609"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="587"/>
+        <location filename="../src/utility.cpp" line="580"/>
         <source>Open Download Folder</source>
         <translation>Otwórz katalog z pobranymi plikami</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="877"/>
+        <location filename="../src/utility.cpp" line="870"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>Plik z rozszerzeniem &quot;.txt&quot; będzie zawierał jedynie adresy</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="183"/>
-        <location filename="../src/utility.cpp" line="876"/>
+        <location filename="../src/utility.cpp" line="869"/>
         <source>Save List To File</source>
         <translation>Zapisz listę do pliku</translation>
     </message>
@@ -680,7 +660,7 @@
     <message>
         <location filename="../src/engines.cpp" line="623"/>
         <location filename="../src/engines.cpp" line="885"/>
-        <location filename="../src/utility.cpp" line="749"/>
+        <location filename="../src/utility.cpp" line="742"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
@@ -1034,6 +1014,26 @@
         <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/configure.cpp" line="1153"/>
+        <source>Best Available Audio Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="1157"/>
+        <source>Best Available Audio Only(MP3)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="1161"/>
+        <source>Best Available Audio Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/configure.cpp" line="1165"/>
+        <source>Best Audio With Video Resolution Of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -1157,26 +1157,6 @@
         <location filename="../src/configure.cpp" line="500"/>
         <source>Set Download Folder</source>
         <translation>Wybierz katalog pobieranych plików</translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="838"/>
-        <source>Default</source>
-        <translation>Domyślne</translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="842"/>
-        <source>Best-audio MP3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="846"/>
-        <source>Best-audio Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/configure.cpp" line="850"/>
-        <source>Best-audiovideo</source>
-        <translation>Najlepsze audio i video</translation>
     </message>
 </context>
 <context>

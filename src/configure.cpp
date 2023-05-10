@@ -831,27 +831,10 @@ void configure::savePresetOptions()
 
 void configure::showOptions()
 {
-	m_presetOptions.forEach( [ this ]( const QString& uiName,const QString& options,const QString website ){
+	m_presetOptions.forEach( [ this ]( const configure::presetEntry& e ){
 
-		if( uiName == "Default" ){
-
-			m_tablePresetOptions.add( { website,tr( "Default" ),options },"Default" ) ;
-
-		}else if( uiName == "Best-audio MP3" ){
-
-			m_tablePresetOptions.add( { website,tr( "Best-audio MP3" ),options },"Best-audio MP3" ) ;
-
-		}else if( uiName == "Best-audio Default" ){
-
-			m_tablePresetOptions.add( { website,tr( "Best-audio Default" ),options },"Best-audio Default" ) ;
-
-		}else if( uiName == "Best-audiovideo" ){
-
-			m_tablePresetOptions.add( { website,tr( "Best-audiovideo" ),options },"Best-audiovideo" ) ;
-		}else{
-			m_tablePresetOptions.add( { website,uiName,options },{} ) ;
-		}
-	} )  ;
+		m_tablePresetOptions.add( { e.website,e.uiNameTranslated,e.options },e.uiName ) ;
+	} ) ;
 }
 
 void configure::resetMenu()
@@ -1106,65 +1089,85 @@ QByteArray configure::presetOptions::defaultData()
 	return R"R([
     {
 	"options": "bestvideo[height=144][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=144]+bestaudio",
-	"uiName": "144p",
+	"uiName": "Best Audio With Video Resolution Of 144p",
 	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=240][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=240]+bestaudio",
-	"uiName": "240p",
+	"uiName": "Best Audio With Video Resolution Of 240p",
 	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=360]+bestaudio",
-	"uiName": "360p",
+	"uiName": "Best Audio With Video Resolution Of 360p",
 	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=480][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=480]+bestaudio",
-	"uiName": "480p",
+	"uiName": "Best Audio With Video Resolution Of 480p",
 	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=720]+bestaudio",
-	"uiName": "720p",
+	"uiName": "Best Audio With Video Resolution Of 720p",
 	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio",
-	"uiName": "1080p",
+	"uiName": "Best Audio With Video Resolution Of 1080p",
 	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=1440][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio",
-	"uiName": "1440p",
+	"uiName": "Best Audio With Video Resolution Of 1440p",
 	"website": "Youtube"
     },
     {
 	"options": "bestvideo[height=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio",
-	"uiName": "2160p",
-	"website": "Youtube"
-    },
-    {
-	"options": "Default",
-	"uiName": "Default",
+	"uiName": "Best Audio With Video Resolution Of 2160p",
 	"website": "Youtube"
     },
     {
 	"options": "bestvideo+bestaudio",
-	"uiName": "Best-audiovideo",
+	"uiName": "Best Available Audio Video",
 	"website": "Youtube"
     },
     {
 	"options": "bestaudio -x --embed-thumbnail --audio-format mp3",
-	"uiName": "Best-audio MP3",
+	"uiName": "Best Available Audio Only(MP3)",
 	"website": "Youtube"
     },
     {
 	"options": "bestaudio -x --embed-thumbnail",
-	"uiName": "Best-audio Default",
+	"uiName": "Best Available Audio Only",
 	"website": "Youtube"
     }
 ])R";
+}
+
+configure::presetEntry::presetEntry( const QString& ui,const QString& op,const QString& wb ) :
+	uiName( ui ),options( op ),website( wb )
+{
+	if( uiName == "Best Available Audio Only" ){
+
+		uiNameTranslated = QObject::tr( "Best Available Audio Only" ) ;
+
+	}else if( uiName == "Best Available Audio Only(MP3)" ){
+
+		uiNameTranslated = QObject::tr( "Best Available Audio Only(MP3)" ) ;
+
+	}else if( uiName == "Best Available Audio Video" ){
+
+		uiNameTranslated = QObject::tr( "Best Available Audio Video" ) ;
+
+	}else if( uiName.startsWith( "Best Audio With Video Resolution Of" ) ){
+
+		auto m = QObject::tr( "Best Audio With Video Resolution Of %1" ) ;
+
+		uiNameTranslated = m.arg( uiName.mid( uiName.lastIndexOf( ' ' ) + 1 ) ) ;
+	}else{
+		uiNameTranslated = uiName ;
+	}
 }
 
 configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx,const QString& name ) :

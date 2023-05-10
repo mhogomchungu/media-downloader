@@ -439,10 +439,6 @@
         <translation>Spagnologo (Spagna)</translation>
     </message>
     <message>
-        <source>Best-audiovideo</source>
-        <translation>Qualità audio/video migliore</translation>
-    </message>
-    <message>
         <source>Polish (Poland)</source>
         <translation>Polacco (Polonia)</translation>
     </message>
@@ -581,10 +577,6 @@
     <message>
         <source>Italian (Italy)</source>
         <translation>Italiano (Italia)</translation>
-    </message>
-    <message>
-        <source>Default</source>
-        <translation>Predefinita</translation>
     </message>
     <message>
         <source>Qt Version</source>
@@ -753,16 +745,24 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>%1 già scaricato</translation>
     </message>
     <message>
-        <source>Best-audio MP3</source>
-        <translation>Audio MP3 migliore</translation>
-    </message>
-    <message>
-        <source>Best-audio Default</source>
-        <translation>Audio predefinito migliore</translation>
-    </message>
-    <message>
         <source>%1 Preset Options</source>
         <translation>Opzioni preimpostate %1</translation>
+    </message>
+    <message>
+        <source>Best Available Audio Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best Available Audio Only(MP3)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best Available Audio Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best Audio With Video Resolution Of %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -851,28 +851,12 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>Seleziona un file engine</translation>
     </message>
     <message>
-        <source>Default</source>
-        <translation>Predefinita</translation>
-    </message>
-    <message>
-        <source>Best-audiovideo</source>
-        <translation>Massima qualità audio/video</translation>
-    </message>
-    <message>
         <source>Set As Default</source>
         <translation>Imposta come predefinito</translation>
     </message>
     <message>
         <source>Copy</source>
         <translation>Copia</translation>
-    </message>
-    <message>
-        <source>Best-audio MP3</source>
-        <translation>Audio MP3 migliore</translation>
-    </message>
-    <message>
-        <source>Best-audio Default</source>
-        <translation>Audio predefinito migliore</translation>
     </message>
 </context>
 <context>

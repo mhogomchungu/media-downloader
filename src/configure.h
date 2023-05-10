@@ -77,6 +77,14 @@ public:
 		m.exec( QCursor::pos() ) ;
 	}
 	void setDownloadOptions( int row,tableWidget& table ) ;
+	struct presetEntry
+	{
+		presetEntry( const QString& ui,const QString& op,const QString& wb ) ;
+		const QString& uiName ;
+		const QString& options ;
+		const QString& website ;
+		QString uiNameTranslated ;
+	} ;
 	template< typename Function >
 	void presetOptionsForEach( const Function& function )
 	{
@@ -106,7 +114,7 @@ private:
 
 					if( !a.isEmpty() && !b.isEmpty() ){
 
-						function( a,b,c ) ;
+						function( configure::presetEntry( a,b,c ) ) ;
 					}
 				}
 			}

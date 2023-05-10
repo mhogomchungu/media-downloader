@@ -435,10 +435,6 @@
         <translation>Spaans(Spanje)</translation>
     </message>
     <message>
-        <source>Best-audiovideo</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Polish (Poland)</source>
         <translation>Pools (Polen)</translation>
     </message>
@@ -683,10 +679,6 @@
         <translation>Portugees (Brazilie)</translation>
     </message>
     <message>
-        <source>Default</source>
-        <translation>Standaard</translation>
-    </message>
-    <message>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>Bestandsnaam met de extensie &quot;.txt&quot; slaat alleen URL&apos;s op</translation>
     </message>
@@ -751,15 +743,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Best-audio MP3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Best-audio Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%1 Preset Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best Available Audio Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best Available Audio Only(MP3)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best Available Audio Video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best Audio With Video Resolution Of %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -855,22 +855,6 @@
     <message>
         <source>Copy</source>
         <translation>Kopieer</translation>
-    </message>
-    <message>
-        <source>Default</source>
-        <translation>Standaard</translation>
-    </message>
-    <message>
-        <source>Best-audiovideo</source>
-        <translation>Beste audiovideo</translation>
-    </message>
-    <message>
-        <source>Best-audio MP3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Best-audio Default</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

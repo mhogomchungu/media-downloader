@@ -550,20 +550,13 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 	entries mm ;
 
-	configure.presetOptionsForEach( [ & ]( const QString& uiName,const QString& options,const QString& website ){
-
-		auto a = uiName ;
-
-		a.replace( "Best-audiovideo",QObject::tr( "Best-audiovideo" ) ) ;
-		a.replace( "Best-audio MP3",QObject::tr( "Best-audio MP3" ) ) ;
-		a.replace( "Best-audio Default",QObject::tr( "Best-audio Default" ) ) ;
-		a.replace( "Default",QObject::tr( "Default" ) ) ;
+	configure.presetOptionsForEach( [ & ]( const configure::presetEntry& e ){
 
 		if( combineText ){
 
-			mm.add( website,a,options + "\n" + a ) ;
+			mm.add( e.website,e.uiNameTranslated,e.options + "\n" + e.uiNameTranslated ) ;
 		}else{
-			mm.add( website,a,options ) ;
+			mm.add( e.website,e.uiNameTranslated,e.options ) ;
 		}
 	} ) ;
 
