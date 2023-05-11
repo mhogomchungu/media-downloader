@@ -750,19 +750,19 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Best Available Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Solo audio migliore disponibile</translation>
     </message>
     <message>
         <source>Best Available Audio Only(MP3)</source>
-        <translation type="unfinished"></translation>
+        <translation>Solo audio migliore disponibile (MP3)</translation>
     </message>
     <message>
         <source>Best Available Audio Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio video migliore disponibile</translation>
     </message>
     <message>
         <source>Best Audio With Video Resolution Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio migliore con risoluzione video %1</translation>
     </message>
 </context>
 <context>
