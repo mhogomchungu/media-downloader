@@ -103,7 +103,7 @@ public:
 		}
 		networkAccess::iterator move() const
 		{
-			return std::move( *const_cast< networkAccess::iterator * >( this ) ) ;
+			return std::move( const_cast< networkAccess::iterator& >( *this ) ) ;
 		}
 		const engines::engine& engine() const
 		{

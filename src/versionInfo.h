@@ -96,19 +96,23 @@ public:
 	public:
 		printVinfo( engines::Iterator iter,
 			    networkAccess::showVersionInfo showVinfo,
-			    versionInfo::reportDone rd ) :
+			    versionInfo::reportDone rd,
+			    bool networkAvailable ) :
 			m_iter( std::move( iter ) ),
 			m_showVinfo( showVinfo ),
 			m_rd( std::move( rd ) ),
-			m_fromNetwork( false )
+			m_fromNetwork( false ),
+			m_networkAvailable( networkAvailable )
 		{
 		}
 		printVinfo( networkAccess::iterator iter,
-			    networkAccess::showVersionInfo showVinfo ) :
+			    networkAccess::showVersionInfo showVinfo,
+			    bool networkAvailable ) :
 			m_networkIter( std::move( iter ) ),
 			m_iter( m_networkIter.itr() ),
 			m_showVinfo( showVinfo ),
-			m_fromNetwork( true )
+			m_fromNetwork( true ),
+			m_networkAvailable( networkAvailable )
 		{
 		}
 		const engines::Iterator& iter() const
@@ -118,6 +122,10 @@ public:
 		const engines::engine& engine() const
 		{
 			return m_iter.engine() ;
+		}
+		bool networkAvailable() const
+		{
+			return m_networkAvailable ;
 		}
 		bool hasNext() const
 		{
@@ -175,6 +183,7 @@ public:
 		networkAccess::showVersionInfo m_showVinfo ;
 		versionInfo::reportDone m_rd ;
 		bool m_fromNetwork ;
+		bool m_networkAvailable = true ;
 	} ;
 
 	class extensionVersionInfo
@@ -208,7 +217,7 @@ public:
 		}
 		extensionVersionInfo move() const
 		{
-			return std::move( *const_cast< versionInfo::extensionVersionInfo * >( this ) ) ;
+			return std::move( const_cast< versionInfo::extensionVersionInfo& >( *this ) ) ;
 		}
 		template< typename Function >
 		void report( Function function ) const
@@ -240,26 +249,26 @@ public:
 		std::vector< engineInfo > m_enginesInfo ;
 	} ;
 
-	void checkEnginesUpdates( const std::vector< engines::engine >& ) const ;
+	void checkEnginesUpdates( const std::vector< engines::engine >&,bool ) const ;
 	void log( const QString& msg,int id ) const ;
 	void checkForEnginesUpdates( versionInfo::extensionVersionInfo ) const ;
 	void done( versionInfo::extensionVersionInfo ) const ;
 	void done( versionInfo::printVinfo ) const ;
 	void check( versionInfo::printVinfo ) const ;
-	void check( networkAccess::iterator iter,networkAccess::showVersionInfo v ) const
+	void check( networkAccess::iterator iter,networkAccess::showVersionInfo v,bool hn ) const
 	{
-		this->check( { std::move( iter ),std::move( v ) } ) ;
+		this->check( { std::move( iter ),std::move( v ),hn } ) ;
 	}
-	void check( const engines::Iterator& iter,versionInfo::reportDone rd ) const
+	void check( const engines::Iterator& iter,versionInfo::reportDone rd,bool hn ) const
 	{
-		this->check( { iter,{ false,false },std::move( rd ) } ) ;
+		this->check( { iter,{ false,false },std::move( rd ),hn } ) ;
 	}
 	void checkForUpdates() const ;
 	void checkMediaDownloaderUpdate( const std::vector< engines::engine >& ) const ;
 private:
 	void checkForEnginesUpdates( versionInfo::extensionVersionInfo,const utils::network::reply& ) const ;
 
-	void checkMediaDownloaderUpdate( int,const QByteArray&,const std::vector< engines::engine >& ) const ;
+	void checkMediaDownloaderUpdate( int,const QByteArray&,const std::vector< engines::engine >&,bool ) const ;
 
 	networkAccess::iterator wrap( versionInfo::printVinfo ) const ;
 

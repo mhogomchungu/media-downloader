@@ -291,7 +291,7 @@ void networkAccess::download( const QByteArray& data,
 
 		if( opts.iter.hasNext() ){
 
-			m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo ) ;
+			m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo,false ) ;
 		}
 
 		return ;
@@ -401,7 +401,7 @@ void networkAccess::download( networkAccess::iterator iter,
 
 				if( opts.iter.hasNext() ){
 
-					m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo ) ;
+					m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo,false ) ;
 				}else{
 					opts.iter.reportDone() ;
 				}
@@ -542,7 +542,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 		if( str.iter.hasNext() ){
 
-			m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo ) ;
+			m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo,false ) ;
 		}else{
 			str.iter.reportDone() ;
 		}
@@ -566,7 +566,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 			auto m = str.showVinfo ;
 			m.setAfterDownloading = true ;
 
-			m_ctx.getVersionInfo().check( std::move( str.iter ),m ) ;
+			m_ctx.getVersionInfo().check( std::move( str.iter ),m,true ) ;
 		}
 	}
 }
@@ -611,7 +611,7 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 			}
 
-			m_ctx.getVersionInfo().check( str.iter.move(),str.showVinfo ) ;
+			m_ctx.getVersionInfo().check( str.iter.move(),str.showVinfo,true ) ;
 		}else{
 			auto m = QObject::tr( "Failed To Extract" ) ;
 
@@ -619,7 +619,7 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 			if( str.iter.hasNext() ){
 
-				m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo ) ;
+				m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo,true ) ;
 			}else{
 				str.iter.reportDone() ;
 			}

@@ -389,7 +389,7 @@ configure::configure( const Context& ctx ) :
 			auto& m = m_ctx.getVersionInfo() ;
 
 			m.check( { engine.value(),id },
-				 { util::types::type_identity< woof >(),m_ctx,std::move( name ) } ) ;
+				 { util::types::type_identity< woof >(),m_ctx,std::move( name ) },true ) ;
 		}
 	} ) ;
 
