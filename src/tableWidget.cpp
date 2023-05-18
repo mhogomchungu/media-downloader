@@ -67,12 +67,7 @@ void tableWidget::setDownloadingOptions( tableWidget::type type,
 
 			return mm ;
 		}else{
-			if( title.size() > 32 ){
-
-				return title.mid( 0,32 ) + " ..." ;
-			}else{
-				return title ;
-			}
+			return title ;
 		}
 	}() ;
 

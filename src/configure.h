@@ -76,6 +76,7 @@ public:
 
 		m.exec( QCursor::pos() ) ;
 	}
+	QString optionsTranslated( const QString& ) ;
 	void setDownloadOptions( int row,tableWidget& table ) ;
 	struct presetEntry
 	{
@@ -98,6 +99,7 @@ private:
 		~presetOptions() ;
 		void clear() ;
 		void setDefaults() ;
+		QString optionsTranslated( const QString& ) ;
 		void add( const QString& uiName,const QString& options,const QString& website ) ;
 		template< typename Function >
 		void forEach( const Function& function )

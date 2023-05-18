@@ -652,7 +652,10 @@ void playlistdownloader::resetMenu()
 		}else{
 			m_ui.lineEditPLUrlOptions->setText( ac.objectName() ) ;
 
-			this->download() ;
+			if( m_settings.autoDownload() ){
+
+				this->download() ;
+			}
 		}
 	} ) ;
 }

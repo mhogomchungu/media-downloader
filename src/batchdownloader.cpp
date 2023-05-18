@@ -610,7 +610,10 @@ void batchdownloader::resetMenu()
 		}else{
 			m_ui.lineEditBDUrlOptions->setText( ac.objectName() ) ;
 
-			this->download( this->defaultEngine() ) ;
+			if( m_settings.autoDownload() ){
+
+				this->download( this->defaultEngine() ) ;
+			}
 		}
 	} ) ;
 }
@@ -1224,6 +1227,7 @@ void batchdownloader::showBDFrame( batchdownloader::listType m )
 
 template< typename Function >
 static void _parseDataFromFile( Items& items,
+				const Context& ctx,
 				const QJsonArray& array,
 				const QString& urlKey,
 				const QString& uploadDate,
@@ -1296,6 +1300,8 @@ static void _parseDataFromFile( Items& items,
 		}
 
 		if( !downloadOpts.isEmpty() ){
+
+			downloadOpts = ctx.TabManager().Configure().optionsTranslated( downloadOpts ) ;
 
 			auto dopts = utility::stringConstants::downloadOptions() + ": " + downloadOpts ;
 
@@ -1374,7 +1380,7 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 				return e.toString() ;
 			} ;
 
-			_parseDataFromFile( items,json.array(),"url","uploadDate",function ) ;
+			_parseDataFromFile( items,m_ctx,json.array(),"url","uploadDate",function ) ;
 		}else{
 			/*
 			 * File created with yt-dlp
@@ -1389,7 +1395,7 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 
 			if( !array.isEmpty() ){
 
-				_parseDataFromFile( items,array,"webpage_url","upload_date",function ) ;
+				_parseDataFromFile( items,m_ctx,array,"webpage_url","upload_date",function ) ;
 			}
 		}
 

@@ -1073,6 +1073,23 @@ void configure::presetOptions::setDefaults()
 	}
 }
 
+QString configure::presetOptions::optionsTranslated( const QString& e )
+{
+	for( const auto& s : util::asConst( m_array ) ) {
+
+		auto obj = s.toObject() ;
+
+		if( obj.value( "options" ).toString() == e ){
+
+			auto mm = obj.value( "uiName" ).toString() ;
+
+			return configure::presetEntry( mm,"","" ).uiNameTranslated ;
+		}
+	}
+
+	return e ;
+}
+
 void configure::presetOptions::add( const QString& uiName,const QString& options,const QString& website )
 {
 	QJsonObject o ;
@@ -1082,6 +1099,11 @@ void configure::presetOptions::add( const QString& uiName,const QString& options
 	o.insert( "website",website ) ;
 
 	m_array.append( o ) ;
+}
+
+QString configure::optionsTranslated( const QString& e )
+{
+	return m_presetOptions.optionsTranslated( e ) ;
 }
 
 QByteArray configure::presetOptions::defaultData()
