@@ -193,7 +193,7 @@ int tableWidget::addRow()
 	return row ;
 }
 
-int tableWidget::addItem( tableWidget::entry e )
+int tableWidget::addItem( tableWidget::entry e,tableWidget::sizeHint s )
 {
 	m_items.emplace_back( std::move( e ) ) ;
 
@@ -210,7 +210,13 @@ int tableWidget::addItem( tableWidget::entry e )
 	m_table.setCellWidget( row,0,label ) ;
 
 	auto item = new QTableWidgetItem( entry.uiText ) ;
+
 	item->setTextAlignment( m_textAlignment ) ;
+
+	if( s.valid() ){
+
+		item->setSizeHint( s.value() ) ;
+	}
 
 	m_table.setItem( row,1,item ) ;
 
@@ -219,37 +225,53 @@ int tableWidget::addItem( tableWidget::entry e )
 
 void tableWidget::selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber )
 {
-	if( current && previous && previous->row() == current->row() ){
+	auto _update_table_row = [ & ]( QTableWidgetItem * item,bool setSelected ){
+
+		if( item ){
+
+			auto table = item->tableWidget() ;
+
+			auto row = item->row() ;
+			auto col = table->columnCount() ;
+
+			for( int i = firstColumnNumber ; i < col ; i++ ){
+
+				table->item( row,i )->setSelected( setSelected ) ;
+			}
+
+			if( setSelected ){
+
+				table->setCurrentCell( row,col - 1 ) ;
+			}
+
+			table->setFocus() ;
+		}
+	} ;
+
+	if( current && previous ){
+
+		if( previous->row() == current->row() ){
+
+			auto table = current->tableWidget() ;
+
+			table->setCurrentCell( current->row(),table->columnCount() - 1 ) ;
+		}else{
+			_update_table_row( current,true ) ;
+			_update_table_row( previous,false ) ;
+		}
+
+	}else if( current && !previous ){
 
 		auto table = current->tableWidget() ;
 
 		table->setCurrentCell( current->row(),table->columnCount() - 1 ) ;
-	}else{
-		auto _update_table_row = [ & ]( QTableWidgetItem * item,bool setSelected ){
-
-			if( item ){
-
-				auto table = item->tableWidget() ;
-
-				auto row = item->row() ;
-				auto col = table->columnCount() ;
-
-				for( int i = firstColumnNumber ; i < col ; i++ ){
-
-					table->item( row,i )->setSelected( setSelected ) ;
-				}
-
-				if( setSelected ){
-
-					table->setCurrentCell( row,col - 1 ) ;
-				}
-
-				table->setFocus() ;
-			}
-		} ;
 
 		_update_table_row( current,true ) ;
-		_update_table_row( previous,false ) ;
+
+	}else if( !current && previous ){
+
+	}else{
+
 	}
 }
 

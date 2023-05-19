@@ -527,7 +527,7 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbConfigureShowVersionInfo->setChecked( m_settings.showVersionInfoWhenStarting() ) ;
 
-	m_ui.cbConfigureShowThumbnails->setChecked( m_settings.showThumbnails() ) ;
+	m_ui.cbConfigureShowMetaDataInBatchDownloader->setChecked( m_settings.showMetaDataInBatchDownloader() ) ;
 
 	m_ui.cbUseSystemVersionIfAvailable->setChecked( m_settings.useSystemProvidedVersionIfAvailable() ) ;
 
@@ -705,11 +705,11 @@ void configure::saveOptions()
 	m_downloadDefaultOptions.save() ;
 	m_downloadEngineDefaultOptions.save() ;
 
-	auto m = m_ui.cbConfigureShowThumbnails->isChecked() ;
+	auto m = m_ui.cbConfigureShowMetaDataInBatchDownloader->isChecked() ;
 
 	m_ctx.TabManager().batchDownloader().setThumbnailColumnSize( m ) ;
 
-	m_settings.setShowThumbnails( m ) ;
+	m_settings.setShowMetaDataInBatchDownloader( m ) ;
 	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
@@ -926,7 +926,7 @@ void configure::enableAll()
 	m_ui.pbConfigureQuit->setEnabled( true ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( true ) ;
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( true ) ;
-	m_ui.cbConfigureShowThumbnails->setEnabled( true ) ;
+	m_ui.cbConfigureShowMetaDataInBatchDownloader->setEnabled( true ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( true ) ;
 	m_ui.cbShowTrayIcon->setEnabled( true ) ;
 	m_ui.lineEditConfigureWebsite->setEnabled( true ) ;
@@ -1001,7 +1001,7 @@ void configure::disableAll()
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( false ) ;
 	m_ui.labelConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( false ) ;
-	m_ui.cbConfigureShowThumbnails->setEnabled( false ) ;
+	m_ui.cbConfigureShowMetaDataInBatchDownloader->setEnabled( false ) ;
 	m_ui.lineEditConfigureWebsite->setEnabled( false ) ;
 	m_ui.labelConfugureWebSite->setEnabled( false ) ;
 }

@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QLineEdit>
 #include <QJsonArray>
+#include <QSize>
 
 #include "engines.h"
 
@@ -222,7 +223,29 @@ public:
 				    const QString& title = QString() ) ;
 	QString completeProgress( int firstRow ) ;
 	int addRow() ;
-	int addItem( tableWidget::entry ) ;
+	class sizeHint
+	{
+	public:
+		sizeHint( int w,int h ) : m_size( w,h ),m_valid( true )
+		{
+		}
+		sizeHint()
+		{
+		}
+		bool valid() const
+		{
+			return m_valid ;
+		}
+		const QSize& value() const
+		{
+			return m_size ;
+		}
+	private:
+		QSize m_size ;
+		bool m_valid = false ;
+	};
+
+	int addItem( tableWidget::entry,sizeHint = {} ) ;
 	int rowCount() const ;
 	int currentRow() const ;
 	void replace( tableWidget::entry,int row ) ;

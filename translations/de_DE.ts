@@ -241,11 +241,6 @@
         <translation>Allgemeine Optionen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1610"/>
-        <source>Show Thumbnails</source>
-        <translation>Vorschaubilder anzeigen</translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1652"/>
         <source>Use System Executables If Available</source>
         <translation>Verwende ausführbare Systemdateien, falls verfügbar</translation>
@@ -376,6 +371,11 @@
         <translation>Plugin aktualisieren</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1610"/>
+        <source>Show MetaData In Batch Downloader Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1769"/>
         <source>Text Encoding</source>
         <translation>Textkodierung</translation>
@@ -452,27 +452,27 @@
         <translation>Speichere in Dateiliste</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="883"/>
+        <location filename="../src/batchdownloader.cpp" line="886"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="893"/>
+        <location filename="../src/batchdownloader.cpp" line="896"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="911"/>
+        <location filename="../src/batchdownloader.cpp" line="914"/>
         <source>Replies to</source>
         <translation>Antworten an</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="918"/>
+        <location filename="../src/batchdownloader.cpp" line="921"/>
         <source>Text</source>
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1156"/>
+        <location filename="../src/batchdownloader.cpp" line="1159"/>
         <source>Save Subtitle To File</source>
         <translation>Speichere Untertitel in Datei</translation>
     </message>
@@ -482,7 +482,7 @@
         <translation>Download-Tool Name:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1441"/>
+        <location filename="../src/batchdownloader.cpp" line="1447"/>
         <source>Get List From File</source>
         <translation>Liste aus Datei holen</translation>
     </message>
@@ -729,8 +729,8 @@
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/versionInfo.cpp" line="213"/>
-        <location filename="../src/versionInfo.cpp" line="458"/>
+        <location filename="../src/versionInfo.cpp" line="220"/>
+        <location filename="../src/versionInfo.cpp" line="468"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Es konnten keine Versionsinformationen gefunden werden, stellen Sie sicher, dass &quot;%1&quot; installiert ist und ordnungsgemäß funktioniert</translation>
     </message>
@@ -900,12 +900,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="382"/>
+        <location filename="../src/tableWidget.cpp" line="399"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>Abgeschlossen: %1%, Nicht gestartet: %2, Erfolgreich: %3, Fehlgeschlagen: %4, Abgebrochen: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1196"/>
+        <location filename="../src/playlistdownloader.cpp" line="1199"/>
         <source>Media Already In Archive</source>
         <translation>Bereits archivierte Medien</translation>
     </message>
@@ -979,21 +979,21 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="277"/>
-        <location filename="../src/versionInfo.cpp" line="483"/>
+        <location filename="../src/versionInfo.cpp" line="285"/>
+        <location filename="../src/versionInfo.cpp" line="491"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="320"/>
-        <location filename="../src/versionInfo.cpp" line="391"/>
+        <location filename="../src/versionInfo.cpp" line="332"/>
+        <location filename="../src/versionInfo.cpp" line="403"/>
         <source>Checking installed version of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="322"/>
-        <location filename="../src/versionInfo.cpp" line="403"/>
-        <location filename="../src/versionInfo.cpp" line="442"/>
+        <location filename="../src/versionInfo.cpp" line="334"/>
+        <location filename="../src/versionInfo.cpp" line="415"/>
+        <location filename="../src/versionInfo.cpp" line="454"/>
         <source>Found version: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1013,22 +1013,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1153"/>
+        <location filename="../src/configure.cpp" line="1175"/>
         <source>Best Available Audio Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1157"/>
+        <location filename="../src/configure.cpp" line="1179"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1161"/>
+        <location filename="../src/configure.cpp" line="1183"/>
         <source>Best Available Audio Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1165"/>
+        <location filename="../src/configure.cpp" line="1187"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1036,7 +1036,7 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1446"/>
+        <location filename="../src/batchdownloader.cpp" line="1452"/>
         <source>Set Batch File</source>
         <translation>Batch-Datei festlegen</translation>
     </message>
@@ -1051,12 +1051,12 @@
         <translation>Herunterladen von Kommentaren</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1143"/>
+        <location filename="../src/batchdownloader.cpp" line="1146"/>
         <source>Download</source>
         <translation>Herunterladen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1210"/>
+        <location filename="../src/batchdownloader.cpp" line="1213"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
@@ -1103,14 +1103,14 @@
         <translation>Medienteil herunterladen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1202"/>
-        <location filename="../src/batchdownloader.cpp" line="1216"/>
+        <location filename="../src/batchdownloader.cpp" line="1205"/>
+        <location filename="../src/batchdownloader.cpp" line="1219"/>
         <source>Set</source>
         <translation>Einstellen</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1662"/>
-        <location filename="../src/batchdownloader.cpp" line="2115"/>
+        <location filename="../src/batchdownloader.cpp" line="1673"/>
+        <location filename="../src/batchdownloader.cpp" line="2131"/>
         <source>Downloading subtitles</source>
         <translation>Herunterladen von Untertiteln</translation>
     </message>
@@ -1208,13 +1208,13 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1347"/>
+        <location filename="../src/playlistdownloader.cpp" line="1350"/>
         <source>Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1431"/>
+        <location filename="../src/playlistdownloader.cpp" line="1434"/>
         <source>Get List Options:</source>
         <translation>Listenoptionen abrufen:</translation>
     </message>
@@ -1244,27 +1244,27 @@
         <translation>Abos verwalten</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1083"/>
+        <location filename="../src/playlistdownloader.cpp" line="1086"/>
         <source>Number of Pages Downloaded</source>
         <translation>Anzahl der heruntergeladenen Seiten</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1100"/>
+        <location filename="../src/playlistdownloader.cpp" line="1103"/>
         <source>Downloading video info</source>
         <translation>Herunterladen von Videodaten</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1342"/>
+        <location filename="../src/playlistdownloader.cpp" line="1345"/>
         <source>Show Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1343"/>
+        <location filename="../src/playlistdownloader.cpp" line="1346"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1348"/>
+        <location filename="../src/playlistdownloader.cpp" line="1351"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>

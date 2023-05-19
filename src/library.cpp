@@ -400,7 +400,7 @@ void library::showContents( const QString& path,bool disableUi )
 
 	},[ disableUi,this ]( directoryEntries m ){
 
-		m_directoryEntries = std::move( m ) ;
+		m_directoryEntries = m.move() ;
 
 		m_disableUi = disableUi ;
 

@@ -248,10 +248,6 @@
         <translation>Schaalfactor (herstart nodig)</translation>
     </message>
     <message>
-        <source>Show Thumbnails</source>
-        <translation>Toon miniaturen</translation>
-    </message>
-    <message>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>Maximale gelijktijdige downloads</translation>
     </message>
@@ -309,6 +305,10 @@
     </message>
     <message>
         <source>Website</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show MetaData In Batch Downloader Tab</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

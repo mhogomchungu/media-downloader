@@ -51,10 +51,14 @@ private:
 		qint64 dateCreated ;
 		QString path ;
 	} ;
-
+	std::unique_ptr<int> w;
 	std::vector< directoryEntries::entry > m_folders ;
 	std::vector< directoryEntries::entry > m_files ;
 public:
+	directoryEntries move()
+	{
+		return std::move( *this ) ;
+	}
 	bool valid( const char * ) ;
 	bool valid( const wchar_t * ) ;
 	bool valid( const QString& ) ;

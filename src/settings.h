@@ -93,7 +93,7 @@ public:
 	bool showVersionInfoWhenStarting() ;
 	bool concurrentDownloading() ;
 	bool useSystemProvidedVersionIfAvailable() ;
-	bool showThumbnails() ;
+	bool showMetaDataInBatchDownloader() ;
 	bool saveHistory() ;
 	bool playlistDownloaderSaveHistory() ;
 	bool singleInstance() ;
@@ -127,7 +127,7 @@ public:
 	void setTabNumber( int ) ;
 	void setEnableLibraryTab( bool ) ;
 	void setMonitorClipboardUrl( bool,settings::tabName ) ;
-	void setShowThumbnails( bool ) ;
+	void setShowMetaDataInBatchDownloader( bool ) ;
 	void setPlaylistDownloaderSaveHistory( bool ) ;
 	void setShowVersionInfoWhenStarting( bool ) ;
 	void setThemeName( const QString& ) ;

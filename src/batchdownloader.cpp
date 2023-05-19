@@ -32,7 +32,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_showThumbnails( m_settings.showThumbnails() ),
+	m_showMetaData( m_settings.showMetaDataInBatchDownloader() ),
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font() ),
 	m_debug( ctx.debug() ),
@@ -60,7 +60,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	this->setVisibleMediaSectionCut( false ) ;
 
-	this->setThumbnailColumnSize( m_showThumbnails ) ;
+	this->setThumbnailColumnSize( m_showMetaData ) ;
 
 	m_ui.pbBDDownload->setEnabled( false ) ;
 
@@ -713,7 +713,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		this->download( engine,std::move( index ) ) ;
 
-	}else if( m_showThumbnails && engine.likeYoutubeDl() ){
+	}else if( m_showMetaData && engine.likeYoutubeDl() ){
 
 		for( const auto& it : list ){
 
@@ -1401,10 +1401,10 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 
 		const auto& engine = this->defaultEngine() ;
 
-		auto m = m_showThumbnails ;
-		m_showThumbnails = false ;
+		auto m = m_showMetaData ;
+		m_showMetaData = false ;
 		this->showThumbnail( engine,std::move( items ) ) ;
-		m_showThumbnails = m ;
+		m_showMetaData = m ;
 	}
 }
 
@@ -1565,7 +1565,15 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 
 	if( index == -1 ){
 
-		row = table.addItem( { pixmap,state,media } ) ;
+		if( m_showMetaData ){
+
+			row = table.addItem( { pixmap,state,media } ) ;
+		}else{
+			auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
+
+			row = table.addItem( { pixmap,state,media },{ 0,h } ) ;
+		}
+
 		table.selectLast() ;
 	}else{
 		row = index ;
@@ -1601,18 +1609,15 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 
 void batchdownloader::setThumbnailColumnSize( bool e )
 {
-	m_showThumbnails = e ;
+	m_showMetaData = e ;
 
-	if( m_showThumbnails ){
+	if( m_showMetaData ){
+
+		m_table.get().showColumn( 0 ) ;
 
 		m_table.get().setColumnWidth( 0,m_settings.thumbnailWidth( settings::tabName::batch ) ) ;
 	}else{
-		auto w = m_settings.thumbnailWidth( settings::tabName::batch ) ;
-		auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
-
-		auto pixmap = QIcon( ":/video" ).pixmap( w,h ) ;
-
-		m_table.get().setColumnWidth( 0,pixmap.width() ) ;
+		m_table.get().hideColumn( 0 ) ;
 	}
 }
 
@@ -1640,7 +1645,7 @@ void batchdownloader::clipboardData( const QString& url )
 		if( !found ){
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
-			this->addToList( url,false,m_settings.showThumbnails() ) ;
+			this->addToList( url,false,m_showMetaData ) ;
 		}
 	}
 }
@@ -2068,7 +2073,12 @@ void batchdownloader::addTextToUi( const QByteArray& data,int index )
 {
 	if( downloadManager::finishedStatus::running( m_table.runningState( index ) ) ){
 
-		m_table.setUiText( data,index ) ;
+	//	if( data.count( '\n' ) == 0 && data.endsWith( "..." ) ){
+
+	//		m_table.setUiText( "\n" + data + "\n",index ) ;
+	//	}else{
+			m_table.setUiText( data,index ) ;
+	//	}
 	}
 }
 
@@ -2117,7 +2127,7 @@ void batchdownloader::disableAll()
 	//m_ui.labelBDEnterUrl->setEnabled( false ) ;
 }
 
-batchdownloader::subtitlesTimer::subtitlesTimer( tableMiniWidget< QJsonObject> & table ) :
+batchdownloader::subtitlesTimer::subtitlesTimer( tableMiniWidget< QJsonObject >& table ) :
 	m_banner( tr( "Downloading subtitles" ).toUtf8() + "\n",8 ),
 	m_table( table )
 {

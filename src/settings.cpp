@@ -714,19 +714,19 @@ void settings::setUseSystemProvidedVersionIfAvailable( bool e )
 	m_settings.setValue( "UseSystemProvidedVersionIfAvailable",e ) ;
 }
 
-void settings::setShowThumbnails( bool e )
+void settings::setShowMetaDataInBatchDownloader( bool e )
 {
-	m_settings.setValue( "ShowThumbnails",e ) ;
+	m_settings.setValue( "ShowMetaDataInBatchDownloader",e ) ;
 }
 
-bool settings::showThumbnails()
+bool settings::showMetaDataInBatchDownloader()
 {
-	if( !m_settings.contains( "ShowThumbnails" ) ){
+	if( !m_settings.contains( "ShowMetaDataInBatchDownloader" ) ){
 
-		m_settings.setValue( "ShowThumbnails",false ) ;
+		m_settings.setValue( "ShowMetaDataInBatchDownloader",true ) ;
 	}
 
-	return m_settings.value( "ShowThumbnails" ).toBool() ;
+	return m_settings.value( "ShowMetaDataInBatchDownloader" ).toBool() ;
 }
 
 bool settings::saveHistory()

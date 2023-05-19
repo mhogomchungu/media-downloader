@@ -246,7 +246,7 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
-	bool m_showThumbnails ;
+	bool m_showMetaData ;
 	tableWidget m_table ;
 	tableMiniWidget< QJsonObject > m_tableWidgetBDList ;
 	QString m_debug ;

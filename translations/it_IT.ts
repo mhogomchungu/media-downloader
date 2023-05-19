@@ -108,10 +108,6 @@
         <translation>Ottieni opzioni elenco:</translation>
     </message>
     <message>
-        <source>Show Thumbnails</source>
-        <translation>Visualizza miniatiure</translation>
-    </message>
-    <message>
         <source>Maximum Cuncurrent Downloads</source>
         <translation>N. max download contemporanei</translation>
     </message>
@@ -310,6 +306,10 @@
     <message>
         <source>Website</source>
         <translation>Sito web</translation>
+    </message>
+    <message>
+        <source>Show MetaData In Batch Downloader Tab</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

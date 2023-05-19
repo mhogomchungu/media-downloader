@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1439,7 +1439,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1492,7 +1492,7 @@
          <rect>
           <x>190</x>
           <y>260</y>
-          <width>421</width>
+          <width>561</width>
           <height>31</height>
          </rect>
         </property>
@@ -1597,17 +1597,17 @@
          <string>Add a Plugin</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="cbConfigureShowThumbnails">
+       <widget class="QCheckBox" name="cbConfigureShowMetaDataInBatchDownloader">
         <property name="geometry">
          <rect>
           <x>190</x>
           <y>280</y>
-          <width>421</width>
+          <width>561</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
-         <string>Show Thumbnails</string>
+         <string>Show MetaData In Batch Downloader Tab</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="lineEditConfigureMaximuConcurrentDownloads">
@@ -1644,7 +1644,7 @@
          <rect>
           <x>190</x>
           <y>240</y>
-          <width>421</width>
+          <width>561</width>
           <height>31</height>
          </rect>
         </property>
@@ -1699,7 +1699,7 @@
          <rect>
           <x>190</x>
           <y>300</y>
-          <width>421</width>
+          <width>561</width>
           <height>31</height>
          </rect>
         </property>
@@ -1738,7 +1738,7 @@
          <rect>
           <x>190</x>
           <y>340</y>
-          <width>421</width>
+          <width>561</width>
           <height>31</height>
          </rect>
         </property>
@@ -2322,7 +2322,7 @@
   <tabstop>comboBoxConfigureDarkTheme</tabstop>
   <tabstop>cbUseSystemVersionIfAvailable</tabstop>
   <tabstop>cbConfigureShowVersionInfo</tabstop>
-  <tabstop>cbConfigureShowThumbnails</tabstop>
+  <tabstop>cbConfigureShowMetaDataInBatchDownloader</tabstop>
   <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>
   <tabstop>tabWidgetConfigure</tabstop>
