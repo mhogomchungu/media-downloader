@@ -226,7 +226,7 @@ public:
 	class sizeHint
 	{
 	public:
-		sizeHint( int w,int h ) : m_size( w,h ),m_valid( true )
+		sizeHint( int h ) : m_size( 0,h ),m_valid( true )
 		{
 		}
 		sizeHint()
@@ -248,7 +248,7 @@ public:
 	int addItem( tableWidget::entry,sizeHint = {} ) ;
 	int rowCount() const ;
 	int currentRow() const ;
-	void replace( tableWidget::entry,int row ) ;
+	void replace( tableWidget::entry,int row,sizeHint = {} ) ;
 	void clear() ;
 	void setVisible( bool ) ;
 	void selectLast() ;

@@ -707,7 +707,7 @@ void configure::saveOptions()
 
 	auto m = m_ui.cbConfigureShowMetaDataInBatchDownloader->isChecked() ;
 
-	m_ctx.TabManager().batchDownloader().setThumbnailColumnSize( m ) ;
+	m_ctx.TabManager().batchDownloader().setShowMetaData( m ) ;
 
 	m_settings.setShowMetaDataInBatchDownloader( m ) ;
 	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;

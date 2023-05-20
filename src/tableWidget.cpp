@@ -163,7 +163,7 @@ void tableWidget::setTableWidget( QTableWidget& table,const tableWidget::tableWi
 	table.setSelectionMode( s.selectionMode ) ;
 }
 
-void tableWidget::replace( tableWidget::entry e,int r )
+void tableWidget::replace( tableWidget::entry e,int r,sizeHint s )
 {
 	auto row = static_cast< size_t >( r ) ;
 
@@ -174,7 +174,15 @@ void tableWidget::replace( tableWidget::entry e,int r )
 	label ->setPixmap( m_items[ row ].thumbnail ) ;
 
 	m_table.setCellWidget( r,0,label ) ;
-	m_table.item( r,1 )->setText( m_items[ row ].uiText ) ;
+
+	auto item = m_table.item( r,1 ) ;
+
+	if( s.valid() ){
+
+		item->setSizeHint( s.value() ) ;
+	}
+
+	item->setText( m_items[ row ].uiText ) ;
 }
 
 int tableWidget::addRow()

@@ -32,7 +32,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
-	m_showMetaData( m_settings.showMetaDataInBatchDownloader() ),
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font() ),
 	m_debug( ctx.debug() ),
@@ -43,6 +42,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_subtitlesTimer( m_tableWidgetBDList )
 {
 	qRegisterMetaType< ItemEntry >() ;
+
+	this->setShowMetaData( m_settings.showMetaDataInBatchDownloader() ) ;
 
 	m_tableWidgetBDList.setTableWidget( [](){
 
@@ -59,8 +60,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	} ) ;
 
 	this->setVisibleMediaSectionCut( false ) ;
-
-	this->setThumbnailColumnSize( m_showMetaData ) ;
 
 	m_ui.pbBDDownload->setEnabled( false ) ;
 
@@ -726,7 +725,9 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			entry.thumbnail    = m_defaultVideoThumbnail ;
 			entry.runningState = downloadManager::finishedStatus::running() ;
 
-			int row = m_table.addItem( std::move( entry ) ) ;
+			auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
+
+			int row = m_table.addItem( std::move( entry ),h ) ;
 
 			util::Timer( 1000,[ this,row,uiText ]( int counter ){
 
@@ -1563,21 +1564,17 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 
 	int row ;
 
+	auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
+
 	if( index == -1 ){
 
-		if( m_showMetaData ){
-
-			row = table.addItem( { pixmap,state,media } ) ;
-		}else{
-			auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
-
-			row = table.addItem( { pixmap,state,media },{ 0,h } ) ;
-		}
+		row = table.addItem( { pixmap,state,media },h ) ;
 
 		table.selectLast() ;
 	}else{
 		row = index ;
-		table.replace( { pixmap,state,media },index ) ;
+
+		table.replace( { pixmap,state,media },index,h ) ;
 	}
 
 	ui.lineEditBDUrl->clear() ;
@@ -1607,7 +1604,7 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 	return row ;
 }
 
-void batchdownloader::setThumbnailColumnSize( bool e )
+void batchdownloader::setShowMetaData( bool e )
 {
 	m_showMetaData = e ;
 
