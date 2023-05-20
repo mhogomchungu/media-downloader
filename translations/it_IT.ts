@@ -309,7 +309,7 @@
     </message>
     <message>
         <source>Show MetaData In Batch Downloader Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza metadati nella scheda Batch Downloader</translation>
     </message>
 </context>
 <context>
