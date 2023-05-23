@@ -762,6 +762,10 @@
         <source>Best Audio With Video Resolution Of %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Url Is Not Supported</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

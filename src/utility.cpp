@@ -1164,7 +1164,12 @@ utility::downLoadOptions utility::setDownloadOptions( const engines::engine& eng
 
 			return u + m ;
 		}else{
-			return u + m + " " + downloadOpts ;
+			if( u == downloadOpts ){
+
+				return u + m ;
+			}else{
+				return u + m + " " + downloadOpts ;
+			}
 		}
 	}() ;
 

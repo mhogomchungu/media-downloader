@@ -987,6 +987,11 @@ QString engines::engine::functions::errorString( const engine::engine::functions
 
 		auto m = engines::engine::functions::processCompleteStateText( f ) ;
 		return m + "\n" + QObject::tr( "Invalid Url Entered" ) + "\n" + bkText ;
+
+	}else if( err == engines::engine::functions::errors::notSupportedUrl ){
+
+		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Url Is Not Supported" ) + "\n" + bkText ;
 	}else{
 		return {} ;
 	}

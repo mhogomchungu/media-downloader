@@ -299,7 +299,7 @@ public:
 				QProcess::ExitStatus m_exitStatus ;
 			};
 
-			enum class errors{ unknownUrl,noNetwork,unknownFormat } ;
+			enum class errors{ unknownUrl,notSupportedUrl,noNetwork,unknownFormat } ;
 			static QString errorString( const engine::engine::functions::finishedState&,
 						    engines::engine::functions::errors,
 						    const QString& ) ;

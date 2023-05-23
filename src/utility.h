@@ -1286,7 +1286,7 @@ namespace utility
 			      int id,
 			      utility::MediaEntry m ) :
 			m_id( id ),
-			m_mediaEntry( std::move( m ) ),
+			m_mediaEntry( m.move() ),
 			m_table( t )
 		{
 			this->invoke( obj,member ) ;
@@ -1299,7 +1299,7 @@ namespace utility
 			      int id,
 			      utility::MediaEntry m ) :
 			m_id( id ),
-			m_mediaEntry( std::move( m ) ),
+			m_mediaEntry( m.move() ),
 			m_table( t )
 		{
 			this->getData( ctx,reply ) ;

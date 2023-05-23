@@ -883,6 +883,10 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 	}else if( uiText.contains( " is not a valid URL" ) ){
 
 		return functions::errorString( f,functions::errors::unknownUrl,bkText ) ;
+
+	}else if( uiText.contains( "ERROR: Unsupported URL:" ) ){
+
+		return functions::errorString( f,functions::errors::notSupportedUrl,bkText ) ;
 	}else {
 		auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 		return m + "\n" + bkText ;

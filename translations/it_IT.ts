@@ -764,6 +764,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation>Audio migliore con risoluzione video %1</translation>
     </message>
+    <message>
+        <source>Url Is Not Supported</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
