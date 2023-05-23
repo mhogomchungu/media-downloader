@@ -1008,21 +1008,40 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 	if( s.doneDownloading() ){
 
-		for( auto it = m.rbegin() ; it != m.rend() ; it++ ){
+		if( utility::stringConstants::downloadFailed( s.lastText() ) ){
 
-			const QByteArray& e = *it ;
+			for( auto it = m.rbegin() ; it != m.rend() ; it++ ){
 
-			if( e.startsWith( "ERROR: " ) ){
+				const QByteArray& e = *it ;
 
-				m_tmp = e ;
+				if( e.startsWith( "ERROR: " ) ){
 
-				return m_tmp ;
+					m_tmp = e ;
+
+					return m_tmp ;
+				}
 			}
 		}
 
 		if( m_fileName.isEmpty() ){
 
-			return m_tmp ;
+			/*
+			 * Failed to get file name, try again
+			 */
+			if( m_likeYtdlp ){
+
+				this->ytdlpOutput( m ) ;
+			}else{
+				this->youtubedlOutput( m ) ;
+			}
+
+			if( m_fileName.isEmpty() ){
+
+				//??????
+				return m_tmp ;
+			}else{
+				return m_fileName ;
+			}
 		}else{
 			return m_fileName ;
 		}

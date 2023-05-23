@@ -1163,13 +1163,12 @@ utility::downLoadOptions utility::setDownloadOptions( const engines::engine& eng
 		}else if( downloadOpts.isEmpty() ){
 
 			return u + m ;
-		}else{
-			if( u == downloadOpts ){
 
-				return u + m ;
-			}else{
-				return u + m + " " + downloadOpts ;
-			}
+		}else if( u == downloadOpts ){
+
+			return u + m ;
+		}else{
+			return u + m + " " + downloadOpts ;
 		}
 	}() ;
 

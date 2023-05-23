@@ -151,6 +151,10 @@ namespace utility
 		{
 			return e.startsWith( "[media-downloader] Download " ) ;
 		}
+		static bool downloadFailed( const QByteArray& e )
+		{
+			return e.startsWith( "[media-downloader] Download Failed" ) ;
+		}
 		static QString uploadDate()
 		{
 			return QObject::tr( "Upload Date:" ) ;
