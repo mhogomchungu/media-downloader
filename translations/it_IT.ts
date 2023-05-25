@@ -766,7 +766,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Url Is Not Supported</source>
-        <translation type="unfinished"></translation>
+        <translation>La URL non è supportata</translation>
     </message>
 </context>
 <context>
