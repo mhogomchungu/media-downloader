@@ -310,13 +310,20 @@ void basicdownloader::download( const QString& url )
 
 	m_bogusTable.addItem( std::move( entry ) ) ;
 
-	auto s = m_ui.lineEditOptions->text() ;
+	auto s = m_extraOptions.downloadOptions ;
 
-	if( !m_extraOptions.downloadOptions.isEmpty() ){
+	m_ctx.TabManager().Configure().setDownloadOptions( 0,m_bogusTable ) ;
 
-		s += " " + m_extraOptions.downloadOptions ;
-	}
+	s = utility::setDownloadOptions( engine.engine,m_bogusTable,0,s ).downloadOptions ;
+
 	m_settings.addOptionsHistory( s,settings::tabName::basic ) ;
+
+	auto mm = m_ui.lineEditOptions->text() ;
+
+	if( !mm.isEmpty() ){
+
+		s += " " + mm ;
+	}
 
 	this->download( engine,{ s,engine.engine },m,false ) ;
 }

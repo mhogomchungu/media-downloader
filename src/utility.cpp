@@ -1106,13 +1106,16 @@ utility::downLoadOptions utility::setDownloadOptions( const engines::engine& eng
 
 		auto s = util::split( m,' ',true ) ;
 
-		auto e = engine.defaultSubtitleDownloadOptions().join( " " ) ;
+		if( s.size() > 1 ){
 
-		if( s.at( 0 ) == "ac:" ){
+			auto e = engine.defaultSubtitleDownloadOptions().join( " " ) ;
 
-			m = " " + e + " --write-auto-subs --sub-langs " + s.at( 1 ) ;
-		}else{
-			m = " " + e + " --sub-langs " + s.at( 1 ) ;
+			if( s.at( 0 ) == "ac:" ){
+
+				m = " " + e + " --write-auto-subs --sub-langs " + s.at( 1 ) ;
+			}else{
+				m = " " + e + " --sub-langs " + s.at( 1 ) ;
+			}
 		}
 	}
 
