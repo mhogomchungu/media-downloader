@@ -130,12 +130,14 @@ void aria2c::init( const QString& name,
 	}
 }
 
-void aria2c::trimProgressLine( QByteArray& e )
+QByteArray& aria2c::trimProgressLine( QByteArray& e )
 {
 	if( e.endsWith( ']' ) ){
 
 		e.truncate( e.size() - 1 ) ;
 	}
+
+	return e ;
 }
 
 aria2c::~aria2c()

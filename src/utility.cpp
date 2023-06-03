@@ -1375,6 +1375,21 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 	}
 }
 
+static QString _logToFile ;
+
+utility::cliArguments::cliArguments( int argc,char ** argv ) :
+	m_argc( argc ),m_argv( argv )
+{
+	_logToFile = this->value( "--log-to-file" ) ;
+
+	if( !_logToFile.isEmpty() ){
+
+		QFile f( _logToFile ) ;
+		f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
+		f.write( "" ) ;
+	}
+}
+
 bool utility::cliArguments::contains( const char * m ) const
 {
 	for( int i = 0 ; i < m_argc ; i++ ){
@@ -1459,4 +1474,17 @@ QStringList utility::cliArguments::arguments( const QString& cpath,
 	args.append( exeDirPath ) ;
 
 	return args ;
+}
+
+void utility::log( const QByteArray& data,const QString& e )
+{
+	utility::debug( e ) << data ;
+	utility::debug( e ) << "-------------------------------" ;
+
+	if( !_logToFile.isEmpty() ){
+
+		QFile f( _logToFile ) ;
+		f.open( QIODevice::WriteOnly | QIODevice::Append ) ;
+		f.write( data ) ;
+	}
 }

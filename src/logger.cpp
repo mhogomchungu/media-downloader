@@ -332,6 +332,73 @@ static void _add_or_replace( Logger::Data& outPut,
 	} ) ;
 }
 
+static bool _false( const QByteArray& )
+{
+	return false ;
+}
+
+template< typename Function,typename Filter >
+static void _ytDlp( const Logger::locale& locale,
+		    const QByteArray& e,
+		    Logger::Data& outPut,
+		    int id,
+		    Function function,
+		    Filter filter )
+{
+	auto mm = function( locale,e ) ;
+
+	if( outPut.mainLogger() ){
+
+		if( !mm.progress.isEmpty() ){
+
+			_add_or_replace( outPut,id,mm.QByteArrayProgress(),filter,_false ) ;
+		}
+	}else{
+		QJsonObject obj ;
+
+		obj.insert( "filename",mm.filename ) ;
+		obj.insert( "progress",mm.QStringProgress().mid( 11 ) ) ;
+
+		auto m = QJsonDocument( obj ).toJson( QJsonDocument::JsonFormat::Compact ) ;
+
+		_add_or_replace( outPut,id,m,[ & ]( const QByteArray& ){
+
+			return filter( e ) ;
+
+		},_false ) ;
+	}
+}
+
+static bool _ffmpeg( const QByteArray& e )
+{
+	return e.startsWith( "frame=" ) || e.startsWith( "size=" ) ;
+}
+
+static bool _aria2c( const QByteArray& e )
+{
+	return e.startsWith( "[DL:" ) || e.startsWith( "[#" ) ;
+}
+
+struct result
+{
+	const QByteArray& progress ;
+	QString filename ;
+
+	const QByteArray& QByteArrayProgress()
+	{
+		return progress ;
+	}
+	QString QStringProgress()
+	{
+		return progress ;
+	}
+};
+
+static result _reflect( const Logger::locale&,const QByteArray& e )
+{
+	return { e,"" } ;
+}
+
 void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 {
 	for( const auto& e : util::split( data,token ) ){
@@ -340,78 +407,55 @@ void Logger::updateLogger::add( const QByteArray& data,QChar token ) const
 
 			continue ;
 
-		}else if( ( m_like_yt_dlp || m_ytdl ) && ( e.startsWith( "frame=" ) || e.startsWith( "size=" ) ) ){
+		}else if( ( m_like_yt_dlp || m_ytdl ) && _ffmpeg( e ) ){
 
 			/*
 			 * youtube-dl or yt-dlp and they decided to use ffmpeg as an external downloader
 			 */
 
-			_add_or_replace( m_outPut,m_id,e,[]( const QByteArray& s ){
+			_ytDlp( m_locale,e,m_outPut,m_id,_reflect,_ffmpeg ) ;
 
-				return s.startsWith( "frame=" ) || s.startsWith( "size=" ) ;
-
-			},[]( const QByteArray& ){
-
-				return false ;
-			} ) ;
-
-		}else if( ( m_aria2c || m_ffmpeg ) && e.startsWith( "[download]" ) && e.contains( "ETA" ) ){
+		}else if( ( m_yt_dlp_aria2c || m_yt_dlp_ffmpeg ) && yt_dlp::meetCondition( e ) ){
 
 			/*
 			 * yt-dlp-aria2c/yt-dlp-ffmpeg and yt-dlp decided to use internal downloader
 			 */
 
-			_add_or_replace( m_outPut,m_id,e,[]( const QByteArray& s ){
+			_ytDlp( m_locale,e,m_outPut,m_id,yt_dlp::formatYdDlpOutput,yt_dlp::meetCondition ) ;
 
-				return s.startsWith( "[download]" ) && s.contains( "ETA" ) ;
-
-			},[]( const QByteArray& ){
-
-				return false ;
-			} ) ;
-
-		}else if( m_aria2c && e.startsWith( "[DL:" ) ){
+		}else if( m_aria2c && _aria2c( e ) ){
 
 			/*
-			 * aria2c when doing concurrent downloads
+			 * aria2c
 			 */
 
-			_add_or_replace( m_outPut,m_id,e,[]( const QByteArray& s ){
+			_add_or_replace( m_outPut,m_id,e,_aria2c,_false ) ;
 
-				return s.startsWith( "[DL:" ) ;
+		}else if( m_yt_dlp_aria2c && _aria2c( e ) ){
 
-			},[]( const QByteArray& ){
+			/*
+			 * yt-dlp-aria2c
+			 */
+			_ytDlp( m_locale,e,m_outPut,m_id,_reflect,_aria2c ) ;
 
-				return false ;
-			} ) ;
+		}else if( m_yt_dlp && yt_dlp::meetCondition( e ) ){
+
+			_ytDlp( m_locale,e,m_outPut,m_id,yt_dlp::formatYdDlpOutput,yt_dlp::meetCondition ) ;
+
+		}else if( m_ytdl && yt_dlp::meetCondition( e ) ){
+
+			/*
+			 * youtube-dl
+			 */
+			_ytDlp( m_locale,e,m_outPut,m_id,_reflect,yt_dlp::meetCondition ) ;
 
 		}else if( this->meetCondition( e ) ){
 
-			if( m_yt_dlp ){
+			_add_or_replace( m_outPut,m_id,e,[ this ]( const QByteArray& s ){
 
-				_add_or_replace( m_outPut,m_id,yt_dlp::formatYdDlpOutput( m_locale,e ),[ this ]( const QByteArray& s ){
+				return this->meetCondition( s )  ;
 
-					return this->meetCondition( s )  ;
-
-				},[]( const QByteArray& ){
-
-					return false ;
-				} ) ;
-			}else{
-				_add_or_replace( m_outPut,m_id,e,[ this ]( const QByteArray& s ){
-
-					return this->meetCondition( s )  ;
-
-				},[ this ]( const QByteArray& e ){
-
-					if( m_args.likeYoutubeDl ){
-
-						return e.startsWith( "[download] 100.0%" ) ;
-					}else{
-						return false ;
-					}
-				} ) ;
-			}
+			},_false ) ;
 		}else{
 			m_outPut.add( e,m_id ) ;
 		}

@@ -27,7 +27,7 @@ public:
 			  Logger& logger,
 			  const engines::enginePaths& enginePath ) ;
 
-	static void trimProgressLine( QByteArray& ) ;
+	static QByteArray& trimProgressLine( QByteArray& ) ;
 
 	~aria2c() override ;
 

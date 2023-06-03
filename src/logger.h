@@ -239,14 +239,6 @@ public:
 			QByteArrayList()
 			{
 			}
-			auto begin()
-			{
-				return m_array.begin() ;
-			}
-			auto end()
-			{
-				return m_array.end() ;
-			}
 			auto begin() const
 			{
 				return m_array.begin() ;
@@ -254,14 +246,6 @@ public:
 			auto end() const
 			{
 				return m_array.end() ;
-			}
-			auto rbegin()
-			{
-				return m_array.rbegin() ;
-			}
-			auto rend()
-			{
-				return m_array.rend() ;
 			}
 			auto rbegin() const
 			{
@@ -276,10 +260,6 @@ public:
 				m_array.emplace_back( s ) ;
 			}
 			const QByteArray& last() const
-			{
-				return *m_array.rbegin() ;
-			}
-			const QByteArray& last()
 			{
 				return *m_array.rbegin() ;
 			}
@@ -298,15 +278,7 @@ public:
 				ByteArray( const QByteArray& s ) : m_array( &s )
 				{
 				}
-				operator const QByteArray&()
-				{
-					return *m_array ;
-				}
 				operator const QByteArray&() const
-				{
-					return *m_array ;
-				}
-				operator QString()
 				{
 					return *m_array ;
 				}
@@ -645,8 +617,9 @@ public:
 			m_args( engine ),
 			m_outPut( outPut ),
 			m_id( id ),
-			m_aria2c( m_args.name.contains( "aria2c" ) ),
-			m_ffmpeg( m_args.name.contains( "ffmpeg" ) ),
+			m_aria2c( m_args.name == "aria2c" ),
+			m_yt_dlp_aria2c( m_args.name == "yt-dlp-aria2c" ),
+			m_yt_dlp_ffmpeg( m_args.name == "yt-dlp-ffmpeg" ),
 			m_yt_dlp( m_args.name == "yt-dlp" || m_args.name == "yt-dlp-test" || m_args.name == "ytdl-patched" ),
 			m_like_yt_dlp( m_args.name.contains( "yt-dlp" ) || m_args.name == "ytdl-patched" ),
 			m_ytdl( m_args.name == "youtube-dl" )
@@ -664,7 +637,8 @@ public:
 		Logger::locale m_locale ;
 		int m_id ;
 		bool m_aria2c ;
-		bool m_ffmpeg ;
+		bool m_yt_dlp_aria2c ;
+		bool m_yt_dlp_ffmpeg ;
 		bool m_yt_dlp ;
 		bool m_like_yt_dlp ;
 		bool m_ytdl ;

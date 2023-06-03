@@ -60,9 +60,6 @@ namespace utility
 	class debug
 	{
 	public:
-		debug() : m_switch( "--debug" )
-		{
-		}
 		debug( const QString& e ) :
 			m_switch( e )
 		{
@@ -304,9 +301,7 @@ namespace utility
 	class cliArguments
 	{
 	public:
-		cliArguments( int argc,char ** argv ) : m_argc( argc ),m_argv( argv )
-		{
-		}
+		cliArguments( int argc,char ** argv );
 		bool contains( const char * ) const ;
 		bool runningUpdated() const ;
 		bool portable() const ;
@@ -337,6 +332,7 @@ namespace utility
 	void openDownloadFolderPath( const QString& ) ;
 	void setPermissions( QFile& ) ;
 	void setPermissions( const QString& ) ;
+	void log( const QByteArray&,const QString& ) ;
 	QString runningVersionOfMediaDownloader() ;
 	QString homePath() ;
 	QString python3Path() ;
@@ -977,8 +973,7 @@ namespace utility
 		{
 			auto _withData = [ & ]( const QByteArray& data ){
 
-				utility::debug( m_options.debug() ) << data ;
-				utility::debug( m_options.debug() ) << "-------------------------------" ;
+				utility::log( data,m_options.debug() ) ;
 
 				m_timer->stop() ;
 

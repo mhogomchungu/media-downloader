@@ -27,7 +27,21 @@ class yt_dlp : public engines::engine::functions
 public:
 	static const char * testData() ;
 
-	static QByteArray formatYdDlpOutput( const Logger::locale&,const QByteArray& ) ;
+	static bool meetCondition( const QByteArray& ) ;
+	struct result
+	{
+		QString filename ;
+		QString progress ;
+		QByteArray QByteArrayProgress()
+		{
+			return progress.toUtf8() ;
+		}
+		const QString& QStringProgress()
+		{
+			return progress ;
+		}
+	};
+	static result formatYdDlpOutput( const Logger::locale&,const QByteArray& ) ;
 
 	~yt_dlp() override ;
 
@@ -41,14 +55,13 @@ public:
 		~youtube_dlFilter() override ;
 	private:
 		const char * compatYear() ;
-		const QByteArray& youtubedlOutput( const Logger::Data::QByteArrayList& ) ;
-		const QByteArray& ytdlpOutput( const Logger::Data::QByteArrayList& ) ;
-		const QByteArray& youtubedlProgressLine( const QByteArray& ) ;
-		const QByteArray& ytdlpProgressLine( const QByteArray& ) ;
 
-		bool m_likeYtdlp ;
+		const QByteArray& parseOutput( const Logger::Data::QByteArrayList& ) ;
+
+		void setFileName( const QByteArray& ) ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
+
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
 	} ;
