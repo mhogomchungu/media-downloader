@@ -246,15 +246,15 @@ private:
 		{
 			return m_list.back().getListOptions ;
 		}
-		playlistdownloader::listIterator next() const
+		playlistdownloader::listIterator next()
 		{
 			auto m = this->move() ;
 			m.m_list.pop_back() ;
 			return m ;
 		}
-		playlistdownloader::listIterator move() const
+		playlistdownloader::listIterator move()
 		{
-			return std::move( *const_cast< playlistdownloader::listIterator * >( this ) ) ;
+			return std::move( *this ) ;
 		}
 	private:
 		std::vector< playlistdownloader::subscription::entry > m_list ;

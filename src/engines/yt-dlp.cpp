@@ -870,7 +870,7 @@ void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 		if( QFile::exists( b ) ){
 
-			auto args = util::split(a, ' ', true);
+			auto args = util::split( a,' ',true ) ;
 
 			args.append( b ) ;
 

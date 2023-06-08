@@ -131,17 +131,17 @@ public:
 		{
 			return m_iter.hasNext() ;
 		}
-		printVinfo next() const
+		printVinfo next()
 		{
-			auto m = std::move( *const_cast< printVinfo * >( this ) ) ;
+			auto m = std::move( *this ) ;
 
 			m.m_iter = m.m_iter.next() ;
 
 			return m ;
 		}
-		printVinfo move() const
+		printVinfo move()
 		{
-			return std::move( *const_cast< printVinfo * >( this ) ) ;
+			return std::move( *this ) ;
 		}
 		void reportDone() const
 		{

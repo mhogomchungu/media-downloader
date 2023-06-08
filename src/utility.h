@@ -301,7 +301,7 @@ namespace utility
 	class cliArguments
 	{
 	public:
-		cliArguments( int argc,char ** argv );
+		cliArguments( int argc,char ** argv ) ;
 		bool contains( const char * ) const ;
 		bool runningUpdated() const ;
 		bool portable() const ;

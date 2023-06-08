@@ -554,7 +554,40 @@ public:
 		}
 
 		template< typename Context,typename Function >
-		void updateVersionInfo( const Context& ctx,Function function ) const
+		class uvic
+		{
+		public:
+			uvic( const engines::engine& engine,
+			      const Context& ctx,
+			      Function function ) :
+				m_engine( engine ),
+				m_ctx( ctx ),
+				m_function( std::move( function ) )
+			{
+			}
+			void operator()( const utils::qprocess::outPut& e )
+			{
+				if( e.success() ){
+
+					m_engine.setVersionString( e.stdOut ) ;
+				}
+
+				m_ctx.TabManager().enableAll() ;
+
+				m_function() ;
+			}
+			uvic< Context,Function > move()
+			{
+				return std::move( *this ) ;
+			}
+		private:
+			const engines::engine& m_engine ;
+			const Context& m_ctx ;
+			Function m_function ;
+		} ;
+
+		template< typename Context,typename Function >
+		void updateVersionInfo( const Context& ctx,Function ff ) const
 		{
 			if( m_functions->updateVersionInfo() ){
 
@@ -562,7 +595,7 @@ public:
 
 				if( engine.versionInfo().valid() ){
 
-					function() ;
+					ff() ;
 				}else{
 					ctx.TabManager().disableAll() ;
 
@@ -573,20 +606,12 @@ public:
 
 					this->setPermissions( cmd.exe() ) ;
 
-					utils::qprocess::run( cmd.exe(),cmd.args(),[ &ctx,&engine,function = std::move( function ) ]( const utils::qprocess::outPut& e ){
+					uvic< Context,Function > meaw( engine,ctx,std::move( ff ) ) ;
 
-						if( e.success() ){
-
-							engine.setVersionString( e.stdOut ) ;
-						}
-
-						ctx.TabManager().enableAll() ;
-
-						function() ;
-					} ) ;
+					utils::qprocess::run( cmd.exe(),cmd.args(),meaw.move() ) ;
 				}
 			}else{
-				function() ;
+				ff() ;
 			}
 		}
 

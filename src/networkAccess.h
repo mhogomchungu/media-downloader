@@ -59,9 +59,9 @@ public:
 		{
 			m_handle->done() ;
 		}
-		Status move() const
+		Status move()
 		{
-			return std::move( const_cast< Status& >( *this ) ) ;
+			return std::move( *this ) ;
 		}
 	private:
 		utils::misc::unique_ptr< networkAccess::status > m_handle ;
@@ -93,7 +93,7 @@ public:
 		{
 			return m_handle->hasNext() ;
 		}
-		networkAccess::iterator next() const
+		networkAccess::iterator next()
 		{
 			auto m = this->move() ;
 
@@ -101,9 +101,9 @@ public:
 
 			return m ;
 		}
-		networkAccess::iterator move() const
+		networkAccess::iterator move()
 		{
-			return std::move( const_cast< networkAccess::iterator& >( *this ) ) ;
+			return std::move( *this ) ;
 		}
 		const engines::engine& engine() const
 		{
@@ -196,27 +196,23 @@ private:
 			m_url( url )
 		{
 		}
-		function< Function > move() const
+		function< Function > move()
 		{
-			return std::move( this->mutableRef() ) ;
+			return std::move( *this ) ;
 		}
-		bool retry() const
+		bool retry()
 		{
-			return this->mutableRef().m_retry-- ;
+			return m_retry-- ;
 		}
-		const QString& url() const
+		const QString& url()
 		{
 			return m_url ;
 		}
-		void call( const utils::network::reply& reply ) const
+		void call( const utils::network::reply& reply )
 		{
 			m_function( reply ) ;
 		}
 	private:
-		function< Function >& mutableRef() const
-		{
-			return const_cast< function< Function >& >( *this ) ;
-		}
 		Function m_function ;
 		QString m_url ;
 		int m_retry = 1 ;
@@ -231,11 +227,11 @@ private:
 	{
 		auto m = this->networkRequest( function.url() ) ;
 
-		m_network.get( m,[ this,function = function.move() ]( const utils::network::reply& reply ){
+		m_network.get( m,[ this,function = function.move() ]( const utils::network::reply& reply )mutable{
 
 			if( !reply.success() && reply.retry() && function.retry() ){
 
-				utils::qtimer::run( 1000,[ this,function = function.move() ](){
+				utils::qtimer::run( 1000,[ this,function = function.move() ]()mutable{
 
 					this->get( function.move() ) ;
 				} ) ;
@@ -310,9 +306,9 @@ private:
 				filePath += ".tmp" ;
 			}
 		}
-		Opts move() const
+		Opts move()
 		{
-			return std::move( const_cast< Opts& >( *this ) ) ;
+			return std::move( *this ) ;
 		}
 		networkAccess::iterator iter ;
 		QString exeBinPath ;
@@ -339,9 +335,9 @@ private:
 		networkAccess::Status status ;
 		Logger::locale locale ;
 		networkAccess::File file ;
-		updateMDOptions move() const
+		updateMDOptions move()
 		{
-			return std::move( const_cast< updateMDOptions& >( *this ) ) ;
+			return std::move( *this ) ;
 		}		
 	};
 

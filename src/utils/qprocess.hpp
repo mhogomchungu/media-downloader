@@ -70,18 +70,18 @@ namespace utils
 					m_data( whenCreated( m_exe ) )
 				{
 					QObject::connect( &m_exe,&QProcess::started,
-							  [ this,whenStarted = std::move( whenStarted ) ](){
+							  [ this,whenStarted = std::move( whenStarted ) ]()mutable{
 
 						whenStarted( m_exe,m_data ) ;
 					} ) ;
 
-					QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,[ this ](){
+					QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,[ this ]()mutable{
 
 						m_withData( QProcess::ProcessChannel::StandardOutput,
 							    m_exe.readAllStandardOutput(),m_data ) ;
 					} ) ;
 
-					QObject::connect( &m_exe,&QProcess::readyReadStandardError,[ this ](){
+					QObject::connect( &m_exe,&QProcess::readyReadStandardError,[ this ]()mutable{
 
 						m_withData( QProcess::ProcessChannel::StandardError,
 							    m_exe.readAllStandardError(),m_data ) ;
@@ -92,7 +92,7 @@ namespace utils
 					auto s = static_cast< cc >( &QProcess::finished ) ;
 
 					QObject::connect( &m_exe,s,[ this,whenDone = std::move( whenDone ) ]
-							  ( int e,QProcess::ExitStatus ss ){
+							  ( int e,QProcess::ExitStatus ss )mutable{
 
 						whenDone( e,ss,m_data ) ;
 
@@ -127,20 +127,20 @@ namespace utils
 			  WhenDone whenDone,
 			  WithData withData )
 		{
-			run( cmd,args,[ whenCreated = std::move( whenCreated ) ]( QProcess& exe ){
+			run( cmd,args,[ whenCreated = std::move( whenCreated ) ]( QProcess& exe )mutable{
 
 				   whenCreated( exe ) ;
 				   return 0 ;
 
-			},[ whenStarted = std::move( whenStarted ) ]( QProcess& exe,int ){
+			},[ whenStarted = std::move( whenStarted ) ]( QProcess& exe,int )mutable{
 
 				whenStarted( exe ) ;
 
-			},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,int ){
+			},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,int )mutable{
 
 				whenDone( e,ss ) ;
 
-			},[ withData = std::move( withData ) ]( QProcess::ProcessChannel channel,QByteArray&& data,int ){
+			},[ withData = std::move( withData ) ]( QProcess::ProcessChannel channel,QByteArray&& data,int )mutable{
 
 				withData( channel,std::move( data ) ) ;
 			} ) ;
@@ -164,7 +164,7 @@ namespace utils
 			  QProcess::ProcessChannelMode m,
 			  WhenDone whenDone )
 		{
-			run( cmd,args,[ & ]( QProcess& exe ){
+			run( cmd,args,[ & ]( QProcess& exe )mutable{
 
 				struct context
 				{
@@ -183,11 +183,11 @@ namespace utils
 
 			},[]( QProcess&,auto& ){
 
-			},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,auto& ctx ){
+			},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,auto& ctx )mutable{
 
 				whenDone( { e,ss,std::move( ctx.stdOut ),std::move( ctx.stdError ) } ) ;
 
-			},[]( QProcess::ProcessChannel c,QByteArray&& data,auto& ctx ){
+			},[]( QProcess::ProcessChannel c,QByteArray&& data,auto& ctx )mutable{
 
 				if( ctx.channel == QProcess::MergedChannels ){
 

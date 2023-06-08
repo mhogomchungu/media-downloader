@@ -163,7 +163,7 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 
 	md.file.open( md.tmpFile ) ;
 
-	m_network.get( url,[ this,md = md.move() ]( const utils::network::progress& p ){
+	m_network.get( url,[ this,md = md.move() ]( const utils::network::progress& p )mutable{
 
 		if( p.finished() ){
 
@@ -220,13 +220,13 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 
 		QDir( finalPath ).removeRecursively() ;
 
-	},[ md = md.move(),this ](){
+	},[ md = md.move(),this ]()mutable{
 
 		auto exe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
 
 		auto args = QStringList{ "-x","-f",md.tmpFile,"-C",md.tmpPath } ;
 
-		utils::qprocess::run( exe,args,QProcess::MergedChannels,[ this,md = md.move() ]( const utils::qprocess::outPut& s ){
+		utils::qprocess::run( exe,args,QProcess::MergedChannels,[ this,md = md.move() ]( const utils::qprocess::outPut& s )mutable{
 
 			QFile::remove( md.tmpFile ) ;
 
@@ -477,7 +477,7 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 	auto url = this->networkRequest( opts.metadata.url ) ;
 
-	m_network.get( url,[ this,opts = opts.move(),&engine ]( const utils::network::progress& p ){
+	m_network.get( url,[ this,opts = opts.move(),&engine ]( const utils::network::progress& p )mutable{
 
 		if( p.finished() ){
 
@@ -588,7 +588,7 @@ void networkAccess::extractArchive( const engines::engine& engine,networkAccess:
 
 	auto args = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
 
-	utils::qprocess::run( exe,args,[ this,str = std::move( str ) ]( const utils::qprocess::outPut& s ){
+	utils::qprocess::run( exe,args,[ this,str = std::move( str ) ]( const utils::qprocess::outPut& s )mutable{
 
 		const auto& engine = str.iter.engine() ;
 

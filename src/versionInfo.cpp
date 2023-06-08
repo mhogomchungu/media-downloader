@@ -437,7 +437,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo ) const
 
 	utility::setPermissions( cmd.exe() ) ;
 
-	utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ this,id,vInfo = vInfo.move() ]( const utils::qprocess::outPut& r ){
+	utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ this,id,vInfo = vInfo.move() ]( const utils::qprocess::outPut& r )mutable{
 
 		this->printEngineVersionInfo( vInfo.move(),id,r ) ;
 	} ) ;
@@ -457,7 +457,7 @@ void versionInfo::printEngineVersionInfo( versionInfo::printVinfo vInfo,
 
 		if( !url.isEmpty() && m_checkForUpdates && vInfo.networkAvailable() ){
 
-			m_network.get( url,[ id,this,vInfo = vInfo.move() ]( const utils::network::reply& reply ){
+			m_network.get( url,[ id,this,vInfo = vInfo.move() ]( const utils::network::reply& reply )mutable{
 
 				this->printEngineVersionInfo( vInfo.move(),id,reply ) ;
 			} ) ;

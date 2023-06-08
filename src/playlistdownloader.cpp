@@ -912,7 +912,7 @@ void playlistdownloader::getListing( playlistdownloader::listIterator e,const en
 
 	this->showBanner() ;
 
-	engine.updateVersionInfo( m_ctx,[ this,&engine,e = std::move( e ) ](){
+	engine.updateVersionInfo( m_ctx,[ this,&engine,e = std::move( e ) ]()mutable{
 
 		this->getList( e.move(),engine ) ;
 	} ) ;
@@ -974,7 +974,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 				      engine,
 				      m_ctx ) ;
 
-	},[ this,&engine,iter = std::move( iter ) ]( customOptions&& c ){
+	},[ this,&engine,iter = std::move( iter ) ]( customOptions&& c )mutable{
 
 		this->getList( std::move( c ),engine,iter.move() ) ;
 	} ) ;
@@ -990,7 +990,7 @@ void playlistdownloader::getList( customOptions&& c,
 			m_gettingPlaylist = true ;
 			m_ui.pbPLCancel->setEnabled( true ) ;
 
-		},[ &engine,this,iter = std::move( iter ) ]( utility::ProcessExitState st,const playlistdownloader::opts& ){
+		},[ &engine,this,iter = iter.move() ]( utility::ProcessExitState st,const playlistdownloader::opts& )mutable{
 
 			if( m_stillProcessingJsonOutput ){
 

@@ -88,13 +88,13 @@ namespace utils
 			  typename std::enable_if< std::is_void< details::result_of< BackGroundTask > >::value,int >::type = 0 >
 		void run( BackGroundTask bgt,UiThreadResult fgt )
 		{
-			run( [ bgt = std::move( bgt ) ](){
+			run( [ bgt = std::move( bgt ) ]()mutable{
 
 				bgt() ;
 
 				return 0 ;
 
-			},[ fgt = std::move( fgt ) ]( int ){
+			},[ fgt = std::move( fgt ) ]( int )mutable{
 
 				fgt() ;
 			} ) ;
@@ -103,7 +103,7 @@ namespace utils
 		template< typename BackGroundTask >
 		void run( BackGroundTask bgt )
 		{
-			run( [ bgt = std::move( bgt ) ](){
+			run( [ bgt = std::move( bgt ) ]()mutable{
 
 				bgt() ;
 
@@ -118,7 +118,7 @@ namespace utils
 			  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
 		void run( Object obj,Method method )
 		{
-			run( [ obj,method ](){ ( obj->*method )() ; } ) ;
+			run( [ obj,method ]()mutable{ ( obj->*method )() ; } ) ;
 		}
 
 		namespace details
@@ -136,11 +136,11 @@ namespace utils
 				  typename std::enable_if< std::is_void< details::result_of< Function,Obj1,M1 > >::value,int >::type = 0 >
 			void run1( Function,Obj1 obj,M1 method,Obj2 obj1,M2 method1 )
 			{
-				run( [ obj,method ](){
+				run( [ obj,method ]()mutable{
 
 					( obj->*method )() ;
 
-				},[ obj1,method1 ]() {
+				},[ obj1,method1 ]()mutable{
 
 					( obj1->*method1 )() ;
 				} ) ;
@@ -153,11 +153,11 @@ namespace utils
 			typename std::enable_if< !std::is_void< details::result_of< Function,Obj1,M1 > >::value,int >::type = 0 >
 			void run1( Function,Obj1 obj,M1 method,Obj2 obj1,M2 method1 )
 			{
-				run( [ obj,method ](){
+				run( [ obj,method ]()mutable{
 
 					return ( obj->*method )() ;
 
-				},[ obj1,method1 ]( details::result_of< Function,Obj1,M1 >&& value ) {
+				},[ obj1,method1 ]( details::result_of< Function,Obj1,M1 >&& value )mutable{
 
 					( obj1->*method1 )( std::move( value ) ) ;
 				} ) ;
@@ -220,7 +220,7 @@ namespace utils
 				#endif
 			} handle ;
 
-			run( std::move( bgt ),[ & ]( bgt_t&& r ){
+			run( std::move( bgt ),[ & ]( bgt_t&& r )mutable{
 
 				handle.set( std::move( r ) ) ;
 				loop.quit() ;
