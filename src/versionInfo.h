@@ -268,13 +268,55 @@ public:
 private:
 	void checkForEnginesUpdates( versionInfo::extensionVersionInfo,const utils::network::reply& ) const ;
 
+	struct cEnginesUpdates
+	{
+		versionInfo::extensionVersionInfo vInfo ;
+		engines::engine::functions::onlineVersion lv ;
+		cEnginesUpdates move()
+		{
+			return std::move( *this ) ;
+		}
+	};
+
+	void updatesResult( versionInfo::cEnginesUpdates,const utils::qprocess::outPut& ) const ;
+
 	void checkMediaDownloaderUpdate( int,const QByteArray&,const std::vector< engines::engine >&,bool ) const ;
 
 	networkAccess::iterator wrap( versionInfo::printVinfo ) const ;
 
-	void printEngineVersionInfo( versionInfo::printVinfo ) const ;
-	void printEngineVersionInfo( versionInfo::printVinfo,int,const utils::qprocess::outPut& ) const ;
-	void printEngineVersionInfo( versionInfo::printVinfo,int,const utils::network::reply& ) const ;
+	class pVInfo
+	{
+	public:
+		pVInfo( versionInfo::printVinfo v,int id ) : m_pvInfo( v.move() ),m_id( id )
+		{
+		}
+		const engines::engine& engine()
+		{
+			return m_pvInfo.engine() ;
+		}
+		int id()
+		{
+			return m_id ;
+		}
+		pVInfo move()
+		{
+			return std::move( *this ) ;
+		}
+		versionInfo::printVinfo movePrintVinfo()
+		{
+			return std::move( m_pvInfo ) ;
+		}
+		const versionInfo::printVinfo& printVinfo()
+		{
+			return m_pvInfo ;
+		}
+	private:
+		versionInfo::printVinfo m_pvInfo ;
+		int m_id ;
+	};
+	void printVersion( versionInfo::printVinfo ) const ;
+	void printVersionP( versionInfo::pVInfo,const utils::qprocess::outPut& ) const ;
+	void printVersionN( versionInfo::pVInfo,const utils::network::reply& ) const ;
 
 	const Context& m_ctx ;
 	const networkAccess& m_network ;

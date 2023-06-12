@@ -461,20 +461,7 @@ QString engines::findExecutable( const QString& exeName ) const
 		}
 	}() ;
 
-	if( utility::platformIsWindows() && exeName == "python.exe" ){
-
-		if( !m_settings.portableVersion() ){
-
-			if( m_settings.useSystemProvidedVersionIfAvailable() ){
-
-				auto m = utility::python3Path() ;
-
-				if( !m.isEmpty() ){
-
-					return m ;
-				}
-			}
-		}
+	if( utility::platformIsWindows() ){
 
 		auto m = _findExecutable( exeName,paths,info ) ;
 

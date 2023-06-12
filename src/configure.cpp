@@ -440,20 +440,25 @@ configure::configure( const Context& ctx ) :
 				class meaw : public networkAccess::status
 				{
 				public:
-					meaw( const Context& ctx ) : m_ctx( ctx )
+					meaw( const Context& ctx,int id ) : m_ctx( ctx ),m_id( id )
 					{
 					}
 					void done()
 					{
 						m_ctx.TabManager().enableAll() ;
 					}
+					int id()
+					{
+						return m_id ;
+					}
 				private:
 					const Context& m_ctx ;
+					int m_id ;
 				} ;
 
-				networkAccess::Status s{ util::types::type_identity< meaw >(),m_ctx } ;
+				networkAccess::Status s{ util::types::type_identity< meaw >(),m_ctx,id } ;
 
-				m_ctx.network().updateMediaDownloader( id,std::move( s ) ) ;
+				m_ctx.network().updateMediaDownloader( std::move( s ) ) ;
 			}else{
 				this->downloadFromGitHub( { m_ctx.Engines().defaultEngine( m,id ),id } ) ;
 			}

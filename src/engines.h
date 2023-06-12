@@ -37,6 +37,7 @@
 #include "logger.h"
 #include "util.hpp"
 #include "utils/threads.hpp"
+#include "utils/qprocess.hpp"
 
 class tableWidget ;
 class settings ;
@@ -468,6 +469,10 @@ public:
 			{
 				QString stringVersion ;
 				util::version version ;
+				onlineVersion move()
+				{
+					return std::move( *this ) ;
+				}
 			};
 
 			virtual engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& ) ;

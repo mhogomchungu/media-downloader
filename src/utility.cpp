@@ -62,16 +62,6 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-QString utility::python3Path()
-{
-	return QStandardPaths::findExecutable( "python3" ) ;
-}
-
-util::result< int > utility::Terminator::terminate( int,char ** )
-{
-	return {} ;
-}
-
 #endif
 
 #ifdef Q_OS_LINUX
@@ -96,16 +86,6 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-QString utility::python3Path()
-{
-	return QStandardPaths::findExecutable( "python3" ) ;
-}
-
-util::result< int > utility::Terminator::terminate( int,char ** )
-{
-	return {} ;
-}
-
 #endif
 
 #ifdef Q_OS_MACOS
@@ -113,11 +93,6 @@ util::result< int > utility::Terminator::terminate( int,char ** )
 bool utility::platformisOS2()
 {
 	return false ;
-}
-
-QString utility::python3Path()
-{
-	return QStandardPaths::findExecutable( "python3" ) ;
 }
 
 bool utility::platformIsOSX()
@@ -135,14 +110,29 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
-util::result< int > utility::Terminator::terminate( int,char ** )
-{
-	return {} ;
-}
-
 #endif
 
 #ifdef Q_OS_WIN
+
+bool utility::platformIsWindows()
+{
+	return true ;
+}
+
+bool utility::platformIsLinux()
+{
+	return false ;
+}
+
+bool utility::platformIsOSX()
+{
+	return false ;
+}
+
+bool utility::platformisOS2()
+{
+	return false ;
+}
 
 #include <libloaderapi.h>
 #include <array>
@@ -169,195 +159,6 @@ QString utility::windowsApplicationDirPath()
 QString utility::windowsApplicationDirPath()
 {
 	return {} ;
-}
-
-#endif
-
-#ifdef Q_OS_WIN
-
-#include <windows.h>
-
-#include <cstring>
-#include <cstdlib>
-
-template< typename Function,typename Deleter,typename ... Arguments >
-auto unique_rsc( Function&& function,Deleter&& deleter,Arguments&& ... args )
-{
-	using A = std::remove_pointer_t< std::result_of_t< Function( Arguments&& ... ) > > ;
-	using B = std::decay_t< Deleter > ;
-
-	return std::unique_ptr< A,B >( function( std::forward< Arguments >( args ) ... ),
-				       std::forward< Deleter >( deleter ) ) ;
-}
-
-template< typename Type,typename Deleter >
-auto unique_ptr( Type type,Deleter&& deleter )
-{
-	return unique_rsc( []( auto arg ){ return arg ; },
-			   std::forward< Deleter >( deleter ),type ) ;
-}
-
-static int _terminateWindowApp( unsigned long pid )
-{
-	FreeConsole() ;
-
-	if( AttachConsole( pid ) == TRUE ) {
-
-		SetConsoleCtrlHandler( nullptr,true ) ;
-
-		if( GenerateConsoleCtrlEvent( CTRL_C_EVENT,0 ) == TRUE ){
-
-			return 0 ;
-		}
-	}
-
-	return 1 ;
-}
-
-util::result< int > utility::Terminator::terminate( int argc,char ** argv )
-{
-	if( argc > 2 && std::strcmp( argv[ 1 ],"-T" ) == 0 ){
-
-		return _terminateWindowApp( std::strtoul( argv[ 2 ],nullptr,10 ) ) ;
-	}else{
-		return {} ;
-	}
-}
-
-static HKEY _reg_open_key( const char * subKey,HKEY hkey,REGSAM sam )
-{
-	HKEY m ;
-	REGSAM wow64 = KEY_WOW64_64KEY | sam ;
-	REGSAM wow32 = KEY_WOW64_32KEY | sam ;
-
-	unsigned long x = 0 ;
-
-	if( RegOpenKeyExA( hkey,subKey,x,wow64,&m ) == ERROR_SUCCESS ){
-
-		return m ;
-
-	}else if( RegOpenKeyExA( hkey,subKey,x,wow32,&m ) == ERROR_SUCCESS ){
-
-		return m ;
-	}else{
-		return nullptr ;
-	}
-}
-
-static void _reg_close_key( HKEY hkey )
-{
-	if( hkey != nullptr ){
-
-		// Docs says i should not close predefined keys
-		//RegCloseKey( hkey ) ;
-	}
-}
-
-static QByteArray _reg_get_value( HKEY hkey,const char * key )
-{
-	if( hkey != nullptr ){
-
-		DWORD dwType = REG_SZ ;
-
-		std::array< char,4096 > buffer ;
-
-		std::fill( buffer.begin(),buffer.end(),'\0' ) ;
-
-		auto e = reinterpret_cast< BYTE * >( buffer.data() ) ;
-		auto m = static_cast< DWORD >( buffer.size() ) ;
-
-		if( RegQueryValueEx( hkey,key,nullptr,&dwType,e,&m ) == ERROR_SUCCESS ){
-
-			return { buffer.data(),static_cast< int >( m ) } ;
-		}
-	}
-
-	return {} ;
-}
-
-static QString _readRegistry( const char * subKey,const char * key,HKEY hkey,REGSAM sam )
-{
-	auto s = unique_rsc( _reg_open_key,_reg_close_key,subKey,hkey,sam ) ;
-
-	return _reg_get_value( s.get(),key ) ;
-}
-
-static void _python3Paths( QStringList& list,HKEY hkey )
-{
-	auto s = unique_rsc( _reg_open_key,
-			     _reg_close_key,
-			     "SOFTWARE\\Python\\PythonCore",
-			     hkey,
-			     KEY_ENUMERATE_SUB_KEYS ) ;
-
-	auto key = s.get() ;
-
-	if( key != nullptr ){
-
-		std::array< char,20000 > buffer ;
-		DWORD size ;
-
-		for( int s = 0 ; ; s++ ){
-
-			size = static_cast< DWORD >( buffer.size() ) ;
-
-			auto m = RegEnumKeyExA( key,s,buffer.data(),&size,nullptr,nullptr,nullptr,nullptr ) ;
-
-			if( m == ERROR_SUCCESS ){
-
-				auto mm =  "SOFTWARE\\Python\\PythonCore\\" + QByteArray( buffer.data() ) + "\\InstallPath" ;
-
-				auto eee = _readRegistry( mm.data(),"ExecutablePath",hkey,KEY_QUERY_VALUE ) ;
-
-				if( !eee.isEmpty() ){
-
-					list.append( eee ) ;
-				}
-			}else{
-				break ;
-			}
-		}
-	}
-}
-
-QString utility::python3Path()
-{
-	std::array< HKEY,2 > hkeys{ HKEY_CURRENT_USER,HKEY_LOCAL_MACHINE } ;
-	QStringList list ;
-
-	for( const auto& it : hkeys ){
-
-		_python3Paths( list,it ) ;
-	}
-
-	if( list.isEmpty() ){
-
-		return {} ;
-	}else{
-		list.sort( Qt::CaseInsensitive ) ;
-
-		return list.last() ;
-	}
-}
-
-bool utility::platformIsWindows()
-{
-	return true ;
-}
-
-bool utility::platformIsLinux()
-{
-	return false ;
-}
-
-bool utility::platformIsOSX()
-{
-	return false ;
-}
-
-bool utility::platformisOS2()
-{
-	return false ;
 }
 
 #endif

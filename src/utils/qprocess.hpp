@@ -22,6 +22,8 @@
 
 #include <type_traits>
 
+#pragma once
+
 namespace utils
 {
 	namespace qprocess
@@ -207,6 +209,76 @@ namespace utils
 		void run( const QString& cmd,const QStringList& args,WhenDone whenDone )
 		{
 			run( cmd,args,QProcess::SeparateChannels,std::move( whenDone ) ) ;
+		}
+		
+		template< typename FunctionArgs,
+			  typename Object,
+			  typename Method,
+			  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+		void run( const QString& cmd,
+			  const QStringList& args,
+			  QProcess::ProcessChannelMode mode,
+			  FunctionArgs fargs,
+			  Object object,
+			  Method method )
+		{
+			run( cmd,args,mode,[ fargs = std::move( fargs ),object,method ]( const utils::qprocess::outPut& s )mutable{
+				
+				( object->*method )( std::move( fargs ),s ) ;
+			} ) ;
+		}
+
+		template< typename Object,
+			  typename Method,
+			  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+		void run( const QString& cmd,
+			  const QStringList& args,
+			  QProcess::ProcessChannelMode mode,
+			  Object object,
+			  Method method )
+		{
+			run( cmd,args,mode,[ object,method ]( const utils::qprocess::outPut& s )mutable{
+
+				( object->*method )( s ) ;
+			} ) ;
+		}
+
+		template< typename FunctionArgs,
+			  typename Object,
+			  typename Method,
+			  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+		void run( const QString& cmd,
+			  const QStringList& args,
+			  FunctionArgs fargs,
+			  Object object,
+			  Method method )
+		{
+			auto mode = QProcess::SeparateChannels ;
+
+			run( cmd,args,mode,[ fargs = std::move( fargs ),object,method ]( const utils::qprocess::outPut& s )mutable{
+
+				( object->*method )( std::move( fargs ),s ) ;
+			} ) ;
+		}
+
+		template< typename Object,
+			  typename Method,
+			  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+			  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+		void run( const QString& cmd,
+			  const QStringList& args,
+			  Object object,
+			  Method method )
+		{
+			auto mode = QProcess::SeparateChannels ;
+
+			run( cmd,args,mode,[ object,method ]( const utils::qprocess::outPut& s )mutable{
+
+				( object->*method )( s ) ;
+			} ) ;
 		}
 	}
 }

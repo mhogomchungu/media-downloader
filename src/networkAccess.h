@@ -41,6 +41,11 @@ public:
 		virtual void done()
 		{
 		}
+		virtual int id()
+		{
+			//?????
+			return 0 ;
+		}
 		virtual ~status() ;
 	} ;
 
@@ -58,6 +63,10 @@ public:
 		void done() const
 		{
 			m_handle->done() ;
+		}
+		int id()
+		{
+			return m_handle->id() ;
 		}
 		Status move()
 		{
@@ -177,7 +186,7 @@ public:
 		this->download( { util::types::type_identity< meaw >(),std::move( iter ) },v ) ;
 	}
 
-	void updateMediaDownloader( int,networkAccess::Status ) const ;
+	void updateMediaDownloader( networkAccess::Status ) const ;
 
 	void download( networkAccess::iterator,networkAccess::showVersionInfo ) const ;
 
@@ -185,6 +194,52 @@ public:
 	void get( const QString& url,Function function ) const
 	{
 		this->get( this->make_function( std::move( function ),url ) ) ;
+	}
+	template< typename FunctionArgs,
+		  typename Object,
+		  typename Method,
+		  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+	void get( const QString& url,FunctionArgs args,Object obj,Method method ) const
+	{
+		this->get( url,[ args = std::move( args ),obj,method ]( const utils::network::reply& r )mutable{
+
+			( obj->*method )( std::move( args ),r ) ;
+		} ) ;
+	}
+	template< typename Object,
+		  typename Method,
+		  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+	void get( const QString& url,Object obj,Method method ) const
+	{
+		this->get( url,[ obj,method ]( const utils::network::reply& r )mutable{
+
+			( obj->*method )( r ) ;
+		} ) ;
+	}
+	template< typename FunctionArgs,
+		  typename Object,
+		  typename Method,
+		  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+	void get( const QNetworkRequest& url,FunctionArgs args,Object obj,Method method ) const
+	{
+		m_network.get( url,[ args = std::move( args ),obj,method ]( const utils::network::progress& p )mutable{
+
+			( obj->*method )( args,p ) ;
+		} ) ;
+	}
+	template< typename Object,
+		  typename Method,
+		  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
+		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
+	void get( const QNetworkRequest& url,Object obj,Method method ) const
+	{
+		m_network.get( url,[ obj,method ]( const utils::network::progress& p )mutable{
+
+			( obj->*method )( p ) ;
+		} ) ;
 	}
 private:
 	template< typename Function >
@@ -223,23 +278,23 @@ private:
 		return { std::move( fnt ),url } ;
 	}
 	template< typename Function >
-	void get( Function&& function ) const
+	void get( Function&& f ) const
 	{
-		auto m = this->networkRequest( function.url() ) ;
+		auto m = this->networkRequest( f.url() ) ;
 
-		m_network.get( m,[ this,function = function.move() ]( const utils::network::reply& reply )mutable{
+		m_network.get( m,[ this,f = f.move() ]( const utils::network::reply& reply )mutable{
 
-			if( !reply.success() && reply.retry() && function.retry() ){
+			if( !reply.success() && reply.retry() && f.retry() ){
 
-				utils::qtimer::run( 1000,[ this,function = function.move() ]()mutable{
+				utils::qtimer::run( 1000,[ this,f = f.move() ]()mutable{
 
-					this->get( function.move() ) ;
+					this->get( f.move() ) ;
 				} ) ;
 
 				return ;
 			}
 
-			function.call( reply ) ;
+			f.call( reply ) ;
 		} ) ;
 	}
 
@@ -248,7 +303,7 @@ private:
 		qint64 size = 0 ;
 		QString url ;
 		QString fileName ;
-	};
+	} ;
 
 	class File
 	{
@@ -259,25 +314,25 @@ private:
 			m_file->remove() ;
 			m_file->open( QIODevice::WriteOnly ) ;
 		}
-		void close() const
+		void close()
 		{
 			m_file->close() ;
 		}
-		void rename( const QString& e ) const
+		void rename( const QString& e )
 		{
 			m_file->rename( e ) ;
 		}
-		void write( const QByteArray& e ) const
+		void write( const QByteArray& e )
 		{
 			m_file->write( e ) ;
 		}
-		QFile& handle() const
+		QFile& handle()
 		{
 			return *m_file ;
 		}
 	private:
-		mutable utils::misc::unique_ptr< QFile > m_file ;
-	};
+		utils::misc::unique_ptr< QFile > m_file ;
+	} ;
 
 	struct Opts
 	{
@@ -321,7 +376,17 @@ private:
 		int id ;
 		Logger::locale locale ;
 		networkAccess::File file ;
-	};
+	} ;
+
+	struct Opts2
+	{
+		const engines::engine& engine ;
+		Opts opts ;
+		Opts2 move()
+		{
+			return std::move( *this ) ;
+		}
+	} ;
 
 	struct updateMDOptions
 	{
@@ -339,13 +404,27 @@ private:
 		{
 			return std::move( *this ) ;
 		}		
-	};
+	} ;
+
+	void uMediaDownloader( networkAccess::Status,const QByteArray& ) const ;
+
+	void uMediaDownloaderN( networkAccess::Status&,const utils::network::progress& ) const ;
+	void uMediaDownloaderM( networkAccess::updateMDOptions&,const utils::network::progress& ) const ;
+
+	void downloadP( networkAccess::Opts2&,const utils::network::progress& ) const ;
+	void downloadP2( networkAccess::Opts2&,const utils::network::progress& ) const ;
 
 	void removeNotNeededFiles( networkAccess::updateMDOptions ) const ;
-
 	void updateMediaDownloader( networkAccess::updateMDOptions ) const ;
-
 	void extractMediaDownloader( networkAccess::updateMDOptions ) const ;
+
+	void emDownloader( networkAccess::updateMDOptions,const utils::qprocess::outPut& ) const ;
+	void extractArchiveOuput( networkAccess::Opts,const utils::qprocess::outPut& ) const ;
+
+	void postStartDownloading( const QString&,int ) const ;
+	void postDownloading( const QString&,const QString&,int ) const ;
+	void postDestination( const QString&,const QString&,int ) const ;
+	void postDownloadingProgress( const QString&,const QString&,int ) const ;
 
 	QString downloadFailed() const ;
 
@@ -360,6 +439,8 @@ private:
 	void finished( networkAccess::Opts ) const ;
 
 	void post( const QString&,const QString&,int ) const ;
+
+	QString reportError( const utils::network::progress& ) const ;
 
 	const Context& m_ctx ;
 	utils::network::manager m_network ;

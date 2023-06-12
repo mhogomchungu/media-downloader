@@ -335,7 +335,6 @@ namespace utility
 	void log( const QByteArray&,const QString& ) ;
 	QString runningVersionOfMediaDownloader() ;
 	QString homePath() ;
-	QString python3Path() ;
 	QString clipboardText() ;
 	QString fromSecsSinceEpoch( qint64 ) ;
 	struct downLoadOptions
@@ -729,8 +728,6 @@ namespace utility
 	{
 		Q_OBJECT
 	public:
-		static util::result< int > terminate( int argc,char ** argv ) ;
-
 		template< typename Object,typename Member >
 		auto setUp( Object obj,Member member,int idx )
 		{
