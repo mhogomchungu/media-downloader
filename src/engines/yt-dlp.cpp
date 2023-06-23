@@ -958,6 +958,9 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 		s.ourOptions.append( "--newline" ) ;
 	}
 
+	s.ourOptions.append( "--output-na-placeholder" ) ;
+	s.ourOptions.append( "NA" ) ;
+
 	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
 
 	auto _replace = [ this ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
@@ -1029,6 +1032,9 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 
 		this->appendCompatOption( e ) ;
 	}
+
+	e.append( "--output-na-placeholder" ) ;
+	e.append( "\"NA\"" ) ;
 }
 
 void yt_dlp::updateCmdOptions( QStringList& e )
@@ -1037,6 +1043,9 @@ void yt_dlp::updateCmdOptions( QStringList& e )
 
 		this->appendCompatOption( e ) ;
 	}
+
+	e.append( "--output-na-placeholder" ) ;
+	e.append( "\"NA\"" ) ;
 }
 
 yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
