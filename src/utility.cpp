@@ -420,7 +420,7 @@ void utility::wait( int time )
 {
 	QEventLoop e ;
 
-	util::Timer( time,[ & ](){ e.exit() ;} ) ;
+	util::Timer( time,[ & ](){ e.exit() ; } ) ;
 
 	e.exec() ;
 }
@@ -729,19 +729,19 @@ utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
 
 		auto object = m_json.doc().object() ;
 
-		m_title        = object.value( "title" ).toString() ;
-		m_url          = object.value( "webpage_url" ).toString() ;
-		m_uploadDate   = object.value( "upload_date" ).toString() ;
-		m_id           = object.value( "id" ).toString() ;
-		m_thumbnailUrl = object.value( "thumbnail" ).toString() ;
+		m_title        = object.value( "title" ).toString().replace( "\"NA\"","NA" ) ;
+		m_url          = object.value( "webpage_url" ).toString().replace( "\"NA\"","NA" ) ;
+		m_uploadDate   = object.value( "upload_date" ).toString().replace( "\"NA\"","NA" ) ;
+		m_id           = object.value( "id" ).toString().replace( "\"NA\"","NA" ) ;
+		m_thumbnailUrl = object.value( "thumbnail" ).toString().replace( "\"NA\"","NA" ) ;
 		m_formats      = object.value( "formats" ).toArray() ;
-		m_uploader     = object.value( "uploader" ).toString() ;
+		m_uploader     = object.value( "uploader" ).toString().replace( "\"NA\"","NA" ) ;
 
-		m_playlist             = object.value( "playlist" ).toString() ;
-		m_playlist_id          = object.value( "playlist_id" ).toString() ;
-		m_playlist_title       = object.value( "playlist_title" ).toString() ;
-		m_playlist_uploader    = object.value( "playlist_uploader" ).toString() ;
-		m_playlist_uploader_id = object.value( "playlist_uploader_id" ).toString() ;
+		m_playlist             = object.value( "playlist" ).toString().replace( "\"NA\"","NA" ) ;
+		m_playlist_id          = object.value( "playlist_id" ).toString().replace( "\"NA\"","NA" ) ;
+		m_playlist_title       = object.value( "playlist_title" ).toString().replace( "\"NA\"","NA" ) ;
+		m_playlist_uploader    = object.value( "playlist_uploader" ).toString().replace( "\"NA\"","NA" ) ;
+		m_playlist_uploader_id = object.value( "playlist_uploader_id" ).toString().replace( "\"NA\"","NA" ) ;
 
 		m_n_entries            = QString::number( object.value( "n_entries" ).toInt() ) ;
 		m_playlist_count       = QString::number( object.value( "playlist_count" ).toInt() ) ;
