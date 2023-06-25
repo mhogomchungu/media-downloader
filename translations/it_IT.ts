@@ -768,6 +768,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Url Is Not Supported</source>
         <translation>La URL non è supportata</translation>
     </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;tar&quot; Executable</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
