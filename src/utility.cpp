@@ -723,28 +723,38 @@ bool utility::isRelativePath( const QString& e )
 	return QDir::isRelativePath( e ) ;
 }
 
+static QString _stringValue( QJsonObject& obj,const char * key )
+{
+	return obj.value( key ).toString().replace( "\"NA\"","NA" ) ;
+}
+
+static QString _intValue( QJsonObject& obj,const char * key )
+{
+	return QString::number( obj.value( key ).toInt() ) ;
+}
+
 utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
 {
 	if( m_json ){
 
 		auto object = m_json.doc().object() ;
 
-		m_title        = object.value( "title" ).toString().replace( "\"NA\"","NA" ) ;
-		m_url          = object.value( "webpage_url" ).toString().replace( "\"NA\"","NA" ) ;
-		m_uploadDate   = object.value( "upload_date" ).toString().replace( "\"NA\"","NA" ) ;
-		m_id           = object.value( "id" ).toString().replace( "\"NA\"","NA" ) ;
-		m_thumbnailUrl = object.value( "thumbnail" ).toString().replace( "\"NA\"","NA" ) ;
-		m_formats      = object.value( "formats" ).toArray() ;
-		m_uploader     = object.value( "uploader" ).toString().replace( "\"NA\"","NA" ) ;
+		m_formats              = object.value( "formats" ).toArray() ;
 
-		m_playlist             = object.value( "playlist" ).toString().replace( "\"NA\"","NA" ) ;
-		m_playlist_id          = object.value( "playlist_id" ).toString().replace( "\"NA\"","NA" ) ;
-		m_playlist_title       = object.value( "playlist_title" ).toString().replace( "\"NA\"","NA" ) ;
-		m_playlist_uploader    = object.value( "playlist_uploader" ).toString().replace( "\"NA\"","NA" ) ;
-		m_playlist_uploader_id = object.value( "playlist_uploader_id" ).toString().replace( "\"NA\"","NA" ) ;
+		m_title                = _stringValue( object,"title" ) ;
+		m_url                  = _stringValue( object,"webpage_url" ) ;
+		m_uploadDate           = _stringValue( object,"upload_date" ) ;
+		m_id                   = _stringValue( object,"id" ) ;
+		m_thumbnailUrl         = _stringValue( object,"thumbnail" ) ;
+		m_uploader             = _stringValue( object,"uploader" ) ;
+		m_playlist             = _stringValue( object,"playlist" ) ;
+		m_playlist_id          = _stringValue( object,"playlist_id" ) ;
+		m_playlist_title       = _stringValue( object,"playlist_title" ) ;
+		m_playlist_uploader    = _stringValue( object,"playlist_uploader" ) ;
+		m_playlist_uploader_id = _stringValue( object,"playlist_uploader_id" ) ;
 
-		m_n_entries            = QString::number( object.value( "n_entries" ).toInt() ) ;
-		m_playlist_count       = QString::number( object.value( "playlist_count" ).toInt() ) ;
+		m_n_entries            = _intValue( object,"n_entries" ) ;
+		m_playlist_count       = _intValue( object,"playlist_count" ) ;
 
 		if( m_uploadDate.size() == 8 ){
 

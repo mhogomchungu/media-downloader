@@ -183,3 +183,7 @@ Version 1.2.0(April 1st, 2021)
       [All]
       - Add Dutch(Netherlands) translations.
       - Fix a bug that was caused by lux backend changing names of its binaries.
+
+  Version 3.2.0(June 25th, 2023)
+      [All]
+      - Update to make it compatible with yt-dlp version 2023.06.22.
