@@ -171,7 +171,19 @@ void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
 
 			QJsonParseError err ;
 
-			auto json = QJsonDocument::fromJson( data,&err ) ;
+			auto json = [ & ](){
+
+				auto a = "0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef\n" ;
+
+				if( data.endsWith( a ) ){
+
+					auto m = data ;
+
+					return QJsonDocument::fromJson( m.replace( a,"" ),&err ) ;
+				}else{
+					return QJsonDocument::fromJson( data,&err ) ;
+				}
+			}() ;
 
 			if( err.error == QJsonParseError::NoError ){
 
