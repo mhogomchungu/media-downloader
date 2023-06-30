@@ -331,7 +331,7 @@ void versionInfo::checkMediaDownloaderUpdate( int id,
 
 void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine >& engines ) const
 {
-	if( !m_ctx.Settings().showVersionInfoWhenStarting() ){
+	if( !m_ctx.Settings().showVersionInfoWhenStarting() || utility::platformIsNOTWindows() ){
 
 		return this->checkEnginesUpdates( engines,true ) ;
 	}
