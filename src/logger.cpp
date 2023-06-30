@@ -187,7 +187,26 @@ void Logger::updateLogger::run( bool humanReadableJson,const QByteArray& data )
 
 			if( err.error == QJsonParseError::NoError ){
 
-				auto s = json.toJson( QJsonDocument::JsonFormat::Indented ) ;
+				auto obj = json.object() ;
+
+				auto oldFormats = obj.value( "formats" ).toArray() ;
+
+				QJsonArray newFormats ;
+
+				for( const auto& it : oldFormats ){
+
+					auto obj = it.toObject() ;
+
+					obj.remove( "url" ) ;
+
+					newFormats.append( obj ) ;
+				}
+
+				obj.insert( "formats",newFormats ) ;
+
+				auto m = QJsonDocument::JsonFormat::Indented ;
+
+				auto s = QJsonDocument( obj ).toJson( m ) ;
 
 				m_outPut.add( s,m_id ) ;
 
