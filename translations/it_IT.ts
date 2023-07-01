@@ -770,11 +770,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile trovare l&apos;eseguibile &quot;bsdtar.exe&quot;</translation>
     </message>
     <message>
         <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile trovare l&apos;eseguibile &quot;tar&quot;</translation>
     </message>
 </context>
 <context>
