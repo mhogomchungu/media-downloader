@@ -373,7 +373,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1610"/>
         <source>Show MetaData In Batch Downloader Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать метаданные во вкладке пакетного загрузчика</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1769"/>
@@ -384,7 +384,7 @@
         <location filename="../src/mainwindow.ui" line="1828"/>
         <location filename="../src/mainwindow.ui" line="1930"/>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Веб-сайт</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1961"/>
@@ -675,7 +675,7 @@
     <message>
         <location filename="../src/engines.cpp" line="981"/>
         <source>Url Is Not Supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Url не поддерживается</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="991"/>
@@ -769,12 +769,12 @@
     <message>
         <location filename="../src/networkAccess.cpp" line="684"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось найти исполняемый файл &quot;bsdtar.exe&quot;</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="686"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось найти исполняемый файл &quot;tar&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1001"/>
@@ -945,7 +945,7 @@
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="404"/>
         <source>%1 Already Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 уже загружено</translation>
     </message>
     <message>
         <location filename="../src/engines/lux.cpp" line="347"/>
@@ -993,14 +993,14 @@
         <location filename="../src/versionInfo.cpp" line="343"/>
         <location filename="../src/versionInfo.cpp" line="414"/>
         <source>Checking installed version of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Проверка установленной версии %1</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="345"/>
         <location filename="../src/versionInfo.cpp" line="426"/>
         <location filename="../src/versionInfo.cpp" line="464"/>
         <source>Found version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваша версия: %1</translation>
     </message>
     <message>
         <location filename="../src/engines/yt-dlp.cpp" line="926"/>
@@ -1020,22 +1020,22 @@
     <message>
         <location filename="../src/configure.cpp" line="1180"/>
         <source>Best Available Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Только лучшее доступное аудио</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="1184"/>
         <source>Best Available Audio Only(MP3)</source>
-        <translation type="unfinished"></translation>
+        <translation>Только лучшее доступное аудио (MP3)</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="1188"/>
         <source>Best Available Audio Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Лучшее доступное аудио и видео</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="1192"/>
         <source>Best Audio With Video Resolution Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Лучшее аудио с разрешением видео %1</translation>
     </message>
 </context>
 <context>
