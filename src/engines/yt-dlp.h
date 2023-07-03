@@ -25,7 +25,8 @@
 class yt_dlp : public engines::engine::functions
 {
 public:
-	static const char * testData() ;
+	static const char * testYtDlp() ;
+	static const char * testFfmpeg() ;
 
 	~yt_dlp() override ;
 
@@ -49,6 +50,7 @@ public:
 		const engines::engine& m_engine ;
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
+		qint64 m_ffmpegDuration ;
 	} ;
 
 	engines::engine::functions::FilterOutPut filterOutput() override ;

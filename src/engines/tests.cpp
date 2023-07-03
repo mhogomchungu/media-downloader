@@ -63,19 +63,23 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 			{
 				for( const auto& it : m_args.args ){
 
-					if( it.startsWith( "--media-downloader-test-engine-safaribooks" ) ){
+					if( it == "--media-downloader-test-engine-safaribooks" ){
 
 						return this->testEngine( safaribooks::testData() ) ;
 
-					}else if( it.startsWith( "--media-downloader-test-engine-yt-dlp" ) ){
+					}else if( it == "--media-downloader-test-engine-yt-dlp" ){
 
-						return this->testEngine( yt_dlp::testData() ) ;
+						return this->testEngine( yt_dlp::testYtDlp() ) ;
 
-					}else if( it.startsWith ( "--media-downloader-test-engine-wget" ) ){
+					}else if( it == "--media-downloader-test-engine-yt-dlp-ffmpeg" ){
+
+						return this->testEngine( yt_dlp::testFfmpeg() ) ;
+
+					}else if( it == "--media-downloader-test-engine-wget" ){
 
 						return this->testEngine( wget::testData() ) ;
 
-					}else if( it.startsWith ( "--media-downloader-test-engine-gallery-dl" ) ){
+					}else if( it == "--media-downloader-test-engine-gallery-dl" ){
 
 						return this->testEngine( gallery_dl::testData() ) ;
 					}

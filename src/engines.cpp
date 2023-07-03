@@ -1108,7 +1108,7 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const Logger::locale&,const QByteArray& e ) const override
+	formatOutput( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
 	{
 		return { e,m_engine,_meetCondition } ;
 	}
@@ -1515,7 +1515,7 @@ private:
 	}
 	void logProgress( const QByteArray& e )
 	{
-		auto result = m_filterOutPut.formatOutput( m_locale,e ) ;
+		auto result = m_filterOutPut.formatOutput( m_locale,m_outPut,e ) ;
 
 		if( m_outPut.mainLogger() ){
 

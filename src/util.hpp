@@ -172,12 +172,20 @@ static inline QStringList split( const QString& e,const char * token )
 
 static inline QList< QByteArray > split( const QByteArray& e,char token )
 {
-	return e.split( token ) ;
+	auto m = e.split( token ) ;
+
+	m.removeAll( "" ) ;
+
+	return m ;
 }
 
 static inline QList< QByteArray > split( const QByteArray& e,QChar token )
 {
-	return e.split( token.toLatin1() ) ;
+	auto m = e.split( token.toLatin1() ) ;
+
+	m.removeAll( "" ) ;
+
+	return m ;
 }
 
 class Json

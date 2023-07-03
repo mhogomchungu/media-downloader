@@ -472,6 +472,14 @@ public:
 				m_filePath = m.toUtf8() ;
 			}
 		}
+		qint64 ffmpegDuration() const
+		{
+			return m_ffmpegDuration ;
+		}
+		void setFfmpegDuration( qint64 s )
+		{
+			m_ffmpegDuration = s ;
+		}
 		struct luxResult
 		{
 			enum class ac{ replace,add,nothing } ;
@@ -557,6 +565,7 @@ public:
 		std::list< Logger::Data::processOutput > m_processOutputs ;
 		bool m_mainLogger ;
 		QByteArray m_filePath ;
+		qint64 m_ffmpegDuration = 0 ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;

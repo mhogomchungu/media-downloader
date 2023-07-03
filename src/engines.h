@@ -442,7 +442,7 @@ public:
 					const QByteArray& m_progress ;
 					filterOutPut::meetCondition m_meetCondition ;
 				} ;
-				virtual result formatOutput( const Logger::locale&,const QByteArray& ) const = 0 ;
+				virtual result formatOutput( const Logger::locale&,Logger::Data&,const QByteArray& ) const = 0 ;
 				virtual bool meetCondition( const QByteArray& ) const = 0 ;
 				virtual const engines::engine& engine() const = 0 ;
 				virtual ~filterOutPut() ;
@@ -457,9 +457,9 @@ public:
 				{
 				}
 				engines::engine::functions::filterOutPut::result
-				formatOutput( const Logger::locale& l,const QByteArray& e ) const
+				formatOutput( const Logger::locale& l,Logger::Data& d,const QByteArray& e ) const
 				{
-					return m_filterOutPut->formatOutput( l,e ) ;
+					return m_filterOutPut->formatOutput( l,d,e ) ;
 				}
 				bool meetCondition( const QByteArray& e ) const
 				{

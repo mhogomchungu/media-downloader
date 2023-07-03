@@ -28,7 +28,7 @@
 
 #include "aria2c.h"
 
-const char * yt_dlp::testData()
+const char * yt_dlp::testYtDlp()
 {
 	return R"R([youtube] Extracting URL: https://www.youtube.com/watch?v=tn2USd5KeVM
 [youtube] Extracting URL: https://www.youtube.com/watch?v=tn2USd5KeVM
@@ -112,6 +112,61 @@ Deleting original file For You, I Will-tn2USd5KeVM.f242.webm (pass -k to keep)
 Deleting original file For You, I Will-tn2USd5KeVM.f250.webm (pass -k to keep)
 [postprocess] {"ETA":"","filename":"For You, I Will-tn2USd5KeVM.webm"}
 [postprocess] {"ETA":"","filename":"For You, I Will-tn2USd5KeVM.webm"})R" ;
+}
+
+const char * yt_dlp::testFfmpeg()
+{
+	return R"R([youtube] Extracting URL: https://www.youtube.com/watch?v=LOpES1ZlISk
+[youtube] LOpES1ZlISk: Downloading webpage
+[youtube] LOpES1ZlISk: Downloading ios player API JSON
+[youtube] LOpES1ZlISk: Downloading android player API JSON
+[youtube] LOpES1ZlISk: Downloading m3u8 information
+[info] LOpES1ZlISk: Downloading 1 format(s): 242+250
+[download] Destination: Bobby Marks on NBA free agency： Damian Lillard's future, A+ for the Lakers & more ｜ NBA on ESPN-LOpES1ZlISk.webm
+Input #0, matroska,webm, from 'https://rr2---sn-8vq5jvhu1-q5ge.googlevideo.com/videoplayback?expire=1688404862&ei=Hq-iZJu0IMfIxwL-mLaQCQ&ip=197.250.197.106&id=o-AN-Mhp8xBo0FkzjLttQZTYA4rS_YvpOaxlWk1fVEvdeI&itag=242&source=youtube&requiressl=yes&mh=cM&mm=31%2C29&mn=sn-8vq5jvhu1-q5ge%2Csn-hgn7rnee&ms=au%2Crdu&mv=m&mvi=2&pl=18&initcwndbps=187500&vprv=1&svpuc=1&mime=video%2Fwebm&gir=yes&clen=9897290&dur=990.366&lmt=1688337165712349&mt=1688383058&fvip=1&keepalive=yes&fexp=24007246%2C51000012%2C51000024&beids=24350017&c=IOS&txp=5535434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cvprv%2Csvpuc%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRQIhAKFiRG-SYmS_lgbtCtWeuEt80RrWW03pFxKBfpl90zbpAiBo74goFCLSHhlXu1TmepMystawvD9u91oXcTxxlE_Zpw%3D%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgEDiulbviVETAsGB8xZdRwUWvGvdjaqc5dX_8JmLs27sCID6Ysy7lQXN6gofN0OULiok1qwjLUSDRXfHkiKbmQw2G':
+  Metadata:
+    encoder         : google/video-file
+  Duration: 00:16:30.37, start: 0.000000, bitrate: 79 kb/s
+  Stream #0:0(eng): Video: vp9 (Profile 0), yuv420p(tv, bt709), 426x240, SAR 1:1 DAR 71:40, 30 fps, 30 tbr, 1k tbn (default)
+Input #1, matroska,webm, from 'https://rr2---sn-8vq5jvhu1-q5ge.googlevideo.com/videoplayback?expire=1688404863&ei=H6-iZNPWL5WEWJHlpcAP&ip=197.250.197.106&id=o-AMrfanCUV2RL8GcaUhUIcOvDF8mBSvI4uKoL5tI8o6Kt&itag=250&source=youtube&requiressl=yes&mh=cM&mm=31%2C29&mn=sn-8vq5jvhu1-q5ge%2Csn-hgn7rnee&ms=au%2Crdu&mv=m&mvi=2&pl=18&initcwndbps=187500&spc=Ul2Sq81k0298IGzHwpxvOkPsaZQG910&vprv=1&svpuc=1&mime=audio%2Fwebm&gir=yes&clen=8067527&dur=990.401&lmt=1688330975379663&mt=1688382819&fvip=1&keepalive=yes&fexp=24007246&c=ANDROID&txp=5532434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cgir%2Cclen%2Cdur%2Clmt&sig=AOq0QJ8wRgIhAMIMTZi-dS4vJWFNBY61qmGTiGyDzYDUsLx8yxbstjlkAiEAxs8cQNQ8oemMY-2q4GQF9iG64LbUtuG5Xebl1p0okWQ%3D&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRQIhAMfnOj8rkjCHX6bbkJ7KAPZvzOKwldrhtfw55zQxNyU7AiAYCXEerg-s936B6uuGEbJk_0BcvPstHGF4obpbe9ocaQ%3D%3D':
+  Metadata:
+    encoder         : google/video-file
+  Duration: 00:16:30.40, start: -0.007000, bitrate: 65 kb/s
+  Stream #1:0(eng): Audio: opus, 48000 Hz, stereo, fltp (default)
+Output #0, webm, to 'file:Bobby Marks on NBA free agency： Damian Lillard's future, A+ for the Lakers & more ｜ NBA on ESPN-LOpES1ZlISk.webm.part':
+  Metadata:
+    encoder         : Lavf59.27.100
+  Stream #0:0(eng): Video: vp9 (Profile 0), yuv420p(tv, bt709), 426x240 [SAR 1:1 DAR 71:40], q=2-31, 30 fps, 30 tbr, 1k tbn (default)
+  Stream #0:1(eng): Audio: opus, 48000 Hz, stereo, fltp (default)
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #1:0 -> #0:1 (copy)
+Press [q] to stop, [?] for help
+frame=    1 fps=0.0 q=-1.0 size=       1kB time=00:00:00.00 bitrate=4768.0kbits/s speed=6.85x
+frame=  871 fps=0.0 q=-1.0 size=     256kB time=00:00:29.00 bitrate=  72.3kbits/s speed=54.4x
+frame= 1142 fps=1102 q=-1.0 size=     512kB time=00:00:38.03 bitrate= 110.3kbits/s speed=36.7x
+frame= 1628 fps=1046 q=-1.0 size=     768kB time=00:00:54.23 bitrate= 116.0kbits/s speed=34.8x
+frame= 2204 fps=1066 q=-1.0 size=    1280kB time=00:01:13.43 bitrate= 142.8kbits/s speed=35.5x
+frame= 3151 fps=1226 q=-1.0 size=    1792kB time=00:01:45.00 bitrate= 139.8kbits/s speed=40.9x
+frame= 4214 fps=1372 q=-1.0 size=    2304kB time=00:02:20.43 bitrate= 134.4kbits/s speed=45.7x
+frame= 5128 fps=1434 q=-1.0 size=    2816kB time=00:02:50.90 bitrate= 135.0kbits/s speed=47.8x
+frame= 6522 fps=1599 q=-1.0 size=    3584kB time=00:03:37.36 bitrate= 135.1kbits/s speed=53.3x
+frame= 7621 fps=1653 q=-1.0 size=    4352kB time=00:04:14.00 bitrate= 140.4kbits/s speed=55.1x
+frame= 9241 fps=1802 q=-1.0 size=    5376kB time=00:05:08.00 bitrate= 143.0kbits/s speed=60.1x
+frame=11018 fps=1931 q=-1.0 size=    6400kB time=00:06:07.23 bitrate= 142.8kbits/s speed=64.4x
+frame=11881 fps=1913 q=-1.0 size=    6912kB time=00:06:36.00 bitrate= 143.0kbits/s speed=63.8x
+frame=13166 fps=1962 q=-1.0 size=    7680kB time=00:07:18.83 bitrate= 143.4kbits/s speed=65.4x
+frame=14758 fps=2046 q=-1.0 size=    8448kB time=00:08:11.90 bitrate= 140.7kbits/s speed=68.2x
+frame=16750 fps=2170 q=-1.0 size=    9728kB time=00:09:18.30 bitrate= 142.7kbits/s speed=72.3x
+frame=17993 fps=2177 q=-1.0 size=   10496kB time=00:09:59.73 bitrate= 143.4kbits/s speed=72.6x
+frame=20038 fps=2282 q=-1.0 size=   11520kB time=00:11:07.90 bitrate= 141.3kbits/s speed=76.1x
+frame=21848 fps=2354 q=-1.0 size=   12544kB time=00:12:08.23 bitrate= 141.1kbits/s speed=78.5x
+frame=24166 fps=2468 q=-1.0 size=   14080kB time=00:13:25.50 bitrate= 143.2kbits/s speed=82.3x
+frame=26536 fps=2577 q=-1.0 size=   15360kB time=00:14:44.50 bitrate= 142.3kbits/s speed=85.9x
+frame=28441 fps=2634 q=-1.0 size=   16640kB time=00:15:48.00 bitrate= 143.8kbits/s speed=87.8x
+frame=29711 fps=2654 q=-1.0 Lsize=   17543kB time=00:16:30.38 bitrate= 145.1kbits/s speed=88.5x
+video:9475kB audio:7554kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 3.017891%
+[download] 100% of   17.13MiB in 00:00:12 at 1.40MiB/s)R" ;
 }
 
 static QJsonObject _defaultControlStructure()
@@ -499,7 +554,12 @@ static bool _youtube_dl( const engines::engine&,const QByteArray& e )
 
 static bool _ffmpeg( const engines::engine&,const QByteArray& e )
 {
-	return e.startsWith( "frame=" ) || e.startsWith( "size=" ) ;
+	if( e.startsWith( "frame=" ) || e.startsWith( "size=" ) ){
+
+		return true ;
+	}else{
+		return e.contains( ", Bitrate:" ) && e.contains( ", Completed: " ) ;
+	}
 }
 
 static bool _shouldNotGetCalled( const engines::engine&,const QByteArray& )
@@ -515,7 +575,7 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const Logger::locale& locale,const QByteArray& e ) const override
+	formatOutput( const Logger::locale& locale,Logger::Data& d,const QByteArray& e ) const override
 	{
 		if( m_function == _yt_dlp ){
 
@@ -524,6 +584,12 @@ public:
 			m_tmp = m.progress ;
 
 			return { m.fileName,m_tmp,m_engine,m_function } ;
+
+		}else if( m_function == _ffmpeg ){
+
+			m_tmp = this->outPutFfmpeg( d,e ) ;
+
+			return { m_tmp,m_engine,m_function } ;
 		}else{
 			return { e,m_engine,m_function } ;
 		}
@@ -641,6 +707,112 @@ private:
 		}
 
 		return { "",progress.toUtf8() } ;
+	}
+	qint64 toSeconds( const QByteArray& s ) const
+	{
+		auto mm = util::split( util::split( s,'.' )[ 0 ],':' ) ;
+
+		if( mm.size() > 2 ){
+
+			auto h  = mm[ 0 ].toInt() ;
+			auto m  = mm[ 1 ].toInt() ;
+			auto ss = mm[ 2 ].toInt() ;
+
+			ss += m * 60 ;
+			ss += h * 60 * 60 ;
+
+			return ss ;
+		}else{
+			return 0 ;
+		}
+	}
+	bool foundDuration( Logger::Data& s,const QByteArray& e ) const
+	{
+		if( e.contains( "  Duration: " ) ){
+
+			auto m = util::split( e,' ' ) ;
+
+			for( int a = 0 ; a < m.size() ; a++ ){
+
+				if( m[ a ] == "Duration:" && a + 1 < m.size() ){
+
+					auto mm = m[ a + 1 ].replace( ",","" ) ;
+
+					s.setFfmpegDuration( this->toSeconds( mm ) ) ;
+				}
+			}
+
+			return true ;
+		}else{
+			return false ;
+		}
+	}
+	QString getOption( const QList< QByteArray >& m,const char * opt ) const
+	{
+		for( int i = 0 ; i < m.size() ; i++ ){
+
+			const auto& s = m[ i ] ;
+
+			if( s == opt ){
+
+				if( i + 1 < m.size() ){
+
+					return m[ i + 1 ] ;
+				}
+
+			}else if( s.startsWith( opt ) ){
+
+				auto m = s.indexOf( '=' ) ;
+
+				if( m == -1 ){
+
+					return "NA" ;
+				}else{
+					return s.mid( m + 1 ) ;
+				}
+			}
+		}
+
+		return "NA" ;
+	}
+	QByteArray outPutFfmpeg( Logger::Data& s,const QByteArray& data ) const
+	{
+		if( s.ffmpegDuration() == 0 ){
+
+			s.forEach( [ & ]( int,const QByteArray& e ){
+
+				return this->foundDuration( s,e ) ;
+			} ) ;
+		}
+
+		auto m = util::split( data,' ' ) ;
+
+		auto frame   = this->getOption( m,"frame=" ) ;
+		auto fps     = this->getOption( m,"fps=" ) ;
+		auto size    = this->getOption( m,"size=" ) ;
+		auto time    = this->getOption( m,"time=" ) ;
+		auto bitrate = this->getOption( m,"bitrate=" ) ;
+		auto speed   = this->getOption( m,"speed=" ) ;
+
+		double e = this->toSeconds( time.toUtf8() ) ;
+
+		QString completed = "NA" ;
+
+		if( s.ffmpegDuration() != 0 ){
+
+			auto r = e * 100 / double( s.ffmpegDuration() ) ;
+
+			completed = QString::number( r,'f',2 ) ;
+
+			if( completed == "100.00" ){
+
+				completed = "100" ;
+			}
+		}
+
+		QString result = "Frame: %1, Fps: %2, Size: %3, Bitrate: %4, Speed: %5, Completed: %6%" ;
+
+		return result.arg( frame,fps,size,bitrate,speed,completed ).toUtf8() ;
 	}
 	mutable QByteArray m_tmp ;
 	const engines::engine& m_engine ;

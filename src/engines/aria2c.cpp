@@ -162,7 +162,7 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const Logger::locale&,const QByteArray& e ) const override
+	formatOutput( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
 	{
 		return { e,m_engine,aria2c::meetCondition } ;
 	}
