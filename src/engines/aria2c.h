@@ -29,6 +29,8 @@ public:
 
 	static QByteArray& trimProgressLine( QByteArray& ) ;
 
+	static bool meetCondition( const engines::engine&,const QByteArray& e ) ;
+
 	~aria2c() override ;
 
 	aria2c( const engines&,const engines::engine&,QJsonObject& ) ;
@@ -47,6 +49,8 @@ public:
 		QByteArray m_fileName ;
 		int m_processId ;
 	} ;
+
+	engines::engine::functions::FilterOutPut filterOutput() override ;
 
 	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
 

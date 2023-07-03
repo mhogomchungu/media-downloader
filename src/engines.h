@@ -47,7 +47,8 @@ namespace utility {
 	class uiIndex ;
 }
 
-class engines{
+class engines
+{
 public:
 	static bool filePathIsValid( const QFileInfo& ) ;
 
@@ -356,7 +357,8 @@ public:
 				QByteArray m_processingDefaultText ;
 			};
 
-			class filter{
+			class filter
+			{
 			public:
 				filter( const QString& quality,const engines::engine& engine,int ) ;
 				virtual const QByteArray& operator()( const Logger::Data& e ) ;
@@ -372,7 +374,8 @@ public:
 				int m_processId ;
 			} ;
 
-			class DataFilter{
+			class DataFilter
+			{
 			public:
 				template< typename Type,typename ... Args >
 				DataFilter( Type,Args&& ... args ) :
@@ -386,6 +389,87 @@ public:
 			private:
 				std::unique_ptr< engines::engine::functions::filter > m_filter ;
 			};
+
+			class filterOutPut
+			{
+			public:
+				class meetCondition
+				{
+				public:
+					meetCondition( bool( *m )( const engines::engine&,const QByteArray& ),
+						       const engines::engine& engine ) :
+						m_function( m ),m_engine( engine )
+					{
+					}
+					bool operator()( const QByteArray& e )
+					{
+						return m_function( m_engine,e ) ;
+					}
+				private:
+					bool( *m_function )( const engines::engine&,const QByteArray& ) ;
+					const engines::engine& m_engine ;
+				} ;
+				class result
+				{
+				public:
+					result( const QString& f,
+						const QByteArray& p,
+						const engines::engine& e,
+						bool( *m )( const engines::engine&,const QByteArray& ) ) :
+						m_fileName( f ),m_progress( p ),m_meetCondition( m,e )
+						{
+						}
+					result( const QByteArray& p,
+						const engines::engine& e,
+						bool( *m )( const engines::engine&,const QByteArray& ) ) :
+						m_progress( p ),m_meetCondition( m,e )
+						{
+						}
+					const QByteArray& progress()
+					{
+						return m_progress ;
+					}
+					const QString& fileName()
+					{
+						return m_fileName ;
+					}
+					filterOutPut::meetCondition meetCondition()
+					{
+						return m_meetCondition ;
+					}
+				private:
+					QString m_fileName ;
+					const QByteArray& m_progress ;
+					filterOutPut::meetCondition m_meetCondition ;
+				} ;
+				virtual result formatOutput( const Logger::locale&,const QByteArray& ) const = 0 ;
+				virtual bool meetCondition( const QByteArray& ) const = 0 ;
+				virtual const engines::engine& engine() const = 0 ;
+				virtual ~filterOutPut() ;
+			} ;
+
+			class FilterOutPut
+			{
+			public:
+				template< typename Type,typename ... Args >
+				FilterOutPut( Type,const engines::engine& engine,Args&& ... args ) :
+					m_filterOutPut( std::make_unique< typename Type::type >( engine,std::forward< Args >( args ) ... ) )
+				{
+				}
+				engines::engine::functions::filterOutPut::result
+				formatOutput( const Logger::locale& l,const QByteArray& e ) const
+				{
+					return m_filterOutPut->formatOutput( l,e ) ;
+				}
+				bool meetCondition( const QByteArray& e ) const
+				{
+					return m_filterOutPut->meetCondition( e ) ;
+				}
+			private:
+				std::unique_ptr< engines::engine::functions::filterOutPut > m_filterOutPut ;
+			};
+
+			virtual FilterOutPut filterOutput() ;
 
 			virtual ~functions() ;
 
@@ -731,6 +815,10 @@ public:
 		bool archiveContainsFolder() const
 		{
 			return m_archiveContainsFolder ;
+		}
+		engines::engine::functions::FilterOutPut filterOutput() const
+		{
+			return m_functions->filterOutput() ;
 		}
 		bool parseOutput( Logger::Data& e,const QByteArray& s,int id,bool m ) const
 		{

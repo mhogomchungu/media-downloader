@@ -392,6 +392,18 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& 
 
 				m.append( s ) ;
 			}
+		}else{
+			n = u.indexOf( "./gallery-dl" ) ;
+
+			if( n != -1 ){
+
+				auto s = u.mid( n + 13 ) ;
+
+				if( !m.contains( s ) && !u.startsWith( "[media-downloader] cmd:" ) ){
+
+					m.append( s ) ;
+				}
+			}
 		}
 	}
 
@@ -431,7 +443,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& 
 
 			return m_preProcessing.text() ;
 		}else{
-			m_tmp = m_preProcessing.text() + "\n" + s ;
+			m_tmp = s ;
 
 			return m_tmp ;
 		}

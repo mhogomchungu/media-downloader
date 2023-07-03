@@ -27,22 +27,6 @@ class yt_dlp : public engines::engine::functions
 public:
 	static const char * testData() ;
 
-	static bool meetCondition( const QByteArray& ) ;
-	struct result
-	{
-		QString filename ;
-		QString progress ;
-		QByteArray QByteArrayProgress()
-		{
-			return progress.toUtf8() ;
-		}
-		const QString& QStringProgress()
-		{
-			return progress ;
-		}
-	};
-	static result formatYdDlpOutput( const Logger::locale&,const QByteArray& ) ;
-
 	~yt_dlp() override ;
 
 	class youtube_dlFilter : public engines::engine::functions::filter
@@ -62,9 +46,12 @@ public:
 		engines::engine::functions::preProcessing m_preProcessing ;
 		engines::engine::functions::postProcessing m_postProcessing ;
 
+		const engines::engine& m_engine ;
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
 	} ;
+
+	engines::engine::functions::FilterOutPut filterOutput() override ;
 
 	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) override ;
 

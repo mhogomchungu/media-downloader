@@ -487,90 +487,169 @@ yt_dlp::~yt_dlp()
 {
 }
 
-bool yt_dlp::meetCondition( const QByteArray& e )
+static bool _yt_dlp( const engines::engine&,const QByteArray& e )
 {
 	return utils::misc::startsWithAny( e,"[download]","[postprocess]" ) && e.contains( "ETA" ) ;
 }
 
-yt_dlp::result yt_dlp::formatYdDlpOutput( const Logger::locale& locale,const QByteArray& e )
+static bool _youtube_dl( const engines::engine&,const QByteArray& e )
 {
-	if( e.startsWith( "[postprocess]" ) ){
+	return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
+}
 
-		auto obj = QJsonDocument::fromJson( e.mid( 14 ) ).object() ;
+static bool _ffmpeg( const engines::engine&,const QByteArray& e )
+{
+	return e.startsWith( "frame=" ) || e.startsWith( "size=" ) ;
+}
 
-		return { obj.value( "filename" ).toString(),"" } ;
+static bool _shouldNotGetCalled( const engines::engine&,const QByteArray& )
+{
+	return false ;
+}
+
+class ytDlpFilter : public engines::engine::functions::filterOutPut
+{
+public:
+	ytDlpFilter( const engines::engine& engine ) :
+		m_engine( engine )
+	{
 	}
+	engines::engine::functions::filterOutPut::result
+	formatOutput( const Logger::locale& locale,const QByteArray& e ) const override
+	{
+		if( m_function == _yt_dlp ){
 
-	auto obj = QJsonDocument::fromJson( e.mid( 11 ) ).object() ;
+			auto m = this->outPutFormat( locale,e ) ;
 
-	yt_dlp::result result ;
+			m_tmp = m.progress ;
 
-	result.filename = obj.value( "filename" ).toString() ;
-
-	auto downloaded_str = obj.value( "downloaded_bytes" ).toString() ;
-	auto totalbytesEstimate = obj.value( "total_bytes_estimate" ).toString() ;
-	auto eta = obj.value( "ETA" ).toString() ;
-	auto speed = obj.value( "speed" ).toString() ;
-	auto totalBytes = obj.value( "total_bytes" ).toString() ;
-
-	result.progress = e.mid( 0,11 ) ;
-
-	if( downloaded_str == "NA" ){
-
-		result.progress += "NA / " ;
-	}else{
-		result.progress += locale.formattedDataSize( qint64( downloaded_str.toDouble() ) )  + " / " ;
+			return { m.fileName,m_tmp,m_engine,m_function } ;
+		}else{
+			return { e,m_engine,m_function } ;
+		}
 	}
+	bool meetCondition( const QByteArray& e ) const override
+	{
+		if( _yt_dlp( m_engine,e ) ){
 
-	double percentage = 0 ;
+			if( m_engine.name() == "youtube-dl" ){
 
-	if( totalBytes != "NA" ){
+				m_function = _youtube_dl ;
+			}else{
+				m_function = _yt_dlp ;
+			}
 
-		auto mm = totalBytes.toDouble() ;
+		}else if( _ffmpeg( m_engine,e ) ){
 
-		if( mm != 0 ){
+			m_function = _ffmpeg ;
 
-			percentage = downloaded_str.toDouble() * 100 / mm ;
+		}else if( aria2c::meetCondition( m_engine,e ) ){
+
+			m_function = aria2c::meetCondition ;
+		}else{
+			m_function = _shouldNotGetCalled ;
+
+			return false ;
 		}
 
-		result.progress += locale.formattedDataSize( qint64( mm ) ) ;
+		return true ;
+	}
+	const engines::engine& engine() const override
+	{
+		return m_engine ;
+	}
+private:
+	struct pair
+	{
+		QString fileName ;
+		QByteArray progress ;
+	};
+	pair outPutFormat( const Logger::locale& locale,const QByteArray& e ) const
+	{
+		if( e.startsWith( "[postprocess]" ) ){
 
-	}else if( totalbytesEstimate != "NA" ){
+			auto obj = QJsonDocument::fromJson( e.mid( 14 ) ).object() ;
 
-		auto mm = totalbytesEstimate.toDouble() ;
-
-		if( mm != 0 ){
-
-			percentage = downloaded_str.toDouble() * 100 / mm ;
+			return { obj.value( "filename" ).toString(),"" } ;
 		}
 
-		result.progress += "~" + locale.formattedDataSize( qint64( mm ) ) ;
-	}else{
-		result.progress += "NA" ;
+		auto obj = QJsonDocument::fromJson( e.mid( 11 ) ).object() ;
+
+		auto downloaded_str = obj.value( "downloaded_bytes" ).toString() ;
+		auto totalbytesEstimate = obj.value( "total_bytes_estimate" ).toString() ;
+		auto eta = obj.value( "ETA" ).toString() ;
+		auto speed = obj.value( "speed" ).toString() ;
+		auto totalBytes = obj.value( "total_bytes" ).toString() ;
+
+		QString progress = e.mid( 0,11 ) ;
+
+		if( downloaded_str == "NA" ){
+
+			progress += "NA / " ;
+		}else{
+			auto m = qint64( downloaded_str.toDouble() ) ;
+
+			progress += locale.formattedDataSize( m )  + " / " ;
+		}
+
+		double percentage = 0 ;
+
+		if( totalBytes != "NA" ){
+
+			auto mm = totalBytes.toDouble() ;
+
+			if( mm != 0 ){
+
+				percentage = downloaded_str.toDouble() * 100 / mm ;
+			}
+
+			progress += locale.formattedDataSize( qint64( mm ) ) ;
+
+		}else if( totalbytesEstimate != "NA" ){
+
+			auto mm = totalbytesEstimate.toDouble() ;
+
+			if( mm != 0 ){
+
+				percentage = downloaded_str.toDouble() * 100 / mm ;
+			}
+
+			progress += "~" + locale.formattedDataSize( qint64( mm ) ) ;
+		}else{
+			progress += "NA" ;
+		}
+
+		if( percentage < 100 ){
+
+			progress += " (" + QString::number( percentage,'f',2 ) + "%)" ;
+		}else{
+			progress += " (100%)" ;
+		}
+
+		if( speed != "NA" ){
+
+			auto mm = speed.toDouble() ;
+
+			progress += " at " + locale.formattedDataSize( qint64( mm ) ) + "/s" ;
+		}
+
+		if( eta == "NA" ){
+
+			progress += ", ETA NA" ;
+		}else{
+			progress += ", ETA " + locale.secondsToString( eta.toInt() ) ;
+		}
+
+		return { "",progress.toUtf8() } ;
 	}
+	mutable QByteArray m_tmp ;
+	const engines::engine& m_engine ;
+	mutable bool( *m_function )( const engines::engine&,const QByteArray& ) ;
+} ;
 
-	if( percentage < 100 ){
-
-		result.progress += " (" + QString::number( percentage,'f',2 ) + "%)" ;
-	}else{
-		result.progress += " (100%)" ;
-	}
-
-	if( speed != "NA" ){
-
-		auto mm = speed.toDouble() ;
-
-		result.progress += " at " + locale.formattedDataSize( qint64( mm ) ) + "/s" ;
-	}
-
-	if( eta == "NA" ){
-
-		result.progress += ", ETA NA" ;
-	}else{
-		result.progress += ", ETA " + locale.secondsToString( eta.toInt() ) ;
-	}
-
-	return result ;
+engines::engine::functions::FilterOutPut yt_dlp::filterOutput()
+{
+	return { util::types::type_identity< ytDlpFilter >(),m_engine } ;
 }
 
 std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( const QByteArray& e )
@@ -580,8 +659,7 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( co
 	if( name == "youtube-dl" ){
 
 		return engines::engine::functions::mediaProperties( e ) ;
-
-	}else if( m_likeYtdlp ){
+	}else{
 
 		QJsonParseError err ;
 
@@ -593,8 +671,6 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( co
 		}else{
 			return {} ;
 		}
-	}else{
-		return {} ;
 	}
 }
 
@@ -1051,7 +1127,8 @@ yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
 					    const QString& e,
 					    const engines::engine& engine,
 					    bool likeYtdlp ) :
-	engines::engine::functions::filter( e,engine,processId )
+	engines::engine::functions::filter( e,engine,processId ),
+	m_engine( engine )
 {
 	Q_UNUSED( likeYtdlp )
 }
@@ -1060,17 +1137,27 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 {
 	if( s.lastLineIsProgressLine() ){
 
-		auto obj = QJsonDocument::fromJson( s.lastText() ).object() ;
+		const auto& m = s.lastText() ;
 
-		auto fileName = obj.value( "filename" ).toString().toUtf8() ;
-		auto progress = obj.value( "progress" ).toString().toUtf8() ;
+		if( m.startsWith( "[download] " ) ){
 
-		if( !fileName.isEmpty() ){
+			m_tmp = m_fileName + "\n" + m.mid( 11 ) ;
 
-			this->setFileName( fileName ) ;
+		}else if( m_engine.name().contains( "aria2c" ) ){
+
+			auto n = m.indexOf( ' ' ) ;
+
+			if( n != -1 ){
+
+				m_tmp = m_fileName + "\n" + m.mid( n + 1 ) ;
+			}else{
+				m_tmp = m_fileName + "\n" + m ;
+			}
+
+			aria2c::trimProgressLine( m_tmp ) ;
+		}else{
+			m_tmp = m_fileName + "\n" + m ;
 		}
-
-		m_tmp = m_fileName + "\n" + progress ;
 
 		return m_tmp ;
 	}
@@ -1105,8 +1192,15 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 			if( m_fileName.isEmpty() ){
 
-				//????
-				return m_tmp ;
+				const auto& m = s.filePath() ;
+
+				if( !s.isEmpty() ){
+
+					return m ;
+				}else{
+					//????
+					return m_tmp ;
+				}
 			}else{
 				return m_fileName ;
 			}

@@ -150,6 +150,41 @@ aria2c::aria2c( const engines& engines,const engines::engine& engine,QJsonObject
 {
 }
 
+bool aria2c::meetCondition( const engines::engine&,const QByteArray& e )
+{
+	return e.startsWith( "[DL:" ) || e.startsWith( "[#" ) ;
+}
+
+class aria2cFilter : public engines::engine::functions::filterOutPut
+{
+public:
+	aria2cFilter( const engines::engine& engine ) : m_engine( engine )
+	{
+	}
+	engines::engine::functions::filterOutPut::result
+	formatOutput( const Logger::locale&,const QByteArray& e ) const override
+	{
+		return { e,m_engine,aria2c::meetCondition } ;
+	}
+	bool meetCondition( const QByteArray& e ) const override
+	{
+		return aria2c::meetCondition( m_engine,e ) ;
+	}
+	const engines::engine& engine() const override
+	{
+		return m_engine ;
+	}
+private:
+	const engines::engine& m_engine ;
+} ;
+
+engines::engine::functions::FilterOutPut aria2c::filterOutput()
+{
+	const engines::engine& engine = engines::engine::functions::engine() ;
+
+	return { util::types::type_identity< aria2cFilter >(),engine } ;
+}
+
 engines::engine::functions::DataFilter aria2c::Filter( int id,const QString& e )
 {
 	auto& s = engines::engine::functions::Settings() ;

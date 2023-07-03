@@ -1008,6 +1008,127 @@ QString engines::engine::functions::processCompleteStateText( const engine::engi
 	}
 }
 
+static bool _meetExtraCondition( const QByteArray& l,const QJsonObject& obj )
+{
+	const QString line = l ;
+
+	if( obj.contains( "startsWith" ) ){
+
+		return line.startsWith( obj.value( "startsWith" ).toString() ) ;
+	}
+
+	if( obj.contains( "endsWith" ) ){
+
+		return line.endsWith( obj.value( "endsWith" ).toString() ) ;
+	}
+
+	if( obj.contains( "contains" ) ){
+
+		return line.contains( obj.value( "contains" ).toString() ) ;
+	}
+
+	if( obj.contains( "containsAny" ) ){
+
+		const auto arr = obj.value( "containsAny" ).toArray() ;
+
+		for( const auto& it : arr ){
+
+			if( line.contains( it.toString() ) ) {
+
+				return true ;
+			}
+		}
+
+		return false ;
+	}
+
+	if( obj.contains( "containsAll" ) ){
+
+		const auto arr = obj.value( "containsAll" ).toArray() ;
+
+		for( const auto& it : arr ){
+
+			if( !line.contains( it.toString() ) ) {
+
+				return false ;
+			}
+		}
+
+		return true ;
+	}
+
+	return false ;
+}
+
+static bool _meetCondition( const engines::engine& engine,const QByteArray& line )
+{
+	const auto& obj = engine.controlStructure() ;
+
+	auto connector = obj.value( "Connector" ).toString() ;
+
+	if( connector.isEmpty() ){
+
+		auto m = obj.value( "lhs" ) ;
+
+		if( m.isObject() ){
+
+			return _meetExtraCondition( line,m.toObject() ) ;
+		}else{
+			return false ;
+		}
+	}else{
+		auto obj1 = obj.value( "lhs" ) ;
+		auto obj2 = obj.value( "rhs" ) ;
+
+		if( obj1.isObject() && obj2.isObject() ){
+
+			auto a = _meetExtraCondition( line,obj1.toObject() ) ;
+			auto b = _meetExtraCondition( line,obj2.toObject() ) ;
+
+			if( connector == "&&" ){
+
+				return a && b ;
+
+			}else if( connector == "||" ){
+
+				return a || b ;
+			}else{
+				return false ;
+			}
+		}else{
+			return false ;
+		}
+	}
+}
+
+class defaultFilter : public engines::engine::functions::filterOutPut
+{
+public:
+	defaultFilter( const engines::engine& engine ) : m_engine( engine )
+	{
+	}
+	engines::engine::functions::filterOutPut::result
+	formatOutput( const Logger::locale&,const QByteArray& e ) const override
+	{
+		return { e,m_engine,_meetCondition } ;
+	}
+	bool meetCondition( const QByteArray& e ) const override
+	{
+		return _meetCondition( m_engine,e ) ;
+	}
+	const engines::engine& engine() const override
+	{
+		return m_engine ;
+	}
+private:
+	const engines::engine& m_engine ;
+} ;
+
+engines::engine::functions::FilterOutPut engines::engine::functions::filterOutput()
+{
+	return { util::types::type_identity< defaultFilter >(),m_engine } ;
+}
+
 engines::engine::functions::~functions()
 {
 }
@@ -1256,6 +1377,169 @@ void engines::engine::functions::sendCredentials( const QString&,QProcess& )
 {
 }
 
+class updateLogger
+{
+public:
+	updateLogger( const QByteArray& data,
+		      const engines::engine& engine,
+		      Logger::Data& outPut,
+		      int id,
+		      bool humanReadableJson ) :
+		m_outPut( outPut ),
+		m_filterOutPut( engine.filterOutput() ),
+		m_id( id ),
+		m_engine( engine )
+	{
+		if( data.isEmpty() ){
+
+			return ;
+		}
+
+		if( this->validJson( humanReadableJson,data ) ){
+
+			return ;
+		}
+
+		const auto& sp = m_engine.splitLinesBy() ;
+
+		if( sp.size() == 1 && sp[ 0 ].size() > 0 ){
+
+			this->add( data,sp[ 0 ][ 0 ] ) ;
+
+		}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
+
+			for( const auto& m : util::split( data,sp[ 0 ][ 0 ] ) ){
+
+				this->add( m,sp[ 1 ][ 0 ] ) ;
+			}
+		}else{
+			for( const auto& m : util::split( data,'\r' ) ){
+
+				this->add( m,'\n' ) ;
+			}
+		}
+	}
+private:
+	QJsonDocument json( const QByteArray& data,QJsonParseError * err )
+	{
+		auto a = "0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef\n" ;
+
+		if( data.endsWith( a ) ){
+
+			auto m = QByteArray( data ).replace( a,"" ) ;
+
+			return QJsonDocument::fromJson( m,err ) ;
+		}else{
+			return QJsonDocument::fromJson( data,err ) ;
+		}
+	}
+	bool validJson( const QByteArray& data )
+	{
+		QJsonParseError err ;
+
+		auto json = this->json( data,&err ) ;
+
+		if( err.error == QJsonParseError::NoError ){
+
+			auto obj = json.object() ;
+
+			auto oldFormats = obj.value( "formats" ).toArray() ;
+
+			QJsonArray newFormats ;
+
+			for( const auto& it : oldFormats ){
+
+				auto obj = it.toObject() ;
+
+				obj.remove( "url" ) ;
+
+				newFormats.append( obj ) ;
+			}
+
+			obj.insert( "formats",newFormats ) ;
+
+			auto m = QJsonDocument::JsonFormat::Indented ;
+
+			auto s = QJsonDocument( obj ).toJson( m ) ;
+
+			m_outPut.add( s,m_id ) ;
+
+			return true ;
+		}else{
+			return false ;
+		}
+	}
+	bool validJson( bool humanReadable,const QByteArray& data )
+	{
+		if( m_engine.likeYoutubeDl() && humanReadable ){
+
+			if( data.startsWith( '[' ) || data.startsWith( '{' ) ){
+
+				return this->validJson( data ) ;
+			}
+		}
+
+		return false ;
+	}
+	bool skipLine( const QByteArray& line ) const
+	{
+		if( line.isEmpty() ){
+
+			return true ;
+		}else{
+			for( const auto& it : m_engine.skiptLineWithText() ){
+
+				if( line.contains( it.toUtf8() ) ){
+
+					return true ;
+				}
+			}
+
+			return false ;
+		}
+	}
+	void add( const QByteArray& data,QChar token )
+	{
+		for( const auto& e : util::split( data,token ) ){
+
+			if( !this->skipLine( e ) ){
+
+				if( m_filterOutPut.meetCondition( e ) ){
+
+					this->logProgress( e ) ;
+				}else{
+					m_outPut.add( e,m_id ) ;
+				}
+			}
+		}
+	}
+	void logProgress( const QByteArray& e )
+	{
+		auto result = m_filterOutPut.formatOutput( m_locale,e ) ;
+
+		if( m_outPut.mainLogger() ){
+
+			if( !result.progress().isEmpty() ){
+
+				const auto& m = result.progress() ;
+
+				m_outPut.replaceOrAdd( m,m_id,result.meetCondition() ) ;
+			}
+		}else{
+			m_outPut.setFilePath( result.fileName() ) ;
+
+			const auto& m = result.progress() ;
+
+			m_outPut.replaceOrAdd( m,m_id,result.meetCondition() ) ;
+		}
+	}
+	Logger::Data& m_outPut ;
+	Logger::locale m_locale ;
+	engines::engine::functions::FilterOutPut m_filterOutPut ;
+	int m_id ;
+	const engines::engine& m_engine ;
+} ;
+
 void engines::engine::functions::processData( Logger::Data& outPut,
 					      const QByteArray& data,
 					      int id,
@@ -1267,7 +1551,7 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 
 		if( txt.isEmpty() ){
 
-			Logger::updateLogger( data,m_engine,outPut,id,readableJson ) ;
+			updateLogger( data,m_engine,outPut,id,readableJson ) ;
 		}else{
 			auto dd = data ;
 
@@ -1276,7 +1560,7 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 				dd.replace( it.toUtf8(),"" ) ;
 			}
 
-			Logger::updateLogger( dd,m_engine,outPut,id,readableJson ) ;
+			updateLogger( dd,m_engine,outPut,id,readableJson ) ;
 		}
 	}
 }
@@ -1295,9 +1579,6 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 
 		return a || b ;
 
-	},[]( const QString& ){
-
-		return false ;
 	} ) ;
 }
 
@@ -1658,4 +1939,8 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 		aria2c::init( "aria2c","aria2c.json",logger,enginePath ) ;
 		wget::init( "wget","wget.json",logger,enginePath ) ;
 	}
+}
+
+engines::engine::functions::filterOutPut::~filterOutPut()
+{
 }

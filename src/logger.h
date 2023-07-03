@@ -450,16 +450,27 @@ public:
 
 			return {} ;
 		}
-		template< typename Function,typename Add >
-		void replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
+		template< typename Function >
+		void replaceOrAdd( const QByteArray& text,int id,Function function )
 		{
-			_replaceOrAdd( text,id,std::move( function ),std::move( add ) ) ;
+			_replaceOrAdd( text,id,std::move( function ) ) ;
 		}
 		void add( const QByteArray& text,int id )
 		{
 			auto _false = []( const QByteArray& ){ return false ; } ;
 
-			_replaceOrAdd( text,id,_false,_false ) ;
+			_replaceOrAdd( text,id,_false ) ;
+		}
+		const QByteArray& filePath() const
+		{
+			return m_filePath ;
+		}
+		void setFilePath( const QString& m )
+		{
+			if( !m.isEmpty() && m != m_filePath ){
+
+				m_filePath = m.toUtf8() ;
+			}
 		}
 		struct luxResult
 		{
@@ -507,8 +518,8 @@ public:
 		}
 	private:
 		bool doneDownloadingText( const QByteArray& data ) ;
-		template< typename Function,typename Add >
-		void _replaceOrAdd( const QByteArray& text,int id,Function function,Add add )
+		template< typename Function >
+		void _replaceOrAdd( const QByteArray& text,int id,Function function )
 		{
 			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
 
@@ -531,12 +542,7 @@ public:
 
 						if( function( s ) ){
 
-							if( add( s ) ){
-
-								ee.emplace_back( text ) ;
-							}else{
-								iter->replace( text ) ;
-							}
+							iter->replace( text ) ;
 						}else{
 							ee.emplace_back( text ) ;
 						}
@@ -550,6 +556,7 @@ public:
 		}
 		std::list< Logger::Data::processOutput > m_processOutputs ;
 		bool m_mainLogger ;
+		QByteArray m_filePath ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
@@ -569,9 +576,9 @@ public:
 	}
 	void logError( const QByteArray& data,int id )
 	{
-		auto function = []( const QByteArray& ){ return true ; } ;
+		auto function = []( const QByteArray& ){ return false ; } ;
 
-		m_processOutPuts.replaceOrAdd( "[media-downloader][std error] " + data,id,function,function ) ;
+		m_processOutPuts.replaceOrAdd( "[media-downloader][std error] " + data,id,function ) ;
 
 		this->update() ;
 	}
@@ -587,62 +594,6 @@ public:
 	Logger& operator=( const Logger& ) = delete ;
 	Logger( Logger&& ) = delete ;
 	Logger& operator=( Logger&& ) = delete ;
-
-	class updateLogger
-	{
-	public:
-		struct args
-		{
-			template< typename Engine >
-			args( const Engine& engine ) :
-				controlStructure( engine.controlStructure() ),
-				skipLinesWithText( engine.skiptLineWithText() ),
-				splitLinesBy( engine.splitLinesBy() ),
-				name( engine.name() ),
-				likeYoutubeDl( engine.likeYoutubeDl() )
-			{
-			}
-			const QJsonObject& controlStructure ;
-			const QStringList& skipLinesWithText ;
-			const QStringList& splitLinesBy ;
-			const QString& name ;
-			const bool likeYoutubeDl ;
-		} ;
-		template< typename Engine >
-		updateLogger( const QByteArray& data,
-			      const Engine& engine,
-			      Logger::Data& outPut,
-			      int id,
-			      bool humanReadableJson ) :
-			m_args( engine ),
-			m_outPut( outPut ),
-			m_id( id ),
-			m_aria2c( m_args.name == "aria2c" ),
-			m_yt_dlp_aria2c( m_args.name == "yt-dlp-aria2c" ),
-			m_yt_dlp_ffmpeg( m_args.name == "yt-dlp-ffmpeg" ),
-			m_yt_dlp( m_args.name == "yt-dlp" || m_args.name == "yt-dlp-test" || m_args.name == "ytdl-patched" ),
-			m_like_yt_dlp( m_args.name.contains( "yt-dlp" ) || m_args.name == "ytdl-patched" ),
-			m_ytdl( m_args.name == "youtube-dl" )
-		{
-			this->run( humanReadableJson,data ) ;
-		}
-	private:
-		void run( bool humanReadableJson,const QByteArray& data ) ;
-		bool meetCondition( const QByteArray& line,const QJsonObject& obj ) const ;
-		bool meetCondition( const QByteArray& line ) const ;
-		bool skipLine( const QByteArray& line ) const ;
-		void add( const QByteArray& data,QChar token ) const ;
-		updateLogger::args m_args ;
-		Logger::Data& m_outPut ;
-		Logger::locale m_locale ;
-		int m_id ;
-		bool m_aria2c ;
-		bool m_yt_dlp_aria2c ;
-		bool m_yt_dlp_ffmpeg ;
-		bool m_yt_dlp ;
-		bool m_like_yt_dlp ;
-		bool m_ytdl ;
-	};
 private:
 	void update() ;
 	logWindow m_logWindow ;
