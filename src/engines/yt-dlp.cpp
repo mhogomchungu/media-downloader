@@ -708,15 +708,15 @@ private:
 
 		return { "",progress.toUtf8() } ;
 	}
-	qint64 toSeconds( const QByteArray& s ) const
+	double toSeconds( const QByteArray& s ) const
 	{
 		auto mm = util::split( util::split( s,'.' )[ 0 ],':' ) ;
 
 		if( mm.size() > 2 ){
 
-			auto h  = mm[ 0 ].toInt() ;
-			auto m  = mm[ 1 ].toInt() ;
-			auto ss = mm[ 2 ].toInt() ;
+			auto h  = mm[ 0 ].toDouble() ;
+			auto m  = mm[ 1 ].toDouble() ;
+			auto ss = mm[ 2 ].toDouble() ;
 
 			ss += m * 60 ;
 			ss += h * 60 * 60 ;
@@ -799,7 +799,7 @@ private:
 			size = this->getOption( m,"Lsize=" ) ;
 		}
 
-		double e = this->toSeconds( time.toUtf8() ) ;
+		auto e = this->toSeconds( time.toUtf8() ) ;
 
 		QString completed = "NA" ;
 
@@ -1362,7 +1362,6 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 			/*
 			 * Failed to find file name, try again.
-			 *
 			 */
 
 			this->parseOutput( m ) ;

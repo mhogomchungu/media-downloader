@@ -474,9 +474,9 @@ public:
 		}
 		double ffmpegDuration() const
 		{
-			return static_cast< double >( m_ffmpegDuration ) ;
+			return m_ffmpegDuration ;
 		}
-		void setFfmpegDuration( qint64 s )
+		void setFfmpegDuration( double s )
 		{
 			m_ffmpegDuration = s ;
 		}
@@ -565,7 +565,7 @@ public:
 		std::list< Logger::Data::processOutput > m_processOutputs ;
 		bool m_mainLogger ;
 		QByteArray m_filePath ;
-		qint64 m_ffmpegDuration = 0 ;
+		double m_ffmpegDuration = 0 ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
