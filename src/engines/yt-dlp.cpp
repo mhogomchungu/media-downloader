@@ -554,12 +554,12 @@ static bool _youtube_dl( const engines::engine&,const QByteArray& e )
 
 static bool _ffmpeg( const engines::engine&,const QByteArray& e )
 {
-	if( e.startsWith( "frame=" ) || e.startsWith( "size=" ) ){
+	return e.startsWith( "frame=" ) || e.startsWith( "size=" ) ;
+}
 
-		return true ;
-	}else{
-		return e.contains( ", Bitrate:" ) && e.contains( ", Completed: " ) ;
-	}
+static bool _ffmpeg_internal( const engines::engine&,const QByteArray& e )
+{
+	return e.contains( "Frame: " ) && e.contains( ", Completed: " ) ;
 }
 
 static bool _shouldNotGetCalled( const engines::engine&,const QByteArray& )
@@ -585,7 +585,7 @@ public:
 
 			return { m.fileName,m_tmp,m_engine,m_function } ;
 
-		}else if( m_function == _ffmpeg ){
+		}else if( m_function == _ffmpeg_internal ){
 
 			m_tmp = this->outPutFfmpeg( d,e ) ;
 
@@ -607,7 +607,7 @@ public:
 
 		}else if( _ffmpeg( m_engine,e ) ){
 
-			m_function = _ffmpeg ;
+			m_function = _ffmpeg_internal ;
 
 		}else if( aria2c::meetCondition( m_engine,e ) ){
 
@@ -789,10 +789,15 @@ private:
 
 		auto frame   = this->getOption( m,"frame=" ) ;
 		auto fps     = this->getOption( m,"fps=" ) ;
-		auto size    = this->getOption( m,"size=" ) ;
 		auto time    = this->getOption( m,"time=" ) ;
 		auto bitrate = this->getOption( m,"bitrate=" ) ;
 		auto speed   = this->getOption( m,"speed=" ) ;
+		auto size    = this->getOption( m,"size=" ) ;
+
+		if( size == "NA" ){
+
+			size = this->getOption( m,"Lsize=" ) ;
+		}
 
 		double e = this->toSeconds( time.toUtf8() ) ;
 
@@ -800,7 +805,7 @@ private:
 
 		if( s.ffmpegDuration() != 0 ){
 
-			auto r = e * 100 / double( s.ffmpegDuration() ) ;
+			auto r = e * 100 / s.ffmpegDuration() ;
 
 			completed = QString::number( r,'f',2 ) ;
 
@@ -810,7 +815,7 @@ private:
 			}
 		}
 
-		QString result = "Frame: %1, Fps: %2, Size: %3, Bitrate: %4, Speed: %5, Completed: %6%" ;
+		QString result = "Frame: %1, Fps: %2, Size: %3\nBitrate: %4, Speed: %5, Completed: %6%" ;
 
 		return result.arg( frame,fps,size,bitrate,speed,completed ).toUtf8() ;
 	}

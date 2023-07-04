@@ -472,9 +472,9 @@ public:
 				m_filePath = m.toUtf8() ;
 			}
 		}
-		qint64 ffmpegDuration() const
+		double ffmpegDuration() const
 		{
-			return m_ffmpegDuration ;
+			return static_cast< double >( m_ffmpegDuration ) ;
 		}
 		void setFfmpegDuration( qint64 s )
 		{
