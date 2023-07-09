@@ -359,7 +359,7 @@ static bool _portableVersionInit( const utility::cliArguments& args,
 			exeOrgPath = exePath ;
 		}
 
-		if( args.portable() ){
+		if( !args.dataPath().isEmpty() ){
 
 			dataPath = args.dataPath() ;
 

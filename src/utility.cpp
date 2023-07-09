@@ -1058,6 +1058,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 #else
 		exe.start() ;
 		exe.waitForFinished( -1 ) ;
+		return true ;
 #endif
 	}else{		
 		return false ;
