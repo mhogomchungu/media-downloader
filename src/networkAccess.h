@@ -136,6 +136,8 @@ public:
 
 	networkAccess( const Context& ) ;
 
+	static void removeNotNeededFiles( const QString& ) ;
+
 	static bool hasNetworkSupport()
 	{
 		#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )

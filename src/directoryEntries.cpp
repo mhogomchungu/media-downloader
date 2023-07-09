@@ -206,7 +206,8 @@ public:
 private:
 	std::wstring setPath( const QString& path )
 	{
-		auto m = QDir::toNativeSeparators( path.startsWith( "\\\\?\\" ) ? path : "\\\\?\\" + path ) ;
+		auto e = QDir::cleanPath( path.startsWith( "\\\\?\\" ) ? path : "\\\\?\\" + path ) ;
+		auto m = QDir::toNativeSeparators( e ) ;
 		return m.toStdWString() ;
 	}
 	class handle
