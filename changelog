@@ -193,3 +193,10 @@ Version 1.2.0(April 1st, 2021)
       - Only show yt-dlp output we care about in the log window.
       [Non Windows]
       - Do not auto update media downloader because it works for windows only.
+
+  Version 3.2.1(Unreleased)
+  [Windows]
+      - Fix a problem that caused installed version to keep on updating updated version of Media Downloader and other engines.
+      [All]
+      - Update Chinese translations.
+      - Update Russian translations.

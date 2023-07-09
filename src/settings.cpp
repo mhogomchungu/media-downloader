@@ -363,7 +363,7 @@ static bool _portableVersionInit( const utility::cliArguments& args,
 
 			dataPath = args.dataPath() ;
 
-			return true ;
+			return args.portable() ;
 		}else{
 			auto a = exePath  + "/local" ;
 
