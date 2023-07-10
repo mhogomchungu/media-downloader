@@ -1029,8 +1029,6 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 		dir.removeRecursively() ;
 		dir.rename( m,mm ) ;
-
-		networkAccess::removeNotNeededFiles( mm ) ;
 	}
 
 	QString exePath = mm + "/media-downloader.exe" ;

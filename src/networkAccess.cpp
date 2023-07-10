@@ -423,42 +423,37 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 	}
 }
 
-void networkAccess::removeNotNeededFiles( const QString& folderPath )
-{
-	auto entries = directoryManager::readAll( folderPath ) ;
-
-	auto fileIter = entries.fileIter() ;
-
-	while( fileIter.hasNext() ){
-
-		const auto& m = fileIter.valueWithNext() ;
-
-		if( m != "media-downloader.exe" ){
-
-			QFile::remove( folderPath + "/" + m ) ;
-		}
-	}
-
-	auto folderIter = entries.directoryIter() ;
-
-	while( folderIter.hasNext() ){
-
-		const auto& m = folderIter.valueWithNext() ;
-
-		if( m != "translations" ){
-
-			directoryManager::removeDirectory( folderPath + "/" + m ) ;
-		}
-	}
-}
-
 void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) const
 {
 	auto folderPath = md.finalPath ;
 
 	utils::qthread::run( [folderPath ](){
 
-		networkAccess::removeNotNeededFiles( folderPath ) ;
+		auto entries = directoryManager::readAll( folderPath ) ;
+
+		auto fileIter = entries.fileIter() ;
+
+		while( fileIter.hasNext() ){
+
+			const auto& m = fileIter.valueWithNext() ;
+
+			if( m != "media-downloader.exe" ){
+
+				QFile::remove( folderPath + "/" + m ) ;
+			}
+		}
+
+		auto folderIter = entries.directoryIter() ;
+
+		while( folderIter.hasNext() ){
+
+			const auto& m = folderIter.valueWithNext() ;
+
+			if( m != "translations" ){
+
+				directoryManager::removeDirectory( folderPath + "/" + m ) ;
+			}
+		}
 
 	},[ md = md.move(),this ](){
 
