@@ -28,6 +28,8 @@ public:
 	static const char * testYtDlp() ;
 	static const char * testFfmpeg() ;
 
+	static QStringList jsonNoFormatsArgumentList() ;
+
 	~yt_dlp() override ;
 
 	class youtube_dlFilter : public engines::engine::functions::filter
@@ -50,7 +52,6 @@ public:
 		const engines::engine& m_engine ;
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
-		qint64 m_ffmpegDuration ;
 	} ;
 
 	engines::engine::functions::FilterOutPut filterOutput() override ;

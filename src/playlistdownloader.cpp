@@ -934,7 +934,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	m_ui.pbPLCancel->setEnabled( true ) ;
 
-	auto opts = engine.dumpJsonArguments() ;
+	auto opts = engine.dumpJsonArguments( engines::engine::tab::playlist ) ;
 
 	if( !opts.isEmpty() ){
 

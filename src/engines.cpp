@@ -233,6 +233,16 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 	}
 }
 
+QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
+{
+	if( tab == engine::tab::playlist ){
+
+		return yt_dlp::jsonNoFormatsArgumentList() ;
+	}else{
+		return m_dumpJsonArguments ;
+	}
+}
+
 void engines::setDefaultEngine( const QString& name )
 {
 	m_settings.setDefaultEngine( name,settings::tabName::basic ) ;
@@ -1456,7 +1466,12 @@ private:
 				newFormats.append( obj ) ;
 			}
 
-			obj.insert( "formats",newFormats ) ;
+			if( newFormats.isEmpty() ){
+
+				obj.remove( "formats" ) ;
+			}else{
+				obj.insert( "formats",newFormats ) ;
+			}
 
 			auto m = QJsonDocument::JsonFormat::Indented ;
 

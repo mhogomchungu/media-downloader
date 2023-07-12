@@ -777,10 +777,10 @@ public:
 		{
 			return m_defaultDownLoadCmdOptions ;
 		}
-		const QStringList& dumpJsonArguments() const
-		{
-			return m_dumpJsonArguments ;
-		}
+
+		enum class tab{ basic,batch,playlist } ;
+		QStringList dumpJsonArguments( engines::engine::tab ) const ;
+
 		engines::engine::functions::DataFilter filter( int processId,const QString& quality ) const
 		{
 			return m_functions->Filter( processId,quality ) ;

@@ -1526,7 +1526,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		return true ;
 	} ) ;
 
-	auto args = engine.dumpJsonArguments() ;
+	auto args = engine.dumpJsonArguments( engines::engine::tab::batch ) ;
 
 	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
 	const auto& ca = engine.cookieArgument() ;
