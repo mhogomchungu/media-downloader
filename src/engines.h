@@ -140,34 +140,43 @@ public:
 		}
 		QString tmp( const QString& e ) const
 		{
-			return m_tmp + "/" +  e ;
+			return _add( m_tmp,e ) ;
 		}
 		QString updatePath( const QString& e ) const
 		{
-			return m_updatePath + "/" +  e ;
+			return _add( m_updatePath,e ) ;
 		}
 		QString dataPath( const QString& e ) const
 		{
-			return m_dataPath + "/" + e ;
+			return _add( m_dataPath,e ) ;
 		}
 		QString subscriptionsArchiveFilePath() const
 		{
-			return m_dataPath + "/subscriptions_archive_file.txt" ;
+			return _add( m_dataPath,"subscriptions_archive_file.txt" ) ;
 		}
 		QString binPath( const QString& e ) const
 		{
-			return m_binPath + "/" + e ;
+			return _add( m_binPath,e ) ;
 		}
 		QString themePath() const
 		{
-			return m_basePath + "/themes" ;
+			return _add( m_dataPath,"themes" ) ;
 		}
 		QString enginePath( const QString& e ) const
 		{
-			return m_enginePath + "/" + e ;
+			return _add( m_enginePath,e ) ;
 		}
 		QString socketPath() ;
 	private:
+		QString _add( const QString& basePath,const QString& toAdd ) const
+		{
+			if( basePath.endsWith( "/" ) ){
+
+				return basePath + toAdd ;
+			}else{
+				return basePath + "/" + toAdd ;
+			}
+		}
 		QString m_binPath ;
 		QString m_enginePath ;
 		QString m_basePath ;
@@ -916,10 +925,6 @@ public:
 		{
 			return this->name().contains( "yt-dlp" ) ;
 		}
-		bool usingPrivateBackend() const
-		{
-			return m_usingPrivateBackend ;
-		}
 		bool valid() const
 		{
 			return m_valid ;
@@ -962,7 +967,7 @@ public:
 
 		void updateOptions() ;
 
-		void parseMultipleCmdArgs( Logger& logger,const engines& engines,int ) ;
+		void parseMultipleCmdArgs( Logger& logger,const engines& engines,const enginePaths&,int ) ;
 
 		void parseMultipleCmdArgs( QStringList&,
 					   const QString&,
@@ -977,7 +982,6 @@ public:
 		int m_line ;
 		int m_position ;
 		bool m_valid ;
-		bool m_usingPrivateBackend = false ;
 		bool m_canDownloadPlaylist ;
 		bool m_likeYoutubeDl ;
 		bool m_mainEngine ;

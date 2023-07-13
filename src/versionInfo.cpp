@@ -189,7 +189,7 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 	auto m = vinfo.setAfterDownloading( false ) ;
 
-	if( engine.usingPrivateBackend() && engine.validDownloadUrl() && networkAccess::hasNetworkSupport() ){
+	if( engine.validDownloadUrl() && networkAccess::hasNetworkSupport() ){
 
 		if( engine.backendExists() ){
 

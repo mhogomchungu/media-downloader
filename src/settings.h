@@ -92,7 +92,6 @@ public:
 	bool autoDownload() ;
 	bool showVersionInfoWhenStarting() ;
 	bool concurrentDownloading() ;
-	bool useSystemProvidedVersionIfAvailable() ;
 	bool showMetaDataInBatchDownloader() ;
 	bool saveHistory() ;
 	bool playlistDownloaderSaveHistory() ;

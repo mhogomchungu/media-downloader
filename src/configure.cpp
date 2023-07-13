@@ -534,8 +534,6 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbConfigureShowMetaDataInBatchDownloader->setChecked( m_settings.showMetaDataInBatchDownloader() ) ;
 
-	m_ui.cbUseSystemVersionIfAvailable->setChecked( m_settings.useSystemProvidedVersionIfAvailable() ) ;
-
 	m_ui.cbAutoSaveNotDownloadedMedia->setChecked( m_settings.autoSavePlaylistOnExit() ) ;
 
 	m_ui.lineEditConfigureTextEncoding->setText( m_settings.textEncoding() ) ;
@@ -553,13 +551,6 @@ configure::configure( const Context& ctx ) :
 			m_ctx.getVersionInfo().checkForUpdates() ;
 		}
 	} ) ;
-
-	if( utility::platformIsLikeWindows() ){
-
-		m_ui.cbUseSystemVersionIfAvailable->setEnabled( !m_settings.portableVersion() ) ;
-	}else{
-		m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
-	}
 
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( QString::number( m_settings.maxConcurrentDownloads() ) ) ;
 
@@ -718,7 +709,6 @@ void configure::saveOptions()
 	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
-	m_settings.setUseSystemProvidedVersionIfAvailable( m_ui.cbUseSystemVersionIfAvailable->isChecked() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
 	m_settings.setCheckForUpdates( m_ui.cbCheckForUpdates->isChecked() ) ;
 	m_settings.setTextEncoding( m_ui.lineEditConfigureTextEncoding->text() ) ;
@@ -941,13 +931,6 @@ void configure::enableAll()
 
 		m_ui.lineEditConfigureScaleFactor->setEnabled( true ) ;
 	}
-
-	if( utility::platformIsLikeWindows() ){
-
-		m_ui.cbUseSystemVersionIfAvailable->setEnabled( !m_settings.portableVersion() ) ;
-	}else{
-		m_ui.cbUseSystemVersionIfAvailable->setEnabled( utility::platformIsLinux() ) ;
-	}
 }
 
 void configure::disableAll()
@@ -989,7 +972,6 @@ void configure::disableAll()
 	m_ui.comboBoxConfigureDarkTheme->setEnabled( false ) ;
 	m_ui.pbConfigureDownload->setEnabled( false ) ;
 	m_ui.labelConfigureTheme->setEnabled( false ) ;
-	m_ui.cbUseSystemVersionIfAvailable->setEnabled( false ) ;
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( false ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( false ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( false ) ;

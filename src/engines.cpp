@@ -85,21 +85,11 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	auto p = env.value( "PATH" ) ;
 
-	if( settings.useSystemProvidedVersionIfAvailable() ){
+	if( s.endsWith( separator ) ){
 
-		if( s.endsWith( separator ) ){
-
-			env.insert( "PATH",p + s ) ;
-		}else{
-			env.insert( "PATH",p + separator + s ) ;
-		}
+		env.insert( "PATH",s + p ) ;
 	}else{
-		if( s.endsWith( separator ) ){
-
-			env.insert( "PATH",s + p ) ;
-		}else{
-			env.insert( "PATH",s + separator + p ) ;
-		}
+		env.insert( "PATH",s + separator + p ) ;
 	}
 
 	env.insert( "LANG","C" ) ;
@@ -264,7 +254,7 @@ void engines::updateEngines( bool addAll,int id )
 
 		if( m ){
 
-			if( m->exePath().isEmpty() && !m->usingPrivateBackend() ){
+			if( m->exePath().isEmpty() ){
 
 				m_logger.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m->name() ),id ) ;
 			}else{
@@ -721,7 +711,7 @@ engines::engine::engine( Logger& logger,
 
 		if( cmdNames.isEmpty() ){
 
-			this->parseMultipleCmdArgs( logger,engines,id ) ;
+			this->parseMultipleCmdArgs( logger,engines,ePaths,id ) ;
 		}else{
 			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines,id ) ;
 		}
@@ -764,7 +754,7 @@ engines::engine::engine( Logger& logger,
 
 		if( cmdNames.size() == 1 ){
 
-			this->parseMultipleCmdArgs( logger,engines,id ) ;
+			this->parseMultipleCmdArgs( logger,engines,ePaths,id ) ;
 		}else{
 			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines,id ) ;
 		}
@@ -785,7 +775,10 @@ QString engines::engine::updateCmdPath( const QString& e ) const
 	return exe ;
 }
 
-void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engines,int id )
+void engines::engine::parseMultipleCmdArgs( Logger& logger,
+					    const engines& engines,
+					    const engines::enginePaths&,
+					    int id )
 {
 	auto m = engines.findExecutable( m_commandName ) ;
 
@@ -793,14 +786,36 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,const engines& engine
 
 		if( this->validDownloadUrl() && !m_exeFolderPath.isEmpty() ){
 
-			m_usingPrivateBackend = true ;
 			m_exePath = m_exeFolderPath + "/" + m_commandName ;
 		}else{
 			m_valid = false ;
 			logger.add( utility::failedToFindExecutableString( m_commandName ),id ) ;
 		}
 	}else{
-		m_exePath = m ;
+		if( this->validDownloadUrl() && !m_commandName.startsWith( "media-downloader" ) ){
+
+			/*
+			 * backends that are internally managed
+			 */
+
+			if( m.startsWith( m_exeFolderPath ) ){
+				/*
+				 * backend found in internal bin folder
+				 */
+				m_exePath = m ;
+			}else{
+				/*
+				 * backend not found in internal bin folder, lets assume its path
+				 * and hope for the best
+				 */
+				m_exePath = m_exeFolderPath + "/" + m_commandName ;
+			}
+		}else{
+			/*
+			 * backends that are managed outside like wget or aria2c
+			 */
+			m_exePath = m ;
+		}
 	}
 }
 
@@ -817,7 +832,7 @@ void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
 		return ;
 	}
 
-	this->parseMultipleCmdArgs( logger,engines,id ) ;
+	this->parseMultipleCmdArgs( logger,engines,ePaths,id ) ;
 
 	auto cmd = cmdNames.takeAt( 0 ) ;
 
@@ -938,6 +953,12 @@ void engines::engine::setPermissions( const QString& e ) const
 engines::enginePaths::enginePaths( settings& s )
 {
 	m_basePath      = s.configPaths() ;
+
+	while( m_basePath.endsWith( '/' ) ){
+
+		m_basePath.truncate( m_basePath.size() - 1 ) ;
+	}
+
 	m_binPath       = m_basePath + "/bin" ;
 	m_enginePath    = m_basePath + "/engines.v1" ;
 	m_dataPath      = m_basePath + "/data" ;

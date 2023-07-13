@@ -636,21 +636,6 @@ bool settings::concurrentDownloading()
 	return m_settings.value( "ConcurrentDownloading" ).toBool() ;
 }
 
-bool settings::useSystemProvidedVersionIfAvailable()
-{
-	if( !m_settings.contains( "UseSystemProvidedVersionIfAvailable" ) ){
-
-		if( utility::platformIsWindows() ){
-
-			m_settings.setValue( "UseSystemProvidedVersionIfAvailable",false ) ;
-		}else{
-			m_settings.setValue( "UseSystemProvidedVersionIfAvailable",true ) ;
-		}
-	}
-
-	return m_settings.value( "UseSystemProvidedVersionIfAvailable" ).toBool() ;
-}
-
 QString settings::cookieFilePath( const QString& engineName )
 {
 	auto m = "CookieFilePath_" + engineName ;
