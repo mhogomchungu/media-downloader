@@ -32,7 +32,7 @@ public:
 	class you_getFilter : public engines::engine::functions::filter
 	{
 	public:
-		you_getFilter( const QString&,settings&,const engines::engine&,int ) ;
+		you_getFilter( settings&,const engines::engine&,int ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -52,7 +52,7 @@ public:
 
 	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) override ;
 
-	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

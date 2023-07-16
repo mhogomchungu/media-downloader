@@ -227,12 +227,12 @@ gallery_dl::~gallery_dl()
 {
 }
 
-engines::engine::functions::DataFilter gallery_dl::Filter( int id,const QString& e )
+engines::engine::functions::DataFilter gallery_dl::Filter( int id )
 {
 	auto& s = engines::engine::functions::Settings() ;
 	const auto& engine = engines::engine::functions::engine() ;
 
-	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),e,s,engine,id } ;
+	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),s,engine,id } ;
 }
 
 void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -264,8 +264,6 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 
 void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& opts )
 {
-	engines::engine::functions::updateDownLoadCmdOptions( opts ) ;
-
 	auto _not_contains = []( const engines::engine::functions::updateOpts& opts,const char * e ){
 
 		for( const auto& it : opts.ourOptions ){
@@ -289,6 +287,8 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 
 	opts.ourOptions.prepend( "output.mode=terminal" ) ;
 	opts.ourOptions.prepend( "-o" ) ;
+
+	engines::engine::functions::updateDownLoadCmdOptions( opts ) ;
 }
 
 QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
@@ -319,8 +319,8 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-gallery_dl::gallery_dlFilter::gallery_dlFilter( const QString& e,settings&,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( e,engine,id ),
+gallery_dl::gallery_dlFilter::gallery_dlFilter( settings&,const engines::engine& engine,int id ) :
+	engines::engine::functions::filter( engine,id ),
 	m_speed( QObject::tr( "Speed:" ) ),
 	m_downloaded( QObject::tr( "Downloaded" ) )
 {

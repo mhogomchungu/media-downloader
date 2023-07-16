@@ -38,7 +38,7 @@ public:
 	class aria2c_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		aria2c_dlFilter( const QString&,settings&,const engines::engine&,int ) ;
+		aria2c_dlFilter( settings&,const engines::engine&,int ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -52,7 +52,7 @@ public:
 
 	engines::engine::functions::FilterOutPut filterOutput() override ;
 
-	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

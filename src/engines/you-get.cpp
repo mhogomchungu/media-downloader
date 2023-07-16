@@ -123,12 +123,12 @@ you_get::~you_get()
 {
 }
 
-engines::engine::functions::DataFilter you_get::Filter( int id,const QString& e )
+engines::engine::functions::DataFilter you_get::Filter( int id )
 {
 	auto& s = engines::engine::functions::Settings() ;
 	const auto& engine = engines::engine::functions::engine() ;
 
-	return { util::types::type_identity< you_get::you_getFilter >(),e,s,engine,id } ;
+	return { util::types::type_identity< you_get::you_getFilter >(),s,engine,id } ;
 }
 
 QString you_get::updateTextOnCompleteDownlod( const QString& uiText,
@@ -162,8 +162,8 @@ QString you_get::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-you_get::you_getFilter::you_getFilter( const QString& e,settings&,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( e,engine,id ),
+you_get::you_getFilter::you_getFilter( settings&,const engines::engine& engine,int id ) :
+	engines::engine::functions::filter( engine,id ),
 	m_processId( id )
 {
 	Q_UNUSED( m_processId )

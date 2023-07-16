@@ -32,7 +32,7 @@ public:
 	class svtplay_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		svtplay_dlFilter( const QString&,settings&,const engines::engine&,int ) ;
+		svtplay_dlFilter( settings&,const engines::engine&,int ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -51,7 +51,7 @@ public:
 
 	const QProcessEnvironment& processEnvironment() const override ;
 
-	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

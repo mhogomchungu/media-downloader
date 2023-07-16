@@ -792,7 +792,9 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 			logger.add( utility::failedToFindExecutableString( m_commandName ),id ) ;
 		}
 	}else{
-		if( this->validDownloadUrl() && !m_commandName.startsWith( "media-downloader" ) ){
+		if( this->validDownloadUrl() &&
+		    !m_commandName.startsWith( "media-downloader" ) &&
+		    !m_exeFolderPath.isEmpty() ){
 
 			/*
 			 * backends that are internally managed
@@ -1245,9 +1247,9 @@ QString engines::engine::functions::updateCmdPath( const QString& e )
 	return e ;
 }
 
-engines::engine::functions::DataFilter engines::engine::functions::Filter( int id,const QString& e )
+engines::engine::functions::DataFilter engines::engine::functions::Filter( int id )
 {
-	return { util::types::type_identity< engines::engine::functions::filter >(),e,m_engine,id } ;
+	return { util::types::type_identity< engines::engine::functions::filter >(),m_engine,id } ;
 }
 
 void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,const QString& s )
@@ -1329,6 +1331,11 @@ bool engines::engine::functions::likeYtdlp()
 
 void engines::engine::functions::updateLocalOptions( QStringList& )
 {
+}
+
+QString engines::engine::functions::setCredentials( QStringList&,QStringList& )
+{
+	return {} ;
 }
 
 engines::engine::functions::onlineVersion engines::engine::functions::versionInfoFromGithub( const QByteArray& e )
@@ -1620,25 +1627,10 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 
 void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
-	const auto& args = m_engine.optionsArgument() ;
+	if( !s.uiOptions.isEmpty() ){
 
-	if( args.isEmpty() ){
-
-		if( !s.quality.isEmpty() ){
-
-			s.ourOptions.prepend( s.quality ) ;
-		}
-	}else{
-		if( !s.quality.isEmpty() && s.quality.compare( "Default",Qt::CaseInsensitive ) ){
-
-			s.ourOptions.append( args ) ;
-
-			s.ourOptions.append( s.quality ) ;
-		}
+		s.ourOptions.append( s.uiOptions ) ;
 	}
-
-	s.ourOptions.removeAll( "Default" ) ;
-	s.ourOptions.removeAll( "default" ) ;
 }
 
 void engines::engine::functions::updateGetPlaylistCmdOptions( QStringList& )
@@ -1734,8 +1726,8 @@ void engines::file::failToOpenForReading()
 	m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath,id ) ;
 }
 
-engines::engine::functions::filter::filter( const QString& e,const engines::engine& engine,int id ) :
-	m_quality( e ),m_engine( engine ),m_processId( id )
+engines::engine::functions::filter::filter( const engines::engine& engine,int id ) :
+	m_engine( engine ),m_processId( id )
 {
 	if( m_processId ){}
 }
@@ -1774,11 +1766,6 @@ engines::engine::functions::filter::~filter()
 const engines::engine& engines::engine::functions::filter::engine() const
 {
 	return m_engine ;
-}
-
-const QString& engines::engine::functions::filter::quality() const
-{
-	return m_quality ;
 }
 
 engines::engine::functions::preProcessing::preProcessing() :

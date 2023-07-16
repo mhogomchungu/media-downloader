@@ -1954,8 +1954,7 @@ void batchdownloader::download( const engines::engine& engine,int init )
 
 		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
-			auto m = m_ui.lineEditBDUrlOptions->text() ;
-			auto u = utility::setDownloadOptions( engine,m_table,s,m ) ;
+			auto u = utility::setDownloadOptions( engine,m_table,s ) ;
 
 			indexes.add( s,u ) ;
 		}
@@ -2040,7 +2039,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 	int id = utility::concurrentID() ;
 
-	auto logger = make_loggerBatchDownloader( engine.filter( id,utility::args( m,engine ).quality() ),
+	auto logger = make_loggerBatchDownloader( engine.filter( id ),
 						  m_ctx.logger(),
 						  std::move( updater ),
 						  std::move( error ),
@@ -2059,6 +2058,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 	m_ccmd.download( engine,
 			 std::move( updateOpts ),
+			 m_ui.lineEditBDUrlOptions->text(),
 			 m_table.url( index ),
 			 m_ctx,
 			 m_terminator.setUp(),

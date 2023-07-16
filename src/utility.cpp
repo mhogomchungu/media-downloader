@@ -475,9 +475,10 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 	auto url = urls ;
 
-	engine.updateDownLoadCmdOptions( { args.quality(),
+	engine.updateDownLoadCmdOptions( { args.uiDownloadOptions(),
 					   args.otherOptions(),
 					   uiIndex,
+					   args.credentials(),
 					   ent.playlist,
 					   ent.playlist_count,
 					   ent.playlist_id,
@@ -969,7 +970,7 @@ utility::downLoadOptions utility::setDownloadOptions( const engines::engine& eng
 
 			if( downloadOpts.isEmpty() ){
 
-				return "Default" + m ;
+				return m ;
 			}else{
 				return downloadOpts + m ;
 			}
@@ -1073,39 +1074,69 @@ QString utility::runningVersionOfMediaDownloader()
 	return VERSION ;
 }
 
-utility::args::args( const QString& e,const engines::engine& engine )
+static QStringList _parseOptions( const QString& e,const engines::engine& engine )
 {
-	if( !e.isEmpty() ){
+	auto m = util::splitPreserveQuotes( e ) ;
 
-		m_otherOptions = util::splitPreserveQuotes( e ) ;
+	if( m.isEmpty() ){
 
-		const auto& q = engine.optionsArgument() ;
+		return {} ;
+	}
 
-		if( !m_otherOptions.isEmpty() ){
+	const auto& q = engine.optionsArgument() ;
 
-			if( !m_otherOptions.at( 0 ).startsWith( "-" ) ){
+	if( q.isEmpty() ){
 
-				m_quality = m_otherOptions.takeFirst() ;
+		return m ;
+	}
 
-			}else if( !q.isEmpty() ){
+	QStringList opts ;
 
-				for( int s = m_otherOptions.size() - 1 ; s >= 0  ; s-- ){
+	for( int i = 0 ; i < m.size() ; i++ ){
 
-					if( q == m_otherOptions[ s ] ){
+		const auto& s = m[ i ] ;
 
-						if( s < m_otherOptions.size() ){
+		if( s == q && i + 1 < m.size() ){
 
-							m_quality = m_otherOptions.takeAt( s + 1 ) ;
-						}
+			const auto& ss = m[ i + 1 ] ;
 
-						break ;
-					}
+			if( !ss.startsWith( '-' ) ){
+
+				if( ss.compare( "default",Qt::CaseInsensitive ) ){
+
+					opts.append( q ) ;
+
+					opts.append( ss ) ;
 				}
-
-				m_otherOptions.removeAll( q ) ;
 			}
+
+			i++ ;
+
+		}else if( s.compare( "default",Qt::CaseInsensitive ) == 0 ){
+
+		}else if( !s.startsWith( "-" ) ){
+
+			opts.append( q ) ;
+
+			opts.append( s ) ;
+		}else{
+			opts.append( s ) ;
 		}
 	}
+
+	return opts ;
+}
+
+utility::args::args( const QString& uiOptions,const QString& otherOptions,const engines::engine& engine )
+{
+	m_uiDownloadOptions = _parseOptions( uiOptions,engine ) ;
+	m_otherOptions      = _parseOptions( otherOptions,engine ) ;
+	m_credentials       = engine.setCredentials( m_uiDownloadOptions,m_otherOptions ) ;
+}
+
+QStringList utility::args::options() const
+{
+	return m_otherOptions + m_uiDownloadOptions ;
 }
 
 QString utility::uiIndex::toString( bool pad,const QStringList& e ) const

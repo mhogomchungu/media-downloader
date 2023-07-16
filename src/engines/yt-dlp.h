@@ -35,7 +35,7 @@ public:
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		youtube_dlFilter( int processId,const QString&,const engines::engine&,bool ) ;
+		youtube_dlFilter( int processId,const engines::engine&,bool ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -72,7 +72,7 @@ public:
 
 	void setTextEncondig( const QString&,QStringList& ) override ;
 
-	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 

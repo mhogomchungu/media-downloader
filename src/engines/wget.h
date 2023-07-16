@@ -33,7 +33,7 @@ public:
 	wget( const engines& e,const engines::engine& s,QJsonObject& ) ;
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 
-	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
@@ -43,7 +43,7 @@ public:
 	class wgetFilter : public engines::engine::functions::filter
 	{
 	public:
-		wgetFilter( const QString&,const engines::engine&,int ) ;
+		wgetFilter( const engines::engine&,int ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 

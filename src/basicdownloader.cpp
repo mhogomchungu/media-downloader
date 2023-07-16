@@ -310,22 +310,19 @@ void basicdownloader::download( const QString& url )
 
 	m_bogusTable.addItem( std::move( entry ) ) ;
 
-	auto s = m_extraOptions.downloadOptions ;
+	auto e = m_extraOptions.downloadOptions ;
+
+	m_bogusTable.setDownloadingOptions( tableWidget::type::DownloadOptions,0,e ) ;
 
 	m_ctx.TabManager().Configure().setDownloadOptions( 0,m_bogusTable ) ;
 
-	s = utility::setDownloadOptions( engine.engine,m_bogusTable,0,s ).downloadOptions ;
-
-	m_settings.addOptionsHistory( s,settings::tabName::basic ) ;
+	auto s = utility::setDownloadOptions( engine.engine,m_bogusTable,0 ).downloadOptions ;
 
 	auto mm = m_ui.lineEditOptions->text() ;
 
-	if( !mm.isEmpty() ){
+	m_settings.addOptionsHistory( mm,settings::tabName::basic ) ;
 
-		s += " " + mm ;
-	}
-
-	this->download( engine,{ s,engine.engine },m,false ) ;
+	this->download( engine,{ mm,s,engine.engine },m,false ) ;
 }
 
 void basicdownloader::download( const basicdownloader::engine& engine,
@@ -349,7 +346,7 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 
 		if( update ){
 
-			m_ui.lineEditOptions->setText( args.quality() + " " + args.otherOptions().join( ' ' ) ) ;
+			m_ui.lineEditOptions->setText( args.options().join( ' ' ) ) ;
 
 			m_ui.lineEditURL->setText( urls.join( ' ' ) ) ;
 		}
@@ -368,13 +365,13 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 						      {},
 						      m_ctx } ) ;
 
-		this->run( engine,opts,args.quality(),false ) ;
+		this->run( engine,opts,args.credentials(),false ) ;
 	} ) ;
 }
 
 void basicdownloader::run( const basicdownloader::engine& eng,
 			   const QStringList& args,
-			   const QString& quality,
+			   const QString& credentials,
 			   bool list_requested )
 {
 	auto id = eng.id ;
@@ -423,7 +420,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 	}() ) ;
 
-	utility::run( args,quality,std::move( ctx ) ) ;
+	utility::run( args,credentials,std::move( ctx ) ) ;
 }
 
 void basicdownloader::tabEntered()

@@ -97,12 +97,12 @@ svtplay_dl::~svtplay_dl()
 {
 }
 
-engines::engine::functions::DataFilter svtplay_dl::Filter( int id,const QString& e )
+engines::engine::functions::DataFilter svtplay_dl::Filter( int id )
 {
 	auto& s = engines::engine::functions::Settings() ;
 	const auto& engine = engines::engine::functions::engine() ;
 
-	return { util::types::type_identity< svtplay_dl::svtplay_dlFilter >(),e,s,engine,id } ;
+	return { util::types::type_identity< svtplay_dl::svtplay_dlFilter >(),s,engine,id } ;
 }
 
 QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
@@ -140,8 +140,8 @@ QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-svtplay_dl::svtplay_dlFilter::svtplay_dlFilter( const QString& e,settings&,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( e,engine,id ),
+svtplay_dl::svtplay_dlFilter::svtplay_dlFilter( settings&,const engines::engine& engine,int id ) :
+	engines::engine::functions::filter( engine,id ),
 	m_processId( id )
 {
 	Q_UNUSED( m_processId )

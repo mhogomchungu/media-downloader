@@ -92,7 +92,7 @@ private:
 
 	void run( const basicdownloader::engine& engine,
 		  const QStringList& args,
-		  const QString& quality,
+		  const QString& credentials,
 		  bool list_requested ) ;
 
 	void changeDefaultEngine( int index ) ;

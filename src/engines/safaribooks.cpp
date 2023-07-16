@@ -166,8 +166,9 @@ QString safaribooks::commandString( const engines::engine::exeArgs::cmd& cmd )
 	for( int i = 0 ; i < args.size() ; i++ ){
 
 		if( i > 0 && args[ i - 1 ] == "--cred" ){
+			m += " \"" + args[ i ] + "\"" ;
 
-			m += " \"" + QObject::tr( "<REDACTED>" ) + "\"" ;
+			//m += " \"" + QObject::tr( "<REDACTED>" ) + "\"" ;
 		}else{
 			m += " \"" + args[ i ] + "\"" ;
 		}
@@ -178,6 +179,8 @@ QString safaribooks::commandString( const engines::engine::exeArgs::cmd& cmd )
 
 void safaribooks::sendCredentials( const QString& credentials,QProcess& exe )
 {
+	qDebug() << "credentials: " << credentials ;
+
 	if( utility::platformIsNOTWindows() ){
 
 		if( credentials.isEmpty() ){
@@ -198,6 +201,56 @@ void safaribooks::sendCredentials( const QString& credentials,QProcess& exe )
 	}
 }
 
+static bool _credential_line( const QString& m )
+{
+	return m.contains( "@" ) && m.contains( ":" ) ;
+}
+
+static QString _find_credentials( const QStringList& cred )
+{
+	for( int i = 0 ; i < cred.size() ; i++ ){
+
+		const auto& m = cred[ i ] ;
+
+		if( _credential_line( m ) ){
+
+			return m ;
+		}
+	}
+
+	return QString() ;
+}
+
+static void _clear( QStringList& m )
+{
+	for( int i = 0 ; i < m.size() ; ){
+
+		const auto& e = m[ i ] ;
+
+		if( _credential_line( e ) || e == "--cred" ){
+
+			m.removeAt( i ) ;
+		}else{
+			i++ ;
+		}
+	}
+}
+
+QString safaribooks::setCredentials( QStringList& uiOptions,QStringList& otherOptions )
+{
+	auto m = _find_credentials( uiOptions ) ;
+
+	if( m.isEmpty() ){
+
+		m = _find_credentials( otherOptions ) ;
+	}
+
+	_clear( uiOptions ) ;
+	_clear( otherOptions ) ;
+
+	return m ;
+}
+
 void safaribooks::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
 	if( s.urls.size() > 0 ){
@@ -208,20 +261,19 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine::functions::up
 	s.ourOptions.append( "--destination" ) ;
 	s.ourOptions.append( engines::engine::functions::Settings().downloadFolder() ) ;
 
-	if( utility::platformIsWindows() || !s.quality.isEmpty() ){
+	if( utility::platformIsWindows() || !s.credentials.isEmpty() ){
 
 		s.ourOptions.append( "--cred" ) ;
 
-		if( s.quality.isEmpty() ){
+		if( s.credentials.isEmpty() ){
 
 			s.ourOptions.append( m_engine.userName() + ":" + m_engine.password() ) ;
 		}else{
-			s.ourOptions.prepend( s.quality ) ;
+			s.ourOptions.append( s.credentials ) ;
 		}
 	}else{
 		s.ourOptions.append( "--login" ) ;
 	}
 
-	s.ourOptions.removeAll( "Default" ) ;
-	s.ourOptions.removeAll( "default" ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
 }

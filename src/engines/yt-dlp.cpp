@@ -1112,9 +1112,9 @@ void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 	}
 }
 
-engines::engine::functions::DataFilter yt_dlp::Filter( int id,const QString& e )
+engines::engine::functions::DataFilter yt_dlp::Filter( int id )
 {
-	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,e,m_engine,m_likeYtdlp } ;
+	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,m_engine,m_likeYtdlp } ;
 }
 
 void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -1219,8 +1219,6 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 	s.ourOptions.append( "--output-na-placeholder" ) ;
 	s.ourOptions.append( "NA" ) ;
 
-	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
-
 	auto _replace = [ this ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
 
 		if( m_likeYtdlp ){
@@ -1261,6 +1259,8 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 			}
 		}
 	}
+
+	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
 
 	if( m_likeYtdlp ){
 
@@ -1307,10 +1307,9 @@ void yt_dlp::updateCmdOptions( QStringList& e )
 }
 
 yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
-					    const QString& e,
 					    const engines::engine& engine,
 					    bool likeYtdlp ) :
-	engines::engine::functions::filter( e,engine,processId ),
+	engines::engine::functions::filter( engine,processId ),
 	m_engine( engine )
 {
 	Q_UNUSED( likeYtdlp )

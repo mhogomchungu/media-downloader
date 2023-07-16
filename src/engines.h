@@ -369,15 +369,12 @@ public:
 			class filter
 			{
 			public:
-				filter( const QString& quality,const engines::engine& engine,int ) ;
+				filter( const engines::engine& engine,int ) ;
 				virtual const QByteArray& operator()( const Logger::Data& e ) ;
 				virtual ~filter() ;
 				const engines::engine& engine() const ;
-			protected:
-				const QString& quality() const ;
 			private:
 				engines::engine::functions::preProcessing m_processing ;
-				QString m_quality ;
 				const engines::engine& m_engine ;
 				QByteArray m_tmp ;
 				int m_processId ;
@@ -542,7 +539,7 @@ public:
 
 			virtual QString updateCmdPath( const QString& ) ;
 
-			virtual engines::engine::functions::DataFilter Filter( int,const QString& ) ;
+			virtual engines::engine::functions::DataFilter Filter( int ) ;
 
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
 
@@ -557,6 +554,8 @@ public:
 			virtual bool likeYtdlp() ;
 
 			virtual void updateLocalOptions( QStringList& ) ;
+
+			virtual QString setCredentials( QStringList&,QStringList & ) ;
 
 			struct onlineVersion
 			{
@@ -591,9 +590,10 @@ public:
 
 			struct updateOpts
 			{
-				const QString& quality ;
+				const QStringList& uiOptions ;
 				const QStringList& userOptions ;
 				const utility::uiIndex& uiIndex ;
+				const QString& credentials ;
 				const QString& playlist ;
 				const QString& playlist_count ;
 				const QString& playlist_id ;
@@ -786,13 +786,16 @@ public:
 		{
 			return m_defaultDownLoadCmdOptions ;
 		}
-
+		QString setCredentials( QStringList& e,QStringList& s ) const
+		{
+			return m_functions->setCredentials( e,s ) ;
+		}
 		enum class tab{ basic,batch,playlist } ;
 		QStringList dumpJsonArguments( engines::engine::tab ) const ;
 
-		engines::engine::functions::DataFilter filter( int processId,const QString& quality ) const
+		engines::engine::functions::DataFilter filter( int processId ) const
 		{
-			return m_functions->Filter( processId,quality ) ;
+			return m_functions->Filter( processId ) ;
 		}
 		QString updateTextOnCompleteDownlod( const QString& uiText,
 						     const QString& bkText,

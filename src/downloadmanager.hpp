@@ -374,6 +374,7 @@ public:
 	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
 	void download( const engines::engine& engine,
 		       const OptionUpdater& optsUpdater,
+		       const QString& uiDownloadOptions,
 		       const QString& url,
 		       const Context& cctx,
 		       TermSignal terminator,
@@ -391,7 +392,7 @@ public:
 
 		m_index.next() ;
 
-		utility::args args( m.downloadOptions,engine ) ;
+		utility::args args( uiDownloadOptions,m.downloadOptions,engine ) ;
 
 		utility::updateOptionsStruct opt{ m,engine,m_settings,args,uiIndex,fd,{ url },e,cctx } ;
 
@@ -402,7 +403,7 @@ public:
 					      channel ) ;
 
 		utility::run( optsUpdater( utility::updateOptions( opt ) ),
-			      args.quality(),
+			      args.credentials(),
 			      std::move( ctx ) ) ;
 	}
 private:

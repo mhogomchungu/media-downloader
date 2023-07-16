@@ -31,7 +31,7 @@ public:
 	class lux_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		lux_dlFilter( const QString&,const engines::engine&,int,QByteArray ) ;
+		lux_dlFilter( const engines::engine&,int,QByteArray ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -48,7 +48,7 @@ public:
 		QByteArray m_downloadFolder ;
 	} ;
 
-	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int ) override ;
 
 	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) override ;
 

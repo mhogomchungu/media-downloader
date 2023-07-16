@@ -185,12 +185,12 @@ engines::engine::functions::FilterOutPut aria2c::filterOutput()
 	return { util::types::type_identity< aria2cFilter >(),engine } ;
 }
 
-engines::engine::functions::DataFilter aria2c::Filter( int id,const QString& e )
+engines::engine::functions::DataFilter aria2c::Filter( int id )
 {
 	auto& s = engines::engine::functions::Settings() ;
 	const auto& engine = engines::engine::functions::engine() ;
 
-	return { util::types::type_identity< aria2c::aria2c_dlFilter >(),e,s,engine,id } ;
+	return { util::types::type_identity< aria2c::aria2c_dlFilter >(),s,engine,id } ;
 }
 
 QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
@@ -227,25 +227,17 @@ QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
 
 void aria2c::updateDownLoadCmdOptions( const updateOpts& e )
 {
-	engines::engine::functions::updateDownLoadCmdOptions( e ) ;
-
 	if( !e.ourOptions.contains( "-d" ) ){
 
 		e.ourOptions.append( "-d" ) ;
 		e.ourOptions.append( m_engines.Settings().downloadFolder() ) ;
 	}
 
-	if( !e.quality.isEmpty() ){
-
-		e.ourOptions.append( e.quality ) ;
-	}
-
-	e.ourOptions.removeAll( "Default" ) ;
-	e.ourOptions.removeAll( "default" ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( e ) ;
 }
 
-aria2c::aria2c_dlFilter::aria2c_dlFilter( const QString& e,settings&,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( e,engine,id ),
+aria2c::aria2c_dlFilter::aria2c_dlFilter( settings&,const engines::engine& engine,int id ) :
+	engines::engine::functions::filter( engine,id ),
 	m_processId( id )
 {
 	Q_UNUSED( m_processId )

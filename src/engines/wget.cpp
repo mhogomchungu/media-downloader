@@ -223,19 +223,19 @@ wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 
 void wget::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
-	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
-
 	if( !s.ourOptions.contains( "--progress=bar:force" ) ){
 
 		s.ourOptions.append( "--progress=bar:force" ) ;
 	}
+
+	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
 }
 
-engines::engine::functions::DataFilter wget::Filter( int id,const QString& e )
+engines::engine::functions::DataFilter wget::Filter( int id )
 {
 	const auto& engine = engines::engine::functions::engine() ;
 
-	return { util::types::type_identity< wget::wgetFilter >(),e,engine,id } ;
+	return { util::types::type_identity< wget::wgetFilter >(),engine,id } ;
 }
 
 QString wget::updateTextOnCompleteDownlod( const QString& uiText,
@@ -281,8 +281,8 @@ wget::~wget()
 {
 }
 
-wget::wgetFilter::wgetFilter( const QString& e,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( e,engine,id )
+wget::wgetFilter::wgetFilter( const engines::engine& engine,int id ) :
+	engines::engine::functions::filter( engine,id )
 {
 }
 

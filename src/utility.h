@@ -194,17 +194,23 @@ namespace utility
 	class args
 	{
 	public:
-		args( const QString& e,const engines::engine& ) ;
-		const QString& quality() const
+		args( const QString& uiOptions,const QString& otherOptions,const engines::engine& ) ;
+		const QStringList& uiDownloadOptions() const
 		{
-			return m_quality ;
+			return m_uiDownloadOptions ;
 		}
 		const QStringList& otherOptions() const
 		{
 			return m_otherOptions ;
 		}
+		const QString& credentials() const
+		{
+			return m_credentials ;
+		}
+		QStringList options() const ;
 	private:
-		QString m_quality ;
+		QString m_credentials ;
+		QStringList m_uiDownloadOptions ;
 		QStringList m_otherOptions ;
 	} ;
 	class arguments
@@ -348,7 +354,7 @@ namespace utility
 		bool hasExtraOptions = false ;
 		QString downloadOptions ;
 	} ;
-	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& ) ;
+	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& = {} ) ;
 	bool platformIsWindows() ;
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;

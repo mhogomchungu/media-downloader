@@ -34,7 +34,7 @@ public:
 	class gallery_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		gallery_dlFilter( const QString&,settings&,const engines::engine&,int ) ;
+		gallery_dlFilter( settings&,const engines::engine&,int ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
@@ -47,7 +47,7 @@ public:
 		engines::engine::functions::preProcessing m_preProcessing ;
 	} ;
 
-	engines::engine::functions::DataFilter Filter( int,const QString& ) override ;
+	engines::engine::functions::DataFilter Filter( int ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 

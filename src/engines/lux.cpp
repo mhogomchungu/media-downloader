@@ -36,9 +36,9 @@ lux::lux( const engines& engines,const engines::engine& engine,QJsonObject&,cons
 {
 }
 
-engines::engine::functions::DataFilter lux::Filter( int id,const QString& e )
+engines::engine::functions::DataFilter lux::Filter( int id )
 {
-	return { util::types::type_identity< lux::lux_dlFilter >(),e,m_engine,id,m_downloadFolder.toUtf8() } ;
+	return { util::types::type_identity< lux::lux_dlFilter >(),m_engine,id,m_downloadFolder.toUtf8() } ;
 }
 
 std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const QByteArray& e )
@@ -275,8 +275,6 @@ bool lux::foundNetworkUrl( const QString& s )
 
 void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
 {
-	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
-
 	for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
 
 		if( s.ourOptions[ m ] == "-O" ){
@@ -308,6 +306,8 @@ void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts
 			}
 		}
 	}
+
+	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
 }
 
 QString lux::updateTextOnCompleteDownlod( const QString& uiText,
@@ -342,8 +342,8 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-lux::lux_dlFilter::lux_dlFilter( const QString& e,const engines::engine& engine,int id,QByteArray df ) :
-	engines::engine::functions::filter( e,engine,id ),
+lux::lux_dlFilter::lux_dlFilter( const engines::engine& engine,int id,QByteArray df ) :
+	engines::engine::functions::filter( engine,id ),
 	m_banner( ".. " + QObject::tr( "This May Take A Very Long Time" ).toUtf8() + " .." ),
 	m_processId( id ),
 	m_downloadFolder( std::move( df ) )
