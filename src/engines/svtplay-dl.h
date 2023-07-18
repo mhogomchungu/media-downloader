@@ -26,6 +26,8 @@ class settings ;
 class svtplay_dl : public engines::engine::functions
 {
 public:
+	static const char * testData() ;
+
 	~svtplay_dl() override ;
 	svtplay_dl( const engines&,const engines::engine&,QJsonObject& ) ;
 
@@ -39,11 +41,16 @@ public:
 		~svtplay_dlFilter() override ;
 	private:
 		QByteArray m_tmp ;
+		QByteArray m_fileName ;
 		engines::engine::functions::preProcessing m_preProcessing ;
 		int m_processId ;
 	} ;
 
+	engines::engine::functions::FilterOutPut filterOutput() override ;
+
 	void updateOutPutChannel( QProcess::ProcessChannel& ) const override ;
+
+	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
 
 	QStringList horizontalHeaderLabels() const override ;
 

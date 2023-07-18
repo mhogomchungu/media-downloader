@@ -1093,7 +1093,7 @@ static bool _meetExtraCondition( const QByteArray& l,const QJsonObject& obj )
 	return false ;
 }
 
-static bool _meetCondition( const engines::engine& engine,const QByteArray& line )
+bool engines::engine::functions::meetCondition( const engines::engine& engine,const QByteArray& line )
 {
 	const auto& obj = engine.controlStructure() ;
 
@@ -1143,11 +1143,11 @@ public:
 	engines::engine::functions::filterOutPut::result
 	formatOutput( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
 	{
-		return { e,m_engine,_meetCondition } ;
+		return { e,m_engine,engines::engine::functions::meetCondition } ;
 	}
 	bool meetCondition( const QByteArray& e ) const override
 	{
-		return _meetCondition( m_engine,e ) ;
+		return engines::engine::functions::meetCondition( m_engine,e ) ;
 	}
 	const engines::engine& engine() const override
 	{

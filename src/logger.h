@@ -480,6 +480,14 @@ public:
 		{
 			m_ffmpegDuration = s ;
 		}
+		qint64 svtPlaySize() const
+		{
+			return m_svtplaySize ;
+		}
+		void addSvtPlaySize( qint64 s )
+		{
+			m_svtplaySize += s ;
+		}
 		struct luxResult
 		{
 			enum class ac{ replace,add,nothing } ;
@@ -566,6 +574,7 @@ public:
 		bool m_mainLogger ;
 		QByteArray m_filePath ;
 		double m_ffmpegDuration = 0 ;
+		qint64 m_svtplaySize = 0 ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;

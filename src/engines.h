@@ -454,6 +454,8 @@ public:
 				virtual ~filterOutPut() ;
 			} ;
 
+			static bool meetCondition( const engines::engine&,const QByteArray& ) ;
+
 			class FilterOutPut
 			{
 			public:

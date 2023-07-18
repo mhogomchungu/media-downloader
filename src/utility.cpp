@@ -1090,6 +1090,14 @@ static QStringList _parseOptions( const QString& e,const engines::engine& engine
 		return m ;
 	}
 
+	if( !m[ 0 ].startsWith( '-' ) ){
+
+		if( m[ 0 ].compare( "default",Qt::CaseInsensitive ) ){
+
+			m.insert( 0,q ) ;
+		}
+	}
+
 	QStringList opts ;
 
 	for( int i = 0 ; i < m.size() ; i++ ){
@@ -1112,13 +1120,6 @@ static QStringList _parseOptions( const QString& e,const engines::engine& engine
 
 			i++ ;
 
-		}else if( s.compare( "default",Qt::CaseInsensitive ) == 0 ){
-
-		}else if( !s.startsWith( "-" ) ){
-
-			opts.append( q ) ;
-
-			opts.append( s ) ;
 		}else{
 			opts.append( s ) ;
 		}
