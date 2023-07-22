@@ -1119,7 +1119,6 @@ static QStringList _parseOptions( const QString& e,const engines::engine& engine
 			}
 
 			i++ ;
-
 		}else{
 			opts.append( s ) ;
 		}

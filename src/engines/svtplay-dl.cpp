@@ -22,7 +22,6 @@
 #include "../util.hpp"
 #include "../utils/miscellaneous.hpp"
 
-#if 1
 const char * svtplay_dl::testData()
 {
 	return R"R(DEBUG [1689598027.9425933] svtplay-dl/svtplay_dl/utils/getmedia.py/get_media: version: 4.24
@@ -363,15 +362,6 @@ INFO [1689598171.062669] svtplay-dl/svtplay_dl/postprocess/__init__.py/merge: Me
 )R" ;
 }
 
-#else
-
-const char * svtplay_dl::testData()
-{
-	return "" ;
-}
-
-#endif
-
 svtplay_dl::svtplay_dl( const engines& engs,const engines::engine& engine,QJsonObject& ) :
 	engines::engine::functions( engs.Settings(),engine,engs.processEnvironment() ),
 	m_processEnvironment( engines::engine::functions::processEnvironment() )
@@ -626,7 +616,19 @@ public:
 	}
 	bool meetCondition( const QByteArray& e ) const override
 	{
-		if( utils::misc::startsWithAny( e,"DEBUG","Getting:","INFO","[","\r[" ) ){
+		if( e.startsWith( '[' ) && e.size() > 1 ){
+
+			auto m = e[ 1 ] ;
+
+			return m >= '0' && m <= '9' ;
+
+		}else if( e.startsWith( "\r[" ) && e.size() > 2 ){
+
+			auto m = e[ 2 ] ;
+
+			return m >= '0' && m <= '9' ;
+
+		}else if( utils::misc::startsWithAny( e,"DEBUG","Getting:","INFO" ) ){
 
 			return true ;
 		}else{
@@ -653,27 +655,53 @@ const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& 
 {
 	if( s.doneDownloading() ){
 
-		if( !m_fileName.isEmpty() ){
+		auto lines = s.toStringList() ;
 
+		for( auto it = lines.rbegin() ; it != lines.rend() ; it++ ){
+
+			const QByteArray& m = *it ;
+
+			if( m.startsWith( "ERROR" ) ){
+
+				auto e = m.indexOf( ':' ) ;
+
+				if( e == -1 ){
+
+					m_tmp = m ;
+
+					return m ;
+				}else{
+					m_tmp = m.mid( e + 1 ) ;
+
+					return m ;
+				}
+
+			}else if( m.contains( "media already exists" ) ){
+
+				m_tmp = "Media already exists" ;
+
+				return m_tmp ;
+
+			}else if( m.contains( "Temporary failure in name resolution" ) ){
+
+				m_tmp = "Temporary failure in name resolution" ;
+
+				return m_tmp ;
+
+			}else if( m.contains( "Name or service not known" ) ){
+
+				m_tmp = "Name or service not known" ;
+
+				return m_tmp ;
+			}
+		}
+
+		if( m_fileName.isEmpty() ){
+
+			return m_tmp ;
+		}else{
 			return m_fileName ;
 		}
-
-		auto m = s.toLine() ;
-
-		if( m.contains( "media already exists" ) ){
-
-			m_tmp = "Media already exists" ;
-
-		}else if( m.contains( "Temporary failure in name resolution" ) ){
-
-			m_tmp = "Temporary failure in name resolution" ;
-
-		}else if( m.contains( "Name or service not known" ) ){
-
-			m_tmp = "Name or service not known" ;
-		}
-
-		return m_tmp ;
 
 	}else if( s.lastLineIsProgressLine() ){
 
@@ -735,13 +763,13 @@ const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& 
 
 			return m_tmp ;
 
-		}else if( m.startsWith( "ERROR:" ) ){
+		}else if( m.startsWith( "ERROR" ) ){
 
-			auto e = m.indexOf( "ERROR:" ) ;
+			auto e = m.indexOf( ":" ) ;
 
 			if( e != -1 ){
 
-				m_tmp = m.mid( e + 6 ) ;
+				m_tmp = m.mid( e + 1 ) ;
 			}
 
 			return m_tmp ;
