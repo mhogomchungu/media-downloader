@@ -451,9 +451,9 @@ public:
 			return {} ;
 		}
 		template< typename Function >
-		void replaceOrAdd( const QByteArray& text,int id,Function function )
+		void replaceOrAdd( const QByteArray& text,int id,const Function& function )
 		{
-			_replaceOrAdd( text,id,std::move( function ) ) ;
+			_replaceOrAdd( text,id,function ) ;
 		}
 		void add( const QByteArray& text,int id )
 		{
@@ -535,7 +535,7 @@ public:
 	private:
 		bool doneDownloadingText( const QByteArray& data ) ;
 		template< typename Function >
-		void _replaceOrAdd( const QByteArray& text,int id,Function function )
+		void _replaceOrAdd( const QByteArray& text,int id,const Function& function )
 		{
 			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
 

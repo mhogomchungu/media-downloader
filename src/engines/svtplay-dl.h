@@ -43,7 +43,6 @@ public:
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
 		engines::engine::functions::preProcessing m_preProcessing ;
-		int m_processId ;
 	} ;
 
 	engines::engine::functions::FilterOutPut filterOutput() override ;

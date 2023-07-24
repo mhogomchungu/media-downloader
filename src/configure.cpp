@@ -66,12 +66,12 @@ configure::configure( const Context& ctx ) :
 
 	m_tableUrlToDefaultEngine.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
-		m_tablePresetOptions.selectRow( c,p,0 ) ;
+		m_tableUrlToDefaultEngine.selectRow( c,p,0 ) ;
 	} ) ;
 
 	m_tableDefaultDownloadOptions.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
-		m_tablePresetOptions.selectRow( c,p,0 ) ;
+		m_tableDefaultDownloadOptions.selectRow( c,p,0 ) ;
 	} ) ;
 
 	m_ui.pbOpenThemeFolder->setIcon( QIcon( ":/json" ) ) ;
@@ -262,14 +262,15 @@ configure::configure( const Context& ctx ) :
 		connect( m.addAction( tr( "Copy" ) ),&QAction::triggered,[ this ](){
 
 			auto row = m_tablePresetOptions.currentRow() ;
+			auto col = m_tablePresetOptions.columnClicked() ;
 
-			if( row != -1 ){
+			if( row != -1 && col != -1 ){
 
 				auto mm = QApplication::clipboard() ;
 
 				if( mm ){
 
-					mm->setText( m_tablePresetOptions.item( row,1 ).text() ) ;
+					mm->setText( m_tablePresetOptions.item( row,col ).text() ) ;
 				}
 			}
 		} ) ;

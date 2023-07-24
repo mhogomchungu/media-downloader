@@ -407,7 +407,7 @@ public:
 						m_function( m ),m_engine( engine )
 					{
 					}
-					bool operator()( const QByteArray& e )
+					bool operator()( const QByteArray& e ) const
 					{
 						return m_function( m_engine,e ) ;
 					}
@@ -439,7 +439,7 @@ public:
 					{
 						return m_fileName ;
 					}
-					filterOutPut::meetCondition meetCondition()
+					const filterOutPut::meetCondition& meetCondition()
 					{
 						return m_meetCondition ;
 					}

@@ -309,6 +309,10 @@ public:
 	}
 	void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int s )
 	{
+		if( previous ){
+
+			m_columnClicked = previous->column() ;
+		}
 		tableWidget::selectRow( current,previous,s ) ;
 	}
 	bool isSelected( int row )
@@ -336,6 +340,14 @@ public:
 	int currentRow()
 	{
 		return m_table.currentRow() ;
+	}
+	int columnCount()
+	{
+		return m_table.columnCount() ;
+	}
+	int columnClicked()
+	{
+		return m_columnClicked ;
 	}
 	void removeRow( int s )
 	{
@@ -436,6 +448,7 @@ public:
 		}
 	}
 private:
+	int m_columnClicked = -1 ;
 	QTableWidget& m_table ;
 	std::vector< Stuff > m_stuff ;
 };

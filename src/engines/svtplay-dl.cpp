@@ -489,15 +489,35 @@ QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
 }
 
 svtplay_dl::svtplay_dlFilter::svtplay_dlFilter( settings&,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( engine,id ),
-	m_processId( id )
+	engines::engine::functions::filter( engine,id ){
+}
+
+static bool _startsWithCondition( const QByteArray& e )
 {
-	Q_UNUSED( m_processId )
+	if( e.startsWith( '[' ) && e.size() > 1 ){
+
+		auto m = e[ 1 ] ;
+
+		return m >= '0' && m <= '9' ;
+
+	}else if( e.startsWith( "\r[" ) && e.size() > 2 ){
+
+		auto m = e[ 2 ] ;
+
+		return m >= '0' && m <= '9' ;
+	}else{
+		return false ;
+	}
+}
+
+static bool _meetCondition( const QByteArray& e )
+{
+	return _startsWithCondition( e ) && e.contains( " ETA:" ) ;
 }
 
 static bool _meetCondition( const engines::engine&,const QByteArray& e )
 {
-	return e.contains( " ETA:" )  ;
+	return e.contains( "] (" ) && e.contains( " ETA:" ) ;
 }
 
 class svtplayFilter : public engines::engine::functions::filterOutPut
@@ -607,7 +627,7 @@ public:
 
 			m_tmp = ss.toUtf8() ;
 		}else{
-			auto ss = ll + "," + a ;
+			auto ss = ll + ", [00/00] (NA)" + a ;
 
 			m_tmp = ss.toUtf8() ;
 		}
@@ -616,23 +636,11 @@ public:
 	}
 	bool meetCondition( const QByteArray& e ) const override
 	{
-		if( e.startsWith( '[' ) && e.size() > 1 ){
-
-			auto m = e[ 1 ] ;
-
-			return m >= '0' && m <= '9' ;
-
-		}else if( e.startsWith( "\r[" ) && e.size() > 2 ){
-
-			auto m = e[ 2 ] ;
-
-			return m >= '0' && m <= '9' ;
-
-		}else if( utils::misc::startsWithAny( e,"DEBUG","Getting:","INFO" ) ){
+		if( _meetCondition( e ) ){
 
 			return true ;
 		}else{
-			return _meetCondition( m_engine,e ) ;
+			return utils::misc::startsWithAny( e,"DEBUG","Getting:","INFO" ) ;
 		}
 	}
 	const engines::engine& engine() const override
