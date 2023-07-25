@@ -627,7 +627,7 @@ public:
 
 			m_tmp = ss.toUtf8() ;
 		}else{
-			auto ss = ll + ", [00/00] (NA)" + a ;
+			auto ss = ll + ", [00/00] (NA), " + a ;
 
 			m_tmp = ss.toUtf8() ;
 		}
@@ -675,13 +675,11 @@ const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& 
 
 				if( e == -1 ){
 
-					m_tmp = m ;
-
 					return m ;
 				}else{
-					m_tmp = m.mid( e + 1 ) ;
+					m_tmp = "ERROR:" + m.mid( e + 1 ) ;
 
-					return m ;
+					return m_tmp ;
 				}
 
 			}else if( m.contains( "media already exists" ) ){
