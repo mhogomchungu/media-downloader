@@ -25,6 +25,54 @@
 
 #include <ctime>
 
+const char * lux::testData()
+{
+	return R"R( Site:      YouTube youtube.com
+ Title:     TRIPLE PLAY‼ Braves capitalize on shoddy baserunning by Red Sox | MLB on ESPN
+ Type:      video
+ Stream:
+     [133]  -------------------
+     Quality:         240p video/mp4; codecs="avc1.4d4015"
+     Size:            0.84 MiB (885406 Bytes)
+     # download with: lux -f 133 ...
+
+0 B / 864.65 KiB [--------------------------------------------------------------------------] ? p/s 0.00% ?
+0 B / 864.65 KiB [--------------------------------------------------------------------------] ? p/s 0.00% ?
+0 B / 864.65 KiB [--------------------------------------------------------------------------] ? p/s 0.00% ?
+32.00 KiB / 864.65 KiB [==>-------------------------------------------------------] 53.38 KiB p/s 3.70% 15s
+64.00 KiB / 864.65 KiB [====>-----------------------------------------------------] 53.38 KiB p/s 7.40% 14s
+80.00 KiB / 864.65 KiB [=====>----------------------------------------------------] 53.38 KiB p/s 9.25% 14s
+112.00 KiB / 864.65 KiB [=======>------------------------------------------------] 58.54 KiB p/s 12.95% 12s
+144.00 KiB / 864.65 KiB [=========>----------------------------------------------] 58.54 KiB p/s 16.65% 12s
+176.00 KiB / 864.65 KiB [===========>--------------------------------------------] 58.54 KiB p/s 20.35% 11s
+208.00 KiB / 864.65 KiB [=============>------------------------------------------] 65.07 KiB p/s 24.06% 10s
+240.00 KiB / 864.65 KiB [===============>-----------------------------------------] 65.07 KiB p/s 27.76% 9s
+272.00 KiB / 864.65 KiB [=================>---------------------------------------] 65.07 KiB p/s 31.46% 9s
+304.00 KiB / 864.65 KiB [====================>------------------------------------] 71.20 KiB p/s 35.16% 7s
+336.00 KiB / 864.65 KiB [======================>----------------------------------] 71.20 KiB p/s 38.86% 7s
+368.00 KiB / 864.65 KiB [========================>--------------------------------] 71.20 KiB p/s 42.56% 6s
+400.00 KiB / 864.65 KiB [==========================>------------------------------] 76.93 KiB p/s 46.26% 6s
+432.00 KiB / 864.65 KiB [============================>----------------------------] 76.93 KiB p/s 49.96% 5s
+464.00 KiB / 864.65 KiB [==============================>--------------------------] 76.93 KiB p/s 53.66% 5s
+496.00 KiB / 864.65 KiB [================================>------------------------] 82.30 KiB p/s 57.36% 4s
+528.00 KiB / 864.65 KiB [==================================>----------------------] 82.30 KiB p/s 61.06% 4s
+560.00 KiB / 864.65 KiB [====================================>--------------------] 82.30 KiB p/s 64.77% 3s
+592.00 KiB / 864.65 KiB [=======================================>-----------------] 87.31 KiB p/s 68.47% 3s
+624.00 KiB / 864.65 KiB [=========================================>---------------] 87.31 KiB p/s 72.17% 2s
+656.00 KiB / 864.65 KiB [===========================================>-------------] 87.31 KiB p/s 75.87% 2s
+688.00 KiB / 864.65 KiB [=============================================>-----------] 91.99 KiB p/s 79.57% 1s
+720.00 KiB / 864.65 KiB [===============================================>---------] 91.99 KiB p/s 83.27% 1s
+752.00 KiB / 864.65 KiB [=================================================>-------] 91.99 KiB p/s 86.97% 1s
+768.00 KiB / 864.65 KiB [==================================================>------] 94.66 KiB p/s 88.82% 1s
+796.86 KiB / 864.65 KiB [====================================================>----] 94.66 KiB p/s 92.16% 0s
+828.86 KiB / 864.65 KiB [======================================================>--] 94.66 KiB p/s 95.86% 0s
+828.86 KiB / 864.65 KiB [======================================================>--] 95.09 KiB p/s 95.86% 0s
+844.86 KiB / 864.65 KiB [=======================================================>-] 95.09 KiB p/s 97.71% 0s
+864.65 KiB / 864.65 KiB [=====================================================] 139.03 KiB p/s 100.00% 6.4s
+Merging video parts into TRIPLE PLAY‼ Braves capitalize on shoddy baserunning by Red Sox - MLB on ESPN.mp4
+)R" ;
+}
+
 lux::~lux()
 {
 }
@@ -101,150 +149,6 @@ std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const Q
 	return ent ;
 }
 
-Logger::Data::luxResult lux::parseOutput::operator()( int processId,
-						      Logger::Data& outPut,
-						      const QByteArray& allData,
-						      const QByteArray& lastData ) const
-{
-	if( lastData.startsWith( "[media-downloader]" ) ){
-
-		return { Logger::Data::luxResult::ac::add,lastData } ;
-	}
-
-	const auto& lHeader = outPut.LuxHeader( processId ) ;
-
-	if( !lHeader.has_value() ){
-
-		//Should not get here
-
-		return { Logger::Data::luxResult::ac::nothing,QByteArray() } ;
-	}
-
-	auto& luxHeader = lHeader.value() ;
-
-	if( luxHeader.data.isEmpty() ){
-
-		auto ee = allData.indexOf( "...\n\n" ) ;
-
-		if( ee != -1 ){
-
-			luxHeader.timeLeft = QObject::tr( "Time Left" ).toUtf8() ;
-
-			auto mm = allData.lastIndexOf( "Site:" ) ;
-
-			if( mm != -1 ){
-
-				luxHeader.data = allData.mid( mm,ee ) ;
-			}else{
-				luxHeader.data = allData.mid( 0,ee ) ;
-			}
-
-			auto aa = luxHeader.data.indexOf( "Title:" ) ;
-			auto bb = luxHeader.data.indexOf( "Type:" ) ;
-
-			if( aa != -1 && bb != -1 ){
-
-				luxHeader.title = luxHeader.data.mid( aa + 6,bb - aa - 6 ).trimmed() ;
-			}
-
-			auto s = luxHeader.data.simplified() ;
-
-			s.replace( " ","" ) ;
-			s.replace( "\n","" ) ;
-
-			auto a = s.indexOf( "Size:" ) ;
-			auto b = s.indexOf( "Bytes)" ) ;
-
-			if( a != -1 && b != -1 ){
-
-				auto j = s.mid( a + 5,a + 5 - b ) ;
-				j.replace( "Bytes","" ) ;
-
-				auto mm = util::split( j,'(' ) ;
-
-				if( mm.size() == 2 ){
-
-					j = mm.at( 0 ) ;
-
-					auto mmm = util::split( mm.at( 1 ),")" ).at( 0 ) ;
-
-					luxHeader.fileSizeInt = mmm.toLongLong() ;
-					luxHeader.fileSizeString = m_locale.formattedDataSize( luxHeader.fileSizeInt ).toUtf8() ;
-
-					return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + lastData } ;
-				}
-			}
-		}else{
-			if( allData.contains( "Site:" ) ){
-
-				return { Logger::Data::luxResult::ac::nothing,QByteArray() } ;
-			}
-		}
-	}
-
-	auto ss = allData.lastIndexOf( "=]" ) ;
-
-	if( ss != -1 ){
-
-		auto mm = allData.indexOf( "Merging video parts into " ) ;
-
-		if( mm != -1 ){
-
-			return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + allData.mid( mm ) } ;
-		}
-	}
-
-	ss = allData.lastIndexOf( "-]" ) ;
-
-	if( ss == -1 ){
-
-		ss = allData.lastIndexOf( ">]" ) ;
-	}
-
-	if( ss != -1 ){
-
-		auto s = util::split( allData.mid( ss + 1 ),' ' ) ;
-
-		if( s.size() > 1 ){
-
-			auto a = s.at( s.size() - 1 ) ;
-			auto b = s.at( s.size() - 2 ) ;
-			auto c = b ;
-
-			b.replace( "%","" ) ;
-
-			bool ok ;
-			auto bb = qint64( b.toDouble( &ok ) * double( luxHeader.fileSizeInt ) / 100 ) ;
-
-			if( ok ){
-
-				auto bbb = m_locale.formattedDataSize( bb ) ;
-
-				auto aa = luxHeader.timeLeft + ": " + a ;
-				auto bb = QObject::tr( "Downloaded" ) + ": " + bbb + " / " + luxHeader.fileSizeString ;
-				auto cc = "(" + c + ")" ;
-
-				auto ggg = aa + ", " + bb + " " + cc ;
-
-				return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + ggg.toUtf8() } ;
-			}else{
-				return { Logger::Data::luxResult::ac::replace,luxHeader.data + "\n" + lastData } ;
-			}
-		}else{
-			return { Logger::Data::luxResult::ac::add,luxHeader.data + "\n" + lastData } ;
-		}
-	}else{
-		return { Logger::Data::luxResult::ac::add,lastData } ;
-	}
-}
-
-bool lux::parseOutput( Logger::Data& outPut,const QByteArray& data,int id,bool )
-{
-	outPut.luxHack( id,data,outPut,m_parseOutput ) ;
-
-	return false ;
-}
-
 void lux::runCommandOnDownloadedFile( const QString&,const QString& )
 {
 }
@@ -310,6 +214,147 @@ void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts
 	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
 }
 
+static bool _meetCondition( const engines::engine&,const QByteArray& e )
+{
+	return e.contains( "] " ) && e.contains( " p/s " ) ;
+}
+
+static bool _meetLocalCondition( const engines::engine&,const QByteArray& e )
+{
+	return e.contains( ", ETA: " ) ;
+}
+
+class luxFilter : public engines::engine::functions::filterOutPut
+{
+public:
+	luxFilter( const engines::engine& engine ) : m_engine( engine )
+	{
+	}
+	engines::engine::functions::filterOutPut::result
+	formatOutput( const Logger::locale& locale,Logger::Data& outPut,const QByteArray& e ) const override
+	{
+		const auto& luxHeader = outPut.luxHeader() ;
+
+		const auto& m = luxHeader.allData() ;
+
+		auto mm = m.lastIndexOf( "-]" ) ;
+
+		if( mm == -1 ){
+
+			mm = m.lastIndexOf( "=]" ) ;
+		}
+
+		if( mm == - 1 ){
+
+			return { e,m_engine,_meetLocalCondition } ;
+		}
+
+		auto a = util::split( m.mid( mm + 2 ),' ' ) ;
+
+		QString pgr = "%1 / %2 (%3) at %4, ETA: %5" ;
+
+		if( a.size() > 4 ){
+
+			auto speed = a[ 0 ] + " " + a[ 1 ] + " " + a[ 2 ] ;
+
+			auto perc = a[ 3 ] ;
+
+			auto ee = perc ;
+			ee.replace( "%","" ) ;
+
+			auto percentage = ee.toDouble() / 100 ;
+
+			auto totalSize = luxHeader.fileSizeInt() ;
+
+			auto sizeString = locale.formattedDataSize( totalSize * percentage ) ;
+
+			m_tmp = pgr.arg( sizeString,luxHeader.fileSize(),perc,speed,a[ 4 ] ).toUtf8() ;
+
+			return { m_tmp,m_engine,_meetLocalCondition } ;
+
+		}else if( a.size() == 4 ){
+
+			QString s = "?" ;
+
+			m_tmp = pgr.arg( s,s,s,s,s ).toUtf8() ;
+
+			return { m_tmp,m_engine,_meetLocalCondition } ;
+		}else{
+			return { e,m_engine,_meetLocalCondition } ;
+		}
+	}
+	bool meetCondition( const Logger::locale& locale,
+			    Logger::Data& outPut,
+			    const QByteArray& e ) const override
+	{
+		outPut.luxHeaderUpdateData( e ) ;
+
+		const auto& luxHeader = outPut.luxHeader() ;
+
+		if( luxHeader.invalid() && luxHeader.allData().contains( "..." ) ){
+
+			this->setHeader( locale,outPut ) ;
+		}
+
+		return _meetCondition( m_engine,e ) ;
+	}
+	const engines::engine& engine() const override
+	{
+		return m_engine ;
+	}
+	void setHeader( const Logger::locale& locale,Logger::Data& outPut ) const
+	{
+		QByteArray webSite ;
+		QByteArray title ;
+		QByteArray fsizeS ;
+		qint64 fsize = 0 ;
+
+		for( const auto& it : outPut.toStringList() ){
+
+			const QByteArray& e = it ;
+
+			if( e.contains( "Site: " ) ){
+
+				auto m = util::split( e,' ' ) ;
+				m.removeAt( 0 ) ;
+
+				webSite = m.join( ' ' ) ;
+
+			}else if( e.contains( "Title: " ) ){
+
+				auto m = util::split( e,' ' ) ;
+				m.removeAt( 0 ) ;
+
+				title = m.join( ' ' ) ;
+
+			}else if( e.contains( "Size: " ) ){
+
+				auto mm = util::split( e,' ' ) ;
+
+				if( mm.size() > 1 ){
+
+					auto ss = mm[ mm.size() - 2 ].mid( 1 ) ;
+
+					fsize = ss.toLongLong() ;
+					fsizeS = locale.formattedDataSize( fsize ).toUtf8() ;
+				}
+			}
+		}
+
+		outPut.setLuxHeader( { webSite,title,fsizeS,fsize } ) ;
+	}
+private:
+	const engines::engine& m_engine ;
+	mutable QByteArray m_tmp ;
+} ;
+
+engines::engine::functions::FilterOutPut lux::filterOutput()
+{
+	const engines::engine& engine = engines::engine::functions::engine() ;
+
+	return { util::types::type_identity< luxFilter >(),engine } ;
+}
+
 QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 					  const QString& bkText,
 					  const QString& dopts,
@@ -345,96 +390,21 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 lux::lux_dlFilter::lux_dlFilter( const engines::engine& engine,int id,QByteArray df ) :
 	engines::engine::functions::filter( engine,id ),
 	m_banner( ".. " + QObject::tr( "This May Take A Very Long Time" ).toUtf8() + " .." ),
-	m_processId( id ),
 	m_downloadFolder( std::move( df ) )
 {
 }
 
 const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
-{
-	const auto& eee = e.LuxHeader( m_processId ) ;
+{	
+	const auto& luxHeader = e.luxHeader() ;
 
-	if( !eee.has_value() ){
+	if( e.doneDownloading() ){
 
-		//Should not get here
-		return e.lastText() ;
-	}
+		const auto& allData = luxHeader.allData() ;
 
-	const auto& s = e.lastText() ;
+		if( allData.contains( ": file already exists, skipping" ) ){
 
-	if( s.startsWith( "[media-downloader] cmd: " ) ){
-
-		m_cmd = s ;
-
-		return m_banner ;
-	}
-
-	const auto& luksHeader = eee.value() ;
-	const auto& allData = e.allData( m_processId ) ;
-
-	if( luksHeader.data.isEmpty() ){
-
-		if( allData.has_value() ){
-
-			const auto& e = allData.value() ;
-
-			if( e.contains( "invalid URI for request" ) ){
-
-				m_tmp = "invalid URI for request" ;
-				return m_tmp ;
-
-			}else if( e.contains( "connect: cannot assign requested address" ) ){
-
-				m_tmp = "connect: cannot assign requested address" ;
-				return m_tmp ;
-
-			}else if( e.contains( "no stream named " ) ){
-
-				m_tmp = "no stream named " ;
-				return m_tmp ;
-			}
-		}
-
-		m_tmp1 = m_banner + "\n" + s ;
-
-		return m_tmp1 ;
-	}
-
-	auto ss = s.indexOf( luksHeader.timeLeft ) ;
-
-	if( ss != -1 ){
-
-		m_tmp1 = luksHeader.title + "\n" + s.mid( ss ) ;
-
-		return m_tmp1 ;
-	}
-
-	if( s.startsWith( "[media-downloader]" ) ){
-
-		if( utility::stringConstants::doneDownloadingText( s ) ){
-
-			return this->renameTitle( luksHeader.title ) ;
-		}else{
-			return m_progress.text() ;
-		}
-
-	}else if( s.startsWith( "Elapsed" ) ){
-
-		return m_progress.text() ;
-	}
-
-	if( !allData.has_value() ){
-
-		//Should not get here
-
-		return luksHeader.title ;
-	}
-
-	for( const auto& it : util::split( allData.value(),'\n' ) ){
-
-		if( it.contains( ": file already exists, skipping" ) ){
-
-			const auto s = util::split( it,'\n' ) ;
+			const auto s = util::split( allData,'\n' ) ;
 
 			for( const auto& ss : s ){
 
@@ -447,26 +417,101 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 					return m_tmp ;
 				}
 			}
-		}else if( it.contains( "status: ERROR, reason:" ) ){
 
-			m_tmp = it ;
+		}else if( allData.contains( "status: ERROR, reason:" ) ){
+
+			auto m = allData.indexOf( "status: ERROR, reason:" ) ;
+
+			m_tmp = allData.mid( m + 22 ) ;
 
 			return m_tmp ;
+
+		}else if( allData.contains( "invalid URI for request" ) ){
+
+			m_tmp = "invalid URI for request" ;
+			return m_tmp ;
+
+		}else if( allData.contains( "connect: cannot assign requested address" ) ){
+
+			m_tmp = "connect: cannot assign requested address" ;
+			return m_tmp ;
+
+		}else if( allData.contains( "no stream named " ) ){
+
+			m_tmp = "no stream named " ;
+			return m_tmp ;
 		}else{
-			auto m = it.indexOf( "Merging video parts into " ) ;
+			auto m = allData.indexOf( "Merging video parts into " ) ;
 
 			if( m != -1 ){
 
-				m_fileName = it.mid( m + 25 ) ;
+				m_fileName = allData.mid( m + 25 ) ;
+
+				m = m_fileName.indexOf( "[media-downloader]" ) ;
+
+				if( m != -1 ){
+
+					m_fileName = m_fileName.mid( 0,m ) ;
+				}
 
 				return m_fileName ;
 			}
 		}
+
+		if( m_fileName.isEmpty() ){
+
+			if( luxHeader.title().isEmpty() ){
+
+				//???
+				m_tmp.clear() ;
+
+				return m_tmp ;
+			}else{
+				const auto& m = luxHeader.title() ;
+
+				if( QFile::exists( m_downloadFolder + m + ".webm" ) ){
+
+					m_fileName = m + ".webm" ;
+
+					return m_fileName ;
+
+				}else if( QFile::exists( m_downloadFolder + m + ".mp4" ) ){
+
+					m_fileName = m + ".mp4" ;
+
+					return m_fileName ;
+				}else{
+					return m ;
+				}
+			}
+		}else{
+			return m_fileName ;
+		}
 	}
 
-	m_tmp = luksHeader.title + "\n" + m_progress.text() ;
+	if( luxHeader.title().isEmpty() ){
 
-	return m_tmp ;
+		const auto& s = e.lastText() ;
+
+		if( s.startsWith( "Elapsed Time:" ) ){
+
+			m_tmp = m_banner + "\n" + s ;
+
+			return m_tmp ;
+		}else{
+			return m_banner ;
+		}
+
+	}else if( e.lastLineIsProgressLine() ){
+
+		m_tmp = luxHeader.title() + "\n" + e.lastText() ;
+
+		return m_tmp ;
+	}else{
+		m_tmp = luxHeader.title() + "\n" + m_progress.text() ;
+
+		return m_tmp ;
+	}
 }
 
 lux::lux_dlFilter::~lux_dlFilter()

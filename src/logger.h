@@ -58,14 +58,6 @@ public:
 		class processOutput
 		{
 		public:
-			struct luxHeader
-			{
-				QByteArray data ;
-				QByteArray timeLeft ;
-				QByteArray title ;
-				QByteArray fileSizeString ;
-				qint64 fileSizeInt = 0 ;
-			};
 			class outputEntry
 			{
 			public:
@@ -134,30 +126,10 @@ public:
 			{
 				return m_processFinished ;
 			}
-			const QByteArray& allData( const QByteArray& e )
-			{
-				m_allData += e ;
-
-				return m_allData ;
-			}
-			const QByteArray& allData() const
-			{
-				return m_allData ;
-			}
-			Logger::Data::processOutput::luxHeader& LuxHeader()
-			{
-				return m_luxHeader ;
-			}
-			const Logger::Data::processOutput::luxHeader& LuxHeader() const
-			{
-				return m_luxHeader ;
-			}
 		private:
 			bool m_processFinished = false ;
 			bool m_doneDownloading = false ;
 			int m_processId ;
-			QByteArray m_allData ;
-			Logger::Data::processOutput::luxHeader m_luxHeader ;
 			std::vector< Logger::Data::processOutput::outputEntry > m_data ;
 		};
 	public:
@@ -398,30 +370,6 @@ public:
 
 			return {} ;
 		}
-		util::result_ref< Logger::Data::processOutput::luxHeader& > LuxHeader( int id )
-		{
-			for( auto& it : m_processOutputs ){
-
-				if( it.processId() == id ){
-
-					return it.LuxHeader() ;
-				}
-			}
-
-			return {} ;
-		}
-		util::result_ref< const Logger::Data::processOutput::luxHeader& > LuxHeader( int id ) const
-		{
-			for( const auto& it : m_processOutputs ){
-
-				if( it.processId() == id ){
-
-					return it.LuxHeader() ;
-				}
-			}
-
-			return {} ;
-		}
 		bool doneDownloading( int id ) const
 		{
 			for( const auto& it : m_processOutputs ){
@@ -437,18 +385,6 @@ public:
 		bool doneDownloading() const
 		{
 			return m_processOutputs.rbegin()->doneDownloading() ;
-		}
-		util::result_ref< const QByteArray& > allData( int id ) const
-		{
-			for( const auto& it : m_processOutputs ){
-
-				if( it.processId() == id ){
-
-					return it.allData() ;
-				}
-			}
-
-			return {} ;
 		}
 		template< typename Function >
 		void replaceOrAdd( const QByteArray& text,int id,const Function& function )
@@ -488,49 +424,79 @@ public:
 		{
 			m_svtplaySize += s ;
 		}
-		struct luxResult
+		struct LuxHeader
 		{
-			enum class ac{ replace,add,nothing } ;
-			ac action ;
-			QByteArray data ;
-		};
-		template< typename Function >
-		void luxHack( int id,const QByteArray& data,Logger::Data& outPut,const Function& function )
-		{
-			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
-
-				if( it->processId() == id ){
-
-					if( this->doneDownloadingText( data ) ){
-
-						it->setDoneDownloading() ;
-					}
-
-					auto& ee = it->entries() ;
-
-					auto iter = ee.rbegin() ;
-
-					auto r = function( id,outPut,it->allData( data ),data ) ;
-
-					if( r.action == Logger::Data::luxResult::ac::nothing ){
-
-					}else if( r.action == Logger::Data::luxResult::ac::replace ){
-
-						if( ee.size() == 1 ){
-
-							ee.emplace_back( r.data ) ;
-						}else{
-							iter->replace( r.data ) ;
-						}
-					}else{
-						ee.emplace_back( r.data ) ;
-					}
-
-					return ;
-				}
+			LuxHeader()
+			{
 			}
-
-			m_processOutputs.emplace_back( id,data ) ;
+			LuxHeader( QByteArray w,QByteArray t,QByteArray ss,qint64 s ) :
+				m_webSite( std::move( w ) ),
+				m_title( std::move( t ) ),
+				m_fileSizeString( std::move( ss ) ),
+				m_fileSizeInt( s )
+			{
+			}
+			LuxHeader move()
+			{
+				return std::move( *this ) ;
+			}
+			bool invalid() const
+			{
+				return m_title.isEmpty() ;
+			}
+			const QByteArray& webSite() const
+			{
+				return m_webSite ;
+			}
+			const QByteArray& title() const
+			{
+				return m_title ;
+			}
+			const QByteArray& fileSize() const
+			{
+				return m_fileSizeString ;
+			}
+			qint64 fileSizeInt() const
+			{
+				return m_fileSizeInt ;
+			}
+			const QByteArray& allData() const
+			{
+				return m_allData ;
+			}
+			void addData( const QByteArray& e )
+			{
+				m_allData += e ;
+			}
+			const QByteArray& fileSize()
+			{
+				return m_fileSizeString ;
+			}
+			qint64 fileSizeInt()
+			{
+				return m_fileSizeInt ;
+			}
+			QByteArray m_webSite ;
+			QByteArray m_title ;
+			QByteArray m_fileSizeString ;
+			QByteArray m_allData ;
+			qint64 m_fileSizeInt = 0 ;
+		};
+		void setLuxHeader( LuxHeader h )
+		{
+			m_luxHeader = h.move() ;
+		}
+		void luxHeaderUpdateData( const QByteArray& e )
+		{
+			m_luxHeader.addData( e ) ;
+		}
+		const LuxHeader& luxHeader() const
+		{
+			return m_luxHeader ;
+		}
+		const LuxHeader& luxHeader()
+		{
+			return m_luxHeader ;
 		}
 	private:
 		bool doneDownloadingText( const QByteArray& data ) ;
@@ -575,6 +541,7 @@ public:
 		QByteArray m_filePath ;
 		double m_ffmpegDuration = 0 ;
 		qint64 m_svtplaySize = 0 ;
+		LuxHeader m_luxHeader ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;

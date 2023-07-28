@@ -634,7 +634,7 @@ public:
 
 		return { m_tmp,m_engine,_meetCondition } ;
 	}
-	bool meetCondition( const QByteArray& e ) const override
+	bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
 	{
 		if( _meetCondition( e ) ){
 

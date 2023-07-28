@@ -1145,7 +1145,7 @@ public:
 	{
 		return { e,m_engine,engines::engine::functions::meetCondition } ;
 	}
-	bool meetCondition( const QByteArray& e ) const override
+	bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
 	{
 		return engines::engine::functions::meetCondition( m_engine,e ) ;
 	}
@@ -1317,11 +1317,6 @@ QStringList engines::engine::functions::horizontalHeaderLabels() const
 
 void engines::engine::functions::updateEnginePaths( const Context&,QString&,QString&,QString& )
 {
-}
-
-bool engines::engine::functions::parseOutput( Logger::Data&,const QByteArray&,int,bool )
-{
-	return true ;
 }
 
 bool engines::engine::functions::likeYtdlp()
@@ -1547,7 +1542,7 @@ private:
 
 			if( !this->skipLine( e ) ){
 
-				if( m_filterOutPut.meetCondition( e ) ){
+				if( m_filterOutPut.meetCondition( m_locale,m_outPut,e ) ){
 
 					this->logProgress( e ) ;
 				}else{
@@ -1588,23 +1583,20 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 					      int id,
 					      bool readableJson )
 {
-	if( m_engine.parseOutput( outPut,data,id,readableJson ) ){
+	const auto& txt = m_engine.removeText() ;
 
-		const auto& txt = m_engine.removeText() ;
+	if( txt.isEmpty() ){
 
-		if( txt.isEmpty() ){
+		updateLogger( data,m_engine,outPut,id,readableJson ) ;
+	}else{
+		auto dd = data ;
 
-			updateLogger( data,m_engine,outPut,id,readableJson ) ;
-		}else{
-			auto dd = data ;
+		for( const auto& it : txt ){
 
-			for( const auto& it : txt ){
-
-				dd.replace( it.toUtf8(),"" ) ;
-			}
-
-			updateLogger( dd,m_engine,outPut,id,readableJson ) ;
+			dd.replace( it.toUtf8(),"" ) ;
 		}
+
+		updateLogger( dd,m_engine,outPut,id,readableJson ) ;
 	}
 }
 

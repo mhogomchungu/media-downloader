@@ -25,6 +25,8 @@
 class lux : public engines::engine::functions
 {
 public:
+	static const char * testData() ;
+
 	~lux() override ;
 	lux( const engines&,const engines::engine&,QJsonObject&,const QString& downloadFolder ) ;
 
@@ -44,7 +46,6 @@ public:
 		QByteArray m_tmp1 ;
 		QByteArray m_tmp ;
 		engines::engine::functions::preProcessing m_progress ;
-		int m_processId ;
 		QByteArray m_downloadFolder ;
 	} ;
 
@@ -54,13 +55,13 @@ public:
 
 	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& ) override ;
 
-	bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) override ;
-
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
 	bool foundNetworkUrl( const QString& s ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
+
+	engines::engine::functions::FilterOutPut filterOutput() override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
@@ -69,15 +70,4 @@ public:
 private:
 	const engines::engine& m_engine ;
 	QString m_downloadFolder ;
-
-	class parseOutput
-	{
-	public:
-		Logger::Data::luxResult operator()( int id,
-						    Logger::Data& outPut,
-						    const QByteArray& allData,
-						    const QByteArray& lastData ) const ;
-	private:
-		Logger::locale m_locale ;
-	} m_parseOutput ;
 };

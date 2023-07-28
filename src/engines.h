@@ -449,7 +449,7 @@ public:
 					filterOutPut::meetCondition m_meetCondition ;
 				} ;
 				virtual result formatOutput( const Logger::locale&,Logger::Data&,const QByteArray& ) const = 0 ;
-				virtual bool meetCondition( const QByteArray& ) const = 0 ;
+				virtual bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& ) const = 0 ;
 				virtual const engines::engine& engine() const = 0 ;
 				virtual ~filterOutPut() ;
 			} ;
@@ -469,9 +469,9 @@ public:
 				{
 					return m_filterOutPut->formatOutput( l,d,e ) ;
 				}
-				bool meetCondition( const QByteArray& e ) const
+				bool meetCondition( const Logger::locale& l,Logger::Data& d,const QByteArray& e ) const
 				{
-					return m_filterOutPut->meetCondition( e ) ;
+					return m_filterOutPut->meetCondition( l,d,e ) ;
 				}
 			private:
 				std::unique_ptr< engines::engine::functions::filterOutPut > m_filterOutPut ;
@@ -550,8 +550,6 @@ public:
 			virtual QStringList horizontalHeaderLabels() const ;
 
 			virtual void updateEnginePaths( const Context&,QString& filePath,QString& exeBinPath,QString& exeFolderPath ) ;
-
-			virtual bool parseOutput( Logger::Data&,const QByteArray&,int,bool ) ;
 
 			virtual bool likeYtdlp() ;
 
@@ -833,10 +831,6 @@ public:
 		engines::engine::functions::FilterOutPut filterOutput() const
 		{
 			return m_functions->filterOutput() ;
-		}
-		bool parseOutput( Logger::Data& e,const QByteArray& s,int id,bool m ) const
-		{
-			return m_functions->parseOutput( e,s,id,m ) ;
 		}
 		bool foundNetworkUrl( const QString& s ) const
 		{

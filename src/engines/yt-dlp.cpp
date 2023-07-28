@@ -600,7 +600,7 @@ public:
 			return { e,m_engine,m_function } ;
 		}
 	}
-	bool meetCondition( const QByteArray& e ) const override
+	bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
 	{
 		if( _yt_dlp( m_engine,e ) ){
 

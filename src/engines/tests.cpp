@@ -25,6 +25,7 @@
 #include "safaribooks.h"
 #include "gallery-dl.h"
 #include "svtplay-dl.h"
+#include "lux.h"
 
 #include "../util.hpp"
 #include <iostream>
@@ -87,6 +88,10 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 					}else if( it == "--media-downloader-test-engine-svtplay-dl" ){
 
 						return this->testEngine( svtplay_dl::testData() ) ;
+
+					}else if( it == "--media-downloader-test-engine-lux" ){
+
+						return this->testEngine( lux::testData() ) ;
 					}
 				}
 

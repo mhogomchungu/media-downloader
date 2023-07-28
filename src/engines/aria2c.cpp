@@ -166,7 +166,7 @@ public:
 	{
 		return { e,m_engine,aria2c::meetCondition } ;
 	}
-	bool meetCondition( const QByteArray& e ) const override
+	bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
 	{
 		return aria2c::meetCondition( m_engine,e ) ;
 	}
