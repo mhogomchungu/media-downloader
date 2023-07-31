@@ -397,35 +397,83 @@ public:
 
 			_replaceOrAdd( text,id,_false ) ;
 		}
-		const QByteArray& filePath() const
+		class YtDlpData
 		{
-			return m_filePath ;
-		}
-		void setFilePath( const QString& m )
-		{
-			if( !m.isEmpty() && m != m_filePath ){
-
-				m_filePath = m.toUtf8() ;
+		public:
+			const QByteArray& filePath() const
+			{
+				return m_filePath ;
 			}
-		}
-		double ffmpegDuration() const
+			void setFilePath( const QString& m )
+			{
+				if( !m.isEmpty() && m != m_filePath ){
+
+					m_filePath = m.toUtf8() ;
+				}
+			}
+			double ffmpegDuration() const
+			{
+				return m_ffmpegDuration ;
+			}
+			void setFfmpegDuration( double s )
+			{
+				m_ffmpegDuration = s ;
+			}
+		private:
+			QByteArray m_filePath ;
+			double m_ffmpegDuration = 0 ;
+		};
+
+		YtDlpData& ytDlpData()
 		{
-			return m_ffmpegDuration ;
+			return m_ytDlpData ;
 		}
-		void setFfmpegDuration( double s )
+		const YtDlpData& ytDlpData() const
 		{
-			m_ffmpegDuration = s ;
+			return m_ytDlpData ;
 		}
-		qint64 svtPlaySize() const
+		class SvtData
 		{
-			return m_svtplaySize ;
+		public:
+			SvtData()
+			{
+			}
+			qint64 size() const
+			{
+				return m_size ;
+			}
+			void size( qint64 s )
+			{
+				m_size += s ;
+			}
+			const QByteArray& fileName() const
+			{
+				return m_fileName ;
+			}
+			void setFileName( const QString& m )
+			{
+				if( !m.isEmpty() && m != m_fileName ){
+
+					m_fileName = m.toUtf8() ;
+				}
+			}
+		private:
+			qint64 m_size = 0 ;
+			QByteArray m_fileName ;
+		};
+
+		SvtData& svtData()
+		{
+			return m_svtData ;
 		}
-		void addSvtPlaySize( qint64 s )
+		const SvtData& svtData() const
 		{
-			m_svtplaySize += s ;
+			return m_svtData ;
 		}
-		struct LuxHeader
+
+		class LuxHeader
 		{
+		public:
 			LuxHeader()
 			{
 			}
@@ -476,6 +524,7 @@ public:
 			{
 				return m_fileSizeInt ;
 			}
+		private:
 			QByteArray m_webSite ;
 			QByteArray m_title ;
 			QByteArray m_fileSizeString ;
@@ -538,10 +587,9 @@ public:
 		}
 		std::list< Logger::Data::processOutput > m_processOutputs ;
 		bool m_mainLogger ;
-		QByteArray m_filePath ;
-		double m_ffmpegDuration = 0 ;
-		qint64 m_svtplaySize = 0 ;
+		YtDlpData m_ytDlpData ;
 		LuxHeader m_luxHeader ;
+		SvtData m_svtData ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;

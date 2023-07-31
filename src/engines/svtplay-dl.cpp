@@ -527,9 +527,13 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const Logger::locale& l,Logger::Data& d,const QByteArray& m ) const override
+	formatOutput( const filterOutPut::args& args ) const override
 	{
-		if( d.filePath().isEmpty() ){
+		const auto& l = args.locale ;
+		auto& d = args.data ;
+		const auto& m = args.outPut ;
+
+		if( d.svtData().fileName().isEmpty() ){
 
 			for( const auto& e : d.toStringList() ){
 
@@ -537,7 +541,7 @@ public:
 
 				if( s.startsWith( "Outfile: " ) ){
 
-					d.setFilePath( s.mid( 9 ) ) ;
+					d.svtData().setFileName( s.mid( 9 ) ) ;
 				}
 			}
 		}
@@ -552,7 +556,7 @@ public:
 
 					auto mm = m.mid( q + 1 ) ;
 
-					d.addSvtPlaySize( mm.toLongLong() ) ;
+					d.svtData().size( mm.toLongLong() ) ;
 				}
 			}
 
@@ -612,7 +616,7 @@ public:
 
 		auto dd = util::split( c.mid( cc + 1 ),'/' ) ;
 
-		auto ll = l.formattedDataSize( d.svtPlaySize() ) ;
+		auto ll = l.formattedDataSize( d.svtData().size() ) ;
 
 		if( dd.size() == 2 ){
 
@@ -634,8 +638,10 @@ public:
 
 		return { m_tmp,m_engine,_meetCondition } ;
 	}
-	bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
+	bool meetCondition( const filterOutPut::args& args ) const override
 	{
+		const auto& e = args.outPut ;
+
 		if( _meetCondition( e ) ){
 
 			return true ;
@@ -711,11 +717,13 @@ const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& 
 
 	}else if( s.lastLineIsProgressLine() ){
 
-		if( s.filePath().isEmpty() ){
+		const auto& fileName = s.svtData().fileName() ;
+
+		if( fileName.isEmpty() ){
 
 			return s.lastText() ;
 		}else{
-			m_tmp = s.filePath() + "\n" + s.lastText() ;
+			m_tmp = fileName + "\n" + s.lastText() ;
 
 			return m_tmp ;
 		}

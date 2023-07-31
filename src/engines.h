@@ -399,6 +399,12 @@ public:
 			class filterOutPut
 			{
 			public:
+				struct args
+				{
+					const Logger::locale& locale ;
+					Logger::Data& data ;
+					const QByteArray& outPut ;
+				} ;
 				class meetCondition
 				{
 				public:
@@ -418,13 +424,6 @@ public:
 				class result
 				{
 				public:
-					result( const QString& f,
-						const QByteArray& p,
-						const engines::engine& e,
-						bool( *m )( const engines::engine&,const QByteArray& ) ) :
-						m_fileName( f ),m_progress( p ),m_meetCondition( m,e )
-						{
-						}
 					result( const QByteArray& p,
 						const engines::engine& e,
 						bool( *m )( const engines::engine&,const QByteArray& ) ) :
@@ -435,21 +434,16 @@ public:
 					{
 						return m_progress ;
 					}
-					const QString& fileName()
-					{
-						return m_fileName ;
-					}
 					const filterOutPut::meetCondition& meetCondition()
 					{
 						return m_meetCondition ;
 					}
 				private:
-					QString m_fileName ;
 					const QByteArray& m_progress ;
 					filterOutPut::meetCondition m_meetCondition ;
 				} ;
-				virtual result formatOutput( const Logger::locale&,Logger::Data&,const QByteArray& ) const = 0 ;
-				virtual bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& ) const = 0 ;
+				virtual result formatOutput( const filterOutPut::args& ) const = 0 ;
+				virtual bool meetCondition( const filterOutPut::args& ) const = 0 ;
 				virtual const engines::engine& engine() const = 0 ;
 				virtual ~filterOutPut() ;
 			} ;
@@ -467,11 +461,11 @@ public:
 				engines::engine::functions::filterOutPut::result
 				formatOutput( const Logger::locale& l,Logger::Data& d,const QByteArray& e ) const
 				{
-					return m_filterOutPut->formatOutput( l,d,e ) ;
+					return m_filterOutPut->formatOutput( { l,d,e } ) ;
 				}
 				bool meetCondition( const Logger::locale& l,Logger::Data& d,const QByteArray& e ) const
 				{
-					return m_filterOutPut->meetCondition( l,d,e ) ;
+					return m_filterOutPut->meetCondition( { l,d,e } ) ;
 				}
 			private:
 				std::unique_ptr< engines::engine::functions::filterOutPut > m_filterOutPut ;

@@ -1141,13 +1141,13 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
+	formatOutput( const filterOutPut::args& args ) const override
 	{
-		return { e,m_engine,engines::engine::functions::meetCondition } ;
+		return { args.outPut,m_engine,engines::engine::functions::meetCondition } ;
 	}
-	bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
+	bool meetCondition( const filterOutPut::args& args ) const override
 	{
-		return engines::engine::functions::meetCondition( m_engine,e ) ;
+		return engines::engine::functions::meetCondition( m_engine,args.outPut ) ;
 	}
 	const engines::engine& engine() const override
 	{
@@ -1564,8 +1564,6 @@ private:
 				m_outPut.replaceOrAdd( m,m_id,result.meetCondition() ) ;
 			}
 		}else{
-			m_outPut.setFilePath( result.fileName() ) ;
-
 			const auto& m = result.progress() ;
 
 			m_outPut.replaceOrAdd( m,m_id,result.meetCondition() ) ;

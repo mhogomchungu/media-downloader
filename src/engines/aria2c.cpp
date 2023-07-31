@@ -162,13 +162,13 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
+	formatOutput( const filterOutPut::args& args ) const override
 	{
-		return { e,m_engine,aria2c::meetCondition } ;
+		return { args.outPut,m_engine,aria2c::meetCondition } ;
 	}
-	bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
+	bool meetCondition( const filterOutPut::args& args ) const override
 	{
-		return aria2c::meetCondition( m_engine,e ) ;
+		return aria2c::meetCondition( m_engine,args.outPut ) ;
 	}
 	const engines::engine& engine() const override
 	{

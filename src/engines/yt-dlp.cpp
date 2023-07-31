@@ -581,27 +581,27 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const Logger::locale& locale,Logger::Data& d,const QByteArray& e ) const override
+	formatOutput( const filterOutPut::args& args ) const override
 	{
 		if( m_function == _yt_dlp ){
 
-			auto m = this->outPutFormat( locale,e ) ;
+			m_tmp = this->outPutFormat( args ) ;
 
-			m_tmp = m.progress ;
-
-			return { m.fileName,m_tmp,m_engine,m_function } ;
+			return { m_tmp,m_engine,m_function } ;
 
 		}else if( m_function == _ffmpeg_internal ){
 
-			m_tmp = this->outPutFfmpeg( d,e ) ;
+			m_tmp = this->outPutFfmpeg( args ) ;
 
 			return { m_tmp,m_engine,m_function } ;
 		}else{
-			return { e,m_engine,m_function } ;
+			return { args.outPut,m_engine,m_function } ;
 		}
 	}
-	bool meetCondition( const Logger::locale&,Logger::Data&,const QByteArray& e ) const override
+	bool meetCondition( const filterOutPut::args& args ) const override
 	{
+		const auto& e = args.outPut ;
+
 		if( _yt_dlp( m_engine,e ) ){
 
 			if( m_engine.name() == "youtube-dl" ){
@@ -631,18 +631,19 @@ public:
 		return m_engine ;
 	}
 private:
-	struct pair
+	QByteArray outPutFormat( const filterOutPut::args& args ) const
 	{
-		QString fileName ;
-		QByteArray progress ;
-	};
-	pair outPutFormat( const Logger::locale& locale,const QByteArray& e ) const
-	{
+		const auto& e = args.outPut ;
+		const auto& locale = args.locale ;
+		auto& s = args.data ;
+
 		if( e.startsWith( "[postprocess]" ) ){
 
 			auto obj = QJsonDocument::fromJson( e.mid( 14 ) ).object() ;
 
-			return { obj.value( "filename" ).toString(),"" } ;
+			s.ytDlpData().setFilePath( obj.value( "filename" ).toString().toUtf8() ) ;
+
+			return {} ;
 		}
 
 		auto obj = QJsonDocument::fromJson( e.mid( 11 ) ).object() ;
@@ -712,7 +713,7 @@ private:
 			progress += ", ETA " + locale.secondsToString( eta.toInt() ) ;
 		}
 
-		return { "",progress.toUtf8() } ;
+		return progress.toUtf8() ;
 	}
 	double toSeconds( const QByteArray& s ) const
 	{
@@ -744,7 +745,7 @@ private:
 
 					auto mm = m[ a + 1 ].replace( ",","" ) ;
 
-					s.setFfmpegDuration( this->toSeconds( mm ) ) ;
+					s.ytDlpData().setFfmpegDuration( this->toSeconds( mm ) ) ;
 				}
 			}
 
@@ -781,9 +782,12 @@ private:
 
 		return "NA" ;
 	}
-	QByteArray outPutFfmpeg( Logger::Data& s,const QByteArray& data ) const
+	QByteArray outPutFfmpeg( const filterOutPut::args& args ) const
 	{
-		if( s.ffmpegDuration() == 0 ){
+		const auto& data = args.outPut ;
+		auto& s          = args.data ;
+
+		if( s.ytDlpData().ffmpegDuration() == 0 ){
 
 			s.forEach( [ & ]( int,const QByteArray& e ){
 
@@ -809,9 +813,9 @@ private:
 
 		QString completed = "NA" ;
 
-		if( s.ffmpegDuration() != 0 ){
+		if( s.ytDlpData().ffmpegDuration() != 0 ){
 
-			auto r = e * 100 / s.ffmpegDuration() ;
+			auto r = e * 100 / s.ytDlpData().ffmpegDuration() ;
 
 			completed = QString::number( r,'f',2 ) ;
 
@@ -1373,7 +1377,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 			if( m_fileName.isEmpty() ){
 
-				const auto& m = s.filePath() ;
+				const auto& m = s.ytDlpData().filePath() ;
 
 				if( !s.isEmpty() ){
 

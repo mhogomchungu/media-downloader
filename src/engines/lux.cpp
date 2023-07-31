@@ -231,8 +231,12 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const Logger::locale& locale,Logger::Data& outPut,const QByteArray& e ) const override
+	formatOutput( const filterOutPut::args& args ) const override
 	{
+		const auto& locale = args.locale ;
+		const auto& outPut = args.data ;
+		const auto& e      = args.outPut ;
+
 		const auto& luxHeader = outPut.luxHeader() ;
 
 		const auto& m = luxHeader.allData() ;
@@ -255,7 +259,7 @@ public:
 
 		if( a.size() > 4 ){
 
-			auto speed = a[ 0 ] + " " + a[ 1 ] + " " + a[ 2 ] ;
+			auto speed = a[ 0 ] + " " + a[ 1 ] + "/s" ;
 
 			auto perc = a[ 3 ] ;
 
@@ -283,17 +287,18 @@ public:
 			return { e,m_engine,_meetLocalCondition } ;
 		}
 	}
-	bool meetCondition( const Logger::locale& locale,
-			    Logger::Data& outPut,
-			    const QByteArray& e ) const override
+	bool meetCondition( const filterOutPut::args& args ) const override
 	{
+		const auto& e = args.outPut ;
+		auto& outPut  = args.data ;
+
 		outPut.luxHeaderUpdateData( e ) ;
 
-		const auto& luxHeader = outPut.luxHeader() ;
+		auto& luxHeader = outPut.luxHeader() ;
 
 		if( luxHeader.invalid() && luxHeader.allData().contains( "..." ) ){
 
-			this->setHeader( locale,outPut ) ;
+			this->setHeader( args ) ;
 		}
 
 		return _meetCondition( m_engine,e ) ;
@@ -302,8 +307,11 @@ public:
 	{
 		return m_engine ;
 	}
-	void setHeader( const Logger::locale& locale,Logger::Data& outPut ) const
+	void setHeader( const filterOutPut::args& args ) const
 	{
+		auto& outPut       = args.data ;
+		const auto& locale = args.locale ;
+
 		QByteArray webSite ;
 		QByteArray title ;
 		QByteArray fsizeS ;
