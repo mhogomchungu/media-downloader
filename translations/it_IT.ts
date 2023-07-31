@@ -305,7 +305,7 @@
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero massimo download simultanei</translation>
     </message>
 </context>
 <context>
