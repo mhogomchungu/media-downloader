@@ -257,6 +257,11 @@ void basicdownloader::listRequested( const QByteArray& a,int id )
 		}
 
 		m_tableList.setEnabled( true ) ;
+
+		if( m_tableList.rowCount() == 0 ){
+
+			m_tableList.setVisible( false ) ;
+		}
 	}
 }
 
@@ -381,9 +386,11 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 			this->listRequested( args,id ) ;
 
-		},[]( const basicdownloader::opts& opts ){
+		},[ this ]( const basicdownloader::opts& opts ){
 
 			opts.ctx.TabManager().disableAll() ;
+
+			m_ui.pbCancel->setEnabled( true ) ;
 
 		},[ this ]( utility::ProcessExitState m,const basicdownloader::opts& opts ){
 
@@ -414,7 +421,11 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 		if( list_requested ){
 
-			return utility::ProcessOutputChannels( QProcess::ProcessChannel::StandardOutput ) ;
+			auto m = QProcess::ProcessChannel::StandardOutput ;
+
+			engine.updateOutPutChannel( m ) ;
+
+			return utility::ProcessOutputChannels( m ) ;
 		}else{
 			return utility::ProcessOutputChannels() ;
 		}
