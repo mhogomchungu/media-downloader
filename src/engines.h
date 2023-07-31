@@ -511,6 +511,10 @@ public:
 
 					return obj ;
 				}
+				const QString& id() const
+				{
+					return m_id ;
+				}
 			private:
 				QStringList m_url ;
 				QString m_id ;

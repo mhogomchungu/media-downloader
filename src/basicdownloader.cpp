@@ -251,15 +251,17 @@ void basicdownloader::listRequested( const QByteArray& a,int id )
 
 		const auto& engine = m_ctx.Engines().defaultEngine( m,id ) ;
 
-		for( const auto& m : engine.mediaProperties( a ) ){
+		auto ee = engine.mediaProperties( a ) ;
 
-			m_tableList.add( m.toStringList(),m ) ;
-		}
+		if( ee.size() ){
 
-		m_tableList.setEnabled( true ) ;
+			for( const auto& m : ee ){
 
-		if( m_tableList.rowCount() == 0 ){
+				m_tableList.add( m.toStringList(),m ) ;
+			}
 
+			m_tableList.setEnabled( true ) ;
+		}else{
 			m_tableList.setVisible( false ) ;
 		}
 	}
@@ -324,6 +326,8 @@ void basicdownloader::download( const QString& url )
 	auto s = utility::setDownloadOptions( engine.engine,m_bogusTable,0 ).downloadOptions ;
 
 	auto mm = m_ui.lineEditOptions->text() ;
+
+	qDebug() << mm ;
 
 	m_settings.addOptionsHistory( mm,settings::tabName::basic ) ;
 

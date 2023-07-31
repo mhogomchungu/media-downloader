@@ -390,20 +390,45 @@ QStringList svtplay_dl::horizontalHeaderLabels() const
 	return m ;
 }
 
+static bool _add( std::vector< engines::engine::functions::mediaInfo >& s,const QString& e )
+{
+	for( const auto& m : s ){
+
+		if( m.id() == e ){
+
+			return false ;
+		}
+	}
+
+	return true ;
+}
+
 std::vector<engines::engine::functions::mediaInfo> svtplay_dl::mediaProperties( const QByteArray& e )
 {
 	auto mm = util::split( e,'\n',true ) ;
 
-	if( mm.size() <= 1 ){
+	while( true ){
 
-		return {} ;
+		if( mm.size() == 0 ){
+
+			return {} ;
+
+		}else if( mm[ 0 ].startsWith( "INFO: " ) ){
+
+			break ;
+		}else{
+			mm.removeAt( 0 ) ;
+		}
 	}
-
-	mm.removeAt( 0 ) ;
 
 	std::vector< engines::engine::functions::mediaInfo > s ;
 
 	for( const auto& it : mm ){
+
+		if( it.startsWith( "INFO: Quality:" ) ){
+
+			continue ;
+		}
 
 		auto a = util::split( it,' ',true ) ;
 
@@ -412,24 +437,33 @@ std::vector<engines::engine::functions::mediaInfo> svtplay_dl::mediaProperties( 
 		if( n > 4 ){
 
 			a.takeAt( 0 ) ;
-			auto format     = a.takeAt( 0 ) ;
-			auto method     = "Method: " + a.takeAt( 0 ) ;
-			auto codec      = a.takeAt( 0 ) ;
-			auto resolution = a.takeAt( 0 ) ;
-			auto notes      = method + "\n" + a.join( ", " ) ;
+			auto format = a.takeAt( 0 ) ;
 
-			s.emplace_back( format,codec,resolution,notes ) ;
+			if( _add( s,format ) ){
+
+				auto method     = "Method: " + a.takeAt( 0 ) ;
+				auto codec      = a.takeAt( 0 ) ;
+				auto resolution = a.takeAt( 0 ) ;
+				auto notes      = method + "\n" + a.join( ", " ) ;
+
+				s.emplace_back( format,codec,resolution,notes ) ;
+			}
 
 		}else if( n == 3 ){
 
 			a.takeAt( 0 ) ;
-			auto format     = a.takeAt( 0 ) ;
-			auto method     = "Method: " + a.takeAt( 0 ) ;
-			auto codec      = a.takeAt( 0 ) ;
-			auto resolution = "N/A" ;
-			auto notes = method ;
 
-			s.emplace_back( format,codec,resolution,notes ) ;
+			auto format = a.takeAt( 0 ) ;
+
+			if( _add( s,format ) ){
+
+				auto method     = "Method: " + a.takeAt( 0 ) ;
+				auto codec      = a.takeAt( 0 ) ;
+				auto resolution = "N/A" ;
+				auto notes      = method ;
+
+				s.emplace_back( format,codec,resolution,notes ) ;
+			}
 		}
 	}
 
