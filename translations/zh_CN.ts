@@ -41,9 +41,9 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="499"/>
         <location filename="../src/mainwindow.ui" line="785"/>
-        <location filename="../src/mainwindow.ui" line="1838"/>
-        <location filename="../src/mainwindow.ui" line="1888"/>
-        <location filename="../src/mainwindow.ui" line="2157"/>
+        <location filename="../src/mainwindow.ui" line="1825"/>
+        <location filename="../src/mainwindow.ui" line="1875"/>
+        <location filename="../src/mainwindow.ui" line="2144"/>
         <source>Options</source>
         <translation>画质选项</translation>
     </message>
@@ -52,7 +52,7 @@
         <location filename="../src/mainwindow.ui" line="538"/>
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
-        <location filename="../src/mainwindow.ui" line="2240"/>
+        <location filename="../src/mainwindow.ui" line="2227"/>
         <location filename="../src/mainwindow.cpp" line="74"/>
         <source>Quit</source>
         <translation>退出</translation>
@@ -241,43 +241,33 @@
         <translation>常规设置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1633"/>
-        <source>Maximum Cuncurrent Downloads</source>
-        <translation>当前最大下载量</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1652"/>
-        <source>Use System Executables If Available</source>
-        <translation>使用系统可执行文件(如果可用)</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1675"/>
+        <location filename="../src/mainwindow.ui" line="1662"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation>暗黑主题(需要重启)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1707"/>
+        <location filename="../src/mainwindow.ui" line="1694"/>
         <source>Show Tray Icon</source>
         <translation>显示托盘图标</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1720"/>
+        <location filename="../src/mainwindow.ui" line="1707"/>
         <source>Auto Save List Of Not Downloaded Media</source>
         <translation>自动保存未下载媒体列表</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1746"/>
+        <location filename="../src/mainwindow.ui" line="1733"/>
         <source>Check For Updates</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1793"/>
+        <location filename="../src/mainwindow.ui" line="1780"/>
         <source>Reset Option To Its Default</source>
         <translation>将选项重置为默认值</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1796"/>
-        <location filename="../src/mainwindow.ui" line="1980"/>
+        <location filename="../src/mainwindow.ui" line="1783"/>
+        <location filename="../src/mainwindow.ui" line="1967"/>
         <source>Set Defaults</source>
         <translation>设置为默认值</translation>
     </message>
@@ -287,7 +277,7 @@
         <translation>窗口缩放比例(需要重启)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1781"/>
+        <location filename="../src/mainwindow.ui" line="1768"/>
         <source>Preset Options</source>
         <translation>预设画质选项</translation>
     </message>
@@ -317,13 +307,13 @@
         <translation>移除插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2253"/>
+        <location filename="../src/mainwindow.ui" line="2240"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1939"/>
-        <location filename="../src/mainwindow.ui" line="2038"/>
+        <location filename="../src/mainwindow.ui" line="1926"/>
+        <location filename="../src/mainwindow.ui" line="2025"/>
         <source>Engine&apos;s Default Options</source>
         <translation>引擎默认选项</translation>
     </message>
@@ -341,22 +331,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1129"/>
         <location filename="../src/mainwindow.ui" line="1187"/>
-        <location filename="../src/mainwindow.ui" line="1833"/>
-        <location filename="../src/mainwindow.ui" line="1872"/>
+        <location filename="../src/mainwindow.ui" line="1820"/>
+        <location filename="../src/mainwindow.ui" line="1859"/>
         <source>Ui Name</source>
         <translation>分辨率名称</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1209"/>
-        <location filename="../src/mainwindow.ui" line="1907"/>
-        <location filename="../src/mainwindow.ui" line="2052"/>
-        <location filename="../src/mainwindow.ui" line="2196"/>
+        <location filename="../src/mainwindow.ui" line="1894"/>
+        <location filename="../src/mainwindow.ui" line="2039"/>
+        <location filename="../src/mainwindow.ui" line="2183"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1222"/>
-        <location filename="../src/mainwindow.ui" line="2100"/>
+        <location filename="../src/mainwindow.ui" line="2087"/>
         <source>Url</source>
         <translation>网址</translation>
     </message>
@@ -376,59 +366,64 @@
         <translation>在批量下载选项卡中显示元数据</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1769"/>
+        <location filename="../src/mainwindow.ui" line="1633"/>
+        <source>Maximum Concurrent Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1756"/>
         <source>Text Encoding</source>
         <translation>文本编码</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1828"/>
-        <location filename="../src/mainwindow.ui" line="1930"/>
+        <location filename="../src/mainwindow.ui" line="1815"/>
+        <location filename="../src/mainwindow.ui" line="1917"/>
         <source>Website</source>
         <translation>网站</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1961"/>
-        <location filename="../src/mainwindow.ui" line="2219"/>
+        <location filename="../src/mainwindow.ui" line="1948"/>
+        <location filename="../src/mainwindow.ui" line="2206"/>
         <source>Engine&apos;s Name</source>
         <translation>引擎名称</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1993"/>
+        <location filename="../src/mainwindow.ui" line="1980"/>
         <source>Path To Cookie FIle</source>
         <translation>Cookie文件路径</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2033"/>
+        <location filename="../src/mainwindow.ui" line="2020"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2075"/>
+        <location filename="../src/mainwindow.ui" line="2062"/>
         <source>Options To Add</source>
         <translation>添加选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2087"/>
+        <location filename="../src/mainwindow.ui" line="2074"/>
         <source>Url Manager</source>
         <translation>网址管理</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2105"/>
+        <location filename="../src/mainwindow.ui" line="2092"/>
         <source>Download Options</source>
         <translation>下载选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2119"/>
+        <location filename="../src/mainwindow.ui" line="2106"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>设置哪个引擎应该管理哪个网址</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2138"/>
+        <location filename="../src/mainwindow.ui" line="2125"/>
         <source>Url Filter</source>
         <translation>网址过滤</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2259"/>
+        <location filename="../src/mainwindow.ui" line="2246"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
@@ -441,13 +436,13 @@
         <translation>%1 预设选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="671"/>
+        <location filename="../src/utility.cpp" line="672"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation> 文件名带有&quot;.txt&quot;的扩展程序将仅保存网址</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="182"/>
-        <location filename="../src/utility.cpp" line="670"/>
+        <location filename="../src/utility.cpp" line="671"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>
@@ -495,8 +490,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="370"/>
-        <location filename="../src/utility.h" line="541"/>
-        <location filename="../src/utility.h" line="608"/>
+        <location filename="../src/utility.h" line="547"/>
+        <location filename="../src/utility.h" line="614"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
@@ -606,12 +601,12 @@
         <translation>荷兰语 (荷兰)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="138"/>
+        <location filename="../src/engines.cpp" line="128"/>
         <source>Running in portable mode</source>
         <translation>在便携模式下运行</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="139"/>
+        <location filename="../src/engines.cpp" line="129"/>
         <source>Download path: </source>
         <translation>下载文件路径: </translation>
     </message>
@@ -621,27 +616,27 @@
         <translation>错误,找不到后端的可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="222"/>
+        <location filename="../src/engines.cpp" line="212"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>引擎&quot;%1&quot; 至少需要Media Downloader版本&quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="121"/>
+        <location filename="../src/engines.cpp" line="111"/>
         <source>To Disable These Checks, Do The Following:-</source>
         <translation>要禁用这些检查,请执行以下操作:-</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="122"/>
+        <location filename="../src/engines.cpp" line="112"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
         <translation>1. 转到&quot;配置&quot;选项.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="123"/>
+        <location filename="../src/engines.cpp" line="113"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
         <translation>2. 转到&quot;常规选项&quot;子选项卡.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="124"/>
+        <location filename="../src/engines.cpp" line="114"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
         <translation>3. 取消选中&quot;启动时显示版本信息&quot;.</translation>
     </message>
@@ -657,73 +652,73 @@
     </message>
     <message>
         <location filename="../src/engines.cpp" line="610"/>
-        <location filename="../src/engines.cpp" line="872"/>
-        <location filename="../src/utility.cpp" line="543"/>
+        <location filename="../src/engines.cpp" line="899"/>
+        <location filename="../src/utility.cpp" line="544"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="857"/>
+        <location filename="../src/engines.cpp" line="884"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="971"/>
+        <location filename="../src/engines.cpp" line="1004"/>
         <source>Network Error Occured</source>
         <translation>发生网络错误</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="981"/>
+        <location filename="../src/engines.cpp" line="1014"/>
         <source>Url Is Not Supported</source>
         <translation>网址不受支持</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="991"/>
+        <location filename="../src/engines.cpp" line="1024"/>
         <source>Download cancelled</source>
         <translation>下载已取消</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1002"/>
+        <location filename="../src/engines.cpp" line="1035"/>
         <source>ErrorCode</source>
         <translation>错误代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1006"/>
+        <location filename="../src/engines.cpp" line="1039"/>
         <source>Download Failed, Engine crashed</source>
         <translation>下载失败,引擎崩溃</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1156"/>
+        <location filename="../src/engines.cpp" line="1310"/>
         <source>Format Code</source>
         <translation>格式代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1157"/>
+        <location filename="../src/engines.cpp" line="1311"/>
         <source>Extension</source>
         <translation>扩展</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1158"/>
+        <location filename="../src/engines.cpp" line="1312"/>
         <source>Resolution</source>
         <translation>分辨率</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1159"/>
+        <location filename="../src/engines.cpp" line="1313"/>
         <source>Note</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1411"/>
+        <location filename="../src/engines.cpp" line="1710"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1417"/>
+        <location filename="../src/engines.cpp" line="1716"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1562"/>
+        <location filename="../src/engines.cpp" line="1856"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
@@ -777,7 +772,7 @@
         <translation>未能找到&quot;tar&quot;可执行文件</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1001"/>
+        <location filename="../src/engines.cpp" line="1034"/>
         <location filename="../src/networkAccess.cpp" line="474"/>
         <location filename="../src/networkAccess.cpp" line="749"/>
         <source>Download Failed</source>
@@ -828,12 +823,12 @@
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1480"/>
+        <location filename="../src/engines.cpp" line="1774"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="995"/>
+        <location filename="../src/engines.cpp" line="1028"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -843,24 +838,24 @@
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1525"/>
+        <location filename="../src/engines.cpp" line="1819"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="574"/>
-        <location filename="../src/utility.h" line="582"/>
-        <location filename="../src/utility.h" line="587"/>
+        <location filename="../src/utility.h" line="580"/>
+        <location filename="../src/utility.h" line="588"/>
+        <location filename="../src/utility.h" line="593"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="579"/>
+        <location filename="../src/utility.h" line="585"/>
         <source>Force Download</source>
         <translation>强制下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="597"/>
+        <location filename="../src/utility.h" line="603"/>
         <source>Show Log Window</source>
         <translation>显示日志窗口</translation>
     </message>
@@ -925,30 +920,28 @@
         <translation>黑暗</translation>
     </message>
     <message>
-        <location filename="../src/engines/svtplay-dl.cpp" line="40"/>
+        <location filename="../src/engines/svtplay-dl.cpp" line="388"/>
         <source>Method</source>
         <translation>模式</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="131"/>
         <location filename="../src/engines/wget.cpp" line="306"/>
         <source>Time Left</source>
         <translation>剩余时间</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="325"/>
-        <location filename="../src/engines/lux.cpp" line="224"/>
         <location filename="../src/engines/wget.cpp" line="325"/>
         <source>Downloaded</source>
         <translation>已下载</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="404"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="416"/>
         <source>%1 Already Downloaded</source>
         <translation>%1 已下载</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="347"/>
+        <location filename="../src/engines/lux.cpp" line="400"/>
         <source>This May Take A Very Long Time</source>
         <translation>这可能需要很长时间</translation>
     </message>
@@ -1003,37 +996,37 @@
         <translation>找到的版本: %1 </translation>
     </message>
     <message>
-        <location filename="../src/engines/yt-dlp.cpp" line="926"/>
+        <location filename="../src/engines/yt-dlp.cpp" line="1188"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
         <translation>请更新&quot;%1&quot;至少到版本&quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="966"/>
+        <location filename="../src/engines.cpp" line="999"/>
         <source>Requested Format Is Not Available</source>
         <translation>请求的格式不可用</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="976"/>
+        <location filename="../src/engines.cpp" line="1009"/>
         <source>Invalid Url Entered</source>
         <translation>输入的网址无效</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1180"/>
+        <location filename="../src/configure.cpp" line="1163"/>
         <source>Best Available Audio Only</source>
         <translation>仅最佳可用音频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1184"/>
+        <location filename="../src/configure.cpp" line="1167"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation>最佳可用音频(MP3)</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1188"/>
+        <location filename="../src/configure.cpp" line="1171"/>
         <source>Best Available Audio Video</source>
         <translation>最佳可用音频视频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1192"/>
+        <location filename="../src/configure.cpp" line="1175"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation>视频分辨率为 %1 的最佳音频</translation>
     </message>
@@ -1141,23 +1134,23 @@
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="304"/>
+        <location filename="../src/configure.cpp" line="305"/>
         <source>Select A Cookie File</source>
         <translation>选择Cookie文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="334"/>
+        <location filename="../src/configure.cpp" line="335"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="408"/>
-        <location filename="../src/configure.cpp" line="612"/>
+        <location filename="../src/configure.cpp" line="409"/>
+        <location filename="../src/configure.cpp" line="604"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="505"/>
+        <location filename="../src/configure.cpp" line="506"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
@@ -1249,12 +1242,12 @@
         <translation>管理订阅</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1086"/>
+        <location filename="../src/playlistdownloader.cpp" line="1087"/>
         <source>Number of Pages Downloaded</source>
         <translation>下载页数</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1103"/>
+        <location filename="../src/playlistdownloader.cpp" line="1104"/>
         <source>Downloading video info</source>
         <translation>下载视频信息</translation>
     </message>

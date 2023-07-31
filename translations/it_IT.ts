@@ -108,10 +108,6 @@
         <translation>Ottieni opzioni elenco:</translation>
     </message>
     <message>
-        <source>Maximum Cuncurrent Downloads</source>
-        <translation>N. max download contemporanei</translation>
-    </message>
-    <message>
         <source>Resolution</source>
         <translation>Risoluzione</translation>
     </message>
@@ -130,10 +126,6 @@
     <message>
         <source>Select Language</source>
         <translation>Seleziona lingua</translation>
-    </message>
-    <message>
-        <source>Use System Executables If Available</source>
-        <translation>Usa eseguibile sistema se disponibile</translation>
     </message>
     <message>
         <source>Format Code</source>
@@ -310,6 +302,10 @@
     <message>
         <source>Show MetaData In Batch Downloader Tab</source>
         <translation>Visualizza metadati nella scheda Batch Downloader</translation>
+    </message>
+    <message>
+        <source>Maximum Concurrent Downloads</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

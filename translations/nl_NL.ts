@@ -248,14 +248,6 @@
         <translation>Schaalfactor (herstart nodig)</translation>
     </message>
     <message>
-        <source>Maximum Cuncurrent Downloads</source>
-        <translation>Maximale gelijktijdige downloads</translation>
-    </message>
-    <message>
-        <source>Use System Executables If Available</source>
-        <translation>Gebruik uitvoerbare systeembestanden indien beschikbaar</translation>
-    </message>
-    <message>
         <source>Show Tray Icon</source>
         <translation>Toon systeemvakpictogram</translation>
     </message>
@@ -309,6 +301,10 @@
     </message>
     <message>
         <source>Show MetaData In Batch Downloader Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum Concurrent Downloads</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
