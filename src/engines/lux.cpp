@@ -231,7 +231,7 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const filterOutPut::args& args ) const override
+	formatOutput( const engines::engine::functions::filterOutPut::args& args ) const override
 	{
 		const auto& locale = args.locale ;
 		const auto& outPut = args.data ;
@@ -287,7 +287,7 @@ public:
 			return { e,m_engine,_meetLocalCondition } ;
 		}
 	}
-	bool meetCondition( const filterOutPut::args& args ) const override
+	bool meetCondition( const engines::engine::functions::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 		auto& outPut  = args.data ;
@@ -307,7 +307,7 @@ public:
 	{
 		return m_engine ;
 	}
-	void setHeader( const filterOutPut::args& args ) const
+	void setHeader( const engines::engine::functions::filterOutPut::args& args ) const
 	{
 		auto& outPut       = args.data ;
 		const auto& locale = args.locale ;

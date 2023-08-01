@@ -581,7 +581,7 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const filterOutPut::args& args ) const override
+	formatOutput( const engines::engine::functions::filterOutPut::args& args ) const override
 	{
 		if( m_function == _yt_dlp ){
 
@@ -598,7 +598,7 @@ public:
 			return { args.outPut,m_engine,m_function } ;
 		}
 	}
-	bool meetCondition( const filterOutPut::args& args ) const override
+	bool meetCondition( const engines::engine::functions::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 
@@ -631,7 +631,7 @@ public:
 		return m_engine ;
 	}
 private:
-	QByteArray outPutFormat( const filterOutPut::args& args ) const
+	QByteArray outPutFormat( const engines::engine::functions::filterOutPut::args& args ) const
 	{
 		const auto& e = args.outPut ;
 		const auto& locale = args.locale ;

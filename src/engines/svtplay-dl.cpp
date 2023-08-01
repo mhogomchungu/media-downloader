@@ -561,7 +561,7 @@ public:
 	{
 	}
 	engines::engine::functions::filterOutPut::result
-	formatOutput( const filterOutPut::args& args ) const override
+	formatOutput( const engines::engine::functions::filterOutPut::args& args ) const override
 	{
 		const auto& l = args.locale ;
 		auto& d = args.data ;
@@ -672,7 +672,7 @@ public:
 
 		return { m_tmp,m_engine,_meetCondition } ;
 	}
-	bool meetCondition( const filterOutPut::args& args ) const override
+	bool meetCondition( const engines::engine::functions::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 
