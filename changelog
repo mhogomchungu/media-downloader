@@ -194,9 +194,11 @@ Version 1.2.0(April 1st, 2021)
       [Non Windows]
       - Do not auto update media downloader because it works for windows only.
 
-  Version 3.2.1(Unreleased)
+  Version 3.3.0(August 1st, 2023)
   [Windows]
       - Fix a problem that caused installed version to keep on updating updated version of Media Downloader and other engines.
       [All]
       - Update Chinese translations.
       - Update Russian translations.
+      - Fix problems in basic downloader tab.
+      - Various changes and improvements.
