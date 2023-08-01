@@ -188,6 +188,18 @@ static inline QList< QByteArray > split( const QByteArray& e,QChar token )
 	return m ;
 }
 
+static inline QByteArray join( const QList< QByteArray >& list,int startPosition,const char * m )
+{
+	QByteArray s = list[ startPosition ] ;
+
+	for( int i = startPosition + 1 ; i < list.size() ; i++ ){
+
+		s += m + list[ i ] ;
+	}
+
+	return s ;
+}
+
 class Json
 {
 public:

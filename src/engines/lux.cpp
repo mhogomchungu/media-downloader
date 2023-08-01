@@ -294,7 +294,7 @@ public:
 
 		outPut.luxHeaderUpdateData( e ) ;
 
-		auto& luxHeader = outPut.luxHeader() ;
+		const auto& luxHeader = outPut.luxHeader() ;
 
 		if( luxHeader.invalid() && luxHeader.allData().contains( "..." ) ){
 
@@ -323,17 +323,11 @@ public:
 
 			if( e.contains( "Site: " ) ){
 
-				auto m = util::split( e,' ' ) ;
-				m.removeAt( 0 ) ;
-
-				webSite = m.join( ' ' ) ;
+				webSite = util::join( util::split( e,' ' ),1," " ) ;
 
 			}else if( e.contains( "Title: " ) ){
 
-				auto m = util::split( e,' ' ) ;
-				m.removeAt( 0 ) ;
-
-				title = m.join( ' ' ) ;
+				title = util::join( util::split( e,' ' ),1," " ) ;
 
 			}else if( e.contains( "Size: " ) ){
 
