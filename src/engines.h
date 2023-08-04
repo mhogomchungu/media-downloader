@@ -167,6 +167,7 @@ public:
 			return _add( m_enginePath,e ) ;
 		}
 		QString socketPath() ;
+		void confirmPaths( Logger& ) const ;
 	private:
 		QString _add( const QString& basePath,const QString& toAdd ) const
 		{
@@ -1021,7 +1022,7 @@ public:
 	const engine& defaultEngine( const QString&,int ) const ;
 	util::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	const enginePaths& engineDirPaths() const ;
-	engines( Logger&,settings&,int ) ;
+	engines( Logger&,const engines::enginePaths&,settings&,int ) ;
 	void openUrls( tableWidget&,int row ) const ;
 	void openUrls( tableWidget&,int row,const engines::engine& ) const ;
 	void openUrls( const QString& path ) const ;
@@ -1084,7 +1085,7 @@ private:
 	Logger& m_logger ;
 	settings& m_settings ;
 	std::vector< engine > m_backends ;
-	enginePaths m_enginePaths ;
+	const engines::enginePaths& m_enginePaths ;
 	QProcessEnvironment m_processEnvironment ;
 
 	class configDefaultEngine

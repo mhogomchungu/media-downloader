@@ -355,6 +355,7 @@ namespace utility
 		QString downloadOptions ;
 	} ;
 	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& = {} ) ;
+	void ntfsEnablePermissionChecking( bool ) ;
 	bool platformIsWindows() ;
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;

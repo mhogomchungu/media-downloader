@@ -31,11 +31,12 @@ public:
 	{
 		QApplication& app ;
 		settings& Settings ;
+		const engines::enginePaths& ePaths ;
 		const QStringList& args ;
 	};
 	myApp( const myApp::args& args ) :
 		m_traslator( args.Settings,args.app ),
-		m_app( args.app,args.Settings,m_traslator,args.args )
+		m_app( args.app,args.Settings,m_traslator,args.ePaths,args.args )
 	{
 	}
 	void start( const QByteArray& e )
@@ -97,7 +98,7 @@ int main( int argc,char * argv[] )
 
 	auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
 
-	utils::app::appInfo< myApp,myApp::args > m( { mqApp,settings,args },spath,mqApp,json ) ;
+	utils::app::appInfo< myApp,myApp::args > m( { mqApp,settings,paths,args },spath,mqApp,json ) ;
 
 	if( opts.hasOption( "-s" ) || !settings.singleInstance() ){
 

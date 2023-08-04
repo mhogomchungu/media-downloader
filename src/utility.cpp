@@ -1331,3 +1331,25 @@ void utility::log( const QByteArray& data,const QString& e )
 		f.write( data ) ;
 	}
 }
+
+#ifdef Q_OS_WIN
+
+extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;
+
+void utility::ntfsEnablePermissionChecking( bool e )
+{
+	if( e ){
+
+		qt_ntfs_permission_lookup++ ;
+	}else{
+		qt_ntfs_permission_lookup-- ;
+	}
+}
+
+#else
+
+void utility::ntfsEnablePermissionChecking( bool )
+{
+}
+
+#endif

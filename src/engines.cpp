@@ -97,12 +97,12 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 	return env ;
 }
 
-engines::engines( Logger& l,settings& s,int id ) :
+engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id ) :
 	m_logger( l ),
 	m_settings( s ),
-	m_enginePaths( m_settings ),
+	m_enginePaths( paths ),
 	m_processEnvironment( _getEnvPaths( m_enginePaths,m_settings ) ),
-	m_defaultEngine( l,s )
+	m_defaultEngine( l,m_enginePaths )
 {
 	if( s.showVersionInfoWhenStarting() ){
 
@@ -125,9 +125,14 @@ engines::engines( Logger& l,settings& s,int id ) :
 
 	if( m_settings.portableVersion() ){
 
-		m_logger.add( QObject::tr( "Running in portable mode" ),id ) ;
-		m_logger.add( QObject::tr( "Download path: " ) + m_settings.downloadFolder( m_logger ),id ) ;
+		m_logger.add( QObject::tr( "Running In Portable Mode" ),id ) ;
+	}else{
+		m_logger.add( QObject::tr( "Running In Installation Mode" ),id ) ;
 	}
+
+	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;
+	m_logger.add( QObject::tr( "App Data: %1" ).arg( paths.basePath() ),id ) ;
+
 	this->updateEngines( true,id ) ;
 }
 
@@ -954,7 +959,7 @@ void engines::engine::setPermissions( const QString& e ) const
 
 engines::enginePaths::enginePaths( settings& s )
 {
-	m_basePath      = s.configPaths() ;
+	m_basePath = s.configPaths() ;
 
 	while( m_basePath.endsWith( '/' ) ){
 
@@ -986,6 +991,56 @@ QString engines::enginePaths::socketPath()
 		auto m = m_basePath + "/tmp" ;
 		QDir().mkpath( m ) ;
 		return m  + "/ipc" ;
+	}
+}
+
+void engines::enginePaths::confirmPaths( Logger& logger ) const
+{
+	QDir d ;
+
+	auto id = utility::sequentialID() ;
+
+	QFileInfo fileInfo ;
+
+	auto _check_exists = [ & ]( const QString& m ){
+
+		d.setPath( m ) ;
+
+		fileInfo.setFile( m ) ;
+
+		if( d.exists() ){
+
+			if( !fileInfo.isWritable() ){
+
+				logger.add( "Trouble Ahead, Folder Not Writable: " + m,id ) ;
+			}
+			if( !fileInfo.isReadable() ){
+
+				logger.add( "Trouble Ahead, Folder Not Readable: " + m,id ) ;
+			}
+			if( !fileInfo.isExecutable() ){
+
+				logger.add( "Trouble Ahead, Folder Not Executable: " + m,id ) ;
+			}
+		}else{
+			logger.add( "Trouble Ahead, Folder Does Not Exist: " + m,id ) ;
+		}
+	} ;
+
+	if( utility::platformIsWindows() ){
+
+		utility::ntfsEnablePermissionChecking( true ) ;
+	}
+
+	_check_exists( m_basePath ) ;
+	_check_exists( m_binPath ) ;
+	_check_exists( m_enginePath ) ;
+	_check_exists( m_dataPath ) ;
+	_check_exists( m_tmp ) ;
+
+	if( utility::platformIsWindows() ){
+
+		utility::ntfsEnablePermissionChecking( false ) ;
 	}
 }
 

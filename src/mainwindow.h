@@ -43,7 +43,7 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 public:
-	MainWindow( QApplication&,settings&,translator&,const QStringList& ) ;
+	MainWindow( QApplication&,settings&,translator&,const engines::enginePaths&,const QStringList& ) ;
 	void retranslateUi() ;
 	void setTitle( const QString& m ) ;
 	void resetTitle() ;
