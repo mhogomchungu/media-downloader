@@ -392,23 +392,22 @@ static std::unique_ptr< QSettings > _init( const QString& dataPath,bool portable
 		if( portableVersion ){
 
 			return _set_config( dataPath ) ;
+		}else{
+			return _set_config( _configPath() ) ;
 		}
+	}else{
+		auto path = _configPath() ;
 
-		auto appPath      = _configPath() ;
-		auto settingsPath = appPath + "/settings" ;
+		if( QFile::exists( path + "/settings/settings.ini" ) ){
 
-		QFileInfo info( settingsPath ) ;
-
-		if( info.exists() && info.isDir() ){
-
-			return _set_config( appPath ) ;
+			return _set_config( path ) ;
 		}else{
 			/*
-			 * Migrating from registry based config to text file config.
+			 * Migrating to .ini config file
 			 */
 			QSettings oldSettings( "media-downloader","media-downloader" ) ;
 
-			auto newSettings = _set_config( appPath ) ;
+			auto newSettings = _set_config( path ) ;
 
 			const auto keys = oldSettings.allKeys() ;
 
@@ -421,8 +420,6 @@ static std::unique_ptr< QSettings > _init( const QString& dataPath,bool portable
 
 			return newSettings ;
 		}
-	}else{
-		return std::make_unique< QSettings >( "media-downloader","media-downloader" ) ;
 	}
 }
 

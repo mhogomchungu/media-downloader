@@ -205,6 +205,8 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 		this->post( m_appName,m,md.id ) ;
 
 		md.status.done() ;
+
+		m_ctx.TabManager().enableAll() ;
 	}
 }
 
@@ -504,6 +506,8 @@ void networkAccess::download( networkAccess::Opts opts ) const
 		this->post( engine.name(),m,opts.id ) ;
 
 		opts.iter.reportDone() ;
+
+		m_ctx.TabManager().enableAll() ;
 	}
 }
 

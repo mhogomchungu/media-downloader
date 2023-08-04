@@ -1004,7 +1004,7 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 
 	std::vector< QString > warning ;
 
-	auto _check_exists = [ & ]( const QString& m ){
+	auto _check_exists = [ & ]( const QString& m,bool checkIfExecutable ){
 
 		fileInfo.setFile( m ) ;
 
@@ -1018,7 +1018,7 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 
 				warning.emplace_back( "Trouble Ahead, Folder Not Readable: " + m ) ;
 			}
-			if( !fileInfo.isExecutable() ){
+			if( checkIfExecutable && !fileInfo.isExecutable() ){
 
 				warning.emplace_back( "Trouble Ahead, Folder Not Executable: " + m ) ;
 			}
@@ -1032,11 +1032,11 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 		utility::ntfsEnablePermissionChecking( true ) ;
 	}
 
-	_check_exists( m_basePath ) ;
-	_check_exists( m_binPath ) ;
-	_check_exists( m_enginePath ) ;
-	_check_exists( m_dataPath ) ;
-	_check_exists( m_tmp ) ;
+	_check_exists( m_basePath,false ) ;
+	_check_exists( m_binPath,true ) ;
+	_check_exists( m_enginePath,false ) ;
+	_check_exists( m_dataPath,false ) ;
+	_check_exists( m_tmp,false ) ;
 
 	if( utility::platformIsWindows() ){
 
@@ -1047,11 +1047,16 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 
 		auto id = utility::sequentialID() ;
 
-		logger.add( QByteArray( "*****************************************************" ),id ) ;
+		QByteArray m( "*****************************************************" ) ;
 
-		logger.add( util::join( warning,0,"\n" ).toUtf8(),id ) ;
+		logger.add( m,id ) ;
 
-		logger.add( QByteArray( "*****************************************************" ),id ) ;
+		for( const auto& it : warning ){
+
+			logger.add( it,id ) ;
+		}
+
+		logger.add( m,id ) ;
 	}
 }
 
