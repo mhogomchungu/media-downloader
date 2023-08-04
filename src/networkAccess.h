@@ -308,11 +308,11 @@ private:
 	class File
 	{
 	public:
-		void open( const QString& e )
+		bool open( const QString& e )
 		{
 			m_file = std::make_unique< QFile >( e ) ;
 			m_file->remove() ;
-			m_file->open( QIODevice::WriteOnly ) ;
+			return m_file->open( QIODevice::WriteOnly ) ;
 		}
 		void close()
 		{

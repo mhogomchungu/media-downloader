@@ -131,7 +131,9 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 	}
 
 	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;
-	m_logger.add( QObject::tr( "App Data: %1" ).arg( paths.basePath() ),id ) ;
+	m_logger.add( QObject::tr( "App Data Path: %1" ).arg( paths.basePath() ),id ) ;
+
+	m_logger.add( QByteArray( "*****************************************************" ),id ) ;
 
 	this->updateEngines( true,id ) ;
 }
@@ -144,7 +146,7 @@ static void _openUrls( tableWidget& table,int row,settings& settings,bool galler
 
 		m.removeFirst() ;
 
-		for( const auto& it : m ){
+		for( const auto& it : util::asConst( m ) ){
 
 			if( galleryDl ){
 
@@ -272,7 +274,9 @@ void engines::updateEngines( bool addAll,int id )
 
 	_engine_add( "",_get_engine_by_path( m_defaultEngine.configFileName(),*this,m_logger,m_enginePaths ) ) ;
 
-	for( const auto& it : this->enginesList() ){
+	const auto mm = this->enginesList() ;
+
+	for( const auto& it : mm ){
 
 		_engine_add( it,_get_engine_by_path( it,*this,m_logger,m_enginePaths ) ) ;
 	}
@@ -996,34 +1000,30 @@ QString engines::enginePaths::socketPath()
 
 void engines::enginePaths::confirmPaths( Logger& logger ) const
 {
-	QDir d ;
-
-	auto id = utility::sequentialID() ;
-
 	QFileInfo fileInfo ;
+
+	std::vector< QString > warning ;
 
 	auto _check_exists = [ & ]( const QString& m ){
 
-		d.setPath( m ) ;
-
 		fileInfo.setFile( m ) ;
 
-		if( d.exists() ){
+		if( fileInfo.exists() ){
 
 			if( !fileInfo.isWritable() ){
 
-				logger.add( "Trouble Ahead, Folder Not Writable: " + m,id ) ;
+				warning.emplace_back( "Trouble Ahead, Folder Not Writable: " + m ) ;
 			}
 			if( !fileInfo.isReadable() ){
 
-				logger.add( "Trouble Ahead, Folder Not Readable: " + m,id ) ;
+				warning.emplace_back( "Trouble Ahead, Folder Not Readable: " + m ) ;
 			}
 			if( !fileInfo.isExecutable() ){
 
-				logger.add( "Trouble Ahead, Folder Not Executable: " + m,id ) ;
+				warning.emplace_back( "Trouble Ahead, Folder Not Executable: " + m ) ;
 			}
 		}else{
-			logger.add( "Trouble Ahead, Folder Does Not Exist: " + m,id ) ;
+			warning.emplace_back( "Trouble Ahead, Folder Does Not Exist: " + m ) ;
 		}
 	} ;
 
@@ -1041,6 +1041,17 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 	if( utility::platformIsWindows() ){
 
 		utility::ntfsEnablePermissionChecking( false ) ;
+	}
+
+	if( !warning.empty() ){
+
+		auto id = utility::sequentialID() ;
+
+		logger.add( QByteArray( "*****************************************************" ),id ) ;
+
+		logger.add( util::join( warning,0,"\n" ).toUtf8(),id ) ;
+
+		logger.add( QByteArray( "*****************************************************" ),id ) ;
 	}
 }
 
@@ -1496,12 +1507,16 @@ public:
 
 		}else if( sp.size() == 2 && sp[ 0 ].size() > 0 && sp[ 1 ].size() > 0 ){
 
-			for( const auto& m : util::split( data,sp[ 0 ][ 0 ] ) ){
+			const auto mm = util::split( data,sp[ 0 ][ 0 ] ) ;
+
+			for( const auto& m : mm ){
 
 				this->add( m,sp[ 1 ][ 0 ] ) ;
 			}
 		}else{
-			for( const auto& m : util::split( data,'\r' ) ){
+			const auto mm = util::split( data,'\r' ) ;
+
+			for( const auto& m : mm ){
 
 				this->add( m,'\n' ) ;
 			}
@@ -1531,7 +1546,7 @@ private:
 
 			auto obj = json.object() ;
 
-			auto oldFormats = obj.value( "formats" ).toArray() ;
+			const auto oldFormats = obj.value( "formats" ).toArray() ;
 
 			QJsonArray newFormats ;
 
@@ -1593,7 +1608,9 @@ private:
 	}
 	void add( const QByteArray& data,QChar token )
 	{
-		for( const auto& e : util::split( data,token ) ){
+		const auto mm = util::split( data,token ) ;
+
+		for( const auto& e : mm ){
 
 			if( !this->skipLine( e ) ){
 

@@ -1353,3 +1353,10 @@ void utility::ntfsEnablePermissionChecking( bool )
 }
 
 #endif
+
+bool utility::pathIsFolderAndExists( const QString& e )
+{
+	QFileInfo m( e ) ;
+
+	return m.exists() && m.isDir() ;
+}

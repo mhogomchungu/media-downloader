@@ -367,7 +367,7 @@ static bool _portableVersionInit( const utility::cliArguments& args,
 		}else{
 			auto a = exePath  + "/local" ;
 
-			if( QFile::exists( a ) ){
+			if( utility::pathIsFolderAndExists( a ) ){
 
 				dataPath = a ;
 
@@ -397,7 +397,9 @@ static std::unique_ptr< QSettings > _init( const QString& dataPath,bool portable
 		auto appPath      = _configPath() ;
 		auto settingsPath = appPath + "/settings" ;
 
-		if( QFile::exists( settingsPath ) ){
+		QFileInfo info( settingsPath ) ;
+
+		if( info.exists() && info.isDir() ){
 
 			return _set_config( appPath ) ;
 		}else{
@@ -493,7 +495,7 @@ size_t settings::maxConcurrentDownloads()
 	return static_cast< size_t >( m_settings.value( "MaxConcurrentDownloads" ).toInt() ) ;
 }
 
-const QString & settings::exeOriginalPath()
+const QString& settings::exeOriginalPath()
 {
 	return m_exeOrgPath ;
 }
