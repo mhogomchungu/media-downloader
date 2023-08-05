@@ -253,30 +253,58 @@ public:
 			return { e,m_engine,_meetLocalCondition } ;
 		}
 
-		auto a = util::split( m.mid( mm + 2 ),' ' ) ;
+		auto ss = m.mid( mm + 2 ) ;
+
+		ss.replace( "p/s","" ) ;
+
+		mm = ss.indexOf( 's' ) ;
 
 		QString pgr = "%1 / %2 (%3) at %4, ETA: %5" ;
 
-		if( a.size() > 4 ){
+		if( mm != -1 ){
 
-			auto speed = a[ 0 ] + " " + a[ 1 ] + "/s" ;
+			auto a = util::split( ss.mid( 0,mm + 1 ),' ' ) ;
 
-			auto perc = a[ 3 ] ;
+			if( a.size() == 4 ){
 
-			auto ee = perc ;
-			ee.replace( "%","" ) ;
+				auto eta = a[ 3 ] ;
 
-			auto percentage = ee.toDouble() / 100 ;
+				auto speed = a[ 0 ] + " " + a[ 1 ] + "/s" ;
 
-			auto totalSize = luxHeader.fileSizeInt() ;
+				auto perc = a[ 2 ] ;
 
-			auto sizeString = locale.formattedDataSize( totalSize * percentage ) ;
+				auto ee = perc ;
+				ee.replace( "%","" ) ;
 
-			m_tmp = pgr.arg( sizeString,luxHeader.fileSize(),perc,speed,a[ 4 ] ).toUtf8() ;
+				auto percentage = ee.toDouble() / 100 ;
 
-			return { m_tmp,m_engine,_meetLocalCondition } ;
+				auto totalSize = luxHeader.fileSizeInt() ;
 
-		}else if( a.size() == 4 ){
+				auto sizeString = locale.formattedDataSize( totalSize * percentage ) ;
+
+				auto fs = luxHeader.fileSize() ;
+
+				m_tmp = pgr.arg( sizeString,fs,perc,speed,eta ).toUtf8() ;
+
+				mm = e.indexOf( "Merging video parts into " ) ;
+
+				if( mm != -1 ){
+
+					m_tmp = m_tmp + "\n" + e.mid( mm ) ;
+
+					return { m_tmp,m_engine,_meetLocalCondition } ;
+				}
+
+				return { m_tmp,m_engine,_meetLocalCondition } ;
+			}else{
+				QString s = "?" ;
+
+				m_tmp = pgr.arg( s,s,s,s,s ).toUtf8() ;
+
+				return { m_tmp,m_engine,_meetLocalCondition } ;
+			}
+
+		}else if( ss.startsWith( " ? " ) ){
 
 			QString s = "?" ;
 
