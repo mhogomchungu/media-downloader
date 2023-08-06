@@ -770,16 +770,18 @@ engines::engine::engine( Logger& logger,
 	}
 }
 
-QString engines::engine::updateCmdPath( const QString& e ) const
+QString engines::engine::updateCmdPath( Logger& logger,const QString& e ) const
 {
-	auto exe = m_functions->updateCmdPath( e ) ;
+	auto exe = m_engine->updateCmdPath( e ) ;
 
 	if( exe.isEmpty() ){
 
-		//problems ahead, exe should never be empty
+		auto m = "Trouble Ahead, Engine's Exe Not Found: " + m_engine->engine().name() ;
+
+		logger.add( m,utility::sequentialID() ) ;
 	}
 
-	const_cast< engines::engine::exeArgs * >( &m_exePath )->updateRealExe( exe ) ;
+	const_cast< engines::engine::exeArgs& >( m_exePath ).updateRealExe( exe ) ;
 
 	return exe ;
 }
@@ -919,7 +921,7 @@ const QString& engines::engine::commandName() const
 
 bool engines::engine::breakShowListIfContains( const QStringList& e ) const
 {
-	return m_functions->breakShowListIfContains( e ) ;
+	return m_engine->breakShowListIfContains( e ) ;
 }
 
 QString engines::engine::setVersionString( const QString& data ) const

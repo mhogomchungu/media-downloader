@@ -188,8 +188,8 @@ static inline QList< QByteArray > split( const QByteArray& e,QChar token )
 	return m ;
 }
 
-template< typename List >
-static inline auto join( const List& list,typename List::size_type startPosition,const char * m )
+template< typename List,typename Joiner >
+static inline auto join( const List& list,typename List::size_type startPosition,const Joiner& m )
 {
 	auto s = list[ startPosition ] ;
 

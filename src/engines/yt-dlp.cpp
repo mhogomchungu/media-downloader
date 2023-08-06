@@ -563,6 +563,11 @@ static bool _ffmpeg( const engines::engine&,const QByteArray& e )
 	return e.startsWith( "frame=" ) || e.startsWith( "size=" ) ;
 }
 
+static bool _aria2c( const engines::engine& s,const QByteArray& e )
+{
+	return aria2c::meetCondition( s,e ) ;
+}
+
 static bool _ffmpeg_internal( const engines::engine&,const QByteArray& e )
 {
 	return e.contains( "Frame: " ) && e.contains( ", Completed: " ) ;
@@ -615,9 +620,9 @@ public:
 
 			m_function = _ffmpeg_internal ;
 
-		}else if( aria2c::meetCondition( m_engine,e ) ){
+		}else if( _aria2c( m_engine,e ) ){
 
-			m_function = aria2c::meetCondition ;
+			m_function = _aria2c ;
 		}else{
 			m_function = _shouldNotGetCalled ;
 

@@ -595,7 +595,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 			utility::setPermissions( str.file.handle() ) ;
 
-			engine.updateCmdPath( str.exeBinPath ) ;
+			engine.updateCmdPath( m_ctx.logger(),str.exeBinPath ) ;
 
 			auto m = str.showVinfo ;
 			m.setAfterDownloading = true ;
@@ -618,7 +618,7 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 
 			engine.renameArchiveFolder( opts.tempPath ) ;
 
-			auto exe = engine.updateCmdPath( opts.tempPath ) ;
+			auto exe = engine.updateCmdPath( m_ctx.logger(),opts.tempPath ) ;
 
 			QFile f( exe ) ;
 

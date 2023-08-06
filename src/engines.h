@@ -647,7 +647,7 @@ public:
 
 		void updateLocalOptions( QStringList& opts ) const
 		{
-			m_functions->updateLocalOptions( opts ) ;
+			m_engine->updateLocalOptions( opts ) ;
 		}
 
 		template< typename Context,typename Function >
@@ -686,7 +686,7 @@ public:
 		template< typename Context,typename Function >
 		void updateVersionInfo( const Context& ctx,Function ff ) const
 		{
-			if( m_functions->updateVersionInfo() ){
+			if( m_engine->updateVersionInfo() ){
 
 				const auto& engine = *this ;
 
@@ -715,7 +715,7 @@ public:
 		template< typename backend,typename ... Args >
 		void setBackend( const engines& engines,Args&& ... args )
 		{
-			m_functions = std::make_unique< backend >( engines,
+			m_engine = std::make_unique< backend >( engines,
 								   *this,
 								   m_jsonObject,
 								   std::forward< Args >( args ) ... ) ;
@@ -723,7 +723,7 @@ public:
 			this->updateOptions() ;
 		}
 
-		QString updateCmdPath( const QString& e ) const ;
+		QString updateCmdPath( Logger&,const QString& e ) const ;
 
 		const QString& commandName() const ;
 
@@ -755,31 +755,31 @@ public:
 		}		
 		void setTextEncondig( QStringList& opts ) const
 		{
-			m_functions->setTextEncondig( m_encodingArgument,opts ) ;
+			m_engine->setTextEncondig( m_encodingArgument,opts ) ;
 		}
 		const QProcessEnvironment& processEnvironment() const
 		{
-			return m_functions->processEnvironment() ;
+			return m_engine->processEnvironment() ;
 		}
 		void processData( Logger::Data& outPut,const QByteArray& data,int id,bool readableJson ) const
 		{
-			m_functions->processData( outPut,data,id,readableJson ) ;
+			m_engine->processData( outPut,data,id,readableJson ) ;
 		}
 		void processData( Logger::Data& outPut,const QString& data,int id,bool readableJson ) const
 		{
-			m_functions->processData( outPut,data,id,readableJson ) ;
+			m_engine->processData( outPut,data,id,readableJson ) ;
 		}
 		void renameArchiveFolder( const QString& e ) const
 		{
-			return m_functions->renameArchiveFolder( e ) ;
+			return m_engine->renameArchiveFolder( e ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{
-			return m_functions->commandString( cmd ) ;
+			return m_engine->commandString( cmd ) ;
 		}
 		void runCommandOnDownloadedFile( const QString& e,const QString& s ) const
 		{
-			m_functions->runCommandOnDownloadedFile( e,s ) ;
+			m_engine->runCommandOnDownloadedFile( e,s ) ;
 		}
 		const QStringList& defaultDownLoadCmdOptions() const
 		{
@@ -787,41 +787,41 @@ public:
 		}
 		QString setCredentials( QStringList& e,QStringList& s ) const
 		{
-			return m_functions->setCredentials( e,s ) ;
+			return m_engine->setCredentials( e,s ) ;
 		}
 		enum class tab{ basic,batch,playlist } ;
 		QStringList dumpJsonArguments( engines::engine::tab ) const ;
 
 		engines::engine::functions::DataFilter filter( int processId ) const
 		{
-			return m_functions->Filter( processId ) ;
+			return m_engine->Filter( processId ) ;
 		}
 		QString updateTextOnCompleteDownlod( const QString& uiText,
 						     const QString& bkText,
 						     const QString& dopts,
 						     const engine::engine::functions::finishedState& f ) const
 		{
-			return m_functions->updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
+			return m_engine->updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
 		}
 		void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& u ) const
 		{
-			m_functions->updateDownLoadCmdOptions( u ) ;
+			m_engine->updateDownLoadCmdOptions( u ) ;
 		}
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{
-			m_functions->sendCredentials( credentials,exe ) ;
+			m_engine->sendCredentials( credentials,exe ) ;
 		}
 		std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& e ) const
 		{
-			return m_functions->mediaProperties( e ) ;
+			return m_engine->mediaProperties( e ) ;
 		}
 		void updateGetPlaylistCmdOptions( QStringList& e ) const
 		{
-			m_functions->updateGetPlaylistCmdOptions( e ) ;
+			m_engine->updateGetPlaylistCmdOptions( e ) ;
 		}
 		void updateCmdOptions( QStringList& e ) const
 		{
-			m_functions->updateCmdOptions( e ) ;
+			m_engine->updateCmdOptions( e ) ;
 		}
 		bool archiveContainsFolder() const
 		{
@@ -829,31 +829,31 @@ public:
 		}
 		engines::engine::functions::FilterOutPut filterOutput() const
 		{
-			return m_functions->filterOutput() ;
+			return m_engine->filterOutput() ;
 		}
 		bool foundNetworkUrl( const QString& s ) const
 		{
-			return m_functions->foundNetworkUrl( s ) ;
+			return m_engine->foundNetworkUrl( s ) ;
 		}
 		engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& e ) const
 		{
-			return m_functions->versionInfoFromGithub( e ) ;
+			return m_engine->versionInfoFromGithub( e ) ;
 		}
 		QStringList horizontalHeaderLabels() const
 		{
-			return m_functions->horizontalHeaderLabels() ;
+			return m_engine->horizontalHeaderLabels() ;
 		}
 		void updateOutPutChannel( QProcess::ProcessChannel& s ) const
 		{
-			m_functions->updateOutPutChannel( s ) ;
+			m_engine->updateOutPutChannel( s ) ;
 		}
 		std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& e ) const
 		{
-			return m_functions->mediaProperties( e ) ;
+			return m_engine->mediaProperties( e ) ;
 		}
 		void updateEnginePaths( const Context& ctx,QString& filePath,QString& exeBinPath,QString& exeFolderPath ) const
 		{
-			m_functions->updateEnginePaths( ctx,filePath,exeBinPath,exeFolderPath ) ;
+			m_engine->updateEnginePaths( ctx,filePath,exeBinPath,exeFolderPath ) ;
 		}
 		const QStringList& defaultListCmdOptions() const
 		{
@@ -929,7 +929,7 @@ public:
 		}
 		bool supportShowingComments() const
 		{
-			return m_functions->supportsShowingComments() ;
+			return m_engine->supportsShowingComments() ;
 		}
 		bool canDownloadPlaylist() const
 		{
@@ -976,7 +976,7 @@ public:
 
 		mutable util::version m_version ;
 		QJsonObject m_jsonObject ;
-		std::unique_ptr< engines::engine::functions > m_functions ;
+		std::unique_ptr< engines::engine::functions > m_engine ;
 		int m_line ;
 		int m_position ;
 		bool m_valid ;
