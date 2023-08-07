@@ -483,10 +483,6 @@
         <translation>Impossibile analizzare il file json da github</translation>
     </message>
     <message>
-        <source>Download path: </source>
-        <translation>Cartella download: </translation>
-    </message>
-    <message>
         <source>Renaming file to: </source>
         <translation>Rinomina file in: </translation>
     </message>
@@ -501,10 +497,6 @@
     <message>
         <source>Resetting download folder to default</source>
         <translation>Ripristino valore rpedefinito cartella download</translation>
-    </message>
-    <message>
-        <source>Running in portable mode</source>
-        <translation>Esecuzione in modalità portatile</translation>
     </message>
     <message>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
@@ -771,6 +763,30 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation>Impossibile trovare l&apos;eseguibile &quot;tar&quot;</translation>
+    </message>
+    <message>
+        <source>Running In Portable Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Running In Installation Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>App Data Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3rd Party Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Open Path For Writing: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

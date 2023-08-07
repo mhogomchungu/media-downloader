@@ -53,7 +53,7 @@
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
         <location filename="../src/mainwindow.ui" line="2227"/>
-        <location filename="../src/mainwindow.cpp" line="74"/>
+        <location filename="../src/mainwindow.cpp" line="78"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
@@ -490,8 +490,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="370"/>
-        <location filename="../src/utility.h" line="547"/>
-        <location filename="../src/utility.h" line="614"/>
+        <location filename="../src/utility.h" line="550"/>
+        <location filename="../src/utility.h" line="617"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
@@ -601,22 +601,12 @@
         <translation>荷兰语 (荷兰)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="128"/>
-        <source>Running in portable mode</source>
-        <translation>在便携模式下运行</translation>
-    </message>
-    <message>
-        <location filename="../src/engines.cpp" line="129"/>
-        <source>Download path: </source>
-        <translation>下载文件路径: </translation>
-    </message>
-    <message>
-        <location filename="../src/engines.cpp" line="259"/>
+        <location filename="../src/engines.cpp" line="275"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>错误,找不到后端的可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="212"/>
+        <location filename="../src/engines.cpp" line="228"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>引擎&quot;%1&quot; 至少需要Media Downloader版本&quot;%2&quot;</translation>
     </message>
@@ -641,84 +631,109 @@
         <translation>3. 取消选中&quot;启动时显示版本信息&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="264"/>
+        <location filename="../src/engines.cpp" line="130"/>
+        <source>Running In Portable Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="132"/>
+        <source>Running In Installation Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="136"/>
+        <source>Download Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="137"/>
+        <source>App Data Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="142"/>
+        <source>3rd Party Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="280"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>错误,无法解析配置文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="525"/>
+        <location filename="../src/engines.cpp" line="543"/>
         <source>Failed To Load A Plugin</source>
         <translation>插件加载失败</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="610"/>
-        <location filename="../src/engines.cpp" line="899"/>
+        <location filename="../src/engines.cpp" line="628"/>
+        <location filename="../src/engines.cpp" line="919"/>
         <location filename="../src/utility.cpp" line="544"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="884"/>
+        <location filename="../src/engines.cpp" line="904"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1004"/>
+        <location filename="../src/engines.cpp" line="1086"/>
         <source>Network Error Occured</source>
         <translation>发生网络错误</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1014"/>
+        <location filename="../src/engines.cpp" line="1096"/>
         <source>Url Is Not Supported</source>
         <translation>网址不受支持</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1024"/>
+        <location filename="../src/engines.cpp" line="1106"/>
         <source>Download cancelled</source>
         <translation>下载已取消</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1035"/>
+        <location filename="../src/engines.cpp" line="1117"/>
         <source>ErrorCode</source>
         <translation>错误代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1039"/>
+        <location filename="../src/engines.cpp" line="1121"/>
         <source>Download Failed, Engine crashed</source>
         <translation>下载失败,引擎崩溃</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1310"/>
+        <location filename="../src/engines.cpp" line="1392"/>
         <source>Format Code</source>
         <translation>格式代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1311"/>
+        <location filename="../src/engines.cpp" line="1393"/>
         <source>Extension</source>
         <translation>扩展</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1312"/>
+        <location filename="../src/engines.cpp" line="1394"/>
         <source>Resolution</source>
         <translation>分辨率</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1313"/>
+        <location filename="../src/engines.cpp" line="1395"/>
         <source>Note</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1710"/>
+        <location filename="../src/engines.cpp" line="1798"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1716"/>
+        <location filename="../src/engines.cpp" line="1804"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1856"/>
+        <location filename="../src/engines.cpp" line="1944"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
@@ -740,122 +755,128 @@
         <translation>找到的版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="225"/>
-        <location filename="../src/networkAccess.cpp" line="616"/>
-        <location filename="../src/networkAccess.cpp" line="678"/>
+        <location filename="../src/networkAccess.cpp" line="203"/>
+        <location filename="../src/networkAccess.cpp" line="504"/>
+        <source>Failed To Open Path For Writing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="234"/>
+        <location filename="../src/networkAccess.cpp" line="634"/>
+        <location filename="../src/networkAccess.cpp" line="696"/>
         <source>Failed To Extract</source>
         <translation>提取失败</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="279"/>
+        <location filename="../src/networkAccess.cpp" line="288"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>网络未能在 %1 秒内响应</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="372"/>
+        <location filename="../src/networkAccess.cpp" line="381"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>下载失败,无法创建以下路径: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="631"/>
+        <location filename="../src/networkAccess.cpp" line="649"/>
         <source>Start Downloading</source>
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="684"/>
+        <location filename="../src/networkAccess.cpp" line="702"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>无法找到&quot;bsdtar.exe&quot;可执行文件</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="686"/>
+        <location filename="../src/networkAccess.cpp" line="704"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation>未能找到&quot;tar&quot;可执行文件</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1034"/>
-        <location filename="../src/networkAccess.cpp" line="474"/>
-        <location filename="../src/networkAccess.cpp" line="749"/>
+        <location filename="../src/engines.cpp" line="1116"/>
+        <location filename="../src/networkAccess.cpp" line="483"/>
+        <location filename="../src/networkAccess.cpp" line="767"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="113"/>
-        <location filename="../src/networkAccess.cpp" line="292"/>
+        <location filename="../src/networkAccess.cpp" line="301"/>
         <source>Failed to parse json file from github</source>
         <translation>无法从github解析json文件</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="639"/>
-        <location filename="../src/networkAccess.cpp" line="653"/>
-        <location filename="../src/networkAccess.cpp" line="711"/>
+        <location filename="../src/networkAccess.cpp" line="657"/>
+        <location filename="../src/networkAccess.cpp" line="671"/>
+        <location filename="../src/networkAccess.cpp" line="729"/>
         <source>Downloading</source>
         <translation>下载中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="646"/>
+        <location filename="../src/networkAccess.cpp" line="664"/>
         <source>Destination</source>
         <translation>目标地址</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="462"/>
+        <location filename="../src/networkAccess.cpp" line="471"/>
         <source>Update Complete, Restart To Use New Version</source>
         <translation>更新完成,重启即可使用新版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="472"/>
+        <location filename="../src/networkAccess.cpp" line="481"/>
         <source>File Not Found</source>
         <translation>文件未找到</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="564"/>
+        <location filename="../src/networkAccess.cpp" line="582"/>
         <source>Download complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="233"/>
-        <location filename="../src/networkAccess.cpp" line="659"/>
+        <location filename="../src/networkAccess.cpp" line="242"/>
+        <location filename="../src/networkAccess.cpp" line="677"/>
         <source>Extracting archive: </source>
         <translation>提取存档: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="570"/>
+        <location filename="../src/networkAccess.cpp" line="588"/>
         <source>Renaming file to: </source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1774"/>
+        <location filename="../src/engines.cpp" line="1862"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1028"/>
+        <location filename="../src/engines.cpp" line="1110"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="549"/>
+        <location filename="../src/settings.cpp" line="496"/>
         <source>Resetting download folder to default</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1819"/>
+        <location filename="../src/engines.cpp" line="1907"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="580"/>
-        <location filename="../src/utility.h" line="588"/>
-        <location filename="../src/utility.h" line="593"/>
+        <location filename="../src/utility.h" line="583"/>
+        <location filename="../src/utility.h" line="591"/>
+        <location filename="../src/utility.h" line="596"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="585"/>
+        <location filename="../src/utility.h" line="588"/>
         <source>Force Download</source>
         <translation>强制下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="603"/>
+        <location filename="../src/utility.h" line="606"/>
         <source>Show Log Window</source>
         <translation>显示日志窗口</translation>
     </message>
@@ -941,7 +962,7 @@
         <translation>%1 已下载</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="400"/>
+        <location filename="../src/engines/lux.cpp" line="422"/>
         <source>This May Take A Very Long Time</source>
         <translation>这可能需要很长时间</translation>
     </message>
@@ -996,17 +1017,17 @@
         <translation>找到的版本: %1 </translation>
     </message>
     <message>
-        <location filename="../src/engines/yt-dlp.cpp" line="1188"/>
+        <location filename="../src/engines/yt-dlp.cpp" line="1193"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
         <translation>请更新&quot;%1&quot;至少到版本&quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="999"/>
+        <location filename="../src/engines.cpp" line="1081"/>
         <source>Requested Format Is Not Available</source>
         <translation>请求的格式不可用</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1009"/>
+        <location filename="../src/engines.cpp" line="1091"/>
         <source>Invalid Url Entered</source>
         <translation>输入的网址无效</translation>
     </message>

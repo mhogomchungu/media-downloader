@@ -463,20 +463,12 @@
         <translation>Kan het json-bestand van github niet ontleden</translation>
     </message>
     <message>
-        <source>Download path: </source>
-        <translation>Download pad: </translation>
-    </message>
-    <message>
         <source>Renaming file to: </source>
         <translation>Hernoem bestand naar: </translation>
     </message>
     <message>
         <source>Turkish (Turkey)</source>
         <translation>Turks(Turkije)</translation>
-    </message>
-    <message>
-        <source>Running in portable mode</source>
-        <translation>Draaien in draagbare modus</translation>
     </message>
     <message>
         <source>Elapsed Time:</source>
@@ -768,6 +760,30 @@
     </message>
     <message>
         <source>Failed To Find &quot;tar&quot; Executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Running In Portable Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Running In Installation Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>App Data Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3rd Party Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Open Path For Writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

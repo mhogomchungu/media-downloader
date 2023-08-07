@@ -57,6 +57,8 @@ public:
 	size_t maxConcurrentDownloads() ;
 
 	const QString& windowsOnly3rdPartyBinPath() ;
+	const QString& windowsOnlyExeBinPath() ;
+	const QString& windowsOnlyDefaultDownloadPath() ;
 
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;
@@ -157,6 +159,10 @@ private:
 		{
 			return m_exePath ;
 		}
+		const QString& windowsOnlyDefaultDownloadPath() const
+		{
+			return m_defaultDownloadFolder ;
+		}
 		bool portableVersion() const
 		{
 			return m_portableVersion ;
@@ -169,6 +175,7 @@ private:
 		QString m_dataPath ;
 		QString m_exePath ;
 		QString m_exe3PartyBinPath ;
+		QString m_defaultDownloadFolder ;
 		bool m_portableVersion ;
 	} ;
 

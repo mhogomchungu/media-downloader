@@ -123,11 +123,14 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 		m_logger.add( utxt,id ) ;
 	}
 
-	if( m_settings.portableVersion() ){
+	if( utility::platformIsWindows() ){
 
-		m_logger.add( QObject::tr( "Running In Portable Mode" ),id ) ;
-	}else{
-		m_logger.add( QObject::tr( "Running In Installation Mode" ),id ) ;
+		if( m_settings.portableVersion() ){
+
+			m_logger.add( QObject::tr( "Running In Portable Mode" ),id ) ;
+		}else{
+			m_logger.add( QObject::tr( "Running In Installation Mode" ),id ) ;
+		}
 	}
 
 	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;

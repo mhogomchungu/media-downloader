@@ -53,7 +53,7 @@
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
         <location filename="../src/mainwindow.ui" line="2227"/>
-        <location filename="../src/mainwindow.cpp" line="74"/>
+        <location filename="../src/mainwindow.cpp" line="78"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
@@ -490,8 +490,8 @@
     </message>
     <message>
         <location filename="../src/utility.cpp" line="370"/>
-        <location filename="../src/utility.h" line="547"/>
-        <location filename="../src/utility.h" line="614"/>
+        <location filename="../src/utility.h" line="550"/>
+        <location filename="../src/utility.h" line="617"/>
         <source>Clear</source>
         <translation>Effacer</translation>
     </message>
@@ -601,22 +601,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="128"/>
-        <source>Running in portable mode</source>
-        <translation>Exécuter en mode portable</translation>
-    </message>
-    <message>
-        <location filename="../src/engines.cpp" line="129"/>
-        <source>Download path: </source>
-        <translation>Chemin du téléchargement: </translation>
-    </message>
-    <message>
-        <location filename="../src/engines.cpp" line="259"/>
+        <location filename="../src/engines.cpp" line="275"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Erreur, l&apos;exécutable vers le programme &quot;%1&quot; n&apos;a pas été trouvé</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="212"/>
+        <location filename="../src/engines.cpp" line="228"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Le moteur &quot;%1&quot; nécessite au moins la version &quot;%2&quot; de Media Downloader</translation>
     </message>
@@ -641,84 +631,109 @@
         <translation>3. Décocher &quot;Montrer les informations de version au démarrrage&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="264"/>
+        <location filename="../src/engines.cpp" line="130"/>
+        <source>Running In Portable Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="132"/>
+        <source>Running In Installation Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="136"/>
+        <source>Download Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="137"/>
+        <source>App Data Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="142"/>
+        <source>3rd Party Path: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="280"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>Erreur, échec à séparer le fichier de config  &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="525"/>
+        <location filename="../src/engines.cpp" line="543"/>
         <source>Failed To Load A Plugin</source>
         <translation>Echec à charger le plugin</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="610"/>
-        <location filename="../src/engines.cpp" line="899"/>
+        <location filename="../src/engines.cpp" line="628"/>
+        <location filename="../src/engines.cpp" line="919"/>
         <location filename="../src/utility.cpp" line="544"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Echec à trouver l&apos;exécutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="884"/>
+        <location filename="../src/engines.cpp" line="904"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Echec à trouver python3 executable pour le programme &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1004"/>
+        <location filename="../src/engines.cpp" line="1086"/>
         <source>Network Error Occured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1014"/>
+        <location filename="../src/engines.cpp" line="1096"/>
         <source>Url Is Not Supported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1024"/>
+        <location filename="../src/engines.cpp" line="1106"/>
         <source>Download cancelled</source>
         <translation>Téléchargement annulé</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1035"/>
+        <location filename="../src/engines.cpp" line="1117"/>
         <source>ErrorCode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1039"/>
+        <location filename="../src/engines.cpp" line="1121"/>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1310"/>
+        <location filename="../src/engines.cpp" line="1392"/>
         <source>Format Code</source>
         <translation>Code du format</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1311"/>
+        <location filename="../src/engines.cpp" line="1393"/>
         <source>Extension</source>
         <translation>Extension</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1312"/>
+        <location filename="../src/engines.cpp" line="1394"/>
         <source>Resolution</source>
         <translation>Résolution</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1313"/>
+        <location filename="../src/engines.cpp" line="1395"/>
         <source>Note</source>
         <translation>détails</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1710"/>
+        <location filename="../src/engines.cpp" line="1798"/>
         <source>Failed to open file for writing</source>
         <translation>Echec à ouvrir le fichier en écriture</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1716"/>
+        <location filename="../src/engines.cpp" line="1804"/>
         <source>Failed to open file for reading</source>
         <translation>Echec à ouvrir le fichier en lecture</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1856"/>
+        <location filename="../src/engines.cpp" line="1944"/>
         <source>Elapsed Time:</source>
         <translation>Temps écoulé:</translation>
     </message>
@@ -740,122 +755,128 @@
         <translation>Version trouvée</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="225"/>
-        <location filename="../src/networkAccess.cpp" line="616"/>
-        <location filename="../src/networkAccess.cpp" line="678"/>
+        <location filename="../src/networkAccess.cpp" line="203"/>
+        <location filename="../src/networkAccess.cpp" line="504"/>
+        <source>Failed To Open Path For Writing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/networkAccess.cpp" line="234"/>
+        <location filename="../src/networkAccess.cpp" line="634"/>
+        <location filename="../src/networkAccess.cpp" line="696"/>
         <source>Failed To Extract</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="279"/>
+        <location filename="../src/networkAccess.cpp" line="288"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>Le réseau a échoué à répondre en moins de %1 seconds</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="372"/>
+        <location filename="../src/networkAccess.cpp" line="381"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Echec au téléchargement, le chemin suivant ne peut pas être créé: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="631"/>
+        <location filename="../src/networkAccess.cpp" line="649"/>
         <source>Start Downloading</source>
         <translation>Débuter le téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="684"/>
+        <location filename="../src/networkAccess.cpp" line="702"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="686"/>
+        <location filename="../src/networkAccess.cpp" line="704"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1034"/>
-        <location filename="../src/networkAccess.cpp" line="474"/>
-        <location filename="../src/networkAccess.cpp" line="749"/>
+        <location filename="../src/engines.cpp" line="1116"/>
+        <location filename="../src/networkAccess.cpp" line="483"/>
+        <location filename="../src/networkAccess.cpp" line="767"/>
         <source>Download Failed</source>
         <translation>Echec du téléchargement</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="113"/>
-        <location filename="../src/networkAccess.cpp" line="292"/>
+        <location filename="../src/networkAccess.cpp" line="301"/>
         <source>Failed to parse json file from github</source>
         <translation>N&apos;a pas réussi à séparer le fichier JSON depuis github</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="639"/>
-        <location filename="../src/networkAccess.cpp" line="653"/>
-        <location filename="../src/networkAccess.cpp" line="711"/>
+        <location filename="../src/networkAccess.cpp" line="657"/>
+        <location filename="../src/networkAccess.cpp" line="671"/>
+        <location filename="../src/networkAccess.cpp" line="729"/>
         <source>Downloading</source>
         <translation>Téléchargement</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="646"/>
+        <location filename="../src/networkAccess.cpp" line="664"/>
         <source>Destination</source>
         <translation>Destination</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="462"/>
+        <location filename="../src/networkAccess.cpp" line="471"/>
         <source>Update Complete, Restart To Use New Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="472"/>
+        <location filename="../src/networkAccess.cpp" line="481"/>
         <source>File Not Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="564"/>
+        <location filename="../src/networkAccess.cpp" line="582"/>
         <source>Download complete</source>
         <translation>Téléchargement complet</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="233"/>
-        <location filename="../src/networkAccess.cpp" line="659"/>
+        <location filename="../src/networkAccess.cpp" line="242"/>
+        <location filename="../src/networkAccess.cpp" line="677"/>
         <source>Extracting archive: </source>
         <translation>Extraction de l&apos;archive: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="570"/>
+        <location filename="../src/networkAccess.cpp" line="588"/>
         <source>Renaming file to: </source>
         <translation>Renommer le fichier en : </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1774"/>
+        <location filename="../src/engines.cpp" line="1862"/>
         <source>Processing</source>
         <translation>Traitement</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1028"/>
+        <location filename="../src/engines.cpp" line="1110"/>
         <source>Download completed</source>
         <translation>Téléchargement complet</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="549"/>
+        <location filename="../src/settings.cpp" line="496"/>
         <source>Resetting download folder to default</source>
         <translation>Reset du dossier de téléchargement par défaut</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1819"/>
+        <location filename="../src/engines.cpp" line="1907"/>
         <source>Post Processing</source>
         <translation>Post Traitement</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="580"/>
-        <location filename="../src/utility.h" line="588"/>
-        <location filename="../src/utility.h" line="593"/>
+        <location filename="../src/utility.h" line="583"/>
+        <location filename="../src/utility.h" line="591"/>
+        <location filename="../src/utility.h" line="596"/>
         <source>Download</source>
         <translation>Télécharger</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="585"/>
+        <location filename="../src/utility.h" line="588"/>
         <source>Force Download</source>
         <translation>Téléchargement forcé</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="603"/>
+        <location filename="../src/utility.h" line="606"/>
         <source>Show Log Window</source>
         <translation>Montrer la fenêtre des journaux</translation>
     </message>
@@ -941,7 +962,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="400"/>
+        <location filename="../src/engines/lux.cpp" line="422"/>
         <source>This May Take A Very Long Time</source>
         <translation>Ceci peut prendre un certain temps</translation>
     </message>
@@ -996,17 +1017,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/yt-dlp.cpp" line="1188"/>
+        <location filename="../src/engines/yt-dlp.cpp" line="1193"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="999"/>
+        <location filename="../src/engines.cpp" line="1081"/>
         <source>Requested Format Is Not Available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1009"/>
+        <location filename="../src/engines.cpp" line="1091"/>
         <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
