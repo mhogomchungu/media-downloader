@@ -45,16 +45,6 @@ static QString _configPath()
 #endif
 }
 
-bool settings::portableVersion()
-{
-	return m_portableVersion ;
-}
-
-const QString& settings::runningUpdatedText()
-{
-	return m_runningUpdated ;
-}
-
 static QString _monitorClipboadUrl( settings::tabName e )
 {
 	if( e == settings::tabName::basic ){
@@ -343,48 +333,6 @@ static std::unique_ptr< QSettings > _set_config( const QString& path )
 	return std::make_unique< QSettings >( m,QSettings::IniFormat ) ;
 }
 
-static bool _portableVersionInit( const utility::cliArguments& args,
-				  QString& dataPath,
-				  QString& exePath,
-				  QString& exeOrgPath )
-{
-	if( utility::platformIsWindows() ){
-
-		exePath = utility::windowsApplicationDirPath() ;
-
-		exeOrgPath = args.originalPath() ;
-
-		if( exeOrgPath.isEmpty() ){
-
-			exeOrgPath = exePath ;
-		}
-
-		if( !args.dataPath().isEmpty() ){
-
-			dataPath = args.dataPath() ;
-
-			return args.portable() ;
-		}else{
-			auto a = exePath  + "/local" ;
-
-			if( utility::pathIsFolderAndExists( a ) ){
-
-				dataPath = a ;
-
-				return true ;
-			}else{
-				dataPath = _configPath() ;
-
-				return false ;
-			}
-		}
-	}else{
-		dataPath = _configPath() ;
-
-		return false ;
-	}
-}
-
 static std::unique_ptr< QSettings > _init( const QString& dataPath,bool portableVersion )
 {	
 	if( utility::platformIsWindows() ){
@@ -424,8 +372,8 @@ static std::unique_ptr< QSettings > _init( const QString& dataPath,bool portable
 }
 
 settings::settings( const utility::cliArguments& args ) :
-	m_portableVersion( _portableVersionInit( args,m_dataPath,m_exePath,m_exeOrgPath ) ),
-	m_settingsP( _init( m_dataPath,portableVersion() ) ),
+	m_options( args ),
+	m_settingsP( _init( m_options.dataPath(),m_options.portableVersion() ) ),
 	m_settings( *m_settingsP )
 
 {
@@ -441,14 +389,6 @@ settings::settings( const utility::cliArguments& args ) :
 	if( m != "1.0" ){
 
 		qputenv( "QT_SCALE_FACTOR",m ) ;
-	}
-
-	if( args.runningUpdated() ){
-
-		//const auto& m = args.originalVersion() ;
-		//const auto& mm = utility::runningVersionOfMediaDownloader() ;
-
-		//m_runningUpdated = QObject::tr( "Started As Version %1 And Now Running As Version %2" ).arg( m,mm ) ;
 	}
 }
 
@@ -492,9 +432,9 @@ size_t settings::maxConcurrentDownloads()
 	return static_cast< size_t >( m_settings.value( "MaxConcurrentDownloads" ).toInt() ) ;
 }
 
-const QString& settings::exeOriginalPath()
+const QString& settings::windowsOnly3rdPartyBinPath()
 {
-	return m_exeOrgPath ;
+	return m_options.windowsOnly3rdPartyBinPath() ;
 }
 
 void settings::setMaxConcurrentDownloads( int s )
@@ -940,7 +880,7 @@ QStringList settings::localizationLanguages()
 
 const QString& settings::configPaths()
 {
-	return m_dataPath ;
+	return m_options.dataPath() ;
 }
 
 QString settings::commandOnSuccessfulDownload()
@@ -1002,7 +942,7 @@ QString settings::localizationLanguagePath()
 {
 	if( utility::platformIsWindows() ){
 
-		return m_exePath + "/translations" ;
+		return m_options.windowsOnlyExePath() + "/translations" ;
 	}
 
 	if( !m_settings.contains( "TranslationsPath" ) ){
@@ -1048,4 +988,55 @@ QString settings::localizationLanguage()
 	}
 
 	return m_settings.value( "Language" ).toString() ;
+}
+
+bool settings::portableVersion()
+{
+	return m_options.portableVersion() ;
+}
+
+const QString& settings::runningUpdatedText()
+{
+	return m_options.runningUpdated() ;
+}
+
+settings::options::options( const utility::cliArguments& args )
+{
+	if( utility::platformIsWindows() ){
+
+		m_exePath = utility::windowsApplicationDirPath() ;
+
+		if( args.runningUpdated() ){
+
+			m_dataPath = args.dataPath() ;
+
+			m_portableVersion = args.portable() ;
+
+			m_exe3PartyBinPath = args.originalPath() + "/3rdParty" ;
+
+			//const auto& m = args.originalVersion() ;
+			//const auto& mm = utility::runningVersionOfMediaDownloader() ;
+
+			//m_runningUpdated = QObject::tr( "Started As Version %1 And Now Running As Version %2" ).arg( m,mm ) ;
+		}else{
+			auto a = m_exePath  + "/local" ;
+
+			m_exe3PartyBinPath = m_exePath + "/3rdParty" ;
+
+			if( utility::pathIsFolderAndExists( a ) ){
+
+				m_dataPath = a ;
+
+				m_portableVersion = true ;
+			}else{
+				m_dataPath = _configPath() ;
+
+				m_portableVersion = false ;
+			}
+		}
+	}else{
+		m_dataPath = _configPath() ;
+
+		m_portableVersion = false ;
+	}
 }

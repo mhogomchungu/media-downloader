@@ -365,6 +365,7 @@ namespace utility
 	bool platformIsNOTWindows() ;
 	bool platformIsLikeWindows() ;
 	QString windowsApplicationDirPath() ;
+	QByteArray barLine() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
 	bool onlyWantedVersionInfo( const utility::cliArguments& ) ;

@@ -56,7 +56,7 @@ public:
 
 	size_t maxConcurrentDownloads() ;
 
-	const QString& exeOriginalPath() ;
+	const QString& windowsOnly3rdPartyBinPath() ;
 
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;
@@ -141,13 +141,40 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
 private:
-	QString m_dataPath ;
-	QString m_exePath ;
-	QString m_exeOrgPath ;
-	QString m_runningUpdated ;
+	struct options
+	{
+		options( const utility::cliArguments& ) ;
+
+		const QString& dataPath() const
+		{
+			return m_dataPath ;
+		}
+		const QString& windowsOnly3rdPartyBinPath() const
+		{
+			return m_exe3PartyBinPath ;
+		}
+		const QString windowsOnlyExePath() const
+		{
+			return m_exePath ;
+		}
+		bool portableVersion() const
+		{
+			return m_portableVersion ;
+		}
+		const QString& runningUpdated() const
+		{
+			return m_runningUpdated ;
+		}
+		QString m_runningUpdated ;
+		QString m_dataPath ;
+		QString m_exePath ;
+		QString m_exe3PartyBinPath ;
+		bool m_portableVersion ;
+	} ;
+
+	options m_options ;
 
 	bool m_EnableHighDpiScaling ;
-	bool m_portableVersion ;
 	std::unique_ptr< QSettings > m_settingsP ;
 	QSettings& m_settings ;
 };

@@ -64,20 +64,20 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	if( utility::platformIsWindows() ){
 
-		auto mm = settings.exeOriginalPath() ;
+		auto mm = settings.windowsOnly3rdPartyBinPath() ;
 
 		s += separator + mm ;
 
-		auto m = QDir( mm + "/3rdParty" ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+		auto m = QDir( mm ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
 
-		for( const auto& it : m ){
+		for( const auto& it : util::asConst( m ) ){
 
-			s += separator + mm + "/3rdParty/" + it ;
-			s += separator + mm + "/3rdParty/" + it + "/bin" ;
+			s += separator + mm + "/" + it ;
+			s += separator + mm + "/" + it + "/bin" ;
 		}
 	}
 
-	for( const auto& it : m ){
+	for( const auto& it : util::asConst( m ) ){
 
 		s += separator + basePath + "/" + it ;
 		s += separator + basePath + "/" + it + "/bin" ;
@@ -106,14 +106,14 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 {
 	if( s.showVersionInfoWhenStarting() ){
 
-		m_logger.add( QByteArray( "*****************************************************" ),id ) ;
+		m_logger.add( utility::barLine(),id ) ;
 
 		m_logger.add( QObject::tr( "To Disable These Checks, Do The Following:-" ),id ) ;
 		m_logger.add( QObject::tr( "1. Go To \"Configure\" Tab." ),id ) ;
 		m_logger.add( QObject::tr( "2. Go To \"General Options\" Sub Tab." ),id ) ;
 		m_logger.add( QObject::tr( "3. Uncheck \"Show Version Info When Starting\"." ),id ) ;
 
-		m_logger.add( QByteArray( "*****************************************************" ),id ) ;
+		m_logger.add( utility::barLine(),id ) ;
 	}
 
 	const auto& utxt = m_settings.runningUpdatedText() ;
@@ -133,7 +133,13 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;
 	m_logger.add( QObject::tr( "App Data Path: %1" ).arg( paths.basePath() ),id ) ;
 
-	m_logger.add( QByteArray( "*****************************************************" ),id ) ;
+	if( utility::platformIsWindows() ){
+
+		const auto& m = m_settings.windowsOnly3rdPartyBinPath() ;
+		m_logger.add( QObject::tr( "3rd Party Path: %1" ).arg( m ),id ) ;
+	}
+
+	m_logger.add( utility::barLine(),id ) ;
 
 	this->updateEngines( true,id ) ;
 }
@@ -1049,7 +1055,7 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 
 		auto id = utility::sequentialID() ;
 
-		QByteArray m( "*****************************************************" ) ;
+		const auto& m = utility::barLine() ;
 
 		logger.add( m,id ) ;
 

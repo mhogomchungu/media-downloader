@@ -1360,3 +1360,8 @@ bool utility::pathIsFolderAndExists( const QString& e )
 
 	return m.exists() && m.isDir() ;
 }
+
+QByteArray utility::barLine()
+{
+	return "*************************************************************" ;
+}
