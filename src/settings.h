@@ -58,7 +58,7 @@ public:
 
 	const QString& windowsOnly3rdPartyBinPath() ;
 	const QString& windowsOnlyExeBinPath() ;
-	const QString& windowsOnlyDefaultDownloadPath() ;
+	const QString& windowsOnlyDefaultPortableVersionDownloadFolder() ;
 
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;
@@ -143,6 +143,8 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
 private:
+	QString downloadFolder( Logger * ) ;
+
 	struct options
 	{
 		options( const utility::cliArguments& ) ;
@@ -159,9 +161,9 @@ private:
 		{
 			return m_exePath ;
 		}
-		const QString& windowsOnlyDefaultDownloadPath() const
+		const QString& windowsOnlyDefaultPortableVersionDownloadFolder() const
 		{
-			return m_defaultDownloadFolder ;
+			return m_defaultPortableVersionDownloadFolder ;
 		}
 		bool portableVersion() const
 		{
@@ -175,7 +177,7 @@ private:
 		QString m_dataPath ;
 		QString m_exePath ;
 		QString m_exe3PartyBinPath ;
-		QString m_defaultDownloadFolder ;
+		QString m_defaultPortableVersionDownloadFolder ;
 		bool m_portableVersion ;
 	} ;
 

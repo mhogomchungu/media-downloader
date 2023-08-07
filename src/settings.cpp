@@ -442,9 +442,9 @@ const QString& settings::windowsOnlyExeBinPath()
 	return m_options.m_exePath ;
 }
 
-const QString& settings::windowsOnlyDefaultDownloadPath()
+const QString& settings::windowsOnlyDefaultPortableVersionDownloadFolder()
 {
-	return m_options.windowsOnlyDefaultDownloadPath() ;
+	return m_options.windowsOnlyDefaultPortableVersionDownloadFolder() ;
 }
 
 void settings::setMaxConcurrentDownloads( int s )
@@ -464,103 +464,69 @@ void settings::setDownloadFolder( const QString& m )
 	}
 }
 
-template< typename Function >
-static QString _downloadFolder( QSettings& settings,
-				const QString& defaultPath,
-				bool portableVersion,
-				Function function )
+static QString _downloadFolder( QSettings& settings,const QString& defaultPath,Logger * logger )
 {
 	auto mediaDownloaderCWD = utility::stringConstants::mediaDownloaderCWD() ;
 
 	auto mediaDownloaderDefaultDownloadPath = utility::stringConstants::mediaDownloaderDefaultDownloadPath() ;
 
-	if( portableVersion ){
+	if( !settings.contains( "DownloadFolder" ) ){
 
-		if( settings.contains( "DownloadFolder" ) ){
+		settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
+	}
 
-			auto m = settings.value( "DownloadFolder" ).toString() ;
+	auto m = settings.value( "DownloadFolder" ).toString() ;
 
-			QString s = m ;
+	if( m.startsWith( mediaDownloaderCWD ) ){
 
-			if( m.startsWith( mediaDownloaderCWD ) ){
+		m.replace( mediaDownloaderCWD,QDir::currentPath() ) ;
 
-				m.replace( mediaDownloaderCWD,QDir::currentPath() ) ;
+	}else if( m.startsWith( mediaDownloaderDefaultDownloadPath ) ){
 
-				s = m ;
+		m.replace( mediaDownloaderDefaultDownloadPath,defaultPath ) ;
+	}
 
-			}else if( m.startsWith( mediaDownloaderDefaultDownloadPath ) ){
-
-				m.replace( mediaDownloaderDefaultDownloadPath,defaultPath ) ;
-
-				s = m ;
-			}
-
-			if( QFile::exists( s ) ){
-
-				return s ;
-			}else{
-				function( QObject::tr( "Resetting download folder to default" ) ) ;
-				settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
-				return defaultPath ;
-			}
-		}else{
-			settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
-			return defaultPath ;
-		}
-	}else{
-		if( !settings.contains( "DownloadFolder" ) ){
-
-			settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
-		}
-
-		auto m = settings.value( "DownloadFolder" ).toString() ;
-
-		if( m.startsWith( mediaDownloaderCWD ) ){
-
-			m.replace( mediaDownloaderCWD,QDir::currentPath() ) ;
-
-			return m ;
-		}
-
-		if( m.startsWith( mediaDownloaderDefaultDownloadPath ) ){
-
-			m.replace( mediaDownloaderDefaultDownloadPath,utility::homePath() ) ;
-		}
+	if( QFile::exists( m ) ){
 
 		return m ;
+	}else{
+		if( logger ){
+
+			auto m = QObject::tr( "Resetting download folder to default" ) ;
+
+			logger->add( m,utility::sequentialID() ) ;
+		}
+
+		settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
+		return defaultPath ;
+	}
+}
+
+QString settings::downloadFolder( Logger * logger )
+{
+	if( utility::platformIsWindows() ){
+
+		if( this->portableVersion() ){
+
+			const auto& dPath = this->windowsOnlyDefaultPortableVersionDownloadFolder() ;
+
+			return _downloadFolder( m_settings,dPath,logger ) ;
+		}else{
+			return _downloadFolder( m_settings,utility::homePath(),logger ) ;
+		}
+	}else{
+		return _downloadFolder( m_settings,utility::homePath(),logger ) ;
 	}
 }
 
 QString settings::downloadFolder()
 {
-	if( utility::platformIsWindows() ){
-
-		const auto& dPath = this->windowsOnlyDefaultDownloadPath() ;
-		bool pVersion = this->portableVersion() ;
-
-		return _downloadFolder( m_settings,dPath,pVersion,[]( const QString& ){} ) ;
-	}else{
-		return _downloadFolder( m_settings,{},false,[]( const QString& ){} ) ;
-	}
+	return this->downloadFolder( nullptr ) ;
 }
 
 QString settings::downloadFolder( Logger& logger )
 {
-	if( utility::platformIsWindows() ){
-
-		const auto& dPath = this->windowsOnlyDefaultDownloadPath() ;
-		bool pVersion = this->portableVersion() ;
-
-		return _downloadFolder( m_settings,dPath,pVersion,[ &logger ]( const QString& e ){
-
-			logger.add( e,utility::sequentialID() ) ;
-		} ) ;
-	}else{
-		return _downloadFolder( m_settings,{},false,[ &logger ]( const QString& e ){
-
-			logger.add( e,utility::sequentialID() ) ;
-		} ) ;
-	}
+	return this->downloadFolder( &logger ) ;
 }
 
 bool settings::showTrayIcon()
@@ -1043,7 +1009,7 @@ settings::options::options( const utility::cliArguments& args )
 
 			m_dataPath = args.dataPath() ;
 
-			m_defaultDownloadFolder = args.originalPath() + "/Downloads" ;
+			m_defaultPortableVersionDownloadFolder = args.originalPath() + "/Downloads" ;
 
 			m_portableVersion = args.portable() ;
 
@@ -1058,7 +1024,7 @@ settings::options::options( const utility::cliArguments& args )
 
 			m_exe3PartyBinPath = m_exePath + "/3rdParty" ;
 
-			m_defaultDownloadFolder = m_exePath + "/Downloads" ;
+			m_defaultPortableVersionDownloadFolder = m_exePath + "/Downloads" ;
 
 			if( utility::pathIsFolderAndExists( a ) ){
 
