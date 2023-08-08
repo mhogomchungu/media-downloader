@@ -766,27 +766,27 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Running In Portable Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegui in modo portatile</translation>
     </message>
     <message>
         <source>Running In Installation Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegui in modo installazione</translation>
     </message>
     <message>
         <source>Download Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso download: %1</translation>
     </message>
     <message>
         <source>App Data Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso dati app: %1</translation>
     </message>
     <message>
         <source>3rd Party Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso terze parti: %1</translation>
     </message>
     <message>
         <source>Failed To Open Path For Writing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aprire il percorso in scrittura: %1</translation>
     </message>
 </context>
 <context>
