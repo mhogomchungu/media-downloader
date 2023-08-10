@@ -45,6 +45,22 @@ static QString _configPath()
 #endif
 }
 
+static QString _downloadLocation()
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+	auto s = QStandardPaths::standardLocations( QStandardPaths::DownloadLocation ) ;
+
+	if( s.isEmpty() ){
+
+		return QDir::homePath() + "/Downloads" ;
+	}else{
+		return s.first() ;
+	}
+#else
+	return QDir::homePath() + "/Downloads" ;
+#endif
+}
+
 static QString _monitorClipboadUrl( settings::tabName e )
 {
 	if( e == settings::tabName::basic ){
@@ -492,9 +508,15 @@ static QString _downloadFolder( QSettings& settings,const QString& defaultPath,L
 	}else{
 		if( logger ){
 
-			auto m = QObject::tr( "Resetting download folder to default" ) ;
+			auto id = utility::sequentialID() ;
 
-			logger->add( m,utility::sequentialID() ) ;
+			auto s = utility::barLine() ;
+
+			logger->add( s,id ) ;
+
+			logger->add( QObject::tr( "Resetting download folder to default" ),id ) ;
+
+			logger->add( s,id ) ;
 		}
 
 		settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
@@ -512,10 +534,10 @@ QString settings::downloadFolder( Logger * logger )
 
 			return _downloadFolder( m_settings,dPath,logger ) ;
 		}else{
-			return _downloadFolder( m_settings,utility::homePath(),logger ) ;
+			return _downloadFolder( m_settings,_downloadLocation(),logger ) ;
 		}
 	}else{
-		return _downloadFolder( m_settings,utility::homePath(),logger ) ;
+		return _downloadFolder( m_settings,_downloadLocation(),logger ) ;
 	}
 }
 
