@@ -249,7 +249,6 @@ private:
 	bool m_showMetaData ;
 	tableWidget m_table ;
 	tableMiniWidget< QJsonObject > m_tableWidgetBDList ;
-	QString m_debug ;
 	QString m_commentsFileName ;
 	int m_networkRunning = false ;
 	QStringList m_optionsList ;
@@ -376,7 +375,7 @@ private:
 	struct opts
 	{
 		const Context& ctx ;
-		QString debug ;
+		utility::printOutPut& printOutPut ;
 		bool listRequested ;
 		int index ;
 		Logger batchLogger ;
@@ -385,7 +384,7 @@ private:
 	template< typename Logger,typename Functions >
 	auto make_options( const Context& ctx,
 			   const engines::engine& engine,
-			   QString debug,
+			   utility::printOutPut& debug,
 			   bool listRequested,
 			   int index,
 			   Logger logger,

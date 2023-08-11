@@ -316,11 +316,20 @@ namespace utility
 		QString originalVersion() const ;
 		QString value( const char * ) const ;
 		QStringList arguments( const QString&,const QString&,bool ) const ;
+		const QStringList& arguments() const ;
 	private:
-		int m_argc ;
-		char ** m_argv ;
+		QStringList m_args ;
 	} ;
-
+	class printOutPut
+	{
+	public:
+		printOutPut( const utility::cliArguments& ) ;
+		void operator()( const QByteArray& ) ;
+		bool isEmpty() const ;
+	private:
+		QFile m_outPutFile ;
+		enum class status{ qdebug,debug,notSet } m_status ;
+	} ;
 	void setDefaultEngine( const Context& ctx,const QString& name );
 	const engines::engine& resolveEngine( const tableWidget&,
 					      const engines::engine&,
@@ -338,7 +347,6 @@ namespace utility
 	void openDownloadFolderPath( const QString& ) ;
 	void setPermissions( QFile& ) ;
 	void setPermissions( const QString& ) ;
-	void log( const QByteArray&,const QString& ) ;
 	QString runningVersionOfMediaDownloader() ;
 	QString homePath() ;
 	QString clipboardText() ;
@@ -979,7 +987,7 @@ namespace utility
 		{
 			auto _withData = [ & ]( const QByteArray& data ){
 
-				utility::log( data,m_options.debug() ) ;
+				m_options.printOutPut( data ) ;
 
 				m_timer->stop() ;
 
@@ -1407,13 +1415,13 @@ namespace utility
 		{
 			return m_opts.listRequested ;
 		}
+		void printOutPut( const QByteArray& e )
+		{
+			m_opts.printOutPut( e ) ;
+		}
 		int index()
 		{
 			return m_opts.index ;
-		}
-		const QString& debug()
-		{
-			return m_opts.debug ;
 		}
 		void disableAll()
 		{

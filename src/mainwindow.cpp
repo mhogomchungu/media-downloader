@@ -33,32 +33,19 @@ static std::unique_ptr< Ui::MainWindow > _init_ui( QMainWindow& mw )
 	return m ;
 }
 
-static QString _debug( const QStringList& e )
-{
-	if( e.contains( "--debug" ) ){
-
-		return "--debug" ;
-
-	}else if( e.contains( "--qdebug" ) ){
-
-		return "--qdebug" ;
-	}else{
-		return "" ;
-	}
-}
-
 MainWindow::MainWindow( QApplication& app,
 			settings& s,
 			translator& t,
 			const engines::enginePaths& paths,
-			const QStringList& args ) :
+			const utility::cliArguments& args ) :
 	m_trayIcon( QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ),
 	m_qApp( app ),
 	m_appName( "Media Downloader" ),
 	m_ui( _init_ui( *this ) ),
 	m_logger( *m_ui->plainTextEditLogger,this,s ),
 	m_engines( m_logger,paths,s,utility::sequentialID() ),
-	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,m_appName,_debug( args ) ),
+	m_printOutPut( args ),
+	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,m_appName,m_printOutPut ),
 	m_settings( s ),
 	m_showTrayIcon( s.showTrayIcon() )
 {

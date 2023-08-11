@@ -43,7 +43,7 @@ class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 public:
-	MainWindow( QApplication&,settings&,translator&,const engines::enginePaths&,const QStringList& ) ;
+	MainWindow( QApplication&,settings&,translator&,const engines::enginePaths&,const utility::cliArguments& ) ;
 	void retranslateUi() ;
 	void setTitle( const QString& m ) ;
 	void resetTitle() ;
@@ -60,6 +60,7 @@ private:
 	std::unique_ptr< Ui::MainWindow > m_ui ;
 	Logger m_logger ;
 	engines m_engines ;
+	utility::printOutPut m_printOutPut ;
 	tabManager m_tabManager ;
 	settings& m_settings ;
 	bool m_showTrayIcon ;

@@ -67,7 +67,7 @@ private:
 		tableWidget& table ;
 
 		const Context& ctx ;
-		QString debug ;
+		utility::printOutPut& printOutPut ;
 		bool listRequested ;
 		int index ;
 	} ;
@@ -80,7 +80,6 @@ private:
 
 	const Context& m_ctx ;
 	settings& m_settings ;
-	QString m_debug ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
 	tableMiniWidget< engines::engine::functions::mediaInfo > m_tableList ;

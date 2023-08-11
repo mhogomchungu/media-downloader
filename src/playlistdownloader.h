@@ -139,7 +139,7 @@ private:
 	struct opts
 	{
 		const Context& ctx ;
-		QString debug ;
+		utility::printOutPut& printOutPut ;
 		bool listRequested ;
 		int index ;
 	} ;

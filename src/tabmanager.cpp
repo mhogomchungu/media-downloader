@@ -30,9 +30,9 @@ tabManager::tabManager( settings& s,
 			QWidget& w,
 			MainWindow& mw,
 			const QString& appName,
-			QString debug ) :
+			utility::printOutPut& op ) :
 	m_currentTab( s.tabNumber() ),
-	m_ctx( s,t,ui,w,mw,l,e,*this,appName,std::move( debug ) ),
+	m_ctx( s,t,ui,w,mw,l,e,*this,appName,op ),
 	m_about( m_ctx ),
 	m_configure( m_ctx ),
 	m_basicdownloader( m_ctx ),

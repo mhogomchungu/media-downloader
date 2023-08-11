@@ -34,7 +34,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font() ),
-	m_debug( ctx.debug() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings ),
 	m_ccmd_metadata( m_ctx,*m_ui.pbBDCancel,m_settings ),
@@ -1543,7 +1542,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
-	auto mmm = batchdownloader::make_options( m_ctx,engine,m_debug,false,index,wrapper,std::move( functions ) ) ;
+	auto mmm = batchdownloader::make_options( m_ctx,engine,m_ctx.debug(),false,index,wrapper,std::move( functions ) ) ;
 
 	m_ccmd_metadata.download( engine,
 				  args,
@@ -1816,7 +1815,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		}
 	} ) ;
 
-	auto oopts  = batchdownloader::make_options( m_ctx,engine,m_debug,true,-1,logger,std::move( functions ) ) ;
+	auto oopts  = batchdownloader::make_options( m_ctx,engine,m_ctx.debug(),true,-1,logger,std::move( functions ) ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ;
 	auto ch     = QProcess::ProcessChannel::StandardOutput ;
 
@@ -2024,7 +2023,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		return true ;
 	} ) ;
 
-	auto oopts = batchdownloader::make_options( m_ctx,engine,m_debug,false,index,loog,std::move( functions ) ) ;
+	auto oopts = batchdownloader::make_options( m_ctx,engine,m_ctx.debug(),false,index,loog,std::move( functions ) ) ;
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 

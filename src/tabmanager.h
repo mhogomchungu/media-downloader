@@ -40,7 +40,7 @@ public:
 		    QWidget& w,
 		    MainWindow& mw,
 		    const QString& appName,
-		    QString debug ) ;
+		    utility::printOutPut& ) ;
 	void setDefaultEngines() ;
 	tabManager& gotEvent( const QByteArray& e ) ;
 	tabManager& enableAll() ;

@@ -1218,32 +1218,17 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 	}
 }
 
-static QString _logToFile ;
-
-utility::cliArguments::cliArguments( int argc,char ** argv ) :
-	m_argc( argc ),m_argv( argv )
+utility::cliArguments::cliArguments( int argc,char ** argv )
 {
-	_logToFile = this->value( "--log-to-file" ) ;
+	for( int i = 0 ; i < argc ; i++ ){
 
-	if( !_logToFile.isEmpty() ){
-
-		QFile f( _logToFile ) ;
-		f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
-		f.write( "" ) ;
+		m_args.append( argv[ i ] ) ;
 	}
 }
 
 bool utility::cliArguments::contains( const char * m ) const
 {
-	for( int i = 0 ; i < m_argc ; i++ ){
-
-		if( std::strcmp( m_argv[ i ],m ) == 0 ){
-
-			return true ;
-		}
-	}
-
-	return false ;
+	return m_args.contains( m ) ;
 }
 
 bool utility::cliArguments::runningUpdated() const
@@ -1273,13 +1258,13 @@ QString utility::cliArguments::originalVersion() const
 
 QString utility::cliArguments::value( const char * m ) const
 {
-	for( int i = 0 ; i < m_argc ; i++ ){
+	for( auto it = m_args.begin() ; it != m_args.end() ; it++ ){
 
-		if( std::strcmp( m_argv[ i ],m ) == 0 ){
+		if( *it == m ){
 
-			if( i + 1 < m_argc ){
+			if( it + 1 != m_args.end() ){
 
-				return m_argv[ i + 1 ] ;
+				return *( it + 1 ) ;
 			}
 		}
 	}
@@ -1291,12 +1276,7 @@ QStringList utility::cliArguments::arguments( const QString& cpath,
 					      const QString& exeDirPath,
 					      bool portableVersion ) const
 {
-	QStringList args ;
-
-	for( int i = 0 ; i < m_argc ; i++ ){
-
-		args.append( m_argv[ i ] ) ;
-	}
+	auto args = m_args ;
 
 	args.append( "--running-updated" ) ;
 
@@ -1319,17 +1299,9 @@ QStringList utility::cliArguments::arguments( const QString& cpath,
 	return args ;
 }
 
-void utility::log( const QByteArray& data,const QString& e )
+const QStringList& utility::cliArguments::arguments() const
 {
-	utility::debug( e ) << data ;
-	utility::debug( e ) << "-------------------------------" ;
-
-	if( !_logToFile.isEmpty() ){
-
-		QFile f( _logToFile ) ;
-		f.open( QIODevice::WriteOnly | QIODevice::Append ) ;
-		f.write( data ) ;
-	}
+	return m_args ;
 }
 
 #ifdef Q_OS_WIN
@@ -1364,4 +1336,47 @@ bool utility::pathIsFolderAndExists( const QString& e )
 QByteArray utility::barLine()
 {
 	return "*************************************************************" ;
+}
+
+utility::printOutPut::printOutPut( const utility::cliArguments& args )
+{
+	if( args.contains( "--qDebug" ) || args.contains( "--qdebug" ) ){
+
+		m_status = utility::printOutPut::status::qdebug ;
+
+	}else if( args.contains( "--debug" ) ){
+
+		m_status = utility::printOutPut::status::debug ;
+	}else{
+		auto m = args.value( "--log-to-file" ) ;
+
+		if( !m.isEmpty() ){
+
+			m_outPutFile.setFileName( m ) ;
+
+			m_outPutFile.open( QIODevice::WriteOnly | QIODevice::Append ) ;
+		}
+	}
+}
+
+void utility::printOutPut::operator()( const QByteArray& e )
+{
+	if( m_outPutFile.isOpen() ){
+
+		m_outPutFile.write( e ) ;
+	}
+
+	if( m_status == utility::printOutPut::status::qdebug ){
+
+		qDebug() << e ;
+
+	}else if( m_status == utility::printOutPut::status::debug ){
+
+		std::cout << e.constData() << std::endl ;
+	}
+}
+
+bool utility::printOutPut::isEmpty() const
+{
+	return m_status == utility::printOutPut::status::notSet ;
 }
