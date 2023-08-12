@@ -323,10 +323,11 @@ namespace utility
 	class printOutPut
 	{
 	public:
-		printOutPut( const utility::cliArguments& ) ;
+		printOutPut( QObject *,const utility::cliArguments& ) ;
 		void operator()( const QByteArray& ) ;
 		bool isEmpty() const ;
 	private:
+		QObject * m_qObject ;
 		QFile m_outPutFile ;
 		enum class status{ qdebug,debug,notSet } m_status ;
 	} ;

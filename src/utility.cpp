@@ -1262,9 +1262,11 @@ QString utility::cliArguments::value( const char * m ) const
 
 		if( *it == m ){
 
-			if( it + 1 != m_args.end() ){
+			auto xt = it + 1 ;
 
-				return *( it + 1 ) ;
+			if( xt != m_args.end() ){
+
+				return *xt ;
 			}
 		}
 	}
@@ -1338,7 +1340,8 @@ QByteArray utility::barLine()
 	return "*************************************************************" ;
 }
 
-utility::printOutPut::printOutPut( const utility::cliArguments& args )
+utility::printOutPut::printOutPut( QObject * obj,const utility::cliArguments& args ) :
+	m_qObject( obj )
 {
 	if( args.contains( "--qDebug" ) || args.contains( "--qdebug" ) ){
 
@@ -1361,19 +1364,23 @@ utility::printOutPut::printOutPut( const utility::cliArguments& args )
 
 void utility::printOutPut::operator()( const QByteArray& e )
 {
-	if( m_outPutFile.isOpen() ){
+	QMetaObject::invokeMethod( m_qObject,[ this,e ](){
 
-		m_outPutFile.write( e ) ;
-	}
+		if( m_outPutFile.isOpen() ){
 
-	if( m_status == utility::printOutPut::status::qdebug ){
+			m_outPutFile.write( e ) ;
+		}
 
-		qDebug() << e ;
+		if( m_status == utility::printOutPut::status::qdebug ){
 
-	}else if( m_status == utility::printOutPut::status::debug ){
+			qDebug() << e ;
 
-		std::cout << e.constData() << std::endl ;
-	}
+		}else if( m_status == utility::printOutPut::status::debug ){
+
+			std::cout << e.constData() << std::endl ;
+		}
+
+	},Qt::QueuedConnection ) ;
 }
 
 bool utility::printOutPut::isEmpty() const
