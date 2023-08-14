@@ -1560,9 +1560,11 @@ private:
 
 		if( err.error == QJsonParseError::NoError ){
 
-			auto obj = json.object() ;
+			auto oldObject = json.object() ;
 
-			const auto oldFormats = obj.value( "formats" ).toArray() ;
+			const auto oldFormats = oldObject.value( "formats" ).toArray() ;
+
+			QJsonObject newObject ;
 
 			QJsonArray newFormats ;
 
@@ -1575,16 +1577,33 @@ private:
 				newFormats.append( obj ) ;
 			}
 
-			if( newFormats.isEmpty() ){
+			if( !newFormats.isEmpty() ){
 
-				obj.remove( "formats" ) ;
-			}else{
-				obj.insert( "formats",newFormats ) ;
+				newObject.insert( "formats",newFormats ) ;
+			}
+
+			oldObject.remove( "formats" ) ;
+
+			for( auto it = oldObject.begin() ; it != oldObject.end() ; it++ ){
+
+				const auto& s = it.value() ;
+
+				if( s.isString() ){
+
+					auto ss = s.toString() ;
+
+					if( ss != "NA" && ss != "\"NA\"" ){
+
+						newObject.insert( it.key(),ss ) ;
+					}
+				}else{
+					newObject.insert( it.key(),it.value() ) ;
+				}
 			}
 
 			auto m = QJsonDocument::JsonFormat::Indented ;
 
-			auto s = QJsonDocument( obj ).toJson( m ) ;
+			auto s = QJsonDocument( newObject ).toJson( m ) ;
 
 			m_outPut.add( s,m_id ) ;
 

@@ -175,24 +175,22 @@ const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
 
 		if( m_title.isEmpty() ){
 
-			auto m = s.toStringList() ;
+			s.toStringList().forEach( [ & ]( const QByteArray& e ){
 
-			for( const auto& mm : m ){
+				if( e.startsWith( "you-get: [Error]" ) ){
 
-				const QByteArray& it = mm ;
-
-				if( it.startsWith( "you-get: [Error]" ) ){
-
-					m_title = it ;
+					m_title = e ;
 
 					if( m_title.endsWith( '.' ) ){
 
 						m_title.truncate( m_title.size() - 1 ) ;
 					}
 
-					break ;
+					return true ;
+				}else{
+					return false ;
 				}
-			}
+			} ) ;
 		}
 
 		return m_title ;

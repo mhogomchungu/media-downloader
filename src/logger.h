@@ -243,6 +243,27 @@ public:
 			{
 				return m_array[ m ] ;
 			}
+			template< typename Function,
+				  typename std::enable_if< std::is_void< util::types::result_of< Function,QByteArray > >::value,int >::type = 0 >
+			void forEach( Function function ) const
+			{
+				for( const auto& it : m_array ){
+
+					function( it ) ;
+				}
+			}
+			template< typename Function,
+				  typename std::enable_if< std::is_same< util::types::result_of< Function,QByteArray >,bool >::value,int >::type = 0 >
+			void forEach( Function function ) const
+			{
+				for( const auto& it : m_array ){
+
+					if( function( it ) ){
+
+						break ;
+					}
+				}
+			}
 		private:
 			class ByteArray
 			{

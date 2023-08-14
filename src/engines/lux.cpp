@@ -345,9 +345,7 @@ public:
 		QByteArray fsizeS ;
 		qint64 fsize = 0 ;
 
-		for( const auto& it : outPut.toStringList() ){
-
-			const QByteArray& e = it ;
+		outPut.toStringList().forEach( [ & ]( const QByteArray& e ){
 
 			if( e.contains( "Site: " ) ){
 
@@ -369,7 +367,7 @@ public:
 					fsizeS = locale.formattedDataSize( fsize ).toUtf8() ;
 				}
 			}
-		}
+		} ) ;
 
 		outPut.setLuxHeader( { webSite,title,fsizeS,fsize } ) ;
 	}
