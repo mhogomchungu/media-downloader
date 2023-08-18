@@ -1253,7 +1253,7 @@ const QProcessEnvironment& engines::engine::functions::processEnvironment() cons
 	return m_processEnvironment ;
 }
 
-std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( const QByteArray& e )
+std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( Logger&,const QByteArray& e )
 {
 	auto args = util::split( e,'\n' ) ;
 
@@ -1296,7 +1296,7 @@ std::vector< engines::engine::functions::mediaInfo > engines::engine::functions:
 	return s ;
 }
 
-std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( const QJsonArray& )
+std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( Logger&,const QJsonArray& )
 {
 	return {} ;
 }

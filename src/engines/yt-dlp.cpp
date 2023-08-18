@@ -844,29 +844,30 @@ engines::engine::functions::FilterOutPut yt_dlp::filterOutput()
 	return { util::types::type_identity< ytDlpFilter >(),m_engine } ;
 }
 
-std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( const QByteArray& e )
+std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
 {
 	const auto& name = m_engine.name() ;
 
 	if( name == "youtube-dl" ){
 
-		return engines::engine::functions::mediaProperties( e ) ;
+		return engines::engine::functions::mediaProperties( l,e ) ;
 	}else{
-
 		QJsonParseError err ;
 
 		auto json = QJsonDocument::fromJson( e,&err ) ;
 
 		if( err.error == QJsonParseError::NoError ){
 
-			return this->mediaProperties( json.array() ) ;
+			return this->mediaProperties( l,json.array() ) ;
 		}else{
+			utility::failedToParseJsonData( l,err ) ;
+
 			return {} ;
 		}
 	}
 }
 
-std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( const QJsonArray& array )
+std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QJsonArray& array )
 {
 	if( array.isEmpty() ){
 
@@ -875,7 +876,7 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( co
 
 	if( m_engine.name() == "youtube-dl" ){
 
-		return engines::engine::functions::mediaProperties( array ) ;
+		return engines::engine::functions::mediaProperties( l,array ) ;
 	}
 
 	std::vector< engines::engine::functions::mediaInfo > firstToShow ;

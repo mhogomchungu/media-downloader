@@ -1387,3 +1387,10 @@ bool utility::printOutPut::isEmpty() const
 {
 	return m_status == utility::printOutPut::status::notSet ;
 }
+
+void utility::failedToParseJsonData( Logger& logger,const QJsonParseError& error )
+{
+	auto id = utility::sequentialID() ;
+
+	logger.add( "Failed To Parse Json Data:" + error.errorString(),id ) ;
+}

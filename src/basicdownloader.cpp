@@ -250,7 +250,7 @@ void basicdownloader::listRequested( const QByteArray& a,int id )
 
 		const auto& engine = m_ctx.Engines().defaultEngine( m,id ) ;
 
-		auto ee = engine.mediaProperties( a ) ;
+		auto ee = engine.mediaProperties( m_ctx.logger(),a ) ;
 
 		if( ee.size() ){
 

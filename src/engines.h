@@ -524,9 +524,9 @@ public:
 				QString m_info ;
 			} ;
 
-			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) ;
+			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) ;
 
-			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& ) ;
+			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) ;
 
 			virtual void updateOutPutChannel( QProcess::ProcessChannel& ) const ;
 
@@ -811,9 +811,9 @@ public:
 		{
 			m_engine->sendCredentials( credentials,exe ) ;
 		}
-		std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& e ) const
+		std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger& l,const QByteArray& e ) const
 		{
-			return m_engine->mediaProperties( e ) ;
+			return m_engine->mediaProperties( l,e ) ;
 		}
 		void updateGetPlaylistCmdOptions( QStringList& e ) const
 		{
@@ -847,9 +847,9 @@ public:
 		{
 			m_engine->updateOutPutChannel( s ) ;
 		}
-		std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& e ) const
+		std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger& l,const QJsonArray& e ) const
 		{
-			return m_engine->mediaProperties( e ) ;
+			return m_engine->mediaProperties( l,e ) ;
 		}
 		void updateEnginePaths( const Context& ctx,QString& filePath,QString& exeBinPath,QString& exeFolderPath ) const
 		{

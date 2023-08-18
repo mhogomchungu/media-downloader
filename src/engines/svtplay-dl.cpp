@@ -403,7 +403,7 @@ static bool _add( std::vector< engines::engine::functions::mediaInfo >& s,const 
 	return true ;
 }
 
-std::vector<engines::engine::functions::mediaInfo> svtplay_dl::mediaProperties( const QByteArray& e )
+std::vector<engines::engine::functions::mediaInfo> svtplay_dl::mediaProperties( Logger&,const QByteArray& e )
 {
 	auto mm = util::split( e,'\n',true ) ;
 

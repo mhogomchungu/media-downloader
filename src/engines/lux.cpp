@@ -89,7 +89,7 @@ engines::engine::functions::DataFilter lux::Filter( int id )
 	return { util::types::type_identity< lux::lux_dlFilter >(),m_engine,id,m_downloadFolder.toUtf8() } ;
 }
 
-std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const QByteArray& e )
+std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( Logger& l,const QByteArray& e )
 {
 	QJsonParseError err ;
 
@@ -97,13 +97,15 @@ std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const Q
 
 	if( err.error == QJsonParseError::NoError ){
 
-		return this->mediaProperties( json.array() ) ;
+		return this->mediaProperties( l,json.array() ) ;
 	}else{
+		utility::failedToParseJsonData( l,err ) ;
+
 		return {} ;
 	}
 }
 
-std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( const QJsonArray& arr )
+std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( Logger&,const QJsonArray& arr )
 {
 	std::vector<engines::engine::functions::mediaInfo> ent ;
 

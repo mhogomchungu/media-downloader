@@ -51,9 +51,9 @@ public:
 
 	engines::engine::functions::DataFilter Filter( int ) override ;
 
-	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QByteArray& ) override ;
+	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
-	std::vector< engines::engine::functions::mediaInfo > mediaProperties( const QJsonArray& ) override ;
+	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 

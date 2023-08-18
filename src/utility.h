@@ -348,6 +348,7 @@ namespace utility
 	void openDownloadFolderPath( const QString& ) ;
 	void setPermissions( QFile& ) ;
 	void setPermissions( const QString& ) ;
+	void failedToParseJsonData( Logger&,const QJsonParseError& ) ;
 	QString runningVersionOfMediaDownloader() ;
 	QString homePath() ;
 	QString clipboardText() ;

@@ -64,7 +64,7 @@ void you_get::renameArchiveFolder( const QString& e )
 	}
 }
 
-std::vector<engines::engine::functions::mediaInfo> you_get::mediaProperties( const QByteArray& e )
+std::vector<engines::engine::functions::mediaInfo> you_get::mediaProperties( Logger& l,const QByteArray& e )
 {
 	QJsonParseError err ;
 
@@ -72,8 +72,10 @@ std::vector<engines::engine::functions::mediaInfo> you_get::mediaProperties( con
 
 	std::vector<engines::engine::functions::mediaInfo> s ;
 
-	if( err.error == QJsonParseError::NoError ){
+	if( err.error != QJsonParseError::NoError ){
 
+		utility::failedToParseJsonData( l,err ) ;
+	}else{
 		const auto obj = json.object().value( "streams" ).toObject() ;
 
 		Logger::locale locale ;

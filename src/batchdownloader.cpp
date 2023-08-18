@@ -1693,7 +1693,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 			if( !mp.isEmpty() ){
 
-				const auto ss = engine.mediaProperties( mp ) ;
+				const auto ss = engine.mediaProperties( m_ctx.logger(),mp ) ;
 
 				if( !ss.empty() ){
 
@@ -1747,7 +1747,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 					this->showComments( a ) ;
 				}else{
-					for( const auto& m : engine.mediaProperties( a ) ){
+					for( const auto& m : engine.mediaProperties( m_ctx.logger(),a ) ){
 
 						m_tableWidgetBDList.add( m.toStringList(),m.toqJsonObject() ) ;
 					}
