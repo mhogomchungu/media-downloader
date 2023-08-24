@@ -567,22 +567,22 @@ public:
 		auto& d = args.data ;
 		const auto& m = args.outPut ;
 
-		if( d.svtData().fileName().isEmpty() ){
+		auto notMainLogger = !d.mainLogger() ;
 
-			for( const auto& e : d.toStringList() ){
+		if( notMainLogger && d.svtData().fileName().isEmpty() ){
 
-				const QByteArray& s = e ;
+			d.toStringList().forEach( [ & ]( const QByteArray& s ){
 
 				if( s.startsWith( "Outfile: " ) ){
 
 					d.svtData().setFileName( s.mid( 9 ) ) ;
 				}
-			}
+			} ) ;
 		}
 
 		if( m.startsWith( "DEBUG " ) ){
 
-			if( m.contains( " 200 " ) ){
+			if( notMainLogger && m.contains( " 200 " ) ){
 
 				auto q = m.lastIndexOf( ' ' ) ;
 
@@ -650,8 +650,6 @@ public:
 
 		auto dd = util::split( c.mid( cc + 1 ),'/' ) ;
 
-		auto ll = l.formattedDataSize( d.svtData().size() ) ;
-
 		if( dd.size() == 2 ){
 
 			auto x = dd[ 0 ].toDouble() ;
@@ -661,13 +659,18 @@ public:
 
 			auto zz = QString::number( z,'f',2 ) ;
 
-			auto ss = ll + ", [" + dd[ 0 ] + "/" + dd[ 1 ] + "] (" + zz + "%), " + a ;
+			auto ss = "[" + dd[ 0 ] + "/" + dd[ 1 ] + "] (" + zz + "%), " + a ;
 
 			m_tmp = ss.toUtf8() ;
 		}else{
-			auto ss = ll + ", [00/00] (NA), " + a ;
+			m_tmp = "[00/00] (NA), " + a ;
+		}
 
-			m_tmp = ss.toUtf8() ;
+		if( !d.mainLogger() ){
+
+			auto ll = l.formattedDataSize( d.svtData().size() ).toUtf8() ;
+
+			m_tmp = ll + ", " + m_tmp ;
 		}
 
 		return { m_tmp,m_engine,_meetCondition } ;

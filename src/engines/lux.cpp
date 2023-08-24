@@ -73,6 +73,31 @@ Merging video parts into TRIPLE PLAY‼ Braves capitalize on shoddy baserunning 
 )R" ;
 }
 
+static void _replaceChars( QByteArray& )
+{
+}
+template< typename ... T >
+static void _replaceChars( QByteArray& e,const char * a,const char * b,T&& ... t )
+{
+	e.replace( a,b ) ;
+	_replaceChars( e,std::forward< T >( t ) ... ) ;
+}
+
+static QByteArray _title( QByteArray title )
+{
+	// Got these substitions from lux source code
+	// https://github.com/iawia002/lux/blob/c97baa8c5325c48618a6e0b243f3e614e7980f43/utils/utils.go#L89
+
+	_replaceChars( title,"\n"," ","/"," ","|","-",": ","：",":","：","'","’" ) ;
+
+	if( utility::platformIsWindows() ){
+
+		_replaceChars( title,"\""," ","?"," ","*"," ","\\"," ","<"," ",">"," " ) ;
+	}
+
+	return title ;
+}
+
 lux::~lux()
 {
 }
@@ -226,6 +251,60 @@ static bool _meetLocalCondition( const engines::engine&,const QByteArray& e )
 	return e.contains( ", ETA: " ) ;
 }
 
+class LuxHeader
+{
+public:
+	LuxHeader( const Logger::locale& locale,const QByteArray& header )
+	{
+		const auto headers = util::split( header,'\n' ) ;
+
+		for( const auto& e : headers ){
+
+			if( e.contains( "Site: " ) ){
+
+				m_webSite = util::join( util::split( e,' ' ),1," " ) ;
+
+			}else if( e.contains( "Title: " ) ){
+
+				m_title = util::join( util::split( e,' ' ),1," " ) ;
+
+			}else if( e.contains( "Size: " ) ){
+
+				auto mm = util::split( e,' ' ) ;
+
+				if( mm.size() > 1 ){
+
+					auto ss = mm[ mm.size() - 2 ].mid( 1 ) ;
+
+					m_fileSizeInt    = ss.toLongLong() ;
+					m_fileSizeString = locale.formattedDataSize( m_fileSizeInt ).toUtf8() ;
+				}
+			}
+		}
+	}
+	const QByteArray& webSite() const
+	{
+		return m_webSite ;
+	}
+	const QByteArray& title() const
+	{
+		return m_title ;
+	}
+	const QByteArray& fileSize() const
+	{
+		return m_fileSizeString ;
+	}
+	qint64 fileSizeInt() const
+	{
+		return m_fileSizeInt ;
+	}
+private:
+	QByteArray m_webSite ;
+	QByteArray m_title ;
+	QByteArray m_fileSizeString ;
+	qint64 m_fileSizeInt = 0 ;
+};
+
 class luxFilter : public engines::engine::functions::filterOutPut
 {
 public:
@@ -235,27 +314,43 @@ public:
 	engines::engine::functions::filterOutPut::result
 	formatOutput( const engines::engine::functions::filterOutPut::args& args ) const override
 	{
+		auto data = args.data.toString() + args.outPut ;
+
+		auto m = data.indexOf( "..." ) ;
+
+		if( m != -1 ){
+
+			return this->formatOutput( args,data,{ args.locale,data.mid( 0,m ) } ) ;
+		}else{
+			return { args.outPut,m_engine,_meetLocalCondition } ;
+		}
+	}
+	engines::engine::functions::filterOutPut::result
+	formatOutput( const engines::engine::functions::filterOutPut::args& args,
+		      const QByteArray& allData,
+		      const LuxHeader& luxHeader ) const
+	{
 		const auto& locale = args.locale ;
-		const auto& outPut = args.data ;
 		const auto& e      = args.outPut ;
 
-		const auto& luxHeader = outPut.luxHeader() ;
-
-		const auto& m = luxHeader.allData() ;
-
-		auto mm = m.lastIndexOf( "-]" ) ;
+		auto mm = allData.lastIndexOf( "-]" ) ;
 
 		if( mm == -1 ){
 
-			mm = m.lastIndexOf( "=]" ) ;
+			mm = allData.lastIndexOf( "=]" ) ;
 		}
 
-		if( mm == - 1 ){
+		if( mm == -1 ){
+
+			mm = allData.lastIndexOf( ">]" ) ;
+		}
+
+		if( mm == -1 ){
 
 			return { e,m_engine,_meetLocalCondition } ;
 		}
 
-		auto ss = m.mid( mm + 2 ) ;
+		auto ss = allData.mid( mm + 2 ) ;
 
 		ss.replace( "p/s","" ) ;
 
@@ -293,8 +388,6 @@ public:
 				if( mm != -1 ){
 
 					m_tmp = m_tmp + "\n" + e.mid( mm ) ;
-
-					return { m_tmp,m_engine,_meetLocalCondition } ;
 				}
 
 				return { m_tmp,m_engine,_meetLocalCondition } ;
@@ -319,59 +412,11 @@ public:
 	}
 	bool meetCondition( const engines::engine::functions::filterOutPut::args& args ) const override
 	{
-		const auto& e = args.outPut ;
-		auto& outPut  = args.data ;
-
-		outPut.luxHeaderUpdateData( e ) ;
-
-		const auto& luxHeader = outPut.luxHeader() ;
-
-		if( luxHeader.invalid() && luxHeader.allData().contains( "..." ) ){
-
-			this->setHeader( args ) ;
-		}
-
-		return _meetCondition( m_engine,e ) ;
+		return _meetCondition( m_engine,args.outPut ) ;
 	}
 	const engines::engine& engine() const override
 	{
 		return m_engine ;
-	}
-	void setHeader( const engines::engine::functions::filterOutPut::args& args ) const
-	{
-		auto& outPut       = args.data ;
-		const auto& locale = args.locale ;
-
-		QByteArray webSite ;
-		QByteArray title ;
-		QByteArray fsizeS ;
-		qint64 fsize = 0 ;
-
-		outPut.toStringList().forEach( [ & ]( const QByteArray& e ){
-
-			if( e.contains( "Site: " ) ){
-
-				webSite = util::join( util::split( e,' ' ),1," " ) ;
-
-			}else if( e.contains( "Title: " ) ){
-
-				title = util::join( util::split( e,' ' ),1," " ) ;
-
-			}else if( e.contains( "Size: " ) ){
-
-				auto mm = util::split( e,' ' ) ;
-
-				if( mm.size() > 1 ){
-
-					auto ss = mm[ mm.size() - 2 ].mid( 1 ) ;
-
-					fsize = ss.toLongLong() ;
-					fsizeS = locale.formattedDataSize( fsize ).toUtf8() ;
-				}
-			}
-		} ) ;
-
-		outPut.setLuxHeader( { webSite,title,fsizeS,fsize } ) ;
 	}
 private:
 	const engines::engine& m_engine ;
@@ -426,11 +471,11 @@ lux::lux_dlFilter::lux_dlFilter( const engines::engine& engine,int id,QByteArray
 
 const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 {	
-	const auto& luxHeader = e.luxHeader() ;
+	auto allData = e.toString() ;
+
+	LuxHeader luxHeader( m_locale,allData.mid( allData.indexOf( "..." ) ) ) ;
 
 	if( e.doneDownloading() ){
-
-		const auto& allData = luxHeader.allData() ;
 
 		if( allData.contains( ": file already exists, skipping" ) ){
 
@@ -497,7 +542,7 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 				return m_tmp ;
 			}else{
-				const auto& m = luxHeader.title() ;
+				const auto& m = _title( luxHeader.title() ) ;
 
 				if( QFile::exists( m_downloadFolder + m + ".webm" ) ){
 
@@ -511,7 +556,8 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 					return m_fileName ;
 				}else{
-					return m ;
+					m_tmp = m ;
+					return m_tmp ;
 				}
 			}
 		}else{
@@ -546,31 +592,6 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 lux::lux_dlFilter::~lux_dlFilter()
 {
-}
-
-static void _replaceChars( QByteArray& )
-{
-}
-template< typename ... T >
-static void _replaceChars( QByteArray& e,const char * a,const char * b,T&& ... t )
-{
-	e.replace( a,b ) ;
-	_replaceChars( e,std::forward< T >( t ) ... ) ;
-}
-
-static QByteArray _title( QByteArray title )
-{
-	// Got these substitions from lux source code
-	// https://github.com/iawia002/lux/blob/c97baa8c5325c48618a6e0b243f3e614e7980f43/utils/utils.go#L89
-
-	_replaceChars( title,"\n"," ","/"," ","|","-",": ","：",":","：","'","’" ) ;
-
-	if( utility::platformIsWindows() ){
-
-		_replaceChars( title,"\""," ","?"," ","*"," ","\\"," ","<"," ",">"," " ) ;
-	}
-
-	return title ;
 }
 
 const QByteArray& lux::lux_dlFilter::renameTitle( const QByteArray& title )

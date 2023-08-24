@@ -47,6 +47,7 @@ public:
 		QByteArray m_tmp ;
 		engines::engine::functions::preProcessing m_progress ;
 		QByteArray m_downloadFolder ;
+		Logger::locale m_locale ;
 	} ;
 
 	engines::engine::functions::DataFilter Filter( int ) override ;

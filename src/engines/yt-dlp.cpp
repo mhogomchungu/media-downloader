@@ -570,7 +570,7 @@ static bool _aria2c( const engines::engine& s,const QByteArray& e )
 
 static bool _ffmpeg_internal( const engines::engine&,const QByteArray& e )
 {
-	return e.contains( "Frame: " ) && e.contains( ", Completed: " ) ;
+	return e.contains( "Frame: " ) && e.contains( ", Speed: " ) ;
 }
 
 static bool _shouldNotGetCalled( const engines::engine&,const QByteArray& )
@@ -642,7 +642,7 @@ private:
 		const auto& locale = args.locale ;
 		auto& s = args.data ;
 
-		if( e.startsWith( "[postprocess]" ) ){
+		if( !s.mainLogger() && e.startsWith( "[postprocess]" ) ){
 
 			auto obj = QJsonDocument::fromJson( e.mid( 14 ) ).object() ;
 
@@ -722,23 +722,28 @@ private:
 	}
 	double toSeconds( const QByteArray& s ) const
 	{
-		auto mm = util::split( util::split( s,'.' )[ 0 ],':' ) ;
+		if( s.isEmpty() ){
 
-		if( mm.size() > 2 ){
-
-			auto h  = mm[ 0 ].toDouble() ;
-			auto m  = mm[ 1 ].toDouble() ;
-			auto ss = mm[ 2 ].toDouble() ;
-
-			ss += m * 60 ;
-			ss += h * 60 * 60 ;
-
-			return ss ;
-		}else{
 			return 0 ;
+		}else{
+			auto mm = util::split( util::split( s,'.' )[ 0 ],':' ) ;
+
+			if( mm.size() > 2 ){
+
+				auto h  = mm[ 0 ].toDouble() ;
+				auto m  = mm[ 1 ].toDouble() ;
+				auto ss = mm[ 2 ].toDouble() ;
+
+				ss += m * 60 ;
+				ss += h * 60 * 60 ;
+
+				return ss ;
+			}else{
+				return 0 ;
+			}
 		}
 	}
-	bool foundDuration( Logger::Data& s,const QByteArray& e ) const
+	QByteArray duration( const QByteArray& e ) const
 	{
 		if( e.contains( "  Duration: " ) ){
 
@@ -750,13 +755,13 @@ private:
 
 					auto mm = m[ a + 1 ].replace( ",","" ) ;
 
-					s.ytDlpData().setFfmpegDuration( this->toSeconds( mm ) ) ;
+					return mm ;
 				}
 			}
 
-			return true ;
+			return {} ;
 		}else{
-			return false ;
+			return {} ;
 		}
 	}
 	QString getOption( const QList< QByteArray >& m,const char * opt ) const
@@ -792,14 +797,6 @@ private:
 		const auto& data = args.outPut ;
 		auto& s          = args.data ;
 
-		if( s.ytDlpData().ffmpegDuration() == 0 ){
-
-			s.forEach( [ & ]( int,const QByteArray& e ){
-
-				return this->foundDuration( s,e ) ;
-			} ) ;
-		}
-
 		auto m = util::split( data,' ' ) ;
 
 		auto frame   = this->getOption( m,"frame=" ) ;
@@ -816,23 +813,82 @@ private:
 
 		auto e = this->toSeconds( time.toUtf8() ) ;
 
-		QString completed = "NA" ;
+		if( s.mainLogger() ){
 
-		if( s.ytDlpData().ffmpegDuration() != 0 ){
+			QByteArray duration ;
 
-			auto r = e * 100 / s.ytDlpData().ffmpegDuration() ;
+			s.forEach( [ & ]( int,const QByteArray& e ){
 
-			completed = QString::number( r,'f',2 ) ;
+				auto d = this->duration( e ) ;
 
-			if( completed == "100.00" ){
+				if( d.isEmpty() ){
 
-				completed = "100" ;
+					return false ;
+				}else{
+					duration = std::move( d ) ;
+
+					return true ;
+				}
+			} ) ;
+
+			auto dd = this->toSeconds( duration ) ;
+
+			if( dd == 0 ){
+
+				QString result = "Frame: %1, Fps: %2, Size: %3, Bitrate: %4, Speed: %5" ;
+
+				return result.arg( frame,fps,size,bitrate,speed ).toUtf8() ;
+			}else{
+				auto r = e * 100 / dd ;
+
+				auto completed = QString::number( r,'f',2 ) ;
+
+				if( completed == "100.00" ){
+
+					completed = "100" ;
+				}
+
+				QString result = "Frame: %1, Fps: %2, Size: %3, Bitrate: %4, Speed: %5, Completed: %6%" ;
+
+				return result.arg( frame,fps,size,bitrate,speed,completed ).toUtf8() ;
 			}
+		}else{
+			if( s.ytDlpData().ffmpegDuration() == 0 ){
+
+				s.forEach( [ & ]( int,const QByteArray& e ){
+
+					auto duration = this->duration( e ) ;
+
+					if( duration.isEmpty() ){
+
+						return false ;
+					}else{
+						auto e = this->toSeconds( duration ) ;
+						s.ytDlpData().setFfmpegDuration( e ) ;
+
+						return true ;
+					}
+				} ) ;
+			}
+
+			QString completed = "NA" ;
+
+			if( s.ytDlpData().ffmpegDuration() != 0 ){
+
+				auto r = e * 100 / s.ytDlpData().ffmpegDuration() ;
+
+				completed = QString::number( r,'f',2 ) ;
+
+				if( completed == "100.00" ){
+
+					completed = "100" ;
+				}
+			}
+
+			QString result = "Frame: %1, Fps: %2, Size: %3\nBitrate: %4, Speed: %5, Completed: %6%" ;
+
+			return result.arg( frame,fps,size,bitrate,speed,completed ).toUtf8() ;
 		}
-
-		QString result = "Frame: %1, Fps: %2, Size: %3\nBitrate: %4, Speed: %5, Completed: %6%" ;
-
-		return result.arg( frame,fps,size,bitrate,speed,completed ).toUtf8() ;
 	}
 	mutable QByteArray m_tmp ;
 	const engines::engine& m_engine ;
@@ -1385,7 +1441,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 				const auto& m = s.ytDlpData().filePath() ;
 
-				if( !s.isEmpty() ){
+				if( !m.isEmpty() ){
 
 					return m ;
 				}else{

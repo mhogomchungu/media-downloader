@@ -491,83 +491,6 @@ public:
 		{
 			return m_svtData ;
 		}
-
-		class LuxHeader
-		{
-		public:
-			LuxHeader()
-			{
-			}
-			LuxHeader( QByteArray w,QByteArray t,QByteArray ss,qint64 s ) :
-				m_webSite( std::move( w ) ),
-				m_title( std::move( t ) ),
-				m_fileSizeString( std::move( ss ) ),
-				m_fileSizeInt( s )
-			{
-			}
-			LuxHeader move()
-			{
-				return std::move( *this ) ;
-			}
-			bool invalid() const
-			{
-				return m_title.isEmpty() ;
-			}
-			const QByteArray& webSite() const
-			{
-				return m_webSite ;
-			}
-			const QByteArray& title() const
-			{
-				return m_title ;
-			}
-			const QByteArray& fileSize() const
-			{
-				return m_fileSizeString ;
-			}
-			qint64 fileSizeInt() const
-			{
-				return m_fileSizeInt ;
-			}
-			const QByteArray& allData() const
-			{
-				return m_allData ;
-			}
-			void addData( const QByteArray& e )
-			{
-				m_allData += e ;
-			}
-			const QByteArray& fileSize()
-			{
-				return m_fileSizeString ;
-			}
-			qint64 fileSizeInt()
-			{
-				return m_fileSizeInt ;
-			}
-		private:
-			QByteArray m_webSite ;
-			QByteArray m_title ;
-			QByteArray m_fileSizeString ;
-			QByteArray m_allData ;
-			qint64 m_fileSizeInt = 0 ;
-		};
-		void setLuxHeader( LuxHeader h )
-		{
-			m_luxHeader = h.move() ;
-		}
-		void luxHeaderUpdateData( const QByteArray& e )
-		{
-			m_luxHeader.addData( e ) ;
-		}
-		const LuxHeader& luxHeader() const
-		{
-			return m_luxHeader ;
-		}
-		const LuxHeader& luxHeader()
-		{
-			return m_luxHeader ;
-		}
 	private:
 		bool doneDownloadingText( const QByteArray& data ) ;
 		template< typename Function >
@@ -609,7 +532,6 @@ public:
 		std::list< Logger::Data::processOutput > m_processOutputs ;
 		bool m_mainLogger ;
 		YtDlpData m_ytDlpData ;
-		LuxHeader m_luxHeader ;
 		SvtData m_svtData ;
 	} ;
 
