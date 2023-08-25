@@ -558,9 +558,19 @@ static bool _youtube_dl( const engines::engine&,const QByteArray& e )
 	return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
 }
 
+static bool _fragment_output( const QByteArray& e )
+{
+	return utils::misc::startsWithAny( e,"[https @ ","[hls @ ","Opening '" ) ;
+}
+
 static bool _ffmpeg( const engines::engine&,const QByteArray& e )
 {
-	return e.startsWith( "frame=" ) || e.startsWith( "size=" ) ;
+	if( _fragment_output( e ) ){
+
+		return true ;
+	}else{
+		return utils::misc::startsWithAny( e,"frame=","size=" ) ;
+	}
 }
 
 static bool _aria2c( const engines::engine& s,const QByteArray& e )
@@ -804,6 +814,11 @@ private:
 
 		double totalTime = 0 ;
 
+		if( _fragment_output( data ) ){
+
+			return args.data.lastText() ;
+		}
+
 		QByteArray totalTimeString ;
 
 		s.forEach( [ & ]( int,const QByteArray& e ){
@@ -832,7 +847,9 @@ private:
 			size = this->getOption( m,"Lsize=" ) ;
 		}
 
-		if( totalTime == 0 || size == "NA" ){
+		auto currentTime = this->toSeconds( currentTimeString.toUtf8() ) ;
+
+		if( currentTime == 0 || totalTime == 0 || size == "NA" ){
 
 			auto frame   = this->getOption( m,"frame=" ) ;
 			auto fps     = this->getOption( m,"fps=" ) ;
@@ -844,8 +861,6 @@ private:
 			return result.arg( frame,fps,size,bitrate,speed ).toUtf8() ;
 		}else{
 			auto currentSize = this->size( size.toUtf8() ) ;
-
-			auto currentTime = this->toSeconds( currentTimeString.toUtf8() ) ;
 
 			auto r = currentTime * 100 / totalTime ;
 

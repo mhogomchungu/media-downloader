@@ -1374,10 +1374,12 @@ void utility::printOutPut::operator()( const QByteArray& e )
 		if( m_status == utility::printOutPut::status::qdebug ){
 
 			qDebug() << e ;
+			qDebug() << "--------------------------------" ;
 
 		}else if( m_status == utility::printOutPut::status::debug ){
 
 			std::cout << e.constData() << std::endl ;
+			std::cout << "--------------------------------" << std::endl ;
 		}
 
 	},Qt::QueuedConnection ) ;
