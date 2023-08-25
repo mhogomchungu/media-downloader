@@ -432,17 +432,8 @@ public:
 					m_filePath = m.toUtf8() ;
 				}
 			}
-			double ffmpegDuration() const
-			{
-				return m_ffmpegDuration ;
-			}
-			void setFfmpegDuration( double s )
-			{
-				m_ffmpegDuration = s ;
-			}
 		private:
 			QByteArray m_filePath ;
-			double m_ffmpegDuration = 0 ;
 		};
 
 		YtDlpData& ytDlpData()

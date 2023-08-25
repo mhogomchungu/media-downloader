@@ -570,7 +570,7 @@ static bool _aria2c( const engines::engine& s,const QByteArray& e )
 
 static bool _ffmpeg_internal( const engines::engine&,const QByteArray& e )
 {
-	return e.contains( "Frame: " ) && e.contains( ", Speed: " ) ;
+	return e.contains( " / ~" ) || e.startsWith( "Frame: " ) ;
 }
 
 static bool _shouldNotGetCalled( const engines::engine&,const QByteArray& )
@@ -792,104 +792,95 @@ private:
 
 		return "NA" ;
 	}
+	qint64 size( QByteArray e ) const
+	{
+		return e.replace( "kB","" ).toLongLong() * 1024 ;
+	}
 	QByteArray outPutFfmpeg( const filterOutPut::args& args ) const
 	{
-		const auto& data = args.outPut ;
-		auto& s          = args.data ;
+		const auto& data   = args.outPut ;
+		auto& s            = args.data ;
+		const auto& locale = args.locale ;
+
+		double totalTime = 0 ;
+
+		QByteArray totalTimeString ;
+
+		s.forEach( [ & ]( int,const QByteArray& e ){
+
+			auto d = this->duration( e ) ;
+
+			if( d.isEmpty() ){
+
+				return false ;
+			}else{
+				totalTime = this->toSeconds( d ) ;
+
+				totalTimeString = std::move( d ) ;
+
+				return true ;
+			}
+		} ) ;
 
 		auto m = util::split( data,' ' ) ;
 
-		auto frame   = this->getOption( m,"frame=" ) ;
-		auto fps     = this->getOption( m,"fps=" ) ;
-		auto time    = this->getOption( m,"time=" ) ;
-		auto bitrate = this->getOption( m,"bitrate=" ) ;
-		auto speed   = this->getOption( m,"speed=" ) ;
-		auto size    = this->getOption( m,"size=" ) ;
+		auto currentTimeString = this->getOption( m,"time=" ) ;
+		auto size = this->getOption( m,"size=" ) ;
 
 		if( size == "NA" ){
 
 			size = this->getOption( m,"Lsize=" ) ;
 		}
 
-		auto e = this->toSeconds( time.toUtf8() ) ;
+		if( totalTime == 0 || size == "NA" ){
 
-		if( s.mainLogger() ){
+			auto frame   = this->getOption( m,"frame=" ) ;
+			auto fps     = this->getOption( m,"fps=" ) ;
+			auto bitrate = this->getOption( m,"bitrate=" ) ;
+			auto speed   = this->getOption( m,"speed=" ) ;
 
-			QByteArray duration ;
+			QString result = "Frame: %1, Fps: %2, Size: %3, Bitrate: %4, Speed: %5" ;
 
-			s.forEach( [ & ]( int,const QByteArray& e ){
-
-				auto d = this->duration( e ) ;
-
-				if( d.isEmpty() ){
-
-					return false ;
-				}else{
-					duration = std::move( d ) ;
-
-					return true ;
-				}
-			} ) ;
-
-			auto dd = this->toSeconds( duration ) ;
-
-			if( dd == 0 ){
-
-				QString result = "Frame: %1, Fps: %2, Size: %3, Bitrate: %4, Speed: %5" ;
-
-				return result.arg( frame,fps,size,bitrate,speed ).toUtf8() ;
-			}else{
-				auto r = e * 100 / dd ;
-
-				auto completed = QString::number( r,'f',2 ) ;
-
-				if( completed == "100.00" ){
-
-					completed = "100" ;
-				}
-
-				QString result = "Frame: %1, Fps: %2, Size: %3, Bitrate: %4, Speed: %5, Completed: %6%" ;
-
-				return result.arg( frame,fps,size,bitrate,speed,completed ).toUtf8() ;
-			}
+			return result.arg( frame,fps,size,bitrate,speed ).toUtf8() ;
 		}else{
-			if( s.ytDlpData().ffmpegDuration() == 0 ){
+			auto currentSize = this->size( size.toUtf8() ) ;
 
-				s.forEach( [ & ]( int,const QByteArray& e ){
+			auto currentTime = this->toSeconds( currentTimeString.toUtf8() ) ;
 
-					auto duration = this->duration( e ) ;
+			auto r = currentTime * 100 / totalTime ;
 
-					if( duration.isEmpty() ){
+			auto totalSize = totalTime * currentSize / currentTime ;
 
-						return false ;
-					}else{
-						auto e = this->toSeconds( duration ) ;
-						s.ytDlpData().setFfmpegDuration( e ) ;
+			auto totalSizeString = locale.formattedDataSize( totalSize ) ;
+			auto currentSizeString = locale.formattedDataSize( currentSize ) ;
 
-						return true ;
-					}
-				} ) ;
+			auto completed = QString::number( r,'f',2 ) ;
+
+			if( completed == "100.00" ){
+
+				completed = "100" ;
 			}
 
-			QString completed = "NA" ;
+			auto frame   = this->getOption( m,"frame=" ) ;
+			auto fps     = this->getOption( m,"fps=" ) ;
+			auto bitrate = this->getOption( m,"bitrate=" ) ;
+			auto speed   = this->getOption( m,"speed=" ) ;
 
-			if( s.ytDlpData().ffmpegDuration() != 0 ){
+			QString a1 = "%1 / ~%2 (%3%) at %4" ;
+			auto a = a1.arg( currentSizeString,totalSizeString,completed,speed ).toUtf8() ;
 
-				auto r = e * 100 / s.ytDlpData().ffmpegDuration() ;
+			QString b1 = "Frame: %1, Fps: %2, Bitrate: %3" ;
+			auto b = b1.arg( frame,fps,bitrate ).toUtf8() ;
 
-				completed = QString::number( r,'f',2 ) ;
+			if( s.mainLogger() ){
 
-				if( completed == "100.00" ){
-
-					completed = "100" ;
-				}
+				return a + ", " + b ;
+			}else{
+				return a + "\n" + b ;
 			}
-
-			QString result = "Frame: %1, Fps: %2, Size: %3\nBitrate: %4, Speed: %5, Completed: %6%" ;
-
-			return result.arg( frame,fps,size,bitrate,speed,completed ).toUtf8() ;
 		}
 	}
+
 	mutable QByteArray m_tmp ;
 	const engines::engine& m_engine ;
 	mutable bool( *m_function )( const engines::engine&,const QByteArray& ) ;
