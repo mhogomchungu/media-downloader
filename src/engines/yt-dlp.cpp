@@ -849,7 +849,9 @@ private:
 
 		auto currentTime = this->toSeconds( currentTimeString.toUtf8() ) ;
 
-		if( currentTime == 0 || totalTime == 0 || size == "NA" ){
+		auto currentSize = this->size( size.toUtf8() ) ;
+
+		if( currentTime == 0 || totalTime == 0 || currentSize == 0 || size == "NA" ){
 
 			auto frame   = this->getOption( m,"frame=" ) ;
 			auto fps     = this->getOption( m,"fps=" ) ;
@@ -860,8 +862,6 @@ private:
 
 			return result.arg( frame,fps,size,bitrate,speed ).toUtf8() ;
 		}else{
-			auto currentSize = this->size( size.toUtf8() ) ;
-
 			auto r = currentTime * 100 / totalTime ;
 
 			auto totalSize = totalTime * currentSize / currentTime ;
