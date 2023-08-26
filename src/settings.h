@@ -103,6 +103,7 @@ public:
 	bool checkForUpdates() ;
 	bool enableLibraryTab() ;
 	bool checkForEnginesUpdates() ;
+	bool autoHideDownloadWhenCompleted() ;
 
 	int textAlignment() ;
 	int networkTimeOut() ;
@@ -113,6 +114,7 @@ public:
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
 
+	void setAutoHideDownloadWhenCompleted( bool ) ;
 	void setCheckForUpdates( bool ) ;
 	void setUseInternalArchiveFile( bool ) ;
 	void clearOptionsHistory( settings::tabName ) ;

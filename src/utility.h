@@ -380,6 +380,7 @@ namespace utility
 	QString downloadFolder( const Context& ctx ) ;
 	bool onlyWantedVersionInfo( const utility::cliArguments& ) ;
 	bool startedUpdatedVersion( settings&,const utility::cliArguments& ) ;
+	void hideUnhideEntries( QMenu&,tableWidget&,int ) ;
 
 	class addJsonCmd
 	{

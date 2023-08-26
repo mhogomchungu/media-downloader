@@ -254,6 +254,21 @@ bool settings::checkForEnginesUpdates()
 	return m_settings.value( "CheckForEnginesUpdates" ).toBool() ;
 }
 
+bool settings::autoHideDownloadWhenCompleted()
+{
+	if( !m_settings.contains( "AutoHideDownloadWhenCompleted" ) ){
+
+		m_settings.setValue( "AutoHideDownloadWhenCompleted",false ) ;
+	}
+
+	return m_settings.value( "AutoHideDownloadWhenCompleted" ).toBool() ;
+}
+
+void settings::setAutoHideDownloadWhenCompleted( bool e )
+{
+	m_settings.setValue( "AutoHideDownloadWhenCompleted",e ) ;
+}
+
 int settings::textAlignment()
 {
 	if( !m_settings.contains( "MainTableTextAlignment" ) ){

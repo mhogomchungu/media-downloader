@@ -652,7 +652,7 @@ private:
 		const auto& locale = args.locale ;
 		auto& s = args.data ;
 
-		if( !s.mainLogger() && e.startsWith( "[postprocess]" ) ){
+		if( e.startsWith( "[postprocess]" ) ){
 
 			auto obj = QJsonDocument::fromJson( e.mid( 14 ) ).object() ;
 

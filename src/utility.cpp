@@ -1396,3 +1396,29 @@ void utility::failedToParseJsonData( Logger& logger,const QJsonParseError& error
 
 	logger.add( "Failed To Parse Json Data:" + error.errorString(),id ) ;
 }
+
+void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row )
+{
+	auto ac = m.addAction( QObject::tr( "Hide" ) ) ;
+
+	QObject::connect( ac,&QAction::triggered,[ &table,row ](){
+
+		table.hideRow( row ) ;
+	} ) ;
+
+	ac = m.addAction( QObject::tr( "Unhide All" ) ) ;
+
+	QObject::connect( ac,&QAction::triggered,[ &table ](){
+
+		auto& t = table.get() ;
+
+		for( int row = 0 ; row < table.rowCount() ; row++ ){
+
+			if( t.isRowHidden( row ) ){
+
+				t.showRow( row ) ;
+			}
+		}
+	} ) ;
+
+}

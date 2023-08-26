@@ -330,6 +330,37 @@ void tableWidget::removeRow( int s )
 	m_items.erase( m_items.begin() + s ) ;
 }
 
+void tableWidget::hideRow( int row )
+{
+	m_table.hideRow( row ) ;
+
+	for( int i = row + 1 ; i < m_table.rowCount() ; i++ ){
+
+		if( this->rowIsVisible( i ) ){
+
+			auto a = m_table.item( i,1 ) ;
+			auto b = m_table.item( row,1 ) ;
+
+			this->selectRow( a,b,1 ) ;
+
+			return ;
+		}
+	}
+
+	for( int i = row - 1 ; i >= 0 ; i-- ){
+
+		if( this->rowIsVisible( i ) ){
+
+			auto a = m_table.item( i,1 ) ;
+			auto b = m_table.item( row,1 ) ;
+
+			this->selectRow( a,b,1 ) ;
+
+			return ;
+		}
+	}
+}
+
 bool tableWidget::isSelected( int row )
 {
 	return m_table.item( row,m_init )->isSelected() ;
@@ -346,6 +377,11 @@ bool tableWidget::noneAreRunning()
 	}
 
 	return true ;
+}
+
+bool tableWidget::rowIsVisible( int row )
+{
+	return !m_table.isRowHidden( row ) ;
 }
 
 bool tableWidget::allFinishedWithSuccess()

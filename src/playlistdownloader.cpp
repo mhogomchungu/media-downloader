@@ -286,6 +286,8 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
+		utility::hideUnhideEntries( m,m_table,row ) ;
+
 		ac = m.addAction( tr( "Copy Url" ) ) ;
 
 		connect( ac,&QAction::triggered,[ this,row ](){
@@ -323,11 +325,13 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			connect( ac,&QAction::triggered,[ &engine,this,row,forceDownload ](){
 
+				auto visible = m_table.rowIsVisible( row ) ;
+
 				downloadManager::index indexes( m_table,false,downloadManager::index::tab::playlist ) ;
 
 				auto e = m_table.runningState( row ) ;
 
-				if( !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ){
+				if( visible && ( !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ) ){
 
 					auto u = m_table.downloadingOptions( row ) ;
 
@@ -782,7 +786,9 @@ void playlistdownloader::download( const engines::engine& engine )
 
 		auto e = m_table.runningState( s ) ;
 
-		if( validUrl && !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
+		auto visible = m_table.rowIsVisible( s ) ;
+
+		if( visible && validUrl && !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
 			if( s >= 0 && s < m_table.rowCount() ){
 
@@ -1312,6 +1318,18 @@ void playlistdownloader::reportFinishedStatus( const reportFinished& f )
 		if( m_table.allFinishedWithSuccess() ){
 
 			this->resizeTable( playlistdownloader::size::small ) ;
+		}
+	}
+
+	if( m_ctx.Settings().autoHideDownloadWhenCompleted() ){
+
+		auto index = f.finishedStatus().index() ;
+
+		const auto& r = f.finishedStatus().finishedWithSuccess() ;
+
+		if( m_table.runningState( index ) == r ){
+
+			m_table.hideRow( index ) ;
 		}
 	}
 

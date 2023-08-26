@@ -424,6 +424,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
+		utility::hideUnhideEntries( m,m_table,row ) ;
+
 		const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
 
 		ac = m.addAction( tr( "Show Subtitles" ) ) ;
@@ -489,7 +491,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 				auto e = m_table.runningState( row ) ;
 
-				if( !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ){
+				auto visible = m_table.rowIsVisible( row ) ;
+
+				if( visible && !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ){
 
 					auto m = m_ui.lineEditBDUrlOptions->text() ;
 
@@ -1951,7 +1955,9 @@ void batchdownloader::download( const engines::engine& engine,int init )
 
 		auto e = m_table.runningState( s ) ;
 
-		if( !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
+		auto visible = m_table.rowIsVisible( s ) ;
+
+		if( visible && !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
 
 			auto u = utility::setDownloadOptions( engine,m_table,s ) ;
 
@@ -1971,6 +1977,18 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f )
 	auto lastIndex = e.lastIndex() ;
 
 	bool moreItemsRemaining = lastIndex < m_table.rowCount() - 1 ;
+
+	if( m_ctx.Settings().autoHideDownloadWhenCompleted() ){
+
+		auto index = f.finishedStatus().index() ;
+
+		const auto& r = f.finishedStatus().finishedWithSuccess() ;
+
+		if( m_table.runningState( index ) == r ){
+
+			m_table.hideRow( index ) ;
+		}
+	}
 
 	if( e.done() && e.batchDownloading() && moreItemsRemaining ){
 		/*
