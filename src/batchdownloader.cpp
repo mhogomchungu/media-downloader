@@ -493,7 +493,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 				auto visible = m_table.rowIsVisible( row ) ;
 
-				if( visible && !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ){
+				if( visible && ( !downloadManager::finishedStatus::finishedWithSuccess( e ) || forceDownload ) ){
 
 					auto m = m_ui.lineEditBDUrlOptions->text() ;
 

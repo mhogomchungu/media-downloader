@@ -307,6 +307,10 @@
         <source>Maximum Concurrent Downloads</source>
         <translation>Numero massimo download simultanei</translation>
     </message>
+    <message>
+        <source>Auto Hide Downloads When Completed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -787,6 +791,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Failed To Open Path For Writing: %1</source>
         <translation>Impossibile aprire il percorso in scrittura: %1</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhide All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

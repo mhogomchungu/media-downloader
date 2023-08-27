@@ -307,6 +307,10 @@
         <source>Maximum Concurrent Downloads</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Auto Hide Downloads When Completed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -784,6 +788,14 @@
     </message>
     <message>
         <source>Failed To Open Path For Writing: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unhide All</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
