@@ -432,7 +432,7 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	if( !m_ctx.debug().isEmpty() ){
+	if( m_ctx.debug().debugging() ){
 
 		auto exe = "cmd: \"" + cmd.exe() + "\"" ;
 

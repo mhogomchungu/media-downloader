@@ -326,10 +326,11 @@ namespace utility
 		printOutPut( QObject *,const utility::cliArguments& ) ;
 		void operator()( const QByteArray& ) ;
 		bool isEmpty() const ;
+		bool debugging() const ;
 	private:
 		QObject * m_qObject ;
 		QFile m_outPutFile ;
-		enum class status{ qdebug,debug,notSet } m_status ;
+		enum class status{ qdebug,debug,notSet } m_status = utility::printOutPut::status::notSet ;
 	} ;
 	void setDefaultEngine( const Context& ctx,const QString& name );
 	const engines::engine& resolveEngine( const tableWidget&,

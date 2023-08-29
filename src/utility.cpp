@@ -1237,7 +1237,10 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 		m_args.append( argv[ i ] ) ;
 	}
 
-	utility::setRunningVersionOfMediaDownloader( this->value( "--fake-version" ) ) ;
+	if( !this->runningUpdated() ){
+
+		utility::setRunningVersionOfMediaDownloader( this->value( "--fake-version" ) ) ;
+	}
 }
 
 bool utility::cliArguments::contains( const char * m ) const
@@ -1402,6 +1405,11 @@ void utility::printOutPut::operator()( const QByteArray& e )
 bool utility::printOutPut::isEmpty() const
 {
 	return m_status == utility::printOutPut::status::notSet ;
+}
+
+bool utility::printOutPut::debugging() const
+{
+	return m_status != utility::printOutPut::status::notSet ;
 }
 
 void utility::failedToParseJsonData( Logger& logger,const QJsonParseError& error )
