@@ -1069,9 +1069,21 @@ bool utility::platformIsLikeWindows()
 	return utility::platformIsWindows() || utility::platformisOS2() ;
 }
 
+static QString _instanceVersion ;
+
 QString utility::runningVersionOfMediaDownloader()
 {
-	return VERSION ;
+	if( _instanceVersion.isEmpty() ){
+
+		return VERSION ;
+	}else{
+		return _instanceVersion ;
+	}
+}
+
+void utility::setRunningVersionOfMediaDownloader( const QString& e )
+{
+	_instanceVersion = e ;
 }
 
 static QStringList _parseOptions( const QString& e,const engines::engine& engine )
@@ -1224,6 +1236,8 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 
 		m_args.append( argv[ i ] ) ;
 	}
+
+	utility::setRunningVersionOfMediaDownloader( this->value( "--fake-version" ) ) ;
 }
 
 bool utility::cliArguments::contains( const char * m ) const
