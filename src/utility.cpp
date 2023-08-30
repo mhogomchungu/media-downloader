@@ -1237,8 +1237,10 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 		m_args.append( argv[ i ] ) ;
 	}
 
-	if( !this->runningUpdated() ){
+	if( this->runningUpdated() ){
 
+		utility::setRunningVersionOfMediaDownloader( this->value( "--fake-updated-version" ) ) ;
+	}else{
 		utility::setRunningVersionOfMediaDownloader( this->value( "--fake-version" ) ) ;
 	}
 }

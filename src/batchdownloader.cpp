@@ -424,7 +424,10 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
-		utility::hideUnhideEntries( m,m_table,row ) ;
+		if( m_settings.autoHideDownloadWhenCompleted() ){
+
+			utility::hideUnhideEntries( m,m_table,row ) ;
+		}
 
 		const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
 

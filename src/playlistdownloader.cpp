@@ -286,7 +286,10 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 		} ) ;
 
-		utility::hideUnhideEntries( m,m_table,row ) ;
+		if( m_settings.autoHideDownloadWhenCompleted() ){
+
+			utility::hideUnhideEntries( m,m_table,row ) ;
+		}
 
 		ac = m.addAction( tr( "Copy Url" ) ) ;
 
