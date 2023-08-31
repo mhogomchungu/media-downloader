@@ -535,6 +535,9 @@ static QString _downloadFolder( QSettings& settings,const QString& defaultPath,L
 		}
 
 		settings.setValue( "DownloadFolder",mediaDownloaderDefaultDownloadPath ) ;
+
+		QDir().mkpath( defaultPath ) ;
+
 		return defaultPath ;
 	}
 }

@@ -326,8 +326,6 @@ void basicdownloader::download( const QString& url )
 
 	auto mm = m_ui.lineEditOptions->text() ;
 
-	qDebug() << mm ;
-
 	m_settings.addOptionsHistory( mm,settings::tabName::basic ) ;
 
 	this->download( engine,{ mm,s,engine.engine },m,false ) ;
