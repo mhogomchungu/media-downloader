@@ -382,7 +382,7 @@ namespace utility
 	QString downloadFolder( const Context& ctx ) ;
 	bool onlyWantedVersionInfo( const utility::cliArguments& ) ;
 	bool startedUpdatedVersion( settings&,const utility::cliArguments& ) ;
-	void hideUnhideEntries( QMenu&,tableWidget&,int ) ;
+	void hideUnhideEntries( QMenu&,tableWidget&,int,bool ) ;
 
 	class addJsonCmd
 	{
@@ -613,8 +613,12 @@ namespace utility
 		addAction( ac,forceDownload,row ) ;
 	}
 
-	template< typename Function >
-	void appendContextMenu( QMenu& m,utility::contextState c,const Function& function,bool showClear = true )
+	template< typename Function,typename FunctionHideUnHide >
+	void appendContextMenu( QMenu& m,
+				utility::contextState c,
+				const Function& function,
+				bool showClear,
+				const FunctionHideUnHide& hideUnHide )
 	{
 		auto ac = m.addAction( QObject::tr( "Show Log Window" ) ) ;
 
@@ -624,6 +628,8 @@ namespace utility
 
 			function( c ) ;
 		} ) ;
+
+		hideUnHide() ;
 
 		if( showClear ){
 
@@ -640,6 +646,26 @@ namespace utility
 		}
 
 		m.exec( QCursor::pos() ) ;
+	}
+
+	template< typename Function >
+	void appendContextMenu( QMenu& m,utility::contextState c,const Function& function,bool showClear )
+	{
+		utility::appendContextMenu( m,c,function,showClear,[](){} ) ;
+	}
+
+	template< typename Function >
+	void appendContextMenu( QMenu& m,
+				utility::contextState c,
+				const Function& function,
+				bool showClear,
+				int row,
+				tableWidget& table )
+	{
+		utility::appendContextMenu( m,c,function,showClear,[ & ](){
+
+			utility::hideUnhideEntries( m,table,row,false ) ;
+		} ) ;
 	}
 
 	class selectedAction

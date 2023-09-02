@@ -446,13 +446,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1402"/>
-        <source>Hide</source>
+        <location filename="../src/utility.cpp" line="1428"/>
+        <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1409"/>
-        <source>Unhide All</source>
+        <location filename="../src/utility.cpp" line="1436"/>
+        <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -462,27 +462,27 @@
         <translation>Listeyi Dosyaya Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="890"/>
+        <location filename="../src/batchdownloader.cpp" line="895"/>
         <source>Author</source>
         <translation>Yazar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="900"/>
+        <location filename="../src/batchdownloader.cpp" line="905"/>
         <source>Date</source>
         <translation>Tarih</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="918"/>
+        <location filename="../src/batchdownloader.cpp" line="923"/>
         <source>Replies to</source>
         <translation>Yanıtlar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="925"/>
+        <location filename="../src/batchdownloader.cpp" line="930"/>
         <source>Text</source>
         <translation>Metin</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1163"/>
+        <location filename="../src/batchdownloader.cpp" line="1168"/>
         <source>Save Subtitle To File</source>
         <translation>Altyazıyı Dosyaya Kaydet</translation>
     </message>
@@ -492,21 +492,21 @@
         <translation>Motor Adı:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1451"/>
+        <location filename="../src/batchdownloader.cpp" line="1456"/>
         <source>Get List From File</source>
         <translation>Dosyadan Liste Al</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="536"/>
-        <location filename="../src/playlistdownloader.cpp" line="383"/>
+        <location filename="../src/batchdownloader.cpp" line="541"/>
+        <location filename="../src/playlistdownloader.cpp" line="390"/>
         <location filename="../src/utility.cpp" line="331"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="370"/>
-        <location filename="../src/utility.h" line="561"/>
-        <location filename="../src/utility.h" line="628"/>
+        <location filename="../src/utility.h" line="563"/>
+        <location filename="../src/utility.h" line="636"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
@@ -879,19 +879,19 @@
         <translation>Rötuş</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="594"/>
-        <location filename="../src/utility.h" line="602"/>
-        <location filename="../src/utility.h" line="607"/>
+        <location filename="../src/utility.h" line="596"/>
+        <location filename="../src/utility.h" line="604"/>
+        <location filename="../src/utility.h" line="609"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="599"/>
+        <location filename="../src/utility.h" line="601"/>
         <source>Force Download</source>
         <translation>Zorla İndir</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="617"/>
+        <location filename="../src/utility.h" line="623"/>
         <source>Show Log Window</source>
         <translation>Günlük Penceresini Göster</translation>
     </message>
@@ -941,7 +941,7 @@
         <translation>Tamamlanan: %1%, Başlatılmayan: %2, Başarılı: %3, Başarısız: %4, İptal Edilen: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1205"/>
+        <location filename="../src/playlistdownloader.cpp" line="1212"/>
         <source>Media Already In Archive</source>
         <translation>Medya Zaten Arşivde</translation>
     </message>
@@ -1070,12 +1070,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1456"/>
+        <location filename="../src/batchdownloader.cpp" line="1461"/>
         <source>Set Batch File</source>
         <translation>Toplu Dosya Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="381"/>
+        <location filename="../src/batchdownloader.cpp" line="383"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
@@ -1085,24 +1085,24 @@
         <translation>İndirilen yorumlar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1150"/>
+        <location filename="../src/batchdownloader.cpp" line="1155"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1217"/>
+        <location filename="../src/batchdownloader.cpp" line="1222"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="395"/>
+        <location filename="../src/batchdownloader.cpp" line="397"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="87"/>
         <location filename="../src/batchdownloader.cpp" line="93"/>
-        <location filename="../src/batchdownloader.cpp" line="404"/>
+        <location filename="../src/batchdownloader.cpp" line="406"/>
         <source>Copy Url</source>
         <translation>Url Kopyala</translation>
     </message>
@@ -1112,39 +1112,39 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="416"/>
+        <location filename="../src/batchdownloader.cpp" line="418"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="431"/>
+        <location filename="../src/batchdownloader.cpp" line="436"/>
         <source>Show Subtitles</source>
         <translation>Altyazıları Göster</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="446"/>
+        <location filename="../src/batchdownloader.cpp" line="451"/>
         <source>Show Comments</source>
         <translation>Yorumları Göster</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="459"/>
+        <location filename="../src/batchdownloader.cpp" line="464"/>
         <source>Show Media Options</source>
         <translation>Medya Seçeneklerini Göster</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="472"/>
+        <location filename="../src/batchdownloader.cpp" line="477"/>
         <source>Download Media Part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1209"/>
-        <location filename="../src/batchdownloader.cpp" line="1223"/>
+        <location filename="../src/batchdownloader.cpp" line="1214"/>
+        <location filename="../src/batchdownloader.cpp" line="1228"/>
         <source>Set</source>
         <translation>Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1673"/>
-        <location filename="../src/batchdownloader.cpp" line="2145"/>
+        <location filename="../src/batchdownloader.cpp" line="1678"/>
+        <location filename="../src/batchdownloader.cpp" line="2150"/>
         <source>Downloading subtitles</source>
         <translation>İndirilen altyazılar</translation>
     </message>
@@ -1225,85 +1225,85 @@
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="256"/>
+        <location filename="../src/playlistdownloader.cpp" line="260"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="270"/>
+        <location filename="../src/playlistdownloader.cpp" line="274"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="214"/>
-        <location filename="../src/playlistdownloader.cpp" line="278"/>
+        <location filename="../src/playlistdownloader.cpp" line="282"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1368"/>
+        <location filename="../src/playlistdownloader.cpp" line="1375"/>
         <source>Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1452"/>
+        <location filename="../src/playlistdownloader.cpp" line="1459"/>
         <source>Get List Options:</source>
         <translation>Liste Seçeneklerini Getir:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="291"/>
+        <location filename="../src/playlistdownloader.cpp" line="298"/>
         <source>Copy Url</source>
         <translation>Url Kopyala</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="305"/>
+        <location filename="../src/playlistdownloader.cpp" line="312"/>
         <source>Show Comments</source>
         <translation>Yorumları Göster</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="472"/>
+        <location filename="../src/playlistdownloader.cpp" line="479"/>
         <source>Show All Updated</source>
         <translation>Tüm Güncellenenleri Göster</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="478"/>
+        <location filename="../src/playlistdownloader.cpp" line="485"/>
         <source>Download All Updated</source>
         <translation>Tüm Güncellenenleri İndir</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="486"/>
+        <location filename="../src/playlistdownloader.cpp" line="493"/>
         <source>Manage Subscriptions</source>
         <translation>Abonelikleri Yönet</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1093"/>
+        <location filename="../src/playlistdownloader.cpp" line="1100"/>
         <source>Number of Pages Downloaded</source>
         <translation>İndirilen Sayfa Sayısı</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1110"/>
+        <location filename="../src/playlistdownloader.cpp" line="1117"/>
         <source>Downloading video info</source>
         <translation>Video bilgisi indiriliyor</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1363"/>
+        <location filename="../src/playlistdownloader.cpp" line="1370"/>
         <source>Show Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1364"/>
+        <location filename="../src/playlistdownloader.cpp" line="1371"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1369"/>
+        <location filename="../src/playlistdownloader.cpp" line="1376"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="586"/>
+        <location filename="../src/playlistdownloader.cpp" line="593"/>
         <source>This May Take A Very Long Time</source>
         <translation>Bu Çok Uzun Zaman Alabilir</translation>
     </message>

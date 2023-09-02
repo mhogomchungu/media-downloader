@@ -793,11 +793,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>Impossibile aprire il percorso in scrittura: %1</translation>
     </message>
     <message>
-        <source>Hide</source>
+        <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unhide All</source>
+        <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

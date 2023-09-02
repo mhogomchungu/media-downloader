@@ -1421,16 +1421,19 @@ void utility::failedToParseJsonData( Logger& logger,const QJsonParseError& error
 	logger.add( "Failed To Parse Json Data:" + error.errorString(),id ) ;
 }
 
-void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row )
+void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row,bool showHide )
 {
-	auto ac = m.addAction( QObject::tr( "Hide" ) ) ;
+	if( showHide ){
 
-	QObject::connect( ac,&QAction::triggered,[ &table,row ](){
+		auto ac = m.addAction( QObject::tr( "Hide Row" ) ) ;
 
-		table.hideRow( row ) ;
-	} ) ;
+		QObject::connect( ac,&QAction::triggered,[ &table,row ](){
 
-	ac = m.addAction( QObject::tr( "Unhide All" ) ) ;
+			table.hideRow( row ) ;
+		} ) ;
+	}
+
+	auto ac = m.addAction( QObject::tr( "Unhide All Hidden Rows" ) ) ;
 
 	QObject::connect( ac,&QAction::triggered,[ &table ](){
 
@@ -1444,5 +1447,4 @@ void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row )
 			}
 		}
 	} ) ;
-
 }

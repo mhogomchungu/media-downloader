@@ -240,14 +240,18 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		if( row == -1 ){
 
-			return utility::appendContextMenu( m,this->enabled(),function,false ) ;
+			auto ss = this->enabled() ;
+
+			return utility::appendContextMenu( m,ss,function,false,row,m_table ) ;
 		}
 
 		auto txt = m_table.runningState( row ) ;
 
 		if( txt.isEmpty() ){
 
-			return utility::appendContextMenu( m,this->enabled(),function,false ) ;
+			auto ss = this->enabled() ;
+
+			return utility::appendContextMenu( m,ss,function,false,row,m_table ) ;
 		}
 
 		auto running = downloadManager::finishedStatus::running( txt ) ;
@@ -288,7 +292,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		if( m_settings.autoHideDownloadWhenCompleted() ){
 
-			utility::hideUnhideEntries( m,m_table,row ) ;
+			utility::hideUnhideEntries( m,m_table,row,true ) ;
 		}
 
 		ac = m.addAction( tr( "Copy Url" ) ) ;
@@ -403,7 +407,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		m.addSeparator() ;
 
-		utility::appendContextMenu( m,{ this->enabled(),finishSuccess },function ) ;
+		utility::appendContextMenu( m,{ this->enabled(),finishSuccess },function,true ) ;
 	} ) ;
 
 	auto s = static_cast< void( QComboBox::* )( int ) >( &QComboBox::activated ) ;

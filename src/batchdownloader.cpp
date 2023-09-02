@@ -370,7 +370,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			this->getListFromFile( m ) ;
 
-			return utility::appendContextMenu( m,m_table.noneAreRunning(),function ) ;
+			auto ss = m_table.noneAreRunning() ;
+
+			return utility::appendContextMenu( m,ss,function,true,row,m_table ) ;
 		}
 
 		auto txt = m_table.runningState( row ) ;
@@ -426,7 +428,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( m_settings.autoHideDownloadWhenCompleted() ){
 
-			utility::hideUnhideEntries( m,m_table,row ) ;
+			utility::hideUnhideEntries( m,m_table,row,true ) ;
 		}
 
 		const auto& engine = utility::resolveEngine( m_table,this->defaultEngine(),m_ctx.Engines(),row ) ;
@@ -558,7 +560,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		m.addSeparator() ;
 
-		utility::appendContextMenu( m,{ m_table.noneAreRunning(),finishSuccess },function ) ;
+		utility::appendContextMenu( m,{ m_table.noneAreRunning(),finishSuccess },function,true ) ;
 	} ) ;
 
 	connect( m_ui.pbBDQuit,&QPushButton::clicked,[ this ](){
