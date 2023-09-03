@@ -309,7 +309,7 @@
     </message>
     <message>
         <source>Auto Hide Downloads When Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Al termine nascondi automaticamente download</translation>
     </message>
 </context>
 <context>
@@ -794,11 +794,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Hide Row</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi riga</translation>
     </message>
     <message>
         <source>Unhide All Hidden Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza tutte le righe nascoste</translation>
     </message>
 </context>
 <context>
