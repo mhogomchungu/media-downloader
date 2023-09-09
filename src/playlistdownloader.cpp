@@ -238,7 +238,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		QMenu m ;
 
-		if( row == -1 ){
+		if( row == -1 || !m_table.rowIsVisible( row ) ){
 
 			auto ss = this->enabled() ;
 

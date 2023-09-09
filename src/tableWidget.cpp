@@ -384,6 +384,19 @@ bool tableWidget::rowIsVisible( int row )
 	return !m_table.isRowHidden( row ) ;
 }
 
+bool tableWidget::containsHiddenRows()
+{
+	for( int row = 0 ; row < m_table.rowCount() ; row++ ){
+
+		if( m_table.isRowHidden( row ) ){
+
+			return true ;
+		}
+	}
+
+	return false ;
+}
+
 bool tableWidget::allFinishedWithSuccess()
 {
 	for( int i = 0 ; i < m_table.rowCount() ; i++ ){

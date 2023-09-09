@@ -28,16 +28,105 @@
 #include "lux.h"
 
 #include "../util.hpp"
+
 #include <iostream>
+#include <array>
 
 #include <QString>
 #include <QEventLoop>
+
+#define TEST_ENGINE_PREFIX "--media-downloader-test-engine"
+
+class Tests
+{
+public:
+	struct engines
+	{
+		const char * arg ;
+		const char *( *data )( void ) ;
+	} ;
+	auto begin() const
+	{
+		return m_engines.begin() ;
+	}
+	auto end() const
+	{
+		return m_engines.end() ;
+	}
+private:
+	std::array< engines,7 > m_engines = { {
+		{ TEST_ENGINE_PREFIX"-safaribooks",&safaribooks::testData },
+		{ TEST_ENGINE_PREFIX"-yt-dlp",&yt_dlp::testYtDlp },
+		{ TEST_ENGINE_PREFIX"-yt-dlp-ffmpeg",&yt_dlp::testFfmpeg },
+		{ TEST_ENGINE_PREFIX"-wget",&wget::testData },
+		{ TEST_ENGINE_PREFIX"-gallery-dl",&gallery_dl::testData },
+		{ TEST_ENGINE_PREFIX"-svtplay-dl",&svtplay_dl::testData },
+		{ TEST_ENGINE_PREFIX"-lux",&lux::testData } } } ;
+} ;
+
+class testing
+{
+public:
+	struct args
+	{
+		const QStringList& args ;
+		QApplication& app ;
+	} ;
+	testing( const testing::args& args ) : m_args( args )
+	{
+	}
+	void start( const QByteArray& )
+	{
+		Tests tests ;
+
+		for( const auto& it : m_args.args ){
+
+			for( const auto& xt : tests ){
+
+				if( it == xt.arg ){
+
+					return this->testEngine( xt.data() ) ;
+				}
+			}
+		}
+
+		this->done() ;
+	}
+	void done()
+	{
+		m_args.app.quit() ;
+	}
+	void testEngine( const char * output )
+	{
+		m_list = util::split( output,'\n' ) ;
+
+		util::Timer( 500,[ this ]( int ){
+
+			if( m_counter < m_list.size() ){
+
+				std::cout << m_list.at( m_counter ).constData() << std::endl ;
+
+				m_counter++ ;
+
+				return false ;
+			}else{
+				this->done() ;
+
+				return true ;
+			}
+		} ) ;
+	}
+private:
+	QList< QByteArray > m_list ;
+	testing::args m_args ;
+	int m_counter = 0 ;
+} ;
 
 static bool _run_test( const QStringList& args )
 {
 	for( const auto& it : args ){
 
-		if( it.startsWith( "--media-downloader-test-engine" ) ){
+		if( it.startsWith( TEST_ENGINE_PREFIX ) ){
 
 			return true ;
 		}
@@ -50,84 +139,9 @@ bool tests::test_engine( const QStringList& args,QApplication& app )
 {
 	if( _run_test( args ) ){
 
-		class myApp
-		{
-		public:
-			struct args
-			{
-				const QStringList& args ;
-				QApplication& app ;
-			} ;
-			myApp( const myApp::args& args ) : m_args( args )
-			{
-			}
-			void start( const QByteArray& )
-			{
-				for( const auto& it : m_args.args ){
+		utils::app::appInfo< testing,testing::args > mm( { args,app },"",app,"" ) ;
 
-					if( it == "--media-downloader-test-engine-safaribooks" ){
-
-						return this->testEngine( safaribooks::testData() ) ;
-
-					}else if( it == "--media-downloader-test-engine-yt-dlp" ){
-
-						return this->testEngine( yt_dlp::testYtDlp() ) ;
-
-					}else if( it == "--media-downloader-test-engine-yt-dlp-ffmpeg" ){
-
-						return this->testEngine( yt_dlp::testFfmpeg() ) ;
-
-					}else if( it == "--media-downloader-test-engine-wget" ){
-
-						return this->testEngine( wget::testData() ) ;
-
-					}else if( it == "--media-downloader-test-engine-gallery-dl" ){
-
-						return this->testEngine( gallery_dl::testData() ) ;
-
-					}else if( it == "--media-downloader-test-engine-svtplay-dl" ){
-
-						return this->testEngine( svtplay_dl::testData() ) ;
-
-					}else if( it == "--media-downloader-test-engine-lux" ){
-
-						return this->testEngine( lux::testData() ) ;
-					}
-				}
-
-				this->done() ;
-			}
-			void done()
-			{
-				m_args.app.quit() ;
-			}
-			void testEngine( const char * output )
-			{
-				m_list = util::split( output,'\n' ) ;
-
-				util::Timer( 500,[ this ]( int ){
-
-					if( m_counter < m_list.size() ){
-
-						std::cout << m_list.at( m_counter ).constData() << std::endl ;
-
-						m_counter++ ;
-
-						return false ;
-					}else{
-						this->done() ;
-
-						return true ;
-					}
-				} ) ;
-			}
-		private:
-			QList< QByteArray > m_list ;
-			myApp::args m_args ;
-			int m_counter = 0 ;
-		};
-
-		utils::app::runMultiInstances( utils::app::appInfo< myApp,myApp::args >( { args,app },"",app,"" ) ) ;
+		utils::app::runMultiInstances( std::move( mm ) ) ;
 
 		return true ;
 	}else{

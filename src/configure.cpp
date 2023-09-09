@@ -930,6 +930,7 @@ void configure::enableAll()
 	m_ui.cbShowTrayIcon->setEnabled( true ) ;
 	m_ui.lineEditConfigureWebsite->setEnabled( true ) ;
 	m_ui.labelConfugureWebSite->setEnabled( true ) ;
+	m_ui.cbAutoHideDownloadCompleted->setEnabled( true ) ;
 
 	if( m_settings.enabledHighDpiScaling() ){
 
@@ -995,6 +996,7 @@ void configure::disableAll()
 	m_ui.cbConfigureShowMetaDataInBatchDownloader->setEnabled( false ) ;
 	m_ui.lineEditConfigureWebsite->setEnabled( false ) ;
 	m_ui.labelConfugureWebSite->setEnabled( false ) ;
+	m_ui.cbAutoHideDownloadCompleted->setEnabled( false ) ;
 }
 
 configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :

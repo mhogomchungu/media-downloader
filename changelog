@@ -202,3 +202,7 @@ Version 1.2.0(April 1st, 2021)
       - Update Russian translations.
       - Fix problems in basic downloader tab.
       - Various changes and improvements.
+
+  Version 3.4.0(Unreleased)
+      [All]
+      - Add a config option to auto hide downloaded entries in batch and playlist downloader tabs.

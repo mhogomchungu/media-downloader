@@ -1433,18 +1433,21 @@ void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row,bool showHi
 		} ) ;
 	}
 
-	auto ac = m.addAction( QObject::tr( "Unhide All Hidden Rows" ) ) ;
+	if( table.containsHiddenRows() ){
 
-	QObject::connect( ac,&QAction::triggered,[ &table ](){
+		auto ac = m.addAction( QObject::tr( "Unhide All Hidden Rows" ) ) ;
 
-		auto& t = table.get() ;
+		QObject::connect( ac,&QAction::triggered,[ &table ](){
 
-		for( int row = 0 ; row < table.rowCount() ; row++ ){
+			auto& t = table.get() ;
 
-			if( t.isRowHidden( row ) ){
+			for( int row = 0 ; row < table.rowCount() ; row++ ){
 
-				t.showRow( row ) ;
+				if( t.isRowHidden( row ) ){
+
+					t.showRow( row ) ;
+				}
 			}
-		}
-	} ) ;
+		} ) ;
+	}
 }

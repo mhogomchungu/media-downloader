@@ -375,6 +375,13 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			return utility::appendContextMenu( m,ss,function,true,row,m_table ) ;
 		}
 
+		if( !m_table.rowIsVisible( row ) ){
+
+			auto ss = m_table.noneAreRunning() ;
+
+			return utility::appendContextMenu( m,ss,function,true,row,m_table ) ;
+		}
+
 		auto txt = m_table.runningState( row ) ;
 
 		auto running = downloadManager::finishedStatus::running( txt ) ;
