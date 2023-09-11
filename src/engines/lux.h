@@ -39,12 +39,11 @@ public:
 
 		~lux_dlFilter() override ;
 	private:
-		const QByteArray& renameTitle( const QByteArray& ) ;
-		QByteArray m_cmd ;
+		const QByteArray& doneDownloading( const QByteArray& ) ;
 		QByteArray m_fileName ;
 		QByteArray m_banner ;
-		QByteArray m_tmp1 ;
 		QByteArray m_tmp ;
+		QByteArray m_title ;
 		engines::engine::functions::preProcessing m_progress ;
 		QByteArray m_downloadFolder ;
 		Logger::locale m_locale ;

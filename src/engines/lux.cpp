@@ -473,100 +473,10 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 {	
 	auto allData = e.toString() ;
 
-	LuxHeader luxHeader( m_locale,allData.mid( allData.indexOf( "..." ) ) ) ;
-
 	if( e.doneDownloading() ){
 
-		if( allData.contains( ": file already exists, skipping" ) ){
-
-			const auto s = util::split( allData,'\n' ) ;
-
-			for( const auto& ss : s ){
-
-				auto m = ss.indexOf( ": file already exists, skipping" ) ;
-
-				if( m != -1 ){
-
-					m_tmp = ss.mid( 0,m ) ;
-
-					return m_tmp ;
-				}
-			}
-
-		}else if( allData.contains( "status: ERROR, reason:" ) ){
-
-			auto m = allData.indexOf( "status: ERROR, reason:" ) ;
-
-			m_tmp = allData.mid( m + 22 ) ;
-
-			return m_tmp ;
-
-		}else if( allData.contains( "invalid URI for request" ) ){
-
-			m_tmp = "invalid URI for request" ;
-			return m_tmp ;
-
-		}else if( allData.contains( "connect: cannot assign requested address" ) ){
-
-			m_tmp = "connect: cannot assign requested address" ;
-			return m_tmp ;
-
-		}else if( allData.contains( "no stream named " ) ){
-
-			m_tmp = "no stream named " ;
-			return m_tmp ;
-		}else{
-			auto m = allData.indexOf( "Merging video parts into " ) ;
-
-			if( m != -1 ){
-
-				m_fileName = allData.mid( m + 25 ) ;
-
-				m = m_fileName.indexOf( "[media-downloader]" ) ;
-
-				if( m != -1 ){
-
-					m_fileName = m_fileName.mid( 0,m ) ;
-				}
-
-				return m_fileName ;
-			}
-		}
-
-		if( m_fileName.isEmpty() ){
-
-			if( luxHeader.title().isEmpty() ){
-
-				//???
-				m_tmp.clear() ;
-
-				return m_tmp ;
-			}else{
-				const auto& m = _title( luxHeader.title() ) ;
-
-				if( QFile::exists( m_downloadFolder + m + ".webm" ) ){
-
-					m_fileName = m + ".webm" ;
-
-					return m_fileName ;
-
-				}else if( QFile::exists( m_downloadFolder + m + ".mp4" ) ){
-
-					m_fileName = m + ".mp4" ;
-
-					return m_fileName ;
-				}else{
-					m_tmp = m ;
-					return m_tmp ;
-				}
-			}
-		}else{
-			return m_fileName ;
-		}
-	}
-
-	if( luxHeader.title().isEmpty() ){
-
+		return this->doneDownloading( allData ) ;
+	}else{
 		const auto& s = e.lastText() ;
 
 		if( s.startsWith( "Elapsed Time:" ) ){
@@ -575,18 +485,27 @@ const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 
 			return m_tmp ;
 		}else{
-			return m_banner ;
+			if( m_title.isEmpty() ){
+
+				m_title = LuxHeader( m_locale,allData ).title() ;
+
+				if( m_title.isEmpty() ){
+
+					return m_banner ;
+				}
+			}
+
+			if( e.lastLineIsProgressLine() ){
+
+				m_tmp = m_title + "\n" + e.lastText() ;
+
+				return m_tmp ;
+			}else{
+				m_tmp = m_title + "\n" + m_progress.text() ;
+
+				return m_tmp ;
+			}
 		}
-
-	}else if( e.lastLineIsProgressLine() ){
-
-		m_tmp = luxHeader.title() + "\n" + e.lastText() ;
-
-		return m_tmp ;
-	}else{
-		m_tmp = luxHeader.title() + "\n" + m_progress.text() ;
-
-		return m_tmp ;
 	}
 }
 
@@ -594,84 +513,92 @@ lux::lux_dlFilter::~lux_dlFilter()
 {
 }
 
-const QByteArray& lux::lux_dlFilter::renameTitle( const QByteArray& title )
+const QByteArray& lux::lux_dlFilter::doneDownloading( const QByteArray& allData )
 {
+	if( allData.contains( ": file already exists, skipping" ) ){
+
+		const auto s = util::split( allData,'\n' ) ;
+
+		for( const auto& ss : s ){
+
+			auto m = ss.indexOf( ": file already exists, skipping" ) ;
+
+			if( m != -1 ){
+
+				m_tmp = ss.mid( 0,m ) ;
+
+				return m_tmp ;
+			}
+		}
+
+	}else if( allData.contains( "status: ERROR, reason:" ) ){
+
+		auto m = allData.indexOf( "status: ERROR, reason:" ) ;
+
+		m_tmp = allData.mid( m + 22 ) ;
+
+		return m_tmp ;
+
+	}else if( allData.contains( "invalid URI for request" ) ){
+
+		m_tmp = "invalid URI for request" ;
+		return m_tmp ;
+
+	}else if( allData.contains( "connect: cannot assign requested address" ) ){
+
+		m_tmp = "connect: cannot assign requested address" ;
+		return m_tmp ;
+
+	}else if( allData.contains( "no stream named " ) ){
+
+		m_tmp = "no stream named " ;
+		return m_tmp ;
+	}else{
+		auto m = allData.indexOf( "Merging video parts into " ) ;
+
+		if( m != -1 ){
+
+			m_fileName = allData.mid( m + 25 ) ;
+
+			m = m_fileName.indexOf( "[media-downloader]" ) ;
+
+			if( m != -1 ){
+
+				m_fileName = m_fileName.mid( 0,m ) ;
+			}
+
+			return m_fileName ;
+		}
+	}
+
 	if( m_fileName.isEmpty() ){
 
-		/*
-		 * We will get here is no merging took place and hence we have no
-		 * file name.
-		 */
+		if( m_title.isEmpty() ){
 
-		auto fileName = [ this,&title ](){
+			//???
+			m_tmp.clear() ;
 
-			auto m = util::splitPreserveQuotes( m_cmd ) ;
-
-			for( int i = 0 ; i < m.size() ; i++ ){
-
-				if( m[ i ] == "-O" ){
-
-					if( i + 1 < m.size() ){
-
-						return m[ i + 1 ].toUtf8() ;
-					}
-				}
-			}
-
-			return _title( title ) ;
-		}() ;
-
-		if( QFile::exists( m_downloadFolder + fileName + ".webm" ) ){
-
-			m_fileName = fileName + ".webm" ;
-
-		}else if( QFile::exists( m_downloadFolder + fileName + ".mp4" ) ){
-
-			m_fileName = fileName + ".mp4" ;
+			return m_tmp ;
 		}else{
-			m_fileName = fileName ;
-		}
-	}
+			const auto& m = _title( m_title ) ;
 
-	if( m_fileName.contains( "%(title)s" ) ){
+			if( QFile::exists( m_downloadFolder + m + ".webm" ) ){
 
-		auto originalFileName = m_downloadFolder + m_fileName ;
-		auto newFileName = originalFileName ;
+				m_fileName = m + ".webm" ;
 
-		newFileName.replace( "%(title)s",_title( title ) ) ;
+				return m_fileName ;
 
-		if( QFile::exists( newFileName ) ){
+			}else if( QFile::exists( m_downloadFolder + m + ".mp4" ) ){
 
-			auto a = newFileName.lastIndexOf( '.' ) ;
+				m_fileName = m + ".mp4" ;
 
-			if( a != -1 ){
-
-				auto fn = newFileName.mid( 0,a - 1 ) + "-1" ;
-				auto ext = newFileName.mid( a ) ;
-
-				newFileName = fn + ext ;
+				return m_fileName ;
+			}else{
+				m_tmp = m ;
+				return m_tmp ;
 			}
 		}
-
-		m_fileName = newFileName.mid( m_downloadFolder.size() ) ;
-
-		utils::qthread::run( [ originalFileName,newFileName ](){
-
-			QThread::currentThread()->msleep( 500 ) ;
-
-			for( int i = 0 ; i < 4 ; i++ ){
-
-				if( QFile::rename( originalFileName,newFileName ) ){
-
-					break ;
-				}else{
-					QThread::currentThread()->msleep( 500 ) ;
-				}
-			}
-		} ) ;
+	}else{
+		return m_fileName ;
 	}
-
-	m_tmp = m_fileName ;
-
-	return m_tmp ;
 }
