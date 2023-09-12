@@ -254,37 +254,17 @@ static bool _meetLocalCondition( const engines::engine&,const QByteArray& e )
 class LuxHeader
 {
 public:
-	LuxHeader( const Logger::locale& locale,const QByteArray& header )
+	static const char * marker()
 	{
-		const auto headers = util::split( header,'\n' ) ;
-
-		for( const auto& e : headers ){
-
-			if( e.contains( "Site: " ) ){
-
-				m_webSite = util::join( util::split( e,' ' ),1," " ) ;
-
-			}else if( e.contains( "Title: " ) ){
-
-				m_title = util::join( util::split( e,' ' ),1," " ) ;
-
-			}else if( e.contains( "Size: " ) ){
-
-				auto mm = util::split( e,' ' ) ;
-
-				if( mm.size() > 1 ){
-
-					auto ss = mm[ mm.size() - 2 ].mid( 1 ) ;
-
-					m_fileSizeInt    = ss.toLongLong() ;
-					m_fileSizeString = locale.formattedDataSize( m_fileSizeInt ).toUtf8() ;
-				}
-			}
-		}
+		return "..." ;
 	}
-	const QByteArray& webSite() const
+	LuxHeader( const Logger::locale& locale,const QByteArray& allData,int m )
 	{
-		return m_webSite ;
+		this->parse( locale,allData,m ) ;
+	}
+	LuxHeader( const Logger::locale& locale,const QByteArray& allData )
+	{
+		this->parse( locale,allData,allData.indexOf( LuxHeader::marker() ) ) ;
 	}
 	const QByteArray& title() const
 	{
@@ -299,11 +279,53 @@ public:
 		return m_fileSizeInt ;
 	}
 private:
-	QByteArray m_webSite ;
+	void parse( const Logger::locale& locale,const QByteArray& allData,int m )
+	{
+		auto data = allData.mid( 0,m ) ;
+
+		m_title = this->getEntry( "Title:","Type:",data ) ;
+
+		auto size = this->getEntry( "Size:","#",data ) ;
+
+		if( !size.isEmpty() ){
+
+			auto s = util::split( size,' ' ) ;
+
+			if( s.size() > 2 ){
+
+				auto e = s[ s.size() - 2 ].mid( 1 ) ;
+
+				m_fileSizeInt    = e.toLongLong() ;
+				m_fileSizeString = locale.formattedDataSize( m_fileSizeInt ).toUtf8() ;
+			}
+		}
+	}
+	QByteArray getEntry( const QByteArray& start,const QByteArray& end,const QByteArray& s ) const
+	{
+		auto m = s.indexOf( end ) ;
+
+		if( m != -1 ){
+
+			auto mm = s.mid( 0,m ) ;
+
+			m = mm.indexOf( start ) ;
+
+			if( m != -1 ){
+
+				mm = mm.mid( m + start.size() ) ;
+
+				return mm.trimmed() ;
+			}
+		}
+
+		return {} ;
+	}
 	QByteArray m_title ;
 	QByteArray m_fileSizeString ;
 	qint64 m_fileSizeInt = 0 ;
 };
+
+using Output = engines::engine::functions::filterOutPut ;
 
 class luxFilter : public engines::engine::functions::filterOutPut
 {
@@ -311,28 +333,76 @@ public:
 	luxFilter( const engines::engine& engine ) : m_engine( engine )
 	{
 	}
-	engines::engine::functions::filterOutPut::result
-	formatOutput( const engines::engine::functions::filterOutPut::args& args ) const override
+	Output::result formatOutput( const Output::args& args ) const override
 	{
-		auto data = args.data.toString() + args.outPut ;
+		auto data = args.data.toLine() + args.outPut ;
 
-		auto m = data.indexOf( "..." ) ;
+		auto m = data.indexOf( LuxHeader::marker() ) ;
 
 		if( m != -1 ){
 
-			return this->formatOutput( args,data,{ args.locale,data.mid( 0,m ) } ) ;
+			return this->formatOutput( args,data,m ) ;
 		}else{
 			return { args.outPut,m_engine,_meetLocalCondition } ;
 		}
 	}
-	engines::engine::functions::filterOutPut::result
-	formatOutput( const engines::engine::functions::filterOutPut::args& args,
-		      const QByteArray& allData,
-		      const LuxHeader& luxHeader ) const
+	Output::result formatOutput( int mm,
+				     int m,
+				     const QByteArray& ss,
+				     const QString& pgr,
+				     const Output::args& args,
+				     const QByteArray& allData ) const
 	{
 		const auto& locale = args.locale ;
 		const auto& e      = args.outPut ;
 
+		auto a = util::split( ss.mid( 0,mm + 1 ),' ' ) ;
+
+		if( a.size() == 4 ){
+
+			LuxHeader luxHeader( args.locale,allData,m ) ;
+
+			auto eta = a[ 3 ] ;
+
+			auto speed = a[ 0 ] + " " + a[ 1 ] + "/s" ;
+
+			auto perc = a[ 2 ] ;
+
+			auto totalSize = luxHeader.fileSizeInt() ;
+
+			if( totalSize == 0 ){
+
+				m_tmp = pgr.arg( "?","?",perc,speed,eta ).toUtf8() ;
+			}else{
+				auto ee = QString( perc ).replace( "%","" ) ;
+
+				auto percentage = ee.toDouble() / 100 ;
+
+				auto sizeString = locale.formattedDataSize( totalSize * percentage ) ;
+
+				auto fs = luxHeader.fileSize() ;
+
+				m_tmp = pgr.arg( sizeString,fs,perc,speed,eta ).toUtf8() ;
+			}
+
+			mm = e.indexOf( "Merging video parts into " ) ;
+
+			if( mm != -1 ){
+
+				m_tmp = m_tmp + "\n" + e.mid( mm ) ;
+			}
+
+			return { m_tmp,m_engine,_meetLocalCondition } ;
+		}else{
+			QString s = "?" ;
+
+			m_tmp = pgr.arg( s,s,s,s,s ).toUtf8() ;
+
+			return { m_tmp,m_engine,_meetLocalCondition } ;
+		}
+	}
+	Output::result formatOutput( const Output::args& args,const QByteArray& allData,int m ) const
+	{
 		auto mm = allData.lastIndexOf( "-]" ) ;
 
 		if( mm == -1 ){
@@ -347,7 +417,7 @@ public:
 
 		if( mm == -1 ){
 
-			return { e,m_engine,_meetLocalCondition } ;
+			return { args.outPut,m_engine,_meetLocalCondition } ;
 		}
 
 		auto ss = allData.mid( mm + 2 ) ;
@@ -360,44 +430,7 @@ public:
 
 		if( mm != -1 ){
 
-			auto a = util::split( ss.mid( 0,mm + 1 ),' ' ) ;
-
-			if( a.size() == 4 ){
-
-				auto eta = a[ 3 ] ;
-
-				auto speed = a[ 0 ] + " " + a[ 1 ] + "/s" ;
-
-				auto perc = a[ 2 ] ;
-
-				auto ee = perc ;
-				ee.replace( "%","" ) ;
-
-				auto percentage = ee.toDouble() / 100 ;
-
-				auto totalSize = luxHeader.fileSizeInt() ;
-
-				auto sizeString = locale.formattedDataSize( totalSize * percentage ) ;
-
-				auto fs = luxHeader.fileSize() ;
-
-				m_tmp = pgr.arg( sizeString,fs,perc,speed,eta ).toUtf8() ;
-
-				mm = e.indexOf( "Merging video parts into " ) ;
-
-				if( mm != -1 ){
-
-					m_tmp = m_tmp + "\n" + e.mid( mm ) ;
-				}
-
-				return { m_tmp,m_engine,_meetLocalCondition } ;
-			}else{
-				QString s = "?" ;
-
-				m_tmp = pgr.arg( s,s,s,s,s ).toUtf8() ;
-
-				return { m_tmp,m_engine,_meetLocalCondition } ;
-			}
+			return this->formatOutput( mm,m,ss,pgr,args,allData ) ;
 
 		}else if( ss.startsWith( " ? " ) ){
 
@@ -407,7 +440,7 @@ public:
 
 			return { m_tmp,m_engine,_meetLocalCondition } ;
 		}else{
-			return { e,m_engine,_meetLocalCondition } ;
+			return { args.outPut,m_engine,_meetLocalCondition } ;
 		}
 	}
 	bool meetCondition( const engines::engine::functions::filterOutPut::args& args ) const override
