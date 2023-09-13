@@ -1423,7 +1423,7 @@ engines::engine::functions::onlineVersion engines::engine::functions::versionInf
 
 			m.replace( ",","" ).replace( "v","" ) ;
 
-			return { version,m } ;
+			return { m,m } ;
 		}else{
 			return { version,version } ;
 		}

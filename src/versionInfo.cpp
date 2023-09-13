@@ -496,7 +496,7 @@ void versionInfo::printVersionN( versionInfo::pVInfo pvInfo,const utils::network
 
 	if( version.valid() && installedVersion.valid() && installedVersion < version ){
 
-		auto m = versionOnline.stringVersion ;
+		const auto& m = versionOnline.stringVersion ;
 
 		this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( m ),pvInfo.id() ) ;
 
