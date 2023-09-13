@@ -60,7 +60,7 @@ void about::retranslateUi()
 
 	auto about = QString( "%1: %2\n\n%3%4: %5, Francis Banyikwa\n\n%6: mhogomchungu@gmail.com\n\n%7: GPLv2+\n\n" + banner1 + "\n\n" + banner2 ) ;
 
-	auto vv = utility::runningVersionOfMediaDownloader() ;
+	auto vv = utility::aboutVersionInfo() ;
 
 	auto m = about.arg( version,vv,QtVersion,copyright,COPYRIGHT,email,license ) ;
 

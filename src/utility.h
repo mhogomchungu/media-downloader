@@ -351,7 +351,9 @@ namespace utility
 	void setPermissions( const QString& ) ;
 	void failedToParseJsonData( Logger&,const QJsonParseError& ) ;
 	QString runningVersionOfMediaDownloader() ;
+	QString aboutVersionInfo() ;
 	void setRunningVersionOfMediaDownloader( const QString& ) ;
+	void setHelpVersionOfMediaDownloader( const QString& ) ;
 	QString homePath() ;
 	QString clipboardText() ;
 	QString fromSecsSinceEpoch( qint64 ) ;

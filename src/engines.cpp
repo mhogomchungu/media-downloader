@@ -116,13 +116,6 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 		m_logger.add( utility::barLine(),id ) ;
 	}
 
-	const auto& utxt = m_settings.runningUpdatedText() ;
-
-	if( !utxt.isEmpty() ){
-
-		m_logger.add( utxt,id ) ;
-	}
-
 	if( utility::platformIsWindows() ){
 
 		if( m_settings.portableVersion() ){
@@ -1662,17 +1655,15 @@ private:
 	{
 		auto result = m_filterOutPut.formatOutput( m_locale,m_outPut,e ) ;
 
+		const auto& m = result.progress() ;
+
 		if( m_outPut.mainLogger() ){
 
-			if( !result.progress().isEmpty() ){
-
-				const auto& m = result.progress() ;
+			if( !m.isEmpty() ){
 
 				m_outPut.replaceOrAdd( m,m_id,result.meetCondition() ) ;
 			}
 		}else{
-			const auto& m = result.progress() ;
-
 			m_outPut.replaceOrAdd( m,m_id,result.meetCondition() ) ;
 		}
 	}

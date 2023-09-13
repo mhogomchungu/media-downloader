@@ -1034,11 +1034,6 @@ bool settings::portableVersion()
 	return m_options.portableVersion() ;
 }
 
-const QString& settings::runningUpdatedText()
-{
-	return m_options.runningUpdated() ;
-}
-
 settings::options::options( const utility::cliArguments& args )
 {
 	if( utility::platformIsWindows() ){
@@ -1055,10 +1050,10 @@ settings::options::options( const utility::cliArguments& args )
 
 			m_exe3PartyBinPath = args.originalPath() + "/3rdParty" ;
 
-			//const auto& m = args.originalVersion() ;
-			//const auto& mm = utility::runningVersionOfMediaDownloader() ;
+			const auto& m = args.originalVersion() ;
+			const auto& mm = utility::runningVersionOfMediaDownloader() ;
 
-			//m_runningUpdated = QObject::tr( "Started As Version %1 And Now Running As Version %2" ).arg( m,mm ) ;
+			utility::setHelpVersionOfMediaDownloader( m + "/" + mm ) ;
 		}else{
 			auto a = m_exePath  + "/local" ;
 

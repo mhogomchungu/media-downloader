@@ -87,7 +87,6 @@ public:
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
 	bool portableVersion() ;
-	const QString& runningUpdatedText() ;
 	bool monitorClipboardUrl( settings::tabName ) ;
 	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
@@ -171,11 +170,6 @@ private:
 		{
 			return m_portableVersion ;
 		}
-		const QString& runningUpdated() const
-		{
-			return m_runningUpdated ;
-		}
-		QString m_runningUpdated ;
 		QString m_dataPath ;
 		QString m_exePath ;
 		QString m_exe3PartyBinPath ;

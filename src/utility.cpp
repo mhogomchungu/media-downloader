@@ -1070,6 +1070,17 @@ bool utility::platformIsLikeWindows()
 }
 
 static QString _instanceVersion ;
+static QString _aboutInstanceVersion ;
+
+QString utility::aboutVersionInfo()
+{
+	if( _aboutInstanceVersion.isEmpty() ){
+
+		return utility::runningVersionOfMediaDownloader() ;
+	}else{
+		return _aboutInstanceVersion ;
+	}
+}
 
 QString utility::runningVersionOfMediaDownloader()
 {
@@ -1084,6 +1095,11 @@ QString utility::runningVersionOfMediaDownloader()
 void utility::setRunningVersionOfMediaDownloader( const QString& e )
 {
 	_instanceVersion = e ;
+}
+
+void utility::setHelpVersionOfMediaDownloader( const QString& e )
+{
+	_aboutInstanceVersion = e ;
 }
 
 static QStringList _parseOptions( const QString& e,const engines::engine& engine )

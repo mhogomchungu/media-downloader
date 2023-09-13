@@ -420,9 +420,7 @@ public:
 			return { args.outPut,m_engine,_meetLocalCondition } ;
 		}
 
-		auto ss = allData.mid( mm + 2 ) ;
-
-		ss.replace( "p/s","" ) ;
+		auto ss = allData.mid( mm + 2 ).replace( "p/s","" ) ;
 
 		mm = ss.indexOf( 's' ) ;
 
