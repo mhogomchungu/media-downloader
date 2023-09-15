@@ -29,6 +29,7 @@
 #include <QThread>
 #include <QDebug>
 #include <QTime>
+#include <QNetworkProxy>
 
 #include <type_traits>
 #include <memory>
@@ -385,6 +386,23 @@ namespace utility
 	bool onlyWantedVersionInfo( const utility::cliArguments& ) ;
 	bool startedUpdatedVersion( settings&,const utility::cliArguments& ) ;
 	void hideUnhideEntries( QMenu&,tableWidget&,int,bool ) ;
+	QStringList listOptionsFromDownloadOptions( const QString& ) ;
+	void setNetworkProxy( const QStringList& ) ;
+
+	template<typename Ctx>
+	void addToListOptionsFromsDownload( QStringList& args,const Ctx& ctx,const QString& engine )
+	{
+		auto m = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine ) ;
+
+		auto ee = utility::listOptionsFromDownloadOptions( m ) ;
+
+		if( !ee.isEmpty() ){
+
+			args = args + ee ;
+
+			utility::setNetworkProxy( ee ) ;
+		}
+	}
 
 	class addJsonCmd
 	{

@@ -255,7 +255,6 @@ private:
 	QLineEdit m_lineEdit ;
 	QPixmap m_defaultVideoThumbnail ;
 	batchdownloader::listType m_listType ;
-
 	utility::Terminator m_terminator ;
 
 	downloadManager m_ccmd ;

@@ -276,14 +276,25 @@ void basicdownloader::list()
 
 	m_optionsList.clear() ;
 
-	m_ui.lineEditOptions->clear() ;
-
 	auto url = m_ui.lineEditURL->text() ;
 
 	const auto& backend = this->defaultEngine() ;
 
-	auto args = backend.engine.defaultListCmdOptions() ;
+	const auto& engine = backend.engine ;
+
+	auto args = engine.defaultListCmdOptions() ;
 	args.append( url.split( ' ' ) ) ;
+
+	utility::addToListOptionsFromsDownload( args,m_ctx,engine.name() ) ;
+
+	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
+	const auto& ca = engine.cookieArgument() ;
+
+	if( !cookiePath.isEmpty() && !ca.isEmpty() ){
+
+		args.append( ca ) ;
+		args.append( cookiePath ) ;
+	}
 
 	this->run( backend,args,"",true ) ;
 }
@@ -370,6 +381,15 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 						      urls,
 						      {},
 						      m_ctx } ) ;
+
+		auto cookiePath = m_settings.cookieFilePath( engine.engine.name() ) ;
+		const auto& ca = engine.engine.cookieArgument() ;
+
+		if( !cookiePath.isEmpty() && !ca.isEmpty() ){
+
+			opts.append( ca ) ;
+			opts.append( cookiePath ) ;
+		}
 
 		this->run( engine,opts,args.credentials(),false ) ;
 	} ) ;

@@ -1467,3 +1467,70 @@ void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row,bool showHi
 		} ) ;
 	}
 }
+
+QStringList utility::listOptionsFromDownloadOptions( const QString& e )
+{
+	QStringList m ;
+
+	auto ee = util::splitPreserveQuotes( e ) ;
+
+	for( auto it = ee.begin() ; it != ee.end() ; it++ ){
+
+		const auto& s = *it ;
+
+		if( s == "\"--proxy\"" || s == "--proxy" ){
+
+			auto xt = it + 1 ;
+
+			if( xt != ee.end() ){
+
+				m.prepend( *xt ) ;
+				m.prepend( "--proxy" ) ;
+			}
+
+			break ;
+		}
+	}
+
+	return m ;
+}
+
+static QNetworkProxy& _defaultProxy()
+{
+	static QNetworkProxy m( QNetworkProxy::applicationProxy() ) ;
+
+	return m ;
+}
+
+void utility::setNetworkProxy( const QStringList& ee )
+{
+	for( auto it = ee.begin() ; it != ee.end() ; it++ ){
+
+		if( *it == "--proxy" ){
+
+			auto xt = it + 1 ;
+
+			if( xt != ee.end() ){
+
+				auto m = *xt ;
+
+				auto e = m.lastIndexOf( ':' ) ;
+
+				if( e != -1 ){
+
+					QNetworkProxy proxy ;
+
+					proxy.setType( QNetworkProxy::HttpProxy ) ;
+
+					proxy.setPort( m.mid( e + 1 ).toInt() ) ;
+
+					proxy.setHostName( m.mid( 0,e ) ) ;
+
+					return QNetworkProxy::setApplicationProxy( proxy ) ;
+				}
+			}
+		}
+	}
+
+	QNetworkProxy::setApplicationProxy( _defaultProxy() ) ;
+}

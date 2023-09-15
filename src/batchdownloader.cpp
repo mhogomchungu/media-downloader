@@ -1552,6 +1552,8 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		args.append( cookiePath ) ;
 	}
 
+	utility::addToListOptionsFromsDownload( args,m_ctx,engine.name() ) ;
+
 	engine.setTextEncondig( args ) ;
 
 	engine.updateCmdOptions( args ) ;
@@ -1732,6 +1734,8 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		args.append( ca ) ;
 		args.append( cookiePath ) ;
 	}
+
+	utility::addToListOptionsFromsDownload( args,m_ctx,engine.name() ) ;
 
 	engine.setTextEncondig( args ) ;
 
