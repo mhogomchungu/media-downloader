@@ -1484,8 +1484,8 @@ QStringList utility::listOptionsFromDownloadOptions( const QString& e )
 
 			if( xt != ee.end() ){
 
-				m.prepend( *xt ) ;
-				m.prepend( "--proxy" ) ;
+				m.append( "--proxy" ) ;
+				m.append( *xt ) ;
 			}
 
 			break ;
@@ -1502,6 +1502,53 @@ static QNetworkProxy& _defaultProxy()
 	return m ;
 }
 
+static void _set_proxy( const QString& m )
+{
+	auto e = m.lastIndexOf( ':' ) ;
+
+	if( e != -1 ){
+
+		QNetworkProxy::ProxyType proxyType = QNetworkProxy::HttpProxy ;
+
+		if( m.startsWith( "socks5://" ) ){
+
+			proxyType = QNetworkProxy::Socks5Proxy ;
+		}
+
+		auto url = m.mid( 0,e ) ;
+
+		url.replace( "socks5://","" ) ;
+		url.replace( "socks4://","" ) ;
+
+		QNetworkProxy proxy ;
+
+		proxy.setPort( m.mid( e + 1 ).toInt() ) ;
+
+		e = url.indexOf( '@' ) ;
+
+		if( e != -1 ){
+
+			auto credentials = url.mid( 0,e ) ;
+
+			url = url.mid( e + 1 ) ;
+
+			e = credentials.indexOf( ':' ) ;
+
+			if( e != -1 ){
+
+				proxy.setUser( credentials.mid( 0,e ) ) ;
+				proxy.setPassword( credentials.mid( e + 1 ) ) ;
+			}
+		}
+
+		proxy.setType( proxyType ) ;
+
+		proxy.setHostName( url ) ;
+
+		return QNetworkProxy::setApplicationProxy( proxy ) ;
+	}
+}
+
 void utility::setNetworkProxy( const QStringList& ee )
 {
 	for( auto it = ee.begin() ; it != ee.end() ; it++ ){
@@ -1512,22 +1559,7 @@ void utility::setNetworkProxy( const QStringList& ee )
 
 			if( xt != ee.end() ){
 
-				auto m = *xt ;
-
-				auto e = m.lastIndexOf( ':' ) ;
-
-				if( e != -1 ){
-
-					QNetworkProxy proxy ;
-
-					proxy.setType( QNetworkProxy::HttpProxy ) ;
-
-					proxy.setPort( m.mid( e + 1 ).toInt() ) ;
-
-					proxy.setHostName( m.mid( 0,e ) ) ;
-
-					return QNetworkProxy::setApplicationProxy( proxy ) ;
-				}
+				return _set_proxy( *xt ) ;
 			}
 		}
 	}
