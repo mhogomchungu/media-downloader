@@ -977,7 +977,9 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	opts.append( "-v" ) ;
 
-	utility::addToListOptionsFromsDownload( opts,m_ctx,engine.name() ) ;
+	auto m = m_ui.lineEditPLUrlOptions->text() ;
+
+	utility::addToListOptionsFromsDownload( opts,m,m_ctx,engine.name() ) ;
 
 	opts.append( url ) ;
 

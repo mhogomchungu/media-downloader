@@ -1551,16 +1551,11 @@ static void _set_proxy( const QString& m )
 
 void utility::setNetworkProxy( const QStringList& ee )
 {
-	for( auto it = ee.begin() ; it != ee.end() ; it++ ){
+	for( int i = ee.size() - 2 ; i > -1 ; i-- ){
 
-		if( *it == "--proxy" ){
+		if( ee[ i ] == "--proxy" ){
 
-			auto xt = it + 1 ;
-
-			if( xt != ee.end() ){
-
-				return _set_proxy( *xt ) ;
-			}
+			return _set_proxy( ee[ i + 1 ] ) ;
 		}
 	}
 

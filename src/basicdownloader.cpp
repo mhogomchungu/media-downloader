@@ -285,7 +285,9 @@ void basicdownloader::list()
 	auto args = engine.defaultListCmdOptions() ;
 	args.append( url.split( ' ' ) ) ;
 
-	utility::addToListOptionsFromsDownload( args,m_ctx,engine.name() ) ;
+	auto mm = m_ui.lineEditOptions->text() ;
+
+	utility::addToListOptionsFromsDownload( args,mm,m_ctx,engine.name() ) ;
 
 	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
 	const auto& ca = engine.cookieArgument() ;

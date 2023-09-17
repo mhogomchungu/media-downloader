@@ -1552,7 +1552,9 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		args.append( cookiePath ) ;
 	}
 
-	utility::addToListOptionsFromsDownload( args,m_ctx,engine.name() ) ;
+	auto m = m_ui.lineEditBDUrlOptions->text() ;
+
+	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine.name() ) ;
 
 	engine.setTextEncondig( args ) ;
 
@@ -1735,7 +1737,9 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		args.append( cookiePath ) ;
 	}
 
-	utility::addToListOptionsFromsDownload( args,m_ctx,engine.name() ) ;
+	auto m = m_ui.lineEditBDUrlOptions->text() ;
+
+	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine.name() ) ;
 
 	engine.setTextEncondig( args ) ;
 

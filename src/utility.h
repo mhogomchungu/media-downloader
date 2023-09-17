@@ -390,18 +390,23 @@ namespace utility
 	void setNetworkProxy( const QStringList& ) ;
 
 	template<typename Ctx>
-	void addToListOptionsFromsDownload( QStringList& args,const Ctx& ctx,const QString& engine )
+	void addToListOptionsFromsDownload( QStringList& args,
+					    const QString& downLoadOptions,
+					    const Ctx& ctx,
+					    const QString& engine )
 	{
 		auto m = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine ) ;
 
 		auto ee = utility::listOptionsFromDownloadOptions( m ) ;
 
+		auto eee = utility::listOptionsFromDownloadOptions( downLoadOptions ) ;
+
 		if( !ee.isEmpty() ){
 
 			args = args + ee ;
-
-			utility::setNetworkProxy( ee ) ;
 		}
+
+		utility::setNetworkProxy( ee + eee ) ;
 	}
 
 	class addJsonCmd
