@@ -1502,51 +1502,53 @@ static QNetworkProxy& _defaultProxy()
 	return m ;
 }
 
-static void _set_proxy( const QString& m )
+static void _set_proxy( QString url )
 {
-	auto e = m.lastIndexOf( ':' ) ;
+	QNetworkProxy proxy ;
+
+	if( url.startsWith( "socks5://" ) ){
+
+		proxy.setType( QNetworkProxy::Socks5Proxy ) ;
+	}else{
+		proxy.setType( QNetworkProxy::HttpProxy ) ;
+	}
+
+	auto e = url.indexOf( "//" ) ;
 
 	if( e != -1 ){
 
-		QNetworkProxy::ProxyType proxyType = QNetworkProxy::HttpProxy ;
-
-		if( m.startsWith( "socks5://" ) ){
-
-			proxyType = QNetworkProxy::Socks5Proxy ;
-		}
-
-		auto url = m.mid( 0,e ) ;
-
-		url.replace( "socks5://","" ) ;
-		url.replace( "socks4://","" ) ;
-
-		QNetworkProxy proxy ;
-
-		proxy.setPort( m.mid( e + 1 ).toInt() ) ;
-
-		e = url.indexOf( '@' ) ;
-
-		if( e != -1 ){
-
-			auto credentials = url.mid( 0,e ) ;
-
-			url = url.mid( e + 1 ) ;
-
-			e = credentials.indexOf( ':' ) ;
-
-			if( e != -1 ){
-
-				proxy.setUser( credentials.mid( 0,e ) ) ;
-				proxy.setPassword( credentials.mid( e + 1 ) ) ;
-			}
-		}
-
-		proxy.setType( proxyType ) ;
-
-		proxy.setHostName( url ) ;
-
-		return QNetworkProxy::setApplicationProxy( proxy ) ;
+		url = url.mid( e + 2 ) ;
 	}
+
+	e = url.indexOf( '@' ) ;
+
+	if( e != -1 ){
+
+		auto credentials = url.mid( 0,e ) ;
+
+		auto ee = credentials.indexOf( ':' ) ;
+
+		if( ee != -1 ){
+
+			proxy.setUser( credentials.mid( 0,ee ) ) ;
+			proxy.setPassword( credentials.mid( ee + 1 ) ) ;
+		}
+
+		url = url.mid( e + 1 ) ;
+	}
+
+	e = url.indexOf( ':' ) ;
+
+	if( e != -1 ){
+
+		proxy.setPort( url.mid( e + 1 ).toInt() ) ;
+
+		url = url.mid( 0,e ) ;
+	}
+
+	proxy.setHostName( url ) ;
+
+	QNetworkProxy::setApplicationProxy( proxy ) ;
 }
 
 void utility::setNetworkProxy( const QStringList& ee )
