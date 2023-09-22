@@ -115,6 +115,10 @@ public:
 	{
 		return m_appName ;
 	}
+	void setProxyServer( const QString& e )
+	{
+		m_engines.setProxyServer( e ) ;
+	}
 private:
 	settings& m_settings ;
 	translator& m_translator ;

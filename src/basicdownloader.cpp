@@ -513,6 +513,6 @@ void basicdownloader::exiting()
 {
 }
 
-void basicdownloader::gotEvent( const QByteArray& )
+void basicdownloader::gotEvent( const QJsonObject& )
 {
 }

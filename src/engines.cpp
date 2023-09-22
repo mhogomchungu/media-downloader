@@ -97,14 +97,45 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 	return env ;
 }
 
+static QString _find_proxy( const QProcessEnvironment& )
+{
+	return {} ;
+}
+
+template< typename ... Args >
+static QString _find_proxy( const QProcessEnvironment& env,const char * first,Args&& ... rest )
+{
+	auto m = env.value( first ) ;
+
+	if( m.isEmpty() ){
+
+		return _find_proxy( env,std::forward< Args >( rest ) ... ) ;
+	}else{
+		return m ;
+	}
+}
+
+static QString _proxy_find( const QProcessEnvironment& env )
+{
+	return _find_proxy( env,"https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
+}
+
 engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id ) :
 	m_logger( l ),
 	m_settings( s ),
 	m_enginePaths( paths ),
 	m_processEnvironment( _getEnvPaths( m_enginePaths,m_settings ) ),
+	m_proxyServer( _proxy_find( m_processEnvironment ) ),
 	m_defaultEngine( l,m_enginePaths )
 {
-	if( s.showVersionInfoWhenStarting() ){
+	this->updateEngines( true,id ) ;
+}
+
+void engines::showBanner()
+{
+	auto id = utility::sequentialID() ;
+
+	if( m_settings.showVersionInfoWhenStarting() ){
 
 		m_logger.add( utility::barLine(),id ) ;
 
@@ -126,8 +157,13 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 		}
 	}
 
+	if( !m_proxyServer.isEmpty() ){
+
+		m_logger.add( QObject::tr( "Setting Proxy Server Address Of %1" ).arg( m_proxyServer ),id ) ;
+	}
+
 	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;
-	m_logger.add( QObject::tr( "App Data Path: %1" ).arg( paths.basePath() ),id ) ;
+	m_logger.add( QObject::tr( "App Data Path: %1" ).arg( m_enginePaths.basePath() ),id ) ;
 
 	if( utility::platformIsWindows() ){
 
@@ -136,8 +172,6 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 	}
 
 	m_logger.add( utility::barLine(),id ) ;
-
-	this->updateEngines( true,id ) ;
 }
 
 static void _openUrls( tableWidget& table,int row,settings& settings,bool galleryDl )
@@ -490,6 +524,16 @@ QString engines::findExecutable( const QString& exeName ) const
 const QProcessEnvironment& engines::processEnvironment() const
 {
 	return m_processEnvironment ;
+}
+
+const QString& engines::proxyServer() const
+{
+	return m_proxyServer ;
+}
+
+void engines::setProxyServer( const QString& e )
+{
+	m_proxyServer = e ;
 }
 
 QString engines::addEngine( const QByteArray& data,const QString& path,int id )

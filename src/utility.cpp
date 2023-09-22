@@ -512,6 +512,15 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 	engine.setTextEncondig( opts ) ;
 
+	const auto& p = s.ctx.Engines().proxyServer() ;
+
+	if( !p.isEmpty() ){
+
+		opts.append( "--proxy" ) ;
+
+		opts.append( p ) ;
+	}
+
 	opts.append( url ) ;
 
 	return opts ;
@@ -776,7 +785,14 @@ utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
 			m_uploadDate = utility::stringConstants::uploadDate() + " " + m_uploadDate ;
 		}
 
-		m_intDuration = object.value( "duration" ).toInt() ;
+		auto duration = object.value( "duration" ) ;
+
+		if( duration.isDouble() ){
+
+			m_intDuration = static_cast< int >( duration.toDouble() ) ;
+		}else{
+			m_intDuration = duration.toInt() ;
+		}
 
 		if( m_intDuration != 0 ){
 
@@ -1468,7 +1484,7 @@ void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row,bool showHi
 	}
 }
 
-QStringList utility::listOptionsFromDownloadOptions( const QString& e )
+static QStringList _listOptionsFromDownloadOptions( const QString& e )
 {
 	QStringList m ;
 
@@ -1551,7 +1567,7 @@ static void _set_proxy( QString url )
 	QNetworkProxy::setApplicationProxy( proxy ) ;
 }
 
-void utility::setNetworkProxy( const QStringList& ee )
+static void _setNetworkProxy( const QStringList& ee )
 {
 	for( int i = ee.size() - 2 ; i > -1 ; i-- ){
 
@@ -1562,4 +1578,34 @@ void utility::setNetworkProxy( const QStringList& ee )
 	}
 
 	QNetworkProxy::setApplicationProxy( _defaultProxy() ) ;
+}
+
+void utility::addToListOptionsFromsDownload( QStringList& args,
+					     const QString& downLoadOptions,
+					     const Context& ctx,
+					     const QString& engine )
+{
+	auto m = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine ) ;
+
+	auto ee = _listOptionsFromDownloadOptions( m ) ;
+
+	auto eee = _listOptionsFromDownloadOptions( downLoadOptions ) ;
+
+	const auto& mm = ctx.Engines().proxyServer() ;
+
+	if( !ee.isEmpty() ){
+
+		args = args + ee ;
+	}
+
+	if( mm.isEmpty() ){
+
+		_setNetworkProxy( ee + eee ) ;
+	}else{
+		args.append( "--proxy" ) ;
+
+		args.append( mm ) ;
+
+		_set_proxy( mm ) ;
+	}
 }

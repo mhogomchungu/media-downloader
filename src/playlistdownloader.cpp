@@ -701,7 +701,7 @@ void playlistdownloader::exiting()
 	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 
-void playlistdownloader::gotEvent( const QByteArray& )
+void playlistdownloader::gotEvent( const QJsonObject& )
 {
 }
 

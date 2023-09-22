@@ -654,26 +654,18 @@ void batchdownloader::exiting()
 	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 
-void batchdownloader::gotEvent( const QByteArray& m )
+void batchdownloader::gotEvent( const QJsonObject& jsonArgs )
 {
-	QJsonParseError err ;
-	auto jsonDoc = QJsonDocument::fromJson( m,&err ) ;
+	auto url = jsonArgs.value( "-u" ).toString() ;
 
-	if( err.error == QJsonParseError::NoError ){
+	if( !url.isEmpty() ){
 
-		auto jsonArgs = jsonDoc.object() ;
+		m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
-		auto url = jsonArgs.value( "-u" ).toString() ;
+		auto autoDownload = jsonArgs.value( "-a" ).toBool( false ) ;
+		auto showThumbnail = jsonArgs.value( "-e" ).toBool( false ) ;
 
-		if( !url.isEmpty() ){
-
-			m_ui.tabWidget->setCurrentIndex( 1 ) ;
-
-			auto autoDownload = jsonArgs.value( "-a" ).toBool( false ) ;
-			auto showThumbnail = jsonArgs.value( "-e" ).toBool( false ) ;
-
-			this->addToList( url,autoDownload,showThumbnail ) ;
-		}
+		this->addToList( url,autoDownload,showThumbnail ) ;
 	}
 }
 

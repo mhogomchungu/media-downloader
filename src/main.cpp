@@ -93,6 +93,7 @@ int main( int argc,char * argv[] )
 	jsonArgs.insert( "-u",cargs.value( "-u" ) ) ;
 	jsonArgs.insert( "-a",cargs.value( "-a" ) ) ;
 	jsonArgs.insert( "-s",cargs.value( "-s" ) ) ;
+	jsonArgs.insert( "--proxy",cargs.value( "--proxy" ) ) ;
 
 	auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
 

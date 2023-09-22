@@ -83,7 +83,7 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void exiting() ;
-	void gotEvent( const QByteArray& ) ;
+	void gotEvent( const QJsonObject& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void clipboardData( const QString& ) ;
 private slots:

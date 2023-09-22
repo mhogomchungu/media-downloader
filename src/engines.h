@@ -1016,6 +1016,8 @@ public:
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
+	const QString& proxyServer() const ;
+	void setProxyServer( const QString& ) ;
 	QString addEngine( const QByteArray& data,const QString& path,int ) ;
 	void removeEngine( const QString& name,int ) ;
 	QStringList enginesList() const ;
@@ -1080,6 +1082,7 @@ public:
 	const std::vector< engine >& getEngines() const ;
 	engines::Iterator getEnginesIterator() const ;
 	void setDefaultEngine( const QString& ) ;
+	void showBanner() ;
 private:
 	void updateEngines( bool,int ) ;
 	Logger& m_logger ;
@@ -1087,7 +1090,7 @@ private:
 	std::vector< engine > m_backends ;
 	const engines::enginePaths& m_enginePaths ;
 	QProcessEnvironment m_processEnvironment ;
-
+	QString m_proxyServer ;
 	class configDefaultEngine
 	{
 	public:

@@ -42,7 +42,7 @@ public:
 	void enableAll() ;
 	void disableAll() ;
 	void exiting() ;
-	void gotEvent( const QByteArray& e ) ;
+	void gotEvent( const QJsonObject& e ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
 	void updateEnginesList( const QStringList& ) ;

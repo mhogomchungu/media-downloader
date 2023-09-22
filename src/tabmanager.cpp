@@ -175,11 +175,28 @@ void tabManager::setDefaultEngines()
 	m_configure.updateEnginesList( s ) ;
 }
 
-tabManager& tabManager::gotEvent( const QByteArray& e )
+tabManager& tabManager::gotEvent( const QByteArray& s )
 {
-	m_basicdownloader.gotEvent( e ) ;
-	m_batchdownloader.gotEvent( e ) ;
-	m_playlistdownloader.gotEvent( e ) ;
+	QJsonParseError err ;
+	auto jsonDoc = QJsonDocument::fromJson( s,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		auto e = jsonDoc.object() ;
+
+		auto proxy = e.value( "--proxy" ).toString() ;
+
+		if( !proxy.isEmpty() ){
+
+			m_ctx.setProxyServer( proxy ) ;			
+		}
+
+		m_basicdownloader.gotEvent( e ) ;
+		m_batchdownloader.gotEvent( e ) ;
+		m_playlistdownloader.gotEvent( e ) ;
+	}
+
+	m_ctx.Engines().showBanner() ;
 
 	return *this ;
 }
