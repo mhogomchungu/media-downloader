@@ -436,82 +436,82 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="334"/>
+        <location filename="../src/utility.cpp" line="336"/>
         <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="672"/>
+        <location filename="../src/utility.cpp" line="683"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>Имя файла с расширением &apos;.txt&apos; сохранит только URL-адреса</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1428"/>
+        <location filename="../src/utility.cpp" line="1462"/>
         <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1436"/>
+        <location filename="../src/utility.cpp" line="1472"/>
         <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="181"/>
-        <location filename="../src/utility.cpp" line="671"/>
+        <location filename="../src/utility.cpp" line="682"/>
         <source>Save List To File</source>
         <translation>Сохранить список в файл</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="895"/>
+        <location filename="../src/batchdownloader.cpp" line="894"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="905"/>
+        <location filename="../src/batchdownloader.cpp" line="904"/>
         <source>Date</source>
         <translation>Дата</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="923"/>
+        <location filename="../src/batchdownloader.cpp" line="922"/>
         <source>Replies to</source>
         <translation>Ответы на</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="930"/>
+        <location filename="../src/batchdownloader.cpp" line="929"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1168"/>
+        <location filename="../src/batchdownloader.cpp" line="1167"/>
         <source>Save Subtitle To File</source>
         <translation>Сохранить субтитры в файл</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="165"/>
+        <location filename="../src/utility.h" line="166"/>
         <source>Engine Name:</source>
         <translation>Плагин:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1456"/>
+        <location filename="../src/batchdownloader.cpp" line="1455"/>
         <source>Get List From File</source>
         <translation>Получить список из файла</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="541"/>
+        <location filename="../src/batchdownloader.cpp" line="548"/>
         <location filename="../src/playlistdownloader.cpp" line="390"/>
-        <location filename="../src/utility.cpp" line="331"/>
+        <location filename="../src/utility.cpp" line="333"/>
         <source>Preset Options</source>
         <translation>Пресеты параметров</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="370"/>
-        <location filename="../src/utility.h" line="563"/>
-        <location filename="../src/utility.h" line="636"/>
+        <location filename="../src/utility.cpp" line="372"/>
+        <location filename="../src/utility.h" line="571"/>
+        <location filename="../src/utility.h" line="644"/>
         <source>Clear</source>
         <translation>Очистить</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="381"/>
+        <location filename="../src/utility.cpp" line="383"/>
         <source>Open Download Folder</source>
         <translation>Открыть папку загрузки</translation>
     </message>
@@ -616,139 +616,144 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="275"/>
+        <location filename="../src/engines.cpp" line="287"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Ошибка, не удалось найти исполняемый файл для серверной части &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="228"/>
+        <location filename="../src/engines.cpp" line="240"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Для плагина &quot;%1&quot; требуется по крайней мере &quot;%2&quot; версия Media Downloader</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="111"/>
+        <location filename="../src/engines.cpp" line="122"/>
         <source>To Disable These Checks, Do The Following:-</source>
         <translation>Чтобы отключить эти проверки, сделайте следующее:</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="112"/>
+        <location filename="../src/engines.cpp" line="123"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
         <translation>1. Перейдите на вкладку &quot;Настройка&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="113"/>
+        <location filename="../src/engines.cpp" line="124"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
         <translation>2. Перейдите на суб-вкладку &quot;Общие параметры&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="114"/>
+        <location filename="../src/engines.cpp" line="125"/>
         <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
         <translation>3. Снимите флаг &quot;Показывать информацию о версии при запуске&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="130"/>
+        <location filename="../src/engines.cpp" line="134"/>
         <source>Running In Portable Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="132"/>
+        <location filename="../src/engines.cpp" line="136"/>
         <source>Running In Installation Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="136"/>
+        <location filename="../src/engines.cpp" line="140"/>
         <source>Download Path: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="137"/>
+        <location filename="../src/engines.cpp" line="141"/>
         <source>App Data Path: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="142"/>
+        <location filename="../src/engines.cpp" line="146"/>
         <source>3rd Party Path: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="280"/>
+        <location filename="../src/engines.cpp" line="156"/>
+        <source>Setting Proxy Server Address Of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="292"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>Ошибка, не удалось проанализировать конфигурационный файл &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="543"/>
+        <location filename="../src/engines.cpp" line="555"/>
         <source>Failed To Load A Plugin</source>
         <translation>Не удалось загрузить плагин</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="628"/>
-        <location filename="../src/engines.cpp" line="919"/>
-        <location filename="../src/utility.cpp" line="544"/>
+        <location filename="../src/engines.cpp" line="640"/>
+        <location filename="../src/engines.cpp" line="931"/>
+        <location filename="../src/utility.cpp" line="555"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Не удалось найти исполняемый файл &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="904"/>
+        <location filename="../src/engines.cpp" line="916"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Не удалось найти исполняемый файл python3 для серверной части &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1086"/>
+        <location filename="../src/engines.cpp" line="1098"/>
         <source>Network Error Occured</source>
         <translation>Произошла ошибка сети</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1096"/>
+        <location filename="../src/engines.cpp" line="1108"/>
         <source>Url Is Not Supported</source>
         <translation>Url не поддерживается</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1106"/>
+        <location filename="../src/engines.cpp" line="1118"/>
         <source>Download cancelled</source>
         <translation>Загрузка отменена</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1117"/>
+        <location filename="../src/engines.cpp" line="1129"/>
         <source>ErrorCode</source>
         <translation>Код ошибки</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1121"/>
+        <location filename="../src/engines.cpp" line="1133"/>
         <source>Download Failed, Engine crashed</source>
         <translation>Ошибка загрузки, сбой плагина</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1392"/>
+        <location filename="../src/engines.cpp" line="1404"/>
         <source>Format Code</source>
         <translation>Форматирование</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1393"/>
+        <location filename="../src/engines.cpp" line="1405"/>
         <source>Extension</source>
         <translation>Расширение</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1394"/>
+        <location filename="../src/engines.cpp" line="1406"/>
         <source>Resolution</source>
         <translation>Разрешение</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1395"/>
+        <location filename="../src/engines.cpp" line="1407"/>
         <source>Note</source>
         <translation>Примечание</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1817"/>
+        <location filename="../src/engines.cpp" line="1827"/>
         <source>Failed to open file for writing</source>
         <translation>Не удалось открыть файл для записи</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1823"/>
+        <location filename="../src/engines.cpp" line="1833"/>
         <source>Failed to open file for reading</source>
         <translation>Не удалось открыть файл для чтения</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1963"/>
+        <location filename="../src/engines.cpp" line="1973"/>
         <source>Elapsed Time:</source>
         <translation>Прошедшее время:</translation>
     </message>
@@ -808,7 +813,7 @@
         <translation>Не удалось найти исполняемый файл &quot;tar&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1116"/>
+        <location filename="../src/engines.cpp" line="1128"/>
         <location filename="../src/networkAccess.cpp" line="483"/>
         <location filename="../src/networkAccess.cpp" line="767"/>
         <source>Download Failed</source>
@@ -859,12 +864,12 @@
         <translation>Переименовать файл как: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1881"/>
+        <location filename="../src/engines.cpp" line="1891"/>
         <source>Processing</source>
         <translation>Обработка</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1110"/>
+        <location filename="../src/engines.cpp" line="1122"/>
         <source>Download completed</source>
         <translation>Загрузка завершена</translation>
     </message>
@@ -874,74 +879,74 @@
         <translation>Сброс папки загрузки на по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1926"/>
+        <location filename="../src/engines.cpp" line="1936"/>
         <source>Post Processing</source>
         <translation>Постобработка</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="596"/>
         <location filename="../src/utility.h" line="604"/>
-        <location filename="../src/utility.h" line="609"/>
+        <location filename="../src/utility.h" line="612"/>
+        <location filename="../src/utility.h" line="617"/>
         <source>Download</source>
         <translation>Загрузить</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="601"/>
+        <location filename="../src/utility.h" line="609"/>
         <source>Force Download</source>
         <translation>Форсировать загрузку</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="623"/>
+        <location filename="../src/utility.h" line="631"/>
         <source>Show Log Window</source>
         <translation>Показать окно журнала</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="157"/>
+        <location filename="../src/utility.h" line="158"/>
         <source>Upload Date:</source>
         <translation>Дата размещения:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="161"/>
+        <location filename="../src/utility.h" line="162"/>
         <source>Duration:</source>
         <translation>Продолжительность:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="169"/>
+        <location filename="../src/utility.h" line="170"/>
         <source>Subtitle Name</source>
         <translation>Название субтитров</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="173"/>
+        <location filename="../src/utility.h" line="174"/>
         <source>Download Options</source>
         <translation>Параметры загрузки</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="177"/>
+        <location filename="../src/utility.h" line="178"/>
         <source>Extra Downloading Options</source>
         <translation>Доп. параметры загрузки</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="181"/>
+        <location filename="../src/utility.h" line="182"/>
         <source>Download Time Interval</source>
         <translation>Время загрузки</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="185"/>
+        <location filename="../src/utility.h" line="186"/>
         <source>Download Chapters</source>
         <translation>Скачать главы</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="189"/>
+        <location filename="../src/utility.h" line="190"/>
         <source>Split By Chapters</source>
         <translation>Разделить по главам</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="443"/>
+        <location filename="../src/tableWidget.cpp" line="456"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>Завершено: %1%, Не запущено: %2, Успешно: %3, Не удалось: %4, Отменено: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1212"/>
+        <location filename="../src/playlistdownloader.cpp" line="1216"/>
         <source>Media Already In Archive</source>
         <translation>Медиа уже в архиве</translation>
     </message>
@@ -977,7 +982,7 @@
         <translation>%1 уже загружено</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="467"/>
+        <location filename="../src/engines/lux.cpp" line="498"/>
         <source>This May Take A Very Long Time</source>
         <translation>Это может занять очень много времени</translation>
     </message>
@@ -1037,32 +1042,32 @@
         <translation>Обновите &quot;%1&quot; По крайней мере до версии &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1081"/>
+        <location filename="../src/engines.cpp" line="1093"/>
         <source>Requested Format Is Not Available</source>
         <translation>Запрошенный формат недоступен</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1091"/>
+        <location filename="../src/engines.cpp" line="1103"/>
         <source>Invalid Url Entered</source>
         <translation>Введен неверный URL</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1166"/>
+        <location filename="../src/configure.cpp" line="1168"/>
         <source>Best Available Audio Only</source>
         <translation>Только лучшее доступное аудио</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1170"/>
+        <location filename="../src/configure.cpp" line="1172"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation>Только лучшее доступное аудио (MP3)</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1174"/>
+        <location filename="../src/configure.cpp" line="1176"/>
         <source>Best Available Audio Video</source>
         <translation>Лучшее доступное аудио и видео</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1178"/>
+        <location filename="../src/configure.cpp" line="1180"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation>Лучшее аудио с разрешением видео %1</translation>
     </message>
@@ -1070,12 +1075,12 @@
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1461"/>
+        <location filename="../src/batchdownloader.cpp" line="1460"/>
         <source>Set Batch File</source>
         <translation>Установить пакетный файл</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="383"/>
+        <location filename="../src/batchdownloader.cpp" line="390"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
@@ -1085,24 +1090,24 @@
         <translation>Загрузка комментариев</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1155"/>
+        <location filename="../src/batchdownloader.cpp" line="1154"/>
         <source>Download</source>
         <translation>Начать загрузку</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1222"/>
+        <location filename="../src/batchdownloader.cpp" line="1221"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="397"/>
+        <location filename="../src/batchdownloader.cpp" line="404"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="87"/>
         <location filename="../src/batchdownloader.cpp" line="93"/>
-        <location filename="../src/batchdownloader.cpp" line="406"/>
+        <location filename="../src/batchdownloader.cpp" line="413"/>
         <source>Copy Url</source>
         <translation>Копировать URL</translation>
     </message>
@@ -1112,39 +1117,39 @@
         <translation>Копировать URL %1</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="418"/>
+        <location filename="../src/batchdownloader.cpp" line="425"/>
         <source>Remove</source>
         <translation>Убрать</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="436"/>
+        <location filename="../src/batchdownloader.cpp" line="443"/>
         <source>Show Subtitles</source>
         <translation>Показать субтитры</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="451"/>
+        <location filename="../src/batchdownloader.cpp" line="458"/>
         <source>Show Comments</source>
         <translation>Показать комментарии</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="464"/>
+        <location filename="../src/batchdownloader.cpp" line="471"/>
         <source>Show Media Options</source>
         <translation>Показать параметры медиа</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="477"/>
+        <location filename="../src/batchdownloader.cpp" line="484"/>
         <source>Download Media Part</source>
         <translation>Загрузить часть мультимедиа</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1214"/>
-        <location filename="../src/batchdownloader.cpp" line="1228"/>
+        <location filename="../src/batchdownloader.cpp" line="1213"/>
+        <location filename="../src/batchdownloader.cpp" line="1227"/>
         <source>Set</source>
         <translation>Установить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1678"/>
-        <location filename="../src/batchdownloader.cpp" line="2150"/>
+        <location filename="../src/batchdownloader.cpp" line="1681"/>
+        <location filename="../src/batchdownloader.cpp" line="2157"/>
         <source>Downloading subtitles</source>
         <translation>Загрузка субтитров</translation>
     </message>
@@ -1242,13 +1247,13 @@
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1375"/>
+        <location filename="../src/playlistdownloader.cpp" line="1379"/>
         <source>Hide Controls</source>
         <translation>Скрыть элементы управления</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1459"/>
+        <location filename="../src/playlistdownloader.cpp" line="1463"/>
         <source>Get List Options:</source>
         <translation>Параметры списка:</translation>
     </message>
@@ -1278,27 +1283,27 @@
         <translation>Управление подписками</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1100"/>
+        <location filename="../src/playlistdownloader.cpp" line="1104"/>
         <source>Number of Pages Downloaded</source>
         <translation>Кол-во загруженных страниц</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1117"/>
+        <location filename="../src/playlistdownloader.cpp" line="1121"/>
         <source>Downloading video info</source>
         <translation>Загрузка информации о видео</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1370"/>
+        <location filename="../src/playlistdownloader.cpp" line="1374"/>
         <source>Show Controls</source>
         <translation>Показать элементы управления</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1371"/>
+        <location filename="../src/playlistdownloader.cpp" line="1375"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1376"/>
+        <location filename="../src/playlistdownloader.cpp" line="1380"/>
         <source>Hide</source>
         <translation>Скрыть</translation>
     </message>

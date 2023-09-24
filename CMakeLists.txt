@@ -99,12 +99,12 @@ if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/src/appicon.rc")
     add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES} ${APP_ICON_RESOURCE_WINDOWS})
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -pedantic")
-    target_link_libraries(media-downloader Winhttp.lib Qt5::Widgets Qt5::Core Qt5::Network)
 else()
     add_executable(media-downloader ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
-    target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
 endif()
+
+target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
 
 install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 

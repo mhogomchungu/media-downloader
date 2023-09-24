@@ -800,6 +800,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Unhide All Hidden Rows</source>
         <translation>Visualizza tutte le righe nascoste</translation>
     </message>
+    <message>
+        <source>Setting Proxy Server Address Of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

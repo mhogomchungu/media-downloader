@@ -70,6 +70,7 @@ public:
 	}
 	void init_done() ;
 private:
+	bool m_firstTime = true ;
 	int m_currentTab ;
 	bool m_uiEnabled = true ;
 	Context m_ctx ;

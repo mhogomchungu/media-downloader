@@ -175,25 +175,60 @@ void tabManager::setDefaultEngines()
 	m_configure.updateEnginesList( s ) ;
 }
 
+static QString _find_proxy( const QProcessEnvironment& )
+{
+	return {} ;
+}
+
+template< typename ... Args >
+static QString _find_proxy( const QProcessEnvironment& env,const char * first,Args&& ... rest )
+{
+	auto m = env.value( first ) ;
+
+	if( m.isEmpty() ){
+
+		return _find_proxy( env,std::forward< Args >( rest ) ... ) ;
+	}else{
+		return m ;
+	}
+}
+
+static QString _proxy_find( const Context& ctx )
+{
+	const auto& env = ctx.Engines().processEnvironment() ;
+
+	return _find_proxy( env,"https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
+}
+
 static void _set_proxy( const QString& proxyString,Context& ctx )
 {
 	if( proxyString.isEmpty() ){
 
-		utils::qthread::run( [](){
+		if( utility::platformIsLinux() ){
 
-			QNetworkProxyQuery s( QUrl( "https://google.com" ) ) ;
+			ctx.setNetworkProxy( _proxy_find( ctx ) ) ;
+		}else{
+			utils::qthread::run( [](){
 
-			return QNetworkProxyFactory::systemProxyForQuery( s ) ;
+				QNetworkProxyQuery s( QUrl( "https://google.com" ) ) ;
 
-		},[ & ]( const QList< QNetworkProxy >& m ){
+				return QNetworkProxyFactory::systemProxyForQuery( s ) ;
 
-			if( m.isEmpty() ){
+			},[ & ]( const QList< QNetworkProxy >& m ){
+
+				if( !m.isEmpty() ){
+
+					const auto& e = m[ 0 ] ;
+
+					if( !e.hostName().isEmpty() ){
+
+						return ctx.setNetworkProxy( e ) ;
+					}
+				}
 
 				ctx.setNetworkProxy( QNetworkProxy::applicationProxy() ) ;
-			}else{
-				ctx.setNetworkProxy( m[ 0 ] ) ;
-			}
-		} ) ;
+			} ) ;
+		}
 	}else{
 		ctx.setNetworkProxy( proxyString ) ;
 	}
@@ -208,7 +243,12 @@ tabManager& tabManager::gotEvent( const QByteArray& s )
 
 		auto e = jsonDoc.object() ;
 
-		_set_proxy( e.value( "--proxy" ).toString(),m_ctx ) ;
+		if( m_firstTime ){
+
+			_set_proxy( e.value( "--proxy" ).toString(),m_ctx ) ;
+
+			m_firstTime = false ;
+		}
 
 		m_basicdownloader.gotEvent( e ) ;
 		m_batchdownloader.gotEvent( e ) ;

@@ -798,6 +798,10 @@
         <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Setting Proxy Server Address Of %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

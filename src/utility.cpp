@@ -1513,21 +1513,6 @@ static QStringList _listOptionsFromDownloadOptions( const QString& e )
 	return m ;
 }
 
-static void _setNetworkProxy( const QStringList& ee,const engines::proxySettings& e )
-{
-	for( int i = ee.size() - 2 ; i > -1 ; i-- ){
-
-		if( ee[ i ] == "--proxy" ){
-
-			auto m = e.toQNetworkProxy( ee[ i + 1 ] ) ;
-
-			return QNetworkProxy::setApplicationProxy( m ) ;
-		}
-	}
-
-	QNetworkProxy::setApplicationProxy( e.networkProxy() ) ;
-}
-
 void utility::addToListOptionsFromsDownload( QStringList& args,
 					     const QString& downLoadOptions,
 					     const Context& ctx,
@@ -1537,23 +1522,33 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 
 	auto ee = _listOptionsFromDownloadOptions( m ) ;
 
-	auto eee = _listOptionsFromDownloadOptions( downLoadOptions ) ;
-
 	const auto& mm = ctx.Engines().networkProxy() ;
+
+	if( mm.isSet() ){
+
+		args.append( "--proxy" ) ;
+		args.append( mm.networkProxyString() ) ;
+	}
 
 	if( !ee.isEmpty() ){
 
 		args = args + ee ;
 	}
 
-	if( mm.isSet() ){
+	auto ss = args + _listOptionsFromDownloadOptions( downLoadOptions ) ;
 
-		_setNetworkProxy( ee + eee,mm ) ;
-	}else{
-		args.append( "--proxy" ) ;
+	for( int i = ss.size() - 2 ; i > -1 ; i-- ){
 
-		args.append( mm.networkProxyString() ) ;
+		if( ss[ i ] == "--proxy" ){
 
-		QNetworkProxy::setApplicationProxy( mm.networkProxy() ) ;
+			const auto& x = ss[ i + 1 ] ;
+
+			if( mm.networkProxyString() != x ){
+
+				auto m = mm.toQNetworkProxy( x ) ;
+
+				return QNetworkProxy::setApplicationProxy( m ) ;
+			}
+		}
 	}
 }

@@ -2126,11 +2126,11 @@ QNetworkProxy engines::proxySettings::toQNetProxy( QString url ) const
 
 QString engines::proxySettings::toString( const QNetworkProxy& e ) const
 {
-	QString s ;
+	QString s = "" ;
 
 	if( e.type() == QNetworkProxy::Socks5Proxy ){
 
-		s += "socks5//" ;
+		s += "socks5://" ;
 	}
 
 	if( !e.user().isEmpty() && !e.password().isEmpty() ){
