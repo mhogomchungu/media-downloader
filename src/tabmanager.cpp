@@ -175,6 +175,30 @@ void tabManager::setDefaultEngines()
 	m_configure.updateEnginesList( s ) ;
 }
 
+static void _set_proxy( const QString& proxyString,Context& ctx )
+{
+	if( proxyString.isEmpty() ){
+
+		utils::qthread::run( [](){
+
+			QNetworkProxyQuery s( QUrl( "https://google.com" ) ) ;
+
+			return QNetworkProxyFactory::systemProxyForQuery( s ) ;
+
+		},[ & ]( const QList< QNetworkProxy >& m ){
+
+			if( m.isEmpty() ){
+
+				ctx.setNetworkProxy( QNetworkProxy::applicationProxy() ) ;
+			}else{
+				ctx.setNetworkProxy( m[ 0 ] ) ;
+			}
+		} ) ;
+	}else{
+		ctx.setNetworkProxy( proxyString ) ;
+	}
+}
+
 tabManager& tabManager::gotEvent( const QByteArray& s )
 {
 	QJsonParseError err ;
@@ -184,19 +208,12 @@ tabManager& tabManager::gotEvent( const QByteArray& s )
 
 		auto e = jsonDoc.object() ;
 
-		auto proxy = e.value( "--proxy" ).toString() ;
-
-		if( !proxy.isEmpty() ){
-
-			m_ctx.setProxyServer( proxy ) ;			
-		}
+		_set_proxy( e.value( "--proxy" ).toString(),m_ctx ) ;
 
 		m_basicdownloader.gotEvent( e ) ;
 		m_batchdownloader.gotEvent( e ) ;
 		m_playlistdownloader.gotEvent( e ) ;
 	}
-
-	m_ctx.Engines().showBanner() ;
 
 	return *this ;
 }

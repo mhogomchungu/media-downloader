@@ -115,9 +115,10 @@ public:
 	{
 		return m_appName ;
 	}
-	void setProxyServer( const QString& e )
+	template< typename Proxy >
+	void setNetworkProxy( const Proxy& e )
 	{
-		m_engines.setProxyServer( e ) ;
+		m_engines.setNetworkProxy( e ) ;
 	}
 private:
 	settings& m_settings ;

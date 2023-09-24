@@ -39,7 +39,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QDesktopServices>
-
+#include <QNetworkProxyFactory>
 #include <QDir>
 
 static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,settings& settings )
@@ -97,43 +97,23 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 	return env ;
 }
 
-static QString _find_proxy( const QProcessEnvironment& )
-{
-	return {} ;
-}
-
-template< typename ... Args >
-static QString _find_proxy( const QProcessEnvironment& env,const char * first,Args&& ... rest )
-{
-	auto m = env.value( first ) ;
-
-	if( m.isEmpty() ){
-
-		return _find_proxy( env,std::forward< Args >( rest ) ... ) ;
-	}else{
-		return m ;
-	}
-}
-
-static QString _proxy_find( const QProcessEnvironment& env )
-{
-	return _find_proxy( env,"https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
-}
-
 engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id ) :
 	m_logger( l ),
 	m_settings( s ),
 	m_enginePaths( paths ),
 	m_processEnvironment( _getEnvPaths( m_enginePaths,m_settings ) ),
-	m_proxyServer( _proxy_find( m_processEnvironment ) ),
 	m_defaultEngine( l,m_enginePaths )
 {
 	this->updateEngines( true,id ) ;
+
+	this->showBanner() ;
 }
 
 void engines::showBanner()
 {
-	auto id = utility::sequentialID() ;
+	m_bannerId = utility::sequentialID() ;
+
+	const auto& id = m_bannerId ;
 
 	if( m_settings.showVersionInfoWhenStarting() ){
 
@@ -157,11 +137,6 @@ void engines::showBanner()
 		}
 	}
 
-	if( !m_proxyServer.isEmpty() ){
-
-		m_logger.add( QObject::tr( "Setting Proxy Server Address Of %1" ).arg( m_proxyServer ),id ) ;
-	}
-
 	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;
 	m_logger.add( QObject::tr( "App Data Path: %1" ).arg( m_enginePaths.basePath() ),id ) ;
 
@@ -170,8 +145,18 @@ void engines::showBanner()
 		const auto& m = m_settings.windowsOnly3rdPartyBinPath() ;
 		m_logger.add( QObject::tr( "3rd Party Path: %1" ).arg( m ),id ) ;
 	}
+}
 
-	m_logger.add( utility::barLine(),id ) ;
+void engines::printNetworkProxy()
+{
+	if( m_networkProxy.isSet() ){
+
+		const auto& e = m_networkProxy.networkProxyString() ;
+
+		m_logger.add( QObject::tr( "Setting Proxy Server Address Of %1" ).arg( e ),m_bannerId ) ;
+	}
+
+	m_logger.add( utility::barLine(),m_bannerId ) ;
 }
 
 static void _openUrls( tableWidget& table,int row,settings& settings,bool galleryDl )
@@ -524,16 +509,6 @@ QString engines::findExecutable( const QString& exeName ) const
 const QProcessEnvironment& engines::processEnvironment() const
 {
 	return m_processEnvironment ;
-}
-
-const QString& engines::proxyServer() const
-{
-	return m_proxyServer ;
-}
-
-void engines::setProxyServer( const QString& e )
-{
-	m_proxyServer = e ;
 }
 
 QString engines::addEngine( const QByteArray& data,const QString& path,int id )
@@ -2098,4 +2073,75 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 
 engines::engine::functions::filterOutPut::~filterOutPut()
 {
+}
+
+QNetworkProxy engines::proxySettings::toQNetProxy( QString url ) const
+{
+	QNetworkProxy proxy ;
+
+	if( url.startsWith( "socks5" ) ){
+
+		proxy.setType( QNetworkProxy::Socks5Proxy ) ;
+	}else{
+		proxy.setType( QNetworkProxy::HttpProxy ) ;
+	}
+
+	auto e = url.indexOf( "//" ) ;
+
+	if( e != -1 ){
+
+		url = url.mid( e + 2 ) ;
+	}
+
+	e = url.indexOf( '@' ) ;
+
+	if( e != -1 ){
+
+		auto credentials = url.mid( 0,e ) ;
+
+		auto ee = credentials.indexOf( ':' ) ;
+
+		if( ee != -1 ){
+
+			proxy.setUser( credentials.mid( 0,ee ) ) ;
+			proxy.setPassword( credentials.mid( ee + 1 ) ) ;
+		}
+
+		url = url.mid( e + 1 ) ;
+	}
+
+	e = url.indexOf( ':' ) ;
+
+	if( e != -1 ){
+
+		proxy.setPort( url.mid( e + 1 ).toInt() ) ;
+
+		url = url.mid( 0,e ) ;
+	}
+
+	proxy.setHostName( url ) ;
+
+	return proxy ;
+}
+
+QString engines::proxySettings::toString( const QNetworkProxy& e ) const
+{
+	QString s ;
+
+	if( e.type() == QNetworkProxy::Socks5Proxy ){
+
+		s += "socks5//" ;
+	}
+
+	if( !e.user().isEmpty() && !e.password().isEmpty() ){
+
+		s += e.user() + ":" + e.password() + "@" ;
+	}
+
+	if( !e.hostName().isEmpty() ){
+
+		s += e.hostName() + ":" + QString::number( e.port() ) ;
+	}
+
+	return s ;
 }

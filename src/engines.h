@@ -29,6 +29,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QDateTime>
+#include <QNetworkProxy>
 
 #include <vector>
 #include <functional>
@@ -1016,8 +1017,6 @@ public:
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
-	const QString& proxyServer() const ;
-	void setProxyServer( const QString& ) ;
 	QString addEngine( const QByteArray& data,const QString& path,int ) ;
 	void removeEngine( const QString& name,int ) ;
 	QStringList enginesList() const ;
@@ -1083,14 +1082,65 @@ public:
 	engines::Iterator getEnginesIterator() const ;
 	void setDefaultEngine( const QString& ) ;
 	void showBanner() ;
+	class proxySettings
+	{
+	public:
+		proxySettings()
+		{
+		}
+		proxySettings( const QString& e ) :
+			m_networkProxyString( e ),
+			m_networkProxy( this->toQNetProxy( e ) )
+		{
+		}
+		proxySettings( const QNetworkProxy& e ) :
+			m_networkProxyString( this->toString( e ) ),
+			m_networkProxy( e )
+		{
+		}
+		const QString& networkProxyString() const
+		{
+			return m_networkProxyString ;
+		}
+		const QNetworkProxy& networkProxy() const
+		{
+			return m_networkProxy ;
+		}
+		bool isSet() const
+		{
+			return !m_networkProxyString.isEmpty() ;
+		}
+		QNetworkProxy toQNetworkProxy( const QString& e ) const
+		{
+			return this->toQNetProxy( e ) ;
+		}
+	private:
+		QNetworkProxy toQNetProxy( QString url ) const ;
+		QString toString( const QNetworkProxy& ) const ;
+		QString m_networkProxyString ;
+		QNetworkProxy m_networkProxy ;
+	};
+	const engines::proxySettings& networkProxy() const
+	{
+		return m_networkProxy ;
+	}
+	template< typename Proxy >
+	void setNetworkProxy( const Proxy& e )
+	{
+		m_networkProxy = e ;
+
+		this->printNetworkProxy() ;
+	}
 private:
+	void printNetworkProxy() ;
 	void updateEngines( bool,int ) ;
 	Logger& m_logger ;
 	settings& m_settings ;
 	std::vector< engine > m_backends ;
 	const engines::enginePaths& m_enginePaths ;
 	QProcessEnvironment m_processEnvironment ;
-	QString m_proxyServer ;
+	engines::proxySettings m_networkProxy ;
+	int m_bannerId ;
 	class configDefaultEngine
 	{
 	public:

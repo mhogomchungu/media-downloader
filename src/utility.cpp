@@ -114,6 +114,11 @@ bool utility::platformIsWindows()
 
 #ifdef Q_OS_WIN
 
+#include <windows.h>
+#include <winhttp.h>
+#include <libloaderapi.h>
+#include <array>
+
 bool utility::platformIsWindows()
 {
 	return true ;
@@ -133,9 +138,6 @@ bool utility::platformisOS2()
 {
 	return false ;
 }
-
-#include <libloaderapi.h>
-#include <array>
 
 QString utility::windowsApplicationDirPath()
 {
@@ -512,13 +514,13 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 	engine.setTextEncondig( opts ) ;
 
-	const auto& p = s.ctx.Engines().proxyServer() ;
+	const auto& p = s.ctx.Engines().networkProxy() ;
 
-	if( !p.isEmpty() ){
+	if( p.isSet() ){
 
 		opts.append( "--proxy" ) ;
 
-		opts.append( p ) ;
+		opts.append( p.networkProxyString() ) ;
 	}
 
 	opts.append( url ) ;
@@ -1511,73 +1513,19 @@ static QStringList _listOptionsFromDownloadOptions( const QString& e )
 	return m ;
 }
 
-static QNetworkProxy& _defaultProxy()
-{
-	static QNetworkProxy m( QNetworkProxy::applicationProxy() ) ;
-
-	return m ;
-}
-
-static void _set_proxy( QString url )
-{
-	QNetworkProxy proxy ;
-
-	if( url.startsWith( "socks5://" ) ){
-
-		proxy.setType( QNetworkProxy::Socks5Proxy ) ;
-	}else{
-		proxy.setType( QNetworkProxy::HttpProxy ) ;
-	}
-
-	auto e = url.indexOf( "//" ) ;
-
-	if( e != -1 ){
-
-		url = url.mid( e + 2 ) ;
-	}
-
-	e = url.indexOf( '@' ) ;
-
-	if( e != -1 ){
-
-		auto credentials = url.mid( 0,e ) ;
-
-		auto ee = credentials.indexOf( ':' ) ;
-
-		if( ee != -1 ){
-
-			proxy.setUser( credentials.mid( 0,ee ) ) ;
-			proxy.setPassword( credentials.mid( ee + 1 ) ) ;
-		}
-
-		url = url.mid( e + 1 ) ;
-	}
-
-	e = url.indexOf( ':' ) ;
-
-	if( e != -1 ){
-
-		proxy.setPort( url.mid( e + 1 ).toInt() ) ;
-
-		url = url.mid( 0,e ) ;
-	}
-
-	proxy.setHostName( url ) ;
-
-	QNetworkProxy::setApplicationProxy( proxy ) ;
-}
-
-static void _setNetworkProxy( const QStringList& ee )
+static void _setNetworkProxy( const QStringList& ee,const engines::proxySettings& e )
 {
 	for( int i = ee.size() - 2 ; i > -1 ; i-- ){
 
 		if( ee[ i ] == "--proxy" ){
 
-			return _set_proxy( ee[ i + 1 ] ) ;
+			auto m = e.toQNetworkProxy( ee[ i + 1 ] ) ;
+
+			return QNetworkProxy::setApplicationProxy( m ) ;
 		}
 	}
 
-	QNetworkProxy::setApplicationProxy( _defaultProxy() ) ;
+	QNetworkProxy::setApplicationProxy( e.networkProxy() ) ;
 }
 
 void utility::addToListOptionsFromsDownload( QStringList& args,
@@ -1591,21 +1539,21 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 
 	auto eee = _listOptionsFromDownloadOptions( downLoadOptions ) ;
 
-	const auto& mm = ctx.Engines().proxyServer() ;
+	const auto& mm = ctx.Engines().networkProxy() ;
 
 	if( !ee.isEmpty() ){
 
 		args = args + ee ;
 	}
 
-	if( mm.isEmpty() ){
+	if( mm.isSet() ){
 
-		_setNetworkProxy( ee + eee ) ;
+		_setNetworkProxy( ee + eee,mm ) ;
 	}else{
 		args.append( "--proxy" ) ;
 
-		args.append( mm ) ;
+		args.append( mm.networkProxyString() ) ;
 
-		_set_proxy( mm ) ;
+		QNetworkProxy::setApplicationProxy( mm.networkProxy() ) ;
 	}
 }
