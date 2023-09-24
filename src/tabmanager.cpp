@@ -210,19 +210,15 @@ static void _set_proxy( const QString& proxyString,Context& ctx )
 		}else{
 			utils::qthread::run( [](){
 
-				QNetworkProxyQuery s( QUrl( "https://google.com" ) ) ;
-
-				return QNetworkProxyFactory::systemProxyForQuery( s ) ;
+				return QNetworkProxyFactory::systemProxyForQuery() ;
 
 			},[ & ]( const QList< QNetworkProxy >& m ){
 
-				if( !m.isEmpty() ){
+				for( const auto& it : m ){
 
-					const auto& e = m[ 0 ] ;
+					if( !it.hostName().isEmpty() ){
 
-					if( !e.hostName().isEmpty() ){
-
-						return ctx.setNetworkProxy( e ) ;
+						return ctx.setNetworkProxy( it ) ;
 					}
 				}
 
