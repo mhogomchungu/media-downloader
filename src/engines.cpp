@@ -2075,8 +2075,10 @@ engines::engine::functions::filterOutPut::~filterOutPut()
 {
 }
 
-QNetworkProxy engines::proxySettings::toQNetProxy( QString url ) const
+QNetworkProxy engines::proxySettings::toQNetworkProxy( const QString& u ) const
 {
+	auto url = u ;
+
 	QNetworkProxy proxy ;
 
 	if( url.startsWith( "socks5" ) ){
@@ -2122,6 +2124,21 @@ QNetworkProxy engines::proxySettings::toQNetProxy( QString url ) const
 	proxy.setHostName( url ) ;
 
 	return proxy ;
+}
+
+void engines::proxySettings::setApplicationProxy( const QString& e ) const
+{
+	if( m_currentProxyString != e ){
+
+		m_currentProxyString = e ;
+
+		QNetworkProxy::setApplicationProxy( this->toQNetworkProxy( e ) ) ;
+	}
+}
+
+void engines::proxySettings::setDefaultProxy() const
+{
+	QNetworkProxy::setApplicationProxy( m_networkProxy ) ;
 }
 
 QString engines::proxySettings::toString( const QNetworkProxy& e ) const

@@ -1090,13 +1090,15 @@ public:
 		}
 		proxySettings( const QString& e ) :
 			m_networkProxyString( e ),
-			m_networkProxy( this->toQNetProxy( e ) )
+			m_networkProxy( this->toQNetworkProxy( e ) )
 		{
+			this->setDefaultProxy() ;
 		}
 		proxySettings( const QNetworkProxy& e ) :
 			m_networkProxyString( this->toString( e ) ),
 			m_networkProxy( e )
 		{
+			this->setDefaultProxy() ;
 		}
 		const QString& networkProxyString() const
 		{
@@ -1110,24 +1112,28 @@ public:
 		{
 			return !m_networkProxyString.isEmpty() ;
 		}
-		QNetworkProxy toQNetworkProxy( const QString& e ) const
+		proxySettings move()
 		{
-			return this->toQNetProxy( e ) ;
+			return std::move( *this ) ;
 		}
+		QNetworkProxy toQNetworkProxy( const QString& e ) const ;
+		void setApplicationProxy( const QString& ) const ;
+		void setDefaultProxy() const ;
 	private:
-		QNetworkProxy toQNetProxy( QString url ) const ;
 		QString toString( const QNetworkProxy& ) const ;
 		QString m_networkProxyString ;
+		mutable QString m_currentProxyString ;
 		QNetworkProxy m_networkProxy ;
 	};
 	const engines::proxySettings& networkProxy() const
 	{
 		return m_networkProxy ;
 	}
-	template< typename Proxy >
-	void setNetworkProxy( const Proxy& e )
+	void setNetworkProxy( engines::proxySettings e )
 	{
-		m_networkProxy = e ;
+		m_networkProxy = e.move() ;
+
+		QNetworkProxy::setApplicationProxy( m_networkProxy.networkProxy() ) ;
 
 		this->printNetworkProxy() ;
 	}

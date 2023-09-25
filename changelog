@@ -206,3 +206,5 @@ Version 1.2.0(April 1st, 2021)
   Version 3.4.0(Unreleased)
       [All]
       - Add a config option to auto hide downloaded entries in batch and playlist downloader tabs.
+      - Add ability to use system's proxy address.
+      - Update translations.

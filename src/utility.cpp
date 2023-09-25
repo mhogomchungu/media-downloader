@@ -451,7 +451,18 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 	const utility::uiIndex& uiIndex       = s.uiIndex;
 	const utility::downLoadOptions& dopts = s.dopts ;
 
-	auto opts = [ & ](){
+	QStringList opts ;
+
+	const auto& p = s.ctx.Engines().networkProxy() ;
+
+	if( p.isSet() ){
+
+		opts.append( "--proxy" ) ;
+
+		opts.append( p.networkProxyString() ) ;
+	}
+
+	auto oopts = [ & ](){
 
 		if( dopts.hasExtraOptions ){
 
@@ -469,6 +480,8 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 			}
 		}
 	}() ;
+
+	opts = opts + oopts ;
 
 	for( const auto& it : args.otherOptions() ){
 
@@ -513,15 +526,6 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 	}
 
 	engine.setTextEncondig( opts ) ;
-
-	const auto& p = s.ctx.Engines().networkProxy() ;
-
-	if( p.isSet() ){
-
-		opts.append( "--proxy" ) ;
-
-		opts.append( p.networkProxyString() ) ;
-	}
 
 	opts.append( url ) ;
 
@@ -1541,14 +1545,9 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 
 		if( ss[ i ] == "--proxy" ){
 
-			const auto& x = ss[ i + 1 ] ;
-
-			if( mm.networkProxyString() != x ){
-
-				auto m = mm.toQNetworkProxy( x ) ;
-
-				return QNetworkProxy::setApplicationProxy( m ) ;
-			}
+			return mm.setApplicationProxy( ss[ i + 1 ] ) ;
 		}
 	}
+
+	mm.setDefaultProxy() ;
 }
