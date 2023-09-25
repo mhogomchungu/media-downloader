@@ -1143,7 +1143,7 @@ QByteArray configure::presetOptions::defaultData()
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]",
+	"options": "-f bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best",
 	"uiName": "Best Available Audio Video",
 	"website": "Youtube"
     },
