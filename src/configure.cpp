@@ -1103,47 +1103,47 @@ QByteArray configure::presetOptions::defaultData()
 {
 	return R"R([
     {
-	"options": "-f bestvideo[height=144][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=144]+bestaudio",
+	"options": "-f bestvideo[height=144][ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[height=144]+bestaudio",
 	"uiName": "Best Audio With Video Resolution Of 144p",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[height=240][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=240]+bestaudio",
+	"options": "-f bestvideo[height=240][ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[height=240]+bestaudio",
 	"uiName": "Best Audio With Video Resolution Of 240p",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[height=360][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=360]+bestaudio",
+	"options": "-f bestvideo[height=360][ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[height=360]+bestaudio",
 	"uiName": "Best Audio With Video Resolution Of 360p",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[height=480][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=480]+bestaudio",
+	"options": "-f bestvideo[height=480][ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[height=480]+bestaudio",
 	"uiName": "Best Audio With Video Resolution Of 480p",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[height=720][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=720]+bestaudio",
+	"options": "-f bestvideo[height=720][ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[height=720]+bestaudio",
 	"uiName": "Best Audio With Video Resolution Of 720p",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[height=1080][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio",
+	"options": "-f bestvideo[height=1080][ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[height=1080]+bestaudio",
 	"uiName": "Best Audio With Video Resolution Of 1080p",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[height=1440][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio",
+	"options": "-f bestvideo[height=1440][ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[height=1440]+bestaudio",
 	"uiName": "Best Audio With Video Resolution Of 1440p",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[height=2160][ext=mp4]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio",
+	"options": "-f bestvideo[height=2160][ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[height=2160]+bestaudio",
 	"uiName": "Best Audio With Video Resolution Of 2160p",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo+bestaudio",
+	"options": "-f bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]",
 	"uiName": "Best Available Audio Video",
 	"website": "Youtube"
     },

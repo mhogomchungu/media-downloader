@@ -34,7 +34,6 @@ const char * yt_dlp::testYtDlp()
 [youtube] tn2USd5KeVM: Downloading webpage
 [youtube] tn2USd5KeVM: Downloading android player API JSON
 [info] tn2USd5KeVM: Downloading 1 format(s): 242+250
-[info] tn2USd5KeVM: Downloading 1 format(s): 242+250
 [dashsegments] Total fragments: 1
 [download] Destination: For You, I Will-tn2USd5KeVM.f242.webm
 [download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"1024","ETA":"801","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"3748.8989290898444","fragment_index":"0","fragment_count":"1"}
@@ -1250,6 +1249,13 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 	s.ourOptions.append( "--output-na-placeholder" ) ;
 	s.ourOptions.append( "NA" ) ;
+
+	if( !s.ourOptions.contains( "-f" ) && !s.ourOptions.contains( "-S" ) ){
+
+		s.ourOptions.append( "-f" ) ;
+
+		s.ourOptions.append( "bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]" ) ;
+	}
 
 	auto _replace = [ this ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
 

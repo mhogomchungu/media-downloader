@@ -2116,7 +2116,7 @@ QNetworkProxy engines::proxySettings::toQNetworkProxy( const QString& u ) const
 
 	if( e != -1 ){
 
-		proxy.setPort( url.mid( e + 1 ).toInt() ) ;
+		proxy.setPort( url.mid( e + 1 ).replace( "/","" ).toInt() ) ;
 
 		url = url.mid( 0,e ) ;
 	}
