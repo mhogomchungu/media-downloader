@@ -1254,7 +1254,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 
 		s.ourOptions.append( "-f" ) ;
 
-		s.ourOptions.append( "bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]" ) ;
+		s.ourOptions.append( "bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]" ) ;
 	}
 
 	auto _replace = [ this ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
