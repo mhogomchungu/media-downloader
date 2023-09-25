@@ -802,7 +802,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Setting Proxy Server Address Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazione indirizzo server proxy a %1</translation>
     </message>
 </context>
 <context>
