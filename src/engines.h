@@ -1129,16 +1129,8 @@ public:
 	{
 		return m_networkProxy ;
 	}
-	void setNetworkProxy( engines::proxySettings e )
-	{
-		m_networkProxy = e.move() ;
-
-		QNetworkProxy::setApplicationProxy( m_networkProxy.networkProxy() ) ;
-
-		this->printNetworkProxy() ;
-	}
+	void setNetworkProxy( engines::proxySettings e ) ;
 private:
-	void printNetworkProxy() ;
 	void updateEngines( bool,int ) ;
 	Logger& m_logger ;
 	settings& m_settings ;

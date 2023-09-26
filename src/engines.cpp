@@ -147,8 +147,12 @@ void engines::showBanner()
 	}
 }
 
-void engines::printNetworkProxy()
+void engines::setNetworkProxy( proxySettings e )
 {
+	m_networkProxy = e.move() ;
+
+	QNetworkProxy::setApplicationProxy( m_networkProxy.networkProxy() ) ;
+
 	if( m_networkProxy.isSet() ){
 
 		const auto& e = m_networkProxy.networkProxyString() ;
@@ -2077,53 +2081,65 @@ engines::engine::functions::filterOutPut::~filterOutPut()
 
 QNetworkProxy engines::proxySettings::toQNetworkProxy( const QString& u ) const
 {
-	auto url = u ;
-
 	QNetworkProxy proxy ;
 
-	if( url.startsWith( "socks5" ) ){
+	if( u.isEmpty() ){
 
-		proxy.setType( QNetworkProxy::Socks5Proxy ) ;
+		proxy.setType( QNetworkProxy::NoProxy ) ;
+
+		return proxy ;
 	}else{
-		proxy.setType( QNetworkProxy::HttpProxy ) ;
-	}
+		auto url = u ;
 
-	auto e = url.indexOf( "//" ) ;
+		if( url.startsWith( "socks5" ) ){
 
-	if( e != -1 ){
-
-		url = url.mid( e + 2 ) ;
-	}
-
-	e = url.indexOf( '@' ) ;
-
-	if( e != -1 ){
-
-		auto credentials = url.mid( 0,e ) ;
-
-		auto ee = credentials.indexOf( ':' ) ;
-
-		if( ee != -1 ){
-
-			proxy.setUser( credentials.mid( 0,ee ) ) ;
-			proxy.setPassword( credentials.mid( ee + 1 ) ) ;
+			proxy.setType( QNetworkProxy::Socks5Proxy ) ;
+		}else{
+			proxy.setType( QNetworkProxy::HttpProxy ) ;
 		}
 
-		url = url.mid( e + 1 ) ;
+		auto e = url.indexOf( "//" ) ;
+
+		if( e != -1 ){
+
+			url = url.mid( e + 2 ) ;
+		}
+
+		e = url.indexOf( '@' ) ;
+
+		if( e != -1 ){
+
+			auto credentials = url.mid( 0,e ) ;
+
+			auto ee = credentials.indexOf( ':' ) ;
+
+			if( ee != -1 ){
+
+				proxy.setUser( credentials.mid( 0,ee ) ) ;
+				proxy.setPassword( credentials.mid( ee + 1 ) ) ;
+			}
+
+			url = url.mid( e + 1 ) ;
+		}
+
+		e = url.indexOf( ':' ) ;
+
+		if( e != -1 ){
+
+			proxy.setPort( url.mid( e + 1 ).replace( "/","" ).toInt() ) ;
+
+			url = url.mid( 0,e ) ;
+		}
+
+		proxy.setHostName( url ) ;
+
+		if( proxy.hostName().isEmpty() ){
+
+			proxy.setType( QNetworkProxy::NoProxy ) ;
+		}
+
+		return proxy ;
 	}
-
-	e = url.indexOf( ':' ) ;
-
-	if( e != -1 ){
-
-		proxy.setPort( url.mid( e + 1 ).replace( "/","" ).toInt() ) ;
-
-		url = url.mid( 0,e ) ;
-	}
-
-	proxy.setHostName( url ) ;
-
-	return proxy ;
 }
 
 void engines::proxySettings::setApplicationProxy( const QString& e ) const
@@ -2143,22 +2159,29 @@ void engines::proxySettings::setDefaultProxy() const
 
 QString engines::proxySettings::toString( const QNetworkProxy& e ) const
 {
-	QString s = "" ;
+	if( e.type() == QNetworkProxy::NoProxy ){
 
-	if( e.type() == QNetworkProxy::Socks5Proxy ){
+		return {} ;
+	}else{
+		QString type ;
+		QString credentials ;
+		QString host ;
 
-		s += "socks5://" ;
+		if( e.type() == QNetworkProxy::Socks5Proxy ){
+
+			type = "socks5://" ;
+		}
+
+		if( !e.user().isEmpty() && !e.password().isEmpty() ){
+
+			credentials = e.user() + ":" + e.password() + "@" ;
+		}
+
+		if( !e.hostName().isEmpty() ){
+
+			host = e.hostName() + ":" + QString::number( e.port() ) ;
+		}
+
+		return type + credentials + host ;
 	}
-
-	if( !e.user().isEmpty() && !e.password().isEmpty() ){
-
-		s += e.user() + ":" + e.password() + "@" ;
-	}
-
-	if( !e.hostName().isEmpty() ){
-
-		s += e.hostName() + ":" + QString::number( e.port() ) ;
-	}
-
-	return s ;
 }
