@@ -197,7 +197,7 @@ static QString _proxy_find( const Context& ctx )
 {
 	const auto& env = ctx.Engines().processEnvironment() ;
 
-	return _find_proxy( env,"https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
+	return _find_proxy( env,"all_proxy","ALL_PROXY","https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
 }
 
 static void _set_proxy( const QString& proxyString,Context& ctx )

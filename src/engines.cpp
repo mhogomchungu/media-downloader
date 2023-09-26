@@ -2098,11 +2098,11 @@ QNetworkProxy engines::proxySettings::toQNetworkProxy( const QString& u ) const
 			proxy.setType( QNetworkProxy::HttpProxy ) ;
 		}
 
-		auto e = url.indexOf( "//" ) ;
+		auto e = url.indexOf( "://" ) ;
 
 		if( e != -1 ){
 
-			url = url.mid( e + 2 ) ;
+			url = url.mid( e + 3 ) ;
 		}
 
 		e = url.indexOf( '@' ) ;
