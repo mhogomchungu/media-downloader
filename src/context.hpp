@@ -115,10 +115,9 @@ public:
 	{
 		return m_appName ;
 	}
-	template< typename Proxy >
-	void setNetworkProxy( const Proxy& e )
+	void setNetworkProxy( engines::proxySettings e,bool s )
 	{
-		m_engines.setNetworkProxy( e ) ;
+		m_engines.setNetworkProxy( e.move(),s ) ;
 	}
 private:
 	settings& m_settings ;

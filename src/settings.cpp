@@ -1078,3 +1078,69 @@ settings::options::options( const utility::cliArguments& args )
 		m_portableVersion = false ;
 	}
 }
+
+settings::proxySettings settings::getProxySettings()
+{
+	return { m_settings } ;
+}
+
+settings::proxySettings::proxySettings( QSettings& s ) : m_settings( s )
+{
+	if( !m_settings.contains( "ProxySettingsType" ) ){
+
+		m_settings.setValue( "ProxySettingsType","None" ) ;
+	}
+}
+
+settings::proxySettings& settings::proxySettings::setProxySettings( settings::proxySettings::Type s,const QString& e )
+{
+	if( s == settings::proxySettings::Type::none ){
+
+		m_settings.setValue( "ProxySettingsType","None" ) ;
+
+	}else if( s == settings::proxySettings::Type::system ){
+
+		m_settings.setValue( "ProxySettingsType","System" ) ;
+
+	}else if( s == settings::proxySettings::Type::env ){
+
+		m_settings.setValue( "ProxySettingsType","Env" ) ;
+
+	}else if( s == settings::proxySettings::Type::manual ){
+
+		m_settings.setValue( "ProxySettingsType","Manual" ) ;
+
+		m_settings.setValue( "ProxySettingsCustomSource",e ) ;
+	}
+
+	return *this ;
+}
+
+settings::proxySettings::type settings::proxySettings::types() const
+{
+	auto m = m_settings.value( "ProxySettingsType" ).toString() ;
+
+	if( m == "None" ){
+
+		return settings::proxySettings::Type::none ;
+
+	}else if( m == "System" ){
+
+		return settings::proxySettings::Type::system ;
+
+	}else if( m == "Env" ){
+
+		return settings::proxySettings::Type::env ;
+
+	}else if( m == "Manual" ){
+
+		return settings::proxySettings::Type::manual ;
+	}else{
+		return settings::proxySettings::Type::env ;
+	}
+}
+
+QString settings::proxySettings::proxyAddress() const
+{
+	return m_settings.value( "ProxySettingsCustomSource" ).toString() ;
+}

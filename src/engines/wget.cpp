@@ -367,7 +367,7 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 		return m_title ;
 	}
 
-	auto line = e.toString() ;
+	auto line = e.toLines() ;
 
 	if( !line.contains( "Saving to: " ) ){
 

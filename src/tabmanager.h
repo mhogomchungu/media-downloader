@@ -69,6 +69,7 @@ public:
 		return m_uiEnabled ;
 	}
 	void init_done() ;
+	void setProxy( const settings::proxySettings&,const settings::proxySettings::type& ) ;
 private:
 	bool m_firstTime = true ;
 	int m_currentTab ;

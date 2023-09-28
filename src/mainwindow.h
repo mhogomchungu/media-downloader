@@ -51,7 +51,6 @@ public:
 	void processEvent( const QByteArray& e ) ;
 	void quitApp() ;
 	void showTrayIcon( bool ) ;
-	void log( const QByteArray& ) ;
 	~MainWindow() override ;
 private:
 	QSystemTrayIcon m_trayIcon ;

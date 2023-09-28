@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1439,7 +1439,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1776,7 +1776,7 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_6">
+      <widget class="QWidget" name="tabPresetOptions">
        <attribute name="title">
         <string>Preset Options</string>
        </attribute>
@@ -2223,6 +2223,89 @@
         </property>
         <property name="wordWrap">
          <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabProxySettings">
+       <attribute name="title">
+        <string>Proxy Settings</string>
+       </attribute>
+       <widget class="QRadioButton" name="rbUseSystemProxy">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>120</y>
+          <width>521</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Use System Proxy Configuration(Windows Only)</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="rbUseManualProxy">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>170</y>
+          <width>521</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Use Manually Specified Proxy Configuration</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditCustormProxyAddress">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>270</y>
+          <width>521</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelProxy">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>220</y>
+          <width>521</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Manually Specified Proxy(example: 1.2.3.4:8080)</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="rbGetFromEnv">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>150</y>
+          <width>521</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Get Proxy Configuration From The Environment</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="rbNoProxy">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>90</y>
+          <width>521</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>No Proxy</string>
         </property>
        </widget>
       </widget>

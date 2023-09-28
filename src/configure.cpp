@@ -555,9 +555,87 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
-	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( QString::number( m_settings.maxConcurrentDownloads() ) ) ;
+	auto mm = QString::number( m_settings.maxConcurrentDownloads() ) ;
+
+	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( mm ) ;
+
+	auto proxy      = m_ctx.Settings().getProxySettings() ;
+	auto proxy_type = proxy.types() ;
+
+	m_ui.rbUseSystemProxy->setEnabled( utility::platformIsWindows() ) ;
+
+	if( proxy_type.manual() ){
+
+		m_ui.rbUseManualProxy->setChecked( true ) ;
+		m_ui.lineEditCustormProxyAddress->setEnabled( true ) ;
+		m_ui.labelProxy->setEnabled( true ) ;
+	}else{
+		m_ui.lineEditCustormProxyAddress->setEnabled( false ) ;
+		m_ui.labelProxy->setEnabled( false ) ;
+
+		if( proxy_type.env() ){
+
+			m_ui.rbGetFromEnv->setChecked( true ) ;
+
+		}else if( proxy_type.system() ){
+
+			m_ui.rbUseSystemProxy->setChecked( true ) ;
+
+		}else if( proxy_type.none() ){
+
+			m_ui.rbNoProxy->setChecked( true ) ;
+		}
+	}
+
+	m_ui.lineEditCustormProxyAddress->setText( proxy.proxyAddress() ) ;
+
+	connect( m_ui.rbNoProxy,&QRadioButton::toggled,[ this ]( bool s ){
+
+		if( s ){
+
+			this->updateProxySettings( settings::proxySettings::Type::none ) ;
+		}
+	} ) ;
+
+	connect( m_ui.rbUseManualProxy,&QRadioButton::toggled,[ this ]( bool s ){
+
+		m_ui.lineEditCustormProxyAddress->setEnabled( s ) ;
+		m_ui.labelProxy->setEnabled( s ) ;
+
+		if( s ){
+
+			auto a = settings::proxySettings::Type::manual ;
+			auto e = m_ui.lineEditCustormProxyAddress->text() ;
+			auto m = m_settings.getProxySettings() ;
+
+			m_ctx.TabManager().setProxy( m.setProxySettings( a,e ),a ) ;
+		}
+	} ) ;
+
+	connect( m_ui.rbUseSystemProxy,&QRadioButton::toggled,[ this ]( bool s ){
+
+		if( s ){
+
+			this->updateProxySettings( settings::proxySettings::Type::system ) ;
+		}
+	} ) ;
+
+	connect( m_ui.rbGetFromEnv,&QRadioButton::toggled,[ this ]( bool s ){
+
+		if( s ){
+
+			this->updateProxySettings( settings::proxySettings::Type::env ) ;
+		}
+	} ) ;
 
 	this->showOptions() ;
+}
+
+void configure::updateProxySettings( settings::proxySettings::Type s )
+{
+	m_ui.lineEditCustormProxyAddress->setEnabled( false ) ;
+	m_ui.labelProxy->setEnabled( false ) ;
+	m_ctx.TabManager().setProxy( m_settings.getProxySettings().setProxySettings( s ),s ) ;
 }
 
 void configure::init_done()
@@ -750,6 +828,27 @@ void configure::saveOptions()
 		}
 	}
 
+	auto p = m_settings.getProxySettings() ;
+
+	if( m_ui.rbNoProxy->isChecked() ){
+
+		p.setProxySettings( settings::proxySettings::Type::none ) ;
+
+	}else if( m_ui.rbUseSystemProxy->isChecked() ){
+
+		p.setProxySettings( settings::proxySettings::Type::system ) ;
+
+	}else if( m_ui.rbGetFromEnv->isChecked() ){
+
+		p.setProxySettings( settings::proxySettings::Type::env ) ;
+
+	}else if( m_ui.rbUseManualProxy->isChecked() ){
+
+		auto s = m_ui.lineEditCustormProxyAddress->text() ;
+
+		p.setProxySettings( settings::proxySettings::Type::manual,s ) ;
+	}
+
 	this->savePresetOptions() ;
 	m_ctx.TabManager().resetMenu() ;
 }
@@ -880,6 +979,14 @@ void configure::enableAll()
 		m_ui.labelPathToCookieFile->setEnabled( enable ) ;
 	}
 
+	m_ui.rbUseManualProxy->setEnabled( true ) ;
+	m_ui.rbNoProxy->setEnabled( true ) ;
+	m_ui.rbUseSystemProxy->setEnabled( utility::platformIsWindows() ) ;
+	m_ui.rbGetFromEnv->setEnabled( true ) ;
+
+	m_ui.lineEditCustormProxyAddress->setEnabled( m_ui.rbUseManualProxy->isChecked() ) ;
+	m_ui.labelProxy->setEnabled( m_ui.rbUseManualProxy->isChecked() ) ;
+
 	m_ui.label_6->setEnabled( true ) ;
 	m_ui.label_3->setEnabled( true ) ;
 	m_ui.label_4->setEnabled( true ) ;
@@ -940,6 +1047,12 @@ void configure::enableAll()
 
 void configure::disableAll()
 {
+	m_ui.rbUseManualProxy->setEnabled( false ) ;
+	m_ui.rbNoProxy->setEnabled( false ) ;
+	m_ui.rbUseSystemProxy->setEnabled( false ) ;
+	m_ui.rbGetFromEnv->setEnabled( false ) ;
+	m_ui.lineEditCustormProxyAddress->setEnabled( false ) ;
+	m_ui.labelProxy->setEnabled( false ) ;
 	m_ui.label_3->setEnabled( false ) ;
 	m_ui.label_4->setEnabled( false ) ;
 	m_ui.label_5->setEnabled( false ) ;

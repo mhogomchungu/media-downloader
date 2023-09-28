@@ -311,6 +311,30 @@
         <source>Auto Hide Downloads When Completed</source>
         <translation>Al termine nascondi automaticamente download</translation>
     </message>
+    <message>
+        <source>Proxy Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use System Proxy Configuration(Windows Only)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Manually Specified Proxy Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manually Specified Proxy(example: 1.2.3.4:8080)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get Proxy Configuration From The Environment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -803,6 +827,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Setting Proxy Server Address Of %1</source>
         <translation>Impostazione indirizzo server proxy a %1</translation>
+    </message>
+    <message>
+        <source>Unsetting Proxy Server Address</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -48,6 +48,47 @@ namespace utility
 class settings
 {
 public:	
+	class proxySettings
+	{
+	public:
+		enum class Type{ system,env,manual,none } ;
+
+		class type
+		{
+		public:
+			type( settings::proxySettings::Type s ) : m_type( s )
+			{
+			}
+			bool none() const
+			{
+				return m_type == settings::proxySettings::Type::none ;
+			}
+			bool system() const
+			{
+				return m_type == settings::proxySettings::Type::system ;
+			}
+			bool env() const
+			{
+				return m_type == settings::proxySettings::Type::env ;
+			}
+			bool manual() const
+			{
+				return m_type == settings::proxySettings::Type::manual ;
+			}
+		private:
+			settings::proxySettings::Type m_type ;
+		} ;
+		proxySettings( QSettings& ) ;
+		proxySettings& setProxySettings( settings::proxySettings::Type,const QString& = {} ) ;
+		settings::proxySettings::type types() const ;
+		QString proxyAddress() const ;
+	private:
+
+		QSettings& m_settings ;
+	} ;
+
+	settings::proxySettings getProxySettings() ;
+
 	enum class tabName{ basic,batch,playlist } ;
 
 	settings( const utility::cliArguments& ) ;

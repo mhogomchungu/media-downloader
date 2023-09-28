@@ -147,7 +147,7 @@ void engines::showBanner()
 	}
 }
 
-void engines::setNetworkProxy( proxySettings e )
+void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
 {
 	m_networkProxy = e.move() ;
 
@@ -157,7 +157,19 @@ void engines::setNetworkProxy( proxySettings e )
 
 		const auto& e = m_networkProxy.networkProxyString() ;
 
+		if( !firstTime ){
+
+			m_logger.add( utility::barLine(),m_bannerId ) ;
+		}
+
 		m_logger.add( QObject::tr( "Setting Proxy Server Address Of %1" ).arg( e ),m_bannerId ) ;
+	}else{
+		if( !firstTime ){
+
+			m_logger.add( utility::barLine(),m_bannerId ) ;
+
+			m_logger.add( QObject::tr( "Unsetting Proxy Server Address" ),m_bannerId ) ;
+		}
 	}
 
 	m_logger.add( utility::barLine(),m_bannerId ) ;

@@ -200,33 +200,66 @@ static QString _proxy_find( const Context& ctx )
 	return _find_proxy( env,"all_proxy","ALL_PROXY","https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
 }
 
-static void _set_proxy( const QString& proxyString,Context& ctx )
+void tabManager::setProxy( const settings::proxySettings& proxy,const settings::proxySettings::type& m )
 {
-	if( proxyString.isEmpty() ){
+	if( utility::platformIsWindows() && m.system() ){
 
-		if( utility::platformIsLinux() ){
+		utils::qthread::run( [](){
 
-			ctx.setNetworkProxy( _proxy_find( ctx ) ) ;
-		}else{
-			utils::qthread::run( [](){
+			return QNetworkProxyFactory::systemProxyForQuery() ;
 
-				return QNetworkProxyFactory::systemProxyForQuery() ;
+		},[ & ]( const QList< QNetworkProxy >& m ){
 
-			},[ & ]( const QList< QNetworkProxy >& m ){
+			for( const auto& it : m ){
 
-				for( const auto& it : m ){
+				if( !it.hostName().isEmpty() ){
 
-					if( !it.hostName().isEmpty() ){
-
-						return ctx.setNetworkProxy( it ) ;
-					}
+					return m_ctx.setNetworkProxy( it,m_firstTime ) ;
 				}
+			}
 
-				ctx.setNetworkProxy( QNetworkProxy::applicationProxy() ) ;
-			} ) ;
-		}
+			m_ctx.setNetworkProxy( QNetworkProxy::applicationProxy(),m_firstTime ) ;
+		} ) ;
+
+	}else if( m.none() ){
+
+		m_ctx.setNetworkProxy( QString(),m_firstTime ) ;
+
+	}else if( m.env() ){
+
+		m_ctx.setNetworkProxy( _proxy_find( m_ctx ),m_firstTime ) ;
 	}else{
-		ctx.setNetworkProxy( proxyString ) ;
+		auto m = proxy.proxyAddress().toUtf8() ;
+
+		if( m.startsWith( "/etc/resolv.conf" ) ){
+
+			auto e = util::split( m,':' ) ;
+
+			QFile f( e[ 0 ] ) ;
+			f.open( QIODevice::ReadOnly ) ;
+
+			for( const auto& it : util::split( f.readAll(),'\n' ) ){
+
+				if( it.startsWith( "nameserver" ) ){
+
+					auto m = it ;
+					auto s = m.replace( "nameserver","" ).trimmed() ;
+
+					if( e.size() == 2 ){
+
+						s += ":" + e[ 1 ] ;
+					}
+
+					m_ctx.setNetworkProxy( { s },m_firstTime ) ;
+
+					return ;
+				}
+			}
+
+			m_ctx.setNetworkProxy( QString(),m_firstTime ) ;
+		}else{
+			m_ctx.setNetworkProxy( { m },m_firstTime ) ;
+		}
 	}
 }
 
@@ -241,7 +274,22 @@ tabManager& tabManager::gotEvent( const QByteArray& s )
 
 		if( m_firstTime ){
 
-			_set_proxy( e.value( "--proxy" ).toString(),m_ctx ) ;
+			auto m = e.value( "--proxy" ).toString() ;
+
+			if( m.isEmpty() ){
+
+				auto s = m_ctx.Settings().getProxySettings() ;
+				auto t = s.types() ;
+
+				if( !t.none() ){
+
+					this->setProxy( s,t ) ;
+				}else{
+					m_ctx.setNetworkProxy( m,m_firstTime ) ;
+				}
+			}else{
+				m_ctx.setNetworkProxy( m,m_firstTime ) ;
+			}
 
 			m_firstTime = false ;
 		}

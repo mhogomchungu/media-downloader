@@ -502,7 +502,7 @@ lux::lux_dlFilter::lux_dlFilter( const engines::engine& engine,int id,QByteArray
 
 const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
 {	
-	auto allData = e.toString() ;
+	auto allData = e.toLines() ;
 
 	if( e.doneDownloading() ){
 

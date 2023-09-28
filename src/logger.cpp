@@ -69,7 +69,7 @@ void Logger::setMaxProcessLog( int s )
 
 void Logger::showLogWindow()
 {
-	m_logWindow.setText( m_processOutPuts.toString() ) ;
+	m_logWindow.setText( m_processOutPuts.toLines() ) ;
 	m_logWindow.Show() ;
 }
 
@@ -105,7 +105,7 @@ void Logger::update()
 		}
 	}
 
-	auto m = m_processOutPuts.toString() ;
+	auto m = m_processOutPuts.toLines() ;
 
 	if( m_updateView ){
 
@@ -129,6 +129,33 @@ bool Logger::Data::registerDone( int id )
 	}
 
 	return false ;
+}
+
+QByteArray Logger::Data::join( const QByteArray& joiner ) const
+{
+	QByteArray m ;
+
+	for( const auto& it : m_processOutputs ){
+
+		const auto& ee = it.entries() ;
+
+		if( !ee.empty() ){
+
+			if( m.isEmpty() ){
+
+				m = ee[ 0 ].text() ;
+			}else{
+				m += joiner + ee[ 0 ].text() ;
+			}
+
+			for( size_t i = 1 ; i < ee.size() ; i++ ){
+
+				m += joiner + ee[ i ].text() ;
+			}
+		}
+	}
+
+	return m ;
 }
 
 void Logger::Data::removeExtraLogs()

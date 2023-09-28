@@ -1129,7 +1129,7 @@ public:
 	{
 		return m_networkProxy ;
 	}
-	void setNetworkProxy( engines::proxySettings e ) ;
+	void setNetworkProxy( engines::proxySettings,bool ) ;
 private:
 	void updateEngines( bool,int ) ;
 	Logger& m_logger ;

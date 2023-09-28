@@ -308,45 +308,14 @@ public:
 		{
 			return m_processOutputs.rbegin()->entries().rbegin()->progressLine() ;
 		}
-		QByteArray toString() const
-		{
-			if( this->isNotEmpty() ){
-
-				QByteArray m ;
-
-				for( const auto& it : m_processOutputs ){
-
-					for( const auto& xt : it.entries() ){
-
-						m += xt.text() + "\n" ;
-					}
-				}
-
-				m.truncate( m.size() - 1 ) ;
-
-				return m ;
-			}else{
-				return {} ;
-			}
-		}
+		QByteArray join( const QByteArray& joiner ) const ;
 		QByteArray toLine() const
 		{
-			if( this->isNotEmpty() ){
-
-				QByteArray m ;
-
-				for( const auto& it : m_processOutputs ){
-
-					for( const auto& xt : it.entries() ){
-
-						m += xt.text() ;
-					}
-				}
-
-				return m ;
-			}else{
-				return {} ;
-			}
+			return this->join( "" ) ;
+		}
+		QByteArray toLines() const
+		{
+			return this->join( "\n" ) ;
 		}
 		void removeExtraLogs() ;
 		bool removeFirstFinished() ;
