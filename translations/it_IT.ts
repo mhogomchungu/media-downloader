@@ -313,27 +313,27 @@
     </message>
     <message>
         <source>Proxy Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni proxy</translation>
     </message>
     <message>
         <source>Use System Proxy Configuration(Windows Only)</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa configurazione proxy di sistema (solo Windows)</translation>
     </message>
     <message>
         <source>Use Manually Specified Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa configurazione proxy manuale</translation>
     </message>
     <message>
         <source>Manually Specified Proxy(example: 1.2.3.4:8080)</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurazione manuale proxy (esempio: 1.2.3.4:8080)</translation>
     </message>
     <message>
         <source>Get Proxy Configuration From The Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottieni la configurazione proxy dal sistema</translation>
     </message>
     <message>
         <source>No Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun proxy</translation>
     </message>
 </context>
 <context>
@@ -830,7 +830,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Unsetting Proxy Server Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Indirizzo proxy non impostato</translation>
     </message>
 </context>
 <context>
