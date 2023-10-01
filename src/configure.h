@@ -33,6 +33,7 @@ class configure : public QObject
 {
         Q_OBJECT
 public:
+	static QString defaultDownloadOption() ;
 	configure( const Context& ) ;
 	void init_done() ;
 	void enableAll() ;

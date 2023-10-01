@@ -772,6 +772,11 @@ QString configure::engineDefaultDownloadOptions( const QString& engineName )
 	return options ;
 }
 
+QString configure::defaultDownloadOption()
+{
+	return "bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best" ;
+}
+
 void configure::setDownloadOptions( int row,tableWidget& table )
 {
 	m_downloadDefaultOptions.setDownloadOptions( row,table ) ;
@@ -1265,7 +1270,7 @@ QByteArray configure::presetOptions::defaultData()
 	"website": "Youtube"
     },
     {
-	"options": "-f bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best",
+	"options": "-f bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best",
 	"uiName": "Best Available Audio Video",
 	"website": "Youtube"
     },

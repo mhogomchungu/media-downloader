@@ -26,6 +26,8 @@
 #include "../networkAccess.h"
 #include "../utility.h"
 
+#include "../configure.h"
+
 #include "aria2c.h"
 
 const char * yt_dlp::testYtDlp()
@@ -1250,13 +1252,6 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 	s.ourOptions.append( "--output-na-placeholder" ) ;
 	s.ourOptions.append( "NA" ) ;
 
-	if( !s.ourOptions.contains( "-f" ) && !s.ourOptions.contains( "-S" ) ){
-
-		s.ourOptions.append( "-f" ) ;
-
-		s.ourOptions.append( "bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best" ) ;
-	}
-
 	auto _replace = [ this ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
 
 		if( m_likeYtdlp ){
@@ -1299,6 +1294,13 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 	}
 
 	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
+
+	if( !s.ourOptions.contains( "-f" ) && !s.ourOptions.contains( "-S" ) ){
+
+		s.ourOptions.append( "-f" ) ;
+
+		s.ourOptions.append( configure::defaultDownloadOption() ) ;
+	}
 
 	if( m_likeYtdlp ){
 
