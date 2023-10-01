@@ -828,25 +828,34 @@ void configure::saveOptions()
 		}
 	}
 
-	auto p = m_settings.getProxySettings() ;
+	settings::proxySettings::Type type = settings::proxySettings::Type::none ;
 
 	if( m_ui.rbNoProxy->isChecked() ){
 
-		p.setProxySettings( settings::proxySettings::Type::none ) ;
+		type = settings::proxySettings::Type::none ;
 
 	}else if( m_ui.rbUseSystemProxy->isChecked() ){
 
-		p.setProxySettings( settings::proxySettings::Type::system ) ;
+		type = settings::proxySettings::Type::system ;
 
 	}else if( m_ui.rbGetFromEnv->isChecked() ){
 
-		p.setProxySettings( settings::proxySettings::Type::env ) ;
+		type = settings::proxySettings::Type::env ;
 
 	}else if( m_ui.rbUseManualProxy->isChecked() ){
 
+		type = settings::proxySettings::Type::manual ;
+	}
+
+	auto p = m_settings.getProxySettings() ;
+
+	if( type == settings::proxySettings::Type::manual ){
+
 		auto s = m_ui.lineEditCustormProxyAddress->text() ;
 
-		p.setProxySettings( settings::proxySettings::Type::manual,s ) ;
+		m_ctx.TabManager().setProxy( p.setProxySettings( type,s ),type ) ;
+	}else{
+		m_ctx.TabManager().setProxy( p.setProxySettings( type ),type ) ;
 	}
 
 	this->savePresetOptions() ;

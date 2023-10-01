@@ -149,30 +149,39 @@ void engines::showBanner()
 
 void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
 {
-	m_networkProxy = e.move() ;
+	if( e.isSet() ){
 
-	QNetworkProxy::setApplicationProxy( m_networkProxy.networkProxy() ) ;
+		if( m_networkProxy != e ){
 
-	if( m_networkProxy.isSet() ){
+			const auto& s = e.networkProxyString() ;
 
-		const auto& e = m_networkProxy.networkProxyString() ;
+			if( !firstTime ){
 
-		if( !firstTime ){
+				m_logger.add( utility::barLine(),m_bannerId ) ;
+			}
+
+			m_logger.add( QObject::tr( "Setting Proxy Server Address Of %1" ).arg( s ),m_bannerId ) ;
 
 			m_logger.add( utility::barLine(),m_bannerId ) ;
 		}
-
-		m_logger.add( QObject::tr( "Setting Proxy Server Address Of %1" ).arg( e ),m_bannerId ) ;
 	}else{
-		if( !firstTime ){
+		if( firstTime ){
+
+			m_logger.add( utility::barLine(),m_bannerId ) ;
+
+		}else if( m_networkProxy != e ){
 
 			m_logger.add( utility::barLine(),m_bannerId ) ;
 
 			m_logger.add( QObject::tr( "Unsetting Proxy Server Address" ),m_bannerId ) ;
+
+			m_logger.add( utility::barLine(),m_bannerId ) ;
 		}
 	}
 
-	m_logger.add( utility::barLine(),m_bannerId ) ;
+	m_networkProxy = e.move() ;
+
+	QNetworkProxy::setApplicationProxy( m_networkProxy.networkProxy() ) ;
 }
 
 static void _openUrls( tableWidget& table,int row,settings& settings,bool galleryDl )
@@ -2089,6 +2098,11 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 
 engines::engine::functions::filterOutPut::~filterOutPut()
 {
+}
+
+bool engines::proxySettings::operator!=( const engines::proxySettings& other ) const
+{
+	return this->networkProxyString() != other.networkProxyString() ;
 }
 
 QNetworkProxy engines::proxySettings::toQNetworkProxy( const QString& u ) const

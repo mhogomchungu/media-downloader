@@ -1421,25 +1421,21 @@ utility::printOutPut::printOutPut( QObject * obj,const utility::cliArguments& ar
 
 void utility::printOutPut::operator()( const QByteArray& e )
 {
-	QMetaObject::invokeMethod( m_qObject,[ this,e ](){
+	if( m_outPutFile.isOpen() ){
 
-		if( m_outPutFile.isOpen() ){
+		m_outPutFile.write( e ) ;
+	}
 
-			m_outPutFile.write( e ) ;
-		}
+	if( m_status == utility::printOutPut::status::qdebug ){
 
-		if( m_status == utility::printOutPut::status::qdebug ){
+		qDebug() << e ;
+		qDebug() << "--------------------------------" ;
 
-			qDebug() << e ;
-			qDebug() << "--------------------------------" ;
+	}else if( m_status == utility::printOutPut::status::debug ){
 
-		}else if( m_status == utility::printOutPut::status::debug ){
-
-			std::cout << e.constData() << std::endl ;
-			std::cout << "--------------------------------" << std::endl ;
-		}
-
-	},Qt::QueuedConnection ) ;
+		std::cout << e.constData() << std::endl ;
+		std::cout << "--------------------------------" << std::endl ;
+	}
 }
 
 bool utility::printOutPut::isEmpty() const

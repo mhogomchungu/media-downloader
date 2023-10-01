@@ -1116,6 +1116,7 @@ public:
 		{
 			return std::move( *this ) ;
 		}
+		bool operator!=( const proxySettings &other ) const ;
 		QNetworkProxy toQNetworkProxy( const QString& e ) const ;
 		void setApplicationProxy( const QString& ) const ;
 		void setDefaultProxy() const ;
