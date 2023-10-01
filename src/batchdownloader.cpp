@@ -662,8 +662,8 @@ void batchdownloader::gotEvent( const QJsonObject& jsonArgs )
 
 		m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
-		auto autoDownload = jsonArgs.value( "-a" ).toBool( false ) ;
-		auto showThumbnail = jsonArgs.value( "-e" ).toBool( false ) ;
+		auto autoDownload = jsonArgs.value( "-a" ).toBool() ;
+		auto showThumbnail = jsonArgs.value( "-e" ).toBool() ;
 
 		this->addToList( url,autoDownload,showThumbnail ) ;
 	}
