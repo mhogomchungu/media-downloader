@@ -90,9 +90,18 @@ int main( int argc,char * argv[] )
 
 	QJsonObject jsonArgs ;
 
+	if( cargs.contains( "-a" ) ){
+
+		jsonArgs.insert( "-a",true ) ;
+	}
+
+	if( cargs.contains( "-e" ) ){
+
+		jsonArgs.insert( "-e",true ) ;
+	}
+
 	jsonArgs.insert( "-u",cargs.value( "-u" ) ) ;
-	jsonArgs.insert( "-a",cargs.value( "-a" ) ) ;
-	jsonArgs.insert( "-s",cargs.value( "-s" ) ) ;
+
 	jsonArgs.insert( "--proxy",cargs.value( "--proxy" ) ) ;
 
 	auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
