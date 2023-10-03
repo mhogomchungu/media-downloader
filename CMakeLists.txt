@@ -105,7 +105,11 @@ else()
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
 endif()
 
-target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
+if(WIN32)
+	target_link_libraries(media-downloader Iphlpapi.lib Qt5::Widgets Qt5::Core Qt5::Network)
+else()
+	target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
+endif()
 
 install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 

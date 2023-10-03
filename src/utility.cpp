@@ -115,9 +115,11 @@ bool utility::platformIsWindows()
 #ifdef Q_OS_WIN
 
 #include <windows.h>
-#include <winhttp.h>
+#include <iphlpapi.h>
 #include <libloaderapi.h>
+
 #include <array>
+#include <cstring>
 
 bool utility::platformIsWindows()
 {
@@ -156,9 +158,85 @@ QString utility::windowsApplicationDirPath()
 	return m ;
 }
 
+class adaptorInfo
+{
+public:
+	adaptorInfo()
+	{
+		auto m = this->requiredSize() ;
+
+		if( m ){
+
+			auto e = HeapAlloc( GetProcessHeap(),0,m ) ;
+
+			auto s = static_cast< PIP_ADAPTER_INFO >( e ) ;
+
+			if( GetAdaptersInfo( s,&m ) == NO_ERROR ){
+
+				m_handle = s ;
+			}else{
+				this->free( s ) ;
+			}
+		}
+	}
+	QString address()
+	{
+		if( m_handle ){
+
+			for( auto it = m_handle ; it != nullptr ; it = it->Next ){
+
+				auto gateway = it->GatewayList.IpAddress.String ;
+				auto address = it->IpAddressList.IpAddress.String ;
+
+				if( std::strcmp( address,"0.0.0.0" ) ){
+
+					if( std::strcmp( gateway,"0.0.0.0" ) ){
+
+						return gateway ;
+					}
+				}
+			}
+		}
+
+		return {} ;
+	}
+	~adaptorInfo()
+	{
+		this->free( m_handle ) ;
+	}
+private:
+	void free( PIP_ADAPTER_INFO s )
+	{
+		HeapFree( GetProcessHeap(),0,s ) ;
+	}
+	ULONG requiredSize()
+	{
+		ULONG m = 0 ;
+
+		if( GetAdaptersInfo( nullptr,&m ) == ERROR_BUFFER_OVERFLOW ){
+
+			return m ;
+		}else{
+			return 0 ;
+		}
+	}
+
+	PIP_ADAPTER_INFO m_handle = nullptr ;
+} ;
+
+QString utility::windowsGateWayAddress()
+{
+	return adaptorInfo().address() ;
+}
+
 #else
 
 QString utility::windowsApplicationDirPath()
+{
+	return {} ;
+}
+
+QString utility::windowsGateWayAddress()
 {
 	return {} ;
 }

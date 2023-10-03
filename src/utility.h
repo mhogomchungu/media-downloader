@@ -380,6 +380,7 @@ namespace utility
 	bool platformIsNOTWindows() ;
 	bool platformIsLikeWindows() ;
 	QString windowsApplicationDirPath() ;
+	QString windowsGateWayAddress() ;
 	QByteArray barLine() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;

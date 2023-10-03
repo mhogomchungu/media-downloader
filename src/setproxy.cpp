@@ -19,6 +19,7 @@
 
 #include "setproxy.h"
 #include "utils/qprocess.hpp"
+#include "utility.h"
 
 static QString _find_proxy( const QProcessEnvironment& )
 {
@@ -81,13 +82,15 @@ static QByteArray _ip_address( const QByteArray& e )
 	return d + "." + c + "." + b + "." + a ;
 }
 
-static void _get_proxy_from_gateway( Context& ctx,const QByteArray& addr,bool firstTime )
+static void _get_proxy_from_gateway_linux( Context& ctx,const QByteArray& addr,bool firstTime )
 {
 	QFile file( "/proc/net/route" ) ;
 
 	file.open( QIODevice::ReadOnly ) ;
 
-	for( const auto& it : util::split( file.readAll(),'\n' ) ){
+	const auto mm = util::split( file.readAll(),'\n' ) ;
+
+	for( const auto& it : mm ){
 
 		auto s = util::split( it,'\t' ) ;
 
@@ -111,6 +114,22 @@ static void _get_proxy_from_gateway( Context& ctx,const QByteArray& addr,bool fi
 	}
 
 	ctx.setNetworkProxy( firstTime ) ;
+}
+
+static void _get_proxy_from_gateway_win( Context& ctx,const QByteArray& addr,bool firstTime )
+{
+	auto m = utility::windowsGateWayAddress() ;
+
+	if( m.isEmpty() ){
+
+		ctx.setNetworkProxy( firstTime ) ;
+	}else{
+		QString s = addr ;
+
+		s.replace( "${gateway}",m ) ;
+
+		ctx.setNetworkProxy( s,firstTime ) ;
+	}
 }
 
 using mm = settings::proxySettings ;
@@ -146,7 +165,16 @@ void proxy::setProxy( Context& ctx,bool firstTime,const QByteArray& proxyAddress
 	}else{
 		if( proxyAddress.contains( "${gateway}" ) ){
 
-			_get_proxy_from_gateway( ctx,proxyAddress,firstTime ) ;
+			if( utility::platformIsLinux() ){
+
+				_get_proxy_from_gateway_linux( ctx,proxyAddress,firstTime ) ;
+
+			}else if( utility::platformIsWindows() ){
+
+				_get_proxy_from_gateway_win( ctx,proxyAddress,firstTime ) ;
+			}else{
+				ctx.setNetworkProxy( firstTime ) ;
+			}
 		}else{
 			ctx.setNetworkProxy( proxyAddress,firstTime ) ;
 		}
