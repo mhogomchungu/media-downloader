@@ -391,7 +391,7 @@ namespace utility
 	void addToListOptionsFromsDownload( QStringList& args,
 					    const QString& downLoadOptions,
 					    const Context& ctx,
-					    const QString& engine ) ;
+					    const engines::engine& engine ) ;
 
 	class addJsonCmd
 	{

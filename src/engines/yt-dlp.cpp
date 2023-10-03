@@ -1134,6 +1134,12 @@ void yt_dlp::updateLocalOptions( QStringList& opts )
 	}
 }
 
+void yt_dlp::setProxySetting( QStringList& e,const QString& s )
+{
+	e.append( "--proxy" ) ;
+	e.append( s ) ;
+}
+
 void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 {
 	const auto& e = engines::engine::functions::Settings().textEncoding() ;

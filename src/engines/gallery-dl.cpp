@@ -235,6 +235,12 @@ engines::engine::functions::DataFilter gallery_dl::Filter( int id )
 	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),s,engine,id } ;
 }
 
+void gallery_dl::setProxySetting( QStringList& e,const QString& s )
+{
+	e.append( "--proxy" ) ;
+	e.append( s ) ;
+}
+
 void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 {
 	auto& settings = engines::engine::functions::Settings() ;

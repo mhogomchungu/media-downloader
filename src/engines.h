@@ -555,6 +555,8 @@ public:
 
 			virtual void updateLocalOptions( QStringList& ) ;
 
+			virtual void setProxySetting( QStringList&,const QString& ) ;
+
 			virtual QString setCredentials( QStringList&,QStringList & ) ;
 
 			struct onlineVersion
@@ -839,6 +841,10 @@ public:
 		engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& e ) const
 		{
 			return m_engine->versionInfoFromGithub( e ) ;
+		}
+		void setProxySetting( QStringList& e,const QString& s ) const
+		{
+			m_engine->setProxySetting( e,s ) ;
 		}
 		QStringList horizontalHeaderLabels() const
 		{

@@ -535,9 +535,7 @@ QStringList utility::updateOptions( const updateOptionsStruct& s )
 
 	if( p.isSet() ){
 
-		opts.append( "--proxy" ) ;
-
-		opts.append( p.networkProxyString() ) ;
+		engine.setProxySetting( opts,p.networkProxyString() ) ;
 	}
 
 	auto oopts = [ & ](){
@@ -1594,9 +1592,9 @@ static QStringList _listOptionsFromDownloadOptions( const QString& e )
 void utility::addToListOptionsFromsDownload( QStringList& args,
 					     const QString& downLoadOptions,
 					     const Context& ctx,
-					     const QString& engine )
+					     const engines::engine& engine )
 {
-	auto m = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine ) ;
+	auto m = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
 
 	auto ee = _listOptionsFromDownloadOptions( m ) ;
 
@@ -1604,8 +1602,7 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 
 	if( mm.isSet() ){
 
-		args.append( "--proxy" ) ;
-		args.append( mm.networkProxyString() ) ;
+		engine.setProxySetting( args,mm.networkProxyString() ) ;
 	}
 
 	if( !ee.isEmpty() ){

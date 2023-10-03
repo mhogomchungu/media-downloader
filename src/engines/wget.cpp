@@ -238,6 +238,26 @@ engines::engine::functions::DataFilter wget::Filter( int id )
 	return { util::types::type_identity< wget::wgetFilter >(),engine,id } ;
 }
 
+void wget::setProxySetting( QStringList& e,const QString& s )
+{
+	e.append( "-e" ) ;
+	e.append( "use_proxy=yes" ) ;
+	e.append( "-e" ) ;
+
+	if( s.contains( "@" ) ){
+
+		auto m = engines::proxySettings( s ).networkProxy() ;
+
+		e.append( "http_proxy=" + m.hostName() + ":" + QString::number( m.port() ) ) ;
+
+		e.append( "--proxy-user=" + m.user() ) ;
+
+		e.append( "--proxy-password=" + m.password() ) ;
+	}else{
+		e.append( "http_proxy=" + s ) ;
+	}
+}
+
 QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 					   const QString& bkText,
 					   const QString& dopts,

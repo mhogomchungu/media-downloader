@@ -390,6 +390,12 @@ QStringList svtplay_dl::horizontalHeaderLabels() const
 	return m ;
 }
 
+void svtplay_dl::setProxySetting( QStringList& e,const QString& s )
+{
+	e.append( "--proxy" ) ;
+	e.append( s ) ;
+}
+
 static bool _add( std::vector< engines::engine::functions::mediaInfo >& s,const QString& e )
 {
 	for( const auto& m : s ){

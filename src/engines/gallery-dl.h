@@ -49,6 +49,8 @@ public:
 
 	engines::engine::functions::DataFilter Filter( int ) override ;
 
+	void setProxySetting( QStringList&,const QString& ) override ;
+
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;

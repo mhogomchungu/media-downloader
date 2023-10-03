@@ -52,7 +52,7 @@
         <location filename="../src/mainwindow.ui" line="538"/>
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
-        <location filename="../src/mainwindow.ui" line="2323"/>
+        <location filename="../src/mainwindow.ui" line="2328"/>
         <location filename="../src/mainwindow.cpp" line="65"/>
         <source>Quit</source>
         <translation>Sair</translation>
@@ -322,22 +322,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2279"/>
-        <source>Manually Specified Proxy(example: 1.2.3.4:8080)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="2295"/>
+        <location filename="../src/mainwindow.ui" line="2300"/>
         <source>Get Proxy Configuration From The Environment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2308"/>
+        <location filename="../src/mainwindow.ui" line="2313"/>
         <source>No Proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2336"/>
+        <location filename="../src/mainwindow.ui" line="2341"/>
         <source>Save</source>
         <translation>Salvar</translation>
     </message>
@@ -458,7 +453,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2342"/>
+        <location filename="../src/mainwindow.ui" line="2279"/>
+        <source>Manually Specified Proxy Configuration
+Example 1: 192.168.93.89:8080
+Exampe 2: ${gateway}:8080</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="2347"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
@@ -466,28 +468,28 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="336"/>
+        <location filename="../src/utility.cpp" line="414"/>
         <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="687"/>
+        <location filename="../src/utility.cpp" line="763"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>Arquivo com extensão &quot;.txt&quot; irá salvar apenas URLs</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1466"/>
+        <location filename="../src/utility.cpp" line="1538"/>
         <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1476"/>
+        <location filename="../src/utility.cpp" line="1548"/>
         <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="181"/>
-        <location filename="../src/utility.cpp" line="686"/>
+        <location filename="../src/utility.cpp" line="762"/>
         <source>Save List To File</source>
         <translation>Salvar lista em um arquivo</translation>
     </message>
@@ -529,19 +531,19 @@
     <message>
         <location filename="../src/batchdownloader.cpp" line="548"/>
         <location filename="../src/playlistdownloader.cpp" line="390"/>
-        <location filename="../src/utility.cpp" line="333"/>
+        <location filename="../src/utility.cpp" line="411"/>
         <source>Preset Options</source>
         <translation>Opções predefinidas</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="372"/>
-        <location filename="../src/utility.h" line="571"/>
-        <location filename="../src/utility.h" line="644"/>
+        <location filename="../src/utility.cpp" line="450"/>
+        <location filename="../src/utility.h" line="572"/>
+        <location filename="../src/utility.h" line="645"/>
         <source>Clear</source>
         <translation>Limpar</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="383"/>
+        <location filename="../src/utility.cpp" line="461"/>
         <source>Open Download Folder</source>
         <translation>Abrir pasta de Download</translation>
     </message>
@@ -646,12 +648,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="303"/>
+        <location filename="../src/engines.cpp" line="312"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Erro, o executável para o backend &quot;%1&quot; não pôde ser encontrado</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="256"/>
+        <location filename="../src/engines.cpp" line="265"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>A Engine &quot;%1&quot; requer pelo menos a versão &quot;%2&quot; do Media Downloader</translation>
     </message>
@@ -701,104 +703,104 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="165"/>
+        <location filename="../src/engines.cpp" line="163"/>
         <source>Setting Proxy Server Address Of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="171"/>
+        <location filename="../src/engines.cpp" line="176"/>
         <source>Unsetting Proxy Server Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="308"/>
+        <location filename="../src/engines.cpp" line="317"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>Erro, falha ao analisar o arquivo de configuração &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="571"/>
+        <location filename="../src/engines.cpp" line="580"/>
         <source>Failed To Load A Plugin</source>
         <translation>Falha ao carregar um plugin</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="656"/>
-        <location filename="../src/engines.cpp" line="947"/>
-        <location filename="../src/utility.cpp" line="559"/>
+        <location filename="../src/engines.cpp" line="665"/>
+        <location filename="../src/engines.cpp" line="956"/>
+        <location filename="../src/utility.cpp" line="635"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Falha ao encontrar o executável &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="932"/>
+        <location filename="../src/engines.cpp" line="941"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Falha ao encontrar o executável python3 para o backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1109"/>
+        <location filename="../src/engines.cpp" line="1118"/>
         <source>Requested Format Is Not Available</source>
         <translation>Formato solicitado não está disponível</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1114"/>
+        <location filename="../src/engines.cpp" line="1123"/>
         <source>Network Error Occured</source>
         <translation>Ocorreu um erro de rede</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1119"/>
+        <location filename="../src/engines.cpp" line="1128"/>
         <source>Invalid Url Entered</source>
         <translation>URL inválida inserida</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1124"/>
+        <location filename="../src/engines.cpp" line="1133"/>
         <source>Url Is Not Supported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1134"/>
+        <location filename="../src/engines.cpp" line="1143"/>
         <source>Download cancelled</source>
         <translation>Download cancelado</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1145"/>
+        <location filename="../src/engines.cpp" line="1154"/>
         <source>ErrorCode</source>
         <translation>Código de erro</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1149"/>
+        <location filename="../src/engines.cpp" line="1158"/>
         <source>Download Failed, Engine crashed</source>
         <translation>Falha no Download,Engine travou</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1420"/>
+        <location filename="../src/engines.cpp" line="1429"/>
         <source>Format Code</source>
         <translation>Formato do código</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1421"/>
+        <location filename="../src/engines.cpp" line="1430"/>
         <source>Extension</source>
         <translation>Extensão</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1422"/>
+        <location filename="../src/engines.cpp" line="1431"/>
         <source>Resolution</source>
         <translation>Resolução</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1423"/>
+        <location filename="../src/engines.cpp" line="1432"/>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1843"/>
+        <location filename="../src/engines.cpp" line="1856"/>
         <source>Failed to open file for writing</source>
         <translation>Falha ao abrir arquivo para escrita</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1849"/>
+        <location filename="../src/engines.cpp" line="1862"/>
         <source>Failed to open file for reading</source>
         <translation>Falha ao abrir arquivo para leitura</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1989"/>
+        <location filename="../src/engines.cpp" line="2002"/>
         <source>Elapsed Time:</source>
         <translation>Tempo decorrido:</translation>
     </message>
@@ -858,7 +860,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1144"/>
+        <location filename="../src/engines.cpp" line="1153"/>
         <location filename="../src/networkAccess.cpp" line="483"/>
         <location filename="../src/networkAccess.cpp" line="767"/>
         <source>Download Failed</source>
@@ -909,12 +911,12 @@
         <translation>Renomear arquivo para: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1907"/>
+        <location filename="../src/engines.cpp" line="1920"/>
         <source>Processing</source>
         <translation>Processamento</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1138"/>
+        <location filename="../src/engines.cpp" line="1147"/>
         <source>Download completed</source>
         <translation>Download concluído</translation>
     </message>
@@ -924,24 +926,24 @@
         <translation>Redefinindo as pastas de Download para o padrão</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1952"/>
+        <location filename="../src/engines.cpp" line="1965"/>
         <source>Post Processing</source>
         <translation>Pós processamento</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="604"/>
-        <location filename="../src/utility.h" line="612"/>
-        <location filename="../src/utility.h" line="617"/>
+        <location filename="../src/utility.h" line="605"/>
+        <location filename="../src/utility.h" line="613"/>
+        <location filename="../src/utility.h" line="618"/>
         <source>Download</source>
         <translation>Download</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="609"/>
+        <location filename="../src/utility.h" line="610"/>
         <source>Force Download</source>
         <translation>Forçar download</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="631"/>
+        <location filename="../src/utility.h" line="632"/>
         <source>Show Log Window</source>
         <translation>Mostrar janela de log</translation>
     </message>
@@ -1011,18 +1013,18 @@
         <translation>Método</translation>
     </message>
     <message>
-        <location filename="../src/engines/wget.cpp" line="306"/>
+        <location filename="../src/engines/wget.cpp" line="326"/>
         <source>Time Left</source>
         <translation>Tempo restante</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="325"/>
-        <location filename="../src/engines/wget.cpp" line="325"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="331"/>
+        <location filename="../src/engines/wget.cpp" line="345"/>
         <source>Downloaded</source>
         <translation>Baixado</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="416"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="422"/>
         <source>%1 Already Downloaded</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1032,8 +1034,8 @@
         <translation>Isso pode levar muito tempo</translation>
     </message>
     <message>
-        <location filename="../src/engines/gallery-dl.cpp" line="324"/>
-        <location filename="../src/engines/wget.cpp" line="299"/>
+        <location filename="../src/engines/gallery-dl.cpp" line="330"/>
+        <location filename="../src/engines/wget.cpp" line="319"/>
         <source>Speed:</source>
         <translation>Velocidade:</translation>
     </message>
@@ -1082,27 +1084,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/yt-dlp.cpp" line="1215"/>
+        <location filename="../src/engines/yt-dlp.cpp" line="1223"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
         <translation>Por favor,atualize &quot;%1&quot; para pelo menos a versão &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1281"/>
+        <location filename="../src/configure.cpp" line="1295"/>
         <source>Best Available Audio Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1285"/>
+        <location filename="../src/configure.cpp" line="1299"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1289"/>
+        <location filename="../src/configure.cpp" line="1303"/>
         <source>Best Available Audio Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1293"/>
+        <location filename="../src/configure.cpp" line="1307"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation type="unfinished"></translation>
     </message>

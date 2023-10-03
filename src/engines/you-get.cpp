@@ -41,6 +41,12 @@ bool you_get::foundNetworkUrl( const QString& url )
 	return url.startsWith( "you-get" ) && url.endsWith( ".tar.gz" ) ;
 }
 
+void you_get::setProxySetting( QStringList& e,const QString& s )
+{
+	e.append( "--http-proxy" ) ;
+	e.append( s ) ;
+}
+
 void you_get::renameArchiveFolder( const QString& e )
 {
 	const auto m = QDir( e ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;

@@ -1447,6 +1447,10 @@ void engines::engine::functions::updateLocalOptions( QStringList& )
 {
 }
 
+void engines::engine::functions::setProxySetting( QStringList&,const QString& )
+{
+}
+
 QString engines::engine::functions::setCredentials( QStringList&,QStringList& )
 {
 	return {} ;

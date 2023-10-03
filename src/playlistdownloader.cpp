@@ -979,7 +979,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
 
-	utility::addToListOptionsFromsDownload( opts,m,m_ctx,engine.name() ) ;
+	utility::addToListOptionsFromsDownload( opts,m,m_ctx,engine ) ;
 
 	opts.append( url ) ;
 

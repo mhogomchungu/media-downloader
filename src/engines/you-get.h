@@ -48,6 +48,8 @@ public:
 
 	bool foundNetworkUrl( const QString& ) override ;
 
+	void setProxySetting( QStringList&,const QString& ) override ;
+
 	void renameArchiveFolder( const QString& ) override ;
 
 	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;

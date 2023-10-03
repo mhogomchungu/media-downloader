@@ -53,6 +53,8 @@ public:
 
 	QStringList horizontalHeaderLabels() const override ;
 
+	void setProxySetting( QStringList&,const QString& ) override ;
+
 	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
 	const QProcessEnvironment& processEnvironment() const override ;

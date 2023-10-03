@@ -324,15 +324,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Manually Specified Proxy(example: 1.2.3.4:8080)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Get Proxy Configuration From The Environment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No Proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manually Specified Proxy Configuration
+Example 1: 192.168.93.89:8080
+Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

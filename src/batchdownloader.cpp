@@ -1546,7 +1546,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
-	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine.name() ) ;
+	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine ) ;
 
 	engine.setTextEncondig( args ) ;
 
@@ -1731,7 +1731,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
-	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine.name() ) ;
+	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine ) ;
 
 	engine.setTextEncondig( args ) ;
 
