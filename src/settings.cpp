@@ -1110,7 +1110,7 @@ settings::proxySettings& settings::proxySettings::setProxySettings( settings::pr
 
 		m_settings.setValue( "ProxySettingsType","Manual" ) ;
 
-		m_settings.setValue( "ProxySettingsCustomSource",e ) ;
+		m_settings.setValue( "ProxySettingsCustomSource",e.toUtf8() ) ;
 	}
 
 	return *this ;
@@ -1140,7 +1140,7 @@ settings::proxySettings::type settings::proxySettings::types() const
 	}
 }
 
-QString settings::proxySettings::proxyAddress() const
+QByteArray settings::proxySettings::proxyAddress() const
 {
-	return m_settings.value( "ProxySettingsCustomSource" ).toString() ;
+	return m_settings.value( "ProxySettingsCustomSource" ).toByteArray() ;
 }

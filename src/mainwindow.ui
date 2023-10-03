@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -2260,7 +2260,7 @@
         <property name="geometry">
          <rect>
           <x>120</x>
-          <y>270</y>
+          <y>310</y>
           <width>521</width>
           <height>31</height>
          </rect>
@@ -2270,16 +2270,21 @@
         <property name="geometry">
          <rect>
           <x>120</x>
-          <y>220</y>
+          <y>240</y>
           <width>521</width>
-          <height>51</height>
+          <height>71</height>
          </rect>
         </property>
         <property name="text">
-         <string>Manually Specified Proxy(example: 1.2.3.4:8080)</string>
+         <string>Manually Specified Proxy Configuration
+Example 1: 192.168.93.89:8080
+Exampe 2: ${gateway}:8080</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
        <widget class="QRadioButton" name="rbGetFromEnv">

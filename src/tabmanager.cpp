@@ -18,6 +18,7 @@
  */
 
 #include "tabmanager.h"
+#include "setproxy.h"
 
 #include <QMimeData>
 #include <QClipboard>
@@ -175,92 +176,9 @@ void tabManager::setDefaultEngines()
 	m_configure.updateEnginesList( s ) ;
 }
 
-static QString _find_proxy( const QProcessEnvironment& )
-{
-	return {} ;
-}
-
-template< typename ... Args >
-static QString _find_proxy( const QProcessEnvironment& env,const char * first,Args&& ... rest )
-{
-	auto m = env.value( first ) ;
-
-	if( m.isEmpty() ){
-
-		return _find_proxy( env,std::forward< Args >( rest ) ... ) ;
-	}else{
-		return m ;
-	}
-}
-
-static QString _proxy_find( const Context& ctx )
-{
-	const auto& env = ctx.Engines().processEnvironment() ;
-
-	return _find_proxy( env,"all_proxy","ALL_PROXY","https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
-}
-
 void tabManager::setProxy( const settings::proxySettings& proxy,const settings::proxySettings::type& m )
 {
-	if( utility::platformIsWindows() && m.system() ){
-
-		utils::qthread::run( [](){
-
-			return QNetworkProxyFactory::systemProxyForQuery() ;
-
-		},[ & ]( const QList< QNetworkProxy >& m ){
-
-			for( const auto& it : m ){
-
-				if( !it.hostName().isEmpty() ){
-
-					return m_ctx.setNetworkProxy( it,m_firstTime ) ;
-				}
-			}
-
-			m_ctx.setNetworkProxy( QNetworkProxy::applicationProxy(),m_firstTime ) ;
-		} ) ;
-
-	}else if( m.none() ){
-
-		m_ctx.setNetworkProxy( QString(),m_firstTime ) ;
-
-	}else if( m.env() ){
-
-		m_ctx.setNetworkProxy( _proxy_find( m_ctx ),m_firstTime ) ;
-	}else{
-		auto m = proxy.proxyAddress().toUtf8() ;
-
-		if( m.startsWith( "/etc/resolv.conf" ) ){
-
-			auto e = util::split( m,':' ) ;
-
-			QFile f( e[ 0 ] ) ;
-			f.open( QIODevice::ReadOnly ) ;
-
-			for( const auto& it : util::split( f.readAll(),'\n' ) ){
-
-				if( it.startsWith( "nameserver" ) ){
-
-					auto m = it ;
-					auto s = m.replace( "nameserver","" ).trimmed() ;
-
-					if( e.size() == 2 ){
-
-						s += ":" + e[ 1 ] ;
-					}
-
-					m_ctx.setNetworkProxy( { s },m_firstTime ) ;
-
-					return ;
-				}
-			}
-
-			m_ctx.setNetworkProxy( QString(),m_firstTime ) ;
-		}else{
-			m_ctx.setNetworkProxy( { m },m_firstTime ) ;
-		}
-	}
+	proxy::setProxy( m_ctx,m_firstTime,proxy.proxyAddress(),m ) ;
 }
 
 tabManager& tabManager::gotEvent( const QByteArray& s )

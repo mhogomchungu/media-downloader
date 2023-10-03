@@ -81,9 +81,8 @@ public:
 		proxySettings( QSettings& ) ;
 		proxySettings& setProxySettings( settings::proxySettings::Type,const QString& = {} ) ;
 		settings::proxySettings::type types() const ;
-		QString proxyAddress() const ;
+		QByteArray proxyAddress() const ;
 	private:
-
 		QSettings& m_settings ;
 	} ;
 

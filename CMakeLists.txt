@@ -67,6 +67,7 @@ set(SRC
     src/main.cpp
     src/settings.cpp
     src/utility.cpp
+    src/setproxy.cpp
     src/basicdownloader.cpp
     src/about.cpp
     src/themes.cpp

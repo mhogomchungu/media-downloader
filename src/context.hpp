@@ -119,6 +119,10 @@ public:
 	{
 		m_engines.setNetworkProxy( e.move(),s ) ;
 	}
+	void setNetworkProxy( bool s )
+	{
+		m_engines.setNetworkProxy( {},s ) ;
+	}
 private:
 	settings& m_settings ;
 	translator& m_translator ;

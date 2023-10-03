@@ -1088,9 +1088,14 @@ public:
 		proxySettings()
 		{
 		}
+		proxySettings( const QByteArray& e ) :
+			m_networkProxyString( e ),
+			m_networkProxy( this->toQNetworkProxy( m_networkProxyString ) )
+		{
+		}
 		proxySettings( const QString& e ) :
 			m_networkProxyString( e ),
-			m_networkProxy( this->toQNetworkProxy( e ) )
+			m_networkProxy( this->toQNetworkProxy( m_networkProxyString ) )
 		{
 			this->setDefaultProxy() ;
 		}
