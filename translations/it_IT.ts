@@ -335,7 +335,9 @@
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurazione manuale proxy
+Esempio 1: 192.168.93.89:8080
+Esempio 2: ${gateway}:8080</translation>
     </message>
 </context>
 <context>
