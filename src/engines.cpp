@@ -508,7 +508,7 @@ QString engines::findExecutable( const QString& exeName ) const
 
 	auto paths = [ this ](){
 
-		if( utility::platformIsWindows() || utility::platformisOS2() ){
+		if( utility::platformIsLikeWindows() ){
 
 			return this->processEnvironment().value( "PATH" ).split( ';' ) ;
 		}else{
@@ -516,7 +516,7 @@ QString engines::findExecutable( const QString& exeName ) const
 		}
 	}() ;
 
-	if( utility::platformIsWindows() ){
+	if( utility::platformIsLikeWindows() ){
 
 		auto m = _findExecutable( exeName,paths,info ) ;
 
