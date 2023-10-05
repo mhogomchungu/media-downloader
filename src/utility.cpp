@@ -1473,8 +1473,7 @@ QByteArray utility::barLine()
 	return "*************************************************************" ;
 }
 
-utility::printOutPut::printOutPut( QObject * obj,const utility::cliArguments& args ) :
-	m_qObject( obj )
+utility::printOutPut::printOutPut( const utility::cliArguments& args )
 {
 	if( args.contains( "--qDebug" ) || args.contains( "--qdebug" ) ){
 
@@ -1514,12 +1513,7 @@ void utility::printOutPut::operator()( const QByteArray& e )
 	}
 }
 
-bool utility::printOutPut::isEmpty() const
-{
-	return m_status == utility::printOutPut::status::notSet ;
-}
-
-bool utility::printOutPut::debugging() const
+utility::printOutPut::operator bool() const
 {
 	return m_status != utility::printOutPut::status::notSet ;
 }

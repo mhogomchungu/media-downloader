@@ -432,23 +432,25 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	if( m_ctx.debug().debugging() ){
+	QString exe ;
 
-		auto exe = "cmd: \"" + cmd.exe() + "\"" ;
+	if( m_ctx.debug() ){
+
+		exe = "\"" + cmd.exe() + "\"" ;
 
 		for( const auto& it : cmd.args() ){
 
 			exe += " \"" + it + "\"" ;
 		}
 
-		m_ctx.logger().add( exe,id ) ;
+		m_ctx.logger().add( "cmd: " + exe,id ) ;
 	}
 
 	auto mm = QProcess::ProcessChannelMode::MergedChannels ;
 
 	utility::setPermissions( cmd.exe() ) ;
 
-	versionInfo::pVInfo v{ vInfo.move(),id } ;
+	versionInfo::pVInfo v{ vInfo.move(),id,exe } ;
 
 	utils::qprocess::run( cmd.exe(),cmd.args(),mm,v.move(),this,&versionInfo::printVersionP ) ;
 }
@@ -477,6 +479,18 @@ void versionInfo::printVersionP( versionInfo::pVInfo pvInfo,const utils::qproces
 		this->log( m.arg( engine.name() ),pvInfo.id() ) ;
 
 		engine.setBroken() ;
+
+		auto& debug = m_ctx.debug() ;
+
+		if( debug ){
+
+			auto exitCode   = "Error Code: " + QString::number( r.exitCode ) ;
+			auto exitStatus = "Exit Status: " + QString::number( r.exitStatus ) ;
+
+			QString m = "Cmd:%1\n%2\n%3\nStdOut:\n%4\n-----\nStdError:\n%5" ;
+
+			debug( m.arg( pvInfo.cmd(),exitCode,exitStatus,r.stdOut,r.stdError ).toUtf8() ) ;
+		}
 	}
 
 	this->done( pvInfo.movePrintVinfo() ) ;
