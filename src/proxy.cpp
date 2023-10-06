@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "setproxy.h"
+#include "proxy.h"
 #include "utils/qprocess.hpp"
 #include "utility.h"
 
@@ -134,7 +134,7 @@ static void _get_proxy_from_gateway_win( Context& ctx,const QByteArray& addr,boo
 
 using mm = settings::proxySettings ;
 
-void proxy::setProxy( Context& ctx,bool firstTime,const QByteArray& proxyAddress,const mm::type& m )
+void proxy::set( Context& ctx,bool firstTime,const QByteArray& proxyAddress,const mm::type& m )
 {
 	if( utility::platformIsWindows() && m.system() ){
 

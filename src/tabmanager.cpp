@@ -18,7 +18,7 @@
  */
 
 #include "tabmanager.h"
-#include "setproxy.h"
+#include "proxy.h"
 
 #include <QMimeData>
 #include <QClipboard>
@@ -178,7 +178,7 @@ void tabManager::setDefaultEngines()
 
 void tabManager::setProxy( const settings::proxySettings& proxy,const settings::proxySettings::type& m )
 {
-	proxy::setProxy( m_ctx,m_firstTime,proxy.proxyAddress(),m ) ;
+	proxy::set( m_ctx,m_firstTime,proxy.proxyAddress(),m ) ;
 }
 
 tabManager& tabManager::gotEvent( const QByteArray& s )

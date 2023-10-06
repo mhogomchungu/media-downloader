@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 3.0.2)
+if(${CMAKE_VERSION} VERSION_GREATER "3.26")
+    cmake_minimum_required(VERSION 3.5.0)
+else()
+    cmake_minimum_required(VERSION 3.0.2)
+endif()
 
 project(media-downloader LANGUAGES CXX)
 
@@ -67,7 +71,7 @@ set(SRC
     src/main.cpp
     src/settings.cpp
     src/utility.cpp
-    src/setproxy.cpp
+    src/proxy.cpp
     src/basicdownloader.cpp
     src/about.cpp
     src/themes.cpp
