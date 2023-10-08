@@ -52,7 +52,16 @@ public:
 	void quitApp() ;
 	void showTrayIcon( bool ) ;
 	~MainWindow() override ;
-private:
+private:	
+	static void signalHandler( int ) ;
+	static void setUpSignal( int ) ;
+	template< typename Int,typename ... INTS >
+	static void setUpSignal( Int sig,INTS&& ... sigs )
+	{
+		MainWindow::setUpSignal( sig ) ;
+		MainWindow::setUpSignal( sigs ... ) ;
+	}
+	static void setUpSignals( MainWindow * ) ;
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
 	QString m_appName ;
@@ -62,6 +71,7 @@ private:
 	utility::printOutPut m_printOutPut ;
 	tabManager m_tabManager ;
 	settings& m_settings ;
+	static MainWindow * m_mainWindow ;
 	bool m_showTrayIcon ;
 	void closeEvent( QCloseEvent * ) override ;
 };

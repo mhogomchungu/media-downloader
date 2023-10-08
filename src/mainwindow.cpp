@@ -26,6 +26,8 @@
 #include "settings.h"
 #include "translator.h"
 
+#include <csignal>
+
 static std::unique_ptr< Ui::MainWindow > _init_ui( QMainWindow& mw )
 {
 	auto m = std::make_unique< Ui::MainWindow >() ;
@@ -49,6 +51,8 @@ MainWindow::MainWindow( QApplication& app,
 	m_settings( s ),
 	m_showTrayIcon( s.showTrayIcon() )
 {
+	MainWindow::setUpSignals( this ) ;
+
 	this->setTitle( m_appName ) ;
 
 	qRegisterMetaType< utility::networkReply >() ;
@@ -172,6 +176,24 @@ void MainWindow::quitApp()
 
 MainWindow::~MainWindow()
 {
+}
+
+MainWindow * MainWindow::m_mainWindow  ;
+
+void MainWindow::setUpSignals( MainWindow * m )
+{
+	m_mainWindow = m ;
+	MainWindow::setUpSignal( SIGTERM,SIGSEGV,SIGINT,SIGABRT ) ;
+}
+
+void MainWindow::signalHandler( int )
+{
+	m_mainWindow->quitApp() ;
+}
+
+void MainWindow::setUpSignal( int sig )
+{
+	std::signal( sig,MainWindow::signalHandler ) ;
 }
 
 void MainWindow::closeEvent( QCloseEvent * e )

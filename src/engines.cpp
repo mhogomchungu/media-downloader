@@ -64,7 +64,7 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	if( utility::platformIsWindows() ){
 
-		auto mm = settings.windowsOnly3rdPartyBinPath() ;
+		const auto& mm = settings.windowsOnly3rdPartyBinPath() ;
 
 		s += separator + mm ;
 
@@ -140,11 +140,11 @@ void engines::showBanner()
 	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;
 	m_logger.add( QObject::tr( "App Data Path: %1" ).arg( m_enginePaths.basePath() ),id ) ;
 
-	if( utility::platformIsWindows() ){
+	//if( utility::platformIsWindows() ){
 
-		const auto& m = m_settings.windowsOnly3rdPartyBinPath() ;
-		m_logger.add( QObject::tr( "3rd Party Path: %1" ).arg( m ),id ) ;
-	}
+	//	const auto& m = m_settings.windowsOnly3rdPartyBinPath() ;
+	//	m_logger.add( QObject::tr( "3rd Party Path: %1" ).arg( m ),id ) ;
+	//}
 }
 
 void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
