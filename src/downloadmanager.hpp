@@ -127,11 +127,11 @@ public:
 		{
 			return m_state == state::done ;
 		}
-		const utility::ProcessExitState& exitState() const
+		const engines::ProcessExitState& exitState() const
 		{
 			return m_exitState ;
 		}
-		finishedStatus( int i,int l,bool m,state s,utility::ProcessExitState e ) :
+		finishedStatus( int i,int l,bool m,state s,engines::ProcessExitState e ) :
 			m_index( i ),
 			m_lastIndex( l ),
 			m_batchDownloading( m ),
@@ -139,7 +139,7 @@ public:
 			m_exitState( std::move( e ) )
 		{
 		}
-		finishedStatus( state s,utility::ProcessExitState e ) :
+		finishedStatus( state s,engines::ProcessExitState e ) :
 			m_index( 0 ),
 			m_lastIndex( 0 ),
 			m_batchDownloading( false ),
@@ -155,7 +155,7 @@ public:
 		int m_lastIndex ;
 		bool m_batchDownloading ;
 		state m_state ;
-		utility::ProcessExitState m_exitState ;
+		engines::ProcessExitState m_exitState ;
 	};
 
 	class index
@@ -285,7 +285,7 @@ public:
 	template< typename Function,typename Finished >
 	void monitorForFinished( const engines::engine& engine,
 				 int index,
-				 utility::ProcessExitState exitState,
+				 engines::ProcessExitState exitState,
 				 Function function,
 				 Finished finished )
 	{

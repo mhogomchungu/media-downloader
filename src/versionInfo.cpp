@@ -485,8 +485,22 @@ void versionInfo::printVersionP( versionInfo::pVInfo pvInfo,const utils::qproces
 		if( debug ){
 
 			auto exitCode   = "Error Code: " + QString::number( r.exitCode ) ;
-			auto exitStatus = "Exit Status: " + QString::number( r.exitStatus ) ;
 
+			QString exitStatus ;
+
+			auto mm = r.exitStatus ;
+
+			if( mm == utils::qprocess::outPut::ExitStatus::NormalExit ){
+
+				exitStatus = "Exit Status: Normal" ;
+
+			}else if( mm == utils::qprocess::outPut::ExitStatus::Crashed ){
+
+				exitStatus = "Exit Status: Crashed" ;
+			}else{
+				exitStatus = "Exit Status: Failed To Start" ;
+			}
+			
 			QString m = "Cmd:%1\n%2\n%3\nStdOut:\n%4\n-----\nStdError:\n%5" ;
 
 			debug( m.arg( pvInfo.cmd(),exitCode,exitStatus,r.stdOut,r.stdError ).toUtf8() ) ;

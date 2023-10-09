@@ -125,8 +125,7 @@ namespace utility
 		{
 			return "DoneDownloading" ;
 		}
-		template< typename T >
-		static QByteArray doneDownloadingText( const T& p )
+		static QByteArray doneDownloadingText( const engines::ProcessExitState& p )
 		{
 			if( p.cancelled() ){
 
@@ -135,14 +134,22 @@ namespace utility
 			}else if( p.success() ){
 
 				return "[media-downloader] Download Completed Successfully" ;
-
-			}else if( p.exitStatus() == QProcess::NormalExit ){
-
-				auto m = QString::number( p.exitCode() ).toUtf8() ;
-
-				return "[media-downloader] Download Failed(ErrorCode=" + m + ")" ;
 			}else{
-				return "[media-downloader] Download Failed, Engine crashed" ;
+				using st = engines::ProcessExitState::ExitStatus ;
+				auto m = p.exitStatus() ;
+
+				if( m == st::NormalExit ){
+
+					auto m = QString::number( p.exitCode() ).toUtf8() ;
+
+					return "[media-downloader] Download Failed(ErrorCode=" + m + ")" ;
+
+				}else if( m == st::FailedToStart ){
+
+					return "[media-downloader] Download Failed, Engine failed to start" ;
+				}else{
+					return "[media-downloader] Download Failed, Engine crashed" ;
+				}
 			}
 		}
 		static bool doneDownloadingText( const QByteArray& e )
@@ -862,46 +869,6 @@ namespace utility
 		}
 	}
 
-	class ProcessExitState
-	{
-	public:
-		ProcessExitState()
-		{
-		}
-		ProcessExitState( bool c,int s,qint64 d,QProcess::ExitStatus e ) :
-			m_cancelled( c ),
-			m_exitCode( s ),
-			m_duration( d ),
-			m_exitStatus( e )
-		{
-		}
-		int exitCode() const
-		{
-			return m_exitCode ;
-		}
-		QProcess::ExitStatus exitStatus() const
-		{
-			return m_exitStatus ;
-		}
-		bool cancelled() const
-		{
-			return m_cancelled ;
-		}
-		bool success() const
-		{
-			return m_exitCode == 0 && m_exitStatus == QProcess::ExitStatus::NormalExit ;
-		}
-		qint64 duration() const
-		{
-			return m_duration ;
-		}
-	private:
-		bool m_cancelled = false ;
-		int m_exitCode = 255 ;
-		qint64 m_duration = 0 ;
-		QProcess::ExitStatus m_exitStatus = QProcess::ExitStatus::NormalExit ;
-	};
-
 	class ProcessOutputChannels
 	{
 	public:
@@ -1003,7 +970,7 @@ namespace utility
 
 			auto m = m_timeCounter.elapsedTime() ;
 
-			ProcessExitState state( m_cancelled,s,m,std::move( e ) ) ;
+			engines::ProcessExitState state( m_cancelled,s,m,std::move( e ) ) ;
 
 			if( m_options.listRequested() ){
 
@@ -1020,6 +987,24 @@ namespace utility
 			m_options.done( std::move( state ) ) ;
 
 			m_logger.registerDone() ;
+		}
+		void withError( QProcess::ProcessError e )
+		{
+			if( e == QProcess::ProcessError::FailedToStart ){
+
+				auto s = engines::ProcessExitState::ExitStatus::FailedToStart ;
+
+				engines::ProcessExitState state( false,-1,0,s ) ;
+
+				m_logger.add( [ &,this ]( Logger::Data& e,int id,bool s ){
+
+					auto d = utility::stringConstants::doneDownloadingText( state ) ;
+
+					m_engine.processData( e,d,id,s ) ;
+				} ) ;
+
+				m_options.done( state ) ;
+			}
 		}
 		void withData( QProcess::ProcessChannel channel,const QByteArray& data )
 		{
@@ -1075,12 +1060,6 @@ namespace utility
 		{
 			return { m_engine.exePath(),args } ;
 		}
-		void logError( const engines::engine::exeArgs::cmd& exe )
-		{
-			m_logger.add( utility::failedToFindExecutableString( exe.exe() ) ) ;
-
-			m_options.done( ProcessExitState( false,-1,-1,QProcess::ExitStatus::NormalExit ) ) ;
-		}
 	private:
 		const engines::engine& m_engine ;
 		Tlogger m_logger ;
@@ -1112,29 +1091,28 @@ namespace utility
 	{
 		auto cmd = ctx.cmd( args ) ;
 
-		if( cmd.valid() ){
+		utils::qprocess::run( cmd.exe(),cmd.args(),[ &cmd,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
 
-			utils::qprocess::run( cmd.exe(),cmd.args(),[ &cmd,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
+			ctx.whenCreated( exe,cmd ) ;
 
-				ctx.whenCreated( exe,cmd ) ;
+			return std::move( ctx ) ;
 
-				return std::move( ctx ) ;
+		},[]( QProcess::ProcessError e,auto& ctx ){
 
-			},[ credentials ]( QProcess& exe,auto& ctx ){
+			ctx.withError( e ) ;
 
-				ctx.whenStarted( exe,credentials ) ;
+		},[ credentials ]( QProcess& exe,auto& ctx ){
 
-			},[]( int s,QProcess::ExitStatus e,auto& ctx ){
+			ctx.whenStarted( exe,credentials ) ;
 
-				ctx.whenDone( s,std::move( e ) ) ;
+		},[]( int s,QProcess::ExitStatus e,auto& ctx ){
 
-			},[]( QProcess::ProcessChannel channel,const QByteArray& data,auto& ctx ){
+			ctx.whenDone( s,std::move( e ) ) ;
 
-				ctx.withData( channel,data ) ;
-			} ) ;
-		}else{
-			ctx.logError( cmd ) ;
-		}
+		},[]( QProcess::ProcessChannel channel,const QByteArray& data,auto& ctx ){
+
+			ctx.withData( channel,data ) ;
+		} ) ;
 	}
 
 	template< typename List,
@@ -1441,11 +1419,11 @@ namespace utility
 			m_functions( std::move( functions ) )
 		{
 		}
-		void done( utility::ProcessExitState e )
+		void done( engines::ProcessExitState e )
 		{
 			m_functions.done( std::move( e ),m_opts ) ;
 		}
-		void listRequested( const utility::ProcessExitState& s,QByteArray e )
+		void listRequested( const engines::ProcessExitState& s,QByteArray e )
 		{
 			m_functions.list( s,std::move( e ) ) ;
 		}
@@ -1496,7 +1474,7 @@ namespace utility
 	template< typename DisableAll,typename Done >
 	auto OptionsFunctions( DisableAll disableAll,Done done )
 	{
-		auto aa = []( const utility::ProcessExitState&,QByteArray ){} ;
+		auto aa = []( const engines::ProcessExitState&,QByteArray ){} ;
 
 		using type = Functions< decltype( aa ),DisableAll,Done > ;
 

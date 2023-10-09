@@ -1146,7 +1146,11 @@ QString engines::engine::functions::processCompleteStateText( const engine::engi
 
 		return QObject::tr( "Download completed" ) ;
 	}else{
-		if( f.exitStatus() == QProcess::NormalExit ){
+		using m = engines::ProcessExitState::ExitStatus ;
+
+		auto s = f.exitStatus() ;
+
+		if( s == m::NormalExit ){
 
 			auto m = QString::number( f.errorCode() ) ;
 
@@ -1154,6 +1158,10 @@ QString engines::engine::functions::processCompleteStateText( const engine::engi
 			auto b = "(" + QObject::tr( "ErrorCode" ) + "=" + m + ")" ;
 
 			return a + b ;
+
+		}else if( s == m::FailedToStart ){
+
+			return QObject::tr( "Download Failed, Engine failed to start" ) ;
 		}else{
 			return QObject::tr( "Download Failed, Engine crashed" ) ;
 		}

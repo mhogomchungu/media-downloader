@@ -405,7 +405,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	auto id = eng.id ;
 	const auto& engine = eng.engine ;
 
-	auto functions = utility::OptionsFunctions( [ this,id ]( const utility::ProcessExitState&,const QByteArray& args ){
+	auto functions = utility::OptionsFunctions( [ this,id ]( const engines::ProcessExitState&,const QByteArray& args ){
 
 			this->listRequested( args,id ) ;
 
@@ -415,7 +415,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 			m_ui.pbCancel->setEnabled( true ) ;
 
-		},[ this ]( utility::ProcessExitState m,const basicdownloader::opts& opts ){
+		},[ this ]( engines::ProcessExitState m,const basicdownloader::opts& opts ){
 
 			opts.ctx.TabManager().enableAll() ;
 

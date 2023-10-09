@@ -56,7 +56,7 @@ private:
 	static void signalHandler( int ) ;
 	static void setUpSignal( int ) ;
 	template< typename Int,typename ... INTS >
-	static void setUpSignal( Int sig,INTS&& ... sigs )
+	static void setUpSignal( Int sig,INTS ... sigs )
 	{
 		MainWindow::setUpSignal( sig ) ;
 		MainWindow::setUpSignal( sigs ... ) ;

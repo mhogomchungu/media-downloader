@@ -1484,7 +1484,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 				     const QString& url,
 				     bool autoDownload )
 {
-	auto aa = [ &engine,index,this,url,autoDownload ]( utility::ProcessExitState e,const auto& opts ){
+	auto aa = [ &engine,index,this,url,autoDownload ]( engines::ProcessExitState e,const auto& opts ){
 
 		auto aa = [ this,autoDownload ]( const engines::engine& engine,int index ){
 
@@ -1741,7 +1741,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	m_ctx.TabManager().disableAll() ;
 
-	auto functions = utility::OptionsFunctions( [ this,&engine,listType ]( const utility::ProcessExitState& s,const QByteArray& a ){
+	auto functions = utility::OptionsFunctions( [ this,&engine,listType ]( const engines::ProcessExitState& s,const QByteArray& a ){
 
 			if( listType != batchdownloader::listType::MEDIA_OPTIONS ){
 
@@ -1777,7 +1777,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 			m_ui.pbCancelBatchDownloder->setEnabled( true ) ;
 			m_ui.pbCancelBatchDownloder->setFocus() ;
 
-		},[ this ]( utility::ProcessExitState,const auto& opts ){
+		},[ this ]( engines::ProcessExitState,const auto& opts ){
 
 			opts.ctx.TabManager().enableAll() ;
 
@@ -2024,7 +2024,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 {
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
-	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const auto& ){
+	auto aa = [ &engine,index,this ]( engines::ProcessExitState e,const auto& ){
 
 		auto aa = [ this ]( const engines::engine& engine,int index ){
 

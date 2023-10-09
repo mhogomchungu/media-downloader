@@ -48,6 +48,7 @@ namespace utils
 		}
 
 		template< typename WhenCreated,
+			  typename WithError,
 			  typename WhenStarted,
 			  typename WhenDone,
 			  typename WithData,
@@ -55,6 +56,7 @@ namespace utils
 		void run( const QString& cmd,
 			  const QStringList& args,
 			  WhenCreated whenCreated,
+			  WithError withError,
 			  WhenStarted whenStarted,
 			  WhenDone whenDone,
 			  WithData withData )
@@ -65,31 +67,39 @@ namespace utils
 				process( const QString& cmd,
 					 const QStringList& args,
 					 WhenCreated&& whenCreated,
+					 WithError&& withError,
 					 WhenStarted&& whenStarted,
 					 WhenDone&& whenDone,
 					 WithData&& withData ) :
 					m_withData( std::move( withData ) ),
 					m_whenDone( std::move( whenDone ) ),
 					m_whenStarted( std::move( whenStarted ) ),
+					m_withError( std::move( withError ) ),
 					m_data( whenCreated( m_exe ) )
 				{
 					using cc = void( QProcess::* )( int,QProcess::ExitStatus ) ;
 
-					auto a = &QProcess::started ;
-					auto b = &QProcess::readyReadStandardOutput ;
-					auto c = &QProcess::readyReadStandardError ;
-					auto d = static_cast< cc >( &QProcess::finished ) ;
+					auto a = &QProcess::errorOccurred ;
+					auto b = &QProcess::started ;
+					auto c = &QProcess::readyReadStandardOutput ;
+					auto d = &QProcess::readyReadStandardError ;
+					auto e = static_cast< cc >( &QProcess::finished ) ;
 
 					auto conn = Qt::QueuedConnection ;
 
-					QObject::connect( &m_exe,a,this,&process::whenStarted,conn ) ;
-					QObject::connect( &m_exe,b,this,&process::withStdOut,conn ) ;
-					QObject::connect( &m_exe,c,this,&process::withStdError,conn ) ;
-					QObject::connect( &m_exe,d,this,&process::whenDone,conn ) ;
+					QObject::connect( &m_exe,a,this,&process::withError,conn ) ;
+					QObject::connect( &m_exe,b,this,&process::whenStarted,conn ) ;
+					QObject::connect( &m_exe,c,this,&process::withStdOut,conn ) ;
+					QObject::connect( &m_exe,d,this,&process::withStdError,conn ) ;
+					QObject::connect( &m_exe,e,this,&process::whenDone,conn ) ;
 
 					m_exe.start( cmd,args ) ;
 				}
 			private:
+				void withError( QProcess::ProcessError err )
+				{
+					m_withError( err,m_data ) ;
+				}
 				void whenStarted()
 				{
 					m_whenStarted( m_exe,m_data ) ;
@@ -116,18 +126,21 @@ namespace utils
 				WithData m_withData ;
 				WhenDone m_whenDone ;
 				WhenStarted m_whenStarted ;
+				WithError m_withError ;
 				details::result_of< WhenCreated,QProcess& > m_data ;
 			};
 
 			new process( cmd,
 				     args,
 				     std::move( whenCreated ),
+				     std::move( withError ),
 				     std::move( whenStarted ),
 				     std::move( whenDone ),
 				     std::move( withData ) ) ;
 		}
 
 		template< typename WhenCreated,
+			  typename WithError,
 			  typename WhenStarted,
 			  typename WhenDone,
 			  typename WithData,
@@ -135,6 +148,7 @@ namespace utils
 		void run( const QString& cmd,
 			  const QStringList& args,
 			  WhenCreated whenCreated,
+			  WithError&& withError,
 			  WhenStarted whenStarted,
 			  WhenDone whenDone,
 			  WithData withData )
@@ -143,6 +157,10 @@ namespace utils
 
 				   whenCreated( exe ) ;
 				   return 0 ;
+
+			},[ withError = std::move( withError ) ]( QProcess::ProcessError e )mutable{
+
+				withError( e ) ;
 
 			},[ whenStarted = std::move( whenStarted ) ]( QProcess& exe,int )mutable{
 
@@ -162,10 +180,18 @@ namespace utils
 		{
 			bool success() const
 			{
-				return exitCode == 0 && exitStatus == QProcess::ExitStatus::NormalExit ;
+				return exitCode == 0 && exitStatus == outPut::ExitStatus::NormalExit ;
+			}
+			bool crashed() const
+			{
+				return exitStatus == outPut::ExitStatus::Crashed ;
+			}
+			bool failedToStart() const
+			{
+				return exitStatus == outPut::ExitStatus::FailedToStart ;
 			}
 			int exitCode ;
-			QProcess::ExitStatus exitStatus ;
+			enum class ExitStatus{ FailedToStart,NormalExit,Crashed } exitStatus ;
 			QByteArray stdOut ;
 			QByteArray stdError ;
 		};
@@ -180,24 +206,45 @@ namespace utils
 
 				struct context
 				{
-					context( QProcess::ProcessChannelMode c ) :
-						channel( c )
+					context( QProcess::ProcessChannelMode c,WhenDone&& w ) :
+						channel( c ),whenDone( std::move( w ) )
 					{
 					}
 					QProcess::ProcessChannelMode channel ;
 					QByteArray stdOut ;
 					QByteArray stdError ;
+					WhenDone whenDone ;
 				};
 
 				exe.setProcessChannelMode( m ) ;
 
-				return context( m ) ;
+				return context( m,std::move( whenDone ) ) ;
+
+			},[]( QProcess::ProcessError err,auto& ctx )mutable{
+
+				if( err == QProcess::ProcessError::FailedToStart ){
+
+					ctx.whenDone( { -1,outPut::ExitStatus::FailedToStart,{},{} } ) ;
+				}
 
 			},[]( QProcess&,auto& ){
 
-			},[ whenDone = std::move( whenDone ) ]( int e,QProcess::ExitStatus ss,auto& ctx )mutable{
+			},[]( int e,QProcess::ExitStatus ss,auto& ctx )mutable{
 
-				whenDone( { e,ss,std::move( ctx.stdOut ),std::move( ctx.stdError ) } ) ;
+				outPut::ExitStatus mm ;
+
+				if( ss == QProcess::ExitStatus::NormalExit ){
+
+					mm = outPut::ExitStatus::NormalExit ;
+
+				}else if( ss == QProcess::ExitStatus::CrashExit ){
+
+					mm = outPut::ExitStatus::Crashed ;
+				}else{
+					mm = outPut::ExitStatus::FailedToStart ;
+				}
+
+				ctx.whenDone( { e,mm,std::move( ctx.stdOut ),std::move( ctx.stdError ) } ) ;
 
 			},[]( QProcess::ProcessChannel c,QByteArray&& data,auto& ctx )mutable{
 

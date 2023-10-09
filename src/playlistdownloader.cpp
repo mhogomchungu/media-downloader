@@ -831,7 +831,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 {
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
-	auto aa = [ &engine,index,this ]( utility::ProcessExitState e,const playlistdownloader::opts& ){
+	auto aa = [ &engine,index,this ]( engines::ProcessExitState e,const playlistdownloader::opts& ){
 
 		auto aa = [ this ]( const engines::engine& engine,int index ){
 
@@ -1008,7 +1008,7 @@ void playlistdownloader::getList( customOptions&& c,
 			m_gettingPlaylist = true ;
 			m_ui.pbPLCancel->setEnabled( true ) ;
 
-		},[ &engine,this,iter = iter.move() ]( utility::ProcessExitState st,const playlistdownloader::opts& )mutable{
+		},[ &engine,this,iter = iter.move() ]( engines::ProcessExitState st,const playlistdownloader::opts& )mutable{
 
 			if( m_stillProcessingJsonOutput ){
 

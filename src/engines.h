@@ -106,6 +106,64 @@ public:
 		Logger& m_logger ;
 	} ;
 
+	class ProcessExitState
+	{
+	public:
+		enum class ExitStatus{ FailedToStart,NormalExit,Crashed } ;
+
+		ProcessExitState()
+		{
+		}
+		ProcessExitState( bool c,int s,qint64 d,ProcessExitState::ExitStatus e ) :
+			m_cancelled( c ),
+			m_exitCode( s ),
+			m_duration( d ),
+			m_exitStatus( e )
+		{
+		}
+		ProcessExitState( bool c,int s,qint64 d,QProcess::ExitStatus e ) :
+			m_cancelled( c ),
+			m_exitCode( s ),
+			m_duration( d )
+		{
+			if( e == QProcess::ExitStatus::NormalExit ){
+
+				m_exitStatus = ProcessExitState::ExitStatus::NormalExit ;
+
+			}else if( e == QProcess::ExitStatus::CrashExit ){
+
+				m_exitStatus = ProcessExitState::ExitStatus::Crashed ;
+			}else{
+				m_exitStatus = ProcessExitState::ExitStatus::FailedToStart ;
+			}
+		}
+		int exitCode() const
+		{
+			return m_exitCode ;
+		}
+		const ProcessExitState::ExitStatus& exitStatus() const
+		{
+			return m_exitStatus ;
+		}
+		bool cancelled() const
+		{
+			return m_cancelled ;
+		}
+		bool success() const
+		{
+			return m_exitCode == 0 && m_exitStatus == ProcessExitState::ExitStatus::NormalExit ;
+		}
+		qint64 duration() const
+		{
+			return m_duration ;
+		}
+	private:
+		bool m_cancelled = false ;
+		int m_exitCode = 255 ;
+		qint64 m_duration = 0 ;
+		ProcessExitState::ExitStatus m_exitStatus = ProcessExitState::ExitStatus::NormalExit ;
+	};
+
 	class enginePaths
 	{
 	public:
@@ -300,7 +358,7 @@ public:
 				{
 					return m_errorCode ;
 				}
-				QProcess::ExitStatus exitStatus() const
+				engines::ProcessExitState::ExitStatus exitStatus() const
 				{
 					return m_exitStatus ;
 				}
@@ -309,7 +367,7 @@ public:
 				bool m_cancelled ;
 				qint64 m_duration ;
 				int m_errorCode ;
-				QProcess::ExitStatus m_exitStatus ;
+				engines::ProcessExitState::ExitStatus m_exitStatus ;
 			};
 
 			enum class errors{ unknownUrl,notSupportedUrl,noNetwork,unknownFormat } ;
