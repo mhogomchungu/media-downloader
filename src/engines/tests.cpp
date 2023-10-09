@@ -31,6 +31,7 @@
 
 #include <iostream>
 #include <array>
+#include <random>
 
 #include <QString>
 #include <QEventLoop>
@@ -96,11 +97,18 @@ public:
 	{
 		m_args.app.quit() ;
 	}
+	int getInterval()
+	{
+		std::random_device rd ;
+		std::mt19937 gen( rd() ) ;
+		std::uniform_real_distribution<> dis( 200,600 ) ;
+		return dis( gen ) ;
+	}
 	void testEngine( const char * output )
 	{
 		m_list = util::split( output,'\n' ) ;
 
-		util::Timer( 500,[ this ]( int ){
+		util::Timer( this->getInterval(),[ this ]( int ){
 
 			if( m_counter < m_list.size() ){
 

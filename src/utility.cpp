@@ -1496,20 +1496,23 @@ utility::printOutPut::printOutPut( const utility::cliArguments& args )
 
 void utility::printOutPut::operator()( const QByteArray& e )
 {
-	if( m_outPutFile.isOpen() ){
+	if( m_status != utility::printOutPut::status::notSet ){
 
-		m_outPutFile.write( e ) ;
-	}
+		if( m_outPutFile.isOpen() ){
 
-	if( m_status == utility::printOutPut::status::qdebug ){
+			m_outPutFile.write( e ) ;
+		}
 
-		qDebug() << e ;
-		qDebug() << "--------------------------------" ;
+		if( m_status == utility::printOutPut::status::qdebug ){
 
-	}else if( m_status == utility::printOutPut::status::debug ){
+			qDebug() << e ;
+			qDebug() << "--------------------------------" ;
 
-		std::cout << e.constData() << std::endl ;
-		std::cout << "--------------------------------" << std::endl ;
+		}else if( m_status == utility::printOutPut::status::debug ){
+
+			std::cout << e.constData() << std::endl ;
+			std::cout << "--------------------------------" << std::endl ;
+		}
 	}
 }
 

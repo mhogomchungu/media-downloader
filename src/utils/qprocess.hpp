@@ -69,43 +69,53 @@ namespace utils
 					 WhenDone&& whenDone,
 					 WithData&& withData ) :
 					m_withData( std::move( withData ) ),
+					m_whenDone( std::move( whenDone ) ),
+					m_whenStarted( std::move( whenStarted ) ),
 					m_data( whenCreated( m_exe ) )
 				{
-					QObject::connect( &m_exe,&QProcess::started,
-							  [ this,whenStarted = std::move( whenStarted ) ]()mutable{
-
-						whenStarted( m_exe,m_data ) ;
-					} ) ;
-
-					QObject::connect( &m_exe,&QProcess::readyReadStandardOutput,[ this ]()mutable{
-
-						m_withData( QProcess::ProcessChannel::StandardOutput,
-							    m_exe.readAllStandardOutput(),m_data ) ;
-					} ) ;
-
-					QObject::connect( &m_exe,&QProcess::readyReadStandardError,[ this ]()mutable{
-
-						m_withData( QProcess::ProcessChannel::StandardError,
-							    m_exe.readAllStandardError(),m_data ) ;
-					} ) ;
-
 					using cc = void( QProcess::* )( int,QProcess::ExitStatus ) ;
 
-					auto s = static_cast< cc >( &QProcess::finished ) ;
+					auto a = &QProcess::started ;
+					auto b = &QProcess::readyReadStandardOutput ;
+					auto c = &QProcess::readyReadStandardError ;
+					auto d = static_cast< cc >( &QProcess::finished ) ;
 
-					QObject::connect( &m_exe,s,[ this,whenDone = std::move( whenDone ) ]
-							  ( int e,QProcess::ExitStatus ss )mutable{
+					auto conn = Qt::QueuedConnection ;
 
-						whenDone( e,ss,m_data ) ;
-
-						this->deleteLater() ;
-					} ) ;
+					QObject::connect( &m_exe,a,this,&process::whenStarted,conn ) ;
+					QObject::connect( &m_exe,b,this,&process::withStdOut,conn ) ;
+					QObject::connect( &m_exe,c,this,&process::withStdError,conn ) ;
+					QObject::connect( &m_exe,d,this,&process::whenDone,conn ) ;
 
 					m_exe.start( cmd,args ) ;
 				}
 			private:
+				void whenStarted()
+				{
+					m_whenStarted( m_exe,m_data ) ;
+				}
+				void withStdOut()
+				{
+					auto a = QProcess::ProcessChannel::StandardOutput ;
+
+					m_withData( a,m_exe.readAllStandardOutput(),m_data ) ;
+				}
+				void withStdError()
+				{
+					auto a = QProcess::ProcessChannel::StandardError ;
+
+					m_withData( a,m_exe.readAllStandardError(),m_data ) ;
+				}
+				void whenDone( int e,QProcess::ExitStatus ss )
+				{
+					m_whenDone( e,ss,m_data ) ;
+
+					this->deleteLater() ;
+				}
 				QProcess m_exe ;
 				WithData m_withData ;
+				WhenDone m_whenDone ;
+				WhenStarted m_whenStarted ;
 				details::result_of< WhenCreated,QProcess& > m_data ;
 			};
 

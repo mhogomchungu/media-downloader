@@ -21,7 +21,6 @@
 #include "proxy.h"
 
 #include <QMimeData>
-#include <QClipboard>
 
 tabManager::tabManager( settings& s,
 			translator& t,
@@ -41,36 +40,14 @@ tabManager::tabManager( settings& s,
 	m_playlistdownloader( m_ctx ),
 	m_library( m_ctx )
 {
-	auto m = QApplication::clipboard() ;
+	qRegisterMetaType< QClipboard::Mode >() ;
 
-	if( m ){
+	m_clipboard = QApplication::clipboard() ;
 
-		QObject::connect( m,&QClipboard::changed,[ this,m ]( QClipboard::Mode mode ){
+	if( m_clipboard ){
 
-			if( mode != QClipboard::Mode::Clipboard ){
-
-				return ;
-			}
-
-			auto s = m->mimeData() ;
-
-			if( s ){
-
-				auto e = m->mimeData() ;
-
-				if( e->hasText() ){
-
-					auto txt = e->text() ;
-
-					if( txt.startsWith( "http" ) ){
-
-						m_basicdownloader.clipboardData( txt ) ;
-						m_batchdownloader.clipboardData( txt ) ;
-						m_playlistdownloader.clipboardData( txt ) ;
-					}
-				}
-			}
-		} ) ;
+		auto m = Qt::QueuedConnection ;
+		QObject::connect( m_clipboard,&QClipboard::changed,this,&tabManager::clipboardEvent,m ) ;
 	}
 
 	const auto& engines = m_ctx.Engines().getEngines() ;
@@ -179,6 +156,26 @@ void tabManager::setDefaultEngines()
 void tabManager::setProxy( const settings::proxySettings& proxy,const settings::proxySettings::type& m )
 {
 	proxy::set( m_ctx,m_firstTime,proxy.proxyAddress(),m ) ;
+}
+
+void tabManager::clipboardEvent( QClipboard::Mode mode )
+{
+	if( mode == QClipboard::Mode::Clipboard ){
+
+		auto e = m_clipboard->mimeData() ;
+
+		if( e->hasText() ){
+
+			auto txt = e->text() ;
+
+			if( txt.startsWith( "http" ) ){
+
+				m_basicdownloader.clipboardData( txt ) ;
+				m_batchdownloader.clipboardData( txt ) ;
+				m_playlistdownloader.clipboardData( txt ) ;
+			}
+		}
+	}
 }
 
 tabManager& tabManager::gotEvent( const QByteArray& s )
