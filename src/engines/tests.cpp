@@ -31,12 +31,35 @@
 
 #include <iostream>
 #include <array>
-#include <random>
 
 #include <QString>
 #include <QEventLoop>
 
 #define TEST_ENGINE_PREFIX "--media-downloader-test-engine"
+
+#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
+
+#include <QRandomGenerator>
+
+static int _getInterval( int x,int y )
+{
+	return QRandomGenerator::global()->bounded( x,y ) ;
+}
+
+#else
+
+#include <random>
+
+static int _getInterval( int x,int y )
+{
+	std::random_device rd ;
+	std::mt19937 gen( rd() ) ;
+	std::uniform_real_distribution<> dis( x,y ) ;
+	return dis( gen ) ;
+}
+
+#endif
+
 
 class Tests
 {
@@ -97,18 +120,11 @@ public:
 	{
 		m_args.app.quit() ;
 	}
-	int getInterval()
-	{
-		std::random_device rd ;
-		std::mt19937 gen( rd() ) ;
-		std::uniform_real_distribution<> dis( 200,600 ) ;
-		return dis( gen ) ;
-	}
 	void testEngine( const char * output )
 	{
 		m_list = util::split( output,'\n' ) ;
 
-		util::Timer( this->getInterval(),[ this ]( int ){
+		util::Timer( _getInterval( 100,600 ),[ this ]( int ){
 
 			if( m_counter < m_list.size() ){
 

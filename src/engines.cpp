@@ -499,6 +499,11 @@ static QString _findExecutable( const QString& exeName,const QStringList& paths,
 
 QString engines::findExecutable( const QString& exeName ) const
 {
+	if( utility::platformIsWindows() && exeName == "media-downloader.exe" ){
+
+		return utility::windowsApplicationDirPath() + "/media-downloader.exe" ;
+	}
+
 	QFileInfo info( exeName ) ;
 
 	if( info.isAbsolute() ){

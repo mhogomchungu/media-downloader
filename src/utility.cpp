@@ -297,13 +297,15 @@ static void _kill_children_recursively( const QString& id )
 
 	auto filter = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 
-	for( const auto& it : QDir( path ).entryList( filter ) ){
+	const auto ff = QDir( path ).entryList( filter ) ;
+
+	for( const auto& it : ff ){
 
 		QFile file( path + it + "/children" ) ;
 
 		if( file.open( QIODevice::ReadOnly ) ){
 
-			auto pids = util::split( file.readAll(),' ',true ) ;
+			const auto pids = util::split( file.readAll(),' ',true ) ;
 
 			for( const auto& it : pids ){
 
@@ -1040,7 +1042,9 @@ utility::downLoadOptions utility::setDownloadOptions( const engines::engine& eng
 
 	if( !z.isEmpty() ){
 
-		for( const auto& it : util::split( z,',',true ) ){
+		const auto mm = util::split( z,',',true ) ;
+
+		for( const auto& it : mm  ){
 
 			m += " --download-sections \"" + it + "\"" ;
 		}
