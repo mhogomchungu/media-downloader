@@ -596,7 +596,7 @@ public:
 
 					auto mm = m.mid( q + 1 ) ;
 
-					d.svtData().size( mm.toLongLong() ) ;
+					d.svtData().addToSize( mm.toLongLong() ) ;
 				}
 			}
 
@@ -661,22 +661,33 @@ public:
 			auto x = dd[ 0 ].toDouble() ;
 			auto y = dd[ 1 ].toDouble() ;
 
-			auto z = x * 100 / y ;
+			auto z = x / y ;
 
-			auto zz = QString::number( z,'f',2 ) ;
+			auto zz = QString::number( z * 100,'f',2 ) ;
 
 			auto ss = "[" + dd[ 0 ] + "/" + dd[ 1 ] + "] (" + zz + "%), " + a ;
 
 			m_tmp = ss.toUtf8() ;
+
+			if( !d.mainLogger() ){
+
+				auto ss = d.svtData().size() ;
+
+				auto ll = l.formattedDataSize( ss ).toUtf8() ;
+
+				auto mm = static_cast< qint64 >( ss / z ) ;
+
+				auto lll = l.formattedDataSize( mm ).toUtf8() ;
+
+				m_tmp = ll + "/~" + lll + ", " + m_tmp ;
+			}
+
+			if( x == y ){
+
+				d.svtData().reset() ;
+			}
 		}else{
 			m_tmp = "[00/00] (NA), " + a ;
-		}
-
-		if( !d.mainLogger() ){
-
-			auto ll = l.formattedDataSize( d.svtData().size() ).toUtf8() ;
-
-			m_tmp = ll + ", " + m_tmp ;
 		}
 
 		return { m_tmp,m_engine,_meetCondition } ;

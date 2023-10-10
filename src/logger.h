@@ -423,9 +423,13 @@ public:
 			{
 				return m_size ;
 			}
-			void size( qint64 s )
+			void addToSize( qint64 s )
 			{
 				m_size += s ;
+			}
+			void reset()
+			{
+				m_size = 0 ;
 			}
 			const QByteArray& fileName() const
 			{
