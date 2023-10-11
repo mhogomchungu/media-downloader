@@ -52,6 +52,8 @@ public:
 	void quitApp() ;
 	void showTrayIcon( bool ) ;
 	~MainWindow() override ;
+private slots:
+	void processEventSlot( const QByteArray& ) ;
 private:	
 	static void signalHandler( int ) ;
 	static void setUpSignal( int ) ;

@@ -160,7 +160,12 @@ void MainWindow::Show()
 	this->show() ;
 }
 
-void MainWindow::processEvent( const QByteArray& e )
+void MainWindow::processEvent( const QByteArray& m )
+{
+	QMetaObject::invokeMethod( this,"processEventSlot",Qt::QueuedConnection,Q_ARG( QByteArray,m ) ) ;
+}
+
+void MainWindow::processEventSlot( const QByteArray& e )
 {
 	m_tabManager.gotEvent( e ) ;
 }
@@ -178,7 +183,7 @@ MainWindow::~MainWindow()
 {
 }
 
-MainWindow * MainWindow::m_mainWindow  ;
+MainWindow * MainWindow::m_mainWindow ;
 
 void MainWindow::setUpSignals( MainWindow * m )
 {
