@@ -164,7 +164,8 @@ void tabManager::clipboardEvent( QClipboard::Mode mode )
 {
 	if( mode == QClipboard::Mode::Clipboard ){
 
-		this->mainThreadClipboardHandler() ;
+		//this->mainThreadClipboardHandler() ;
+		this->bgThreadClipboardHandler() ;
 	}
 }
 
@@ -172,12 +173,11 @@ void tabManager::mainThreadClipboardHandler()
 {
 	auto e = m_clipboard->mimeData() ;
 
-	if( e->hasText() ){
+	if( e && e->hasText() ){
 
 		auto m = e->text() ;
 
 		if( m.startsWith( "http" ) ){
-
 
 			m_basicdownloader.clipboardData( m ) ;
 			m_batchdownloader.clipboardData( m ) ;
@@ -192,13 +192,15 @@ void tabManager::bgThreadClipboardHandler()
 
 		auto e = m_clipboard->mimeData() ;
 
-		if( e->hasText() ){
+		if( e && e->hasText() ){
 
 			auto m = e->text() ;
 
 			if( m.startsWith( "http" ) ){
 
 				return m ;
+			}else{
+				return QString() ;
 			}
 		}
 
@@ -216,6 +218,9 @@ void tabManager::bgThreadClipboardHandler()
 				m_batchdownloader.clipboardData( e ) ;
 				m_playlistdownloader.clipboardData( e ) ;
 			}
+		}else{
+			auto a = QObject::tr( "Warning: Skipping Clipboard Content" ) ;
+			m_ctx.logger().add( a,utility::concurrentID() ) ;
 		}
 	} ) ;
 }
