@@ -164,8 +164,12 @@ void tabManager::clipboardEvent( QClipboard::Mode mode )
 {
 	if( mode == QClipboard::Mode::Clipboard ){
 
-		//this->mainThreadClipboardHandler() ;
-		this->bgThreadClipboardHandler() ;
+		if( utility::platformIsWindows() ){
+
+			this->bgThreadClipboardHandler() ;
+		}else{
+			this->mainThreadClipboardHandler() ;
+		}
 	}
 }
 
@@ -190,21 +194,7 @@ void tabManager::bgThreadClipboardHandler()
 {
 	utils::qthread::run( [ this ](){
 
-		auto e = m_clipboard->mimeData() ;
-
-		if( e && e->hasText() ){
-
-			auto m = e->text() ;
-
-			if( m.startsWith( "http" ) ){
-
-				return m ;
-			}else{
-				return QString() ;
-			}
-		}
-
-		return QString() ;
+		return utility::windowsGetClipBoardText( m_ctx ) ;
 
 	},[ then = QDateTime::currentMSecsSinceEpoch(),this ]( const QString& e ){
 
@@ -212,7 +202,7 @@ void tabManager::bgThreadClipboardHandler()
 
 		if( now - then <= 10000 ){
 
-			if( !e.isEmpty() ){
+			if( e.startsWith( "http" ) ){
 
 				m_basicdownloader.clipboardData( e ) ;
 				m_batchdownloader.clipboardData( e ) ;

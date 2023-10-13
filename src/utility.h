@@ -386,6 +386,7 @@ namespace utility
 	bool platformIsLikeWindows() ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
+	QString windowsGetClipBoardText( const Context& ctx ) ;
 	QByteArray barLine() ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;

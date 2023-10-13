@@ -117,6 +117,8 @@ bool utility::platformIsWindows()
 #include <windows.h>
 #include <iphlpapi.h>
 #include <libloaderapi.h>
+#include <winuser.h>
+#include <winbase.h>
 
 #include <array>
 #include <cstring>
@@ -229,7 +231,41 @@ QString utility::windowsGateWayAddress()
 	return adaptorInfo().address() ;
 }
 
+QString utility::windowsGetClipBoardText( const Context& ctx )
+{
+	QString s ;
+
+	if( IsClipboardFormatAvailable( CF_TEXT ) ){
+
+		if( OpenClipboard( HWND( ctx.mainWidget().winId() ) ) ){
+
+			auto hglb = GetClipboardData( CF_TEXT ) ;
+
+			if( hglb ){
+
+				auto lptstr = static_cast< LPTSTR >( GlobalLock( hglb ) ) ;
+
+				if( lptstr ){
+
+					s = lptstr ;
+
+					GlobalUnlock( hglb ) ;
+				}
+			}
+
+			CloseClipboard() ;
+		}
+	}
+
+	return s ;
+}
+
 #else
+
+QString utility::windowsGetClipBoardText( const Context& )
+{
+	return {} ;
+}
 
 QString utility::windowsApplicationDirPath()
 {
