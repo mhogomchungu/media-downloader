@@ -834,7 +834,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Download Failed, Engine failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation>Download non riuscito, impossibile avviare l&apos;engine</translation>
     </message>
 </context>
 <context>
