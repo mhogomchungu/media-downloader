@@ -813,10 +813,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>Percorso dati app: %1</translation>
     </message>
     <message>
-        <source>3rd Party Path: %1</source>
-        <translation>Percorso terze parti: %1</translation>
-    </message>
-    <message>
         <source>Failed To Open Path For Writing: %1</source>
         <translation>Impossibile aprire il percorso in scrittura: %1</translation>
     </message>
@@ -835,6 +831,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Unsetting Proxy Server Address</source>
         <translation>Indirizzo proxy non impostato</translation>
+    </message>
+    <message>
+        <source>Download Failed, Engine failed to start</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

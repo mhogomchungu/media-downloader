@@ -1136,7 +1136,9 @@ settings::proxySettings::type settings::proxySettings::types() const
 
 		return settings::proxySettings::Type::manual ;
 	}else{
-		return settings::proxySettings::Type::env ;
+		m_settings.setValue( "ProxySettingsType","None" ) ;
+
+		return settings::proxySettings::Type::none ;
 	}
 }
 

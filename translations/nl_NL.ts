@@ -809,10 +809,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>3rd Party Path: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Failed To Open Path For Writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -830,6 +826,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Unsetting Proxy Server Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Failed, Engine failed to start</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -76,6 +76,8 @@ public:
 	void setProxy( const settings::proxySettings&,const settings::proxySettings::type& ) ;
 private:
 	void clipboardEvent( QClipboard::Mode ) ;
+	void mainThreadClipboardHandler() ;
+	void bgThreadClipboardHandler() ;
 	QClipboard * m_clipboard ;
 	bool m_firstTime = true ;
 	int m_currentTab ;

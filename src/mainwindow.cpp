@@ -162,7 +162,10 @@ void MainWindow::Show()
 
 void MainWindow::processEvent( const QByteArray& m )
 {
-	QMetaObject::invokeMethod( this,"processEventSlot",Qt::QueuedConnection,Q_ARG( QByteArray,m ) ) ;
+	auto a = "processEventSlot" ;
+	auto b = Qt::QueuedConnection ;
+
+	QMetaObject::invokeMethod( this,a,b,Q_ARG( QByteArray,m ) ) ;
 }
 
 void MainWindow::processEventSlot( const QByteArray& e )

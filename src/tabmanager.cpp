@@ -21,6 +21,8 @@
 #include "proxy.h"
 
 #include <QMimeData>
+#include <QClipboard>
+#include <QDateTime>
 
 tabManager::tabManager( settings& s,
 			translator& t,
@@ -162,20 +164,60 @@ void tabManager::clipboardEvent( QClipboard::Mode mode )
 {
 	if( mode == QClipboard::Mode::Clipboard ){
 
+		this->mainThreadClipboardHandler() ;
+	}
+}
+
+void tabManager::mainThreadClipboardHandler()
+{
+	auto e = m_clipboard->mimeData() ;
+
+	if( e->hasText() ){
+
+		auto m = e->text() ;
+
+		if( m.startsWith( "http" ) ){
+
+
+			m_basicdownloader.clipboardData( m ) ;
+			m_batchdownloader.clipboardData( m ) ;
+			m_playlistdownloader.clipboardData( m ) ;
+		}
+	}
+}
+
+void tabManager::bgThreadClipboardHandler()
+{
+	utils::qthread::run( [ this ](){
+
 		auto e = m_clipboard->mimeData() ;
 
 		if( e->hasText() ){
 
-			auto txt = e->text() ;
+			auto m = e->text() ;
 
-			if( txt.startsWith( "http" ) ){
+			if( m.startsWith( "http" ) ){
 
-				m_basicdownloader.clipboardData( txt ) ;
-				m_batchdownloader.clipboardData( txt ) ;
-				m_playlistdownloader.clipboardData( txt ) ;
+				return m ;
 			}
 		}
-	}
+
+		return QString() ;
+
+	},[ then = QDateTime::currentMSecsSinceEpoch(),this ]( const QString& e ){
+
+		auto now = QDateTime::currentMSecsSinceEpoch() ;
+
+		if( now - then <= 10000 ){
+
+			if( !e.isEmpty() ){
+
+				m_basicdownloader.clipboardData( e ) ;
+				m_batchdownloader.clipboardData( e ) ;
+				m_playlistdownloader.clipboardData( e ) ;
+			}
+		}
+	} ) ;
 }
 
 tabManager& tabManager::gotEvent( const QByteArray& s )
