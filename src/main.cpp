@@ -68,9 +68,12 @@ int main( int argc,char * argv[] )
 
 	settings settings( cargs ) ;
 
-	if( utility::startedUpdatedVersion( settings,cargs ) ){
+	if( utility::platformIsWindows() ){
 
-		return 0 ;
+		if( utility::startedUpdatedVersion( settings,cargs ) ){
+
+			return 0 ;
+		}
 	}
 
 	QApplication mqApp( argc,argv ) ;

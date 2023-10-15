@@ -1150,17 +1150,40 @@ bool utility::onlyWantedVersionInfo( const utility::cliArguments& args )
 	}
 }
 
+static util::version _get_process_version( const QString& e,const QProcessEnvironment& env )
+{
+	QProcess exe ;
+
+	exe.setProgram( e ) ;
+	exe.setArguments( { "--version" } ) ;
+	exe.setProcessEnvironment( env ) ;
+
+	exe.start() ;
+
+	exe.waitForFinished() ;
+
+	return exe.readAllStandardOutput().trimmed() ;
+}
+
+static bool _start_updated( QProcess& exe )
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
+	return exe.startDetached() ;
+#else
+	exe.start() ;
+	exe.waitForFinished( -1 ) ;
+	return true ;
+#endif
+}
+
 bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& cargs )
 {
-	if( utility::platformIsNOTWindows() ){
+	const auto cpath = s.configPaths() ;
 
-		return false ;
-	}
+	auto ew = cpath.endsWith( "/" ) ;
 
-	auto cpath = s.configPaths() ;
-
-	auto m = cpath + "/update_new" ;
-	auto mm = cpath + "/update" ;
+	const auto m  = ew ? cpath + "update_new" : cpath + "/update_new" ;
+	const auto mm = ew ? cpath + "update" : cpath + "/update" ;
 
 	if( QFile::exists( m ) ){
 
@@ -1174,32 +1197,34 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 	if( QFile::exists( exePath ) && !cargs.runningUpdated() ){
 
-		auto exeDirPath = utility::windowsApplicationDirPath() ;
-
-		auto args = cargs.arguments( cpath,exeDirPath,s.portableVersion() ) ;
-
 		auto env = QProcessEnvironment::systemEnvironment() ;
 
-		env.insert( "PATH",exeDirPath + ";" + env.value( "PATH" ) ) ;
+		auto exeDirPath = utility::windowsApplicationDirPath() ;
 
+		env.insert( "PATH",exeDirPath + ";" + env.value( "PATH" ) ) ;
 		env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
 
-		QProcess exe ;
+		util::version uv = _get_process_version( exePath,env ) ;
 
-		exe.setProgram( exePath ) ;
-		exe.setArguments( args ) ;
-		exe.setProcessEnvironment( env ) ;
+		util::version cv = utility::runningVersionOfMediaDownloader() ;
 
-#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
-		return exe.startDetached() ;
-#else
-		exe.start() ;
-		exe.waitForFinished( -1 ) ;
-		return true ;
-#endif
-	}else{		
-		return false ;
+		if( cv < uv ){
+
+			auto args = cargs.arguments( cpath,exeDirPath,s.portableVersion() ) ;
+
+			QProcess exe ;
+
+			exe.setProgram( exePath ) ;
+			exe.setArguments( args ) ;
+			exe.setProcessEnvironment( env ) ;
+
+			return _start_updated( exe ) ;
+		}else{
+			//QDir( mm ).removeRecursively() ;
+		}
 	}
+
+	return false ;
 }
 
 bool utility::platformIsLikeWindows()
@@ -1207,37 +1232,69 @@ bool utility::platformIsLikeWindows()
 	return utility::platformIsWindows() || utility::platformisOS2() ;
 }
 
-static QString _instanceVersion ;
-static QString _aboutInstanceVersion ;
+class runTimeVersionInfo
+{
+public:
+	void setInstanceVersion( const QString& e )
+	{
+		m_instanceVersion = e ;
+	}
+	void setAboutInstanceVersion( const QString& e )
+	{
+		m_aboutInstanceVersion = e ;
+	}
+	const QString& instanceVersion() const
+	{
+		return m_instanceVersion ;
+	}
+	const QString& aboutInstanceVersion() const
+	{
+		return m_aboutInstanceVersion ;
+	}
+private:
+	QString m_instanceVersion ;
+	QString m_aboutInstanceVersion ;
+} ;
+
+static runTimeVersionInfo& _runTimeVersions()
+{
+	static runTimeVersionInfo m ;
+
+	return m ;
+}
 
 QString utility::aboutVersionInfo()
 {
-	if( _aboutInstanceVersion.isEmpty() ){
+	const auto& e = _runTimeVersions().aboutInstanceVersion() ;
+
+	if( e.isEmpty() ){
 
 		return utility::runningVersionOfMediaDownloader() ;
 	}else{
-		return _aboutInstanceVersion ;
+		return e ;
 	}
 }
 
 QString utility::runningVersionOfMediaDownloader()
 {
-	if( _instanceVersion.isEmpty() ){
+	const auto& e = _runTimeVersions().instanceVersion() ;
+
+	if( e.isEmpty() ){
 
 		return VERSION ;
 	}else{
-		return _instanceVersion ;
+		return e ;
 	}
 }
 
 void utility::setRunningVersionOfMediaDownloader( const QString& e )
 {
-	_instanceVersion = e ;
+	_runTimeVersions().setInstanceVersion( e ) ;
 }
 
 void utility::setHelpVersionOfMediaDownloader( const QString& e )
 {
-	_aboutInstanceVersion = e ;
+	_runTimeVersions().setAboutInstanceVersion( e ) ;
 }
 
 static QStringList _parseOptions( const QString& e,const engines::engine& engine )
