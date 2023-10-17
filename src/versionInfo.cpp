@@ -177,7 +177,7 @@ void versionInfo::checkForEnginesUpdates( versionInfo::extensionVersionInfo vInf
 		}
 	}
 
-	m_network.get( url,[ this,vInfo = vInfo.move() ]( const utils::network::reply& reply ){
+	m_network.get( url,[ this,vInfo = vInfo.move() ]( const utils::network::reply& reply )mutable{
 
 		this->checkForEnginesUpdates( vInfo.move(),reply ) ;
 	} ) ;

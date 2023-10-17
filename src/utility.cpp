@@ -1178,7 +1178,7 @@ static bool _start_updated( QProcess& exe )
 
 bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& cargs )
 {
-	const auto cpath = s.configPaths() ;
+	const auto& cpath = s.configPaths() ;
 
 	auto ew = cpath.endsWith( "/" ) ;
 

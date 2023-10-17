@@ -48,7 +48,7 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	const auto& basePath = paths.binPath() ;
 
-	auto m = QDir( basePath ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+	const auto m = QDir( basePath ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
 
 	auto separator = [ & ](){
 
@@ -68,16 +68,16 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 		s += separator + mm ;
 
-		auto m = QDir( mm ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+		const auto m = QDir( mm ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
 
-		for( const auto& it : util::asConst( m ) ){
+		for( const auto& it : m ){
 
 			s += separator + mm + "/" + it ;
 			s += separator + mm + "/" + it + "/bin" ;
 		}
 	}
 
-	for( const auto& it : util::asConst( m ) ){
+	for( const auto& it : m ){
 
 		s += separator + basePath + "/" + it ;
 		s += separator + basePath + "/" + it + "/bin" ;

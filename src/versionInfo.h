@@ -207,7 +207,7 @@ public:
 		{
 			return m_iter.hasNext() ;
 		}
-		extensionVersionInfo next() const
+		extensionVersionInfo next()
 		{
 			auto m = this->move() ;
 
@@ -215,9 +215,9 @@ public:
 
 			return m ;
 		}
-		extensionVersionInfo move() const
+		extensionVersionInfo move()
 		{
-			return std::move( const_cast< versionInfo::extensionVersionInfo& >( *this ) ) ;
+			return std::move( *this ) ;
 		}
 		template< typename Function >
 		void report( Function function ) const

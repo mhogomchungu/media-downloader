@@ -1608,8 +1608,13 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 
 	if( enableAll ){
 
-		m_ctx.TabManager().enableAll() ;
-		m_ui.pbBDCancel->setEnabled( false ) ;
+		if( m_table.noneAreRunning() ){
+
+			m_ctx.TabManager().enableAll() ;
+			m_ui.pbBDCancel->setEnabled( false ) ;
+		}else{
+			m_ui.pbBDCancel->setEnabled( true ) ;
+		}
 	}
 
 	return row ;

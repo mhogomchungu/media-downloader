@@ -777,9 +777,9 @@ public:
 		void setBackend( const engines& engines,Args&& ... args )
 		{
 			m_engine = std::make_unique< backend >( engines,
-								   *this,
-								   m_jsonObject,
-								   std::forward< Args >( args ) ... ) ;
+								*this,
+								m_jsonObject,
+								std::forward< Args >( args ) ... ) ;
 
 			this->updateOptions() ;
 		}
