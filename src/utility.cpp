@@ -1150,11 +1150,34 @@ bool utility::onlyWantedVersionInfo( const utility::cliArguments& args )
 	}
 }
 
-static util::version _get_process_version( const QString& e,const QProcessEnvironment& env )
+static util::version _get_process_version( const QString& path,
+					   const QString& cmd,
+					   const QProcessEnvironment& env )
 {
+	auto e = path + "/version_info.txt" ;
+
+	QFile file( e ) ;
+
+	if( file.exists() ){
+
+		if( file.open( QIODevice::ReadOnly ) ){
+
+			util::version m = file.readAll() ;
+
+			if( m.valid() ){
+
+				return m ;
+			}
+
+			file.close() ;
+		}
+
+		file.remove() ;
+	}
+
 	QProcess exe ;
 
-	exe.setProgram( e ) ;
+	exe.setProgram( cmd ) ;
 	exe.setArguments( { "--version" } ) ;
 	exe.setProcessEnvironment( env ) ;
 
@@ -1162,7 +1185,19 @@ static util::version _get_process_version( const QString& e,const QProcessEnviro
 
 	exe.waitForFinished() ;
 
-	return exe.readAllStandardOutput().trimmed() ;
+	util::version m = exe.readAllStandardOutput().trimmed() ;
+
+	if( m.valid() ){
+
+		QFile file( e ) ;
+
+		if( file.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+			file.write( m.toString().toUtf8() ) ;
+		}
+	}
+
+	return m ;
 }
 
 static bool _start_updated( QProcess& exe )
@@ -1204,23 +1239,26 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 		env.insert( "PATH",exeDirPath + ";" + env.value( "PATH" ) ) ;
 		env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
 
-		util::version uv = _get_process_version( exePath,env ) ;
+		util::version uv = _get_process_version( mm,exePath,env ) ;
 
 		util::version cv = utility::runningVersionOfMediaDownloader() ;
 
-		if( cv < uv ){
+		if( uv.valid() ){
 
-			auto args = cargs.arguments( cpath,exeDirPath,s.portableVersion() ) ;
+			if( cv < uv ){
 
-			QProcess exe ;
+				auto args = cargs.arguments( cpath,exeDirPath,s.portableVersion() ) ;
 
-			exe.setProgram( exePath ) ;
-			exe.setArguments( args ) ;
-			exe.setProcessEnvironment( env ) ;
+				QProcess exe ;
 
-			return _start_updated( exe ) ;
-		}else{
-			//QDir( mm ).removeRecursively() ;
+				exe.setProgram( exePath ) ;
+				exe.setArguments( args ) ;
+				exe.setProcessEnvironment( env ) ;
+
+				return _start_updated( exe ) ;
+			}else{
+				QDir( mm ).removeRecursively() ;
+			}
 		}
 	}
 
