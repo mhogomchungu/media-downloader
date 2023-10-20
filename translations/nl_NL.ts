@@ -832,6 +832,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Download Failed, Engine failed to start</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Warning: Skipping Clipboard Content</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

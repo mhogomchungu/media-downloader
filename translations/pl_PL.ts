@@ -505,45 +505,45 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/batchdownloader.cpp" line="548"/>
         <location filename="../src/playlistdownloader.cpp" line="390"/>
-        <location filename="../src/utility.cpp" line="413"/>
+        <location filename="../src/utility.cpp" line="449"/>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="416"/>
+        <location filename="../src/utility.cpp" line="452"/>
         <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="452"/>
-        <location filename="../src/utility.h" line="577"/>
-        <location filename="../src/utility.h" line="650"/>
+        <location filename="../src/utility.cpp" line="488"/>
+        <location filename="../src/utility.h" line="578"/>
+        <location filename="../src/utility.h" line="651"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="463"/>
+        <location filename="../src/utility.cpp" line="499"/>
         <source>Open Download Folder</source>
         <translation>Otwórz katalog z pobranymi plikami</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="765"/>
+        <location filename="../src/utility.cpp" line="801"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>Plik z rozszerzeniem &quot;.txt&quot; będzie zawierał jedynie adresy</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1539"/>
+        <location filename="../src/utility.cpp" line="1670"/>
         <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1549"/>
+        <location filename="../src/utility.cpp" line="1680"/>
         <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="181"/>
-        <location filename="../src/utility.cpp" line="764"/>
+        <location filename="../src/utility.cpp" line="800"/>
         <source>Save List To File</source>
         <translation>Zapisz listę do pliku</translation>
     </message>
@@ -722,7 +722,7 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/engines.cpp" line="670"/>
         <location filename="../src/engines.cpp" line="961"/>
-        <location filename="../src/utility.cpp" line="637"/>
+        <location filename="../src/utility.cpp" line="673"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Nie udało się zlokalizować pliku wykonywalnego &quot;%1&quot;</translation>
     </message>
@@ -923,19 +923,19 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Post processing</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="610"/>
-        <location filename="../src/utility.h" line="618"/>
-        <location filename="../src/utility.h" line="623"/>
+        <location filename="../src/utility.h" line="611"/>
+        <location filename="../src/utility.h" line="619"/>
+        <location filename="../src/utility.h" line="624"/>
         <source>Download</source>
         <translation>Pobierz</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="615"/>
+        <location filename="../src/utility.h" line="616"/>
         <source>Force Download</source>
         <translation>Wymuś pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="637"/>
+        <location filename="../src/utility.h" line="638"/>
         <source>Show Log Window</source>
         <translation>Pokaż logi</translation>
     </message>
@@ -1110,6 +1110,11 @@ Exampe 2: ${gateway}:8080</source>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/tabmanager.cpp" line="212"/>
+        <source>Warning: Skipping Clipboard Content</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -1187,8 +1192,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1681"/>
-        <location filename="../src/batchdownloader.cpp" line="2157"/>
+        <location filename="../src/batchdownloader.cpp" line="1686"/>
+        <location filename="../src/batchdownloader.cpp" line="2162"/>
         <source>Downloading subtitles</source>
         <translation>Pobieranie napisów</translation>
     </message>

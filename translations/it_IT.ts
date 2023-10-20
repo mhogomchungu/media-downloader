@@ -836,6 +836,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Download Failed, Engine failed to start</source>
         <translation>Download non riuscito, impossibile avviare l&apos;engine</translation>
     </message>
+    <message>
+        <source>Warning: Skipping Clipboard Content</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

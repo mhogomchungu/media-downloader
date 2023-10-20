@@ -209,3 +209,10 @@ Version 1.2.0(April 1st, 2021)
       - Add a "proxy" sub tab in a configure tab to set proxy settings.
       - Default to h264 video codec instead of yt-dlp's vp9 when downloading youtute videos.
       - Update Italian translations.
+
+  Version 4.0.0(Unreleased)
+      [Windows]
+      - Update bundled version of ffmpeg to version 6.0.
+      - Fix a problem that caused the UI to hang when reading clipboard data.
+      [All]
+      - Respect an option to save not downloaded entries when the apps quits unexpectedly.
