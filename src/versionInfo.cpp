@@ -61,25 +61,33 @@ void versionInfo::done( versionInfo::extensionVersionInfo vInfo ) const
 
 	QStringList mm ;
 
-	QString s = "%1: %2\n%3: %4\n%5: %6\n" ;
-
 	auto nt = QObject::tr( "Engine Name" ) ;
 	auto it = QObject::tr( "Installed Version" ) ;
 	auto lt = QObject::tr( "Latest Version" ) ;
 
 	vInfo.report( [ & ]( const QString& name,const QString& iv,const QString& lv ){
 
-		mm.append( name ) ;
-		m.append( s.arg( nt,name,it,iv,lt,lv ) ) ;
+		m.append( name ) ;
+
+		mm.append( nt + ": " + name ) ;
+		mm.append( it + ": " + iv ) ;
+		mm.append( lt + ": " + lv ) ;
 	} ) ;
 
 	if( m.size() ){
 
-		m_ctx.mainWindow().setTitle( QObject::tr( "There Is An Update For " ) + mm.join( ", " ) ) ;
+		m_ctx.mainWindow().setTitle( QObject::tr( "There Is An Update For " ) + m.join( ", " ) ) ;
 
-		auto s = QObject::tr( "Update Found" ) ;
+		auto id = utility::sequentialID() ;
 
-		m_ctx.logger().add( s + "\n" + m.join( "\n" ),utility::sequentialID() ) ;
+		auto& logger = m_ctx.logger() ;
+
+		logger.add( QObject::tr( "Update Found" ),id ) ;
+
+		for( const auto& it : util::asConst( mm ) ){
+
+			logger.add( it,id ) ;
+		}
 	}
 }
 
