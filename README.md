@@ -69,7 +69,7 @@ If unsuccessful, follow instructions below for debian.
 
 #### Binary package for Debian
 To install a binary package for Debian, download a binary package directly and then install it by doing the following:-
-from the folder where you dowload the package.
+from the folder where you download the package.
 ```
 1. Make sure you have Qt libraries installed.
 2. Open the terminal.
