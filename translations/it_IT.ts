@@ -838,7 +838,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Warning: Skipping Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Avviso: salto contenuto appunti</translation>
     </message>
 </context>
 <context>
