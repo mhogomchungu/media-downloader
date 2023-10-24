@@ -227,7 +227,13 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 
 		f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 
-		this->removeNotNeededFiles( md.move() ) ;
+		//this->removeNotNeededFiles( md.move() ) ;
+
+		md.status.done() ;
+
+		auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
+
+		this->post( m_appName,m,md.id ) ;
 	}else{
 		md.status.done() ;
 

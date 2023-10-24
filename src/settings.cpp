@@ -1048,7 +1048,12 @@ settings::options::options( const utility::cliArguments& args )
 
 			m_portableVersion = args.portable() ;
 
-			m_exe3PartyBinPath = args.originalPath() + "/3rdParty" ;
+			m_exe3PartyBinPath = m_exePath + "/3rdParty" ;
+
+			if( !QFile::exists( m_exe3PartyBinPath ) ){
+
+				m_exe3PartyBinPath = args.originalPath() + "/3rdParty" ;
+			}
 
 			const auto& m = args.originalVersion() ;
 			const auto& mm = utility::runningVersionOfMediaDownloader() ;

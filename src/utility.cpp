@@ -1236,8 +1236,11 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 		auto exeDirPath = utility::windowsApplicationDirPath() ;
 
-		env.insert( "PATH",exeDirPath + ";" + env.value( "PATH" ) ) ;
-		env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
+		if( !QFile::exists( mm + "/platforms" ) ){
+
+			env.insert( "PATH",exeDirPath + ";" + env.value( "PATH" ) ) ;
+			env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
+		}
 
 		util::version uv = _get_process_version( mm,exePath,env ) ;
 
@@ -1257,7 +1260,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 				return _start_updated( exe ) ;
 			}else{
-				QDir( mm ).removeRecursively() ;
+				//QDir( mm ).removeRecursively() ;
 			}
 		}
 	}
