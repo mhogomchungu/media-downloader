@@ -144,6 +144,8 @@ public:
 	bool checkForEnginesUpdates() ;
 	bool autoHideDownloadWhenCompleted() ;
 
+	qint64 timeOutWaitingForClipboardData() ;
+
 	int textAlignment() ;
 	int networkTimeOut() ;
 	int stringTruncationSize() ;

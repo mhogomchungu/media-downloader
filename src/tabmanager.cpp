@@ -190,24 +190,41 @@ void tabManager::mainThreadClipboardHandler()
 	}
 }
 
+class timeOutMonitor
+{
+public:
+	timeOutMonitor( const Context& ctx ) :
+		m_timeOut( ctx.Settings().timeOutWaitingForClipboardData() ),
+		m_then( m_timeOut > 0 ? QDateTime::currentMSecsSinceEpoch() : 0 )
+	{
+	}
+	bool notTimedOut() const
+	{
+		if( m_timeOut > 0 ){
+
+			auto now = QDateTime::currentMSecsSinceEpoch() ;
+
+			return ( now - m_then ) <= m_timeOut ;
+		}else{
+			return true ;
+		}
+	}
+private:
+	qint64 m_timeOut ;
+	qint64 m_then ;
+} ;
+
 void tabManager::bgThreadClipboardHandler()
 {
 	utils::qthread::run( [ this ](){
 
 		return utility::windowsGetClipBoardText( m_ctx ) ;
 
-	},[ then = QDateTime::currentMSecsSinceEpoch(),this ]( const QString& e ){
+	},[ timer = timeOutMonitor( m_ctx ),this ]( const QString& e ){
 
-		auto now = QDateTime::currentMSecsSinceEpoch() ;
+		if( timer.notTimedOut() && e.startsWith( "http" ) ){
 
-		if( now - then <= 10000 ){
-
-			if( e.startsWith( "http" ) ){
-
-				m_basicdownloader.clipboardData( e ) ;
-				m_batchdownloader.clipboardData( e ) ;
-				m_playlistdownloader.clipboardData( e ) ;
-			}
+			m_batchdownloader.clipboardData( e ) ;
 		}else{
 			auto a = QObject::tr( "Warning: Skipping Clipboard Content" ) ;
 			m_ctx.logger().add( a,utility::concurrentID() ) ;

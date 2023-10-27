@@ -264,6 +264,16 @@ bool settings::autoHideDownloadWhenCompleted()
 	return m_settings.value( "AutoHideDownloadWhenCompleted" ).toBool() ;
 }
 
+qint64 settings::timeOutWaitingForClipboardData()
+{
+	if( !m_settings.contains( "TimeOutWaitingForClipboardData" ) ){
+
+		m_settings.setValue( "TimeOutWaitingForClipboardData",30000 ) ;
+	}
+
+	return m_settings.value( "TimeOutWaitingForClipboardData" ).toInt() ;
+}
+
 void settings::setAutoHideDownloadWhenCompleted( bool e )
 {
 	m_settings.setValue( "AutoHideDownloadWhenCompleted",e ) ;

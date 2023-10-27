@@ -926,7 +926,7 @@ static void _getComments( const QJsonArray& arr,Function function )
 			}
 		}
 
-		comment += "\n" + QObject::tr( "Text" ) + ": " + txt ;
+		comment += "\n" + txt ;
 
 		function( comment,std::move( obj ) ) ;
 	}
