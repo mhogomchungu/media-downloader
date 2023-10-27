@@ -110,7 +110,7 @@ else()
 endif()
 
 if(WIN32)
-	target_link_libraries(media-downloader Iphlpapi.lib Qt5::Widgets Qt5::Core Qt5::Network)
+	target_link_libraries(media-downloader Dwmapi.lib Iphlpapi.lib Qt5::Widgets Qt5::Core Qt5::Network)
 else()
 	target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
 endif()

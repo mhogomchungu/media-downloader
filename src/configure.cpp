@@ -55,7 +55,16 @@ configure::configure( const Context& ctx ) :
 
 	themes ths( themesFolderPath ) ;
 
-	ths.setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
+	auto themeName = m_settings.themeName() ;
+	ths.setComboBox( *m_ui.comboBoxConfigureDarkTheme,themeName ) ;
+
+	if( themeName.contains( "dark",Qt::CaseInsensitive ) ){
+
+		if( utility::platformIsWindows() ){
+
+			utility::windowsSetDarkModeTitleBar( m_ctx ) ;
+		}
+	}
 
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
 

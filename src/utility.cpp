@@ -119,6 +119,7 @@ bool utility::platformIsWindows()
 #include <libloaderapi.h>
 #include <winuser.h>
 #include <winbase.h>
+#include <dwmapi.h>
 
 #include <array>
 #include <cstring>
@@ -260,7 +261,23 @@ QString utility::windowsGetClipBoardText( const Context& ctx )
 	return s ;
 }
 
+void utility::windowsSetDarkModeTitleBar( const Context& ctx )
+{
+	auto m = HWND( ctx.mainWidget().winId() ) ;
+
+	BOOL dark = 1 ;
+
+	if( DwmSetWindowAttribute( m,20,&dark,sizeof( BOOL ) ) ){
+
+		DwmSetWindowAttribute( m,19,&dark,sizeof( BOOL ) ) ;
+	}
+}
+
 #else
+
+void utility::windowsSetDarkModeTitleBar( const Context& )
+{
+}
 
 QString utility::windowsGetClipBoardText( const Context& )
 {
