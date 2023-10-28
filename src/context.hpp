@@ -95,6 +95,17 @@ public:
 	{
 		return m_mainWidget ;
 	}
+#ifdef Q_OS_WIN
+	HWND nativeHandleToMainWindow() const
+	{
+		return reinterpret_cast< HWND >( m_mainWidget.winId() ) ;
+	}
+#else
+	WId nativeHandleToMainWindow() const
+	{
+		return m_mainWidget.winId() ;
+	}
+#endif
 	MainWindow& mainWindow() const
 	{
 		return m_mainWindow ;

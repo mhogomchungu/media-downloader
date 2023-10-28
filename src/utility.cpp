@@ -124,6 +124,8 @@ bool utility::platformIsWindows()
 #include <array>
 #include <cstring>
 
+#include <QOperatingSystemVersion>
+
 bool utility::platformIsWindows()
 {
 	return true ;
@@ -238,7 +240,7 @@ QString utility::windowsGetClipBoardText( const Context& ctx )
 
 	if( IsClipboardFormatAvailable( CF_TEXT ) ){
 
-		if( OpenClipboard( HWND( ctx.mainWidget().winId() ) ) ){
+		if( OpenClipboard( ctx.nativeHandleToMainWindow() ) ){
 
 			auto hglb = GetClipboardData( CF_TEXT ) ;
 
@@ -263,13 +265,26 @@ QString utility::windowsGetClipBoardText( const Context& ctx )
 
 void utility::windowsSetDarkModeTitleBar( const Context& ctx )
 {
-	auto m = HWND( ctx.mainWidget().winId() ) ;
+	auto os = QOperatingSystemVersion::OSType::Windows ;
 
-	BOOL dark = 1 ;
+	auto minVersion = QOperatingSystemVersion( os,10,0,17763 ) ;
 
-	if( DwmSetWindowAttribute( m,20,&dark,sizeof( BOOL ) ) ){
+	auto currentVersion = QOperatingSystemVersion::current() ;
 
-		DwmSetWindowAttribute( m,19,&dark,sizeof( BOOL ) ) ;
+	if( currentVersion >= minVersion ){
+
+		auto m = ctx.nativeHandleToMainWindow() ;
+
+		BOOL dark = 1 ;
+
+		DWORD DWMWA_USE_IMMERSIVE_DARK_MODE = 20 ;
+
+		if( DwmSetWindowAttribute( m,DWMWA_USE_IMMERSIVE_DARK_MODE,&dark,sizeof( BOOL ) ) ){
+
+			DWMWA_USE_IMMERSIVE_DARK_MODE = 19 ;
+
+			DwmSetWindowAttribute( m,DWMWA_USE_IMMERSIVE_DARK_MODE,&dark,sizeof( BOOL ) ) ;
+		}
 	}
 }
 
