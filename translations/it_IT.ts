@@ -347,10 +347,6 @@ Esempio 2: ${gateway}:8080</translation>
         <translation>Destinazione</translation>
     </message>
     <message>
-        <source>Text</source>
-        <translation>Testo</translation>
-    </message>
-    <message>
         <source>Russian (Russia)</source>
         <translation>Russo (Russia)</translation>
     </message>

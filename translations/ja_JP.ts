@@ -468,28 +468,28 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="452"/>
+        <location filename="../src/utility.cpp" line="484"/>
         <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="801"/>
+        <location filename="../src/utility.cpp" line="833"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>拡張子が&quot;.txt&quot;のファイル名の場合、URLのみを保存します</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1670"/>
+        <location filename="../src/utility.cpp" line="1705"/>
         <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1680"/>
+        <location filename="../src/utility.cpp" line="1715"/>
         <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="181"/>
-        <location filename="../src/utility.cpp" line="800"/>
+        <location filename="../src/utility.cpp" line="832"/>
         <source>Save List To File</source>
         <translation>ファイルにリストを保存</translation>
     </message>
@@ -509,11 +509,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>返信</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="929"/>
-        <source>Text</source>
-        <translation>テキスト</translation>
-    </message>
-    <message>
         <location filename="../src/batchdownloader.cpp" line="1167"/>
         <source>Save Subtitle To File</source>
         <translation>字幕をファイルに保存</translation>
@@ -531,19 +526,19 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/batchdownloader.cpp" line="548"/>
         <location filename="../src/playlistdownloader.cpp" line="390"/>
-        <location filename="../src/utility.cpp" line="449"/>
+        <location filename="../src/utility.cpp" line="481"/>
         <source>Preset Options</source>
         <translation>プリセット設定</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="488"/>
-        <location filename="../src/utility.h" line="578"/>
-        <location filename="../src/utility.h" line="651"/>
+        <location filename="../src/utility.cpp" line="520"/>
+        <location filename="../src/utility.h" line="579"/>
+        <location filename="../src/utility.h" line="652"/>
         <source>Clear</source>
         <translation>クリア</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="499"/>
+        <location filename="../src/utility.cpp" line="531"/>
         <source>Open Download Folder</source>
         <translation>ダウンロードフォルダを開く</translation>
     </message>
@@ -720,7 +715,7 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/engines.cpp" line="670"/>
         <location filename="../src/engines.cpp" line="961"/>
-        <location filename="../src/utility.cpp" line="673"/>
+        <location filename="../src/utility.cpp" line="705"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>実行ファイル &quot;%1&quot; が見つかりません</translation>
     </message>
@@ -801,8 +796,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/versionInfo.cpp" line="224"/>
-        <location filename="../src/versionInfo.cpp" line="477"/>
+        <location filename="../src/versionInfo.cpp" line="232"/>
+        <location filename="../src/versionInfo.cpp" line="485"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>バージョン情報が見つかりません, &quot;%1&quot;がインストールされていて正常に動作することを確認してください</translation>
     </message>
@@ -813,90 +808,91 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="203"/>
-        <location filename="../src/networkAccess.cpp" line="504"/>
+        <location filename="../src/networkAccess.cpp" line="510"/>
         <source>Failed To Open Path For Writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="234"/>
-        <location filename="../src/networkAccess.cpp" line="634"/>
-        <location filename="../src/networkAccess.cpp" line="696"/>
+        <location filename="../src/networkAccess.cpp" line="240"/>
+        <location filename="../src/networkAccess.cpp" line="640"/>
+        <location filename="../src/networkAccess.cpp" line="702"/>
         <source>Failed To Extract</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="288"/>
+        <location filename="../src/networkAccess.cpp" line="294"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>ネットワークが %1 秒以内に応答しませんでした</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="381"/>
+        <location filename="../src/networkAccess.cpp" line="387"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>ダウンロードに失敗, 次のパスが作成できません: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="649"/>
+        <location filename="../src/networkAccess.cpp" line="655"/>
         <source>Start Downloading</source>
         <translation>ダウンロード開始</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="702"/>
+        <location filename="../src/networkAccess.cpp" line="708"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="704"/>
+        <location filename="../src/networkAccess.cpp" line="710"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1162"/>
-        <location filename="../src/networkAccess.cpp" line="483"/>
-        <location filename="../src/networkAccess.cpp" line="767"/>
+        <location filename="../src/networkAccess.cpp" line="489"/>
+        <location filename="../src/networkAccess.cpp" line="773"/>
         <source>Download Failed</source>
         <translation>ダウンロード失敗</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="113"/>
-        <location filename="../src/networkAccess.cpp" line="301"/>
+        <location filename="../src/networkAccess.cpp" line="307"/>
         <source>Failed to parse json file from github</source>
         <translation>GitHubのJSONファイルの解析に失敗しました</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="657"/>
-        <location filename="../src/networkAccess.cpp" line="671"/>
-        <location filename="../src/networkAccess.cpp" line="729"/>
+        <location filename="../src/networkAccess.cpp" line="663"/>
+        <location filename="../src/networkAccess.cpp" line="677"/>
+        <location filename="../src/networkAccess.cpp" line="735"/>
         <source>Downloading</source>
         <translation>ダウンロード中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="664"/>
+        <location filename="../src/networkAccess.cpp" line="670"/>
         <source>Destination</source>
         <translation>場所</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="471"/>
+        <location filename="../src/networkAccess.cpp" line="234"/>
+        <location filename="../src/networkAccess.cpp" line="477"/>
         <source>Update Complete, Restart To Use New Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="481"/>
+        <location filename="../src/networkAccess.cpp" line="487"/>
         <source>File Not Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="582"/>
+        <location filename="../src/networkAccess.cpp" line="588"/>
         <source>Download complete</source>
         <translation>ダウンロード完了</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="242"/>
-        <location filename="../src/networkAccess.cpp" line="677"/>
+        <location filename="../src/networkAccess.cpp" line="248"/>
+        <location filename="../src/networkAccess.cpp" line="683"/>
         <source>Extracting archive: </source>
         <translation>アーカイブを展開: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="588"/>
+        <location filename="../src/networkAccess.cpp" line="594"/>
         <source>Renaming file to: </source>
         <translation>ファイル名を変更: </translation>
     </message>
@@ -911,7 +907,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>ダウンロード完了</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="532"/>
+        <location filename="../src/settings.cpp" line="542"/>
         <source>Resetting download folder to default</source>
         <translation>ダウンロードフォルダをデフォルトにリセット</translation>
     </message>
@@ -921,19 +917,19 @@ Exampe 2: ${gateway}:8080</source>
         <translation>後処理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="611"/>
-        <location filename="../src/utility.h" line="619"/>
-        <location filename="../src/utility.h" line="624"/>
+        <location filename="../src/utility.h" line="612"/>
+        <location filename="../src/utility.h" line="620"/>
+        <location filename="../src/utility.h" line="625"/>
         <source>Download</source>
         <translation>ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="616"/>
+        <location filename="../src/utility.h" line="617"/>
         <source>Force Download</source>
         <translation>強制ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="638"/>
+        <location filename="../src/utility.h" line="639"/>
         <source>Show Log Window</source>
         <translation>ログウィンドウを表示</translation>
     </message>
@@ -1030,46 +1026,46 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="66"/>
+        <location filename="../src/versionInfo.cpp" line="64"/>
         <source>Engine Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="67"/>
+        <location filename="../src/versionInfo.cpp" line="65"/>
         <source>Installed Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="68"/>
+        <location filename="../src/versionInfo.cpp" line="66"/>
         <source>Latest Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="78"/>
+        <location filename="../src/versionInfo.cpp" line="79"/>
         <source>There Is An Update For </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="80"/>
+        <location filename="../src/versionInfo.cpp" line="85"/>
         <source>Update Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="289"/>
-        <location filename="../src/versionInfo.cpp" line="529"/>
+        <location filename="../src/versionInfo.cpp" line="297"/>
+        <location filename="../src/versionInfo.cpp" line="537"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="343"/>
-        <location filename="../src/versionInfo.cpp" line="414"/>
+        <location filename="../src/versionInfo.cpp" line="351"/>
+        <location filename="../src/versionInfo.cpp" line="422"/>
         <source>Checking installed version of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="345"/>
-        <location filename="../src/versionInfo.cpp" line="426"/>
-        <location filename="../src/versionInfo.cpp" line="466"/>
+        <location filename="../src/versionInfo.cpp" line="353"/>
+        <location filename="../src/versionInfo.cpp" line="434"/>
+        <location filename="../src/versionInfo.cpp" line="474"/>
         <source>Found version: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1089,27 +1085,27 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1295"/>
+        <location filename="../src/configure.cpp" line="1304"/>
         <source>Best Available Audio Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1299"/>
+        <location filename="../src/configure.cpp" line="1308"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1303"/>
+        <location filename="../src/configure.cpp" line="1312"/>
         <source>Best Available Audio Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1307"/>
+        <location filename="../src/configure.cpp" line="1316"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tabmanager.cpp" line="212"/>
+        <location filename="../src/tabmanager.cpp" line="229"/>
         <source>Warning: Skipping Clipboard Content</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1199,41 +1195,41 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="142"/>
+        <location filename="../src/configure.cpp" line="151"/>
         <source>Set As Default</source>
         <translation>デフォルトに設定</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="179"/>
-        <location filename="../src/configure.cpp" line="262"/>
+        <location filename="../src/configure.cpp" line="188"/>
+        <location filename="../src/configure.cpp" line="271"/>
         <source>Copy</source>
         <translation>コピー</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="123"/>
-        <location filename="../src/configure.cpp" line="162"/>
-        <location filename="../src/configure.cpp" line="252"/>
+        <location filename="../src/configure.cpp" line="132"/>
+        <location filename="../src/configure.cpp" line="171"/>
+        <location filename="../src/configure.cpp" line="261"/>
         <source>Remove</source>
         <translation>削除</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="305"/>
+        <location filename="../src/configure.cpp" line="314"/>
         <source>Select A Cookie File</source>
         <translation>Cookieファイルを選択</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="335"/>
+        <location filename="../src/configure.cpp" line="344"/>
         <source>Select An Engine File</source>
         <translation>エンジンファイルを選択</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="409"/>
-        <location filename="../src/configure.cpp" line="684"/>
+        <location filename="../src/configure.cpp" line="418"/>
+        <location filename="../src/configure.cpp" line="693"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="506"/>
+        <location filename="../src/configure.cpp" line="515"/>
         <source>Set Download Folder</source>
         <translation>ダウンロードフォルダをセット</translation>
     </message>

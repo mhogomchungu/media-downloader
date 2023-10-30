@@ -353,10 +353,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <source>Text</source>
-        <translation>Tekst</translation>
-    </message>
-    <message>
         <source>Russian (Russia)</source>
         <translation>Russich(Rusland)</translation>
     </message>
