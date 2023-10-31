@@ -294,7 +294,7 @@ void utility::windowsSetDarkModeTitleBar( const Context& )
 {
 }
 
-QString utility::windowsGetClipBoardText( const Context& )
+QString utility::windowsGetClipBoardText( const ContextWinId& )
 {
 	return {} ;
 }
