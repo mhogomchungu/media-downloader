@@ -216,15 +216,18 @@ private:
 
 void tabManager::bgThreadClipboardHandler()
 {
-	utils::qthread::run( [ this ](){
+	utils::qthread::run( [ m = m_ctx.nativeHandleToMainWindow() ](){
 
-		return utility::windowsGetClipBoardText( m_ctx ) ;
+		return utility::windowsGetClipBoardText( m ) ;
 
 	},[ timer = timeOutMonitor( m_ctx ),this ]( const QString& e ){
 
-		if( timer.notTimedOut() && e.startsWith( "http" ) ){
+		if( timer.notTimedOut() ){
 
-			m_batchdownloader.clipboardData( e ) ;
+			if( e.startsWith( "http" ) ){
+
+				m_batchdownloader.clipboardData( e ) ;
+			}
 		}else{
 			auto a = QObject::tr( "Warning: Skipping Clipboard Content" ) ;
 			m_ctx.logger().add( a,utility::concurrentID() ) ;

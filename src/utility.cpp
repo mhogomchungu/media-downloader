@@ -234,13 +234,13 @@ QString utility::windowsGateWayAddress()
 	return adaptorInfo().address() ;
 }
 
-QString utility::windowsGetClipBoardText( const Context& ctx )
+QString utility::windowsGetClipBoardText( const ContextWinId& wId )
 {
 	QString s ;
 
 	if( IsClipboardFormatAvailable( CF_TEXT ) ){
 
-		if( OpenClipboard( ctx.nativeHandleToMainWindow() ) ){
+		if( OpenClipboard( wId.value() ) ){
 
 			auto hglb = GetClipboardData( CF_TEXT ) ;
 
@@ -273,7 +273,7 @@ void utility::windowsSetDarkModeTitleBar( const Context& ctx )
 
 	if( currentVersion >= minVersion ){
 
-		auto m = ctx.nativeHandleToMainWindow() ;
+		auto m = ctx.nativeHandleToMainWindow().value() ;
 
 		BOOL dark = 1 ;
 

@@ -41,6 +41,27 @@ namespace Ui
 	class MainWindow ;
 }
 
+class ContextWinId
+{
+public:
+	ContextWinId( WId id ) : m_value( id )
+	{
+	}
+#ifdef Q_OS_WIN
+	HWND value() const
+	{
+		return reinterpret_cast< HWND >( m_value ) ;
+	}
+#else
+	WId value() const
+	{
+		return m_value ;
+	}
+#endif
+private:
+	WId m_value ;
+} ;
+
 class Context{
 public:
 	Context( settings& s,
@@ -95,17 +116,10 @@ public:
 	{
 		return m_mainWidget ;
 	}
-#ifdef Q_OS_WIN
-	HWND nativeHandleToMainWindow() const
-	{
-		return reinterpret_cast< HWND >( m_mainWidget.winId() ) ;
-	}
-#else
-	WId nativeHandleToMainWindow() const
+	ContextWinId nativeHandleToMainWindow() const
 	{
 		return m_mainWidget.winId() ;
 	}
-#endif
 	MainWindow& mainWindow() const
 	{
 		return m_mainWindow ;

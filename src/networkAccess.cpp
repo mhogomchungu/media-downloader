@@ -227,13 +227,7 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 
 		f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 
-		//this->removeNotNeededFiles( md.move() ) ;
-
-		md.status.done() ;
-
-		auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
-
-		this->post( m_appName,m,md.id ) ;
+		this->removeNotNeededFiles( md.move() ) ;
 	}else{
 		md.status.done() ;
 
@@ -440,6 +434,15 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 
 void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) const
 {
+#if 1
+	QDir().rmdir( md.finalPath + "/local" ) ;
+
+	md.status.done() ;
+
+	auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
+
+	this->post( m_appName,m,md.id ) ;
+#else
 	auto folderPath = md.finalPath ;
 
 	utils::qthread::run( [folderPath ](){
@@ -478,6 +481,7 @@ void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) co
 
 		this->post( m_appName,m,md.id ) ;
 	} ) ;
+#endif
 }
 
 void networkAccess::download( networkAccess::Opts opts ) const

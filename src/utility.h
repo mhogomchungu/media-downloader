@@ -48,6 +48,7 @@
 #include "networkAccess.h"
 
 class Context ;
+class ContextWinId ;
 
 class tabManager ;
 
@@ -386,7 +387,7 @@ namespace utility
 	bool platformIsLikeWindows() ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
-	QString windowsGetClipBoardText( const Context& ) ;
+	QString windowsGetClipBoardText( const ContextWinId& ) ;
 	void windowsSetDarkModeTitleBar( const Context& ) ;
 	QByteArray barLine() ;
 	bool isRelativePath( const QString& ) ;
