@@ -514,7 +514,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>将字幕保存到文件</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="173"/>
+        <location filename="../src/utility.h" line="174"/>
         <source>Engine Name:</source>
         <translation>引擎名称:</translation>
     </message>
@@ -532,8 +532,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="520"/>
-        <location filename="../src/utility.h" line="579"/>
-        <location filename="../src/utility.h" line="652"/>
+        <location filename="../src/utility.h" line="580"/>
+        <location filename="../src/utility.h" line="653"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
@@ -808,91 +808,91 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="203"/>
-        <location filename="../src/networkAccess.cpp" line="510"/>
+        <location filename="../src/networkAccess.cpp" line="514"/>
         <source>Failed To Open Path For Writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="240"/>
-        <location filename="../src/networkAccess.cpp" line="640"/>
-        <location filename="../src/networkAccess.cpp" line="702"/>
+        <location filename="../src/networkAccess.cpp" line="234"/>
+        <location filename="../src/networkAccess.cpp" line="644"/>
+        <location filename="../src/networkAccess.cpp" line="706"/>
         <source>Failed To Extract</source>
         <translation>提取失败</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="294"/>
+        <location filename="../src/networkAccess.cpp" line="288"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>网络未能在 %1 秒内响应</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="387"/>
+        <location filename="../src/networkAccess.cpp" line="381"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>下载失败,无法创建以下路径: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="655"/>
+        <location filename="../src/networkAccess.cpp" line="659"/>
         <source>Start Downloading</source>
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="708"/>
+        <location filename="../src/networkAccess.cpp" line="712"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>无法找到&quot;bsdtar.exe&quot;可执行文件</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="710"/>
+        <location filename="../src/networkAccess.cpp" line="714"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation>未能找到&quot;tar&quot;可执行文件</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1162"/>
-        <location filename="../src/networkAccess.cpp" line="489"/>
-        <location filename="../src/networkAccess.cpp" line="773"/>
+        <location filename="../src/networkAccess.cpp" line="493"/>
+        <location filename="../src/networkAccess.cpp" line="777"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="113"/>
-        <location filename="../src/networkAccess.cpp" line="307"/>
+        <location filename="../src/networkAccess.cpp" line="301"/>
         <source>Failed to parse json file from github</source>
         <translation>无法从github解析json文件</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="663"/>
-        <location filename="../src/networkAccess.cpp" line="677"/>
-        <location filename="../src/networkAccess.cpp" line="735"/>
+        <location filename="../src/networkAccess.cpp" line="667"/>
+        <location filename="../src/networkAccess.cpp" line="681"/>
+        <location filename="../src/networkAccess.cpp" line="739"/>
         <source>Downloading</source>
         <translation>下载中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="670"/>
+        <location filename="../src/networkAccess.cpp" line="674"/>
         <source>Destination</source>
         <translation>目标地址</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="234"/>
-        <location filename="../src/networkAccess.cpp" line="477"/>
+        <location filename="../src/networkAccess.cpp" line="442"/>
+        <location filename="../src/networkAccess.cpp" line="480"/>
         <source>Update Complete, Restart To Use New Version</source>
         <translation>更新完成,重启即可使用新版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="487"/>
+        <location filename="../src/networkAccess.cpp" line="491"/>
         <source>File Not Found</source>
         <translation>文件未找到</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="588"/>
+        <location filename="../src/networkAccess.cpp" line="592"/>
         <source>Download complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="248"/>
-        <location filename="../src/networkAccess.cpp" line="683"/>
+        <location filename="../src/networkAccess.cpp" line="242"/>
+        <location filename="../src/networkAccess.cpp" line="687"/>
         <source>Extracting archive: </source>
         <translation>提取存档: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="594"/>
+        <location filename="../src/networkAccess.cpp" line="598"/>
         <source>Renaming file to: </source>
         <translation>将文件重命名为: </translation>
     </message>
@@ -917,59 +917,59 @@ Exampe 2: ${gateway}:8080</source>
         <translation>后期处理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="612"/>
-        <location filename="../src/utility.h" line="620"/>
-        <location filename="../src/utility.h" line="625"/>
+        <location filename="../src/utility.h" line="613"/>
+        <location filename="../src/utility.h" line="621"/>
+        <location filename="../src/utility.h" line="626"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="617"/>
+        <location filename="../src/utility.h" line="618"/>
         <source>Force Download</source>
         <translation>强制下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="639"/>
+        <location filename="../src/utility.h" line="640"/>
         <source>Show Log Window</source>
         <translation>显示日志窗口</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="165"/>
+        <location filename="../src/utility.h" line="166"/>
         <source>Upload Date:</source>
         <translation>上传日期:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="169"/>
+        <location filename="../src/utility.h" line="170"/>
         <source>Duration:</source>
         <translation>持续时间:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="177"/>
+        <location filename="../src/utility.h" line="178"/>
         <source>Subtitle Name</source>
         <translation>字幕名称</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="181"/>
+        <location filename="../src/utility.h" line="182"/>
         <source>Download Options</source>
         <translation>下载选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="185"/>
+        <location filename="../src/utility.h" line="186"/>
         <source>Extra Downloading Options</source>
         <translation>额外的下载选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="189"/>
+        <location filename="../src/utility.h" line="190"/>
         <source>Download Time Interval</source>
         <translation>下载时间间隔</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="193"/>
+        <location filename="../src/utility.h" line="194"/>
         <source>Download Chapters</source>
         <translation>下载章节</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="197"/>
+        <location filename="../src/utility.h" line="198"/>
         <source>Split By Chapters</source>
         <translation>按章节划分</translation>
     </message>
@@ -1105,7 +1105,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>视频分辨率为 %1 的最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/tabmanager.cpp" line="229"/>
+        <location filename="../src/tabmanager.cpp" line="232"/>
         <source>Warning: Skipping Clipboard Content</source>
         <translation type="unfinished"></translation>
     </message>

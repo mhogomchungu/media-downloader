@@ -210,9 +210,10 @@ Version 1.2.0(April 1st, 2021)
       - Default to h264 video codec instead of yt-dlp's vp9 when downloading youtute videos.
       - Update Italian translations.
 
-  Version 4.0.0(Unreleased)
+  Version 4.0.0(Novermber 2nd, 2023)
       [Windows]
       - Update bundled version of ffmpeg to version 6.0.
       - Fix a problem that caused the UI to hang when reading clipboard data.
+      - App title bar is now black when using dark theme.
       [All]
       - Respect an option to save not downloaded entries when the apps quits unexpectedly.

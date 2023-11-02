@@ -468,7 +468,7 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.h" line="173"/>
+        <location filename="../src/utility.h" line="174"/>
         <source>Engine Name:</source>
         <translation>Silnik:</translation>
     </message>
@@ -511,8 +511,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="520"/>
-        <location filename="../src/utility.h" line="579"/>
-        <location filename="../src/utility.h" line="652"/>
+        <location filename="../src/utility.h" line="580"/>
+        <location filename="../src/utility.h" line="653"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
@@ -810,91 +810,91 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="203"/>
-        <location filename="../src/networkAccess.cpp" line="510"/>
+        <location filename="../src/networkAccess.cpp" line="514"/>
         <source>Failed To Open Path For Writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="240"/>
-        <location filename="../src/networkAccess.cpp" line="640"/>
-        <location filename="../src/networkAccess.cpp" line="702"/>
+        <location filename="../src/networkAccess.cpp" line="234"/>
+        <location filename="../src/networkAccess.cpp" line="644"/>
+        <location filename="../src/networkAccess.cpp" line="706"/>
         <source>Failed To Extract</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="294"/>
+        <location filename="../src/networkAccess.cpp" line="288"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>Brak odpowiedzi z sieci przez %1 sekund</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="387"/>
+        <location filename="../src/networkAccess.cpp" line="381"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Nieudane pobieranie, błąd podczas tworzenia ścieżki: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="655"/>
+        <location filename="../src/networkAccess.cpp" line="659"/>
         <source>Start Downloading</source>
         <translation>Rozpocznij pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="708"/>
+        <location filename="../src/networkAccess.cpp" line="712"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="710"/>
+        <location filename="../src/networkAccess.cpp" line="714"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1162"/>
-        <location filename="../src/networkAccess.cpp" line="489"/>
-        <location filename="../src/networkAccess.cpp" line="773"/>
+        <location filename="../src/networkAccess.cpp" line="493"/>
+        <location filename="../src/networkAccess.cpp" line="777"/>
         <source>Download Failed</source>
         <translation>Błąd podczas pobierania</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="113"/>
-        <location filename="../src/networkAccess.cpp" line="307"/>
+        <location filename="../src/networkAccess.cpp" line="301"/>
         <source>Failed to parse json file from github</source>
         <translation>Nieudane parsowanie pliku json z gihuba</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="663"/>
-        <location filename="../src/networkAccess.cpp" line="677"/>
-        <location filename="../src/networkAccess.cpp" line="735"/>
+        <location filename="../src/networkAccess.cpp" line="667"/>
+        <location filename="../src/networkAccess.cpp" line="681"/>
+        <location filename="../src/networkAccess.cpp" line="739"/>
         <source>Downloading</source>
         <translation>Pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="670"/>
+        <location filename="../src/networkAccess.cpp" line="674"/>
         <source>Destination</source>
         <translation>Ścieżka docelowa</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="234"/>
-        <location filename="../src/networkAccess.cpp" line="477"/>
+        <location filename="../src/networkAccess.cpp" line="442"/>
+        <location filename="../src/networkAccess.cpp" line="480"/>
         <source>Update Complete, Restart To Use New Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="487"/>
+        <location filename="../src/networkAccess.cpp" line="491"/>
         <source>File Not Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="588"/>
+        <location filename="../src/networkAccess.cpp" line="592"/>
         <source>Download complete</source>
         <translation>Pobieranie zakończone</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="248"/>
-        <location filename="../src/networkAccess.cpp" line="683"/>
+        <location filename="../src/networkAccess.cpp" line="242"/>
+        <location filename="../src/networkAccess.cpp" line="687"/>
         <source>Extracting archive: </source>
         <translation>Wypakowywanie archiwum: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="594"/>
+        <location filename="../src/networkAccess.cpp" line="598"/>
         <source>Renaming file to: </source>
         <translation>Zmiana nazwy pliku na: </translation>
     </message>
@@ -919,59 +919,59 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Post processing</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="612"/>
-        <location filename="../src/utility.h" line="620"/>
-        <location filename="../src/utility.h" line="625"/>
+        <location filename="../src/utility.h" line="613"/>
+        <location filename="../src/utility.h" line="621"/>
+        <location filename="../src/utility.h" line="626"/>
         <source>Download</source>
         <translation>Pobierz</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="617"/>
+        <location filename="../src/utility.h" line="618"/>
         <source>Force Download</source>
         <translation>Wymuś pobieranie</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="639"/>
+        <location filename="../src/utility.h" line="640"/>
         <source>Show Log Window</source>
         <translation>Pokaż logi</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="165"/>
+        <location filename="../src/utility.h" line="166"/>
         <source>Upload Date:</source>
         <translation>Data opublikowania:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="169"/>
+        <location filename="../src/utility.h" line="170"/>
         <source>Duration:</source>
         <translation>Czas trwania:</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="177"/>
+        <location filename="../src/utility.h" line="178"/>
         <source>Subtitle Name</source>
         <translation>Napisy</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="181"/>
+        <location filename="../src/utility.h" line="182"/>
         <source>Download Options</source>
         <translation>Opcje pobierania</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="185"/>
+        <location filename="../src/utility.h" line="186"/>
         <source>Extra Downloading Options</source>
         <translation>Dodatkowe opcje pobierania</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="189"/>
+        <location filename="../src/utility.h" line="190"/>
         <source>Download Time Interval</source>
         <translation>Czas pobierania</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="193"/>
+        <location filename="../src/utility.h" line="194"/>
         <source>Download Chapters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="197"/>
+        <location filename="../src/utility.h" line="198"/>
         <source>Split By Chapters</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1107,7 +1107,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tabmanager.cpp" line="229"/>
+        <location filename="../src/tabmanager.cpp" line="232"/>
         <source>Warning: Skipping Clipboard Content</source>
         <translation type="unfinished"></translation>
     </message>
