@@ -158,27 +158,27 @@
     <message>
         <location filename="../src/mainwindow.ui" line="674"/>
         <source>Time Interval Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Hora de inicio del intervalo de tiempo(HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="706"/>
         <source>Time Interval End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Hora de finalización del intervalo de tiempo(HH:MM:SS):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="748"/>
         <source>Chapters(Comma Separated):</source>
-        <translation type="unfinished"></translation>
+        <translation>Capítulos (separados por comas):</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="767"/>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividido por capítulos</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="798"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="895"/>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1775"/>
         <source>Auto Hide Downloads When Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar automáticamente las descargas cuando se completen</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1793"/>
@@ -314,22 +314,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="2243"/>
         <source>Use System Proxy Configuration(Windows Only)</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilice la configuración del proxy del sistema (sólo Windows)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="2256"/>
         <source>Use Manually Specified Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilice la configuración de proxy especificada manualmente</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="2300"/>
         <source>Get Proxy Configuration From The Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Obtenga la configuración del proxy desde el entorno</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="2313"/>
         <source>No Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin Proxy</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="2341"/>
@@ -388,12 +388,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1610"/>
         <source>Show MetaData In Batch Downloader Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar metadatos en la pestaña Descargar por Lotes</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1633"/>
         <source>Maximum Concurrent Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargas simultáneas máximas</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1756"/>
@@ -404,7 +404,7 @@
         <location filename="../src/mainwindow.ui" line="1828"/>
         <location filename="../src/mainwindow.ui" line="1930"/>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Sitio Web</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1961"/>
@@ -450,14 +450,16 @@
     <message>
         <location filename="../src/mainwindow.ui" line="2231"/>
         <source>Proxy Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de Proxy</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="2279"/>
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de proxy especificada manualmente
+Ejemplo 1: 192.168.93.89:8080
+Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="2347"/>
@@ -470,7 +472,7 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/utility.cpp" line="484"/>
         <source>%1 Preset Options</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Opciones preestablecidas</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="833"/>
@@ -480,12 +482,12 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/utility.cpp" line="1705"/>
         <source>Hide Row</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar fila</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="1715"/>
         <source>Unhide All Hidden Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar todas las filas ocultas</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="181"/>
@@ -635,12 +637,12 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/translator.cpp" line="39"/>
         <source>Portuguese (Brazil)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugués (Brasil)</translation>
     </message>
     <message>
         <location filename="../src/translator.cpp" line="40"/>
         <source>Dutch (Netherlands)</source>
-        <translation type="unfinished"></translation>
+        <translation>Holandés (Países Bajos)</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="312"/>
@@ -675,32 +677,32 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/engines.cpp" line="134"/>
         <source>Running In Portable Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Ejecutando en modo portátil</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="136"/>
         <source>Running In Installation Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Ejecutando en modo de instalación</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="140"/>
         <source>Download Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta de descarga: %1</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="141"/>
         <source>App Data Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta de datos de la aplicación: %1</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="163"/>
         <source>Setting Proxy Server Address Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de la dirección del servidor proxy de %1</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="176"/>
         <source>Unsetting Proxy Server Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar la dirección del servidor proxy</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="317"/>
@@ -727,12 +729,12 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/engines.cpp" line="1128"/>
         <source>Network Error Occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Se produjo un error de red</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1138"/>
         <source>Url Is Not Supported</source>
-        <translation type="unfinished"></translation>
+        <translation>La URL es incompatible</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1148"/>
@@ -742,17 +744,17 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/engines.cpp" line="1163"/>
         <source>ErrorCode</source>
-        <translation type="unfinished"></translation>
+        <translation>Código de error</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1169"/>
         <source>Download Failed, Engine failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de descarga, el motor falló al iniciar</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1171"/>
         <source>Download Failed, Engine crashed</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de descarga, el motor falló</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1442"/>
@@ -810,14 +812,14 @@ Exampe 2: ${gateway}:8080</source>
         <location filename="../src/networkAccess.cpp" line="203"/>
         <location filename="../src/networkAccess.cpp" line="514"/>
         <source>Failed To Open Path For Writing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible abrir la ruta para escribir: %1</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="234"/>
         <location filename="../src/networkAccess.cpp" line="644"/>
         <location filename="../src/networkAccess.cpp" line="706"/>
         <source>Failed To Extract</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible Extraer</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="288"/>
@@ -837,12 +839,12 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/networkAccess.cpp" line="712"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible encontrar el ejecutable &quot;bsdtar.exe&quot;</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="714"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposible encontrar el ejecutable &quot;tar&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1162"/>
@@ -873,12 +875,12 @@ Exampe 2: ${gateway}:8080</source>
         <location filename="../src/networkAccess.cpp" line="442"/>
         <location filename="../src/networkAccess.cpp" line="480"/>
         <source>Update Complete, Restart To Use New Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualización completa, reinicie para usar la nueva versión</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="491"/>
         <source>File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo Inexistente</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="592"/>
@@ -966,12 +968,12 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/utility.h" line="194"/>
         <source>Download Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargar Capítulos</translation>
     </message>
     <message>
         <location filename="../src/utility.h" line="198"/>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividido por capítulos</translation>
     </message>
     <message>
         <location filename="../src/tableWidget.cpp" line="456"/>
@@ -1001,18 +1003,18 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/engines/wget.cpp" line="326"/>
         <source>Time Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiempo restante</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="331"/>
         <location filename="../src/engines/wget.cpp" line="345"/>
         <source>Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargado</translation>
     </message>
     <message>
         <location filename="../src/engines/gallery-dl.cpp" line="422"/>
         <source>%1 Already Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ya descargado</translation>
     </message>
     <message>
         <location filename="../src/engines/lux.cpp" line="498"/>
@@ -1023,91 +1025,91 @@ Exampe 2: ${gateway}:8080</source>
         <location filename="../src/engines/gallery-dl.cpp" line="330"/>
         <location filename="../src/engines/wget.cpp" line="319"/>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocidad:</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="64"/>
         <source>Engine Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del motor</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="65"/>
         <source>Installed Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión instalada</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="66"/>
         <source>Latest Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión más reciente</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="79"/>
         <source>There Is An Update For </source>
-        <translation type="unfinished"></translation>
+        <translation>Hay una actualización para </translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="85"/>
         <source>Update Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualización encontrada</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="297"/>
         <location filename="../src/versionInfo.cpp" line="537"/>
         <source>Newest Version Is %1, Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>La versión más reciente es %1, actualizando</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="351"/>
         <location filename="../src/versionInfo.cpp" line="422"/>
         <source>Checking installed version of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificando versión instalada de %1</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="353"/>
         <location filename="../src/versionInfo.cpp" line="434"/>
         <location filename="../src/versionInfo.cpp" line="474"/>
         <source>Found version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Se encontró la versión: %1</translation>
     </message>
     <message>
         <location filename="../src/engines/yt-dlp.cpp" line="1223"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualice &quot;%1&quot; a al menos la versión &quot;%2&quot;</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1123"/>
         <source>Requested Format Is Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation>El formato solicitado no está disponible</translation>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="1133"/>
         <source>Invalid Url Entered</source>
-        <translation type="unfinished"></translation>
+        <translation>URL introducida es inválida</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="1304"/>
         <source>Best Available Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Mejor audio disponible únicamente</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="1308"/>
         <source>Best Available Audio Only(MP3)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mejor audio disponible únicamente (MP3)</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="1312"/>
         <source>Best Available Audio Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Mejor audio y vídeo disponibles</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="1316"/>
         <source>Best Audio With Video Resolution Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mejor audio con resolución de video de %1</translation>
     </message>
     <message>
         <location filename="../src/tabmanager.cpp" line="232"/>
         <source>Warning: Skipping Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia: omitir el contenido del portapapeles</translation>
     </message>
 </context>
 <context>
@@ -1287,7 +1289,7 @@ Exampe 2: ${gateway}:8080</source>
         <location filename="../src/playlistdownloader.cpp" line="129"/>
         <location filename="../src/playlistdownloader.cpp" line="1379"/>
         <source>Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar controles</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="133"/>
@@ -1333,17 +1335,17 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1374"/>
         <source>Show Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Controles</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1375"/>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="1380"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="593"/>
