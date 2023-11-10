@@ -936,7 +936,7 @@ namespace utility
 
 			exe.setProcessChannelMode( m_channels.channelMode() ) ;
 		}
-		void whenStarted( QProcess& exe,const QString& credentials )
+		void whenStarted( QProcess& exe )
 		{
 			m_conn.connect( [ this,&exe ]( auto& function,int index ){
 
@@ -963,7 +963,7 @@ namespace utility
 				m_timer->start( 1000 ) ;
 			}
 
-			m_engine.sendCredentials( credentials,exe ) ;
+			m_engine.sendCredentials( m_credentials,exe ) ;
 		}
 		void whenDone( int s,QProcess::ExitStatus e )
 		{
@@ -1063,7 +1063,12 @@ namespace utility
 		{
 			return { m_engine.exePath(),args } ;
 		}
+		void setCredentials( const QString& e )
+		{
+			m_credentials = e ;
+		}
 	private:
+		QString m_credentials ;
 		const engines::engine& m_engine ;
 		Tlogger m_logger ;
 		Options m_options ;
@@ -1094,28 +1099,9 @@ namespace utility
 	{
 		auto cmd = ctx.cmd( args ) ;
 
-		utils::qprocess::run( cmd.exe(),cmd.args(),[ &cmd,ctx = std::move( ctx ) ]( QProcess& exe )mutable{
+		ctx.setCredentials( credentials ) ;
 
-			ctx.whenCreated( exe,cmd ) ;
-
-			return std::move( ctx ) ;
-
-		},[]( QProcess::ProcessError e,auto& ctx ){
-
-			ctx.withError( e ) ;
-
-		},[ credentials ]( QProcess& exe,auto& ctx ){
-
-			ctx.whenStarted( exe,credentials ) ;
-
-		},[]( int s,QProcess::ExitStatus e,auto& ctx ){
-
-			ctx.whenDone( s,std::move( e ) ) ;
-
-		},[]( QProcess::ProcessChannel channel,const QByteArray& data,auto& ctx ){
-
-			ctx.withData( channel,data ) ;
-		} ) ;
+		utils::qprocess::run( cmd.exe(),cmd.args(),std::move( ctx ) ) ;
 	}
 
 	template< typename List,

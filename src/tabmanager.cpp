@@ -183,9 +183,7 @@ void tabManager::mainThreadClipboardHandler()
 
 		if( m.startsWith( "http" ) ){
 
-			m_basicdownloader.clipboardData( m ) ;
 			m_batchdownloader.clipboardData( m ) ;
-			m_playlistdownloader.clipboardData( m ) ;
 		}
 	}
 }

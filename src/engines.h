@@ -766,7 +766,9 @@ public:
 
 					uvic< Context,Function > meaw( engine,ctx,std::move( ff ) ) ;
 
-					utils::qprocess::run( cmd.exe(),cmd.args(),meaw.move() ) ;
+					auto m = QProcess::SeparateChannels ;
+
+					utils::qprocess::run( cmd.exe(),cmd.args(),m,meaw.move() ) ;
 				}
 			}else{
 				ff() ;

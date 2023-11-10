@@ -1174,7 +1174,7 @@ bool utility::onlyWantedVersionInfo( const utility::cliArguments& args )
 {
 	if( args.contains( "--version" ) ){
 
-		std::cout << util::split( VERSION,'\n' ).at( 0 ).constData() << std::endl ;
+		std::cout << VERSION << std::endl ;
 
 		return true ;
 	}else{

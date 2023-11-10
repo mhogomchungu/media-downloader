@@ -162,21 +162,20 @@ void proxy::set( Context& ctx,bool firstTime,const QByteArray& proxyAddress,cons
 	}else if( m.env() ){
 
 		ctx.setNetworkProxy( _proxy_find( ctx ),firstTime ) ;
-	}else{
-		if( proxyAddress.contains( "${gateway}" ) ){
 
-			if( utility::platformIsLinux() ){
+	}else if( proxyAddress.contains( "${gateway}" ) ){
 
-				_get_proxy_from_gateway_linux( ctx,proxyAddress,firstTime ) ;
+		if( utility::platformIsLinux() ){
 
-			}else if( utility::platformIsWindows() ){
+			_get_proxy_from_gateway_linux( ctx,proxyAddress,firstTime ) ;
 
-				_get_proxy_from_gateway_win( ctx,proxyAddress,firstTime ) ;
-			}else{
-				ctx.setNetworkProxy( firstTime ) ;
-			}
+		}else if( utility::platformIsWindows() ){
+
+			_get_proxy_from_gateway_win( ctx,proxyAddress,firstTime ) ;
 		}else{
-			ctx.setNetworkProxy( proxyAddress,firstTime ) ;
+			ctx.setNetworkProxy( firstTime ) ;
 		}
+	}else{
+		ctx.setNetworkProxy( proxyAddress,firstTime ) ;
 	}
 }
