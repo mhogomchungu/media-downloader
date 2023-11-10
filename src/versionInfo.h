@@ -81,15 +81,28 @@ public:
 
 		auto mm = QProcess::ProcessChannelMode::MergedChannels ;
 
-		utils::qprocess::run( cmd.exe(),cmd.args(),mm,[ &engine,then = std::move( then ) ]( const utils::qprocess::outPut& r ){
-
-			if( r.success() ){
-
-				engine.setVersionString( r.stdOut ) ;
+		class meaw
+		{
+		public:
+			meaw( const engines::engine& engine,Then&& then ) :
+				m_engine( engine ),m_then( std::move( then ) )
+			{
 			}
+		private:
+			void operator()( const utils::qprocess::outPut& r )
+			{
+				if( r.success() ){
 
-			then( r.success() ) ;
-		} ) ;
+					m_engine.setVersionString( r.stdOut ) ;
+				}
+
+				m_then( r.success() ) ;
+			}
+			const engines::engine& m_engine ;
+			Then m_then ;
+		} ;
+
+		utils::qprocess::run( cmd.exe(),cmd.args(),mm,meaw( engine,std::move( then ) ) ) ;
 	}
 	class printVinfo
 	{
