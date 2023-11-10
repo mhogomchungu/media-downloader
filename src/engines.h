@@ -255,6 +255,9 @@ public:
 			class cmd
 			{
 			public:
+				cmd()
+				{
+				}
 				cmd( const engines::engine::exeArgs& exeArgs,
 				     const QStringList& args ) :
 					m_args( exeArgs.exe() ),

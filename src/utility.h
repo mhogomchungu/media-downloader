@@ -917,13 +917,13 @@ namespace utility
 			m_cancelled( false )
 		{
 		}
-		void whenCreated( QProcess& exe,const engines::engine::exeArgs::cmd& cmd )
+		void whenCreated( QProcess& exe )
 		{
 			m_options.disableAll() ;
 
 			exe.setProcessEnvironment( m_options.processEnvironment() ) ;
 
-			m_logger.add( "cmd: " + m_engine.commandString( cmd ) ) ;
+			m_logger.add( "cmd: " + m_engine.commandString( m_cmd ) ) ;
 
 			const auto& df = m_options.downloadFolder() ;
 
@@ -1059,9 +1059,11 @@ namespace utility
 				}
 			}
 		}
-		engines::engine::exeArgs::cmd cmd( const QStringList& args )
+		const engines::engine::exeArgs::cmd& cmd( const QStringList& args )
 		{
-			return { m_engine.exePath(),args } ;
+			m_cmd = { m_engine.exePath(),args } ;
+
+			return m_cmd ;
 		}
 		void setCredentials( const QString& e )
 		{
@@ -1069,6 +1071,7 @@ namespace utility
 		}
 	private:
 		QString m_credentials ;
+		engines::engine::exeArgs::cmd m_cmd ;
 		const engines::engine& m_engine ;
 		Tlogger m_logger ;
 		Options m_options ;

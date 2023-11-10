@@ -57,6 +57,8 @@ namespace utils
 				process( const QString& cmd,const QStringList& args,Events&& events ) :
 					m_events( std::move( events ) )
 				{
+					m_events.whenCreated( m_exe ) ;
+
 					using cc = void( QProcess::* )( int,QProcess::ExitStatus ) ;
 
 					auto a = &QProcess::errorOccurred ;
@@ -132,6 +134,9 @@ namespace utils
 					}
 				}
 				void whenStarted( QProcess& )
+				{
+				}
+				void whenCreated( QProcess& )
 				{
 				}
 				void withData( QProcess::ProcessChannel c,const QByteArray& data )
