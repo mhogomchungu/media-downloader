@@ -35,6 +35,10 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font() ),
 	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0,m_settings.textAlignment() )
 {
+	m_ui.pbPasteClipboard->setIcon( QIcon( ":/clipboard" ) ) ;
+	m_ui.pbOptionsHistory->setIcon( QIcon( ":/recentlyUsed" ) ) ;
+	m_ui.pbOptionsDownloadOptions->setIcon( QIcon( ":/downloadOptions" ) ) ;
+
 	this->setAsActive() ;
 
 	m_ui.pbCancel->setEnabled( false ) ;

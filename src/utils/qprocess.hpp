@@ -81,6 +81,11 @@ namespace utils
 				void withError( QProcess::ProcessError err )
 				{
 					m_events.withError( err ) ;
+
+					if( err == QProcess::ProcessError::FailedToStart ){
+
+						this->deleteLater() ;
+					}
 				}
 				void whenStarted()
 				{

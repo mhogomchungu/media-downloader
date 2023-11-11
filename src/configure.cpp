@@ -45,6 +45,11 @@ configure::configure( const Context& ctx ) :
 	m_downloadDefaultOptions( m_ctx,"downloadDefaultOptions.json" ),
 	m_downloadEngineDefaultOptions( m_ctx,"downloadEngineDefaultOptions.json" )
 {
+	m_ui.pbConfigureCookiePath->setIcon( QIcon( ":/cookie" ) ) ;
+	m_ui.pbOpenThemeFolder->setIcon( QIcon( ":/json" ) ) ;
+	m_ui.pbOpenBinFolder->setIcon( QIcon( ":/executable" ) ) ;
+	m_ui.pbConfigureDownloadPath->setIcon( QIcon( ":/folder" ) ) ;
+
 	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
 
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
@@ -83,14 +88,10 @@ configure::configure( const Context& ctx ) :
 		m_tableDefaultDownloadOptions.selectRow( c,p,0 ) ;
 	} ) ;
 
-	m_ui.pbOpenThemeFolder->setIcon( QIcon( ":/json" ) ) ;
-
 	connect( m_ui.pbOpenThemeFolder,&QPushButton::clicked,[ themesFolderPath ](){
 
 		QDesktopServices::openUrl( QUrl( "file:///" + themesFolderPath,QUrl::TolerantMode ) ) ;
 	} ) ;
-
-	m_ui.pbOpenBinFolder->setIcon( QIcon( ":/executable" ) ) ;
 
 	connect( m_ui.pbOpenBinFolder,&QPushButton::clicked,[ this,themesFolderPath ](){
 
@@ -506,8 +507,6 @@ configure::configure( const Context& ctx ) :
 
 		this->showOptions() ;
 	} ) ;
-
-	m_ui.pbConfigureDownloadPath->setIcon( QIcon( ":/folder" ) ) ;
 
 	connect( m_ui.pbConfigureDownloadPath,&QPushButton::clicked,[ this ](){
 

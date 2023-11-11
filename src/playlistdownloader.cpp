@@ -126,6 +126,13 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 {
 	qRegisterMetaType< PlNetworkData >() ;
 
+	m_ui.pbPLPasteClipboard->setIcon( QIcon( ":/clipboard" ) ) ;
+	m_ui.pbPLOptionsHistory->setIcon( QIcon( ":/recentlyUsed" ) ) ;
+	m_ui.pbPLRangeHistory->setIcon( QIcon( ":/recentlyUsed" ) ) ;
+	m_ui.pbPLDownloadOptions->setIcon( QIcon( ":/downloadOptions" ) ) ;
+	m_ui.pbPlSubscription->setIcon( QIcon( ":/subscription" ) ) ;
+	m_ui.pbClearArchiveFile->setIcon( QIcon( ":/clearFile" ) ) ;
+
 	m_ui.pbPLChangeTableSize->setToolTip( tr( "Hide Controls" ) ) ;
 
 	m_ui.tableWidgetPlDownloaderSubscription->setColumnWidth( 0,180 ) ;

@@ -44,6 +44,10 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	this->setShowMetaData( m_settings.showMetaDataInBatchDownloader() ) ;
 
+	m_ui.pbBDPasteClipboard->setIcon( QIcon( ":/clipboard" ) ) ;
+	m_ui.pbBDOptionsHistory->setIcon( QIcon( ":/recentlyUsed" ) ) ;
+	m_ui.pbBDOptionsDownload->setIcon( QIcon( ":/downloadOptions" ) ) ;
+
 	m_tableWidgetBDList.setTableWidget( [](){
 
 		tableWidget::tableWidgetOptions opts ;
