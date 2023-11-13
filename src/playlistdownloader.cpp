@@ -1017,6 +1017,8 @@ void playlistdownloader::getList( customOptions&& c,
 
 	playlistdownloader::opts mmm{ m_ctx,m_ctx.debug(),false,-1 } ;
 
+	auto opts = c.options() ;
+
 	stdOut sOut( *this,c.move() ) ;
 	stdError sErr( m_banner ) ;
 
@@ -1024,10 +1026,8 @@ void playlistdownloader::getList( customOptions&& c,
 
 	auto& ll = m_ctx.logger() ;
 
-	auto opts = c.options() ;
-
 	auto id     = utility::concurrentID() ;
-	auto oopts  = playlistdownloader::make_options( engine,mmm,ev.move() ) ;
+	auto oopts  = playlistdownloader::make_options( engine,mmm.move(),ev.move() ) ;
 	auto logger = make_loggerPlaylistDownloader( m_table,ll,id,sOut.move(),sErr.move() ) ;
 	auto term   = m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ) ;
 	auto ch     = QProcess::ProcessChannel::StandardOutput ;
