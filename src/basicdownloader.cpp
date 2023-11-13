@@ -331,7 +331,7 @@ void basicdownloader::download( const QString& url )
 	entry.url    = uiText ;
 	entry.runningState = state ;
 
-	m_bogusTable.addItem( std::move( entry ) ) ;
+	m_bogusTable.addItem( entry.move() ) ;
 
 	auto e = m_extraOptions.downloadOptions ;
 
@@ -409,42 +409,51 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	auto id = eng.id ;
 	const auto& engine = eng.engine ;
 
-	auto functions = utility::OptionsFunctions( [ this,id ]( const engines::ProcessExitState&,const QByteArray& args ){
-
-			this->listRequested( args,id ) ;
-
-		},[ this ]( const basicdownloader::opts& opts ){
-
-			opts.ctx.TabManager().disableAll() ;
-
-			m_ui.pbCancel->setEnabled( true ) ;
-
-		},[ this ]( engines::ProcessExitState m,const basicdownloader::opts& opts ){
-
+	class events
+	{
+	public:
+		events( basicdownloader& p,int id ) : m_parent( p ),m_id( id )
+		{
+		}
+		void done( engines::ProcessExitState m,const basicdownloader::opts& opts )
+		{
 			opts.ctx.TabManager().enableAll() ;
 
-			m_ui.pbCancel->setEnabled( false ) ;
+			m_parent.m_ui.pbCancel->setEnabled( false ) ;
 
 			if( !opts.listRequested ){
 
 				auto e = downloadManager::finishedStatus::state::done ;
 
-				auto a = downloadManager::finishedStatus( e,std::move( m ) ) ;
+				auto a = downloadManager::finishedStatus( e,m.move() ) ;
 
 				auto& s = opts.ctx.Settings() ;
 
-				utility::updateFinishedState( opts.engine,s,opts.table,std::move( a ) ) ;
+				utility::updateFinishedState( opts.engine,s,opts.table,a.move() ) ;
 			}
 		}
-	 ) ;
+		void disableAll( const basicdownloader::opts& opts )
+		{
+			opts.ctx.TabManager().disableAll() ;
+
+			m_parent.m_ui.pbCancel->setEnabled( true ) ;
+		}
+		void list( const engines::ProcessExitState&,const QByteArray& args )
+		{
+			m_parent.listRequested( args,m_id ) ;
+		}
+	private:
+		basicdownloader& m_parent ;
+		int m_id ;
+	} ;
 
 	basicdownloader::opts opts{ engine,m_bogusTable,m_ctx,m_ctx.debug(),list_requested,-1 } ;
 
-	auto oopts  = basicdownloader::make_options( engine,std::move( opts ),std::move( functions ) ) ;
+	auto oopts  = basicdownloader::make_options( engine,opts.move(),events( *this,id ) ) ;
 	auto logger = LoggerWrapper( m_ctx.logger(),id ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
 
-	auto ctx = utility::make_ctx( engine,std::move( oopts ),std::move( logger ),std::move( term ),[ & ](){
+	auto ctx = utility::make_ctx( engine,oopts.move(),logger.move(),term.move(),[ & ](){
 
 		if( list_requested ){
 
@@ -458,7 +467,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 	}() ) ;
 
-	utility::run( args,credentials,std::move( ctx ) ) ;
+	utility::run( args,credentials,ctx.move() ) ;
 }
 
 void basicdownloader::tabEntered()

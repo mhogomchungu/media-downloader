@@ -70,6 +70,11 @@ private:
 		utility::printOutPut& printOutPut ;
 		bool listRequested ;
 		int index ;
+
+		opts move()
+		{
+			return std::move( *this ) ;
+		}
 	} ;
 
 	template< typename Functions >

@@ -127,6 +127,10 @@ public:
 		{
 			return m_state == state::done ;
 		}
+		finishedStatus move()
+		{
+			return std::move( *this ) ;
+		}
 		const engines::ProcessExitState& exitState() const
 		{
 			return m_exitState ;
@@ -444,6 +448,10 @@ public:
 	const downloadManager::finishedStatus& finishedStatus() const
 	{
 		return m_status ;
+	}
+	reportFinished move()
+	{
+		return std::move( *this ) ;
 	}
 private:
 	const engines::engine * m_engine = nullptr ;

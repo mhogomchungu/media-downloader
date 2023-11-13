@@ -372,6 +372,10 @@ namespace utility
 		downLoadOptions( QString e ) : downloadOptions( std::move( e ) )
 		{
 		}
+		downLoadOptions move()
+		{
+			return std::move( *this ) ;
+		}
 		bool hasExtraOptions = false ;
 		QString downloadOptions ;
 	} ;
@@ -777,6 +781,10 @@ namespace utility
 		{
 			QObject::disconnect( m_conn ) ;
 		}
+		Conn move()
+		{
+			return std::move( *this ) ;
+		}
 	private:
 		Function m_function ;
 		FunctionConnect m_functionConnect ;
@@ -1069,6 +1077,10 @@ namespace utility
 		{
 			m_credentials = e ;
 		}
+		context< Tlogger,Options,Connection > move()
+		{
+			return std::move( *this ) ;
+		}
 	private:
 		QString m_credentials ;
 		engines::engine::exeArgs::cmd m_cmd ;
@@ -1188,7 +1200,10 @@ namespace utility
 			m_json( QByteArray() )
 		{
 		}
-
+		MediaEntry move()
+		{
+			return std::move( *this ) ;
+		}
 		MediaEntry( const QByteArray& data ) ;
 
 		QString uiText() const ;
@@ -1411,6 +1426,10 @@ namespace utility
 			m_functions( std::move( functions ) )
 		{
 		}
+		options< Opts,Functions > move()
+		{
+			return std::move( *this ) ;
+		}
 		void done( engines::ProcessExitState e )
 		{
 			m_functions.done( std::move( e ),m_opts ) ;
@@ -1448,30 +1467,6 @@ namespace utility
 		Opts m_opts ;
 		Functions m_functions ;
 	} ;
-
-	template< typename List,typename DisableAll,typename Done >
-	struct Functions
-	{
-		List list ;
-		DisableAll disableAll ;
-		Done done ;
-	} ;
-
-	template< typename List,typename DisableAll,typename Done >
-	Functions< List,DisableAll,Done > OptionsFunctions( List list,DisableAll disableAll,Done done )
-	{
-		return { std::move( list ),std::move( disableAll ),std::move( done ) } ;
-	}
-
-	template< typename DisableAll,typename Done >
-	auto OptionsFunctions( DisableAll disableAll,Done done )
-	{
-		auto aa = []( const engines::ProcessExitState&,QByteArray ){} ;
-
-		using type = Functions< decltype( aa ),DisableAll,Done > ;
-
-		return type{ std::move( aa ),std::move( disableAll ),std::move( done ) } ;
-	}
 }
 
 Q_DECLARE_METATYPE( utility::networkReply )

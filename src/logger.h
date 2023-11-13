@@ -578,6 +578,10 @@ public:
 	{
 		m_logger->add( function,m_id ) ;
 	}
+	LoggerWrapper move()
+	{
+		return std::move( *this ) ;
+	}
 private:
 	Logger * m_logger ;
 	int m_id ;
@@ -595,6 +599,10 @@ public:
 		m_localLogger( false ),
 		m_id( id )
 	{
+	}
+	loggerBatchDownloader< F,U,E > move()
+	{
+		return std::move( *this ) ;
 	}
 	void add( const QString& e )
 	{
@@ -670,6 +678,10 @@ public:
 		m_addToTable( std::move( add ) ),
 		m_error( std::move( error ) )
 	{
+	}
+	loggerPlaylistDownloader< AddToTable,TableWidget,Error > move()
+	{
+		return std::move( *this ) ;
 	}
 	void add( const QString& e )
 	{

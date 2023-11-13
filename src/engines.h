@@ -157,6 +157,10 @@ public:
 		{
 			return m_duration ;
 		}
+		ProcessExitState move()
+		{
+			return std::move( *this ) ;
+		}
 	private:
 		bool m_cancelled = false ;
 		int m_exitCode = 255 ;

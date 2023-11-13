@@ -116,7 +116,6 @@ private:
 	bool m_showThumbnails ;
 	bool m_autoDownload ;
 	bool m_stoppedOnExisting ;
-	bool m_stillProcessingJsonOutput ;
 	bool m_dataReceived ;
 
 	int m_networkRunning = 0 ;
@@ -128,7 +127,46 @@ private:
 
 	QPixmap m_defaultVideoThumbnailIcon ;
 
-	class customOptions ;
+	class customOptions
+	{
+	public:
+		customOptions( QStringList&& opts,
+			       const QString& downloadArchivePath,
+			       const engines::engine& engine,
+			       const Context& ctx ) ;
+		const QStringList& options() const
+		{
+			return m_options ;
+		}
+		int maxMediaLength() const
+		{
+			return engines::engine::functions::timer::toSeconds( m_maxMediaLength ) ;
+		}
+		int minMediaLength() const
+		{
+			return engines::engine::functions::timer::toSeconds( m_minMediaLength ) ;
+		}
+		bool contains( const QString& e ) const ;
+		bool breakOnExisting() const
+		{
+			return m_breakOnExisting ;
+		}
+		bool skipOnExisting() const
+		{
+			return m_skipOnExisting ;
+		}
+		customOptions move()
+		{
+			return std::move( *this ) ;
+		}
+	private:
+		bool m_breakOnExisting = false ;
+		bool m_skipOnExisting = false ;
+		QStringList m_options ;
+		QString m_maxMediaLength ;
+		QString m_minMediaLength ;
+		QByteArray m_archiveFileData ;
+	};
 
 	bool parseJson( const playlistdownloader::customOptions&,
 			tableWidget& table,
@@ -219,6 +257,38 @@ private:
 
 	banner m_banner ;
 
+	class stdError
+	{
+	public:
+		stdError( playlistdownloader::banner& banner ) : m_banner( banner )
+		{
+		}
+		bool operator()( const QByteArray& e ) ;
+		stdError move()
+		{
+			return std::move( *this ) ;
+		}
+	private:
+		playlistdownloader::banner& m_banner ;
+	} ;
+
+	class stdOut
+	{
+	public:
+		stdOut( playlistdownloader& p,customOptions o ) :
+			m_parent( p ),m_customOptions( o.move() )
+		{
+		}
+		void operator()( tableWidget& table,Logger::Data& data ) ;
+		stdOut move()
+		{
+			return std::move( *this ) ;
+		}
+	private:
+		playlistdownloader& m_parent ;
+		playlistdownloader::customOptions m_customOptions ;
+	} ;
+
 	class listIterator
 	{
 	public:
@@ -258,7 +328,7 @@ private:
 		}
 	private:
 		std::vector< playlistdownloader::subscription::entry > m_list ;
-	};
+	} ;
 
 	void getListing( playlistdownloader::listIterator,const engines::engine& ) ;
 	void getList( playlistdownloader::listIterator,const engines::engine& ) ;
@@ -266,6 +336,6 @@ private:
 
 	QByteArray m_jsonEndMarker = "0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef" ;
 	subscription m_subscription ;
-};
+} ;
 
 #endif

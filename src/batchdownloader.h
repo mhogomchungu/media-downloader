@@ -110,6 +110,10 @@ public:
 	{
 		m_entries.emplace_back( uiText,url ) ;
 	}
+	Items move()
+	{
+		return std::move( *this ) ;
+	}
 	void add( QJsonObject obj )
 	{
 		m_entries.emplace_back( std::move( obj ) ) ;
@@ -378,6 +382,10 @@ private:
 		bool listRequested ;
 		int index ;
 		Logger batchLogger ;
+		opts< Logger > move()
+		{
+			return std::move( *this ) ;
+		}
 	} ;
 
 	template< typename Logger,typename Functions >

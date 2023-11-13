@@ -172,6 +172,10 @@ public:
 			thumbnail( thumbnail )
 		{
 		}
+		entry move()
+		{
+			return std::move( *this ) ;
+		}
 		QString url ;
 		QString uiText ;
 		QString runningState ;
