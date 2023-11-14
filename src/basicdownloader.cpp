@@ -442,6 +442,10 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		{
 			m_parent.listRequested( args,m_id ) ;
 		}
+		events move()
+		{
+			return std::move( *this ) ;
+		}
 	private:
 		basicdownloader& m_parent ;
 		int m_id ;

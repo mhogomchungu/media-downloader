@@ -275,6 +275,10 @@ private:
 			m_id( utility::concurrentID() )
 		{
 		}
+		BatchLogger move()
+		{
+			return std::move( *this ) ;
+		}
 		void add( const QString& e )
 		{
 			this->add( e.toUtf8() ) ;
@@ -331,6 +335,10 @@ private:
 			m_logFilter( std::move( f ) )
 		{
 		}
+		BatchLoggerWrapper< LogFilter > move()
+		{
+			return std::move( *this ) ;
+		}
 		void add( const QByteArray& e )
 		{
 			m_logger->add( e ) ;
@@ -366,7 +374,19 @@ private:
 	private:
 		std::shared_ptr< BatchLogger > m_logger ;
 		LogFilter m_logFilter ;
-	};
+	} ;
+
+	class defaultLogger
+	{
+	public:
+		defaultLogger()
+		{
+		}
+		bool operator()( const QByteArray& )
+		{
+			return true ;
+		}
+	} ;
 
 	template< typename LogFilter >
 	BatchLoggerWrapper< LogFilter > make_logger( Logger& l,LogFilter f )
@@ -397,9 +417,11 @@ private:
 			   Logger logger,
 			   Functions f )
 	{
-		opts< Logger > oo{ ctx,debug,listRequested,index,std::move( logger ) } ;
+		opts< Logger > oo{ ctx,debug,listRequested,index,logger.move() } ;
 
-		return utility::options< opts< Logger >,Functions >( engine,std::move( oo ),std::move( f ) ) ;
+		using obj = utility::options< opts< Logger >,Functions > ;
+
+		return obj( engine,oo.move(),f.move() ) ;
 	}
 };
 

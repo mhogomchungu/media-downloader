@@ -1488,10 +1488,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 				     const QString& url,
 				     bool autoDownload )
 {
-	auto wrapper = batchdownloader::make_logger( m_ctx.logger(),[]( const QByteArray& ){
-
-		return true ;
-	} ) ;
+	auto wrapper = batchdownloader::make_logger( m_ctx.logger(),batchdownloader::defaultLogger() ) ;
 
 	using T = decltype( wrapper ) ;
 
@@ -1510,7 +1507,11 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			m_opts( opts )
 		{
 		}
-		void operator()( const downloadManager::finishedStatus& f )
+		void next( const engines::engine& engine,int index )
+		{
+			m_parent.showThumbnail( engine,index,{},m_autoDownload ) ;
+		}
+		void finished( const downloadManager::finishedStatus& f )
 		{
 			auto enableAll = f.done() || f.cancelled() ;
 
@@ -1562,14 +1563,9 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		}
 		void done( engines::ProcessExitState e,const batchdownloader::opts< T >& opts )
 		{
-			auto aa = [ this ]( const engines::engine& engine,int index ){
-
-				m_parent.showThumbnail( engine,index,{},m_autoDownload ) ;
-			} ;
-
 			finishedStatus st( m_parent,m_engine,m_autoDownload,m_url,opts ) ;
 
-			m_parent.m_ccmd_metadata.monitorForFinished( m_engine,m_index,e.move(),aa,st.move() ) ;
+			m_parent.m_ccmd_metadata.monitorForFinished( m_engine,m_index,e.move(),st.move() ) ;
 		}
 		void disableAll( const batchdownloader::opts< T >& )
 		{
@@ -2134,10 +2130,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 {
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
-	auto loog = batchdownloader::make_logger( m_ctx.logger(),[]( const QByteArray& ){
-
-		return true ;
-	} ) ;
+	auto loog = batchdownloader::make_logger( m_ctx.logger(),batchdownloader::defaultLogger() ) ;
 
 	using T = decltype( loog ) ;
 
@@ -2150,26 +2143,8 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		}
 		void done( engines::ProcessExitState e,const batchdownloader::opts< T >& )
 		{
-			auto aa = [ this ]( const engines::engine& engine,int index ){
-
-				m_parent.downloadEntry( engine,index ) ;
-			} ;
-
-			auto bb = [ this ]( downloadManager::finishedStatus f ){
-
-				reportFinished r( m_engine,f.move() ) ;
-
-				QMetaObject::invokeMethod( &m_parent,
-							   "reportFinishedStatus",
-							   Qt::QueuedConnection,
-							   Q_ARG( reportFinished,r.move() ) ) ;
-			} ;
-
-			m_parent.m_ccmd.monitorForFinished( m_engine,
-							    m_index,
-							    e.move(),
-							    std::move( aa ),
-							    std::move( bb ) ) ;
+			event ev( m_parent,m_engine ) ;
+			m_parent.m_ccmd.monitorForFinished( m_engine,m_index,e.move(),ev ) ;
 		}
 		void disableAll( const batchdownloader::opts< T >& )
 		{
@@ -2177,7 +2152,38 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		void list( const engines::ProcessExitState&,const QByteArray& )
 		{
 		}
+		events move()
+		{
+			return std::move( *this ) ;
+		}
 	private:
+		class event
+		{
+		public:
+			event( batchdownloader& p,const engines::engine& engine ) :
+				m_parent( p ),m_engine( engine )
+			{
+			}
+			void next( const engines::engine& engine,int index )
+			{
+				m_parent.downloadEntry( engine,index ) ;
+			}
+			void finished( downloadManager::finishedStatus f )
+			{
+				reportFinished r( m_engine,f.move() ) ;
+
+				auto a = "reportFinishedStatus" ;
+				auto b = Qt::QueuedConnection ;
+
+				auto& m = m_parent ;
+
+				QMetaObject::invokeMethod( &m,a,b,Q_ARG( reportFinished,r.move() ) ) ;
+			}
+		private:
+			batchdownloader& m_parent ;
+			const engines::engine& m_engine ;
+		} ;
+
 		batchdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_index ;

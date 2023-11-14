@@ -763,10 +763,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		}
 		void done( engines::ProcessExitState e,const playlistdownloader::opts& )
 		{
-			finished f( m_parent,m_engine ) ;
-			next n( m_parent ) ;
-
-			m_parent.m_ccmd.monitorForFinished( m_engine,m_index,e,n,f ) ;
+			m_parent.m_ccmd.monitorForFinished( m_engine,m_index,e,event( m_parent,m_engine ) ) ;
 		}
 		void disableAll( const playlistdownloader::opts& )
 		{
@@ -774,30 +771,24 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		void list( const engines::ProcessExitState&,const QByteArray& )
 		{
 		}
+		events move()
+		{
+			return std::move( *this ) ;
+		}
 	private:
-		class next
+		class event
 		{
 		public:
-			next( playlistdownloader& p ) : m_parent( p )
+			event( playlistdownloader& p,const engines::engine& engine ) :
+				m_parent( p ),m_engine( engine )
 			{
 			}
-			void operator()( const engines::engine& engine,int index )
+			void next( const engines::engine& engine,int index )
 			{
 				m_parent.m_banner.updateTimer() ;
 				m_parent.download( engine,index ) ;
 			}
-		private:
-			playlistdownloader& m_parent ;
-		} ;
-
-		class finished
-		{
-		public:
-			finished( playlistdownloader& p,const engines::engine& engine ) :
-				m_parent( p ),m_engine( engine )
-			{
-			}
-			void operator()( const downloadManager::finishedStatus& f )
+			void finished( const downloadManager::finishedStatus& f )
 			{
 				reportFinished r( m_engine,f ) ;
 
@@ -810,6 +801,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			playlistdownloader& m_parent ;
 			const engines::engine& m_engine ;
 		} ;
+
 		playlistdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_index ;
@@ -1117,17 +1109,19 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 		auto thumbnailUrl = media.thumbnailUrl() ;
 
-		network.get( thumbnailUrl,
-			     [ this,&table,id = m_downloaderId,
-			     media = media.move() ]( const utils::network::reply& reply ){
+		networkCtx m{ media.move(),m_downloaderId,table } ;
 
-			utility::networkReply( this,"networkData",m_ctx,reply,&table,id,media.move() ) ;
-		} ) ;
+		network.get( thumbnailUrl,m.move(),this,&playlistdownloader::networkResult ) ;
 	}else{
 		utility::networkReply( this,"networkData",&table,m_downloaderId,media.move() ) ;
 	}
 
 	return false ;
+}
+
+void playlistdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
+{
+	utility::networkReply( this,"networkData",m_ctx,reply,&d.table,d.id,d.media.move() ) ;
 }
 
 void playlistdownloader::networkData( utility::networkReply m )

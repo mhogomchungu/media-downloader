@@ -60,6 +60,10 @@ public:
 	{
 		return *m_table ;
 	}
+	PlNetworkData move()
+	{
+		return std::move( *this ) ;
+	}
 private:
 	QByteArray m_networkData ;
 	QString m_errorString ;
@@ -95,6 +99,19 @@ private:
 	void resizeTable( playlistdownloader::size ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
+
+	struct networkCtx
+	{
+		utility::MediaEntry media ;
+		int id ;
+		tableWidget& table ;
+		networkCtx move()
+		{
+			return std::move( *this ) ;
+		}
+	} ;
+
+	void networkResult( networkCtx,const utils::network::reply& ) ;
 
 	void download() ;	
 	void download( const engines::engine&,downloadManager::index ) ;
@@ -189,7 +206,9 @@ private:
 	template< typename Functions >
 	auto make_options( const engines::engine& engine,playlistdownloader::opts opts,Functions f )
 	{
-		return utility::options< playlistdownloader::opts,Functions >( engine,std::move( opts ),std::move( f ) ) ;
+		using obj = utility::options< playlistdownloader::opts,Functions > ;
+
+		return obj( engine,opts.move(),f.move() ) ;
 	}
 
 	class subscription

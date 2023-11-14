@@ -286,12 +286,11 @@ public:
 	{
 		m_cancelled = true ;
 	}
-	template< typename Function,typename Finished >
+	template< typename Event >
 	void monitorForFinished( const engines::engine& engine,
 				 int index,
 				 engines::ProcessExitState exitState,
-				 Function function,
-				 Finished finished )
+				 Event event )
 	{
 		if( m_cancelled ){
 
@@ -302,7 +301,7 @@ public:
 			auto c = m_index.batchDownloading() ;
 			auto d = finishedStatus::state::cancelled ;
 
-			finished( { a,b,c,d,std::move( exitState ) } ) ;
+			event.finished( { a,b,c,d,exitState.move() } ) ;
 		}else{
 			m_counter++ ;
 
@@ -319,15 +318,15 @@ public:
 
 				auto d = finishedStatus::state::done ;
 
-				finished( { a,b,c,d,std::move( exitState ) } ) ;
+				event.finished( { a,b,c,d,exitState.move() } ) ;
 			}else{
 				auto d = finishedStatus::state::running ;
 
-				finished( { a,b,c,d,std::move( exitState ) } ) ;
+				event.finished( { a,b,c,d,exitState.move() } ) ;
 
 				if( m_index.hasNext() ){
 
-					function( engine,m_index.value() ) ;
+					event.next( engine,m_index.value() ) ;
 				}
 			}
 		}
@@ -338,7 +337,7 @@ public:
 		       size_t maxNumberOfConcurrency,
 		       ConcurrentDownload concurrentDownload )
 	{
-		m_index = std::move( index ) ;
+		m_index = index.move() ;
 
 		m_counter = 0 ;
 		m_cancelled = false ;
@@ -367,13 +366,9 @@ public:
 
 		cliOptions.append( url ) ;
 
-		auto ctx = utility::make_ctx( engine,
-					      std::move( opts ),
-					      std::move( logger ),
-					      std::move( conn ),
-					      channel ) ;
+		auto ctx = utility::make_ctx( engine,opts.move(),logger.move(),conn.move(),channel ) ;
 
-		utility::run( cliOptions,QString(),std::move( ctx ) ) ;
+		utility::run( cliOptions,QString(),ctx.move() ) ;
 	}
 	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
 	void download( const engines::engine& engine,
@@ -381,7 +376,7 @@ public:
 		       const QString& uiDownloadOptions,
 		       const QString& url,
 		       const Context& cctx,
-		       TermSignal terminator,
+		       TermSignal term,
 		       Options opts,
 		       Logger logger,
 		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
@@ -400,15 +395,11 @@ public:
 
 		utility::updateOptionsStruct opt{ m,engine,m_settings,args,uiIndex,fd,{ url },e,cctx } ;
 
-		auto ctx = utility::make_ctx( engine,
-					      std::move( opts ),
-					      std::move( logger ),
-					      std::move( terminator ),
-					      channel ) ;
+		auto ctx = utility::make_ctx( engine,opts.move(),logger.move(),term.move(),channel ) ;
 
-		utility::run( optsUpdater( utility::updateOptions( opt ) ),
-			      args.credentials(),
-			      std::move( ctx ) ) ;
+		auto u = optsUpdater( utility::updateOptions( opt ) ) ;
+
+		utility::run( std::move( u ),args.credentials(),ctx.move() ) ;
 	}
 private:
 	template< typename Cxt >
