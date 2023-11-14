@@ -1498,12 +1498,12 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		finishedStatus( batchdownloader& parent,
 				const engines::engine& engine,
 				bool autoDownload,
-				const QString& url,
+				QString url,
 				const batchdownloader::opts< T >& opts ) :
 			m_parent( parent ),
 			m_engine( engine ),
 			m_autoDownload( autoDownload ),
-			m_url( url ),
+			m_url( std::move( url ) ),
 			m_opts( opts )
 		{
 		}
@@ -1542,7 +1542,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		batchdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		bool m_autoDownload ;
-		const QString& m_url ;
+		QString m_url ;
 		const batchdownloader::opts< T >& m_opts ;
 	} ;
 
@@ -1563,7 +1563,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		}
 		void done( engines::ProcessExitState e,const batchdownloader::opts< T >& opts )
 		{
-			finishedStatus st( m_parent,m_engine,m_autoDownload,m_url,opts ) ;
+			finishedStatus st( m_parent,m_engine,m_autoDownload,std::move( m_url ),opts ) ;
 
 			m_parent.m_ccmd_metadata.monitorForFinished( m_engine,m_index,e.move(),st.move() ) ;
 		}
@@ -1587,7 +1587,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		const engines::engine& m_engine ;
 		int m_index ;
 		bool m_autoDownload ;
-		const QString& m_url ;
+		QString m_url ;
 	} ;
 
 	auto args = engine.dumpJsonArguments( engines::engine::tab::batch ) ;

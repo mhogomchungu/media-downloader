@@ -1606,6 +1606,49 @@ private:
 			return QJsonDocument::fromJson( data,err ) ;
 		}
 	}
+	QByteArray updateFormats( const QJsonArray& oldFormats,QJsonObject& oldObject )
+	{
+		QJsonObject newObject ;
+
+		QJsonArray newFormats ;
+
+		for( const auto& it : oldFormats ){
+
+			auto obj = it.toObject() ;
+
+			obj.remove( "url" ) ;
+
+			newFormats.append( obj ) ;
+		}
+
+		if( !newFormats.isEmpty() ){
+
+			newObject.insert( "formats",newFormats ) ;
+		}
+
+		oldObject.remove( "formats" ) ;
+
+		for( auto it = oldObject.begin() ; it != oldObject.end() ; it++ ){
+
+			const auto& s = it.value() ;
+
+			if( s.isString() ){
+
+				auto ss = s.toString() ;
+
+				if( ss != "NA" && ss != "\"NA\"" ){
+
+					newObject.insert( it.key(),ss ) ;
+				}
+			}else{
+				newObject.insert( it.key(),it.value() ) ;
+			}
+		}
+
+		auto m = QJsonDocument::JsonFormat::Indented ;
+
+		return QJsonDocument( newObject ).toJson( m ) ;
+	}
 	bool validJson( const QByteArray& data )
 	{
 		QJsonParseError err ;
@@ -1618,48 +1661,18 @@ private:
 
 			const auto oldFormats = oldObject.value( "formats" ).toArray() ;
 
-			QJsonObject newObject ;
+			if( oldFormats.size() ){
 
-			QJsonArray newFormats ;
+				auto m = this->updateFormats( oldFormats,oldObject ) ;
 
-			for( const auto& it : oldFormats ){
+				m_outPut.add( m,m_id ) ;
+			}else{
+				auto m = QJsonDocument::JsonFormat::Indented ;
 
-				auto obj = it.toObject() ;
+				auto s = QJsonDocument( oldObject ).toJson( m ) ;
 
-				obj.remove( "url" ) ;
-
-				newFormats.append( obj ) ;
+				m_outPut.add( s,m_id ) ;
 			}
-
-			if( !newFormats.isEmpty() ){
-
-				newObject.insert( "formats",newFormats ) ;
-			}
-
-			oldObject.remove( "formats" ) ;
-
-			for( auto it = oldObject.begin() ; it != oldObject.end() ; it++ ){
-
-				const auto& s = it.value() ;
-
-				if( s.isString() ){
-
-					auto ss = s.toString() ;
-
-					if( ss != "NA" && ss != "\"NA\"" ){
-
-						newObject.insert( it.key(),ss ) ;
-					}
-				}else{
-					newObject.insert( it.key(),it.value() ) ;
-				}
-			}
-
-			auto m = QJsonDocument::JsonFormat::Indented ;
-
-			auto s = QJsonDocument( newObject ).toJson( m ) ;
-
-			m_outPut.add( s,m_id ) ;
 
 			return true ;
 		}else{
