@@ -1106,7 +1106,7 @@ namespace utility
 	{
 		using ctx = utility::context< Tlogger,Options,Connection > ;
 
-		return ctx( engine,channels,std::move( logger ),std::move( options ),std::move( conn ) ) ;
+		return ctx( engine,channels,logger.move(),options.move(),conn.move() ) ;
 	}
 
 	template< typename Ctx >
@@ -1116,7 +1116,7 @@ namespace utility
 
 		ctx.setCredentials( credentials ) ;
 
-		utils::qprocess::run( cmd.exe(),cmd.args(),std::move( ctx ) ) ;
+		utils::qprocess::run( cmd.exe(),cmd.args(),ctx.move() ) ;
 	}
 
 	template< typename List,
@@ -1281,10 +1281,6 @@ namespace utility
 		{
 			return m_n_entries ;
 		}
-		MediaEntry move() const
-		{
-			return std::move( *const_cast< MediaEntry * >( this ) ) ;
-		}
 	private:
 		QString m_thumbnailUrl ;
 		QString m_title ;
@@ -1422,8 +1418,8 @@ namespace utility
 	public:
 		options( const engines::engine& engine,Opts opts,Functions functions ) :
 			m_engine( engine ),
-			m_opts( std::move( opts ) ),
-			m_functions( std::move( functions ) )
+			m_opts( opts.move() ),
+			m_functions( functions.move() )
 		{
 		}
 		options< Opts,Functions > move()
@@ -1432,7 +1428,7 @@ namespace utility
 		}
 		void done( engines::ProcessExitState e )
 		{
-			m_functions.done( std::move( e ),m_opts ) ;
+			m_functions.done( e.move(),m_opts ) ;
 		}
 		void listRequested( const engines::ProcessExitState& s,QByteArray e )
 		{

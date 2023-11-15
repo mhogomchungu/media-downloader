@@ -244,7 +244,17 @@ private:
 		       Ui::MainWindow& ui,
 		       const utility::MediaEntry& media ) ;
 	void showThumbnail( const engines::engine&,Items,bool = false,bool = false ) ;
+	struct networkCtx
+	{
+		utility::MediaEntry media ;
+		int index ;
+		networkCtx move()
+		{
+			return std::move( *this ) ;
+		}
+	} ;
 
+	void networkResult( networkCtx,const utils::network::reply& ) ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
@@ -254,7 +264,6 @@ private:
 	tableWidget m_table ;
 	tableMiniWidget< QJsonObject > m_tableWidgetBDList ;
 	QString m_commentsFileName ;
-	int m_networkRunning = false ;
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;
 	QPixmap m_defaultVideoThumbnail ;

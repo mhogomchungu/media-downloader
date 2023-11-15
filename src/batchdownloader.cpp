@@ -1984,8 +1984,6 @@ void batchdownloader::networkData( utility::networkReply m )
 
 		m_ui.pbBDCancel->setEnabled( false ) ;
 	}
-
-	m_networkRunning-- ;
 }
 
 void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntry& media )
@@ -1996,18 +1994,20 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 	}else{
 		if( networkAccess::hasNetworkSupport() ){
 
-			m_networkRunning++ ;
+			auto u = media.thumbnailUrl() ;
 
-			const auto& u = media.thumbnailUrl() ;
+			networkCtx n{ media,index } ;
 
-			m_ctx.network().get( u,[ this,media,index ]( const utils::network::reply& reply ){
-
-				utility::networkReply( this,"networkData",m_ctx,reply,nullptr,index,media.move() ) ;
-			} ) ;
+			m_ctx.network().get( u,n.move(),this,&batchdownloader::networkResult ) ;
 		}else{
 			this->addItemUi( index,enableAll,media ) ;
 		}
 	}
+}
+
+void batchdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
+{
+	utility::networkReply( this,"networkData",m_ctx,reply,nullptr,d.index,d.media.move() ) ;
 }
 
 void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThumbnails )

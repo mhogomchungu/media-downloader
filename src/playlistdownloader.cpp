@@ -752,8 +752,6 @@ void playlistdownloader::download( const engines::engine& engine )
 
 void playlistdownloader::download( const engines::engine& eng,int index )
 {
-	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
-
 	class events
 	{
 	public:
@@ -821,6 +819,8 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 	} ;
 
 	auto error = []( const QByteArray& ){} ;
+
+	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
 	auto id = utility::concurrentID() ;
 	playlistdownloader::opts opts{ m_ctx,m_ctx.debug(),false,index } ;
