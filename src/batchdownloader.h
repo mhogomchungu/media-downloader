@@ -232,12 +232,13 @@ private:
 	void clearScreen() ;
 	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
+	void download( const engines::engine&,Items ) ;
 	void download( const engines::engine&,int = 0 ) ;
 	void downloadEntry( const engines::engine&,int ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;
 	void addItemUi( int,bool,const utility::MediaEntry& ) ;
-	int addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
 	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
+	int addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
 	int addItemUi( const QPixmap& pixmap,
 		       int index,
 		       tableWidget& table,
@@ -274,6 +275,27 @@ private:
 	downloadManager m_ccmd_metadata ;
 
 	QByteArray m_downloadingComments ;
+
+	bool m_startAutoDownload ;
+
+	class de
+	{
+	public:
+		de( batchdownloader& e ) :
+			m_parent( e )
+		{
+		}
+		void operator()( const engines::engine& engine,int index )
+		{
+			m_parent.downloadEntry( engine,index ) ;
+		}
+		de move()
+		{
+			return std::move( *this ) ;
+		}
+	private:
+		batchdownloader& m_parent ;
+	} ;
 
 	class BatchLogger
 	{

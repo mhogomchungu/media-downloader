@@ -257,7 +257,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 				auto visible = m_table.rowIsVisible( row ) ;
 
-				downloadManager::index indexes( m_table,false,downloadManager::index::tab::playlist ) ;
+				downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
 
 				auto e = m_table.runningState( row ) ;
 
@@ -708,7 +708,7 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 void playlistdownloader::download( const engines::engine& engine )
 {
-	downloadManager::index indexes( m_table,true,downloadManager::index::tab::playlist ) ;
+	downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
 
 	auto _add = [ & ]( int s,const QString& opts ){
 

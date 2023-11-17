@@ -131,6 +131,7 @@ public:
 	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
 	bool autoDownload() ;
+	bool autoDownloadWhenAddedInBatchDownloader() ;
 	bool showVersionInfoWhenStarting() ;
 	bool concurrentDownloading() ;
 	bool showMetaDataInBatchDownloader() ;
@@ -143,7 +144,6 @@ public:
 	bool enableLibraryTab() ;
 	bool checkForEnginesUpdates() ;
 	bool autoHideDownloadWhenCompleted() ;
-
 	qint64 timeOutWaitingForClipboardData() ;
 
 	int textAlignment() ;

@@ -995,7 +995,7 @@ namespace utility
 				m_engine.processData( e,d,id,s ) ;
 			} ) ;
 
-			m_options.done( std::move( state ) ) ;
+			m_options.done( state.move() ) ;
 
 			m_logger.registerDone() ;
 		}

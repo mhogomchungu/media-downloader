@@ -604,6 +604,16 @@ bool settings::autoDownload()
 	return m_settings.value( "AutoDownload" ).toBool() ;
 }
 
+bool settings::autoDownloadWhenAddedInBatchDownloader()
+{
+	if( !m_settings.contains( "AutoDownloadWhenAddedInBatchDownloader" ) ){
+
+		m_settings.setValue( "AutoDownloadWhenAddedInBatchDownloader",false ) ;
+	}
+
+	return m_settings.value( "AutoDownloadWhenAddedInBatchDownloader" ).toBool() ;
+}
+
 bool settings::showVersionInfoWhenStarting()
 {
 	if( !m_settings.contains( "ShowVersionInfoWhenStarting" ) ){
