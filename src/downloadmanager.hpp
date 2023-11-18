@@ -221,7 +221,7 @@ public:
 		}
 		void add( int index,utility::downLoadOptions opts,bool forceUpdate = false )
 		{
-			m_entries.emplace_back( index,std::move( opts ),forceUpdate ) ;
+			m_entries.emplace_back( index,opts.move(),forceUpdate ) ;
 		}
 		int lastIndex() const
 		{
@@ -339,6 +339,8 @@ public:
 		m_index.add( index.move() ) ;
 
 		if( m_currentlyDownloadingNumber < m_maximumConcurrency ){
+
+			m_cancelButton.setEnabled( true ) ;
 
 			concurrentDownload( engine,idx ) ;
 		}

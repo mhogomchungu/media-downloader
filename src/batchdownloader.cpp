@@ -606,6 +606,8 @@ void batchdownloader::init_done()
 	if( QFile::exists( m ) ){
 
 		this->getListFromFile( m,true ) ;
+	}else{
+		m_done = true ;
 	}
 }
 
@@ -694,27 +696,26 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 
 void batchdownloader::download( const engines::engine& engine,Items list )
 {
-	const auto& s = list.first() ;
-
-	tableWidget::entry entry( s ) ;
-
-	entry.thumbnail = m_defaultVideoThumbnail ;
-
-	entry.runningState = downloadManager::finishedStatus::running() ;
-
-	auto row = this->addItemUi( m_defaultVideoThumbnail,-1,m_table,m_ui,s.toJson() ) ;
+	auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,list.first().url ) ;
 
 	m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
 
-	m_table.selectLast() ;
+	const auto& ee = m_table.entryAt( row ) ;
 
 	downloadManager::index index( m_table,downloadManager::index::tab::batch ) ;
 
-	index.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
+	index.add( row,ee.downloadingOptions ) ;
 
 	auto mm = m_ctx.Settings().maxConcurrentDownloads() ;
 
-	m_ccmd.download_add( engine,index.move(),mm,batchdownloader::de( *this ) ) ;
+	const auto& eng = m_ctx.Engines().getEngineByName( ee.engineName ) ;
+
+	if( eng ){
+
+		m_ccmd.download_add( eng.value(),index.move(),mm,batchdownloader::de( *this ) ) ;
+	}else{
+		m_ccmd.download_add( engine,index.move(),mm,batchdownloader::de( *this ) ) ;
+	}
 }
 
 void batchdownloader::showThumbnail( const engines::engine& engine,
@@ -727,7 +728,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		return ;
 	}
 
-	if( m_startAutoDownload && list.hasOneEntry() ){
+	if( m_done && m_startAutoDownload && list.hasOneEntry() ){
 
 		this->download( engine,list.move() ) ;
 
@@ -1463,6 +1464,8 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 				this->showThumbnail( engine,items.move() ) ;
 			}
 		}
+
+		m_done = true ;
 	} ) ;
 }
 

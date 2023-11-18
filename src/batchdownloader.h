@@ -276,6 +276,7 @@ private:
 
 	QByteArray m_downloadingComments ;
 
+	bool m_done = false ;
 	bool m_startAutoDownload ;
 
 	class de
