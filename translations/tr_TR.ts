@@ -488,28 +488,28 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="181"/>
+        <location filename="../src/batchdownloader.cpp" line="186"/>
         <location filename="../src/utility.cpp" line="832"/>
         <source>Save List To File</source>
         <translation>Listeyi Dosyaya Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="894"/>
+        <location filename="../src/batchdownloader.cpp" line="911"/>
         <source>Author</source>
         <translation>Yazar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="904"/>
+        <location filename="../src/batchdownloader.cpp" line="921"/>
         <source>Date</source>
         <translation>Tarih</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="922"/>
+        <location filename="../src/batchdownloader.cpp" line="939"/>
         <source>Replies to</source>
         <translation>Yanıtlar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1167"/>
+        <location filename="../src/batchdownloader.cpp" line="1184"/>
         <source>Save Subtitle To File</source>
         <translation>Altyazıyı Dosyaya Kaydet</translation>
     </message>
@@ -519,21 +519,21 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Motor Adı:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1455"/>
+        <location filename="../src/batchdownloader.cpp" line="1474"/>
         <source>Get List From File</source>
         <translation>Dosyadan Liste Al</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="548"/>
-        <location filename="../src/playlistdownloader.cpp" line="390"/>
+        <location filename="../src/batchdownloader.cpp" line="553"/>
+        <location filename="../src/playlistdownloader.cpp" line="313"/>
         <location filename="../src/utility.cpp" line="481"/>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="520"/>
-        <location filename="../src/utility.h" line="580"/>
-        <location filename="../src/utility.h" line="653"/>
+        <location filename="../src/utility.h" line="584"/>
+        <location filename="../src/utility.h" line="657"/>
         <source>Clear</source>
         <translation>Temizle</translation>
     </message>
@@ -775,17 +775,17 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Not</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1869"/>
+        <location filename="../src/engines.cpp" line="1882"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1875"/>
+        <location filename="../src/engines.cpp" line="1888"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2015"/>
+        <location filename="../src/engines.cpp" line="2028"/>
         <source>Elapsed Time:</source>
         <translation>Geçen Zaman:</translation>
     </message>
@@ -796,8 +796,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/versionInfo.cpp" line="232"/>
-        <location filename="../src/versionInfo.cpp" line="485"/>
+        <location filename="../src/versionInfo.cpp" line="238"/>
+        <location filename="../src/versionInfo.cpp" line="491"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Sürüm bilgisi bulunamadı, &quot;%1&quot; yüklendiğinden ve düzgün çalıştığından emin olun</translation>
     </message>
@@ -897,7 +897,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1933"/>
+        <location filename="../src/engines.cpp" line="1946"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
@@ -912,24 +912,24 @@ Exampe 2: ${gateway}:8080</source>
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1978"/>
+        <location filename="../src/engines.cpp" line="1991"/>
         <source>Post Processing</source>
         <translation>Rötuş</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="613"/>
-        <location filename="../src/utility.h" line="621"/>
-        <location filename="../src/utility.h" line="626"/>
+        <location filename="../src/utility.h" line="617"/>
+        <location filename="../src/utility.h" line="625"/>
+        <location filename="../src/utility.h" line="630"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="618"/>
+        <location filename="../src/utility.h" line="622"/>
         <source>Force Download</source>
         <translation>Zorla İndir</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="640"/>
+        <location filename="../src/utility.h" line="644"/>
         <source>Show Log Window</source>
         <translation>Günlük Penceresini Göster</translation>
     </message>
@@ -979,7 +979,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Tamamlanan: %1%, Başlatılmayan: %2, Başarılı: %3, Başarısız: %4, İptal Edilen: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1216"/>
+        <location filename="../src/playlistdownloader.cpp" line="1078"/>
         <source>Media Already In Archive</source>
         <translation>Medya Zaten Arşivde</translation>
     </message>
@@ -1046,26 +1046,26 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="85"/>
+        <location filename="../src/versionInfo.cpp" line="89"/>
         <source>Update Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="297"/>
-        <location filename="../src/versionInfo.cpp" line="537"/>
+        <location filename="../src/versionInfo.cpp" line="303"/>
+        <location filename="../src/versionInfo.cpp" line="543"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="351"/>
-        <location filename="../src/versionInfo.cpp" line="422"/>
+        <location filename="../src/versionInfo.cpp" line="357"/>
+        <location filename="../src/versionInfo.cpp" line="428"/>
         <source>Checking installed version of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="353"/>
-        <location filename="../src/versionInfo.cpp" line="434"/>
-        <location filename="../src/versionInfo.cpp" line="474"/>
+        <location filename="../src/versionInfo.cpp" line="359"/>
+        <location filename="../src/versionInfo.cpp" line="440"/>
+        <location filename="../src/versionInfo.cpp" line="480"/>
         <source>Found version: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1085,27 +1085,27 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1304"/>
+        <location filename="../src/configure.cpp" line="1303"/>
         <source>Best Available Audio Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1308"/>
+        <location filename="../src/configure.cpp" line="1307"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1312"/>
+        <location filename="../src/configure.cpp" line="1311"/>
         <source>Best Available Audio Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1316"/>
+        <location filename="../src/configure.cpp" line="1315"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tabmanager.cpp" line="232"/>
+        <location filename="../src/tabmanager.cpp" line="230"/>
         <source>Warning: Skipping Clipboard Content</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1113,12 +1113,12 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1460"/>
+        <location filename="../src/batchdownloader.cpp" line="1479"/>
         <source>Set Batch File</source>
         <translation>Toplu Dosya Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="390"/>
+        <location filename="../src/batchdownloader.cpp" line="395"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
@@ -1128,66 +1128,66 @@ Exampe 2: ${gateway}:8080</source>
         <translation>İndirilen yorumlar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1154"/>
+        <location filename="../src/batchdownloader.cpp" line="1171"/>
         <source>Download</source>
         <translation>İndir</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1221"/>
+        <location filename="../src/batchdownloader.cpp" line="1238"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="404"/>
+        <location filename="../src/batchdownloader.cpp" line="409"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="87"/>
-        <location filename="../src/batchdownloader.cpp" line="93"/>
-        <location filename="../src/batchdownloader.cpp" line="413"/>
+        <location filename="../src/batchdownloader.cpp" line="92"/>
+        <location filename="../src/batchdownloader.cpp" line="98"/>
+        <location filename="../src/batchdownloader.cpp" line="418"/>
         <source>Copy Url</source>
         <translation>Url Kopyala</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="102"/>
+        <location filename="../src/batchdownloader.cpp" line="107"/>
         <source>Copy Url %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="425"/>
+        <location filename="../src/batchdownloader.cpp" line="430"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="443"/>
+        <location filename="../src/batchdownloader.cpp" line="448"/>
         <source>Show Subtitles</source>
         <translation>Altyazıları Göster</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="458"/>
+        <location filename="../src/batchdownloader.cpp" line="463"/>
         <source>Show Comments</source>
         <translation>Yorumları Göster</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="471"/>
+        <location filename="../src/batchdownloader.cpp" line="476"/>
         <source>Show Media Options</source>
         <translation>Medya Seçeneklerini Göster</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="484"/>
+        <location filename="../src/batchdownloader.cpp" line="489"/>
         <source>Download Media Part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1213"/>
-        <location filename="../src/batchdownloader.cpp" line="1227"/>
+        <location filename="../src/batchdownloader.cpp" line="1230"/>
+        <location filename="../src/batchdownloader.cpp" line="1244"/>
         <source>Set</source>
         <translation>Ayarla</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1686"/>
-        <location filename="../src/batchdownloader.cpp" line="2162"/>
+        <location filename="../src/batchdownloader.cpp" line="1760"/>
+        <location filename="../src/batchdownloader.cpp" line="2299"/>
         <source>Downloading subtitles</source>
         <translation>İndirilen altyazılar</translation>
     </message>
@@ -1195,41 +1195,41 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="151"/>
+        <location filename="../src/configure.cpp" line="152"/>
         <source>Set As Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="188"/>
-        <location filename="../src/configure.cpp" line="271"/>
+        <location filename="../src/configure.cpp" line="189"/>
+        <location filename="../src/configure.cpp" line="272"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="132"/>
-        <location filename="../src/configure.cpp" line="171"/>
-        <location filename="../src/configure.cpp" line="261"/>
+        <location filename="../src/configure.cpp" line="133"/>
+        <location filename="../src/configure.cpp" line="172"/>
+        <location filename="../src/configure.cpp" line="262"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="314"/>
+        <location filename="../src/configure.cpp" line="315"/>
         <source>Select A Cookie File</source>
         <translation>Bir Çerez Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="344"/>
+        <location filename="../src/configure.cpp" line="345"/>
         <source>Select An Engine File</source>
         <translation>Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="418"/>
-        <location filename="../src/configure.cpp" line="693"/>
+        <location filename="../src/configure.cpp" line="419"/>
+        <location filename="../src/configure.cpp" line="692"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="515"/>
+        <location filename="../src/configure.cpp" line="514"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>
@@ -1242,7 +1242,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Sil</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="114"/>
+        <location filename="../src/library.cpp" line="112"/>
         <source>Delete All</source>
         <translation>Tümünü Sil</translation>
     </message>
@@ -1268,85 +1268,85 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="260"/>
+        <location filename="../src/playlistdownloader.cpp" line="183"/>
         <source>Open</source>
         <translation>Aç</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="274"/>
+        <location filename="../src/playlistdownloader.cpp" line="197"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="214"/>
-        <location filename="../src/playlistdownloader.cpp" line="282"/>
+        <location filename="../src/playlistdownloader.cpp" line="137"/>
+        <location filename="../src/playlistdownloader.cpp" line="205"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1379"/>
+        <location filename="../src/playlistdownloader.cpp" line="52"/>
+        <location filename="../src/playlistdownloader.cpp" line="1241"/>
         <source>Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1463"/>
+        <location filename="../src/playlistdownloader.cpp" line="56"/>
+        <location filename="../src/playlistdownloader.cpp" line="1325"/>
         <source>Get List Options:</source>
         <translation>Liste Seçeneklerini Getir:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="298"/>
+        <location filename="../src/playlistdownloader.cpp" line="221"/>
         <source>Copy Url</source>
         <translation>Url Kopyala</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="312"/>
+        <location filename="../src/playlistdownloader.cpp" line="235"/>
         <source>Show Comments</source>
         <translation>Yorumları Göster</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="479"/>
+        <location filename="../src/playlistdownloader.cpp" line="402"/>
         <source>Show All Updated</source>
         <translation>Tüm Güncellenenleri Göster</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="485"/>
+        <location filename="../src/playlistdownloader.cpp" line="408"/>
         <source>Download All Updated</source>
         <translation>Tüm Güncellenenleri İndir</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="493"/>
+        <location filename="../src/playlistdownloader.cpp" line="416"/>
         <source>Manage Subscriptions</source>
         <translation>Abonelikleri Yönet</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1104"/>
+        <location filename="../src/playlistdownloader.cpp" line="1429"/>
         <source>Number of Pages Downloaded</source>
         <translation>İndirilen Sayfa Sayısı</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1121"/>
+        <location filename="../src/playlistdownloader.cpp" line="1447"/>
         <source>Downloading video info</source>
         <translation>Video bilgisi indiriliyor</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1374"/>
+        <location filename="../src/playlistdownloader.cpp" line="1236"/>
         <source>Show Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1375"/>
+        <location filename="../src/playlistdownloader.cpp" line="1237"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1380"/>
+        <location filename="../src/playlistdownloader.cpp" line="1242"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="593"/>
+        <location filename="../src/playlistdownloader.cpp" line="516"/>
         <source>This May Take A Very Long Time</source>
         <translation>Bu Çok Uzun Zaman Alabilir</translation>
     </message>

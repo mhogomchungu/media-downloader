@@ -488,28 +488,28 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="181"/>
+        <location filename="../src/batchdownloader.cpp" line="186"/>
         <location filename="../src/utility.cpp" line="832"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="894"/>
+        <location filename="../src/batchdownloader.cpp" line="911"/>
         <source>Author</source>
         <translation>作者</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="904"/>
+        <location filename="../src/batchdownloader.cpp" line="921"/>
         <source>Date</source>
         <translation>日期</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="922"/>
+        <location filename="../src/batchdownloader.cpp" line="939"/>
         <source>Replies to</source>
         <translation>回复</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1167"/>
+        <location filename="../src/batchdownloader.cpp" line="1184"/>
         <source>Save Subtitle To File</source>
         <translation>将字幕保存到文件</translation>
     </message>
@@ -519,21 +519,21 @@ Exampe 2: ${gateway}:8080</source>
         <translation>引擎名称:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1455"/>
+        <location filename="../src/batchdownloader.cpp" line="1474"/>
         <source>Get List From File</source>
         <translation>从文件从获取列表</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="548"/>
-        <location filename="../src/playlistdownloader.cpp" line="390"/>
+        <location filename="../src/batchdownloader.cpp" line="553"/>
+        <location filename="../src/playlistdownloader.cpp" line="313"/>
         <location filename="../src/utility.cpp" line="481"/>
         <source>Preset Options</source>
         <translation>预设的画质选项</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="520"/>
-        <location filename="../src/utility.h" line="580"/>
-        <location filename="../src/utility.h" line="653"/>
+        <location filename="../src/utility.h" line="584"/>
+        <location filename="../src/utility.h" line="657"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
@@ -775,17 +775,17 @@ Exampe 2: ${gateway}:8080</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1869"/>
+        <location filename="../src/engines.cpp" line="1882"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1875"/>
+        <location filename="../src/engines.cpp" line="1888"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2015"/>
+        <location filename="../src/engines.cpp" line="2028"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
@@ -796,8 +796,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/versionInfo.cpp" line="232"/>
-        <location filename="../src/versionInfo.cpp" line="485"/>
+        <location filename="../src/versionInfo.cpp" line="238"/>
+        <location filename="../src/versionInfo.cpp" line="491"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>未能找到版本信息,请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
@@ -897,7 +897,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1933"/>
+        <location filename="../src/engines.cpp" line="1946"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
@@ -912,24 +912,24 @@ Exampe 2: ${gateway}:8080</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1978"/>
+        <location filename="../src/engines.cpp" line="1991"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="613"/>
-        <location filename="../src/utility.h" line="621"/>
-        <location filename="../src/utility.h" line="626"/>
+        <location filename="../src/utility.h" line="617"/>
+        <location filename="../src/utility.h" line="625"/>
+        <location filename="../src/utility.h" line="630"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="618"/>
+        <location filename="../src/utility.h" line="622"/>
         <source>Force Download</source>
         <translation>强制下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="640"/>
+        <location filename="../src/utility.h" line="644"/>
         <source>Show Log Window</source>
         <translation>显示日志窗口</translation>
     </message>
@@ -979,7 +979,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5 </translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1216"/>
+        <location filename="../src/playlistdownloader.cpp" line="1078"/>
         <source>Media Already In Archive</source>
         <translation>已存档的媒体</translation>
     </message>
@@ -1046,26 +1046,26 @@ Exampe 2: ${gateway}:8080</source>
         <translation>有更新</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="85"/>
+        <location filename="../src/versionInfo.cpp" line="89"/>
         <source>Update Found</source>
         <translation>发现更新</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="297"/>
-        <location filename="../src/versionInfo.cpp" line="537"/>
+        <location filename="../src/versionInfo.cpp" line="303"/>
+        <location filename="../src/versionInfo.cpp" line="543"/>
         <source>Newest Version Is %1, Updating</source>
         <translation>最新版本是 %1,正在更新</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="351"/>
-        <location filename="../src/versionInfo.cpp" line="422"/>
+        <location filename="../src/versionInfo.cpp" line="357"/>
+        <location filename="../src/versionInfo.cpp" line="428"/>
         <source>Checking installed version of %1</source>
         <translation>检查已安装的 %1 版本</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="353"/>
-        <location filename="../src/versionInfo.cpp" line="434"/>
-        <location filename="../src/versionInfo.cpp" line="474"/>
+        <location filename="../src/versionInfo.cpp" line="359"/>
+        <location filename="../src/versionInfo.cpp" line="440"/>
+        <location filename="../src/versionInfo.cpp" line="480"/>
         <source>Found version: %1</source>
         <translation>找到的版本: %1 </translation>
     </message>
@@ -1085,27 +1085,27 @@ Exampe 2: ${gateway}:8080</source>
         <translation>输入的网址无效</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1304"/>
+        <location filename="../src/configure.cpp" line="1303"/>
         <source>Best Available Audio Only</source>
         <translation>仅最佳可用音频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1308"/>
+        <location filename="../src/configure.cpp" line="1307"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation>最佳可用音频(MP3)</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1312"/>
+        <location filename="../src/configure.cpp" line="1311"/>
         <source>Best Available Audio Video</source>
         <translation>最佳可用音频视频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1316"/>
+        <location filename="../src/configure.cpp" line="1315"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation>视频分辨率为 %1 的最佳音频</translation>
     </message>
     <message>
-        <location filename="../src/tabmanager.cpp" line="232"/>
+        <location filename="../src/tabmanager.cpp" line="230"/>
         <source>Warning: Skipping Clipboard Content</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1113,12 +1113,12 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1460"/>
+        <location filename="../src/batchdownloader.cpp" line="1479"/>
         <source>Set Batch File</source>
         <translation>选择批量下载地址的文件</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="390"/>
+        <location filename="../src/batchdownloader.cpp" line="395"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -1128,66 +1128,66 @@ Exampe 2: ${gateway}:8080</source>
         <translation>正在下载评论</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1154"/>
+        <location filename="../src/batchdownloader.cpp" line="1171"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1221"/>
+        <location filename="../src/batchdownloader.cpp" line="1238"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="404"/>
+        <location filename="../src/batchdownloader.cpp" line="409"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="87"/>
-        <location filename="../src/batchdownloader.cpp" line="93"/>
-        <location filename="../src/batchdownloader.cpp" line="413"/>
+        <location filename="../src/batchdownloader.cpp" line="92"/>
+        <location filename="../src/batchdownloader.cpp" line="98"/>
+        <location filename="../src/batchdownloader.cpp" line="418"/>
         <source>Copy Url</source>
         <translation>复制网址</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="102"/>
+        <location filename="../src/batchdownloader.cpp" line="107"/>
         <source>Copy Url %1</source>
         <translation>复制网址 %1</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="425"/>
+        <location filename="../src/batchdownloader.cpp" line="430"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="443"/>
+        <location filename="../src/batchdownloader.cpp" line="448"/>
         <source>Show Subtitles</source>
         <translation>显示字幕</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="458"/>
+        <location filename="../src/batchdownloader.cpp" line="463"/>
         <source>Show Comments</source>
         <translation>显示评论</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="471"/>
+        <location filename="../src/batchdownloader.cpp" line="476"/>
         <source>Show Media Options</source>
         <translation>显示媒体设置</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="484"/>
+        <location filename="../src/batchdownloader.cpp" line="489"/>
         <source>Download Media Part</source>
         <translation>下载媒体部分</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1213"/>
-        <location filename="../src/batchdownloader.cpp" line="1227"/>
+        <location filename="../src/batchdownloader.cpp" line="1230"/>
+        <location filename="../src/batchdownloader.cpp" line="1244"/>
         <source>Set</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1686"/>
-        <location filename="../src/batchdownloader.cpp" line="2162"/>
+        <location filename="../src/batchdownloader.cpp" line="1760"/>
+        <location filename="../src/batchdownloader.cpp" line="2299"/>
         <source>Downloading subtitles</source>
         <translation>下载字幕</translation>
     </message>
@@ -1195,41 +1195,41 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="151"/>
+        <location filename="../src/configure.cpp" line="152"/>
         <source>Set As Default</source>
         <translation>设为默认</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="188"/>
-        <location filename="../src/configure.cpp" line="271"/>
+        <location filename="../src/configure.cpp" line="189"/>
+        <location filename="../src/configure.cpp" line="272"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="132"/>
-        <location filename="../src/configure.cpp" line="171"/>
-        <location filename="../src/configure.cpp" line="261"/>
+        <location filename="../src/configure.cpp" line="133"/>
+        <location filename="../src/configure.cpp" line="172"/>
+        <location filename="../src/configure.cpp" line="262"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="314"/>
+        <location filename="../src/configure.cpp" line="315"/>
         <source>Select A Cookie File</source>
         <translation>选择Cookie文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="344"/>
+        <location filename="../src/configure.cpp" line="345"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="418"/>
-        <location filename="../src/configure.cpp" line="693"/>
+        <location filename="../src/configure.cpp" line="419"/>
+        <location filename="../src/configure.cpp" line="692"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="515"/>
+        <location filename="../src/configure.cpp" line="514"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>
@@ -1242,7 +1242,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="114"/>
+        <location filename="../src/library.cpp" line="112"/>
         <source>Delete All</source>
         <translation>全部删除</translation>
     </message>
@@ -1268,85 +1268,85 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="260"/>
+        <location filename="../src/playlistdownloader.cpp" line="183"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="274"/>
+        <location filename="../src/playlistdownloader.cpp" line="197"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="214"/>
-        <location filename="../src/playlistdownloader.cpp" line="282"/>
+        <location filename="../src/playlistdownloader.cpp" line="137"/>
+        <location filename="../src/playlistdownloader.cpp" line="205"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="129"/>
-        <location filename="../src/playlistdownloader.cpp" line="1379"/>
+        <location filename="../src/playlistdownloader.cpp" line="52"/>
+        <location filename="../src/playlistdownloader.cpp" line="1241"/>
         <source>Hide Controls</source>
         <translation>隐藏控件</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="133"/>
-        <location filename="../src/playlistdownloader.cpp" line="1463"/>
+        <location filename="../src/playlistdownloader.cpp" line="56"/>
+        <location filename="../src/playlistdownloader.cpp" line="1325"/>
         <source>Get List Options:</source>
         <translation>获取列表选项:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="298"/>
+        <location filename="../src/playlistdownloader.cpp" line="221"/>
         <source>Copy Url</source>
         <translation>复制网址</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="312"/>
+        <location filename="../src/playlistdownloader.cpp" line="235"/>
         <source>Show Comments</source>
         <translation>显示评论</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="479"/>
+        <location filename="../src/playlistdownloader.cpp" line="402"/>
         <source>Show All Updated</source>
         <translation>显示所有更新</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="485"/>
+        <location filename="../src/playlistdownloader.cpp" line="408"/>
         <source>Download All Updated</source>
         <translation>下载所有更新</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="493"/>
+        <location filename="../src/playlistdownloader.cpp" line="416"/>
         <source>Manage Subscriptions</source>
         <translation>管理订阅</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1104"/>
+        <location filename="../src/playlistdownloader.cpp" line="1429"/>
         <source>Number of Pages Downloaded</source>
         <translation>下载页数</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1121"/>
+        <location filename="../src/playlistdownloader.cpp" line="1447"/>
         <source>Downloading video info</source>
         <translation>下载视频信息</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1374"/>
+        <location filename="../src/playlistdownloader.cpp" line="1236"/>
         <source>Show Controls</source>
         <translation>显示控件</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1375"/>
+        <location filename="../src/playlistdownloader.cpp" line="1237"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1380"/>
+        <location filename="../src/playlistdownloader.cpp" line="1242"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="593"/>
+        <location filename="../src/playlistdownloader.cpp" line="516"/>
         <source>This May Take A Very Long Time</source>
         <translation>这可能需要很长时间</translation>
     </message>

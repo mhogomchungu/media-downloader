@@ -179,8 +179,6 @@ QString safaribooks::commandString( const engines::engine::exeArgs::cmd& cmd )
 
 void safaribooks::sendCredentials( const QString& credentials,QProcess& exe )
 {
-	qDebug() << "credentials: " << credentials ;
-
 	if( utility::platformIsNOTWindows() ){
 
 		if( credentials.isEmpty() ){
