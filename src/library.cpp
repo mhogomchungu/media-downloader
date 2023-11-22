@@ -93,13 +93,11 @@ library::library( const Context& ctx ) :
 
 					QFileInfo mm( m ) ;
 
-					if( mm.isFile() ){
-
-						QFile::remove( m ) ;
-
-					}else if( mm.isDir() ){
+					if( mm.isDir() ){
 
 						directoryManager::removeDirectory( m,m_continue ) ;
+					}else{
+						QFile::remove( m ) ;
 					}
 
 				},[ row,this ](){
