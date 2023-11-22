@@ -82,12 +82,18 @@ void versionInfo::done( versionInfo::extensionVersionInfo vInfo ) const
 
 		auto& logger = m_ctx.logger() ;
 
+		auto line = utility::barLine() ;
+
+		logger.add( line,id ) ;
+
 		logger.add( QObject::tr( "Update Found" ),id ) ;
 
 		for( const auto& it : util::asConst( mm ) ){
 
 			logger.add( it,id ) ;
 		}
+
+		logger.add( line,id ) ;
 	}
 }
 
