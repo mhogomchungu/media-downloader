@@ -69,15 +69,17 @@ public:
 	}
 	void sort()
 	{
-		std::sort( m_folders.begin(),m_folders.end(),[]( const entry& lhs,const entry& rhs ){
+		struct meaw
+		{
+			bool operator()( const entry& lhs,const entry& rhs )
+			{
+				return rhs.dateCreated < lhs.dateCreated ;
+			}
+		} ;
 
-			return rhs.dateCreated < lhs.dateCreated ;
-		} ) ;
+		std::sort( m_folders.begin(),m_folders.end(),meaw() ) ;
 
-		std::sort( m_files.begin(),m_files.end(),[]( const entry& lhs,const entry& rhs ){
-
-			return rhs.dateCreated < lhs.dateCreated ;
-		} ) ;
+		std::sort( m_files.begin(),m_files.end(),meaw() ) ;
 	}
 	void addFile( qint64 dateCreated,QString path )
 	{

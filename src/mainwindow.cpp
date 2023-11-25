@@ -28,13 +28,6 @@
 
 #include <csignal>
 
-static std::unique_ptr< Ui::MainWindow > _init_ui( QMainWindow& mw )
-{
-	auto m = std::make_unique< Ui::MainWindow >() ;
-	m->setupUi( &mw ) ;
-	return m ;
-}
-
 MainWindow::MainWindow( QApplication& app,
 			settings& s,
 			translator& t,
@@ -43,11 +36,11 @@ MainWindow::MainWindow( QApplication& app,
 	m_trayIcon( QIcon::fromTheme( "media-downloader",QIcon( ":media-downloader" ) ) ),
 	m_qApp( app ),
 	m_appName( "Media Downloader" ),
-	m_ui( _init_ui( *this ) ),
-	m_logger( *m_ui->plainTextEditLogger,this,s ),
+	m_ui( this ),
+	m_logger( m_ui.plainTextEditLogger(),this,s ),
 	m_engines( m_logger,paths,s,utility::sequentialID() ),
 	m_printOutPut( args ),
-	m_tabManager( s,t,m_engines,m_logger,*m_ui,*this,*this,m_appName,m_printOutPut ),
+	m_tabManager( s,t,m_engines,m_logger,m_ui.get(),*this,*this,m_appName,m_printOutPut ),
 	m_settings( s ),
 	m_showTrayIcon( s.showTrayIcon() )
 {
@@ -137,7 +130,7 @@ void MainWindow::showTrayIcon( bool e )
 
 void MainWindow::retranslateUi()
 {
-	m_ui->retranslateUi( this ) ;
+	m_ui.retranslateUi( this ) ;
 }
 
 void MainWindow::setTitle( const QString& m )
@@ -175,7 +168,7 @@ void MainWindow::processEventSlot( const QByteArray& e )
 
 void MainWindow::quitApp()
 {
-	m_settings.setTabNumber( m_ui->tabWidget->currentIndex() ) ;
+	m_settings.setTabNumber( m_ui.currentIndex() ) ;
 
 	m_tabManager.exiting() ;
 

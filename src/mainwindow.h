@@ -64,10 +64,38 @@ private:
 		MainWindow::setUpSignal( sigs ... ) ;
 	}
 	static void setUpSignals( MainWindow * ) ;
+
+	class setUpMainWindow
+	{
+	public:
+		setUpMainWindow( QMainWindow * mw )
+		{
+			m_ui.setupUi( mw ) ;
+		}
+		Ui::MainWindow& get()
+		{
+			return m_ui ;
+		}
+		QPlainTextEdit& plainTextEditLogger()
+		{
+			return *m_ui.plainTextEditLogger ;
+		}
+		int currentIndex()
+		{
+			return m_ui.tabWidget->currentIndex() ;
+		}
+		void retranslateUi( QMainWindow * mw )
+		{
+			m_ui.retranslateUi( mw ) ;
+		}
+	private:
+		Ui::MainWindow m_ui ;
+	} ;
+
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
 	QString m_appName ;
-	std::unique_ptr< Ui::MainWindow > m_ui ;
+	setUpMainWindow m_ui ;
 	Logger m_logger ;
 	engines m_engines ;
 	utility::printOutPut m_printOutPut ;
