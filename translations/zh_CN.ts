@@ -4,463 +4,420 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.ui" line="31"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Basic Downloader</source>
         <translation>基础下载</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="53"/>
-        <location filename="../src/mainwindow.ui" line="512"/>
-        <location filename="../src/mainwindow.ui" line="624"/>
-        <location filename="../src/mainwindow.ui" line="725"/>
-        <location filename="../src/mainwindow.ui" line="960"/>
-        <location filename="../src/mainwindow.ui" line="1424"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="66"/>
-        <location filename="../src/mainwindow.ui" line="947"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Get List</source>
         <translation>获取画质列表</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="79"/>
-        <location filename="../src/mainwindow.ui" line="380"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Enter URL:</source>
         <translation>输入视频网址:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="117"/>
-        <location filename="../src/mainwindow.ui" line="486"/>
-        <location filename="../src/mainwindow.ui" line="830"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="150"/>
-        <location filename="../src/mainwindow.ui" line="499"/>
-        <location filename="../src/mainwindow.ui" line="785"/>
-        <location filename="../src/mainwindow.ui" line="1838"/>
-        <location filename="../src/mainwindow.ui" line="1888"/>
-        <location filename="../src/mainwindow.ui" line="2157"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Options</source>
         <translation>画质选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="163"/>
-        <location filename="../src/mainwindow.ui" line="538"/>
-        <location filename="../src/mainwindow.ui" line="882"/>
-        <location filename="../src/mainwindow.ui" line="1330"/>
-        <location filename="../src/mainwindow.ui" line="2328"/>
-        <location filename="../src/mainwindow.cpp" line="69"/>
+        <location filename="../src/mainwindow.ui"/>
+        <location filename="../src/mainwindow.cpp" line="62"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="202"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Format Code</source>
         <translation>格式代码</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="207"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Extension</source>
         <translation>扩展</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="212"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Resolution</source>
         <translation>分辨率</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="217"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Note</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="231"/>
-        <location filename="../src/mainwindow.ui" line="303"/>
-        <location filename="../src/mainwindow.ui" line="986"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Engine Name:</source>
         <translation>引擎名称:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="250"/>
-        <location filename="../src/mainwindow.ui" line="1037"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Paste Clipboard Content</source>
         <translation>粘贴剪贴板内容</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="266"/>
-        <location filename="../src/mainwindow.ui" line="454"/>
-        <location filename="../src/mainwindow.ui" line="1053"/>
-        <location filename="../src/mainwindow.ui" line="1069"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Recently Used</source>
         <translation>最近使用</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="282"/>
-        <location filename="../src/mainwindow.ui" line="470"/>
-        <location filename="../src/mainwindow.ui" line="1085"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Set Download Options</source>
         <translation>设置下载选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="291"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Batch Downloader</source>
         <translation>批量下载</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="351"/>
-        <location filename="../src/mainwindow.ui" line="928"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Thumbnail</source>
         <translation>缩略图</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="356"/>
-        <location filename="../src/mainwindow.ui" line="933"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Url To Download</source>
         <translation>下载网址列表</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="399"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Paste Clipboard Url</source>
         <translation>粘贴剪贴板网址</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="415"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Monitor Clipboard For Url</source>
         <translation>监视剪贴板网址</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="525"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Add Url To List</source>
         <translation>添加网址到列表</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="611"/>
-        <location filename="../src/mainwindow.ui" line="693"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Set</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="773"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Playlist Downloader</source>
         <translation>播放列表下载</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="98"/>
-        <location filename="../src/mainwindow.ui" line="322"/>
-        <location filename="../src/mainwindow.ui" line="853"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Download Options:</source>
         <translation>下载选项:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="674"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Time Interval Start Time(HH:MM:SS):</source>
         <translation>时间间隔 开始时间(HH:MM:SS):</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="706"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Time Interval End Time(HH:MM:SS):</source>
         <translation>时间间隔 结束时间(HH:MM:SS):</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="748"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Chapters(Comma Separated):</source>
         <translation>章节(英文逗号分隔):</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="767"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Split By Chapters</source>
         <translation>按章节划分</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="798"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="895"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Enter Playlist URL:</source>
         <translation>输入播放列表网址:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1005"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Clear Internal Archive File</source>
         <translation>清除内部存档文件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1021"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Use Internal Archive File</source>
         <translation>使用内部存档文件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1280"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Library</source>
         <translation>库</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1311"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1343"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Up</source>
         <translation>向上</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1356"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Refresh</source>
         <translation>刷新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1369"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Open Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1382"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Home</source>
         <translation>主页</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1408"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
         <translation>启用库选项(如果下载文件夹条目太多,可能会导致用户界面冻结很长时间)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1430"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Configure</source>
         <translation>配置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1446"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>General Options</source>
         <translation>常规设置</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1662"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation>暗黑主题(需要重启)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1694"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Show Tray Icon</source>
         <translation>显示托盘图标</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1707"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Auto Save List Of Not Downloaded Media</source>
         <translation>自动保存未下载媒体列表</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1733"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Check For Updates</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1775"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Auto Hide Downloads When Completed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1793"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Reset Option To Its Default</source>
         <translation>将选项重置为默认值</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1796"/>
-        <location filename="../src/mainwindow.ui" line="1980"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Set Defaults</source>
         <translation>设置为默认值</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1578"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>窗口缩放比例(需要重启)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1781"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Preset Options</source>
         <translation>预设画质选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1533"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Download Path</source>
         <translation>下载文件路径</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1481"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Select Language</source>
         <translation>选择语言</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1500"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Show Version Info When Starting</source>
         <translation>启动时显示版本信息</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1597"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Add a Plugin</source>
         <translation>添加插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1565"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Remove A Plugin</source>
         <translation>移除插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2243"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Use System Proxy Configuration(Windows Only)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2256"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Use Manually Specified Proxy Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2300"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Get Proxy Configuration From The Environment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2313"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>No Proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2341"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1939"/>
-        <location filename="../src/mainwindow.ui" line="2038"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Engine&apos;s Default Options</source>
         <translation>引擎默认选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="811"/>
-        <location filename="../src/mainwindow.ui" line="1267"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Get List Options:</source>
         <translation>获取列表选项:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1101"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Subscriptions</source>
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1129"/>
-        <location filename="../src/mainwindow.ui" line="1187"/>
-        <location filename="../src/mainwindow.ui" line="1833"/>
-        <location filename="../src/mainwindow.ui" line="1872"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Ui Name</source>
         <translation>分辨率名称</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1209"/>
-        <location filename="../src/mainwindow.ui" line="1907"/>
-        <location filename="../src/mainwindow.ui" line="2052"/>
-        <location filename="../src/mainwindow.ui" line="2196"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1222"/>
-        <location filename="../src/mainwindow.ui" line="2100"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Url</source>
         <translation>网址</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1244"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Done</source>
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1552"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Update Plugin</source>
         <translation>更新插件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1610"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Show MetaData In Batch Downloader Tab</source>
         <translation>在批量下载选项卡中显示元数据</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1633"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Maximum Concurrent Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1756"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Text Encoding</source>
         <translation>文本编码</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1828"/>
-        <location filename="../src/mainwindow.ui" line="1930"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Website</source>
         <translation>网站</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1961"/>
-        <location filename="../src/mainwindow.ui" line="2219"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Engine&apos;s Name</source>
         <translation>引擎名称</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1993"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Path To Cookie FIle</source>
         <translation>Cookie文件路径</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2033"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2075"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Options To Add</source>
         <translation>添加选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2087"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Url Manager</source>
         <translation>网址管理</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2105"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Download Options</source>
         <translation>下载选项</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2119"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>设置哪个引擎应该管理哪个网址</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2138"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Url Filter</source>
         <translation>网址过滤</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2231"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Proxy Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2279"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2347"/>
+        <location filename="../src/mainwindow.ui"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
@@ -984,12 +941,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>已存档的媒体</translation>
     </message>
     <message>
-        <location filename="../src/themes.h" line="71"/>
+        <location filename="../src/themes.h" line="75"/>
         <source>Normal</source>
         <translation>普通</translation>
     </message>
     <message>
-        <location filename="../src/themes.h" line="72"/>
+        <location filename="../src/themes.h" line="76"/>
         <source>Dark</source>
         <translation>黑暗</translation>
     </message>
@@ -1250,17 +1207,17 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>logWindow</name>
     <message>
-        <location filename="../src/logwindow.ui" line="17"/>
+        <location filename="../src/logwindow.ui"/>
         <source>Log Window</source>
         <translation>日志窗口</translation>
     </message>
     <message>
-        <location filename="../src/logwindow.ui" line="29"/>
+        <location filename="../src/logwindow.ui"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../src/logwindow.ui" line="71"/>
+        <location filename="../src/logwindow.ui"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
