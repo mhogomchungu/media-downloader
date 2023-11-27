@@ -1,0 +1,3 @@
+#!/bin/bash
+
+lupdate -no-ui-lines -no-obsolete  -disable-heuristic sametext -disable-heuristic similartext -disable-heuristic number *.pro

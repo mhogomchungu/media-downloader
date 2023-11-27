@@ -140,7 +140,7 @@ QAction * translator::addAction( QMenu * m,translator::entry e,bool permanentEnt
 
 	if( permanentEntry ){
 
-		m_actions.emplace_back( ac,std::move( e ) ) ;
+		m_actions.emplace_back( ac,e.move() ) ;
 	}
 
 	return ac ;
@@ -152,7 +152,7 @@ QMenu * translator::addMenu( QMenu * m,translator::entry e,bool permanentEntry )
 
 	if( permanentEntry ){
 
-		m_menus.emplace_back( m,std::move( e ) ) ;
+		m_menus.emplace_back( m,e.move() ) ;
 	}
 
 	return menu ;

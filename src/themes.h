@@ -50,6 +50,10 @@ public:
 	void setDefaultTheme( QApplication& app ) const ;
 	void setTheme( QApplication& app,const QJsonObject& obj ) const ;
 	QJsonObject defaultTheme() const ;
+	themes move()
+	{
+		return std::move( *this ) ;
+	}
 private:
 	QColor getColor( const QString& e,const QJsonObject& obj ) const ;
 	void updateThemes() ;

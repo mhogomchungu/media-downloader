@@ -119,7 +119,7 @@ void versionInfo::updatesResult( versionInfo::cEnginesUpdates m,const utils::qpr
 
 		auto infov = m.vInfo.move() ;
 
-		infov.append( engine.name(),std::move( iv ),std::move( m.lv.version ) ) ;
+		infov.append( engine.name(),iv.move(),m.lv.version.move() ) ;
 
 		if( infov.hasNext() ){
 
@@ -383,7 +383,7 @@ networkAccess::iterator versionInfo::wrap( printVinfo m ) const
 	class meaw : public networkAccess::iter
 	{
 	public:
-		meaw( printVinfo m ) : m_vInfo( std::move( m ) )
+		meaw( printVinfo m ) : m_vInfo( m.move() )
 		{
 		}
 		const engines::engine& engine() override
@@ -414,7 +414,7 @@ networkAccess::iterator versionInfo::wrap( printVinfo m ) const
 		printVinfo m_vInfo ;
 	};
 
-	return { util::types::type_identity< meaw >(),std::move( m ) } ;
+	return { util::types::type_identity< meaw >(),m.move() } ;
 }
 
 void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
@@ -439,7 +439,7 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 				this->log( QObject::tr( "Found version: %1" ).arg( version.toString() ),id ) ;
 
-				return this->done( std::move( vInfo ) ) ;
+				return this->done( vInfo.move() ) ;
 			}
 		}
 	}

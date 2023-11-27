@@ -572,6 +572,10 @@ public:
 
 		return a + "." + b + "." + c ;
 	}
+	version move()
+	{
+		return std::move( *this ) ;
+	}
 private:
 	bool m_valid = false ;
 	int m_major = 0 ;

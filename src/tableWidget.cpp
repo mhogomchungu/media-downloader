@@ -167,7 +167,7 @@ void tableWidget::replace( tableWidget::entry e,int r,sizeHint s )
 {
 	auto row = static_cast< size_t >( r ) ;
 
-	m_items[ row ] = std::move( e ) ;
+	m_items[ row ] = e.move() ;
 
 	auto label = new QLabel() ;
 	label->setAlignment( Qt::AlignCenter ) ;
@@ -203,7 +203,7 @@ int tableWidget::addRow()
 
 int tableWidget::addItem( tableWidget::entry e,tableWidget::sizeHint s )
 {
-	m_items.emplace_back( std::move( e ) ) ;
+	m_items.emplace_back( e.move() ) ;
 
 	const auto& entry = m_items.back() ;
 

@@ -479,12 +479,12 @@ QMenu * utility::setUpMenu( const Context& ctx,
 				if( it.website.isEmpty() ){
 
 					translator::entry ss( QObject::tr( "Preset Options" ),"","" ) ;
-					tr.addAction( menu,std::move( ss ) )->setEnabled( false ) ;
+					tr.addAction( menu,ss.move() )->setEnabled( false ) ;
 				}else{
 					auto m = QObject::tr( "%1 Preset Options" ).arg( it.website ) ;
 
 					translator::entry ss( m,"","" ) ;
-					tr.addAction( menu,std::move( ss ),false )->setEnabled( false ) ;
+					tr.addAction( menu,ss.move(),false )->setEnabled( false ) ;
 				}
 
 				for( const auto& xt : it.values ){
@@ -521,7 +521,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 						   utility::selectedAction::CLEARSCREEN,
 						   utility::selectedAction::CLEARSCREEN ) ;
 
-		tr.addAction( menu,std::move( sx ) ) ;
+		tr.addAction( menu,sx.move() ) ;
 	}
 
 	if( addOpenFolder ){
@@ -532,7 +532,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 						   utility::selectedAction::OPENFOLDER,
 						   utility::selectedAction::OPENFOLDER ) ;
 
-		tr.addAction( menu,std::move( mm ) ) ;
+		tr.addAction( menu,mm.move() ) ;
 	}
 
 	return menu ;

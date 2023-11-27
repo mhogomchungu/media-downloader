@@ -100,7 +100,7 @@ configure::configure( const Context& ctx ) :
 		QDesktopServices::openUrl( QUrl( "file:///" + m,QUrl::TolerantMode ) ) ;
 	} ) ;
 
-	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,ths = std::move( ths ) ]( int index ){
+	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,ths = ths.move() ]( int index ){
 
 		if( index != -1 ){
 

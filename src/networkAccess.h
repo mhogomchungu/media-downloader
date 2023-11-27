@@ -303,6 +303,10 @@ private:
 		qint64 size = 0 ;
 		QString url ;
 		QString fileName ;
+		metadata move()
+		{
+			return std::move( *this ) ;
+		}
 	} ;
 
 	class File

@@ -340,9 +340,9 @@ void networkAccess::download( const QByteArray& data,
 		}
 	}
 
-	opts.add( std::move( metadata ) ) ;
+	opts.add( metadata.move() ) ;
 
-	this->download( std::move( opts ) ) ;
+	this->download( opts.move() ) ;
 }
 
 void networkAccess::download( networkAccess::iterator iter,
@@ -392,7 +392,7 @@ void networkAccess::download( networkAccess::iterator iter,
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	networkAccess::Opts opts1{ std::move( iter ),exePath,exeFolderPath,id,showVinfo } ;
+	networkAccess::Opts opts1{ iter.move(),exePath,exeFolderPath,id,showVinfo } ;
 
 	networkAccess::Opts2 opts2{ engine,opts1.move() } ;
 
@@ -411,7 +411,7 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 
 		if( p.success() ){
 
-			this->download( p.data(),engine,std::move( opts ) ) ;
+			this->download( p.data(),engine,opts.move() ) ;
 		}else{
 			this->post( engine.name(),this->reportError( p ),opts.id ) ;
 
@@ -593,7 +593,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 		if( str.isArchive ){
 
-			this->extractArchive( engine,std::move( str ) ) ;
+			this->extractArchive( engine,str.move() ) ;
 		}else{
 			auto mm = QObject::tr( "Renaming file to: " ) ;
 
@@ -610,7 +610,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 			auto m = str.showVinfo ;
 			m.setAfterDownloading = true ;
 
-			m_ctx.getVersionInfo().check( std::move( str.iter ),m,true ) ;
+			m_ctx.getVersionInfo().check( str.iter.move(),m,true ) ;
 		}
 	}
 }

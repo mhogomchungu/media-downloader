@@ -47,6 +47,10 @@ public:
 		QString UINameTranslated ;
 		const char * UINameUnTranslated ;
 		QString internalName ;
+		entry move()
+		{
+			return std::move( *this ) ;
+		}
 	} ;
 	QAction * addAction( QMenu * m,translator::entry,bool permanentEntry = false ) ;
 	QMenu * addMenu( QMenu * m,translator::entry,bool permanentEntry = false ) ;
