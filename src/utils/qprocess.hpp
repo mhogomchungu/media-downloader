@@ -19,8 +19,7 @@
 
 #include <QProcess>
 #include <QByteArray>
-
-#include <type_traits>
+#include <QString>
 
 #pragma once
 
@@ -59,9 +58,9 @@ namespace utils
 				{
 					m_events.whenCreated( m_exe ) ;
 
-					using cc = void( QProcess::* )( int,QProcess::ExitStatus ) ;
+					using cc = void( QProcess::* )( int,QProcess::ExitStatus ) ;					
 
-					auto a = &QProcess::errorOccurred ;
+					auto a = this->errorSignal() ;
 					auto b = &QProcess::started ;
 					auto c = &QProcess::readyReadStandardOutput ;
 					auto d = &QProcess::readyReadStandardError ;
@@ -78,6 +77,15 @@ namespace utils
 					m_exe.start( cmd,args ) ;
 				}
 			private:
+				auto errorSignal()
+				{
+				#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+					return &QProcess::errorOccurred ;
+				#else
+					using aa = void( QProcess::* )( QProcess::ProcessError ) ;
+					return static_cast< aa >( &QProcess::error ) ;
+				#endif
+				}
 				void withError( QProcess::ProcessError err )
 				{
 					m_events.withError( err ) ;
