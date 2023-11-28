@@ -19,6 +19,8 @@
 
 #include "themes.h"
 
+#include <QJsonDocument>
+
 themes::themes( const QString& themeName,const QString& themePath )  :
 	m_theme( themeName ),
 	m_themePath( themePath )
@@ -115,6 +117,11 @@ QString themes::defaultthemeFullPath() const
 	return m_themePath + "/" + m_defaultDarkTheme + ".json" ;
 }
 
+QString themes::defaultPureDarkthemeFullPath() const
+{
+	return m_themePath + "/Pure Dark.json" ;
+}
+
 QString themes::themeFullPath() const
 {
 	if( m_theme == m_defaultDarkTheme ){
@@ -163,28 +170,9 @@ void themes::setTheme( QApplication& app,const QJsonObject& obj ) const
 	}
 }
 
-QJsonObject themes::defaultTheme() const
+static QJsonObject _baseTheme()
 {
 	QJsonObject obj ;
-
-	obj.insert( "darkColor",[](){
-
-		QJsonObject obj ;
-
-		obj.insert( "rgba",[](){
-
-			QJsonArray arr ;
-
-			arr.append( 45 ) ;
-			arr.append( 45 ) ;
-			arr.append( 45 ) ;
-			arr.append( 255 ) ;
-
-			return arr ;
-		}() ) ;
-
-		return obj ;
-	}() ) ;
 
 	obj.insert( "disabledColor",[](){
 
@@ -382,6 +370,113 @@ QJsonObject themes::defaultTheme() const
 	obj.insert( "QToolTipStyleSheet","QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }" ) ;
 
 	return obj ;
+}
+
+QJsonObject themes::defaultTheme() const
+{
+	auto obj = _baseTheme() ;
+
+	obj.insert( "darkColor",[](){
+
+		QJsonObject obj ;
+
+		obj.insert( "rgba",[](){
+
+			QJsonArray arr ;
+
+			arr.append( 45 ) ;
+			arr.append( 45 ) ;
+			arr.append( 45 ) ;
+			arr.append( 255 ) ;
+
+			return arr ;
+		}() ) ;
+
+		return obj ;
+	}() ) ;
+
+	return obj ;
+}
+
+QJsonObject themes::defaultPureDarkTheme() const
+{
+	auto obj = _baseTheme() ;
+
+	obj.insert( "darkColor",[](){
+
+		QJsonObject obj ;
+
+		obj.insert( "rgba",[](){
+
+			QJsonArray arr ;
+
+			arr.append( 0 ) ;
+			arr.append( 0 ) ;
+			arr.append( 0 ) ;
+			arr.append( 0 ) ;
+
+			return arr ;
+		}() ) ;
+
+		return obj ;
+	}() ) ;
+
+	return obj ;
+}
+
+void themes::set( QApplication& app ) const
+{
+	if( !QFile::exists( m_themePath ) ){
+
+		QDir().mkpath( m_themePath ) ;
+	}
+
+	auto defaultThemePath = this->defaultthemeFullPath() ;
+
+	if( !QFile::exists( defaultThemePath ) ){
+
+		QFile f( defaultThemePath ) ;
+
+		if( f.open( QIODevice::WriteOnly ) ){
+
+			QJsonDocument doc( this->defaultTheme() ) ;
+
+			f.write( doc.toJson( QJsonDocument::Indented ) ) ;
+		}
+	}
+
+	auto defaultPureDarkThemePath = this->defaultPureDarkthemeFullPath() ;
+
+	if( !QFile::exists( defaultPureDarkThemePath ) ){
+
+		QFile f( defaultPureDarkThemePath ) ;
+
+		if( f.open( QIODevice::WriteOnly ) ){
+
+			QJsonDocument doc( this->defaultPureDarkTheme() ) ;
+
+			f.write( doc.toJson( QJsonDocument::Indented ) ) ;
+		}
+	}
+
+	if( this->usingThemes() ){
+
+		QFile f( this->themeFullPath() ) ;
+
+		if( !f.open( QIODevice::ReadOnly ) ){
+
+			this->setDefaultTheme( app ) ;
+		}else{
+			auto obj = QJsonDocument::fromJson( f.readAll() ).object() ;
+
+			if( obj.isEmpty() ){
+
+				this->setDefaultTheme( app ) ;
+			}else{
+				this->setTheme( app,obj ) ;
+			}
+		}
+	}
 }
 
 static QColor _qtColor( const QString& aa )

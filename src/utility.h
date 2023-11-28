@@ -1019,31 +1019,11 @@ namespace utility
 		}
 		void withData( QProcess::ProcessChannel channel,const QByteArray& data )
 		{
-			auto _withData = [ & ]( const QByteArray& data ){
-
-				m_options.printOutPut( data ) ;
-
-				m_timer->stop() ;
-
-				if( !m_cancelled ){
-
-					if( m_options.listRequested() ){
-
-						m_data += data ;
-					}
-
-					m_logger.add( [ this,&data ]( Logger::Data& e,int id,bool s ){
-
-						m_engine.processData( e,data,id,s ) ;
-					} ) ;
-				}
-			} ;
-
 			auto mode = m_channels.channelMode() ;
 
 			if( mode == QProcess::ProcessChannelMode::MergedChannels ){
 
-				_withData( data ) ;
+				this->withData( data ) ;
 
 			}else if( mode == QProcess::ProcessChannelMode::SeparateChannels ){
 
@@ -1053,14 +1033,14 @@ namespace utility
 
 					if( c == QProcess::ProcessChannel::StandardOutput ){
 
-						_withData( data ) ;
+						this->withData( data ) ;
 					}else{
 						//??
 					}
 				}else{
 					if( c == QProcess::ProcessChannel::StandardError ){
 
-						_withData( data ) ;
+						this->withData( data ) ;
 					}else{
 						m_logger.logError( data ) ;
 					}
@@ -1082,6 +1062,41 @@ namespace utility
 			return std::move( *this ) ;
 		}
 	private:
+		void withData( const QByteArray& data )
+		{
+			m_options.printOutPut( data ) ;
+
+			m_timer->stop() ;
+
+			if( !m_cancelled ){
+
+				if( m_options.listRequested() ){
+
+					m_data += data ;
+				}
+
+				if( m_options.addData( data ) ){
+
+					m_logger.add( processData( m_engine,data ) ) ;
+				}
+			}
+		}
+		class processData
+		{
+		public:
+			processData( const engines::engine& engine,const QByteArray& data ) :
+				m_engine( engine ),m_data( data )
+			{
+			}
+			void operator()( Logger::Data& e,int id,bool s ) const
+			{
+				m_engine.processData( e,m_data,id,s ) ;
+			}
+		private:
+			const engines::engine& m_engine ;
+			const QByteArray& m_data ;
+		} ;
+
 		QString m_credentials ;
 		engines::engine::exeArgs::cmd m_cmd ;
 		const engines::engine& m_engine ;
@@ -1450,13 +1465,17 @@ namespace utility
 		{
 			m_functions.disableAll( m_opts ) ;
 		}
-		QString downloadFolder() const
+		QString downloadFolder()
 		{
 			return utility::downloadFolder( m_opts.ctx ) ;
 		}
-		const QProcessEnvironment& processEnvironment() const
+		const QProcessEnvironment& processEnvironment()
 		{
 			return m_engine.processEnvironment() ;
+		}
+		bool addData( const QByteArray& data )
+		{
+			return m_functions.addData( data ) ;
 		}
 	private:
 		const engines::engine& m_engine ;

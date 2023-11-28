@@ -496,9 +496,17 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			std::vector< subscription::entry > ss ;
 
-			for( const auto& it : util::split( m,' ',true ) ){
+			if( utils::misc::containsAny( m,'\n',' ' ) ){
 
-				ss.emplace_back( it ) ;
+				for( const auto& it : util::split( m,' ',true ) ){
+
+					for( const auto& xt : util::split( it,'\n',true ) ){
+
+						ss.emplace_back( xt ) ;
+					}
+				}
+			}else{
+				ss.emplace_back( m ) ;
 			}
 
 			this->getListing( std::move( ss ),this->defaultEngine() ) ;
@@ -759,6 +767,10 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			m_parent( p ),m_engine( engine ),m_index( index )
 		{
 		}
+		bool addData( const QByteArray& )
+		{
+			return true ;
+		}
 		void done( engines::ProcessExitState e,const playlistdownloader::opts& )
 		{
 			m_parent.m_ccmd.monitorForFinished( m_engine,m_index,e,event( m_parent,m_engine ) ) ;
@@ -960,6 +972,17 @@ void playlistdownloader::getList( customOptions&& c,
 			playlistdownloader::listIterator i ) :
 			m_parent( p ),m_engine( e ),m_iter( i.move() )
 		{
+		}
+		bool addData( const QByteArray& e )
+		{
+			auto s = "\r                                                      \r" ;
+
+			if( e == "\r\r" || e == s || e.contains( "[download] " ) ){
+
+				return false ;
+			}else{
+				return true ;
+			}
 		}
 		void done( engines::ProcessExitState st,const playlistdownloader::opts& )
 		{

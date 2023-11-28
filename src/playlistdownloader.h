@@ -203,12 +203,12 @@ private:
 		}
 	} ;
 
-	template< typename Functions >
-	auto make_options( const engines::engine& engine,playlistdownloader::opts opts,Functions f )
+	template< typename Events >
+	auto make_options( const engines::engine& engine,playlistdownloader::opts opts,Events e )
 	{
-		using obj = utility::options< playlistdownloader::opts,Functions > ;
+		using obj = utility::options< playlistdownloader::opts,Events > ;
 
-		return obj( engine,opts.move(),f.move() ) ;
+		return obj( engine,opts.move(),e.move() ) ;
 	}
 
 	class subscription

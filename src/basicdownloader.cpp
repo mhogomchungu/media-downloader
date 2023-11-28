@@ -442,6 +442,10 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		{
 			m_parent.listRequested( args,m_id ) ;
 		}
+		bool addData( const QByteArray& )
+		{
+			return true ;
+		}
 		events move()
 		{
 			return std::move( *this ) ;

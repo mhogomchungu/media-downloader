@@ -1576,6 +1576,10 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			m_url( url )
 		{
 		}
+		bool addData( const QByteArray& )
+		{
+			return true ;
+		}
 		void done( engines::ProcessExitState e,const batchdownloader::opts< T >& opts )
 		{
 			finishedStatus st( m_parent,m_engine,m_autoDownload,std::move( m_url ),opts ) ;
@@ -1894,6 +1898,10 @@ void batchdownloader::showList( batchdownloader::listType listType,
 			m_parent( p ),m_listType( l ),m_engine( engine )
 		{
 		}
+		bool addData( const QByteArray& )
+		{
+			return true ;
+		}
 		void done( engines::ProcessExitState,const batchdownloader::opts< T >& opts )
 		{
 			opts.ctx.TabManager().enableAll() ;
@@ -2138,6 +2146,10 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		events( batchdownloader& p,const engines::engine& engine,int index ) :
 			m_parent( p ),m_engine( engine ),m_index( index )
 		{
+		}
+		bool addData( const QByteArray& )
+		{
+			return true ;
 		}
 		void done( engines::ProcessExitState e,const batchdownloader::opts< T >& )
 		{

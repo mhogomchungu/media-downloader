@@ -440,20 +440,20 @@ private:
 		}
 	} ;
 
-	template< typename Logger,typename Functions >
+	template< typename Logger,typename Events >
 	auto make_options( const Context& ctx,
 			   const engines::engine& engine,
 			   utility::printOutPut& debug,
 			   bool listRequested,
 			   int index,
 			   Logger logger,
-			   Functions f )
+			   Events e )
 	{
 		opts< Logger > oo{ ctx,debug,listRequested,index,logger.move() } ;
 
-		using obj = utility::options< opts< Logger >,Functions > ;
+		using obj = utility::options< opts< Logger >,Events > ;
 
-		return obj( engine,oo.move(),f.move() ) ;
+		return obj( engine,oo.move(),e.move() ) ;
 	}
 };
 

@@ -50,11 +50,14 @@ public:
 	void setDefaultTheme( QApplication& app ) const ;
 	void setTheme( QApplication& app,const QJsonObject& obj ) const ;
 	QJsonObject defaultTheme() const ;
+	QJsonObject defaultPureDarkTheme() const ;
+	void set( QApplication& ) const ;
 	themes move()
 	{
 		return std::move( *this ) ;
 	}
 private:
+	QString defaultPureDarkthemeFullPath() const ;
 	QColor getColor( const QString& e,const QJsonObject& obj ) const ;
 	void updateThemes() ;
 	int indexAt( const QString& e,const QStringList& s ) const ;

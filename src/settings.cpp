@@ -653,43 +653,7 @@ void settings::setCookieFilePath( const QString& engineName,const QString& cooki
 
 void settings::setTheme( QApplication& app,const QString& themeBasePath )
 {
-	themes ths( this->themeName(),themeBasePath ) ;
-
-	if( !QFile::exists( themeBasePath ) ){
-
-		QDir().mkpath( themeBasePath ) ;
-
-		auto defaultThemePath = ths.defaultthemeFullPath() ;
-
-		if( !QFile::exists( defaultThemePath ) ){
-
-			QFile f( defaultThemePath ) ;
-
-			if( f.open( QIODevice::WriteOnly ) ){
-
-				f.write( QJsonDocument( ths.defaultTheme() ).toJson( QJsonDocument::Indented ) ) ;
-			}
-		}
-	}
-
-	if( ths.usingThemes() ){
-
-		QFile f( ths.themeFullPath() ) ;
-
-		if( !f.open( QIODevice::ReadOnly ) ){
-
-			ths.setDefaultTheme( app ) ;
-		}else{
-			auto obj = QJsonDocument::fromJson( f.readAll() ).object() ;
-
-			if( obj.isEmpty() ){
-
-				return ths.setDefaultTheme( app ) ;
-			}
-
-			ths.setTheme( app,obj ) ;
-		}
-	}
+	themes( this->themeName(),themeBasePath ).set( app ) ;
 }
 
 void settings::setUseSystemProvidedVersionIfAvailable( bool e )
