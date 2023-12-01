@@ -946,17 +946,17 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Concluído:&quot;%1&quot;,Não iniciado:&quot;%2&quot;,Bem sucedido: &quot;%3&quot;,Falhou:&quot;%4&quot;,Cancelado:&quot;%5&quot;</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1078"/>
+        <location filename="../src/playlistdownloader.cpp" line="1101"/>
         <source>Media Already In Archive</source>
         <translation>Meios de comunicação já em arquivo</translation>
     </message>
     <message>
-        <location filename="../src/themes.h" line="75"/>
+        <location filename="../src/themes.h" line="78"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="../src/themes.h" line="76"/>
+        <location filename="../src/themes.h" line="79"/>
         <source>Dark</source>
         <translation>Escuro</translation>
     </message>
@@ -1143,8 +1143,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Definir</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1760"/>
-        <location filename="../src/batchdownloader.cpp" line="2299"/>
+        <location filename="../src/batchdownloader.cpp" line="1764"/>
+        <location filename="../src/batchdownloader.cpp" line="2311"/>
         <source>Downloading subtitles</source>
         <translation>Baixando legendas</translation>
     </message>
@@ -1242,13 +1242,13 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="52"/>
-        <location filename="../src/playlistdownloader.cpp" line="1241"/>
+        <location filename="../src/playlistdownloader.cpp" line="1264"/>
         <source>Hide Controls</source>
         <translation>Ocultar controles</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="56"/>
-        <location filename="../src/playlistdownloader.cpp" line="1325"/>
+        <location filename="../src/playlistdownloader.cpp" line="1348"/>
         <source>Get List Options:</source>
         <translation>Obter opções de lista:</translation>
     </message>
@@ -1278,32 +1278,32 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Gerenciar assinaturas</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1429"/>
+        <location filename="../src/playlistdownloader.cpp" line="1452"/>
         <source>Number of Pages Downloaded</source>
         <translation>Número de páginas baixadas</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1447"/>
+        <location filename="../src/playlistdownloader.cpp" line="1470"/>
         <source>Downloading video info</source>
         <translation>Baixando informações do vídeo</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1236"/>
+        <location filename="../src/playlistdownloader.cpp" line="1259"/>
         <source>Show Controls</source>
         <translation>Mostrar controles</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1237"/>
+        <location filename="../src/playlistdownloader.cpp" line="1260"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1242"/>
+        <location filename="../src/playlistdownloader.cpp" line="1265"/>
         <source>Hide</source>
         <translation>Ocultar</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="516"/>
+        <location filename="../src/playlistdownloader.cpp" line="524"/>
         <source>This May Take A Very Long Time</source>
         <translation>Isso pode levar muito tempo</translation>
     </message>

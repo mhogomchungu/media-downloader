@@ -936,17 +936,17 @@ Exampe 2: ${gateway}:8080</source>
         <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5 </translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1078"/>
+        <location filename="../src/playlistdownloader.cpp" line="1101"/>
         <source>Media Already In Archive</source>
         <translation>已存档的媒体</translation>
     </message>
     <message>
-        <location filename="../src/themes.h" line="75"/>
+        <location filename="../src/themes.h" line="78"/>
         <source>Normal</source>
         <translation>普通</translation>
     </message>
     <message>
-        <location filename="../src/themes.h" line="76"/>
+        <location filename="../src/themes.h" line="79"/>
         <source>Dark</source>
         <translation>黑暗</translation>
     </message>
@@ -1143,8 +1143,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1760"/>
-        <location filename="../src/batchdownloader.cpp" line="2299"/>
+        <location filename="../src/batchdownloader.cpp" line="1764"/>
+        <location filename="../src/batchdownloader.cpp" line="2311"/>
         <source>Downloading subtitles</source>
         <translation>下载字幕</translation>
     </message>
@@ -1242,13 +1242,13 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="52"/>
-        <location filename="../src/playlistdownloader.cpp" line="1241"/>
+        <location filename="../src/playlistdownloader.cpp" line="1264"/>
         <source>Hide Controls</source>
         <translation>隐藏控件</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="56"/>
-        <location filename="../src/playlistdownloader.cpp" line="1325"/>
+        <location filename="../src/playlistdownloader.cpp" line="1348"/>
         <source>Get List Options:</source>
         <translation>获取列表选项:</translation>
     </message>
@@ -1278,32 +1278,32 @@ Exampe 2: ${gateway}:8080</source>
         <translation>管理订阅</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1429"/>
+        <location filename="../src/playlistdownloader.cpp" line="1452"/>
         <source>Number of Pages Downloaded</source>
         <translation>下载页数</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1447"/>
+        <location filename="../src/playlistdownloader.cpp" line="1470"/>
         <source>Downloading video info</source>
         <translation>下载视频信息</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1236"/>
+        <location filename="../src/playlistdownloader.cpp" line="1259"/>
         <source>Show Controls</source>
         <translation>显示控件</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1237"/>
+        <location filename="../src/playlistdownloader.cpp" line="1260"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1242"/>
+        <location filename="../src/playlistdownloader.cpp" line="1265"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="516"/>
+        <location filename="../src/playlistdownloader.cpp" line="524"/>
         <source>This May Take A Very Long Time</source>
         <translation>这可能需要很长时间</translation>
     </message>
