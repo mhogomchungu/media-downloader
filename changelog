@@ -217,3 +217,7 @@ Version 1.2.0(April 1st, 2021)
       - App title bar is now black when using dark theme.
       [All]
       - Respect an option to save not downloaded entries when the apps quits unexpectedly.
+
+  Version 4.1.0(December 1st, 2023)
+      [All]
+      - Various changes and improvements.
