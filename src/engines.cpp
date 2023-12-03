@@ -1044,9 +1044,9 @@ engines::enginePaths::enginePaths( settings& s )
 
 			if( utility::platformIs32Bit() ){
 
-				return m_binPath + "/yt-dlp_x86.exe" ;
+				return "yt-dlp_x86.exe" ;
 			}else{
-				return m_binPath + "/yt-dlp.exe" ;
+				return "yt-dlp.exe" ;
 			}
 		}() ;
 
@@ -1054,9 +1054,12 @@ engines::enginePaths::enginePaths( settings& s )
 
 		if( !QFile::exists( destPath ) ){
 
-			auto srcPath = s.windowsOnly3rdPartyBinPath() + "/" + exeName ;
+			auto srcPath = s.windowsOnly3rdPartyBinPath() + "/ytdlp/" + exeName ;
 
-			utility::copyFile( srcPath,destPath ) ;
+			if( !utility::copyFile( srcPath,destPath ) ){
+
+				QFile::remove( destPath ) ;
+			}
 		}
 	}
 }
