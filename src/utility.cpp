@@ -1789,3 +1789,32 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 
 	mm.setDefaultProxy() ;
 }
+
+bool utility::copyFile( const QString& s,const QString& d )
+{
+	QFile src( s ) ;
+
+	if( src.open( QIODevice::ReadOnly ) ){
+
+		QFile dst( d ) ;
+
+		if( dst.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+			std::array< char,1024 > buffer ;
+
+			while( true ){
+
+				auto m = src.read( buffer.data(),buffer.size() ) ;
+
+				if( m > 0 ){
+
+					dst.write( buffer.data(),m ) ;
+				}else{
+					return src.size() == dst.size() ;
+				}
+			}
+		}
+	}
+
+	return false ;
+}

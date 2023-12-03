@@ -1037,6 +1037,28 @@ engines::enginePaths::enginePaths( settings& s )
 	dir.mkpath( m_enginePath ) ;
 	dir.mkpath( m_dataPath ) ;
 	dir.mkpath( m_tmp ) ;
+
+	if( utility::platformIsWindows() ){
+
+		auto exeName = [ & ](){
+
+			if( utility::platformIs32Bit() ){
+
+				return m_binPath + "/yt-dlp_x86.exe" ;
+			}else{
+				return m_binPath + "/yt-dlp.exe" ;
+			}
+		}() ;
+
+		auto destPath = m_binPath + "/" + exeName ;
+
+		if( !QFile::exists( destPath ) ){
+
+			auto srcPath = s.windowsOnly3rdPartyBinPath() + "/" + exeName ;
+
+			utility::copyFile( srcPath,destPath ) ;
+		}
+	}
 }
 
 QString engines::enginePaths::socketPath()
