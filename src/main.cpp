@@ -68,6 +68,8 @@ int main( int argc,char * argv[] )
 
 	settings settings( cargs ) ;
 
+	engines::enginePaths paths( settings ) ;
+
 	if( utility::platformIsWindows() ){
 
 		if( utility::startedUpdatedVersion( settings,cargs ) ){
@@ -77,8 +79,6 @@ int main( int argc,char * argv[] )
 	}
 
 	QApplication mqApp( argc,argv ) ;
-
-	engines::enginePaths paths( settings ) ;
 
 	settings.setTheme( mqApp,paths.themePath() ) ;
 

@@ -68,9 +68,16 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 		s += separator + mm ;
 
-		const auto m = QDir( mm ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+		auto m = QDir( mm ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
 
-		for( const auto& it : m ){
+		m.removeOne( "aria2-1.36.0-win-32bit-build1" ) ;
+		m.removeOne( "aria2-1.37.0-win-32bit-build1" ) ;
+		m.removeOne( "ffmpeg-n5.0-latest-win32-gpl-shared-5.0" ) ;
+		m.removeOne( "ffmpeg-n6.0-latest-win32-gpl-shared-6.0" ) ;
+		m.removeOne( "python-3.8.10-embed-win32" ) ;
+		m.removeOne( "wget-1.21.3-win32" ) ;
+
+		for( const auto& it : util::asConst( m ) ){
 
 			s += separator + mm + "/" + it ;
 			s += separator + mm + "/" + it + "/bin" ;
