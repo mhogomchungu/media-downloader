@@ -1818,3 +1818,15 @@ bool utility::copyFile( const QString& s,const QString& d )
 
 	return false ;
 }
+
+bool utility::addData( const QByteArray& e )
+{
+	auto s = "\r                                                      \r" ;
+
+	if( e == "\r\r" || e == s || e.contains( "[download] " ) ){
+
+		return false ;
+	}else{
+		return true ;
+	}
+}

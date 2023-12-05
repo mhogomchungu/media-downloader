@@ -404,7 +404,7 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 void basicdownloader::run( const basicdownloader::engine& eng,
 			   const QStringList& args,
 			   const QString& credentials,
-			   bool list_requested )
+			   bool getList )
 {
 	auto id = eng.id ;
 	const auto& engine = eng.engine ;
@@ -412,7 +412,8 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	class events
 	{
 	public:
-		events( basicdownloader& p,int id ) : m_parent( p ),m_id( id )
+		events( basicdownloader& p,int id,bool l ) :
+			m_parent( p ),m_id( id ),m_getList( l )
 		{
 		}
 		void done( engines::ProcessExitState m,const basicdownloader::opts& opts )
@@ -442,9 +443,27 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		{
 			m_parent.listRequested( args,m_id ) ;
 		}
-		bool addData( const QByteArray& )
+		bool addData( const QByteArray& e )
 		{
-			return true ;
+			if( m_getList ){
+
+				return utility::addData( e ) ;
+			}else{
+				return true ;
+			}
+		}
+		utility::ProcessOutputChannels outPutChannel( const engines::engine& engine )
+		{
+			if( m_getList ){
+
+				auto m = QProcess::ProcessChannel::StandardOutput ;
+
+				engine.updateOutPutChannel( m ) ;
+
+				return utility::ProcessOutputChannels( m ) ;
+			}else{
+				return utility::ProcessOutputChannels() ;
+			}
 		}
 		events move()
 		{
@@ -453,27 +472,19 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	private:
 		basicdownloader& m_parent ;
 		int m_id ;
+		bool m_getList ;
 	} ;
 
-	basicdownloader::opts opts{ engine,m_bogusTable,m_ctx,m_ctx.debug(),list_requested,-1 } ;
+	basicdownloader::opts opts{ engine,m_bogusTable,m_ctx,m_ctx.debug(),getList,-1 } ;
 
-	auto oopts  = basicdownloader::make_options( engine,opts.move(),events( *this,id ) ) ;
+	events ev( *this,id,getList ) ;
+
+	auto ch     = ev.outPutChannel( engine ) ;
+	auto oopts  = basicdownloader::make_options( engine,opts.move(),ev.move() ) ;
 	auto logger = LoggerWrapper( m_ctx.logger(),id ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
 
-	auto ctx = utility::make_ctx( engine,oopts.move(),logger.move(),term.move(),[ & ](){
-
-		if( list_requested ){
-
-			auto m = QProcess::ProcessChannel::StandardOutput ;
-
-			engine.updateOutPutChannel( m ) ;
-
-			return utility::ProcessOutputChannels( m ) ;
-		}else{
-			return utility::ProcessOutputChannels() ;
-		}
-	}() ) ;
+	auto ctx = utility::make_ctx( engine,oopts.move(),logger.move(),term.move(),ch ) ;
 
 	utility::run( args,credentials,ctx.move() ) ;
 }

@@ -983,6 +983,12 @@ void batchdownloader::showComments( const QByteArray& e )
 
 			m_tableWidgetBDList.add( { "","","",comment },std::move( obj ) ) ;
 		} ) ;
+	}else{
+		m_ctx.logger().setMaxProcessLog( 2 ) ;
+
+		auto id = utility::concurrentID() ;
+
+		m_ctx.logger().add( "Failed To Parse JSON Data: " + err.errorString(),id ) ;
 	}
 }
 
@@ -1576,9 +1582,9 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			m_url( url )
 		{
 		}
-		bool addData( const QByteArray& )
+		bool addData( const QByteArray& e )
 		{
-			return true ;
+			return utility::addData( e ) ;
 		}
 		void done( engines::ProcessExitState e,const batchdownloader::opts< T >& opts )
 		{
@@ -1898,9 +1904,9 @@ void batchdownloader::showList( batchdownloader::listType listType,
 			m_parent( p ),m_listType( l ),m_engine( engine )
 		{
 		}
-		bool addData( const QByteArray& )
+		bool addData( const QByteArray& e )
 		{
-			return true ;
+			return utility::addData( e ) ;
 		}
 		void done( engines::ProcessExitState,const batchdownloader::opts< T >& opts )
 		{

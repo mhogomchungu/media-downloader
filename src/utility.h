@@ -390,6 +390,7 @@ namespace utility
 	bool platformisOS2() ;
 	bool platformIsNOTWindows() ;
 	bool platformIsLikeWindows() ;
+	bool addData( const QByteArray& ) ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;
@@ -978,7 +979,7 @@ namespace utility
 		{
 			m_conn.disconnect() ;
 
-			m_timer->stop() ;
+			this->stopTimer() ;
 
 			auto m = m_timeCounter.elapsedTime() ;
 
@@ -1063,20 +1064,29 @@ namespace utility
 			return std::move( *this ) ;
 		}
 	private:
+		void stopTimer()
+		{
+			if( m_timer ){
+
+				m_timer->stop() ;
+
+				m_timer.release()->deleteLater() ;
+			}
+		}
 		void withData( const QByteArray& data )
 		{
 			m_options.printOutPut( data ) ;
 
-			m_timer->stop() ;
+			this->stopTimer() ;
 
 			if( !m_cancelled ){
 
-				if( m_options.listRequested() ){
-
-					m_data += data ;
-				}
-
 				if( m_options.addData( data ) ){
+
+					if( m_options.listRequested() ){
+
+						m_data += data ;
+					}
 
 					m_logger.add( processData( m_engine,data ) ) ;
 				}

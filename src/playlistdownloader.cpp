@@ -975,14 +975,7 @@ void playlistdownloader::getList( customOptions&& c,
 		}
 		bool addData( const QByteArray& e )
 		{
-			auto s = "\r                                                      \r" ;
-
-			if( e == "\r\r" || e == s || e.contains( "[download] " ) ){
-
-				return false ;
-			}else{
-				return true ;
-			}
+			return utility::addData( e ) ;
 		}
 		void done( engines::ProcessExitState st,const playlistdownloader::opts& )
 		{
