@@ -950,25 +950,23 @@ namespace utility
 		}
 	};
 
-	template< typename Function >
-	void setUpdefaultEngine( QComboBox& comboBox,
-				 const QString& defaultEngine,
-				 Function function )
+	template< typename Settings,typename TabName >
+	void setUpdefaultEngine( QComboBox& cb,const QString& d,Settings& s,TabName t )
 	{
-		for( int s = 0 ; s < comboBox.count() ; s++ ){
+		for( int s = 0 ; s < cb.count() ; s++ ){
 
-			if( comboBox.itemText( s ) == defaultEngine ){
+			if( cb.itemText( s ) == d ){
 
-				comboBox.setCurrentIndex( s ) ;
+				cb.setCurrentIndex( s ) ;
 
 				return ;
 			}
 		}
 
-		if( comboBox.count() > 0 ){
+		if( cb.count() > 0 ){
 
-			comboBox.setCurrentIndex( 0 ) ;
-			function( comboBox.itemText( 0 ) ) ;
+			cb.setCurrentIndex( 0 ) ;
+			s.setDefaultEngine( d,t ) ;
 		}
 	}
 

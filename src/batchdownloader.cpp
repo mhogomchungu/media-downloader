@@ -717,25 +717,10 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 		comboBox.addItem( it ) ;
 	}
 
-	class meaw
-	{
-	public:
-		meaw( settings& s ) : m_settings( s )
-		{
-		}
-		void operator()( const QString& e )
-		{
-			auto s = settings::tabName::batch ;
-
-			m_settings.setDefaultEngine( e,s ) ;
-		}
-	private:
-		settings& m_settings ;
-	} ;
-
 	auto m = this->defaultEngineName() ;
+	auto s = settings::tabName::batch ;
 
-	utility::setUpdefaultEngine( comboBox,m,meaw( m_settings ) ) ;
+	utility::setUpdefaultEngine( comboBox,m,m_settings,s ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,Items list )

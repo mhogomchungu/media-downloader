@@ -234,25 +234,10 @@ void basicdownloader::updateEnginesList( const QStringList& e )
 		comboBox.addItem( it ) ;
 	}
 
-	class meaw
-	{
-	public:
-		meaw( settings& s ) : m_settings( s )
-		{
-		}
-		void operator()( const QString& e )
-		{
-			auto s = settings::tabName::basic ;
-
-			m_settings.setDefaultEngine( e,s ) ;
-		}
-	private:
-		settings& m_settings ;
-	} ;
-
 	auto m = this->defaultEngineName() ;
+	auto s = settings::tabName::basic ;
 
-	utility::setUpdefaultEngine( comboBox,m,meaw( m_settings ) ) ;
+	utility::setUpdefaultEngine( comboBox,m,m_settings,s ) ;
 }
 
 void basicdownloader::clipboardData( const QString& )
