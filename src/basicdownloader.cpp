@@ -61,7 +61,8 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		if( item ){
 
-			m_tableList.selectMediaOptions( m_optionsList,*item,*m_ui.lineEditOptions ) ;
+			auto& a = *m_ui.lineEditOptions ;
+			m_tableList.selectMediaOptions( m_optionsList,*item,a ) ;
 		}
 	} ) ;
 
@@ -69,7 +70,9 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		auto& t = m_ctx.TabManager().Configure() ;
 
-		t.engineDefaultDownloadOptions( this->defaultEngineName(),[ this ]( const QString& e ){
+		auto m = this->defaultEngineName() ;
+
+		t.engineDefaultDownloadOptions( m,[ this ]( const QString& e ){
 
 			m_extraOptions.hasExtraOptions = true ;
 			m_extraOptions.downloadOptions = e ;
@@ -94,11 +97,11 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbOptionsHistory,&QPushButton::clicked,[ this ](){
 
-		auto s = utility::showHistory( *m_ui.lineEditOptions,
-					       m_settings.getOptionsHistory( settings::tabName::basic ),
-					       m_settings,settings::tabName::basic ) ;
+		auto& a = *m_ui.lineEditOptions ;
+		auto b = m_settings.getOptionsHistory( settings::tabName::basic ) ;
+		auto c = settings::tabName::basic ;
 
-		if( s ){
+		if( utility::showHistory( a,b,m_settings,c ) ){
 
 			m_tableList.setVisible( false ) ;
 
@@ -150,7 +153,9 @@ void basicdownloader::changeDefaultEngine( int s )
 		m_ctx.TabManager().setDefaultEngines() ;
 	}else{
 		auto id = utility::concurrentID() ;
-		m_ctx.logger().add( "Error: basicdownloader::basicdownloader: Unknown Engine:" + m_ui.cbEngineType->itemText( s ),id ) ;
+		auto m = "Error: basicdownloader::basicdownloader: Unknown Engine:" ;
+
+		m_ctx.logger().add( m + m_ui.cbEngineType->itemText( s ),id ) ;
 	}
 }
 
@@ -208,7 +213,8 @@ basicdownloader& basicdownloader::hideTableList()
 
 QString basicdownloader::defaultEngineName()
 {
-	return m_settings.defaultEngine( settings::tabName::basic,m_ctx.Engines().defaultEngineName() ) ;
+	const auto& m = m_ctx.Engines().defaultEngineName() ;
+	return m_settings.defaultEngine( settings::tabName::basic,m ) ;
 }
 
 basicdownloader::engine basicdownloader::defaultEngine()
@@ -228,11 +234,25 @@ void basicdownloader::updateEnginesList( const QStringList& e )
 		comboBox.addItem( it ) ;
 	}
 
-	auto s = settings::tabName::basic ;
+	class meaw
+	{
+	public:
+		meaw( settings& s ) : m_settings( s )
+		{
+		}
+		void operator()( const QString& e )
+		{
+			auto s = settings::tabName::basic ;
 
-	utility::setUpdefaultEngine( comboBox,
-				     this->defaultEngineName(),
-				     [ this,s ]( const QString& e ){ m_settings.setDefaultEngine( e,s ) ; } ) ;
+			m_settings.setDefaultEngine( e,s ) ;
+		}
+	private:
+		settings& m_settings ;
+	} ;
+
+	auto m = this->defaultEngineName() ;
+
+	utility::setUpdefaultEngine( comboBox,m,meaw( m_settings ) ) ;
 }
 
 void basicdownloader::clipboardData( const QString& )
@@ -412,45 +432,51 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	class events
 	{
 	public:
-		events( basicdownloader& p,int id,bool l ) :
-			m_parent( p ),m_id( id ),m_getList( l )
+		events( basicdownloader& p,int id,bool l,const engines::engine& engine ) :
+			m_parent( p ),m_engine( engine ),m_id( id ),m_getList( l )
 		{
 		}
-		void done( engines::ProcessExitState m,const basicdownloader::opts& opts )
+		void done( engines::ProcessExitState m )
 		{
-			opts.ctx.TabManager().enableAll() ;
+			m_parent.m_ctx.TabManager().enableAll() ;
 
 			m_parent.m_ui.pbCancel->setEnabled( false ) ;
 
-			if( !opts.listRequested ){
+			if( m_getList ){
 
+				m_parent.listRequested( m_listData,m_id ) ;
+			}else{
 				auto e = downloadManager::finishedStatus::state::done ;
 
 				auto a = downloadManager::finishedStatus( e,m.move() ) ;
 
-				auto& s = opts.ctx.Settings() ;
+				auto& s = m_parent.m_ctx.Settings() ;
 
-				utility::updateFinishedState( opts.engine,s,opts.table,a.move() ) ;
+				auto& t = m_parent.m_bogusTable ;
+
+				utility::updateFinishedState( m_engine,s,t,a.move() ) ;
 			}
 		}
-		void disableAll( const basicdownloader::opts& opts )
+		void disableAll()
 		{
-			opts.ctx.TabManager().disableAll() ;
+			m_parent.m_ctx.TabManager().disableAll() ;
 
 			m_parent.m_ui.pbCancel->setEnabled( true ) ;
 		}
-		void list( const engines::ProcessExitState&,const QByteArray& args )
-		{
-			m_parent.listRequested( args,m_id ) ;
-		}
 		bool addData( const QByteArray& e )
-		{
+		{			
 			if( m_getList ){
+
+				m_listData += e ;
 
 				return utility::addData( e ) ;
 			}else{
 				return true ;
 			}
+		}
+		const engines::engine& engine()
+		{
+			return m_engine ;
 		}
 		utility::ProcessOutputChannels outPutChannel( const engines::engine& engine )
 		{
@@ -465,33 +491,46 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 				return utility::ProcessOutputChannels() ;
 			}
 		}
+		int index()
+		{
+			return -1 ;
+		}
+		void printOutPut( const QByteArray& e )
+		{
+			m_parent.m_ctx.debug( e ) ;
+		}
+		QString downloadFolder()
+		{
+			return m_parent.m_settings.downloadFolder() ;
+		}
 		events move()
 		{
 			return std::move( *this ) ;
 		}
 	private:
 		basicdownloader& m_parent ;
+		const engines::engine& m_engine ;
 		int m_id ;
 		bool m_getList ;
+		QByteArray m_listData ;
 	} ;
 
-	basicdownloader::opts opts{ engine,m_bogusTable,m_ctx,m_ctx.debug(),getList,-1 } ;
-
-	events ev( *this,id,getList ) ;
+	events ev( *this,id,getList,engine ) ;
 
 	auto ch     = ev.outPutChannel( engine ) ;
-	auto oopts  = basicdownloader::make_options( engine,opts.move(),ev.move() ) ;
 	auto logger = LoggerWrapper( m_ctx.logger(),id ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
 
-	auto ctx = utility::make_ctx( engine,oopts.move(),logger.move(),term.move(),ch ) ;
+	auto ctx = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
 
 	utility::run( args,credentials,ctx.move() ) ;
 }
 
 void basicdownloader::tabEntered()
 {
-	auto m = m_settings.lastUsedOption( m_ui.cbEngineType->currentText(),settings::tabName::basic ) ;
+	auto e = m_ui.cbEngineType->currentText() ;
+	auto m = m_settings.lastUsedOption( e,settings::tabName::basic ) ;
+
 	m_ui.lineEditOptions->setText( m ) ;
 	m_ui.lineEditURL->setFocus() ;
 	m_ctx.logger().updateView( true ) ;

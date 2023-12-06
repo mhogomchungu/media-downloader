@@ -71,22 +71,11 @@ configure::configure( const Context& ctx ) :
 		}
 	}
 
-	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
+	m_tablePresetOptions.setCurrentItemChanged( 0 ) ;
 
-	m_tablePresetOptions.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+	m_tableUrlToDefaultEngine.setCurrentItemChanged( 0 ) ;
 
-		m_tablePresetOptions.selectRow( c,p,0 ) ;
-	} ) ;
-
-	m_tableUrlToDefaultEngine.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
-
-		m_tableUrlToDefaultEngine.selectRow( c,p,0 ) ;
-	} ) ;
-
-	m_tableDefaultDownloadOptions.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
-
-		m_tableDefaultDownloadOptions.selectRow( c,p,0 ) ;
-	} ) ;
+	m_tableDefaultDownloadOptions.setCurrentItemChanged( 0 ) ;
 
 	connect( m_ui.pbOpenThemeFolder,&QPushButton::clicked,[ themesFolderPath ](){
 
@@ -99,6 +88,8 @@ configure::configure( const Context& ctx ) :
 
 		QDesktopServices::openUrl( QUrl( "file:///" + m,QUrl::TolerantMode ) ) ;
 	} ) ;
+
+	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
 
 	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,ths = ths.move() ]( int index ){
 

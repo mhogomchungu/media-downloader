@@ -100,6 +100,9 @@ private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 
+	void customContextMenuRequested() ;
+	void plSubscription() ;
+
 	struct networkCtx
 	{
 		utility::MediaEntry media ;
@@ -191,26 +194,6 @@ private:
 
 	void showEntry( tableWidget& table,tableWidget::entry e ) ;
 
-	struct opts
-	{
-		const Context& ctx ;
-		utility::printOutPut& printOutPut ;
-		bool listRequested ;
-		int index ;
-		opts move()
-		{
-			return std::move( *this ) ;
-		}
-	} ;
-
-	template< typename Events >
-	auto make_options( const engines::engine& engine,playlistdownloader::opts opts,Events e )
-	{
-		using obj = utility::options< playlistdownloader::opts,Events > ;
-
-		return obj( engine,opts.move(),e.move() ) ;
-	}
-
 	class subscription
 	{
 	public:
@@ -237,7 +220,7 @@ private:
 			QString url ;
 			QString getListOptions ;
 		};
-		std::vector< subscription::entry > entries() ;
+		utility::vector< subscription::entry > entries() ;
 	private:
 		void save() ;
 		QString m_path ;
@@ -315,8 +298,8 @@ private:
 	class listIterator
 	{
 	public:
-		listIterator( std::vector< playlistdownloader::subscription::entry >&& s ) :
-			m_list( std::move( s ) )
+		listIterator( utility::vector< playlistdownloader::subscription::entry > s ) :
+			m_list( s.move() )
 		{
 		}
 		listIterator( const QString& s )
@@ -350,7 +333,7 @@ private:
 			return std::move( *this ) ;
 		}
 	private:
-		std::vector< playlistdownloader::subscription::entry > m_list ;
+		utility::vector< playlistdownloader::subscription::entry > m_list ;
 	} ;
 
 	void getListing( playlistdownloader::listIterator,const engines::engine& ) ;

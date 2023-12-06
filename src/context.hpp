@@ -136,6 +136,10 @@ public:
 	{
 		return m_printOutput ;
 	}
+	void debug( const QByteArray& e ) const
+	{
+		m_printOutput( e ) ;
+	}
 	const QString& appName() const
 	{
 		return m_appName ;

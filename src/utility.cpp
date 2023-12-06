@@ -585,7 +585,7 @@ void utility::openDownloadFolderPath( const QString& url )
 	}
 }
 
-QStringList utility::updateOptions( const updateOptionsStruct& s )
+QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 {
 	const tableWidget::entry& ent  = s.tableEntry ;
 	const engines::engine& engine  = s.engine ;

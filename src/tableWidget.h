@@ -42,6 +42,15 @@ public:
 		QAbstractItemView::SelectionMode selectionMode = QAbstractItemView::NoSelection ;
 		bool mouseTracking = true ;
 	};
+	void setCurrentItemChanged( int s )
+	{
+		auto m = &QTableWidget::currentItemChanged ;
+
+		this->connect( m,[ this,s ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+
+			this->selectRow( c,p,s ) ;
+		} ) ;
+	}
 	void setDownloadingOptions( const QString& s,int row )
 	{
 		this->item( row ).downloadingOptions = s ;
@@ -304,6 +313,15 @@ public:
 	void connect( MemberFunction m,Callback c )
 	{
 		QObject::connect( &m_table,m,std::move( c ) ) ;
+	}
+	void setCurrentItemChanged( int s )
+	{
+		auto m = &QTableWidget::currentItemChanged ;
+
+		this->connect( m,[ this,s ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+
+			this->selectRow( c,p,s ) ;
+		} ) ;
 	}
 	void setTableWidget( const tableWidget::tableWidgetOptions& opts )
 	{

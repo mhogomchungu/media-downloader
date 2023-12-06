@@ -221,6 +221,7 @@ private:
 	void showComments( const QByteArray& ) ;
 	void showSubtitles( const QByteArray& ) ;
 	void saveSubtitles() ;
+	bool saveSubtitles( const QString& url,const QString& ext,const QString& title ) ;
 	void normalizeFilePath( QString& ) ;
 	void setVisibleMediaSectionCut( bool ) ;
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
@@ -230,6 +231,8 @@ private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
+	void showContext( int ) ;
+	void showCustomContext() ;
 	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine&,Items ) ;
@@ -414,47 +417,15 @@ private:
 		defaultLogger()
 		{
 		}
+		defaultLogger move()
+		{
+			return std::move( *this ) ;
+		}
 		bool operator()( const QByteArray& )
 		{
 			return true ;
 		}
 	} ;
-
-	template< typename LogFilter >
-	BatchLoggerWrapper< LogFilter > make_logger( Logger& l,LogFilter f )
-	{
-		return { l,std::move( f ) } ;
-	}
-
-	template< typename Logger >
-	struct opts
-	{
-		const Context& ctx ;
-		utility::printOutPut& printOutPut ;
-		bool listRequested ;
-		int index ;
-		Logger batchLogger ;
-		opts< Logger > move()
-		{
-			return std::move( *this ) ;
-		}
-	} ;
-
-	template< typename Logger,typename Events >
-	auto make_options( const Context& ctx,
-			   const engines::engine& engine,
-			   utility::printOutPut& debug,
-			   bool listRequested,
-			   int index,
-			   Logger logger,
-			   Events e )
-	{
-		opts< Logger > oo{ ctx,debug,listRequested,index,logger.move() } ;
-
-		using obj = utility::options< opts< Logger >,Events > ;
-
-		return obj( engine,oo.move(),e.move() ) ;
-	}
 };
 
 #endif

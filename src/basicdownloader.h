@@ -61,30 +61,6 @@ private:
 
 	basicdownloader::engine defaultEngine() ;
 
-	struct opts
-	{
-		const engines::engine& engine ;
-		tableWidget& table ;
-
-		const Context& ctx ;
-		utility::printOutPut& printOutPut ;
-		bool listRequested ;
-		int index ;
-
-		opts move()
-		{
-			return std::move( *this ) ;
-		}
-	} ;
-
-	template< typename Events >
-	auto make_options( const engines::engine& engine,basicdownloader::opts opts,Events e )
-	{
-		using obj = utility::options< basicdownloader::opts,Events > ;
-
-		return obj( engine,opts.move(),e.move() ) ;
-	}
-
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;

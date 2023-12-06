@@ -68,12 +68,16 @@ library::library( const Context& ctx ) :
 		}
 	} ) ;
 
-	m_table.connect( &QTableWidget::currentItemChanged,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
+	auto cc = &QTableWidget::currentItemChanged ;
+
+	m_table.connect( cc,[ this ]( QTableWidgetItem * c,QTableWidgetItem * p ){
 
 		m_table.selectRow( c,p,1 ) ;
 	} ) ;
 
-	m_table.connect( &QTableWidget::customContextMenuRequested,[ this ]( QPoint ){
+	auto aa = &QTableWidget::customContextMenuRequested ;
+
+	m_table.connect( aa,[ this ]( QPoint ){
 
 		QMenu m ;
 
@@ -87,7 +91,9 @@ library::library( const Context& ctx ) :
 
 				this->internalDisableAll() ;
 
-				m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
+				auto s = directoryManager::supportsCancel() ;
+
+				m_ui.pbLibraryCancel->setEnabled( s ) ;
 
 				utils::qthread::run( [ this,m ](){
 
@@ -142,7 +148,9 @@ library::library( const Context& ctx ) :
 
 	connect( m_ui.pbLibraryHome,&QPushButton::clicked,[ this ](){
 
-		m_downloadFolder = QDir::fromNativeSeparators( m_settings.downloadFolder() ) ;
+		auto m = m_settings.downloadFolder() ;
+
+		m_downloadFolder = QDir::fromNativeSeparators( m ) ;
 
 		if( m_downloadFolder != m_currentPath ){
 

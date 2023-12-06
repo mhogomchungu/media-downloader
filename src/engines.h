@@ -459,6 +459,10 @@ public:
 				{
 					return ( *m_filter )( e ) ;
 				}
+				DataFilter move()
+				{
+					return std::move( *this ) ;
+				}
 			private:
 				std::unique_ptr< engines::engine::functions::filter > m_filter ;
 			};

@@ -371,8 +371,7 @@ public:
 		}
 	}
 	template< typename Options,typename Logger,typename TermSignal >
-	void download( const engines::engine& engine,
-		       QStringList cliOptions,
+	void download( QStringList cliOptions,
 		       const QString& url,
 		       TermSignal conn,
 		       Options opts,
@@ -383,7 +382,7 @@ public:
 
 		cliOptions.append( url ) ;
 
-		auto ctx = utility::make_ctx( engine,opts.move(),logger.move(),conn.move(),channel ) ;
+		auto ctx = utility::make_ctx( opts.move(),logger.move(),conn.move(),channel ) ;
 
 		m_currentlyDownloadingNumber++ ;
 
@@ -416,7 +415,7 @@ public:
 
 		utility::updateOptionsStruct opt{ m,engine,m_settings,args,uiIndex,fd,{ url },e,cctx } ;
 
-		auto ctx = utility::make_ctx( engine,opts.move(),logger.move(),term.move(),channel ) ;
+		auto ctx = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
 
 		auto u = optsUpdater( utility::updateOptions( opt ) ) ;
 
