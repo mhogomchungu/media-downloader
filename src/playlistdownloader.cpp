@@ -172,7 +172,10 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		if( utility::showHistory( m,mm,m_settings,settings::tabName::playlist ) ){
 
-			this->download() ;
+			if( m_settings.autoDownload() ){
+
+				this->download() ;
+			}
 		}
 	} ) ;
 

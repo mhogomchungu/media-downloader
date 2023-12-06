@@ -216,7 +216,10 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( utility::showHistory( *m_ui.lineEditBDUrlOptions,m,m_settings,e ) ){
 
-			this->download( this->defaultEngine() ) ;
+			if( m_settings.autoDownload() ){
+
+				this->download( this->defaultEngine() ) ;
+			}
 		}
 	} ) ;
 

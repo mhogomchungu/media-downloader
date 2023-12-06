@@ -598,7 +598,7 @@ bool settings::autoDownload()
 {
 	if( !m_settings.contains( "AutoDownload" ) ){
 
-		m_settings.setValue( "AutoDownload",true ) ;
+		m_settings.setValue( "AutoDownload",false ) ;
 	}
 
 	return m_settings.value( "AutoDownload" ).toBool() ;

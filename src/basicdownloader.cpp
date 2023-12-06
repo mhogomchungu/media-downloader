@@ -103,9 +103,12 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		if( utility::showHistory( a,b,m_settings,c ) ){
 
-			m_tableList.setVisible( false ) ;
+			if( m_settings.autoDownload() ){
 
-			this->download( m_ui.lineEditURL->text() ) ;
+				m_tableList.setVisible( false ) ;
+
+				this->download( m_ui.lineEditURL->text() ) ;
+			}
 		}
 	} ) ;
 
