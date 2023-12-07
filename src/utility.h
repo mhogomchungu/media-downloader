@@ -60,16 +60,6 @@ namespace Ui
 
 namespace utility
 {
-	namespace details{
-	#if __cplusplus >= 201703L
-		template< typename Function,typename ... Args >
-		using result_of = std::invoke_result_t< Function,Args ... > ;
-	#else
-		template< typename Function,typename ... Args >
-		using result_of = std::result_of_t< Function( Args ... ) > ;
-	#endif
-	}
-
 	template< typename T >
 	class vector
 	{
@@ -125,7 +115,7 @@ namespace utility
 			}
 		}
 		template< typename Function,
-			  typename std::enable_if< std::is_void< details::result_of< Function,T > >::value,int >::type = 0 >
+			  typename std::enable_if< std::is_void< util::types::result_of< Function,T > >::value,int >::type = 0 >
 		void each( Function&& function ) const
 		{
 			for( const auto& it : m_vector ){
@@ -134,7 +124,7 @@ namespace utility
 			}
 		}
 		template< typename Function,
-			  typename std::enable_if< std::is_same< details::result_of< Function,T >,bool >::value,int >::type = 0 >
+			  typename std::enable_if< std::is_same< util::types::result_of< Function,T >,bool >::value,int >::type = 0 >
 		void each( Function&& function ) const
 		{
 			for( const auto& it : m_vector ){

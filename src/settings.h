@@ -131,6 +131,7 @@ public:
 	bool enabledHighDpiScaling() ;
 	bool showTrayIcon() ;
 	bool autoDownload() ;
+	bool downloadOptionsAsLast() ;
 	bool autoDownloadWhenAddedInBatchDownloader() ;
 	bool showVersionInfoWhenStarting() ;
 	bool concurrentDownloading() ;

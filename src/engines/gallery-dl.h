@@ -53,7 +53,7 @@ public:
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

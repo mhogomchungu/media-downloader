@@ -1819,11 +1819,20 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 	} ) ;
 }
 
-void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
+void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,
+							   bool downloadOptionsAsLast )
 {
 	if( !s.uiOptions.isEmpty() ){
 
-		s.ourOptions.append( s.uiOptions ) ;
+		if( downloadOptionsAsLast ){
+
+			s.ourOptions.append( s.uiOptions ) ;
+		}else{
+			utility::make_reverseIterator( s.uiOptions ).forEach( [ & ]( const QString& m ){
+
+				s.ourOptions.prepend( m ) ;
+			} ) ;
+		}
 	}
 }
 

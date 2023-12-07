@@ -268,7 +268,7 @@ void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
 	}
 }
 
-void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& opts )
+void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& opts,bool s )
 {
 	auto _not_contains = []( const engines::engine::functions::updateOpts& opts,const char * e ){
 
@@ -294,7 +294,7 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::functions::upd
 	opts.ourOptions.prepend( "output.mode=terminal" ) ;
 	opts.ourOptions.prepend( "-o" ) ;
 
-	engines::engine::functions::updateDownLoadCmdOptions( opts ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( opts,s ) ;
 }
 
 QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,

@@ -604,6 +604,16 @@ bool settings::autoDownload()
 	return m_settings.value( "AutoDownload" ).toBool() ;
 }
 
+bool settings::downloadOptionsAsLast()
+{
+	if( !m_settings.contains( "DownloadOptionsAsLast" ) ){
+
+		m_settings.setValue( "DownloadOptionsAsLast",true ) ;
+	}
+
+	return m_settings.value( "DownloadOptionsAsLast" ).toBool() ;
+}
+
 bool settings::autoDownloadWhenAddedInBatchDownloader()
 {
 	if( !m_settings.contains( "AutoDownloadWhenAddedInBatchDownloader" ) ){

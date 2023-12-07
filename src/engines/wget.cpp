@@ -221,14 +221,14 @@ wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 {
 }
 
-void wget::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
+void wget::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,bool e )
 {
 	if( !s.ourOptions.contains( "--progress=bar:force" ) ){
 
 		s.ourOptions.append( "--progress=bar:force" ) ;
 	}
 
-	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( s,e ) ;
 }
 
 engines::engine::functions::DataFilter wget::Filter( int id )

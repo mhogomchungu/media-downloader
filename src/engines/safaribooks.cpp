@@ -249,7 +249,7 @@ QString safaribooks::setCredentials( QStringList& uiOptions,QStringList& otherOp
 	return m ;
 }
 
-void safaribooks::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
+void safaribooks::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,bool e )
 {
 	if( s.urls.size() > 0 ){
 
@@ -273,5 +273,5 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine::functions::up
 		s.ourOptions.append( "--login" ) ;
 	}
 
-	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( s,e ) ;
 }

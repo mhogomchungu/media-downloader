@@ -636,19 +636,22 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	auto url = urls ;
 
-	engine.updateDownLoadCmdOptions( { args.uiDownloadOptions(),
-					   args.otherOptions(),
-					   uiIndex,
-					   args.credentials(),
-					   ent.playlist,
-					   ent.playlist_count,
-					   ent.playlist_id,
-					   ent.playlist_title,
-					   ent.playlist_uploader,
-					   ent.playlist_uploader_id,
-					   ent.n_entries,
-					   url,
-					   opts } ) ;
+	engines::engine::functions::updateOpts ups{
+		args.uiDownloadOptions(),
+		args.otherOptions(),
+		uiIndex,
+		args.credentials(),
+		ent.playlist,
+		ent.playlist_count,
+		ent.playlist_id,
+		ent.playlist_title,
+		ent.playlist_uploader,
+		ent.playlist_uploader_id,
+		ent.n_entries,
+		url,
+		opts } ;
+
+	engine.updateDownLoadCmdOptions( ups,settings.downloadOptionsAsLast() ) ;
 
 	const auto& ca = engine.cookieArgument() ;
 	const auto& cv = settings.cookieFilePath( engine.name() ) ;

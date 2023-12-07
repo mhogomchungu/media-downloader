@@ -676,7 +676,7 @@ public:
 				QStringList& ourOptions ;
 			};
 
-			virtual void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) ;
+			virtual void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) ;
 
 			virtual void updateGetPlaylistCmdOptions( QStringList& ) ;
 
@@ -877,9 +877,9 @@ public:
 		{
 			return m_engine->updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
 		}
-		void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& u ) const
+		void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& u,bool e ) const
 		{
-			m_engine->updateDownLoadCmdOptions( u ) ;
+			m_engine->updateDownLoadCmdOptions( u,e ) ;
 		}
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{

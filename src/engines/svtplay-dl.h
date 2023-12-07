@@ -49,7 +49,7 @@ public:
 
 	void updateOutPutChannel( QProcess::ProcessChannel& ) const override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) override ;
 
 	QStringList horizontalHeaderLabels() const override ;
 

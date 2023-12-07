@@ -59,7 +59,7 @@ public:
 					     const QString& downloadingOptions,
 					     const engines::engine::functions::finishedState& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) override ;
 private:
 	const engines& m_engines ;
 };

@@ -225,7 +225,7 @@ QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-void aria2c::updateDownLoadCmdOptions( const updateOpts& e )
+void aria2c::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& e,bool s )
 {
 	if( !e.ourOptions.contains( "-d" ) ){
 
@@ -233,7 +233,7 @@ void aria2c::updateDownLoadCmdOptions( const updateOpts& e )
 		e.ourOptions.append( m_engines.Settings().downloadFolder() ) ;
 	}
 
-	engines::engine::functions::updateDownLoadCmdOptions( e ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( e,s ) ;
 }
 
 aria2c::aria2c_dlFilter::aria2c_dlFilter( settings&,const engines::engine& engine,int id ) :

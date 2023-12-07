@@ -204,7 +204,7 @@ bool lux::foundNetworkUrl( const QString& s )
 	}
 }
 
-void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
+void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,bool e )
 {
 	for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
 
@@ -238,7 +238,7 @@ void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts
 		}
 	}
 
-	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( s,e ) ;
 }
 
 static bool _meetCondition( const engines::engine&,const QByteArray& e )

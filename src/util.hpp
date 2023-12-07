@@ -37,8 +37,6 @@
 #include <memory>
 #include <type_traits>
 
-#include "utils/qprocess.hpp"
-
 namespace util {
 
 namespace types

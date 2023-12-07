@@ -1243,7 +1243,7 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s )
+void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,bool e )
 {
 	if( s.userOptions.contains( "--yes-playlist" ) ){
 
@@ -1299,7 +1299,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 		}
 	}
 
-	engines::engine::functions::updateDownLoadCmdOptions( s ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( s,e ) ;
 
 	if( !s.ourOptions.contains( "-f" ) && !s.ourOptions.contains( "-S" ) ){
 

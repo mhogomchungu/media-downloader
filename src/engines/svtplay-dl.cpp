@@ -374,11 +374,11 @@ void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s ) const
 	s = QProcess::ProcessChannel::StandardError ;
 }
 
-void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& e )
+void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& e,bool s )
 {
 	e.ourOptions.append( "--verbose" ) ;
 
-	engines::engine::functions::updateDownLoadCmdOptions( e ) ;
+	engines::engine::functions::updateDownLoadCmdOptions( e,s ) ;
 }
 
 QStringList svtplay_dl::horizontalHeaderLabels() const
