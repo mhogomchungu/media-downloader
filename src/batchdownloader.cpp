@@ -1091,7 +1091,7 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 				return {} ;
 			}else{
-				auto iter = utility::make_reverseIterator( m_formats ) ;
+				auto iter = utility::reverse( m_formats ) ;
 
 				auto obj = iter.nextAsValue().toObject() ;
 
@@ -1209,7 +1209,7 @@ void batchdownloader::saveSubtitles()
 
 	QMenu m ;
 
-	utility::make_reverseIterator( subtitles ).forEach( [ & ]( const QJsonValue& v ){
+	utility::reverse( subtitles ).forEach( [ & ]( const QJsonValue& v ){
 
 		ee.emplace_back( v.toObject() ) ;
 

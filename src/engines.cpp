@@ -1341,7 +1341,7 @@ std::vector< engines::engine::functions::mediaInfo > engines::engine::functions:
 
 	QStringList m ;
 
-	utility::make_reverseIterator( args ).forEach( [ & ]( const QByteArray& s ){
+	utility::reverse( args ).forEach( [ & ]( const QByteArray& s ){
 
 		auto a = util::split( s,' ',true ) ;
 
@@ -1828,7 +1828,7 @@ void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine
 
 			s.ourOptions.append( s.uiOptions ) ;
 		}else{
-			utility::make_reverseIterator( s.uiOptions ).forEach( [ & ]( const QString& m ){
+			utility::reverse( s.uiOptions ).forEach( [ & ]( const QString& m ){
 
 				s.ourOptions.prepend( m ) ;
 			} ) ;

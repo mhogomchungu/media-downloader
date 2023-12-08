@@ -1269,7 +1269,7 @@ namespace utility
 	} ;
 
 	template< typename List >
-	auto make_reverseIterator( List&& l )
+	auto reverse( List&& l )
 	{
 		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
 	}
