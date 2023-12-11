@@ -561,7 +561,17 @@ configure::configure( const Context& ctx ) :
 	auto proxy      = m_ctx.Settings().getProxySettings() ;
 	auto proxy_type = proxy.types() ;
 
-	m_ui.rbUseSystemProxy->setEnabled( utility::platformIsWindows() ) ;
+    if( !utility::platformIsWindows() )
+    {
+        auto systemProxyHeight = m_ui.rbUseSystemProxy->height() ;
+        m_ui.rbUseSystemProxy->hide() ;
+
+        auto& fromEnv = m_ui.rbGetFromEnv ;
+        fromEnv->move( fromEnv->x(), fromEnv->y() - systemProxyHeight ) ;
+
+        auto& manual = m_ui.rbUseManualProxy ;
+        manual->move( manual->x(), manual->y() - systemProxyHeight ) ;
+    }
 
 	if( proxy_type.manual() ){
 

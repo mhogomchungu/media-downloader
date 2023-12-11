@@ -2240,7 +2240,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Use System Proxy Configuration(Windows Only)</string>
+         <string>Use System Proxy Configuration</string>
         </property>
        </widget>
        <widget class="QRadioButton" name="rbUseManualProxy">
