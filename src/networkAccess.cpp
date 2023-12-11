@@ -350,7 +350,9 @@ void networkAccess::download( networkAccess::iterator iter,
 {
 	const auto& engine = iter.engine() ;
 
-	auto exeFolderPath = QDir::fromNativeSeparators( m_ctx.Engines().engineDirPaths().binPath() ) ;
+	auto ee = m_ctx.Engines().engineDirPaths().binPath() ;
+
+	auto exeFolderPath = QDir::fromNativeSeparators( ee ) ;
 
 	auto m = QDir::fromNativeSeparators( engine.exePath().realExe() ) ;
 
