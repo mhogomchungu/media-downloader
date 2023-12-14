@@ -61,6 +61,8 @@ private:
 
 	basicdownloader::engine defaultEngine() ;
 
+	std::vector< tableWidgetRow< engines::engine::functions::mediaInfo > > m_rows ;
+
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;

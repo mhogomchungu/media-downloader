@@ -45,6 +45,8 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	m_tableList.setVisible( false ) ;
 
+	m_tableList.setUpHeaderMenu( m_rows ) ;
+
 	tableWidget::tableWidgetOptions opts ;
 
 	opts.customContextPolicy = Qt::NoContextMenu ;
@@ -266,9 +268,15 @@ void basicdownloader::listRequested( const QByteArray& a,int id )
 
 		if( ee.size() ){
 
+			m_rows.clear() ;
+
 			for( const auto& m : ee ){
 
-				m_tableList.add( m.toStringList(),m ) ;
+				auto s = m.toStringList() ;
+
+				m_tableList.add( s,m ) ;
+
+				m_rows.emplace_back( m,s ) ;
 			}
 
 			m_tableList.setEnabled( true ) ;

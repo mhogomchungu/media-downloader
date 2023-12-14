@@ -85,7 +85,7 @@ void settings::setMonitorClipboardUrl( bool e,settings::tabName t )
 }
 
 template< typename Type >
-QVariant _get_vslue( QSettings& s,const QString& opt,const Type& e )
+QVariant _get_value( QSettings& s,const QString& opt,const Type& e )
 {
 	if( !s.contains( opt ) ){
 
@@ -97,27 +97,27 @@ QVariant _get_vslue( QSettings& s,const QString& opt,const Type& e )
 
 QByteArray _getOption( QSettings& s,const QString& opt,const QByteArray& e )
 {
-	return _get_vslue( s,opt,e ).toByteArray() ;
+	return _get_value( s,opt,e ).toByteArray() ;
 }
 
 QString _getOption( QSettings& s,const QString& opt,const QString& e )
 {
-	return _get_vslue( s,opt,e ).toString() ;
+	return _get_value( s,opt,e ).toString() ;
 }
 
 bool _getOption( QSettings& s,const QString& opt,bool e )
 {
-	return _get_vslue( s,opt,e ).toBool() ;
+	return _get_value( s,opt,e ).toBool() ;
 }
 
 int _getOption( QSettings& s,const QString& opt,int e )
 {
-	return _get_vslue( s,opt,e ).toInt() ;
+	return _get_value( s,opt,e ).toInt() ;
 }
 
 QStringList _getOption( QSettings& s,const QString& opt,const QStringList& e )
 {
-	return _get_vslue( s,opt,e ).toStringList() ;
+	return _get_value( s,opt,e ).toStringList() ;
 }
 
 bool settings::monitorClipboardUrl( settings::tabName tabName )

@@ -72,7 +72,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	auto cm = &QTableWidget::customContextMenuRequested ;
 
-	m_tableWidgetBDList.connect( cm,[ this ]( QPoint ){
+	m_tableWidgetBDList.connect( cm,[ this ]( const QPoint& ){
 
 		if( m_listType == batchdownloader::listType::MEDIA_OPTIONS ){
 
@@ -105,6 +105,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			}
 		} ) ;
 	} ) ;
+
+	m_tableWidgetBDList.setUpHeaderMenu( m_rows ) ;
 
 	auto ic = &QTableWidget::itemClicked ;
 
@@ -2067,11 +2069,15 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 					auto ee = m_engine.mediaProperties( logger,a ) ;
 
+					m_parent.m_rows.clear() ;
+
 					for( const auto& m : ee ){
 
 						auto s = m.toStringList() ;
 
 						auto e = m.toqJsonObject() ;
+
+						m_parent.m_rows.emplace_back( e,s ) ;
 
 						m_parent.m_tableWidgetBDList.add( s,e ) ;
 					}

@@ -98,6 +98,10 @@ namespace utility
 		{
 			m_vector.emplace_back( std::forward< E >( e ) ... ) ;
 		}
+		void clear()
+		{
+			m_vector.clear() ;
+		}
 		const T& back() const
 		{
 			return m_vector.back() ;

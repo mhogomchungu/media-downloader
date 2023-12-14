@@ -126,7 +126,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	auto ccc = &QTableWidget::customContextMenuRequested ;
 
-	m_subscriptionTable.connect( ccc,[ this ]( QPoint ){
+	m_subscriptionTable.connect( ccc,[ this ]( const QPoint& ){
 
 		auto row = m_subscriptionTable.currentRow() ;
 
@@ -145,7 +145,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		}
 	} ) ;
 
-	m_table.connect( ccc,[ this ]( QPoint ){
+	m_table.connect( ccc,[ this ]( const QPoint& ){
 
 		this->customContextMenuRequested() ;
 	} ) ;
