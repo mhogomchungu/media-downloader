@@ -21,6 +21,8 @@
 #include "version.h"
 #include "utility.h"
 
+#include <QDesktopServices>
+
 void about::enableAll()
 {
 }
@@ -36,11 +38,25 @@ void about::resetMenu()
 about::about( const Context& ctx ) : m_ctx( ctx )
 {
 	this->retranslateUi() ;
+
+	auto m = m_ctx.Ui().textBrowser ;
+
+	QObject::connect( m,&QTextBrowser::anchorClicked,[]( const QUrl& e ){
+
+		QDesktopServices::openUrl( e ) ;
+	} ) ;
+
+	QPalette p = m->palette() ;
+	p.setColor( QPalette::Base,m->palette().color( QPalette::Window ) ) ;
+
+	m->setPalette( p ) ;
 }
 
 void about::retranslateUi()
 {
+	auto url = ": <a href=\"https://github.com/mhogomchungu/media-downloader\">https://github.com/mhogomchungu/media-downloader</a>" ;
 	auto version   = QObject::tr( "Version" ) ;
+	auto website   = QObject::tr( "Project Page" ) + url ;
 	auto copyright = QObject::tr( "Copyright" ) ;
 	auto license   = QObject::tr( "License" ) ;
 	auto email     = QObject::tr( "Email" ) ;
@@ -49,7 +65,7 @@ void about::retranslateUi()
 
 		if( utility::platformIsLikeWindows() ){
 
-			return QObject::tr( "Qt Version" ) + ": " QTVERSION "\n\n" ;
+			return QObject::tr( "Qt Version" ) + ": " QTVERSION "<br><br>" ;
 		}else{
 			return QString() ;
 		}
@@ -58,13 +74,13 @@ void about::retranslateUi()
 	auto banner1 = QObject::tr( "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version." ) ;
 	auto banner2 = QObject::tr( "This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details." ) ;
 
-	auto about = QString( "%1: %2\n\n%3%4: %5, Francis Banyikwa\n\n%6: mhogomchungu@gmail.com\n\n%7: GPLv2+\n\n" + banner1 + "\n\n" + banner2 ) ;
+	auto about = QString( "<br><br><br><br><center>%1: %2<br><br>%3%4: %5, Francis Banyikwa<br><br>%6: mhogomchungu@gmail.com<br><br>%7<br><br>%8: GPLv2+<br><br>" + banner1 + "<br><br>" + banner2 + "</center>" ) ;
 
 	auto vv = utility::aboutVersionInfo() ;
 
-	auto m = about.arg( version,vv,QtVersion,copyright,COPYRIGHT,email,license ) ;
+	auto m = about.arg( version,vv,QtVersion,copyright,COPYRIGHT,email,website,license ) ;
 
-	m_ctx.Ui().TextLabelAbout->setText( m ) ;
+	m_ctx.Ui().textBrowser->setText( m ) ;
 }
 
 void about::tabEntered()

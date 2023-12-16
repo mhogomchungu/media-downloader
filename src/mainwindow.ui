@@ -2346,23 +2346,29 @@ Exampe 2: ${gateway}:8080</string>
      <attribute name="title">
       <string>About</string>
      </attribute>
-     <widget class="QLabel" name="TextLabelAbout">
+     <widget class="QTextBrowser" name="textBrowser">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>771</width>
-        <height>411</height>
+        <x>0</x>
+        <y>0</y>
+        <width>791</width>
+        <height>471</height>
        </rect>
       </property>
-      <property name="text">
-       <string notr="true">TextLabel</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
+      <property name="autoFillBackground">
        <bool>true</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="openExternalLinks">
+       <bool>false</bool>
+      </property>
+      <property name="openLinks">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>

@@ -345,7 +345,7 @@ public:
 			function( m,m_stuff[ static_cast< size_t >( row ) ] ) ;
 		}
 	}
-	void setUpHeaderMenu( std::vector< tableWidgetRow< Stuff > >& t )
+	void setUpHeaderMenu( const std::vector< tableWidgetRow< Stuff > >& t )
 	{
 		auto header = m_table.horizontalHeader() ;
 
