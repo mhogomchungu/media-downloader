@@ -104,16 +104,25 @@ library::library( const Context& ctx ) :
 
 					QFileInfo mm( m ) ;
 
-					if( mm.isDir() ){
+					if( mm.isSymLink() ){
+
+						QFile::remove( m ) ;
+
+					}else if( mm.isDir() ){
 
 						directoryManager::removeDirectory( m,m_continue ) ;
 					}else{
 						QFile::remove( m ) ;
 					}
 
-				},[ row,this ](){
+					return mm.exists() ;
 
-					m_table.removeRow( row ) ;
+				},[ row,this ]( bool s ){
+
+					if( !s ){
+
+						m_table.removeRow( row ) ;
+					}
 
 					this->internalEnableAll() ;
 				} ) ;
