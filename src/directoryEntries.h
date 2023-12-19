@@ -22,37 +22,56 @@
 #define DIRECTORY_ENTRIES_H
 
 #include <QString>
-#include <QPushButton>
 #include <QObject>
-#include <QDir>
 
 #include <atomic>
 #include <vector>
 
-#include <array>
-#include <cstdio>
-#include <cwchar>
-#include <cstring>
-
-#include <limits.h>
-
-#include "utils/miscellaneous.hpp"
-
 class directoryEntries
 {
 private:
-	struct entry
+	class entry
 	{
-		entry( qint64 d,QString p ) :
-			dateCreated( d ),
-			path( std::move( p ) )
+	public:
+		entry( qint64 d,QString p,bool f ) :
+			m_dateCreated( d ),
+			m_path( std::move( p ) ),
+			m_folder( f )
 		{
 		}
-		qint64 dateCreated ;
-		QString path ;
+		bool folder() const
+		{
+			return m_folder ;
+		}
+		const QString& path() const
+		{
+			return m_path ;
+		}
+		qint64 dateCreated() const
+		{
+			return m_dateCreated ;
+		}
+	private:
+		qint64 m_dateCreated ;
+		QString m_path ;
+		bool m_folder ;
+	} ;
+	class wrapper
+	{
+	public:
+		wrapper( const directoryEntries::entry& it ) : m_entry( &it )
+		{
+		}
+		const directoryEntries::entry * operator->() const
+		{
+			return m_entry ;
+		}
+	private:
+		const directoryEntries::entry * m_entry ;
 	} ;
 	std::vector< directoryEntries::entry > m_folders ;
 	std::vector< directoryEntries::entry > m_files ;
+	std::vector< directoryEntries::wrapper > m_joined ;
 public:
 	directoryEntries move()
 	{
@@ -67,27 +86,67 @@ public:
 		m_folders.clear() ;
 		m_files.clear() ;
 	}
-	void sort()
+	void sortByDateAscending()
 	{
 		struct meaw
 		{
 			bool operator()( const entry& lhs,const entry& rhs )
 			{
-				return rhs.dateCreated < lhs.dateCreated ;
+				return lhs.dateCreated() < rhs.dateCreated() ;
 			}
 		} ;
 
-		std::sort( m_folders.begin(),m_folders.end(),meaw() ) ;
+		this->sort( meaw() ) ;
+	}
+	void sortByDateDescending()
+	{
+		struct meaw
+		{
+			bool operator()( const entry& lhs,const entry& rhs )
+			{
+				return lhs.dateCreated() > rhs.dateCreated() ;
+			}
+		} ;
 
-		std::sort( m_files.begin(),m_files.end(),meaw() ) ;
+		this->sort( meaw() ) ;
+	}
+	void sortByNameAscending()
+	{
+		struct meaw
+		{
+			bool operator()( const entry& lhs,const entry& rhs )
+			{
+				return lhs.path().toLower() < rhs.path().toLower() ;
+			}
+		} ;
+
+		this->sort( meaw() ) ;
+	}
+	void sortByNameDescending()
+	{
+		struct meaw
+		{
+			bool operator()( const entry& lhs,const entry& rhs )
+			{
+				return lhs.path().toLower() > rhs.path().toLower() ;
+			}
+		} ;
+
+		this->sort( meaw() ) ;
+	}
+	template< typename sorter>
+	void sort( sorter s )
+	{
+		std::sort( m_folders.begin(),m_folders.end(),s ) ;
+		std::sort( m_files.begin(),m_files.end(),s ) ;
 	}
 	void addFile( qint64 dateCreated,QString path )
 	{
-		m_files.emplace_back( dateCreated,std::move( path ) ) ;
+		m_files.emplace_back( dateCreated,std::move( path ),false ) ;
 	}
 	void addFolder( qint64 dateCreated,QString path )
 	{
-		m_folders.emplace_back( dateCreated,std::move( path ) ) ;
+		m_folders.emplace_back( dateCreated,std::move( path ),true ) ;
 	}
 
 	class iter
@@ -96,7 +155,7 @@ public:
 		iter()
 		{
 		}
-		iter( const std::vector< directoryEntries::entry >& e ) :
+		iter( const std::vector< directoryEntries::wrapper >& e ) :
 			m_entries( &e )
 		{
 		}
@@ -106,11 +165,11 @@ public:
 		}
 		const QString& value() const
 		{
-			return m_entries->data()[ m_position ].path ;
+			return m_entries->data()[ m_position ]->path() ;
 		}
-		const QString& valueWithNext()
+		bool folder() const
 		{
-			return m_entries->data()[ m_position++ ].path ;
+			return m_entries->data()[ m_position ]->folder() ;
 		}
 		iter next() const
 		{
@@ -120,16 +179,38 @@ public:
 		}
 	private:
 		size_t m_position = 0 ;
-		const std::vector< directoryEntries::entry > * m_entries = nullptr ;
+		const std::vector< directoryEntries::wrapper > * m_entries = nullptr ;
 	} ;
 
-	directoryEntries::iter directoryIter()
+	void join( bool folderFirst )
 	{
-		return { m_folders } ;
+		m_joined.clear() ;
+
+		if( folderFirst ){
+
+			for( const auto& it : m_folders ){
+
+				m_joined.emplace_back( it ) ;
+			}
+			for( const auto& it : m_files ){
+
+				m_joined.emplace_back( it ) ;
+			}
+		}else{
+			for( const auto& it : m_files ){
+
+				m_joined.emplace_back( it ) ;
+			}
+			for( const auto& it : m_folders ){
+
+				m_joined.emplace_back( it ) ;
+			}
+		}
 	}
-	directoryEntries::iter fileIter()
+
+	directoryEntries::iter Iter()
 	{
-		return { m_files } ;
+		return { m_joined } ;
 	}
 } ;
 

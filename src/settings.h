@@ -126,6 +126,9 @@ public:
 
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
+	bool libraryShowFolderFirst() ;
+	bool libraryArrangeAscending() ;
+	bool libraryArrangeByDate() ;
 	bool portableVersion() ;
 	bool monitorClipboardUrl( settings::tabName ) ;
 	bool enabledHighDpiScaling() ;
@@ -156,6 +159,9 @@ public:
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
 
+	void setLibraryShowFolderFirst( bool ) ;
+	void setLibraryArrangeAscending( bool ) ;
+	void setLibraryArrangeByDate( bool ) ;
 	void setAutoHideDownloadWhenCompleted( bool ) ;
 	void setCheckForUpdates( bool ) ;
 	void setUseInternalArchiveFile( bool ) ;

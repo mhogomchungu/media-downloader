@@ -48,6 +48,11 @@ library::library( const Context& ctx ) :
 		m_continue = false ;
 	} ) ;
 
+	m_table.setUpHeaderMenu( [ this ]( int column ){
+
+		this->arrangeEntries( column ) ;
+	} ) ;
+
 	connect( m_ui.cbLibraryTabEnable,&QCheckBox::clicked,[ this ]( bool e ){
 
 		m_enabled = e ;
@@ -339,36 +344,22 @@ void library::addItem( const QString& text,library::ICON type )
 	item.setFont( m_ctx.mainWidget().font() ) ;
 }
 
-void library::addFolder( const directoryEntries::iter& s )
-{
-	if( s.hasNext() && m_continue ){
-
-		this->addItem( s.value(),library::ICON::FOLDER ) ;
-
-		auto& t = m_table.get() ;
-
-		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
-
-		auto a = "addFolder" ;
-		auto b = Qt::QueuedConnection ;
-
-		QMetaObject::invokeMethod( this,a,b,Q_ARG( directoryEntries::iter,s.next() ) ) ;
-	}else{
-		this->addFile( m_directoryEntries.fileIter() ) ;
-	}
-}
-
-void library::addFile( const directoryEntries::iter& s )
+void library::addEntry( const directoryEntries::iter& s )
 {
 	auto& t = m_table.get() ;
 
 	if( s.hasNext() && m_continue ){
 
-		this->addItem( s.value(),library::ICON::FILE ) ;
+		if( s.folder() ){
+
+			this->addItem( s.value(),library::ICON::FOLDER ) ;
+		}else{
+			this->addItem( s.value(),library::ICON::FILE ) ;
+		}
 
 		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
 
-		auto a = "addFile" ;
+		auto a = "addEntry" ;
 		auto b = Qt::QueuedConnection ;
 
 		QMetaObject::invokeMethod( this,a,b,Q_ARG( directoryEntries::iter,s.next() ) ) ;
@@ -381,16 +372,102 @@ void library::addFile( const directoryEntries::iter& s )
 		if( m_disableUi ){
 
 			this->internalEnableAll() ;
+		}		
+	}
+}
+
+void library::arrangeAndShow()
+{
+	if( m_settings.libraryArrangeAscending() ){
+
+		if( m_settings.libraryArrangeByDate() ){
+
+			m_directoryEntries.sortByDateAscending() ;
+		}else{
+			m_directoryEntries.sortByNameAscending() ;
+		}
+	}else{
+		if( m_settings.libraryArrangeByDate() ){
+
+			m_directoryEntries.sortByDateDescending() ;
+		}else{
+			m_directoryEntries.sortByNameDescending() ;
+		}
+	}
+
+	m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
+
+	m_table.clear() ;
+
+	m_directoryEntries.join( m_settings.libraryShowFolderFirst() ) ;
+
+	this->addEntry( m_directoryEntries.Iter() ) ;
+}
+
+static void _set_option( QMenu& m,const QString& tr,const QString& utr,bool o )
+{
+	auto ac = m.addAction( tr ) ;
+	ac->setObjectName( utr ) ;
+	ac->setCheckable( true ) ;
+	ac->setChecked( o ) ;
+	m.addAction( ac ) ;
+}
+
+void library::arrangeEntries( int )
+{
+	QMenu m ;
+
+	auto a = m_settings.libraryShowFolderFirst() ;
+
+	_set_option( m,QObject::tr( "Show Folders First" ),"Show Folders First",a ) ;
+
+	a = m_settings.libraryArrangeAscending() ;
+
+	_set_option( m,QObject::tr( "Arrange In Ascending Order" ),"Arrange In Ascending Order",a ) ;
+
+	a = m_settings.libraryArrangeByDate() ;
+
+	_set_option( m,QObject::tr( "Arrange By Date" ),"Arrange By Date",a ) ;
+
+	_set_option( m,QObject::tr( "Arrange By Name" ),"Arrange By Name",!a ) ;
+
+	QObject::connect( &m,&QMenu::triggered,[ this ]( QAction * ac ){
+
+		auto e = ac->objectName() ;
+
+		auto checked = ac->isChecked() ;
+
+		if( e == "Show Folders First" ){
+
+			m_settings.setLibraryShowFolderFirst( checked ) ;
+
+		}else if( e == "Arrange In Ascending Order" ){
+
+			m_settings.setLibraryArrangeAscending( checked ) ;
+
+		}else if( e == "Arrange By Date" ){
+
+			m_settings.setLibraryArrangeByDate( checked ) ;
+
+		}else if( e == "Arrange By Name" ){
+
+			auto m = m_settings.libraryArrangeByDate() ;
+
+			m_settings.setLibraryArrangeByDate( !m ) ;
 		}
 
-		m_directoryEntries.clear() ;
-	}
+		this->internalDisableAll() ;
+
+		m_continue = true ;
+
+		this->arrangeAndShow() ;
+	} ) ;
+
+	m.exec( QCursor::pos() ) ;
 }
 
 void library::showContents( const QString& path,bool disableUi )
 {
-	m_table.clear() ;
-
 	m_table.get().setHorizontalHeaderItem( 1,new QTableWidgetItem( m_currentPath ) ) ;
 
 	if( disableUi ){
@@ -410,8 +487,6 @@ void library::showContents( const QString& path,bool disableUi )
 
 		m_disableUi = disableUi ;
 
-		m_ui.pbLibraryCancel->setEnabled( true ) ;
-
-		this->addFolder( m_directoryEntries.directoryIter() ) ;
+		this->arrangeAndShow() ;
 	} ) ;
 }

@@ -46,7 +46,7 @@ about::about( const Context& ctx ) : m_ctx( ctx )
 		QDesktopServices::openUrl( e ) ;
 	} ) ;
 
-	QPalette p = m->palette() ;
+	auto p = m->palette() ;
 	p.setColor( QPalette::Base,m->palette().color( QPalette::Window ) ) ;
 
 	m->setPalette( p ) ;

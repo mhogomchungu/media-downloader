@@ -18,7 +18,15 @@
  */
 
 #include "directoryEntries.h"
+
+#include "utils/miscellaneous.hpp"
+
+#include <QDir>
+
 #include <cstring>
+#include <cstdio>
+#include <cwchar>
+#include <limits.h>
 
 #ifdef Q_OS_LINUX
 
@@ -28,6 +36,7 @@
 #include <unistd.h>
 #include <cstring>
 #include <string>
+#include <limits.h>
 
 template< typename Continue >
 class dManager
@@ -51,8 +60,6 @@ public:
 			directoryEntries entries ;
 
 			while( m_continue && this->read( entries,m_path,handle.get() ) ){}
-
-			entries.sort() ;
 
 			return entries ;
 		}else{

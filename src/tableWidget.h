@@ -354,6 +354,13 @@ public:
 			this->arrangeTable( column,t ) ;
 		} ) ;
 	}
+	template< typename T >
+	void setUpHeaderMenu( T t )
+	{
+		auto header = m_table.horizontalHeader() ;
+
+		QObject::connect( header,&QHeaderView::sectionClicked,std::move( t ) ) ;
+	}
 	void setCurrentItemChanged( int s )
 	{
 		auto m = &QTableWidget::currentItemChanged ;

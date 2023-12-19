@@ -733,6 +733,36 @@ QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 	return QIcon( ":/video" ).pixmap( width,height ) ;
 }
 
+void settings::setLibraryShowFolderFirst( bool e )
+{
+	m_settings.setValue( "LibraryShowFolderFirst",e ) ;
+}
+
+void settings::setLibraryArrangeAscending( bool e )
+{
+	m_settings.setValue( "LibraryArrangeAscending",e ) ;
+}
+
+void settings::setLibraryArrangeByDate( bool e )
+{
+	m_settings.setValue( "LibraryArrangeByDate",e ) ;
+}
+
+bool settings::libraryShowFolderFirst()
+{
+	return _getOption( m_settings,"LibraryShowFolderFirst",true ) ;
+}
+
+bool settings::libraryArrangeAscending()
+{
+	return _getOption( m_settings,"LibraryArrangeAscending",true ) ;
+}
+
+bool settings::libraryArrangeByDate()
+{
+	return _getOption( m_settings,"LibraryArrangeByDate",true ) ;
+}
+
 bool settings::enabledHighDpiScaling()
 {
 	return m_EnableHighDpiScaling ;

@@ -48,9 +48,10 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 private slots:
-	void addFolder( const directoryEntries::iter& ) ;
-	void addFile( const directoryEntries::iter& ) ;
+	void addEntry( const directoryEntries::iter& ) ;
 private:
+	void arrangeAndShow() ;
+	void arrangeEntries( int ) ;
 	void enableAll( bool ) ;
 	void disableAll( bool ) ;
 	void internalEnableAll() ;
