@@ -1121,6 +1121,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/library.cpp" line="435"/>
+        <location filename="../src/tableWidget.h" line="586"/>
         <source>Arrange In Ascending Order</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1132,6 +1133,21 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/library.cpp" line="441"/>
         <source>Arrange By Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/tableWidget.h" line="593"/>
+        <source>Arrange In Descending Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/tableWidget.h" line="640"/>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/tableWidget.h" line="652"/>
+        <source>No Filter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

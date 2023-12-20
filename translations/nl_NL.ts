@@ -852,6 +852,18 @@ Exampe 2: ${gateway}:8080</source>
         <source>Arrange By Name</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Arrange In Descending Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

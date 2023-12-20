@@ -35,6 +35,7 @@ themes.h \
 mainwindow.h \
 playlistdownloader.h \
 settings.h \
+tableWidget.h \
 tabmanager.h \
 utility.h \
 

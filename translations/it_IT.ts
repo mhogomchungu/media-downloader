@@ -856,6 +856,18 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Arrange By Name</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Arrange In Descending Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
