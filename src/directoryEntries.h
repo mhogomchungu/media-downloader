@@ -39,7 +39,7 @@ private:
 			m_folder( f )
 		{
 		}
-		bool folder() const
+		bool isFolder() const
 		{
 			return m_folder ;
 		}
@@ -167,9 +167,9 @@ public:
 		{
 			return m_entries->data()[ m_position ]->path() ;
 		}
-		bool folder() const
+		bool isFolder() const
 		{
-			return m_entries->data()[ m_position ]->folder() ;
+			return m_entries->data()[ m_position ]->isFolder() ;
 		}
 		iter next() const
 		{

@@ -359,7 +359,7 @@ void library::addEntry( const directoryEntries::iter& s )
 
 	if( s.hasNext() && m_continue ){
 
-		if( s.folder() ){
+		if( s.isFolder() ){
 
 			this->addItem( s.value(),library::ICON::FOLDER ) ;
 		}else{

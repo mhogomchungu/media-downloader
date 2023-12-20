@@ -20,7 +20,7 @@
 #include "settings.h"
 #include "context.hpp"
 
-struct proxy
+namespace proxy
 {
-	static void set( Context&,bool,const QByteArray&,const settings::proxySettings::type& ) ;
-} ;
+	void set( Context&,bool,const QByteArray&,const settings::proxySettings::type& ) ;
+}

@@ -316,10 +316,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Use System Proxy Configuration(Windows Only)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Use Manually Specified Proxy Configuration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -335,6 +331,10 @@
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use System Proxy Configuration</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -830,6 +830,26 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Warning: Skipping Clipboard Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Folders First</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange In Ascending Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange By Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange By Name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
