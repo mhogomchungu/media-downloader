@@ -337,7 +337,7 @@ Esempio 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Use System Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa configurazione proxy di sistema</translation>
     </message>
 </context>
 <context>
@@ -838,35 +838,35 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Project Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Pagina web progetto</translation>
     </message>
     <message>
         <source>Show Folders First</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza prima le cartelle</translation>
     </message>
     <message>
         <source>Arrange In Ascending Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponi in ordine crescente</translation>
     </message>
     <message>
         <source>Arrange By Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per data</translation>
     </message>
     <message>
         <source>Arrange By Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per nome</translation>
     </message>
     <message>
         <source>Arrange In Descending Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponi in ordine decrescente</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtro</translation>
     </message>
     <message>
         <source>No Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun filtro</translation>
     </message>
 </context>
 <context>
