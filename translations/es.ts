@@ -41,9 +41,9 @@
         <location filename="../src/mainwindow.ui" line="150"/>
         <location filename="../src/mainwindow.ui" line="499"/>
         <location filename="../src/mainwindow.ui" line="785"/>
-        <location filename="../src/mainwindow.ui" line="1838"/>
-        <location filename="../src/mainwindow.ui" line="1888"/>
-        <location filename="../src/mainwindow.ui" line="2157"/>
+        <location filename="../src/mainwindow.ui" line="1861"/>
+        <location filename="../src/mainwindow.ui" line="1911"/>
+        <location filename="../src/mainwindow.ui" line="2180"/>
         <source>Options</source>
         <translation>Opciones</translation>
     </message>
@@ -52,7 +52,7 @@
         <location filename="../src/mainwindow.ui" line="538"/>
         <location filename="../src/mainwindow.ui" line="882"/>
         <location filename="../src/mainwindow.ui" line="1330"/>
-        <location filename="../src/mainwindow.ui" line="2328"/>
+        <location filename="../src/mainwindow.ui" line="2351"/>
         <location filename="../src/mainwindow.cpp" line="62"/>
         <source>Quit</source>
         <translation>Salir</translation>
@@ -241,53 +241,48 @@
         <translation>Opciones Generales</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1662"/>
+        <location filename="../src/mainwindow.ui" line="1649"/>
         <source>Dark Theme(Need A Restart)</source>
         <translation>Tema Oscuro (Requiere Reinicar)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1694"/>
+        <location filename="../src/mainwindow.ui" line="1681"/>
         <source>Show Tray Icon</source>
         <translation>Mostrar icono de bandeja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1707"/>
+        <location filename="../src/mainwindow.ui" line="1694"/>
         <source>Auto Save List Of Not Downloaded Media</source>
         <translation>Guardar automáticamente la lista de medios sin descargar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1733"/>
-        <source>Check For Updates</source>
-        <translation>Buscar actualizaciones</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1775"/>
+        <location filename="../src/mainwindow.ui" line="1749"/>
         <source>Auto Hide Downloads When Completed</source>
         <translation>Ocultar automáticamente las descargas cuando se completen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1793"/>
+        <location filename="../src/mainwindow.ui" line="1816"/>
         <source>Reset Option To Its Default</source>
         <translation>Restablecer Opción a su Valor Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1796"/>
-        <location filename="../src/mainwindow.ui" line="1980"/>
+        <location filename="../src/mainwindow.ui" line="1819"/>
+        <location filename="../src/mainwindow.ui" line="2003"/>
         <source>Set Defaults</source>
         <translation>Establecer Predeterminados</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1578"/>
+        <location filename="../src/mainwindow.ui" line="1565"/>
         <source>Scale Factor(Need A Restart)</source>
         <translation>Factor de Escala (Necesita Reiniciar)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1781"/>
+        <location filename="../src/mainwindow.ui" line="1804"/>
         <source>Preset Options</source>
         <translation>Opciones Predeterminadas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1533"/>
+        <location filename="../src/mainwindow.ui" line="1520"/>
         <source>Download Path</source>
         <translation>Ruta para Descargas</translation>
     </message>
@@ -297,43 +292,38 @@
         <translation>Seleccionar Idioma</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1500"/>
-        <source>Show Version Info When Starting</source>
-        <translation>Mostrar información de la versión al comenzar</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="1597"/>
+        <location filename="../src/mainwindow.ui" line="1584"/>
         <source>Add a Plugin</source>
         <translation>Añadir complemento</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1565"/>
+        <location filename="../src/mainwindow.ui" line="1552"/>
         <source>Remove A Plugin</source>
         <translation>Eliminar complemento</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2256"/>
+        <location filename="../src/mainwindow.ui" line="2279"/>
         <source>Use Manually Specified Proxy Configuration</source>
         <translation>Utilice la configuración de proxy especificada manualmente</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2300"/>
+        <location filename="../src/mainwindow.ui" line="2323"/>
         <source>Get Proxy Configuration From The Environment</source>
         <translation>Obtenga la configuración del proxy desde el entorno</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2313"/>
+        <location filename="../src/mainwindow.ui" line="2336"/>
         <source>No Proxy</source>
         <translation>Sin Proxy</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2341"/>
+        <location filename="../src/mainwindow.ui" line="2364"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1939"/>
-        <location filename="../src/mainwindow.ui" line="2038"/>
+        <location filename="../src/mainwindow.ui" line="1962"/>
+        <location filename="../src/mainwindow.ui" line="2061"/>
         <source>Engine&apos;s Default Options</source>
         <translation>Opciones predeterminadas del Motor</translation>
     </message>
@@ -351,22 +341,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="1129"/>
         <location filename="../src/mainwindow.ui" line="1187"/>
-        <location filename="../src/mainwindow.ui" line="1833"/>
-        <location filename="../src/mainwindow.ui" line="1872"/>
+        <location filename="../src/mainwindow.ui" line="1856"/>
+        <location filename="../src/mainwindow.ui" line="1895"/>
         <source>Ui Name</source>
         <translation>Numbre IU</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1209"/>
-        <location filename="../src/mainwindow.ui" line="1907"/>
-        <location filename="../src/mainwindow.ui" line="2052"/>
-        <location filename="../src/mainwindow.ui" line="2196"/>
+        <location filename="../src/mainwindow.ui" line="1930"/>
+        <location filename="../src/mainwindow.ui" line="2075"/>
+        <location filename="../src/mainwindow.ui" line="2219"/>
         <source>Add</source>
         <translation>Añadir</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="1222"/>
-        <location filename="../src/mainwindow.ui" line="2100"/>
+        <location filename="../src/mainwindow.ui" line="2123"/>
         <source>Url</source>
         <translation>Url</translation>
     </message>
@@ -376,84 +366,109 @@
         <translation>Hecho</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1552"/>
+        <location filename="../src/mainwindow.ui" line="1539"/>
         <source>Update Plugin</source>
         <translation>Complemento de Actualización</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1610"/>
+        <location filename="../src/mainwindow.ui" line="1597"/>
         <source>Show MetaData In Batch Downloader Tab</source>
         <translation>Mostrar metadatos en la pestaña Descargar por Lotes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1633"/>
+        <location filename="../src/mainwindow.ui" line="1620"/>
         <source>Maximum Concurrent Downloads</source>
         <translation>Descargas simultáneas máximas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1756"/>
+        <location filename="../src/mainwindow.ui" line="1730"/>
         <source>Text Encoding</source>
         <translation>Codificacion de texto</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1828"/>
-        <location filename="../src/mainwindow.ui" line="1930"/>
+        <location filename="../src/mainwindow.ui" line="1763"/>
+        <source>Show Version Info And Autodownload Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1768"/>
+        <source>Show Version Info And Latest Version Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1773"/>
+        <source>Show Version Info Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1778"/>
+        <source>Do Nothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1792"/>
+        <source>Actions At Startup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="1851"/>
+        <location filename="../src/mainwindow.ui" line="1953"/>
         <source>Website</source>
         <translation>Sitio Web</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1961"/>
-        <location filename="../src/mainwindow.ui" line="2219"/>
+        <location filename="../src/mainwindow.ui" line="1984"/>
+        <location filename="../src/mainwindow.ui" line="2242"/>
         <source>Engine&apos;s Name</source>
         <translation>Nombre del Motor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1993"/>
+        <location filename="../src/mainwindow.ui" line="2016"/>
         <source>Path To Cookie FIle</source>
         <translation>Ruta al archivo de Cookies</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2033"/>
+        <location filename="../src/mainwindow.ui" line="2056"/>
         <source>Default</source>
         <translation>Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2075"/>
+        <location filename="../src/mainwindow.ui" line="2098"/>
         <source>Options To Add</source>
         <translation>Opciones a añadir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2087"/>
+        <location filename="../src/mainwindow.ui" line="2110"/>
         <source>Url Manager</source>
         <translation>Gestor de URL</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2105"/>
+        <location filename="../src/mainwindow.ui" line="2128"/>
         <source>Download Options</source>
         <translation>Opciones de Descarga</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2119"/>
+        <location filename="../src/mainwindow.ui" line="2142"/>
         <source>Set What Url Should Be Managed By What Engine</source>
         <translation>Establecer que Url deberá ser gestionado por un motor en específico</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2138"/>
+        <location filename="../src/mainwindow.ui" line="2161"/>
         <source>Url Filter</source>
         <translation>Filtro de Url</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2231"/>
+        <location filename="../src/mainwindow.ui" line="2254"/>
         <source>Proxy Settings</source>
         <translation>Configuración de Proxy</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2243"/>
+        <location filename="../src/mainwindow.ui" line="2266"/>
         <source>Use System Proxy Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2279"/>
+        <location filename="../src/mainwindow.ui" line="2302"/>
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
@@ -462,7 +477,7 @@ Ejemplo 1: 192.168.93.89:8080
 Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="2347"/>
+        <location filename="../src/mainwindow.ui" line="2370"/>
         <source>About</source>
         <translation>Acerca</translation>
     </message>
@@ -650,276 +665,281 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Holandés (Países Bajos)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="319"/>
+        <location filename="../src/engines.cpp" line="324"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Error, no se pudo encontrar el ejecutable del backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="272"/>
+        <location filename="../src/engines.cpp" line="277"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Motor &quot;%1&quot; requiere al menos la versión &quot;%2&quot; de Media Downloader</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="129"/>
+        <location filename="../src/engines.cpp" line="133"/>
         <source>To Disable These Checks, Do The Following:-</source>
         <translation>Para desactivar estas verificaciones, haga lo siguiente</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="130"/>
+        <location filename="../src/engines.cpp" line="134"/>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
         <translation>1. Vaya a la pestaña &quot;Configurar&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="131"/>
+        <location filename="../src/engines.cpp" line="135"/>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
         <translation>2. Vaya a la sub-pestaña &quot;Opciones Generales&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="132"/>
-        <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation>3: Descative la casilla &quot;Mostrar Información de Versión al Iniciar&quot;.</translation>
+        <location filename="../src/engines.cpp" line="136"/>
+        <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="141"/>
+        <location filename="../src/engines.cpp" line="137"/>
+        <source>4. Select &quot;Do Nothing&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engines.cpp" line="146"/>
         <source>Running In Portable Mode</source>
         <translation>Ejecutando en modo portátil</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="143"/>
+        <location filename="../src/engines.cpp" line="148"/>
         <source>Running In Installation Mode</source>
         <translation>Ejecutando en modo de instalación</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="147"/>
+        <location filename="../src/engines.cpp" line="152"/>
         <source>Download Path: %1</source>
         <translation>Ruta de descarga: %1</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="148"/>
+        <location filename="../src/engines.cpp" line="153"/>
         <source>App Data Path: %1</source>
         <translation>Ruta de datos de la aplicación: %1</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="170"/>
+        <location filename="../src/engines.cpp" line="175"/>
         <source>Setting Proxy Server Address Of %1</source>
         <translation>Configuración de la dirección del servidor proxy de %1</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="183"/>
+        <location filename="../src/engines.cpp" line="188"/>
         <source>Unsetting Proxy Server Address</source>
         <translation>Eliminar la dirección del servidor proxy</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="324"/>
+        <location filename="../src/engines.cpp" line="329"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>Error, imposible analizar el archivo de configuración &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="592"/>
+        <location filename="../src/engines.cpp" line="597"/>
         <source>Failed To Load A Plugin</source>
         <translation>Falló al cargar un Complemento</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="677"/>
-        <location filename="../src/engines.cpp" line="968"/>
+        <location filename="../src/engines.cpp" line="682"/>
+        <location filename="../src/engines.cpp" line="973"/>
         <location filename="../src/utility.cpp" line="708"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Fallo para encontrar el ejecutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="953"/>
+        <location filename="../src/engines.cpp" line="958"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1160"/>
+        <location filename="../src/engines.cpp" line="1165"/>
         <source>Network Error Occured</source>
         <translation>Se produjo un error de red</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1170"/>
+        <location filename="../src/engines.cpp" line="1175"/>
         <source>Url Is Not Supported</source>
         <translation>La URL es incompatible</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1180"/>
+        <location filename="../src/engines.cpp" line="1185"/>
         <source>Download cancelled</source>
         <translation>Descarga cancelada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1195"/>
+        <location filename="../src/engines.cpp" line="1200"/>
         <source>ErrorCode</source>
         <translation>Código de error</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1201"/>
+        <location filename="../src/engines.cpp" line="1206"/>
         <source>Download Failed, Engine failed to start</source>
         <translation>Error de descarga, el motor falló al iniciar</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1203"/>
+        <location filename="../src/engines.cpp" line="1208"/>
         <source>Download Failed, Engine crashed</source>
         <translation>Error de descarga, el motor falló</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1474"/>
+        <location filename="../src/engines.cpp" line="1479"/>
         <source>Format Code</source>
         <translation>Código de formato</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1475"/>
+        <location filename="../src/engines.cpp" line="1480"/>
         <source>Extension</source>
         <translation>Extensión</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1476"/>
+        <location filename="../src/engines.cpp" line="1481"/>
         <source>Resolution</source>
         <translation>Resolución</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1477"/>
+        <location filename="../src/engines.cpp" line="1482"/>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1923"/>
+        <location filename="../src/engines.cpp" line="1928"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1929"/>
+        <location filename="../src/engines.cpp" line="1934"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2069"/>
+        <location filename="../src/engines.cpp" line="2074"/>
         <source>Elapsed Time:</source>
         <translation>Tiempo transcurrido:</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="62"/>
+        <location filename="../src/networkAccess.cpp" line="65"/>
         <source>Checking installed version of</source>
         <translation>Comprobando la versión instalada de</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="67"/>
-        <location filename="../src/versionInfo.cpp" line="238"/>
-        <location filename="../src/versionInfo.cpp" line="491"/>
+        <location filename="../src/networkAccess.cpp" line="70"/>
+        <location filename="../src/versionInfo.cpp" line="95"/>
+        <location filename="../src/versionInfo.cpp" line="327"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>No se pudo encontrar la información de la versión, asegúrese de que &quot;%1&quot; esté instalado y funcione correctamente</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="70"/>
+        <location filename="../src/networkAccess.cpp" line="73"/>
         <source>Found version</source>
         <translation>Versión Encontrada</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="203"/>
-        <location filename="../src/networkAccess.cpp" line="516"/>
+        <location filename="../src/networkAccess.cpp" line="206"/>
+        <location filename="../src/networkAccess.cpp" line="518"/>
         <source>Failed To Open Path For Writing: %1</source>
         <translation>Imposible abrir la ruta para escribir: %1</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="234"/>
-        <location filename="../src/networkAccess.cpp" line="646"/>
-        <location filename="../src/networkAccess.cpp" line="708"/>
+        <location filename="../src/networkAccess.cpp" line="237"/>
+        <location filename="../src/networkAccess.cpp" line="645"/>
+        <location filename="../src/networkAccess.cpp" line="707"/>
         <source>Failed To Extract</source>
         <translation>Imposible Extraer</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="288"/>
+        <location filename="../src/networkAccess.cpp" line="291"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>La red falló en responder en %1 segundos</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="383"/>
+        <location filename="../src/networkAccess.cpp" line="385"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Error al descargar, no se puede crear la siguiente ruta: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="661"/>
+        <location filename="../src/networkAccess.cpp" line="660"/>
         <source>Start Downloading</source>
         <translation>Iniciar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="714"/>
+        <location filename="../src/networkAccess.cpp" line="713"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>Imposible encontrar el ejecutable &quot;bsdtar.exe&quot;</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="716"/>
+        <location filename="../src/networkAccess.cpp" line="715"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation>Imposible encontrar el ejecutable &quot;tar&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1194"/>
-        <location filename="../src/networkAccess.cpp" line="495"/>
-        <location filename="../src/networkAccess.cpp" line="779"/>
+        <location filename="../src/engines.cpp" line="1199"/>
+        <location filename="../src/networkAccess.cpp" line="497"/>
+        <location filename="../src/networkAccess.cpp" line="778"/>
         <source>Download Failed</source>
         <translation>Falló descarga</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="113"/>
-        <location filename="../src/networkAccess.cpp" line="301"/>
+        <location filename="../src/networkAccess.cpp" line="116"/>
+        <location filename="../src/networkAccess.cpp" line="304"/>
         <source>Failed to parse json file from github</source>
         <translation>Error al analizar el archivo json de github</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="669"/>
-        <location filename="../src/networkAccess.cpp" line="683"/>
-        <location filename="../src/networkAccess.cpp" line="741"/>
+        <location filename="../src/networkAccess.cpp" line="668"/>
+        <location filename="../src/networkAccess.cpp" line="682"/>
+        <location filename="../src/networkAccess.cpp" line="740"/>
         <source>Downloading</source>
         <translation>Descargando</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="676"/>
+        <location filename="../src/networkAccess.cpp" line="675"/>
         <source>Destination</source>
         <translation>Destino</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="444"/>
-        <location filename="../src/networkAccess.cpp" line="482"/>
+        <location filename="../src/networkAccess.cpp" line="446"/>
+        <location filename="../src/networkAccess.cpp" line="484"/>
         <source>Update Complete, Restart To Use New Version</source>
         <translation>Actualización completa, reinicie para usar la nueva versión</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="493"/>
+        <location filename="../src/networkAccess.cpp" line="495"/>
         <source>File Not Found</source>
         <translation>Archivo Inexistente</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="594"/>
+        <location filename="../src/networkAccess.cpp" line="596"/>
         <source>Download complete</source>
         <translation>Descarga completa</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="242"/>
-        <location filename="../src/networkAccess.cpp" line="689"/>
+        <location filename="../src/networkAccess.cpp" line="245"/>
+        <location filename="../src/networkAccess.cpp" line="688"/>
         <source>Extracting archive: </source>
         <translation>Extrayendo archivo: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="600"/>
+        <location filename="../src/networkAccess.cpp" line="602"/>
         <source>Renaming file to: </source>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1987"/>
+        <location filename="../src/engines.cpp" line="1992"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1184"/>
+        <location filename="../src/engines.cpp" line="1189"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="496"/>
+        <location filename="../src/settings.cpp" line="489"/>
         <source>Resetting download folder to default</source>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2032"/>
+        <location filename="../src/engines.cpp" line="2037"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>
@@ -1033,48 +1053,28 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Velocidad:</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="64"/>
-        <source>Engine Name</source>
-        <translation>Nombre del motor</translation>
-    </message>
-    <message>
-        <location filename="../src/versionInfo.cpp" line="65"/>
-        <source>Installed Version</source>
-        <translation>Versión instalada</translation>
-    </message>
-    <message>
-        <location filename="../src/versionInfo.cpp" line="66"/>
-        <source>Latest Version</source>
-        <translation>Versión más reciente</translation>
-    </message>
-    <message>
-        <location filename="../src/versionInfo.cpp" line="79"/>
-        <source>There Is An Update For </source>
-        <translation>Hay una actualización para </translation>
-    </message>
-    <message>
-        <location filename="../src/versionInfo.cpp" line="89"/>
-        <source>Update Found</source>
-        <translation>Actualización encontrada</translation>
-    </message>
-    <message>
-        <location filename="../src/versionInfo.cpp" line="303"/>
-        <location filename="../src/versionInfo.cpp" line="543"/>
+        <location filename="../src/versionInfo.cpp" line="121"/>
+        <location filename="../src/versionInfo.cpp" line="381"/>
         <source>Newest Version Is %1, Updating</source>
         <translation>La versión más reciente es %1, actualizando</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="357"/>
-        <location filename="../src/versionInfo.cpp" line="428"/>
+        <location filename="../src/versionInfo.cpp" line="188"/>
+        <location filename="../src/versionInfo.cpp" line="259"/>
         <source>Checking installed version of %1</source>
         <translation>Verificando versión instalada de %1</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="359"/>
-        <location filename="../src/versionInfo.cpp" line="440"/>
-        <location filename="../src/versionInfo.cpp" line="480"/>
+        <location filename="../src/versionInfo.cpp" line="190"/>
+        <location filename="../src/versionInfo.cpp" line="271"/>
+        <location filename="../src/versionInfo.cpp" line="311"/>
         <source>Found version: %1</source>
         <translation>Se encontró la versión: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="385"/>
+        <source>Newest Version Is %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/engines/yt-dlp.cpp" line="1223"/>
@@ -1082,37 +1082,37 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Actualice &quot;%1&quot; a al menos la versión &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1155"/>
+        <location filename="../src/engines.cpp" line="1160"/>
         <source>Requested Format Is Not Available</source>
         <translation>El formato solicitado no está disponible</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1165"/>
+        <location filename="../src/engines.cpp" line="1170"/>
         <source>Invalid Url Entered</source>
         <translation>URL introducida es inválida</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1304"/>
+        <location filename="../src/configure.cpp" line="1310"/>
         <source>Best Available Audio Only</source>
         <translation>Mejor audio disponible únicamente</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1308"/>
+        <location filename="../src/configure.cpp" line="1314"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation>Mejor audio disponible únicamente (MP3)</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1312"/>
+        <location filename="../src/configure.cpp" line="1318"/>
         <source>Best Available Audio Video</source>
         <translation>Mejor audio y vídeo disponibles</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1316"/>
+        <location filename="../src/configure.cpp" line="1322"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation>Mejor audio con resolución de video de %1</translation>
     </message>
     <message>
-        <location filename="../src/tabmanager.cpp" line="230"/>
+        <location filename="../src/tabmanager.cpp" line="223"/>
         <source>Warning: Skipping Clipboard Content</source>
         <translation>Advertencia: omitir el contenido del portapapeles</translation>
     </message>
@@ -1238,41 +1238,41 @@ Ejemplo 2: ${gateway}:8080</translation>
 <context>
     <name>configure</name>
     <message>
-        <location filename="../src/configure.cpp" line="143"/>
+        <location filename="../src/configure.cpp" line="165"/>
         <source>Set As Default</source>
         <translation>Establecer como Predeterminado</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="180"/>
-        <location filename="../src/configure.cpp" line="263"/>
+        <location filename="../src/configure.cpp" line="202"/>
+        <location filename="../src/configure.cpp" line="285"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="124"/>
-        <location filename="../src/configure.cpp" line="163"/>
-        <location filename="../src/configure.cpp" line="253"/>
+        <location filename="../src/configure.cpp" line="146"/>
+        <location filename="../src/configure.cpp" line="185"/>
+        <location filename="../src/configure.cpp" line="275"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="306"/>
+        <location filename="../src/configure.cpp" line="328"/>
         <source>Select A Cookie File</source>
         <translation>Seleccionar un Archivo de Cookies</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="336"/>
+        <location filename="../src/configure.cpp" line="358"/>
         <source>Select An Engine File</source>
         <translation>Seleccionar un Archivo de Motor</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="410"/>
-        <location filename="../src/configure.cpp" line="693"/>
+        <location filename="../src/configure.cpp" line="432"/>
+        <location filename="../src/configure.cpp" line="703"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="505"/>
+        <location filename="../src/configure.cpp" line="527"/>
         <source>Set Download Folder</source>
         <translation>Establecer Carpeta para Descargas</translation>
     </message>

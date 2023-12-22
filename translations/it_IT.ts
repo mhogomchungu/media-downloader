@@ -116,10 +116,6 @@
         <translation>Opzioni</translation>
     </message>
     <message>
-        <source>Show Version Info When Starting</source>
-        <translation>Visualizza info versione all&apos;avvio</translation>
-    </message>
-    <message>
         <source>Download</source>
         <translation>Download</translation>
     </message>
@@ -256,10 +252,6 @@
         <translation>Gestione URL</translation>
     </message>
     <message>
-        <source>Check For Updates</source>
-        <translation>Controlla aggiornamenti</translation>
-    </message>
-    <message>
         <source>Set Download Options</source>
         <translation>Imposta opzioni download</translation>
     </message>
@@ -338,6 +330,26 @@ Esempio 2: ${gateway}:8080</translation>
     <message>
         <source>Use System Proxy Configuration</source>
         <translation>Usa configurazione proxy di sistema</translation>
+    </message>
+    <message>
+        <source>Show Version Info And Autodownload Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Version Info And Latest Version Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Version Info Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do Nothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions At Startup</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -429,10 +441,6 @@ Esempio 2: ${gateway}:8080</translation>
     <message>
         <source>Author</source>
         <translation>Autore</translation>
-    </message>
-    <message>
-        <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation>3: Disattiva la casella &quot;All&apos;avvio visualizza informazioni versione&quot;.</translation>
     </message>
     <message>
         <source>Japanese (Japan)</source>
@@ -677,26 +685,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>Versione disponibile %1, in aggiornamento</translation>
     </message>
     <message>
-        <source>Engine Name</source>
-        <translation>Nome engine</translation>
-    </message>
-    <message>
-        <source>Installed Version</source>
-        <translation>Versione installata</translation>
-    </message>
-    <message>
-        <source>Latest Version</source>
-        <translation>Versione aggiornata</translation>
-    </message>
-    <message>
-        <source>There Is An Update For </source>
-        <translation>C&apos;è un aggiornamento per </translation>
-    </message>
-    <message>
-        <source>Update Found</source>
-        <translation>Disponibile aggiornamento</translation>
-    </message>
-    <message>
         <source>Download Failed, Engine crashed</source>
         <translation>Download non riuscito, Engine bloccato</translation>
     </message>
@@ -867,6 +855,18 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>No Filter</source>
         <translation>Nessun filtro</translation>
+    </message>
+    <message>
+        <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4. Select &quot;Do Nothing&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Newest Version Is %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

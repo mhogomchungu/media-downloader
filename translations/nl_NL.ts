@@ -96,10 +96,6 @@
         <translation>Opties</translation>
     </message>
     <message>
-        <source>Show Version Info When Starting</source>
-        <translation>Toon versie info bij opstarten</translation>
-    </message>
-    <message>
         <source>Download</source>
         <translation>Download</translation>
     </message>
@@ -256,10 +252,6 @@
         <translation>Lijst met niet-gedownloade media automatisch opslaan</translation>
     </message>
     <message>
-        <source>Check For Updates</source>
-        <translation>Controleer op updates</translation>
-    </message>
-    <message>
         <source>Text Encoding</source>
         <translation>Tekstcodering</translation>
     </message>
@@ -335,6 +327,26 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Use System Proxy Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Version Info And Autodownload Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Version Info And Latest Version Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Version Info Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do Nothing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions At Startup</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -423,10 +435,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Author</source>
         <translation>Auteur</translation>
-    </message>
-    <message>
-        <source>3. Uncheck &quot;Show Version Info When Starting&quot;.</source>
-        <translation>3. Vink &quot;Versie-info weergeven bij starten&quot; uit.</translation>
     </message>
     <message>
         <source>Japanese (Japan)</source>
@@ -717,26 +725,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Opgesplitst in hoofdstukken</translation>
     </message>
     <message>
-        <source>Engine Name</source>
-        <translation>Programma naam</translation>
-    </message>
-    <message>
-        <source>Installed Version</source>
-        <translation>Geïnstalleerde versie</translation>
-    </message>
-    <message>
-        <source>Latest Version</source>
-        <translation>Laatste versie</translation>
-    </message>
-    <message>
-        <source>There Is An Update For </source>
-        <translation>Er is een update voor </translation>
-    </message>
-    <message>
-        <source>Update Found</source>
-        <translation>Update gevonden</translation>
-    </message>
-    <message>
         <source>Newest Version Is %1, Updating</source>
         <translation>Nieuwste versie %1, Is aan bijwerken</translation>
     </message>
@@ -862,6 +850,18 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>No Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>4. Select &quot;Do Nothing&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Newest Version Is %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
