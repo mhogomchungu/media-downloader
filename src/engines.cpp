@@ -122,14 +122,19 @@ void engines::showBanner()
 
 	const auto& id = m_bannerId ;
 
-	if( m_settings.showVersionInfoWhenStarting() ){
+	auto aa = m_settings.showLocalAndLatestVersionInformation() ;
+	auto bb = m_settings.showVersionInfoAndAutoDownloadUpdates() ;
+	auto cc = m_settings.showLocalVersionInformationOnly() ;
+
+	if( aa || bb || cc ){
 
 		m_logger.add( utility::barLine(),id ) ;
 
 		m_logger.add( QObject::tr( "To Disable These Checks, Do The Following:-" ),id ) ;
 		m_logger.add( QObject::tr( "1. Go To \"Configure\" Tab." ),id ) ;
 		m_logger.add( QObject::tr( "2. Go To \"General Options\" Sub Tab." ),id ) ;
-		m_logger.add( QObject::tr( "3. Uncheck \"Show Version Info When Starting\"." ),id ) ;
+		m_logger.add( QObject::tr( "3. Click \"Actions At StartUp\" Menu." ),id ) ;
+		m_logger.add( QObject::tr( "4. Select \"Do Nothing\"." ),id ) ;
 
 		m_logger.add( utility::barLine(),id ) ;
 	}

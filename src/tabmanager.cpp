@@ -128,13 +128,6 @@ void tabManager::init_done()
 			m_currentTab = index ;
 		}
 	} ) ;
-
-	auto& ss = m_ctx.Settings() ;
-
-	if( ss.checkForUpdates() && !ss.showVersionInfoWhenStarting() ){
-
-		m_ctx.getVersionInfo().checkForUpdates() ;
-	}
 }
 
 void tabManager::setDefaultEngines()

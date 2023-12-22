@@ -52,7 +52,10 @@ networkAccess::networkAccess( const Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_appName( m_ctx.appName() )
 {
-	if( utility::platformIsWindows() && m_ctx.Settings().showVersionInfoWhenStarting() ){
+	auto m = m_ctx.Settings().showLocalAndLatestVersionInformation() ;
+	auto e = m_ctx.Settings().showVersionInfoAndAutoDownloadUpdates() ;
+
+	if( utility::platformIsWindows() && ( m | e ) ){
 
 		auto& e = m_ctx.logger() ;
 		auto s = QSslSocket::sslLibraryVersionString() ;
@@ -308,7 +311,7 @@ void networkAccess::download( const QByteArray& data,
 
 		if( opts.iter.hasNext() ){
 
-			m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo,false ) ;
+			m_ctx.getVersionInfo().check( opts.iter.next(),false ) ;
 		}
 
 		return ;
@@ -345,8 +348,7 @@ void networkAccess::download( const QByteArray& data,
 	this->download( opts.move() ) ;
 }
 
-void networkAccess::download( networkAccess::iterator iter,
-			      networkAccess::showVersionInfo showVinfo ) const
+void networkAccess::download( networkAccess::iterator iter ) const
 {
 	const auto& engine = iter.engine() ;
 
@@ -394,7 +396,7 @@ void networkAccess::download( networkAccess::iterator iter,
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	networkAccess::Opts opts1{ iter.move(),exePath,exeFolderPath,id,showVinfo } ;
+	networkAccess::Opts opts1{ iter.move(),exePath,exeFolderPath,id } ;
 
 	networkAccess::Opts2 opts2{ engine,opts1.move() } ;
 
@@ -424,7 +426,7 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 			if( opts.iter.hasNext() ){
 
 				const auto& g = m_ctx.getVersionInfo() ;
-				g.check( opts.iter.next(),opts.showVinfo,false ) ;
+				g.check( opts.iter.next(),false ) ;
 			}else{
 				opts.iter.reportDone() ;
 			}
@@ -586,7 +588,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 		if( str.iter.hasNext() ){
 
-			m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo,false ) ;
+			m_ctx.getVersionInfo().check( str.iter.next(),false ) ;
 		}else{
 			str.iter.reportDone() ;
 		}
@@ -609,10 +611,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 			engine.updateCmdPath( m_ctx.logger(),str.exeBinPath ) ;
 
-			auto m = str.showVinfo ;
-			m.setAfterDownloading = true ;
-
-			m_ctx.getVersionInfo().check( str.iter.move(),m,true ) ;
+			m_ctx.getVersionInfo().check( str.iter.move(),true ) ;
 		}
 	}
 }
@@ -641,7 +640,7 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 			f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 		}
 
-		m_ctx.getVersionInfo().check( opts.iter.move(),opts.showVinfo,true ) ;
+		m_ctx.getVersionInfo().check( opts.iter.move(),true ) ;
 	}else{
 		auto m = QObject::tr( "Failed To Extract" ) ;
 
@@ -649,7 +648,7 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 
 		if( opts.iter.hasNext() ){
 
-			m_ctx.getVersionInfo().check( opts.iter.next(),opts.showVinfo,true ) ;
+			m_ctx.getVersionInfo().check( opts.iter.next(),true ) ;
 		}else{
 			opts.iter.reportDone() ;
 		}
@@ -721,7 +720,7 @@ void networkAccess::extractArchive( const engines::engine& engine,
 
 		if( str.iter.hasNext() ){
 
-			m_ctx.getVersionInfo().check( str.iter.next(),str.showVinfo,true ) ;
+			m_ctx.getVersionInfo().check( str.iter.next(),true ) ;
 		}else{
 			str.iter.reportDone() ;
 		}

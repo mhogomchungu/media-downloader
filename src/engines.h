@@ -1147,6 +1147,10 @@ public:
 		{
 			return m_id ;
 		}
+		Iterator move()
+		{
+			return std::move( *this ) ;
+		}
 	private:
 		size_t m_counter = 0 ;
 		size_t m_maxCounter ;

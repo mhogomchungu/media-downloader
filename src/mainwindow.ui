@@ -1439,7 +1439,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1485,19 +1485,6 @@
         </property>
         <property name="wordWrap">
          <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="cbConfigureShowVersionInfo">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>240</y>
-          <width>561</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Show Version Info When Starting</string>
         </property>
        </widget>
        <widget class="QComboBox" name="cbConfigureLanguage">
@@ -1601,7 +1588,7 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>260</y>
+          <y>240</y>
           <width>561</width>
           <height>31</height>
          </rect>
@@ -1615,7 +1602,7 @@
          <rect>
           <x>190</x>
           <y>370</y>
-          <width>431</width>
+          <width>421</width>
           <height>31</height>
          </rect>
         </property>
@@ -1720,19 +1707,6 @@
          <string/>
         </property>
        </widget>
-       <widget class="QCheckBox" name="cbCheckForUpdates">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>340</y>
-          <width>561</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Check For Updates</string>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="lineEditConfigureTextEncoding">
         <property name="geometry">
          <rect>
@@ -1766,13 +1740,62 @@
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>320</y>
+          <y>260</y>
           <width>561</width>
           <height>31</height>
          </rect>
         </property>
         <property name="text">
          <string>Auto Hide Downloads When Completed</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBoxActionsWhenStarting">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>330</y>
+          <width>421</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>Show Version Info And Autodownload Updates</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Show Version Info And Latest Version Info</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Show Version Info Only</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Do Nothing</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="labelActionsAtStartup">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>330</y>
+          <width>171</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Actions At Startup</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>
@@ -2414,7 +2437,6 @@ Exampe 2: ${gateway}:8080</string>
   <tabstop>pbConfigureAddAPlugin</tabstop>
   <tabstop>pbConfigureRemoveAPlugin</tabstop>
   <tabstop>comboBoxConfigureDarkTheme</tabstop>
-  <tabstop>cbConfigureShowVersionInfo</tabstop>
   <tabstop>cbConfigureShowMetaDataInBatchDownloader</tabstop>
   <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>
   <tabstop>pbConfigureSetPresetDefaults</tabstop>

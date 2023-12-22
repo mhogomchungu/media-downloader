@@ -136,7 +136,9 @@ public:
 	bool autoDownload() ;
 	bool downloadOptionsAsLast() ;
 	bool autoDownloadWhenAddedInBatchDownloader() ;
-	bool showVersionInfoWhenStarting() ;
+	bool showVersionInfoAndAutoDownloadUpdates() ;
+	bool showLocalAndLatestVersionInformation() ;
+	bool showLocalVersionInformationOnly() ;
 	bool concurrentDownloading() ;
 	bool showMetaDataInBatchDownloader() ;
 	bool saveHistory() ;
@@ -144,7 +146,6 @@ public:
 	bool singleInstance() ;
 	bool autoSavePlaylistOnExit() ;
 	bool useInternalArchiveFile() ;
-	bool checkForUpdates() ;
 	bool enableLibraryTab() ;
 	bool checkForEnginesUpdates() ;
 	bool autoHideDownloadWhenCompleted() ;
@@ -159,6 +160,8 @@ public:
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
 
+	void setShowLocalVersionInformationOnly( bool ) ;
+	void setShowLocalAndLatestVersionInformation( bool ) ;
 	void setLibraryShowFolderFirst( bool ) ;
 	void setLibraryArrangeAscending( bool ) ;
 	void setLibraryArrangeByDate( bool ) ;
@@ -180,7 +183,7 @@ public:
 	void setMonitorClipboardUrl( bool,settings::tabName ) ;
 	void setShowMetaDataInBatchDownloader( bool ) ;
 	void setPlaylistDownloaderSaveHistory( bool ) ;
-	void setShowVersionInfoWhenStarting( bool ) ;
+	void setShowVersionInfoAndAutoDownloadUpdates( bool ) ;
 	void setThemeName( const QString& ) ;
 	void setPlaylistRangeHistoryLastUsed( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;

@@ -144,12 +144,7 @@ public:
 			return false ;
 		#endif
 	}
-	struct showVersionInfo
-	{
-		bool show ;
-		bool setAfterDownloading ;
-	};
-	void download( engines::Iterator iter,networkAccess::showVersionInfo v ) const
+	void download( engines::Iterator iter ) const
 	{
 		class meaw : public networkAccess::iter
 		{
@@ -183,12 +178,12 @@ public:
 			engines::Iterator m_iter ;
 		};
 
-		this->download( { util::types::type_identity< meaw >(),std::move( iter ) },v ) ;
+		this->download( { util::types::type_identity< meaw >(),std::move( iter ) } ) ;
 	}
 
 	void updateMediaDownloader( networkAccess::Status ) const ;
 
-	void download( networkAccess::iterator,networkAccess::showVersionInfo ) const ;
+	void download( networkAccess::iterator ) const ;
 
 	template< typename Function >
 	void get( const QString& url,Function function ) const
@@ -343,12 +338,10 @@ private:
 		Opts( networkAccess::iterator itr,
 		      const QString& exePath,
 		      const QString& efp,
-		      int xd,
-		      networkAccess::showVersionInfo svf ) :
+		      int xd ) :
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
 			tempPath( efp ),
-			showVinfo( svf ),
 			id( xd )
 		{
 		}
@@ -376,7 +369,6 @@ private:
 		QString tempPath ;
 		mutable QString networkError ;
 		bool isArchive = false ;
-		networkAccess::showVersionInfo showVinfo ;
 		int id ;
 		Logger::locale locale ;
 		networkAccess::File file ;

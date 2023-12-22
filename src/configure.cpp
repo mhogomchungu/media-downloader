@@ -99,6 +99,28 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
+	if( m_settings.showVersionInfoAndAutoDownloadUpdates() ){
+
+		m_ui.comboBoxActionsWhenStarting->setCurrentIndex( 0 ) ;
+
+	}else if( m_settings.showLocalAndLatestVersionInformation() ){
+
+		m_ui.comboBoxActionsWhenStarting->setCurrentIndex( 1 ) ;
+
+	}else if( m_settings.showLocalVersionInformationOnly() ){
+
+		m_ui.comboBoxActionsWhenStarting->setCurrentIndex( 2 ) ;
+	}else{
+		m_ui.comboBoxActionsWhenStarting->setCurrentIndex( 3 ) ;
+	}
+
+	connect( m_ui.comboBoxActionsWhenStarting,cc,[ this ]( int index ){
+
+		m_settings.setShowVersionInfoAndAutoDownloadUpdates( index == 0 ) ;
+		m_settings.setShowLocalAndLatestVersionInformation( index == 1 ) ;
+		m_settings.setShowLocalVersionInformationOnly( index == 2 ) ;
+	} ) ;
+
 	connect( m_ui.pbConfigureAddToPresetList,&QPushButton::clicked,[ this ](){
 
 		auto a = m_ui.lineEditConfigureWebsite->text() ;
@@ -530,8 +552,6 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.lineEditConfigureDownloadPath->setText( m_settings.downloadFolder() ) ;
 
-	m_ui.cbConfigureShowVersionInfo->setChecked( m_settings.showVersionInfoWhenStarting() ) ;
-
 	m_ui.cbAutoHideDownloadCompleted->setChecked( m_settings.autoHideDownloadWhenCompleted() ) ;
 
 	m_ui.cbConfigureShowMetaDataInBatchDownloader->setChecked( m_settings.showMetaDataInBatchDownloader() ) ;
@@ -540,38 +560,28 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.lineEditConfigureTextEncoding->setText( m_settings.textEncoding() ) ;
 
-	m_ui.cbCheckForUpdates->setChecked( m_settings.checkForUpdates() ) ;
 
 	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
-
-	connect( m_ui.cbCheckForUpdates,&QCheckBox::stateChanged,[ this ]( int e ){
-
-		auto s = static_cast< Qt::CheckState >( e ) ;
-
-		if( s == Qt::Checked ){
-
-			m_ctx.getVersionInfo().checkForUpdates() ;
-		}
-	} ) ;
 
 	auto mm = QString::number( m_settings.maxConcurrentDownloads() ) ;
 
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setText( mm ) ;
 
-	auto proxy      = m_ctx.Settings().getProxySettings() ;
-	auto proxy_type = proxy.types() ;
+	const auto proxy      = m_ctx.Settings().getProxySettings() ;
+	const auto proxy_type = proxy.types() ;
 
-    if( !utility::platformIsWindows() )
-    {
-        auto systemProxyHeight = m_ui.rbUseSystemProxy->height() ;
-        m_ui.rbUseSystemProxy->hide() ;
+	if( !utility::platformIsWindows() ){
 
-        auto& fromEnv = m_ui.rbGetFromEnv ;
-        fromEnv->move( fromEnv->x(), fromEnv->y() - systemProxyHeight ) ;
+		auto systemProxyHeight = m_ui.rbUseSystemProxy->height() ;
+		m_ui.rbUseSystemProxy->hide() ;
 
-        auto& manual = m_ui.rbUseManualProxy ;
-        manual->move( manual->x(), manual->y() - systemProxyHeight ) ;
-    }
+		const auto& fromEnv = m_ui.rbGetFromEnv ;
+
+		fromEnv->move( fromEnv->x(),fromEnv->y() - systemProxyHeight ) ;
+
+		const auto& manual = m_ui.rbUseManualProxy ;
+		manual->move( manual->x(),manual->y() - systemProxyHeight ) ;
+	}
 
 	if( proxy_type.manual() ){
 
@@ -661,7 +671,7 @@ void configure::retranslateUi()
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )
 {
-	m_ctx.network().download( iter,{ true,false } ) ;
+	m_ctx.network().download( iter ) ;
 }
 
 void configure::tabEntered()
@@ -803,9 +813,7 @@ void configure::saveOptions()
 	m_settings.setShowMetaDataInBatchDownloader( m ) ;
 	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
-	m_settings.setShowVersionInfoWhenStarting( m_ui.cbConfigureShowVersionInfo->isChecked() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
-	m_settings.setCheckForUpdates( m_ui.cbCheckForUpdates->isChecked() ) ;
 	m_settings.setTextEncoding( m_ui.lineEditConfigureTextEncoding->text() ) ;
 	m_settings.setAutoHideDownloadWhenCompleted( m_ui.cbAutoHideDownloadCompleted->isChecked() ) ;
 
@@ -1016,7 +1024,6 @@ void configure::enableAll()
 	m_ui.label_5->setEnabled( true ) ;
 	m_ui.lineEditConfigureTextEncoding->setEnabled( true ) ;
 	m_ui.labelConfigureTextEncoding->setEnabled( true ) ;
-	m_ui.cbCheckForUpdates->setEnabled( true ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( true ) ;
 	m_ui.pbOpenBinFolder->setEnabled( true ) ;
 	m_ui.cbConfigureEnginesUrlManager->setEnabled( true ) ;
@@ -1042,7 +1049,6 @@ void configure::enableAll()
 	m_ui.comboBoxConfigureDarkTheme->setEnabled( true ) ;
 	m_ui.pbConfigureDownload->setEnabled( true ) ;
 	m_ui.labelConfigureTheme->setEnabled( true ) ;
-	m_ui.cbConfigureShowVersionInfo->setEnabled( true ) ;
 	m_ui.cbAutoSaveNotDownloadedMedia->setEnabled( true ) ;
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
 	m_ui.labelConfigureLanguage->setEnabled( true ) ;
@@ -1061,6 +1067,7 @@ void configure::enableAll()
 	m_ui.lineEditConfigureWebsite->setEnabled( true ) ;
 	m_ui.labelConfugureWebSite->setEnabled( true ) ;
 	m_ui.cbAutoHideDownloadCompleted->setEnabled( true ) ;
+	m_ui.labelActionsAtStartup->setEnabled( true ) ;
 
 	if( m_settings.enabledHighDpiScaling() ){
 
@@ -1082,7 +1089,6 @@ void configure::disableAll()
 	m_ui.label_6->setEnabled( false ) ;
 	m_ui.lineEditConfigureTextEncoding->setEnabled( false ) ;
 	m_ui.labelConfigureTextEncoding->setEnabled( false ) ;
-	m_ui.cbCheckForUpdates->setEnabled( false ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( false ) ;
 	m_ui.labelConfigureEngines_2->setEnabled( false ) ;
 	m_ui.cbConfigureEnginesUrlManager->setEnabled( false ) ;
@@ -1117,7 +1123,6 @@ void configure::disableAll()
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( false ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( false ) ;
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( false ) ;
-	m_ui.cbConfigureShowVersionInfo->setEnabled( false ) ;
 	m_ui.pbConfigureDownload->setEnabled( false ) ;
 	m_ui.cbConfigureLanguage->setEnabled( false ) ;
 	m_ui.labelConfigureLanguage->setEnabled( false ) ;
@@ -1133,6 +1138,7 @@ void configure::disableAll()
 	m_ui.lineEditConfigureWebsite->setEnabled( false ) ;
 	m_ui.labelConfugureWebSite->setEnabled( false ) ;
 	m_ui.cbAutoHideDownloadCompleted->setEnabled( false ) ;
+	m_ui.labelActionsAtStartup->setEnabled( false ) ;
 }
 
 configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :

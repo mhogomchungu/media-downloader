@@ -235,13 +235,6 @@ bool settings::useInternalArchiveFile()
 	return _getOption( m_settings,"UseInternalArchiveFile",true ) ;
 }
 
-bool settings::checkForUpdates()
-{
-	auto m = utility::platformIsWindows() ;
-
-	return _getOption( m_settings,"CheckForUpdates",m ) ;
-}
-
 bool settings::enableLibraryTab()
 {
 	return _getOption( m_settings,"EnableLibraryTab",false ) ;
@@ -558,9 +551,19 @@ bool settings::autoDownloadWhenAddedInBatchDownloader()
 	return _getOption( m_settings,"AutoDownloadWhenAddedInBatchDownloader",false ) ;
 }
 
-bool settings::showVersionInfoWhenStarting()
+bool settings::showVersionInfoAndAutoDownloadUpdates()
 {
-	return _getOption( m_settings,"ShowVersionInfoWhenStarting",true ) ;
+	return _getOption( m_settings,"ShowVersionInfoAndAutoDownloadUpdates",true ) ;
+}
+
+bool settings::showLocalAndLatestVersionInformation()
+{
+	return _getOption( m_settings,"ShowLocalAndLatestVersionInformation",false ) ;
+}
+
+bool settings::showLocalVersionInformationOnly()
+{
+	return _getOption( m_settings,"ShowLocalVersionInformationOnly",false ) ;
 }
 
 bool settings::concurrentDownloading()
@@ -658,9 +661,19 @@ int settings::thumbnailHeight( settings::tabName s )
 	return _getOption( m_settings,m,72 ) ;
 }
 
-void settings::setShowVersionInfoWhenStarting( bool e )
+void settings::setShowLocalVersionInformationOnly( bool e )
 {
-	m_settings.setValue( "ShowVersionInfoWhenStarting",e ) ;
+	m_settings.setValue( "ShowLocalVersionInformationOnly",e ) ;
+}
+
+void settings::setShowLocalAndLatestVersionInformation( bool e )
+{
+	m_settings.setValue( "ShowLocalAndLatestVersionInformation",e ) ;
+}
+
+void settings::setShowVersionInfoAndAutoDownloadUpdates( bool e )
+{
+	m_settings.setValue( "ShowVersionInfoAndAutoDownloadUpdates",e ) ;
 }
 
 void settings::setHighDpiScalingFactor( const QString& m )
