@@ -1068,6 +1068,7 @@ void configure::enableAll()
 	m_ui.labelConfugureWebSite->setEnabled( true ) ;
 	m_ui.cbAutoHideDownloadCompleted->setEnabled( true ) ;
 	m_ui.labelActionsAtStartup->setEnabled( true ) ;
+	m_ui.comboBoxActionsWhenStarting->setEnabled( true ) ;
 
 	if( m_settings.enabledHighDpiScaling() ){
 
@@ -1139,6 +1140,7 @@ void configure::disableAll()
 	m_ui.labelConfugureWebSite->setEnabled( false ) ;
 	m_ui.cbAutoHideDownloadCompleted->setEnabled( false ) ;
 	m_ui.labelActionsAtStartup->setEnabled( false ) ;
+	m_ui.comboBoxActionsWhenStarting->setEnabled( false ) ;
 }
 
 configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
