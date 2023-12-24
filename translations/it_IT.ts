@@ -333,23 +333,23 @@ Esempio 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Show Version Info And Autodownload Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza info versione e aggiornamenti download automatico</translation>
     </message>
     <message>
         <source>Show Version Info And Latest Version Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza info versione auttaule e più recente</translation>
     </message>
     <message>
         <source>Show Version Info Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza info solo sulla versione</translation>
     </message>
     <message>
         <source>Do Nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Non fare nulla</translation>
     </message>
     <message>
         <source>Actions At Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Azioni all&apos;avviodel programma</translation>
     </message>
 </context>
 <context>
@@ -858,15 +858,15 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>3. Fai clic sul menu &quot;Azioni all&apos;avvio del programma&quot;.</translation>
     </message>
     <message>
         <source>4. Select &quot;Do Nothing&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>4. Seleziona &quot;Non fare nulla&quot;.</translation>
     </message>
     <message>
         <source>Newest Version Is %1</source>
-        <translation type="unfinished"></translation>
+        <translation>La versione più recente è %1</translation>
     </message>
 </context>
 <context>
