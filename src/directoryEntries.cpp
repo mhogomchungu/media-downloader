@@ -24,9 +24,7 @@
 #include <QDir>
 
 #include <cstring>
-#include <cstdio>
 #include <cwchar>
-#include <limits.h>
 
 #ifdef Q_OS_LINUX
 
@@ -202,8 +200,6 @@ public:
 			this->add( entries,h.data() ) ;
 
 			while( m_continue && _read( entries,h ) ){}
-
-			entries.sort() ;
 
 			return entries ;
 		}else{
