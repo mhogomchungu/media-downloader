@@ -171,7 +171,7 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 
 			if( !m_showLocalVersionsOnly ){
 
-				return ;
+				return m_ctx.TabManager().init_done() ;
 			}
 		}
 	}
