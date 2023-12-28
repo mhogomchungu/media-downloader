@@ -172,7 +172,9 @@ void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
 				m_logger.add( utility::barLine(),m_bannerId ) ;
 			}
 
-			m_logger.add( QObject::tr( "Setting Proxy Server Address Of %1" ).arg( s ),m_bannerId ) ;
+			auto mm = QObject::tr( "Setting Proxy Server Address Of %1" ).arg( s ) ;
+
+			m_logger.add( mm,m_bannerId ) ;
 
 			m_logger.add( utility::barLine(),m_bannerId ) ;
 		}

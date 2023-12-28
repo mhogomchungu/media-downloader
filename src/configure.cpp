@@ -177,7 +177,7 @@ configure::configure( const Context& ctx ) :
 
 					m_downloadEngineDefaultOptions.setAsDefault( obj ) ;
 
-					this->populateOptionsTable( s ) ;
+					this->populateOptionsTable( s.value() ) ;
 				}
 			}
 		} ) ;
@@ -195,7 +195,10 @@ configure::configure( const Context& ctx ) :
 
 				const auto& s = m_ctx.Engines().getEngineByName( mm ) ;
 
-				this->populateOptionsTable( s ) ;
+				if( s ){
+
+					this->populateOptionsTable( s.value() ) ;
+				}
 			}
 		} ) ;
 
@@ -307,7 +310,12 @@ configure::configure( const Context& ctx ) :
 
 			auto m = m_ui.cbConfigureEngines->itemText( index ) ;
 
-			this->populateOptionsTable( m_engines.getEngineByName( m ) ) ;
+			auto s = m_engines.getEngineByName( m ) ;
+
+			if( s ){
+
+				this->populateOptionsTable( s.value() ) ;
+			}
 
 			this->setEngineOptions( m,engineOptions::options ) ;
 		}
@@ -355,7 +363,10 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureAddAPlugin,&QPushButton::clicked,[ this ](){
 
-		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select An Engine File" ),utility::homePath() ) ;
+		auto mm = tr( "Select An Engine File" ) ;
+		auto ee = utility::homePath() ;
+
+		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),mm,ee ) ;
 
 		if( m.isEmpty() ){
 
@@ -412,8 +423,9 @@ configure::configure( const Context& ctx ) :
 
 			auto& m = m_ctx.getVersionInfo() ;
 
-			m.check( { engine.value(),id },
-				 { util::types::type_identity< woof >(),m_ctx,std::move( name ) },true ) ;
+			auto tt = util::types::type_identity< woof >() ;
+
+			m.check( { engine.value(),id },{ tt,m_ctx,std::move( name ) },true ) ;
 		}
 	} ) ;
 
@@ -464,7 +476,8 @@ configure::configure( const Context& ctx ) :
 				class meaw : public networkAccess::status
 				{
 				public:
-					meaw( const Context& ctx,int id ) : m_ctx( ctx ),m_id( id )
+					meaw( const Context& ctx,int id ) :
+						m_ctx( ctx ),m_id( id )
 					{
 					}
 					void done()
@@ -480,11 +493,13 @@ configure::configure( const Context& ctx ) :
 					int m_id ;
 				} ;
 
-				networkAccess::Status s{ util::types::type_identity< meaw >(),m_ctx,id } ;
+				auto tt = util::types::type_identity< meaw >() ;
 
-				m_ctx.network().updateMediaDownloader( std::move( s ) ) ;
+				m_ctx.network().updateMediaDownloader( { tt,m_ctx,id } ) ;
 			}else{
-				this->downloadFromGitHub( { m_ctx.Engines().defaultEngine( m,id ),id } ) ;
+				const auto& engine = m_ctx.Engines().defaultEngine( m,id ) ;
+
+				this->downloadFromGitHub( { engine,id } ) ;
 			}
 		}
 	} ) ;
@@ -523,10 +538,11 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureDownloadPath,&QPushButton::clicked,[ this ](){
 
-		auto e = QFileDialog::getExistingDirectory( &m_mainWindow,
-							    tr( "Set Download Folder" ),
-							    QDir::homePath(),
-							    QFileDialog::ShowDirsOnly ) ;
+		auto a = tr( "Set Download Folder" ) ;
+		auto b = QDir::homePath() ;
+		auto c = QFileDialog::ShowDirsOnly ;
+
+		auto e = QFileDialog::getExistingDirectory( &m_mainWindow,a,b,c ) ;
 
 		if( !e.isEmpty() ){
 
@@ -544,7 +560,7 @@ configure::configure( const Context& ctx ) :
 
 			m_downloadEngineDefaultOptions.removeAll( s->name() ) ;
 
-			this->populateOptionsTable( s ) ;
+			this->populateOptionsTable( s.value() ) ;
 		}
 	} ) ;
 
@@ -554,7 +570,9 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbAutoHideDownloadCompleted->setChecked( m_settings.autoHideDownloadWhenCompleted() ) ;
 
-	m_ui.cbConfigureShowMetaDataInBatchDownloader->setChecked( m_settings.showMetaDataInBatchDownloader() ) ;
+	auto ss = m_settings.showMetaDataInBatchDownloader() ;
+
+	m_ui.cbConfigureShowMetaDataInBatchDownloader->setChecked( ss ) ;
 
 	m_ui.cbAutoSaveNotDownloadedMedia->setChecked( m_settings.autoSavePlaylistOnExit() ) ;
 
@@ -706,41 +724,47 @@ void configure::tabEntered()
 
 	auto mm = m_ui.cbConfigureEngines->currentText() ;
 
-	this->populateOptionsTable( m_engines.getEngineByName( mm ) ) ;
-}
-
-void configure::populateOptionsTable( const util::result_ref< const engines::engine& >& s )
-{
-	m_tableDefaultDownloadOptions.clear() ;
+	auto s = m_engines.getEngineByName( mm ) ;
 
 	if( s ){
 
-		m_downloadEngineDefaultOptions.forEach( [ s,this ]( const configure::downloadDefaultOptions::optsEngines& opts,QJsonObject obj ){
+		this->populateOptionsTable( s.value() ) ;
+	}
+}
 
-			if( s->name() == opts.engine ){
+void configure::populateOptionsTable( const engines::engine& s )
+{
+	m_tableDefaultDownloadOptions.clear() ;
 
-				m_tableDefaultDownloadOptions.add( { opts.inuse,opts.options },std::move( obj ) ) ;
-			}
+	using mm = configure::downloadDefaultOptions::optsEngines ;
 
-			return false ;
-		} ) ;
+	m_downloadEngineDefaultOptions.forEach( [ &s,this ]( const mm& opts,QJsonObject obj ){
 
-		if( m_tableDefaultDownloadOptions.rowCount() == 0 ){
+		if( s.name() == opts.engine ){
 
-			const auto& e = s->defaultDownLoadCmdOptions() ;
+			QStringList e{ opts.inuse,opts.options } ;
 
-			if( !e.isEmpty() ){
-
-				auto b = e.join( " " ) ;
-
-				auto obj = m_downloadEngineDefaultOptions.addOpt( "yes",s->name(),b ) ;
-
-				m_tableDefaultDownloadOptions.add( { "yes",b },std::move( obj ) ) ;
-			}
+			m_tableDefaultDownloadOptions.add( e,std::move( obj ) ) ;
 		}
 
-		m_tableDefaultDownloadOptions.selectLast() ;
+		return false ;
+	} ) ;
+
+	if( m_tableDefaultDownloadOptions.rowCount() == 0 ){
+
+		const auto& e = s.defaultDownLoadCmdOptions() ;
+
+		if( !e.isEmpty() ){
+
+			auto b = e.join( " " ) ;
+
+			auto obj = m_downloadEngineDefaultOptions.addOpt( "yes",s.name(),b ) ;
+
+			m_tableDefaultDownloadOptions.add( { "yes",b },std::move( obj ) ) ;
+		}
 	}
+
+	m_tableDefaultDownloadOptions.selectLast() ;
 }
 
 void configure::tabExited()
@@ -846,7 +870,9 @@ void configure::saveOptions()
 
 		if( !ss->cookieArgument().isEmpty() ){
 
-			m_settings.setCookieFilePath( ss->name(),m_ui.lineEditConfigureCookiePath->text() ) ;
+			auto m = m_ui.lineEditConfigureCookiePath->text() ;
+
+			m_settings.setCookieFilePath( ss->name(),m ) ;
 		}
 	}
 
@@ -896,11 +922,17 @@ void configure::setEngineOptions( const QString& e,engineOptions tab )
 
 			m_tableUrlToDefaultEngine.clear() ;
 
-			m_downloadDefaultOptions.forEach( [ this,&engineName ]( const downloadDefaultOptions::opts& e,QJsonObject obj ){
+			using mm = downloadDefaultOptions::opts ;
+
+			auto& ss = m_downloadDefaultOptions ;
+
+			ss.forEach( [ this,&engineName ]( const mm& e,QJsonObject obj ){
 
 				if( engineName.isEmpty() || engineName == e.engine ){
 
-					m_tableUrlToDefaultEngine.add( { e.url,e.downloadOptions },std::move( obj ) ) ;
+					QStringList ee{ e.url,e.downloadOptions } ;
+
+					m_tableUrlToDefaultEngine.add( ee,std::move( obj ) ) ;
 				}
 
 				return false ;
@@ -913,7 +945,9 @@ void configure::setEngineOptions( const QString& e,engineOptions tab )
 
 			auto enable = !s->cookieArgument().isEmpty() ;
 
-			m_ui.lineEditConfigureCookiePath->setText( m_settings.cookieFilePath( s->name() ) ) ;
+			auto mm = m_settings.cookieFilePath( s->name() ) ;
+
+			m_ui.lineEditConfigureCookiePath->setText( mm ) ;
 			m_ui.lineEditConfigureCookiePath->setEnabled( enable ) ;
 			m_ui.pbConfigureCookiePath->setEnabled( enable ) ;
 			m_ui.labelPathToCookieFile->setEnabled( enable ) ;

@@ -267,7 +267,7 @@ private:
 	void setEngineOptions( const QString&,engineOptions ) ;
 	void savePresetOptions() ;
 	void showOptions() ;
-	void populateOptionsTable( const util::result_ref< const engines::engine& >& ) ;
+	void populateOptionsTable( const engines::engine& ) ;
 	void updateProxySettings( settings::proxySettings::Type ) ;
 	const Context& m_ctx ;
 	settings& m_settings ;
