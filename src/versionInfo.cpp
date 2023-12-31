@@ -66,6 +66,15 @@ void versionInfo::next( printVinfo vinfo ) const
 	}else{
 		m_ctx.TabManager().enableAll() ;
 
+		const auto& e = vinfo.updates() ;
+
+		if( e.size() ){
+
+			auto m = QObject::tr( "There Is An Update For %1" ) ;
+
+			m_ctx.mainWindow().setTitle( m.arg( e.join( ", " ) ) ) ;
+		}
+
 		vinfo.reportDone() ;
 	}
 }
@@ -268,7 +277,9 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 			if( version.valid() ){
 
-				this->log( QObject::tr( "Found version: %1" ).arg( version.toString() ),id ) ;
+				auto m = QObject::tr( "Found version: %1" ) ;
+
+				this->log( m.arg( version.toString() ),id ) ;
 
 				return this->next( vInfo.move() ) ;
 			}
@@ -378,11 +389,37 @@ void versionInfo::printVersionN( versionInfo::pVInfo pvInfo,const utils::network
 
 		if( m_showLocalVersionsAndUpdateIfAvailable ){
 
-			this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( m ),pvInfo.id() ) ;
+			auto mm = QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ;
+
+			this->log( mm,pvInfo.id() ) ;
 
 			m_network.download( this->wrap( pvInfo.movePrintVinfo() ) ) ;
 		}else{
-			this->log( QObject::tr( "Newest Version Is %1" ).arg( m ),pvInfo.id() ) ;
+			pvInfo.updates().append( engine.name() ) ;
+
+			m_ctx.logger().add( [ &m ]( Logger::Data& s,int id,bool ){
+
+				auto d = s.getData( id ) ;
+
+				auto mm = QObject::tr( "Newest Version Is %1" ).arg( m ) ;
+
+				if( d.size() > 1 ){
+
+					auto foundVersion = d.takeLast() ;
+					auto engineName = d.takeLast() ;
+
+					auto bar = "[media-downloader] " + utility::barLine() ;
+
+					s.add( id,bar ) ;
+					s.add( id,engineName ) ;
+					s.add( id,foundVersion ) ;
+					s.add( id,"[media-downloader] " + mm.toUtf8() ) ;
+					s.add( id,bar ) ;
+				}else{
+					s.add( id,"[media-downloader] " + mm.toUtf8() ) ;
+				}
+
+			},pvInfo.id() ) ;
 
 			this->next( pvInfo.movePrintVinfo() ) ;
 		}

@@ -663,12 +663,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="324"/>
+        <location filename="../src/engines.cpp" line="326"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>Hata, &quot;%1&quot; arka uçta yürütülebilir dosya bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="277"/>
+        <location filename="../src/engines.cpp" line="279"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>&quot;%1&quot; motoru, Medya İndiricinin en az &quot;%2&quot; sürümünü gerektiriyor</translation>
     </message>
@@ -723,94 +723,94 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="188"/>
+        <location filename="../src/engines.cpp" line="190"/>
         <source>Unsetting Proxy Server Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="329"/>
+        <location filename="../src/engines.cpp" line="331"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>Hata, yapılandırma dosyası &quot;%1&quot; ayrıştırılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="597"/>
+        <location filename="../src/engines.cpp" line="599"/>
         <source>Failed To Load A Plugin</source>
         <translation>Eklenti Yüklenemedi</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="682"/>
-        <location filename="../src/engines.cpp" line="973"/>
+        <location filename="../src/engines.cpp" line="684"/>
+        <location filename="../src/engines.cpp" line="975"/>
         <location filename="../src/utility.cpp" line="708"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>&quot;%1&quot; yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="958"/>
+        <location filename="../src/engines.cpp" line="960"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>&quot;%1&quot; arka uç için python3 yürütülebilir dosyası bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1165"/>
+        <location filename="../src/engines.cpp" line="1167"/>
         <source>Network Error Occured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1175"/>
+        <location filename="../src/engines.cpp" line="1177"/>
         <source>Url Is Not Supported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1185"/>
+        <location filename="../src/engines.cpp" line="1187"/>
         <source>Download cancelled</source>
         <translation>İndirme iptal edildi</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1200"/>
+        <location filename="../src/engines.cpp" line="1202"/>
         <source>ErrorCode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1206"/>
+        <location filename="../src/engines.cpp" line="1208"/>
         <source>Download Failed, Engine failed to start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1208"/>
+        <location filename="../src/engines.cpp" line="1210"/>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1479"/>
+        <location filename="../src/engines.cpp" line="1481"/>
         <source>Format Code</source>
         <translation>Format Kodu</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1480"/>
+        <location filename="../src/engines.cpp" line="1482"/>
         <source>Extension</source>
         <translation>Eklentiler</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1481"/>
+        <location filename="../src/engines.cpp" line="1483"/>
         <source>Resolution</source>
         <translation>Çözünürlük</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1482"/>
+        <location filename="../src/engines.cpp" line="1484"/>
         <source>Note</source>
         <translation>Not</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1928"/>
+        <location filename="../src/engines.cpp" line="1930"/>
         <source>Failed to open file for writing</source>
         <translation>Dosya yazmak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1934"/>
+        <location filename="../src/engines.cpp" line="1936"/>
         <source>Failed to open file for reading</source>
         <translation>Dosya okumak için açılamadı</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2074"/>
+        <location filename="../src/engines.cpp" line="2076"/>
         <source>Elapsed Time:</source>
         <translation>Geçen Zaman:</translation>
     </message>
@@ -821,8 +821,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="70"/>
-        <location filename="../src/versionInfo.cpp" line="95"/>
-        <location filename="../src/versionInfo.cpp" line="327"/>
+        <location filename="../src/versionInfo.cpp" line="104"/>
+        <location filename="../src/versionInfo.cpp" line="338"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Sürüm bilgisi bulunamadı, &quot;%1&quot; yüklendiğinden ve düzgün çalıştığından emin olun</translation>
     </message>
@@ -870,7 +870,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1199"/>
+        <location filename="../src/engines.cpp" line="1201"/>
         <location filename="../src/networkAccess.cpp" line="497"/>
         <location filename="../src/networkAccess.cpp" line="778"/>
         <source>Download Failed</source>
@@ -922,12 +922,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Dosya şu şekilde yeniden adlandırılıyor: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1992"/>
+        <location filename="../src/engines.cpp" line="1994"/>
         <source>Processing</source>
         <translation>İşleniyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1189"/>
+        <location filename="../src/engines.cpp" line="1191"/>
         <source>Download completed</source>
         <translation>İndirme tamamlandı</translation>
     </message>
@@ -937,7 +937,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>İndirme klasörünü varsayılana döndürülüyor</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2037"/>
+        <location filename="../src/engines.cpp" line="2039"/>
         <source>Post Processing</source>
         <translation>Rötuş</translation>
     </message>
@@ -1051,26 +1051,31 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="121"/>
-        <location filename="../src/versionInfo.cpp" line="381"/>
+        <location filename="../src/versionInfo.cpp" line="73"/>
+        <source>There Is An Update For %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="130"/>
+        <location filename="../src/versionInfo.cpp" line="392"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="188"/>
-        <location filename="../src/versionInfo.cpp" line="259"/>
+        <location filename="../src/versionInfo.cpp" line="197"/>
+        <location filename="../src/versionInfo.cpp" line="268"/>
         <source>Checking installed version of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="190"/>
-        <location filename="../src/versionInfo.cpp" line="271"/>
-        <location filename="../src/versionInfo.cpp" line="311"/>
+        <location filename="../src/versionInfo.cpp" line="199"/>
+        <location filename="../src/versionInfo.cpp" line="280"/>
+        <location filename="../src/versionInfo.cpp" line="322"/>
         <source>Found version: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="385"/>
+        <location filename="../src/versionInfo.cpp" line="404"/>
         <source>Newest Version Is %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1080,32 +1085,32 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1160"/>
+        <location filename="../src/engines.cpp" line="1162"/>
         <source>Requested Format Is Not Available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1170"/>
+        <location filename="../src/engines.cpp" line="1172"/>
         <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1310"/>
+        <location filename="../src/configure.cpp" line="1346"/>
         <source>Best Available Audio Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1314"/>
+        <location filename="../src/configure.cpp" line="1350"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1318"/>
+        <location filename="../src/configure.cpp" line="1354"/>
         <source>Best Available Audio Video</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1322"/>
+        <location filename="../src/configure.cpp" line="1358"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1241,36 +1246,36 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="202"/>
-        <location filename="../src/configure.cpp" line="285"/>
+        <location filename="../src/configure.cpp" line="205"/>
+        <location filename="../src/configure.cpp" line="288"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="146"/>
         <location filename="../src/configure.cpp" line="185"/>
-        <location filename="../src/configure.cpp" line="275"/>
+        <location filename="../src/configure.cpp" line="278"/>
         <source>Remove</source>
         <translation>Çıkar</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="328"/>
+        <location filename="../src/configure.cpp" line="336"/>
         <source>Select A Cookie File</source>
         <translation>Bir Çerez Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="358"/>
+        <location filename="../src/configure.cpp" line="366"/>
         <source>Select An Engine File</source>
         <translation>Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="432"/>
-        <location filename="../src/configure.cpp" line="703"/>
+        <location filename="../src/configure.cpp" line="444"/>
+        <location filename="../src/configure.cpp" line="721"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="527"/>
+        <location filename="../src/configure.cpp" line="541"/>
         <source>Set Download Folder</source>
         <translation>İndirme Klasörünü Ayarlayın</translation>
     </message>

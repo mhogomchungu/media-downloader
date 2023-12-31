@@ -864,6 +864,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Newest Version Is %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>There Is An Update For %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

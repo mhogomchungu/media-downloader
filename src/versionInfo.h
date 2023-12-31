@@ -171,12 +171,17 @@ public:
 				m_rd.failed() ;
 			}
 		}
+		QStringList& updates()
+		{
+			return m_updates ;
+		}
 	private:
 		networkAccess::iterator m_networkIter ;
 		engines::Iterator m_iter ;
 		versionInfo::reportDone m_rd ;
 		bool m_fromNetwork ;
-		bool m_networkAvailable = true ;
+		bool m_networkAvailable = true ;		
+		QStringList m_updates ;
 	} ;
 
 	void checkEnginesUpdates( const std::vector< engines::engine >&,bool ) const ;
@@ -227,6 +232,10 @@ private:
 		const QString& cmd()
 		{
 			return m_cmd ;
+		}
+		QStringList& updates()
+		{
+			return m_pvInfo.updates() ;
 		}
 	private:
 		versionInfo::printVinfo m_pvInfo ;

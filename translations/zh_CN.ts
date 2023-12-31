@@ -663,12 +663,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>荷兰语 (荷兰)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="324"/>
+        <location filename="../src/engines.cpp" line="326"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>错误,找不到后端的可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="277"/>
+        <location filename="../src/engines.cpp" line="279"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>引擎&quot;%1&quot; 至少需要Media Downloader版本&quot;%2&quot;</translation>
     </message>
@@ -723,94 +723,94 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="188"/>
+        <location filename="../src/engines.cpp" line="190"/>
         <source>Unsetting Proxy Server Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="329"/>
+        <location filename="../src/engines.cpp" line="331"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>错误,无法解析配置文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="597"/>
+        <location filename="../src/engines.cpp" line="599"/>
         <source>Failed To Load A Plugin</source>
         <translation>插件加载失败</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="682"/>
-        <location filename="../src/engines.cpp" line="973"/>
+        <location filename="../src/engines.cpp" line="684"/>
+        <location filename="../src/engines.cpp" line="975"/>
         <location filename="../src/utility.cpp" line="708"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="958"/>
+        <location filename="../src/engines.cpp" line="960"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1165"/>
+        <location filename="../src/engines.cpp" line="1167"/>
         <source>Network Error Occured</source>
         <translation>发生网络错误</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1175"/>
+        <location filename="../src/engines.cpp" line="1177"/>
         <source>Url Is Not Supported</source>
         <translation>网址不受支持</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1185"/>
+        <location filename="../src/engines.cpp" line="1187"/>
         <source>Download cancelled</source>
         <translation>下载已取消</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1200"/>
+        <location filename="../src/engines.cpp" line="1202"/>
         <source>ErrorCode</source>
         <translation>错误代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1206"/>
+        <location filename="../src/engines.cpp" line="1208"/>
         <source>Download Failed, Engine failed to start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1208"/>
+        <location filename="../src/engines.cpp" line="1210"/>
         <source>Download Failed, Engine crashed</source>
         <translation>下载失败,引擎崩溃</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1479"/>
+        <location filename="../src/engines.cpp" line="1481"/>
         <source>Format Code</source>
         <translation>格式代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1480"/>
+        <location filename="../src/engines.cpp" line="1482"/>
         <source>Extension</source>
         <translation>扩展</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1481"/>
+        <location filename="../src/engines.cpp" line="1483"/>
         <source>Resolution</source>
         <translation>分辨率</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1482"/>
+        <location filename="../src/engines.cpp" line="1484"/>
         <source>Note</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1928"/>
+        <location filename="../src/engines.cpp" line="1930"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1934"/>
+        <location filename="../src/engines.cpp" line="1936"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2074"/>
+        <location filename="../src/engines.cpp" line="2076"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
@@ -821,8 +821,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="70"/>
-        <location filename="../src/versionInfo.cpp" line="95"/>
-        <location filename="../src/versionInfo.cpp" line="327"/>
+        <location filename="../src/versionInfo.cpp" line="104"/>
+        <location filename="../src/versionInfo.cpp" line="338"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>未能找到版本信息,请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
@@ -870,7 +870,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>未能找到&quot;tar&quot;可执行文件</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1199"/>
+        <location filename="../src/engines.cpp" line="1201"/>
         <location filename="../src/networkAccess.cpp" line="497"/>
         <location filename="../src/networkAccess.cpp" line="778"/>
         <source>Download Failed</source>
@@ -922,12 +922,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1992"/>
+        <location filename="../src/engines.cpp" line="1994"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1189"/>
+        <location filename="../src/engines.cpp" line="1191"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
@@ -937,7 +937,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2037"/>
+        <location filename="../src/engines.cpp" line="2039"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
@@ -1051,26 +1051,31 @@ Exampe 2: ${gateway}:8080</source>
         <translation>速度:</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="121"/>
-        <location filename="../src/versionInfo.cpp" line="381"/>
+        <location filename="../src/versionInfo.cpp" line="73"/>
+        <source>There Is An Update For %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/versionInfo.cpp" line="130"/>
+        <location filename="../src/versionInfo.cpp" line="392"/>
         <source>Newest Version Is %1, Updating</source>
         <translation>最新版本是 %1,正在更新</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="188"/>
-        <location filename="../src/versionInfo.cpp" line="259"/>
+        <location filename="../src/versionInfo.cpp" line="197"/>
+        <location filename="../src/versionInfo.cpp" line="268"/>
         <source>Checking installed version of %1</source>
         <translation>检查已安装的 %1 版本</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="190"/>
-        <location filename="../src/versionInfo.cpp" line="271"/>
-        <location filename="../src/versionInfo.cpp" line="311"/>
+        <location filename="../src/versionInfo.cpp" line="199"/>
+        <location filename="../src/versionInfo.cpp" line="280"/>
+        <location filename="../src/versionInfo.cpp" line="322"/>
         <source>Found version: %1</source>
         <translation>找到的版本: %1 </translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="385"/>
+        <location filename="../src/versionInfo.cpp" line="404"/>
         <source>Newest Version Is %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1080,32 +1085,32 @@ Exampe 2: ${gateway}:8080</source>
         <translation>请更新&quot;%1&quot;至少到版本&quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1160"/>
+        <location filename="../src/engines.cpp" line="1162"/>
         <source>Requested Format Is Not Available</source>
         <translation>请求的格式不可用</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1170"/>
+        <location filename="../src/engines.cpp" line="1172"/>
         <source>Invalid Url Entered</source>
         <translation>输入的网址无效</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1310"/>
+        <location filename="../src/configure.cpp" line="1346"/>
         <source>Best Available Audio Only</source>
         <translation>仅最佳可用音频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1314"/>
+        <location filename="../src/configure.cpp" line="1350"/>
         <source>Best Available Audio Only(MP3)</source>
         <translation>最佳可用音频(MP3)</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1318"/>
+        <location filename="../src/configure.cpp" line="1354"/>
         <source>Best Available Audio Video</source>
         <translation>最佳可用音频视频</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="1322"/>
+        <location filename="../src/configure.cpp" line="1358"/>
         <source>Best Audio With Video Resolution Of %1</source>
         <translation>视频分辨率为 %1 的最佳音频</translation>
     </message>
@@ -1241,36 +1246,36 @@ Exampe 2: ${gateway}:8080</source>
         <translation>设为默认</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="202"/>
-        <location filename="../src/configure.cpp" line="285"/>
+        <location filename="../src/configure.cpp" line="205"/>
+        <location filename="../src/configure.cpp" line="288"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
         <location filename="../src/configure.cpp" line="146"/>
         <location filename="../src/configure.cpp" line="185"/>
-        <location filename="../src/configure.cpp" line="275"/>
+        <location filename="../src/configure.cpp" line="278"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="328"/>
+        <location filename="../src/configure.cpp" line="336"/>
         <source>Select A Cookie File</source>
         <translation>选择Cookie文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="358"/>
+        <location filename="../src/configure.cpp" line="366"/>
         <source>Select An Engine File</source>
         <translation>选择引擎文件</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="432"/>
-        <location filename="../src/configure.cpp" line="703"/>
+        <location filename="../src/configure.cpp" line="444"/>
+        <location filename="../src/configure.cpp" line="721"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/configure.cpp" line="527"/>
+        <location filename="../src/configure.cpp" line="541"/>
         <source>Set Download Folder</source>
         <translation>选择下载文件夹</translation>
     </message>

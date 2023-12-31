@@ -337,6 +337,16 @@ public:
 			{
 				m_entries->pop_back() ;
 			}
+			QByteArray takeLast()
+			{
+				auto m = this->lastText() ;
+				this->removeLast() ;
+				return m ;
+			}
+			size_t size() const
+			{
+				return m_entries->size() ;
+			}
 			operator bool() const
 			{
 				return m_entries != nullptr ;
