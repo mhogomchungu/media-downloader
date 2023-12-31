@@ -865,12 +865,12 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <translation>4. Seleziona &quot;Non fare nulla&quot;.</translation>
     </message>
     <message>
-        <source>Newest Version Is %1</source>
-        <translation>La versione più recente è %1</translation>
-    </message>
-    <message>
         <source>There Is An Update For %1</source>
         <translation>C&apos;è un aggiornamento per  %1</translation>
+    </message>
+    <message>
+        <source>Newest Version Is: %1</source>
+        <translation>Versione disponibile: %1</translation>
     </message>
 </context>
 <context>

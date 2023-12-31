@@ -1078,7 +1078,7 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <location filename="../src/versionInfo.cpp" line="404"/>
-        <source>Newest Version Is %1</source>
+        <source>Newest Version Is: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

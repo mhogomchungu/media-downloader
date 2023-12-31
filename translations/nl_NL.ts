@@ -861,11 +861,11 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Newest Version Is %1</source>
+        <source>There Is An Update For %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There Is An Update For %1</source>
+        <source>Newest Version Is: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

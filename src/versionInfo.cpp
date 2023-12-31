@@ -401,7 +401,7 @@ void versionInfo::printVersionN( versionInfo::pVInfo pvInfo,const utils::network
 
 				auto d = s.getData( id ) ;
 
-				auto mm = QObject::tr( "Newest Version Is %1" ).arg( m ) ;
+				auto mm = QObject::tr( "Newest Version Is: %1" ).arg( m ) ;
 
 				if( d.size() > 1 ){
 
