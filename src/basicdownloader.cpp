@@ -45,7 +45,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	m_tableList.setVisible( false ) ;
 
-	m_tableList.setUpHeaderMenu( m_rows ) ;
+	m_tableList.setUpHeaderMenu() ;
 
 	tableWidget::tableWidgetOptions opts ;
 
@@ -268,15 +268,11 @@ void basicdownloader::listRequested( const QByteArray& a,int id )
 
 		if( ee.size() ){
 
-			m_rows.clear() ;
-
 			for( const auto& m : ee ){
 
 				auto s = m.toStringList() ;
 
 				m_tableList.add( s,m ) ;
-
-				m_rows.emplace_back( m,s ) ;
 			}
 
 			m_tableList.setEnabled( true ) ;

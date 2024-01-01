@@ -283,8 +283,6 @@ private:
 	bool m_done = false ;
 	bool m_startAutoDownload ;
 
-	std::vector< tableWidgetRow< QJsonObject > > m_rows ;
-
 	class de
 	{
 	public:

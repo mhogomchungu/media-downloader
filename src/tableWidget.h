@@ -345,21 +345,19 @@ public:
 			function( m,m_stuff[ static_cast< size_t >( row ) ] ) ;
 		}
 	}
-	void setUpHeaderMenu( const std::vector< tableWidgetRow< Stuff > >& t )
-	{
-		auto header = m_table.horizontalHeader() ;
-
-		QObject::connect( header,&QHeaderView::sectionClicked,[ this,&t ]( int column ){
-
-			this->arrangeTable( column,t ) ;
-		} ) ;
-	}
 	template< typename T >
 	void setUpHeaderMenu( T t )
 	{
 		auto header = m_table.horizontalHeader() ;
 
 		QObject::connect( header,&QHeaderView::sectionClicked,std::move( t ) ) ;
+	}
+	void setUpHeaderMenu()
+	{
+		this->setUpHeaderMenu( [ this ]( int column ){
+
+			this->arrangeTable( column ) ;
+		} ) ;
 	}
 	void setCurrentItemChanged( int s )
 	{
@@ -407,6 +405,24 @@ public:
 			m_table.removeRow( 0 ) ;
 		}
 		m_stuff.clear() ;
+	}
+	void hideAll()
+	{
+		int m = m_table.rowCount() ;
+
+		for( int i = 0 ; i < m ; i++ ){
+
+			m_table.hideRow( i ) ;
+		}
+	}
+	void showAll()
+	{
+		int m = m_table.rowCount() ;
+
+		for( int i = 0 ; i < m ; i++ ){
+
+			m_table.showRow( i ) ;
+		}
 	}
 	int currentRow()
 	{
@@ -577,9 +593,102 @@ private:
 			this->add( it.entries,it.stuff ) ;
 		}
 	}
-	void arrangeTable( int column,const std::vector< tableWidgetRow< Stuff > >& rows )
+	template< typename Rows >
+	void filterTable( Rows& rows,int column,QMenu& m )
+	{
+		QStringList l ;
+
+		if( column == 1 ){
+
+			for( int row = 0 ; row < m_table.rowCount() ; row++ ){
+
+				auto m = m_table.item( row,column )->text() ;
+
+				if( !l.contains( m ) ){
+
+					l.append( m ) ;
+				}
+
+				rows.emplace_back( std::move( m ),row ) ;
+			}
+		}else{
+			std::array< const char *,4 >entries{ {
+					"storyboard",
+					"video only",
+					"audio only",
+					"audio video" } } ;
+
+			for( int row = 0 ; row < m_table.rowCount() ; row++ ){
+
+				auto e = m_table.item( row,column )->text() ;
+
+				for( const auto& it : entries ){
+
+					if( e.contains( it ) && !l.contains( it ) ){
+
+						l.append( it ) ;
+					}
+				}
+
+				rows.emplace_back( std::move( e ),row ) ;
+			}
+		}
+
+		m.addAction( QObject::tr( "Filter" ) )->setObjectName( "Filter" ) ;
+
+		m.addSeparator() ;
+
+		for( const auto& it : l ){
+
+			auto s = it ;
+			s[ 0 ] = s[ 0 ].toUpper() ;
+
+			auto ac = m.addAction( s ) ;
+
+			ac->setObjectName( it ) ;
+		}
+
+		m.addSeparator() ;
+
+		m.addAction( QObject::tr( "No Filter" ) )->setObjectName( "No Filter" ) ;
+
+		QObject::connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
+
+			auto m = ac->objectName() ;
+
+			if( m == "No Filter" ){
+
+				this->showAll() ;
+
+			}else if( m != "Filter" ){
+
+				this->hideAll() ;
+
+				for( const auto& it : rows ){
+
+					if( it.text.contains( m ) ){
+
+						m_table.showRow( it.row ) ;
+					}
+				}
+			}
+		} ) ;
+	}
+	void arrangeTable( int column )
 	{
 		QMenu m ;
+
+		struct entry
+		{
+			entry( QString&& t,int r ) :
+				text( std::move( t ) ),row( r )
+			{
+			}
+			QString text ;
+			int row ;
+		} ;
+
+		std::vector< entry > rows ;
 
 		if( column == 0 ){
 
@@ -601,82 +710,9 @@ private:
 
 		}else if( column == 1 || column == 2 ){
 
-			QStringList l ;
-
-			if( column == 1 ){
-
-				for( const auto& r : rows ){
-
-					const auto& s = r.entries[ column ] ;
-
-					if( !l.contains( s ) ){
-
-						l.append( s ) ;
-					}
-				}
-
-				l.sort() ;
-			}else{
-				std::array< const char *,4 >entries{ {
-						"video only",
-						"audio only",
-						"audio video",
-						"storyboard" } } ;
-
-				for( const auto& r : rows ){
-
-					const auto& e = r.entries[ column ] ;
-
-					for( const auto& it : entries ){
-
-						if( e.contains( it ) && !l.contains( it ) ){
-
-							l.append( it ) ;
-						}
-					}
-				}
-			}
-
-			m.addAction( QObject::tr( "Filter" ) )->setObjectName( "Filter" ) ;
-
-			m.addSeparator() ;
-
-			for( const auto& it : l ){
-
-				auto ac = m.addAction( it ) ;
-				ac->setObjectName( it ) ;
-			}
-
-			m.addSeparator() ;
-
-			m.addAction( QObject::tr( "No Filter" ) )->setObjectName( "No Filter" ) ;
-
-			QObject::connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
-
-				auto m = ac->objectName() ;
-
-				if( m == "No Filter" ){
-
-					this->clear() ;
-
-					for( const auto& s : rows ){
-
-						this->add( s.entries,s.stuff ) ;
-					}
-
-				}else if( m != "Filter" ){
-
-					this->clear() ;
-
-					for( const auto& s : rows ){
-
-						if( s.entries[ column ].contains( m ) ){
-
-							this->add( s.entries,s.stuff ) ;
-						}
-					}
-				}
-			} ) ;
+			this->filterTable( rows,column,m ) ;
+		}else{
+			return ;
 		}
 
 		m.exec( QCursor::pos() ) ;
