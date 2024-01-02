@@ -221,3 +221,13 @@ Version 1.2.0(April 1st, 2021)
   Version 4.1.0(December 1st, 2023)
       [All]
       - Various changes and improvements.
+
+  Version 4.2.0(January 2nd, 2024)
+      [Windows]
+      - Fix a bug that caused older version of ffmpeg to be used when user install newer version of MD
+       that uses newer version of ffmpeg without first unistalling older version of MD that uses older
+       version of ffmpeg.
+      [All]
+      - Add ability show entries in the library tab in various orders.
+      - Add ability to filter and sort media list to easily choose which ones to download.
+      - Rework UI options that control checking for updates and autodownloads at startup.

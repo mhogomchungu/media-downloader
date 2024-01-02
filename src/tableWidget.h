@@ -265,6 +265,7 @@ public:
 	int rowCount() const ;
 	int currentRow() const ;
 	void replace( tableWidget::entry,int row,sizeHint = {} ) ;
+	void replace( const QJsonArray&,int row ) ;
 	void clear() ;
 	void setVisible( bool ) ;
 	void selectLast() ;

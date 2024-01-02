@@ -25,6 +25,8 @@
 #include <QMetaObject>
 #include <QClipboard>
 #include <QFileDialog>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -1990,8 +1992,9 @@ void batchdownloader::showList( batchdownloader::listType listType,
 	public:
 		events( batchdownloader& p,
 			batchdownloader::listType l,
-			const engines::engine& engine ) :
-			m_parent( p ),m_listType( l ),m_engine( engine )
+			const engines::engine& engine,
+			int row ) :
+			m_parent( p ),m_listType( l ),m_engine( engine ),m_row( row )
 		{
 		}
 		const engines::engine& engine()
@@ -2077,6 +2080,10 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 						m_parent.m_tableWidgetBDList.add( s,e ) ;
 					}
+
+					auto m = QJsonDocument::fromJson( a ) ;
+
+					m_parent.m_table.replace( m.array(),m_row ) ;
 				}
 			}
 		}
@@ -2084,6 +2091,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		batchdownloader::listType m_listType ;
 		const engines::engine& m_engine ;
 		QByteArray m_listData ;
+		int m_row ;
 	} ;
 
 	auto term = m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,-1 ) ;
@@ -2095,7 +2103,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	BatchLoggerWrapper< outPut > logger( m_ctx.logger(),outPut( *this,listType ) ) ;
 
-	events ev( *this,listType,engine ) ;
+	events ev( *this,listType,engine,row ) ;
 
 	auto ctx = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
 

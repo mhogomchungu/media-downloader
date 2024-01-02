@@ -185,6 +185,11 @@ void tableWidget::replace( tableWidget::entry e,int r,sizeHint s )
 	item->setText( m_items[ row ].uiText ) ;
 }
 
+void tableWidget::replace( const QJsonArray& array,int row )
+{
+	m_items[ static_cast< size_t >( row ) ].mediaProperties = array ;
+}
+
 int tableWidget::addRow()
 {
 	auto row = m_table.rowCount() ;
