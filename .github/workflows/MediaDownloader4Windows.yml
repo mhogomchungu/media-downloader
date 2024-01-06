@@ -81,9 +81,9 @@ jobs:
       run: |
         mkdir ${{github.workspace}}\build\all\
         mkdir ${{github.workspace}}\build\all\local
-        cp ${{github.workspace}}/build/RePr.exe ${{github.workspace}}\build\all\
+        cp ${{github.workspace}}/build/media-downloader.exe ${{github.workspace}}\build\all\
         cd ${{github.workspace}}\build\all\
-        windeployqt.exe RePr.exe --release
+        windeployqt.exe media-downloader.exe --release
         ls
         Compress-Archive -Path ${{github.workspace}}\build\all\ -DestinationPath ${{github.workspace}}\build\final.zip
     -
