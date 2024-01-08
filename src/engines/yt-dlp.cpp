@@ -1258,21 +1258,18 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 	s.ourOptions.append( "--output-na-placeholder" ) ;
 	s.ourOptions.append( "NA" ) ;
 
-	auto _replace = [ this ]( QStringList& s,QString& txt,const QString& original,const QString& New ){
+	QStringList mm ;
 
-		if( m_likeYtdlp ){
+	auto _add = [ & ]( const QString& txt,const QString& original,const QString& New ){
 
-			if( txt.contains( original ) ){
+		if( txt.contains( original ) ){
 
-				s.append( "--parse-metadata" ) ;
-				s.append( New + ":" + original ) ;
-			}
-		}else{
-			txt.replace( original,New ) ;
+			mm.append( "--parse-metadata" ) ;
+			mm.append( New + ":" + original ) ;
 		}
 	} ;
 
-	for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
+	for( int m = s.ourOptions.size() - 1 ; m > -1 ; m-- ){
 
 		if( s.ourOptions[ m ] == "-o" ){
 
@@ -1283,20 +1280,25 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 				auto w = s.uiIndex.toString( true,s.ourOptions ) ;
 				auto ww = s.uiIndex.toString( false,s.ourOptions ) ;
 
-				_replace( s.ourOptions,e,"%(autonumber)s",ww ) ;
-				_replace( s.ourOptions,e,"%(playlist_index)s",w ) ;
-				_replace( s.ourOptions,e,"%(playlist_autonumber)s",w ) ;
-				_replace( s.ourOptions,e,"%(playlist_id)s",s.playlist_id ) ;
-				_replace( s.ourOptions,e,"%(playlist_title)s",s.playlist_title ) ;
-				_replace( s.ourOptions,e,"%(playlist)s",s.playlist ) ;
-				_replace( s.ourOptions,e,"%(playlist_count)s",s.playlist_count ) ;
-				_replace( s.ourOptions,e,"%(playlist_uploader)s",s.playlist_uploader ) ;
-				_replace( s.ourOptions,e,"%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
-				_replace( s.ourOptions,e,"%(n_entries)s",s.n_entries ) ;
-
-				m++ ;
+				_add( e,"%(autonumber)s",ww ) ;
+				_add( e,"%(playlist_index)s",w ) ;
+				_add( e,"%(playlist_autonumber)s",w ) ;
+				_add( e,"%(playlist_id)s",s.playlist_id ) ;
+				_add( e,"%(playlist_title)s",s.playlist_title ) ;
+				_add( e,"%(playlist)s",s.playlist ) ;
+				_add( e,"%(playlist_count)s",s.playlist_count ) ;
+				_add( e,"%(playlist_uploader)s",s.playlist_uploader ) ;
+				_add( e,"%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
+				_add( e,"%(n_entries)s",s.uiIndex.total() ) ;
 			}
+
+			break ;
 		}
+	}
+
+	if( !mm.isEmpty() ){
+
+		s.ourOptions.append( mm ) ;
 	}
 
 	engines::engine::functions::updateDownLoadCmdOptions( s,e ) ;

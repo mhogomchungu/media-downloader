@@ -661,6 +661,27 @@ public:
 
 			struct updateOpts
 			{
+				template< typename Args,typename Ent >
+				updateOpts( const Args& args,
+					    const Ent& ent,
+					    const utility::uiIndex& ui,
+					    QStringList& u,
+					    QStringList& o ) :
+					uiOptions( args.uiDownloadOptions() ),
+					userOptions( args.otherOptions() ),
+					uiIndex( ui ),
+					credentials( args.credentials() ),
+					playlist( ent.playlist ),
+					playlist_count( ent.playlist_count ),
+					playlist_id( ent.playlist_id ),
+					playlist_title( ent.playlist_title ),
+					playlist_uploader( ent.playlist_uploader ),
+					playlist_uploader_id( ent.playlist_uploader_id ),
+					n_entries( ent.n_entries ),
+					urls( u ),
+					ourOptions( o )
+				{
+				}
 				const QStringList& uiOptions ;
 				const QStringList& userOptions ;
 				const utility::uiIndex& uiIndex ;

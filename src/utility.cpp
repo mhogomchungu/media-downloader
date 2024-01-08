@@ -636,20 +636,7 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	auto url = urls ;
 
-	engines::engine::functions::updateOpts ups{
-		args.uiDownloadOptions(),
-		args.otherOptions(),
-		uiIndex,
-		args.credentials(),
-		ent.playlist,
-		ent.playlist_count,
-		ent.playlist_id,
-		ent.playlist_title,
-		ent.playlist_uploader,
-		ent.playlist_uploader_id,
-		ent.n_entries,
-		url,
-		opts } ;
+	engines::engine::functions::updateOpts ups( args,ent,uiIndex,url,opts ) ;
 
 	engine.updateDownLoadCmdOptions( ups,settings.downloadOptionsAsLast() ) ;
 
@@ -1669,23 +1656,20 @@ utility::printOutPut::printOutPut( const utility::cliArguments& args )
 
 void utility::printOutPut::operator()( const QByteArray& e )
 {
-	if( m_status != utility::printOutPut::status::notSet ){
+	if( m_outPutFile.isOpen() ){
 
-		if( m_outPutFile.isOpen() ){
+		m_outPutFile.write( e ) ;
+	}
 
-			m_outPutFile.write( e ) ;
-		}
+	if( m_status == utility::printOutPut::status::qdebug ){
 
-		if( m_status == utility::printOutPut::status::qdebug ){
+		qDebug() << e ;
+		qDebug() << "--------------------------------" ;
 
-			qDebug() << e ;
-			qDebug() << "--------------------------------" ;
+	}else if( m_status == utility::printOutPut::status::debug ){
 
-		}else if( m_status == utility::printOutPut::status::debug ){
-
-			std::cout << e.constData() << std::endl ;
-			std::cout << "--------------------------------" << std::endl ;
-		}
+		std::cout << e.constData() << std::endl ;
+		std::cout << "--------------------------------" << std::endl ;
 	}
 }
 

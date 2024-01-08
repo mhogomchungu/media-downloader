@@ -528,7 +528,14 @@ namespace utility
 			m_index( index ),m_total( total )
 		{
 		}
-
+		QString total() const
+		{
+			return QString::number( m_total ) ;
+		}
+		QString index() const
+		{
+			return QString::number( m_index ) ;
+		}
 		QString toString( bool,const QStringList& ) const ;
 	private:
 		QString toString( int ) const ;
@@ -1012,7 +1019,11 @@ namespace utility
 
 			exe.setProcessEnvironment( m_engine.processEnvironment() ) ;
 
-			m_logger.add( "cmd: " + m_engine.commandString( m_cmd ) ) ;
+			auto mm = "cmd: " + m_engine.commandString( m_cmd ) ;
+
+			m_logger.add( mm ) ;
+
+			m_events.printOutPut( mm.toUtf8() ) ;
 
 			const auto& df = m_events.downloadFolder() ;
 
