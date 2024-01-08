@@ -328,13 +328,21 @@ void basicdownloader::download( const QString& url )
 				      m_ui.lineEditOptions->text(),
 				      settings::tabName::basic ) ;
 
-	auto m = util::split( url,' ',true ) ;
+	auto m = util::splitPreserveQuotes( url ) ;
+
+	if( m.size() ){
+
+		if( m[ 0 ] == "yt-dlp" ){
+
+			m.removeAt( 0 ) ;
+		}
+	}
 
 	const auto& engine = this->defaultEngine() ;
 
 	m_bogusTable.clear() ;
 
-	auto uiText = m.at( 0 ) ;
+	auto uiText = m.last() ;
 	auto state = downloadManager::finishedStatus::notStarted() ;
 
 	tableWidget::entry entry ;

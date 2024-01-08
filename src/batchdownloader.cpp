@@ -291,7 +291,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		auto m = utility::clipboardText() ;
 
-		if( m.startsWith( "http" ) ){
+		if( m.startsWith( "http" ) || m.startsWith( "yt-dlp" ) ){
 
 			this->addToList( m ) ;
 		}
@@ -844,10 +844,14 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 
 		m_table.setUiText( s.uiText,row ) ;
 		m_table.setEngineName( s.engineName,row ) ;
-		m_table.setDownloadingOptions( s.downloadOptions,row ) ;
 		m_table.setExtraDownloadOptions( s.downloadExtraOptions,row ) ;
 
-		m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
+		if( s.downloadOptions.isEmpty() ){
+
+			m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
+		}else{
+			m_table.setDownloadingOptions( s.downloadOptions,row ) ;
+		}
 
 		auto a = "addItemUiSlot" ;
 		auto b = Qt::QueuedConnection ;
@@ -1459,51 +1463,55 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 
 	if( err.error == QJsonParseError::NoError ){
 
-		auto obj = json.object() ;
-		Items items ;
-
-		if( obj.isEmpty() ){
-
-			/*
-			 * File created by us
-			 */
-			auto function = []( const QJsonValue& e ){
-
-				return e.toString() ;
-			} ;
-
-			auto a = "url" ;
-			auto b = "uploadDate" ;
-
-			_dataFromFile( items,m_ctx,json.array(),a,b,function ) ;
-		}else{
-			/*
-			 * File created with yt-dlp
-			 */
-			auto array = obj.value( "entries" ).toArray() ;
-
-			auto function = []( const QJsonValue& e ){
-
-				using tt = engines::engine::functions::timer ;
-				return tt::duration( e.toInt() * 1000 ) ;
-			} ;
-
-			if( !array.isEmpty() ){
-
-				auto a = "webpage_url" ;
-				auto b = "upload_date" ;
-
-				_dataFromFile( items,m_ctx,array,a,b,function ) ;
-			}
-		}
-
-		const auto& engine = this->defaultEngine() ;
-
-		auto m = m_showMetaData ;
-		m_showMetaData = false ;
-		this->showThumbnail( engine,items.move() ) ;
-		m_showMetaData = m ;
+		this->parseDataFromObject( json.object(),json.array() ) ;
 	}
+}
+
+void batchdownloader::parseDataFromObject( const QJsonObject& obj,const QJsonArray& array )
+{
+	Items items ;
+
+	if( obj.isEmpty() ){
+
+		/*
+		 * File created by us
+		 */
+		auto function = []( const QJsonValue& e ){
+
+			return e.toString() ;
+		} ;
+
+		auto a = "url" ;
+		auto b = "uploadDate" ;
+
+		_dataFromFile( items,m_ctx,array,a,b,function ) ;
+	}else{
+		/*
+		 * File created with yt-dlp
+		 */
+		auto array = obj.value( "entries" ).toArray() ;
+
+		auto function = []( const QJsonValue& e ){
+
+			using tt = engines::engine::functions::timer ;
+			return tt::duration( e.toInt() * 1000 ) ;
+		} ;
+
+		if( !array.isEmpty() ){
+
+			auto a = "webpage_url" ;
+			auto b = "upload_date" ;
+
+			_dataFromFile( items,m_ctx,array,a,b,function ) ;
+		}
+	}
+
+	const auto& engine = this->defaultEngine() ;
+
+	auto m = m_showMetaData ;
+	m_showMetaData = false ;
+	this->showThumbnail( engine,items.move() ) ;
+	m_showMetaData = m ;
 }
 
 void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
@@ -2182,21 +2190,54 @@ void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThu
 
 	ee.updateVersionInfo( m_ctx,[ this,&ee,u,autoDownload,showThumbnails ](){
 
-		auto url = u ;
+		for( const auto& it : util::split( u,'\n',true ) ){
 
-		url.replace( "\r","" ) ;
+			if( it.startsWith( "yt-dlp" ) ){
 
-		if( utils::misc::containsAny( url,'\n',' ' ) ){
+				/*
+				 * Entry looks like yt-dlp ${YTDLP_OPTIONS} URL
+				 * Stream detector has ability to create such entries
+				 * https://github.com/54ac/stream-detector
+				 */
 
-			for( const auto& it : util::split( url,' ',true ) ){
+				auto m = util::split( it,' ',true ) ;
 
-				for( const auto& xt : util::split( it,'\n',true ) ){
+				QJsonObject obj ;
+
+				auto url = m.takeLast() ;
+
+				if( url.startsWith( "\"" ) ){
+
+					url.remove( 0,1 ) ;
+				}
+
+				if( url.endsWith( "\"" ) ){
+
+					url.remove( url.size() - 1,1 ) ;
+				}
+
+				url.replace( "\r","" ) ;
+
+				obj.insert( "engineName",m.takeFirst() ) ;
+				obj.insert( "downloadOptions",m.join( " " ) ) ;
+				obj.insert( "url",url ) ;
+				obj.insert( "uiText",url ) ;
+
+				QJsonArray arr ;
+
+				arr.append( obj ) ;
+
+				this->parseDataFromObject( QJsonObject(),arr ) ;
+			}else{
+				auto url = it ;
+
+				url.replace( "\r","" ) ;
+
+				for( const auto& xt : util::split( url,' ',true ) ){
 
 					this->showThumbnail( ee,xt,autoDownload,showThumbnails ) ;
 				}
 			}
-		}else{
-			this->showThumbnail( ee,url,autoDownload,showThumbnails ) ;
 		}
 	} ) ;
 }

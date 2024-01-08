@@ -227,6 +227,7 @@ private:
 	void setVisibleMediaSectionCut( bool ) ;
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
 	void parseDataFromFile( const QByteArray& ) ;
+	void parseDataFromObject( const QJsonObject&,const QJsonArray& ) ;
 	void getListFromFile( QMenu& ) ;
 	void getListFromFile( const QString&,bool ) ;
 	QString defaultEngineName() ;
