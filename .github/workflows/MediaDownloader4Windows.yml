@@ -39,58 +39,13 @@ jobs:
         dir: "${{github.workspace}}/qt"
         install-deps: "true"
     -
-      name: Set Qt path and refresh
-      run: |
-        echo "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        refreshenv
-        #Write-Output (Get-Command g++.exe).Path
-        #g++.exe --version
-#    -
-#      name: Check availability of libraries
-#      run: |
-#        ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/
-#    -
-#      name: Check availability of binaries
-#      run: |
-#        ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
-#    -
-#      name: Prepend path
-#      run: echo ":${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/mingw73_32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-#    -
-#      name: Check QMake, CMake and make
-#      run: |
-#        Write-Output (Get-Command qmake.exe).Path
-#        qmake.exe -version
-#        Write-Output (Get-Command cmake.exe).Path
-#        cmake.exe -version
-#        Write-Output (Get-Command mingw32-make.exe).Path
-#        mingw32-make.exe -version
-    -
-      name: Configure CMake Proyect
+      name: Configure CMake
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
       run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
     -
-      name: Build proyect
+      name: Build Project
       working-directory: ${{github.workspace}}/build
       run: |
         mingw32-make.exe
-    -
-      name: Compress portable program
-      run: |
-        mkdir ${{github.workspace}}\build\all\
-        mkdir ${{github.workspace}}\build\all\local
-        cp ${{github.workspace}}/build/media-downloader.exe ${{github.workspace}}\build\all\
-        cd ${{github.workspace}}\build\all\
-        windeployqt.exe media-downloader.exe --release
-        ls
-        Compress-Archive -Path ${{github.workspace}}\build\all\ -DestinationPath ${{github.workspace}}\build\final.zip
-    -
-      name: Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: ${{github.workspace}}/build/final.zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
