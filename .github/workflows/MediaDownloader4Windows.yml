@@ -14,11 +14,6 @@ jobs:
     steps:
     -
       uses: actions/checkout@v2
-#    -
-#      name: Check mingw g++ version
-#      run: |
-#        Write-Output (Get-Command g++.exe).Path
-#        g++.exe --version
     -
       name: Install correct version of mingw
       uses: crazy-max/ghaction-chocolatey@v1
@@ -41,14 +36,14 @@ jobs:
        name: Check availability of libraries
        run: |
             ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/
-      -
+    -
       name: Check availability of binaries
-       run: |
+      run: |
           ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
-      -
+    -
       name: Prepend path
       run: echo ":${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/mingw73_32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      -
+    -
       name: Check QMake, CMake and make
       run: |
          Write-Output (Get-Command qmake.exe).Path
@@ -57,14 +52,14 @@ jobs:
          cmake.exe -version
          Write-Output (Get-Command mingw32-make.exe).Path
          mingw32-make.exe -version
-      -
+    -
       name: Configure CMake
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
 
       run: cmake  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
-      -
+    -
       name: Build Project
       working-directory: ${{github.workspace}}/build
       run: |
