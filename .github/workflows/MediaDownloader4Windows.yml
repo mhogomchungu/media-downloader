@@ -38,7 +38,6 @@ jobs:
         install-deps: "true"
         host: 'windows'
         target: 'desktop'
-        install-deps: 'true'
         archives: 'qtbase qtwidgets qtcore qtnetwork'
         cache: 'false'
         cache-key-prefix: 'install-qt-action'
