@@ -57,14 +57,14 @@ jobs:
          cmake.exe -version
          Write-Output (Get-Command mingw32-make.exe).Path
          mingw32-make.exe -version
-    -
+      -
       name: Configure CMake
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
 
       run: cmake  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
-    -
+      -
       name: Build Project
       working-directory: ${{github.workspace}}/build
       run: |
