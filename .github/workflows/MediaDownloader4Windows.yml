@@ -19,17 +19,13 @@ jobs:
 #      run: |
 #        Write-Output (Get-Command g++.exe).Path
 #        g++.exe --version
-
-    -
-      name: remove default version of mingw
-      run: |
-        choco uninstall mingw --force
-        choco uninstall strawberryperl --force
-    -
       name: Install correct version of mingw
-      uses: crazy-max/ghaction-chocolatey@v1
-      with:
-        args: install mingw --version=8.1.0  -y
+#      uses: crazy-max/ghaction-chocolatey@v1
+#     with:
+#       args: install mingw --version=8.1.0  -y
+     - uses: numworks/setup-msys2@v1
+       with:
+         msystem: MINGW32
 #    -
 #      name: Check mingw directory
 #      run: |
