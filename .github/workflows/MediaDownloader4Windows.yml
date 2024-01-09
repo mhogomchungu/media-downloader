@@ -19,6 +19,7 @@ jobs:
 #      run: |
 #        Write-Output (Get-Command g++.exe).Path
 #        g++.exe --version
+    -
       name: Install correct version of mingw
       uses: crazy-max/ghaction-chocolatey@v1
       with:
