@@ -25,6 +25,9 @@ jobs:
       with:
         args: install mingw --version=8.1.0  -y
     -
+      name: update env
+      run:  echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    -
       name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
@@ -34,10 +37,26 @@ jobs:
         install-deps: "true"
         host: 'windows'
         target: 'desktop'
-     -
-      name: update env
+    -
+       name: Check availability of libraries
+       run: |
+            ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/
+      -
+      name: Check availability of binaries
+       run: |
+          ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
+      -
+      name: Prepend path
+      run: echo ":${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/mingw73_32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      -
+      name: Check QMake, CMake and make
       run: |
-        echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib;${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin;D:/a/media-downloader/media-downloader/qt/Qt/5.15.2/mingw81_32/lib" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+         Write-Output (Get-Command qmake.exe).Path
+         qmake.exe -version
+         Write-Output (Get-Command cmake.exe).Path
+         cmake.exe -version
+         Write-Output (Get-Command mingw32-make.exe).Path
+         mingw32-make.exe -version
     -
       name: Configure CMake
       working-directory: ${{github.workspace}}
