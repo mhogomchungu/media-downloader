@@ -24,10 +24,10 @@ jobs:
       uses: crazy-max/ghaction-chocolatey@v1
       with:
         args: install mingw --version=8.1.0  -y
-#    -
-#      name: Check mingw directory
-#      run: |
-#        ls C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
+    -
+      name: update env
+      run: |
+        refreshenv
     -
       name: Install Qt
       uses: jurplel/install-qt-action@v2
@@ -43,7 +43,6 @@ jobs:
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
-        PATH: "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;$env:PATH"
 
       run: cmake  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
     -
@@ -51,5 +50,3 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: |
         mingw32-make.exe
-      env:
-        PATH: "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;$env:PATH"
