@@ -19,6 +19,12 @@ jobs:
 #      run: |
 #        Write-Output (Get-Command g++.exe).Path
 #        g++.exe --version
+
+    -
+      name: remove default version of mingw
+      run: |
+        choco uninstall mingw --force
+        choco uninstall strawberryperl --force
     -
       name: Install correct version of mingw
       uses: crazy-max/ghaction-chocolatey@v1
@@ -38,7 +44,6 @@ jobs:
         arch: ${{ env.MINGW_VERSION }}
         dir: "${{github.workspace}}/qt"
         install-deps: "true"
-        archives: "qtbase qtwidgets qtcore qtnetwork"
     -
       name: Configure CMake
       working-directory: ${{github.workspace}}
