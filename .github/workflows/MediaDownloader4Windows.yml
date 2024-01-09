@@ -43,7 +43,7 @@ jobs:
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
-      run: cmake -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-c++.exe -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
+      run: cmake -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-c++ -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
     -
       name: Build Project
       working-directory: ${{github.workspace}}/build
