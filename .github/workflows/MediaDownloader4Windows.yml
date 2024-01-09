@@ -36,6 +36,7 @@ jobs:
        name: Check availability of libraries
        run: |
             ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/
+            ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/cmake/Qt5
     -
       name: Check availability of binaries
       run: |
@@ -58,7 +59,7 @@ jobs:
       name: Configure CMake
       working-directory: ${{github.workspace}}
       env:
-        CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
+        CMAKE_PREFIX_PATH: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}"
         Qt5_DIR: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/lib/cmake/Qt5"
       run: cmake  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
     -
