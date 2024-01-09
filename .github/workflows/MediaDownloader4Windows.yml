@@ -38,6 +38,7 @@ jobs:
         arch: ${{ env.MINGW_VERSION }}
         dir: "${{github.workspace}}/qt"
         install-deps: "true"
+        archives: "qtbase widgets core network"
     -
       name: Configure CMake
       working-directory: ${{github.workspace}}
