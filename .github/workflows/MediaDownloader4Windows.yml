@@ -5,7 +5,7 @@ on: push
 env:
   QT_VERSION:     "5.15.2"
   MINGW_VERSION:  "win32_mingw81"
-  MINGW_PATH:     "mingw81_32"
+  MINGW_PATH:     "mingw810_32"
   BUILD_TYPE:      Release
 
 jobs:
@@ -20,12 +20,9 @@ jobs:
 #        Write-Output (Get-Command g++.exe).Path
 #        g++.exe --version
       name: Install correct version of mingw
-#      uses: crazy-max/ghaction-chocolatey@v1
-#     with:
-#       args: install mingw --version=8.1.0  -y
-    uses: numworks/setup-msys2@v1
-       with:
-         msystem: MINGW32
+      uses: crazy-max/ghaction-chocolatey@v1
+      with:
+        args: install mingw --version=8.1.0  -y
 #    -
 #      name: Check mingw directory
 #      run: |
