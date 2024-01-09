@@ -23,7 +23,7 @@ jobs:
 #      uses: crazy-max/ghaction-chocolatey@v1
 #     with:
 #       args: install mingw --version=8.1.0  -y
-     - uses: numworks/setup-msys2@v1
+    uses: numworks/setup-msys2@v1
        with:
          msystem: MINGW32
 #    -
