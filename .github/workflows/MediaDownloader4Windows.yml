@@ -25,10 +25,6 @@ jobs:
       with:
         args: install mingw --version=8.1.0  -y
     -
-      name: update env
-      run: |
-        echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib;${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-    -
       name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
@@ -38,6 +34,10 @@ jobs:
         install-deps: "true"
         host: 'windows'
         target: 'desktop'
+     -
+      name: update env
+      run: |
+        echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib;${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin;${{env.Qt5_Dir}}/lib" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     -
       name: Configure CMake
       working-directory: ${{github.workspace}}
