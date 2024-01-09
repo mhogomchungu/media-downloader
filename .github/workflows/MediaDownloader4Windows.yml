@@ -27,7 +27,7 @@ jobs:
     -
       name: update env
       run: |
-        echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib;${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     -
       name: Install Qt
       uses: jurplel/install-qt-action@v2
@@ -38,15 +38,6 @@ jobs:
         install-deps: "true"
         host: 'windows'
         target: 'desktop'
-        archives: 'qtbase qtwidgets qtcore qtnetwork'
-        cache: 'false'
-        cache-key-prefix: 'install-qt-action'
-        setup-python: 'true'
-        set-env: 'true'
-        tools-only: 'false'
-        aqtversion: '==3.1.*'
-        py7zrversion: '==0.20.*'
-        extra: '--external 7z'
     -
       name: Configure CMake
       working-directory: ${{github.workspace}}
