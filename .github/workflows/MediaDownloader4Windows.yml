@@ -42,7 +42,7 @@ jobs:
           ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
     -
       name: Prepend path
-      run: echo ":${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/mingw73_32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      run: echo "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     -
       name: Check QMake, CMake and make
       run: |
