@@ -43,9 +43,13 @@ jobs:
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
-      run: cmake -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-c++ -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
+        PATH: "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;$env:PATH"
+
+      run: cmake  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
     -
       name: Build Project
       working-directory: ${{github.workspace}}/build
       run: |
         mingw32-make.exe
+      env:
+        PATH: "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin;$env:PATH"
