@@ -22,7 +22,7 @@ jobs:
       name: Install correct version of mingw
       uses: msys2/setup-msys2@v2
       with:
-            install: mingw-w64-i686-toolchain
+            install: mingw-w64-i686-gcc
             msystem: mingw32        
     -
       name: update env
@@ -68,3 +68,11 @@ jobs:
         msystem: MINGW32
       working-directory: ${{github.workspace}}/build
       run: cmake --build ${{github.workspace}}\build
+    -
+      name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{github.workspace}}\build\media-downloader.exe
+        tag_name: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
