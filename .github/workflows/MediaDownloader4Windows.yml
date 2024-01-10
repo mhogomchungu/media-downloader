@@ -50,4 +50,4 @@ jobs:
     -
       name: Build Project
       working-directory: ${{github.workspace}}/build
-      run: cmake --build --verbose ${{github.workspace}}/build
+      run: cmake --verbose --build ${{github.workspace}}\build
