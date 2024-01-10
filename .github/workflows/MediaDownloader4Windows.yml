@@ -46,7 +46,7 @@ jobs:
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}"
-      run: cmake  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
+      run: cmake -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
     -
       name: Build Project
       working-directory: ${{github.workspace}}/build
