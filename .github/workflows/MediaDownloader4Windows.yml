@@ -15,6 +15,11 @@ jobs:
     -
       uses: actions/checkout@v2
     -
+     name: Uninstall packages
+     run: |
+         choco uninstall mingw --force
+         choco uninstall strawberryperl --force
+    -
       name: Install correct version of mingw
       uses: crazy-max/ghaction-chocolatey@v1
       with:
@@ -42,6 +47,15 @@ jobs:
       run: |
           ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
     -  
+      name: Check QMake, CMake and make
+      run: |
+          Write-Output (Get-Command qmake.exe).Path
+          qmake.exe -version
+          Write-Output (Get-Command cmake.exe).Path
+          cmake.exe -version
+          Write-Output (Get-Command c++.exe).Path
+          c++.exe --version
+    -
       name: Configure CMake
       working-directory: ${{github.workspace}}
       env:
