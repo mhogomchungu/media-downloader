@@ -68,11 +68,3 @@ jobs:
         msystem: MINGW32
       working-directory: ${{github.workspace}}/build
       run: cmake --build ${{github.workspace}}\build
-    -
-      name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{github.workspace}}\build\media-downloader.exe
-        tag_name: ${{ github.ref }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
