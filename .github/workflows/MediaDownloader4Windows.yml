@@ -21,12 +21,13 @@ jobs:
          choco uninstall strawberryperl --force
     -
       name: Install correct version of mingw
-      uses: crazy-max/ghaction-chocolatey@v1
+      uses: egor-tensin/setup-mingw@v2
       with:
-        args: install mingw --version=8.1.0  -y
-    -
-      name: update env
-      run:  echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        platform: x86
+        cygwin: 1
+#    -
+#      name: update env
+#      run:  echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     -
       name: Install Qt
       uses: jurplel/install-qt-action@v2
