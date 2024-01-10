@@ -41,33 +41,13 @@ jobs:
       name: Check availability of binaries
       run: |
           ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
-    -
-      name: Prepend path
-      run: |
-          echo "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          echo "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-    -
-      name: Check QMake, CMake and make
-      run: |
-         Write-Output (Get-Command qmake.exe).Path
-         qmake.exe -version
-         Write-Output (Get-Command cmake.exe).Path
-         cmake.exe -version
-         Write-Output (Get-Command mingw32-make.exe).Path
-         mingw32-make.exe -version
-    -
+    -  
       name: Configure CMake
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}"
-        Qt5_DIR: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/lib/cmake/Qt5"
       run: cmake  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
     -
       name: Build Project
       working-directory: ${{github.workspace}}/build
-      env:
-        QTDIR: ${{env.Qt5_Dir}}
-      run: |
-        echo "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        echo "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        mingw32-make.exe VERBOSE=1
+      run: cmake --build --verbose .
