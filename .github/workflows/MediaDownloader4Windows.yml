@@ -23,6 +23,7 @@ jobs:
       name: Install correct version of mingw
       uses: msys2/setup-msys2@v2
       with:
+            install: mingw-w64-i686-toolchain
             msystem: mingw32        
 #    -
 #      name: update env
