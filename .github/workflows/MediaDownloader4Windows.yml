@@ -25,9 +25,9 @@ jobs:
       with:
             install: mingw-w64-i686-toolchain
             msystem: mingw32        
-#    -
-#      name: update env
-#      run:  echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    -
+      name: update env
+      run:  echo "C:\dev\msys64\mingw32\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     -
       name: Install Qt
       uses: jurplel/install-qt-action@v2
