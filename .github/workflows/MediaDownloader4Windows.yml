@@ -21,10 +21,9 @@ jobs:
          choco uninstall strawberryperl --force
     -
       name: Install correct version of mingw
-      uses: egor-tensin/setup-mingw@v2
+      uses: msys2/setup-msys2@v2
       with:
-        platform: x86
-        cygwin: 0
+            msystem: mingw32        
 #    -
 #      name: update env
 #      run:  echo "C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
