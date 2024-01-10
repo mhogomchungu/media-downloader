@@ -68,3 +68,9 @@ jobs:
         msystem: MINGW32
       working-directory: ${{github.workspace}}/build
       run: cmake --build ${{github.workspace}}\build
+    -
+      name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+       path: ${{github.workspace}}\build\media-downloader.exe
+       
