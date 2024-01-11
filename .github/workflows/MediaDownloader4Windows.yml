@@ -2,75 +2,13 @@ name: MediaDownloader4Windows
 
 on: push
 
-env:
-  QT_VERSION:     "5.15.2"
-  MINGW_VERSION:  "win32_mingw81"
-  MINGW_PATH:     "mingw81_32"
-  BUILD_TYPE:      Release
-
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
-    -
-      uses: actions/checkout@v2
-    -
-     name: Uninstall packages
-     run: |
-         choco uninstall strawberryperl --force
-    -
-      name: Install correct version of mingw
-      uses: msys2/setup-msys2@v2
-      with:
-            install: mingw-w64-i686-gcc
-            msystem: mingw32        
-    -
-      name: update env
-      run:  echo "D:/a/_temp/msys64/mingw32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-    -
-      name: Install Qt
-      uses: jurplel/install-qt-action@v2
-      with:
-        version: ${{ env.QT_VERSION }}
-        arch: ${{ env.MINGW_VERSION }}
-        dir: "${{github.workspace}}/qt"
-        install-deps: "true"
-        host: 'windows'
-        target: 'desktop'
-    -
-       name: Check availability of libraries
-       run: |
-            ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/
-            ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/lib/cmake/Qt5
-    -
-      name: Check availability of binaries
-      run: |
-          ls ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/
-    -  
-      name: Check QMake, CMake and make
-      run: |
-          Write-Output (Get-Command qmake.exe).Path
-          qmake.exe -version
-          Write-Output (Get-Command cmake.exe).Path
-          cmake.exe -version
-          Write-Output (Get-Command c++.exe).Path
-          c++.exe --version
-    -
-      name: Configure CMake
-      working-directory: ${{github.workspace}}
-      env:
-        CMAKE_PREFIX_PATH: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}"
-        msystem: MINGW32
-      run: cmake -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
-    -
-      name: Build Project
-      env:
-        msystem: MINGW32
-      working-directory: ${{github.workspace}}/build
-      run: cmake --build ${{github.workspace}}\build
-    -
-      name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-       path: ${{github.workspace}}\build\media-downloader.exe
-       
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MD_GIT_PUBLISH }}
+          repository: mhogomchungu/media-downloader-git
+          event-type: PublishGit
