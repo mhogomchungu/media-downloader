@@ -53,6 +53,8 @@ A portable version is a self-contained version that keeps everything in the appl
 
 Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.2.0/MediaDownloader-4.2.0.zip).
 
+Git version of portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader-git/releases).
+
 #### Aur package for Arch Linux
 Arch Linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
 
