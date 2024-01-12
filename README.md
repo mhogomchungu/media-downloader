@@ -12,7 +12,7 @@ Features offered:-
 
 2. The GUI offers a configurable list of preset options that can be used to download media if they are provided in multiple formats.
 
-3. The GUI offers the ability to do an unlimited number of parallel downloads. Be careful with this ability because doing too many parallel
+3. The GUI offers the ability to do an unlimited number of concurrent downloads. Be careful with this ability because doing too many concurrent
 downloads may cause the host to ban you.
 
 4. The GUI offers the ability to do batch downloads by entering individual links in the UI or telling the app to read them from a local file.
@@ -52,6 +52,8 @@ Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-
 A portable version is a self-contained version that keeps everything in the application folder.
 
 Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.2.0/MediaDownloader-4.2.0.zip).
+
+Git version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader-git/releases).
 
 #### Aur package for Arch Linux
 Arch Linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
