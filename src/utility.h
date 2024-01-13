@@ -443,6 +443,7 @@ namespace utility
 	void failedToParseJsonData( Logger&,const QJsonParseError& ) ;
 	QString runningVersionOfMediaDownloader() ;
 	QString aboutVersionInfo() ;
+	QString compileTimeVersion() ;
 	void setRunningVersionOfMediaDownloader( const QString& ) ;
 	void setHelpVersionOfMediaDownloader( const QString& ) ;
 	QString homePath() ;

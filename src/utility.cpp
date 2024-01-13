@@ -1164,7 +1164,7 @@ bool utility::onlyWantedVersionInfo( const utility::cliArguments& args )
 {
 	if( args.contains( "--version" ) ){
 
-		std::cout << VERSION << std::endl ;
+		std::cout << utility::compileTimeVersion().toUtf8().constData() << std::endl ;
 
 		return true ;
 	}else{
@@ -1338,17 +1338,37 @@ QString utility::aboutVersionInfo()
 	}
 }
 
+QString utility::compileTimeVersion()
+{
+	QString m = VERSION ;
+	m.replace( ".git_tag","" ) ;
+
+	auto s = util::split( m,"." ) ;
+
+	QString e ;
+
+	if( s.size() ){
+
+		auto max = s.size() >= 4 ? 4 : s.size() ;
+
+		e = s[ 0 ] ;
+
+		for( int i = 1 ; i < max ; i++ ){
+
+			e += "." + s[ i ] ;
+		}
+	}
+
+	return e ;
+}
+
 QString utility::runningVersionOfMediaDownloader()
 {
 	const auto& e = _runTimeVersions().instanceVersion() ;
 
 	if( e.isEmpty() ){
 
-		QString m = VERSION ;
-
-		m.replace( ".git_tag","" ) ;
-
-		return m ;
+		return utility::compileTimeVersion() ;
 	}else{
 		return e ;
 	}

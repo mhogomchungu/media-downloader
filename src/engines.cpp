@@ -272,7 +272,10 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 
 		if( !minVersion.isEmpty() ){
 
-			if( util::version( minVersion ) > VERSION ){
+			util::version min = minVersion ;
+			util::version cur = utility::compileTimeVersion() ;
+
+			if( min > cur ){
 
 				auto name = object.value( "Name" ).toString() ;
 

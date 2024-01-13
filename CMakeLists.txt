@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set( PGR_VERSION "4.2.0.git_tag" )
+set( PGR_VERSION "4.2.0" )
 set( COPYRIGHT_YEARS "2021-2024" )
 
 INCLUDE(GNUInstallDirs)
@@ -126,7 +126,7 @@ file(WRITE ${PROJECT_BINARY_DIR}/locale_path.h "\n#define TRANSLATION_PATH \"${C
 
 file(WRITE ${PROJECT_BINARY_DIR}/version.h
 "
-#define VERSION \"${PGR_VERSION}\"
+#define VERSION \"${PGR_VERSION}.git_tag\"
 #define QTVERSION \"${Qt5Core_VERSION}\"
 #define COPYRIGHT \"${COPYRIGHT_YEARS}\"
 ")

@@ -511,7 +511,7 @@ public:
 				}
 			}
 
-		}else if( m == 4 ){
+		}else if( m > 4 ){
 
 			m_major = s.at( 0 ).toInt( &m_valid ) ;
 
