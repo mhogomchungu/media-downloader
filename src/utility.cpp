@@ -1344,7 +1344,11 @@ QString utility::runningVersionOfMediaDownloader()
 
 	if( e.isEmpty() ){
 
-		return VERSION ;
+		QString m = VERSION ;
+
+		m.replace( ".git_tag","" ) ;
+
+		return m ;
 	}else{
 		return e ;
 	}
