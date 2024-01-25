@@ -110,15 +110,13 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_tableWidgetBDList.setUpHeaderMenu() ;
 
-	auto ic = &QTableWidget::itemClicked ;
+	m_tableWidgetBDList.connect( &QTableWidget::itemSelectionChanged,[ this ](){
 
-	m_tableWidgetBDList.connect( ic,[ this ]( QTableWidgetItem * item ){
-
-		if( item && m_listType == batchdownloader::listType::MEDIA_OPTIONS ){
+		if( m_listType == batchdownloader::listType::MEDIA_OPTIONS ){
 
 			auto& a = m_optionsList ;
 
-			m_tableWidgetBDList.selectMediaOptions( a,*item,m_lineEdit ) ;
+			m_tableWidgetBDList.selectMediaOptions( a,m_lineEdit ) ;
 		}
 	} ) ;
 

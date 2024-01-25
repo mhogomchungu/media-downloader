@@ -498,24 +498,21 @@ public:
 			}
 		}
 	}
-	void selectMediaOptions( QStringList& optionsList,QTableWidgetItem& item,QLineEdit& opts )
+	void selectMediaOptions( QStringList& optionsList,QLineEdit& opts )
 	{
-		if( item.isSelected() ){
-
-			auto text = this->item( item.row(),0 ).text() ;
-
-			if( !optionsList.contains( text ) ){
-
-				optionsList.append( text ) ;
-			}
-		}
-
 		for( int row = 0 ; row < this->rowCount() ; row++ ){
 
 			auto& item = this->item( row,0 ) ;
 
-			if( !item.isSelected() ){
+			if( item.isSelected() ){
 
+				auto text = item.text() ;
+
+				if( !optionsList.contains( text ) ){
+
+					optionsList.append( text ) ;
+				}
+			}else{
 				optionsList.removeAll( item.text() ) ;
 			}
 		}

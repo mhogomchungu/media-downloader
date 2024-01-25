@@ -59,13 +59,10 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 		m_ui.lineEditURL->setText( utility::clipboardText() ) ;
 	} ) ;
 
-	m_tableList.connect( &QTableWidget::itemClicked,[ this ]( QTableWidgetItem * item ){
+	m_tableList.connect( &QTableWidget::itemSelectionChanged,[ this ](){
 
-		if( item ){
-
-			auto& a = *m_ui.lineEditOptions ;
-			m_tableList.selectMediaOptions( m_optionsList,*item,a ) ;
-		}
+		auto& a = *m_ui.lineEditOptions ;
+		m_tableList.selectMediaOptions( m_optionsList,a ) ;
 	} ) ;
 
 	connect( m_ui.pbOptionsDownloadOptions,&QPushButton::clicked,[ this ](){
