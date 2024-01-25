@@ -288,16 +288,14 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
 
-	QString exe ;
+	QString exe = "\"" + cmd.exe() + "\"" ;
+
+	for( const auto& it : cmd.args() ){
+
+		exe += " \"" + it + "\"" ;
+	}
 
 	if( m_ctx.debug() ){
-
-		exe = "\"" + cmd.exe() + "\"" ;
-
-		for( const auto& it : cmd.args() ){
-
-			exe += " \"" + it + "\"" ;
-		}
 
 		m_ctx.logger().add( "cmd: " + exe,id ) ;
 	}
@@ -335,37 +333,46 @@ void versionInfo::printVersionP( versionInfo::pVInfo pvInfo,const utils::qproces
 			this->next( pvInfo.movePrintVinfo() ) ;
 		}
 	}else{
+		auto bar = utility::barLine() ;
+
+		auto id = pvInfo.id() ;
+
+		this->log( bar,id ) ;
+
 		auto m = QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ) ;
 
 		this->log( m.arg( engine.name() ),pvInfo.id() ) ;
 
 		engine.setBroken() ;
 
-		auto& debug = m_ctx.debug() ;
+		this->log( "Cmd: " + pvInfo.cmd(),id ) ;
 
-		if( debug ){
+		this->log( "Exit Code: " + QString::number( r.exitCode ),id ) ;
 
-			auto exitCode   = "Error Code: " + QString::number( r.exitCode ) ;
+		auto mm = r.exitStatus ;
 
-			QString exitStatus ;
+		if( mm == utils::qprocess::outPut::ExitStatus::NormalExit ){
 
-			auto mm = r.exitStatus ;
+			this->log( "Exit Status: Normal Exit",id ) ;
 
-			if( mm == utils::qprocess::outPut::ExitStatus::NormalExit ){
+		}else if( mm == utils::qprocess::outPut::ExitStatus::Crashed ){
 
-				exitStatus = "Exit Status: Normal" ;
-
-			}else if( mm == utils::qprocess::outPut::ExitStatus::Crashed ){
-
-				exitStatus = "Exit Status: Crashed" ;
-			}else{
-				exitStatus = "Exit Status: Failed To Start" ;
-			}
-			
-			QString m = "Cmd:%1\n%2\n%3\nStdOut:\n%4\n-----\nStdError:\n%5" ;
-
-			debug( m.arg( pvInfo.cmd(),exitCode,exitStatus,r.stdOut,r.stdError ).toUtf8() ) ;
+			this->log( "Exit Status: Crashed",id ) ;
+		}else{
+			this->log( "Exit Status: Failed To Start",id ) ;
 		}
+
+		if( !r.stdOut.isEmpty() ){
+
+			this->log( "Std Out: " + r.stdOut,id ) ;
+		}
+
+		if( !r.stdError.isEmpty() ){
+
+			this->log( "Std Error: " + r.stdError,id ) ;
+		}
+
+		this->log( bar,id ) ;
 
 		this->next( pvInfo.movePrintVinfo() ) ;
 	}	
