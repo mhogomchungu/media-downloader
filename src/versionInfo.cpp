@@ -109,6 +109,28 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 	}
 }
 
+static QString _getGitVersion( const QString& e )
+{
+	auto m = util::split( e,"\n" ) ;
+
+	if( m.size() > 1 ){
+
+		const auto& s = m[ 1 ] ;
+
+		if( s.startsWith( "Build version" ) ){
+
+			m = util::split( s," " ) ;
+
+			if( m.size() > 2 ){
+
+				return m[ 2 ].replace( "\"","" ) ;
+			}
+		}
+	}
+
+	return {} ;
+}
+
 void versionInfo::checkMediaDownloaderUpdate( int id,
 					      const QByteArray& data,
 					      const std::vector< engines::engine >& engines,
@@ -120,9 +142,16 @@ void versionInfo::checkMediaDownloaderUpdate( int id,
 
 	if( err.error == QJsonParseError::NoError ){
 
-		auto lvs = e.object().value( "tag_name" ).toString() ;
+		auto obj = e.object() ;
 
-		util::version lv = lvs  ;
+		auto lvs = obj.value( "tag_name" ).toString() ;
+
+		if( lvs == "0.0.0" ){
+
+			lvs = _getGitVersion( obj.value( "body" ).toString() ) ;
+		}
+
+		util::version lv = lvs ;
 		util::version iv = utility::runningVersionOfMediaDownloader() ;
 
 		if( lv.valid() && iv < lv ){
@@ -161,7 +190,7 @@ void versionInfo::checkMediaDownloaderUpdate( int id,
 
 			networkAccess::Status s{ tt,engines,*this,hasNetworkAccess,id } ;
 
-			m_network.updateMediaDownloader( s.move() ) ;
+			m_network.updateMediaDownloader( s.move(),e ) ;
 		}else{
 			this->checkEnginesUpdates( engines,hasNetworkAccess ) ;
 		}
@@ -200,7 +229,7 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 
 	if( m_showLocalVersionsAndUpdateIfAvailable || m_showLocalAndLatestVersions ){
 
-		auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
+		auto url = m_ctx.Settings().gitHubDownloadUrl() ;
 
 		m_network.get( url,[ this,id,&engines ]( const utils::network::reply& reply ){
 

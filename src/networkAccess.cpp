@@ -75,50 +75,58 @@ networkAccess::networkAccess( const Context& ctx ) :
 	}
 }
 
-void networkAccess::uMediaDownloader( networkAccess::Status status,const QByteArray& data ) const
+void networkAccess::updateMediaDownloader( networkAccess::Status status,const QJsonDocument& json ) const
 {
-	util::Json json( data ) ;
+	auto object = json.object() ;
 
-	if( json ){
+	auto value = object.value( "assets" ) ;
 
-		auto object = json.doc().object() ;
+	const auto array = value.toArray() ;
 
-		auto value = object.value( "assets" ) ;
+	for( const auto& it : array ){
 
-		const auto array = value.toArray() ;
+		const auto object = it.toObject() ;
 
-		for( const auto& it : array ){
+		const auto name = object.value( "name" ).toString() ;
 
-			const auto object = it.toObject() ;
+		auto url = object.value( "browser_download_url" ).toString() ;
 
-			const auto name = object.value( "name" ).toString() ;
+		if( url.contains( "MediaDownloader" ) && url.endsWith( ".zip" ) ){
 
-			auto url = object.value( "browser_download_url" ).toString() ;
+			auto size = object.value( "size" ).toDouble() ;
 
-			if( url.endsWith( ".zip" ) ){
+			updateMDOptions md ;
 
-				auto size = object.value( "size" ).toDouble() ;
+			md.size = size ;
+			md.url  = url ;
+			md.id   = status.id() ;
+			md.name = name ;
+			md.status = status.move() ;
 
-				updateMDOptions md ;
-
-				md.size = size ;
-				md.url  = url ;
-				md.id   = status.id() ;
-				md.name = name ;
-				md.status = status.move() ;
-
-				return this->updateMediaDownloader( md.move() ) ;
-			}
+			return this->updateMediaDownloader( md.move() ) ;
 		}
-
-		status.done() ;
-
-		auto m = QObject::tr( "Failed to parse json file from github" ) ;
-
-		this->post( m_appName,m + ": " + json.errorString(),status.id() ) ;
-
-		m_tabManager.enableAll() ;
 	}
+
+	status.done() ;
+
+	auto m = QObject::tr( "Failed to parse json file from github" ) ;
+
+	this->post( m_appName,m,status.id() ) ;
+
+	m_tabManager.enableAll() ;
+}
+
+void networkAccess::updateMediaDownloader( networkAccess::Status status ) const
+{
+	this->postStartDownloading( m_appName,status.id() ) ;
+
+	m_tabManager.disableAll() ;
+
+	m_basicdownloader.setAsActive().enableQuit() ;
+
+	auto u = this->networkRequest( m_ctx.Settings().gitHubDownloadUrl() ) ;
+
+	this->get( u,status.move(),this,&networkAccess::uMediaDownloaderN ) ;
 }
 
 void networkAccess::uMediaDownloaderN( networkAccess::Status& status,
@@ -128,7 +136,24 @@ void networkAccess::uMediaDownloaderN( networkAccess::Status& status,
 
 		if( p.success() ){
 
-			this->uMediaDownloader( status.move(),p.data() ) ;
+			QJsonParseError err ;
+
+			auto e = QJsonDocument::fromJson( p.data(),&err ) ;
+
+			if( err.error == QJsonParseError::NoError ){
+
+				this->updateMediaDownloader( status.move(),e ) ;
+			}else{
+				status.done() ;
+
+				auto mm = QObject::tr( "Download Failed" ) ;
+
+				mm += ": " + err.errorString() ;
+
+				this->post( m_appName,mm,status.id() ) ;
+
+				m_tabManager.enableAll() ;
+			}
 		}else{
 			status.done() ;
 
@@ -139,21 +164,6 @@ void networkAccess::uMediaDownloaderN( networkAccess::Status& status,
 	}else{
 		this->post( m_appName,"...",status.id() ) ;
 	}
-}
-
-void networkAccess::updateMediaDownloader( networkAccess::Status status ) const
-{
-	this->postStartDownloading( m_appName,status.id() ) ;
-
-	auto url = "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
-
-	m_tabManager.disableAll() ;
-
-	m_basicdownloader.setAsActive().enableQuit() ;
-
-	auto u = this->networkRequest( url ) ;
-
-	this->get( u,status.move(),this,&networkAccess::uMediaDownloaderN ) ;
 }
 
 void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,

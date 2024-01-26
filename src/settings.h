@@ -112,6 +112,7 @@ public:
 	QString cookieFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
 	QString playlistRangeHistoryLastUsed() ;
+	QString gitHubDownloadUrl() ;
 	const QString& configPaths() ;
 	QString textEncoding() ;
 	QStringList getOptionsHistory( settings::tabName ) ;
@@ -149,7 +150,6 @@ public:
 	bool enableLibraryTab() ;
 	bool checkForEnginesUpdates() ;
 	bool autoHideDownloadWhenCompleted() ;
-	bool monitorReleaseChannel() ;
 
 	qint64 timeOutWaitingForClipboardData() ;
 

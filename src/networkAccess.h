@@ -181,6 +181,7 @@ public:
 		this->download( { util::types::type_identity< meaw >(),std::move( iter ) } ) ;
 	}
 
+	void updateMediaDownloader( networkAccess::Status,const QJsonDocument& ) const ;
 	void updateMediaDownloader( networkAccess::Status ) const ;
 
 	void download( networkAccess::iterator ) const ;
@@ -402,10 +403,8 @@ private:
 		}		
 	} ;
 
-	void uMediaDownloader( networkAccess::Status,const QByteArray& ) const ;
-
-	void uMediaDownloaderN( networkAccess::Status&,const utils::network::progress& ) const ;
 	void uMediaDownloaderM( networkAccess::updateMDOptions&,const utils::network::progress& ) const ;
+	void uMediaDownloaderN( networkAccess::Status& status,const utils::network::progress& p ) const ;
 
 	void downloadP( networkAccess::Opts2&,const utils::network::progress& ) const ;
 	void downloadP2( networkAccess::Opts2&,const utils::network::progress& ) const ;

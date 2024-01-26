@@ -214,11 +214,6 @@ bool settings::autoHideDownloadWhenCompleted()
 	return this->getOption( "AutoHideDownloadWhenCompleted",false ) ;
 }
 
-bool settings::monitorReleaseChannel()
-{
-	return this->getOption( "MonitorReleaseChannel",true ) ;
-}
-
 qint64 settings::timeOutWaitingForClipboardData()
 {
 	return this->getOption( "TimeOutWaitingForClipboardData",30000 ) ;
@@ -292,6 +287,16 @@ QString settings::playlistRangeHistoryLastUsed()
 	QString s( "--break-on-existing" ) ;
 
 	return this->getOption( "playlistRangeHistoryLastUsed",s ) ;
+}
+
+QString settings::gitHubDownloadUrl()
+{
+	if( this->getOption( "MonitorReleaseChannel",true ) ){
+
+		return "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
+	}else{
+		return "https://api.github.com/repos/mhogomchungu/media-downloader-git/releases/latest" ;
+	}
 }
 
 static std::unique_ptr< QSettings > _set_config( const QString& path )
