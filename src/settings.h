@@ -149,6 +149,8 @@ public:
 	bool enableLibraryTab() ;
 	bool checkForEnginesUpdates() ;
 	bool autoHideDownloadWhenCompleted() ;
+	bool monitorReleaseChannel() ;
+
 	qint64 timeOutWaitingForClipboardData() ;
 
 	int textAlignment() ;
@@ -195,7 +197,42 @@ public:
 	void setDownloadFolder( const QString& ) ;
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
-private:
+private:	
+	QVariant getValue( const QString& opt,const QVariant& e )
+	{
+		if( !m_settings.contains( opt ) ){
+
+			m_settings.setValue( opt,e ) ;
+		}
+
+		return m_settings.value( opt ) ;
+	}
+
+	QByteArray getOption( const QString& opt,const QByteArray& e )
+	{
+		return this->getValue( opt,e ).toByteArray() ;
+	}
+
+	QString getOption( const QString& opt,const QString& e )
+	{
+		return this->getValue( opt,e ).toString() ;
+	}
+
+	bool getOption( const QString& opt,bool e )
+	{
+		return this->getValue( opt,e ).toBool() ;
+	}
+
+	int getOption( const QString& opt,int e )
+	{
+		return this->getValue( opt,e ).toInt() ;
+	}
+
+	QStringList getOption( const QString& opt,const QStringList& e )
+	{
+		return this->getValue( opt,e ).toStringList() ;
+	}
+
 	QString downloadFolder( Logger * ) ;
 
 	struct options
