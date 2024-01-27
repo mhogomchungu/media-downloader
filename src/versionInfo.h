@@ -184,7 +184,6 @@ public:
 		QStringList m_updates ;
 	} ;
 
-	void checkEnginesUpdates( const std::vector< engines::engine >&,bool ) const ;
 	void log( const QString& msg,int id ) const ;
 	void next( versionInfo::printVinfo ) const ;
 	void check( versionInfo::printVinfo ) const ;
@@ -198,7 +197,12 @@ public:
 	}
 	void checkMediaDownloaderUpdate( const std::vector< engines::engine >& ) const ;
 private:
-	void checkMediaDownloaderUpdate( int,const QByteArray&,const std::vector< engines::engine >&,bool ) const ;
+	versionInfo::printVinfo createPrintVinfo( const std::vector< engines::engine >&,bool ) const ;
+	void checkMediaDownloaderUpdate( versionInfo::printVinfo,
+					 int,
+					 const QByteArray&,
+					 const std::vector< engines::engine >&,
+					 bool ) const ;
 
 	networkAccess::iterator wrap( versionInfo::printVinfo ) const ;
 
@@ -245,6 +249,13 @@ private:
 	void printVersion( versionInfo::printVinfo ) const ;
 	void printVersionP( versionInfo::pVInfo,const utils::qprocess::outPut& ) const ;
 	void printVersionN( versionInfo::pVInfo,const utils::network::reply& ) const ;
+
+	void updateVersion( versionInfo::pVInfo&,const QString&,const QString& ) const ;
+	void updateMediaDownloader( int,
+				    const QJsonDocument&,
+				    const QString&,
+				    const std::vector< engines::engine >&,
+				    bool ) const ;
 
 	const Context& m_ctx ;
 	const networkAccess& m_network ;
