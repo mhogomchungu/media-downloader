@@ -237,7 +237,7 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 
 	if( utility::platformIsNOTWindows() ){
 
-		//return this->checkEnginesUpdates( engines,true ) ;
+		return this->check( this->createPrintVinfo( engines,true ) ) ;
 	}
 
 	m_ctx.TabManager().disableAll() ;
