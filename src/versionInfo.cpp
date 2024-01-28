@@ -258,7 +258,7 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 
 			if( reply.success() ){
 
-				auto m = this->createPrintVinfo( engines,false ) ;
+				auto m = this->createPrintVinfo( engines,true ) ;
 				this->checkMediaDownloaderUpdate( m.move(),id,nreply.data(),engines,true ) ;
 			}else{
 				this->check( this->createPrintVinfo( engines,false ) ) ;
