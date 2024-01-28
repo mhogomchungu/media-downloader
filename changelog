@@ -231,3 +231,9 @@ Version 1.2.0(April 1st, 2021)
       - Add ability show entries in the library tab in various orders.
       - Add ability to filter and sort media list to easily choose which ones to download.
       - Rework UI options that control checking for updates and autodownloads at startup.
+
+  Version 4.3.0(Unreleased)
+      [Windows]
+      - Automatic updates of Media Downloader can now be configured to track git updates.
+      [All]
+      - Fix a bug that causes a crash when trying to be clever with certain user provided yt-dlp options.
