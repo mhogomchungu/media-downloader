@@ -488,43 +488,43 @@ Exampe 2: ${gateway}:8080</source>
         <translation>%1 预设选项</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="836"/>
+        <location filename="../src/utility.cpp" line="823"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation> 文件名带有&quot;.txt&quot;的扩展程序将仅保存网址</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1708"/>
+        <location filename="../src/utility.cpp" line="1716"/>
         <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1718"/>
+        <location filename="../src/utility.cpp" line="1726"/>
         <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="163"/>
-        <location filename="../src/utility.cpp" line="835"/>
+        <location filename="../src/utility.cpp" line="822"/>
         <source>Save List To File</source>
         <translation>保存列表到文件</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="952"/>
+        <location filename="../src/batchdownloader.cpp" line="956"/>
         <source>Author</source>
         <translation>作者</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="962"/>
+        <location filename="../src/batchdownloader.cpp" line="966"/>
         <source>Date</source>
         <translation>日期</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="980"/>
+        <location filename="../src/batchdownloader.cpp" line="984"/>
         <source>Replies to</source>
         <translation>回复</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1245"/>
+        <location filename="../src/batchdownloader.cpp" line="1249"/>
         <source>Save Subtitle To File</source>
         <translation>将字幕保存到文件</translation>
     </message>
@@ -534,7 +534,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>引擎名称:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1545"/>
+        <location filename="../src/batchdownloader.cpp" line="1553"/>
         <source>Get List From File</source>
         <translation>从文件从获取列表</translation>
     </message>
@@ -547,8 +547,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="520"/>
-        <location filename="../src/utility.h" line="670"/>
-        <location filename="../src/utility.h" line="743"/>
+        <location filename="../src/utility.h" line="678"/>
+        <location filename="../src/utility.h" line="751"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
@@ -663,12 +663,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>荷兰语 (荷兰)</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="326"/>
+        <location filename="../src/engines.cpp" line="329"/>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
         <translation>错误,找不到后端的可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="279"/>
+        <location filename="../src/engines.cpp" line="282"/>
         <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>引擎&quot;%1&quot; 至少需要Media Downloader版本&quot;%2&quot;</translation>
     </message>
@@ -728,89 +728,89 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="331"/>
+        <location filename="../src/engines.cpp" line="334"/>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>错误,无法解析配置文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="599"/>
+        <location filename="../src/engines.cpp" line="602"/>
         <source>Failed To Load A Plugin</source>
         <translation>插件加载失败</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="684"/>
-        <location filename="../src/engines.cpp" line="975"/>
-        <location filename="../src/utility.cpp" line="708"/>
+        <location filename="../src/engines.cpp" line="687"/>
+        <location filename="../src/engines.cpp" line="978"/>
+        <location filename="../src/utility.cpp" line="695"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>找不到可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="960"/>
+        <location filename="../src/engines.cpp" line="963"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>找不到后端的python3可执行文件&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1167"/>
+        <location filename="../src/engines.cpp" line="1170"/>
         <source>Network Error Occured</source>
         <translation>发生网络错误</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1177"/>
+        <location filename="../src/engines.cpp" line="1180"/>
         <source>Url Is Not Supported</source>
         <translation>网址不受支持</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1187"/>
+        <location filename="../src/engines.cpp" line="1190"/>
         <source>Download cancelled</source>
         <translation>下载已取消</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1202"/>
+        <location filename="../src/engines.cpp" line="1205"/>
         <source>ErrorCode</source>
         <translation>错误代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1208"/>
+        <location filename="../src/engines.cpp" line="1211"/>
         <source>Download Failed, Engine failed to start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1210"/>
+        <location filename="../src/engines.cpp" line="1213"/>
         <source>Download Failed, Engine crashed</source>
         <translation>下载失败,引擎崩溃</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1481"/>
+        <location filename="../src/engines.cpp" line="1484"/>
         <source>Format Code</source>
         <translation>格式代码</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1482"/>
+        <location filename="../src/engines.cpp" line="1485"/>
         <source>Extension</source>
         <translation>扩展</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1483"/>
+        <location filename="../src/engines.cpp" line="1486"/>
         <source>Resolution</source>
         <translation>分辨率</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1484"/>
+        <location filename="../src/engines.cpp" line="1487"/>
         <source>Note</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1930"/>
+        <location filename="../src/engines.cpp" line="1933"/>
         <source>Failed to open file for writing</source>
         <translation>无法打开文件进行写入</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1936"/>
+        <location filename="../src/engines.cpp" line="1939"/>
         <source>Failed to open file for reading</source>
         <translation>无法打开文件进行读取</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2076"/>
+        <location filename="../src/engines.cpp" line="2079"/>
         <source>Elapsed Time:</source>
         <translation>已用时间:</translation>
     </message>
@@ -821,8 +821,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="70"/>
-        <location filename="../src/versionInfo.cpp" line="104"/>
-        <location filename="../src/versionInfo.cpp" line="338"/>
+        <location filename="../src/versionInfo.cpp" line="106"/>
+        <location filename="../src/versionInfo.cpp" line="393"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>未能找到版本信息,请确保&quot;%1&quot;已安装并且正常工作</translation>
     </message>
@@ -832,129 +832,130 @@ Exampe 2: ${gateway}:8080</source>
         <translation>找到的版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="206"/>
-        <location filename="../src/networkAccess.cpp" line="518"/>
+        <location filename="../src/networkAccess.cpp" line="216"/>
+        <location filename="../src/networkAccess.cpp" line="528"/>
         <source>Failed To Open Path For Writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="237"/>
-        <location filename="../src/networkAccess.cpp" line="645"/>
-        <location filename="../src/networkAccess.cpp" line="707"/>
+        <location filename="../src/networkAccess.cpp" line="247"/>
+        <location filename="../src/networkAccess.cpp" line="655"/>
+        <location filename="../src/networkAccess.cpp" line="717"/>
         <source>Failed To Extract</source>
         <translation>提取失败</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="291"/>
+        <location filename="../src/networkAccess.cpp" line="301"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation>网络未能在 %1 秒内响应</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="385"/>
+        <location filename="../src/networkAccess.cpp" line="395"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>下载失败,无法创建以下路径: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="660"/>
+        <location filename="../src/networkAccess.cpp" line="670"/>
         <source>Start Downloading</source>
         <translation>开始下载</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="713"/>
+        <location filename="../src/networkAccess.cpp" line="723"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>无法找到&quot;bsdtar.exe&quot;可执行文件</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="715"/>
+        <location filename="../src/networkAccess.cpp" line="725"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation>未能找到&quot;tar&quot;可执行文件</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1201"/>
-        <location filename="../src/networkAccess.cpp" line="497"/>
-        <location filename="../src/networkAccess.cpp" line="778"/>
+        <location filename="../src/engines.cpp" line="1204"/>
+        <location filename="../src/networkAccess.cpp" line="149"/>
+        <location filename="../src/networkAccess.cpp" line="507"/>
+        <location filename="../src/networkAccess.cpp" line="788"/>
         <source>Download Failed</source>
         <translation>下载失败</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="116"/>
-        <location filename="../src/networkAccess.cpp" line="304"/>
+        <location filename="../src/networkAccess.cpp" line="112"/>
+        <location filename="../src/networkAccess.cpp" line="314"/>
         <source>Failed to parse json file from github</source>
         <translation>无法从github解析json文件</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="668"/>
-        <location filename="../src/networkAccess.cpp" line="682"/>
-        <location filename="../src/networkAccess.cpp" line="740"/>
+        <location filename="../src/networkAccess.cpp" line="678"/>
+        <location filename="../src/networkAccess.cpp" line="692"/>
+        <location filename="../src/networkAccess.cpp" line="750"/>
         <source>Downloading</source>
         <translation>下载中</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="675"/>
+        <location filename="../src/networkAccess.cpp" line="685"/>
         <source>Destination</source>
         <translation>目标地址</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="446"/>
-        <location filename="../src/networkAccess.cpp" line="484"/>
+        <location filename="../src/networkAccess.cpp" line="456"/>
+        <location filename="../src/networkAccess.cpp" line="494"/>
         <source>Update Complete, Restart To Use New Version</source>
         <translation>更新完成,重启即可使用新版本</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="495"/>
+        <location filename="../src/networkAccess.cpp" line="505"/>
         <source>File Not Found</source>
         <translation>文件未找到</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="596"/>
+        <location filename="../src/networkAccess.cpp" line="606"/>
         <source>Download complete</source>
         <translation>下载完成</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="245"/>
-        <location filename="../src/networkAccess.cpp" line="688"/>
+        <location filename="../src/networkAccess.cpp" line="255"/>
+        <location filename="../src/networkAccess.cpp" line="698"/>
         <source>Extracting archive: </source>
         <translation>提取存档: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="602"/>
+        <location filename="../src/networkAccess.cpp" line="612"/>
         <source>Renaming file to: </source>
         <translation>将文件重命名为: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1994"/>
+        <location filename="../src/engines.cpp" line="1997"/>
         <source>Processing</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1191"/>
+        <location filename="../src/engines.cpp" line="1194"/>
         <source>Download completed</source>
         <translation>下载已完成</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="489"/>
+        <location filename="../src/settings.cpp" line="465"/>
         <source>Resetting download folder to default</source>
         <translation>正在将下载文件夹重置为默认文件夹</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2039"/>
+        <location filename="../src/engines.cpp" line="2042"/>
         <source>Post Processing</source>
         <translation>后期处理</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="703"/>
         <location filename="../src/utility.h" line="711"/>
-        <location filename="../src/utility.h" line="716"/>
+        <location filename="../src/utility.h" line="719"/>
+        <location filename="../src/utility.h" line="724"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="708"/>
+        <location filename="../src/utility.h" line="716"/>
         <source>Force Download</source>
         <translation>强制下载</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="730"/>
+        <location filename="../src/utility.h" line="738"/>
         <source>Show Log Window</source>
         <translation>显示日志窗口</translation>
     </message>
@@ -999,7 +1000,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>按章节划分</translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.cpp" line="456"/>
+        <location filename="../src/tableWidget.cpp" line="466"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5 </translation>
     </message>
@@ -1051,31 +1052,31 @@ Exampe 2: ${gateway}:8080</source>
         <translation>速度:</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="73"/>
+        <location filename="../src/versionInfo.cpp" line="75"/>
         <source>There Is An Update For %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="130"/>
-        <location filename="../src/versionInfo.cpp" line="392"/>
+        <location filename="../src/versionInfo.cpp" line="142"/>
+        <location filename="../src/versionInfo.cpp" line="450"/>
         <source>Newest Version Is %1, Updating</source>
         <translation>最新版本是 %1,正在更新</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="197"/>
-        <location filename="../src/versionInfo.cpp" line="268"/>
+        <location filename="../src/versionInfo.cpp" line="247"/>
+        <location filename="../src/versionInfo.cpp" line="319"/>
         <source>Checking installed version of %1</source>
         <translation>检查已安装的 %1 版本</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="199"/>
-        <location filename="../src/versionInfo.cpp" line="280"/>
-        <location filename="../src/versionInfo.cpp" line="322"/>
+        <location filename="../src/versionInfo.cpp" line="249"/>
+        <location filename="../src/versionInfo.cpp" line="331"/>
+        <location filename="../src/versionInfo.cpp" line="371"/>
         <source>Found version: %1</source>
         <translation>找到的版本: %1 </translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="404"/>
+        <location filename="../src/versionInfo.cpp" line="477"/>
         <source>Newest Version Is: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1085,12 +1086,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>请更新&quot;%1&quot;至少到版本&quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1162"/>
+        <location filename="../src/engines.cpp" line="1165"/>
         <source>Requested Format Is Not Available</source>
         <translation>请求的格式不可用</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1172"/>
+        <location filename="../src/engines.cpp" line="1175"/>
         <source>Invalid Url Entered</source>
         <translation>输入的网址无效</translation>
     </message>
@@ -1126,7 +1127,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/library.cpp" line="435"/>
-        <location filename="../src/tableWidget.h" line="586"/>
+        <location filename="../src/tableWidget.h" line="706"/>
         <source>Arrange In Ascending Order</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1141,17 +1142,17 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="593"/>
+        <location filename="../src/tableWidget.h" line="713"/>
         <source>Arrange In Descending Order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="640"/>
+        <location filename="../src/tableWidget.h" line="648"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="652"/>
+        <location filename="../src/tableWidget.h" line="664"/>
         <source>No Filter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1159,7 +1160,7 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1550"/>
+        <location filename="../src/batchdownloader.cpp" line="1558"/>
         <source>Set Batch File</source>
         <translation>选择批量下载地址的文件</translation>
     </message>
@@ -1169,17 +1170,17 @@ Exampe 2: ${gateway}:8080</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="40"/>
+        <location filename="../src/batchdownloader.cpp" line="42"/>
         <source>Downloading comments</source>
         <translation>正在下载评论</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1220"/>
+        <location filename="../src/batchdownloader.cpp" line="1224"/>
         <source>Download</source>
         <translation>下载</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1299"/>
+        <location filename="../src/batchdownloader.cpp" line="1303"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
@@ -1226,14 +1227,14 @@ Exampe 2: ${gateway}:8080</source>
         <translation>下载媒体部分</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1291"/>
-        <location filename="../src/batchdownloader.cpp" line="1305"/>
+        <location filename="../src/batchdownloader.cpp" line="1295"/>
+        <location filename="../src/batchdownloader.cpp" line="1309"/>
         <source>Set</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1857"/>
-        <location filename="../src/batchdownloader.cpp" line="2443"/>
+        <location filename="../src/batchdownloader.cpp" line="1855"/>
+        <location filename="../src/batchdownloader.cpp" line="2483"/>
         <source>Downloading subtitles</source>
         <translation>下载字幕</translation>
     </message>
