@@ -291,7 +291,9 @@ QString settings::playlistRangeHistoryLastUsed()
 
 QString settings::gitHubDownloadUrl()
 {
-	if( this->getOption( "MonitorReleaseChannel",true ) ){
+	auto m = this->getOption( "WindowsUpdateChannel",QString( "release" ) ) ;
+
+	if( m.compare( "release",Qt::CaseInsensitive ) == 0 ){
 
 		return "https://api.github.com/repos/mhogomchungu/media-downloader/releases/latest" ;
 	}else{

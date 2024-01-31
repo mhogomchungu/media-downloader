@@ -234,6 +234,8 @@ Version 1.2.0(April 1st, 2021)
 
   Version 4.3.0(Unreleased)
       [Windows]
-      - Automatic updates of Media Downloader can now be configured to track git updates.
+      - Automatic updates of Media Downloader can now be configured to track git updates. Look for
+        option named "WindowsUpdateChannel" in the config file and change its value to "git" to start
+        monitoring git channel. Change the value back to "release" to go back to monitoring release channel.
       [All]
       - Fix a bug that causes a crash when trying to be clever with certain user provided yt-dlp options.
