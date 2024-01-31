@@ -319,6 +319,11 @@ void tableWidget::selectLast()
 	}
 }
 
+void tableWidget::selectRow( int row )
+{
+	m_table.setCurrentCell( row,m_table.columnCount() - 1 ) ;
+}
+
 void tableWidget::setEnabled( bool e )
 {
 	m_table.setEnabled( e ) ;

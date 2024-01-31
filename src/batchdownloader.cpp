@@ -1824,17 +1824,7 @@ void batchdownloader::clipboardData( const QString& url )
 {
 	if( m_settings.monitorClipboardUrl( settings::tabName::batch ) ){
 
-		bool found = false ;
-
-		m_table.forEach( [ & ]( const tableWidget::entry& it ){
-
-			if( it.url == url ){
-
-				found = true ;
-			}
-		} ) ;
-
-		if( !found ){
+		if( m_table.rowWithUrl( url ) != -1 ){
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 			this->addToList( url,false,m_showMetaData ) ;
@@ -2233,7 +2223,14 @@ void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThu
 
 				for( const auto& xt : util::split( url,' ',true ) ){
 
-					this->showThumbnail( ee,xt,autoDownload,showThumbnails ) ;
+					auto row = m_table.rowWithUrl( xt ) ;
+
+					if( row == -1 ){
+
+						this->showThumbnail( ee,xt,autoDownload,showThumbnails ) ;
+					}else{
+						m_table.selectRow( row ) ;
+					}
 				}
 			}
 		}

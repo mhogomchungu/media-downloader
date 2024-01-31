@@ -218,6 +218,18 @@ public:
 			function( it ) ;
 		}
 	}
+	int rowWithUrl( const QString& url )
+	{
+		for( size_t m = 0 ; m < m_items.size() ; m++ ){
+
+			if( m_items[ m ].url == url ){
+
+				return static_cast< int >( m ) ;
+			}
+		}
+
+		return -1 ;
+	}
 	const tableWidget::entry& entryAt( size_t s )
 	{
 		return m_items[ s ] ;
@@ -269,6 +281,7 @@ public:
 	void clear() ;
 	void setVisible( bool ) ;
 	void selectLast() ;
+	void selectRow( int ) ;
 	void setEnabled( bool ) ;
 	void removeRow( int ) ;
 	void hideRow( int ) ;
