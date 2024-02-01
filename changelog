@@ -232,7 +232,7 @@ Version 1.2.0(April 1st, 2021)
       - Add ability to filter and sort media list to easily choose which ones to download.
       - Rework UI options that control checking for updates and autodownloads at startup.
 
-  Version 4.3.0(Unreleased)
+  Version 4.3.0(February 1st, 2024)
       [Windows]
       - Automatic updates of Media Downloader can now be configured to track git updates. Look for
         option named "WindowsUpdateChannel" in the config file and change its value to "git" to start
