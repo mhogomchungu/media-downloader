@@ -1824,7 +1824,7 @@ void batchdownloader::clipboardData( const QString& url )
 {
 	if( m_settings.monitorClipboardUrl( settings::tabName::batch ) ){
 
-		if( m_table.rowWithUrl( url ) != -1 ){
+		if( m_table.rowWithUrl( url ) == -1 ){
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 			this->addToList( url,false,m_showMetaData ) ;
