@@ -595,7 +595,12 @@ public:
 		auto c = QString::number( m_patch ) ;
 		auto d = QString::number( m_gitDate ) ;
 
-		return a + "." + b + "." + c + "." + d ;
+		if( d == "0" ){
+
+			return a + "." + b + "." + c ;
+		}else{
+			return a + "." + b + "." + c + "." + d ;
+		}
 	}
 	version move()
 	{
