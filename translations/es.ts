@@ -505,28 +505,55 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Mostrar todas las filas ocultas</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="163"/>
+        <location filename="../src/utility.cpp" line="1861"/>
+        <source>Failed To Start Executable %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="1900"/>
+        <location filename="../src/utility.cpp" line="1917"/>
+        <source>Copy Url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="1904"/>
+        <location filename="../src/utility.cpp" line="1949"/>
+        <source>Open Url With %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="1928"/>
+        <source>Copy Url %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utility.cpp" line="1962"/>
+        <source>Open Url %1 With %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/batchdownloader.cpp" line="169"/>
         <location filename="../src/utility.cpp" line="822"/>
         <source>Save List To File</source>
         <translation>Guardar Lista en Archivo</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="956"/>
+        <location filename="../src/batchdownloader.cpp" line="918"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="966"/>
+        <location filename="../src/batchdownloader.cpp" line="928"/>
         <source>Date</source>
         <translation>Fecha</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="984"/>
+        <location filename="../src/batchdownloader.cpp" line="946"/>
         <source>Replies to</source>
         <translation>Respoder a</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1249"/>
+        <location filename="../src/batchdownloader.cpp" line="1211"/>
         <source>Save Subtitle To File</source>
         <translation>Guardar subtítulo en archivo</translation>
     </message>
@@ -536,12 +563,12 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Nombre del motor:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1553"/>
+        <location filename="../src/batchdownloader.cpp" line="1515"/>
         <source>Get List From File</source>
         <translation>Obtener Lista desde Archivo</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="612"/>
+        <location filename="../src/batchdownloader.cpp" line="574"/>
         <location filename="../src/playlistdownloader.cpp" line="610"/>
         <location filename="../src/utility.cpp" line="481"/>
         <source>Preset Options</source>
@@ -549,8 +576,8 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <location filename="../src/utility.cpp" line="520"/>
-        <location filename="../src/utility.h" line="678"/>
-        <location filename="../src/utility.h" line="751"/>
+        <location filename="../src/utility.h" line="679"/>
+        <location filename="../src/utility.h" line="752"/>
         <source>Clear</source>
         <translation>Limpiar</translation>
     </message>
@@ -735,84 +762,84 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Error, imposible analizar el archivo de configuración &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="602"/>
+        <location filename="../src/engines.cpp" line="605"/>
         <source>Failed To Load A Plugin</source>
         <translation>Falló al cargar un Complemento</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="687"/>
-        <location filename="../src/engines.cpp" line="978"/>
+        <location filename="../src/engines.cpp" line="690"/>
+        <location filename="../src/engines.cpp" line="981"/>
         <location filename="../src/utility.cpp" line="695"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Fallo para encontrar el ejecutable &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="963"/>
+        <location filename="../src/engines.cpp" line="966"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>No se pudo encontrar el ejecutable de python3 para el backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1170"/>
+        <location filename="../src/engines.cpp" line="1173"/>
         <source>Network Error Occured</source>
         <translation>Se produjo un error de red</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1180"/>
+        <location filename="../src/engines.cpp" line="1183"/>
         <source>Url Is Not Supported</source>
         <translation>La URL es incompatible</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1190"/>
+        <location filename="../src/engines.cpp" line="1193"/>
         <source>Download cancelled</source>
         <translation>Descarga cancelada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1205"/>
+        <location filename="../src/engines.cpp" line="1208"/>
         <source>ErrorCode</source>
         <translation>Código de error</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1211"/>
+        <location filename="../src/engines.cpp" line="1214"/>
         <source>Download Failed, Engine failed to start</source>
         <translation>Error de descarga, el motor falló al iniciar</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1213"/>
+        <location filename="../src/engines.cpp" line="1216"/>
         <source>Download Failed, Engine crashed</source>
         <translation>Error de descarga, el motor falló</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1484"/>
+        <location filename="../src/engines.cpp" line="1487"/>
         <source>Format Code</source>
         <translation>Código de formato</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1485"/>
+        <location filename="../src/engines.cpp" line="1488"/>
         <source>Extension</source>
         <translation>Extensión</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1486"/>
+        <location filename="../src/engines.cpp" line="1489"/>
         <source>Resolution</source>
         <translation>Resolución</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1487"/>
+        <location filename="../src/engines.cpp" line="1490"/>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1933"/>
+        <location filename="../src/engines.cpp" line="1936"/>
         <source>Failed to open file for writing</source>
         <translation>No se pudo abrir el archivo para escribir</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1939"/>
+        <location filename="../src/engines.cpp" line="1942"/>
         <source>Failed to open file for reading</source>
         <translation>No se pudo abrir el archivo para leerlo</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2079"/>
+        <location filename="../src/engines.cpp" line="2082"/>
         <source>Elapsed Time:</source>
         <translation>Tiempo transcurrido:</translation>
     </message>
@@ -872,7 +899,7 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Imposible encontrar el ejecutable &quot;tar&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1204"/>
+        <location filename="../src/engines.cpp" line="1207"/>
         <location filename="../src/networkAccess.cpp" line="149"/>
         <location filename="../src/networkAccess.cpp" line="507"/>
         <location filename="../src/networkAccess.cpp" line="788"/>
@@ -925,12 +952,12 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Cambiar el nombre del archivo a: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1997"/>
+        <location filename="../src/engines.cpp" line="2000"/>
         <source>Processing</source>
         <translation>Procesando</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1194"/>
+        <location filename="../src/engines.cpp" line="1197"/>
         <source>Download completed</source>
         <translation>Descarga completada</translation>
     </message>
@@ -940,24 +967,24 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Restablecimiento de carpeta de descarga a predeterminada</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2042"/>
+        <location filename="../src/engines.cpp" line="2045"/>
         <source>Post Processing</source>
         <translation>Post Procesamiento</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="711"/>
-        <location filename="../src/utility.h" line="719"/>
-        <location filename="../src/utility.h" line="724"/>
+        <location filename="../src/utility.h" line="712"/>
+        <location filename="../src/utility.h" line="720"/>
+        <location filename="../src/utility.h" line="725"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="716"/>
+        <location filename="../src/utility.h" line="717"/>
         <source>Force Download</source>
         <translation>Forzar Descarga</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="738"/>
+        <location filename="../src/utility.h" line="739"/>
         <source>Show Log Window</source>
         <translation>Mostrar Ventana de Registro</translation>
     </message>
@@ -1088,12 +1115,12 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Actualice &quot;%1&quot; a al menos la versión &quot;%2&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1165"/>
+        <location filename="../src/engines.cpp" line="1168"/>
         <source>Requested Format Is Not Available</source>
         <translation>El formato solicitado no está disponible</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1175"/>
+        <location filename="../src/engines.cpp" line="1178"/>
         <source>Invalid Url Entered</source>
         <translation>URL introducida es inválida</translation>
     </message>
@@ -1162,12 +1189,12 @@ Ejemplo 2: ${gateway}:8080</translation>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1558"/>
+        <location filename="../src/batchdownloader.cpp" line="1520"/>
         <source>Set Batch File</source>
         <translation>Establecer Archivo de Lotes</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="449"/>
+        <location filename="../src/batchdownloader.cpp" line="411"/>
         <source>Open</source>
         <translation>Abrir</translation>
     </message>
@@ -1177,66 +1204,59 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Descargando comentarios</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1224"/>
+        <location filename="../src/batchdownloader.cpp" line="1186"/>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1303"/>
+        <location filename="../src/batchdownloader.cpp" line="1265"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="462"/>
+        <location filename="../src/batchdownloader.cpp" line="424"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="374"/>
-        <location filename="../src/batchdownloader.cpp" line="380"/>
-        <location filename="../src/batchdownloader.cpp" line="471"/>
+        <location filename="../src/batchdownloader.cpp" line="433"/>
         <source>Copy Url</source>
         <translation>Copiar URL</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="391"/>
-        <source>Copy Url %1</source>
-        <translation>Copiar URL %1</translation>
-    </message>
-    <message>
-        <location filename="../src/batchdownloader.cpp" line="483"/>
+        <location filename="../src/batchdownloader.cpp" line="445"/>
         <source>Remove</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="503"/>
+        <location filename="../src/batchdownloader.cpp" line="465"/>
         <source>Show Subtitles</source>
         <translation>Mostrar Subtítulos</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="518"/>
+        <location filename="../src/batchdownloader.cpp" line="480"/>
         <source>Show Comments</source>
         <translation>Mostrar Componentes</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="531"/>
+        <location filename="../src/batchdownloader.cpp" line="493"/>
         <source>Show Media Options</source>
         <translation>Mostrar Opciones de Medio</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="544"/>
+        <location filename="../src/batchdownloader.cpp" line="506"/>
         <source>Download Media Part</source>
         <translation>Descargar parte multimedios</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1295"/>
-        <location filename="../src/batchdownloader.cpp" line="1309"/>
+        <location filename="../src/batchdownloader.cpp" line="1257"/>
+        <location filename="../src/batchdownloader.cpp" line="1271"/>
         <source>Set</source>
         <translation>Establecer</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1855"/>
-        <location filename="../src/batchdownloader.cpp" line="2483"/>
+        <location filename="../src/batchdownloader.cpp" line="1817"/>
+        <location filename="../src/batchdownloader.cpp" line="2445"/>
         <source>Downloading subtitles</source>
         <translation>Descargando subtítulos</translation>
     </message>

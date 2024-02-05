@@ -872,6 +872,26 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Newest Version Is: %1</source>
         <translation>Versione più recente: %1</translation>
     </message>
+    <message>
+        <source>Failed To Start Executable %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy Url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Url With %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy Url %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Url %1 With %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -926,10 +946,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Downloading subtitles</source>
         <translation>Download sottotitoli</translation>
-    </message>
-    <message>
-        <source>Copy Url %1</source>
-        <translation>Copia URL %1</translation>
     </message>
     <message>
         <source>Download Media Part</source>

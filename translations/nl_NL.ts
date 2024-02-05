@@ -868,6 +868,26 @@ Exampe 2: ${gateway}:8080</source>
         <source>Newest Version Is: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Failed To Start Executable %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy Url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Url With %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy Url %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Url %1 With %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -922,10 +942,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Show Comments</source>
         <translation>Toon commentaar</translation>
-    </message>
-    <message>
-        <source>Copy Url %1</source>
-        <translation>Kopieer URL %1</translation>
     </message>
     <message>
         <source>Download Media Part</source>
