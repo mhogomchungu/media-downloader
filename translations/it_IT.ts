@@ -874,23 +874,23 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Failed To Start Executable %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile avviare l&apos;eseguibile %1</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia URL</translation>
     </message>
     <message>
         <source>Open Url With %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri URL con %1</translation>
     </message>
     <message>
         <source>Copy Url %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiua URL %1</translation>
     </message>
     <message>
         <source>Open Url %1 With %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri URL %1 con %2</translation>
     </message>
 </context>
 <context>
