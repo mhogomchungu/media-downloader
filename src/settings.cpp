@@ -637,6 +637,16 @@ int settings::thumbnailHeight( settings::tabName s )
 	return this->getOption( m,72 ) ;
 }
 
+void settings::setOpenWith( const QString& e )
+{
+	m_settings.setValue( "OpenWith",e ) ;
+}
+
+QString settings::openWith()
+{
+	return this->getOption( "OpenWith",QString() ) ;
+}
+
 void settings::setShowLocalVersionInformationOnly( bool e )
 {
 	m_settings.setValue( "ShowLocalVersionInformationOnly",e ) ;

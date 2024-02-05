@@ -49,8 +49,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	tableWidget::tableWidgetOptions opts ;
 
-	opts.customContextPolicy = Qt::NoContextMenu ;
-	opts.selectionMode       = QAbstractItemView::ExtendedSelection ;
+	opts.selectionMode = QAbstractItemView::ExtendedSelection ;
 
 	m_tableList.setTableWidget( opts ) ;
 
@@ -63,6 +62,23 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		auto& a = *m_ui.lineEditOptions ;
 		m_tableList.selectMediaOptions( m_optionsList,a ) ;
+	} ) ;
+
+	auto cm = &QTableWidget::customContextMenuRequested ;
+
+	m_tableList.connect( cm,[ this ]( const QPoint& ){
+
+		auto row = m_tableList.currentRow() ;
+
+		if( row != -1 ){
+
+			const auto& obj = m_tableList.stuffAt( row ).toqJsonObject() ;
+
+			auto m = m_settings.openWith() ;
+			auto arr = obj.value( "urls" ).toArray() ;
+
+			utility::contextMenuForDirectUrl( m,arr,m_ctx ) ;
+		}
 	} ) ;
 
 	connect( m_ui.pbOptionsDownloadOptions,&QPushButton::clicked,[ this ](){

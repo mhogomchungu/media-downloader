@@ -100,6 +100,7 @@ public:
 	const QString& windowsOnlyExeBinPath() ;
 	const QString& windowsOnlyDefaultPortableVersionDownloadFolder() ;
 
+	QString openWith() ;
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;
 	QString downloadFolder( Logger& ) ;
@@ -162,6 +163,7 @@ public:
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
 
+	void setOpenWith( const QString& ) ;
 	void setShowLocalVersionInformationOnly( bool ) ;
 	void setShowLocalAndLatestVersionInformation( bool ) ;
 	void setLibraryShowFolderFirst( bool ) ;

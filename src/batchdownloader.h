@@ -233,7 +233,6 @@ private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
-	void showContext( int ) ;
 	void showCustomContext() ;
 	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
 	void download( const engines::engine&,downloadManager::index ) ;

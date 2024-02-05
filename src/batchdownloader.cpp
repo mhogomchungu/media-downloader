@@ -82,7 +82,13 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			if( row != -1 ){
 
-				this->showContext( row ) ;
+				const auto& obj = m_tableWidgetBDList.stuffAt( row ) ;
+
+				auto m = m_settings.openWith() ;
+
+				auto arr = obj.value( "urls" ).toArray() ;
+
+				utility::contextMenuForDirectUrl( m,arr,m_ctx ) ;
 			}
 
 		}else if( m_listType == batchdownloader::listType::SUBTITLES ){
@@ -359,50 +365,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 			this->addToList( m ) ;
 		}
 	} ) ;
-}
-
-void batchdownloader::showContext( int row )
-{
-	const auto arr = m_tableWidgetBDList.stuffAt( row ).value( "urls" ).toArray() ;
-
-	QMenu m ;
-
-	auto clipBoard = QApplication::clipboard() ;
-
-	if( arr.size() == 0 || !clipBoard ){
-
-		m.addAction( tr( "Copy Url" ) )->setEnabled( false ) ;
-	}else{
-		if( arr.size() == 1 ){
-
-			auto url = arr[ 0 ].toString() ;
-
-			auto ee = m.addAction( tr( "Copy Url" ) ) ;
-
-			connect( ee,&QAction::triggered,[ clipBoard,url ](){
-
-				clipBoard->setText( url ) ;
-			} ) ;
-		}else{
-			for( int i = 0 ; i < arr.size() ; i++ ){
-
-				auto e = QString::number( i + 1 ) ;
-
-				auto s = tr( "Copy Url %1" ).arg( e ) ;
-
-				auto url = arr[ i ].toString() ;
-
-				auto ee = m.addAction( s ) ;
-
-				connect( ee,&QAction::triggered,[ clipBoard,url ](){
-
-					clipBoard->setText( url ) ;
-				} ) ;
-			}
-		}
-	}
-
-	m.exec( QCursor::pos() ) ;
 }
 
 void batchdownloader::showCustomContext()

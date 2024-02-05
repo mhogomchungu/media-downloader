@@ -1841,3 +1841,138 @@ bool utility::addData( const QByteArray& e )
 		return true ;
 	}
 }
+
+static void _open_with( const QString& exe,const QString& url,const Context& ctx )
+{
+	class Events
+	{
+	public:
+		Events( const Context& ctx,const QString& exe ) : m_ctx( ctx ),m_exe( exe )
+		{
+		}
+		void withError( QProcess::ProcessError err )
+		{
+			if( err == QProcess::ProcessError::FailedToStart ){
+
+				auto id = utility::sequentialID() ;
+
+				auto bar = utility::barLine() ;
+
+				auto m = QObject::tr( "Failed To Start Executable %1" ).arg( m_exe ) ;
+
+				m_ctx.logger().add( bar,id ) ;
+
+				m_ctx.logger().add( m,id ) ;
+
+				m_ctx.logger().add( bar,id ) ;
+			}
+		}
+		void whenStarted( QProcess& )
+		{
+		}
+		void whenCreated( QProcess& )
+		{
+		}
+		void withData( QProcess::ProcessChannel,const QByteArray& )
+		{
+		}
+		void whenDone( int,QProcess::ExitStatus )
+		{
+		}
+	private:
+		const Context& m_ctx ;
+		const QString& m_exe ;
+	} ;
+
+	utils::qprocess::run( exe,{ url },Events( ctx,exe ) ) ;
+}
+
+void utility::contextMenuForDirectUrl( const QString& e,const QJsonArray& arr,const Context& ctx )
+{
+	QMenu m ;
+
+	auto clipBoard = QApplication::clipboard() ;
+
+	auto player = util::split( e,":" ) ;
+
+	if( arr.size() == 0 ){
+
+		m.addAction( QObject::tr( "Copy Url" ) )->setEnabled( false ) ;
+
+		if( player.size() > 1 ){
+
+			auto s = QObject::tr( "Open Url With %1" ).arg( player[ 0 ] ) ;
+
+			m.addAction( s )->setEnabled( false ) ;
+		}
+	}else{
+		auto act = &QAction::triggered ;
+
+		if( clipBoard ){
+
+			if( arr.size() == 1 ){
+
+				auto url = arr[ 0 ].toString() ;
+
+				auto ee = m.addAction( QObject::tr( "Copy Url" ) ) ;
+
+				QObject::connect( ee,act,[ clipBoard,url ](){
+
+					clipBoard->setText( url ) ;
+				} ) ;
+			}else{
+				for( int i = 0 ; i < arr.size() ; i++ ){
+
+					auto e = QString::number( i + 1 ) ;
+
+					auto s = QObject::tr( "Copy Url %1" ).arg( e ) ;
+
+					auto url = arr[ i ].toString() ;
+
+					auto ee = m.addAction( s ) ;
+
+					QObject::connect( ee,act,[ clipBoard,url ](){
+
+						clipBoard->setText( url ) ;
+					} ) ;
+				}
+			}
+		}
+
+		if( player.size() > 1 ){
+
+			const auto& pName = player[ 0 ] ;
+			const auto& pExe  = player[ 1 ] ;
+
+			if( arr.size() == 1 ){
+
+				auto s = QObject::tr( "Open Url With %1" ).arg( pName ) ;
+
+				auto ee = m.addAction( s ) ;
+
+				auto url = arr[ 0 ].toString() ;
+
+				QObject::connect( ee,act,[ pExe,url,&ctx ](){
+
+					_open_with( pExe,url,ctx ) ;
+				} ) ;
+			}else{
+				for( int i = 0 ; i < arr.size() ; i++ ){
+
+					auto s = QObject::tr( "Open Url %1 With %2" ).arg( e,pName ) ;
+
+					auto ee = m.addAction( s ) ;
+
+					auto url = arr[ i ].toString() ;
+
+					QObject::connect( ee,act,[ pExe,url,&ctx ](){
+
+						_open_with( pExe,url,ctx ) ;
+					} ) ;
+				}
+			}
+		}
+	}
+
+	m.exec( QCursor::pos() ) ;
+}
