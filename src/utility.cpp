@@ -1891,8 +1891,6 @@ void utility::contextMenuForDirectUrl( const QString& e,const QJsonArray& arr,co
 {
 	QMenu m ;
 
-	auto clipBoard = QApplication::clipboard() ;
-
 	auto player = util::split( e,":" ) ;
 
 	if( arr.size() == 0 ){
@@ -1906,6 +1904,8 @@ void utility::contextMenuForDirectUrl( const QString& e,const QJsonArray& arr,co
 			m.addAction( s )->setEnabled( false ) ;
 		}
 	}else{
+		auto clipBoard = QApplication::clipboard() ;
+
 		auto act = &QAction::triggered ;
 
 		if( clipBoard ){
@@ -1942,7 +1942,7 @@ void utility::contextMenuForDirectUrl( const QString& e,const QJsonArray& arr,co
 		if( player.size() > 1 ){
 
 			const auto& pName = player[ 0 ] ;
-			const auto& pExe  = player[ 1 ] ;
+			const auto& pExe  = util::join( player,1,":" ) ;
 
 			if( arr.size() == 1 ){
 
