@@ -642,7 +642,7 @@ void settings::setOpenWith( const QString& e )
 	m_settings.setValue( "OpenWith",e ) ;
 }
 
-QString settings::openWith()
+settings::mediaPlayer settings::openWith()
 {
 	return this->getOption( "OpenWith",QString() ) ;
 }
@@ -1007,4 +1007,15 @@ settings::proxySettings::type settings::proxySettings::types() const
 QByteArray settings::proxySettings::proxyAddress() const
 {
 	return m_settings.value( "ProxySettingsCustomSource" ).toByteArray() ;
+}
+
+settings::mediaPlayer::mediaPlayer( const QString& e )
+{
+	auto m = util::split( e,":" ) ;
+
+	if( m.size() > 1 ){
+
+		m_name = m[ 0 ] ;
+		m_exePath = util::join( m,1,":" ) ;
+	}
 }

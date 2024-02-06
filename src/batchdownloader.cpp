@@ -84,11 +84,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 				const auto& obj = m_tableWidgetBDList.stuffAt( row ) ;
 
-				auto m = m_settings.openWith() ;
-
 				auto arr = obj.value( "urls" ).toArray() ;
 
-				utility::contextMenuForDirectUrl( m,arr,m_ctx ) ;
+				utility::contextMenuForDirectUrl( arr,m_ctx ) ;
 			}
 
 		}else if( m_listType == batchdownloader::listType::SUBTITLES ){

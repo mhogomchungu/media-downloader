@@ -100,7 +100,29 @@ public:
 	const QString& windowsOnlyExeBinPath() ;
 	const QString& windowsOnlyDefaultPortableVersionDownloadFolder() ;
 
-	QString openWith() ;
+	class mediaPlayer
+	{
+	public:
+		mediaPlayer( const QString& ) ;
+		const QString& name() const
+		{
+			return m_name ;
+		}
+		const QString& exePath() const
+		{
+			return m_exePath ;
+		}
+		bool valid() const
+		{
+			return !m_name.isEmpty() ;
+		}
+	private:
+		QString m_name ;
+		QString m_exePath ;
+	} ;
+
+	settings::mediaPlayer openWith() ;
+
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;
 	QString downloadFolder( Logger& ) ;

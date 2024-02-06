@@ -476,7 +476,7 @@ namespace utility
 	bool platformIsNOTWindows() ;
 	bool platformIsLikeWindows() ;
 	bool addData( const QByteArray& ) ;
-	void contextMenuForDirectUrl( const QString&,const QJsonArray&,const Context& ) ;
+	void contextMenuForDirectUrl( const QJsonArray&,const Context& ) ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;

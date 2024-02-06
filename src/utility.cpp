@@ -1842,12 +1842,13 @@ bool utility::addData( const QByteArray& e )
 	}
 }
 
-static void _open_with( const QString& exe,const QString& url,const Context& ctx )
-{
+void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx )
+{	
 	class Events
 	{
 	public:
-		Events( const Context& ctx,const QString& exe ) : m_ctx( ctx ),m_exe( exe )
+		Events( const Context& ctx,const QString& exe,const QString& url ) :
+			m_ctx( ctx ),m_exe( exe ),m_url( url )
 		{
 		}
 		void withError( QProcess::ProcessError err )
@@ -1858,11 +1859,11 @@ static void _open_with( const QString& exe,const QString& url,const Context& ctx
 
 				auto bar = utility::barLine() ;
 
-				auto m = QObject::tr( "Failed To Start Executable %1" ).arg( m_exe ) ;
+				auto m = QObject::tr( "Failed To Start Executable %1" ) ;
 
 				m_ctx.logger().add( bar,id ) ;
 
-				m_ctx.logger().add( m,id ) ;
+				m_ctx.logger().add( m.arg( m_exe ),id ) ;
 
 				m_ctx.logger().add( bar,id ) ;
 			}
@@ -1879,27 +1880,27 @@ static void _open_with( const QString& exe,const QString& url,const Context& ctx
 		void whenDone( int,QProcess::ExitStatus )
 		{
 		}
+		void operator()()
+		{
+			utils::qprocess::run( m_exe,m_url,*this ) ;
+		}
 	private:
 		const Context& m_ctx ;
 		const QString& m_exe ;
+		QStringList m_url ;
 	} ;
 
-	utils::qprocess::run( exe,{ url },Events( ctx,exe ) ) ;
-}
-
-void utility::contextMenuForDirectUrl( const QString& e,const QJsonArray& arr,const Context& ctx )
-{
 	QMenu m ;
 
-	auto player = util::split( e,":" ) ;
+	auto mediaPlayer = ctx.Settings().openWith() ;
 
 	if( arr.size() == 0 ){
 
 		m.addAction( QObject::tr( "Copy Url" ) )->setEnabled( false ) ;
 
-		if( player.size() > 1 ){
+		if( mediaPlayer.valid() ){
 
-			auto s = QObject::tr( "Open Url With %1" ).arg( player[ 0 ] ) ;
+			auto s = QObject::tr( "Open Url With %1" ).arg( mediaPlayer.name() ) ;
 
 			m.addAction( s )->setEnabled( false ) ;
 		}
@@ -1939,10 +1940,10 @@ void utility::contextMenuForDirectUrl( const QString& e,const QJsonArray& arr,co
 			}
 		}
 
-		if( player.size() > 1 ){
+		if( mediaPlayer.valid() ){
 
-			const auto& pName = player[ 0 ] ;
-			const auto& pExe  = util::join( player,1,":" ) ;
+			const auto& pName = mediaPlayer.name() ;
+			const auto& pExe  = mediaPlayer.exePath() ;
 
 			if( arr.size() == 1 ){
 
@@ -1952,23 +1953,18 @@ void utility::contextMenuForDirectUrl( const QString& e,const QJsonArray& arr,co
 
 				auto url = arr[ 0 ].toString() ;
 
-				QObject::connect( ee,act,[ pExe,url,&ctx ](){
-
-					_open_with( pExe,url,ctx ) ;
-				} ) ;
+				QObject::connect( ee,act,Events( ctx,pExe,url ) ) ;
 			}else{
 				for( int i = 0 ; i < arr.size() ; i++ ){
 
+					auto e = QString::number( i + 1 ) ;
 					auto s = QObject::tr( "Open Url %1 With %2" ).arg( e,pName ) ;
 
 					auto ee = m.addAction( s ) ;
 
 					auto url = arr[ i ].toString() ;
 
-					QObject::connect( ee,act,[ pExe,url,&ctx ](){
-
-						_open_with( pExe,url,ctx ) ;
-					} ) ;
+					QObject::connect( ee,act,Events( ctx,pExe,url ) ) ;
 				}
 			}
 		}
