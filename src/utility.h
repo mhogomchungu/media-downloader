@@ -417,7 +417,7 @@ namespace utility
 	{
 	public:
 		printOutPut( const utility::cliArguments& ) ;
-		void operator()( const QByteArray& ) ;
+		void operator()( int,const QByteArray& ) ;
 		operator bool() const ;
 	private:
 		QFile m_outPutFile ;
@@ -593,9 +593,17 @@ namespace utility
 		{
 			return m_showLogWindow ;
 		}
+		bool showRowLogWindow() const
+		{
+			return m_showRawLogWindow ;
+		}
 		void setShowLogWindow()
 		{
 			m_showLogWindow = true ;
+		}
+		void setShowRawLogWindow()
+		{
+			m_showRawLogWindow = true ;
 		}
 		bool clear() const
 		{
@@ -609,6 +617,7 @@ namespace utility
 		bool m_noneAreRunning ;
 		bool m_finishedSuccess ;
 		bool m_showLogWindow = false ;
+		bool m_showRawLogWindow = false ;
 		bool m_clear = false ;
 	};
 
@@ -741,6 +750,15 @@ namespace utility
 		QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
 
 			c.setShowLogWindow() ;
+
+			function( c ) ;
+		} ) ;
+
+		ac = m.addAction( QObject::tr( "Show Raw Log Window" ) ) ;
+
+		QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
+
+			c.setShowRawLogWindow() ;
 
 			function( c ) ;
 		} ) ;

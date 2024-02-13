@@ -511,6 +511,11 @@ yt_dlp::~yt_dlp()
 
 static bool _yt_dlp( const engines::engine&,const QByteArray& e )
 {
+	if( e.startsWith( "[media-downloader] JSON Parse Error: " ) ){
+
+		return true ;
+	}
+
 	return utils::misc::startsWithAny( e,"[download]","[postprocess]" ) && e.contains( "ETA" ) ;
 }
 
@@ -622,13 +627,38 @@ private:
 			return {} ;
 		}
 
-		auto obj = QJsonDocument::fromJson( e.mid( 11 ) ).object() ;
+		QJsonParseError err ;
 
+		auto json = QJsonDocument::fromJson( e.mid( 11 ),&err ) ;
+
+		if( err.error != QJsonParseError::NoError ){
+
+			auto msg = err.errorString().toUtf8() ;
+
+			auto m = "[media-downloader] JSON Parse Error: " + msg ;
+
+			m += "\n[media-downloader][download] .." ;
+
+			auto h = args.data.ytDlpData().counter() % 8 ;
+
+			while( h-- ){
+
+				m += " .." ;
+			}
+
+			return m ;
+		}
+
+		auto obj = json.object() ;
+
+		auto fileName = obj.value( "filename" ).toString() ;
 		auto downloaded_str = obj.value( "downloaded_bytes" ).toString() ;
 		auto totalbytesEstimate = obj.value( "total_bytes_estimate" ).toString() ;
 		auto eta = obj.value( "ETA" ).toString() ;
 		auto speed = obj.value( "speed" ).toString() ;
 		auto totalBytes = obj.value( "total_bytes" ).toString() ;
+
+		args.data.ytDlpData().setFilePath( fileName ) ;
 
 		QString progress = e.mid( 0,11 ) ;
 
@@ -1373,6 +1403,14 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 			m_tmp = m_fileName + "\n" + m.mid( 11 ) ;
 
+		}else if( m.startsWith( "[media-downloader] JSON Parse Error: " ) ){
+
+			auto s = m.mid( 19 ) ;
+
+			s.replace( "[media-downloader][download] ","" ) ;
+
+			m_tmp = m_fileName + "\n" + s ;
+
 		}else if( m_engine.name().contains( "aria2c" ) ){
 
 			auto n = m.indexOf( ' ' ) ;
@@ -1437,6 +1475,8 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 			return m_fileName ;
 		}
 	}
+
+	this->setFileName( s.ytDlpData().filePath() ) ;
 
 	return this->parseOutput( m ) ;
 }

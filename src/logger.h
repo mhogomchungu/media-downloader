@@ -308,6 +308,7 @@ public:
 		{
 			return m_processOutputs.rbegin()->entries().rbegin()->progressLine() ;
 		}
+		QByteArray debugOutPut() const ;
 		QByteArray join( const QByteArray& joiner ) const ;
 		QByteArray toLine() const
 		{
@@ -411,8 +412,13 @@ public:
 					m_filePath = m.toUtf8() ;
 				}
 			}
+			size_t counter()
+			{
+				return ++m_counter ;
+			}
 		private:
 			QByteArray m_filePath ;
+			size_t m_counter = 0 ;
 		};
 
 		YtDlpData& ytDlpData()
@@ -524,6 +530,10 @@ public:
 
 		this->update() ;
 	}
+	void addRawData( int id,const QByteArray& data )
+	{
+		m_debugProcessOutPuts.add( id,data ) ;
+	}
 	void logError( const QByteArray& data,int id )
 	{
 		auto function = []( const QByteArray& ){ return false ; } ;
@@ -538,6 +548,7 @@ public:
 	}
 	void setMaxProcessLog( int s ) ;
 	void showLogWindow() ;
+	void showDebugLogWindow() ;
 	void reTranslateLogWindow() ;
 	void updateView( bool e ) ;
 	Logger( const Logger& ) = delete ;
@@ -549,6 +560,7 @@ private:
 	logWindow m_logWindow ;
 	QPlainTextEdit& m_textEdit ;
 	Logger::Data m_processOutPuts ;
+	Logger::Data m_debugProcessOutPuts ;
 	bool m_updateView = false ;
 	settings& m_settings ;
 	int m_maxProcessLog ;

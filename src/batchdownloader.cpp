@@ -371,7 +371,11 @@ void batchdownloader::showCustomContext()
 
 	auto function = [ this ]( const utility::contextState& c ){
 
-		if( c.showLogWindow() ){
+		if( c.showRowLogWindow() ){
+
+			m_ctx.logger().showDebugLogWindow() ;
+
+		}else if( c.showLogWindow() ){
 
 			m_ctx.logger().showLogWindow() ;
 
@@ -1647,7 +1651,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		}
 		void printOutPut( const QByteArray& e )
 		{
-			m_parent.m_ctx.debug( e ) ;
+			m_parent.m_ctx.debug( m_index,e ) ;
 		}
 		QString downloadFolder()
 		{
@@ -1989,7 +1993,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		}
 		void printOutPut( const QByteArray& e )
 		{
-			m_parent.m_ctx.debug( e ) ;
+			m_parent.m_ctx.debug( -1,e ) ;
 		}
 		QString downloadFolder()
 		{
@@ -2302,7 +2306,9 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		}
 		void printOutPut( const QByteArray& e )
 		{
-			m_parent.m_ctx.debug( e ) ;
+			m_parent.m_ctx.logger().addRawData( m_index,e ) ;
+
+			m_parent.m_ctx.debug( m_index,e ) ;
 		}
 		QString downloadFolder()
 		{

@@ -509,7 +509,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 		void printOutPut( const QByteArray& e )
 		{
-			m_parent.m_ctx.debug( e ) ;
+			m_parent.m_ctx.debug( m_id,e ) ;
 		}
 		QString downloadFolder()
 		{

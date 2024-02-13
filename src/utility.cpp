@@ -1678,7 +1678,7 @@ utility::printOutPut::printOutPut( const utility::cliArguments& args )
 	}
 }
 
-void utility::printOutPut::operator()( const QByteArray& e )
+void utility::printOutPut::operator()( int id,const QByteArray& e )
 {
 	if( m_outPutFile.isOpen() ){
 
@@ -1687,11 +1687,15 @@ void utility::printOutPut::operator()( const QByteArray& e )
 
 	if( m_status == utility::printOutPut::status::qdebug ){
 
+		qDebug() << "id: " + QString::number( id ) ;
 		qDebug() << e ;
 		qDebug() << "--------------------------------" ;
 
 	}else if( m_status == utility::printOutPut::status::debug ){
 
+		auto m = "id: " + QString::number( id ).toUtf8() ;
+
+		std::cout << m.constData() << std::endl ;
 		std::cout << e.constData() << std::endl ;
 		std::cout << "--------------------------------" << std::endl ;
 	}
