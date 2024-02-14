@@ -982,12 +982,12 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 		m_settings.setPlaylistRangeHistoryLastUsed( listOptions ) ;
 
-		opts.append( util::split( listOptions,' ',true ) ) ;
+		opts.append( util::splitPreserveQuotes( listOptions ) ) ;
 	}
 
 	if( !configListOpts.isEmpty() ){
 
-		opts.append( util::split( configListOpts,' ',true ) ) ;
+		opts.append( util::splitPreserveQuotes( configListOpts ) ) ;
 	}
 
 	engine.setTextEncondig( opts ) ;
