@@ -439,19 +439,20 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 			   const QString& credentials,
 			   bool getList )
 {
-	auto id = eng.id ;
-	const auto& engine = eng.engine ;
-
 	class events
 	{
 	public:
 		events( basicdownloader& p,int id,bool l,const engines::engine& engine ) :
 			m_parent( p ),m_engine( engine ),m_id( id ),m_getList( l )
 		{
-			if( m_engine.name().contains( "yt-dlp" ) ){
+			const auto& s = m_engine.name() ;
+
+			if( s == "yt-dlp" || s == "ytdl-patched" ){
 
 				auto m = m_parent.m_settings.deleteFilesOnCanceledDownload() ;
 				m_deleteTempFilesOnCancel = m ;
+			}else{
+				m_deleteTempFilesOnCancel = false ;
 			}
 		}
 		void done( engines::ProcessExitState m )
@@ -536,25 +537,25 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 			return std::move( *this ) ;
 		}
 	private:
+		void addFileToDelete( const QByteArray& fileName )
+		{
+			for( const auto& it : m_fileNames ){
+
+				if( it == fileName ){
+
+					return ;
+				}
+			}
+
+			m_fileNames.emplace_back( fileName ) ;
+		}
 		void addFilesToDelete( const QByteArray& e )
 		{
-			auto m = util::split( e,'\n' ) ;
-
-			for( const auto& it : m ){
+			for( const auto& it : util::split( e,'\n' ) ){
 
 				if( it.startsWith( "[download] Destination:" ) ){
 
-					auto fileName = it.mid( 24 ) ;
-
-					for( const auto& it : m_fileNames ){
-
-						if( it == fileName ){
-
-							return ;
-						}
-					}
-
-					m_fileNames.emplace_back( fileName ) ;
+					this->addFileToDelete( it.mid( 24 ) ) ;
 				}
 			}
 		}
@@ -579,10 +580,10 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		std::vector< QByteArray > m_fileNames ;
 	} ;
 
-	events ev( *this,id,getList,engine ) ;
+	events ev( *this,eng.id,getList,eng.engine ) ;
 
-	auto ch     = ev.outPutChannel( engine ) ;
-	auto logger = LoggerWrapper( m_ctx.logger(),id ) ;
+	auto ch     = ev.outPutChannel( eng.engine ) ;
+	auto logger = LoggerWrapper( m_ctx.logger(),eng.id ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
 
 	auto ctx = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
