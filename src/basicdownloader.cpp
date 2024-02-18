@@ -26,6 +26,7 @@
 
 #include "tabmanager.h"
 #include "mainwindow.h"
+#include "utils/threads.hpp"
 
 basicdownloader::basicdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -447,6 +448,11 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		events( basicdownloader& p,int id,bool l,const engines::engine& engine ) :
 			m_parent( p ),m_engine( engine ),m_id( id ),m_getList( l )
 		{
+			if( m_engine.name().contains( "yt-dlp" ) ){
+
+				auto m = m_parent.m_settings.deleteFilesOnCanceledDownload() ;
+				m_deleteTempFilesOnCancel = m ;
+			}
 		}
 		void done( engines::ProcessExitState m )
 		{
@@ -467,6 +473,11 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 				auto& t = m_parent.m_bogusTable ;
 
 				utility::updateFinishedState( m_engine,s,t,a.move() ) ;
+
+				if( m.cancelled() && m_deleteTempFilesOnCancel ){
+
+					this->deleteTempFiles() ;
+				}
 			}
 		}
 		void disableAll()
@@ -476,7 +487,12 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 			m_parent.m_ui.pbCancel->setEnabled( true ) ;
 		}
 		bool addData( const QByteArray& e )
-		{			
+		{
+			if( m_deleteTempFilesOnCancel ){
+
+				this->addFilesToDelete( e ) ;
+			}
+
 			if( m_getList ){
 
 				m_listData += e ;
@@ -520,11 +536,47 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 			return std::move( *this ) ;
 		}
 	private:
+		void addFilesToDelete( const QByteArray& e )
+		{
+			auto m = util::split( e,'\n' ) ;
+
+			for( const auto& it : m ){
+
+				if( it.startsWith( "[download] Destination:" ) ){
+
+					auto fileName = it.mid( 24 ) ;
+
+					for( const auto& it : m_fileNames ){
+
+						if( it == fileName ){
+
+							return ;
+						}
+					}
+
+					m_fileNames.emplace_back( fileName ) ;
+				}
+			}
+		}
+		void deleteTempFiles()
+		{
+			auto d = this->downloadFolder() ;
+
+			utils::qthread::run( [ d,names = std::move( m_fileNames ) ](){
+
+				for( const auto& it : names ){
+
+					QFile::remove( d + "/" + it + ".part" ) ;
+				}
+			} ) ;
+		}
 		basicdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_id ;
 		bool m_getList ;
+		bool m_deleteTempFilesOnCancel ;
 		QByteArray m_listData ;
+		std::vector< QByteArray > m_fileNames ;
 	} ;
 
 	events ev( *this,id,getList,engine ) ;

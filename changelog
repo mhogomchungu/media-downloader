@@ -248,3 +248,11 @@ Version 1.2.0(April 1st, 2021)
         monitoring git channel. Change the value back to "release" to go back to monitoring release channel.
       [All]
       - Fix a bug that causes a crash when trying to be clever with certain user provided yt-dlp options.
+
+  Version 4.4.0(Unreleased)
+      [Windows]
+      - Fix a bug that caused Media Downloader to not show progress report when file names contained invalid
+       json character.
+      [All]
+      - Add a boolean config only option named  "DeleteFilesOnCanceledDownload" to delete temporary files
+        when download is cancelled.
