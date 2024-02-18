@@ -126,7 +126,7 @@ video:9475kB audio:7554kB subtitle:0kB other streams:0kB global headers:0kB muxi
 
 static const char * _jsonFullArguments()
 {
-	return R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats.:.{url,format_id,ext,resolution,filesize,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,"n_entries":%(n_entries)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_count":%(playlist_count)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
+	return R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,"n_entries":%(n_entries)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_count":%(playlist_count)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
 }
 
 QStringList yt_dlp::jsonNoFormatsArgumentList()
@@ -1000,6 +1000,8 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 		auto rsn       = obj.value( "resolution" ).toString() ;
 
 		auto fileSize  = s.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
+		auto fileSizeA = s.formattedDataSize( obj.value( "filesize_approx" ).toInt() ) ;
+
 		auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
 		auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
 		auto abr       = QString::number( obj.value( "abr" ).toDouble() ) ;
@@ -1053,9 +1055,21 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 
 		if( container.isEmpty() ){
 
-			s = QString( "Proto: %1, File Size: %2\n" ).arg( proto,fileSize ) ;
+			if( fileSizeA != 0 ){
+
+				s = QString( "Proto: %1, File Size: ~%2\n" ).arg( proto,fileSizeA ) ;
+			}else{
+				s = QString( "Proto: %1, File Size: %2\n" ).arg( proto,fileSize ) ;
+			}
 		}else{
-			s = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ).arg( proto,fileSize,container ) ;
+			if( fileSizeA != 0 ){
+
+				auto m = QString( "Proto: %1, File Size: ~%2\ncontainer: %3\n" ) ;
+				s = m.arg( proto,fileSizeA,container ) ;
+			}else{
+				auto m = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ) ;
+				s = m.arg( proto,fileSize,container ) ;
+			}
 		}
 
 		_append( s,"acodec: ",acodec,false ) ;
