@@ -173,6 +173,7 @@ public:
 	bool enableLibraryTab() ;
 	bool checkForEnginesUpdates() ;
 	bool autoHideDownloadWhenCompleted() ;
+	bool deleteFilesOnCanceledDownload() ;
 
 	qint64 timeOutWaitingForClipboardData() ;
 

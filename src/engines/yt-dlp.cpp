@@ -32,47 +32,41 @@
 
 const char * yt_dlp::testYtDlp()
 {
-	return R"R([youtube] Extracting URL: https://www.youtube.com/watch?v=tn2USd5KeVM
+	return R"R(youtube] Extracting URL: https://www.youtube.com/watch?v=tn2USd5KeVM
 [youtube] tn2USd5KeVM: Downloading webpage
+[youtube] tn2USd5KeVM: Downloading ios player API JSON
 [youtube] tn2USd5KeVM: Downloading android player API JSON
+[youtube] tn2USd5KeVM: Downloading m3u8 information
 [info] tn2USd5KeVM: Downloading 1 format(s): 242+250
-[dashsegments] Total fragments: 1
-[download] Destination: For You, I Will-tn2USd5KeVM.f242.webm
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"1024","ETA":"801","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"3748.8989290898444","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"3072","ETA":"270","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"11100.353549598756","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"7168","ETA":"117","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"25553.916984198353","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"15360","ETA":"55","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"54191.706305212036","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"31744","ETA":"28","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"105082.03807274862","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"64512","ETA":"15","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"186530.45246344642","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"130048","ETA":"9","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"302596.7195118163","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"261120","ETA":"5","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"513690.6226527927","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"523264","ETA":"3","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"759468.0671639751","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"1047552","ETA":"2","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"944726.817633977","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"2096128","ETA":"0","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"1130690.3381772884","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"3006209","ETA":"0","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"1050349.8707767602","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"3006209","ETA":"0","total_bytes_estimate":"3006209.0","total_bytes":"NA","speed":"1048710.8298590486","fragment_index":"1","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f242.webm","downloaded_bytes":"3006209","ETA":"NA","total_bytes_estimate":"NA","total_bytes":"3006209","speed":"1045432.6172785787","fragment_index":"NA","fragment_count":"NA"}
-[dashsegments] Total fragments: 1
-[download] Destination: For You, I Will-tn2USd5KeVM.f250.webm
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"1024","ETA":"198","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"4036.8055100230085","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"3072","ETA":"66","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"11936.322350783255","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"7168","ETA":"28","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"27459.17039337285","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"15360","ETA":"13","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"57882.20012434548","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"31744","ETA":"6","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"112194.0950090543","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"64512","ETA":"3","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"193614.70508961147","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"130048","ETA":"2","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"324906.7034416374","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"261120","ETA":"1","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"469521.50453802437","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"523264","ETA":"0","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"679335.6383840272","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"801810","ETA":"0","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"798716.483346946","fragment_index":"0","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"801810","ETA":"0","total_bytes_estimate":"801810.0","total_bytes":"NA","speed":"795310.8810879494","fragment_index":"1","fragment_count":"1"}
-[download] {"filename":"For You, I Will-tn2USd5KeVM.f250.webm","downloaded_bytes":"801810","ETA":"NA","total_bytes_estimate":"NA","total_bytes":"801810","speed":"791098.3168199448","fragment_index":"NA","fragment_count":"NA"}
-[postprocess] {"ETA":"","filename":"For You, I Will-tn2USd5KeVM.webm"}
-[Merger] Merging formats into "For You, I Will-tn2USd5KeVM.webm"
-[postprocess] {"ETA":"","filename":"For You, I Will-tn2USd5KeVM.webm"}
-Deleting original file For You, I Will-tn2USd5KeVM.f242.webm (pass -k to keep)
-[postprocess] {"ETA":"","filename":"For You, I Will-tn2USd5KeVM.webm"}
-Deleting original file For You, I Will-tn2USd5KeVM.f242.webm (pass -k to keep)
-[postprocess] {"ETA":"","filename":"For You, I Will-tn2USd5KeVM.webm"})R" ;
+[download] Destination: 16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:1024 ETA:86 total_bytes_estimate:NA total_bytes:3006209 progress.speed:34781.85091065167 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:3072 ETA:33 total_bytes_estimate:NA total_bytes:3006209 progress.speed:89097.34668363113 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:7168 ETA:15 total_bytes_estimate:NA total_bytes:3006209 progress.speed:189275.88640212538 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:15360 ETA:8 total_bytes_estimate:NA total_bytes:3006209 progress.speed:371957.3995981617 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:31744 ETA:4 total_bytes_estimate:NA total_bytes:3006209 progress.speed:652337.2325541516 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:64512 ETA:9 total_bytes_estimate:NA total_bytes:3006209 progress.speed:295201.8918201228 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:130048 ETA:8 total_bytes_estimate:NA total_bytes:3006209 progress.speed:359000.1287306937 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:261120 ETA:5 total_bytes_estimate:NA total_bytes:3006209 progress.speed:479032.6506522084 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:523264 ETA:3 total_bytes_estimate:NA total_bytes:3006209 progress.speed:668734.2472276848 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:1047552 ETA:2 total_bytes_estimate:NA total_bytes:3006209 progress.speed:676620.700437195 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:1732231 ETA:1 total_bytes_estimate:NA total_bytes:3006209 progress.speed:834853.6513007934 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:3006209 ETA:0 total_bytes_estimate:NA total_bytes:3006209 progress.speed:902139.0218883085 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] downloaded_bytes:3006209 ETA:NA total_bytes_estimate:NA total_bytes:3006209 progress.speed:495882.2212164972 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
+[download] Destination: 16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:1024 ETA:31 total_bytes_estimate:NA total_bytes:801810 progress.speed:25365.37818619924 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:3072 ETA:11 total_bytes_estimate:NA total_bytes:801810 progress.speed:67111.66031917997 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:7168 ETA:5 total_bytes_estimate:NA total_bytes:801810 progress.speed:143245.38467622438 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:15360 ETA:2 total_bytes_estimate:NA total_bytes:801810 progress.speed:278861.3860717578 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:31744 ETA:6 total_bytes_estimate:NA total_bytes:801810 progress.speed:126219.34070617768 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:64512 ETA:5 total_bytes_estimate:NA total_bytes:801810 progress.speed:145522.65862243847 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:130048 ETA:3 total_bytes_estimate:NA total_bytes:801810 progress.speed:189624.4667509348 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:261120 ETA:2 total_bytes_estimate:NA total_bytes:801810 progress.speed:247524.8816082002 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:523264 ETA:0 total_bytes_estimate:NA total_bytes:801810 progress.speed:365075.6637308399 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:801810 ETA:0 total_bytes_estimate:NA total_bytes:801810 progress.speed:477969.5544142013 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[download] downloaded_bytes:801810 ETA:NA total_bytes_estimate:NA total_bytes:801810 progress.speed:219337.62226918363 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
+[Merger] Merging formats into "16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.webm"
+Deleting original file 16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm (pass -k to keep)
+Deleting original file 16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm (pass -k to keep))R" ;
 }
 
 const char * yt_dlp::testFfmpeg()
@@ -368,11 +362,15 @@ yt_dlp::yt_dlp( const engines& engines,
 		QJsonObject& obj,
 		Logger& logger,
 		const engines::enginePaths& enginePath,
-		const util::version& version ) :
+		const util::version& version,
+		const QString& downloadFolder,
+		bool deleteFilesOnCancel ) :
 	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
 	m_version( version ),
-	m_likeYtdlp( m_engine.name() != "youtube-dl" )
+	m_likeYtdlp( m_engine.name() != "youtube-dl" ),
+	m_deleteFilesOnCancel( deleteFilesOnCancel ),
+	m_downloadFolder( downloadFolder )
 {
 	Q_UNUSED( m_version )
 
@@ -511,12 +509,7 @@ yt_dlp::~yt_dlp()
 
 static bool _yt_dlp( const engines::engine&,const QByteArray& e )
 {
-	if( e.startsWith( "[media-downloader] JSON Parse Error: " ) ){
-
-		return true ;
-	}
-
-	return utils::misc::startsWithAny( e,"[download]","[postprocess]" ) && e.contains( "ETA" ) ;
+	return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
 }
 
 static bool _youtube_dl( const engines::engine&,const QByteArray& e )
@@ -553,6 +546,80 @@ static bool _shouldNotGetCalled( const engines::engine&,const QByteArray& )
 {
 	return false ;
 }
+
+class parseTemplateOutPut
+{
+public:
+	static void setTemplate( QStringList& e )
+	{
+		e.append( "--progress-template" ) ;
+		e.append( "download:[download] downloaded_bytes:%(progress.downloaded_bytes)s ETA:%(progress.eta)s total_bytes_estimate:%(progress.total_bytes_estimate)s total_bytes:%(progress.total_bytes)s progress.speed:%(progress.speed)s filename:%(progress.filename)s" ) ;
+	}
+	parseTemplateOutPut( const QByteArray& e )
+	{
+		m_dataDownloaded   = this->findEntry( e,"downloaded_bytes:" ) ;
+		m_eta              = this->findEntry( e,"ETA:" ) ;
+		m_totaSizeEstimate = this->findEntry( e,"total_bytes_estimate:" ) ;
+		m_totalSize        = this->findEntry( e,"total_bytes:" ) ;
+		m_speed            = this->findEntry( e,"speed:" ) ;
+
+		auto m = e.indexOf( "filename" ) ;
+
+		if( m != -1 ){
+
+			m_fileName = e.mid( m + 9 ) ;
+		}
+	}
+	const QByteArray& fileName() const
+	{
+		return m_fileName ;
+	}
+	const QByteArray& dataDownloaded() const
+	{
+		return m_dataDownloaded ;
+	}
+	const QByteArray& totalSizeEstimate() const
+	{
+		return m_totaSizeEstimate ;
+	}
+	const QByteArray& speed() const
+	{
+		return m_speed ;
+	}
+	const QByteArray& ETA() const
+	{
+		return m_eta ;
+	}
+	const QByteArray& totalSize() const
+	{
+		return m_totalSize ;
+	}
+private:
+	QByteArray findEntry( const QByteArray& data,const QByteArray& e )
+	{
+		auto m = data.indexOf( e ) ;
+
+		if( m != -1 ){
+
+			auto s = data.mid( m + e.size() ) ;
+
+			m = s.indexOf( " " ) ;
+
+			if( m != -1 ){
+
+				return s.mid( 0,m ) ;
+			}
+		}
+
+		return "NA" ;
+	}
+	QByteArray m_totalSize ;
+	QByteArray m_eta ;
+	QByteArray m_fileName ;
+	QByteArray m_dataDownloaded ;
+	QByteArray m_totaSizeEstimate ;
+	QByteArray m_speed ;
+};
 
 class ytDlpFilter : public engines::engine::functions::filterOutPut
 {
@@ -616,81 +683,42 @@ private:
 	{
 		const auto& e = args.outPut ;
 		const auto& locale = args.locale ;
-		auto& s = args.data ;
 
-		if( e.startsWith( "[postprocess]" ) ){
+		parseTemplateOutPut outPut( e ) ;
 
-			auto obj = QJsonDocument::fromJson( e.mid( 14 ) ).object() ;
-
-			s.ytDlpData().setFilePath( obj.value( "filename" ).toString().toUtf8() ) ;
-
-			return {} ;
-		}
-
-		QJsonParseError err ;
-
-		auto json = QJsonDocument::fromJson( e.mid( 11 ),&err ) ;
-
-		if( err.error != QJsonParseError::NoError ){
-
-			auto msg = err.errorString().toUtf8() ;
-
-			auto m = "[media-downloader] JSON Parse Error: " + msg ;
-
-			m += "\n[media-downloader][download] .." ;
-
-			auto h = args.data.ytDlpData().counter() % 8 ;
-
-			while( h-- ){
-
-				m += " .." ;
-			}
-
-			return m ;
-		}
-
-		auto obj = json.object() ;
-
-		auto fileName = obj.value( "filename" ).toString() ;
-		auto downloaded_str = obj.value( "downloaded_bytes" ).toString() ;
-		auto totalbytesEstimate = obj.value( "total_bytes_estimate" ).toString() ;
-		auto eta = obj.value( "ETA" ).toString() ;
-		auto speed = obj.value( "speed" ).toString() ;
-		auto totalBytes = obj.value( "total_bytes" ).toString() ;
-
-		args.data.ytDlpData().setFilePath( fileName ) ;
+		args.data.ytDlpData().setFilePath( outPut.fileName() ) ;
 
 		QString progress = e.mid( 0,11 ) ;
 
-		if( downloaded_str == "NA" ){
+		if( outPut.dataDownloaded() == "NA" ){
 
 			progress += "NA / " ;
 		}else{
-			auto m = qint64( downloaded_str.toDouble() ) ;
+			auto m = qint64( outPut.dataDownloaded().toDouble() ) ;
 
 			progress += locale.formattedDataSize( m )  + " / " ;
 		}
 
 		double percentage = 0 ;
 
-		if( totalBytes != "NA" ){
+		if( outPut.totalSize() != "NA" ){
 
-			auto mm = totalBytes.toDouble() ;
+			auto mm = outPut.totalSize().toDouble() ;
 
 			if( mm != 0 ){
 
-				percentage = downloaded_str.toDouble() * 100 / mm ;
+				percentage = outPut.dataDownloaded().toDouble() * 100 / mm ;
 			}
 
 			progress += locale.formattedDataSize( qint64( mm ) ) ;
 
-		}else if( totalbytesEstimate != "NA" ){
+		}else if( outPut.totalSizeEstimate() != "NA" ){
 
-			auto mm = totalbytesEstimate.toDouble() ;
+			auto mm = outPut.totalSizeEstimate().toDouble() ;
 
 			if( mm != 0 ){
 
-				percentage = downloaded_str.toDouble() * 100 / mm ;
+				percentage = outPut.dataDownloaded().toDouble() * 100 / mm ;
 			}
 
 			progress += "~" + locale.formattedDataSize( qint64( mm ) ) ;
@@ -705,18 +733,18 @@ private:
 			progress += " (100%)" ;
 		}
 
-		if( speed != "NA" ){
+		if( outPut.speed() != "NA" ){
 
-			auto mm = speed.toDouble() ;
+			auto mm = outPut.speed().toDouble() ;
 
 			progress += " at " + locale.formattedDataSize( qint64( mm ) ) + "/s" ;
 		}
 
-		if( eta == "NA" ){
+		if( outPut.ETA() == "NA" ){
 
 			progress += ", ETA NA" ;
 		}else{
-			progress += ", ETA " + locale.secondsToString( eta.toInt() ) ;
+			progress += ", ETA " + locale.secondsToString( outPut.ETA().toInt() ) ;
 		}
 
 		return progress.toUtf8() ;
@@ -1183,7 +1211,7 @@ void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 
 engines::engine::functions::DataFilter yt_dlp::Filter( int id )
 {
-	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,m_engine,m_likeYtdlp } ;
+	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,m_engine,*this } ;
 }
 
 void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
@@ -1351,11 +1379,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 				utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
 			}
 
-			s.ourOptions.append( "--progress-template" ) ;
-			s.ourOptions.append( R"R(download:[download] {"filename":"%(progress.filename)s","downloaded_bytes":"%(progress.downloaded_bytes)s","ETA":"%(progress.eta)s","total_bytes_estimate":"%(progress.total_bytes_estimate)s","total_bytes":"%(progress.total_bytes)s","speed":"%(progress.speed)s","fragment_index":"%(progress.fragment_index)s","fragment_count":"%(progress.fragment_count)s"})R" ) ;
-
-			//s.ourOptions.append( "--progress-template" ) ;
-			//s.ourOptions.append( R"R(postprocess:[postprocess] {"ETA":"","filename":"%(info.filepath)s"})R" ) ;
+			parseTemplateOutPut::setTemplate( s.ourOptions ) ;
 		}
 	}
 }
@@ -1386,30 +1410,35 @@ void yt_dlp::updateCmdOptions( QStringList& e )
 
 yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
 					    const engines::engine& engine,
-					    bool likeYtdlp ) :
+					    yt_dlp& p ) :
 	engines::engine::functions::filter( engine,processId ),
-	m_engine( engine )
+	m_engine( engine ),
+	m_parent( p )
 {
-	Q_UNUSED( likeYtdlp )
 }
 
 const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 {
-	if( s.lastLineIsProgressLine() ){
+	if( s.lastText() == "[media-downloader] Download Cancelled" ){
+
+		if( m_parent.m_deleteFilesOnCancel ){
+
+			utils::qthread::run( [ &,fileNames = std::move( m_fileNames ) ](){
+
+				for( const auto& it : fileNames ){
+
+					QFile::remove( m_parent.m_downloadFolder + "/" + it + ".part" ) ;
+				}
+			} ) ;
+		}
+
+	}else if( s.lastLineIsProgressLine() ){
 
 		const auto& m = s.lastText() ;
 
 		if( m.startsWith( "[download] " ) ){
 
-			m_tmp = m_fileName + "\n" + m.mid( 11 ) ;
-
-		}else if( m.startsWith( "[media-downloader] JSON Parse Error: " ) ){
-
-			auto s = m.mid( 19 ) ;
-
-			s.replace( "[media-downloader][download] ","" ) ;
-
-			m_tmp = m_fileName + "\n" + s ;
+			m_tmp = this->fileName() + "\n" + m.mid( 11 ) ;
 
 		}else if( m_engine.name().contains( "aria2c" ) ){
 
@@ -1417,14 +1446,14 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 			if( n != -1 ){
 
-				m_tmp = m_fileName + "\n" + m.mid( n + 1 ) ;
+				m_tmp = this->fileName() + "\n" + m.mid( n + 1 ) ;
 			}else{
-				m_tmp = m_fileName + "\n" + m ;
+				m_tmp = this->fileName() + "\n" + m ;
 			}
 
 			aria2c::trimProgressLine( m_tmp ) ;
 		}else{
-			m_tmp = m_fileName + "\n" + m ;
+			m_tmp = this->fileName() + "\n" + m ;
 		}
 
 		return m_tmp ;
@@ -1449,7 +1478,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 			}
 		}
 
-		if( m_fileName.isEmpty() ){
+		if( m_fileNames.empty() ){
 
 			/*
 			 * Failed to find file name, try again.
@@ -1457,7 +1486,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 			this->parseOutput( m ) ;
 
-			if( m_fileName.isEmpty() ){
+			if( m_fileNames.empty() ){
 
 				const auto& m = s.ytDlpData().filePath() ;
 
@@ -1469,10 +1498,10 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 					return m_tmp ;
 				}
 			}else{
-				return m_fileName ;
+				return m_fileNames.back() ;
 			}
 		}else{
-			return m_fileName ;
+			return m_fileNames.back() ;
 		}
 	}
 
@@ -1483,6 +1512,16 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 yt_dlp::youtube_dlFilter::~youtube_dlFilter()
 {
+}
+
+QByteArray yt_dlp::youtube_dlFilter::fileName()
+{
+	if( m_fileNames.empty() ){
+
+		return "" ;
+	}else{
+		return m_fileNames.back() ;
+	}
 }
 
 const QByteArray& yt_dlp::youtube_dlFilter::parseOutput( const Logger::Data::QByteArrayList& data )
@@ -1539,8 +1578,18 @@ const QByteArray& yt_dlp::youtube_dlFilter::parseOutput( const Logger::Data::QBy
 
 void yt_dlp::youtube_dlFilter::setFileName( const QByteArray& fileName )
 {
-	if( m_fileName != fileName ){
+	if( fileName.isEmpty() ){
 
-		m_fileName = fileName ;
+		return ;
 	}
+
+	for( const auto& it : m_fileNames ){
+
+		if( it == fileName ){
+
+			return ;
+		}
+	}
+
+	m_fileNames.emplace_back( fileName ) ;
 }

@@ -35,12 +35,14 @@ public:
 	class youtube_dlFilter : public engines::engine::functions::filter
 	{
 	public:
-		youtube_dlFilter( int processId,const engines::engine&,bool ) ;
+		youtube_dlFilter( int processId,const engines::engine&,yt_dlp& ) ;
 
 		const QByteArray& operator()( const Logger::Data& e ) override ;
 
 		~youtube_dlFilter() override ;
 	private:
+		QByteArray fileName() ;
+
 		const char * compatYear() ;
 
 		const QByteArray& parseOutput( const Logger::Data::QByteArrayList& ) ;
@@ -51,7 +53,8 @@ public:
 
 		const engines::engine& m_engine ;
 		QByteArray m_tmp ;
-		QByteArray m_fileName ;
+		std::vector< QByteArray > m_fileNames ;
+		yt_dlp& m_parent ;
 	} ;
 
 	engines::engine::functions::FilterOutPut filterOutput() override ;
@@ -99,11 +102,15 @@ public:
 		QJsonObject&,
 		Logger& logger,
 		const engines::enginePaths&,
-		const util::version& ) ;
+		const util::version&,
+		const QString&,
+		bool ) ;
 private:
 	void appendCompatOption( QStringList& ) ;
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
 	const util::version& m_version ;
 	bool m_likeYtdlp ;
+	bool m_deleteFilesOnCancel ;
+	QString m_downloadFolder ;
 };

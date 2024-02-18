@@ -1504,7 +1504,15 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 
 				const auto& engine = this->defaultEngine() ;
 
-				this->showThumbnail( engine,items.move() ) ;
+				if( items.size() <= m_settings.maxConcurrentDownloads() ){
+
+					this->showThumbnail( engine,items.move() ) ;
+				}else{
+					auto m = m_showMetaData ;
+					m_showMetaData = false ;
+					this->showThumbnail( engine,items.move() ) ;
+					m_showMetaData = m ;
+				}
 			}
 		}
 

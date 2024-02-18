@@ -214,6 +214,11 @@ bool settings::autoHideDownloadWhenCompleted()
 	return this->getOption( "AutoHideDownloadWhenCompleted",false ) ;
 }
 
+bool settings::deleteFilesOnCanceledDownload()
+{
+	return this->getOption( "DeleteFilesOnCanceledDownload",false ) ;
+}
+
 qint64 settings::timeOutWaitingForClipboardData()
 {
 	return this->getOption( "TimeOutWaitingForClipboardData",30000 ) ;

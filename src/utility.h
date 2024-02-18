@@ -1043,7 +1043,7 @@ namespace utility
 
 			m_logger.add( mm ) ;
 
-			m_events.printOutPut( mm.toUtf8() ) ;
+			m_events.printOutPut( mm.toUtf8() + "\n" ) ;
 
 			const auto& df = m_events.downloadFolder() ;
 
