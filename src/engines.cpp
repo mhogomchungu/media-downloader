@@ -1388,7 +1388,7 @@ std::vector< engines::engine::functions::mediaInfo > engines::engine::functions:
 			auto resolution = a.takeAt( 0 ) ;
 			auto notes      = a.join( " " ) ;
 
-			s.emplace_back( format,extension,resolution,notes ) ;
+			s.emplace_back( format,extension,resolution,"NA",notes ) ;
 		}
 	}
 
@@ -1491,6 +1491,7 @@ QStringList engines::engine::functions::horizontalHeaderLabels() const
 	s.append( QObject::tr( "Format Code" ) ) ;
 	s.append( QObject::tr( "Extension" ) ) ;
 	s.append( QObject::tr( "Resolution" ) ) ;
+	s.append( QObject::tr( "Size" ) ) ;
 	s.append( QObject::tr( "Note" ) ) ;
 
 	return s ;

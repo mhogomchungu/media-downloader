@@ -551,17 +551,35 @@ public:
 			class mediaInfo
 			{
 			public:
-				mediaInfo( const QStringList& u,const QString& i,const QString& e,const QString& r,const QString& n ) :
-					m_url( u ),m_id( i ),m_extension( e ),m_resolution( r ),m_info( n )
+				mediaInfo( const QStringList& u,
+					   const QString& i,
+					   const QString& e,
+					   const QString& r,
+					   const QString& f,
+					   const QString& n ) :
+					m_url( u ),
+					m_id( i ),
+					m_extension( e ),
+					m_resolution( r ),
+					m_fileSize( f ),
+					m_info( n )
 				{
 				}
-				mediaInfo( const QString& i,const QString& e,const QString& r,const QString& n ) :
-					m_id( i ),m_extension( e ),m_resolution( r ),m_info( n )
+				mediaInfo( const QString& i,
+					   const QString& e,
+					   const QString& r,
+					   const QString& f,
+					   const QString& n ) :
+					m_id( i ),
+					m_extension( e ),
+					m_resolution( r ),
+					m_fileSize( f ),
+					m_info( n )
 				{
 				}
 				QStringList toStringList() const
 				{
-					return { m_id,m_extension,m_resolution,m_info } ;
+					return { m_id,m_extension,m_resolution,m_fileSize,m_info } ;
 				}
 				QJsonObject toqJsonObject() const
 				{
@@ -578,6 +596,7 @@ public:
 					obj.insert( "id",m_id ) ;
 					obj.insert( "extension",m_extension ) ;
 					obj.insert( "resolution",m_resolution ) ;
+					obj.insert( "filesize",m_fileSize ) ;
 					obj.insert( "info",m_info ) ;
 
 					return obj ;
@@ -591,6 +610,7 @@ public:
 				QString m_id ;
 				QString m_extension ;
 				QString m_resolution ;
+				QString m_fileSize ;
 				QString m_info ;
 			} ;
 

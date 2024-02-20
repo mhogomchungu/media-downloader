@@ -169,7 +169,7 @@ std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( Logger&
 				urls.append( it.toObject().value( "url" ).toString() ) ;
 			}
 
-			ent.emplace_back( urls,id,extension,resolution,notes ) ;
+			ent.emplace_back( urls,id,extension,resolution,"NA",notes ) ;
 		}
 	}
 

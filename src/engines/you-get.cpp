@@ -120,7 +120,7 @@ std::vector<engines::engine::functions::mediaInfo> you_get::mediaProperties( Log
 
 			auto d = mm ;
 
-			s.emplace_back( l,a,b,c,d ) ;
+			s.emplace_back( l,a,b,c,"NA",d ) ;
 		}
 	}
 

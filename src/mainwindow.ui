@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -210,6 +210,11 @@
       <column>
        <property name="text">
         <string>Resolution</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>File Size</string>
        </property>
       </column>
       <column>
@@ -590,6 +595,11 @@
        <column>
         <property name="text">
          <string notr="true">Resolution</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>File Size</string>
         </property>
        </column>
        <column>

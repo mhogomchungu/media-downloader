@@ -948,6 +948,25 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 	}
 }
 
+static QString _fileSize( Logger::locale& s,QJsonObject e )
+{
+	auto m = e.value( "filesize" ).toInt( -1 ) ;
+
+	if( m == -1 ){
+
+		m = e.value( "filesize_approx" ).toInt( -1 ) ;
+
+		if( m == -1 ){
+
+			return "NA" ;
+		}else{
+			return "~" + s.formattedDataSize( m ) ;
+		}
+	}else{
+		return s.formattedDataSize( m ) ;
+	}
+}
+
 std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QJsonArray& array )
 {
 	if( array.isEmpty() ){
@@ -964,7 +983,7 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 	std::vector< engines::engine::functions::mediaInfo > secondToShow ;
 	std::vector< engines::engine::functions::mediaInfo > thirdtToShow ;
 
-	Logger::locale s ;
+	Logger::locale locale ;
 
 	enum class mediaType{ audioOnly,videoOnly,audioVideo,unknown } ;
 
@@ -998,9 +1017,6 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 		auto id        = obj.value( "format_id" ).toString() ;
 		auto ext       = obj.value( "ext" ).toString() ;
 		auto rsn       = obj.value( "resolution" ).toString() ;
-
-		auto fileSize  = s.formattedDataSize( obj.value( "filesize" ).toInt() ) ;
-		auto fileSizeA = s.formattedDataSize( obj.value( "filesize_approx" ).toInt() ) ;
 
 		auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
 		auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
@@ -1055,21 +1071,10 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 
 		if( container.isEmpty() ){
 
-			if( fileSizeA != 0 ){
-
-				s = QString( "Proto: %1, File Size: ~%2\n" ).arg( proto,fileSizeA ) ;
-			}else{
-				s = QString( "Proto: %1, File Size: %2\n" ).arg( proto,fileSize ) ;
-			}
+			s = QString( "Proto: %1\n" ).arg( proto ) ;
 		}else{
-			if( fileSizeA != 0 ){
-
-				auto m = QString( "Proto: %1, File Size: ~%2\ncontainer: %3\n" ) ;
-				s = m.arg( proto,fileSizeA,container ) ;
-			}else{
-				auto m = QString( "Proto: %1, File Size: %2\ncontainer: %3\n" ) ;
-				s = m.arg( proto,fileSize,container ) ;
-			}
+			auto m = QString( "Proto: %1%2\ncontainer: %2\n" ) ;
+			s = m.arg( proto,container ) ;
 		}
 
 		_append( s,"acodec: ",acodec,false ) ;
@@ -1106,15 +1111,17 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 
 		QStringList arr{ url } ;
 
+		auto size = _fileSize( locale,obj ) ;
+
 		if( ext == "mhtml" ){
 
-			firstToShow.emplace_back( arr,id,ext,rsn,s ) ;
+			firstToShow.emplace_back( arr,id,ext,rsn,size,s ) ;
 
 		}else if( rsn != "audio only" && !rsn.contains( "video only" ) ){
 
-			thirdtToShow.emplace_back( arr,id,ext,rsn,s ) ;
+			thirdtToShow.emplace_back( arr,id,ext,rsn,size,s ) ;
 		}else{
-			secondToShow.emplace_back( arr,id,ext,rsn,s ) ;
+			secondToShow.emplace_back( arr,id,ext,rsn,size,s ) ;
 		}
 	}
 
