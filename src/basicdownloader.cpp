@@ -561,15 +561,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 		void deleteTempFiles()
 		{
-			auto d = this->downloadFolder() ;
-
-			utils::qthread::run( [ d,names = std::move( m_fileNames ) ](){
-
-				for( const auto& it : names ){
-
-					QFile::remove( d + "/" + it + ".part" ) ;
-				}
-			} ) ;
+			utility::deleteTmpFiles( this->downloadFolder(),std::move( m_fileNames ) ) ;
 		}
 		basicdownloader& m_parent ;
 		const engines::engine& m_engine ;

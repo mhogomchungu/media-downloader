@@ -1976,3 +1976,14 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 
 	m.exec( QCursor::pos() ) ;
 }
+
+void utility::deleteTmpFiles( const QString& df,std::vector< QByteArray > files )
+{
+	utils::qthread::run( [ df,files = std::move( files ) ](){
+
+		for( const auto& it : files ){
+
+			QFile::remove( df + "/" + it + ".part" ) ;
+		}
+	} ) ;
+}

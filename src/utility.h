@@ -477,6 +477,7 @@ namespace utility
 	bool platformIsLikeWindows() ;
 	bool addData( const QByteArray& ) ;
 	void contextMenuForDirectUrl( const QJsonArray&,const Context& ) ;
+	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;

@@ -993,7 +993,7 @@ void batchdownloader::showComments( const QByteArray& e )
 
 		_getComments( arr,[ this ]( const QString& comment,QJsonObject obj ){
 
-			m_tableWidgetBDList.add( { "","","",comment },std::move( obj ) ) ;
+			m_tableWidgetBDList.add( { "","","","",comment },std::move( obj ) ) ;
 		} ) ;
 	}else{
 		m_ctx.logger().setMaxProcessLog( 2 ) ;
@@ -1125,7 +1125,7 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 			auto obj = _add( it,"subtitles" ) ;
 
-			QStringList s{ it.name(),"subtitle","",it.notes() } ;
+			QStringList s{ it.name(),"subtitle","","",it.notes() } ;
 
 			m_tableWidgetBDList.add( s,std::move( obj ) ) ;
 		} ) ;
@@ -1134,7 +1134,7 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 			auto obj = _add( it,"automatic_captions" ) ;
 
-			QStringList s{ it.name(),"automatic\ncaption","",it.notes() } ;
+			QStringList s{ it.name(),"automatic\ncaption","","",it.notes() } ;
 
 			m_tableWidgetBDList.add( s,std::move( obj ) ) ;
 		} ) ;
@@ -1263,13 +1263,14 @@ void batchdownloader::showBDFrame( batchdownloader::listType m )
 		table.hideColumn( 0 ) ;
 		table.hideColumn( 1 ) ;
 		table.hideColumn( 2 ) ;
+		table.hideColumn( 3 ) ;
 
 		m_ui.pbBatchDownloaderSet->setText( tr( "Save" ) ) ;
 
 	}else if( m == batchdownloader::listType::SUBTITLES ){
 
 		table.hideColumn( 2 ) ;
-
+		table.hideColumn( 3 ) ;
 		m_ui.pbBatchDownloaderSet->setText( tr( "Set" ) ) ;
 	}
 
@@ -1824,7 +1825,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		this->showBDFrame( listType ) ;
 
-		m_tableWidgetBDList.add( { "","","","\n" + tr( "Downloading subtitles" ) + "\n" } ) ;
+		m_tableWidgetBDList.add( { "","","","","\n" + tr( "Downloading subtitles" ) + "\n" } ) ;
 
 		m_subtitlesTimer.start() ;
 
@@ -1835,7 +1836,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		this->showBDFrame( listType ) ;
 
-		m_tableWidgetBDList.add( { "","","","\n" + m_downloadingComments + "\n" } ) ;
+		m_tableWidgetBDList.add( { "","","","","\n" + m_downloadingComments + "\n" } ) ;
 	}else{
 		auto& table = m_tableWidgetBDList.get() ;
 
@@ -1941,13 +1942,13 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 				w = "\n" + m_parent.m_downloadingComments + ": " + w + "\n" ;
 
-				m_parent.m_tableWidgetBDList.replace( { "","","",w },0 ) ;
+				m_parent.m_tableWidgetBDList.replace( { "","","","",w },0 ) ;
 			}else{
 				auto m = data.indexOf( "Downloading" ) ;
 
 				auto w = "\n" + data.mid( m ).trimmed() + "\n" ;
 
-				m_parent.m_tableWidgetBDList.replace( { "","","",w },0 ) ;
+				m_parent.m_tableWidgetBDList.replace( { "","","","",w },0 ) ;
 			}
 		}
 	private:

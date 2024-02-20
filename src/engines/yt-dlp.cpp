@@ -1444,13 +1444,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 		if( m_parent.m_deleteFilesOnCancel ){
 
-			utils::qthread::run( [ &,fileNames = std::move( m_fileNames ) ](){
-
-				for( const auto& it : fileNames ){
-
-					QFile::remove( m_parent.m_downloadFolder + "/" + it + ".part" ) ;
-				}
-			} ) ;
+			utility::deleteTmpFiles( m_parent.m_downloadFolder,std::move( m_fileNames ) ) ;
 		}
 
 	}else if( s.lastLineIsProgressLine() ){
