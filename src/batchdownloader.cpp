@@ -993,7 +993,7 @@ void batchdownloader::showComments( const QByteArray& e )
 
 		_getComments( arr,[ this ]( const QString& comment,QJsonObject obj ){
 
-			m_tableWidgetBDList.add( { "","","","",comment },std::move( obj ) ) ;
+			m_tableWidgetBDList.add( std::move( obj ),"","","","",comment ) ;
 		} ) ;
 	}else{
 		m_ctx.logger().setMaxProcessLog( 2 ) ;
@@ -1125,18 +1125,18 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 			auto obj = _add( it,"subtitles" ) ;
 
-			QStringList s{ it.name(),"subtitle","","",it.notes() } ;
+			auto e = "subtitle" ;
 
-			m_tableWidgetBDList.add( s,std::move( obj ) ) ;
+			m_tableWidgetBDList.add( std::move( obj ),it.name(),e,"","",it.notes() ) ;
 		} ) ;
 
 		_parse( obj.value( "automatic_captions" ) ).each( [ & ]( const language& it ){
 
 			auto obj = _add( it,"automatic_captions" ) ;
 
-			QStringList s{ it.name(),"automatic\ncaption","","",it.notes() } ;
+			auto e = "automatic\ncaption" ;
 
-			m_tableWidgetBDList.add( s,std::move( obj ) ) ;
+			m_tableWidgetBDList.add( std::move( obj ),it.name(),e,"","",it.notes() ) ;
 		} ) ;
 	}
 }
@@ -1825,7 +1825,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		this->showBDFrame( listType ) ;
 
-		m_tableWidgetBDList.add( { "","","","","\n" + tr( "Downloading subtitles" ) + "\n" } ) ;
+		m_tableWidgetBDList.add( "","","","","\n" + tr( "Downloading subtitles" ) + "\n" ) ;
 
 		m_subtitlesTimer.start() ;
 
@@ -1836,7 +1836,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		this->showBDFrame( listType ) ;
 
-		m_tableWidgetBDList.add( { "","","","","\n" + m_downloadingComments + "\n" } ) ;
+		m_tableWidgetBDList.add( "","","","","\n" + m_downloadingComments + "\n" ) ;
 	}else{
 		auto& table = m_tableWidgetBDList.get() ;
 
@@ -1858,10 +1858,15 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 					for( const auto& m : ss ){
 
-						auto e = m.toStringList() ;
+						const auto& a = m.id() ;
+						const auto& b = m.ext() ;
+						const auto& c = m.resolution() ;
+						const auto& d = m.fileSize() ;
+						const auto& e = m.info() ;
+
 						auto s = m.toqJsonObject() ;
 
-						m_tableWidgetBDList.add( e,s ) ;
+						m_tableWidgetBDList.add( s,a,b,c,d,e ) ;
 					}
 
 					return ;
@@ -1942,13 +1947,13 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 				w = "\n" + m_parent.m_downloadingComments + ": " + w + "\n" ;
 
-				m_parent.m_tableWidgetBDList.replace( { "","","","",w },0 ) ;
+				m_parent.m_tableWidgetBDList.replace( 0,"","","","",w ) ;
 			}else{
 				auto m = data.indexOf( "Downloading" ) ;
 
 				auto w = "\n" + data.mid( m ).trimmed() + "\n" ;
 
-				m_parent.m_tableWidgetBDList.replace( { "","","","",w },0 ) ;
+				m_parent.m_tableWidgetBDList.replace( 0,"","","","",w ) ;
 			}
 		}
 	private:
@@ -2043,11 +2048,15 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 					for( const auto& m : ee ){
 
-						auto s = m.toStringList() ;
+						const auto& a = m.id() ;
+						const auto& b = m.ext() ;
+						const auto& c = m.resolution() ;
+						const auto& d = m.fileSize() ;
+						const auto& e = m.info() ;
 
-						auto e = m.toqJsonObject() ;
+						auto s = m.toqJsonObject() ;
 
-						m_parent.m_tableWidgetBDList.add( s,e ) ;
+						m_parent.m_tableWidgetBDList.add( s,a,b,c,d,e ) ;
 					}
 
 					auto m = QJsonDocument::fromJson( a ) ;
@@ -2454,7 +2463,7 @@ void batchdownloader::disableAll()
 	//m_ui.labelBDEnterUrl->setEnabled( false ) ;
 }
 
-batchdownloader::subtitlesTimer::subtitlesTimer( tableMiniWidget< QJsonObject >& table ) :
+batchdownloader::subtitlesTimer::subtitlesTimer( tableMiniWidget< QJsonObject,5 >& table ) :
 	m_banner( tr( "Downloading subtitles" ).toUtf8() + "\n",8 ),
 	m_table( table )
 {

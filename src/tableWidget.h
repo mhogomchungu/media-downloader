@@ -329,7 +329,7 @@ struct tableWidgetRow
 	QStringList entries ;
 } ;
 
-template< typename Stuff >
+template< typename Stuff,size_t COLUMN_COUNT >
 class tableMiniWidget
 {
 public:
@@ -483,33 +483,59 @@ public:
 
 		return row ;
 	}
-	int add( const QStringList& entries,Stuff stuff = Stuff() )
+	template< typename ... Args >
+	int add( Stuff stuff,const QString& s,Args&& ... args )
 	{
-		if( entries.size() == m_table.columnCount() ){
+		static_assert( sizeof...( args ) + 1 == COLUMN_COUNT,"Error1" ) ;
 
-			int row = this->addRow( std::move( stuff ) ) ;
+		int row = this->addRow( std::move( stuff ) ) ;
 
-			for( int col = 0 ; col < entries.size() ; col++ ){
+		this->updateRow( row,s,std::forward< Args >( args ) ... ) ;
 
-				m_table.item( row,col )->setText( entries[ col ] ) ;
-			}
-
-			return row ;
-		}
-
-		return -1 ;
+		return row ;
 	}
-	void replace( const QStringList& entries,int row,Stuff stuff = Stuff() )
+	template< typename ... Args >
+	int add( const QString& s,Args&& ... args )
 	{
-		if( entries.size() == m_table.columnCount() ){
+		static_assert( sizeof...( args ) + 1 == COLUMN_COUNT,"Error2" ) ;
 
-			m_stuff[ row ] = std::move( stuff ) ;
+		int row = this->addRow( Stuff() ) ;
 
-			for( int col = 0 ; col < entries.size() ; col++ ){
+		this->updateRow( row,s,std::forward< Args >( args ) ... ) ;
 
-				m_table.item( row,col )->setText( entries[ col ] ) ;
-			}
-		}
+		return row ;
+	}
+	int add( const engines::engine::functions::mediaInfo& m )
+	{
+		int row = this->addRow( m ) ;
+
+		const auto& a = m.id() ;
+		const auto& b = m.ext() ;
+		const auto& c = m.resolution() ;
+		const auto& d = m.fileSize() ;
+		const auto& e = m.info() ;
+
+		this->updateRow( row,a,b,c,d,e ) ;
+
+		return row ;
+	}
+	template< typename ... Args >
+	void replace( int row,Stuff stuff,const QString& s,Args&& ... args )
+	{
+		static_assert( sizeof...( args ) + 1 == COLUMN_COUNT,"Error3" ) ;
+
+		m_stuff[ row ] = std::move( stuff ) ;
+
+		this->updateRow( row,s,std::forward< Args >( args ) ... ) ;
+	}
+	template< typename ... Args >
+	void replace( int row,const QString& s,Args&& ... args )
+	{
+		static_assert( sizeof...( args ) + 1 == COLUMN_COUNT,"Error4" ) ;
+
+		m_stuff[ row ] = Stuff() ;
+
+		this->updateRow( row,s,std::forward< Args >( args ) ... ) ;
 	}
 	void selectMediaOptions( QStringList& optionsList,QLineEdit& opts )
 	{
@@ -545,7 +571,24 @@ public:
 			m_table.scrollToBottom() ;
 		}
 	}
-private:
+private:	
+	void updateRow( int,int )
+	{
+	}
+	template< typename ... Args >
+	void updateRow( int row,int col,const QString& s,Args&& ... args )
+	{
+		m_table.item( row,col )->setText( s ) ;
+
+		this->updateRow( row,++col,std::forward< Args >( args ) ... ) ;
+	}
+	template< typename ... Args >
+	void updateRow( int row,const QString& s,Args&& ... args )
+	{
+		static_assert( sizeof...( args ) + 1 == COLUMN_COUNT,"Error5" ) ;
+
+		this->updateRow( row,0,s,std::forward< Args >( args ) ... ) ;
+	}
 	void arrangeTable( bool ascending,int column )
 	{
 		std::vector< tableWidgetRow< Stuff > > rows ;
@@ -601,7 +644,12 @@ private:
 
 		for( const auto& it : rows ){
 
-			this->add( it.entries,it.stuff ) ;
+			int row = this->addRow( it.stuff ) ;
+
+			for( int s = 0 ; s < it.entries.size() ; s++ ){
+
+				m_table.item( row,s )->setText( it.entries[ s ] ) ;
+			}
 		}
 	}
 	template< typename Rows >

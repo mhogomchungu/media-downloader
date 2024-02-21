@@ -131,7 +131,7 @@ private:
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
 	tableWidget m_table ;
-	tableMiniWidget< int > m_subscriptionTable ;
+	tableMiniWidget< int,2 > m_subscriptionTable ;
 	bool m_gettingPlaylist = false ;
 	bool m_showThumbnails ;
 	bool m_autoDownload ;
@@ -197,7 +197,7 @@ private:
 	class subscription
 	{
 	public:
-		subscription( const Context&,tableMiniWidget< int >&,QWidget& ) ;
+		subscription( const Context&,tableMiniWidget< int,2 >&,QWidget& ) ;
 		void add( const QString& uiName,const QString& url,const QString& Opts ) ;
 		void remove( int ) ;
 		void setVisible( bool ) ;
@@ -225,7 +225,7 @@ private:
 		void save() ;
 		QString m_path ;
 		QString m_archivePath ;
-		tableMiniWidget< int >& m_table ;
+		tableMiniWidget< int,2 >& m_table ;
 		QWidget& m_ui ;
 		QJsonArray m_array ;
 	};

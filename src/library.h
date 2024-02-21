@@ -67,7 +67,7 @@ private:
 	bool m_disableUi ;
 	std::atomic_bool m_continue ;
 	Ui::MainWindow& m_ui ;
-	tableMiniWidget< ICON > m_table ;
+	tableMiniWidget< ICON,2 > m_table ;
 	QString m_downloadFolder ;
 	QString m_currentPath ;
 	QPixmap m_folderIcon ;

@@ -577,10 +577,6 @@ public:
 					m_info( n )
 				{
 				}
-				QStringList toStringList() const
-				{
-					return { m_id,m_extension,m_resolution,m_fileSize,m_info } ;
-				}
 				QJsonObject toqJsonObject() const
 				{
 					QJsonObject obj ;
@@ -604,6 +600,26 @@ public:
 				const QString& id() const
 				{
 					return m_id ;
+				}
+				const QString& ext() const
+				{
+					return m_extension ;
+				}
+				const QString& resolution() const
+				{
+					return m_resolution ;
+				}
+				const QString& fileSize() const
+				{
+					return m_fileSize ;
+				}
+				const QString& info() const
+				{
+					return m_info ;
+				}
+				mediaInfo move()
+				{
+					return std::move( *this ) ;
 				}
 			private:
 				QStringList m_url ;

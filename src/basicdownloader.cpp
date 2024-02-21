@@ -281,11 +281,9 @@ void basicdownloader::listRequested( const QByteArray& a,int id )
 
 		if( ee.size() ){
 
-			for( const auto& m : ee ){
+			for( const auto& m : ee ){				
 
-				auto s = m.toStringList() ;
-
-				m_tableList.add( s,m ) ;
+				m_tableList.add( m ) ;
 			}
 
 			m_tableList.setEnabled( true ) ;

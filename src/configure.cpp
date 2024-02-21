@@ -129,7 +129,7 @@ configure::configure( const Context& ctx ) :
 
 		if( !a.isEmpty() && !b.isEmpty() ){
 
-			m_tablePresetOptions.add( { a,b,c } ) ;
+			m_tablePresetOptions.add( a,b,c ) ;
 
 			m_tablePresetOptions.selectLast() ;
 
@@ -238,7 +238,7 @@ configure::configure( const Context& ctx ) :
 
 				auto obj = m_downloadEngineDefaultOptions.addOpt( "no",s->name(),m ) ;
 
-				m_tableDefaultDownloadOptions.add( { "no",m },std::move( obj ) ) ;
+				m_tableDefaultDownloadOptions.add( std::move( obj ),"no",m ) ;
 
 				m_tableDefaultDownloadOptions.selectLast() ;
 
@@ -265,7 +265,7 @@ configure::configure( const Context& ctx ) :
 
 			auto obj = m_downloadDefaultOptions.add( a,b,c ) ;
 
-			m_tableUrlToDefaultEngine.add( { a,b },std::move( obj ) ) ;
+			m_tableUrlToDefaultEngine.add( std::move( obj ),a,b ) ;
 
 			m_tableUrlToDefaultEngine.selectLast() ;
 		}
@@ -742,9 +742,7 @@ void configure::populateOptionsTable( const engines::engine& s )
 
 		if( s.name() == opts.engine ){
 
-			QStringList e{ opts.inuse,opts.options } ;
-
-			m_tableDefaultDownloadOptions.add( e,std::move( obj ) ) ;
+			m_tableDefaultDownloadOptions.add( std::move( obj ),opts.inuse,opts.options ) ;
 		}
 
 		return false ;
@@ -760,7 +758,7 @@ void configure::populateOptionsTable( const engines::engine& s )
 
 			auto obj = m_downloadEngineDefaultOptions.addOpt( "yes",s.name(),b ) ;
 
-			m_tableDefaultDownloadOptions.add( { "yes",b },std::move( obj ) ) ;
+			m_tableDefaultDownloadOptions.add( std::move( obj ),"yes",b ) ;
 		}
 	}
 
@@ -930,9 +928,9 @@ void configure::setEngineOptions( const QString& e,engineOptions tab )
 
 				if( engineName.isEmpty() || engineName == e.engine ){
 
-					QStringList ee{ e.url,e.downloadOptions } ;
-
-					m_tableUrlToDefaultEngine.add( ee,std::move( obj ) ) ;
+					m_tableUrlToDefaultEngine.add( std::move( obj ),
+									      e.url,
+									      e.downloadOptions ) ;
 				}
 
 				return false ;
@@ -981,7 +979,7 @@ void configure::savePresetOptions()
 		auto uiName  = table.item( i,1 )->text() ;
 		auto options = table.item( i,2 )->text() ;
 
-		const auto& e = m_tablePresetOptions.stuffAt( i ) ;
+		const auto& e = m_tablePresetOptions.stuffAt( i ).value() ;
 
 		if( e.isEmpty() ){
 
@@ -996,7 +994,7 @@ void configure::showOptions()
 {
 	m_presetOptions.forEach( [ this ]( const configure::presetEntry& e ){
 
-		m_tablePresetOptions.add( { e.website,e.uiNameTranslated,e.options },e.uiName ) ;
+		m_tablePresetOptions.add( String{ e.uiName },e.website,e.uiNameTranslated,e.options ) ;
 	} ) ;
 }
 

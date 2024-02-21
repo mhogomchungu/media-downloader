@@ -1983,7 +1983,10 @@ void utility::deleteTmpFiles( const QString& df,std::vector< QByteArray > files 
 
 		for( const auto& it : files ){
 
-			QFile::remove( df + "/" + it + ".part" ) ;
+			auto m = df + "/" + it ;
+
+			QFile::remove( m + ".part" ) ;
+			QFile::remove( m ) ;
 		}
 	} ) ;
 }

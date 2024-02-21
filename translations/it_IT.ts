@@ -351,6 +351,10 @@ Esempio 2: ${gateway}:8080</translation>
         <source>Actions At Startup</source>
         <translation>Azioni all&apos;avviodel programma</translation>
     </message>
+    <message>
+        <source>File Size</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -891,6 +895,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Open Url %1 With %2</source>
         <translation>Apri URL %1 con %2</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Raw Log Window</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

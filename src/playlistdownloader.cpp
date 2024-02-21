@@ -1347,7 +1347,7 @@ void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
 }
 
 playlistdownloader::subscription::subscription( const Context& e,
-						tableMiniWidget< int >& t,
+						tableMiniWidget< int,2 >& t,
 						QWidget& w ) :
 	m_path( e.Engines().engineDirPaths().dataPath( "subscriptions.json" ) ),
 	m_archivePath( e.Engines().engineDirPaths().subscriptionsArchiveFilePath() ),
@@ -1379,7 +1379,7 @@ void playlistdownloader::subscription::add( const QString& uiName,const QString&
 
 	m_array.append( obj ) ;
 
-	m_table.add( { uiName,url } ) ;
+	m_table.add( uiName,url ) ;
 
 	m_table.selectLast() ;
 
@@ -1409,7 +1409,7 @@ void playlistdownloader::subscription::setVisible( bool e )
 			auto b = m.value( "url" ).toString() ;
 			auto c = cc + " " + m.value( "getListOptions" ).toString() ;
 
-			int row = m_table.add( { a,b } ) ;
+			int row = m_table.add( a,b ) ;
 
 			m_table.item( row,0 ).setToolTip( c ) ;
 			m_table.item( row,1 ).setToolTip( c ) ;

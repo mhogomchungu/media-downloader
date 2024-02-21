@@ -349,6 +349,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Actions At Startup</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>File Size</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -886,6 +890,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Open Url %1 With %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Raw Log Window</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

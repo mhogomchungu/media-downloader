@@ -267,7 +267,7 @@ private:
 	tabManager& m_tabManager ;
 	bool m_showMetaData ;
 	tableWidget m_table ;
-	tableMiniWidget< QJsonObject > m_tableWidgetBDList ;
+	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
 	QString m_commentsFileName ;
 	QStringList m_optionsList ;
 	QLineEdit m_lineEdit ;
@@ -353,13 +353,13 @@ private:
 	class subtitlesTimer
 	{
 	public:
-		subtitlesTimer( tableMiniWidget< QJsonObject >& table ) ;
+		subtitlesTimer( tableMiniWidget< QJsonObject,5 >& table ) ;
 		void start() ;
 		void stop() ;
 	private:
 		engines::engine::functions::preProcessing m_banner ;
 		QTimer m_timer ;
-		tableMiniWidget< QJsonObject >& m_table ;
+		tableMiniWidget< QJsonObject,5 >& m_table ;
 	} m_subtitlesTimer ;
 
 	template< typename LogFilter >

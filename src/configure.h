@@ -276,9 +276,30 @@ private:
 	tabManager& m_tabManager ;
 	engines& m_engines ;
 
-	tableMiniWidget< QString > m_tablePresetOptions ;
-	tableMiniWidget< QJsonObject > m_tableUrlToDefaultEngine ;
-	tableMiniWidget< QJsonObject > m_tableDefaultDownloadOptions ;
+	class String
+	{
+	public:
+		String()
+		{
+		}
+		String( QString e ) : m_string( std::move( e ) )
+		{
+		}
+		const QString& value() const
+		{
+			return m_string ;
+		}
+		QString& value()
+		{
+			return m_string ;
+		}
+	private:
+		QString m_string ;
+	};
+
+	tableMiniWidget< String,3 > m_tablePresetOptions ;
+	tableMiniWidget< QJsonObject,2 > m_tableUrlToDefaultEngine ;
+	tableMiniWidget< QJsonObject,2 > m_tableDefaultDownloadOptions ;
 	QMenu m_menu ;
 	presetOptions m_presetOptions ;
 	downloadDefaultOptions m_downloadDefaultOptions ;

@@ -65,7 +65,7 @@ private:
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;
 	tabManager& m_tabManager ;
-	tableMiniWidget< engines::engine::functions::mediaInfo > m_tableList ;
+	tableMiniWidget< engines::engine::functions::mediaInfo,5 > m_tableList ;
 	QStringList m_optionsList ;
 	QTableWidget m_bogusTableOriginal ;
 	tableWidget m_bogusTable ;
