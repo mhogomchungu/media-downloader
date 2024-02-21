@@ -505,6 +505,20 @@ public:
 
 		return row ;
 	}
+	int add( Stuff stuff,const engines::engine::functions::mediaInfo& m )
+	{
+		int row = this->addRow( std::move( stuff ) ) ;
+
+		const auto& a = m.id() ;
+		const auto& b = m.ext() ;
+		const auto& c = m.resolution() ;
+		const auto& d = m.fileSize() ;
+		const auto& e = m.info() ;
+
+		this->updateRow( row,a,b,c,d,e ) ;
+
+		return row ;
+	}
 	int add( const engines::engine::functions::mediaInfo& m )
 	{
 		int row = this->addRow( m ) ;

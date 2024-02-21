@@ -1858,15 +1858,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 					for( const auto& m : ss ){
 
-						const auto& a = m.id() ;
-						const auto& b = m.ext() ;
-						const auto& c = m.resolution() ;
-						const auto& d = m.fileSize() ;
-						const auto& e = m.info() ;
-
-						auto s = m.toqJsonObject() ;
-
-						m_tableWidgetBDList.add( s,a,b,c,d,e ) ;
+						m_tableWidgetBDList.add( m.toqJsonObject(),m ) ;
 					}
 
 					return ;
@@ -2048,15 +2040,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 					for( const auto& m : ee ){
 
-						const auto& a = m.id() ;
-						const auto& b = m.ext() ;
-						const auto& c = m.resolution() ;
-						const auto& d = m.fileSize() ;
-						const auto& e = m.info() ;
-
-						auto s = m.toqJsonObject() ;
-
-						m_parent.m_tableWidgetBDList.add( s,a,b,c,d,e ) ;
+						m_parent.m_tableWidgetBDList.add( m.toqJsonObject(),m ) ;
 					}
 
 					auto m = QJsonDocument::fromJson( a ) ;
