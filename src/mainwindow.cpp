@@ -172,7 +172,19 @@ void MainWindow::quitApp()
 
 	m_tabManager.exiting() ;
 
+	if( m_dataNotSaved ){
+
+		m_dataNotSaved = false ;
+		this->saveData() ;
+	}
+
 	QCoreApplication::quit() ;
+}
+
+void MainWindow::saveData()
+{
+	m_tabManager.batchDownloader().saveData() ;
+	m_tabManager.playlistDownloader().saveData() ;
 }
 
 MainWindow::~MainWindow()

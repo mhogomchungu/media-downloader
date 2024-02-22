@@ -657,6 +657,10 @@ void batchdownloader::tabExited()
 
 void batchdownloader::exiting()
 {
+}
+
+void batchdownloader::saveData()
+{
 	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 

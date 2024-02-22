@@ -87,6 +87,7 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void exiting() ;
+	void saveData() ;
 	void gotEvent( const QJsonObject& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void clipboardData( const QString& ) ;

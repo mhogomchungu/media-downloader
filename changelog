@@ -256,3 +256,4 @@ Version 1.2.0(April 1st, 2021)
       [All]
       - Add a boolean config only option named  "DeleteFilesOnCanceledDownload" to delete temporary files
         when download is cancelled.
+     - Add a file size colum in "media options" table to easily show media file sizes.

@@ -380,6 +380,10 @@ void playlistdownloader::tabExited()
 
 void playlistdownloader::exiting()
 {
+}
+
+void playlistdownloader::saveData()
+{
 	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 

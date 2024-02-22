@@ -50,6 +50,7 @@ public:
 	void Show() ;
 	void processEvent( const QByteArray& e ) ;
 	void quitApp() ;
+	void saveData() ;
 	void showTrayIcon( bool ) ;
 	~MainWindow() override ;
 private slots:
@@ -92,6 +93,7 @@ private:
 		Ui::MainWindow m_ui ;
 	} ;
 
+	bool m_dataNotSaved ;
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
 	QString m_appName ;
