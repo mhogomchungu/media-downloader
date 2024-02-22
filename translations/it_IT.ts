@@ -353,7 +353,7 @@ Esempio 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>File Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dim. file</translation>
     </message>
 </context>
 <context>
@@ -898,11 +898,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione</translation>
     </message>
     <message>
         <source>Show Raw Log Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza finestra registro non elaborato</translation>
     </message>
 </context>
 <context>
