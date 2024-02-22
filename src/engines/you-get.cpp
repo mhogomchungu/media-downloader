@@ -114,13 +114,12 @@ std::vector<engines::engine::functions::mediaInfo> you_get::mediaProperties( Log
 			auto a  = oo.value( "itag" ).toString() ;
 			auto b  = oo.value( "container" ).toString() ;
 			auto c  = oo.value( "quality" ).toString().replace( " ","\n" ) ;
+			auto d  = oo.value( "size" ).toInt() ;
+			auto e  = locale.formattedDataSize( d ) ;
+			auto f  = QString::number( d ) ;
+			auto g = "type: " + oo.value( "type" ).toString() ;
 
-			auto mm = "size: " + locale.formattedDataSize( oo.value( "size" ).toInt() ) ;
-			mm += "\ntype: " + oo.value( "type" ).toString() ;
-
-			auto d = mm ;
-
-			s.emplace_back( l,a,b,c,"NA",d ) ;
+			s.emplace_back( l,a,b,c,e,f,g ) ;
 		}
 	}
 

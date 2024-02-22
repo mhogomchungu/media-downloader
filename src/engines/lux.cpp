@@ -156,8 +156,9 @@ std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( Logger&
 			}
 
 			auto id = obj.value( "id" ).toString() ;
-			auto size = locale.formattedDataSize( obj.value( "size" ).toInt() ) ;
-			auto notes = "Size: " + size + "\n" + m.join( " " ) ;
+			auto sizeRaw = obj.value( "size" ).toInt() ;
+			auto size = locale.formattedDataSize( sizeRaw ) ;
+			auto notes = m.join( " " ) ;
 			auto extension = obj.value( "ext" ).toString() ;
 
 			QStringList urls ;
@@ -169,7 +170,9 @@ std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( Logger&
 				urls.append( it.toObject().value( "url" ).toString() ) ;
 			}
 
-			ent.emplace_back( urls,id,extension,resolution,"NA",notes ) ;
+			auto sizeRawInt = QString::number( sizeRaw ) ;
+
+			ent.emplace_back( urls,id,extension,resolution,size,sizeRawInt,notes ) ;
 		}
 	}
 

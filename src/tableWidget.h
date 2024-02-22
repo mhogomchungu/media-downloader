@@ -318,17 +318,6 @@ private:
 	int m_textAlignment ;
 } ;
 
-template< typename Stuff >
-struct tableWidgetRow
-{
-	tableWidgetRow( const Stuff& s,const QStringList& e ) :
-		stuff( s ),entries( e )
-	{
-	}
-	Stuff stuff ;
-	QStringList entries ;
-} ;
-
 template< typename Stuff,size_t COLUMN_COUNT >
 class tableMiniWidget
 {
@@ -603,14 +592,35 @@ private:
 
 		this->updateRow( row,0,s,std::forward< Args >( args ) ... ) ;
 	}
+	template< typename Function >
+	void fromStuff( const QJsonObject& e,const Function& function )
+	{
+		engines::engine::functions::mediaInfo::fromQJobject( e,function ) ;
+	}
+	template< typename Function >
+	void fromStuff( const engines::engine::functions::mediaInfo& e,const Function& function )
+	{
+		function( e.id(),e.ext(),e.resolution(),e.fileSize(),e.info() ) ;
+	}
+	class Forwader
+	{
+	public:
+		Forwader( int row,tableMiniWidget< Stuff,COLUMN_COUNT >& e ) :
+			m_row( row ),m_parent( e )
+		{
+		}
+		template< typename ... Args >
+		void operator()( Args&& ... args ) const
+		{
+			m_parent.updateRow( m_row,std::forward< Args >( args ) ... ) ;
+		}
+	private:
+		int m_row ;
+		tableMiniWidget< Stuff,COLUMN_COUNT >& m_parent ;
+	} ;
 	void arrangeTable( bool ascending,int column )
 	{
-		std::vector< tableWidgetRow< Stuff > > rows ;
-
-		this->each( [ & ]( const QStringList& e,const Stuff& stuff ){
-
-			rows.emplace_back( stuff,e ) ;
-		} ) ;
+		auto stuff = std::move( m_stuff ) ;
 
 		class meaw
 		{
@@ -618,12 +628,24 @@ private:
 			meaw( bool a,int c ) : m_ascending( a ),m_column( c )
 			{
 			}
-			bool operator()( const tableWidgetRow< Stuff >& s,
-					 const tableWidgetRow< Stuff >& e )
+			QString getSize( const QJsonObject& e )
 			{
-				const auto& a = s.entries[ m_column ] ;
-				const auto& b = e.entries[ m_column ] ;
-
+				return engines::engine::functions::mediaInfo::fileSizeRaw( e ) ;
+			}
+			const QString& getSize( const engines::engine::functions::mediaInfo& e )
+			{
+				return e.fileSizeRaw() ;
+			}
+			QString getId( const QJsonObject& e )
+			{
+				return engines::engine::functions::mediaInfo::id( e ) ;
+			}
+			const QString& getId( const engines::engine::functions::mediaInfo& e )
+			{
+				return e.id() ;
+			}
+			bool compare( const QString& a,const QString& b )
+			{
 				bool aa ;
 				bool bb ;
 
@@ -647,23 +669,35 @@ private:
 					}
 				}
 			}
+			bool operator()( const Stuff& s,const Stuff& e )
+			{
+				if( m_column == 0 ){
+
+					const auto& a = this->getId( s ) ;
+					const auto& b = this->getId( e ) ;
+
+					return this->compare( a,b ) ;
+				}else{
+					const auto& a = this->getSize( s ) ;
+					const auto& b = this->getSize( e ) ;
+
+					return this->compare( a,b ) ;
+				}
+			}
 		private:
 			bool m_ascending ;
 			bool m_column ;
 		} ;
 
-		std::sort( rows.begin(),rows.end(),meaw( ascending,column ) ) ;
+		std::sort( stuff.begin(),stuff.end(),meaw( ascending,column ) ) ;
 
 		this->clear() ;
 
-		for( const auto& it : rows ){
+		for( const auto& it : stuff ){
 
-			int row = this->addRow( it.stuff ) ;
+			int row = this->addRow( it ) ;
 
-			for( int s = 0 ; s < it.entries.size() ; s++ ){
-
-				m_table.item( row,s )->setText( it.entries[ s ] ) ;
-			}
+			this->fromStuff( it,Forwader( row,*this ) ) ;
 		}
 	}
 	template< typename Rows >
@@ -763,7 +797,7 @@ private:
 
 		std::vector< entry > rows ;
 
-		if( column == 0 ){
+		if( column == 0 || column == 3 ){
 
 			auto e = QObject::tr( "Arrange In Ascending Order" ) ;
 

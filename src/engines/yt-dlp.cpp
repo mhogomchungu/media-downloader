@@ -948,6 +948,25 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 	}
 }
 
+static QString _fileSizeRaw( QJsonObject e )
+{
+	auto m = e.value( "filesize" ).toInt( -1 ) ;
+
+	if( m == -1 ){
+
+		m = e.value( "filesize_approx" ).toInt( -1 ) ;
+
+		if( m == -1 ){
+
+			return "0" ;
+		}else{
+			return QString::number( m ) ;
+		}
+	}else{
+		return QString::number( m ) ;
+	}
+}
+
 static QString _fileSize( Logger::locale& s,QJsonObject e )
 {
 	auto m = e.value( "filesize" ).toInt( -1 ) ;
@@ -1112,16 +1131,17 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 		QStringList arr{ url } ;
 
 		auto size = _fileSize( locale,obj ) ;
+		auto sizeRaw = _fileSizeRaw( obj ) ;
 
 		if( ext == "mhtml" ){
 
-			firstToShow.emplace_back( arr,id,ext,rsn,size,s ) ;
+			firstToShow.emplace_back( arr,id,ext,rsn,size,sizeRaw,s ) ;
 
 		}else if( rsn != "audio only" && !rsn.contains( "video only" ) ){
 
-			thirdtToShow.emplace_back( arr,id,ext,rsn,size,s ) ;
+			thirdtToShow.emplace_back( arr,id,ext,rsn,size,sizeRaw,s ) ;
 		}else{
-			secondToShow.emplace_back( arr,id,ext,rsn,size,s ) ;
+			secondToShow.emplace_back( arr,id,ext,rsn,size,sizeRaw,s ) ;
 		}
 	}
 

@@ -556,12 +556,14 @@ public:
 					   const QString& e,
 					   const QString& r,
 					   const QString& f,
+					   const QString& ff,
 					   const QString& n ) :
 					m_url( u ),
 					m_id( i ),
 					m_extension( e ),
 					m_resolution( r ),
 					m_fileSize( f ),
+					m_fileSizeRaw( ff ),
 					m_info( n )
 				{
 				}
@@ -569,11 +571,13 @@ public:
 					   const QString& e,
 					   const QString& r,
 					   const QString& f,
+					   const QString& ff,
 					   const QString& n ) :
 					m_id( i ),
 					m_extension( e ),
 					m_resolution( r ),
 					m_fileSize( f ),
+					m_fileSizeRaw( ff ),
 					m_info( n )
 				{
 				}
@@ -593,9 +597,29 @@ public:
 					obj.insert( "extension",m_extension ) ;
 					obj.insert( "resolution",m_resolution ) ;
 					obj.insert( "filesize",m_fileSize ) ;
+					obj.insert( "filesizeRaw",m_fileSizeRaw ) ;
 					obj.insert( "info",m_info ) ;
 
 					return obj ;
+				}
+				static QString fileSizeRaw( const QJsonObject& obj )
+				{
+					return obj.value( "filesizeRaw" ).toString() ;
+				}
+				static QString id( const QJsonObject& obj )
+				{
+					return obj.value( "id" ).toString() ;
+				}
+				template< typename Function >
+				static void fromQJobject( const QJsonObject& obj,const Function& function )
+				{
+					auto a = obj.value( "id" ).toString() ;
+					auto b = obj.value( "extension" ).toString() ;
+					auto c = obj.value( "resolution" ).toString() ;
+					auto d = obj.value( "filesize" ).toString() ;
+					auto e = obj.value( "info" ).toString() ;
+
+					function( a,b,c,d,e ) ;
 				}
 				const QString& id() const
 				{
@@ -613,6 +637,10 @@ public:
 				{
 					return m_fileSize ;
 				}
+				const QString& fileSizeRaw() const
+				{
+					return m_fileSizeRaw ;
+				}
 				const QString& info() const
 				{
 					return m_info ;
@@ -627,6 +655,7 @@ public:
 				QString m_extension ;
 				QString m_resolution ;
 				QString m_fileSize ;
+				QString m_fileSizeRaw ;
 				QString m_info ;
 			} ;
 
