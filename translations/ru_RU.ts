@@ -542,22 +542,22 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Сохранить список в файл</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="920"/>
+        <location filename="../src/batchdownloader.cpp" line="924"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="930"/>
+        <location filename="../src/batchdownloader.cpp" line="934"/>
         <source>Date</source>
         <translation>Дата</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="948"/>
+        <location filename="../src/batchdownloader.cpp" line="952"/>
         <source>Replies to</source>
         <translation>Ответы на</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1213"/>
+        <location filename="../src/batchdownloader.cpp" line="1217"/>
         <source>Save Subtitle To File</source>
         <translation>Сохранить субтитры в файл</translation>
     </message>
@@ -567,13 +567,13 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Плагин:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1526"/>
+        <location filename="../src/batchdownloader.cpp" line="1530"/>
         <source>Get List From File</source>
         <translation>Получить список из файла</translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="576"/>
-        <location filename="../src/playlistdownloader.cpp" line="614"/>
+        <location filename="../src/playlistdownloader.cpp" line="618"/>
         <location filename="../src/utility.cpp" line="481"/>
         <source>Preset Options</source>
         <translation>Пресеты параметров</translation>
@@ -1048,7 +1048,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Завершено: %1%, Не запущено: %2, Успешно: %3, Не удалось: %4, Отменено: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1160"/>
+        <location filename="../src/playlistdownloader.cpp" line="1164"/>
         <source>Media Already In Archive</source>
         <translation>Медиа уже в архиве</translation>
     </message>
@@ -1084,7 +1084,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>%1 уже загружено</translation>
     </message>
     <message>
-        <location filename="../src/engines/lux.cpp" line="498"/>
+        <location filename="../src/engines/lux.cpp" line="501"/>
         <source>This May Take A Very Long Time</source>
         <translation>Это может занять очень много времени</translation>
     </message>
@@ -1124,7 +1124,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines/yt-dlp.cpp" line="1302"/>
+        <location filename="../src/engines/yt-dlp.cpp" line="1322"/>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
         <translation>Обновите &quot;%1&quot; По крайней мере до версии &quot;%2&quot;</translation>
     </message>
@@ -1170,7 +1170,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/library.cpp" line="435"/>
-        <location filename="../src/tableWidget.h" line="753"/>
+        <location filename="../src/tableWidget.h" line="802"/>
         <source>Arrange In Ascending Order</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1185,17 +1185,17 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="760"/>
+        <location filename="../src/tableWidget.h" line="809"/>
         <source>Arrange In Descending Order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="695"/>
+        <location filename="../src/tableWidget.h" line="744"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="711"/>
+        <location filename="../src/tableWidget.h" line="760"/>
         <source>No Filter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1203,7 +1203,7 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1531"/>
+        <location filename="../src/batchdownloader.cpp" line="1535"/>
         <source>Set Batch File</source>
         <translation>Установить пакетный файл</translation>
     </message>
@@ -1218,12 +1218,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Загрузка комментариев</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1188"/>
+        <location filename="../src/batchdownloader.cpp" line="1192"/>
         <source>Download</source>
         <translation>Начать загрузку</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1268"/>
+        <location filename="../src/batchdownloader.cpp" line="1272"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
@@ -1263,14 +1263,14 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Загрузить часть мультимедиа</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1259"/>
-        <location filename="../src/batchdownloader.cpp" line="1274"/>
+        <location filename="../src/batchdownloader.cpp" line="1263"/>
+        <location filename="../src/batchdownloader.cpp" line="1278"/>
         <source>Set</source>
         <translation>Установить</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1828"/>
-        <location filename="../src/batchdownloader.cpp" line="2467"/>
+        <location filename="../src/batchdownloader.cpp" line="1832"/>
+        <location filename="../src/batchdownloader.cpp" line="2455"/>
         <source>Downloading subtitles</source>
         <translation>Загрузка субтитров</translation>
     </message>
@@ -1351,80 +1351,80 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>playlistdownloader</name>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="475"/>
+        <location filename="../src/playlistdownloader.cpp" line="479"/>
         <source>Open</source>
         <translation>Открыть</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="488"/>
+        <location filename="../src/playlistdownloader.cpp" line="492"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="139"/>
-        <location filename="../src/playlistdownloader.cpp" line="496"/>
+        <location filename="../src/playlistdownloader.cpp" line="500"/>
         <source>Remove</source>
         <translation>Убрать</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="52"/>
-        <location filename="../src/playlistdownloader.cpp" line="1325"/>
+        <location filename="../src/playlistdownloader.cpp" line="1329"/>
         <source>Hide Controls</source>
         <translation>Скрыть элементы управления</translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="56"/>
-        <location filename="../src/playlistdownloader.cpp" line="1407"/>
+        <location filename="../src/playlistdownloader.cpp" line="1411"/>
         <source>Get List Options:</source>
         <translation>Параметры списка:</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="512"/>
+        <location filename="../src/playlistdownloader.cpp" line="516"/>
         <source>Copy Url</source>
         <translation>Копировать URL</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="528"/>
+        <location filename="../src/playlistdownloader.cpp" line="532"/>
         <source>Show Comments</source>
         <translation>Показать комментарии</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="654"/>
+        <location filename="../src/playlistdownloader.cpp" line="658"/>
         <source>Show All Updated</source>
         <translation>Показать все обновленные</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="660"/>
+        <location filename="../src/playlistdownloader.cpp" line="664"/>
         <source>Download All Updated</source>
         <translation>Загрузить все обновленные</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="668"/>
+        <location filename="../src/playlistdownloader.cpp" line="672"/>
         <source>Manage Subscriptions</source>
         <translation>Управление подписками</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1514"/>
+        <location filename="../src/playlistdownloader.cpp" line="1518"/>
         <source>Number of Pages Downloaded</source>
         <translation>Кол-во загруженных страниц</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1533"/>
+        <location filename="../src/playlistdownloader.cpp" line="1537"/>
         <source>Downloading video info</source>
         <translation>Загрузка информации о видео</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1320"/>
+        <location filename="../src/playlistdownloader.cpp" line="1324"/>
         <source>Show Controls</source>
         <translation>Показать элементы управления</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1321"/>
+        <location filename="../src/playlistdownloader.cpp" line="1325"/>
         <source>Show</source>
         <translation>Показать</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1326"/>
+        <location filename="../src/playlistdownloader.cpp" line="1330"/>
         <source>Hide</source>
         <translation>Скрыть</translation>
     </message>
