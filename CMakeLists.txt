@@ -28,7 +28,15 @@ if(${CMAKE_VERSION} VERSION_LESS "3.1.0")
     add_definitions(-std=c++14)
 endif()
 
-find_package(Qt5 COMPONENTS Core Widgets Network REQUIRED)
+option(BUILD_WITH_QT6 "Build with Qt 6" OFF)
+
+if(BUILD_WITH_QT6)
+    find_package(Qt6 COMPONENTS Core Widgets Network REQUIRED)
+    message("-- Building With Qt6")
+else()
+    find_package(Qt5 COMPONENTS Core Widgets Network REQUIRED)
+    message("-- Building With Qt5")
+endif()
 
 include_directories(${PROJECT_BINARY_DIR})
 
@@ -109,10 +117,18 @@ else()
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
 endif()
 
-if(WIN32)
-	target_link_libraries(media-downloader Dwmapi.lib Iphlpapi.lib Qt5::Widgets Qt5::Core Qt5::Network)
+if(BUILD_WITH_QT6)
+    if(WIN32)
+	target_link_libraries(media-downloader Dwmapi.lib Iphlpapi.lib Qt6::Widgets Qt6::Core Qt6::Network)
+    else()
+	target_link_libraries(media-downloader Qt6::Widgets Qt6::Core Qt6::Network)
+    endif()
 else()
+    if(WIN32)
+	target_link_libraries(media-downloader Dwmapi.lib Iphlpapi.lib Qt5::Widgets Qt5::Core Qt5::Network)
+    else()
 	target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
+    endif()
 endif()
 
 install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
@@ -124,12 +140,23 @@ install(DIRECTORY translations DESTINATION ${CMAKE_INSTALL_DATADIR}/media-downlo
 
 file(WRITE ${PROJECT_BINARY_DIR}/locale_path.h "\n#define TRANSLATION_PATH \"${CMAKE_INSTALL_FULL_DATADIR}/media-downloader/translations/\"\n")
 
+if(BUILD_WITH_QT6)
+
 file(WRITE ${PROJECT_BINARY_DIR}/version.h
 "
 #define VERSION \"${PGR_VERSION}.git_tag\"
-#define QTVERSION \"${Qt5Core_VERSION}\"
+#define QTVERSION \"${Qt6Core_VERSION}\"
 #define COPYRIGHT \"${COPYRIGHT_YEARS}\"
 ")
+
+else()
+file(WRITE ${PROJECT_BINARY_DIR}/version.h
+"
+#define VERSION \"${PGR_VERSION}.git_tag\"
+#define QTVERSION \"${Qt6Core_VERSION}\"
+#define COPYRIGHT \"${COPYRIGHT_YEARS}\"
+")
+endif()
 
 if(WIN32)
     find_path(libstdc_PATH libstdc++-6.dll)

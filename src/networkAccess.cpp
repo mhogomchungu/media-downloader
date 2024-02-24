@@ -75,6 +75,25 @@ networkAccess::networkAccess( const Context& ctx ) :
 	}
 }
 
+static bool _foundMediaDownloader( const QString& url )
+{
+#if QT_VERSION < QT_VERSION_CHECK( 6,0,0 )
+	if( url.contains( "MediaDownloader" ) ){
+
+		if( url.contains( "MediaDownloaderQt6" ) ){
+
+			return false ;
+		}else{
+			return true ;
+		}
+	}else{
+		return false ;
+	}
+#else
+	return url.contains( "MediaDownloaderQt6" ) ;
+#endif
+}
+
 void networkAccess::updateMediaDownloader( networkAccess::Status status,const QJsonDocument& json ) const
 {
 	auto object = json.object() ;
@@ -91,7 +110,7 @@ void networkAccess::updateMediaDownloader( networkAccess::Status status,const QJ
 
 		auto url = object.value( "browser_download_url" ).toString() ;
 
-		if( url.contains( "MediaDownloader" ) && url.endsWith( ".zip" ) ){
+		if( _foundMediaDownloader( url ) && url.endsWith( ".zip" ) ){
 
 			auto size = object.value( "size" ).toDouble() ;
 

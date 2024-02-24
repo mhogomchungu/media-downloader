@@ -234,6 +234,22 @@ QString utility::windowsGateWayAddress()
 	return adaptorInfo().address() ;
 }
 
+#if QT_VERSION < QT_VERSION_CHECK( 6,0,0 )
+
+static QString _toQString( LPTSTR s )
+{
+	return s ;
+}
+
+#else
+
+static QString _toQString( LPTSTR s )
+{
+	return QString::fromStdWString( s ) ;
+}
+
+#endif
+
 QString utility::windowsGetClipBoardText( const ContextWinId& wId )
 {
 	QString s ;
@@ -250,7 +266,7 @@ QString utility::windowsGetClipBoardText( const ContextWinId& wId )
 
 				if( lptstr ){
 
-					s = lptstr ;
+					s = _toQString( lptstr ) ;
 
 					GlobalUnlock( hglb ) ;
 				}

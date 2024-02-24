@@ -17,8 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class QStringList ;
-class QApplication ;
+#include <QStringList>
+#include <QApplication>
 
 namespace tests
 {
