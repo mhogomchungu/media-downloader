@@ -140,6 +140,12 @@ install(DIRECTORY translations DESTINATION ${CMAKE_INSTALL_DATADIR}/media-downlo
 
 file(WRITE ${PROJECT_BINARY_DIR}/locale_path.h "\n#define TRANSLATION_PATH \"${CMAKE_INSTALL_FULL_DATADIR}/media-downloader/translations/\"\n")
 
+set( OutputBaseFilename "MediaDownloader-${PGR_VERSION}.setup" )
+
+if(OUTPUT_BASE_NAME)
+    set( OutputBaseFilename ${OUTPUT_BASE_NAME})
+endif()
+
 if(BUILD_WITH_QT6)
 
 file(WRITE ${PROJECT_BINARY_DIR}/version.h
@@ -200,7 +206,7 @@ SetupIconFile={#MySourcesPath}\\src\\media-downloader.ico
 Compression=lzma
 SolidCompression=yes
 DisableProgramGroupPage=yes
-OutputBaseFilename=MediaDownloader-${PGR_VERSION}.setup
+OutputBaseFilename=${OutputBaseFilename}
 
 [Tasks]
 Name: \"desktopicon\"; Description: \"{cm:CreateDesktopIcon}\"; GroupDescription: \"{cm:AdditionalIcons}\"; Flags: unchecked
@@ -299,7 +305,7 @@ SetupIconFile={#MySourcesPath}\\src\\media-downloader.ico
 Compression=lzma
 SolidCompression=yes
 DisableProgramGroupPage=yes
-OutputBaseFilename=MediaDownloader-${PGR_VERSION}.setup
+OutputBaseFilename=${OutputBaseFilename}
 
 [Tasks]
 Name: \"desktopicon\"; Description: \"{cm:CreateDesktopIcon}\"; GroupDescription: \"{cm:AdditionalIcons}\"; Flags: unchecked
