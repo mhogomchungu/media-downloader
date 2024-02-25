@@ -216,7 +216,6 @@ Name: \"quicklaunchicon\"; Description: \"{cm:CreateQuickLaunchIcon}\"; GroupDes
 Source: {#MyEXELocation}; DestDir: {app}; Flags: ignoreversion
 Source: {#MyLibrariesLocation}\\*.dll; DestDir: {app} ; Flags: ignoreversion
 Source: {#MySourcesPath}\\LICENSE.txt; DestDir: {app}; Flags: ignoreversion
-Source: {#MyLibrariesLocation}\\bearer\\* ; DestDir: {app}\\bearer; Flags: ignoreversion
 Source: {#MyLibrariesLocation}\\iconengines\\* ; DestDir: {app}\\iconengines; Flags: ignoreversion
 Source: {#MyLibrariesLocation}\\imageformats\\*; DestDir: {app}\\imageformats; Flags: ignoreversion
 Source: {#MyLibrariesLocation}\\styles\\*; DestDir: {app}\\styles; Flags: ignoreversion
