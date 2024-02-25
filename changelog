@@ -251,9 +251,10 @@ Version 1.2.0(April 1st, 2021)
 
   Version 4.4.0(Unreleased)
       [Windows]
-      - Fix a bug that caused Media Downloader to not show progress report when file names contained invalid
+     - Fix a bug that caused Media Downloader to not show progress report when file names contained invalid
        json character.
       [All]
-      - Add a boolean config only option named  "DeleteFilesOnCanceledDownload" to delete temporary files
+     - Add a boolean config only option named  "DeleteFilesOnCanceledDownload" to delete temporary files
         when download is cancelled.
      - Add a file size colum in "media options" table to easily show media file sizes.
+     - Now buildable with Qt6. Pass "-DBUILD_WITH_QT6=TRUE" option to cmake to build for Qt6.

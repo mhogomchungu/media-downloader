@@ -1,4 +1,4 @@
-name: MediaDownloader4WindowsQt5
+name: MediaDownloader4WindowsQt6
 
 on: push
 
@@ -11,6 +11,6 @@ jobs:
         with:
           token: ${{ secrets.MD_GIT_PUBLISH }}
           repository: mhogomchungu/media-downloader-git
-          event-type: PublishGit
+          event-type: PublishQt6Git
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
 
