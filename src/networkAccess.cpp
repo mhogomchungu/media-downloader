@@ -52,10 +52,13 @@ networkAccess::networkAccess( const Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_appName( m_ctx.appName() )
 {
-	auto m = m_ctx.Settings().showLocalAndLatestVersionInformation() ;
-	auto e = m_ctx.Settings().showVersionInfoAndAutoDownloadUpdates() ;
+	auto& settings = m_ctx.Settings() ;
 
-	if( utility::platformIsWindows() && ( m | e ) ){
+	auto m = settings.showLocalAndLatestVersionInformation() ;
+	auto e = settings.showVersionInfoAndAutoDownloadUpdates() ;
+	auto s = settings.showLocalVersionInformationOnly() ;
+
+	if( utility::platformIsWindows() && ( m | e | s ) ){
 
 		auto& e = m_ctx.logger() ;
 		auto s = QSslSocket::sslLibraryVersionString() ;
