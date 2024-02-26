@@ -251,7 +251,11 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 
 		QDir dir ;
 
-		auto extractedPath = md.tmpPath + "/" + md.name.mid( 0,md.name.size() - 4 ) ;
+		auto mm = md.name ;
+
+		mm.replace( "Qt6","" ) ;
+
+		auto extractedPath = md.tmpPath + "/" + mm.mid( 0,mm.size() - 4 ) ;
 
 		dir.rename( extractedPath,md.finalPath ) ;
 
