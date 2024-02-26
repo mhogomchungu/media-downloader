@@ -229,7 +229,7 @@ void settings::setAutoHideDownloadWhenCompleted( bool e )
 	m_settings.setValue( "AutoHideDownloadWhenCompleted",e ) ;
 }
 
-int settings::textAlignment()
+Qt::Alignment settings::textAlignment()
 {
 	auto m = this->getOption( "MainTableTextAlignment",QString( "center" ) ) ;
 
@@ -362,7 +362,9 @@ settings::settings( const utility::cliArguments& args ) :
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
 	m_EnableHighDpiScaling = true ;
-	QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
+	#if QT_VERSION < QT_VERSION_CHECK( 6,0,0 )
+		QApplication::setAttribute( Qt::AA_EnableHighDpiScaling ) ;
+	#endif
 #else
 	m_EnableHighDpiScaling = false ;
 #endif

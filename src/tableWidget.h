@@ -291,7 +291,7 @@ public:
 	bool containsHiddenRows() ;
 	bool allFinishedWithSuccess() ;
 
-	tableWidget( QTableWidget& t,const QFont& font,int init,int textAlignment ) ;
+	tableWidget( QTableWidget& t,const QFont& font,int init,Qt::Alignment textAlignment ) ;
 
 	QTableWidgetItem& item( int row,int column ) const ;
 
@@ -315,7 +315,7 @@ private:
 	int m_init ;
 
 	std::vector< tableWidget::entry > m_items ;
-	int m_textAlignment ;
+	Qt::Alignment m_textAlignment ;
 } ;
 
 template< typename Stuff,size_t COLUMN_COUNT >

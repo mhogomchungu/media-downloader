@@ -49,7 +49,12 @@ void translator::setLanguage( const QString& e )
 
 		m_translator = new QTranslator() ;
 
-		m_translator->load( e,m_settings.localizationLanguagePath() ) ;
+		auto m = m_translator->load( e,m_settings.localizationLanguagePath() ) ;
+
+		if( !m ){
+
+			//???
+		}
 
 		return m_translator ;
 	}() ) ;

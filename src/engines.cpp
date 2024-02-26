@@ -1100,6 +1100,57 @@ QString engines::enginePaths::socketPath()
 	}
 }
 
+#ifdef Q_OS_WIN
+
+#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
+
+#include <QNtfsPermissionCheckGuard>
+
+class checkPermissions
+{
+public:
+	void enable()
+	{
+	}
+	void disable()
+	{
+	}
+private:
+	QNtfsPermissionCheckGuard m_guard ;
+};
+
+#else
+
+extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;
+
+struct checkPermissions
+{
+	void enable()
+	{
+		qt_ntfs_permission_lookup++ ;
+	}
+	void disable()
+	{
+		qt_ntfs_permission_lookup-- ;
+	}
+};
+
+#endif
+
+#else
+
+struct checkPermissions
+{
+	void enable()
+	{
+	}
+	void disable()
+	{
+	}
+};
+
+#endif
+
 void engines::enginePaths::confirmPaths( Logger& logger ) const
 {
 	QFileInfo fileInfo ;
@@ -1129,10 +1180,9 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 		}
 	} ;
 
-	if( utility::platformIsWindows() ){
+	checkPermissions perms ;
 
-		utility::ntfsEnablePermissionChecking( true ) ;
-	}
+	perms.enable() ;
 
 	_check_exists( m_basePath,false ) ;
 	_check_exists( m_binPath,true ) ;
@@ -1140,10 +1190,7 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 	_check_exists( m_dataPath,false ) ;
 	_check_exists( m_tmp,false ) ;
 
-	if( utility::platformIsWindows() ){
-
-		utility::ntfsEnablePermissionChecking( false ) ;
-	}
+	perms.disable() ;
 
 	if( !warning.empty() ){
 

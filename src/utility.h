@@ -465,7 +465,6 @@ namespace utility
 		QString downloadOptions ;
 	} ;
 	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& = {} ) ;
-	void ntfsEnablePermissionChecking( bool ) ;
 	bool copyFile( const QString& src,const QString& dst ) ;
 	bool pathIsFolderAndExists( const QString& ) ;
 	bool platformIsWindows() ;

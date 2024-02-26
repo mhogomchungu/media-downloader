@@ -177,7 +177,7 @@ public:
 
 	qint64 timeOutWaitingForClipboardData() ;
 
-	int textAlignment() ;
+	Qt::Alignment textAlignment() ;
 	int networkTimeOut() ;
 	int stringTruncationSize() ;
 	int historySize() ;

@@ -1639,28 +1639,6 @@ const QStringList& utility::cliArguments::arguments() const
 	return m_args ;
 }
 
-#ifdef Q_OS_WIN
-
-extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;
-
-void utility::ntfsEnablePermissionChecking( bool e )
-{
-	if( e ){
-
-		qt_ntfs_permission_lookup++ ;
-	}else{
-		qt_ntfs_permission_lookup-- ;
-	}
-}
-
-#else
-
-void utility::ntfsEnablePermissionChecking( bool )
-{
-}
-
-#endif
-
 bool utility::pathIsFolderAndExists( const QString& e )
 {
 	QFileInfo m( e ) ;

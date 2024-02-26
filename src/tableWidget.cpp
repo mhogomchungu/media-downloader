@@ -466,7 +466,7 @@ QString tableWidget::completeProgress( int firstRow )
 	return QObject::tr( "Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5" ).arg( a,b,c,d,e ) ;
 }
 
-tableWidget::tableWidget( QTableWidget& t,const QFont&,int init,int tA ) :
+tableWidget::tableWidget( QTableWidget& t,const QFont&,int init,Qt::Alignment tA ) :
 	m_table( t ),
 	m_init( init ),
 	m_textAlignment( tA )
