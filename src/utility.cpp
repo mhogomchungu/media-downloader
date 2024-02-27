@@ -234,25 +234,28 @@ QString utility::windowsGateWayAddress()
 	return adaptorInfo().address() ;
 }
 
-#if QT_VERSION < QT_VERSION_CHECK( 6,0,0 )
-
-static QString _toQString( LPTSTR s )
-{
-	return s ;
-}
-
-#else
-
-static QString _toQString( LPTSTR s )
-{
-	return QString::fromStdWString( s ) ;
-}
-
-#endif
-
 QString utility::windowsGetClipBoardText( const ContextWinId& wId )
 {
-	QString s ;
+	class String
+	{
+	public:
+		void operator=( const char * s )
+		{
+			m_value = s ;
+		}
+		void operator=( const wchar_t * s )
+		{
+			m_value = QString::fromWCharArray( s ) ;
+		}
+		operator QString()
+		{
+			return m_value ;
+		}
+	private:
+		QString m_value ;
+	} ;
+
+	String s ;
 
 	if( IsClipboardFormatAvailable( CF_TEXT ) ){
 
@@ -266,7 +269,7 @@ QString utility::windowsGetClipBoardText( const ContextWinId& wId )
 
 				if( lptstr ){
 
-					s = _toQString( lptstr ) ;
+					s = lptstr ;
 
 					GlobalUnlock( hglb ) ;
 				}
