@@ -754,15 +754,6 @@ namespace utility
 			function( c ) ;
 		} ) ;
 
-		ac = m.addAction( QObject::tr( "Show Raw Log Window" ) ) ;
-
-		QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
-
-			c.setShowRawLogWindow() ;
-
-			function( c ) ;
-		} ) ;
-
 		hideUnHide() ;
 
 		if( showClear ){

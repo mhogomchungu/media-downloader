@@ -602,11 +602,11 @@ private:
 	{
 		function( e.id(),e.ext(),e.resolution(),e.fileSize(),e.info() ) ;
 	}
-	template< typename Parent >
 	class Forwader
 	{
 	public:
-		Forwader( int row,Parent& e ) :m_row( row ),m_parent( e )
+		template< typename Parent >
+		Forwader( int row,Parent& e ) : m_row( row ),m_parent( e )
 		{
 		}
 		template< typename ... Args >
@@ -616,12 +616,10 @@ private:
 		}
 	private:
 		int m_row ;
-		Parent& m_parent ;
+		tableMiniWidget< Stuff,COLUMN_COUNT >& m_parent ;
 	} ;
 	void arrangeTable( bool ascending,int column )
 	{
-		auto stuff = std::move( m_stuff ) ;
-
 		class meaw
 		{
 		public:
@@ -689,6 +687,8 @@ private:
 			bool m_column ;
 		} ;
 
+		auto stuff = std::move( m_stuff ) ;
+
 		std::sort( stuff.begin(),stuff.end(),meaw( ascending,column ) ) ;
 
 		this->clear() ;
@@ -697,7 +697,7 @@ private:
 
 			int row = this->addRow( it ) ;
 
-			this->fromStuff( it,Forwader< decltype( *this ) >( row,*this ) ) ;
+			this->fromStuff( it,Forwader( row,*this ) ) ;
 		}
 	}
 	template< typename Rows >

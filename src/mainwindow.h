@@ -26,6 +26,7 @@
 #include <QString>
 #include <QStringList>
 #include <QMenu>
+#include <QShortcut>
 
 #include "tabmanager.h"
 #include "engines.h"
@@ -105,6 +106,7 @@ private:
 	settings& m_settings ;
 	static MainWindow * m_mainWindow ;
 	bool m_showTrayIcon ;
+	QShortcut m_shortcut ;
 	void closeEvent( QCloseEvent * ) override ;
 };
 

@@ -42,7 +42,8 @@ MainWindow::MainWindow( QApplication& app,
 	m_printOutPut( args ),
 	m_tabManager( s,t,m_engines,m_logger,m_ui.get(),*this,*this,m_appName,m_printOutPut ),
 	m_settings( s ),
-	m_showTrayIcon( s.showTrayIcon() )
+	m_showTrayIcon( s.showTrayIcon() ),
+	m_shortcut( this )
 {
 	MainWindow::setUpSignals( this ) ;
 
@@ -54,6 +55,13 @@ MainWindow::MainWindow( QApplication& app,
 	this->window()->setFixedSize( this->window()->size() ) ;
 
 	this->window()->setWindowIcon( m_trayIcon.icon() ) ;
+
+	m_shortcut.setKey( Qt::CTRL | Qt::Key_D ) ;
+
+	connect( &m_shortcut,&QShortcut::activated,[ & ](){
+
+		m_logger.showDebugLogWindow() ;
+	} ) ;
 
 	m_trayIcon.setContextMenu( [ this,&t ](){
 

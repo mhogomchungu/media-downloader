@@ -1104,7 +1104,7 @@ QString engines::enginePaths::socketPath()
 
 #if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
 
-#include <QNtfsPermissionCheckGuard>
+//#include <QNtfsPermissionCheckGuard>
 
 class checkPermissions
 {
@@ -1116,7 +1116,7 @@ public:
 	{
 	}
 private:
-	QNtfsPermissionCheckGuard m_guard ;
+	//QNtfsPermissionCheckGuard m_guard ;
 };
 
 #else
