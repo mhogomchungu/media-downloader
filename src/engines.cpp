@@ -1105,15 +1105,18 @@ QString engines::enginePaths::socketPath()
 #if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
 
 //#include <QNtfsPermissionCheckGuard>
+extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;
 
 class checkPermissions
 {
 public:
 	void enable()
 	{
+		qt_ntfs_permission_lookup++ ;
 	}
 	void disable()
 	{
+		qt_ntfs_permission_lookup-- ;
 	}
 private:
 	//QNtfsPermissionCheckGuard m_guard ;
