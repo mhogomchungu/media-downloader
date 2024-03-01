@@ -57,27 +57,11 @@ private:
 	MainWindow m_app ;
 };
 
-int main( int argc,char * argv[] )
+int start( int argc,char * argv[],
+	   const utility::cliArguments& cargs,
+	   engines::enginePaths& paths,
+	   settings& settings )
 {
-	utility::cliArguments cargs( argc,argv ) ;
-
-	if( utility::onlyWantedVersionInfo( cargs ) ){
-
-		return 0 ;
-	}
-
-	settings settings( cargs ) ;
-
-	engines::enginePaths paths( settings ) ;
-
-	if( utility::platformIsWindows() ){
-
-		if( utility::startedUpdatedVersion( settings,cargs ) ){
-
-			return 0 ;
-		}
-	}
-
 	QApplication mqApp( argc,argv ) ;
 
 	settings.setTheme( mqApp,paths.themePath() ) ;
@@ -87,28 +71,54 @@ int main( int argc,char * argv[] )
 	if( tests::test_engine( args,mqApp ) ){
 
 		return 0 ;
-	}
-
-	auto spath = paths.socketPath() ;
-
-	QJsonObject jsonArgs ;
-
-	jsonArgs.insert( "-a",cargs.contains( "-a" ) ) ;
-
-	jsonArgs.insert( "-e",cargs.contains( "-e" ) ) ;
-
-	jsonArgs.insert( "-u",cargs.value( "-u" ) ) ;
-
-	jsonArgs.insert( "--proxy",cargs.value( "--proxy" ) ) ;
-
-	auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
-
-	utils::app::appInfo< myApp,myApp::args > m( { mqApp,settings,paths,cargs },spath,mqApp,json ) ;
-
-	if( cargs.contains( "-s" ) || !settings.singleInstance() ){
-
-		return utils::app::runMultiInstances( std::move( m ) ) ;
 	}else{
-		return utils::app::runOneInstance( std::move( m ) ) ;
+		auto spath = paths.socketPath() ;
+
+		QJsonObject jsonArgs ;
+
+		jsonArgs.insert( "-a",cargs.contains( "-a" ) ) ;
+
+		jsonArgs.insert( "-e",cargs.contains( "-e" ) ) ;
+
+		jsonArgs.insert( "-u",cargs.value( "-u" ) ) ;
+
+		jsonArgs.insert( "--proxy",cargs.value( "--proxy" ) ) ;
+
+		auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
+
+		myApp::args args{ mqApp,settings,paths,cargs } ;
+
+		utils::app::appInfo< myApp,myApp::args > m( args,spath,mqApp,json ) ;
+
+		if( cargs.contains( "-s" ) || !settings.singleInstance() ){
+
+			return utils::app::runMultiInstances( std::move( m ) ) ;
+		}else{
+			return utils::app::runOneInstance( std::move( m ) ) ;
+		}
+	}
+}
+
+int main( int argc,char * argv[] )
+{
+	utility::cliArguments cargs( argc,argv ) ;
+
+	if( utility::onlyWantedVersionInfo( cargs ) ){
+
+		return 0 ;
+	}else{
+		settings settings( cargs ) ;
+
+		engines::enginePaths paths( settings ) ;
+
+		if( utility::platformIsWindows() ){
+
+			if( utility::startedUpdatedVersion( settings,cargs ) ){
+
+				return 0 ;
+			}
+		}
+
+		return start( argc,argv,cargs,paths,settings ) ;
 	}
 }
