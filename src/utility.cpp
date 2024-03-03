@@ -1203,7 +1203,7 @@ static util::version _get_process_version( const QString& path,
 
 		if( file.open( QIODevice::ReadOnly ) ){
 
-			util::version m = file.readAll() ;
+			util::version m = file.readAll().trimmed() ;
 
 			if( m.valid() ){
 

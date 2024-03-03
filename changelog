@@ -249,7 +249,7 @@ Version 1.2.0(April 1st, 2021)
       [All]
       - Fix a bug that causes a crash when trying to be clever with certain user provided yt-dlp options.
 
-  Version 4.4.0(Unreleased)
+  Version 4.4.0(March 3rd, 2024)
       [Windows]
      - Fix a bug that caused Media Downloader to not show progress report when file names contained invalid
        json character.

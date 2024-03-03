@@ -76,6 +76,7 @@
   <update_contact>mhogomchungu_AT_gmail.com</update_contact>
   <content_rating type="oars-1.0" />
   <releases>
+    <release version="4.4.0" date="2024-03-03"/>
     <release version="4.3.1" date="2024-02-01"/>
     <release version="4.3.0" date="2024-02-01"/>
     <release version="4.2.0" date="2024-01-02"/>
