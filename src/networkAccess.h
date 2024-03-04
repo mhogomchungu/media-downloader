@@ -409,7 +409,6 @@ private:
 	void downloadP( networkAccess::Opts2&,const utils::network::progress& ) const ;
 	void downloadP2( networkAccess::Opts2&,const utils::network::progress& ) const ;
 
-	void removeNotNeededFiles( networkAccess::updateMDOptions ) const ;
 	void updateMediaDownloader( networkAccess::updateMDOptions ) const ;
 	void extractMediaDownloader( networkAccess::updateMDOptions ) const ;
 

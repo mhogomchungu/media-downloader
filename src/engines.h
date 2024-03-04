@@ -803,6 +803,10 @@ public:
 			return m_name ;
 		}
 
+		bool forTesting() const
+		{
+			return this->name().endsWith( "-test" ) ;
+		}
 		void updateLocalOptions( QStringList& opts ) const
 		{
 			m_engine->updateLocalOptions( opts ) ;

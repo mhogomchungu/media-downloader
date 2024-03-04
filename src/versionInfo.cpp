@@ -85,6 +85,11 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 {
 	const auto& engine = vinfo.engine() ;
 
+	if( engine.forTesting() ){
+
+		return this->next( vinfo.move() ) ;
+	}
+
 	if( engine.validDownloadUrl() && networkAccess::hasNetworkSupport() ){
 
 		if( engine.backendExists() ){

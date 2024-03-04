@@ -264,7 +264,13 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 
 		f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 
-		this->removeNotNeededFiles( md.move() ) ;
+		QDir().rmdir( md.finalPath + "/local" ) ;
+
+		md.status.done() ;
+
+		auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
+
+		this->post( m_appName,m,md.id ) ;
 	}else{
 		md.status.done() ;
 
@@ -468,58 +474,6 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 	}else{
 		this->post( engine.name(),"...",opts.id ) ;
 	}
-}
-
-void networkAccess::removeNotNeededFiles( networkAccess::updateMDOptions md ) const
-{
-#if 1
-	QDir().rmdir( md.finalPath + "/local" ) ;
-
-	md.status.done() ;
-
-	auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
-
-	this->post( m_appName,m,md.id ) ;
-#else
-	auto folderPath = md.finalPath ;
-
-	utils::qthread::run( [folderPath ](){
-
-		auto entries = directoryManager::readAll( folderPath ) ;
-
-		auto fileIter = entries.fileIter() ;
-
-		while( fileIter.hasNext() ){
-
-			const auto& m = fileIter.valueWithNext() ;
-
-			if( m != "media-downloader.exe" ){
-
-				QFile::remove( folderPath + "/" + m ) ;
-			}
-		}
-
-		auto folderIter = entries.directoryIter() ;
-
-		while( folderIter.hasNext() ){
-
-			const auto& m = folderIter.valueWithNext() ;
-
-			if( m != "translations" ){
-
-				directoryManager::removeDirectory( folderPath + "/" + m ) ;
-			}
-		}
-
-	},[ md = md.move(),this ](){
-
-		md.status.done() ;
-
-		auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
-
-		this->post( m_appName,m,md.id ) ;
-	} ) ;
-#endif
 }
 
 void networkAccess::download( networkAccess::Opts opts ) const
