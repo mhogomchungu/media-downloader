@@ -441,6 +441,7 @@ namespace utility
 	void setPermissions( QFile& ) ;
 	void setPermissions( const QString& ) ;
 	void failedToParseJsonData( Logger&,const QJsonParseError& ) ;
+	bool runningGitVersion() ;
 	QString runningVersionOfMediaDownloader() ;
 	QString aboutVersionInfo() ;
 	QString compileTimeVersion() ;

@@ -296,7 +296,17 @@ QString settings::playlistRangeHistoryLastUsed()
 
 QString settings::gitHubDownloadUrl()
 {
-	auto m = this->getOption( "WindowsUpdateChannel",QString( "release" ) ) ;
+	QString channel = [](){
+
+		if( utility::runningGitVersion() ){
+
+			return "git" ;
+		}else{
+			return "release" ;
+		}
+	}() ;
+
+	auto m = this->getOption( "WindowsUpdateChannel",channel ) ;
 
 	if( m.compare( "release",Qt::CaseInsensitive ) == 0 ){
 

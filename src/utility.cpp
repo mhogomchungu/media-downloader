@@ -1381,6 +1381,13 @@ QString utility::compileTimeVersion()
 	return e ;
 }
 
+bool utility::runningGitVersion()
+{
+	auto m = utility::runningVersionOfMediaDownloader() ;
+
+	return util::split( m,"." ).size() > 3 ;
+}
+
 QString utility::runningVersionOfMediaDownloader()
 {
 	const auto& e = _runTimeVersions().instanceVersion() ;
