@@ -521,25 +521,31 @@ void batchdownloader::showCustomContext()
 
 	},[ this,&engine ]( QAction * ac,bool forceDownload,int row ){
 
-		connect( ac,&QAction::triggered,[ &engine,this,row,forceDownload ](){
+		Q_UNUSED( row )
+
+		connect( ac,&QAction::triggered,[ &engine,this,forceDownload ](){
 
 			auto hh = downloadManager::index::tab::batch ;
 
 			downloadManager::index indexes( m_table,hh ) ;
 
-			auto e = m_table.runningState( row ) ;
+			for( int row = 0 ; row < m_table.rowCount() ; row++ ){
 
-			auto visible = m_table.rowIsVisible( row ) ;
+				auto e = m_table.runningState( row ) ;
 
-			auto m = downloadManager::finishedStatus::finishedWithSuccess( e ) ;
+				auto visible     = m_table.rowIsVisible( row ) ;
+				auto highlighted = m_table.rowIsSelected( row ) ;
 
-			if( visible && ( !m || forceDownload ) ){
+				auto m = downloadManager::finishedStatus::finishedWithSuccess( e ) ;
 
-				auto m = m_ui.lineEditBDUrlOptions->text() ;
+				if( visible && highlighted && ( !m || forceDownload ) ){
 
-				auto u = utility::setDownloadOptions( engine,m_table,row,m ) ;
+					auto m = m_ui.lineEditBDUrlOptions->text() ;
 
-				indexes.add( row,u.move(),forceDownload ) ;
+					auto u = utility::setDownloadOptions( engine,m_table,row,m ) ;
+
+					indexes.add( row,u.move(),forceDownload ) ;
+				}
 			}
 
 			this->download( engine,indexes.move() ) ;

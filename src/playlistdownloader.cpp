@@ -552,35 +552,41 @@ void playlistdownloader::customContextMenuRequested()
 
 	},[ this,&engine ]( QAction * ac,bool forceDownload,int row ){
 
-		connect( ac,&QAction::triggered,[ &engine,this,row,forceDownload ](){
+		Q_UNUSED( row )
 
-			auto visible = m_table.rowIsVisible( row ) ;
+		connect( ac,&QAction::triggered,[ &engine,this,forceDownload ](){
 
 			auto rr = downloadManager::index::tab::playlist ;
 
 			downloadManager::index indexes( m_table,rr ) ;
 
-			auto e = m_table.runningState( row ) ;
+			for( int row = 0 ; row < m_table.rowCount() ; row++ ){
 
-			auto s = downloadManager::finishedStatus::finishedWithSuccess( e ) ;
+				auto e = m_table.runningState( row ) ;
 
-			if( visible && ( !s || forceDownload ) ){
+				auto s = downloadManager::finishedStatus::finishedWithSuccess( e ) ;
 
-				auto u = m_table.downloadingOptions( row ) ;
+				auto visible     = m_table.rowIsVisible( row ) ;
+				auto highlighted = m_table.rowIsSelected( row ) ;
 
-				auto function = utility::setDownloadOptions ;
+				if( visible && highlighted && ( !s || forceDownload ) ){
 
-				if( u.isEmpty() ){
+					auto u = m_table.downloadingOptions( row ) ;
 
-					auto m = m_ui.lineEditPLUrlOptions->text() ;
+					auto function = utility::setDownloadOptions ;
 
-					auto mm = function( engine,m_table,row,m ) ;
+					if( u.isEmpty() ){
 
-					indexes.add( row,mm.move() ) ;
-				}else{
-					auto uu = function( engine,m_table,row,u ) ;
+						auto m = m_ui.lineEditPLUrlOptions->text() ;
 
-					indexes.add( row,uu.move() ) ;
+						auto mm = function( engine,m_table,row,m ) ;
+
+						indexes.add( row,mm.move() ) ;
+					}else{
+						auto uu = function( engine,m_table,row,u ) ;
+
+						indexes.add( row,uu.move() ) ;
+					}
 				}
 			}
 

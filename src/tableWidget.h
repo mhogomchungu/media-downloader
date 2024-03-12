@@ -288,6 +288,7 @@ public:
 	bool isSelected( int ) ;
 	bool noneAreRunning() ;
 	bool rowIsVisible( int ) ;
+	bool rowIsSelected( int ) ;
 	bool containsHiddenRows() ;
 	bool allFinishedWithSuccess() ;
 

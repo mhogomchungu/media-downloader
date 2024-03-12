@@ -270,7 +270,25 @@ void tableWidget::selectRow( QTableWidgetItem * current,QTableWidgetItem * previ
 			table->setCurrentCell( current->row(),table->columnCount() - 1 ) ;
 		}else{
 			_update_table_row( current,true ) ;
-			_update_table_row( previous,false ) ;
+
+			if( QGuiApplication::keyboardModifiers() != Qt::ControlModifier ){
+
+				auto currentRow = current->row() ;
+
+				auto table = current->tableWidget() ;
+
+				auto lastColumn = table->columnCount() - 1 ;
+
+				for( int row = 0 ; row < table->rowCount() ; row++ ){
+
+					if( row != currentRow ){
+
+						auto item = table->item( row,lastColumn ) ;
+
+						_update_table_row( item,false ) ;
+					}
+				}
+			}
 		}
 
 	}else if( current && !previous ){
@@ -392,6 +410,11 @@ bool tableWidget::noneAreRunning()
 bool tableWidget::rowIsVisible( int row )
 {
 	return !m_table.isRowHidden( row ) ;
+}
+
+bool tableWidget::rowIsSelected( int row )
+{
+	return m_table.item( row,m_table.columnCount() - 1 )->isSelected() ;
 }
 
 bool tableWidget::containsHiddenRows()
