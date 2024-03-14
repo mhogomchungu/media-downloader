@@ -256,10 +256,6 @@
         <translation>Imposta opzioni download</translation>
     </message>
     <message>
-        <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation>Abilita scheda Libreria (può causare il blocco dell&apos;interfaccia utente per molto tempo se la cartella di download ha troppe voci)</translation>
-    </message>
-    <message>
         <source>Update Plugin</source>
         <translation>Aggiorna plugin</translation>
     </message>
@@ -354,6 +350,10 @@ Esempio 2: ${gateway}:8080</translation>
     <message>
         <source>File Size</source>
         <translation>Dim. file</translation>
+    </message>
+    <message>
+        <source>Enable Library Tab</source>
+        <translation>Abilita scheda Libreria</translation>
     </message>
 </context>
 <context>
@@ -899,10 +899,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Size</source>
         <translation>Dimensione</translation>
-    </message>
-    <message>
-        <source>Show Raw Log Window</source>
-        <translation>Visualizza finestra registro non elaborato</translation>
     </message>
 </context>
 <context>

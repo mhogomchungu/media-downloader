@@ -53,7 +53,7 @@
         <location filename="../src/mainwindow.ui" line="892"/>
         <location filename="../src/mainwindow.ui" line="1340"/>
         <location filename="../src/mainwindow.ui" line="2361"/>
-        <location filename="../src/mainwindow.cpp" line="62"/>
+        <location filename="../src/mainwindow.cpp" line="70"/>
         <source>Quit</source>
         <translation>Avsluta</translation>
     </message>
@@ -226,11 +226,6 @@
         <translation>Hem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="1418"/>
-        <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../src/mainwindow.ui" line="1440"/>
         <source>Configure</source>
         <translation>Konfigurera</translation>
@@ -372,6 +367,11 @@
         <translation>Klar</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="1418"/>
+        <source>Enable Library Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="1549"/>
         <source>Update Plugin</source>
         <translation></translation>
@@ -489,75 +489,75 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="484"/>
+        <location filename="../src/utility.cpp" line="503"/>
         <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="823"/>
+        <location filename="../src/utility.cpp" line="842"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1720"/>
+        <location filename="../src/utility.cpp" line="1724"/>
         <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1730"/>
+        <location filename="../src/utility.cpp" line="1734"/>
         <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1866"/>
+        <location filename="../src/utility.cpp" line="1870"/>
         <source>Failed To Start Executable %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1903"/>
-        <location filename="../src/utility.cpp" line="1922"/>
+        <location filename="../src/utility.cpp" line="1907"/>
+        <location filename="../src/utility.cpp" line="1926"/>
         <source>Copy Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1907"/>
-        <location filename="../src/utility.cpp" line="1954"/>
+        <location filename="../src/utility.cpp" line="1911"/>
+        <location filename="../src/utility.cpp" line="1958"/>
         <source>Open Url With %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1933"/>
+        <location filename="../src/utility.cpp" line="1937"/>
         <source>Copy Url %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1965"/>
+        <location filename="../src/utility.cpp" line="1969"/>
         <source>Open Url %1 With %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="167"/>
-        <location filename="../src/utility.cpp" line="822"/>
+        <location filename="../src/utility.cpp" line="841"/>
         <source>Save List To File</source>
         <translation>Spara lista till fil</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="924"/>
+        <location filename="../src/batchdownloader.cpp" line="930"/>
         <source>Author</source>
         <translation>Upphovsman</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="934"/>
+        <location filename="../src/batchdownloader.cpp" line="940"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="952"/>
+        <location filename="../src/batchdownloader.cpp" line="958"/>
         <source>Replies to</source>
         <translation>Svar till</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1217"/>
+        <location filename="../src/batchdownloader.cpp" line="1223"/>
         <source>Save Subtitle To File</source>
         <translation>Spara undertext till fil</translation>
     </message>
@@ -567,26 +567,26 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Motornamn:</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1530"/>
+        <location filename="../src/batchdownloader.cpp" line="1536"/>
         <source>Get List From File</source>
         <translation>Hämta lista från fil</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="576"/>
-        <location filename="../src/playlistdownloader.cpp" line="618"/>
-        <location filename="../src/utility.cpp" line="481"/>
+        <location filename="../src/batchdownloader.cpp" line="582"/>
+        <location filename="../src/playlistdownloader.cpp" line="624"/>
+        <location filename="../src/utility.cpp" line="500"/>
         <source>Preset Options</source>
         <translation>Förinställda alternativ</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="520"/>
+        <location filename="../src/utility.cpp" line="539"/>
         <location filename="../src/utility.h" line="689"/>
-        <location filename="../src/utility.h" line="771"/>
+        <location filename="../src/utility.h" line="762"/>
         <source>Clear</source>
         <translation>Rensa</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="531"/>
+        <location filename="../src/utility.cpp" line="550"/>
         <source>Open Download Folder</source>
         <translation>Öppna nerladdningsmap</translation>
     </message>
@@ -773,7 +773,7 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/engines.cpp" line="694"/>
         <location filename="../src/engines.cpp" line="985"/>
-        <location filename="../src/utility.cpp" line="695"/>
+        <location filename="../src/utility.cpp" line="714"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Det gick inte att hitta den körbara filen &quot;%1&quot;</translation>
     </message>
@@ -783,200 +783,199 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Det gick inte att hitta python3 för programmet &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1177"/>
+        <location filename="../src/engines.cpp" line="1224"/>
         <source>Network Error Occured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1187"/>
+        <location filename="../src/engines.cpp" line="1234"/>
         <source>Url Is Not Supported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1197"/>
+        <location filename="../src/engines.cpp" line="1244"/>
         <source>Download cancelled</source>
         <translation>Nerladdningen avbruten</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1212"/>
+        <location filename="../src/engines.cpp" line="1259"/>
         <source>ErrorCode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1218"/>
+        <location filename="../src/engines.cpp" line="1265"/>
         <source>Download Failed, Engine failed to start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1220"/>
+        <location filename="../src/engines.cpp" line="1267"/>
         <source>Download Failed, Engine crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1491"/>
+        <location filename="../src/engines.cpp" line="1538"/>
         <source>Format Code</source>
         <translation>Formatkod</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1492"/>
+        <location filename="../src/engines.cpp" line="1539"/>
         <source>Extension</source>
         <translation>Tillägg</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1493"/>
+        <location filename="../src/engines.cpp" line="1540"/>
         <source>Resolution</source>
         <translation>Upplösning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1494"/>
+        <location filename="../src/engines.cpp" line="1541"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1495"/>
+        <location filename="../src/engines.cpp" line="1542"/>
         <source>Note</source>
         <translation>Observera</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1941"/>
+        <location filename="../src/engines.cpp" line="1988"/>
         <source>Failed to open file for writing</source>
         <translation>Det gick inte att öppna filen för skrivning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1947"/>
+        <location filename="../src/engines.cpp" line="1994"/>
         <source>Failed to open file for reading</source>
         <translation>Det gick inte att öppna filen för läsning</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2087"/>
+        <location filename="../src/engines.cpp" line="2134"/>
         <source>Elapsed Time:</source>
         <translation>Förfluten tid:</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="65"/>
+        <location filename="../src/networkAccess.cpp" line="68"/>
         <source>Checking installed version of</source>
         <translation>Kontrollerar installerad version av</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="70"/>
-        <location filename="../src/versionInfo.cpp" line="106"/>
-        <location filename="../src/versionInfo.cpp" line="393"/>
+        <location filename="../src/networkAccess.cpp" line="73"/>
+        <location filename="../src/versionInfo.cpp" line="111"/>
+        <location filename="../src/versionInfo.cpp" line="398"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Det gick inte att hitta versionsinformation, se till att &quot;%1&quot; är installerad och fungerar som den ska</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="73"/>
+        <location filename="../src/networkAccess.cpp" line="76"/>
         <source>Found version</source>
         <translation>Funnen version</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="216"/>
-        <location filename="../src/networkAccess.cpp" line="528"/>
+        <location filename="../src/networkAccess.cpp" line="238"/>
+        <location filename="../src/networkAccess.cpp" line="506"/>
         <source>Failed To Open Path For Writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="247"/>
-        <location filename="../src/networkAccess.cpp" line="655"/>
-        <location filename="../src/networkAccess.cpp" line="717"/>
+        <location filename="../src/networkAccess.cpp" line="277"/>
+        <location filename="../src/networkAccess.cpp" line="633"/>
+        <location filename="../src/networkAccess.cpp" line="695"/>
         <source>Failed To Extract</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="301"/>
+        <location filename="../src/networkAccess.cpp" line="331"/>
         <source>Network Failed To Respond Within %1 seconds</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="395"/>
+        <location filename="../src/networkAccess.cpp" line="425"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Det gick inte att ladda ner, följande sökväg kan inte skapas: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="670"/>
+        <location filename="../src/networkAccess.cpp" line="648"/>
         <source>Start Downloading</source>
         <translation>Starta nerladdningen</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="723"/>
+        <location filename="../src/networkAccess.cpp" line="701"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="725"/>
+        <location filename="../src/networkAccess.cpp" line="703"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1211"/>
-        <location filename="../src/networkAccess.cpp" line="149"/>
-        <location filename="../src/networkAccess.cpp" line="507"/>
-        <location filename="../src/networkAccess.cpp" line="788"/>
+        <location filename="../src/engines.cpp" line="1258"/>
+        <location filename="../src/networkAccess.cpp" line="171"/>
+        <location filename="../src/networkAccess.cpp" line="485"/>
+        <location filename="../src/networkAccess.cpp" line="766"/>
         <source>Download Failed</source>
         <translation>Nerladdning misslyckad</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="112"/>
-        <location filename="../src/networkAccess.cpp" line="314"/>
+        <location filename="../src/networkAccess.cpp" line="134"/>
+        <location filename="../src/networkAccess.cpp" line="344"/>
         <source>Failed to parse json file from github</source>
         <translation>Det gick inte att tolka json-filen från Github</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="678"/>
-        <location filename="../src/networkAccess.cpp" line="692"/>
-        <location filename="../src/networkAccess.cpp" line="750"/>
+        <location filename="../src/networkAccess.cpp" line="656"/>
+        <location filename="../src/networkAccess.cpp" line="670"/>
+        <location filename="../src/networkAccess.cpp" line="728"/>
         <source>Downloading</source>
         <translation>Laddar ner</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="685"/>
+        <location filename="../src/networkAccess.cpp" line="663"/>
         <source>Destination</source>
         <translation>Mål</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="456"/>
-        <location filename="../src/networkAccess.cpp" line="494"/>
+        <location filename="../src/networkAccess.cpp" line="271"/>
         <source>Update Complete, Restart To Use New Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="505"/>
+        <location filename="../src/networkAccess.cpp" line="483"/>
         <source>File Not Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="606"/>
+        <location filename="../src/networkAccess.cpp" line="584"/>
         <source>Download complete</source>
         <translation>Nerladdning klar</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="255"/>
-        <location filename="../src/networkAccess.cpp" line="698"/>
+        <location filename="../src/networkAccess.cpp" line="285"/>
+        <location filename="../src/networkAccess.cpp" line="676"/>
         <source>Extracting archive: </source>
         <translation>Packar upp arkiv: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="612"/>
+        <location filename="../src/networkAccess.cpp" line="590"/>
         <source>Renaming file to: </source>
         <translation>Döper om fil till: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2005"/>
+        <location filename="../src/engines.cpp" line="2052"/>
         <source>Processing</source>
         <translation>Arbetar</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1201"/>
+        <location filename="../src/engines.cpp" line="1248"/>
         <source>Download completed</source>
         <translation>Nerladdning klar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="470"/>
+        <location filename="../src/settings.cpp" line="482"/>
         <source>Resetting download folder to default</source>
         <translation>Återställer nerladdningsmappen till standard</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2050"/>
+        <location filename="../src/engines.cpp" line="2097"/>
         <source>Post Processing</source>
         <translation>Efterbehandling</translation>
     </message>
@@ -1038,17 +1037,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="758"/>
-        <source>Show Raw Log Window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/tableWidget.cpp" line="466"/>
+        <location filename="../src/tableWidget.cpp" line="489"/>
         <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
         <translation>Klara: %1%, Ej påbörjade: %2, Lyckade: %3, Misslyckade: %4, Avbrutna: %5</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1164"/>
+        <location filename="../src/playlistdownloader.cpp" line="1170"/>
         <source>Media Already In Archive</source>
         <translation>Media finns redan i arkivet</translation>
     </message>
@@ -1100,26 +1094,26 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="142"/>
-        <location filename="../src/versionInfo.cpp" line="450"/>
+        <location filename="../src/versionInfo.cpp" line="147"/>
+        <location filename="../src/versionInfo.cpp" line="455"/>
         <source>Newest Version Is %1, Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="247"/>
-        <location filename="../src/versionInfo.cpp" line="319"/>
+        <location filename="../src/versionInfo.cpp" line="252"/>
+        <location filename="../src/versionInfo.cpp" line="324"/>
         <source>Checking installed version of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="249"/>
-        <location filename="../src/versionInfo.cpp" line="331"/>
-        <location filename="../src/versionInfo.cpp" line="371"/>
+        <location filename="../src/versionInfo.cpp" line="254"/>
+        <location filename="../src/versionInfo.cpp" line="336"/>
+        <location filename="../src/versionInfo.cpp" line="376"/>
         <source>Found version: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="477"/>
+        <location filename="../src/versionInfo.cpp" line="482"/>
         <source>Newest Version Is: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1129,12 +1123,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1172"/>
+        <location filename="../src/engines.cpp" line="1219"/>
         <source>Requested Format Is Not Available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1182"/>
+        <location filename="../src/engines.cpp" line="1229"/>
         <source>Invalid Url Entered</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1170,7 +1164,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/library.cpp" line="435"/>
-        <location filename="../src/tableWidget.h" line="802"/>
+        <location filename="../src/tableWidget.h" line="803"/>
         <source>Arrange In Ascending Order</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1185,17 +1179,17 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="809"/>
+        <location filename="../src/tableWidget.h" line="810"/>
         <source>Arrange In Descending Order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="744"/>
+        <location filename="../src/tableWidget.h" line="745"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tableWidget.h" line="760"/>
+        <location filename="../src/tableWidget.h" line="761"/>
         <source>No Filter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1203,7 +1197,7 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>batchdownloader</name>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1535"/>
+        <location filename="../src/batchdownloader.cpp" line="1541"/>
         <source>Set Batch File</source>
         <translation>Ställ in flernerladdningsfil</translation>
     </message>
@@ -1218,12 +1212,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Laddar ner kommentarer</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1192"/>
+        <location filename="../src/batchdownloader.cpp" line="1198"/>
         <source>Download</source>
         <translation>Ladda ner</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1272"/>
+        <location filename="../src/batchdownloader.cpp" line="1278"/>
         <source>Save</source>
         <translation>Spara</translation>
     </message>
@@ -1263,14 +1257,14 @@ Exampe 2: ${gateway}:8080</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1263"/>
-        <location filename="../src/batchdownloader.cpp" line="1278"/>
+        <location filename="../src/batchdownloader.cpp" line="1269"/>
+        <location filename="../src/batchdownloader.cpp" line="1284"/>
         <source>Set</source>
         <translation>Ställ in</translation>
     </message>
     <message>
-        <location filename="../src/batchdownloader.cpp" line="1832"/>
-        <location filename="../src/batchdownloader.cpp" line="2455"/>
+        <location filename="../src/batchdownloader.cpp" line="1838"/>
+        <location filename="../src/batchdownloader.cpp" line="2461"/>
         <source>Downloading subtitles</source>
         <translation>Laddar ner undertexter</translation>
     </message>
@@ -1368,13 +1362,13 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="52"/>
-        <location filename="../src/playlistdownloader.cpp" line="1329"/>
+        <location filename="../src/playlistdownloader.cpp" line="1335"/>
         <source>Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/playlistdownloader.cpp" line="56"/>
-        <location filename="../src/playlistdownloader.cpp" line="1411"/>
+        <location filename="../src/playlistdownloader.cpp" line="1417"/>
         <source>Get List Options:</source>
         <translation>Hämta listalternativ:</translation>
     </message>
@@ -1389,42 +1383,42 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Visa kommentarer</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="658"/>
+        <location filename="../src/playlistdownloader.cpp" line="664"/>
         <source>Show All Updated</source>
         <translation>Visa alla uppdaterade</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="664"/>
+        <location filename="../src/playlistdownloader.cpp" line="670"/>
         <source>Download All Updated</source>
         <translation>Ladda ner alla uppdaterade</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="672"/>
+        <location filename="../src/playlistdownloader.cpp" line="678"/>
         <source>Manage Subscriptions</source>
         <translation>Hantera prenumerationer</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1518"/>
+        <location filename="../src/playlistdownloader.cpp" line="1524"/>
         <source>Number of Pages Downloaded</source>
         <translation>Antalet nerladdade sidor</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1537"/>
+        <location filename="../src/playlistdownloader.cpp" line="1543"/>
         <source>Downloading video info</source>
         <translation>Laddar ner videoinformation</translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1324"/>
+        <location filename="../src/playlistdownloader.cpp" line="1330"/>
         <source>Show Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1325"/>
+        <location filename="../src/playlistdownloader.cpp" line="1331"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/playlistdownloader.cpp" line="1330"/>
+        <location filename="../src/playlistdownloader.cpp" line="1336"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>

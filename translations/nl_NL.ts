@@ -232,10 +232,6 @@
         <translation>home</translation>
     </message>
     <message>
-        <source>Enable Library Tab(May Cause The UI To Freeze For A Very Long TIme If Download Folder Has Too Many Entries)</source>
-        <translation>Tabblad Bibliotheek inschakelen (kan ertoe leiden dat de gebruikersinterface voor een zeer lange tijd vastloopt als de downloadmap te veel items bevat)</translation>
-    </message>
-    <message>
         <source>Update Plugin</source>
         <translation></translation>
     </message>
@@ -352,6 +348,10 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>File Size</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable Library Tab</source>
+        <translation>Tabblad Bibliotheek inschakelen</translation>
     </message>
 </context>
 <context>
@@ -894,10 +894,6 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show Raw Log Window</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
