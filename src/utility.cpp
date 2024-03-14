@@ -1829,7 +1829,14 @@ bool utility::copyFile( const QString& s,const QString& d )
 
 					dst.write( buffer.data(),m ) ;
 				}else{
-					return src.size() == dst.size() ;
+					if( src.size() == dst.size() ){
+
+						return true ;
+					}else{
+						dst.remove() ;
+
+						return false ;
+					}
 				}
 			}
 		}

@@ -1064,26 +1064,20 @@ engines::enginePaths::enginePaths( settings& s )
 
 	if( utility::platformIsWindows() ){
 
-		auto exeName = [ & ](){
+		auto destPath = m_binPath ;
 
-			if( utility::platformIs32Bit() ){
+		if( utility::platformIs32Bit() ){
 
-				return "yt-dlp_x86.exe" ;
-			}else{
-				return "yt-dlp.exe" ;
-			}
-		}() ;
-
-		auto destPath = m_binPath + "/" + exeName ;
+			destPath += "/yt-dlp_x86.exe" ;
+		}else{
+			destPath += "/yt-dlp.exe" ;
+		}
 
 		if( !QFile::exists( destPath ) ){
 
-			auto srcPath = s.windowsOnly3rdPartyBinPath() + "/ytdlp/" + exeName ;
+			auto srcPath = s.windowsOnly3rdPartyBinPath() + "/ytdlp/yt-dlp_x86.exe" ;
 
-			if( !utility::copyFile( srcPath,destPath ) ){
-
-				QFile::remove( destPath ) ;
-			}
+			utility::copyFile( srcPath,destPath ) ;
 		}
 	}
 }
