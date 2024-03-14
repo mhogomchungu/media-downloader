@@ -115,6 +115,8 @@ library::library( const Context& ctx ) :
 						QFile::remove( m ) ;
 					}
 
+					mm.refresh() ;
+
 					return mm.exists() ;
 
 				},[ row,this ]( bool s ){
