@@ -1330,12 +1330,12 @@ void playlistdownloader::resizeTable( playlistdownloader::size s )
 		m_ui.pbPLChangeTableSize->setToolTip( tr( "Show Controls" ) ) ;
 		m_ui.pbPLChangeTableSize->setText( tr( "Show" ) ) ;
 
-		m_ui.tableWidgetPl->resize( 771,431 ) ;
+		m_ui.tableWidgetPl->resize( 771,446 ) ;
 	}else{
 		m_ui.pbPLChangeTableSize->setToolTip( tr( "Hide Controls" ) ) ;
 		m_ui.pbPLChangeTableSize->setText( tr( "Hide" ) ) ;
 
-		m_ui.tableWidgetPl->resize( 771,271 ) ;
+		m_ui.tableWidgetPl->resize( 771,281 ) ;
 	}
 }
 
