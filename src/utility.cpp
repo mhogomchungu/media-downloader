@@ -1859,55 +1859,9 @@ bool utility::addData( const QByteArray& e )
 
 void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx )
 {	
-	class Events
-	{
-	public:
-		Events( const Context& ctx,const QString& exe,const QString& url ) :
-			m_ctx( ctx ),m_exe( exe ),m_url( url )
-		{
-		}
-		void withError( QProcess::ProcessError err )
-		{
-			if( err == QProcess::ProcessError::FailedToStart ){
-
-				auto id = utility::sequentialID() ;
-
-				auto bar = utility::barLine() ;
-
-				auto m = QObject::tr( "Failed To Start Executable %1" ) ;
-
-				m_ctx.logger().add( bar,id ) ;
-
-				m_ctx.logger().add( m.arg( m_exe ),id ) ;
-
-				m_ctx.logger().add( bar,id ) ;
-			}
-		}
-		void whenStarted( QProcess& )
-		{
-		}
-		void whenCreated( QProcess& )
-		{
-		}
-		void withData( QProcess::ProcessChannel,const QByteArray& )
-		{
-		}
-		void whenDone( int,QProcess::ExitStatus )
-		{
-		}
-		void operator()()
-		{
-			utils::qprocess::run( m_exe,m_url,*this ) ;
-		}
-	private:
-		const Context& m_ctx ;
-		const QString& m_exe ;
-		QStringList m_url ;
-	} ;
-
 	QMenu m ;
 
-	auto mediaPlayer = ctx.Settings().openWith() ;
+	auto mediaPlayer = ctx.Settings().openWith( ctx.logger() ) ;
 
 	if( arr.size() == 0 ){
 
@@ -1958,7 +1912,6 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 		if( mediaPlayer.valid() ){
 
 			const auto& pName = mediaPlayer.name() ;
-			const auto& pExe  = mediaPlayer.exePath() ;
 
 			if( arr.size() == 1 ){
 
@@ -1966,9 +1919,9 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 
 				auto ee = m.addAction( s ) ;
 
-				auto url = arr[ 0 ].toString() ;
+				mediaPlayer.setUrl( arr[ 0 ].toString() ) ;
 
-				QObject::connect( ee,act,Events( ctx,pExe,url ) ) ;
+				QObject::connect( ee,act,mediaPlayer ) ;
 			}else{
 				for( int i = 0 ; i < arr.size() ; i++ ){
 
@@ -1977,9 +1930,9 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 
 					auto ee = m.addAction( s ) ;
 
-					auto url = arr[ i ].toString() ;
+					mediaPlayer.setUrl( arr[ i ].toString() ) ;
 
-					QObject::connect( ee,act,Events( ctx,pExe,url ) ) ;
+					QObject::connect( ee,act,mediaPlayer ) ;
 				}
 			}
 		}

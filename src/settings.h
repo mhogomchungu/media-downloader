@@ -103,25 +103,29 @@ public:
 	class mediaPlayer
 	{
 	public:
-		mediaPlayer( const QString& ) ;
+		mediaPlayer( const QString&,const QString&,Logger& ) ;
 		const QString& name() const
 		{
 			return m_name ;
-		}
-		const QString& exePath() const
-		{
-			return m_exePath ;
 		}
 		bool valid() const
 		{
 			return !m_name.isEmpty() ;
 		}
+		void setUrl( const QString& e )
+		{
+			m_url = e ;
+		}
+		void logError() const ;
+		void operator()() const ;
 	private:
 		QString m_name ;
 		QString m_exePath ;
+		QString m_url ;
+		Logger& m_logger ;
 	} ;
 
-	settings::mediaPlayer openWith() ;
+	settings::mediaPlayer openWith( Logger& ) ;
 
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;

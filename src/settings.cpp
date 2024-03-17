@@ -29,6 +29,8 @@
 
 #include <cstring>
 
+#include <QDesktopServices>
+
 static QString _configPath()
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
@@ -659,9 +661,41 @@ void settings::setOpenWith( const QString& e )
 	m_settings.setValue( "OpenWith",e ) ;
 }
 
-settings::mediaPlayer settings::openWith()
-{
-	return this->getOption( "OpenWith",QString() ) ;
+settings::mediaPlayer settings::openWith( Logger& logger )
+{	
+	auto m = util::split( this->getOption( "OpenWith",QString() ),":" ) ;
+
+	if( m.size() > 1 ){
+
+		return { m[ 0 ],util::join( m,1,":" ),logger } ;
+	}else{
+		struct PlayerOpts
+		{
+			QString exePath ;
+			QString name ;
+		} ;
+
+		static auto m = []()->PlayerOpts{
+
+			auto s = QStandardPaths::findExecutable( "vlc" ) ;
+
+			if( !s.isEmpty() ){
+
+				return { s,"VLC" } ;
+			}else{
+				s = QStandardPaths::findExecutable( "smplayer" ) ;
+
+				if( !s.isEmpty() ){
+
+					return { s,"SMPlayer" } ;
+				}
+			}
+
+			return {} ;
+		}() ;
+
+		return { m.name,m.exePath,logger } ;
+	}
 }
 
 void settings::setShowLocalVersionInformationOnly( bool e )
@@ -1026,13 +1060,45 @@ QByteArray settings::proxySettings::proxyAddress() const
 	return m_settings.value( "ProxySettingsCustomSource" ).toByteArray() ;
 }
 
-settings::mediaPlayer::mediaPlayer( const QString& e )
+settings::mediaPlayer::mediaPlayer( const QString& name,const QString& exePath,Logger& logger ) :
+	m_name( name ),
+	m_exePath( exePath ),
+	m_logger( logger )
 {
-	auto m = util::split( e,":" ) ;
+}
 
-	if( m.size() > 1 ){
+void settings::mediaPlayer::logError() const
+{
+	auto id = utility::sequentialID() ;
 
-		m_name = m[ 0 ] ;
-		m_exePath = util::join( m,1,":" ) ;
+	auto bar = utility::barLine() ;
+
+	auto m = QObject::tr( "Failed To Start Executable %1" ) ;
+
+	m_logger.add( bar,id ) ;
+
+	m_logger.add( m.arg( m_name ),id ) ;
+
+	m_logger.add( bar,id ) ;
+}
+
+void settings::mediaPlayer::operator()() const
+{
+	if( m_exePath.isEmpty() ){
+
+		if( !QDesktopServices::openUrl( m_url ) ){
+
+			this->logError() ;
+		}
+	}else{
+		auto s = QProcess::ProcessChannelMode::MergedChannels ;
+
+		utils::qprocess::run( m_exePath,{ m_url },s,[ this ]( const utils::qprocess::outPut& e ){
+
+			if( e.failedToStart() ){
+
+				this->logError() ;
+			}
+		} ) ;
 	}
 }
