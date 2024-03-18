@@ -705,17 +705,26 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 {
 	std::vector< settings::mediaPlayer::PlayerOpts > m ;
 
-	auto s = QStandardPaths::findExecutable( "vlc" ) ;
+	struct app
+	{
+		app( const char * u,const char * e ) : uiName( u ),exeName( e )
+		{
+		}
+		const char * uiName ;
+		const char * exeName ;
+	};
 
-	if( !s.isEmpty() ){
+	std::array< app,3 > apps = { { { "VLC","vlc" },
+				       { "SMPlayer","smplayer" },
+				       { "MPV","mpv" } } } ;
 
-		s.emplace_back( s,"VLC" ) ;
-	}else{
-		s = QStandardPaths::findExecutable( "smplayer" ) ;
+	for( const auto& it : apps ){
+
+		auto s = QStandardPaths::findExecutable( it.exeName ) ;
 
 		if( !s.isEmpty() ){
 
-			s.emplace_back( s,"SMPlayer" ) ;
+			m.emplace_back( s,it.uiName ) ;
 		}
 	}
 

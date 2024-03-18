@@ -119,7 +119,7 @@ endif()
 
 if(BUILD_WITH_QT6)
     if(WIN32)
-	target_link_libraries(media-downloader Dwmapi.lib Iphlpapi.lib Qt6::Widgets Qt6::Core Qt6::Network)
+	target_link_libraries(media-downloader Shlwapi.lib Dwmapi.lib Iphlpapi.lib Qt6::Widgets Qt6::Core Qt6::Network)
     else()
 	target_link_libraries(media-downloader Qt6::Widgets Qt6::Core Qt6::Network)
     endif()
