@@ -661,41 +661,88 @@ void settings::setOpenWith( const QString& e )
 	m_settings.setValue( "OpenWith",e ) ;
 }
 
+#ifdef Q_OS_WIN
+
+#include <shlwapi.h>
+
+static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
+{
+	std::vector< settings::mediaPlayer::PlayerOpts > s ;
+
+	std::array< char,4096 > buffer ;
+	DWORD size = buffer.size() ;
+
+	ASSOCF acf = 0 ;
+	ASSOCSTR astr = ASSOCSTR_FRIENDLYAPPNAME ;
+
+	auto hres = AssocQueryStringA( acf,astr,".mp4",nullptr,buffer.data(),&size ) ;
+
+	if( hres == S_OK ){
+
+		QString name = buffer.data() ;
+
+		size = buffer.size() ;
+
+		acf = 0 ;
+		astr = ASSOCSTR_EXECUTABLE ;
+
+		hres = AssocQueryStringA( acf,astr,".mp4",nullptr,buffer.data(),&size ) ;
+
+		if( hres == S_OK ){
+
+			QString exePath = buffer.data() ;
+
+			s.emplace_back( exePath,name ) ;
+		}
+	}
+
+	return s ;
+}
+
+#else
+
+static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
+{
+	std::vector< settings::mediaPlayer::PlayerOpts > m ;
+
+	auto s = QStandardPaths::findExecutable( "vlc" ) ;
+
+	if( !s.isEmpty() ){
+
+		s.emplace_back( s,"VLC" ) ;
+	}else{
+		s = QStandardPaths::findExecutable( "smplayer" ) ;
+
+		if( !s.isEmpty() ){
+
+			s.emplace_back( s,"SMPlayer" ) ;
+		}
+	}
+
+	return m ;
+}
+
+#endif
+
 settings::mediaPlayer settings::openWith( Logger& logger )
 {	
 	auto m = util::split( this->getOption( "OpenWith",QString() ),":" ) ;
 
-	if( m.size() > 1 ){
+	static auto s = [ & ](){
 
-		return { m[ 0 ],util::join( m,1,":" ),logger } ;
-	}else{
-		struct PlayerOpts
-		{
-			QString exePath ;
-			QString name ;
-		} ;
+		if( m.size() > 1 ){
 
-		static auto m = []()->PlayerOpts{
+			std::vector< settings::mediaPlayer::PlayerOpts > s ;
 
-			auto s = QStandardPaths::findExecutable( "vlc" ) ;
+			s.emplace_back( m[ 0 ],util::join( m,1,":" ) ) ;
 
-			if( !s.isEmpty() ){
+			return s ;
+		}else{
+			return _getMediaPlayer() ;
+		}
+	}() ;
 
-				return { s,"VLC" } ;
-			}else{
-				s = QStandardPaths::findExecutable( "smplayer" ) ;
-
-				if( !s.isEmpty() ){
-
-					return { s,"SMPlayer" } ;
-				}
-			}
-
-			return {} ;
-		}() ;
-
-		return { m.name,m.exePath,logger } ;
-	}
+	return { s,logger } ;
 }
 
 void settings::setShowLocalVersionInformationOnly( bool e )
@@ -1060,14 +1107,13 @@ QByteArray settings::proxySettings::proxyAddress() const
 	return m_settings.value( "ProxySettingsCustomSource" ).toByteArray() ;
 }
 
-settings::mediaPlayer::mediaPlayer( const QString& name,const QString& exePath,Logger& logger ) :
-	m_name( name ),
-	m_exePath( exePath ),
+settings::mediaPlayer::mediaPlayer( const std::vector< settings::mediaPlayer::PlayerOpts >& s,Logger& logger ) :
+	m_playerOpts( s ),
 	m_logger( logger )
 {
 }
 
-void settings::mediaPlayer::logError() const
+void settings::mediaPlayer::action::logError() const
 {
 	auto id = utility::sequentialID() ;
 
@@ -1077,28 +1123,20 @@ void settings::mediaPlayer::logError() const
 
 	m_logger.add( bar,id ) ;
 
-	m_logger.add( m.arg( m_name ),id ) ;
+	m_logger.add( m.arg( m_playerOpts.name ),id ) ;
 
 	m_logger.add( bar,id ) ;
 }
 
-void settings::mediaPlayer::operator()() const
+void settings::mediaPlayer::action::operator()() const
 {
-	if( m_exePath.isEmpty() ){
+	auto s = QProcess::ProcessChannelMode::MergedChannels ;
 
-		if( !QDesktopServices::openUrl( m_url ) ){
+	utils::qprocess::run( m_playerOpts.exePath,{ m_url },s,[ this ]( const utils::qprocess::outPut& e ){
+
+		if( e.failedToStart() ){
 
 			this->logError() ;
 		}
-	}else{
-		auto s = QProcess::ProcessChannelMode::MergedChannels ;
-
-		utils::qprocess::run( m_exePath,{ m_url },s,[ this ]( const utils::qprocess::outPut& e ){
-
-			if( e.failedToStart() ){
-
-				this->logError() ;
-			}
-		} ) ;
-	}
+	} ) ;
 }

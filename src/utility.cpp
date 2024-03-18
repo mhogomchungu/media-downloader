@@ -1869,9 +1869,12 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 
 		if( mediaPlayer.valid() ){
 
-			auto s = QObject::tr( "Open Url With %1" ).arg( mediaPlayer.name() ) ;
+			for( const auto& e : mediaPlayer.opts() ){
 
-			m.addAction( s )->setEnabled( false ) ;
+				auto s = QObject::tr( "Open Url With %1" ).arg( e.name ) ;
+
+				m.addAction( s )->setEnabled( false ) ;
+			}
 		}
 	}else{
 		auto clipBoard = QApplication::clipboard() ;
@@ -1911,28 +1914,34 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 
 		if( mediaPlayer.valid() ){
 
-			const auto& pName = mediaPlayer.name() ;
-
 			if( arr.size() == 1 ){
 
-				auto s = QObject::tr( "Open Url With %1" ).arg( pName ) ;
+				for( const auto& e : mediaPlayer.opts() ){
 
-				auto ee = m.addAction( s ) ;
+					auto s = QObject::tr( "Open Url With %1" ).arg( e.name ) ;
 
-				mediaPlayer.setUrl( arr[ 0 ].toString() ) ;
+					auto ee = m.addAction( s ) ;
 
-				QObject::connect( ee,act,mediaPlayer ) ;
+					auto ac = mediaPlayer.ac( arr[ 0 ].toString(),e ) ;
+
+					QObject::connect( ee,act,std::move( ac ) ) ;
+				}
+
 			}else{
 				for( int i = 0 ; i < arr.size() ; i++ ){
 
 					auto e = QString::number( i + 1 ) ;
-					auto s = QObject::tr( "Open Url %1 With %2" ).arg( e,pName ) ;
 
-					auto ee = m.addAction( s ) ;
+					for( const auto& a : mediaPlayer.opts() ){
 
-					mediaPlayer.setUrl( arr[ i ].toString() ) ;
+						auto s = QObject::tr( "Open Url %1 With %2" ).arg( e,a.name ) ;
 
-					QObject::connect( ee,act,mediaPlayer ) ;
+						auto ee = m.addAction( s ) ;
+
+						auto ac = mediaPlayer.ac( arr[ i ].toString(),a ) ;
+
+						QObject::connect( ee,act,std::move( ac ) ) ;
+					}
 				}
 			}
 		}

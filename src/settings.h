@@ -103,25 +103,48 @@ public:
 	class mediaPlayer
 	{
 	public:
-		mediaPlayer( const QString&,const QString&,Logger& ) ;
-		const QString& name() const
+		struct PlayerOpts
 		{
-			return m_name ;
+			PlayerOpts( const QString& e,const QString& n ) :
+				exePath( e ),name( n )
+			{
+			}
+			QString exePath ;
+			QString name ;
+		} ;
+		class action
+		{
+		public:
+			action( const QString& url,
+				Logger& logger,
+				const settings::mediaPlayer::PlayerOpts& opts ) :
+				m_url( url ),m_playerOpts( opts ),m_logger( logger )
+			{
+			}
+			void operator()() const ;
+			void logError() const ;
+		private:
+			QString m_url ;
+			const settings::mediaPlayer::PlayerOpts& m_playerOpts ;
+			Logger& m_logger ;
+		} ;
+
+		mediaPlayer( const std::vector< settings::mediaPlayer::PlayerOpts >&,Logger& ) ;
+		const std::vector< settings::mediaPlayer::PlayerOpts >& opts() const
+		{
+			return m_playerOpts ;
 		}
 		bool valid() const
 		{
-			return !m_name.isEmpty() ;
+			return !m_playerOpts.empty() ;
 		}
-		void setUrl( const QString& e )
+		settings::mediaPlayer::action ac( const QString& url,
+						  const settings::mediaPlayer::PlayerOpts& opts ) const
 		{
-			m_url = e ;
+			return { url,m_logger,opts } ;
 		}
-		void logError() const ;
-		void operator()() const ;
 	private:
-		QString m_name ;
-		QString m_exePath ;
-		QString m_url ;
+		const std::vector< settings::mediaPlayer::PlayerOpts >& m_playerOpts ;
 		Logger& m_logger ;
 	} ;
 
