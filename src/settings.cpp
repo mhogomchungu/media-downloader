@@ -743,7 +743,7 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 		buffer subKey ;
 		auto size = subKey.size() ;
 
-		auto st = RegEnumKeyEx( rootKey,i,subKey,&size,N,N,N,N ) ;
+		auto st = RegEnumKeyExA( rootKey,i,subKey,&size,N,N,N,N ) ;
 
 		if( st != ERROR_SUCCESS ){
 
@@ -777,7 +777,7 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 
 			auto path = "shell\\open\\command" ;
 
-			st = RegGetValue( hSubKey,path,N,RRF_RT_ANY,N,subKey,&size ) ;
+			st = RegGetValueA( hSubKey,path,N,RRF_RT_ANY,N,subKey,&size ) ;
 
 			if( st == ERROR_SUCCESS ){
 
