@@ -663,36 +663,140 @@ void settings::setOpenWith( const QString& e )
 
 #ifdef Q_OS_WIN
 
-#include <shlwapi.h>
+#include <windows.h>
+#include <winreg.h>
 
 static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 {
 	std::vector< settings::mediaPlayer::PlayerOpts > s ;
 
-	std::array< char,4096 > buffer ;
-	DWORD size = buffer.size() ;
+	auto N = nullptr ;
 
-	ASSOCF acf = 0 ;
-	ASSOCSTR astr = ASSOCSTR_FRIENDLYAPPNAME ;
+	class RootKey
+	{
+	public:
+		RootKey()
+		{
+		}
+		~RootKey()
+		{
+			if( m_key ){
 
-	auto hres = AssocQueryStringA( acf,astr,".mp4",nullptr,buffer.data(),&size ) ;
+				RegCloseKey( m_key ) ;
+			}
+		}
+		operator HKEY()
+		{
+			return m_key ;
+		}
+		operator bool()
+		{
+			auto m = RegOpenKeyEx( HKEY_CLASSES_ROOT,nullptr,0,KEY_READ,&m_key ) ;
 
-	if( hres == S_OK ){
+			return m == ERROR_SUCCESS ;
+		}
+	private:
+		HKEY m_key = nullptr ;
+	} ;
 
-		QString name = buffer.data() ;
+	class buffer
+	{
+	public:
+		buffer()
+		{
+			m_buffer[ 0 ] = '\0' ;
+		}
+		DWORD size()
+		{
+			return static_cast< DWORD >( m_buffer.size() ) ;
+		}
+		operator char*()
+		{
+			return m_buffer.data() ;
+		}
+		operator QString()
+		{
+			return m_buffer.data() ;
+		}
+	private:
+		std::array< char,4096 > m_buffer ;
+	} ;
 
-		size = buffer.size() ;
+	RootKey rootKey ;
 
-		acf = 0 ;
-		astr = ASSOCSTR_EXECUTABLE ;
+	if( !rootKey ){
 
-		hres = AssocQueryStringA( acf,astr,".mp4",nullptr,buffer.data(),&size ) ;
+		return s ;
+	}
 
-		if( hres == S_OK ){
+	DWORD keyCount = 0 ;
 
-			QString exePath = buffer.data() ;
+	auto st = RegQueryInfoKeyA( rootKey,N,N,N,&keyCount,N,N,N,N,N,N,N ) ;
 
-			s.emplace_back( exePath,name ) ;
+	if( st != ERROR_SUCCESS || keyCount == 0 ){
+
+		return s ;
+	}
+
+	for( DWORD i = 0 ; i < keyCount ; i++ ){
+
+		buffer subKey ;
+		auto size = subKey.size() ;
+
+		auto st = RegEnumKeyEx( rootKey,i,subKey,&size,N,N,N,N ) ;
+
+		if( st != ERROR_SUCCESS ){
+
+			continue ;
+		}
+
+		QString name = subKey ;
+
+		if( name == ".mp4" || name == ".MP4" ){
+
+			continue ;
+		}
+
+		if( !( name.endsWith( ".mp4" ) || name.endsWith( ".MP4") ) ){
+
+			continue ;
+		}
+
+		auto na = util::split( name,"." ) ;
+
+		name = na[ 0 ] ;
+
+		HKEY hSubKey = nullptr ;
+
+		st = RegOpenKeyExA( rootKey,subKey,0,KEY_READ,&hSubKey ) ;
+
+		if( st == ERROR_SUCCESS ){
+
+			buffer subKey ;
+			auto size = subKey.size() ;
+
+			auto path = "shell\\open\\command" ;
+
+			st = RegGetValue( hSubKey,path,N,RRF_RT_ANY,N,subKey,&size ) ;
+
+			if( st == ERROR_SUCCESS ){
+
+				auto p = util::splitPreserveQuotes( subKey ) ;
+
+				if( p.size() ){
+
+					auto m = p.first() ;
+
+					if( m.endsWith( "wmplayer.exe" ) ){
+
+						s.emplace_back( m,"Windows Media Player" ) ;
+					}else{
+						s.emplace_back( m,name ) ;
+					}
+				}
+			}
+
+			RegCloseKey( hSubKey ) ;
 		}
 	}
 
