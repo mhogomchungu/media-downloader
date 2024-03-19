@@ -28,6 +28,7 @@
 #include <QFile>
 
 #include <cstring>
+#include <algorithm>
 
 #include <QDesktopServices>
 
@@ -895,23 +896,59 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 
 settings::mediaPlayer settings::openWith( Logger& logger )
 {	
-	auto m = util::split( this->getOption( "OpenWith",QString() ),":" ) ;
-
-	static auto s = [ & ](){
-
-		if( m.size() > 1 ){
-
-			std::vector< settings::mediaPlayer::PlayerOpts > s ;
-
-			s.emplace_back( m[ 0 ],util::join( m,1,":" ) ) ;
-
-			return s ;
-		}else{
-			return _getMediaPlayer() ;
-		}
-	}() ;
+	static auto s = this->openWith() ;
 
 	return { s,logger } ;
+}
+
+std::vector< settings::mediaPlayer::PlayerOpts > settings::openWith()
+{
+	auto ss = _getMediaPlayer() ;
+
+	auto mm = this->getOption( "OpenWith",QString() ) ;
+
+	if( mm.isEmpty() ){
+
+		return ss ;
+	}
+
+	auto m = util::split( mm,":" ) ;
+
+	if( m.size() < 2 ){
+
+		return ss ;
+	}
+
+	auto name = m[ 0 ] ;
+
+	using pl = settings::mediaPlayer::PlayerOpts ;
+
+	auto it = std::find_if( ss.begin(),ss.end(),[ & ]( const pl& p ){
+
+		return QString::compare( p.name,name,Qt::CaseInsensitive ) == 0 ;
+	} ) ;
+
+	if( it == ss.end() ){
+
+		if( utility::platformIsWindows() ){
+
+			auto mm = util::join( m,1,":" ) ;
+
+			if( QFile::exists( mm ) ){
+
+				ss.emplace_back( mm,name ) ;
+			}
+		}else{
+			mm = QStandardPaths::findExecutable( util::join( m,1,":" ) ) ;
+
+			if( !mm.isEmpty() ){
+
+				ss.emplace_back( mm,name ) ;
+			}
+		}
+	}
+
+	return ss ;
 }
 
 void settings::setShowLocalVersionInformationOnly( bool e )

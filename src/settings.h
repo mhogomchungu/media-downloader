@@ -250,6 +250,8 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
 private:	
+	std::vector< settings::mediaPlayer::PlayerOpts > openWith() ;
+
 	QVariant getValue( const QString& opt,const QVariant& e )
 	{
 		if( !m_settings.contains( opt ) ){
