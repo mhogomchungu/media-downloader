@@ -665,6 +665,7 @@ void settings::setOpenWith( const QString& e )
 
 #include <windows.h>
 #include <winreg.h>
+#include <cstring>
 
 static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 {
@@ -673,23 +674,47 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 	class buffer
 	{
 	public:
-		buffer()
+		buffer() : m_size( m_buffer.size() )
 		{
 			m_buffer[ 0 ] = '\0' ;
 		}
-		DWORD size()
+		void resetSize()
 		{
-			return static_cast< DWORD >( m_buffer.size() ) ;
+			m_size = static_cast< DWORD >( m_buffer.size() ) ;
+		}
+		DWORD * size()
+		{
+			return &m_size ;
 		}
 		bool valid()
 		{
-			QString m = m_buffer.data() ;
+			auto m = m_buffer.data() ;
 
-			if( m.isEmpty() || m == ".mp4" || m == ".MP4" ){
+			auto eq = [ & ]( const char * b ){
+
+				return std::strcmp( m,b ) == 0 ;
+			} ;
+
+			auto endsWith = [ & ]( const char * b,size_t len ){
+
+				auto a = static_cast< int >( m_size ) ;
+				auto l = static_cast< int >( len ) ;
+
+				if( a < l ){
+
+					return false ;
+				}else{
+					auto aa = static_cast< size_t >( m_size ) ;
+
+					return std::strcmp( m + aa - len,b ) == 0 ;
+				}
+			} ;
+
+			if( eq( "" ) || eq( ".mp4" ) || eq( ".MP4" ) ){
 
 				return false ;
 			}else{
-				return m.endsWith( ".mp4" ) || m.endsWith( ".MP4" ) ;
+				return endsWith( ".mp4",4 ) || endsWith( ".MP4",4 ) ;
 			}
 		}
 		operator char*()
@@ -706,6 +731,7 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 		}
 	private:
 		std::array< char,4096 > m_buffer ;
+		DWORD m_size ;
 	} ;
 
 	class Hkey
@@ -746,11 +772,10 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 			auto N = nullptr ;
 
 			buffer subKey ;
-			auto size = subKey.size() ;
 
 			auto path = "shell\\open\\command" ;
 
-			auto st = RegGetValueA( m_key,path,N,RRF_RT_ANY,N,subKey,&size ) ;
+			auto st = RegGetValueA( m_key,path,N,RRF_RT_REG_SZ,N,subKey,subKey.size() ) ;
 
 			if( st == ERROR_SUCCESS ){
 
@@ -764,9 +789,8 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 			auto N = nullptr ;
 
 			buffer subKey ;
-			auto size = subKey.size() ;
 
-			auto st = RegEnumKeyExA( m_key,i,subKey,&size,N,N,N,N ) ;
+			auto st = RegEnumKeyExA( m_key,i,subKey,subKey.size(),N,N,N,N ) ;
 
 			if( st == ERROR_SUCCESS ){
 
