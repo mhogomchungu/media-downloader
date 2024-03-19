@@ -670,35 +670,6 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 {
 	std::vector< settings::mediaPlayer::PlayerOpts > s ;
 
-	auto N = nullptr ;
-
-	class RootKey
-	{
-	public:
-		RootKey()
-		{
-		}
-		~RootKey()
-		{
-			if( m_key ){
-
-				RegCloseKey( m_key ) ;
-			}
-		}
-		operator HKEY()
-		{
-			return m_key ;
-		}
-		operator bool()
-		{
-			auto m = RegOpenKeyEx( HKEY_CLASSES_ROOT,nullptr,0,KEY_READ,&m_key ) ;
-
-			return m == ERROR_SUCCESS ;
-		}
-	private:
-		HKEY m_key = nullptr ;
-	} ;
-
 	class buffer
 	{
 	public:
@@ -710,7 +681,22 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 		{
 			return static_cast< DWORD >( m_buffer.size() ) ;
 		}
+		bool valid()
+		{
+			QString m = m_buffer.data() ;
+
+			if( m.isEmpty() || m == ".mp4" || m == ".MP4" ){
+
+				return false ;
+			}else{
+				return m.endsWith( ".mp4" ) || m.endsWith( ".MP4" ) ;
+			}
+		}
 		operator char*()
+		{
+			return m_buffer.data() ;
+		}
+		operator const char*() const
 		{
 			return m_buffer.data() ;
 		}
@@ -722,81 +708,127 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 		std::array< char,4096 > m_buffer ;
 	} ;
 
-	RootKey rootKey ;
-
-	if( !rootKey ){
-
-		return s ;
-	}
-
-	DWORD keyCount = 0 ;
-
-	auto st = RegQueryInfoKeyA( rootKey,N,N,N,&keyCount,N,N,N,N,N,N,N ) ;
-
-	if( st != ERROR_SUCCESS || keyCount == 0 ){
-
-		return s ;
-	}
-
-	for( DWORD i = 0 ; i < keyCount ; i++ ){
-
-		buffer subKey ;
-		auto size = subKey.size() ;
-
-		auto st = RegEnumKeyExA( rootKey,i,subKey,&size,N,N,N,N ) ;
-
-		if( st != ERROR_SUCCESS ){
-
-			continue ;
+	class Hkey
+	{
+	public:
+		Hkey( HKEY hkey,const buffer& subKey ) :
+			m_status( RegOpenKeyExA( hkey,subKey,0,KEY_READ,&m_key ) )
+		{
 		}
-
-		QString name = subKey ;
-
-		if( name == ".mp4" || name == ".MP4" ){
-
-			continue ;
+		Hkey() :
+			m_status( RegOpenKeyExA( HKEY_CLASSES_ROOT,nullptr,0,KEY_READ,&m_key ) )
+		{
 		}
+		~Hkey()
+		{
+			if( m_key ){
 
-		if( !( name.endsWith( ".mp4" ) || name.endsWith( ".MP4") ) ){
-
-			continue ;
+				RegCloseKey( m_key ) ;
+			}
 		}
+		DWORD keyCount()
+		{
+			auto N = nullptr ;
 
-		auto na = util::split( name,"." ) ;
+			DWORD keyCount = 0 ;
 
-		name = na[ 0 ] ;
+			auto st = RegQueryInfoKeyA( m_key,N,N,N,&keyCount,N,N,N,N,N,N,N ) ;
 
-		HKEY hSubKey = nullptr ;
+			if( st == ERROR_SUCCESS ){
 
-		st = RegOpenKeyExA( rootKey,subKey,0,KEY_READ,&hSubKey ) ;
-
-		if( st == ERROR_SUCCESS ){
+				return keyCount ;
+			}else{
+				return 0 ;
+			}
+		}
+		QString getExePath()
+		{
+			auto N = nullptr ;
 
 			buffer subKey ;
 			auto size = subKey.size() ;
 
 			auto path = "shell\\open\\command" ;
 
-			st = RegGetValueA( hSubKey,path,N,RRF_RT_ANY,N,subKey,&size ) ;
+			auto st = RegGetValueA( m_key,path,N,RRF_RT_ANY,N,subKey,&size ) ;
 
 			if( st == ERROR_SUCCESS ){
 
-				auto p = util::splitPreserveQuotes( subKey ) ;
-
-				if( p.size() ){
-
-					auto m = p.first() ;
-
-					if( m.endsWith( "wmplayer.exe" ) ){
-
-						s.emplace_back( m,"Windows Media Player" ) ;
-					}else{
-						s.emplace_back( m,name ) ;
-					}
-				}
+				return subKey ;
+			}else{
+				return {} ;
 			}
+		}
+		buffer getSubKey( DWORD i )
+		{
+			auto N = nullptr ;
 
-			RegCloseKey( hSubKey ) ;
+			buffer subKey ;
+			auto size = subKey.size() ;
+
+			auto st = RegEnumKeyExA( m_key,i,subKey,&size,N,N,N,N ) ;
+
+			if( st == ERROR_SUCCESS ){
+
+				return subKey ;
+			}else{
+				return {} ;
+			}
+		}
+		operator HKEY()
+		{
+			return m_key ;
+		}
+		operator bool()
+		{
+			return m_status == ERROR_SUCCESS ;
+		}
+	private:
+		HKEY m_key = nullptr ;
+		LSTATUS m_status ;
+	} ;
+
+	Hkey rootKey ;
+
+	if( !rootKey ){
+
+		return s ;
+	}
+
+	auto keyCount = rootKey.keyCount() ;
+
+	for( DWORD i = 0 ; i < keyCount ; i++ ){
+
+		auto subKey = rootKey.getSubKey( i ) ;
+
+		if( !subKey.valid() ){
+
+			continue ;
+		}
+
+		Hkey key( rootKey,subKey ) ;
+
+		if( !key ){
+
+			continue ;
+		}
+
+		auto p = util::splitPreserveQuotes( key.getExePath() ) ;
+
+		if( p.size() ){
+
+			auto m = p.first() ;
+
+			if( m.endsWith( "wmplayer.exe" ) ){
+
+				s.emplace_back( m,"Windows Media Player" ) ;
+			}else{
+				auto na = util::split( subKey,"." ) ;
+
+				auto name = na[ 0 ] ;
+
+				s.emplace_back( m,name ) ;
+			}
 		}
 	}
 
