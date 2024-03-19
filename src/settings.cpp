@@ -679,10 +679,6 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 		{
 			m_buffer[ 0 ] = '\0' ;
 		}
-		void resetSize()
-		{
-			m_size = static_cast< DWORD >( m_buffer.size() ) ;
-		}
 		DWORD * size()
 		{
 			return &m_size ;
@@ -711,7 +707,7 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 				}
 			} ;
 
-			if( eq( "" ) || eq( ".mp4" ) || eq( ".MP4" ) ){
+			if( this->empty() || eq( ".mp4" ) || eq( ".MP4" ) ){
 
 				return false ;
 			}else{
@@ -731,6 +727,10 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 			return m_buffer.data() ;
 		}
 	private:
+		bool empty()
+		{
+			return m_buffer[ 0 ] == '\0' ;
+		}
 		std::array< char,4096 > m_buffer ;
 		DWORD m_size ;
 	} ;
@@ -738,12 +738,11 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 	class Hkey
 	{
 	public:
-		Hkey( HKEY hkey,const buffer& subKey ) :
-			m_status( RegOpenKeyExA( hkey,subKey,0,KEY_READ,&m_key ) )
+		Hkey( Hkey& hkey,const buffer& subKey ) :
+			m_status( this->open( hkey,subKey,hkey.regSam() ) )
 		{
 		}
-		Hkey() :
-			m_status( RegOpenKeyExA( HKEY_CLASSES_ROOT,nullptr,0,KEY_READ,&m_key ) )
+		Hkey() : m_status( this->open( HKEY_CLASSES_ROOT,nullptr ) )
 		{
 		}
 		~Hkey()
@@ -808,9 +807,41 @@ static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
 		{
 			return m_status == ERROR_SUCCESS ;
 		}
+		REGSAM regSam()
+		{
+			return m_regSam ;
+		}
 	private:
+		LSTATUS open( HKEY hkey,const char * subKey )
+		{
+			REGSAM wow64 = KEY_READ | KEY_WOW64_64KEY ;
+			REGSAM wow32 = KEY_READ | KEY_WOW64_32KEY ;
+
+			auto st = this->open( hkey,subKey,wow64 ) ;
+
+			if( st == ERROR_SUCCESS ){
+
+				m_regSam = wow64 ;
+			}else{
+				st = this->open( hkey,subKey,wow32 ) ;
+
+				if( st == ERROR_SUCCESS ){
+
+					m_regSam = wow32 ;
+				}
+			}
+
+			return st ;
+		}
+		LSTATUS open( HKEY hkey,const char * subKey,REGSAM regSam )
+		{
+			DWORD x = 0 ;
+
+			return RegOpenKeyExA( hkey,subKey,x,regSam,&m_key ) ;
+		}
 		HKEY m_key = nullptr ;
 		LSTATUS m_status ;
+		REGSAM m_regSam ;
 	} ;
 
 	Hkey rootKey ;
