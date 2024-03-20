@@ -423,6 +423,16 @@ namespace utility
 		QFile m_outPutFile ;
 		enum class status{ qdebug,debug,notSet } m_status = utility::printOutPut::status::notSet ;
 	} ;
+	struct PlayerOpts
+	{
+		PlayerOpts( const QString& e,const QString& n ) :
+			exePath( e ),name( n )
+		{
+		}
+		QString exePath ;
+		QString name ;
+	} ;
+	std::vector< utility::PlayerOpts > getMediaPlayers() ;
 	void setDefaultEngine( const Context& ctx,const QString& name );
 	const engines::engine& resolveEngine( const tableWidget&,
 					      const engines::engine&,

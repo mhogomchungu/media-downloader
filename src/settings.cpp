@@ -662,269 +662,6 @@ void settings::setOpenWith( const QString& e )
 	m_settings.setValue( "OpenWith",e ) ;
 }
 
-#ifdef Q_OS_WIN
-
-#include <windows.h>
-#include <winreg.h>
-#include <cstring>
-
-static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
-{
-	std::vector< settings::mediaPlayer::PlayerOpts > s ;
-
-	class buffer
-	{
-	public:
-		buffer() : m_size( m_buffer.size() )
-		{
-			m_buffer[ 0 ] = '\0' ;
-		}
-		DWORD * size()
-		{
-			return &m_size ;
-		}
-		bool valid()
-		{
-			auto m = m_buffer.data() ;
-
-			auto eq = [ & ]( const char * b ){
-
-				return std::strcmp( m,b ) == 0 ;
-			} ;
-
-			auto endsWith = [ & ]( const char * b,size_t len ){
-
-				auto a = static_cast< int >( m_size ) ;
-				auto l = static_cast< int >( len ) ;
-
-				if( a < l ){
-
-					return false ;
-				}else{
-					auto aa = static_cast< size_t >( m_size ) ;
-
-					return std::strcmp( m + aa - len,b ) == 0 ;
-				}
-			} ;
-
-			if( this->empty() || eq( ".mp4" ) || eq( ".MP4" ) ){
-
-				return false ;
-			}else{
-				return endsWith( ".mp4",4 ) || endsWith( ".MP4",4 ) ;
-			}
-		}
-		operator char*()
-		{
-			return m_buffer.data() ;
-		}
-		operator const char*() const
-		{
-			return m_buffer.data() ;
-		}
-		operator QString()
-		{
-			return m_buffer.data() ;
-		}
-	private:
-		bool empty()
-		{
-			return m_buffer[ 0 ] == '\0' ;
-		}
-		std::array< char,4096 > m_buffer ;
-		DWORD m_size ;
-	} ;
-
-	class Hkey
-	{
-	public:
-		Hkey( Hkey& hkey,const buffer& subKey ) :
-			m_status( this->open( hkey,subKey,hkey.regSam() ) )
-		{
-		}
-		Hkey() : m_status( this->open( HKEY_CLASSES_ROOT,nullptr ) )
-		{
-		}
-		~Hkey()
-		{
-			if( m_key ){
-
-				RegCloseKey( m_key ) ;
-			}
-		}
-		DWORD keyCount()
-		{
-			auto N = nullptr ;
-
-			DWORD keyCount = 0 ;
-
-			auto st = RegQueryInfoKeyA( m_key,N,N,N,&keyCount,N,N,N,N,N,N,N ) ;
-
-			if( st == ERROR_SUCCESS ){
-
-				return keyCount ;
-			}else{
-				return 0 ;
-			}
-		}
-		QString getExePath()
-		{
-			auto N = nullptr ;
-
-			buffer subKey ;
-
-			auto path = "shell\\open\\command" ;
-
-			auto st = RegGetValueA( m_key,path,N,RRF_RT_REG_SZ,N,subKey,subKey.size() ) ;
-
-			if( st == ERROR_SUCCESS ){
-
-				return subKey ;
-			}else{
-				return {} ;
-			}
-		}
-		buffer getSubKey( DWORD i )
-		{
-			auto N = nullptr ;
-
-			buffer subKey ;
-
-			auto st = RegEnumKeyExA( m_key,i,subKey,subKey.size(),N,N,N,N ) ;
-
-			if( st == ERROR_SUCCESS ){
-
-				return subKey ;
-			}else{
-				return {} ;
-			}
-		}
-		operator HKEY()
-		{
-			return m_key ;
-		}
-		operator bool()
-		{
-			return m_status == ERROR_SUCCESS ;
-		}
-		REGSAM regSam()
-		{
-			return m_regSam ;
-		}
-	private:
-		LSTATUS open( HKEY hkey,const char * subKey )
-		{
-			REGSAM wow64 = KEY_READ | KEY_WOW64_64KEY ;
-			REGSAM wow32 = KEY_READ | KEY_WOW64_32KEY ;
-
-			auto st = this->open( hkey,subKey,wow64 ) ;
-
-			if( st == ERROR_SUCCESS ){
-
-				m_regSam = wow64 ;
-			}else{
-				st = this->open( hkey,subKey,wow32 ) ;
-
-				if( st == ERROR_SUCCESS ){
-
-					m_regSam = wow32 ;
-				}
-			}
-
-			return st ;
-		}
-		LSTATUS open( HKEY hkey,const char * subKey,REGSAM regSam )
-		{
-			DWORD x = 0 ;
-
-			return RegOpenKeyExA( hkey,subKey,x,regSam,&m_key ) ;
-		}
-		HKEY m_key = nullptr ;
-		LSTATUS m_status ;
-		REGSAM m_regSam ;
-	} ;
-
-	Hkey rootKey ;
-
-	if( !rootKey ){
-
-		return s ;
-	}
-
-	auto keyCount = rootKey.keyCount() ;
-
-	for( DWORD i = 0 ; i < keyCount ; i++ ){
-
-		auto subKey = rootKey.getSubKey( i ) ;
-
-		if( !subKey.valid() ){
-
-			continue ;
-		}
-
-		Hkey key( rootKey,subKey ) ;
-
-		if( !key ){
-
-			continue ;
-		}
-
-		auto p = util::splitPreserveQuotes( key.getExePath() ) ;
-
-		if( p.size() ){
-
-			auto m = p.first() ;
-
-			if( m.endsWith( "wmplayer.exe" ) ){
-
-				s.emplace_back( m,"Windows Media Player" ) ;
-			}else{
-				auto na = util::split( subKey,"." ) ;
-
-				auto name = na[ 0 ] ;
-
-				s.emplace_back( m,name ) ;
-			}
-		}
-	}
-
-	return s ;
-}
-
-#else
-
-static std::vector< settings::mediaPlayer::PlayerOpts > _getMediaPlayer()
-{
-	std::vector< settings::mediaPlayer::PlayerOpts > m ;
-
-	struct app
-	{
-		app( const char * u,const char * e ) : uiName( u ),exeName( e )
-		{
-		}
-		const char * uiName ;
-		const char * exeName ;
-	};
-
-	std::array< app,3 > apps = { { { "VLC","vlc" },
-				       { "SMPlayer","smplayer" },
-				       { "MPV","mpv" } } } ;
-
-	for( const auto& it : apps ){
-
-		auto s = QStandardPaths::findExecutable( it.exeName ) ;
-
-		if( !s.isEmpty() ){
-
-			m.emplace_back( s,it.uiName ) ;
-		}
-	}
-
-	return m ;
-}
-
-#endif
-
 settings::mediaPlayer settings::openWith( Logger& logger )
 {	
 	static auto s = this->openWith() ;
@@ -934,7 +671,12 @@ settings::mediaPlayer settings::openWith( Logger& logger )
 
 std::vector< settings::mediaPlayer::PlayerOpts > settings::openWith()
 {
-	auto ss = _getMediaPlayer() ;
+	std::vector< settings::mediaPlayer::PlayerOpts > ss ;
+
+	for( auto& it : utility::getMediaPlayers() ){
+
+		ss.emplace_back( std::move( it.exePath ),std::move( it.name ) ) ;
+	}
 
 	auto mm = this->getOption( "OpenWith",QString() ) ;
 
@@ -967,14 +709,14 @@ std::vector< settings::mediaPlayer::PlayerOpts > settings::openWith()
 
 			if( QFile::exists( mm ) ){
 
-				ss.emplace_back( mm,name ) ;
+				ss.insert( ss.begin(),{ mm,name } ) ;
 			}
 		}else{
 			mm = QStandardPaths::findExecutable( util::join( m,1,":" ) ) ;
 
 			if( !mm.isEmpty() ){
 
-				ss.emplace_back( mm,name ) ;
+				ss.insert( ss.begin(),{ mm,name } ) ;
 			}
 		}
 	}
