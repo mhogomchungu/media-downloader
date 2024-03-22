@@ -335,12 +335,14 @@ void networkAccess::download( const QByteArray& data,
 			      const engines::engine& engine,
 			      networkAccess::Opts opts ) const
 {
-	networkAccess::metadata metadata ;
-
 	util::Json json( data ) ;
 
-	if( !json ){
+	if( json ){
 
+		opts.add( engine.parseJsonDataFromGitHub( json.doc() ) ) ;
+
+		this->download( opts.move() ) ;
+	}else{
 		auto m = QObject::tr( "Failed to parse json file from github" ) ;
 
 		this->post( engine.name(),m + ": " + json.errorString(),opts.id ) ;
@@ -353,39 +355,7 @@ void networkAccess::download( const QByteArray& data,
 
 			m_ctx.getVersionInfo().check( opts.iter.next(),false ) ;
 		}
-
-		return ;
 	}
-
-	auto object = json.doc().object() ;
-
-	auto value = object.value( "assets" ) ;
-
-	const auto array = value.toArray() ;
-
-	for( const auto& it : array ){
-
-		const auto object = it.toObject() ;
-
-		const auto value = object.value( "name" ) ;
-
-		auto entry = value.toString() ;
-
-		if( engine.foundNetworkUrl( entry ) ){
-
-			metadata.url = object.value( "browser_download_url" ).toString() ;
-
-			metadata.size = object.value( "size" ).toInt() ;
-
-			metadata.fileName = entry ;
-
-			break ;
-		}
-	}
-
-	opts.add( metadata.move() ) ;
-
-	this->download( opts.move() ) ;
 }
 
 void networkAccess::download( networkAccess::iterator iter ) const
@@ -591,7 +561,14 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 			this->post( engine.name(),mm + str.exeBinPath,str.id ) ;
 
-			QFile::remove( str.exeBinPath ) ;
+			QFileInfo ff( str.exeBinPath ) ;
+
+			if( ff.isDir() ){
+
+				QDir( str.exeBinPath ).removeRecursively() ;
+			}else{
+				QFile::remove( str.exeBinPath ) ;
+			}
 
 			str.file.rename( str.exeBinPath ) ;
 

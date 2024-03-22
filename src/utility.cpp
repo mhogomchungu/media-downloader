@@ -325,7 +325,12 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 		{
 			auto m = m_buffer.data() ;
 
-			auto eq = [ & ]( const char * b ){
+			if( m[ 0 ] == '\0' ){
+
+				return false ;
+			}
+
+			auto equal = [ & ]( const char * b ){
 
 				return std::strcmp( m,b ) == 0 ;
 			} ;
@@ -341,11 +346,11 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 				}else{
 					auto aa = static_cast< size_t >( m_size ) ;
 
-					return std::strcmp( m + aa - len,b ) == 0 ;
+					return std::memcmp( m + aa - len,b ) == 0 ;
 				}
 			} ;
 
-			if( this->empty() || eq( ".mp4" ) || eq( ".MP4" ) ){
+			if( equal( ".mp4" ) || equal( ".MP4" ) ){
 
 				return false ;
 			}else{
@@ -365,10 +370,6 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 			return m_buffer.data() ;
 		}
 	private:
-		bool empty()
-		{
-			return m_buffer[ 0 ] == '\0' ;
-		}
 		std::array< char,4096 > m_buffer ;
 		DWORD m_size ;
 	} ;

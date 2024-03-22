@@ -47,6 +47,10 @@ public:
 
 	engines::engine::functions::FilterOutPut filterOutput() override ;
 
+	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
+
+	static QString downloadUrl() ;
+
 	void updateOutPutChannel( QProcess::ProcessChannel& ) const override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) override ;

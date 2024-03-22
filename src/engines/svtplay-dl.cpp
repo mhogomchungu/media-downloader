@@ -719,6 +719,33 @@ engines::engine::functions::FilterOutPut svtplay_dl::filterOutput()
 	return { util::types::type_identity< svtplayFilter >(),engine } ;
 }
 
+engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc )
+{
+	engines::metadata metadata ;
+
+	auto array = doc.array() ;
+
+	if( array.size() ){
+
+		auto obj = array[ 0 ].toObject() ;
+
+		auto url = QString( "https://svtplay-dl.se/download/%1/svtplay-dl" ) ;
+
+		metadata.url = url.arg( obj.value( "name" ).toString() ) ;
+
+		metadata.fileName = "svtplay-dl" ;
+
+		metadata.size = 0 ;
+	}
+
+	return metadata ;
+}
+
+QString svtplay_dl::downloadUrl()
+{
+	return "https://api.github.com/repos/spaam/svtplay-dl/tags" ;
+}
+
 const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& s )
 {
 	if( s.doneDownloading() ){

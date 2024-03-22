@@ -737,6 +737,11 @@ engines::engine::engine( Logger& logger,
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
+	if( m_name == "svtplay-dl" ){
+
+		m_downloadUrl = svtplay_dl::downloadUrl() ;
+	}
+
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
 
@@ -1391,6 +1396,39 @@ engines::engine::functions::~functions()
 const QProcessEnvironment& engines::engine::functions::processEnvironment() const
 {
 	return m_processEnvironment ;
+}
+
+engines::metadata engines::engine::functions::parseJsonDataFromGitHub( const QJsonDocument& doc )
+{
+	engines::metadata metadata ;
+
+	auto object = doc.object() ;
+
+	auto value = object.value( "assets" ) ;
+
+	const auto array = value.toArray() ;
+
+	for( const auto& it : array ){
+
+		const auto object = it.toObject() ;
+
+		const auto value = object.value( "name" ) ;
+
+		auto entry = value.toString() ;
+
+		if( this->foundNetworkUrl( entry ) ){
+
+			metadata.url = object.value( "browser_download_url" ).toString() ;
+
+			metadata.size = object.value( "size" ).toInt() ;
+
+			metadata.fileName = entry ;
+
+			break ;
+		}
+	}
+
+	return metadata ;
 }
 
 std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( Logger&,const QByteArray& e )

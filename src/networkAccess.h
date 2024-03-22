@@ -294,17 +294,6 @@ private:
 		} ) ;
 	}
 
-	struct metadata
-	{
-		qint64 size = 0 ;
-		QString url ;
-		QString fileName ;
-		metadata move()
-		{
-			return std::move( *this ) ;
-		}
-	} ;
-
 	class File
 	{
 	public:
@@ -346,7 +335,7 @@ private:
 			id( xd )
 		{
 		}
-		void add( networkAccess::metadata&& m )
+		void add( engines::metadata&& m )
 		{
 			metadata = std::move( m ) ;
 
@@ -365,7 +354,7 @@ private:
 		}
 		networkAccess::iterator iter ;
 		QString exeBinPath ;
-		networkAccess::metadata metadata ;
+		engines::metadata metadata ;
 		QString filePath ;
 		QString tempPath ;
 		mutable QString networkError ;

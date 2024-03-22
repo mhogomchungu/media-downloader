@@ -1109,13 +1109,8 @@ void settings::mediaPlayer::action::logError() const
 
 void settings::mediaPlayer::action::operator()() const
 {
-	auto s = QProcess::ProcessChannelMode::MergedChannels ;
+	if( !QProcess::startDetached( m_playerOpts.exePath,{ m_url } ) ){
 
-	utils::qprocess::run( m_playerOpts.exePath,{ m_url },s,[ this ]( const utils::qprocess::outPut& e ){
-
-		if( e.failedToStart() ){
-
-			this->logError() ;
-		}
-	} ) ;
+		this->logError() ;
+	}
 }

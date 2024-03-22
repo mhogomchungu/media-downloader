@@ -248,7 +248,18 @@ public:
 		QString m_updatePath ;
 		QString m_updateNewPath ;
 		QString m_tmp ;
-	};
+	} ;
+
+	struct metadata
+	{
+		qint64 size = 0 ;
+		QString url ;
+		QString fileName ;
+		metadata move()
+		{
+			return std::move( *this ) ;
+		}
+	} ;
 
 	class engine
 	{
@@ -659,6 +670,8 @@ public:
 				QString m_info ;
 			} ;
 
+			virtual engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) ;
+
 			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) ;
 
 			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) ;
@@ -990,6 +1003,10 @@ public:
 		bool archiveContainsFolder() const
 		{
 			return m_archiveContainsFolder ;
+		}
+		engines::metadata parseJsonDataFromGitHub( const QJsonDocument& e ) const
+		{
+			return m_engine->parseJsonDataFromGitHub( e ) ;
 		}
 		engines::engine::functions::FilterOutPut filterOutput() const
 		{
