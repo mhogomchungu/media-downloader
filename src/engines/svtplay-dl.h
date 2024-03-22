@@ -47,6 +47,10 @@ public:
 
 	engines::engine::functions::FilterOutPut filterOutput() override ;
 
+	QString updateCmdPath( const QString& ) override ;
+
+	engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& e ) override ;
+
 	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
 
 	static QString downloadUrl() ;

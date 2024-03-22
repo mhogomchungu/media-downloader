@@ -21,6 +21,7 @@
 #include "../settings.h"
 #include "../util.hpp"
 #include "../utils/miscellaneous.hpp"
+#include "../utility.h"
 
 const char * svtplay_dl::testData()
 {
@@ -719,6 +720,13 @@ engines::engine::functions::FilterOutPut svtplay_dl::filterOutput()
 	return { util::types::type_identity< svtplayFilter >(),engine } ;
 }
 
+QString svtplay_dl::updateCmdPath( const QString& e )
+{
+	const auto& name = engines::engine::functions::engine().name() ;
+
+	return e + "/" + name + "/" + name + ".exe" ;
+}
+
 engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc )
 {
 	engines::metadata metadata ;
@@ -727,18 +735,48 @@ engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc 
 
 	if( array.size() ){
 
+		QString url = [ & ](){
+
+			if( utility::platformIs32Bit() ){
+
+				metadata.fileName = "svtplay-dl-win32.zipl" ;
+
+				return "https://svtplay-dl.se/download/%1/svtplay-dl-win32.zip" ;
+			}else{
+				metadata.fileName = "svtplay-dl-amd64.zip" ;
+
+				return "https://svtplay-dl.se/download/%1/svtplay-dl-amd64.zip" ;
+			}
+		}() ;
+
 		auto obj = array[ 0 ].toObject() ;
 
-		auto url = QString( "https://svtplay-dl.se/download/%1/svtplay-dl" ) ;
-
 		metadata.url = url.arg( obj.value( "name" ).toString() ) ;
-
-		metadata.fileName = "svtplay-dl" ;
 
 		metadata.size = 0 ;
 	}
 
 	return metadata ;
+}
+
+engines::engine::functions::onlineVersion svtplay_dl::versionInfoFromGithub( const QByteArray& e )
+{
+	QJsonParseError err ;
+	auto doc = QJsonDocument::fromJson( e,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		auto s = doc.array() ;
+
+		if( s.size() ){
+
+			auto m = s[ 0 ].toObject().value( "name" ).toString() ;
+
+			return { m,m } ;
+		}
+	}
+
+	return { {},{} } ;
 }
 
 QString svtplay_dl::downloadUrl()

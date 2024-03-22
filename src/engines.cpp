@@ -739,6 +739,8 @@ engines::engine::engine( Logger& logger,
 {
 	if( m_name == "svtplay-dl" ){
 
+		m_archiveContainsFolder = utility::platformIsWindows() ;
+
 		m_downloadUrl = svtplay_dl::downloadUrl() ;
 	}
 
