@@ -741,6 +741,26 @@ engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc 
 	return metadata ;
 }
 
+engines::engine::functions::onlineVersion svtplay_dl::versionInfoFromGithub( const QByteArray& e )
+{
+	QJsonParseError err ;
+	auto doc = QJsonDocument::fromJson( e,&err ) ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		auto s = doc.array() ;
+
+		if( s.size() ){
+
+			auto m = s[ 0 ].toObject().value( "name" ).toString() ;
+
+			return { m,m } ;
+		}
+	}
+
+	return { {},{} } ;
+}
+
 QString svtplay_dl::downloadUrl()
 {
 	return "https://api.github.com/repos/spaam/svtplay-dl/tags" ;

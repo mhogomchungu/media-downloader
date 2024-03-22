@@ -49,6 +49,8 @@ public:
 
 	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
 
+	engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& e ) override ;
+
 	static QString downloadUrl() ;
 
 	void updateOutPutChannel( QProcess::ProcessChannel& ) const override ;
