@@ -1,0 +1,64 @@
+{
+    "BackendPath": "${default}",
+    "BatchFileArgument": "-a",
+    "CanDownloadPlaylist": false,
+    "Cmd": {
+        "Generic": {
+            "amd64": {
+                "Args": [
+                    "svtplay-dl"
+                ],
+                "Name": "svtplay-dl"
+            },
+            "x86": {
+                "Args": [
+                    "svtplay-dl"
+                ],
+                "Name": "svtplay-dl"
+            }
+        },
+        "Windows": {
+            "amd64": {
+                "Args": [
+                    "svtplay-dl.exe"
+                ],
+                "Name": "svtplay-dl.exe"
+            },
+            "x86": {
+                "Args": [
+                    "svtplay-dl.exe"
+                ],
+                "Name": "svtplay-dl.exe"
+            }
+        }
+    },
+    "ControlJsonStructure": {
+        "lhs": {
+            "contains": "ETA"
+        }
+    },
+    "CookieArgument": "",
+    "DefaultCommentsCmdOptions": [],
+    "DefaultDownLoadCmdOptions": [],
+    "DefaultListCmdOptions": [
+        "--list-quality"
+    ],
+    "DefaultSubstitlesCmdOptions": [],
+    "DefaultSubtitleDownloadOptions": [],
+    "DownloadUrl": "",
+    "LikeYoutubeDl": false,
+    "Name": "svtplay-dl",
+    "OptionsArgument": "-q",
+    "PlaylistItemsArgument": "",
+    "RemoveText": [
+    ],
+    "ReplaceOutputWithProgressReport": false,
+    "RequiredMinimumVersionOfMediaDownloader": "",
+    "SkipLineWithText": [],
+    "SplitLinesBy": [
+        "\n"
+    ],
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 1
+}
