@@ -706,8 +706,6 @@ void configure::tabEntered()
 
 	for( const auto& it : m_ctx.Engines().getEngines() ){
 
-		qDebug() << it.name() + ":" + it.downloadUrl() ;
-
 		if( it.validDownloadUrl() ){
 
 			auto ac = m_menu.addAction( it.name() ) ;
