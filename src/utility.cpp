@@ -346,7 +346,7 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 				}else{
 					auto aa = static_cast< size_t >( m_size ) ;
 
-					return std::memcmp( m + aa - len,b ) == 0 ;
+					return std::memcmp( m + aa - len,b,len ) == 0 ;
 				}
 			} ;
 
