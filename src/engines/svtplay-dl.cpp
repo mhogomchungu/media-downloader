@@ -724,7 +724,12 @@ QString svtplay_dl::updateCmdPath( const QString& e )
 {
 	const auto& name = engines::engine::functions::engine().name() ;
 
-	return e + "/" + name + "/" + name + ".exe" ;
+	if( utility::platformIsWindows() ){
+
+		return e + "/" + name + "/" + name + ".exe" ;
+	}else{
+		return e ;
+	}
 }
 
 engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc )
