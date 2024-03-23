@@ -863,7 +863,7 @@ QString engines::engine::updateCmdPath( Logger& logger,const QString& e ) const
 		logger.add( m,utility::sequentialID() ) ;
 	}
 
-	const_cast< engines::engine::exeArgs& >( m_exePath ).updateRealExe( exe ) ;
+	m_exePath.updateRealExe( exe ) ;
 
 	return exe ;
 }

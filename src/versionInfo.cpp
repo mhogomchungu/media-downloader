@@ -96,7 +96,23 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 			this->printVersion( vinfo.move() ) ;
 		}else{
-			if( vinfo.networkAvailable() ){
+			if( vinfo.fromNetwork() ){
+
+				auto id = vinfo.iter().id() ;
+
+				auto m = QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ) ;
+
+				this->log( m.arg( engine.name() ),id ) ;
+
+				engine.setBroken() ;
+
+				auto exePath = vinfo.iter().engine().exePath().realExe() ;
+
+				this->log( "exePath: " + exePath,id ) ;
+
+				this->next( vinfo.move() ) ;
+
+			}else if( vinfo.networkAvailable() ){
 
 				m_network.download( this->wrap( vinfo.move() ) ) ;
 			}else{

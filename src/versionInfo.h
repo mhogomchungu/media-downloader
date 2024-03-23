@@ -141,6 +141,10 @@ public:
 		{
 			return m_iter.hasNext() ;
 		}
+		bool fromNetwork() const
+		{
+			return m_fromNetwork ;
+		}
 		printVinfo next()
 		{
 			auto m = std::move( *this ) ;

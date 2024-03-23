@@ -1196,7 +1196,7 @@ public:
 
 		QJsonObject m_controlStructure ;
 
-		engines::engine::exeArgs m_exePath ;
+		mutable engines::engine::exeArgs m_exePath ;
 	};
 	settings& Settings() const;
 	QString findExecutable( const QString& exeName ) const ;
