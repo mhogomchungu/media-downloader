@@ -737,15 +737,22 @@ engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc 
 
 		QString url = [ & ](){
 
-			if( utility::platformIs32Bit() ){
+			if( utility::platformIsWindows() ){
 
-				metadata.fileName = "svtplay-dl-win32.zipl" ;
+				if( utility::platformIs32Bit() ){
 
-				return "https://svtplay-dl.se/download/%1/svtplay-dl-win32.zip" ;
+					metadata.fileName = "svtplay-dl-win32.zip" ;
+
+					return "https://svtplay-dl.se/download/%1/svtplay-dl-win32.zip" ;
+				}else{
+					metadata.fileName = "svtplay-dl-amd64.zip" ;
+
+					return "https://svtplay-dl.se/download/%1/svtplay-dl-amd64.zip" ;
+				}
 			}else{
-				metadata.fileName = "svtplay-dl-amd64.zip" ;
+				metadata.fileName = "svtplay-dl" ;
 
-				return "https://svtplay-dl.se/download/%1/svtplay-dl-amd64.zip" ;
+				return "https://svtplay-dl.se/download/%1/svtplay-dl" ;
 			}
 		}() ;
 
