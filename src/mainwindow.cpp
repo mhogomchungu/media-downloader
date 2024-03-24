@@ -217,14 +217,12 @@ void MainWindow::setUpSignal( int sig )
 	std::signal( sig,MainWindow::signalHandler ) ;
 }
 
-void MainWindow::closeEvent( QCloseEvent * e )
+void MainWindow::closeEvent( QCloseEvent * )
 {
-	e->ignore() ;
+	if( m_showTrayIcon ){
 
-	this->hide() ;
-
-	if( !m_showTrayIcon ){
-
+		this->hide() ;
+	}else{
 		this->quitApp() ;
 	}
 }
