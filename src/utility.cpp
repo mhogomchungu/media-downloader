@@ -313,7 +313,7 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 	class buffer
 	{
 	public:
-		buffer() : m_size( m_buffer.size() )
+		buffer()
 		{
 			m_buffer[ 0 ] = '\0' ;
 		}
@@ -371,7 +371,7 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 		}
 	private:
 		std::array< char,4096 > m_buffer ;
-		DWORD m_size ;
+		DWORD m_size = 4096 ;
 	} ;
 
 	class Hkey
