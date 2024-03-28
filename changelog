@@ -264,5 +264,5 @@ Version 1.2.0(April 1st, 2021)
      - Support internal downloading and updating svtplay.
      - "Show media Options" menu now has a context menu with a list of video players you can use for
         streaming a media instead of downloading it.
-     - Its now possible to select random entries in batch and playlist downloader tabs and download only
-        those selected.
+     - Its now possible to select random entries in batch and playlist downloader tabs and batch download
+      only those selected.

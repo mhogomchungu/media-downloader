@@ -489,55 +489,55 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/utility.cpp" line="503"/>
+        <location filename="../src/utility.cpp" line="756"/>
         <source>%1 Preset Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="842"/>
+        <location filename="../src/utility.cpp" line="1095"/>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
         <translation>Arquivo com extensão &quot;.txt&quot; irá salvar apenas URLs</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1724"/>
+        <location filename="../src/utility.cpp" line="1977"/>
         <source>Hide Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1734"/>
+        <location filename="../src/utility.cpp" line="1987"/>
         <source>Unhide All Hidden Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1870"/>
+        <location filename="../src/settings.cpp" line="1101"/>
         <source>Failed To Start Executable %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1907"/>
-        <location filename="../src/utility.cpp" line="1926"/>
+        <location filename="../src/utility.cpp" line="2121"/>
+        <location filename="../src/utility.cpp" line="2143"/>
         <source>Copy Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1911"/>
-        <location filename="../src/utility.cpp" line="1958"/>
+        <location filename="../src/utility.cpp" line="2127"/>
+        <location filename="../src/utility.cpp" line="2174"/>
         <source>Open Url With %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1937"/>
+        <location filename="../src/utility.cpp" line="2154"/>
         <source>Copy Url %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="1969"/>
+        <location filename="../src/utility.cpp" line="2190"/>
         <source>Open Url %1 With %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/batchdownloader.cpp" line="167"/>
-        <location filename="../src/utility.cpp" line="841"/>
+        <location filename="../src/utility.cpp" line="1094"/>
         <source>Save List To File</source>
         <translation>Salvar lista em um arquivo</translation>
     </message>
@@ -574,19 +574,19 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <location filename="../src/batchdownloader.cpp" line="582"/>
         <location filename="../src/playlistdownloader.cpp" line="624"/>
-        <location filename="../src/utility.cpp" line="500"/>
+        <location filename="../src/utility.cpp" line="753"/>
         <source>Preset Options</source>
         <translation>Opções predefinidas</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="539"/>
-        <location filename="../src/utility.h" line="689"/>
-        <location filename="../src/utility.h" line="762"/>
+        <location filename="../src/utility.cpp" line="792"/>
+        <location filename="../src/utility.h" line="699"/>
+        <location filename="../src/utility.h" line="772"/>
         <source>Clear</source>
         <translation>Limpar</translation>
     </message>
     <message>
-        <location filename="../src/utility.cpp" line="550"/>
+        <location filename="../src/utility.cpp" line="803"/>
         <source>Open Download Folder</source>
         <translation>Abrir pasta de Download</translation>
     </message>
@@ -772,93 +772,93 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/engines.cpp" line="694"/>
-        <location filename="../src/engines.cpp" line="985"/>
-        <location filename="../src/utility.cpp" line="714"/>
+        <location filename="../src/engines.cpp" line="992"/>
+        <location filename="../src/utility.cpp" line="967"/>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Falha ao encontrar o executável &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="970"/>
+        <location filename="../src/engines.cpp" line="977"/>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
         <translation>Falha ao encontrar o executável python3 para o backend &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1219"/>
+        <location filename="../src/engines.cpp" line="1220"/>
         <source>Requested Format Is Not Available</source>
         <translation>Formato solicitado não está disponível</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1224"/>
+        <location filename="../src/engines.cpp" line="1225"/>
         <source>Network Error Occured</source>
         <translation>Ocorreu um erro de rede</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1229"/>
+        <location filename="../src/engines.cpp" line="1230"/>
         <source>Invalid Url Entered</source>
         <translation>URL inválida inserida</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1234"/>
+        <location filename="../src/engines.cpp" line="1235"/>
         <source>Url Is Not Supported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1244"/>
+        <location filename="../src/engines.cpp" line="1245"/>
         <source>Download cancelled</source>
         <translation>Download cancelado</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1259"/>
+        <location filename="../src/engines.cpp" line="1260"/>
         <source>ErrorCode</source>
         <translation>Código de erro</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1265"/>
+        <location filename="../src/engines.cpp" line="1266"/>
         <source>Download Failed, Engine failed to start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1267"/>
+        <location filename="../src/engines.cpp" line="1268"/>
         <source>Download Failed, Engine crashed</source>
         <translation>Falha no Download,Engine travou</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1538"/>
+        <location filename="../src/engines.cpp" line="1572"/>
         <source>Format Code</source>
         <translation>Formato do código</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1539"/>
+        <location filename="../src/engines.cpp" line="1573"/>
         <source>Extension</source>
         <translation>Extensão</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1540"/>
+        <location filename="../src/engines.cpp" line="1574"/>
         <source>Resolution</source>
         <translation>Resolução</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1541"/>
+        <location filename="../src/engines.cpp" line="1575"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1542"/>
+        <location filename="../src/engines.cpp" line="1576"/>
         <source>Note</source>
         <translation>Nota</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1988"/>
+        <location filename="../src/engines.cpp" line="2022"/>
         <source>Failed to open file for writing</source>
         <translation>Falha ao abrir arquivo para escrita</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1994"/>
+        <location filename="../src/engines.cpp" line="2028"/>
         <source>Failed to open file for reading</source>
         <translation>Falha ao abrir arquivo para leitura</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2134"/>
+        <location filename="../src/engines.cpp" line="2168"/>
         <source>Elapsed Time:</source>
         <translation>Tempo decorrido:</translation>
     </message>
@@ -869,8 +869,9 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="73"/>
-        <location filename="../src/versionInfo.cpp" line="111"/>
-        <location filename="../src/versionInfo.cpp" line="398"/>
+        <location filename="../src/versionInfo.cpp" line="103"/>
+        <location filename="../src/versionInfo.cpp" line="126"/>
+        <location filename="../src/versionInfo.cpp" line="413"/>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Falha ao encontrar informações da versão,certifique-se de que &quot;%1&quot; está instalado corretamente</translation>
     </message>
@@ -881,14 +882,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="238"/>
-        <location filename="../src/networkAccess.cpp" line="506"/>
+        <location filename="../src/networkAccess.cpp" line="476"/>
         <source>Failed To Open Path For Writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="277"/>
-        <location filename="../src/networkAccess.cpp" line="633"/>
-        <location filename="../src/networkAccess.cpp" line="695"/>
+        <location filename="../src/networkAccess.cpp" line="610"/>
+        <location filename="../src/networkAccess.cpp" line="672"/>
         <source>Failed To Extract</source>
         <translation type="unfinished"></translation>
     </message>
@@ -898,48 +899,48 @@ Exampe 2: ${gateway}:8080</source>
         <translation>A rede não respondeu em %1 segundos</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="425"/>
+        <location filename="../src/networkAccess.cpp" line="395"/>
         <source>Failed to download, Following path can not be created: </source>
         <translation>Falha no download,o seguinte caminho não pode ser criado: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="648"/>
+        <location filename="../src/networkAccess.cpp" line="625"/>
         <source>Start Downloading</source>
         <translation>Iniciar o Download</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="701"/>
+        <location filename="../src/networkAccess.cpp" line="678"/>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="703"/>
+        <location filename="../src/networkAccess.cpp" line="680"/>
         <source>Failed To Find &quot;tar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1258"/>
+        <location filename="../src/engines.cpp" line="1259"/>
         <location filename="../src/networkAccess.cpp" line="171"/>
-        <location filename="../src/networkAccess.cpp" line="485"/>
-        <location filename="../src/networkAccess.cpp" line="766"/>
+        <location filename="../src/networkAccess.cpp" line="455"/>
+        <location filename="../src/networkAccess.cpp" line="743"/>
         <source>Download Failed</source>
         <translation>Falha no  download</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="134"/>
-        <location filename="../src/networkAccess.cpp" line="344"/>
+        <location filename="../src/networkAccess.cpp" line="346"/>
         <source>Failed to parse json file from github</source>
         <translation>Falha ao analisar arquivo JSON do GitHub</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="656"/>
-        <location filename="../src/networkAccess.cpp" line="670"/>
-        <location filename="../src/networkAccess.cpp" line="728"/>
+        <location filename="../src/networkAccess.cpp" line="633"/>
+        <location filename="../src/networkAccess.cpp" line="647"/>
+        <location filename="../src/networkAccess.cpp" line="705"/>
         <source>Downloading</source>
         <translation>Baixando</translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="663"/>
+        <location filename="../src/networkAccess.cpp" line="640"/>
         <source>Destination</source>
         <translation>Destino</translation>
     </message>
@@ -949,60 +950,60 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="483"/>
+        <location filename="../src/networkAccess.cpp" line="453"/>
         <source>File Not Found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="584"/>
+        <location filename="../src/networkAccess.cpp" line="554"/>
         <source>Download complete</source>
         <translation>Download completo</translation>
     </message>
     <message>
         <location filename="../src/networkAccess.cpp" line="285"/>
-        <location filename="../src/networkAccess.cpp" line="676"/>
+        <location filename="../src/networkAccess.cpp" line="653"/>
         <source>Extracting archive: </source>
         <translation>Extraindo arquivo: </translation>
     </message>
     <message>
-        <location filename="../src/networkAccess.cpp" line="590"/>
+        <location filename="../src/networkAccess.cpp" line="560"/>
         <source>Renaming file to: </source>
         <translation>Renomear arquivo para: </translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2052"/>
+        <location filename="../src/engines.cpp" line="2086"/>
         <source>Processing</source>
         <translation>Processamento</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="1248"/>
+        <location filename="../src/engines.cpp" line="1249"/>
         <source>Download completed</source>
         <translation>Download concluído</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="482"/>
+        <location filename="../src/settings.cpp" line="485"/>
         <source>Resetting download folder to default</source>
         <translation>Redefinindo as pastas de Download para o padrão</translation>
     </message>
     <message>
-        <location filename="../src/engines.cpp" line="2097"/>
+        <location filename="../src/engines.cpp" line="2131"/>
         <source>Post Processing</source>
         <translation>Pós processamento</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="722"/>
-        <location filename="../src/utility.h" line="730"/>
-        <location filename="../src/utility.h" line="735"/>
+        <location filename="../src/utility.h" line="732"/>
+        <location filename="../src/utility.h" line="740"/>
+        <location filename="../src/utility.h" line="745"/>
         <source>Download</source>
         <translation>Download</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="727"/>
+        <location filename="../src/utility.h" line="737"/>
         <source>Force Download</source>
         <translation>Forçar download</translation>
     </message>
     <message>
-        <location filename="../src/utility.h" line="749"/>
+        <location filename="../src/utility.h" line="759"/>
         <source>Show Log Window</source>
         <translation>Mostrar janela de log</translation>
     </message>
@@ -1067,7 +1068,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Escuro</translation>
     </message>
     <message>
-        <location filename="../src/engines/svtplay-dl.cpp" line="388"/>
+        <location filename="../src/engines/svtplay-dl.cpp" line="389"/>
         <source>Method</source>
         <translation>Método</translation>
     </message>
@@ -1104,26 +1105,26 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="147"/>
-        <location filename="../src/versionInfo.cpp" line="455"/>
+        <location filename="../src/versionInfo.cpp" line="162"/>
+        <location filename="../src/versionInfo.cpp" line="470"/>
         <source>Newest Version Is %1, Updating</source>
         <translation>A versão mais recente é %1 atualizada</translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="252"/>
-        <location filename="../src/versionInfo.cpp" line="324"/>
+        <location filename="../src/versionInfo.cpp" line="267"/>
+        <location filename="../src/versionInfo.cpp" line="339"/>
         <source>Checking installed version of %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="254"/>
-        <location filename="../src/versionInfo.cpp" line="336"/>
-        <location filename="../src/versionInfo.cpp" line="376"/>
+        <location filename="../src/versionInfo.cpp" line="269"/>
+        <location filename="../src/versionInfo.cpp" line="351"/>
+        <location filename="../src/versionInfo.cpp" line="391"/>
         <source>Found version: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/versionInfo.cpp" line="482"/>
+        <location filename="../src/versionInfo.cpp" line="497"/>
         <source>Newest Version Is: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1158,23 +1159,23 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="431"/>
+        <location filename="../src/library.cpp" line="433"/>
         <source>Show Folders First</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="435"/>
+        <location filename="../src/library.cpp" line="437"/>
         <location filename="../src/tableWidget.h" line="803"/>
         <source>Arrange In Ascending Order</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="439"/>
+        <location filename="../src/library.cpp" line="441"/>
         <source>Arrange By Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="441"/>
+        <location filename="../src/library.cpp" line="443"/>
         <source>Arrange By Name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1319,7 +1320,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Excluir</translation>
     </message>
     <message>
-        <location filename="../src/library.cpp" line="132"/>
+        <location filename="../src/library.cpp" line="134"/>
         <source>Delete All</source>
         <translation>Excluir todos</translation>
     </message>

@@ -522,9 +522,7 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 			}else{
 				auto na = util::split( subKey,"." ) ;
 
-				auto name = na[ 0 ] ;
-
-				s.emplace_back( m,name ) ;
+				s.emplace_back( m,na.first() ) ;
 			}
 		}
 	}
