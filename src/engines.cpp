@@ -1600,6 +1600,11 @@ QString engines::engine::functions::setCredentials( QStringList&,QStringList& )
 	return {} ;
 }
 
+util::Json engines::engine::functions::parsePlayListData( const QByteArray& e )
+{
+	return e ;
+}
+
 engines::engine::functions::onlineVersion engines::engine::functions::versionInfoFromGithub( const QByteArray& e )
 {
 	QJsonParseError err ;

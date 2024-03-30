@@ -1104,7 +1104,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 	auto opts = c.options() ;
 
-	stdOut sOut( *this,c.move() ) ;
+	stdOut sOut( *this,c.move(),engine ) ;
 	stdError sErr( m_banner ) ;
 
 	events ev( *this,engine,iter.move() ) ;
@@ -1592,7 +1592,7 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 				break ;
 			}else{
-				utility::MediaEntry media( line.mid( position,m ) ) ;
+				utility::MediaEntry media( m_engine,line.mid( position,m ) ) ;
 
 				if( media.valid() ){
 

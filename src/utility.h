@@ -1316,6 +1316,7 @@ namespace utility
 		MediaEntry()
 		{
 		}
+		MediaEntry( const QJsonDocument& doc ) ;
 		MediaEntry( const QString& url ) :
 			m_url( url ),
 			m_json( QByteArray() )
@@ -1331,7 +1332,7 @@ namespace utility
 		{
 			return std::move( *this ) ;
 		}
-		MediaEntry( const QByteArray& data ) ;
+		MediaEntry( const engines::engine&,const QByteArray& data ) ;
 
 		QString uiText() const ;
 
@@ -1409,6 +1410,7 @@ namespace utility
 			return m_n_entries ;
 		}
 	private:
+		void parseJson() ;
 		QString m_thumbnailUrl ;
 		QString m_title ;
 		QString m_uploadDate ;

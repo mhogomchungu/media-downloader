@@ -812,7 +812,7 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 
 		auto s = m.next() ;
 
-		auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,s.toJson() ) ;
+		auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,s.toJsonDoc() ) ;
 
 		m_table.setUiText( s.uiText,row ) ;
 		m_table.setEngineName( s.engineName,row ) ;
@@ -1595,7 +1595,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 				m_parent.addItem( f.index(),enableAll,m_url ) ;
 			}else{
-				utility::MediaEntry m( m_logger.data() ) ;
+				utility::MediaEntry m( m_engine,m_logger.data() ) ;
 
 				if( m.valid() ){
 

@@ -89,9 +89,9 @@ public:
 				}
 			}
 		}
-		QByteArray toJson() const
+		QJsonDocument toJsonDoc() const
 		{
-			return QJsonDocument( obj ).toJson( QJsonDocument::JsonFormat::Compact ) ;
+			return QJsonDocument( obj ) ;
 		}
 		QJsonObject obj ;
 		QString url ;

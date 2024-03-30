@@ -1157,62 +1157,17 @@ static QString _intValue( QJsonObject& obj,const char * key )
 	return QString::number( obj.value( key ).toInt() ) ;
 }
 
-utility::MediaEntry::MediaEntry( const QByteArray& data ) : m_json( data )
+utility::MediaEntry::MediaEntry( const QJsonDocument& doc ) : m_json( doc )
+{
+	this->parseJson() ;
+}
+
+utility::MediaEntry::MediaEntry( const engines::engine& engine,const QByteArray& data ) :
+	m_json( engine.parsePlayListData( data ) )
 {
 	if( m_json ){
 
-		auto object = m_json.doc().object() ;
-
-		m_formats              = object.value( "formats" ).toArray() ;
-
-		m_title                = _stringValue( object,"title" ) ;
-		m_url                  = _stringValue( object,"webpage_url" ) ;
-		m_uploadDate           = _stringValue( object,"upload_date" ) ;
-		m_id                   = _stringValue( object,"id" ) ;
-		m_thumbnailUrl         = _stringValue( object,"thumbnail" ) ;
-		m_uploader             = _stringValue( object,"uploader" ) ;
-		m_playlist             = _stringValue( object,"playlist" ) ;
-		m_playlist_id          = _stringValue( object,"playlist_id" ) ;
-		m_playlist_title       = _stringValue( object,"playlist_title" ) ;
-		m_playlist_uploader    = _stringValue( object,"playlist_uploader" ) ;
-		m_playlist_uploader_id = _stringValue( object,"playlist_uploader_id" ) ;
-
-		m_n_entries            = _intValue( object,"n_entries" ) ;
-		m_playlist_count       = _intValue( object,"playlist_count" ) ;
-
-		if( m_uploadDate.size() == 8 ){
-
-			auto year  = m_uploadDate.mid( 0,4 ).toInt() ;
-			auto month = m_uploadDate.mid( 4,2 ).toInt() ;
-			auto day   = m_uploadDate.mid( 6,2 ).toInt() ;
-
-			QDate d ;
-
-			if( d.setDate( year,month,day ) ){
-
-				m_uploadDate = d.toString() ;
-			}
-		}
-
-		if( !m_uploadDate.isEmpty() ){
-
-			m_uploadDate = utility::stringConstants::uploadDate() + " " + m_uploadDate ;
-		}
-
-		auto duration = object.value( "duration" ) ;
-
-		if( duration.isDouble() ){
-
-			m_intDuration = static_cast< int >( duration.toDouble() ) ;
-		}else{
-			m_intDuration = duration.toInt() ;
-		}
-
-		if( m_intDuration != 0 ){
-
-			auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
-			m_duration = utility::stringConstants::duration() + " " + s ;
-		}
+		this->parseJson() ;
 	}
 }
 
@@ -1260,6 +1215,62 @@ QJsonObject utility::MediaEntry::uiJson() const
 	obj.insert( "uploader",m_uploader ) ;
 
 	return obj ;
+}
+
+void utility::MediaEntry::parseJson()
+{
+	auto object = m_json.doc().object() ;
+
+	m_formats              = object.value( "formats" ).toArray() ;
+
+	m_title                = _stringValue( object,"title" ) ;
+	m_url                  = _stringValue( object,"webpage_url" ) ;
+	m_uploadDate           = _stringValue( object,"upload_date" ) ;
+	m_id                   = _stringValue( object,"id" ) ;
+	m_thumbnailUrl         = _stringValue( object,"thumbnail" ) ;
+	m_uploader             = _stringValue( object,"uploader" ) ;
+	m_playlist             = _stringValue( object,"playlist" ) ;
+	m_playlist_id          = _stringValue( object,"playlist_id" ) ;
+	m_playlist_title       = _stringValue( object,"playlist_title" ) ;
+	m_playlist_uploader    = _stringValue( object,"playlist_uploader" ) ;
+	m_playlist_uploader_id = _stringValue( object,"playlist_uploader_id" ) ;
+
+	m_n_entries            = _intValue( object,"n_entries" ) ;
+	m_playlist_count       = _intValue( object,"playlist_count" ) ;
+
+	if( m_uploadDate.size() == 8 ){
+
+		auto year  = m_uploadDate.mid( 0,4 ).toInt() ;
+		auto month = m_uploadDate.mid( 4,2 ).toInt() ;
+		auto day   = m_uploadDate.mid( 6,2 ).toInt() ;
+
+		QDate d ;
+
+		if( d.setDate( year,month,day ) ){
+
+			m_uploadDate = d.toString() ;
+		}
+	}
+
+	if( !m_uploadDate.isEmpty() ){
+
+		m_uploadDate = utility::stringConstants::uploadDate() + " " + m_uploadDate ;
+	}
+
+	auto duration = object.value( "duration" ) ;
+
+	if( duration.isDouble() ){
+
+		m_intDuration = static_cast< int >( duration.toDouble() ) ;
+	}else{
+		m_intDuration = duration.toInt() ;
+	}
+
+	if( m_intDuration != 0 ){
+
+		auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
+		m_duration = utility::stringConstants::duration() + " " + s ;
+	}
 }
 
 const engines::engine& utility::resolveEngine( const tableWidget& table,

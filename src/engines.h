@@ -706,6 +706,8 @@ public:
 
 			virtual QString setCredentials( QStringList&,QStringList & ) ;
 
+			virtual util::Json parsePlayListData( const QByteArray& ) ;
+
 			struct onlineVersion
 			{
 				QString stringVersion ;
@@ -999,6 +1001,10 @@ public:
 		void updateCmdOptions( QStringList& e ) const
 		{
 			m_engine->updateCmdOptions( e ) ;
+		}
+		util::Json parsePlayListData( const QByteArray& e ) const
+		{
+			return m_engine->parsePlayListData( e ) ;
 		}
 		bool archiveContainsFolder() const
 		{

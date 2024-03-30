@@ -490,7 +490,7 @@ yt_dlp::yt_dlp( const engines& engines,
 	}
 }
 
-#define COMPACTYEAR "2023"
+#define COMPACTYEAR "2022"
 
 void yt_dlp::appendCompatOption( QStringList& e )
 {

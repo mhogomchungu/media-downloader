@@ -282,8 +282,8 @@ private:
 	class stdOut
 	{
 	public:
-		stdOut( playlistdownloader& p,customOptions o ) :
-			m_parent( p ),m_customOptions( o.move() )
+		stdOut( playlistdownloader& p,customOptions o,const engines::engine& e ) :
+			m_parent( p ),m_engine( e ),m_customOptions( o.move() )
 		{
 		}
 		void operator()( tableWidget& table,Logger::Data& data ) ;
@@ -293,6 +293,7 @@ private:
 		}
 	private:
 		playlistdownloader& m_parent ;
+		const engines::engine& m_engine ;
 		playlistdownloader::customOptions m_customOptions ;
 	} ;
 
