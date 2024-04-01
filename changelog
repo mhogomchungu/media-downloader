@@ -259,7 +259,7 @@ Version 1.2.0(April 1st, 2021)
      - Add a file size colum in "media options" table to easily show media file sizes.
      - Now buildable with Qt6. Pass "-DBUILD_WITH_QT6=TRUE" option to cmake to build for Qt6.
 
-  Version 4.5.0(Unreleased)
+  Version 4.5.0(April 1st, 2024)
       [All]
      - Support internal downloading and updating svtplay.
      - "Show media Options" menu now has a context menu with a list of video players you can use for
