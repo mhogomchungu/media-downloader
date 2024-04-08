@@ -181,7 +181,8 @@ public:
 			n_entries( media.n_entries() ),
 			mediaProperties( media.formats() ),
 			uiJson( media.uiJson() ),
-			thumbnail( thumbnail )
+			thumbnail( thumbnail ),
+			showFirst( media.showFirst() )
 		{
 		}
 		entry move()
@@ -209,6 +210,8 @@ public:
 		QJsonObject uiJson ;
 		QPixmap thumbnail ;
 		bool splitByChapters = false ;
+		bool banner = false ;
+		bool showFirst = false ;
 	} ;
 	template< typename Function >
 	void forEach( Function function )

@@ -208,13 +208,29 @@ int tableWidget::addRow()
 
 int tableWidget::addItem( tableWidget::entry e,tableWidget::sizeHint s )
 {
-	m_items.emplace_back( e.move() ) ;
-
-	const auto& entry = m_items.back() ;
-
 	auto row = m_table.rowCount() ;
 
+	if( e.showFirst && row ){
+
+		auto m = m_items.begin() ;
+
+		if( m->banner ){
+
+			row = 1 ;
+
+			m_items.insert( m + 1,e.move() ) ;
+		}else{
+			row = 0 ;
+
+			m_items.insert( m,e.move() ) ;
+		}
+	}else{
+		m_items.emplace_back( e.move() ) ;
+	}
+
 	m_table.insertRow( row ) ;
+
+	const auto& entry = m_items[ row ] ;
 
 	auto label = new QLabel() ;
 	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;

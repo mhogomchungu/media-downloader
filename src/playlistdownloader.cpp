@@ -939,6 +939,7 @@ void playlistdownloader::showBanner()
 
 	tableWidget::entry entry ;
 
+	entry.banner    = true ;
 	entry.uiText    = m_banner.txt() ;
 	entry.thumbnail = icon.pixmap( w,h ) ;
 
@@ -1173,8 +1174,6 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 			this->showEntry( table,entry.move() ) ;
 
-			table.selectLast() ;
-
 			return false ;
 		}
 	}
@@ -1192,8 +1191,6 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 		return false ;
 	}
-
-	table.selectLast() ;
 
 	if( networkAccess::hasNetworkSupport() ){
 
@@ -1256,8 +1253,6 @@ void playlistdownloader::networkData( utility::networkReply m )
 
 		this->showEntry( table,{ img,s,media } ) ;
 	}
-
-	table.selectLast() ;
 
 	m_networkRunning-- ;
 }
@@ -1346,6 +1341,8 @@ void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
 
 	m_ctx.TabManager().Configure().setDownloadOptions( row,table ) ;
+
+	table.selectRow( row ) ;
 
 	if( !m_ui.pbPLCancel->isEnabled() ){
 
@@ -1596,7 +1593,14 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 				if( media.valid() ){
 
-					if( m_parent.parseJson( m_customOptions,table,media.move() ) ){
+					const auto& p = m_customOptions ;
+
+					if( p.options().contains( "--playlist-reverse" ) ){
+
+						media.setShowFirst() ;
+					}
+
+					if( m_parent.parseJson( p,table,media.move() ) ){
 
 						break ;
 					}

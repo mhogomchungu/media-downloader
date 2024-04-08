@@ -1336,6 +1336,14 @@ namespace utility
 
 		QString uiText() const ;
 
+		void setShowFirst()
+		{
+			m_showFirst = true ;
+		}
+		bool showFirst() const
+		{
+			return m_showFirst ;
+		}
 		const QString& thumbnailUrl() const
 		{
 			return m_thumbnailUrl ;
@@ -1429,6 +1437,8 @@ namespace utility
 		QJsonArray m_formats ;
 		int m_intDuration ;
 		util::Json m_json ;
+
+		bool m_showFirst = false ;
 	} ;
 
 	class networkReply

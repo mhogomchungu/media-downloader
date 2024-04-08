@@ -1,6 +1,9 @@
 name: MediaDownloader4Windows
 
-on: push
+on:
+  push:
+    tags-ignore:
+    - '*'
 
 jobs:
   build:
