@@ -2,6 +2,8 @@ name: MediaDownloader4Windows
 
 on:
   push:
+    branches:    
+    - main
     tags-ignore:
     - '*'
 
