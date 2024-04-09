@@ -2447,8 +2447,9 @@ void batchdownloader::disableAll()
 	m_ui.pbBDQuit->setEnabled( false ) ;
 	m_ui.lineEditBDUrlOptions->setEnabled( false ) ;
 	m_ui.pbBatchDownloaderSet->setEnabled( false ) ;
-	m_ui.pbCancelBatchDownloder->setEnabled( false ) ;
 	m_ui.TableWidgetBatchDownloaderList->setEnabled( false ) ;
+
+	m_ui.pbCancelBatchDownloder->setEnabled( true ) ;
 
 	//m_ui.cbBDMonitorClipboardContent->setEnabled( false ) ;
 	//m_ui.pbBDPasteClipboard->setEnabled( false ) ;
