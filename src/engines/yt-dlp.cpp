@@ -124,6 +124,38 @@ video:9475kB audio:7554kB subtitle:0kB other streams:0kB global headers:0kB muxi
 [download] 100% of   17.13MiB in 00:00:12 at 1.40MiB/s)R" ;
 }
 
+static QString _Windows32BitBinaryName()
+{
+	return "yt-dlp_x86.exe" ;
+}
+
+static QString _Windows64BitBinaryName()
+{
+	return "yt-dlp.exe" ;
+}
+
+void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& thirdPartyBinPath )
+{
+	if( utility::platformIsWindows() ){
+
+		auto destPath = runTimeBinPath ;
+
+		if( utility::platformIs32Bit() ){
+
+			destPath += "/" + _Windows32BitBinaryName() ;
+		}else{
+			destPath += "/" + _Windows64BitBinaryName() ;
+		}
+
+		if( !QFile::exists( destPath ) ){
+
+			auto srcPath = thirdPartyBinPath + "/ytdlp/" + _Windows32BitBinaryName() ;
+
+			utility::copyFile( srcPath,destPath ) ;
+		}
+	}
+}
+
 static const char * _jsonFullArguments()
 {
 	return R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
@@ -218,11 +250,14 @@ QJsonObject yt_dlp::init( const QString& name,
 		}else{
 			utility::addJsonCmd json( mainObj ) ;
 
+			auto x86Name = _Windows32BitBinaryName() ;
+			auto amd64 = _Windows64BitBinaryName() ;
+
 			json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
 						    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
 
-			json.add( { { "Windows" },{ { "x86","yt-dlp_x86.exe",{ "yt-dlp_x86.exe" } },
-						    { "amd64","yt-dlp.exe",{ "yt-dlp.exe" } } } } ) ;
+			json.add( { { "Windows" },{ { "x86",x86Name,{ x86Name } },
+						    { "amd64",amd64,{ amd64 } } } } ) ;
 
 			json.done() ;
 

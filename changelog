@@ -266,3 +266,7 @@ Version 1.2.0(April 1st, 2021)
         streaming a media instead of downloading it.
      - Its now possible to select random entries in batch and playlist downloader tabs and batch download
       only those selected.
+
+     Version 4.6.0(Unreleased)
+     [Windows]
+     - Update bundled ffmpeg to version 7.

@@ -27,6 +27,7 @@ class yt_dlp : public engines::engine::functions
 public:
 	static const char * testYtDlp() ;
 	static const char * testFfmpeg() ;
+	static void checkIfBinaryExist( const QString&,const QString& ) ;
 
 	static QStringList jsonNoFormatsArgumentList() ;
 

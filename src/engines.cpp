@@ -1069,24 +1069,7 @@ engines::enginePaths::enginePaths( settings& s )
 	dir.mkpath( m_dataPath ) ;
 	dir.mkpath( m_tmp ) ;
 
-	if( utility::platformIsWindows() ){
-
-		auto destPath = m_binPath ;
-
-		if( utility::platformIs32Bit() ){
-
-			destPath += "/yt-dlp_x86.exe" ;
-		}else{
-			destPath += "/yt-dlp.exe" ;
-		}
-
-		if( !QFile::exists( destPath ) ){
-
-			auto srcPath = s.windowsOnly3rdPartyBinPath() + "/ytdlp/yt-dlp_x86.exe" ;
-
-			utility::copyFile( srcPath,destPath ) ;
-		}
-	}
+	yt_dlp::checkIfBinaryExist( m_binPath,s.windowsOnly3rdPartyBinPath() ) ;
 }
 
 QString engines::enginePaths::socketPath()
