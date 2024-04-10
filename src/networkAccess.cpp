@@ -78,32 +78,38 @@ networkAccess::networkAccess( const Context& ctx ) :
 	}
 }
 
+static bool _gitUrl( const QString& url )
+{
+	return url.contains( "mhogomchungu/media-downloader-git" ) ;
+}
+
 static bool _foundMediaDownloader( const QString& url )
 {
-#if QT_VERSION < QT_VERSION_CHECK( 6,0,0 )
-	if( url.contains( "MediaDownloader" ) ){
+	if( utility::Qt6Version() ){
 
-		if( url.contains( "MediaDownloaderQt6" ) ){
+		if( _gitUrl( url ) ){
 
-			return false ;
-
-		}else if( utility::runningGitVersion() ){
-
-			return url.contains( "MediaDownloader.git" ) ;
+			return url.contains( "MediaDownloaderQt6.git" ) ;
 		}else{
-			return true ;
+			return url.contains( "MediaDownloaderQt6" ) ;
 		}
 	}else{
-		return false ;
-	}
-#else
-	if( utility::runningGitVersion() ){
+		if( url.contains( "MediaDownloader" ) ){
 
-		return url.contains( "MediaDownloaderQt6.git" ) ;
-	}else{
-		return url.contains( "MediaDownloaderQt6" ) ;
+			if( url.contains( "MediaDownloaderQt6" ) ){
+
+				return false ;
+
+			}else if( _gitUrl( url ) ){
+
+				return url.contains( "MediaDownloader.git" ) ;
+			}else{
+				return true ;
+			}
+		}else{
+			return false ;
+		}
 	}
-#endif
 }
 
 void networkAccess::updateMediaDownloader( networkAccess::Status status,const QJsonDocument& json ) const

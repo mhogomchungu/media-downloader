@@ -2227,3 +2227,12 @@ void utility::deleteTmpFiles( const QString& df,std::vector< QByteArray > files 
 		}
 	} ) ;
 }
+
+bool utility::Qt6Version()
+{
+#if QT_VERSION > QT_VERSION_CHECK( 6,0,0 )
+	return true ;
+#else
+	return false ;
+#endif
+}
