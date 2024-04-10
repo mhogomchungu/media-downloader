@@ -93,7 +93,12 @@ static bool _foundMediaDownloader( const QString& url )
 		return false ;
 	}
 #else
-	return url.contains( "MediaDownloaderQt6" ) ;
+	if( utility::runningGitVersion() ){
+
+		return url.contains( "MediaDownloaderQt6.git" ) ;
+	}else{
+		return url.contains( "MediaDownloaderQt6" ) ;
+	}
 #endif
 }
 
