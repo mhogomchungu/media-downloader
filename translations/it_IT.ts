@@ -898,7 +898,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Windows&apos; Secure Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale sicuro di Windows</translation>
     </message>
 </context>
 <context>
