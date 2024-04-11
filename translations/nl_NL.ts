@@ -477,10 +477,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation></translation>
     </message>
     <message>
-        <source>Checking installed version of</source>
-        <translation>Geïnstalleerde versie controleren</translation>
-    </message>
-    <message>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>Kan versie-informatie niet vinden, controleer of &quot;%1&quot; is geïnstalleerd en goed werkt</translation>
     </message>
@@ -878,7 +874,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopie URL</translation>
     </message>
     <message>
         <source>Open Url With %1</source>
@@ -894,6 +890,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows&apos; Secure Channel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

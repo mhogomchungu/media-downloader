@@ -483,10 +483,6 @@ Esempio 2: ${gateway}:8080</translation>
         <translation>Download</translation>
     </message>
     <message>
-        <source>Checking installed version of</source>
-        <translation>Controllo versione installata di</translation>
-    </message>
-    <message>
         <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Impossibile trovare l&apos;eseguibile &quot;%1&quot;</translation>
     </message>
@@ -899,6 +895,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Size</source>
         <translation>Dimensione</translation>
+    </message>
+    <message>
+        <source>Windows&apos; Secure Channel</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

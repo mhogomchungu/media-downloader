@@ -65,7 +65,19 @@ networkAccess::networkAccess( const Context& ctx ) :
 
 		auto id = utility::sequentialID() ;
 
-		e.add( QObject::tr( "Checking installed version of" ) + " OpenSSL",id ) ;
+		auto mm = QObject::tr( "Checking installed version of %1" ) ;
+
+		if( utility::Qt6Version() ){
+
+			e.add( mm.arg( QObject::tr( "Windows' Secure Channel" ) ),id ) ;
+
+			if( !s.isEmpty() ){
+
+				s = util::split( s," " ).last() ;
+			}
+		}else{
+			e.add( mm.arg( "OpenSSL" ),id ) ;
+		}
 
 		if( s.isEmpty() ){
 
