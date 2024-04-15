@@ -459,6 +459,21 @@ bool tableWidget::allFinishedWithSuccess()
 	return true ;
 }
 
+int tableWidget::finishWithSuccess()
+{
+	int m = 0 ;
+
+	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+
+		if( downloadManager::finishedStatus::finishedWithSuccess( this->runningState( i ) ) ){
+
+			m++ ;
+		}
+	}
+
+	return m ;
+}
+
 QString tableWidget::completeProgress( int firstRow )
 {
 	int completed = 0 ;

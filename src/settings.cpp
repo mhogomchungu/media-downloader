@@ -657,6 +657,11 @@ int settings::thumbnailHeight( settings::tabName s )
 	return this->getOption( m,72 ) ;
 }
 
+int settings::desktopNotificationTimeOut()
+{
+	return this->getOption( "DesktopNotificationTimeOut",10000 ) ;
+}
+
 void settings::setOpenWith( const QString& e )
 {
 	m_settings.setValue( "OpenWith",e ) ;
@@ -807,6 +812,26 @@ QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 	auto height = this->thumbnailHeight( m ) ;
 
 	return QIcon( ":/video" ).pixmap( width,height ) ;
+}
+
+void settings::setDesktopNotifyOnDownloadComplete( bool e )
+{
+	m_settings.setValue( "DesktopNotifyOnDownloadComplete",e ) ;
+}
+
+void settings::setDesktopNotifyOnAllDownloadComplete( bool e )
+{
+	m_settings.setValue( "DesktopNotifyOnAllDownloadComplete",e ) ;
+}
+
+bool settings::desktopNotifyOnDownloadComplete()
+{
+	return this->getOption( "DesktopNotifyOnDownloadComplete",false ) ;
+}
+
+bool settings::desktopNotifyOnAllDownloadComplete()
+{
+	return this->getOption( "DesktopNotifyOnAllDownloadComplete",false ) ;
 }
 
 void settings::setLibraryShowFolderFirst( bool e )

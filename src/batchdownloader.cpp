@@ -2265,19 +2265,49 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f )
 {
 	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus() ) ;
 
+	auto index = f.finishedStatus().index() ;
+
+	auto success = f.finishedStatus().exitState().success() ;
+
 	if( m_ctx.Settings().autoHideDownloadWhenCompleted() ){
 
-		auto index = f.finishedStatus().index() ;
-
-		const auto& r = f.finishedStatus().finishedWithSuccess() ;
-
-		if( m_table.runningState( index ) == r ){
+		if( success ){
 
 			m_table.hideRow( index ) ;
 		}
 	}
 
+	if( m_settings.desktopNotifyOnDownloadComplete() && success ){
+
+		const auto& ss = m_table.entryAt( index ).uiText ;
+
+		auto m = util::split( ss,"\n" ) ;
+
+		if( m.size() > 1 ){
+
+			m_ctx.mainWindow().notifyOnDownloadComplete( m[ 1 ] ) ;
+		}else{
+			m_ctx.mainWindow().notifyOnDownloadComplete( m[ 0 ] ) ;
+		}
+	}
+
 	if( m_table.noneAreRunning() ){
+
+		if( m_settings.desktopNotifyOnAllDownloadComplete() ){
+
+			auto m = m_table.finishWithSuccess() ;
+
+			if( m == 1 ){
+
+				m_ctx.mainWindow().notifyOnAllDownloadComplete( "1 Download Complete" ) ;
+
+			}else if( m > 1 ){
+
+				auto s = QString::number( m ) ;
+
+				m_ctx.mainWindow().notifyOnAllDownloadComplete( s + " Downloads Complete" ) ;
+			}
+		}
 
 		m_ctx.TabManager().enableAll() ;
 

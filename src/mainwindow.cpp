@@ -195,6 +195,22 @@ void MainWindow::saveData()
 	m_tabManager.playlistDownloader().saveData() ;
 }
 
+void MainWindow::notifyOnDownloadComplete( const QString& e )
+{
+	auto m = QSystemTrayIcon::Information ;
+	auto s = m_settings.desktopNotificationTimeOut() ;
+
+	m_trayIcon.showMessage( "Download Complete",e,m,s ) ;
+}
+
+void MainWindow::notifyOnAllDownloadComplete( const QString& e )
+{
+	auto m = QSystemTrayIcon::Information ;
+	auto s = m_settings.desktopNotificationTimeOut() ;
+
+	m_trayIcon.showMessage( "All Downloads Complete",e,m,s ) ;
+}
+
 MainWindow::~MainWindow()
 {
 }

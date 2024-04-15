@@ -477,6 +477,20 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 					this->deleteTempFiles() ;
 				}
+
+				if( m.success() ){
+
+					const auto& s = m_parent.m_ctx ;
+
+					if( s.Settings().desktopNotifyOnDownloadComplete() ){
+
+						s.mainWindow().notifyOnDownloadComplete() ;
+
+					}else if( s.Settings().desktopNotifyOnAllDownloadComplete() ){
+
+						s.mainWindow().notifyOnDownloadComplete() ;
+					}
+				}
 			}
 		}
 		void disableAll()

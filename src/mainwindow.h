@@ -52,6 +52,8 @@ public:
 	void processEvent( const QByteArray& e ) ;
 	void quitApp() ;
 	void saveData() ;
+	void notifyOnDownloadComplete( const QString& = {} ) ;
+	void notifyOnAllDownloadComplete( const QString& ) ;
 	void showTrayIcon( bool ) ;
 	~MainWindow() override ;
 private slots:

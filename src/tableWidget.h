@@ -294,6 +294,7 @@ public:
 	bool rowIsSelected( int ) ;
 	bool containsHiddenRows() ;
 	bool allFinishedWithSuccess() ;
+	int finishWithSuccess() ;
 
 	tableWidget( QTableWidget& t,const QFont& font,int init,Qt::Alignment textAlignment ) ;
 

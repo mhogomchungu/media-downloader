@@ -177,6 +177,8 @@ public:
 
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
+	bool desktopNotifyOnDownloadComplete() ;
+	bool desktopNotifyOnAllDownloadComplete() ;
 	bool libraryShowFolderFirst() ;
 	bool libraryArrangeAscending() ;
 	bool libraryArrangeByDate() ;
@@ -212,6 +214,7 @@ public:
 	int maxLoggerProcesses() ;
 	int thumbnailWidth( settings::tabName ) ;
 	int thumbnailHeight( settings::tabName ) ;
+	int desktopNotificationTimeOut() ;
 
 	void setOpenWith( const QString& ) ;
 	void setShowLocalVersionInformationOnly( bool ) ;
@@ -221,6 +224,8 @@ public:
 	void setLibraryArrangeByDate( bool ) ;
 	void setAutoHideDownloadWhenCompleted( bool ) ;
 	void setCheckForUpdates( bool ) ;
+	void setDesktopNotifyOnDownloadComplete( bool ) ;
+	void setDesktopNotifyOnAllDownloadComplete( bool ) ;
 	void setUseInternalArchiveFile( bool ) ;
 	void clearOptionsHistory( settings::tabName ) ;
 	void addToplaylistRangeHistory( const QString& ) ;
