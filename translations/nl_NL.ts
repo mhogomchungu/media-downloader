@@ -896,6 +896,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Windows&apos; Secure Channel</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

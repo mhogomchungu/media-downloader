@@ -900,6 +900,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Windows&apos; Secure Channel</source>
         <translation>Canale sicuro di Windows</translation>
     </message>
+    <message>
+        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
