@@ -690,6 +690,8 @@ public:
 
 			virtual engines::engine::functions::DataFilter Filter( int ) ;
 
+			virtual QString deleteEngineBinFolder( const QString& ) ;
+
 			virtual void runCommandOnDownloadedFile( const QString&,const QString& ) ;
 
 			virtual QString commandString( const engines::engine::exeArgs::cmd& ) ;
@@ -1009,6 +1011,10 @@ public:
 		bool archiveContainsFolder() const
 		{
 			return m_archiveContainsFolder ;
+		}
+		QString deleteEngineBinFolder( const QString& e ) const
+		{
+			return m_engine->deleteEngineBinFolder( e ) ;
 		}
 		engines::metadata parseJsonDataFromGitHub( const QJsonDocument& e ) const
 		{

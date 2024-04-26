@@ -683,9 +683,14 @@ void networkAccess::extractArchive( const engines::engine& engine,
 
 	if( engine.archiveContainsFolder() ){
 
-		auto m = str.tempPath + "/" + engine.name() ;
+		auto m = engine.deleteEngineBinFolder( str.tempPath ) ;
 
-		QDir( m ).removeRecursively() ;
+		if( !m.isEmpty() ){
+
+			m = QObject::tr( "Trouble Ahead, Failed To Delete Folder: %1" ).arg( m ) ;
+
+			this->post( engine.name(),m,str.id ) ;
+		}
 	}else{
 		QFile::remove( str.exeBinPath ) ;
 	}

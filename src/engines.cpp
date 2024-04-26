@@ -1497,6 +1497,20 @@ engines::engine::functions::DataFilter engines::engine::functions::Filter( int i
 	return { util::types::type_identity< engines::engine::functions::filter >(),m_engine,id } ;
 }
 
+QString engines::engine::functions::deleteEngineBinFolder( const QString& e )
+{
+	auto m = e + "/" + m_engine.name() ;
+
+	QDir dir( m ) ;
+
+	if( dir.exists() && !dir.removeRecursively() ){
+
+		return m ;
+	}else{
+		return {} ;
+	}
+}
+
 void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,const QString& s )
 {
 	auto a = m_settings.commandOnSuccessfulDownload() ;
