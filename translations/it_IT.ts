@@ -902,7 +902,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Problemi in vista, impossibile eliminare la cartella: %1</translation>
     </message>
 </context>
 <context>
