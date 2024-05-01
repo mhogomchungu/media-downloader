@@ -222,6 +222,11 @@ bool settings::deleteFilesOnCanceledDownload()
 	return this->getOption( "DeleteFilesOnCanceledDownload",false ) ;
 }
 
+bool settings::autoSetDefaultEngineAndOptions()
+{
+	return this->getOption( "AutoSetDefaultEngineAndOptions",false ) ;
+}
+
 qint64 settings::timeOutWaitingForClipboardData()
 {
 	return this->getOption( "TimeOutWaitingForClipboardData",30000 ) ;

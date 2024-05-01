@@ -900,6 +900,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Other Websites</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

@@ -706,7 +706,7 @@ void batchdownloader::download( const engines::engine& engine,Items list )
 {
 	auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,list.first().url ) ;
 
-	m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
+	this->setDownloadingOptions( row,m_table ) ;
 
 	const auto& ee = m_table.entryAt( row ) ;
 
@@ -806,6 +806,66 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 	}
 }
 
+void batchdownloader::setDefaultEngineAndOptions( Items::entry& s )
+{
+	if( !m_settings.autoSetDefaultEngineAndOptions() ){
+
+		return ;
+	}
+
+	auto engineName = m_ui.cbEngineTypeBD->currentText() ;
+	auto opts       = m_ui.lineEditBDUrlOptions->text() ;
+
+	s.engineName = engineName ;
+
+	auto mm = util::split( s.uiText,"\n" ) ;
+
+	bool engineFound = false ;
+
+	for( auto& e : mm ){
+
+		if( e.startsWith( "Engine Name: " ) ){
+
+			e = "Engine Name: " + engineName ;
+
+			engineFound = true ;
+
+			break ;
+		}
+	}
+
+	if( !engineFound ){
+
+		mm.insert( 0,"Engine Name: " + engineName ) ;
+	}
+
+	if( s.downloadOptions.isEmpty() && !opts.isEmpty() ){
+
+		s.downloadOptions = opts ;
+
+		bool optionsFound = false ;
+
+		for( auto& e : mm ){
+
+			if( e.startsWith( "Download Options: " ) ){
+
+				e = "Download Options: " + opts ;
+
+				optionsFound = true ;
+
+				break ;
+			}
+		}
+
+		if( !optionsFound ){
+
+			mm.insert( 1,"Download Options: " + opts ) ;
+		}
+	}
+
+	s.uiText = mm.join( "\n" ) ;
+}
+
 void batchdownloader::addItemUiSlot( ItemEntry m )
 {
 	if( m.hasNext() ){
@@ -813,6 +873,11 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 		auto s = m.next() ;
 
 		auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,s.toJsonDoc() ) ;
+
+		if( s.engineName.isEmpty() ){
+
+			this->setDefaultEngineAndOptions( s ) ;
+		}
 
 		m_table.setUiText( s.uiText,row ) ;
 		m_table.setEngineName( s.engineName,row ) ;
@@ -1763,7 +1828,7 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 {
 	auto row = this->addItemUi( pixmap,index,m_table,m_ui,media ) ;
 
-	m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
+	this->setDownloadingOptions( row,m_table ) ;
 
 	m_ui.pbBDDownload->setEnabled( true ) ;
 
@@ -2082,6 +2147,24 @@ void batchdownloader::showList( batchdownloader::listType listType,
 	utility::run( args,QString(),ctx.move() ) ;
 }
 
+void batchdownloader::setDownloadingOptions( int row,tableWidget& table )
+{
+	m_ctx.TabManager().Configure().setDownloadOptions( row,table ) ;
+
+	if( m_table.engineName( row ).isEmpty() ){
+
+		Items::entry s( m_table.uiText( row ),m_table.url( row ) ) ;
+
+		s.downloadOptions = m_table.downloadingOptions( row ) ;
+
+		this->setDefaultEngineAndOptions( s ) ;
+
+		m_table.setUiText( s.uiText,row ) ;
+		m_table.setDownloadingOptions( s.downloadOptions,row ) ;
+		m_table.setEngineName( s.engineName,row ) ;
+	}
+}
+
 void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEntry& media )
 {
 	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,media ) ;
@@ -2112,7 +2195,7 @@ void batchdownloader::networkData( utility::networkReply m )
 		this->addItemUi( m_defaultVideoThumbnail,m.index(),m_table,m_ui,m.media() ) ;
 	}
 
-	m_ctx.TabManager().Configure().setDownloadOptions( m.index(),m_table ) ;
+	this->setDownloadingOptions( m.index(),m_table ) ;
 
 	if( m_table.noneAreRunning() ){
 

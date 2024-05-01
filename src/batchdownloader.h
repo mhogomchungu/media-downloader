@@ -217,7 +217,9 @@ private slots:
 	void reportFinishedStatus( const reportFinished& ) ;
 private:
 	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;
+	void setDefaultEngineAndOptions( Items::entry& ) ;
 	void showList( batchdownloader::listType,const engines::engine&,const QString&,int ) ;
+	void setDownloadingOptions( int,tableWidget& ) ;
 	void showBDFrame( batchdownloader::listType ) ;
 	void saveComments( const QJsonArray&,const QString& filePath ) ;
 	void showComments( const QByteArray& ) ;

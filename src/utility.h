@@ -425,8 +425,8 @@ namespace utility
 	} ;
 	struct PlayerOpts
 	{
-		PlayerOpts( const QString& e,const QString& n ) :
-			exePath( e ),name( n )
+		PlayerOpts( QString e,QString n ) :
+			exePath( std::move( e ) ),name( std::move( n ) )
 		{
 		}
 		QString exePath ;

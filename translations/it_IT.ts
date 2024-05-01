@@ -904,6 +904,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
         <translation>Problemi in vista, impossibile eliminare la cartella: %1</translation>
     </message>
+    <message>
+        <source>Other Websites</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

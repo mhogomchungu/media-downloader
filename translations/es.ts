@@ -902,6 +902,10 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>No Filter</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Other Websites</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

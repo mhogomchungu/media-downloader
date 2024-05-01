@@ -777,9 +777,11 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 		if( combineText ){
 
-			mm.add( e.website,e.uiNameTranslated,e.options + "\n" + e.uiNameTranslated ) ;
+			auto m = e.options + "\n" + e.uiNameTranslated ;
+
+			mm.add( e.websiteTranslated,e.uiNameTranslated,m ) ;
 		}else{
-			mm.add( e.website,e.uiNameTranslated,e.options ) ;
+			mm.add( e.websiteTranslated,e.uiNameTranslated,e.options ) ;
 		}
 	} ) ;
 
@@ -789,9 +791,8 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 		menu->addSeparator() ;
 
-		translator::entry sx( QObject::tr( "Clear" ),
-						   utility::selectedAction::CLEARSCREEN,
-						   utility::selectedAction::CLEARSCREEN ) ;
+		auto m = utility::selectedAction::CLEARSCREEN ;
+		translator::entry sx( QObject::tr( "Clear" ),m,m ) ;
 
 		tr.addAction( menu,sx.move() ) ;
 	}
@@ -800,9 +801,8 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 		menu->addSeparator() ;
 
-		translator::entry mm( QObject::tr( "Open Download Folder" ),
-						   utility::selectedAction::OPENFOLDER,
-						   utility::selectedAction::OPENFOLDER ) ;
+		auto m = utility::selectedAction::OPENFOLDER ;
+		translator::entry mm( QObject::tr( "Open Download Folder" ),m,m ) ;
 
 		tr.addAction( menu,mm.move() ) ;
 	}

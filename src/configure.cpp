@@ -1332,12 +1332,27 @@ QByteArray configure::presetOptions::defaultData()
 	"options": "-f bestaudio -x --embed-thumbnail",
 	"uiName": "Best Available Audio Only",
 	"website": "Youtube"
+    },
+    {
+	"options": "-f bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best",
+	"uiName": "Best Available Audio Video",
+	"website": "Other Websites"
+    },
+    {
+	"options": "-f bestaudio/worst -x --embed-thumbnail --audio-format mp3",
+	"uiName": "Best Available Audio Only(MP3)",
+	"website": "Other Websites"
+    },
+    {
+	"options": "-f bestaudio/worst -x --embed-thumbnail",
+	"uiName": "Best Available Audio Only",
+	"website": "Other Websites"
     }
 ])R";
 }
 
 configure::presetEntry::presetEntry( const QString& ui,const QString& op,const QString& wb ) :
-	uiName( ui ),options( op ),website( wb )
+	uiName( ui ),options( op ),website( wb ),websiteTranslated( wb )
 {
 	if( uiName == "Best Available Audio Only" ){
 
@@ -1358,6 +1373,11 @@ configure::presetEntry::presetEntry( const QString& ui,const QString& op,const Q
 		uiNameTranslated = m.arg( uiName.mid( uiName.lastIndexOf( ' ' ) + 1 ) ) ;
 	}else{
 		uiNameTranslated = uiName ;
+	}
+
+	if( websiteTranslated == "Other Websites" ){
+
+		websiteTranslated = QObject::tr( "Other Websites" ) ;
 	}
 }
 

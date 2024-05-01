@@ -85,6 +85,7 @@ public:
 		const QString& uiName ;
 		const QString& options ;
 		const QString& website ;
+		QString websiteTranslated ;
 		QString uiNameTranslated ;
 	} ;
 	template< typename Function >
