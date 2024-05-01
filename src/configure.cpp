@@ -1340,12 +1340,12 @@ QByteArray configure::presetOptions::defaultData()
     },
     {
 	"options": "-f bestaudio/worst -x --embed-thumbnail --audio-format mp3",
-	"uiName": "Best Available Audio Only(MP3)",
+	"uiName": "Extract Audio As MP3",
 	"website": "Other Websites"
     },
     {
 	"options": "-f bestaudio/worst -x --embed-thumbnail",
-	"uiName": "Best Available Audio Only",
+	"uiName": "Extract Audio",
 	"website": "Other Websites"
     }
 ])R";
@@ -1354,7 +1354,15 @@ QByteArray configure::presetOptions::defaultData()
 configure::presetEntry::presetEntry( const QString& ui,const QString& op,const QString& wb ) :
 	uiName( ui ),options( op ),website( wb ),websiteTranslated( wb )
 {
-	if( uiName == "Best Available Audio Only" ){
+	if( uiName == "Extract Audio" ){
+
+		uiNameTranslated = QObject::tr( "Extract Audio" ) ;
+
+	}else if( uiName == "Extract Audio As MP3" ){
+
+		uiNameTranslated = QObject::tr( "Extract Audio As MP3" ) ;
+
+	}if( uiName == "Best Available Audio Only" ){
 
 		uiNameTranslated = QObject::tr( "Best Available Audio Only" ) ;
 

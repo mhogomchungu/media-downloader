@@ -908,6 +908,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Other Websites</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Extract Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract Audio As MP3</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
