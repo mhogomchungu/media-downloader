@@ -267,7 +267,7 @@ Version 1.2.0(April 1st, 2021)
      - Its now possible to select random entries in batch and playlist downloader tabs and batch download
       only those selected.
 
-     Version 4.6.0(May 1st, 2024)
+     Version 4.6.0(May 3rd, 2024)
      [Windows]
      - Update bundled ffmpeg to version 7. Unistall first Media Downloader before updating to this version
        because some ffmpeg files are named differently causing older files to not be removed.

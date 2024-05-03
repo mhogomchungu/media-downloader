@@ -45,13 +45,13 @@ Make sure you have access to the internet before you run the media-downloader fo
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.5.0/MediaDownloader-4.5.0.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.6.0/MediaDownloader-4.6.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.5.0/MediaDownloader-4.5.0.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.6.0/MediaDownloader-4.6.0.zip).
 
 Git version of portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader-git/releases).
 
