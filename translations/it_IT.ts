@@ -906,15 +906,15 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Other Websites</source>
-        <translation type="unfinished"></translation>
+        <translation>Altri siti web</translation>
     </message>
     <message>
         <source>Extract Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Estrai audio</translation>
     </message>
     <message>
         <source>Extract Audio As MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Estrai audio come MP3</translation>
     </message>
 </context>
 <context>
