@@ -56,5 +56,5 @@ TRANSLATIONS = \
 ../translations/sv_SE.ts \
 ../translations/de_DE.ts \
 ../translations/pt_BR.ts \
-../translations/nl_NL.ts
-
+../translations/nl_NL.ts \
+../translations/ar.ts
