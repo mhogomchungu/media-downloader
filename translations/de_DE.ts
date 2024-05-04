@@ -912,6 +912,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Extract Audio As MP3</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Arabic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

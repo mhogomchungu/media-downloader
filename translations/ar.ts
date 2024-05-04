@@ -237,7 +237,7 @@
     </message>
     <message>
         <source>Get List Options:</source>
-        <translation>>الحصول على قائمة الخيارات</translation>
+        <translation>&gt;الحصول على قائمة الخيارات</translation>
     </message>
     <message>
         <source>Subscriptions</source>
@@ -643,10 +643,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>الوقت المنقضي:</translation>
     </message>
     <message>
-        <source>Checking installed version of</source>
-        <translation>التحقق من الإصدار المثبت من</translation>
-    </message>
-    <message>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
         <translation>فشل في العثور على معلومات الإصدار، تأكد من تثبيت &quot;%1&quot; %1&quot; وأنه يعمل بشكل صحيح</translation>
     </message>
@@ -897,6 +893,30 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>No Filter</source>
         <translation>عدم استخدام مرشح</translation>
+    </message>
+    <message>
+        <source>Extract Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract Audio As MP3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other Websites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows&apos; Secure Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trouble Ahead, Failed To Delete Folder: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arabic</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

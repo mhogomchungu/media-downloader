@@ -916,6 +916,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Extract Audio As MP3</source>
         <translation>Estrai audio come MP3</translation>
     </message>
+    <message>
+        <source>Arabic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
