@@ -896,27 +896,27 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Extract Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>استخراج الصوت</translation>
     </message>
     <message>
         <source>Extract Audio As MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>استخراج الصوت بصيغة MP3</translation>
     </message>
     <message>
         <source>Other Websites</source>
-        <translation type="unfinished"></translation>
+        <translation>مواقع أخرى</translation>
     </message>
     <message>
         <source>Windows&apos; Secure Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>القناة الآمنة لويندوز</translation>
     </message>
     <message>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>هناك مشكلة، فشل حذف المجلد: %1</translation>
     </message>
     <message>
         <source>Arabic</source>
-        <translation type="unfinished"></translation>
+        <translation>العربية</translation>
     </message>
 </context>
 <context>
