@@ -210,6 +210,7 @@ public:
 	void setShowMetaData( bool ) ;
 	void showComments( const engines::engine&,const QString& ) ;
 	void clipboardData( const QString& ) ;
+	void textAlignmentChanged( Qt::LayoutDirection ) ;
 private slots:
 	void addItemUiSlot( ItemEntry ) ;
 	void networkData( utility::networkReply ) ;

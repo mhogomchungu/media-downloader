@@ -47,6 +47,7 @@ public:
 	void retranslateUi() ;
 	void tabEntered() ;
 	void tabExited() ;
+	void textAlignmentChanged( Qt::LayoutDirection ) ;
 private slots:
 	void addEntry( const directoryEntries::iter& ) ;
 private:

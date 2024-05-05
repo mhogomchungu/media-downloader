@@ -69,7 +69,6 @@ library::library( const Context& ctx ) :
 			m_ui.pbLibraryQuit->setEnabled( true ) ;
 			m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
 			m_ui.cbLibraryTabEnable->setEnabled( true ) ;
-			m_ui.labelLibraryWarning->setEnabled( true ) ;
 		}
 	} ) ;
 
@@ -228,14 +227,12 @@ void library::init_done()
 		m_ui.pbLibraryQuit->setEnabled( true ) ;
 		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
 		m_ui.cbLibraryTabEnable->setEnabled( true ) ;
-		m_ui.labelLibraryWarning->setEnabled( true ) ;
 	}
 }
 
 void library::enableAll()
 {
 	m_ui.cbLibraryTabEnable->setEnabled( true ) ;
-	m_ui.labelLibraryWarning->setEnabled( true ) ;
 
 	if( m_enabled ){
 
@@ -276,13 +273,16 @@ void library::tabExited()
 	m_continue = false ;
 }
 
+void library::textAlignmentChanged( Qt::LayoutDirection )
+{
+}
+
 void library::enableAll( bool e )
 {
 	if( e ){
 
 		m_table.setEnabled( true ) ;
 		m_ui.cbLibraryTabEnable->setEnabled( true ) ;
-		m_ui.labelLibraryWarning->setEnabled( true ) ;
 		m_ui.pbLibraryQuit->setEnabled( true ) ;
 		m_ui.pbLibraryCancel->setEnabled( true ) ;
 		m_ui.pbLibraryHome->setEnabled( true ) ;
@@ -298,7 +298,6 @@ void library::disableAll( bool e )
 
 		m_table.setEnabled( false ) ;
 		m_ui.cbLibraryTabEnable->setEnabled( false ) ;
-		m_ui.labelLibraryWarning->setEnabled( false ) ;
 		m_ui.pbLibraryQuit->setEnabled( false ) ;
 		m_ui.pbLibraryCancel->setEnabled( false ) ;
 		m_ui.pbLibraryHome->setEnabled( false ) ;

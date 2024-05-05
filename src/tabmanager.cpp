@@ -42,6 +42,8 @@ tabManager::tabManager( settings& s,
 	m_playlistdownloader( m_ctx ),
 	m_library( m_ctx )
 {
+	t.setContext( &m_ctx ) ;
+
 	qRegisterMetaType< QClipboard::Mode >() ;
 
 	m_clipboard = QApplication::clipboard() ;
@@ -327,4 +329,14 @@ tabManager& tabManager::exiting()
 	m_library.exiting() ;
 
 	return *this ;
+}
+
+void tabManager::textAlignmentChanged( Qt::LayoutDirection m )
+{
+	m_about.textAlignmentChanged( m ) ;
+	m_configure.textAlignmentChanged( m ) ;
+	m_basicdownloader.textAlignmentChanged( m ) ;
+	m_batchdownloader.textAlignmentChanged( m ) ;
+	m_playlistdownloader.textAlignmentChanged( m ) ;
+	m_library.textAlignmentChanged( m ) ;
 }

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -69,9 +69,9 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>330</y>
-        <width>141</width>
+        <width>131</width>
         <height>31</height>
        </rect>
       </property>
@@ -88,9 +88,9 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>370</y>
-        <width>141</width>
+        <width>131</width>
         <height>31</height>
        </rect>
       </property>
@@ -226,9 +226,9 @@
      <widget class="QLabel" name="labelEngineName">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>10</x>
         <y>410</y>
-        <width>141</width>
+        <width>131</width>
         <height>31</height>
        </rect>
       </property>
@@ -986,9 +986,9 @@
      <widget class="QLabel" name="labelPLEngineName">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>30</x>
         <y>410</y>
-        <width>171</width>
+        <width>141</width>
         <height>31</height>
        </rect>
       </property>
@@ -1397,28 +1397,12 @@
        <rect>
         <x>60</x>
         <y>410</y>
-        <width>21</width>
+        <width>681</width>
         <height>41</height>
        </rect>
       </property>
       <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="labelLibraryWarning">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>416</y>
-        <width>651</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
        <string>Enable Library Tab</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="pbLibraryCancel">
@@ -1449,7 +1433,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1599,7 +1583,7 @@
          <rect>
           <x>188</x>
           <y>240</y>
-          <width>561</width>
+          <width>421</width>
           <height>31</height>
          </rect>
         </property>
@@ -1683,7 +1667,7 @@
          <rect>
           <x>188</x>
           <y>280</y>
-          <width>561</width>
+          <width>421</width>
           <height>31</height>
          </rect>
         </property>
@@ -1696,7 +1680,7 @@
          <rect>
           <x>188</x>
           <y>300</y>
-          <width>561</width>
+          <width>421</width>
           <height>31</height>
          </rect>
         </property>
@@ -1751,7 +1735,7 @@
          <rect>
           <x>188</x>
           <y>260</y>
-          <width>561</width>
+          <width>421</width>
           <height>31</height>
          </rect>
         </property>
@@ -1895,9 +1879,9 @@
        <widget class="QLabel" name="labelConfugureUiName">
         <property name="geometry">
          <rect>
-          <x>0</x>
+          <x>10</x>
           <y>290</y>
-          <width>121</width>
+          <width>111</width>
           <height>31</height>
          </rect>
         </property>
@@ -1911,9 +1895,9 @@
        <widget class="QLabel" name="labelConfigureOptionsPresetOptiions">
         <property name="geometry">
          <rect>
-          <x>0</x>
+          <x>10</x>
           <y>330</y>
-          <width>121</width>
+          <width>111</width>
           <height>31</height>
          </rect>
         </property>
@@ -1953,9 +1937,9 @@
        <widget class="QLabel" name="labelConfugureWebSite">
         <property name="geometry">
          <rect>
-          <x>0</x>
+          <x>10</x>
           <y>250</y>
-          <width>121</width>
+          <width>111</width>
           <height>31</height>
          </rect>
         </property>
@@ -2180,9 +2164,9 @@
        <widget class="QLabel" name="label_5">
         <property name="geometry">
          <rect>
-          <x>-20</x>
+          <x>10</x>
           <y>330</y>
-          <width>171</width>
+          <width>141</width>
           <height>31</height>
          </rect>
         </property>

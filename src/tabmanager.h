@@ -72,6 +72,7 @@ public:
 	{
 		return m_uiEnabled ;
 	}
+	void textAlignmentChanged( Qt::LayoutDirection ) ;
 	void init_done() ;
 	void setProxy( const settings::proxySettings&,const settings::proxySettings::type& ) ;
 private:

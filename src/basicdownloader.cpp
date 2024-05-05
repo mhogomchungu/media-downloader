@@ -653,6 +653,11 @@ void basicdownloader::exiting()
 {
 }
 
+void basicdownloader::textAlignmentChanged( Qt::LayoutDirection m )
+{
+	utility::alignText( m,m_ui.label,m_ui.label_2,m_ui.labelEngineName ) ;
+}
+
 void basicdownloader::gotEvent( const QJsonObject& )
 {
 }

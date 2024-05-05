@@ -38,6 +38,7 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void exiting() ;
+	void textAlignmentChanged( Qt::LayoutDirection ) ;
 private:
 	const Context& m_ctx ;
 };

@@ -1880,6 +1880,15 @@ void batchdownloader::clipboardData( const QString& url )
 	}
 }
 
+void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
+{
+	auto a = m_ui.labelBDEnterOptions ;
+	auto b = m_ui.labelBDEnterUrl ;
+	auto c = m_ui.labelBDEngineName ;
+
+	utility::alignText( m,a,b,c ) ;
+}
+
 void batchdownloader::clearScreen()
 {
 	m_table.clear() ;

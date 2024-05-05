@@ -1108,6 +1108,28 @@ void configure::enableAll()
 	}
 }
 
+void configure::textAlignmentChanged( Qt::LayoutDirection z )
+{
+	auto a = m_ui.labelProxy ;
+	auto b = m_ui.label_3 ;
+	auto c = m_ui.label_4 ;
+	auto d = m_ui.label_5 ;
+	auto e = m_ui.label_6 ;
+	auto f = m_ui.labelConfigureTextEncoding ;
+	auto g = m_ui.labelConfigureEngines_2 ;
+	auto h = m_ui.labelConfugureUiName ;
+	auto i = m_ui.labelConfigureOptionsPresetOptiions ;
+	auto j = m_ui.labelConfigureTheme ;
+	auto k = m_ui.labelMaximumConcurrentDownloads ;
+	auto l = m_ui.labelConfigureLanguage ;
+	auto m = m_ui.labelConfigureScaleFactor ;
+	auto n = m_ui.labelConfigureDownloadPath ;
+	auto o = m_ui.labelConfugureWebSite ;
+	auto p = m_ui.labelActionsAtStartup ;
+
+	utility::alignText( z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p ) ;
+}
+
 void configure::disableAll()
 {
 	m_ui.rbUseManualProxy->setEnabled( false ) ;

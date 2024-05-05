@@ -88,6 +88,7 @@ public:
 	void tabExited() ;
 	void exiting() ;
 	void saveData() ;
+	void textAlignmentChanged( Qt::LayoutDirection ) ;
 	void gotEvent( const QJsonObject& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void clipboardData( const QString& ) ;

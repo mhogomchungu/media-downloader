@@ -37,6 +37,7 @@ public:
 	configure( const Context& ) ;
 	void init_done() ;
 	void enableAll() ;
+	void textAlignmentChanged( Qt::LayoutDirection ) ;
 	void disableAll() ;
 	void resetMenu() ;
 	void exiting() ;

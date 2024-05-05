@@ -387,6 +387,16 @@ void playlistdownloader::saveData()
 	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 
+void playlistdownloader::textAlignmentChanged( Qt::LayoutDirection m )
+{
+	auto a = m_ui.labelPLEngineName ;
+	auto b = m_ui.labelPLEnterOptions ;
+	auto c = m_ui.labelPLEnterUrlRange ;
+	auto d = m_ui.labelPLEnterUrl ;
+
+	utility::alignText( m,a,b,c,d ) ;
+}
+
 void playlistdownloader::gotEvent( const QJsonObject& )
 {
 }

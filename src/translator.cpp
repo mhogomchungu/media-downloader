@@ -20,6 +20,8 @@
 #include "translator.h"
 #include "settings.h"
 #include "locale_path.h"
+#include "context.hpp"
+#include "tabmanager.h"
 
 #include <QCoreApplication>
 
@@ -42,8 +44,24 @@ translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settin
 	this->setDefaultLanguage() ;
 }
 
-void translator::setLanguage( const QString& e )
+void translator::setContext( Context * ctx )
 {
+	m_ctx = ctx ;
+
+	this->setDefaultLanguage() ;
+}
+
+void translator::setLanguage( const QString& e )
+{	
+	if( m_ctx ){
+
+		auto m = QLocale( e ).textDirection() ;
+
+		m_ctx->mainWidget().setLayoutDirection( m ) ;
+
+		m_ctx->TabManager().textAlignmentChanged( m ) ;
+	}
+
 	m_qapp.installTranslator( [ & ](){
 
 		this->clear() ;

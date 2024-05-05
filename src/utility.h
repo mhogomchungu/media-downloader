@@ -571,6 +571,24 @@ namespace utility
 		const Context& ctx ;
 	};
 
+	template< typename ... qLabel >
+	void alignText( Qt::LayoutDirection m,qLabel ... l )
+	{
+		Qt::Alignment alignment ;
+
+		if( m == Qt::LayoutDirection::LeftToRight ){
+
+			alignment = Qt::AlignmentFlag::AlignRight ;
+		}else{
+			alignment = Qt::AlignmentFlag::AlignLeft ;
+		}
+
+		for( auto s : { l ... } ){
+
+			s->setAlignment( alignment ) ;
+		}
+	}
+
 	QStringList updateOptions( const utility::updateOptionsStruct& ) ;
 
 	bool hasDigitsOnly( const QString& e ) ;

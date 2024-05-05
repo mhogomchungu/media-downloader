@@ -95,6 +95,10 @@ void about::exiting()
 {
 }
 
+void about::textAlignmentChanged( Qt::LayoutDirection )
+{
+}
+
 void about::init_done()
 {
 }
