@@ -113,7 +113,12 @@ if(WIN32)
     add_executable(media-downloader WIN32 ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES} ${APP_ICON_RESOURCE_WINDOWS})
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -pedantic")
 else()
-    add_executable(media-downloader ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
+    if(APPLE)
+	add_executable(media-downloader MACOSX_BUNDLE ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
+        set_target_properties(media-downloader PROPERTIES  MACOSX_BUNDLE ON)
+    else()
+        add_executable(media-downloader ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
+    endif()
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
 endif()
 
@@ -131,7 +136,10 @@ else()
     endif()
 endif()
 
-install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+if(APPLE)
+else()
+    install(TARGETS media-downloader RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
 
 install(FILES src/media-downloader.desktop DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
 install(FILES src/media-downloader.png DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pixmaps)
@@ -358,4 +366,33 @@ Name: \"turkish\"             ; MessagesFile: \"compiler:Languages\\Turkish.isl\
 Name: \"ukrainian\"           ; MessagesFile: \"compiler:Languages\\Ukrainian.isl\"
 ")
 
+endif()
+
+if( APPLE )
+
+    SET( plugin_dest_dir media-downloader.app/Contents/MacOS )
+    SET( qtconf_dest_dir media-downloader.app/Contents/Resources )
+    SET( APPS "\${CMAKE_INSTALL_PREFIX}/media-downloader.app" )
+
+    set_target_properties( media-downloader PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/src/MacOSXBundleInfo.plist.in" )
+
+    install( TARGETS media-downloader BUNDLE DESTINATION . COMPONENT Runtime )
+
+    file( COPY src/media-downloader.icns DESTINATION "media-downloader.app/Contents/Resources/" )
+    file( COPY translations/ar.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/de_DE.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/en_US.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/es.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/fr_FR.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/it_IT.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/ja_JP.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/nl_NL.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/pl_PL.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/pt_BR.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/ru_RU.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/sv_SE.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/tr_TR.qm DESTINATION "media-downloader.app/Contents/Resources/translations/" )
+    file( COPY translations/zh_CN.qm DESTINATION "media-downloaderapp/Contents/Resources/translations/" )
+
+    file( COPY changelog DESTINATION "media-downloader.app/Contents/Resources/" )
 endif()

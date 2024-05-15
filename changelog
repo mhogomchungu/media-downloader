@@ -278,3 +278,7 @@ Version 1.2.0(April 1st, 2021)
        downloads complete, add option "DesktopNotifyOnAllDownloadComplete" to the config file.
     - Add support for "--playlist-reverse" yt-dlp option. Media Downloader need to simulate yt-dlp playlist options
       because it manages the playlist itsef.
+
+     Version 4.7.0(Unreleased)
+         [All]
+    - Add Arabic translations.

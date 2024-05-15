@@ -42,6 +42,7 @@ public:
 	void resetMenu() ;
 	void exiting() ;
 	void retranslateUi() ;
+	void setUpdateMenu() ;
 	void downloadFromGitHub( const engines::Iterator& ) ;
 	void tabEntered() ;
 	void tabExited() ;

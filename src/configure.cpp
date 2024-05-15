@@ -684,15 +684,12 @@ void configure::retranslateUi()
 {
 	this->resetMenu() ;
 
+	this->setUpdateMenu() ;
+
 	themes().setComboBox( *m_ui.comboBoxConfigureDarkTheme,m_settings.themeName() ) ;
 }
 
-void configure::downloadFromGitHub( const engines::Iterator& iter )
-{
-	m_ctx.network().download( iter ) ;
-}
-
-void configure::tabEntered()
+void configure::setUpdateMenu()
 {
 	m_menu.clear() ;
 
@@ -721,6 +718,16 @@ void configure::tabEntered()
 	m_menu.addAction( tr( "Cancel" ) ) ;
 
 	m_ui.pbConfigureDownload->setMenu( &m_menu ) ;
+}
+
+void configure::downloadFromGitHub( const engines::Iterator& iter )
+{
+	m_ctx.network().download( iter ) ;
+}
+
+void configure::tabEntered()
+{
+	this->setUpdateMenu() ;
 
 	auto mm = m_ui.cbConfigureEngines->currentText() ;
 

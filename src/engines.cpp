@@ -92,6 +92,11 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	auto p = env.value( "PATH" ) ;
 
+	if( utility::platformIsOSX() ){
+					
+		s = QCoreApplication::applicationDirPath() + separator + s ;
+	}
+	
 	if( s.endsWith( separator ) ){
 
 		env.insert( "PATH",s + p ) ;
@@ -535,18 +540,10 @@ QString engines::findExecutable( const QString& exeName ) const
 		return exeName ;
 	}
 
-	auto paths = [ this ](){
-
-		if( utility::platformIsLikeWindows() ){
-
-			return this->processEnvironment().value( "PATH" ).split( ';' ) ;
-		}else{
-			return this->processEnvironment().value( "PATH" ).split( ':' ) ;
-		}
-	}() ;
-
 	if( utility::platformIsLikeWindows() ){
 
+		auto paths = this->processEnvironment().value( "PATH" ).split( ';' ) ;
+		
 		auto m = _findExecutable( exeName,paths,info ) ;
 
 		if( m.isEmpty() && !exeName.endsWith( ".exe" ) ){
@@ -556,6 +553,8 @@ QString engines::findExecutable( const QString& exeName ) const
 
 		return m ;
 	}else{
+		auto paths = this->processEnvironment().value( "PATH" ).split( ':' ) ;
+		
 		return _findExecutable( exeName,paths,info ) ;
 	}
 }

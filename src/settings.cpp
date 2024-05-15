@@ -958,14 +958,14 @@ QString settings::localizationLanguagePath()
 		return m_options.windowsOnlyExePath() + "/translations" ;
 	}
 
+	if( utility::platformIsOSX() ){
+
+		return QCoreApplication::applicationDirPath() + "/../Resources/translations" ;
+	}
+	
 	if( !m_settings.contains( "TranslationsPath" ) ){
 
-		if( utility::platformIsOSX() ){
-
-			m_settings.setValue( "TranslationsPath",TRANSLATION_PATH ) ;
-		}else{
-			m_settings.setValue( "TranslationsPath",TRANSLATION_PATH ) ;
-		}
+		m_settings.setValue( "TranslationsPath",TRANSLATION_PATH ) ;
 	}
 
 	return m_settings.value( "TranslationsPath" ).toString() ;

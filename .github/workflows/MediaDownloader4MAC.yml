@@ -1,0 +1,21 @@
+name: MediaDownloader4MAC
+
+on:
+  push:
+    branches:
+    - main
+    tags-ignore:
+    - '*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MD_GIT_PUBLISH }}
+          repository: mhogomchungu/media-downloader-git
+          event-type: PublishMacGit
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
