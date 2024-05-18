@@ -82,6 +82,21 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 			s += separator + mm + "/" + it ;
 			s += separator + mm + "/" + it + "/bin" ;
 		}
+
+	}else if( utility::platformIsOSX() ){
+
+		auto m = QCoreApplication::applicationDirPath() ;
+
+		const auto e = m ;
+
+		auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+
+		for( const auto& it : QDir( e ).entryList( filters ) ){
+
+			m += separator + e + "/" + it ;
+		}
+
+		s = m + separator + s ;
 	}
 
 	for( const auto& it : m ){
@@ -92,11 +107,6 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	auto p = env.value( "PATH" ) ;
 
-	if( utility::platformIsOSX() ){
-					
-		s = QCoreApplication::applicationDirPath() + separator + s ;
-	}
-	
 	if( s.endsWith( separator ) ){
 
 		env.insert( "PATH",s + p ) ;
