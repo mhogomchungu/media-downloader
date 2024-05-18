@@ -361,6 +361,13 @@ void engines::updateEngines( bool addAll,int id )
 
 	if( addAll ){
 
+		if( utility::platformIsWindows() ){
+
+			_engine_add( "",{ *this,m_logger,"bsdtar","--version",0,1,id } ) ;
+		}else{
+			_engine_add( "",{ *this,m_logger,"tar","--version",0,3,id } ) ;
+		}
+
 		_engine_add( "",{ *this,m_logger,"ffmpeg","-version",0,2,id } ) ;
 
 		if( !mm.contains( "aria2c.json" ) ){
