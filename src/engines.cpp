@@ -365,7 +365,9 @@ void engines::updateEngines( bool addAll,int id )
 
 			_engine_add( "",{ *this,m_logger,"bsdtar","--version",0,1,id } ) ;
 		}else{
-			_engine_add( "",{ *this,m_logger,"tar","--version",0,3,id } ) ;
+			auto m = utility::platformIsLinux() ? 3 : 1 ;
+
+			_engine_add( "",{ *this,m_logger,"tar","--version",0,m,id } ) ;
 		}
 
 		_engine_add( "",{ *this,m_logger,"ffmpeg","-version",0,2,id } ) ;
