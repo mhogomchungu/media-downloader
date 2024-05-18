@@ -202,6 +202,10 @@ bool lux::foundNetworkUrl( const QString& s )
 		}else{
 			return s.contains( "Linux_x86_64" ) ;
 		}
+
+	}else if( utility::platformIsOSX() ){
+
+		return s.contains( "Darwin_x86_64.tar.gz" ) ;
 	}else{
 		return false ;
 	}
