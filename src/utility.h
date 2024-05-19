@@ -477,7 +477,7 @@ namespace utility
 		QString downloadOptions ;
 	} ;
 	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& = {} ) ;
-	bool copyFile( const QString& src,const QString& dst ) ;
+	bool copyFile( const QString& src,const QString& dst,bool = true ) ;
 	bool pathIsFolderAndExists( const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIs32Bit() ;
@@ -489,6 +489,7 @@ namespace utility
 	bool addData( const QByteArray& ) ;
 	void contextMenuForDirectUrl( const QJsonArray&,const Context& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
+	QString OSXApplicationDirPath() ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;

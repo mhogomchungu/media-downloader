@@ -42,13 +42,18 @@
 #include <QNetworkProxyFactory>
 #include <QDir>
 
+static QStringList _dirEntries( const QString& e )
+{
+	auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+
+	return QDir( e ).entryList( filters ) ;
+}
+
 static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,settings& settings )
 {
 	auto env = QProcessEnvironment::systemEnvironment() ;
 
 	const auto& basePath = paths.binPath() ;
-
-	const auto m = QDir( basePath ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
 
 	auto separator = [ & ](){
 
@@ -68,7 +73,7 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 		s += separator + mm ;
 
-		auto m = QDir( mm ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+		auto m = _dirEntries( mm ) ;
 
 		m.removeOne( "aria2-1.36.0-win-32bit-build1" ) ;
 		m.removeOne( "aria2-1.37.0-win-32bit-build1" ) ;
@@ -85,21 +90,19 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	}else if( utility::platformIsOSX() ){
 
-		auto m = QCoreApplication::applicationDirPath() ;
+		auto m = utility::OSXApplicationDirPath() ;
 
-		const auto e = m ;
+		const auto e = m ;		
 
-		auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
-
-		for( const auto& it : QDir( e ).entryList( filters ) ){
+		for( const auto& it : _dirEntries( e ) ){
 
 			m += separator + e + "/" + it ;
 		}
 
-		s = m + separator + s ;
+		s += separator + m ;
 	}
 
-	for( const auto& it : m ){
+	for( const auto& it : _dirEntries( basePath ) ){
 
 		s += separator + basePath + "/" + it ;
 		s += separator + basePath + "/" + it + "/bin" ;
@@ -520,12 +523,7 @@ settings& engines::Settings() const
 
 bool engines::filePathIsValid( const QFileInfo& info )
 {
-	if( utility::platformIsLikeWindows() ){
-
-		return info.exists() && info.isFile() ;
-	}else{
-		return info.exists() && info.isFile() && info.isExecutable() ;
-	}
+	return info.exists() && info.isFile() ;
 }
 
 static QString _findExecutable( const QString& exeName,const QStringList& paths,QFileInfo& info )

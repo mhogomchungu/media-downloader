@@ -2073,7 +2073,7 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 	mm.setDefaultProxy() ;
 }
 
-bool utility::copyFile( const QString& s,const QString& d )
+bool utility::copyFile( const QString& s,const QString& d,bool setExePermssion )
 {
 	QFile src( s ) ;
 
@@ -2094,6 +2094,13 @@ bool utility::copyFile( const QString& s,const QString& d )
 					dst.write( buffer.data(),m ) ;
 				}else{
 					if( src.size() == dst.size() ){
+
+						if( setExePermssion ){
+
+							auto s = dst.permissions() | QFileDevice::ExeOwner ;
+
+							dst.setPermissions( s ) ;
+						}
 
 						return true ;
 					}else{
@@ -2235,4 +2242,9 @@ bool utility::Qt6Version()
 #else
 	return false ;
 #endif
+}
+
+QString utility::OSXApplicationDirPath()
+{
+	return QCoreApplication::applicationDirPath() ;
 }

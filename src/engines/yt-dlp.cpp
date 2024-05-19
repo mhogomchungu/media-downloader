@@ -153,6 +153,17 @@ void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& th
 
 			utility::copyFile( srcPath,destPath ) ;
 		}
+
+	}else if( utility::platformIsOSX() ){
+
+		auto destPath = runTimeBinPath + "/yt-dlp_macos" ;
+
+		if( !QFile::exists( destPath ) ){
+
+			auto srcPath = utility::OSXApplicationDirPath() + "/extra/yt-dlp_macos" ;
+
+			utility::copyFile( srcPath,destPath ) ;
+		}
 	}
 }
 
@@ -258,6 +269,9 @@ QJsonObject yt_dlp::init( const QString& name,
 
 			json.add( { { "Windows" },{ { "x86",x86Name,{ x86Name } },
 						    { "amd64",amd64,{ amd64 } } } } ) ;
+
+			json.add( { { "MacOS" },{ { "x86","yt-dlp_macos",{ "yt-dlp_macos" } },
+						  { "amd64","yt-dlp_macos",{ "yt-dlp_macos" } } } } ) ;
 
 			json.done() ;
 
