@@ -238,6 +238,9 @@ QJsonObject yt_dlp::init( const QString& name,
 			json.add( { { "Windows" },{ { "x86","youtube-dl.exe",{ "youtube-dl.exe" } },
 						    { "amd64","youtube-dl.exe",{ "youtube-dl.exe" } } } } ) ;
 
+			json.add( { { "MacOS" },{ { "x86","yt-dlp_macos",{ "yt-dlp_macos" } },
+						  { "amd64","yt-dlp_macos",{ "yt-dlp_macos" } } } } ) ;
+
 			json.done() ;
 
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;

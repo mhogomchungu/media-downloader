@@ -282,3 +282,4 @@ Version 1.2.0(April 1st, 2021)
      Version 4.7.0(Unreleased)
          [All]
     - Add Arabic translations.
+    - Add support for MacOS.

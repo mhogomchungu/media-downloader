@@ -960,7 +960,7 @@ QString settings::localizationLanguagePath()
 
 	if( utility::platformIsOSX() ){
 
-		return QCoreApplication::applicationDirPath() + "/../Resources/translations" ;
+		return utility::OSXApplicationDirPath() + "/../Resources/translations" ;
 	}
 	
 	if( !m_settings.contains( "TranslationsPath" ) ){
