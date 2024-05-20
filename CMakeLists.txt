@@ -182,6 +182,8 @@ file(WRITE ${PROJECT_BINARY_DIR}/version.h
 ")
 endif()
 
+file(WRITE ${PROJECT_BINARY_DIR}/VERSION "${PGR_VERSION}")
+
 if(BUILD_WITH_QT6)
 
 file(WRITE ${PROJECT_BINARY_DIR}/media-downloader_windows_installer_Qt6.iss
@@ -391,6 +393,7 @@ if(APPLE)
                                             MACOSX_BUNDLE_NAME                              "MediaDownloader"
                                             MACOSX_BUNDLE_VERSION                         "${PGR_VERSION}"
                                             MACOSX_BUNDLE_LONG_VERSION_STRING "${PGR_VERSION}"
+                                            MACOSX_BUNDLE_SHORT_VERSION_STRING "${PGR_VERSION}"
                                             MACOSX_BUNDLE_GUI_IDENTIFIER               "org.MediaDownloader.gui"
                                             MACOSX_BUNDLE_COPYRIGHT                      "${COPYRIGHT_YEARS}, Francis Banyikwa" )
 
