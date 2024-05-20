@@ -92,14 +92,9 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 		auto m = utility::OSXApplicationDirPath() ;
 
-		const auto e = m ;		
+		auto e = utility::OSX3rdPartyDirPath() ;
 
-		for( const auto& it : _dirEntries( e ) ){
-
-			m += separator + e + "/" + it ;
-		}
-
-		s += separator + m ;
+		s += separator + m + separator + e ;
 	}
 
 	for( const auto& it : _dirEntries( basePath ) ){

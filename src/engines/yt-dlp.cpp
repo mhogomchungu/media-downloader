@@ -124,6 +124,11 @@ video:9475kB audio:7554kB subtitle:0kB other streams:0kB global headers:0kB muxi
 [download] 100% of   17.13MiB in 00:00:12 at 1.40MiB/s)R" ;
 }
 
+static QString _OSXBinaryName()
+{
+	return "yt-dlp_macos" ;
+}
+
 static QString _Windows32BitBinaryName()
 {
 	return "yt-dlp_x86.exe" ;
@@ -156,11 +161,10 @@ void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& th
 
 	}else if( utility::platformIsOSX() ){
 
-		auto destPath = runTimeBinPath + "/yt-dlp_macos" ;
+		auto destPath = runTimeBinPath + "/" + _OSXBinaryName() ;
+		auto srcPath = utility::OSX3rdPartyDirPath() + "/" + _OSXBinaryName() ;
 
-		if( !QFile::exists( destPath ) ){
-
-			auto srcPath = utility::OSXApplicationDirPath() + "/extra/yt-dlp_macos" ;
+		if( !QFile::exists( destPath ) && QFile::exists( srcPath ) ){
 
 			utility::copyFile( srcPath,destPath ) ;
 		}
@@ -232,14 +236,16 @@ QJsonObject yt_dlp::init( const QString& name,
 
 			utility::addJsonCmd json( mainObj ) ;
 
+			auto macos = _OSXBinaryName() ;
+
 			json.add( { { "Generic" },{ { "x86","youtube-dl",{ "youtube-dl" } },
 						    { "amd64","youtube-dl",{ "youtube-dl" } } } } ) ;
 
 			json.add( { { "Windows" },{ { "x86","youtube-dl.exe",{ "youtube-dl.exe" } },
 						    { "amd64","youtube-dl.exe",{ "youtube-dl.exe" } } } } ) ;
 
-			json.add( { { "MacOS" },{ { "x86","yt-dlp_macos",{ "yt-dlp_macos" } },
-						  { "amd64","yt-dlp_macos",{ "yt-dlp_macos" } } } } ) ;
+			json.add( { { "MacOS" },{ { "x86",macos,{ macos } },
+						  { "amd64",macos,{ macos } } } } ) ;
 
 			json.done() ;
 
@@ -265,7 +271,8 @@ QJsonObject yt_dlp::init( const QString& name,
 			utility::addJsonCmd json( mainObj ) ;
 
 			auto x86Name = _Windows32BitBinaryName() ;
-			auto amd64 = _Windows64BitBinaryName() ;
+			auto amd64   = _Windows64BitBinaryName() ;
+			auto macos   = _OSXBinaryName() ;
 
 			json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
 						    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
@@ -273,8 +280,8 @@ QJsonObject yt_dlp::init( const QString& name,
 			json.add( { { "Windows" },{ { "x86",x86Name,{ x86Name } },
 						    { "amd64",amd64,{ amd64 } } } } ) ;
 
-			json.add( { { "MacOS" },{ { "x86","yt-dlp_macos",{ "yt-dlp_macos" } },
-						  { "amd64","yt-dlp_macos",{ "yt-dlp_macos" } } } } ) ;
+			json.add( { { "MacOS" },{ { "x86",macos,{ macos } },
+						  { "amd64",macos,{ macos } } } } ) ;
 
 			json.done() ;
 

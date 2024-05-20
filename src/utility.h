@@ -490,6 +490,8 @@ namespace utility
 	void contextMenuForDirectUrl( const QJsonArray&,const Context& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
 	QString OSXApplicationDirPath() ;
+	QString OSXtranslationFilesPath() ;
+	QString OSX3rdPartyDirPath() ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;

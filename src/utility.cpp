@@ -2248,3 +2248,13 @@ QString utility::OSXApplicationDirPath()
 {
 	return QCoreApplication::applicationDirPath() ;
 }
+
+QString utility::OSXtranslationFilesPath()
+{
+	return utility::OSXApplicationDirPath() + "/../Resources/translations" ;
+}
+
+QString utility::OSX3rdPartyDirPath()
+{
+	return utility::OSXApplicationDirPath() + "/extra" ;
+}
