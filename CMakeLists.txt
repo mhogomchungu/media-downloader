@@ -114,34 +114,35 @@ if(WIN32)
     set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -pedantic")
 else()
     if(APPLE)
-	add_executable(MediaDownloader MACOSX_BUNDLE ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
-	set_target_properties(MediaDownloader PROPERTIES MACOSX_BUNDLE ON)
-	set_target_properties(MediaDownloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
+        set(icon "${CMAKE_CURRENT_SOURCE_DIR}/src/media-downloader.icns")
+        add_executable(MediaDownloader MACOSX_BUNDLE ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES} ${icon})
+        set_target_properties(MediaDownloader PROPERTIES MACOSX_BUNDLE ON)
+        set_target_properties(MediaDownloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
     else()
         add_executable(media-downloader ${SRC} ${MOC_FILES} ${UI_FILES} ${RESOURCES})
-	set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
+        set_target_properties(media-downloader PROPERTIES COMPILE_FLAGS "-Wextra -Wall -s -fPIC -pedantic")
     endif()
 endif()
 
 if(BUILD_WITH_QT6)
     if(WIN32)
-	target_link_libraries(media-downloader Advapi32.lib Dwmapi.lib Iphlpapi.lib Qt6::Widgets Qt6::Core Qt6::Network)
+        target_link_libraries(media-downloader Advapi32.lib Dwmapi.lib Iphlpapi.lib Qt6::Widgets Qt6::Core Qt6::Network)
     else()
-	if(APPLE)
-	    target_link_libraries(MediaDownloader Qt6::Widgets Qt6::Core Qt6::Network)
-	else()
-	    target_link_libraries(media-downloader Qt6::Widgets Qt6::Core Qt6::Network)
-	endif()
+        if(APPLE)
+            target_link_libraries(MediaDownloader Qt6::Widgets Qt6::Core Qt6::Network)
+        else()
+            target_link_libraries(media-downloader Qt6::Widgets Qt6::Core Qt6::Network)
+        endif()
     endif()
 else()
     if(WIN32)
-	target_link_libraries(media-downloader Advapi32.lib Dwmapi.lib Iphlpapi.lib Qt5::Widgets Qt5::Core Qt5::Network)
+        target_link_libraries(media-downloader Advapi32.lib Dwmapi.lib Iphlpapi.lib Qt5::Widgets Qt5::Core Qt5::Network)
     else()
-	if(APPLE)
-	    target_link_libraries(MediaDownloader Qt5::Widgets Qt5::Core Qt5::Network)
-	else()
-	    target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
-	endif()
+        if(APPLE)
+             target_link_libraries(MediaDownloader Qt5::Widgets Qt5::Core Qt5::Network)
+        else()
+            target_link_libraries(media-downloader Qt5::Widgets Qt5::Core Qt5::Network)
+        endif()
     endif()
 endif()
 
@@ -379,15 +380,23 @@ endif()
 
 if(APPLE)
 
-    SET( plugin_dest_dir MediaDownloader.app/Contents/MacOS )
     SET( qtconf_dest_dir MediaDownloader.app/Contents/Resources )
+    SET(MACOSX_BUNDLE_ICON_FILE media-downloader.icns)
     SET( APPS "\${CMAKE_INSTALL_PREFIX}/MediaDownloader.app" )
 
-    set_target_properties( MediaDownloader PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/src/MacOSXBundleInfo.plist.in" )
+    set_target_properties( MediaDownloader
+                                            PROPERTIES
+                                            MACOSX_BUNDLE_INFO_PLIST                     "${CMAKE_CURRENT_SOURCE_DIR}/src/MacOSXBundleInfo.plist.in"
+                                            MACOSX_BUNDLE_ICON_FILE                       "media-downloader.icns"
+                                            MACOSX_BUNDLE_NAME                              "MediaDownloader"
+                                            MACOSX_BUNDLE_VERSION                         "${PGR_VERSION}"
+                                            MACOSX_BUNDLE_LONG_VERSION_STRING "${PGR_VERSION}"
+                                            MACOSX_BUNDLE_GUI_IDENTIFIER               "org.MediaDownloader.gui"
+                                            MACOSX_BUNDLE_COPYRIGHT                      "${COPYRIGHT_YEARS}, Francis Banyikwa" )
 
     install( TARGETS MediaDownloader BUNDLE DESTINATION . COMPONENT Runtime )
 
-    file( COPY src/MediaDownloader.icns DESTINATION  "MediaDownloader.app/Contents/Resources/" )
+    file( COPY src/media-downloader.icns DESTINATION  "MediaDownloader.app/Contents/Resources/" )
     file( COPY translations/ar.qm DESTINATION        "MediaDownloader.app/Contents/Resources/translations/" )
     file( COPY translations/de_DE.qm DESTINATION     "MediaDownloader.app/Contents/Resources/translations/" )
     file( COPY translations/en_US.qm DESTINATION     "MediaDownloader.app/Contents/Resources/translations/" )
