@@ -387,15 +387,15 @@ if(APPLE)
     SET( APPS "\${CMAKE_INSTALL_PREFIX}/MediaDownloader.app" )
 
     set_target_properties( MediaDownloader
-                                            PROPERTIES
-                                            MACOSX_BUNDLE_INFO_PLIST                     "${CMAKE_CURRENT_SOURCE_DIR}/src/MacOSXBundleInfo.plist.in"
-                                            MACOSX_BUNDLE_ICON_FILE                       "media-downloader.icns"
-                                            MACOSX_BUNDLE_NAME                              "MediaDownloader"
-                                            MACOSX_BUNDLE_VERSION                         "${PGR_VERSION}"
-                                            MACOSX_BUNDLE_LONG_VERSION_STRING "${PGR_VERSION}"
-                                            MACOSX_BUNDLE_SHORT_VERSION_STRING "${PGR_VERSION}"
-                                            MACOSX_BUNDLE_GUI_IDENTIFIER               "org.MediaDownloader.gui"
-                                            MACOSX_BUNDLE_COPYRIGHT                      "${COPYRIGHT_YEARS}, Francis Banyikwa" )
+	                   PROPERTIES
+			   MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/src/MacOSXBundleInfo.plist.in"
+			   MACOSX_BUNDLE_ICON_FILE "media-downloader.icns"
+			   MACOSX_BUNDLE_NAME "MediaDownloader"
+			   MACOSX_BUNDLE_VERSION "${PGR_VERSION}"
+			   MACOSX_BUNDLE_LONG_VERSION_STRING "${PGR_VERSION}"
+			   MACOSX_BUNDLE_SHORT_VERSION_STRING "${PGR_VERSION}"
+			   MACOSX_BUNDLE_GUI_IDENTIFIER "org.MediaDownloader.gui"
+			   MACOSX_BUNDLE_COPYRIGHT "${COPYRIGHT_YEARS}, Francis Banyikwa" )
 
     install( TARGETS MediaDownloader BUNDLE DESTINATION . COMPONENT Runtime )
 
