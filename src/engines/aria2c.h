@@ -19,7 +19,7 @@
 
 #include "../engines.h"
 
-class aria2c : public engines::engine::functions
+class aria2c : public engines::engine::baseEngine
 {
 public:
 	static void init( const QString& name,
@@ -35,7 +35,7 @@ public:
 
 	aria2c( const engines&,const engines::engine&,QJsonObject& ) ;
 
-	class aria2c_dlFilter : public engines::engine::functions::filter
+	class aria2c_dlFilter : public engines::engine::baseEngine::filter
 	{
 	public:
 		aria2c_dlFilter( settings&,const engines::engine&,int ) ;
@@ -44,22 +44,22 @@ public:
 
 		~aria2c_dlFilter() override ;
 	private:
-		engines::engine::functions::preProcessing m_preProcessing ;
+		engines::engine::baseEngine::preProcessing m_preProcessing ;
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
 		int m_processId ;
 	} ;
 
-	engines::engine::functions::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
 
-	engines::engine::functions::DataFilter Filter( int ) override ;
+	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,
-					     const engines::engine::functions::finishedState& ) override ;
+					     const engines::engine::baseEngine::finishedState& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
 private:
 	const engines& m_engines ;
 };

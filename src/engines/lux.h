@@ -22,7 +22,7 @@
 #include "../engines.h"
 #include "../utility.h"
 
-class lux : public engines::engine::functions
+class lux : public engines::engine::baseEngine
 {
 public:
 	static const char * testData() ;
@@ -30,7 +30,7 @@ public:
 	~lux() override ;
 	lux( const engines&,const engines::engine&,QJsonObject&,const QString& downloadFolder ) ;
 
-	class lux_dlFilter : public engines::engine::functions::filter
+	class lux_dlFilter : public engines::engine::baseEngine::filter
 	{
 	public:
 		lux_dlFilter( const engines::engine&,int,QByteArray ) ;
@@ -44,29 +44,29 @@ public:
 		QByteArray m_banner ;
 		QByteArray m_tmp ;
 		QByteArray m_title ;
-		engines::engine::functions::preProcessing m_progress ;
+		engines::engine::baseEngine::preProcessing m_progress ;
 		QByteArray m_downloadFolder ;
 		Logger::locale m_locale ;
 	} ;
 
-	engines::engine::functions::DataFilter Filter( int ) override ;
+	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
-	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
+	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
-	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
+	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
 	bool foundNetworkUrl( const QString& s ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
 
-	engines::engine::functions::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,
-					     const engines::engine::functions::finishedState& ) override ;
+					     const engines::engine::baseEngine::finishedState& ) override ;
 private:
 	const engines::engine& m_engine ;
 	QString m_downloadFolder ;

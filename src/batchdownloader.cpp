@@ -1531,7 +1531,7 @@ void batchdownloader::parseDataFromObject( const QJsonObject& obj,const QJsonArr
 
 		auto function = []( const QJsonValue& e ){
 
-			using tt = engines::engine::functions::timer ;
+			using tt = engines::engine::baseEngine::timer ;
 			return tt::duration( e.toInt() * 1000 ) ;
 		} ;
 

@@ -21,7 +21,7 @@
 
 #include "../engines.h"
 
-class generic : public engines::engine::functions
+class generic : public engines::engine::baseEngine
 {
 public:
 	~generic() override ;

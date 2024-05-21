@@ -499,7 +499,7 @@ public:
 
 		return row ;
 	}
-	int add( Stuff stuff,const engines::engine::functions::mediaInfo& m )
+	int add( Stuff stuff,const engines::engine::baseEngine::mediaInfo& m )
 	{
 		int row = this->addRow( std::move( stuff ) ) ;
 
@@ -513,7 +513,7 @@ public:
 
 		return row ;
 	}
-	int add( const engines::engine::functions::mediaInfo& m )
+	int add( const engines::engine::baseEngine::mediaInfo& m )
 	{
 		int row = this->addRow( m ) ;
 
@@ -600,10 +600,10 @@ private:
 	template< typename Function >
 	void fromStuff( const QJsonObject& e,const Function& function )
 	{
-		engines::engine::functions::mediaInfo::fromQJobject( e,function ) ;
+		engines::engine::baseEngine::mediaInfo::fromQJobject( e,function ) ;
 	}
 	template< typename Function >
-	void fromStuff( const engines::engine::functions::mediaInfo& e,const Function& function )
+	void fromStuff( const engines::engine::baseEngine::mediaInfo& e,const Function& function )
 	{
 		function( e.id(),e.ext(),e.resolution(),e.fileSize(),e.info() ) ;
 	}
@@ -633,17 +633,17 @@ private:
 			}
 			QString getSize( const QJsonObject& e )
 			{
-				return engines::engine::functions::mediaInfo::fileSizeRaw( e ) ;
+				return engines::engine::baseEngine::mediaInfo::fileSizeRaw( e ) ;
 			}
-			const QString& getSize( const engines::engine::functions::mediaInfo& e )
+			const QString& getSize( const engines::engine::baseEngine::mediaInfo& e )
 			{
 				return e.fileSizeRaw() ;
 			}
 			QString getId( const QJsonObject& e )
 			{
-				return engines::engine::functions::mediaInfo::id( e ) ;
+				return engines::engine::baseEngine::mediaInfo::id( e ) ;
 			}
-			const QString& getId( const engines::engine::functions::mediaInfo& e )
+			const QString& getId( const engines::engine::baseEngine::mediaInfo& e )
 			{
 				return e.id() ;
 			}

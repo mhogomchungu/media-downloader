@@ -532,6 +532,46 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 
 #else
 
+#ifdef Q_OS_WIN
+
+#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
+
+void utility::checkPermissions::enable()
+{
+}
+
+void utility::checkPermissions::disable()
+{
+}
+
+#else
+
+extern Q_CORE_EXPORT int qt_ntfs_permission_lookup ;
+
+void utility::checkPermissions::enable()
+{
+	qt_ntfs_permission_lookup++ ;
+}
+
+void utility::checkPermissions::disable()
+{
+	qt_ntfs_permission_lookup-- ;
+}
+
+#endif
+
+#else
+
+void utility::checkPermissions::enable()
+{
+}
+
+void utility::checkPermissions::disable()
+{
+}
+
+#endif
+
 std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 {
 	std::vector< utility::PlayerOpts > m ;
@@ -908,7 +948,7 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	auto url = urls ;
 
-	engines::engine::functions::updateOpts ups( args,ent,uiIndex,url,opts ) ;
+	engines::engine::baseEngine::updateOpts ups( args,ent,uiIndex,url,opts ) ;
 
 	engine.updateDownLoadCmdOptions( ups,settings.downloadOptionsAsLast() ) ;
 
@@ -1268,7 +1308,7 @@ void utility::MediaEntry::parseJson()
 
 	if( m_intDuration != 0 ){
 
-		auto s = engines::engine::functions::timer::duration( m_intDuration * 1000 ) ;
+		auto s = engines::engine::baseEngine::timer::duration( m_intDuration * 1000 ) ;
 		m_duration = utility::stringConstants::duration() + " " + s ;
 	}
 }

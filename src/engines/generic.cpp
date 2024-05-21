@@ -22,7 +22,7 @@
 #include "../context.hpp"
 
 generic::generic( const engines& e,const engines::engine& s,QJsonObject& ) :
-	engines::engine::functions( e.Settings(),s,e.processEnvironment() )
+	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {
 }
 

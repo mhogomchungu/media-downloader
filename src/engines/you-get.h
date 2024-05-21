@@ -23,13 +23,13 @@
 
 class settings ;
 
-class you_get : public engines::engine::functions
+class you_get : public engines::engine::baseEngine
 {
 public:
 	~you_get() override ;
 	you_get( const engines&,const engines::engine&,QJsonObject& ) ;
 
-	class you_getFilter : public engines::engine::functions::filter
+	class you_getFilter : public engines::engine::baseEngine::filter
 	{
 	public:
 		you_getFilter( settings&,const engines::engine&,int ) ;
@@ -40,7 +40,7 @@ public:
 	private:
 		QByteArray m_title ;
 		QByteArray m_tmp ;
-		engines::engine::functions::preProcessing m_preProcessing ;
+		engines::engine::baseEngine::preProcessing m_preProcessing ;
 		int m_processId ;
 	} ;
 
@@ -52,13 +52,13 @@ public:
 
 	void renameArchiveFolder( const QString& ) override ;
 
-	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
+	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
-	engines::engine::functions::DataFilter Filter( int ) override ;
+	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,
-					     const engines::engine::functions::finishedState& ) override ;
+					     const engines::engine::baseEngine::finishedState& ) override ;
 private:
 };

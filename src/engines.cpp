@@ -453,7 +453,7 @@ engines::Iterator engines::getEnginesIterator() const
 
 const engines::engine& engines::defaultEngine( const QString& name,int id ) const
 {
-	auto m =  this->getEngineByName( name ) ;
+	auto m = this->getEngineByName( name ) ;
 
 	if( m ){
 
@@ -465,7 +465,7 @@ const engines::engine& engines::defaultEngine( const QString& name,int id ) cons
 
 			return m_backends[ 0 ] ;
 		}else{
-			static engines::engine engine( m_logger ) ;
+			static engines::engine engine ;
 
 			return engine ;
 		}
@@ -678,10 +678,6 @@ QStringList engines::enginesList() const
 	return m ;
 }
 
-engines::engine::engine( Logger& )
-{
-}
-
 engines::engine::engine( const engines& engines,
 			 Logger& logger,
 			 const QString& name,
@@ -731,6 +727,97 @@ void engines::engine::updateOptions()
 	m_defaultSubtitleDownloadOptions  = _toStringList( m_jsonObject.value( "DefaultSubtitleDownloadOptions" ) ) ;
 }
 
+static QJsonObject _getCmd( const QJsonObject& cmd )
+{
+	if( utility::platformIsWindows() ){
+
+		return cmd.value( "Windows" ).toObject() ;
+	}else{
+		if( utility::platformIsOSX() ){
+
+			auto m = cmd.value( "MacOS" ).toObject() ;
+
+			if( !m.isEmpty() ){
+
+				return m ;
+			}
+		}
+
+		return cmd.value( "Generic" ).toObject() ;
+	}
+}
+
+engines::engine::cmd engines::engine::getCommands( const QJsonObject& cmd )
+{
+	auto obj = [ & ](){
+
+		if( utility::platformIs32Bit() ){
+
+			return _getCmd( cmd ).value( "x86" ).toObject() ;
+		}else{
+			return _getCmd( cmd ).value( "amd64" ).toObject() ;
+		}
+	}() ;
+
+	auto m = obj.value( "Name" ).toString() ;
+
+	auto s = _toStringList( obj.value( "Args" ).toArray() ) ;
+
+	return { m,s,s.size() == 1 } ;
+}
+
+engines::engine::cmd engines::engine::getLegacyCommands()
+{
+	QString exe ;
+
+	if( utility::platformIsWindows() ){
+
+		exe = m_jsonObject.value( "CommandNameWindows" ).toString() ;
+
+		if( utility::platformIs32Bit() ){
+
+			auto m = m_jsonObject.value( "CommandName32BitWindows" ).toString() ;
+
+			if( !m.isEmpty() ){
+
+				exe = m ;
+			}
+		}
+
+		if( !exe.endsWith( ".exe" ) ){
+
+			exe += ".exe" ;
+		}
+	}else{
+		exe = m_jsonObject.value( "CommandName" ).toString() ;
+	}
+
+	if( utility::platformIsWindows() ){
+
+		if( utility::platformIs32Bit() ){
+
+			auto m = _toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
+
+			if( !m.isEmpty() ){
+
+				return { exe,m,m.isEmpty() } ;
+			}else{
+				auto s = _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
+
+				return { exe,s,s.isEmpty() } ;
+			}
+		}else{
+			auto s = _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
+
+			return { exe,s,s.isEmpty() } ;
+		}
+	}else{
+		auto s = _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
+
+		return { exe,s,s.isEmpty() } ;
+	}
+}
+
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
 			 const util::Json& json,
@@ -765,101 +852,15 @@ engines::engine::engine( Logger& logger,
 
 	auto cmd = m_jsonObject.value( "Cmd" ) ;
 
-	if( cmd.isUndefined() ){
+	auto m = cmd.isUndefined() ? this->getLegacyCommands() : this->getCommands( cmd.toObject() ) ;
 
-		if( utility::platformIsWindows() ){
+	m_commandName = m.name ;
 
-			m_commandName = m_jsonObject.value( "CommandNameWindows" ).toString() ;
+	if( m.noCheckArgs ){
 
-			if( utility::platformIs32Bit() ){
-
-				auto m = m_jsonObject.value( "CommandName32BitWindows" ).toString() ;
-
-				if( !m.isEmpty() ){
-
-					m_commandName = m ;
-				}
-			}
-
-			if( !m_commandName.endsWith( ".exe" ) ){
-
-				m_commandName += ".exe" ;
-			}
-		}else{
-			m_commandName = m_jsonObject.value( "CommandName" ).toString() ;
-		}
-
-		auto cmdNames = [ & ](){
-
-			if( utility::platformIsWindows() ){
-
-				if( utility::platformIs32Bit() ){
-
-					auto m = _toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
-
-					if( !m.isEmpty() ){
-
-						return m ;
-					}else{
-						return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
-					}
-				}else{
-					return _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
-				}
-			}else{
-				return _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
-			}
-		}() ;
-
-		if( cmdNames.isEmpty() ){
-
-			this->parseMultipleCmdArgs( logger,engines,ePaths,id ) ;
-		}else{
-			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines,id ) ;
-		}
+		this->parseMultipleCmdArgs( logger,engines,ePaths,id ) ;
 	}else{
-		auto cmdNames = [ & ](){
-
-			auto obj = [ & ](){
-
-				if( utility::platformIsWindows() ){
-
-					return cmd.toObject().value( "Windows" ).toObject() ;
-				}else{
-					if( utility::platformIsOSX() ){
-
-						auto m = cmd.toObject().value( "MacOS" ) ;
-
-						if( !m.isUndefined() ){
-
-							return m.toObject() ;
-						}
-					}
-
-					return cmd.toObject().value( "Generic" ).toObject() ;
-				}
-			}() ;
-
-			if( utility::platformIs32Bit() ){
-
-				auto o = obj.value( "x86" ).toObject() ;
-
-				m_commandName = o.value( "Name" ).toString() ;
-				return _toStringList( o.value( "Args" ).toArray() ) ;
-			}else{
-				auto o = obj.value( "amd64" ).toObject() ;
-
-				m_commandName = o.value( "Name" ).toString() ;
-				return _toStringList( o.value( "Args" ).toArray() ) ;
-			}
-		}() ;
-
-		if( cmdNames.size() == 1 ){
-
-			this->parseMultipleCmdArgs( logger,engines,ePaths,id ) ;
-		}else{
-			this->parseMultipleCmdArgs( cmdNames,backendPath,logger,ePaths,engines,id ) ;
-		}
+		this->parseMultipleCmdArgs( m.args,backendPath,logger,ePaths,engines,id ) ;
 	}
 }
 
@@ -896,9 +897,11 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 			logger.add( utility::failedToFindExecutableString( m_commandName ),id ) ;
 		}
 	}else{
-		if( this->validDownloadUrl() &&
-		    !m_commandName.startsWith( "media-downloader" ) &&
-		    !m_exeFolderPath.isEmpty() ){
+		auto a = this->validDownloadUrl() ;
+		auto b = !m_commandName.startsWith( "media-downloader" ) ;
+		auto c = !m_exeFolderPath.isEmpty() ;
+
+		if( a && b && c ){
 
 			/*
 			 * backends that are internally managed
@@ -1095,57 +1098,6 @@ QString engines::enginePaths::socketPath()
 	}
 }
 
-#ifdef Q_OS_WIN
-
-#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
-
-#include <QNtfsPermissionCheckGuard>
-
-class checkPermissions
-{
-public:
-	void enable()
-	{
-	}
-	void disable()
-	{
-	}
-private:
-	QNtfsPermissionCheckGuard m_guard ;
-};
-
-#else
-
-extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;
-
-struct checkPermissions
-{
-	void enable()
-	{
-		qt_ntfs_permission_lookup++ ;
-	}
-	void disable()
-	{
-		qt_ntfs_permission_lookup-- ;
-	}
-};
-
-#endif
-
-#else
-
-struct checkPermissions
-{
-	void enable()
-	{
-	}
-	void disable()
-	{
-	}
-};
-
-#endif
-
 void engines::enginePaths::confirmPaths( Logger& logger ) const
 {
 	QFileInfo fileInfo ;
@@ -1175,7 +1127,7 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 		}
 	} ;
 
-	checkPermissions perms ;
+	utility::checkPermissions perms ;
 
 	perms.enable() ;
 
@@ -1204,35 +1156,35 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 	}
 }
 
-QString engines::engine::functions::errorString( const engine::engine::functions::finishedState& f,
-						 engines::engine::functions::errors err,
+QString engines::engine::baseEngine::errorString( const engine::engine::baseEngine::finishedState& f,
+						 engines::engine::baseEngine::errors err,
 						 const QString& bkText )
 {
-	if( err == engines::engine::functions::errors::unknownFormat ){
+	if( err == engines::engine::baseEngine::errors::unknownFormat ){
 
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 		return m + "\n" + QObject::tr( "Requested Format Is Not Available" ) + "\n" + bkText ;
 
-	}else if( err == engines::engine::functions::errors::noNetwork ){
+	}else if( err == engines::engine::baseEngine::errors::noNetwork ){
 
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 		return m + "\n" + QObject::tr( "Network Error Occured" ) + "\n" + bkText ;
 
-	}else if( err == engines::engine::functions::errors::unknownUrl ){
+	}else if( err == engines::engine::baseEngine::errors::unknownUrl ){
 
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 		return m + "\n" + QObject::tr( "Invalid Url Entered" ) + "\n" + bkText ;
 
-	}else if( err == engines::engine::functions::errors::notSupportedUrl ){
+	}else if( err == engines::engine::baseEngine::errors::notSupportedUrl ){
 
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 		return m + "\n" + QObject::tr( "Url Is Not Supported" ) + "\n" + bkText ;
 	}else{
 		return {} ;
 	}
 }
 
-QString engines::engine::functions::processCompleteStateText( const engine::engine::functions::finishedState& f )
+QString engines::engine::baseEngine::processCompleteStateText( const engine::engine::baseEngine::finishedState& f )
 {
 	if( f.cancelled() ){
 
@@ -1316,7 +1268,7 @@ static bool _meetExtraCondition( const QByteArray& l,const QJsonObject& obj )
 	return false ;
 }
 
-bool engines::engine::functions::meetCondition( const engines::engine& engine,const QByteArray& line )
+bool engines::engine::baseEngine::meetCondition( const engines::engine& engine,const QByteArray& line )
 {
 	const auto& obj = engine.controlStructure() ;
 
@@ -1357,20 +1309,20 @@ bool engines::engine::functions::meetCondition( const engines::engine& engine,co
 	}
 }
 
-class defaultFilter : public engines::engine::functions::filterOutPut
+class defaultFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
 	defaultFilter( const engines::engine& engine ) : m_engine( engine )
 	{
 	}
-	engines::engine::functions::filterOutPut::result
+	engines::engine::baseEngine::filterOutPut::result
 	formatOutput( const filterOutPut::args& args ) const override
 	{
-		return { args.outPut,m_engine,engines::engine::functions::meetCondition } ;
+		return { args.outPut,m_engine,engines::engine::baseEngine::meetCondition } ;
 	}
 	bool meetCondition( const filterOutPut::args& args ) const override
 	{
-		return engines::engine::functions::meetCondition( m_engine,args.outPut ) ;
+		return engines::engine::baseEngine::meetCondition( m_engine,args.outPut ) ;
 	}
 	const engines::engine& engine() const override
 	{
@@ -1380,21 +1332,21 @@ private:
 	const engines::engine& m_engine ;
 } ;
 
-engines::engine::functions::FilterOutPut engines::engine::functions::filterOutput()
+engines::engine::baseEngine::FilterOutPut engines::engine::baseEngine::filterOutput()
 {
 	return { util::types::type_identity< defaultFilter >(),m_engine } ;
 }
 
-engines::engine::functions::~functions()
+engines::engine::baseEngine::~baseEngine()
 {
 }
 
-const QProcessEnvironment& engines::engine::functions::processEnvironment() const
+const QProcessEnvironment& engines::engine::baseEngine::processEnvironment() const
 {
 	return m_processEnvironment ;
 }
 
-engines::metadata engines::engine::functions::parseJsonDataFromGitHub( const QJsonDocument& doc )
+engines::metadata engines::engine::baseEngine::parseJsonDataFromGitHub( const QJsonDocument& doc )
 {
 	engines::metadata metadata ;
 
@@ -1427,7 +1379,7 @@ engines::metadata engines::engine::functions::parseJsonDataFromGitHub( const QJs
 	return metadata ;
 }
 
-std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( Logger&,const QByteArray& e )
+std::vector< engines::engine::baseEngine::mediaInfo > engines::engine::baseEngine::mediaProperties( Logger&,const QByteArray& e )
 {
 	auto args = util::split( e,'\n' ) ;
 
@@ -1450,7 +1402,7 @@ std::vector< engines::engine::functions::mediaInfo > engines::engine::functions:
 		return false ;
 	} ) ;
 
-	std::vector< engines::engine::functions::mediaInfo > s ;
+	std::vector< engines::engine::baseEngine::mediaInfo > s ;
 
 	for( const auto& it : m ){
 
@@ -1470,45 +1422,45 @@ std::vector< engines::engine::functions::mediaInfo > engines::engine::functions:
 	return s ;
 }
 
-std::vector< engines::engine::functions::mediaInfo > engines::engine::functions::mediaProperties( Logger&,const QJsonArray& )
+std::vector< engines::engine::baseEngine::mediaInfo > engines::engine::baseEngine::mediaProperties( Logger&,const QJsonArray& )
 {
 	return {} ;
 }
 
-void engines::engine::functions::updateOutPutChannel( QProcess::ProcessChannel& ) const
+void engines::engine::baseEngine::updateOutPutChannel( QProcess::ProcessChannel& ) const
 {
 }
 
-bool engines::engine::functions::breakShowListIfContains( const QStringList& )
-{
-	return false ;
-}
-
-bool engines::engine::functions::supportsShowingComments()
+bool engines::engine::baseEngine::breakShowListIfContains( const QStringList& )
 {
 	return false ;
 }
 
-bool engines::engine::functions::updateVersionInfo()
+bool engines::engine::baseEngine::supportsShowingComments()
 {
 	return false ;
 }
 
-void engines::engine::functions::setTextEncondig( const QString&,QStringList& )
+bool engines::engine::baseEngine::updateVersionInfo()
+{
+	return false ;
+}
+
+void engines::engine::baseEngine::setTextEncondig( const QString&,QStringList& )
 {
 }
 
-QString engines::engine::functions::updateCmdPath( const QString& e )
+QString engines::engine::baseEngine::updateCmdPath( const QString& e )
 {
 	return e ;
 }
 
-engines::engine::functions::DataFilter engines::engine::functions::Filter( int id )
+engines::engine::baseEngine::DataFilter engines::engine::baseEngine::Filter( int id )
 {
-	return { util::types::type_identity< engines::engine::functions::filter >(),m_engine,id } ;
+	return { util::types::type_identity< engines::engine::baseEngine::filter >(),m_engine,id } ;
 }
 
-QString engines::engine::functions::deleteEngineBinFolder( const QString& e )
+QString engines::engine::baseEngine::deleteEngineBinFolder( const QString& e )
 {
 	auto m = e + "/" + m_engine.name() ;
 
@@ -1522,7 +1474,7 @@ QString engines::engine::functions::deleteEngineBinFolder( const QString& e )
 	}
 }
 
-void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,const QString& s )
+void engines::engine::baseEngine::runCommandOnDownloadedFile( const QString& e,const QString& s )
 {
 	auto a = m_settings.commandOnSuccessfulDownload() ;
 
@@ -1561,7 +1513,7 @@ void engines::engine::functions::runCommandOnDownloadedFile( const QString& e,co
 	}
 }
 
-QString engines::engine::functions::commandString( const engines::engine::exeArgs::cmd& cmd )
+QString engines::engine::baseEngine::commandString( const engines::engine::exeArgs::cmd& cmd )
 {
 	auto m = "\"" + cmd.exe() + "\"" ;
 
@@ -1573,7 +1525,7 @@ QString engines::engine::functions::commandString( const engines::engine::exeArg
 	return m ;
 }
 
-QStringList engines::engine::functions::horizontalHeaderLabels() const
+QStringList engines::engine::baseEngine::horizontalHeaderLabels() const
 {
 	QStringList s ;
 
@@ -1586,34 +1538,34 @@ QStringList engines::engine::functions::horizontalHeaderLabels() const
 	return s ;
 }
 
-void engines::engine::functions::updateEnginePaths( const Context&,QString&,QString&,QString& )
+void engines::engine::baseEngine::updateEnginePaths( const Context&,QString&,QString&,QString& )
 {
 }
 
-bool engines::engine::functions::likeYtdlp()
+bool engines::engine::baseEngine::likeYtdlp()
 {
 	return false ;
 }
 
-void engines::engine::functions::updateLocalOptions( QStringList& )
+void engines::engine::baseEngine::updateLocalOptions( QStringList& )
 {
 }
 
-void engines::engine::functions::setProxySetting( QStringList&,const QString& )
+void engines::engine::baseEngine::setProxySetting( QStringList&,const QString& )
 {
 }
 
-QString engines::engine::functions::setCredentials( QStringList&,QStringList& )
+QString engines::engine::baseEngine::setCredentials( QStringList&,QStringList& )
 {
 	return {} ;
 }
 
-util::Json engines::engine::functions::parsePlayListData( const QByteArray& e )
+util::Json engines::engine::baseEngine::parsePlayListData( const QByteArray& e )
 {
 	return e ;
 }
 
-engines::engine::functions::onlineVersion engines::engine::functions::versionInfoFromGithub( const QByteArray& e )
+engines::engine::baseEngine::onlineVersion engines::engine::baseEngine::versionInfoFromGithub( const QByteArray& e )
 {
 	QJsonParseError err ;
 	auto doc = QJsonDocument::fromJson( e,&err ) ;
@@ -1637,21 +1589,21 @@ engines::engine::functions::onlineVersion engines::engine::functions::versionInf
 	}
 }
 
-bool engines::engine::functions::foundNetworkUrl( const QString& s )
+bool engines::engine::baseEngine::foundNetworkUrl( const QString& s )
 {
 	return s == m_engine.commandName() ;
 }
 
-void engines::engine::functions::renameArchiveFolder( const QString& )
+void engines::engine::baseEngine::renameArchiveFolder( const QString& )
 {
 }
 
-QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,
-								 const QString& dopts,
-								 const engines::engine::functions::finishedState& f )
+QString engines::engine::baseEngine::updateTextOnCompleteDownlod( const QString& uiText,
+								  const QString& dopts,
+								  const engines::engine::baseEngine::finishedState& f )
 {
-	auto m = engines::engine::functions::processCompleteStateText( f ) ;
-	auto e = engines::engine::functions::timer::stringElapsedTime( f.duration() ) ;
+	auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
+	auto e = engines::engine::baseEngine::timer::stringElapsedTime( f.duration() ) ;
 
 	if( dopts.isEmpty() || f.success() ){
 
@@ -1671,22 +1623,22 @@ QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& 
 	}
 }
 
-QString engines::engine::functions::updateTextOnCompleteDownlod( const QString& uiText,
-								 const QString& bkText,
-								 const QString& dopts,
-								 const engine::engine::functions::finishedState& f )
+QString engines::engine::baseEngine::updateTextOnCompleteDownlod( const QString& uiText,
+								  const QString& bkText,
+								  const QString& dopts,
+								  const engine::engine::baseEngine::finishedState& f )
 {
 	Q_UNUSED( uiText )
 
 	if( f.success() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}else{
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}
 }
 
-void engines::engine::functions::sendCredentials( const QString&,QProcess& )
+void engines::engine::baseEngine::sendCredentials( const QString&,QProcess& )
 {
 }
 
@@ -1887,12 +1839,12 @@ private:
 	}
 	Logger::Data& m_outPut ;
 	Logger::locale m_locale ;
-	engines::engine::functions::FilterOutPut m_filterOutPut ;
+	engines::engine::baseEngine::FilterOutPut m_filterOutPut ;
 	int m_id ;
 	const engines::engine& m_engine ;
 } ;
 
-void engines::engine::functions::processData( Logger::Data& outPut,
+void engines::engine::baseEngine::processData( Logger::Data& outPut,
 					      const QByteArray& data,
 					      int id,
 					      bool readableJson )
@@ -1914,25 +1866,25 @@ void engines::engine::functions::processData( Logger::Data& outPut,
 	}
 }
 
-void engines::engine::functions::processData( Logger::Data& outPut,
-					      const QString& e,
-					      int id,
-					      bool readableJson )
+void engines::engine::baseEngine::processData( Logger::Data& outPut,
+					       const QString& e,
+					       int id,
+					       bool readableJson )
 {
 	Q_UNUSED( readableJson )
 
 	outPut.replaceOrAdd( e.toUtf8(),id,[]( const QString& line ){
 
-		auto a = line.startsWith( engines::engine::functions::preProcessing::processingText() ) ;
-		auto b = engines::engine::functions::timer::timerText( line ) ;
+		auto a = line.startsWith( engines::engine::baseEngine::preProcessing::processingText() ) ;
+		auto b = engines::engine::baseEngine::timer::timerText( line ) ;
 
 		return a || b ;
 
 	} ) ;
 }
 
-void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,
-							   bool downloadOptionsAsLast )
+void engines::engine::baseEngine::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
+							    bool downloadOptionsAsLast )
 {
 	if( !s.uiOptions.isEmpty() ){
 
@@ -1948,25 +1900,27 @@ void engines::engine::functions::updateDownLoadCmdOptions( const engines::engine
 	}
 }
 
-void engines::engine::functions::updateGetPlaylistCmdOptions( QStringList& )
+void engines::engine::baseEngine::updateGetPlaylistCmdOptions( QStringList& )
 {
 }
 
-void engines::engine::functions::updateCmdOptions( QStringList& )
+void engines::engine::baseEngine::updateCmdOptions( QStringList& )
 {
 }
 
-engines::engine::functions::functions( settings& s,const engines::engine& engine,const QProcessEnvironment& env ) :
+engines::engine::baseEngine::baseEngine( settings& s,
+					 const engines::engine& engine,
+					 const QProcessEnvironment& env ) :
 	m_settings( s ),m_engine( engine ),m_processEnvironment( env )
 {
 }
 
-settings& engines::engine::functions::Settings() const
+settings& engines::engine::baseEngine::Settings() const
 {
 	return m_settings ;
 }
 
-const engines::engine& engines::engine::functions::engine() const
+const engines::engine& engines::engine::baseEngine::engine() const
 {
 	return m_engine ;
 }
@@ -2041,13 +1995,13 @@ void engines::file::failToOpenForReading()
 	m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath,id ) ;
 }
 
-engines::engine::functions::filter::filter( const engines::engine& engine,int id ) :
+engines::engine::baseEngine::filter::filter( const engines::engine& engine,int id ) :
 	m_engine( engine ),m_processId( id )
 {
 	if( m_processId ){}
 }
 
-const QByteArray& engines::engine::functions::filter::operator()( const Logger::Data& s )
+const QByteArray& engines::engine::baseEngine::filter::operator()( const Logger::Data& s )
 {
 	if( m_engine.replaceOutputWithProgressReport() ){
 
@@ -2074,38 +2028,38 @@ const QByteArray& engines::engine::functions::filter::operator()( const Logger::
 	}
 }
 
-engines::engine::functions::filter::~filter()
+engines::engine::baseEngine::filter::~filter()
 {
 }
 
-const engines::engine& engines::engine::functions::filter::engine() const
+const engines::engine& engines::engine::baseEngine::filter::engine() const
 {
 	return m_engine ;
 }
 
-engines::engine::functions::preProcessing::preProcessing() :
-	m_processingDefaultText( engines::engine::functions::preProcessing::processingText() )
+engines::engine::baseEngine::preProcessing::preProcessing() :
+	m_processingDefaultText( engines::engine::baseEngine::preProcessing::processingText() )
 {
 }
 
-engines::engine::functions::preProcessing::preProcessing( const QByteArray& e,int s ) :
+engines::engine::baseEngine::preProcessing::preProcessing( const QByteArray& e,int s ) :
 	m_maxCounter( s ),
 	m_processingDefaultText( e )
 {
 }
 
-QByteArray engines::engine::functions::preProcessing::processingText()
+QByteArray engines::engine::baseEngine::preProcessing::processingText()
 {
 	return QObject::tr( "Processing" ).toUtf8() ;
 }
 
-void engines::engine::functions::preProcessing::reset()
+void engines::engine::baseEngine::preProcessing::reset()
 {
 	m_counter = 0 ;
 	m_counterDots = " ..." ;
 }
 
-const QByteArray& engines::engine::functions::preProcessing::text()
+const QByteArray& engines::engine::baseEngine::preProcessing::text()
 {
 	if( m_counter < m_maxCounter ){
 
@@ -2122,7 +2076,7 @@ const QByteArray& engines::engine::functions::preProcessing::text()
 	return m_txt ;
 }
 
-const QByteArray& engines::engine::functions::preProcessing::text( const QByteArray& e )
+const QByteArray& engines::engine::baseEngine::preProcessing::text( const QByteArray& e )
 {
 	if( m_counter < 16 ){
 
@@ -2139,22 +2093,22 @@ const QByteArray& engines::engine::functions::preProcessing::text( const QByteAr
 	return m_txt ;
 }
 
-QByteArray engines::engine::functions::postProcessing::processingText()
+QByteArray engines::engine::baseEngine::postProcessing::processingText()
 {
 	return QObject::tr( "Post Processing" ).toUtf8() ;
 }
 
-engines::engine::functions::postProcessing::postProcessing() :
-	m_processingDefaultText( engines::engine::functions::postProcessing::processingText() )
+engines::engine::baseEngine::postProcessing::postProcessing() :
+	m_processingDefaultText( engines::engine::baseEngine::postProcessing::processingText() )
 {
 }
 
-engines::engine::functions::postProcessing::postProcessing( const QByteArray& e ) :
+engines::engine::baseEngine::postProcessing::postProcessing( const QByteArray& e ) :
 	m_processingDefaultText( e )
 {
 }
 
-const QByteArray& engines::engine::functions::postProcessing::text( const QByteArray& e )
+const QByteArray& engines::engine::baseEngine::postProcessing::text( const QByteArray& e )
 {
 	if( m_counter < 16 ){
 
@@ -2171,34 +2125,34 @@ const QByteArray& engines::engine::functions::postProcessing::text( const QByteA
 	return m_txt ;
 }
 
-bool engines::engine::functions::timer::timerText( const QString& e )
+bool engines::engine::baseEngine::timer::timerText( const QString& e )
 {
-	return e.startsWith( engines::engine::functions::timer::timerText() ) ;
+	return e.startsWith( engines::engine::baseEngine::timer::timerText() ) ;
 }
 
-QString engines::engine::functions::timer::timerText()
+QString engines::engine::baseEngine::timer::timerText()
 {
 	return QObject::tr( "Elapsed Time:" ) + " " ;
 }
 
-QString engines::engine::functions::timer::startTimerText()
+QString engines::engine::baseEngine::timer::startTimerText()
 {
-	return engines::engine::functions::timer::timerText() + "00:00:00" ;
+	return engines::engine::baseEngine::timer::timerText() + "00:00:00" ;
 }
 
-QString engines::engine::functions::timer::stringElapsedTime( qint64 milliseconds )
+QString engines::engine::baseEngine::timer::stringElapsedTime( qint64 milliseconds )
 {
 	if( milliseconds <= 0 ){
 
-		return engines::engine::functions::timer::startTimerText() ;
+		return engines::engine::baseEngine::timer::startTimerText() ;
 	}
 
-	auto m = engines::engine::functions::timer::duration( milliseconds ) ;
+	auto m = engines::engine::baseEngine::timer::duration( milliseconds ) ;
 
-	return engines::engine::functions::timer::timerText() + m ;
+	return engines::engine::baseEngine::timer::timerText() + m ;
 }
 
-QString engines::engine::functions::timer::duration( qint64 milliseconds )
+QString engines::engine::baseEngine::timer::duration( qint64 milliseconds )
 {
 	auto seconds = milliseconds / 1000;
 	milliseconds = milliseconds % 1000;
@@ -2213,7 +2167,7 @@ QString engines::engine::functions::timer::duration( qint64 milliseconds )
 	return time.toString( "hh:mm:ss" ) ;
 }
 
-int engines::engine::functions::timer::toSeconds( const QString& e )
+int engines::engine::baseEngine::timer::toSeconds( const QString& e )
 {
 	auto _toNumber = []( const QString& e ){
 
@@ -2246,24 +2200,24 @@ int engines::engine::functions::timer::toSeconds( const QString& e )
 	}
 }
 
-qint64 engines::engine::functions::timer::elapsedTime()
+qint64 engines::engine::baseEngine::timer::elapsedTime()
 {
-	return engines::engine::functions::timer::currentTime() - m_startTime ;
+	return engines::engine::baseEngine::timer::currentTime() - m_startTime ;
 }
 
-qint64 engines::engine::functions::timer::currentTime()
+qint64 engines::engine::baseEngine::timer::currentTime()
 {
 	return QDateTime().currentMSecsSinceEpoch() ;
 }
 
-QString engines::engine::functions::timer::stringElapsedTime()
+QString engines::engine::baseEngine::timer::stringElapsedTime()
 {
-	return engines::engine::functions::timer::stringElapsedTime( this->elapsedTime() ) ;
+	return engines::engine::baseEngine::timer::stringElapsedTime( this->elapsedTime() ) ;
 }
 
-void engines::engine::functions::timer::reset()
+void engines::engine::baseEngine::timer::reset()
 {
-	m_startTime = engines::engine::functions::timer::currentTime() ;
+	m_startTime = engines::engine::baseEngine::timer::currentTime() ;
 }
 
 engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePaths& enginePath ) :
@@ -2279,7 +2233,7 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 	}
 }
 
-engines::engine::functions::filterOutPut::~filterOutPut()
+engines::engine::baseEngine::filterOutPut::~filterOutPut()
 {
 }
 

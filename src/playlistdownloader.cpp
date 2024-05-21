@@ -1532,7 +1532,7 @@ void playlistdownloader::subscription::save()
 void playlistdownloader::banner::updateProgress( const QString& progress )
 {
 	m_time = m_timer.elapsedTime() ;
-	auto duration = engines::engine::functions::timer::stringElapsedTime( m_time ) ;
+	auto duration = engines::engine::baseEngine::timer::stringElapsedTime( m_time ) ;
 	m_progress = duration + ", " + progress ;
 	m_table.setUiText( m_txt + "\n" + m_progress,0 ) ;
 }
@@ -1545,7 +1545,7 @@ void playlistdownloader::banner::reportError( const QString& e )
 void playlistdownloader::banner::updateTimer()
 {
 	auto m = m_timer.elapsedTime() ;
-	auto duration = engines::engine::functions::timer::stringElapsedTime( m_time + m ) ;
+	auto duration = engines::engine::baseEngine::timer::stringElapsedTime( m_time + m ) ;
 	m_table.setUiText( m_txt + "\n" + duration,0 ) ;
 }
 

@@ -162,11 +162,11 @@ private:
 		}
 		int maxMediaLength() const
 		{
-			return engines::engine::functions::timer::toSeconds( m_maxMediaLength ) ;
+			return engines::engine::baseEngine::timer::toSeconds( m_maxMediaLength ) ;
 		}
 		int minMediaLength() const
 		{
-			return engines::engine::functions::timer::toSeconds( m_minMediaLength ) ;
+			return engines::engine::baseEngine::timer::toSeconds( m_minMediaLength ) ;
 		}
 		bool contains( const QString& e ) const ;
 		bool breakOnExisting() const
@@ -260,7 +260,7 @@ private:
 		QString m_txt ;
 		QString m_progress ;
 		qint64 m_time ;
-		engines::engine::functions::timer m_timer ;
+		engines::engine::baseEngine::timer m_timer ;
 	} ;
 
 	banner m_banner ;

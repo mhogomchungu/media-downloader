@@ -364,8 +364,8 @@ INFO [1689598171.062669] svtplay-dl/svtplay_dl/postprocess/__init__.py/merge: Me
 }
 
 svtplay_dl::svtplay_dl( const engines& engs,const engines::engine& engine,QJsonObject& ) :
-	engines::engine::functions( engs.Settings(),engine,engs.processEnvironment() ),
-	m_processEnvironment( engines::engine::functions::processEnvironment() )
+	engines::engine::baseEngine( engs.Settings(),engine,engs.processEnvironment() ),
+	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
 {
 	m_processEnvironment.insert( "PYTHONUNBUFFERED","true" ) ;
 }
@@ -375,16 +375,16 @@ void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s ) const
 	s = QProcess::ProcessChannel::StandardError ;
 }
 
-void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& e,bool s )
+void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& e,bool s )
 {
 	e.ourOptions.append( "--verbose" ) ;
 
-	engines::engine::functions::updateDownLoadCmdOptions( e,s ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( e,s ) ;
 }
 
 QStringList svtplay_dl::horizontalHeaderLabels() const
 {
-	auto m = engines::engine::functions::horizontalHeaderLabels() ;
+	auto m = engines::engine::baseEngine::horizontalHeaderLabels() ;
 
 	m[ 1 ] = QObject::tr( "Method" ) ;
 
@@ -397,7 +397,7 @@ void svtplay_dl::setProxySetting( QStringList& e,const QString& s )
 	e.append( s ) ;
 }
 
-static bool _add( std::vector< engines::engine::functions::mediaInfo >& s,const QString& e )
+static bool _add( std::vector< engines::engine::baseEngine::mediaInfo >& s,const QString& e )
 {
 	for( const auto& m : s ){
 
@@ -410,7 +410,7 @@ static bool _add( std::vector< engines::engine::functions::mediaInfo >& s,const 
 	return true ;
 }
 
-std::vector<engines::engine::functions::mediaInfo> svtplay_dl::mediaProperties( Logger&,const QByteArray& e )
+std::vector<engines::engine::baseEngine::mediaInfo> svtplay_dl::mediaProperties( Logger&,const QByteArray& e )
 {
 	auto mm = util::split( e,'\n',true ) ;
 
@@ -428,7 +428,7 @@ std::vector<engines::engine::functions::mediaInfo> svtplay_dl::mediaProperties( 
 		}
 	}
 
-	std::vector< engines::engine::functions::mediaInfo > s ;
+	std::vector< engines::engine::baseEngine::mediaInfo > s ;
 
 	for( const auto& it : mm ){
 
@@ -486,10 +486,10 @@ svtplay_dl::~svtplay_dl()
 {
 }
 
-engines::engine::functions::DataFilter svtplay_dl::Filter( int id )
+engines::engine::baseEngine::DataFilter svtplay_dl::Filter( int id )
 {
-	auto& s = engines::engine::functions::Settings() ;
-	const auto& engine = engines::engine::functions::engine() ;
+	auto& s = engines::engine::baseEngine::Settings() ;
+	const auto& engine = engines::engine::baseEngine::engine() ;
 
 	return { util::types::type_identity< svtplay_dl::svtplay_dlFilter >(),s,engine,id } ;
 }
@@ -497,21 +497,21 @@ engines::engine::functions::DataFilter svtplay_dl::Filter( int id )
 QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
 						 const QString& dopts,
-						 const engines::engine::functions::finishedState& f )
+						 const engines::engine::baseEngine::finishedState& f )
 {
 	if( f.success() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 
 	}else if( f.cancelled() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 	}else{
-		using functions = engines::engine::functions ;
+		using functions = engines::engine::baseEngine ;
 
 		if( uiText.startsWith( "ERROR:" ) ){
 
-			auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText.mid( 6 ),dopts,f ) ;
+			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText.mid( 6 ),dopts,f ) ;
 
 			return m + "\n" + bkText ;
 
@@ -523,14 +523,14 @@ QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
 
 			return functions::errorString( f,functions::errors::unknownUrl,bkText ) ;
 		}else{
-			auto m = engines::engine::functions::processCompleteStateText( f ) ;
+			auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 			return m + "\n" + bkText ;
 		}
 	}
 }
 
 svtplay_dl::svtplay_dlFilter::svtplay_dlFilter( settings&,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( engine,id ){
+	engines::engine::baseEngine::filter( engine,id ){
 }
 
 static bool _startsWithCondition( const QByteArray& e )
@@ -561,14 +561,14 @@ static bool _meetCondition( const engines::engine&,const QByteArray& e )
 	return e.contains( "] (" ) && e.contains( " ETA:" ) ;
 }
 
-class svtplayFilter : public engines::engine::functions::filterOutPut
+class svtplayFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
 	svtplayFilter( const engines::engine& engine ) : m_engine( engine )
 	{
 	}
-	engines::engine::functions::filterOutPut::result
-	formatOutput( const engines::engine::functions::filterOutPut::args& args ) const override
+	engines::engine::baseEngine::filterOutPut::result
+	formatOutput( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		const auto& l = args.locale ;
 		auto& d = args.data ;
@@ -693,7 +693,7 @@ public:
 
 		return { m_tmp,m_engine,_meetCondition } ;
 	}
-	bool meetCondition( const engines::engine::functions::filterOutPut::args& args ) const override
+	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 
@@ -713,16 +713,16 @@ private:
 	mutable QByteArray m_tmp ;
 } ;
 
-engines::engine::functions::FilterOutPut svtplay_dl::filterOutput()
+engines::engine::baseEngine::FilterOutPut svtplay_dl::filterOutput()
 {
-	const engines::engine& engine = engines::engine::functions::engine() ;
+	const engines::engine& engine = engines::engine::baseEngine::engine() ;
 
 	return { util::types::type_identity< svtplayFilter >(),engine } ;
 }
 
 QString svtplay_dl::updateCmdPath( const QString& e )
 {
-	const auto& name = engines::engine::functions::engine().name() ;
+	const auto& name = engines::engine::baseEngine::engine().name() ;
 
 	if( utility::platformIsWindows() ){
 
@@ -771,7 +771,7 @@ engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc 
 	return metadata ;
 }
 
-engines::engine::functions::onlineVersion svtplay_dl::versionInfoFromGithub( const QByteArray& e )
+engines::engine::baseEngine::onlineVersion svtplay_dl::versionInfoFromGithub( const QByteArray& e )
 {
 	QJsonParseError err ;
 	auto doc = QJsonDocument::fromJson( e,&err ) ;

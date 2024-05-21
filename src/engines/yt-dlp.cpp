@@ -424,7 +424,7 @@ yt_dlp::yt_dlp( const engines& engines,
 		const util::version& version,
 		const QString& downloadFolder,
 		bool deleteFilesOnCancel ) :
-	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
+	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
 	m_version( version ),
 	m_likeYtdlp( m_engine.name() != "youtube-dl" ),
@@ -680,15 +680,15 @@ private:
 	QByteArray m_speed ;
 };
 
-class ytDlpFilter : public engines::engine::functions::filterOutPut
+class ytDlpFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
 	ytDlpFilter( const engines::engine& engine ) :
 		m_engine( engine )
 	{
 	}
-	engines::engine::functions::filterOutPut::result
-	formatOutput( const engines::engine::functions::filterOutPut::args& args ) const override
+	engines::engine::baseEngine::filterOutPut::result
+	formatOutput( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		if( m_function == _yt_dlp ){
 
@@ -705,7 +705,7 @@ public:
 			return { args.outPut,m_engine,m_function } ;
 		}
 	}
-	bool meetCondition( const engines::engine::functions::filterOutPut::args& args ) const override
+	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 
@@ -738,7 +738,7 @@ public:
 		return m_engine ;
 	}
 private:
-	QByteArray outPutFormat( const engines::engine::functions::filterOutPut::args& args ) const
+	QByteArray outPutFormat( const engines::engine::baseEngine::filterOutPut::args& args ) const
 	{
 		const auto& e = args.outPut ;
 		const auto& locale = args.locale ;
@@ -979,18 +979,18 @@ private:
 	mutable bool( *m_function )( const engines::engine&,const QByteArray& ) ;
 } ;
 
-engines::engine::functions::FilterOutPut yt_dlp::filterOutput()
+engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput()
 {
 	return { util::types::type_identity< ytDlpFilter >(),m_engine } ;
 }
 
-std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
+std::vector< engines::engine::baseEngine::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
 {
 	const auto& name = m_engine.name() ;
 
 	if( name == "youtube-dl" ){
 
-		return engines::engine::functions::mediaProperties( l,e ) ;
+		return engines::engine::baseEngine::mediaProperties( l,e ) ;
 	}else{
 		QJsonParseError err ;
 
@@ -1045,7 +1045,7 @@ static QString _fileSize( Logger::locale& s,QJsonObject e )
 	}
 }
 
-std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QJsonArray& array )
+std::vector< engines::engine::baseEngine::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QJsonArray& array )
 {
 	if( array.isEmpty() ){
 
@@ -1054,12 +1054,12 @@ std::vector< engines::engine::functions::mediaInfo > yt_dlp::mediaProperties( Lo
 
 	if( m_engine.name() == "youtube-dl" ){
 
-		return engines::engine::functions::mediaProperties( l,array ) ;
+		return engines::engine::baseEngine::mediaProperties( l,array ) ;
 	}
 
-	std::vector< engines::engine::functions::mediaInfo > firstToShow ;
-	std::vector< engines::engine::functions::mediaInfo > secondToShow ;
-	std::vector< engines::engine::functions::mediaInfo > thirdtToShow ;
+	std::vector< engines::engine::baseEngine::mediaInfo > firstToShow ;
+	std::vector< engines::engine::baseEngine::mediaInfo > secondToShow ;
+	std::vector< engines::engine::baseEngine::mediaInfo > thirdtToShow ;
 
 	Logger::locale locale ;
 
@@ -1300,7 +1300,7 @@ void yt_dlp::setProxySetting( QStringList& e,const QString& s )
 
 void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 {
-	const auto& e = engines::engine::functions::Settings().textEncoding() ;
+	const auto& e = engines::engine::baseEngine::Settings().textEncoding() ;
 
 	if( !e.isEmpty() && !args.isEmpty() ){
 
@@ -1309,14 +1309,14 @@ void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 	}
 }
 
-engines::engine::functions::DataFilter yt_dlp::Filter( int id )
+engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )
 {
 	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,m_engine,*this } ;
 }
 
 void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
 {
-	auto& settings = engines::engine::functions::Settings() ;
+	auto& settings = engines::engine::baseEngine::Settings() ;
 	auto a = settings.commandOnSuccessfulDownload() ;
 
 	if( !a.isEmpty() && !e.isEmpty() ){
@@ -1339,9 +1339,9 @@ void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
 QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& dopts,
-					     const engines::engine::functions::finishedState& f )
+					     const engines::engine::baseEngine::finishedState& f )
 {
-	using functions = engines::engine::functions ;
+	using functions = engines::engine::baseEngine ;
 
 	if( f.cancelled() ){
 
@@ -1353,7 +1353,7 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 		if( uiText.contains( e ) ){
 
-			auto m = engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 
 			return m + "\n" + e  ;
 		}
@@ -1362,8 +1362,8 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 		for( const auto& it : util::split( uiText,'\n',true ) ){
 
-			auto x = engines::engine::functions::postProcessing::processingText() ;
-			auto y = engines::engine::functions::preProcessing::processingText() ;
+			auto x = engines::engine::baseEngine::postProcessing::processingText() ;
+			auto y = engines::engine::baseEngine::preProcessing::processingText() ;
 
 			if( !it.contains( x ) && !it.contains( y ) ){
 
@@ -1371,7 +1371,7 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 			}
 		}
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,f ) ;
 
 	}else if( uiText == "EngineNeedUpdating" ){
 
@@ -1396,12 +1396,12 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return functions::errorString( f,functions::errors::notSupportedUrl,bkText ) ;
 	}else{
-		auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 		return m + "\n" + bkText ;
 	}
 }
 
-void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,bool e )
+void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
 {
 	if( s.userOptions.contains( "--yes-playlist" ) ){
 
@@ -1459,7 +1459,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::functions::updateO
 		s.ourOptions.append( mm ) ;
 	}
 
-	engines::engine::functions::updateDownLoadCmdOptions( s,e ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e ) ;
 
 	if( !s.ourOptions.contains( "-f" ) && !s.ourOptions.contains( "-S" ) ){
 
@@ -1511,7 +1511,7 @@ void yt_dlp::updateCmdOptions( QStringList& e )
 yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
 					    const engines::engine& engine,
 					    yt_dlp& p ) :
-	engines::engine::functions::filter( engine,processId ),
+	engines::engine::baseEngine::filter( engine,processId ),
 	m_engine( engine ),
 	m_parent( p )
 {

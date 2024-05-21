@@ -22,7 +22,7 @@
 
 #include "../engines.h"
 
-class yt_dlp : public engines::engine::functions
+class yt_dlp : public engines::engine::baseEngine
 {
 public:
 	static const char * testYtDlp() ;
@@ -33,7 +33,7 @@ public:
 
 	~yt_dlp() override ;
 
-	class youtube_dlFilter : public engines::engine::functions::filter
+	class youtube_dlFilter : public engines::engine::baseEngine::filter
 	{
 	public:
 		youtube_dlFilter( int processId,const engines::engine&,yt_dlp& ) ;
@@ -49,8 +49,8 @@ public:
 		const QByteArray& parseOutput( const Logger::Data::QByteArrayList& ) ;
 
 		void setFileName( const QByteArray& ) ;
-		engines::engine::functions::preProcessing m_preProcessing ;
-		engines::engine::functions::postProcessing m_postProcessing ;
+		engines::engine::baseEngine::preProcessing m_preProcessing ;
+		engines::engine::baseEngine::postProcessing m_postProcessing ;
 
 		const engines::engine& m_engine ;
 		QByteArray m_tmp ;
@@ -58,11 +58,11 @@ public:
 		yt_dlp& m_parent ;
 	} ;
 
-	engines::engine::functions::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
 
-	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
+	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
-	std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
+	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
 
 	bool breakShowListIfContains( const QStringList& ) override ;
 
@@ -78,16 +78,16 @@ public:
 
 	void setTextEncondig( const QString&,QStringList& ) override ;
 
-	engines::engine::functions::DataFilter Filter( int ) override ;
+	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,
-					     const engines::engine::functions::finishedState& ) override ;
+					     const engines::engine::baseEngine::finishedState& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
 
 	void updateGetPlaylistCmdOptions( QStringList& ) override ;
 

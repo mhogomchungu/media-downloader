@@ -345,7 +345,7 @@ public:
 			QStringList m_options ;
 		} ;
 
-		class functions
+		class baseEngine
 		{
 		public:
 			class finishedState
@@ -389,10 +389,10 @@ public:
 			};
 
 			enum class errors{ unknownUrl,notSupportedUrl,noNetwork,unknownFormat } ;
-			static QString errorString( const engine::engine::functions::finishedState&,
-						    engines::engine::functions::errors,
+			static QString errorString( const engine::engine::baseEngine::finishedState&,
+						    engines::engine::baseEngine::errors,
 						    const QString& ) ;
-			static QString processCompleteStateText( const engine::engine::functions::finishedState& ) ;
+			static QString processCompleteStateText( const engine::engine::baseEngine::finishedState& ) ;
 
 			class timer
 			{
@@ -408,7 +408,7 @@ public:
 				QString stringElapsedTime() ;
 				void reset() ;
 			private:
-				qint64 m_startTime = engines::engine::functions::timer::currentTime() ;
+				qint64 m_startTime = engines::engine::baseEngine::timer::currentTime() ;
 			};
 
 			class preProcessing
@@ -452,7 +452,7 @@ public:
 				virtual ~filter() ;
 				const engines::engine& engine() const ;
 			private:
-				engines::engine::functions::preProcessing m_processing ;
+				engines::engine::baseEngine::preProcessing m_processing ;
 				const engines::engine& m_engine ;
 				QByteArray m_tmp ;
 				int m_processId ;
@@ -475,7 +475,7 @@ public:
 					return std::move( *this ) ;
 				}
 			private:
-				std::unique_ptr< engines::engine::functions::filter > m_filter ;
+				std::unique_ptr< engines::engine::baseEngine::filter > m_filter ;
 			};
 
 			class filterOutPut
@@ -540,7 +540,7 @@ public:
 					m_filterOutPut( std::make_unique< typename Type::type >( engine,std::forward< Args >( args ) ... ) )
 				{
 				}
-				engines::engine::functions::filterOutPut::result
+				engines::engine::baseEngine::filterOutPut::result
 				formatOutput( const Logger::locale& l,Logger::Data& d,const QByteArray& e ) const
 				{
 					return m_filterOutPut->formatOutput( { l,d,e } ) ;
@@ -550,12 +550,12 @@ public:
 					return m_filterOutPut->meetCondition( { l,d,e } ) ;
 				}
 			private:
-				std::unique_ptr< engines::engine::functions::filterOutPut > m_filterOutPut ;
+				std::unique_ptr< engines::engine::baseEngine::filterOutPut > m_filterOutPut ;
 			};
 
 			virtual FilterOutPut filterOutput() ;
 
-			virtual ~functions() ;
+			virtual ~baseEngine() ;
 
 			virtual const QProcessEnvironment& processEnvironment() const ;
 
@@ -672,9 +672,9 @@ public:
 
 			virtual engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) ;
 
-			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QByteArray& ) ;
+			virtual std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) ;
 
-			virtual std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) ;
+			virtual std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) ;
 
 			virtual void updateOutPutChannel( QProcess::ProcessChannel& ) const ;
 
@@ -688,7 +688,7 @@ public:
 
 			virtual QString updateCmdPath( const QString& ) ;
 
-			virtual engines::engine::functions::DataFilter Filter( int ) ;
+			virtual engines::engine::baseEngine::DataFilter Filter( int ) ;
 
 			virtual QString deleteEngineBinFolder( const QString& ) ;
 
@@ -720,7 +720,7 @@ public:
 				}
 			};
 
-			virtual engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& ) ;
+			virtual engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QByteArray& ) ;
 
 			virtual bool foundNetworkUrl( const QString& ) ;
 
@@ -728,12 +728,12 @@ public:
 
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const QString& downloadingOptions,
-							     const engine::engine::functions::finishedState& ) ;
+							     const engine::engine::baseEngine::finishedState& ) ;
 
 			virtual QString updateTextOnCompleteDownlod( const QString& uiText,
 								     const QString& bkText,
 								     const QString& downloadingOptions,
-								     const engine::engine::functions::finishedState& ) ;
+								     const engine::engine::baseEngine::finishedState& ) ;
 
 			virtual void sendCredentials( const QString&,QProcess& ) ;
 
@@ -779,13 +779,13 @@ public:
 				QStringList& ourOptions ;
 			};
 
-			virtual void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) ;
+			virtual void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) ;
 
 			virtual void updateGetPlaylistCmdOptions( QStringList& ) ;
 
 			virtual void updateCmdOptions( QStringList& ) ;
 
-			functions( settings&,const engines::engine&,const QProcessEnvironment& e ) ;
+			baseEngine( settings&,const engines::engine&,const QProcessEnvironment& e ) ;
 			settings& Settings() const ;
 			const engines::engine& engine() const ;
 		private:
@@ -794,8 +794,9 @@ public:
 			const QProcessEnvironment& m_processEnvironment ;
 		} ;
 
-		engine( Logger& l ) ;
-
+		engine()
+		{
+		}
 		engine( const engines& engines,
 			Logger& logger,
 			const QString& name,
@@ -973,18 +974,18 @@ public:
 		enum class tab{ basic,batch,playlist } ;
 		QStringList dumpJsonArguments( engines::engine::tab ) const ;
 
-		engines::engine::functions::DataFilter filter( int processId ) const
+		engines::engine::baseEngine::DataFilter filter( int processId ) const
 		{
 			return m_engine->Filter( processId ) ;
 		}
 		QString updateTextOnCompleteDownlod( const QString& uiText,
 						     const QString& bkText,
 						     const QString& dopts,
-						     const engine::engine::functions::finishedState& f ) const
+						     const engine::engine::baseEngine::finishedState& f ) const
 		{
 			return m_engine->updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
 		}
-		void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& u,bool e ) const
+		void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& u,bool e ) const
 		{
 			m_engine->updateDownLoadCmdOptions( u,e ) ;
 		}
@@ -992,7 +993,7 @@ public:
 		{
 			m_engine->sendCredentials( credentials,exe ) ;
 		}
-		std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger& l,const QByteArray& e ) const
+		std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger& l,const QByteArray& e ) const
 		{
 			return m_engine->mediaProperties( l,e ) ;
 		}
@@ -1020,7 +1021,7 @@ public:
 		{
 			return m_engine->parseJsonDataFromGitHub( e ) ;
 		}
-		engines::engine::functions::FilterOutPut filterOutput() const
+		engines::engine::baseEngine::FilterOutPut filterOutput() const
 		{
 			return m_engine->filterOutput() ;
 		}
@@ -1028,7 +1029,7 @@ public:
 		{
 			return m_engine->foundNetworkUrl( s ) ;
 		}
-		engines::engine::functions::onlineVersion versionInfoFromGithub( const QByteArray& e ) const
+		engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QByteArray& e ) const
 		{
 			return m_engine->versionInfoFromGithub( e ) ;
 		}
@@ -1044,7 +1045,7 @@ public:
 		{
 			m_engine->updateOutPutChannel( s ) ;
 		}
-		std::vector< engines::engine::functions::mediaInfo > mediaProperties( Logger& l,const QJsonArray& e ) const
+		std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger& l,const QJsonArray& e ) const
 		{
 			return m_engine->mediaProperties( l,e ) ;
 		}
@@ -1162,6 +1163,16 @@ public:
 
 		void updateOptions() ;
 
+		struct cmd
+		{
+			QString name ;
+			QStringList args ;
+			bool noCheckArgs ;
+		} ;
+
+		engines::engine::cmd getCommands( const QJsonObject& ) ;
+		engines::engine::cmd getLegacyCommands() ;
+
 		void parseMultipleCmdArgs( Logger& logger,const engines& engines,const enginePaths&,int ) ;
 
 		void parseMultipleCmdArgs( QStringList&,
@@ -1173,7 +1184,7 @@ public:
 
 		mutable util::version m_version ;
 		QJsonObject m_jsonObject ;
-		std::unique_ptr< engines::engine::functions > m_engine ;
+		std::unique_ptr< engines::engine::baseEngine > m_engine ;
 		int m_line ;
 		int m_position ;
 		bool m_valid ;

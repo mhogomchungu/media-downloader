@@ -25,13 +25,13 @@
 #include <cstring>
 
 you_get::you_get( const engines& engines,const engines::engine& engine,QJsonObject& ) :
-	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() )
+	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() )
 {
 }
 
 QString you_get::updateCmdPath( const QString& e )
 {
-	const auto& name = engines::engine::functions::engine().name() ;
+	const auto& name = engines::engine::baseEngine::engine().name() ;
 
 	return e + "/" + name + "/" + name ;
 }
@@ -51,7 +51,7 @@ void you_get::renameArchiveFolder( const QString& e )
 {
 	const auto m = QDir( e ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
 
-	const auto& name = engines::engine::functions::engine().name() ;
+	const auto& name = engines::engine::baseEngine::engine().name() ;
 
 	QDir dir ;
 
@@ -70,13 +70,13 @@ void you_get::renameArchiveFolder( const QString& e )
 	}
 }
 
-std::vector<engines::engine::functions::mediaInfo> you_get::mediaProperties( Logger& l,const QByteArray& e )
+std::vector<engines::engine::baseEngine::mediaInfo> you_get::mediaProperties( Logger& l,const QByteArray& e )
 {
 	QJsonParseError err ;
 
 	auto json = QJsonDocument::fromJson( e,&err ) ;
 
-	std::vector<engines::engine::functions::mediaInfo> s ;
+	std::vector<engines::engine::baseEngine::mediaInfo> s ;
 
 	if( err.error != QJsonParseError::NoError ){
 
@@ -130,10 +130,10 @@ you_get::~you_get()
 {
 }
 
-engines::engine::functions::DataFilter you_get::Filter( int id )
+engines::engine::baseEngine::DataFilter you_get::Filter( int id )
 {
-	auto& s = engines::engine::functions::Settings() ;
-	const auto& engine = engines::engine::functions::engine() ;
+	auto& s = engines::engine::baseEngine::Settings() ;
+	const auto& engine = engines::engine::baseEngine::engine() ;
 
 	return { util::types::type_identity< you_get::you_getFilter >(),s,engine,id } ;
 }
@@ -141,36 +141,36 @@ engines::engine::functions::DataFilter you_get::Filter( int id )
 QString you_get::updateTextOnCompleteDownlod( const QString& uiText,
 					      const QString& bkText,
 					      const QString& dopts,
-					      const engines::engine::functions::finishedState& f )
+					      const engines::engine::baseEngine::finishedState& f )
 {
 	if( f.success() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 
 	}else if( f.cancelled() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 
 	}else if( uiText.startsWith( "you-get: [Error]" ) ){
 
-		using functions = engines::engine::functions ;
+		using functions = engines::engine::baseEngine ;
 
 		if( uiText.contains( "Invalid video format" ) ){
 
 			return functions::errorString( f,functions::errors::unknownFormat,bkText ) ;
 		}else{
-			auto m = engines::engine::functions::updateTextOnCompleteDownlod( uiText.mid( 16 ),dopts,f ) ;
+			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText.mid( 16 ),dopts,f ) ;
 
 			return m + "\n" + bkText ;
 		}
 	}else{
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 		return m + "\n" + bkText ;
 	}
 }
 
 you_get::you_getFilter::you_getFilter( settings&,const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( engine,id ),
+	engines::engine::baseEngine::filter( engine,id ),
 	m_processId( id )
 {
 	Q_UNUSED( m_processId )

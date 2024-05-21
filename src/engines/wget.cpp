@@ -217,23 +217,23 @@ void wget::init( const QString& name,
 }
 
 wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
-	engines::engine::functions( e.Settings(),s,e.processEnvironment() )
+	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {
 }
 
-void wget::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,bool e )
+void wget::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
 {
 	if( !s.ourOptions.contains( "--progress=bar:force" ) ){
 
 		s.ourOptions.append( "--progress=bar:force" ) ;
 	}
 
-	engines::engine::functions::updateDownLoadCmdOptions( s,e ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e ) ;
 }
 
-engines::engine::functions::DataFilter wget::Filter( int id )
+engines::engine::baseEngine::DataFilter wget::Filter( int id )
 {
-	const auto& engine = engines::engine::functions::engine() ;
+	const auto& engine = engines::engine::baseEngine::engine() ;
 
 	return { util::types::type_identity< wget::wgetFilter >(),engine,id } ;
 }
@@ -265,7 +265,7 @@ QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 {
 	if( f.cancelled() ){
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
 
 	}else if( f.success() ){
 
@@ -279,9 +279,9 @@ QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 			}
 		}() ;
 
-		return engines::engine::functions::updateTextOnCompleteDownlod( m,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( m,dopts,f ) ;
 	}else{
-		using functions = engines::engine::functions ;
+		using functions = engines::engine::baseEngine ;
 
 		if( uiText.contains( "failed: Temporary failure in name resolution" ) ){
 
@@ -291,7 +291,7 @@ QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 
 			return functions::errorString( f,functions::errors::unknownUrl,bkText ) ;
 		}else{
-			auto m = engines::engine::functions::processCompleteStateText( f ) ;
+			auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 			return m + "\n" + bkText ;
 		}
 	}
@@ -302,7 +302,7 @@ wget::~wget()
 }
 
 wget::wgetFilter::wgetFilter( const engines::engine& engine,int id ) :
-	engines::engine::functions::filter( engine,id )
+	engines::engine::baseEngine::filter( engine,id )
 {
 }
 

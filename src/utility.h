@@ -48,6 +48,12 @@
 
 #include "networkAccess.h"
 
+#ifdef Q_OS_WIN
+#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
+#include <QNtfsPermissionCheckGuard>
+#endif
+#endif
+
 class Context ;
 class ContextWinId ;
 
@@ -422,6 +428,18 @@ namespace utility
 	private:
 		QFile m_outPutFile ;
 		enum class status{ qdebug,debug,notSet } m_status = utility::printOutPut::status::notSet ;
+	} ;
+	class checkPermissions
+	{
+	public:
+		void enable() ;
+		void disable() ;
+	private:
+		#ifdef Q_OS_WIN
+		#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
+			QNtfsPermissionCheckGuard m_guard ;
+		#endif
+		#endif
 	} ;
 	struct PlayerOpts
 	{
@@ -1242,7 +1260,7 @@ namespace utility
 		ProcessOutputChannels m_channels ;
 		const engines::engine& m_engine ;
 		std::unique_ptr< QTimer > m_timer ;
-		engines::engine::functions::timer m_timeCounter ;
+		engines::engine::baseEngine::timer m_timeCounter ;
 		QByteArray m_data ;
 		bool m_cancelled ;
 	} ;

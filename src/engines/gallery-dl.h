@@ -23,7 +23,7 @@
 
 class settings ;
 
-class gallery_dl : public engines::engine::functions
+class gallery_dl : public engines::engine::baseEngine
 {
 public:
 	static const char * testData() ;
@@ -31,7 +31,7 @@ public:
 	~gallery_dl() override ;
 	gallery_dl( const engines&,const engines::engine&,QJsonObject& ) ;
 
-	class gallery_dlFilter : public engines::engine::functions::filter
+	class gallery_dlFilter : public engines::engine::baseEngine::filter
 	{
 	public:
 		gallery_dlFilter( settings&,const engines::engine&,int ) ;
@@ -44,20 +44,20 @@ public:
 		QString m_downloaded ;
 		QByteArray m_tmp ;
 		QByteArray m_dir ;
-		engines::engine::functions::preProcessing m_preProcessing ;
+		engines::engine::baseEngine::preProcessing m_preProcessing ;
 	} ;
 
-	engines::engine::functions::DataFilter Filter( int ) override ;
+	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
 	void setProxySetting( QStringList&,const QString& ) override ;
 
 	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::functions::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,
-					     const engines::engine::functions::finishedState& ) override ;
+					     const engines::engine::baseEngine::finishedState& ) override ;
 private:
 };

@@ -361,7 +361,7 @@ private:
 		void start() ;
 		void stop() ;
 	private:
-		engines::engine::functions::preProcessing m_banner ;
+		engines::engine::baseEngine::preProcessing m_banner ;
 		QTimer m_timer ;
 		tableMiniWidget< QJsonObject,5 >& m_table ;
 	} m_subtitlesTimer ;

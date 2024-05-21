@@ -103,18 +103,18 @@ lux::~lux()
 }
 
 lux::lux( const engines& engines,const engines::engine& engine,QJsonObject&,const QString& df ) :
-	engines::engine::functions( engines.Settings(),engine,engines.processEnvironment() ),
+	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
 	m_downloadFolder( df + "/" )
 {
 }
 
-engines::engine::functions::DataFilter lux::Filter( int id )
+engines::engine::baseEngine::DataFilter lux::Filter( int id )
 {
 	return { util::types::type_identity< lux::lux_dlFilter >(),m_engine,id,m_downloadFolder.toUtf8() } ;
 }
 
-std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( Logger& l,const QByteArray& e )
+std::vector<engines::engine::baseEngine::mediaInfo> lux::mediaProperties( Logger& l,const QByteArray& e )
 {
 	QJsonParseError err ;
 
@@ -130,9 +130,9 @@ std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( Logger&
 	}
 }
 
-std::vector<engines::engine::functions::mediaInfo> lux::mediaProperties( Logger&,const QJsonArray& arr )
+std::vector<engines::engine::baseEngine::mediaInfo> lux::mediaProperties( Logger&,const QJsonArray& arr )
 {
-	std::vector<engines::engine::functions::mediaInfo> ent ;
+	std::vector<engines::engine::baseEngine::mediaInfo> ent ;
 
 	Logger::locale locale ;
 
@@ -211,7 +211,7 @@ bool lux::foundNetworkUrl( const QString& s )
 	}
 }
 
-void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts& s,bool e )
+void lux::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
 {
 	for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
 
@@ -245,7 +245,7 @@ void lux::updateDownLoadCmdOptions( const engines::engine::functions::updateOpts
 		}
 	}
 
-	engines::engine::functions::updateDownLoadCmdOptions( s,e ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e ) ;
 }
 
 static bool _meetCondition( const engines::engine&,const QByteArray& e )
@@ -332,9 +332,9 @@ private:
 	qint64 m_fileSizeInt = 0 ;
 };
 
-using Output = engines::engine::functions::filterOutPut ;
+using Output = engines::engine::baseEngine::filterOutPut ;
 
-class luxFilter : public engines::engine::functions::filterOutPut
+class luxFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
 	luxFilter( const engines::engine& engine ) : m_engine( engine )
@@ -448,7 +448,7 @@ public:
 			return { args.outPut,m_engine,_meetLocalCondition } ;
 		}
 	}
-	bool meetCondition( const engines::engine::functions::filterOutPut::args& args ) const override
+	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		return _meetCondition( m_engine,args.outPut ) ;
 	}
@@ -461,9 +461,9 @@ private:
 	mutable QByteArray m_tmp ;
 } ;
 
-engines::engine::functions::FilterOutPut lux::filterOutput()
+engines::engine::baseEngine::FilterOutPut lux::filterOutput()
 {
-	const engines::engine& engine = engines::engine::functions::engine() ;
+	const engines::engine& engine = engines::engine::baseEngine::engine() ;
 
 	return { util::types::type_identity< luxFilter >(),engine } ;
 }
@@ -471,9 +471,9 @@ engines::engine::functions::FilterOutPut lux::filterOutput()
 QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 					  const QString& bkText,
 					  const QString& dopts,
-					  const engines::engine::functions::finishedState& f )
+					  const engines::engine::baseEngine::finishedState& f )
 {
-	using functions = engines::engine::functions ;
+	using functions = engines::engine::baseEngine ;
 
 	if( f.cancelled() ){
 
@@ -495,13 +495,13 @@ QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return functions::errorString( f,functions::errors::unknownFormat,bkText ) ;
 	}else{
-		auto m = engines::engine::functions::processCompleteStateText( f ) ;
+		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 		return m + "\n" + bkText ;
 	}
 }
 
 lux::lux_dlFilter::lux_dlFilter( const engines::engine& engine,int id,QByteArray df ) :
-	engines::engine::functions::filter( engine,id ),
+	engines::engine::baseEngine::filter( engine,id ),
 	m_banner( ".. " + QObject::tr( "This May Take A Very Long Time" ).toUtf8() + " .." ),
 	m_downloadFolder( std::move( df ) )
 {
