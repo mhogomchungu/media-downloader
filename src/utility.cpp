@@ -532,46 +532,6 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 
 #else
 
-#ifdef Q_OS_WIN
-
-#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
-
-void utility::checkPermissions::enable()
-{
-}
-
-void utility::checkPermissions::disable()
-{
-}
-
-#else
-
-extern Q_CORE_EXPORT int qt_ntfs_permission_lookup ;
-
-void utility::checkPermissions::enable()
-{
-	qt_ntfs_permission_lookup++ ;
-}
-
-void utility::checkPermissions::disable()
-{
-	qt_ntfs_permission_lookup-- ;
-}
-
-#endif
-
-#else
-
-void utility::checkPermissions::enable()
-{
-}
-
-void utility::checkPermissions::disable()
-{
-}
-
-#endif
-
 std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 {
 	std::vector< utility::PlayerOpts > m ;
@@ -619,6 +579,46 @@ QString utility::windowsApplicationDirPath()
 QString utility::windowsGateWayAddress()
 {
 	return {} ;
+}
+
+#endif
+
+#ifdef Q_OS_WIN
+
+#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
+
+void utility::checkPermissions::enable()
+{
+}
+
+void utility::checkPermissions::disable()
+{
+}
+
+#else
+
+extern Q_CORE_EXPORT int qt_ntfs_permission_lookup ;
+
+void utility::checkPermissions::enable()
+{
+	qt_ntfs_permission_lookup++ ;
+}
+
+void utility::checkPermissions::disable()
+{
+	qt_ntfs_permission_lookup-- ;
+}
+
+#endif
+
+#else
+
+void utility::checkPermissions::enable()
+{
+}
+
+void utility::checkPermissions::disable()
+{
 }
 
 #endif
