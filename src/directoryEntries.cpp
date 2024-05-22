@@ -26,133 +26,6 @@
 #include <cstring>
 #include <cwchar>
 
-#ifdef Q_OS_LINUX
-
-#include <dirent.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <cstring>
-#include <string>
-#include <limits.h>
-
-template< typename Continue >
-class dManager
-{
-public:
-	dManager( const QString& path,Continue c ) :
-		m_path( path.toUtf8().constData() ),
-		m_continue( std::move( c ) )
-	{
-	}
-	static bool supportsCancel()
-	{
-		return true ;
-	}
-	directoryEntries readAll()
-	{
-		auto handle = utils::misc::unique_rsc( opendir,closedir,m_path.data() ) ;
-
-		if( handle ){
-
-			directoryEntries entries ;
-
-			while( m_continue && this->read( entries,m_path,handle.get() ) ){}
-
-			return entries ;
-		}else{
-			return {} ;
-		}
-	}
-	void removeDirectoryContents()
-	{
-		this->removeDirectory( m_path,[](){} ) ;
-	}
-	void removeDirectory()
-	{
-		this->removeDirectory( m_path,[ & ](){ rmdir( m_path.data() ) ; } ) ;
-	}
-private:
-	template< typename Function >
-	void removeDirectory( const std::string& pm,Function function )
-	{
-		auto handle = utils::misc::unique_rsc( opendir,closedir,pm.data() ) ;
-
-		if( handle ){
-
-			while( m_continue ){
-
-				auto e = readdir( handle.get() ) ;
-
-				if( e ){
-
-					this->removePath( pm,e->d_name ) ;
-				}else{
-					break ;
-				}
-			}
-
-			function() ;
-		}
-	}
-	void removePath( const std::string& pm,const char * name )
-	{
-		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
-
-			struct stat m ;
-
-			auto pp = pm + "/" + name ;
-
-			if( stat( pp.data(),&m ) == 0 ){
-
-				if( S_ISREG( m.st_mode ) ){
-
-					unlink( pp.data() ) ;
-
-				}else if( S_ISDIR( m.st_mode ) ){
-
-					this->removeDirectory( pp,[ pp ](){ rmdir( pp.data() ) ; } ) ;
-				}
-			}
-		}
-	}
-	bool read( directoryEntries& entries,const std::string& mm,DIR * dir )
-	{
-		auto e = readdir( dir ) ;
-
-		if( e ){
-			const auto name = e->d_name ;
-
-			if( entries.valid( name ) ){
-
-				struct stat m ;
-
-				auto s = mm + '/' + name ;
-
-				if( stat( s.data(),&m ) == 0 ){
-
-					if( S_ISREG( m.st_mode ) ){
-
-						entries.addFile( m.st_ctime,name ) ;
-
-					}else if( S_ISDIR( m.st_mode ) ){
-
-						entries.addFolder( m.st_ctime,name ) ;
-					}
-				}
-			}
-
-			return true ;
-		}else{
-			return false ;
-		}
-	}
-	std::string m_path ;
-	Continue m_continue ;
-} ;
-
-#else
-
 #ifdef Q_OS_WIN
 
 #include <windows.h>
@@ -316,78 +189,118 @@ private:
 
 #else
 
-#include <QDateTime>
-#include <QString>
-#include <QFileInfo>
-#include <QDir>
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <cstring>
+#include <string>
+#include <limits.h>
 
 template< typename Continue >
 class dManager
 {
 public:
-	dManager( const QString& path,Continue ) :
-		m_path( path ),
-		m_list( QDir( m_path ).entryList( this->filters() ) )
+	dManager( const QString& path,Continue c ) :
+		m_path( path.toUtf8().constData() ),
+		m_continue( std::move( c ) )
 	{
-	}
-	void removeDirectory()
-	{
-		QDir( m_path ).removeRecursively() ;
-	}
-	void removeDirectoryContents()
-	{
-		QFileInfo m ;
-
-		QString s ;
-
-		for( const auto& it : QDir( m_path ).entryList( this->filters() ) ){
-
-			s = m_path + "/" + it ;
-
-			m.setFile( s ) ;
-
-			if( m.isFile() ){
-
-				QFile::remove( s ) ;
-			}else{
-				QDir( s ).removeRecursively() ;
-			}
-		}
 	}
 	static bool supportsCancel()
 	{
-		return false ;
+		return true ;
 	}
 	directoryEntries readAll()
 	{
-		while( this->read() ){}
+		auto handle = utils::misc::unique_rsc( opendir,closedir,m_path.data() ) ;
 
-		return std::move( m_entries ) ;
+		if( handle ){
+
+			directoryEntries entries ;
+
+			while( m_continue && this->read( entries,m_path,handle.get() ) ){}
+
+			return entries ;
+		}else{
+			return {} ;
+		}
+	}
+	void removeDirectoryContents()
+	{
+		this->removeDirectory( m_path,[](){} ) ;
+	}
+	void removeDirectory()
+	{
+		this->removeDirectory( m_path,[ & ](){ rmdir( m_path.data() ) ; } ) ;
 	}
 private:
-	QDir::Filters filters()
+	template< typename Function >
+	void removeDirectory( const std::string& pm,Function function )
 	{
-		return QDir::Filter::Files | QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+		auto handle = utils::misc::unique_rsc( opendir,closedir,pm.data() ) ;
+
+		if( handle ){
+
+			while( m_continue ){
+
+				auto e = readdir( handle.get() ) ;
+
+				if( e ){
+
+					this->removePath( pm,e->d_name ) ;
+				}else{
+					break ;
+				}
+			}
+
+			function() ;
+		}
 	}
-	bool read()
+	void removePath( const std::string& pm,const char * name )
 	{
-		if( m_counter < m_list.size() ){
+		if( std::strcmp( name,"." ) != 0 && std::strcmp( name,".." ) != 0 ){
 
-			const auto& m = m_list[ m_counter++ ] ;
+			struct stat m ;
 
-			if( m_entries.valid( m ) ){
+			auto pp = pm + "/" + name ;
 
-				auto w = QDir::fromNativeSeparators( m ) ;
+			if( stat( pp.data(),&m ) == 0 ){
 
-				m_fileInfo.setFile( m_path + "/" + m ) ;
+				if( S_ISREG( m.st_mode ) ){
 
-				if( m_fileInfo.isFile() ){
+					unlink( pp.data() ) ;
 
-					m_entries.addFile( this->createdTime( m_fileInfo ),w ) ;
+				}else if( S_ISDIR( m.st_mode ) ){
 
-				}else if( m_fileInfo.isDir() ){
+					this->removeDirectory( pp,[ pp ](){ rmdir( pp.data() ) ; } ) ;
+				}
+			}
+		}
+	}
+	bool read( directoryEntries& entries,const std::string& mm,DIR * dir )
+	{
+		auto e = readdir( dir ) ;
 
-					m_entries.addFolder( this->createdTime( m_fileInfo ),w ) ;
+		if( e ){
+
+			const auto name = e->d_name ;
+
+			if( entries.valid( name ) ){
+
+				struct stat m ;
+
+				auto s = mm + '/' + name ;
+
+				if( stat( s.data(),&m ) == 0 ){
+
+					if( S_ISREG( m.st_mode ) ){
+
+						entries.addFile( m.st_ctime,name ) ;
+
+					}else if( S_ISDIR( m.st_mode ) ){
+
+						entries.addFolder( m.st_ctime,name ) ;
+					}
 				}
 			}
 
@@ -396,22 +309,9 @@ private:
 			return false ;
 		}
 	}
-	qint64 createdTime( QFileInfo& e )
-	{
-	#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
-		return e.birthTime().toMSecsSinceEpoch() ;
-	#else
-		return e.created().toMSecsSinceEpoch() ;
-	#endif
-	}
-	qint64 m_counter = 0 ;
-	QString m_path ;
-	QStringList m_list ;
-	QFileInfo m_fileInfo ;
-	directoryEntries m_entries ;
+	std::string m_path ;
+	Continue m_continue ;
 } ;
-
-#endif
 
 #endif
 
