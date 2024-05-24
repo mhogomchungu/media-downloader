@@ -279,7 +279,7 @@ Version 1.2.0(April 1st, 2021)
     - Add support for "--playlist-reverse" yt-dlp option. Media Downloader need to simulate yt-dlp playlist options
       because it manages the playlist itsef.
 
-     Version 4.7.0(Unreleased)
+     Version 4.7.0(May 24, 2024)
          [All]
     - Add Arabic translations.
     - Add support for MacOS.

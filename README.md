@@ -43,17 +43,21 @@ Make sure you have access to the internet before you run the media-downloader fo
 
 ## Binary packages
 
+#### Bundle for MacOS
+
+Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.7.0/MediaDownloader-4.7.0.dmg).
+
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.6.0/MediaDownloader-4.6.0.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.7.0/MediaDownloader-4.7.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.6.0/MediaDownloader-4.6.0.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.7.0/MediaDownloader-4.7.0.zip).
 
-Git version of portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader-git/releases).
+Git versions for windows and macos can be downloaded from [here](https://github.com/mhogomchungu/media-downloader-git/releases).
 
 #### Aur package for Arch Linux
 Arch Linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
