@@ -1,20 +1,18 @@
-name: MediaDownloader4MAC
+name: LinuxQt6Git
 
 on:
   push:
-    branches:
-    - main
-    tags-ignore:
+    tags:
     - '*'
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.MD_GIT_PUBLISH }}
           repository: mhogomchungu/media-downloader-git
-          event-type: PublishMacGit
+          event-type: LinuxQt6Git
 

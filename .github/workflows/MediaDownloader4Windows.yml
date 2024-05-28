@@ -2,7 +2,7 @@ name: MediaDownloader4Windows
 
 on:
   push:
-    branches:    
+    branches:
     - main
     tags-ignore:
     - '*'
@@ -17,5 +17,4 @@ jobs:
           token: ${{ secrets.MD_GIT_PUBLISH }}
           repository: mhogomchungu/media-downloader-git
           event-type: PublishGit
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
 
