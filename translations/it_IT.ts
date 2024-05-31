@@ -920,6 +920,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Arabic</source>
         <translation>Arabo</translation>
     </message>
+    <message>
+        <source>Best Available Audio Only+Thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

@@ -1413,6 +1413,10 @@ configure::presetEntry::presetEntry( const QString& ui,const QString& op,const Q
 		auto m = QObject::tr( "Best Audio With Video Resolution Of %1" ) ;
 
 		uiNameTranslated = m.arg( uiName.mid( uiName.lastIndexOf( ' ' ) + 1 ) ) ;
+
+	}else if( uiName == "Best Available Audio Only+Thumbnail" ){
+
+		uiNameTranslated = QObject::tr( "Best Available Audio Only+Thumbnail" ) ;
 	}else{
 		uiNameTranslated = uiName ;
 	}
