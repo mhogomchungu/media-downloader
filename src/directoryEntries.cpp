@@ -355,16 +355,6 @@ bool directoryEntries::valid( const wchar_t * s )
 	return true ;
 }
 
-bool directoryEntries::valid( const QString& m )
-{
-	if( m == ".." || m.startsWith( "." ) || m.startsWith( "info_" ) ){
-
-		return false ;
-	}else{
-		return true ;
-	}
-}
-
 class alwaysContinue
 {
 public:

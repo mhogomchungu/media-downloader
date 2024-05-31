@@ -1353,13 +1353,18 @@ QByteArray configure::presetOptions::defaultData()
 	"website": "Youtube"
     },
     {
-	"options": "-f bestaudio -x --embed-thumbnail --audio-format mp3",
+	"options": "-f bestaudio --extract-audio --audio-quality 0 --audio-format mp3 --embed-thumbnail",
 	"uiName": "Best Available Audio Only(MP3)",
 	"website": "Youtube"
     },
     {
-	"options": "-f bestaudio -x --embed-thumbnail",
+	"options": "-f bestaudio",
 	"uiName": "Best Available Audio Only",
+	"website": "Youtube"
+    },
+    {
+	"options": "-f bestaudio --extract-audio --audio-quality 0 --embed-thumbnail",
+	"uiName": "Best Available Audio Only+Thumbnail",
 	"website": "Youtube"
     },
     {
@@ -1368,12 +1373,12 @@ QByteArray configure::presetOptions::defaultData()
 	"website": "Other Websites"
     },
     {
-	"options": "-f bestaudio/worst -x --embed-thumbnail --audio-format mp3",
+	"options": "-f bestaudio/worst --embed-thumbnail --extract-audio --audio-quality 0 --audio-format mp3",
 	"uiName": "Extract Audio As MP3",
 	"website": "Other Websites"
     },
     {
-	"options": "-f bestaudio/worst -x --embed-thumbnail",
+	"options": "-f bestaudio/worst --extract-audio --audio-quality 0 --embed-thumbnail",
 	"uiName": "Extract Audio",
 	"website": "Other Websites"
     }

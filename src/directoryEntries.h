@@ -79,7 +79,6 @@ public:
 	}
 	bool valid( const char * ) ;
 	bool valid( const wchar_t * ) ;
-	bool valid( const QString& ) ;
 
 	void clear()
 	{
