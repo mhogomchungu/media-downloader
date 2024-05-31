@@ -1396,7 +1396,7 @@ configure::presetEntry::presetEntry( const QString& ui,const QString& op,const Q
 
 		uiNameTranslated = QObject::tr( "Extract Audio As MP3" ) ;
 
-	}if( uiName == "Best Available Audio Only" ){
+	}else if( uiName == "Best Available Audio Only" ){
 
 		uiNameTranslated = QObject::tr( "Best Available Audio Only" ) ;
 
@@ -1424,6 +1424,10 @@ configure::presetEntry::presetEntry( const QString& ui,const QString& op,const Q
 	if( websiteTranslated == "Other Websites" ){
 
 		websiteTranslated = QObject::tr( "Other Websites" ) ;
+
+	}else if( websiteTranslated == "Youtube" ){
+
+		websiteTranslated = QObject::tr( "Youtube" ) ;
 	}
 }
 

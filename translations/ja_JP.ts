@@ -920,6 +920,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Best Available Audio Only+Thumbnail</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Youtube</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
