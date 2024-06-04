@@ -922,11 +922,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Best Available Audio Only+Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Solo miglior audio disponibile+miniatura</translation>
     </message>
     <message>
         <source>Youtube</source>
-        <translation type="unfinished"></translation>
+        <translation>Youtube</translation>
     </message>
 </context>
 <context>
