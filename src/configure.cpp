@@ -1421,11 +1421,11 @@ configure::presetEntry::presetEntry( const QString& ui,const QString& op,const Q
 		uiNameTranslated = uiName ;
 	}
 
-	if( websiteTranslated == "Other Websites" ){
+	if( website == "Other Websites" ){
 
 		websiteTranslated = QObject::tr( "Other Websites" ) ;
 
-	}else if( websiteTranslated == "Youtube" ){
+	}else if( website == "Youtube" ){
 
 		websiteTranslated = QObject::tr( "Youtube" ) ;
 	}
