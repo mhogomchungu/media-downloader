@@ -57,6 +57,17 @@ A portable version is a self-contained version that keeps everything in the appl
 
 Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.7.0/MediaDownloader-4.7.0.zip).
 
+You can also install the portable version for Windows using scoop with the following commands:
+
+Add the extras bucket:
+```powershell
+scoop bucket add extras
+```
+Install Media Downloader:
+```powershell
+scoop install media-downloader
+```
+
 Git versions for windows and macos can be downloaded from [here](https://github.com/mhogomchungu/media-downloader-git/releases).
 
 #### Aur package for Arch Linux
