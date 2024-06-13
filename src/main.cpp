@@ -60,11 +60,11 @@ private:
 int start( int argc,char * argv[],
 	   const utility::cliArguments& cargs,
 	   engines::enginePaths& paths,
-	   settings& settings )
+	   settings& ss )
 {
 	QApplication mqApp( argc,argv ) ;
 
-	settings.setTheme( mqApp,paths.themePath() ) ;
+	ss.setTheme( mqApp,paths.themePath() ) ;
 
 	const auto& args = cargs.arguments() ;
 
@@ -86,11 +86,11 @@ int start( int argc,char * argv[],
 
 		auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
 
-		myApp::args args{ mqApp,settings,paths,cargs } ;
+		myApp::args args{ mqApp,ss,paths,cargs } ;
 
 		utils::app::appInfo< myApp,myApp::args > m( args,spath,mqApp,json ) ;
 
-		if( cargs.contains( "-s" ) || !settings.singleInstance() ){
+		if( cargs.contains( "-s" ) || !ss.singleInstance() ){
 
 			return utils::app::runMultiInstances( std::move( m ) ) ;
 		}else{
@@ -107,18 +107,18 @@ int main( int argc,char * argv[] )
 
 		return 0 ;
 	}else{
-		settings settings( cargs ) ;
+		settings ss( cargs ) ;
 
-		engines::enginePaths paths( settings ) ;
+		engines::enginePaths paths( ss ) ;
 
 		if( utility::platformIsWindows() ){
 
-			if( utility::startedUpdatedVersion( settings,cargs ) ){
+			if( utility::startedUpdatedVersion( ss,cargs ) ){
 
 				return 0 ;
 			}
 		}
 
-		return start( argc,argv,cargs,paths,settings ) ;
+		return start( argc,argv,cargs,paths,ss ) ;
 	}
 }

@@ -58,7 +58,7 @@ networkAccess::networkAccess( const Context& ctx ) :
 	auto e = settings.showVersionInfoAndAutoDownloadUpdates() ;
 	auto s = settings.showLocalVersionInformationOnly() ;
 
-	if( utility::platformIsWindows() && ( m | e | s ) ){
+	if( utility::platformIsWindows() && ( m || e || s ) ){
 
 		auto& e = m_ctx.logger() ;
 		auto s = QSslSocket::sslLibraryVersionString() ;
