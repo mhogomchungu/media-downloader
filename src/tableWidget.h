@@ -336,6 +336,11 @@ public:
 	{
 		QObject::connect( &m_table,m,std::move( c ) ) ;
 	}
+	template< typename MemberFunction,typename Obj,typename ObjMemberFunction >
+	void connect( MemberFunction m,Obj obj,ObjMemberFunction objm )
+	{
+		QObject::connect( &m_table,m,obj,objm ) ;
+	}
 	template< typename Function >
 	void each( Function function )
 	{

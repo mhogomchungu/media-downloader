@@ -43,10 +43,12 @@ library::library( const Context& ctx ) :
 
 	m_ui.cbLibraryTabEnable->setChecked( m_enabled ) ;
 
-	QObject::connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ & ](){
+	connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ & ](){
 
 		m_continue = false ;
 	} ) ;
+
+	connect( this,&library::addEntrySignal,this,&library::addEntrySlot,Qt::QueuedConnection ) ;
 
 	m_table.setUpHeaderMenu( [ this ]( int column ){
 
@@ -79,77 +81,7 @@ library::library( const Context& ctx ) :
 		m_table.selectRow( c,p,1 ) ;
 	} ) ;
 
-	auto aa = &QTableWidget::customContextMenuRequested ;
-
-	m_table.connect( aa,[ this ]( QPoint ){
-
-		QMenu m ;
-
-		connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this ](){
-
-			auto row = m_table.currentRow() ;
-
-			if( row != -1 && m_table.isSelected( row ) ){
-
-				auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
-
-				this->internalDisableAll() ;
-
-				auto s = directoryManager::supportsCancel() ;
-
-				m_ui.pbLibraryCancel->setEnabled( s ) ;
-
-				utils::qthread::run( [ this,m ](){
-
-					QFileInfo mm( m ) ;
-
-					if( mm.isSymLink() ){
-
-						QFile::remove( m ) ;
-
-					}else if( mm.isDir() ){
-
-						directoryManager::removeDirectory( m,m_continue ) ;
-					}else{
-						QFile::remove( m ) ;
-					}
-
-					mm.refresh() ;
-
-					return mm.exists() ;
-
-				},[ row,this ]( bool s ){
-
-					if( !s ){
-
-						m_table.removeRow( row ) ;
-					}
-
-					this->internalEnableAll() ;
-				} ) ;
-			}
-		} ) ;
-
-		connect( m.addAction( tr( "Delete All" ) ),&QAction::triggered,[ this ](){
-
-			this->internalDisableAll() ;
-
-			m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
-
-			utils::qthread::run( [ this ](){
-
-				directoryManager::removeDirectoryContents( m_currentPath,m_continue ) ;
-
-			},[ this ](){
-
-				this->showContents( m_currentPath ) ;
-
-				this->internalEnableAll() ;
-			} ) ;
-		} ) ;
-
-		m.exec( QCursor::pos() ) ;
-	} ) ;
+	m_table.connect( &QTableWidget::customContextMenuRequested,this,&library::cxMenuRequested ) ;
 
 	connect( m_ui.pbLibraryQuit,&QPushButton::clicked,[ this ](){
 
@@ -191,7 +123,7 @@ library::library( const Context& ctx ) :
 
 		auto s = m_table.item( row,1 ).text() ;
 
-		if( m_table.stuffAt( row ) == library::ICON::FOLDER ){
+		if( m_table.stuffAt( row ) == directoryEntries::ICON::FOLDER ){
 
 			m_currentPath +=  "/" + s ;
 
@@ -327,15 +259,17 @@ void library::internalDisableAll()
 	}
 }
 
-void library::addItem( const QString& text,library::ICON type )
+void library::addItem( const directoryEntries::iter& s )
 {
-	auto row = m_table.addRow( type ) ;
+	auto icon = s.icon() ;
+
+	auto row = m_table.addRow( icon ) ;
 
 	m_table.get().setCellWidget( row,0,[ & ](){
 
 		auto label = new QLabel() ;
 
-		if( type == library::ICON::FILE ){
+		if( icon == directoryEntries::ICON::FILE ){
 
 			label->setPixmap( m_videoIcon ) ;
 		}else{
@@ -349,30 +283,22 @@ void library::addItem( const QString& text,library::ICON type )
 
 	auto& item = m_table.item( row,1 ) ;
 
-	item.setText( text ) ;
+	item.setText( s.value() ) ;
 	item.setTextAlignment( Qt::AlignCenter ) ;
 	item.setFont( m_ctx.mainWidget().font() ) ;
 }
 
-void library::addEntry( const directoryEntries::iter& s )
+void library::addEntrySlot( const directoryEntries::iter& s )
 {
 	auto& t = m_table.get() ;
 
 	if( s.hasNext() && m_continue ){
 
-		if( s.isFolder() ){
-
-			this->addItem( s.value(),library::ICON::FOLDER ) ;
-		}else{
-			this->addItem( s.value(),library::ICON::FILE ) ;
-		}
+		this->addItem( s ) ;
 
 		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
 
-		auto a = "addEntry" ;
-		auto b = Qt::QueuedConnection ;
-
-		QMetaObject::invokeMethod( this,a,b,Q_ARG( directoryEntries::iter,s.next() ) ) ;
+		emit addEntrySignal( s.next() ) ;
 	}else{
 		if( t.rowCount() > 0 ){
 
@@ -384,6 +310,76 @@ void library::addEntry( const directoryEntries::iter& s )
 			this->internalEnableAll() ;
 		}		
 	}
+}
+
+void library::cxMenuRequested( QPoint )
+{
+	QMenu m ;
+
+	connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this ](){
+
+		auto row = m_table.currentRow() ;
+
+		if( row != -1 && m_table.isSelected( row ) ){
+
+			auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
+
+			this->internalDisableAll() ;
+
+			auto s = directoryManager::supportsCancel() ;
+
+			m_ui.pbLibraryCancel->setEnabled( s ) ;
+
+			utils::qthread::run( [ this,m ](){
+
+				QFileInfo mm( m ) ;
+
+				if( mm.isSymLink() ){
+
+					QFile::remove( m ) ;
+
+				}else if( mm.isDir() ){
+
+					directoryManager::removeDirectory( m,m_continue ) ;
+				}else{
+					QFile::remove( m ) ;
+				}
+
+				mm.refresh() ;
+
+				return mm.exists() ;
+
+			},[ row,this ]( bool s ){
+
+				if( !s ){
+
+					m_table.removeRow( row ) ;
+				}
+
+				this->internalEnableAll() ;
+			} ) ;
+		}
+	} ) ;
+
+	connect( m.addAction( tr( "Delete All" ) ),&QAction::triggered,[ this ](){
+
+		this->internalDisableAll() ;
+
+		m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
+
+		utils::qthread::run( [ this ](){
+
+			directoryManager::removeDirectoryContents( m_currentPath,m_continue ) ;
+
+		},[ this ](){
+
+			this->showContents( m_currentPath ) ;
+
+			this->internalEnableAll() ;
+		} ) ;
+	} ) ;
+
+	m.exec( QCursor::pos() ) ;
 }
 
 void library::arrangeAndShow()
@@ -411,7 +407,7 @@ void library::arrangeAndShow()
 
 	m_directoryEntries.join( m_settings.libraryShowFolderFirst() ) ;
 
-	this->addEntry( m_directoryEntries.Iter() ) ;
+	this->addEntrySlot( m_directoryEntries.Iter() ) ;
 }
 
 static void _set_option( QMenu& m,const QString& tr,const QString& utr,bool o )
@@ -489,11 +485,9 @@ void library::showContents( const QString& path,bool disableUi )
 
 	utils::qthread::run( [ path,this ](){
 
-		return directoryManager::readAll( path,m_continue ) ;
+		m_directoryEntries = directoryManager::readAll( path,m_continue ) ;
 
-	},[ disableUi,this ]( directoryEntries m ){
-
-		m_directoryEntries = m.move() ;
+	},[ disableUi,this ](){
 
 		m_disableUi = disableUi ;
 

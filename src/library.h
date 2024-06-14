@@ -48,9 +48,12 @@ public:
 	void tabEntered() ;
 	void tabExited() ;
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
-private slots:
-	void addEntry( const directoryEntries::iter& ) ;
 private:
+signals:
+	void addEntrySignal( const directoryEntries::iter& ) ;
+private:
+	void addEntrySlot( const directoryEntries::iter& ) ;
+	void cxMenuRequested( QPoint ) ;
 	void arrangeAndShow() ;
 	void arrangeEntries( int ) ;
 	void enableAll( bool ) ;
@@ -59,8 +62,7 @@ private:
 	void internalDisableAll() ;
 	void showContents( const QString&,bool disableUi = true ) ;
 	void moveUp() ;
-	enum class ICON{ FILE,FOLDER } ;
-	void addItem( const QString& text,library::ICON ) ;
+	void addItem( const directoryEntries::iter& ) ;
 	const Context& m_ctx ;
 	bool m_enableGlobalUiChanges ;
 	settings& m_settings ;
@@ -68,7 +70,7 @@ private:
 	bool m_disableUi ;
 	std::atomic_bool m_continue ;
 	Ui::MainWindow& m_ui ;
-	tableMiniWidget< ICON,2 > m_table ;
+	tableMiniWidget< directoryEntries::ICON,2 > m_table ;
 	QString m_downloadFolder ;
 	QString m_currentPath ;
 	QPixmap m_folderIcon ;

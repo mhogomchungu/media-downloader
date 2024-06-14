@@ -77,6 +77,10 @@ MainWindow::MainWindow( QApplication& app,
 		return m ;
 	}() ) ;
 
+	auto qe = Qt::QueuedConnection ;
+
+	connect( this,&MainWindow::processEventSignal,this,&MainWindow::processEventSlot,qe ) ;
+
 	connect( &m_trayIcon,&QSystemTrayIcon::activated,[ this ]( QSystemTrayIcon::ActivationReason ){
 
 		if( this->isVisible() ){
@@ -163,10 +167,7 @@ void MainWindow::Show()
 
 void MainWindow::processEvent( const QByteArray& m )
 {
-	auto a = "processEventSlot" ;
-	auto b = Qt::QueuedConnection ;
-
-	QMetaObject::invokeMethod( this,a,b,Q_ARG( QByteArray,m ) ) ;
+	emit processEventSignal( m ) ;
 }
 
 void MainWindow::processEventSlot( const QByteArray& e )

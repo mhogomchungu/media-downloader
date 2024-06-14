@@ -56,9 +56,12 @@ public:
 	void notifyOnAllDownloadComplete( const QString& ) ;
 	void showTrayIcon( bool ) ;
 	~MainWindow() override ;
-private slots:
+private:
+	signals:
+	void processEventSignal( const QByteArray& ) ;
+private:
 	void processEventSlot( const QByteArray& ) ;
-private:	
+
 	static void signalHandler( int ) ;
 	static void setUpSignal( int ) ;
 	template< typename Int,typename ... INTS >
