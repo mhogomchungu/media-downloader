@@ -35,38 +35,29 @@ namespace utils
 	{
 		namespace details
 		{
-			#if QT_VERSION < QT_VERSION_CHECK( 5,4,0 )
 			class exec : public QObject
 			{
 				Q_OBJECT
 			public:
-				exec( std::function< void() > function ) : m_function( std::move( function ) )
+				template< typename Function >
+				exec( Function function ) : m_function( function )
 				{
-					QTimer::singleShot( 0,this,SLOT( run() ) ) ;
+					connect( this,&exec::run,this,&exec::meaw,Qt::QueuedConnection ) ;
+
+					emit this->run() ;
+
+					this->deleteLater() ;
 				}
-			private slots:
-				void run()
+			private:
+				void meaw()
 				{
 					m_function() ;
 				}
+			signals:
+				void run() ;
 			private:
 				std::function< void() > m_function ;
 			} ;
-#else
-			class exec
-			{
-			public:
-				template< typename Function >
-				exec( Function function )
-				{
-					QTimer::singleShot( 0,[ function = std::move( function ) ]{
-
-						function() ;
-					} ) ;
-				}
-			private:
-			} ;
-#endif
 		}
 		template< typename Type,typename TypeArgs >
 		struct appInfo
@@ -87,9 +78,9 @@ namespace utils
 		{
 		public:
 			multipleInstance( AppInfo info ) :
-				m_info( std::move( info ) ),
-				m_exec( [ this ](){ this->run() ; } )
+				m_info( std::move( info ) )
 			{
+				new details::exec( [ this ](){ this->run() ; } ) ;
 			}
 			void run()
 			{
@@ -103,7 +94,6 @@ namespace utils
 		private:
 			AppInfo m_info ;
 			std::unique_ptr< typename AppInfo::appType > m_mainApp ;
-			details::exec m_exec ;
 		} ;
 
 		template< typename AppInfo >

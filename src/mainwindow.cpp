@@ -167,7 +167,7 @@ void MainWindow::Show()
 
 void MainWindow::processEvent( const QByteArray& m )
 {
-	emit processEventSignal( m ) ;
+	emit this->processEventSignal( m ) ;
 }
 
 void MainWindow::processEventSlot( const QByteArray& e )

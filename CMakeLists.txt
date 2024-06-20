@@ -65,26 +65,15 @@ set(UI_FILES
     src/mainwindow.ui
     src/logwindow.ui)
 
-if(Qt5Core_VERSION VERSION_LESS 5.4.0)
-    set(MOC_FILES
-        src/mainwindow.h
-        src/logwindow.h
-        src/basicdownloader.h
-        src/batchdownloader.h
-        src/configure.h
-        src/library.h
-        src/playlistdownloader.h
-        src/utils/single_instance.hpp)
-else()
-    set(MOC_FILES
-        src/mainwindow.h
-        src/logwindow.h
-        src/basicdownloader.h
-        src/batchdownloader.h
-        src/configure.h
-        src/library.h
-        src/playlistdownloader.h)
-endif()
+set(MOC_FILES
+    src/mainwindow.h
+    src/logwindow.h
+    src/basicdownloader.h
+    src/batchdownloader.h
+    src/configure.h
+    src/library.h
+    src/playlistdownloader.h
+    src/utils/single_instance.hpp)
 
 set(SRC
     src/mainwindow.cpp
