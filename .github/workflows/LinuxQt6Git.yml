@@ -1,8 +1,10 @@
-name: LinuxQt6Git
+name: MediaDownloader4Linux
 
 on:
   push:
-    tags:
+    branches:
+    - main
+    tags-ignore:
     - '*'
 
 jobs:
