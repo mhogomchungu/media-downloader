@@ -926,6 +926,14 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Youtube</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Autoupdate Disabled For %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Newest Version Is %1, AutoUpdate Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

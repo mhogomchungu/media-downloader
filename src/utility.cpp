@@ -1834,14 +1834,6 @@ void utility::setPermissions( const QString& e )
 	utility::setPermissions( s ) ;
 }
 
-void utility::networkReply::invoke( QObject * obj,const char * member )
-{
-	QMetaObject::invokeMethod( obj,
-				   member,
-				   Qt::QueuedConnection,
-				   Q_ARG( utility::networkReply,*this ) ) ;
-}
-
 void utility::networkReply::getData( const Context& ctx,const utils::network::reply& reply )
 {
 	if( reply.success() ){

@@ -59,6 +59,18 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	this->resetMenu() ;
 
+	connect( this,
+		 &playlistdownloader::addTextToUiSignal,
+		 this,
+		 &playlistdownloader::addTextToUi,
+		 Qt::QueuedConnection ) ;
+
+	connect( this,
+		 &playlistdownloader::reportFinishedStatusSignal,
+		 this,
+		 &playlistdownloader::reportFinishedStatus,
+		 Qt::QueuedConnection ) ;
+
 	connect( m_ui.pbClearArchiveFile,&QPushButton::clicked,[ this ](){
 
 		auto m = m_ctx.Engines().engineDirPaths().subscriptionsArchiveFilePath() ;
@@ -829,9 +841,9 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		{
 			return true ;
 		}
-		void done( engines::ProcessExitState e,const QStringList& )
+		void done( engines::ProcessExitState e,QStringList s )
 		{
-			event ev( m_parent,m_engine ) ;
+			event ev( m_parent,m_engine,std::move( s ) ) ;
 			auto& h = m_parent.m_ccmd ;
 
 			h.monitorForFinished( m_engine,m_index,e,ev.move() ) ;
@@ -861,8 +873,8 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		class event
 		{
 		public:
-			event( playlistdownloader& p,const engines::engine& engine ) :
-				m_parent( p ),m_engine( engine )
+			event( playlistdownloader& p,const engines::engine& engine,QStringList s ) :
+				m_parent( p ),m_engine( engine ),m_fileNames( std::move( s ) )
 			{
 			}
 			event move()
@@ -878,15 +890,12 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			{
 				reportFinished r( m_engine,f ) ;
 
-				auto a = &m_parent ;
-				auto b = "reportFinishedStatus" ;
-				auto c = Qt::QueuedConnection ;
-
-				QMetaObject::invokeMethod( a,b,c,Q_ARG( reportFinished,r.move() ) ) ;
+				emit m_parent.reportFinishedStatusSignal( r.move(),std::move( m_fileNames ) ) ;
 			}
 		private:
 			playlistdownloader& m_parent ;
 			const engines::engine& m_engine ;
+			QStringList m_fileNames ;
 		} ;
 
 		playlistdownloader& m_parent ;
@@ -900,11 +909,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 
-		QMetaObject::invokeMethod( this,
-					   "addTextToUi",
-					   Qt::QueuedConnection,
-					   Q_ARG( QByteArray,e ),
-					   Q_ARG( int,index ) ) ;
+		emit this->addTextToUiSignal( e,index ) ;
 	} ;
 
 	auto error = []( const QByteArray& ){} ;
@@ -1216,7 +1221,7 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 		network.get( thumbnailUrl,m.move(),this,&playlistdownloader::networkResult ) ;
 	}else{
-		utility::networkReply( this,"networkData",&table,m_downloaderId,media.move() ) ;
+		utility::networkReply( this,&playlistdownloader::networkData,&table,m_downloaderId,media.move() ) ;
 	}
 
 	return false ;
@@ -1224,10 +1229,10 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 void playlistdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
 {
-	utility::networkReply( this,"networkData",m_ctx,reply,&d.table,d.id,d.media.move() ) ;
+	utility::networkReply( this,&playlistdownloader::networkData,m_ctx,reply,&d.table,d.id,d.media.move() ) ;
 }
 
-void playlistdownloader::networkData( utility::networkReply m )
+void playlistdownloader::networkData( const utility::networkReply& m )
 {
 	if( m.id() < m_downloaderId ){
 

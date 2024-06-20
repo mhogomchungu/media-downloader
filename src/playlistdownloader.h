@@ -92,11 +92,15 @@ public:
 	void gotEvent( const QJsonObject& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void clipboardData( const QString& ) ;
-private slots:
-	void networkData( utility::networkReply ) ;
-	void addTextToUi( const QByteArray&,int ) ;
-	void reportFinishedStatus( const reportFinished&,const QStringList& ) ;
 private:
+signals:
+	void addTextToUiSignal( const QByteArray&,int ) ;
+	void reportFinishedStatusSignal( const reportFinished&,const QStringList& ) ;
+private:
+	void reportFinishedStatus( const reportFinished&,const QStringList& ) ;
+	void networkData( const utility::networkReply& ) ;
+	void addTextToUi( const QByteArray&,int ) ;
+
 	enum class size{ small,large,toggle } ;
 	void resizeTable( playlistdownloader::size ) ;
 	QString defaultEngineName() ;

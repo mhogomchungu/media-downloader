@@ -928,6 +928,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Youtube</source>
         <translation>Youtube</translation>
     </message>
+    <message>
+        <source>Autoupdate Disabled For %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Newest Version Is %1, AutoUpdate Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

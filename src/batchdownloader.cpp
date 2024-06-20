@@ -47,6 +47,23 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	this->setShowMetaData( m_settings.showMetaDataInBatchDownloader() ) ;
 
+	connect( this,&batchdownloader::reportFStatus,
+		 this,
+		 &batchdownloader::reportFinishedStatus,
+		 Qt::QueuedConnection ) ;
+
+	connect( this,
+		 &batchdownloader::addItemUiSignal,
+		 this,
+		 &batchdownloader::addItemUiSlot,
+		 Qt::QueuedConnection ) ;
+
+	connect( this,
+		 &batchdownloader::addTextToUiSignal,
+		 this,
+		 &batchdownloader::addTextToUi,
+		 Qt::QueuedConnection ) ;
+
 	m_ui.pbBDPasteClipboard->setIcon( QIcon( ":/clipboard" ) ) ;
 	m_ui.pbBDOptionsHistory->setIcon( QIcon( ":/recentlyUsed" ) ) ;
 	m_ui.pbBDOptionsDownload->setIcon( QIcon( ":/downloadOptions" ) ) ;
@@ -890,10 +907,7 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 			m_table.setDownloadingOptions( s.downloadOptions,row ) ;
 		}
 
-		auto a = "addItemUiSlot" ;
-		auto b = Qt::QueuedConnection ;
-
-		QMetaObject::invokeMethod( this,a,b,Q_ARG( ItemEntry,m ) ) ;
+		emit this->addItemUiSignal( m ) ;
 	}
 }
 
@@ -2179,7 +2193,7 @@ void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEn
 	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,media ) ;
 }
 
-void batchdownloader::networkData( utility::networkReply m )
+void batchdownloader::networkData( const utility::networkReply& m )
 {
 	if( networkAccess::hasNetworkSupport() ){
 
@@ -2237,7 +2251,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 void batchdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
 {
-	utility::networkReply( this,"networkData",m_ctx,reply,nullptr,d.index,d.media.move() ) ;
+	utility::networkReply( this,&batchdownloader::networkData,m_ctx,reply,nullptr,d.index,d.media.move() ) ;
 }
 
 void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThumbnails )
@@ -2414,8 +2428,8 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 	class events
 	{
 	public:
-		events( batchdownloader& p,const engines::engine& engine,int index,int id ) :
-			m_parent( p ),m_engine( engine ),m_index( index ),m_loggerId( id )
+		events( batchdownloader& p,const engines::engine& engine,int index ) :
+			m_parent( p ),m_engine( engine ),m_index( index )
 		{
 		}
 		const engines::engine& engine()
@@ -2472,16 +2486,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 			{
 				reportFinished r( m_engine,f.move() ) ;
 
-				auto a = "reportFinishedStatus" ;
-				auto b = Qt::QueuedConnection ;
-
-				auto& m = m_parent ;
-
-				QMetaObject::invokeMethod( &m,
-							   a,
-							   b,
-							   Q_ARG( reportFinished,r.move() ),
-							   Q_ARG( QStringList,m_fileNames ) ) ;
+				emit m_parent.reportFStatus( r.move(),m_fileNames ) ;
 			}
 		private:
 			batchdownloader& m_parent ;
@@ -2492,7 +2497,6 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		batchdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_index ;
-		int m_loggerId ;
 	} ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
@@ -2503,11 +2507,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 
-		auto a = this ;
-		auto b = "addTextToUi" ;
-		auto c = Qt::QueuedConnection ;
-
-		QMetaObject::invokeMethod( a,b,c,Q_ARG( QByteArray,e ),Q_ARG( int,index ) ) ;
+		emit this->addTextToUiSignal( e,index ) ;
 	} ;
 
 	auto error = []( const QByteArray& ){} ;
@@ -2535,7 +2535,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 			 m_table.url( index ),
 			 m_ctx,
 			 m_terminator.setUp(),
-			 events( *this,engine,index,id ),
+			 events( *this,engine,index ),
 			 logger.move() ) ;
 }
 

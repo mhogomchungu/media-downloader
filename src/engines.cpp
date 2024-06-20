@@ -836,11 +836,6 @@ engines::engine::engine( Logger& logger,
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
-	if( m_name == "gallery-dl" ){
-
-		qDebug() << m_autoUpdate ;
-	}
-
 	if( m_name == "svtplay-dl" ){
 
 		m_archiveContainsFolder = utility::platformIsWindows() ;
