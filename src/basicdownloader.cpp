@@ -453,7 +453,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 				m_deleteTempFilesOnCancel = false ;
 			}
 		}
-		void done( engines::ProcessExitState m )
+		void done( engines::ProcessExitState m,const QStringList& fileNames )
 		{
 			m_parent.m_ctx.TabManager().enableAll() ;
 
@@ -471,7 +471,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 				auto& t = m_parent.m_bogusTable ;
 
-				utility::updateFinishedState( m_engine,s,t,a.move() ) ;
+				utility::updateFinishedState( m_engine,s,t,a.move(),fileNames ) ;
 
 				if( m.cancelled() && m_deleteTempFilesOnCancel ){
 

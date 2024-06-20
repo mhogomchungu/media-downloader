@@ -27,7 +27,6 @@ public:
 
 	safaribooks( const engines&,const engines::engine&,QJsonObject& ) ;
 	~safaribooks() override ;
-	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 	QString commandString( const engines::engine::exeArgs::cmd& ) override ;
 	void sendCredentials( const QString&,QProcess& ) override ;
 	QString setCredentials( QStringList& e,QStringList& s ) override ;

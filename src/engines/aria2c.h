@@ -40,7 +40,7 @@ public:
 	public:
 		aria2c_dlFilter( settings&,const engines::engine&,int ) ;
 
-		const QByteArray& operator()( const Logger::Data& e ) override ;
+		const QByteArray& operator()( Logger::Data& e ) override ;
 
 		~aria2c_dlFilter() override ;
 	private:

@@ -35,7 +35,7 @@ public:
 	public:
 		lux_dlFilter( const engines::engine&,int,QByteArray ) ;
 
-		const QByteArray& operator()( const Logger::Data& e ) override ;
+		const QByteArray& operator()( Logger::Data& e ) override ;
 
 		~lux_dlFilter() override ;
 	private:
@@ -54,8 +54,6 @@ public:
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
-
-	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
 
 	bool foundNetworkUrl( const QString& s ) override ;
 

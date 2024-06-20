@@ -1708,7 +1708,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		{
 			return utility::addData( e ) ;
 		}
-		void done( engines::ProcessExitState e )
+		void done( engines::ProcessExitState e,const QStringList& )
 		{
 			auto& a = m_parent ;
 			auto& b = m_engine ;
@@ -2062,7 +2062,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 				return false ;
 			}
 		}
-		void done( engines::ProcessExitState st )
+		void done( engines::ProcessExitState st,const QStringList& )
 		{
 			m_parent.m_ctx.TabManager().enableAll() ;
 
@@ -2353,9 +2353,9 @@ void batchdownloader::download( const engines::engine& engine,int init )
 	this->download( engine,indexes.move() ) ;
 }
 
-void batchdownloader::reportFinishedStatus( const reportFinished& f )
+void batchdownloader::reportFinishedStatus( const reportFinished& f,const QStringList& fileNames )
 {
-	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus() ) ;
+	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus(),fileNames ) ;
 
 	auto index = f.finishedStatus().index() ;
 
@@ -2414,8 +2414,8 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 	class events
 	{
 	public:
-		events( batchdownloader& p,const engines::engine& engine,int index ) :
-			m_parent( p ),m_engine( engine ),m_index( index )
+		events( batchdownloader& p,const engines::engine& engine,int index,int id ) :
+			m_parent( p ),m_engine( engine ),m_index( index ),m_loggerId( id )
 		{
 		}
 		const engines::engine& engine()
@@ -2426,10 +2426,10 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		{
 			return true ;
 		}
-		void done( engines::ProcessExitState e )
+		void done( engines::ProcessExitState e,QStringList s )
 		{
-			event ev( m_parent,m_engine ) ;
-			m_parent.m_ccmd.monitorForFinished( m_engine,m_index,e.move(),ev ) ;
+			event ev( m_parent,m_engine,std::move( s ) ) ;
+			m_parent.m_ccmd.monitorForFinished( m_engine,m_index,e.move(),ev.move() ) ;
 		}
 		void disableAll()
 		{
@@ -2456,13 +2456,17 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		class event
 		{
 		public:
-			event( batchdownloader& p,const engines::engine& engine ) :
-				m_parent( p ),m_engine( engine )
+			event( batchdownloader& p,const engines::engine& engine,QStringList f ) :
+				m_parent( p ),m_engine( engine ),m_fileNames( std::move( f ) )
 			{
 			}
 			void next( const engines::engine& engine,int index )
 			{
 				m_parent.downloadEntry( engine,index ) ;
+			}
+			event move()
+			{
+				return std::move( *this ) ;
 			}
 			void finished( downloadManager::finishedStatus f )
 			{
@@ -2473,16 +2477,22 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 				auto& m = m_parent ;
 
-				QMetaObject::invokeMethod( &m,a,b,Q_ARG( reportFinished,r.move() ) ) ;
+				QMetaObject::invokeMethod( &m,
+							   a,
+							   b,
+							   Q_ARG( reportFinished,r.move() ),
+							   Q_ARG( QStringList,m_fileNames ) ) ;
 			}
 		private:
 			batchdownloader& m_parent ;
 			const engines::engine& m_engine ;
+			QStringList m_fileNames ;
 		} ;
 
 		batchdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_index ;
+		int m_loggerId ;
 	} ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
@@ -2525,7 +2535,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 			 m_table.url( index ),
 			 m_ctx,
 			 m_terminator.setUp(),
-			 events( *this,engine,index ),
+			 events( *this,engine,index,id ),
 			 logger.move() ) ;
 }
 

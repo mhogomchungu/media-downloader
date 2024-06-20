@@ -95,7 +95,7 @@ public:
 private slots:
 	void networkData( utility::networkReply ) ;
 	void addTextToUi( const QByteArray&,int ) ;
-	void reportFinishedStatus( const reportFinished& ) ;
+	void reportFinishedStatus( const reportFinished&,const QStringList& ) ;
 private:
 	enum class size{ small,large,toggle } ;
 	void resizeTable( playlistdownloader::size ) ;

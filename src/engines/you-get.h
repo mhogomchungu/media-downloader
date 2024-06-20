@@ -34,7 +34,7 @@ public:
 	public:
 		you_getFilter( settings&,const engines::engine&,int ) ;
 
-		const QByteArray& operator()( const Logger::Data& e ) override ;
+		const QByteArray& operator()( Logger::Data& e ) override ;
 
 		~you_getFilter() override ;
 	private:

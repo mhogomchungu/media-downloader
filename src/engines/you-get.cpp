@@ -176,7 +176,7 @@ you_get::you_getFilter::you_getFilter( settings&,const engines::engine& engine,i
 	Q_UNUSED( m_processId )
 }
 
-const QByteArray& you_get::you_getFilter::operator()( const Logger::Data& s )
+const QByteArray& you_get::you_getFilter::operator()( Logger::Data& s )
 {
 	if( s.doneDownloading() ){
 

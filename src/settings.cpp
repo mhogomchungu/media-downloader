@@ -911,9 +911,30 @@ const QString& settings::configPaths()
 	return m_options.dataPath() ;
 }
 
-QString settings::commandOnSuccessfulDownload()
+void settings::runCommandOnSuccessfulDownload( const QString& s,const QString& df,const QStringList& e )
 {
-	return this->getOption( "CommandOnSuccessfulDownload",QString() ) ;
+	auto m = this->getOption( "CommandOnSuccessfulDownload",QString() ) ;
+
+	if( !m.isEmpty() && !e.isEmpty() ){
+
+		auto args = util::splitPreserveQuotes( m ) ;
+
+		auto exe = args.at( 0 ) ;
+
+		args.replace( 0,s ) ;
+
+		for( const auto& it : e ){
+
+			auto m = df + it ;
+
+			if( QFile::exists( m ) ){
+
+				args.append( m ) ;
+			}
+		}
+
+		QProcess::startDetached( exe,args ) ;
+	}
 }
 
 QString settings::commandWhenAllFinished()

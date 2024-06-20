@@ -243,7 +243,7 @@ aria2c::aria2c_dlFilter::aria2c_dlFilter( settings&,const engines::engine& engin
 	Q_UNUSED( m_processId )
 }
 
-const QByteArray& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )
+const QByteArray& aria2c::aria2c_dlFilter::operator()( Logger::Data& s )
 {
 	const auto data = s.toStringList() ;
 
@@ -254,6 +254,9 @@ const QByteArray& aria2c::aria2c_dlFilter::operator()( const Logger::Data& s )
 		if( e.contains( " Download complete: " ) ){
 
 			m_fileName = e.mid( e.indexOf( " Download complete: " ) + 20 ) ;
+
+			s.addFileName( m_fileName ) ;
+
 			break ;
 
 		}else if( e.contains( "Unrecognized URI or unsupported protocol" ) ){

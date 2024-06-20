@@ -179,10 +179,6 @@ std::vector<engines::engine::baseEngine::mediaInfo> lux::mediaProperties( Logger
 	return ent ;
 }
 
-void lux::runCommandOnDownloadedFile( const QString&,const QString& )
-{
-}
-
 bool lux::foundNetworkUrl( const QString& s )
 {
 	if( utility::platformIsWindows() ){
@@ -507,13 +503,17 @@ lux::lux_dlFilter::lux_dlFilter( const engines::engine& engine,int id,QByteArray
 {
 }
 
-const QByteArray& lux::lux_dlFilter::operator()( const Logger::Data& e )
+const QByteArray& lux::lux_dlFilter::operator()( Logger::Data& e )
 {	
 	auto allData = e.toLines() ;
 
 	if( e.doneDownloading() ){
 
-		return this->doneDownloading( allData ) ;
+		const auto& m = this->doneDownloading( allData ) ;
+
+		e.addFileName( m ) ;
+
+		return m ;
 	}else{
 		const auto& s = e.lastText() ;
 

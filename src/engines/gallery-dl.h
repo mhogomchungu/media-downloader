@@ -36,7 +36,7 @@ public:
 	public:
 		gallery_dlFilter( settings&,const engines::engine&,int ) ;
 
-		const QByteArray& operator()( const Logger::Data& e ) override ;
+		const QByteArray& operator()( Logger::Data& e ) override ;
 
 		~gallery_dlFilter() override ;
 	private:
@@ -49,9 +49,9 @@ public:
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
-	void setProxySetting( QStringList&,const QString& ) override ;
+	void runCommandOnDownloadedFile( const QStringList& ) override ;
 
-	void runCommandOnDownloadedFile( const QString&,const QString& ) override ;
+	void setProxySetting( QStringList&,const QString& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
 

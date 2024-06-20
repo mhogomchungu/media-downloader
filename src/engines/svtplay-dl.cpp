@@ -796,7 +796,7 @@ QString svtplay_dl::downloadUrl()
 	return "https://api.github.com/repos/spaam/svtplay-dl/tags" ;
 }
 
-const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& s )
+const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( Logger::Data& s )
 {
 	if( s.doneDownloading() ){
 
@@ -843,6 +843,8 @@ const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( const Logger::Data& 
 
 			return m_tmp ;
 		}else{
+			s.addFileName( m_fileName ) ;
+
 			return m_fileName ;
 		}
 

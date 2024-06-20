@@ -342,6 +342,8 @@ QJsonObject yt_dlp::init( const QString& name,
 			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 		}
 
+		mainObj.insert( "AutoUpdate",true ) ;
+
 		mainObj.insert( "EncodingArgument","--encoding" ) ;
 
 		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.2.0" ) ;
@@ -1314,28 +1316,6 @@ engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )
 	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,m_engine,*this } ;
 }
 
-void yt_dlp::runCommandOnDownloadedFile( const QString& e,const QString& )
-{
-	auto& settings = engines::engine::baseEngine::Settings() ;
-	auto a = settings.commandOnSuccessfulDownload() ;
-
-	if( !a.isEmpty() && !e.isEmpty() ){
-
-		auto b = settings.downloadFolder() + "/" + util::split( e,'\n',true ).at( 0 ) ;
-
-		if( QFile::exists( b ) ){
-
-			auto args = util::split( a,' ',true ) ;
-
-			args.append( b ) ;
-
-			auto exe = args.takeAt( 0 ) ;
-
-			QProcess::startDetached( exe,args ) ;
-		}
-	}
-}
-
 QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& dopts,
@@ -1517,7 +1497,7 @@ yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
 {
 }
 
-const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
+const QByteArray& yt_dlp::youtube_dlFilter::operator()( Logger::Data& s )
 {
 	if( s.lastText() == "[media-downloader] Download Cancelled" ){
 
@@ -1601,7 +1581,14 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( const Logger::Data& s )
 
 	this->setFileName( s.ytDlpData().filePath() ) ;
 
-	return this->parseOutput( m ) ;
+	const auto& ee = this->parseOutput( m ) ;
+
+	if( !m_fileNames.empty() ){
+
+		s.addFileName( m_fileNames.back() ) ;
+	}
+
+	return ee ;
 }
 
 yt_dlp::youtube_dlFilter::~youtube_dlFilter()

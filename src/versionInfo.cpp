@@ -114,7 +114,16 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 		}else if( vinfo.networkAvailable() ){
 
-			m_network.download( this->wrap( vinfo.move() ) ) ;
+			if( engine.autoUpdate() ){
+
+				m_network.download( this->wrap( vinfo.move() ) ) ;
+			}else{
+				auto m = QObject::tr( "Autoupdate Disabled For %1" ).arg( engine.name() ) ;
+
+				this->log( m,vinfo.iter().id() ) ;
+
+				this->next( vinfo.move() ) ;
+			}
 		}else{
 			this->next( vinfo.move() ) ;
 		}
@@ -467,11 +476,20 @@ void versionInfo::printVersionN( versionInfo::pVInfo pvInfo,const utils::network
 
 		if( m_showLocalVersionsAndUpdateIfAvailable ){
 
-			auto mm = QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ;
+			if( engine.autoUpdate() ){
 
-			this->log( mm,pvInfo.id() ) ;
+				auto mm = QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ;
 
-			m_network.download( this->wrap( pvInfo.movePrintVinfo() ) ) ;
+				this->log( mm,pvInfo.id() ) ;
+
+				m_network.download( this->wrap( pvInfo.movePrintVinfo() ) ) ;
+			}else{
+				auto mm = QObject::tr( "Newest Version Is %1, AutoUpdate Disabled" ).arg( m ) ;
+
+				this->log( mm,pvInfo.id() ) ;
+
+				this->next( pvInfo.movePrintVinfo() ) ;
+			}
 		}else{
 			this->updateVersion( pvInfo,m,engine.name() ) ;
 

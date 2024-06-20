@@ -412,13 +412,8 @@ public:
 					m_filePath = m.toUtf8() ;
 				}
 			}
-			size_t counter()
-			{
-				return ++m_counter ;
-			}
 		private:
 			QByteArray m_filePath ;
-			size_t m_counter = 0 ;
 		};
 
 		YtDlpData& ytDlpData()
@@ -471,6 +466,17 @@ public:
 		{
 			return m_svtData ;
 		}
+		void addFileName( const QString& e )
+		{
+			if( !m_fileNames.contains( e ) ){
+
+				m_fileNames.append( e ) ;
+			}
+		}
+		const QStringList& fileNames() const
+		{
+			return m_fileNames ;
+		}
 	private:
 		bool doneDownloadingText( const QByteArray& data ) ;
 		template< typename Function >
@@ -513,6 +519,7 @@ public:
 		bool m_mainLogger ;
 		YtDlpData m_ytDlpData ;
 		SvtData m_svtData ;
+		QStringList m_fileNames ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
@@ -551,6 +558,10 @@ public:
 	void showDebugLogWindow() ;
 	void reTranslateLogWindow() ;
 	void updateView( bool e ) ;
+	const QStringList& fileNames()
+	{
+		return m_processOutPuts.fileNames() ;
+	}
 	Logger( const Logger& ) = delete ;
 	Logger& operator=( const Logger& ) = delete ;
 	Logger( Logger&& ) = delete ;
@@ -603,6 +614,10 @@ public:
 	LoggerWrapper move()
 	{
 		return std::move( *this ) ;
+	}
+	const QStringList& fileNames()
+	{
+		return m_logger->fileNames() ;
 	}
 private:
 	Logger * m_logger ;
@@ -663,6 +678,10 @@ public:
 	{
 		m_error( data ) ;
 		m_logger.logError( data,m_id ) ;
+	}
+	const QStringList& fileNames()
+	{
+		return m_localLogger.fileNames() ;
 	}
 private:
 	void update()
@@ -741,6 +760,10 @@ public:
 
 			m_logger.logError( data,m_id ) ;
 		}
+	}
+	const QStringList& fileNames()
+	{
+		return m_localLogger.fileNames() ;
 	}
 private:
 	TableWidget& m_table ;

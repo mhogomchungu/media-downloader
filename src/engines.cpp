@@ -827,7 +827,8 @@ engines::engine::engine( Logger& logger,
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
-	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool( false ) ),
+	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool() ),
+	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool() ),
 	m_mainEngine( true ),
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
@@ -835,6 +836,11 @@ engines::engine::engine( Logger& logger,
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
+	if( m_name == "gallery-dl" ){
+
+		qDebug() << m_autoUpdate ;
+	}
+
 	if( m_name == "svtplay-dl" ){
 
 		m_archiveContainsFolder = utility::platformIsWindows() ;
@@ -1474,43 +1480,11 @@ QString engines::engine::baseEngine::deleteEngineBinFolder( const QString& e )
 	}
 }
 
-void engines::engine::baseEngine::runCommandOnDownloadedFile( const QString& e,const QString& s )
+void engines::engine::baseEngine::runCommandOnDownloadedFile( const QStringList& fileNames )
 {
-	auto a = m_settings.commandOnSuccessfulDownload() ;
+	auto df = m_settings.downloadFolder() + "/" ;
 
-	if( !a.isEmpty() && !e.isEmpty() ){
-
-		auto args = util::split( a,' ',true ) ;
-		auto exe = args.takeAt( 0 ) ;
-		args.append( "bla bla bla" ) ;
-
-		bool success = false ;
-
-		for( const auto& it : util::split( e,'\n',true ) ){
-
-			auto b = m_settings.downloadFolder() + it ;
-
-			if( QFile::exists( b ) ){
-
-				success = true ;
-				args.replace( args.size() - 1,b ) ;
-
-				QProcess::startDetached( exe,args ) ;
-			}
-		}
-
-		if( !success && !s.isEmpty() ){
-
-			auto b = m_settings.downloadFolder() + "/" + util::split( s,'/',true ).last() ;
-
-			if( QFile::exists( b ) ){
-
-				args.replace( args.size() - 1,b ) ;
-
-				QProcess::startDetached( exe,args ) ;
-			}
-		}
-	}
+	m_settings.runCommandOnSuccessfulDownload( this->engine().name(),df,fileNames ) ;
 }
 
 QString engines::engine::baseEngine::commandString( const engines::engine::exeArgs::cmd& cmd )
@@ -2001,7 +1975,7 @@ engines::engine::baseEngine::filter::filter( const engines::engine& engine,int i
 	if( m_processId ){}
 }
 
-const QByteArray& engines::engine::baseEngine::filter::operator()( const Logger::Data& s )
+const QByteArray& engines::engine::baseEngine::filter::operator()( Logger::Data& s )
 {
 	if( m_engine.replaceOutputWithProgressReport() ){
 

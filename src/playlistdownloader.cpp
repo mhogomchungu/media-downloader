@@ -829,7 +829,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		{
 			return true ;
 		}
-		void done( engines::ProcessExitState e )
+		void done( engines::ProcessExitState e,const QStringList& )
 		{
 			event ev( m_parent,m_engine ) ;
 			auto& h = m_parent.m_ccmd ;
@@ -1058,7 +1058,7 @@ void playlistdownloader::getList( customOptions&& c,
 		{
 			return utility::addData( e ) ;
 		}
-		void done( engines::ProcessExitState st )
+		void done( engines::ProcessExitState st,const QStringList& )
 		{
 			if( st.cancelled() ){
 
@@ -1279,11 +1279,11 @@ void playlistdownloader::addTextToUi( const QByteArray& data,int index )
 	}
 }
 
-void playlistdownloader::reportFinishedStatus( const reportFinished& f )
+void playlistdownloader::reportFinishedStatus( const reportFinished& f,const QStringList& fileNames )
 {
 	m_banner.updateTimer() ;
 
-	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus() ) ;
+	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus(),fileNames ) ;
 
 	auto index = f.finishedStatus().index() ;
 

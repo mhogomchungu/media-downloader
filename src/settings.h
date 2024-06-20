@@ -150,12 +150,13 @@ public:
 
 	settings::mediaPlayer openWith( Logger& ) ;
 
+	void runCommandOnSuccessfulDownload( const QString&,const QString&,const QStringList& ) ;
+
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;
 	QString downloadFolder( Logger& ) ;
 	QString localizationLanguagePath() ;
 	QString localizationLanguage() ;
-	QString commandOnSuccessfulDownload() ;
 	QString commandWhenAllFinished() ;
 	QString themeName() ;
 	QString defaultEngine( settings::tabName,const QString& ) ;

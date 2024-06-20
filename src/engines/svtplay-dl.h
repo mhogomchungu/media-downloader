@@ -36,7 +36,7 @@ public:
 	public:
 		svtplay_dlFilter( settings&,const engines::engine&,int ) ;
 
-		const QByteArray& operator()( const Logger::Data& e ) override ;
+		const QByteArray& operator()( Logger::Data& e ) override ;
 
 		~svtplay_dlFilter() override ;
 	private:

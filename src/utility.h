@@ -1146,7 +1146,7 @@ namespace utility
 				m_engine.processData( e,d,id,s ) ;
 			} ) ;
 
-			m_events.done( state.move() ) ;
+			m_events.done( state.move(),m_logger.fileNames() ) ;
 
 			m_logger.registerDone() ;
 		}
@@ -1165,7 +1165,7 @@ namespace utility
 					m_engine.processData( e,d,id,s ) ;
 				} ) ;
 
-				m_events.done( state ) ;
+				m_events.done( state,QStringList() ) ;
 			}
 		}
 		void withData( QProcess::ProcessChannel channel,const QByteArray& data )
@@ -1553,7 +1553,8 @@ namespace utility
 	void updateFinishedState( const engines::engine& engine,
 				  settings& s,
 				  tableWidget& table,
-				  const FinishedState& f )
+				  const FinishedState& f,
+				  const QStringList& fileNames )
 	{
 		const auto& index = f.index() ;
 		const auto& es = f.exitState() ;
@@ -1572,7 +1573,7 @@ namespace utility
 
 			if( es.success() ){
 
-				engine.runCommandOnDownloadedFile( a,backUpUrl ) ;
+				engine.runCommandOnDownloadedFile( fileNames ) ;
 			}
 
 			if( f.done() ){
@@ -1581,7 +1582,7 @@ namespace utility
 
 				if( !a.isEmpty() ){
 
-					auto args = util::split( a,' ',true ) ;
+					auto args = util::splitPreserveQuotes( a ) ;
 
 					auto exe = args.takeAt( 0 ) ;
 

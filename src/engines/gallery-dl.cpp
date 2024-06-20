@@ -235,37 +235,17 @@ engines::engine::baseEngine::DataFilter gallery_dl::Filter( int id )
 	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),s,engine,id } ;
 }
 
+void gallery_dl::runCommandOnDownloadedFile( const QStringList& e )
+{
+	auto& s = engines::engine::baseEngine::Settings() ;
+	auto df = s.downloadFolder() + "/" + this->engine().name() + "/" ;
+	s.runCommandOnSuccessfulDownload( this->engine().name(),df,e ) ;
+}
+
 void gallery_dl::setProxySetting( QStringList& e,const QString& s )
 {
 	e.append( "--proxy" ) ;
 	e.append( s ) ;
-}
-
-void gallery_dl::runCommandOnDownloadedFile( const QString& e,const QString& )
-{
-	auto& settings = engines::engine::baseEngine::Settings() ;
-
-	auto a = settings.commandOnSuccessfulDownload() ;
-
-	if( !a.isEmpty() && !e.isEmpty() ){
-
-		auto args = util::split( a,' ',true ) ;
-		auto exe = args.takeAt( 0 ) ;
-		args.append( "bla bla bla" ) ;
-		auto pos = args.size() - 1 ;
-
-		for( const auto& it : util::split( e,'\n',true ) ){
-
-			auto b = settings.downloadFolder() + "/gallery-dl/" + it ;
-
-			if( QFile::exists( b ) ){
-
-				args.replace( pos,b ) ;
-
-				QProcess::startDetached( exe,args ) ;
-			}
-		}
-	}
 }
 
 void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& opts,bool s )
@@ -332,7 +312,7 @@ gallery_dl::gallery_dlFilter::gallery_dlFilter( settings&,const engines::engine&
 {
 }
 
-const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& s )
+const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 {
 	if( s.doneDownloading() ){
 
@@ -355,8 +335,6 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& 
 	}
 
 	const auto data = s.toStringList() ;
-
-	QStringList m ;
 
 	if( m_dir.isEmpty() ){
 
@@ -384,6 +362,8 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& 
 		}
 	}
 
+	QStringList m ;
+
 	for( const auto& e : data ){
 
 		auto u = QDir::fromNativeSeparators( e ) ;
@@ -392,22 +372,26 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( const Logger::Data& 
 
 		if( n != -1 ){
 
-			auto s = u.mid( n + m_dir.size() + 1 ) ;
+			auto ss = u.mid( n + m_dir.size() + 1 ) ;
 
-			if( !m.contains( s ) && !u.startsWith( "[media-downloader] cmd:" ) ){
+			if( !m.contains( ss ) && !u.startsWith( "[media-downloader] cmd:" ) ){
 
-				m.append( s ) ;
+				m.append( ss ) ;
+
+				s.addFileName( ss ) ;
 			}
 		}else{
 			n = u.indexOf( "./gallery-dl" ) ;
 
 			if( n != -1 ){
 
-				auto s = u.mid( n + 13 ) ;
+				auto ss = u.mid( n + 13 ) ;
 
-				if( !m.contains( s ) && !u.startsWith( "[media-downloader] cmd:" ) ){
+				if( !m.contains( ss ) && !u.startsWith( "[media-downloader] cmd:" ) ){
 
-					m.append( s ) ;
+					m.append( ss ) ;
+
+					s.addFileName( ss ) ;
 				}
 			}
 		}

@@ -215,7 +215,7 @@ private slots:
 	void addItemUiSlot( ItemEntry ) ;
 	void networkData( utility::networkReply ) ;
 	void addTextToUi( const QByteArray&,int ) ;
-	void reportFinishedStatus( const reportFinished& ) ;
+	void reportFinishedStatus( const reportFinished&,const QStringList& ) ;
 private:
 	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;
 	void setDefaultEngineAndOptions( Items::entry& ) ;
@@ -348,6 +348,10 @@ private:
 		{
 			return m_localLogger.toLine() ;
 		}
+		const QStringList& fileNames() const
+		{
+			return m_localLogger.fileNames() ;
+		}
 	private:
 		Logger::Data m_localLogger ;
 		Logger& m_logger ;
@@ -403,6 +407,10 @@ private:
 			data.replace( "[media-downloader] Download Completed Successfully","" ) ;
 
 			return data ;
+		}
+		const QStringList& fileNames() const
+		{
+			return m_logger->fileNames() ;
 		}
 		void logError( const QByteArray& data )
 		{

@@ -153,10 +153,6 @@ safaribooks::~safaribooks()
 {
 }
 
-void safaribooks::runCommandOnDownloadedFile( const QString&,const QString& )
-{
-}
-
 QString safaribooks::commandString( const engines::engine::exeArgs::cmd& cmd )
 {
 	auto m = "\"" + cmd.exe() + "\"" ;

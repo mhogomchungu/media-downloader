@@ -365,7 +365,7 @@ static QByteArray _uiText( const QByteArray& e,const QByteArray& p,const QByteAr
 	return result.toUtf8() ;
 }
 
-const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
+const QByteArray& wget::wgetFilter::operator()( Logger::Data& e )
 {
 	if( e.doneDownloading() ){
 
@@ -383,6 +383,8 @@ const QByteArray& wget::wgetFilter::operator()( const Logger::Data& e )
 
 			return m_tmp ;
 		}
+
+		e.addFileName( m_title ) ;
 
 		return m_title ;
 	}
