@@ -45,7 +45,7 @@ Make sure you have access to the internet before you run the media-downloader fo
 
 #### Bundle for MacOS
 
-Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.7.0/MediaDownloader-4.7.0.dmg).
+Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.7.0/MediaDownloader-4.7.0.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS.
 
 #### Installer for Microsoft Windows
 

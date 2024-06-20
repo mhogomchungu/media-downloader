@@ -45,13 +45,13 @@ namespace utils
 					connect( this,&exec::run,this,&exec::meaw,Qt::QueuedConnection ) ;
 
 					emit this->run() ;
-
-					this->deleteLater() ;
 				}
 			private:
 				void meaw()
 				{
 					m_function() ;
+
+					this->deleteLater() ;
 				}
 			signals:
 				void run() ;
