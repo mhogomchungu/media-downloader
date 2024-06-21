@@ -930,11 +930,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Autoupdate Disabled For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornamento automatico disabilitato per %1</translation>
     </message>
     <message>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La versione più recente è %1, aggiornamento automatico disabilitato</translation>
     </message>
 </context>
 <context>
