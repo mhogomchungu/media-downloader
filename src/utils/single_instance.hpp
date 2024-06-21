@@ -50,8 +50,6 @@ namespace utils
 				void meaw()
 				{
 					m_function() ;
-
-					this->deleteLater() ;
 				}
 			signals:
 				void run() ;
@@ -78,9 +76,9 @@ namespace utils
 		{
 		public:
 			multipleInstance( AppInfo info ) :
-				m_info( std::move( info ) )
+				m_info( std::move( info ) ),
+				m_exec( [ this ](){ this->run() ; } )
 			{
-				new details::exec( [ this ](){ this->run() ; } ) ;
 			}
 			void run()
 			{
@@ -93,6 +91,7 @@ namespace utils
 			}
 		private:
 			AppInfo m_info ;
+			details::exec m_exec ;
 			std::unique_ptr< typename AppInfo::appType > m_mainApp ;
 		} ;
 
