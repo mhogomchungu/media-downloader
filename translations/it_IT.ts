@@ -1042,6 +1042,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Copy</source>
         <translation>Copia</translation>
     </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>library</name>

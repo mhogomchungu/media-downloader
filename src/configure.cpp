@@ -50,6 +50,8 @@ configure::configure( const Context& ctx ) :
 	m_ui.pbOpenBinFolder->setIcon( QIcon( ":/executable" ) ) ;
 	m_ui.pbConfigureDownloadPath->setIcon( QIcon( ":/folder" ) ) ;
 
+	this->setVisibilityEditConfigFeature( false ) ;
+
 	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
 
 	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
@@ -76,6 +78,33 @@ configure::configure( const Context& ctx ) :
 	m_tableUrlToDefaultEngine.setCurrentItemChanged( 0 ) ;
 
 	m_tableDefaultDownloadOptions.setCurrentItemChanged( 0 ) ;
+
+	connect( m_ui.pbConfigureSaveEditOption,&QPushButton::clicked,[ this ](){
+
+		auto row = m_tableDefaultDownloadOptions.currentRow() ;
+
+		if( row != -1 ){
+
+			auto Old = m_tableDefaultDownloadOptions.item( row,1 ).text() ;
+
+			auto New = m_ui.textEditConfigureEditOption->toPlainText() ;
+
+			auto mm = m_ui.cbConfigureEngines->currentText() ;
+
+			m_downloadEngineDefaultOptions.replace( mm,Old,New ) ;
+
+			const auto& s = m_ctx.Engines().getEngineByName( mm ) ;
+
+			this->populateOptionsTable( s.value(),row ) ;
+		}
+
+		this->setVisibilityEditConfigFeature( false ) ;
+	} ) ;
+
+	connect( m_ui.pbConfigureSaveEditOptionCancel,&QPushButton::clicked,[ this ](){
+
+		this->setVisibilityEditConfigFeature( false ) ;
+	} ) ;
 
 	connect( m_ui.pbOpenThemeFolder,&QPushButton::clicked,[ themesFolderPath ](){
 
@@ -177,7 +206,7 @@ configure::configure( const Context& ctx ) :
 
 					m_downloadEngineDefaultOptions.setAsDefault( obj ) ;
 
-					this->populateOptionsTable( s.value() ) ;
+					this->populateOptionsTable( s.value(),m ) ;
 				}
 			}
 		} ) ;
@@ -221,6 +250,20 @@ configure::configure( const Context& ctx ) :
 			}
 		} ) ;
 
+		connect( m.addAction( tr( "Edit" ) ),&QAction::triggered,[ this ](){
+
+			auto row = m_tableDefaultDownloadOptions.currentRow() ;
+
+			if( row != -1 ){
+
+				auto m = m_tableDefaultDownloadOptions.item( row,1 ).text() ;
+
+				m_ui.textEditConfigureEditOption->setText( m ) ;
+
+				this->setVisibilityEditConfigFeature( true ) ;
+			}
+		} ) ;
+
 		m.exec( QCursor::pos() ) ;
 	} ) ;
 
@@ -236,9 +279,14 @@ configure::configure( const Context& ctx ) :
 
 			if( s ){
 
-				auto obj = m_downloadEngineDefaultOptions.addOpt( "no",s->name(),m ) ;
+				auto obj = m_downloadEngineDefaultOptions.addOpt( "yes",s->name(),m ) ;
 
-				m_tableDefaultDownloadOptions.add( std::move( obj ),"no",m ) ;
+				for( int i = 0 ; i < m_tableDefaultDownloadOptions.rowCount() ; i++ ){
+
+					m_tableDefaultDownloadOptions.item( i,0 ).setText( "no" ) ;
+				}
+
+				m_tableDefaultDownloadOptions.add( std::move( obj ),"yes",m ) ;
 
 				m_tableDefaultDownloadOptions.selectLast() ;
 
@@ -739,7 +787,7 @@ void configure::tabEntered()
 	}
 }
 
-void configure::populateOptionsTable( const engines::engine& s )
+void configure::populateOptionsTable( const engines::engine& s,int selectRow )
 {
 	m_tableDefaultDownloadOptions.clear() ;
 
@@ -769,7 +817,12 @@ void configure::populateOptionsTable( const engines::engine& s )
 		}
 	}
 
-	m_tableDefaultDownloadOptions.selectLast() ;
+	if( selectRow == -1 ){
+
+		m_tableDefaultDownloadOptions.selectLast() ;
+	}else{
+		m_tableDefaultDownloadOptions.selectRow( selectRow ) ;
+	}
 }
 
 void configure::tabExited()
@@ -1458,6 +1511,14 @@ void configure::downloadDefaultOptions::save()
 	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
 }
 
+void configure::setVisibilityEditConfigFeature( bool e )
+{
+	m_ui.pbConfigureSaveEditOption->setVisible( e ) ;
+	m_ui.textEditConfigureEditOption->setVisible( e ) ;
+	m_ui.labelEditConfigOptions->setVisible( e ) ;
+	m_ui.pbConfigureSaveEditOptionCancel->setVisible( e ) ;
+}
+
 bool configure::downloadDefaultOptions::isEmpty( const QString& m )
 {
 	for( const auto& it : util::asConst( m_array ) ){
@@ -1473,20 +1534,39 @@ bool configure::downloadDefaultOptions::isEmpty( const QString& m )
 	return true ;
 }
 
+void configure::downloadDefaultOptions::replace( const QString& engineName,
+						 const QString& oldOptions,
+						 const QString& newOptions )
+{
+	for( int i = 0 ; i < m_array.size() ; i++ ){
+
+		auto obj = m_array[ i ].toObject() ;
+
+		auto e = obj.value( "engineName" ).toString() ;
+		auto o = obj.value( "options" ).toString() ;
+
+		if( e == engineName && o == oldOptions ){
+
+			obj.insert( "options",newOptions ) ;
+
+			m_array[ i ] = std::move( obj ) ;
+		}
+	}
+}
+
 QJsonObject configure::downloadDefaultOptions::addOpt( const QString& inUse,
 						       const QString& engineName,
 						       const QString& options )
 {
-	for( const auto& it : util::asConst( m_array ) ){
+	if( inUse == "yes" ){
 
-		auto obj = it.toObject() ;
+		for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		auto a = obj.value( "options" ).toString() ;
-		auto b = obj.value( "engineName" ).toString() ;
+			auto obj = m_array[ i ].toObject() ;
 
-		if( a == options && b == engineName ){
+			obj.insert( "default","no" ) ;
 
-			return obj ;
+			m_array[ i ] = std::move( obj ) ;
 		}
 	}
 
@@ -1562,7 +1642,7 @@ void configure::downloadDefaultOptions::remove( const QJsonObject& e )
 
 			obj.insert( "default","yes" ) ;
 
-			m_array[ i ] = obj ;
+			m_array[ i ] = std::move( obj ) ;
 
 			break ;
 		}
@@ -1588,33 +1668,32 @@ void configure::downloadDefaultOptions::removeAll( const QString& e )
 	}() ){} ;
 }
 
-QJsonObject configure::downloadDefaultOptions::setAsDefault( const QJsonObject& e )
+void configure::downloadDefaultOptions::setAsDefault( const QJsonObject& e )
 {
+	for( int i = 0 ; i < m_array.size() ; i++ ){
+
+		auto obj = m_array[ i ].toObject() ;
+		obj.insert( "default","no" ) ;
+		m_array[ i ] = std::move( obj ) ;
+	}
+
 	auto engineName = e.value( "engineName" ).toString() ;
 	auto options = e.value( "options" ).toString() ;
-
-	QJsonObject xbj ;
 
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
 		auto obj = m_array[ i ].toObject() ;
+
 		auto engine = obj.value( "engineName" ).toString() ;
 		auto opts = obj.value( "options" ).toString() ;
 
-		if( engine == engineName ){
+		if( engine == engineName && options == opts ){
 
-			if( options == opts ){
+			obj.insert( "default","yes" ) ;
 
-				xbj = obj ;
+			m_array[ i ] = std::move( obj ) ;
 
-				obj.insert( "default","yes" ) ;
-			}else{
-				obj.insert( "default","no" ) ;
-			}
-
-			m_array[ i ] = obj ;
+			break ;
 		}
 	}
-
-	return xbj ;
 }

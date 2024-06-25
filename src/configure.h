@@ -46,6 +46,7 @@ public:
 	void downloadFromGitHub( const engines::Iterator& ) ;
 	void tabEntered() ;
 	void tabExited() ;
+	void setVisibilityEditConfigFeature( bool ) ;
 	void updateEnginesList( const QStringList& e ) ;
 	QString engineDefaultDownloadOptions( const QString& ) ;
 	template< typename Function >
@@ -149,12 +150,13 @@ private:
 		downloadDefaultOptions( const Context&,const QString& ) ;
 		void save() ;
 		bool isEmpty( const QString& ) ;
+		void replace( const QString& engineName,const QString& oldOptions,const QString& newOptions ) ;
 		QJsonObject addOpt( const QString&,const QString& engineName,const QString& options ) ;
 		QJsonObject add( const QString& url,const QString& opts,const QString& engineName ) ;
 		QJsonObject add( const configure::downloadDefaultOptions::opts& ) ;
 		void remove( const QJsonObject& ) ;
 		void removeAll( const QString& ) ;
-		QJsonObject setAsDefault( const QJsonObject& ) ;
+		void setAsDefault( const QJsonObject& ) ;
 
 		template< typename Function,
 			  typename std::enable_if<std::is_same<util::types::result_of<Function,const configure::downloadDefaultOptions::optsEngines&,QJsonObject>,bool>::value,int >::type = 0 >
@@ -270,7 +272,7 @@ private:
 	void setEngineOptions( const QString&,engineOptions ) ;
 	void savePresetOptions() ;
 	void showOptions() ;
-	void populateOptionsTable( const engines::engine& ) ;
+	void populateOptionsTable( const engines::engine&,int = -1 ) ;
 	void updateProxySettings( settings::proxySettings::Type ) ;
 	const Context& m_ctx ;
 	settings& m_settings ;

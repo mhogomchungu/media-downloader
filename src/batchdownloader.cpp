@@ -997,12 +997,12 @@ static QJsonArray _saveComments( const QJsonArray& arr )
 	return finalArr ;
 }
 
-template< typename Array,typename Table,typename Converter >
-void _add_comments( const Array& arr,Table& table,const Converter& converter )
+template< typename Array,typename Table >
+void _add_comments( const Array& arr,Table& table )
 {
 	for( const auto& it : arr ){
 
-		auto obj = converter( it ) ;
+		auto obj = it.toObject() ;
 
 		auto parent    = obj.value( "parent" ).toString() ;
 		auto txt       = obj.value( "text" ).toString() ;
@@ -1030,7 +1030,7 @@ void _add_comments( const Array& arr,Table& table,const Converter& converter )
 
 			for( const auto& xt : arr ){
 
-				auto xobj = converter( xt ) ; ;
+				auto xobj = xt.toObject() ; ;
 
 				auto xd = xobj.value( "id" ).toString() ;
 
@@ -1082,11 +1082,7 @@ void batchdownloader::showComments( const QByteArray& e )
 			m_commentsFileName = hh + "/" + f.mid( 0,200 ) + ".json" ;
 		}
 
-		auto arr = obj.value( "comments" ).toArray() ;
-
-		auto& tt = m_tableWidgetBDList ;
-
-		_add_comments( arr,tt,[]( const QJsonValue& e ){ return e.toObject() ; } ) ;
+		_add_comments( obj.value( "comments" ).toArray(),m_tableWidgetBDList ) ;
 	}else{
 		m_ctx.logger().setMaxProcessLog( 2 ) ;
 
@@ -1312,7 +1308,7 @@ void _sort( const char * key,Table& table,Cmp cmp )
 		{
 			return m_obj.value( m_key ).toInt() ;
 		}
-		operator QJsonObject() const
+		QJsonObject toObject() const
 		{
 			return m_obj ;
 		}
@@ -1332,7 +1328,7 @@ void _sort( const char * key,Table& table,Cmp cmp )
 
 	table.clear() ;
 
-	_add_comments( m,table,[]( const obj& e )->QJsonObject{	return e ; } ) ;
+	_add_comments( m,table ) ;
 }
 
 void batchdownloader::sortComments()

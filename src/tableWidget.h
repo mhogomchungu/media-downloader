@@ -576,6 +576,13 @@ public:
 			opts.setText( optionsList.join( "+" ) ) ;
 		}
 	}
+	void selectRow( int row )
+	{
+		if( m_table.rowCount() > 0 ){
+
+			m_table.setCurrentCell( row,m_table.columnCount() - 1 ) ;
+		}
+	}
 	void selectLast()
 	{
 		if( m_table.rowCount() > 0 ){
