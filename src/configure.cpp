@@ -936,8 +936,8 @@ void configure::setEngineOptions( const QString& e,engineOptions tab )
 				if( engineName.isEmpty() || engineName == e.engine ){
 
 					m_tableUrlToDefaultEngine.add( std::move( obj ),
-									      e.url,
-									      e.downloadOptions ) ;
+								       e.url,
+								       e.downloadOptions ) ;
 				}
 
 				return false ;

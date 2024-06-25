@@ -231,6 +231,7 @@ private:
 	void showComments( const QByteArray& ) ;
 	void showSubtitles( const QByteArray& ) ;
 	void saveSubtitles() ;
+	void sortComments() ;
 	bool saveSubtitles( const QString& url,const QString& ext,const QString& title ) ;
 	void normalizeFilePath( QString& ) ;
 	void setVisibleMediaSectionCut( bool ) ;

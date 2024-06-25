@@ -109,6 +109,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		}else if( m_listType == batchdownloader::listType::SUBTITLES ){
 
 			this->saveSubtitles() ;
+		}else{
+			this->sortComments() ;
 		}
 	} ) ;
 
@@ -995,19 +997,21 @@ static QJsonArray _saveComments( const QJsonArray& arr )
 	return finalArr ;
 }
 
-template< typename Function >
-static void _getComments( const QJsonArray& arr,Function function )
+template< typename Array,typename Table,typename Converter >
+void _add_comments( const Array& arr,Table& table,const Converter& converter )
 {
 	for( const auto& it : arr ){
 
-		auto obj = it.toObject() ;
+		auto obj = converter( it ) ;
 
-		auto id        = obj.value( "id" ).toString() ;
 		auto parent    = obj.value( "parent" ).toString() ;
 		auto txt       = obj.value( "text" ).toString() ;
 		auto author    = obj.value( "author" ).toString() ;
-		auto comment   = QObject::tr( "Author" ) + ": " + author ;
+		auto comment   = QObject::tr( "Author: %1" ).arg( author ) ;
+		auto likeCount = QString::number( obj.value( "like_count" ).toInt() ) ;
 		auto timestamp = obj.value( "timestamp" ) ;
+
+		comment += "\n" + QObject::tr( "Like Count: %1" ).arg( likeCount ) ;
 
 		if( !timestamp.isUndefined() ){
 
@@ -1026,7 +1030,7 @@ static void _getComments( const QJsonArray& arr,Function function )
 
 			for( const auto& xt : arr ){
 
-				auto xobj = xt.toObject() ;
+				auto xobj = converter( xt ) ; ;
 
 				auto xd = xobj.value( "id" ).toString() ;
 
@@ -1044,7 +1048,7 @@ static void _getComments( const QJsonArray& arr,Function function )
 
 		comment += "\n" + txt ;
 
-		function( comment,std::move( obj ) ) ;
+		table.add( std::move( obj ),"","","","",comment ) ;
 	}
 }
 
@@ -1080,10 +1084,9 @@ void batchdownloader::showComments( const QByteArray& e )
 
 		auto arr = obj.value( "comments" ).toArray() ;
 
-		_getComments( arr,[ this ]( const QString& comment,QJsonObject obj ){
+		auto& tt = m_tableWidgetBDList ;
 
-			m_tableWidgetBDList.add( std::move( obj ),"","","","",comment ) ;
-		} ) ;
+		_add_comments( arr,tt,[]( const QJsonValue& e ){ return e.toObject() ; } ) ;
 	}else{
 		m_ctx.logger().setMaxProcessLog( 2 ) ;
 
@@ -1290,6 +1293,65 @@ void batchdownloader::saveSubtitles()
 				return false ;
 			}
 		} ) ;
+	} ) ;
+
+	m.exec( QCursor::pos() ) ;
+}
+
+template< typename Table,typename Cmp >
+void _sort( const char * key,Table& table,Cmp cmp )
+{
+	class obj
+	{
+	public:
+		obj( const char * key,QJsonObject obj ) :
+			m_key( key ),m_obj( std::move( obj ) )
+		{
+		}
+		operator int() const
+		{
+			return m_obj.value( m_key ).toInt() ;
+		}
+		operator QJsonObject() const
+		{
+			return m_obj ;
+		}
+	private:
+		const char * m_key ;
+		QJsonObject m_obj ;
+	} ;
+
+	std::vector< obj > m ;
+
+	for( int i = 0 ; i < table.rowCount() ; i++ ){
+
+		m.emplace_back( key,table.stuffAt( i ) ) ;
+	}
+
+	std::sort( m.begin(),m.end(),cmp ) ;
+
+	table.clear() ;
+
+	_add_comments( m,table,[]( const obj& e )->QJsonObject{	return e ; } ) ;
+}
+
+void batchdownloader::sortComments()
+{
+	QMenu m ;
+
+	connect( m.addAction( tr( "Sort By Date Ascending" ) ),&QAction::triggered,[ this ](){
+
+		_sort( "timestamp",m_tableWidgetBDList,std::less<int>() ) ;
+	} ) ;
+
+	connect( m.addAction( tr( "Sort By Date Descending" ) ),&QAction::triggered,[ this ](){
+
+		_sort( "timestamp",m_tableWidgetBDList,std::greater<int>() ) ;
+	} ) ;
+
+	connect( m.addAction( tr( "Sort By Likes" ) ),&QAction::triggered,[ this ](){
+
+		_sort( "like_count",m_tableWidgetBDList,std::greater<int>() ) ;
 	} ) ;
 
 	m.exec( QCursor::pos() ) ;

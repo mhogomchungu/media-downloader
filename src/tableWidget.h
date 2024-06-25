@@ -385,7 +385,7 @@ public:
 	{
 		tableWidget::setTableWidget( m_table,opts ) ;
 	}
-	int rowCount()
+	int rowCount() const
 	{
 		return m_table.rowCount() ;
 	}
@@ -462,7 +462,7 @@ public:
 	{
 		return m_table ;
 	}
-	const Stuff& stuffAt( int s )
+	const Stuff& stuffAt( int s ) const
 	{
 		return m_stuff[ static_cast< size_t >( s ) ] ;
 	}

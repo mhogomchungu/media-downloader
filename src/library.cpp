@@ -298,7 +298,7 @@ void library::addEntrySlot( const directoryEntries::iter& s )
 
 		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
 
-		emit addEntrySignal( s.next() ) ;
+		emit this->addEntrySignal( s.next() ) ;
 	}else{
 		if( t.rowCount() > 0 ){
 
