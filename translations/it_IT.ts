@@ -443,10 +443,6 @@ Esempio 2: ${gateway}:8080</translation>
         <translation>2. Vai alla scheda &quot;Opzioni generali&quot;.</translation>
     </message>
     <message>
-        <source>Author</source>
-        <translation>Autore</translation>
-    </message>
-    <message>
         <source>Japanese (Japan)</source>
         <translation>Giapponese (Giappone)</translation>
     </message>
@@ -936,6 +932,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
         <translation>La versione più recente è %1, aggiornamento automatico disabilitato</translation>
     </message>
+    <message>
+        <source>Author: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Like Count: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -994,6 +998,18 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Download Media Part</source>
         <translation>Scarica parte multimediale</translation>
+    </message>
+    <message>
+        <source>Sort By Date Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort By Date Descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort By Likes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

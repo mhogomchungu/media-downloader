@@ -397,10 +397,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Speichere in Dateiliste</translation>
     </message>
     <message>
-        <source>Author</source>
-        <translation>Autor</translation>
-    </message>
-    <message>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
@@ -932,6 +928,14 @@ Exampe 2: ${gateway}:8080</source>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Author: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Like Count: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
@@ -990,6 +994,18 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Downloading subtitles</source>
         <translation>Herunterladen von Untertiteln</translation>
+    </message>
+    <message>
+        <source>Sort By Date Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort By Date Descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort By Likes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
