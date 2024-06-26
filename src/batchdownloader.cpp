@@ -1295,60 +1295,74 @@ void batchdownloader::saveSubtitles()
 }
 
 template< typename Table,typename Cmp >
-void _sort( const char * key,Table& table,Cmp cmp )
+auto _make_sort( const char * key,Table& table,Cmp cmp )
 {
-	class obj
+	class sort
 	{
 	public:
-		obj( const char * key,QJsonObject obj ) :
-			m_key( key ),m_obj( std::move( obj ) )
+		sort( const char * key,Table& table,Cmp cmp ) :
+			m_key( key ),m_table( table ),m_cmp( std::move( cmp ) )
 		{
 		}
-		operator int() const
+		void operator()()
 		{
-			return m_obj.value( m_key ).toInt() ;
-		}
-		QJsonObject toObject() const
-		{
-			return m_obj ;
+			class obj
+			{
+			public:
+				obj( const char * key,QJsonObject obj ) :
+					m_key( key ),m_obj( std::move( obj ) )
+				{
+				}
+				operator int() const
+				{
+					return m_obj.value( m_key ).toInt() ;
+				}
+				QJsonObject toObject() const
+				{
+					return m_obj ;
+				}
+			private:
+				const char * m_key ;
+				QJsonObject m_obj ;
+			} ;
+
+			std::vector< obj > m ;
+
+			for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+
+				m.emplace_back( m_key,m_table.stuffAt( i ) ) ;
+			}
+
+			std::sort( m.begin(),m.end(),std::move( m_cmp ) ) ;
+
+			m_table.clear() ;
+
+			_add_comments( m,m_table ) ;
 		}
 	private:
 		const char * m_key ;
-		QJsonObject m_obj ;
+		Table& m_table ;
+		Cmp m_cmp ;
 	} ;
 
-	std::vector< obj > m ;
-
-	for( int i = 0 ; i < table.rowCount() ; i++ ){
-
-		m.emplace_back( key,table.stuffAt( i ) ) ;
-	}
-
-	std::sort( m.begin(),m.end(),cmp ) ;
-
-	table.clear() ;
-
-	_add_comments( m,table ) ;
+	return sort( key,table,std::move( cmp ) ) ;
 }
 
 void batchdownloader::sortComments()
 {
 	QMenu m ;
 
-	connect( m.addAction( tr( "Sort By Date Ascending" ) ),&QAction::triggered,[ this ](){
+	connect( m.addAction( tr( "Sort By Date Ascending" ) ),
+		 &QAction::triggered,
+		 _make_sort( "timestamp",m_tableWidgetBDList,std::less<int>() ) ) ;
 
-		_sort( "timestamp",m_tableWidgetBDList,std::less<int>() ) ;
-	} ) ;
+	connect( m.addAction( tr( "Sort By Date Descending" ) ),
+		 &QAction::triggered,
+		 _make_sort( "timestamp",m_tableWidgetBDList,std::greater<int>() ) ) ;
 
-	connect( m.addAction( tr( "Sort By Date Descending" ) ),&QAction::triggered,[ this ](){
-
-		_sort( "timestamp",m_tableWidgetBDList,std::greater<int>() ) ;
-	} ) ;
-
-	connect( m.addAction( tr( "Sort By Likes" ) ),&QAction::triggered,[ this ](){
-
-		_sort( "like_count",m_tableWidgetBDList,std::greater<int>() ) ;
-	} ) ;
+	connect( m.addAction( tr( "Sort By Likes" ) ),
+		 &QAction::triggered,
+		 _make_sort( "like_count",m_tableWidgetBDList,std::greater<int>() ) ) ;
 
 	m.exec( QCursor::pos() ) ;
 }
