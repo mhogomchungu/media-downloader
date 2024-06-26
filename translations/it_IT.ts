@@ -934,11 +934,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Author: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore: %1</translation>
     </message>
     <message>
         <source>Like Count: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>N. mi piace: %1</translation>
     </message>
 </context>
 <context>
@@ -1001,15 +1001,15 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Sort By Date Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per data crescente</translation>
     </message>
     <message>
         <source>Sort By Date Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per data decrescente</translation>
     </message>
     <message>
         <source>Sort By Likes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordina per n. Mi piace</translation>
     </message>
 </context>
 <context>
@@ -1044,7 +1044,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica</translation>
     </message>
 </context>
 <context>
