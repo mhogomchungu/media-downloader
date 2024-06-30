@@ -2104,7 +2104,7 @@
           <x>60</x>
           <y>130</y>
           <width>641</width>
-          <height>201</height>
+          <height>231</height>
          </rect>
         </property>
         <property name="autoFillBackground">
@@ -2118,7 +2118,7 @@
         <property name="geometry">
          <rect>
           <x>200</x>
-          <y>290</y>
+          <y>320</y>
           <width>181</width>
           <height>31</height>
          </rect>
@@ -2133,7 +2133,7 @@
           <x>70</x>
           <y>140</y>
           <width>621</width>
-          <height>141</height>
+          <height>171</height>
          </rect>
         </property>
        </widget>
@@ -2141,7 +2141,7 @@
         <property name="geometry">
          <rect>
           <x>380</x>
-          <y>290</y>
+          <y>320</y>
           <width>181</width>
           <height>31</height>
          </rect>
