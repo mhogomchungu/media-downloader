@@ -827,7 +827,7 @@ engines::engine::engine( Logger& logger,
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
-	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool() ),
+	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool( true ) ),
 	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool() ),
 	m_mainEngine( true ),
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
@@ -1563,7 +1563,7 @@ bool engines::engine::baseEngine::foundNetworkUrl( const QString& s )
 	return s == m_engine.commandName() ;
 }
 
-void engines::engine::baseEngine::renameArchiveFolder( const QString& )
+void engines::engine::baseEngine::renameArchiveFolder( const QString&,const QString& )
 {
 }
 

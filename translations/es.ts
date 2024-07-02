@@ -938,6 +938,10 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Like Count: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Korean (Korea)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

@@ -724,7 +724,7 @@ public:
 
 			virtual bool foundNetworkUrl( const QString& ) ;
 
-			virtual void renameArchiveFolder( const QString& ) ;
+			virtual void renameArchiveFolder( const QString&,const QString& ) ;
 
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const QString& downloadingOptions,
@@ -951,9 +951,9 @@ public:
 		{
 			m_engine->processData( outPut,data,id,readableJson ) ;
 		}
-		void renameArchiveFolder( const QString& e ) const
+		void renameArchiveFolder( const QString& s,const QString& e ) const
 		{
-			return m_engine->renameArchiveFolder( e ) ;
+			return m_engine->renameArchiveFolder( s,e ) ;
 		}
 		QString commandString( const engines::engine::exeArgs::cmd& cmd ) const
 		{

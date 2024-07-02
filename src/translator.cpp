@@ -41,6 +41,8 @@ translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settin
 	this->addString( QObject::tr( "Portuguese (Brazil)" ),"Portuguese (Brazil)","pt_BR" ) ;
 	this->addString( QObject::tr( "Dutch (Netherlands)" ),"Dutch (Netherlands)","nl_NL" ) ;
 	this->addString( QObject::tr( "Arabic" ),"Arabic","ar" ) ;
+	this->addString( QObject::tr( "Korean (Korea)" ),"Korean (Korea)","ko_KR" ) ;
+
 	this->setDefaultLanguage() ;
 }
 

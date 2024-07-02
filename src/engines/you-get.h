@@ -50,7 +50,7 @@ public:
 
 	void setProxySetting( QStringList&,const QString& ) override ;
 
-	void renameArchiveFolder( const QString& ) override ;
+	void renameArchiveFolder( const QString&,const QString& ) override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 

@@ -940,6 +940,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Like Count: %1</source>
         <translation>N. mi piace: %1</translation>
     </message>
+    <message>
+        <source>Korean (Korea)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

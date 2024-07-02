@@ -36,9 +36,19 @@ QString you_get::updateCmdPath( const QString& e )
 	return e + "/" + name + "/" + name ;
 }
 
+static QString _archiveExtension()
+{
+	return ".tar.gz" ;
+}
+
 bool you_get::foundNetworkUrl( const QString& url )
 {
-	return url.startsWith( "you-get" ) && url.endsWith( ".tar.gz" ) ;
+	if( url.startsWith( "you_get" ) || url.startsWith( "you-get" ) ){
+
+		return url.endsWith( _archiveExtension() ) ;
+	}else{
+		return false ;
+	}
 }
 
 void you_get::setProxySetting( QStringList& e,const QString& s )
@@ -47,27 +57,15 @@ void you_get::setProxySetting( QStringList& e,const QString& s )
 	e.append( s ) ;
 }
 
-void you_get::renameArchiveFolder( const QString& e )
+void you_get::renameArchiveFolder( const QString& archivePath,const QString& binPath )
 {
-	const auto m = QDir( e ).entryList( QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ) ;
+	auto m = _archiveExtension() ;
+
+	auto path = binPath + "/" + QFileInfo( archivePath ).fileName().replace( m,"" ) ;
 
 	const auto& name = engines::engine::baseEngine::engine().name() ;
 
-	QDir dir ;
-
-	for( const auto& it : m ){
-
-		QFileInfo s( e + "/" + it ) ;
-
-		if( s.isDir() && it.startsWith( name ) ){
-
-			if( it != name ){
-
-				dir.rename( e + "/" + it,e + "/" + name ) ;
-				break ;
-			}
-		}
-	}
+	QDir().rename( path,binPath + "/" + name ) ;
 }
 
 std::vector<engines::engine::baseEngine::mediaInfo> you_get::mediaProperties( Logger& l,const QByteArray& e )

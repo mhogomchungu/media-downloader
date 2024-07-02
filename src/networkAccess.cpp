@@ -619,7 +619,7 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 
 		if( engine.archiveContainsFolder() ){
 
-			engine.renameArchiveFolder( opts.tempPath ) ;
+			engine.renameArchiveFolder( opts.filePath,opts.tempPath ) ;
 
 			auto exe = engine.updateCmdPath( m_ctx.logger(),opts.tempPath ) ;
 
