@@ -280,6 +280,13 @@ Version 1.2.0(April 1st, 2021)
       because it manages the playlist itsef.
 
      Version 4.7.0(May 24, 2024)
-         [All]
+      [All]
     - Add Arabic translations.
     - Add support for MacOS.
+
+     Version 4.8.0(Unreleased)
+         [All]
+    - Add Korean translations.
+    - Fix a bug that prevented you-get from getting auto updated caused by upstream change.
+    - Add ability to edit in place engine's default options.
+    - Add ability to sort comments by likes or date.
