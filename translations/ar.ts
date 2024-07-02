@@ -188,10 +188,6 @@
         <translation>إسترجاع الخيارات الافتراضية</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>عامل القياس(بحاجة إلى إعادة تشغيل)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>خيارات مُعدة مسبقًا</translation>
     </message>

@@ -1433,7 +1433,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1442,8 +1442,8 @@
        <widget class="QLineEdit" name="lineEditConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>188</x>
-          <y>88</y>
+          <x>190</x>
+          <y>50</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1452,8 +1452,8 @@
        <widget class="QPushButton" name="pbConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>618</x>
-          <y>88</y>
+          <x>620</x>
+          <y>50</y>
           <width>31</width>
           <height>31</height>
          </rect>
@@ -1491,21 +1491,11 @@
          </rect>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEditConfigureScaleFactor">
-        <property name="geometry">
-         <rect>
-          <x>188</x>
-          <y>50</y>
-          <width>421</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QLabel" name="labelConfigureDownloadPath">
         <property name="geometry">
          <rect>
-          <x>8</x>
-          <y>90</y>
+          <x>10</x>
+          <y>52</y>
           <width>171</width>
           <height>31</height>
          </rect>
@@ -1523,8 +1513,8 @@
        <widget class="QPushButton" name="pbConfigureDownload">
         <property name="geometry">
          <rect>
-          <x>480</x>
-          <y>170</y>
+          <x>482</x>
+          <y>130</y>
           <width>131</width>
           <height>31</height>
          </rect>
@@ -1536,8 +1526,8 @@
        <widget class="QPushButton" name="pbConfigureRemoveAPlugin">
         <property name="geometry">
          <rect>
-          <x>330</x>
-          <y>170</y>
+          <x>332</x>
+          <y>130</y>
           <width>141</width>
           <height>31</height>
          </rect>
@@ -1546,30 +1536,11 @@
          <string>Remove A Plugin</string>
         </property>
        </widget>
-       <widget class="QLabel" name="labelConfigureScaleFactor">
-        <property name="geometry">
-         <rect>
-          <x>8</x>
-          <y>50</y>
-          <width>171</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Scale Factor(Need A Restart)</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
        <widget class="QPushButton" name="pbConfigureAddAPlugin">
         <property name="geometry">
          <rect>
-          <x>188</x>
-          <y>170</y>
+          <x>190</x>
+          <y>130</y>
           <width>131</width>
           <height>31</height>
          </rect>
@@ -1582,9 +1553,9 @@
         <property name="geometry">
          <rect>
           <x>188</x>
-          <y>240</y>
+          <y>200</y>
           <width>421</width>
-          <height>31</height>
+          <height>41</height>
          </rect>
         </property>
         <property name="text">
@@ -1623,8 +1594,8 @@
        <widget class="QComboBox" name="comboBoxConfigureDarkTheme">
         <property name="geometry">
          <rect>
-          <x>188</x>
-          <y>210</y>
+          <x>190</x>
+          <y>170</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1633,8 +1604,8 @@
        <widget class="QLabel" name="labelConfigureTheme">
         <property name="geometry">
          <rect>
-          <x>8</x>
-          <y>210</y>
+          <x>10</x>
+          <y>170</y>
           <width>171</width>
           <height>31</height>
          </rect>
@@ -1652,8 +1623,8 @@
        <widget class="QPushButton" name="pbOpenThemeFolder">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>210</y>
+          <x>622</x>
+          <y>170</y>
           <width>31</width>
           <height>31</height>
          </rect>
@@ -1666,9 +1637,9 @@
         <property name="geometry">
          <rect>
           <x>188</x>
-          <y>280</y>
+          <y>260</y>
           <width>421</width>
-          <height>31</height>
+          <height>41</height>
          </rect>
         </property>
         <property name="text">
@@ -1679,9 +1650,9 @@
         <property name="geometry">
          <rect>
           <x>188</x>
-          <y>300</y>
+          <y>290</y>
           <width>421</width>
-          <height>31</height>
+          <height>41</height>
          </rect>
         </property>
         <property name="text">
@@ -1691,8 +1662,8 @@
        <widget class="QPushButton" name="pbOpenBinFolder">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>170</y>
+          <x>622</x>
+          <y>130</y>
           <width>31</width>
           <height>33</height>
          </rect>
@@ -1704,8 +1675,8 @@
        <widget class="QLineEdit" name="lineEditConfigureTextEncoding">
         <property name="geometry">
          <rect>
-          <x>188</x>
-          <y>130</y>
+          <x>190</x>
+          <y>90</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1714,8 +1685,8 @@
        <widget class="QLabel" name="labelConfigureTextEncoding">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>130</y>
+          <x>12</x>
+          <y>90</y>
           <width>171</width>
           <height>31</height>
          </rect>
@@ -1734,9 +1705,9 @@
         <property name="geometry">
          <rect>
           <x>188</x>
-          <y>260</y>
+          <y>230</y>
           <width>421</width>
-          <height>31</height>
+          <height>41</height>
          </rect>
         </property>
         <property name="text">
@@ -2476,7 +2447,6 @@ Exampe 2: ${gateway}:8080</string>
   <tabstop>pbLibraryQuit</tabstop>
   <tabstop>pbConfigureQuit</tabstop>
   <tabstop>cbConfigureLanguage</tabstop>
-  <tabstop>lineEditConfigureScaleFactor</tabstop>
   <tabstop>lineEditConfigureDownloadPath</tabstop>
   <tabstop>pbConfigureDownloadPath</tabstop>
   <tabstop>pbConfigureDownload</tabstop>

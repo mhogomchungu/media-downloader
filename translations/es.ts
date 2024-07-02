@@ -188,10 +188,6 @@
         <translation>Establecer Predeterminados</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Factor de Escala (Necesita Reiniciar)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>Opciones Predeterminadas</translation>
     </message>

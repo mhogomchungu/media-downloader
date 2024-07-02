@@ -188,10 +188,6 @@
         <translation>Définir par défaut</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Facteur d&apos;échelle (nécessite Restart)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>Options de préselection</translation>
     </message>

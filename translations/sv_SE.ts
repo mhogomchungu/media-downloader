@@ -188,10 +188,6 @@
         <translation>Ställ in standard</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Skalfaktor (kräver omstart)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>Förinställda alternativ</translation>
     </message>

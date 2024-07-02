@@ -188,10 +188,6 @@
         <translation>Standardeinstellungen festlegen</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Skalierungsfaktor (Neustart erforderlich)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>Voreingestellte Optionen</translation>
     </message>

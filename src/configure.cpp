@@ -54,8 +54,6 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
 
-	m_ui.lineEditConfigureScaleFactor->setEnabled( m_settings.enabledHighDpiScaling() ) ;
-
 	m_ui.tabWidgetConfigure->setCurrentIndex( 0 ) ;
 
 	auto themesFolderPath = m_engines.engineDirPaths().themePath() ;
@@ -612,8 +610,6 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
-	m_ui.lineEditConfigureScaleFactor->setText( m_settings.highDpiScalingFactor() ) ;
-
 	m_ui.lineEditConfigureDownloadPath->setText( m_settings.downloadFolder() ) ;
 
 	m_ui.cbAutoHideDownloadCompleted->setChecked( m_settings.autoHideDownloadWhenCompleted() ) ;
@@ -893,7 +889,6 @@ void configure::saveOptions()
 	m_ctx.TabManager().batchDownloader().setShowMetaData( m ) ;
 
 	m_settings.setShowMetaDataInBatchDownloader( m ) ;
-	m_settings.setHighDpiScalingFactor( m_ui.lineEditConfigureScaleFactor->text() ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
 	m_settings.setTextEncoding( m_ui.lineEditConfigureTextEncoding->text() ) ;
@@ -1148,7 +1143,6 @@ void configure::enableAll()
 	m_ui.lineEditConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( true ) ;
-	m_ui.labelConfigureScaleFactor->setEnabled( true ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( true ) ;
 	m_ui.pbConfigureQuit->setEnabled( true ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( true ) ;
@@ -1161,11 +1155,6 @@ void configure::enableAll()
 	m_ui.cbAutoHideDownloadCompleted->setEnabled( true ) ;
 	m_ui.labelActionsAtStartup->setEnabled( true ) ;
 	m_ui.comboBoxActionsWhenStarting->setEnabled( true ) ;
-
-	if( m_settings.enabledHighDpiScaling() ){
-
-		m_ui.lineEditConfigureScaleFactor->setEnabled( true ) ;
-	}
 }
 
 void configure::textAlignmentChanged( Qt::LayoutDirection z )
@@ -1182,12 +1171,11 @@ void configure::textAlignmentChanged( Qt::LayoutDirection z )
 	auto j = m_ui.labelConfigureTheme ;
 	auto k = m_ui.labelMaximumConcurrentDownloads ;
 	auto l = m_ui.labelConfigureLanguage ;
-	auto m = m_ui.labelConfigureScaleFactor ;
-	auto n = m_ui.labelConfigureDownloadPath ;
-	auto o = m_ui.labelConfugureWebSite ;
-	auto p = m_ui.labelActionsAtStartup ;
+	auto m = m_ui.labelConfigureDownloadPath ;
+	auto n = m_ui.labelConfugureWebSite ;
+	auto o = m_ui.labelActionsAtStartup ;
 
-	utility::alignText( z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p ) ;
+	utility::alignText( z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o ) ;
 }
 
 void configure::disableAll()
@@ -1242,12 +1230,10 @@ void configure::disableAll()
 	m_ui.cbConfigureLanguage->setEnabled( false ) ;
 	m_ui.labelConfigureLanguage->setEnabled( false ) ;
 	m_ui.pbConfigureQuit->setEnabled( false ) ;
-	m_ui.lineEditConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.lineEditConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.pbConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.pbConfigureSetPresetDefaults->setEnabled( false ) ;
-	m_ui.labelConfigureScaleFactor->setEnabled( false ) ;
 	m_ui.labelConfigureDownloadPath->setEnabled( false ) ;
 	m_ui.cbConfigureShowMetaDataInBatchDownloader->setEnabled( false ) ;
 	m_ui.lineEditConfigureWebsite->setEnabled( false ) ;

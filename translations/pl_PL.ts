@@ -188,10 +188,6 @@
         <translation>Ustaw domyślne</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Skala interfejsu aplikacji (wymaga restartu)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>Ustawienia formatów</translation>
     </message>

@@ -172,10 +172,6 @@
         <translation>デフォルトに戻す</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>表示倍率 (再起動が必要)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>プリセット設定</translation>
     </message>

@@ -188,10 +188,6 @@
         <translation>设置为默认值</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>窗口缩放比例(需要重启)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>预设画质选项</translation>
     </message>

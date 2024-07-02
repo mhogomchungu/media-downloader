@@ -188,10 +188,6 @@
         <translation>Definir Padrões</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Fator De Escala(Precisa reiniciar)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>Opções Predefinidas</translation>
     </message>

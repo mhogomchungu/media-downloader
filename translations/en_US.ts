@@ -188,10 +188,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation type="unfinished"></translation>
     </message>

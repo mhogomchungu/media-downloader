@@ -188,10 +188,6 @@
         <translation>Сброс</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Коэффициент масштабирования (требуется перезагрузка)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>Пресеты параметров</translation>
     </message>

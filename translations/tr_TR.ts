@@ -188,10 +188,6 @@
         <translation>Varsayılanları Ayarla</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Ölçek Faktörü (Yeniden Başlatılması Gerekiyor)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>Ön Ayar Seçenekleri</translation>
     </message>

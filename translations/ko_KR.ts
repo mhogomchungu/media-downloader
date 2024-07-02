@@ -188,10 +188,6 @@
         <translation>기본값 설정</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>스케일 팩터(재시작 필요)</translation>
-    </message>
-    <message>
         <source>Preset Options</source>
         <translation>사전 설정 옵션</translation>
     </message>
@@ -812,27 +808,27 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Method</source>
-        <translation type="vanished">방법</translation>
+        <translation>방법</translation>
     </message>
     <message>
         <source>Time Left</source>
-        <translation type="vanished">남은 시간</translation>
+        <translation>남은 시간</translation>
     </message>
     <message>
         <source>Downloaded</source>
-        <translation type="vanished">다운로드됨</translation>
+        <translation>다운로드됨</translation>
     </message>
     <message>
         <source>%1 Already Downloaded</source>
-        <translation type="vanished">이미 %1 은 다운로드 되었습니다</translation>
+        <translation>이미 %1 은 다운로드 되었습니다</translation>
     </message>
     <message>
         <source>This May Take A Very Long Time</source>
-        <translation type="vanished">시간이 매우 오래 걸릴 수 있습니다.</translation>
+        <translation>시간이 매우 오래 걸릴 수 있습니다.</translation>
     </message>
     <message>
         <source>Speed:</source>
-        <translation type="vanished">속도:</translation>
+        <translation>속도:</translation>
     </message>
     <message>
         <source>There Is An Update For %1</source>
@@ -864,7 +860,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation type="vanished">&quot;%1&quot;을(를) 최소한 &quot;%2&quot; 버전으로 업데이트하십시오.</translation>
+        <translation>&quot;%1&quot;을(를) 최소한 &quot;%2&quot; 버전으로 업데이트하십시오.</translation>
     </message>
     <message>
         <source>Requested Format Is Not Available</source>

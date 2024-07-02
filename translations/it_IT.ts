@@ -212,10 +212,6 @@
         <translation>Imposta quale URL deve essere gestita da quale motore</translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Fattore di scala (richiede riavvio)</translation>
-    </message>
-    <message>
         <source>Paste Clipboard Url</source>
         <translation>Inolla URL dagli Appunti</translation>
     </message>

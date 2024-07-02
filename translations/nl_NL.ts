@@ -236,10 +236,6 @@
         <translation></translation>
     </message>
     <message>
-        <source>Scale Factor(Need A Restart)</source>
-        <translation>Schaalfactor (herstart nodig)</translation>
-    </message>
-    <message>
         <source>Show Tray Icon</source>
         <translation>Toon systeemvakpictogram</translation>
     </message>
