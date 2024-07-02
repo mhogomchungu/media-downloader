@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ko_KR">
+<TS version="2.1" language="ko">
 <context>
     <name>MainWindow</name>
     <message>
@@ -301,57 +301,59 @@
     </message>
     <message>
         <source>File Size</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 크기</translation>
     </message>
     <message>
         <source>Enable Library Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>라이브러리 탭 활성화</translation>
     </message>
     <message>
         <source>Show Version Info And Autodownload Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>버전 정보 표시 및 업데이트 자동 다운로드</translation>
     </message>
     <message>
         <source>Show Version Info And Latest Version Info</source>
-        <translation type="unfinished"></translation>
+        <translation>버전 정보 및 최신 버전 정보 표시</translation>
     </message>
     <message>
         <source>Show Version Info Only</source>
-        <translation type="unfinished"></translation>
+        <translation>버전 정보만 표시</translation>
     </message>
     <message>
         <source>Do Nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>아무것도 하지 않음</translation>
     </message>
     <message>
         <source>Actions At Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>시작 시 작업</translation>
     </message>
     <message>
         <source>Proxy Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>프록시 설정</translation>
     </message>
     <message>
         <source>Use System Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템 프록시 구성 사용</translation>
     </message>
     <message>
         <source>Use Manually Specified Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>수동으로 지정한 프록시 구성 사용</translation>
     </message>
     <message>
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
-        <translation type="unfinished"></translation>
+        <translation>수동으로 지정한 프록시 구성
+예 1: 192.168.93.89:8080
+예 2: ${게이트웨이}:8080</translation>
     </message>
     <message>
         <source>Get Proxy Configuration From The Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>환경설정에서 프록시 구성 가져오기</translation>
     </message>
     <message>
         <source>No Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>프록시 없음</translation>
     </message>
 </context>
 <context>
@@ -362,31 +364,31 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation>확장자가 &quot;.txt&quot;인 파일 이름은 URL만 저장합니다.</translation>
+        <translation>확장자가 &quot;.txt&quot;인 파일은 URL만 저장합니다.</translation>
     </message>
     <message>
         <source>Hide Row</source>
-        <translation type="unfinished"></translation>
+        <translation>행 숨기기</translation>
     </message>
     <message>
         <source>Unhide All Hidden Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 숨겨진 행 숨기기 해제</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation type="unfinished"></translation>
+        <translation>URL 복사</translation>
     </message>
     <message>
         <source>Open Url With %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 로 URL 열기</translation>
     </message>
     <message>
         <source>Copy Url %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 URL 복사</translation>
     </message>
     <message>
         <source>Open Url %1 With %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%2 로 URL %1 열기</translation>
     </message>
     <message>
         <source>Save List To File</source>
@@ -394,11 +396,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Author: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>작성자: %1</translation>
     </message>
     <message>
         <source>Like Count: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>좋아요 카운트: %1</translation>
     </message>
     <message>
         <source>Date</source>
@@ -438,7 +440,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Project Page</source>
-        <translation type="unfinished"></translation>
+        <translation>프로젝트 페이지</translation>
     </message>
     <message>
         <source>Copyright</source>
@@ -474,7 +476,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Arabic</source>
-        <translation type="unfinished"></translation>
+        <translation>아랍어</translation>
     </message>
     <message>
         <source>Korean (Korea)</source>
@@ -518,7 +520,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Portuguese (Brazil)</source>
-        <translation type="unfinished"></translation>
+        <translation>포르투갈어(브라질)</translation>
     </message>
     <message>
         <source>Dutch (Netherlands)</source>
@@ -546,39 +548,39 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>3. 3. &apos;시작 시 작업&apos; 메뉴를 클릭합니다.</translation>
     </message>
     <message>
         <source>4. Select &quot;Do Nothing&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>4. &quot;아무것도 하지 않음&quot;을 선택합니다.</translation>
     </message>
     <message>
         <source>Running In Portable Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>휴대용 모드에서 실행</translation>
     </message>
     <message>
         <source>Running In Installation Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>설치 모드에서 실행</translation>
     </message>
     <message>
         <source>Download Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>다운로드 경로: %1</translation>
     </message>
     <message>
         <source>App Data Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>앱 데이터 경로: %1</translation>
     </message>
     <message>
         <source>Setting Proxy Server Address Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 의 프록시 서버 주소 설정</translation>
     </message>
     <message>
         <source>Unsetting Proxy Server Address</source>
-        <translation type="unfinished"></translation>
+        <translation>프록시 서버 주소 설정 해제</translation>
     </message>
     <message>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
-        <translation>오류, 구성 파일 &quot;%1&quot;을(를) 구문 분석하지 못했습니다.</translation>
+        <translation>오류, 구성 파일 &quot;%1&quot;을 구문 분석하지 못했습니다.</translation>
     </message>
     <message>
         <source>Failed To Load A Plugin</source>
@@ -586,7 +588,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed to find executable &quot;%1&quot;</source>
-        <translation>실행 파일 &quot;%1&quot;을(를) 찾지 못했습니다.</translation>
+        <translation>실행 파일 &quot;%1&quot;을 찾지 못했습니다.</translation>
     </message>
     <message>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
@@ -610,7 +612,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Download Failed, Engine failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation>다운로드 실패, 엔진 시작 실패</translation>
     </message>
     <message>
         <source>Download Failed, Engine crashed</source>
@@ -630,7 +632,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>크기</translation>
     </message>
     <message>
         <source>Note</source>
@@ -658,7 +660,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed To Open Path For Writing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>쓰기 경로를 열지 못했습니다: %1</translation>
     </message>
     <message>
         <source>Failed To Extract</source>
@@ -666,7 +668,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Network Failed To Respond Within %1 seconds</source>
-        <translation>네트워크가 %1초 이내에 응답하지 못했습니다.</translation>
+        <translation>네트워크가 %1 초 이내에 응답하지 못했습니다.</translation>
     </message>
     <message>
         <source>Failed to download, Following path can not be created: </source>
@@ -678,7 +680,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>문제 발생, 폴더를 삭제하지 못함: %1</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
@@ -710,7 +712,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Windows&apos; Secure Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows의 보안 채널</translation>
     </message>
     <message>
         <source>File Not Found</source>
@@ -742,7 +744,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed To Start Executable %1</source>
-        <translation type="unfinished"></translation>
+        <translation>실행 파일 %1 을 시작하지 못했습니다.</translation>
     </message>
     <message>
         <source>Post Processing</source>
@@ -810,35 +812,35 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Method</source>
-        <translation>방법</translation>
+        <translation type="vanished">방법</translation>
     </message>
     <message>
         <source>Time Left</source>
-        <translation>남은 시간</translation>
+        <translation type="vanished">남은 시간</translation>
     </message>
     <message>
         <source>Downloaded</source>
-        <translation>다운로드됨</translation>
+        <translation type="vanished">다운로드됨</translation>
     </message>
     <message>
         <source>%1 Already Downloaded</source>
-        <translation>이미 %1 은 다운로드 되었습니다</translation>
+        <translation type="vanished">이미 %1 은 다운로드 되었습니다</translation>
     </message>
     <message>
         <source>This May Take A Very Long Time</source>
-        <translation>시간이 매우 오래 걸릴 수 있습니다.</translation>
+        <translation type="vanished">시간이 매우 오래 걸릴 수 있습니다.</translation>
     </message>
     <message>
         <source>Speed:</source>
-        <translation>속도:</translation>
+        <translation type="vanished">속도:</translation>
     </message>
     <message>
         <source>There Is An Update For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 에 대한 업데이트가 있습니다.</translation>
     </message>
     <message>
         <source>Autoupdate Disabled For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 에 대해 자동 업데이트 사용 안 함</translation>
     </message>
     <message>
         <source>Newest Version Is %1, Updating</source>
@@ -846,11 +848,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>최신 버전은 %1, 자동 업데이트 사용 안 함</translation>
     </message>
     <message>
         <source>Newest Version Is: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>최신 버전: %1</translation>
     </message>
     <message>
         <source>Checking installed version of %1</source>
@@ -862,7 +864,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation>&quot;%1&quot;을(를) 최소한 &quot;%2&quot; 버전으로 업데이트하십시오.</translation>
+        <translation type="vanished">&quot;%1&quot;을(를) 최소한 &quot;%2&quot; 버전으로 업데이트하십시오.</translation>
     </message>
     <message>
         <source>Requested Format Is Not Available</source>
@@ -874,11 +876,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Extract Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 추출</translation>
     </message>
     <message>
         <source>Extract Audio As MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오를 MP3로 추출</translation>
     </message>
     <message>
         <source>Best Available Audio Only</source>
@@ -898,47 +900,47 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Best Available Audio Only+Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>최상의 오디오 전용+썸네일</translation>
     </message>
     <message>
         <source>Other Websites</source>
-        <translation type="unfinished"></translation>
+        <translation>기타 웹사이트</translation>
     </message>
     <message>
         <source>Youtube</source>
-        <translation type="unfinished"></translation>
+        <translation>유튜브</translation>
     </message>
     <message>
         <source>Show Folders First</source>
-        <translation type="unfinished"></translation>
+        <translation>폴더 먼저 표시</translation>
     </message>
     <message>
         <source>Arrange In Ascending Order</source>
-        <translation type="unfinished"></translation>
+        <translation>오름차순으로 정렬</translation>
     </message>
     <message>
         <source>Arrange By Date</source>
-        <translation type="unfinished"></translation>
+        <translation>날짜별로 정렬</translation>
     </message>
     <message>
         <source>Arrange By Name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름별로 정렬</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>필터</translation>
     </message>
     <message>
         <source>No Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>필터 없음</translation>
     </message>
     <message>
         <source>Arrange In Descending Order</source>
-        <translation type="unfinished"></translation>
+        <translation>내림차순으로 정렬</translation>
     </message>
     <message>
         <source>Warning: Skipping Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>경고: 클립보드 콘텐츠 건너뛰기</translation>
     </message>
 </context>
 <context>
@@ -993,15 +995,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sort By Date Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>날짜 오름차순으로 정렬</translation>
     </message>
     <message>
         <source>Sort By Date Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>날짜 내림차순으로 정렬</translation>
     </message>
     <message>
         <source>Sort By Likes</source>
-        <translation type="unfinished"></translation>
+        <translation>좋아요 기준 정렬</translation>
     </message>
     <message>
         <source>Set</source>
@@ -1028,7 +1030,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>편집</translation>
     </message>
     <message>
         <source>Select A Cookie File</source>
