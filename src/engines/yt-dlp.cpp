@@ -1062,7 +1062,7 @@ public:
 	{
 		std::vector< engines::engine::baseEngine::mediaInfo > m ;
 
-		std::sort( m_medias.begin(),m_medias.end(),std::less<int> ) ;
+		std::sort( m_medias.begin(),m_medias.end(),std::less<int>() ) ;
 
 		for( auto& it : m_medias ){
 
