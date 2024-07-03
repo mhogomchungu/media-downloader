@@ -284,7 +284,7 @@ Version 1.2.0(April 1st, 2021)
     - Add Arabic translations.
     - Add support for MacOS.
 
-     Version 4.8.0(Unreleased)
+     Version 4.8.0(July 3rd, 2024)
          [All]
     - Add Korean translations.
     - Fix a bug that prevented you-get from getting auto updated caused by upstream change.
