@@ -1092,16 +1092,16 @@ private:
 		auto acodec    = obj.value( "acodec" ).toString() ;
 		auto fmtNotes  = obj.value( "format_note" ).toString() ;
 
-		ytDlpMediainfo::mediaType mt = ytDlpMediainfo::mediaType::unknown ;
+		QStringList s ;
 
-		QString s ;
+		QString ss ;
 
 		if( container.isEmpty() ){
 
-			s = QString( "Proto: %1\n" ).arg( proto ) ;
+			ss = QString( "Proto: %1\n" ).arg( proto ) ;
 		}else{
 			auto m = QString( "Proto: %1%2\ncontainer: %2\n" ) ;
-			s = m.arg( proto,container ) ;
+			ss = m.arg( proto,container ) ;
 		}
 
 		this->append( s,"acodec: ",acodec,false ) ;
@@ -1116,6 +1116,8 @@ private:
 
 			this->append( s,"asr: ",asr + "Hz",false ) ;
 		}
+
+		ytDlpMediainfo::mediaType mt = ytDlpMediainfo::mediaType::unknown ;
 
 		if( ext == "mhtml" ){
 
@@ -1135,7 +1137,7 @@ private:
 
 			}else if( hasVideo && !hasAudio ){
 
-				if( !rsn.contains( "nvideo only" ) ){
+				if( !rsn.contains( "video only" ) ){
 
 					rsn += "\nvideo only" ;
 				}
@@ -1162,37 +1164,30 @@ private:
 			rsn += "\n" + fmtNotes ;
 		}
 
-		if( s.endsWith( ", " ) ){
-
-			s.truncate( s.size() - 2 ) ;
-		}
-
 		QStringList arr{ url } ;
 
 		auto size = _fileSize( m_locale,obj ) ;
 		auto sizeRaw = _fileSizeRaw( obj ) ;
 
-		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,s ) ;
+		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,ss + s.join( ", " ) ) ;
 	}
-	void append( QString& s,const char * str,const QString& sstr,bool formatBitrate )
+	void append( QStringList& s,const char * str,const QString& sstr,bool formatBitrate )
 	{
-		if( sstr == "none" || sstr.isEmpty() ){
+		if( sstr != "none" && !sstr.isEmpty() ){
 
-			return ;
-		}
+			if( formatBitrate ){
 
-		if( formatBitrate ){
+				auto m = sstr.indexOf( '.' ) ;
 
-			auto m = sstr.indexOf( '.' ) ;
+				if( m == -1 ){
 
-			if( m == -1 ){
-
-				s += str + sstr + "k, " ;
+					s.append( str + sstr + "k" ) ;
+				}else{
+					s.append( str + sstr.mid( 0,m ) + "k" ) ;
+				}
 			}else{
-				s += str + sstr.mid( 0,m ) + "k, " ;
+				s.append( str + sstr ) ;
 			}
-		}else{
-			s += str + sstr + ", " ;
 		}
 	}
 
