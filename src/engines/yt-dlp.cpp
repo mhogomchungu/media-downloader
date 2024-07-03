@@ -986,7 +986,8 @@ engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput()
 	return { util::types::type_identity< ytDlpFilter >(),m_engine } ;
 }
 
-std::vector< engines::engine::baseEngine::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
+std::vector< engines::engine::baseEngine::mediaInfo >
+yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
 {
 	const auto& name = m_engine.name() ;
 
@@ -1047,28 +1048,134 @@ static QString _fileSize( Logger::locale& s,QJsonObject e )
 	}
 }
 
-std::vector< engines::engine::baseEngine::mediaInfo > yt_dlp::mediaProperties( Logger& l,const QJsonArray& array )
+class ytDlpMediainfo
 {
-	if( array.isEmpty() ){
+public:
+	ytDlpMediainfo( const QJsonArray& array )
+	{
+		for( const auto& it : array ){
 
-		return {} ;
+			this->add( it.toObject() ) ;
+		}
 	}
+	std::vector< engines::engine::baseEngine::mediaInfo > sort()
+	{
+		std::vector< engines::engine::baseEngine::mediaInfo > m ;
 
-	if( m_engine.name() == "youtube-dl" ){
+		std::sort( m_medias.begin(),m_medias.end() ) ;
 
-		return engines::engine::baseEngine::mediaProperties( l,array ) ;
+		for( auto& it : m_medias ){
+
+			m.emplace_back( it.mInfo() ) ;
+		}
+
+		return m ;
 	}
+private:
+	enum class mediaType:int{ mhtml,videoOnly,audioOnly,audioVideo,unknown } ;
 
-	std::vector< engines::engine::baseEngine::mediaInfo > firstToShow ;
-	std::vector< engines::engine::baseEngine::mediaInfo > secondToShow ;
-	std::vector< engines::engine::baseEngine::mediaInfo > thirdtToShow ;
+	void add( const QJsonObject& obj )
+	{
+		auto url       = obj.value( "url" ).toString() ;
+		auto id        = obj.value( "format_id" ).toString() ;
+		auto ext       = obj.value( "ext" ).toString() ;
+		auto rsn       = obj.value( "resolution" ).toString() ;
 
-	Logger::locale locale ;
+		auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
+		auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
+		auto abr       = QString::number( obj.value( "abr" ).toDouble() ) ;
+		auto asr       = QString::number( obj.value( "asr" ).toInt() ) ;
 
-	enum class mediaType{ audioOnly,videoOnly,audioVideo,unknown } ;
+		auto container = obj.value( "container" ).toString() ;
+		auto proto     = obj.value( "protocol" ).toString() ;
+		auto vcodec    = obj.value( "vcodec" ).toString() ;
+		auto acodec    = obj.value( "acodec" ).toString() ;
+		auto fmtNotes  = obj.value( "format_note" ).toString() ;
 
-	auto _append = [ & ]( QString& s,const char * str,const QString& sstr,bool formatBitrate ){
+		ytDlpMediainfo::mediaType mt = ytDlpMediainfo::mediaType::unknown ;
 
+		QString s ;
+
+		if( container.isEmpty() ){
+
+			s = QString( "Proto: %1\n" ).arg( proto ) ;
+		}else{
+			auto m = QString( "Proto: %1%2\ncontainer: %2\n" ) ;
+			s = m.arg( proto,container ) ;
+		}
+
+		this->append( s,"acodec: ",acodec,false ) ;
+		this->append( s,"vcodec: ",vcodec,false ) ;
+
+		if( tbr != "0" ){
+
+			this->append( s,"tbr: ",tbr,true ) ;
+		}
+
+		if( asr != "0" ){
+
+			this->append( s,"asr: ",asr + "Hz",false ) ;
+		}
+
+		if( ext == "mhtml" ){
+
+			mt = ytDlpMediainfo::mediaType::mhtml ;
+		}else{
+			bool hasVideo = vcodec != "none" ;
+			bool hasAudio = acodec != "none" ;
+
+			if( hasVideo && hasAudio ){
+
+				rsn += "\naudio video" ;
+
+				this->append( s,"vbr: ",vbr,true ) ;
+				this->append( s,"abr: ",abr,true ) ;
+
+				mt = ytDlpMediainfo::mediaType::audioVideo ;
+
+			}else if( hasVideo && !hasAudio ){
+
+				if( !rsn.contains( "nvideo only" ) ){
+
+					rsn += "\nvideo only" ;
+				}
+
+				this->append( s,"vbr: ",vbr,true ) ;
+
+				mt = ytDlpMediainfo::mediaType::videoOnly ;
+
+			}else if( !hasVideo && hasAudio ){
+
+				if( !rsn.contains( "audio only" ) ){
+
+					rsn += "\naudio only" ;
+				}
+
+				this->append( s,"abr: ",abr,true ) ;
+
+				mt = ytDlpMediainfo::mediaType::audioOnly ;
+			}
+		}
+
+		if( !fmtNotes.isEmpty() ){
+
+			rsn += "\n" + fmtNotes ;
+		}
+
+		if( s.endsWith( ", " ) ){
+
+			s.truncate( s.size() - 2 ) ;
+		}
+
+		QStringList arr{ url } ;
+
+		auto size = _fileSize( m_locale,obj ) ;
+		auto sizeRaw = _fileSizeRaw( obj ) ;
+
+		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,s ) ;
+	}
+	void append( QString& s,const char * str,const QString& sstr,bool formatBitrate )
+	{
 		if( sstr == "none" || sstr.isEmpty() ){
 
 			return ;
@@ -1087,136 +1194,47 @@ std::vector< engines::engine::baseEngine::mediaInfo > yt_dlp::mediaProperties( L
 		}else{
 			s += str + sstr + ", " ;
 		}
-	} ;
-
-	for( const auto& it : array ){
-
-		auto obj       = it.toObject() ;
-
-		auto url       = obj.value( "url" ).toString() ;
-		auto id        = obj.value( "format_id" ).toString() ;
-		auto ext       = obj.value( "ext" ).toString() ;
-		auto rsn       = obj.value( "resolution" ).toString() ;
-
-		auto tbr       = QString::number( obj.value( "tbr" ).toDouble() ) ;
-		auto vbr       = QString::number( obj.value( "vbr" ).toDouble() ) ;
-		auto abr       = QString::number( obj.value( "abr" ).toDouble() ) ;
-		auto asr       = QString::number( obj.value( "asr" ).toInt() ) ;
-
-		auto container = obj.value( "container" ).toString() ;
-		auto proto     = obj.value( "protocol" ).toString() ;
-		auto vcodec    = obj.value( "vcodec" ).toString() ;
-		//auto video_ext = obj.value( "video_ext" ).toString() ;
-		auto acodec    = obj.value( "acodec" ).toString() ;
-		//auto audio_ext = obj.value( "audio_ext" ).toString() ;
-		auto fmtNotes  = obj.value( "format_note" ).toString() ;
-
-		mediaType mt = mediaType::unknown ;
-
-		if( rsn.isEmpty() ){
-
-			rsn = fmtNotes ;
-		}else{
-			if( rsn == "audio only" ){
-
-				mt = mediaType::audioOnly ;
-			}else{
-				bool hasVideo = vcodec != "none" ;
-				bool hasAudio = acodec != "none" ;
-
-				if( hasVideo && hasAudio ){
-
-					rsn += "\naudio video" ;
-
-					mt = mediaType::audioVideo ;
-
-				}else if( hasVideo && !hasAudio ){
-
-					rsn += "\nvideo only" ;
-
-					mt = mediaType::videoOnly ;
-
-				}else if( !hasVideo && hasAudio ){
-
-					rsn += "\naudio only" ;
-
-					mt = mediaType::audioOnly ;
-				}
-			}
-
-			rsn += "\n" + fmtNotes ;
-		}
-
-		QString s ;
-
-		if( container.isEmpty() ){
-
-			s = QString( "Proto: %1\n" ).arg( proto ) ;
-		}else{
-			auto m = QString( "Proto: %1%2\ncontainer: %2\n" ) ;
-			s = m.arg( proto,container ) ;
-		}
-
-		_append( s,"acodec: ",acodec,false ) ;
-		_append( s,"vcodec: ",vcodec,false ) ;
-
-		if( tbr != "0" ){
-
-			_append( s,"tbr: ",tbr,true ) ;
-		}
-
-		if( asr != "0" ){
-
-			_append( s,"asr: ",asr + "Hz",false ) ;
-		}
-
-		if( mt == mediaType::audioVideo ){
-
-			_append( s,"vbr: ",vbr,true ) ;
-			_append( s,"abr: ",abr,true ) ;
-
-		}else if( mt == mediaType::audioOnly ){
-
-			_append( s,"abr: ",abr,true ) ;
-
-		}else if( mt == mediaType::videoOnly ){
-
-			_append( s,"vbr: ",vbr,true ) ;
-		}
-
-		if( s.endsWith( ", " ) ){
-
-			s.truncate( s.size() - 2 ) ;
-		}
-
-		QStringList arr{ url } ;
-
-		auto size = _fileSize( locale,obj ) ;
-		auto sizeRaw = _fileSizeRaw( obj ) ;
-
-		if( ext == "mhtml" ){
-
-			firstToShow.emplace_back( arr,id,ext,rsn,size,sizeRaw,s ) ;
-
-		}else if( rsn != "audio only" && !rsn.contains( "video only" ) ){
-
-			thirdtToShow.emplace_back( arr,id,ext,rsn,size,sizeRaw,s ) ;
-		}else{
-			secondToShow.emplace_back( arr,id,ext,rsn,size,sizeRaw,s ) ;
-		}
 	}
 
-	for( auto& it : secondToShow ){
+	class str
+	{
+	public:
+		template< typename ... T >
+		str( ytDlpMediainfo::mediaType e,T&& ... t ) :
+			m_media( std::forward< T >( t ) ... ),m_type( e )
+		{
+		}
+		operator int()
+		{
+			return static_cast< int >( m_type ) ;
+		}
+		engines::engine::baseEngine::mediaInfo mInfo()
+		{
+			return std::move( m_media ) ;
+		}
+	private:
+		engines::engine::baseEngine::mediaInfo m_media ;
+		mediaType m_type ;
+	};
 
-		firstToShow.emplace_back( std::move( it ) ) ;
+	std::vector< str > m_medias ;
+	Logger::locale m_locale ;
+};
+
+std::vector< engines::engine::baseEngine::mediaInfo >
+yt_dlp::mediaProperties( Logger& l,const QJsonArray& array )
+{
+	if( array.isEmpty() ){
+
+		return {} ;
 	}
 
-	for( auto& it : thirdtToShow ){
+	if( m_engine.name() == "youtube-dl" ){
 
-		firstToShow.emplace_back( std::move( it ) ) ;
+		return engines::engine::baseEngine::mediaProperties( l,array ) ;
 	}
 
-	return firstToShow ;
+	return ytDlpMediainfo( array ).sort() ;
 }
 
 bool yt_dlp::breakShowListIfContains( const QStringList& e )
