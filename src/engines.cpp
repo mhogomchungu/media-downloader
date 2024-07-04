@@ -398,7 +398,7 @@ void engines::updateEngines( bool addAll,int id )
 
 		const auto& name = it.name() ;
 
-		if( it.likeYoutubeDl() ){
+		if( it.likeYtDlp() ){
 
 			const auto& m = m_settings.downloadFolder() ;
 
@@ -828,11 +828,11 @@ engines::engine::engine( Logger& logger,
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
 	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool( true ) ),
-	m_likeYoutubeDl( m_jsonObject.value( "LikeYoutubeDl" ).toBool() ),
 	m_mainEngine( true ),
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
+	m_likeYtDlp( m_name == "yt-dlp" || m_name == "ytdl-patched" ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
@@ -1511,11 +1511,6 @@ void engines::engine::baseEngine::updateEnginePaths( const Context&,QString&,QSt
 {
 }
 
-bool engines::engine::baseEngine::likeYtdlp()
-{
-	return false ;
-}
-
 void engines::engine::baseEngine::updateLocalOptions( QStringList& )
 {
 }
@@ -1746,7 +1741,7 @@ private:
 	}
 	bool validJson( bool humanReadable,const QByteArray& data )
 	{
-		if( m_engine.likeYoutubeDl() && humanReadable ){
+		if( m_engine.likeYtDlp() && humanReadable ){
 
 			if( data.startsWith( '[' ) || data.startsWith( '{' ) ){
 

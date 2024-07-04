@@ -33,14 +33,14 @@ public:
 
 	~yt_dlp() override ;
 
-	class youtube_dlFilter : public engines::engine::baseEngine::filter
+	class yt_dlplFilter : public engines::engine::baseEngine::filter
 	{
 	public:
-		youtube_dlFilter( int processId,const engines::engine&,yt_dlp& ) ;
+		yt_dlplFilter( int processId,const engines::engine&,yt_dlp& ) ;
 
 		const QByteArray& operator()( Logger::Data& e ) override ;
 
-		~youtube_dlFilter() override ;
+		~yt_dlplFilter() override ;
 	private:
 		QByteArray fileName() ;
 
@@ -64,13 +64,9 @@ public:
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
 
-	bool breakShowListIfContains( const QStringList& ) override ;
-
 	bool supportsShowingComments() override ;
 
 	bool updateVersionInfo() override ;
-
-	bool likeYtdlp() override ;
 
 	void updateLocalOptions( QStringList& ) override ;
 
@@ -109,7 +105,6 @@ private:
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
 	const util::version& m_version ;
-	bool m_likeYtdlp ;
 	bool m_deleteFilesOnCancel ;
 	QString m_downloadFolder ;
 };

@@ -390,11 +390,7 @@ void batchdownloader::showCustomContext()
 
 	auto function = [ this ]( const utility::contextState& c ){
 
-		if( c.showRowLogWindow() ){
-
-			m_ctx.logger().showDebugLogWindow() ;
-
-		}else if( c.showLogWindow() ){
+		if( c.showLogWindow() ){
 
 			m_ctx.logger().showLogWindow() ;
 
@@ -763,7 +759,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		this->download( engine,list.move() ) ;
 
-	}else if( m_showMetaData && engine.likeYoutubeDl() ){
+	}else if( m_showMetaData && engine.likeYtDlp() ){
 
 		for( const auto& it : list ){
 
@@ -2526,8 +2522,6 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		}
 		void printOutPut( const QByteArray& e )
 		{
-			m_parent.m_ctx.logger().addRawData( m_index,e ) ;
-
 			m_parent.m_ctx.debug( m_index,e ) ;
 		}
 		QString downloadFolder()

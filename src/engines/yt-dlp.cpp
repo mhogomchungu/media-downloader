@@ -210,6 +210,25 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
+static void _arr_imp( QJsonArray& )
+{
+}
+
+template< typename First,typename ... Rest >
+static void _arr_imp( QJsonArray& arr,const First& f,Rest&& ... rest )
+{
+	arr.append( f ) ;
+	_arr_imp( arr,std::forward< Rest >( rest ) ... ) ;
+}
+
+template< typename ... Args >
+static QJsonArray _arr( Args&& ... args )
+{
+	QJsonArray arr ;
+	_arr_imp( arr,std::forward< Args >( args ) ... ) ;
+	return arr ;
+}
+
 QJsonObject yt_dlp::init( const QString& name,
 			  const QString& configFileName,
 			  Logger& logger,
@@ -217,205 +236,85 @@ QJsonObject yt_dlp::init( const QString& name,
 {
 	auto m = enginePath.enginePath( configFileName ) ;
 
-	if( !QFile::exists( m ) ){
+	if( QFile::exists( m ) ){
 
-		QJsonObject mainObj ;
-
-		if( name == "youtube-dl" ){
-
-			mainObj.insert( "ShowListTableBoundary",[](){
-
-				QJsonObject obj ;
-
-				obj.insert( "ColumnNumber","0" ) ;
-				obj.insert( "Comparator","equals" ) ;
-				obj.insert( "String","format" ) ;
-
-				return obj ;
-			}() ) ;
-
-			utility::addJsonCmd json( mainObj ) ;
-
-			auto macos = _OSXBinaryName() ;
-
-			json.add( { { "Generic" },{ { "x86","youtube-dl",{ "youtube-dl" } },
-						    { "amd64","youtube-dl",{ "youtube-dl" } } } } ) ;
-
-			json.add( { { "Windows" },{ { "x86","youtube-dl.exe",{ "youtube-dl.exe" } },
-						    { "amd64","youtube-dl.exe",{ "youtube-dl.exe" } } } } ) ;
-
-			json.add( { { "MacOS" },{ { "x86",macos,{ macos } },
-						  { "amd64",macos,{ macos } } } } ) ;
-
-			json.done() ;
-
-			mainObj.insert( "DownloadUrl","https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest" ) ;
-
-			mainObj.insert( "DefaultListCmdOptions",[](){
-
-				QJsonArray arr ;
-				arr.append( "-F" ) ;
-
-				return arr ;
-			}() ) ;
-
-			mainObj.insert( "DumptJsonArguments",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--dump-json" ) ;
-
-				return arr ;
-			}() ) ;
-		}else{
-			utility::addJsonCmd json( mainObj ) ;
-
-			auto x86Name = _Windows32BitBinaryName() ;
-			auto amd64   = _Windows64BitBinaryName() ;
-			auto macos   = _OSXBinaryName() ;
-
-			json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
-						    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
-
-			json.add( { { "Windows" },{ { "x86",x86Name,{ x86Name } },
-						    { "amd64",amd64,{ amd64 } } } } ) ;
-
-			json.add( { { "MacOS" },{ { "x86",macos,{ macos } },
-						  { "amd64",macos,{ macos } } } } ) ;
-
-			json.done() ;
-
-			mainObj.insert( "DefaultListCmdOptions",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--print" ) ;
-				arr.append( "%(formats)j" ) ;
-
-				return arr ;
-			}() ) ;
-
-			mainObj.insert( "DumptJsonArguments",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--newline" ) ;
-				arr.append( "--print" ) ;
-
-				arr.append( _jsonFullArguments() ) ;
-
-				return arr ;
-			}() ) ;
-
-			mainObj.insert( "DefaultCommentsCmdOptions",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--get-comments" ) ;
-				arr.append( "--no-download" ) ;
-				arr.append( "--print" ) ;
-				arr.append( "{\"title\":%(title)j,\"comments\":%(comments)j}" ) ;
-
-				return arr ;
-			}() ) ;
-
-			mainObj.insert( "DefaultSubstitlesCmdOptions",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--no-download" ) ;
-				arr.append( "--print" ) ;
-				arr.append( "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
-
-				return arr ;
-			}() ) ;
-
-			mainObj.insert( "DefaultSubtitleDownloadOptions",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--embed-subs" ) ;
-
-				return arr ;
-			}() ) ;
-
-			mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
-		}
-
-		mainObj.insert( "AutoUpdate",true ) ;
-
-		mainObj.insert( "EncodingArgument","--encoding" ) ;
-
-		mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.2.0" ) ;
-
-		mainObj.insert( "Name",name ) ;
-
-		mainObj.insert( "CookieArgument","--cookies" ) ;
-
-		mainObj.insert( "DefaultDownLoadCmdOptions",[](){
-
-			QJsonArray arr ;
-
-			arr.append( "--newline" ) ;
-			arr.append( "--ignore-config" ) ;
-			arr.append( "--no-playlist" ) ;
-			arr.append( "-o" ) ;
-			arr.append( "%(title).200s-%(id)s.%(ext)s" ) ;
-
-			return arr ;
-		}() ) ;
-
-		mainObj.insert( "SkipLineWithText",[](){
-
-			QJsonArray arr ;
-			arr.append( "(pass -k to keep)" ) ;
-			return arr ;
-		}() ) ;
-
-		mainObj.insert( "RemoveText",[](){
-
-			QJsonArray arr ;
-
-			return arr ;
-		}() ) ;
-
-		mainObj.insert( "SplitLinesBy",[](){
-
-			QJsonArray arr ;
-
-			arr.append( "\n" ) ;
-
-			return arr ;
-		}() ) ;
-
-		mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
-
-		mainObj.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
-
-		mainObj.insert( "VersionArgument","--version" ) ;
-
-		mainObj.insert( "OptionsArgument","-f" ) ;
-
-		mainObj.insert( "BackendPath",utility::stringConstants::defaultPath() ) ;
-
-		mainObj.insert( "VersionStringLine",0 ) ;
-
-		mainObj.insert( "VersionStringPosition",0 ) ;
-
-		mainObj.insert( "BatchFileArgument","-a" ) ;
-
-		mainObj.insert( "CanDownloadPlaylist",true ) ;
-
-		mainObj.insert( "LikeYoutubeDl",true ) ;
-
-		mainObj.insert( "ReplaceOutputWithProgressReport",false ) ;
-
-		engines::file( m,logger ).write( mainObj ) ;
-
-		return mainObj ;
-	}else{
 		return QJsonObject() ;
 	}
+
+	QJsonObject mainObj ;
+
+	utility::addJsonCmd json( mainObj ) ;
+
+	auto x86Name = _Windows32BitBinaryName() ;
+	auto amd64   = _Windows64BitBinaryName() ;
+	auto macos   = _OSXBinaryName() ;
+
+	json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
+				    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
+
+	json.add( { { "Windows" },{ { "x86",x86Name,{ x86Name } },
+				    { "amd64",amd64,{ amd64 } } } } ) ;
+
+	json.add( { { "MacOS" },{ { "x86",macos,{ macos } },
+				  { "amd64",macos,{ macos } } } } ) ;
+
+	json.done() ;
+
+	mainObj.insert( "DefaultListCmdOptions",_arr( "--newline","--print",_jsonFullArguments() ) ) ;
+
+	mainObj.insert( "DumptJsonArguments",_arr( "--newline","--print",_jsonFullArguments() ) ) ;
+
+	mainObj.insert( "DefaultCommentsCmdOptions",_arr( "--get-comments","--no-download","--print","{\"title\":%(title)j,\"comments\":%(comments)j}" ) ) ;
+
+	mainObj.insert( "DefaultSubstitlesCmdOptions",_arr( "--no-download","--print","{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ) ;
+
+	mainObj.insert( "DefaultSubtitleDownloadOptions",_arr( "--embed-subs" ) ) ;
+
+	mainObj.insert( "DefaultDownLoadCmdOptions",_arr( "--newline","--ignore-config","--no-playlist","-o","%(title).200s-%(id)s.%(ext)s" ) ) ;
+
+	mainObj.insert( "SkipLineWithText",_arr( "(pass -k to keep)" ) ) ;
+
+	mainObj.insert( "RemoveText",_arr() ) ;
+
+	mainObj.insert( "SplitLinesBy",_arr( "\n" ) ) ;
+
+	mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
+
+	mainObj.insert( "AutoUpdate",true ) ;
+
+	mainObj.insert( "EncodingArgument","--encoding" ) ;
+
+	mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.2.0" ) ;
+
+	mainObj.insert( "Name",name ) ;
+
+	mainObj.insert( "CookieArgument","--cookies" ) ;
+
+	mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
+
+	mainObj.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
+
+	mainObj.insert( "VersionArgument","--version" ) ;
+
+	mainObj.insert( "OptionsArgument","-f" ) ;
+
+	mainObj.insert( "BackendPath",utility::stringConstants::defaultPath() ) ;
+
+	mainObj.insert( "VersionStringLine",0 ) ;
+
+	mainObj.insert( "VersionStringPosition",0 ) ;
+
+	mainObj.insert( "BatchFileArgument","-a" ) ;
+
+	mainObj.insert( "CanDownloadPlaylist",true ) ;
+
+	mainObj.insert( "LikeYoutubeDl",true ) ;
+
+	mainObj.insert( "ReplaceOutputWithProgressReport",false ) ;
+
+	engines::file( m,logger ).write( mainObj ) ;
+
+	return mainObj ;
 }
 
 yt_dlp::yt_dlp( const engines& engines,
@@ -429,7 +328,6 @@ yt_dlp::yt_dlp( const engines& engines,
 	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
 	m_version( version ),
-	m_likeYtdlp( m_engine.name() != "youtube-dl" ),
 	m_deleteFilesOnCancel( deleteFilesOnCancel ),
 	m_downloadFolder( downloadFolder )
 {
@@ -437,7 +335,7 @@ yt_dlp::yt_dlp( const engines& engines,
 
 	auto name = obj.value( "Name" ).toString() ;
 
-	if( name == "youtube-dl" || name == "yt-dlp" ){
+	if( name == "yt-dlp" ){
 
 		if( obj.value( "Cmd" ).isUndefined() ){
 
@@ -456,98 +354,34 @@ yt_dlp::yt_dlp( const engines& engines,
 		obj.insert( "EncodingArgument","--encoding" ) ;
 	}
 
-	if( name.contains( "yt-dlp" ) || name == "ytdl-patched" ){
+	auto arr = _arr( "--newline","--print",_jsonFullArguments() ) ;
 
-		obj.insert( "DumptJsonArguments",[](){
+	obj.insert( "DumptJsonArguments",arr ) ;
 
-			QJsonArray arr ;
+	obj.insert( "DefaultListCmdOptions",arr ) ;
 
-			arr.append( "--newline" ) ;
-			arr.append( "--print" ) ;
+	if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
 
-			arr.append( _jsonFullArguments() ) ;
+		auto a = "--get-comments" ;
+		auto b = "--no-download" ;
+		auto c = "--print" ;
+		auto d = "{\"title\":%(title)j,\"comments\":%(comments)j}" ;
 
-			return arr ;
-		}() ) ;
+		obj.insert( "DefaultCommentsCmdOptions",_arr( a,b,c,d ) ) ;
+	}
 
-		if( !obj.contains( "DumptJsonArguments" ) ){
+	if( !obj.contains( "DefaultSubstitlesCmdOptions" ) ){
 
-			obj.insert( "DefaultListCmdOptions",[](){
+		auto a = "--no-download" ;
+		auto b = "--print" ;
+		auto c = "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ;
 
-				QJsonArray arr ;
+		obj.insert( "DefaultSubstitlesCmdOptions",_arr( a,b,c ) ) ;
+	}
 
-				arr.append( "--print" ) ;
-				arr.append( "%(formats)j" ) ;
+	if( !obj.contains( "DefaultSubtitleDownloadOptions" ) ){
 
-				return arr ;
-			}() ) ;
-		}
-
-		if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
-
-			obj.insert( "DefaultCommentsCmdOptions",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--get-comments" ) ;
-				arr.append( "--no-download" ) ;
-				arr.append( "--print" ) ;
-				arr.append( "{\"title\":%(title)j,\"comments\":%(comments)j}" ) ;
-
-				return arr ;
-			}() ) ;
-		}
-
-		if( !obj.contains( "DefaultSubstitlesCmdOptions" ) ){
-
-			obj.insert( "DefaultSubstitlesCmdOptions",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--no-download" ) ;
-				arr.append( "--print" ) ;
-				arr.append( "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ;
-
-				return arr ;
-			}() ) ;
-		}
-
-		if( !obj.contains( "DefaultSubtitleDownloadOptions" ) ){
-
-			obj.insert( "DefaultSubtitleDownloadOptions",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--embed-subs" ) ;
-
-				return arr ;
-			}() ) ;
-		}
-	}else{
-		obj.insert( "CanDownloadPlaylist",false ) ;
-
-		if( !obj.contains( "DumptJsonArguments" ) ){
-
-			obj.insert( "DumptJsonArguments",[](){
-
-				QJsonArray arr ;
-
-				arr.append( "--dump-json" ) ;
-
-				return arr ;
-			}() ) ;
-		}
-
-		if( !obj.contains( "DefaultListCmdOptions" ) ){
-
-			obj.insert( "DefaultListCmdOptions",[](){
-
-				QJsonArray arr ;
-				arr.append( "-F" ) ;
-
-				return arr ;
-			}() ) ;
-		}
+		obj.insert( "DefaultSubtitleDownloadOptions",_arr( "--embed-subs" ) ) ;
 	}
 }
 
@@ -559,7 +393,7 @@ void yt_dlp::appendCompatOption( QStringList& e )
 	e.append( COMPACTYEAR ) ;
 }
 
-const char * yt_dlp::youtube_dlFilter::compatYear()
+const char * yt_dlp::yt_dlplFilter::compatYear()
 {
 	return "yt-dlp: error: wrong OPTS for --compat-options: " COMPACTYEAR ;
 }
@@ -569,11 +403,6 @@ yt_dlp::~yt_dlp()
 }
 
 static bool _yt_dlp( const engines::engine&,const QByteArray& e )
-{
-	return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
-}
-
-static bool _youtube_dl( const engines::engine&,const QByteArray& e )
 {
 	return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
 }
@@ -713,12 +542,7 @@ public:
 
 		if( _yt_dlp( m_engine,e ) ){
 
-			if( m_engine.name() == "youtube-dl" ){
-
-				m_function = _youtube_dl ;
-			}else{
-				m_function = _yt_dlp ;
-			}
+			m_function = _yt_dlp ;
 
 		}else if( _ffmpeg( m_engine,e ) ){
 
@@ -986,68 +810,6 @@ engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput()
 	return { util::types::type_identity< ytDlpFilter >(),m_engine } ;
 }
 
-std::vector< engines::engine::baseEngine::mediaInfo >
-yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
-{
-	const auto& name = m_engine.name() ;
-
-	if( name == "youtube-dl" ){
-
-		return engines::engine::baseEngine::mediaProperties( l,e ) ;
-	}else{
-		QJsonParseError err ;
-
-		auto json = QJsonDocument::fromJson( e,&err ) ;
-
-		if( err.error == QJsonParseError::NoError ){
-
-			return this->mediaProperties( l,json.array() ) ;
-		}else{
-			utility::failedToParseJsonData( l,err ) ;
-
-			return {} ;
-		}
-	}
-}
-
-static QString _fileSizeRaw( QJsonObject e )
-{
-	auto m = e.value( "filesize" ).toInt( -1 ) ;
-
-	if( m == -1 ){
-
-		m = e.value( "filesize_approx" ).toInt( -1 ) ;
-
-		if( m == -1 ){
-
-			return "0" ;
-		}else{
-			return QString::number( m ) ;
-		}
-	}else{
-		return QString::number( m ) ;
-	}
-}
-
-static QString _fileSize( Logger::locale& s,QJsonObject e )
-{
-	auto m = e.value( "filesize" ).toInt( -1 ) ;
-
-	if( m == -1 ){
-
-		m = e.value( "filesize_approx" ).toInt( -1 ) ;
-
-		if( m == -1 ){
-
-			return "NA" ;
-		}else{
-			return "~" + s.formattedDataSize( m ) ;
-		}
-	}else{
-		return s.formattedDataSize( m ) ;
-	}
-}
-
 class ytDlpMediainfo
 {
 public:
@@ -1166,10 +928,48 @@ private:
 
 		QStringList arr{ url } ;
 
-		auto size = _fileSize( m_locale,obj ) ;
-		auto sizeRaw = _fileSizeRaw( obj ) ;
+		auto size = this->fileSize( obj ) ;
+		auto sizeRaw = this->fileSizeRaw( obj ) ;
 
-		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,ss + s.join( ", " ) ) ;
+		ss = ss + s.join( ", " ) ;
+
+		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,ss ) ;
+	}
+	QString fileSizeRaw( const QJsonObject& e )
+	{
+		auto m = e.value( "filesize" ).toInt( -1 ) ;
+
+		if( m == -1 ){
+
+			m = e.value( "filesize_approx" ).toInt( -1 ) ;
+
+			if( m == -1 ){
+
+				return "0" ;
+			}else{
+				return QString::number( m ) ;
+			}
+		}else{
+			return QString::number( m ) ;
+		}
+	}
+	QString fileSize( const QJsonObject& e )
+	{
+		auto m = e.value( "filesize" ).toInt( -1 ) ;
+
+		if( m == -1 ){
+
+			m = e.value( "filesize_approx" ).toInt( -1 ) ;
+
+			if( m == -1 ){
+
+				return "NA" ;
+			}else{
+				return "~" + m_locale.formattedDataSize( m ) ;
+			}
+		}else{
+			return m_locale.formattedDataSize( m ) ;
+		}
 	}
 	void append( QStringList& s,const char * str,const QString& sstr,bool formatBitrate )
 	{
@@ -1217,74 +1017,38 @@ private:
 };
 
 std::vector< engines::engine::baseEngine::mediaInfo >
-yt_dlp::mediaProperties( Logger& l,const QJsonArray& array )
+yt_dlp::mediaProperties( Logger&,const QJsonArray& array )
 {
 	if( array.isEmpty() ){
 
 		return {} ;
+	}else{
+		return ytDlpMediainfo( array ).sort() ;
 	}
-
-	if( m_engine.name() == "youtube-dl" ){
-
-		return engines::engine::baseEngine::mediaProperties( l,array ) ;
-	}
-
-	return ytDlpMediainfo( array ).sort() ;
 }
 
-bool yt_dlp::breakShowListIfContains( const QStringList& e )
+std::vector< engines::engine::baseEngine::mediaInfo >
+yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
 {
-	auto _match_found = []( const QJsonObject& obj,const QStringList& e ){
+	QJsonParseError err ;
 
-		auto a    = obj.value( "ColumnNumber" ).toString() ;
-		auto cmp  = obj.value( "Comparator" ).toString() ;
-		auto text = obj.value( "String" ).toString() ;
+	auto json = QJsonDocument::fromJson( e,&err ) ;
 
-		if( !a.isEmpty() && !cmp.isEmpty() && !text.isEmpty() ){
+	if( err.error == QJsonParseError::NoError ){
 
-			bool valid ;
-			auto number = a.toInt( &valid ) ;
+		auto arr = json.object().value( "formats" ).toArray() ;
 
-			if( valid && number < e.size() ){
-
-				if( cmp == "equals" ){
-
-					return text == e[ number ] ;
-
-				}else if( cmp == "contains" ){
-
-					return e[ number ].contains( text ) ;
-				}
-			}
-		}
-
-		return false ;
-	} ;
-
-	if( m_objs.size() == 0 ){
-
-		if( e.size() > 1 ){
-
-			return e.at( 0 ) == "format" || e.at( 2 ).contains( "-" ) ;
-		}else{
-			return false ;
-		}
+		return this->mediaProperties( l,arr ) ;
 	}else{
-		for( const auto& it : util::asConst( m_objs ) ){
+		utility::failedToParseJsonData( l,err ) ;
 
-			if( it.isObject() && _match_found( it.toObject(),e ) ){
-
-				return true ;
-			}
-		}
-
-		return false ;
+		return {} ;
 	}
 }
 
 bool yt_dlp::supportsShowingComments()
 {
-	return this->likeYtdlp() ;
+	return true ;
 }
 
 bool yt_dlp::updateVersionInfo()
@@ -1292,19 +1056,11 @@ bool yt_dlp::updateVersionInfo()
 	return false ;
 }
 
-bool yt_dlp::likeYtdlp()
-{
-	return m_likeYtdlp ;
-}
-
 void yt_dlp::updateLocalOptions( QStringList& opts )
 {
-	if( this->likeYtdlp() ){
-
-		opts.prepend( "--break-on-reject" ) ;
-		opts.prepend( "!playlist" ) ;
-		opts.prepend( "--match-filter" ) ;
-	}
+	opts.prepend( "--break-on-reject" ) ;
+	opts.prepend( "!playlist" ) ;
+	opts.prepend( "--match-filter" ) ;
 }
 
 void yt_dlp::setProxySetting( QStringList& e,const QString& s )
@@ -1326,7 +1082,7 @@ void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 
 engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )
 {
-	return { util::types::type_identity< yt_dlp::youtube_dlFilter >(),id,m_engine,*this } ;
+	return { util::types::type_identity< yt_dlp::yt_dlplFilter >(),id,m_engine,*this } ;
 }
 
 QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
@@ -1461,30 +1217,21 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 		s.ourOptions.append( configure::defaultDownloadOption() ) ;
 	}
 
-	if( m_likeYtdlp ){
+	this->appendCompatOption( s.ourOptions ) ;
 
-		this->appendCompatOption( s.ourOptions ) ;
+	while( s.ourOptions.contains( "--progress-template" ) ){
 
-		if( m_engine.name() == "yt-dlp" || m_engine.name() == "ytdl-patched" ){
-
-			while( s.ourOptions.contains( "--progress-template" ) ){
-
-				utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
-			}
-
-			parseTemplateOutPut::setTemplate( s.ourOptions ) ;
-		}
+		utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
 	}
+
+	parseTemplateOutPut::setTemplate( s.ourOptions ) ;
 }
 
 void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 {
-	if( this->likeYtdlp() ){
+	e.append( "--lazy-playlist" ) ;
 
-		e.append( "--lazy-playlist" ) ;
-
-		this->appendCompatOption( e ) ;
-	}
+	this->appendCompatOption( e ) ;
 
 	e.append( "--output-na-placeholder" ) ;
 	e.append( "\"NA\"" ) ;
@@ -1492,25 +1239,18 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 
 void yt_dlp::updateCmdOptions( QStringList& e )
 {
-	if( this->likeYtdlp() ){
-
-		this->appendCompatOption( e ) ;
-	}
+	this->appendCompatOption( e ) ;
 
 	e.append( "--output-na-placeholder" ) ;
 	e.append( "\"NA\"" ) ;
 }
 
-yt_dlp::youtube_dlFilter::youtube_dlFilter( int processId,
-					    const engines::engine& engine,
-					    yt_dlp& p ) :
-	engines::engine::baseEngine::filter( engine,processId ),
-	m_engine( engine ),
-	m_parent( p )
+yt_dlp::yt_dlplFilter::yt_dlplFilter( int processId,const engines::engine& engine,yt_dlp& p ) :
+	engines::engine::baseEngine::filter( engine,processId ),m_engine( engine ),m_parent( p )
 {
 }
 
-const QByteArray& yt_dlp::youtube_dlFilter::operator()( Logger::Data& s )
+const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 {
 	if( s.lastText() == "[media-downloader] Download Cancelled" ){
 
@@ -1604,21 +1344,21 @@ const QByteArray& yt_dlp::youtube_dlFilter::operator()( Logger::Data& s )
 	return ee ;
 }
 
-yt_dlp::youtube_dlFilter::~youtube_dlFilter()
+yt_dlp::yt_dlplFilter::~yt_dlplFilter()
 {
 }
 
-QByteArray yt_dlp::youtube_dlFilter::fileName()
+QByteArray yt_dlp::yt_dlplFilter::fileName()
 {
 	if( m_fileNames.empty() ){
 
-		return "" ;
+		return {} ;
 	}else{
 		return m_fileNames.back() ;
 	}
 }
 
-const QByteArray& yt_dlp::youtube_dlFilter::parseOutput( const Logger::Data::QByteArrayList& data )
+const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteArrayList& data )
 {
 	for( const auto& m : data ){
 
@@ -1670,7 +1410,7 @@ const QByteArray& yt_dlp::youtube_dlFilter::parseOutput( const Logger::Data::QBy
 	return m_preProcessing.text() ;
 }
 
-void yt_dlp::youtube_dlFilter::setFileName( const QByteArray& fileName )
+void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fileName )
 {
 	if( fileName.isEmpty() ){
 

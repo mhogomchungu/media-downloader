@@ -56,13 +56,6 @@ MainWindow::MainWindow( QApplication& app,
 
 	this->window()->setWindowIcon( m_trayIcon.icon() ) ;
 
-	m_shortcut.setKey( Qt::CTRL | Qt::Key_D ) ;
-
-	connect( &m_shortcut,&QShortcut::activated,[ & ](){
-
-		m_logger.showDebugLogWindow() ;
-	} ) ;
-
 	m_trayIcon.setContextMenu( [ this,&t ](){
 
 		auto m = new QMenu( this ) ;

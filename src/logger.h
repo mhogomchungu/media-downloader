@@ -537,10 +537,6 @@ public:
 
 		this->update() ;
 	}
-	void addRawData( int id,const QByteArray& data )
-	{
-		m_debugProcessOutPuts.add( id,data ) ;
-	}
 	void logError( const QByteArray& data,int id )
 	{
 		auto function = []( const QByteArray& ){ return false ; } ;
@@ -555,7 +551,6 @@ public:
 	}
 	void setMaxProcessLog( int s ) ;
 	void showLogWindow() ;
-	void showDebugLogWindow() ;
 	void reTranslateLogWindow() ;
 	void updateView( bool e ) ;
 	const QStringList& fileNames()
@@ -571,7 +566,6 @@ private:
 	logWindow m_logWindow ;
 	QPlainTextEdit& m_textEdit ;
 	Logger::Data m_processOutPuts ;
-	Logger::Data m_debugProcessOutPuts ;
 	bool m_updateView = false ;
 	settings& m_settings ;
 	int m_maxProcessLog ;

@@ -29,7 +29,6 @@ Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_logWindow( nullptr,s,*this ),
 	m_textEdit( e ),
 	m_processOutPuts( true ),
-	m_debugProcessOutPuts( true ),
 	m_settings( s )
 {
 	m_textEdit.setReadOnly( true ) ;
@@ -58,7 +57,6 @@ void Logger::add( const QByteArray& s,int id )
 void Logger::clear()
 {
 	m_processOutPuts.clear() ;
-	m_debugProcessOutPuts.clear() ;
 	m_textEdit.clear() ;
 	m_logWindow.clear() ;
 }
@@ -72,12 +70,6 @@ void Logger::setMaxProcessLog( int s )
 void Logger::showLogWindow()
 {
 	m_logWindow.setText( m_processOutPuts.toLines() ) ;
-	m_logWindow.Show() ;
-}
-
-void Logger::showDebugLogWindow()
-{
-	m_logWindow.setText( m_debugProcessOutPuts.debugOutPut() ) ;
 	m_logWindow.Show() ;
 }
 
