@@ -675,6 +675,8 @@ QStringList engines::enginesList() const
 
 	m.removeAll( m_defaultEngine.configFileName() ) ;
 
+	m.removeOne( "youtube-dl.json" ) ;
+
 	return m ;
 }
 
@@ -832,7 +834,7 @@ engines::engine::engine( Logger& logger,
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
-	m_likeYtDlp( m_name == "yt-dlp" || m_name == "ytdl-patched" ),
+	m_likeYtDlp( m_name.startsWith( "yt-dlp" ) || m_name == "ytdl-patched" ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
