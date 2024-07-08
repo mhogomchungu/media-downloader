@@ -466,6 +466,10 @@ public:
 	{
 		return m_stuff[ static_cast< size_t >( s ) ] ;
 	}
+	const Stuff& stuffAtLast() const
+	{
+		return m_stuff.back() ;
+	}
 	int addRow( Stuff stuff = Stuff() )
 	{
 		auto row = m_table.rowCount() ;
@@ -518,9 +522,11 @@ public:
 
 		return row ;
 	}
-	int add( const engines::engine::baseEngine::mediaInfo& m )
+	int add( engines::engine::baseEngine::mediaInfo mm )
 	{
-		int row = this->addRow( m ) ;
+		int row = this->addRow( std::move( mm ) ) ;
+
+		const auto& m = this->stuffAtLast() ;
 
 		const auto& a = m.id() ;
 		const auto& b = m.ext() ;
@@ -710,11 +716,11 @@ private:
 
 		this->clear() ;
 
-		for( const auto& it : stuff ){
+		for( auto& it : stuff ){
 
-			int row = this->addRow( it ) ;
+			int row = this->addRow( std::move( it ) ) ;
 
-			this->fromStuff( it,Forwader( row,*this ) ) ;
+			this->fromStuff( this->stuffAtLast(),Forwader( row,*this ) ) ;
 		}
 	}
 	template< typename Rows >
