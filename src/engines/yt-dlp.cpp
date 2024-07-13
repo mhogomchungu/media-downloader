@@ -445,14 +445,13 @@ public:
 		e.append( "--progress-template" ) ;
 		e.append( "download:[download] downloaded_bytes:%(progress.downloaded_bytes)s ETA:%(progress.eta)s total_bytes_estimate:%(progress.total_bytes_estimate)s total_bytes:%(progress.total_bytes)s progress.speed:%(progress.speed)s filename:%(progress.filename)s" ) ;
 	}
-	parseTemplateOutPut( const QByteArray& e )
+	parseTemplateOutPut( const QByteArray& e ) :
+		m_totalSize( this->findEntry( e,"total_bytes:" ) ),
+		m_eta( this->findEntry( e,"ETA:" ) ),
+		m_dataDownloaded( this->findEntry( e,"downloaded_bytes:" ) ),
+		m_totaSizeEstimate( this->findEntry( e,"total_bytes_estimate:" ) ),
+		m_speed( this->findEntry( e,"speed:" ) )
 	{
-		m_dataDownloaded   = this->findEntry( e,"downloaded_bytes:" ) ;
-		m_eta              = this->findEntry( e,"ETA:" ) ;
-		m_totaSizeEstimate = this->findEntry( e,"total_bytes_estimate:" ) ;
-		m_totalSize        = this->findEntry( e,"total_bytes:" ) ;
-		m_speed            = this->findEntry( e,"speed:" ) ;
-
 		auto m = e.indexOf( "filename" ) ;
 
 		if( m != -1 ){
@@ -505,10 +504,10 @@ private:
 	}
 	QByteArray m_totalSize ;
 	QByteArray m_eta ;
-	QByteArray m_fileName ;
 	QByteArray m_dataDownloaded ;
 	QByteArray m_totaSizeEstimate ;
 	QByteArray m_speed ;
+	QByteArray m_fileName ;
 };
 
 class ytDlpFilter : public engines::engine::baseEngine::filterOutPut

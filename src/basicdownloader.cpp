@@ -443,9 +443,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		events( basicdownloader& p,int id,bool l,const engines::engine& engine ) :
 			m_parent( p ),m_engine( engine ),m_id( id ),m_getList( l )
 		{
-			const auto& s = m_engine.name() ;
-
-			if( s == "yt-dlp" || s == "ytdl-patched" ){
+			if( m_engine.likeYtDlp() ){
 
 				auto m = m_parent.m_settings.deleteFilesOnCanceledDownload() ;
 				m_deleteTempFilesOnCancel = m ;
