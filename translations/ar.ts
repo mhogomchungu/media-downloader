@@ -225,7 +225,7 @@
     </message>
     <message>
         <source>Engine&apos;s Default Options</source>
-        <translation>الخيارات المبدئية للمحرك</translation>
+        <translation>الخيارات المبدئية للأداة</translation>
     </message>
     <message>
         <source>File Size</source>
@@ -912,31 +912,31 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Best Available Audio Only+Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>صوت بأعلى جودة+صورة مصغرة</translation>
     </message>
     <message>
         <source>Youtube</source>
-        <translation type="unfinished"></translation>
+        <translation>يوتيوب</translation>
     </message>
     <message>
         <source>Autoupdate Disabled For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>التحديث التلقائي لـ %1 معطل</translation>
     </message>
     <message>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>الإصدار الأحدث هو %1، التحديث التلقائي معطل</translation>
     </message>
     <message>
         <source>Author: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>المؤلف: %1</translation>
     </message>
     <message>
         <source>Like Count: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>عدد مرات الإعجاب: %1</translation>
     </message>
     <message>
         <source>Korean (Korea)</source>
-        <translation type="unfinished"></translation>
+        <translation>الكورية (كوريا)</translation>
     </message>
 </context>
 <context>
@@ -999,15 +999,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sort By Date Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>الترتيب حسب التاريخ تصاعديًا</translation>
     </message>
     <message>
         <source>Sort By Date Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>الترتيب حسب التاريخ تنازليًا</translation>
     </message>
     <message>
         <source>Sort By Likes</source>
-        <translation type="unfinished"></translation>
+        <translation>الترتيب حسب عدد مرات الإعجاب</translation>
     </message>
 </context>
 <context>
@@ -1042,7 +1042,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>تعديل</translation>
     </message>
 </context>
 <context>
