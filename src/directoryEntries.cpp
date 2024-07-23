@@ -52,18 +52,6 @@ public:
 	}
 	directoryEntries readAll()
 	{
-		auto _read = [ this ]( directoryEntries& entries,handle& h ){
-
-			if( h.findNext() ){
-
-				this->add( entries,h.data() ) ;
-
-				return true ;
-			}else{
-				return false ;
-			}
-		} ;
-
 		handle h( m_path ) ;
 
 		if( h.valid() ){
@@ -72,7 +60,7 @@ public:
 
 			this->add( entries,h.data() ) ;
 
-			while( m_continue && _read( entries,h ) ){}
+			while( m_continue && this->read( entries,h ) ){}
 
 			return entries ;
 		}else{
@@ -181,6 +169,17 @@ private:
 			}else{
 				entries.addFile( filesize.QuadPart,QString::fromWCharArray( m ) ) ;
 			}
+		}
+	}
+	bool read( directoryEntries& entries,handle& h )
+	{
+		if( h.findNext() ){
+
+			this->add( entries,h.data() ) ;
+
+			return true ;
+		}else{
+			return false ;
 		}
 	}
 	std::wstring m_path ;
