@@ -1445,9 +1445,7 @@ static void _dataFromFile( Items& items,
 			   const QString& uploadDate,
 			   const Function& converter )
 {
-	for( int i = 0 ; i < array.size() ; i++ ){
-
-		const auto& it = array[ i ] ;
+	for( const auto& it : array ){
 
 		auto obj = it.toObject() ;
 
@@ -2437,11 +2435,13 @@ void batchdownloader::download( const engines::engine& engine,int init )
 
 void batchdownloader::reportFinishedStatus( const reportFinished& f,const QStringList& fileNames )
 {
-	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus(),fileNames ) ;
+	auto finishedStatus = f.finishedStatus() ;
 
-	auto index = f.finishedStatus().index() ;
+	utility::updateFinishedState( f.engine(),m_settings,m_table,finishedStatus,fileNames ) ;
 
-	auto success = f.finishedStatus().exitState().success() ;
+	auto index = finishedStatus.index() ;
+
+	auto success = finishedStatus.exitState().success() ;
 
 	if( m_ctx.Settings().autoHideDownloadWhenCompleted() ){
 
@@ -2552,7 +2552,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 			{
 				reportFinished r( m_engine,f.move() ) ;
 
-				emit m_parent.reportFStatus( r.move(),m_fileNames ) ;
+				emit m_parent.reportFStatus( r.move(),std::move( m_fileNames ) ) ;
 			}
 		private:
 			batchdownloader& m_parent ;

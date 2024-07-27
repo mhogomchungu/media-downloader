@@ -209,6 +209,7 @@ public:
 		QJsonArray mediaProperties ;
 		QJsonObject uiJson ;
 		QPixmap thumbnail ;
+		QStringList fileNames ;
 		bool splitByChapters = false ;
 		bool banner = false ;
 		bool showFirst = false ;
@@ -236,6 +237,10 @@ public:
 	const tableWidget::entry& entryAt( size_t s )
 	{
 		return m_items[ s ] ;
+	}
+	void setFileNames( size_t m,const QStringList& s )
+	{
+		m_items[ m ].fileNames = s ;
 	}
 	enum class type{ DownloadOptions,
 			 DownloadExtendedOptions,

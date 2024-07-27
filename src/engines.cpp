@@ -211,49 +211,15 @@ void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
 	QNetworkProxy::setApplicationProxy( m_networkProxy.networkProxy() ) ;
 }
 
-static void _openUrls( tableWidget& table,int row,settings& settings,bool galleryDl )
+void engines::openUrls( tableWidget& table,int row,const engines::engine& engine ) const
 {
 	if( downloadManager::finishedStatus::finishedWithSuccess( table,row ) ){
 
-		auto m = util::split( table.uiText( row ),'\n',true ) ;
+		const auto& ee = table.uiText( row ) ;
+		const auto& ss = table.entryAt( row ).fileNames ;
 
-		m.removeFirst() ;
-
-		for( const auto& it : util::asConst( m ) ){
-
-			if( galleryDl ){
-
-				auto e = settings.downloadFolder() ;
-				auto m = QUrl::fromLocalFile( e + "/gallery-dl/" + it ) ;
-
-				QDesktopServices::openUrl( m ) ;
-			}else{
-				auto s = QDir::fromNativeSeparators( it ) ;
-				auto ss = QDir::fromNativeSeparators( settings.downloadFolder() ) ;
-
-				if( s.startsWith( ss ) ){
-
-					auto m = QUrl::fromLocalFile( s ) ;
-
-					QDesktopServices::openUrl( m ) ;
-				}else{
-					auto m = QUrl::fromLocalFile( settings.downloadFolder() + "/" + it ) ;
-
-					QDesktopServices::openUrl( m ) ;
-				}
-			}
-		}
+		engine.openLocalFile( { ee,m_settings.downloadFolder(),ss } ) ;
 	}
-}
-
-void engines::openUrls( tableWidget& table,int row ) const
-{
-	_openUrls( table,row,m_settings,false ) ;
-}
-
-void engines::openUrls( tableWidget& table,int row,const engines::engine& engine ) const
-{
-	_openUrls( table,row,m_settings,engine.name() == "gallery-dl" ) ;
 }
 
 void engines::openUrls( const QString& path ) const
@@ -1529,6 +1495,30 @@ QString engines::engine::baseEngine::setCredentials( QStringList&,QStringList& )
 util::Json engines::engine::baseEngine::parsePlayListData( const QByteArray& e )
 {
 	return e ;
+}
+
+void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngine::localFile& l )
+{
+	auto m = util::split( l.uiText,'\n',true ) ;
+
+	if( m.size() > 1 ){
+
+		const auto& e = m.last() ;
+
+		auto s = QDir::fromNativeSeparators( e ) ;
+		auto ss = QDir::fromNativeSeparators( l.downloadFolder ) ;
+
+		if( s.startsWith( ss ) ){
+
+			auto m = QUrl::fromLocalFile( s ) ;
+
+			QDesktopServices::openUrl( m ) ;
+		}else{
+			auto m = QUrl::fromLocalFile( l.downloadFolder + "/" + e ) ;
+
+			QDesktopServices::openUrl( m ) ;
+		}
+	}
 }
 
 engines::engine::baseEngine::onlineVersion engines::engine::baseEngine::versionInfoFromGithub( const QByteArray& e )

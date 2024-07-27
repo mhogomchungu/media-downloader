@@ -1304,6 +1304,11 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 			}
 		}
 
+		if( !m_fileNames.empty() ){
+
+			s.addFileName( m_fileNames.back() ) ;
+		}
+
 		if( m_fileNames.empty() ){
 
 			/*
@@ -1333,14 +1338,7 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 
 	this->setFileName( s.ytDlpData().filePath() ) ;
 
-	const auto& ee = this->parseOutput( m ) ;
-
-	if( !m_fileNames.empty() ){
-
-		s.addFileName( m_fileNames.back() ) ;
-	}
-
-	return ee ;
+	return this->parseOutput( m ) ;
 }
 
 yt_dlp::yt_dlplFilter::~yt_dlplFilter()

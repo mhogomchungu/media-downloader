@@ -708,6 +708,15 @@ public:
 
 			virtual util::Json parsePlayListData( const QByteArray& ) ;
 
+			struct localFile
+			{
+				QString uiText ;
+				QString downloadFolder ;
+				const QStringList& fileNames ;
+			};
+
+			virtual void openLocalFile( const engines::engine::baseEngine::localFile& ) ;
+
 			struct onlineVersion
 			{
 				QString stringVersion ;
@@ -1039,6 +1048,10 @@ public:
 		{
 			return m_engine->horizontalHeaderLabels() ;
 		}
+		void openLocalFile( const engines::engine::baseEngine::localFile& s ) const
+		{
+			m_engine->openLocalFile( s ) ;
+		}
 		void updateOutPutChannel( QProcess::ProcessChannel& s ) const
 		{
 			m_engine->updateOutPutChannel( s ) ;
@@ -1234,7 +1247,6 @@ public:
 	util::result_ref< const engines::engine& > getEngineByName( const QString& name ) const ;
 	const enginePaths& engineDirPaths() const ;
 	engines( Logger&,const engines::enginePaths&,settings&,int ) ;
-	void openUrls( tableWidget&,int row ) const ;
 	void openUrls( tableWidget&,int row,const engines::engine& ) const ;
 	void openUrls( const QString& path ) const ;
 	const QString& defaultEngineName() const ;

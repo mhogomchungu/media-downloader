@@ -88,7 +88,7 @@ void Logger::update()
 {
 	auto s = m_settings.maxLoggerProcesses() ;
 
-	auto e = m_maxProcessLog > s ? m_maxProcessLog : s ;
+	auto e = std::max( m_maxProcessLog,s ) ;
 
 	while( true ){
 

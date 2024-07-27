@@ -20,6 +20,8 @@
 #include "gallery-dl.h"
 #include "../settings.h"
 
+#include <QDesktopServices>
+
 const char * gallery_dl::testData()
 {
 	return R"R(  ./gallery-dl/directlink/2chen.moe_ass…66e7972cebece1d016342b7fb985eb23f1a.webm
@@ -233,6 +235,17 @@ engines::engine::baseEngine::DataFilter gallery_dl::Filter( int id )
 	const auto& engine = engines::engine::baseEngine::engine() ;
 
 	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),s,engine,id } ;
+}
+
+void gallery_dl::openLocalFile( const engines::engine::baseEngine::localFile& s )
+{
+	if( s.fileNames.size() ){
+
+		const auto& e = s.downloadFolder ;
+		auto m = QUrl::fromLocalFile( e + "/gallery-dl/" + s.fileNames.last() ) ;
+
+		QDesktopServices::openUrl( m ) ;
+	}
 }
 
 void gallery_dl::runCommandOnDownloadedFile( const QStringList& e )

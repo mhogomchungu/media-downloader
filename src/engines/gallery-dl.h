@@ -49,6 +49,8 @@ public:
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
+	void openLocalFile( const engines::engine::baseEngine::localFile& ) override ;
+
 	void runCommandOnDownloadedFile( const QStringList& ) override ;
 
 	void setProxySetting( QStringList&,const QString& ) override ;

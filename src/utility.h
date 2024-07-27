@@ -1576,6 +1576,8 @@ namespace utility
 		const auto& index = f.index() ;
 		const auto& es = f.exitState() ;
 
+		table.setFileNames( index,fileNames ) ;
+
 		table.setRunningState( f.setState(),index ) ;
 
 		auto backUpUrl = table.url( index ) ;
