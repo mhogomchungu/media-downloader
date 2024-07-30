@@ -69,8 +69,7 @@ const char * lux::testData()
 828.86 KiB / 864.65 KiB [======================================================>--] 95.09 KiB p/s 95.86% 0s
 844.86 KiB / 864.65 KiB [=======================================================>-] 95.09 KiB p/s 97.71% 0s
 864.65 KiB / 864.65 KiB [=====================================================] 139.03 KiB p/s 100.00% 6.4s
-Merging video parts into TRIPLE PLAY‼ Braves capitalize on shoddy baserunning by Red Sox - MLB on ESPN.mp4
-)R" ;
+Merging video parts into TRIPLE PLAY‼ Braves capitalize on shoddy baserunning by Red Sox - MLB on ESPN.mp4)R" ;
 }
 
 static void _replaceChars( QByteArray& )
@@ -598,7 +597,7 @@ const QByteArray& lux::lux_dlFilter::doneDownloading( const QByteArray& allData 
 
 			m_fileName = allData.mid( m + 25 ) ;
 
-			m = m_fileName.indexOf( "[media-downloader]" ) ;
+			m = m_fileName.indexOf( "\n[media-downloader]" ) ;
 
 			if( m != -1 ){
 

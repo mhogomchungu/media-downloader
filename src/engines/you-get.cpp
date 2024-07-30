@@ -198,6 +198,8 @@ const QByteArray& you_get::you_getFilter::operator()( Logger::Data& s )
 			} ) ;
 		}
 
+		s.addFileName( m_title ) ;
+
 		return m_title ;
 
 	}else if( s.lastLineIsProgressLine() ){

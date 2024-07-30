@@ -1304,11 +1304,6 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 			}
 		}
 
-		if( !m_fileNames.empty() ){
-
-			s.addFileName( m_fileNames.back() ) ;
-		}
-
 		if( m_fileNames.empty() ){
 
 			/*
@@ -1329,9 +1324,13 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 					return m_tmp ;
 				}
 			}else{
+				s.addFileName( m_fileNames.back() ) ;
+
 				return m_fileNames.back() ;
 			}
 		}else{
+			s.addFileName( m_fileNames.back() ) ;
+
 			return m_fileNames.back() ;
 		}
 	}

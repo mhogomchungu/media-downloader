@@ -1499,25 +1499,35 @@ util::Json engines::engine::baseEngine::parsePlayListData( const QByteArray& e )
 
 void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngine::localFile& l )
 {
-	auto m = util::split( l.uiText,'\n',true ) ;
+	auto e = [ & ](){
 
-	if( m.size() > 1 ){
+		if( l.fileNames.isEmpty() ){
 
-		const auto& e = m.last() ;
+			auto m = util::split( l.uiText,'\n',true ) ;
 
-		auto s = QDir::fromNativeSeparators( e ) ;
-		auto ss = QDir::fromNativeSeparators( l.downloadFolder ) ;
+			if( m.size() > 1 ){
 
-		if( s.startsWith( ss ) ){
-
-			auto m = QUrl::fromLocalFile( s ) ;
-
-			QDesktopServices::openUrl( m ) ;
+				return m[ 1 ] ;
+			}
 		}else{
-			auto m = QUrl::fromLocalFile( l.downloadFolder + "/" + e ) ;
-
-			QDesktopServices::openUrl( m ) ;
+			return l.fileNames.last() ;
 		}
+
+		return QString() ;
+	}() ;
+
+	auto s = QDir::fromNativeSeparators( e ) ;
+	auto ss = QDir::fromNativeSeparators( l.downloadFolder ) ;
+
+	if( s.startsWith( ss ) ){
+
+		auto m = QUrl::fromLocalFile( s ) ;
+
+		QDesktopServices::openUrl( m ) ;
+	}else{
+		auto m = QUrl::fromLocalFile( l.downloadFolder + "/" + e ) ;
+
+		QDesktopServices::openUrl( m ) ;
 	}
 }
 

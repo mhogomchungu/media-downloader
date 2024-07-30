@@ -582,7 +582,10 @@ public:
 
 				if( s.startsWith( "Outfile: " ) ){
 
-					d.svtData().setFileName( s.mid( 9 ) ) ;
+					auto m = s.mid( 9 ) ;
+					d.svtData().setFileName( m ) ;
+
+					args.data.addFileName( m ) ;
 				}
 			} ) ;
 		}

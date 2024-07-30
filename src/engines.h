@@ -710,8 +710,8 @@ public:
 
 			struct localFile
 			{
-				QString uiText ;
-				QString downloadFolder ;
+				const QString& uiText ;
+				const QString& downloadFolder ;
 				const QStringList& fileNames ;
 			};
 
