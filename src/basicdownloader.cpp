@@ -310,6 +310,11 @@ void basicdownloader::list()
 	const auto& engine = backend.engine ;
 
 	auto args = engine.defaultListCmdOptions() ;
+
+	engine.setTextEncondig( args ) ;
+
+	engine.updateCmdOptions( args ) ;
+
 	args.append( url.split( ' ' ) ) ;
 
 	auto mm = m_ui.lineEditOptions->text() ;
@@ -387,12 +392,14 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 	this->download( engine,args,QStringList( url ),s ) ;
 }
 
-void basicdownloader::download( const basicdownloader::engine& engine,
+void basicdownloader::download( const basicdownloader::engine& eng,
 				const utility::args& args,
 				const QStringList& urls,
 				bool update )
 {	
-	engine.engine.updateVersionInfo( m_ctx,[ this,engine,args,urls,update ](){
+	eng.engine.updateVersionInfo( m_ctx,[ this,eng,args,urls,update ](){
+
+		const auto& engine = eng.engine ;
 
 		m_tableList.setVisible( false ) ;
 
@@ -409,18 +416,15 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 
 		m_ui.pbCancel->setEnabled( true ) ;
 
-		auto opts = utility::updateOptions( { m_extraOptions,
-						      engine.engine,
-						      m_settings,
-						      args,
-						      {},
-						      false,
-						      urls,
-						      {},
-						      m_ctx } ) ;
+		auto& mm = m_extraOptions ;
+		auto& ss = m_settings ;
 
-		auto cookiePath = m_settings.cookieFilePath( engine.engine.name() ) ;
-		const auto& ca = engine.engine.cookieArgument() ;
+		utility::updateOptionsStruct str{ mm,engine,ss,args,{},false,urls,{},m_ctx } ;
+
+		auto opts = utility::updateOptions( str ) ;
+
+		auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
+		const auto& ca = engine.cookieArgument() ;
 
 		if( !cookiePath.isEmpty() && !ca.isEmpty() ){
 
@@ -428,7 +432,9 @@ void basicdownloader::download( const basicdownloader::engine& engine,
 			opts.append( cookiePath ) ;
 		}
 
-		this->run( engine,opts,args.credentials(),false ) ;
+		engine.setTextEncondig( opts ) ;
+
+		this->run( eng,opts,args.credentials(),false ) ;
 	} ) ;
 }
 
@@ -443,13 +449,6 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		events( basicdownloader& p,int id,bool l,const engines::engine& engine ) :
 			m_parent( p ),m_engine( engine ),m_id( id ),m_getList( l )
 		{
-			if( m_engine.likeYtDlp() ){
-
-				auto m = m_parent.m_settings.deleteFilesOnCanceledDownload() ;
-				m_deleteTempFilesOnCancel = m ;
-			}else{
-				m_deleteTempFilesOnCancel = false ;
-			}
 		}
 		void done( engines::ProcessExitState m,const QStringList& fileNames )
 		{
@@ -470,11 +469,6 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 				auto& t = m_parent.m_bogusTable ;
 
 				utility::updateFinishedState( m_engine,s,t,a.move(),fileNames ) ;
-
-				if( m.cancelled() && m_deleteTempFilesOnCancel ){
-
-					this->deleteTempFiles() ;
-				}
 
 				if( m.success() ){
 
@@ -499,11 +493,6 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 		bool addData( const QByteArray& e )
 		{
-			if( m_deleteTempFilesOnCancel ){
-
-				this->addFilesToDelete( e ) ;
-			}
-
 			if( m_getList ){
 
 				m_listData += e ;
@@ -547,48 +536,21 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 			return std::move( *this ) ;
 		}
 	private:
-		void addFileToDelete( const QByteArray& fileName )
-		{
-			for( const auto& it : m_fileNames ){
-
-				if( it == fileName ){
-
-					return ;
-				}
-			}
-
-			m_fileNames.emplace_back( fileName ) ;
-		}
-		void addFilesToDelete( const QByteArray& e )
-		{
-			for( const auto& it : util::split( e,'\n' ) ){
-
-				if( it.startsWith( "[download] Destination:" ) ){
-
-					this->addFileToDelete( it.mid( 24 ) ) ;
-				}
-			}
-		}
-		void deleteTempFiles()
-		{
-			utility::deleteTmpFiles( this->downloadFolder(),std::move( m_fileNames ) ) ;
-		}
 		basicdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_id ;
 		bool m_getList ;
-		bool m_deleteTempFilesOnCancel ;
 		QByteArray m_listData ;
-		std::vector< QByteArray > m_fileNames ;
 	} ;
 
 	events ev( *this,eng.id,getList,eng.engine ) ;
 
 	auto ch     = ev.outPutChannel( eng.engine ) ;
-	auto logger = LoggerWrapper( m_ctx.logger(),eng.id ) ;
+	auto& ll    = m_ctx.logger() ;
+	auto update = []( const QByteArray& ){} ;
+	auto logger = make_loggerBasicDownloader( eng.engine.filter( eng.id ),ll,update,eng.id ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
-
-	auto ctx = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
+	auto ctx    = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
 
 	utility::run( args,credentials,ctx.move() ) ;
 }

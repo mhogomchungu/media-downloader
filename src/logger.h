@@ -618,6 +618,87 @@ private:
 	int m_id ;
 };
 
+template< typename F,typename U >
+class LoggerBasicDownloader
+{
+public:
+	LoggerBasicDownloader() = delete ;
+	LoggerBasicDownloader( F function,U ff,Logger& logger,int id ) :
+		m_function( std::move( function ) ),
+		m_functionUpdate( std::move( ff ) ),
+		m_logger( logger ),
+		m_localLogger( false ),
+		m_id( id )
+	{
+	}
+	void add( const QString& e )
+	{
+		this->add( e.toUtf8() ) ;
+	}
+	void add( const QByteArray& e )
+	{
+		m_logger.add( e,m_id ) ;
+
+		if( e.startsWith( "[media-downloader]" ) ){
+
+			m_localLogger.add( e,m_id ) ;
+		}else{
+			m_localLogger.add( "[media-downloader] " + e,m_id ) ;
+		}
+
+		this->update() ;
+	}
+	void logError( const QByteArray& data )
+	{
+		m_logger.logError( data,m_id ) ;
+	}
+	void registerDone()
+	{
+		m_logger.registerDone( m_id ) ;
+	}
+	void clear()
+	{
+		m_logger.clear() ;
+		m_localLogger.clear() ;
+	}
+	template< typename Function >
+	void add( const Function& function )
+	{
+		m_logger.add( function,m_id ) ;
+		function( m_localLogger,m_id,false ) ;
+		this->update() ;
+	}
+	LoggerBasicDownloader move()
+	{
+		return std::move( *this ) ;
+	}
+	const QStringList& fileNames()
+	{
+		return m_localLogger.fileNames() ;
+	}
+private:
+	void update()
+	{
+		if( m_localLogger.isNotEmpty() ){
+
+			m_functionUpdate( m_function( m_localLogger ) ) ;
+		}
+	}
+	F m_function ;
+	U m_functionUpdate ;
+	Logger& m_logger ;
+	Logger::Data m_localLogger ;
+	int m_id ;
+} ;
+
+template< typename F,typename U >
+auto make_loggerBasicDownloader( F function,Logger& logger,U fu,int id )
+{
+	using lbd = LoggerBasicDownloader< F,U > ;
+
+	return lbd( std::move( function ),std::move( fu ),logger,id ) ;
+}
+
 template< typename F,typename U,typename E >
 class loggerBatchDownloader
 {
