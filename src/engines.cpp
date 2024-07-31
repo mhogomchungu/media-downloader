@@ -1508,12 +1508,12 @@ void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngi
 			if( m.size() > 1 ){
 
 				return m[ 1 ] ;
+			}else{
+				return QString() ;
 			}
 		}else{
 			return l.fileNames.last() ;
 		}
-
-		return QString() ;
 	}() ;
 
 	auto s = QDir::fromNativeSeparators( e ) ;

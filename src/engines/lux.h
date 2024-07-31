@@ -40,6 +40,9 @@ public:
 		~lux_dlFilter() override ;
 	private:
 		const QByteArray& doneDownloading( const QByteArray& ) ;
+		QByteArray fileName( const QByteArray&,const QByteArray& ) ;
+		QByteArray fileNameFromCmd( const Logger::Data& ) ;
+		const QByteArray& setFileName( Logger::Data&,const QByteArray& ) ;
 		QByteArray m_fileName ;
 		QByteArray m_banner ;
 		QByteArray m_tmp ;
