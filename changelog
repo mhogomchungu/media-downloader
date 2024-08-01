@@ -290,3 +290,8 @@ Version 1.2.0(April 1st, 2021)
     - Fix a bug that prevented you-get from getting auto updated caused by upstream change.
     - Add ability to edit in place engine's default options.
     - Add ability to sort comments by likes or date.
+
+     Version 4.9.0(August 1st, 2024)
+         [All]
+    - Fix a bug in basic downloader tab that shows up with latest version of yt-dlp.
+    - Add improvements to Lux backend.
