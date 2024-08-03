@@ -42,7 +42,7 @@ tabManager::tabManager( settings& s,
 	m_playlistdownloader( m_ctx ),
 	m_library( m_ctx )
 {
-	t.setContext( &m_ctx ) ;
+	t.setContext( m_ctx ) ;
 
 	qRegisterMetaType< QClipboard::Mode >() ;
 

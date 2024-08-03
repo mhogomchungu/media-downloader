@@ -235,9 +235,9 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 	}else{
 		md.file.write( p.data() ) ;
 
-		auto perc = double( p.received() )  * 100 / md.size ;
-		auto totalSize = md.locale.formattedDataSize( qint64( md.size ) ) ;
-		auto current   = md.locale.formattedDataSize( p.received() ) ;
+		auto perc       = double( p.received() )  * 100 / md.size ;
+		auto totalSize  = md.locale.formattedDataSize( qint64( md.size ) ) ;
+		auto current    = md.locale.formattedDataSize( p.received() ) ;
 		auto percentage = QString::number( perc,'f',2 ) ;
 
 		auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;

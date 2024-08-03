@@ -36,7 +36,7 @@ class translator
 {
 public:
 	translator( settings&,QApplication& ) ;
-	void setContext( Context * ) ;
+	void setContext( Context& ) ;
 	void setLanguage( const QString& e ) ;
 	void setDefaultLanguage() ;
 	~translator() ;
@@ -61,7 +61,7 @@ private:
 	void addString( const QString& translatedString,
 			const char * untranslatedString,
 			const QString& internalName ) ;
-	void clear( void ) ;
+	void clear() ;
 	QApplication& m_qapp ;
 	QTranslator * m_translator = nullptr ;
 	Context * m_ctx = nullptr ;

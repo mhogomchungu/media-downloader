@@ -1050,17 +1050,24 @@ static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuc
 
 			if( title == url ){
 
-				obj.insert( "title","" ) ;
+				obj.remove( "title" ) ;
 			}
 		}
 
-		obj.insert( "runningState",e.runningState ) ;
+		if( !e.downloadingOptions.isEmpty() ){
 
-		obj.insert( "downloadOptions",e.downloadingOptions ) ;
+			obj.insert( "downloadOptions",e.downloadingOptions ) ;
+		}
 
-		obj.insert( "engineName",e.engineName ) ;
+		if( !e.engineName.isEmpty() ){
 
-		obj.insert( "downloadExtraOptions",e.extraDownloadingOptions ) ;
+			obj.insert( "engineName",e.engineName ) ;
+		}
+
+		if( !e.extraDownloadingOptions.isEmpty() ){
+
+			obj.insert( "downloadExtraOptions",e.extraDownloadingOptions ) ;
+		}
 
 		arr.append( obj ) ;
 	} ;

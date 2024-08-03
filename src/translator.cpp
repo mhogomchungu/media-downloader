@@ -46,9 +46,9 @@ translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settin
 	this->setDefaultLanguage() ;
 }
 
-void translator::setContext( Context * ctx )
+void translator::setContext( Context& ctx )
 {
-	m_ctx = ctx ;
+	m_ctx = &ctx ;
 
 	this->setDefaultLanguage() ;
 }
