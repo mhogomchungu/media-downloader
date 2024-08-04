@@ -1,0 +1,28 @@
+{
+    "app-id": "org.mhogomchungu.media_downloader",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "6.6",
+    "sdk": "org.kde.Sdk",
+    "command": "org.mhogomchungu.media_downloader",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=wayland",
+        "--filesystem=host",
+        "--share=network",
+        "--device=dri"
+    ],
+    "modules": [
+        {
+            "name": "org.mhogomchungu.media_downloader",
+            "buildsystem": "cmake",
+            "config-opts": ["-DCMAKE_BUILD_TYPE=release","-DBUILD_FLATPAK=TRUE"],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "/home/ink/.projects/media-downloader"
+                }
+            ]
+        }
+    ]
+}

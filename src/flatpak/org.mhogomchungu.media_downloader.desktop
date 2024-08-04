@@ -1,0 +1,8 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Name=Media Downloader
+Comment=A Qt based GUI frontend to yt-dlp, gallery-dl, lux, svtplay-dl and others
+Icon=org.mhogomchungu.media_downloader
+Exec=org.mhogomchungu.media_downloader
+Categories=Network;Qt

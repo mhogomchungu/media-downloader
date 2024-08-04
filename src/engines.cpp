@@ -336,11 +336,6 @@ void engines::updateEngines( bool addAll,int id )
 
 		_engine_add( "",{ *this,m_logger,"ffmpeg","-version",0,2,id } ) ;
 
-		if( !mm.contains( "aria2c.json" ) ){
-
-			_engine_add( "",{ *this,m_logger,"aria2c","--version",0,2,id } ) ;
-		}
-
 		for( const auto& it : this->getEngines() ){
 
 			const auto& e = it.exePath().exe() ;

@@ -19,6 +19,8 @@
 
 #include "utility.h"
 
+#include "flatpak.h"
+
 #include "settings.h"
 #include "context.hpp"
 #include "downloadmanager.hpp"
@@ -2296,4 +2298,13 @@ QString utility::OSXtranslationFilesPath()
 QString utility::OSX3rdPartyDirPath()
 {
 	return utility::OSXApplicationDirPath() + "/extra" ;
+}
+
+bool utility::platformisFlatPak()
+{
+#if FLATPAK
+	return true ;
+#else
+	return false ;
+#endif
 }

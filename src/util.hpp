@@ -468,13 +468,10 @@ void Timer( int interval,Function&& function )
 	} ) ;
 }
 
-class version{
+class version
+{
 public:
 	version()
-	{
-	}
-	version( int major,int minor,int patch,int gitDate ) :
-		m_valid( true ),m_major( major ),m_minor( minor ),m_patch( patch ),m_gitDate( gitDate )
 	{
 	}
 	template< typename T >
@@ -482,53 +479,37 @@ public:
 	{
 		auto s = util::split( e,'.',true ) ;
 
-		int m = s.size() ;
+		auto m = s.size() ;
 
-		if( m == 1 ){
+		try{
+			if( m == 1 ){
 
-			m_major = s.at( 0 ).toInt( &m_valid ) ;
+				m_major = this->fromString( s.at( 0 ) ) ;
 
-		}else if( m == 2 ){
+			}else if( m == 2 ){
 
-			m_major = s.at( 0 ).toInt( &m_valid ) ;
+				m_major = this->fromString( s.at( 0 ) ) ;
+				m_minor = this->fromString( s.at( 1 ) ) ;
 
-			if( m_valid ){
+			}else if( m == 3 ){
 
-				m_minor = s.at( 1 ).toInt( &m_valid ) ;
+				m_major = this->fromString( s.at( 0 ) ) ;
+				m_minor = this->fromString( s.at( 1 ) ) ;
+				m_patch = this->fromString( s.at( 2 ) ) ;
+
+			}else if( m > 3 ){
+
+				m_major   = this->fromString( s.at( 0 ) ) ;
+				m_minor   = this->fromString( s.at( 1 ) ) ;
+				m_patch   = this->fromString( s.at( 2 ) ) ;
+				m_gitDate = this->fromString( s.at( 3 ) ) ;
 			}
 
-		}else if( m == 3 ){
+			m_valid = true ;
 
-			m_major = s.at( 0 ).toInt( &m_valid ) ;
+		}catch( ... ){
 
-			if( m_valid ){
-
-				m_minor = s.at( 1 ).toInt( &m_valid ) ;
-
-				if( m_valid ){
-
-					m_patch = s.at( 2 ).toInt( &m_valid ) ;
-				}
-			}
-
-		}else if( m > 3 ){
-
-			m_major = s.at( 0 ).toInt( &m_valid ) ;
-
-			if( m_valid ){
-
-				m_minor = s.at( 1 ).toInt( &m_valid ) ;
-
-				if( m_valid ){
-
-					m_patch = s.at( 2 ).toInt( &m_valid ) ;
-
-					if( m_valid ){
-
-						m_gitDate = s.at( 3 ).toInt( &m_valid ) ;
-					}
-				}
-			}
+			m_valid = false ;
 		}
 	}
 	bool valid() const
@@ -607,11 +588,24 @@ public:
 		return std::move( *this ) ;
 	}
 private:
+	qulonglong fromString( const QString& e )
+	{
+		bool ok ;
+
+		auto m = e.toULongLong( &ok ) ;
+
+		if( !ok ){
+
+			throw -1 ;
+		}
+
+		return m ;
+	}
 	bool m_valid = false ;
-	int m_major = 0 ;
-	int m_minor = 0 ;
-	int m_patch = 0 ;
-	int m_gitDate = 0 ;
+	qulonglong m_major = 0 ;
+	qulonglong m_minor = 0 ;
+	qulonglong m_patch = 0 ;
+	qulonglong m_gitDate = 0 ;
 };
 }
 

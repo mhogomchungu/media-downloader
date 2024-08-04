@@ -504,6 +504,7 @@ namespace utility
 	bool platformisOS2() ;
 	bool platformIsNOTWindows() ;
 	bool platformIsLikeWindows() ;
+	bool platformisFlatPak() ;
 	bool addData( const QByteArray& ) ;
 	void contextMenuForDirectUrl( const QJsonArray&,const Context& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
