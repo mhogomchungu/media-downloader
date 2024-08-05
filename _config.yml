@@ -1,0 +1,8 @@
+title: zuluCrypt
+description: zuluCrypt is a simple, feature rich and powerful solution for hard drives encryption.
+google_analytics: UA-106643569-1
+show_downloads: false
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
