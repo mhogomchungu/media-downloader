@@ -8,7 +8,7 @@
         "--share=ipc",
         "--socket=x11",
         "--socket=wayland",
-        "--filesystem=host",
+        "--filesystem=home",
         "--share=network",
         "--device=dri"
     ],
@@ -20,7 +20,7 @@
             "sources": [
                 {
                     "type": "dir",
-                    "path": "/home/ink/.projects/media-downloader"
+                    "path": "../.."
                 }
             ]
         }

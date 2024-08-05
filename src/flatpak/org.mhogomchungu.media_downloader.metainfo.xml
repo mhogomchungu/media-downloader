@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
+
 	<id>org.mhogomchungu.media_downloader</id>
 
-<name>Media Downloader</name>
-<summary>A Qt based GUI frontend to yt-dlp, gallery-dl, lux, svtplay-dl and others</summary>
+	<name>Media Downloader</name>
 
-<metadata_license>FSFAP</metadata_license>
-<project_license>GPL-2.0-or-later</project_license>
+	<summary>A Qt based GUI frontend to yt-dlp, gallery-dl, lux, svtplay-dl and others</summary>
 
-<description>
-	<p>
-	A Qt based GUI frontend to yt-dlp, gallery-dl, lux, svtplay-dl and others
-</p>
-</description>
+	<metadata_license>FSFAP</metadata_license>
 
-<launchable type="desktop-id">org.mhogomchungu.media_downloader.desktop</launchable>
-<screenshots>
-	<screenshot type="default">
-	<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-1.png</image>
-</screenshot>
-<screenshot>
-	<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-2.png</image>
-</screenshot>
-<screenshot>
-	<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-3.png</image>
-</screenshot>
-</screenshots>
+	<project_license>GPL-2.0-or-later</project_license>
 
-<icon type="stock">org.mhogomchungu.media_downloader</icon>
+	<description><p>A Qt based GUI frontend to yt-dlp, gallery-dl, lux, svtplay-dl and others</p></description>
 
-<categories>
-	<category>Network</category>
-<category>Qt</category>
-</categories>
+	<icon type="stock">org.mhogomchungu.media_downloader</icon>
 
-<release version="4.9.0" type="stable" date="2024-08-01" />
+	<launchable type="desktop-id">org.mhogomchungu.media_downloader.desktop</launchable>
 
-<provides>
-	<binary>org.mhogomchungu.media_downloader</binary>
-</provides>
+	<screenshots>
+		<screenshot type="default">
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-1.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-2.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/main/images/media-downloader-3.png</image>
+		</screenshot>
+	</screenshots>
+
+	<categories>
+		<category>Network</category>
+		<category>Qt</category>
+	</categories>
+
+	<releases>
+		<release version="4.9.0" type="stable" date="2024-08-01" />
+		<release version="4.8.0" type="stable" date="2024-07-03" />
+	</releases>
+
+	<provides>
+		<binary>org.mhogomchungu.media_downloader</binary>
+	</provides>
 </component>
