@@ -15,7 +15,7 @@
     "modules": [
         {
             "name": "io.github.mhogomchungu.media-downloader",
-            "buildsystem": "cmake",
+            "buildsystem": "cmake-ninja",
             "config-opts": ["-DCMAKE_BUILD_TYPE=release","-DBUILD_FLATPAK=TRUE"],
             "sources": [
                 {

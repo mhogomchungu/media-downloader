@@ -12,6 +12,7 @@
 	<project_license>GPL-2.0-or-later</project_license>
 
 	<url  type="homepage">https://mhogomchungu.github.io/media-downloader</url>
+	<url type="bugtracker">https://github.com/mhogomchungu/media-downloader/issues</url>
 
 	<content_rating type="oars-1.1" />
 
