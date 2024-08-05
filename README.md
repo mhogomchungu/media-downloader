@@ -70,6 +70,10 @@ scoop install media-downloader
 
 Git versions for windows and macos can be downloaded from [here](https://github.com/mhogomchungu/media-downloader-git/releases).
 
+#### Flatpak
+
+Flatpak package is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.9.0/MediaDownloader-4.9.0.flatpak) for flatpak users.
+
 #### Aur package for Arch Linux
 Arch Linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.
 
