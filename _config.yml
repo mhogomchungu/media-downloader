@@ -1,6 +1,5 @@
-title: zuluCrypt
-description: zuluCrypt is a simple, feature rich and powerful solution for hard drives encryption.
-google_analytics: UA-106643569-1
+title: Media Downloader
+description: A frontend to yt-dlp, gallery-dl, lux and stvplay-dl.
 show_downloads: false
 theme: jekyll-theme-cayman
 
