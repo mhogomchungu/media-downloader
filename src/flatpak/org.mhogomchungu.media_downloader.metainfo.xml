@@ -11,9 +11,17 @@
 
 	<project_license>GPL-2.0-or-later</project_license>
 
-	<description><p>A Qt based GUI frontend to yt-dlp, gallery-dl, lux, svtplay-dl and others</p></description>
+	<url  type="homepage">https://github.com/mhogomchungu/media-downloader</url>
 
-	<icon type="stock">org.mhogomchungu.media_downloader</icon>
+	<content_rating type="oars-1.1" />
+
+	<developer id="org.mhogomchungu.media_downloader">
+		  <name>Francis Banyikwa</name>
+	</developer>
+
+	<description><p>This application is a front end to command line tools that deals with downloading of online media and can be used to download video files, audio files and images from many website.</p></description>
+
+	<icon>org.mhogomchungu.media_downloader</icon>
 
 	<launchable type="desktop-id">org.mhogomchungu.media_downloader.desktop</launchable>
 
