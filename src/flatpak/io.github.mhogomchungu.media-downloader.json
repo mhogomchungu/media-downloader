@@ -1,0 +1,29 @@
+{
+    "app-id": "io.github.mhogomchungu.media-downloader",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "6.7",
+    "sdk": "org.kde.Sdk",
+    "command": "io.github.mhogomchungu.media-downloader",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=wayland",
+        "--socket=fallback-x11",
+        "--filesystem=xdg-download",
+        "--share=network",
+        "--device=dri"
+    ],
+    "modules": [
+        {
+            "name": "io.github.mhogomchungu.media-downloader",
+            "buildsystem": "cmake",
+            "config-opts": ["-DCMAKE_BUILD_TYPE=release","-DBUILD_FLATPAK=TRUE"],
+            "sources": [
+                {
+                     "type": "archive",
+                      "url": "https://github.com/mhogomchungu/media-downloader/releases/download/4.9.0/media-downloader-4.9.0.1.tar.xz",
+                      "sha256": "7d2f7cc060d195ceacca785e264039feb6d964db6c000adc91abab7d8515bdca"
+                }
+            ]
+        }
+    ]
+}
