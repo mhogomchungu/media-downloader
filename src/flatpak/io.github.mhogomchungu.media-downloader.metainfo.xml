@@ -5,7 +5,7 @@
 
 	<name>Media Downloader</name>
 
-	<summary>A Qt based GUI frontend to yt-dlp, gallery-dl, lux, svtplay-dl and others</summary>
+	<summary>A GUI to yt-dlp, gallery-dl, lux</summary>
 
 	<metadata_license>FSFAP</metadata_license>
 
@@ -26,13 +26,13 @@
 
 	<screenshots>
 		<screenshot type="default">
-			<image>https://github.com/mhogomchungu/media-downloader/tree/58ba88ec57fd8d9cd263957e9352e6970654b8aa/images/images/media-downloader-1.png</image>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/a186152191cc5bf6259ae5e6d2fc12a9e3c0a0bc/images/media-downloader-1.png</image>
 		</screenshot>
 		<screenshot>
-			<image>https://github.com/mhogomchungu/media-downloader/tree/58ba88ec57fd8d9cd263957e9352e6970654b8aa/images/images/media-downloader-2.png</image>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/a186152191cc5bf6259ae5e6d2fc12a9e3c0a0bc/images/media-downloader-2.png</image>
 		</screenshot>
 		<screenshot>
-			<image>https://github.com/mhogomchungu/media-downloader/tree/58ba88ec57fd8d9cd263957e9352e6970654b8aa/images/images/media-downloader-3.png</image>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/a186152191cc5bf6259ae5e6d2fc12a9e3c0a0bc/images/media-downloader-3.png</image>
 		</screenshot>
 	</screenshots>
 
