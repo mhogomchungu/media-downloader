@@ -11,18 +11,16 @@
 
 	<project_license>GPL-2.0-or-later</project_license>
 
-	<url  type="homepage">https://mhogomchungu.github.io/media-downloader</url>
+	<url type="homepage">https://mhogomchungu.github.io/media-downloader</url>
 	<url type="bugtracker">https://github.com/mhogomchungu/media-downloader/issues</url>
 
 	<content_rating type="oars-1.1" />
 
-	<developer id="io.github.mhogomchungu.media-downloader">
+	<developer id="io.github.mhogomchungu">
 		  <name>Francis Banyikwa</name>
 	</developer>
 
 	<description><p>This application is a front end to command line tools that deals with downloading of online media and can be used to download video files, audio files and images from many website.</p></description>
-
-	<icon>io.github.mhogomchungu.media-downloader</icon>
 
 	<launchable type="desktop-id">io.github.mhogomchungu.media-downloader.desktop</launchable>
 
