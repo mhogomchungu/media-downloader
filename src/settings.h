@@ -294,11 +294,30 @@ private:
 		return this->getValue( opt,e ).toStringList() ;
 	}
 
-	QString downloadFolder( Logger * ) ;
+	class sLogger
+	{
+	public:
+		sLogger() : m_logger( nullptr )
+		{
+		}
+		sLogger( Logger& logger ) : m_logger( &logger )
+		{
+		}
+		void add( const QByteArray&,int ) ;
+	private:
+		Logger * m_logger ;
+	} ;
+
+	QString downloadFolderImp( settings::sLogger ) ;
+	QString downloadFolder( const QString& defaultPath,settings::sLogger& ) ;
+
+	std::unique_ptr< QSettings > init() ;
+
+	QString downloadLocation() ;
 
 	struct options
 	{
-		options( const utility::cliArguments& ) ;
+		options( const utility::cliArguments&,const QString& ) ;
 
 		const QString& dataPath() const
 		{
@@ -327,9 +346,9 @@ private:
 		bool m_portableVersion ;
 	} ;
 
-	options m_options ;
-
 	bool m_EnableHighDpiScaling ;
+	QString m_appDataPath ;
+	options m_options ;
 	std::unique_ptr< QSettings > m_settingsP ;
 	QSettings& m_settings ;
 };

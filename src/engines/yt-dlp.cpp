@@ -22,6 +22,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QDir>
 
 #include "../networkAccess.h"
 #include "../utility.h"
@@ -1081,7 +1082,9 @@ void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 
 engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )
 {
-	return { util::types::type_identity< yt_dlp::yt_dlplFilter >(),id,m_engine,*this } ;
+	auto m = util::types::type_identity< yt_dlp::yt_dlplFilter >() ;
+
+	return { m,id,m_engine,*this,m_downloadFolder } ;
 }
 
 QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
@@ -1164,6 +1167,9 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 	s.ourOptions.append( "--output-na-placeholder" ) ;
 	s.ourOptions.append( "NA" ) ;
 
+	s.ourOptions.append( "-P" ) ;
+	s.ourOptions.append( m_downloadFolder ) ;
+
 	QStringList mm ;
 
 	auto _add = [ & ]( const QString& txt,const QString& original,const QString& New ){
@@ -1244,8 +1250,14 @@ void yt_dlp::updateCmdOptions( QStringList& e )
 	e.append( "\"NA\"" ) ;
 }
 
-yt_dlp::yt_dlplFilter::yt_dlplFilter( int processId,const engines::engine& engine,yt_dlp& p ) :
-	engines::engine::baseEngine::filter( engine,processId ),m_engine( engine ),m_parent( p )
+yt_dlp::yt_dlplFilter::yt_dlplFilter( int processId,
+				      const engines::engine& engine,
+				      yt_dlp& p,
+				      const QString& df ) :
+	engines::engine::baseEngine::filter( engine,processId ),
+	m_engine( engine ),
+	m_parent( p ),
+	m_downloadFolder( df.toUtf8() )
 {
 }
 
@@ -1406,20 +1418,24 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 	return m_preProcessing.text() ;
 }
 
-void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fileName )
+void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fn )
 {
-	if( fileName.isEmpty() ){
+	if( !fn.isEmpty() ){
 
-		return ;
-	}
+		auto a = QDir::fromNativeSeparators( m_downloadFolder + "/" ) ;
 
-	for( const auto& it : m_fileNames ){
+		auto b = QDir::fromNativeSeparators( fn ) ;
 
-		if( it == fileName ){
+		auto fileName = b.replace( a,"" ).toUtf8() ;
 
-			return ;
+		for( const auto& it : m_fileNames ){
+
+			if( it == fileName ){
+
+				return ;
+			}
 		}
-	}
 
-	m_fileNames.emplace_back( fileName ) ;
+		m_fileNames.emplace_back( fileName ) ;
+	}
 }
