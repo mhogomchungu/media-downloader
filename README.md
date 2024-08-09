@@ -72,7 +72,7 @@ Git versions for windows and macos can be downloaded from [here](https://github.
 
 #### Flatpak
 
-Flatpak package is [here](https://github.com/mhogomchungu/media-downloader/releases/download/4.9.0/MediaDownloader-4.9.0.flatpak) for flatpak users.
+Media Downloader is on [flathub](https://flathub.org/apps/io.github.mhogomchungu.media-downloader) for those who prefer to use flatpaks.
 
 #### Aur package for Arch Linux
 Arch Linux users can build the project from source using [this](https://aur.archlinux.org/packages/media-downloader) aur package.

@@ -5,7 +5,7 @@
 
 	<name>Media Downloader</name>
 
-	<summary>A GUI to yt-dlp, gallery-dl, lux</summary>
+	<summary>A GUI to yt-dlp, gallery-dl, lux.</summary>
 
 	<metadata_license>FSFAP</metadata_license>
 
@@ -20,19 +20,31 @@
 		  <name>Francis Banyikwa</name>
 	</developer>
 
-	<description><p>This application is a front end to command line tools that deals with downloading of online media and can be used to download video files, audio files and images from many website.</p></description>
+	<description><p>This application make it possible to easily download video files, audio files and image files from all sorts of websites.</p></description>
 
 	<launchable type="desktop-id">io.github.mhogomchungu.media-downloader.desktop</launchable>
 
 	<screenshots>
-		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/a186152191cc5bf6259ae5e6d2fc12a9e3c0a0bc/images/media-downloader-1.png</image>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/8d9e2418b10655f8064b37a5770c064d96b898c1/images/media-downloader-1.png</image>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/a186152191cc5bf6259ae5e6d2fc12a9e3c0a0bc/images/media-downloader-2.png</image>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/8d9e2418b10655f8064b37a5770c064d96b898c1/images/media-downloader-2.png</image>
+		</screenshot>
+		<screenshot  type="default">
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/8d9e2418b10655f8064b37a5770c064d96b898c1/images/media-downloader-3.png</image>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/a186152191cc5bf6259ae5e6d2fc12a9e3c0a0bc/images/media-downloader-3.png</image>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/8d9e2418b10655f8064b37a5770c064d96b898c1/images/media-downloader-4.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/8d9e2418b10655f8064b37a5770c064d96b898c1/images/media-downloader-5.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/8d9e2418b10655f8064b37a5770c064d96b898c1/images/media-downloader-6.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/mhogomchungu/media-downloader/8d9e2418b10655f8064b37a5770c064d96b898c1/images/media-downloader-7.png</image>
 		</screenshot>
 	</screenshots>
 
@@ -42,8 +54,16 @@
 	</categories>
 
 	<releases>
-		<release version="4.9.0" type="stable" date="2024-08-01" />
-		<release version="4.8.0" type="stable" date="2024-07-03" />
+		<release version="4.9.0" type="stable" date="2024-08-01" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/4.9.0/media-downloader-4.9.0.1.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Fix a bug in basic downloader tab that shows up with latest version of yt-dlp.</li>
+					<li>Add improvements to Lux backend.</li>
+				</ul>
+			</description>
+		</release>
 	</releases>
 
 	<provides>

@@ -1,8 +1,5 @@
 
-
-Change directory to "/home/ink/.flatpak/"
-
-Command to buld and install
+Flathub link: https://github.com/flathub/io.github.mhogomchungu.media-downloader
 
 flatpak-builder --default-branch=stable --force-clean --install-deps-from=flathub --repo=/home/ink/.flatpak/repo --install /home/ink/.flatpak/build /home/ink/.projects/media-downloader/src/flatpak/org.mhogomchungu.media-downloader.json
 
