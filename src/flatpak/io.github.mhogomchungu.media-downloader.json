@@ -19,9 +19,8 @@
             "config-opts": ["-DCMAKE_BUILD_TYPE=release","-DBUILD_FLATPAK=TRUE"],
             "sources": [
                 {
-                     "type": "archive",
-                      "url": "https://github.com/mhogomchungu/media-downloader/releases/download/4.9.0/media-downloader-4.9.0.1.tar.xz",
-                      "sha256": "d3b9c3a1e0329b3ca1c6e6b340e277c3a0bb20d9d56f93d3858210ce52310176"
+                     "type": "dir",
+                      "path": "../.."
                 }
             ]
         }
