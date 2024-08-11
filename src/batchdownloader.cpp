@@ -2209,7 +2209,9 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 					auto m = QJsonDocument::fromJson( a ) ;
 
-					m_parent.m_table.replace( m.array(),m_row ) ;
+					auto array = m.object().value( "formats" ).toArray() ;
+
+					m_parent.m_table.replace( array,m_row ) ;
 				}
 			}
 		}
