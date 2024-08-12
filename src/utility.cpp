@@ -325,38 +325,15 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 		}
 		bool valid()
 		{
-			auto m = m_buffer.data() ;
-
-			if( m[ 0 ] == '\0' ){
+			if( m_buffer.data()[ 0 ] == '\0' ){
 
 				return false ;
-			}
 
-			auto equal = [ & ]( const char * b ){
-
-				return std::strcmp( m,b ) == 0 ;
-			} ;
-
-			auto endsWith = [ & ]( const char * b,size_t len ){
-
-				auto a = static_cast< int >( m_size ) ;
-				auto l = static_cast< int >( len ) ;
-
-				if( a < l ){
-
-					return false ;
-				}else{
-					auto aa = static_cast< size_t >( m_size ) ;
-
-					return std::memcmp( m + aa - len,b,len ) == 0 ;
-				}
-			} ;
-
-			if( equal( ".mp4" ) || equal( ".MP4" ) ){
+			}else if( this->equal( ".mp4" ) || this->equal( ".MP4" ) ){
 
 				return false ;
 			}else{
-				return endsWith( ".mp4",4 ) || endsWith( ".MP4",4 ) ;
+				return this->endsWith( ".mp4" ) || this->endsWith( ".MP4" ) ;
 			}
 		}
 		operator char*()
@@ -372,6 +349,27 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 			return m_buffer.data() ;
 		}
 	private:
+		bool equal( const char * b ) const
+		{
+			return std::strcmp( m_buffer.data(),b ) == 0 ;
+		}
+		bool endsWith( const utility::strl& m ) const
+		{
+			auto b   = m.data() ;
+			auto len = m.size() ;
+
+			auto a = static_cast< int >( m_size ) ;
+			auto l = static_cast< int >( len ) ;
+
+			if( a < l ){
+
+				return false ;
+			}else{
+				auto aa = static_cast< size_t >( m_size ) ;
+
+				return std::memcmp( m_buffer.data() + aa - len,b,len ) == 0 ;
+			}
+		} ;
 		std::array< char,4096 > m_buffer ;
 		DWORD m_size = 4096 ;
 	} ;

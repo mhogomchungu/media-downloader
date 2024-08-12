@@ -66,6 +66,26 @@ namespace Ui
 
 namespace utility
 {
+	class strl
+	{
+	public:
+		strl() = delete ;
+		template< size_t N >
+		strl( const char ( &s )[ N ] ) : m_size( N - 1 ),m_string( s )
+		{
+		}
+		size_t size() const
+		{
+			return m_size ;
+		}
+		const char * data() const
+		{
+			return m_string ;
+		}
+	private:
+		size_t m_size ;
+		const char * m_string ;
+	} ;
 	template< typename T >
 	class vector
 	{
