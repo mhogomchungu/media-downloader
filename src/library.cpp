@@ -326,9 +326,7 @@ void library::cxMenuRequested( QPoint )
 
 			this->internalDisableAll() ;
 
-			auto s = directoryManager::supportsCancel() ;
-
-			m_ui.pbLibraryCancel->setEnabled( s ) ;
+			m_ui.pbLibraryCancel->setEnabled( true ) ;
 
 			utils::qthread::run( [ this,m ](){
 
@@ -365,7 +363,7 @@ void library::cxMenuRequested( QPoint )
 
 		this->internalDisableAll() ;
 
-		m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
+		m_ui.pbLibraryCancel->setEnabled( true ) ;
 
 		utils::qthread::run( [ this ](){
 
@@ -401,7 +399,7 @@ void library::arrangeAndShow()
 		}
 	}
 
-	m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
+	m_ui.pbLibraryCancel->setEnabled( true ) ;
 
 	m_table.clear() ;
 
@@ -481,7 +479,7 @@ void library::showContents( const QString& path,bool disableUi )
 		this->internalDisableAll() ;
 	}
 
-	m_ui.pbLibraryCancel->setEnabled( directoryManager::supportsCancel() ) ;
+	m_ui.pbLibraryCancel->setEnabled( true ) ;
 
 	utils::qthread::run( [ path,this ](){
 

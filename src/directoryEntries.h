@@ -223,16 +223,11 @@ Q_DECLARE_METATYPE( directoryEntries::iter )
 
 namespace directoryManager
 {
-	bool supportsCancel() ;
-
-	directoryEntries readAll( const QString& ) ;
 	directoryEntries readAll( const QString&,std::atomic_bool& ) ;
 
 	void removeDirectoryContents( const QString&,std::atomic_bool& ) ;
-	void removeDirectoryContents( const QString& ) ;
 
 	void removeDirectory( const QString&,std::atomic_bool& ) ;
-	void removeDirectory( const QString& ) ;
 }
 
 #endif

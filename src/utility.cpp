@@ -325,7 +325,7 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 		}
 		bool valid()
 		{
-			if( m_buffer.data()[ 0 ] == '\0' ){
+			if( m_buffer[ 0 ] == '\0' ){
 
 				return false ;
 
