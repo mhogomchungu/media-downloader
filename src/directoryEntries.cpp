@@ -36,6 +36,7 @@ public:
 	dManager( const QString& path,std::atomic_bool& c ) :
 		m_path( this->setPath( path ) ),m_continue( c )
 	{
+		m_continue = true ;
 	}
 	static bool supportsCancel()
 	{
@@ -204,6 +205,7 @@ public:
 		m_path( path.toUtf8().constData() ),
 		m_continue( c )
 	{
+		m_continue = true ;
 	}
 	directoryEntries readAll()
 	{
