@@ -117,7 +117,7 @@ std::vector<engines::engine::baseEngine::mediaInfo> you_get::mediaProperties( Lo
 			auto f  = QString::number( d ) ;
 			auto g = "type: " + oo.value( "type" ).toString() ;
 
-			s.emplace_back( l,a,b,c,e,f,g ) ;
+			s.emplace_back( l,a,b,c,e,f,g,"","" ) ;
 		}
 	}
 

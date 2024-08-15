@@ -91,7 +91,7 @@ public:
 	enum class tabName{ basic,batch,playlist } ;
 
 	settings( const utility::cliArguments& ) ;
-
+	~settings() ;
 	QSettings& bk() ;
 
 	size_t maxConcurrentDownloads() ;
@@ -117,9 +117,19 @@ public:
 		public:
 			action( const QString& url,
 				Logger& logger,
-				const settings::mediaPlayer::PlayerOpts& opts ) :
-				m_url( url ),m_playerOpts( opts ),m_logger( logger )
+				const settings::mediaPlayer::PlayerOpts& opts,
+				const QString& app,
+				const QJsonObject& obj ) :
+				m_url( url ),
+				m_playerOpts( opts ),
+				m_logger( logger ),
+				m_appDataPath( app ),
+				m_obj( obj )
 			{
+			}
+			action move()
+			{
+				return std::move( *this ) ;
 			}
 			void operator()() const ;
 			void logError() const ;
@@ -127,6 +137,8 @@ public:
 			QString m_url ;
 			const settings::mediaPlayer::PlayerOpts& m_playerOpts ;
 			Logger& m_logger ;
+			const QString& m_appDataPath ;
+			const QJsonObject& m_obj ;
 		} ;
 
 		mediaPlayer( const std::vector< settings::mediaPlayer::PlayerOpts >&,Logger& ) ;
@@ -139,9 +151,11 @@ public:
 			return !m_playerOpts.empty() ;
 		}
 		settings::mediaPlayer::action ac( const QString& url,
-						  const settings::mediaPlayer::PlayerOpts& opts ) const
+						  const settings::mediaPlayer::PlayerOpts& opts,
+						  const QString& appDataPath,
+						  const QJsonObject& obj ) const
 		{
-			return { url,m_logger,opts } ;
+			return { url,m_logger,opts,appDataPath,obj } ;
 		}
 	private:
 		const std::vector< settings::mediaPlayer::PlayerOpts >& m_playerOpts ;
@@ -165,6 +179,7 @@ public:
 	QString playlistRangeHistoryLastUsed() ;
 	QString gitHubDownloadUrl() ;
 	const QString& configPaths() ;
+	const QString& appDataPath() ;
 	QString textEncoding() ;
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;

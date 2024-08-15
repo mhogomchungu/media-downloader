@@ -102,6 +102,9 @@ public:
 		const QString&,
 		bool ) ;
 private:
+	std::vector< engines::engine::baseEngine::mediaInfo >
+	mediaProperties( Logger&,const QJsonArray&,const QJsonObject& ) ;
+
 	void appendCompatOption( QStringList& ) ;
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;

@@ -536,26 +536,31 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 {
 	std::vector< utility::PlayerOpts > m ;
 
-	struct app
-	{
-		app( const char * u,const char * e ) : uiName( u ),exeName( e )
+	if( utility::platformisFlatPak() ){
+
+		m.emplace_back( "","Flatpak" ) ;
+	}else{
+		struct app
 		{
-		}
-		const char * uiName ;
-		const char * exeName ;
-	};
+			app( const char * u,const char * e ) : uiName( u ),exeName( e )
+			{
+			}
+			const char * uiName ;
+			const char * exeName ;
+		};
 
-	std::array< app,3 > apps = { { { "VLC","vlc" },
-				       { "SMPlayer","smplayer" },
-				       { "MPV","mpv" } } } ;
+		std::array< app,3 > apps = { { { "VLC","vlc" },
+					       { "SMPlayer","smplayer" },
+					       { "MPV","mpv" } } } ;
 
-	for( const auto& it : apps ){
+		for( const auto& it : apps ){
 
-		auto s = QStandardPaths::findExecutable( it.exeName ) ;
+			auto s = QStandardPaths::findExecutable( it.exeName ) ;
 
-		if( !s.isEmpty() ){
+			if( !s.isEmpty() ){
 
-			m.emplace_back( s,it.uiName ) ;
+				m.emplace_back( s,it.uiName ) ;
+			}
 		}
 	}
 
@@ -2167,8 +2172,10 @@ bool utility::addData( const QByteArray& e )
 	}
 }
 
-void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx )
+void utility::contextMenuForDirectUrl( const QJsonObject& obj,const Context& ctx )
 {	
+	auto arr = obj.value( "urls" ).toArray() ;
+
 	QMenu m ;
 
 	auto mediaPlayer = ctx.Settings().openWith( ctx.logger() ) ;
@@ -2224,6 +2231,8 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 
 		if( mediaPlayer.valid() ){
 
+			const auto& adp = ctx.Settings().appDataPath() ;
+
 			if( arr.size() == 1 ){
 
 				for( const auto& e : mediaPlayer.opts() ){
@@ -2232,9 +2241,9 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 
 					auto ee = m.addAction( s ) ;
 
-					auto ac = mediaPlayer.ac( arr[ 0 ].toString(),e ) ;
+					auto ac = mediaPlayer.ac( arr[ 0 ].toString(),e,adp,obj ) ;
 
-					QObject::connect( ee,act,std::move( ac ) ) ;
+					QObject::connect( ee,act,ac.move() ) ;
 				}
 
 			}else{
@@ -2248,9 +2257,9 @@ void utility::contextMenuForDirectUrl( const QJsonArray& arr,const Context& ctx 
 
 						auto ee = m.addAction( s ) ;
 
-						auto ac = mediaPlayer.ac( arr[ i ].toString(),a ) ;
+						auto ac = mediaPlayer.ac( arr[ i ].toString(),a,adp,obj ) ;
 
-						QObject::connect( ee,act,std::move( ac ) ) ;
+						QObject::connect( ee,act,ac.move() ) ;
 					}
 				}
 			}

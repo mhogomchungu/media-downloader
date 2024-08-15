@@ -75,9 +75,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 			const auto& obj = m_tableList.stuffAt( row ).toqJsonObject() ;
 
-			auto arr = obj.value( "urls" ).toArray() ;
-
-			utility::contextMenuForDirectUrl( arr,m_ctx ) ;
+			utility::contextMenuForDirectUrl( obj,m_ctx ) ;
 		}
 	} ) ;
 

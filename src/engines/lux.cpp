@@ -135,6 +135,13 @@ std::vector<engines::engine::baseEngine::mediaInfo> lux::mediaProperties( Logger
 
 	Logger::locale locale ;
 
+	QString title ;
+
+	if( arr.size() ){
+
+		title = arr[ 0 ].toObject().value( "title" ).toString() ;
+	}
+
 	for( const auto& it : arr ){
 
 		const auto obj = it.toObject().value( "streams" ).toObject() ;
@@ -154,10 +161,10 @@ std::vector<engines::engine::baseEngine::mediaInfo> lux::mediaProperties( Logger
 				resolution = m.takeFirst() ;
 			}
 
-			auto id = obj.value( "id" ).toString() ;
-			auto sizeRaw = obj.value( "size" ).toInt() ;
-			auto size = locale.formattedDataSize( sizeRaw ) ;
-			auto notes = m.join( " " ) ;
+			auto id        = obj.value( "id" ).toString() ;
+			auto sizeRaw   = obj.value( "size" ).toInt() ;
+			auto size      = locale.formattedDataSize( sizeRaw ) ;
+			auto notes     = m.join( " " ) ;
 			auto extension = obj.value( "ext" ).toString() ;
 
 			QStringList urls ;
@@ -171,7 +178,7 @@ std::vector<engines::engine::baseEngine::mediaInfo> lux::mediaProperties( Logger
 
 			auto sizeRawInt = QString::number( sizeRaw ) ;
 
-			ent.emplace_back( urls,id,extension,resolution,size,sizeRawInt,notes ) ;
+			ent.emplace_back( urls,id,extension,resolution,size,sizeRawInt,notes,"",title ) ;
 		}
 	}
 

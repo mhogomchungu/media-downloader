@@ -813,8 +813,19 @@ engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput()
 class ytDlpMediainfo
 {
 public:
-	ytDlpMediainfo( const QJsonArray& array )
+	ytDlpMediainfo( const QJsonArray& array,const QJsonObject& obj )
 	{
+		m_title = obj.value( "title" ).toString() ;
+
+		auto dd = obj.value( "duration" ) ;
+
+		if( dd.isDouble() ){
+
+			m_duration = QString::number( static_cast< int >( dd.toDouble() ) ) ;
+		}else{
+			m_duration = QString::number( dd.toInt() ) ;
+		}
+
 		for( const auto& it : array ){
 
 			this->add( it.toObject() ) ;
@@ -933,7 +944,7 @@ private:
 
 		ss = ss + s.join( ", " ) ;
 
-		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,ss ) ;
+		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,ss,m_duration,m_title ) ;
 	}
 	QString fileSizeRaw( const QJsonObject& e )
 	{
@@ -1014,17 +1025,14 @@ private:
 
 	std::vector< str > m_medias ;
 	Logger::locale m_locale ;
+	QString m_duration ;
+	QString m_title ;
 };
 
 std::vector< engines::engine::baseEngine::mediaInfo >
-yt_dlp::mediaProperties( Logger&,const QJsonArray& array )
+yt_dlp::mediaProperties( Logger& logger,const QJsonArray& array )
 {
-	if( array.isEmpty() ){
-
-		return {} ;
-	}else{
-		return ytDlpMediainfo( array ).sort() ;
-	}
+	return this->mediaProperties( logger,array,{} ) ;
 }
 
 std::vector< engines::engine::baseEngine::mediaInfo >
@@ -1036,13 +1044,26 @@ yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
 
 	if( err.error == QJsonParseError::NoError ){
 
-		auto arr = json.object().value( "formats" ).toArray() ;
+		auto obj = json.object() ;
 
-		return this->mediaProperties( l,arr ) ;
+		auto arr = obj.value( "formats" ).toArray() ;
+
+		return this->mediaProperties( l,arr,obj ) ;
 	}else{
 		utility::failedToParseJsonData( l,err ) ;
 
 		return {} ;
+	}
+}
+
+std::vector< engines::engine::baseEngine::mediaInfo >
+yt_dlp::mediaProperties( Logger&,const QJsonArray& array,const QJsonObject& obj )
+{
+	if( array.isEmpty() ){
+
+		return {} ;
+	}else{
+		return ytDlpMediainfo( array,obj ).sort() ;
 	}
 }
 

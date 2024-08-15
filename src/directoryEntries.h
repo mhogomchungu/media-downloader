@@ -73,6 +73,14 @@ private:
 	std::vector< directoryEntries::entry > m_files ;
 	std::vector< directoryEntries::wrapper > m_joined ;
 public:
+	template< typename Function >
+	void forEachFile( Function function )
+	{
+		for( const auto& it : m_files ){
+
+			function( it.path() ) ;
+		}
+	}
 	enum class ICON{ FILE,FOLDER } ;
 	directoryEntries move()
 	{

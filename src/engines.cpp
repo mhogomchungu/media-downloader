@@ -1372,7 +1372,7 @@ std::vector< engines::engine::baseEngine::mediaInfo > engines::engine::baseEngin
 			auto resolution = a.takeAt( 0 ) ;
 			auto notes      = a.join( " " ) ;
 
-			s.emplace_back( format,extension,resolution,"NA","0",notes ) ;
+			s.emplace_back( format,extension,resolution,"NA","0",notes,"","" ) ;
 		}
 	}
 

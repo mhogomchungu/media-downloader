@@ -147,6 +147,12 @@ public:
 	{
 		return this->item( row ).runningState ;
 	}
+	QByteArray mediaEntry( int row ) const
+	{
+		auto obj = this->entryAt( row ).uiJson ;
+		obj.insert( "formats",this->mediaProperties( row ) ) ;
+		return QJsonDocument( obj ).toJson() ;
+	}
 	int startPosition() const
 	{
 		return m_init ;
@@ -234,7 +240,7 @@ public:
 
 		return -1 ;
 	}
-	const tableWidget::entry& entryAt( size_t s )
+	const tableWidget::entry& entryAt( size_t s ) const
 	{
 		return m_items[ s ] ;
 	}

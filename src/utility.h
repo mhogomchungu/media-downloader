@@ -526,7 +526,7 @@ namespace utility
 	bool platformIsLikeWindows() ;
 	bool platformisFlatPak() ;
 	bool addData( const QByteArray& ) ;
-	void contextMenuForDirectUrl( const QJsonArray&,const Context& ) ;
+	void contextMenuForDirectUrl( const QJsonObject&,const Context& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
 	QString OSXApplicationDirPath() ;
 	QString OSXtranslationFilesPath() ;

@@ -23,6 +23,7 @@
 #include "translator.h"
 #include "logger.h"
 #include "themes.h"
+#include "directoryEntries.h"
 
 #include <QDir>
 #include <QFile>
@@ -397,6 +398,24 @@ settings::settings( const utility::cliArguments& args ) :
 	if( m != "1.0" ){
 
 		qputenv( "QT_SCALE_FACTOR",m ) ;
+	}
+}
+
+settings::~settings()
+{
+	if( utility::platformisFlatPak() ){
+
+		std::atomic_bool m( true ) ;
+
+		auto ee = m_appDataPath + "tmp" ;
+
+		directoryManager::readAll( ee,m ).forEachFile( [ & ]( const QString& e ){
+
+			if( e.endsWith( ".m3u8" ) ){
+
+				QFile::remove( ee + "/" + e ) ;
+			}
+		} ) ;
 	}
 }
 
@@ -924,6 +943,11 @@ const QString& settings::configPaths()
 	return m_options.dataPath() ;
 }
 
+const QString& settings::appDataPath()
+{
+	return m_appDataPath ;
+}
+
 void settings::runCommandOnSuccessfulDownload( const QString& s,const QString& df,const QStringList& e )
 {
 	auto m = this->getOption( "CommandOnSuccessfulDownload",QString() ) ;
@@ -1171,11 +1195,73 @@ void settings::mediaPlayer::action::logError() const
 	m_logger.add( bar,id ) ;
 }
 
+static QByteArray _hash( time_t i,const QString& s )
+{
+	auto m = std::time( nullptr ) ;
+	auto e = QString::number( m + i ) + s ;
+
+	QCryptographicHash hash( QCryptographicHash::Sha256 ) ;
+
+	hash.addData( e.toUtf8() ) ;
+
+	return hash.result().toHex().mid( 0,8 ) ;
+}
+
+static QString _tmpFile( const QString& e,const QString& s )
+{
+	QString m ;
+
+	for( time_t i = 0 ; i < 100 ; i++ ){
+
+		m = "tmp/" + _hash( 1,s ) + ".m3u8" ;
+
+		if( e.endsWith( "/" ) ){
+
+			m = e + m ;
+		}else{
+			m = e + "/" + m ;
+		}
+
+		if( !QFile::exists( m ) ){
+
+			break ;
+		}
+	}
+
+	return m ;
+}
+
 void settings::mediaPlayer::action::operator()() const
 {
-	if( !QProcess::startDetached( m_playerOpts.exePath,{ m_url } ) ){
+	if( utility::platformisFlatPak() ){
 
-		this->logError() ;
+		auto m = _tmpFile( m_appDataPath,m_url ) ;
+
+		QFile ff( m ) ;
+
+		if( ff.open( QIODevice::WriteOnly ) ){
+
+			auto duration = m_obj.value( "duration" ).toString().toUtf8() ;
+			auto title    = m_obj.value( "title" ).toString().toUtf8() ;
+
+			QByteArray aa = "#EXTM3U\n\n" ;
+
+			if( duration != "0" && !title.contains( "NA" ) ){
+
+				aa += "#EXTINF:" + duration + ", " + title + "\n" ;
+			}
+
+			ff.write( aa + m_url.toUtf8() + "\n" ) ;
+
+			ff.close() ;
+
+			QDesktopServices::openUrl( QUrl::fromLocalFile( m ) ) ;
+		}
+	}else{
+		if( !QProcess::startDetached( m_playerOpts.exePath,{ m_url } ) ){
+
+			this->logError() ;
+		}
 	}
 }
 

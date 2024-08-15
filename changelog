@@ -295,3 +295,11 @@ Version 1.2.0(April 1st, 2021)
          [All]
     - Fix a bug in basic downloader tab that shows up with latest version of yt-dlp.
     - Add improvements to Lux backend.
+
+
+     Version 5.0.0(Unreleased)
+         [Linux]
+         - Add support for flatpak and a flatpak package is hosted at
+           flathub(https://flathub.org/apps/io.github.mhogomchungu.media-downloader).
+         [All]
+         - Various bug fixes and improvements.

@@ -101,9 +101,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 				const auto& obj = m_tableWidgetBDList.stuffAt( row ) ;
 
-				auto arr = obj.value( "urls" ).toArray() ;
-
-				utility::contextMenuForDirectUrl( arr,m_ctx ) ;
+				utility::contextMenuForDirectUrl( obj,m_ctx ) ;
 			}
 
 		}else if( m_listType == batchdownloader::listType::SUBTITLES ){
@@ -2016,7 +2014,9 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 			if( !mp.isEmpty() ){
 
-				const auto ss = engine.mediaProperties( m_ctx.logger(),mp ) ;
+				auto data = m_table.mediaEntry( row ) ;
+
+				const auto ss = engine.mediaProperties( m_ctx.logger(),data ) ;
 
 				if( !ss.empty() ){
 

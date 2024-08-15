@@ -568,14 +568,18 @@ public:
 					   const QString& r,
 					   const QString& f,
 					   const QString& ff,
-					   const QString& n ) :
+					   const QString& n,
+					   const QString& d,
+					   const QString& t ) :
 					m_url( u ),
 					m_id( i ),
 					m_extension( e ),
 					m_resolution( r ),
 					m_fileSize( f ),
 					m_fileSizeRaw( ff ),
-					m_info( n )
+					m_info( n ),
+					m_duration( d ),
+					m_title( t )
 				{
 				}
 				mediaInfo( const QString& i,
@@ -583,13 +587,17 @@ public:
 					   const QString& r,
 					   const QString& f,
 					   const QString& ff,
-					   const QString& n ) :
+					   const QString& n,
+					   const QString& d,
+					   const QString& t ) :
 					m_id( i ),
 					m_extension( e ),
 					m_resolution( r ),
 					m_fileSize( f ),
 					m_fileSizeRaw( ff ),
-					m_info( n )
+					m_info( n ),
+					m_duration( d ),
+					m_title( t )
 				{
 				}
 				QJsonObject toqJsonObject() const
@@ -610,6 +618,8 @@ public:
 					obj.insert( "filesize",m_fileSize ) ;
 					obj.insert( "filesizeRaw",m_fileSizeRaw ) ;
 					obj.insert( "info",m_info ) ;
+					obj.insert( "duration",m_duration ) ;
+					obj.insert( "title",m_title ) ;
 
 					return obj ;
 				}
@@ -656,6 +666,14 @@ public:
 				{
 					return m_info ;
 				}
+				const QString& title() const
+				{
+					return m_title ;
+				}
+				const QString& duration() const
+				{
+					return m_duration ;
+				}
 				mediaInfo move()
 				{
 					return std::move( *this ) ;
@@ -668,6 +686,8 @@ public:
 				QString m_fileSize ;
 				QString m_fileSizeRaw ;
 				QString m_info ;
+				QString m_duration ;
+				QString m_title ;
 			} ;
 
 			virtual engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) ;

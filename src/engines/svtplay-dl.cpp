@@ -453,7 +453,7 @@ std::vector<engines::engine::baseEngine::mediaInfo> svtplay_dl::mediaProperties(
 				auto resolution = a.takeAt( 0 ) ;
 				auto notes      = method + "\n" + a.join( ", " ) ;
 
-				s.emplace_back( format,codec,resolution,"NA","0",notes ) ;
+				s.emplace_back( format,codec,resolution,"NA","0",notes,"","" ) ;
 			}
 
 		}else if( n == 3 ){
@@ -469,7 +469,7 @@ std::vector<engines::engine::baseEngine::mediaInfo> svtplay_dl::mediaProperties(
 				auto resolution = "N/A" ;
 				auto notes      = method ;
 
-				s.emplace_back( format,codec,resolution,"NA","0",notes ) ;
+				s.emplace_back( format,codec,resolution,"NA","0",notes,"","" ) ;
 			}
 		}
 	}

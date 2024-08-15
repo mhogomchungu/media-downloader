@@ -24,9 +24,6 @@ downloads may cause the host to ban you.
 7. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish,
 Turkish, Russian, Japanese, French, and Italian.
 
-## Donations
-Donations are very much appreciated, Please contact me using mhogomchungu _at__ gmail _dot__ com for further information.
-
 ## Extensions
 
 Media Downloader is a GUI front end to [yt-dlp](https://github.com/yt-dlp/yt-dlp), [gallery-dl](https://github.com/mikf/gallery-dl), [lux](https://github.com/iawia002/lux),
