@@ -462,8 +462,6 @@ void library::arrangeEntries( int )
 
 		this->internalDisableAll() ;
 
-		m_continue = true ;
-
 		this->arrangeAndShow() ;
 	} ) ;
 

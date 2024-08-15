@@ -38,10 +38,6 @@ public:
 	{
 		m_continue = true ;
 	}
-	static bool supportsCancel()
-	{
-		return true ;
-	}
 	void removeDirectoryContents()
 	{
 		this->removeDirectory( m_path,false ) ;

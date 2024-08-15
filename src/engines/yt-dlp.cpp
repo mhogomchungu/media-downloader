@@ -817,7 +817,12 @@ public:
 	{
 		m_title = obj.value( "title" ).toString() ;
 
-		auto dd = obj.value( "duration" ) ;
+		auto dd = obj.value( "intDuration" ) ;
+
+		if( dd.isUndefined() ){
+
+			dd = obj.value( "duration" ) ;
+		}
 
 		if( dd.isDouble() ){
 
