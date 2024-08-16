@@ -1168,9 +1168,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 			filePath = utility::homePath() + "/MediaDowloaderList.json" ;
 		}
 
-		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),
-						       toolTip,
-						       filePath ) ;
+		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),toolTip,filePath ) ;
 		if( !s.isEmpty() ){
 
 			const auto e = _saveDownloadList( tableWidget,false ) ;
@@ -1185,7 +1183,12 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 				for( const auto& it : e ){
 
-					m.append( it.toObject().value( "url" ).toString().toUtf8() + "\n" ) ;
+					auto obj = it.toObject() ;
+
+					auto title = obj.value( "title" ).toString().toUtf8() ;
+					auto url   = obj.value( "url" ).toString().toUtf8() ;
+
+					m.append( "#" + title + "\n" + url + "\n\n" ) ;
 				}
 
 				engines::file( s,ctx.logger() ).write( m ) ;

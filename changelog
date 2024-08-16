@@ -297,7 +297,7 @@ Version 1.2.0(April 1st, 2021)
     - Add improvements to Lux backend.
 
 
-     Version 5.0.0(Unreleased)
+     Version 5.0.0(August 16th, 2024)
          [Linux]
          - Add support for flatpak and a flatpak package is hosted at
            flathub(https://flathub.org/apps/io.github.mhogomchungu.media-downloader).

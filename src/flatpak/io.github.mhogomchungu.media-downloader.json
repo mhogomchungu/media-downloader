@@ -10,7 +10,8 @@
         "--socket=fallback-x11",
         "--filesystem=xdg-download",
         "--share=network",
-        "--device=dri"
+        "--device=dri",
+        "--talk-name=org.kde.StatusNotifierWatcher"
     ],
     "modules": [
         {

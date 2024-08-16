@@ -1197,7 +1197,8 @@ void settings::mediaPlayer::action::logError() const
 
 static QByteArray _hash( time_t i,const QString& s )
 {
-	auto m = std::time( nullptr ) ;
+	auto m = static_cast< int >( time( nullptr ) ) ;
+
 	auto e = QString::number( m + i ) + s ;
 
 	QCryptographicHash hash( QCryptographicHash::Sha256 ) ;

@@ -1653,7 +1653,10 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 
 				for( const auto& it : util::split( list,'\n',true ) ){
 
-					items.add( it ) ;
+					if( it.startsWith( "http" ) ){
+
+						items.add( it ) ;
+					}
 				}
 
 				const auto& engine = this->defaultEngine() ;
