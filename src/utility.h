@@ -541,7 +541,7 @@ namespace utility
 	bool onlyWantedVersionInfo( const utility::cliArguments& ) ;
 	bool startedUpdatedVersion( settings&,const utility::cliArguments& ) ;
 	void hideUnhideEntries( QMenu&,tableWidget&,int,bool ) ;
-
+	quint64 simpleRandomNumber() ;
 	void addToListOptionsFromsDownload( QStringList& args,
 					    const QString& downLoadOptions,
 					    const Context& ctx,

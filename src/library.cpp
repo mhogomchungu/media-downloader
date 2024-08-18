@@ -36,8 +36,8 @@ library::library( const Context& ctx ) :
 	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font() ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
 	m_currentPath( m_downloadFolder ),
-	m_folderIcon( QIcon( ":/folder" ).pixmap( 30,40 ) ),
-	m_videoIcon( QIcon( ":/video" ).pixmap( 30,40 ) )
+	m_folderIcon( m_settings.getIcon( "folder" ).pixmap( 30,40 ) ),
+	m_videoIcon( m_settings.getIcon( "video" ).pixmap( 30,40 ) )
 {
 	qRegisterMetaType< directoryEntries::iter >() ;
 

@@ -72,8 +72,12 @@ tabManager::tabManager( settings& s,
 
 void tabManager::init_done()
 {
+	auto& m = m_ctx.Ui() ;
+	auto& s = m_ctx.Settings() ;
+
 	this->setDefaultEngines() ;
 
+	s.init_done() ;
 	m_about.init_done() ;
 	m_configure.init_done() ;
 	m_basicdownloader.init_done() ;
@@ -82,9 +86,6 @@ void tabManager::init_done()
 	m_library.init_done() ;
 
 	utility::initDone() ;
-
-	auto& m = m_ctx.Ui() ;
-	auto& s = m_ctx.Settings() ;
 
 	if( s.tabNumber() == 3 ){
 

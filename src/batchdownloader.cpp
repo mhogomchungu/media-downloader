@@ -64,9 +64,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		 &batchdownloader::addTextToUi,
 		 Qt::QueuedConnection ) ;
 
-	m_ui.pbBDPasteClipboard->setIcon( QIcon( ":/clipboard" ) ) ;
-	m_ui.pbBDOptionsHistory->setIcon( QIcon( ":/recentlyUsed" ) ) ;
-	m_ui.pbBDOptionsDownload->setIcon( QIcon( ":/downloadOptions" ) ) ;
+	m_ui.pbBDPasteClipboard->setIcon( m_settings.getIcon( "clipboard" ) ) ;
+	m_ui.pbBDOptionsHistory->setIcon( m_settings.getIcon( "recentlyUsed" ) ) ;
+	m_ui.pbBDOptionsDownload->setIcon( m_settings.getIcon( "downloadOptions" ) ) ;
 
 	m_tableWidgetBDList.setTableWidget( [](){
 

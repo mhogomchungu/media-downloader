@@ -93,8 +93,11 @@ public:
 	settings( const utility::cliArguments& ) ;
 	~settings() ;
 	QSettings& bk() ;
+	void init_done() ;
 
 	size_t maxConcurrentDownloads() ;
+
+	QIcon getIcon( const QString& ) ;
 
 	const QString& windowsOnly3rdPartyBinPath() ;
 	const QString& windowsOnlyExeBinPath() ;
@@ -272,6 +275,8 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
 private:	
+	void clearFlatPakTemps() ;
+
 	std::vector< settings::mediaPlayer::PlayerOpts > openWith() ;
 
 	QVariant getValue( const QString& opt,const QVariant& e )

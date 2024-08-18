@@ -45,10 +45,10 @@ configure::configure( const Context& ctx ) :
 	m_downloadDefaultOptions( m_ctx,"downloadDefaultOptions.json" ),
 	m_downloadEngineDefaultOptions( m_ctx,"downloadEngineDefaultOptions.json" )
 {
-	m_ui.pbConfigureCookiePath->setIcon( QIcon( ":/cookie" ) ) ;
-	m_ui.pbOpenThemeFolder->setIcon( QIcon( ":/json" ) ) ;
-	m_ui.pbOpenBinFolder->setIcon( QIcon( ":/executable" ) ) ;
-	m_ui.pbConfigureDownloadPath->setIcon( QIcon( ":/folder" ) ) ;
+	m_ui.pbConfigureCookiePath->setIcon( m_settings.getIcon( "cookie" ) ) ;
+	m_ui.pbOpenThemeFolder->setIcon( m_settings.getIcon( "extensions" ) ) ;
+	m_ui.pbOpenBinFolder->setIcon( m_settings.getIcon( "executable" ) ) ;
+	m_ui.pbConfigureDownloadPath->setIcon( m_settings.getIcon( "folder" ) ) ;
 
 	this->setVisibilityEditConfigFeature( false ) ;
 

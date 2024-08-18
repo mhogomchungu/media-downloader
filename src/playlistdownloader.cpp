@@ -42,12 +42,12 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 {
 	qRegisterMetaType< PlNetworkData >() ;
 
-	m_ui.pbPLPasteClipboard->setIcon( QIcon( ":/clipboard" ) ) ;
-	m_ui.pbPLOptionsHistory->setIcon( QIcon( ":/recentlyUsed" ) ) ;
-	m_ui.pbPLRangeHistory->setIcon( QIcon( ":/recentlyUsed" ) ) ;
-	m_ui.pbPLDownloadOptions->setIcon( QIcon( ":/downloadOptions" ) ) ;
-	m_ui.pbPlSubscription->setIcon( QIcon( ":/subscription" ) ) ;
-	m_ui.pbClearArchiveFile->setIcon( QIcon( ":/clearFile" ) ) ;
+	m_ui.pbPLPasteClipboard->setIcon( m_settings.getIcon( "clipboard" ) ) ;
+	m_ui.pbPLOptionsHistory->setIcon( m_settings.getIcon( "recentlyUsed" ) ) ;
+	m_ui.pbPLRangeHistory->setIcon( m_settings.getIcon( "recentlyUsed" ) ) ;
+	m_ui.pbPLDownloadOptions->setIcon( m_settings.getIcon( "downloadOptions" ) ) ;
+	m_ui.pbPlSubscription->setIcon( m_settings.getIcon( "subscription" ) ) ;
+	m_ui.pbClearArchiveFile->setIcon( m_settings.getIcon( "clearFile" ) ) ;
 
 	m_ui.pbPLChangeTableSize->setToolTip( tr( "Hide Controls" ) ) ;
 
@@ -941,7 +941,7 @@ void playlistdownloader::showBanner()
 	m_table.clear() ;
 	m_banner.clear() ;
 
-	QIcon icon( ":/media-downloader" ) ;
+	QIcon icon( m_settings.getIcon( "media-downloader" ) ) ;
 
 	auto w = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
 	auto h = m_settings.thumbnailHeight( settings::tabName::playlist ) ;

@@ -403,25 +403,17 @@ settings::settings( const utility::cliArguments& args ) :
 
 settings::~settings()
 {
-	if( utility::platformisFlatPak() ){
-
-		std::atomic_bool m( true ) ;
-
-		auto ee = m_appDataPath + "tmp" ;
-
-		directoryManager::readAll( ee,m ).forEachFile( [ & ]( const QString& e ){
-
-			if( e.endsWith( ".m3u8" ) ){
-
-				QFile::remove( ee + "/" + e ) ;
-			}
-		} ) ;
-	}
+	this->clearFlatPakTemps() ;
 }
 
 QSettings& settings::bk()
 {
 	return m_settings ;
+}
+
+void settings::init_done()
+{
+	utils::qthread::run( this,&settings::clearFlatPakTemps ) ;
 }
 
 void settings::setTabNumber( int s )
@@ -444,6 +436,21 @@ size_t settings::maxConcurrentDownloads()
 	auto m = this->getOption( "MaxConcurrentDownloads",4 ) ;
 
 	return static_cast< size_t >( m ) ;
+}
+
+QIcon settings::getIcon( const QString& e )
+{
+	if( e == ":/media-downloader" ){
+
+		return QIcon( e ) ;
+	}else{
+		if( this->themeName().contains( "dark",Qt::CaseInsensitive ) ){
+
+			return QIcon( ":/icons/blue/" + e ) ;
+		}else{
+			return QIcon( ":/icons/black/" + e ) ;
+		}
+	}
 }
 
 const QString& settings::windowsOnly3rdPartyBinPath()
@@ -848,7 +855,7 @@ QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 	auto width = this->thumbnailWidth( m ) ;
 	auto height = this->thumbnailHeight( m ) ;
 
-	return QIcon( ":/video" ).pixmap( width,height ) ;
+	return this->getIcon( "video" ).pixmap( width,height ) ;
 }
 
 void settings::setDesktopNotifyOnDownloadComplete( bool e )
@@ -1039,6 +1046,24 @@ void settings::setWindowDimensions( const QString& window,const QString& dimenst
 	m_settings.setValue( "WindowDimensions_" + window,dimenstion ) ;
 }
 
+void settings::clearFlatPakTemps()
+{
+	if( utility::platformisFlatPak() ){
+
+		std::atomic_bool m( true ) ;
+
+		auto ee = m_appDataPath + "tmp" ;
+
+		directoryManager::readAll( ee,m ).forEachFile( [ & ]( const QString& e ){
+
+			if( e.endsWith( ".m3u8" ) ){
+
+				QFile::remove( ee + "/" + e ) ;
+			}
+		} ) ;
+	}
+}
+
 QString settings::windowsDimensions( const QString& window )
 {
 	auto m = "WindowDimensions_" + window ;
@@ -1195,9 +1220,9 @@ void settings::mediaPlayer::action::logError() const
 	m_logger.add( bar,id ) ;
 }
 
-static QByteArray _hash( time_t i,const QString& s )
+static QByteArray _hash( quint64 i,const QString& s )
 {
-	auto m = static_cast< int >( time( nullptr ) ) ;
+	auto m = utility::simpleRandomNumber() ;
 
 	auto e = QString::number( m + i ) + s ;
 
@@ -1212,9 +1237,9 @@ static QString _tmpFile( const QString& e,const QString& s )
 {
 	QString m ;
 
-	for( time_t i = 0 ; i < 100 ; i++ ){
+	for( quint64 i = 0 ; i < 100 ; i++ ){
 
-		m = "tmp/" + _hash( 1,s ) + ".m3u8" ;
+		m = "tmp/" + _hash( i,s ) + ".m3u8" ;
 
 		if( e.endsWith( "/" ) ){
 

@@ -2319,3 +2319,8 @@ bool utility::platformisFlatPak()
 	return false ;
 #endif
 }
+
+quint64 utility::simpleRandomNumber()
+{
+	return static_cast< quint64 >( time( nullptr ) ) ;
+}

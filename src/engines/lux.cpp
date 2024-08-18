@@ -215,7 +215,7 @@ bool lux::foundNetworkUrl( const QString& s )
 
 static QByteArray _hash( const QString& r )
 {
-	auto m = std::time( nullptr ) ;
+	auto m = utility::simpleRandomNumber() ;
 	auto e = QString::number( m ) + r ;
 
 	QCryptographicHash hash( QCryptographicHash::Sha256 ) ;
