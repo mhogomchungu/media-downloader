@@ -533,7 +533,8 @@ QString settings::downloadLocation()
 {
 	if( utility::platformisFlatPak() ){
 
-		return m_appDataPath + "Downloads" ;
+		//return m_appDataPath + "Downloads" ;
+		return _downloadLocation() ;
 	}else{
 		return _downloadLocation() ;
 	}
