@@ -348,6 +348,13 @@ bool directoryEntries::valid( const wchar_t * s )
 	return true ;
 }
 
+directoryEntries directoryManager::readAll( const QString& e )
+{
+	std::atomic_bool s ;
+
+	return directoryManager::readAll( e,s ) ;
+}
+
 directoryEntries directoryManager::readAll( const QString& e,std::atomic_bool& s )
 {
 	return dManager( e,s ).readAll() ;

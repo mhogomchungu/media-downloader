@@ -233,6 +233,8 @@ namespace directoryManager
 {
 	directoryEntries readAll( const QString&,std::atomic_bool& ) ;
 
+	directoryEntries readAll( const QString& ) ;
+
 	void removeDirectoryContents( const QString&,std::atomic_bool& ) ;
 
 	void removeDirectory( const QString&,std::atomic_bool& ) ;

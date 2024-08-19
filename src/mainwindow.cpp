@@ -33,7 +33,7 @@ MainWindow::MainWindow( QApplication& app,
 			translator& t,
 			const engines::enginePaths& paths,
 			const utility::cliArguments& args ) :
-	m_trayIcon( QIcon::fromTheme( "media-downloader",s.getIcon( "media-downloader" ) ) ),
+	m_trayIcon( s.getIcon( "media-downloader" ) ),
 	m_qApp( app ),
 	m_appName( "Media Downloader" ),
 	m_ui( this ),

@@ -440,9 +440,9 @@ size_t settings::maxConcurrentDownloads()
 
 QIcon settings::getIcon( const QString& e )
 {
-	if( e == ":/media-downloader" ){
+	if( e == "media-downloader" ){
 
-		return QIcon( e ) ;
+		return QIcon( ":/media-downloader" ) ;
 	}else{
 		if( this->themeName().contains( "dark",Qt::CaseInsensitive ) ){
 
@@ -1050,11 +1050,9 @@ void settings::clearFlatPakTemps()
 {
 	if( utility::platformisFlatPak() ){
 
-		std::atomic_bool m( true ) ;
-
 		auto ee = m_appDataPath + "tmp" ;
 
-		directoryManager::readAll( ee,m ).forEachFile( [ & ]( const QString& e ){
+		directoryManager::readAll( ee ).forEachFile( [ & ]( const QString& e ){
 
 			if( e.endsWith( ".m3u8" ) ){
 
