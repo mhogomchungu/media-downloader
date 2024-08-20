@@ -54,12 +54,22 @@
 	</categories>
 
 	<releases>
+		<release version="5.0.1" type="stable" date="2024-08-20" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.0.1/media-downloader-5.0.1.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Use blue icons when a dark theme is in use.</li>
+					<li>Use ~/Downloads folder as default download folder when using flatpak.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.0.0" type="stable" date="2024-08-16" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.0.0/media-downloader-5.0.0.tar.xz/</url>
 			<description>
 				<p>Changelog</p>
 				<ul>
-					<li>Add support for flatpak and a flatpak package.</li>
+					<li>First release with flatpak support</li>
 					<li>Various bug fixes and improvements.</li>
 				</ul>
 			</description>

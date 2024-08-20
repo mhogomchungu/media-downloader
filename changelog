@@ -303,3 +303,9 @@ Version 1.2.0(April 1st, 2021)
            flathub(https://flathub.org/apps/io.github.mhogomchungu.media-downloader).
          [All]
          - Various bug fixes and improvements.
+
+     Version 5.0.1(August 20th, 2024)
+         [All]
+         - Use blue icons when a dark theme is in use.
+         [Flatpak]
+         - Use ~/Downloads folder as default download folder.
