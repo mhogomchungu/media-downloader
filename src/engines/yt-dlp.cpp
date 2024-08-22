@@ -1172,6 +1172,10 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 	}else if( uiText.contains( "ERROR: Unsupported URL:" ) ){
 
 		return functions::errorString( f,functions::errors::notSupportedUrl,bkText ) ;
+
+	}else if( uiText.contains( "ERROR: " ) && uiText.contains( "Sign in to confirm you’re not a bot" ) ){
+
+		return functions::errorString( f,functions::errors::logInRequired,bkText ) ;
 	}else{
 		auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 		return m + "\n" + bkText ;

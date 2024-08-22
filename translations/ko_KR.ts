@@ -938,6 +938,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Warning: Skipping Clipboard Content</source>
         <translation>경고: 클립보드 콘텐츠 건너뛰기</translation>
     </message>
+    <message>
+        <source>Sign In To Confirm You Are Not A Bot</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>

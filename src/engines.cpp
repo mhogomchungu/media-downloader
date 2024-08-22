@@ -1136,6 +1136,11 @@ QString engines::engine::baseEngine::errorString( const engine::engine::baseEngi
 
 		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 		return m + "\n" + QObject::tr( "Url Is Not Supported" ) + "\n" + bkText ;
+
+	}else if( err == engines::engine::baseEngine::errors::logInRequired ){
+
+		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Sign In To Confirm You Are Not A Bot" ) + "\n" + bkText ;
 	}else{
 		return {} ;
 	}

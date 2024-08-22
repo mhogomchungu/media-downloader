@@ -33,6 +33,9 @@
 
 #include <QDesktopServices>
 
+#include <QPalette>
+#include <QStyleHints>
+
 static QString _monitorClipboadUrl( settings::tabName e )
 {
 	if( e == settings::tabName::basic ){
@@ -438,13 +441,21 @@ size_t settings::maxConcurrentDownloads()
 	return static_cast< size_t >( m ) ;
 }
 
+static bool _darkTheme()
+{
+	const QPalette defaultPalette ;
+	const auto text = defaultPalette.color( QPalette::WindowText ) ;
+	const auto window = defaultPalette.color( QPalette::Window ) ;
+	return text.lightness() > window.lightness() ;
+}
+
 QIcon settings::getIcon( const QString& e )
 {
 	if( e == "media-downloader" ){
 
 		return QIcon( ":/media-downloader" ) ;
 	}else{
-		if( this->themeName().contains( "dark",Qt::CaseInsensitive ) ){
+		if( _darkTheme() ){
 
 			return QIcon( ":/icons/blue/" + e ) ;
 		}else{

@@ -940,6 +940,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Korean (Korea)</source>
         <translation>Coreano (Corea)</translation>
     </message>
+    <message>
+        <source>Sign In To Confirm You Are Not A Bot</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>batchdownloader</name>
