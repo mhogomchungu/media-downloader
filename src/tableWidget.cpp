@@ -252,6 +252,11 @@ int tableWidget::addItem( tableWidget::entry e,tableWidget::sizeHint s )
 	return row ;
 }
 
+bool tableWidget::finishedWithSuccess( int row ) const
+{
+	return downloadManager::finishedStatus::finishedWithSuccess( *this,row ) ;
+}
+
 void tableWidget::selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber )
 {
 	auto _update_table_row = [ & ]( QTableWidgetItem * item,bool setSelected ){

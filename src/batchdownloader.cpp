@@ -79,7 +79,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_table.setCurrentItemChanged( m_table.startPosition() ) ;
 
-	this->setVisibleMediaSectionCut( false ) ;
+	this->setVisibleWidgetOverMainTable( false ) ;
 
 	m_ui.pbBDDownload->setEnabled( false ) ;
 
@@ -258,52 +258,19 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbSetTimeIntervals,&QPushButton::clicked,[ this ](){
 
-		auto row = m_table.currentRow() ;
+		if( m_widgetOverMainTable.showRenameUi() ){
 
-		if( row != -1 ){
-
-			auto a = m_ui.lineEditStartTimeInterval->text() ;
-			auto b = m_ui.lineEditEndTimeInterval->text() ;
-			auto c = m_ui.lineEditChapters->text() ;
-
-			if( !a.isEmpty() && !b.isEmpty() ){
-
-				auto u = tableWidget::type::DownloadTimeInterval ;
-
-				m_table.setDownloadingOptions( u,row,a + "-" + b ) ;
-
-			}else if( a.isEmpty() && b.isEmpty() ){
-
-				//Left empty on purpose
-			}else{
-				return ;
-			}
-
-			if( !c.isEmpty() ){
-
-				auto u = tableWidget::type::DownloadChapters ;
-
-				m_table.setDownloadingOptions( u,row,c ) ;
-			}
-
-			if( m_ui.cbSplitByChapters->isChecked() ){
-
-				auto u = tableWidget::type::SplitByChapters ;
-
-				m_table.setDownloadingOptions( u,row,"Yes" ) ;
-			}else{
-				auto u = tableWidget::type::SplitByChapters ;
-
-				m_table.setDownloadingOptions( u,row,"No" ) ;
-			}
+			this->renameFile( m_widgetOverMainTable.row() ) ;
+		}else{
+			this->setTimeIntervals( m_widgetOverMainTable.row() ) ;
 		}
 
-		this->setVisibleMediaSectionCut( false ) ;
+		this->setVisibleWidgetOverMainTable( false ) ;
 	} ) ;
 
 	connect( m_ui.pbCancelSetTimeInterval,&QPushButton::clicked,[ this ](){
 
-		this->setVisibleMediaSectionCut( false ) ;
+		this->setVisibleWidgetOverMainTable( false ) ;
 	} ) ;
 
 	connect( m_ui.pbBDPasteClipboard,&QPushButton::clicked,[ this ](){
@@ -457,6 +424,19 @@ void batchdownloader::showCustomContext()
 		}
 	} ) ;
 
+	ac = m.addAction( tr( "Rename" ) ) ;
+
+	auto canRename = m_table.entryAt( row ).fileNames.size() == 1 ;
+
+	ac->setEnabled( m_table.finishedWithSuccess( row ) && canRename ) ;
+
+	connect( ac,&QAction::triggered,[ this,row ](){
+
+		m_widgetOverMainTable = { true,row } ;
+
+		this->setVisibleWidgetOverMainTable( true ) ;
+	} ) ;
+
 	ac = m.addAction( tr( "Remove" ) ) ;
 
 	ac->setEnabled( m_table.noneAreRunning() ) ;
@@ -521,9 +501,11 @@ void batchdownloader::showCustomContext()
 	ac = m.addAction( tr( "Download Media Part" ) ) ;
 	ac->setEnabled( !finishSuccess && engine.canDownloadMediaPart() ) ;
 
-	connect( ac,&QAction::triggered,[ this ](){
+	connect( ac,&QAction::triggered,[ this,row ](){
 
-		this->setVisibleMediaSectionCut( true ) ;
+		m_widgetOverMainTable = { false,row } ;
+
+		this->setVisibleWidgetOverMainTable( true ) ;
 	} ) ;
 
 	utility::addDownloadContextMenu( running,finishSuccess,m,row,[ this ]( int row ){
@@ -544,7 +526,7 @@ void batchdownloader::showCustomContext()
 
 			for( int row = 0 ; row < m_table.rowCount() ; row++ ){
 
-				auto e = m_table.runningState( row ) ;
+				const auto& e = m_table.runningState( row ) ;
 
 				auto visible     = m_table.rowIsVisible( row ) ;
 				auto highlighted = m_table.rowIsSelected( row ) ;
@@ -1102,25 +1084,124 @@ void batchdownloader::normalizeFilePath( QString& e )
 	}
 }
 
-void batchdownloader::setVisibleMediaSectionCut( bool e )
+void batchdownloader::setVisibleWidgetOverMainTable( bool e )
 {
 	if( e ){
 
-		m_ui.lineEditStartTimeInterval->setFocus() ;
+		this->disableAll() ;
 	}else{
-		m_ui.lineEditBDUrl->setFocus() ;
+		this->enableAll() ;
 	}
 
-	m_ui.labelSetTimeIntervals->setVisible( e ) ;
+	m_ui.labelWidgetOverMainTable->setVisible( e ) ;
+
 	m_ui.pbCancelSetTimeInterval->setVisible( e ) ;
 	m_ui.pbSetTimeIntervals->setVisible( e ) ;
-	m_ui.lineEditChapters->setVisible( e ) ;
-	m_ui.lineEditStartTimeInterval->setVisible( e ) ;
-	m_ui.lineEditEndTimeInterval->setVisible( e ) ;
-	m_ui.cbSplitByChapters->setVisible( e ) ;
-	m_ui.label_7->setVisible( e ) ;
-	m_ui.label_8->setVisible( e ) ;
-	m_ui.label_9->setVisible( e ) ;
+
+	if( m_widgetOverMainTable.showRenameUi() ){
+
+		m_ui.labelBDSetNewFileName->setVisible( e ) ;
+		m_ui.plainTextEditBD->setVisible( e ) ;
+
+		if( e ){
+
+			const auto& m = m_table.entryAt( m_widgetOverMainTable.row() ).fileNames ;
+
+			if( m.size() ){
+
+				m_ui.plainTextEditBD->clear() ;
+
+				m_ui.plainTextEditBD->appendPlainText( m[ 0 ] ) ;
+			}
+
+			m_ui.plainTextEditBD->setFocus() ;
+		}
+
+		m_ui.lineEditChapters->setVisible( false ) ;
+		m_ui.lineEditStartTimeInterval->setVisible( false ) ;
+		m_ui.lineEditEndTimeInterval->setVisible( false ) ;
+		m_ui.cbSplitByChapters->setVisible( false ) ;
+		m_ui.label_7->setVisible( false ) ;
+		m_ui.label_8->setVisible( false ) ;
+		m_ui.label_9->setVisible( false ) ;
+	}else{
+		if( e ){
+
+			m_ui.lineEditStartTimeInterval->setFocus() ;
+		}else{
+			m_ui.lineEditBDUrl->setFocus() ;
+		}
+
+		m_ui.lineEditChapters->setVisible( e ) ;
+		m_ui.lineEditStartTimeInterval->setVisible( e ) ;
+		m_ui.lineEditEndTimeInterval->setVisible( e ) ;
+		m_ui.cbSplitByChapters->setVisible( e ) ;
+		m_ui.label_7->setVisible( e ) ;
+		m_ui.label_8->setVisible( e ) ;
+		m_ui.label_9->setVisible( e ) ;
+		m_ui.labelBDSetNewFileName->setVisible( false ) ;
+		m_ui.plainTextEditBD->setVisible( false ) ;
+	}
+}
+
+void batchdownloader::renameFile( int row )
+{
+	const auto& df = m_ctx.Settings().downloadFolder() ;
+	const auto& fn = m_table.entryAt( row ).fileNames ;
+	const auto& nn = m_ui.plainTextEditBD->toPlainText() ;
+
+	if( fn.size() ){
+
+		auto& item = m_table.item( row,m_table.startPosition() ) ;
+
+		auto m = utility::rename( item,df,nn,fn[ 0 ] ) ;
+
+		if( !m.isEmpty() ){
+
+			m_table.setFileNames( row,{ m } ) ;
+		}
+	}
+}
+
+void batchdownloader::setTimeIntervals( int row )
+{
+	if( row != -1 ){
+
+		auto a = m_ui.lineEditStartTimeInterval->text() ;
+		auto b = m_ui.lineEditEndTimeInterval->text() ;
+		auto c = m_ui.lineEditChapters->text() ;
+
+		if( !a.isEmpty() && !b.isEmpty() ){
+
+			auto u = tableWidget::type::DownloadTimeInterval ;
+
+			m_table.setDownloadingOptions( u,row,a + "-" + b ) ;
+
+		}else if( a.isEmpty() && b.isEmpty() ){
+
+			//Left empty on purpose
+		}else{
+			return ;
+		}
+
+		if( !c.isEmpty() ){
+
+			auto u = tableWidget::type::DownloadChapters ;
+
+			m_table.setDownloadingOptions( u,row,c ) ;
+		}
+
+		if( m_ui.cbSplitByChapters->isChecked() ){
+
+			auto u = tableWidget::type::SplitByChapters ;
+
+			m_table.setDownloadingOptions( u,row,"Yes" ) ;
+		}else{
+			auto u = tableWidget::type::SplitByChapters ;
+
+			m_table.setDownloadingOptions( u,row,"No" ) ;
+		}
+	}
 }
 
 void batchdownloader::showSubtitles( const QByteArray& e )

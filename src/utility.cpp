@@ -2324,3 +2324,37 @@ quint64 utility::simpleRandomNumber()
 {
 	return static_cast< quint64 >( time( nullptr ) ) ;
 }
+
+QString utility::rename( QTableWidgetItem& item,
+			 const QString& df,
+			 const QString& newName,
+			 const QString& oldName )
+{
+	auto oldPath = df + "/" + oldName ;
+
+	QFile ff( oldPath ) ;
+
+	if( ff.exists() ){
+
+		auto newPath = df + "/" + newName ;
+
+		if( ff.rename( newPath ) ){
+
+			auto txt = util::split( item.text(),"\n" ) ;
+
+			for( int i = 0 ; i < txt.size() ; i++ ){
+
+				if( txt[ i ] == oldName ){
+
+					txt[ i ] = newName ;
+
+					item.setText( txt.join( "\n" ) ) ;
+
+					return newName ;
+				}
+			}
+		}
+	}
+
+	return {} ;
+}

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -635,7 +635,7 @@
        </property>
       </widget>
      </widget>
-     <widget class="QLabel" name="labelSetTimeIntervals">
+     <widget class="QLabel" name="labelWidgetOverMainTable">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -775,6 +775,35 @@
       </property>
       <property name="text">
        <string>Split By Chapters</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelBDSetNewFileName">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>190</y>
+        <width>571</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Set New File Name Below</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPlainTextEdit" name="plainTextEditBD">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>230</y>
+        <width>571</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string notr="true"/>
       </property>
      </widget>
     </widget>

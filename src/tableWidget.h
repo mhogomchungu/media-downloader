@@ -147,6 +147,7 @@ public:
 	{
 		return this->item( row ).runningState ;
 	}
+	bool finishedWithSuccess( int row ) const ;
 	QByteArray mediaEntry( int row ) const
 	{
 		auto obj = this->entryAt( row ).uiJson ;

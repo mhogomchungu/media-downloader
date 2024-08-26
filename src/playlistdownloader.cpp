@@ -515,6 +515,15 @@ void playlistdownloader::customContextMenuRequested()
 		m_terminator.terminate( row ) ;
 	} ) ;
 
+	//ac = m.addAction( tr( "Rename" ) ) ;
+
+	//ac->setEnabled( m_table.finishedWithSuccess( row ) ) ;
+
+	//connect( ac,&QAction::triggered,[ this,row ](){
+
+
+	//} ) ;
+
 	ac = m.addAction( tr( "Remove" ) ) ;
 
 	ac->setEnabled( m_table.noneAreRunning() && !m_networkRunning ) ;

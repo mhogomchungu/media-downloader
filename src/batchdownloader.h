@@ -234,7 +234,9 @@ private:
 	void sortComments() ;
 	bool saveSubtitles( const QString& url,const QString& ext,const QString& title ) ;
 	void normalizeFilePath( QString& ) ;
-	void setVisibleMediaSectionCut( bool ) ;
+	void setVisibleWidgetOverMainTable( bool ) ;
+	void renameFile( int ) ;
+	void setTimeIntervals( int ) ;
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
 	void parseDataFromFile( const QByteArray& ) ;
 	void parseDataFromObject( const QJsonObject&,const QJsonArray& ) ;
@@ -284,6 +286,30 @@ private:
 	QPixmap m_defaultVideoThumbnail ;
 	batchdownloader::listType m_listType ;
 	utility::Terminator m_terminator ;
+
+	class widgetOverMainTable
+	{
+	public:
+		widgetOverMainTable()
+		{
+		}
+		widgetOverMainTable( bool b,int r ) : m_row( r ),m_show( b )
+		{
+		}
+		int row() const
+		{
+			return m_row ;
+		}
+		bool showRenameUi() const
+		{
+			return m_show ;
+		}
+	private:
+		int m_row ;
+		bool m_show ;
+	} ;
+
+	widgetOverMainTable m_widgetOverMainTable ;
 
 	downloadManager m_ccmd ;
 	downloadManager m_ccmd_metadata ;

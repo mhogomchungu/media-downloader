@@ -77,15 +77,15 @@ public:
 		{
 			return finishedWithSuccess() == e  ;
 		}
-		static bool finishedCancelled( tableWidget& e,int row )
+		static bool finishedCancelled( const tableWidget& e,int row )
 		{
 			return finishedCancelled( e.runningState( row ) ) ;
 		}
-		static bool finishedWithError( tableWidget& e,int row )
+		static bool finishedWithError( const tableWidget& e,int row )
 		{
 			return finishedWithError( e.runningState( row ) ) ;
 		}
-		static bool finishedWithSuccess( tableWidget& e,int row )
+		static bool finishedWithSuccess( const tableWidget& e,int row )
 		{
 			return finishedWithSuccess( e.runningState( row ) ) ;
 		}
