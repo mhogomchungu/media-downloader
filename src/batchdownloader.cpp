@@ -1112,6 +1112,8 @@ void batchdownloader::setVisibleWidgetOverMainTable( bool e )
 				m_ui.plainTextEditBD->clear() ;
 
 				m_ui.plainTextEditBD->appendPlainText( m[ 0 ] ) ;
+
+				m_ui.plainTextEditBD->moveCursor( QTextCursor::End ) ;
 			}
 
 			m_ui.plainTextEditBD->setFocus() ;

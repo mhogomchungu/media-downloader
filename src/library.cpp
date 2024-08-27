@@ -420,6 +420,8 @@ void library::cxMenuRequested( QPoint )
 
 		m_ui.plainTextLibrarySetNewName->setPlainText( m ) ;
 
+		m_ui.plainTextLibrarySetNewName->moveCursor( QTextCursor::End ) ;
+
 		m_ui.plainTextLibrarySetNewName->setFocus() ;
 
 		this->setRenameUiVisible( true ) ;

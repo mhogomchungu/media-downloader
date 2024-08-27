@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -655,9 +655,9 @@
       <property name="geometry">
        <rect>
         <x>100</x>
-        <y>116</y>
+        <y>56</y>
         <width>591</width>
-        <height>251</height>
+        <height>221</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -671,7 +671,7 @@
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>200</y>
+        <y>130</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -681,7 +681,7 @@
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>160</y>
+        <y>90</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -691,7 +691,7 @@
       <property name="geometry">
        <rect>
         <x>110</x>
-        <y>160</y>
+        <y>90</y>
         <width>281</width>
         <height>31</height>
        </rect>
@@ -710,9 +710,9 @@
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>310</y>
+        <y>232</y>
         <width>131</width>
-        <height>33</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
@@ -723,7 +723,7 @@
       <property name="geometry">
        <rect>
         <x>110</x>
-        <y>200</y>
+        <y>130</y>
         <width>281</width>
         <height>31</height>
        </rect>
@@ -742,9 +742,9 @@
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>310</y>
+        <y>232</y>
         <width>131</width>
-        <height>33</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
@@ -755,7 +755,7 @@
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>240</y>
+        <y>170</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -765,7 +765,7 @@
       <property name="geometry">
        <rect>
         <x>112</x>
-        <y>240</y>
+        <y>170</y>
         <width>281</width>
         <height>31</height>
        </rect>
@@ -784,9 +784,9 @@
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>270</y>
+        <y>200</y>
         <width>281</width>
-        <height>41</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
@@ -796,9 +796,9 @@
      <widget class="QLabel" name="labelBDSetNewFileName">
       <property name="geometry">
        <rect>
-        <x>110</x>
-        <y>190</y>
-        <width>571</width>
+        <x>120</x>
+        <y>110</y>
+        <width>561</width>
         <height>41</height>
        </rect>
       </property>
@@ -813,9 +813,9 @@
       <property name="geometry">
        <rect>
         <x>110</x>
-        <y>230</y>
+        <y>160</y>
         <width>571</width>
-        <height>71</height>
+        <height>61</height>
        </rect>
       </property>
       <property name="placeholderText">
