@@ -346,13 +346,18 @@ void library::addEntrySlot( const directoryEntries::iter& s )
 
 void library::cxMenuRequested( QPoint )
 {
+	auto row = m_table.currentRow() ;
+
+	if( row == -1 ){
+
+		return ;
+	}
+
 	QMenu m ;
 
-	connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this ](){
+	connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this,row ](){
 
-		auto row = m_table.currentRow() ;
-
-		if( row != -1 && m_table.isSelected( row ) ){
+		if( m_table.isSelected( row ) ){
 
 			auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
 
@@ -409,9 +414,7 @@ void library::cxMenuRequested( QPoint )
 		} ) ;
 	} ) ;
 
-	connect( m.addAction( tr( "Rename" ) ),&QAction::triggered,[ this ](){
-
-		auto row = m_table.currentRow() ;
+	connect( m.addAction( tr( "Rename" ) ),&QAction::triggered,[ this,row ](){
 
 		auto m = m_table.item( row,1 ).text() ;
 
