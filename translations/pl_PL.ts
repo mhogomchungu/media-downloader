@@ -349,6 +349,14 @@ Exampe 2: ${gateway}:8080</source>
         <source>About</source>
         <translation>O programie</translation>
     </message>
+    <message>
+        <source>Play Downloaded Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set New File Name Below</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1011,6 +1019,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sort By Likes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

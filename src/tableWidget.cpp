@@ -542,3 +542,16 @@ QTableWidget& tableWidget::get()
 {
 	return m_table ;
 }
+
+void tableWidget::setColumnNumbersTo( int m )
+{
+	while( m_table.columnCount() ){
+
+		m_table.removeColumn( 0 ) ;
+	}
+
+	for( int s = 0 ; s < m ; s++ ){
+
+		m_table.insertColumn( 0 ) ;
+	}
+}

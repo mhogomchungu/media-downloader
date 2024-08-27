@@ -69,7 +69,7 @@ private:
 	tableMiniWidget< engines::engine::baseEngine::mediaInfo,5 > m_tableList ;
 	QStringList m_optionsList ;
 	QTableWidget m_bogusTableOriginal ;
-	tableWidget m_bogusTable ;
+	tableWidget m_hiddenTable ;
 	utility::downLoadOptions m_extraOptions ;
 	utility::Terminator m_terminator ;
 

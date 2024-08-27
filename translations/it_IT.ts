@@ -351,6 +351,14 @@ Esempio 2: ${gateway}:8080</translation>
         <source>Enable Library Tab</source>
         <translation>Abilita scheda Libreria</translation>
     </message>
+    <message>
+        <source>Play Downloaded Media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set New File Name Below</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1014,6 +1022,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Sort By Likes</source>
         <translation>Ordina per n. Mi piace</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

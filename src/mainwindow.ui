@@ -290,6 +290,22 @@
        <string/>
       </property>
      </widget>
+     <widget class="QPushButton" name="pbBasicDownloaderPlay">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>330</y>
+        <width>31</width>
+        <height>33</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>Play Downloaded Media</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabBatchDownloader">
      <attribute name="title">

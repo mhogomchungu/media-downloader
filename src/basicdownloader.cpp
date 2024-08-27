@@ -34,11 +34,14 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	m_ui( m_ctx.Ui() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_tableList( *m_ui.bdTableWidgetList,m_ctx.mainWidget().font() ),
-	m_bogusTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0,m_settings.textAlignment() )
+	m_hiddenTable( m_bogusTableOriginal,m_ctx.mainWidget().font(),0,m_settings.textAlignment() )
 {
 	m_ui.pbPasteClipboard->setIcon( m_settings.getIcon( "clipboard" ) ) ;
 	m_ui.pbOptionsHistory->setIcon( m_settings.getIcon( "recentlyUsed" ) ) ;
-	m_ui.pbOptionsDownloadOptions->setIcon( m_settings.getIcon( "downloadOptions" ) ) ;
+	m_ui.pbOptionsDownloadOptions->setIcon( m_settings.getIcon( "downloadOptions" ) ) ;	
+	m_ui.pbBasicDownloaderPlay->setIcon( m_settings.getIcon( "video" ) ) ;
+
+	m_hiddenTable.setColumnNumbersTo( 3 ) ;
 
 	this->setAsActive() ;
 
@@ -57,6 +60,22 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	connect( m_ui.pbPasteClipboard,&QPushButton::clicked,[ this ](){
 
 		m_ui.lineEditURL->setText( utility::clipboardText() ) ;
+	} ) ;
+
+	connect( m_ui.pbBasicDownloaderPlay,&QPushButton::clicked,[ this ](){
+
+		if( m_hiddenTable.rowCount() ){
+
+			int row = 0 ;
+
+			const auto& e = this->defaultEngine().engine ;
+
+			const auto& engines = m_ctx.Engines() ;
+
+			const auto& engine = utility::resolveEngine( m_hiddenTable,e,engines,row ) ;
+
+			m_ctx.Engines().openUrls( m_hiddenTable,row,engine ) ;
+		}
 	} ) ;
 
 	m_tableList.connect( &QTableWidget::itemSelectionChanged,[ this ](){
@@ -139,17 +158,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 			m_ui.lineEditOptions->clear() ;
 			this->changeDefaultEngine( s ) ;
 		}
-	} ) ;
-
-	auto& table = m_bogusTable.get() ;
-
-	table.insertRow( 0 ) ;
-
-	for( int s = 0 ; s < 3 ; s++ ){
-
-		table.insertColumn( s ) ;
-		table.setItem( 0,s,new QTableWidgetItem ) ;
-	}
+	} ) ;	
 }
 
 void basicdownloader::init_done()
@@ -354,7 +363,7 @@ void basicdownloader::download( const QString& url )
 
 	const auto& engine = this->defaultEngine() ;
 
-	m_bogusTable.clear() ;
+	m_hiddenTable.clear() ;
 
 	auto uiText = m.last() ;
 	auto state = downloadManager::finishedStatus::notStarted() ;
@@ -365,15 +374,15 @@ void basicdownloader::download( const QString& url )
 	entry.url    = uiText ;
 	entry.runningState = state ;
 
-	m_bogusTable.addItem( entry.move() ) ;
+	m_hiddenTable.addItem( entry.move() ) ;
 
 	auto e = m_extraOptions.downloadOptions ;
 
-	m_bogusTable.setDownloadingOptions( tableWidget::type::DownloadOptions,0,e ) ;
+	m_hiddenTable.setDownloadingOptions( tableWidget::type::DownloadOptions,0,e ) ;
 
-	m_ctx.TabManager().Configure().setDownloadOptions( 0,m_bogusTable ) ;
+	m_ctx.TabManager().Configure().setDownloadOptions( 0,m_hiddenTable ) ;
 
-	auto s = utility::setDownloadOptions( engine.engine,m_bogusTable,0 ).downloadOptions ;
+	auto s = utility::setDownloadOptions( engine.engine,m_hiddenTable,0 ).downloadOptions ;
 
 	auto mm = m_ui.lineEditOptions->text() ;
 
@@ -464,7 +473,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 				auto& s = m_parent.m_ctx.Settings() ;
 
-				auto& t = m_parent.m_bogusTable ;
+				auto& t = m_parent.m_hiddenTable ;
 
 				utility::updateFinishedState( m_engine,s,t,a.move(),fileNames ) ;
 

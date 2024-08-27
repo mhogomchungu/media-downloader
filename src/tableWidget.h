@@ -314,6 +314,8 @@ public:
 
 	QTableWidget& get() ;
 
+	void setColumnNumbersTo( int ) ;
+
 	template< typename MemberFunction,typename Callback >
 	void connect( MemberFunction m,Callback c )
 	{

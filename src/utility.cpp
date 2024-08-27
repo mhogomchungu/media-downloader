@@ -2353,6 +2353,10 @@ QString utility::rename( QTableWidgetItem& item,
 					return newName ;
 				}
 			}
+
+			item.setText( newName ) ;
+
+			return newName ;
 		}
 	}
 
