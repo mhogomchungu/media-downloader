@@ -41,11 +41,25 @@ library::library( const Context& ctx ) :
 {
 	qRegisterMetaType< directoryEntries::iter >() ;
 
+	this->setRenameUiVisible( false ) ;
+
 	m_ui.cbLibraryTabEnable->setChecked( m_enabled ) ;
 
-	connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ & ](){
+	connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ this ](){
 
 		m_continue = false ;
+	} ) ;
+
+	connect( m_ui.pbLibraryCancelRename,&QPushButton::clicked,[ this ](){
+
+		this->setRenameUiVisible( false ) ;
+	} ) ;
+
+	connect( m_ui.pbLibrarySetNewFileName,&QPushButton::clicked,[ this ](){
+
+		this->renameFile( m_table.currentRow() ) ;
+
+		this->setRenameUiVisible( false ) ;
 	} ) ;
 
 	connect( this,&library::addEntrySignal,this,&library::addEntrySlot,Qt::QueuedConnection ) ;
@@ -207,6 +221,24 @@ void library::tabExited()
 
 void library::textAlignmentChanged( Qt::LayoutDirection )
 {
+}
+
+void library::setRenameUiVisible( bool e )
+{
+	m_ui.labelLibrarySetNewFileName->setVisible( e ) ;
+	m_ui.pbLibraryCancelRename->setVisible( e ) ;
+	m_ui.pbLibrarySetNewFileName->setVisible( e ) ;
+	m_ui.plainTextLibrarySetNewName->setVisible( e ) ;
+	m_ui.labelLibraryWidgetOverMainTable->setVisible( e ) ;
+}
+
+void library::renameFile( int row )
+{
+	auto nn = m_ui.plainTextLibrarySetNewName->toPlainText() ;
+
+	auto& item = m_table.item( row,1 ) ;
+
+	utility::rename( item,m_currentPath,nn,item.text() ) ;
 }
 
 void library::enableAll( bool e )
@@ -375,6 +407,19 @@ void library::cxMenuRequested( QPoint )
 
 			this->internalEnableAll() ;
 		} ) ;
+	} ) ;
+
+	connect( m.addAction( tr( "Rename" ) ),&QAction::triggered,[ this ](){
+
+		auto row = m_table.currentRow() ;
+
+		auto m = m_table.item( row,1 ).text() ;
+
+		m_ui.plainTextLibrarySetNewName->setPlainText( m ) ;
+
+		m_ui.plainTextLibrarySetNewName->setFocus() ;
+
+		this->setRenameUiVisible( true ) ;
 	} ) ;
 
 	m.exec( QCursor::pos() ) ;

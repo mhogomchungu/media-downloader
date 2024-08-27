@@ -1073,6 +1073,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Delete All</source>
         <translation>Elimina tutto</translation>
     </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>logWindow</name>

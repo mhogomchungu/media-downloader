@@ -1071,6 +1071,10 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Delete All</source>
         <translation>Eliminar Todos</translation>
     </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>logWindow</name>

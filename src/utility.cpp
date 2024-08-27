@@ -2326,39 +2326,23 @@ quint64 utility::simpleRandomNumber()
 }
 
 QString utility::rename( QTableWidgetItem& item,
-			 const QString& df,
+			 const QString& cwd,
 			 const QString& newName,
 			 const QString& oldName )
 {
-	auto oldPath = df + "/" + oldName ;
+	auto oldPath = cwd + "/" + oldName ;
+	auto newPath = cwd + "/" + newName ;
 
-	QFile ff( oldPath ) ;
+	if( QDir().rename( oldPath,newPath ) ){
 
-	if( ff.exists() ){
+		auto txt = item.text() ;
 
-		auto newPath = df + "/" + newName ;
+		txt.replace( oldName,newName ) ;
 
-		if( ff.rename( newPath ) ){
+		item.setText( txt ) ;
 
-			auto txt = util::split( item.text(),"\n" ) ;
-
-			for( int i = 0 ; i < txt.size() ; i++ ){
-
-				if( txt[ i ] == oldName ){
-
-					txt[ i ] = newName ;
-
-					item.setText( txt.join( "\n" ) ) ;
-
-					return newName ;
-				}
-			}
-
-			item.setText( newName ) ;
-
-			return newName ;
-		}
+		return newName ;
+	}else{
+		return {} ;
 	}
-
-	return {} ;
 }

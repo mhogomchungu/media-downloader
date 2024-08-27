@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1461,6 +1461,77 @@
       </property>
       <property name="text">
        <string>Cancel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelLibraryWidgetOverMainTable">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>126</y>
+        <width>571</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPlainTextEdit" name="plainTextLibrarySetNewName">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>190</y>
+        <width>551</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string notr="true"/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbLibrarySetNewFileName">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>282</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Set</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pbLibraryCancelRename">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>282</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="labelLibrarySetNewFileName">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>140</y>
+        <width>551</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Set New File Name Below</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>
