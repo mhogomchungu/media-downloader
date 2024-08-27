@@ -258,6 +258,7 @@ public:
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
+	void openUrl( const QString& ) ;
 	void setEnableLibraryTab( bool ) ;
 	void setMonitorClipboardUrl( bool,settings::tabName ) ;
 	void setShowMetaDataInBatchDownloader( bool ) ;
@@ -368,6 +369,8 @@ private:
 
 	bool m_EnableHighDpiScaling ;
 	QString m_appDataPath ;
+	QByteArray m_defaultScaleFactor ;
+	QByteArray m_MdScaleFactor ;
 	options m_options ;
 	std::unique_ptr< QSettings > m_settingsP ;
 	QSettings& m_settings ;

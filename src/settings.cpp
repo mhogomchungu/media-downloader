@@ -396,11 +396,34 @@ settings::settings( const utility::cliArguments& args ) :
 #else
 	m_EnableHighDpiScaling = false ;
 #endif
-	auto m = this->highDpiScalingFactor() ;
+	m_MdScaleFactor = this->highDpiScalingFactor() ;
 
-	if( m != "1.0" ){
+	m_defaultScaleFactor = qgetenv( "QT_SCALE_FACTOR" ) ;
 
-		qputenv( "QT_SCALE_FACTOR",m ) ;
+	if( m_MdScaleFactor != "1.0" ){
+
+		qputenv( "QT_SCALE_FACTOR",m_MdScaleFactor ) ;
+	}
+}
+
+void settings::openUrl( const QString& e )
+{
+	if( m_MdScaleFactor != "1.0" ){
+
+		if( m_defaultScaleFactor.isEmpty() ){
+
+			qunsetenv( "QT_SCALE_FACTOR" ) ;
+		}else{
+			qputenv( "QT_SCALE_FACTOR",m_defaultScaleFactor ) ;
+		}
+
+		auto m = QUrl::fromLocalFile( e ) ;
+		QDesktopServices::openUrl( m ) ;
+
+		qputenv( "QT_SCALE_FACTOR",m_MdScaleFactor ) ;
+	}else{
+		auto m = QUrl::fromLocalFile( e ) ;
+		QDesktopServices::openUrl( m ) ;
 	}
 }
 

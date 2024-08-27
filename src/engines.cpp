@@ -1490,15 +1490,9 @@ util::Json engines::engine::baseEngine::parsePlayListData( const QByteArray& e )
 	return e ;
 }
 
-static void _openUrl( const QString& path )
-{
-	auto m = QUrl::fromLocalFile( path ) ;
-	QDesktopServices::openUrl( m ) ;
-}
-
 void engines::openUrls( const QString& s ) const
 {
-	_openUrl( s ) ;
+	m_settings.openUrl( s ) ;
 }
 
 void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngine::localFile& l )
@@ -1525,9 +1519,9 @@ void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngi
 
 	if( s.startsWith( ss ) ){
 
-		_openUrl( s ) ;
+		m_settings.openUrl( s ) ;
 	}else{
-		_openUrl( l.downloadFolder + "/" + e ) ;
+		m_settings.openUrl( l.downloadFolder + "/" + e ) ;
 	}
 }
 
