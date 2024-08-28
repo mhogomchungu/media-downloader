@@ -356,15 +356,19 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Set New File Name Below</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename File To Below Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename Media To Below Text</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1100,15 +1104,19 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Set New File Name Below</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename File To Below Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename Folder To Below Text</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

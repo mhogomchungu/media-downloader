@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -716,7 +716,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Set</string>
+       <string>Rename</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_9">
@@ -803,7 +803,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Set New File Name Below</string>
+       <string>Rename File To Below Text</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -1531,7 +1531,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Set New File Name Below</string>
+       <string>Rename File To Below Text</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

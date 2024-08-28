@@ -472,7 +472,16 @@ void library::cxMenuRequested( QPoint )
 
 	connect( m.addAction( tr( "Rename" ) ),&QAction::triggered,[ this,row ](){
 
-		m_ui.labelLibrarySetNewFileName->setText( tr( "Set New File Name Below" ) ) ;
+		if( m_table.stuffAt( row ) == directoryEntries::ICON::FILE ){
+
+			auto a = tr( "Rename File To Below Text" ) ;
+
+			m_ui.labelLibrarySetNewFileName->setText( a ) ;
+		}else{
+			auto a = tr( "Rename Folder To Below Text" ) ;
+
+			m_ui.labelLibrarySetNewFileName->setText( a ) ;
+		}
 
 		m_ui.pbLibrarySetNewFileName->setObjectName( "Rename" ) ;
 
