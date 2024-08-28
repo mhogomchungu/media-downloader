@@ -485,10 +485,6 @@ configure::configure( const Context& ctx ) :
 			m.addAction( e.replace( ".json","" ) )->setObjectName( it ) ;
 		}
 
-		m.addSeparator() ;
-
-		m.addAction( tr( "Cancel" ) )->setEnabled( false ) ;
-
 		connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
 
 			auto id = utility::sequentialID() ;

@@ -400,7 +400,7 @@ settings::settings( const utility::cliArguments& args ) :
 
 	m_defaultScaleFactor = qgetenv( "QT_SCALE_FACTOR" ) ;
 
-	if( m_MdScaleFactor != "1.0" ){
+	if( !m_MdScaleFactor.isEmpty() ){
 
 		qputenv( "QT_SCALE_FACTOR",m_MdScaleFactor ) ;
 	}
@@ -408,8 +408,12 @@ settings::settings( const utility::cliArguments& args ) :
 
 void settings::openUrl( const QString& e )
 {
-	if( m_MdScaleFactor != "1.0" ){
+	auto m = QUrl::fromLocalFile( e ) ;
 
+	if( m_MdScaleFactor.isEmpty() ){
+
+		QDesktopServices::openUrl( m ) ;
+	}else{
 		if( m_defaultScaleFactor.isEmpty() ){
 
 			qunsetenv( "QT_SCALE_FACTOR" ) ;
@@ -417,13 +421,9 @@ void settings::openUrl( const QString& e )
 			qputenv( "QT_SCALE_FACTOR",m_defaultScaleFactor ) ;
 		}
 
-		auto m = QUrl::fromLocalFile( e ) ;
 		QDesktopServices::openUrl( m ) ;
 
 		qputenv( "QT_SCALE_FACTOR",m_MdScaleFactor ) ;
-	}else{
-		auto m = QUrl::fromLocalFile( e ) ;
-		QDesktopServices::openUrl( m ) ;
 	}
 }
 
@@ -825,7 +825,7 @@ void settings::setShowVersionInfoAndAutoDownloadUpdates( bool e )
 
 void settings::setHighDpiScalingFactor( const QString& m )
 {
-	m_settings.setValue( "EnabledHighDpiScalingFactor",m.toUtf8() ) ;
+	m_settings.setValue( "EnabledHighDpiScalingFactor",m ) ;
 }
 
 QString settings::textEncoding()
@@ -882,7 +882,14 @@ QString settings::defaultEngine( settings::tabName n,const QString& engineName )
 
 QByteArray settings::highDpiScalingFactor()
 {
-	return this->getOption( "EnabledHighDpiScalingFactor",QByteArray( "1.0" ) ) ;
+	auto m = this->getOption( "EnabledHighDpiScalingFactor",QString( "1.0" ) ) ;
+
+	if( m == "1.0" ){
+
+		return {} ;
+	}else{
+		return m.toUtf8() ;
+	}
 }
 
 QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
