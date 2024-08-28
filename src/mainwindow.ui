@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -965,6 +965,9 @@
         <height>31</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</string>
+      </property>
      </widget>
      <widget class="QTableWidget" name="tableWidgetPl">
       <property name="geometry">
@@ -1502,7 +1505,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Set</string>
+       <string>Rename</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pbLibraryCancelRename">

@@ -57,7 +57,18 @@ library::library( const Context& ctx ) :
 
 	connect( m_ui.pbLibrarySetNewFileName,&QPushButton::clicked,[ this ](){
 
-		this->renameFile( m_table.currentRow() ) ;
+		auto m = m_ui.pbLibrarySetNewFileName->objectName() ;
+
+		if( m == "Rename" ){
+
+			this->renameFile( m_table.currentRow() ) ;
+
+		}else if( m == "Delete" ){
+
+			this->deleteEntry( m_table.currentRow() ) ;
+		}else{
+			this->deleteAll() ;
+		}
 
 		this->setRenameUiVisible( false ) ;
 	} ) ;
@@ -241,6 +252,65 @@ void library::renameFile( int row )
 	utility::rename( item,m_currentPath,nn,item.text() ) ;
 }
 
+void library::deleteEntry( int row )
+{
+	if( m_table.isSelected( row ) ){
+
+		auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
+
+		this->internalDisableAll() ;
+
+		m_ui.pbLibraryCancel->setEnabled( true ) ;
+
+		utils::qthread::run( [ this,m ](){
+
+			QFileInfo mm( m ) ;
+
+			if( mm.isSymLink() ){
+
+				QFile::remove( m ) ;
+
+			}else if( mm.isDir() ){
+
+				directoryManager::removeDirectory( m,m_continue ) ;
+			}else{
+				QFile::remove( m ) ;
+			}
+
+			mm.refresh() ;
+
+			return mm.exists() ;
+
+		},[ row,this ]( bool s ){
+
+			if( !s ){
+
+				m_table.removeRow( row ) ;
+			}
+
+			this->internalEnableAll() ;
+		} ) ;
+	}
+}
+
+void library::deleteAll()
+{
+	this->internalDisableAll() ;
+
+	m_ui.pbLibraryCancel->setEnabled( true ) ;
+
+	utils::qthread::run( [ this ](){
+
+		directoryManager::removeDirectoryContents( m_currentPath,m_continue ) ;
+
+	},[ this ](){
+
+		this->showContents( m_currentPath ) ;
+
+		this->internalEnableAll() ;
+	} ) ;
+}
+
 void library::enableAll( bool e )
 {
 	if( e ){
@@ -357,64 +427,60 @@ void library::cxMenuRequested( QPoint )
 
 	connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this,row ](){
 
-		if( m_table.isSelected( row ) ){
+		if( m_table.stuffAt( row ) == directoryEntries::ICON::FILE ){
 
-			auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
+			auto a = tr( "Are You Sure You Want To Delete Below File?" ) ;
 
-			this->internalDisableAll() ;
+			m_ui.labelLibrarySetNewFileName->setText( a ) ;
+		}else{
+			auto a = tr( "Are You Sure You Want To Delete Below Folder?" ) ;
 
-			m_ui.pbLibraryCancel->setEnabled( true ) ;
-
-			utils::qthread::run( [ this,m ](){
-
-				QFileInfo mm( m ) ;
-
-				if( mm.isSymLink() ){
-
-					QFile::remove( m ) ;
-
-				}else if( mm.isDir() ){
-
-					directoryManager::removeDirectory( m,m_continue ) ;
-				}else{
-					QFile::remove( m ) ;
-				}
-
-				mm.refresh() ;
-
-				return mm.exists() ;
-
-			},[ row,this ]( bool s ){
-
-				if( !s ){
-
-					m_table.removeRow( row ) ;
-				}
-
-				this->internalEnableAll() ;
-			} ) ;
+			m_ui.labelLibrarySetNewFileName->setText( a ) ;
 		}
+
+		auto m = m_table.item( row,1 ).text() ;
+
+		m_ui.plainTextLibrarySetNewName->setPlainText( m ) ;
+
+		m_ui.pbLibrarySetNewFileName->setObjectName( "Delete" ) ;
+
+		m_ui.pbLibrarySetNewFileName->setText( tr( "Yes" ) ) ;
+
+		m_ui.pbLibraryCancelRename->setText( tr( "No" ) ) ;
+
+		m_ui.plainTextLibrarySetNewName->setReadOnly( true ) ;
+
+		this->setRenameUiVisible( true ) ;
 	} ) ;
 
 	connect( m.addAction( tr( "Delete All" ) ),&QAction::triggered,[ this ](){
 
-		this->internalDisableAll() ;
+		auto a = tr( "Are You Sure You Want To Delete All Files And Folders?" ) ;
 
-		m_ui.pbLibraryCancel->setEnabled( true ) ;
+		m_ui.labelLibrarySetNewFileName->setText( a ) ;
 
-		utils::qthread::run( [ this ](){
+		m_ui.pbLibrarySetNewFileName->setObjectName( "DeleteAll" ) ;
 
-			directoryManager::removeDirectoryContents( m_currentPath,m_continue ) ;
+		m_ui.pbLibrarySetNewFileName->setText( tr( "Yes" ) ) ;
 
-		},[ this ](){
+		m_ui.pbLibraryCancelRename->setText( tr( "No" ) ) ;
 
-			this->showContents( m_currentPath ) ;
+		this->setRenameUiVisible( true ) ;
 
-			this->internalEnableAll() ;
-		} ) ;
+		m_ui.plainTextLibrarySetNewName->setVisible( false ) ;
 	} ) ;
 
 	connect( m.addAction( tr( "Rename" ) ),&QAction::triggered,[ this,row ](){
+
+		m_ui.labelLibrarySetNewFileName->setText( tr( "Set New File Name Below" ) ) ;
+
+		m_ui.pbLibrarySetNewFileName->setObjectName( "Rename" ) ;
+
+		m_ui.pbLibrarySetNewFileName->setText( tr( "Rename" ) ) ;
+
+		m_ui.pbLibraryCancelRename->setText( tr( "Cancel" ) ) ;
+
+		m_ui.plainTextLibrarySetNewName->setReadOnly( false ) ;
 
 		auto m = m_table.item( row,1 ).text() ;
 

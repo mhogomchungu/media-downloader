@@ -54,6 +54,8 @@ signals:
 private:
 	void setRenameUiVisible( bool ) ;
 	void renameFile( int ) ;
+	void deleteEntry( int ) ;
+	void deleteAll() ;
 	void addEntrySlot( const directoryEntries::iter& ) ;
 	void cxMenuRequested( QPoint ) ;
 	void arrangeAndShow() ;

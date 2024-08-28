@@ -359,6 +359,14 @@ Esempio 2: ${gateway}:8080</translation>
         <source>Set New File Name Below</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1075,6 +1083,34 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are You Sure You Want To Delete Below File?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are You Sure You Want To Delete Below Folder?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set New File Name Below</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are You Sure You Want To Delete All Files And Folders?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
