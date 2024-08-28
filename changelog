@@ -309,3 +309,11 @@ Version 1.2.0(April 1st, 2021)
          - Use blue icons when a dark theme is in use.
          [Flatpak]
          - Use ~/Downloads folder as default download folder.
+
+     Version 5.1.0(Unreleased)
+         [All]
+         - Ask for confirmation before deleting entries in the library tab.
+         - Add ability to rename downloaded media in the batch downloader tab.
+         - Add ability to rename entries in the library tab.
+         - Add ability to play downloaded media in the basic downloader tab.
+         - Fix a bug that caused Qt based external tools to be affected by the apps scalling factor.
