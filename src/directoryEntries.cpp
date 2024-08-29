@@ -310,7 +310,7 @@ private:
 
 bool directoryEntries::valid( const char * e )
 {
-	if( std::strcmp( e,".." ) == 0 ){
+	if( std::strcmp( e,".." ) == 0 || std::strcmp( e,"." ) == 0 ){
 
 		return false ;
 	}
@@ -320,27 +320,17 @@ bool directoryEntries::valid( const char * e )
 		return false ;
 	}
 
-	if( *e == '.' ){
-
-		return false ;
-	}
-
 	return true ;
 }
 
 bool directoryEntries::valid( const wchar_t * s )
 {
-	if( std::wcscmp( s,L".." ) == 0 ){
+	if( std::wcscmp( s,L".." ) == 0 || std::wcscmp( s,L"." ) == 0 ){
 
 		return false ;
 	}
 
 	if( std::wcsncmp( s,L"info_",5 ) == 0 ){
-
-		return false ;
-	}
-
-	if( *s == L'.' ){
 
 		return false ;
 	}
