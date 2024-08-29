@@ -476,13 +476,19 @@ QIcon settings::getIcon( const QString& e )
 {
 	if( e == "media-downloader" ){
 
-		return QIcon( ":/media-downloader" ) ;
+		auto m = "io.github.mhogomchungu.media-downloader" ;
+
+		return QIcon::fromTheme( m,QIcon( ":/media-downloader" ) ) ;
 	}else{
 		if( _darkTheme() ){
 
-			return QIcon( ":/icons/blue/" + e ) ;
+			auto m = "io.github.mhogomchungu.media-downloader_blue_" + e ;
+
+			return QIcon::fromTheme( m,QIcon( ":/icons/blue/" + e ) ) ;
 		}else{
-			return QIcon( ":/icons/black/" + e ) ;
+			auto m = "io.github.mhogomchungu.media-downloader_black_" + e ;
+
+			return QIcon::fromTheme( m,QIcon( ":/icons/black/" + e ) ) ;
 		}
 	}
 }
