@@ -527,7 +527,7 @@ namespace utility
 	bool platformisFlatPak() ;
 	bool addData( const QByteArray& ) ;
 	QString rename( QTableWidgetItem&,const QString&,const QString&,const QString& ) ;
-	void contextMenuForDirectUrl( const QJsonObject&,const Context& ) ;
+	void contextMenuForDirectUrl( QMenu&,const QJsonObject&,const Context& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
 	QString OSXApplicationDirPath() ;
 	QString OSXtranslationFilesPath() ;

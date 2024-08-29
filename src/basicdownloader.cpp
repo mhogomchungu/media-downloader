@@ -74,7 +74,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 			const auto& engine = utility::resolveEngine( m_hiddenTable,e,engines,row ) ;
 
-			m_ctx.Engines().openUrls( m_hiddenTable,row,engine ) ;
+			engines.openUrls( m_hiddenTable,row,engine ) ;
 		}
 	} ) ;
 
@@ -94,7 +94,18 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 			const auto& obj = m_tableList.stuffAt( row ).toqJsonObject() ;
 
-			utility::contextMenuForDirectUrl( obj,m_ctx ) ;
+			QMenu m ;
+
+			utility::contextMenuForDirectUrl( m,obj,m_ctx ) ;
+
+			m.addSeparator() ;
+
+			connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
+
+				m_tableList.setVisible( false ) ;
+			} ) ;
+
+			m.exec( QCursor::pos() ) ;
 		}
 	} ) ;
 

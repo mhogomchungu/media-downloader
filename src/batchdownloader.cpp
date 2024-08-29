@@ -101,7 +101,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 				const auto& obj = m_tableWidgetBDList.stuffAt( row ) ;
 
-				utility::contextMenuForDirectUrl( obj,m_ctx ) ;
+				QMenu m ;
+
+				utility::contextMenuForDirectUrl( m,obj,m_ctx ) ;
+
+				m.exec( QCursor::pos() ) ;
 			}
 
 		}else if( m_listType == batchdownloader::listType::SUBTITLES ){

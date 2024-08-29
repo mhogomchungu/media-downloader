@@ -2176,11 +2176,9 @@ bool utility::addData( const QByteArray& e )
 	}
 }
 
-void utility::contextMenuForDirectUrl( const QJsonObject& obj,const Context& ctx )
+void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Context& ctx )
 {	
 	auto arr = obj.value( "urls" ).toArray() ;
-
-	QMenu m ;
 
 	auto mediaPlayer = ctx.Settings().openWith( ctx.logger() ) ;
 
@@ -2269,8 +2267,6 @@ void utility::contextMenuForDirectUrl( const QJsonObject& obj,const Context& ctx
 			}
 		}
 	}
-
-	m.exec( QCursor::pos() ) ;
 }
 
 void utility::deleteTmpFiles( const QString& df,std::vector< QByteArray > files )

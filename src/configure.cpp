@@ -379,7 +379,9 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureCookiePath,&QPushButton::clicked,[ this ](){
 
-		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),tr( "Select A Cookie File" ),utility::homePath() ) ;
+		auto mm = tr( "Select A Cookie File" ) ;
+
+		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),mm,utility::homePath() ) ;
 
 		if( !m.isEmpty() ){
 
@@ -752,10 +754,6 @@ void configure::setUpdateMenu()
 			ac->setEnabled( networkAccess::hasNetworkSupport() ) ;
 		}
 	}
-
-	m_menu.addSeparator() ;
-
-	m_menu.addAction( tr( "Cancel" ) ) ;
 
 	m_ui.pbConfigureDownload->setMenu( &m_menu ) ;
 }
