@@ -367,10 +367,6 @@ Esempio 2: ${gateway}:8080</translation>
         <source>Rename File To Below Text</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Rename Media To Below Text</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -966,6 +962,13 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
 </context>
 <context>
+    <name>basicdownloader</name>
+    <message>
+        <source>Hide List</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>batchdownloader</name>
     <message>
         <source>Set</source>
@@ -1049,10 +1052,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Set Download Folder</source>
         <translation>Imposta cartella download</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Annulla</translation>
     </message>
     <message>
         <source>Remove</source>

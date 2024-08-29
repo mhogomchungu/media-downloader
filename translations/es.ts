@@ -367,10 +367,6 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Rename File To Below Text</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Rename Media To Below Text</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -964,6 +960,13 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
 </context>
 <context>
+    <name>basicdownloader</name>
+    <message>
+        <source>Hide List</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>batchdownloader</name>
     <message>
         <source>Set Batch File</source>
@@ -1059,10 +1062,6 @@ Ejemplo 2: ${gateway}:8080</translation>
     <message>
         <source>Select An Engine File</source>
         <translation>Seleccionar un Archivo de Motor</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancelar</translation>
     </message>
     <message>
         <source>Set Download Folder</source>
