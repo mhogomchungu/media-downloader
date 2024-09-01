@@ -365,6 +365,18 @@ Exampe 2: ${gateway}:8080</source>
         <source>Rename File To Below Text</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>A Button To Open A Folder To Be Used As A Download Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Button To Open A Folder Where Theme Config Files Are Stored</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>

@@ -391,7 +391,7 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
-		this->saveOptions() ;
+		//this->saveOptions() ;
 		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
@@ -583,7 +583,7 @@ configure::configure( const Context& ctx ) :
 	connect( m_ui.pbConfigureDownloadPath,&QPushButton::clicked,[ this ](){
 
 		auto a = tr( "Set Download Folder" ) ;
-		auto b = QDir::homePath() ;
+		auto b = m_settings.downloadFolder() ;
 		auto c = QFileDialog::ShowDirsOnly ;
 
 		auto e = QFileDialog::getExistingDirectory( &m_mainWindow,a,b,c ) ;
@@ -817,7 +817,7 @@ void configure::populateOptionsTable( const engines::engine& s,int selectRow )
 
 void configure::tabExited()
 {
-	this->saveOptions() ;
+	//this->saveOptions() ;
 }
 
 void configure::updateEnginesList( const QStringList& e )

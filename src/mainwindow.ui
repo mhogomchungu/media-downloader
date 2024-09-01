@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1577,6 +1577,9 @@
           <height>31</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string>A Button To Open A Folder To Be Used As A Download Folder</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -1748,6 +1751,9 @@
           <height>31</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string>A Button To Open A Folder Where Theme Config Files Are Stored</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -1786,6 +1792,9 @@
           <width>31</width>
           <height>33</height>
          </rect>
+        </property>
+        <property name="toolTip">
+         <string>A Button To Open A Folder Where Extension's Binaries Are Stored</string>
         </property>
         <property name="text">
          <string/>

@@ -785,7 +785,7 @@ void playlistdownloader::download( const engines::engine& engine )
 {
 	downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
 
-	auto _add = [ & ]( int s,const QString& opts ){
+	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
 
 		auto validUrl = !m_table.url( s ).isEmpty() ;
 
@@ -801,77 +801,14 @@ void playlistdownloader::download( const engines::engine& engine )
 
 				auto u = m_table.downloadingOptions( s ) ;
 
-				auto function = utility::setDownloadOptions ;
+				auto m = utility::setDownloadOptions( engine,m_table,s,u ) ;
 
-				if( u.isEmpty() ){
-
-					auto oo = function( engine,m_table,s,opts ) ;
-
-					indexes.add( s,oo.move() ) ;
-				}else{
-					auto uu = function( engine,m_table,s,u ) ;
-
-					indexes.add( s,uu.move() ) ;
-				}
+				indexes.add( s,m.move() ) ;
 			}
 		}
-	} ;
-
-	auto opts = m_ui.lineEditPLUrlOptions->text() ;
-
-	int count = m_table.rowCount() ;
-
-	for( int i = 0 ; i < count ; i++ ){
-
-		_add( i,opts ) ;
 	}
 
 	this->download( engine,indexes.move() ) ;
-}
-
-static void _remove_duplicates( QStringList& opts )
-{
-	class remove
-	{
-	public:
-		remove( QStringList& m ) : m_opts( m )
-		{
-		}
-		void run( int pos )
-		{
-			auto m = this->found( pos ) ;
-
-			if( m != -1 ){
-
-				auto mm = this->found( m + 2 ) ;
-
-				if( mm != -1 ){
-
-					m_opts.removeAt( m ) ;
-					m_opts.removeAt( m ) ;
-
-					this->run( m ) ;
-				}
-			}
-		}
-	private:
-		int found( int pos )
-		{
-			for( ; pos < m_opts.size() ; pos++ ){
-
-				if( m_opts[ pos ] == "-f" && 1 + pos < m_opts.size() ){
-
-					return pos ;
-				}
-			}
-
-			return -1 ;
-		}
-
-		QStringList& m_opts ;
-	} ;
-
-	remove( opts ).run( 0 ) ;
 }
 
 void playlistdownloader::download( const engines::engine& eng,int index )
@@ -977,8 +914,6 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			opts.append( "--download-archive" ) ;
 			opts.append( m_subscription.archivePath() ) ;
 		}
-
-		_remove_duplicates( opts ) ;
 
 		return opts ;
 	} ;
