@@ -261,9 +261,9 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	json.done() ;
 
-	mainObj.insert( "DefaultListCmdOptions",_arr( "--newline","--print",_jsonFullArguments() ) ) ;
+	mainObj.insert( "DefaultListCmdOptions",_arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ) ;
 
-	mainObj.insert( "DumptJsonArguments",_arr( "--newline","--print",_jsonFullArguments() ) ) ;
+	mainObj.insert( "DumptJsonArguments",_arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ) ;
 
 	mainObj.insert( "DefaultCommentsCmdOptions",_arr( "--get-comments","--no-download","--print","{\"title\":%(title)j,\"comments\":%(comments)j}" ) ) ;
 
@@ -355,7 +355,7 @@ yt_dlp::yt_dlp( const engines& engines,
 		obj.insert( "EncodingArgument","--encoding" ) ;
 	}
 
-	auto arr = _arr( "--newline","--print",_jsonFullArguments() ) ;
+	auto arr = _arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 
 	obj.insert( "DumptJsonArguments",arr ) ;
 

@@ -829,6 +829,51 @@ void playlistdownloader::download( const engines::engine& engine )
 	this->download( engine,indexes.move() ) ;
 }
 
+static void _remove_duplicates( QStringList& opts )
+{
+	class remove
+	{
+	public:
+		remove( QStringList& m ) : m_opts( m )
+		{
+		}
+		void run( int pos )
+		{
+			auto m = this->found( pos ) ;
+
+			if( m != -1 ){
+
+				auto mm = this->found( m + 2 ) ;
+
+				if( mm != -1 ){
+
+					m_opts.removeAt( m ) ;
+					m_opts.removeAt( m ) ;
+
+					this->run( m ) ;
+				}
+			}
+		}
+	private:
+		int found( int pos )
+		{
+			for( ; pos < m_opts.size() ; pos++ ){
+
+				if( m_opts[ pos ] == "-f" && 1 + pos < m_opts.size() ){
+
+					return pos ;
+				}
+			}
+
+			return -1 ;
+		}
+
+		QStringList& m_opts ;
+	} ;
+
+	remove( opts ).run( 0 ) ;
+}
+
 void playlistdownloader::download( const engines::engine& eng,int index )
 {
 	class events
@@ -933,10 +978,13 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			opts.append( m_subscription.archivePath() ) ;
 		}
 
+		_remove_duplicates( opts ) ;
+
 		return opts ;
 	} ;
 
-	m_ccmd.download( engine,optsUpdater,
+	m_ccmd.download( engine,
+			 optsUpdater,
 			 m_ui.lineEditPLUrlOptions->text(),
 			 m_table.url( index ),
 			 m_ctx,
