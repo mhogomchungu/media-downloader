@@ -353,31 +353,32 @@ Esempio 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Play Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Riproduci i contenuti multimediali scaricati</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina</translation>
     </message>
     <message>
         <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci l&apos;URLplaylist. 
+Per aggiungere più playlist, separale con uno spazio o una nuova riga</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina il file qui sotto il testo</translation>
     </message>
     <message>
         <source>A Button To Open A Folder To Be Used As A Download Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Un pulsante per aprire una cartella da usare come cartella di download</translation>
     </message>
     <message>
         <source>A Button To Open A Folder Where Theme Config Files Are Stored</source>
-        <translation type="unfinished"></translation>
+        <translation>Un pulsante per aprire una cartella in cui sono archiviati i file di configurazione tema</translation>
     </message>
     <message>
         <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
-        <translation type="unfinished"></translation>
+        <translation>Un pulsante per aprire una cartella in cui sono archiviati i file binari dell&apos;estensione</translation>
     </message>
 </context>
 <context>
@@ -970,14 +971,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Sign In To Confirm You Are Not A Bot</source>
-        <translation type="unfinished"></translation>
+        <translation>Accedi per confermare che non sei un bot</translation>
     </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <source>Hide List</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi elenco</translation>
     </message>
 </context>
 <context>
@@ -1052,7 +1053,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina</translation>
     </message>
 </context>
 <context>
@@ -1098,39 +1099,39 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below File?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler eliminare il file indicato qui sotto?</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below Folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler eliminare la cartella indicate qui sotto?</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sì</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler eliminare tutti i file e le cartelle?</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina il file qui sotto il testo</translation>
     </message>
     <message>
         <source>Rename Folder To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina la cartella qui sotto il testo</translation>
     </message>
 </context>
 <context>
