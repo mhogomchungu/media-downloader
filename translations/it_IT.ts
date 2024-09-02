@@ -1086,6 +1086,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Edit</source>
         <translation>Modifica</translation>
     </message>
+    <message>
+        <source>Add</source>
+        <translation>Aggiungi</translation>
+    </message>
 </context>
 <context>
     <name>library</name>

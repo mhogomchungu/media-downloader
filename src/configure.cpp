@@ -50,6 +50,10 @@ configure::configure( const Context& ctx ) :
 	m_ui.pbOpenBinFolder->setIcon( m_settings.getIcon( "executable" ) ) ;
 	m_ui.pbConfigureDownloadPath->setIcon( m_settings.getIcon( "folder" ) ) ;
 
+	m_ui.pbConfigureAddToPresetList->setObjectName( "Add" ) ;
+
+	m_ui.pbConfigureAddToPresetList->setText( tr( "Add" ) ) ;
+
 	this->setVisibilityEditConfigFeature( false ) ;
 
 	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
@@ -156,9 +160,23 @@ configure::configure( const Context& ctx ) :
 
 		if( !a.isEmpty() && !b.isEmpty() ){
 
-			m_tablePresetOptions.add( a,b,c ) ;
+			auto action = m_ui.pbConfigureAddToPresetList->objectName() ;
 
-			m_tablePresetOptions.selectLast() ;
+			if( action == "Add" ){
+
+				m_tablePresetOptions.add( a,b,c ) ;
+				m_tablePresetOptions.selectLast() ;
+			}else{
+				auto row = m_tablePresetOptions.currentRow() ;
+
+				if( row != -1 ){
+
+					m_tablePresetOptions.replace( row,a,b,c ) ;
+				}
+
+				m_ui.pbConfigureAddToPresetList->setObjectName( "Add" ) ;
+				m_ui.pbConfigureAddToPresetList->setText( tr( "Add" ) ) ;
+			}
 
 			m_ui.lineEditConfigureUiName->clear() ;
 			m_ui.lineEditConfigurePresetOptions->clear() ;
@@ -344,6 +362,25 @@ configure::configure( const Context& ctx ) :
 
 					mm->setText( m_tablePresetOptions.item( row,col ).text() ) ;
 				}
+			}
+		} ) ;
+
+		connect( m.addAction( tr( "Edit" ) ),&QAction::triggered,[ this ](){
+
+			auto row = m_tablePresetOptions.currentRow() ;
+
+			if( row != -1 ){
+
+				auto a = m_tablePresetOptions.item( row,0 ).text() ;
+				auto b = m_tablePresetOptions.item( row,1 ).text() ;
+				auto c = m_tablePresetOptions.item( row,2 ).text() ;
+
+				m_ui.lineEditConfigureWebsite->setText( a ) ;
+				m_ui.lineEditConfigureUiName->setText( b ) ;
+				m_ui.lineEditConfigurePresetOptions->setText( c ) ;
+
+				m_ui.pbConfigureAddToPresetList->setText( tr( "Edit" ) ) ;
+				m_ui.pbConfigureAddToPresetList->setObjectName( "Edit" ) ;
 			}
 		} ) ;
 
@@ -1045,6 +1082,8 @@ void configure::showOptions()
 
 		m_tablePresetOptions.add( String{ e.uiName },e.website,e.uiNameTranslated,e.options ) ;
 	} ) ;
+
+	m_tablePresetOptions.selectLast() ;
 }
 
 void configure::resetMenu()

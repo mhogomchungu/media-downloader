@@ -1083,6 +1083,10 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>library</name>

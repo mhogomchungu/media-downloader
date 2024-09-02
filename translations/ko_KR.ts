@@ -1083,6 +1083,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Set Download Folder</source>
         <translation>다운로드 폴더 설정</translation>
     </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>library</name>
