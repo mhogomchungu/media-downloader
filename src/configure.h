@@ -274,6 +274,7 @@ private:
 	void showOptions() ;
 	void populateOptionsTable( const engines::engine&,int = -1 ) ;
 	void updateProxySettings( settings::proxySettings::Type ) ;
+	void confirmResetMakeVisible( bool ) ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;

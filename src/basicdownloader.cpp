@@ -608,10 +608,12 @@ void basicdownloader::enableAll()
 	m_ui.lineEditOptions->setEnabled( true ) ;
 	m_ui.pbQuit->setEnabled( true ) ;
 	m_ui.labelEngineName->setEnabled( true ) ;
+	m_ui.pbBasicDownloaderPlay->setEnabled( true ) ;
 }
 
 void basicdownloader::disableAll()
 {
+	m_ui.pbBasicDownloaderPlay->setEnabled( false ) ;
 	m_ui.pbOptionsDownloadOptions->setEnabled( false ) ;
 	m_ui.pbOptionsHistory->setEnabled( false ) ;
 	m_ui.pbPasteClipboard->setEnabled( false ) ;

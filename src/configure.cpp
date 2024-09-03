@@ -51,9 +51,12 @@ configure::configure( const Context& ctx ) :
 	m_ui.pbConfigureDownloadPath->setIcon( m_settings.getIcon( "folder" ) ) ;
 
 	m_ui.pbConfigureAddToPresetList->setObjectName( "Add" ) ;
-
 	m_ui.pbConfigureAddToPresetList->setText( tr( "Add" ) ) ;
 
+	m_ui.pbConfigureSetPresetDefaults->setText( tr( "Set Defaults" ) ) ;
+	m_ui.pbConfigureSetPresetDefaults->setObjectName( "Set Defaults" ) ;
+
+	this->confirmResetMakeVisible( false ) ;
 	this->setVisibilityEditConfigFeature( false ) ;
 
 	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
@@ -80,6 +83,21 @@ configure::configure( const Context& ctx ) :
 	m_tableUrlToDefaultEngine.setCurrentItemChanged( 0 ) ;
 
 	m_tableDefaultDownloadOptions.setCurrentItemChanged( 0 ) ;
+
+	connect( m_ui.pbConfigureConfirmResetYes,&QPushButton::clicked,[ this ](){
+
+		this->confirmResetMakeVisible( false ) ;
+
+		m_presetOptions.setDefaults() ;
+		m_tablePresetOptions.clear() ;
+
+		this->showOptions() ;
+	} ) ;
+
+	connect( m_ui.pbConfigureConfirmResetNo,&QPushButton::clicked,[ this ](){
+
+		this->confirmResetMakeVisible( false ) ;
+	} ) ;
 
 	connect( m_ui.pbConfigureSaveEditOption,&QPushButton::clicked,[ this ](){
 
@@ -176,6 +194,11 @@ configure::configure( const Context& ctx ) :
 
 				m_ui.pbConfigureAddToPresetList->setObjectName( "Add" ) ;
 				m_ui.pbConfigureAddToPresetList->setText( tr( "Add" ) ) ;
+
+				m_tablePresetOptions.setEnabled( true ) ;
+
+				m_ui.pbConfigureSetPresetDefaults->setText( tr( "Set Defaults" ) ) ;
+				m_ui.pbConfigureSetPresetDefaults->setObjectName( "Set Defaults" ) ;
 			}
 
 			m_ui.lineEditConfigureUiName->clear() ;
@@ -371,6 +394,8 @@ configure::configure( const Context& ctx ) :
 
 			if( row != -1 ){
 
+				m_tablePresetOptions.setEnabled( false ) ;
+
 				auto a = m_tablePresetOptions.item( row,0 ).text() ;
 				auto b = m_tablePresetOptions.item( row,1 ).text() ;
 				auto c = m_tablePresetOptions.item( row,2 ).text() ;
@@ -381,6 +406,9 @@ configure::configure( const Context& ctx ) :
 
 				m_ui.pbConfigureAddToPresetList->setText( tr( "Edit" ) ) ;
 				m_ui.pbConfigureAddToPresetList->setObjectName( "Edit" ) ;
+
+				m_ui.pbConfigureSetPresetDefaults->setText( tr( "Cancel" ) ) ;
+				m_ui.pbConfigureSetPresetDefaults->setObjectName( "Cancel" ) ;
 			}
 		} ) ;
 
@@ -611,10 +639,22 @@ configure::configure( const Context& ctx ) :
 
 	connect( m_ui.pbConfigureSetPresetDefaults,&QPushButton::clicked,[ this ](){
 
-		m_presetOptions.setDefaults() ;
-		m_tablePresetOptions.clear() ;
+		if( m_ui.pbConfigureSetPresetDefaults->objectName() == "Set Defaults" ){
 
-		this->showOptions() ;
+			this->confirmResetMakeVisible( true ) ;
+		}else{
+			m_ui.lineEditConfigureWebsite->clear() ;
+			m_ui.lineEditConfigureUiName->clear() ;
+			m_ui.lineEditConfigurePresetOptions->clear() ;
+
+			m_ui.pbConfigureSetPresetDefaults->setText( tr( "Set Defaults" ) ) ;
+			m_ui.pbConfigureSetPresetDefaults->setObjectName( "Set Defaults" ) ;
+
+			m_ui.pbConfigureAddToPresetList->setObjectName( "Add" ) ;
+			m_ui.pbConfigureAddToPresetList->setText( tr( "Add" ) ) ;
+
+			m_tablePresetOptions.setEnabled( true ) ;
+		}
 	} ) ;
 
 	connect( m_ui.pbConfigureDownloadPath,&QPushButton::clicked,[ this ](){
@@ -752,6 +792,14 @@ void configure::updateProxySettings( settings::proxySettings::Type s )
 	m_ui.lineEditCustormProxyAddress->setEnabled( false ) ;
 	m_ui.labelProxy->setEnabled( false ) ;
 	m_ctx.TabManager().setProxy( m_settings.getProxySettings().setProxySettings( s ),s ) ;
+}
+
+void configure::confirmResetMakeVisible( bool e )
+{
+	m_ui.labelBaseConfirmResetPreset->setVisible( e ) ;
+	m_ui.labelBaseConfirmResetPresetText->setVisible( e ) ;
+	m_ui.pbConfigureConfirmResetNo->setVisible( e ) ;
+	m_ui.pbConfigureConfirmResetYes->setVisible( e ) ;
 }
 
 void configure::init_done()

@@ -380,6 +380,18 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
         <translation>Un pulsante per aprire una cartella in cui sono archiviati i file binari dell&apos;estensione</translation>
     </message>
+    <message>
+        <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1089,6 +1101,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Add</source>
         <translation>Aggiungi</translation>
+    </message>
+    <message>
+        <source>Set Defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
