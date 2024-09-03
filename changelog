@@ -316,4 +316,5 @@ Version 1.2.0(April 1st, 2021)
          - Add ability to rename downloaded media in the batch downloader tab.
          - Add ability to rename entries in the library tab.
          - Add ability to play downloaded media in the basic downloader tab.
-         - Fix a bug that caused Qt based external tools to be affected by the apps scalling factor.
+         - Fix a bug that caused Qt based external tools to be affected by the app's scalling factor.
+         - Add ability to edit preset options.

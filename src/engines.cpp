@@ -65,13 +65,15 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 		}
 	}() ;
 
-	auto s = basePath ;
+	QString s ;
+
+	const auto l = _dirEntries( basePath ) ;
 
 	if( utility::platformIsWindows() ){
 
 		const auto& mm = settings.windowsOnly3rdPartyBinPath() ;
 
-		s += separator + mm ;
+		s = mm ;
 
 		auto m = _dirEntries( mm ) ;
 
@@ -90,27 +92,46 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	}else if( utility::platformIsOSX() ){
 
-		auto m = utility::OSXApplicationDirPath() ;
+		s = utility::OSXApplicationDirPath() ;
 
-		auto e = utility::OSX3rdPartyDirPath() ;
-
-		s += separator + m + separator + e ;
+		s += separator + utility::OSX3rdPartyDirPath() ;
 	}
 
-	for( const auto& it : _dirEntries( basePath ) ){
+	auto it  = l.begin() ;
+	auto end = l.end() ;
 
-		s += separator + basePath + "/" + it ;
-		s += separator + basePath + "/" + it + "/bin" ;
+	if( it != end ){
+
+		const auto& m = *it ;
+
+		if( s.isEmpty() ){
+
+			s = basePath + "/" + m ;
+		}else{
+			s += separator + basePath + "/" + m ;
+		}
+
+		s += separator + basePath + "/" + m + "/bin" ;
+
+		it++ ;
 	}
 
-	auto p = env.value( "PATH" ) ;
+	for( ; it != end ; it++ ){
 
-	if( s.endsWith( separator ) ){
+		const auto& m = *it ;
 
-		env.insert( "PATH",s + p ) ;
+		s += separator + basePath + "/" + m ;
+		s += separator + basePath + "/" + m + "/bin" ;
+	}
+
+	if( s.isEmpty() ){
+
+		s = basePath ;
 	}else{
-		env.insert( "PATH",s + separator + p ) ;
+		s += separator + basePath ;
 	}
+
+	env.insert( "PATH",s + separator + env.value( "PATH" ) ) ;
 
 	env.insert( "LANG","C" ) ;
 
