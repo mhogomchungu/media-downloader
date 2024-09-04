@@ -1867,15 +1867,20 @@ void engines::engine::baseEngine::processData( Logger::Data& outPut,
 void engines::engine::baseEngine::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
 							    bool downloadOptionsAsLast )
 {
-	if( s.uiOptions.isEmpty() ){
+	if( downloadOptionsAsLast ){
 
-		s.ourOptions.append( s.userOptions ) ;
-	}else{
-		if( downloadOptionsAsLast ){
+		if( !s.uiOptions.isEmpty() ){
 
 			s.ourOptions.append( s.uiOptions ) ;
 		}else{
 			s.ourOptions.append( s.userOptions ) ;
+		}
+	}else{
+		if( !s.userOptions.isEmpty() ){
+
+			s.ourOptions.append( s.userOptions ) ;
+		}else{
+			s.ourOptions.append( s.uiOptions ) ;
 		}
 	}
 }
