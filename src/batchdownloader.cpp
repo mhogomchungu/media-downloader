@@ -539,9 +539,7 @@ void batchdownloader::showCustomContext()
 
 				if( visible && highlighted && ( !m || forceDownload ) ){
 
-					auto m = m_ui.lineEditBDUrlOptions->text() ;
-
-					auto u = utility::setDownloadOptions( engine,m_table,row,m ) ;
+					auto u = utility::setDownloadOptions( engine,m_table,row ) ;
 
 					indexes.add( row,u.move(),forceDownload ) ;
 				}

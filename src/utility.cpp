@@ -946,11 +946,6 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	opts = opts + oopts ;
 
-	for( const auto& it : args.otherOptions() ){
-
-		opts.append( it ) ;
-	}
-
 	auto url = urls ;
 
 	engines::engine::baseEngine::updateOpts ups( args,ent,uiIndex,url,opts ) ;
