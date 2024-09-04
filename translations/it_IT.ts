@@ -382,15 +382,15 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler reimpostare queste opzioni ai valori predefiniti?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sì</translation>
     </message>
 </context>
 <context>
@@ -505,7 +505,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Spanish (Spain)</source>
-        <translation>Spagnologo (Spagna)</translation>
+        <translation>Spagnolo (Spagna)</translation>
     </message>
     <message>
         <source>Polish (Poland)</source>
@@ -613,7 +613,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Save Subtitle To File</source>
-        <translation>Salva sottoitolo nel file</translation>
+        <translation>Salva sottotitolo nel file</translation>
     </message>
     <message>
         <source>Extracting archive: </source>
@@ -919,7 +919,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Copy Url %1</source>
-        <translation>Copiua URL %1</translation>
+        <translation>Copia URL %1</translation>
     </message>
     <message>
         <source>Open Url %1 With %2</source>
@@ -959,7 +959,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Youtube</source>
-        <translation>Youtube</translation>
+        <translation>YouTube</translation>
     </message>
     <message>
         <source>Autoupdate Disabled For %1</source>
@@ -1104,11 +1104,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta predefiniti</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
 </context>
 <context>
