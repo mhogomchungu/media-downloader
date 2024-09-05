@@ -54,6 +54,20 @@
 	</categories>
 
 	<releases>
+		<release version="5.1.0" type="stable" date="2024-09-05" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.0.1/media-downloader-5.0.1.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Add ability to rename downloaded media in the batch downloader tab.</li>
+					<li>Add ability to rename entries in the library tab.</li>
+					<li>Add ability to play downloaded media in the basic downloader tab.</li>
+					<li>Add ability to edit preset options.</li>
+					<li>Ask for confirmation before deleting entries in the library tab.</li>
+					<li>Fix a bug that caused Qt based external tools to be affected by the app's scalling factor.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.0.1" type="stable" date="2024-08-20" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.0.1/media-downloader-5.0.1.tar.xz/</url>
 			<description>

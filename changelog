@@ -310,11 +310,11 @@ Version 1.2.0(April 1st, 2021)
          [Flatpak]
          - Use ~/Downloads folder as default download folder.
 
-     Version 5.1.0(Unreleased)
+     Version 5.1.0(September 5th, 2024)
          [All]
-         - Ask for confirmation before deleting entries in the library tab.
          - Add ability to rename downloaded media in the batch downloader tab.
          - Add ability to rename entries in the library tab.
          - Add ability to play downloaded media in the basic downloader tab.
-         - Fix a bug that caused Qt based external tools to be affected by the app's scalling factor.
          - Add ability to edit preset options.
+         - Ask for confirmation before deleting entries in the library tab.
+         - Fix a bug that caused Qt based external tools to be affected by the app's scalling factor.
