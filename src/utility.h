@@ -328,6 +328,7 @@ namespace utility
 		}
 		QStringList options() const ;
 	private:
+		QStringList parseOptions( const QString&,const engines::engine& ) ;
 		QString m_credentials ;
 		QStringList m_uiDownloadOptions ;
 		QStringList m_otherOptions ;

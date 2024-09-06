@@ -55,7 +55,7 @@
 
 	<releases>
 		<release version="5.1.0" type="stable" date="2024-09-05" >
-			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.0.1/media-downloader-5.0.1.tar.xz/</url>
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.1.0/media-downloader-5.1.0.tar.xz/</url>
 			<description>
 				<p>Changelog</p>
 				<ul>

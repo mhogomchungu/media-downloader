@@ -1725,7 +1725,7 @@ void utility::setHelpVersionOfMediaDownloader( const QString& e )
 	_runTimeVersions().setAboutInstanceVersion( e ) ;
 }
 
-static QStringList _parseOptions( const QString& e,const engines::engine& engine )
+QStringList utility::args::parseOptions( const QString& e,const engines::engine& engine )
 {
 	auto m = util::splitPreserveQuotes( e ) ;
 
@@ -1780,8 +1780,8 @@ static QStringList _parseOptions( const QString& e,const engines::engine& engine
 
 utility::args::args( const QString& uiOptions,const QString& otherOptions,const engines::engine& engine )
 {
-	m_uiDownloadOptions = _parseOptions( uiOptions,engine ) ;
-	m_otherOptions      = _parseOptions( otherOptions,engine ) ;
+	m_uiDownloadOptions = this->parseOptions( uiOptions,engine ) ;
+	m_otherOptions      = this->parseOptions( otherOptions,engine ) ;
 	m_credentials       = engine.setCredentials( m_uiDownloadOptions,m_otherOptions ) ;
 }
 
