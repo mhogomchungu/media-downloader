@@ -1573,18 +1573,31 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 	auto ew = cpath.endsWith( "/" ) ;
 
-	const auto m  = ew ? cpath + "update_new" : cpath + "/update_new" ;
-	const auto mm = ew ? cpath + "update" : cpath + "/update" ;
+	const auto update_new  = ew ? cpath + "update_new" : cpath + "/update_new" ;
+	const auto update      = ew ? cpath + "update" : cpath + "/update" ;
 
-	if( QFile::exists( m ) ){
+	QString updated_old ;
 
-		QDir dir( mm ) ;
+	if( QFile::exists( update_new ) ){
 
-		dir.removeRecursively() ;
-		dir.rename( m,mm ) ;
+		QDir dir ;
+
+		if( QFile::exists( update ) ){
+
+			updated_old = update + ".old" ;
+
+			if( QFile::exists( updated_old ) ){
+
+				QDir( updated_old ).removeRecursively() ;
+			}
+
+			dir.rename( update,updated_old ) ;
+		}
+
+		dir.rename( update_new,update ) ;
 	}
 
-	QString exePath = mm + "/media-downloader.exe" ;
+	QString exePath = update + "/media-downloader.exe" ;
 
 	if( QFile::exists( exePath ) && !cargs.runningUpdated() ){
 
@@ -1592,13 +1605,13 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 		auto exeDirPath = utility::windowsApplicationDirPath() ;
 
-		if( !QFile::exists( mm + "/platforms" ) ){
+		if( !QFile::exists( update + "/platforms" ) ){
 
 			env.insert( "PATH",exeDirPath + ";" + env.value( "PATH" ) ) ;
 			env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
 		}
 
-		util::version uv = _get_process_version( mm,exePath,env ) ;
+		util::version uv = _get_process_version( update,exePath,env ) ;
 
 		util::version cv = utility::runningVersionOfMediaDownloader() ;
 
@@ -1606,7 +1619,8 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 			if( cv < uv ){
 
-				auto args = cargs.arguments( cpath,exeDirPath,s.portableVersion() ) ;
+				auto e = s.portableVersion() ;
+				auto args = cargs.arguments( cpath,exeDirPath,updated_old,e ) ;
 
 				QProcess exe ;
 
@@ -1616,7 +1630,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 				return _start_updated( exe ) ;
 			}else{
-				QDir( mm ).removeRecursively() ;
+				QDir( update ).removeRecursively() ;
 			}
 		}
 	}
@@ -1906,6 +1920,11 @@ QString utility::cliArguments::originalVersion() const
 	return this->value( "--running-version" ) ;
 }
 
+QString utility::cliArguments::pathToOldUpdatedVersion() const
+{
+	return this->value( "--path-to-old-updated-version" ) ;
+}
+
 QString utility::cliArguments::value( const char * m ) const
 {
 	for( auto it = m_args.begin() ; it != m_args.end() ; it++ ){
@@ -1926,6 +1945,7 @@ QString utility::cliArguments::value( const char * m ) const
 
 QStringList utility::cliArguments::arguments( const QString& cpath,
 					      const QString& exeDirPath,
+					      const QString& oldVersionPath,
 					      bool portableVersion ) const
 {
 	auto args = m_args ;
@@ -1943,6 +1963,12 @@ QStringList utility::cliArguments::arguments( const QString& cpath,
 	if( portableVersion ){
 
 		args.append( "--portable" ) ;
+	}
+
+	if( !oldVersionPath.isEmpty() ){
+
+		args.append( "--path-to-old-updated-version" ) ;
+		args.append( oldVersionPath ) ;
 	}
 
 	args.append( "--exe-org-path" ) ;

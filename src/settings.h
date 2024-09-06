@@ -336,8 +336,9 @@ private:
 
 	QString downloadLocation() ;
 
-	struct options
+	class options
 	{
+	public:
 		options( const utility::cliArguments&,const QString& ) ;
 
 		const QString& dataPath() const
@@ -348,7 +349,7 @@ private:
 		{
 			return m_exe3PartyBinPath ;
 		}
-		const QString windowsOnlyExePath() const
+		const QString& windowsOnlyExePath() const
 		{
 			return m_exePath ;
 		}
@@ -360,10 +361,16 @@ private:
 		{
 			return m_portableVersion ;
 		}
+		const QString& pathToOldUpdatedVersion() const
+		{
+			return m_pathToOldUpdatedVersion ;
+		}
+	private:
 		QString m_dataPath ;
 		QString m_exePath ;
 		QString m_exe3PartyBinPath ;
 		QString m_defaultPortableVersionDownloadFolder ;
+		QString m_pathToOldUpdatedVersion ;
 		bool m_portableVersion ;
 	} ;
 

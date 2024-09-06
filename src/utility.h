@@ -434,8 +434,9 @@ namespace utility
 		QString dataPath() const ;
 		QString originalPath() const ;
 		QString originalVersion() const ;
+		QString pathToOldUpdatedVersion() const ;
 		QString value( const char * ) const ;
-		QStringList arguments( const QString&,const QString&,bool ) const ;
+		QStringList arguments( const QString&,const QString&,const QString&,bool ) const ;
 		const QStringList& arguments() const ;
 	private:
 		QStringList m_args ;

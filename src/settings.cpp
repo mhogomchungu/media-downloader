@@ -440,6 +440,13 @@ QSettings& settings::bk()
 void settings::init_done()
 {
 	utils::qthread::run( this,&settings::clearFlatPakTemps ) ;
+
+	const auto& m = m_options.pathToOldUpdatedVersion() ;
+
+	if( !m.isEmpty() ){
+
+		utils::qthread::run( [ & ](){ QDir( m ).removeRecursively() ; } ) ;
+	}
 }
 
 void settings::setTabNumber( int s )
@@ -500,7 +507,7 @@ const QString& settings::windowsOnly3rdPartyBinPath()
 
 const QString& settings::windowsOnlyExeBinPath()
 {
-	return m_options.m_exePath ;
+	return m_options.windowsOnlyExePath() ;
 }
 
 const QString& settings::windowsOnlyDefaultPortableVersionDownloadFolder()
@@ -1134,6 +1141,8 @@ settings::options::options( const utility::cliArguments& args,const QString& app
 		m_exePath = utility::windowsApplicationDirPath() ;
 
 		if( args.runningUpdated() ){
+
+			m_pathToOldUpdatedVersion = args.pathToOldUpdatedVersion() ;
 
 			m_dataPath = args.dataPath() ;
 
