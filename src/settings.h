@@ -276,7 +276,9 @@ public:
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
 private:	
+	QString appDataLocation() ;
 	void clearFlatPakTemps() ;
+	void init_done_imp() ;
 
 	std::vector< settings::mediaPlayer::PlayerOpts > openWith() ;
 

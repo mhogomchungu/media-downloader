@@ -343,7 +343,7 @@ std::unique_ptr< QSettings > settings::init()
 
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
-static QString _appDataLocation()
+QString settings::appDataLocation()
 {
 	auto s = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
 
@@ -355,7 +355,7 @@ static QString _appDataLocation()
 	}
 }
 
-static QString _downloadLocation()
+QString settings::downloadLocation()
 {
 	auto s = QStandardPaths::standardLocations( QStandardPaths::DownloadLocation ) ;
 
@@ -369,12 +369,12 @@ static QString _downloadLocation()
 
 #else
 
-static QString _appDataLocation()
+QString settings::appDataLocation()
 {
 	return QDir::homePath() + "/.local/share/media-downloader/" ;
 }
 
-static QString _downloadLocation()
+QString settings::downloadLocation()
 {
 	return QDir::homePath() + "/Downloads" ;
 }
@@ -382,7 +382,7 @@ static QString _downloadLocation()
 #endif
 
 settings::settings( const utility::cliArguments& args ) :
-	m_appDataPath( _appDataLocation() ),
+	m_appDataPath( this->appDataLocation() ),
 	m_options( args,m_appDataPath ),
 	m_settingsP( this->init() ),
 	m_settings( *m_settingsP )
@@ -439,14 +439,7 @@ QSettings& settings::bk()
 
 void settings::init_done()
 {
-	utils::qthread::run( this,&settings::clearFlatPakTemps ) ;
-
-	const auto& m = m_options.pathToOldUpdatedVersion() ;
-
-	if( !m.isEmpty() ){
-
-		utils::qthread::run( [ & ](){ QDir( m ).removeRecursively() ; } ) ;
-	}
+	utils::qthread::run( this,&settings::init_done_imp ) ;
 }
 
 void settings::setTabNumber( int s )
@@ -573,17 +566,6 @@ QString settings::downloadFolder( const QString& defaultPath,settings::sLogger& 
 		QDir().mkpath( defaultPath ) ;
 
 		return defaultPath ;
-	}
-}
-
-QString settings::downloadLocation()
-{
-	if( utility::platformisFlatPak() ){
-
-		//return m_appDataPath + "Downloads" ;
-		return _downloadLocation() ;
-	}else{
-		return _downloadLocation() ;
 	}
 }
 
@@ -1114,6 +1096,21 @@ void settings::clearFlatPakTemps()
 				QFile::remove( ee + "/" + e ) ;
 			}
 		} ) ;
+	}
+}
+
+void settings::init_done_imp()
+{
+	this->clearFlatPakTemps() ;
+
+	if( utility::platformIsWindows() ){
+
+		const auto& m = m_options.pathToOldUpdatedVersion() ;
+
+		if( !m.isEmpty() ){
+
+			QDir( m ).removeRecursively() ;
+		}
 	}
 }
 

@@ -77,7 +77,6 @@ void tabManager::init_done()
 
 	this->setDefaultEngines() ;
 
-	s.init_done() ;
 	m_about.init_done() ;
 	m_configure.init_done() ;
 	m_basicdownloader.init_done() ;
@@ -131,6 +130,8 @@ void tabManager::init_done()
 			m_currentTab = index ;
 		}
 	} ) ;
+
+	s.init_done() ;
 }
 
 void tabManager::setDefaultEngines()
