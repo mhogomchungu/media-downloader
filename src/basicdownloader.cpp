@@ -90,23 +90,23 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		auto row = m_tableList.currentRow() ;
 
+		QMenu m ;
+
 		if( row != -1 ){
 
-			const auto& obj = m_tableList.stuffAt( row ).toqJsonObject() ;
-
-			QMenu m ;
+			const auto& obj = m_tableList.stuffAt( row ).toqJsonObject() ;			
 
 			utility::contextMenuForDirectUrl( m,obj,m_ctx ) ;
 
-			m.addSeparator() ;
-
-			connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
-
-				m_tableList.setVisible( false ) ;
-			} ) ;
-
-			m.exec( QCursor::pos() ) ;
+			m.addSeparator() ;			
 		}
+
+		connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
+
+			m_tableList.setVisible( false ) ;
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
 	} ) ;
 
 	connect( m_ui.pbOptionsDownloadOptions,&QPushButton::clicked,[ this ](){
