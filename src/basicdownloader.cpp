@@ -98,15 +98,22 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 			utility::contextMenuForDirectUrl( m,obj,m_ctx ) ;
 
-			m.addSeparator() ;			
+			m.addSeparator() ;
+
+			connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
+
+				m_tableList.setVisible( false ) ;
+			} ) ;
+
+			m.exec( QCursor::pos() ) ;
+		}else{
+			connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
+
+				m_tableList.setVisible( false ) ;
+			} ) ;
+
+			m.exec( QCursor::pos() ) ;
 		}
-
-		connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
-
-			m_tableList.setVisible( false ) ;
-		} ) ;
-
-		m.exec( QCursor::pos() ) ;
 	} ) ;
 
 	connect( m_ui.pbOptionsDownloadOptions,&QPushButton::clicked,[ this ](){
