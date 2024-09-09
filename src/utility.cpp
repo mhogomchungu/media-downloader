@@ -2219,18 +2219,17 @@ void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Con
 		}
 		void disable()
 		{
-			m_menu.addAction( QObject::tr( "Copy Url" ) )->setEnabled( false ) ;
+			auto ac = m_menu.addAction( QObject::tr( "Copy Url" ) ) ;
 
-			if( m_mediaPlayer.valid() ){
+			ac->setEnabled( false ) ;
 
-				auto mm = QObject::tr( "Open Url With %1" ) ;
+			auto mm = QObject::tr( "Open Url With %1" ) ;
 
-				for( const auto& e : m_mediaPlayer.opts() ){
+			for( const auto& e : m_mediaPlayer.opts() ){
 
-					auto s = mm.arg( e.name ) ;
+				auto s = mm.arg( e.name ) ;
 
-					m_menu.addAction( s )->setEnabled( false ) ;
-				}
+				m_menu.addAction( s )->setEnabled( false ) ;
 			}
 		}
 		void clipboard()

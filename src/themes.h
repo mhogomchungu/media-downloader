@@ -57,6 +57,44 @@ public:
 		return std::move( *this ) ;
 	}
 private:
+	class JObject
+	{
+	public:
+		void insert( const char * key,int a,int b,int c,int d )
+		{
+			QJsonObject obj ;
+
+			QJsonArray arr ;
+
+			arr.append( a ) ;
+			arr.append( b ) ;
+			arr.append( c ) ;
+			arr.append( d ) ;
+
+			obj.insert( "rgba",std::move( arr ) ) ;
+
+			m_obj.insert( key,std::move( obj ) ) ;
+		}
+		void insert( const char * key,const char * subkey,const char * value )
+		{
+			QJsonObject obj ;
+
+			obj.insert( subkey,value ) ;
+
+			m_obj.insert( key,std::move( obj ) ) ;
+		}
+		void insert( const char * key,const char * value )
+		{
+			m_obj.insert( key,value ) ;
+		}
+		operator QJsonObject()
+		{
+			return std::move( m_obj ) ;
+		}
+	private:
+		QJsonObject m_obj ;
+	} ;
+	themes::JObject baseTheme() const ;
 	QString defaultPureDarkthemeFullPath() const ;
 	QColor getColor( const QString& e,const QJsonObject& obj ) const ;
 	void updateThemes() ;
