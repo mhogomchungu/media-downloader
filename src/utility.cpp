@@ -868,11 +868,32 @@ bool utility::hasDigitsOnly( const QString& e )
 	return true ;
 }
 
+static QString _downloadPath()
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+
+	auto s = QStandardPaths::standardLocations( QStandardPaths::DownloadLocation ) ;
+
+	if( s.isEmpty() ){
+
+		return QDir::homePath() + "/Downloads" ;
+	}else{
+		return s.first() ;
+	}
+#else
+	return QDir::homePath() + "/Downloads" ;
+#endif
+}
+
 QString utility::homePath()
 {
 	if( utility::platformIsWindows() ){
 
 		return QDir::homePath() + "/Desktop" ;
+
+	}else if( utility::platformisFlatPak() ){
+
+		return _downloadPath() ;
 	}else{
 		return QDir::homePath() ;
 	}
