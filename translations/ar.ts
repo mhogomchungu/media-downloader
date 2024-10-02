@@ -353,43 +353,43 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Play Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>تشغيل الوسائط التي تم تنزيلها</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة تسمية</translation>
     </message>
     <message>
         <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
-        <translation type="unfinished"></translation>
+        <translation>أدخل رابط قائمة التشغيل. لإضافة قوائم تشغيل متعددة، افصل بينها بمسافة أو سطر جديد</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة تسمية الملف إلى النص أدناه</translation>
     </message>
     <message>
         <source>A Button To Open A Folder To Be Used As A Download Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>زر لفتح المجلد الذي سيستخدم كمجلد للتنزيلات</translation>
     </message>
     <message>
         <source>A Button To Open A Folder Where Theme Config Files Are Stored</source>
-        <translation type="unfinished"></translation>
+        <translation>زر لفتح المجلد الذي يحتوي على ملفات تكوين السمة</translation>
     </message>
     <message>
         <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
-        <translation type="unfinished"></translation>
+        <translation>زر لفتح المجلد الذي يحتوي على الامتدادات والملفات التنفيذية.</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل أنت متأكد من رغبتك في إعادة تعيين هذه الخيارات إلى قيمها الافتراضية؟</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>لا</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>نعم</translation>
     </message>
 </context>
 <context>
@@ -980,14 +980,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sign In To Confirm You Are Not A Bot</source>
-        <translation type="unfinished"></translation>
+        <translation>قم بتسجيل الدخول لإثبات أنك لست روبوتًا</translation>
     </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <source>Hide List</source>
-        <translation type="unfinished"></translation>
+        <translation>إخفاء القائمة</translation>
     </message>
 </context>
 <context>
@@ -1062,7 +1062,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة تسمية</translation>
     </message>
 </context>
 <context>
@@ -1097,15 +1097,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>أضف</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation>تعيين القيم الافتراضية</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>إلغاء</translation>
     </message>
 </context>
 <context>
@@ -1120,39 +1120,39 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة تسمية</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below File?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل أنت متأكد من رغبتك في حذف الملف أدناه؟</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below Folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل أنت متأكد من رغبتك في حذف المجلد أدناه؟</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>نعم</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>لا</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل أنت متأكد من رغبتك في حذف جميع الملفات والمجلدات؟</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة تسمية الملف إلى النص أدناه</translation>
     </message>
     <message>
         <source>Rename Folder To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>إعادة تسمية المجلد إلى النص أدناه</translation>
     </message>
 </context>
 <context>
