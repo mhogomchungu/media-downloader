@@ -379,6 +379,26 @@ void tableWidget::removeRow( int s )
 	m_items.erase( m_items.begin() + s ) ;
 }
 
+void tableWidget::removeAllSelected()
+{
+	std::vector< int > selected ;
+
+	auto col = m_table.columnCount() - 1 ;
+
+	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+
+		if( m_table.item( i,col )->isSelected() ){
+
+			selected.emplace_back( i ) ;
+		}
+	}
+
+	for( auto it = selected.rbegin() ; it != selected.rend() ; it++ ){
+
+		this->removeRow( *it ) ;
+	}
+}
+
 void tableWidget::hideRow( int row )
 {
 	m_table.hideRow( row ) ;

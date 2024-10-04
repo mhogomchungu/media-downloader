@@ -299,6 +299,7 @@ public:
 	void selectRow( int ) ;
 	void setEnabled( bool ) ;
 	void removeRow( int ) ;
+	void removeAllSelected() ;
 	void hideRow( int ) ;
 	bool isSelected( int ) ;
 	bool noneAreRunning() ;

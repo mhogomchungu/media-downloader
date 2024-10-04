@@ -530,7 +530,11 @@ void playlistdownloader::customContextMenuRequested()
 
 	connect( ac,&QAction::triggered,[ this,row ](){
 
-		m_table.removeRow( row ) ;
+		Q_UNUSED( row ) ;
+
+		//m_table.removeRow( row ) ;
+
+		m_table.removeAllSelected() ;
 
 		m_ui.pbBDDownload->setEnabled( m_table.rowCount() ) ;
 	} ) ;
