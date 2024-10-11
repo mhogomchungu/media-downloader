@@ -52,6 +52,10 @@ MainWindow::MainWindow( QApplication& app,
 	qRegisterMetaType< utility::networkReply >() ;
 	qRegisterMetaType< reportFinished >() ;
 
+	auto dm = m_settings.mainWindowDimenstions( this->window()->geometry() ) ;
+
+	this->window()->setGeometry( dm ) ;
+
 	this->window()->setFixedSize( this->window()->size() ) ;
 
 	this->window()->setWindowIcon( m_trayIcon.icon() ) ;
@@ -207,6 +211,7 @@ void MainWindow::notifyOnAllDownloadComplete( const QString& e )
 
 MainWindow::~MainWindow()
 {
+	m_settings.saveMainWindowDimensions( this->window()->geometry() ) ;
 }
 
 MainWindow * MainWindow::m_mainWindow ;

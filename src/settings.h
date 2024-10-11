@@ -223,7 +223,7 @@ public:
 	bool autoHideDownloadWhenCompleted() ;
 	bool deleteFilesOnCanceledDownload() ;
 	bool autoSetDefaultEngineAndOptions() ;
-
+	QRect mainWindowDimenstions( const QRect& ) ;
 	qint64 timeOutWaitingForClipboardData() ;
 
 	Qt::Alignment textAlignment() ;
@@ -258,6 +258,7 @@ public:
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
 	void setMaxConcurrentDownloads( int ) ;
 	void setTabNumber( int ) ;
+	void saveMainWindowDimensions( const QRect& ) ;
 	void openUrl( const QString& ) ;
 	void setEnableLibraryTab( bool ) ;
 	void setMonitorClipboardUrl( bool,settings::tabName ) ;

@@ -447,6 +447,42 @@ void settings::setTabNumber( int s )
 	m_settings.setValue( "TabNumber",s ) ;
 }
 
+void settings::saveMainWindowDimensions( const QRect& s )
+{
+	auto x = QString::number( s.x() ) ;
+	auto y = QString::number( s.y() ) ;
+	auto w = QString::number( s.width() ) ;
+	auto h = QString::number( s.height() ) ;
+
+	auto m = QString( "%1 %2 %3 %4" ).arg( x,y,w,h ) ;
+
+	m_settings.setValue( "MainWindowDimensions",m ) ;
+}
+
+QRect settings::mainWindowDimenstions( const QRect& s )
+{
+	if( !m_settings.contains( "MainWindowDimensions" ) ){
+
+		this->saveMainWindowDimensions( s ) ;
+	}
+
+	auto e = m_settings.value( "MainWindowDimensions" ).toString() ;
+
+	auto m = util::split( e," " ) ;
+
+	if( m.size() == 4 ){
+
+		auto x = m[ 0 ].toInt() ;
+		auto y = m[ 1 ].toInt() ;
+		auto w = m[ 2 ].toInt() ;
+		auto h = m[ 3 ].toInt() ;
+
+		return { x,y,w,h } ;
+	}else{
+		return { 254,96,823,534 } ;
+	}
+}
+
 int settings::tabNumber()
 {
 	return this->getOption( "TabNumber",0 ) ;
