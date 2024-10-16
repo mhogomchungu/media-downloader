@@ -1590,6 +1590,11 @@ static bool _start_updated( QProcess& exe )
 
 bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& cargs )
 {
+	if( utility::platformIsNOTWindows() ){
+
+		return false ;
+	}
+
 	const auto& cpath = s.configPaths() ;
 
 	auto ew = cpath.endsWith( "/" ) ;
@@ -1605,11 +1610,18 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 		if( QFile::exists( update ) ){
 
-			updated_old = update + ".old" ;
+			while( true ){
 
-			if( QFile::exists( updated_old ) ){
+				auto m = utility::simpleRandomNumber() ;
 
-				QDir( updated_old ).removeRecursively() ;
+				updated_old = update + "-" + QString::number( m ) ;
+
+				if( QFileInfo::exists( updated_old ) ){
+
+					QThread::currentThread()->sleep( 1 ) ;
+				}else{
+					break ;
+				}
 			}
 
 			dir.rename( update,updated_old ) ;

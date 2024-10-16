@@ -111,14 +111,11 @@ int main( int argc,char * argv[] )
 
 		engines::enginePaths paths( ss ) ;
 
-		if( utility::platformIsWindows() ){
+		if( utility::startedUpdatedVersion( ss,cargs ) ){
 
-			if( utility::startedUpdatedVersion( ss,cargs ) ){
-
-				return 0 ;
-			}
+			return 0 ;
+		}else{
+			return start( argc,argv,cargs,paths,ss ) ;
 		}
-
-		return start( argc,argv,cargs,paths,ss ) ;
 	}
 }
