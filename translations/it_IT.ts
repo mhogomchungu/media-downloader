@@ -985,6 +985,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Sign In To Confirm You Are Not A Bot</source>
         <translation>Accedi per confermare che non sei un bot</translation>
     </message>
+    <message>
+        <source>Show/Hide Controls</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

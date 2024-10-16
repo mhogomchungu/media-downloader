@@ -219,6 +219,7 @@ signals:
 	void addItemUiSignal( ItemEntry ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
 private:
+	void showHideControls() ;
 	void networkData( const utility::networkReply& ) ;
 	void addItemUiSlot( ItemEntry ) ;
 	void reportFinishedStatus( const reportFinished&,const QStringList& ) ;

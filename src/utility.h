@@ -680,12 +680,30 @@ namespace utility
 		{
 			m_clear = true ;
 		}
+		void setBatchDownloaderShowHide()
+		{
+			m_batchDownloaderShowHide = true ;
+		}
+		bool batchDownloaderShowHide() const
+		{
+			return m_batchDownloaderShowHide ;
+		}
+		bool batchDownloader() const
+		{
+			return m_batchDownloader ;
+		}
+		void setBatchDownloader()
+		{
+			m_batchDownloader = true ;
+		}
 	private:
 		bool m_noneAreRunning ;
 		bool m_finishedSuccess ;
 		bool m_showLogWindow = false ;
 		bool m_clear = false ;
-	};
+		bool m_batchDownloaderShowHide = false ;
+		bool m_batchDownloader = false ;
+	} ;
 
 	enum class PlayListButtonName{ DownloadRange,PlaylistUrl,None } ;
 	template< typename Settings,typename TabName,typename Function >
@@ -821,6 +839,20 @@ namespace utility
 		} ) ;
 
 		hideUnHide() ;
+
+		if( c.batchDownloader() ){
+
+			ac = m.addAction( QObject::tr( "Show/Hide Controls" ) ) ;
+
+			ac->setEnabled( c.noneAreRunning() ) ;
+
+			QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
+
+				c.setBatchDownloaderShowHide() ;
+
+				function( c ) ;
+			} ) ;
+		}
 
 		if( showClear ){
 

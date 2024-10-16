@@ -368,6 +368,10 @@ void batchdownloader::showCustomContext()
 			m_ctx.mainWindow().resetTitle() ;
 
 			m_table.clear() ;
+
+		}else if( c.batchDownloaderShowHide() ){
+
+			this->showHideControls() ;
 		}
 	} ;
 
@@ -377,14 +381,18 @@ void batchdownloader::showCustomContext()
 
 		this->getListFromFile( m ) ;
 
-		auto ss = m_table.noneAreRunning() ;
+		utility::contextState ss = m_table.noneAreRunning() ;
+
+		ss.setBatchDownloader() ;
 
 		return utility::appendContextMenu( m,ss,function,true,row,m_table ) ;
 	}
 
 	if( !m_table.rowIsVisible( row ) ){
 
-		auto ss = m_table.noneAreRunning() ;
+		utility::contextState ss = m_table.noneAreRunning() ;
+
+		ss.setBatchDownloader() ;
 
 		return utility::appendContextMenu( m,ss,function,true,row,m_table ) ;
 	}
@@ -602,7 +610,11 @@ void batchdownloader::showCustomContext()
 
 	m.addSeparator() ;
 
-	utility::appendContextMenu( m,{ m_table.noneAreRunning(),finishSuccess },function,true ) ;
+	utility::contextState ss = { m_table.noneAreRunning(),finishSuccess } ;
+
+	ss.setBatchDownloader() ;
+
+	utility::appendContextMenu( m,ss,function,true ) ;
 }
 
 void batchdownloader::init_done()
@@ -2702,6 +2714,31 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 void batchdownloader::addTextToUi( const QByteArray& data,int index )
 {
 	m_table.setUiText( data,index ) ;
+}
+
+void batchdownloader::showHideControls()
+{
+	auto m = m_ui.tableWidgetBD->height() ;
+
+	bool show = m != 321 ;
+
+	m_ui.lineEditBDUrl->setVisible( show ) ;
+	m_ui.pbBDPasteClipboard->setVisible( show ) ;
+	m_ui.cbBDMonitorClipboardContent->setVisible( show ) ;
+	m_ui.labelBDEnterUrl->setVisible( show ) ;
+	m_ui.labelBDEnterOptions->setVisible( show ) ;
+	m_ui.lineEditBDUrlOptions->setVisible( show ) ;
+	m_ui.pbBDOptionsHistory->setVisible( show ) ;
+	m_ui.pbBDOptionsDownload->setVisible( show ) ;
+	m_ui.labelBDEngineName->setVisible( show ) ;
+	m_ui.cbEngineTypeBD->setVisible( show ) ;
+
+	if( m == 321 ){
+
+		m_ui.tableWidgetBD->resize( 771,441 ) ;
+	}else{
+		m_ui.tableWidgetBD->resize( 771,321 ) ;
+	}
 }
 
 void batchdownloader::enableAll()

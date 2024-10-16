@@ -33,7 +33,7 @@ versionInfo::versionInfo( Ui::MainWindow&,const Context& ctx ) :
 	m_showLocalVersionsOnly                 = s.showLocalVersionInformationOnly() ;
 }
 
-versionInfo::printVinfo versionInfo::createPrintVinfo( const std::vector< engines::engine >& engines,bool na) const
+versionInfo::printVinfo versionInfo::createPrintVinfo( const std::vector< engines::engine >& engines,bool na ) const
 {
 	class meaw : public versionInfo::idone
 	{

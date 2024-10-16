@@ -982,6 +982,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Sign In To Confirm You Are Not A Bot</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show/Hide Controls</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

@@ -42,6 +42,7 @@ const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
 const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
+
 #if defined(__OS2__) || defined(OS2) || defined(_OS2)
 
 bool utility::platformisOS2()
