@@ -213,7 +213,7 @@
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation>Inolla URL dagli Appunti</translation>
+        <translation>Incolla URL dagli Appunti</translation>
     </message>
     <message>
         <source>Monitor Clipboard For Url</source>
@@ -329,7 +329,7 @@ Esempio 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Show Version Info And Latest Version Info</source>
-        <translation>Visualizza info versione auttaule e più recente</translation>
+        <translation>Visualizza info versione attuale e più recente</translation>
     </message>
     <message>
         <source>Show Version Info Only</source>
@@ -341,7 +341,7 @@ Esempio 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Actions At Startup</source>
-        <translation>Azioni all&apos;avviodel programma</translation>
+        <translation>Azioni all&apos;avvio del programma</translation>
     </message>
     <message>
         <source>File Size</source>
@@ -565,7 +565,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Resetting download folder to default</source>
-        <translation>Ripristino valore rpedefinito cartella download</translation>
+        <translation>Ripristino valore predefinito cartella download</translation>
     </message>
     <message>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
@@ -719,7 +719,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Download Failed, Engine crashed</source>
-        <translation>Download non riuscito, Engine bloccato</translation>
+        <translation>Download non riuscito, engine bloccato</translation>
     </message>
     <message>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
@@ -987,7 +987,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Show/Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza/nascondi controlli</translation>
     </message>
 </context>
 <context>
@@ -1197,7 +1197,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Get List Options:</source>
-        <translation>Ottieni opzioni eelnco:</translation>
+        <translation>Ottieni opzioni elenco:</translation>
     </message>
     <message>
         <source>Show All Updated</source>
