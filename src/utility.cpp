@@ -167,7 +167,7 @@ bool utility::platformisOS2()
 
 bool utility::platformIsWindows7()
 {
-	auto m = QOperatingSystemVersion::current() ;
+	const auto m = QOperatingSystemVersion::current() ;
 
 	return m == QOperatingSystemVersion::Windows7 ;
 }
