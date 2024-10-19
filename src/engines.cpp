@@ -829,7 +829,7 @@ engines::engine::engine( Logger& logger,
 
 		if( utility::platformIs32Bit() ){
 
-			//??
+			m_name = "yt-dlp_win7_Py3.12_x86.exe" ;
 		}else{
 			m_name = "yt-dlp_win7_Py3.12.exe" ;
 		}
