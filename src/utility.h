@@ -845,8 +845,6 @@ namespace utility
 
 			ac = m.addAction( QObject::tr( "Show/Hide Controls" ) ) ;
 
-			ac->setEnabled( c.noneAreRunning() ) ;
-
 			QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
 
 				c.setBatchDownloaderShowHide() ;

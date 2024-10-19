@@ -75,6 +75,8 @@ public:
 
 	void setTextEncondig( const QString&,QStringList& ) override ;
 
+	const QProcessEnvironment& processEnvironment() const override ;
+
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
@@ -111,4 +113,5 @@ private:
 	const util::version& m_version ;
 	bool m_deleteFilesOnCancel ;
 	QString m_downloadFolder ;
+	QProcessEnvironment m_processEnvironment ;
 };

@@ -1,29 +1,48 @@
 {
-    "app-id": "io.github.mhogomchungu.media-downloader",
-    "runtime": "org.kde.Platform",
-    "runtime-version": "6.7",
-    "sdk": "org.kde.Sdk",
-    "command": "io.github.mhogomchungu.media-downloader",
-    "finish-args": [
-        "--share=ipc",
-        "--socket=wayland",
-        "--socket=fallback-x11",
-        "--filesystem=xdg-download",
-        "--share=network",
-        "--device=dri",
-        "--talk-name=org.kde.StatusNotifierWatcher"
-    ],
-    "modules": [
+  "app-id" : "io.github.mhogomchungu.media-downloader",
+  "runtime" : "org.kde.Platform",
+  "runtime-version" : "6.7",
+  "sdk" : "org.kde.Sdk",
+  "command" : "io.github.mhogomchungu.media-downloader",
+  "finish-args" : [
+    "--share=ipc",
+    "--socket=wayland",
+    "--socket=fallback-x11",
+    "--filesystem=xdg-download",
+    "--share=network",
+    "--device=dri",
+    "--talk-name=org.kde.StatusNotifierWatcher"
+  ],
+  "modules" : [
+    {
+      "name" : "mutagen",
+      "buildsystem" : "simple",
+      "build-commands" : [
+        "`pwd`/setup.py build",
+        "`pwd`/setup.py install --prefix /app"
+      ],
+      "cleanup" : [],
+      "sources" : [
         {
-            "name": "io.github.mhogomchungu.media-downloader",
-            "buildsystem": "cmake-ninja",
-            "config-opts": ["-DCMAKE_BUILD_TYPE=release","-DBUILD_FLATPAK=TRUE"],
-            "sources": [
-                {
-                     "type": "dir",
-                      "path": "../.."
-                }
-            ]
+          "type" : "archive",
+          "url" : "https://github.com/quodlibet/mutagen/releases/download/release-1.47.0/mutagen-1.47.0.tar.gz",
+          "sha256" : "719fadef0a978c31b4cf3c956261b3c58b6948b32023078a2117b1de09f0fc99"
         }
-    ]
+      ]
+    },
+    {
+      "name" : "io.github.mhogomchungu.media-downloader",
+      "buildsystem" : "cmake",
+      "config-opts" : [
+        "-DCMAKE_BUILD_TYPE=release",
+        "-DBUILD_FLATPAK=TRUE"
+      ],
+      "sources" : [
+        {
+          "type" : "dir",
+          "path" : "../.."
+        }
+      ]
+    }
+  ]
 }

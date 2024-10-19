@@ -330,8 +330,24 @@ yt_dlp::yt_dlp( const engines& engines,
 	m_engine( engine ),
 	m_version( version ),
 	m_deleteFilesOnCancel( deleteFilesOnCancel ),
-	m_downloadFolder( downloadFolder )
+	m_downloadFolder( downloadFolder ),
+	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
 {
+	if( utility::platformisFlatPak() ){
+
+		auto m = m_processEnvironment.value( "PYTHONPATH" ) ;
+
+		QString e = "/app/lib/python3.11/site-packages/mutagen-1.47.0-py3.11.egg" ;
+
+		if( m.isEmpty() ){
+
+			m_processEnvironment.insert( "PYTHONPATH",e ) ;
+		}else{
+			m_processEnvironment.insert( "PYTHONPATH",e + ":" + m ) ;
+		}
+
+	}
+
 	Q_UNUSED( m_version )
 
 	auto name = obj.value( "Name" ).toString() ;
@@ -1104,6 +1120,11 @@ void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 		opts.append( args ) ;
 		opts.append( e ) ;
 	}
+}
+
+const QProcessEnvironment& yt_dlp::processEnvironment() const
+{
+	return m_processEnvironment ;
 }
 
 engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )

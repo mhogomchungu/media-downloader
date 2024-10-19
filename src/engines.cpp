@@ -822,10 +822,7 @@ engines::engine::engine( Logger& logger,
 
 	if( utility::platformIsWindows7() && m_likeYtDlp ){
 
-		if( m_downloadUrl == "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ){
-
-			m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
-		}
+		m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
 
 		if( utility::platformIs32Bit() ){
 
