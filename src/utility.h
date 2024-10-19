@@ -520,6 +520,7 @@ namespace utility
 	bool copyFile( const QString& src,const QString& dst,bool = true ) ;
 	bool pathIsFolderAndExists( const QString& ) ;
 	bool platformIsWindows() ;
+	bool platformIsWindows7() ;
 	bool platformIs32Bit() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;

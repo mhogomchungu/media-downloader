@@ -65,9 +65,19 @@ bool utility::platformIsWindows()
 	return false ;
 }
 
+bool utility::platformIsWindows7()
+{
+	return false ;
+}
+
 #endif
 
 #ifdef Q_OS_LINUX
+
+bool utility::platformIsWindows7()
+{
+	return false ;
+}
 
 bool utility::platformisOS2()
 {
@@ -92,6 +102,11 @@ bool utility::platformIsWindows()
 #endif
 
 #ifdef Q_OS_MACOS
+
+bool utility::platformIsWindows7()
+{
+	return false ;
+}
 
 bool utility::platformisOS2()
 {
@@ -148,6 +163,13 @@ bool utility::platformIsOSX()
 bool utility::platformisOS2()
 {
 	return false ;
+}
+
+bool utility::platformIsWindows7()
+{
+	auto m = QOperatingSystemVersion::current() ;
+
+	return m == QOperatingSystemVersion::Windows7 ;
 }
 
 QString utility::windowsApplicationDirPath()

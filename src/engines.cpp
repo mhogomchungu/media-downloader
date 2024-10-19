@@ -820,6 +820,14 @@ engines::engine::engine( Logger& logger,
 		m_downloadUrl = svtplay_dl::downloadUrl() ;
 	}
 
+	if( utility::platformIsWindows7() ){
+
+		if( m_downloadUrl == "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ){
+
+			m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
+		}
+	}
+
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
 
