@@ -146,18 +146,30 @@ void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& th
 
 		auto destPath = runTimeBinPath ;
 
-		if( utility::platformIs32Bit() ){
+		if( utility::platformIsWindows7() ){
 
-			destPath += "/" + _Windows32BitBinaryName() ;
+			destPath += "/yt-dlp_win7_Py3.12_x86.exe" ;
+
+			if( !QFile::exists( destPath ) ){
+
+				auto srcPath = thirdPartyBinPath + "/ytdlp/yt-dlp_win7_Py3.12_x86.exe" ;
+
+				utility::copyFile( srcPath,destPath ) ;
+			}
 		}else{
-			destPath += "/" + _Windows64BitBinaryName() ;
-		}
+			if( utility::platformIs32Bit() ){
 
-		if( !QFile::exists( destPath ) ){
+				destPath += "/" + _Windows32BitBinaryName() ;
+			}else{
+				destPath += "/" + _Windows64BitBinaryName() ;
+			}
 
-			auto srcPath = thirdPartyBinPath + "/ytdlp/" + _Windows32BitBinaryName() ;
+			if( !QFile::exists( destPath ) ){
 
-			utility::copyFile( srcPath,destPath ) ;
+				auto srcPath = thirdPartyBinPath + "/ytdlp/" + _Windows32BitBinaryName() ;
+
+				utility::copyFile( srcPath,destPath ) ;
+			}
 		}
 
 	}else if( utility::platformIsOSX() ){

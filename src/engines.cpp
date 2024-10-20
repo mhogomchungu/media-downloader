@@ -820,18 +820,6 @@ engines::engine::engine( Logger& logger,
 		m_downloadUrl = svtplay_dl::downloadUrl() ;
 	}
 
-	if( utility::platformIsWindows7() && m_likeYtDlp ){
-
-		m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
-
-		if( utility::platformIs32Bit() ){
-
-			m_name = "yt-dlp_win7_Py3.12_x86.exe" ;
-		}else{
-			m_name = "yt-dlp_win7_Py3.12.exe" ;
-		}
-	}
-
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
 
@@ -844,7 +832,14 @@ engines::engine::engine( Logger& logger,
 
 	auto m = cmd.isUndefined() ? this->getLegacyCommands() : this->getCommands( cmd.toObject() ) ;
 
-	m_commandName = m.name ;
+	if( utility::platformIsWindows7() && m_likeYtDlp ){
+
+		m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
+
+		m_commandName = "yt-dlp_win7_Py3.12_x86.exe" ;
+	}else{
+		m_commandName = m.name ;
+	}
 
 	if( m.noCheckArgs ){
 
