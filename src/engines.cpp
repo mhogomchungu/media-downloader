@@ -836,7 +836,7 @@ engines::engine::engine( Logger& logger,
 
 		m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
 
-		m_commandName = "yt-dlp_win7_Py3.12_x86.exe" ;
+		m_commandName = "yt-dlp_win7_x86.exe" ;
 	}else{
 		m_commandName = m.name ;
 	}

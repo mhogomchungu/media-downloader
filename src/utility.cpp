@@ -169,7 +169,7 @@ bool utility::platformIsWindows7()
 {
 	const auto m = QOperatingSystemVersion::current() ;
 
-	return m <= QOperatingSystemVersion::Windows7 ;
+	return m < QOperatingSystemVersion::Windows8 ;
 }
 
 QString utility::windowsApplicationDirPath()
