@@ -259,7 +259,10 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 
 			if( !m_showLocalVersionsOnly ){
 
-				return m_ctx.TabManager().init_done() ;
+				if( this->allBackendExists( engines ) ){
+
+					return m_ctx.TabManager().init_done() ;
+				}
 			}
 		}
 	}
@@ -296,6 +299,19 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 	}else{
 		this->check( this->createPrintVinfo( engines,true ) ) ;
 	}
+}
+
+bool versionInfo::allBackendExists( const std::vector<engines::engine>& e ) const
+{
+	for( const auto& it : e ){
+
+		if( !it.backendExists() ){
+
+			return false ;
+		}
+	}
+
+	return true ;
 }
 
 networkAccess::iterator versionInfo::wrap( printVinfo m ) const

@@ -201,6 +201,7 @@ public:
 	}
 	void checkMediaDownloaderUpdate( const std::vector< engines::engine >& ) const ;
 private:
+	bool allBackendExists( const std::vector< engines::engine >& ) const ;
 	versionInfo::printVinfo createPrintVinfo( const std::vector< engines::engine >&,bool ) const ;
 	void checkMediaDownloaderUpdate( versionInfo::printVinfo,
 					 int,

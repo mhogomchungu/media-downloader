@@ -148,14 +148,7 @@ void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& th
 
 		if( utility::platformIsWindows7() ){
 
-			destPath += "/yt-dlp_win7_Py3.12_x86.exe" ;
-
-			if( !QFile::exists( destPath ) ){
-
-				auto srcPath = thirdPartyBinPath + "/ytdlp/yt-dlp_win7_Py3.12_x86.exe" ;
-
-				utility::copyFile( srcPath,destPath ) ;
-			}
+			// left on purpose
 		}else{
 			if( utility::platformIs32Bit() ){
 
