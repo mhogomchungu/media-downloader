@@ -350,7 +350,6 @@ yt_dlp::yt_dlp( const engines& engines,
 		}else{
 			m_processEnvironment.insert( "PYTHONPATH",e + ":" + m ) ;
 		}
-
 	}
 
 	Q_UNUSED( m_version )
@@ -1233,7 +1232,17 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 		if( txt.contains( original ) ){
 
 			mm.append( "--parse-metadata" ) ;
-			mm.append( New + ":" + original ) ;
+
+			if( New.contains( ":" ) ){
+
+				auto m = New ;
+
+				m.replace( ":",";" ) ;
+
+				mm.append( m + ":" + original ) ;
+			}else{
+				mm.append( New + ":" + original ) ;
+			}
 		}
 	} ;
 
