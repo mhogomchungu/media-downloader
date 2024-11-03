@@ -1872,7 +1872,6 @@ void engines::engine::baseEngine::processData( Logger::Data& outPut,
 		auto b = engines::engine::baseEngine::timer::timerText( line ) ;
 
 		return a || b ;
-
 	} ) ;
 }
 

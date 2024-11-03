@@ -5,4 +5,5 @@ Name=Media Downloader
 Comment=A Qt based GUI frontend to yt-dlp, gallery-dl, lux, svtplay-dl and others
 Icon=io.github.mhogomchungu.media-downloader
 Exec=io.github.mhogomchungu.media-downloader
+StartupWMClass=io.github.mhogomchungu.media-downloader
 Categories=Network;Qt

@@ -96,7 +96,7 @@ void tabManager::init_done()
 
 	m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 
-	switch( s.tabNumber() ) {
+	switch( s.tabNumber() ){
 		case 0 : m_basicdownloader.tabEntered() ; break ;
 		case 1 : m_batchdownloader.tabEntered() ; break ;
 		case 2 : m_playlistdownloader.tabEntered() ; break ;
@@ -107,7 +107,7 @@ void tabManager::init_done()
 
 	QObject::connect( m.tabWidget,&QTabWidget::currentChanged,[ this ]( int index ){
 
-		switch( index ) {
+		switch( index ){
 			case 0 : m_basicdownloader.tabEntered() ; break ;
 			case 1 : m_batchdownloader.tabEntered() ; break ;
 			case 2 : m_playlistdownloader.tabEntered() ; break ;
@@ -118,7 +118,7 @@ void tabManager::init_done()
 
 		if( m_currentTab != index ){
 
-			switch( m_currentTab ) {
+			switch( m_currentTab ){
 				case 0 : m_basicdownloader.tabExited() ; break ;
 				case 1 : m_batchdownloader.tabExited() ; break ;
 				case 2 : m_playlistdownloader.tabExited() ; break ;

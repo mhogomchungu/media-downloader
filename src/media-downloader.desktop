@@ -16,6 +16,7 @@ GenericName[es]=Gestor de descarga de medios
 GenericName[tr_TR]=Medya indirme yöneticisi
 Exec=media-downloader
 Icon=media-downloader
+StartupWMClass=media-downloader
 Keywords=download;youtube-dl;media;videos;music;
 Keywords[es]=descargar;youtube-dl;medios;videos;musica;media;download;
 NoDisplay=false
