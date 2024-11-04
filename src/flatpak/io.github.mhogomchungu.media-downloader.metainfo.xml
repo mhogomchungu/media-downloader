@@ -54,6 +54,17 @@
 	</categories>
 
 	<releases>
+		<release version="5.2.0" type="stable" date="2024-11-04" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.2.0/media-downloader-5.2.0.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Use yt-dlp from "https://github.com/nicolaasjan/yt-dlp" when using windows7.</li>
+					<li>Add a context menu in the batch downloader tab to hide/show UI controls to make visible more entries to be downloaded.</li>
+					<li>When application starts, put it on the screen where it was when it was last closed.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.1.0" type="stable" date="2024-09-05" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.1.0/media-downloader-5.1.0.tar.xz/</url>
 			<description>

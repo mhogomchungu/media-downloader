@@ -318,3 +318,10 @@ Version 1.2.0(April 1st, 2021)
          - Add ability to edit preset options.
          - Ask for confirmation before deleting entries in the library tab.
          - Fix a bug that caused Qt based external tools to be affected by the app's scalling factor.
+
+     Version 5.2.0(November 4th, 2024)
+         [Windows]
+         - Use yt-dlp from "https://github.com/nicolaasjan/yt-dlp" when using windows7.
+         [All]
+        - Add a context menu in the batch downloader tab to hide/show UI controls to make visible more entries to be downloaded.
+        - When application starts, put it on the screen where it was when it was last closed.

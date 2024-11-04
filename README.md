@@ -27,7 +27,7 @@ Turkish, Russian, Japanese, French, and Italian.
 ## Extensions
 
 Media Downloader is a GUI front end to [yt-dlp](https://github.com/yt-dlp/yt-dlp), [gallery-dl](https://github.com/mikf/gallery-dl), [lux](https://github.com/iawia002/lux),
-[you-get](https://github.com/soimort/you-get), [svtplay-dl](https://github.com/spaam/svtplay-dl), [aria2c](https://aria2.github.io/), [wget](https://www.gnu.org/software/wget) and [safari books](https://github.com/mhogomchungu/safaribooks).
+[you-get](https://github.com/soimort/you-get), [svtplay-dl](https://github.com/spaam/svtplay-dl), [aria2c](https://aria2.github.io/), and [wget](https://www.gnu.org/software/wget).
 
 Read the [extensions](https://github.com/mhogomchungu/media-downloader/wiki/Extensions) page for further information on these programs and how to install them.
 
@@ -42,17 +42,17 @@ Make sure you have access to the internet before you run the media-downloader fo
 
 #### Bundle for MacOS
 
-Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.1.0/MediaDownloader-5.1.0.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS.
+Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.0/MediaDownloader-5.2.0.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS.
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.1.0/MediaDownloader-5.1.0.setup.exe).
+Installer for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.0/MediaDownloader-5.2.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.1.0/MediaDownloader-5.1.0.zip).
+Portable version for Microsoft Windows is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.0/MediaDownloader-5.2.0.zip).
 
 You can also install the portable version for Windows using scoop with the following commands:
 
