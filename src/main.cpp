@@ -64,6 +64,16 @@ int start( int argc,char * argv[],
 {
 	QApplication mqApp( argc,argv ) ;
 
+#if QT_VERSION >= QT_VERSION_CHECK( 5,7,0 )
+
+	if( utility::platformisFlatPak() ){
+
+		mqApp.setDesktopFileName( "io.github.mhogomchungu.media-downloader" ) ;
+	}else{
+		mqApp.setDesktopFileName( "media-downloader" ) ;
+	}
+#endif
+
 	ss.setTheme( mqApp,paths.themePath() ) ;
 
 	const auto& args = cargs.arguments() ;
