@@ -333,7 +333,7 @@ void utility::windowsSetDarkModeTitleBar( const Context& ctx )
 	}
 }
 
-std::vector< utility::PlayerOpts > utility::getMediaPlayers()
+std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 {
 	class buffer
 	{
@@ -401,10 +401,13 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 	{
 	public:
 		Hkey( Hkey& hkey,const buffer& subKey ) :
-			m_status( this->open( hkey,subKey,hkey.regSam() ) )
+			m_regSam( hkey.regSam() ),
+			m_status( this->open( hkey,subKey ) )
 		{
 		}
-		Hkey() : m_status( this->open( HKEY_CLASSES_ROOT,nullptr ) )
+		Hkey( REGSAM r ) :
+			m_regSam( r ),
+			m_status( this->open( HKEY_CLASSES_ROOT,nullptr ) )
 		{
 		}
 		~Hkey()
@@ -476,37 +479,16 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 	private:
 		LSTATUS open( HKEY hkey,const char * subKey )
 		{
-			REGSAM wow64 = KEY_READ | KEY_WOW64_64KEY ;
-			REGSAM wow32 = KEY_READ | KEY_WOW64_32KEY ;
-
-			auto st = this->open( hkey,subKey,wow64 ) ;
-
-			if( st == ERROR_SUCCESS ){
-
-				m_regSam = wow64 ;
-			}else{
-				st = this->open( hkey,subKey,wow32 ) ;
-
-				if( st == ERROR_SUCCESS ){
-
-					m_regSam = wow32 ;
-				}
-			}
-
-			return st ;
-		}
-		LSTATUS open( HKEY hkey,const char * subKey,REGSAM regSam )
-		{
 			DWORD x = 0 ;
 
-			return RegOpenKeyExA( hkey,subKey,x,regSam,&m_key ) ;
+			return RegOpenKeyExA( hkey,subKey,x,m_regSam,&m_key ) ;
 		}
+		REGSAM m_regSam ;
 		HKEY m_key = nullptr ;
 		LSTATUS m_status ;
-		REGSAM m_regSam ;
 	} ;
 
-	Hkey rootKey ;
+	Hkey rootKey( wow ) ;
 
 	if( !rootKey ){
 
@@ -551,6 +533,32 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 	}
 
 	return s ;
+}
+
+static void _add_entry( std::vector< utility::PlayerOpts >& a,utility::PlayerOpts& b )
+{
+	for( const auto& it : a ){
+
+		if( it.name == b.name ){
+
+			return ;
+		}
+	}
+
+	a.emplace_back( std::move( b ) ) ;
+}
+
+std::vector< utility::PlayerOpts > utility::getMediaPlayers()
+{
+	auto a = _getMediaPlayers( KEY_READ | KEY_WOW64_64KEY ) ;
+	auto b = _getMediaPlayers( KEY_READ | KEY_WOW64_32KEY ) ;
+
+	for( auto& it : b ){
+
+		 _add_entry( a,it ) ;
+	}
+
+	return a ;
 }
 
 #else
