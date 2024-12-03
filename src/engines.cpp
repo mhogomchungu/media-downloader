@@ -375,11 +375,7 @@ void engines::updateEngines( bool addAll,int id )
 
 		if( it.likeYtDlp() ){
 
-			const auto& m = m_settings.downloadFolder() ;
-
-			auto s = m_settings.deleteFilesOnCanceledDownload() ;
-
-			it.setBackend< yt_dlp >( engines,m_logger,m_enginePaths,it.versionInfo(),m,s ) ;
+			it.setBackend< yt_dlp >( engines,m_logger,m_enginePaths,m_settings ) ;
 
 		}else if( name.contains( "safaribooks" ) ){
 

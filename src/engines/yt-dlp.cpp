@@ -28,6 +28,7 @@
 #include "../utility.h"
 
 #include "../configure.h"
+#include "../settings.h"
 
 #include "aria2c.h"
 
@@ -328,14 +329,10 @@ yt_dlp::yt_dlp( const engines& engines,
 		QJsonObject& obj,
 		Logger& logger,
 		const engines::enginePaths& enginePath,
-		const util::version& version,
-		const QString& downloadFolder,
-		bool deleteFilesOnCancel ) :
+		settings& s ) :
 	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
-	m_version( version ),
-	m_deleteFilesOnCancel( deleteFilesOnCancel ),
-	m_downloadFolder( downloadFolder ),
+	m_settings( &s ),
 	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
 {
 	if( utility::platformisFlatPak() ){
@@ -351,8 +348,6 @@ yt_dlp::yt_dlp( const engines& engines,
 			m_processEnvironment.insert( "PYTHONPATH",e + ":" + m ) ;
 		}
 	}
-
-	Q_UNUSED( m_version )
 
 	auto name = obj.value( "Name" ).toString() ;
 
@@ -1135,7 +1130,7 @@ engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )
 {
 	auto m = util::types::type_identity< yt_dlp::yt_dlplFilter >() ;
 
-	return { m,id,m_engine,*this,m_downloadFolder } ;
+	return { m,id,m_engine,*this } ;
 }
 
 QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
@@ -1223,7 +1218,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 	s.ourOptions.append( "NA" ) ;
 
 	s.ourOptions.append( "-P" ) ;
-	s.ourOptions.append( m_downloadFolder ) ;
+	s.ourOptions.append( m_settings->downloadFolder() ) ;
 
 	QStringList mm ;
 
@@ -1317,12 +1312,10 @@ void yt_dlp::updateCmdOptions( QStringList& e )
 
 yt_dlp::yt_dlplFilter::yt_dlplFilter( int processId,
 				      const engines::engine& engine,
-				      yt_dlp& p,
-				      const QString& df ) :
+				      yt_dlp& p ) :
 	engines::engine::baseEngine::filter( engine,processId ),
 	m_engine( engine ),
-	m_parent( p ),
-	m_downloadFolder( df.toUtf8() )
+	m_parent( p )
 {
 }
 
@@ -1330,9 +1323,11 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 {
 	if( s.lastText() == "[media-downloader] Download Cancelled" ){
 
-		if( m_parent.m_deleteFilesOnCancel ){
+		if( m_parent.m_settings->deleteFilesOnCanceledDownload() ){
 
-			utility::deleteTmpFiles( m_parent.m_downloadFolder,std::move( m_fileNames ) ) ;
+			auto m = m_parent.m_settings->downloadFolder() ;
+
+			utility::deleteTmpFiles( m,std::move( m_fileNames ) ) ;
 		}
 
 	}else if( s.lastLineIsProgressLine() ){
@@ -1487,7 +1482,9 @@ void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fn )
 {
 	if( !fn.isEmpty() ){
 
-		auto a = QDir::fromNativeSeparators( m_downloadFolder + "/" ) ;
+		auto downloadFolder = m_parent.m_settings->downloadFolder() ;
+
+		auto a = QDir::fromNativeSeparators( downloadFolder + "/" ) ;
 
 		auto b = QDir::fromNativeSeparators( fn ) ;
 

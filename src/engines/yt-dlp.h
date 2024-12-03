@@ -22,6 +22,8 @@
 
 #include "../engines.h"
 
+class settings ;
+
 class yt_dlp : public engines::engine::baseEngine
 {
 public:
@@ -36,7 +38,7 @@ public:
 	class yt_dlplFilter : public engines::engine::baseEngine::filter
 	{
 	public:
-		yt_dlplFilter( int,const engines::engine&,yt_dlp&,const QString& ) ;
+		yt_dlplFilter( int,const engines::engine&,yt_dlp& ) ;
 
 		const QByteArray& operator()( Logger::Data& e ) override ;
 
@@ -56,7 +58,6 @@ public:
 		QByteArray m_tmp ;
 		std::vector< QByteArray > m_fileNames ;
 		yt_dlp& m_parent ;
-		QByteArray m_downloadFolder ;
 	} ;
 
 	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
@@ -100,9 +101,7 @@ public:
 		QJsonObject&,
 		Logger& logger,
 		const engines::enginePaths&,
-		const util::version&,
-		const QString&,
-		bool ) ;
+		settings& ) ;
 private:
 	std::vector< engines::engine::baseEngine::mediaInfo >
 	mediaProperties( Logger&,const QJsonArray&,const QJsonObject& ) ;
@@ -110,8 +109,6 @@ private:
 	void appendCompatOption( QStringList& ) ;
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
-	const util::version& m_version ;
-	bool m_deleteFilesOnCancel ;
-	QString m_downloadFolder ;
+	settings * m_settings ;
 	QProcessEnvironment m_processEnvironment ;
 };
