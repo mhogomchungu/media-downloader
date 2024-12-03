@@ -1,5 +1,5 @@
 if(${CMAKE_VERSION} VERSION_GREATER "3.26")
-    cmake_minimum_required(VERSION 3.5.0)
+    cmake_minimum_required(VERSION 3.26.0)
 else()
     cmake_minimum_required(VERSION 3.0.2)
 endif()
@@ -28,7 +28,7 @@ if(${CMAKE_VERSION} VERSION_LESS "3.1.0")
     add_definitions(-std=c++14)
 endif()
 
-option(BUILD_WITH_QT6 "Build with Qt 6" ON)
+option(BUILD_WITH_QT6 "Build with Qt 6" OFF)
 
 if(BUILD_WITH_QT6)
     find_package(Qt6 COMPONENTS Core Widgets Network REQUIRED )
