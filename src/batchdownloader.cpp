@@ -2610,9 +2610,14 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		{
 			return m_engine ;
 		}
-		bool addData( const QByteArray& )
+		bool addData( const QByteArray& e )
 		{
-			return true ;
+			if( utility::containsLinkerWarning( e ) ){
+
+				return false ;
+			}else{
+				return true ;
+			}
 		}
 		void done( engines::ProcessExitState e,QStringList s )
 		{

@@ -828,9 +828,14 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		{
 			return m_engine ;
 		}
-		bool addData( const QByteArray& )
+		bool addData( const QByteArray& e )
 		{
-			return true ;
+			if( utility::containsLinkerWarning( e ) ){
+
+				return false ;
+			}else{
+				return true ;
+			}
 		}
 		void done( engines::ProcessExitState e,QStringList s )
 		{
@@ -1546,7 +1551,7 @@ void playlistdownloader::banner::updateTimer()
 
 bool playlistdownloader::stdError::operator()( const QByteArray& e )
 {
-	if( e.contains( "ERROR: ld.so: object" ) ){
+	if( utility::containsLinkerWarning( e ) ){
 
 		return true ;
 	}

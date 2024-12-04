@@ -529,6 +529,7 @@ namespace utility
 	bool platformIsLikeWindows() ;
 	bool platformisFlatPak() ;
 	bool addData( const QByteArray& ) ;
+	bool containsLinkerWarning( const QByteArray& ) ;
 	QString rename( QTableWidgetItem&,const QString&,const QString&,const QString& ) ;
 	void contextMenuForDirectUrl( QMenu&,const QJsonObject&,const Context& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;

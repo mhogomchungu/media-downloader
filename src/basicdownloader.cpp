@@ -524,7 +524,12 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 				return utility::addData( e ) ;
 			}else{
-				return true ;
+				if( utility::containsLinkerWarning( e ) ){
+
+					return false ;
+				}else{
+					return true ;
+				}
 			}
 		}
 		const engines::engine& engine()

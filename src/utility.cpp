@@ -2470,3 +2470,8 @@ QString utility::rename( QTableWidgetItem& item,
 		return {} ;
 	}
 }
+
+bool utility::containsLinkerWarning( const QByteArray& e )
+{
+	return e.contains( "ERROR: ld.so: object" ) ;
+}

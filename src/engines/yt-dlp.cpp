@@ -1321,11 +1321,6 @@ yt_dlp::yt_dlplFilter::yt_dlplFilter( int processId,
 
 const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 {
-	if( s.lastText().contains( "ERROR: ld.so: object" ) ){
-
-		return m_preProcessing.text() ;
-	}
-
 	if( s.lastText() == "[media-downloader] Download Cancelled" ){
 
 		if( m_parent.m_settings->deleteFilesOnCanceledDownload() ){
