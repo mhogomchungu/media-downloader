@@ -1546,6 +1546,11 @@ void playlistdownloader::banner::updateTimer()
 
 bool playlistdownloader::stdError::operator()( const QByteArray& e )
 {
+	if( e.contains( "ERROR: ld.so: object" ) ){
+
+		return true ;
+	}
+
 	auto s = e.indexOf( "page" ) ;
 
 	if( s != -1 && e.contains( "Downloading API JSON" ) ){
