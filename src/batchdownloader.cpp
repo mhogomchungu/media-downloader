@@ -45,6 +45,16 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 {
 	qRegisterMetaType< ItemEntry >() ;
 
+	auto mmm = utility::getMediaPlayers() ;
+
+	for( const auto& m : mmm ){
+
+		qDebug() << m.exePath ;
+		qDebug() << m.name ;
+		qDebug() << "------" ;
+	}
+
+
 	this->setShowMetaData( m_settings.showMetaDataInBatchDownloader() ) ;
 
 	connect( this,&batchdownloader::reportFStatus,

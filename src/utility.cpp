@@ -352,7 +352,11 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 
 				return false ;
 
-			}else if( this->equal( ".mp4" ) || this->equal( ".MP4" ) ){
+			}else if( this->equal( "potplayer" ) ){
+
+				return true ;
+
+			}if( this->equal( ".mp4" ) || this->equal( ".MP4" ) ){
 
 				return false ;
 			}else{
@@ -508,6 +512,7 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 			continue ;
 		}
 
+
 		Hkey key( rootKey,subKey ) ;
 
 		if( !key ){
@@ -515,7 +520,20 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 			continue ;
 		}
 
-		auto p = util::splitPreserveQuotes( key.getExePath() ) ;
+		auto ss = key.getExePath() ;
+
+		if( ss.isEmpty() ){
+
+			continue ;
+		}
+
+		if( !ss.startsWith( "\"" ) ){
+
+			ss = "\"" + ss ;
+			ss.replace( ".exe ",".exe\" " ) ;
+		}
+
+		auto p = util::splitPreserveQuotes( ss ) ;
 
 		if( p.size() ){
 
@@ -527,7 +545,17 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 			}else{
 				auto na = util::split( subKey,"." ) ;
 
-				s.emplace_back( m,na.first() ) ;
+				auto e = na.first() ;
+
+				if( e.size() ){
+
+					if( !e[ 0 ].isUpper() ){
+
+						e[ 0 ] = e[ 0 ].toUpper() ;
+					}
+				}
+
+				s.emplace_back( m,e ) ;
 			}
 		}
 	}
