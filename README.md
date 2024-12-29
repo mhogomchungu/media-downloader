@@ -1,4 +1,4 @@
-# media-downloader
+# Media Downloader
 
 This project is a Qt/C++ based GUI frontend to CLI multiple CLI-based tools that deal with downloading online media.
 
@@ -36,7 +36,7 @@ A Frequently asked Questions page is [here](https://github.com/mhogomchungu/medi
 
 #### Prerequisite before running for the first time
 
-Make sure you have access to the internet before you run the media-downloader for the first time because it will attempt to use the internet to download the latest version of yt-dlp. Installing most extensions will also cause the media-downloader to access the internet to download the extension's executable.
+Make sure you have access to the internet before you run "Media Downloader" for the first time because it will attempt to use the internet to download the latest version of yt-dlp. Installing most extensions will also cause "Media Downloader" to access the internet to download the extension's executable.
 
 ## Binary packages
 
