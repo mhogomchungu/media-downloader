@@ -4,10 +4,6 @@ else()
     cmake_minimum_required(VERSION 3.0.2)
 endif()
 
-if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES arm64 x86_64)
-endif()
-
 project(media-downloader LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
