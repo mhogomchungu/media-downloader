@@ -349,6 +349,11 @@ int tableWidget::rowCount() const
 	return m_table.rowCount() ;
 }
 
+int tableWidget::columnCount() const
+{
+	return m_table.columnCount() ;
+}
+
 void tableWidget::selectLast()
 {
 	if( m_table.rowCount() > 0 ){

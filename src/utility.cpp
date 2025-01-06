@@ -2441,10 +2441,10 @@ void utility::deleteTmpFiles( const QString& df,std::vector< QByteArray > files 
 
 bool utility::Qt6Version()
 {
-#if QT_VERSION > QT_VERSION_CHECK( 6,0,0 )
-	return true ;
-#else
+#if QT_VERSION < QT_VERSION_CHECK( 6,0,0 )
 	return false ;
+#else
+	return true ;
 #endif
 }
 
@@ -2502,4 +2502,26 @@ QString utility::rename( QTableWidgetItem& item,
 bool utility::containsLinkerWarning( const QByteArray& e )
 {
 	return e.contains( "ERROR: ld.so: object" ) ;
+}
+
+void utility::copyToClipboardUrls( tableWidget& table )
+{
+	QStringList list ;
+
+	auto lastColumn = table.columnCount() - 1 ;
+
+	for( int row = 0 ; row < table.rowCount() ; row++ ){
+
+		if( table.item( row,lastColumn ).isSelected() ){
+
+			list.append( table.url( row ) ) ;
+		}
+	}
+
+	auto m = QApplication::clipboard() ;
+
+	if( m ){
+
+		m->setText( list.join( "\n" ) ) ;
+	}
 }

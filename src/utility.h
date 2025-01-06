@@ -541,6 +541,7 @@ namespace utility
 	QString windowsGetClipBoardText( const ContextWinId& ) ;
 	void windowsSetDarkModeTitleBar( const Context& ) ;
 	QByteArray barLine() ;
+	void copyToClipboardUrls( tableWidget& ) ;
 	bool isRelativePath( const QString& ) ;
 	QString downloadFolder( const Context& ctx ) ;
 	bool onlyWantedVersionInfo( const utility::cliArguments& ) ;

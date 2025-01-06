@@ -546,14 +546,9 @@ void playlistdownloader::customContextMenuRequested()
 
 	ac = m.addAction( tr( "Copy Url" ) ) ;
 
-	connect( ac,&QAction::triggered,[ this,row ](){
+	connect( ac,&QAction::triggered,[ this ](){
 
-		auto m = QApplication::clipboard() ;
-
-		if( m ){
-
-			m->setText( m_table.url( row ) ) ;
-		}
+		utility::copyToClipboardUrls( m_table ) ;
 	} ) ;
 
 	const auto& rr = this->defaultEngine() ;

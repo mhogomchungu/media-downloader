@@ -45,16 +45,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 {
 	qRegisterMetaType< ItemEntry >() ;
 
-	auto mmm = utility::getMediaPlayers() ;
-
-	for( const auto& m : mmm ){
-
-		qDebug() << m.exePath ;
-		qDebug() << m.name ;
-		qDebug() << "------" ;
-	}
-
-
 	this->setShowMetaData( m_settings.showMetaDataInBatchDownloader() ) ;
 
 	connect( this,&batchdownloader::reportFStatus,
@@ -436,14 +426,9 @@ void batchdownloader::showCustomContext()
 
 	ac = m.addAction( tr( "Copy Url" ) ) ;
 
-	connect( ac,&QAction::triggered,[ this,row ](){
+	connect( ac,&QAction::triggered,[ this ](){
 
-		auto m = QApplication::clipboard() ;
-
-		if( m ){
-
-			m->setText( m_table.url( row ) ) ;
-		}
+		utility::copyToClipboardUrls( m_table ) ;
 	} ) ;
 
 	ac = m.addAction( tr( "Rename" ) ) ;

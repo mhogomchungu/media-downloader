@@ -290,6 +290,7 @@ public:
 
 	int addItem( tableWidget::entry,sizeHint = {} ) ;
 	int rowCount() const ;
+	int columnCount() const ;
 	int currentRow() const ;
 	void replace( tableWidget::entry,int row,sizeHint = {} ) ;
 	void replace( const QJsonArray&,int row ) ;
