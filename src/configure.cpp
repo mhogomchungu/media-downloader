@@ -38,9 +38,9 @@ configure::configure( const Context& ctx ) :
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_engines( m_ctx.Engines() ),
-	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,m_ctx.mainWidget().font() ),
-	m_tableUrlToDefaultEngine( *m_ui.tableWidgetConfigureUrl,m_ctx.mainWidget().font() ),
-	m_tableDefaultDownloadOptions( *m_ui.tableWidgetEnginesDefaultOptions,m_ctx.mainWidget().font() ),
+	m_tablePresetOptions( *m_ui.tableWidgetConfigurePresetOptions,0,m_ctx.mainWidget().font() ),
+	m_tableUrlToDefaultEngine( *m_ui.tableWidgetConfigureUrl,0,m_ctx.mainWidget().font() ),
+	m_tableDefaultDownloadOptions( *m_ui.tableWidgetEnginesDefaultOptions,0,m_ctx.mainWidget().font() ),
 	m_presetOptions( m_ctx,m_settings ),
 	m_downloadDefaultOptions( m_ctx,"downloadDefaultOptions.json" ),
 	m_downloadEngineDefaultOptions( m_ctx,"downloadEngineDefaultOptions.json" )

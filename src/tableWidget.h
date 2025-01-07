@@ -339,11 +339,21 @@ private:
 	Qt::Alignment m_textAlignment ;
 } ;
 
+class baseRemoveAllSelected
+{
+public:
+	virtual void operator()( int ) = 0 ;
+	virtual ~baseRemoveAllSelected() ;
+private:
+} ;
+
+void tableMiniWidgetRemoveAllSelected( QTableWidget&,std::unique_ptr< baseRemoveAllSelected > ) ;
+
 template< typename Stuff,size_t COLUMN_COUNT >
 class tableMiniWidget
 {
 public:
-	tableMiniWidget( QTableWidget& t,const QFont& ) : m_table( t )
+	tableMiniWidget( QTableWidget& t,int s,const QFont& ) : m_table( t ),m_startPosition( s )
 	{
 		tableWidget::setTableWidget( m_table,tableWidget::tableWidgetOptions() ) ;
 	}
@@ -380,6 +390,29 @@ public:
 		auto header = m_table.horizontalHeader() ;
 
 		QObject::connect( header,&QHeaderView::sectionClicked,std::move( t ) ) ;
+	}	
+	void removeAllSelected()
+	{
+		class meaw : public baseRemoveAllSelected
+		{
+		public:
+			meaw( tableMiniWidget< Stuff,COLUMN_COUNT >& m ) : m_parent( m )
+			{
+			}
+			void operator()( int row ) override
+			{
+				m_parent.removeRow( row ) ;
+			}
+			~meaw()
+			{
+			}
+		private:
+			tableMiniWidget< Stuff,COLUMN_COUNT >& m_parent ;
+		} ;
+
+		auto s = std::make_unique< meaw >( *this ) ;
+
+		tableMiniWidgetRemoveAllSelected( m_table,std::move( s ) ) ;
 	}
 	void setUpHeaderMenu()
 	{
@@ -404,6 +437,10 @@ public:
 	int rowCount() const
 	{
 		return m_table.rowCount() ;
+	}
+	int startPosition() const
+	{
+		return m_startPosition ;
 	}
 	void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int s )
 	{
@@ -865,6 +902,7 @@ private:
 	}
 	int m_columnClicked = -1 ;
 	QTableWidget& m_table ;
+	int m_startPosition ;
 	std::vector< Stuff > m_stuff ;
 };
 

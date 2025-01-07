@@ -504,7 +504,49 @@ namespace utility
 
 	enum class mainWindowKeyCombo{ CTRL_D,CTRL_A } ;
 
-	void keyPressed( tableWidget&,utility::mainWindowKeyCombo ) ;
+	template< typename Table >
+	inline void keyPressed( Table& table,utility::mainWindowKeyCombo m )
+	{
+		if( m == utility::mainWindowKeyCombo::CTRL_A ){
+
+			auto& t = table.get() ;
+
+			auto first = table.startPosition() ;
+
+			for( int row = 0 ; row < t.rowCount() ; row++ ){
+
+				for( int column = first ; column < t.columnCount() ; column++ ){
+
+					t.item( row,column )->setSelected( true ) ;
+				}
+			}
+
+		}else if( m == utility::mainWindowKeyCombo::CTRL_D ){
+
+			table.removeAllSelected() ;
+		}
+	}
+
+	template< typename Function >
+	void removeAllSelected( QTableWidget& t,Function function )
+	{
+		std::vector< int > selected ;
+
+		auto col = t.columnCount() - 1 ;
+
+		for( int i = 0 ; i < t.rowCount() ; i++ ){
+
+			if( t.item( i,col )->isSelected() ){
+
+				selected.emplace_back( i ) ;
+			}
+		}
+
+		for( auto it = selected.rbegin() ; it != selected.rend() ; it++ ){
+
+			function( *it ) ;
+		}
+	}
 
 	struct downLoadOptions
 	{

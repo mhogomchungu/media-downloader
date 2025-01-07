@@ -35,7 +35,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
-	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,m_ctx.mainWidget().font() ),
+	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,0,m_ctx.mainWidget().font() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
 	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings ),
 	m_ccmd_metadata( m_ctx,*m_ui.pbBDCancel,m_settings ),

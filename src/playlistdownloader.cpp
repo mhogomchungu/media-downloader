@@ -34,7 +34,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_mainWindow( m_ctx.mainWidget() ),
 	m_tabManager( m_ctx.TabManager() ),
 	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
-	m_subscriptionTable( *m_ui.tableWidgetPlDownloaderSubscription,m_ctx.mainWidget().font() ),
+	m_subscriptionTable( *m_ui.tableWidgetPlDownloaderSubscription,0,m_ctx.mainWidget().font() ),
 	m_ccmd( m_ctx,*m_ui.pbPLCancel,m_settings ),
 	m_defaultVideoThumbnailIcon( m_settings.defaultVideoThumbnailIcon( settings::tabName::playlist ) ),
 	m_banner( m_table ),

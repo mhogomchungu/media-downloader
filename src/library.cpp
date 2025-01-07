@@ -33,7 +33,7 @@ library::library( const Context& ctx ) :
 	m_settings( m_ctx.Settings() ),
 	m_enabled( m_settings.enableLibraryTab() ),
 	m_ui( m_ctx.Ui() ),
-	m_table( *m_ui.tableWidgetLibrary,m_ctx.mainWidget().font() ),
+	m_table( *m_ui.tableWidgetLibrary,0,m_ctx.mainWidget().font() ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
 	m_currentPath( m_downloadFolder ),
 	m_folderIcon( m_settings.getIcon( "folder" ).pixmap( 30,40 ) ),
@@ -187,8 +187,9 @@ void library::init_done()
 	}
 }
 
-void library::keyPressed( utility::mainWindowKeyCombo )
+void library::keyPressed( utility::mainWindowKeyCombo m )
 {
+	utility::keyPressed( m_table,m ) ;
 }
 
 void library::enableAll()

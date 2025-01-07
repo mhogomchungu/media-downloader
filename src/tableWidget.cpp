@@ -386,22 +386,10 @@ void tableWidget::removeRow( int s )
 
 void tableWidget::removeAllSelected()
 {
-	std::vector< int > selected ;
+	utility::removeAllSelected( m_table,[ this ]( int row ){
 
-	auto col = m_table.columnCount() - 1 ;
-
-	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
-
-		if( m_table.item( i,col )->isSelected() ){
-
-			selected.emplace_back( i ) ;
-		}
-	}
-
-	for( auto it = selected.rbegin() ; it != selected.rend() ; it++ ){
-
-		this->removeRow( *it ) ;
-	}
+		this->removeRow( row ) ;
+	} ) ;
 }
 
 void tableWidget::hideRow( int row )
@@ -579,4 +567,18 @@ void tableWidget::setColumnNumbersTo( int m )
 
 		m_table.insertColumn( 0 ) ;
 	}
+}
+
+baseRemoveAllSelected::~baseRemoveAllSelected()
+{
+}
+
+void tableMiniWidgetRemoveAllSelected( QTableWidget& table,
+				       std::unique_ptr< baseRemoveAllSelected > function )
+{
+	utility::removeAllSelected( table,[ function = std::move( function ) ]( int row ){
+
+		//auto& m = *function ;
+		( *function )( row ) ;
+	} ) ;
 }
