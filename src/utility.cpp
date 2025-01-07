@@ -2448,6 +2448,28 @@ bool utility::Qt6Version()
 #endif
 }
 
+void utility::keyPressed( tableWidget& table,utility::mainWindowKeyCombo m )
+{
+	if( m == utility::mainWindowKeyCombo::CTRL_A ){
+
+		auto& t = table.get() ;
+
+		auto first = table.startPosition() ;
+
+		for( int row = 0 ; row < t.rowCount() ; row++ ){
+
+			for( int column = first ; column < t.columnCount() ; column++ ){
+
+				t.item( row,column )->setSelected( true ) ;
+			}
+		}
+
+	}else if( m == utility::mainWindowKeyCombo::CTRL_D ){
+
+		table.removeAllSelected() ;
+	}
+}
+
 QString utility::OSXApplicationDirPath()
 {
 	return QCoreApplication::applicationDirPath() ;

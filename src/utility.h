@@ -501,6 +501,11 @@ namespace utility
 	QString homePath() ;
 	QString clipboardText() ;
 	QString fromSecsSinceEpoch( qint64 ) ;
+
+	enum class mainWindowKeyCombo{ CTRL_D,CTRL_A } ;
+
+	void keyPressed( tableWidget&,utility::mainWindowKeyCombo ) ;
+
 	struct downLoadOptions
 	{
 		downLoadOptions()

@@ -187,6 +187,10 @@ void library::init_done()
 	}
 }
 
+void library::keyPressed( utility::mainWindowKeyCombo )
+{
+}
+
 void library::enableAll()
 {
 	m_ui.cbLibraryTabEnable->setEnabled( true ) ;

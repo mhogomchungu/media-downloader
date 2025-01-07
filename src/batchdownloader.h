@@ -196,6 +196,7 @@ class batchdownloader : public QObject
 public:
 
 	batchdownloader( const Context& ) ;
+	void keyPressed( utility::mainWindowKeyCombo ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;

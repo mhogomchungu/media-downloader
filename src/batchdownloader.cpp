@@ -353,6 +353,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	} ) ;
 }
 
+void batchdownloader::keyPressed( utility::mainWindowKeyCombo m )
+{
+	utility::keyPressed( m_table,m ) ;
+}
+
 void batchdownloader::showCustomContext()
 {
 	auto row = m_table.currentRow() ;

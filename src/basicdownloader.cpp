@@ -179,6 +179,10 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	} ) ;	
 }
 
+void basicdownloader::keyPressed( utility::mainWindowKeyCombo )
+{
+}
+
 void basicdownloader::init_done()
 {
 }

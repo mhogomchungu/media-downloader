@@ -30,6 +30,7 @@ class about
 {
 public:
 	about( const Context& ) ;
+	void keyPressed( utility::mainWindowKeyCombo ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;

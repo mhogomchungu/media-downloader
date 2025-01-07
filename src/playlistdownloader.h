@@ -79,6 +79,7 @@ class playlistdownloader : public QObject
         Q_OBJECT
 public:
 	playlistdownloader( Context& ) ;
+	void keyPressed( utility::mainWindowKeyCombo ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;

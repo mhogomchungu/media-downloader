@@ -39,6 +39,7 @@ class library : public QObject
 	Q_OBJECT
 public:
 	library( const Context& ) ;
+	void keyPressed( utility::mainWindowKeyCombo ) ;
 	void init_done() ;
 	void enableAll() ;
 	void disableAll() ;

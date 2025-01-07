@@ -52,6 +52,7 @@ public:
 	tabManager& resetMenu() ;
 	tabManager& reTranslateUi() ;
 	tabManager& exiting() ;
+	void keyPressed( utility::mainWindowKeyCombo ) ;
 	basicdownloader& basicDownloader()
 	{
 		return m_basicdownloader ;

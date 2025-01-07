@@ -35,6 +35,7 @@ class configure : public QObject
 public:
 	static QString defaultDownloadOption() ;
 	configure( const Context& ) ;
+	void keyPressed( utility::mainWindowKeyCombo ) ;
 	void init_done() ;
 	void enableAll() ;
 	void textAlignmentChanged( Qt::LayoutDirection ) ;

@@ -35,6 +35,7 @@ class basicdownloader : public QObject
 	Q_OBJECT
 public:
 	basicdownloader( const Context& ) ;
+	void keyPressed( utility::mainWindowKeyCombo ) ;
 	void init_done() ;
 	void tabEntered() ;
 	void tabExited() ;

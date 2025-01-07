@@ -787,6 +787,10 @@ configure::configure( const Context& ctx ) :
 	this->showOptions() ;
 }
 
+void configure::keyPressed( utility::mainWindowKeyCombo )
+{
+}
+
 void configure::updateProxySettings( settings::proxySettings::Type s )
 {
 	m_ui.lineEditCustormProxyAddress->setEnabled( false ) ;

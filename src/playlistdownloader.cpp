@@ -335,6 +335,11 @@ void playlistdownloader::disableAll()
 	m_ui.labelPLEnterUrl->setEnabled( false ) ;
 }
 
+void playlistdownloader::keyPressed( utility::mainWindowKeyCombo m )
+{
+	utility::keyPressed( m_table,m ) ;
+}
+
 void playlistdownloader::resetMenu()
 {
 	utility::setMenuOptions( m_ctx,{},false,true,m_ui.pbPLOptions,[ this ]( QAction * aa ){

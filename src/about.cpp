@@ -99,6 +99,10 @@ void about::textAlignmentChanged( Qt::LayoutDirection )
 {
 }
 
+void about::keyPressed( utility::mainWindowKeyCombo )
+{
+}
+
 void about::init_done()
 {
 }

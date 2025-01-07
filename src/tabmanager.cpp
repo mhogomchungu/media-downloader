@@ -333,6 +333,16 @@ tabManager& tabManager::exiting()
 	return *this ;
 }
 
+void tabManager::keyPressed( utility::mainWindowKeyCombo m )
+{
+	m_about.keyPressed( m ) ;
+	m_configure.keyPressed( m ) ;
+	m_basicdownloader.keyPressed( m ) ;
+	m_batchdownloader.keyPressed( m ) ;
+	m_playlistdownloader.keyPressed( m ) ;
+	m_library.keyPressed( m ) ;
+}
+
 void tabManager::textAlignmentChanged( Qt::LayoutDirection m )
 {
 	m_about.textAlignmentChanged( m ) ;
