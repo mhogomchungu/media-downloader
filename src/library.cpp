@@ -57,6 +57,8 @@ library::library( const Context& ctx ) :
 
 	connect( m_ui.pbLibrarySetNewFileName,&QPushButton::clicked,[ this ](){
 
+		this->setRenameUiVisible( false ) ;
+
 		auto m = m_ui.pbLibrarySetNewFileName->objectName() ;
 
 		if( m == "Rename" ){
@@ -66,11 +68,29 @@ library::library( const Context& ctx ) :
 		}else if( m == "Delete" ){
 
 			this->deleteEntry( m_table.currentRow() ) ;
-		}else{
-			this->deleteAll() ;
-		}
 
-		this->setRenameUiVisible( false ) ;
+		}else if( "DeleteAll" ){
+
+			this->deleteAll() ;
+
+		}else if( "DeleteSelectedItems" ){
+
+			std::vector< int > items ;
+
+			for( int row = 0 ; row < m_table.rowCount() ; row++ ){
+
+				if( m_table.isSelected( row ) ){
+
+					items.emplace_back( row ) ;
+				}
+			}
+
+			this->internalDisableAll() ;
+
+			m_ui.pbLibraryCancel->setEnabled( true ) ;
+
+			this->deleteEntries( std::move( items ) ) ;
+		}
 	} ) ;
 
 	connect( this,&library::addEntrySignal,this,&library::addEntrySlot,Qt::QueuedConnection ) ;
@@ -187,11 +207,6 @@ void library::init_done()
 	}
 }
 
-void library::keyPressed( utility::mainWindowKeyCombo m )
-{
-	utility::keyPressed( m_table,m ) ;
-}
-
 void library::enableAll()
 {
 	m_ui.cbLibraryTabEnable->setEnabled( true ) ;
@@ -239,6 +254,54 @@ void library::textAlignmentChanged( Qt::LayoutDirection )
 {
 }
 
+bool library::deletePath( const QString& m )
+{
+	QFileInfo mm( m ) ;
+
+	if( mm.isSymLink() ){
+
+		QFile::remove( m ) ;
+
+	}else if( mm.isDir() ){
+
+		directoryManager::removeDirectory( m,m_continue ) ;
+	}else{
+		QFile::remove( m ) ;
+	}
+
+	mm.refresh() ;
+
+	return mm.exists() ;
+}
+
+void library::deleteEntries( std::vector< int > items )
+{
+	if( items.size() == 0 ){
+
+		return this->internalEnableAll() ;
+	}
+
+	int row = items.back() ;
+
+	items.pop_back() ;
+
+	auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
+
+	utils::qthread::run( [ this,m ](){
+
+		return this->deletePath( m ) ;
+
+	},[ row,this,items = std::move( items ) ]( bool s )mutable{
+
+		if( !s ){
+
+			m_table.removeRow( row ) ;
+		}
+
+		this->deleteEntries( std::move( items ) ) ;
+	} ) ;
+}
+
 void library::setRenameUiVisible( bool e )
 {
 	m_ui.labelLibrarySetNewFileName->setVisible( e ) ;
@@ -257,6 +320,28 @@ void library::renameFile( int row )
 	utility::rename( item,m_currentPath,nn,item.text() ) ;
 }
 
+void library::keyPressed( utility::mainWindowKeyCombo m )
+{
+	if( m == utility::mainWindowKeyCombo::CTRL_D ){
+
+		auto a = tr( "Are You Sure You Want To Delete Selected Items?" ) ;
+
+		m_ui.labelLibrarySetNewFileName->setText( a ) ;
+
+		m_ui.pbLibrarySetNewFileName->setObjectName( "DeleteSelectedItems" ) ;
+
+		m_ui.pbLibrarySetNewFileName->setText( tr( "Yes" ) ) ;
+
+		m_ui.pbLibraryCancelRename->setText( tr( "No" ) ) ;
+
+		this->setRenameUiVisible( true ) ;
+
+		m_ui.plainTextLibrarySetNewName->setVisible( false ) ;
+	}else{
+		utility::keyPressed( m_table,m ) ;
+	}
+}
+
 void library::deleteEntry( int row )
 {
 	if( m_table.isSelected( row ) ){
@@ -269,22 +354,7 @@ void library::deleteEntry( int row )
 
 		utils::qthread::run( [ this,m ](){
 
-			QFileInfo mm( m ) ;
-
-			if( mm.isSymLink() ){
-
-				QFile::remove( m ) ;
-
-			}else if( mm.isDir() ){
-
-				directoryManager::removeDirectory( m,m_continue ) ;
-			}else{
-				QFile::remove( m ) ;
-			}
-
-			mm.refresh() ;
-
-			return mm.exists() ;
+			return this->deletePath( m ) ;
 
 		},[ row,this ]( bool s ){
 

@@ -1156,6 +1156,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Rename Folder To Below Text</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Are You Sure You Want To Delete Selected Items?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>logWindow</name>

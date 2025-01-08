@@ -578,7 +578,6 @@ void tableMiniWidgetRemoveAllSelected( QTableWidget& table,
 {
 	utility::removeAllSelected( table,[ function = std::move( function ) ]( int row ){
 
-		//auto& m = *function ;
 		( *function )( row ) ;
 	} ) ;
 }

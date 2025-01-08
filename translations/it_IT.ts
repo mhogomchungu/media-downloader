@@ -1161,6 +1161,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Rename Folder To Below Text</source>
         <translation>Rinomina la cartella qui sotto il testo</translation>
     </message>
+    <message>
+        <source>Are You Sure You Want To Delete Selected Items?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>logWindow</name>
