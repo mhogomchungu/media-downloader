@@ -346,25 +346,15 @@ void library::deleteEntry( int row )
 {
 	if( m_table.isSelected( row ) ){
 
-		auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
-
 		this->internalDisableAll() ;
 
 		m_ui.pbLibraryCancel->setEnabled( true ) ;
 
-		utils::qthread::run( [ this,m ](){
+		std::vector< int > item ;
 
-			return this->deletePath( m ) ;
+		item.emplace_back( row ) ;
 
-		},[ row,this ]( bool s ){
-
-			if( !s ){
-
-				m_table.removeRow( row ) ;
-			}
-
-			this->internalEnableAll() ;
-		} ) ;
+		this->deleteEntries( std::move( item ) ) ;
 	}
 }
 
