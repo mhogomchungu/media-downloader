@@ -96,7 +96,8 @@ void tabManager::init_done()
 
 	m.tabWidget->setCurrentIndex( s.tabNumber() ) ;
 
-	switch( s.tabNumber() ){
+	switch( s.tabNumber() )
+	{
 		case 0 : m_basicdownloader.tabEntered() ; break ;
 		case 1 : m_batchdownloader.tabEntered() ; break ;
 		case 2 : m_playlistdownloader.tabEntered() ; break ;
@@ -107,7 +108,8 @@ void tabManager::init_done()
 
 	QObject::connect( m.tabWidget,&QTabWidget::currentChanged,[ this ]( int index ){
 
-		switch( index ){
+		switch( index )
+		{
 			case 0 : m_basicdownloader.tabEntered() ; break ;
 			case 1 : m_batchdownloader.tabEntered() ; break ;
 			case 2 : m_playlistdownloader.tabEntered() ; break ;
@@ -118,7 +120,8 @@ void tabManager::init_done()
 
 		if( m_currentTab != index ){
 
-			switch( m_currentTab ){
+			switch( m_currentTab )
+			{
 				case 0 : m_basicdownloader.tabExited() ; break ;
 				case 1 : m_batchdownloader.tabExited() ; break ;
 				case 2 : m_playlistdownloader.tabExited() ; break ;
@@ -335,12 +338,15 @@ tabManager& tabManager::exiting()
 
 void tabManager::keyPressed( utility::mainWindowKeyCombo m )
 {
-	m_about.keyPressed( m ) ;
-	m_configure.keyPressed( m ) ;
-	m_basicdownloader.keyPressed( m ) ;
-	m_batchdownloader.keyPressed( m ) ;
-	m_playlistdownloader.keyPressed( m ) ;
-	m_library.keyPressed( m ) ;
+	switch( m_ctx.Ui().tabWidget->currentIndex() )
+	{
+		case 0 : m_basicdownloader.keyPressed( m ) ; break ;
+		case 1 : m_batchdownloader.keyPressed( m ) ; break ;
+		case 2 : m_playlistdownloader.tabExited()  ; break ;
+		case 3 : m_library.keyPressed( m )         ; break ;
+		case 4 : m_configure.keyPressed( m )       ; break ;
+		case 5 : m_about.keyPressed( m )           ; break ;
+	}
 }
 
 void tabManager::textAlignmentChanged( Qt::LayoutDirection m )
