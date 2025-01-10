@@ -1163,7 +1163,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Selected Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi eliminare gli elementi selezionati?</translation>
     </message>
 </context>
 <context>
