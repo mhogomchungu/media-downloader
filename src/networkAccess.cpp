@@ -105,22 +105,17 @@ static bool _foundMediaDownloader( const QString& url )
 		}else{
 			return url.contains( "MediaDownloaderQt6" ) ;
 		}
-	}else{
-		if( url.contains( "MediaDownloader" ) ){
 
-			if( url.contains( "MediaDownloaderQt6" ) ){
+	}else if( url.contains( "MediaDownloaderQt5" ) ){
 
-				return false ;
+		if( _gitUrl( url ) ){
 
-			}else if( _gitUrl( url ) ){
-
-				return url.contains( "MediaDownloaderQt5.git" ) ;
-			}else{
-				return true ;
-			}
+			return url.contains( "MediaDownloaderQt5.git" ) ;
 		}else{
-			return false ;
+			return url.contains( "MediaDownloaderQt5" ) ;
 		}
+	}else{
+		return false ;
 	}
 }
 
