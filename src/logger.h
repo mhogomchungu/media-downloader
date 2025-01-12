@@ -505,6 +505,14 @@ public:
 
 							iter->replace( text ) ;
 						}else{
+							if( ee.size() > 5000 ){
+
+								auto begin = ee.begin() ;
+								auto end   = begin + 4000 ;
+
+								ee.erase( begin,end ) ;
+							}
+
 							ee.emplace_back( text ) ;
 						}
 					}

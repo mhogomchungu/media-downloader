@@ -7,7 +7,7 @@ on:
     - '*'
 jobs:
   buildMacReleaseEvent:
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
     -
       uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
       name: Configure CMake
       env:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}"
-      run: cmake -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/MediaDownloader -DBUILD_WITH_QT6=true -DSOURCE_PATH=${{github.workspace}}/MAC/ -DCMAKE_VERBOSE_MAKEFILE=FALSE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -S ${{github.workspace}}/MAC/ -B ${{github.workspace}}/MAC/build6
+      run: cmake -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/MediaDownloader -DBUILD_WITH_QT6=true -DSOURCE_PATH=${{github.workspace}}/MAC/ -DCMAKE_VERBOSE_MAKEFILE=FALSE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -S ${{github.workspace}}/MAC/ -B ${{github.workspace}}/MAC/build6
     -
       name: Build
       run: cmake --build ${{github.workspace}}/MAC/build6

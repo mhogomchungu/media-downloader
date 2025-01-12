@@ -1,8 +1,10 @@
-name: MediaDownloader4MACRelease
+name: GitBuildMac
 
 on:
   push:
-    tags:
+    branches:
+    - main
+    tags-ignore:
     - '*'
 
 jobs:
@@ -14,5 +16,5 @@ jobs:
         with:
           token: ${{ secrets.MD_GIT_PUBLISH }}
           repository: mhogomchungu/media-downloader-git
-          event-type: PublishMacRelease
+          event-type: PublishMacGit
 

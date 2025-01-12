@@ -1,4 +1,4 @@
-name: MediaDownloader4WindowsRelease
+name: GitBuildWindowsRelease
 
 on:
   push:
