@@ -55,12 +55,12 @@ jobs:
       run: |
            version=`cat ${{github.workspace}}/MAC/build6/VERSION_INFO`
            echo -n "VERSION_INFO=$version" >> "$GITHUB_ENV"
-           cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloader-$version.dmg
+           cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloaderQt6-$version.dmg
     -
       name: Post Bundle
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}/MAC/build6/MediaDownloader-${{ env.VERSION_INFO }}.dmg
+        artifacts: ${{github.workspace}}/MAC/build6/MediaDownloaderQt6-${{ env.VERSION_INFO }}.dmg
         tag: ${{ env.VERSION_INFO }}
         commit: "main"
         allowUpdates: true
