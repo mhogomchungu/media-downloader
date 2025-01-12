@@ -6,7 +6,7 @@ on:
     tags:
     - '*'
 jobs:
-  buildMacGitEvent:
+  buildMacReleaseEvent:
     runs-on: macos-12
     steps:
     -
