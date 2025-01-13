@@ -1,7 +1,7 @@
 {
   "app-id" : "io.github.mhogomchungu.media-downloader",
   "runtime" : "org.kde.Platform",
-  "runtime-version" : "6.7",
+  "runtime-version" : "6.8",
   "sdk" : "org.kde.Sdk",
   "command" : "io.github.mhogomchungu.media-downloader",
   "finish-args" : [
@@ -18,15 +18,18 @@
       "name" : "mutagen",
       "buildsystem" : "simple",
       "build-commands" : [
-        "`pwd`/setup.py build",
-        "`pwd`/setup.py install --prefix /app"
+        "pip3 install --prefix=/app . --no-build-isolation"
       ],
-      "cleanup" : [],
       "sources" : [
         {
-          "type" : "archive",
-          "url" : "https://github.com/quodlibet/mutagen/releases/download/release-1.47.0/mutagen-1.47.0.tar.gz",
-          "sha256" : "719fadef0a978c31b4cf3c956261b3c58b6948b32023078a2117b1de09f0fc99"
+          "type" : "git",
+          "url" : "https://github.com/quodlibet/mutagen.git",
+          "tag" : "release-1.47.0",
+          "commit" : "e38a475b4e00e248e04c50901d75b526464550d3",
+          "x-checker-data" : {
+            "type" : "git",
+            "tag-pattern" : "^release-([\\d.]+)$"
+          }
         }
       ]
     },

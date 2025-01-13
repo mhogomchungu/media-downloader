@@ -291,11 +291,9 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	m_ui.cbBDMonitorClipboardContent->setChecked( cb ) ;
 
-	connect( m_ui.cbBDMonitorClipboardContent,&QCheckBox::stateChanged,[ this ]( int s ){
+	utility::connectQCheckBox( m_ui.cbBDMonitorClipboardContent,[ this ]( bool s ){
 
-		auto m = s == Qt::CheckState::Checked ;
-
-		m_settings.setMonitorClipboardUrl( m,settings::tabName::batch ) ;
+		m_settings.setMonitorClipboardUrl( s,settings::tabName::batch ) ;
 	} ) ;
 
 	m_table.connect( &QTableWidget::cellDoubleClicked,[ this ]( int row,int column ){

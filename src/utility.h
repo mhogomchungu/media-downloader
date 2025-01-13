@@ -666,6 +666,21 @@ namespace utility
 		const Context& ctx ;
 	};
 
+	template< typename Function >
+	void connectQCheckBox( QCheckBox * cb,Function function )
+	{
+		#if QT_VERSION < QT_VERSION_CHECK( 6,7,0 )
+			QObject::connect( cb,&QCheckBox::stateChanged,[ function ]( int s ){
+
+				function( s == static_cast< int >( Qt::CheckState::Checked ) ) ;
+			} ) ;
+		#else
+			QObject::connect( cb,&QCheckBox::checkStateChanged,[ function ]( Qt::CheckState s ){
+
+				function( s == Qt::CheckState::Checked ) ;
+			} ) ;
+		#endif
+	}
 	template< typename ... qLabel >
 	void alignText( Qt::LayoutDirection m,qLabel ... l )
 	{

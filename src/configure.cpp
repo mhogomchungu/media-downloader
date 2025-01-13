@@ -465,9 +465,7 @@ configure::configure( const Context& ctx ) :
 		this->saveOptions() ;
 	} ) ;
 
-	connect( m_ui.cbShowTrayIcon,&QCheckBox::stateChanged,[ this ]( int s ){
-
-		auto checked = s == Qt::CheckState::Checked ;
+	utility::connectQCheckBox( m_ui.cbShowTrayIcon,[ this ]( bool checked ){
 
 		m_settings.setshowTrayIcon( checked ) ;
 
