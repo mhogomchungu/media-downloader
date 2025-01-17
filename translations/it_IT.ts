@@ -390,7 +390,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso file cookie</translation>
     </message>
 </context>
 <context>
