@@ -304,10 +304,6 @@
         <translation>Download-Tools Name</translation>
     </message>
     <message>
-        <source>Path To Cookie FIle</source>
-        <translation>Pfad der Cookie-Datei</translation>
-    </message>
-    <message>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
@@ -387,6 +383,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path To Cookie File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1099,15 +1099,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hinzufügen</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Standardeinstellungen festlegen</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abbrechen</translation>
     </message>
 </context>
 <context>
@@ -1142,7 +1142,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abbrechen</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>

@@ -304,10 +304,6 @@
         <translation>Nombre del Motor</translation>
     </message>
     <message>
-        <source>Path To Cookie FIle</source>
-        <translation>Ruta al archivo de Cookies</translation>
-    </message>
-    <message>
         <source>Default</source>
         <translation>Predeterminado</translation>
     </message>
@@ -389,6 +385,10 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path To Cookie File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1101,15 +1101,15 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Establecer Predeterminados</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancelar</translation>
     </message>
 </context>
 <context>
@@ -1144,7 +1144,7 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancelar</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>

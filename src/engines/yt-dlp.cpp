@@ -335,20 +335,6 @@ yt_dlp::yt_dlp( const engines& engines,
 	m_settings( &s ),
 	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
 {
-	if( utility::platformisFlatPak() ){
-
-		auto m = m_processEnvironment.value( "PYTHONPATH" ) ;
-
-		QString e = "/app/lib/python3.11/site-packages/mutagen-1.47.0-py3.11.egg" ;
-
-		if( m.isEmpty() ){
-
-			m_processEnvironment.insert( "PYTHONPATH",e ) ;
-		}else{
-			m_processEnvironment.insert( "PYTHONPATH",e + ":" + m ) ;
-		}
-	}
-
 	auto name = obj.value( "Name" ).toString() ;
 
 	if( name == "yt-dlp" ){

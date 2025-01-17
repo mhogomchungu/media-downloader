@@ -304,10 +304,6 @@
         <translation>エンジン名</translation>
     </message>
     <message>
-        <source>Path To Cookie FIle</source>
-        <translation>Cookieファイルの場所</translation>
-    </message>
-    <message>
         <source>Default</source>
         <translation>デフォルト</translation>
     </message>
@@ -387,6 +383,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Yes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Path To Cookie File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1099,15 +1099,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">追加</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">デフォルトに戻す</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">キャンセル</translation>
     </message>
 </context>
 <context>
@@ -1142,7 +1142,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">キャンセル</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>

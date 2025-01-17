@@ -304,10 +304,6 @@
         <translation>اسم الأداة</translation>
     </message>
     <message>
-        <source>Path To Cookie FIle</source>
-        <translation>المسار إلى ملف تعريف الارتباط</translation>
-    </message>
-    <message>
         <source>Default</source>
         <translation>الافتراضي</translation>
     </message>
@@ -390,6 +386,10 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Yes</source>
         <translation>نعم</translation>
+    </message>
+    <message>
+        <source>Path To Cookie File</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

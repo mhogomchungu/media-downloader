@@ -2167,7 +2167,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Path To Cookie FIle</string>
+         <string>Path To Cookie File</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

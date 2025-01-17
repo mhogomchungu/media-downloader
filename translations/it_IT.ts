@@ -136,10 +136,6 @@
         <translation>Ripristina opzioni a valori predefiniti</translation>
     </message>
     <message>
-        <source>Path To Cookie FIle</source>
-        <translation>Percorso file cookie</translation>
-    </message>
-    <message>
         <source>Refresh</source>
         <translation>Aggiorna</translation>
     </message>
@@ -391,6 +387,10 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     <message>
         <source>Yes</source>
         <translation>Sì</translation>
+    </message>
+    <message>
+        <source>Path To Cookie File</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
