@@ -1188,6 +1188,28 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
+static void _parse_metadata( QStringList& mm,
+			     const QString& txt,
+			     const QString& original,
+			     const QString& New )
+{
+	if( !New.isEmpty() && txt.contains( original ) ){
+
+		mm.append( "--parse-metadata" ) ;
+
+		if( New.contains( ":" ) ){
+
+			auto m = New ;
+
+			m.replace( ":",";" ) ;
+
+			mm.append( m + ":" + original ) ;
+		}else{
+			mm.append( New + ":" + original ) ;
+		}
+	}
+}
+
 void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
 {
 	if( s.userOptions.contains( "--yes-playlist" ) ){
@@ -1208,25 +1230,6 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 
 	QStringList mm ;
 
-	auto _add = [ & ]( const QString& txt,const QString& original,const QString& New ){
-
-		if( txt.contains( original ) ){
-
-			mm.append( "--parse-metadata" ) ;
-
-			if( New.contains( ":" ) ){
-
-				auto m = New ;
-
-				m.replace( ":",";" ) ;
-
-				mm.append( m + ":" + original ) ;
-			}else{
-				mm.append( New + ":" + original ) ;
-			}
-		}
-	} ;
-
 	for( int m = s.ourOptions.size() - 1 ; m > -1 ; m-- ){
 
 		if( s.ourOptions[ m ] == "-o" ){
@@ -1238,16 +1241,16 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 				auto w = s.uiIndex.toString( true,s.ourOptions ) ;
 				auto ww = s.uiIndex.toString( false,s.ourOptions ) ;
 
-				_add( e,"%(autonumber)s",ww ) ;
-				_add( e,"%(playlist_index)s",w ) ;
-				_add( e,"%(playlist_autonumber)s",w ) ;
-				_add( e,"%(playlist_id)s",s.playlist_id ) ;
-				_add( e,"%(playlist_title)s",s.playlist_title ) ;
-				_add( e,"%(playlist)s",s.playlist ) ;
-				_add( e,"%(playlist_count)s",s.playlist_count ) ;
-				_add( e,"%(playlist_uploader)s",s.playlist_uploader ) ;
-				_add( e,"%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
-				_add( e,"%(n_entries)s",s.uiIndex.total() ) ;
+				_parse_metadata( mm,e,"%(autonumber)s",ww ) ;
+				_parse_metadata( mm,e,"%(playlist_index)s",w ) ;
+				_parse_metadata( mm,e,"%(playlist_autonumber)s",w ) ;
+				_parse_metadata( mm,e,"%(playlist_id)s",s.playlist_id ) ;
+				_parse_metadata( mm,e,"%(playlist_title)s",s.playlist_title ) ;
+				_parse_metadata( mm,e,"%(playlist)s",s.playlist ) ;
+				_parse_metadata( mm,e,"%(playlist_count)s",s.playlist_count ) ;
+				_parse_metadata( mm,e,"%(playlist_uploader)s",s.playlist_uploader ) ;
+				_parse_metadata( mm,e,"%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
+				_parse_metadata( mm,e,"%(n_entries)s",s.uiIndex.total() ) ;
 			}
 
 			break ;
