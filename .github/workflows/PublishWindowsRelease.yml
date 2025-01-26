@@ -3,7 +3,7 @@ env:
   QT5_VERSION:     "5.15.2"
   MINGW5_VERSION:  "win32_mingw81"
   MINGW5_PATH:     "mingw81_32"
-  QT6_VERSION:     "6.6.2"
+  QT6_VERSION:     "6.8.1"
   MINGW6_VERSION:  "win64_mingw"
   MINGW6_PATH:     "mingw_64"
 
@@ -52,6 +52,7 @@ jobs:
          New-Item -ItemType Directory -Path ${{github.workspace}}\tmp
          Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\tmp\3rdParty.zip
          Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\tmp\libs.zip
+         Invoke-WebRequest "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_x86.exe" -OutFile ${{github.workspace}}\tmp\yt-dlp_x86.exe
     -
       name: Configure CMake for Qt5
       env:
@@ -104,6 +105,9 @@ jobs:
         Expand-Archive -Path ${{github.workspace}}\tmp\libs.zip -DestinationPath ${{github.workspace}}\tmp
 
         Copy-Item ${{github.workspace}}\tmp\libs\* -Destination ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }} -Recurse
+
+        Remove-Item ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
+        Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
 
         Compress-Archive -Path ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }} -DestinationPath ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip
 
@@ -160,6 +164,9 @@ jobs:
         Expand-Archive -Path ${{github.workspace}}\tmp\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}
 
         Copy-Item ${{github.workspace}}\tmp\libs\msvcr100.dll -Destination ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}
+
+        Remove-Item ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
+        Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
 
         Compress-Archive -Path ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }} -DestinationPath ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip
 
