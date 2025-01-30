@@ -54,6 +54,16 @@
 	</categories>
 
 	<releases>
+		<release version="5.2.1" type="stable" date="2025-02-01" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/media-downloader-5.2.1.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Maintanance release.</li>
+					<li>Update KDE runtime from version 6.7 to version 6.8</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.2.0" type="stable" date="2024-11-04" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.2.0/media-downloader-5.2.0.tar.xz/</url>
 			<description>
