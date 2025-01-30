@@ -28,7 +28,7 @@
 Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_logWindow( nullptr,s,*this ),
 	m_textEdit( e ),
-	m_processOutPuts( true ),
+	m_processOutPuts( true,s.getLogsLimits() ),
 	m_settings( s )
 {
 	m_textEdit.setReadOnly( true ) ;
@@ -206,6 +206,17 @@ bool Logger::Data::removeFirstFinished()
 	}
 
 	return false ;
+}
+
+void Logger::Data::manageLogSize( std::vector< processOutput::outputEntry >& ee )
+{
+	if( ee.size() > m_maxLogEntries ){
+
+		auto begin = ee.begin() + 1 ;
+		auto end   = begin + m_longEntriesToRemove ;
+
+		ee.erase( begin,end ) ;
+	}
 }
 
 bool Logger::Data::doneDownloadingText( const QByteArray& data )

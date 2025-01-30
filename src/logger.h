@@ -133,7 +133,11 @@ public:
 			std::vector< Logger::Data::processOutput::outputEntry > m_data ;
 		};
 	public:
-		Data( bool s ) : m_mainLogger( s )
+		template< typename LogsLimits >
+		Data( bool s,const LogsLimits& l ) :
+			m_mainLogger( s ),
+			m_maxLogEntries( l.maxLogEntries() ),
+			m_longEntriesToRemove( l.removeEntriesCount() )
 		{
 		}
 		bool mainLogger() const
@@ -478,6 +482,7 @@ public:
 			return m_fileNames ;
 		}
 	private:
+		void manageLogSize( std::vector< Logger::Data::processOutput::outputEntry >& ) ;
 		bool doneDownloadingText( const QByteArray& data ) ;
 		template< typename Function >
 		void _replaceOrAdd( const QByteArray& text,int id,const Function& function )
@@ -505,13 +510,7 @@ public:
 
 							iter->replace( text ) ;
 						}else{
-							if( ee.size() > 5000 ){
-
-								auto begin = ee.begin() ;
-								auto end   = begin + 4000 ;
-
-								ee.erase( begin,end ) ;
-							}
+							this->manageLogSize( ee ) ;
 
 							ee.emplace_back( text ) ;
 						}
@@ -528,6 +527,8 @@ public:
 		YtDlpData m_ytDlpData ;
 		SvtData m_svtData ;
 		QStringList m_fileNames ;
+		size_t m_maxLogEntries ;
+		size_t m_longEntriesToRemove ;
 	} ;
 
 	Logger( QPlainTextEdit&,QWidget * parent,settings& ) ;
@@ -626,16 +627,16 @@ private:
 	int m_id ;
 };
 
-template< typename F,typename U >
+template< typename F,typename U,typename L >
 class LoggerBasicDownloader
 {
 public:
 	LoggerBasicDownloader() = delete ;
-	LoggerBasicDownloader( F function,U ff,Logger& logger,int id ) :
+	LoggerBasicDownloader( F function,U ff,Logger& logger,int id,const L& logs ) :
 		m_function( std::move( function ) ),
 		m_functionUpdate( std::move( ff ) ),
 		m_logger( logger ),
-		m_localLogger( false ),
+		m_localLogger( false,logs ),
 		m_id( id )
 	{
 	}
@@ -699,28 +700,28 @@ private:
 	int m_id ;
 } ;
 
-template< typename F,typename U >
-auto make_loggerBasicDownloader( F function,Logger& logger,U fu,int id )
+template< typename F,typename U,typename L >
+auto make_loggerBasicDownloader( F function,Logger& logger,U fu,int id,const L& logs )
 {
-	using lbd = LoggerBasicDownloader< F,U > ;
+	using lbd = LoggerBasicDownloader< F,U,L > ;
 
-	return lbd( std::move( function ),std::move( fu ),logger,id ) ;
+	return lbd( std::move( function ),std::move( fu ),logger,id,logs ) ;
 }
 
-template< typename F,typename U,typename E >
+template< typename F,typename U,typename E,typename L >
 class loggerBatchDownloader
 {
 public:
-	loggerBatchDownloader( F function,Logger& logger,U ff,E err,int id ) :
+	loggerBatchDownloader( F function,Logger& logger,U ff,E err,int id,const L& logs ) :
 		m_function( std::move( function ) ),
 		m_functionUpdate( std::move( ff ) ),
 		m_error( std::move( err ) ),
 		m_logger( logger ),
-		m_localLogger( false ),
+		m_localLogger( false,logs ),
 		m_id( id )
 	{
 	}
-	loggerBatchDownloader< F,U,E > move()
+	loggerBatchDownloader< F,U,E,L > move()
 	{
 		return std::move( *this ) ;
 	}
@@ -782,28 +783,33 @@ private:
 	int m_id ;
 } ;
 
-template< typename F,typename U,typename E >
-auto make_loggerBatchDownloader( F function,Logger& logger,U fu,E err,int id )
+template< typename F,typename U,typename E,typename L >
+auto make_loggerBatchDownloader( F function,Logger& logger,U fu,E err,int id,const L& logs )
 {
-	using lbd = loggerBatchDownloader< F,U,E > ;
+	using lbd = loggerBatchDownloader< F,U,E,L > ;
 
-	return lbd( std::move( function ),logger,std::move( fu ),std::move( err ),id ) ;
+	return lbd( std::move( function ),logger,std::move( fu ),std::move( err ),id,logs ) ;
 }
 
-template< typename AddToTable,typename TableWidget,typename Error >
+template< typename AddToTable,typename TableWidget,typename Error,typename L >
 class loggerPlaylistDownloader
 {
 public:
-	loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add,Error error ) :
+	loggerPlaylistDownloader( TableWidget& t,
+				  Logger& logger,
+				  int id,
+				  AddToTable add,
+				  Error error,
+				  const L& logs ) :
 		m_table( t ),
 		m_logger( logger ),
-		m_localLogger( false ),
+		m_localLogger( false,logs ),
 		m_id( id ),
 		m_addToTable( std::move( add ) ),
 		m_error( std::move( error ) )
 	{
 	}
-	loggerPlaylistDownloader< AddToTable,TableWidget,Error > move()
+	loggerPlaylistDownloader< AddToTable,TableWidget,Error,L > move()
 	{
 		return std::move( *this ) ;
 	}
@@ -857,11 +863,16 @@ private:
 	Error m_error ;
 };
 
-template< typename AddToTable,typename TableWidget,typename Error >
-auto make_loggerPlaylistDownloader( TableWidget& t,Logger& logger,int id,AddToTable add,Error err )
+template< typename AddToTable,typename TableWidget,typename Error,typename L >
+auto make_loggerPlaylistDownloader( TableWidget& t,
+				    Logger& logger,
+				    int id,
+				    AddToTable add,
+				    Error err,
+				    const L& logs )
 {
-	using lpd = loggerPlaylistDownloader< AddToTable,TableWidget,Error > ;
+	using lpd = loggerPlaylistDownloader< AddToTable,TableWidget,Error,L > ;
 
-	return lpd( t,logger,id,std::move( add ),std::move( err ) ) ;
+	return lpd( t,logger,id,std::move( add ),std::move( err ),logs ) ;
 }
 #endif

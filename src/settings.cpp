@@ -931,6 +931,11 @@ QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 	return this->getIcon( "video" ).pixmap( width,height ) ;
 }
 
+settings::LogsLimits settings::getLogsLimits()
+{
+	return { 4096,1 } ;
+}
+
 void settings::setDesktopNotifyOnDownloadComplete( bool e )
 {
 	m_settings.setValue( "DesktopNotifyOnDownloadComplete",e ) ;

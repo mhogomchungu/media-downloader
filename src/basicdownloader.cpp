@@ -579,10 +579,11 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 	events ev( *this,eng.id,getList,eng.engine ) ;
 
+	auto logs   = m_settings.getLogsLimits() ;
 	auto ch     = ev.outPutChannel( eng.engine ) ;
 	auto& ll    = m_ctx.logger() ;
 	auto update = []( const QByteArray& ){} ;
-	auto logger = make_loggerBasicDownloader( eng.engine.filter( eng.id ),ll,update,eng.id ) ;
+	auto logger = make_loggerBasicDownloader( eng.engine.filter( eng.id ),ll,update,eng.id,logs ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
 	auto ctx    = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
 

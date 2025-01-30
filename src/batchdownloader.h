@@ -343,8 +343,8 @@ private:
 	class BatchLogger
 	{
 	public:
-		BatchLogger( Logger& l ) :
-			m_localLogger( false ),
+		BatchLogger( Logger& l,const settings::LogsLimits& s ) :
+			m_localLogger( false,s ),
 			m_logger( l ),
 			m_id( utility::concurrentID() )
 		{
@@ -408,8 +408,8 @@ private:
 	class BatchLoggerWrapper
 	{
 	public:
-		BatchLoggerWrapper( Logger& l,LogFilter f ) :
-			m_logger( std::make_shared< BatchLogger >( l ) ),
+		BatchLoggerWrapper( Logger& l,const settings::LogsLimits& s,LogFilter f ) :
+			m_logger( std::make_shared< BatchLogger >( l,s ) ),
 			m_logFilter( std::move( f ) )
 		{
 		}

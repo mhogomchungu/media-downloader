@@ -375,8 +375,6 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 		}
 	}
 
-	QStringList m ;
-
 	for( const auto& e : data ){
 
 		auto u = QDir::fromNativeSeparators( e ) ;
@@ -387,9 +385,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 			auto ss = u.mid( n + m_dir.size() + 1 ) ;
 
-			if( !m.contains( ss ) && !u.startsWith( "[media-downloader] cmd:" ) ){
-
-				m.append( ss ) ;
+			if( !u.startsWith( "[media-downloader] cmd:" ) ){
 
 				s.addFileName( ss ) ;
 			}
@@ -400,15 +396,15 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 				auto ss = u.mid( n + 13 ) ;
 
-				if( !m.contains( ss ) && !u.startsWith( "[media-downloader] cmd:" ) ){
-
-					m.append( ss ) ;
+				if( !u.startsWith( "[media-downloader] cmd:" ) ){
 
 					s.addFileName( ss ) ;
 				}
 			}
 		}
 	}
+
+	const auto& m = s.fileNames() ;
 
 	if( !m.isEmpty() ){
 

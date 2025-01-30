@@ -1961,7 +1961,9 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	batchdownloader::defaultLogger ll ;
 
-	BatchLoggerWrapper< batchdownloader::defaultLogger > wrapper( m_ctx.logger(),ll.move() ) ;
+	auto logs = m_ctx.Settings().getLogsLimits() ;
+
+	BatchLoggerWrapper< batchdownloader::defaultLogger > wrapper( m_ctx.logger(),logs,ll.move() ) ;
 
 	m_ccmd_metadata.download( args,
 				  index == -1 ? url : m_table.url( index ),
@@ -2331,7 +2333,9 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	m_ctx.logger().setMaxProcessLog( 1 ) ;
 
-	BatchLoggerWrapper< outPut > logger( m_ctx.logger(),outPut( *this,listType ) ) ;
+	auto logs = m_ctx.Settings().getLogsLimits() ;
+
+	BatchLoggerWrapper< outPut > logger( m_ctx.logger(),logs,outPut( *this,listType ) ) ;
 
 	events ev( *this,listType,engine,row ) ;
 
@@ -2691,7 +2695,9 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 	auto& ll = m_ctx.logger() ;
 
-	auto logger = make_loggerBatchDownloader( engine.filter( id ),ll,updater,error,id ) ;
+	auto logs   = m_settings.getLogsLimits() ;
+
+	auto logger = make_loggerBatchDownloader( engine.filter( id ),ll,updater,error,id,logs ) ;
 
 	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
 

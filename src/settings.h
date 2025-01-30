@@ -196,6 +196,28 @@ public:
 
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
+	class LogsLimits
+	{
+	public:
+		LogsLimits( size_t m,size_t l ) :
+			m_maxLogEntries( m ),m_logEntriesToRemove( l )
+		{
+		}
+		size_t maxLogEntries() const
+		{
+			return m_maxLogEntries ;
+		}
+		size_t removeEntriesCount() const
+		{
+			return m_logEntriesToRemove ;
+		}
+	private:
+		size_t m_maxLogEntries ;
+		size_t m_logEntriesToRemove ;
+	} ;
+
+	LogsLimits getLogsLimits() ;
+
 	bool desktopNotifyOnDownloadComplete() ;
 	bool desktopNotifyOnAllDownloadComplete() ;
 	bool libraryShowFolderFirst() ;
