@@ -46,17 +46,17 @@ Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/rel
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows that is build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/MediaDownloaderQt5-5.2.1.setup.exe).
+Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/MediaDownloaderQt5-5.2.1.setup.exe).
 
-Installer for Microsoft Windows that is build with Qt5 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/MediaDownloaderQt6-5.2.1.setup.exe).
+Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/MediaDownloaderQt6-5.2.1.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows that is build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/MediaDownloaderQt5-5.2.1.zip).
+Portable version for Microsoft Windows that is 32 bit,build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/MediaDownloaderQt5-5.2.1.zip).
 
-Portable version for Microsoft Windows that is build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/MediaDownloaderQt6-5.2.1.zip).
+Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/MediaDownloaderQt6-5.2.1.zip).
 
 You can also install the portable version for Windows using scoop with the following commands:
 
