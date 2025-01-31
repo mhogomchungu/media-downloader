@@ -329,3 +329,5 @@ Version 1.2.0(April 1st, 2021)
      Version 5.2.1(January 31st, 2025)
          [ALL]
         - Maintanance release.
+         [Flatpak]
+        - Update KDE runtime from version 6.7 to version 6.8.
