@@ -164,7 +164,7 @@ void tabManager::clipboardEvent( QClipboard::Mode mode )
 {
 	if( mode == QClipboard::Mode::Clipboard ){
 
-		if( utility::platformIsWindows() ){
+		if( utility::platformIsWindows() && !utility::Qt6Version() ){
 
 			this->bgThreadClipboardHandler() ;
 		}else{
