@@ -283,11 +283,13 @@ QString utility::windowsGetClipBoardText( const ContextWinId& wId )
 
 	String s ;
 
-	if( IsClipboardFormatAvailable( CF_TEXT ) ){
+	auto format = utility::Qt6Version() ? CF_UNICODETEXT : CF_TEXT ;
+
+	if( IsClipboardFormatAvailable( format ) ){
 
 		if( OpenClipboard( wId.value() ) ){
 
-			auto hglb = GetClipboardData( CF_TEXT ) ;
+			auto hglb = GetClipboardData( format ) ;
 
 			if( hglb ){
 
