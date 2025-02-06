@@ -240,8 +240,9 @@ private:
 	void renameFile( int ) ;
 	void setTimeIntervals( int ) ;
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
-	void parseDataFromFile( const QByteArray& ) ;
-	void parseDataFromObject( const QJsonObject&,const QJsonArray& ) ;
+	void parseDataFromFile( Items&,const QByteArray& ) ;
+	void parseItems( Items ) ;
+	void parseDataFromObject( Items&,const QJsonObject&,const QJsonArray& ) ;
 	void getListFromFile( QMenu& ) ;
 	void getListFromFile( const QString&,bool ) ;
 	QString defaultEngineName() ;

@@ -1670,7 +1670,7 @@ static void _dataFromFile( Items& items,
 	}
 }
 
-void batchdownloader::parseDataFromFile( const QByteArray& data )
+void batchdownloader::parseDataFromFile( Items& items,const QByteArray& data )
 {
 	QJsonParseError err ;
 
@@ -1678,14 +1678,27 @@ void batchdownloader::parseDataFromFile( const QByteArray& data )
 
 	if( err.error == QJsonParseError::NoError ){
 
-		this->parseDataFromObject( json.object(),json.array() ) ;
+		this->parseDataFromObject( items,json.object(),json.array() ) ;
 	}
 }
 
-void batchdownloader::parseDataFromObject( const QJsonObject& obj,const QJsonArray& array )
+void batchdownloader::parseItems( Items items )
 {
-	Items items ;
+	const auto& engine = this->defaultEngine() ;
 
+	if( items.size() <= m_settings.maxConcurrentDownloads() ){
+
+		this->showThumbnail( engine,items.move() ) ;
+	}else{
+		auto m = m_showMetaData ;
+		m_showMetaData = false ;
+		this->showThumbnail( engine,items.move() ) ;
+		m_showMetaData = m ;
+	}
+}
+
+void batchdownloader::parseDataFromObject( Items& items,const QJsonObject& obj,const QJsonArray& array )
+{
 	if( obj.isEmpty() ){
 
 		/*
@@ -1720,13 +1733,6 @@ void batchdownloader::parseDataFromObject( const QJsonObject& obj,const QJsonArr
 			_dataFromFile( items,m_ctx,array,a,b,function ) ;
 		}
 	}
-
-	const auto& engine = this->defaultEngine() ;
-
-	auto m = m_showMetaData ;
-	m_showMetaData = false ;
-	this->showThumbnail( engine,items.move() ) ;
-	m_showMetaData = m ;
 }
 
 void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
@@ -1742,13 +1748,13 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 
 		if( !list.isEmpty() ){
 
+			Items items ;
+
 			if( list.startsWith( '[' ) || list.startsWith( '{' ) ){
 
-				this->parseDataFromFile( list ) ;
+				this->parseDataFromFile( items,list ) ;
 			}else{
 				list.replace( "\r","" ) ;
-
-				Items items ;
 
 				for( const auto& it : util::split( list,'\n',true ) ){
 
@@ -1758,18 +1764,10 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 					}
 				}
 
-				const auto& engine = this->defaultEngine() ;
-
-				if( items.size() <= m_settings.maxConcurrentDownloads() ){
-
-					this->showThumbnail( engine,items.move() ) ;
-				}else{
-					auto m = m_showMetaData ;
-					m_showMetaData = false ;
-					this->showThumbnail( engine,items.move() ) ;
-					m_showMetaData = m ;
-				}
 			}
+
+			this->parseItems( items.move() ) ;
+
 		}
 
 		m_done = true ;
@@ -2434,9 +2432,15 @@ void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThu
 
 	ee.updateVersionInfo( m_ctx,[ this,&ee,u,autoDownload,showThumbnails ](){
 
+		Items items ;
+
 		for( const auto& it : util::split( u,'\n',true ) ){
 
-			if( it.startsWith( "yt-dlp" ) ){
+			if( it.startsWith( "#" ) ){
+
+				continue ;
+
+			}else if( it.startsWith( "yt-dlp" ) ){
 
 				/*
 				 * Entry looks like yt-dlp ${YTDLP_OPTIONS} URL
@@ -2471,7 +2475,7 @@ void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThu
 
 				arr.append( obj ) ;
 
-				this->parseDataFromObject( QJsonObject(),arr ) ;
+				this->parseDataFromObject( items,QJsonObject(),arr ) ;
 			}else{
 				auto url = it ;
 
@@ -2483,13 +2487,15 @@ void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThu
 
 					if( row == -1 ){
 
-						this->showThumbnail( ee,xt,autoDownload,showThumbnails ) ;
+						items.add( xt ) ;
 					}else{
 						m_table.selectRow( row ) ;
 					}
 				}
 			}
 		}
+
+		this->parseItems( items.move() ) ;
 	} ) ;
 }
 
