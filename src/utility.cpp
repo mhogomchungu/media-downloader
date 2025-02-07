@@ -342,15 +342,15 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 	public:
 		buffer()
 		{
-			m_buffer[ 0 ] = '\0' ;
+			m_buffer[ 0 ] = L'\0' ;
 		}
 		DWORD * size()
 		{
 			return &m_size ;
 		}
-		bool valid()
+		bool valid() const
 		{
-			if( m_buffer[ 0 ] == '\0' ){
+			if( m_buffer[ 0 ] == L'\0' ){
 
 				return false ;
 
@@ -365,41 +365,33 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 				return this->endsWith( ".mp4" ) || this->endsWith( ".MP4" ) ;
 			}
 		}
-		operator char*()
+		operator wchar_t*()
 		{
 			return m_buffer.data() ;
 		}
-		operator const char*() const
+		operator const wchar_t*() const
 		{
 			return m_buffer.data() ;
 		}
 		operator QString()
 		{
-			return m_buffer.data() ;
+			return this->string() ;
 		}
 	private:
-		bool equal( const char * b ) const
+		bool equal( const QString& e ) const
 		{
-			return std::strcmp( m_buffer.data(),b ) == 0 ;
+			return this->string() == e ;
 		}
-		bool endsWith( const utility::strl& m ) const
+		bool endsWith( const QString& e ) const
 		{
-			auto b   = m.data() ;
-			auto len = m.size() ;
-
-			auto a = static_cast< int >( m_size ) ;
-			auto l = static_cast< int >( len ) ;
-
-			if( a < l ){
-
-				return false ;
-			}else{
-				auto aa = static_cast< size_t >( m_size ) ;
-
-				return std::memcmp( m_buffer.data() + aa - len,b,len ) == 0 ;
-			}
-		} ;
-		std::array< char,4096 > m_buffer ;
+			return this->string().endsWith( e ) ;
+		}
+		QString string() const
+		{
+			auto m = static_cast< qsizetype >( m_size ) ;
+			return QString::fromWCharArray( m_buffer.data(),m ) ;
+		}
+		std::array< wchar_t,4096 > m_buffer ;
 		DWORD m_size = 4096 ;
 	} ;
 
@@ -429,7 +421,7 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 
 			DWORD keyCount = 0 ;
 
-			auto st = RegQueryInfoKeyA( m_key,N,N,N,&keyCount,N,N,N,N,N,N,N ) ;
+			auto st = RegQueryInfoKeyW( m_key,N,N,N,&keyCount,N,N,N,N,N,N,N ) ;
 
 			if( st == ERROR_SUCCESS ){
 
@@ -444,9 +436,9 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 
 			buffer subKey ;
 
-			auto path = "shell\\open\\command" ;
+			auto path = L"shell\\open\\command" ;
 
-			auto st = RegGetValueA( m_key,path,N,RRF_RT_REG_SZ,N,subKey,subKey.size() ) ;
+			auto st = RegGetValueW( m_key,path,N,RRF_RT_REG_SZ,N,subKey,subKey.size() ) ;
 
 			if( st == ERROR_SUCCESS ){
 
@@ -461,7 +453,7 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 
 			buffer subKey ;
 
-			auto st = RegEnumKeyExA( m_key,i,subKey,subKey.size(),N,N,N,N ) ;
+			auto st = RegEnumKeyExW( m_key,i,subKey,subKey.size(),N,N,N,N ) ;
 
 			if( st == ERROR_SUCCESS ){
 
@@ -483,11 +475,11 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 			return m_regSam ;
 		}
 	private:
-		LSTATUS open( HKEY hkey,const char * subKey )
+		LSTATUS open( HKEY hkey,const wchar_t * subKey )
 		{
 			DWORD x = 0 ;
 
-			return RegOpenKeyExA( hkey,subKey,x,m_regSam,&m_key ) ;
+			return RegOpenKeyExW( hkey,subKey,x,m_regSam,&m_key ) ;
 		}
 		REGSAM m_regSam ;
 		HKEY m_key = nullptr ;
@@ -513,7 +505,6 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 
 			continue ;
 		}
-
 
 		Hkey key( rootKey,subKey ) ;
 
