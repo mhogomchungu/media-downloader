@@ -331,3 +331,10 @@ Version 1.2.0(April 1st, 2021)
         - Maintanance release.
          [Flatpak]
         - Update KDE runtime from version 6.7 to version 6.8.
+
+     Version 5.2.2(February 8th, 2025)
+         [ALL]
+        - Many Urls can now be added in batch downloader's Url's text field without hanging the application.
+        - Update Brazilian Portuguese translations.
+         [Windows Qt6 build]
+        - Checkbox in batch downloader tab to monitor for clipboard contents now works.

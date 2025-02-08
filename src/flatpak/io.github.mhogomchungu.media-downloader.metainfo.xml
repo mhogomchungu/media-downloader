@@ -54,6 +54,16 @@
 	</categories>
 
 	<releases>
+		<release version="5.2.2" type="stable" date="2025-02-08" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.2.2/media-downloader-5.2.2.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Many Urls can now be added in batch downloader's Url's text field without hanging the application.</li>
+					<li>Update Brazilian Portuguese translations.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.2.1" type="stable" date="2025-01-31" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.2.1/media-downloader-5.2.1.tar.xz/</url>
 			<description>
