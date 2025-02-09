@@ -365,15 +365,15 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 				return this->endsWith( ".mp4" ) || this->endsWith( ".MP4" ) ;
 			}
 		}
-		operator wchar_t*()
+		wchar_t * data()
 		{
 			return m_buffer.data() ;
 		}
-		operator const wchar_t*() const
+		const wchar_t * data() const
 		{
 			return m_buffer.data() ;
 		}
-		operator QString()
+		QString qdata() const
 		{
 			return this->string() ;
 		}
@@ -400,7 +400,7 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 	public:
 		Hkey( Hkey& hkey,const buffer& subKey ) :
 			m_regSam( hkey.regSam() ),
-			m_status( this->open( hkey,subKey ) )
+			m_status( this->open( hkey,subKey.data() ) )
 		{
 		}
 		Hkey( REGSAM r ) :
@@ -438,11 +438,11 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 
 			auto path = L"shell\\open\\command" ;
 
-			auto st = RegGetValueW( m_key,path,N,RRF_RT_REG_SZ,N,subKey,subKey.size() ) ;
+			auto st = RegGetValueW( m_key,path,N,RRF_RT_REG_SZ,N,subKey.data(),subKey.size() ) ;
 
 			if( st == ERROR_SUCCESS ){
 
-				return subKey ;
+				return subKey.qdata() ;
 			}else{
 				return {} ;
 			}
@@ -453,7 +453,7 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 
 			buffer subKey ;
 
-			auto st = RegEnumKeyExW( m_key,i,subKey,subKey.size(),N,N,N,N ) ;
+			auto st = RegEnumKeyExW( m_key,i,subKey.data(),subKey.size(),N,N,N,N ) ;
 
 			if( st == ERROR_SUCCESS ){
 
@@ -520,13 +520,24 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 			continue ;
 		}
 
-		if( !ss.startsWith( "\"" ) ){
+		QStringList p ;
 
-			ss = "\"" + ss ;
-			ss.replace( ".exe ",".exe\" " ) ;
+		if( ss.startsWith( "\"" ) ){
+
+			p = util::splitPreserveQuotes( ss ) ;
+		}else{
+			auto e = ss.indexOf( ".exe" ) ;
+
+			if( e != -1 ){
+
+				auto m = ss.mid( 0,e + 4 ) ;
+
+				if( QFile::exists( m ) ){
+
+					p.append( m ) ;
+				}
+			}
 		}
-
-		auto p = util::splitPreserveQuotes( ss ) ;
 
 		if( p.size() ){
 
@@ -536,7 +547,7 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 
 				s.emplace_back( m,"Windows Media Player" ) ;
 			}else{
-				auto na = util::split( subKey,"." ) ;
+				auto na = util::split( subKey.qdata(),"." ) ;
 
 				auto e = na.first() ;
 
@@ -1988,6 +1999,11 @@ bool utility::cliArguments::runningUpdated() const
 bool utility::cliArguments::portable() const
 {
 	return this->contains( "--portable" ) ;
+}
+
+bool utility::cliArguments::printMediaPlayers() const
+{
+	return this->contains( "--print-media-players" ) ;
 }
 
 QString utility::cliArguments::dataPath() const

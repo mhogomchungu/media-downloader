@@ -179,6 +179,11 @@ bool settings::enableLibraryTab()
 	return this->getOption( "EnableLibraryTab",false ) ;
 }
 
+bool settings::printMediaPlayers()
+{
+	return m_printMediaPlayers ;
+}
+
 bool settings::checkForEnginesUpdates()
 {
 	return this->getOption( "CheckForEnginesUpdates",true ) ;
@@ -382,6 +387,7 @@ QString settings::downloadLocation()
 #endif
 
 settings::settings( const utility::cliArguments& args ) :
+	m_printMediaPlayers( args.printMediaPlayers() ),
 	m_appDataPath( this->appDataLocation() ),
 	m_options( args,m_appDataPath ),
 	m_settingsP( this->init() ),

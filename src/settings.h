@@ -241,6 +241,7 @@ public:
 	bool autoSavePlaylistOnExit() ;
 	bool useInternalArchiveFile() ;
 	bool enableLibraryTab() ;
+	bool printMediaPlayers() ;
 	bool checkForEnginesUpdates() ;
 	bool autoHideDownloadWhenCompleted() ;
 	bool deleteFilesOnCanceledDownload() ;
@@ -400,6 +401,7 @@ private:
 	} ;
 
 	bool m_EnableHighDpiScaling ;
+	bool m_printMediaPlayers ;
 	QString m_appDataPath ;
 	QByteArray m_defaultScaleFactor ;
 	QByteArray m_MdScaleFactor ;

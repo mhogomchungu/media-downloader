@@ -431,6 +431,7 @@ namespace utility
 		bool contains( const char * ) const ;
 		bool runningUpdated() const ;
 		bool portable() const ;
+		bool printMediaPlayers() const ;
 		QString dataPath() const ;
 		QString originalPath() const ;
 		QString originalVersion() const ;

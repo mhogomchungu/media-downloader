@@ -186,11 +186,15 @@ void engines::showBanner()
 	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;
 	m_logger.add( QObject::tr( "App Data Path: %1" ).arg( m_enginePaths.basePath() ),id ) ;
 
-	//if( utility::platformIsWindows() ){
+	m_logger.add( utility::barLine(),id ) ;
 
-	//	const auto& m = m_settings.windowsOnly3rdPartyBinPath() ;
-	//	m_logger.add( QObject::tr( "3rd Party Path: %1" ).arg( m ),id ) ;
-	//}
+	if( m_settings.printMediaPlayers() ){
+
+		for( const auto&  it : utility::getMediaPlayers() ){
+
+			m_logger.add( it.name + ":" + it.exePath,id ) ;
+		}
+	}
 }
 
 void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
