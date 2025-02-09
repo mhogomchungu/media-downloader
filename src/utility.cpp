@@ -603,18 +603,34 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 
 		m.emplace_back( "","Flatpak" ) ;
 	}else{
-		struct app
+		class appList
 		{
-			app( const char * u,const char * e ) : uiName( u ),exeName( e )
+		public:
+			struct app
 			{
+				app( const char * u,const char * e ) : uiName( u ),exeName( e )
+				{
+				}
+				const char * uiName ;
+				const char * exeName ;
+			} ;
+			appList()
+			{
+				m_appList.emplace_back( "VLC","vlc" ) ;
+				m_appList.emplace_back( "SMPlayer","smplayer" ) ;
+				m_appList.emplace_back( "MPV","mpv" ) ;
 			}
-			const char * uiName ;
-			const char * exeName ;
-		};
-
-		std::array< app,3 > apps = { { { "VLC","vlc" },
-					       { "SMPlayer","smplayer" },
-					       { "MPV","mpv" } } } ;
+			auto begin() const
+			{
+				return m_appList.begin() ;
+			}
+			auto end() const
+			{
+				return m_appList.end() ;
+			}
+		private:
+			std::vector< app > m_appList ;
+		} apps ;
 
 		for( const auto& it : apps ){
 
@@ -2003,7 +2019,7 @@ bool utility::cliArguments::portable() const
 
 bool utility::cliArguments::printMediaPlayers() const
 {
-	return this->contains( "--print-media-players" ) ;
+	return this->contains( "--show-media-players" ) ;
 }
 
 QString utility::cliArguments::dataPath() const
@@ -2455,6 +2471,11 @@ bool utility::Qt6Version()
 #else
 	return true ;
 #endif
+}
+
+bool utility::Qt5Version()
+{
+	return !utility::Qt6Version() ;
 }
 
 QString utility::OSXApplicationDirPath()

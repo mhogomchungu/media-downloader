@@ -494,6 +494,7 @@ namespace utility
 	void failedToParseJsonData( Logger&,const QJsonParseError& ) ;
 	bool runningGitVersion() ;
 	bool Qt6Version() ;
+	bool Qt5Version() ;
 	QString runningVersionOfMediaDownloader() ;
 	QString aboutVersionInfo() ;
 	QString compileTimeVersion() ;
