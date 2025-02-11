@@ -1458,9 +1458,9 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 			m_tmp = a.toUtf8() + "\n" + m ;
 
-			return m_tmp ;
-
 			this->setFileName( m ) ;
+
+			return m_tmp ;
 		}
 		if( e.contains( "has already been recorded" ) ){
 
