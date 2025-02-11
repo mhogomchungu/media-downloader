@@ -1454,6 +1454,12 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 				m.truncate( s ) ;
 			}
 
+			auto a = QObject::tr( "Merging Audio and Video Together" ) ;
+
+			m_tmp = a.toUtf8() + "\n" + m ;
+
+			return m_tmp ;
+
 			this->setFileName( m ) ;
 		}
 		if( e.contains( "has already been recorded" ) ){

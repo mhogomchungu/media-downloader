@@ -989,6 +989,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Show/Hide Controls</source>
         <translation>Visualizza/nascondi controlli</translation>
     </message>
+    <message>
+        <source>Merging Audio and Video Together</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

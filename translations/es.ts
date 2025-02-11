@@ -986,6 +986,10 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Show/Hide Controls</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Merging Audio and Video Together</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

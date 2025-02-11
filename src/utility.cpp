@@ -796,12 +796,11 @@ bool utility::Terminator::terminate( QProcess& exe )
 
 	}else if( utility::platformIsLinux() ){
 
-		utils::qthread::run( [ &exe ](){
+		utils::qthread::run( [ pid = exe.processId() ](){
 
-			_kill_children_recursively( QString::number( exe.processId() ) ) ;
+			_kill_children_recursively( QString::number( pid ) ) ;
 
-			exe.terminate() ;
-		} ) ;
+		},[ &exe ]{ exe.terminate() ; } ) ;
 	}else{
 		exe.terminate() ;
 	}
