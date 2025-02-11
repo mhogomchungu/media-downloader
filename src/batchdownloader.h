@@ -249,7 +249,7 @@ private:
 	const engines::engine& defaultEngine() ;
 	void clearScreen() ;
 	void showCustomContext() ;
-	void addToList( const QString&,bool autoDownload = false,bool showThumbnails = true ) ;
+	void addToList( const QString& ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine&,Items ) ;
 	void download( const engines::engine&,int = 0 ) ;

@@ -692,7 +692,16 @@ void batchdownloader::gotEvent( const QJsonObject& jsonArgs )
 		auto autoDownload = jsonArgs.value( "-a" ).toBool() ;
 		auto showThumbnail = jsonArgs.value( "-e" ).toBool() ;
 
-		this->addToList( url,autoDownload,showThumbnail ) ;
+		auto m = m_showMetaData ;
+		auto s = m_startAutoDownload ;
+
+		m_startAutoDownload = autoDownload ;
+		m_showMetaData      = showThumbnail ;
+
+		this->addToList( url ) ;
+
+		m_showMetaData      = m ;
+		m_startAutoDownload = s ;
 	}
 }
 
@@ -2055,7 +2064,7 @@ void batchdownloader::clipboardData( const QString& url )
 		if( m_table.rowWithUrl( url ) == -1 ){
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
-			this->addToList( url,false,m_showMetaData ) ;
+			this->addToList( url ) ;
 		}
 	}
 }
@@ -2426,11 +2435,11 @@ void batchdownloader::networkResult( networkCtx d,const utils::network::reply& r
 	utility::networkReply( this,&batchdownloader::networkData,m_ctx,reply,nullptr,d.index,d.media.move() ) ;
 }
 
-void batchdownloader::addToList( const QString& u,bool autoDownload,bool showThumbnails )
+void batchdownloader::addToList( const QString& u )
 {
 	const auto& ee = this->defaultEngine() ;
 
-	ee.updateVersionInfo( m_ctx,[ this,&ee,u,autoDownload,showThumbnails ](){
+	ee.updateVersionInfo( m_ctx,[ this,u ](){
 
 		Items items ;
 
