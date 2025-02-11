@@ -122,11 +122,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		auto m = this->defaultEngineName() ;
 
-		t.engineDefaultDownloadOptions( m,[ this ]( const QString& e ){
-
-			m_extraOptions.hasExtraOptions = true ;
-			m_extraOptions.downloadOptions = e ;
-		} ) ;
+		t.engineSetDefaultDownloadOptions( m ) ;
 	} ) ;
 
 	connect( m_ui.pbList,&QPushButton::clicked,[ this ](){

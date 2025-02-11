@@ -950,6 +950,78 @@ QString configure::engineDefaultDownloadOptions( const QString& engineName )
 	return options ;
 }
 
+void configure::engineSetDefaultDownloadOptions( const QString& engineName )
+{
+	using mm = configure::downloadDefaultOptions::optsEngines ;
+
+	class opts
+	{
+	public:
+		opts( const mm& m,const QJsonObject& obj ) :
+			m_jsonObject( obj ),
+			m_options( m.options ),
+			m_inUse( m.inuse == "yes" )
+		{
+		}
+		const QString& opt() const
+		{
+			return m_options ;
+		}
+		const QJsonObject& json() const
+		{
+			return m_jsonObject ;
+		}
+		bool inUse() const
+		{
+			return m_inUse ;
+		}
+	private:
+		QJsonObject m_jsonObject ;
+		QString m_options ;
+		bool m_inUse ;
+	} ;
+
+	std::vector< opts > options ;
+
+	m_downloadEngineDefaultOptions.forEach( [ & ]( const mm& opts,const QJsonObject& obj ){
+
+		if( opts.engine == engineName ){
+
+			options.emplace_back( opts,obj ) ;
+		}
+
+		return false ;
+	} ) ;
+
+	QMenu m ;
+
+	for( const auto& it : options ){
+
+		const auto& e = it.opt() ;
+
+		auto s = m.addAction( e ) ;
+
+		s->setObjectName( e ) ;
+		s->setCheckable( true ) ;
+		s->setChecked( it.inUse() ) ;
+	}
+
+	connect( &m,&QMenu::triggered,[ &options,this ]( QAction * ac ){
+
+		for( const auto& it : options ){
+
+			if( it.opt() == ac->objectName() ){
+
+				m_downloadEngineDefaultOptions.setAsDefault( it.json() ) ;
+
+				break ;
+			}
+		}
+	} ) ;
+
+	m.exec( QCursor::pos() ) ;
+}
+
 QString configure::defaultDownloadOption()
 {
 	return "bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best" ;

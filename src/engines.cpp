@@ -186,13 +186,13 @@ void engines::showBanner()
 	m_logger.add( QObject::tr( "Download Path: %1" ).arg( m_settings.downloadFolder( m_logger ) ),id ) ;
 	m_logger.add( QObject::tr( "App Data Path: %1" ).arg( m_enginePaths.basePath() ),id ) ;
 
-	m_logger.add( utility::barLine(),id ) ;
-
 	if( m_settings.printMediaPlayers() ){
 
-		for( const auto&  it : utility::getMediaPlayers() ){
+		m_logger.add( utility::barLine(),id ) ;
 
-			m_logger.add( it.name + ":" + it.exePath,id ) ;
+		for( const auto& it : utility::getMediaPlayers() ){
+
+			m_logger.add( it.name + ": " + it.exePath,id ) ;
 		}
 	}
 }

@@ -117,15 +117,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		auto m = this->defaultEngineName() ;
 
-		t.engineDefaultDownloadOptions( m,[ this ]( const QString& e ){
-
-			for( int i = 1 ; i < m_table.rowCount() ; i++ ){
-
-				auto u = tableWidget::type::DownloadExtendedOptions ;
-
-				m_table.setDownloadingOptions( u,i,e ) ;
-			}
-		} ) ;
+		t.engineSetDefaultDownloadOptions( m ) ;
 	} ) ;
 
 	auto ww = m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ;

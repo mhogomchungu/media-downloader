@@ -122,15 +122,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		auto m = this->defaultEngineName() ;
 
-		t.engineDefaultDownloadOptions( m,[ this ]( const QString& e ){
-
-			for( int i = 0 ; i < m_table.rowCount() ; i++ ){
-
-				auto u = tableWidget::type::DownloadExtendedOptions ;
-
-				m_table.setDownloadingOptions( u,i,e ) ;
-			}
-		} ) ;
+		t.engineSetDefaultDownloadOptions( m ) ;
 	} ) ;
 
 	m_tableWidgetBDList.setUpHeaderMenu() ;

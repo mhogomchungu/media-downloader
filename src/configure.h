@@ -50,37 +50,7 @@ public:
 	void setVisibilityEditConfigFeature( bool ) ;
 	void updateEnginesList( const QStringList& e ) ;
 	QString engineDefaultDownloadOptions( const QString& ) ;
-	template< typename Function >
-	void engineDefaultDownloadOptions( const QString& engineName,Function function )
-	{
-		QStringList options ;
-
-		using mm = configure::downloadDefaultOptions::optsEngines ;
-
-		m_downloadEngineDefaultOptions.forEach( [ & ]( const mm& opts,const QJsonObject& ){
-
-			if( opts.engine == engineName ){
-
-				options.append( opts.options ) ;
-			}
-
-			return false ;
-		} ) ;
-
-		QMenu m ;
-
-		for( const auto& it : options ){
-
-			m.addAction( it ) ;
-		}
-
-		connect( &m,&QMenu::triggered,[ &function ]( QAction * ac ){
-
-			function( ac->text() ) ;
-		} ) ;
-
-		m.exec( QCursor::pos() ) ;
-	}
+	void engineSetDefaultDownloadOptions( const QString& engineName );
 	QString optionsTranslated( const QString& ) ;
 	void setDownloadOptions( int row,tableWidget& table ) ;
 	struct presetEntry
