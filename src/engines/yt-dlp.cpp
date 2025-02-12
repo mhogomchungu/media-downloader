@@ -1225,6 +1225,12 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 	s.ourOptions.append( "--output-na-placeholder" ) ;
 	s.ourOptions.append( "NA" ) ;
 
+	if( utility::platformisFlatPak() ){
+
+		s.ourOptions.append( "-P" ) ;
+		s.ourOptions.append( m_settings->downloadFolder() ) ;
+	}
+
 	QStringList mm ;
 
 	for( int m = s.ourOptions.size() - 1 ; m > -1 ; m-- ){
@@ -1475,14 +1481,26 @@ void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fileName )
 {
 	if( !fileName.isEmpty() ){
 
-		for( const auto& it : m_fileNames ){
+		auto _add = [ this ]( const QByteArray& fn ){
 
-			if( it == fileName ){
+			for( const auto& it : m_fileNames ){
 
-				return ;
+				if( it == fn ){
+
+					return ;
+				}
 			}
-		}
 
-		m_fileNames.emplace_back( fileName ) ;
+			m_fileNames.emplace_back( fn ) ;
+		} ;
+
+		if( utility::platformisFlatPak() ){
+
+			auto m = m_parent.m_settings->downloadFolder().size() ;
+
+			_add( fileName.mid( m + 1 ) ) ;
+		}else{
+			_add( fileName ) ;
+		}
 	}
 }
