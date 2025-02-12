@@ -991,7 +991,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Merging Audio and Video Together</source>
-        <translation type="unfinished"></translation>
+        <translation>Unione audio e video</translation>
     </message>
 </context>
 <context>
