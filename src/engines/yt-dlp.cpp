@@ -445,7 +445,7 @@ public:
 	static void setTemplate( QStringList& e )
 	{
 		e.append( "--progress-template" ) ;
-		e.append( "download:[download] downloaded_bytes:%(progress.downloaded_bytes)s ETA:%(progress.eta)s total_bytes_estimate:%(progress.total_bytes_estimate)s total_bytes:%(progress.total_bytes)s progress.speed:%(progress.speed)s filename:%(progress.filename)r" ) ;
+		e.append( "download:[download] downloaded_bytes:%(progress.downloaded_bytes)s ETA:%(progress.eta)s total_bytes_estimate:%(progress.total_bytes_estimate)s total_bytes:%(progress.total_bytes)s progress.speed:%(progress.speed)s filename:%(progress.filename)s" ) ;
 	}
 	parseTemplateOutPut( const QByteArray& e ) :
 		m_totalSize( this->findEntry( e,"total_bytes:" ) ),
