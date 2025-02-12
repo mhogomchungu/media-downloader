@@ -1393,7 +1393,8 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 		}
 	}
 
-	this->setFileName( s.ytDlpData().filePath() ) ;
+	//file path is broken on windows when using non ascii characters
+	//this->setFileName( s.ytDlpData().filePath() ) ;
 
 	return this->parseOutput( m ) ;
 }
