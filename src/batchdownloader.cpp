@@ -2697,8 +2697,6 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 
-		qDebug() << "batch: " + e ;
-
 		emit this->addTextToUiSignal( e,index ) ;
 	} ;
 

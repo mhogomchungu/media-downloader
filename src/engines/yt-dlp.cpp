@@ -1225,9 +1225,6 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 	s.ourOptions.append( "--output-na-placeholder" ) ;
 	s.ourOptions.append( "NA" ) ;
 
-	s.ourOptions.append( "-P" ) ;
-	s.ourOptions.append( m_settings->downloadFolder() ) ;
-
 	QStringList mm ;
 
 	for( int m = s.ourOptions.size() - 1 ; m > -1 ; m-- ){
@@ -1396,7 +1393,7 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 		}
 	}
 
-	//this->setFileName( s.ytDlpData().filePath() ) ;
+	this->setFileName( s.ytDlpData().filePath() ) ;
 
 	return this->parseOutput( m ) ;
 }
@@ -1473,15 +1470,9 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 	return m_preProcessing.text() ;
 }
 
-void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fn )
+void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fileName )
 {
-	if( !fn.isEmpty() ){
-
-		auto downloadFolder = m_parent.m_settings->downloadFolder() ;
-
-		auto a = QDir::toNativeSeparators( downloadFolder + "/" ) ;
-
-		auto fileName = fn.mid( a.size() ) ;
+	if( !fileName.isEmpty() ){
 
 		for( const auto& it : m_fileNames ){
 
