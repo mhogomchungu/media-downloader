@@ -829,7 +829,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 				return true ;
 			}
 		}
-		void done( engines::ProcessExitState e,QStringList s )
+		void done( engines::ProcessExitState e,std::vector< QByteArray > s )
 		{
 			event ev( m_parent,m_engine,std::move( s ) ) ;
 			auto& h = m_parent.m_ccmd ;
@@ -859,7 +859,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		class event
 		{
 		public:
-			event( playlistdownloader& p,const engines::engine& engine,QStringList s ) :
+			event( playlistdownloader& p,const engines::engine& engine,std::vector< QByteArray > s ) :
 				m_parent( p ),m_engine( engine ),m_fileNames( std::move( s ) )
 			{
 			}
@@ -881,7 +881,7 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 		private:
 			playlistdownloader& m_parent ;
 			const engines::engine& m_engine ;
-			QStringList m_fileNames ;
+			std::vector< QByteArray > m_fileNames ;
 		} ;
 
 		playlistdownloader& m_parent ;
@@ -1051,7 +1051,7 @@ void playlistdownloader::getList( customOptions&& c,
 		{
 			return utility::addData( e ) ;
 		}
-		void done( engines::ProcessExitState st,const QStringList& )
+		void done( engines::ProcessExitState st,const std::vector< QByteArray >& )
 		{
 			if( st.cancelled() ){
 
@@ -1273,7 +1273,8 @@ void playlistdownloader::addTextToUi( const QByteArray& data,int index )
 	}
 }
 
-void playlistdownloader::reportFinishedStatus( const reportFinished& f,const QStringList& fileNames )
+void playlistdownloader::reportFinishedStatus( const reportFinished& f,
+					       const std::vector< QByteArray >& fileNames )
 {
 	m_banner.updateTimer() ;
 

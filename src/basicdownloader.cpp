@@ -475,7 +475,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 			m_parent( p ),m_engine( engine ),m_id( id ),m_getList( l )
 		{
 		}
-		void done( engines::ProcessExitState m,const QStringList& fileNames )
+		void done( engines::ProcessExitState m,const std::vector< QByteArray >& fileNames )
 		{
 			m_parent.m_ctx.TabManager().enableAll() ;
 

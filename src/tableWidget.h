@@ -216,7 +216,7 @@ public:
 		QJsonArray mediaProperties ;
 		QJsonObject uiJson ;
 		QPixmap thumbnail ;
-		QStringList fileNames ;
+		std::vector< QByteArray > fileNames ;
 		bool splitByChapters = false ;
 		bool banner = false ;
 		bool showFirst = false ;
@@ -245,7 +245,7 @@ public:
 	{
 		return m_items[ s ] ;
 	}
-	void setFileNames( size_t m,const QStringList& s )
+	void setFileNames( size_t m,const std::vector< QByteArray >& s )
 	{
 		m_items[ m ].fileNames = s ;
 	}

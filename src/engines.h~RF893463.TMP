@@ -732,7 +732,7 @@ public:
 			{
 				const QString& uiText ;
 				const QString& downloadFolder ;
-				const std::vector< QByteArray >& fileNames ;
+				const QStringList& fileNames ;
 			};
 
 			virtual void openLocalFile( const engines::engine::baseEngine::localFile& ) ;
@@ -986,7 +986,7 @@ public:
 		{
 			return m_engine->commandString( cmd ) ;
 		}
-		void runCommandOnDownloadedFile( const std::vector< QByteArray >& fileNames ) const
+		void runCommandOnDownloadedFile( const QStringList& fileNames ) const
 		{
 			m_engine->runCommandOnDownloadedFile( fileNames ) ;
 		}

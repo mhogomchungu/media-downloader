@@ -51,7 +51,7 @@ public:
 
 	void openLocalFile( const engines::engine::baseEngine::localFile& ) override ;
 
-	void runCommandOnDownloadedFile( const QStringList& ) override ;
+	void runCommandOnDownloadedFile( const std::vector< QByteArray >& ) override ;
 
 	void setProxySetting( QStringList&,const QString& ) override ;
 

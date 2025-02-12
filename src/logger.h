@@ -409,11 +409,11 @@ public:
 			{
 				return m_filePath ;
 			}
-			void setFilePath( const QString& m )
+			void setFilePath( const QByteArray& m )
 			{
 				if( !m.isEmpty() && m != m_filePath ){
 
-					m_filePath = m.toUtf8() ;
+					m_filePath = m ;
 				}
 			}
 		private:
@@ -450,11 +450,11 @@ public:
 			{
 				return m_fileName ;
 			}
-			void setFileName( const QString& m )
+			void setFileName( const QByteArray& m )
 			{
 				if( !m.isEmpty() && m != m_fileName ){
 
-					m_fileName = m.toUtf8() ;
+					m_fileName = m ;
 				}
 			}
 		private:
@@ -470,14 +470,19 @@ public:
 		{
 			return m_svtData ;
 		}
-		void addFileName( const QString& e )
+		void addFileName( const QByteArray& e )
 		{
-			if( !m_fileNames.contains( e ) ){
+			for( const auto& it : m_fileNames ){
 
-				m_fileNames.append( e ) ;
+				if( it == e ){
+
+					return ;
+				}
 			}
+
+			m_fileNames.emplace_back( e ) ;
 		}
-		const QStringList& fileNames() const
+		const std::vector< QByteArray >& fileNames() const
 		{
 			return m_fileNames ;
 		}
@@ -526,7 +531,7 @@ public:
 		bool m_mainLogger ;
 		YtDlpData m_ytDlpData ;
 		SvtData m_svtData ;
-		QStringList m_fileNames ;
+		std::vector< QByteArray > m_fileNames ;
 		size_t m_maxLogEntries ;
 		size_t m_longEntriesToRemove ;
 	} ;
@@ -562,7 +567,7 @@ public:
 	void showLogWindow() ;
 	void reTranslateLogWindow() ;
 	void updateView( bool e ) ;
-	const QStringList& fileNames()
+	const std::vector< QByteArray >& fileNames()
 	{
 		return m_processOutPuts.fileNames() ;
 	}
@@ -618,7 +623,7 @@ public:
 	{
 		return std::move( *this ) ;
 	}
-	const QStringList& fileNames()
+	const std::vector< QByteArray >& fileNames()
 	{
 		return m_logger->fileNames() ;
 	}
@@ -681,7 +686,7 @@ public:
 	{
 		return std::move( *this ) ;
 	}
-	const QStringList& fileNames()
+	const std::vector< QByteArray >& fileNames()
 	{
 		return m_localLogger.fileNames() ;
 	}
@@ -763,7 +768,7 @@ public:
 		m_error( data ) ;
 		m_logger.logError( data,m_id ) ;
 	}
-	const QStringList& fileNames()
+	const std::vector< QByteArray >& fileNames()
 	{
 		return m_localLogger.fileNames() ;
 	}
@@ -850,7 +855,7 @@ public:
 			m_logger.logError( data,m_id ) ;
 		}
 	}
-	const QStringList& fileNames()
+	const std::vector< QByteArray >& fileNames()
 	{
 		return m_localLogger.fileNames() ;
 	}

@@ -1277,7 +1277,7 @@ namespace utility
 					m_engine.processData( e,d,id,s ) ;
 				} ) ;
 
-				m_events.done( state,QStringList() ) ;
+				m_events.done( state,{} ) ;
 			}
 		}
 		void withData( QProcess::ProcessChannel channel,const QByteArray& data )
@@ -1692,7 +1692,7 @@ namespace utility
 				  settings& s,
 				  tableWidget& table,
 				  const FinishedState& f,
-				  const QStringList& fileNames )
+				  const std::vector< QByteArray >& fileNames )
 	{
 		const auto& index = f.index() ;
 		const auto& es = f.exitState() ;

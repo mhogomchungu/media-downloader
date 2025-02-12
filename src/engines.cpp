@@ -1469,7 +1469,7 @@ QString engines::engine::baseEngine::deleteEngineBinFolder( const QString& e )
 	}
 }
 
-void engines::engine::baseEngine::runCommandOnDownloadedFile( const QStringList& fileNames )
+void engines::engine::baseEngine::runCommandOnDownloadedFile( const std::vector< QByteArray >& fileNames )
 {
 	auto df = m_settings.downloadFolder() + "/" ;
 
@@ -1532,7 +1532,7 @@ void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngi
 {
 	auto e = [ & ](){
 
-		if( l.fileNames.isEmpty() ){
+		if( l.fileNames.size() ){
 
 			auto m = util::split( l.uiText,'\n',true ) ;
 
@@ -1543,7 +1543,7 @@ void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngi
 				return QString() ;
 			}
 		}else{
-			return l.fileNames.last() ;
+			return QString( l.fileNames.back() ) ;
 		}
 	}() ;
 

@@ -1039,11 +1039,13 @@ const QString& settings::appDataPath()
 	return m_appDataPath ;
 }
 
-void settings::runCommandOnSuccessfulDownload( const QString& s,const QString& df,const QStringList& e )
+void settings::runCommandOnSuccessfulDownload( const QString& s,
+					       const QString& df,
+					       const std::vector< QByteArray >& e )
 {
 	auto m = this->getOption( "CommandOnSuccessfulDownload",QString() ) ;
 
-	if( !m.isEmpty() && !e.isEmpty() ){
+	if( !m.isEmpty() && e.size() ){
 
 		auto args = util::splitPreserveQuotes( m ) ;
 

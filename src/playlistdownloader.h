@@ -96,9 +96,9 @@ public:
 private:
 signals:
 	void addTextToUiSignal( const QByteArray&,int ) ;
-	void reportFinishedStatusSignal( const reportFinished&,const QStringList& ) ;
+	void reportFinishedStatusSignal( const reportFinished&,const std::vector< QByteArray >& ) ;
 private:
-	void reportFinishedStatus( const reportFinished&,const QStringList& ) ;
+	void reportFinishedStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	void networkData( const utility::networkReply& ) ;
 	void addTextToUi( const QByteArray&,int ) ;
 

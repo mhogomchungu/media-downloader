@@ -242,13 +242,13 @@ void gallery_dl::openLocalFile( const engines::engine::baseEngine::localFile& s 
 	if( s.fileNames.size() ){
 
 		const auto& e = s.downloadFolder ;
-		auto m = QUrl::fromLocalFile( e + "/gallery-dl/" + s.fileNames.last() ) ;
+		auto m = QUrl::fromLocalFile( e + "/gallery-dl/" + s.fileNames.back() ) ;
 
 		QDesktopServices::openUrl( m ) ;
 	}
 }
 
-void gallery_dl::runCommandOnDownloadedFile( const QStringList& e )
+void gallery_dl::runCommandOnDownloadedFile( const std::vector< QByteArray >& e )
 {
 	auto& s = engines::engine::baseEngine::Settings() ;
 	auto df = s.downloadFolder() + "/" + this->engine().name() + "/" ;
@@ -387,7 +387,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 			if( !u.startsWith( "[media-downloader] cmd:" ) ){
 
-				s.addFileName( ss ) ;
+				s.addFileName( ss.toUtf8() ) ;
 			}
 		}else{
 			n = u.indexOf( "./gallery-dl" ) ;
@@ -398,7 +398,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 				if( !u.startsWith( "[media-downloader] cmd:" ) ){
 
-					s.addFileName( ss ) ;
+					s.addFileName( ss.toUtf8() ) ;
 				}
 			}
 		}
@@ -406,14 +406,21 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 	const auto& m = s.fileNames() ;
 
-	if( !m.isEmpty() ){
+	if( m.size() ){
 
 		if( m.size() < 4 ){
 
-			m_tmp = m.join( "\n" ).toUtf8() ;
+			auto begin = m.begin() ;
+
+			m_tmp = *begin ;
+
+			for( auto it = begin + 1 ; begin != m.end() ; it++ ){
+
+				m_tmp += "\n" + *it ;
+			}
 		}else{
 			auto a = QObject::tr( "%1 Already Downloaded" ).arg( QString::number( m.size() - 1 ) ) ;
-			m_tmp = a.toUtf8() + "\n" + m.last().toUtf8() ;
+			m_tmp = a.toUtf8() + "\n" + m.back() ;
 		}
 
 		if( s.lastLineIsProgressLine() ){

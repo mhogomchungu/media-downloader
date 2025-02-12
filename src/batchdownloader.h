@@ -216,14 +216,14 @@ private
 slots:
 	void addTextToUi( const QByteArray&,int ) ;
 signals:
-	void reportFStatus( const reportFinished&,const QStringList& ) ;
+	void reportFStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	void addItemUiSignal( ItemEntry ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
 private:
 	void showHideControls() ;
 	void networkData( const utility::networkReply& ) ;
 	void addItemUiSlot( ItemEntry ) ;
-	void reportFinishedStatus( const reportFinished&,const QStringList& ) ;
+	void reportFinishedStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;
 	void setDefaultEngineAndOptions( Items::entry& ) ;
 	void showList( batchdownloader::listType,const engines::engine&,const QString&,int ) ;
@@ -383,7 +383,7 @@ private:
 		{
 			return m_localLogger.toLine() ;
 		}
-		const QStringList& fileNames() const
+		const std::vector< QByteArray >& fileNames() const
 		{
 			return m_localLogger.fileNames() ;
 		}
@@ -443,7 +443,7 @@ private:
 
 			return data ;
 		}
-		const QStringList& fileNames() const
+		const std::vector< QByteArray >& fileNames() const
 		{
 			return m_logger->fileNames() ;
 		}

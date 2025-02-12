@@ -445,7 +445,7 @@ public:
 	static void setTemplate( QStringList& e )
 	{
 		e.append( "--progress-template" ) ;
-		e.append( "download:[download] downloaded_bytes:%(progress.downloaded_bytes)s ETA:%(progress.eta)s total_bytes_estimate:%(progress.total_bytes_estimate)s total_bytes:%(progress.total_bytes)s progress.speed:%(progress.speed)s filename:%(progress.filename)s" ) ;
+		e.append( "download:[download] downloaded_bytes:%(progress.downloaded_bytes)s ETA:%(progress.eta)s total_bytes_estimate:%(progress.total_bytes_estimate)s total_bytes:%(progress.total_bytes)s progress.speed:%(progress.speed)s filename:%(progress.filename)r" ) ;
 	}
 	parseTemplateOutPut( const QByteArray& e ) :
 		m_totalSize( this->findEntry( e,"total_bytes:" ) ),
@@ -1316,7 +1316,7 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 
 			auto m = m_parent.m_settings->downloadFolder() ;
 
-			utility::deleteTmpFiles( m,std::move( m_fileNames ) ) ;
+			utility::deleteTmpFiles( m,m_fileNames ) ;
 		}
 
 	}else if( s.lastLineIsProgressLine() ){
@@ -1396,7 +1396,7 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 		}
 	}
 
-	this->setFileName( s.ytDlpData().filePath() ) ;
+	//this->setFileName( s.ytDlpData().filePath() ) ;
 
 	return this->parseOutput( m ) ;
 }
@@ -1479,11 +1479,9 @@ void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fn )
 
 		auto downloadFolder = m_parent.m_settings->downloadFolder() ;
 
-		auto a = QDir::fromNativeSeparators( downloadFolder + "/" ) ;
+		auto a = QDir::toNativeSeparators( downloadFolder + "/" ) ;
 
-		auto b = QDir::fromNativeSeparators( fn ) ;
-
-		auto fileName = b.replace( a,"" ).toUtf8() ;
+		auto fileName = fn.mid( a.size() ) ;
 
 		for( const auto& it : m_fileNames ){
 

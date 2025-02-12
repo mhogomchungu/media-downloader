@@ -167,7 +167,9 @@ public:
 
 	settings::mediaPlayer openWith( Logger& ) ;
 
-	void runCommandOnSuccessfulDownload( const QString&,const QString&,const QStringList& ) ;
+	void runCommandOnSuccessfulDownload( const QString&,
+					     const QString&,
+					     const std::vector< QByteArray >& ) ;
 
 	QString downloadFolder() ;
 	QString libraryDownloadFolder() ;

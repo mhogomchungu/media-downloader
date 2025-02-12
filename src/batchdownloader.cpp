@@ -1177,7 +1177,10 @@ void batchdownloader::renameFile( int row )
 
 		if( !m.isEmpty() ){
 
-			m_table.setFileNames( row,{ m } ) ;
+			std::vector< QByteArray > s ;
+			s.emplace_back( m.toUtf8() ) ;
+
+			m_table.setFileNames( row,std::move( s ) ) ;
 		}
 	}
 }
@@ -1887,7 +1890,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		{
 			return utility::addData( e ) ;
 		}
-		void done( engines::ProcessExitState e,const QStringList& )
+		void done( engines::ProcessExitState e,const std::vector< QByteArray >& )
 		{
 			auto& a = m_parent ;
 			auto& b = m_engine ;
@@ -2245,7 +2248,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 				return false ;
 			}
 		}
-		void done( engines::ProcessExitState st,const QStringList& )
+		void done( engines::ProcessExitState st,const std::vector< QByteArray >& )
 		{
 			m_parent.m_ctx.TabManager().enableAll() ;
 
@@ -2548,7 +2551,8 @@ void batchdownloader::download( const engines::engine& engine,int init )
 	this->download( engine,indexes.move() ) ;
 }
 
-void batchdownloader::reportFinishedStatus( const reportFinished& f,const QStringList& fileNames )
+void batchdownloader::reportFinishedStatus( const reportFinished& f,
+					    const std::vector< QByteArray >& fileNames )
 {
 	auto finishedStatus = f.finishedStatus() ;
 
@@ -2628,7 +2632,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 				return true ;
 			}
 		}
-		void done( engines::ProcessExitState e,QStringList s )
+		void done( engines::ProcessExitState e,std::vector< QByteArray > s )
 		{
 			event ev( m_parent,m_engine,std::move( s ) ) ;
 			m_parent.m_ccmd.monitorForFinished( m_engine,m_index,e.move(),ev.move() ) ;
@@ -2656,7 +2660,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		class event
 		{
 		public:
-			event( batchdownloader& p,const engines::engine& engine,QStringList f ) :
+			event( batchdownloader& p,const engines::engine& engine,std::vector< QByteArray > f ) :
 				m_parent( p ),m_engine( engine ),m_fileNames( std::move( f ) )
 			{
 			}
@@ -2677,7 +2681,7 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		private:
 			batchdownloader& m_parent ;
 			const engines::engine& m_engine ;
-			QStringList m_fileNames ;
+			std::vector< QByteArray > m_fileNames ;
 		} ;
 
 		batchdownloader& m_parent ;
@@ -2692,6 +2696,8 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
 	auto updater = [ this,index ]( const QByteArray& e ){
+
+		qDebug() << "batch: " + e ;
 
 		emit this->addTextToUiSignal( e,index ) ;
 	} ;
