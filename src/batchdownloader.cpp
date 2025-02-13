@@ -283,7 +283,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( m.startsWith( "http" ) || m.startsWith( "yt-dlp" ) ){
 
-			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,false ) ;
+			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,m_showMetaData ) ;
 
 			tmp.set() ;
 
