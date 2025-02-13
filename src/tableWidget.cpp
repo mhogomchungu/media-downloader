@@ -446,6 +446,11 @@ bool tableWidget::rowIsVisible( int row )
 	return !m_table.isRowHidden( row ) ;
 }
 
+bool tableWidget::isRowHidden( int row )
+{
+	return m_table.isRowHidden( row ) ;
+}
+
 bool tableWidget::rowIsSelected( int row )
 {
 	return m_table.item( row,m_table.columnCount() - 1 )->isSelected() ;

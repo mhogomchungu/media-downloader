@@ -244,6 +244,14 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDDownload,&QPushButton::clicked,[ this ](){
 
+		for( int s = m_table.rowCount() - 1 ; s >= 0 ; s-- ){
+
+			if( m_table.isRowHidden( s ) ){
+
+				m_table.removeRow( s ) ;
+			}
+		}
+
 		this->download( this->defaultEngine() ) ;
 	} ) ;
 
@@ -274,6 +282,10 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		auto m = utility::clipboardText() ;
 
 		if( m.startsWith( "http" ) || m.startsWith( "yt-dlp" ) ){
+
+			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,false ) ;
+
+			tmp.set() ;
 
 			this->addToList( m ) ;
 		}
@@ -682,18 +694,23 @@ void batchdownloader::gotEvent( const QJsonObject& jsonArgs )
 		m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
 		auto autoDownload = jsonArgs.value( "-a" ).toBool() ;
-		auto showThumbnail = jsonArgs.value( "-e" ).toBool() ;
 
-		auto m = m_showMetaData ;
-		auto s = m_startAutoDownload ;
+		bool showMetaData ;
 
-		m_startAutoDownload = autoDownload ;
-		m_showMetaData      = showThumbnail ;
+		auto v = jsonArgs.value( "-e" ) ;
+
+		if( v.isUndefined() ){
+
+			showMetaData = m_showMetaData ;
+		}else{
+			showMetaData = v.toBool() ;
+		}
+
+		batchdownloader::tmpChangeOptions tmp( *this,autoDownload,showMetaData ) ;
+
+		tmp.set() ;
 
 		this->addToList( url ) ;
-
-		m_showMetaData      = m ;
-		m_startAutoDownload = s ;
 	}
 }
 
@@ -1770,8 +1787,11 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 
 			}
 
-			this->parseItems( items.move() ) ;
+			batchdownloader::tmpChangeOptions opts( *this,false,false ) ;
 
+			opts.set() ;
+
+			this->parseItems( items.move() ) ;
 		}
 
 		m_done = true ;
@@ -2059,6 +2079,11 @@ void batchdownloader::clipboardData( const QString& url )
 		if( m_table.rowWithUrl( url ) == -1 ){
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
+
+			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,m_showMetaData ) ;
+
+			tmp.set() ;
+
 			this->addToList( url ) ;
 		}
 	}
@@ -2532,7 +2557,7 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 void batchdownloader::download( const engines::engine& engine,int init )
 {
-	downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;
+	downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;	
 
 	for( int s = init ; s < m_table.rowCount() ; s++ ){
 

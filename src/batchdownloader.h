@@ -322,6 +322,38 @@ private:
 	bool m_done = false ;
 	bool m_startAutoDownload ;
 
+	class tmpChangeOptions
+	{
+	public:
+		tmpChangeOptions( batchdownloader& b ) :
+			m_parent( b ),
+			_autoStartDownload( m_parent.m_startAutoDownload ),
+			_showMetaData( m_parent.m_showMetaData )
+		{
+		}
+		tmpChangeOptions( batchdownloader& b,bool a,bool s ) :
+			m_parent( b ),
+			_autoStartDownload( m_parent.m_startAutoDownload ),
+			_showMetaData( m_parent.m_showMetaData )
+		{
+			m_parent.m_startAutoDownload = a ;
+			m_parent.m_showMetaData      = s ;
+		}
+		void set()
+		{
+			//needed to remove "used" warning
+		}
+		~tmpChangeOptions()
+		{
+			m_parent.m_startAutoDownload = _autoStartDownload ;
+			m_parent.m_showMetaData      = _showMetaData ;
+		}
+	private:
+		batchdownloader& m_parent ;
+		bool _autoStartDownload ;
+		bool _showMetaData ;
+	} ;
+
 	class de
 	{
 	public:
