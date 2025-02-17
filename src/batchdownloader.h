@@ -220,6 +220,7 @@ signals:
 	void addItemUiSignal( ItemEntry ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
 private:
+	void getMetaData( const Items::entry&,const engines::engine&,bool ) ;
 	void showHideControls() ;
 	void networkData( const utility::networkReply& ) ;
 	void addItemUiSlot( ItemEntry ) ;
@@ -339,9 +340,9 @@ private:
 			m_parent.m_startAutoDownload = a ;
 			m_parent.m_showMetaData      = s ;
 		}
-		void set()
+		void set() const
 		{
-			//needed to remove "used" warning
+			//needs to be called to remove "unused" warning.
 		}
 		~tmpChangeOptions()
 		{

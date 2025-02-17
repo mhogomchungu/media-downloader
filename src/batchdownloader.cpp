@@ -777,62 +777,67 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		for( const auto& it : list ){
 
-			auto bb = downloadManager::index::tab::batch ;
-
-			downloadManager::index indexes( m_table,bb ) ;
-
-			tableWidget::entry entry( it ) ;
-
-			auto uiText        = it.uiText ;
-			entry.uiText       = "...\n" + uiText ;
-			entry.thumbnail    = m_defaultVideoThumbnail ;
-			entry.runningState = downloadManager::finishedStatus::running() ;
-
-			auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
-
-			int row = m_table.addItem( entry.move(),h ) ;
-
-			util::Timer( 1000,[ this,row,uiText ]( int counter ){
-
-				using ff = downloadManager::finishedStatus ;
-
-				if( ff::running( m_table.runningState( row ) ) ){
-
-					QString m = "..." ;
-
-					int max = counter % 4 ;
-
-					for( int s = 0 ; s < max ; s++ ){
-
-						m += " ..." ;
-					}
-
-					m_table.setUiText( m + "\n" + uiText,row ) ;
-
-					return false ;
-				}else{
-					return true ;
-				}
-			} ) ;
-
-			m_table.selectLast() ;
-
-			indexes.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
-
-			auto url = it.url ;
-
-			m_ccmd_metadata.download( indexes.move(),engine,[ this ](){
-
-				return m_settings.maxConcurrentDownloads() ;
-
-			}(),[ this,url,autoDownload ]( const engines::engine& engine,int index ){
-
-				this->showThumbnail( engine,index,url,autoDownload ) ;
-			} ) ;
+			this->getMetaData( it,engine,autoDownload ) ;
 		}
 	}else{
 		this->addItemUiSlot( { engine,list.move() } ) ;
 	}
+}
+
+void batchdownloader::getMetaData( const Items::entry& it,
+				   const engines::engine& eng,
+				   bool autoDownload )
+{
+	auto bb = downloadManager::index::tab::batch ;
+
+	downloadManager::index list( m_table,bb ) ;
+
+	tableWidget::entry entry( it ) ;
+
+	auto uiText        = it.uiText ;
+	entry.uiText       = "...\n" + uiText ;
+	entry.thumbnail    = m_defaultVideoThumbnail ;
+	entry.runningState = downloadManager::finishedStatus::running() ;
+
+	auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
+
+	int row = m_table.addItem( entry.move(),h ) ;
+
+	util::Timer( 1000,[ this,row,uiText ]( int counter ){
+
+		using ff = downloadManager::finishedStatus ;
+
+		if( ff::running( m_table.runningState( row ) ) ){
+
+			QString m = "..." ;
+
+			int max = counter % 4 ;
+
+			for( int s = 0 ; s < max ; s++ ){
+
+				m += " ..." ;
+			}
+
+			m_table.setUiText( m + "\n" + uiText,row ) ;
+
+			return false ;
+		}else{
+			return true ;
+		}
+	} ) ;
+
+	m_table.selectLast() ;
+
+	list.add( row,m_ui.lineEditBDUrlOptions->text() ) ;
+
+	auto url = it.url ;
+
+	auto m = m_settings.maxConcurrentDownloads() ;
+
+	m_ccmd_metadata.download( list.move(),eng,m,[ = ]( const engines::engine& e,int index ){
+
+		this->showThumbnail( e,index,url,autoDownload ) ;
+	} ) ;
 }
 
 void batchdownloader::setDefaultEngineAndOptions( Items::entry& s )
