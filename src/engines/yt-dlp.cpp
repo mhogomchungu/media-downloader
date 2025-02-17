@@ -1458,11 +1458,11 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 				m.truncate( s ) ;
 			}
 
+			this->setFileName( m ) ;
+
 			auto a = QObject::tr( "Merging Audio and Video Together" ) ;
 
-			m_tmp = a.toUtf8() + "\n" + m ;
-
-			this->setFileName( m ) ;
+			m_tmp = a.toUtf8() + "\n" + m_fileNames.back() ;
 
 			return m_tmp ;
 		}
