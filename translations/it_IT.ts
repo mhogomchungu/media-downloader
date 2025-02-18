@@ -389,8 +389,8 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Sì</translation>
     </message>
     <message>
-        <source>Path To Cookie File</source>
-        <translation>Percorso file cookie</translation>
+        <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1078,10 +1078,6 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
 </context>
 <context>
     <name>configure</name>
-    <message>
-        <source>Select A Cookie File</source>
-        <translation>Seleziona un file cookie</translation>
-    </message>
     <message>
         <source>Set Download Folder</source>
         <translation>Imposta cartella download</translation>

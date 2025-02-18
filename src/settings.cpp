@@ -683,16 +683,16 @@ bool settings::concurrentDownloading()
 	return this->getOption( "ConcurrentDownloading",true ) ;
 }
 
-QString settings::cookieFilePath( const QString& engineName )
+QString settings::cookieBrowserName( const QString& engineName )
 {
-	auto m = "CookieFilePath_" + engineName ;
+	auto m = "CookieBrowser_" + engineName ;
 
 	return this->getOption( m,QString() ) ;
 }
 
-void settings::setCookieFilePath( const QString& engineName,const QString& cookieFilePath )
+void settings::setCookieBrowserName( const QString& engineName,const QString& browserName )
 {
-	m_settings.setValue( "CookieFilePath_" + engineName,cookieFilePath ) ;
+	m_settings.setValue( "CookieBrowser_" + engineName,browserName ) ;
 }
 
 void settings::setTheme( QApplication& app,const QString& themeBasePath )
@@ -865,14 +865,16 @@ void settings::setHighDpiScalingFactor( const QString& m )
 	m_settings.setValue( "EnabledHighDpiScalingFactor",m ) ;
 }
 
-QString settings::textEncoding()
+QString settings::textEncoding( const QString& engineName )
 {
-	return this->getOption( "YtDlpTextEncoding",QString() ) ;
+	auto m = m_settings.value( "YtDlpTextEncoding" ).toString() ;
+
+	return this->getOption( "TextEncoding_" + engineName,m ) ;
 }
 
-void settings::setTextEncoding( const QString& e )
+void settings::setTextEncoding( const QString& e,const QString& engineName )
 {
-	m_settings.setValue( "YtDlpTextEncoding",e ) ;
+	m_settings.setValue( "TextEncoding_" + engineName,e ) ;
 }
 
 void settings::setlibraryDownloadFolder( const QString& e )

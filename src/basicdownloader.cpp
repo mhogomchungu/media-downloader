@@ -346,7 +346,7 @@ void basicdownloader::list()
 
 	utility::addToListOptionsFromsDownload( args,mm,m_ctx,engine ) ;
 
-	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
+	auto cookiePath = m_settings.cookieBrowserName( engine.name() ) ;
 	const auto& ca = engine.cookieArgument() ;
 
 	if( !cookiePath.isEmpty() && !ca.isEmpty() ){
@@ -447,17 +447,6 @@ void basicdownloader::download( const basicdownloader::engine& eng,
 		utility::updateOptionsStruct str{ mm,engine,ss,args,{},false,urls,{},m_ctx } ;
 
 		auto opts = utility::updateOptions( str ) ;
-
-		auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
-		const auto& ca = engine.cookieArgument() ;
-
-		if( !cookiePath.isEmpty() && !ca.isEmpty() ){
-
-			opts.append( ca ) ;
-			opts.append( cookiePath ) ;
-		}
-
-		engine.setTextEncondig( opts ) ;
 
 		this->run( eng,opts,args.credentials(),false ) ;
 	} ) ;

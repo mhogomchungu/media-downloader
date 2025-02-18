@@ -179,13 +179,13 @@ public:
 	QString commandWhenAllFinished() ;
 	QString themeName() ;
 	QString defaultEngine( settings::tabName,const QString& ) ;
-	QString cookieFilePath( const QString& engineName ) ;
+	QString cookieBrowserName( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
 	QString playlistRangeHistoryLastUsed() ;
 	QString gitHubDownloadUrl() ;
 	const QString& configPaths() ;
 	const QString& appDataPath() ;
-	QString textEncoding() ;
+	QString textEncoding( const QString& ) ;
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
 	QStringList playlistUrlHistory() ;
@@ -293,9 +293,9 @@ public:
 	void setThemeName( const QString& ) ;
 	void setPlaylistRangeHistoryLastUsed( const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
-	void setTextEncoding( const QString& ) ;
+	void setTextEncoding( const QString&,const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;
-	void setCookieFilePath( const QString& engineName,const QString& cookieFilePath ) ;
+	void setCookieBrowserName( const QString& engineName,const QString& browserName ) ;
 	void setDefaultEngine( const QString&,settings::tabName ) ;
 	void setLastUsedOption( const QString& engineName,const QString& options,settings::tabName ) ;
 	void setDownloadFolder( const QString& ) ;

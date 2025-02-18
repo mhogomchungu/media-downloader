@@ -386,7 +386,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Path To Cookie File</source>
+        <source>Name Of Web Browser To Get Cookies From</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1073,10 +1073,6 @@ Exampe 2: ${gateway}:8080</source>
 </context>
 <context>
     <name>configure</name>
-    <message>
-        <source>Select A Cookie File</source>
-        <translation>Selecteer een cookiebestand</translation>
-    </message>
     <message>
         <source>Set Download Folder</source>
         <translation>Stel download map in</translation>

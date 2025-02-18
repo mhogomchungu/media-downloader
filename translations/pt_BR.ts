@@ -388,8 +388,8 @@ Exemplo 2: ${gateway}:8080</translation>
         <translation>Sim</translation>
     </message>
     <message>
-        <source>Path To Cookie File</source>
-        <translation>Caminho para o arquivo de cookie</translation>
+        <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1086,10 +1086,6 @@ Exemplo 2: ${gateway}:8080</translation>
     <message>
         <source>Remove</source>
         <translation>Remover</translation>
-    </message>
-    <message>
-        <source>Select A Cookie File</source>
-        <translation>Selecione um arquivo de Cookie</translation>
     </message>
     <message>
         <source>Select An Engine File</source>

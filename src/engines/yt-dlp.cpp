@@ -295,7 +295,7 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	mainObj.insert( "Name",name ) ;
 
-	mainObj.insert( "CookieArgument","--cookies" ) ;
+	mainObj.insert( "CookieArgument","--cookies-from-browser" ) ;
 
 	mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
@@ -355,6 +355,8 @@ yt_dlp::yt_dlp( const engines& engines,
 
 		obj.insert( "EncodingArgument","--encoding" ) ;
 	}
+
+	obj.insert( "CookieArgument","--cookies-from-browser" ) ;
 
 	auto arr = _arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 
@@ -1098,7 +1100,9 @@ void yt_dlp::setProxySetting( QStringList& e,const QString& s )
 
 void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
 {
-	const auto& e = engines::engine::baseEngine::Settings().textEncoding() ;
+	auto& s = engines::engine::baseEngine::Settings() ;
+
+	const auto& e = s.textEncoding( this->engine().name() ) ;
 
 	if( !e.isEmpty() && !args.isEmpty() ){
 

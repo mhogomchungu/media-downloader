@@ -1967,13 +1967,13 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	auto args = engine.dumpJsonArguments( engines::engine::tab::batch ) ;
 
-	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
+	auto cookie = m_settings.cookieBrowserName( engine.name() ) ;
 	const auto& ca = engine.cookieArgument() ;
 
-	if( !cookiePath.isEmpty() && !ca.isEmpty() ){
+	if( !cookie.isEmpty() && !ca.isEmpty() ){
 
 		args.append( ca ) ;
-		args.append( cookiePath ) ;
+		args.append( cookie ) ;
 	}
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
@@ -2167,7 +2167,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		}
 	}
 
-	auto cookiePath = m_settings.cookieFilePath( engine.name() ) ;
+	auto cookiePath = m_settings.cookieBrowserName( engine.name() ) ;
 	const auto& ca = engine.cookieArgument() ;
 
 	if( !cookiePath.isEmpty() && !ca.isEmpty() ){

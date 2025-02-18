@@ -192,7 +192,7 @@ gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJs
 {
 	if( !object.contains( "CookieArgument" ) ){
 
-		object.insert( "CookieArgument","--cookies" ) ;
+		object.insert( "CookieArgument","--cookies-from-browser" ) ;
 	}
 
 	object.insert( "ReplaceOutputWithProgressReport",false ) ;

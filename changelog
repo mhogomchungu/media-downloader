@@ -343,3 +343,4 @@ Version 1.2.0(April 1st, 2021)
          [Windows]
         - File names in batch and playlist downloader show up correctly when they
            contain some non ascii characters.
+        - Add a GUI way to set yt-dlp and gallery-dl option of "--cookies-from-browser".

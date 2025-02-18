@@ -45,7 +45,6 @@ configure::configure( const Context& ctx ) :
 	m_downloadDefaultOptions( m_ctx,"downloadDefaultOptions.json" ),
 	m_downloadEngineDefaultOptions( m_ctx,"downloadEngineDefaultOptions.json" )
 {
-	m_ui.pbConfigureCookiePath->setIcon( m_settings.getIcon( "cookie" ) ) ;
 	m_ui.pbOpenThemeFolder->setIcon( m_settings.getIcon( "extensions" ) ) ;
 	m_ui.pbOpenBinFolder->setIcon( m_settings.getIcon( "executable" ) ) ;
 	m_ui.pbConfigureDownloadPath->setIcon( m_settings.getIcon( "folder" ) ) ;
@@ -442,18 +441,6 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
-	connect( m_ui.pbConfigureCookiePath,&QPushButton::clicked,[ this ](){
-
-		auto mm = tr( "Select A Cookie File" ) ;
-
-		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),mm,utility::homePath() ) ;
-
-		if( !m.isEmpty() ){
-
-			m_ui.lineEditConfigureCookiePath->setText( m ) ;
-		}
-	} ) ;
-
 	connect( m_ui.pbConfigureQuit,&QPushButton::clicked,[ this ](){
 
 		//this->saveOptions() ;
@@ -693,9 +680,6 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbAutoSaveNotDownloadedMedia->setChecked( m_settings.autoSavePlaylistOnExit() ) ;
 
-	m_ui.lineEditConfigureTextEncoding->setText( m_settings.textEncoding() ) ;
-
-
 	m_ui.cbShowTrayIcon->setChecked( m_settings.showTrayIcon() ) ;
 
 	auto mm = QString::number( m_settings.maxConcurrentDownloads() ) ;
@@ -860,12 +844,18 @@ void configure::tabEntered()
 
 	if( s ){
 
-		this->populateOptionsTable( s.value() ) ;
+		const auto& e = s.value() ;
+
+		this->populateOptionsTable( e ) ;
 	}
 }
 
 void configure::populateOptionsTable( const engines::engine& s,int selectRow )
 {
+	m_ui.lineEditConfigureTextEncoding->setText( m_settings.textEncoding( s.name() ) ) ;
+
+	m_ui.lineEditConfigureTextEncoding->setEnabled( s.supportsTextEnconding() ) ;
+
 	m_tableDefaultDownloadOptions.clear() ;
 
 	using mm = configure::downloadDefaultOptions::optsEngines ;
@@ -1044,7 +1034,6 @@ void configure::saveOptions()
 	m_settings.setShowMetaDataInBatchDownloader( m ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
-	m_settings.setTextEncoding( m_ui.lineEditConfigureTextEncoding->text() ) ;
 	m_settings.setAutoHideDownloadWhenCompleted( m_ui.cbAutoHideDownloadCompleted->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
@@ -1074,11 +1063,15 @@ void configure::saveOptions()
 
 	if( ss ){
 
+		auto e = m_ui.lineEditConfigureTextEncoding->text() ;
+
+		m_settings.setTextEncoding( e,ss->name() ) ;
+
 		if( !ss->cookieArgument().isEmpty() ){
 
-			auto m = m_ui.lineEditConfigureCookiePath->text() ;
+			auto m = m_ui.lineEditConfigureCookieBrowserName->text() ;
 
-			m_settings.setCookieFilePath( ss->name(),m ) ;
+			m_settings.setCookieBrowserName( ss->name(),m ) ;
 		}
 	}
 
@@ -1151,12 +1144,10 @@ void configure::setEngineOptions( const QString& e,engineOptions tab )
 
 			auto enable = !s->cookieArgument().isEmpty() ;
 
-			auto mm = m_settings.cookieFilePath( s->name() ) ;
+			auto mm = m_settings.cookieBrowserName( s->name() ) ;
 
-			m_ui.lineEditConfigureCookiePath->setText( mm ) ;
-			m_ui.lineEditConfigureCookiePath->setEnabled( enable ) ;
-			m_ui.pbConfigureCookiePath->setEnabled( enable ) ;
-			m_ui.labelPathToCookieFile->setEnabled( enable ) ;
+			m_ui.lineEditConfigureCookieBrowserName->setText( mm ) ;
+			m_ui.lineEditConfigureCookieBrowserName->setEnabled( enable ) ;
 		} ;
 
 		if( tab == engineOptions::url ){
@@ -1247,9 +1238,8 @@ void configure::enableAll()
 
 		auto enable = !s->cookieArgument().isEmpty() ;
 
-		m_ui.lineEditConfigureCookiePath->setEnabled( enable ) ;
-		m_ui.pbConfigureCookiePath->setEnabled( enable ) ;
-		m_ui.labelPathToCookieFile->setEnabled( enable ) ;
+		m_ui.lineEditConfigureCookieBrowserName->setEnabled( enable ) ;
+		m_ui.lineEditConfigureTextEncoding->setEnabled( s->supportsTextEnconding() ) ;
 	}
 
 	m_ui.rbUseManualProxy->setEnabled( true ) ;
@@ -1264,7 +1254,6 @@ void configure::enableAll()
 	m_ui.label_3->setEnabled( true ) ;
 	m_ui.label_4->setEnabled( true ) ;
 	m_ui.label_5->setEnabled( true ) ;
-	m_ui.lineEditConfigureTextEncoding->setEnabled( true ) ;
 	m_ui.labelConfigureTextEncoding->setEnabled( true ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( true ) ;
 	m_ui.pbOpenBinFolder->setEnabled( true ) ;
@@ -1367,8 +1356,7 @@ void configure::disableAll()
 	m_ui.pbConfigureAddToPresetList->setEnabled( false ) ;
 	m_ui.tableWidgetConfigurePresetOptions->setEnabled( false ) ;
 	m_ui.labelPathToCookieFile->setEnabled( false ) ;
-	m_ui.lineEditConfigureCookiePath->setEnabled( false ) ;
-	m_ui.pbConfigureCookiePath->setEnabled( false ) ;
+	m_ui.lineEditConfigureCookieBrowserName->setEnabled( false ) ;
 	m_ui.pbConfigureEngineDefaultOptions->setEnabled( false ) ;
 	m_ui.cbAutoSaveNotDownloadedMedia->setEnabled( false ) ;
 	m_ui.cbConfigureEngines->setEnabled( false ) ;
@@ -1811,15 +1799,21 @@ void configure::downloadDefaultOptions::removeAll( const QString& e )
 
 void configure::downloadDefaultOptions::setAsDefault( const QJsonObject& e )
 {
+	auto engineName = e.value( "engineName" ).toString() ;
+	auto options = e.value( "options" ).toString() ;
+
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
 		auto obj = m_array[ i ].toObject() ;
-		obj.insert( "default","no" ) ;
-		m_array[ i ] = std::move( obj ) ;
-	}
 
-	auto engineName = e.value( "engineName" ).toString() ;
-	auto options = e.value( "options" ).toString() ;
+		auto engine = obj.value( "engineName" ).toString() ;
+
+		if( engine == engineName ){
+
+			obj.insert( "default","no" ) ;
+			m_array[ i ] = std::move( obj ) ;
+		}
+	}
 
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 

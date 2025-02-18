@@ -1052,7 +1052,7 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 	engine.updateDownLoadCmdOptions( ups,settings.downloadOptionsAsLast() ) ;
 
 	const auto& ca = engine.cookieArgument() ;
-	const auto& cv = settings.cookieFilePath( engine.name() ) ;
+	const auto& cv = settings.cookieBrowserName( engine.name() ) ;
 
 	if( !ca.isEmpty() && !cv.isEmpty() ){
 

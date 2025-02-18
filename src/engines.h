@@ -961,7 +961,11 @@ public:
 		bool validDownloadUrl() const
 		{
 			return m_downloadUrl.startsWith( "https://api.github.com" ) ;
-		}		
+		}
+		bool supportsTextEnconding() const
+		{
+			return !m_encodingArgument.isEmpty() ;
+		}
 		void setTextEncondig( QStringList& opts ) const
 		{
 			m_engine->setTextEncondig( m_encodingArgument,opts ) ;
