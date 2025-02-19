@@ -317,16 +317,9 @@ configure::configure( const Context& ctx ) :
 
 			if( s ){
 
-				auto obj = m_downloadEngineDefaultOptions.addOpt( "yes",s->name(),m ) ;
+				m_downloadEngineDefaultOptions.addOpt( s->name(),m ) ;
 
-				for( int i = 0 ; i < m_tableDefaultDownloadOptions.rowCount() ; i++ ){
-
-					m_tableDefaultDownloadOptions.item( i,0 ).setText( "no" ) ;
-				}
-
-				m_tableDefaultDownloadOptions.add( std::move( obj ),"yes",m ) ;
-
-				m_tableDefaultDownloadOptions.selectLast() ;
+				this->populateOptionsTable( s.value() ) ;
 
 				m_ui.lineEditAddDefaultDownloadOption->clear() ;
 			}
@@ -878,7 +871,7 @@ void configure::populateOptionsTable( const engines::engine& s,int selectRow )
 
 			auto b = e.join( " " ) ;
 
-			auto obj = m_downloadEngineDefaultOptions.addOpt( "yes",s.name(),b ) ;
+			auto obj = m_downloadEngineDefaultOptions.addOpt( s.name(),b ) ;
 
 			m_tableDefaultDownloadOptions.add( std::move( obj ),"yes",b ) ;
 		}
@@ -1683,15 +1676,15 @@ void configure::downloadDefaultOptions::replace( const QString& engineName,
 	}
 }
 
-QJsonObject configure::downloadDefaultOptions::addOpt( const QString& inUse,
-						       const QString& engineName,
-						       const QString& options )
+QJsonObject configure::downloadDefaultOptions::addOpt( const QString& engineName,const QString& options )
 {
-	if( inUse == "yes" ){
+	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		for( int i = 0 ; i < m_array.size() ; i++ ){
+		auto obj = m_array[ i ].toObject() ;
 
-			auto obj = m_array[ i ].toObject() ;
+		auto name = obj.value( "engineName" ) ;
+
+		if( name == engineName ){
 
 			obj.insert( "default","no" ) ;
 
@@ -1701,7 +1694,7 @@ QJsonObject configure::downloadDefaultOptions::addOpt( const QString& inUse,
 
 	QJsonObject obj ;
 
-	obj.insert( "default",inUse ) ;
+	obj.insert( "default","yes" ) ;
 	obj.insert( "options",options ) ;
 	obj.insert( "engineName",engineName ) ;
 
