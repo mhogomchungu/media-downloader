@@ -390,7 +390,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Noem del browser web usato per ottenere i cookie</translation>
     </message>
 </context>
 <context>
