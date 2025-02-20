@@ -993,6 +993,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Merging Audio and Video Together</source>
         <translation>Unione audio e video</translation>
     </message>
+    <message>
+        <source>Remuxing video</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

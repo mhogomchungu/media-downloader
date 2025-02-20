@@ -56,6 +56,7 @@ public:
 
 		const engines::engine& m_engine ;
 		QByteArray m_tmp ;
+		bool m_mergeSeen = false ;
 		std::vector< QByteArray > m_fileNames ;
 		yt_dlp& m_parent ;
 	} ;

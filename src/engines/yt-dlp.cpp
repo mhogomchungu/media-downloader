@@ -67,6 +67,7 @@ const char * yt_dlp::testYtDlp()
 [download] downloaded_bytes:801810 ETA:0 total_bytes_estimate:NA total_bytes:801810 progress.speed:477969.5544142013 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
 [download] downloaded_bytes:801810 ETA:NA total_bytes_estimate:NA total_bytes:801810 progress.speed:219337.62226918363 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm
 [Merger] Merging formats into "16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.webm"
+[VideoRemuxer] Remuxing video from webm to mkv; Destination: 16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.mkv
 Deleting original file 16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f250.webm (pass -k to keep)
 Deleting original file 16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm (pass -k to keep))R" ;
 }
@@ -1452,7 +1453,19 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 			this->setFileName( e.mid( e.indexOf( "] Destination: " ) + 15 ) ) ;
 		}
-		if( e.contains( " Merging formats into \"" ) ){
+		if( e.contains( "[VideoRemuxer] Remuxing video from" ) ){
+
+			this->setFileName( e.mid( e.indexOf( "Destination: " ) + 13 ) ) ;
+
+			auto a = QObject::tr( "Remuxing video" ) ;
+
+			m_tmp = a.toUtf8() + "\n" + m_fileNames.back() ;
+
+			return m_tmp ;
+		}
+		if( !m_mergeSeen && e.contains( " Merging formats into \"" ) ){
+
+			m_mergeSeen = true ;
 
 			auto m = e.mid( e.indexOf( '"' ) + 1 ) ;
 			auto s = m.lastIndexOf( '"' ) ;
