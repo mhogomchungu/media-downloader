@@ -995,7 +995,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Remuxing video</source>
-        <translation type="unfinished"></translation>
+        <translation>Remux video</translation>
     </message>
 </context>
 <context>
