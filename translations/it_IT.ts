@@ -999,7 +999,7 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Greek (Greece)</source>
-        <translation type="unfinished"></translation>
+        <translation>Greco (Grecia)</translation>
     </message>
 </context>
 <context>
