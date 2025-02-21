@@ -390,7 +390,12 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα προγράμματος περιήγησης στον ιστό
+για λήψη cookies</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Όνομα</translation>
     </message>
 </context>
 <context>
@@ -997,7 +1002,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Remuxing video</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετατροπή βίντεο</translation>
     </message>
 </context>
 <context>
