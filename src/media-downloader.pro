@@ -58,4 +58,5 @@ TRANSLATIONS = \
 ../translations/pt_BR.ts \
 ../translations/nl_NL.ts \
 ../translations/ko_KR.ts \
-../translations/ar.ts
+../translations/ar.ts \
+../translations/el_GR.ts

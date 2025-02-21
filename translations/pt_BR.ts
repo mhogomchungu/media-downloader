@@ -994,6 +994,10 @@ Exemplo 2: ${gateway}:8080</translation>
         <source>Remuxing video</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Greek (Greece)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

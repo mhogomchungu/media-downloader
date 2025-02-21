@@ -997,6 +997,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Remuxing video</source>
         <translation>Remux video</translation>
     </message>
+    <message>
+        <source>Greek (Greece)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
