@@ -126,6 +126,7 @@ private:
 		QJsonObject add( const QString& url,const QString& opts,const QString& engineName ) ;
 		QJsonObject add( const configure::downloadDefaultOptions::opts& ) ;
 		void remove( const QJsonObject& ) ;
+		void removeDownloadDefaultOptions( const QJsonObject& ) ;
 		void removeAll( const QString& ) ;
 		void setAsDefault( const QJsonObject& ) ;
 

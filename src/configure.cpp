@@ -216,7 +216,8 @@ configure::configure( const Context& ctx ) :
 
 			if( m != -1 ){
 
-				m_downloadDefaultOptions.remove( m_tableUrlToDefaultEngine.stuffAt( m ) ) ;
+				const auto& s = m_tableUrlToDefaultEngine.stuffAt( m ) ;
+				m_downloadDefaultOptions.removeDownloadDefaultOptions( s ) ;
 				m_tableUrlToDefaultEngine.removeRow( m ) ;
 				m_tableUrlToDefaultEngine.selectLast() ;
 			}
@@ -1640,6 +1641,73 @@ void configure::setVisibilityEditConfigFeature( bool e )
 	m_ui.labelEditConfigOptions->setVisible( e ) ;
 	m_ui.pbConfigureSaveEditOptionCancel->setVisible( e ) ;
 }
+namespace
+{
+class qOpts
+{
+public:
+	qOpts( const QJsonObject& e )
+	{
+		this->setOpts( e ) ;
+	}
+	qOpts( const QJsonArray& e,int m )
+	{
+		this->setOpts( e[ m ].toObject() ) ;
+	}
+	const QString& engineName() const
+	{
+		return m_engineName ;
+	}
+	const QString& opts() const
+	{
+		return m_opts ;
+	}
+	bool inUse() const
+	{
+		return m_inUse ;
+	}
+	QJsonObject setAsDefault( const QString& e ) const
+	{
+		QJsonObject o ;
+
+		o.insert( "engineName",m_engineName ) ;
+		o.insert( "options",m_opts ) ;
+		o.insert( "default",e ) ;
+
+		return o ;
+	}
+	QJsonObject replaceOptions( const QString& e ) const
+	{
+		QJsonObject o ;
+
+		o.insert( "engineName",m_engineName ) ;
+		o.insert( "options",e ) ;
+		o.insert( "default",m_inUse ? "yes" : "no" ) ;
+
+		return o ;
+	}
+	static QJsonObject obj( const QString& options,const QString& engineName )
+	{
+		QJsonObject obj ;
+
+		obj.insert( "default","yes" ) ;
+		obj.insert( "options",options ) ;
+		obj.insert( "engineName",engineName ) ;
+
+		return obj ;
+	}
+private:
+	void setOpts( const QJsonObject& m )
+	{
+		m_engineName = m.value( "engineName" ).toString() ;
+		m_opts       = m.value( "options" ).toString() ;
+		m_inUse      = m.value( "default" ).toString() == "yes" ;
+	}
+	QString m_engineName ;
+	QString m_opts ;
+	bool m_inUse ;
+};
+}
 
 bool configure::downloadDefaultOptions::isEmpty( const QString& m )
 {
@@ -1662,16 +1730,11 @@ void configure::downloadDefaultOptions::replace( const QString& engineName,
 {
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		auto obj = m_array[ i ].toObject() ;
+		qOpts obj( m_array,i ) ;
 
-		auto e = obj.value( "engineName" ).toString() ;
-		auto o = obj.value( "options" ).toString() ;
+		if( obj.engineName() == engineName && obj.opts() == oldOptions ){
 
-		if( e == engineName && o == oldOptions ){
-
-			obj.insert( "options",newOptions ) ;
-
-			m_array[ i ] = std::move( obj ) ;
+			m_array[ i ] = obj.replaceOptions( newOptions ) ;
 		}
 	}
 }
@@ -1680,23 +1743,15 @@ QJsonObject configure::downloadDefaultOptions::addOpt( const QString& engineName
 {
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		auto obj = m_array[ i ].toObject() ;
+		qOpts obj( m_array,i ) ;
 
-		auto name = obj.value( "engineName" ) ;
+		if( obj.engineName() == engineName ){
 
-		if( name == engineName ){
-
-			obj.insert( "default","no" ) ;
-
-			m_array[ i ] = std::move( obj ) ;
+			m_array[ i ] = obj.setAsDefault( "no" ) ;
 		}
 	}
 
-	QJsonObject obj ;
-
-	obj.insert( "default","yes" ) ;
-	obj.insert( "options",options ) ;
-	obj.insert( "engineName",engineName ) ;
+	auto obj = qOpts::obj( options,engineName ) ;
 
 	m_array.append( obj ) ;
 
@@ -1735,19 +1790,15 @@ void configure::downloadDefaultOptions::remove( const QJsonObject& e )
 		}
 	}
 
-	auto engineName = e.value( "engineName" ) ;
+	qOpts xbj = e ;
 
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		auto obj = m_array[ i ].toObject() ;
+		qOpts obj( m_array,i ) ;
 
-		auto name = obj.value( "engineName" ) ;
+		if( xbj.engineName() == obj.engineName() ){
 
-		if( name == engineName ){
-
-			auto s = obj.value( "default" ) ;
-
-			if( s == "yes" ){
+			if( obj.inUse() ){
 
 				return ;
 			}
@@ -1756,16 +1807,24 @@ void configure::downloadDefaultOptions::remove( const QJsonObject& e )
 
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		auto obj = m_array[ i ].toObject() ;
+		qOpts obj( m_array,i ) ;
 
-		auto name = obj.value( "engineName" ) ;
+		if( xbj.engineName() == obj.engineName() ){
 
-		if( name == engineName ){
+			m_array[ i ] = qOpts( m_array,i ).setAsDefault( "yes" ) ;
 
-			obj.insert( "default","yes" ) ;
+			break ;
+		}
+	}
+}
 
-			m_array[ i ] = std::move( obj ) ;
+void configure::downloadDefaultOptions::removeDownloadDefaultOptions( const QJsonObject& e )
+{
+	for( int i = 0 ; i < m_array.size() ; i++ ){
 
+		if( m_array[ i ].toObject() == e ){
+
+			m_array.removeAt( i ) ;
 			break ;
 		}
 	}
@@ -1777,9 +1836,9 @@ void configure::downloadDefaultOptions::removeAll( const QString& e )
 
 		for( int i = 0 ; i < m_array.size() ; i++ ){
 
-			auto s = m_array[ i ].toObject().value( "engineName" ) ;
+			qOpts s( m_array,i ) ;
 
-			if( s == e ){
+			if( s.engineName() == e ){
 
 				m_array.removeAt( i ) ;
 				return true ;
@@ -1790,36 +1849,30 @@ void configure::downloadDefaultOptions::removeAll( const QString& e )
 	}() ){} ;
 }
 
-void configure::downloadDefaultOptions::setAsDefault( const QJsonObject& e )
+void configure::downloadDefaultOptions::setAsDefault( const QJsonObject& ee )
 {
-	auto engineName = e.value( "engineName" ).toString() ;
-	auto options = e.value( "options" ).toString() ;
+	qOpts e = ee ;
+
+	const auto& engineName = e.engineName() ;
+	const auto& options    = e.opts() ;
 
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		auto obj = m_array[ i ].toObject() ;
+		qOpts obj( m_array,i ) ;
 
-		auto engine = obj.value( "engineName" ).toString() ;
+		if( obj.engineName() == engineName ){
 
-		if( engine == engineName ){
-
-			obj.insert( "default","no" ) ;
-			m_array[ i ] = std::move( obj ) ;
+			m_array[ i ] = obj.setAsDefault( "no" ) ;
 		}
 	}
 
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		auto obj = m_array[ i ].toObject() ;
+		qOpts obj( m_array,i ) ;
 
-		auto engine = obj.value( "engineName" ).toString() ;
-		auto opts = obj.value( "options" ).toString() ;
+		if( obj.engineName() == engineName && obj.opts() == options ){
 
-		if( engine == engineName && options == opts ){
-
-			obj.insert( "default","yes" ) ;
-
-			m_array[ i ] = std::move( obj ) ;
+			m_array[ i ] = obj.setAsDefault( "yes" ) ;
 
 			break ;
 		}
