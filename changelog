@@ -339,7 +339,7 @@ Version 1.2.0(April 1st, 2021)
          [Windows Qt6 build]
         - Checkbox in batch downloader tab to monitor for clipboard contents now works.
 
-     Version 5.2.3(Unreleased)
+     Version 5.3.0(March 1st, 2025)
          [Windows]
         - File names in batch and playlist downloader show up correctly when they
            contain some non ascii characters.
