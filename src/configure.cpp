@@ -852,13 +852,11 @@ void configure::populateOptionsTable( const engines::engine& s,int selectRow )
 
 	m_tableDefaultDownloadOptions.clear() ;
 
-	using mm = configure::downloadDefaultOptions::optsEngines ;
+	m_downloadEngineDefaultOptions.forEach( [ &s,this ]( const configure::downloadDefaultOptions::qOpts& opts ){
 
-	m_downloadEngineDefaultOptions.forEach( [ &s,this ]( const mm& opts,QJsonObject obj ){
+		if( s.name() == opts.engineName() ){
 
-		if( s.name() == opts.engine ){
-
-			m_tableDefaultDownloadOptions.add( std::move( obj ),opts.inuse,opts.options ) ;
+			m_tableDefaultDownloadOptions.add( opts.toJson(),opts.inUseStr(),opts.opts() ) ;
 		}
 
 		return false ;
@@ -917,13 +915,11 @@ QString configure::engineDefaultDownloadOptions( const QString& engineName )
 {
 	QString options ;
 
-	using mm = configure::downloadDefaultOptions::optsEngines ;
+	m_downloadEngineDefaultOptions.forEach( [ & ]( const configure::downloadDefaultOptions::qOpts& opts ){
 
-	m_downloadEngineDefaultOptions.forEach( [ & ]( const mm& opts,const QJsonObject& ){
+		if( opts.engineName() == engineName && opts.inUse() ){
 
-		if( opts.engine == engineName && opts.inuse == "yes" ){
-
-			options = opts.options ;
+			options = opts.opts() ;
 
 			return true ;
 		}else{
@@ -934,54 +930,39 @@ QString configure::engineDefaultDownloadOptions( const QString& engineName )
 	return options ;
 }
 
-void configure::engineSetDefaultDownloadOptions( const QString& engineName )
+void configure::engineSetDefaultDownloadOptions( const engines::engine& engine )
 {
-	using mm = configure::downloadDefaultOptions::optsEngines ;
+	std::vector< configure::downloadDefaultOptions::qOpts > options ;
 
-	class opts
-	{
-	public:
-		opts( const mm& m,const QJsonObject& obj ) :
-			m_jsonObject( obj ),
-			m_options( m.options ),
-			m_inUse( m.inuse == "yes" )
-		{
-		}
-		const QString& opt() const
-		{
-			return m_options ;
-		}
-		const QJsonObject& json() const
-		{
-			return m_jsonObject ;
-		}
-		bool inUse() const
-		{
-			return m_inUse ;
-		}
-	private:
-		QJsonObject m_jsonObject ;
-		QString m_options ;
-		bool m_inUse ;
-	} ;
+	const auto& engineName = engine.name() ;
 
-	std::vector< opts > options ;
+	m_downloadEngineDefaultOptions.forEach( [ & ]( configure::downloadDefaultOptions::qOpts obj ){
 
-	m_downloadEngineDefaultOptions.forEach( [ & ]( const mm& opts,const QJsonObject& obj ){
+		if( obj.engineName() == engineName ){
 
-		if( opts.engine == engineName ){
-
-			options.emplace_back( opts,obj ) ;
+			options.emplace_back( obj.move() ) ;
 		}
 
 		return false ;
 	} ) ;
 
+	if( options.empty() ){
+
+		auto m = engine.defaultDownLoadCmdOptions() ;
+
+		if( !m.isEmpty() ){
+
+			using mm = configure::downloadDefaultOptions::qOpts ;
+
+			options.emplace_back( mm::obj( m.join( " " ),engineName ) ) ;
+		}
+	}
+
 	QMenu m ;
 
 	for( const auto& it : options ){
 
-		const auto& e = it.opt() ;
+		const auto& e = it.opts() ;
 
 		auto s = m.addAction( e ) ;
 
@@ -994,9 +975,9 @@ void configure::engineSetDefaultDownloadOptions( const QString& engineName )
 
 		for( const auto& it : options ){
 
-			if( it.opt() == ac->objectName() ){
+			if( it.opts() == ac->objectName() ){
 
-				m_downloadEngineDefaultOptions.setAsDefault( it.json() ) ;
+				m_downloadEngineDefaultOptions.setAsDefault( it.toJson() ) ;
 
 				break ;
 			}
@@ -1314,6 +1295,8 @@ void configure::textAlignmentChanged( Qt::LayoutDirection z )
 	auto o = m_ui.labelActionsAtStartup ;
 
 	utility::alignText( z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o ) ;
+
+	b->setAlignment( Qt::AlignmentFlag::AlignCenter ) ;
 }
 
 void configure::disableAll()
@@ -1641,73 +1624,6 @@ void configure::setVisibilityEditConfigFeature( bool e )
 	m_ui.labelEditConfigOptions->setVisible( e ) ;
 	m_ui.pbConfigureSaveEditOptionCancel->setVisible( e ) ;
 }
-namespace
-{
-class qOpts
-{
-public:
-	qOpts( const QJsonObject& e )
-	{
-		this->setOpts( e ) ;
-	}
-	qOpts( const QJsonArray& e,int m )
-	{
-		this->setOpts( e[ m ].toObject() ) ;
-	}
-	const QString& engineName() const
-	{
-		return m_engineName ;
-	}
-	const QString& opts() const
-	{
-		return m_opts ;
-	}
-	bool inUse() const
-	{
-		return m_inUse ;
-	}
-	QJsonObject setAsDefault( const QString& e ) const
-	{
-		QJsonObject o ;
-
-		o.insert( "engineName",m_engineName ) ;
-		o.insert( "options",m_opts ) ;
-		o.insert( "default",e ) ;
-
-		return o ;
-	}
-	QJsonObject replaceOptions( const QString& e ) const
-	{
-		QJsonObject o ;
-
-		o.insert( "engineName",m_engineName ) ;
-		o.insert( "options",e ) ;
-		o.insert( "default",m_inUse ? "yes" : "no" ) ;
-
-		return o ;
-	}
-	static QJsonObject obj( const QString& options,const QString& engineName )
-	{
-		QJsonObject obj ;
-
-		obj.insert( "default","yes" ) ;
-		obj.insert( "options",options ) ;
-		obj.insert( "engineName",engineName ) ;
-
-		return obj ;
-	}
-private:
-	void setOpts( const QJsonObject& m )
-	{
-		m_engineName = m.value( "engineName" ).toString() ;
-		m_opts       = m.value( "options" ).toString() ;
-		m_inUse      = m.value( "default" ).toString() == "yes" ;
-	}
-	QString m_engineName ;
-	QString m_opts ;
-	bool m_inUse ;
-};
-}
 
 bool configure::downloadDefaultOptions::isEmpty( const QString& m )
 {
@@ -1751,7 +1667,7 @@ QJsonObject configure::downloadDefaultOptions::addOpt( const QString& engineName
 		}
 	}
 
-	auto obj = qOpts::obj( options,engineName ) ;
+	auto obj = qOpts::obj( options,engineName ).toJson() ;
 
 	m_array.append( obj ) ;
 

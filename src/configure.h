@@ -50,7 +50,7 @@ public:
 	void setVisibilityEditConfigFeature( bool ) ;
 	void updateEnginesList( const QStringList& e ) ;
 	QString engineDefaultDownloadOptions( const QString& ) ;
-	void engineSetDefaultDownloadOptions( const QString& engineName );
+	void engineSetDefaultDownloadOptions( const engines::engine& ) ;
 	QString optionsTranslated( const QString& ) ;
 	void setDownloadOptions( int row,tableWidget& table ) ;
 	struct presetEntry
@@ -112,11 +112,84 @@ private:
 			const QString& engine ;
 			const QString& url ;
 		} ;
-		struct optsEngines
+		class qOpts
 		{
-			const QString& inuse ;
-			const QString& engine ;
-			const QString& options ;
+		public:
+			qOpts( QJsonObject e ) : m_qJsonObject( std::move( e ) )
+			{
+			}
+			qOpts( const QJsonArray& e,int m ) :
+				m_qJsonObject( e[ m ].toObject() )
+			{
+			}
+			QString engineName() const
+			{
+				return this->engineName( this->toJson() ) ;
+			}
+			QString opts() const
+			{
+				return this->options( this->toJson() ) ;
+			}
+			bool inUse() const
+			{
+				return this->inUse( this->toJson() ) ;
+			}
+			const char * inUseStr() const
+			{
+				return this->inUse() ? "yes" : "no" ;
+			}
+			const QJsonObject& toJson() const
+			{
+				return m_qJsonObject ;
+			}
+			QJsonObject setAsDefault( const QString& e ) const
+			{
+				auto o = this->toJson() ;
+
+				o.insert( "engineName",this->engineName() ) ;
+				o.insert( "options",this->opts() ) ;
+				o.insert( "default",e ) ;
+
+				return o ;
+			}
+			QJsonObject replaceOptions( const QString& e ) const
+			{
+				auto o = this->toJson() ;
+
+				o.insert( "engineName",this->engineName() ) ;
+				o.insert( "options",e ) ;
+				o.insert( "default",this->inUseStr() ) ;
+
+				return o ;
+			}
+			static qOpts obj( const QString& options,const QString& engineName )
+			{
+				QJsonObject obj ;
+
+				obj.insert( "default","yes" ) ;
+				obj.insert( "options",options ) ;
+				obj.insert( "engineName",engineName ) ;
+
+				return obj ;
+			}
+			static QString engineName( const QJsonObject& m )
+			{
+				return m.value( "engineName" ).toString() ;
+			}
+			static QString options( const QJsonObject& m )
+			{
+				return m.value( "options" ).toString() ;
+			}
+			static bool inUse( const QJsonObject& m )
+			{
+				return m.value( "default" ).toString() == "yes" ;
+			}
+			qOpts move()
+			{
+				return std::move( *this ) ;
+			}
+		private:
+			QJsonObject m_qJsonObject ;
 		} ;
 		downloadDefaultOptions( const Context&,const QString& ) ;
 		void save() ;
@@ -131,7 +204,7 @@ private:
 		void setAsDefault( const QJsonObject& ) ;
 
 		template< typename Function,
-			  typename std::enable_if<std::is_same<util::types::result_of<Function,const configure::downloadDefaultOptions::optsEngines&,QJsonObject>,bool>::value,int >::type = 0 >
+			  typename std::enable_if<std::is_same<util::types::result_of<Function,qOpts>,bool>::value,int >::type = 0 >
 		void forEach( const Function& function )
 		{
 			for( const auto& it : util::asConst( m_array ) ){
@@ -140,11 +213,7 @@ private:
 
 				if( !obj.isEmpty() ){
 
-					auto a = obj.value( "default" ).toString() ;
-					auto b = obj.value( "engineName" ).toString() ;
-					auto c = obj.value( "options" ).toString() ;
-
-					if( function( { a,b,c },std::move( obj ) ) ){
+					if( function( std::move( obj ) ) ){
 
 						break ;
 					}

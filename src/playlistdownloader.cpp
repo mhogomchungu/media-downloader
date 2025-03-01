@@ -115,9 +115,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		auto& t = m_ctx.TabManager().Configure() ;
 
-		auto m = this->defaultEngineName() ;
-
-		t.engineSetDefaultDownloadOptions( m ) ;
+		t.engineSetDefaultDownloadOptions( this->defaultEngine() ) ;
 	} ) ;
 
 	auto ww = m_ctx.Settings().thumbnailWidth( settings::tabName::playlist ) ;

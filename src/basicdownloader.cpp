@@ -120,9 +120,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		auto& t = m_ctx.TabManager().Configure() ;
 
-		auto m = this->defaultEngineName() ;
-
-		t.engineSetDefaultDownloadOptions( m ) ;
+		t.engineSetDefaultDownloadOptions( this->defaultEngine().engine ) ;
 	} ) ;
 
 	connect( m_ui.pbList,&QPushButton::clicked,[ this ](){
