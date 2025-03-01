@@ -42,21 +42,21 @@ Make sure you have access to the internet before you run "Media Downloader" for 
 
 #### Bundle for MacOS
 
-Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.2/MediaDownloaderQt6-5.2.2.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
+Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.0/MediaDownloaderQt6-5.3.0.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.2/MediaDownloaderQt5-5.2.2.setup.exe).
+Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.0/MediaDownloaderQt5-5.3.0.setup.exe).
 
-Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.2/MediaDownloaderQt6-5.2.2.setup.exe).
+Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.0/MediaDownloaderQt6-5.3.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.2/MediaDownloaderQt5-5.2.2.zip).
+Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.0/MediaDownloaderQt5-5.3.0.zip).
 
-Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.2.2/MediaDownloaderQt6-5.2.2.zip).
+Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.0/MediaDownloaderQt6-5.3.0.zip).
 
 You can also install the portable version for Windows using scoop with the following commands:
 
@@ -113,8 +113,8 @@ To build from the source, follow the following instructions
 ```
 1. Make sure you have the following packages installed:-
     - Development version of Qt libraries. They will be named
-      something like "libqt5-qtbase-devel" or "qt5-devel" or
-      "qtbase5-dev" or something else that sounds similar.
+      something like "libqt6-qtbase-devel" or "qt6-devel" or
+      "qtbase6-dev" or something else that sounds similar.
     - cmake
     - gcc
 2. Download the source archive and extract it.
