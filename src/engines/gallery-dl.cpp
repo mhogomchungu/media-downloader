@@ -414,7 +414,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 			m_tmp = *begin ;
 
-			for( auto it = begin + 1 ; begin != m.end() ; it++ ){
+			for( auto it = begin + 1 ; it != m.end() ; it++ ){
 
 				m_tmp += "\n" + *it ;
 			}
