@@ -26,9 +26,9 @@
             },
             "x86": {
                 "Args": [
-                    "gallery-dl.exe"
+                    "gallery-dl_x86.exe"
                 ],
-                "Name": "gallery-dl.exe"
+                "Name": "gallery-dl_x86.exe"
             }
         }
     },
