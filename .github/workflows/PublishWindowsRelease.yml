@@ -189,12 +189,12 @@ jobs:
           $MediaDownloaderQt6a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip).Hash 
           $MediaDownloaderQt6b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe).Hash 
 
-          echo "$MediaDownloaderQt5a MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip`n$MediaDownloaderQt5b MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe`n$MediaDownloaderQt6a MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip`n$MediaDownloaderQt6b MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe" | Out-File -FilePath ${{github.workspace}}\zWindowsHashes.txt -Encoding utf8 -Append 
+          echo "$MediaDownloaderQt5a MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip`n$MediaDownloaderQt6a MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip`n$MediaDownloaderQt5b MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe`n$MediaDownloaderQt6b MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe" | Out-File -FilePath ${{github.workspace}}\zWindowsHashes.txt -Encoding utf8 -Append 
     -
       name: Post Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe
+        artifacts: ${{github.workspace}}\zWindowsHashes.txt,${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe
         tag: ${{ env.RELEASEVERSION }}
         commit: "main"
         allowUpdates: true
