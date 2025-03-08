@@ -567,7 +567,7 @@ QString engines::addEngine( const QByteArray& data,const QString& path,int id )
 
 			QFile f( e ) ;
 
-			if( f.open( QIODevice::WriteOnly ) ){
+			if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
 
 				f.write( data ) ;
 

@@ -308,6 +308,9 @@ private:
 		QJsonArray m_array ;
 	};
 
+	QMenu * addExtenion() ;
+	QMenu * removeExtenion() ;
+	void addEngine( const QByteArray&,const QString& ) ;
 	void saveOptions() ;
 	enum class engineOptions{ url,options,both } ;
 	void setEngineOptions( const QString&,engineOptions ) ;

@@ -349,7 +349,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 	const auto data = s.toStringList() ;
 
-	if( m_dir.isEmpty() ){
+	if( m_dir.isEmpty() && data.size() ){
 
 		const QByteArray& e = *data.begin() ;
 

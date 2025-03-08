@@ -453,103 +453,9 @@ configure::configure( const Context& ctx ) :
 		m_ctx.mainWindow().showTrayIcon( checked ) ;
 	} ) ;
 
-	connect( m_ui.pbConfigureAddAPlugin,&QPushButton::clicked,[ this ](){
+	m_ui.pbConfigureAddAPlugin->setMenu( this->addExtenion() ) ;
 
-		auto mm = tr( "Select An Engine File" ) ;
-		auto ee = utility::homePath() ;
-
-		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),mm,ee ) ;
-
-		if( m.isEmpty() ){
-
-			return ;
-		}
-
-		auto id = utility::sequentialID() ;
-
-		auto d = engines::file( m,m_ctx.logger() ).readAll() ;
-
-		if( d.isEmpty() ){
-
-			return ;
-		}
-
-		auto name = m_ctx.Engines().addEngine( d,util::split( m,'/',true ).last(),id ) ;
-
-		if( name.isEmpty() ){
-
-			return ;
-		}
-
-		auto& t = m_ctx.TabManager() ;
-
-		t.basicDownloader().setAsActive() ;
-
-		const auto& engine = m_ctx.Engines().getEngineByName( name ) ;
-
-		if( engine ){
-
-			class woof : public versionInfo::idone
-			{
-			public:
-				woof( const Context& ctx,QString de ) :
-					m_ctx( ctx ),m_defaultEngine( std::move( de ) )
-				{
-				}
-				void operator()() override
-				{
-					if( m_success ){
-
-						utility::setDefaultEngine( m_ctx,m_defaultEngine ) ;
-					}
-				}
-				void failed() override
-				{
-					m_success = false ;
-				}
-			private:
-				const Context& m_ctx ;
-				QString m_defaultEngine ;
-				bool m_success = true ;
-			} ;
-
-			auto& m = m_ctx.getVersionInfo() ;
-
-			auto tt = util::types::type_identity< woof >() ;
-
-			m.check( { engine.value(),id },{ tt,m_ctx,std::move( name ) },true ) ;
-		}
-	} ) ;
-
-	connect( m_ui.pbConfigureRemoveAPlugin,&QPushButton::clicked,[ this ](){
-
-		QMenu m ;
-
-		for( const auto& it : m_ctx.Engines().enginesList() ){
-
-			auto e = it ;
-			m.addAction( e.replace( ".json","" ) )->setObjectName( it ) ;
-		}
-
-		connect( &m,&QMenu::triggered,[ & ]( QAction * ac ){
-
-			auto id = utility::sequentialID() ;
-
-			m_ctx.Engines().removeEngine( ac->objectName(),id ) ;
-
-			auto& t = m_ctx.TabManager() ;
-
-			t.basicDownloader().setAsActive() ;
-
-			t.setDefaultEngines() ;
-		} ) ;
-
-		m.exec( QCursor::pos() ) ;
-	} ) ;
-
-	connect( m_ui.pbConfigureDownload,&QPushButton::clicked,[](){
-
-	} ) ;
+	m_ui.pbConfigureRemoveAPlugin->setMenu( this->removeExtenion() ) ;
 
 	connect( &m_menu,&QMenu::triggered,[ & ]( QAction * ac ){
 
@@ -995,6 +901,166 @@ QString configure::defaultDownloadOption()
 void configure::setDownloadOptions( int row,tableWidget& table )
 {
 	m_downloadDefaultOptions.setDownloadOptions( row,table ) ;
+}
+
+static QString _setUrl( const QString& e )
+{
+	QString hash = "a4c1db9792c32eb35b73fe08d87121ddfa6942b5" ;
+
+	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
+
+	return url + hash + "/extensions/" + e ;
+}
+
+QMenu *  configure::addExtenion()
+{
+	auto m = new QMenu( &m_ctx.mainWidget() ) ;
+
+	m->addAction( "yt-dlp" )->setEnabled( false ) ;
+	m->addAction( "yt-dlp-aria2c" )->setObjectName( "yt-dlp-aria2c.json" ) ;
+	m->addAction( "yt-dlp-ffmpeg" )->setObjectName( "yt-dlp-ffmpeg.json" ) ;
+	m->addAction( "ytdl-patched" )->setObjectName( "ytdl-patched.json" ) ;
+
+	m->addAction( "gallery-dl" )->setObjectName( "gallery-dl.json" ) ;
+	m->addAction( "svtplay-dl" )->setObjectName( "svtplay-dl.json" ) ;
+
+	m->addAction( "lux" )->setObjectName( "lux.json" ) ;
+
+	if( utility::platformIsNOTWindows() ){
+
+		m->addAction( "aria2c" )->setObjectName( "aria2c.json" ) ;
+		m->addAction( "wget" )->setObjectName( "wget.json" ) ;
+	}
+
+	m->addSeparator() ;
+
+	m->addAction( "custom" )->setObjectName( "custom" ) ;
+
+	connect( m,&QMenu::triggered,[ & ]( QAction * ac ){
+
+		auto name = ac->objectName() ;
+
+		if( name == "custom" ){
+
+			auto mm = tr( "Select An Engine File" ) ;
+			auto ee = utility::homePath() ;
+
+			auto n = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),mm,ee ) ;
+
+			if( !n.isEmpty() ){
+
+				auto d = engines::file( n,m_ctx.logger() ).readAll() ;
+
+				if( d.isEmpty() ){
+
+					return ;
+				}
+
+				auto name = util::split( n,'/',true ).last() ;
+
+				this->addEngine( d,name ) ;
+			}
+		}else{
+			auto url = _setUrl( name ) ;
+
+			m_ctx.TabManager().basicDownloader().setAsActive() ;
+
+			auto id = utility::sequentialID() ;
+
+			m_ctx.logger().add( QObject::tr( "Downloading" ) + ": " + url,id ) ;
+
+			m_ctx.network().get( url,[ this,name,id ]( const utils::network::reply& reply ){
+
+				if( reply.success() ){
+
+					this->addEngine( reply.data(),name ) ;
+				}else{
+					auto mm = QObject::tr( "Download Failed" ) ;
+
+					mm += ": " + reply.errorString() ;
+
+					m_ctx.logger().add( mm,id ) ;
+				}
+			} ) ;
+		}
+	} ) ;
+
+	return m ;
+}
+
+QMenu * configure::removeExtenion()
+{
+	auto m = new QMenu( &m_ctx.mainWidget() ) ;
+
+	for( const auto& it : m_ctx.Engines().enginesList() ){
+
+		auto e = it ;
+		m->addAction( e.replace( ".json","" ) )->setObjectName( it ) ;
+	}
+
+	connect( m,&QMenu::triggered,[ & ]( QAction * ac ){
+
+		auto id = utility::sequentialID() ;
+
+		m_ctx.Engines().removeEngine( ac->objectName(),id ) ;
+
+		auto& t = m_ctx.TabManager() ;
+
+		t.basicDownloader().setAsActive() ;
+
+		t.setDefaultEngines() ;
+	} ) ;
+
+	return m ;
+}
+
+void configure::addEngine( const QByteArray& d,const QString& n )
+{
+	auto id = utility::sequentialID() ;
+
+	auto name = m_ctx.Engines().addEngine( d,n,id ) ;
+
+	if( name.isEmpty() ){
+
+		return ;
+	}
+
+	m_ctx.TabManager().basicDownloader().setAsActive() ;
+
+	const auto& engine = m_ctx.Engines().getEngineByName( name ) ;
+
+	if( engine ){
+
+		class woof : public versionInfo::idone
+		{
+		public:
+			woof( const Context& ctx,QString de ) :
+			    m_ctx( ctx ),m_defaultEngine( std::move( de ) )
+			{
+			}
+			void operator()() override
+			{
+				if( m_success ){
+
+					utility::setDefaultEngine( m_ctx,m_defaultEngine ) ;
+				}
+			}
+			void failed() override
+			{
+				m_success = false ;
+			}
+		private:
+			const Context& m_ctx ;
+			QString m_defaultEngine ;
+			bool m_success = true ;
+		} ;
+
+		auto& m = m_ctx.getVersionInfo() ;
+
+		auto tt = util::types::type_identity< woof >() ;
+
+		m.check( { engine.value(),id },{ tt,m_ctx,std::move( name ) },true ) ;
+	}
 }
 
 void configure::saveOptions()
