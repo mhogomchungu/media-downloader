@@ -45,11 +45,12 @@ public:
 	int unTranslatedIndexAt( const QString& e ) const ;
 	bool usingThemes() const ;
 	void setComboBox( QComboBox& cb,const QString& dm ) const ;
-	QString defaultthemeFullPath() const ;
+	QString defaultDarkthemeFullPath() const ;
 	QString themeFullPath() const ;
 	void setDefaultTheme( QApplication& app ) const ;
-	void setTheme( QApplication& app,const QJsonObject& obj ) const ;
-	QJsonObject defaultTheme() const ;
+	void setTheme( QApplication& app,const QJsonObject& obj,bool = false ) const ;
+	QJsonObject defaultDarkTheme() const ;
+	QJsonObject defaultWhiteTheme() const ;
 	QJsonObject defaultPureDarkTheme() const ;
 	void set( QApplication& ) const ;
 	themes move()
@@ -113,8 +114,9 @@ private:
 		QString translated ;
 	};
 
-	std::vector< Pair > m_strings{ { "Normal",QObject::tr( "Normal" ) },
-				       { "Dark",QObject::tr( "Dark" ) } } ;
+	std::vector< Pair > m_strings{ { "Platform Default",QObject::tr( "Platform Default" ) },
+				      { "Light",QObject::tr( "Light" ) },
+				      { "Dark",QObject::tr( "Dark" ) } } ;
 } ;
 
 #endif

@@ -831,10 +831,6 @@ Exemplo 2: ${gateway}:8080</translation>
         <translation>Meios de comunicação já em arquivo</translation>
     </message>
     <message>
-        <source>Normal</source>
-        <translation>Normal</translation>
-    </message>
-    <message>
         <source>Dark</source>
         <translation>Escuro</translation>
     </message>
@@ -996,6 +992,14 @@ Exemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Greek (Greece)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Platform Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -620,10 +620,6 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Estrazione archivio: </translation>
     </message>
     <message>
-        <source>Normal</source>
-        <translation>Tema normale</translation>
-    </message>
-    <message>
         <source>Dark</source>
         <translation>Tema scuro</translation>
     </message>
@@ -1000,6 +996,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Greek (Greece)</source>
         <translation>Greco (Grecia)</translation>
+    </message>
+    <message>
+        <source>Platform Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

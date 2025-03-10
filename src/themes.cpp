@@ -21,6 +21,8 @@
 
 #include <QJsonDocument>
 
+#include "util.hpp"
+
 themes::themes( const QString& themeName,const QString& themePath )  :
 	m_theme( themeName ),
 	m_themePath( themePath )
@@ -112,7 +114,7 @@ void themes::setComboBox( QComboBox& cb,const QString& dm ) const
 	cb.setCurrentIndex( this->unTranslatedIndexAt( dm ) ) ;
 }
 
-QString themes::defaultthemeFullPath() const
+QString themes::defaultDarkthemeFullPath() const
 {
 	return m_themePath + "/" + m_defaultDarkTheme + ".json" ;
 }
@@ -126,7 +128,7 @@ QString themes::themeFullPath() const
 {
 	if( m_theme == m_defaultDarkTheme ){
 
-		return this->defaultthemeFullPath() ;
+		return this->defaultDarkthemeFullPath() ;
 	}else{
 		return m_themePath + "/" + m_theme + ".json" ;
 	}
@@ -134,14 +136,21 @@ QString themes::themeFullPath() const
 
 void themes::setDefaultTheme( QApplication& app ) const
 {
-	this->setTheme( app,this->defaultTheme() ) ;
+	this->setTheme( app,this->defaultWhiteTheme(),"Light" ) ;
 }
 
-void themes::setTheme( QApplication& app,const QJsonObject& obj ) const
+void themes::setTheme( QApplication& app,const QJsonObject& obj,bool defaultLightTheme ) const
 {
 	app.setStyle( QStyleFactory::create( "Fusion" ) ) ;
 
 	QPalette m ;
+
+	if( defaultLightTheme ){
+
+		app.setPalette( m ) ;
+
+		return ;
+	}
 
 	m.setColor( QPalette::Window,this->getColor( "QPalette::Window",obj ) ) ;
 	m.setColor( QPalette::WindowText,this->getColor( "QPalette::WindowText",obj ) ) ;
@@ -198,13 +207,22 @@ themes::JObject themes::baseTheme() const
 	return obj ;
 }
 
-QJsonObject themes::defaultTheme() const
+QJsonObject themes::defaultDarkTheme() const
 {
 	auto obj = this->baseTheme() ;
 
 	obj.insert( "darkColor",45,45,45,255 ) ;
 
 	return obj ;
+}
+
+QJsonObject themes::defaultWhiteTheme() const
+{
+	auto m = this->baseTheme() ;
+
+	m.insert( "darkColor",222,222,222,1 ) ;
+
+	return m ;
 }
 
 QJsonObject themes::defaultPureDarkTheme() const
@@ -223,15 +241,15 @@ void themes::set( QApplication& app ) const
 		QDir().mkpath( m_themePath ) ;
 	}
 
-	auto defaultThemePath = this->defaultthemeFullPath() ;
+	auto defaultDarkThemePath = this->defaultDarkthemeFullPath() ;
 
-	if( !QFile::exists( defaultThemePath ) ){
+	if( !QFile::exists( defaultDarkThemePath ) ){
 
-		QFile f( defaultThemePath ) ;
+		QFile f( defaultDarkThemePath ) ;
 
 		if( f.open( QIODevice::WriteOnly ) ){
 
-			QJsonDocument doc( this->defaultTheme() ) ;
+			QJsonDocument doc( this->defaultDarkTheme() ) ;
 
 			f.write( doc.toJson( QJsonDocument::Indented ) ) ;
 		}
@@ -253,19 +271,26 @@ void themes::set( QApplication& app ) const
 
 	if( this->usingThemes() ){
 
-		QFile f( this->themeFullPath() ) ;
+		if( m_theme == "Light" ){
 
-		if( !f.open( QIODevice::ReadOnly ) ){
-
-			this->setDefaultTheme( app ) ;
+			this->setTheme( app,QJsonObject(),true ) ;
 		}else{
-			auto obj = QJsonDocument::fromJson( f.readAll() ).object() ;
+			auto s = this->themeFullPath() ;
 
-			if( obj.isEmpty() ){
+			QFile f( s ) ;
+
+			if( !f.open( QIODevice::ReadOnly ) ){
 
 				this->setDefaultTheme( app ) ;
 			}else{
-				this->setTheme( app,obj ) ;
+				auto obj = QJsonDocument::fromJson( f.readAll() ).object() ;
+
+				if( obj.isEmpty() ){
+
+					this->setDefaultTheme( app ) ;
+				}else{
+					this->setTheme( app,obj ) ;
+				}
 			}
 		}
 	}

@@ -393,10 +393,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Όνομα προγράμματος περιήγησης στον ιστό
 για λήψη cookies</translation>
     </message>
-    <message>
-        <source>Name</source>
-        <translation>Όνομα</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -829,10 +825,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Το μέσο υπάρχει ήδη στην αρχειοθήκη</translation>
     </message>
     <message>
-        <source>Normal</source>
-        <translation>Κανονικό</translation>
-    </message>
-    <message>
         <source>Dark</source>
         <translation>Dark</translation>
     </message>
@@ -1003,6 +995,14 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Remuxing video</source>
         <translation>Μετατροπή βίντεο</translation>
+    </message>
+    <message>
+        <source>Platform Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
