@@ -1060,6 +1060,15 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 		opts.append( cv ) ;
 	}
 
+	auto cookieFile = settings.cookieBrowserTextFilePath( engine.name() ) ;
+	const auto& caa = engine.cookieTextFileArgument() ;
+
+	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
+
+		opts.append( caa ) ;
+		opts.append( cookieFile ) ;
+	}
+
 	for( auto& it : opts ){
 
 		it.replace( utility::stringConstants::mediaDownloaderDataPath(),ep.dataPath() ) ;

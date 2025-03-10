@@ -180,6 +180,7 @@ public:
 	QString themeName() ;
 	QString defaultEngine( settings::tabName,const QString& ) ;
 	QString cookieBrowserName( const QString& engineName ) ;
+	QString cookieBrowserTextFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
 	QString playlistRangeHistoryLastUsed() ;
 	QString gitHubDownloadUrl() ;
@@ -248,6 +249,8 @@ public:
 	bool autoHideDownloadWhenCompleted() ;
 	bool deleteFilesOnCanceledDownload() ;
 	bool autoSetDefaultEngineAndOptions() ;
+	bool cookieSourceSetToBrowerName() ;
+
 	QRect mainWindowDimenstions( const QRect& ) ;
 	qint64 timeOutWaitingForClipboardData() ;
 
@@ -262,6 +265,7 @@ public:
 	int desktopNotificationTimeOut() ;
 
 	void setOpenWith( const QString& ) ;
+	void setCookieSourceSetToBrowerName( bool ) ;
 	void setShowLocalVersionInformationOnly( bool ) ;
 	void setShowLocalAndLatestVersionInformation( bool ) ;
 	void setLibraryShowFolderFirst( bool ) ;
@@ -296,6 +300,7 @@ public:
 	void setTextEncoding( const QString&,const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;
 	void setCookieBrowserName( const QString& engineName,const QString& browserName ) ;
+	void setCookieTextFilePath( const QString& engineName,const QString& browserName ) ;
 	void setDefaultEngine( const QString&,settings::tabName ) ;
 	void setLastUsedOption( const QString& engineName,const QString& options,settings::tabName ) ;
 	void setDownloadFolder( const QString& ) ;

@@ -954,6 +954,10 @@ public:
 		{
 			return m_optionsArgument ;
 		}
+		const QString& cookieTextFileArgument() const
+		{
+			return m_cookieTextFileArgument ;
+		}
 		const QString& downloadUrl() const
 		{
 			return m_downloadUrl ;
@@ -1246,6 +1250,7 @@ public:
 		QString m_playlistItemsArgument ;
 		QString m_batchFileArgument ;
 		QString m_cookieArgument ;
+		QString m_cookieTextFileArgument ;
 		QString m_encodingArgument ;
 		QStringList m_dumpJsonArguments ;
 		QStringList m_splitLinesBy ;

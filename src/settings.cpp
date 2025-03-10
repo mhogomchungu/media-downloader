@@ -204,6 +204,16 @@ bool settings::autoSetDefaultEngineAndOptions()
 	return this->getOption( "AutoSetDefaultEngineAndOptions",false ) ;
 }
 
+bool settings::cookieSourceSetToBrowerName()
+{
+	return this->getOption( "CookieSourceSetToBrowerName",true ) ;
+}
+
+void settings::setCookieSourceSetToBrowerName( bool e )
+{
+	m_settings.setValue( "CookieSourceSetToBrowerName",e ) ;
+}
+
 qint64 settings::timeOutWaitingForClipboardData()
 {
 	return this->getOption( "TimeOutWaitingForClipboardData",30000 ) ;
@@ -690,9 +700,21 @@ QString settings::cookieBrowserName( const QString& engineName )
 	return this->getOption( m,QString() ) ;
 }
 
+QString settings::cookieBrowserTextFilePath( const QString& engineName )
+{
+	auto m = "CookieTextFilePath_" + engineName ;
+
+	return this->getOption( m,QString() ) ;
+}
+
 void settings::setCookieBrowserName( const QString& engineName,const QString& browserName )
 {
 	m_settings.setValue( "CookieBrowser_" + engineName,browserName ) ;
+}
+
+void settings::setCookieTextFilePath(const QString & engineName,const QString& cookiePath )
+{
+	m_settings.setValue( "CookieTextFilePath_" + engineName,cookiePath ) ;
 }
 
 void settings::setTheme( QApplication& app,const QString& themeBasePath )

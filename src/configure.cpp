@@ -45,6 +45,7 @@ configure::configure( const Context& ctx ) :
 	m_downloadDefaultOptions( m_ctx,"downloadDefaultOptions.json" ),
 	m_downloadEngineDefaultOptions( m_ctx,"downloadEngineDefaultOptions.json" )
 {
+	m_ui.pbConfigureSetPathToCookieFile->setIcon( m_settings.getIcon( "cookie" ) ) ;
 	m_ui.pbOpenThemeFolder->setIcon( m_settings.getIcon( "extensions" ) ) ;
 	m_ui.pbOpenBinFolder->setIcon( m_settings.getIcon( "executable" ) ) ;
 	m_ui.pbConfigureDownloadPath->setIcon( m_settings.getIcon( "folder" ) ) ;
@@ -570,6 +571,32 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
+	connect( m_ui.pbConfigureSetPathToCookieFile,&QPushButton::clicked,[ this ](){
+
+		auto a = tr( "Select A Cookie File" ) ;
+		auto b = utility::homePath() ;
+
+		auto m = QFileDialog::getOpenFileName( &m_ctx.mainWidget(),a,b ) ;
+
+		if( !m.isEmpty() ){
+
+			m_ui.lineEditConfigureCookieBrowserName->setText( m ) ;
+		}
+	} ) ;
+
+	auto cookieSource = m_settings.cookieSourceSetToBrowerName() ;
+
+	m_ui.cbCookieSource->setChecked( cookieSource ) ;
+
+	this->setCookieSourceLabel( cookieSource ) ;
+
+	utility::connectQCheckBox( m_ui.cbCookieSource,[ this ]( bool checked ){
+
+		m_settings.setCookieSourceSetToBrowerName( checked ) ;
+
+		this->setCookieSourceLabel( checked ) ;
+	} ) ;
+
 	m_ui.lineEditConfigureDownloadPath->setText( m_settings.downloadFolder() ) ;
 
 	m_ui.cbAutoHideDownloadCompleted->setChecked( m_settings.autoHideDownloadWhenCompleted() ) ;
@@ -686,6 +713,28 @@ void configure::confirmResetMakeVisible( bool e )
 	m_ui.labelBaseConfirmResetPresetText->setVisible( e ) ;
 	m_ui.pbConfigureConfirmResetNo->setVisible( e ) ;
 	m_ui.pbConfigureConfirmResetYes->setVisible( e ) ;
+}
+
+void configure::setCookieSourceLabel( bool e )
+{
+	auto name = m_ui.cbConfigureEngines->currentText() ;
+
+	if( e ){
+
+		auto m = m_settings.cookieBrowserName( name ) ;
+
+		m_ui.lineEditConfigureCookieBrowserName->setText( m ) ;
+
+		m_ui.labelPathToCookieFile->setText( tr( "Name Of Web Browser To Get Cookies From" ) ) ;
+	}else{
+		auto m = m_settings.cookieBrowserTextFilePath( name ) ;
+
+		m_ui.lineEditConfigureCookieBrowserName->setText( m ) ;
+
+		m_ui.labelPathToCookieFile->setText( tr( "Set Path To Cookie File" ) ) ;
+	}
+
+	m_ui.pbConfigureSetPathToCookieFile->setEnabled( !e ) ;
 }
 
 void configure::init_done()
@@ -1100,20 +1149,17 @@ void configure::saveOptions()
 
 	auto mm = m_ui.cbConfigureEngines->currentText() ;
 
-	const auto& ss = m_engines.getEngineByName( mm ) ;
+	auto e = m_ui.lineEditConfigureTextEncoding->text() ;
 
-	if( ss ){
+	m_settings.setTextEncoding( e,mm ) ;
 
-		auto e = m_ui.lineEditConfigureTextEncoding->text() ;
+	auto b = m_ui.lineEditConfigureCookieBrowserName->text() ;
 
-		m_settings.setTextEncoding( e,ss->name() ) ;
+	if( m_ui.cbCookieSource->isChecked() ){
 
-		if( !ss->cookieArgument().isEmpty() ){
-
-			auto m = m_ui.lineEditConfigureCookieBrowserName->text() ;
-
-			m_settings.setCookieBrowserName( ss->name(),m ) ;
-		}
+		m_settings.setCookieBrowserName( mm,b ) ;
+	}else{
+		m_settings.setCookieTextFilePath( mm,b ) ;
 	}
 
 	settings::proxySettings::Type type = settings::proxySettings::Type::none ;
@@ -1300,6 +1346,7 @@ void configure::enableAll()
 	m_ui.pbOpenBinFolder->setEnabled( true ) ;
 	m_ui.cbConfigureEnginesUrlManager->setEnabled( true ) ;
 	m_ui.tableWidgetConfigureUrl->setEnabled( true ) ;
+	m_ui.pbConfigureSetPathToCookieFile->setEnabled( true ) ;
 	m_ui.labelConfigureEngines_2->setEnabled( true ) ;
 	m_ui.pbConfigureManageUrl->setEnabled( true ) ;
 	m_ui.lineEditConfigureManageUrl->setEnabled( true ) ;
@@ -1340,6 +1387,8 @@ void configure::enableAll()
 	m_ui.cbAutoHideDownloadCompleted->setEnabled( true ) ;
 	m_ui.labelActionsAtStartup->setEnabled( true ) ;
 	m_ui.comboBoxActionsWhenStarting->setEnabled( true ) ;
+	m_ui.cbCookieSource->setEnabled( true ) ;
+	m_ui.labelPathToCookieFile->setEnabled( true ) ;
 }
 
 void configure::textAlignmentChanged( Qt::LayoutDirection z )
@@ -1386,6 +1435,8 @@ void configure::disableAll()
 	m_ui.tableWidgetConfigureUrl->setEnabled( false ) ;
 	m_ui.pbConfigureManageUrl->setEnabled( false ) ;
 	m_ui.pbOpenBinFolder->setEnabled( false ) ;
+	m_ui.pbConfigureSetPathToCookieFile->setEnabled( false ) ;
+	m_ui.cbCookieSource->setEnabled( false ) ;
 	m_ui.lineEditAddDefaultDownloadOption->setEnabled( false ) ;
 	m_ui.tableWidgetEnginesDefaultOptions->setEnabled( false ) ;
 	m_ui.cbShowTrayIcon->setEnabled( false ) ;

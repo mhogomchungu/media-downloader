@@ -391,6 +391,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Theme(Need A Restart)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Swich Between Setting Browser Name And Path To Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1122,6 +1126,18 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Cancel</source>
         <translation type="unfinished">취소</translation>
+    </message>
+    <message>
+        <source>Select A Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Path To Cookie File</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

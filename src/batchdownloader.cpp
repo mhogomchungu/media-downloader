@@ -1974,6 +1974,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		args.append( cookie ) ;
 	}
 
+	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
+	const auto& caa = engine.cookieTextFileArgument() ;
+
+	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
+
+		args.append( caa ) ;
+		args.append( cookieFile ) ;
+	}
+
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
 	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine ) ;

@@ -319,6 +319,7 @@ private:
 	void populateOptionsTable( const engines::engine&,int = -1 ) ;
 	void updateProxySettings( settings::proxySettings::Type ) ;
 	void confirmResetMakeVisible( bool ) ;
+	void setCookieSourceLabel( bool ) ;
 	const Context& m_ctx ;
 	settings& m_settings ;
 	Ui::MainWindow& m_ui ;

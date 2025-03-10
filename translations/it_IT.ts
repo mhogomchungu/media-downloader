@@ -392,6 +392,10 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <source>Theme(Need A Restart)</source>
         <translation>Interfaccia (richiede riavvio)</translation>
     </message>
+    <message>
+        <source>Swich Between Setting Browser Name And Path To Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1125,6 +1129,18 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Cancel</source>
         <translation>Annulla</translation>
+    </message>
+    <message>
+        <source>Select A Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set Path To Cookie File</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

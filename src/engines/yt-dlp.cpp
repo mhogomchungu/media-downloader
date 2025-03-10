@@ -360,6 +360,8 @@ yt_dlp::yt_dlp( const engines& engines,
 
 	obj.insert( "CookieArgument","--cookies-from-browser" ) ;
 
+	obj.insert( "CookieArgumentTextFile","--cookies" ) ;
+
 	auto arr = _arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 
 	obj.insert( "DumptJsonArguments",arr ) ;

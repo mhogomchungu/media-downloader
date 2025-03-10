@@ -195,6 +195,11 @@ gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJs
 		object.insert( "CookieArgument","--cookies-from-browser" ) ;
 	}
 
+	if( !object.contains( "CookieArgumentTextFile" ) ){
+
+		object.insert( "CookieArgumentTextFile","--cookies" ) ;
+	}
+
 	object.insert( "ReplaceOutputWithProgressReport",false ) ;
 
 	object.insert( "ControlJsonStructure",[](){
