@@ -136,21 +136,14 @@ QString themes::themeFullPath() const
 
 void themes::setDefaultTheme( QApplication& app ) const
 {
-	this->setTheme( app,this->defaultWhiteTheme(),"Light" ) ;
+	this->setTheme( app,this->defaultLightTheme() ) ;
 }
 
-void themes::setTheme( QApplication& app,const QJsonObject& obj,bool defaultLightTheme ) const
+void themes::setTheme( QApplication& app,const QJsonObject& obj ) const
 {
 	app.setStyle( QStyleFactory::create( "Fusion" ) ) ;
 
 	QPalette m ;
-
-	if( defaultLightTheme ){
-
-		app.setPalette( m ) ;
-
-		return ;
-	}
 
 	m.setColor( QPalette::Window,this->getColor( "QPalette::Window",obj ) ) ;
 	m.setColor( QPalette::WindowText,this->getColor( "QPalette::WindowText",obj ) ) ;
@@ -213,16 +206,39 @@ QJsonObject themes::defaultDarkTheme() const
 
 	obj.insert( "darkColor",45,45,45,255 ) ;
 
+	obj.insert( "QPalette::WindowText","Qt::GlobalColor","Qt::black" ) ;
+
 	return obj ;
 }
 
-QJsonObject themes::defaultWhiteTheme() const
+QJsonObject themes::defaultLightTheme() const
 {
-	auto m = this->baseTheme() ;
+	JObject obj ;
 
-	m.insert( "darkColor",222,222,222,1 ) ;
+	obj.insert( "disabledColor",127,127,127,255 ) ;
+	obj.insert( "QPalette::Base",255,255,255,255 ) ;
+	obj.insert( "QPalette::Link",77,148,209,255 ) ;
+	obj.insert( "QPalette::Highlight",27,129,231,255 ) ;
 
-	return m ;
+	obj.insert( "darkColor",230,230,230,255 ) ;
+
+	obj.insert( "QPalette::WindowText","Qt::GlobalColor","Qt::black" ) ;
+	obj.insert( "QPalette::Window","GlobalColor","darkColor" ) ;
+	obj.insert( "QPalette::AlternateBase","GlobalColor","darkColor" ) ;
+	obj.insert( "QPalette::ToolTipBase","GlobalColor","darkColor" ) ;
+	obj.insert( "QPalette::ToolTipText","Qt::GlobalColor","Qt::black" ) ;
+	obj.insert( "QPalette::Text","Qt::GlobalColor","Qt::black" ) ;
+	obj.insert( "QPalette::Disabled,QPalette::Text","GlobalColor","disabledColor" ) ;
+	obj.insert( "QPalette::Button","GlobalColor","darkColor" ) ;
+	obj.insert( "QPalette::ButtonText","Qt::GlobalColor","Qt::black" ) ;
+	obj.insert( "QPalette::Disabled,QPalette::ButtonText","GlobalColor","disabledColor" ) ;
+	obj.insert( "QPalette::BrightText","Qt::GlobalColor","Qt::yellow" ) ;
+	obj.insert( "QPalette::HighlightedText","Qt::GlobalColor","Qt::black" ) ;
+	obj.insert( "QPalette::Disabled,QPalette::HighlightedText","GlobalColor","disabledColor" ) ;
+
+	obj.insert( "QToolTipStyleSheet","QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }" ) ;
+
+	return obj ;
 }
 
 QJsonObject themes::defaultPureDarkTheme() const
@@ -273,7 +289,7 @@ void themes::set( QApplication& app ) const
 
 		if( m_theme == "Light" ){
 
-			this->setTheme( app,QJsonObject(),true ) ;
+			this->setTheme( app,this->defaultLightTheme() ) ;
 		}else{
 			auto s = this->themeFullPath() ;
 
