@@ -164,10 +164,6 @@
         <translation>일반 옵션</translation>
     </message>
     <message>
-        <source>Dark Theme(Need A Restart)</source>
-        <translation>테마(재시작 필요)</translation>
-    </message>
-    <message>
         <source>Show Tray Icon</source>
         <translation>트레이 아이콘 표시</translation>
     </message>
@@ -389,6 +385,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Theme(Need A Restart)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

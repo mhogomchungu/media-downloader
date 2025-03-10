@@ -164,10 +164,6 @@
         <translation>常规设置</translation>
     </message>
     <message>
-        <source>Dark Theme(Need A Restart)</source>
-        <translation>暗黑主题(需要重启)</translation>
-    </message>
-    <message>
         <source>Show Tray Icon</source>
         <translation>显示托盘图标</translation>
     </message>
@@ -387,6 +383,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Theme(Need A Restart)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

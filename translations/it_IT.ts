@@ -76,10 +76,6 @@
         <translation>Opzioni download</translation>
     </message>
     <message>
-        <source>Dark Theme(Need A Restart)</source>
-        <translation>Tema interfaccia (richiede riavvio)</translation>
-    </message>
-    <message>
         <source>Engine Name:</source>
         <translation>Nome engine:</translation>
     </message>
@@ -391,6 +387,10 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
         <translation>Noem del browser web usato per ottenere i cookie</translation>
+    </message>
+    <message>
+        <source>Theme(Need A Restart)</source>
+        <translation>Interfaccia (richiede riavvio)</translation>
     </message>
 </context>
 <context>

@@ -164,10 +164,6 @@
         <translation>Opciones Generales</translation>
     </message>
     <message>
-        <source>Dark Theme(Need A Restart)</source>
-        <translation>Tema Oscuro (Requiere Reinicar)</translation>
-    </message>
-    <message>
         <source>Show Tray Icon</source>
         <translation>Mostrar icono de bandeja</translation>
     </message>
@@ -389,6 +385,10 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Theme(Need A Restart)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

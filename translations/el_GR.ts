@@ -164,11 +164,6 @@
         <translation>Γενικές επιλογές</translation>
     </message>
     <message>
-        <source>Dark Theme(Need A Restart)</source>
-        <translation>Σκουρόχρωμο θέμα
-(χρειάζεται επανεκκίνηση)</translation>
-    </message>
-    <message>
         <source>Show Tray Icon</source>
         <translation>Εμφάνιση εικονιδίου στη γραμμή συστήματος</translation>
     </message>
@@ -392,6 +387,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Name Of Web Browser To Get Cookies From</source>
         <translation>Όνομα προγράμματος περιήγησης στον ιστό
 για λήψη cookies</translation>
+    </message>
+    <message>
+        <source>Theme(Need A Restart)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

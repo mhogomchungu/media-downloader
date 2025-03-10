@@ -1733,7 +1733,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Dark Theme(Need A Restart)</string>
+         <string>Theme(Need A Restart)</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
