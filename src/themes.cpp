@@ -206,7 +206,14 @@ QJsonObject themes::defaultDarkTheme() const
 
 	obj.insert( "darkColor",45,45,45,255 ) ;
 
-	obj.insert( "QPalette::WindowText","Qt::GlobalColor","Qt::black" ) ;
+	return obj ;
+}
+
+QJsonObject themes::defaultPureDarkTheme() const
+{
+	auto obj = this->baseTheme() ;
+
+	obj.insert( "darkColor",0,0,0,255 ) ;
 
 	return obj ;
 }
@@ -237,15 +244,6 @@ QJsonObject themes::defaultLightTheme() const
 	obj.insert( "QPalette::Disabled,QPalette::HighlightedText","GlobalColor","disabledColor" ) ;
 
 	obj.insert( "QToolTipStyleSheet","QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }" ) ;
-
-	return obj ;
-}
-
-QJsonObject themes::defaultPureDarkTheme() const
-{
-	auto obj = this->baseTheme() ;
-
-	obj.insert( "darkColor",0,0,0,0 ) ;
 
 	return obj ;
 }
@@ -289,7 +287,7 @@ void themes::set( QApplication& app ) const
 
 		if( m_theme == "Light" ){
 
-			this->setTheme( app,this->defaultLightTheme() ) ;
+			this->setDefaultTheme( app ) ;
 		}else{
 			auto s = this->themeFullPath() ;
 
