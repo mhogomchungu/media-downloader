@@ -358,7 +358,7 @@ void basicdownloader::list()
 
 	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
 
-		args.append( ca ) ;
+		args.append( caa ) ;
 		args.append( cookieFile ) ;
 	}
 

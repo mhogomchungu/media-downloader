@@ -974,6 +974,7 @@ QMenu *  configure::addExtenion()
 	m->addAction( "svtplay-dl" )->setObjectName( "svtplay-dl.json" ) ;
 
 	m->addAction( "lux" )->setObjectName( "lux.json" ) ;
+	m->addAction( "you-get" )->setObjectName( "you-get.json" ) ;
 
 	if( utility::platformIsNOTWindows() ){
 
@@ -1158,8 +1159,12 @@ void configure::saveOptions()
 	if( m_ui.cbCookieSource->isChecked() ){
 
 		m_settings.setCookieBrowserName( mm,b ) ;
+
+		m_settings.setCookieTextFilePath( mm,"" ) ;
 	}else{
 		m_settings.setCookieTextFilePath( mm,b ) ;
+
+		m_settings.setCookieBrowserName( mm,"" ) ;
 	}
 
 	settings::proxySettings::Type type = settings::proxySettings::Type::none ;

@@ -347,10 +347,10 @@ Version 1.2.0(April 1st, 2021)
         - Add Greek translations.
         - Add a GUI way to set yt-dlp and gallery-dl option of "--cookies-from-browser".
 
-     Version 5.3.1(Unreleased)
+     Version 5.3.1(Match 11th, 2025)
      [ALL]
-     - Fix a crash when using gallery-dl
-     - Add a menu in configure tab to install a short list of supported extensions.
-     - Rearrage configure->general tab to make it friendly to translations.
-     - Add a platform default theme and a light theme options.
-     - Make it possible in the UI to choose between setting a browser name or setting a path to a cookie file.
+        - Fix a crash when using gallery-dl
+        - Add a menu in configure tab to install a short list of supported extensions.
+        - Rearrage configure->general tab to make it friendly to translations.
+        - Add a platform default theme and a light theme options.
+        - Make it possible in the UI to choose between setting a browser name or setting a path to a cookie file.

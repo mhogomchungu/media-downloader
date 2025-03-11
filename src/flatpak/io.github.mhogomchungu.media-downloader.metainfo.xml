@@ -54,6 +54,19 @@
 	</categories>
 
 	<releases>
+		<release version="5.3.1" type="stable" date="2025-03-11" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.3.1/media-downloader-5.3.1.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Fix a crash when using gallery-dl.</li>
+					<li>Add a menu in configure tab to install a short list of supported extensions.</li>
+					<li>Rearrage configure->general tab to make it friendly to translations.</li>
+					<li>Add a platform default theme and a light theme options.</li>
+					<li>Make it possible in the UI to choose between setting a browser name or setting a path to a cookie file.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.3.0" type="stable" date="2025-03-01" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.3.0/media-downloader-5.3.0.tar.xz/</url>
 			<description>
