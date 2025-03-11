@@ -394,7 +394,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Swich Between Setting Browser Name And Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Switch tra il nome del browser ed il percorso del file cookie</translation>
     </message>
 </context>
 <context>
@@ -1003,11 +1003,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Platform Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Predefinito sistema</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiaro</translation>
     </message>
 </context>
 <context>
@@ -1132,15 +1132,15 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona un file cookie</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome del browser web per ottenere i cookie</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta percorso file cookie</translation>
     </message>
 </context>
 <context>
