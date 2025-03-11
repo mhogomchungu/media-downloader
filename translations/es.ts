@@ -392,7 +392,7 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Swich Between Setting Browser Name And Path To Cookie File</source>
+        <source>Switch Between Setting Browser Name And Path To Cookie File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

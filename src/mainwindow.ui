@@ -2310,7 +2310,7 @@
          </rect>
         </property>
         <property name="toolTip">
-         <string>Swich Between Setting Browser Name And Path To Cookie File</string>
+         <string>Switch Between Setting Browser Name And Path To Cookie File</string>
         </property>
         <property name="text">
          <string/>

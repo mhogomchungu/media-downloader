@@ -393,7 +393,7 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Swich Between Setting Browser Name And Path To Cookie File</source>
+        <source>Switch Between Setting Browser Name And Path To Cookie File</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1134,7 +1134,8 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όνομα προγράμματος περιήγησης στον ιστό
+για λήψη cookies</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>

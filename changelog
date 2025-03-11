@@ -353,3 +353,4 @@ Version 1.2.0(April 1st, 2021)
      - Add a menu in configure tab to install a short list of supported extensions.
      - Rearrage configure->general tab to make it friendly to translations.
      - Add a platform default theme and a light theme options.
+     - Make it possible in the UI to choose between setting a browser name or setting a path to a cookie file.

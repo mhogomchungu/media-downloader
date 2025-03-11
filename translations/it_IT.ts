@@ -393,7 +393,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Interfaccia (richiede riavvio)</translation>
     </message>
     <message>
-        <source>Swich Between Setting Browser Name And Path To Cookie File</source>
+        <source>Switch Between Setting Browser Name And Path To Cookie File</source>
         <translation>Switch tra il nome del browser ed il percorso del file cookie</translation>
     </message>
 </context>
