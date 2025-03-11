@@ -2183,6 +2183,15 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		args.append( cookiePath ) ;
 	}
 
+	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
+	const auto& caa = engine.cookieTextFileArgument() ;
+
+	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
+
+		args.append( caa ) ;
+		args.append( cookieFile ) ;
+	}
+
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
 	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine ) ;
@@ -2642,9 +2651,9 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f,
 		m_ctx.TabManager().enableAll() ;
 
 		m_ui.pbBDCancel->setEnabled( false ) ;
-
-		m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
 	}
+
+	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
 }
 
 void batchdownloader::downloadEntry( const engines::engine& eng,int index )
