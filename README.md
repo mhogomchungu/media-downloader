@@ -71,6 +71,10 @@ scoop install media-downloader
 
 Git versions for windows and macos can be downloaded from [here](https://github.com/mhogomchungu/media-downloader-git/releases).
 
+```
+NOTE: Once in a while, Windows Defender and other antivirus tools will reportt this application as a virus, unsafe
+or Potentially unwanted. These are false positive reports and they are tracked [here](https://github.com/mhogomchungu/media-downloader/issues/481).
+```
 #### Flatpak
 
 Media Downloader is on [flathub](https://flathub.org/apps/io.github.mhogomchungu.media-downloader) for those who prefer to use flatpaks.
