@@ -279,9 +279,16 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		auto m = utility::clipboardText() ;
 
-		if( m.startsWith( "http" ) || m.startsWith( "yt-dlp" ) ){
+		if( m.startsWith( "http" ) || m.startsWith( "yt-dlp " ) ){
 
-			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,m_showMetaData ) ;
+			auto showMetaData = m_showMetaData ;
+
+			if( showMetaData && m.startsWith( "yt-dlp " ) ){
+
+				showMetaData = false ;
+			}
+
+			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,showMetaData ) ;
 
 			tmp.set() ;
 
@@ -2092,7 +2099,14 @@ void batchdownloader::clipboardData( const QString& url )
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
-			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,m_showMetaData ) ;
+			auto showMetaData = m_showMetaData ;
+
+			if( showMetaData && url.startsWith( "yt-dlp " ) ){
+
+				showMetaData = false ;
+			}
+
+			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,showMetaData ) ;
 
 			tmp.set() ;
 

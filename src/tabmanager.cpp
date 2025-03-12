@@ -181,7 +181,7 @@ void tabManager::mainThreadClipboardHandler()
 
 		auto m = e->text() ;
 
-		if( m.startsWith( "http" ) ){
+		if( m.startsWith( "http" ) || m.startsWith( "yt-dlp " ) ){
 
 			m_batchdownloader.clipboardData( m ) ;
 		}
@@ -222,7 +222,7 @@ void tabManager::bgThreadClipboardHandler()
 
 		if( timer.notTimedOut() ){
 
-			if( e.startsWith( "http" ) ){
+			if( e.startsWith( "http" ) || e.startsWith( "yt-dlp " ) ){
 
 				m_batchdownloader.clipboardData( e ) ;
 			}
