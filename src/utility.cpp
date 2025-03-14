@@ -42,8 +42,20 @@ const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
 const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
-
 #if defined(__OS2__) || defined(OS2) || defined(_OS2)
+
+static bool _pretend32Bit()
+{
+	return false ;
+}
+
+static void _setPrentendWin7()
+{
+}
+
+static void _setPrentend32Bit()
+{
+}
 
 bool utility::platformisOS2()
 {
@@ -74,6 +86,19 @@ bool utility::platformIsWindows7()
 
 #ifdef Q_OS_LINUX
 
+static bool _pretend32Bit()
+{
+	return false ;
+}
+
+static void _setPrentendWin7()
+{
+}
+
+static void _setPrentend32Bit()
+{
+}
+
 bool utility::platformIsWindows7()
 {
 	return false ;
@@ -102,6 +127,19 @@ bool utility::platformIsWindows()
 #endif
 
 #ifdef Q_OS_MACOS
+
+static void _setPrentendWin7()
+{
+}
+
+static void _setPrentend32Bit()
+{
+}
+
+static bool _pretend32Bit()
+{
+	return false ;
+}
 
 bool utility::platformIsWindows7()
 {
@@ -145,6 +183,29 @@ bool utility::platformIsWindows()
 
 #include <QOperatingSystemVersion>
 
+static bool _pretendToBeWin7 = false ;
+static bool _pretendToBe32Bit = false ;
+
+static void _setPrentendWin7()
+{
+	_pretendToBeWin7 = true ;
+}
+
+static bool _pretendWin7()
+{
+	return _pretendToBeWin7 ;
+}
+
+static bool _pretend32Bit()
+{
+	return _pretendToBe32Bit ;
+}
+
+static void _setPrentend32Bit()
+{
+	_pretendToBe32Bit = true ;
+}
+
 bool utility::platformIsWindows()
 {
 	return true ;
@@ -167,9 +228,14 @@ bool utility::platformisOS2()
 
 bool utility::platformIsWindows7()
 {
-	const auto m = QOperatingSystemVersion::current() ;
+	if( _pretendWin7() ){
 
-	return m < QOperatingSystemVersion::Windows8 ;
+		return true ;
+	}else{
+		const auto m = QOperatingSystemVersion::current() ;
+
+		return m < QOperatingSystemVersion::Windows8 ;
+	}
 }
 
 QString utility::windowsApplicationDirPath()
@@ -1456,6 +1522,11 @@ const engines::engine& utility::resolveEngine( const tableWidget& table,
 
 bool utility::platformIs32Bit()
 {
+	if( _pretend32Bit() ){
+
+		return true ;
+	}
+
 #if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
 	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
 #else
@@ -2000,6 +2071,16 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 	for( int i = 0 ; i < argc ; i++ ){
 
 		m_args.append( argv[ i ] ) ;
+	}
+
+	if( m_args.contains( "--pretend-win7" ) ){
+
+		_setPrentendWin7() ;
+	}
+
+	if( m_args.contains( "--pretend-x86" ) ){
+
+		_setPrentend32Bit() ;
 	}
 
 	if( this->runningUpdated() ){
