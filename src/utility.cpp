@@ -42,20 +42,34 @@ const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
 const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
 const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
 
+class pretendPlatform
+{
+public:
+	void set( const QStringList& m )
+	{
+		m_pretend32Bit = m.contains( "--pretend-x86" ) ;
+
+		if( utility::platformIsWindows() ){
+
+			m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
+		}
+	}
+	bool isWindows7() const
+	{
+		return m_pretendWindows7 ;
+	}
+	bool is32Bit() const
+	{
+		return m_pretend32Bit ;
+	}
+private:
+	bool m_pretend32Bit    = false ;
+	bool m_pretendWindows7 = false ;
+} ;
+
+static pretendPlatform _pretendPlatform ;
+
 #if defined(__OS2__) || defined(OS2) || defined(_OS2)
-
-static bool _pretend32Bit()
-{
-	return false ;
-}
-
-static void _setPrentendWin7()
-{
-}
-
-static void _setPrentend32Bit()
-{
-}
 
 bool utility::platformisOS2()
 {
@@ -86,19 +100,6 @@ bool utility::platformIsWindows7()
 
 #ifdef Q_OS_LINUX
 
-static bool _pretend32Bit()
-{
-	return false ;
-}
-
-static void _setPrentendWin7()
-{
-}
-
-static void _setPrentend32Bit()
-{
-}
-
 bool utility::platformIsWindows7()
 {
 	return false ;
@@ -127,19 +128,6 @@ bool utility::platformIsWindows()
 #endif
 
 #ifdef Q_OS_MACOS
-
-static void _setPrentendWin7()
-{
-}
-
-static void _setPrentend32Bit()
-{
-}
-
-static bool _pretend32Bit()
-{
-	return false ;
-}
 
 bool utility::platformIsWindows7()
 {
@@ -183,29 +171,6 @@ bool utility::platformIsWindows()
 
 #include <QOperatingSystemVersion>
 
-static bool _pretendToBeWin7 = false ;
-static bool _pretendToBe32Bit = false ;
-
-static void _setPrentendWin7()
-{
-	_pretendToBeWin7 = true ;
-}
-
-static bool _pretendWin7()
-{
-	return _pretendToBeWin7 ;
-}
-
-static bool _pretend32Bit()
-{
-	return _pretendToBe32Bit ;
-}
-
-static void _setPrentend32Bit()
-{
-	_pretendToBe32Bit = true ;
-}
-
 bool utility::platformIsWindows()
 {
 	return true ;
@@ -228,7 +193,7 @@ bool utility::platformisOS2()
 
 bool utility::platformIsWindows7()
 {
-	if( _pretendWin7() ){
+	if( _pretendPlatform.isWindows7() ){
 
 		return true ;
 	}else{
@@ -1522,7 +1487,7 @@ const engines::engine& utility::resolveEngine( const tableWidget& table,
 
 bool utility::platformIs32Bit()
 {
-	if( _pretend32Bit() ){
+	if( _pretendPlatform.is32Bit() ){
 
 		return true ;
 	}
@@ -2073,15 +2038,7 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 		m_args.append( argv[ i ] ) ;
 	}
 
-	if( m_args.contains( "--pretend-win7" ) ){
-
-		_setPrentendWin7() ;
-	}
-
-	if( m_args.contains( "--pretend-x86" ) ){
-
-		_setPrentend32Bit() ;
-	}
+	_pretendPlatform.set( m_args ) ;
 
 	if( this->runningUpdated() ){
 

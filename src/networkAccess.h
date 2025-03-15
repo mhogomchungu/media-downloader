@@ -307,9 +307,9 @@ private:
 		{
 			m_file->close() ;
 		}
-		void rename( const QString& e )
+		bool rename( const QString& e )
 		{
-			m_file->rename( e ) ;
+			return m_file->rename( e ) ;
 		}
 		void write( const QByteArray& e )
 		{

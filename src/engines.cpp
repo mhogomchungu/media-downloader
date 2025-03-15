@@ -1588,8 +1588,9 @@ bool engines::engine::baseEngine::foundNetworkUrl( const QString& s )
 	return s == m_engine.commandName() ;
 }
 
-void engines::engine::baseEngine::renameArchiveFolder( const QString&,const QString& )
+bool engines::engine::baseEngine::renameArchiveFolder( const QString&,const QString& )
 {
+	return false ;
 }
 
 QString engines::engine::baseEngine::updateTextOnCompleteDownlod( const QString& uiText,

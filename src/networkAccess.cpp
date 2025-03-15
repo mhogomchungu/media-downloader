@@ -280,19 +280,26 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 
 		auto extractedPath = md.tmpPath + "/" + mm.mid( 0,mm.size() - 4 ) ;
 
-		dir.rename( extractedPath,md.finalPath ) ;
+		if( dir.rename( extractedPath,md.finalPath ) ){
 
-		QFile f( md.finalPath + "/media-downloader.exe" ) ;
+			QFile f( md.finalPath + "/media-downloader.exe" ) ;
 
-		f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+			f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 
-		QDir().rmdir( md.finalPath + "/local" ) ;
+			QDir().rmdir( md.finalPath + "/local" ) ;
 
-		md.status.done() ;
+			md.status.done() ;
 
-		auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
+			auto m = QObject::tr( "Update Complete, Restart To Use New Version" ) ;
 
-		this->post( m_appName,m,md.id ) ;
+			this->post( m_appName,m,md.id ) ;
+		}else{
+			md.status.done() ;
+
+			auto m = QObject::tr( "Failed To Rename" ) ;
+
+			this->post( md.name,m + ": " + extractedPath,md.id ) ;
+		}
 	}else{
 		md.status.done() ;
 
@@ -592,13 +599,25 @@ void networkAccess::finished( networkAccess::Opts str ) const
 				QFile::remove( str.exeBinPath ) ;
 			}
 
-			str.file.rename( str.exeBinPath ) ;
+			if( str.file.rename( str.exeBinPath ) ){
 
-			utility::setPermissions( str.file.handle() ) ;
+				utility::setPermissions( str.file.handle() ) ;
 
-			engine.updateCmdPath( m_ctx.logger(),str.exeBinPath ) ;
+				engine.updateCmdPath( m_ctx.logger(),str.exeBinPath ) ;
 
-			m_ctx.getVersionInfo().check( str.iter.move(),true ) ;
+				m_ctx.getVersionInfo().check( str.iter.move(),true ) ;
+			}else{
+				auto m = QObject::tr( "Failed To Rename" ) ;
+
+				this->post( engine.name(),m + ": " + str.exeBinPath,str.id ) ;
+
+				if( str.iter.hasNext() ){
+
+					m_ctx.getVersionInfo().check( str.iter.next(),false ) ;
+				}else{
+					str.iter.reportDone() ;
+				}
+			}
 		}
 	}
 }
@@ -614,13 +633,25 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 
 		if( engine.archiveContainsFolder() ){
 
-			engine.renameArchiveFolder( opts.filePath,opts.tempPath ) ;
+			if( engine.renameArchiveFolder( opts.filePath,opts.tempPath ) ){
 
-			auto exe = engine.updateCmdPath( m_ctx.logger(),opts.tempPath ) ;
+				auto exe = engine.updateCmdPath( m_ctx.logger(),opts.tempPath ) ;
 
-			QFile f( exe ) ;
+				QFile f( exe ) ;
 
-			f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
+			}else{
+				auto m = QObject::tr( "Failed To Rename" ) ;
+
+				this->post( engine.name(),m + ": " + opts.filePath,opts.id ) ;
+
+				if( opts.iter.hasNext() ){
+
+					m_ctx.getVersionInfo().check( opts.iter.next(),false ) ;
+				}else{
+					opts.iter.reportDone() ;
+				}
+			}
 		}else{
 			QFile f( opts.exeBinPath ) ;
 

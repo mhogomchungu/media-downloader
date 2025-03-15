@@ -57,7 +57,7 @@ void you_get::setProxySetting( QStringList& e,const QString& s )
 	e.append( s ) ;
 }
 
-void you_get::renameArchiveFolder( const QString& archivePath,const QString& binPath )
+bool you_get::renameArchiveFolder( const QString& archivePath,const QString& binPath )
 {
 	auto m = _archiveExtension() ;
 
@@ -65,7 +65,7 @@ void you_get::renameArchiveFolder( const QString& archivePath,const QString& bin
 
 	const auto& name = engines::engine::baseEngine::engine().name() ;
 
-	QDir().rename( path,binPath + "/" + name ) ;
+	return QDir().rename( path,binPath + "/" + name ) ;
 }
 
 std::vector<engines::engine::baseEngine::mediaInfo> you_get::mediaProperties( Logger& l,const QByteArray& e )
