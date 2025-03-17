@@ -814,6 +814,16 @@ engines::engine::engine( Logger& logger,
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
+	if( utility::platformIsOSX() ){
+
+		auto m = m_jsonObject.value( "DownloadUrlMAC" ).toString() ;
+
+		if( !m.isEmpty() ){
+
+			m_downloadUrl = m ;
+		}
+	}
+
 	if( m_name == "svtplay-dl" ){
 
 		m_archiveContainsFolder = utility::platformIsWindows() ;

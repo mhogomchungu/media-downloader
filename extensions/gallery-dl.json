@@ -17,6 +17,20 @@
                 "Name": "gallery-dl.bin"
             }
         },
+        "MacOS": {
+            "amd64": {
+                "Args": [
+                    "gallery-dl_macos"
+                ],
+                "Name": "gallery-dl_macos"
+            },
+            "x86": {
+                "Args": [
+                    "gallery-dl_macos"
+                ],
+                "Name": "gallery-dl_macos"
+            }
+        },
         "Windows": {
             "amd64": {
                 "Args": [
@@ -33,25 +47,28 @@
         }
     },
     "ControlJsonStructure": {
-        "Connector": "",
+        "Connector": "||",
         "lhs": {
             "startsWith": "[gallery-dl]"
         },
         "rhs": {
-            "contains": ""
+            "contains": "% "
         }
     },
+    "CookieArgument": "--cookies-from-browser",
+    "CookieArgumentTextFile": "--cookies",
     "DefaultDownLoadCmdOptions": [
     ],
     "DefaultListCmdOptions": [
     ],
     "DownloadUrl": "https://api.github.com/repos/mikf/gallery-dl/releases/latest",
+    "DownloadUrlMAC": "https://api.github.com/repos/gdl-org/builds/releases/latest",
     "LikeYoutubeDl": false,
     "Name": "gallery-dl",
     "OptionsArgument": "",
     "RemoveText": [
     ],
-    "ReplaceOutputWithProgressReport": true,
+    "ReplaceOutputWithProgressReport": false,
     "RequiredMinimumVersionOfMediaDownloader": "2.2.0",
     "SkipLineWithText": [
     ],

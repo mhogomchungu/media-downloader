@@ -23,6 +23,20 @@
                 "Name": "yt-dlp"
             }
         },
+        "MacOS": {
+            "amd64": {
+                "Args": [
+                    "yt-dlp_macos"
+                ],
+                "Name": "yt-dlp_macos"
+            },
+            "x86": {
+                "Args": [
+                    "yt-dlp_macos"
+                ],
+                "Name": "yt-dlp_macos"
+            }
+        },
         "Windows": {
             "amd64": {
                 "Args": [
@@ -47,7 +61,8 @@
             "contains": "CN:"
         }
     },
-    "CookieArgument": "--cookies",
+    "CookieArgument": "--cookies-from-browser",
+    "CookieArgumentTextFile": "--cookies",
     "DefaultCommentsCmdOptions": [
         "--get-comments",
         "--no-download",
