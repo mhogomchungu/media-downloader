@@ -954,7 +954,7 @@ void configure::setDownloadOptions( int row,tableWidget& table )
 
 static QString _setUrl( const QString& e )
 {
-	QString hash = "a4c1db9792c32eb35b73fe08d87121ddfa6942b5" ;
+	QString hash = "3f70e66f0944667034eb8c33c89f027ff0d26191" ;
 
 	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
 
