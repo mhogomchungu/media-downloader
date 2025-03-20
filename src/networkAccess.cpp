@@ -319,22 +319,33 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 
 	md.finalPath = paths.updateNewPath() ;
 
-	auto finalPath = md.finalPath ;
+	class meaw
+	{
+	public:
+		meaw( const networkAccess& na,networkAccess::updateMDOptions md ) :
+			m_parent( na ),m_md( md.move() )
+		{
+		}
+		void bg()
+		{
+			QDir( m_md.finalPath ).removeRecursively() ;
+		}
+		void fg()
+		{
+			auto exe = m_parent.m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
 
-	utils::qthread::run( [ finalPath ](){
+			auto args = QStringList{ "-x","-f",m_md.tmpFile,"-C",m_md.tmpPath } ;
 
-		QDir( finalPath ).removeRecursively() ;
+			auto m = QProcess::MergedChannels ;
 
-	},[ md = md.move(),this ]()mutable{
+			utils::qprocess::run( exe,args,m,m_md.move(),&m_parent,&networkAccess::emDownloader ) ;
+		}
+	private:
+		const networkAccess& m_parent ;
+		networkAccess::updateMDOptions m_md ;
+	} ;
 
-		auto exe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
-
-		auto args = QStringList{ "-x","-f",md.tmpFile,"-C",md.tmpPath } ;
-
-		auto m = QProcess::MergedChannels ;
-
-		utils::qprocess::run( exe,args,m,md.move(),this,&networkAccess::emDownloader ) ;
-	} ) ;
+	utils::qthread::run( meaw( *this,md.move() ) ) ;
 }
 
 QNetworkRequest networkAccess::networkRequest( const QString& url ) const

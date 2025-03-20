@@ -354,3 +354,9 @@ Version 1.2.0(April 1st, 2021)
         - Rearrage configure->general tab to make it friendly to translations.
         - Add a platform default theme and a light theme options.
         - Make it possible in the UI to choose between setting a browser name or setting a path to a cookie file.
+
+     Version 5.3.2(Unreleased)
+     [MAC]
+        - Make gallery-dl work out of the box.
+     [ALL]
+        - BUG fix: Download progress shows again on the title bar.

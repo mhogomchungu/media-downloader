@@ -285,21 +285,38 @@ void library::deleteEntries( std::vector< int > items )
 
 	items.pop_back() ;
 
-	auto m = m_currentPath + "/" + m_table.item( row,1 ).text() ;
-
-	utils::qthread::run( [ this,m ](){
-
-		return this->deletePath( m ) ;
-
-	},[ row,this,items = std::move( items ) ]( bool s )mutable{
-
-		if( !s ){
-
-			m_table.removeRow( row ) ;
+	class meaw
+	{
+	public:
+		meaw( library& library,std::vector< int > items,int row ) :
+			m_parent( library ),
+			m_items( std::move( items ) ),
+			m_row( row )
+		{
 		}
+		bool bg()
+		{
+			auto s = m_parent.m_table.item( m_row,1 ).text() ;
+			auto m = m_parent.m_currentPath + "/" + s ;
 
-		this->deleteEntries( std::move( items ) ) ;
-	} ) ;
+			return m_parent.deletePath( m ) ;
+		}
+		void fg( bool s )
+		{
+			if( !s ){
+
+				m_parent.m_table.removeRow( m_row ) ;
+			}
+
+			m_parent.deleteEntries( std::move( m_items ) ) ;
+		}
+	private:
+		library& m_parent ;
+		std::vector< int > m_items ;
+		int m_row ;
+	} ;
+
+	utils::qthread::run( meaw( *this,std::move( items ),row ) ) ;
 }
 
 void library::setRenameUiVisible( bool e )
@@ -364,16 +381,29 @@ void library::deleteAll()
 
 	m_ui.pbLibraryCancel->setEnabled( true ) ;
 
-	utils::qthread::run( [ this ](){
+	class meaw
+	{
+	public:
+		meaw( library& library ) : m_parent( library )
+		{
+		}
+		void bg()
+		{
+			const auto& a = m_parent.m_currentPath ;
+			auto& b = m_parent.m_continue ;
 
-		directoryManager::removeDirectoryContents( m_currentPath,m_continue ) ;
+			directoryManager::removeDirectoryContents( a,b ) ;
+		}
+		void fg()
+		{
+			m_parent.showContents( m_parent.m_currentPath ) ;
+			m_parent.internalEnableAll() ;
+		}
+	private:
+		library& m_parent ;
+	} ;
 
-	},[ this ](){
-
-		this->showContents( m_currentPath ) ;
-
-		this->internalEnableAll() ;
-	} ) ;
+	utils::qthread::run( meaw( *this ) ) ;
 }
 
 void library::enableAll( bool e )
@@ -667,16 +697,31 @@ void library::showContents( const QString& path,bool disableUi )
 		this->internalDisableAll() ;
 	}
 
-	m_ui.pbLibraryCancel->setEnabled( true ) ;
+	class meaw
+	{
+	public:
+		meaw( library& library,bool disableUi,const QString& path ) :
+			m_parent( library ),
+			m_disableUi( disableUi ),
+			m_path( path )
+		{
+		}
+		void bg()
+		{
+			auto& m = m_parent.m_continue ;
+			m_parent.m_directoryEntries = directoryManager::readAll( m_path,m ) ;
+		}
+		void fg()
+		{
+			m_parent.m_disableUi = m_disableUi ;
 
-	utils::qthread::run( [ path,this ](){
+			m_parent.arrangeAndShow() ;
+		}
+	private:
+		library& m_parent ;
+		bool m_disableUi ;
+		QString m_path ;
+	} ;
 
-		m_directoryEntries = directoryManager::readAll( path,m_continue ) ;
-
-	},[ disableUi,this ](){
-
-		m_disableUi = disableUi ;
-
-		this->arrangeAndShow() ;
-	} ) ;
+	utils::qthread::run( meaw( *this,disableUi,path ) ) ;
 }

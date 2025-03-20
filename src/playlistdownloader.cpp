@@ -1015,17 +1015,37 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	m_networkRunning = 0 ;
 
-	utils::qthread::run( [ &engine,this,opts = std::move( opts ) ]()mutable{
+	class meaw
+	{
+	public:
+		meaw( const engines::engine& engine,
+			QStringList opts,
+			playlistdownloader& parent,
+			playlistdownloader::listIterator iter ) :
+			m_engine( engine ),
+			m_opts( std::move( opts ) ),
+			m_parent( parent ),
+			m_iter( std::move( iter ) )
+		{
+		}
+		customOptions bg()
+		{
+			const auto& m = m_parent.m_subscription.archivePath() ;
 
-		return customOptions( std::move( opts ),
-				      m_subscription.archivePath(),
-				      engine,
-				      m_ctx ) ;
+			return { std::move( m_opts ),m,m_engine,m_parent.m_ctx } ;
+		}
+		void fg( customOptions o )
+		{
+			m_parent.getList( o.move(),m_engine,m_iter.move() ) ;
+		}
+	private:
+		const engines::engine& m_engine ;
+		QStringList m_opts ;
+		playlistdownloader& m_parent ;
+		playlistdownloader::listIterator m_iter ;
+	} ;
 
-	},[ this,&engine,iter = iter.move() ]( customOptions c )mutable{
-
-		this->getList( c.move(),engine,iter.move() ) ;
-	} ) ;
+	utils::qthread::run( meaw( engine,std::move( opts ),*this,iter.move() ) ) ;
 }
 
 void playlistdownloader::getList( customOptions&& c,

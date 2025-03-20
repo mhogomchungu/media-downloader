@@ -827,11 +827,27 @@ bool utility::Terminator::terminate( QProcess& exe )
 
 	}else if( utility::platformIsLinux() ){
 
-		utils::qthread::run( [ pid = exe.processId() ](){
+		class meaw
+		{
+		public:
+			meaw( QProcess& exe ) : m_exe( exe )
+			{
+			}
+			void bg()
+			{
+				auto m = QString::number( m_exe.processId() ) ;
 
-			_kill_children_recursively( QString::number( pid ) ) ;
+				_kill_children_recursively( m ) ;
+			}
+			void fg()
+			{
+				m_exe.terminate() ;
+			}
+		private:
+			QProcess& m_exe ;
+		} ;
 
-		},[ &exe ]{ exe.terminate() ; } ) ;
+		utils::qthread::run( meaw( exe ) ) ;
 	}else{
 		exe.terminate() ;
 	}
