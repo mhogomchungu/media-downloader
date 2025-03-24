@@ -500,10 +500,6 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Download annullato</translation>
     </message>
     <message>
-        <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation>Completati: %1%, non avviati: %2, corretti: %3, falliti: %4, annullati: %5</translation>
-    </message>
-    <message>
         <source>Download completed</source>
         <translation>Download completato</translation>
     </message>
@@ -1008,6 +1004,14 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     <message>
         <source>Light</source>
         <translation>Chiaro</translation>
+    </message>
+    <message>
+        <source>Failed To Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -2576,8 +2576,6 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	m_ctx.mainWindow().setTitle( QString() ) ;
-
 	m_ctx.TabManager().disableAll() ;
 
 	engine.updateVersionInfo( m_ctx,[ this,&engine,indexes = indexes.move() ]()mutable{
@@ -2780,6 +2778,8 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 		return opts ;
 	} ;
+
+	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
 
 	m_ccmd.download( engine,
 			 std::move( updateOpts ),

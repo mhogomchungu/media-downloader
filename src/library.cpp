@@ -487,20 +487,15 @@ void library::addItem( const directoryEntries::iter& s )
 
 void library::addEntrySlot( const directoryEntries::iter& s )
 {
-	auto& t = m_table.get() ;
-
 	if( s.hasNext() && m_continue ){
 
 		this->addItem( s ) ;
 
-		t.setCurrentCell( m_table.rowCount() - 1,t.columnCount() - 1 ) ;
+		m_table.setLastRow() ;
 
 		emit this->addEntrySignal( s.next() ) ;
 	}else{
-		if( t.rowCount() > 0 ){
-
-			t.setCurrentCell( 0,t.columnCount() - 1 ) ;
-		}
+		m_table.setLastRow() ;
 
 		if( m_disableUi ){
 

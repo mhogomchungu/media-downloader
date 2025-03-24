@@ -763,8 +763,6 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	m_ctx.mainWindow().setTitle( QString() ) ;
-
 	m_ccmd.download( indexes.move(),engine,[ this ](){
 
 		return m_settings.maxConcurrentDownloads() ;
@@ -917,6 +915,8 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 		return opts ;
 	} ;
+
+	m_ctx.mainWindow().setTitle( m_table.completeProgress( 1 ) ) ;
 
 	m_ccmd.download( engine,
 			 optsUpdater,

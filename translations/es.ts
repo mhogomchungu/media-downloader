@@ -819,10 +819,6 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Dividido por capítulos</translation>
     </message>
     <message>
-        <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation>Completados: %1%, Sin iniciar: %2, Exitosos: %3, Fallidos: %4, Cancelados: %5</translation>
-    </message>
-    <message>
         <source>Media Already In Archive</source>
         <translation>Medio ya existe en archivo</translation>
     </message>
@@ -1004,6 +1000,14 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

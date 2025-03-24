@@ -835,10 +835,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>챕터별로 분할</translation>
     </message>
     <message>
-        <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation>완료됨: %1%, 시작되지 않음: %2, 성공: %3, 실패: %4, 취소됨: %5</translation>
-    </message>
-    <message>
         <source>Media Already In Archive</source>
         <translation>미디어가 이미 보관되어 있음</translation>
     </message>
@@ -1004,6 +1000,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

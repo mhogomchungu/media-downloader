@@ -21,8 +21,7 @@ downloads may cause the host to ban you.
 
 6. The GUI offers the ability to manage links to playlists to easily monitor their activities(subscriptions).
 
-7. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish,
-Turkish, Russian, Japanese, French, and Italian.
+7. The GUI is offered in multiple languages and as of this writing, the supported languages are English, Chinese, Spanish, Polish, Turkish, Russian, Japanese, French, Italian, Portuguese, Arabic, Korean, Swedish, German and Greek.
 
 ## Extensions
 
@@ -42,21 +41,21 @@ Make sure you have access to the internet before you run "Media Downloader" for 
 
 #### Bundle for MacOS
 
-Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.1/MediaDownloaderQt6-5.3.1.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
+Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.2/MediaDownloaderQt6-5.3.2.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.1/MediaDownloaderQt5-5.3.1.setup.exe).
+Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.2/MediaDownloaderQt5-5.3.2.setup.exe).
 
-Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.1/MediaDownloaderQt6-5.3.1.setup.exe).
+Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.2/MediaDownloaderQt6-5.3.2.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.1/MediaDownloaderQt5-5.3.1.zip).
+Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.2/MediaDownloaderQt5-5.3.2.zip).
 
-Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.1/MediaDownloaderQt6-5.3.1.zip).
+Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.2/MediaDownloaderQt6-5.3.2.zip).
 
 You can also install the portable version for Windows using scoop with the following commands:
 

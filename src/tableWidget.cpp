@@ -499,6 +499,7 @@ int tableWidget::finishWithSuccess()
 
 QString tableWidget::completeProgress( int firstRow )
 {
+	int running = 0 ;
 	int completed = 0 ;
 	int errored = 0 ;
 	int cancelled = 0 ;
@@ -511,6 +512,10 @@ QString tableWidget::completeProgress( int firstRow )
 
 		const auto& s = this->runningState( i ) ;
 
+		if( downloadManager::finishedStatus::running( s ) ){
+
+			running++ ;
+		}
 		if( downloadManager::finishedStatus::notStarted( s ) ){
 
 			notStarted++ ;
@@ -529,18 +534,23 @@ QString tableWidget::completeProgress( int firstRow )
 		}
 	}
 
-	auto a = QString::number( ( completed + errored + cancelled ) * 100 / rowCount ) ;
-	auto b = QString::number( notStarted ) ;
-	auto c = QString::number( completed ) ;
-	auto d = QString::number( errored ) ;
-	auto e = QString::number( cancelled ) ;
+	auto z = completed + errored + cancelled ;
+
+	auto m = QString::number( z ) + "/" + QString::number( rowCount ) ;
+
+	auto a = m + "(" + QString::number( z * 100 / rowCount ) + "%)" ;
+	auto b = QString::number( running ) ;
+	auto c = QString::number( notStarted ) ;
+	auto d = QString::number( completed ) ;
+	auto e = QString::number( errored ) ;
+	auto f = QString::number( cancelled ) ;
 
 	if( a.startsWith( "100" ) ){
 
 		a = "100" ;
 	}
 
-	return QObject::tr( "Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5" ).arg( a,b,c,d,e ) ;
+	return QObject::tr( "Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6" ).arg( a,b,c,d,e,f ) ;
 }
 
 tableWidget::tableWidget( QTableWidget& t,const QFont&,int init,Qt::Alignment tA ) :

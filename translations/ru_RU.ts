@@ -817,10 +817,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Разделить по главам</translation>
     </message>
     <message>
-        <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation>Завершено: %1%, Не запущено: %2, Успешно: %3, Не удалось: %4, Отменено: %5</translation>
-    </message>
-    <message>
         <source>Media Already In Archive</source>
         <translation>Медиа уже в архиве</translation>
     </message>
@@ -1002,6 +998,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

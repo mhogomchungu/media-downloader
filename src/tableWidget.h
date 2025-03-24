@@ -512,6 +512,13 @@ public:
 	{
 		m_table.setEnabled( e ) ;
 	}
+	void setLastRow()
+	{
+		if( m_table.rowCount() ){
+
+			m_table.setCurrentCell( m_table.rowCount() - 1,m_table.columnCount() - 1 ) ;
+		}
+	}
 	QTableWidget& get()
 	{
 		return m_table ;

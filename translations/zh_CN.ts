@@ -817,10 +817,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>按章节划分</translation>
     </message>
     <message>
-        <source>Completed: %1%, Not Started: %2, Succeeded: %3, Failed: %4, Cancelled: %5</source>
-        <translation>已完成: %1%, 未开始: %2, 已成功: %3, 已失败: %4, 已取消: %5 </translation>
-    </message>
-    <message>
         <source>Media Already In Archive</source>
         <translation>已存档的媒体</translation>
     </message>
@@ -1002,6 +998,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
