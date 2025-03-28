@@ -1007,11 +1007,11 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
     </message>
     <message>
         <source>Failed To Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile rinominare</translation>
     </message>
     <message>
         <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
-        <translation type="unfinished"></translation>
+        <translation>Completati: %1, in esecuzione: %2, non avviati: %3, completati: %4, falliti: %5, annullati: %6</translation>
     </message>
 </context>
 <context>
