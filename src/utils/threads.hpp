@@ -28,7 +28,8 @@ namespace utils
 {
 	namespace qthread
 	{
-		namespace details{
+		namespace details
+		{
 			#if __cplusplus >= 201703L
 				template< typename Function,typename ... Args >
 				using result_of = std::invoke_result_t< Function,Args ... > ;
@@ -36,14 +37,37 @@ namespace utils
 				template< typename Function,typename ... Args >
 				using result_of = std::result_of_t< Function( Args ... ) > ;
 			#endif
+			template< typename T >
+			class buffer
+			{
+			public:
+				void set( T&& t )
+				{
+					m_pointer = new ( &m_storage ) T( std::move( t ) ) ;
+				}
+				T get()
+				{
+					return std::move( *m_pointer ) ;
+				}
+				~buffer()
+				{
+					m_pointer->~T() ;
+				}
+			private:
+				#if __cplusplus >= 201703L
+					alignas( T ) std::byte m_storage[ sizeof( T ) ] ;
+				#else
+					typename std::aligned_storage< sizeof( T ),alignof( T ) >::type m_storage ;
+				#endif
+
+				T * m_pointer ;
+			} ;
 		}
 
 		template< typename T,
 			  typename std::enable_if< !std::is_void< decltype( std::declval< T >().bg() ) >::value,int >::type = 0 >
 		void run( T bgt )
 		{
-			using bgt_t = decltype( std::declval< T >().bg() ) ;
-
 			class Thread : public QThread
 			{
 			public:
@@ -55,27 +79,19 @@ namespace utils
 				}
 				void run() override
 				{
-					m_pointer = new ( &m_storage ) bgt_t( m_task.bg() ) ;
+					m_buffer.set( m_task.bg() ) ;
 				}
 			private:
 				void then()
 				{
-					m_task.fg( std::move( *m_pointer ) ) ;
-
-					m_pointer->~bgt_t() ;
+					m_task.fg( m_buffer.get() ) ;
 
 					this->deleteLater() ;
 				}
 
 				T m_task ;
 
-				#if __cplusplus >= 201703L
-					alignas( bgt_t ) std::byte m_storage[ sizeof( bgt_t ) ] ;
-				#else
-					typename std::aligned_storage< sizeof( bgt_t ),alignof( bgt_t ) >::type m_storage ;
-				#endif
-
-				bgt_t * m_pointer ;
+				details::buffer< decltype( std::declval< T >().bg() ) > m_buffer ;
 			};
 
 			new Thread( std::move( bgt ) ) ;
@@ -289,39 +305,51 @@ namespace utils
 
 			QEventLoop loop ;
 
-			class Handle
+			details::buffer< bgt_t > buffer ;
+
+			class meaw
 			{
 			public:
-				void set( bgt_t&& h )
+				meaw( details::buffer< bgt_t >& buffer,QEventLoop& loop,BackGroundTask&& task ) :
+					m_buffer( buffer ),m_loop( loop ),m_task( std::move( task ) )
 				{
-					m_pointer = new ( &m_storage ) bgt_t( std::move( h ) ) ;
 				}
-				~Handle()
+				void bg()
 				{
-					m_pointer->~bgt_t() ;
+					m_buffer.set( m_task() ) ;
 				}
-				bgt_t value()
+				void fg()
 				{
-					return std::move( *m_pointer ) ;
+					m_loop.quit() ;
 				}
 			private:
-				bgt_t * m_pointer ;
-				#if __cplusplus >= 201703L
-					alignas( bgt_t ) std::byte m_storage[ sizeof( bgt_t ) ] ;
-				#else
-					typename std::aligned_storage< sizeof( bgt_t ),alignof( bgt_t ) >::type m_storage ;
-				#endif
-			} handle ;
+				details::buffer< bgt_t >& m_buffer ;
+				QEventLoop& m_loop ;
+				BackGroundTask m_task ;
+			} ;
 
-			run( std::move( bgt ),[ & ]( bgt_t&& r )mutable{
-
-				handle.set( std::move( r ) ) ;
-				loop.quit() ;
-			} ) ;
+			run( meaw{ buffer,loop,std::move( bgt ) } ) ;
 
 			loop.exec() ;
 
-			return handle.value() ;
+			return buffer.get() ;
+		}
+
+		template< typename BackGroundTask,
+			 typename std::enable_if< std::is_void< details::result_of< BackGroundTask > >::value,int >::type = 0 >
+		void await( BackGroundTask bgt )
+		{
+			struct meaw
+			{
+				BackGroundTask task ;
+				int operator()()
+				{
+					task() ;
+					return 0 ;
+				}
+			} ;
+
+			await( meaw{ std::move( bgt ) } ) ;
 		}
 	}
 }
