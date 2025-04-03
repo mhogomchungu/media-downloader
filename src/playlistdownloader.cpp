@@ -675,7 +675,7 @@ void playlistdownloader::plSubscription()
 
 	ee.rEach( [ & ]( const subscription::entry& s ){
 
-		m.addAction( s.uiName )->setObjectName( s.url ) ;
+		m.addAction( s.UiName() )->setObjectName( s.url() ) ;
 	} ) ;
 
 	m.addSeparator() ;
@@ -722,11 +722,11 @@ void playlistdownloader::plSubscription()
 		}else{
 			ee.each( [ & ]( const subscription::entry& e ){
 
-				if( e.url == s ){
+				if( e.url() == s ){
 
 					utility::vector< subscription::entry > ss ;
 
-					ss.emplace_back( e.uiName,e.url,e.getListOptions ) ;
+					ss.emplace_back( e ) ;
 
 					this->getListing( ss.move(),engine ) ;
 
@@ -1184,15 +1184,9 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
 
-			const auto& img = m_defaultVideoThumbnailIcon ;
-
-			tableWidget::entry entry{ img,s,media } ;
-
 			auto mm = QObject::tr( "Stopping Because Media Is Already In Archive File" ) ;
 
-			entry.uiText = mm + "\n" + media.uiText() ;
-
-			this->showEntry( table,entry.move() ) ;
+			this->showEntry( table,{ m_defaultVideoThumbnailIcon,s,media,mm } ) ;
 
 			return true ;
 
@@ -1200,15 +1194,9 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
 
-			const auto& img = m_defaultVideoThumbnailIcon ;
-
-			tableWidget::entry entry{ img,s,media } ;
-
 			auto mm = QObject::tr( "Media Already In Archive" ) ;
 
-			entry.uiText = mm + "\n" + media.uiText() ;
-
-			this->showEntry( table,entry.move() ) ;
+			this->showEntry( table,{ m_defaultVideoThumbnailIcon,s,media,mm } ) ;
 
 			return false ;
 		}
@@ -1437,24 +1425,15 @@ void playlistdownloader::subscription::add( const QString& uiName,const QString&
 {
 	for( const auto& it : util::asConst( m_array ) ){
 
-		auto m = it.toObject() ;
+		subscription::entry m( it )  ;
 
-		auto a = m.value( "uiName" ).toString() ;
-		auto b = m.value( "url" ).toString() ;
-		auto c = m.value( "getListOptions" ).toString() ;
-
-		if( a == uiName && b == url && c == Opts ){
+		if( m.UiName() == uiName && m.url() == url && m.options() == Opts ){
 
 			return ;
 		}
 	}
 
-	QJsonObject obj ;
-	obj.insert( "uiName",uiName ) ;
-	obj.insert( "url",url ) ;
-	obj.insert( "getListOptions",Opts ) ;
-
-	m_array.append( obj ) ;
+	m_array.append( subscription::entry::toObject( uiName,url,Opts ) ) ;
 
 	m_table.add( uiName,url ) ;
 
@@ -1479,14 +1458,11 @@ void playlistdownloader::subscription::setVisible( bool e )
 
 		for( const auto& it : util::asConst( m_array ) ){
 
-			auto m = it.toObject() ;
+			subscription::entry m( it ) ;
 
-			auto cc = tr( "Get List Options:" ) ;
-			auto a = m.value( "uiName" ).toString() ;
-			auto b = m.value( "url" ).toString() ;
-			auto c = cc + " " + m.value( "getListOptions" ).toString() ;
+			auto c = tr( "Get List Options:" ) + " " + m.options() ;
 
-			int row = m_table.add( a,b ) ;
+			int row = m_table.add( m.UiName(),m.url() ) ;
 
 			m_table.item( row,0 ).setToolTip( c ) ;
 			m_table.item( row,1 ).setToolTip( c ) ;
@@ -1533,13 +1509,7 @@ utility::vector< playlistdownloader::subscription::entry > playlistdownloader::s
 
 	for( int i = m_array.size() - 1 ; i >= 0 ; i-- ){
 
-		auto m = m_array[ i ].toObject() ;
-
-		auto a = m.value( "uiName" ).toString() ;
-		auto b = m.value( "url" ).toString() ;
-		auto c = m.value( "getListOptions" ).toString() ;
-
-		e.emplace_back( std::move( a ),std::move( b ),std::move( c ) ) ;
+		e.emplace_back( m_array,i ) ;
 	}
 
 	return e ;

@@ -175,9 +175,10 @@ public:
 		template< typename MediaProperties >
 		entry( const QPixmap& thumbnail,
 		       const QString& rState,
-		       const MediaProperties& media ) :
+		       const MediaProperties& media,
+		       const QString& uu = QString() ) :
 			url( media.url() ),
-			uiText( media.uiText() ),
+			uiText( uu.isEmpty() ? media.uiText() : uu + "\n" + media.uiText() ),
 			runningState( rState ),
 			playlist( media.playlist() ),
 			playlist_count( media.playlist_count() ),

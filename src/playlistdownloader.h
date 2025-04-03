@@ -209,24 +209,57 @@ private:
 		void remove( int ) ;
 		void setVisible( bool ) ;
 		const QString& archivePath() const ;
-		struct entry
+		class entry
 		{
+		public :
 			entry()
 			{
 			}
-			entry( const QString& u ) : url( u )
+			entry( const QString& u ) : m_url( u )
 			{
 			}
-			entry( QString u,QString l,QString o ) :
-				uiName( std::move( u ) ),
-				url( std::move( l ) ),
-				getListOptions( std::move( o ) )
+			entry( const QJsonArray& arr,int index )
 			{
+				this->set( arr[ index ].toObject() ) ;
 			}
-			QString uiName ;
-			QString url ;
-			QString getListOptions ;
-		};
+			template< typename Iter >
+			entry( const Iter& it )
+			{
+				this->set( it.toObject() ) ;
+			}
+			const QString& UiName() const
+			{
+				return m_uiName ;
+			}
+			const QString& url() const
+			{
+				return m_url ;
+			}
+			const QString& options() const
+			{
+				return m_options ;
+			}
+			static QJsonObject toObject( const QString& uiName,const QString& url,const QString& Opts )
+			{
+				QJsonObject obj ;
+
+				obj.insert( "uiName",uiName ) ;
+				obj.insert( "url",url ) ;
+				obj.insert( "getListOptions",Opts ) ;
+
+				return obj ;
+			}
+		private :
+			void set( const QJsonObject& m )
+			{
+				m_uiName  = m.value( "uiName" ).toString() ;
+				m_url     = m.value( "url" ).toString() ;
+				m_options = m.value( "getListOptions" ).toString() ;
+			}
+			QString m_uiName ;
+			QString m_url ;
+			QString m_options ;
+		} ;
 		utility::vector< subscription::entry > entries() ;
 	private:
 		void save() ;
@@ -320,15 +353,15 @@ private:
 		}
 		const QString& url() const
 		{
-			return m_list.back().url ;
+			return m_list.back().url() ;
 		}
 		const QString& uiName() const
 		{
-			return m_list.back().uiName ;
+			return m_list.back().UiName() ;
 		}
 		const QString& listOptions() const
 		{
-			return m_list.back().getListOptions ;
+			return m_list.back().options() ;
 		}
 		playlistdownloader::listIterator next()
 		{
