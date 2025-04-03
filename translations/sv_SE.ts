@@ -1008,6 +1008,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Stopping Because Media Is Already In Archive File</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

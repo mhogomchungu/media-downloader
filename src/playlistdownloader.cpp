@@ -1182,6 +1182,18 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 			m_stoppedOnExisting = true ;
 			m_ui.pbPLCancel->click() ;
 
+			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
+
+			const auto& img = m_defaultVideoThumbnailIcon ;
+
+			tableWidget::entry entry{ img,s,media } ;
+
+			auto mm = QObject::tr( "Stopping Because Media Is Already In Archive File" ) ;
+
+			entry.uiText = mm + "\n" + media.uiText() ;
+
+			this->showEntry( table,entry.move() ) ;
+
 			return true ;
 
 		}else if( copts.skipOnExisting() ){
@@ -1654,6 +1666,8 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 			}else{
 				utility::MediaEntry media( m_engine,line.mid( position,m ) ) ;
 
+				position = position + m + jsonMarker.size() ;
+
 				if( media.valid() ){
 
 					const auto& p = m_customOptions ;
@@ -1667,9 +1681,7 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 						break ;
 					}
-				}
-
-				position = position + m + jsonMarker.size() ;
+				}				
 			}
 		}
 

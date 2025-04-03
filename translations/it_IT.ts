@@ -1013,6 +1013,10 @@ Per maggiori dettagli vedi la GNU General Public License .</translation>
         <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
         <translation>Completati: %1, in esecuzione: %2, non avviati: %3, completati: %4, falliti: %5, annullati: %6</translation>
     </message>
+    <message>
+        <source>Stopping Because Media Is Already In Archive File</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

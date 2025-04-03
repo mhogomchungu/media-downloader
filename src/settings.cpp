@@ -963,7 +963,7 @@ QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 
 settings::LogsLimits settings::getLogsLimits()
 {
-	return { 4096,1 } ;
+	return { 4096,2048 } ;
 }
 
 void settings::setDesktopNotifyOnDownloadComplete( bool e )
