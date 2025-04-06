@@ -212,9 +212,6 @@ private:
 		class entry
 		{
 		public :
-			entry()
-			{
-			}
 			entry( const QString& u ) : m_url( u )
 			{
 			}

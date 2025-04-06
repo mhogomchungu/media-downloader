@@ -13,15 +13,15 @@
 		<file>icons/black/cookie.png</file>
 		<file>icons/black/clearFile.png</file>
 		<file>icons/black/extensions.png</file>
-		<file>icons/blue/folder.png</file>
-		<file>icons/blue/video.png</file>
-		<file>icons/blue/executable.png</file>
-		<file>icons/blue/clipboard.png</file>
-		<file>icons/blue/recentlyUsed.png</file>
-		<file>icons/blue/downloadOptions.png</file>
-		<file>icons/blue/subscription.png</file>
-		<file>icons/blue/cookie.png</file>
-		<file>icons/blue/clearFile.png</file>
-		<file>icons/blue/extensions.png</file>
+		<file>icons/white/folder.png</file>
+		<file>icons/white/video.png</file>
+		<file>icons/white/executable.png</file>
+		<file>icons/white/clipboard.png</file>
+		<file>icons/white/recentlyUsed.png</file>
+		<file>icons/white/downloadOptions.png</file>
+		<file>icons/white/subscription.png</file>
+		<file>icons/white/cookie.png</file>
+		<file>icons/white/clearFile.png</file>
+		<file>icons/white/extensions.png</file>
 		</qresource>
  </RCC>

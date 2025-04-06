@@ -534,9 +534,9 @@ QIcon settings::getIcon( const QString& e )
 	}else{
 		if( _darkTheme() ){
 
-			auto m = "io.github.mhogomchungu.media-downloader_blue_" + e ;
+			auto m = "io.github.mhogomchungu.media-downloader_white_" + e ;
 
-			return QIcon::fromTheme( m,QIcon( ":/icons/blue/" + e ) ) ;
+			return QIcon::fromTheme( m,QIcon( ":/icons/white/" + e ) ) ;
 		}else{
 			auto m = "io.github.mhogomchungu.media-downloader_black_" + e ;
 

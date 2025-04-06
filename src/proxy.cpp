@@ -138,22 +138,35 @@ void proxy::set( Context& ctx,bool firstTime,const QByteArray& proxyAddress,cons
 {
 	if( utility::platformIsWindows() && m.system() ){
 
-		utils::qthread::run( [](){
-
-			return QNetworkProxyFactory::systemProxyForQuery() ;
-
-		},[ & ]( const QList< QNetworkProxy >& m ){
-
-			for( const auto& it : m ){
-
-				if( !it.hostName().isEmpty() ){
-
-					return ctx.setNetworkProxy( it,firstTime ) ;
-				}
+		class meaw
+		{
+		public:
+			meaw( Context& ctx,bool firstTime ) :
+				m_ctx( ctx ),m_firstTime( firstTime )
+			{
 			}
+			QList< QNetworkProxy > bg()
+			{
+				return QNetworkProxyFactory::systemProxyForQuery() ;
+			}
+			void fg( const QList< QNetworkProxy >& m )
+			{
+				for( const auto& it : m ){
 
-			ctx.setNetworkProxy( firstTime ) ;
-		} ) ;
+					if( !it.hostName().isEmpty() ){
+
+						return m_ctx.setNetworkProxy( it,m_firstTime ) ;
+					}
+				}
+
+				m_ctx.setNetworkProxy( m_firstTime ) ;
+			}
+		private:
+			Context& m_ctx ;
+			bool m_firstTime ;
+		} ;
+
+		utils::qthread::run( meaw( ctx,firstTime ) ) ;
 
 	}else if( m.none() ){
 
