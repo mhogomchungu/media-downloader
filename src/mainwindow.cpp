@@ -52,8 +52,6 @@ MainWindow::MainWindow( QApplication& app,
 	qRegisterMetaType< utility::networkReply >() ;
 	qRegisterMetaType< reportFinished >() ;
 
-	auto dm = m_settings.mainWindowDimenstions( this->window()->geometry() ) ;
-
 	auto shortcut1 = new QShortcut( this ) ;
 
 	shortcut1->setKey( Qt::CTRL | Qt::Key_D ) ;
@@ -72,9 +70,7 @@ MainWindow::MainWindow( QApplication& app,
 		m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_A ) ;
 	} ) ;
 
-	this->window()->setGeometry( dm ) ;
-
-	this->window()->setFixedSize( this->window()->size() ) ;
+	m_settings.setMainWindowDimensions( this->window() ) ;
 
 	this->window()->setWindowIcon( m_trayIcon.icon() ) ;
 

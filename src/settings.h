@@ -251,7 +251,8 @@ public:
 	bool autoSetDefaultEngineAndOptions() ;
 	bool cookieSourceSetToBrowerName() ;
 
-	QRect mainWindowDimenstions( const QRect& ) ;
+	void setMainWindowDimensions( QWidget * ) ;
+
 	qint64 timeOutWaitingForClipboardData() ;
 
 	Qt::Alignment textAlignment() ;

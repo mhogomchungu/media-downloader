@@ -475,27 +475,25 @@ void settings::saveMainWindowDimensions( const QRect& s )
 	m_settings.setValue( "MainWindowDimensions",m ) ;
 }
 
-QRect settings::mainWindowDimenstions( const QRect& s )
+void settings::setMainWindowDimensions( QWidget * s )
 {
-	if( !m_settings.contains( "MainWindowDimensions" ) ){
+	if( m_settings.contains( "MainWindowDimensions" ) ){
 
-		this->saveMainWindowDimensions( s ) ;
-	}
+		auto e = m_settings.value( "MainWindowDimensions" ).toString() ;
 
-	auto e = m_settings.value( "MainWindowDimensions" ).toString() ;
+		auto m = util::split( e," " ) ;
 
-	auto m = util::split( e," " ) ;
+		if( m.size() == 4 ){
 
-	if( m.size() == 4 ){
+			auto x = m[ 0 ].toInt() ;
+			auto y = m[ 1 ].toInt() ;
+			auto w = m[ 2 ].toInt() ;
+			auto h = m[ 3 ].toInt() ;
 
-		auto x = m[ 0 ].toInt() ;
-		auto y = m[ 1 ].toInt() ;
-		auto w = m[ 2 ].toInt() ;
-		auto h = m[ 3 ].toInt() ;
+			s->setGeometry( { x,y,w,h } ) ;
 
-		return { x,y,w,h } ;
-	}else{
-		return { 254,96,823,534 } ;
+			s->setFixedSize( s->size() ) ;
+		}
 	}
 }
 
@@ -531,17 +529,16 @@ QIcon settings::getIcon( const QString& e )
 		auto m = "io.github.mhogomchungu.media-downloader" ;
 
 		return QIcon::fromTheme( m,QIcon( ":/media-downloader" ) ) ;
+
+	}else if( _darkTheme() ){
+
+		auto m = "io.github.mhogomchungu.media-downloader_white_" + e ;
+
+		return QIcon::fromTheme( m,QIcon( ":/icons/white/" + e ) ) ;
 	}else{
-		if( _darkTheme() ){
+		auto m = "io.github.mhogomchungu.media-downloader_black_" + e ;
 
-			auto m = "io.github.mhogomchungu.media-downloader_white_" + e ;
-
-			return QIcon::fromTheme( m,QIcon( ":/icons/white/" + e ) ) ;
-		}else{
-			auto m = "io.github.mhogomchungu.media-downloader_black_" + e ;
-
-			return QIcon::fromTheme( m,QIcon( ":/icons/black/" + e ) ) ;
-		}
+		return QIcon::fromTheme( m,QIcon( ":/icons/black/" + e ) ) ;
 	}
 }
 
