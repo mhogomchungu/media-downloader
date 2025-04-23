@@ -123,7 +123,7 @@ private:
 
 	void networkResult( networkCtx,const utils::network::reply& ) ;
 
-	void download() ;	
+	void download() ;
 	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
 	void download( const engines::engine&,int ) ;

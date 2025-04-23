@@ -184,6 +184,15 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	connect( m_ui.pbPLDownload,&QPushButton::clicked,[ this ](){
 
 		m_banner.clear() ;
+
+		for( int s = m_table.rowCount() - 1 ; s >= 0 ; s-- ){
+
+			if( m_table.isRowHidden( s ) ){
+
+				m_table.removeRow( s ) ;
+			}
+		}
+
 		this->download() ;
 	} ) ;
 
@@ -743,9 +752,11 @@ void playlistdownloader::plSubscription()
 
 void playlistdownloader::download()
 {
-	m_settings.setLastUsedOption( m_ui.cbEngineTypePD->currentText(),
-				      m_ui.lineEditPLUrlOptions->text(),
-				      settings::tabName::playlist ) ;
+	auto a = m_ui.cbEngineTypePD->currentText() ;
+	auto b = m_ui.lineEditPLUrlOptions->text() ;
+	auto c = settings::tabName::playlist ;
+
+	m_settings.setLastUsedOption( a,b,c ) ;
 
 	this->download( this->defaultEngine() ) ;
 }

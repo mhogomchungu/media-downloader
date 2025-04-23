@@ -360,3 +360,6 @@ Version 1.2.0(April 1st, 2021)
         - Make gallery-dl work out of the box.
      [ALL]
         - BUG fix: Download progress on the title bar shows again when downloading from batch downloader tab.
+     Version 5.3.3(UNRELEASED)
+     [ALL]
+        - Playlist downloader batch now says why populating playlist was stopped when using "--break-on-existing".
