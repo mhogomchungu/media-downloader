@@ -845,13 +845,41 @@ engines::engine::engine( Logger& logger,
 
 	if( utility::platformIsWindows7() && m_likeYtDlp ){
 
-		m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
+		auto _set_opts = [ this ](){
 
-		if( utility::platformIs32Bit() ){
+			m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
 
-			m_commandName = "yt-dlp_win7_x86.exe" ;
+			if( utility::platformIs32Bit() ){
+
+				m_commandName = "yt-dlp_win7_x86.exe" ;
+			}else{
+				m_commandName = "yt-dlp_win7.exe" ;
+			}
+		} ;
+
+		if( cmd.isUndefined() ){
+
+			_set_opts() ;
 		}else{
-			m_commandName = "yt-dlp_win7.exe" ;
+			QJsonValue value ;
+
+			if( utility::platformIs32Bit() ){
+
+				value = cmd.toObject().value( "Windows" ).toObject().value( "win7x86" ) ;
+			}else{
+				value = cmd.toObject().value( "Windows" ).toObject().value( "win7amd64" ) ;
+			}
+
+			if( value.isUndefined() ){
+
+				_set_opts() ;
+			}else{
+				auto obj = value.toObject() ;
+
+				m_commandName = obj.value( "Name" ).toString() ;
+
+				m_downloadUrl = m_jsonObject.value( "DownloadUrlWin7" ).toString() ;
+			}
 		}
 	}else{
 		m_commandName = m.name ;

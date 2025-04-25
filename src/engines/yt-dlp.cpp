@@ -261,8 +261,10 @@ QJsonObject yt_dlp::init( const QString& name,
 	json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
 				    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
 
-	json.add( { { "Windows" },{ { "x86",x86Name,{ x86Name } },
-				    { "amd64",amd64,{ amd64 } } } } ) ;
+	json.add( { { "Windows" },{ { "win7x86","yt-dlp_win7_x86.exe",{ "yt-dlp_win7_x86.exe" } },
+				   { "win7amd64","yt-dlp_win7.exe",{ "yt-dlp_win7.exe" } },
+				   { "x86",x86Name,{ x86Name } },
+				   { "amd64",amd64,{ amd64 } } } } ) ;
 
 	json.add( { { "MacOS" },{ { "x86",macos,{ macos } },
 				  { "amd64",macos,{ macos } } } } ) ;
@@ -289,6 +291,8 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 
+	mainObj.insert( "DownloadUrlWin7","https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ) ;
+
 	mainObj.insert( "AutoUpdate",true ) ;
 
 	mainObj.insert( "EncodingArgument","--encoding" ) ;
@@ -298,6 +302,8 @@ QJsonObject yt_dlp::init( const QString& name,
 	mainObj.insert( "Name",name ) ;
 
 	mainObj.insert( "CookieArgument","--cookies-from-browser" ) ;
+
+	mainObj.insert( "CookieArgumentTextFile","--cookies" ) ;
 
 	mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
