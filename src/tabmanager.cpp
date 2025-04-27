@@ -183,54 +183,67 @@ void tabManager::mainThreadClipboardHandler()
 
 		if( m.startsWith( "http" ) || m.startsWith( "yt-dlp " ) ){
 
-			m_batchdownloader.clipboardData( m ) ;
+			m_batchdownloader.clipboardData( m,true ) ;
 		}
 	}
 }
 
-class timeOutMonitor
-{
-public:
-	timeOutMonitor( const Context& ctx ) :
-		m_timeOut( ctx.Settings().timeOutWaitingForClipboardData() ),
-		m_then( m_timeOut > 0 ? QDateTime::currentMSecsSinceEpoch() : 0 )
-	{
-	}
-	bool notTimedOut() const
-	{
-		if( m_timeOut > 0 ){
-
-			auto now = QDateTime::currentMSecsSinceEpoch() ;
-
-			return ( now - m_then ) <= m_timeOut ;
-		}else{
-			return true ;
-		}
-	}
-private:
-	qint64 m_timeOut ;
-	qint64 m_then ;
-} ;
-
 void tabManager::bgThreadClipboardHandler()
 {
-	utils::qthread::run( [ m = m_ctx.nativeHandleToMainWindow() ](){
-
-		return utility::windowsGetClipBoardText( m ) ;
-
-	},[ timer = timeOutMonitor( m_ctx ),this ]( const QString& e ){
-
-		if( timer.notTimedOut() ){
-
-			if( e.startsWith( "http" ) || e.startsWith( "yt-dlp " ) ){
-
-				m_batchdownloader.clipboardData( e ) ;
-			}
-		}else{
-			auto a = QObject::tr( "Warning: Skipping Clipboard Content" ) ;
-			m_ctx.logger().add( a,utility::concurrentID() ) ;
+	class timeOutMonitor
+	{
+	public:
+		timeOutMonitor( tabManager& parent ) :
+		    m_timeOut( parent.m_ctx.Settings().timeOutWaitingForClipboardData() ),
+		    m_then( m_timeOut > 0 ? QDateTime::currentMSecsSinceEpoch() : 0 )
+		{
 		}
-	} ) ;
+		bool notTimedOut() const
+		{
+			if( m_timeOut > 0 ){
+
+				auto now = QDateTime::currentMSecsSinceEpoch() ;
+
+				return ( now - m_then ) <= m_timeOut ;
+			}else{
+				return true ;
+			}
+		}
+	private:
+		qint64 m_timeOut ;
+		qint64 m_then ;
+	} ;
+
+	class meaw
+	{
+	public:
+		meaw( tabManager& parent ) : m_parent( parent ),m_timer( m_parent )
+		{
+		}
+		QString bg()
+		{
+			auto m = m_parent.m_ctx.nativeHandleToMainWindow() ;
+			return utility::windowsGetClipBoardText( m ) ;
+		}
+		void fg( const QString& e )
+		{
+			if( m_timer.notTimedOut() ){
+
+				if( e.startsWith( "http" ) || e.startsWith( "yt-dlp " ) ){
+
+					m_parent.m_batchdownloader.clipboardData( e,true ) ;
+				}
+			}else{
+				auto a = QObject::tr( "Warning: Skipping Clipboard Content" ) ;
+				m_parent.m_batchdownloader.clipboardData( a,false ) ;
+			}
+		}
+	private:
+		tabManager& m_parent ;
+		timeOutMonitor m_timer ;
+	} ;
+
+	utils::qthread::run( meaw( *this ) ) ;
 }
 
 tabManager& tabManager::gotEvent( const QByteArray& s )

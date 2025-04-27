@@ -64,6 +64,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		 &batchdownloader::addTextToUi,
 		 Qt::QueuedConnection ) ;
 
+	connect( this,
+		&batchdownloader::addClipboardSignal,
+		this,
+		&batchdownloader::addClipboardSlot,
+		Qt::QueuedConnection ) ;
+
 	m_ui.pbBDPasteClipboard->setIcon( m_settings.getIcon( "clipboard" ) ) ;
 	m_ui.pbBDOptionsHistory->setIcon( m_settings.getIcon( "recentlyUsed" ) ) ;
 	m_ui.pbBDOptionsDownload->setIcon( m_settings.getIcon( "downloadOptions" ) ) ;
@@ -2091,8 +2097,27 @@ void batchdownloader::showComments( const engines::engine& engine,const QString&
 	this->showList( batchdownloader::listType::COMMENTS,engine,url,-1 ) ;
 }
 
-void batchdownloader::clipboardData( const QString& url )
+void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 {
+	auto a = m_ui.labelBDEnterOptions ;
+	auto b = m_ui.labelBDEnterUrl ;
+	auto c = m_ui.labelBDEngineName ;
+
+	utility::alignText( m,a,b,c ) ;
+}
+
+void batchdownloader::clipboardData( const QString& url,bool s )
+{
+	emit this->addClipboardSignal( url,s ) ;
+}
+
+void batchdownloader::addClipboardSlot( QString url,bool s )
+{
+	if( !s ){
+
+		return m_ctx.logger().add( url,utility::concurrentID() ) ;
+	}
+
 	if( m_settings.monitorClipboardUrl( settings::tabName::batch ) ){
 
 		if( m_table.rowWithUrl( url ) == -1 ){
@@ -2113,15 +2138,6 @@ void batchdownloader::clipboardData( const QString& url )
 			this->addToList( url ) ;
 		}
 	}
-}
-
-void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
-{
-	auto a = m_ui.labelBDEnterOptions ;
-	auto b = m_ui.labelBDEnterUrl ;
-	auto c = m_ui.labelBDEngineName ;
-
-	utility::alignText( m,a,b,c ) ;
 }
 
 void batchdownloader::clearScreen()

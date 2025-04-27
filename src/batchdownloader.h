@@ -210,16 +210,16 @@ public:
 	void updateEnginesList( const QStringList& ) ;
 	void setShowMetaData( bool ) ;
 	void showComments( const engines::engine&,const QString& ) ;
-	void clipboardData( const QString& ) ;
+	void clipboardData( const QString&,bool ) ;
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
-private
-slots:
-	void addTextToUi( const QByteArray&,int ) ;
 signals:
 	void reportFStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	void addItemUiSignal( ItemEntry ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
+	void addClipboardSignal( QString,bool ) ;
 private:
+	void addClipboardSlot( QString,bool ) ;
+	void addTextToUi( const QByteArray&,int ) ;
 	void getMetaData( const Items::entry&,const engines::engine&,bool ) ;
 	void showHideControls() ;
 	void networkData( const utility::networkReply& ) ;
