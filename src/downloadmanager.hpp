@@ -272,14 +272,22 @@ public:
 	};
 
 	downloadManager( const Context& ctx,QPushButton& cb,settings& s ) :
-		m_ctx( ctx ),
-		m_cancelButton( cb ),
-		m_settings( s )
+		m_ctx( &ctx ),
+		m_cancelButton( &cb ),
+		m_settings( &s )
 	{
 	}
 	void cancelled()
 	{
 		m_cancelled = true ;
+	}
+	bool downloading()
+	{
+		return m_currentlyDownloadingNumber > 0 ;
+	}
+	int runningTasks()
+	{
+		return m_currentlyDownloadingNumber ;
 	}
 	template< typename Event >
 	void monitorForFinished( const engines::engine& engine,
@@ -291,7 +299,7 @@ public:
 
 		if( m_cancelled ){
 
-			m_cancelButton.setEnabled( false ) ;
+			m_cancelButton->setEnabled( false ) ;
 
 			auto a = index ;
 			auto b = m_index.lastIndex() ;
@@ -312,7 +320,7 @@ public:
 
 				if( m_index.table().noneAreRunning() ){
 
-					m_cancelButton.setEnabled( false ) ;
+					m_cancelButton->setEnabled( false ) ;
 				}
 			}else{
 				auto c = finishedStatus::state::running ;
@@ -340,7 +348,7 @@ public:
 
 		if( m_currentlyDownloadingNumber < m_maximumConcurrency ){
 
-			m_cancelButton.setEnabled( true ) ;
+			m_cancelButton->setEnabled( true ) ;
 
 			concurrentDownload( engine,idx ) ;
 		}
@@ -360,7 +368,7 @@ public:
 		m_cancelled = false ;
 
 		this->uiEnableAll( m_ctx,false ) ;
-		m_cancelButton.setEnabled( true ) ;
+		m_cancelButton->setEnabled( true ) ;
 		m_index.table().setEnabled( true ) ;
 
 		auto min = std::min( m_index.count(),m_maximumConcurrency ) ;
@@ -413,7 +421,7 @@ public:
 
 		utility::args args( uiDownloadOptions,m.downloadOptions,engine ) ;
 
-		utility::updateOptionsStruct opt{ m,engine,m_settings,args,uiIndex,fd,{ url },e,cctx } ;
+		utility::updateOptionsStruct opt{ m,engine,*m_settings,args,uiIndex,fd,{ url },e,cctx } ;
 
 		auto ctx = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
 
@@ -423,13 +431,13 @@ public:
 	}
 private:
 	template< typename Cxt >
-	void uiEnableAll( const Cxt& ctx,bool e )
+	void uiEnableAll( const Cxt * ctx,bool e )
 	{
 		if( e ){
 
-			ctx.TabManager().enableAll() ;
+			ctx->TabManager().enableAll() ;
 		}else{
-			ctx.TabManager().disableAll() ;
+			ctx->TabManager().disableAll() ;
 		}
 	}
 	size_t m_counter = 0 ;
@@ -437,9 +445,9 @@ private:
 	size_t m_maximumConcurrency ;
 	size_t m_currentlyDownloadingNumber = 0 ;
 	bool m_cancelled = false ;
-	const Context& m_ctx ;
-	QPushButton& m_cancelButton ;
-	settings& m_settings ;
+	const Context * m_ctx ;
+	QPushButton * m_cancelButton ;
+	settings * m_settings ;
 } ;
 
 class reportFinished

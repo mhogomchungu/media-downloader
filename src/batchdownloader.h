@@ -316,7 +316,36 @@ private:
 	widgetOverMainTable m_widgetOverMainTable ;
 
 	downloadManager m_ccmd ;
-	downloadManager m_ccmd_metadata ;
+
+	class downloadMetaDataManagers
+	{
+	public:
+		downloadMetaDataManagers( const Context& ctx,QPushButton& cb,settings& s ) :
+			m_ctx( ctx ),m_cancelButton( cb ),m_settings( s )
+		{
+		}
+		downloadManager& get( int index ) ;
+		downloadManager& add( int index ) ;
+		void remove( int ) ;
+		void clear() ;
+		int size() ;
+	private:
+		struct Index
+		{
+			Index( int m,const Context& ctx,QPushButton& cb,settings& s ) :
+				index( m ),dm( ctx,cb,s )
+			{
+			}
+			int index ;
+			downloadManager dm ;
+		} ;
+		std::vector< Index > m_managers ;
+		const Context& m_ctx ;
+		QPushButton& m_cancelButton ;
+		settings& m_settings ;
+	} ;
+
+	downloadMetaDataManagers m_ccmd_metadata ;
 
 	QByteArray m_downloadingComments ;
 
