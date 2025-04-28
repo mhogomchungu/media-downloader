@@ -2055,21 +2055,20 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 				bool enableAll,
 				const utility::MediaEntry& media )
 {
+	Q_UNUSED( enableAll )
+
 	auto row = this->addItemUi( pixmap,index,m_table,m_ui,media ) ;
 
 	this->setDownloadingOptions( row,m_table ) ;
 
 	m_ui.pbBDDownload->setEnabled( true ) ;
 
-	if( enableAll ){
+	if( m_table.noneAreRunning() ){
 
-		if( m_table.noneAreRunning() ){
-
-			m_ctx.TabManager().enableAll() ;
-			m_ui.pbBDCancel->setEnabled( false ) ;
-		}else{
-			m_ui.pbBDCancel->setEnabled( true ) ;
-		}
+		m_ctx.TabManager().enableAll() ;
+		m_ui.pbBDCancel->setEnabled( false ) ;
+	}else{
+		m_ui.pbBDCancel->setEnabled( true ) ;
 	}
 
 	return row ;

@@ -306,14 +306,14 @@ public:
 
 			if( m_counter == m_index.count() ){
 
+				auto c = finishedStatus::state::done ;
+
+				event.finished( { a,b,c,exitState.move() } ) ;
+
 				if( m_index.table().noneAreRunning() ){
 
 					m_cancelButton.setEnabled( false ) ;
 				}
-
-				auto c = finishedStatus::state::done ;
-
-				event.finished( { a,b,c,exitState.move() } ) ;
 			}else{
 				auto c = finishedStatus::state::running ;
 
