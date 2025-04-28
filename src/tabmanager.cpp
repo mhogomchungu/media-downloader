@@ -217,13 +217,15 @@ void tabManager::bgThreadClipboardHandler()
 	class meaw
 	{
 	public:
-		meaw( tabManager& parent ) : m_parent( parent ),m_timer( m_parent )
+		meaw( tabManager& parent ) :
+		    m_parent( parent ),
+		    m_timer( m_parent ),
+		    m_id( m_parent.m_ctx.nativeHandleToMainWindow() )
 		{
 		}
 		QString bg()
 		{
-			auto m = m_parent.m_ctx.nativeHandleToMainWindow() ;
-			return utility::windowsGetClipBoardText( m ) ;
+			return utility::windowsGetClipBoardText( m_id ) ;
 		}
 		void fg( const QString& e )
 		{
@@ -241,6 +243,7 @@ void tabManager::bgThreadClipboardHandler()
 	private:
 		tabManager& m_parent ;
 		timeOutMonitor m_timer ;
+		ContextWinId m_id ;
 	} ;
 
 	utils::qthread::run( meaw( *this ) ) ;
