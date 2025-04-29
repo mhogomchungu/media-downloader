@@ -362,4 +362,5 @@ Version 1.2.0(April 1st, 2021)
         - BUG fix: Download progress on the title bar shows again when downloading from batch downloader tab.
      Version 5.3.3(UNRELEASED)
      [ALL]
-        - Playlist downloader batch now says why populating playlist was stopped when using "--break-on-existing".
+        - Playlist downloader tab now says why populating playlist was stopped when using "--break-on-existing".
+        - Fix a bug on batch downloader tab that may lead to a crash when fetching metadata.

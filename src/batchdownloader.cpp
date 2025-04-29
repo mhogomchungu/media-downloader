@@ -848,9 +848,7 @@ void batchdownloader::getMetaData( const Items::entry& it,
 	{
 	public:
 		meaw( batchdownloader& bd,const QString& url,bool autoDownload ) :
-			m_url( url ),
-			m_autoDownload( autoDownload ),
-			m_parent( bd )
+			m_url( url ),m_autoDownload( autoDownload ),m_parent( bd )
 		{
 		}
 		void operator()( const engines::engine& e,int index )
@@ -2612,14 +2610,28 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 	m_ctx.TabManager().disableAll() ;
 
-	engine.updateVersionInfo( m_ctx,[ this,&engine,indexes = indexes.move() ]()mutable{
+	class meaw
+	{
+	public:
+		meaw( batchdownloader& parent,const engines::engine& engine,downloadManager::index id ) :
+			m_parent( parent ),m_engine( engine ),m_indexes( id.move() )
+		{
+		}
+		void operator()()
+		{
+			auto mm = m_parent.m_settings.maxConcurrentDownloads() ;
 
-		auto mm = m_settings.maxConcurrentDownloads() ;
+			batchdownloader::de de( m_parent ) ;
 
-		batchdownloader::de de( *this ) ;
+			m_parent.m_ccmd.download( m_indexes.move(),m_engine,mm,de.move() ) ;
+		}
+	private:
+		batchdownloader& m_parent ;
+		const engines::engine& m_engine ;
+		downloadManager::index m_indexes ;
+	} ;
 
-		m_ccmd.download( indexes.move(),engine,mm,de.move() ) ;
-	} ) ;
+	engine.updateVersionInfo( m_ctx,meaw( *this,engine,indexes.move() ) ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine,int init )

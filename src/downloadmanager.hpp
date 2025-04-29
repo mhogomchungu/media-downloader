@@ -295,8 +295,6 @@ public:
 				 engines::ProcessExitState exitState,
 				 Event event )
 	{
-		m_currentlyDownloadingNumber-- ;
-
 		if( m_cancelled ){
 
 			m_cancelButton->setEnabled( false ) ;
@@ -333,6 +331,8 @@ public:
 				}
 			}
 		}
+
+		m_currentlyDownloadingNumber-- ;
 	}
 	template< typename ConcurrentDownload >
 	void download_add( const engines::engine& engine,
