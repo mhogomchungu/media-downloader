@@ -264,7 +264,10 @@ private:
 		       tableWidget& table,
 		       Ui::MainWindow& ui,
 		       const utility::MediaEntry& media ) ;
-	void showThumbnail( const engines::engine&,Items,bool = false,bool = false ) ;
+	void showThumbnail( const engines::engine&,
+			   Items,
+			   bool autoDownload = false,
+			   bool showThumbnails= false ) ;
 	struct networkCtx
 	{
 		utility::MediaEntry media ;
