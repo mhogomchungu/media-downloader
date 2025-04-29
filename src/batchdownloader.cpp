@@ -2951,11 +2951,11 @@ downloadManager& batchdownloader::downloadMetaDataManagers::add( int index )
 
 void batchdownloader::downloadMetaDataManagers::remove( int index )
 {
-	for( size_t s = 0 ; s < m_managers.size() ; s++ ){
+	for( auto it = m_managers.begin() ; it != m_managers.end() ; it++ ){
 
-		if( m_managers[ s ].index == index ){
+		if( it->index == index ){
 
-			m_managers.erase( m_managers.begin() + s ) ;
+			m_managers.erase( it ) ;
 
 			break ;
 		}
@@ -2974,15 +2974,17 @@ int batchdownloader::downloadMetaDataManagers::size()
 
 downloadManager& batchdownloader::downloadMetaDataManagers::get( int index )
 {
-	for( size_t s = 0 ; s < m_managers.size() ; s++ ){
+	for( auto& it : m_managers ){
 
-		if( m_managers[ s ].index == index ){
+		if( it.index == index ){
 
-			return m_managers[ s ].dm ;
+			return it.dm ;
 		}
 	}
 
-	qDebug() << "Invalid access to batchdownloader::downloadMetaDataManagers::get with index: " << index ;
 	//???
+
+	qDebug() << "Invalid access to batchdownloader::downloadMetaDataManagers::get with index: " << index ;
+
 	return m_managers[ 0 ].dm ;
 }
