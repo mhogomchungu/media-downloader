@@ -49,7 +49,10 @@ jobs:
            rm -rf ffmpeg.macos.zip
     -
       name: Create img Bundle
-      run: ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/macos/bin/macdeployqt6 ${{github.workspace}}/MAC/build6/MediaDownloader.app -dmg
+      run: |
+           cd ${{github.workspace}}/MAC/build6
+           ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/macos/bin/macdeployqt6 MediaDownloader.app -dmg
+    
     -
       name: Rename Bundle
       run: |
