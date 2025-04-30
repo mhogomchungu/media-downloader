@@ -52,7 +52,6 @@ jobs:
       run: |
            cd ${{github.workspace}}/MAC/build6
            ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/macos/bin/macdeployqt6 MediaDownloader.app -dmg
-    
     -
       name: Rename Bundle
       run: |
