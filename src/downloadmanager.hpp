@@ -289,6 +289,10 @@ public:
 	{
 		return m_currentlyDownloadingNumber ;
 	}
+	size_t indexCount()
+	{
+		return m_index.count() ;
+	}
 	template< typename Event >
 	void monitorForFinished( const engines::engine& engine,
 				 int index,

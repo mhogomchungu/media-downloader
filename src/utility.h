@@ -1587,7 +1587,7 @@ namespace utility
 		QString m_n_entries ;
 
 		QJsonArray m_formats ;
-		int m_intDuration ;
+		int m_intDuration = 0 ;
 		util::Json m_json ;
 
 		bool m_showFirst = false ;
