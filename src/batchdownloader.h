@@ -323,20 +323,50 @@ private:
 	class downloadMetaDataManagers
 	{
 	public:
-		downloadMetaDataManagers( const Context& ctx,QPushButton& cb,settings& s ) :
-			m_ctx( ctx ),m_cancelButton( cb ),m_settings( s )
+		downloadMetaDataManagers( const Context& ctx,QPushButton& cb ) :
+			m_ctx( ctx ),m_cancelButton( cb )
 		{
 		}
-		downloadManager& get( int index ) ;
+		template< typename ... Args >
+		void download( int index,Args&& ... args )
+		{
+			for( auto& it : m_managers ){
+
+				if( it.index == index ){
+
+					it.dm.download( std::forward< Args >( args ) ... ) ;
+
+					return ;
+				}
+			}
+
+			this->notFound( index ) ;
+		}
+		template< typename ... Args >
+		void monitorForFinished( int index,Args&& ... args )
+		{
+			for( auto& it : m_managers ){
+
+				if( it.index == index ){
+
+					it.dm.monitorForFinished( std::forward< Args >( args ) ... ) ;
+
+					return ;
+				}
+			}
+
+			this->notFound( index ) ;
+		}
 		downloadManager& add( int index ) ;
 		void remove( int ) ;
 		void clear() ;
 		int size() ;
 	private:
+		void notFound( int index ) ;
 		struct Index
 		{
-			Index( int m,const Context& ctx,QPushButton& cb,settings& s ) :
-				index( m ),dm( ctx,cb,s )
+			Index( int m,const Context& ctx,QPushButton& cb ) :
+				index( m ),dm( ctx,cb )
 			{
 			}
 			int index ;
@@ -345,7 +375,6 @@ private:
 		std::vector< Index > m_managers ;
 		const Context& m_ctx ;
 		QPushButton& m_cancelButton ;
-		settings& m_settings ;
 	} ;
 
 	downloadMetaDataManagers m_ccmd_metadata ;

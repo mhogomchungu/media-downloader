@@ -37,8 +37,8 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,0,m_ctx.mainWidget().font() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
-	m_ccmd( m_ctx,*m_ui.pbBDCancel,m_settings ),
-	m_ccmd_metadata( m_ctx,*m_ui.pbBDCancel,m_settings ),
+	m_ccmd( m_ctx,*m_ui.pbBDCancel ),
+	m_ccmd_metadata( m_ctx,*m_ui.pbBDCancel ),
 	m_downloadingComments( tr( "Downloading comments" ).toUtf8() ),
 	m_startAutoDownload( m_settings.autoDownloadWhenAddedInBatchDownloader() ),
 	m_subtitlesTimer( m_tableWidgetBDList )
@@ -1948,9 +1948,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			finishedStatus st( a,b,c,std::move( m_url ),d ) ;
 
-			auto& h = m_parent.m_ccmd_metadata.get( m_index ) ;
-
-			h.monitorForFinished( m_engine,m_index,e.move(),st.move() ) ;
+			m_parent.m_ccmd_metadata.monitorForFinished( m_index,m_engine,m_index,e.move(),st.move() ) ;
 		}
 		void disableAll()
 		{
@@ -2025,14 +2023,13 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	BatchLoggerWrapper< batchdownloader::defaultLogger > wrapper( m_ctx.logger(),logs,ll.move() ) ;
 
-	auto& cc = m_ccmd_metadata.get( index ) ;
-
-	cc.download( args,
-		     m_table.url( index ),
-		     m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
-		     events( *this,engine,index,autoDownload,url,wrapper ),
-		     wrapper,
-		     QProcess::ProcessChannel::StandardOutput ) ;
+	m_ccmd_metadata.download( index,
+				  args,
+				  m_table.url( index ),
+				  m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
+				  events( *this,engine,index,autoDownload,url,wrapper ),
+				  wrapper,
+				  QProcess::ProcessChannel::StandardOutput ) ;
 }
 
 int batchdownloader::addItemUi( const QPixmap& pixmap,
@@ -2945,7 +2942,7 @@ void batchdownloader::subtitlesTimer::stop()
 
 downloadManager& batchdownloader::downloadMetaDataManagers::add( int index )
 {
-	m_managers.emplace_back( index,m_ctx,m_cancelButton,m_settings ) ;
+	m_managers.emplace_back( index,m_ctx,m_cancelButton ) ;
 	return m_managers[ m_managers.size() - 1 ].dm ;
 }
 
@@ -2972,19 +2969,9 @@ int batchdownloader::downloadMetaDataManagers::size()
 	return static_cast< int >( m_managers.size() ) ;
 }
 
-downloadManager& batchdownloader::downloadMetaDataManagers::get( int index )
+void batchdownloader::downloadMetaDataManagers::notFound( int index )
 {
-	for( auto& it : m_managers ){
+	QString m = "Invalid access to batchdownloader::downloadMetaDataManagers::get: " + QString::number( index ) ;
 
-		if( it.index == index ){
-
-			return it.dm ;
-		}
-	}
-
-	//???
-
-	qDebug() << "Invalid access to batchdownloader::downloadMetaDataManagers::get with index: " << index ;
-
-	return m_managers[ 0 ].dm ;
+	m_ctx.logger().add( m,utility::concurrentID() ) ;
 }

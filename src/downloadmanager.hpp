@@ -271,10 +271,8 @@ public:
 		tableWidget * m_table ;
 	};
 
-	downloadManager( const Context& ctx,QPushButton& cb,settings& s ) :
-		m_ctx( &ctx ),
-		m_cancelButton( &cb ),
-		m_settings( &s )
+	downloadManager( const Context& ctx,QPushButton& cb ) :
+		m_ctx( &ctx ),m_cancelButton( &cb )
 	{
 	}
 	void cancelled()
@@ -425,7 +423,7 @@ public:
 
 		utility::args args( uiDownloadOptions,m.downloadOptions,engine ) ;
 
-		utility::updateOptionsStruct opt{ m,engine,*m_settings,args,uiIndex,fd,{ url },e,cctx } ;
+		utility::updateOptionsStruct opt{ m,engine,m_ctx->Settings(),args,uiIndex,fd,{ url },e,cctx } ;
 
 		auto ctx = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
 
@@ -451,7 +449,6 @@ private:
 	bool m_cancelled = false ;
 	const Context * m_ctx ;
 	QPushButton * m_cancelButton ;
-	settings * m_settings ;
 } ;
 
 class reportFinished
