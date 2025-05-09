@@ -774,14 +774,23 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	m_ccmd.download( indexes.move(),engine,[ this ](){
+	auto s = m_settings.maxConcurrentDownloads() ;
 
-		return m_settings.maxConcurrentDownloads() ;
+	class meaw
+	{
+	public:
+		meaw( playlistdownloader& parent ) : m_parent( parent )
+		{
+		}
+		void operator()( const engines::engine& engine,int index )
+		{
+			m_parent.download( engine,index ) ;
+		}
+	private:
+		playlistdownloader& m_parent ;
+	} ;
 
-	}(),[ this ]( const engines::engine& engine,int index ){
-
-		this->download( engine,index ) ;
-	} ) ;
+	m_ccmd.download_start( indexes.move(),engine,s,meaw( *this ) ) ;
 }
 
 void playlistdownloader::download( const engines::engine& engine )
@@ -929,14 +938,14 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	m_ctx.mainWindow().setTitle( m_table.completeProgress( 1 ) ) ;
 
-	m_ccmd.download( engine,
-			 optsUpdater,
-			 m_ui.lineEditPLUrlOptions->text(),
-			 m_table.url( index ),
-			 m_ctx,
-			 m_terminator.setUp(),
-			 events( *this,engine,index ),
-			 logger.move() ) ;
+	m_ccmd.download_next( engine,
+			     optsUpdater,
+			     m_ui.lineEditPLUrlOptions->text(),
+			     m_table.url( index ),
+			     m_ctx,
+			     m_terminator.setUp(),
+			     events( *this,engine,index ),
+			     logger.move() ) ;
 }
 
 void playlistdownloader::showBanner()

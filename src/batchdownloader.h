@@ -252,7 +252,7 @@ private:
 	void showCustomContext() ;
 	void addToList( const QString& ) ;
 	void download( const engines::engine&,downloadManager::index ) ;
-	void download( const engines::engine&,Items ) ;
+	void download_add( const engines::engine&,Items ) ;
 	void download( const engines::engine&,int = 0 ) ;
 	void downloadEntry( const engines::engine&,int ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;

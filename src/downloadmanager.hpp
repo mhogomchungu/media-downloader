@@ -357,10 +357,10 @@ public:
 	}
 
 	template< typename ConcurrentDownload >
-	void download( downloadManager::index index,
-		       const engines::engine& engine,
-		       size_t maxNumberOfConcurrency,
-		       ConcurrentDownload concurrentDownload )
+	void download_start( downloadManager::index index,
+			    const engines::engine& engine,
+			    size_t maxNumberOfConcurrency,
+			    ConcurrentDownload concurrentDownload )
 	{
 		m_index = index.move() ;
 
@@ -380,34 +380,16 @@ public:
 			concurrentDownload( engine,m_index.value( s ) ) ;
 		}
 	}
-	template< typename Options,typename Logger,typename TermSignal >
-	void download( QStringList cliOptions,
-		       const QString& url,
-		       TermSignal conn,
-		       Options opts,
-		       Logger logger,
-		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
-	{
-		m_index.next() ;
-
-		cliOptions.append( url ) ;
-
-		auto ctx = utility::make_ctx( opts.move(),logger.move(),conn.move(),channel ) ;
-
-		m_currentlyDownloadingNumber++ ;
-
-		utility::run( cliOptions,QString(),ctx.move() ) ;
-	}
 	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
-	void download( const engines::engine& engine,
-		       const OptionUpdater& optsUpdater,
-		       const QString& uiDownloadOptions,
-		       const QString& url,
-		       const Context& cctx,
-		       TermSignal term,
-		       Options opts,
-		       Logger logger,
-		       utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
+	void download_next( const engines::engine& engine,
+			   const OptionUpdater& optsUpdater,
+			   const QString& uiDownloadOptions,
+			   const QString& url,
+			   const Context& cctx,
+			   TermSignal term,
+			   Options opts,
+			   Logger logger,
+			   utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
 	{
 		m_currentlyDownloadingNumber++ ;
 

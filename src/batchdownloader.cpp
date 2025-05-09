@@ -740,7 +740,7 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 	utility::setUpdefaultEngine( comboBox,m,m_settings,s ) ;
 }
 
-void batchdownloader::download( const engines::engine& engine,Items list )
+void batchdownloader::download_add( const engines::engine& engine,Items list )
 {
 	auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,list.first().url ) ;
 
@@ -776,11 +776,11 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	if( m_done && m_startAutoDownload && list.hasOneEntry() ){
 
-		this->download( engine,list.move() ) ;
+		this->download_add( engine,list.move() ) ;
 
 	}else if( autoDownload && !showThumbnails && list.hasOneEntry() ){
 
-		this->download( engine,list.move() ) ;
+		this->download_add( engine,list.move() ) ;
 
 	}else if( m_showMetaData && engine.likeYtDlp() ){
 
@@ -2553,7 +2553,7 @@ void batchdownloader::download( const engines::engine& engine,downloadManager::i
 
 			batchdownloader::de de( m_parent ) ;
 
-			m_parent.m_ccmd.download( m_indexes.move(),m_engine,mm,de.move() ) ;
+			m_parent.m_ccmd.download_start( m_indexes.move(),m_engine,mm,de.move() ) ;
 		}
 	private:
 		batchdownloader& m_parent ;
@@ -2757,14 +2757,14 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
 
-	m_ccmd.download( engine,
-			 std::move( updateOpts ),
-			 m_ui.lineEditBDUrlOptions->text(),
-			 m_table.url( index ),
-			 m_ctx,
-			 m_terminator.setUp(),
-			 events( *this,engine,index ),
-			 logger.move() ) ;
+	m_ccmd.download_next( engine,
+			     std::move( updateOpts ),
+			     m_ui.lineEditBDUrlOptions->text(),
+			     m_table.url( index ),
+			     m_ctx,
+			     m_terminator.setUp(),
+			     events( *this,engine,index ),
+			     logger.move() ) ;
 }
 
 void batchdownloader::addTextToUi( const QByteArray& data,int index )
