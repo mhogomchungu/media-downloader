@@ -214,7 +214,7 @@ public:
 		{
 			return *m_table ;
 		}
-		const tableWidget::entry& tableEntryAtIndex()
+		const tableWidget::entry& tableEntryAtIndex() const
 		{
 			auto s = static_cast< int >( m_init_position ) ;
 			return m_table->entryAt( static_cast< size_t >( m_index + s ) ) ;
@@ -307,29 +307,19 @@ public:
 
 			event.finished( { a,b,c,exitState.move() } ) ;
 		}else{
-			m_counter++ ;
-
 			auto a = index ;
 			auto b = m_index.lastIndex() ;
+			auto c = finishedStatus::state::running ;
 
-			if( m_counter == m_index.count() ){
+			event.finished( { a,b,c,exitState.move() } ) ;
 
-				auto c = finishedStatus::state::done ;
+			if( m_index.hasNext() ){
 
-				event.finished( { a,b,c,exitState.move() } ) ;
-
+				event.next( engine,m_index.value() ) ;
+			}else{
 				if( m_index.table().noneAreRunning() ){
 
 					m_cancelButton->setEnabled( false ) ;
-				}
-			}else{
-				auto c = finishedStatus::state::running ;
-
-				event.finished( { a,b,c,exitState.move() } ) ;
-
-				if( m_index.hasNext() ){
-
-					event.next( engine,m_index.value() ) ;
 				}
 			}
 		}
@@ -338,9 +328,9 @@ public:
 	}
 	template< typename ConcurrentDownload >
 	void download_add( const engines::engine& engine,
-			   downloadManager::index index,
-			   size_t maxNumberOfConcurrency,
-			   ConcurrentDownload concurrentDownload )
+			  downloadManager::index index,
+			  size_t maxNumberOfConcurrency,
+			  ConcurrentDownload concurrentDownload )
 	{
 		m_maximumConcurrency = maxNumberOfConcurrency ;
 
@@ -355,7 +345,6 @@ public:
 			concurrentDownload( engine,idx ) ;
 		}
 	}
-
 	template< typename ConcurrentDownload >
 	void download_start( downloadManager::index index,
 			    const engines::engine& engine,
@@ -366,7 +355,6 @@ public:
 
 		m_maximumConcurrency = maxNumberOfConcurrency ;
 
-		m_counter = 0 ;
 		m_cancelled = false ;
 
 		this->uiEnableAll( m_ctx,false ) ;
@@ -380,38 +368,82 @@ public:
 			concurrentDownload( engine,m_index.value( s ) ) ;
 		}
 	}
-	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
-	void download_next( const engines::engine& engine,
-			   const OptionUpdater& optsUpdater,
-			   const QString& uiDownloadOptions,
-			   const QString& url,
-			   const Context& cctx,
-			   TermSignal term,
-			   Options opts,
-			   Logger logger,
-			   utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
+	struct downloadManagerOpts
 	{
-		m_currentlyDownloadingNumber++ ;
+		downloadManagerOpts( const downloadManager::index& m ) :
+			downloadOpts( m.options() ),
+			uiIndex( m.uiIndex() ),
+			forceDownload( m.forceDownload() ),
+			entry( m.tableEntryAtIndex() )
+		{
+		}
+		downloadManagerOpts( const utility::downLoadOptions& a,
+				    const utility::uiIndex& b,
+				    bool c,
+				    const tableWidget::entry& d ) :
+			downloadOpts( a ),
+			uiIndex( b ),
+			forceDownload( c ),
+			entry( d )
+		{
+		}
+		utility::downLoadOptions downloadOpts ;
+		utility::uiIndex uiIndex ;
+		bool forceDownload ;
+		tableWidget::entry entry ;
+	} ;
+	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
+	static void download_exec( const engines::engine& engine,
+				  const OptionUpdater& optsUpdater,
+				  const QString& uiDownloadOptions,
+				  const QString& url,
+				  const Context& cctx,
+				  const downloadManagerOpts& dOpts,
+				  TermSignal term,
+				  Options opts,
+				  Logger logger,
+				  utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
+	{
+		utility::args args( uiDownloadOptions,dOpts.downloadOpts.downloadOptions,engine ) ;
 
-		const auto& m = m_index.options() ;
-
-		const auto& uiIndex = m_index.uiIndex() ;
-
-		bool fd = m_index.forceDownload() ;
-
-		const auto& e = m_index.tableEntryAtIndex() ;
-
-		m_index.next() ;
-
-		utility::args args( uiDownloadOptions,m.downloadOptions,engine ) ;
-
-		utility::updateOptionsStruct opt{ m,engine,m_ctx->Settings(),args,uiIndex,fd,{ url },e,cctx } ;
+		utility::updateOptionsStruct opt{ dOpts.downloadOpts,
+						 engine,
+						 cctx.Settings(),
+						 args,
+						 dOpts.uiIndex,
+						 dOpts.forceDownload,
+						 { url },
+						 dOpts.entry,
+						 cctx } ;
 
 		auto ctx = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
 
 		auto u = optsUpdater( utility::updateOptions( opt ) ) ;
 
 		utility::run( std::move( u ),args.credentials(),ctx.move() ) ;
+	}
+	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
+	void download_next( const engines::engine& engine,
+			   const OptionUpdater& optsUpdater,
+			   const QString& uiDownloadOptions,
+			   const QString& url,
+			   const Context& ctx,
+			   TermSignal term,
+			   Options opts,
+			   Logger l,
+			   utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
+	{
+		m_currentlyDownloadingNumber++ ;
+
+		downloadManagerOpts m( m_index ) ;
+
+		m_index.next() ;
+
+		const auto& a = engine ;
+		const auto& b = optsUpdater ;
+		const auto& c = uiDownloadOptions ;
+
+		this->download_exec( a,b,c,url,ctx,m,term.move(),opts.move(),l.move(),channel ) ;
 	}
 private:
 	template< typename Cxt >
@@ -424,7 +456,6 @@ private:
 			ctx->TabManager().disableAll() ;
 		}
 	}
-	size_t m_counter = 0 ;
 	downloadManager::index m_index ;
 	size_t m_maximumConcurrency ;
 	size_t m_currentlyDownloadingNumber = 0 ;
