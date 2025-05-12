@@ -54,6 +54,16 @@
 	</categories>
 
 	<releases>
+		<release version="5.3.3" type="stable" date="Unreleased" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.3.2/media-downloader-5.3.2.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Playlist downloader tab now says why populating playlist was stopped when using "--break-on-existing".</li>
+					<li>Fix a bug on batch downloader tab that may lead to a crash when fetching metadata.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.3.2" type="stable" date="2025-03-24" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.3.2/media-downloader-5.3.2.tar.xz/</url>
 			<description>
@@ -62,7 +72,7 @@
 					<li>BUG fix: Download progress on the title bar shows again when downloading from batch downloader tab.</li>
 				</ul>
 			</description>
-			</release>
+		</release>
 		<release version="5.3.1" type="stable" date="2025-03-11" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.3.1/media-downloader-5.3.1.tar.xz/</url>
 			<description>

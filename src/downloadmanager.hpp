@@ -397,7 +397,7 @@ public:
 				  const OptionUpdater& optsUpdater,
 				  const QString& uiDownloadOptions,
 				  const QString& url,
-				  const Context& cctx,
+				  const Context& ctx,
 				  const downloadManagerOpts& dOpts,
 				  TermSignal term,
 				  Options opts,
@@ -406,21 +406,19 @@ public:
 	{
 		utility::args args( uiDownloadOptions,dOpts.downloadOpts.downloadOptions,engine ) ;
 
-		utility::updateOptionsStruct opt{ dOpts.downloadOpts,
-						 engine,
-						 cctx.Settings(),
-						 args,
-						 dOpts.uiIndex,
-						 dOpts.forceDownload,
-						 { url },
-						 dOpts.entry,
-						 cctx } ;
+		const auto& a = dOpts.downloadOpts ;
+		const auto& b = engine ;
+		auto& c = ctx.Settings() ;
+		const auto& d = dOpts.uiIndex ;
+		const auto& e = dOpts.forceDownload ;
 
-		auto ctx = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
+		utility::updateOptionsStruct opt{ a,b,c,args,d,e,{ url },dOpts.entry,ctx } ;
+
+		auto m = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
 
 		auto u = optsUpdater( utility::updateOptions( opt ) ) ;
 
-		utility::run( std::move( u ),args.credentials(),ctx.move() ) ;
+		utility::run( std::move( u ),args.credentials(),m.move() ) ;
 	}
 	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
 	void download_next( const engines::engine& engine,

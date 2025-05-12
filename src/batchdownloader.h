@@ -254,7 +254,7 @@ private:
 	void downloadStart( const engines::engine&,downloadManager::index ) ;
 	void downloadAddItems( const engines::engine&,Items ) ;
 	void download( const engines::engine&,int = 0 ) ;
-	void downloadSingle( const engines::engine&,int row,utility::downLoadOptions ) ;
+	void downloadSingle( const engines::engine&,int row,const utility::downLoadOptions& ) ;
 	void downloadEntry( const engines::engine&,int ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;
 	void addItemUi( int,bool,const utility::MediaEntry& ) ;

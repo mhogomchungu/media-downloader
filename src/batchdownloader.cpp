@@ -1878,11 +1878,15 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		}
 		void disableAll()
 		{
+			m_parent.disableAll() ;
+
 			m_parent.m_ui.pbBDPasteClipboard->setEnabled( true ) ;
 
 			m_parent.m_ui.pbBDAdd->setEnabled( true ) ;
 
 			m_parent.m_ui.lineEditBDUrl->setEnabled( true ) ;
+
+			m_parent.m_ui.pbBDCancel->setEnabled( true ) ;
 		}
 		int index()
 		{
@@ -2000,9 +2004,9 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 
 	this->setDownloadingOptions( row,m_table ) ;
 
-	m_ui.pbBDDownload->setEnabled( true ) ;
-
 	if( m_table.noneAreRunning() ){
+
+		m_ui.pbBDDownload->setEnabled( true ) ;
 
 		m_ctx.TabManager().enableAll() ;
 		m_ui.pbBDCancel->setEnabled( false ) ;
@@ -2577,7 +2581,7 @@ void batchdownloader::download( const engines::engine& engine,int init )
 	this->downloadStart( engine,indexes.move() ) ;
 }
 
-void batchdownloader::downloadSingle( const engines::engine& eng,int row,utility::downLoadOptions dopt )
+void batchdownloader::downloadSingle( const engines::engine& eng,int row,const utility::downLoadOptions& dopt )
 {
 	class events
 	{
