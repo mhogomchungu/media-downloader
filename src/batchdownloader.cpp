@@ -631,9 +631,9 @@ void batchdownloader::init_done()
 	if( QFile::exists( m ) ){
 
 		this->getListFromFile( m,true ) ;
-	}else{
-		m_done = true ;
 	}
+
+	m_initDone = true ;
 }
 
 void batchdownloader::resetMenu()
@@ -752,11 +752,18 @@ void batchdownloader::downloadAddItems( const engines::engine& engine,Items list
 
 	const auto& eng = m_ctx.Engines().getEngineByName( ee.engineName ) ;
 
+	bool s ;
+
 	if( eng ){
 
-		m_ccmd.download_add( eng.value(),index.move(),mm,batchdownloader::de( *this ) ) ;
+		s = m_ccmd.download_add( eng.value(),index.move(),mm,batchdownloader::de( *this ) ) ;
 	}else{
-		m_ccmd.download_add( engine,index.move(),mm,batchdownloader::de( *this ) ) ;
+		s = m_ccmd.download_add( engine,index.move(),mm,batchdownloader::de( *this ) ) ;
+	}
+
+	if( s ){
+
+		m_ctx.TabManager().disableAll() ;
 	}
 }
 
@@ -770,7 +777,12 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		return ;
 	}
 
-	if( m_done && m_startAutoDownload && list.hasOneEntry() ){
+	if( !m_initDone ){
+
+		return this->addItemUiSlot( { engine,list.move() } ) ;
+	}
+
+	if( m_startAutoDownload && list.hasOneEntry() ){
 
 		this->downloadAddItems( engine,list.move() ) ;
 
@@ -1790,8 +1802,6 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 
 			this->parseItems( items.move() ) ;
 		}
-
-		m_done = true ;
 	} ) ;
 }
 
@@ -1870,7 +1880,9 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 				if( m_autoDownload ){
 
-					m_parent.download( m_engine ) ;
+					auto u = utility::setDownloadOptions( m_engine,m_parent.m_table,m_index ) ;
+
+					m_parent.downloadSingle( m_engine,m_index,u ) ;
 				}
 			}else{
 				m_parent.addItem( this->index(),enableAll,m_url ) ;
@@ -2612,7 +2624,7 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row,const u
 				m = downloadManager::finishedStatus::state::done ;
 			}
 
-			downloadManager::finishedStatus s{ m_index,m_index,m,st } ;			 ;
+			downloadManager::finishedStatus s{ m_index,m_index,m,st } ;
 
 			emit m_parent.reportFStatus( reportFinished( m_engine,s ),fileNames ) ;
 		}
@@ -2869,14 +2881,14 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 
 	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
 
-	m_ccmd.download_next( engine,
-			     std::move( updateOpts ),
-			     m_ui.lineEditBDUrlOptions->text(),
-			     m_table.url( index ),
-			     m_ctx,
-			     m_terminator.setUp(),
-			     events( *this,engine,index ),
-			     logger.move() ) ;
+	m_ccmd.download_entry( engine,
+			      std::move( updateOpts ),
+			      m_ui.lineEditBDUrlOptions->text(),
+			      m_table.url( index ),
+			      m_ctx,
+			      m_terminator.setUp(),
+			      events( *this,engine,index ),
+			      logger.move() ) ;
 }
 
 void batchdownloader::addTextToUi( const QByteArray& data,int index )

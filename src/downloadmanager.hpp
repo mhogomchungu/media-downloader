@@ -327,7 +327,7 @@ public:
 		m_currentlyDownloadingNumber-- ;
 	}
 	template< typename ConcurrentDownload >
-	void download_add( const engines::engine& engine,
+	bool download_add( const engines::engine& engine,
 			  downloadManager::index index,
 			  size_t maxNumberOfConcurrency,
 			  ConcurrentDownload concurrentDownload )
@@ -343,6 +343,10 @@ public:
 			m_cancelButton->setEnabled( true ) ;
 
 			concurrentDownload( engine,idx ) ;
+
+			return true ;
+		}else{
+			return false ;
 		}
 	}
 	template< typename ConcurrentDownload >
@@ -421,15 +425,15 @@ public:
 		utility::run( std::move( u ),args.credentials(),m.move() ) ;
 	}
 	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater >
-	void download_next( const engines::engine& engine,
-			   const OptionUpdater& optsUpdater,
-			   const QString& uiDownloadOptions,
-			   const QString& url,
-			   const Context& ctx,
-			   TermSignal term,
-			   Options opts,
-			   Logger l,
-			   utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
+	void download_entry( const engines::engine& engine,
+			    const OptionUpdater& optsUpdater,
+			    const QString& uiDownloadOptions,
+			    const QString& url,
+			    const Context& ctx,
+			    TermSignal term,
+			    Options opts,
+			    Logger l,
+			    utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
 	{
 		m_currentlyDownloadingNumber++ ;
 

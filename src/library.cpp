@@ -291,15 +291,13 @@ void library::deleteEntries( std::vector< int > items )
 		meaw( library& library,std::vector< int > items,int row ) :
 			m_parent( library ),
 			m_items( std::move( items ) ),
-			m_row( row )
+			m_row( row ),
+			m_path( this->path() )
 		{
 		}
 		bool bg()
 		{
-			auto s = m_parent.m_table.item( m_row,1 ).text() ;
-			auto m = m_parent.m_currentPath + "/" + s ;
-
-			return m_parent.deletePath( m ) ;
+			return m_parent.deletePath( m_path ) ;
 		}
 		void fg( bool s )
 		{
@@ -311,9 +309,15 @@ void library::deleteEntries( std::vector< int > items )
 			m_parent.deleteEntries( std::move( m_items ) ) ;
 		}
 	private:
+		QString path() const
+		{
+			auto s = m_parent.m_table.item( m_row,1 ).text() ;
+			return m_parent.m_currentPath + "/" + s ;
+		}
 		library& m_parent ;
 		std::vector< int > m_items ;
 		int m_row ;
+		QString m_path ;
 	} ;
 
 	utils::qthread::run( meaw( *this,std::move( items ),row ) ) ;

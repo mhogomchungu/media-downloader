@@ -938,14 +938,14 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	m_ctx.mainWindow().setTitle( m_table.completeProgress( 1 ) ) ;
 
-	m_ccmd.download_next( engine,
-			     optsUpdater,
-			     m_ui.lineEditPLUrlOptions->text(),
-			     m_table.url( index ),
-			     m_ctx,
-			     m_terminator.setUp(),
-			     events( *this,engine,index ),
-			     logger.move() ) ;
+	m_ccmd.download_entry( engine,
+			      optsUpdater,
+			      m_ui.lineEditPLUrlOptions->text(),
+			      m_table.url( index ),
+			      m_ctx,
+			      m_terminator.setUp(),
+			      events( *this,engine,index ),
+			      logger.move() ) ;
 }
 
 void playlistdownloader::showBanner()
@@ -977,10 +977,26 @@ void playlistdownloader::getListing( playlistdownloader::listIterator e,const en
 
 	this->showBanner() ;
 
-	engine.updateVersionInfo( m_ctx,[ this,&engine,e = e.move() ]()mutable{
+	class meaw
+	{
+	public:
+		meaw( playlistdownloader& p,
+			playlistdownloader::listIterator it,
+			const engines::engine& engine ) :
+			m_parent( p ),m_it( it.move() ),m_engine( engine )
+		{
+		}
+		void operator()()
+		{
+			m_parent.getList( m_it.move(),m_engine ) ;
+		}
+	private:
+		playlistdownloader& m_parent ;
+		playlistdownloader::listIterator m_it ;
+		const engines::engine& m_engine ;
+	} ;
 
-		this->getList( e.move(),engine ) ;
-	} ) ;
+	engine.updateVersionInfo( m_ctx,meaw( *this,e.move(),engine ) ) ;
 }
 
 void playlistdownloader::getList( playlistdownloader::listIterator iter,
@@ -1248,7 +1264,8 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 		network.get( thumbnailUrl,m.move(),this,&playlistdownloader::networkResult ) ;
 	}else{
-		utility::networkReply( this,&playlistdownloader::networkData,&table,m_downloaderId,media.move() ) ;
+		auto m = &playlistdownloader::networkData ;
+		utility::networkReply( this,m,&table,m_downloaderId,media.move() ) ;
 	}
 
 	return false ;
