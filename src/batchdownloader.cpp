@@ -744,27 +744,48 @@ void batchdownloader::downloadAddItems( const engines::engine& engine,Items list
 
 	const auto& ee = m_table.entryAt( row ) ;
 
-	downloadManager::index index( m_table,downloadManager::index::tab::batch ) ;
-
-	index.add( row,ee.downloadingOptions ) ;
-
-	auto mm = m_ctx.Settings().maxConcurrentDownloads() ;
-
 	const auto& eng = m_ctx.Engines().getEngineByName( ee.engineName ) ;
 
-	bool s ;
+	this->disableAll() ;
 
 	if( eng ){
 
-		s = m_ccmd.download_add( eng.value(),index.move(),mm,batchdownloader::de( *this ) ) ;
+		auto u = utility::setDownloadOptions( eng.value(),m_table,row ) ;
+
+		this->downloadSingle( eng.value(),row,u ) ;
 	}else{
-		s = m_ccmd.download_add( engine,index.move(),mm,batchdownloader::de( *this ) ) ;
-	}
+		auto u = utility::setDownloadOptions( engine,m_table,row ) ;
 
-	if( s ){
-
-		m_ctx.TabManager().disableAll() ;
+		this->downloadSingle( engine,row,u ) ;
 	}
+	/*
+	if( m_table.noneAreRunning() ){
+
+		if( eng ){
+
+			auto u = utility::setDownloadOptions( eng.value(),m_table,row ) ;
+
+			this->downloadSingle( eng.value(),row,u ) ;
+		}else{
+			auto u = utility::setDownloadOptions( engine,m_table,row ) ;
+
+			this->downloadSingle( engine,row,u ) ;
+		}
+	}else{
+		downloadManager::index index( m_table,downloadManager::index::tab::batch ) ;
+
+		index.add( row,ee.downloadingOptions ) ;
+
+		auto mm = m_ctx.Settings().maxConcurrentDownloads() ;
+
+		if( eng ){
+
+			m_ccmd.download_add( eng.value(),index.move(),mm,batchdownloader::de( *this ) ) ;
+		}else{
+			m_ccmd.download_add( engine,index.move(),mm,batchdownloader::de( *this ) ) ;
+		}
+	}
+	*/
 }
 
 void batchdownloader::showThumbnail( const engines::engine& engine,
@@ -2546,7 +2567,7 @@ void batchdownloader::downloadStart( const engines::engine& engine,downloadManag
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	m_ctx.TabManager().disableAll() ;
+	this->disableAll() ;
 
 	class meaw
 	{
@@ -2635,6 +2656,10 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row,const u
 			m_parent.m_ui.pbBDAdd->setEnabled( true ) ;
 
 			m_parent.m_ui.lineEditBDUrl->setEnabled( true ) ;
+
+			m_parent.m_ui.pbBDCancel->setEnabled( true ) ;
+
+			m_parent.m_table.setEnabled( true ) ;
 		}
 		int index()
 		{
@@ -2664,7 +2689,7 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row,const u
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	auto term = m_terminator.setUp( m_ui.pbCancelBatchDownloder,&QPushButton::clicked,row ) ;
+	auto term = m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,row ) ;
 
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),row ) ;
 
