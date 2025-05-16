@@ -53,6 +53,7 @@ private:
 signals:
 	void addEntrySignal( const directoryEntries::iter& ) ;
 private:
+	bool hasMultipleSelections() ;
 	bool deletePath( const QString& ) ;
 	void deleteEntries( std::vector< int > ) ;
 	void setRenameUiVisible( bool ) ;

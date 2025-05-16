@@ -254,6 +254,21 @@ void library::textAlignmentChanged( Qt::LayoutDirection )
 {
 }
 
+bool library::hasMultipleSelections()
+{
+	int multipleSelections = 0 ;
+
+	for( int row = 0 ; row < m_table.rowCount() ; row++ ){
+
+		if( m_table.isSelected( row ) ){
+
+			multipleSelections++ ;
+		}
+	}
+
+	return multipleSelections > 1 ;
+}
+
 bool library::deletePath( const QString& m )
 {
 	QFileInfo mm( m ) ;
@@ -521,17 +536,7 @@ void library::cxMenuRequested( QPoint )
 
 	connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this,row ](){
 
-		int multipleSelections = 0 ;
-
-		for( int row = 0 ; row < m_table.rowCount() ; row++ ){
-
-			if( m_table.isSelected( row ) ){
-
-				multipleSelections++ ;
-			}
-		}
-
-		if( multipleSelections > 1 ){
+		if( this->hasMultipleSelections() ){
 
 			m_ui.pbLibrarySetNewFileName->setObjectName( "DeleteSelectedItems" ) ;
 
@@ -539,9 +544,9 @@ void library::cxMenuRequested( QPoint )
 
 			m_ui.labelLibrarySetNewFileName->setText( a ) ;
 
-			m_ui.plainTextLibrarySetNewName->clear() ;
+			this->setRenameUiVisible( true ) ;
 
-			m_ui.plainTextLibrarySetNewName->setEnabled( false ) ;
+			m_ui.plainTextLibrarySetNewName->setVisible( false ) ;
 		}else{
 			if( m_table.stuffAt( row ) == directoryEntries::ICON::FILE ){
 
@@ -558,16 +563,16 @@ void library::cxMenuRequested( QPoint )
 
 			auto m = m_table.item( row,1 ).text() ;
 
-			m_ui.plainTextLibrarySetNewName->setEnabled( true ) ;
-
 			m_ui.plainTextLibrarySetNewName->setPlainText( m ) ;
+
+			m_ui.plainTextLibrarySetNewName->setReadOnly( true ) ;
+
+			this->setRenameUiVisible( true ) ;
 		}
 
 		m_ui.pbLibrarySetNewFileName->setText( tr( "Yes" ) ) ;
 
 		m_ui.pbLibraryCancelRename->setText( tr( "No" ) ) ;
-
-		this->setRenameUiVisible( true ) ;
 	} ) ;
 
 	connect( m.addAction( tr( "Delete All" ) ),&QAction::triggered,[ this ](){
@@ -587,7 +592,11 @@ void library::cxMenuRequested( QPoint )
 		m_ui.plainTextLibrarySetNewName->setVisible( false ) ;
 	} ) ;
 
-	connect( m.addAction( tr( "Rename" ) ),&QAction::triggered,[ this,row ](){
+	auto ac = m.addAction( tr( "Rename" ) ) ;
+
+	ac->setEnabled( !this->hasMultipleSelections() ) ;
+
+	connect( ac,&QAction::triggered,[ this,row ](){
 
 		if( m_table.stuffAt( row ) == directoryEntries::ICON::FILE ){
 
@@ -606,13 +615,13 @@ void library::cxMenuRequested( QPoint )
 
 		m_ui.pbLibraryCancelRename->setText( tr( "Cancel" ) ) ;
 
-		m_ui.plainTextLibrarySetNewName->setReadOnly( false ) ;
-
 		auto m = m_table.item( row,1 ).text() ;
 
 		m_ui.plainTextLibrarySetNewName->setPlainText( m ) ;
 
 		m_ui.plainTextLibrarySetNewName->moveCursor( QTextCursor::End ) ;
+
+		m_ui.plainTextLibrarySetNewName->setReadOnly( false ) ;
 
 		m_ui.plainTextLibrarySetNewName->setFocus() ;
 
