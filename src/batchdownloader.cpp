@@ -560,8 +560,6 @@ void batchdownloader::showCustomContext()
 
 					auto u = utility::setDownloadOptions( engine,m_table,row ) ;
 
-					this->disableAll() ;
-
 					this->downloadSingle( engine,row,u.move() ) ;
 				}
 			}			
@@ -746,8 +744,6 @@ void batchdownloader::downloadAddItems( const engines::engine& engine,Items list
 
 	const auto& eng = m_ctx.Engines().getEngineByName( ee.engineName ) ;
 
-	this->disableAll() ;
-
 	if( eng ){
 
 		auto u = utility::setDownloadOptions( eng.value(),m_table,row ) ;
@@ -800,10 +796,9 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	if( !m_initDone ){
 
-		return this->addItemUiSlot( { engine,list.move() } ) ;
-	}
+		this->addItemUiSlot( { engine,list.move() } ) ;
 
-	if( m_startAutoDownload && list.hasOneEntry() ){
+	}else  if( m_startAutoDownload && list.hasOneEntry() ){
 
 		this->downloadAddItems( engine,list.move() ) ;
 
@@ -1920,6 +1915,8 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 			m_parent.m_ui.lineEditBDUrl->setEnabled( true ) ;
 
 			m_parent.m_ui.pbBDCancel->setEnabled( true ) ;
+
+			m_parent.m_table.setEnabled( true ) ;
 		}
 		int index()
 		{
@@ -2651,6 +2648,8 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row,const u
 		}
 		void disableAll()
 		{
+			m_parent.disableAll() ;
+
 			m_parent.m_ui.pbBDPasteClipboard->setEnabled( true ) ;
 
 			m_parent.m_ui.pbBDAdd->setEnabled( true ) ;

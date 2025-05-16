@@ -69,11 +69,11 @@ library::library( const Context& ctx ) :
 
 			this->deleteEntry( m_table.currentRow() ) ;
 
-		}else if( "DeleteAll" ){
+		}else if( m == "DeleteAll" ){
 
 			this->deleteAll() ;
 
-		}else if( "DeleteSelectedItems" ){
+		}else if( m == "DeleteSelectedItems" ){
 
 			std::vector< int > items ;
 
@@ -521,28 +521,51 @@ void library::cxMenuRequested( QPoint )
 
 	connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this,row ](){
 
-		if( m_table.stuffAt( row ) == directoryEntries::ICON::FILE ){
+		int multipleSelections = 0 ;
 
-			auto a = tr( "Are You Sure You Want To Delete Below File?" ) ;
+		for( int row = 0 ; row < m_table.rowCount() ; row++ ){
 
-			m_ui.labelLibrarySetNewFileName->setText( a ) ;
-		}else{
-			auto a = tr( "Are You Sure You Want To Delete Below Folder?" ) ;
+			if( m_table.isSelected( row ) ){
 
-			m_ui.labelLibrarySetNewFileName->setText( a ) ;
+				multipleSelections++ ;
+			}
 		}
 
-		auto m = m_table.item( row,1 ).text() ;
+		if( multipleSelections > 1 ){
 
-		m_ui.plainTextLibrarySetNewName->setPlainText( m ) ;
+			m_ui.pbLibrarySetNewFileName->setObjectName( "DeleteSelectedItems" ) ;
 
-		m_ui.pbLibrarySetNewFileName->setObjectName( "Delete" ) ;
+			auto a = tr( "Are You Sure You Want To Delete Selected Items?" ) ;
+
+			m_ui.labelLibrarySetNewFileName->setText( a ) ;
+
+			m_ui.plainTextLibrarySetNewName->clear() ;
+
+			m_ui.plainTextLibrarySetNewName->setEnabled( false ) ;
+		}else{
+			if( m_table.stuffAt( row ) == directoryEntries::ICON::FILE ){
+
+				auto a = tr( "Are You Sure You Want To Delete Below File?" ) ;
+
+				m_ui.labelLibrarySetNewFileName->setText( a ) ;
+			}else{
+				auto a = tr( "Are You Sure You Want To Delete Below Folder?" ) ;
+
+				m_ui.labelLibrarySetNewFileName->setText( a ) ;
+			}
+
+			m_ui.pbLibrarySetNewFileName->setObjectName( "Delete" ) ;
+
+			auto m = m_table.item( row,1 ).text() ;
+
+			m_ui.plainTextLibrarySetNewName->setEnabled( true ) ;
+
+			m_ui.plainTextLibrarySetNewName->setPlainText( m ) ;
+		}
 
 		m_ui.pbLibrarySetNewFileName->setText( tr( "Yes" ) ) ;
 
 		m_ui.pbLibraryCancelRename->setText( tr( "No" ) ) ;
-
-		m_ui.plainTextLibrarySetNewName->setReadOnly( true ) ;
 
 		this->setRenameUiVisible( true ) ;
 	} ) ;
