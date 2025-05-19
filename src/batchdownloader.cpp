@@ -558,9 +558,7 @@ void batchdownloader::showCustomContext()
 
 				if( visible && highlighted && ( !m || forceDownload ) ){
 
-					auto u = utility::setDownloadOptions( engine,m_table,row ) ;
-
-					this->downloadSingle( engine,row,u.move() ) ;
+					this->downloadSingle( engine,row ) ;
 				}
 			}			
 		} ) ;
@@ -746,42 +744,10 @@ void batchdownloader::downloadAddItems( const engines::engine& engine,Items list
 
 	if( eng ){
 
-		auto u = utility::setDownloadOptions( eng.value(),m_table,row ) ;
-
-		this->downloadSingle( eng.value(),row,u ) ;
+		this->downloadSingle( eng.value(),row ) ;
 	}else{
-		auto u = utility::setDownloadOptions( engine,m_table,row ) ;
-
-		this->downloadSingle( engine,row,u ) ;
+		this->downloadSingle( engine,row ) ;
 	}
-	/*
-	if( m_table.noneAreRunning() ){
-
-		if( eng ){
-
-			auto u = utility::setDownloadOptions( eng.value(),m_table,row ) ;
-
-			this->downloadSingle( eng.value(),row,u ) ;
-		}else{
-			auto u = utility::setDownloadOptions( engine,m_table,row ) ;
-
-			this->downloadSingle( engine,row,u ) ;
-		}
-	}else{
-		downloadManager::index index( m_table,downloadManager::index::tab::batch ) ;
-
-		index.add( row,ee.downloadingOptions ) ;
-
-		auto mm = m_ctx.Settings().maxConcurrentDownloads() ;
-
-		if( eng ){
-
-			m_ccmd.download_add( eng.value(),index.move(),mm,batchdownloader::de( *this ) ) ;
-		}else{
-			m_ccmd.download_add( engine,index.move(),mm,batchdownloader::de( *this ) ) ;
-		}
-	}
-	*/
 }
 
 void batchdownloader::showThumbnail( const engines::engine& engine,
@@ -808,9 +774,14 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	}else if( m_showMetaData && engine.likeYtDlp() ){
 
-		for( const auto& it : list ){
+		if( m_downloadingInstances > 0 ){
 
-			this->getMetaData( it,engine,autoDownload ) ;
+			this->addItemUiSlot( { engine,list.move() } ) ;
+		}else{
+			for( const auto& it : list ){
+
+				this->getMetaData( it,engine,autoDownload ) ;
+			}
 		}
 	}else{
 		this->addItemUiSlot( { engine,list.move() } ) ;
@@ -1896,9 +1867,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 				if( m_autoDownload ){
 
-					auto u = utility::setDownloadOptions( m_engine,m_parent.m_table,m_index ) ;
-
-					m_parent.downloadSingle( m_engine,m_index,u ) ;
+					m_parent.downloadSingle( m_engine,m_index ) ;
 				}
 			}else{
 				m_parent.addItem( this->index(),enableAll,m_url ) ;
@@ -2551,188 +2520,69 @@ void batchdownloader::addToList( const QString& u )
 	} ) ;
 }
 
-void batchdownloader::downloadStart( const engines::engine& engine,downloadManager::index indexes )
+bool batchdownloader::downloadable( int row )
 {
-	if( indexes.empty() ){
+	auto e = m_table.runningState( row ) ;
 
-		return ;
+	if( downloadManager::finishedStatus::finishedWithSuccess( e ) ){
+
+		return false ;
+	}else{
+		return true ;
 	}
+}
+
+void batchdownloader::download( const engines::engine& engine )
+{
+	m_topDownloadingIndex = 0 ;
+	m_downloadingInstances = 0 ;
 
 	m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
-				      m_ui.lineEditBDUrlOptions->text(),
-				      settings::tabName::batch ) ;
+				     m_ui.lineEditBDUrlOptions->text(),
+				     settings::tabName::batch ) ;
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
-
-	this->disableAll() ;
 
 	class meaw
 	{
 	public:
-		meaw( batchdownloader& parent,const engines::engine& engine,downloadManager::index id ) :
-			m_parent( parent ),m_engine( engine ),m_indexes( id.move() )
+		meaw( batchdownloader& parent,const engines::engine& engine ) :
+			m_parent( parent ),m_engine( engine )
 		{
 		}
 		void operator()()
 		{
+			auto& t = m_parent.m_table ;
+
+			std::vector< int > v ;
+
+			for( int s = 0 ; s < t.rowCount() ; s++ ){
+
+				if( m_parent.downloadable( s ) ){
+
+					v.emplace_back( s ) ;
+				}
+			}
+
 			auto mm = m_parent.m_settings.maxConcurrentDownloads() ;
 
-			batchdownloader::de de( m_parent ) ;
+			auto s = std::min( mm,v.size() ) ;
 
-			m_parent.m_ccmd.download_start( m_indexes.move(),m_engine,mm,de.move() ) ;
+			for( size_t m = 0 ; m < s ; m++ ){
+
+				m_parent.downloadRecursively( m_engine,v[ m ] ) ;
+			}
 		}
 	private:
 		batchdownloader& m_parent ;
 		const engines::engine& m_engine ;
-		downloadManager::index m_indexes ;
 	} ;
 
-	engine.updateVersionInfo( m_ctx,meaw( *this,engine,indexes.move() ) ) ;
-}
-
-void batchdownloader::download( const engines::engine& engine,int init )
-{
-	downloadManager::index indexes( m_table,downloadManager::index::tab::batch ) ;	
-
-	for( int s = init ; s < m_table.rowCount() ; s++ ){
-
-		auto e = m_table.runningState( s ) ;
-
-		auto visible = m_table.rowIsVisible( s ) ;
-
-		if( visible && !downloadManager::finishedStatus::finishedWithSuccess( e ) ){
-
-			auto u = utility::setDownloadOptions( engine,m_table,s ) ;
-
-			indexes.add( s,u ) ;
-		}
-	}
-
-	this->downloadStart( engine,indexes.move() ) ;
-}
-
-void batchdownloader::downloadSingle( const engines::engine& eng,int row,const utility::downLoadOptions& dopt )
-{
-	class events
-	{
-	public:
-		events( batchdownloader& p,const engines::engine& engine,int index ) :
-			m_parent( p ),
-			m_engine( engine ),
-			m_index( index )
-		{
-		}
-		bool addData( const QByteArray& e )
-		{
-			if( utility::containsLinkerWarning( e ) ){
-
-				return false ;
-			}else{
-				return true ;
-			}
-		}
-		void done( engines::ProcessExitState st,const std::vector< QByteArray >& fileNames )
-		{
-			downloadManager::finishedStatus::state m ;
-
-			if( st.cancelled() ){
-
-				m = downloadManager::finishedStatus::state::cancelled ;
-			}else{
-				m = downloadManager::finishedStatus::state::done ;
-			}
-
-			downloadManager::finishedStatus s{ m_index,m_index,m,st } ;
-
-			emit m_parent.reportFStatus( reportFinished( m_engine,s ),fileNames ) ;
-		}
-		void disableAll()
-		{
-			m_parent.disableAll() ;
-
-			m_parent.m_ui.pbBDPasteClipboard->setEnabled( true ) ;
-
-			m_parent.m_ui.pbBDAdd->setEnabled( true ) ;
-
-			m_parent.m_ui.lineEditBDUrl->setEnabled( true ) ;
-
-			m_parent.m_ui.pbBDCancel->setEnabled( true ) ;
-
-			m_parent.m_table.setEnabled( true ) ;
-		}
-		int index()
-		{
-			return m_index ;
-		}
-		void printOutPut( const QByteArray& e )
-		{
-			m_parent.m_ctx.debug( m_index,e ) ;
-		}
-		QString downloadFolder()
-		{
-			return m_parent.m_ctx.Settings().downloadFolder() ;
-		}
-		events move()
-		{
-			return std::move( *this ) ;
-		}
-		const engines::engine& engine()
-		{
-			return m_engine ;
-		}
-	private:
-		batchdownloader& m_parent ;
-		const engines::engine& m_engine ;
-		int m_index ;
-	} ;
-
-	m_ctx.TabManager().basicDownloader().hideTableList() ;
-
-	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),row ) ;
-
-	auto updater = [ this,row ]( const QByteArray& e ){
-
-		emit this->addTextToUiSignal( e,row ) ;
-	} ;
-
-	auto error = []( const QByteArray& ){} ;
-
-	int id = utility::concurrentID() ;
-
-	auto& ll = m_ctx.logger() ;
-
-	auto logs   = m_settings.getLogsLimits() ;
-
-	auto logger = make_loggerBatchDownloader( engine.filter( id ),ll,updater,error,id,logs ) ;
-
-	m_table.setRunningState( downloadManager::finishedStatus::running(),row ) ;
-
-	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
-
-	auto updateOpts = [ &engine ]( QStringList opts ){
-
-		engine.updateLocalOptions( opts ) ;
-
-		return opts ;
-	} ;
-
-	const auto& ent = m_table.entryAt( row ) ;
-
-	downloadManager::download_exec( engine,
-				       std::move( updateOpts ),
-				       m_ui.lineEditBDUrlOptions->text(),
-				       m_table.url( row ),
-				       m_ctx,
-				       { dopt,{ row,m_table.rowCount() },true,ent },
-				       m_terminator.setUp(),
-				       events( *this,engine,row ),
-				       logger.move() ) ;
-
-	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
+	engine.updateVersionInfo( m_ctx,meaw( *this,engine ) ) ;
 }
 
 void batchdownloader::reportFinishedStatus( const reportFinished& f,
-					    const std::vector< QByteArray >& fileNames )
+					   const std::vector< QByteArray >& fileNames )
 {
 	auto finishedStatus = f.finishedStatus() ;
 
@@ -2790,18 +2640,31 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f,
 	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
 }
 
-void batchdownloader::downloadEntry( const engines::engine& eng,int index )
+void batchdownloader::disableWhileDownloading()
+{
+	this->disableAll() ;
+
+	m_ui.pbBDPasteClipboard->setEnabled( true ) ;
+
+	m_ui.pbBDAdd->setEnabled( true ) ;
+
+	m_ui.lineEditBDUrl->setEnabled( true ) ;
+
+	m_ui.pbBDCancel->setEnabled( true ) ;
+
+	m_table.setEnabled( true ) ;
+}
+
+void batchdownloader::downloadSingle( const engines::engine& eng,int row )
 {
 	class events
 	{
 	public:
 		events( batchdownloader& p,const engines::engine& engine,int index ) :
-			m_parent( p ),m_engine( engine ),m_index( index )
+			m_parent( p ),
+			m_engine( engine ),
+			m_index( index )
 		{
-		}
-		const engines::engine& engine()
-		{
-			return m_engine ;
 		}
 		bool addData( const QByteArray& e )
 		{
@@ -2812,13 +2675,24 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 				return true ;
 			}
 		}
-		void done( engines::ProcessExitState e,std::vector< QByteArray > s )
+		void done( engines::ProcessExitState st,const std::vector< QByteArray >& fileNames )
 		{
-			event ev( m_parent,m_engine,std::move( s ) ) ;
-			m_parent.m_ccmd.monitorForFinished( m_engine,m_index,e.move(),ev.move() ) ;
+			downloadManager::finishedStatus::state m ;
+
+			if( st.cancelled() ){
+
+				m = downloadManager::finishedStatus::state::cancelled ;
+			}else{
+				m = downloadManager::finishedStatus::state::done ;
+			}
+
+			downloadManager::finishedStatus s{ m_index,m_index,m,st } ;
+
+			emit m_parent.reportFStatus( reportFinished( m_engine,s ),fileNames ) ;
 		}
 		void disableAll()
 		{
+			m_parent.disableWhileDownloading() ;
 		}
 		int index()
 		{
@@ -2830,87 +2704,129 @@ void batchdownloader::downloadEntry( const engines::engine& eng,int index )
 		}
 		QString downloadFolder()
 		{
-			return m_parent.m_settings.downloadFolder() ;
+			return m_parent.m_ctx.Settings().downloadFolder() ;
+		}
+		events move()
+		{
+			return std::move( *this ) ;
+		}
+		const engines::engine& engine()
+		{
+			return m_engine ;
+		}
+	private:
+		batchdownloader& m_parent ;
+		const engines::engine& m_engine ;
+		int m_index ;
+	} ;
+
+	m_ctx.TabManager().basicDownloader().hideTableList() ;
+
+	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
+
+	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),row ) ;
+
+	this->downloadEvent( events( *this,engine,row ) ) ;
+}
+
+void batchdownloader::downloadRecursively( const engines::engine& eng,int index )
+{
+	class events
+	{
+	public:
+		events( batchdownloader& p,const engines::engine& engine,int index ) :
+			m_parent( p ),
+			m_engine( engine ),
+			m_index( index )
+		{
+			m_parent.m_topDownloadingIndex++ ;
+			m_parent.m_downloadingInstances++ ;
+		}
+		bool addData( const QByteArray& e )
+		{
+			if( utility::containsLinkerWarning( e ) ){
+
+				return false ;
+			}else{
+				return true ;
+			}
+		}
+		const engines::engine& engine()
+		{
+			return m_engine ;
+		}
+		void done( engines::ProcessExitState st,const std::vector< QByteArray >& fileNames )
+		{
+			m_parent.m_downloadingInstances-- ;
+
+			downloadManager::finishedStatus::state m ;
+
+			if( st.cancelled() ){
+
+				m = downloadManager::finishedStatus::state::cancelled ;
+			}else{
+				this->startNext() ;
+
+				m = downloadManager::finishedStatus::state::done ;
+			}
+
+			downloadManager::finishedStatus s{ m_index,m_index,m,st } ;
+
+			emit m_parent.reportFStatus( reportFinished( m_engine,s ),fileNames ) ;
+		}
+		void disableAll()
+		{
+			m_parent.disableWhileDownloading() ;
+		}
+		int index()
+		{
+			return m_index ;
+		}
+		void printOutPut( const QByteArray& e )
+		{
+			m_parent.m_ctx.debug( m_index,e ) ;
+		}
+		QString downloadFolder()
+		{
+			return m_parent.m_ctx.Settings().downloadFolder() ;
 		}
 		events move()
 		{
 			return std::move( *this ) ;
 		}
 	private:
-		class event
+		void startNext()
 		{
-		public:
-			event( batchdownloader& p,const engines::engine& engine,std::vector< QByteArray > f ) :
-				m_parent( p ),m_engine( engine ),m_fileNames( std::move( f ) )
-			{
-			}
-			void next( const engines::engine& engine,int index )
-			{
-				m_parent.downloadEntry( engine,index ) ;
-			}
-			event move()
-			{
-				return std::move( *this ) ;
-			}
-			void finished( downloadManager::finishedStatus f )
-			{
-				reportFinished r( m_engine,f.move() ) ;
+			if( m_parent.m_topDownloadingIndex < m_parent.m_table.rowCount() ){
 
-				emit m_parent.reportFStatus( r.move(),std::move( m_fileNames ) ) ;
-			}
-		private:
-			batchdownloader& m_parent ;
-			const engines::engine& m_engine ;
-			std::vector< QByteArray > m_fileNames ;
-		} ;
+				auto e = m_parent.m_table.runningState( m_parent.m_topDownloadingIndex ) ;
 
+				if( downloadManager::finishedStatus::running( e ) ){
+
+					m_parent.m_topDownloadingIndex++ ;
+
+					this->startNext() ;
+				}else{
+					m_parent.downloadRecursively( m_engine,m_parent.m_topDownloadingIndex ) ;
+				}
+			}
+		}
 		batchdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_index ;
 	} ;
 
+	m_ctx.TabManager().basicDownloader().hideTableList() ;
+
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
 	m_settings.addOptionsHistory( m,settings::tabName::batch ) ;
 
-	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
-
-	auto updater = [ this,index ]( const QByteArray& e ){
-
-		emit this->addTextToUiSignal( e,index ) ;
-	} ;
-
-	auto error = []( const QByteArray& ){} ;
-
-	int id = utility::concurrentID() ;
-
-	auto& ll = m_ctx.logger() ;
-
-	auto logs   = m_settings.getLogsLimits() ;
-
-	auto logger = make_loggerBatchDownloader( engine.filter( id ),ll,updater,error,id,logs ) ;
-
-	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
-
-	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
-
-	auto updateOpts = [ &engine ]( QStringList opts ){
-
-		engine.updateLocalOptions( opts ) ;
-
-		return opts ;
-	} ;
-
 	m_ctx.mainWindow().setTitle( m_table.completeProgress( 0 ) ) ;
 
-	m_ccmd.download_entry( engine,
-			      std::move( updateOpts ),
-			      m_ui.lineEditBDUrlOptions->text(),
-			      m_table.url( index ),
-			      m_ctx,
-			      m_terminator.setUp(),
-			      events( *this,engine,index ),
-			      logger.move() ) ;
+	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
+
+	this->downloadEvent( events( *this,engine,index ) ) ;
 }
 
 void batchdownloader::addTextToUi( const QByteArray& data,int index )

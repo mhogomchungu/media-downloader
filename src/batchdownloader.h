@@ -218,6 +218,7 @@ signals:
 	void addTextToUiSignal( const QByteArray&,int ) ;
 	void addClipboardSignal( QString,bool ) ;
 private:
+	void disableWhileDownloading() ;
 	void addClipboardSlot( QString,bool ) ;
 	void addTextToUi( const QByteArray&,int ) ;
 	void getMetaData( const Items::entry&,const engines::engine&,bool ) ;
@@ -248,14 +249,14 @@ private:
 	void getListFromFile( const QString&,bool ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
+	bool downloadable( int ) ;
 	void clearScreen() ;
 	void showCustomContext() ;
 	void addToList( const QString& ) ;
-	void downloadStart( const engines::engine&,downloadManager::index ) ;
 	void downloadAddItems( const engines::engine&,Items ) ;
-	void download( const engines::engine&,int = 0 ) ;
-	void downloadSingle( const engines::engine&,int row,const utility::downLoadOptions& ) ;
-	void downloadEntry( const engines::engine&,int ) ;
+	void download( const engines::engine& ) ;
+	void downloadSingle( const engines::engine&,int ) ;
+	void downloadRecursively( const engines::engine&,int ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;
 	void addItemUi( int,bool,const utility::MediaEntry& ) ;
 	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
@@ -279,6 +280,52 @@ private:
 		}
 	} ;
 
+	template< typename Event >
+	void downloadEvent( Event event )
+	{
+		const engines::engine& engine = event.engine() ;
+
+		int index = event.index() ;
+
+		auto updater = [ this,index ]( const QByteArray& e ){
+
+			emit this->addTextToUiSignal( e,index ) ;
+		} ;
+
+		auto error  = []( const QByteArray& ){} ;
+
+		int id      = utility::concurrentID() ;
+
+		auto& ll    = m_ctx.logger() ;
+
+		auto logs   = m_settings.getLogsLimits() ;
+
+		auto logger = make_loggerBatchDownloader( engine.filter( id ),ll,updater,error,id,logs ) ;
+
+		m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
+
+		m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
+
+		auto updateOpts = [ &engine ]( QStringList opts ){
+
+			engine.updateLocalOptions( opts ) ;
+
+			return opts ;
+		} ;
+
+		auto dopt = utility::setDownloadOptions( engine,m_table,index ) ;
+		const auto& ent = m_table.entryAt( index ) ;
+
+		downloadManager::download_exec( engine,
+					       std::move( updateOpts ),
+					       m_ui.lineEditBDUrlOptions->text(),
+					       m_table.url( index ),
+					       m_ctx,
+					       { dopt,{ index,m_table.rowCount() },true,ent },
+					       m_terminator.setUp(),
+					       event.move(),
+					       logger.move() ) ;
+	}
 	void networkResult( networkCtx,const utils::network::reply& ) ;
 	const Context& m_ctx ;
 	settings& m_settings ;
@@ -286,6 +333,8 @@ private:
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
 	bool m_showMetaData ;
+	int m_topDownloadingIndex = 0 ;
+	int m_downloadingInstances = 0 ;
 	tableWidget m_table ;
 	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
 	QString m_commentsFileName ;
@@ -356,25 +405,6 @@ private:
 		batchdownloader& m_parent ;
 		bool _autoStartDownload ;
 		bool _showMetaData ;
-	} ;
-
-	class de
-	{
-	public:
-		de( batchdownloader& e ) :
-			m_parent( e )
-		{
-		}
-		void operator()( const engines::engine& engine,int index )
-		{
-			m_parent.downloadEntry( engine,index ) ;
-		}
-		de move()
-		{
-			return std::move( *this ) ;
-		}
-	private:
-		batchdownloader& m_parent ;
 	} ;
 
 	class BatchLogger
