@@ -1987,7 +1987,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	auto ctx = utility::make_ctx( events( *this,engine,index,autoDownload,url,wrapper ),
 				     wrapper,
-				     m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,index ),
+				     m_terminator.setUp(),
 				     QProcess::ProcessChannel::StandardOutput ) ;
 
 	utility::run( args,QString(),ctx.move() ) ;
@@ -2688,8 +2688,6 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row,const u
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	auto term = m_terminator.setUp( m_ui.pbBDCancel,&QPushButton::clicked,row ) ;
-
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),row ) ;
 
 	auto updater = [ this,row ]( const QByteArray& e ){
@@ -2726,7 +2724,7 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row,const u
 				       m_table.url( row ),
 				       m_ctx,
 				       { dopt,{ row,m_table.rowCount() },true,ent },
-				       term,
+				       m_terminator.setUp(),
 				       events( *this,engine,row ),
 				       logger.move() ) ;
 
