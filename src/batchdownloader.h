@@ -249,8 +249,10 @@ private:
 	void getListFromFile( const QString&,bool ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
+	void updateTitleBar() ;
 	bool downloadable( int ) ;
 	void clearScreen() ;
+	void hideBasicDownloaderTableList() ;
 	void showCustomContext() ;
 	void addToList( const QString& ) ;
 	void downloadAddItems( const engines::engine&,Items ) ;
@@ -281,11 +283,77 @@ private:
 	} ;
 
 	template< typename Event >
-	void downloadEvent( Event event )
+	void downloadEvent( Event event,const engines::engine& engine,int index )
 	{
-		const engines::engine& engine = event.engine() ;
+		class events
+		{
+		public:
+			events( batchdownloader& p,const engines::engine& engine,int index,Event e ) :
+				m_parent( p ),
+				m_engine( engine ),
+				m_index( index ),
+				m_event( e.move() )
+			{
+				m_event.whenCreated() ;
+			}
+			bool addData( const QByteArray& e )
+			{
+				if( utility::containsLinkerWarning( e ) ){
 
-		int index = event.index() ;
+					return false ;
+				}else{
+					return true ;
+				}
+			}
+			const engines::engine& engine()
+			{
+				return m_engine ;
+			}
+			void done( engines::ProcessExitState st,const std::vector< QByteArray >& fileNames )
+			{
+				downloadManager::finishedStatus::state m ;
+
+				if( st.cancelled() ){
+
+					m_event.whenDone( false ) ;
+
+					m = downloadManager::finishedStatus::state::cancelled ;
+				}else{
+					m_event.whenDone( true ) ;
+
+					m = downloadManager::finishedStatus::state::done ;
+				}
+
+				downloadManager::finishedStatus s{ m_index,m_index,m,st } ;
+
+				emit m_parent.reportFStatus( reportFinished( m_engine,s ),fileNames ) ;
+			}
+			void disableAll()
+			{
+				m_parent.disableWhileDownloading() ;
+			}
+			int index()
+			{
+				return m_index ;
+			}
+			void printOutPut( const QByteArray& e )
+			{
+				m_parent.m_ctx.debug( m_index,e ) ;
+			}
+			QString downloadFolder()
+			{
+				return m_parent.m_ctx.Settings().downloadFolder() ;
+			}
+			events move()
+			{
+				return std::move( *this ) ;
+			}
+		private:
+			batchdownloader& m_parent ;
+			const engines::engine& m_engine ;
+			int m_index ;
+			Event m_event ;
+		} ;
 
 		auto updater = [ this,index ]( const QByteArray& e ){
 
@@ -303,6 +371,9 @@ private:
 		auto logger = make_loggerBatchDownloader( engine.filter( id ),ll,updater,error,id,logs ) ;
 
 		m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
+
+		this->hideBasicDownloaderTableList() ;
+		this->updateTitleBar() ;
 
 		m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
@@ -323,7 +394,7 @@ private:
 					       m_ctx,
 					       { dopt,{ index,m_table.rowCount() },true,ent },
 					       m_terminator.setUp(),
-					       event.move(),
+					       events( *this,engine,index,event.move() ),
 					       logger.move() ) ;
 	}
 	void networkResult( networkCtx,const utils::network::reply& ) ;
