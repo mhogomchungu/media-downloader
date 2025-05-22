@@ -88,11 +88,11 @@ Media Downloader is in official Fedora repositories and can be installed by runn
 
 ### Binary packages for other Linux distributions
 
-Binary downloads for a few Linux distributions are [here](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader).
+Binary packages i maintain for a few Linux distributions are [here](https://software.opensuse.org//download.html?project=home%3Aobs_mhogomchungu&package=media-downloader).
 
 ### Packaging Status
 
-https://repology.org/project/media-downloader/badges
+A short list of distributions that have Media Downloader in their repositories and the version they have is maintained [here](https://repology.org/project/media-downloader/badges).
 
 
 # Screenshots
