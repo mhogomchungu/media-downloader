@@ -37,7 +37,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_table( *m_ui.tableWidgetBD,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,0,m_ctx.mainWidget().font() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
-	m_ccmd( m_ctx,*m_ui.pbBDCancel ),
 	m_downloadingComments( tr( "Downloading comments" ).toUtf8() ),
 	m_startAutoDownload( m_settings.autoDownloadWhenAddedInBatchDownloader() ),
 	m_subtitlesTimer( m_tableWidgetBDList )
@@ -346,11 +345,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 		m_ctx.mainWindow().quitApp() ;
 	} ) ;
 
-	connect( m_ui.pbBDCancel,&QPushButton::clicked,[ this ](){
-
-		m_ccmd.cancelled() ;
-	} ) ;
-
 	connect( m_ui.pbBDAdd,&QPushButton::clicked,[ this ](){
 
 		auto m = m_ui.lineEditBDUrl->text() ;
@@ -415,8 +409,8 @@ void batchdownloader::showCustomContext()
 
 	auto txt = m_table.runningState( row ) ;
 
-	auto running = downloadManager::finishedStatus::running( txt ) ;
-	auto finishSuccess = downloadManager::finishedStatus::finishedWithSuccess( txt ) ;
+	auto running = reportFinished::finishedStatus::running( txt ) ;
+	auto finishSuccess = reportFinished::finishedStatus::finishedWithSuccess( txt ) ;
 
 	auto ac = m.addAction( tr( "Open" ) ) ;
 
@@ -554,7 +548,7 @@ void batchdownloader::showCustomContext()
 				auto visible     = m_table.rowIsVisible( row ) ;
 				auto highlighted = m_table.rowIsSelected( row ) ;
 
-				auto m = downloadManager::finishedStatus::finishedWithSuccess( e ) ;
+				auto m = reportFinished::finishedStatus::finishedWithSuccess( e ) ;
 
 				if( visible && highlighted && ( !m || forceDownload ) ){
 
@@ -797,7 +791,7 @@ void batchdownloader::getMetaData( const Items::entry& it,
 	auto uiText        = it.uiText ;
 	entry.uiText       = "...\n" + uiText ;
 	entry.thumbnail    = m_defaultVideoThumbnail ;
-	entry.runningState = downloadManager::finishedStatus::running() ;
+	entry.runningState = reportFinished::finishedStatus::running() ;
 
 	auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
 
@@ -805,7 +799,7 @@ void batchdownloader::getMetaData( const Items::entry& it,
 
 	util::Timer( 1000,[ this,row,uiText ]( int counter ){
 
-		using ff = downloadManager::finishedStatus ;
+		using ff = reportFinished::finishedStatus ;
 
 		if( ff::running( m_table.runningState( row ) ) ){
 
@@ -1973,7 +1967,7 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 				Ui::MainWindow& ui,
 				const utility::MediaEntry& media )
 {
-	auto state = downloadManager::finishedStatus::notStarted() ;
+	auto state = reportFinished::finishedStatus::notStarted() ;
 
 	int row ;
 
@@ -2530,18 +2524,6 @@ void batchdownloader::addToList( const QString& u )
 	} ) ;
 }
 
-bool batchdownloader::downloadable( int row )
-{
-	auto e = m_table.runningState( row ) ;
-
-	if( downloadManager::finishedStatus::finishedWithSuccess( e ) ){
-
-		return false ;
-	}else{
-		return true ;
-	}
-}
-
 void batchdownloader::download( const engines::engine& engine )
 {
 	m_topDownloadingIndex = 0 ;
@@ -2568,7 +2550,7 @@ void batchdownloader::download( const engines::engine& engine )
 
 			for( int s = 0 ; s < t.rowCount() ; s++ ){
 
-				if( m_parent.downloadable( s ) ){
+				if( !m_parent.m_table.finishedWithSuccess( s ) ){
 
 					v.emplace_back( s ) ;
 				}
@@ -2594,7 +2576,7 @@ void batchdownloader::download( const engines::engine& engine )
 void batchdownloader::reportFinishedStatus( const reportFinished& f,
 					   const std::vector< QByteArray >& fileNames )
 {
-	auto finishedStatus = f.finishedStatus() ;
+	auto finishedStatus = f.status() ;
 
 	utility::updateFinishedState( f.engine(),m_settings,m_table,finishedStatus,fileNames ) ;
 
@@ -2723,7 +2705,10 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 
 				auto e = m_parent.m_table.runningState( m ) ;
 
-				if( downloadManager::finishedStatus::running( e ) ){
+				auto a = reportFinished::finishedStatus::running( e ) ;
+				auto b = reportFinished::finishedStatus::finishedWithSuccess( e ) ;
+
+				if( a || b ){
 
 					m_parent.m_topDownloadingIndex++ ;
 

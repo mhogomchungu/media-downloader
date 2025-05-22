@@ -26,7 +26,7 @@
 #include "settings.h"
 #include "utility.h"
 #include "context.hpp"
-#include "downloadmanager.hpp"
+#include "reportFinished.h"
 #include "tableWidget.h"
 
 class tabManager ;
@@ -250,7 +250,6 @@ private:
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
 	void updateTitleBar() ;
-	bool downloadable( int ) ;
 	void clearScreen() ;
 	void hideBasicDownloaderTableList() ;
 	void showCustomContext() ;
@@ -311,20 +310,20 @@ private:
 			}
 			void done( engines::ProcessExitState st,const std::vector< QByteArray >& fileNames )
 			{
-				downloadManager::finishedStatus::state m ;
+				reportFinished::finishedStatus::state m ;
 
 				if( st.cancelled() ){
 
 					m_event.whenDone( false ) ;
 
-					m = downloadManager::finishedStatus::state::cancelled ;
+					m = reportFinished::finishedStatus::state::cancelled ;
 				}else{
 					m_event.whenDone( true ) ;
 
-					m = downloadManager::finishedStatus::state::done ;
+					m = reportFinished::finishedStatus::state::done ;
 				}
 
-				downloadManager::finishedStatus s{ m_index,m_index,m,st } ;
+				reportFinished::finishedStatus s{ m_index,m,st } ;
 
 				emit m_parent.reportFStatus( reportFinished( m_engine,s ),fileNames ) ;
 			}
@@ -370,7 +369,7 @@ private:
 
 		auto logger = make_loggerBatchDownloader( engine.filter( id ),ll,updater,error,id,logs ) ;
 
-		m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
+		m_table.setRunningState( reportFinished::finishedStatus::running(),index ) ;
 
 		this->hideBasicDownloaderTableList() ;
 		this->updateTitleBar() ;
@@ -387,15 +386,15 @@ private:
 		auto dopt = utility::setDownloadOptions( engine,m_table,index ) ;
 		const auto& ent = m_table.entryAt( index ) ;
 
-		downloadManager::download_exec( engine,
-					       std::move( updateOpts ),
-					       m_ui.lineEditBDUrlOptions->text(),
-					       m_table.url( index ),
-					       m_ctx,
-					       { dopt,{ index,m_table.rowCount() },true,ent },
-					       m_terminator.setUp(),
-					       events( *this,engine,index,event.move() ),
-					       logger.move() ) ;
+		utility::download( engine,
+				  std::move( updateOpts ),
+				  m_ui.lineEditBDUrlOptions->text(),
+				  m_table.url( index ),
+				  m_ctx,
+				  { dopt,{ index,m_table.rowCount() },true,ent },
+				  m_terminator.setUp(),
+				  events( *this,engine,index,event.move() ),
+				  logger.move() ) ;
 	}
 	void networkResult( networkCtx,const utils::network::reply& ) ;
 	const Context& m_ctx ;
@@ -438,8 +437,6 @@ private:
 	} ;
 
 	widgetOverMainTable m_widgetOverMainTable ;
-
-	downloadManager m_ccmd ;
 
 	QByteArray m_downloadingComments ;
 

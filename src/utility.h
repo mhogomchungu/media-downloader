@@ -1397,7 +1397,51 @@ namespace utility
 
 		utils::qprocess::run( cmd.exe(),cmd.args(),ctx.move() ) ;
 	}
+	struct downloadTrackerOpts
+	{
+		downloadTrackerOpts( const utility::downLoadOptions& a,
+				    const utility::uiIndex& b,
+				    bool c,
+				    const tableWidget::entry& d ) :
+		    downloadOpts( a ),
+		    uiIndex( b ),
+		    forceDownload( c ),
+		    entry( d )
+		{
+		}
+		utility::downLoadOptions downloadOpts ;
+		utility::uiIndex uiIndex ;
+		bool forceDownload ;
+		tableWidget::entry entry ;
+	} ;
+	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater,typename Ctx >
+	static void download( const engines::engine& engine,
+			     const OptionUpdater& optsUpdater,
+			     const QString& uiDownloadOptions,
+			     const QString& url,
+			     const Ctx& ctx,
+			     const downloadTrackerOpts& dOpts,
+			     TermSignal term,
+			     Options opts,
+			     Logger logger,
+			     utility::ProcessOutputChannels channel = utility::ProcessOutputChannels() )
+	{
+		utility::args args( uiDownloadOptions,dOpts.downloadOpts.downloadOptions,engine ) ;
 
+		const auto& a = dOpts.downloadOpts ;
+		const auto& b = engine ;
+		auto& c = ctx.Settings() ;
+		const auto& d = dOpts.uiIndex ;
+		const auto& e = dOpts.forceDownload ;
+
+		utility::updateOptionsStruct opt{ a,b,c,args,d,e,{ url },dOpts.entry,ctx } ;
+
+		auto m = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
+
+		auto u = optsUpdater( utility::updateOptions( opt ) ) ;
+
+		utility::run( std::move( u ),args.credentials(),m.move() ) ;
+	}
 	template< typename List,
 		  std::enable_if_t< std::is_lvalue_reference< List >::value,int > = 0 >
 	class reverseIterator

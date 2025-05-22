@@ -391,7 +391,7 @@ void basicdownloader::download( const QString& url )
 	m_hiddenTable.clear() ;
 
 	auto uiText = m.last() ;
-	auto state = downloadManager::finishedStatus::notStarted() ;
+	auto state = reportFinished::finishedStatus::notStarted() ;
 
 	tableWidget::entry entry ;
 
@@ -481,9 +481,9 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 				m_parent.listRequested( m_listData,m_id ) ;
 			}else{
-				auto e = downloadManager::finishedStatus::state::done ;
+				auto e = reportFinished::finishedStatus::state::done ;
 
-				auto a = downloadManager::finishedStatus( e,m.move() ) ;
+				auto a = reportFinished::finishedStatus( e,m.move() ) ;
 
 				auto& s = m_parent.m_ctx.Settings() ;
 

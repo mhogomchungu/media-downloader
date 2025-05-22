@@ -90,6 +90,7 @@ set(SRC
     src/proxy.cpp
     src/basicdownloader.cpp
     src/about.cpp
+    src/reportFinished.cpp
     src/themes.cpp
     src/batchdownloader.cpp
     src/tabmanager.cpp

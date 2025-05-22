@@ -23,7 +23,7 @@
 
 #include "settings.h"
 #include "context.hpp"
-#include "downloadmanager.hpp"
+#include "reportFinished.h"
 #include "tableWidget.h"
 
 class tabManager ;
@@ -124,9 +124,8 @@ private:
 	void networkResult( networkCtx,const utils::network::reply& ) ;
 
 	void download() ;
-	void download( const engines::engine&,downloadManager::index ) ;
 	void download( const engines::engine& ) ;
-	void download( const engines::engine&,int ) ;
+	void downloadRecursively( const engines::engine&,int,bool ) ;
 
 	void showBanner() ;
 	void clearScreen() ;
@@ -145,10 +144,9 @@ private:
 	bool m_stoppedOnExisting ;
 	bool m_dataReceived ;
 
+	int m_topDownloadingIndex = 0 ;
 	int m_networkRunning = 0 ;
 	int m_downloaderId = -1 ;
-
-	downloadManager m_ccmd ;
 
 	utility::Terminator m_terminator ;
 

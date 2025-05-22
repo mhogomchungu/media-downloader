@@ -29,7 +29,7 @@
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
 
-#include "downloadmanager.hpp"
+#include "reportFinished.h"
 #include "utility.h"
 #include "version.h"
 #include "tableWidget.h"
@@ -238,7 +238,7 @@ void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
 
 void engines::openUrls( tableWidget& table,int row,const engines::engine& engine ) const
 {
-	if( downloadManager::finishedStatus::finishedWithSuccess( table,row ) ){
+	if( reportFinished::finishedStatus::finishedWithSuccess( table,row ) ){
 
 		const auto& ee = table.uiText( row ) ;
 		const auto& ss = table.entryAt( row ).fileNames ;

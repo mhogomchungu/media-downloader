@@ -19,7 +19,7 @@
 
 #include "tableWidget.h"
 #include "utility.h"
-#include "downloadmanager.hpp"
+#include "reportFinished.h"
 
 #include <QHeaderView>
 #include <QBuffer>
@@ -254,7 +254,7 @@ int tableWidget::addItem( tableWidget::entry e,tableWidget::sizeHint s )
 
 bool tableWidget::finishedWithSuccess( int row ) const
 {
-	return downloadManager::finishedStatus::finishedWithSuccess( *this,row ) ;
+	return reportFinished::finishedStatus::finishedWithSuccess( *this,row ) ;
 }
 
 void tableWidget::selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber )
@@ -432,7 +432,7 @@ bool tableWidget::noneAreRunning()
 {
 	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
 
-		if( downloadManager::finishedStatus::running( this->runningState( i ) ) ){
+		if( reportFinished::finishedStatus::running( this->runningState( i ) ) ){
 
 			return false ;
 		}
@@ -473,7 +473,7 @@ bool tableWidget::allFinishedWithSuccess()
 {
 	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
 
-		if( !downloadManager::finishedStatus::finishedWithSuccess( this->runningState( i ) ) ){
+		if( !reportFinished::finishedStatus::finishedWithSuccess( this->runningState( i ) ) ){
 
 			return false ;
 		}
@@ -488,7 +488,7 @@ int tableWidget::finishWithSuccess()
 
 	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
 
-		if( downloadManager::finishedStatus::finishedWithSuccess( this->runningState( i ) ) ){
+		if( reportFinished::finishedStatus::finishedWithSuccess( this->runningState( i ) ) ){
 
 			m++ ;
 		}
@@ -512,23 +512,23 @@ QString tableWidget::completeProgress( int firstRow )
 
 		const auto& s = this->runningState( i ) ;
 
-		if( downloadManager::finishedStatus::running( s ) ){
+		if( reportFinished::finishedStatus::running( s ) ){
 
 			running++ ;
 		}
-		if( downloadManager::finishedStatus::notStarted( s ) ){
+		if( reportFinished::finishedStatus::notStarted( s ) ){
 
 			notStarted++ ;
 		}
-		if( downloadManager::finishedStatus::finishedWithSuccess( s ) ){
+		if( reportFinished::finishedStatus::finishedWithSuccess( s ) ){
 
 			completed++ ;
 		}
-		if( downloadManager::finishedStatus::finishedWithError( s ) ){
+		if( reportFinished::finishedStatus::finishedWithError( s ) ){
 
 			errored++ ;
 		}
-		if( downloadManager::finishedStatus::finishedCancelled( s ) ){
+		if( reportFinished::finishedStatus::finishedCancelled( s ) ){
 
 			cancelled++ ;
 		}

@@ -23,7 +23,7 @@
 
 #include "settings.h"
 #include "context.hpp"
-#include "downloadmanager.hpp"
+#include "reportFinished.h"
 #include "tableWidget.h"
 #include "tabmanager.h"
 #include "version.h"
@@ -1231,7 +1231,7 @@ static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuc
 
 		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
 
-			using gg = downloadManager::finishedStatus ;
+			using gg = reportFinished::finishedStatus ;
 
 			if( !gg::finishedWithSuccess( e.runningState ) ){
 

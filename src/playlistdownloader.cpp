@@ -35,7 +35,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_tabManager( m_ctx.TabManager() ),
 	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
 	m_subscriptionTable( *m_ui.tableWidgetPlDownloaderSubscription,0,m_ctx.mainWidget().font() ),
-	m_ccmd( m_ctx,*m_ui.pbPLCancel ),
 	m_defaultVideoThumbnailIcon( m_settings.defaultVideoThumbnailIcon( settings::tabName::playlist ) ),
 	m_banner( m_table ),
 	m_subscription( m_ctx,m_subscriptionTable,*m_ui.widgetPlDownloader )
@@ -239,11 +238,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 			m_ui.lineEditPLUrlOptions->setText( mm ) ;
 		}
-	} ) ;
-
-	connect( m_ui.pbPLCancel,&QPushButton::clicked,[ this ](){
-
-		m_ccmd.cancelled() ;
 	} ) ;
 
 	connect( m_ui.pbPLGetList,&QPushButton::clicked,[ this ](){		
@@ -495,8 +489,8 @@ void playlistdownloader::customContextMenuRequested()
 		return utility::appendContextMenu( m,ss,function,false,row,m_table ) ;
 	}
 
-	auto running = downloadManager::finishedStatus::running( txt ) ;
-	auto finishSuccess = downloadManager::finishedStatus::finishedWithSuccess( txt ) ;
+	auto running = reportFinished::finishedStatus::running( txt ) ;
+	auto finishSuccess = reportFinished::finishedStatus::finishedWithSuccess( txt ) ;
 
 	auto ac = m.addAction( tr( "Open" ) ) ;
 
@@ -586,41 +580,30 @@ void playlistdownloader::customContextMenuRequested()
 
 		connect( ac,&QAction::triggered,[ &engine,this,forceDownload ](){
 
-			auto rr = downloadManager::index::tab::playlist ;
+			std::vector< int > v ;
 
-			downloadManager::index indexes( m_table,rr ) ;
+			for( int row = 1 ; row < m_table.rowCount() ; row++ ){
 
-			for( int row = 0 ; row < m_table.rowCount() ; row++ ){
-
-				auto e = m_table.runningState( row ) ;
-
-				auto s = downloadManager::finishedStatus::finishedWithSuccess( e ) ;
-
+				const auto& e    = m_table.runningState( row ) ;
 				auto visible     = m_table.rowIsVisible( row ) ;
 				auto highlighted = m_table.rowIsSelected( row ) ;
 
-				if( visible && highlighted && ( !s || forceDownload ) ){
+				auto m = reportFinished::finishedStatus::finishedWithSuccess( e ) ;
 
-					auto u = m_table.downloadingOptions( row ) ;
+				if( visible && highlighted && ( !m || forceDownload ) ){
 
-					auto function = utility::setDownloadOptions ;
-
-					if( u.isEmpty() ){
-
-						auto m = m_ui.lineEditPLUrlOptions->text() ;
-
-						auto mm = function( engine,m_table,row,m ) ;
-
-						indexes.add( row,mm.move() ) ;
-					}else{
-						auto uu = function( engine,m_table,row,u ) ;
-
-						indexes.add( row,uu.move() ) ;
-					}
+					v.emplace_back( row ) ;
 				}
 			}
 
-			this->download( this->defaultEngine(),indexes.move() ) ;
+			auto mm = m_settings.maxConcurrentDownloads() ;
+
+			auto s = std::min( mm,v.size() ) ;
+
+			for( size_t m = 0 ; m < s ; m++ ){
+
+				this->downloadRecursively( engine,v[ m ],false ) ;
+			}
 		} ) ;
 	} ) ;
 
@@ -761,12 +744,42 @@ void playlistdownloader::download()
 	this->download( this->defaultEngine() ) ;
 }
 
-void playlistdownloader::download( const engines::engine& engine,downloadManager::index indexes )
+void playlistdownloader::download( const engines::engine& engine )
 {
-	if( indexes.empty() ){
+	class meaw
+	{
+	public:
+		meaw( playlistdownloader& parent,const engines::engine& engine ) :
+		    m_parent( parent ),m_engine( engine )
+		{
+		}
+		void operator()()
+		{
+			std::vector< int > v ;
 
-		return ;
-	}
+			for( int s = 1 ; s < m_parent.m_table.rowCount() ; s++ ){
+
+				if( !m_parent.m_table.finishedWithSuccess( s ) ){
+
+					v.emplace_back( s ) ;
+				}
+			}
+
+			auto mm = m_parent.m_settings.maxConcurrentDownloads() ;
+
+			auto s = std::min( mm,v.size() ) ;
+
+			for( size_t m = 0 ; m < s ; m++ ){
+
+				m_parent.downloadRecursively( m_engine,v[ m ],true ) ;
+			}
+		}
+	private:
+		playlistdownloader& m_parent ;
+		const engines::engine& m_engine ;
+	} ;
+
+	m_topDownloadingIndex = 0 ;
 
 	m_ctx.logger().clear() ;
 
@@ -774,67 +787,24 @@ void playlistdownloader::download( const engines::engine& engine,downloadManager
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
-	auto s = m_settings.maxConcurrentDownloads() ;
-
-	class meaw
-	{
-	public:
-		meaw( playlistdownloader& parent ) : m_parent( parent )
-		{
-		}
-		void operator()( const engines::engine& engine,int index )
-		{
-			m_parent.download( engine,index ) ;
-		}
-	private:
-		playlistdownloader& m_parent ;
-	} ;
-
-	m_ccmd.download_start( indexes.move(),engine,s,meaw( *this ) ) ;
+	engine.updateVersionInfo( m_ctx,meaw( *this,engine ) ) ;
 }
 
-void playlistdownloader::download( const engines::engine& engine )
-{
-	downloadManager::index indexes( m_table,downloadManager::index::tab::playlist ) ;
-
-	for( int s = 0 ; s < m_table.rowCount() ; s++ ){
-
-		auto validUrl = !m_table.url( s ).isEmpty() ;
-
-		auto e = m_table.runningState( s ) ;
-
-		auto visible = m_table.rowIsVisible( s ) ;
-
-		auto m = downloadManager::finishedStatus::finishedWithSuccess( e ) ;
-
-		if( visible && validUrl && !m ){
-
-			if( s >= 0 && s < m_table.rowCount() ){
-
-				auto u = m_table.downloadingOptions( s ) ;
-
-				auto m = utility::setDownloadOptions( engine,m_table,s,u ) ;
-
-				indexes.add( s,m.move() ) ;
-			}
-		}
-	}
-
-	this->download( engine,indexes.move() ) ;
-}
-
-void playlistdownloader::download( const engines::engine& eng,int index )
-{
+void playlistdownloader::downloadRecursively( const engines::engine& eng,int index,bool recurse )
+{	
 	class events
 	{
 	public:
-		events( playlistdownloader& p,const engines::engine& engine,int index ) :
-			m_parent( p ),m_engine( engine ),m_index( index )
+		events( playlistdownloader& p,const engines::engine& engine,int index,bool recurse ) :
+			m_parent( p ),
+			m_engine( engine ),
+			m_index( index ),
+			m_recurse( recurse )
 		{
-		}
-		const engines::engine& engine()
-		{
-			return m_engine ;
+			if( m_recurse ){
+
+				m_parent.m_topDownloadingIndex++ ;
+			}
 		}
 		bool addData( const QByteArray& e )
 		{
@@ -845,15 +815,38 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 				return true ;
 			}
 		}
-		void done( engines::ProcessExitState e,std::vector< QByteArray > s )
+		const engines::engine& engine()
 		{
-			event ev( m_parent,m_engine,std::move( s ) ) ;
-			auto& h = m_parent.m_ccmd ;
+			return m_engine ;
+		}
+		void done( engines::ProcessExitState st,const std::vector< QByteArray >& fileNames )
+		{
+			m_parent.m_ctx.mainWindow().setTitle( m_parent.m_table.completeProgress( 1 ) ) ;
 
-			h.monitorForFinished( m_engine,m_index,e,ev.move() ) ;
+			m_parent.m_banner.updateTimer() ;
+
+			reportFinished::finishedStatus::state m ;
+
+			if( st.cancelled() ){
+
+				m = reportFinished::finishedStatus::state::cancelled ;
+			}else{
+				if( m_recurse ){
+
+					this->startNext() ;
+				}
+
+				m = reportFinished::finishedStatus::state::done ;
+			}
+
+			reportFinished::finishedStatus s{ m_index,m,st } ;
+
+			emit m_parent.reportFinishedStatusSignal( { m_engine,s.move() },fileNames ) ;
 		}
 		void disableAll()
 		{
+			m_parent.disableAll() ;
+			m_parent.m_ui.pbPLCancel->setEnabled( true ) ;
 		}
 		int index()
 		{
@@ -872,37 +865,31 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 			return std::move( *this ) ;
 		}
 	private:
-		class event
+		void startNext()
 		{
-		public:
-			event( playlistdownloader& p,const engines::engine& engine,std::vector< QByteArray > s ) :
-				m_parent( p ),m_engine( engine ),m_fileNames( std::move( s ) )
-			{
-			}
-			event move()
-			{
-				return std::move( *this ) ;
-			}
-			void next( const engines::engine& engine,int index )
-			{
-				m_parent.m_banner.updateTimer() ;
-				m_parent.download( engine,index ) ;
-			}
-			void finished( const downloadManager::finishedStatus& f )
-			{
-				reportFinished r( m_engine,f ) ;
+			if( m_parent.m_topDownloadingIndex < m_parent.m_table.rowCount() ){
 
-				emit m_parent.reportFinishedStatusSignal( r.move(),std::move( m_fileNames ) ) ;
-			}
-		private:
-			playlistdownloader& m_parent ;
-			const engines::engine& m_engine ;
-			std::vector< QByteArray > m_fileNames ;
-		} ;
+				auto m = m_parent.m_topDownloadingIndex ;
 
+				auto e = m_parent.m_table.runningState( m ) ;
+
+				auto a = reportFinished::finishedStatus::running( e ) ;
+				auto b = reportFinished::finishedStatus::finishedWithSuccess( e ) ;
+
+				if( a || b ){
+
+					m_parent.m_topDownloadingIndex++ ;
+
+					this->startNext() ;
+				}else{
+					m_parent.downloadRecursively( m_engine,m,m_recurse ) ;
+				}
+			}
+		}
 		playlistdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_index ;
+		bool m_recurse ;
 	} ;
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
@@ -918,12 +905,12 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
-	auto logs = m_settings.getLogsLimits() ;
-	auto id = utility::concurrentID() ;
-	auto ff = engine.filter( id ) ;
+	auto logs   = m_settings.getLogsLimits() ;
+	auto id     = utility::concurrentID() ;
+	auto ff     = engine.filter( id ) ;
 	auto logger = make_loggerBatchDownloader( ff.move(),m_ctx.logger(),updater,error,id,logs ) ;
 
-	m_table.setRunningState( downloadManager::finishedStatus::running(),index ) ;
+	m_table.setRunningState( reportFinished::finishedStatus::running(),index ) ;
 
 	auto optsUpdater = [ this ]( QStringList opts ){
 
@@ -938,14 +925,18 @@ void playlistdownloader::download( const engines::engine& eng,int index )
 
 	m_ctx.mainWindow().setTitle( m_table.completeProgress( 1 ) ) ;
 
-	m_ccmd.download_entry( engine,
-			      optsUpdater,
-			      m_ui.lineEditPLUrlOptions->text(),
-			      m_table.url( index ),
-			      m_ctx,
-			      m_terminator.setUp(),
-			      events( *this,engine,index ),
-			      logger.move() ) ;
+	auto dopt = utility::setDownloadOptions( engine,m_table,index ) ;
+	const auto& ent = m_table.entryAt( index ) ;
+
+	utility::download( engine,
+			  std::move( optsUpdater ),
+			  m_ui.lineEditPLUrlOptions->text(),
+			  m_table.url( index ),
+			  m_ctx,
+			  { dopt,{ index,m_table.rowCount() },true,ent },
+			  m_terminator.setUp(),
+			  events( *this,engine,index,recurse ),
+			  logger.move() ) ;
 }
 
 void playlistdownloader::showBanner()
@@ -1218,7 +1209,7 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 			m_stoppedOnExisting = true ;
 			m_ui.pbPLCancel->click() ;
 
-			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
+			auto s = reportFinished::finishedStatus::finishedWithSuccess() ;
 
 			auto mm = QObject::tr( "Stopping Because Media Is Already In Archive File" ) ;
 
@@ -1228,7 +1219,7 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 		}else if( copts.skipOnExisting() ){
 
-			auto s = downloadManager::finishedStatus::finishedWithSuccess() ;
+			auto s = reportFinished::finishedStatus::finishedWithSuccess() ;
 
 			auto mm = QObject::tr( "Media Already In Archive" ) ;
 
@@ -1290,7 +1281,7 @@ void playlistdownloader::networkData( const utility::networkReply& m )
 	auto& table = m.table() ;
 	auto& media = m.media() ;
 
-	auto s = downloadManager::finishedStatus::notStarted() ;
+	auto s = reportFinished::finishedStatus::notStarted() ;
 
 	if( networkAccess::hasNetworkSupport() ){
 
@@ -1320,7 +1311,7 @@ void playlistdownloader::networkData( const utility::networkReply& m )
 
 void playlistdownloader::addTextToUi( const QByteArray& data,int index )
 {
-	if( downloadManager::finishedStatus::running( m_table.runningState( index ) ) ){
+	if( reportFinished::finishedStatus::running( m_table.runningState( index ) ) ){
 
 		m_banner.updateTimer() ;
 
@@ -1329,17 +1320,17 @@ void playlistdownloader::addTextToUi( const QByteArray& data,int index )
 }
 
 void playlistdownloader::reportFinishedStatus( const reportFinished& f,
-					       const std::vector< QByteArray >& fileNames )
+					      const std::vector< QByteArray >& fileNames )
 {
 	m_banner.updateTimer() ;
 
-	utility::updateFinishedState( f.engine(),m_settings,m_table,f.finishedStatus(),fileNames ) ;
+	utility::updateFinishedState( f.engine(),m_settings,m_table,f.status(),fileNames ) ;
 
-	auto index = f.finishedStatus().index() ;
+	auto index = f.status().index() ;
 
 	if( m_settings.desktopNotifyOnDownloadComplete() ){
 
-		if( f.finishedStatus().exitState().success() ){
+		if( f.status().exitState().success() ){
 
 			const auto& ss = m_table.entryAt( index ).uiText ;
 
@@ -1382,7 +1373,7 @@ void playlistdownloader::reportFinishedStatus( const reportFinished& f,
 
 	if( m_ctx.Settings().autoHideDownloadWhenCompleted() ){
 
-		const auto& r = f.finishedStatus().finishedWithSuccess() ;
+		const auto& r = f.status().finishedWithSuccess() ;
 
 		if( m_table.runningState( index ) == r ){
 
