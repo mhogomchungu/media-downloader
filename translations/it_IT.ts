@@ -52,14 +52,6 @@
         <translation>URL playlist:</translation>
     </message>
     <message>
-        <source>Remove A Plugin</source>
-        <translation>Rimuovi plugin</translation>
-    </message>
-    <message>
-        <source>Add a Plugin</source>
-        <translation>Aggiungi plugin</translation>
-    </message>
-    <message>
         <source>Engine&apos;s Name</source>
         <translation>Nome engine</translation>
     </message>
@@ -244,10 +236,6 @@
         <translation>Imposta opzioni download</translation>
     </message>
     <message>
-        <source>Update Plugin</source>
-        <translation>Aggiorna plugin</translation>
-    </message>
-    <message>
         <source>Text Encoding</source>
         <translation>Codifica testo</translation>
     </message>
@@ -274,10 +262,6 @@
     <message>
         <source>Website</source>
         <translation>Sito web</translation>
-    </message>
-    <message>
-        <source>Show MetaData In Batch Downloader Tab</source>
-        <translation>Visualizza metadati nella scheda Batch Downloader</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
@@ -395,6 +379,46 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
         <translation>Switch tra il nome del browser ed il percorso del file cookie</translation>
+    </message>
+    <message>
+        <source>Show MetaData In Batch Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto Download Added Entries In Batch Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify When Download Completes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify When All Downloads Complete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Engine&apos;s Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Binary Folder</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -196,14 +196,6 @@
         <translation>选择语言</translation>
     </message>
     <message>
-        <source>Add a Plugin</source>
-        <translation>添加插件</translation>
-    </message>
-    <message>
-        <source>Remove A Plugin</source>
-        <translation>移除插件</translation>
-    </message>
-    <message>
         <source>Use Manually Specified Proxy Configuration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -254,14 +246,6 @@
     <message>
         <source>Enable Library Tab</source>
         <translation>启用库选项</translation>
-    </message>
-    <message>
-        <source>Update Plugin</source>
-        <translation>更新插件</translation>
-    </message>
-    <message>
-        <source>Show MetaData In Batch Downloader Tab</source>
-        <translation>在批量下载选项卡中显示元数据</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
@@ -391,6 +375,46 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show MetaData In Batch Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto Download Added Entries In Batch Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify When Download Completes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify When All Downloads Complete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Engine&apos;s Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Binary Folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -196,14 +196,6 @@
         <translation>Selecione o Idioma</translation>
     </message>
     <message>
-        <source>Add a Plugin</source>
-        <translation>Adicionar um Plugin</translation>
-    </message>
-    <message>
-        <source>Remove A Plugin</source>
-        <translation>Remover Um Plugin</translation>
-    </message>
-    <message>
         <source>Use Manually Specified Proxy Configuration</source>
         <translation>Usar configuração de proxy especificada manualmente</translation>
     </message>
@@ -254,14 +246,6 @@
     <message>
         <source>Enable Library Tab</source>
         <translation>Ativar Aba Biblioteca</translation>
-    </message>
-    <message>
-        <source>Update Plugin</source>
-        <translation>Plugin De Atualização</translation>
-    </message>
-    <message>
-        <source>Show MetaData In Batch Downloader Tab</source>
-        <translation>Mostrar metadados na guia Batch Downloader</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
@@ -393,6 +377,46 @@ Exemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show MetaData In Batch Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto Download Added Entries In Batch Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify When Download Completes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify When All Downloads Complete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Engine&apos;s Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Binary Folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

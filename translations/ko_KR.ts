@@ -196,14 +196,6 @@
         <translation>언어 선택</translation>
     </message>
     <message>
-        <source>Add a Plugin</source>
-        <translation>플러그인 추가</translation>
-    </message>
-    <message>
-        <source>Remove A Plugin</source>
-        <translation>플러그인 제거</translation>
-    </message>
-    <message>
         <source>Save</source>
         <translation>저장</translation>
     </message>
@@ -234,14 +226,6 @@
     <message>
         <source>Done</source>
         <translation>완료</translation>
-    </message>
-    <message>
-        <source>Update Plugin</source>
-        <translation>플러그인 업데이트</translation>
-    </message>
-    <message>
-        <source>Show MetaData In Batch Downloader Tab</source>
-        <translation>일괄 다운로더 탭에 메타데이터 표시</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
@@ -393,6 +377,46 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show MetaData In Batch Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Auto Download Added Entries In Batch Downloader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify When Download Completes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notify When All Downloads Complete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Engine&apos;s Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add An Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Binary Folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
