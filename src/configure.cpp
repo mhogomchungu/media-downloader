@@ -601,6 +601,11 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbAutoHideDownloadCompleted->setChecked( m_settings.autoHideDownloadWhenCompleted() ) ;
 
+	m_ui.cbconfigureAutoDownload->setChecked( m_settings.autoDownloadWhenAddedInBatchDownloader() ) ;
+
+	m_ui.cbConfigureNotifyWhenAllDownloadCompltes->setChecked( m_settings.desktopNotifyOnAllDownloadComplete() ) ;
+	m_ui.cbConfigureNotifyWhenDownloadComplete->setChecked( m_settings.desktopNotifyOnDownloadComplete() ) ;
+
 	auto ss = m_settings.showMetaDataInBatchDownloader() ;
 
 	m_ui.cbConfigureShowMetaDataInBatchDownloader->setChecked( ss ) ;
@@ -1126,6 +1131,9 @@ void configure::saveOptions()
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
 	m_settings.setAutoHideDownloadWhenCompleted( m_ui.cbAutoHideDownloadCompleted->isChecked() ) ;
+	m_settings.setAutoDownloadWhenAddedInBatchDownloader( m_ui.cbconfigureAutoDownload->isChecked() ) ;
+	m_settings.setDesktopNotifyOnAllDownloadComplete( m_ui.cbConfigureNotifyWhenAllDownloadCompltes->isChecked() ) ;
+	m_settings.setDesktopNotifyOnDownloadComplete( m_ui.cbConfigureNotifyWhenDownloadComplete->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
@@ -1394,6 +1402,9 @@ void configure::enableAll()
 	m_ui.comboBoxActionsWhenStarting->setEnabled( true ) ;
 	m_ui.cbCookieSource->setEnabled( true ) ;
 	m_ui.labelPathToCookieFile->setEnabled( true ) ;
+	m_ui.cbconfigureAutoDownload->setEnabled( true ) ;
+	m_ui.cbConfigureNotifyWhenAllDownloadCompltes->setEnabled( true ) ;
+	m_ui.cbConfigureNotifyWhenDownloadComplete->setEnabled( true ) ;
 }
 
 void configure::textAlignmentChanged( Qt::LayoutDirection z )
@@ -1483,6 +1494,9 @@ void configure::disableAll()
 	m_ui.cbAutoHideDownloadCompleted->setEnabled( false ) ;
 	m_ui.labelActionsAtStartup->setEnabled( false ) ;
 	m_ui.comboBoxActionsWhenStarting->setEnabled( false ) ;
+	m_ui.cbconfigureAutoDownload->setEnabled( false ) ;
+	m_ui.cbConfigureNotifyWhenAllDownloadCompltes->setEnabled( false ) ;
+	m_ui.cbConfigureNotifyWhenDownloadComplete->setEnabled( false ) ;
 }
 
 configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :

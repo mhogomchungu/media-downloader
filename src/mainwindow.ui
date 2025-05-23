@@ -1343,7 +1343,7 @@
         <x>10</x>
         <y>10</y>
         <width>771</width>
-        <height>401</height>
+        <height>431</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -1438,19 +1438,6 @@
       </property>
       <property name="text">
        <string>Home</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="cbLibraryTabEnable">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>410</y>
-        <width>681</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Enable Library Tab</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pbLibraryCancel">
@@ -1632,45 +1619,6 @@
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="pbConfigureDownload">
-        <property name="geometry">
-         <rect>
-          <x>188</x>
-          <y>130</y>
-          <width>421</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Update Plugin</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pbConfigureRemoveAPlugin">
-        <property name="geometry">
-         <rect>
-          <x>188</x>
-          <y>170</y>
-          <width>421</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Remove A Plugin</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pbConfigureAddAPlugin">
-        <property name="geometry">
-         <rect>
-          <x>188</x>
-          <y>90</y>
-          <width>421</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Add a Plugin</string>
-        </property>
-       </widget>
        <widget class="QCheckBox" name="cbConfigureShowMetaDataInBatchDownloader">
         <property name="geometry">
          <rect>
@@ -1681,7 +1629,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Show MetaData In Batch Downloader Tab</string>
+         <string>Show MetaData In Batch Downloader</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="lineEditConfigureMaximuConcurrentDownloads">
@@ -1717,7 +1665,7 @@
         <property name="geometry">
          <rect>
           <x>188</x>
-          <y>210</y>
+          <y>90</y>
           <width>421</width>
           <height>31</height>
          </rect>
@@ -1727,7 +1675,7 @@
         <property name="geometry">
          <rect>
           <x>8</x>
-          <y>210</y>
+          <y>90</y>
           <width>171</width>
           <height>31</height>
          </rect>
@@ -1746,7 +1694,7 @@
         <property name="geometry">
          <rect>
           <x>620</x>
-          <y>210</y>
+          <y>90</y>
           <width>31</width>
           <height>31</height>
          </rect>
@@ -1782,22 +1730,6 @@
         </property>
         <property name="text">
          <string>Auto Save List Of Not Downloaded Media</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pbOpenBinFolder">
-        <property name="geometry">
-         <rect>
-          <x>620</x>
-          <y>130</y>
-          <width>31</width>
-          <height>33</height>
-         </rect>
-        </property>
-        <property name="toolTip">
-         <string>A Button To Open A Folder Where Extension's Binaries Are Stored</string>
-        </property>
-        <property name="text">
-         <string/>
         </property>
        </widget>
        <widget class="QCheckBox" name="cbAutoHideDownloadCompleted">
@@ -1862,229 +1794,68 @@
          <bool>true</bool>
         </property>
        </widget>
-      </widget>
-      <widget class="QWidget" name="tabPresetOptions">
-       <attribute name="title">
-        <string>Preset Options</string>
-       </attribute>
-       <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
+       <widget class="QCheckBox" name="cbconfigureAutoDownload">
         <property name="geometry">
          <rect>
-          <x>129</x>
-          <y>370</y>
-          <width>251</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="toolTip">
-         <string>Reset Option To Its Default</string>
-        </property>
-        <property name="text">
-         <string>Set Defaults</string>
-        </property>
-       </widget>
-       <widget class="QTableWidget" name="tableWidgetConfigurePresetOptions">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>741</width>
-          <height>231</height>
-         </rect>
-        </property>
-        <property name="editTriggers">
-         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-        </property>
-        <property name="tabKeyNavigation">
-         <bool>false</bool>
-        </property>
-        <property name="showDropIndicator" stdset="0">
-         <bool>false</bool>
-        </property>
-        <property name="selectionMode">
-         <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
-        </property>
-        <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectionBehavior::SelectItems</enum>
-        </property>
-        <property name="gridStyle">
-         <enum>Qt::PenStyle::SolidLine</enum>
-        </property>
-        <column>
-         <property name="text">
-          <string>Website</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Ui Name</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Options</string>
-         </property>
-        </column>
-       </widget>
-       <widget class="QLineEdit" name="lineEditConfigureUiName">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>290</y>
-          <width>501</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEditConfigurePresetOptions">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>330</y>
-          <width>501</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelConfugureUiName">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>290</y>
-          <width>111</width>
-          <height>31</height>
+          <x>188</x>
+          <y>230</y>
+          <width>421</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Ui Name</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         <string>Auto Download Added Entries In Batch Downloader</string>
         </property>
        </widget>
-       <widget class="QLabel" name="labelConfigureOptionsPresetOptiions">
+       <widget class="QCheckBox" name="cbLibraryTabEnable">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>330</y>
-          <width>111</width>
-          <height>31</height>
+          <x>188</x>
+          <y>210</y>
+          <width>421</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Options</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         <string>Enable Library Tab</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pbConfigureAddToPresetList">
+       <widget class="QCheckBox" name="cbConfigureNotifyWhenDownloadComplete">
         <property name="geometry">
          <rect>
-          <x>380</x>
-          <y>370</y>
-          <width>251</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="text">
-         <string>Add</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEditConfigureWebsite">
-        <property name="geometry">
-         <rect>
-          <x>130</x>
-          <y>250</y>
-          <width>501</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelConfugureWebSite">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>250</y>
-          <width>111</width>
-          <height>31</height>
+          <x>188</x>
+          <y>190</y>
+          <width>421</width>
+          <height>20</height>
          </rect>
         </property>
         <property name="text">
-         <string>Website</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         <string>Notify When Download Completes</string>
         </property>
        </widget>
-       <widget class="QLabel" name="labelBaseConfirmResetPreset">
+       <widget class="QCheckBox" name="cbConfigureNotifyWhenAllDownloadCompltes">
         <property name="geometry">
          <rect>
-          <x>70</x>
-          <y>60</y>
-          <width>621</width>
-          <height>161</height>
-         </rect>
-        </property>
-        <property name="autoFillBackground">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelBaseConfirmResetPresetText">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>70</y>
-          <width>541</width>
-          <height>71</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Are You Sure You Want To Reset These Options To Their Defaults?</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignCenter</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pbConfigureConfirmResetNo">
-        <property name="geometry">
-         <rect>
-          <x>270</x>
+          <x>188</x>
           <y>170</y>
-          <width>111</width>
-          <height>33</height>
+          <width>421</width>
+          <height>20</height>
          </rect>
         </property>
-        <property name="text">
-         <string>No</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pbConfigureConfirmResetYes">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>170</y>
-          <width>111</width>
-          <height>33</height>
-         </rect>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="text">
-         <string>Yes</string>
+         <string>Notify When All Downloads Complete</string>
         </property>
        </widget>
       </widget>
       <widget class="QWidget" name="EngineDefaultOptions">
        <attribute name="title">
-        <string>Engine's Default Options</string>
+        <string>Engine's Options</string>
        </attribute>
        <widget class="QComboBox" name="cbConfigureEngines">
         <property name="geometry">
@@ -2327,6 +2098,285 @@
         </property>
         <property name="text">
          <string/>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabPresetOptions">
+       <attribute name="title">
+        <string>Preset Options</string>
+       </attribute>
+       <widget class="QPushButton" name="pbConfigureSetPresetDefaults">
+        <property name="geometry">
+         <rect>
+          <x>129</x>
+          <y>370</y>
+          <width>251</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>Reset Option To Its Default</string>
+        </property>
+        <property name="text">
+         <string>Set Defaults</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="tableWidgetConfigurePresetOptions">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>741</width>
+          <height>231</height>
+         </rect>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+        </property>
+        <property name="tabKeyNavigation">
+         <bool>false</bool>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectionBehavior::SelectItems</enum>
+        </property>
+        <property name="gridStyle">
+         <enum>Qt::PenStyle::SolidLine</enum>
+        </property>
+        <column>
+         <property name="text">
+          <string>Website</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Ui Name</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Options</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigureUiName">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>290</y>
+          <width>501</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigurePresetOptions">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>330</y>
+          <width>501</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelConfugureUiName">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>290</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ui Name</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelConfigureOptionsPresetOptiions">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>330</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Options</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureAddToPresetList">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>370</y>
+          <width>251</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="text">
+         <string>Add</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEditConfigureWebsite">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>250</y>
+          <width>501</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelConfugureWebSite">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>250</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Website</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelBaseConfirmResetPreset">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>60</y>
+          <width>621</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelBaseConfirmResetPresetText">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>70</y>
+          <width>541</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Are You Sure You Want To Reset These Options To Their Defaults?</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureConfirmResetNo">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>170</y>
+          <width>111</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>No</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureConfirmResetYes">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>170</y>
+          <width>111</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Yes</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabWidgetConfigureExtensions">
+       <attribute name="title">
+        <string>Extensions</string>
+       </attribute>
+       <widget class="QPushButton" name="pbConfigureRemoveAPlugin">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>210</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Remove An Extension</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureDownload">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>170</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Update An Extension</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureAddAPlugin">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>130</y>
+          <width>421</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add An Extension</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbOpenBinFolder">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>250</y>
+          <width>421</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>A Button To Open A Folder Where Extension's Binaries Are Stored</string>
+        </property>
+        <property name="text">
+         <string>Open Binary Folder</string>
         </property>
        </widget>
       </widget>
@@ -2657,9 +2707,6 @@ Exampe 2: ${gateway}:8080</string>
   <tabstop>cbConfigureLanguage</tabstop>
   <tabstop>lineEditConfigureDownloadPath</tabstop>
   <tabstop>pbConfigureDownloadPath</tabstop>
-  <tabstop>pbConfigureDownload</tabstop>
-  <tabstop>pbConfigureAddAPlugin</tabstop>
-  <tabstop>pbConfigureRemoveAPlugin</tabstop>
   <tabstop>comboBoxConfigureDarkTheme</tabstop>
   <tabstop>cbConfigureShowMetaDataInBatchDownloader</tabstop>
   <tabstop>lineEditConfigureMaximuConcurrentDownloads</tabstop>

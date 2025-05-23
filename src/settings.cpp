@@ -670,6 +670,11 @@ bool settings::autoDownloadWhenAddedInBatchDownloader()
 	return this->getOption( "AutoDownloadWhenAddedInBatchDownloader",false ) ;
 }
 
+void settings::setAutoDownloadWhenAddedInBatchDownloader( bool e )
+{
+	m_settings.setValue( "AutoDownloadWhenAddedInBatchDownloader",e ) ;
+}
+
 bool settings::showVersionInfoAndAutoDownloadUpdates()
 {
 	return this->getOption( "ShowVersionInfoAndAutoDownloadUpdates",true ) ;

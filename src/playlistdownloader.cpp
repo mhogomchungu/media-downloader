@@ -1373,9 +1373,7 @@ void playlistdownloader::reportFinishedStatus( const reportFinished& f,
 
 	if( m_ctx.Settings().autoHideDownloadWhenCompleted() ){
 
-		const auto& r = f.status().finishedWithSuccess() ;
-
-		if( m_table.runningState( index ) == r ){
+		if( m_table.finishedWithSuccess( index ) ){
 
 			m_table.hideRow( index ) ;
 		}

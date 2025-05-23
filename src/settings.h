@@ -265,6 +265,7 @@ public:
 	int thumbnailHeight( settings::tabName ) ;
 	int desktopNotificationTimeOut() ;
 
+	void setAutoDownloadWhenAddedInBatchDownloader( bool ) ;
 	void setOpenWith( const QString& ) ;
 	void setCookieSourceSetToBrowerName( bool ) ;
 	void setShowLocalVersionInformationOnly( bool ) ;
