@@ -370,7 +370,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation>Noem del browser web usato per ottenere i cookie</translation>
+        <translation>Nome del browser web usato per ottenere i cookie</translation>
     </message>
     <message>
         <source>Theme(Need A Restart)</source>
@@ -382,43 +382,43 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Show MetaData In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza metadati in downloader batch</translation>
     </message>
     <message>
         <source>Auto Download Added Entries In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Download automatico elementi aggiunti in downloader batch</translation>
     </message>
     <message>
         <source>Notify When Download Completes</source>
-        <translation type="unfinished"></translation>
+        <translation>Notifica a download completato</translation>
     </message>
     <message>
         <source>Notify When All Downloads Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Notifica quando tutti i download sono stati completati</translation>
     </message>
     <message>
         <source>Engine&apos;s Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni engine</translation>
     </message>
     <message>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Estensioni</translation>
     </message>
     <message>
         <source>Remove An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi un&apos;estensione</translation>
     </message>
     <message>
         <source>Update An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiorna un&apos;estensione</translation>
     </message>
     <message>
         <source>Add An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi un&apos;estensione</translation>
     </message>
     <message>
         <source>Open Binary Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri cartella eseguibile</translation>
     </message>
 </context>
 <context>
