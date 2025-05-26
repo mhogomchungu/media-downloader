@@ -1539,7 +1539,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1624,7 +1624,7 @@
          <rect>
           <x>188</x>
           <y>250</y>
-          <width>421</width>
+          <width>571</width>
           <height>21</height>
          </rect>
         </property>
@@ -1711,7 +1711,7 @@
          <rect>
           <x>188</x>
           <y>290</y>
-          <width>421</width>
+          <width>571</width>
           <height>21</height>
          </rect>
         </property>
@@ -1724,7 +1724,7 @@
          <rect>
           <x>188</x>
           <y>310</y>
-          <width>421</width>
+          <width>571</width>
           <height>21</height>
          </rect>
         </property>
@@ -1737,7 +1737,7 @@
          <rect>
           <x>188</x>
           <y>270</y>
-          <width>421</width>
+          <width>571</width>
           <height>21</height>
          </rect>
         </property>
@@ -1799,7 +1799,7 @@
          <rect>
           <x>188</x>
           <y>230</y>
-          <width>421</width>
+          <width>571</width>
           <height>21</height>
          </rect>
         </property>
@@ -1812,7 +1812,7 @@
          <rect>
           <x>188</x>
           <y>210</y>
-          <width>421</width>
+          <width>571</width>
           <height>21</height>
          </rect>
         </property>
@@ -1825,7 +1825,7 @@
          <rect>
           <x>188</x>
           <y>190</y>
-          <width>421</width>
+          <width>571</width>
           <height>20</height>
          </rect>
         </property>
@@ -1838,7 +1838,7 @@
          <rect>
           <x>188</x>
           <y>170</y>
-          <width>421</width>
+          <width>571</width>
           <height>20</height>
          </rect>
         </property>
