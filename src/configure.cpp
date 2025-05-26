@@ -973,11 +973,9 @@ QMenu *  configure::addExtenion()
 	m->addAction( "yt-dlp" )->setEnabled( false ) ;
 	m->addAction( "yt-dlp-aria2c" )->setObjectName( "yt-dlp-aria2c.json" ) ;
 	m->addAction( "yt-dlp-ffmpeg" )->setObjectName( "yt-dlp-ffmpeg.json" ) ;
-	m->addAction( "ytdl-patched" )->setObjectName( "ytdl-patched.json" ) ;
 
 	m->addAction( "gallery-dl" )->setObjectName( "gallery-dl.json" ) ;
 	m->addAction( "svtplay-dl" )->setObjectName( "svtplay-dl.json" ) ;
-
 	m->addAction( "you-get" )->setObjectName( "you-get.json" ) ;
 	m->addAction( "lux" )->setObjectName( "lux.json" ) ;
 
