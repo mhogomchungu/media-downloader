@@ -1653,7 +1653,7 @@ QByteArray configure::presetOptions::defaultData()
 	"website": "Youtube"
     },
     {
-	"options": "-f bestaudio",
+	"options": "-f bestaudio --format-sort acodec:m4a",
 	"uiName": "Best Available Audio Only",
 	"website": "Youtube"
     },
