@@ -513,15 +513,6 @@ void playlistdownloader::customContextMenuRequested()
 		m_terminator.terminate( row ) ;
 	} ) ;
 
-	//ac = m.addAction( tr( "Rename" ) ) ;
-
-	//ac->setEnabled( m_table.finishedWithSuccess( row ) ) ;
-
-	//connect( ac,&QAction::triggered,[ this,row ](){
-
-
-	//} ) ;
-
 	ac = m.addAction( tr( "Remove" ) ) ;
 
 	ac->setEnabled( m_table.noneAreRunning() && !m_networkRunning ) ;
@@ -529,8 +520,6 @@ void playlistdownloader::customContextMenuRequested()
 	connect( ac,&QAction::triggered,[ this,row ](){
 
 		Q_UNUSED( row ) ;
-
-		//m_table.removeRow( row ) ;
 
 		m_table.removeAllSelected() ;
 
@@ -690,45 +679,58 @@ void playlistdownloader::plSubscription()
 
 	m.addAction( tr( "Manage Subscriptions" ) )->setObjectName( "Manage Subscriptions" ) ;
 
-	QObject::connect( &m,&QMenu::triggered,[ this,ee = ee.move() ]( QAction * ac )mutable{
-
-		auto s = ac->objectName() ;
-
-		const auto& engine = this->defaultEngine() ;
-
-		if( s == "Download All Updated" ){
-
-			m_autoDownload = true ;
-
-			this->getListing( ee.move(),engine ) ;
-
-		}else if( s == "Show All Updated" ){
-
-			this->getListing( ee.move(),engine ) ;
-
-		}else if( s == "Manage Subscriptions" ){
-
-			m_ui.lineEditPlSubscriptionUiName->setFocus() ;
-
-			m_subscription.setVisible( true ) ;
-		}else{
-			ee.each( [ & ]( const subscription::entry& e ){
-
-				if( e.url() == s ){
-
-					utility::vector< subscription::entry > ss ;
-
-					ss.emplace_back( e ) ;
-
-					this->getListing( ss.move(),engine ) ;
-
-					return true ;
-				}else{
-					return false ;
-				}
-			} ) ;
+	class meaw
+	{
+	public:
+		meaw( utility::vector< playlistdownloader::subscription::entry > e,playlistdownloader& p ) :
+			m_vector( e.move() ),m_parent( p )
+		{
 		}
-	} ) ;
+		void operator()( QAction * ac )
+		{
+			auto s = ac->objectName() ;
+
+			const auto& engine = m_parent.defaultEngine() ;
+
+			if( s == "Download All Updated" ){
+
+				m_parent.m_autoDownload = true ;
+
+				m_parent.getListing( m_vector.move(),engine ) ;
+
+			}else if( s == "Show All Updated" ){
+
+				m_parent.getListing( m_vector.move(),engine ) ;
+
+			}else if( s == "Manage Subscriptions" ){
+
+				m_parent.m_ui.lineEditPlSubscriptionUiName->setFocus() ;
+
+				m_parent.m_subscription.setVisible( true ) ;
+			}else{
+				m_vector.each( [ & ]( const subscription::entry& e ){
+
+					if( e.url() == s ){
+
+						utility::vector< subscription::entry > ss ;
+
+						ss.emplace_back( e ) ;
+
+						m_parent.getListing( ss.move(),engine ) ;
+
+						return true ;
+					}else{
+						return false ;
+					}
+				} ) ;
+			}
+		}
+	private:
+		utility::vector< playlistdownloader::subscription::entry > m_vector ;
+		playlistdownloader& m_parent ;
+	} ;
+
+	QObject::connect( &m,&QMenu::triggered,meaw( ee.move(),*this ) ) ;
 
 	m.exec( QCursor::pos() ) ;
 }

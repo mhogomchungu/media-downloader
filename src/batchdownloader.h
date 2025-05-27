@@ -249,6 +249,8 @@ private:
 	void getListFromFile( const QString&,bool ) ;
 	QString defaultEngineName() ;
 	const engines::engine& defaultEngine() ;
+	void tableItemDoubleClicked( QTableWidgetItem& ) ;
+	void batchDownloaderSet() ;
 	void updateTitleBar() ;
 	void clearScreen() ;
 	void hideBasicDownloaderTableList() ;
