@@ -54,6 +54,16 @@
 	</categories>
 
 	<releases>
+		<release version="5.4.0" type="stable" date="2025-06-01" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.0/media-downloader-5.4.0.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Fix a bug introduced in 5.3.3 that causes entries in batch downloader tab to start downloading when added because of using a wrong config only option.</li>
+					<li>Add an "Extension" sub tab in configure tab to expose more config only options in "General" sub tab.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.3.3" type="stable" date="2025-05-21" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.3.3/media-downloader-5.3.3.tar.xz/</url>
 			<description>
