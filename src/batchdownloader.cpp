@@ -862,7 +862,7 @@ static QJsonArray _saveComments( const QJsonArray& arr )
 		}
 		void add( const QJsonObject& obj,const QString& parent )
 		{
-			for( qsizetype i = 0 ; i < m_objs.size() ; i++ ){
+			for( int i = 0 ; i < m_objs.size() ; i++ ){
 
 				auto m = m_objs.at( i ).toObject() ;
 
@@ -877,7 +877,7 @@ static QJsonArray _saveComments( const QJsonArray& arr )
 			return m_objs ;
 		}
 	private:
-		void add( const QJsonObject& obj,QJsonObject& ss,qsizetype i )
+		void add( const QJsonObject& obj,QJsonObject& ss,int i )
 		{
 			auto replies = this->replies( ss ) ;
 

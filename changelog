@@ -364,7 +364,7 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
         - Playlist downloader tab now says why populating playlist was stopped when using "--break-on-existing".
         - Fix a bug on batch downloader tab that may lead to a crash when fetching metadata.
-     Version 5.4.0(UNRELEASED)
+     Version 5.4.0(May 29th, 2025)
      [ALL]
         - Fix a bug introduced in 5.3.3 that causes entries in batch downloader tab to start downloading when added because of using a wrong config only option.
         - Add an "Extension" sub tab in configure tab to expose more config only options in "General" sub tab.

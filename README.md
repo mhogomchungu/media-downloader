@@ -41,21 +41,21 @@ Make sure you have access to the internet before you run "Media Downloader" for 
 
 #### Bundle for MacOS
 
-Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.3/MediaDownloaderQt6-5.3.3.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
+Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.0/MediaDownloaderQt6-5.4.0.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.3/MediaDownloaderQt5-5.3.3.setup.exe).
+Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.0/MediaDownloaderQt5-5.4.0.setup.exe).
 
-Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.3/MediaDownloaderQt6-5.3.3.setup.exe).
+Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.0/MediaDownloaderQt6-5.4.0.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.3/MediaDownloaderQt5-5.3.3.zip).
+Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.0/MediaDownloaderQt5-5.4.0.zip).
 
-Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.3.3/MediaDownloaderQt6-5.3.3.zip).
+Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.0/MediaDownloaderQt6-5.4.0.zip).
 
 You can also install the portable version for Windows using scoop with the following commands:
 
@@ -72,7 +72,7 @@ Git versions for windows and macos can be downloaded from [here](https://github.
 
 #### Problems with Windows's antivirus programs
 
-Once in a while, Windows Defender and other antivirus tools will reportt this application as a virus, unsafe
+Once in a while, Windows Defender and other antivirus tools will report this application as a virus/unsafe
 or Potentially unwanted. These are false positive reports and they are tracked [here](https://github.com/mhogomchungu/media-downloader/issues/481).
 
 
