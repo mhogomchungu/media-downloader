@@ -52,6 +52,7 @@ public:
 	QString engineDefaultDownloadOptions( const QString& ) ;
 	void engineSetDefaultDownloadOptions( const engines::engine& ) ;
 	QString optionsTranslated( const QString& ) ;
+	QString getEngineNameFromUrlManager( const QString& ) ;
 	void setDownloadOptions( int row,tableWidget& table ) ;
 	struct presetEntry
 	{
@@ -107,7 +108,6 @@ private:
 	public:
 		struct opts
 		{
-			const QString& comparator ;
 			const QString& downloadOptions ;
 			const QString& engine ;
 			const QString& url ;
@@ -231,17 +231,69 @@ private:
 
 				if( !obj.isEmpty() ){
 
-					auto a = obj.value( "comparator" ).toString() ;
-					auto b = obj.value( "downloadOption" ).toString() ;
-					auto c = obj.value( "engine" ).toString() ;
-					auto d = obj.value( "url" ).toString() ;
+					auto a = obj.value( "downloadOption" ).toString() ;
+					auto b = obj.value( "engine" ).toString() ;
+					auto c = obj.value( "url" ).toString() ;
 
-					if( function( { a,b,c,d },std::move( obj ) ) ){
+					if( function( { a,b,c },std::move( obj ) ) ){
 
 						break ;
 					}
 				}
 			}
+		}
+		class urlType
+		{
+		public:
+			enum class type{ contain = 1,startsWith = 2,endsWith = 3 } ;
+			urlType( const QString& ) ;
+			type getType() const
+			{
+				return m_type ;
+			}
+			QString getUrl() const
+			{
+				return m_url ;
+			}
+		private:
+			type m_type ;
+			QString m_url ;
+		} ;
+		QString engineNameFromUrl( const QString& u )
+		{
+			QString engineName ;
+
+			this->forEach( [ & ]( const opts& e,const QJsonObject& ){
+
+				urlType uu( e.url ) ;
+
+				auto t = uu.getType() ;
+
+				const auto& url = uu.getUrl() ;
+
+				if( t == urlType::type::startsWith && u.startsWith( url ) ){
+
+					engineName = e.engine ;
+
+					return true ;
+
+				}else if( t == urlType::type::endsWith && u.endsWith( url ) ){
+
+					engineName = e.engine ;
+
+					return true ;
+
+				}else if( t == urlType::type::contain && u.contains( url ) ){
+
+					engineName = e.engine ;
+
+					return true ;
+				}else {
+					return false ;
+				}
+			} ) ;
+
+			return engineName ;
 		}
 		void setDownloadOptions( int row,tableWidget& table )
 		{
@@ -249,15 +301,17 @@ private:
 
 				const auto& rowUrl = table.url( row ) ;
 
-				const auto& cmp = e.comparator ;
-				const auto& url = e.url ;
+				urlType uu( e.url ) ;
+
+				auto t          = uu.getType() ;
+				const auto& url = uu.getUrl() ;
 				const auto& eng = e.engine ;
 				const auto& opt = e.downloadOptions ;
 
 				auto dlo = tableWidget::type::DownloadOptions ;
 				auto en  = tableWidget::type::EngineName ;
 
-				if( cmp == "contains" && rowUrl.contains( url ) ){
+				if( t == urlType::type::contain && rowUrl.contains( url ) ){
 
 					if( !opt.isEmpty() ){
 
@@ -271,7 +325,7 @@ private:
 
 					return true ;
 
-				}else if( cmp == "startsWith" && rowUrl.startsWith( url ) ){
+				}else if( t == urlType::type::startsWith && rowUrl.startsWith( url ) ){
 
 					if( !opt.isEmpty() ){
 
@@ -285,7 +339,7 @@ private:
 
 					return true ;
 
-				}else if( cmp == "endsWith" && rowUrl.endsWith( url ) ){
+				}else if( t == urlType::type::endsWith && rowUrl.endsWith( url ) ){
 
 					if( !opt.isEmpty() ){
 

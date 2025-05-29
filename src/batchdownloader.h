@@ -31,7 +31,8 @@
 
 class tabManager ;
 
-class Items{
+class Items
+{
 public:
 	struct entry
 	{
@@ -113,6 +114,10 @@ public:
 	Items move()
 	{
 		return std::move( *this ) ;
+	}
+	void add( const Items::entry& s )
+	{
+		m_entries.emplace_back( s ) ;
 	}
 	void add( QJsonObject obj )
 	{

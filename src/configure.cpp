@@ -336,11 +336,6 @@ configure::configure( const Context& ctx ) :
 
 		if( !a.isEmpty() ){
 
-			if( b.isEmpty() ){
-
-				b = "Default" ;
-			}
-
 			m_ui.lineEditConfigureManageUrl->clear() ;
 			m_ui.lineEditConfigureManageOptions->clear() ;
 
@@ -955,6 +950,11 @@ QString configure::defaultDownloadOption()
 void configure::setDownloadOptions( int row,tableWidget& table )
 {
 	m_downloadDefaultOptions.setDownloadOptions( row,table ) ;
+}
+
+QString configure::getEngineNameFromUrlManager( const QString& u )
+{
+	return m_downloadDefaultOptions.engineNameFromUrl( u ) ;
 }
 
 static QString _setUrl( const QString& e )
@@ -1812,14 +1812,13 @@ QJsonObject configure::downloadDefaultOptions::add( const QString& url,
 						    const QString& opts,
 						    const QString& engineName )
 {
-	return this->add( { "contains",opts,engineName,url } ) ;
+	return this->add( { opts,engineName,url } ) ;
 }
 
 QJsonObject configure::downloadDefaultOptions::add( const configure::downloadDefaultOptions::opts& e )
 {
 	QJsonObject obj ;
 
-	obj.insert( "comparator",e.comparator ) ;
 	obj.insert( "downloadOption",e.downloadOptions ) ;
 	obj.insert( "engine",e.engine ) ;
 	obj.insert( "url",e.url ) ;
@@ -1926,5 +1925,33 @@ void configure::downloadDefaultOptions::setAsDefault( const QJsonObject& ee )
 
 			break ;
 		}
+	}
+}
+
+configure::downloadDefaultOptions::urlType::urlType( const QString& u )
+{
+	if( u.startsWith( "*" ) && !u.endsWith( "*" ) ){
+
+		m_type = type::endsWith ;
+
+		m_url = u.mid( 1 ) ;
+
+	}else if( !u.startsWith( "*" ) && u.endsWith( "*" ) ){
+
+		m_type = type::startsWith ;
+
+		m_url = u.mid( 0,u.size() - 1 ) ;
+
+	}else if( u.startsWith( "*" ) && u.endsWith( "*" ) ){
+
+		m_type = type::contain ;
+
+		m_url = u.mid( 1 ) ;
+
+		m_url = m_url.mid( 0,m_url.size() - 1 ) ;
+	}else{
+		m_type = type::contain ;
+
+		m_url = u ;
 	}
 }

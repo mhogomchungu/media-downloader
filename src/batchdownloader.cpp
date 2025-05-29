@@ -701,9 +701,34 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			this->addItemUiSlot( { engine,list.move() } ) ;
 		}else{
+			auto& c = m_ctx.TabManager().Configure() ;
+
 			for( const auto& it : list ){
 
-				this->getMetaData( it,engine,autoDownload ) ;
+				auto s = c.getEngineNameFromUrlManager( it.url ) ;
+
+				qDebug() << "sssss ;" << s ;
+				qDebug() << "sssss ;" << it.url ;
+
+				auto ss = m_ctx.Engines().getEngineByName( s ) ;
+
+				if( ss ){
+
+					if( ss->likeYtDlp() ){
+
+						this->getMetaData( it,engine,autoDownload ) ;
+					}else{
+						Items m ;
+						m.add( it ) ;
+
+						this->addItemUiSlot( { ss.value(),m.move() } ) ;
+					}
+				}else{
+					Items m ;
+					m.add( it ) ;
+
+					this->addItemUiSlot( { engine,m.move() } ) ;
+				}
 			}
 		}
 	}else{
