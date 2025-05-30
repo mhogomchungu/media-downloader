@@ -703,14 +703,13 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		}else{
 			auto& c = m_ctx.TabManager().Configure() ;
 
+			auto& engines = m_ctx.Engines() ;
+
 			for( const auto& it : list ){
 
 				auto s = c.getEngineNameFromUrlManager( it.url ) ;
 
-				qDebug() << "sssss ;" << s ;
-				qDebug() << "sssss ;" << it.url ;
-
-				auto ss = m_ctx.Engines().getEngineByName( s ) ;
+				auto ss = engines.getEngineByName( s ) ;
 
 				if( ss ){
 

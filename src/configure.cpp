@@ -1352,6 +1352,7 @@ void configure::enableAll()
 	m_ui.label_3->setEnabled( true ) ;
 	m_ui.label_4->setEnabled( true ) ;
 	m_ui.label_5->setEnabled( true ) ;
+	m_ui.cbLibraryTabEnable->setEnabled( true ) ;
 	m_ui.labelConfigureTextEncoding->setEnabled( true ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( true ) ;
 	m_ui.pbOpenBinFolder->setEnabled( true ) ;
@@ -1430,6 +1431,7 @@ void configure::textAlignmentChanged( Qt::LayoutDirection z )
 
 void configure::disableAll()
 {
+	m_ui.cbLibraryTabEnable->setEnabled( false ) ;
 	m_ui.rbUseManualProxy->setEnabled( false ) ;
 	m_ui.rbNoProxy->setEnabled( false ) ;
 	m_ui.rbUseSystemProxy->setEnabled( false ) ;
