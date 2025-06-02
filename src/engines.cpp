@@ -1571,7 +1571,7 @@ void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngi
 {
 	auto e = [ & ](){
 
-		if( l.fileNames.size() ){
+		if( l.fileNames.size() == 0 ){
 
 			auto m = util::split( l.uiText,'\n',true ) ;
 
