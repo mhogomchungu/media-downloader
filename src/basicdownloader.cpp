@@ -508,7 +508,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 		void disableAll()
 		{
-			m_parent.m_ctx.TabManager().disableAll() ;
+			m_parent.disableAll() ;
 
 			m_parent.m_ui.pbCancel->setEnabled( true ) ;
 		}

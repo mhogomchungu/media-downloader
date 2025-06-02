@@ -30,6 +30,7 @@
 #include "tableWidget.h"
 
 class tabManager ;
+class configure ;
 
 class Items
 {
@@ -103,6 +104,10 @@ public:
 		QString downloadExtraOptions ;
 	} ;
 	Items() = default ;
+	Items( const Items::entry& s )
+	{
+		m_entries.emplace_back( s ) ;
+	}
 	Items( const QString& url )
 	{
 		m_entries.emplace_back( url,url ) ;
@@ -278,6 +283,11 @@ private:
 			   Items,
 			   bool autoDownload = false,
 			   bool showThumbnails= false ) ;
+	void showThumbnail( const engines::engine&,
+			   const engines&,
+			   const Items::entry&,
+			   configure&,
+			   bool autoDownload ) ;
 	struct networkCtx
 	{
 		utility::MediaEntry media ;

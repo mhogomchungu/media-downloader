@@ -707,31 +707,39 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			for( const auto& it : list ){
 
-				auto s = c.getEngineNameFromUrlManager( it.url ) ;
-
-				auto ss = engines.getEngineByName( s ) ;
-
-				if( ss ){
-
-					if( ss->likeYtDlp() ){
-
-						this->getMetaData( it,engine,autoDownload ) ;
-					}else{
-						Items m ;
-						m.add( it ) ;
-
-						this->addItemUiSlot( { ss.value(),m.move() } ) ;
-					}
-				}else{
-					Items m ;
-					m.add( it ) ;
-
-					this->addItemUiSlot( { engine,m.move() } ) ;
-				}
+				this->showThumbnail( engine,engines,it,c,autoDownload ) ;
 			}
 		}
 	}else{
 		this->addItemUiSlot( { engine,list.move() } ) ;
+	}
+}
+
+void batchdownloader::showThumbnail( const engines::engine& engine,
+				    const engines& engs,
+				    const Items::entry& it,
+				    configure& c,
+				    bool autoDownload )
+{
+	auto s = c.getEngineNameFromUrlManager( it.url ) ;
+
+	if( s.isEmpty() ){
+
+		this->getMetaData( it,engine,autoDownload ) ;
+	}else{
+		auto ss = engs.getEngineByName( s ) ;
+
+		if( ss ){
+
+			if( ss->likeYtDlp() ){
+
+				this->getMetaData( it,engine,autoDownload ) ;
+			}else{
+				this->addItemUiSlot( { ss.value(),it } ) ;
+			}
+		}else{
+			this->addItemUiSlot( { engine,it } ) ;
+		}
 	}
 }
 
@@ -2225,7 +2233,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	args.append( url ) ;
 
-	m_ctx.TabManager().disableAll() ;
+	this->disableAll() ;
 
 	class outPut
 	{

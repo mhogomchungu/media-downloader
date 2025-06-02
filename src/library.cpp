@@ -469,7 +469,7 @@ void library::internalDisableAll()
 {
 	if( m_enableGlobalUiChanges ){
 
-		m_ctx.TabManager().disableAll() ;
+		this->disableAll() ;
 	}else{
 		this->disableAll( true ) ;
 	}

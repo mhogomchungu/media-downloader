@@ -961,7 +961,7 @@ void playlistdownloader::showBanner()
 
 	m_table.selectLast() ;
 
-	m_ctx.TabManager().disableAll() ;
+	this->disableAll() ;
 }
 
 void playlistdownloader::getListing( playlistdownloader::listIterator e,const engines::engine& engine )
@@ -1127,7 +1127,7 @@ void playlistdownloader::getList( customOptions&& c,
 		}
 		void disableAll()
 		{
-			m_parent.m_ctx.TabManager().disableAll() ;
+			m_parent.disableAll() ;
 			m_parent.m_gettingPlaylist = true ;
 			m_parent.m_ui.pbPLCancel->setEnabled( true ) ;
 		}
