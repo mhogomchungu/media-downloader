@@ -29,7 +29,6 @@
 
 library::library( const Context& ctx ) :
 	m_ctx( ctx ),
-	m_enableGlobalUiChanges( false ),
 	m_settings( m_ctx.Settings() ),
 	m_enabled( m_settings.enableLibraryTab() ),
 	m_ui( m_ctx.Ui() ),
@@ -85,7 +84,7 @@ library::library( const Context& ctx ) :
 				}
 			}
 
-			this->internalDisableAll() ;
+			this->disableAll() ;
 
 			m_ui.pbLibraryCancel->setEnabled( true ) ;
 
@@ -108,11 +107,11 @@ library::library( const Context& ctx ) :
 
 		if( e ){
 
-			this->enableAll( true ) ;
-			this->showContents( m_currentPath,m_ctx.TabManager().uiEnabled() ) ;
+			this->enableAll() ;
+			this->showContents( m_currentPath ) ;
 		}else{
 			m_table.clear() ;
-			this->disableAll( true ) ;
+			this->disableAll() ;
 			m_ui.pbLibraryQuit->setEnabled( true ) ;
 			m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
 			m_ui.cbLibraryTabEnable->setEnabled( true ) ;
@@ -198,30 +197,12 @@ void library::init_done()
 {
 	if( m_enabled ){
 
-		this->enableAll( true ) ;
+		this->enableAll() ;
 	}else{
-		this->disableAll( true ) ;
+		this->disableAll() ;
 		m_ui.pbLibraryQuit->setEnabled( true ) ;
 		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
 		m_ui.cbLibraryTabEnable->setEnabled( true ) ;
-	}
-}
-
-void library::enableAll()
-{
-	m_ui.cbLibraryTabEnable->setEnabled( true ) ;
-
-	if( m_enabled ){
-
-		this->enableAll( m_enableGlobalUiChanges ) ;
-	}
-}
-
-void library::disableAll()
-{
-	if( m_enabled ){
-
-		this->disableAll( m_enableGlobalUiChanges ) ;
 	}
 }
 
@@ -241,7 +222,7 @@ void library::tabEntered()
 {
 	if( m_enabled && m_table.rowCount() == 0 ){
 
-		this->showContents( m_currentPath,m_ctx.TabManager().uiEnabled() ) ;
+		this->showContents( m_currentPath ) ;
 	}
 }
 
@@ -293,7 +274,7 @@ void library::deleteEntries( std::vector< int > items )
 {
 	if( items.size() == 0 ){
 
-		return this->internalEnableAll() ;
+		return this->enableAll() ;
 	}
 
 	int row = items.back() ;
@@ -382,7 +363,7 @@ void library::deleteEntry( int row )
 {
 	if( m_table.isSelected( row ) ){
 
-		this->internalDisableAll() ;
+		this->disableAll() ;
 
 		m_ui.pbLibraryCancel->setEnabled( true ) ;
 
@@ -396,7 +377,7 @@ void library::deleteEntry( int row )
 
 void library::deleteAll()
 {
-	this->internalDisableAll() ;
+	this->disableAll() ;
 
 	m_ui.pbLibraryCancel->setEnabled( true ) ;
 
@@ -416,7 +397,6 @@ void library::deleteAll()
 		void fg()
 		{
 			m_parent.showContents( m_parent.m_currentPath ) ;
-			m_parent.internalEnableAll() ;
 		}
 	private:
 		library& m_parent ;
@@ -425,54 +405,28 @@ void library::deleteAll()
 	utils::qthread::run( meaw( *this ) ) ;
 }
 
-void library::enableAll( bool e )
+void library::enableAll()
 {
-	if( e ){
-
-		m_table.setEnabled( true ) ;
-		m_ui.cbLibraryTabEnable->setEnabled( true ) ;
-		m_ui.pbLibraryQuit->setEnabled( true ) ;
-		m_ui.pbLibraryCancel->setEnabled( true ) ;
-		m_ui.pbLibraryHome->setEnabled( true ) ;
-		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
-		m_ui.pbLibraryRefresh->setEnabled( true ) ;
-		m_ui.pbLibraryUp->setEnabled( true ) ;
-	}
+	m_table.setEnabled( true ) ;
+	m_ui.cbLibraryTabEnable->setEnabled( true ) ;
+	m_ui.pbLibraryQuit->setEnabled( true ) ;
+	m_ui.pbLibraryCancel->setEnabled( true ) ;
+	m_ui.pbLibraryHome->setEnabled( true ) ;
+	m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
+	m_ui.pbLibraryRefresh->setEnabled( true ) ;
+	m_ui.pbLibraryUp->setEnabled( true ) ;
 }
 
-void library::disableAll( bool e )
+void library::disableAll()
 {
-	if( e ){
-
-		m_table.setEnabled( false ) ;
-		m_ui.cbLibraryTabEnable->setEnabled( false ) ;
-		m_ui.pbLibraryQuit->setEnabled( false ) ;
-		m_ui.pbLibraryCancel->setEnabled( false ) ;
-		m_ui.pbLibraryHome->setEnabled( false ) ;
-		m_ui.pbLibraryDowloadFolder->setEnabled( false ) ;
-		m_ui.pbLibraryRefresh->setEnabled( false ) ;
-		m_ui.pbLibraryUp->setEnabled( false ) ;
-	}
-}
-
-void library::internalEnableAll()
-{
-	if( m_enableGlobalUiChanges ){
-
-		m_ctx.TabManager().enableAll() ;
-	}else{
-		this->enableAll( true ) ;
-	}
-}
-
-void library::internalDisableAll()
-{
-	if( m_enableGlobalUiChanges ){
-
-		this->disableAll() ;
-	}else{
-		this->disableAll( true ) ;
-	}
+	m_table.setEnabled( false ) ;
+	m_ui.cbLibraryTabEnable->setEnabled( false ) ;
+	m_ui.pbLibraryQuit->setEnabled( false ) ;
+	m_ui.pbLibraryCancel->setEnabled( false ) ;
+	m_ui.pbLibraryHome->setEnabled( false ) ;
+	m_ui.pbLibraryDowloadFolder->setEnabled( false ) ;
+	m_ui.pbLibraryRefresh->setEnabled( false ) ;
+	m_ui.pbLibraryUp->setEnabled( false ) ;
 }
 
 void library::addItem( const directoryEntries::iter& s )
@@ -481,21 +435,18 @@ void library::addItem( const directoryEntries::iter& s )
 
 	auto row = m_table.addRow( icon ) ;
 
-	m_table.get().setCellWidget( row,0,[ & ](){
+	auto label = new QLabel() ;
 
-		auto label = new QLabel() ;
+	if( icon == directoryEntries::ICON::FILE ){
 
-		if( icon == directoryEntries::ICON::FILE ){
+		label->setPixmap( m_videoIcon ) ;
+	}else{
+		label->setPixmap( m_folderIcon ) ;
+	}
 
-			label->setPixmap( m_videoIcon ) ;
-		}else{
-			label->setPixmap( m_folderIcon ) ;
-		}
+	label->setAlignment( Qt::AlignCenter ) ;
 
-		label->setAlignment( Qt::AlignCenter ) ;
-
-		return label ;
-	}() ) ;
+	m_table.get().setCellWidget( row,0,label ) ;
 
 	auto& item = m_table.item( row,1 ) ;
 
@@ -516,10 +467,7 @@ void library::addEntrySlot( const directoryEntries::iter& s )
 	}else{
 		m_table.setLastRow() ;
 
-		if( m_disableUi ){
-
-			this->internalEnableAll() ;
-		}		
+		this->enableAll() ;
 	}
 }
 
@@ -650,8 +598,6 @@ void library::arrangeAndShow()
 		}
 	}
 
-	m_ui.pbLibraryCancel->setEnabled( true ) ;
-
 	m_table.clear() ;
 
 	m_directoryEntries.join( m_settings.libraryShowFolderFirst() ) ;
@@ -711,7 +657,9 @@ void library::arrangeEntries( int )
 			m_settings.setLibraryArrangeByDate( !m ) ;
 		}
 
-		this->internalDisableAll() ;
+		this->disableAll() ;
+
+		m_ui.pbLibraryCancel->setEnabled( true ) ;
 
 		this->arrangeAndShow() ;
 	} ) ;
@@ -719,21 +667,19 @@ void library::arrangeEntries( int )
 	m.exec( QCursor::pos() ) ;
 }
 
-void library::showContents( const QString& path,bool disableUi )
+void library::showContents( const QString& path )
 {
 	m_table.get().setHorizontalHeaderItem( 1,new QTableWidgetItem( m_currentPath ) ) ;
 
-	if( disableUi ){
+	this->disableAll() ;
 
-		this->internalDisableAll() ;
-	}
+	m_ui.pbLibraryCancel->setEnabled( true ) ;
 
 	class meaw
 	{
 	public:
-		meaw( library& library,bool disableUi,const QString& path ) :
+		meaw( library& library,const QString& path ) :
 			m_parent( library ),
-			m_disableUi( disableUi ),
 			m_path( path )
 		{
 		}
@@ -744,15 +690,12 @@ void library::showContents( const QString& path,bool disableUi )
 		}
 		void fg()
 		{
-			m_parent.m_disableUi = m_disableUi ;
-
 			m_parent.arrangeAndShow() ;
 		}
 	private:
 		library& m_parent ;
-		bool m_disableUi ;
 		QString m_path ;
 	} ;
 
-	utils::qthread::run( meaw( *this,disableUi,path ) ) ;
+	utils::qthread::run( meaw( *this,path ) ) ;
 }

@@ -1106,7 +1106,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 					m_parent.getList( m_iter.next(),m_engine ) ;
 				}else{
-					m_parent.m_ctx.TabManager().enableAll() ;
+					m_parent.enableAll() ;
 					m_parent.m_gettingPlaylist = false ;
 					m_parent.m_ui.pbPLCancel->setEnabled( false ) ;
 				}
@@ -1119,7 +1119,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 					m_parent.download() ;
 				}else{
-					m_parent.m_ctx.TabManager().enableAll() ;
+					m_parent.enableAll() ;
 					m_parent.m_gettingPlaylist = false ;
 					m_parent.m_ui.pbPLCancel->setEnabled( false ) ;
 				}
@@ -1130,6 +1130,7 @@ void playlistdownloader::getList( customOptions&& c,
 			m_parent.disableAll() ;
 			m_parent.m_gettingPlaylist = true ;
 			m_parent.m_ui.pbPLCancel->setEnabled( true ) ;
+			m_parent.m_ui.pbPLDownload->setEnabled( true ) ;
 		}
 		int index()
 		{
@@ -1365,7 +1366,7 @@ void playlistdownloader::reportFinishedStatus( const reportFinished& f,
 			}
 		}
 
-		m_ctx.TabManager().enableAll() ;
+		this->enableAll() ;
 
 		if( m_table.allFinishedWithSuccess() ){
 

@@ -473,7 +473,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 		void done( engines::ProcessExitState m,const std::vector< QByteArray >& fileNames )
 		{
-			m_parent.m_ctx.TabManager().enableAll() ;
+			m_parent.enableAll() ;
 
 			m_parent.m_ui.pbCancel->setEnabled( false ) ;
 

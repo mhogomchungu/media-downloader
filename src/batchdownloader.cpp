@@ -2061,7 +2061,7 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 
 		m_ui.pbBDDownload->setEnabled( true ) ;
 
-		m_ctx.TabManager().enableAll() ;
+		this->enableAll() ;
 		m_ui.pbBDCancel->setEnabled( false ) ;
 	}else{
 		m_ui.pbBDCancel->setEnabled( true ) ;
@@ -2327,7 +2327,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		}
 		void done( engines::ProcessExitState st,const std::vector< QByteArray >& )
 		{
-			m_parent.m_ctx.TabManager().enableAll() ;
+			m_parent.enableAll() ;
 
 			m_parent.m_ui.lineEditBDUrl->setFocus() ;
 
@@ -2335,7 +2335,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		}
 		void disableAll()
 		{
-			m_parent.m_ctx.TabManager().disableAll() ;
+			m_parent.disableAll() ;
 
 			m_parent.m_ui.pbCancelBatchDownloder->setEnabled( true ) ;
 			m_parent.m_ui.pbCancelBatchDownloder->setFocus() ;
@@ -2485,7 +2485,7 @@ void batchdownloader::networkData( const utility::networkReply& m )
 
 		m_ui.pbBDDownload->setEnabled( true ) ;
 
-		m_ctx.TabManager().enableAll() ;
+		this->enableAll() ;
 
 		m_ui.pbBDCancel->setEnabled( false ) ;
 	}
@@ -2692,7 +2692,7 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f,
 			}
 		}
 
-		m_ctx.TabManager().enableAll() ;
+		this->enableAll() ;
 
 		m_ui.pbBDCancel->setEnabled( false ) ;
 	}
