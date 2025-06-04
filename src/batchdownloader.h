@@ -226,10 +226,10 @@ signals:
 	void reportFStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	void addItemUiSignal( ItemEntry ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
-	void addClipboardSignal( QString,bool ) ;
+	void addClipboardSignal( QString ) ;
 private:
 	void disableWhileDownloading() ;
-	void addClipboardSlot( QString,bool ) ;
+	void addClipboardSlot( QString ) ;
 	void addTextToUi( const QByteArray&,int ) ;
 	void getMetaData( const Items::entry&,const engines::engine&,bool ) ;
 	void showHideControls() ;

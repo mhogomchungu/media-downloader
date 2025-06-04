@@ -368,7 +368,7 @@ yt_dlp::yt_dlp( const engines& engines,
 
 	obj.insert( "CookieArgumentTextFile","--cookies" ) ;
 
-	auto arr = _arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ;
+	auto arr = _arr( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 
 	obj.insert( "DumptJsonArguments",arr ) ;
 

@@ -2103,16 +2103,16 @@ void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 
 void batchdownloader::clipboardData( const QString& url,bool s )
 {
-	emit this->addClipboardSignal( url,s ) ;
+	if( s ){
+
+		emit this->addClipboardSignal( url ) ;
+	}else{
+		m_ctx.logger().add( url,utility::concurrentID() ) ;
+	}
 }
 
-void batchdownloader::addClipboardSlot( QString url,bool s )
+void batchdownloader::addClipboardSlot( QString url )
 {
-	if( !s ){
-
-		return m_ctx.logger().add( url,utility::concurrentID() ) ;
-	}
-
 	if( m_settings.monitorClipboardUrl( settings::tabName::batch ) ){
 
 		if( m_table.rowWithUrl( url ) == -1 ){
