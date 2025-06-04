@@ -54,6 +54,16 @@
 	</categories>
 
 	<releases>
+		<release version="5.4.1" type="stable" date="unreleased" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.1/media-downloader-5.4.1.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>It is now possible to start downloading while the playlist tab is getting filled with entries.</li>
+					<li>It is now possible to do simultaneous downloading from all three tabs that can do downloading.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.4.0" type="stable" date="2025-05-29" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.0/media-downloader-5.4.0.tar.xz/</url>
 			<description>
