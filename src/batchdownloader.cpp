@@ -697,7 +697,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	}else if( m_showMetaData && engine.likeYtDlp() ){
 
-		if( m_downloadingInstances > 0 ){
+		if( m_recursiveDownloading ){
 
 			this->addItemUiSlot( { engine,list.move() } ) ;
 		}else{
@@ -868,6 +868,19 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 			m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
 		}else{
 			m_table.setDownloadingOptions( s.downloadOptions,row ) ;
+		}
+
+		auto e = static_cast< int >( m_settings.maxConcurrentDownloads() ) ;
+
+		if( m_recursiveDownloading > 0 && m_recursiveDownloading < e ){
+
+			const auto& eng = this->defaultEngine() ;
+
+			const auto& engines = m_ctx.Engines() ;
+
+			const auto& engine = utility::resolveEngine( m_table,eng,engines,row ) ;
+
+			this->downloadRecursively( engine,row ) ;
 		}
 
 		emit this->addItemUiSignal( m ) ;
@@ -2608,7 +2621,7 @@ void batchdownloader::addToList( const QString& u )
 void batchdownloader::download( const engines::engine& engine )
 {
 	m_topDownloadingIndex = 0 ;
-	m_downloadingInstances = 0 ;
+	m_recursiveDownloading = 0 ;
 
 	m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
 				     m_ui.lineEditBDUrlOptions->text(),
@@ -2765,10 +2778,12 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 		void whenCreated()
 		{
 			m_parent.m_topDownloadingIndex++ ;
-			m_parent.m_downloadingInstances++ ;
+			m_parent.m_recursiveDownloading++ ;
 		}
 		void whenDone( bool notCancelled )
 		{
+			m_parent.m_recursiveDownloading-- ;
+
 			if( notCancelled ){
 
 				this->startNext() ;

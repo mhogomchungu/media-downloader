@@ -421,7 +421,7 @@ private:
 	tabManager& m_tabManager ;
 	bool m_showMetaData ;
 	int m_topDownloadingIndex = 0 ;
-	int m_downloadingInstances = 0 ;
+	int m_recursiveDownloading = 0 ;
 	tableWidget m_table ;
 	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
 	QString m_commentsFileName ;
