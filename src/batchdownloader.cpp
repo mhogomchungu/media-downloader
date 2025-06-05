@@ -1353,20 +1353,34 @@ void batchdownloader::saveSubtitles()
 		m.addAction( tr( "Download" ) + " " + ext )->setObjectName( ext ) ;
 	} ) ;
 
-	connect( &m,&QMenu::triggered,[ this,title,ee = ee.move() ]( QAction * ac ){
+	class meaw
+	{
+	public:
+		meaw( batchdownloader& p,utility::vector< entry > e,const QString& t ) :
+			m_parent( p ),m_entries( std::move( e ) ),m_title( t )
+		{
+		}
+		void operator()( QAction * ac )
+		{
+			auto ext = ac->objectName() ;
 
-		auto ext = ac->objectName() ;
+			m_entries.each( [ & ]( const entry& it ){
 
-		ee.each( [ & ]( const entry& it ){
+				if( it.ext == ext ){
 
-			if( it.ext == ext ){
+					return m_parent.saveSubtitles( it.url,it.ext,m_title ) ;
+				}else{
+					return false ;
+				}
+			} ) ;
+		}
+	private:
+		batchdownloader& m_parent ;
+		utility::vector< entry > m_entries ;
+		QString m_title ;
+	} ;
 
-				return this->saveSubtitles( it.url,it.ext,title ) ;
-			}else{
-				return false ;
-			}
-		} ) ;
-	} ) ;
+	connect( &m,&QMenu::triggered,meaw( *this,std::move( ee ),title ) ) ;
 
 	m.exec( QCursor::pos() ) ;
 }
