@@ -1902,14 +1902,14 @@ void configure::downloadDefaultOptions::removeAll( const QString& e )
 
 void configure::downloadDefaultOptions::setAsDefault( const QJsonObject& ee )
 {
-	qOpts e = ee ;
+	configure::downloadDefaultOptions::qOpts e = ee ;
 
 	const auto& engineName = e.engineName() ;
 	const auto& options    = e.opts() ;
 
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		qOpts obj( m_array,i ) ;
+		configure::downloadDefaultOptions::qOpts obj( m_array,i ) ;
 
 		if( obj.engineName() == engineName ){
 
@@ -1919,7 +1919,7 @@ void configure::downloadDefaultOptions::setAsDefault( const QJsonObject& ee )
 
 	for( int i = 0 ; i < m_array.size() ; i++ ){
 
-		qOpts obj( m_array,i ) ;
+		configure::downloadDefaultOptions::qOpts obj( m_array,i ) ;
 
 		if( obj.engineName() == engineName && obj.opts() == options ){
 

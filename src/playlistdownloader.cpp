@@ -782,6 +782,7 @@ void playlistdownloader::download( const engines::engine& engine )
 	} ;
 
 	m_topDownloadingIndex = 0 ;
+	m_recursiveDownloading = 0 ;
 
 	m_ctx.logger().clear() ;
 
@@ -806,6 +807,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 			if( m_recurse ){
 
 				m_parent.m_topDownloadingIndex++ ;
+				m_parent.m_recursiveDownloading++ ;
 			}
 		}
 		bool addData( const QByteArray& e )
@@ -833,12 +835,17 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 
 				m = reportFinished::finishedStatus::state::cancelled ;
 			}else{
-				if( m_recurse ){
+				m = reportFinished::finishedStatus::state::done ;
+			}
+
+			if( m_recurse ){
+
+				m_parent.m_recursiveDownloading-- ;
+
+				if( !st.cancelled() ){
 
 					this->startNext() ;
 				}
-
-				m = reportFinished::finishedStatus::state::done ;
 			}
 
 			reportFinished::finishedStatus s{ m_index,m,st } ;
@@ -1433,7 +1440,19 @@ void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
 
 	if( !m_ui.pbPLCancel->isEnabled() ){
 
-		if( m_autoDownload ){
+		auto e = static_cast< int >( m_settings.maxConcurrentDownloads() ) ;
+
+		if( m_recursiveDownloading > 0 && m_recursiveDownloading < e ){
+
+			const auto& eng = this->defaultEngine() ;
+
+			const auto& engines = m_ctx.Engines() ;
+
+			const auto& engine = utility::resolveEngine( m_table,eng,engines,row ) ;
+
+			this->downloadRecursively( engine,row,true ) ;
+
+		}else if( m_autoDownload ){
 
 			this->download() ;
 		}
