@@ -876,9 +876,9 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	private:
 		void startNext()
 		{
-			if( m_parent.m_topDownloadingIndex < m_parent.m_table.rowCount() ){
+			auto m = m_parent.m_topDownloadingIndex ;
 
-				auto m = m_parent.m_topDownloadingIndex ;
+			if( m < m_parent.m_table.rowCount() ){
 
 				auto e = m_parent.m_table.runningState( m ) ;
 
