@@ -78,9 +78,10 @@ public:
 		return m_engines.end() ;
 	}
 private:
-	std::array< engines,7 > m_engines = { {
+	std::array< engines,8 > m_engines = { {
 		{ TEST_ENGINE_PREFIX"-safaribooks",&safaribooks::testData },
 		{ TEST_ENGINE_PREFIX"-yt-dlp",&yt_dlp::testYtDlp },
+		{ TEST_ENGINE_PREFIX"-yt-dlp-playlist",&yt_dlp::testYtDlpPlayList },
 		{ TEST_ENGINE_PREFIX"-yt-dlp-ffmpeg",&yt_dlp::testFfmpeg },
 		{ TEST_ENGINE_PREFIX"-wget",&wget::testData },
 		{ TEST_ENGINE_PREFIX"-gallery-dl",&gallery_dl::testData },
@@ -103,11 +104,22 @@ public:
 	{
 		Tests tests ;
 
+		QString s ;
+
 		for( const auto& it : m_args.args ){
 
 			for( const auto& xt : tests ){
 
-				if( it == xt.arg ){
+				auto m = it.indexOf( "0xdeadbeef" ) ;
+
+				if( m == -1 ){
+
+					s = it ;
+				}else{
+					s = it.mid( 0,m ) ;
+				}
+
+				if( s == xt.arg ){
 
 					return this->testEngine( xt.data() ) ;
 				}

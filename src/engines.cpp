@@ -294,7 +294,12 @@ QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
 {
 	if( tab == engine::tab::playlist ){
 
-		return yt_dlp::jsonNoFormatsArgumentList() ;
+		if( this->name() == "yt-dlp-test" ){
+
+			return { "--media-downloader-test-engine-yt-dlp-playlist" } ;
+		}else{
+			return yt_dlp::jsonNoFormatsArgumentList() ;
+		}
 	}else{
 		return m_dumpJsonArguments ;
 	}

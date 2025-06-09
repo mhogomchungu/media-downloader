@@ -394,7 +394,7 @@ void playlistdownloader::exiting()
 
 void playlistdownloader::saveData()
 {
-	utility::saveDownloadList( m_ctx,m_table,false ) ;
+	utility::saveDownloadList( m_ctx,m_table,true ) ;
 }
 
 void playlistdownloader::textAlignmentChanged( Qt::LayoutDirection m )

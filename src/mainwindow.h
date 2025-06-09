@@ -99,7 +99,7 @@ private:
 		Ui::MainWindow m_ui ;
 	} ;
 
-	bool m_dataNotSaved ;
+	bool m_dataNotSaved = true ;
 	QSystemTrayIcon m_trayIcon ;
 	QApplication& m_qApp ;
 	QString m_appName ;

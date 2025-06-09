@@ -27,6 +27,7 @@ class settings ;
 class yt_dlp : public engines::engine::baseEngine
 {
 public:
+	static const char * testYtDlpPlayList() ;
 	static const char * testYtDlp() ;
 	static const char * testFfmpeg() ;
 	static void checkIfBinaryExist( const QString&,const QString& ) ;

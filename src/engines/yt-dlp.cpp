@@ -32,6 +32,42 @@
 
 #include "aria2c.h"
 
+const char * yt_dlp::testYtDlpPlayList()
+{
+	return R"R(
+{"webpage_url":"1"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"2"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"3"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"4"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"5"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"6"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"7"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"8"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"9"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"10"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"11"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"12"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"13"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"14"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"15"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"16"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"17"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"18"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"19"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"20"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"21"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"22"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"23"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"24"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"25"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"26"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"27"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"28"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"29"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+{"webpage_url":"30"}0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef
+)R" ;
+}
+
 const char * yt_dlp::testYtDlp()
 {
 	return R"R(youtube] Extracting URL: https://www.youtube.com/watch?v=tn2USd5KeVM
