@@ -47,9 +47,9 @@
             },
             "win7x86": {
                 "Args": [
-                    "yt-dlp_win7_x86.exe"
+                    "yt-dlp_x86_win7.exe"
                 ],
-                "Name": "yt-dlp_win7_x86.exe"
+                "Name": "yt-dlp_x86_win7.exe"
             },
             "x86": {
                 "Args": [
