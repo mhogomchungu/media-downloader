@@ -301,7 +301,12 @@ QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
 			return yt_dlp::jsonNoFormatsArgumentList() ;
 		}
 	}else{
-		return m_dumpJsonArguments ;
+		if( this->name() == "yt-dlp-test" ){
+
+			return { "--media-downloader-test-engine-yt-dlp-metadata" } ;
+		}else{
+			return m_dumpJsonArguments ;
+		}
 	}
 }
 

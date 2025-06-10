@@ -32,6 +32,11 @@
 
 #include "aria2c.h"
 
+const char * yt_dlp::testYtDlpMetadata()
+{
+	return R"R(Testing MetaData)R" ;
+}
+
 const char * yt_dlp::testYtDlpPlayList()
 {
 	return R"R(

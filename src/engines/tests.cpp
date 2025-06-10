@@ -78,10 +78,11 @@ public:
 		return m_engines.end() ;
 	}
 private:
-	std::array< engines,8 > m_engines = { {
+	std::array< engines,9 > m_engines = { {
 		{ TEST_ENGINE_PREFIX"-safaribooks",&safaribooks::testData },
 		{ TEST_ENGINE_PREFIX"-yt-dlp",&yt_dlp::testYtDlp },
 		{ TEST_ENGINE_PREFIX"-yt-dlp-playlist",&yt_dlp::testYtDlpPlayList },
+		{ TEST_ENGINE_PREFIX"-yt-dlp-metadata",&yt_dlp::testYtDlpMetadata },
 		{ TEST_ENGINE_PREFIX"-yt-dlp-ffmpeg",&yt_dlp::testFfmpeg },
 		{ TEST_ENGINE_PREFIX"-wget",&wget::testData },
 		{ TEST_ENGINE_PREFIX"-gallery-dl",&gallery_dl::testData },
