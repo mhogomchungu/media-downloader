@@ -1039,6 +1039,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Stopping Because Media Is Already In Archive File</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Bulgarien (Bulgaria)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

@@ -43,6 +43,7 @@ translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settin
 	this->addString( QObject::tr( "Arabic" ),"Arabic","ar" ) ;
 	this->addString( QObject::tr( "Korean (Korea)" ),"Korean (Korea)","ko_KR" ) ;
 	this->addString( QObject::tr( "Greek (Greece)" ),"Greek (Greece)","el_GR" ) ;
+	this->addString( QObject::tr( "Bulgarien (Bulgaria)" ),"Bulgarien (Bulgaria)","bg_BG" ) ;
 
 	this->setDefaultLanguage() ;
 }

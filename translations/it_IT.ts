@@ -1041,6 +1041,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Stopping Because Media Is Already In Archive File</source>
         <translation>Arresto in corso perché i media sono già nei file archivio</translation>
     </message>
+    <message>
+        <source>Bulgarien (Bulgaria)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
