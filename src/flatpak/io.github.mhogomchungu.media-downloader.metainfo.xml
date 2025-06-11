@@ -59,6 +59,7 @@
 			<description>
 				<p>Changelog</p>
 				<ul>
+					<li>Add Bulgarian translations.</li>
 					<li>It is now possible to start downloading while the playlist tab is getting filled with entries.</li>
 					<li>It is now possible to do simultaneous downloading from all three tabs that can do downloading.</li>
 				</ul>
