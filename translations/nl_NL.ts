@@ -937,10 +937,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Open Url %1 With %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1038,6 +1034,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Urls With %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

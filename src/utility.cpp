@@ -2376,23 +2376,29 @@ bool utility::addData( const QByteArray& e )
 	}
 }
 
-void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Context& ctx )
+void utility::contextMenuForDirectUrl( std::vector< UrlLinks > links,
+				      QMenu& m,
+				      const QJsonObject& obj,
+				      const Context& ctx )
 {	
 	class mediaPlayerActions
 	{
 	public:
-		mediaPlayerActions( const QJsonObject& obj,QMenu& m,const Context& ctx ) :
+		mediaPlayerActions( std::vector< utility::UrlLinks > l,
+				   const QJsonObject& obj,
+				   QMenu& m,
+				   const Context& ctx ) :
 			m_obj( obj ),
-			m_array( m_obj.value( "urls" ).toArray() ),
+			m_links( std::move( l ) ),
 			m_menu( m ),
 			m_mediaPlayer( ctx.Settings().openWith( ctx.logger() ) ),
 			m_ctx( ctx )
 		{
-			if( m_array.empty() ){
+			if( m_links.size() == 0 ){
 
 				this->disable() ;
 			}else{
-				this->clipboard() ;
+				this->setClipboard() ;
 				this->setOpenUrl() ;
 			}
 		}
@@ -2411,7 +2417,7 @@ void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Con
 				m_menu.addAction( s )->setEnabled( false ) ;
 			}
 		}
-		void clipboard()
+		void setClipboard()
 		{
 			auto cpb = QApplication::clipboard() ;
 
@@ -2423,8 +2429,8 @@ void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Con
 			class cb
 			{
 			public:
-				cb( const QJsonValue& m,QClipboard& cb ) :
-					m_url( m.toString() ),
+				cb( const QString& m,QClipboard& cb ) :
+					m_url( m ),
 					m_clipboard( cb )
 				{
 				}
@@ -2439,13 +2445,15 @@ void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Con
 
 			auto act = &QAction::triggered ;
 
-			if( m_array.size() == 1 ){
+			if( m_links.size() == 1 ){
 
 				auto ee = m_menu.addAction( QObject::tr( "Copy Url" ) ) ;
 
-				QObject::connect( ee,act,cb( m_array[ 0 ],*cpb ) ) ;
+				auto ss = m_links[ 0 ].toList().join( " " ) ;
+
+				QObject::connect( ee,act,cb( ss,*cpb ) ) ;
 			}else{
-				for( int i = 0 ; i < m_array.size() ; i++ ){
+				for( size_t i = 0 ; i < m_links.size() ; i++ ){
 
 					auto e = QString::number( i + 1 ) ;
 
@@ -2453,7 +2461,9 @@ void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Con
 
 					auto ee = m_menu.addAction( s ) ;
 
-					QObject::connect( ee,act,cb( m_array[ i ],*cpb ) ) ;
+					auto mm = m_links[ i ].toList().join( " " ) ;
+
+					QObject::connect( ee,act,cb( mm,*cpb ) ) ;
 				}
 			}
 		}
@@ -2463,7 +2473,7 @@ void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Con
 
 			const auto& adp = m_ctx.Settings().appDataPath() ;
 
-			if( m_array.size() == 1 ){
+			if( m_links.size() == 1 ){
 
 				auto mm = QObject::tr( "Open Url With %1" ) ;
 
@@ -2473,43 +2483,43 @@ void utility::contextMenuForDirectUrl( QMenu& m,const QJsonObject& obj,const Con
 
 					auto ee = m_menu.addAction( s ) ;
 
-					auto ss = m_array[ 0 ].toString() ;
+					auto ss = m_links[ 0 ].toList() ;
 
 					auto ac = m_mediaPlayer.ac( ss,e,adp,m_obj ) ;
 
 					QObject::connect( ee,act,ac.move() ) ;
 				}
 			}else{
-				for( int i = 0 ; i < m_array.size() ; i++ ){
+				for( const auto& a : m_mediaPlayer.opts() ){
 
-					auto e = QString::number( i + 1 ) ;
+					auto mm = QObject::tr( "Open Urls With %2" ) ;
 
-					auto mm = QObject::tr( "Open Url %1 With %2" ) ;
+					auto s = mm.arg( a.name ) ;
 
-					for( const auto& a : m_mediaPlayer.opts() ){
+					auto ee = m_menu.addAction( s ) ;
 
-						auto s = mm.arg( e,a.name ) ;
+					QStringList ss ;
 
-						auto ee = m_menu.addAction( s ) ;
+					for( size_t i = 0 ; i < m_links.size() ; i++ ){
 
-						auto ss = m_array[ i ].toString() ;
-
-						auto ac = m_mediaPlayer.ac( ss,a,adp,m_obj ) ;
-
-						QObject::connect( ee,act,ac.move() ) ;
+						ss.append( m_links[ i ].toList() ) ;
 					}
+
+					auto ac = m_mediaPlayer.ac( ss,a,adp,m_obj ) ;
+
+					QObject::connect( ee,act,ac.move() ) ;
 				}
 			}
 		}
 	private:
 		const QJsonObject& m_obj ;
-		const QJsonArray m_array ;
+		std::vector< utility::UrlLinks > m_links ;
 		QMenu& m_menu ;
 		settings::mediaPlayer m_mediaPlayer ;
 		const Context& m_ctx ;
 	} ;
 
-	mediaPlayerActions( obj,m,ctx ) ;
+	mediaPlayerActions( std::move( links ),obj,m,ctx ) ;
 }
 
 void utility::deleteTmpFiles( const QString& df,std::vector< QByteArray > files )

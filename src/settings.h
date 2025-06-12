@@ -118,12 +118,12 @@ public:
 		class action
 		{
 		public:
-			action( const QString& url,
+			action( const QStringList& urls,
 				Logger& logger,
 				const settings::mediaPlayer::PlayerOpts& opts,
 				const QString& app,
 				const QJsonObject& obj ) :
-				m_url( url ),
+				m_urls( urls ),
 				m_playerOpts( opts ),
 				m_logger( logger ),
 				m_appDataPath( app ),
@@ -137,7 +137,7 @@ public:
 			void operator()() const ;
 			void logError() const ;
 		private:
-			QString m_url ;
+			QStringList m_urls ;
 			const settings::mediaPlayer::PlayerOpts& m_playerOpts ;
 			Logger& m_logger ;
 			const QString& m_appDataPath ;
@@ -153,12 +153,12 @@ public:
 		{
 			return !m_playerOpts.empty() ;
 		}
-		settings::mediaPlayer::action ac( const QString& url,
+		settings::mediaPlayer::action ac(  const QStringList& urls,
 						  const settings::mediaPlayer::PlayerOpts& opts,
 						  const QString& appDataPath,
 						  const QJsonObject& obj ) const
 		{
-			return { url,m_logger,opts,appDataPath,obj } ;
+			return { urls,m_logger,opts,appDataPath,obj } ;
 		}
 	private:
 		const std::vector< settings::mediaPlayer::PlayerOpts >& m_playerOpts ;

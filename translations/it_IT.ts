@@ -942,10 +942,6 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <translation>Copia URL %1</translation>
     </message>
     <message>
-        <source>Open Url %1 With %2</source>
-        <translation>Apri URL %1 con %2</translation>
-    </message>
-    <message>
         <source>Size</source>
         <translation>Dimensione</translation>
     </message>
@@ -1044,6 +1040,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     <message>
         <source>Bulgarien (Bulgaria)</source>
         <translation>Bulgaro (Bulgaria)</translation>
+    </message>
+    <message>
+        <source>Open Urls With %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

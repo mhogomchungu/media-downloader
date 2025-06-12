@@ -1388,7 +1388,9 @@ void settings::mediaPlayer::action::operator()() const
 {
 	if( utility::platformisFlatPak() ){
 
-		auto m = _tmpFile( m_appDataPath,m_url ) ;
+		auto urls = m_urls.join( " " ) ;
+
+		auto m = _tmpFile( m_appDataPath,urls ) ;
 
 		QFile ff( m ) ;
 
@@ -1404,16 +1406,46 @@ void settings::mediaPlayer::action::operator()() const
 				aa += "#EXTINF:" + duration + ", " + title + "\n" ;
 			}
 
-			ff.write( aa + m_url.toUtf8() + "\n" ) ;
+			ff.write( aa + urls.toUtf8() + "\n" ) ;
 
 			ff.close() ;
 
 			QDesktopServices::openUrl( QUrl::fromLocalFile( m ) ) ;
 		}
 	}else{
-		if( !QProcess::startDetached( m_playerOpts.exePath,{ m_url } ) ){
+		if( m_playerOpts.exePath.contains( "vlc",Qt::CaseInsensitive ) ){
 
-			this->logError() ;
+			if( m_urls.size() > 1 ){
+
+				QStringList urls ;
+
+				urls.append( m_urls[ 0 ] ) ;
+				urls.append( "--input-slave" ) ;
+
+				QString u = m_urls[ 1 ] ;
+
+				for( int s = 2 ; s < m_urls.size() ; s++ ){
+
+					u += "#" + m_urls[ s ] ;
+				}
+
+				urls.append( u ) ;
+
+				if( !QProcess::startDetached( m_playerOpts.exePath,urls ) ){
+
+					this->logError() ;
+				}
+			}else{
+				if( !QProcess::startDetached( m_playerOpts.exePath,m_urls ) ){
+
+					this->logError() ;
+				}
+			}
+		}else{
+			if( !QProcess::startDetached( m_playerOpts.exePath,m_urls ) ){
+
+				this->logError() ;
+			}
 		}
 	}
 }

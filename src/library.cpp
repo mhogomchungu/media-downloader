@@ -74,21 +74,11 @@ library::library( const Context& ctx ) :
 
 		}else if( m == "DeleteSelectedItems" ){
 
-			std::vector< int > items ;
-
-			for( int row = 0 ; row < m_table.rowCount() ; row++ ){
-
-				if( m_table.isSelected( row ) ){
-
-					items.emplace_back( row ) ;
-				}
-			}
-
 			this->disableAll() ;
 
 			m_ui.pbLibraryCancel->setEnabled( true ) ;
 
-			this->deleteEntries( std::move( items ) ) ;
+			this->deleteEntries( m_table.selectedRows() ) ;
 		}
 	} ) ;
 

@@ -303,7 +303,8 @@ public:
 	void removeRow( int ) ;
 	void removeAllSelected() ;
 	void hideRow( int ) ;
-	bool isSelected( int ) ;
+	bool isSelected( int ) const ;
+	std::vector< int > selectedRows() const ;
 	bool noneAreRunning() ;
 	bool rowIsVisible( int ) ;
 	bool isRowHidden( int ) ;
@@ -452,9 +453,25 @@ public:
 		}
 		tableWidget::selectRow( current,previous,s ) ;
 	}
-	bool isSelected( int row )
+	bool isSelected( int row ) const
 	{
 		return m_table.item( row,m_table.columnCount() - 1 )->isSelected() ;
+	}
+	std::vector< int > selectedRows() const
+	{
+		std::vector<int> s ;
+
+		int m = m_table.rowCount() ;
+
+		for( int i = 0 ; i < m ; i++ ){
+
+			if( this->isSelected( i ) ){
+
+				s.emplace_back( i ) ;
+			}
+		}
+
+		return s ;
 	}
 	void setVisible( bool e )
 	{

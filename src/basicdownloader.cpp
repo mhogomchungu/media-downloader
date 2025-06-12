@@ -94,9 +94,29 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 		if( row != -1 ){
 
-			const auto& obj = m_tableList.stuffAt( row ).toqJsonObject() ;			
+			class meaw
+			{
+			public:
+				meaw( tableMiniWidget< engines::engine::baseEngine::mediaInfo,5 >& m ) :
+					m_table( m )
+				{
+				}
+				const QJsonObject& stuffAt( int s ) const
+				{
+					m_obj = m_table.stuffAt( s ).toqJsonObject() ;
 
-			utility::contextMenuForDirectUrl( m,obj,m_ctx ) ;
+					return m_obj ;
+				}
+				std::vector< int > selectedRows() const
+				{
+					return m_table.selectedRows() ;
+				}
+			private:
+				mutable QJsonObject m_obj ;
+				const tableMiniWidget< engines::engine::baseEngine::mediaInfo,5 >& m_table ;
+			} ;
+
+			utility::setContextMenuForDirectUrl( meaw( m_tableList ),m,m_ctx ) ;
 
 			m.addSeparator() ;
 

@@ -451,10 +451,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>%1 URL 복사</translation>
     </message>
     <message>
-        <source>Open Url %1 With %2</source>
-        <translation>%2 로 URL %1 열기</translation>
-    </message>
-    <message>
         <source>Save List To File</source>
         <translation>목록을 파일에 저장</translation>
     </message>
@@ -1040,6 +1036,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Urls With %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

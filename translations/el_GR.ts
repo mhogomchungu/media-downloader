@@ -456,10 +456,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Αντιγραφή URL %1</translation>
     </message>
     <message>
-        <source>Open Url %1 With %2</source>
-        <translation>Άνοιγμα URL %1 με το %2</translation>
-    </message>
-    <message>
         <source>Save List To File</source>
         <translation>Αποθήκευση λίστας σε αρχείο</translation>
     </message>
@@ -1041,6 +1037,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Urls With %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -455,10 +455,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>نسخ الرابط %1</translation>
     </message>
     <message>
-        <source>Open Url %1 With %2</source>
-        <translation>فتح الرابط %1 باستخدام %2</translation>
-    </message>
-    <message>
         <source>Save List To File</source>
         <translation>حفظ القائمة في ملف</translation>
     </message>
@@ -1040,6 +1036,10 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Urls With %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

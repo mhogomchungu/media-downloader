@@ -580,7 +580,6 @@ namespace utility
 	bool addData( const QByteArray& ) ;
 	bool containsLinkerWarning( const QByteArray& ) ;
 	QString rename( QTableWidgetItem&,const QString&,const QString&,const QString& ) ;
-	void contextMenuForDirectUrl( QMenu&,const QJsonObject&,const Context& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
 	QString OSXApplicationDirPath() ;
 	QString OSXtranslationFilesPath() ;
@@ -602,6 +601,73 @@ namespace utility
 					    const Context& ctx,
 					    const engines::engine& engine ) ;
 
+	class UrlLinks
+	{
+	public:
+		void add( const QString& e )
+		{
+			m_links.emplace_back( e ) ;
+		}
+		int size()
+		{
+			return static_cast< int >( m_links.size() ) ;
+		}
+		QStringList toList()
+		{
+			QStringList m ;
+
+			if( this->size() ){
+
+				m.append( m_links[ 0 ] ) ;
+
+				for( size_t s = 1 ; s < m_links.size() ; s++ ){
+
+					m.append( m_links[ s ] ) ;
+				}
+			}
+
+			return m ;
+		}
+		UrlLinks move()
+		{
+			return std::move( *this ) ;
+		}
+	private:
+		std::vector< QString > m_links ;
+	} ;
+
+	void contextMenuForDirectUrl( std::vector< UrlLinks >,QMenu&,const QJsonObject&,const Context& ) ;
+
+	template< typename TableWidget >
+	void setContextMenuForDirectUrl( const TableWidget& table,QMenu& m,const Context& ctx )
+	{
+		auto s = table.selectedRows() ;
+
+		if( s.size() > 0 ){
+
+			std::vector< UrlLinks > links ;
+
+			for( size_t m = 0 ; m < s.size() ; m++ ){
+
+				const auto& obj = table.stuffAt( s[ m ] ) ;
+
+				auto arr = obj.value( "urls" ).toArray() ;
+
+				UrlLinks l ;
+
+				for( int j = 0 ; j < arr.size() ; j++ ){
+
+					l.add( arr[ j ].toString() ) ;
+				}
+
+				links.emplace_back( std::move( l ) ) ;
+			}
+
+			auto mobj = table.stuffAt( s[ 0 ] ) ;
+
+			utility::contextMenuForDirectUrl( std::move( links ),m,mobj,ctx ) ;
+		}
+	}
 	class addJsonCmd
 	{
 	public:

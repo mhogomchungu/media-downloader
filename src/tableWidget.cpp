@@ -423,9 +423,26 @@ void tableWidget::hideRow( int row )
 	}
 }
 
-bool tableWidget::isSelected( int row )
+bool tableWidget::isSelected( int row ) const
 {
 	return m_table.item( row,m_init )->isSelected() ;
+}
+
+std::vector< int > tableWidget::selectedRows() const
+{
+	std::vector< int > s ;
+
+	int m = m_table.rowCount() ;
+
+	for( int i = 0 ; i < m ; i++ ){
+
+		if( this->isSelected( i ) ){
+
+			s.emplace_back( i ) ;
+		}
+	}
+
+	return s ;
 }
 
 bool tableWidget::noneAreRunning()

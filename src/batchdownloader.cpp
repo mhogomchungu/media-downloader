@@ -99,18 +99,29 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		if( m_listType == batchdownloader::listType::MEDIA_OPTIONS ){
 
-			auto row = m_tableWidgetBDList.currentRow() ;
+			class meaw
+			{
+			public:
+				meaw( tableMiniWidget< QJsonObject,5 >& m ) : m_table( m )
+				{
+				}
+				const QJsonObject& stuffAt( int s ) const
+				{
+					return m_table.stuffAt( s ) ;
+				}
+				std::vector< int > selectedRows() const
+				{
+					return m_table.selectedRows() ;
+				}
+			private:
+				const tableMiniWidget< QJsonObject,5 >& m_table ;
+			} ;
 
-			if( row != -1 ){
+			QMenu m ;
 
-				const auto& obj = m_tableWidgetBDList.stuffAt( row ) ;
+			utility::setContextMenuForDirectUrl( meaw( m_tableWidgetBDList ),m,m_ctx ) ;
 
-				QMenu m ;
-
-				utility::contextMenuForDirectUrl( m,obj,m_ctx ) ;
-
-				m.exec( QCursor::pos() ) ;
-			}
+			m.exec( QCursor::pos() ) ;
 
 		}else if( m_listType == batchdownloader::listType::SUBTITLES ){
 
