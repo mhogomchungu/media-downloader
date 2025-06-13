@@ -811,7 +811,7 @@ settings::mediaPlayer settings::openWith( Logger& logger )
 {	
 	static auto s = this->openWith() ;
 
-	return { s,logger } ;
+	return { *this,s,logger } ;
 }
 
 std::vector< settings::mediaPlayer::PlayerOpts > settings::openWith()
@@ -1174,6 +1174,16 @@ void settings::clearFlatPakTemps()
 	}
 }
 
+bool settings::flatPakHasVLCSupport()
+{
+	return m_vlcFlatPak.valid() ;
+}
+
+const settings::FlatPackVLC& settings::flatPakVLCopts()
+{
+	return m_vlcFlatPak ;
+}
+
 void settings::init_done_imp()
 {
 	this->clearFlatPakTemps() ;
@@ -1185,6 +1195,32 @@ void settings::init_done_imp()
 		if( !m.isEmpty() ){
 
 			QDir( m ).removeRecursively() ;
+		}
+
+	}else if( utility::platformisFlatPak() ){
+
+		QProcess exe ;
+
+		auto spawn = "flatpak-spawn" ;
+
+		exe.start( spawn,{ "--host","vlc","--version" } ) ;
+
+		exe.waitForFinished() ;
+
+		if( exe.exitCode() == 0 && exe.exitStatus() == QProcess::ExitStatus::NormalExit ){
+
+			m_vlcFlatPak.addArgs( { "--host","vlc" } ) ;
+		}else{
+			QProcess exe ;
+
+			exe.start( spawn,{ "--host","flatpak","run","org.videolan.VLC","--version" } ) ;
+
+			exe.waitForFinished() ;
+
+			if( exe.exitCode() == 0 && exe.exitStatus() == QProcess::ExitStatus::NormalExit ){
+
+				m_vlcFlatPak.addArgs( { "--host","flatpak","run","org.videolan.VLC" } ) ;
+			}
 		}
 	}
 }
@@ -1326,9 +1362,12 @@ QByteArray settings::proxySettings::proxyAddress() const
 	return m_settings.value( "ProxySettingsCustomSource" ).toByteArray() ;
 }
 
-settings::mediaPlayer::mediaPlayer( const std::vector< settings::mediaPlayer::PlayerOpts >& s,Logger& logger ) :
+settings::mediaPlayer::mediaPlayer( settings& e,
+				   const std::vector< settings::mediaPlayer::PlayerOpts >& s,
+				   Logger& logger ) :
 	m_playerOpts( s ),
-	m_logger( logger )
+	m_logger( logger ),
+	m_settings( e )
 {
 }
 
@@ -1345,6 +1384,14 @@ void settings::mediaPlayer::action::logError() const
 	m_logger.add( m.arg( m_playerOpts.name ),id ) ;
 
 	m_logger.add( bar,id ) ;
+}
+
+void settings::mediaPlayer::action::run( const QString& exe,const QStringList& args ) const
+{
+	if( !QProcess::startDetached( exe,args ) ){
+
+		this->logError() ;
+	}
 }
 
 static QByteArray _hash( quint64 i,const QString& s )
@@ -1384,69 +1431,86 @@ static QString _tmpFile( const QString& e,const QString& s )
 	return m ;
 }
 
+QStringList settings::mediaPlayer::action::setVLCoptions( const QStringList& m ) const
+{
+	QStringList urls ;
+
+	urls.append( m[ 0 ] ) ;
+
+	urls.append( "--input-slave" ) ;
+
+	QString u = m[ 1 ] ;
+
+	for( int s = 2 ; s < m.size() ; s++ ){
+
+		u += "#" + m[ s ] ;
+	}
+
+	urls.append( u ) ;
+
+	return urls ;
+}
+
 void settings::mediaPlayer::action::operator()() const
 {
 	if( utility::platformisFlatPak() ){
 
-		auto urls = m_urls.join( " " ) ;
+		if( m_playerOpts.exePath == "vlc" ){
 
-		auto m = _tmpFile( m_appDataPath,urls ) ;
+			const auto& f = m_settings.flatPakVLCopts() ;
 
-		QFile ff( m ) ;
+			if( f.valid() ){
 
-		if( ff.open( QIODevice::WriteOnly ) ){
+				auto m = f.args() ;
 
-			auto duration = m_obj.value( "duration" ).toString().toUtf8() ;
-			auto title    = m_obj.value( "title" ).toString().toUtf8() ;
+				if( m_urls.size() > 1 ){
 
-			QByteArray aa = "#EXTM3U\n\n" ;
-
-			if( duration != "0" && !title.contains( "NA" ) ){
-
-				aa += "#EXTINF:" + duration + ", " + title + "\n" ;
-			}
-
-			ff.write( aa + urls.toUtf8() + "\n" ) ;
-
-			ff.close() ;
-
-			QDesktopServices::openUrl( QUrl::fromLocalFile( m ) ) ;
-		}
-	}else{
-		if( m_playerOpts.exePath.contains( "vlc",Qt::CaseInsensitive ) ){
-
-			if( m_urls.size() > 1 ){
-
-				QStringList urls ;
-
-				urls.append( m_urls[ 0 ] ) ;
-				urls.append( "--input-slave" ) ;
-
-				QString u = m_urls[ 1 ] ;
-
-				for( int s = 2 ; s < m_urls.size() ; s++ ){
-
-					u += "#" + m_urls[ s ] ;
+					m.append( this->setVLCoptions( m_urls ) ) ;
+				}else{
+					m.append( m_urls ) ;
 				}
 
-				urls.append( u ) ;
-
-				if( !QProcess::startDetached( m_playerOpts.exePath,urls ) ){
-
-					this->logError() ;
-				}
+				this->run( f.exe(),m ) ;
 			}else{
-				if( !QProcess::startDetached( m_playerOpts.exePath,m_urls ) ){
-
-					this->logError() ;
-				}
-			}
-		}else{
-			if( !QProcess::startDetached( m_playerOpts.exePath,m_urls ) ){
-
 				this->logError() ;
 			}
+		}else{
+			auto urls = m_urls.join( "\n" ) ;
+
+			auto m = _tmpFile( m_appDataPath,urls ) ;
+
+			QFile ff( m ) ;
+
+			if( ff.open( QIODevice::WriteOnly ) ){
+
+				auto duration = m_obj.value( "duration" ).toString().toUtf8() ;
+				auto title    = m_obj.value( "title" ).toString().toUtf8() ;
+
+				QByteArray aa = "#EXTM3U\n\n" ;
+
+				if( duration != "0" && !title.contains( "NA" ) ){
+
+					aa += "#EXTINF:" + duration + ", " + title + "\n" ;
+				}
+
+				ff.write( aa + urls.toUtf8() + "\n" ) ;
+
+				ff.close() ;
+
+				QDesktopServices::openUrl( QUrl::fromLocalFile( m ) ) ;
+			}
 		}
+
+	}else if( m_playerOpts.exePath.contains( "vlc",Qt::CaseInsensitive ) ){
+
+		if( m_urls.size() > 1 ){
+
+			this->run( m_playerOpts.exePath,this->setVLCoptions( m_urls ) ) ;
+		}else{
+			this->run( m_playerOpts.exePath,m_urls ) ;
+		}
+	}else{
+		this->run( m_playerOpts.exePath,m_urls ) ;
 	}
 }
 

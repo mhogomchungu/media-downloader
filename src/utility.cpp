@@ -632,7 +632,8 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 
 	if( utility::platformisFlatPak() ){
 
-		m.emplace_back( "","Flatpak" ) ;
+		m.emplace_back( "",QObject::tr( "Default Player" ) ) ;
+		m.emplace_back( "vlc","VLC" ) ;
 	}else{
 		class appList
 		{
@@ -2483,6 +2484,8 @@ void utility::contextMenuForDirectUrl( std::vector< UrlLinks > links,
 
 					auto ee = m_menu.addAction( s ) ;
 
+					this->setEnabled( ee,e ) ;
+
 					auto ss = m_links[ 0 ].toList() ;
 
 					auto ac = m_mediaPlayer.ac( ss,e,adp,m_obj ) ;
@@ -2498,6 +2501,8 @@ void utility::contextMenuForDirectUrl( std::vector< UrlLinks > links,
 
 					auto ee = m_menu.addAction( s ) ;
 
+					this->setEnabled( ee,a ) ;
+
 					QStringList ss ;
 
 					for( size_t i = 0 ; i < m_links.size() ; i++ ){
@@ -2512,6 +2517,17 @@ void utility::contextMenuForDirectUrl( std::vector< UrlLinks > links,
 			}
 		}
 	private:
+		void setEnabled( QAction * ac,const settings::mediaPlayer::PlayerOpts& e )
+		{
+			if( utility::platformisFlatPak() ){
+
+				if( e.name == "VLC" ){
+
+					auto m = m_ctx.Settings().flatPakHasVLCSupport() ;
+					ac->setEnabled( m ) ;
+				}
+			}
+		}
 		const QJsonObject& m_obj ;
 		std::vector< utility::UrlLinks > m_links ;
 		QMenu& m_menu ;

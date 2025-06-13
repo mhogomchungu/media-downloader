@@ -122,12 +122,14 @@ public:
 				Logger& logger,
 				const settings::mediaPlayer::PlayerOpts& opts,
 				const QString& app,
-				const QJsonObject& obj ) :
+				const QJsonObject& obj,
+				settings& ss ) :
 				m_urls( urls ),
 				m_playerOpts( opts ),
 				m_logger( logger ),
 				m_appDataPath( app ),
-				m_obj( obj )
+				m_obj( obj ),
+				m_settings( ss )
 			{
 			}
 			action move()
@@ -137,14 +139,17 @@ public:
 			void operator()() const ;
 			void logError() const ;
 		private:
+			void run( const QString& exe,const QStringList& args ) const ;
+			QStringList setVLCoptions( const QStringList& m ) const ;
 			QStringList m_urls ;
 			const settings::mediaPlayer::PlayerOpts& m_playerOpts ;
 			Logger& m_logger ;
 			const QString& m_appDataPath ;
 			const QJsonObject& m_obj ;
+			settings& m_settings ;
 		} ;
 
-		mediaPlayer( const std::vector< settings::mediaPlayer::PlayerOpts >&,Logger& ) ;
+		mediaPlayer( settings&,const std::vector< settings::mediaPlayer::PlayerOpts >&,Logger& ) ;
 		const std::vector< settings::mediaPlayer::PlayerOpts >& opts() const
 		{
 			return m_playerOpts ;
@@ -158,11 +163,12 @@ public:
 						  const QString& appDataPath,
 						  const QJsonObject& obj ) const
 		{
-			return { urls,m_logger,opts,appDataPath,obj } ;
+			return { urls,m_logger,opts,appDataPath,obj,m_settings } ;
 		}
 	private:
 		const std::vector< settings::mediaPlayer::PlayerOpts >& m_playerOpts ;
 		Logger& m_logger ;
+		settings& m_settings ;
 	} ;
 
 	settings::mediaPlayer openWith( Logger& ) ;
@@ -184,12 +190,39 @@ public:
 	QString windowsDimensions( const QString& windowName ) ;
 	QString playlistRangeHistoryLastUsed() ;
 	QString gitHubDownloadUrl() ;
+
 	const QString& configPaths() ;
 	const QString& appDataPath() ;
+
 	QString textEncoding( const QString& ) ;
 	QStringList getOptionsHistory( settings::tabName ) ;
 	QStringList playlistRangeHistory() ;
 	QStringList playlistUrlHistory() ;
+
+	class FlatPackVLC
+	{
+	public:
+		void addArgs( const QStringList& e )
+		{
+			m_args = e ;
+		}
+		const char * exe() const
+		{
+			return "flatpak-spawn" ;
+		}
+		const QStringList& args() const
+		{
+			return m_args ;
+		}
+		bool valid() const
+		{
+			return !m_args.isEmpty() ;
+		}
+	private:
+		QStringList m_args ;
+	} ;
+
+	const FlatPackVLC& flatPakVLCopts() ;
 
 	QString lastUsedOption( const QString&,settings::tabName ) ;
 
@@ -220,7 +253,7 @@ public:
 	} ;
 
 	LogsLimits getLogsLimits() ;
-
+	bool flatPakHasVLCSupport() ;
 	bool desktopNotifyOnDownloadComplete() ;
 	bool desktopNotifyOnAllDownloadComplete() ;
 	bool libraryShowFolderFirst() ;
@@ -411,6 +444,7 @@ private:
 
 	bool m_EnableHighDpiScaling ;
 	bool m_printMediaPlayers ;
+	FlatPackVLC m_vlcFlatPak ;
 	QString m_appDataPath ;
 	QByteArray m_defaultScaleFactor ;
 	QByteArray m_MdScaleFactor ;
