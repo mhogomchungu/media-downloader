@@ -1042,6 +1042,10 @@ Exemplo 2: ${gateway}:8080</translation>
         <source>Open Urls With %2</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Default Player</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
