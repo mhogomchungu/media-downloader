@@ -302,6 +302,10 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 {
 	if( f.success() ){
 
+		qDebug() << "aa" << uiText;
+		qDebug() << "bb" << bkText;
+		qDebug() << "cc" << dopts;
+
 		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
 
 	}else if( f.cancelled() ){

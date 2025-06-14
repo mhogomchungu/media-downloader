@@ -579,6 +579,8 @@ configure::configure( const Context& ctx ) :
 		}
 	} ) ;
 
+	m_ui.cbLibraryTabEnable->setChecked( m_settings.enableLibraryTab() ) ;
+
 	auto cookieSource = m_settings.cookieSourceSetToBrowerName() ;
 
 	m_ui.cbCookieSource->setChecked( cookieSource ) ;
@@ -1125,6 +1127,7 @@ void configure::saveOptions()
 
 	m_ctx.TabManager().batchDownloader().setShowMetaData( m ) ;
 
+	m_settings.setEnableLibraryTab( m_ui.cbLibraryTabEnable->isChecked() ) ;
 	m_settings.setShowMetaDataInBatchDownloader( m ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;

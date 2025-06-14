@@ -69,7 +69,6 @@ private:
 	void addItem( const directoryEntries::iter& ) ;
 	const Context& m_ctx ;
 	settings& m_settings ;
-	bool m_enabled ;
 	std::atomic_bool m_continue ;
 	Ui::MainWindow& m_ui ;
 	tableMiniWidget< directoryEntries::ICON,2 > m_table ;

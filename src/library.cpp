@@ -30,7 +30,6 @@
 library::library( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
-	m_enabled( m_settings.enableLibraryTab() ),
 	m_ui( m_ctx.Ui() ),
 	m_table( *m_ui.tableWidgetLibrary,0,m_ctx.mainWidget().font() ),
 	m_downloadFolder( QDir::fromNativeSeparators( m_settings.downloadFolder() ) ),
@@ -41,8 +40,6 @@ library::library( const Context& ctx ) :
 	qRegisterMetaType< directoryEntries::iter >() ;
 
 	this->setRenameUiVisible( false ) ;
-
-	m_ui.cbLibraryTabEnable->setChecked( m_enabled ) ;
 
 	connect( m_ui.pbLibraryCancel,&QPushButton::clicked,[ this ](){
 
@@ -91,10 +88,6 @@ library::library( const Context& ctx ) :
 
 	connect( m_ui.cbLibraryTabEnable,&QCheckBox::clicked,[ this ]( bool e ){
 
-		m_enabled = e ;
-
-		m_settings.setEnableLibraryTab( e ) ;
-
 		if( e ){
 
 			this->enableAll() ;
@@ -104,7 +97,6 @@ library::library( const Context& ctx ) :
 			this->disableAll() ;
 			m_ui.pbLibraryQuit->setEnabled( true ) ;
 			m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
-			m_ui.cbLibraryTabEnable->setEnabled( true ) ;
 		}
 	} ) ;
 
@@ -185,14 +177,13 @@ void library::moveUp()
 
 void library::init_done()
 {
-	if( m_enabled ){
+	if( m_settings.enableLibraryTab() ){
 
 		this->enableAll() ;
 	}else{
 		this->disableAll() ;
 		m_ui.pbLibraryQuit->setEnabled( true ) ;
 		m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
-		m_ui.cbLibraryTabEnable->setEnabled( true ) ;
 	}
 }
 
@@ -210,7 +201,7 @@ void library::retranslateUi()
 
 void library::tabEntered()
 {
-	if( m_enabled && m_table.rowCount() == 0 ){
+	if( m_settings.enableLibraryTab() && m_table.rowCount() == 0 ){
 
 		this->showContents( m_currentPath ) ;
 	}
@@ -398,7 +389,6 @@ void library::deleteAll()
 void library::enableAll()
 {
 	m_table.setEnabled( true ) ;
-	m_ui.cbLibraryTabEnable->setEnabled( true ) ;
 	m_ui.pbLibraryQuit->setEnabled( true ) ;
 	m_ui.pbLibraryCancel->setEnabled( true ) ;
 	m_ui.pbLibraryHome->setEnabled( true ) ;
@@ -410,7 +400,6 @@ void library::enableAll()
 void library::disableAll()
 {
 	m_table.setEnabled( false ) ;
-	m_ui.cbLibraryTabEnable->setEnabled( false ) ;
 	m_ui.pbLibraryQuit->setEnabled( false ) ;
 	m_ui.pbLibraryCancel->setEnabled( false ) ;
 	m_ui.pbLibraryHome->setEnabled( false ) ;
