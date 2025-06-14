@@ -1043,11 +1043,11 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Open Urls With %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri URL con %2</translation>
     </message>
     <message>
         <source>Default Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Riproduttore predefinito</translation>
     </message>
 </context>
 <context>
