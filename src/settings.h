@@ -202,11 +202,7 @@ public:
 	class FlatPackVLC
 	{
 	public:
-		void addArgs( const QStringList& e )
-		{
-			m_args = e ;
-		}
-		const char * exe() const
+		QString exe() const
 		{
 			return "flatpak-spawn" ;
 		}
@@ -218,7 +214,9 @@ public:
 		{
 			return !m_args.isEmpty() ;
 		}
+		void checkVLCAvailability() ;
 	private:
+		bool checkVLCAvailability( const QStringList& ) ;
 		QStringList m_args ;
 	} ;
 
@@ -344,7 +342,6 @@ public:
 private:	
 	QString appDataLocation() ;
 	void clearFlatPakTemps() ;
-	void init_done_imp() ;
 
 	std::vector< settings::mediaPlayer::PlayerOpts > openWith() ;
 

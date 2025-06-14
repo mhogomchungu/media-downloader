@@ -455,7 +455,38 @@ QSettings& settings::bk()
 
 void settings::init_done()
 {
-	utils::qthread::run( this,&settings::init_done_imp ) ;
+	class meaw
+	{
+	public:
+		meaw( settings& s ) : m_parent( s )
+		{
+		}
+		void bg()
+		{
+			m_parent.clearFlatPakTemps() ;
+
+			if( utility::platformIsWindows() ){
+
+				const auto& m = m_parent.m_options.pathToOldUpdatedVersion() ;
+
+				if( !m.isEmpty() ){
+
+					QDir( m ).removeRecursively() ;
+				}
+
+			}else if( utility::platformisFlatPak() ){
+
+				m_parent.m_vlcFlatPak.checkVLCAvailability() ;
+			}
+		}
+		void fg()
+		{
+		}
+	private:
+		settings& m_parent ;
+	} ;
+
+	utils::qthread::run( meaw( *this ) ) ;
 }
 
 void settings::setTabNumber( int s )
@@ -1184,47 +1215,6 @@ const settings::FlatPackVLC& settings::flatPakVLCopts()
 	return m_vlcFlatPak ;
 }
 
-void settings::init_done_imp()
-{
-	this->clearFlatPakTemps() ;
-
-	if( utility::platformIsWindows() ){
-
-		const auto& m = m_options.pathToOldUpdatedVersion() ;
-
-		if( !m.isEmpty() ){
-
-			QDir( m ).removeRecursively() ;
-		}
-
-	}else if( utility::platformisFlatPak() ){
-
-		QProcess exe ;
-
-		auto spawn = "flatpak-spawn" ;
-
-		exe.start( spawn,{ "--host","vlc","--version" } ) ;
-
-		exe.waitForFinished() ;
-
-		if( exe.exitCode() == 0 && exe.exitStatus() == QProcess::ExitStatus::NormalExit ){
-
-			m_vlcFlatPak.addArgs( { "--host","vlc" } ) ;
-		}else{
-			QProcess exe ;
-
-			exe.start( spawn,{ "--host","flatpak","run","org.videolan.VLC","--version" } ) ;
-
-			exe.waitForFinished() ;
-
-			if( exe.exitCode() == 0 && exe.exitStatus() == QProcess::ExitStatus::NormalExit ){
-
-				m_vlcFlatPak.addArgs( { "--host","flatpak","run","org.videolan.VLC" } ) ;
-			}
-		}
-	}
-}
-
 QString settings::windowsDimensions( const QString& window )
 {
 	auto m = "WindowDimensions_" + window ;
@@ -1519,5 +1509,31 @@ void settings::sLogger::add( const QByteArray& data,int id )
 	if( m_logger ){
 
 		m_logger->add( data,id ) ;
+	}
+}
+
+void settings::FlatPackVLC::checkVLCAvailability()
+{
+	if( this->checkVLCAvailability( { "--host","vlc" } ) ){
+
+		this->checkVLCAvailability( { "--host","flatpak","run","org.videolan.VLC" } ) ;
+	}
+}
+
+bool settings::FlatPackVLC::checkVLCAvailability( const QStringList& e )
+{
+	QProcess exe ;
+
+	exe.start( "flatpak-spawn",e + QStringList{ "--version" } ) ;
+
+	exe.waitForFinished() ;
+
+	if( exe.exitCode() == 0 && exe.exitStatus() == QProcess::ExitStatus::NormalExit ){
+
+		m_args = e ;
+
+		return false ;
+	}else{
+		return true ;
 	}
 }
