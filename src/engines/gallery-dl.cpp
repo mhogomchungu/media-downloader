@@ -305,7 +305,7 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::up
 {
 	auto _not_contains = []( const engines::engine::baseEngine::updateOpts& opts,const char * e ){
 
-		for( const auto& it : opts.ourOptions ){
+		for( const auto& it : util::asConst( opts.ourOptions ) ){
 
 			if( it == e ){
 
@@ -433,7 +433,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 		if( n != -1 ){
 
-			auto ss = u.mid( n + m_dir.size() + 1 ) ;
+			auto ss = u.mid( n + m_dir.size() + 1 ).trimmed() ;
 
 			if( !u.startsWith( "[media-downloader] cmd:" ) ){
 
@@ -444,7 +444,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 			if( n != -1 ){
 
-				auto ss = u.mid( n + 13 ) ;
+				auto ss = u.mid( n + 13 ).trimmed() ;
 
 				if( !u.startsWith( "[media-downloader] cmd:" ) ){
 
@@ -465,7 +465,6 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 			m_tmp = *begin ;
 
 			for( auto it = begin + 1 ; it != m.end() ; it++ ){
-
 				m_tmp += "\n" + *it ;
 			}
 		}else{
