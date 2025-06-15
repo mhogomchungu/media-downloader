@@ -1044,6 +1044,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Default Player</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Warning, Nothing Was Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

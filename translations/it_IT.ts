@@ -1049,6 +1049,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Default Player</source>
         <translation>Riproduttore predefinito</translation>
     </message>
+    <message>
+        <source>Warning, Nothing Was Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
