@@ -2152,7 +2152,9 @@ void batchdownloader::setThumbNail( const std::vector< QByteArray >& fileNames ,
 				   int row,
 				   const engines::engine& engine )
 {
-	QByteArray fileName ;
+	auto downloadFolder = engine.downloadFolder( m_settings.downloadFolder() ) ;
+
+	QString filePath ;
 
 	for( const auto& it : fileNames ){
 
@@ -2160,28 +2162,42 @@ void batchdownloader::setThumbNail( const std::vector< QByteArray >& fileNames ,
 
 			continue ;
 		}else{
-			fileName = it ;
-			break ;
+			auto m = downloadFolder + "/" + it ;
+
+			QFile info( m ) ;
+
+			if( info.size() > 5 * 1024 * 1024 ){
+
+				continue	 ;
+			}else{
+				filePath = m ;
+
+				break ;
+			}
 		}
+	}
+
+	if( filePath.isEmpty() ){
+
+		return ;
 	}
 
 	class meaw
 	{
 	public:
 		meaw( batchdownloader& p,
-			const QByteArray& fileName,
+			const QString& filePath,
 			int row,
-			const engines::engine& engine ) :
-			m_parent( p ),m_fileName( fileName ),m_row( row ),m_engine( engine )
+			const engines::engine& engine) :
+			m_parent( p ),
+			m_filePath( filePath ),
+			m_row( row ),
+			m_engine( engine )
 		{
 		}
 		QPixmap bg()
 		{
-			const auto& e = m_parent.m_settings.downloadFolder() ;
-
-			auto s = m_engine.downloadFolder( e ) + "/" + m_fileName ;
-
-			QFile f( s ) ;
+			QFile f( m_filePath ) ;
 
 			QPixmap pixmap ;
 
@@ -2202,6 +2218,7 @@ void batchdownloader::setThumbNail( const std::vector< QByteArray >& fileNames ,
 			if( !pixmap.isNull() ){
 
 				auto label = new QLabel() ;
+
 				label->setAlignment( Qt::AlignCenter ) ;
 				label->setPixmap( pixmap ) ;
 
@@ -2210,12 +2227,12 @@ void batchdownloader::setThumbNail( const std::vector< QByteArray >& fileNames ,
 		}
 	private:
 		batchdownloader& m_parent ;
-		QByteArray m_fileName ;
+		QString m_filePath ;
 		int m_row ;
 		const engines::engine& m_engine ;
 	} ;
 
-	utils::qthread::run( meaw( *this,fileName,row,engine ) ) ;
+	utils::qthread::run( meaw( *this,filePath,row,engine ) ) ;
 }
 
 void batchdownloader::clipboardData( const QString& url,bool s )
