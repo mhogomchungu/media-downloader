@@ -728,6 +728,8 @@ public:
 
 			virtual util::Json parsePlayListData( const QByteArray& ) ;
 
+			virtual QString downloadFolder( const QString& ) ;
+
 			struct localFile
 			{
 				const QString& uiText ;
@@ -1068,6 +1070,10 @@ public:
 		{
 			return m_engine->versionInfoFromGithub( e ) ;
 		}
+		QString downloadFolder( const QString& e ) const
+		{
+			return m_engine->downloadFolder( e ) ;
+		}
 		void setProxySetting( QStringList& e,const QString& s ) const
 		{
 			m_engine->setProxySetting( e,s ) ;
@@ -1175,6 +1181,10 @@ public:
 		bool likeYtDlp() const
 		{
 			return m_likeYtDlp ;
+		}
+		bool canShowMetaData() const
+		{
+			return m_likeYtDlp || this->name() == "gallery-dl" ;
 		}
 		bool backendExists() const
 		{

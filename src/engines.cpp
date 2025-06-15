@@ -292,7 +292,11 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 
 QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
 {
-	if( tab == engine::tab::playlist ){
+	if( this->name() == "gallery-dl" ){
+
+		return { "--get-urls","--simulate","--range","1" } ;
+
+	}else if( tab == engine::tab::playlist ){
 
 		if( this->name() == "yt-dlp-test" ){
 
@@ -1565,6 +1569,11 @@ void engines::engine::baseEngine::setProxySetting( QStringList&,const QString& )
 QString engines::engine::baseEngine::setCredentials( QStringList&,QStringList& )
 {
 	return {} ;
+}
+
+QString engines::engine::baseEngine::downloadFolder( const QString& e )
+{
+	return e ;
 }
 
 util::Json engines::engine::baseEngine::parsePlayListData( const QByteArray& e )

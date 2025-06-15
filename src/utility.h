@@ -1679,6 +1679,10 @@ namespace utility
 		{
 			return m_n_entries ;
 		}
+		void setUrl( const QString& e )
+		{
+			m_url = e ;
+		}
 	private:
 		void parseJson() ;
 		QString m_thumbnailUrl ;

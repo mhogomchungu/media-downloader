@@ -378,6 +378,7 @@ Version 1.2.0(April 1st, 2021)
        - Fix a bug caused by yt-dlp executable name change for 32 bit windows 7.
      [ALL]
        - Add Bulgarian translations.
+       - Add ability to show thumbnails in batch downloader tab when using gallery-dl.
        - It is now possible to start downloading while the playlist tab is getting filled with entries.
        - It is now possible to do simultaneous downloading from all three tabs that can do downloading.
        - It is now possible to send multiple urls to VLC for streaming. This is useful for example

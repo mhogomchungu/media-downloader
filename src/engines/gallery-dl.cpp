@@ -230,6 +230,36 @@ gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJs
 	}() ) ;
 }
 
+util::Json gallery_dl::parsePlayListData( const QByteArray& e )
+{
+	if( e.isEmpty() ){
+
+		return e ;
+	}else{
+		QString url ;
+
+		auto m = e.lastIndexOf( "https://" ) ;
+
+		if( m != -1 ){
+
+			url = e.mid( m ) ;
+		}else{
+			m = e.lastIndexOf( "http://" ) ;
+
+			if( m != -1 ){
+
+				url = e.mid( m ) ;
+			}
+		}
+
+		QJsonObject obj ;
+
+		obj.insert( "thumbnail",url ) ;
+
+		return obj ;
+	}
+}
+
 gallery_dl::~gallery_dl()
 {
 }
@@ -240,6 +270,11 @@ engines::engine::baseEngine::DataFilter gallery_dl::Filter( int id )
 	const auto& engine = engines::engine::baseEngine::engine() ;
 
 	return { util::types::type_identity< gallery_dl::gallery_dlFilter >(),s,engine,id } ;
+}
+
+QString gallery_dl::downloadFolder( const QString& e )
+{
+	return e + "/gallery-dl" ;
 }
 
 void gallery_dl::openLocalFile( const engines::engine::baseEngine::localFile& s )
@@ -289,6 +324,9 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::up
 		opts.ourOptions.prepend( "-d" ) ;
 	}
 
+	opts.ourOptions.prepend( "output.shorten=false" ) ;
+	opts.ourOptions.prepend( "-o" ) ;
+
 	opts.ourOptions.prepend( "output.mode=terminal" ) ;
 	opts.ourOptions.prepend( "-o" ) ;
 
@@ -302,11 +340,14 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 {
 	if( f.success() ){
 
-		qDebug() << "aa" << uiText;
-		qDebug() << "bb" << bkText;
-		qDebug() << "cc" << dopts;
+		if( uiText.isEmpty() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+			auto m = QObject::tr( "Warning, Nothing Was Downloaded" ) ;
+
+			return m + "\n" + engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		}else{
+			return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		}
 
 	}else if( f.cancelled() ){
 

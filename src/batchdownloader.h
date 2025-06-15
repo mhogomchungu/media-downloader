@@ -228,6 +228,7 @@ signals:
 	void addTextToUiSignal( const QByteArray&,int ) ;
 	void addClipboardSignal( QString ) ;
 private:
+	void setThumbNail( const std::vector< QByteArray >& fileName,int,const engines::engine& ) ;
 	void disableWhileDownloading() ;
 	void addClipboardSlot( QString ) ;
 	void addTextToUi( const QByteArray&,int ) ;
@@ -329,16 +330,9 @@ private:
 			{
 				reportFinished::finishedStatus::state m ;
 
-				if( st.cancelled() ){
+				m_event.whenDone( st,fileNames ) ;
 
-					m_event.whenDone( false ) ;
-
-					m = reportFinished::finishedStatus::state::cancelled ;
-				}else{
-					m_event.whenDone( true ) ;
-
-					m = reportFinished::finishedStatus::state::done ;
-				}
+				m = reportFinished::finishedStatus::state::done ;
 
 				reportFinished::finishedStatus s{ m_index,m,st } ;
 

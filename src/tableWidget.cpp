@@ -234,7 +234,7 @@ int tableWidget::addItem( tableWidget::entry e,tableWidget::sizeHint s )
 
 	auto label = new QLabel() ;
 	label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter ) ;
-	label ->setPixmap( entry.thumbnail ) ;
+	label->setPixmap( entry.thumbnail ) ;
 
 	m_table.setCellWidget( row,0,label ) ;
 

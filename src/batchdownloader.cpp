@@ -27,6 +27,7 @@
 #include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QFile>
 
 batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -706,7 +707,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		this->downloadAddItems( engine,list.move() ) ;
 
-	}else if( m_showMetaData && engine.likeYtDlp() ){
+	}else if( m_showMetaData && engine.canShowMetaData() ){
 
 		if( m_recursiveDownloading ){
 
@@ -742,7 +743,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		if( ss ){
 
-			if( ss->likeYtDlp() ){
+			if( ss->canShowMetaData() ){
 
 				this->getMetaData( it,engine,autoDownload ) ;
 			}else{
@@ -1952,6 +1953,11 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 				if( m.valid() ){
 
+					if( m.url().isEmpty() ){
+
+						m.setUrl( m_url ) ;
+					}
+
 					m_parent.addItem( this->index(),enableAll,m.move() ) ;
 				}else{
 					m_parent.addItem( this->index(),enableAll,m_url ) ;
@@ -2010,31 +2016,34 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	auto args = engine.dumpJsonArguments( engines::engine::tab::batch ) ;
 
-	auto cookie = m_settings.cookieBrowserName( engine.name() ) ;
-	const auto& ca = engine.cookieArgument() ;
+	if( engine.likeYtDlp() ){
 
-	if( !cookie.isEmpty() && !ca.isEmpty() ){
+		auto cookie = m_settings.cookieBrowserName( engine.name() ) ;
+		const auto& ca = engine.cookieArgument() ;
 
-		args.append( ca ) ;
-		args.append( cookie ) ;
+		if( !cookie.isEmpty() && !ca.isEmpty() ){
+
+			args.append( ca ) ;
+			args.append( cookie ) ;
+		}
+
+		auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
+		const auto& caa = engine.cookieTextFileArgument() ;
+
+		if( !cookieFile.isEmpty() && !caa.isEmpty() ){
+
+			args.append( caa ) ;
+			args.append( cookieFile ) ;
+		}
+
+		auto m = m_ui.lineEditBDUrlOptions->text() ;
+
+		utility::addToListOptionsFromsDownload( args,m,m_ctx,engine ) ;
+
+		engine.setTextEncondig( args ) ;
+
+		engine.updateCmdOptions( args ) ;
 	}
-
-	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		args.append( caa ) ;
-		args.append( cookieFile ) ;
-	}
-
-	auto m = m_ui.lineEditBDUrlOptions->text() ;
-
-	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine ) ;
-
-	engine.setTextEncondig( args ) ;
-
-	engine.updateCmdOptions( args ) ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
@@ -2137,6 +2146,76 @@ void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 	auto c = m_ui.labelBDEngineName ;
 
 	utility::alignText( m,a,b,c ) ;
+}
+
+void batchdownloader::setThumbNail( const std::vector< QByteArray >& fileNames ,
+				   int row,
+				   const engines::engine& engine )
+{
+	QByteArray fileName ;
+
+	for( const auto& it : fileNames ){
+
+		if( it.endsWith( ".mp4" ) || it.endsWith( ".webm" ) || it.endsWith( ".avi" ) ){
+
+			continue ;
+		}else{
+			fileName = it ;
+			break ;
+		}
+	}
+
+	class meaw
+	{
+	public:
+		meaw( batchdownloader& p,
+			const QByteArray& fileName,
+			int row,
+			const engines::engine& engine ) :
+			m_parent( p ),m_fileName( fileName ),m_row( row ),m_engine( engine )
+		{
+		}
+		QPixmap bg()
+		{
+			const auto& e = m_parent.m_settings.downloadFolder() ;
+
+			auto s = m_engine.downloadFolder( e ) + "/" + m_fileName ;
+
+			QFile f( s ) ;
+
+			QPixmap pixmap ;
+
+			if( f.open( QIODevice::ReadOnly ) && pixmap.loadFromData( f.readAll() ) ){
+
+				auto a = settings::tabName::batch ;
+
+				auto w = m_parent.m_settings.thumbnailWidth( a ) ;
+				auto h = m_parent.m_settings.thumbnailHeight( a ) ;
+
+				return pixmap.scaled( w,h ) ;
+			}
+
+			return pixmap ;
+		}
+		void fg( const QPixmap& pixmap )
+		{
+			if( !pixmap.isNull() ){
+
+				auto label = new QLabel() ;
+				label->setAlignment( Qt::AlignCenter ) ;
+				label->setPixmap( pixmap ) ;
+
+				m_parent.m_table.get().setCellWidget( m_row,0,label ) ;
+			}
+		}
+	private:
+		batchdownloader& m_parent ;
+		QByteArray m_fileName ;
+		int m_row ;
+		const engines::engine& m_engine ;
+	} ;
+
+	utils::qthread::run( meaw( *this,fileName,row,engine ) ) ;
 }
 
 void batchdownloader::clipboardData( const QString& url,bool s )
@@ -2535,7 +2614,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 		this->addItemUi( index,enableAll,media ) ;
 	}else{
-		if( networkAccess::hasNetworkSupport() ){
+		if( m_showMetaData && networkAccess::hasNetworkSupport() ){
 
 			auto u = media.thumbnailUrl() ;
 
@@ -2755,26 +2834,39 @@ void batchdownloader::disableWhileDownloading()
 
 void batchdownloader::downloadSingle( const engines::engine& eng,int row )
 {
-	struct meaw
+	class meaw
 	{
-		meaw()
+	public:
+		meaw( batchdownloader& p,const engines::engine& engine,int index ) :
+			m_parent( p ),m_engine( engine ),m_index( index )
 		{
 		}
 		void whenCreated()
 		{
 		}
-		void whenDone( bool )
+		void whenDone( const engines::ProcessExitState& st,const std::vector< QByteArray >& fileNames )
 		{
+			auto a = m_engine.canShowMetaData() ;
+			auto b = m_parent.m_showMetaData ;
+
+			if( fileNames.size() && b && st.success() && a && !m_engine.likeYtDlp() ){
+
+				m_parent.setThumbNail( fileNames,m_index,m_engine ) ;
+			}
 		}
 		meaw move()
 		{
 			return std::move( *this ) ;
 		}
+	private:
+		batchdownloader& m_parent ;
+		const engines::engine& m_engine ;
+		int m_index ;
 	} ;
 
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),row ) ;
 
-	this->downloadEvent( meaw(),engine,row ) ;
+	this->downloadEvent( meaw( *this,engine,row ),engine,row ) ;
 }
 
 void batchdownloader::downloadRecursively( const engines::engine& eng,int index )
@@ -2782,8 +2874,8 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 	class meaw
 	{
 	public:
-		meaw( batchdownloader& p,const engines::engine& engine ) :
-			m_parent( p ),m_engine( engine )
+		meaw( batchdownloader& p,const engines::engine& engine,int index ) :
+			m_parent( p ),m_engine( engine ),m_index( index )
 		{
 		}
 		void whenCreated()
@@ -2791,11 +2883,24 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 			m_parent.m_topDownloadingIndex++ ;
 			m_parent.m_recursiveDownloading++ ;
 		}
-		void whenDone( bool notCancelled )
+		void whenDone( const engines::ProcessExitState& st,const std::vector< QByteArray >& fileNames )
 		{
 			m_parent.m_recursiveDownloading-- ;
 
-			if( notCancelled ){
+			if( st.success() ){
+
+				auto m = m_engine.canShowMetaData() ;
+
+				if( m_parent.m_showMetaData && m && !m_engine.likeYtDlp() ){
+
+					if( fileNames.size() ){
+
+						m_parent.setThumbNail( fileNames,m_index,m_engine ) ;
+					}
+				}
+			}
+
+			if( !st.cancelled() ){
 
 				this->startNext() ;
 			}
@@ -2828,6 +2933,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 		}
 		batchdownloader& m_parent ;
 		const engines::engine& m_engine ;
+		int m_index ;
 	} ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
@@ -2836,7 +2942,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
-	this->downloadEvent( meaw( *this,engine ),engine,index ) ;
+	this->downloadEvent( meaw( *this,engine,index ),engine,index ) ;
 }
 
 void batchdownloader::addTextToUi( const QByteArray& data,int index )

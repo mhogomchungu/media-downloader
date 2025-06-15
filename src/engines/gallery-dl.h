@@ -47,7 +47,11 @@ public:
 		engines::engine::baseEngine::preProcessing m_preProcessing ;
 	} ;
 
+	util::Json parsePlayListData( const QByteArray& ) override ;
+
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
+
+	QString downloadFolder( const QString& ) override ;
 
 	void openLocalFile( const engines::engine::baseEngine::localFile& ) override ;
 
