@@ -1051,7 +1051,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Warning, Nothing Was Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Attenzione, nulla è stato scaricato</translation>
     </message>
 </context>
 <context>
