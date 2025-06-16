@@ -294,7 +294,7 @@ QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
 {
 	if( this->name() == "gallery-dl" ){
 
-		return { "--get-urls","--simulate","--range","1" } ;
+		return m_dumpJsonArguments ;
 
 	}else if( tab == engine::tab::playlist ){
 

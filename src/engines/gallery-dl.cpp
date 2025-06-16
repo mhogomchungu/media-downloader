@@ -228,6 +228,8 @@ gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJs
 
 		return obj ;
 	}() ) ;
+
+	object.insert( "DumptJsonArguments",QJsonArray{ "--no-colors","--get-urls","--range","1" } ) ;
 }
 
 util::Json gallery_dl::parsePlayListData( const QByteArray& e )
@@ -323,6 +325,8 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::up
 		opts.ourOptions.prepend( s + "/gallery-dl" ) ;
 		opts.ourOptions.prepend( "-d" ) ;
 	}
+
+	opts.ourOptions.prepend( "--no-colors" ) ;
 
 	opts.ourOptions.prepend( "output.shorten=false" ) ;
 	opts.ourOptions.prepend( "-o" ) ;
