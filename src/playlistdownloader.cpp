@@ -851,6 +851,13 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 			reportFinished::finishedStatus s{ m_index,m,st } ;
 
 			emit m_parent.reportFinishedStatusSignal( { m_engine,s.move() },fileNames ) ;
+
+			auto a = m_engine.canShowMetaData() ;
+
+			if( fileNames.size() && a && st.success() && !m_engine.likeYtDlp() ){
+
+				m_parent.setThumbnail( fileNames,m_engine,m_index ) ;
+			}
 		}
 		void disableAll()
 		{
@@ -1016,7 +1023,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	auto opts = engine.dumpJsonArguments( engines::engine::tab::playlist ) ;
 
-	if( !opts.isEmpty() ){
+	if( !opts.isEmpty() && engine.likeYtDlp() ){
 
 		opts.last() += m_jsonEndMarker ;
 	}
@@ -1040,8 +1047,6 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	engine.setTextEncondig( opts ) ;
 	engine.updateGetPlaylistCmdOptions( opts ) ;
-
-	opts.append( "-v" ) ;
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
 
@@ -1329,6 +1334,66 @@ void playlistdownloader::addTextToUi( const QByteArray& data,int index )
 	}
 }
 
+void playlistdownloader::setThumbnail( const std::vector< QByteArray >& fileNames,
+				      const engines::engine& engine,
+				      int row )
+{
+	auto m = m_settings.downloadFolder() ;
+	auto downloadFolder = engine.downloadFolder( m ) ;
+
+	class meaw
+	{
+	public:
+		meaw( playlistdownloader& p,int row ) : m_parent( p ),m_row( row )
+		{
+		}
+		void setPath( const QString& e )
+		{
+			m_filePath = e ;
+		}
+		QPixmap bg()
+		{
+			QFile f( m_filePath ) ;
+
+			QPixmap pixmap ;
+
+			if( f.open( QIODevice::ReadOnly ) && pixmap.loadFromData( f.readAll() ) ){
+
+				auto a = settings::tabName::batch ;
+
+				auto w = m_parent.m_settings.thumbnailWidth( a ) ;
+				auto h = m_parent.m_settings.thumbnailHeight( a ) ;
+
+				return pixmap.scaled( w,h ) ;
+			}
+
+			return pixmap ;
+		}
+		void fg( const QPixmap& pixmap )
+		{
+			if( !pixmap.isNull() ){
+
+				auto label = new QLabel() ;
+
+				label->setAlignment( Qt::AlignCenter ) ;
+				label->setPixmap( pixmap ) ;
+
+				m_parent.m_table.get().setCellWidget( m_row,0,label ) ;
+			}
+		}
+		meaw move()
+		{
+			return *this ;
+		}
+	private:
+		playlistdownloader& m_parent ;
+		int m_row ;
+		QString m_filePath ;
+	} ;
+
+	utility::setThumbNail( fileNames,downloadFolder,meaw( *this,row ) ) ;
+}
+
 void playlistdownloader::reportFinishedStatus( const reportFinished& f,
 					      const std::vector< QByteArray >& fileNames )
 {
@@ -1575,8 +1640,16 @@ void playlistdownloader::subscription::save()
 void playlistdownloader::banner::updateProgress( const QString& progress )
 {
 	m_time = m_timer.elapsedTime() ;
+
 	auto duration = engines::engine::baseEngine::timer::stringElapsedTime( m_time ) ;
-	m_progress = duration + ", " + progress ;
+
+	if( progress.isEmpty() ){
+
+		m_progress = duration ;
+	}else{
+		m_progress = duration + ", " + progress ;
+	}
+
 	m_table.setUiText( m_txt + "\n" + m_progress,0 ) ;
 }
 
@@ -1664,6 +1737,24 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 
 void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& data )
 {
+	if( !m_engine.likeYtDlp() ){
+
+		m_parent.m_banner.updateProgress( "" ) ;
+
+		m_data += data.toLine() ;
+
+		data.clear() ;
+
+		const auto& m = m_engine.parseJson( m_data ) ;
+
+		for( const auto& it : m ){
+
+			m_parent.parseJson( m_customOptions,table,QJsonDocument( it ) ) ;
+		}
+
+		return ;
+	}
+
 	m_parent.m_dataReceived = true ;
 
 	int position = 0 ;

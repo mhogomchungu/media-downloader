@@ -229,37 +229,110 @@ gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJs
 		return obj ;
 	}() ) ;
 
-	object.insert( "DumptJsonArguments",QJsonArray{ "--no-colors","--get-urls","--range","1" } ) ;
+	object.insert( "CanDownloadPlaylist",true ) ;
+
+	object.insert( "DumptJsonArguments",QJsonArray{ "--dump-json" } ) ;
+}
+
+void gallery_dl::parseJson( std::vector< QJsonObject >& list,const QString& url,const QJsonObject& e )
+{
+	QJsonObject obj ;
+
+	obj.insert( "webpage_url",url ) ;
+	obj.insert( "thumbnail","" ) ;
+
+	auto fileName = e.value( "filename" ).toString() ;
+
+	if( !fileName.isEmpty() ){
+
+		auto s = e.value( "extension" ).toString() ;
+
+		if( !s.isEmpty() ){
+
+			fileName += "." + s ;
+		}
+
+		obj.insert( "fileName",fileName ) ;
+	}
+
+	auto title = e.value( "seo_alt_text" ).toString() ;
+
+	if( title.isEmpty() ){
+
+		title = 	e.value( "auto_alt_text" ).toString() ;
+	}
+
+	if( title.isEmpty() ){
+
+		obj.insert( "title",fileName ) ;
+	}else{
+		if( !fileName.isEmpty() ){
+
+			obj.insert( "title",title + "\n" + fileName ) ;
+		}
+	}
+
+	auto images = e.value( "images" ).toObject().toVariantMap() ;
+
+	if( images.size() ){
+
+		auto m = images.begin().value().toJsonObject().value( "url" ) ;
+
+		obj.insert( "thumbnail",m ) ;
+	}
+
+	list.emplace_back( obj ) ;
+}
+
+std::vector< QJsonObject > gallery_dl::parseJson( const QByteArray& e )
+{
+	QJsonParseError err ;
+
+	auto doc = QJsonDocument::fromJson( e,&err ) ;
+
+	std::vector< QJsonObject > list ;
+
+	if( err.error == QJsonParseError::NoError ){
+
+		const auto arr = doc.array() ;
+
+		for( auto it = arr.begin() ; it != arr.end() ; it++ ){
+
+			auto m = it->toVariant().toList() ;
+
+			bool ok ;
+
+			if( m.size() ){
+
+				auto s = m[ 0 ].toULongLong( &ok ) ;
+
+				if( ok && m.size() == 3 && ( s == 3 || s == 6 ) ){
+
+					auto e = m[ 1 ].toString() ;
+					auto g = m[ 2 ].toJsonObject() ;
+
+					this->parseJson( list,e,g ) ;
+				}
+			}
+		}
+	}
+
+	return list ;
 }
 
 util::Json gallery_dl::parsePlayListData( const QByteArray& e )
 {
-	if( e.isEmpty() ){
+	if( !e.isEmpty() ){
 
-		return e ;
-	}else{
-		QString url ;
+		auto m = this->parseJson( e ) ;
 
-		auto m = e.lastIndexOf( "https://" ) ;
+		if( m.size() ){
 
-		if( m != -1 ){
-
-			url = e.mid( m ) ;
-		}else{
-			m = e.lastIndexOf( "http://" ) ;
-
-			if( m != -1 ){
-
-				url = e.mid( m ) ;
-			}
+			return m[ 0 ] ;
 		}
-
-		QJsonObject obj ;
-
-		obj.insert( "thumbnail",url ) ;
-
-		return obj ;
 	}
+
+	return {} ;
 }
 
 gallery_dl::~gallery_dl()

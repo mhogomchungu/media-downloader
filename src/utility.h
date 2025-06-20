@@ -587,7 +587,7 @@ namespace utility
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;
-	void windowsSetDarkModeTitleBar( const Context& ) ;
+	void windowsSetDarkModeTitleBar( const Context& ) ;	
 	QByteArray barLine() ;
 	void copyToClipboardUrls( tableWidget& ) ;
 	bool isRelativePath( const QString& ) ;
@@ -600,6 +600,41 @@ namespace utility
 					    const QString& downLoadOptions,
 					    const Context& ctx,
 					    const engines::engine& engine ) ;
+
+	template< typename Parent >
+	void setThumbNail( const std::vector< QByteArray >&fileNames,
+			  const QString& downloadFolder,
+			  Parent parent )
+	{
+		QString filePath ;
+
+		for( const auto& it : fileNames ){
+
+			if( it.endsWith( ".mp4" ) || it.endsWith( ".webm" ) || it.endsWith( ".avi" ) ){
+
+				continue ;
+			}else{
+				auto m = downloadFolder + "/" + it ;
+
+				QFile info( m ) ;
+
+				if( info.size() > 5 * 1024 * 1024 ){
+
+					continue	 ;
+				}else{
+					filePath = m ;
+
+					break ;
+				}
+			}
+		}
+
+		if( !filePath.isEmpty() ){
+
+			parent.setPath( filePath ) ;
+			utils::qthread::run( parent.move() ) ;
+		}
+	}
 
 	class UrlLinks
 	{

@@ -294,7 +294,22 @@ QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
 {
 	if( this->name() == "gallery-dl" ){
 
-		return m_dumpJsonArguments ;
+		if( tab == engine::tab::playlist ){
+
+			auto m = m_dumpJsonArguments ;
+
+			m.append( "-o" ) ;
+			m.append( "metadata.mode=jsonl" ) ;
+
+			return m ;
+		}else{
+			auto m = m_dumpJsonArguments ;
+
+			m.append( "--range" ) ;
+			m.append( "1" ) ;
+
+			return m ;
+		}
 
 	}else if( tab == engine::tab::playlist ){
 
@@ -1496,6 +1511,11 @@ bool engines::engine::baseEngine::updateVersionInfo()
 
 void engines::engine::baseEngine::setTextEncondig( const QString&,QStringList& )
 {
+}
+
+std::vector< QJsonObject > engines::engine::baseEngine::parseJson( const QByteArray& )
+{
+	return {} ;
 }
 
 QString engines::engine::baseEngine::updateCmdPath( const QString& e )

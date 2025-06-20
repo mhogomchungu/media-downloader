@@ -706,6 +706,8 @@ public:
 
 			virtual void setTextEncondig( const QString&,QStringList& opts ) ;
 
+			virtual std::vector< QJsonObject > parseJson( const QByteArray& ) ;
+
 			virtual QString updateCmdPath( const QString& ) ;
 
 			virtual engines::engine::baseEngine::DataFilter Filter( int ) ;
@@ -1081,6 +1083,10 @@ public:
 		QStringList horizontalHeaderLabels() const
 		{
 			return m_engine->horizontalHeaderLabels() ;
+		}
+		virtual std::vector< QJsonObject > parseJson( const QByteArray& e ) const
+		{
+			return m_engine->parseJson( e ) ;
 		}
 		void openLocalFile( const engines::engine::baseEngine::localFile& s ) const
 		{

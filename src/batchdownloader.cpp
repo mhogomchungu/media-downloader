@@ -755,6 +755,66 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 	}
 }
 
+void batchdownloader::setThumbnail( const std::vector< QByteArray >& fileNames,
+				   const engines::engine& engine,
+				   int row )
+{
+	auto m = m_settings.downloadFolder() ;
+	auto downloadFolder = engine.downloadFolder( m ) ;
+
+	class meaw
+	{
+	public:
+		meaw( batchdownloader& p,int row ) : m_parent( p ),m_row( row )
+		{
+		}
+		void setPath( const QString& e )
+		{
+			m_filePath = e ;
+		}
+		QPixmap bg()
+		{
+			QFile f( m_filePath ) ;
+
+			QPixmap pixmap ;
+
+			if( f.open( QIODevice::ReadOnly ) && pixmap.loadFromData( f.readAll() ) ){
+
+				auto a = settings::tabName::batch ;
+
+				auto w = m_parent.m_settings.thumbnailWidth( a ) ;
+				auto h = m_parent.m_settings.thumbnailHeight( a ) ;
+
+				return pixmap.scaled( w,h ) ;
+			}
+
+			return pixmap ;
+		}
+		void fg( const QPixmap& pixmap )
+		{
+			if( !pixmap.isNull() ){
+
+				auto label = new QLabel() ;
+
+				label->setAlignment( Qt::AlignCenter ) ;
+				label->setPixmap( pixmap ) ;
+
+				m_parent.m_table.get().setCellWidget( m_row,0,label ) ;
+			}
+		}
+		meaw move()
+		{
+			return *this ;
+		}
+	private:
+		batchdownloader& m_parent ;
+		int m_row ;
+		QString m_filePath ;
+	} ;
+
+	utility::setThumbNail( fileNames,downloadFolder,meaw( *this,row ) ) ;
+}
+
 void batchdownloader::getMetaData( const Items::entry& it,
 				   const engines::engine& eng,
 				   bool autoDownload )
@@ -2148,92 +2208,7 @@ void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 	utility::alignText( m,a,b,c ) ;
 }
 
-void batchdownloader::setThumbNail( const std::vector< QByteArray >& fileNames ,
-				   int row,
-				   const engines::engine& engine )
-{
-	auto downloadFolder = engine.downloadFolder( m_settings.downloadFolder() ) ;
 
-	QString filePath ;
-
-	for( const auto& it : fileNames ){
-
-		if( it.endsWith( ".mp4" ) || it.endsWith( ".webm" ) || it.endsWith( ".avi" ) ){
-
-			continue ;
-		}else{
-			auto m = downloadFolder + "/" + it ;
-
-			QFile info( m ) ;
-
-			if( info.size() > 5 * 1024 * 1024 ){
-
-				continue	 ;
-			}else{
-				filePath = m ;
-
-				break ;
-			}
-		}
-	}
-
-	if( filePath.isEmpty() ){
-
-		return ;
-	}
-
-	class meaw
-	{
-	public:
-		meaw( batchdownloader& p,
-			const QString& filePath,
-			int row,
-			const engines::engine& engine) :
-			m_parent( p ),
-			m_filePath( filePath ),
-			m_row( row ),
-			m_engine( engine )
-		{
-		}
-		QPixmap bg()
-		{
-			QFile f( m_filePath ) ;
-
-			QPixmap pixmap ;
-
-			if( f.open( QIODevice::ReadOnly ) && pixmap.loadFromData( f.readAll() ) ){
-
-				auto a = settings::tabName::batch ;
-
-				auto w = m_parent.m_settings.thumbnailWidth( a ) ;
-				auto h = m_parent.m_settings.thumbnailHeight( a ) ;
-
-				return pixmap.scaled( w,h ) ;
-			}
-
-			return pixmap ;
-		}
-		void fg( const QPixmap& pixmap )
-		{
-			if( !pixmap.isNull() ){
-
-				auto label = new QLabel() ;
-
-				label->setAlignment( Qt::AlignCenter ) ;
-				label->setPixmap( pixmap ) ;
-
-				m_parent.m_table.get().setCellWidget( m_row,0,label ) ;
-			}
-		}
-	private:
-		batchdownloader& m_parent ;
-		QString m_filePath ;
-		int m_row ;
-		const engines::engine& m_engine ;
-	} ;
-
-	utils::qthread::run( meaw( *this,filePath,row,engine ) ) ;
-}
 
 void batchdownloader::clipboardData( const QString& url,bool s )
 {
@@ -2868,7 +2843,7 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row )
 
 			if( fileNames.size() && b && st.success() && a && !m_engine.likeYtDlp() ){
 
-				m_parent.setThumbNail( fileNames,m_index,m_engine ) ;
+				m_parent.setThumbnail( fileNames,m_engine,m_index ) ;
 			}
 		}
 		meaw move()
@@ -2912,7 +2887,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 
 					if( fileNames.size() ){
 
-						m_parent.setThumbNail( fileNames,m_index,m_engine ) ;
+						m_parent.setThumbnail( fileNames,m_engine,m_index ) ;
 					}
 				}
 			}

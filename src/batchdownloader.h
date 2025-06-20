@@ -228,7 +228,6 @@ signals:
 	void addTextToUiSignal( const QByteArray&,int ) ;
 	void addClipboardSignal( QString ) ;
 private:
-	void setThumbNail( const std::vector< QByteArray >& fileName,int,const engines::engine& ) ;
 	void disableWhileDownloading() ;
 	void addClipboardSlot( QString ) ;
 	void addTextToUi( const QByteArray&,int ) ;
@@ -298,7 +297,7 @@ private:
 			return std::move( *this ) ;
 		}
 	} ;
-
+	void setThumbnail( const std::vector< QByteArray >&,const engines::engine& engine,int ) ;
 	template< typename Event >
 	void downloadEvent( Event event,const engines::engine& engine,int index )
 	{

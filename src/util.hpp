@@ -214,6 +214,10 @@ public:
 	{
 		m_error.error = QJsonParseError::NoError ;
 	}
+	QByteArray toData() const
+	{
+		return m_doc.toJson() ;
+	}
 	Json( QJsonParseError error ) :
 		m_error( std::move( error ) )
 	{

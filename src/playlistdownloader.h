@@ -101,6 +101,7 @@ private:
 	void reportFinishedStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	void networkData( const utility::networkReply& ) ;
 	void addTextToUi( const QByteArray&,int ) ;
+	void setThumbnail( const std::vector< QByteArray >&,const engines::engine& engine,int ) ;
 
 	enum class size{ small,large,toggle } ;
 	void resizeTable( playlistdownloader::size ) ;
@@ -330,6 +331,7 @@ private:
 		playlistdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		playlistdownloader::customOptions m_customOptions ;
+		QByteArray m_data ;
 	} ;
 
 	class listIterator

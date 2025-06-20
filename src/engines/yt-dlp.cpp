@@ -1347,6 +1347,8 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 
 	e.append( "--output-na-placeholder" ) ;
 	e.append( "\"NA\"" ) ;
+
+	e.append( "-v" ) ;
 }
 
 void yt_dlp::updateCmdOptions( QStringList& e )
