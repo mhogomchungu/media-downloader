@@ -231,108 +231,91 @@ gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJs
 
 	object.insert( "CanDownloadPlaylist",true ) ;
 
-	object.insert( "DumptJsonArguments",QJsonArray{ "--dump-json" } ) ;
+	QJsonArray arr ;
+
+	arr.append( "--no-skip" ) ;
+	arr.append( "--no-download" ) ;
+	arr.append( "--quiet" ) ;
+	arr.append( "--postprocessor" ) ;
+	arr.append( "metadata" ) ;
+	arr.append( "--postprocessor-option" ) ;
+	arr.append( "event=prepare" ) ;
+	arr.append( "--postprocessor-option" ) ;
+	arr.append( "filename=-" ) ;
+
+	object.insert( "DumptJsonArguments",arr ) ;
 }
 
-void gallery_dl::parseJson( std::vector< QJsonObject >& list,const QString& url,const QJsonObject& e )
-{
-	QJsonObject obj ;
-
-	obj.insert( "webpage_url",url ) ;
-	obj.insert( "thumbnail","" ) ;
-
-	auto fileName = e.value( "filename" ).toString() ;
-
-	if( !fileName.isEmpty() ){
-
-		auto s = e.value( "extension" ).toString() ;
-
-		if( !s.isEmpty() ){
-
-			fileName += "." + s ;
-		}
-
-		obj.insert( "fileName",fileName ) ;
-	}
-
-	auto title = e.value( "seo_alt_text" ).toString() ;
-
-	if( title.isEmpty() ){
-
-		title = 	e.value( "auto_alt_text" ).toString() ;
-	}
-
-	if( title.isEmpty() ){
-
-		obj.insert( "title",fileName ) ;
-	}else{
-		if( !fileName.isEmpty() ){
-
-			obj.insert( "title",title + "\n" + fileName ) ;
-		}
-	}
-
-	auto images = e.value( "images" ).toObject().toVariantMap() ;
-
-	if( images.size() ){
-
-		auto m = images.begin().value().toJsonObject().value( "url" ) ;
-
-		obj.insert( "thumbnail",m ) ;
-	}
-
-	list.emplace_back( obj ) ;
-}
-
-std::vector< QJsonObject > gallery_dl::parseJson( const QByteArray& e )
+QJsonObject gallery_dl::parseJson( const QByteArray& e )
 {
 	QJsonParseError err ;
 
 	auto doc = QJsonDocument::fromJson( e,&err ) ;
 
-	std::vector< QJsonObject > list ;
-
 	if( err.error == QJsonParseError::NoError ){
 
-		const auto arr = doc.array() ;
+		const auto oo = doc.object() ;
 
-		for( auto it = arr.begin() ; it != arr.end() ; it++ ){
+		QJsonObject obj ;
 
-			auto m = it->toVariant().toList() ;
+		auto url       = oo.value( "url" ).toString() ;
+		auto thumbnail = oo.value( "thumbnail" ).toString() ;
+		auto fileName  = oo.value( "filename" ).toString() ;
+		auto title     = oo.value( "seo_alt_text" ).toString() ;
+		auto ext       = oo.value( "extension" ).toString() ;
 
-			bool ok ;
+		if( title.isEmpty() ){
 
-			if( m.size() ){
+			title = oo.value( "auto_alt_text" ).toString() ;
+		}
 
-				auto s = m[ 0 ].toULongLong( &ok ) ;
+		obj.insert( "thumbnail",thumbnail ) ;
 
-				if( ok && m.size() == 3 && ( s == 3 || s == 6 ) ){
+		QMap< QString,QVariant > images = oo.value( "images" ).toVariant().toMap() ;
 
-					auto e = m[ 1 ].toString() ;
-					auto g = m[ 2 ].toJsonObject() ;
+		auto it = images.begin() ;
 
-					this->parseJson( list,e,g ) ;
-				}
+		if( it != images.end() ){
+
+			auto m = it->toJsonObject().value( "url" ).toString() ;
+
+			if( !m.isEmpty() ){
+
+				obj.insert( "thumbnail",m ) ;
 			}
 		}
-	}
 
-	return list ;
+		obj.insert( "webpage_url",url ) ;
+
+		if( !fileName.isEmpty() ){
+
+			if( !ext.isEmpty() ){
+
+				fileName += "." + ext ;
+			}
+
+			obj.insert( "fileName",fileName ) ;
+		}
+
+		if( title.isEmpty() ){
+
+			obj.insert( "title",fileName ) ;
+		}else{
+			if( !fileName.isEmpty() ){
+
+				obj.insert( "title",title + "\n" + fileName ) ;
+			}
+		}
+
+		return obj ;
+	}else{
+		return {} ;
+	}
 }
 
 util::Json gallery_dl::parsePlayListData( const QByteArray& e )
 {
-	if( !e.isEmpty() ){
-
-		auto m = this->parseJson( e ) ;
-
-		if( m.size() ){
-
-			return m[ 0 ] ;
-		}
-	}
-
-	return {} ;
+	return this->parseJson( e ) ;
 }
 
 gallery_dl::~gallery_dl()

@@ -59,6 +59,7 @@
 			<description>
 				<p>Changelog</p>
 				<ul>
+					<li>Gallery-dl now works in Playlist tab.</li>
 					<li>Add ability to show thumbnails in batch downloader tab when using gallery-dl.</li>
 					<li>Make it possible to specifically call VLC to stream media(needs org.freedesktop.Flatpak permission).</li>
 					<li>Add Bulgarian translations.</li>

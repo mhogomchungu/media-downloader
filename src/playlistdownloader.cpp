@@ -1735,21 +1735,84 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 	return e.startsWith( "WARNING" ) ;
 }
 
+static bool _parse( const int& s,int& ss,int& counter,std::vector< QByteArray >& mm,QByteArray& data )
+{
+	while( true ){
+
+		ss++ ;
+
+		auto m = data[ ss ] ;
+
+		if( m == '{' ){
+
+			counter++ ;
+
+		}else if( m == '}' ){
+
+			counter-- ;
+		}
+
+		if( counter == 0 ){
+
+			mm.emplace_back( data.mid( s,ss + 1 ) ) ;
+
+			data = data.mid( ss + 1 ) ;
+
+			return false ;
+
+		}else if( ss >= data.size() ){
+
+			return true ;
+		}
+	}
+}
+
+static std::vector< QByteArray > _parse( QByteArray& data )
+{
+	std::vector< QByteArray > mm ;
+
+	while( true ){
+
+		const auto s = data.indexOf( "{" ) ;
+
+		if( s != -1 ){
+
+			int counter = 0 ;
+
+			int ss = s - 1 ;
+
+			if( _parse( s,ss,counter,mm,data ) ){
+
+				break ;
+			}
+		}else{
+			break ;
+		}
+	}
+
+	return mm ;
+}
+
 void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& data )
 {
 	if( !m_engine.likeYtDlp() ){
 
 		m_parent.m_banner.updateProgress( "" ) ;
 
-		m_data += data.toLine() ;
+		auto m = data.toLine() ;
 
 		data.clear() ;
 
-		const auto& m = m_engine.parseJson( m_data ) ;
+		if( !m.startsWith( "[media-downloader]" ) ){
 
-		for( const auto& it : m ){
+			m_data += m ;
 
-			m_parent.parseJson( m_customOptions,table,QJsonDocument( it ) ) ;
+			for( const auto& it : _parse( m_data ) ){
+
+				const auto mm = m_engine.parseJson( it ) ;
+
+				m_parent.parseJson( m_customOptions,table,QJsonDocument( mm ) ) ;
+			}
 		}
 
 		return ;

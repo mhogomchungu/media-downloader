@@ -62,7 +62,8 @@ private:
 	WId m_value ;
 } ;
 
-class Context{
+class Context
+{
 public:
 	Context( settings& s,
 		 translator& t,

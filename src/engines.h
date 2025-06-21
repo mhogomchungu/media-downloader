@@ -706,7 +706,7 @@ public:
 
 			virtual void setTextEncondig( const QString&,QStringList& opts ) ;
 
-			virtual std::vector< QJsonObject > parseJson( const QByteArray& ) ;
+			virtual QJsonObject parseJson( const QByteArray& ) ;
 
 			virtual QString updateCmdPath( const QString& ) ;
 
@@ -1084,7 +1084,7 @@ public:
 		{
 			return m_engine->horizontalHeaderLabels() ;
 		}
-		virtual std::vector< QJsonObject > parseJson( const QByteArray& e ) const
+		virtual QJsonObject parseJson( const QByteArray& e ) const
 		{
 			return m_engine->parseJson( e ) ;
 		}

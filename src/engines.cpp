@@ -1513,7 +1513,7 @@ void engines::engine::baseEngine::setTextEncondig( const QString&,QStringList& )
 {
 }
 
-std::vector< QJsonObject > engines::engine::baseEngine::parseJson( const QByteArray& )
+QJsonObject engines::engine::baseEngine::parseJson( const QByteArray& )
 {
 	return {} ;
 }
