@@ -303,7 +303,8 @@ private:
 	class stdError
 	{
 	public:
-		stdError( playlistdownloader::banner& banner ) : m_banner( banner )
+		stdError( playlistdownloader& parent,playlistdownloader::banner& banner ) :
+			m_parent( parent ),m_banner( banner )
 		{
 		}
 		bool operator()( const QByteArray& e ) ;
@@ -312,6 +313,7 @@ private:
 			return std::move( *this ) ;
 		}
 	private:
+		playlistdownloader& m_parent ;
 		playlistdownloader::banner& m_banner ;
 	} ;
 

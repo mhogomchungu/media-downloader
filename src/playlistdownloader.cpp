@@ -1169,7 +1169,7 @@ void playlistdownloader::getList( customOptions&& c,
 	auto opts = c.options() ;
 
 	stdOut sOut( *this,c.move(),engine ) ;
-	stdError sErr( m_banner ) ;
+	stdError sErr( *this,m_banner ) ;
 
 	events ev( *this,engine,iter.move() ) ;
 
@@ -1667,6 +1667,18 @@ void playlistdownloader::banner::updateTimer()
 
 bool playlistdownloader::stdError::operator()( const QByteArray& e )
 {
+	if( e.startsWith( "[gallery-dl][error] Unsupported URL " ) || e.contains( "is not a valid UR" ) ){
+
+		m_parent.m_table.setUiText( QObject::tr( "Url Is Not Supported" ),0 ) ;
+
+		return true ;
+	}
+	if( e.contains( "ERROR:" ) || e.contains( "error:" ) ){
+
+		m_parent.m_table.setUiText( e,0 ) ;
+
+		return true ;
+	}
 	if( utility::containsLinkerWarning( e ) ){
 
 		return true ;
@@ -1735,8 +1747,12 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 	return e.startsWith( "WARNING" ) ;
 }
 
-static bool _parse( const int& s,int& ss,int& counter,std::vector< QByteArray >& mm,QByteArray& data )
+static bool _parse( const int& s,std::vector< QByteArray >& mm,QByteArray& data )
 {
+	int counter = 0 ;
+
+	int ss = s - 1 ;
+
 	while( true ){
 
 		ss++ ;
@@ -1777,11 +1793,7 @@ static std::vector< QByteArray > _parse( QByteArray& data )
 
 		if( s != -1 ){
 
-			int counter = 0 ;
-
-			int ss = s - 1 ;
-
-			if( _parse( s,ss,counter,mm,data ) ){
+			if( _parse( s,mm,data ) ){
 
 				break ;
 			}
@@ -1797,13 +1809,13 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 {
 	if( !m_engine.likeYtDlp() ){
 
-		m_parent.m_banner.updateProgress( "" ) ;
-
 		auto m = data.toLine() ;
 
 		data.clear() ;
 
 		if( !m.startsWith( "[media-downloader]" ) ){
+
+			m_parent.m_banner.updateProgress( "" ) ;
 
 			m_data += m ;
 
