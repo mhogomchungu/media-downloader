@@ -745,7 +745,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			if( ss->canShowMetaData() ){
 
-				this->getMetaData( it,engine,autoDownload ) ;
+				this->getMetaData( it,ss.value(),autoDownload ) ;
 			}else{
 				this->addItemUiSlot( { ss.value(),it } ) ;
 			}
@@ -926,6 +926,13 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 
 		auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,s.toJsonDoc() ) ;
 
+		auto ss = m_ctx.TabManager().Configure().getEngineNameFromUrlManager( s.url ) ;
+
+		if( !ss.isEmpty() ){
+
+			s.engineName = ss ;
+		}
+
 		if( s.engineName.isEmpty() ){
 
 			this->setDefaultEngineAndOptions( s ) ;
@@ -946,7 +953,7 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 
 		if( m_recursiveDownloading > 0 && m_recursiveDownloading < e ){
 
-			const auto& eng = this->defaultEngine() ;
+			const auto& eng = m.engine() ;
 
 			const auto& engines = m_ctx.Engines() ;
 
