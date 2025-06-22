@@ -708,6 +708,8 @@ public:
 
 			virtual QJsonObject parseJson( const QByteArray& ) ;
 
+			virtual std::vector< QByteArray > parseJsonData( QByteArray& ) ;
+
 			virtual QString updateCmdPath( const QString& ) ;
 
 			virtual engines::engine::baseEngine::DataFilter Filter( int ) ;
@@ -1079,6 +1081,10 @@ public:
 		void setProxySetting( QStringList& e,const QString& s ) const
 		{
 			m_engine->setProxySetting( e,s ) ;
+		}
+		std::vector< QByteArray > parseJsonData( QByteArray& data ) const
+		{
+			return m_engine->parseJsonData( data ) ;
 		}
 		QStringList horizontalHeaderLabels() const
 		{

@@ -1518,6 +1518,11 @@ QJsonObject engines::engine::baseEngine::parseJson( const QByteArray& )
 	return {} ;
 }
 
+std::vector< QByteArray > engines::engine::baseEngine::parseJsonData( QByteArray& )
+{
+	return {} ;
+}
+
 QString engines::engine::baseEngine::updateCmdPath( const QString& e )
 {
 	return e ;

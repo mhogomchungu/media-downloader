@@ -330,6 +330,7 @@ private:
 			return std::move( *this ) ;
 		}
 	private:
+		void parseYtDlpData( tableWidget&,Logger::Data& ) ;
 		playlistdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		playlistdownloader::customOptions m_customOptions ;

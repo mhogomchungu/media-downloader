@@ -246,6 +246,64 @@ gallery_dl::gallery_dl( const engines& engines,const engines::engine& engine,QJs
 	object.insert( "DumptJsonArguments",arr ) ;
 }
 
+bool gallery_dl::parse( const int& s,std::vector< QByteArray >& mm,QByteArray& data )
+{
+	int counter = 0 ;
+
+	int ss = s - 1 ;
+
+	while( true ){
+
+		ss++ ;
+
+		auto m = data[ ss ] ;
+
+		if( m == '{' ){
+
+			counter++ ;
+
+		}else if( m == '}' ){
+
+			counter-- ;
+		}
+
+		if( counter == 0 ){
+
+			mm.emplace_back( data.mid( s,ss + 1 ) ) ;
+
+			data = data.mid( ss + 1 ) ;
+
+			return false ;
+
+		}else if( ss >= data.size() ){
+
+			return true ;
+		}
+	}
+}
+
+std::vector< QByteArray > gallery_dl::parseJsonData( QByteArray& data )
+{
+	std::vector< QByteArray > mm ;
+
+	while( true ){
+
+		auto s = data.indexOf( "{" ) ;
+
+		if( s != -1 ){
+
+			if( this->parse( s,mm,data ) ){
+
+				break ;
+			}
+		}else{
+			break ;
+		}
+	}
+
+	return mm ;
+}
+
 QJsonObject gallery_dl::parseJson( const QByteArray& e )
 {
 	QJsonParseError err ;

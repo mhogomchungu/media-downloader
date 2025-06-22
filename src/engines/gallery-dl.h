@@ -47,7 +47,9 @@ public:
 		engines::engine::baseEngine::preProcessing m_preProcessing ;
 	} ;
 
-	QJsonObject parseJson( const QByteArray& e ) override ;
+	std::vector< QByteArray > parseJsonData( QByteArray& data ) override ;
+
+	QJsonObject parseJson( const QByteArray& ) override ;
 
 	util::Json parsePlayListData( const QByteArray& ) override ;
 
@@ -68,4 +70,5 @@ public:
 					     const QString& downloadingOptions,
 					     const engines::engine::baseEngine::finishedState& ) override ;
 private:
+	bool parse( const int&,std::vector< QByteArray >& mm,QByteArray& ) ;
 };

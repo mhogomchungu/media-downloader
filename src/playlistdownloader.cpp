@@ -1747,68 +1747,14 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 	return e.startsWith( "WARNING" ) ;
 }
 
-static bool _parse( const int& s,std::vector< QByteArray >& mm,QByteArray& data )
-{
-	int counter = 0 ;
-
-	int ss = s - 1 ;
-
-	while( true ){
-
-		ss++ ;
-
-		auto m = data[ ss ] ;
-
-		if( m == '{' ){
-
-			counter++ ;
-
-		}else if( m == '}' ){
-
-			counter-- ;
-		}
-
-		if( counter == 0 ){
-
-			mm.emplace_back( data.mid( s,ss + 1 ) ) ;
-
-			data = data.mid( ss + 1 ) ;
-
-			return false ;
-
-		}else if( ss >= data.size() ){
-
-			return true ;
-		}
-	}
-}
-
-static std::vector< QByteArray > _parse( QByteArray& data )
-{
-	std::vector< QByteArray > mm ;
-
-	while( true ){
-
-		const auto s = data.indexOf( "{" ) ;
-
-		if( s != -1 ){
-
-			if( _parse( s,mm,data ) ){
-
-				break ;
-			}
-		}else{
-			break ;
-		}
-	}
-
-	return mm ;
-}
-
 void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& data )
 {
-	if( !m_engine.likeYtDlp() ){
+	m_parent.m_dataReceived = true ;
 
+	if( m_engine.likeYtDlp() ){
+
+		this->parseYtDlpData( table,data ) ;
+	}else{
 		auto m = data.toLine() ;
 
 		data.clear() ;
@@ -1819,19 +1765,18 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 			m_data += m ;
 
-			for( const auto& it : _parse( m_data ) ){
+			for( const auto& it : m_engine.parseJsonData( m_data ) ){
 
 				const auto mm = m_engine.parseJson( it ) ;
 
 				m_parent.parseJson( m_customOptions,table,QJsonDocument( mm ) ) ;
 			}
 		}
-
-		return ;
 	}
+}
 
-	m_parent.m_dataReceived = true ;
-
+void playlistdownloader::stdOut::parseYtDlpData( tableWidget& table,Logger::Data& data )
+{
 	int position = 0 ;
 
 	const auto line = data.toLine() ;
@@ -1865,7 +1810,7 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 						break ;
 					}
-				}				
+				}
 			}
 		}
 
