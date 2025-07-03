@@ -196,6 +196,7 @@ engines::engine::baseEngine::DataFilter aria2c::Filter( int id )
 QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& dopts,
+					     const QString& tabName,
 					     const finishedState& f )
 {
 	if( f.success() ){
@@ -207,7 +208,7 @@ QString aria2c::updateTextOnCompleteDownlod( const QString& uiText,
 
 	}else if( f.cancelled() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,bkText,dopts,tabName,f ) ;
 	}else{
 		using functions = engines::engine::baseEngine ;
 

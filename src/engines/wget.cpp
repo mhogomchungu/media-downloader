@@ -261,11 +261,12 @@ void wget::setProxySetting( QStringList& e,const QString& s )
 QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 					   const QString& bkText,
 					   const QString& dopts,
+					   const QString& tabName,
 					   const finishedState& f )
 {
 	if( f.cancelled() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 
 	}else if( f.success() ){
 
@@ -279,7 +280,7 @@ QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 			}
 		}() ;
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( m,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( m,dopts,tabName,f ) ;
 	}else{
 		using functions = engines::engine::baseEngine ;
 

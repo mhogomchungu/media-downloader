@@ -1677,8 +1677,11 @@ bool engines::engine::baseEngine::renameArchiveFolder( const QString&,const QStr
 
 QString engines::engine::baseEngine::updateTextOnCompleteDownlod( const QString& uiText,
 								  const QString& dopts,
+								  const QString& tabName,
 								  const engines::engine::baseEngine::finishedState& f )
 {
+	Q_UNUSED( tabName )
+
 	auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 	auto e = engines::engine::baseEngine::timer::stringElapsedTime( f.duration() ) ;
 
@@ -1703,15 +1706,16 @@ QString engines::engine::baseEngine::updateTextOnCompleteDownlod( const QString&
 QString engines::engine::baseEngine::updateTextOnCompleteDownlod( const QString& uiText,
 								  const QString& bkText,
 								  const QString& dopts,
+								  const QString& tabName,
 								  const engine::engine::baseEngine::finishedState& f )
 {
 	Q_UNUSED( uiText )
 
 	if( f.success() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 	}else{
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 	}
 }
 

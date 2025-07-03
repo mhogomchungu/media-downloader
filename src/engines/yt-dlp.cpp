@@ -1177,13 +1177,16 @@ engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )
 QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& dopts,
+					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& f )
 {
+	qDebug() << "ddd: " << f.errorCode() ;
+
 	using functions = engines::engine::baseEngine ;
 
 	if( f.cancelled() ){
 
-		return functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return functions::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 
 	}else if( f.success() ){
 
@@ -1191,7 +1194,7 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 		if( uiText.contains( e ) ){
 
-			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 
 			return m + "\n" + e  ;
 		}
@@ -1209,7 +1212,7 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 			}
 		}
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,tabName,f ) ;
 
 	}else if( uiText == "EngineNeedUpdating" ){
 
@@ -1237,8 +1240,22 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 	}else if( uiText.contains( "ERROR: " ) && uiText.contains( "Sign in to confirm you’re not a bot" ) ){
 
 		return functions::errorString( f,functions::errors::logInRequired,bkText ) ;
+
+	}else if( f.exitStatus() == engines::ProcessExitState::ExitStatus::NormalExit && f.errorCode() == 101 ){
+
+		if( tabName == "batch" ){
+
+			auto m = QObject::tr( "Download Cancelled, Playlist Urls Are Not Allowed In This Tab" ) ;
+
+			return m + "\n" + bkText ;
+		}else{
+			auto m = QObject::tr( "Download Cancelled Because A Condition Was Not Met" ) ;
+
+			return m + "\n" + bkText ;
+		}
 	}else{
-		auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
+
 		return m + "\n" + bkText ;
 	}
 }

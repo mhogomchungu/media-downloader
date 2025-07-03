@@ -454,6 +454,7 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::up
 QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
 						 const QString& dopts,
+						 const QString& tabName,
 						 const engines::engine::baseEngine::finishedState& f )
 {
 	if( f.success() ){
@@ -462,14 +463,14 @@ QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,
 
 			auto m = QObject::tr( "Warning, Nothing Was Downloaded" ) ;
 
-			return m + "\n" + engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+			return m + "\n" + engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 		}else{
-			return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+			return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
 		}
 
 	}else if( f.cancelled() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 
 	}else if( uiText.contains( "Name or service not known" ) ){
 

@@ -501,17 +501,18 @@ engines::engine::baseEngine::FilterOutPut lux::filterOutput()
 QString lux::updateTextOnCompleteDownlod( const QString& uiText,
 					  const QString& bkText,
 					  const QString& dopts,
+					  const QString& tabName,
 					  const engines::engine::baseEngine::finishedState& f )
 {
 	using functions = engines::engine::baseEngine ;
 
 	if( f.cancelled() ){
 
-		return functions::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return functions::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 
 	}else if( f.success() ){
 
-		return functions::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		return functions::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
 
 	}else if( uiText == "invalid URI for request" ){
 

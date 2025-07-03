@@ -1840,6 +1840,7 @@ namespace utility
 	void updateFinishedState( const engines::engine& engine,
 				  settings& s,
 				  tableWidget& table,
+				  const QString& tabName,
 				  const FinishedState& f,
 				  const std::vector< QByteArray >& fileNames )
 	{
@@ -1856,7 +1857,7 @@ namespace utility
 
 		auto a = table.uiText( index ) ;
 
-		table.setUiText( engine.updateTextOnCompleteDownlod( a,backUpUrl,ss,es ),index ) ;
+		table.setUiText( engine.updateTextOnCompleteDownlod( a,backUpUrl,ss,tabName,es ),index ) ;
 
 		if( !es.cancelled() ){
 

@@ -509,7 +509,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 				auto& t = m_parent.m_hiddenTable ;
 
-				utility::updateFinishedState( m_engine,s,t,a.move(),fileNames ) ;
+				utility::updateFinishedState( m_engine,s,t,"basic",a.move(),fileNames ) ;
 
 				if( m.success() ){
 

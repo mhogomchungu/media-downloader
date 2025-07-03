@@ -497,21 +497,23 @@ engines::engine::baseEngine::DataFilter svtplay_dl::Filter( int id )
 QString svtplay_dl::updateTextOnCompleteDownlod( const QString& uiText,
 						 const QString& bkText,
 						 const QString& dopts,
+						 const QString& tabName,
 						 const engines::engine::baseEngine::finishedState& f )
 {
 	if( f.success() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
 
 	}else if( f.cancelled() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 	}else{
 		using functions = engines::engine::baseEngine ;
 
 		if( uiText.startsWith( "ERROR:" ) ){
 
-			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText.mid( 6 ),dopts,f ) ;
+			auto s = uiText.mid( 6 ) ;
+			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( s,dopts,tabName,f ) ;
 
 			return m + "\n" + bkText ;
 

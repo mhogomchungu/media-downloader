@@ -139,15 +139,16 @@ engines::engine::baseEngine::DataFilter you_get::Filter( int id )
 QString you_get::updateTextOnCompleteDownlod( const QString& uiText,
 					      const QString& bkText,
 					      const QString& dopts,
+					      const QString& tabName,
 					      const engines::engine::baseEngine::finishedState& f )
 {
 	if( f.success() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
 
 	}else if( f.cancelled() ){
 
-		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,f ) ;
+		return engines::engine::baseEngine::updateTextOnCompleteDownlod( bkText,dopts,tabName,f ) ;
 
 	}else if( uiText.startsWith( "you-get: [Error]" ) ){
 
@@ -157,7 +158,8 @@ QString you_get::updateTextOnCompleteDownlod( const QString& uiText,
 
 			return functions::errorString( f,functions::errors::unknownFormat,bkText ) ;
 		}else{
-			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText.mid( 16 ),dopts,f ) ;
+			auto s = uiText.mid( 16 ) ;
+			auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( s,dopts,tabName,f ) ;
 
 			return m + "\n" + bkText ;
 		}

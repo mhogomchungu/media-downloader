@@ -2215,8 +2215,6 @@ void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 	utility::alignText( m,a,b,c ) ;
 }
 
-
-
 void batchdownloader::clipboardData( const QString& url,bool s )
 {
 	if( s ){
@@ -2761,7 +2759,7 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f,
 {
 	auto finishedStatus = f.status() ;
 
-	utility::updateFinishedState( f.engine(),m_settings,m_table,finishedStatus,fileNames ) ;
+	utility::updateFinishedState( f.engine(),m_settings,m_table,"batch",finishedStatus,fileNames ) ;
 
 	auto index = finishedStatus.index() ;
 

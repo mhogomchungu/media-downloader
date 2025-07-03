@@ -57,6 +57,7 @@ public:
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,
+					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;

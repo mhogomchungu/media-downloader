@@ -761,11 +761,13 @@ public:
 
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const QString& downloadingOptions,
+							     const QString& tabName,
 							     const engine::engine::baseEngine::finishedState& ) ;
 
 			virtual QString updateTextOnCompleteDownlod( const QString& uiText,
 								     const QString& bkText,
 								     const QString& downloadingOptions,
+								     const QString& tabName,
 								     const engine::engine::baseEngine::finishedState& ) ;
 
 			virtual void sendCredentials( const QString&,QProcess& ) ;
@@ -1022,9 +1024,10 @@ public:
 		QString updateTextOnCompleteDownlod( const QString& uiText,
 						     const QString& bkText,
 						     const QString& dopts,
+						     const QString& tabName,
 						     const engine::engine::baseEngine::finishedState& f ) const
 		{
-			return m_engine->updateTextOnCompleteDownlod( uiText,bkText,dopts,f ) ;
+			return m_engine->updateTextOnCompleteDownlod( uiText,bkText,dopts,tabName,f ) ;
 		}
 		void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& u,bool e ) const
 		{

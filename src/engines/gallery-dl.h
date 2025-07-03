@@ -68,6 +68,7 @@ public:
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,
 					     const QString& downloadingOptions,
+					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& ) override ;
 private:
 	bool parse( const int&,std::vector< QByteArray >& mm,QByteArray& ) ;

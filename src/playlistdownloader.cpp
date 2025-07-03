@@ -1399,7 +1399,7 @@ void playlistdownloader::reportFinishedStatus( const reportFinished& f,
 {
 	m_banner.updateTimer() ;
 
-	utility::updateFinishedState( f.engine(),m_settings,m_table,f.status(),fileNames ) ;
+	utility::updateFinishedState( f.engine(),m_settings,m_table,"playlist",f.status(),fileNames ) ;
 
 	auto index = f.status().index() ;
 
