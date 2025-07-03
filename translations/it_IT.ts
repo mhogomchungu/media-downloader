@@ -1053,6 +1053,14 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Warning, Nothing Was Downloaded</source>
         <translation>Attenzione, nulla è stato scaricato</translation>
     </message>
+    <message>
+        <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Cancelled Because A Condition Was Not Met</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
