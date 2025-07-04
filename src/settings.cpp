@@ -76,34 +76,39 @@ void settings::setThemeName( const QString& e )
 	m_settings.setValue( "ThemeName",e ) ;
 }
 
-static QString _getOptionsHistoryTabName( settings::tabName e )
+static QString _setOptionWithEngineName( const QString& opts,const QString& engineName )
+{
+	return opts + "-" + engineName ;
+}
+
+static QString _getOptionsHistoryTabName( settings::tabName e,const QString& engineName )
 {
 	if( e == settings::tabName::basic ){
 
-		return "BasicDownloaderOptionsHistory" ;
+		return _setOptionWithEngineName( "BasicDownloaderOptionsHistory",engineName ) ;
 
 	}else if( e == settings::tabName::batch ){
 
-		return "BatchDownloaderOptionsHistory" ;
+		return _setOptionWithEngineName( "BatchDownloaderOptionsHistory",engineName ) ;
 
 	}else if( e == settings::tabName::playlist ){
 
-		return "PlaylistDownloaderOptionsHistory" ;
+		return _setOptionWithEngineName( "PlaylistDownloaderOptionsHistory",engineName ) ;
 	}else{
 		return "" ;
 	}
 }
 
-QStringList settings::getOptionsHistory( settings::tabName e )
+QStringList settings::getOptionsHistory( settings::tabName e,const QString& engineName )
 {
-	auto m = _getOptionsHistoryTabName( e ) ;
+	auto m = _getOptionsHistoryTabName( e,engineName ) ;
 
 	return this->getOption( m,QStringList() ) ;
 }
 
-void settings::clearOptionsHistory( settings::tabName e )
+void settings::clearOptionsHistory( settings::tabName e,const QString& engineName )
 {
-	m_settings.setValue( _getOptionsHistoryTabName( e ),QStringList() ) ;
+	m_settings.setValue( _getOptionsHistoryTabName( e,engineName ),QStringList() ) ;
 }
 
 static void _addToHistory( QSettings& settings,
@@ -125,38 +130,45 @@ static void _addToHistory( QSettings& settings,
 	}
 }
 
-void settings::addToplaylistRangeHistory( const QString& e )
+void settings::addToplaylistRangeHistory( const QString& engineName,const QString& e )
 {
 	if( this->saveHistory() ){
 
-		auto a = this->playlistRangeHistory() ;
-		auto b = "PlaylistRangeHistory" ;
+		auto a = this->playlistRangeHistory( engineName ) ;
+		auto b = _setOptionWithEngineName( "PlaylistRangeHistory",engineName ) ;
 
 		_addToHistory( m_settings,a,b,e,this->historySize() ) ;
 	}
 }
 
-void settings::addOptionsHistory( const QString& e,settings::tabName s )
+void settings::addOptionsHistory( const QString& engineName,const QString& e,settings::tabName s )
 {
 	if( this->saveHistory() ){
 
-		auto a = this->getOptionsHistory( s ) ;
-		auto b = _getOptionsHistoryTabName( s ) ;
+		auto a = this->getOptionsHistory( s,engineName ) ;
+		auto b = _getOptionsHistoryTabName( s,engineName ) ;
 
 		_addToHistory( m_settings,a,b,e,this->historySize() ) ;
 	}
 }
 
-void settings::clearPlaylistRangeHistory()
+void settings::clearPlaylistRangeHistory( const QString& engineName )
 {
-	QStringList s{ "--break-on-existing" } ;
+	QStringList s ;
 
-	m_settings.setValue( "PlaylistRangeHistory",s ) ;
+	if( engineName.startsWith( "gallery-dl" ) ){
+
+		m_settings.setValue( _setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
+	}else{
+		s.append( "--break-on-existing" ) ;
+
+		m_settings.setValue( _setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
+	}
 }
 
-void settings::clearPlaylistUrlHistory()
+void settings::clearPlaylistUrlHistory( const QString& engineName )
 {
-	m_settings.setValue( "PlaylistUrlHistory",QStringList() ) ;
+	m_settings.setValue( _setOptionWithEngineName( "PlaylistUrlHistory",engineName ),QStringList() ) ;
 }
 
 void settings::setAutoSavePlaylistOnExit( bool e )
@@ -265,28 +277,38 @@ int settings::networkTimeOut()
 	return this->getOption( "NetworkTimeOutInSeconds",30 )  * 1000 ;
 }
 
-QStringList settings::playlistRangeHistory()
+QStringList settings::playlistRangeHistory( const QString& engineName )
 {
-	QStringList s{ "--break-on-existing" } ;
+	QStringList s ;
 
-	return this->getOption( "PlaylistRangeHistory",s ) ;
+	if( !engineName.startsWith( "gallery-dl" ) ){
+
+		s.append( "--break-on-existing" ) ;
+	}
+
+	return this->getOption( _setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
 }
 
-QStringList settings::playlistUrlHistory()
+QStringList settings::playlistUrlHistory( const QString& engineName )
 {
-	return this->getOption( "PlaylistUrlHistory",QStringList() ) ;
+	return this->getOption( _setOptionWithEngineName( "PlaylistUrlHistory",engineName ),QStringList() ) ;
 }
 
-void settings::setPlaylistRangeHistoryLastUsed( const QString& e )
+void settings::setPlaylistRangeHistoryLastUsed( const QString& engineName,const QString& e )
 {
-	m_settings.setValue( "playlistRangeHistoryLastUsed",e ) ;
+	m_settings.setValue( _setOptionWithEngineName( "playlistRangeHistoryLastUsed",engineName ),e ) ;
 }
 
-QString settings::playlistRangeHistoryLastUsed()
+QString settings::playlistRangeHistoryLastUsed( const QString& engineName )
 {
-	QString s( "--break-on-existing" ) ;
+	QString s ;
 
-	return this->getOption( "playlistRangeHistoryLastUsed",s ) ;
+	if( !engineName.startsWith( "gallery-dl" ) ){
+
+		s = "--break-on-existing" ;
+	}
+
+	return this->getOption( _setOptionWithEngineName( "playlistRangeHistoryLastUsed",engineName ),s ) ;
 }
 
 QString settings::gitHubDownloadUrl()

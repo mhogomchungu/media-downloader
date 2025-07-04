@@ -85,7 +85,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		m_ctx.Settings().setUseInternalArchiveFile( e ) ;
 	} ) ;
 
-	m_ui.lineEditPLDownloadRange->setText( m_settings.playlistRangeHistoryLastUsed() ) ;
+	m_ui.lineEditPLDownloadRange->setText( m_settings.playlistRangeHistoryLastUsed( this->defaultEngineName()) ) ;
 
 	connect( m_ui.pbPlSubscriptionDone,&QPushButton::clicked,[ this ](){
 
@@ -167,11 +167,13 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbPLOptionsHistory,&QPushButton::clicked,[ this ](){
 
-		auto mm = m_settings.getOptionsHistory( settings::tabName::playlist ) ;
+		auto engineName = this->defaultEngineName() ;
+
+		auto mm = m_settings.getOptionsHistory( settings::tabName::playlist,engineName ) ;
 
 		auto& m = *m_ui.lineEditPLUrlOptions ;
 
-		if( utility::showHistory( m,mm,m_settings,settings::tabName::playlist ) ){
+		if( utility::showHistory( m,mm,m_settings,engineName,settings::tabName::playlist ) ){
 
 			if( m_settings.autoDownload() ){
 
@@ -203,11 +205,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	connect( m_ui.pbPLRangeHistory,&QPushButton::clicked,[ this ](){
 
 		auto& a = *m_ui.lineEditPLDownloadRange ;
-		auto b = m_settings.playlistRangeHistory() ;
+		auto b = m_settings.playlistRangeHistory( this->defaultEngineName() ) ;
 		auto c = settings::tabName::playlist ;
 		auto d = utility::PlayListButtonName::DownloadRange ;
 
-		utility::showHistory( a,b,m_settings,c,d ) ;
+		utility::showHistory( a,b,m_settings,this->defaultEngineName(),c,d ) ;
 	} ) ;
 
 	connect( m_ui.pbPlSubscription,&QPushButton::clicked,[ this ](){
@@ -237,6 +239,10 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 			auto mm = m_settings.lastUsedOption( m,settings::tabName::playlist ) ;
 
 			m_ui.lineEditPLUrlOptions->setText( mm ) ;
+
+			auto e = m_settings.playlistRangeHistoryLastUsed( this->defaultEngineName() ) ;
+
+			m_ui.lineEditPLDownloadRange->setText( e ) ;
 		}
 	} ) ;
 
@@ -910,7 +916,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
 
-	m_settings.addOptionsHistory( m,settings::tabName::playlist ) ;
+	m_settings.addOptionsHistory( this->defaultEngineName(),m,settings::tabName::playlist ) ;
 
 	auto updater = [ this,index ]( const QByteArray& e ){
 
@@ -1033,9 +1039,9 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	if( !listOptions.isEmpty() ){
 
-		m_settings.addToplaylistRangeHistory( listOptions ) ;
+		m_settings.addToplaylistRangeHistory( engine.name(),listOptions ) ;
 
-		m_settings.setPlaylistRangeHistoryLastUsed( listOptions ) ;
+		m_settings.setPlaylistRangeHistoryLastUsed( engine.name(),listOptions ) ;
 
 		opts.append( util::splitPreserveQuotes( listOptions ) ) ;
 	}

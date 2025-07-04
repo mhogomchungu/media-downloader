@@ -878,6 +878,7 @@ namespace utility
 	bool showHistory( QLineEdit& lineEdit,
 			  const QStringList& history,
 			  Settings& settings,
+			  const QString& engineName,
 			  TabName tabName,
 			  Function function,
 			  PlayListButtonName pbn = PlayListButtonName::None )
@@ -898,13 +899,13 @@ namespace utility
 
 					if( pbn == utility::PlayListButtonName::None ){
 
-						settings.clearOptionsHistory( tabName ) ;
+						settings.clearOptionsHistory( tabName,engineName ) ;
 
 					}else if( pbn == utility::PlayListButtonName::DownloadRange ){
 
-						settings.clearPlaylistRangeHistory() ;
+						settings.clearPlaylistRangeHistory( engineName ) ;
 					}else{
-						settings.clearPlaylistUrlHistory() ;
+						settings.clearPlaylistUrlHistory( engineName ) ;
 					}
 				}else{
 					s = true ;
@@ -948,10 +949,11 @@ namespace utility
 	bool showHistory( QLineEdit& lineEdit,
 			  const QStringList& history,
 			  Settings& settings,
+			  const QString& engineName,
 			  TabName tabName,
 			  PlayListButtonName pbn = PlayListButtonName::None )
 	{
-		return utility::showHistory( lineEdit,history,settings,tabName,[]( QMenu& ){},pbn ) ;
+		return utility::showHistory( lineEdit,history,settings,engineName,tabName,[]( QMenu& ){},pbn ) ;
 	}
 
 	template< typename Function,typename AddAction >

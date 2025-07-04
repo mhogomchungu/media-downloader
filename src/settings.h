@@ -188,16 +188,16 @@ public:
 	QString cookieBrowserName( const QString& engineName ) ;
 	QString cookieBrowserTextFilePath( const QString& engineName ) ;
 	QString windowsDimensions( const QString& windowName ) ;
-	QString playlistRangeHistoryLastUsed() ;
+	QString playlistRangeHistoryLastUsed( const QString& engineName ) ;
 	QString gitHubDownloadUrl() ;
 
 	const QString& configPaths() ;
 	const QString& appDataPath() ;
 
 	QString textEncoding( const QString& ) ;
-	QStringList getOptionsHistory( settings::tabName ) ;
-	QStringList playlistRangeHistory() ;
-	QStringList playlistUrlHistory() ;
+	QStringList getOptionsHistory( settings::tabName,const QString& ) ;
+	QStringList playlistRangeHistory( const QString& ) ;
+	QStringList playlistUrlHistory( const QString& ) ;
 
 	class FlatPackVLC
 	{
@@ -309,12 +309,12 @@ public:
 	void setDesktopNotifyOnDownloadComplete( bool ) ;
 	void setDesktopNotifyOnAllDownloadComplete( bool ) ;
 	void setUseInternalArchiveFile( bool ) ;
-	void clearOptionsHistory( settings::tabName ) ;
-	void addToplaylistRangeHistory( const QString& ) ;
-	void clearPlaylistRangeHistory() ;
-	void clearPlaylistUrlHistory() ;
+	void clearOptionsHistory( settings::tabName,const QString& ) ;
+	void addToplaylistRangeHistory( const QString&,const QString& ) ;
+	void clearPlaylistRangeHistory( const QString& ) ;
+	void clearPlaylistUrlHistory( const QString& ) ;
 	void setAutoSavePlaylistOnExit( bool ) ;
-	void addOptionsHistory( const QString&,settings::tabName ) ;
+	void addOptionsHistory( const QString& engineName,const QString&,settings::tabName ) ;
 	void setshowTrayIcon( bool ) ;
 	void setTheme( QApplication&,const QString& ) ;
 	void setUseSystemProvidedVersionIfAvailable( bool ) ;
@@ -328,7 +328,7 @@ public:
 	void setPlaylistDownloaderSaveHistory( bool ) ;
 	void setShowVersionInfoAndAutoDownloadUpdates( bool ) ;
 	void setThemeName( const QString& ) ;
-	void setPlaylistRangeHistoryLastUsed( const QString& ) ;
+	void setPlaylistRangeHistoryLastUsed( const QString& engineName,const QString& ) ;
 	void setHighDpiScalingFactor( const QString& ) ;
 	void setTextEncoding( const QString&,const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;

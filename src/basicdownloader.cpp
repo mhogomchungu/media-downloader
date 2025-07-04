@@ -161,11 +161,13 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbOptionsHistory,&QPushButton::clicked,[ this ](){
 
+		auto engineName = this->defaultEngineName() ;
+
 		auto& a = *m_ui.lineEditOptions ;
-		auto b = m_settings.getOptionsHistory( settings::tabName::basic ) ;
+		auto b = m_settings.getOptionsHistory( settings::tabName::basic,engineName ) ;
 		auto c = settings::tabName::basic ;
 
-		if( utility::showHistory( a,b,m_settings,c ) ){
+		if( utility::showHistory( a,b,m_settings,engineName,c ) ){
 
 			if( m_settings.autoDownload() ){
 
@@ -431,7 +433,7 @@ void basicdownloader::download( const QString& url )
 
 	auto mm = m_ui.lineEditOptions->text() ;
 
-	m_settings.addOptionsHistory( mm,settings::tabName::basic ) ;
+	m_settings.addOptionsHistory( engine.engine.name(),mm,settings::tabName::basic ) ;
 
 	this->download( engine,{ mm,s,engine.engine },m,false ) ;
 }

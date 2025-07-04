@@ -173,14 +173,16 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDOptionsHistory,&QPushButton::clicked,[ this ](){
 
-		auto m = m_settings.getOptionsHistory( settings::tabName::batch ) ;
+		const auto& engine = this->defaultEngine() ;
+
+		auto m = m_settings.getOptionsHistory( settings::tabName::batch,engine.name() ) ;
 		auto e = settings::tabName::batch ;
 
-		if( utility::showHistory( *m_ui.lineEditBDUrlOptions,m,m_settings,e ) ){
+		if( utility::showHistory( *m_ui.lineEditBDUrlOptions,m,m_settings,engine.name(),e ) ){
 
 			if( m_settings.autoDownload() ){
 
-				this->download( this->defaultEngine() ) ;
+				this->download( engine ) ;
 			}
 		}
 	} ) ;
@@ -2935,9 +2937,9 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
-	m_settings.addOptionsHistory( m,settings::tabName::batch ) ;
-
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
+
+	m_settings.addOptionsHistory( engine.name(),m,settings::tabName::batch ) ;
 
 	this->downloadEvent( meaw( *this,engine,index ),engine,index ) ;
 }
