@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -367,6 +367,12 @@
       <property name="showGrid">
        <bool>false</bool>
       </property>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>72</number>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>72</number>
+      </attribute>
       <column>
        <property name="text">
         <string>Thumbnail</string>
@@ -981,6 +987,12 @@
       <property name="showGrid">
        <bool>false</bool>
       </property>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>72</number>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>72</number>
+      </attribute>
       <column>
        <property name="text">
         <string>Thumbnail</string>
@@ -1240,6 +1252,9 @@
        <property name="gridStyle">
         <enum>Qt::PenStyle::SolidLine</enum>
        </property>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>30</number>
+       </attribute>
        <column>
         <property name="text">
          <string>Ui Name</string>

@@ -150,7 +150,7 @@ void tableWidget::setTableWidget( QTableWidget& table,const tableWidget::tableWi
 {
 	table.verticalHeader()->setSectionResizeMode( QHeaderView::ResizeToContents ) ;
 
-	table.verticalHeader()->setMinimumSectionSize( 30 ) ;
+	//table.verticalHeader()->setMinimumSectionSize( 30 ) ;
 
 	table.horizontalHeader()->setStretchLastSection( true ) ;
 
