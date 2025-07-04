@@ -1055,11 +1055,11 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Download annullato, in questa scheda non sono consentiti gli URL playlist</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Download annullato perché una condizione non è stata soddisfatta</translation>
     </message>
 </context>
 <context>
