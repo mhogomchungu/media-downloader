@@ -972,7 +972,7 @@ QMenu *  configure::addExtenion()
 {
 	auto m = new QMenu( &m_ctx.mainWidget() ) ;
 
-	m->addAction( "yt-dlp" )->setObjectName( "yt-dlp" ) ;
+	m->addAction( "yt-dlp" )->setObjectName( "yt-dlp.json" ) ;
 	m->addAction( "yt-dlp-aria2c" )->setObjectName( "yt-dlp-aria2c.json" ) ;
 	m->addAction( "yt-dlp-ffmpeg" )->setObjectName( "yt-dlp-ffmpeg.json" ) ;
 
