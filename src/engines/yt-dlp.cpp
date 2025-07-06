@@ -302,7 +302,7 @@ QJsonObject yt_dlp::init( const QString& name,
 	json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
 				    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
 
-	json.add( { { "Windows" },{ { "win7x86","yt-dlp_x86_win7",{ "yt-dlp_x86_win7" } },
+	json.add( { { "Windows" },{ { "win7x86","yt-dlp_x86_win7.exe",{ "yt-dlp_x86_win7.exe" } },
 				   { "win7amd64","yt-dlp_win7.exe",{ "yt-dlp_win7.exe" } },
 				   { "x86",x86Name,{ x86Name } },
 				   { "amd64",amd64,{ amd64 } } } } ) ;
