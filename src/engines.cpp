@@ -878,12 +878,7 @@ engines::engine::engine( Logger& logger,
 
 			m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
 
-			if( utility::platformIs32Bit() ){
-
-				m_commandName = "yt-dlp_x86_win7.exe" ;
-			}else{
-				m_commandName = "yt-dlp_win7.exe" ;
-			}
+			m_commandName = yt_dlp::setCmdNameForNicolaasjanYtdlp() ;
 		} ;
 
 		if( cmd.isUndefined() ){

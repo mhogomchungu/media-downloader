@@ -184,6 +184,26 @@ static QString _Windows64BitBinaryName()
 	return "yt-dlp.exe" ;
 }
 
+static QString _NicolaasjanYtdlpFor32BitWin7()
+{
+	return "yt-dlp_x86_win7.exe" ;
+}
+
+static QString _NicolaasjanYtdlpFor64BitWin7()
+{
+	return "yt-dlp_win7.exe" ;
+}
+
+void setCmdNameForNicolaasjanYtdlp( QString& e )
+{
+	if( utility::platformIs32Bit() ){
+
+		return _NicolaasjanYtdlpFor32BitWin7() ;
+	}else{
+		return _NicolaasjanYtdlpFor64BitWin7() ;
+	}
+}
+
 void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& thirdPartyBinPath )
 {
 	if( utility::platformIsWindows() ){
@@ -302,8 +322,8 @@ QJsonObject yt_dlp::init( const QString& name,
 	json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
 				    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
 
-	json.add( { { "Windows" },{ { "win7x86","yt-dlp_x86_win7.exe",{ "yt-dlp_x86_win7.exe" } },
-				   { "win7amd64","yt-dlp_win7.exe",{ "yt-dlp_win7.exe" } },
+	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
+				   { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
 				   { "x86",x86Name,{ x86Name } },
 				   { "amd64",amd64,{ amd64 } } } } ) ;
 
@@ -1180,8 +1200,6 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& f )
 {
-	qDebug() << "ddd: " << f.errorCode() ;
-
 	using functions = engines::engine::baseEngine ;
 
 	if( f.cancelled() ){
