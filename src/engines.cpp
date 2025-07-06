@@ -880,7 +880,7 @@ engines::engine::engine( Logger& logger,
 
 			if( utility::platformIs32Bit() ){
 
-				m_commandName = "yt-dlp_win7_x86.exe" ;
+				m_commandName = "yt-dlp_x86_win7.exe" ;
 			}else{
 				m_commandName = "yt-dlp_win7.exe" ;
 			}
