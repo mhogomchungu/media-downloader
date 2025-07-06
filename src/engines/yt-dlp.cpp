@@ -194,7 +194,7 @@ static QString _NicolaasjanYtdlpFor64BitWin7()
 	return "yt-dlp_win7.exe" ;
 }
 
-void setCmdNameForNicolaasjanYtdlp( QString& e )
+QString setCmdNameForNicolaasjanYtdlp()
 {
 	if( utility::platformIs32Bit() ){
 
