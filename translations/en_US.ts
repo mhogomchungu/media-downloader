@@ -1056,6 +1056,14 @@ Exampe 2: ${gateway}:8080</source>
         <source>Download Cancelled Because A Condition Was Not Met</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Download Failed, Unknown Reason</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Failed, Network Issue</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

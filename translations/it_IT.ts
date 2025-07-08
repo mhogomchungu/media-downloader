@@ -1061,6 +1061,14 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Download Cancelled Because A Condition Was Not Met</source>
         <translation>Download annullato perché una condizione non è stata soddisfatta</translation>
     </message>
+    <message>
+        <source>Download Failed, Unknown Reason</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Failed, Network Issue</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
