@@ -32,7 +32,7 @@ public:
 	static const char * testYtDlp() ;
 	static const char * testFfmpeg() ;
 	static void checkIfBinaryExist( const QString&,const QString& ) ;
-	static QString setCmdNameForNicolaasjanYtdlp() ;
+	static void setNicolaasjanYtdlpOptions( QString& cmd,QString& url ) ;
 
 	static QStringList jsonNoFormatsArgumentList() ;
 

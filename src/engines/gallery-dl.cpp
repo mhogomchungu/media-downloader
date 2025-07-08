@@ -304,6 +304,41 @@ std::vector< QByteArray > gallery_dl::parseJsonData( QByteArray& data )
 	return mm ;
 }
 
+static void _setUrls( QJsonObject& obj,const QString& thumbnailUrl,const QString& url )
+{
+	if( obj.value( "thumbnail" ).toString().isEmpty() ){
+
+		obj.insert( "thumbnail",thumbnailUrl ) ;
+	}
+
+	if( obj.value( "webpage_url" ).toString().isEmpty() ){
+
+		obj.insert( "webpage_url",url ) ;
+	}
+}
+
+static void _setUrls( QJsonObject& obj,const QMap< QString,QVariant >& m )
+{
+	if( m.size() ){
+
+		auto a = m.first().toJsonObject().value( "url" ).toString() ;
+		auto b = m.last().toJsonObject().value( "url" ).toString() ;
+
+		_setUrls( obj,a,b ) ;
+	}
+}
+
+static void _setUrls( QJsonObject& obj,const QJsonArray& m )
+{
+	if( m.size() ){
+
+		auto a = m.first().toObject().value( "url" ).toString() ;
+		auto b = m.last().toObject().value( "url" ).toString() ;
+
+		_setUrls( obj,a,b ) ;
+	}
+}
+
 QJsonObject gallery_dl::parseJson( const QByteArray& e )
 {
 	QJsonParseError err ;
@@ -316,7 +351,8 @@ QJsonObject gallery_dl::parseJson( const QByteArray& e )
 
 		QJsonObject obj ;
 
-		auto url       = oo.value( "url" ).toString() ;
+		auto url = oo.value( "url" ).toString() ;
+
 		auto thumbnail = oo.value( "thumbnail" ).toString() ;
 		auto fileName  = oo.value( "filename" ).toString() ;
 		auto title     = oo.value( "seo_alt_text" ).toString() ;
@@ -327,23 +363,23 @@ QJsonObject gallery_dl::parseJson( const QByteArray& e )
 			title = oo.value( "auto_alt_text" ).toString() ;
 		}
 
+		obj.insert( "webpage_url",url ) ;
+
 		obj.insert( "thumbnail",thumbnail ) ;
 
-		QMap< QString,QVariant > images = oo.value( "images" ).toVariant().toMap() ;
+		auto imageList = oo.value( "images" ) ;
 
-		auto it = images.begin() ;
+		if( imageList.isUndefined() ){
 
-		if( it != images.end() ){
+			auto s = oo.value( "media_asset" ).toObject() ;
 
-			auto m = it->toJsonObject().value( "url" ).toString() ;
+			if( !s.isEmpty() ){
 
-			if( !m.isEmpty() ){
-
-				obj.insert( "thumbnail",m ) ;
+				_setUrls( obj,s.value( "variants" ).toArray() ) ;
 			}
+		}else{
+			_setUrls( obj,imageList.toVariant().toMap() ) ;
 		}
-
-		obj.insert( "webpage_url",url ) ;
 
 		if( !fileName.isEmpty() ){
 

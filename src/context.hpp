@@ -147,11 +147,11 @@ public:
 	}
 	void setNetworkProxy( engines::proxySettings e,bool s )
 	{
-		m_engines.setNetworkProxy( e.move(),s ) ;
+		m_engines.setNetworkProxy( e.move(),s,m_networkAccess ) ;
 	}
 	void setNetworkProxy( bool s )
 	{
-		m_engines.setNetworkProxy( {},s ) ;
+		m_engines.setNetworkProxy( {},s,m_networkAccess ) ;
 	}
 private:
 	settings& m_settings ;

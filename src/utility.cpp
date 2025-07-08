@@ -2038,13 +2038,19 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 
 		m_data = reply.data() ;
 
+		if( m_data.isEmpty() ){
+
+			QString m = "Network Error: Request Succeeded But No Data Received" ;
+
+			ctx.logger().add( m,utility::concurrentID() ) ;
+		}
 	}else if( reply.timeOut() ){
 
 		QString m = "Network Error: Network Request Timed Out" ;
 
-		ctx.logger().add( m,utility::sequentialID() ) ;
+		ctx.logger().add( m,utility::concurrentID() ) ;
 	}else{
-		ctx.logger().add( "Network Error: " + reply.errorString(),utility::sequentialID() ) ;
+		ctx.logger().add( "Network Error:\n" + reply.errorString(),utility::concurrentID() ) ;
 	}
 }
 

@@ -1264,13 +1264,13 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 		return false ;
 	}
 
-	if( networkAccess::hasNetworkSupport() ){
+	auto thumbnailUrl = media.thumbnailUrl() ;
+
+	if( networkAccess::hasNetworkSupport() && !thumbnailUrl.isEmpty() ){
 
 		auto& network = m_ctx.network() ;
 
 		m_networkRunning++ ;
-
-		auto thumbnailUrl = media.thumbnailUrl() ;
 
 		networkCtx m{ media.move(),m_downloaderId,table } ;
 
@@ -1285,7 +1285,9 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 void playlistdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
 {
-	utility::networkReply( this,&playlistdownloader::networkData,m_ctx,reply,&d.table,d.id,d.media.move() ) ;
+	auto m = &playlistdownloader::networkData ;
+
+	utility::networkReply( this,m,m_ctx,reply,&d.table,d.id,d.media.move() ) ;
 }
 
 void playlistdownloader::networkData( const utility::networkReply& m )
@@ -1765,7 +1767,15 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 		data.clear() ;
 
-		if( !m.startsWith( "[media-downloader]" ) ){
+		if( m.contains( "Download Failed(ErrorCode=1)" ) ){
+
+			m_parent.m_table.setUiText( QObject::tr( "Download Failed, Unknown Reason" ),0 ) ;
+
+		}else if( m.contains( "Download Failed(ErrorCode=4)" ) ){
+
+			m_parent.m_table.setUiText( QObject::tr( "Download Failed, Network Issue" ),0 ) ;
+
+		}else if( !m.startsWith( "[media-downloader]" ) ){
 
 			m_parent.m_banner.updateProgress( "" ) ;
 

@@ -194,13 +194,20 @@ static QString _NicolaasjanYtdlpFor64BitWin7()
 	return "yt-dlp_win7.exe" ;
 }
 
-QString yt_dlp::setCmdNameForNicolaasjanYtdlp()
+static QString _NicolaasjanYtdlpUrl()
 {
+	return "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
+}
+
+void yt_dlp::setNicolaasjanYtdlpOptions( QString& cmd,QString& url )
+{
+	url = _NicolaasjanYtdlpUrl() ;
+
 	if( utility::platformIs32Bit() ){
 
-		return _NicolaasjanYtdlpFor32BitWin7() ;
+		cmd = _NicolaasjanYtdlpFor32BitWin7() ;
 	}else{
-		return _NicolaasjanYtdlpFor64BitWin7() ;
+		cmd = _NicolaasjanYtdlpFor64BitWin7() ;
 	}
 }
 
@@ -352,7 +359,7 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 
-	mainObj.insert( "DownloadUrlWin7","https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ) ;
+	mainObj.insert( "DownloadUrlWin7",_NicolaasjanYtdlpUrl() ) ;
 
 	mainObj.insert( "AutoUpdate",true ) ;
 

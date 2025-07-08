@@ -181,6 +181,14 @@ public:
 		this->download( { util::types::type_identity< meaw >(),std::move( iter ) } ) ;
 	}
 
+	void setProxySettings( const QNetworkProxy& s )
+	{
+		this->QtNAM().setProxy( s ) ;
+	}
+	QNetworkAccessManager& QtNAM() const
+	{
+		return m_network.QtNAM() ;
+	}
 	void updateMediaDownloader( networkAccess::Status,const QJsonDocument& ) const ;
 	void updateMediaDownloader( networkAccess::Status ) const ;
 

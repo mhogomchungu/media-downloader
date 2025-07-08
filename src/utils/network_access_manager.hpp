@@ -125,7 +125,7 @@ namespace utils
 			manager( int timeOut ) : m_timeOut( timeOut )
 			{
 			}
-			QNetworkAccessManager& QtNAM()
+			QNetworkAccessManager& QtNAM() const
 			{
 				return m_manager ;
 			}

@@ -43,6 +43,7 @@
 class tableWidget ;
 class settings ;
 class Context ;
+class networkAccess ;
 
 namespace utility {
 	class uiIndex ;
@@ -1415,7 +1416,7 @@ public:
 	{
 		return m_networkProxy ;
 	}
-	void setNetworkProxy( engines::proxySettings,bool ) ;
+	void setNetworkProxy( engines::proxySettings,bool,networkAccess& ) ;
 private:
 	void updateEngines( bool,int ) ;
 	Logger& m_logger ;

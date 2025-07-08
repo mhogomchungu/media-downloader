@@ -34,6 +34,7 @@
 #include "version.h"
 #include "tableWidget.h"
 #include "context.hpp"
+#include "networkAccess.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -197,7 +198,7 @@ void engines::showBanner()
 	}
 }
 
-void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
+void engines::setNetworkProxy( engines::proxySettings e,bool firstTime,networkAccess& n )
 {
 	if( e.isSet() ){
 
@@ -233,7 +234,7 @@ void engines::setNetworkProxy( engines::proxySettings e,bool firstTime )
 
 	m_networkProxy = e.move() ;
 
-	QNetworkProxy::setApplicationProxy( m_networkProxy.networkProxy() ) ;
+	n.setProxySettings( m_networkProxy.networkProxy() ) ;
 }
 
 void engines::openUrls( tableWidget& table,int row,const engines::engine& engine ) const
@@ -874,16 +875,9 @@ engines::engine::engine( Logger& logger,
 
 	if( utility::platformIsWindows7() && m_likeYtDlp ){
 
-		auto _set_opts = [ this ](){
-
-			m_downloadUrl = "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
-
-			m_commandName = yt_dlp::setCmdNameForNicolaasjanYtdlp() ;
-		} ;
-
 		if( cmd.isUndefined() ){
 
-			_set_opts() ;
+			yt_dlp::setNicolaasjanYtdlpOptions( m_commandName,m_downloadUrl ) ;
 		}else{
 			QJsonValue value ;
 
@@ -896,7 +890,7 @@ engines::engine::engine( Logger& logger,
 
 			if( value.isUndefined() ){
 
-				_set_opts() ;
+				yt_dlp::setNicolaasjanYtdlpOptions( m_commandName,m_downloadUrl ) ;
 			}else{
 				auto obj = value.toObject() ;
 
