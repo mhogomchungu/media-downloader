@@ -376,13 +376,8 @@ public:
 		m_url       = m_obj.value( "url" ).toString() ;
 		m_thumbnail = m_obj.value( "thumbnail" ).toString() ;
 		m_fileName  = m_obj.value( "filename" ).toString() ;
-		m_title     = m_obj.value( "seo_alt_text" ).toString() ;
 		m_extension = m_obj.value( "extension" ).toString() ;
-
-		if( m_title.isEmpty() ){
-
-			m_title = m_obj.value( "auto_alt_text" ).toString() ;
-		}
+		m_title     = this->getValue( "title","seo_alt_text","auto_alt_text" ).toString() ;
 
 		auto imageList = m_obj.value( "images" ) ;
 
@@ -434,6 +429,23 @@ public:
 		}
 	}
 private:
+	template< typename Arg >
+	QJsonValue getValue( const Arg& arg )
+	{
+		return m_obj.value( arg ) ;
+	}
+	template< typename Arg,typename ... Args >
+	QJsonValue getValue( const Arg& arg,Args&& ... args )
+	{
+		auto m = m_obj.value( arg ) ;
+
+		if( m.isUndefined() ){
+
+			return this->getValue( std::forward< Args >( args ) ... ) ;
+		}else{
+			return m ;
+		}
+	}
 	QJsonObject m_obj ;
 	QString m_wurl ;
 	QString m_thumbnail ;
