@@ -1502,7 +1502,7 @@ void engines::engine::baseEngine::setTextEncondig( const QString&,QStringList& )
 {
 }
 
-QJsonObject engines::engine::baseEngine::parseJson( const QByteArray& )
+QJsonObject engines::engine::baseEngine::parseJson( const QString&,const QByteArray& )
 {
 	return {} ;
 }
@@ -1590,7 +1590,7 @@ QString engines::engine::baseEngine::downloadFolder( const QString& e )
 	return e ;
 }
 
-util::Json engines::engine::baseEngine::parsePlayListData( const QByteArray& e )
+util::Json engines::engine::baseEngine::parsePlayListData( const QString&,const QByteArray& e )
 {
 	return e ;
 }

@@ -304,42 +304,146 @@ std::vector< QByteArray > gallery_dl::parseJsonData( QByteArray& data )
 	return mm ;
 }
 
-static void _setUrls( QJsonObject& obj,const QString& thumbnailUrl,const QString& url )
+class galleryDlparseData
 {
-	if( obj.value( "thumbnail" ).toString().isEmpty() ){
+public:
+	galleryDlparseData( const QString& url,const QJsonDocument& doc ) :
+		m_obj( doc.object() ),m_wurl( url )
+	{
+	}
+	QJsonObject toObj()
+	{
+		QJsonObject obj ;
 
-		obj.insert( "thumbnail",thumbnailUrl ) ;
+		if( !m_fileName.isEmpty() ){
+
+			if( !m_extension.isEmpty() ){
+
+				m_fileName += "." + m_extension ;
+			}
+		}
+
+		if( m_title.isEmpty() ){
+
+			m_title = m_fileName ;
+		}else{
+			if( !m_fileName.isEmpty() ){
+
+				m_title = m_title + "\n" + m_fileName ;
+			}
+		}
+
+		if( m_url.isEmpty() ){
+
+			m_url = m_wurl + "/" + m_fileName ;
+		}
+
+		obj.insert( "webpage_url",m_url ) ;
+		obj.insert( "fileName",m_fileName ) ;
+		obj.insert( "title",m_title ) ;
+		obj.insert( "thumbnail",m_thumbnail ) ;
+
+		return obj ;
+	}
+	galleryDlparseData& parseArtstation()
+	{
+		m_title     = m_obj.value( "title" ).toString() ;
+		m_fileName  = m_obj.value( "filename" ).toString() ;
+		m_extension = m_obj.value( "extension" ).toString() ;
+		m_url       = m_obj.value( "asset" ).toObject().value( "image_url" ).toString() ;
+		m_thumbnail = m_obj.value( "cover_url" ).toString() ;
+
+		return *this ;
+	}
+	galleryDlparseData& parseDeviantart()
+	{
+		m_title     = m_obj.value( "title" ).toString() ;
+		m_fileName  = m_obj.value( "filename" ).toString() ;
+		m_extension = m_obj.value( "extension" ).toString() ;
+		m_url       = m_obj.value( "url" ).toString() ;
+
+		auto thumbnails = m_obj.value( "thumbs" ).toArray() ;
+
+		if( thumbnails.size() ){
+
+			m_thumbnail = thumbnails[ 0 ].toObject().value( "src" ).toString() ;
+		}
+
+		return *this ;
+	}
+	galleryDlparseData& parseGeneric()
+	{
+		m_url       = m_obj.value( "url" ).toString() ;
+		m_thumbnail = m_obj.value( "thumbnail" ).toString() ;
+		m_fileName  = m_obj.value( "filename" ).toString() ;
+		m_title     = m_obj.value( "seo_alt_text" ).toString() ;
+		m_extension = m_obj.value( "extension" ).toString() ;
+
+		if( m_title.isEmpty() ){
+
+			m_title = m_obj.value( "auto_alt_text" ).toString() ;
+		}
+
+		auto imageList = m_obj.value( "images" ) ;
+
+		if( imageList.isUndefined() ){
+
+			auto s = m_obj.value( "media_asset" ).toObject() ;
+
+			if( !s.isEmpty() ){
+
+				this->setUrls( s.value( "variants" ).toArray() ) ;
+			}
+		}else{
+			this->setUrls( imageList.toVariant().toMap() ) ;
+		}
+
+		return *this ;
+	}
+	void setUrls( const QMap< QString,QVariant >& m )
+	{
+		if( m.size() ){
+
+			auto a = m.first().toJsonObject().value( "url" ).toString() ;
+			auto b = m.last().toJsonObject().value( "url" ).toString() ;
+
+			this->setUrls( a,b ) ;
+		}
 	}
 
-	if( obj.value( "webpage_url" ).toString().isEmpty() ){
+	void setUrls( const QJsonArray& m )
+	{
+		if( m.size() ){
 
-		obj.insert( "webpage_url",url ) ;
+			auto a = m.first().toObject().value( "url" ).toString() ;
+			auto b = m.last().toObject().value( "url" ).toString() ;
+
+			this->setUrls( a,b ) ;
+		}
 	}
-}
+	void setUrls( const QString& thumbnailUrl,const QString& url )
+	{
+		if( m_thumbnail.isEmpty() ){
 
-static void _setUrls( QJsonObject& obj,const QMap< QString,QVariant >& m )
-{
-	if( m.size() ){
+			m_thumbnail = thumbnailUrl ;
+		}
 
-		auto a = m.first().toJsonObject().value( "url" ).toString() ;
-		auto b = m.last().toJsonObject().value( "url" ).toString() ;
+		if( m_url.isEmpty() ){
 
-		_setUrls( obj,a,b ) ;
+			m_url = url ;
+		}
 	}
-}
+private:
+	QJsonObject m_obj ;
+	QString m_wurl ;
+	QString m_thumbnail ;
+	QString m_url ;
+	QString m_title ;
+	QString m_fileName ;
+	QString m_extension ;
+} ;
 
-static void _setUrls( QJsonObject& obj,const QJsonArray& m )
-{
-	if( m.size() ){
-
-		auto a = m.first().toObject().value( "url" ).toString() ;
-		auto b = m.last().toObject().value( "url" ).toString() ;
-
-		_setUrls( obj,a,b ) ;
-	}
-}
-
-QJsonObject gallery_dl::parseJson( const QByteArray& e )
+QJsonObject gallery_dl::parseJson( const QString& url,const QByteArray& e )
 {
 	QJsonParseError err ;
 
@@ -347,69 +451,26 @@ QJsonObject gallery_dl::parseJson( const QByteArray& e )
 
 	if( err.error == QJsonParseError::NoError ){
 
-		const auto oo = doc.object() ;
+		galleryDlparseData parser( url,doc ) ;
 
-		QJsonObject obj ;
+		if( url.contains( "artstation.com" ) ){
 
-		auto url = oo.value( "url" ).toString() ;
+			return parser.parseArtstation().toObj() ;
 
-		auto thumbnail = oo.value( "thumbnail" ).toString() ;
-		auto fileName  = oo.value( "filename" ).toString() ;
-		auto title     = oo.value( "seo_alt_text" ).toString() ;
-		auto ext       = oo.value( "extension" ).toString() ;
+		}else if( url.contains( "deviantart.com" ) ){
 
-		if( title.isEmpty() ){
-
-			title = oo.value( "auto_alt_text" ).toString() ;
-		}
-
-		obj.insert( "webpage_url",url ) ;
-
-		obj.insert( "thumbnail",thumbnail ) ;
-
-		auto imageList = oo.value( "images" ) ;
-
-		if( imageList.isUndefined() ){
-
-			auto s = oo.value( "media_asset" ).toObject() ;
-
-			if( !s.isEmpty() ){
-
-				_setUrls( obj,s.value( "variants" ).toArray() ) ;
-			}
+			return parser.parseDeviantart().toObj() ;
 		}else{
-			_setUrls( obj,imageList.toVariant().toMap() ) ;
+			return parser.parseGeneric().toObj() ;
 		}
-
-		if( !fileName.isEmpty() ){
-
-			if( !ext.isEmpty() ){
-
-				fileName += "." + ext ;
-			}
-
-			obj.insert( "fileName",fileName ) ;
-		}
-
-		if( title.isEmpty() ){
-
-			obj.insert( "title",fileName ) ;
-		}else{
-			if( !fileName.isEmpty() ){
-
-				obj.insert( "title",title + "\n" + fileName ) ;
-			}
-		}
-
-		return obj ;
 	}else{
 		return {} ;
 	}
 }
 
-util::Json gallery_dl::parsePlayListData( const QByteArray& e )
+util::Json gallery_dl::parsePlayListData( const QString& url,const QByteArray& e )
 {
-	return this->parseJson( e ) ;
+	return this->parseJson( url,e ) ;
 }
 
 gallery_dl::~gallery_dl()

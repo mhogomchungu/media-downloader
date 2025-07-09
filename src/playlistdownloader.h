@@ -320,8 +320,8 @@ private:
 	class stdOut
 	{
 	public:
-		stdOut( playlistdownloader& p,customOptions o,const engines::engine& e ) :
-			m_parent( p ),m_engine( e ),m_customOptions( o.move() )
+		stdOut( playlistdownloader& p,customOptions o,const engines::engine& e,const QString& url ) :
+			m_parent( p ),m_engine( e ),m_customOptions( o.move() ),m_url( url )
 		{
 		}
 		void operator()( tableWidget& table,Logger::Data& data ) ;
@@ -335,6 +335,7 @@ private:
 		const engines::engine& m_engine ;
 		playlistdownloader::customOptions m_customOptions ;
 		QByteArray m_data ;
+		QString m_url ;
 	} ;
 
 	class listIterator
@@ -380,7 +381,7 @@ private:
 
 	void getListing( playlistdownloader::listIterator,const engines::engine& ) ;
 	void getList( playlistdownloader::listIterator,const engines::engine& ) ;
-	void getList( customOptions&&,const engines::engine&,listIterator ) ;
+	void getList( const QString&,customOptions&&,const engines::engine&,listIterator ) ;
 
 	QByteArray m_jsonEndMarker = "0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef" ;
 	subscription m_subscription ;

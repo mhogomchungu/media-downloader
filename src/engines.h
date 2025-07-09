@@ -707,7 +707,7 @@ public:
 
 			virtual void setTextEncondig( const QString&,QStringList& opts ) ;
 
-			virtual QJsonObject parseJson( const QByteArray& ) ;
+			virtual QJsonObject parseJson( const QString&,const QByteArray& ) ;
 
 			virtual std::vector< QByteArray > parseJsonData( QByteArray& ) ;
 
@@ -731,7 +731,7 @@ public:
 
 			virtual QString setCredentials( QStringList&,QStringList & ) ;
 
-			virtual util::Json parsePlayListData( const QByteArray& ) ;
+			virtual util::Json parsePlayListData( const QString&,const QByteArray& ) ;
 
 			virtual QString downloadFolder( const QString& ) ;
 
@@ -1050,9 +1050,9 @@ public:
 		{
 			m_engine->updateCmdOptions( e ) ;
 		}
-		util::Json parsePlayListData( const QByteArray& e ) const
+		util::Json parsePlayListData( const QString& m,const QByteArray& e ) const
 		{
-			return m_engine->parsePlayListData( e ) ;
+			return m_engine->parsePlayListData( m,e ) ;
 		}
 		bool archiveContainsFolder() const
 		{
@@ -1094,9 +1094,9 @@ public:
 		{
 			return m_engine->horizontalHeaderLabels() ;
 		}
-		virtual QJsonObject parseJson( const QByteArray& e ) const
+		virtual QJsonObject parseJson( const QString& url,const QByteArray& e ) const
 		{
-			return m_engine->parseJson( e ) ;
+			return m_engine->parseJson( url,e ) ;
 		}
 		void openLocalFile( const engines::engine::baseEngine::localFile& s ) const
 		{

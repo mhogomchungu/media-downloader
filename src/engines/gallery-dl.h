@@ -49,9 +49,9 @@ public:
 
 	std::vector< QByteArray > parseJsonData( QByteArray& data ) override ;
 
-	QJsonObject parseJson( const QByteArray& ) override ;
+	QJsonObject parseJson( const QString&,const QByteArray& ) override ;
 
-	util::Json parsePlayListData( const QByteArray& ) override ;
+	util::Json parsePlayListData( const QString&,const QByteArray& ) override ;
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 

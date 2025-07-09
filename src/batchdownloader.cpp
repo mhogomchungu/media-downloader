@@ -2018,7 +2018,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			if( st.success() ){
 
-				utility::MediaEntry m( m_engine,m_logger.data() ) ;
+				utility::MediaEntry m( m_url,m_engine,m_logger.data() ) ;
 
 				if( m.valid() ){
 

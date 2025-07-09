@@ -1368,8 +1368,8 @@ utility::MediaEntry::MediaEntry( const QJsonDocument& doc ) : m_json( doc )
 	this->parseJson() ;
 }
 
-utility::MediaEntry::MediaEntry( const engines::engine& engine,const QByteArray& data ) :
-	m_json( engine.parsePlayListData( data ) )
+utility::MediaEntry::MediaEntry( const QString& url,const engines::engine& engine,const QByteArray& data ) :
+	m_json( engine.parsePlayListData( url,data ) )
 {
 	if( m_json ){
 

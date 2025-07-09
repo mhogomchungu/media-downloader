@@ -1065,14 +1065,16 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 	class meaw
 	{
 	public:
-		meaw( const engines::engine& engine,
+		meaw(	const QString& url,
+			const engines::engine& engine,
 			QStringList opts,
 			playlistdownloader& parent,
 			playlistdownloader::listIterator iter ) :
 			m_engine( engine ),
 			m_opts( std::move( opts ) ),
 			m_parent( parent ),
-			m_iter( std::move( iter ) )
+			m_iter( std::move( iter ) ),
+			m_url( url )
 		{
 		}
 		customOptions bg()
@@ -1083,19 +1085,21 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 		}
 		void fg( customOptions o )
 		{
-			m_parent.getList( o.move(),m_engine,m_iter.move() ) ;
+			m_parent.getList( m_url,o.move(),m_engine,m_iter.move() ) ;
 		}
 	private:
 		const engines::engine& m_engine ;
 		QStringList m_opts ;
 		playlistdownloader& m_parent ;
 		playlistdownloader::listIterator m_iter ;
+		QString m_url ;
 	} ;
 
-	utils::qthread::run( meaw( engine,std::move( opts ),*this,iter.move() ) ) ;
+	utils::qthread::run( meaw( url,engine,std::move( opts ),*this,iter.move() ) ) ;
 }
 
-void playlistdownloader::getList( customOptions&& c,
+void playlistdownloader::getList(  const QString& url,
+				  customOptions&& c,
 				  const engines::engine& engine,
 				  playlistdownloader::listIterator iter )
 {
@@ -1174,7 +1178,7 @@ void playlistdownloader::getList( customOptions&& c,
 
 	auto opts = c.options() ;
 
-	stdOut sOut( *this,c.move(),engine ) ;
+	stdOut sOut( *this,c.move(),engine,url ) ;
 	stdError sErr( *this,m_banner ) ;
 
 	events ev( *this,engine,iter.move() ) ;
@@ -1783,7 +1787,7 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 			for( const auto& it : m_engine.parseJsonData( m_data ) ){
 
-				const auto mm = m_engine.parseJson( it ) ;
+				const auto mm = m_engine.parseJson( m_url,it ) ;
 
 				m_parent.parseJson( m_customOptions,table,QJsonDocument( mm ) ) ;
 			}
@@ -1809,7 +1813,7 @@ void playlistdownloader::stdOut::parseYtDlpData( tableWidget& table,Logger::Data
 
 				break ;
 			}else{
-				utility::MediaEntry media( m_engine,line.mid( position,m ) ) ;
+				utility::MediaEntry media( {},m_engine,line.mid( position,m ) ) ;
 
 				position = position + m + jsonMarker.size() ;
 

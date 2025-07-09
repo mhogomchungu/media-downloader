@@ -1631,7 +1631,7 @@ namespace utility
 		{
 			return std::move( *this ) ;
 		}
-		MediaEntry( const engines::engine&,const QByteArray& data ) ;
+		MediaEntry( const QString& url,const engines::engine&,const QByteArray& data ) ;
 
 		QString uiText() const ;
 
