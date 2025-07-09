@@ -1685,12 +1685,6 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 
 		return true ;
 	}
-	if( e.contains( "ERROR:" ) || e.contains( "error:" ) ){
-
-		m_parent.m_table.setUiText( e,0 ) ;
-
-		return true ;
-	}
 	if( utility::containsLinkerWarning( e ) ){
 
 		return true ;
@@ -1743,11 +1737,14 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 		return false ;
 	}
 
-	if( e.startsWith( "ERROR: " ) ){
+	if( e.startsWith( "ERROR: " )  || e.contains( "error:" ) ){
 
-		if( e.contains( "Temporary failure in name resolution" ) ){
+		auto a = "Temporary failure in name resolution" ;
+		auto b = "Connection refused" ;
 
-			m_banner.reportError( "ERROR\nNetwork Not Reachable" ) ;
+		if( e.contains( a ) || e.contains( b ) ){
+
+			m_banner.reportError( QObject::tr( "Download Failed, Network Issue" ) ) ;
 		}else{
 			auto m = util::split( e,'\n',true ).at( 0 ) ;
 			m_banner.reportError( "ERROR\n" + m.mid( 7 ) ) ;

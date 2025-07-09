@@ -345,7 +345,7 @@ public:
 
 		return obj ;
 	}
-	galleryDlparseData& parseArtstation()
+	QJsonObject parseArtstation()
 	{
 		m_title     = m_obj.value( "title" ).toString() ;
 		m_fileName  = m_obj.value( "filename" ).toString() ;
@@ -353,9 +353,9 @@ public:
 		m_url       = m_obj.value( "asset" ).toObject().value( "image_url" ).toString() ;
 		m_thumbnail = m_obj.value( "cover_url" ).toString() ;
 
-		return *this ;
+		return this->toObj() ;
 	}
-	galleryDlparseData& parseDeviantart()
+	QJsonObject parseDeviantart()
 	{
 		m_title     = m_obj.value( "title" ).toString() ;
 		m_fileName  = m_obj.value( "filename" ).toString() ;
@@ -369,9 +369,9 @@ public:
 			m_thumbnail = thumbnails[ 0 ].toObject().value( "src" ).toString() ;
 		}
 
-		return *this ;
+		return this->toObj() ;
 	}
-	galleryDlparseData& parseGeneric()
+	QJsonObject parseGeneric()
 	{
 		m_url       = m_obj.value( "url" ).toString() ;
 		m_thumbnail = m_obj.value( "thumbnail" ).toString() ;
@@ -398,7 +398,7 @@ public:
 			this->setUrls( imageList.toVariant().toMap() ) ;
 		}
 
-		return *this ;
+		return this->toObj() ;
 	}
 	void setUrls( const QMap< QString,QVariant >& m )
 	{
@@ -455,13 +455,13 @@ QJsonObject gallery_dl::parseJson( const QString& url,const QByteArray& e )
 
 		if( url.contains( "artstation.com" ) ){
 
-			return parser.parseArtstation().toObj() ;
+			return parser.parseArtstation() ;
 
 		}else if( url.contains( "deviantart.com" ) ){
 
-			return parser.parseDeviantart().toObj() ;
+			return parser.parseDeviantart() ;
 		}else{
-			return parser.parseGeneric().toObj() ;
+			return parser.parseGeneric() ;
 		}
 	}else{
 		return {} ;
