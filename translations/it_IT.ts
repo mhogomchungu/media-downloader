@@ -1063,11 +1063,11 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Download Failed, Unknown Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Download fallito, ragione sconosciuta</translation>
     </message>
     <message>
         <source>Download Failed, Network Issue</source>
-        <translation type="unfinished"></translation>
+        <translation>Download fallito, problema di rete</translation>
     </message>
 </context>
 <context>
