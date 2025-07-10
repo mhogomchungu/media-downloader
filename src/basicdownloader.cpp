@@ -191,6 +191,11 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 			m_ui.lineEditOptions->clear() ;
 			this->changeDefaultEngine( s ) ;
+
+			auto e = m_ui.cbEngineType->currentText() ;
+			auto m = m_settings.lastUsedOption( e,settings::tabName::basic ) ;
+
+			m_ui.lineEditOptions->setText( m ) ;
 		}
 	} ) ;	
 }
