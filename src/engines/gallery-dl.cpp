@@ -313,8 +313,6 @@ public:
 	}
 	QJsonObject toObj()
 	{
-		QJsonObject obj ;
-
 		if( !m_fileName.isEmpty() ){
 
 			if( !m_extension.isEmpty() ){
@@ -337,6 +335,8 @@ public:
 
 			m_url = m_wurl + "/" + m_fileName ;
 		}
+
+		QJsonObject obj ;
 
 		obj.insert( "webpage_url",m_url ) ;
 		obj.insert( "fileName",m_fileName ) ;

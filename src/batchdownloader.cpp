@@ -2012,25 +2012,29 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 		{
 			return utility::addData( e ) ;
 		}
-		void done( engines::ProcessExitState st,const std::vector< QByteArray >& )
+		void done( engines::ProcessExitState,const std::vector< QByteArray >& )
 		{
 			auto enableAll = false ;
 
-			if( st.success() ){
+			auto data = m_logger.data() ;
 
-				utility::MediaEntry m( m_url,m_engine,m_logger.data() ) ;
+			auto s = data.indexOf( "[media-downloader]" ) ;
 
-				if( m.valid() ){
+			if( s != -1 ){
 
-					if( m.url().isEmpty() ){
+				data.truncate( s ) ;
+			}
 
-						m.setUrl( m_url ) ;
-					}
+			utility::MediaEntry m( m_url,m_engine,data ) ;
 
-					m_parent.addItem( this->index(),enableAll,m.move() ) ;
-				}else{
-					m_parent.addItem( this->index(),enableAll,m_url ) ;
+			if( m.valid() ){
+
+				if( m.url().isEmpty() ){
+
+					m.setUrl( m_url ) ;
 				}
+
+				m_parent.addItem( this->index(),enableAll,m.move() ) ;
 
 				if( m_autoDownload ){
 
@@ -2085,34 +2089,31 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	auto args = engine.dumpJsonArguments( engines::engine::tab::batch ) ;
 
-	if( engine.likeYtDlp() ){
+	auto cookie = m_settings.cookieBrowserName( engine.name() ) ;
+	const auto& ca = engine.cookieArgument() ;
 
-		auto cookie = m_settings.cookieBrowserName( engine.name() ) ;
-		const auto& ca = engine.cookieArgument() ;
+	if( !cookie.isEmpty() && !ca.isEmpty() ){
 
-		if( !cookie.isEmpty() && !ca.isEmpty() ){
-
-			args.append( ca ) ;
-			args.append( cookie ) ;
-		}
-
-		auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
-		const auto& caa = engine.cookieTextFileArgument() ;
-
-		if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-			args.append( caa ) ;
-			args.append( cookieFile ) ;
-		}
-
-		auto m = m_ui.lineEditBDUrlOptions->text() ;
-
-		utility::addToListOptionsFromsDownload( args,m,m_ctx,engine ) ;
-
-		engine.setTextEncondig( args ) ;
-
-		engine.updateCmdOptions( args ) ;
+		args.append( ca ) ;
+		args.append( cookie ) ;
 	}
+
+	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
+	const auto& caa = engine.cookieTextFileArgument() ;
+
+	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
+
+		args.append( caa ) ;
+		args.append( cookieFile ) ;
+	}
+
+	auto m = m_ui.lineEditBDUrlOptions->text() ;
+
+	utility::addToListOptionsFromsDownload( args,m,m_ctx,engine ) ;
+
+	engine.setTextEncondig( args ) ;
+
+	engine.updateCmdOptions( args ) ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() + 1 ) ;
 
@@ -2503,7 +2504,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 				m_parent.m_table.replace( array,m_row ) ;
 			}
 		}
-		void list( const engines::ProcessExitState& s,const QByteArray& a )
+		void list( const engines::ProcessExitState&,const QByteArray& a )
 		{
 			using lt = batchdownloader::listType ;
 
@@ -2517,7 +2518,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 				m_parent.m_tableWidgetBDList.removeRow( 0 ) ;
 			}
 
-			if( s.success() && !a.isEmpty() ){
+			if( !a.isEmpty() ){
 
 				this->processData( a ) ;
 			}

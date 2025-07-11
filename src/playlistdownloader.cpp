@@ -1746,8 +1746,7 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 
 			m_banner.reportError( QObject::tr( "Download Failed, Network Issue" ) ) ;
 		}else{
-			auto m = util::split( e,'\n',true ).at( 0 ) ;
-			m_banner.reportError( "ERROR\n" + m.mid( 7 ) ) ;
+			m_banner.reportError( QObject::tr( "Download Failed, Unknown Reason" ) ) ;
 		}
 
 		return true ;
