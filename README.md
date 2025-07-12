@@ -28,7 +28,7 @@ downloads may cause the host to ban you.
 Media Downloader is a GUI front end to [yt-dlp](https://github.com/yt-dlp/yt-dlp), [gallery-dl](https://github.com/mikf/gallery-dl), [lux](https://github.com/iawia002/lux),
 [you-get](https://github.com/soimort/you-get), [svtplay-dl](https://github.com/spaam/svtplay-dl), [aria2c](https://aria2.github.io/), and [wget](https://www.gnu.org/software/wget).
 
-To Install these extensins, go to "Configure" tab and then go to "General Options" sub tab and then click the "Add A plugin" button and then select from the list an extension you want to install.
+To Install these extensins, go to "Configure" tab and then go to "Extensions" sub tab and then click the "Add An Extension" button and then select from the list an extension you want to install.
 
 ## FAQ
 A Frequently asked Questions page is [here](https://github.com/mhogomchungu/media-downloader/wiki/Frequently-Asked-Questions).

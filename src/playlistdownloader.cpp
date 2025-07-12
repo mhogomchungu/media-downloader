@@ -950,9 +950,11 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	auto dopt = utility::setDownloadOptions( engine,m_table,index ) ;
 	const auto& ent = m_table.entryAt( index ) ;
 
+	auto urlOpts = m_ui.lineEditPLUrlOptions->text() ;
+
 	utility::download( engine,
 			  std::move( optsUpdater ),
-			  m_ui.lineEditPLUrlOptions->text(),
+			  engine.name() == this->defaultEngineName() ? urlOpts : QString(),
 			  m_table.url( index ),
 			  m_ctx,
 			  { dopt,{ index,m_table.rowCount() },true,ent },

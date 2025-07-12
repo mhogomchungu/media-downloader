@@ -396,9 +396,11 @@ private:
 		auto dopt = utility::setDownloadOptions( engine,m_table,index ) ;
 		const auto& ent = m_table.entryAt( index ) ;
 
+		auto urlOpts = m_ui.lineEditBDUrlOptions->text() ;
+
 		utility::download( engine,
 				  std::move( updateOpts ),
-				  m_ui.lineEditBDUrlOptions->text(),
+				  engine.name() == this->defaultEngineName() ? urlOpts : QString(),
 				  m_table.url( index ),
 				  m_ctx,
 				  { dopt,{ index,m_table.rowCount() },true,ent },
