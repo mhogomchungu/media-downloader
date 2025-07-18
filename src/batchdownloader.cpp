@@ -1554,23 +1554,29 @@ void batchdownloader::sortComments()
 
 bool batchdownloader::saveSubtitles( const QString& url,const QString& ext,const QString& title )
 {
-	auto m = utility::homePath() + "/" + title + "." + ext ;
+	auto df = m_ctx.Settings().downloadFolder() ;
+	auto m = df + "/" + title + "." + ext ;
 
 	auto s = QObject::tr( "Save Subtitle To File" ) ;
-	auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),s,m ) ;
+	auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),s,df ) ;
 
 	if( !e.isEmpty() ){
 
 		auto& n = m_ctx.network() ;
 
-		n.get( url,[ m,this ]( const utils::network::reply& reply ){
+		n.get( url,[ e,this ]( const utils::network::reply& reply ){
 
 			auto s = utility::networkReply( m_ctx,reply ).data() ;
 
-			QFile f( m ) ;
-			f.open( QIODevice::WriteOnly ) ;
+			QFile f( e ) ;
 
-			f.write( s ) ;
+			if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+				f.write( s ) ;
+			}else{
+				auto x = QObject::tr( "Failed To Open Path For Writing: %1" ).arg( e ) ;
+				m_ctx.logger().add( x,utility::concurrentID() ) ;
+			}
 		} ) ;
 	}
 
