@@ -80,6 +80,8 @@ const char * yt_dlp::testYtDlp()
 [youtube] tn2USd5KeVM: Downloading ios player API JSON
 [youtube] tn2USd5KeVM: Downloading android player API JSON
 [youtube] tn2USd5KeVM: Downloading m3u8 information
+ERROR: fragment 1 not found, unable to continue
+[info] Unable to download format 230. Skipping...
 [info] tn2USd5KeVM: Downloading 1 format(s): 242+250
 [download] Destination: 16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
 [download] downloaded_bytes:1024 ETA:86 total_bytes_estimate:NA total_bytes:3006209 progress.speed:34781.85091065167 filename:16 years ago, LeBron James put up one of the greatest playoff performances ever 😤 ｜ NBA on ESPN-tn2USd5KeVM.f242.webm
@@ -1530,7 +1532,7 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 			return m_tmp ;
 		}
-		if( e.startsWith( "ERROR: " ) || e.startsWith( "yt-dlp: error:" ) ){
+		if( ( e.startsWith( "ERROR: " ) && !e.contains( "fragment" ) ) || e.startsWith( "yt-dlp: error:" ) ){
 
 			m_tmp = e ;
 
