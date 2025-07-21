@@ -1501,17 +1501,36 @@ QByteArray yt_dlp::yt_dlplFilter::fileName()
 	}
 }
 
+bool yt_dlp::yt_dlplFilter::hasNewError( const std::vector< QByteArray >& errors,const QByteArray& error )
+{
+	if( error.startsWith( "ERROR: " ) || error.startsWith( "yt-dlp: error:" ) ){
+
+		for( const auto& it : errors ){
+
+			if( it == error ){
+
+				return false ;
+			}
+		}
+	}
+
+	return true ;
+}
+
 const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteArrayList& data )
 {
 	for( const auto& m : data ){
 
 		const QByteArray& e = m ;
 
-		if( ( e.startsWith( "ERROR: " ) && !e.contains( "fragment" ) ) || e.startsWith( "yt-dlp: error:" ) ){
+		if( e.startsWith( "ERROR: " ) || e.startsWith( "yt-dlp: error:" ) ){
 
-			m_tmp = e ;
+			if( this->hasNewError( m_errors,e ) ){
 
-			return m_tmp ;
+				m_errors.emplace_back( e ) ;
+
+				return m_errors.back() ;
+			}
 		}
 		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){
 

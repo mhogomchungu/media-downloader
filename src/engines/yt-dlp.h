@@ -50,7 +50,7 @@ public:
 		QByteArray fileName() ;
 
 		const QByteArray& parseOutput( const Logger::Data::QByteArrayList& ) ;
-
+		bool hasNewError( const std::vector< QByteArray >& errors,const QByteArray& error ) ;
 		void setFileName( const QByteArray& ) ;
 		engines::engine::baseEngine::preProcessing m_preProcessing ;
 		engines::engine::baseEngine::postProcessing m_postProcessing ;
@@ -59,6 +59,7 @@ public:
 		QByteArray m_tmp ;
 		bool m_mergeSeen = false ;
 		std::vector< QByteArray > m_fileNames ;
+		std::vector< QByteArray > m_errors ;
 		yt_dlp& m_parent ;
 	} ;
 
