@@ -469,19 +469,6 @@ yt_dlp::yt_dlp( const engines& engines,
 	}
 }
 
-#define COMPACTYEAR "2022"
-
-void yt_dlp::appendCompatOption( QStringList& e )
-{
-	e.append( "--compat-options" ) ;
-	e.append( COMPACTYEAR ) ;
-}
-
-const char * yt_dlp::yt_dlplFilter::compatYear()
-{
-	return "yt-dlp: error: wrong OPTS for --compat-options: " COMPACTYEAR ;
-}
-
 yt_dlp::~yt_dlp()
 {
 }
@@ -1373,8 +1360,6 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 		s.ourOptions.append( configure::defaultDownloadOption() ) ;
 	}
 
-	this->appendCompatOption( s.ourOptions ) ;
-
 	while( s.ourOptions.contains( "--progress-template" ) ){
 
 		utility::arguments( s.ourOptions ).removeOptionWithArgument( "--progress-template" ) ;
@@ -1387,8 +1372,6 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 {
 	e.append( "--lazy-playlist" ) ;
 
-	this->appendCompatOption( e ) ;
-
 	e.append( "--output-na-placeholder" ) ;
 	e.append( "\"NA\"" ) ;
 
@@ -1397,8 +1380,6 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 
 void yt_dlp::updateCmdOptions( QStringList& e )
 {
-	this->appendCompatOption( e ) ;
-
 	e.append( "--output-na-placeholder" ) ;
 	e.append( "\"NA\"" ) ;
 }
@@ -1526,12 +1507,6 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 		const QByteArray& e = m ;
 
-		if( e.contains( this->compatYear() ) ){
-
-			m_tmp = "EngineNeedUpdating" ;
-
-			return m_tmp ;
-		}
 		if( ( e.startsWith( "ERROR: " ) && !e.contains( "fragment" ) ) || e.startsWith( "yt-dlp: error:" ) ){
 
 			m_tmp = e ;

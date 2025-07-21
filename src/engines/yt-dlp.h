@@ -49,8 +49,6 @@ public:
 	private:
 		QByteArray fileName() ;
 
-		const char * compatYear() ;
-
 		const QByteArray& parseOutput( const Logger::Data::QByteArrayList& ) ;
 
 		void setFileName( const QByteArray& ) ;
@@ -111,7 +109,6 @@ private:
 	std::vector< engines::engine::baseEngine::mediaInfo >
 	mediaProperties( Logger&,const QJsonArray&,const QJsonObject& ) ;
 
-	void appendCompatOption( QStringList& ) ;
 	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
 	settings * m_settings ;
