@@ -1351,7 +1351,7 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 	if( err.error == QJsonParseError::NoError ){
 
-		auto _parse = [ &]( const QJsonValue& j ){
+		auto _parse = [ & ]( const QJsonValue& j ){
 
 			utility::vector< language > ll ;
 
@@ -1373,9 +1373,11 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 			QJsonObject obj ;
 
-			obj.insert( "title",title ) ;
-			obj.insert( "subtitles",l.subtitles() ) ;
-			obj.insert( "type",m ) ;
+			obj.insert( "id",l.name() ) ;
+			obj.insert( "extension",m ) ;
+			obj.insert( "resolution",l.subtitles() ) ;
+			obj.insert( "filesize",title ) ;
+			obj.insert( "info",l.notes() ) ;
 
 			return obj ;
 		} ;
@@ -1411,8 +1413,8 @@ void batchdownloader::saveSubtitles()
 
 	const auto& s = m_tableWidgetBDList.stuffAt( row ) ;
 
-	auto title = s.value( "title" ).toString() ;
-	auto subtitles = s.value( "subtitles" ).toArray() ;
+	auto title = s.value( "filesize" ).toString() ;
+	auto subtitles = s.value( "resolution" ).toArray() ;
 
 	if( subtitles.isEmpty() ){
 
@@ -1558,7 +1560,7 @@ bool batchdownloader::saveSubtitles( const QString& url,const QString& ext,const
 	auto m = df + "/" + title + "." + ext ;
 
 	auto s = QObject::tr( "Save Subtitle To File" ) ;
-	auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),s,df ) ;
+	auto e = QFileDialog::getSaveFileName( &m_ctx.mainWidget(),s,m ) ;
 
 	if( !e.isEmpty() ){
 
