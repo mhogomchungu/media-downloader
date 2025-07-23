@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -604,6 +604,12 @@
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
        </property>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>72</number>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>72</number>
+       </attribute>
        <column>
         <property name="text">
          <string notr="true">Format Code</string>

@@ -282,9 +282,9 @@ private:
 		return { std::move( fnt ),url } ;
 	}
 	template< typename Function >
-	void get( Function&& f ) const
+	void get( Function&& f,const QByteArray& userAgent = {} ) const
 	{
-		auto m = this->networkRequest( f.url() ) ;
+		auto m = this->networkRequest( f.url(),userAgent ) ;
 
 		m_network.get( m,[ this,f = f.move() ]( const utils::network::reply& reply )mutable{
 
@@ -419,7 +419,9 @@ private:
 
 	QString downloadFailed() const ;
 
-	QNetworkRequest networkRequest( const QString& url ) const ;
+	QByteArray defaultUserAgent() const ;
+
+	QNetworkRequest networkRequest( const QString& url,const QByteArray& userAgent = {} ) const ;
 
 	void extractArchive( const engines::engine&,networkAccess::Opts ) const ;
 

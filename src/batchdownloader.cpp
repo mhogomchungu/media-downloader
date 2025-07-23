@@ -1556,7 +1556,9 @@ void batchdownloader::sortComments()
 
 bool batchdownloader::saveSubtitles( const QString& url,const QString& ext,const QString& title )
 {
-	auto df = m_ctx.Settings().downloadFolder() ;
+	auto flatpak = utility::platformisFlatPak() ;
+
+	auto df = flatpak ? utility::homePath() : m_ctx.Settings().downloadFolder() ;
 	auto m = df + "/" + title + "." + ext ;
 
 	auto s = QObject::tr( "Save Subtitle To File" ) ;
@@ -1564,9 +1566,7 @@ bool batchdownloader::saveSubtitles( const QString& url,const QString& ext,const
 
 	if( !e.isEmpty() ){
 
-		auto& n = m_ctx.network() ;
-
-		n.get( url,[ e,this ]( const utils::network::reply& reply ){
+		m_ctx.network().get( url,[ e,this ]( const utils::network::reply& reply ){
 
 			auto s = utility::networkReply( m_ctx,reply ).data() ;
 

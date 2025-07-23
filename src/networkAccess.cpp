@@ -348,7 +348,7 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 	utils::qthread::run( meaw( *this,md.move() ) ) ;
 }
 
-QNetworkRequest networkAccess::networkRequest( const QString& url ) const
+QNetworkRequest networkAccess::networkRequest( const QString& url,const QByteArray& userAgent ) const
 {
 	QNetworkRequest networkRequest( url ) ;
 #if QT_VERSION >= QT_VERSION_CHECK( 5,9,0 )
@@ -362,10 +362,10 @@ QNetworkRequest networkAccess::networkRequest( const QString& url ) const
 		networkRequest.setAttribute( c,true ) ;
 	#endif
 #endif
+	if( !userAgent.isEmpty() ){
 
-	auto m = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" ;
-
-	networkRequest.setRawHeader( "User-Agent",m ) ;
+		networkRequest.setRawHeader( "User-Agent",userAgent ) ;
+	}
 
 	return networkRequest ;
 }
@@ -374,6 +374,11 @@ QString networkAccess::downloadFailed() const
 {
 	auto m = QString::number( m_ctx.Settings().networkTimeOut() / 1000 ) ;
 	return QObject::tr( "Network Failed To Respond Within %1 seconds" ).arg( m ) ;
+}
+
+QByteArray networkAccess::defaultUserAgent() const
+{
+	return "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" ;
 }
 
 void networkAccess::download( const QByteArray& data,
