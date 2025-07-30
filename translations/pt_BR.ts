@@ -419,6 +419,10 @@ Exemplo 2: ${gateway}:8080</translation>
         <source>Open Binary Folder</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Open Extension Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>

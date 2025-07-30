@@ -420,6 +420,10 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <source>Open Binary Folder</source>
         <translation>Apri cartella eseguibile</translation>
     </message>
+    <message>
+        <source>Open Extension Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>

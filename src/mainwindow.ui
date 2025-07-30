@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1560,7 +1560,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -2348,9 +2348,9 @@
        <widget class="QPushButton" name="pbConfigureRemoveAPlugin">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>210</y>
-          <width>421</width>
+          <x>180</x>
+          <y>190</y>
+          <width>411</width>
           <height>31</height>
          </rect>
         </property>
@@ -2361,9 +2361,9 @@
        <widget class="QPushButton" name="pbConfigureDownload">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>170</y>
-          <width>421</width>
+          <x>180</x>
+          <y>150</y>
+          <width>411</width>
           <height>31</height>
          </rect>
         </property>
@@ -2374,9 +2374,9 @@
        <widget class="QPushButton" name="pbConfigureAddAPlugin">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>130</y>
-          <width>421</width>
+          <x>180</x>
+          <y>110</y>
+          <width>411</width>
           <height>31</height>
          </rect>
         </property>
@@ -2387,9 +2387,9 @@
        <widget class="QPushButton" name="pbOpenBinFolder">
         <property name="geometry">
          <rect>
-          <x>190</x>
-          <y>250</y>
-          <width>421</width>
+          <x>180</x>
+          <y>230</y>
+          <width>411</width>
           <height>33</height>
          </rect>
         </property>
@@ -2398,6 +2398,22 @@
         </property>
         <property name="text">
          <string>Open Binary Folder</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbOpenExtensionFolder">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>270</y>
+          <width>411</width>
+          <height>33</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>A Button To Open A Folder Where Extension's Binaries Are Stored</string>
+        </property>
+        <property name="text">
+         <string>Open Extension Folder</string>
         </property>
        </widget>
       </widget>

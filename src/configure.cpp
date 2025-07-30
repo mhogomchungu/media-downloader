@@ -49,6 +49,7 @@ configure::configure( const Context& ctx ) :
 	m_ui.pbOpenThemeFolder->setIcon( m_settings.getIcon( "extensions" ) ) ;
 	m_ui.pbOpenBinFolder->setIcon( m_settings.getIcon( "executable" ) ) ;
 	m_ui.pbConfigureDownloadPath->setIcon( m_settings.getIcon( "folder" ) ) ;
+	m_ui.pbOpenExtensionFolder->setIcon( m_settings.getIcon( "folder" ) ) ;
 
 	m_ui.pbConfigureAddToPresetList->setObjectName( "Add" ) ;
 	m_ui.pbConfigureAddToPresetList->setText( tr( "Add" ) ) ;
@@ -134,6 +135,13 @@ configure::configure( const Context& ctx ) :
 	connect( m_ui.pbOpenBinFolder,&QPushButton::clicked,[ this,themesFolderPath ](){
 
 		const auto& m = m_engines.engineDirPaths().binPath() ;
+
+		QDesktopServices::openUrl( QUrl( "file:///" + m,QUrl::TolerantMode ) ) ;
+	} ) ;
+
+	connect( m_ui.pbOpenExtensionFolder,&QPushButton::clicked,[ this,themesFolderPath ](){
+
+		const auto& m = m_engines.engineDirPaths().enginePath() ;
 
 		QDesktopServices::openUrl( QUrl( "file:///" + m,QUrl::TolerantMode ) ) ;
 	} ) ;
