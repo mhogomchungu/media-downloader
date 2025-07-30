@@ -1,4 +1,5 @@
 {
+    "AutoUpdate": true,
     "BackendPath": "${default}",
     "BatchFileArgument": "-a",
     "CanDownloadPlaylist": true,
@@ -23,12 +24,38 @@
                 "Name": "yt-dlp"
             }
         },
+        "MacOS": {
+            "amd64": {
+                "Args": [
+                    "yt-dlp_macos"
+                ],
+                "Name": "yt-dlp_macos"
+            },
+            "x86": {
+                "Args": [
+                    "yt-dlp_macos"
+                ],
+                "Name": "yt-dlp_macos"
+            }
+        },
         "Windows": {
             "amd64": {
                 "Args": [
                     "yt-dlp.exe"
                 ],
                 "Name": "yt-dlp.exe"
+            },
+            "win7amd64": {
+                "Args": [
+                    "yt-dlp_win7.exe"
+                ],
+                "Name": "yt-dlp_win7.exe"
+            },
+            "win7x86": {
+                "Args": [
+                    "yt-dlp_x86_win7.exe"
+                ],
+                "Name": "yt-dlp_x86_win7.exe"
             },
             "x86": {
                 "Args": [
@@ -47,7 +74,8 @@
             "contains": "CN:"
         }
     },
-    "CookieArgument": "--cookies",
+    "CookieArgument": "--cookies-from-browser",
+    "CookieArgumentTextFile": "--cookies",
     "DefaultCommentsCmdOptions": [
         "--get-comments",
         "--no-download",
@@ -67,10 +95,28 @@
         "%(title).200s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
+        "--no-playlist",
+        "--newline",
         "--print",
-        "%(formats)j"
+        "{\"uploader\":%(uploader)j,\"id\":%(id)j,\"thumbnail\":%(thumbnail)j,\"duration\":%(duration)j,\"title\":%(title)j,\"upload_date\":%(upload_date)j,\"webpage_url\":%(webpage_url)j,\"formats\":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,\"playlist_id\":%(playlist_id)j,\"playlist_title\":%(playlist_title)j,\"playlist\":%(playlist)j,\"playlist_uploader\":%(playlist_uploader)j,\"playlist_uploader_id\":%(playlist_uploader_id)j}"
+    ],
+    "DefaultSubstitlesCmdOptions": [
+        "--no-download",
+        "--print",
+        "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}"
+    ],
+    "DefaultSubtitleDownloadOptions": [
+        "--embed-subs"
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
+    "DownloadUrlWin7": "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest",
+    "DumptJsonArguments": [
+        "--no-playlist",
+        "--newline",
+        "--print",
+        "{\"uploader\":%(uploader)j,\"id\":%(id)j,\"thumbnail\":%(thumbnail)j,\"duration\":%(duration)j,\"title\":%(title)j,\"upload_date\":%(upload_date)j,\"webpage_url\":%(webpage_url)j,\"formats\":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,\"playlist_id\":%(playlist_id)j,\"playlist_title\":%(playlist_title)j,\"playlist\":%(playlist)j,\"playlist_uploader\":%(playlist_uploader)j,\"playlist_uploader_id\":%(playlist_uploader_id)j}"
+    ],
+    "EncodingArgument": "--encoding",
     "LikeYoutubeDl": true,
     "Name": "yt-dlp-aria2c-native",
     "OptionsArgument": "-f",

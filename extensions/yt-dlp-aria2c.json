@@ -44,6 +44,18 @@
                 ],
                 "Name": "yt-dlp.exe"
             },
+            "win7amd64": {
+                "Args": [
+                    "yt-dlp_win7.exe"
+                ],
+                "Name": "yt-dlp_win7.exe"
+            },
+            "win7x86": {
+                "Args": [
+                    "yt-dlp_x86_win7.exe"
+                ],
+                "Name": "yt-dlp_x86_win7.exe"
+            },
             "x86": {
                 "Args": [
                     "yt-dlp_x86.exe"
@@ -82,6 +94,7 @@
         "%(formats)j"
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
+    "DownloadUrlWin7": "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest",
     "LikeYoutubeDl": true,
     "Name": "yt-dlp-aria2c",
     "OptionsArgument": "-f",
