@@ -969,7 +969,7 @@ QString configure::getEngineNameFromUrlManager( const QString& u )
 
 static QString _setUrl( const QString& e )
 {
-	QString hash = "490ececbdaf2343394b913b4751f0484516271ae" ;
+	QString hash = "6a994de74e0ea1bb73e382b6af9681e60449b0b0" ;
 
 	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
 
