@@ -1843,8 +1843,6 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 		if( deleteFile ){
 
 			QFile::remove( e ) ;
-
-			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 		}
 
 		if( !list.isEmpty() ){
@@ -1864,14 +1862,17 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 						items.add( it ) ;
 					}
 				}
-
 			}
 
 			batchdownloader::tmpChangeOptions opts( *this,false,false ) ;
 
 			opts.set() ;
 
-			this->parseItems( items.move() ) ;
+			if( items.size() ){
+
+				m_ui.tabWidget->setCurrentIndex( 1 ) ;
+				this->parseItems( items.move() ) ;
+			}
 		}
 	} ) ;
 }

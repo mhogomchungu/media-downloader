@@ -195,7 +195,8 @@ private:
 		QByteArray m_archiveFileData ;
 	};
 
-	bool parseJson( const playlistdownloader::customOptions&,
+	bool parseJson( const engines::engine&,
+			const playlistdownloader::customOptions&,
 			tableWidget& table,
 			utility::MediaEntry ) ;
 

@@ -1225,9 +1225,10 @@ bool playlistdownloader::enabled()
 	return m_ui.lineEditPLUrl->isEnabled() ;
 }
 
-bool playlistdownloader::parseJson( const customOptions& copts,
-				    tableWidget& table,
-				    utility::MediaEntry media )
+bool playlistdownloader::parseJson( const engines::engine& engine,
+				   const customOptions& copts,
+				   tableWidget& table,
+				   utility::MediaEntry media )
 {
 	if( copts.contains( media.id() ) ){
 
@@ -1280,7 +1281,9 @@ bool playlistdownloader::parseJson( const customOptions& copts,
 
 		networkCtx m{ media.move(),m_downloaderId,table } ;
 
-		network.get( thumbnailUrl,m.move(),this,&playlistdownloader::networkResult ) ;
+		auto ua = engine.likeYtDlp() ? QByteArray() : network.defaultUserAgent() ;
+
+		network.get( thumbnailUrl,m.move(),this,&playlistdownloader::networkResult,ua ) ;
 	}else{
 		auto m = &playlistdownloader::networkData ;
 		utility::networkReply( this,m,&table,m_downloaderId,media.move() ) ;
@@ -1787,7 +1790,7 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 				const auto mm = m_engine.parseJson( m_url,it ) ;
 
-				m_parent.parseJson( m_customOptions,table,QJsonDocument( mm ) ) ;
+				m_parent.parseJson( m_engine,m_customOptions,table,QJsonDocument( mm ) ) ;
 			}
 		}
 	}
@@ -1824,7 +1827,7 @@ void playlistdownloader::stdOut::parseYtDlpData( tableWidget& table,Logger::Data
 						media.setShowFirst() ;
 					}
 
-					if( m_parent.parseJson( p,table,media.move() ) ){
+					if( m_parent.parseJson( m_engine,p,table,media.move() ) ){
 
 						break ;
 					}

@@ -194,33 +194,61 @@ public:
 
 	void download( networkAccess::iterator ) const ;
 
+	QByteArray defaultUserAgent() const ;
+
 	template< typename Function >
-	void get( const QString& url,Function function ) const
+	void get( const QString& url,Function function,const QByteArray& userAgent = {} ) const
 	{
-		this->get( this->make_function( std::move( function ),url ) ) ;
+		this->get( this->make_function( std::move( function ),url ),userAgent ) ;
 	}
 	template< typename FunctionArgs,
 		  typename Object,
 		  typename Method,
 		  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
 		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
-	void get( const QString& url,FunctionArgs args,Object obj,Method method ) const
+	void get( const QString& url,FunctionArgs args,Object obj,Method method,const QByteArray& userAgent = {} ) const
 	{
-		this->get( url,[ args = std::move( args ),obj,method ]( const utils::network::reply& r )mutable{
+		class meaw
+		{
+		public:
+			meaw( FunctionArgs args,Object obj,Method m ) :
+				m_args( std::move( args ) ),m_obj( obj ),m_method( m )
+			{
+			}
+			void operator()( const utils::network::reply& r )
+			{
+				( m_obj->*m_method )( std::move( m_args ),r ) ;
+			}
+		private:
+			FunctionArgs m_args ;
+			Object m_obj ;
+			Method m_method ;
+		} ;
 
-			( obj->*method )( std::move( args ),r ) ;
-		} ) ;
+		this->get( url,meaw( std::move( args ),obj,method ),userAgent ) ;
 	}
 	template< typename Object,
 		  typename Method,
 		  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
 		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
-	void get( const QString& url,Object obj,Method method ) const
+	void get( const QString& url,Object obj,Method method,const QByteArray& userAgent = {} ) const
 	{
-		this->get( url,[ obj,method ]( const utils::network::reply& r )mutable{
+		class meaw
+		{
+		public:
+			meaw( Object obj,Method m ) : m_obj( obj ),m_method( m )
+			{
+			}
+			void operator()( const utils::network::reply& r )
+			{
+				( m_obj->*m_method )( r ) ;
+			}
+		private:
+			Object m_obj ;
+			Method m_method ;
+		} ;
 
-			( obj->*method )( r ) ;
-		} ) ;
+		this->get( url,meaw( obj,method ),userAgent ) ;
 	}
 	template< typename FunctionArgs,
 		  typename Object,
@@ -229,10 +257,24 @@ public:
 		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
 	void get( const QNetworkRequest& url,FunctionArgs args,Object obj,Method method ) const
 	{
-		m_network.get( url,[ args = std::move( args ),obj,method ]( const utils::network::progress& p )mutable{
+		class meaw
+		{
+		public:
+			meaw( FunctionArgs args,Object obj,Method m ) :
+				m_args( std::move( args ) ),m_obj( obj ),m_method( m )
+			{
+			}
+			void operator()( const utils::network::progress& r )
+			{
+				( m_obj->*m_method )( m_args,r ) ;
+			}
+		private:
+			FunctionArgs m_args ;
+			Object m_obj ;
+			Method m_method ;
+		} ;
 
-			( obj->*method )( args,p ) ;
-		} ) ;
+		m_network.get( url,meaw( std::move( args ),obj,method ) ) ;
 	}
 	template< typename Object,
 		  typename Method,
@@ -240,10 +282,22 @@ public:
 		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
 	void get( const QNetworkRequest& url,Object obj,Method method ) const
 	{
-		m_network.get( url,[ obj,method ]( const utils::network::progress& p )mutable{
+		class meaw
+		{
+		public:
+			meaw( Object obj,Method m ) : m_obj( obj ),m_method( m )
+			{
+			}
+			void operator()( const utils::network::progress& r )
+			{
+				( m_obj->*m_method )( r ) ;
+			}
+		private:
+			Object m_obj ;
+			Method m_method ;
+		} ;
 
-			( obj->*method )( p ) ;
-		} ) ;
+		m_network.get( url,meaw( obj,method ) ) ;
 	}
 private:
 	template< typename Function >
@@ -282,24 +336,51 @@ private:
 		return { std::move( fnt ),url } ;
 	}
 	template< typename Function >
-	void get( Function&& f,const QByteArray& userAgent = {} ) const
+	void get( Function function,const QByteArray& userAgent = {} ) const
 	{
-		auto m = this->networkRequest( f.url(),userAgent ) ;
+		struct args
+		{
+			const networkAccess& parent ;
+			Function function ;
+			QByteArray userAgent ;
+		} ;
 
-		m_network.get( m,[ this,f = f.move() ]( const utils::network::reply& reply )mutable{
-
-			if( !reply.success() && reply.retry() && f.retry() ){
-
-				utils::qtimer::run( 1000,[ this,f = f.move() ]()mutable{
-
-					this->get( f.move() ) ;
-				} ) ;
-
-				return ;
+		class meaw
+		{
+		public:
+			meaw( args a ) : m_args( std::move( a ) )
+			{
 			}
+			void operator()( const utils::network::reply& reply )
+			{
+				class woof
+				{
+				public:
+					woof( args a ) : m_args( std::move( a ) )
+					{
+					}
+					void operator()()
+					{
+						m_args.parent.get( m_args.function.move(),m_args.userAgent ) ;
+					}
+				private:
+					args m_args ;
+				} ;
 
-			f.call( reply ) ;
-		} ) ;
+				if( !reply.success() && reply.retry() && m_args.function.retry() ){
+
+					utils::qtimer::run( 1000,woof( std::move( m_args ) ) ) ;
+				}else{
+					m_args.function.call( reply ) ;
+				}
+			}
+		private:
+			args m_args ;
+		} ;
+
+		auto m = this->networkRequest( function.url(),userAgent ) ;
+
+		m_network.get( m,meaw( { *this,std::move( function ),userAgent } ) ) ;
 	}
 
 	class File
@@ -418,8 +499,6 @@ private:
 	void postDownloadingProgress( const QString&,const QString&,int ) const ;
 
 	QString downloadFailed() const ;
-
-	QByteArray defaultUserAgent() const ;
 
 	QNetworkRequest networkRequest( const QString& url,const QByteArray& userAgent = {} ) const ;
 
