@@ -1284,9 +1284,12 @@ void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool
 			}
 		}
 
-		auto m = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
+		if( arr.size() ){
 
-		engines::file( e,ctx.logger() ).write( m ) ;
+			auto m = QJsonDocument( arr ).toJson( QJsonDocument::Indented ) ;
+
+			engines::file( e,ctx.logger() ).write( m ) ;
+		}
 	}
 }
 
