@@ -422,7 +422,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Open Extension Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri cartella estensione</translation>
     </message>
 </context>
 <context>
