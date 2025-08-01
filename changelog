@@ -384,3 +384,7 @@ Version 1.2.0(April 1st, 2021)
        - It is now possible to do simultaneous downloading from all three tabs that can do downloading.
        - It is now possible to send multiple urls to VLC for streaming. This is useful for example
          when you want to stream a media that is made up of a video only stream and an audio only stream.
+
+     Version 5.4.2(August 1st, 2025)
+     [ALL]
+       - Maintanance release that fixes various issues.

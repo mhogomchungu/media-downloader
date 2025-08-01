@@ -54,6 +54,15 @@
 	</categories>
 
 	<releases>
+		<release version="5.4.2" type="stable" date="2025-08-01" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.2/media-downloader-5.4.2.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Maintanance release</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.4.1" type="stable" date="2025-07-11" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.1/media-downloader-5.4.1.tar.xz/</url>
 			<description>
