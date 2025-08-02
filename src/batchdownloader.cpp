@@ -1784,18 +1784,24 @@ void batchdownloader::parseDataFromFile( Items& items,const QByteArray& data )
 
 void batchdownloader::parseItems( Items items )
 {
-	const auto& engine = this->defaultEngine() ;
+	const auto& engine    = this->defaultEngine() ;
+	auto currentlyRunning = m_table.numberCurrentlyRunning() ;
+	auto maxRunning       = static_cast< int >( m_settings.maxConcurrentDownloads() ) ;
+	auto size             = static_cast< int >( items.size() ) ;
+	auto availableSlots   = maxRunning - currentlyRunning ;
 
-	if( items.size() <= m_settings.maxConcurrentDownloads() ){
+	Items itms ;
 
-		auto m = m_settings.autoDownloadWhenAddedInBatchDownloader() ;
-		this->showThumbnail( engine,items.move(),m ) ;
-	}else{
-		auto m = m_showMetaData ;
-		m_showMetaData = false ;
-		this->showThumbnail( engine,items.move() ) ;
-		m_showMetaData = m ;
+	for( int i = 0 ; i < size && i < availableSlots ; i++ ){
+
+		itms.add( items.takeFirst() ) ;
 	}
+
+	auto m = m_settings.autoDownloadWhenAddedInBatchDownloader() ;
+
+	this->showThumbnail( engine,itms.move(),m ) ;
+
+	this->addItemUiSlot( { engine,items.move() } ) ;
 }
 
 void batchdownloader::parseDataFromObject( Items& items,const QJsonObject& obj,const QJsonArray& array )

@@ -120,9 +120,9 @@ public:
 	{
 		return std::move( *this ) ;
 	}
-	void add( const Items::entry& s )
+	void add( Items::entry s )
 	{
-		m_entries.emplace_back( s ) ;
+		m_entries.emplace_back( std::move( s ) ) ;
 	}
 	void add( QJsonObject obj )
 	{
@@ -282,7 +282,7 @@ private:
 	void showThumbnail( const engines::engine&,
 			   Items,
 			   bool autoDownload = false,
-			   bool showThumbnails= false ) ;
+			   bool showThumbnails = false ) ;
 	void showThumbnail( const engines::engine&,
 			   const engines&,
 			   const Items::entry&,

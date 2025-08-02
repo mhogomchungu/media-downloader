@@ -306,6 +306,7 @@ public:
 	bool isSelected( int ) const ;
 	std::vector< int > selectedRows() const ;
 	bool noneAreRunning() ;
+	int numberCurrentlyRunning() ;
 	bool rowIsVisible( int ) ;
 	bool isRowHidden( int ) ;
 	bool rowIsSelected( int ) ;

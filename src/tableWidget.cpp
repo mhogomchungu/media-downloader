@@ -445,6 +445,21 @@ std::vector< int > tableWidget::selectedRows() const
 	return s ;
 }
 
+int tableWidget::numberCurrentlyRunning()
+{
+	int m = 0 ;
+
+	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
+
+		if( reportFinished::finishedStatus::running( this->runningState( i ) ) ){
+
+			m++ ;
+		}
+	}
+
+	return m ;
+}
+
 bool tableWidget::noneAreRunning()
 {
 	for( int i = 0 ; i < m_table.rowCount() ; i++ ){
