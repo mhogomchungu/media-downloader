@@ -320,7 +320,7 @@
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
         <translation>Ръчно зададена конфигурация на прокси</translation>
-   </message>
+    </message>
     <message>
         <source>About</source>
         <translation>Относно</translation>
