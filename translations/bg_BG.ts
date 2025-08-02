@@ -319,10 +319,8 @@
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
-        <translation>Ръчно зададена конфигурация на прокси 
-Пример 1: 192.168.93.89:8080
-Пример 2: ${gateway}:8080</translation>
-    </message>
+        <translation>Ръчно зададена конфигурация на прокси</translation>
+   </message>
     <message>
         <source>About</source>
         <translation>Относно</translation>
@@ -421,7 +419,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Open Extension Folder</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1040,35 +1038,35 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
-        <translation type="unfinished"></translation>
+        <translation>Български (България)</translation>
     </message>
     <message>
         <source>Open Urls With %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Отваряне на URL адреси с %2</translation>
     </message>
     <message>
         <source>Default Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Плеер подразбиране</translation>
     </message>
     <message>
         <source>Warning, Nothing Was Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Внимание, нищо не е изтеглено</translation>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтеглянето е отменено, URL на плейлиста не са разрешени в този раздел</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтеглянето е отменено, защото не е изпълнено условие</translation>
     </message>
     <message>
         <source>Download Failed, Unknown Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтеглянето не бе успешно, причината е неизвестна</translation>
     </message>
     <message>
         <source>Download Failed, Network Issue</source>
-        <translation type="unfinished"></translation>
+        <translation>Изтеглянето не бе успешно, проблем с мрежата</translation>
     </message>
 </context>
 <context>
