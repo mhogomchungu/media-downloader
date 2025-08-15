@@ -774,6 +774,10 @@ void batchdownloader::setThumbnail( const std::vector< QByteArray >& fileNames,
 		{
 			m_filePath = e ;
 		}
+		bool invalidEntry( const QByteArray& e ) const
+		{
+			return utility::fileIsInvalidForGettingThumbnail( e ) ;
+		}
 		QPixmap bg()
 		{
 			QFile f( m_filePath ) ;
@@ -2861,10 +2865,9 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row )
 		}
 		void whenDone( const engines::ProcessExitState& st,const std::vector< QByteArray >& fileNames )
 		{
-			auto a = m_engine.canShowMetaData() ;
 			auto b = m_parent.m_showMetaData ;
 
-			if( fileNames.size() && b && st.success() && a && !m_engine.likeYtDlp() ){
+			if( fileNames.size() && b && st.success() && m_engine.isGalleryDl() ){
 
 				m_parent.setThumbnail( fileNames,m_engine,m_index ) ;
 			}
@@ -2904,9 +2907,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 
 			if( st.success() ){
 
-				auto m = m_engine.canShowMetaData() ;
-
-				if( m_parent.m_showMetaData && m && !m_engine.likeYtDlp() ){
+				if( m_parent.m_showMetaData && m_engine.isGalleryDl() ){
 
 					if( fileNames.size() ){
 

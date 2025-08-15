@@ -591,6 +591,7 @@ namespace utility
 	QByteArray barLine() ;
 	void copyToClipboardUrls( tableWidget& ) ;
 	bool isRelativePath( const QString& ) ;
+	bool fileIsInvalidForGettingThumbnail( const QByteArray& ) ;
 	QString downloadFolder( const Context& ctx ) ;
 	bool onlyWantedVersionInfo( const utility::cliArguments& ) ;
 	bool startedUpdatedVersion( settings&,const utility::cliArguments& ) ;
@@ -610,7 +611,7 @@ namespace utility
 
 		for( const auto& it : fileNames ){
 
-			if( it.endsWith( ".mp4" ) || it.endsWith( ".webm" ) || it.endsWith( ".avi" ) ){
+			if( parent.invalidEntry( it ) ){
 
 				continue ;
 			}else{

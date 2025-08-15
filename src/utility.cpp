@@ -2643,3 +2643,8 @@ void utility::copyToClipboardUrls( tableWidget& table )
 		m->setText( list.join( "\n" ) ) ;
 	}
 }
+
+bool utility::fileIsInvalidForGettingThumbnail( const QByteArray& e )
+{
+	return e.endsWith( ".mp4" ) || e.endsWith( ".webm" ) || e.endsWith( ".avi" ) ;
+}

@@ -858,9 +858,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 
 			emit m_parent.reportFinishedStatusSignal( { m_engine,s.move() },fileNames ) ;
 
-			auto a = m_engine.canShowMetaData() ;
-
-			if( fileNames.size() && a && st.success() && !m_engine.likeYtDlp() ){
+			if( fileNames.size() && st.success() && m_engine.isGalleryDl() ){
 
 				m_parent.setThumbnail( fileNames,m_engine,m_index ) ;
 			}
@@ -1367,6 +1365,10 @@ void playlistdownloader::setThumbnail( const std::vector< QByteArray >& fileName
 		void setPath( const QString& e )
 		{
 			m_filePath = e ;
+		}
+		bool invalidEntry( const QByteArray& e ) const
+		{
+			return utility::fileIsInvalidForGettingThumbnail( e ) ;
 		}
 		QPixmap bg()
 		{

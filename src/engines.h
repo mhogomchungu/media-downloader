@@ -1198,9 +1198,13 @@ public:
 		{
 			return m_likeYtDlp ;
 		}
+		bool isGalleryDl() const
+		{
+			return this->name() == "gallery-dl" ;
+		}
 		bool canShowMetaData() const
 		{
-			return m_likeYtDlp || this->name() == "gallery-dl" ;
+			return m_likeYtDlp || this->isGalleryDl() ;
 		}
 		bool backendExists() const
 		{
