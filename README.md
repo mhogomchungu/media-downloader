@@ -101,12 +101,14 @@ A short list of distributions that have Media Downloader in their repositories a
 ```console
 git clone https://github.com/mhogomchungu/media-downloader && cd media-downloader
 ```
-chmod it to make it a executeable 
-2. ```console
+
+2. chmod it to make it a executeable 
+```console
 chmod +x build_linux.sh
 ```
-now run the shell script
-3.```console
+
+3. now run the shell script
+```console
 ./build_linux.sh
 ```
 
