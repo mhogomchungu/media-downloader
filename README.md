@@ -95,6 +95,23 @@ Binary packages i maintain for a few Linux distributions are [here](https://soft
 A short list of distributions that have Media Downloader in their repositories and the version they have is maintained [here](https://repology.org/project/media-downloader/badges).
 
 
+# How to compile for Linux
+
+1. clone the repo and cd into it
+```console
+git clone https://github.com/mhogomchungu/media-downloader && cd media-downloader
+```
+
+2. chmod it to make it a executeable 
+```console
+chmod +x build_linux.sh
+```
+
+3. now run the shell script
+```console
+./build_linux.sh
+```
+
 # Screenshots
 
 
