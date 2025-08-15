@@ -222,6 +222,7 @@ public:
 	void showComments( const engines::engine&,const QString& ) ;
 	void clipboardData( const QString&,bool ) ;
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
+	void setAutoDownloadWhenAdded( bool ) ;
 signals:
 	void reportFStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	void addItemUiSignal( ItemEntry ) ;

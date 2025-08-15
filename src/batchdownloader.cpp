@@ -681,9 +681,9 @@ void batchdownloader::downloadAddItems( const engines::engine& engine,Items list
 
 	if( eng ){
 
-		this->downloadSingle( eng.value(),row ) ;
+		this->downloadRecursively( eng.value(),row ) ;
 	}else{
-		this->downloadSingle( engine,row ) ;
+		this->downloadRecursively( engine,row ) ;
 	}
 }
 
@@ -2235,6 +2235,11 @@ void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 	auto c = m_ui.labelBDEngineName ;
 
 	utility::alignText( m,a,b,c ) ;
+}
+
+void batchdownloader::setAutoDownloadWhenAdded( bool e )
+{
+	m_startAutoDownload = e ;
 }
 
 void batchdownloader::clipboardData( const QString& url,bool s )

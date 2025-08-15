@@ -1168,7 +1168,10 @@ void configure::saveOptions()
 
 	auto m = m_ui.cbConfigureShowMetaDataInBatchDownloader->isChecked() ;
 
-	m_ctx.TabManager().batchDownloader().setShowMetaData( m ) ;
+	auto& bd = m_ctx.TabManager().batchDownloader() ;
+
+	bd.setShowMetaData( m ) ;
+	bd.setAutoDownloadWhenAdded( m_ui.cbconfigureAutoDownload->isChecked() ) ;
 
 	m_settings.setEnableLibraryTab( m_ui.cbLibraryTabEnable->isChecked() ) ;
 	m_settings.setShowMetaDataInBatchDownloader( m ) ;
