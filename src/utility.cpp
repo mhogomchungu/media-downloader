@@ -1323,6 +1323,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 		}
 
 		auto s = QFileDialog::getSaveFileName( &ctx.mainWidget(),toolTip,filePath ) ;
+
 		if( !s.isEmpty() ){
 
 			const auto e = _saveDownloadList( tableWidget,false ) ;
@@ -1522,37 +1523,27 @@ bool utility::platformIs32Bit()
 
 void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 {
-	m_obj.insert( e.platform,[ & ]{
+	QJsonObject s ;
 
-		QJsonObject s ;
+	for( const auto& it : e.platformData ){
 
-		for( const auto& it : e.platformData ){
+		QJsonObject a ;
 
-			s.insert( it.archName,[ & ](){
+		a.insert( "Name",it.exeName ) ;
 
-				QJsonObject a ;
+		QJsonArray arr ;
 
-				a.insert( "Name",it.exeName ) ;
+		for( const auto& xt : it.exeArgs ){
 
-				a.insert( "Args",[ & ](){
-
-					QJsonArray arr ;
-
-					for( const auto& xt : it.exeArgs ){
-
-						arr.append( xt ) ;
-					}
-
-					return arr ;
-				}() ) ;
-
-				return a ;
-			}() ) ;
+			arr.append( xt ) ;
 		}
 
-		return s ;
+		a.insert( "Args",arr ) ;
 
-	}() ) ;
+		s.insert( it.archName,a ) ;
+	}
+
+	m_obj.insert( e.platform,s ) ;
 }
 
 QString utility::fromSecsSinceEpoch( qint64 s )

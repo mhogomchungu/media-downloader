@@ -511,8 +511,8 @@ public:
 						const engines::engine& e,
 						bool( *m )( const engines::engine&,const QByteArray& ) ) :
 						m_progress( p ),m_meetCondition( m,e )
-						{
-						}
+					{
+					}
 					const QByteArray& progress()
 					{
 						return m_progress ;

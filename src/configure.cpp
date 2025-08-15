@@ -967,15 +967,6 @@ QString configure::getEngineNameFromUrlManager( const QString& u )
 	return m_downloadDefaultOptions.engineNameFromUrl( u ) ;
 }
 
-static QString _setUrl( const QString& e )
-{
-	QString hash = "6a994de74e0ea1bb73e382b6af9681e60449b0b0" ;
-
-	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
-
-	return url + hash + "/extensions/" + e ;
-}
-
 QMenu *  configure::addExtenion()
 {
 	auto m = new QMenu( &m_ctx.mainWidget() ) ;
@@ -999,12 +990,74 @@ QMenu *  configure::addExtenion()
 
 	m->addAction( "custom" )->setObjectName( "custom" ) ;
 
-	connect( m,&QMenu::triggered,[ & ]( QAction * ac ){
+	class meaw
+	{
+	public:
+		meaw( const Context& ctx,configure& p ) :
+			m_ctx( ctx ),m_parent( p )
+		{
+		}
+		void operator()( QAction * ac )
+		{
+			auto name = ac->objectName() ;
 
-		auto name = ac->objectName() ;
+			if( name == "custom" ){
 
-		if( name == "custom" ){
+				this->downloadCustom() ;
+			}else{
+				this->downloadNamed( name ) ;
+			}
+		}
+	private:
+		QString setUrl( const QString& e )
+		{
+			QString hash = "6a994de74e0ea1bb73e382b6af9681e60449b0b0" ;
 
+			QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
+
+			return url + hash + "/extensions/" + e ;
+		}
+		void downloadNamed( const QString& name )
+		{
+			auto url = this->setUrl( name ) ;
+
+			m_ctx.TabManager().basicDownloader().setAsActive() ;
+
+			auto id = utility::sequentialID() ;
+
+			m_ctx.logger().add( QObject::tr( "Downloading" ) + ": " + url,id ) ;
+
+			class woof
+			{
+			public:
+				woof( const Context& ctx,configure& p,const QString& name,int id ) :
+					m_ctx( ctx ),m_parent( p ),m_name( name ),m_id( id )
+				{
+				}
+				void operator()( const utils::network::reply& reply )
+				{
+					if( reply.success() ){
+
+						m_parent.addEngine( reply.data(),m_name ) ;
+					}else{
+						auto mm = QObject::tr( "Download Failed" ) ;
+
+						mm += ": " + reply.errorString() ;
+
+						m_ctx.logger().add( mm,m_id ) ;
+					}
+				}
+			private:
+				const Context& m_ctx ;
+				configure& m_parent ;
+				QString m_name ;
+				int m_id ;
+			} ;
+
+			m_ctx.network().get( url,woof( m_ctx,m_parent,name,id ) ) ;
+		}
+		void downloadCustom()
+		{
 			auto mm = tr( "Select An Engine File" ) ;
 			auto ee = utility::homePath() ;
 
@@ -1021,32 +1074,14 @@ QMenu *  configure::addExtenion()
 
 				auto name = util::split( n,'/',true ).last() ;
 
-				this->addEngine( d,name ) ;
+				m_parent.addEngine( d,name ) ;
 			}
-		}else{
-			auto url = _setUrl( name ) ;
-
-			m_ctx.TabManager().basicDownloader().setAsActive() ;
-
-			auto id = utility::sequentialID() ;
-
-			m_ctx.logger().add( QObject::tr( "Downloading" ) + ": " + url,id ) ;
-
-			m_ctx.network().get( url,[ this,name,id ]( const utils::network::reply& reply ){
-
-				if( reply.success() ){
-
-					this->addEngine( reply.data(),name ) ;
-				}else{
-					auto mm = QObject::tr( "Download Failed" ) ;
-
-					mm += ": " + reply.errorString() ;
-
-					m_ctx.logger().add( mm,id ) ;
-				}
-			} ) ;
 		}
-	} ) ;
+		const Context& m_ctx ;
+		configure& m_parent ;
+	} ;
+
+	connect( m,&QMenu::triggered,meaw( m_ctx,*this ) ) ;
 
 	return m ;
 }

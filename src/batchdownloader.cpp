@@ -701,7 +701,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		this->addItemUiSlot( { engine,list.move() } ) ;
 
-	}else  if( m_startAutoDownload && list.hasOneEntry() ){
+	}else if( m_startAutoDownload && list.hasOneEntry() ){
 
 		this->downloadAddItems( engine,list.move() ) ;
 
