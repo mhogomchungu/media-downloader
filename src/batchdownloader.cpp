@@ -39,7 +39,6 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,0,m_ctx.mainWidget().font() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
 	m_downloadingComments( tr( "Downloading comments" ).toUtf8() ),
-	m_startAutoDownload( m_settings.autoDownloadWhenAddedInBatchDownloader() ),
 	m_subtitlesTimer( m_tableWidgetBDList )
 {
 	qRegisterMetaType< ItemEntry >() ;
@@ -226,20 +225,13 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 		auto m = utility::clipboardText() ;
 
-		if( m.startsWith( "http" ) || m.startsWith( "yt-dlp " ) ){
+		if( m.startsWith( "http" ) ){
 
-			auto ss = m_showMetaData ;
+			this->addToList( m,{ this->showMetaData(),this->autoDownloadWhenAdded() } ) ;
 
-			if( ss && m.startsWith( "yt-dlp " ) ){
+		}else if( m.startsWith( "yt-dlp " ) ){
 
-				ss = false ;
-			}
-
-			batchdownloader::tmpChangeOptions tmp( *this,m_startAutoDownload,ss ) ;
-
-			tmp.set() ;
-
-			this->addToList( m ) ;
+			this->addToList( m,{ false,this->autoDownloadWhenAdded() } ) ;
 		}
 	} ) ;
 
@@ -296,7 +288,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			m_ui.lineEditBDUrl->clear() ;
 
-			this->addToList( m ) ;
+			this->addToList( m,{ this->showMetaData(),this->autoDownloadWhenAdded() } ) ;
 		}
 	} ) ;
 }
@@ -633,22 +625,14 @@ void batchdownloader::gotEvent( const QJsonObject& jsonArgs )
 
 		auto autoDownload = jsonArgs.value( "-a" ).toBool() ;
 
-		bool showMetaData ;
-
 		auto v = jsonArgs.value( "-e" ) ;
 
 		if( v.isUndefined() ){
 
-			showMetaData = m_showMetaData ;
+			this->addToList( url,{ this->showMetaData(),autoDownload } ) ;
 		}else{
-			showMetaData = v.toBool() ;
+			this->addToList( url,{ this->showMetaData() ? v.toBool() : false,autoDownload } ) ;
 		}
-
-		batchdownloader::tmpChangeOptions tmp( *this,autoDownload,showMetaData ) ;
-
-		tmp.set() ;
-
-		this->addToList( url ) ;
 	}
 }
 
@@ -688,9 +672,8 @@ void batchdownloader::downloadAddItems( const engines::engine& engine,Items list
 }
 
 void batchdownloader::showThumbnail( const engines::engine& engine,
-				     Items list,
-				     bool autoDownload,
-				     bool showThumbnails )
+				    Items list,
+				    const batchdownloader::downloadOpts& opts )
 {
 	if( list.isEmpty() ){
 
@@ -701,15 +684,11 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 		this->addItemUiSlot( { engine,list.move() } ) ;
 
-	}else if( m_startAutoDownload && list.hasOneEntry() ){
+	}else if( opts.autoDownload() && list.hasOneEntry() ){
 
 		this->downloadAddItems( engine,list.move() ) ;
 
-	}else if( autoDownload && !showThumbnails && list.hasOneEntry() ){
-
-		this->downloadAddItems( engine,list.move() ) ;
-
-	}else if( m_showMetaData && engine.canShowMetaData() ){
+	}else if( opts.showMetaData() && engine.canShowMetaData() ){
 
 		if( m_recursiveDownloading ){
 
@@ -721,7 +700,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 			for( const auto& it : list ){
 
-				this->showThumbnail( engine,engines,it,c,autoDownload ) ;
+				this->showThumbnail( engine,engines,it,c,opts.autoDownload() ) ;
 			}
 		}
 	}else{
@@ -1786,7 +1765,7 @@ void batchdownloader::parseDataFromFile( Items& items,const QByteArray& data )
 	}
 }
 
-void batchdownloader::parseItems( Items items )
+void batchdownloader::parseItems( Items items,const batchdownloader::downloadOpts& opts )
 {
 	const auto& engine    = this->defaultEngine() ;
 	auto currentlyRunning = m_table.numberCurrentlyRunning() ;
@@ -1801,9 +1780,7 @@ void batchdownloader::parseItems( Items items )
 		itms.add( items.takeFirst() ) ;
 	}
 
-	auto m = m_settings.autoDownloadWhenAddedInBatchDownloader() ;
-
-	this->showThumbnail( engine,itms.move(),m ) ;
+	this->showThumbnail( engine,itms.move(),opts ) ;
 
 	this->addItemUiSlot( { engine,items.move() } ) ;
 }
@@ -1874,14 +1851,10 @@ void batchdownloader::getListFromFile( const QString& e,bool deleteFile )
 				}
 			}
 
-			batchdownloader::tmpChangeOptions opts( *this,false,false ) ;
-
-			opts.set() ;
-
 			if( items.size() ){
 
 				m_ui.tabWidget->setCurrentIndex( 1 ) ;
-				this->parseItems( items.move() ) ;
+				this->parseItems( items.move(),{ false,false } ) ;
 			}
 		}
 	} ) ;
@@ -2208,9 +2181,7 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 
 void batchdownloader::setShowMetaData( bool e )
 {
-	m_showMetaData = e ;
-
-	if( m_showMetaData ){
+	if( e ){
 
 		m_table.get().showColumn( 0 ) ;
 
@@ -2237,9 +2208,14 @@ void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 	utility::alignText( m,a,b,c ) ;
 }
 
-void batchdownloader::setAutoDownloadWhenAdded( bool e )
+bool batchdownloader::showMetaData()
 {
-	m_startAutoDownload = e ;
+	return m_settings.showMetaDataInBatchDownloader() ;
+}
+
+bool batchdownloader::autoDownloadWhenAdded()
+{
+	return m_settings.autoDownloadWhenAddedInBatchDownloader() ;
 }
 
 void batchdownloader::clipboardData( const QString& url,bool s )
@@ -2260,19 +2236,14 @@ void batchdownloader::addClipboardSlot( QString url )
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
-			auto showMetaData = m_showMetaData ;
+			auto m = this->autoDownloadWhenAdded() ;
 
-			if( showMetaData && url.startsWith( "yt-dlp " ) ){
+			if( url.startsWith( "yt-dlp " ) ){
 
-				showMetaData = false ;
+				this->addToList( url,{ false,m } ) ;
+			}else{
+				this->addToList( url,{ this->showMetaData(),m } ) ;
 			}
-
-			auto m = m_startAutoDownload ;
-			batchdownloader::tmpChangeOptions tmp( *this,m,showMetaData ) ;
-
-			tmp.set() ;
-
-			this->addToList( url ) ;
 		}
 	}
 }
@@ -2638,7 +2609,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 		this->addItemUi( index,enableAll,media ) ;
 	}else{
-		if( m_showMetaData && networkAccess::hasNetworkSupport() ){
+		if( this->showMetaData() && networkAccess::hasNetworkSupport() ){
 
 			auto u = media.thumbnailUrl() ;
 
@@ -2659,11 +2630,11 @@ void batchdownloader::networkResult( networkCtx d,const utils::network::reply& r
 	utility::networkReply( this,m,m_ctx,reply,nullptr,d.index,d.media.move() ) ;
 }
 
-void batchdownloader::addToList( const QString& u )
+void batchdownloader::addToList( const QString& u,const batchdownloader::downloadOpts& opts )
 {
 	const auto& ee = this->defaultEngine() ;
 
-	ee.updateVersionInfo( m_ctx,[ this,u ](){
+	ee.updateVersionInfo( m_ctx,[ this,u,opts ](){
 
 		Items items ;
 
@@ -2728,7 +2699,7 @@ void batchdownloader::addToList( const QString& u )
 			}
 		}
 
-		this->parseItems( items.move() ) ;
+		this->parseItems( items.move(),opts ) ;
 	} ) ;
 }
 
@@ -2870,7 +2841,7 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row )
 		}
 		void whenDone( const engines::ProcessExitState& st,const std::vector< QByteArray >& fileNames )
 		{
-			auto b = m_parent.m_showMetaData ;
+			auto b = m_parent.showMetaData() ;
 
 			if( fileNames.size() && b && st.success() && m_engine.isGalleryDl() ){
 
@@ -2912,7 +2883,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 
 			if( st.success() ){
 
-				if( m_parent.m_showMetaData && m_engine.isGalleryDl() ){
+				if( m_parent.showMetaData() && m_engine.isGalleryDl() ){
 
 					if( fileNames.size() ){
 

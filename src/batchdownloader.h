@@ -222,13 +222,33 @@ public:
 	void showComments( const engines::engine&,const QString& ) ;
 	void clipboardData( const QString&,bool ) ;
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
-	void setAutoDownloadWhenAdded( bool ) ;
 signals:
 	void reportFStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	void addItemUiSignal( ItemEntry ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
 	void addClipboardSignal( QString ) ;
 private:
+	class downloadOpts
+	{
+	public:
+		downloadOpts( bool showMetaData,bool autoDownload ) :
+			m_showMetaData( showMetaData ),m_autoDownload( autoDownload )
+		{
+		}
+		bool showMetaData() const
+		{
+			return m_showMetaData ;
+		}
+		bool autoDownload() const
+		{
+			return m_autoDownload ;
+		}
+	private:
+		bool m_showMetaData ;
+		bool m_autoDownload ;
+	} ;
+	bool showMetaData() ;
+	bool autoDownloadWhenAdded() ;
 	void disableWhileDownloading() ;
 	void addClipboardSlot( QString ) ;
 	void addTextToUi( const QByteArray&,int ) ;
@@ -254,7 +274,7 @@ private:
 	void setTimeIntervals( int ) ;
 	QString setSubtitleString( const QJsonObject&,const QString& ) ;
 	void parseDataFromFile( Items&,const QByteArray& ) ;
-	void parseItems( Items ) ;
+	void parseItems( Items,const batchdownloader::downloadOpts& ) ;
 	void parseDataFromObject( Items&,const QJsonObject&,const QJsonArray& ) ;
 	void getListFromFile( QMenu& ) ;
 	void getListFromFile( const QString&,bool ) ;
@@ -266,24 +286,21 @@ private:
 	void clearScreen() ;
 	void hideBasicDownloaderTableList() ;
 	void showCustomContext() ;
-	void addToList( const QString& ) ;
+	void addToList( const QString&,const downloadOpts& ) ;
 	void downloadAddItems( const engines::engine&,Items ) ;
 	void download( const engines::engine& ) ;
 	void downloadSingle( const engines::engine&,int ) ;
 	void downloadRecursively( const engines::engine&,int ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;
 	void addItemUi( int,bool,const utility::MediaEntry& ) ;
-	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
 	int addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
 	int addItemUi( const QPixmap& pixmap,
 		       int index,
 		       tableWidget& table,
 		       Ui::MainWindow& ui,
 		       const utility::MediaEntry& media ) ;
-	void showThumbnail( const engines::engine&,
-			   Items,
-			   bool autoDownload = false,
-			   bool showThumbnails = false ) ;
+	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
+	void showThumbnail( const engines::engine&,Items,const batchdownloader::downloadOpts& ) ;
 	void showThumbnail( const engines::engine&,
 			   const engines&,
 			   const Items::entry&,
@@ -415,7 +432,6 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
-	bool m_showMetaData ;
 	int m_topDownloadingIndex = 0 ;
 	int m_recursiveDownloading = 0 ;
 	tableWidget m_table ;
@@ -454,39 +470,6 @@ private:
 	QByteArray m_downloadingComments ;
 
 	bool m_initDone = false ;
-	bool m_startAutoDownload ;
-
-	class tmpChangeOptions
-	{
-	public:
-		tmpChangeOptions( batchdownloader& b ) :
-			m_parent( b ),
-			_autoStartDownload( m_parent.m_startAutoDownload ),
-			_showMetaData( m_parent.m_showMetaData )
-		{
-		}
-		tmpChangeOptions( batchdownloader& b,bool a,bool s ) :
-			m_parent( b ),
-			_autoStartDownload( m_parent.m_startAutoDownload ),
-			_showMetaData( m_parent.m_showMetaData )
-		{
-			m_parent.m_startAutoDownload = a ;
-			m_parent.m_showMetaData      = s ;
-		}
-		void set() const
-		{
-			//needs to be called to remove "unused" warning.
-		}
-		~tmpChangeOptions()
-		{
-			m_parent.m_startAutoDownload = _autoStartDownload ;
-			m_parent.m_showMetaData      = _showMetaData ;
-		}
-	private:
-		batchdownloader& m_parent ;
-		bool _autoStartDownload ;
-		bool _showMetaData ;
-	} ;
 
 	class BatchLogger
 	{
