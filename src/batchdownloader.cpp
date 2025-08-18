@@ -938,13 +938,7 @@ void batchdownloader::addItemUiSlot( ItemEntry m )
 
 		if( m_recursiveDownloading > 0 && m_recursiveDownloading < e ){
 
-			const auto& eng = m.engine() ;
-
-			const auto& engines = m_ctx.Engines() ;
-
-			const auto& engine = utility::resolveEngine( m_table,eng,engines,row ) ;
-
-			this->downloadRecursively( engine,row ) ;
+			this->downloadRecursively( m.engine(),row ) ;
 		}
 
 		emit this->addItemUiSignal( m ) ;
