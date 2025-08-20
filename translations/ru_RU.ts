@@ -173,7 +173,7 @@
     </message>
     <message>
         <source>Auto Hide Downloads When Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрывать загруженные</translation>
     </message>
     <message>
         <source>Reset Option To Its Default</source>
@@ -197,15 +197,15 @@
     </message>
     <message>
         <source>Use Manually Specified Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать свои настройки прокси</translation>
     </message>
     <message>
         <source>Get Proxy Configuration From The Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Получить настройки прокси из окружения</translation>
     </message>
     <message>
         <source>No Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Без прокси</translation>
     </message>
     <message>
         <source>Save</source>
@@ -217,7 +217,7 @@
     </message>
     <message>
         <source>File Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер файла</translation>
     </message>
     <message>
         <source>Get List Options:</source>
@@ -249,7 +249,7 @@
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимум одновременных загрузок</translation>
     </message>
     <message>
         <source>Text Encoding</source>
@@ -257,23 +257,23 @@
     </message>
     <message>
         <source>Show Version Info And Autodownload Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать текущую версию и автообновить</translation>
     </message>
     <message>
         <source>Show Version Info And Latest Version Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать текущую и доступную версии</translation>
     </message>
     <message>
         <source>Show Version Info Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать текущую версию</translation>
     </message>
     <message>
         <source>Do Nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ничего не делать</translation>
     </message>
     <message>
         <source>Actions At Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Действия после старта</translation>
     </message>
     <message>
         <source>Website</source>
@@ -301,7 +301,7 @@
     </message>
     <message>
         <source>Set What Url Should Be Managed By What Engine</source>
-        <translation>Привязка URL к движку</translation>
+        <translation>Привязка URL к плагину</translation>
     </message>
     <message>
         <source>Url Filter</source>
@@ -309,17 +309,19 @@
     </message>
     <message>
         <source>Proxy Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки прокси</translation>
     </message>
     <message>
         <source>Use System Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать системные настройки прокси</translation>
     </message>
     <message>
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
-        <translation type="unfinished"></translation>
+        <translation>Ручная настройка прокси
+Пример 1: 192.168.93.89:8080
+Пример 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>About</source>
@@ -327,106 +329,106 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Play Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Воспроизвести загруженное медиа</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать</translation>
     </message>
     <message>
         <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите URL плейлиста или несколько URL, разделенных пробелом или новой строкой</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать файл</translation>
     </message>
     <message>
         <source>A Button To Open A Folder To Be Used As A Download Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть папку загрузок</translation>
     </message>
     <message>
         <source>A Button To Open A Folder Where Theme Config Files Are Stored</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть папку с темой</translation>
     </message>
     <message>
         <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть папку расширений</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотите сбросить эти параметры на значения по умолчанию?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Да</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя веб-браузера для получения cookies</translation>
     </message>
     <message>
         <source>Theme(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Тема (необходим перезапуск)</translation>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключить (имя браузера - путь к файлу cookie)</translation>
     </message>
     <message>
         <source>Show MetaData In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать метаданные в пакетном загрузчике</translation>
     </message>
     <message>
         <source>Auto Download Added Entries In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Автозагрузка добавленного в пакетный загрузчик</translation>
     </message>
     <message>
         <source>Notify When Download Completes</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомить по окончании загрузки</translation>
     </message>
     <message>
         <source>Notify When All Downloads Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Уведомить по окончании всех загрузок</translation>
     </message>
     <message>
         <source>Engine&apos;s Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки плагинов</translation>
     </message>
     <message>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Расширения</translation>
     </message>
     <message>
         <source>Remove An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить расширение</translation>
     </message>
     <message>
         <source>Update An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить расширение</translation>
     </message>
     <message>
         <source>Add An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить расширение</translation>
     </message>
     <message>
         <source>Open Binary Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть папку бинарников</translation>
     </message>
     <message>
         <source>Open Extension Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть папку расширений</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>%1 Preset Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Предустановка %1</translation>
     </message>
     <message>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
@@ -434,27 +436,27 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Hide Row</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть строку</translation>
     </message>
     <message>
         <source>Unhide All Hidden Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать все скрытые строки</translation>
     </message>
     <message>
         <source>Failed To Start Executable %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось запустить исполняемый файл %1</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation type="unfinished">Копировать URL</translation>
+        <translation>Копировать URL</translation>
     </message>
     <message>
         <source>Open Url With %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть URL в %1</translation>
     </message>
     <message>
         <source>Copy Url %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Копировать URL %1</translation>
     </message>
     <message>
         <source>Save List To File</source>
@@ -498,7 +500,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Project Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Страница проекта</translation>
     </message>
     <message>
         <source>Copyright</source>
@@ -526,55 +528,55 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Polish (Poland)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>English (US)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Spanish (Spain)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Chinese (China)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turkish (Turkey)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Russian (Russia)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Japanese (Japan)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>French (France)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Italian (Italy)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Swedish (Sweden)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>German (Germany)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Portuguese (Brazil)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Dutch (Netherlands)</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
@@ -590,43 +592,43 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation>1. Перейдите на вкладку &quot;Настройка&quot;.</translation>
+        <translation>1. Перейдите на вкладку &quot;Настройка&quot;</translation>
     </message>
     <message>
         <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation>2. Перейдите на суб-вкладку &quot;Общие параметры&quot;.</translation>
+        <translation>2. Перейдите на суб-вкладку &quot;Общие параметры&quot;</translation>
     </message>
     <message>
         <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>3. Нажмите &quot;Действия при старте&quot;</translation>
     </message>
     <message>
         <source>4. Select &quot;Do Nothing&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>4. Выберите &quot;Ничего не делать&quot;</translation>
     </message>
     <message>
         <source>Running In Portable Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск в портативном режиме</translation>
     </message>
     <message>
         <source>Running In Installation Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск в режиме установки</translation>
     </message>
     <message>
         <source>Download Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь загрузки: %1</translation>
     </message>
     <message>
         <source>App Data Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь к данным приложения: %1</translation>
     </message>
     <message>
         <source>Setting Proxy Server Address Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Установка адреса прокси: %1</translation>
     </message>
     <message>
         <source>Unsetting Proxy Server Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Сброс адреса прокси</translation>
     </message>
     <message>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
@@ -662,7 +664,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Download Failed, Engine failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка загрузки, не удалось запустить плагин</translation>
     </message>
     <message>
         <source>Download Failed, Engine crashed</source>
@@ -682,7 +684,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер</translation>
     </message>
     <message>
         <source>Note</source>
@@ -710,7 +712,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed To Open Path For Writing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось открыть путь для записи: %1</translation>
     </message>
     <message>
         <source>Failed To Extract</source>
@@ -730,7 +732,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Проблема, не удалось удалить папку: %1</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
@@ -874,7 +876,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>There Is An Update For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Есть обновление для %1</translation>
     </message>
     <message>
         <source>Newest Version Is %1, Updating</source>
@@ -890,7 +892,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Newest Version Is: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Новя версия: %1</translation>
     </message>
     <message>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
@@ -922,47 +924,47 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Warning: Skipping Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Внимание: Пропуск содержимого буфера обмена</translation>
     </message>
     <message>
         <source>Show Folders First</source>
-        <translation type="unfinished"></translation>
+        <translation>Сначала папки</translation>
     </message>
     <message>
         <source>Arrange In Ascending Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Упорядочить по возрастанию</translation>
     </message>
     <message>
         <source>Arrange By Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Упорядочить по дате</translation>
     </message>
     <message>
         <source>Arrange By Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Упорядочить по имени</translation>
     </message>
     <message>
         <source>Arrange In Descending Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Упорядочить по убыванию</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр</translation>
     </message>
     <message>
         <source>No Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет фильтра</translation>
     </message>
     <message>
         <source>Other Websites</source>
-        <translation type="unfinished"></translation>
+        <translation>Другие сайты</translation>
     </message>
     <message>
         <source>Extract Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Извлечь аудио</translation>
     </message>
     <message>
         <source>Extract Audio As MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Извлечь аудио как MP3</translation>
     </message>
     <message>
         <source>Arabic</source>
@@ -970,27 +972,27 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Best Available Audio Only+Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Только лучшее доступное аудио + миниатюра</translation>
     </message>
     <message>
         <source>Youtube</source>
-        <translation type="unfinished"></translation>
+        <translation>Youtube</translation>
     </message>
     <message>
         <source>Autoupdate Disabled For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Автообновление отключено для %1</translation>
     </message>
     <message>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая версия %1, автообновление отключено</translation>
     </message>
     <message>
         <source>Author: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Автор: %1</translation>
     </message>
     <message>
         <source>Like Count: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Кол-во лайков: %1</translation>
     </message>
     <message>
         <source>Korean (Korea)</source>
@@ -998,19 +1000,19 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sign In To Confirm You Are Not A Bot</source>
-        <translation type="unfinished"></translation>
+        <translation>Войдите, чтобы подтвердить, что вы не бот</translation>
     </message>
     <message>
         <source>Show/Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать/скрыть эл.управления</translation>
     </message>
     <message>
         <source>Merging Audio and Video Together</source>
-        <translation type="unfinished"></translation>
+        <translation>Объединение аудио и видео</translation>
     </message>
     <message>
         <source>Remuxing video</source>
-        <translation type="unfinished"></translation>
+        <translation>Remuxing видео</translation>
     </message>
     <message>
         <source>Greek (Greece)</source>
@@ -1018,23 +1020,23 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Platform Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Системная</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Светлая</translation>
     </message>
     <message>
         <source>Failed To Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось переименовать</translation>
     </message>
     <message>
         <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
-        <translation type="unfinished"></translation>
+        <translation>Завершено: %1, Выполняется: %2, Не начато: %3, Успешно: %4, Не удалось: %5, Отменено: %6</translation>
     </message>
     <message>
         <source>Stopping Because Media Is Already In Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Остановлено, медиа уже есть в архиве</translation>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
@@ -1042,38 +1044,38 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Open Urls With %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть URL в %2</translation>
     </message>
     <message>
         <source>Default Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Плеер по умолчанию</translation>
     </message>
     <message>
         <source>Warning, Nothing Was Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Внимание, ничего не загружено</translation>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка отменена, URL плейлистов не допускаются на этой вкладке</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка отменена, не выполнено условие</translation>
     </message>
     <message>
         <source>Download Failed, Unknown Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка загрузки, неизвестная причина</translation>
     </message>
     <message>
         <source>Download Failed, Network Issue</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка загрузки, проблема с сетью</translation>
     </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <source>Hide List</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть список</translation>
     </message>
 </context>
 <context>
@@ -1136,19 +1138,19 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sort By Date Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по возрастанию даты</translation>
     </message>
     <message>
         <source>Sort By Date Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по убыванию даты</translation>
     </message>
     <message>
         <source>Sort By Likes</source>
-        <translation type="unfinished"></translation>
+        <translation>Сортировать по лайкам</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать</translation>
     </message>
 </context>
 <context>
@@ -1175,31 +1177,31 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Добавить</translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation type="unfinished">Сброс</translation>
+        <translation>Сброс</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите файл cookie</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя веб-браузера для получения cookies</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь к файлу cookie</translation>
     </message>
 </context>
 <context>
@@ -1214,43 +1216,43 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below File?</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотите удалить указанный файл?</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below Folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотите удалить указанную папку?</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Да</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотите удалить все файлы и папки?</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать текст</translation>
     </message>
     <message>
         <source>Rename Folder To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать папку</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Selected Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотите удалить выбранные элементы?</translation>
     </message>
 </context>
 <context>
@@ -1336,3 +1338,4 @@ Exampe 2: ${gateway}:8080</source>
     </message>
 </context>
 </TS>
+
