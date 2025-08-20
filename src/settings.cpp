@@ -188,7 +188,7 @@ bool settings::useInternalArchiveFile()
 
 bool settings::enableLibraryTab()
 {
-	return this->getOption( "EnableLibraryTab",false ) ;
+	return this->getOption( "EnableLibraryTab",true ) ;
 }
 
 bool settings::printMediaPlayers()
