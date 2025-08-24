@@ -95,11 +95,12 @@ public:
 	void clipboardData( const QString& ) ;
 private:
 signals:
+	void networkDataSignal( utility::networkReply ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
 	void reportFinishedStatusSignal( const reportFinished&,const std::vector< QByteArray >& ) ;
 private:
 	void reportFinishedStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
-	void networkData( const utility::networkReply& ) ;
+	void networkData( utility::networkReply ) ;
 	void addTextToUi( const QByteArray&,int ) ;
 	void setThumbnail( const std::vector< QByteArray >&,const engines::engine& engine,int ) ;
 
@@ -115,7 +116,6 @@ private:
 	{
 		utility::MediaEntry media ;
 		int id ;
-		tableWidget& table ;
 		networkCtx move()
 		{
 			return std::move( *this ) ;
@@ -197,10 +197,9 @@ private:
 
 	bool parseJson( const engines::engine&,
 			const playlistdownloader::customOptions&,
-			tableWidget& table,
 			utility::MediaEntry ) ;
 
-	void showEntry( tableWidget& table,tableWidget::entry e ) ;
+	void showEntry( tableWidget::entry e ) ;
 
 	class subscription
 	{
@@ -325,13 +324,13 @@ private:
 			m_parent( p ),m_engine( e ),m_customOptions( o.move() ),m_url( url )
 		{
 		}
-		void operator()( tableWidget& table,Logger::Data& data ) ;
+		void operator()( Logger::Data& data ) ;
 		stdOut move()
 		{
 			return std::move( *this ) ;
 		}
 	private:
-		void parseYtDlpData( tableWidget&,Logger::Data& ) ;
+		void parseYtDlpData( Logger::Data& ) ;
 		playlistdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		playlistdownloader::customOptions m_customOptions ;

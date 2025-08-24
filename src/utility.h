@@ -1745,30 +1745,6 @@ namespace utility
 		bool m_showFirst = false ;
 	} ;
 
-	class networkReply ;
-
-	class networkReplyInvoker : public QObject
-	{
-		Q_OBJECT
-	public:
-		template< typename Object,typename Member >
-		networkReplyInvoker( Object obj,Member member,const networkReply& nr )
-		{
-			connect( this,
-				 &networkReplyInvoker::send,
-				 obj,
-				 member,
-				 Qt::QueuedConnection ) ;
-
-			emit send( nr ) ;
-
-			this->deleteLater() ;
-		}
-	private:
-	signals:
-		void send( const networkReply& ) ;
-	} ;
-
 	class networkReply
 	{
 	public:
@@ -1779,33 +1755,19 @@ namespace utility
 		{
 			this->getData( ctx,reply ) ;
 		}
-		template< typename Object,typename Member >
-		networkReply( Object obj,
-			      Member member,
-			      tableWidget * t,
-			      int id,
-			      utility::MediaEntry m ) :
+		networkReply( int id,utility::MediaEntry m ) :
 			m_id( id ),
-			m_mediaEntry( m.move() ),
-			m_table( t )
+			m_mediaEntry( m.move() )
 		{
-			new utility::networkReplyInvoker( obj,member,*this ) ;
 		}
-		template< typename Object,typename Member >
-		networkReply( Object obj,
-			      Member member,
-			      const Context& ctx,
+		networkReply( const Context& ctx,
 			      const utils::network::reply& reply,
-			      tableWidget * t,
 			      int id,
 			      utility::MediaEntry m ) :
 			m_id( id ),
-			m_mediaEntry( m.move() ),
-			m_table( t )
+			m_mediaEntry( m.move() )
 		{
 			this->getData( ctx,reply ) ;
-
-			new utility::networkReplyInvoker( obj,member,*this ) ;
 		}
 		const QByteArray& data() const
 		{
@@ -1827,16 +1789,11 @@ namespace utility
 		{
 			return m_mediaEntry ;
 		}
-		tableWidget& table() const
-		{
-			return *m_table ;
-		}
 	private:
 		void getData( const Context& ctx,const utils::network::reply& ) ;
 		QByteArray m_data ;
 		int m_id ;
 		utility::MediaEntry m_mediaEntry ;
-		tableWidget * m_table ;
 	};
 
 	template< typename FinishedState >

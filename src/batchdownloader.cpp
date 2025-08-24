@@ -45,6 +45,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	this->setShowMetaData( m_settings.showMetaDataInBatchDownloader() ) ;
 
+	connect( this,
+		 &batchdownloader::networkDataSignal,
+		 this,
+		 &batchdownloader::networkData,
+		 Qt::QueuedConnection ) ;
+
 	connect( this,&batchdownloader::reportFStatus,
 		 this,
 		 &batchdownloader::reportFinishedStatus,
@@ -2230,13 +2236,11 @@ void batchdownloader::addClipboardSlot( QString url )
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
-			auto m = this->autoDownloadWhenAdded() ;
-
 			if( url.startsWith( "yt-dlp " ) ){
 
-				this->addToList( url,{ false,m } ) ;
+				this->addToList( url,{ false,this->autoDownloadWhenAdded() } ) ;
 			}else{
-				this->addToList( url,{ this->showMetaData(),m } ) ;
+				this->addToList( url,{ this->showMetaData(),this->autoDownloadWhenAdded() } ) ;
 			}
 		}
 	}
@@ -2560,7 +2564,7 @@ void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEn
 	this->addItemUi( m_defaultVideoThumbnail,index,enableAll,media ) ;
 }
 
-void batchdownloader::networkData( const utility::networkReply& m )
+void batchdownloader::networkData( utility::networkReply m )
 {
 	if( networkAccess::hasNetworkSupport() ){
 
@@ -2602,99 +2606,119 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 	if( media.thumbnailUrl().isEmpty() ){
 
 		this->addItemUi( index,enableAll,media ) ;
+
+	}else if( this->showMetaData() && networkAccess::hasNetworkSupport() ){
+
+		auto u = media.thumbnailUrl() ;
+
+		networkCtx n{ media,index } ;
+
+		auto m = &batchdownloader::networkResult ;
+
+		m_ctx.network().get( u,n.move(),this,m ) ;
 	}else{
-		if( this->showMetaData() && networkAccess::hasNetworkSupport() ){
-
-			auto u = media.thumbnailUrl() ;
-
-			networkCtx n{ media,index } ;
-
-			auto m = &batchdownloader::networkResult ;
-
-			m_ctx.network().get( u,n.move(),this,m ) ;
-		}else{
-			this->addItemUi( index,enableAll,media ) ;
-		}
+		this->addItemUi( index,enableAll,media ) ;
 	}
 }
 
 void batchdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
 {
-	auto m = &batchdownloader::networkData ;
-	utility::networkReply( this,m,m_ctx,reply,nullptr,d.index,d.media.move() ) ;
+	emit this->networkDataSignal( { m_ctx,reply,d.index,d.media.move() } ) ;
 }
 
 void batchdownloader::addToList( const QString& u,const batchdownloader::downloadOpts& opts )
 {
-	const auto& ee = this->defaultEngine() ;
+	class meaw
+	{
+	public:
+		meaw( batchdownloader& p,const QString& url,const batchdownloader::downloadOpts& opts ) :
+			m_parent( p ),
+			m_url( url ),
+			m_opts( opts )
+		{
+		}
+		void operator()()
+		{
+			Items items ;
 
-	ee.updateVersionInfo( m_ctx,[ this,u,opts ](){
+			for( const auto& it : util::split( m_url,'\n',true ) ){
 
-		Items items ;
+				if( it.startsWith( "#" ) ){
 
-		for( const auto& it : util::split( u,'\n',true ) ){
+					continue ;
 
-			if( it.startsWith( "#" ) ){
+				}else if( it.startsWith( "yt-dlp" ) ){
 
-				continue ;
-
-			}else if( it.startsWith( "yt-dlp" ) ){
-
-				/*
-				 * Entry looks like yt-dlp ${YTDLP_OPTIONS} URL
-				 * Stream detector has ability to create such entries
-				 * https://github.com/54ac/stream-detector
-				 */
-
-				auto m = util::split( it,' ',true ) ;
-
-				QJsonObject obj ;
-
-				auto url = m.takeLast() ;
-
-				if( url.startsWith( "\"" ) ){
-
-					url.remove( 0,1 ) ;
+					this->parseYtdlp( it,items ) ;
+				}else{
+					this->parseUrl( it,items ) ;
 				}
+			}
 
-				if( url.endsWith( "\"" ) ){
+			m_parent.parseItems( items.move(),m_opts ) ;
+		}
+	private:
+		void parseUrl( const QString& it,Items& items )
+		{
+			auto url = it ;
 
-					url.remove( url.size() - 1,1 ) ;
-				}
+			url.replace( "\r","" ) ;
 
-				url.replace( "\r","" ) ;
+			for( const auto& xt : util::split( url,' ',true ) ){
 
-				obj.insert( "engineName",m.takeFirst() ) ;
-				obj.insert( "downloadOptions",m.join( " " ) ) ;
-				obj.insert( "url",url ) ;
-				obj.insert( "uiText",url ) ;
+				auto row = m_parent.m_table.rowWithUrl( xt ) ;
 
-				QJsonArray arr ;
+				if( row == -1 ){
 
-				arr.append( obj ) ;
-
-				this->parseDataFromObject( items,QJsonObject(),arr ) ;
-			}else{
-				auto url = it ;
-
-				url.replace( "\r","" ) ;
-
-				for( const auto& xt : util::split( url,' ',true ) ){
-
-					auto row = m_table.rowWithUrl( xt ) ;
-
-					if( row == -1 ){
-
-						items.add( xt ) ;
-					}else{
-						m_table.selectRow( row ) ;
-					}
+					items.add( xt ) ;
+				}else{
+					m_parent.m_table.selectRow( row ) ;
 				}
 			}
 		}
+		void parseYtdlp( const QString& it,Items& items )
+		{
+			/*
+			 * Entry looks like yt-dlp ${YTDLP_OPTIONS} URL
+			 * Stream detector has ability to create such entries
+			 * https://github.com/54ac/stream-detector
+			 */
 
-		this->parseItems( items.move(),opts ) ;
-	} ) ;
+			auto m = util::split( it,' ',true ) ;
+
+			QJsonObject obj ;
+
+			auto url = m.takeLast() ;
+
+			if( url.startsWith( "\"" ) ){
+
+				url.remove( 0,1 ) ;
+			}
+
+			if( url.endsWith( "\"" ) ){
+
+				url.remove( url.size() - 1,1 ) ;
+			}
+
+			url.replace( "\r","" ) ;
+
+			obj.insert( "engineName",m.takeFirst() ) ;
+			obj.insert( "downloadOptions",m.join( " " ) ) ;
+			obj.insert( "url",url ) ;
+			obj.insert( "uiText",url ) ;
+
+			QJsonArray arr ;
+
+			arr.append( obj ) ;
+
+			m_parent.parseDataFromObject( items,QJsonObject(),arr ) ;
+		}
+		batchdownloader& m_parent ;
+		QString m_url ;
+		batchdownloader::downloadOpts m_opts ;
+	} ;
+
+	this->defaultEngine().updateVersionInfo( m_ctx,meaw( *this,u,opts ) ) ;
 }
 
 void batchdownloader::download( const engines::engine& engine )
@@ -2702,9 +2726,11 @@ void batchdownloader::download( const engines::engine& engine )
 	m_topDownloadingIndex = 0 ;
 	m_recursiveDownloading = 0 ;
 
-	m_settings.setLastUsedOption( m_ui.cbEngineTypeBD->currentText(),
-				     m_ui.lineEditBDUrlOptions->text(),
-				     settings::tabName::batch ) ;
+	auto a = m_ui.cbEngineTypeBD->currentText() ;
+	auto b = m_ui.lineEditBDUrlOptions->text() ;
+	auto c = settings::tabName::batch ;
+
+	m_settings.setLastUsedOption( a,b,c ) ;
 
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
@@ -2717,11 +2743,9 @@ void batchdownloader::download( const engines::engine& engine )
 		}
 		void operator()()
 		{
-			auto& t = m_parent.m_table ;
-
 			std::vector< int > v ;
 
-			for( int s = 0 ; s < t.rowCount() ; s++ ){
+			for( int s = 0 ; s < m_parent.m_table.rowCount() ; s++ ){
 
 				if( !m_parent.m_table.finishedWithSuccess( s ) ){
 

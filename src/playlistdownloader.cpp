@@ -59,6 +59,12 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	this->resetMenu() ;
 
 	connect( this,
+		 &playlistdownloader::networkDataSignal,
+		 this,
+		 &playlistdownloader::networkData,
+		 Qt::QueuedConnection ) ;
+
+	connect( this,
 		 &playlistdownloader::addTextToUiSignal,
 		 this,
 		 &playlistdownloader::addTextToUi,
@@ -1225,7 +1231,6 @@ bool playlistdownloader::enabled()
 
 bool playlistdownloader::parseJson( const engines::engine& engine,
 				   const customOptions& copts,
-				   tableWidget& table,
 				   utility::MediaEntry media )
 {
 	if( copts.contains( media.id() ) ){
@@ -1239,7 +1244,7 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 			auto mm = QObject::tr( "Stopping Because Media Is Already In Archive File" ) ;
 
-			this->showEntry( table,{ m_defaultVideoThumbnailIcon,s,media,mm } ) ;
+			this->showEntry( { m_defaultVideoThumbnailIcon,s,media,mm } ) ;
 
 			return true ;
 
@@ -1249,7 +1254,7 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 			auto mm = QObject::tr( "Media Already In Archive" ) ;
 
-			this->showEntry( table,{ m_defaultVideoThumbnailIcon,s,media,mm } ) ;
+			this->showEntry( { m_defaultVideoThumbnailIcon,s,media,mm } ) ;
 
 			return false ;
 		}
@@ -1277,14 +1282,13 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 		m_networkRunning++ ;
 
-		networkCtx m{ media.move(),m_downloaderId,table } ;
+		networkCtx m{ media.move(),m_downloaderId } ;
 
-		auto ua = engine.likeYtDlp() ? QByteArray() : network.defaultUserAgent() ;
+		auto ua = engine.isGalleryDl() ? network.defaultUserAgent() : QByteArray() ;
 
 		network.get( thumbnailUrl,m.move(),this,&playlistdownloader::networkResult,ua ) ;
 	}else{
-		auto m = &playlistdownloader::networkData ;
-		utility::networkReply( this,m,&table,m_downloaderId,media.move() ) ;
+		emit this->networkDataSignal( { m_downloaderId,media.move() } ) ;
 	}
 
 	return false ;
@@ -1292,12 +1296,10 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 void playlistdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
 {
-	auto m = &playlistdownloader::networkData ;
-
-	utility::networkReply( this,m,m_ctx,reply,&d.table,d.id,d.media.move() ) ;
+	emit this->networkDataSignal( { m_ctx,reply,d.id,d.media.move() } ) ;
 }
 
-void playlistdownloader::networkData( const utility::networkReply& m )
+void playlistdownloader::networkData( utility::networkReply m )
 {
 	if( m.id() < m_downloaderId ){
 
@@ -1307,9 +1309,6 @@ void playlistdownloader::networkData( const utility::networkReply& m )
 		 */
 		//return ;
 	}
-
-	auto& table = m.table() ;
-	auto& media = m.media() ;
 
 	auto s = reportFinished::finishedStatus::notStarted() ;
 
@@ -1324,16 +1323,16 @@ void playlistdownloader::networkData( const utility::networkReply& m )
 
 			auto img = pixmap.scaled( width,height ) ;
 
-			this->showEntry( table,{ img,s,media } ) ;
+			this->showEntry( { img,s,m.media() } ) ;
 		}else{
 			const auto& img = m_defaultVideoThumbnailIcon ;
 
-			this->showEntry( table,{ img,s,media } ) ;
+			this->showEntry( { img,s,m.media() } ) ;
 		}
 	}else{
 		const auto& img = m_defaultVideoThumbnailIcon ;
 
-		this->showEntry( table,{ img,s,media } ) ;
+		this->showEntry( { img,s,m.media() } ) ;
 	}
 
 	m_networkRunning-- ;
@@ -1512,15 +1511,15 @@ void playlistdownloader::resizeTable( playlistdownloader::size s )
 	}
 }
 
-void playlistdownloader::showEntry( tableWidget& table,tableWidget::entry e )
+void playlistdownloader::showEntry( tableWidget::entry e )
 {
-	auto row = table.addItem( e.move() ) ;
+	auto row = m_table.addItem( e.move() ) ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
 
-	m_ctx.TabManager().Configure().setDownloadOptions( row,table ) ;
+	m_ctx.TabManager().Configure().setDownloadOptions( row,m_table ) ;
 
-	table.selectRow( row ) ;
+	m_table.selectRow( row ) ;
 
 	if( !m_ui.pbPLCancel->isEnabled() ){
 
@@ -1762,13 +1761,13 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 	return e.startsWith( "WARNING" ) ;
 }
 
-void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& data )
+void playlistdownloader::stdOut::operator()( Logger::Data& data )
 {
 	m_parent.m_dataReceived = true ;
 
 	if( m_engine.likeYtDlp() ){
 
-		this->parseYtDlpData( table,data ) ;
+		this->parseYtDlpData( data ) ;
 	}else{
 		auto m = data.toLine() ;
 
@@ -1792,13 +1791,13 @@ void playlistdownloader::stdOut::operator()( tableWidget& table,Logger::Data& da
 
 				const auto mm = m_engine.parseJson( m_url,it ) ;
 
-				m_parent.parseJson( m_engine,m_customOptions,table,QJsonDocument( mm ) ) ;
+				m_parent.parseJson( m_engine,m_customOptions,QJsonDocument( mm ) ) ;
 			}
 		}
 	}
 }
 
-void playlistdownloader::stdOut::parseYtDlpData( tableWidget& table,Logger::Data& data )
+void playlistdownloader::stdOut::parseYtDlpData( Logger::Data& data )
 {
 	int position = 0 ;
 
@@ -1829,7 +1828,7 @@ void playlistdownloader::stdOut::parseYtDlpData( tableWidget& table,Logger::Data
 						media.setShowFirst() ;
 					}
 
-					if( m_parent.parseJson( m_engine,p,table,media.move() ) ){
+					if( m_parent.parseJson( m_engine,p,media.move() ) ){
 
 						break ;
 					}

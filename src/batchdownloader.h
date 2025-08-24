@@ -227,6 +227,7 @@ signals:
 	void addItemUiSignal( ItemEntry ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
 	void addClipboardSignal( QString ) ;
+	void networkDataSignal( utility::networkReply ) ;
 private:
 	class downloadOpts
 	{
@@ -254,7 +255,7 @@ private:
 	void addTextToUi( const QByteArray&,int ) ;
 	void getMetaData( const Items::entry&,const engines::engine&,bool ) ;
 	void showHideControls() ;
-	void networkData( const utility::networkReply& ) ;
+	void networkData( utility::networkReply ) ;
 	void addItemUiSlot( ItemEntry ) ;
 	void reportFinishedStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;

@@ -842,7 +842,7 @@ public:
 	{
 		m_logger.add( function,m_id ) ;
 		function( m_localLogger,m_id,false ) ;
-		m_addToTable( m_table,m_localLogger ) ;
+		m_addToTable( m_localLogger ) ;
 	}
 	void registerDone()
 	{
