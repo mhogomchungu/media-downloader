@@ -193,18 +193,63 @@ public:
 	{
 		return *m_engine ;
 	}
+	ItemEntry move()
+	{
+		return std::move( *this ) ;
+	}
 private:
 	const engines::engine * m_engine ;
 	Items m_list ;
 };
 
+class ItemEntries
+{
+public:
+	ItemEntries()
+	{
+	}
+	ItemEntries( ItemEntry first,ItemEntry second )
+	{
+		m_entries.emplace_back( first.move() ) ;
+		m_entries.emplace_back( second.move() ) ;
+	}
+	Items::entry next()
+	{
+		return m_entries[ m_position ].next() ;
+	}
+	bool hasMore()
+	{
+		return m_position < m_entries.size() - 1 ;
+	}
+	void setMore()
+	{
+		m_position++ ;
+	}
+	bool hasNext()
+	{
+		return m_entries[ m_position ].hasNext() ;
+	}
+	const engines::engine& engine()
+	{
+		return m_entries[ m_position ].engine() ;
+	}
+	ItemEntries move()
+	{
+		return std::move( *this ) ;
+	}
+private:
+	size_t m_position = 0 ;
+	std::vector< ItemEntry > m_entries ;
+} ;
+
 Q_DECLARE_METATYPE( ItemEntry )
+
+Q_DECLARE_METATYPE( ItemEntries )
 
 class batchdownloader : public QObject
 {
 	Q_OBJECT
 public:
-
 	batchdownloader( const Context& ) ;
 	void keyPressed( utility::mainWindowKeyCombo ) ;
 	void init_done() ;
@@ -224,7 +269,9 @@ public:
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
 signals:
 	void reportFStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
-	void addItemUiSignal( ItemEntry ) ;
+	void addItemUiSignal( ItemEntries ) ;
+	void downloadAddItemsSignal( ItemEntries ) ;
+	void showMetaDataSignal( ItemEntries ) ;
 	void addTextToUiSignal( const QByteArray&,int ) ;
 	void addClipboardSignal( QString ) ;
 	void networkDataSignal( utility::networkReply ) ;
@@ -253,10 +300,11 @@ private:
 	void disableWhileDownloading() ;
 	void addClipboardSlot( QString ) ;
 	void addTextToUi( const QByteArray&,int ) ;
-	void getMetaData( const Items::entry&,const engines::engine&,bool ) ;
+	void getMetaData( const Items::entry&,const engines::engine& ) ;
 	void showHideControls() ;
 	void networkData( utility::networkReply ) ;
-	void addItemUiSlot( ItemEntry ) ;
+	void addItemUiSlot( ItemEntries ) ;
+	void addItemToUi( const engines::engine&,Items::entry ) ;
 	void reportFinishedStatus( const reportFinished&,const std::vector< QByteArray >& ) ;
 	enum class listType{ COMMENTS,SUBTITLES,MEDIA_OPTIONS } ;
 	void setDefaultEngineAndOptions( Items::entry& ) ;
@@ -288,10 +336,11 @@ private:
 	void hideBasicDownloaderTableList() ;
 	void showCustomContext() ;
 	void addToList( const QString&,const downloadOpts& ) ;
-	void downloadAddItems( const engines::engine&,Items ) ;
+	void downloadAddItems( ItemEntries ) ;
 	void download( const engines::engine& ) ;
 	void downloadSingle( const engines::engine&,int ) ;
 	void downloadRecursively( const engines::engine&,int ) ;
+	void downloadOrShowThumbnail( ItemEntries,const downloadOpts& ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;
 	void addItemUi( int,bool,const utility::MediaEntry& ) ;
 	int addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
@@ -300,13 +349,9 @@ private:
 		       tableWidget& table,
 		       Ui::MainWindow& ui,
 		       const utility::MediaEntry& media ) ;
-	void showThumbnail( const engines::engine&,int,const QString& url,bool ) ;
-	void showThumbnail( const engines::engine&,Items,const batchdownloader::downloadOpts& ) ;
-	void showThumbnail( const engines::engine&,
-			   const engines&,
-			   const Items::entry&,
-			   configure&,
-			   bool autoDownload ) ;
+	void showThumbnail( const engines::engine&,int,const QString& url ) ;
+	void showMetaDataSlot( ItemEntries ) ;
+
 	struct networkCtx
 	{
 		utility::MediaEntry media ;
