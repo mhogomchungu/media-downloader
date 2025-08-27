@@ -219,7 +219,9 @@ public:
 	}
 	bool hasMore()
 	{
-		return m_position < m_entries.size() - 1 ;
+		auto m = m_position + 1 ;
+
+		return m < m_entries.size() ;
 	}
 	void setMore()
 	{

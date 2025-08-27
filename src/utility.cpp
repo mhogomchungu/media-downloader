@@ -787,34 +787,6 @@ utility::debug& utility::debug::operator<<( const QByteArray& e )
 	return _print( e.data() ) ;
 }
 
-static void _kill_children_recursively( const QString& id )
-{
-	auto path = QString( "/proc/%1/task/" ).arg( id ) ;
-
-	auto filter = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
-
-	const auto ff = QDir( path ).entryList( filter ) ;
-
-	for( const auto& it : ff ){
-
-		QFile file( path + it + "/children" ) ;
-
-		if( file.open( QIODevice::ReadOnly ) ){
-
-			const auto pids = util::split( file.readAll(),' ',true ) ;
-
-			for( const auto& it : pids ){
-
-				_kill_children_recursively( it ) ;
-
-				QProcess exe ;
-				exe.start( "kill",{ "-s","SIGTERM",it } ) ;
-				exe.waitForFinished( -1 ) ;
-			}
-		}
-	}
-}
-
 bool utility::Terminator::terminate( QProcess& exe )
 {
 	if( utility::platformIsWindows() ){
@@ -836,15 +808,40 @@ bool utility::Terminator::terminate( QProcess& exe )
 			}
 			void bg()
 			{
-				auto m = QString::number( m_exe.processId() ) ;
-
-				_kill_children_recursively( m ) ;
+				this->terminate( QString::number( m_exe.processId() ) ) ;
 			}
 			void fg()
 			{
 				m_exe.terminate() ;
 			}
 		private:
+			void terminate( const QString& id )
+			{
+				auto path = QString( "/proc/%1/task/" ).arg( id ) ;
+
+				auto filter = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+
+				const auto ff = QDir( path ).entryList( filter ) ;
+
+				for( const auto& it : ff ){
+
+					QFile file( path + it + "/children" ) ;
+
+					if( file.open( QIODevice::ReadOnly ) ){
+
+						const auto pids = util::split( file.readAll(),' ',true ) ;
+
+						for( const auto& it : pids ){
+
+							this->terminate( it ) ;
+
+							QProcess exe ;
+							exe.start( "kill",{ "-s","SIGTERM",it } ) ;
+							exe.waitForFinished( -1 ) ;
+						}
+					}
+				}
+			}
 			QProcess& m_exe ;
 		} ;
 
