@@ -721,6 +721,7 @@ void batchdownloader::downloadOrShowThumbnail( ItemEntries entries,const downloa
 
 				this->addItemUiSlot( entries.move() ) ;
 			}else{
+
 				this->showMetaDataSlot( entries.move() ) ;
 			}
 		}else{
@@ -2750,7 +2751,6 @@ void batchdownloader::addToList( const QString& u,const batchdownloader::downloa
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	m_topDownloadingIndex = 0 ;
 	m_recursiveDownloading = 0 ;
 
 	auto a = m_ui.cbEngineTypeBD->currentText() ;
@@ -2919,7 +2919,6 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 		}
 		void whenCreated()
 		{
-			m_parent.m_topDownloadingIndex++ ;
 			m_parent.m_recursiveDownloading++ ;
 		}
 		void whenDone( const engines::ProcessExitState& st,const std::vector< QByteArray >& fileNames )
@@ -2949,9 +2948,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 	private:
 		void startNext()
 		{
-			auto m = m_parent.m_topDownloadingIndex ;
-
-			if( m < m_parent.m_table.rowCount() ){
+			for( int m = m_index + 1 ; m < m_parent.m_table.rowCount() ; m++ ){
 
 				auto e = m_parent.m_table.runningState( m ) ;
 
@@ -2960,11 +2957,11 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 
 				if( a || b ){
 
-					m_parent.m_topDownloadingIndex++ ;
-
-					this->startNext() ;
+					continue ;
 				}else{
 					m_parent.downloadRecursively( m_engine,m ) ;
+
+					break ;
 				}
 			}
 		}

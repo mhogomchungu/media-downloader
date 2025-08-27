@@ -219,9 +219,7 @@ public:
 	}
 	bool hasMore()
 	{
-		auto m = m_position + 1 ;
-
-		return m < m_entries.size() ;
+		return m_position + 1 < m_entries.size() ;
 	}
 	void setMore()
 	{
@@ -480,7 +478,6 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
-	int m_topDownloadingIndex = 0 ;
 	int m_recursiveDownloading = 0 ;
 	tableWidget m_table ;
 	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
