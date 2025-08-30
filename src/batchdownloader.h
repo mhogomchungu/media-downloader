@@ -300,7 +300,7 @@ private:
 	void disableWhileDownloading() ;
 	void addClipboardSlot( QString ) ;
 	void addTextToUi( const QByteArray&,int ) ;
-	void getMetaData( const Items::entry&,const engines::engine& ) ;
+	void getMetaData( const engines::engine&,const Items::entry& ) ;
 	void showHideControls() ;
 	void networkData( utility::networkReply ) ;
 	void addItemUiSlot( ItemEntries ) ;

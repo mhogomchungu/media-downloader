@@ -721,7 +721,6 @@ void batchdownloader::downloadOrShowThumbnail( ItemEntries entries,const downloa
 
 				this->addItemUiSlot( entries.move() ) ;
 			}else{
-
 				this->showMetaDataSlot( entries.move() ) ;
 			}
 		}else{
@@ -742,21 +741,42 @@ void batchdownloader::showMetaDataSlot( ItemEntries e )
 
 		if( s.isEmpty() ){
 
-			this->getMetaData( m,e.engine() ) ;
+			this->getMetaData( e.engine(),m ) ;
 		}else{
-			auto ss = m_ctx.Engines().getEngineByName( s ) ;
+			class meaw
+			{
+			public:
+				meaw( const QString& engineName,
+				      batchdownloader& parent,
+				      const Context& ctx,
+				      const engines::engine& engine,
+				      const Items::entry& entry ) :
+				      m_parent( parent ),m_entry( entry )
+				{
+					auto ss = ctx.Engines().getEngineByName( engineName ) ;
 
-			if( ss ){
+					if( ss ){
 
-				if( ss->canShowMetaData() ){
-
-					this->getMetaData( m,ss.value() ) ;
-				}else{
-					this->addItemToUi( e.engine(),m ) ;
+						this->exec( ss.value() ) ;
+					}else{
+						this->exec( engine ) ;
+					}
 				}
-			}else{
-				this->addItemToUi( e.engine(),m ) ;
-			}
+			private:
+				void exec( const engines::engine& engine )
+				{
+					if( engine.canShowMetaData() ){
+
+						m_parent.getMetaData( engine,m_entry ) ;
+					}else{
+						m_parent.addItemToUi( engine,m_entry ) ;
+					}
+				}
+				batchdownloader& m_parent ;
+				const Items::entry& m_entry ;
+			} ;
+
+			meaw( s,*this,m_ctx,e.engine(),m ) ;
 		}
 
 		emit this->showMetaDataSignal( e ) ;
@@ -833,7 +853,7 @@ void batchdownloader::setThumbnail( const std::vector< QByteArray >& fileNames,
 	utility::setThumbNail( fileNames,downloadFolder,meaw( *this,row ) ) ;
 }
 
-void batchdownloader::getMetaData( const Items::entry& it,const engines::engine& eng )
+void batchdownloader::getMetaData( const engines::engine& eng,const Items::entry& it )
 {
 	tableWidget::entry entry( it ) ;
 
