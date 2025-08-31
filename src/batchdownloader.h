@@ -363,7 +363,7 @@ private:
 	} ;
 	void setThumbnail( const std::vector< QByteArray >&,const engines::engine& engine,int ) ;
 	template< typename Event >
-	void downloadEvent( Event event,const engines::engine& engine,int index )
+	void downloadEvent( Event event,const engines::engine& engine,int index,bool downloadRecursively )
 	{
 		class events
 		{
@@ -443,7 +443,7 @@ private:
 
 		auto logger = make_loggerBatchDownloader( engine.filter( id ),ll,updater,error,id,logs ) ;
 
-		m_table.setRunningState( reportFinished::finishedStatus::running(),index ) ;
+		m_table.setStateAsRunning( index,downloadRecursively ) ;
 
 		this->hideBasicDownloaderTableList() ;
 		this->updateTitleBar() ;
@@ -478,7 +478,6 @@ private:
 	Ui::MainWindow& m_ui ;
 	QWidget& m_mainWindow ;
 	tabManager& m_tabManager ;
-	int m_recursiveDownloading = 0 ;
 	tableWidget m_table ;
 	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
 	QString m_commentsFileName ;

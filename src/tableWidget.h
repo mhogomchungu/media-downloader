@@ -91,10 +91,8 @@ public:
 		this->item( row ).uiText = s ;
 		m_table.item( row,1 )->setText( s ) ;
 	}
-	void setRunningState( const QString& s,int row )
-	{
-		this->item( row ).runningState = s ;
-	}
+	void setRunningState( const QString& s,int row ) ;
+	void setStateAsRunning( int row,bool runningRecursively ) ;
 	const QString& downloadingOptions( int row ) const
 	{
 		return this->item( row ).downloadingOptions ;
@@ -130,6 +128,29 @@ public:
 	const QString& chapters( int row ) const
 	{
 		return this->item( row ).chapters ;
+	}
+	void setRunningRecursively( int row,bool s )
+	{
+		this->item( row ).runningRecursively = s ;
+	}
+	bool runningRecursively( int row ) const
+	{
+		return this->item( row ).runningRecursively ;
+	}
+	bool isRunning( int row ) const ;
+	int totalRunningRecursively() const
+	{
+		int m = 0 ;
+
+		for( int row = 0 ; row < this->rowCount() ; row++ ){
+
+			if( this->isRunning( row ) && this->runningRecursively( row ) ){
+
+				m++ ;
+			}
+		}
+
+		return m ;
 	}
 	bool splitByChapters( int row ) const
 	{
@@ -221,6 +242,7 @@ public:
 		bool splitByChapters = false ;
 		bool banner = false ;
 		bool showFirst = false ;
+		bool runningRecursively = false ;
 	} ;
 	template< typename Function >
 	void forEach( Function function )

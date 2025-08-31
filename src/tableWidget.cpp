@@ -252,6 +252,25 @@ int tableWidget::addItem( tableWidget::entry e,tableWidget::sizeHint s )
 	return row ;
 }
 
+void tableWidget::setStateAsRunning( int row,bool runningRecursively )
+{
+	auto& m              = this->item( row ) ;
+	m.runningState       = reportFinished::finishedStatus::running() ;
+	m.runningRecursively = runningRecursively ;
+}
+
+void tableWidget::setRunningState( const QString& s,int row )
+{
+	auto& m              = this->item( row ) ;
+	m.runningState       = s ;
+	m.runningRecursively = false ;
+}
+
+bool tableWidget::isRunning( int row ) const
+{
+	return reportFinished::finishedStatus::isRunning( *this,row  ) ;
+}
+
 bool tableWidget::finishedWithSuccess( int row ) const
 {
 	return reportFinished::finishedStatus::finishedWithSuccess( *this,row ) ;

@@ -81,6 +81,10 @@ public:
 		{
 			return finishedWithSuccess( e.runningState( row ) ) ;
 		}
+		static bool isRunning( const tableWidget& e,int row )
+		{
+			return running( e.runningState( row ) ) ;
+		}
 		QString setState() const
 		{
 			if( this->exitState().cancelled()){

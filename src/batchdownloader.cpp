@@ -717,7 +717,7 @@ void batchdownloader::downloadOrShowThumbnail( ItemEntries entries,const downloa
 
 		}else if( opts.showMetaData() && entries.engine().canShowMetaData() ){
 
-			if( m_recursiveDownloading ){
+			if( m_table.totalRunningRecursively() > 0 ){
 
 				this->addItemUiSlot( entries.move() ) ;
 			}else{
@@ -983,7 +983,9 @@ void batchdownloader::addItemToUi( const engines::engine& engine,Items::entry s 
 
 	auto e = static_cast< int >( m_settings.maxConcurrentDownloads() ) ;
 
-	if( m_recursiveDownloading > 0 && m_recursiveDownloading < e ){
+	auto m = m_table.totalRunningRecursively() ;
+
+	if( m > 0 && m < e ){
 
 		this->downloadRecursively( engine,row ) ;
 	}
@@ -2771,8 +2773,6 @@ void batchdownloader::addToList( const QString& u,const batchdownloader::downloa
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	m_recursiveDownloading = 0 ;
-
 	auto a = m_ui.cbEngineTypeBD->currentText() ;
 	auto b = m_ui.lineEditBDUrlOptions->text() ;
 	auto c = settings::tabName::batch ;
@@ -2925,7 +2925,7 @@ void batchdownloader::downloadSingle( const engines::engine& eng,int row )
 
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),row ) ;
 
-	this->downloadEvent( meaw( *this,engine,row ),engine,row ) ;
+	this->downloadEvent( meaw( *this,engine,row ),engine,row,false ) ;
 }
 
 void batchdownloader::downloadRecursively( const engines::engine& eng,int index )
@@ -2939,12 +2939,9 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 		}
 		void whenCreated()
 		{
-			m_parent.m_recursiveDownloading++ ;
 		}
 		void whenDone( const engines::ProcessExitState& st,const std::vector< QByteArray >& fileNames )
 		{
-			m_parent.m_recursiveDownloading-- ;
-
 			if( st.success() ){
 
 				if( m_parent.showMetaData() && m_engine.isGalleryDl() ){
@@ -2996,7 +2993,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 
 	m_settings.addOptionsHistory( engine.name(),m,settings::tabName::batch ) ;
 
-	this->downloadEvent( meaw( *this,engine,index ),engine,index ) ;
+	this->downloadEvent( meaw( *this,engine,index ),engine,index,true ) ;
 }
 
 void batchdownloader::addTextToUi( const QByteArray& data,int index )
