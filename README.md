@@ -112,6 +112,14 @@ chmod +x build_linux.sh
 ./build_linux.sh
 ```
 
+
+### Fedora
+
+Fedora users can use the following script to build from source:
+
+```bash
+./build_fedora.sh
+
 # Screenshots
 
 
