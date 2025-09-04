@@ -1673,142 +1673,6 @@ void batchdownloader::showBDFrame( batchdownloader::listType m )
 	m_ui.pbCancelBatchDownloder->setFocus() ;
 }
 
-template< typename Function >
-static void _dataFromFile( Items& items,
-			   const Context& ctx,
-			   const QJsonArray& array,
-			   const QString& urlKey,
-			   const QString& uploadDate,
-			   const Function& converter )
-{
-	for( const auto& it : array ){
-
-		auto obj = it.toObject() ;
-
-		if( obj.isEmpty() ){
-
-			continue ;
-		}
-
-		auto url = obj.value( urlKey ).toString() ;
-
-		obj.insert( "webpage_url",url ) ;
-
-		auto d = utility::stringConstants::duration() + " " ;
-		auto u = utility::stringConstants::uploadDate() + " " ;
-
-		auto title    = obj.value( "title" ).toString() ;
-		auto duration = converter( obj.value( "duration" ) ) ;
-		auto date     = obj.value( uploadDate ).toString() ;
-
-		auto engineName   = obj.value( "engineName" ).toString() ;
-		auto downloadOpts = obj.value( "downloadOptions" ).toString() ;
-		auto downloadExtOpts = obj.value( "downloadExtraOptions" ).toString() ;
-
-		if( !duration.isEmpty() ){
-
-			duration = d + duration ;
-		}
-
-		if( !date.isEmpty() ){
-
-			date = u + date ;
-		}
-
-		QString durationAndDate ;
-
-		if( !duration.isEmpty() && !date.isEmpty() ){
-
-			durationAndDate = duration + ", " + date ;
-
-		}else if( duration.isEmpty() ){
-
-			if( date.isEmpty() ){
-
-			}else{
-				durationAndDate = date ;
-			}
-
-		}else if( date.isEmpty() ){
-
-			if( duration.isEmpty() ){
-
-			}else{
-				durationAndDate = duration ;
-			}
-		}
-
-		QString opts ;
-
-		if( !engineName.isEmpty() ){
-
-			opts = utility::stringConstants::engineName() + engineName ;
-		}
-
-		if( !downloadOpts.isEmpty() ){
-
-			auto& cc = ctx.TabManager().Configure() ;
-			downloadOpts = cc.optionsTranslated( downloadOpts ) ;
-
-			auto mm = utility::stringConstants::downloadOptions() ;
-			auto dopts = mm + ": " + downloadOpts ;
-
-			if( opts.isEmpty() ){
-
-				opts = dopts ;
-			}else{
-				opts += "\n" + dopts ;
-			}
-		}
-
-		if( !downloadExtOpts.isEmpty() ){
-
-			auto mm = utility::stringConstants::downloadExtendedOptions() ;
-
-			auto dopts = mm + ": " + downloadExtOpts ;
-
-			if( opts.isEmpty() ){
-
-				opts = dopts ;
-			}else{
-				opts += "\n" + dopts ;
-			}
-		}
-
-		auto _set_title = []( const QString& e ){
-
-			if( e.isEmpty() ){
-
-				return QString() ;
-			}else{
-				return "\n" + e ;
-			}
-		} ;
-
-		if( opts.isEmpty() ){
-
-			if( durationAndDate.isEmpty() ){
-
-				obj.insert( "uiText",title ) ;
-			}else{
-				auto txt = durationAndDate + _set_title( title ) ;
-				obj.insert( "uiText",txt ) ;
-			}
-		}else{
-			if( durationAndDate.isEmpty() ){
-
-				obj.insert( "uiText",opts + _set_title( title ) ) ;
-			}else{
-				auto txt = opts + "\n" + durationAndDate + _set_title( title ) ;
-
-				obj.insert( "uiText",txt ) ;
-			}
-		}
-
-		items.add( std::move( obj ) ) ;
-	}
-}
-
 void batchdownloader::parseDataFromFile( Items& items,const QByteArray& data )
 {
 	QJsonParseError err ;
@@ -1854,7 +1718,7 @@ void batchdownloader::parseDataFromObject( Items& items,const QJsonObject& obj,c
 		auto a = "url" ;
 		auto b = "uploadDate" ;
 
-		_dataFromFile( items,m_ctx,array,a,b,function ) ;
+		this->dataFromFile( items,{ array,a,b },function ) ;
 	}else{
 		/*
 		 * File created with yt-dlp
@@ -1872,7 +1736,7 @@ void batchdownloader::parseDataFromObject( Items& items,const QJsonObject& obj,c
 			auto a = "webpage_url" ;
 			auto b = "upload_date" ;
 
-			_dataFromFile( items,m_ctx,array,a,b,function ) ;
+			this->dataFromFile( items,{ array,a,b },function ) ;
 		}
 	}
 }
@@ -2251,6 +2115,130 @@ void batchdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 	auto c = m_ui.labelBDEngineName ;
 
 	utility::alignText( m,a,b,c ) ;
+}
+
+void batchdownloader::dataFromFile( Items& items,
+				   const batchdownloader::dataFromFileOpts& dFileopts,
+				   QJsonObject& obj,
+				   const QString& drion )
+{
+	auto url = obj.value( dFileopts.urlKey ).toString() ;
+
+	obj.insert( "webpage_url",url ) ;
+
+	auto d = utility::stringConstants::duration() + " " ;
+	auto u = utility::stringConstants::uploadDate() + " " ;
+
+	auto title    = obj.value( "title" ).toString() ;
+	auto date     = obj.value( dFileopts.uploadDate ).toString() ;
+
+	auto engineName      = obj.value( "engineName" ).toString() ;
+	auto downloadOpts    = obj.value( "downloadOptions" ).toString() ;
+	auto downloadExtOpts = obj.value( "downloadExtraOptions" ).toString() ;
+
+	auto duration = drion ;
+
+	if( !duration.isEmpty() ){
+
+		duration = d + duration ;
+	}
+
+	if( !date.isEmpty() ){
+
+		date = u + date ;
+	}
+
+	QString durationAndDate ;
+
+	if( !duration.isEmpty() && !date.isEmpty() ){
+
+		durationAndDate = duration + ", " + date ;
+
+	}else if( duration.isEmpty() ){
+
+		if( date.isEmpty() ){
+
+		}else{
+			durationAndDate = date ;
+		}
+
+	}else if( date.isEmpty() ){
+
+		if( duration.isEmpty() ){
+
+		}else{
+			durationAndDate = duration ;
+		}
+	}
+
+	QString opts ;
+
+	if( !engineName.isEmpty() ){
+
+		opts = utility::stringConstants::engineName() + engineName ;
+	}
+
+	if( !downloadOpts.isEmpty() ){
+
+		auto& cc = m_ctx.TabManager().Configure() ;
+		downloadOpts = cc.optionsTranslated( downloadOpts ) ;
+
+		auto mm = utility::stringConstants::downloadOptions() ;
+		auto dopts = mm + ": " + downloadOpts ;
+
+		if( opts.isEmpty() ){
+
+			opts = dopts ;
+		}else{
+			opts += "\n" + dopts ;
+		}
+	}
+
+	if( !downloadExtOpts.isEmpty() ){
+
+		auto mm = utility::stringConstants::downloadExtendedOptions() ;
+
+		auto dopts = mm + ": " + downloadExtOpts ;
+
+		if( opts.isEmpty() ){
+
+			opts = dopts ;
+		}else{
+			opts += "\n" + dopts ;
+		}
+	}
+
+	auto _set_title = []( const QString& e ){
+
+		if( e.isEmpty() ){
+
+			return QString() ;
+		}else{
+			return "\n" + e ;
+		}
+	} ;
+
+	if( opts.isEmpty() ){
+
+		if( durationAndDate.isEmpty() ){
+
+			obj.insert( "uiText",title ) ;
+		}else{
+			auto txt = durationAndDate + _set_title( title ) ;
+			obj.insert( "uiText",txt ) ;
+		}
+	}else{
+		if( durationAndDate.isEmpty() ){
+
+			obj.insert( "uiText",opts + _set_title( title ) ) ;
+		}else{
+			auto txt = opts + "\n" + durationAndDate + _set_title( title ) ;
+
+			obj.insert( "uiText",txt ) ;
+		}
+	}
+
+	items.add( std::move( obj ) ) ;
 }
 
 bool batchdownloader::showMetaData()

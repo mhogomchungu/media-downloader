@@ -295,6 +295,29 @@ private:
 		bool m_showMetaData ;
 		bool m_autoDownload ;
 	} ;
+
+	struct dataFromFileOpts
+	{
+		const QJsonArray& array ;
+		const QString& urlKey ;
+		const QString& uploadDate ;
+	} ;
+	void dataFromFile( Items& items,const dataFromFileOpts&,QJsonObject&,const QString& ) ;
+	template< typename Function >
+	void dataFromFile( Items& items,const dataFromFileOpts& opts,const Function& converter )
+	{
+		for( const auto& it : opts.array ){
+
+			auto obj = it.toObject() ;
+
+			if( !obj.isEmpty() ){
+
+				auto m = converter( obj.value( "duration" ) ) ;
+
+				this->dataFromFile( items,opts,obj,m ) ;
+			}
+		}
+	}
 	bool showMetaData() ;
 	bool autoDownloadWhenAdded() ;
 	void disableWhileDownloading() ;
