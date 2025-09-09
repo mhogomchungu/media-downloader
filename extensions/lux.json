@@ -1,4 +1,5 @@
 {
+    "AutoUpdate": true,
     "BackendPath": "${default}",
     "BatchFileArgument": "",
     "CanDownloadPlaylist": false,

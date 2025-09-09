@@ -2041,7 +2041,7 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 
 		ctx.logger().add( m,utility::concurrentID() ) ;
 	}else{
-		ctx.logger().add( "Network Error:\n" + reply.errorString(),utility::concurrentID() ) ;
+		ctx.logger().add( "Network Error: " + reply.errorString(),utility::concurrentID() ) ;
 	}
 }
 
@@ -2600,7 +2600,7 @@ QString utility::rename( QTableWidgetItem& item,
 	auto oldPath = cwd + "/" + oldName ;
 	auto newPath = cwd + "/" + newName ;
 
-	if( QDir().rename( oldPath,newPath ) ){
+	if( QFile::rename( oldPath,newPath ) ){
 
 		auto txt = item.text() ;
 

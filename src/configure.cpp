@@ -978,7 +978,7 @@ QMenu *  configure::addExtenion()
 	m->addAction( "gallery-dl" )->setObjectName( "gallery-dl.json" ) ;
 	m->addAction( "svtplay-dl" )->setObjectName( "svtplay-dl.json" ) ;
 	m->addAction( "you-get" )->setObjectName( "you-get.json" ) ;
-	m->addAction( "lux" )->setObjectName( "lux.json" ) ;
+	//m->addAction( "lux" )->setObjectName( "lux.json" ) ;
 
 	if( utility::platformIsNOTWindows() ){
 

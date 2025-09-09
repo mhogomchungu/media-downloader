@@ -1278,11 +1278,12 @@ void batchdownloader::setVisibleWidgetOverMainTable( bool e )
 
 void batchdownloader::renameFile( int row )
 {
-	const auto& df = m_ctx.Settings().downloadFolder() ;
 	const auto& fn = m_table.entryAt( row ).fileNames ;
-	const auto& nn = m_ui.plainTextEditBD->toPlainText() ;
 
 	if( fn.size() ){
+
+		auto nn = m_ui.plainTextEditBD->toPlainText() ;
+		auto df = m_ctx.Settings().downloadFolder() ;
 
 		auto& item = m_table.item( row,m_table.startPosition() ) ;
 

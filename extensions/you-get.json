@@ -1,4 +1,5 @@
 {
+    "AutoUpdate": true,
     "ArchiveContainsFolder": true,
     "BackendPath": "${default}",
     "BatchFileArgument": "-a",
