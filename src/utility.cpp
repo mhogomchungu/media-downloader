@@ -737,11 +737,11 @@ public:
 	{
 		return strerror( errno ) ;
 	}
-	const QString& oldPath() const
+	const QByteArray& oldPath() const
 	{
 		return m_oldPath ;
 	}
-	const QString& newPath() const
+	const QByteArray& newPath() const
 	{
 		return m_newPath ;
 	}
