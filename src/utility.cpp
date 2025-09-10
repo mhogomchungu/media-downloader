@@ -731,7 +731,7 @@ public:
 	}
 	bool exec() const
 	{
-		return rename( m_oldPath.constData(),m_newPath.constData() ) ;
+		return rename( m_oldPath.constData(),m_newPath.constData() ) == 0 ;
 	}
 	QString errorString() const
 	{
@@ -2682,10 +2682,22 @@ QString utility::rename( const Context& ctx,
 			const QString& newName,
 			const QString& oldName )
 {
+	Logger& logger = ctx.logger() ;
+
 	auto oldPath = cwd + "/" + oldName ;
 	auto newPath = cwd + "/" + newName ;
 
+	auto id = utility::concurrentID() ;
+
 	renameFile rename( oldPath,newPath ) ;
+
+	auto e = QObject::tr( "Renaming \"%1\" to \"%2\"" ) ;
+
+	auto bar = utility::barLine() ;
+
+	logger.add( bar,id ) ;
+
+	logger.add( e.arg( rename.oldPath(),rename.newPath() ),id ) ;
 
 	if( rename.exec() ){
 
@@ -2695,15 +2707,15 @@ QString utility::rename( const Context& ctx,
 
 		item.setText( txt ) ;
 
+		logger.add( bar,id ) ;
+
 		return newName ;
 	}else{
 		auto s = rename.errorString() ;
 
-		auto e = QObject::tr( "Failed To Rename \"%1\" to \"%2\": %3" ) ;
+		ctx.logger().add( QObject::tr( "Renaming Failed: %3" ).arg( s ),id ) ;
 
-		auto m = e.arg( rename.oldPath(),rename.newPath(),s ) ;
-
-		ctx.logger().add( m,utility::concurrentID() ) ;
+		logger.add( bar,id ) ;
 
 		return {} ;
 	}
