@@ -658,12 +658,12 @@ QString windowsGetLastErrorMessage()
 	auto b = FORMAT_MESSAGE_IGNORE_INSERTS ;
 	auto c = FORMAT_MESSAGE_ALLOCATE_BUFFER ;
 
-	audo flags = a | b | c ;
+	auto flags = a | b | c ;
 
 	auto le = GetLastError() ;
 	auto lg = MAKELANGID( LANG_NEUTRAL,SUBLANG_DEFAULT ) ;
 
-	auto m = FormatMessageA( flags,nullptr,le,lg,reinterpret_cast< char * >( &s ),0,nullptr ) ;
+	FormatMessageA( flags,nullptr,le,lg,reinterpret_cast< char * >( &s ),0,nullptr ) ;
 
 	QString m = s ;
 
@@ -676,7 +676,7 @@ class renameFile
 {
 public:
 	renameFile( const QString& oldPath,const QString& newPath ) :
-		m_oldPath( "\\?\\" + oldPath ),m_newPath( "\\?\\" + newPath )
+		m_oldPath( this->setPath( oldPath ) ),m_newPath( this->setPath( newPath ) )
 	{
 	}
 	bool exec() const
@@ -686,11 +686,23 @@ public:
 
 		return MoveFileW( oldp.data(),newp.data() ) ;
 	}
-	QString errorString()
+	QString errorString() const
 	{
 		return windowsGetLastErrorMessage() ;
 	}
+	const QString& oldPath() const
+	{
+		return m_oldPath ;
+	}
+	const QString& newPath() const
+	{
+		return m_newPath ;
+	}
 private:
+	QString setPath( const QString& e )
+	{
+		return QDir::toNativeSeparators( e ) ;
+	}
 	QString m_oldPath ;
 	QString m_newPath ;
 } ;
@@ -721,9 +733,17 @@ public:
 	{
 		return rename( m_oldPath.constData(),m_newPath.constData() ) ;
 	}
-	QString errorString()
+	QString errorString() const
 	{
 		return strerror( errno ) ;
+	}
+	const QString& oldPath() const
+	{
+		return m_oldPath ;
+	}
+	const QString& newPath() const
+	{
+		return m_newPath ;
 	}
 private:
 	QByteArray m_oldPath ;
@@ -2679,7 +2699,9 @@ QString utility::rename( const Context& ctx,
 	}else{
 		auto s = rename.errorString() ;
 
-		auto m = QObject::tr( "Failed To Rename \"%1\" to \"%2\": %3" ).arg( oldPath,newPath,s ) ;
+		auto e = QObject::tr( "Failed To Rename \"%1\" to \"%2\": %3" ) ;
+
+		auto m = e.arg( rename.oldPath(),rename.newPath(),s ) ;
 
 		ctx.logger().add( m,utility::concurrentID() ) ;
 
