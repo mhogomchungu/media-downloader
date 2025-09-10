@@ -624,7 +624,111 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 	return a ;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
+
+void utility::checkPermissions::enable()
+{
+}
+
+void utility::checkPermissions::disable()
+{
+}
+
 #else
+
+extern Q_CORE_EXPORT int qt_ntfs_permission_lookup ;
+
+void utility::checkPermissions::enable()
+{
+	qt_ntfs_permission_lookup++ ;
+}
+
+void utility::checkPermissions::disable()
+{
+	qt_ntfs_permission_lookup-- ;
+}
+
+#endif
+
+QString windowsGetLastErrorMessage()
+{
+	char * s = nullptr ;
+
+	auto a = FORMAT_MESSAGE_FROM_SYSTEM ;
+	auto b = FORMAT_MESSAGE_IGNORE_INSERTS ;
+	auto c = FORMAT_MESSAGE_ALLOCATE_BUFFER ;
+
+	audo flags = a | b | c ;
+
+	auto le = GetLastError() ;
+	auto lg = MAKELANGID( LANG_NEUTRAL,SUBLANG_DEFAULT ) ;
+
+	auto m = FormatMessageA( flags,nullptr,le,lg,reinterpret_cast< char * >( &s ),0,nullptr ) ;
+
+	QString m = s ;
+
+	LocalFree( s ) ;
+
+	return m ;
+}
+
+class renameFile
+{
+public:
+	renameFile( const QString& oldPath,const QString& newPath ) :
+		m_oldPath( "\\?\\" + oldPath ),m_newPath( "\\?\\" + newPath )
+	{
+	}
+	bool exec() const
+	{
+		auto oldp = m_oldPath.toStdWString() ;
+		auto newp = m_newPath.toStdWString() ;
+
+		return MoveFileW( oldp.data(),newp.data() ) ;
+	}
+	QString errorString()
+	{
+		return windowsGetLastErrorMessage() ;
+	}
+private:
+	QString m_oldPath ;
+	QString m_newPath ;
+} ;
+
+#else
+
+QString windowsGetLastErrorMessage()
+{
+	return {} ;
+}
+
+void utility::checkPermissions::enable()
+{
+}
+
+void utility::checkPermissions::disable()
+{
+}
+
+class renameFile
+{
+public:
+	renameFile( const QString& oldPath,const QString& newPath ) :
+		m_oldPath( oldPath.toUtf8() ),m_newPath( newPath.toUtf8() )
+	{
+	}
+	bool exec() const
+	{
+		return rename( m_oldPath.constData(),m_newPath.constData() ) ;
+	}
+	QString errorString()
+	{
+		return strerror( errno ) ;
+	}
+private:
+	QByteArray m_oldPath ;
+	QByteArray m_newPath ;
+} ;
 
 std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 {
@@ -695,46 +799,6 @@ QString utility::windowsApplicationDirPath()
 QString utility::windowsGateWayAddress()
 {
 	return {} ;
-}
-
-#endif
-
-#ifdef Q_OS_WIN
-
-#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
-
-void utility::checkPermissions::enable()
-{
-}
-
-void utility::checkPermissions::disable()
-{
-}
-
-#else
-
-extern Q_CORE_EXPORT int qt_ntfs_permission_lookup ;
-
-void utility::checkPermissions::enable()
-{
-	qt_ntfs_permission_lookup++ ;
-}
-
-void utility::checkPermissions::disable()
-{
-	qt_ntfs_permission_lookup-- ;
-}
-
-#endif
-
-#else
-
-void utility::checkPermissions::enable()
-{
-}
-
-void utility::checkPermissions::disable()
-{
 }
 
 #endif
@@ -2592,15 +2656,18 @@ quint64 utility::simpleRandomNumber()
 	return static_cast< quint64 >( time( nullptr ) ) ;
 }
 
-QString utility::rename( QTableWidgetItem& item,
-			 const QString& cwd,
-			 const QString& newName,
-			 const QString& oldName )
+QString utility::rename( const Context& ctx,
+			QTableWidgetItem& item,
+			const QString& cwd,
+			const QString& newName,
+			const QString& oldName )
 {
 	auto oldPath = cwd + "/" + oldName ;
 	auto newPath = cwd + "/" + newName ;
 
-	if( QFile::rename( oldPath,newPath ) ){
+	renameFile rename( oldPath,newPath ) ;
+
+	if( rename.exec() ){
 
 		auto txt = item.text() ;
 
@@ -2610,6 +2677,12 @@ QString utility::rename( QTableWidgetItem& item,
 
 		return newName ;
 	}else{
+		auto s = rename.errorString() ;
+
+		auto m = QObject::tr( "Failed To Rename \"%1\" to \"%2\": %3" ).arg( oldPath,newPath,s ) ;
+
+		ctx.logger().add( m,utility::concurrentID() ) ;
+
 		return {} ;
 	}
 }

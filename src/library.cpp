@@ -315,7 +315,7 @@ void library::renameFile( int row )
 
 	auto& item = m_table.item( row,1 ) ;
 
-	utility::rename( item,m_currentPath,nn,item.text() ) ;
+	utility::rename( m_ctx,item,m_currentPath,nn,item.text() ) ;
 }
 
 void library::keyPressed( utility::mainWindowKeyCombo m )

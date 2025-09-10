@@ -1287,7 +1287,7 @@ void batchdownloader::renameFile( int row )
 
 		auto& item = m_table.item( row,m_table.startPosition() ) ;
 
-		auto m = utility::rename( item,df,nn,fn[ 0 ] ) ;
+		auto m = utility::rename( m_ctx,item,df,nn,fn[ 0 ] ) ;
 
 		if( !m.isEmpty() ){
 

@@ -579,13 +579,14 @@ namespace utility
 	bool platformisFlatPak() ;
 	bool addData( const QByteArray& ) ;
 	bool containsLinkerWarning( const QByteArray& ) ;
-	QString rename( QTableWidgetItem&,const QString&,const QString&,const QString& ) ;
+	QString rename( const Context&,QTableWidgetItem&,const QString&,const QString&,const QString& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
 	QString OSXApplicationDirPath() ;
 	QString OSXtranslationFilesPath() ;
 	QString OSX3rdPartyDirPath() ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
+	QString windowsGetLastErrorMessage() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;
 	void windowsSetDarkModeTitleBar( const Context& ) ;	
 	QByteArray barLine() ;
