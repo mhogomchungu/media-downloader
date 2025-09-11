@@ -1073,6 +1073,18 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Download Failed, Network Issue</source>
         <translation>Download fallito, problema di rete</translation>
     </message>
+    <message>
+        <source>Ukrainian (Ukraine)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming Failed: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

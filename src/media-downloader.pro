@@ -61,4 +61,4 @@ TRANSLATIONS = \
 ../translations/ar.ts \
 ../translations/el_GR.ts \
 ../translations/bg_BG.ts \
---/translations/uk_UA.ts
+../translations/uk_UA.ts

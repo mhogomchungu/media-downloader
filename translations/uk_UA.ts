@@ -141,7 +141,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation>Назва</translation>
+        <translation type="vanished">Назва</translation>
     </message>
     <message>
         <source>Up</source>
@@ -536,7 +536,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Arabic (Saudi Arabia)</source>
-        <translation>Арабська</translation>
+        <translation type="vanished">Арабська</translation>
     </message>
     <message>
         <source>Spanish (Spain)</source>
@@ -1077,6 +1077,18 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Download Failed, Network Issue</source>
         <translation>Помилка завантаження, проблема з мережею</translation>
+    </message>
+    <message>
+        <source>Arabic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming Failed: %3</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
