@@ -60,4 +60,5 @@ TRANSLATIONS = \
 ../translations/ko_KR.ts \
 ../translations/ar.ts \
 ../translations/el_GR.ts \
-../translations/bg_BG.ts
+../translations/bg_BG.ts \
+--/translations/uk_UA.ts
