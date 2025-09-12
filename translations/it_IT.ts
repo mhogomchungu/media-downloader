@@ -1075,15 +1075,15 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Ukrainian (Ukraine)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ucraino (Ucraina)</translation>
     </message>
     <message>
         <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinoma di &quot;%1&quot; in &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina fallita: %3</translation>
     </message>
 </context>
 <context>
