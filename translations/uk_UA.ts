@@ -21,7 +21,7 @@
     </message>
     <message>
         <source>Download</source>
-        <translation>Почати завантаження</translation>
+        <translation>Завантажити</translation>
     </message>
     <message>
         <source>Options</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
         <source>Set Download Options</source>
-        <translation>Встановити параметри завантаження</translation>
+        <translation>Поточноий параметр завантаження</translation>
     </message>
     <message>
         <source>Batch Downloader</source>
@@ -141,7 +141,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="vanished">Назва</translation>
+        <translation>Назва</translation>
     </message>
     <message>
         <source>Up</source>
@@ -535,8 +535,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Англійська</translation>
     </message>
     <message>
-        <source>Arabic (Saudi Arabia)</source>
-        <translation type="vanished">Арабська</translation>
+        <source>Arabic</source>
+        <translation>Арабська</translation>
     </message>
     <message>
         <source>Spanish (Spain)</source>
@@ -712,7 +712,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Elapsed Time:</source>
-        <translation>Минулий час:</translation>
+        <translation>Минуло часу:</translation>
     </message>
     <message>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
@@ -740,7 +740,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Start Downloading</source>
-        <translation>Почати завантаження</translation>
+        <translation>Завантажити</translation>
     </message>
     <message>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
@@ -1079,16 +1079,12 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Помилка завантаження, проблема з мережею</translation>
     </message>
     <message>
-        <source>Arabic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Перейменування &quot;%1&quot; на &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося перейменувати: %3</translation>
     </message>
 </context>
 <context>
@@ -1114,7 +1110,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Download</source>
-        <translation>Почати завантаження</translation>
+        <translation>Завантажити</translation>
     </message>
     <message>
         <source>Save</source>
