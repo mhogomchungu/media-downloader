@@ -307,7 +307,12 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 			m_ui.lineEditBDUrl->clear() ;
 
-			this->addToList( m,{ this->showMetaData(),this->autoDownloadWhenAdded() } ) ;
+			if( m.startsWith( "yt-dlp " ) ){
+
+				this->addToList( m,{ false,this->autoDownloadWhenAdded() } ) ;
+			}else{
+				this->addToList( m,{ this->showMetaData(),this->autoDownloadWhenAdded() } ) ;
+			}
 		}
 	} ) ;
 }
