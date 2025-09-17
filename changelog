@@ -388,3 +388,10 @@ Version 1.2.0(April 1st, 2021)
      Version 5.4.2(August 1st, 2025)
      [ALL]
        - Maintanance release that fixes various issues.
+
+     Version 5.4.3(UNRELEASED)
+     [WINDOWS]
+       - Update ffmpeg to version 8.0.
+     [ALL]
+       - Add Ukranian translations.
+       - Various fixes and improvements.
