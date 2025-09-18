@@ -140,10 +140,6 @@
         <translation>Тип</translation>
     </message>
     <message>
-        <source>Name</source>
-        <translation>Назва</translation>
-    </message>
-    <message>
         <source>Up</source>
         <translation>Вище</translation>
     </message>

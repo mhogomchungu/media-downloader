@@ -228,7 +228,7 @@ void settings::setCookieSourceSetToBrowerName( bool e )
 
 qint64 settings::timeOutWaitingForClipboardData()
 {
-	return this->getOption( "TimeOutWaitingForClipboardData",30000 ) ;
+	return this->getOption( "TimeOutWaitingForClipboardData",5000 ) ;
 }
 
 void settings::setAutoHideDownloadWhenCompleted( bool e )

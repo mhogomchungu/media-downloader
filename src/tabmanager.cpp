@@ -194,8 +194,8 @@ void tabManager::bgThreadClipboardHandler()
 	{
 	public:
 		timeOutMonitor( tabManager& parent ) :
-		    m_timeOut( parent.m_ctx.Settings().timeOutWaitingForClipboardData() ),
-		    m_then( m_timeOut > 0 ? QDateTime::currentMSecsSinceEpoch() : 0 )
+			m_timeOut( parent.m_ctx.Settings().timeOutWaitingForClipboardData() ),
+			m_then( m_timeOut > 0 ? QDateTime::currentMSecsSinceEpoch() : 0 )
 		{
 		}
 		bool notTimedOut() const
@@ -218,9 +218,9 @@ void tabManager::bgThreadClipboardHandler()
 	{
 	public:
 		meaw( tabManager& parent ) :
-		    m_parent( parent ),
-		    m_timer( m_parent ),
-		    m_id( m_parent.m_ctx.nativeHandleToMainWindow() )
+			m_parent( parent ),
+			m_timer( m_parent ),
+			m_id( m_parent.m_ctx.nativeHandleToMainWindow() )
 		{
 		}
 		QString bg()
