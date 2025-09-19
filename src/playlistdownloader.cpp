@@ -793,9 +793,6 @@ void playlistdownloader::download( const engines::engine& engine )
 		const engines::engine& m_engine ;
 	} ;
 
-	m_topDownloadingIndex = 0 ;
-	m_recursiveDownloading = 0 ;
-
 	m_ctx.logger().clear() ;
 
 	m_ctx.logger().setMaxProcessLog( m_table.rowCount() ) ;
@@ -805,22 +802,17 @@ void playlistdownloader::download( const engines::engine& engine )
 	engine.updateVersionInfo( m_ctx,meaw( *this,engine ) ) ;
 }
 
-void playlistdownloader::downloadRecursively( const engines::engine& eng,int index,bool recurse )
+void playlistdownloader::downloadRecursively( const engines::engine& eng,int index,bool downloadRecursively )
 {	
 	class events
 	{
 	public:
-		events( playlistdownloader& p,const engines::engine& engine,int index,bool recurse ) :
+		events( playlistdownloader& p,const engines::engine& engine,int index,bool dr ) :
 			m_parent( p ),
 			m_engine( engine ),
 			m_index( index ),
-			m_recurse( recurse )
+			m_downloadRecursively( dr )
 		{
-			if( m_recurse ){
-
-				m_parent.m_topDownloadingIndex++ ;
-				m_parent.m_recursiveDownloading++ ;
-			}
 		}
 		bool addData( const QByteArray& e )
 		{
@@ -850,9 +842,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 				m = reportFinished::finishedStatus::state::done ;
 			}
 
-			if( m_recurse ){
-
-				m_parent.m_recursiveDownloading-- ;
+			if( m_downloadRecursively ){
 
 				if( !st.cancelled() ){
 
@@ -893,9 +883,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	private:
 		void startNext()
 		{
-			auto m = m_parent.m_topDownloadingIndex ;
-
-			if( m < m_parent.m_table.rowCount() ){
+			for( int m = m_index + 1 ; m < m_parent.m_table.rowCount() ; m++ ){
 
 				auto e = m_parent.m_table.runningState( m ) ;
 
@@ -904,18 +892,18 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 
 				if( a || b ){
 
-					m_parent.m_topDownloadingIndex++ ;
-
-					this->startNext() ;
+					continue ;
 				}else{
-					m_parent.downloadRecursively( m_engine,m,m_recurse ) ;
+					m_parent.downloadRecursively( m_engine,m,m_downloadRecursively ) ;
+
+					break ;
 				}
 			}
 		}
 		playlistdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		int m_index ;
-		bool m_recurse ;
+		bool m_downloadRecursively ;
 	} ;
 
 	auto m = m_ui.lineEditPLUrlOptions->text() ;
@@ -936,7 +924,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	auto ff     = engine.filter( id ) ;
 	auto logger = make_loggerBatchDownloader( ff.move(),m_ctx.logger(),updater,error,id,logs ) ;
 
-	m_table.setRunningState( reportFinished::finishedStatus::running(),index ) ;
+	m_table.setStateAsRunning( index,downloadRecursively ) ;
 
 	auto optsUpdater = [ this ]( QStringList opts ){
 
@@ -963,7 +951,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 			  m_ctx,
 			  { dopt,{ index,m_table.rowCount() },true,ent },
 			  m_terminator.setUp(),
-			  events( *this,engine,index,recurse ),
+			  events( *this,engine,index,downloadRecursively ),
 			  logger.move() ) ;
 }
 
@@ -1525,7 +1513,9 @@ void playlistdownloader::showEntry( tableWidget::entry e )
 
 		auto e = static_cast< int >( m_settings.maxConcurrentDownloads() ) ;
 
-		if( m_recursiveDownloading > 0 && m_recursiveDownloading < e ){
+		auto m = m_table.totalRunningRecursively() ;
+
+		if( m > 0 && m < e ){
 
 			const auto& eng = this->defaultEngine() ;
 
@@ -1534,10 +1524,6 @@ void playlistdownloader::showEntry( tableWidget::entry e )
 			const auto& engine = utility::resolveEngine( m_table,eng,engines,row ) ;
 
 			this->downloadRecursively( engine,row,true ) ;
-
-		}else if( m_autoDownload ){
-
-			this->download() ;
 		}
 	}
 }

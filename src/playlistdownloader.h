@@ -145,8 +145,6 @@ private:
 	bool m_stoppedOnExisting ;
 	bool m_dataReceived ;
 
-	int m_topDownloadingIndex = 0 ;
-	int m_recursiveDownloading = 0 ;
 	int m_networkRunning = 0 ;
 	int m_downloaderId = -1 ;
 
