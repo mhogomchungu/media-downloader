@@ -112,17 +112,7 @@ private:
 	void customContextMenuRequested() ;
 	void plSubscription() ;
 
-	struct networkCtx
-	{
-		utility::MediaEntry media ;
-		int id ;
-		networkCtx move()
-		{
-			return std::move( *this ) ;
-		}
-	} ;
-
-	void networkResult( networkCtx,const utils::network::reply& ) ;
+	void networkResult( utility::MediaEntry,const utils::network::reply& ) ;
 
 	void download() ;
 	void download( const engines::engine& ) ;
@@ -141,12 +131,10 @@ private:
 	tableMiniWidget< int,2 > m_subscriptionTable ;
 	bool m_gettingPlaylist = false ;
 	bool m_showThumbnails ;
-	bool m_autoDownload ;
 	bool m_stoppedOnExisting ;
 	bool m_dataReceived ;
 
 	int m_networkRunning = 0 ;
-	int m_downloaderId = -1 ;
 
 	utility::Terminator m_terminator ;
 
@@ -197,7 +185,7 @@ private:
 			const playlistdownloader::customOptions&,
 			utility::MediaEntry ) ;
 
-	void showEntry( tableWidget::entry e ) ;
+	void showEntry( tableWidget::entry,bool ) ;
 
 	class subscription
 	{
@@ -377,9 +365,9 @@ private:
 		utility::vector< playlistdownloader::subscription::entry > m_list ;
 	} ;
 
-	void getListing( playlistdownloader::listIterator,const engines::engine& ) ;
-	void getList( playlistdownloader::listIterator,const engines::engine& ) ;
-	void getList( const QString&,customOptions&&,const engines::engine&,listIterator ) ;
+	void getListing( playlistdownloader::listIterator,const engines::engine&,bool ) ;
+	void getList( playlistdownloader::listIterator,const engines::engine&,bool ) ;
+	void getList( const QString&,customOptions&&,const engines::engine&,listIterator,bool ) ;
 
 	QByteArray m_jsonEndMarker = "0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef" ;
 	subscription m_subscription ;

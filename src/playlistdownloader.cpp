@@ -258,8 +258,6 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			m_autoDownload = false ;
-
 			utility::vector< subscription::entry > ss ;
 
 			if( utils::misc::containsAny( m,'\n',' ' ) ){
@@ -275,7 +273,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 				ss.emplace_back( m ) ;
 			}
 
-			this->getListing( ss.move(),this->defaultEngine() ) ;
+			this->getListing( ss.move(),this->defaultEngine(),false ) ;
 		}
 	} ) ;
 
@@ -660,8 +658,6 @@ void playlistdownloader::customContextMenuRequested()
 
 void playlistdownloader::plSubscription()
 {
-	m_autoDownload = false ;
-
 	QMenu m ;
 
 	auto ee = m_subscription.entries() ;
@@ -706,13 +702,11 @@ void playlistdownloader::plSubscription()
 
 			if( s == "Download All Updated" ){
 
-				m_parent.m_autoDownload = true ;
-
-				m_parent.getListing( m_vector.move(),engine ) ;
+				m_parent.getListing( m_vector.move(),engine,true ) ;
 
 			}else if( s == "Show All Updated" ){
 
-				m_parent.getListing( m_vector.move(),engine ) ;
+				m_parent.getListing( m_vector.move(),engine,false ) ;
 
 			}else if( s == "Manage Subscriptions" ){
 
@@ -728,7 +722,7 @@ void playlistdownloader::plSubscription()
 
 						ss.emplace_back( e ) ;
 
-						m_parent.getListing( ss.move(),engine ) ;
+						m_parent.getListing( ss.move(),engine,false ) ;
 
 						return true ;
 					}else{
@@ -842,12 +836,9 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 				m = reportFinished::finishedStatus::state::done ;
 			}
 
-			if( m_downloadRecursively ){
+			if( m_downloadRecursively && !st.cancelled() ){
 
-				if( !st.cancelled() ){
-
-					this->startNext() ;
-				}
+				this->startNext() ;
 			}
 
 			reportFinished::finishedStatus s{ m_index,m,st } ;
@@ -978,7 +969,9 @@ void playlistdownloader::showBanner()
 	this->disableAll() ;
 }
 
-void playlistdownloader::getListing( playlistdownloader::listIterator e,const engines::engine& engine )
+void playlistdownloader::getListing( playlistdownloader::listIterator e,
+				    const engines::engine& engine,
+				    bool autoDownload )
 {
 	this->resizeTable( playlistdownloader::size::large ) ;
 
@@ -988,30 +981,31 @@ void playlistdownloader::getListing( playlistdownloader::listIterator e,const en
 	{
 	public:
 		meaw( playlistdownloader& p,
-			playlistdownloader::listIterator it,
-			const engines::engine& engine ) :
-			m_parent( p ),m_it( it.move() ),m_engine( engine )
+		      playlistdownloader::listIterator it,
+		      const engines::engine& engine,
+		      bool autoDownload  ) :
+			m_parent( p ),m_it( it.move() ),m_engine( engine ),m_autoDownload( autoDownload )
 		{
 		}
 		void operator()()
 		{
-			m_parent.getList( m_it.move(),m_engine ) ;
+			m_parent.getList( m_it.move(),m_engine,m_autoDownload ) ;
 		}
 	private:
 		playlistdownloader& m_parent ;
 		playlistdownloader::listIterator m_it ;
 		const engines::engine& m_engine ;
+		bool m_autoDownload ;
 	} ;
 
-	engine.updateVersionInfo( m_ctx,meaw( *this,e.move(),engine ) ) ;
+	engine.updateVersionInfo( m_ctx,meaw( *this,e.move(),engine,autoDownload ) ) ;
 }
 
 void playlistdownloader::getList( playlistdownloader::listIterator iter,
-				  const engines::engine& engine )
+				 const engines::engine& engine,
+				 bool autoDownload )
 {
-	m_dataReceived = false ;
 	m_stoppedOnExisting = false ;
-	m_downloaderId++ ;
 
 	auto url = iter.url() ;
 
@@ -1063,12 +1057,14 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 			const engines::engine& engine,
 			QStringList opts,
 			playlistdownloader& parent,
-			playlistdownloader::listIterator iter ) :
+			playlistdownloader::listIterator iter,
+			bool ad ) :
 			m_engine( engine ),
 			m_opts( std::move( opts ) ),
 			m_parent( parent ),
 			m_iter( std::move( iter ) ),
-			m_url( url )
+			m_url( url ),
+			m_autoDownload( ad )
 		{
 		}
 		customOptions bg()
@@ -1079,7 +1075,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 		}
 		void fg( customOptions o )
 		{
-			m_parent.getList( m_url,o.move(),m_engine,m_iter.move() ) ;
+			m_parent.getList( m_url,o.move(),m_engine,m_iter.move(),m_autoDownload ) ;
 		}
 	private:
 		const engines::engine& m_engine ;
@@ -1087,23 +1083,26 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 		playlistdownloader& m_parent ;
 		playlistdownloader::listIterator m_iter ;
 		QString m_url ;
+		bool m_autoDownload ;
 	} ;
 
-	utils::qthread::run( meaw( url,engine,std::move( opts ),*this,iter.move() ) ) ;
+	utils::qthread::run( meaw( url,engine,std::move( opts ),*this,iter.move(),autoDownload ) ) ;
 }
 
 void playlistdownloader::getList(  const QString& url,
 				  customOptions&& c,
 				  const engines::engine& engine,
-				  playlistdownloader::listIterator iter )
+				  playlistdownloader::listIterator iter,
+				  bool autoDownload )
 {
 	class events
 	{
 	public:
 		events( playlistdownloader& p,
 			const engines::engine& e,
-			playlistdownloader::listIterator i ) :
-			m_parent( p ),m_engine( e ),m_iter( i.move() )
+			playlistdownloader::listIterator i,
+			bool ad ) :
+			m_parent( p ),m_engine( e ),m_iter( i.move() ),m_autoDownload( ad )
 		{
 		}
 		const engines::engine& engine()
@@ -1120,7 +1119,7 @@ void playlistdownloader::getList(  const QString& url,
 
 				if( m_parent.m_stoppedOnExisting && m_iter.hasNext() ){
 
-					m_parent.getList( m_iter.next(),m_engine ) ;
+					m_parent.getList( m_iter.next(),m_engine,m_autoDownload ) ;
 				}else{
 					m_parent.enableAll() ;
 					m_parent.m_gettingPlaylist = false ;
@@ -1129,9 +1128,9 @@ void playlistdownloader::getList(  const QString& url,
 
 			}else if( m_iter.hasNext() ){
 
-				m_parent.getList( m_iter.next(),m_engine ) ;
+				m_parent.getList( m_iter.next(),m_engine,m_autoDownload ) ;
 			}else{
-				if( m_parent.m_autoDownload ){
+				if( m_autoDownload ){
 
 					m_parent.download() ;
 				}else{
@@ -1168,6 +1167,7 @@ void playlistdownloader::getList(  const QString& url,
 		playlistdownloader& m_parent ;
 		const engines::engine& m_engine ;
 		playlistdownloader::listIterator m_iter ;
+		bool m_autoDownload ;
 	} ;
 
 	auto opts = c.options() ;
@@ -1175,7 +1175,7 @@ void playlistdownloader::getList(  const QString& url,
 	stdOut sOut( *this,c.move(),engine,url ) ;
 	stdError sErr( *this,m_banner ) ;
 
-	events ev( *this,engine,iter.move() ) ;
+	events ev( *this,engine,iter.move(),autoDownload ) ;
 
 	auto& ll = m_ctx.logger() ;
 
@@ -1232,7 +1232,7 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 			auto mm = QObject::tr( "Stopping Because Media Is Already In Archive File" ) ;
 
-			this->showEntry( { m_defaultVideoThumbnailIcon,s,media,mm } ) ;
+			this->showEntry( { m_defaultVideoThumbnailIcon,s,media,mm },false ) ;
 
 			return true ;
 
@@ -1242,7 +1242,7 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 			auto mm = QObject::tr( "Media Already In Archive" ) ;
 
-			this->showEntry( { m_defaultVideoThumbnailIcon,s,media,mm } ) ;
+			this->showEntry( { m_defaultVideoThumbnailIcon,s,media,mm },false ) ;
 
 			return false ;
 		}
@@ -1270,34 +1270,23 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 		m_networkRunning++ ;
 
-		networkCtx m{ media.move(),m_downloaderId } ;
-
 		auto ua = engine.isGalleryDl() ? network.defaultUserAgent() : QByteArray() ;
 
-		network.get( thumbnailUrl,m.move(),this,&playlistdownloader::networkResult,ua ) ;
+		network.get( thumbnailUrl,media.move(),this,&playlistdownloader::networkResult,ua ) ;
 	}else{
-		emit this->networkDataSignal( { m_downloaderId,media.move() } ) ;
+		emit this->networkDataSignal( { -1,media.move() } ) ;
 	}
 
 	return false ;
 }
 
-void playlistdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
+void playlistdownloader::networkResult( utility::MediaEntry media,const utils::network::reply& reply )
 {
-	emit this->networkDataSignal( { m_ctx,reply,d.id,d.media.move() } ) ;
+	emit this->networkDataSignal( { m_ctx,reply,-1,media.move() } ) ;
 }
 
 void playlistdownloader::networkData( utility::networkReply m )
 {
-	if( m.id() < m_downloaderId ){
-
-		/*
-		 * Network responce took too long and we are now running
-		 * a newer request to get playlist entries
-		 */
-		//return ;
-	}
-
 	auto s = reportFinished::finishedStatus::notStarted() ;
 
 	if( networkAccess::hasNetworkSupport() ){
@@ -1311,16 +1300,16 @@ void playlistdownloader::networkData( utility::networkReply m )
 
 			auto img = pixmap.scaled( width,height ) ;
 
-			this->showEntry( { img,s,m.media() } ) ;
+			this->showEntry( { img,s,m.media() },true ) ;
 		}else{
 			const auto& img = m_defaultVideoThumbnailIcon ;
 
-			this->showEntry( { img,s,m.media() } ) ;
+			this->showEntry( { img,s,m.media() },true ) ;
 		}
 	}else{
 		const auto& img = m_defaultVideoThumbnailIcon ;
 
-		this->showEntry( { img,s,m.media() } ) ;
+		this->showEntry( { img,s,m.media() },true ) ;
 	}
 
 	m_networkRunning-- ;
@@ -1499,7 +1488,7 @@ void playlistdownloader::resizeTable( playlistdownloader::size s )
 	}
 }
 
-void playlistdownloader::showEntry( tableWidget::entry e )
+void playlistdownloader::showEntry( tableWidget::entry e,bool downloadable )
 {
 	auto row = m_table.addItem( e.move() ) ;
 
@@ -1509,7 +1498,7 @@ void playlistdownloader::showEntry( tableWidget::entry e )
 
 	m_table.selectRow( row ) ;
 
-	if( !m_ui.pbPLCancel->isEnabled() ){
+	if( !m_ui.pbPLCancel->isEnabled() && downloadable ){
 
 		auto e = static_cast< int >( m_settings.maxConcurrentDownloads() ) ;
 
@@ -1749,8 +1738,6 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 
 void playlistdownloader::stdOut::operator()( Logger::Data& data )
 {
-	m_parent.m_dataReceived = true ;
-
 	if( m_engine.likeYtDlp() ){
 
 		this->parseYtDlpData( data ) ;

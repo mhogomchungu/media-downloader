@@ -1778,10 +1778,6 @@ namespace utility
 		{
 			return !m_data.isEmpty() ;
 		}
-		int id() const
-		{
-			return m_id ;
-		}
 		int index() const
 		{
 			return m_id ;
