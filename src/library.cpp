@@ -461,9 +461,11 @@ void library::cxMenuRequested( QPoint )
 
 	QMenu m ;
 
-	connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this,row ](){
+	auto hasMultipleSelections = this->hasMultipleSelections() ;
 
-		if( this->hasMultipleSelections() ){
+	connect( m.addAction( tr( "Delete" ) ),&QAction::triggered,[ this,row,hasMultipleSelections ](){
+
+		if( hasMultipleSelections ){
 
 			m_ui.pbLibrarySetNewFileName->setObjectName( "DeleteSelectedItems" ) ;
 
@@ -502,7 +504,11 @@ void library::cxMenuRequested( QPoint )
 		m_ui.pbLibraryCancelRename->setText( tr( "No" ) ) ;
 	} ) ;
 
-	connect( m.addAction( tr( "Delete All" ) ),&QAction::triggered,[ this ](){
+	auto ac = m.addAction( tr( "Delete All" ) ) ;
+
+	ac->setEnabled( !hasMultipleSelections ) ;
+
+	connect( ac,&QAction::triggered,[ this ](){
 
 		auto a = tr( "Are You Sure You Want To Delete All Files And Folders?" ) ;
 
@@ -519,9 +525,9 @@ void library::cxMenuRequested( QPoint )
 		m_ui.plainTextLibrarySetNewName->setVisible( false ) ;
 	} ) ;
 
-	auto ac = m.addAction( tr( "Rename" ) ) ;
+	ac = m.addAction( tr( "Rename" ) ) ;
 
-	ac->setEnabled( !this->hasMultipleSelections() ) ;
+	ac->setEnabled( !hasMultipleSelections ) ;
 
 	connect( ac,&QAction::triggered,[ this,row ](){
 
