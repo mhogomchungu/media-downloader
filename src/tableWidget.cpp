@@ -276,6 +276,24 @@ bool tableWidget::finishedWithSuccess( int row ) const
 	return reportFinished::finishedStatus::finishedWithSuccess( *this,row ) ;
 }
 
+bool tableWidget::runningOrFinishedWithSuccess( int row ) const
+{
+	return this->isRunning( row ) || this->finishedWithSuccess( row ) ;
+}
+
+int tableWidget::nextAvailableEntryToDownload( int row ) const
+{
+	for( ; row < m_table.rowCount() ; row++ ){
+
+		if( !this->runningOrFinishedWithSuccess( row ) ){
+
+			return row ;
+		}
+	}
+
+	return -1 ;
+}
+
 void tableWidget::selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber )
 {
 	auto _update_table_row = [ & ]( QTableWidgetItem * item,bool setSelected ){

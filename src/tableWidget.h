@@ -169,6 +169,8 @@ public:
 		return this->item( row ).runningState ;
 	}
 	bool finishedWithSuccess( int row ) const ;
+	bool runningOrFinishedWithSuccess( int row ) const ;
+	int nextAvailableEntryToDownload( int ) const ;
 	QByteArray mediaEntry( int row ) const
 	{
 		auto obj = this->entryAt( row ).uiJson ;

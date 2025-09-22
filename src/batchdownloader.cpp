@@ -2959,21 +2959,11 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 	private:
 		void startNext()
 		{
-			for( int m = m_index + 1 ; m < m_parent.m_table.rowCount() ; m++ ){
+			auto m = m_parent.m_table.nextAvailableEntryToDownload( m_index + 1 ) ;
 
-				auto e = m_parent.m_table.runningState( m ) ;
+			if( m != -1 ){
 
-				auto a = reportFinished::finishedStatus::running( e ) ;
-				auto b = reportFinished::finishedStatus::finishedWithSuccess( e ) ;
-
-				if( a || b ){
-
-					continue ;
-				}else{
-					m_parent.downloadRecursively( m_engine,m ) ;
-
-					break ;
-				}
+				m_parent.downloadRecursively( m_engine,m ) ;
 			}
 		}
 		batchdownloader& m_parent ;
