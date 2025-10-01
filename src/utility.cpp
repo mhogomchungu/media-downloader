@@ -726,28 +726,31 @@ class renameFile
 {
 public:
 	renameFile( const QString& oldPath,const QString& newPath ) :
-		m_oldPath( oldPath.toUtf8() ),m_newPath( newPath.toUtf8() )
+		m_oldPath( oldPath ),m_newPath( newPath )
 	{
 	}
 	bool exec() const
 	{
-		return rename( m_oldPath.constData(),m_newPath.constData() ) == 0 ;
+		auto oldPath = m_oldPath.toUtf8() ;
+		auto newPath = m_newPath.toUtf8() ;
+
+		return rename( oldPath.constData(),newPath.constData() ) == 0 ;
 	}
 	QString errorString() const
 	{
 		return strerror( errno ) ;
 	}
-	const QByteArray& oldPath() const
+	const QString& oldPath() const
 	{
 		return m_oldPath ;
 	}
-	const QByteArray& newPath() const
+	const QString& newPath() const
 	{
 		return m_newPath ;
 	}
 private:
-	QByteArray m_oldPath ;
-	QByteArray m_newPath ;
+	QString m_oldPath ;
+	QString m_newPath ;
 } ;
 
 std::vector< utility::PlayerOpts > utility::getMediaPlayers()
