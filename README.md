@@ -102,7 +102,7 @@ A short list of distributions that have Media Downloader in their repositories a
 git clone https://github.com/mhogomchungu/media-downloader && cd media-downloader
 ```
 
-2. chmod it to make it a executeable 
+2. chmod it to make it a executeable
 ```console
 chmod +x build_linux.sh
 ```
@@ -119,6 +119,13 @@ Fedora users can use the following script to build from source:
 
 ```console
 ./build_fedora.sh
+```
+### Arch linux
+
+Arch linux users can use the following script to build from source:
+
+```console
+./build_arch.sh
 ```
 
 # Screenshots
