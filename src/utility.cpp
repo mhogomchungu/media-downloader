@@ -225,7 +225,6 @@ QString utility::windowsApplicationDirPath()
 	}else{
 		return {} ;
 	}
-
 }
 
 class adaptorInfo
