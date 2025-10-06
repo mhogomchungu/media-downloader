@@ -205,19 +205,27 @@ bool utility::platformIsWindows7()
 
 QString utility::windowsApplicationDirPath()
 {
-	std::array< char,4096 > buffer ;
+	std::array< wchar_t,4096 > buffer ;
 
-	GetModuleFileNameA( nullptr,buffer.data(),static_cast< DWORD >( buffer.size() ) ) ;
+	auto e = GetModuleFileNameW( nullptr,buffer.data(),static_cast< DWORD >( buffer.size() ) ) ;
 
-	auto m = QDir::fromNativeSeparators( buffer.data() ) ;
-	auto s = m.lastIndexOf( '/' ) ;
+	if( e > 0 ){
 
-	if( s != -1 ){
+		auto a = QString::fromWCharArray( buffer.data(),e ) ;
 
-		m.truncate( s ) ;
+		auto m = QDir::fromNativeSeparators( a ) ;
+		auto s = m.lastIndexOf( '/' ) ;
+
+		if( s != -1 ){
+
+			m.truncate( s ) ;
+		}
+
+		return m ;
+	}else{
+		return {} ;
 	}
 
-	return m ;
 }
 
 class adaptorInfo
