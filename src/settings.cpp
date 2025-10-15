@@ -485,8 +485,6 @@ void settings::init_done()
 		}
 		void bg()
 		{
-			m_parent.clearFlatPakTemps() ;
-
 			if( utility::platformIsWindows() ){
 
 				const auto& m = m_parent.m_options.pathToOldUpdatedVersion() ;
@@ -497,6 +495,8 @@ void settings::init_done()
 				}
 
 			}else if( utility::platformisFlatPak() ){
+
+				m_parent.clearFlatPakTemps() ;
 
 				m_parent.m_vlcFlatPak.checkVLCAvailability() ;
 			}
@@ -1186,19 +1186,15 @@ QString settings::localizationLanguagePath()
 	if( utility::platformIsWindows() ){
 
 		return m_options.windowsOnlyExePath() + "/translations" ;
-	}
 
-	if( utility::platformIsOSX() ){
+	}else if( utility::platformIsOSX() ){
 
 		return utility::OSXtranslationFilesPath() ;
-	}
-	
-	if( !m_settings.contains( "TranslationsPath" ) ){
+	}else{
+		auto m = QCoreApplication::applicationDirPath() ;
 
-		m_settings.setValue( "TranslationsPath",TRANSLATION_PATH ) ;
+		return m + "/../share/media-downloader/translations/" ;
 	}
-
-	return m_settings.value( "TranslationsPath" ).toString() ;
 }
 
 void settings::setLocalizationLanguage( const QString& language )

@@ -70,7 +70,7 @@ private:
 	std::vector< std::pair< QMenu *,entry > > m_menus ;
 
 	settings& m_settings ;
-private:
+	QString m_pathLanguageFiles ;
 };
 
 #endif
