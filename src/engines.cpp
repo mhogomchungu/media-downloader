@@ -43,18 +43,18 @@
 #include <QNetworkProxyFactory>
 #include <QDir>
 
-static QStringList _dirEntries( const QString& e )
+QStringList engines::dirEntries( const QString& e ) const
 {
 	auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
 
 	return QDir( e ).entryList( filters ) ;
 }
 
-static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,settings& settings )
+QProcessEnvironment engines::getEnvPaths() const
 {
 	auto env = QProcessEnvironment::systemEnvironment() ;
 
-	const auto& basePath = paths.binPath() ;
+	const auto& basePath = m_enginePaths.binPath() ;
 
 	auto separator = [ & ](){
 
@@ -68,15 +68,15 @@ static QProcessEnvironment _getEnvPaths( const engines::enginePaths& paths,setti
 
 	QString s ;
 
-	const auto l = _dirEntries( basePath ) ;
+	const auto l = this->dirEntries( basePath ) ;
 
 	if( utility::platformIsWindows() ){
 
-		const auto& mm = settings.windowsOnly3rdPartyBinPath() ;
+		const auto& mm = m_settings.windowsOnly3rdPartyBinPath() ;
 
 		s = mm ;
 
-		auto m = _dirEntries( mm ) ;
+		auto m = this->dirEntries( mm ) ;
 
 		m.removeOne( "aria2-1.36.0-win-32bit-build1" ) ;
 		m.removeOne( "aria2-1.37.0-win-32bit-build1" ) ;
@@ -143,7 +143,7 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 	m_logger( l ),
 	m_settings( s ),
 	m_enginePaths( paths ),
-	m_processEnvironment( _getEnvPaths( m_enginePaths,m_settings ) ),
+	m_processEnvironment( this->getEnvPaths() ),
 	m_defaultEngine( l,m_enginePaths )
 {
 	this->updateEngines( true,id ) ;
@@ -253,14 +253,11 @@ const QString& engines::defaultEngineName() const
 	return m_defaultEngine.name() ;
 }
 
-static util::result< engines::engine > _get_engine_by_path( const QString& e,
-							    const engines& engines,
-							    Logger& logger,
-							    const engines::enginePaths& enginePaths )
+util::result< engines::engine > engines::getEngineByPath( const QString& e ) const
 {
-	auto path = enginePaths.enginePath( e ) ;
+	auto path = m_enginePaths.enginePath( e ) ;
 
-	util::Json json( engines::file( path,logger ).readAll() ) ;
+	util::Json json( engines::file( path,m_logger ).readAll() ) ;
 
 	if( json ){
 
@@ -279,13 +276,13 @@ static util::result< engines::engine > _get_engine_by_path( const QString& e,
 
 				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
 
-				logger.add( m.arg( name,minVersion ),utility::sequentialID() ) ;
+				m_logger.add( m.arg( name,minVersion ),utility::sequentialID() ) ;
 
 				return {} ;
 			}
 		}
 
-		return { logger,enginePaths,object,engines,utility::sequentialID() } ;
+		return { m_logger,m_enginePaths,object,*this,utility::sequentialID() } ;
 	}else{
 		return {} ;
 	}
@@ -343,46 +340,48 @@ void engines::setDefaultEngine( const QString& name )
 	}
 }
 
+void engines::engineAdd( const QString& jsonFile,util::result< engines::engine > m,int id )
+{
+	if( m ){
+
+		if( m->exePath().isEmpty() ){
+
+			auto s = QObject::tr( "Error, executable to backend \"%1\" could not be found" ) ;
+
+			m_logger.add( s.arg( m->name() ),id ) ;
+		}else{
+			m_backends.emplace_back( std::move( m.value() ) ) ;
+		}
+	}else{
+		m_logger.add( QObject::tr( "Error, failed to parse config file \"%1\"" ).arg( jsonFile ),id ) ;
+	}
+}
+
 void engines::updateEngines( bool addAll,int id )
 {
 	m_backends.clear() ;
 
-	auto _engine_add = [ & ]( const QString& jsonFile,util::result< engines::engine > m ){
-
-		if( m ){
-
-			if( m->exePath().isEmpty() ){
-
-				m_logger.add( QObject::tr( "Error, executable to backend \"%1\" could not be found" ).arg( m->name() ),id ) ;
-			}else{
-				m_backends.emplace_back( std::move( m.value() ) ) ;
-			}
-		}else{
-			m_logger.add( QObject::tr( "Error, failed to parse config file \"%1\"" ).arg( jsonFile ),id ) ;
-		}
-	} ;
-
-	_engine_add( "",_get_engine_by_path( m_defaultEngine.configFileName(),*this,m_logger,m_enginePaths ) ) ;
+	this->engineAdd( "",this->getEngineByPath( m_defaultEngine.configFileName() ),id ) ;
 
 	const auto mm = this->enginesList() ;
 
 	for( const auto& it : mm ){
 
-		_engine_add( it,_get_engine_by_path( it,*this,m_logger,m_enginePaths ) ) ;
+		this->engineAdd( it,this->getEngineByPath( it ),id ) ;
 	}
 
 	if( addAll ){
 
 		if( utility::platformIsWindows() ){
 
-			_engine_add( "",{ *this,m_logger,"bsdtar","--version",0,1,id } ) ;
+			this->engineAdd( "",{ *this,m_logger,"bsdtar","--version",0,1,id },id ) ;
 		}else{
 			auto m = utility::platformIsLinux() ? 3 : 1 ;
 
-			_engine_add( "",{ *this,m_logger,"tar","--version",0,m,id } ) ;
+			this->engineAdd( "",{ *this,m_logger,"tar","--version",0,m,id },id ) ;
 		}
 
-		_engine_add( "",{ *this,m_logger,"ffmpeg","-version",0,2,id } ) ;
+		this->engineAdd( "",{ *this,m_logger,"ffmpeg","-version",0,2,id },id ) ;
 
 		for( const auto& it : this->getEngines() ){
 
@@ -392,9 +391,9 @@ void engines::updateEngines( bool addAll,int id )
 
 				if( utility::platformIsWindows() ){
 
-					_engine_add( it.name(),{ *this,m_logger,"python","--version",0,1,id } ) ;
+					this->engineAdd( it.name(),{ *this,m_logger,"python","--version",0,1,id },id ) ;
 				}else{
-					_engine_add( it.name(),{ *this,m_logger,"python3","--version",0,1,id } ) ;
+					this->engineAdd( it.name(),{ *this,m_logger,"python3","--version",0,1,id },id ) ;
 				}
 				break ;
 			}
@@ -495,27 +494,6 @@ const engines::enginePaths& engines::engineDirPaths() const
 	return m_enginePaths ;
 }
 
-static QStringList _toStringList( const QJsonValue& value,bool protectSpace = false ){
-
-	QStringList m ;
-
-	const auto array = value.toArray() ;
-
-	for( const auto& it : array ){
-
-		auto s = it.toString() ;
-
-		if( s.contains( ' ' ) && protectSpace ){
-
-			m.append( "\"" + s + "\"" ) ;
-		}else{
-			m.append( s ) ;
-		}
-	}
-
-	return m ;
-}
-
 settings& engines::Settings() const
 {
 	return m_settings ;
@@ -526,7 +504,7 @@ bool engines::filePathIsValid( const QFileInfo& info )
 	return info.exists() && info.isFile() ;
 }
 
-static QString _findExecutable( const QString& exeName,const QStringList& paths,QFileInfo& info )
+QString engines::findExecutable( const QString& exeName,const QStringList& paths,QFileInfo& info ) const
 {
 	for( const auto& it : paths ){
 
@@ -561,18 +539,18 @@ QString engines::findExecutable( const QString& exeName ) const
 
 		auto paths = this->processEnvironment().value( "PATH" ).split( ';' ) ;
 		
-		auto m = _findExecutable( exeName,paths,info ) ;
+		auto m = this->findExecutable( exeName,paths,info ) ;
 
 		if( m.isEmpty() && !exeName.endsWith( ".exe" ) ){
 
-			m = _findExecutable( exeName + ".exe",paths,info ) ;
+			m = this->findExecutable( exeName + ".exe",paths,info ) ;
 		}
 
 		return m ;
 	}else{
 		auto paths = this->processEnvironment().value( "PATH" ).split( ':' ) ;
 		
-		return _findExecutable( exeName,paths,info ) ;
+		return this->findExecutable( exeName,paths,info ) ;
 	}
 }
 
@@ -629,7 +607,7 @@ QString engines::addEngine( const QByteArray& data,const QString& path,int id )
 
 void engines::removeEngine( const QString& e,int id )
 {
-	const auto& engine = _get_engine_by_path( e,*this,m_logger,m_enginePaths ) ;
+	const auto& engine = this->getEngineByPath( e ) ;
 
 	if( engine && engine->valid() ){
 
@@ -711,6 +689,27 @@ engines::engine::engine( const engines& engines,
 	}
 }
 
+QStringList engines::engine::toStringList( const QJsonValue& value,bool protectSpace ) const
+{
+	QStringList m ;
+
+	const auto array = value.toArray() ;
+
+	for( const auto& it : array ){
+
+		auto s = it.toString() ;
+
+		if( s.contains( ' ' ) && protectSpace ){
+
+			m.append( "\"" + s + "\"" ) ;
+		}else{
+			m.append( s ) ;
+		}
+	}
+
+	return m ;
+}
+
 void engines::engine::updateOptions()
 {
 	m_controlStructure                = m_jsonObject.value( "ControlJsonStructure" ).toObject() ;
@@ -724,18 +723,18 @@ void engines::engine::updateOptions()
 	m_cookieArgument                  = m_jsonObject.value( "CookieArgument" ).toString() ;
 	m_cookieTextFileArgument          = m_jsonObject.value( "CookieArgumentTextFile" ).toString() ;
 	m_encodingArgument                = m_jsonObject.value( "EncodingArgument" ).toString() ;
-	m_dumpJsonArguments               = _toStringList( m_jsonObject.value( "DumptJsonArguments" ) ) ;
-	m_splitLinesBy                    = _toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ;
-	m_removeText                      = _toStringList( m_jsonObject.value( "RemoveText" ) ) ;
-	m_skiptLineWithText               = _toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ;
-	m_defaultDownLoadCmdOptions       = _toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ),true ) ;
-	m_defaultListCmdOptions           = _toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ;
-	m_defaultCommentsCmdOptions       = _toStringList( m_jsonObject.value( "DefaultCommentsCmdOptions" ) ) ;
-	m_defaultSubstitlesCmdOptions     = _toStringList( m_jsonObject.value( "DefaultSubstitlesCmdOptions" ) ) ;
-	m_defaultSubtitleDownloadOptions  = _toStringList( m_jsonObject.value( "DefaultSubtitleDownloadOptions" ) ) ;
+	m_dumpJsonArguments               = this->toStringList( m_jsonObject.value( "DumptJsonArguments" ) ) ;
+	m_splitLinesBy                    = this->toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ;
+	m_removeText                      = this->toStringList( m_jsonObject.value( "RemoveText" ) ) ;
+	m_skiptLineWithText               = this->toStringList( m_jsonObject.value( "SkipLineWithText" ) ) ;
+	m_defaultDownLoadCmdOptions       = this->toStringList( m_jsonObject.value( "DefaultDownLoadCmdOptions" ),true ) ;
+	m_defaultListCmdOptions           = this->toStringList( m_jsonObject.value( "DefaultListCmdOptions" ) ) ;
+	m_defaultCommentsCmdOptions       = this->toStringList( m_jsonObject.value( "DefaultCommentsCmdOptions" ) ) ;
+	m_defaultSubstitlesCmdOptions     = this->toStringList( m_jsonObject.value( "DefaultSubstitlesCmdOptions" ) ) ;
+	m_defaultSubtitleDownloadOptions  = this->toStringList( m_jsonObject.value( "DefaultSubtitleDownloadOptions" ) ) ;
 }
 
-static QJsonObject _getCmd( const QJsonObject& cmd )
+QJsonObject engines::engine::getCmd( const QJsonObject& cmd )
 {
 	if( utility::platformIsWindows() ){
 
@@ -761,15 +760,15 @@ engines::engine::cmd engines::engine::getCommands( const QJsonObject& cmd )
 
 		if( utility::platformIs32Bit() ){
 
-			return _getCmd( cmd ).value( "x86" ).toObject() ;
+			return this->getCmd( cmd ).value( "x86" ).toObject() ;
 		}else{
-			return _getCmd( cmd ).value( "amd64" ).toObject() ;
+			return this->getCmd( cmd ).value( "amd64" ).toObject() ;
 		}
 	}() ;
 
 	auto m = obj.value( "Name" ).toString() ;
 
-	auto s = _toStringList( obj.value( "Args" ).toArray() ) ;
+	auto s = this->toStringList( obj.value( "Args" ).toArray() ) ;
 
 	return { m,s,s.size() == 1 } ;
 }
@@ -804,23 +803,23 @@ engines::engine::cmd engines::engine::getLegacyCommands()
 
 		if( utility::platformIs32Bit() ){
 
-			auto m = _toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
+			auto m = this->toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
 
 			if( !m.isEmpty() ){
 
 				return { exe,m,m.isEmpty() } ;
 			}else{
-				auto s = _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
+				auto s = this->toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
 
 				return { exe,s,s.isEmpty() } ;
 			}
 		}else{
-			auto s = _toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
+			auto s = this->toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
 
 			return { exe,s,s.isEmpty() } ;
 		}
 	}else{
-		auto s = _toStringList( m_jsonObject.value( "CommandNames" ) ) ;
+		auto s = this->toStringList( m_jsonObject.value( "CommandNames" ) ) ;
 
 		return { exe,s,s.isEmpty() } ;
 	}
@@ -1273,7 +1272,7 @@ QString engines::engine::baseEngine::processCompleteStateText( const engine::eng
 	}
 }
 
-static bool _meetExtraCondition( const QByteArray& l,const QJsonObject& obj )
+bool engines::engine::baseEngine::meetExtraCondition( const QByteArray& l,const QJsonObject& obj )
 {
 	const QString line = l ;
 
@@ -1337,7 +1336,7 @@ bool engines::engine::baseEngine::meetCondition( const engines::engine& engine,c
 
 		if( m.isObject() ){
 
-			return _meetExtraCondition( line,m.toObject() ) ;
+			return engines::engine::baseEngine::meetExtraCondition( line,m.toObject() ) ;
 		}else{
 			return false ;
 		}
@@ -1347,8 +1346,8 @@ bool engines::engine::baseEngine::meetCondition( const engines::engine& engine,c
 
 		if( obj1.isObject() && obj2.isObject() ){
 
-			auto a = _meetExtraCondition( line,obj1.toObject() ) ;
-			auto b = _meetExtraCondition( line,obj2.toObject() ) ;
+			auto a = engines::engine::baseEngine::meetExtraCondition( line,obj1.toObject() ) ;
+			auto b = engines::engine::baseEngine::meetExtraCondition( line,obj2.toObject() ) ;
 
 			if( connector == "&&" ){
 

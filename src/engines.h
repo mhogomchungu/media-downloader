@@ -828,6 +828,7 @@ public:
 			settings& m_settings ;
 			const engines::engine& m_engine ;
 			const QProcessEnvironment& m_processEnvironment ;
+			static bool meetExtraCondition( const QByteArray&,const QJsonObject& ) ;
 		} ;
 
 		engine()
@@ -1233,8 +1234,9 @@ public:
 		}
 	private:
 		void setPermissions( const QString& ) const ;
-
 		void updateOptions() ;
+		QStringList toStringList( const QJsonValue&,bool = false ) const ;
+		QJsonObject getCmd( const QJsonObject& ) ;
 
 		struct cmd
 		{
@@ -1423,6 +1425,11 @@ public:
 	void setNetworkProxy( engines::proxySettings,bool,networkAccess& ) ;
 private:
 	void updateEngines( bool,int ) ;
+	util::result< engines::engine > getEngineByPath( const QString& ) const ;
+	void engineAdd( const QString&,util::result< engines::engine >,int ) ;
+	QString findExecutable( const QString&,const QStringList&,QFileInfo& ) const ;
+	QProcessEnvironment getEnvPaths() const ;
+	QStringList dirEntries( const QString& ) const ;
 	Logger& m_logger ;
 	settings& m_settings ;
 	std::vector< engine > m_backends ;
