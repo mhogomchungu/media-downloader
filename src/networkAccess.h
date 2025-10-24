@@ -23,6 +23,7 @@
 
 #include <QFile>
 #include <QStringList>
+#include <QCryptographicHash>
 
 #include "engines.h"
 #include "utils/network_access_manager.hpp"
@@ -465,16 +466,23 @@ private:
 
 	struct updateMDOptions
 	{
+		updateMDOptions() : hashCalculator( QCryptographicHash::Sha256 )
+		{
+		}
 		QString url ;
 		QString tmpFile ;
 		QString tmpPath ;
 		QString name ;
 		QString finalPath ;
+		QString hash ;
+		QString extractExePath ;
+		QString extractExeArgs ;
 		int id ;
 		double size ;
 		networkAccess::Status status ;
 		Logger::locale locale ;
 		networkAccess::File file ;
+		QCryptographicHash hashCalculator ;
 		updateMDOptions move()
 		{
 			return std::move( *this ) ;

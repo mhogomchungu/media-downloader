@@ -2139,12 +2139,21 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 	}
 }
 
+static bool _useFakeHash ;
+
+bool utility::cliArguments::useFakeMdHash()
+{
+	return _useFakeHash ;
+}
+
 utility::cliArguments::cliArguments( int argc,char ** argv )
 {
 	for( int i = 0 ; i < argc ; i++ ){
 
 		m_args.append( argv[ i ] ) ;
 	}
+
+	_useFakeHash = !this->value( "--fake-hash" ).isEmpty() ;
 
 	_pretendPlatform.set( m_args ) ;
 

@@ -141,6 +141,15 @@ void networkAccess::updateMediaDownloader( networkAccess::Status status,const QJ
 
 			updateMDOptions md ;
 
+			auto hash = object.value( "digest" ).toString() ;
+
+			if( hash.startsWith( "sha256" ) ){
+
+				hash.replace( "sha256:","" ) ;
+
+				md.hash = hash ;
+			}
+
 			md.size = size ;
 			md.url  = url ;
 			md.id   = status.id() ;
@@ -217,9 +226,36 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 
 		md.file.close() ;
 
-		if( p.success() ){
+		if( p.success() ){			
 
-			this->extractMediaDownloader( md.move() ) ;
+			if( md.hash.isEmpty() ){
+
+				auto m = QObject::tr( "Skipping Checking Download Hash" ) ;
+
+				this->post( m_appName,m,md.id ) ;
+
+				this->extractMediaDownloader( md.move() ) ;
+			}else{
+				auto m = md.hashCalculator.result() ;
+
+				if( utility::cliArguments::useFakeMdHash() ){
+
+					m = "bogusHashValue" ;
+				}
+
+				if( md.hash == m ){
+
+					this->extractMediaDownloader( md.move() ) ;
+				}else{
+					auto mm = QObject::tr( "Error: Hash Mismatch. Expected \"%1\" but obtained \"%2 \"" ).arg( md.hash,m ) ;
+
+					this->post( m_appName,mm,md.id ) ;
+
+					md.status.done() ;
+
+					m_tabManager.enableAll() ;
+				}
+			}
 		}else{
 			md.status.done() ;
 
@@ -228,7 +264,11 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 			m_tabManager.enableAll() ;
 		}
 	}else{
-		md.file.write( p.data() ) ;
+		auto data = p.data() ;
+
+		md.hashCalculator.addData( data ) ;
+
+		md.file.write( data ) ;
 
 		auto perc       = double( p.received() )  * 100 / md.size ;
 		auto totalSize  = md.locale.formattedDataSize( qint64( md.size ) ) ;
@@ -303,9 +343,16 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 	}else{
 		md.status.done() ;
 
-		auto m = QObject::tr( "Failed To Extract" ) ;
+		QString m = utility::barLine() ;
 
-		this->post( m_appName,m + ": " + s.stdOut,md.id ) ;
+		m += "\n" + QObject::tr( "Failed To Extract" ) ;
+		m += "\nExe Path: " + md.extractExePath ;
+		m += "\nExe Args: " + md.extractExeArgs ;
+		m += "\nStdOut: "   + s.stdOut ;
+		m += "\nStdError: " + s.stdError ;
+		m += "\n" + utility::barLine() ;
+
+		this->post( m_appName,m,md.id ) ;
 	}
 }
 
@@ -337,6 +384,15 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 			auto args = QStringList{ "-x","-f",m_md.tmpFile,"-C",m_md.tmpPath } ;
 
 			auto m = QProcess::MergedChannels ;
+
+			m_md.extractExePath = exe ;
+
+			m_md.extractExeArgs = "\"" + args[ 0 ] + "\"" ;
+
+			for( int s = 1 ; s < args.size() ; s++ ){
+
+				m_md.extractExeArgs += " \"" + args[ s ] + "\"" ;
+			}
 
 			utils::qprocess::run( exe,args,m,m_md.move(),&m_parent,&networkAccess::emDownloader ) ;
 		}

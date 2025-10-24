@@ -439,6 +439,7 @@ namespace utility
 		QString value( const char * ) const ;
 		QStringList arguments( const QString&,const QString&,const QString&,bool ) const ;
 		const QStringList& arguments() const ;
+		static bool useFakeMdHash() ;
 	private:
 		QStringList m_args ;
 	} ;
