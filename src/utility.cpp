@@ -2153,7 +2153,7 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 		m_args.append( argv[ i ] ) ;
 	}
 
-	_useFakeHash = !this->value( "--fake-hash" ).isEmpty() ;
+	_useFakeHash = this->contains( "--fake-hash") ;
 
 	_pretendPlatform.set( m_args ) ;
 

@@ -147,7 +147,7 @@ void networkAccess::updateMediaDownloader( networkAccess::Status status,const QJ
 
 				hash.replace( "sha256:","" ) ;
 
-				md.hash = hash ;
+				md.hash = hash.toLower() ;
 			}
 
 			md.size = size ;
@@ -236,7 +236,7 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 
 				this->extractMediaDownloader( md.move() ) ;
 			}else{
-				auto m = md.hashCalculator->result() ;
+				auto m = md.hashCalculator->result().toHex().toLower() ;
 
 				if( utility::cliArguments::useFakeMdHash() ){
 
@@ -247,7 +247,11 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 
 					this->extractMediaDownloader( md.move() ) ;
 				}else{
-					auto mm = QObject::tr( "Error: Hash Mismatch. Expected \"%1\" but obtained \"%2 \"" ).arg( md.hash,m ) ;
+					QString mm = utility::barLine() ;
+
+					mm += "\n" + QObject::tr( "Ignoring Download Because Hashes Do Not Mismatch.\n Expected \"%1\" but obtained \"%2\"" ).arg( md.hash,m ) ;
+
+					mm += "\n" + utility::barLine() ;
 
 					this->post( m_appName,mm,md.id ) ;
 
