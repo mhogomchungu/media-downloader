@@ -1085,6 +1085,18 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Renaming Failed: %3</source>
         <translation>Rinomina fallita: %3</translation>
     </message>
+    <message>
+        <source>Skipping Checking Download Hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignoring Download Because Hashes Do Not Match</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
