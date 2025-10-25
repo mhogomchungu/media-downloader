@@ -466,7 +466,7 @@ private:
 
 	struct updateMDOptions
 	{
-		updateMDOptions() : hashCalculator( QCryptographicHash::Sha256 )
+		updateMDOptions() : hashCalculator( std::make_unique< QCryptographicHash >( QCryptographicHash::Sha256 ) )
 		{
 		}
 		QString url ;
@@ -482,7 +482,7 @@ private:
 		networkAccess::Status status ;
 		Logger::locale locale ;
 		networkAccess::File file ;
-		QCryptographicHash hashCalculator ;
+		std::unique_ptr< QCryptographicHash > hashCalculator ;
 		updateMDOptions move()
 		{
 			return std::move( *this ) ;

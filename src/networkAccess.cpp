@@ -236,7 +236,7 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 
 				this->extractMediaDownloader( md.move() ) ;
 			}else{
-				auto m = md.hashCalculator.result() ;
+				auto m = md.hashCalculator->result() ;
 
 				if( utility::cliArguments::useFakeMdHash() ){
 
@@ -266,7 +266,7 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 	}else{
 		auto data = p.data() ;
 
-		md.hashCalculator.addData( data ) ;
+		md.hashCalculator->addData( data ) ;
 
 		md.file.write( data ) ;
 
