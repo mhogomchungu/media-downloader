@@ -80,8 +80,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		auto m = m_ctx.Engines().engineDirPaths().subscriptionsArchiveFilePath() ;
 		QFile f( m ) ;
-		f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
-		f.write( "" ) ;
+
+		if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+			f.write( "" ) ;
+		}
 	} ) ;
 
 	m_ui.cbUseInternalArchiveFile->setChecked( m_ctx.Settings().useInternalArchiveFile() ) ;
@@ -1584,19 +1587,20 @@ utility::vector< playlistdownloader::subscription::entry > playlistdownloader::s
 
 		QFile f( m_path ) ;
 
-		f.open( QIODevice::ReadOnly ) ;
+		if( f.open( QIODevice::ReadOnly ) ){
 
-		auto m = f.readAll() ;
+			auto m = f.readAll() ;
 
-		if( !m.isEmpty() ){
+			if( !m.isEmpty() ){
 
-			QJsonParseError err ;
+				QJsonParseError err ;
 
-			auto e = QJsonDocument::fromJson( m,&err ) ;
+				auto e = QJsonDocument::fromJson( m,&err ) ;
 
-			if( err.error == QJsonParseError::NoError ){
+				if( err.error == QJsonParseError::NoError ){
 
-				m_array = e.array() ;
+					m_array = e.array() ;
+				}
 			}
 		}
 	}
@@ -1615,9 +1619,10 @@ void playlistdownloader::subscription::save()
 {
 	QFile f( m_path ) ;
 
-	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
+	if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
 
-	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+		f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+	}
 }
 
 void playlistdownloader::banner::updateProgress( const QString& progress )

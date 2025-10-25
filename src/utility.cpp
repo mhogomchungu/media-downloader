@@ -2290,7 +2290,9 @@ utility::printOutPut::printOutPut( const utility::cliArguments& args )
 
 			m_outPutFile.setFileName( m ) ;
 
-			m_outPutFile.open( QIODevice::WriteOnly | QIODevice::Append ) ;
+			auto m = m_outPutFile.open( QIODevice::WriteOnly | QIODevice::Append ) ;
+
+			Q_UNUSED( m )
 		}
 	}
 }

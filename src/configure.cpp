@@ -1558,9 +1558,10 @@ configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
 
 		QFile f( m_path ) ;
 
-		f.open( QIODevice::ReadOnly ) ;
+		if( f.open( QIODevice::ReadOnly ) ){
 
-		data = f.readAll() ;
+			data = f.readAll() ;
+		}
 
 	}else if( m.contains( "PresetJsonOptions" ) ){
 
@@ -1584,8 +1585,11 @@ configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
 configure::presetOptions::~presetOptions()
 {
 	QFile f( m_path ) ;
-	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
-	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+
+	if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+		f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+	}
 }
 
 void configure::presetOptions::clear()
@@ -1781,13 +1785,14 @@ configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx,co
 
 		QFile f( m_path ) ;
 
-		f.open( QIODevice::ReadOnly ) ;
+		if( f.open( QIODevice::ReadOnly ) ){
 
-		auto json = QJsonDocument::fromJson( f.readAll(),&err ) ;
+			auto json = QJsonDocument::fromJson( f.readAll(),&err ) ;
 
-		if( err.error == QJsonParseError::NoError ){
+			if( err.error == QJsonParseError::NoError ){
 
-			m_array = json.array() ;
+				m_array = json.array() ;
+			}
 		}
 	}
 }
@@ -1795,8 +1800,11 @@ configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx,co
 void configure::downloadDefaultOptions::save()
 {
 	QFile f( m_path ) ;
-	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
-	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+
+	if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+		f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+	}
 }
 
 void configure::setVisibilityEditConfigFeature( bool e )

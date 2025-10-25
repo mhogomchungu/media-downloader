@@ -313,15 +313,7 @@ QString settings::playlistRangeHistoryLastUsed( const QString& engineName )
 
 QString settings::gitHubDownloadUrl()
 {
-	QString channel = [](){
-
-		if( utility::runningGitVersion() ){
-
-			return "git" ;
-		}else{
-			return "release" ;
-		}
-	}() ;
+	QString channel = utility::runningGitVersion() ? "git" : "release" ;
 
 	auto m = this->getOption( "WindowsUpdateChannel",channel ) ;
 

@@ -247,13 +247,10 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 
 					this->extractMediaDownloader( md.move() ) ;
 				}else{
-					QString mm = utility::barLine() ;
-
-					mm += "\n" + QObject::tr( "Ignoring Download Because Hashes Do Not Mismatch.\n Expected \"%1\" but obtained \"%2\"" ).arg( md.hash,m ) ;
-
-					mm += "\n" + utility::barLine() ;
-
-					this->post( m_appName,mm,md.id ) ;
+					this->post( m_appName,utility::barLine(),md.id ) ;
+					this->post( m_appName,QObject::tr( "Ignoring Download Because Hashes Do Not Match" ),md.id ) ;
+					this->post( m_appName,QObject::tr( "Expected \"%1\" but obtained \"%2\"" ).arg( md.hash,m ),md.id ) ;
+					this->post( m_appName,utility::barLine(),md.id ) ;
 
 					md.status.done() ;
 
@@ -347,16 +344,15 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 	}else{
 		md.status.done() ;
 
-		QString m = utility::barLine() ;
+		this->post( m_appName,utility::barLine(),md.id ) ;
 
-		m += "\n" + QObject::tr( "Failed To Extract" ) ;
-		m += "\nExe Path: " + md.extractExePath ;
-		m += "\nExe Args: " + md.extractExeArgs ;
-		m += "\nStdOut: "   + s.stdOut ;
-		m += "\nStdError: " + s.stdError ;
-		m += "\n" + utility::barLine() ;
+		this->post( m_appName,QObject::tr( "Failed To Extract" ),md.id ) ;
+		this->post( m_appName,"Exe Path: " + md.extractExePath,md.id ) ;
+		this->post( m_appName,"Exe Args: " + md.extractExeArgs,md.id ) ;
+		this->post( m_appName,"StdOut: "   + s.stdOut,md.id ) ;
+		this->post( m_appName,"StdError: " + s.stdError,md.id ) ;
 
-		this->post( m_appName,m,md.id ) ;
+		this->post( m_appName,utility::barLine(),md.id ) ;
 	}
 }
 
