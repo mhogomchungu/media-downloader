@@ -1079,7 +1079,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation>Rinoma di &quot;%1&quot; in &quot;%2&quot;</translation>
+        <translation>Rinomina di &quot;%1&quot; in &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
@@ -1087,15 +1087,15 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Skipping Checking Download Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>Salta controllo hash download</translation>
     </message>
     <message>
         <source>Ignoring Download Because Hashes Do Not Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Download saltato perché gli hash non corrispondono</translation>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Previsto &quot;%1&quot;, ottenuto &quot;%2&quot;</translation>
     </message>
 </context>
 <context>
