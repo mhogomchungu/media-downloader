@@ -135,23 +135,26 @@ void MainWindow::showTrayIcon( bool e )
 
 void MainWindow::keyPressEvent( QKeyEvent * e )
 {
-	auto m = e->keyCombination() ;
 	auto key = static_cast< Qt::Key >( e->key() ) ;
 
-	QWidget::keyPressEvent( e ) ;
+	if( e->modifiers() & Qt::CTRL ){
 
-	if( m == ( Qt::CTRL | Qt::Key_D ) ){
+		if( key == Qt::Key_D ){
 
-		m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_D ) ;
+			m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_D ) ;
 
-	}else if( m == ( Qt::CTRL | Qt::Key_A ) ){
+		}else if( key == Qt::Key_A ){
 
-		m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_A ) ;
+			m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_A ) ;
+		}
+	}else{
+		if( key == Qt::Key_Enter || key == Qt::Key_Return ){
 
-	}else if( key == Qt::Key_Enter || key == Qt::Key_Return ){
-
-		m_tabManager.keyPressed( utility::mainWindowKeyCombo::ENTER ) ;
+			m_tabManager.keyPressed( utility::mainWindowKeyCombo::ENTER ) ;
+		}
 	}
+
+	QWidget::keyPressEvent( e ) ;
 }
 
 void MainWindow::retranslateUi()
