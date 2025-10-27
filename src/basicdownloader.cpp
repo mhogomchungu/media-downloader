@@ -200,8 +200,15 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	} ) ;	
 }
 
-void basicdownloader::keyPressed( utility::mainWindowKeyCombo )
+void basicdownloader::keyPressed( utility::mainWindowKeyCombo e )
 {
+	if( e == utility::mainWindowKeyCombo::ENTER ){
+
+		if( m_ui.pbDownload->isEnabled() ){
+
+			m_ui.pbDownload->click() ;
+		}
+	}
 }
 
 void basicdownloader::init_done()

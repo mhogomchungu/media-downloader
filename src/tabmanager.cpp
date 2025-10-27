@@ -358,7 +358,7 @@ void tabManager::keyPressed( utility::mainWindowKeyCombo m )
 	{
 		case 0 : m_basicdownloader.keyPressed( m ) ; break ;
 		case 1 : m_batchdownloader.keyPressed( m ) ; break ;
-		case 2 : m_playlistdownloader.tabExited()  ; break ;
+		case 2 : m_playlistdownloader.keyPressed( m ) ; break ;
 		case 3 : m_library.keyPressed( m )         ; break ;
 		case 4 : m_configure.keyPressed( m )       ; break ;
 		case 5 : m_about.keyPressed( m )           ; break ;

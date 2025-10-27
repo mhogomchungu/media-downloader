@@ -505,7 +505,7 @@ namespace utility
 	QString clipboardText() ;
 	QString fromSecsSinceEpoch( qint64 ) ;
 
-	enum class mainWindowKeyCombo{ CTRL_D,CTRL_A } ;
+	enum class mainWindowKeyCombo{ CTRL_D,CTRL_A,ENTER } ;
 
 	template< typename Table >
 	inline void keyPressed( Table& table,utility::mainWindowKeyCombo m )

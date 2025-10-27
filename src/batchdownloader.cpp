@@ -319,7 +319,22 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 void batchdownloader::keyPressed( utility::mainWindowKeyCombo m )
 {
-	utility::keyPressed( m_table,m ) ;
+	if( m == utility::mainWindowKeyCombo::ENTER ){
+
+		auto m = m_ui.lineEditBDUrl->text() ;
+
+		if( !m.isEmpty() ){
+
+			this->addToList( m,{ false,false } ) ;
+		}
+
+		if( m_ui.pbBDDownload->isEnabled() ){
+
+			m_ui.pbBDDownload->click() ;
+		}
+	}else{
+		utility::keyPressed( m_table,m ) ;
+	}
 }
 
 void batchdownloader::showCustomContext()

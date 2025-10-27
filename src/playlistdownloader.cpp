@@ -343,7 +343,15 @@ void playlistdownloader::disableAll()
 
 void playlistdownloader::keyPressed( utility::mainWindowKeyCombo m )
 {
-	utility::keyPressed( m_table,m ) ;
+	if( m == utility::mainWindowKeyCombo::ENTER ){
+
+		if( m_ui.pbPLDownload->isEnabled() ){
+
+			m_ui.pbPLDownload->click() ;
+		}
+	}else{
+		utility::keyPressed( m_table,m ) ;
+	}
 }
 
 void playlistdownloader::resetMenu()
