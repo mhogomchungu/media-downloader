@@ -63,7 +63,9 @@ public:
 
 	void setProxySetting( QStringList&,const QString& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
+				       bool,
+				       const QStringList& ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

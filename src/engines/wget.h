@@ -31,7 +31,9 @@ public:
 			  const engines::enginePaths& enginePath ) ;
 	~wget() override ;
 	wget( const engines& e,const engines::engine& s,QJsonObject& ) ;
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
+				       bool,
+				       const QStringList& ) override ;
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 

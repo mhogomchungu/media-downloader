@@ -723,6 +723,7 @@ void engines::engine::updateOptions()
 	m_cookieArgument                  = m_jsonObject.value( "CookieArgument" ).toString() ;
 	m_cookieTextFileArgument          = m_jsonObject.value( "CookieArgumentTextFile" ).toString() ;
 	m_encodingArgument                = m_jsonObject.value( "EncodingArgument" ).toString() ;
+	//m_extraArguments                  = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
 	m_dumpJsonArguments               = this->toStringList( m_jsonObject.value( "DumptJsonArguments" ) ) ;
 	m_splitLinesBy                    = this->toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ;
 	m_removeText                      = this->toStringList( m_jsonObject.value( "RemoveText" ) ) ;
@@ -839,6 +840,7 @@ engines::engine::engine( Logger& logger,
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
+	m_configVersion( m_jsonObject.value( "Version" ).toString() ),
 	m_likeYtDlp( m_name.startsWith( "yt-dlp" ) || m_name == "ytdl-patched" ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
@@ -1957,7 +1959,8 @@ void engines::engine::baseEngine::processData( Logger::Data& outPut,
 }
 
 void engines::engine::baseEngine::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
-							    bool downloadOptionsAsLast )
+							    bool downloadOptionsAsLast,
+							    const QStringList& extraOpts )
 {
 	if( downloadOptionsAsLast ){
 
@@ -1975,6 +1978,8 @@ void engines::engine::baseEngine::updateDownLoadCmdOptions( const engines::engin
 			s.ourOptions.append( s.uiOptions ) ;
 		}
 	}
+
+	s.ourOptions.append( extraOpts ) ;
 }
 
 void engines::engine::baseEngine::updateGetPlaylistCmdOptions( QStringList& )

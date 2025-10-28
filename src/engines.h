@@ -815,7 +815,9 @@ public:
 				QStringList& ourOptions ;
 			};
 
-			virtual void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) ;
+			virtual void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
+							       bool,
+							       const QStringList& ) ;
 
 			virtual void updateGetPlaylistCmdOptions( QStringList& ) ;
 
@@ -857,7 +859,10 @@ public:
 		{
 			return m_name ;
 		}
-
+		const QString& configFileVersion() const
+		{
+			return m_configVersion ;
+		}
 		bool forTesting() const
 		{
 			return this->name().endsWith( "-test" ) ;
@@ -1033,7 +1038,7 @@ public:
 		}
 		void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& u,bool e ) const
 		{
-			m_engine->updateDownLoadCmdOptions( u,e ) ;
+			m_engine->updateDownLoadCmdOptions( u,e,this->extraArguments() ) ;
 		}
 		void sendCredentials( const QString& credentials,QProcess& exe ) const
 		{
@@ -1046,10 +1051,14 @@ public:
 		void updateGetPlaylistCmdOptions( QStringList& e ) const
 		{
 			m_engine->updateGetPlaylistCmdOptions( e ) ;
+
+			e.append( this->extraArguments() ) ;
 		}
 		void updateCmdOptions( QStringList& e ) const
 		{
 			m_engine->updateCmdOptions( e ) ;
+
+			e.append( this->extraArguments() ) ;
 		}
 		util::Json parsePlayListData( const QString& m,const QByteArray& e ) const
 		{
@@ -1175,6 +1184,10 @@ public:
 		{
 			return m_cookieArgument ;
 		}
+		const QStringList extraArguments() const
+		{
+			return m_extraArguments ;
+		}
 		const QJsonObject& controlStructure() const
 		{
 			return m_controlStructure ;
@@ -1271,6 +1284,7 @@ public:
 		mutable bool m_broken = false ;
 		QString m_versionArgument ;
 		QString m_name ;
+		QString m_configVersion ;
 		bool m_likeYtDlp ;
 		QString m_commandName ;
 		QString m_userName ;
@@ -1284,6 +1298,7 @@ public:
 		QString m_cookieArgument ;
 		QString m_cookieTextFileArgument ;
 		QString m_encodingArgument ;
+		QStringList m_extraArguments ;
 		QStringList m_dumpJsonArguments ;
 		QStringList m_splitLinesBy ;
 		QStringList m_removeText ;

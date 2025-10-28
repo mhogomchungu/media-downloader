@@ -341,6 +341,10 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	json.done() ;
 
+	mainObj.insert( "Version","1" ) ;
+
+	mainObj.insert( "ExtraArguments",_arr( "--remote-components","ejs:github" ) ) ;
+
 	mainObj.insert( "DefaultListCmdOptions",_arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ) ;
 
 	mainObj.insert( "DumptJsonArguments",_arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ) ;
@@ -435,6 +439,11 @@ yt_dlp::yt_dlp( const engines& engines,
 	}
 
 	obj.insert( "CookieArgument","--cookies-from-browser" ) ;
+
+	if( !obj.contains( "ExtraArguments" ) ){
+
+		obj.insert( "ExtraArguments",_arr( "--remote-components","ejs:github" ) ) ;
+	}
 
 	obj.insert( "CookieArgumentTextFile","--cookies" ) ;
 
@@ -1296,7 +1305,9 @@ static void _parse_metadata( QStringList& mm,
 	}
 }
 
-void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
+void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
+				       bool e,
+				       const QStringList& extraOpts )
 {
 	if( s.userOptions.contains( "--yes-playlist" ) ){
 
@@ -1351,7 +1362,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 		s.ourOptions.append( mm ) ;
 	}
 
-	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e,extraOpts ) ;
 
 	if( !s.ourOptions.contains( "-f" ) && !s.ourOptions.contains( "-S" ) ){
 

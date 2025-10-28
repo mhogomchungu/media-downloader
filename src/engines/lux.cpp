@@ -225,9 +225,11 @@ static QByteArray _hash( const QString& r )
 	return hash.result().toHex().mid( 0,8 ) ;
 }
 
-void lux::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
+void lux::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
+				    bool e,
+				    const QStringList& extraOpts )
 {
-	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e,extraOpts ) ;
 
 	for( int m = 0 ; m < s.ourOptions.size() ; m++ ){
 

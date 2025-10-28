@@ -747,9 +747,78 @@ void configure::setCookieSourceLabel( bool e )
 	m_ui.pbConfigureSetPathToCookieFile->setEnabled( !e ) ;
 }
 
+void configure::downloadExtension( const QString& name )
+{
+	auto url = this->setUrl( name ) ;
+
+	m_ctx.TabManager().basicDownloader().setAsActive() ;
+
+	auto id = utility::sequentialID() ;
+
+	m_ctx.logger().add( QObject::tr( "Downloading" ) + ": " + url,id ) ;
+
+	class woof
+	{
+	public:
+		woof( configure& p,const QString& name,int id ) :
+			m_parent( p ),m_name( name ),m_id( id )
+		{
+		}
+		void operator()( const utils::network::reply& reply )
+		{
+			if( reply.success() ){
+
+				m_parent.addEngine( reply.data(),m_name ) ;
+			}else{
+				auto mm = QObject::tr( "Download Failed" ) ;
+
+				mm += ": " + reply.errorString() ;
+
+				m_parent.m_ctx.logger().add( mm,m_id ) ;
+			}
+		}
+	private:
+		configure& m_parent ;
+		QString m_name ;
+		int m_id ;
+	} ;
+
+	m_ctx.network().get( url,woof( *this,name,id ) ) ;
+}
+
+QString configure::setUrl( const QString& e )
+{
+	QString hash = "6a994de74e0ea1bb73e382b6af9681e60449b0b0" ;
+
+	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
+
+	return url + hash + "/extensions/" + e ;
+}
+
 void configure::init_done()
 {
 	m_tablePresetOptions.selectLast() ;
+
+	const auto& m = m_ctx.Engines().getEngineByName( "yt-dlp" ) ;
+
+	qDebug() << "aaa" ;
+
+	if( m ){
+
+		qDebug() << "bbb" ;
+
+		const auto& engine = m.value() ;
+
+		const auto& configVersion = engine.configFileVersion() ;
+
+		auto v = configVersion.isEmpty() ? 0 : configVersion.toInt() ;
+
+		if( v < 1 ){
+
+			qDebug() << "ccc" ;
+			this->downloadExtension( engine.name() + ".json" ) ;
+		}
+	}
 }
 
 void configure::retranslateUi()
@@ -1009,52 +1078,10 @@ QMenu *  configure::addExtenion()
 			}
 		}
 	private:
-		QString setUrl( const QString& e )
-		{
-			QString hash = "6a994de74e0ea1bb73e382b6af9681e60449b0b0" ;
 
-			QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
-
-			return url + hash + "/extensions/" + e ;
-		}
 		void downloadNamed( const QString& name )
 		{
-			auto url = this->setUrl( name ) ;
-
-			m_ctx.TabManager().basicDownloader().setAsActive() ;
-
-			auto id = utility::sequentialID() ;
-
-			m_ctx.logger().add( QObject::tr( "Downloading" ) + ": " + url,id ) ;
-
-			class woof
-			{
-			public:
-				woof( const Context& ctx,configure& p,const QString& name,int id ) :
-					m_ctx( ctx ),m_parent( p ),m_name( name ),m_id( id )
-				{
-				}
-				void operator()( const utils::network::reply& reply )
-				{
-					if( reply.success() ){
-
-						m_parent.addEngine( reply.data(),m_name ) ;
-					}else{
-						auto mm = QObject::tr( "Download Failed" ) ;
-
-						mm += ": " + reply.errorString() ;
-
-						m_ctx.logger().add( mm,m_id ) ;
-					}
-				}
-			private:
-				const Context& m_ctx ;
-				configure& m_parent ;
-				QString m_name ;
-				int m_id ;
-			} ;
-
-			m_ctx.network().get( url,woof( m_ctx,m_parent,name,id ) ) ;
+			m_parent.downloadExtension( name ) ;
 		}
 		void downloadCustom()
 		{

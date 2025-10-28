@@ -489,6 +489,8 @@ void basicdownloader::download( const basicdownloader::engine& eng,
 
 		auto opts = utility::updateOptions( str ) ;
 
+		opts.append( engine.extraArguments() ) ;
+
 		this->run( eng,opts,args.credentials(),false ) ;
 	} ) ;
 }

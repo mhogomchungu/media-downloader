@@ -526,7 +526,9 @@ void gallery_dl::setProxySetting( QStringList& e,const QString& s )
 	e.append( s ) ;
 }
 
-void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& opts,bool s )
+void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& opts,
+					   bool s,
+					   const QStringList& extraOpts )
 {
 	auto _not_contains = []( const engines::engine::baseEngine::updateOpts& opts,const char * e ){
 
@@ -557,7 +559,7 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::up
 	opts.ourOptions.prepend( "output.mode=terminal" ) ;
 	opts.ourOptions.prepend( "-o" ) ;
 
-	engines::engine::baseEngine::updateDownLoadCmdOptions( opts,s ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( opts,s,extraOpts ) ;
 }
 
 QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,

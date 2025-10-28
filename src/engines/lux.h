@@ -60,7 +60,9 @@ public:
 
 	bool foundNetworkUrl( const QString& s ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
+				       bool,
+				       const QStringList&) override ;
 
 	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
 

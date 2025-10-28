@@ -60,7 +60,9 @@ public:
 					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
+				       bool,
+				       const QStringList& ) override ;
 private:
 	const engines& m_engines ;
 };

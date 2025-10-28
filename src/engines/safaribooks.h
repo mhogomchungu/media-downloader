@@ -30,7 +30,9 @@ public:
 	QString commandString( const engines::engine::exeArgs::cmd& ) override ;
 	void sendCredentials( const QString&,QProcess& ) override ;
 	QString setCredentials( QStringList& e,QStringList& s ) override ;
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
+				       bool,
+				       const QStringList& ) override ;
 private:
 	const engines::engine& m_engine ;
 };
