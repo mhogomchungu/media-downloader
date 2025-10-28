@@ -788,7 +788,7 @@ void configure::downloadExtension( const QString& name )
 
 QString configure::setUrl( const QString& e )
 {
-	QString hash = "6a994de74e0ea1bb73e382b6af9681e60449b0b0" ;
+	QString hash = "d99431296c63a139a27771cfb16d7d2f4f7464db" ;
 
 	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
 
@@ -801,11 +801,7 @@ void configure::init_done()
 
 	const auto& m = m_ctx.Engines().getEngineByName( "yt-dlp" ) ;
 
-	qDebug() << "aaa" ;
-
 	if( m ){
-
-		qDebug() << "bbb" ;
 
 		const auto& engine = m.value() ;
 
@@ -815,7 +811,6 @@ void configure::init_done()
 
 		if( v < 1 ){
 
-			qDebug() << "ccc" ;
 			this->downloadExtension( engine.name() + ".json" ) ;
 		}
 	}
