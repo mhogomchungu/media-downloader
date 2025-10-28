@@ -289,8 +289,10 @@ private:
 	class stdError
 	{
 	public:
-		stdError( playlistdownloader& parent,playlistdownloader::banner& banner ) :
-			m_parent( parent ),m_banner( banner )
+		stdError( playlistdownloader& parent,
+			  playlistdownloader::banner& banner,
+			  const engines::engine& e ) :
+			m_parent( parent ),m_banner( banner ),m_engine( e )
 		{
 		}
 		bool operator()( const QByteArray& e ) ;
@@ -301,6 +303,7 @@ private:
 	private:
 		playlistdownloader& m_parent ;
 		playlistdownloader::banner& m_banner ;
+		const engines::engine& m_engine ;
 	} ;
 
 	class stdOut

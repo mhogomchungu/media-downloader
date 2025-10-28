@@ -1174,7 +1174,7 @@ void playlistdownloader::getList(  const QString& url,
 	auto opts = c.options() ;
 
 	stdOut sOut( *this,c.move(),engine,url ) ;
-	stdError sErr( *this,m_banner ) ;
+	stdError sErr( *this,m_banner,engine ) ;
 
 	events ev( *this,engine,iter.move(),autoDownload ) ;
 
@@ -1721,6 +1721,15 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 		return false ;
 	}
 
+	auto m = m_engine.parseError( e ) ;
+
+	if( !m.isEmpty() ){
+
+		m_banner.reportError( m ) ;
+
+		return true ;
+	}
+
 	if( e.startsWith( "ERROR: " )  || e.contains( "error:" ) ){
 
 		auto a = "Temporary failure in name resolution" ;
@@ -1729,6 +1738,7 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 		if( e.contains( a ) || e.contains( b ) ){
 
 			m_banner.reportError( QObject::tr( "Download Failed, Network Issue" ) ) ;
+
 		}else{
 			m_banner.reportError( QObject::tr( "Download Failed, Unknown Reason" ) ) ;
 		}

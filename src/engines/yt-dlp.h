@@ -48,7 +48,6 @@ public:
 		~yt_dlplFilter() override ;
 	private:
 		QByteArray fileName() ;
-
 		const QByteArray& parseOutput( const Logger::Data::QByteArrayList& ) ;
 		bool hasNewError( const std::vector< QByteArray >& errors,const QByteArray& error ) ;
 		void setFileName( const QByteArray& ) ;
@@ -72,6 +71,8 @@ public:
 	bool supportsShowingComments() override ;
 
 	bool updateVersionInfo() override ;
+
+	QByteArray parseError( const QByteArray& ) override ;
 
 	void updateLocalOptions( QStringList& ) override ;
 

@@ -1161,6 +1161,18 @@ bool yt_dlp::updateVersionInfo()
 	return false ;
 }
 
+QByteArray yt_dlp::parseError( const QByteArray& m )
+{
+	if( m.contains( "yt-dlp: error: no such option: --remote-components" ) ){
+
+		auto s = QObject::tr( "Please Update \"%1\" To Atleast Version \"%2\"" ) ;
+
+		return s.arg( this->engine().name(),"2025.a.b" ).toUtf8() ;
+	}else{
+		return {} ;
+	}
+}
+
 void yt_dlp::updateLocalOptions( QStringList& opts )
 {
 	opts.prepend( "--break-on-reject" ) ;
@@ -1237,13 +1249,6 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return engines::engine::baseEngine::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,tabName,f ) ;
 
-	}else if( uiText == "EngineNeedUpdating" ){
-
-		const auto& name = this->engine().name() ;
-		auto version = "2023.01.06" ;
-
-		return QObject::tr( "Please Update \"%1\" To Atleast Version \"%2\"" ).arg( name,version ) ;
-
 	}else if( uiText.contains( "Requested format is not available" ) ){
 
 		return functions::errorString( f,functions::errors::unknownFormat,bkText ) ;
@@ -1277,6 +1282,13 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 			return m + "\n" + bkText ;
 		}
 	}else{
+		auto e = this->parseError( "yt-dlp: error: no such option: --remote-components" ) ;
+
+		if( uiText == e ){
+
+			return e ;
+		}
+
 		auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
 
 		return m + "\n" + bkText ;
@@ -1540,7 +1552,16 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 				m_errors.emplace_back( e ) ;
 
-				return m_errors.back() ;
+				const auto& m = m_errors.back() ;
+
+				m_tmp = m_engine.parseError( m ) ;
+
+				if( m_tmp.isEmpty() ){
+
+					return m ;
+				}else{
+					return m_tmp ;
+				}
 			}
 		}
 		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){

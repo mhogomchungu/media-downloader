@@ -705,6 +705,8 @@ public:
 
 			virtual bool updateVersionInfo() ;
 
+			virtual QByteArray parseError( const QByteArray& ) ;
+
 			virtual void setTextEncondig( const QString&,QStringList& opts ) ;
 
 			virtual QJsonObject parseJson( const QString&,const QByteArray& ) ;
@@ -1111,6 +1113,10 @@ public:
 		void openLocalFile( const engines::engine::baseEngine::localFile& s ) const
 		{
 			m_engine->openLocalFile( s ) ;
+		}
+		QByteArray parseError( const QByteArray& e ) const
+		{
+			return m_engine->parseError( e ) ;
 		}
 		void updateOutPutChannel( QProcess::ProcessChannel& s ) const
 		{

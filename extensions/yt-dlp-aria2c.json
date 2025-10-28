@@ -96,6 +96,11 @@
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
     "DownloadUrlWin7": "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest",
+    "EncodingArgument": "--encoding",
+    "ExtraArguments": [
+        "--remote-components",
+        "ejs:github"
+    ],
     "LikeYoutubeDl": true,
     "Name": "yt-dlp-aria2c",
     "OptionsArgument": "-f",

@@ -74,6 +74,11 @@
         "--print",
         "{\"uploader\":%(uploader)j,\"id\":%(id)j,\"thumbnail\":%(thumbnail)j,\"duration\":%(duration)j,\"title\":%(title)j,\"upload_date\":%(upload_date)j,\"webpage_url\":%(webpage_url)j,\"formats\":%(formats)j,\"n_entries\":%(n_entries)j,\"playlist_id\":%(playlist_id)j,\"playlist_title\":%(playlist_title)j,\"playlist\":%(playlist)j,\"playlist_count\":%(playlist_count)j,\"playlist_uploader\":%(playlist_uploader)j,\"playlist_uploader_id\":%(playlist_uploader_id)j}"
     ],
+    "EncodingArgument": "--encoding",
+    "ExtraArguments": [
+        "--remote-components",
+        "ejs:github"
+    ],
     "LikeYoutubeDl": true,
     "Name": "ytdl-patched",
     "OptionsArgument": "-f",

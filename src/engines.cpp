@@ -1504,6 +1504,11 @@ bool engines::engine::baseEngine::updateVersionInfo()
 	return false ;
 }
 
+QByteArray engines::engine::baseEngine::parseError( const QByteArray& )
+{
+	return {} ;
+}
+
 void engines::engine::baseEngine::setTextEncondig( const QString&,QStringList& )
 {
 }
