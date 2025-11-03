@@ -553,10 +553,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Kan het json-bestand van github niet ontleden</translation>
     </message>
     <message>
-        <source>Renaming file to: </source>
-        <translation>Hernoem bestand naar: </translation>
-    </message>
-    <message>
         <source>Turkish (Turkey)</source>
         <translation>Turks(Turkije)</translation>
     </message>
@@ -829,10 +825,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Running In Portable Mode</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1090,6 +1082,18 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

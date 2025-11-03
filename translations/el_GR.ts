@@ -740,10 +740,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Απέτυχε η εύρεση του εκτέλεσιμου &quot;bsdtar.exe&quot;</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation>Απέτυχε η εύρεση του εκτέλεσιμου &quot;tar&quot;</translation>
-    </message>
-    <message>
         <source>Download Failed</source>
         <translation>Η λήψη απέτυχε</translation>
     </message>
@@ -778,10 +774,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Extracting archive: </source>
         <translation>Εξαγωγή αρχειοθήκης: </translation>
-    </message>
-    <message>
-        <source>Renaming file to: </source>
-        <translation>Μετονομασία αρχείου σε: </translation>
     </message>
     <message>
         <source>Processing</source>
@@ -1093,6 +1085,18 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

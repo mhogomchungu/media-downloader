@@ -672,13 +672,12 @@ namespace utility
 	class CPU
 	{
 	public:
-		CPU() ;
 		bool x86_32() const ;
 		bool x86_64() const ;
 		bool aarch64() const ;
 		bool aarch32() const ;
 	private:
-		QString m_cpu ;
+		const QString& getCPU() const ;
 	} ;
 
 	class UrlLinks

@@ -747,10 +747,6 @@ Exemplo 2: ${gateway}:8080</translation>
         <translation>Falha ao encontrar o executável &quot;bsdtar.exe&quot;</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation>Falha ao encontrar o executável &quot;tar&quot;</translation>
-    </message>
-    <message>
         <source>Download Failed</source>
         <translation>Falha no  download</translation>
     </message>
@@ -785,10 +781,6 @@ Exemplo 2: ${gateway}:8080</translation>
     <message>
         <source>Extracting archive: </source>
         <translation>Extraindo arquivo: </translation>
-    </message>
-    <message>
-        <source>Renaming file to: </source>
-        <translation>Renomear arquivo para: </translation>
     </message>
     <message>
         <source>Processing</source>
@@ -1092,6 +1084,18 @@ Exemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

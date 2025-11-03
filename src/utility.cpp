@@ -2910,32 +2910,53 @@ bool utility::fileIsInvalidForGettingThumbnail( const QByteArray& e )
 	return e.endsWith( ".mp4" ) || e.endsWith( ".webm" ) || e.endsWith( ".avi" ) ;
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
-utility::CPU::CPU() : m_cpu( QSysInfo::currentCpuArchitecture() )
-{
-}
-#else
-utility::CPU::CPU() : m_cpu()
-{
-}
-#endif
-
 bool utility::CPU::x86_32() const
 {
-	return m_cpu == "i386" ;
+	const auto& m = this->getCPU() ;
+
+	return m == "i386" || m == "x86_32" ;
 }
 
 bool utility::CPU::x86_64() const
 {
-	return m_cpu == "x86_64" ;
+	return this->getCPU() == "x86_64" ;
 }
 
 bool utility::CPU::aarch64() const
 {
-	return m_cpu == "arm64" ;
+	const auto& m = this->getCPU() ;
+
+	return m == "arm64" || m == "aarch64";
 }
 
 bool utility::CPU::aarch32() const
 {
-	return m_cpu == "arm" ;
+	const auto& m = this->getCPU() ;
+
+	return m == "arm" || m == "aarch32" ;
+}
+
+const QString & utility::CPU::getCPU() const
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
+	static QString m = QSysInfo::currentCpuArchitecture() ;
+	return m ;
+#else
+	static QString m = [](){
+
+		if( utility::platformIsLinux() ){
+
+			QFile file( "/proc/sys/kernel/arch" ) ;
+
+			if( file.open( QIODevice::ReadOnly ) ){
+
+				return file.readAll().trimmed() ;
+			}
+		}
+
+		return QByteArray() ;
+	}() ;
+
+	return m ;
+#endif
 }

@@ -580,10 +580,6 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Impossibile analizzare il file json da Github</translation>
     </message>
     <message>
-        <source>Renaming file to: </source>
-        <translation>Rinomina file in: </translation>
-    </message>
-    <message>
         <source>Turkish (Turkey)</source>
         <translation>Turco (Turchia)</translation>
     </message>
@@ -832,10 +828,6 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>Impossibile trovare l&apos;eseguibile &quot;bsdtar.exe&quot;</translation>
-    </message>
-    <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation>Impossibile trovare l&apos;eseguibile &quot;tar&quot;</translation>
     </message>
     <message>
         <source>Running In Portable Mode</source>
@@ -1096,6 +1088,18 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
         <translation>Previsto &quot;%1&quot;, ottenuto &quot;%2&quot;</translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; Executable</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

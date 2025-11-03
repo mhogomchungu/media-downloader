@@ -751,10 +751,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>&quot;bsdtar.exe&quot; 실행 파일을 찾지 못했습니다.</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation>&quot;tar&quot; 실행 파일을 찾지 못했습니다.</translation>
-    </message>
-    <message>
         <source>Download Failed</source>
         <translation>다운로드 실패</translation>
     </message>
@@ -789,10 +785,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Extracting archive: </source>
         <translation>아카이브 추출 중: </translation>
-    </message>
-    <message>
-        <source>Renaming file to: </source>
-        <translation>파일 이름을 다음으로 바꾸는 중: </translation>
     </message>
     <message>
         <source>Processing</source>
@@ -1092,6 +1084,18 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
