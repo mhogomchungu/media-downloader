@@ -36,7 +36,7 @@
 #include <QPalette>
 #include <QStyleHints>
 
-static QString _monitorClipboadUrl( settings::tabName e )
+QString settings::monitorClipboadUrl( settings::tabName e )
 {
 	if( e == settings::tabName::basic ){
 
@@ -56,12 +56,12 @@ static QString _monitorClipboadUrl( settings::tabName e )
 
 void settings::setMonitorClipboardUrl( bool e,settings::tabName t )
 {
-	m_settings.setValue( _monitorClipboadUrl( t ),e ) ;
+	m_settings.setValue( this->monitorClipboadUrl( t ),e ) ;
 }
 
 bool settings::monitorClipboardUrl( settings::tabName tabName )
 {
-	auto m = _monitorClipboadUrl( tabName ) ;
+	auto m = this->monitorClipboadUrl( tabName ) ;
 
 	return this->getOption( m,false ) ;
 }
@@ -76,24 +76,24 @@ void settings::setThemeName( const QString& e )
 	m_settings.setValue( "ThemeName",e ) ;
 }
 
-static QString _setOptionWithEngineName( const QString& opts,const QString& engineName )
+QString settings::setOptionWithEngineName( const QString& opts,const QString& engineName )
 {
 	return opts + "-" + engineName ;
 }
 
-static QString _getOptionsHistoryTabName( settings::tabName e,const QString& engineName )
+QString settings::getOptionsHistoryTabName( settings::tabName e,const QString& engineName )
 {
 	if( e == settings::tabName::basic ){
 
-		return _setOptionWithEngineName( "BasicDownloaderOptionsHistory",engineName ) ;
+		return this->setOptionWithEngineName( "BasicDownloaderOptionsHistory",engineName ) ;
 
 	}else if( e == settings::tabName::batch ){
 
-		return _setOptionWithEngineName( "BatchDownloaderOptionsHistory",engineName ) ;
+		return this->setOptionWithEngineName( "BatchDownloaderOptionsHistory",engineName ) ;
 
 	}else if( e == settings::tabName::playlist ){
 
-		return _setOptionWithEngineName( "PlaylistDownloaderOptionsHistory",engineName ) ;
+		return this->setOptionWithEngineName( "PlaylistDownloaderOptionsHistory",engineName ) ;
 	}else{
 		return "" ;
 	}
@@ -101,21 +101,21 @@ static QString _getOptionsHistoryTabName( settings::tabName e,const QString& eng
 
 QStringList settings::getOptionsHistory( settings::tabName e,const QString& engineName )
 {
-	auto m = _getOptionsHistoryTabName( e,engineName ) ;
+	auto m = this->getOptionsHistoryTabName( e,engineName ) ;
 
 	return this->getOption( m,QStringList() ) ;
 }
 
 void settings::clearOptionsHistory( settings::tabName e,const QString& engineName )
 {
-	m_settings.setValue( _getOptionsHistoryTabName( e,engineName ),QStringList() ) ;
+	m_settings.setValue( this->getOptionsHistoryTabName( e,engineName ),QStringList() ) ;
 }
 
-static void _addToHistory( QSettings& settings,
-			   QStringList& history,
-			   const QString& key,
-			   const QString& input,
-			   int max )
+void settings::addToHistory( QSettings& settings,
+			     QStringList& history,
+			     const QString& key,
+			     const QString& input,
+			     int max )
 {
 	if( !input.isEmpty() && !history.contains( input ) ){
 
@@ -135,9 +135,9 @@ void settings::addToplaylistRangeHistory( const QString& engineName,const QStrin
 	if( this->saveHistory() ){
 
 		auto a = this->playlistRangeHistory( engineName ) ;
-		auto b = _setOptionWithEngineName( "PlaylistRangeHistory",engineName ) ;
+		auto b = this->setOptionWithEngineName( "PlaylistRangeHistory",engineName ) ;
 
-		_addToHistory( m_settings,a,b,e,this->historySize() ) ;
+		this->addToHistory( m_settings,a,b,e,this->historySize() ) ;
 	}
 }
 
@@ -146,9 +146,9 @@ void settings::addOptionsHistory( const QString& engineName,const QString& e,set
 	if( this->saveHistory() ){
 
 		auto a = this->getOptionsHistory( s,engineName ) ;
-		auto b = _getOptionsHistoryTabName( s,engineName ) ;
+		auto b = this->getOptionsHistoryTabName( s,engineName ) ;
 
-		_addToHistory( m_settings,a,b,e,this->historySize() ) ;
+		this->addToHistory( m_settings,a,b,e,this->historySize() ) ;
 	}
 }
 
@@ -158,17 +158,17 @@ void settings::clearPlaylistRangeHistory( const QString& engineName )
 
 	if( engineName.startsWith( "gallery-dl" ) ){
 
-		m_settings.setValue( _setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
+		m_settings.setValue( this->setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
 	}else{
 		s.append( "--break-on-existing" ) ;
 
-		m_settings.setValue( _setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
+		m_settings.setValue( this->setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
 	}
 }
 
 void settings::clearPlaylistUrlHistory( const QString& engineName )
 {
-	m_settings.setValue( _setOptionWithEngineName( "PlaylistUrlHistory",engineName ),QStringList() ) ;
+	m_settings.setValue( this->setOptionWithEngineName( "PlaylistUrlHistory",engineName ),QStringList() ) ;
 }
 
 void settings::setAutoSavePlaylistOnExit( bool e )
@@ -286,17 +286,17 @@ QStringList settings::playlistRangeHistory( const QString& engineName )
 		s.append( "--break-on-existing" ) ;
 	}
 
-	return this->getOption( _setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
+	return this->getOption( this->setOptionWithEngineName( "PlaylistRangeHistory",engineName ),s ) ;
 }
 
 QStringList settings::playlistUrlHistory( const QString& engineName )
 {
-	return this->getOption( _setOptionWithEngineName( "PlaylistUrlHistory",engineName ),QStringList() ) ;
+	return this->getOption( this->setOptionWithEngineName( "PlaylistUrlHistory",engineName ),QStringList() ) ;
 }
 
 void settings::setPlaylistRangeHistoryLastUsed( const QString& engineName,const QString& e )
 {
-	m_settings.setValue( _setOptionWithEngineName( "playlistRangeHistoryLastUsed",engineName ),e ) ;
+	m_settings.setValue( this->setOptionWithEngineName( "playlistRangeHistoryLastUsed",engineName ),e ) ;
 }
 
 QString settings::playlistRangeHistoryLastUsed( const QString& engineName )
@@ -308,7 +308,7 @@ QString settings::playlistRangeHistoryLastUsed( const QString& engineName )
 		s = "--break-on-existing" ;
 	}
 
-	return this->getOption( _setOptionWithEngineName( "playlistRangeHistoryLastUsed",engineName ),s ) ;
+	return this->getOption( this->setOptionWithEngineName( "playlistRangeHistoryLastUsed",engineName ),s ) ;
 }
 
 QString settings::gitHubDownloadUrl()
@@ -316,6 +316,13 @@ QString settings::gitHubDownloadUrl()
 	QString channel = utility::runningGitVersion() ? "git" : "release" ;
 
 	auto m = this->getOption( "WindowsUpdateChannel",channel ) ;
+
+	const auto& e = utility::fakeRunningVersionOfMediaDownloader() ;
+
+	if( !e.isEmpty() ){
+
+		m = utility::runningGitVersion( e ) ? "git" : "release" ;
+	}
 
 	if( m.compare( "release",Qt::CaseInsensitive ) == 0 ){
 
@@ -325,7 +332,7 @@ QString settings::gitHubDownloadUrl()
 	}
 }
 
-static std::unique_ptr< QSettings > _set_config( const QString& path )
+std::unique_ptr< QSettings > settings::setConfig( const QString& path )
 {
 	QDir().mkpath( path + "/settings" ) ;
 
@@ -340,21 +347,21 @@ std::unique_ptr< QSettings > settings::init()
 
 		if( m_options.portableVersion() ){
 
-			return _set_config( m_options.dataPath() ) ;
+			return this->setConfig( m_options.dataPath() ) ;
 		}else{
-			return _set_config( m_appDataPath ) ;
+			return this->setConfig( m_appDataPath ) ;
 		}
 	}else{
 		if( QFile::exists( m_appDataPath + "/settings/settings.ini" ) ){
 
-			return _set_config( m_appDataPath ) ;
+			return this->setConfig( m_appDataPath ) ;
 		}else{
 			/*
 			 * Migrating to .ini config file
 			 */
 			QSettings oldSettings( "media-downloader","media-downloader" ) ;
 
-			auto newSettings = _set_config( m_appDataPath ) ;
+			auto newSettings = this->setConfig( m_appDataPath ) ;
 
 			const auto keys = oldSettings.allKeys() ;
 
@@ -559,7 +566,7 @@ size_t settings::maxConcurrentDownloads()
 	return static_cast< size_t >( m ) ;
 }
 
-static bool _darkTheme()
+bool settings::darkTheme()
 {
 	const QPalette defaultPalette ;
 	const auto text = defaultPalette.color( QPalette::WindowText ) ;
@@ -575,7 +582,7 @@ QIcon settings::getIcon( const QString& e )
 
 		return QIcon::fromTheme( m,QIcon( ":/media-downloader" ) ) ;
 
-	}else if( _darkTheme() ){
+	}else if( this->darkTheme() ){
 
 		auto m = "io.github.mhogomchungu.media-downloader_white_" + e ;
 
@@ -814,7 +821,7 @@ int settings::historySize()
 	return this->getOption( "HistorySize",10 ) ;
 }
 
-static QString _thumbnailTabName( const QString& s, settings::tabName e )
+QString settings::thumbnailTabName( const QString& s, settings::tabName e )
 {
 	if( e == settings::tabName::batch ){
 
@@ -830,14 +837,14 @@ static QString _thumbnailTabName( const QString& s, settings::tabName e )
 
 int settings::thumbnailWidth( settings::tabName s )
 {
-	auto m = _thumbnailTabName( "ThumbnailWidth",s ) ;
+	auto m = this->thumbnailTabName( "ThumbnailWidth",s ) ;
 
 	return this->getOption( m,128 ) ;
 }
 
 int settings::thumbnailHeight( settings::tabName s )
 {
-	auto m = _thumbnailTabName( "ThumbnailHeight",s ) ;
+	auto m = this->thumbnailTabName( "ThumbnailHeight",s ) ;
 
 	return this->getOption( m,72 ) ;
 }
@@ -958,7 +965,7 @@ QString settings::libraryDownloadFolder()
 	return this->getOption( "LibraryDownloadFolder",m ) ;
 }
 
-static QString _getDefaultEngineName( settings::tabName e )
+QString settings::getDefaultEngineName( settings::tabName e )
 {
 	if( e == settings::tabName::basic ){
 
@@ -978,12 +985,12 @@ static QString _getDefaultEngineName( settings::tabName e )
 
 void settings::setDefaultEngine( const QString& e,settings::tabName n )
 {
-	m_settings.setValue( _getDefaultEngineName( n ),e ) ;
+	m_settings.setValue( this->getDefaultEngineName( n ),e ) ;
 }
 
 QString settings::defaultEngine( settings::tabName n,const QString& engineName )
 {
-	auto m = _getDefaultEngineName( n ) ;
+	auto m = this->getDefaultEngineName( n ) ;
 
 	return this->getOption( m,engineName ) ;
 }
@@ -1068,7 +1075,7 @@ bool settings::enabledHighDpiScaling()
 	return m_EnableHighDpiScaling ;
 }
 
-static QStringList _directoryList( const QString& e )
+QStringList settings::directoryList( const QString& e )
 {
 	QDir d( e ) ;
 
@@ -1084,7 +1091,7 @@ QStringList settings::localizationLanguages()
 {
 	QStringList m ;
 
-	const auto e = _directoryList( this->localizationLanguagePath() ) ;
+	const auto e = this->directoryList( this->localizationLanguagePath() ) ;
 
 	for( const auto& it : e ){
 
@@ -1143,7 +1150,7 @@ QString settings::commandWhenAllFinished()
 	return this->getOption( "CommandWhenAllFinished",QString() ) ;
 }
 
-static QString _getTabOption( const QString& s,settings::tabName e )
+QString settings::getTabOption( const QString& s,settings::tabName e )
 {
 	if( e == settings::tabName::basic ){
 
@@ -1163,14 +1170,14 @@ static QString _getTabOption( const QString& s,settings::tabName e )
 
 QString settings::lastUsedOption( const QString& m,settings::tabName e )
 {
-	auto s = _getTabOption( m,e ) ;
+	auto s = this->getTabOption( m,e ) ;
 
 	return this->getOption( s,QString() ) ;
 }
 
 void settings::setLastUsedOption( const QString& m,const QString& e,settings::tabName s )
 {
-	m_settings.setValue( _getTabOption( m,s ),e ) ;
+	m_settings.setValue( this->getTabOption( m,s ),e ) ;
 }
 
 QString settings::localizationLanguagePath()
@@ -1394,7 +1401,7 @@ void settings::mediaPlayer::action::run( const QString& exe,const QStringList& a
 	}
 }
 
-static QByteArray _hash( quint64 i,const QString& s )
+QByteArray settings::hash( quint64 i,const QString& s )
 {
 	auto m = utility::simpleRandomNumber() ;
 
@@ -1407,13 +1414,13 @@ static QByteArray _hash( quint64 i,const QString& s )
 	return hash.result().toHex().mid( 0,8 ) ;
 }
 
-static QString _tmpFile( const QString& e,const QString& s )
+QString settings::tmpFile( const QString& e,const QString& s )
 {
 	QString m ;
 
 	for( quint64 i = 0 ; i < 100 ; i++ ){
 
-		m = "tmp/" + _hash( i,s ) + ".m3u8" ;
+		m = "tmp/" + this->hash( i,s ) + ".m3u8" ;
 
 		if( e.endsWith( "/" ) ){
 
@@ -1477,7 +1484,7 @@ void settings::mediaPlayer::action::operator()() const
 		}else{
 			auto urls = m_urls.join( "\n" ) ;
 
-			auto m = _tmpFile( m_appDataPath,urls ) ;
+			auto m = m_settings.tmpFile( m_appDataPath,urls ) ;
 
 			QFile ff( m ) ;
 

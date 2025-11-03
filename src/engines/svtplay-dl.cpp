@@ -741,41 +741,44 @@ QString svtplay_dl::updateCmdPath( const QString& e )
 
 engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc )
 {
-	engines::metadata metadata ;
-
 	auto array = doc.array() ;
 
 	if( array.size() ){
 
-		QString url = [ & ](){
+		QString fileName ;
+		QString url ;
 
-			if( utility::platformIsWindows() ){
+		if( utility::platformIsWindows() ){
 
-				if( utility::platformIs32Bit() ){
+			if( utility::platformIs32Bit() ){
 
-					metadata.fileName = "svtplay-dl-win32.zip" ;
+				fileName = "svtplay-dl-win32.zip" ;
 
-					return "https://svtplay-dl.se/download/%1/svtplay-dl-win32.zip" ;
-				}else{
-					metadata.fileName = "svtplay-dl-amd64.zip" ;
-
-					return "https://svtplay-dl.se/download/%1/svtplay-dl-amd64.zip" ;
-				}
+				url = "https://svtplay-dl.se/download/%1/svtplay-dl-win32.zip" ;
 			}else{
-				metadata.fileName = "svtplay-dl" ;
+				fileName = "svtplay-dl-amd64.zip" ;
 
-				return "https://svtplay-dl.se/download/%1/svtplay-dl" ;
+				url = "https://svtplay-dl.se/download/%1/svtplay-dl-amd64.zip" ;
 			}
-		}() ;
+		}else{
+			fileName = "svtplay-dl" ;
 
-		auto obj = array[ 0 ].toObject() ;
+			url = "https://svtplay-dl.se/download/%1/svtplay-dl" ;
+		}
 
-		metadata.url = url.arg( obj.value( "name" ).toString() ) ;
+		QJsonObject obj ;
 
-		metadata.size = 0 ;
+		auto name = array[ 0 ].toObject().value( "name" ).toString() ;
+
+		obj.insert( "browser_download_url",url.arg( name ) ) ;
+		obj.insert( "name",fileName ) ;
+		obj.insert( "digest","" ) ;
+		obj.insert( "size",0 ) ;
+
+		return obj ;
+	}else{
+		return {} ;
 	}
-
-	return metadata ;
 }
 
 engines::engine::baseEngine::onlineVersion svtplay_dl::versionInfoFromGithub( const QByteArray& e )

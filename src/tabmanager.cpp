@@ -145,7 +145,10 @@ void tabManager::setDefaultEngines()
 
 		if( engine.mainEngine() && engine.backendExists() && !engine.broken() ){
 
-			s.append( engine.name() ) ;
+			if( !engine.supportingEngine() ){
+
+				s.append( engine.name() ) ;
+			}
 		}
 	}
 

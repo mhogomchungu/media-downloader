@@ -2986,11 +2986,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 		int m_index ;
 	} ;
 
-	auto m = m_ui.lineEditBDUrlOptions->text() ;
-
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
-
-	m_settings.addOptionsHistory( engine.name(),m,settings::tabName::batch ) ;
 
 	this->downloadEvent( meaw( *this,engine,index ),engine,index,true ) ;
 }

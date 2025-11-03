@@ -28,6 +28,7 @@
 #include "engines/wget.h"
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
+#include "engines/deno.h"
 
 #include "reportFinished.h"
 #include "utility.h"
@@ -438,6 +439,10 @@ void engines::updateEngines( bool addAll,int id )
 
 			it.setBackend< wget >( engines ) ;
 
+		}else if( name.contains( "deno" ) ){
+
+			it.setBackend< deno >( engines ) ;
+
 		}else if( it.mainEngine() ){
 
 			it.setBackend< generic >( engines ) ;
@@ -611,7 +616,7 @@ void engines::removeEngine( const QString& e,int id )
 
 	if( engine && engine->valid() ){
 
-		QFile::remove( m_enginePaths.enginePath( e ) ) ;
+		utility::removeFile( m_enginePaths.enginePath( e ) ) ;
 
 		if( engine->archiveContainsFolder() ){
 
@@ -619,7 +624,7 @@ void engines::removeEngine( const QString& e,int id )
 
 			if( m.exists() && m.isDir() ){
 
-				QDir( m.filePath() ).removeRecursively() ;
+				utility::removeFolder( m.filePath() ) ;
 			}
 		}else{
 			auto exe = QDir::fromNativeSeparators( engine->exePath().realExe() ) ;
@@ -627,7 +632,7 @@ void engines::removeEngine( const QString& e,int id )
 
 			if( exe.startsWith( binPath ) && QFile::exists( exe ) ){
 
-				QFile::remove( exe ) ;
+				utility::removeFile( exe ) ;
 			}
 		}
 
@@ -1406,35 +1411,21 @@ const QProcessEnvironment& engines::engine::baseEngine::processEnvironment() con
 
 engines::metadata engines::engine::baseEngine::parseJsonDataFromGitHub( const QJsonDocument& doc )
 {
-	engines::metadata metadata ;
-
-	auto object = doc.object() ;
-
-	auto value = object.value( "assets" ) ;
-
-	const auto array = value.toArray() ;
-
-	for( const auto& it : array ){
-
-		const auto object = it.toObject() ;
-
-		const auto value = object.value( "name" ) ;
-
-		auto entry = value.toString() ;
-
-		if( this->foundNetworkUrl( entry ) ){
-
-			metadata.url = object.value( "browser_download_url" ).toString() ;
-
-			metadata.size = object.value( "size" ).toInt() ;
-
-			metadata.fileName = entry ;
-
-			break ;
+	class meaw
+	{
+	public:
+		meaw( engines::engine::baseEngine& parent ) : m_parent( parent )
+		{
 		}
-	}
+		bool operator()( const QJsonObject& obj )
+		{
+			return m_parent.foundNetworkUrl( obj.value( "name" ).toString() ) ;
+		}
+	private:
+		engines::engine::baseEngine& m_parent ;
+	} ;
 
-	return metadata ;
+	return utility::parseJsonDataFromGitHub( doc,meaw( *this ) ) ;
 }
 
 std::vector< engines::engine::baseEngine::mediaInfo > engines::engine::baseEngine::mediaProperties( Logger&,const QByteArray& e )
@@ -1500,6 +1491,11 @@ bool engines::engine::baseEngine::supportsShowingComments()
 }
 
 bool engines::engine::baseEngine::updateVersionInfo()
+{
+	return false ;
+}
+
+bool engines::engine::baseEngine::supportingEngine()
 {
 	return false ;
 }
@@ -1670,9 +1666,10 @@ bool engines::engine::baseEngine::foundNetworkUrl( const QString& s )
 	return s == m_engine.commandName() ;
 }
 
-bool engines::engine::baseEngine::renameArchiveFolder( const QString&,const QString& )
+engines::engine::baseEngine::renameArchiveFolderStatus
+engines::engine::baseEngine::renameArchiveFolder( const QString&,const QString& )
 {
-	return false ;
+	return {} ;
 }
 
 QString engines::engine::baseEngine::updateTextOnCompleteDownlod( const QString& uiText,
@@ -2312,6 +2309,7 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 	m_configFileName( m_name + ".json" )
 {
 	yt_dlp::init( this->name(),this->configFileName(),logger,enginePath ) ;
+	deno::init( "deno","deno.json",logger,enginePath ) ;
 
 	if( utility::platformIsWindows() ){
 

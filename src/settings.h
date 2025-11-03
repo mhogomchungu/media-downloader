@@ -339,10 +339,26 @@ public:
 	void setDownloadFolder( const QString& ) ;
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
-private:	
+	QString tmpFile( const QString&,const QString& ) ;
+private:
+	void addToHistory( QSettings& settings,
+			   QStringList& history,
+			   const QString& key,
+			   const QString& input,
+			   int max ) ;
+	bool darkTheme() ;
+	QString monitorClipboadUrl( settings::tabName ) ;
+	QByteArray hash( quint64,const QString& ) ;
+	QString getTabOption( const QString&,settings::tabName ) ;
+	QStringList directoryList( const QString& ) ;
+	QString getDefaultEngineName( settings::tabName ) ;
+	QString thumbnailTabName( const QString&, settings::tabName ) ;
+	QString setOptionWithEngineName( const QString& opts,const QString& engineName ) ;
+	QString getOptionsHistoryTabName( settings::tabName,const QString& engineName ) ;
 	QString appDataLocation() ;
 	void clearFlatPakTemps() ;
 
+	std::unique_ptr< QSettings > setConfig( const QString& path ) ;
 	std::vector< settings::mediaPlayer::PlayerOpts > openWith() ;
 
 	QVariant getValue( const QString& opt,const QVariant& e )

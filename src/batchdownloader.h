@@ -485,6 +485,8 @@ private:
 
 		auto urlOpts = m_ui.lineEditBDUrlOptions->text() ;
 
+		m_settings.addOptionsHistory( engine.name(),urlOpts,settings::tabName::batch ) ;
+
 		utility::download( engine,
 				  std::move( updateOpts ),
 				  engine.name() == this->defaultEngineName() ? urlOpts : QString(),

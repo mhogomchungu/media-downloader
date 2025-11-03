@@ -657,7 +657,7 @@ void utility::checkPermissions::disable()
 
 #endif
 
-QString windowsGetLastErrorMessage()
+QString utility::errorMessage()
 {
 	char * s = nullptr ;
 
@@ -679,10 +679,10 @@ QString windowsGetLastErrorMessage()
 	return m ;
 }
 
-class renameFile
+class fileRename
 {
 public:
-	renameFile( const QString& oldPath,const QString& newPath ) :
+	fileRename( const QString& oldPath,const QString& newPath ) :
 		m_oldPath( this->setPath( oldPath ) ),m_newPath( this->setPath( newPath ) )
 	{
 	}
@@ -695,7 +695,7 @@ public:
 	}
 	QString errorString() const
 	{
-		return windowsGetLastErrorMessage() ;
+		return utility::errorMessage() ;
 	}
 	const QString& oldPath() const
 	{
@@ -714,11 +714,60 @@ private:
 	QString m_newPath ;
 } ;
 
+class fileRemove
+{
+public:
+	fileRemove( const QString& s ) : m_src( s )
+	{
+	}
+	bool exec() const
+	{
+		if( QFile::exists( m_src ) ){
+
+			//return unlink( m_src.toUtf8().constData() ) == 0 ;
+			return QFile::remove( m_src ) ;
+		}else{
+			return true ;
+		}
+	}
+	QString errorString() const
+	{
+		return utility::errorMessage() ;
+	}
+private:
+	const QString& m_src ;
+} ;
+
+class dirRemove
+{
+public:
+	dirRemove( const QString& s ) : m_src( s )
+	{
+	}
+	bool exec() const
+	{
+		QDir dir( m_src ) ;
+
+		if( dir.exists() ){
+
+			return dir.removeRecursively() ;
+		}else{
+			return true ;
+		}
+	}
+	QString errorString() const
+	{
+		return utility::errorMessage() ;
+	}
+private:
+	const QString& m_src ;
+} ;
+
 #else
 
-QString windowsGetLastErrorMessage()
+QString utility::errorMessage()
 {
-	return {} ;
+	return strerror( errno ) ;
 }
 
 void utility::checkPermissions::enable()
@@ -729,10 +778,10 @@ void utility::checkPermissions::disable()
 {
 }
 
-class renameFile
+class fileRename
 {
 public:
-	renameFile( const QString& oldPath,const QString& newPath ) :
+	fileRename( const QString& oldPath,const QString& newPath ) :
 		m_oldPath( oldPath ),m_newPath( newPath )
 	{
 	}
@@ -756,8 +805,56 @@ public:
 		return m_newPath ;
 	}
 private:
-	QString m_oldPath ;
-	QString m_newPath ;
+	const QString& m_oldPath ;
+	const QString& m_newPath ;
+} ;
+
+class fileRemove
+{
+public:
+	fileRemove( const QString& s ) : m_src( s )
+	{
+	}
+	bool exec() const
+	{
+		if( QFile::exists( m_src ) ){
+
+			return QFile::remove( m_src ) ;
+		}else{
+			return true ;
+		}
+	}
+	QString errorString() const
+	{
+		return strerror( errno ) ;
+	}
+private:
+	const QString& m_src ;
+} ;
+
+class dirRemove
+{
+public:
+	dirRemove( const QString& s ) : m_src( s )
+	{
+	}
+	bool exec() const
+	{
+		QDir dir( m_src ) ;
+
+		if( dir.exists() ){
+
+			return dir.removeRecursively() ;
+		}else{
+			return true ;
+		}
+	}
+	QString errorString() const
+	{
+		return strerror( errno ) ;
+	}
+private:
+	const QString& m_src ;
 } ;
 
 std::vector< utility::PlayerOpts > utility::getMediaPlayers()
@@ -1602,14 +1699,9 @@ bool utility::platformIs32Bit()
 	if( _pretendPlatform.is32Bit() ){
 
 		return true ;
+	}else{
+		return utility::CPU().x86_32() ;
 	}
-
-#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
-	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
-#else
-	//?????
-	return false ;
-#endif
 }
 
 void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
@@ -1972,19 +2064,22 @@ bool utility::runningGitVersion()
 {
 	auto m = utility::runningVersionOfMediaDownloader() ;
 
+	return utility::runningGitVersion( m ) ;
+}
+
+bool utility::runningGitVersion( const QString& m )
+{
 	return util::split( m,"." ).size() > 3 ;
+}
+
+const QString& utility::fakeRunningVersionOfMediaDownloader()
+{
+	return _runTimeVersions().instanceVersion() ;
 }
 
 QString utility::runningVersionOfMediaDownloader()
 {
-	const auto& e = _runTimeVersions().instanceVersion() ;
-
-	if( e.isEmpty() ){
-
-		return utility::compileTimeVersion() ;
-	}else{
-		return e ;
-	}
+	return utility::compileTimeVersion() ;
 }
 
 void utility::setRunningVersionOfMediaDownloader( const QString& e )
@@ -2153,7 +2248,7 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 		m_args.append( argv[ i ] ) ;
 	}
 
-	_useFakeHash = this->contains( "--fake-hash") ;
+	_useFakeHash = this->contains( "--fake-hash" ) ;
 
 	_pretendPlatform.set( m_args ) ;
 
@@ -2642,16 +2737,29 @@ void utility::contextMenuForDirectUrl( std::vector< UrlLinks > links,
 
 void utility::deleteTmpFiles( const QString& df,std::vector< QByteArray > files )
 {
-	utils::qthread::run( [ df,files = std::move( files ) ](){
-
-		for( const auto& it : files ){
-
-			auto m = df + "/" + it ;
-
-			QFile::remove( m + ".part" ) ;
-			QFile::remove( m ) ;
+	class meaw
+	{
+	public:
+		meaw( const QString& df,std::vector< QByteArray > files ) :
+			m_df( df ),m_files( std::move( files ) )
+		{
 		}
-	} ) ;
+		void operator()()
+		{
+			for( const auto& it : m_files ){
+
+				auto m = m_df + "/" + it ;
+
+				QFile::remove( m + ".part" ) ;
+				QFile::remove( m ) ;
+			}
+		}
+	private:
+		QString m_df ;
+		std::vector< QByteArray > m_files ;
+	} ;
+
+	utils::qthread::run( meaw( df,std::move( files ) ) ) ;
 }
 
 bool utility::Qt6Version()
@@ -2710,7 +2818,7 @@ QString utility::rename( const Context& ctx,
 
 	auto id = utility::concurrentID() ;
 
-	renameFile rename( oldPath,newPath ) ;
+	fileRename rename( oldPath,newPath ) ;
 
 	auto e = QObject::tr( "Renaming \"%1\" to \"%2\"" ) ;
 
@@ -2740,6 +2848,34 @@ QString utility::rename( const Context& ctx,
 
 		return {} ;
 	}
+}
+
+template< typename Type,typename ... Args >
+QString FileSystemOperation( Args&& ... args )
+{
+	Type m( std::forward< Args >( args ) ... ) ;
+
+	if( m.exec() ){
+
+		return {} ;
+	}else{
+		return m.errorString() ;
+	}
+}
+
+QString utility::rename( const QString& oldName,const QString& newName )
+{
+	return FileSystemOperation< fileRename >( oldName,newName ) ;
+}
+
+QString utility::removeFile( const QString& e )
+{
+	return FileSystemOperation< fileRemove >( e ) ;
+}
+
+QString utility::removeFolder( const QString& e )
+{
+	return FileSystemOperation< dirRemove >( e ) ;
 }
 
 bool utility::containsLinkerWarning( const QByteArray& e )
@@ -2772,4 +2908,34 @@ void utility::copyToClipboardUrls( tableWidget& table )
 bool utility::fileIsInvalidForGettingThumbnail( const QByteArray& e )
 {
 	return e.endsWith( ".mp4" ) || e.endsWith( ".webm" ) || e.endsWith( ".avi" ) ;
+}
+
+#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
+utility::CPU::CPU() : m_cpu( QSysInfo::currentCpuArchitecture() )
+{
+}
+#else
+utility::CPU::CPU() : m_cpu()
+{
+}
+#endif
+
+bool utility::CPU::x86_32() const
+{
+	return m_cpu == "i386" ;
+}
+
+bool utility::CPU::x86_64() const
+{
+	return m_cpu == "x86_64" ;
+}
+
+bool utility::CPU::aarch64() const
+{
+	return m_cpu == "arm64" ;
+}
+
+bool utility::CPU::aarch32() const
+{
+	return m_cpu == "arm" ;
 }

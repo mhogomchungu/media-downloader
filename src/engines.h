@@ -251,15 +251,44 @@ public:
 		QString m_tmp ;
 	} ;
 
-	struct metadata
+	class metadata
 	{
-		qint64 size = 0 ;
-		QString url ;
-		QString fileName ;
+	public:
+		metadata( const QJsonObject& obj ) :
+			m_url( obj.value( "browser_download_url" ).toString() ),
+			m_size( obj.value( "size" ).toInt() ),
+			m_fileName( obj.value( "name" ).toString() ),
+			m_hash( obj.value( "digest" ).toString() )
+		{
+		}
+		metadata()
+		{
+		}
 		metadata move()
 		{
 			return std::move( *this ) ;
 		}
+		const QString& url() const
+		{
+			return m_url ;
+		}
+		const QString& fileName() const
+		{
+			return m_fileName ;
+		}
+		const QString& hash() const
+		{
+			return m_hash ;
+		}
+		qint64 size() const
+		{
+			return m_size ;
+		}
+	private:
+		QString m_url ;
+		qint64 m_size = 0 ;
+		QString m_fileName ;
+		QString m_hash ;
 	} ;
 
 	class engine
@@ -705,6 +734,8 @@ public:
 
 			virtual bool updateVersionInfo() ;
 
+			virtual bool supportingEngine() ;
+
 			virtual QByteArray parseError( const QByteArray& ) ;
 
 			virtual void setTextEncondig( const QString&,QStringList& opts ) ;
@@ -760,7 +791,38 @@ public:
 
 			virtual bool foundNetworkUrl( const QString& ) ;
 
-			virtual bool renameArchiveFolder( const QString&,const QString& ) ;
+			class renameArchiveFolderStatus
+			{
+			public:
+				renameArchiveFolderStatus( const QString& s,const QString& d,const QString& e ) :
+					m_src( s ),m_dst( d ),m_err( e )
+				{
+				}
+				renameArchiveFolderStatus()
+				{
+				}
+				const QString& src() const
+				{
+					return m_src ;
+				}
+				const QString& dst() const
+				{
+					return m_dst ;
+				}
+				const QString& err() const
+				{
+					return m_err ;
+				}
+				bool success() const
+				{
+					return m_err.isEmpty() ;
+				}
+			private:
+				QString m_src ;
+				QString m_dst ;
+				QString m_err ;
+			} ;
+			virtual renameArchiveFolderStatus renameArchiveFolder( const QString&,const QString& ) ;
 
 			QString updateTextOnCompleteDownlod( const QString& uiText,
 							     const QString& downloadingOptions,
@@ -1003,7 +1065,7 @@ public:
 		{
 			m_engine->processData( outPut,data,id,readableJson ) ;
 		}
-		bool renameArchiveFolder( const QString& s,const QString& e ) const
+		engines::engine::baseEngine::renameArchiveFolderStatus renameArchiveFolder( const QString& s,const QString& e ) const
 		{
 			return m_engine->renameArchiveFolder( s,e ) ;
 		}
@@ -1113,6 +1175,10 @@ public:
 		void openLocalFile( const engines::engine::baseEngine::localFile& s ) const
 		{
 			m_engine->openLocalFile( s ) ;
+		}
+		bool supportingEngine() const
+		{
+			return m_engine->supportingEngine() ;
 		}
 		QByteArray parseError( const QByteArray& e ) const
 		{

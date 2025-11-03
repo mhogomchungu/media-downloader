@@ -50,7 +50,7 @@ public:
 
 	void setProxySetting( QStringList&,const QString& ) override ;
 
-	bool renameArchiveFolder( const QString&,const QString& ) override ;
+	renameArchiveFolderStatus renameArchiveFolder( const QString&,const QString& ) override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
@@ -62,4 +62,8 @@ public:
 					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& ) override ;
 private:
+	QString archiveExtension()
+	{
+		return ".tar.gz" ;
+	}
 };

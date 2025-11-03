@@ -423,7 +423,32 @@ namespace utility
 			}
 		}
 	}
+	template< typename Function >
+	QJsonObject parseJsonDataFromGitHub( const QJsonDocument& doc,Function function )
+	{
+		const auto array = doc.object().value( "assets" ).toArray() ;
 
+		for( const auto& it : array ){
+
+			auto obj = it.toObject() ;
+
+			if( function( obj ) ){
+
+				auto hash = obj.value( "digest" ).toString() ;
+
+				if( hash.startsWith( "sha256:" ) ){
+
+					hash.replace( "sha256:","" ) ;
+
+					obj.insert( "digest",hash.toLower() ) ;
+				}
+
+				return obj ;
+			}
+		}
+
+		return {} ;
+	}
 	class cliArguments
 	{
 	public:
@@ -494,8 +519,10 @@ namespace utility
 	void setPermissions( const QString& ) ;
 	void failedToParseJsonData( Logger&,const QJsonParseError& ) ;
 	bool runningGitVersion() ;
+	bool runningGitVersion( const QString& ) ;
 	bool Qt6Version() ;
 	bool Qt5Version() ;
+	const QString& fakeRunningVersionOfMediaDownloader() ;
 	QString runningVersionOfMediaDownloader() ;
 	QString aboutVersionInfo() ;
 	QString compileTimeVersion() ;
@@ -581,16 +608,19 @@ namespace utility
 	bool addData( const QByteArray& ) ;
 	bool containsLinkerWarning( const QByteArray& ) ;
 	QString rename( const Context&,QTableWidgetItem&,const QString&,const QString&,const QString& ) ;
+	QString rename( const QString& oldName,const QString& newName ) ;
+	QString removeFile( const QString& ) ;
+	QString removeFolder( const QString& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
 	QString OSXApplicationDirPath() ;
 	QString OSXtranslationFilesPath() ;
 	QString OSX3rdPartyDirPath() ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
-	QString windowsGetLastErrorMessage() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;
 	void windowsSetDarkModeTitleBar( const Context& ) ;	
 	QByteArray barLine() ;
+	QString errorMessage() ;
 	void copyToClipboardUrls( tableWidget& ) ;
 	bool isRelativePath( const QString& ) ;
 	bool fileIsInvalidForGettingThumbnail( const QByteArray& ) ;
@@ -639,39 +669,42 @@ namespace utility
 		}
 	}
 
+	class CPU
+	{
+	public:
+		CPU() ;
+		bool x86_32() const ;
+		bool x86_64() const ;
+		bool aarch64() const ;
+		bool aarch32() const ;
+	private:
+		QString m_cpu ;
+	} ;
+
 	class UrlLinks
 	{
 	public:
-		void add( const QString& e )
+		UrlLinks( const QJsonArray& arr )
 		{
-			m_links.emplace_back( e ) ;
-		}
-		int size()
-		{
-			return static_cast< int >( m_links.size() ) ;
-		}
-		QStringList toList()
-		{
-			QStringList m ;
+			for( int m = 0 ; m < arr.size() ; m++ ){
 
-			if( this->size() ){
-
-				m.append( m_links[ 0 ] ) ;
-
-				for( size_t s = 1 ; s < m_links.size() ; s++ ){
-
-					m.append( m_links[ s ] ) ;
-				}
+				m_links.append( arr[ m ].toString() ) ;
 			}
-
-			return m ;
+		}
+		const QStringList& toList() const
+		{
+			return m_links ;
+		}
+		bool isEmpty() const
+		{
+			return m_links.isEmpty() ;
 		}
 		UrlLinks move()
 		{
 			return std::move( *this ) ;
 		}
 	private:
-		std::vector< QString > m_links ;
+		QStringList m_links ;
 	} ;
 
 	void contextMenuForDirectUrl( std::vector< UrlLinks >,QMenu&,const QJsonObject&,const Context& ) ;
@@ -689,16 +722,7 @@ namespace utility
 
 				const auto& obj = table.stuffAt( s[ m ] ) ;
 
-				auto arr = obj.value( "urls" ).toArray() ;
-
-				UrlLinks l ;
-
-				for( int j = 0 ; j < arr.size() ; j++ ){
-
-					l.add( arr[ j ].toString() ) ;
-				}
-
-				links.emplace_back( std::move( l ) ) ;
+				links.emplace_back( obj.value( "urls" ).toArray() ) ;
 			}
 
 			auto mobj = table.stuffAt( s[ 0 ] ) ;
