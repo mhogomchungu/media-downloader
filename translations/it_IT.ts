@@ -1091,15 +1091,15 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile effettuare la rimozione</translation>
     </message>
     <message>
         <source>Renaming file to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina file in: %1</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile trovare l&apos;eseguibile &quot;bsdtar&quot;</translation>
     </message>
 </context>
 <context>
