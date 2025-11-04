@@ -2069,7 +2069,14 @@ const QString& utility::fakeRunningVersionOfMediaDownloader()
 
 QString utility::runningVersionOfMediaDownloader()
 {
-	return utility::compileTimeVersion() ;
+	const auto& e = utility::fakeRunningVersionOfMediaDownloader() ;
+
+	if( e.isEmpty() ){
+
+		return utility::compileTimeVersion() ;
+	}else{
+		return e ;
+	}
 }
 
 void utility::setRunningVersionOfMediaDownloader( const QString& e )

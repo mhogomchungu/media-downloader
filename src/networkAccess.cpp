@@ -100,18 +100,13 @@ void networkAccess::updateMediaDownloader( networkAccess::Status status,const QJ
 		}
 		bool operator()( const QJsonObject& obj )
 		{
-			auto url = obj.value( "url" ).toString() ;
+			auto url = obj.value( "browser_download_url" ).toString() ;
 
-			if( url.endsWith( ".zip" ) ){
+			if( url.contains( "media-downloader-git" ) ){
 
-				if( url.contains( "media-downloader-git" ) ){
-
-					return url.contains( m_name + ".git" ) ;
-				}else{
-					return url.contains( m_name ) ;
-				}
+				return url.contains( m_name + ".git.zip" ) ;
 			}else{
-				return false ;
+				return url.contains( m_name ) && url.endsWith( ".zip" ) ;
 			}
 		}
 	private:

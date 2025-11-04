@@ -500,7 +500,7 @@ private:
 	struct updateMDOptions
 	{
 		updateMDOptions( const QJsonObject& obj,networkAccess::Status st ) :
-			url( obj.value( "url" ).toString() ),
+			url( obj.value( "browser_download_url" ).toString() ),
 			name( obj.value( "name" ).toString() ),
 			hash( obj.value( "digest" ).toString() ),
 			id( st.id() ),
