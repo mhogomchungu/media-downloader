@@ -1694,16 +1694,6 @@ const engines::engine& utility::resolveEngine( const tableWidget& table,
 	}
 }
 
-bool utility::platformIs32Bit()
-{
-	if( _pretendPlatform.is32Bit() ){
-
-		return true ;
-	}else{
-		return utility::CPU().x86_32() ;
-	}
-}
-
 void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 {
 	QJsonObject s ;
@@ -2910,33 +2900,36 @@ bool utility::fileIsInvalidForGettingThumbnail( const QByteArray& e )
 	return e.endsWith( ".mp4" ) || e.endsWith( ".webm" ) || e.endsWith( ".avi" ) ;
 }
 
+utility::CPU::CPU() : m_cpu( this->getCPU() )
+{
+}
+
 bool utility::CPU::x86_32() const
 {
-	const auto& m = this->getCPU() ;
+	if( _pretendPlatform.is32Bit() ){
 
-	return m == "i386" || m == "x86_32" ;
+		return true ;
+	}else{
+		return m_cpu == "i386" || m_cpu == "x86_32" ;
+	}
 }
 
 bool utility::CPU::x86_64() const
 {
-	return this->getCPU() == "x86_64" ;
+	return m_cpu == "x86_64" ;
 }
 
 bool utility::CPU::aarch64() const
 {
-	const auto& m = this->getCPU() ;
-
-	return m == "arm64" || m == "aarch64";
+	return m_cpu == "arm64" || m_cpu == "aarch64";
 }
 
 bool utility::CPU::aarch32() const
 {
-	const auto& m = this->getCPU() ;
-
-	return m == "arm" || m == "aarch32" ;
+	return m_cpu == "arm" || m_cpu == "aarch32" ;
 }
 
-const QString & utility::CPU::getCPU() const
+const QString& utility::CPU::getCPU() const
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
 	static QString m = QSysInfo::currentCpuArchitecture() ;

@@ -205,7 +205,7 @@ void yt_dlp::setNicolaasjanYtdlpOptions( QString& cmd,QString& url )
 {
 	url = _NicolaasjanYtdlpUrl() ;
 
-	if( utility::platformIs32Bit() ){
+	if( utility::CPU().x86_32() ){
 
 		cmd = _NicolaasjanYtdlpFor32BitWin7() ;
 	}else{
@@ -223,7 +223,7 @@ void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& th
 
 			// left on purpose
 		}else{
-			if( utility::platformIs32Bit() ){
+			if( utility::CPU().x86_32() ){
 
 				destPath += "/" + _Windows32BitBinaryName() ;
 			}else{

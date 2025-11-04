@@ -189,7 +189,7 @@ bool lux::foundNetworkUrl( const QString& s )
 {
 	if( utility::platformIsWindows() ){
 
-		if( utility::platformIs32Bit() ){
+		if( utility::CPU().x86_32() ){
 
 			return s.contains( "Windows_i386" ) ;
 		}else{
@@ -198,7 +198,7 @@ bool lux::foundNetworkUrl( const QString& s )
 
 	}else if( utility::platformIsLinux() ){
 
-		if( utility::platformIs32Bit() ){
+		if( utility::CPU().x86_32() ){
 
 			return s.contains( "Linux_i386" ) ;
 		}else{

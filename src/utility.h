@@ -598,7 +598,6 @@ namespace utility
 	bool pathIsFolderAndExists( const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIsWindows7() ;
-	bool platformIs32Bit() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformisOS2() ;
@@ -672,12 +671,14 @@ namespace utility
 	class CPU
 	{
 	public:
+		CPU() ;
 		bool x86_32() const ;
 		bool x86_64() const ;
 		bool aarch64() const ;
 		bool aarch32() const ;
 	private:
 		const QString& getCPU() const ;
+		const QString& m_cpu ;
 	} ;
 
 	class UrlLinks

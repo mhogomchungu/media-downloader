@@ -717,6 +717,13 @@ QStringList engines::engine::toStringList( const QJsonValue& value,bool protectS
 
 void engines::engine::updateOptions()
 {
+	auto m = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
+
+	if( m.size() && m.last() != "ejs:github" ){
+
+		m_extraArguments = m ;
+	}
+
 	m_controlStructure                = m_jsonObject.value( "ControlJsonStructure" ).toObject() ;
 	m_canDownloadPlaylist             = m_jsonObject.value( "CanDownloadPlaylist" ).toBool() ;
 	m_replaceOutputWithProgressReport = m_jsonObject.value( "ReplaceOutputWithProgressReport" ).toBool( false ) ;
@@ -728,7 +735,6 @@ void engines::engine::updateOptions()
 	m_cookieArgument                  = m_jsonObject.value( "CookieArgument" ).toString() ;
 	m_cookieTextFileArgument          = m_jsonObject.value( "CookieArgumentTextFile" ).toString() ;
 	m_encodingArgument                = m_jsonObject.value( "EncodingArgument" ).toString() ;
-	//m_extraArguments                  = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
 	m_dumpJsonArguments               = this->toStringList( m_jsonObject.value( "DumptJsonArguments" ) ) ;
 	m_splitLinesBy                    = this->toStringList( m_jsonObject.value( "SplitLinesBy" ) ) ;
 	m_removeText                      = this->toStringList( m_jsonObject.value( "RemoveText" ) ) ;
@@ -764,12 +770,27 @@ engines::engine::cmd engines::engine::getCommands( const QJsonObject& cmd )
 {
 	auto obj = [ & ](){
 
-		if( utility::platformIs32Bit() ){
+		utility::CPU cpu ;
+
+		if( cpu.x86_32() ){
 
 			return this->getCmd( cmd ).value( "x86" ).toObject() ;
-		}else{
+
+		}else if( cpu.x86_64() ){
+
 			return this->getCmd( cmd ).value( "amd64" ).toObject() ;
+
+		}else if( cpu.aarch64() ){
+
+			auto m = this->getCmd( cmd ).value( "aarch64" ).toObject() ;
+
+			if( !m.isEmpty() ){
+
+				return m ;
+			}
 		}
+
+		return this->getCmd( cmd ).value( "amd64" ).toObject() ;
 	}() ;
 
 	auto m = obj.value( "Name" ).toString() ;
@@ -787,7 +808,7 @@ engines::engine::cmd engines::engine::getLegacyCommands()
 
 		exe = m_jsonObject.value( "CommandNameWindows" ).toString() ;
 
-		if( utility::platformIs32Bit() ){
+		if( utility::CPU().x86_32() ){
 
 			auto m = m_jsonObject.value( "CommandName32BitWindows" ).toString() ;
 
@@ -807,7 +828,7 @@ engines::engine::cmd engines::engine::getLegacyCommands()
 
 	if( utility::platformIsWindows() ){
 
-		if( utility::platformIs32Bit() ){
+		if( utility::CPU().x86_32() ){
 
 			auto m = this->toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
 
@@ -887,7 +908,7 @@ engines::engine::engine( Logger& logger,
 		}else{
 			QJsonValue value ;
 
-			if( utility::platformIs32Bit() ){
+			if( utility::CPU().x86_32() ){
 
 				value = cmd.toObject().value( "Windows" ).toObject().value( "win7x86" ) ;
 			}else{

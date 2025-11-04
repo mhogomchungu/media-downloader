@@ -750,7 +750,7 @@ engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc 
 
 		if( utility::platformIsWindows() ){
 
-			if( utility::platformIs32Bit() ){
+			if( utility::CPU().x86_32() ){
 
 				fileName = "svtplay-dl-win32.zip" ;
 
