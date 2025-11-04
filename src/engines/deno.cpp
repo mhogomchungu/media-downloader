@@ -40,10 +40,10 @@ QJsonObject deno::init( const QString& name,
 				    { "amd64","deno",{ "deno" } },
 				    { "aarch64","deno",{ "deno" } } } } ) ;
 
-	json.add( { { "Windows" },{ { "win7x86","deno",{ "deno.exe" } },
-				    { "win7amd64","deno",{ "deno.exe" } },
-				    { "x86","deno",{ "deno.exe" } },
-				    { "amd64","deno",{ "deno.exe" } } } } ) ;
+	json.add( { { "Windows" },{ { "win7x86","deno.exe",{ "deno.exe" } },
+				    { "win7amd64","deno.exe",{ "deno.exe" } },
+				    { "x86","deno.exe",{ "deno.exe" } },
+				    { "amd64","deno.exe",{ "deno.exe" } } } } ) ;
 
 	json.add( { { "MacOS" },{ { "amd64","deno",{ "deno" } },
 				  { "aarch64","deno",{ "deno" } } } } ) ;
