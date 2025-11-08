@@ -240,7 +240,7 @@ engines::engine::baseEngine::DataFilter wget::Filter( int id )
 	return { util::types::type_identity< wget::wgetFilter >(),engine,id } ;
 }
 
-void wget::setProxySetting( QStringList& e,const QString& s )
+engines::engine::baseEngine::optionsEnvironment wget::setProxySetting( QStringList& e,const QString& s )
 {
 	e.append( "-e" ) ;
 	e.append( "use_proxy=yes" ) ;
@@ -258,6 +258,8 @@ void wget::setProxySetting( QStringList& e,const QString& s )
 	}else{
 		e.append( "http_proxy=" + s ) ;
 	}
+
+	return {} ;
 }
 
 QString wget::updateTextOnCompleteDownlod( const QString& uiText,

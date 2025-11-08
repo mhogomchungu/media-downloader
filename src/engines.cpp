@@ -29,6 +29,7 @@
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
 #include "engines/deno.h"
+#include "engines/getsauce.h"
 
 #include "reportFinished.h"
 #include "utility.h"
@@ -442,6 +443,10 @@ void engines::updateEngines( bool addAll,int id )
 		}else if( name.contains( "deno" ) ){
 
 			it.setBackend< deno >( engines ) ;
+
+		}else if( name.contains( "getsauce" ) ){
+
+			it.setBackend< getsauce >( engines,m_settings.downloadFolder() ) ;
 
 		}else if( it.mainEngine() ){
 
@@ -1604,8 +1609,9 @@ void engines::engine::baseEngine::updateLocalOptions( QStringList& )
 {
 }
 
-void engines::engine::baseEngine::setProxySetting( QStringList&,const QString& )
+engines::engine::baseEngine::optionsEnvironment engines::engine::baseEngine::setProxySetting( QStringList&,const QString& )
 {
+	return {} ;
 }
 
 QString engines::engine::baseEngine::setCredentials( QStringList&,QStringList& )
@@ -2453,4 +2459,16 @@ QString engines::proxySettings::toString( const QNetworkProxy& e ) const
 
 		return type + credentials + host ;
 	}
+}
+
+QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( const QProcessEnvironment& e ) const
+{
+	auto m = e ;
+
+	for( const auto& it : m_pairs ){
+
+		m.insert( it.key,it.value ) ;
+	}
+
+	return m ;
 }

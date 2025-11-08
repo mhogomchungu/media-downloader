@@ -617,7 +617,7 @@ namespace utility
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;
-	void windowsSetDarkModeTitleBar( const Context& ) ;	
+	void windowsSetDarkModeTitleBar( const Context& ) ;
 	QByteArray barLine() ;
 	QString errorMessage() ;
 	void copyToClipboardUrls( tableWidget& ) ;
@@ -1300,14 +1300,16 @@ namespace utility
 		QProcess::ProcessChannel m_channel ;
 	} ;
 
-	template< typename TLogger,typename Events,typename Connection >
+	template< typename AppCtx,typename TLogger,typename Events,typename Connection >
 	class context
 	{
 	public:
 		context( ProcessOutputChannels channels,
 			 TLogger logger,
 			 Events events,
-			 Connection&& conn ) :
+			 Connection&& conn,
+			 const AppCtx& appCtx ) :
+			m_appCtx( appCtx ),
 			m_logger( logger.move() ),
 			m_events( events.move() ),
 			m_conn( conn.move() ),
@@ -1321,13 +1323,20 @@ namespace utility
 		{
 			m_events.disableAll() ;
 
-			exe.setProcessEnvironment( m_engine.processEnvironment() ) ;
-
 			auto mm = "cmd: " + m_engine.commandString( m_cmd ) ;
 
 			m_logger.add( mm ) ;
 
 			m_events.printOutPut( mm.toUtf8() + "\n" ) ;
+
+			if( m_envExtra.isEmpty() ){
+
+				exe.setProcessEnvironment( m_engine.processEnvironment() ) ;
+			}else{
+				const auto& m = m_engine.processEnvironment() ;
+
+				exe.setProcessEnvironment( m_envExtra.update( m ) ) ;
+			}
 
 			const auto& df = m_events.downloadFolder() ;
 
@@ -1442,7 +1451,18 @@ namespace utility
 		}
 		const engines::engine::exeArgs::cmd& cmd( const QStringList& args )
 		{
-			m_cmd = { m_engine.exePath(),args } ;
+			const auto& mm = m_appCtx.Engines().networkProxy() ;
+
+			if( mm.isSet() ){
+
+				auto s = args ;
+
+				m_envExtra = m_engine.setProxySetting( s,mm.networkProxyString() ) ;
+
+				m_cmd = { m_engine.exePath(),s } ;
+			}else{
+				m_cmd = { m_engine.exePath(),args } ;
+			}
 
 			return m_cmd ;
 		}
@@ -1494,6 +1514,8 @@ namespace utility
 			const QByteArray& m_data ;
 		} ;
 
+		engines::engine::baseEngine::optionsEnvironment m_envExtra ;
+		const AppCtx& m_appCtx ;
 		QString m_credentials ;
 		engines::engine::exeArgs::cmd m_cmd ;
 		TLogger m_logger ;
@@ -1507,15 +1529,16 @@ namespace utility
 		bool m_cancelled ;
 	} ;
 
-	template< typename Connection,typename Logger,typename Events >
-	auto make_ctx( Events events,
+	template< typename AppCtx,typename Connection,typename Logger,typename Events >
+	auto make_ctx( const AppCtx& appCtx,
+		       Events events,
 		       Logger logger,
 		       Connection conn,
 		       utility::ProcessOutputChannels channels )
 	{
-		using ctx = utility::context< Logger,Events,Connection > ;
+		using ctx = utility::context< AppCtx,Logger,Events,Connection > ;
 
-		return ctx( channels,logger.move(),events.move(),conn.move() ) ;
+		return ctx( channels,logger.move(),events.move(),conn.move(),appCtx ) ;
 	}
 
 	template< typename Ctx >
@@ -1566,7 +1589,7 @@ namespace utility
 
 		utility::updateOptionsStruct opt{ a,b,c,args,d,e,{ url },dOpts.entry,ctx } ;
 
-		auto m = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
+		auto m = utility::make_ctx( ctx,opts.move(),logger.move(),term.move(),channel ) ;
 
 		auto u = optsUpdater( utility::updateOptions( opt ) ) ;
 

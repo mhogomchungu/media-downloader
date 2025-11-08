@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright (c) 2022
+ *  Copyright (c) 2025
  *  name : Francis Banyikwa
  *  email: mhogomchungu@gmail.com
  *  This program is free software: you can redistribute it and/or modify
@@ -21,49 +21,41 @@
 
 #include "../engines.h"
 
-class settings ;
-
-class you_get : public engines::engine::baseEngine
+class getsauce : public engines::engine::baseEngine
 {
 public:
-	~you_get() override ;
-	you_get( const engines&,const engines::engine&,QJsonObject& ) ;
+	static const char * testData() ;
 
-	class you_getFilter : public engines::engine::baseEngine::filter
+	class getsauce_dlFilter : public engines::engine::baseEngine::filter
 	{
 	public:
-		you_getFilter( settings&,const engines::engine&,int ) ;
+		getsauce_dlFilter( const engines::engine&,int,QByteArray ) ;
 
 		const QByteArray& operator()( Logger::Data& e ) override ;
 
-		~you_getFilter() override ;
+		~getsauce_dlFilter() override ;
 	private:
-		QByteArray m_title ;
+		const QByteArray& doneDownloading( const QByteArray& ) ;
+		const QByteArray& setFileName( Logger::Data&,const QByteArray& ) ;
+		QByteArray m_banner ;
 		QByteArray m_tmp ;
-		engines::engine::baseEngine::preProcessing m_preProcessing ;
-		int m_processId ;
+		engines::engine::baseEngine::preProcessing m_progress ;
+		QByteArray m_downloadFolder ;
 	} ;
-
-	QString updateCmdPath( const QString& ) override ;
-
-	bool foundNetworkUrl( const QString& ) override ;
+	~getsauce() override ;
+	getsauce( const engines& e,const engines::engine& s,QJsonObject&,const QString& downloadFolder ) ;
 
 	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
 
-	renameArchiveFolderStatus renameArchiveFolder( const QString&,const QString& ) override ;
+	engines::engine::baseEngine::DataFilter Filter( int ) override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
-	engines::engine::baseEngine::DataFilter Filter( int ) override ;
+	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
 
-	QString updateTextOnCompleteDownlod( const QString& uiText,
-					     const QString& bkText,
-					     const QString& downloadingOptions,
-					     const QString& tabName,
-					     const engines::engine::baseEngine::finishedState& ) override ;
+	bool foundNetworkUrl( const QString& s ) override ;
 private:
-	QString archiveExtension()
-	{
-		return ".tar.gz" ;
-	}
-};
+	const engines::engine& m_engine ;
+	QString m_downloadFolder ;
+} ;

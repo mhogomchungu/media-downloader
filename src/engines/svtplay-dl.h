@@ -63,7 +63,7 @@ public:
 
 	QStringList horizontalHeaderLabels() const override ;
 
-	void setProxySetting( QStringList&,const QString& ) override ;
+	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 

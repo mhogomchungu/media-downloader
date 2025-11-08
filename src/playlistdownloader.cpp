@@ -1197,7 +1197,7 @@ void playlistdownloader::getList(  const QString& url,
 
 	m_table.selectLast() ;
 
-	auto ctx = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
+	auto ctx = utility::make_ctx( m_ctx,ev.move(),logger.move(),term.move(),ch ) ;
 
 	opts.removeAll( "--playlist-reverse" ) ;
 

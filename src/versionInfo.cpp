@@ -382,7 +382,22 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 		}
 	}
 
-	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
+	const auto& versionArgs = engine.versionArgument() ;
+
+	if( versionArgs.isEmpty() ){
+
+		auto m = QObject::tr( "Skipping Checking Version Info For Engine \"%1\"" ) ;
+
+		auto bar = utility::barLine() ;
+
+		this->log( bar,id ) ;
+		this->log( m.arg( engine.name() ),id ) ;
+		this->log( bar,id ) ;
+
+		return this->next( vInfo.move() ) ;
+	}
+
+	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ versionArgs } ) ;
 
 	QString exe = "\"" + cmd.exe() + "\"" ;
 

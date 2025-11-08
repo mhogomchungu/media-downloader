@@ -113,6 +113,7 @@ set(SRC
     src/engines/wget.cpp
     src/engines/svtplay-dl.cpp
     src/engines/you-get.cpp
+    src/engines/getsauce.cpp
     src/engines/gallery-dl.cpp
     src/engines/deno.cpp)
 

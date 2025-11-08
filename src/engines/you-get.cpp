@@ -46,10 +46,13 @@ bool you_get::foundNetworkUrl( const QString& url )
 	}
 }
 
-void you_get::setProxySetting( QStringList& e,const QString& s )
+engines::engine::baseEngine::optionsEnvironment you_get::setProxySetting( QStringList& e,const QString& s )
 {
-	e.append( "--http-proxy" ) ;
-	e.append( s ) ;
+	e.prepend( s ) ;
+
+	e.prepend( "--http-proxy" ) ;
+
+	return {} ;
 }
 
 engines::engine::baseEngine::renameArchiveFolderStatus

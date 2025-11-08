@@ -251,7 +251,9 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine::baseEngine::u
 {
 	if( s.urls.size() > 0 ){
 
-		s.urls[ 0 ] = util::split( s.urls[ 0 ],'/',true ).last() ;
+		const auto m = util::split( s.urls[ 0 ],'/',true ) ;
+
+		s.urls[ 0 ] = m.last() ;
 	}
 
 	s.ourOptions.append( "--destination" ) ;

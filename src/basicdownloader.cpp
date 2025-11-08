@@ -368,6 +368,8 @@ void basicdownloader::list()
 
 	auto args = engine.defaultListCmdOptions() ;
 
+	qDebug() << args ;
+
 	engine.setTextEncondig( args ) ;
 
 	engine.updateCmdOptions( args ) ;
@@ -613,7 +615,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	auto update = []( const QByteArray& ){} ;
 	auto logger = make_loggerBasicDownloader( eng.engine.filter( eng.id ),ll,update,eng.id,logs ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
-	auto ctx    = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
+	auto ctx    = utility::make_ctx( m_ctx,ev.move(),logger.move(),term.move(),ch ) ;
 
 	utility::run( args,credentials,ctx.move() ) ;
 }

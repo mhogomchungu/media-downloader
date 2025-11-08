@@ -760,7 +760,38 @@ public:
 
 			virtual void updateLocalOptions( QStringList& ) ;
 
-			virtual void setProxySetting( QStringList&,const QString& ) ;
+			class optionsEnvironment
+			{
+			public:
+				optionsEnvironment()
+				{
+				}
+				optionsEnvironment( QString key,QString value )
+				{
+					m_pairs.emplace_back( std::move( key ),std::move( value ) ) ;
+				}
+				void add( QString key,QString value )
+				{
+					m_pairs.emplace_back( std::move( key ),std::move( value ) ) ;
+				}
+				bool isEmpty() const
+				{
+					return m_pairs.size() ;
+				}
+				QProcessEnvironment update( const QProcessEnvironment& ) const ;
+			private:
+				struct pair
+				{
+					pair( QString k,QString v ) :
+						key( std::move( k ) ),value( std::move( v ) )
+					{
+					}
+					QString key ;
+					QString value ;
+				} ;
+				std::vector< pair > m_pairs ;
+			} ;
+			virtual optionsEnvironment setProxySetting( QStringList&,const QString& ) ;
 
 			virtual QString setCredentials( QStringList&,QStringList & ) ;
 
@@ -1156,9 +1187,9 @@ public:
 		{
 			return m_engine->downloadFolder( e ) ;
 		}
-		void setProxySetting( QStringList& e,const QString& s ) const
+		engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList& e,const QString& s ) const
 		{
-			m_engine->setProxySetting( e,s ) ;
+			return m_engine->setProxySetting( e,s ) ;
 		}
 		std::vector< QByteArray > parseJsonData( QByteArray& data ) const
 		{

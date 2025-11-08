@@ -1253,13 +1253,6 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	QStringList opts ;
 
-	const auto& p = s.ctx.Engines().networkProxy() ;
-
-	if( p.isSet() ){
-
-		engine.setProxySetting( opts,p.networkProxyString() ) ;
-	}
-
 	auto oopts = [ & ](){
 
 		if( dopts.hasExtraOptions ){

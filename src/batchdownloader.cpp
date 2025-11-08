@@ -2047,10 +2047,11 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	args.append( m_table.url( index ) ) ;
 
-	auto ctx = utility::make_ctx( events( *this,engine,index,url,wrapper ),
-				     wrapper,
-				     m_terminator.setUp(),
-				     QProcess::ProcessChannel::StandardOutput ) ;
+	auto ctx = utility::make_ctx( m_ctx,
+				      events( *this,engine,index,url,wrapper ),
+				      wrapper,
+				      m_terminator.setUp(),
+				      QProcess::ProcessChannel::StandardOutput ) ;
 
 	utility::run( args,QString(),ctx.move() ) ;
 }
@@ -2590,7 +2591,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	events ev( *this,listType,engine,row ) ;
 
-	auto ctx = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
+	auto ctx = utility::make_ctx( m_ctx,ev.move(),logger.move(),term.move(),ch ) ;
 
 	utility::run( args,QString(),ctx.move() ) ;
 }

@@ -1042,6 +1042,8 @@ QMenu *  configure::addExtenion()
 	m->addAction( "gallery-dl" )->setObjectName( "gallery-dl.json" ) ;
 	m->addAction( "svtplay-dl" )->setObjectName( "svtplay-dl.json" ) ;
 	m->addAction( "you-get" )->setObjectName( "you-get.json" ) ;
+	m->addAction( "getsauce" )->setObjectName( "getsauce.json" ) ;
+
 	//m->addAction( "lux" )->setObjectName( "lux.json" ) ;
 
 	if( utility::platformIsNOTWindows() ){
@@ -1094,9 +1096,9 @@ QMenu *  configure::addExtenion()
 					return ;
 				}
 
-				auto name = util::split( n,'/',true ).last() ;
+				auto m = util::split( n,'/',true ) ;
 
-				m_parent.addEngine( d,name ) ;
+				m_parent.addEngine( d,m.last() ) ;
 			}
 		}
 		const Context& m_ctx ;
