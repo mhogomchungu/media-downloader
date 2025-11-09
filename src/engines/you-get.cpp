@@ -48,9 +48,8 @@ bool you_get::foundNetworkUrl( const QString& url )
 
 engines::engine::baseEngine::optionsEnvironment you_get::setProxySetting( QStringList& e,const QString& s )
 {
-	e.prepend( s ) ;
-
-	e.prepend( "--http-proxy" ) ;
+	e.append( "--http-proxy" ) ;
+	e.append( s ) ;
 
 	return {} ;
 }

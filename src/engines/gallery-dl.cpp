@@ -522,9 +522,8 @@ void gallery_dl::runCommandOnDownloadedFile( const std::vector< QByteArray >& e 
 
 engines::engine::baseEngine::optionsEnvironment gallery_dl::setProxySetting( QStringList& e,const QString& s )
 {
-	e.prepend( s ) ;
-
-	e.prepend( "--proxy" ) ;
+	e.append( "--proxy" ) ;
+	e.append( s ) ;
 
 	return {} ;
 }

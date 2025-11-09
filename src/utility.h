@@ -1455,11 +1455,11 @@ namespace utility
 
 			if( mm.isSet() ){
 
-				auto s = args ;
+				QStringList m ;
 
-				m_envExtra = m_engine.setProxySetting( s,mm.networkProxyString() ) ;
+				m_envExtra = m_engine.setProxySetting( m,mm.networkProxyString() ) ;
 
-				m_cmd = { m_engine.exePath(),s } ;
+				m_cmd = { m_engine.exePath(),m + args } ;
 			}else{
 				m_cmd = { m_engine.exePath(),args } ;
 			}

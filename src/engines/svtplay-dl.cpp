@@ -395,9 +395,8 @@ QStringList svtplay_dl::horizontalHeaderLabels() const
 
 engines::engine::baseEngine::optionsEnvironment svtplay_dl::setProxySetting( QStringList& e,const QString& s )
 {
-	e.prepend( s ) ;
-
-	e.prepend( "--proxy" ) ;
+	e.append( "--proxy" ) ;
+	e.append( s ) ;
 
 	return {} ;
 }

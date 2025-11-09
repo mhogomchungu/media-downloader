@@ -36,7 +36,6 @@ public:
 		~getsauce_dlFilter() override ;
 	private:
 		const QByteArray& doneDownloading( const QByteArray& ) ;
-		const QByteArray& setFileName( Logger::Data&,const QByteArray& ) ;
 		QByteArray m_banner ;
 		QByteArray m_tmp ;
 		engines::engine::baseEngine::preProcessing m_progress ;
@@ -46,6 +45,12 @@ public:
 	getsauce( const engines& e,const engines::engine& s,QJsonObject&,const QString& downloadFolder ) ;
 
 	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
+
+	QString updateTextOnCompleteDownlod( const QString& uiText,
+					     const QString& bkText,
+					     const QString& downloadingOptions,
+					     const QString& tabName,
+					     const engines::engine::baseEngine::finishedState& ) override ;
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 	engines::engine::baseEngine::FilterOutPut filterOutput() override ;

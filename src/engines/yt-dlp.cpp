@@ -1182,8 +1182,8 @@ void yt_dlp::updateLocalOptions( QStringList& opts )
 
 engines::engine::baseEngine::optionsEnvironment yt_dlp::setProxySetting( QStringList& e,const QString& s )
 {
-	e.prepend( s ) ;
-	e.prepend( "--proxy" ) ;
+	e.append( "--proxy" ) ;
+	e.append( s ) ;
 
 	return {} ;
 }
