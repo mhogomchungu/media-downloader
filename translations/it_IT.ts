@@ -1103,7 +1103,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora controllo informazioni versione per il motore &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
