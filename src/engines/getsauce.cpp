@@ -24,596 +24,426 @@ const char * getsauce::testData()
 {
 	return R"R(
  Site:      https://blablabla.com
- Title:     Weekly Pictures Of Cute Cats
- Type:      image
+ Title:     Cute Cats Videos
+ Type:      video
  Stream:
 
      [0]  -------------------
-     Type:            image
-     Quality:         unknown
-     Parts:           4
-     Size:            1234564 B
+     Type:            video
+     Info:            Mirror 1
+     Quality:         1280x720
+     Parts:           562
+     Size:            ~ 427.6 MB
      # download with: get-sauce -s 0 ...
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   0% |                                        |  [0s:0s]
+Downloading CuteCatsVideos/0.ts ...   0% |                                        |  [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   1% |                                        | (344 kB/s) [0s:6s]
+Downloading CuteCatsVideos/0.ts ...   1% |                                        | (1.4 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   2% |                                        | (324 kB/s) [0s:6s]
+Downloading CuteCatsVideos/0.ts ...   2% |                                        | (350 kB/s) [0s:3s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   3% |█                                       | (408 kB/s) [0s:5s]
+Downloading CuteCatsVideos/0.ts ...   3% |█                                       | (266 kB/s) [0s:4s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   4% |█                                       | (435 kB/s) [0s:4s]
+Downloading CuteCatsVideos/0.ts ...   4% |█                                       | (247 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   5% |██                                      | (409 kB/s) [0s:5s]
+Downloading CuteCatsVideos/0.ts ...   5% |██                                      | (239 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   6% |██                                      | (413 kB/s) [0s:4s]
+Downloading CuteCatsVideos/0.ts ...   7% |██                                      | (224 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   7% |██                                      | (445 kB/s) [0s:4s]
+Downloading CuteCatsVideos/0.ts ...   8% |███                                     | (223 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   8% |███                                     | (485 kB/s) [0s:4s]
+Downloading CuteCatsVideos/0.ts ...   9% |███                                     | (220 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...   9% |███                                     | (511 kB/s) [0s:3s]
+Downloading CuteCatsVideos/0.ts ...  10% |████                                    | (220 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  10% |████                                    | (539 kB/s) [0s:3s]
+Downloading CuteCatsVideos/0.ts ...  11% |████                                    | (220 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  11% |████                                    | (594 kB/s) [0s:3s]
+Downloading CuteCatsVideos/0.ts ...  13% |█████                                   | (220 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  12% |█████                                   | (611 kB/s) [0s:3s]
+Downloading CuteCatsVideos/0.ts ...  14% |█████                                   | (220 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  13% |█████                                   | (626 kB/s) [0s:3s]
+Downloading CuteCatsVideos/0.ts ...  15% |██████                                  | (220 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  14% |█████                                   | (639 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  16% |██████                                  | (220 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  15% |██████                                  | (695 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  17% |███████                                 | (220 kB/s) [0s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  16% |██████                                  | (704 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  19% |███████                                 | (220 kB/s) [1s:5s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  17% |██████                                  | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  20% |████████                                | (220 kB/s) [1s:4s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  18% |███████                                 | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  21% |████████                                | (220 kB/s) [1s:4s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  19% |███████                                 | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  22% |█████████                               | (220 kB/s) [1s:4s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  20% |████████                                | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  23% |█████████                               | (220 kB/s) [1s:4s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  21% |████████                                | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  25% |██████████                              | (313 kB/s) [1s:3s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  22% |████████                                | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  26% |██████████                              | (313 kB/s) [1s:3s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  23% |█████████                               | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  27% |███████████                             | (313 kB/s) [1s:3s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  24% |█████████                               | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  28% |███████████                             | (313 kB/s) [1s:3s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  25% |██████████                              | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  29% |███████████                             | (313 kB/s) [1s:3s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  26% |██████████                              | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  31% |████████████                            | (313 kB/s) [1s:3s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  27% |██████████                              | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  32% |████████████                            | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  28% |███████████                             | (746 kB/s) [0s:2s]
+Downloading CuteCatsVideos/0.ts ...  33% |█████████████                           | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  29% |███████████                             | (746 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  34% |█████████████                           | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  30% |████████████                            | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  35% |██████████████                          | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  31% |████████████                            | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  37% |██████████████                          | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  32% |████████████                            | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  38% |███████████████                         | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  33% |█████████████                           | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  39% |███████████████                         | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  34% |█████████████                           | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  40% |████████████████                        | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  35% |██████████████                          | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  41% |████████████████                        | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  36% |██████████████                          | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  43% |█████████████████                       | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  37% |██████████████                          | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  44% |█████████████████                       | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  38% |███████████████                         | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  45% |██████████████████                      | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  39% |███████████████                         | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  46% |██████████████████                      | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  40% |████████████████                        | (644 kB/s) [1s:2s]
+Downloading CuteCatsVideos/0.ts ...  47% |███████████████████                     | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  41% |████████████████                        | (644 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  49% |███████████████████                     | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  42% |████████████████                        | (644 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  50% |████████████████████                    | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  43% |█████████████████                       | (644 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  51% |████████████████████                    | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  44% |█████████████████                       | (644 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  52% |█████████████████████                   | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  45% |██████████████████                      | (644 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  53% |█████████████████████                   | (313 kB/s) [1s:2s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  46% |██████████████████                      | (644 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  55% |██████████████████████                  | (313 kB/s) [1s:1s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  47% |██████████████████                      | (644 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  56% |██████████████████████                  | (313 kB/s) [1s:1s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  48% |███████████████████                     | (644 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  57% |███████████████████████                 | (313 kB/s) [1s:1s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  49% |███████████████████                     | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  58% |███████████████████████                 | (313 kB/s) [1s:1s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  50% |████████████████████                    | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  59% |███████████████████████                 | (313 kB/s) [1s:1s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  51% |████████████████████                    | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  61% |████████████████████████                | (534 kB/s) [1s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  52% |█████████████████████                   | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  62% |████████████████████████                | (534 kB/s) [1s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  53% |█████████████████████                   | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  82% |█████████████████████████████████       | (534 kB/s) [1s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  54% |█████████████████████                   | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  83% |█████████████████████████████████       | (534 kB/s) [1s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  55% |██████████████████████                  | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  85% |██████████████████████████████████      | (534 kB/s) [1s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  56% |██████████████████████                  | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  86% |██████████████████████████████████      | (534 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  57% |██████████████████████                  | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  87% |███████████████████████████████████     | (534 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  58% |███████████████████████                 | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  88% |███████████████████████████████████     | (534 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  59% |███████████████████████                 | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  89% |███████████████████████████████████     | (534 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  60% |████████████████████████                | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  91% |████████████████████████████████████    | (534 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  61% |████████████████████████                | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  92% |████████████████████████████████████    | (607 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  62% |████████████████████████                | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  93% |█████████████████████████████████████   | (607 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  63% |█████████████████████████               | (707 kB/s) [1s:1s]
+Downloading CuteCatsVideos/0.ts ...  94% |█████████████████████████████████████   | (607 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  64% |█████████████████████████               | (707 kB/s) [2s:1s]
+Downloading CuteCatsVideos/0.ts ...  95% |██████████████████████████████████████  | (607 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  65% |██████████████████████████              | (704 kB/s) [2s:1s]
+Downloading CuteCatsVideos/0.ts ...  97% |██████████████████████████████████████  | (607 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  66% |██████████████████████████              | (704 kB/s) [2s:1s]
+Downloading CuteCatsVideos/0.ts ...  98% |███████████████████████████████████████ | (607 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  67% |███████████████████████████             | (704 kB/s) [2s:1s]
+Downloading CuteCatsVideos/0.ts ...  99% |███████████████████████████████████████ | (607 kB/s) [2s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  68% |███████████████████████████             | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/0.ts ... 100% |████████████████████████████████████████| (576 kB/s)
+Downloading CuteCatsVideos/1.ts ...   0% |                                        |  [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  69% |███████████████████████████             | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...   3% |█                                       | (1.9 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  70% |████████████████████████████            | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...   6% |██                                      | (1.9 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  71% |████████████████████████████            | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...   9% |███                                     | (614 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  72% |████████████████████████████            | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  12% |████                                    | (756 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  73% |█████████████████████████████           | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  15% |██████                                  | (857 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  74% |█████████████████████████████           | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  18% |███████                                 | (669 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  75% |██████████████████████████████          | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  21% |████████                                | (746 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  76% |██████████████████████████████          | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  24% |█████████                               | (809 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  77% |███████████████████████████████         | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  27% |███████████                             | (870 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  78% |███████████████████████████████         | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  30% |████████████                            | (930 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  79% |███████████████████████████████         | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  33% |█████████████                           | (986 kB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  80% |████████████████████████████████        | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  36% |██████████████                          | (1.0 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  81% |████████████████████████████████        | (704 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  39% |███████████████                         | (1.1 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  82% |█████████████████████████████████       | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  42% |█████████████████                       | (1.1 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  83% |█████████████████████████████████       | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  45% |██████████████████                      | (1.2 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  84% |█████████████████████████████████       | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  49% |███████████████████                     | (1.2 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  85% |██████████████████████████████████      | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  52% |████████████████████                    | (1.2 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  86% |██████████████████████████████████      | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  55% |██████████████████████                  | (1.3 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  87% |██████████████████████████████████      | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  58% |███████████████████████                 | (1.3 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  88% |███████████████████████████████████     | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  61% |████████████████████████                | (1.3 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  89% |███████████████████████████████████     | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  64% |█████████████████████████               | (1.4 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  90% |████████████████████████████████████    | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  67% |██████████████████████████              | (1.4 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  91% |████████████████████████████████████    | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  70% |████████████████████████████            | (1.4 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  92% |████████████████████████████████████    | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  88% |███████████████████████████████████     | (1.6 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  93% |█████████████████████████████████████   | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  91% |████████████████████████████████████    | (1.6 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  94% |█████████████████████████████████████   | (709 kB/s) [2s:0s]
+Downloading CuteCatsVideos/1.ts ...  95% |██████████████████████████████████████  | (1.6 MB/s) [0s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  95% |██████████████████████████████████████  | (709 kB/s) [2s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  92% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  96% |██████████████████████████████████████  | (709 kB/s) [2s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  92% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  97% |███████████████████████████████████████ | (709 kB/s) [2s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  93% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  98% |███████████████████████████████████████ | (709 kB/s) [3s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  93% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ...  99% |███████████████████████████████████████ | (709 kB/s) [3s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  93% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_0.png ... 100% |████████████████████████████████████████| (725 kB/s)
-Downloading Weekly Pictures Of Cute Cats_1.png ...   0% |                                        |  [0s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  93% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   1% |                                        | (3.4 MB/s) [0s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  93% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   2% |                                        | (1.6 MB/s) [0s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  93% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   3% |█                                       | (1.5 MB/s) [0s:0s]
+Merging into CuteCatsVideos Final.mp4 ...  94% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   4% |█                                       | (1.2 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  94% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   5% |██                                      | (1.1 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  94% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   6% |██                                      | (1.1 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  94% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   7% |███                                     | (939 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  94% |█████████████████████████████████████   | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   8% |███                                     | (1.0 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  95% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...   9% |███                                     | (1.1 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  95% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  10% |████                                    | (1.1 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  95% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  12% |████                                    | (1.1 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  95% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  13% |█████                                   | (1.1 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  95% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  14% |█████                                   | (1.0 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  95% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  15% |██████                                  | (1.1 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  96% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  16% |██████                                  | (1.0 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  96% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  17% |██████                                  | (1.1 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  96% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  18% |███████                                 | (1.0 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  96% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  19% |███████                                 | (1.0 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  96% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  20% |████████                                | (992 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  96% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  21% |████████                                | (1.0 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  97% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  22% |█████████                               | (986 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  97% |██████████████████████████████████████  | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  24% |█████████                               | (1.0 MB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  97% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  25% |██████████                              | (947 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  97% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  26% |██████████                              | (939 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  97% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  27% |██████████                              | (917 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  98% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  28% |███████████                             | (888 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  98% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  29% |███████████                             | (892 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  98% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  30% |████████████                            | (887 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  98% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  31% |████████████                            | (887 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  98% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  32% |█████████████                           | (887 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  98% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  33% |█████████████                           | (887 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  99% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  34% |█████████████                           | (887 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  99% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  36% |██████████████                          | (887 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  99% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  37% |██████████████                          | (887 kB/s) [0s:1s]
+Merging into CuteCatsVideos Final.mp4 ...  99% |███████████████████████████████████████ | (94 it/s) [5s:0s]
 
 
-Downloading Weekly Pictures Of Cute Cats_1.png ...  38% |███████████████                         | (887 kB/s) [0s:1s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  39% |███████████████                         | (887 kB/s) [0s:1s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  40% |████████████████                        | (887 kB/s) [0s:1s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  41% |████████████████                        | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  42% |█████████████████                       | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  43% |█████████████████                       | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  44% |█████████████████                       | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  45% |██████████████████                      | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  46% |██████████████████                      | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  48% |███████████████████                     | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  49% |███████████████████                     | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  50% |████████████████████                    | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  51% |████████████████████                    | (887 kB/s) [0s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  52% |████████████████████                    | (887 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  53% |█████████████████████                   | (887 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  54% |█████████████████████                   | (887 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  55% |██████████████████████                  | (887 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  56% |██████████████████████                  | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  57% |███████████████████████                 | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  58% |███████████████████████                 | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  60% |████████████████████████                | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  61% |████████████████████████                | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  62% |████████████████████████                | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  63% |█████████████████████████               | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  64% |█████████████████████████               | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  65% |██████████████████████████              | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  66% |██████████████████████████              | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  67% |███████████████████████████             | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  68% |███████████████████████████             | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  69% |███████████████████████████             | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  70% |████████████████████████████            | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  72% |████████████████████████████            | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  73% |█████████████████████████████           | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  74% |█████████████████████████████           | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  75% |██████████████████████████████          | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  76% |██████████████████████████████          | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  77% |██████████████████████████████          | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  78% |███████████████████████████████         | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  79% |███████████████████████████████         | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  80% |████████████████████████████████        | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  81% |████████████████████████████████        | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  82% |█████████████████████████████████       | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  84% |█████████████████████████████████       | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  85% |██████████████████████████████████      | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  86% |██████████████████████████████████      | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  87% |██████████████████████████████████      | (834 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  88% |███████████████████████████████████     | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  89% |███████████████████████████████████     | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  90% |████████████████████████████████████    | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  91% |████████████████████████████████████    | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  92% |█████████████████████████████████████   | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  93% |█████████████████████████████████████   | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  94% |█████████████████████████████████████   | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  96% |██████████████████████████████████████  | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  97% |██████████████████████████████████████  | (857 kB/s) [1s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  98% |███████████████████████████████████████ | (857 kB/s) [2s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ...  99% |███████████████████████████████████████ | (857 kB/s) [2s:0s]
-
-
-Downloading Weekly Pictures Of Cute Cats_1.png ... 100% |████████████████████████████████████████| (740 kB/s))R" ;
+Merging into CuteCatsVideos Final.mp4 ...  99% |███████████████████████████████████████ | (94 it/s) [5s:0s])R" ;
 }
 
 getsauce::~getsauce()
@@ -647,6 +477,18 @@ QString getsauce::updateTextOnCompleteDownlod( const QString& uiText,
 	}else if( f.success() ){
 
 		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
+
+	}else if( uiText.contains( "unsupported protocol scheme" ) ){
+
+		return functions::errorString( f,functions::errors::notSupportedUrl,bkText ) ;
+
+	}else if( uiText.contains( "connection refused" ) ){
+
+		return functions::errorString( f,functions::errors::noNetwork,bkText ) ;
+
+	}else if( uiText.contains( "runtime error" ) ){
+
+		return functions::errorString( f,functions::errors::runtimeError,bkText ) ;
 	}else{
 		auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
 
@@ -660,7 +502,7 @@ static bool _meetCondition( const engines::engine&,const QByteArray& e )
 
 		return true ;
 	}else{
-		return e.contains( "Downloading " ) && e.contains( "% |" ) ;
+		return e.contains( "Downloading " ) && e.contains( " ..." ) ;
 	}
 }
 
@@ -696,108 +538,93 @@ public:
 		auto title    = this->getTitle( allData ) ;
 		auto fileName = this->getFileName( allData ) ;
 
-		if( fileName.isEmpty() ){
+		auto mm = allData.lastIndexOf( "Merging into " ) ;
 
-			if( title.isEmpty() ){
+		if( mm != -1 ){
+
+			return this->parse( true,allData.mid( mm + 13 ),size,title,fileName,args ) ;
+		}else{
+			mm = allData.lastIndexOf( "Downloading " ) ;
+
+			if( mm == -1 ){
 
 				return { args.outPut,m_engine,_meetLocalCondition } ;
 			}else{
-				m_tmp = title ;
-
-				return { m_tmp,m_engine,_meetLocalCondition } ;
+				return this->parse( false,allData.mid( mm + 12 ),size,title,fileName,args ) ;
 			}
 		}
-
-		auto mm = allData.lastIndexOf( "Downloading " ) ;
+	}
+	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
+	{
+		return _meetCondition( m_engine,args.outPut ) ;
+	}
+	const engines::engine& engine() const override
+	{
+		return m_engine ;
+	}
+private:
+	Output::result parse( bool merging,
+			      const QByteArray& data,
+			      const QByteArray& size,
+			      const QByteArray& title,
+			      const QByteArray& fileName,
+			      const Output::args& args ) const
+	{
+		auto mm = data.indexOf( "..." ) ;
 
 		if( mm == -1 ){
 
-			if( title.isEmpty() ){
-
-				return { args.outPut,m_engine,_meetLocalCondition } ;
-			}else{
-				m_tmp = title ;
-
-				return { m_tmp,m_engine,_meetLocalCondition } ;
-			}
-		}
-
-		const auto data = allData.mid( mm + 12 ) ;
-
-		mm = data.indexOf( "..." ) ;
-
-		if( mm == -1 ){
-
-			if( title.isEmpty() ){
-
-				return { args.outPut,m_engine,_meetLocalCondition } ;
-			}else{
-				m_tmp = title ;
-
-				return { m_tmp,m_engine,_meetLocalCondition } ;
-			}
+			return { args.outPut,m_engine,_meetLocalCondition } ;
 		}
 
 		auto percentage = data.mid( mm + 3 ) ;
 
 		mm = percentage.indexOf( "%" ) ;
 
-		if( mm == -1 ){
+		if( mm != -1 ){
 
-			if( title.isEmpty() ){
-
-				return { args.outPut,m_engine,_meetLocalCondition } ;
-			}else{
-				m_tmp = title ;
-
-				return { m_tmp,m_engine,_meetLocalCondition } ;
-			}
+			percentage = percentage.mid( 0,mm + 1 ).trimmed() ;
+		}else{
+			percentage = "0%" ;
 		}
 
-		percentage = percentage.mid( 0,mm + 1 ).trimmed() ;
+		QByteArray speedAndETA ;
 
 		mm = data.indexOf( "(" ) ;
 
-		if( mm == -1 ){
+		if( mm != -1 ){
 
-			if( title.isEmpty() ){
+			auto a = data.mid( mm ) ;
 
-				return { args.outPut,m_engine,_meetLocalCondition } ;
+			mm = a.indexOf( "]" ) ;
+
+			if( mm != -1 ){
+
+				speedAndETA = a.mid( 0,mm + 1 ) ;
 			}else{
-				m_tmp = title ;
-
-				return { m_tmp,m_engine,_meetLocalCondition } ;
+				speedAndETA = "(0 kB/s) [00:00]" ;
 			}
+		}else{
+			speedAndETA = "(0 kB/s) [00:00]" ;
 		}
-
-		auto speedAndETA = data.mid( mm ) ;
-
-		mm = speedAndETA.indexOf( "]" ) ;
-
-		if( mm == -1 ){
-
-			if( title.isEmpty() ){
-
-				return { args.outPut,m_engine,_meetLocalCondition } ;
-			}else{
-				m_tmp = title ;
-
-				return { m_tmp,m_engine,_meetLocalCondition } ;
-			}
-		}
-
-		speedAndETA = speedAndETA.mid( 0,mm + 1 ) ;
 
 		QByteArray name ;
 
 		if( fileName.isEmpty() ){
 
-			if( !title.isEmpty() ){
+			if( title.isEmpty() ){
 
+				name = "unknown" ;
+			}else{
 				name = title ;
 			}
 		}else{
-			name = fileName ;
+			if( merging ){
+
+				name = "Merging: " + fileName ;
+			}else{
+				name = "Downloading: " + fileName ;
+			}
 		}
 
 		if( size.isEmpty() ){
@@ -809,15 +636,6 @@ public:
 
 		return { m_tmp,m_engine,_meetLocalCondition } ;
 	}
-	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
-	{
-		return _meetCondition( m_engine,args.outPut ) ;
-	}
-	const engines::engine& engine() const override
-	{
-		return m_engine ;
-	}
-private:
 	QByteArray marker() const
 	{
 		return "download with: " ;
@@ -1061,26 +879,48 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 {
 	if( e.doneDownloading() ){
 
+		if( utility::stringConstants::downloadFailed( e.lastText() ) ){
+
+			const auto m = e.toStringList() ;
+
+			for( auto it = m.rbegin() ; it != m.rend() ; it++ ){
+
+				const QByteArray& w = *it ;
+
+				if( w.contains( "unsupported protocol scheme" ) ){
+
+					m_tmp = "unsupported protocol scheme" ;
+
+					return m_tmp ;
+
+				}else if( w.contains( "connection refused:" ) ){
+
+					m_tmp = "connection refused" ;
+
+					return m_tmp ;
+
+				}else if( w.contains( "panic" ) ){
+
+					m_tmp = "runtime error" ;
+
+					return m_tmp ;
+				}
+			}
+		}
+
 		const auto& m = e.fileNames() ;
 
-		if( m.size() == 1 ){
+		if( m.size() ){
 
 			m_tmp = m.back() ;
-
-			return m_tmp ;
-
-		}else if( m.size() > 1 ){
-
-			auto a = QObject::tr( "%1 Already Downloaded" ) ;
-			auto b = QString::number( m.size() - 1 ) ;
-
-			m_tmp = a.arg( b ).toUtf8() + "\n" + m.back() ;
 
 			return m_tmp ;
 		}else{
 			m_tmp = e.lastText() ;
 
 			m_tmp.replace( "[media-downloader]","" ) ;
+			m_tmp.replace( "Merging: ","" ) ;
+			m_tmp.replace( "Downloading: ","" ) ;
 
 			return m_tmp ;
 		}
@@ -1091,7 +931,12 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 
 		if( m != -1 ){
 
-			e.addFileName( e.lastText().mid( 0,m ) ) ;
+			auto s = e.lastText().mid( 0,m ) ;
+
+			s.replace( "Downloading: ","" ) ;
+			s.replace( "Merging: ","" ) ;
+
+			e.addFileName( s ) ;
 		}
 
 		const auto& mm = e.fileNames() ;

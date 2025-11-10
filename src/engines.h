@@ -418,7 +418,7 @@ public:
 				engines::ProcessExitState::ExitStatus m_exitStatus ;
 			};
 
-			enum class errors{ unknownUrl,notSupportedUrl,noNetwork,unknownFormat,logInRequired } ;
+			enum class errors{ runtimeError,unknownUrl,notSupportedUrl,noNetwork,unknownFormat,logInRequired } ;
 			static QString errorString( const engine::engine::baseEngine::finishedState&,
 						    engines::engine::baseEngine::errors,
 						    const QString& ) ;

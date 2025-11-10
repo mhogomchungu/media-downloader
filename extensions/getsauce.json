@@ -49,11 +49,10 @@
     "SkipLineWithText": [
     ],
     "SplitLinesBy": [
-        "\n"
     ],
     "ReplaceOutputWithProgressReport": true,
     "UsePrivateExecutable": true,
-    "VersionArgument": "",
+    "VersionArgument": "-v",
     "VersionStringLine": 0,
     "VersionStringPosition": 2
 }
