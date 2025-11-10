@@ -478,7 +478,7 @@ QString getsauce::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
 
-	}else if( uiText.contains( "unsupported protocol scheme" ) ){
+	}else if( uiText.contains( "unsupported protocol scheme" ) || uiText.contains( "URL parse failed" ) ){
 
 		return functions::errorString( f,functions::errors::notSupportedUrl,bkText ) ;
 
@@ -534,15 +534,11 @@ public:
 	}
 	Output::result formatOutput( const Output::args& args,const QByteArray& allData,int ) const
 	{
-		auto size     = this->getSize( allData ) ;
-		auto title    = this->getTitle( allData ) ;
-		auto fileName = this->getFileName( allData ) ;
-
 		auto mm = allData.lastIndexOf( "Merging into " ) ;
 
 		if( mm != -1 ){
 
-			return this->parse( true,allData.mid( mm + 13 ),size,title,fileName,args ) ;
+			return this->parse( true,allData.mid( mm + 13 ),allData,args ) ;
 		}else{
 			mm = allData.lastIndexOf( "Downloading " ) ;
 
@@ -550,7 +546,7 @@ public:
 
 				return { args.outPut,m_engine,_meetLocalCondition } ;
 			}else{
-				return this->parse( false,allData.mid( mm + 12 ),size,title,fileName,args ) ;
+				return this->parse( false,allData.mid( mm + 12 ),allData,args ) ;
 			}
 		}
 	}
@@ -563,11 +559,87 @@ public:
 		return m_engine ;
 	}
 private:
+	class urlInfo
+	{
+	public:
+		urlInfo( const QByteArray& allData ) :
+			m_size( this->getEntry( "Size:",allData ) ),
+			m_title( this->getEntry( "Title:",allData ) ),
+			m_fileName( this->getFileName( allData ) )
+		{
+		}
+		const QByteArray& size() const
+		{
+			return m_size ;
+		}
+		const QByteArray& title() const
+		{
+			return m_title ;
+		}
+		const QByteArray& fileName() const
+		{
+			return m_fileName ;
+		}
+	private:
+		QByteArray getFileName( const QByteArray& start,const QByteArray& allData ) const
+		{
+			auto mm = allData.lastIndexOf( start ) ;
+
+			if( mm != -1 ){
+
+				const auto data = allData.mid( mm + start.size() ) ;
+
+				mm = data.indexOf( " ..." ) ;
+
+				if( mm != -1 ){
+
+					return data.mid( 0,mm ) ;
+				}
+			}
+
+			return {} ;
+		}
+		QByteArray getFileName( const QByteArray& allData ) const
+		{
+			auto m = this->getFileName( "Merging into ",allData ) ;
+
+			if( m.isEmpty() ){
+
+				m = this->getFileName( "Downloading ",allData ) ;
+			}
+
+			return m ;
+		}
+		QByteArray getEntry( const QByteArray& start,const QByteArray& s ) const
+		{
+			std::array< const char *,5 > markers{ "Type:","Quality:","Parts:","Size:","#" } ;
+
+			auto m = s.indexOf( start ) ;
+
+			if( m != -1 ){
+
+				auto e = s.mid( m + start.size() ) ;
+
+				for( const auto it : markers ){
+
+					m = e.indexOf( it ) ;
+
+					if( m != -1 ){
+
+						return e.mid( 0,m ).trimmed() ;
+					}
+				}
+			}
+
+			return {} ;
+		}
+		QByteArray m_size ;
+		QByteArray m_title ;
+		QByteArray m_fileName ;
+	} ;
 	Output::result parse( bool merging,
 			      const QByteArray& data,
-			      const QByteArray& size,
-			      const QByteArray& title,
-			      const QByteArray& fileName,
+			      const urlInfo& info,
 			      const Output::args& args ) const
 	{
 		auto mm = data.indexOf( "..." ) ;
@@ -610,28 +682,28 @@ private:
 
 		QByteArray name ;
 
-		if( fileName.isEmpty() ){
+		if( info.fileName().isEmpty() ){
 
-			if( title.isEmpty() ){
+			if( info.title().isEmpty() ){
 
 				name = "unknown" ;
 			}else{
-				name = title ;
+				name = info.title() ;
 			}
 		}else{
 			if( merging ){
 
-				name = "Merging: " + fileName ;
+				name = "Merging: " + info.fileName() ;
 			}else{
-				name = "Downloading: " + fileName ;
+				name = "Downloading: " + info.fileName() ;
 			}
 		}
 
-		if( size.isEmpty() ){
+		if( info.size().isEmpty() ){
 
 			m_tmp = name + "\n" + percentage + "   " + speedAndETA ;
 		}else{
-			m_tmp = name + "\n" + size + "   " + percentage + "   " + speedAndETA ;
+			m_tmp = name + "\n" + info.size() + "   " + percentage + "   " + speedAndETA ;
 		}
 
 		return { m_tmp,m_engine,_meetLocalCondition } ;
@@ -639,66 +711,6 @@ private:
 	QByteArray marker() const
 	{
 		return "download with: " ;
-	}
-	QByteArray getTitle( const QByteArray& allData ) const
-	{
-		return this->getEntry( "Title:",allData ) ;
-	}
-	QByteArray getSize( const QByteArray& allData ) const
-	{
-		return this->getEntry( "Size:",allData ) ;
-	}
-	QByteArray getEntry( const QByteArray& start,const QByteArray& s ) const
-	{
-		std::array< const char *,5 > markers{ "Type:","Quality:","Parts:","Size:","#" } ;
-
-		auto m = s.indexOf( start ) ;
-
-		if( m != -1 ){
-
-			auto e = s.mid( m + start.size() ) ;
-
-			for( const auto it : markers ){
-
-				m = e.indexOf( it ) ;
-
-				if( m != -1 ){
-
-					return e.mid( 0,m ).trimmed() ;
-				}
-			}
-		}
-
-		return {} ;
-	}
-	QByteArray getFileName( const QByteArray& start,const QByteArray& allData ) const
-	{
-		auto mm = allData.lastIndexOf( start ) ;
-
-		if( mm != -1 ){
-
-			const auto data = allData.mid( mm + start.size() ) ;
-
-			mm = data.indexOf( " ..." ) ;
-
-			if( mm != -1 ){
-
-				return data.mid( 0,mm ) ;
-			}
-		}
-
-		return {} ;
-	}
-	QByteArray getFileName( const QByteArray& allData ) const
-	{
-		auto m = this->getFileName( "Merging into ",allData ) ;
-
-		if( m.isEmpty() ){
-
-			m = this->getFileName( "Downloading ",allData ) ;
-		}
-
-		return m ;
 	}
 	const engines::engine& m_engine ;
 	mutable QByteArray m_tmp ;
@@ -910,6 +922,12 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 					m_tmp = "TLS handshake timeout" ;
 
 					return m_tmp ;
+
+				}else if( w.contains( "URL parse failed" ) ){
+
+					m_tmp = "URL parse failed" ;
+
+					return m_tmp ;
 				}
 			}
 		}
@@ -976,7 +994,7 @@ getsauce::getsauce_dlFilter::~getsauce_dlFilter()
 {
 }
 
-bool getsauce::getsauce_dlFilter::progressLine( Logger::Data& e )
+bool getsauce::getsauce_dlFilter::progressLine( const Logger::Data& e )
 {
 	if( e.lastLineIsProgressLine() ){
 
