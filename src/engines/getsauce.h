@@ -35,7 +35,7 @@ public:
 
 		~getsauce_dlFilter() override ;
 	private:
-		const QByteArray& doneDownloading( const QByteArray& ) ;
+		bool progressLine( Logger::Data& e ) ;
 		QByteArray m_banner ;
 		QByteArray m_tmp ;
 		engines::engine::baseEngine::preProcessing m_progress ;

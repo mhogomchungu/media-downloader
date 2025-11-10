@@ -482,7 +482,7 @@ QString getsauce::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return functions::errorString( f,functions::errors::notSupportedUrl,bkText ) ;
 
-	}else if( uiText.contains( "connection refused" ) ){
+	}else if( uiText.contains( "connection refused" ) || uiText.contains( "TLS handshake timeout" ) ){
 
 		return functions::errorString( f,functions::errors::noNetwork,bkText ) ;
 
@@ -893,7 +893,7 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 
 					return m_tmp ;
 
-				}else if( w.contains( "connection refused:" ) ){
+				}else if( w.contains( "connection refused" ) ){
 
 					m_tmp = "connection refused" ;
 
@@ -902,6 +902,12 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 				}else if( w.contains( "panic" ) ){
 
 					m_tmp = "runtime error" ;
+
+					return m_tmp ;
+
+				}else if( w.contains( "TLS handshake timeout" ) ){
+
+					m_tmp = "TLS handshake timeout" ;
 
 					return m_tmp ;
 				}
@@ -925,7 +931,7 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 			return m_tmp ;
 		}
 
-	}else if( e.lastLineIsProgressLine() ){
+	}else if( this->progressLine( e ) ){
 
 		auto m = e.lastText().indexOf( "\n" ) ;
 
@@ -950,7 +956,16 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 
 			return m_tmp ;
 		}else{
-			return e.lastText() ;
+			const auto& m = e.lastText() ;
+
+			if( m.startsWith( "Elapsed Time: " ) ){
+
+				m_tmp = m_banner + "\n" + m ;
+
+				return m_tmp ;
+			}else{
+				return m ;
+			}
 		}
 	}else{
 		return m_progress.text() ;
@@ -961,9 +976,14 @@ getsauce::getsauce_dlFilter::~getsauce_dlFilter()
 {
 }
 
-const QByteArray& getsauce::getsauce_dlFilter::doneDownloading( const QByteArray& )
+bool getsauce::getsauce_dlFilter::progressLine( Logger::Data& e )
 {
-	m_tmp.clear() ;
+	if( e.lastLineIsProgressLine() ){
 
-	return m_tmp ;
+		return true ;
+	}else{
+		const auto& m = e.lastText() ;
+
+		return m.contains( "Downloading: " ) || m.contains( "Merging: " ) ;
+	}
 }
