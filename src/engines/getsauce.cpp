@@ -656,7 +656,12 @@ QString getsauce::updateTextOnCompleteDownlod( const QString& uiText,
 
 static bool _meetCondition( const engines::engine&,const QByteArray& e )
 {
-	return e.contains( "Downloading " ) && e.contains( "% |" ) ;
+	if( e.contains( "Merging into " ) && e.contains( " ..." ) ){
+
+		return true ;
+	}else{
+		return e.contains( "Downloading " ) && e.contains( "% |" ) ;
+	}
 }
 
 static bool _meetLocalCondition( const engines::engine&,const QByteArray& e )
@@ -848,25 +853,34 @@ private:
 
 		return {} ;
 	}
+	QByteArray getFileName( const QByteArray& start,const QByteArray& allData ) const
+	{
+		auto mm = allData.lastIndexOf( start ) ;
+
+		if( mm != -1 ){
+
+			const auto data = allData.mid( mm + start.size() ) ;
+
+			mm = data.indexOf( " ..." ) ;
+
+			if( mm != -1 ){
+
+				return data.mid( 0,mm ) ;
+			}
+		}
+
+		return {} ;
+	}
 	QByteArray getFileName( const QByteArray& allData ) const
 	{
-		auto mm = allData.lastIndexOf( "Downloading " ) ;
+		auto m = this->getFileName( "Merging into ",allData ) ;
 
-		if( mm == -1 ){
+		if( m.isEmpty() ){
 
-			return {} ;
+			m = this->getFileName( "Downloading ",allData ) ;
 		}
 
-		const auto data = allData.mid( mm + 12 ) ;
-
-		mm = data.indexOf( " ..." ) ;
-
-		if( mm == -1 ){
-
-			return {} ;
-		}
-
-		return data.mid( 0,mm ) ;
+		return m ;
 	}
 	const engines::engine& m_engine ;
 	mutable QByteArray m_tmp ;
@@ -1064,7 +1078,11 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 
 			return m_tmp ;
 		}else{
-			return e.lastText() ;
+			m_tmp = e.lastText() ;
+
+			m_tmp.replace( "[media-downloader]","" ) ;
+
+			return m_tmp ;
 		}
 
 	}else if( e.lastLineIsProgressLine() ){
@@ -1090,7 +1108,7 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 			return e.lastText() ;
 		}
 	}else{
-			return m_progress.text() ;
+		return m_progress.text() ;
 	}
 }
 
