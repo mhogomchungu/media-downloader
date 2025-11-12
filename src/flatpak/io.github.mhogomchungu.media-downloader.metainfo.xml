@@ -54,6 +54,15 @@
 	</categories>
 
 	<releases>
+		<release version="5.4.4" type="stable" date="2025-11-12" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.4/media-downloader-5.4.4.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Add support for autodownloading deno javascript runtime</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.4.3" type="stable" date="2025-10-01" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.3/media-downloader-5.4.3.tar.xz/</url>
 			<description>

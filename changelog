@@ -395,3 +395,7 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
        - Add Ukranian translations.
        - Various fixes and improvements.
+
+     Version 5.4.4(November 12th, 2025)
+     [ALL]
+       - Add support for autodownloading deno javascript runtime.
