@@ -2072,6 +2072,33 @@ QString utility::runningVersionOfMediaDownloader()
 	}
 }
 
+QString utility::parseVersionInfo( const utils::qprocess::outPut& r )
+{
+	if( r.success() ){
+
+		if( utility::containsLinkerWarning( r.stdOut ) ){
+
+			const auto m = util::split( r.stdOut,'\n' ) ;
+
+			QStringList s ;
+
+			for( const auto& it : m ){
+
+				if( !utility::containsLinkerWarning( it ) ){
+
+					s.append( it ) ;
+				}
+			}
+
+			return s.join( '\n' ).toUtf8() ;
+		}else{
+			return r.stdOut ;
+		}
+	}else{
+		return {} ;
+	}
+}
+
 void utility::setRunningVersionOfMediaDownloader( const QString& e )
 {
 	_runTimeVersions().setInstanceVersion( e ) ;

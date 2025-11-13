@@ -553,7 +553,7 @@ QString engines::findExecutable( const QString& exeName ) const
 	if( utility::platformIsLikeWindows() ){
 
 		auto paths = this->processEnvironment().value( "PATH" ).split( ';' ) ;
-		
+
 		auto m = this->findExecutable( exeName,paths,info ) ;
 
 		if( m.isEmpty() && !exeName.endsWith( ".exe" ) ){
@@ -564,7 +564,7 @@ QString engines::findExecutable( const QString& exeName ) const
 		return m ;
 	}else{
 		auto paths = this->processEnvironment().value( "PATH" ).split( ':' ) ;
-		
+
 		return this->findExecutable( exeName,paths,info ) ;
 	}
 }
@@ -1624,29 +1624,7 @@ void engines::engine::baseEngine::updateEnginePaths( const Context&,QString&,QSt
 
 QString engines::engine::baseEngine::parseVersionInfo( const utils::qprocess::outPut& r )
 {
-	if( r.success() ){
-
-		if( utility::containsLinkerWarning( r.stdOut ) ){
-
-			const auto m = util::split( r.stdOut,'\n' ) ;
-
-			QStringList s ;
-
-			for( const auto& it : m ){
-
-				if( !utility::containsLinkerWarning( it ) ){
-
-					s.append( it ) ;
-				}
-			}
-
-			return s.join( '\n' ).toUtf8() ;
-		}else{
-			return r.stdOut ;
-		}
-	}else{
-		return {} ;
-	}
+	return utility::parseVersionInfo( r ) ;
 }
 
 void engines::engine::baseEngine::updateLocalOptions( QStringList& )

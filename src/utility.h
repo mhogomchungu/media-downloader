@@ -593,6 +593,7 @@ namespace utility
 		bool hasExtraOptions = false ;
 		QString downloadOptions ;
 	} ;
+	QString parseVersionInfo( const utils::qprocess::outPut& ) ;
 	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& = {} ) ;
 	bool copyFile( const QString& src,const QString& dst,bool = true ) ;
 	bool pathIsFolderAndExists( const QString& ) ;
