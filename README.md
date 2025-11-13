@@ -26,7 +26,7 @@ downloads may cause the host to ban you.
 ## Extensions
 
 Media Downloader is a GUI front end to [yt-dlp](https://github.com/yt-dlp/yt-dlp), [gallery-dl](https://github.com/mikf/gallery-dl), [lux](https://github.com/iawia002/lux),
-[you-get](https://github.com/soimort/you-get), [svtplay-dl](https://github.com/spaam/svtplay-dl), [aria2c](https://aria2.github.io/), and [wget](https://www.gnu.org/software/wget).
+[you-get](https://github.com/soimort/you-get), [svtplay-dl](https://github.com/spaam/svtplay-dl), [aria2c](https://aria2.github.io/),[wget](https://www.gnu.org/software/wget) and [get-sauce](https://github.com/gan-of-culture/get-sauce).
 
 To Install these extensins, go to "Configure" tab and then go to "Extensions" sub tab and then click the "Add An Extension" button and then select from the list an extension you want to install.
 
@@ -41,21 +41,21 @@ Make sure you have access to the internet before you run "Media Downloader" for 
 
 #### Bundle for MacOS
 
-Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.2/MediaDownloaderQt6-5.4.2.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
+Bundle for MacOS is  [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.4/MediaDownloaderQt6-5.4.4.dmg). This bundle is not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.2/MediaDownloaderQt5-5.4.2.setup.exe).
+Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.4/MediaDownloaderQt5-5.4.4.setup.exe).
 
-Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.2/MediaDownloaderQt6-5.4.2.setup.exe).
+Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.4/MediaDownloaderQt6-5.4.4.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.2/MediaDownloaderQt5-5.4.2.zip).
+Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.4/MediaDownloaderQt5-5.4.4.zip).
 
-Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.2/MediaDownloaderQt6-5.4.2.zip).
+Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.4.4/MediaDownloaderQt6-5.4.4.zip).
 
 You can also install the portable version for Windows using scoop with the following commands:
 
