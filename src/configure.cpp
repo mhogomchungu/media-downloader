@@ -788,7 +788,7 @@ void configure::downloadExtension( const QString& name )
 
 QString configure::setUrl( const QString& e )
 {
-	QString hash = "9a1d881d643c4deabe83da3ed12aa7275f23a3e8" ;
+	QString hash = "022888d21983d7169b9c84ef96c505a0c832fe3f" ;
 
 	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
 
@@ -809,7 +809,7 @@ void configure::init_done()
 
 		auto v = configVersion.isEmpty() ? 0 : configVersion.toInt() ;
 
-		if( v < 1 ){
+		if( v < 2 ){
 
 			this->downloadExtension( engine.name() + ".json" ) ;
 		}
