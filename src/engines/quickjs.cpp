@@ -169,6 +169,22 @@ bool quickjs::foundNetworkUrl( const QString& s )
 	return false ;
 }
 
+QString quickjs::parseVersionInfo( const utils::qprocess::outPut& r )
+{
+	auto s = util::split( r.stdOut,'\n' ) ;
+
+	if( s.size() ){
+
+		auto e = s[ 0 ] + "\n" + s[ 0 ] ;
+
+		e.replace( "-","." ) ;
+
+		return e ;
+	}else{
+		return {} ;
+	}
+}
+
 bool quickjs::supportingEngine()
 {
 	return true ;

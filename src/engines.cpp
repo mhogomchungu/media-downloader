@@ -1622,6 +1622,33 @@ void engines::engine::baseEngine::updateEnginePaths( const Context&,QString&,QSt
 {
 }
 
+QString engines::engine::baseEngine::parseVersionInfo( const utils::qprocess::outPut& r )
+{
+	if( r.success() ){
+
+		if( utility::containsLinkerWarning( r.stdOut ) ){
+
+			const auto m = util::split( r.stdOut,'\n' ) ;
+
+			QStringList s ;
+
+			for( const auto& it : m ){
+
+				if( !utility::containsLinkerWarning( it ) ){
+
+					s.append( it ) ;
+				}
+			}
+
+			return s.join( '\n' ).toUtf8() ;
+		}else{
+			return r.stdOut ;
+		}
+	}else{
+		return {} ;
+	}
+}
+
 void engines::engine::baseEngine::updateLocalOptions( QStringList& )
 {
 }

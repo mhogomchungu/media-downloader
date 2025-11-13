@@ -758,6 +758,8 @@ public:
 
 			virtual void updateEnginePaths( const Context&,QString& filePath,QString& exeBinPath,QString& exeFolderPath ) ;
 
+			virtual QString parseVersionInfo( const utils::qprocess::outPut& ) ;
+
 			virtual void updateLocalOptions( QStringList& ) ;
 
 			virtual QString removeFiles( const QStringList& ) ;
@@ -1198,9 +1200,13 @@ public:
 		{
 			return m_engine->horizontalHeaderLabels() ;
 		}
-		virtual QJsonObject parseJson( const QString& url,const QByteArray& e ) const
+		QJsonObject parseJson( const QString& url,const QByteArray& e ) const
 		{
 			return m_engine->parseJson( url,e ) ;
+		}
+		QString parseVersionInfo( const utils::qprocess::outPut& e ) const
+		{
+			return m_engine->parseVersionInfo( e ) ;
 		}
 		void openLocalFile( const engines::engine::baseEngine::localFile& s ) const
 		{
