@@ -29,6 +29,7 @@
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
 #include "engines/deno.h"
+#include "engines/quickjs.h"
 #include "engines/getsauce.h"
 
 #include "reportFinished.h"
@@ -444,6 +445,10 @@ void engines::updateEngines( bool addAll,int id )
 
 			it.setBackend< deno >( engines ) ;
 
+		}else if( name.contains( "quickjs" ) ){
+
+			it.setBackend< quickjs >( engines ) ;
+
 		}else if( name.contains( "getsauce" ) ){
 
 			it.setBackend< getsauce >( engines,m_settings.downloadFolder() ) ;
@@ -722,11 +727,11 @@ QStringList engines::engine::toStringList( const QJsonValue& value,bool protectS
 
 void engines::engine::updateOptions()
 {
-	auto m = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
+	if( utility::platformIsWindows7() ){
 
-	if( m.size() && m.last() != "ejs:github" ){
-
-		m_extraArguments = m ;
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsWin7" ) ) ;
+	}else{
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
 	}
 
 	m_controlStructure                = m_jsonObject.value( "ControlJsonStructure" ).toObject() ;
@@ -1136,6 +1141,14 @@ QString engines::engine::versionString( const QString& data ) const
 	}
 
 	return {} ;
+}
+
+bool engines::engine::validDownloadUrl() const
+{
+	auto a = "https://api.github.com" ;
+	auto b = "https://bellard.org/quickjs/binary_releases" ;
+
+	return m_downloadUrl.startsWith( a ) || m_downloadUrl.startsWith( b ) ;
 }
 
 void engines::engine::setPermissions( const QString& e ) const
@@ -1611,6 +1624,21 @@ void engines::engine::baseEngine::updateEnginePaths( const Context&,QString&,QSt
 
 void engines::engine::baseEngine::updateLocalOptions( QStringList& )
 {
+}
+
+QString engines::engine::baseEngine::removeFiles( const QStringList& e )
+{
+	for( const auto& it : e ){
+
+		auto m = utility::removeFile( it ) ;
+
+		if( !m.isEmpty() ){
+
+			return m ;
+		}
+	}
+
+	return {} ;
 }
 
 engines::engine::baseEngine::optionsEnvironment engines::engine::baseEngine::setProxySetting( QStringList&,const QString& )
@@ -2341,6 +2369,11 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 {
 	yt_dlp::init( this->name(),this->configFileName(),logger,enginePath ) ;
 	deno::init( "deno","deno.json",logger,enginePath ) ;
+
+	if( utility::platformIsWindows7() ){
+
+		quickjs::init( "quickjs","quickjs.json",logger,enginePath ) ;
+	}
 
 	if( utility::platformIsWindows() ){
 

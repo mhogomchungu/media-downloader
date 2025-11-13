@@ -760,6 +760,8 @@ public:
 
 			virtual void updateLocalOptions( QStringList& ) ;
 
+			virtual QString removeFiles( const QStringList& ) ;
+
 			class optionsEnvironment
 			{
 			public:
@@ -1072,10 +1074,7 @@ public:
 		{
 			return m_downloadUrl ;
 		}
-		bool validDownloadUrl() const
-		{
-			return m_downloadUrl.startsWith( "https://api.github.com" ) ;
-		}
+		bool validDownloadUrl() const ;
 		bool supportsTextEnconding() const
 		{
 			return !m_encodingArgument.isEmpty() ;
@@ -1210,6 +1209,10 @@ public:
 		bool supportingEngine() const
 		{
 			return m_engine->supportingEngine() ;
+		}
+		QString removeFiles( const QStringList& e ) const
+		{
+			return m_engine->removeFiles( e ) ;
 		}
 		QByteArray parseError( const QByteArray& e ) const
 		{

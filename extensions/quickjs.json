@@ -1,0 +1,54 @@
+{
+    "AutoUpdate": true,
+    "BackendPath": "${default}",
+    "Cmd": {
+        "Generic": {
+            "amd64": {
+                "Args": [
+                    "qjs"
+                ],
+                "Name": "qjs"
+            },
+            "x86": {
+                "Args": [
+                    "qjs"
+                ],
+                "Name": "qjs"
+            }
+        },
+        "Windows": {
+            "amd64": {
+                "Args": [
+                    "qjs.exe"
+                ],
+                "Name": "qjs.exe"
+            },
+            "win7amd64": {
+                "Args": [
+                    "qjs.exe"
+                ],
+                "Name": "qjs.exe"
+            },
+            "win7x86": {
+                "Args": [
+                    "qjs.exe"
+                ],
+                "Name": "qjs.exe"
+            },
+            "x86": {
+                "Args": [
+                    "qjs.exe"
+                ],
+                "Name": "qjs.exe"
+            }
+        }
+    },
+    "DownloadUrl": "https://bellard.org/quickjs/binary_releases/LATEST.json",
+    "DownloadUrlWin7": "",
+    "LikeYoutubeDl": false,
+    "Name": "quickjs",
+    "Version": "1",
+    "VersionArgument": "--version",
+    "VersionStringLine": 1,
+    "VersionStringPosition": 2
+}

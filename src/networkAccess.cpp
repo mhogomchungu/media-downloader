@@ -822,7 +822,7 @@ void networkAccess::extractArchive( const engines::engine& engine,
 			this->post( engine.name(),m,str.id ) ;
 		}
 	}else{
-		auto m = utility::removeFile( str.exeBinPath ) ;
+		auto m = engine.removeFiles( { str.exeBinPath } ) ;
 
 		if( !m.isEmpty() ){
 
@@ -830,11 +830,30 @@ void networkAccess::extractArchive( const engines::engine& engine,
 		}
 	}
 
-	auto cexe = utility::platformIsWindows() ? "bsdtar.exe" : "bsdtar" ;
+	QStringList extractorArgs ;
+	QString extractorExe ;
 
-	auto exe = m_ctx.Engines().findExecutable( cexe ) ;
+	if( utility::platformIsWindows() ){
 
-	if( exe.isEmpty() ){
+		extractorExe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
+		extractorArgs = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
+	}else{
+		extractorExe = m_ctx.Engines().findExecutable( "bsdtar" ) ;
+
+		if( extractorExe.isEmpty() ){
+
+			extractorExe = m_ctx.Engines().findExecutable( "unzip" ) ;
+
+			if( !extractorExe.isEmpty() ){
+
+				extractorArgs = QStringList{ str.filePath,"-d",str.tempPath } ;
+			}
+		}else{
+			extractorArgs = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
+		}
+	}
+
+	if( extractorExe.isEmpty() ){
 
 		auto m = QObject::tr( "Failed To Extract" ) ;
 
@@ -844,7 +863,7 @@ void networkAccess::extractArchive( const engines::engine& engine,
 
 				return QObject::tr( "Failed To Find \"bsdtar.exe\" Executable" ) ;
 			}else{
-				return QObject::tr( "Failed To Find \"bsdtar\" Executable" ) ;
+				return QObject::tr( "Failed To Find \"bsdtar\" or \"unzip\" Executable" ) ;
 			}
 		}() ;
 
@@ -857,7 +876,8 @@ void networkAccess::extractArchive( const engines::engine& engine,
 			str.iter.reportDone() ;
 		}
 	}else{
-		auto args = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
+		const auto& exe = extractorExe ;
+		const auto& args = extractorArgs ;
 
 		str.exeArgs = { exe,args } ;
 

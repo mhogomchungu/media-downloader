@@ -341,13 +341,17 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	json.done() ;
 
-	mainObj.insert( "Version","1" ) ;
+	mainObj.insert( "Version","2" ) ;
 
-	mainObj.insert( "ExtraArguments",_arr( "--remote-components","ejs:github" ) ) ;
+	mainObj.insert( "ExtraArguments",_arr() ) ;
 
-	mainObj.insert( "DefaultListCmdOptions",_arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ) ;
+	mainObj.insert( "ExtraArgumentsWin7",_arr( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
 
-	mainObj.insert( "DumptJsonArguments",_arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ) ;
+	auto arr = _arr( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
+
+	mainObj.insert( "DumptJsonArguments",arr ) ;
+
+	mainObj.insert( "DefaultListCmdOptions",arr ) ;
 
 	mainObj.insert( "DefaultCommentsCmdOptions",_arr( "--get-comments","--no-download","--print","{\"title\":%(title)j,\"comments\":%(comments)j}" ) ) ;
 
@@ -431,50 +435,6 @@ yt_dlp::yt_dlp( const engines& engines,
 
 			obj = yt_dlp::init( name,configFileName,logger,enginePath ) ;
 		}
-	}
-
-	if( !obj.contains( "EncodingArgument" ) ){
-
-		obj.insert( "EncodingArgument","--encoding" ) ;
-	}
-
-	obj.insert( "CookieArgument","--cookies-from-browser" ) ;
-
-	if( !obj.contains( "ExtraArguments" ) ){
-
-		obj.insert( "ExtraArguments",_arr( "--remote-components","ejs:github" ) ) ;
-	}
-
-	obj.insert( "CookieArgumentTextFile","--cookies" ) ;
-
-	auto arr = _arr( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
-
-	obj.insert( "DumptJsonArguments",arr ) ;
-
-	obj.insert( "DefaultListCmdOptions",arr ) ;
-
-	if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
-
-		auto a = "--get-comments" ;
-		auto b = "--no-download" ;
-		auto c = "--print" ;
-		auto d = "{\"title\":%(title)j,\"comments\":%(comments)j}" ;
-
-		obj.insert( "DefaultCommentsCmdOptions",_arr( a,b,c,d ) ) ;
-	}
-
-	if( !obj.contains( "DefaultSubstitlesCmdOptions" ) ){
-
-		auto a = "--no-download" ;
-		auto b = "--print" ;
-		auto c = "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ;
-
-		obj.insert( "DefaultSubstitlesCmdOptions",_arr( a,b,c ) ) ;
-	}
-
-	if( !obj.contains( "DefaultSubtitleDownloadOptions" ) ){
-
-		obj.insert( "DefaultSubtitleDownloadOptions",_arr( "--embed-subs" ) ) ;
 	}
 }
 

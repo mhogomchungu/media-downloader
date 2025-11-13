@@ -115,6 +115,7 @@ set(SRC
     src/engines/you-get.cpp
     src/engines/getsauce.cpp
     src/engines/gallery-dl.cpp
+    src/engines/quickjs.cpp
     src/engines/deno.cpp)
 
 set(RESOURCES src/icon.qrc )
