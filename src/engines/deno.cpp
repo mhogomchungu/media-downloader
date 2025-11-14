@@ -116,11 +116,6 @@ bool deno::foundNetworkUrl( const QString& s )
 	return false ;
 }
 
-bool deno::supportingEngine()
-{
-	return true ;
-}
-
 deno::deno( const engines& e,const engines::engine& s,QJsonObject& ) :
 	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {

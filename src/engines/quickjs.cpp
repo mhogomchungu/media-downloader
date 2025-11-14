@@ -185,11 +185,6 @@ QString quickjs::parseVersionInfo( const utils::qprocess::outPut& r )
 	}
 }
 
-bool quickjs::supportingEngine()
-{
-	return true ;
-}
-
 quickjs::quickjs( const engines& e,const engines::engine& s,QJsonObject& ) :
 	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {

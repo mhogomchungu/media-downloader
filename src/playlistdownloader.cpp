@@ -625,7 +625,7 @@ void playlistdownloader::customContextMenuRequested()
 
 	for( const auto& it : m_ctx.Engines().getEngines() ){
 
-		if( it.mainEngine() ){
+		if( !it.supportingEngine() ){
 
 			const auto& e = it.name() ;
 

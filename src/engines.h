@@ -734,8 +734,6 @@ public:
 
 			virtual bool updateVersionInfo() ;
 
-			virtual bool supportingEngine() ;
-
 			virtual QByteArray parseError( const QByteArray& ) ;
 
 			virtual void setTextEncondig( const QString&,QStringList& opts ) ;
@@ -1212,10 +1210,6 @@ public:
 		{
 			m_engine->openLocalFile( s ) ;
 		}
-		bool supportingEngine() const
-		{
-			return m_engine->supportingEngine() ;
-		}
 		QString removeFiles( const QStringList& e ) const
 		{
 			return m_engine->removeFiles( e ) ;
@@ -1341,9 +1335,9 @@ public:
 		{
 			return m_autoUpdate ;
 		}
-		bool mainEngine() const
+		bool supportingEngine() const
 		{
-			return m_mainEngine ;
+			return m_supportingEngine ;
 		}
 		bool replaceOutputWithProgressReport() const
 		{
@@ -1390,7 +1384,7 @@ public:
 		bool m_valid ;
 		bool m_autoUpdate ;
 		bool m_canDownloadPlaylist ;
-		bool m_mainEngine ;
+		bool m_supportingEngine ;
 		bool m_archiveContainsFolder = false ;
 		bool m_replaceOutputWithProgressReport ;
 		mutable bool m_broken = false ;

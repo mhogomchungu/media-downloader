@@ -686,7 +686,7 @@ engines::engine::engine( const engines& engines,
 	m_line( line ),
 	m_position( position ),
 	m_valid( true ),
-	m_mainEngine( false ),
+	m_supportingEngine( true ),
 	m_versionArgument( versionArgument ),
 	m_name( name ),
 	m_likeYtDlp( false ),
@@ -871,7 +871,6 @@ engines::engine::engine( Logger& logger,
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
 	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool( true ) ),
-	m_mainEngine( true ),
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
@@ -888,6 +887,13 @@ engines::engine::engine( Logger& logger,
 
 			m_downloadUrl = m ;
 		}
+	}
+
+	if( m_name == "deno" || m_name == "quickjs" ){
+
+		m_supportingEngine = true ;
+	}else{
+		m_supportingEngine = false ;
 	}
 
 	if( m_name == "svtplay-dl" ){
@@ -1533,11 +1539,6 @@ bool engines::engine::baseEngine::supportsShowingComments()
 }
 
 bool engines::engine::baseEngine::updateVersionInfo()
-{
-	return false ;
-}
-
-bool engines::engine::baseEngine::supportingEngine()
 {
 	return false ;
 }

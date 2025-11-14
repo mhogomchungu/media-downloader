@@ -31,7 +31,6 @@ public:
 	QString removeFiles( const QStringList& ) override ;
 	bool foundNetworkUrl( const QString& s ) override ;
 	QString parseVersionInfo( const utils::qprocess::outPut& ) override ;
-	bool supportingEngine() override ;
 	quickjs( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
 };

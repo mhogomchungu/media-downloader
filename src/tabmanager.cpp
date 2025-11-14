@@ -143,12 +143,9 @@ void tabManager::setDefaultEngines()
 
 	for( const auto& engine : m_ctx.Engines().getEngines() ){
 
-		if( engine.mainEngine() && engine.backendExists() && !engine.broken() ){
+		if( !engine.supportingEngine() && engine.backendExists() && !engine.broken() ){
 
-			if( !engine.supportingEngine() ){
-
-				s.append( engine.name() ) ;
-			}
+			s.append( engine.name() ) ;
 		}
 	}
 
