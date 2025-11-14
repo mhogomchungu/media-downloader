@@ -1103,7 +1103,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile trovare l&apos;eseguibile &quot;bsdtar&quot; o &quot;unzip&quot;</translation>
     </message>
 </context>
 <context>
