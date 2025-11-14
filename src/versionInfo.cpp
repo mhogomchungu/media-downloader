@@ -83,6 +83,10 @@ void versionInfo::next( printVinfo vinfo ) const
 
 void versionInfo::check( versionInfo::printVinfo vinfo ) const
 {
+	bool fromNetwork = vinfo.fromNetwork() ;
+
+	vinfo.resetFromNetwork() ;
+
 	const auto& engine = vinfo.engine() ;
 
 	if( engine.forTesting() ){
@@ -96,7 +100,7 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 			this->printVersion( vinfo.move() ) ;
 
-		}else if( vinfo.fromNetwork() ){
+		}else if( fromNetwork ){
 
 			auto id = vinfo.iter().id() ;
 
