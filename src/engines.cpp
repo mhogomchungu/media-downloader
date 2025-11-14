@@ -2373,17 +2373,20 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 	m_configFileName( m_name + ".json" )
 {
 	yt_dlp::init( this->name(),this->configFileName(),logger,enginePath ) ;
-	deno::init( "deno","deno.json",logger,enginePath ) ;
-
-	if( utility::platformIsWindows7() ){
-
-		quickjs::init( "quickjs","quickjs.json",logger,enginePath ) ;
-	}
 
 	if( utility::platformIsWindows() ){
 
 		aria2c::init( "aria2c","aria2c.json",logger,enginePath ) ;
 		wget::init( "wget","wget.json",logger,enginePath ) ;
+
+		if( utility::platformIsWindows7() ){
+
+			quickjs::init( "quickjs","quickjs.json",logger,enginePath ) ;
+		}else{
+			deno::init( "deno","deno.json",logger,enginePath ) ;
+		}
+	}else{
+		deno::init( "deno","deno.json",logger,enginePath ) ;
 	}
 }
 
