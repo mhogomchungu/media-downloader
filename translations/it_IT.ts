@@ -1098,12 +1098,12 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <translation>Rinomina file in: %1</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;bsdtar&quot; Executable</source>
-        <translation>Impossibile trovare l&apos;eseguibile &quot;bsdtar&quot;</translation>
-    </message>
-    <message>
         <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
         <translation>Ignora controllo informazioni versione per il motore &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

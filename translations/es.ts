@@ -1095,11 +1095,11 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed To Find &quot;bsdtar&quot; Executable</source>
+        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
