@@ -424,14 +424,7 @@ void versionInfo::printVersionP( versionInfo::pVInfo pvInfo,const utils::qproces
 {
 	const auto& engine = pvInfo.engine() ;
 
-	QString versionString ;
-
-	if( engine.mainEngine() ){
-
-		versionString = engine.parseVersionInfo( r ) ;
-	}else{
-		versionString = utility::parseVersionInfo( r ) ;
-	}
+	auto versionString = engine.parseVersionInfo( r ) ;
 
 	if( !versionString.isEmpty() ){
 

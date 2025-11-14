@@ -451,10 +451,8 @@ void engines::updateEngines( bool addAll,int id )
 
 		}else if( name.contains( "getsauce" ) ){
 
-			it.setBackend< getsauce >( engines,m_settings.downloadFolder() ) ;
-
-		}else if( it.mainEngine() ){
-
+			it.setBackend< getsauce >( engines,m_settings.downloadFolder() ) ;			
+		}else{
 			it.setBackend< generic >( engines ) ;
 		}
 	}
@@ -691,6 +689,7 @@ engines::engine::engine( const engines& engines,
 	m_mainEngine( false ),
 	m_versionArgument( versionArgument ),
 	m_name( name ),
+	m_likeYtDlp( false ),
 	m_commandName( utility::platformIsLikeWindows() ? name + ".exe" : name )
 {
 	auto m = engines.findExecutable( m_commandName ) ;
