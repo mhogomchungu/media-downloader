@@ -729,6 +729,12 @@ void engines::engine::updateOptions()
 	if( utility::platformIsWindows7() ){
 
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsWin7" ) ) ;
+
+	}else if( utility::platformisFlatPak() ){
+
+		m_extraArguments.append( "--no-js-runtimes" ) ;
+		m_extraArguments.append( "--js-runtimes" ) ;
+		m_extraArguments.append( "quickjs" ) ;
 	}else{
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
 	}
@@ -2385,6 +2391,10 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 		}else{
 			deno::init( "deno","deno.json",logger,enginePath ) ;
 		}
+
+	}else if( utility::platformisFlatPak() ){
+
+		quickjs::init( "quickjs","quickjs.json",logger,enginePath ) ;
 	}else{
 		deno::init( "deno","deno.json",logger,enginePath ) ;
 	}
