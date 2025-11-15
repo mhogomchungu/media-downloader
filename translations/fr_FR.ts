@@ -165,7 +165,7 @@
     </message>
     <message>
         <source>Show Tray Icon</source>
-        <translation>Montrer l'icône barre d'état</translation>
+        <translation>Montrer l'icône de barre d'état</translation>
     </message>
     <message>
         <source>Auto Save List Of Not Downloaded Media</source>
