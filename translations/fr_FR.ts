@@ -133,7 +133,7 @@
     </message>
     <message>
         <source>Library</source>
-        <translation>Bibliothèques</translation>
+        <translation>Bibliothèque</translation>
     </message>
     <message>
         <source>Type</source>
