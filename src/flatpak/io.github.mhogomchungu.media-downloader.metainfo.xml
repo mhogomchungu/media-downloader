@@ -54,6 +54,15 @@
 	</categories>
 
 	<releases>
+		<release version="5.4.5" type="stable" date="2025-11-15" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.5/media-downloader-5.4.5.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Default to quickjs javascript runtime because deno crashes on flatpak</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.4.4" type="stable" date="2025-11-12" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.4/media-downloader-5.4.4.tar.xz/</url>
 			<description>

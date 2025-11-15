@@ -399,3 +399,13 @@ Version 1.2.0(April 1st, 2021)
      Version 5.4.4(November 12th, 2025)
      [ALL]
        - Add support for autodownloading deno javascript runtime.
+
+     Version 5.4.5(November 15th, 2025)
+     [ALL]
+       - Various fixes and improvements.
+     [WINDOWS]
+       - Default to quickjs javascript runtime on windows7 because deno does not work in windows7.
+     [Flatpak]
+       - Default to quickjs javascript runtime because deno crashes.
+     [Linux and MacOS]
+       - Default to bsdtar and fall back to unzip when unzipping .zip files.

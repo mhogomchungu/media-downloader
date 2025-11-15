@@ -81,6 +81,7 @@ private:
 	void mainThreadClipboardHandler() ;
 	void bgThreadClipboardHandler() ;
 	QClipboard * m_clipboard ;
+	bool m_firstTimeSettingProxy = true ;
 	bool m_firstTime = true ;
 	int m_currentTab ;
 	bool m_uiEnabled = true ;
