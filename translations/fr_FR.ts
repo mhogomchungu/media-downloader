@@ -17,7 +17,7 @@
     </message>
     <message>
         <source>Enter URL:</source>
-        <translation>Entrer l&apos; URL:</translation>
+        <translation>Entrer l'URL :</translation>
     </message>
     <message>
         <source>Download</source>
@@ -45,11 +45,11 @@
     </message>
     <message>
         <source>Note</source>
-        <translation>détails</translation>
+        <translation>Note</translation>
     </message>
     <message>
         <source>Engine Name:</source>
-        <translation>Nom du moteur:</translation>
+        <translation>Nom du moteur :</translation>
     </message>
     <message>
         <source>Paste Clipboard Content</source>
@@ -65,7 +65,7 @@
     </message>
     <message>
         <source>Batch Downloader</source>
-        <translation>Téléchargeur par batch</translation>
+        <translation>Téléchargeur par lots</translation>
     </message>
     <message>
         <source>Thumbnail</source>
@@ -77,7 +77,7 @@
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation>Coller l&apos;URL depuis le presse-papier</translation>
+        <translation>Coller l'URL depuis le presse-papier</translation>
     </message>
     <message>
         <source>Monitor Clipboard For Url</source>
@@ -85,7 +85,7 @@
     </message>
     <message>
         <source>Add Url To List</source>
-        <translation>Ajouter l&apos;URL à la liste</translation>
+        <translation>Ajouter l'URL à la liste</translation>
     </message>
     <message>
         <source>Set</source>
@@ -93,7 +93,7 @@
     </message>
     <message>
         <source>Playlist Downloader</source>
-        <translation>Téléchargeur Liste de lecture</translation>
+        <translation>Téléchargeur de playlist</translation>
     </message>
     <message>
         <source>Download Options:</source>
@@ -101,35 +101,35 @@
     </message>
     <message>
         <source>Time Interval Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Temps de début de l'intervalle de temps (HH:MM:SS) :</translation>
     </message>
     <message>
         <source>Time Interval End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Temps de fin de l'intervalle de temps (HH:MM:SS) :</translation>
     </message>
     <message>
         <source>Chapters(Comma Separated):</source>
-        <translation type="unfinished"></translation>
+        <translation>Chapitres (séparés par des virgules) :</translation>
     </message>
     <message>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Divisé par chapitres</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer</translation>
     </message>
     <message>
         <source>Enter Playlist URL:</source>
-        <translation>Entrer l&apos;URL de la liste de lecture:</translation>
+        <translation>Entrer l'URL de la playlist :</translation>
     </message>
     <message>
         <source>Clear Internal Archive File</source>
-        <translation>Effacer le fichier d&apos;archive interne</translation>
+        <translation>Effacer le fichier d'archive interne</translation>
     </message>
     <message>
         <source>Use Internal Archive File</source>
-        <translation>Utiliser le fichier d&apos;archive interne</translation>
+        <translation>Utiliser le fichier d'archive interne</translation>
     </message>
     <message>
         <source>Library</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
         <source>Show Tray Icon</source>
-        <translation>Montrer l&apos;icône barre d&apos;état</translation>
+        <translation>Montrer l'icône barre d'état</translation>
     </message>
     <message>
         <source>Auto Save List Of Not Downloaded Media</source>
@@ -173,7 +173,7 @@
     </message>
     <message>
         <source>Auto Hide Downloads When Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer automatiquement les téléchargements une fois terminés</translation>
     </message>
     <message>
         <source>Reset Option To Its Default</source>
@@ -197,31 +197,31 @@
     </message>
     <message>
         <source>Use Manually Specified Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser une configuration de proxy spécifiée manuellement</translation>
     </message>
     <message>
         <source>Get Proxy Configuration From The Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Récupérer la configuration du proxy à partir de l'environnement</translation>
     </message>
     <message>
         <source>No Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de proxy</translation>
     </message>
     <message>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <source>Engine&apos;s Default Options</source>
+        <source>Engine's Default Options</source>
         <translation>Options par défaut du moteur</translation>
     </message>
     <message>
         <source>File Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille du fichier</translation>
     </message>
     <message>
         <source>Get List Options:</source>
-        <translation>Obtenir la liste des options:</translation>
+        <translation>Obtenir la liste des options :</translation>
     </message>
     <message>
         <source>Subscriptions</source>
@@ -245,11 +245,11 @@
     </message>
     <message>
         <source>Enable Library Tab</source>
-        <translation>Activer l&apos;onglet Bibliothèque</translation>
+        <translation>Activer l'onglet Bibliothèque</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre maximal de téléchargements simultanés</translation>
     </message>
     <message>
         <source>Text Encoding</source>
@@ -257,30 +257,30 @@
     </message>
     <message>
         <source>Show Version Info And Autodownload Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les informations de version et activer le téléchargement automatique des mises à jour</translation>
     </message>
     <message>
         <source>Show Version Info And Latest Version Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les informations sur la version et les informations sur la dernière version</translation>
     </message>
     <message>
         <source>Show Version Info Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher uniquement les informations sur la version</translation>
     </message>
     <message>
         <source>Do Nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne rien faire</translation>
     </message>
     <message>
         <source>Actions At Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions au démarrage</translation>
     </message>
     <message>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Site web</translation>
     </message>
     <message>
-        <source>Engine&apos;s Name</source>
+        <source>Engine's Name</source>
         <translation>Nom du moteur</translation>
     </message>
     <message>
@@ -309,17 +309,19 @@
     </message>
     <message>
         <source>Proxy Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du proxy</translation>
     </message>
     <message>
         <source>Use System Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser la configuration du proxy système</translation>
     </message>
     <message>
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuration de proxy spécifiée manuellement
+Exemple 1 : 192.168.93.89:8080
+Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>About</source>
@@ -327,134 +329,134 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Play Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Lire les médias téléchargés</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommer</translation>
     </message>
     <message>
         <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Saisissez l'URL de la playlist. Pour ajouter plusieurs playlists, séparez-les par un espace ou un saut de ligne</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommez le fichier avec le texte ci-dessous</translation>
     </message>
     <message>
         <source>A Button To Open A Folder To Be Used As A Download Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Un bouton pour ouvrir un dossier à utiliser comme dossier de téléchargement</translation>
     </message>
     <message>
         <source>A Button To Open A Folder Where Theme Config Files Are Stored</source>
-        <translation type="unfinished"></translation>
+        <translation>Un bouton pour ouvrir le dossier contenant les fichiers de configuration du thème</translation>
     </message>
     <message>
-        <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
-        <translation type="unfinished"></translation>
+        <source>A Button To Open A Folder Where Extension's Binaries Are Stored</source>
+        <translation>Un bouton pour ouvrir le dossier contenant les fichiers binaires de l'extension</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir rétablir les valeurs par défaut de ces options ?</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Non</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Oui</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du navigateur Web auprès duquel récupérer les cookies</translation>
     </message>
     <message>
         <source>Theme(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Thème (Redémarrage requis)</translation>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer entre la configuration du nom du navigateur et du chemin d'accès au fichier de cookies</translation>
     </message>
     <message>
         <source>Show MetaData In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les métadonnées dans le téléchargeur par lots</translation>
     </message>
     <message>
         <source>Auto Download Added Entries In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger automatiquement les entrées ajoutées au téléchargeur par lots</translation>
     </message>
     <message>
         <source>Notify When Download Completes</source>
-        <translation type="unfinished"></translation>
+        <translation>Prévenir lorsque le téléchargement est terminé</translation>
     </message>
     <message>
         <source>Notify When All Downloads Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Prévenir lorsque tous les téléchargements sont terminés</translation>
     </message>
     <message>
-        <source>Engine&apos;s Options</source>
-        <translation type="unfinished"></translation>
+        <source>Engine's Options</source>
+        <translation>Options du moteur</translation>
     </message>
     <message>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensions</translation>
     </message>
     <message>
         <source>Remove An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer une extension</translation>
     </message>
     <message>
         <source>Update An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre à jour une extension</translation>
     </message>
     <message>
         <source>Add An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une extension</translation>
     </message>
     <message>
         <source>Open Binary Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le dossier binaire</translation>
     </message>
     <message>
         <source>Open Extension Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le dossier de l'extension</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>%1 Preset Options</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 options prédéfinies</translation>
     </message>
     <message>
-        <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation>Les noms de fichiers avec l&apos;extension&quot;.txt&quot; seront sauvegardés comme des URL seulement</translation>
+        <source>Filename with ".txt" Extension Will Save Urls Only</source>
+        <translation>Les noms de fichiers avec l'extension « .txt » seront sauvegardés comme des URL seulement</translation>
     </message>
     <message>
         <source>Hide Row</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer la ligne</translation>
     </message>
     <message>
         <source>Unhide All Hidden Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher toutes les lignes masquées</translation>
     </message>
     <message>
         <source>Failed To Start Executable %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du lancement du fichier exécutable %1</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation type="unfinished">Copier l&apos;URL</translation>
+        <translation>Copier l'URL</translation>
     </message>
     <message>
         <source>Open Url With %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir l'URL avec %1</translation>
     </message>
     <message>
         <source>Copy Url %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier l'URL %1</translation>
     </message>
     <message>
         <source>Save List To File</source>
@@ -474,7 +476,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Engine Name:</source>
-        <translation>Nom du moteur:</translation>
+        <translation>Nom du moteur :</translation>
     </message>
     <message>
         <source>Get List From File</source>
@@ -498,7 +500,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Project Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page du projet</translation>
     </message>
     <message>
         <source>Copyright</source>
@@ -522,135 +524,135 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation>Ce programme est distribué dans l&apos;espoir qu&apos;il sera utile, mais SANS AUCUNE GARANTIE ; sans même la garantie implicite de QUALITÉ MARCHANDE ou d&apos;ADÉQUATION À UN USAGE PARTICULIER. Voir la licence publique générale GNU pour plus de détails.</translation>
+        <translation>Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE ; sans même la garantie implicite de QUALITÉ MARCHANDE ou d'ADÉQUATION À UN USAGE PARTICULIER. Voir la licence publique générale GNU pour plus de détails.</translation>
     </message>
     <message>
         <source>Polish (Poland)</source>
-        <translation>Polish (Poland)</translation>
+        <translation>Polonais (Pologne)</translation>
     </message>
     <message>
         <source>English (US)</source>
-        <translation>English (US)</translation>
+        <translation>Anglais (États-Unis)</translation>
     </message>
     <message>
         <source>Spanish (Spain)</source>
-        <translation>Spanish (Spain)</translation>
+        <translation>Espagnol (Espagne)</translation>
     </message>
     <message>
         <source>Chinese (China)</source>
-        <translation>Chinese (China)</translation>
+        <translation>Chinois (Chine)</translation>
     </message>
     <message>
         <source>Turkish (Turkey)</source>
-        <translation>Turkish (Turkey)</translation>
+        <translation>Turc (Turquie)</translation>
     </message>
     <message>
         <source>Russian (Russia)</source>
-        <translation>Russian (Russia)</translation>
+        <translation>Russe (Russie)</translation>
     </message>
     <message>
         <source>Japanese (Japan)</source>
-        <translation></translation>
+        <translation>Japonais (Japon)</translation>
     </message>
     <message>
         <source>French (France)</source>
-        <translation>French (France)</translation>
+        <translation>Français (France)</translation>
     </message>
     <message>
         <source>Italian (Italy)</source>
-        <translation>Italian (Italy)</translation>
+        <translation>Italien (Italie)</translation>
     </message>
     <message>
         <source>Swedish (Sweden)</source>
-        <translation>Swedish (Sweden)</translation>
+        <translation>Suédois (Suède)</translation>
     </message>
     <message>
         <source>German (Germany)</source>
-        <translation>German (Germany)</translation>
+        <translation>Allemand (Allemagne)</translation>
     </message>
     <message>
         <source>Portuguese (Brazil)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugais (Brésil)</translation>
     </message>
     <message>
         <source>Dutch (Netherlands)</source>
-        <translation type="unfinished"></translation>
+        <translation>Néerlandais (Pays-Bas)</translation>
     </message>
     <message>
-        <source>Error, executable to backend &quot;%1&quot; could not be found</source>
-        <translation>Erreur, l&apos;exécutable vers le programme &quot;%1&quot; n&apos;a pas été trouvé</translation>
+        <source>Error, executable to backend "%1" could not be found</source>
+        <translation>Erreur, l'exécutable vers le programme « %1 » n'a pas été trouvé</translation>
     </message>
     <message>
-        <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
-        <translation>Le moteur &quot;%1&quot; nécessite au moins la version &quot;%2&quot; de Media Downloader</translation>
+        <source>Engine "%1" requires atleast version "%2" of Media Downloader</source>
+        <translation>Le moteur « %1 » nécessite au moins la version « %2 » de Media Downloader</translation>
     </message>
     <message>
         <source>To Disable These Checks, Do The Following:-</source>
-        <translation>Pour désactiver ces tests, essayez ceci:-</translation>
+        <translation>Pour désactiver ces tests, essayez ceci : -</translation>
     </message>
     <message>
-        <source>1. Go To &quot;Configure&quot; Tab.</source>
-        <translation>1. Aller à l&apos;onglet &quot;Configurer&quot;.</translation>
+        <source>1. Go To "Configure" Tab.</source>
+        <translation>1. Aller à l'onglet « Configurer ».</translation>
     </message>
     <message>
-        <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
-        <translation>2.Aller au sous-onglet &quot;Options générales&quot;.</translation>
+        <source>2. Go To "General Options" Sub Tab.</source>
+        <translation>2. Aller au sous-onglet « Options générales ».</translation>
     </message>
     <message>
-        <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
-        <translation type="unfinished"></translation>
+        <source>3. Click "Actions At StartUp" Menu.</source>
+        <translation>3. Cliquer sur le menu « Actions au démarrage ».</translation>
     </message>
     <message>
-        <source>4. Select &quot;Do Nothing&quot;.</source>
-        <translation type="unfinished"></translation>
+        <source>4. Select "Do Nothing".</source>
+        <translation>4. Sélectionner « Ne rien faire ».</translation>
     </message>
     <message>
         <source>Running In Portable Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécution en mode portable</translation>
     </message>
     <message>
         <source>Running In Installation Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécution en mode installation</translation>
     </message>
     <message>
         <source>Download Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin de téléchargement : %1</translation>
     </message>
     <message>
         <source>App Data Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin des données de l'application : %1</translation>
     </message>
     <message>
         <source>Setting Proxy Server Address Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuration de l'adresse du serveur proxy %1</translation>
     </message>
     <message>
         <source>Unsetting Proxy Server Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Suppression de l'adresse du serveur proxy</translation>
     </message>
     <message>
-        <source>Error, failed to parse config file &quot;%1&quot;</source>
-        <translation>Erreur, échec à séparer le fichier de config  &quot;%1&quot;</translation>
+        <source>Error, failed to parse config file "%1"</source>
+        <translation>Erreur, échec à séparer le fichier de config  « %1 »</translation>
     </message>
     <message>
         <source>Failed To Load A Plugin</source>
         <translation>Echec à charger le plugin</translation>
     </message>
     <message>
-        <source>Failed to find executable &quot;%1&quot;</source>
-        <translation>Echec à trouver l&apos;exécutable &quot;%1&quot;</translation>
+        <source>Failed to find executable "%1"</source>
+        <translation>Impossible de trouver le fichier exécutable « %1 »</translation>
     </message>
     <message>
-        <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
-        <translation>Echec à trouver python3 executable pour le programme &quot;%1&quot;</translation>
+        <source>Failed to find python3 executable for backend "%1"</source>
+        <translation>Impossible de trouver l'exécutable python3 pour le backend « %1 »</translation>
     </message>
     <message>
         <source>Network Error Occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur réseau s'est produite</translation>
     </message>
     <message>
         <source>Url Is Not Supported</source>
-        <translation type="unfinished"></translation>
+        <translation>L'URL n'est pas prise en charge</translation>
     </message>
     <message>
         <source>Download cancelled</source>
@@ -658,15 +660,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>ErrorCode</source>
-        <translation type="unfinished"></translation>
+        <translation>Code d'erreur</translation>
     </message>
     <message>
         <source>Download Failed, Engine failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du téléchargement, impossible de démarrer le moteur</translation>
     </message>
     <message>
         <source>Download Failed, Engine crashed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du téléchargement, le moteur a planté</translation>
     </message>
     <message>
         <source>Format Code</source>
@@ -682,11 +684,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille</translation>
     </message>
     <message>
         <source>Note</source>
-        <translation>détails</translation>
+        <translation>Note</translation>
     </message>
     <message>
         <source>Failed to open file for writing</source>
@@ -698,11 +700,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Elapsed Time:</source>
-        <translation>Temps écoulé:</translation>
+        <translation>Temps écoulé :</translation>
     </message>
     <message>
-        <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
-        <translation>Les informations de version n&apos;ont pas été trouvées, vérifiez que &quot;%1&quot; est bien installé et fonctionne correctement</translation>
+        <source>Failed to find version information, make sure "%1" is installed and works properly</source>
+        <translation>Les informations de version n'ont pas été trouvées, vérifiez que « %1 » est bien installé et fonctionne correctement</translation>
     </message>
     <message>
         <source>Found version</source>
@@ -710,11 +712,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed To Open Path For Writing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d'ouvrir le chemin d'écriture : %1</translation>
     </message>
     <message>
         <source>Failed To Extract</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l'extraction</translation>
     </message>
     <message>
         <source>Network Failed To Respond Within %1 seconds</source>
@@ -722,7 +724,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed to download, Following path can not be created: </source>
-        <translation>Echec au téléchargement, le chemin suivant ne peut pas être créé: </translation>
+        <translation>Échec du téléchargement, le chemin suivant ne peut pas être créé : </translation>
     </message>
     <message>
         <source>Start Downloading</source>
@@ -730,11 +732,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Problème en vue, échec de la suppression du dossier : %1</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <source>Failed To Find "bsdtar.exe" Executable</source>
+        <translation>Impossible de trouver le fichier exécutable « bsdtar.exe »</translation>
     </message>
     <message>
         <source>Download Failed</source>
@@ -742,7 +744,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed to parse json file from github</source>
-        <translation>N&apos;a pas réussi à séparer le fichier JSON depuis github</translation>
+        <translation>Impossible d'analyser le fichier JSON provenant de GitHub</translation>
     </message>
     <message>
         <source>Downloading</source>
@@ -754,15 +756,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Update Complete, Restart To Use New Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Mise à jour terminée,veuillez redémarrer pour utiliser la nouvelle version</translation>
     </message>
     <message>
-        <source>Windows&apos; Secure Channel</source>
-        <translation type="unfinished"></translation>
+        <source>Windows' Secure Channel</source>
+        <translation>Canal sécurisé de Windows</translation>
     </message>
     <message>
         <source>File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier introuvable</translation>
     </message>
     <message>
         <source>Download complete</source>
@@ -770,7 +772,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Extracting archive: </source>
-        <translation>Extraction de l&apos;archive: </translation>
+        <translation>Extraction de l'archive : </translation>
     </message>
     <message>
         <source>Processing</source>
@@ -786,7 +788,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Post Processing</source>
-        <translation>Post Traitement</translation>
+        <translation>Post-traitement</translation>
     </message>
     <message>
         <source>Download</source>
@@ -802,7 +804,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Upload Date:</source>
-        <translation>Date de téléversement:</translation>
+        <translation>Date de téléversement :</translation>
     </message>
     <message>
         <source>Duration:</source>
@@ -826,15 +828,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Download Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger les chapitres</translation>
     </message>
     <message>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Diviser par chapitres</translation>
     </message>
     <message>
         <source>Media Already In Archive</source>
-        <translation>Media déjà dans l&apos;archive</translation>
+        <translation>Media déjà dans l'archive</translation>
     </message>
     <message>
         <source>Dark</source>
@@ -846,15 +848,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Time Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Temps restant</translation>
     </message>
     <message>
         <source>Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargé</translation>
     </message>
     <message>
         <source>%1 Already Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 déjà téléchargé</translation>
     </message>
     <message>
         <source>This May Take A Very Long Time</source>
@@ -862,250 +864,250 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vitesse :</translation>
     </message>
     <message>
         <source>There Is An Update For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Il y a une mise à jour pour %1</translation>
     </message>
     <message>
         <source>Newest Version Is %1, Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>La version la plus récente est %1, mise à jour en cours</translation>
     </message>
     <message>
         <source>Checking installed version of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérification de la version installée de %1</translation>
     </message>
     <message>
         <source>Found version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Version trouvée : %1</translation>
     </message>
     <message>
         <source>Newest Version Is: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>La version la plus récente est : %1</translation>
     </message>
     <message>
-        <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <source>Please Update "%1" To Atleast Version "%2"</source>
+        <translation>Veuillez mettre à jour « %1 » au moins vers la version « %2 »</translation>
     </message>
     <message>
         <source>Requested Format Is Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Le format demandé n'est pas disponible</translation>
     </message>
     <message>
         <source>Invalid Url Entered</source>
-        <translation type="unfinished"></translation>
+        <translation>URL invalide saisie</translation>
     </message>
     <message>
         <source>Best Available Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Meilleur audio disponible uniquement</translation>
     </message>
     <message>
         <source>Best Available Audio Only(MP3)</source>
-        <translation type="unfinished"></translation>
+        <translation>Meilleur audio disponible uniquement (MP3)</translation>
     </message>
     <message>
         <source>Best Available Audio Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Meilleur audio vidéo disponible</translation>
     </message>
     <message>
         <source>Best Audio With Video Resolution Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Meilleure qualité audio avec une résolution vidéo de %1</translation>
     </message>
     <message>
         <source>Warning: Skipping Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Attention : contenu du presse-papiers ignoré</translation>
     </message>
     <message>
         <source>Show Folders First</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les dossiers en premier</translation>
     </message>
     <message>
         <source>Arrange In Ascending Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Classer par ordre croissant</translation>
     </message>
     <message>
         <source>Arrange By Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Classer par date</translation>
     </message>
     <message>
         <source>Arrange By Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Classer par nom</translation>
     </message>
     <message>
         <source>Arrange In Descending Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Classer par ordre décroissant</translation>
     </message>
     <message>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtre</translation>
     </message>
     <message>
         <source>No Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun filtre</translation>
     </message>
     <message>
         <source>Other Websites</source>
-        <translation type="unfinished"></translation>
+        <translation>Autres sites Web</translation>
     </message>
     <message>
         <source>Extract Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Extraire l'audio</translation>
     </message>
     <message>
         <source>Extract Audio As MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Extraire l'audio au format MP3</translation>
     </message>
     <message>
         <source>Arabic</source>
-        <translation type="unfinished"></translation>
+        <translation>Arabe</translation>
     </message>
     <message>
         <source>Best Available Audio Only+Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Meilleur audio disponible uniquement + vignette</translation>
     </message>
     <message>
         <source>Youtube</source>
-        <translation type="unfinished"></translation>
+        <translation>YouTube</translation>
     </message>
     <message>
         <source>Autoupdate Disabled For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mise à jour automatique désactivée pour %1</translation>
     </message>
     <message>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La version la plus récente est %1, mise à jour automatique désactivée</translation>
     </message>
     <message>
         <source>Author: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Auteur : %1</translation>
     </message>
     <message>
         <source>Like Count: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de « J'aime » : %1 </translation>
     </message>
     <message>
         <source>Korean (Korea)</source>
-        <translation type="unfinished"></translation>
+        <translation>Coréen (Corée)</translation>
     </message>
     <message>
         <source>Sign In To Confirm You Are Not A Bot</source>
-        <translation type="unfinished"></translation>
+        <translation>Connectez-vous pour confirmer que vous n'êtes pas un robot</translation>
     </message>
     <message>
         <source>Show/Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher/Masquer les commandes</translation>
     </message>
     <message>
         <source>Merging Audio and Video Together</source>
-        <translation type="unfinished"></translation>
+        <translation>Fusionner l'audio et la vidéo</translation>
     </message>
     <message>
         <source>Remuxing video</source>
-        <translation type="unfinished"></translation>
+        <translation>Remuxage de la vidéo</translation>
     </message>
     <message>
         <source>Greek (Greece)</source>
-        <translation type="unfinished"></translation>
+        <translation>Grec (Grèce)</translation>
     </message>
     <message>
         <source>Platform Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur par défaut de la plateforme</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Clair</translation>
     </message>
     <message>
         <source>Failed To Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du changement de nom</translation>
     </message>
     <message>
         <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
-        <translation type="unfinished"></translation>
+        <translation>Terminé(s) : %1, En cours : %2, Non démarré(s) : %3, Réussi(s) : %4, Échec(s) : %5, Annulé(s) : %6</translation>
     </message>
     <message>
         <source>Stopping Because Media Is Already In Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêt de l'opération car le fichier multimédia est déjà archivé</translation>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bulgare (Bulgarie)</translation>
     </message>
     <message>
         <source>Open Urls With %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir les URL avec %2</translation>
     </message>
     <message>
         <source>Default Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur par défaut</translation>
     </message>
     <message>
         <source>Warning, Nothing Was Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Avertissement : aucun téléchargement n'a été effectué</translation>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement annulé. Les URL de playlists ne sont pas autorisées dans cet onglet</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement annulé car une condition n'a pas été remplie</translation>
     </message>
     <message>
         <source>Download Failed, Unknown Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du téléchargement, raison inconnue</translation>
     </message>
     <message>
         <source>Download Failed, Network Issue</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du téléchargement, problème de réseau</translation>
     </message>
     <message>
         <source>Ukrainian (Ukraine)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukrainien (Ukraine)</translation>
     </message>
     <message>
-        <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <source>Renaming "%1" to "%2"</source>
+        <translation>Renommage de « %1 » en « %2 »</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du renommage : %3</translation>
     </message>
     <message>
         <source>Skipping Checking Download Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérification du hachage de téléchargement ignorée</translation>
     </message>
     <message>
         <source>Ignoring Download Because Hashes Do Not Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement ignoré car les hachages ne correspondent pas</translation>
     </message>
     <message>
-        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <source>Expected "%1" but obtained "%2"</source>
+        <translation>Attendu « %1 », mais obtenu « %2 »</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la suppression</translation>
     </message>
     <message>
         <source>Renaming file to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommage du fichier en : %1</translation>
     </message>
     <message>
-        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <source>Skipping Checking Version Info For Engine "%1"</source>
+        <translation>Vérification des informations de version ignorée pour le moteur « %1 »</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <source>Failed To Find "bsdtar" or "unzip" Executable</source>
+        <translation>Impossible de trouver l'exécutable « bsdtar » ou « unzip »</translation>
     </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <source>Hide List</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer la liste</translation>
     </message>
 </context>
 <context>
@@ -1136,7 +1138,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation>Copier l&apos;URL</translation>
+        <translation>Copier l'URL</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1168,19 +1170,19 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sort By Date Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Trier par date croissante</translation>
     </message>
     <message>
         <source>Sort By Date Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Trier par date décroissante</translation>
     </message>
     <message>
         <source>Sort By Likes</source>
-        <translation type="unfinished"></translation>
+        <translation>Trier par « J'aime »</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommer</translation>
     </message>
 </context>
 <context>
@@ -1207,31 +1209,31 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Ajouter</translation>
+        <translation>Ajouter</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation type="unfinished">Définir par défaut</translation>
+        <translation>Définir les valeurs par défaut</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un fichier cookie</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du navigateur Web auprès duquel récupérer les cookies</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir le chemin d'accès au fichier de cookies</translation>
     </message>
 </context>
 <context>
@@ -1246,43 +1248,43 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommer</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below File?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir supprimer le fichier ci-dessous ?</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below Folder?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir supprimer le dossier ci-dessous ?</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Oui</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Non</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir supprimer tous les fichiers et dossiers ?</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommer le fichier avec le texte ci-dessous</translation>
     </message>
     <message>
         <source>Rename Folder To Below Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Renommer le dossier avec le texte ci-dessous</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Selected Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir supprimer les éléments sélectionnés ?</translation>
     </message>
 </context>
 <context>
@@ -1316,15 +1318,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer les commandes</translation>
     </message>
     <message>
         <source>Get List Options:</source>
-        <translation>Obtenir la liste des options:</translation>
+        <translation>Obtenir la liste des options :</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation>Copier l&apos;URL</translation>
+        <translation>Copier l'URL</translation>
     </message>
     <message>
         <source>Show Comments</source>
@@ -1352,15 +1354,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les commandes</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer</translation>
     </message>
     <message>
         <source>This May Take A Very Long Time</source>
