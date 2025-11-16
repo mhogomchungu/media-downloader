@@ -338,7 +338,7 @@ public:
 
 		QJsonObject obj ;
 
-		obj.insert( "webpage_url",m_url ) ;
+		obj.insert( "direct_url",m_url ) ;
 		obj.insert( "fileName",m_fileName ) ;
 		obj.insert( "title",m_title ) ;
 		obj.insert( "thumbnail",m_thumbnail ) ;
