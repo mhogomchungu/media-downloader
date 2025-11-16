@@ -664,6 +664,11 @@ void batchdownloader::gotEvent( const QJsonObject& jsonArgs )
 
 		auto autoDownload = jsonArgs.value( "-a" ).toBool() ;
 
+		if( !autoDownload ){
+
+			autoDownload = m_settings.autoDownloadWhenAddedInBatchDownloader() ;
+		}
+
 		auto v = jsonArgs.value( "-e" ) ;
 
 		if( v.isUndefined() ){
@@ -2783,12 +2788,6 @@ void batchdownloader::addToList( const QString& u,const batchdownloader::downloa
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	auto a = m_ui.cbEngineTypeBD->currentText() ;
-	auto b = m_ui.lineEditBDUrlOptions->text() ;
-	auto c = settings::tabName::batch ;
-
-	m_settings.setLastUsedOption( a,b,c ) ;
-
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
 	class meaw

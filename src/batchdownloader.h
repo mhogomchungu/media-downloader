@@ -487,6 +487,12 @@ private:
 
 		m_settings.addOptionsHistory( engine.name(),urlOpts,settings::tabName::batch ) ;
 
+		auto a = m_ui.cbEngineTypeBD->currentText() ;
+		auto b = m_ui.lineEditBDUrlOptions->text() ;
+		auto c = settings::tabName::batch ;
+
+		m_settings.setLastUsedOption( a,b,c ) ;
+
 		utility::download( engine,
 				  std::move( updateOpts ),
 				  engine.name() == this->defaultEngineName() ? urlOpts : QString(),
