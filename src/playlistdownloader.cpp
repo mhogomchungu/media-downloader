@@ -1775,7 +1775,13 @@ void playlistdownloader::stdOut::operator()( Logger::Data& data )
 
 			for( const auto& it : m_engine.parseJsonData( m_data ) ){
 
-				const auto mm = m_engine.parseJson( m_url,it ) ;
+				auto mm = m_engine.parseJson( m_url,it ) ;
+
+				auto url = mm.value( "direct_url" ).toString() ;
+
+				mm.remove( "direct_url" ) ;
+
+				mm.insert( "webpage_url",url ) ;
 
 				m_parent.parseJson( m_engine,m_customOptions,QJsonDocument( mm ) ) ;
 			}

@@ -374,55 +374,55 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Theme(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Θέμα (Απατείται επανεκκίνηση)</translation>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή μεταξύ ρύθμισης ονόματος προγράμματος περιήγησης και διαδρομής για αρχείο cookie</translation>
     </message>
     <message>
         <source>Show MetaData In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση μεταδεδομένων σε μαζική λήψη</translation>
     </message>
     <message>
         <source>Auto Download Added Entries In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτόματη λήψη προστιθέμενων καταχωρίσεων σε μαζική λήψη</translation>
     </message>
     <message>
         <source>Notify When Download Completes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ειδοποίηση όταν ολοκληρώνεται λήψη</translation>
     </message>
     <message>
         <source>Notify When All Downloads Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Ειδοποίηση όταν ολοκληρώνονται όλες οι λήψεις</translation>
     </message>
     <message>
         <source>Engine&apos;s Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές μηχανής</translation>
     </message>
     <message>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεκτάσεις</translation>
     </message>
     <message>
         <source>Remove An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση επέκτασης</translation>
     </message>
     <message>
         <source>Update An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενημέρωση επέκτασης</translation>
     </message>
     <message>
         <source>Add An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη επέκτασης</translation>
     </message>
     <message>
         <source>Open Binary Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα φακέλου δυαδικών</translation>
     </message>
     <message>
         <source>Open Extension Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα φακέλου επεκτάσεων</translation>
     </message>
 </context>
 <context>
@@ -645,7 +645,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
-        <translation>Απέτυχε η εύρεση του εκτελέσιμου python3 στο backend &quot;%1&quot;</translation>
+        <translation>Απέτυχε η εύρεση του εκτελέσιμου python3 για το backend &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Network Error Occured</source>
@@ -701,7 +701,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Elapsed Time:</source>
-        <translation>Χρόνος που παρήλθε:</translation>
+        <translation>Χρόνος που πέρασε:</translation>
     </message>
     <message>
         <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
@@ -841,7 +841,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Dark</source>
-        <translation>Dark</translation>
+        <translation>Σκούρο</translation>
     </message>
     <message>
         <source>Method</source>
@@ -1013,95 +1013,95 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Platform Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Προεπιλογή συστήματος</translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοιχτό</translation>
     </message>
     <message>
         <source>Failed To Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Απέτυχε η μετονομασία</translation>
     </message>
     <message>
         <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
-        <translation type="unfinished"></translation>
+        <translation>Ολοκληρώθηκαν: %1, Εκτελούνται: %2, Δεν ξεκίνησαν: %3, Πέτυχαν: %4, Απέτυχαν: %5, Ακυρώθηκαν: %6</translation>
     </message>
     <message>
         <source>Stopping Because Media Is Already In Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Διακοπή επειδή το μέσο είναι ήδη στο αρχείο αρχειοθέτησης</translation>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
-        <translation type="unfinished"></translation>
+        <translation>Βουλγαρικά (Βουλγαρία)</translation>
     </message>
     <message>
         <source>Open Urls With %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα διευθύνσεων URL με το %2</translation>
     </message>
     <message>
         <source>Default Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Προεπιλεγμένο πρόγραμμα αναπαραγωγής</translation>
     </message>
     <message>
         <source>Warning, Nothing Was Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Προειδοποίηση, δεν έγινε καμία λήψη</translation>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Η λήψη ακυρώθηκε, οι διευθύνσεις λίστας αναπαραγωγής δεν επιτρέπονται σε αυτήν την καρτέλα</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Η λήψη ακυρώθηκε επειδή δεν πληρούταν μια προϋπόθεση</translation>
     </message>
     <message>
         <source>Download Failed, Unknown Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>Η λήψη απέτυχε, άγνωστη αιτία</translation>
     </message>
     <message>
         <source>Download Failed, Network Issue</source>
-        <translation type="unfinished"></translation>
+        <translation>Η λήψη απέτυχε, θέμα δικτύου</translation>
     </message>
     <message>
         <source>Ukrainian (Ukraine)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ουκρανικά (Ουκρανία)</translation>
     </message>
     <message>
         <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετονομασία &quot;%1&quot; σε &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Η μετονομασία απέτυχε: %3</translation>
     </message>
     <message>
         <source>Skipping Checking Download Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>Παράλειψη ελέγχου κατακερματισμού λήψης</translation>
     </message>
     <message>
         <source>Ignoring Download Because Hashes Do Not Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Αγνόηση λήψης επειδή οι κατακερματισμοί δεν ταιριάζουν</translation>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναμενόταν &quot;%1&quot; αλλά λήφθηκε &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Απέτυχε η μετονομασία</translation>
     </message>
     <message>
         <source>Renaming file to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετονομασία αρχείου σε: %1</translation>
     </message>
     <message>
         <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Παράλειψη ελέγχου πληροφοριών έκδοσης για τη μηχανή &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Απέτυχε η εύρεση του εκτελέσιμου &quot;bsdtar&quot; ή &quot;unzip&quot;</translation>
     </message>
 </context>
 <context>
@@ -1226,16 +1226,16 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή αρχείου cookie</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished">Όνομα προγράμματος περιήγησης στον ιστό
+        <translation>Όνομα προγράμματος περιήγησης στον ιστό
 για λήψη cookies</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός διαδρομής για αρχείο cookie</translation>
     </message>
 </context>
 <context>
@@ -1324,7 +1324,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Get List Options:</source>
-        <translation>Λήψη επιλογών λίστας:</translation>
+        <translation>Επιλογές λήψης λίστας:</translation>
     </message>
     <message>
         <source>Copy Url</source>

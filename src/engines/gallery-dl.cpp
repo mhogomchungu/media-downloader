@@ -446,6 +446,7 @@ private:
 			return m ;
 		}
 	}
+
 	QJsonObject m_obj ;
 	QString m_wurl ;
 	QString m_thumbnail ;

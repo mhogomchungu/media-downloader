@@ -939,7 +939,7 @@ engines::engine::engine( Logger& logger,
 
 	auto m = cmd.isUndefined() ? this->getLegacyCommands() : this->getCommands( cmd.toObject() ) ;
 
-	if( utility::platformIsWindows7() && m_likeYtDlp ){
+	if( utility::platformIsWindows7() && this->likeYtDlp() ){
 
 		if( cmd.isUndefined() ){
 
