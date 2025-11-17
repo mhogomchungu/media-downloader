@@ -123,19 +123,20 @@ engines::metadata quickjs::parseJsonDataFromGitHub( const QJsonDocument& e )
 	}
 }
 
-QString quickjs::removeFiles( const QStringList& e )
+std::vector< engines::engine::baseEngine::removeFilesStatus >
+quickjs::removeFiles( const QStringList& e,const QString& a )
 {
 	auto m = e ;
 
 	if( utility::platformIsLinux() ){
 
-		m.append( "run-test262" ) ;
+		m.append( a + "/run-test262" ) ;
 
-		return engines::engine::baseEngine::removeFiles( m ) ;
+		return engines::engine::baseEngine::removeFiles( m,a ) ;
 	}else{
-		m.append( "libwinpthread-1.dll" ) ;
+		m.append( a + "/libwinpthread-1.dll" ) ;
 
-		return engines::engine::baseEngine::removeFiles( m ) ;
+		return engines::engine::baseEngine::removeFiles( m,a ) ;
 	}
 }
 

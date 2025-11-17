@@ -324,15 +324,31 @@ void networkAccess::failedToExtract( const networkAccess::cmdArgs& e,
 }
 
 void networkAccess::failedToRemove( const QString& name,
-				    const QString& src,
-				    const QString& err,
+				    const std::vector< engines::engine::baseEngine::removeFilesStatus >& err,
 				    int id ) const
 {
 	this->post( m_appName,utility::barLine(),id ) ;
 	this->post( name,QObject::tr( "Failed To Remove" ),id ) ;
-	this->post( name,"Src: " + src,id ) ;
-	this->post( name,"Err: " + err,id ) ;
+
+	for( const auto& it : err ){
+
+		this->post( name,"Src: " + it.src(),id ) ;
+		this->post( name,"Err: " + it.err(),id ) ;
+	}
+
 	this->post( m_appName,utility::barLine(),id ) ;
+}
+
+void networkAccess::failedToRemove( const QString& name,
+				    const QString& src,
+				    const QString& err,
+				    int id ) const
+{
+	std::vector< engines::engine::baseEngine::removeFilesStatus > s ;
+
+	s.emplace_back( src,err ) ;
+
+	this->failedToRemove( name,s,id ) ;
 }
 
 void networkAccess::failedToRename( const QString& name,
@@ -822,11 +838,11 @@ void networkAccess::extractArchive( const engines::engine& engine,
 			this->post( engine.name(),m,str.id ) ;
 		}
 	}else{
-		auto m = engine.removeFiles( { str.exeBinPath } ) ;
+		auto m = engine.removeFiles( { str.exeBinPath },QFileInfo( str.exeBinPath ).absolutePath() ) ;
 
-		if( !m.isEmpty() ){
+		if( m.size() ){
 
-			this->failedToRemove( engine.name(),str.exeBinPath,m,str.id ) ;
+			this->failedToRemove( engine.name(),m,str.id ) ;
 		}
 	}
 

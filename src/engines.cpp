@@ -291,6 +291,24 @@ util::result< engines::engine > engines::getEngineByPath( const QString& e ) con
 	}
 }
 
+util::result_ref< const engines::engine& > engines::getCompleteEngineByPath( const QString& e ) const
+{
+	auto m = this->getEngineByPath( e ) ;
+
+	if( m && m->valid() ){
+
+		for( const auto& it : this->getEngines() ){
+
+			if( m->name() == it.name() ){
+
+				return it ;
+			}
+		}
+	}
+
+	return {} ;
+}
+
 QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
 {
 	if( this->name() == "gallery-dl" ){
@@ -620,9 +638,9 @@ QString engines::addEngine( const QByteArray& data,const QString& path,int id )
 
 void engines::removeEngine( const QString& e,int id )
 {
-	const auto& engine = this->getEngineByPath( e ) ;
+	const auto& engine = this->getCompleteEngineByPath( e ) ;
 
-	if( engine && engine->valid() ){
+	if( engine ){
 
 		utility::removeFile( m_enginePaths.enginePath( e ) ) ;
 
@@ -640,7 +658,7 @@ void engines::removeEngine( const QString& e,int id )
 
 			if( exe.startsWith( binPath ) && QFile::exists( exe ) ){
 
-				utility::removeFile( exe ) ;
+				engine->removeFiles( { exe },binPath ) ;
 			}
 		}
 
@@ -730,7 +748,7 @@ void engines::engine::updateOptions()
 
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsWin7" ) ) ;
 
-	}else if( utility::platformisFlatPak() ){
+	}else if( utility::platformisFlatPak() && this->likeYtDlp() ){
 
 		m_extraArguments.append( "--no-js-runtimes" ) ;
 		m_extraArguments.append( "--js-runtimes" ) ;
@@ -1637,19 +1655,21 @@ void engines::engine::baseEngine::updateLocalOptions( QStringList& )
 {
 }
 
-QString engines::engine::baseEngine::removeFiles( const QStringList& e )
+std::vector< engines::engine::baseEngine::removeFilesStatus > engines::engine::baseEngine::removeFiles( const QStringList& e,const QString& )
 {
+	std::vector< engines::engine::baseEngine::removeFilesStatus > s ;
+
 	for( const auto& it : e ){
 
 		auto m = utility::removeFile( it ) ;
 
 		if( !m.isEmpty() ){
 
-			return m ;
+			s.emplace_back( it,m ) ;
 		}
 	}
 
-	return {} ;
+	return s ;
 }
 
 engines::engine::baseEngine::optionsEnvironment engines::engine::baseEngine::setProxySetting( QStringList&,const QString& )

@@ -17,7 +17,7 @@
     </message>
     <message>
         <source>Enter URL:</source>
-        <translation>Entrer l'URL :</translation>
+        <translation>Entrer l&apos;URL :</translation>
     </message>
     <message>
         <source>Download</source>
@@ -77,7 +77,7 @@
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation>Coller l'URL depuis le presse-papier</translation>
+        <translation>Coller l&apos;URL depuis le presse-papier</translation>
     </message>
     <message>
         <source>Monitor Clipboard For Url</source>
@@ -85,7 +85,7 @@
     </message>
     <message>
         <source>Add Url To List</source>
-        <translation>Ajouter l'URL à la liste</translation>
+        <translation>Ajouter l&apos;URL à la liste</translation>
     </message>
     <message>
         <source>Set</source>
@@ -101,11 +101,11 @@
     </message>
     <message>
         <source>Time Interval Start Time(HH:MM:SS):</source>
-        <translation>Temps de début de l'intervalle de temps (HH:MM:SS) :</translation>
+        <translation>Temps de début de l&apos;intervalle de temps (HH:MM:SS)&#xa0;:</translation>
     </message>
     <message>
         <source>Time Interval End Time(HH:MM:SS):</source>
-        <translation>Temps de fin de l'intervalle de temps (HH:MM:SS) :</translation>
+        <translation>Temps de fin de l&apos;intervalle de temps (HH:MM:SS)&#xa0;:</translation>
     </message>
     <message>
         <source>Chapters(Comma Separated):</source>
@@ -121,15 +121,15 @@
     </message>
     <message>
         <source>Enter Playlist URL:</source>
-        <translation>Entrer l'URL de la playlist :</translation>
+        <translation>Entrer l&apos;URL de la playlist :</translation>
     </message>
     <message>
         <source>Clear Internal Archive File</source>
-        <translation>Effacer le fichier d'archive interne</translation>
+        <translation>Effacer le fichier d&apos;archive interne</translation>
     </message>
     <message>
         <source>Use Internal Archive File</source>
-        <translation>Utiliser le fichier d'archive interne</translation>
+        <translation>Utiliser le fichier d&apos;archive interne</translation>
     </message>
     <message>
         <source>Library</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
         <source>Show Tray Icon</source>
-        <translation>Montrer l'icône de barre d'état</translation>
+        <translation>Montrer l&apos;icône de barre d&apos;état</translation>
     </message>
     <message>
         <source>Auto Save List Of Not Downloaded Media</source>
@@ -201,7 +201,7 @@
     </message>
     <message>
         <source>Get Proxy Configuration From The Environment</source>
-        <translation>Récupérer la configuration du proxy à partir de l'environnement</translation>
+        <translation>Récupérer la configuration du proxy à partir de l&apos;environnement</translation>
     </message>
     <message>
         <source>No Proxy</source>
@@ -212,7 +212,7 @@
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <source>Engine's Default Options</source>
+        <source>Engine&apos;s Default Options</source>
         <translation>Options par défaut du moteur</translation>
     </message>
     <message>
@@ -245,7 +245,7 @@
     </message>
     <message>
         <source>Enable Library Tab</source>
-        <translation>Activer l'onglet Bibliothèque</translation>
+        <translation>Activer l&apos;onglet Bibliothèque</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
@@ -280,7 +280,7 @@
         <translation>Site web</translation>
     </message>
     <message>
-        <source>Engine's Name</source>
+        <source>Engine&apos;s Name</source>
         <translation>Nom du moteur</translation>
     </message>
     <message>
@@ -320,8 +320,8 @@
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
         <translation>Configuration de proxy spécifiée manuellement
-Exemple 1 : 192.168.93.89:8080
-Exemple 2 : ${gateway}:8080</translation>
+Exemple 1&#xa0;: 192.168.93.89:8080
+Exemple 2&#xa0;: ${gateway}:8080</translation>
     </message>
     <message>
         <source>About</source>
@@ -337,7 +337,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
-        <translation>Saisissez l'URL de la playlist. Pour ajouter plusieurs playlists, séparez-les par un espace ou un saut de ligne</translation>
+        <translation>Saisissez l&apos;URL de la playlist. Pour ajouter plusieurs playlists, séparez-les par un espace ou un saut de ligne</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
@@ -352,12 +352,12 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Un bouton pour ouvrir le dossier contenant les fichiers de configuration du thème</translation>
     </message>
     <message>
-        <source>A Button To Open A Folder Where Extension's Binaries Are Stored</source>
-        <translation>Un bouton pour ouvrir le dossier contenant les fichiers binaires de l'extension</translation>
+        <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
+        <translation>Un bouton pour ouvrir le dossier contenant les fichiers binaires de l&apos;extension</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
-        <translation>Êtes-vous sûr de vouloir rétablir les valeurs par défaut de ces options ?</translation>
+        <translation>Êtes-vous sûr de vouloir rétablir les valeurs par défaut de ces options&#xa0;?</translation>
     </message>
     <message>
         <source>No</source>
@@ -377,7 +377,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
-        <translation>Basculer entre la configuration du nom du navigateur et du chemin d'accès au fichier de cookies</translation>
+        <translation>Basculer entre la configuration du nom du navigateur et du chemin d&apos;accès au fichier de cookies</translation>
     </message>
     <message>
         <source>Show MetaData In Batch Downloader</source>
@@ -396,7 +396,7 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Prévenir lorsque tous les téléchargements sont terminés</translation>
     </message>
     <message>
-        <source>Engine's Options</source>
+        <source>Engine&apos;s Options</source>
         <translation>Options du moteur</translation>
     </message>
     <message>
@@ -421,7 +421,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Open Extension Folder</source>
-        <translation>Ouvrir le dossier de l'extension</translation>
+        <translation>Ouvrir le dossier de l&apos;extension</translation>
     </message>
 </context>
 <context>
@@ -431,8 +431,8 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>%1 options prédéfinies</translation>
     </message>
     <message>
-        <source>Filename with ".txt" Extension Will Save Urls Only</source>
-        <translation>Les noms de fichiers avec l'extension « .txt » seront sauvegardés comme des URL seulement</translation>
+        <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
+        <translation>Les noms de fichiers avec l&apos;extension « .txt » seront sauvegardés comme des URL seulement</translation>
     </message>
     <message>
         <source>Hide Row</source>
@@ -448,15 +448,15 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation>Copier l'URL</translation>
+        <translation>Copier l&apos;URL</translation>
     </message>
     <message>
         <source>Open Url With %1</source>
-        <translation>Ouvrir l'URL avec %1</translation>
+        <translation>Ouvrir l&apos;URL avec %1</translation>
     </message>
     <message>
         <source>Copy Url %1</source>
-        <translation>Copier l'URL %1</translation>
+        <translation>Copier l&apos;URL %1</translation>
     </message>
     <message>
         <source>Save List To File</source>
@@ -524,7 +524,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</source>
-        <translation>Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE ; sans même la garantie implicite de QUALITÉ MARCHANDE ou d'ADÉQUATION À UN USAGE PARTICULIER. Voir la licence publique générale GNU pour plus de détails.</translation>
+        <translation>Ce programme est distribué dans l&apos;espoir qu&apos;il sera utile, mais SANS AUCUNE GARANTIE ; sans même la garantie implicite de QUALITÉ MARCHANDE ou d&apos;ADÉQUATION À UN USAGE PARTICULIER. Voir la licence publique générale GNU pour plus de détails.</translation>
     </message>
     <message>
         <source>Polish (Poland)</source>
@@ -579,11 +579,11 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Néerlandais (Pays-Bas)</translation>
     </message>
     <message>
-        <source>Error, executable to backend "%1" could not be found</source>
-        <translation>Erreur, l'exécutable vers le programme « %1 » n'a pas été trouvé</translation>
+        <source>Error, executable to backend &quot;%1&quot; could not be found</source>
+        <translation>Erreur, l&apos;exécutable vers le programme « %1 » n&apos;a pas été trouvé</translation>
     </message>
     <message>
-        <source>Engine "%1" requires atleast version "%2" of Media Downloader</source>
+        <source>Engine &quot;%1&quot; requires atleast version &quot;%2&quot; of Media Downloader</source>
         <translation>Le moteur « %1 » nécessite au moins la version « %2 » de Media Downloader</translation>
     </message>
     <message>
@@ -591,19 +591,19 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Pour désactiver ces tests, essayez ceci : -</translation>
     </message>
     <message>
-        <source>1. Go To "Configure" Tab.</source>
-        <translation>1. Aller à l'onglet « Configurer ».</translation>
+        <source>1. Go To &quot;Configure&quot; Tab.</source>
+        <translation>1. Aller à l&apos;onglet « Configurer ».</translation>
     </message>
     <message>
-        <source>2. Go To "General Options" Sub Tab.</source>
+        <source>2. Go To &quot;General Options&quot; Sub Tab.</source>
         <translation>2. Aller au sous-onglet « Options générales ».</translation>
     </message>
     <message>
-        <source>3. Click "Actions At StartUp" Menu.</source>
+        <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
         <translation>3. Cliquer sur le menu « Actions au démarrage ».</translation>
     </message>
     <message>
-        <source>4. Select "Do Nothing".</source>
+        <source>4. Select &quot;Do Nothing&quot;.</source>
         <translation>4. Sélectionner « Ne rien faire ».</translation>
     </message>
     <message>
@@ -620,18 +620,18 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>App Data Path: %1</source>
-        <translation>Chemin des données de l'application : %1</translation>
+        <translation>Chemin des données de l&apos;application&#xa0;: %1</translation>
     </message>
     <message>
         <source>Setting Proxy Server Address Of %1</source>
-        <translation>Configuration de l'adresse du serveur proxy %1</translation>
+        <translation>Configuration de l&apos;adresse du serveur proxy %1</translation>
     </message>
     <message>
         <source>Unsetting Proxy Server Address</source>
-        <translation>Suppression de l'adresse du serveur proxy</translation>
+        <translation>Suppression de l&apos;adresse du serveur proxy</translation>
     </message>
     <message>
-        <source>Error, failed to parse config file "%1"</source>
+        <source>Error, failed to parse config file &quot;%1&quot;</source>
         <translation>Erreur, échec à séparer le fichier de config  « %1 »</translation>
     </message>
     <message>
@@ -639,20 +639,20 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Echec à charger le plugin</translation>
     </message>
     <message>
-        <source>Failed to find executable "%1"</source>
+        <source>Failed to find executable &quot;%1&quot;</source>
         <translation>Impossible de trouver le fichier exécutable « %1 »</translation>
     </message>
     <message>
-        <source>Failed to find python3 executable for backend "%1"</source>
-        <translation>Impossible de trouver l'exécutable python3 pour le backend « %1 »</translation>
+        <source>Failed to find python3 executable for backend &quot;%1&quot;</source>
+        <translation>Impossible de trouver l&apos;exécutable python3 pour le backend « %1 »</translation>
     </message>
     <message>
         <source>Network Error Occured</source>
-        <translation>Une erreur réseau s'est produite</translation>
+        <translation>Une erreur réseau s&apos;est produite</translation>
     </message>
     <message>
         <source>Url Is Not Supported</source>
-        <translation>L'URL n'est pas prise en charge</translation>
+        <translation>L&apos;URL n&apos;est pas prise en charge</translation>
     </message>
     <message>
         <source>Download cancelled</source>
@@ -660,7 +660,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>ErrorCode</source>
-        <translation>Code d'erreur</translation>
+        <translation>Code d&apos;erreur</translation>
     </message>
     <message>
         <source>Download Failed, Engine failed to start</source>
@@ -703,8 +703,8 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Temps écoulé :</translation>
     </message>
     <message>
-        <source>Failed to find version information, make sure "%1" is installed and works properly</source>
-        <translation>Les informations de version n'ont pas été trouvées, vérifiez que « %1 » est bien installé et fonctionne correctement</translation>
+        <source>Failed to find version information, make sure &quot;%1&quot; is installed and works properly</source>
+        <translation>Les informations de version n&apos;ont pas été trouvées, vérifiez que « %1 » est bien installé et fonctionne correctement</translation>
     </message>
     <message>
         <source>Found version</source>
@@ -712,11 +712,11 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Failed To Open Path For Writing: %1</source>
-        <translation>Impossible d'ouvrir le chemin d'écriture : %1</translation>
+        <translation>Impossible d&apos;ouvrir le chemin d&apos;écriture&#xa0;: %1</translation>
     </message>
     <message>
         <source>Failed To Extract</source>
-        <translation>Échec de l'extraction</translation>
+        <translation>Échec de l&apos;extraction</translation>
     </message>
     <message>
         <source>Network Failed To Respond Within %1 seconds</source>
@@ -732,10 +732,10 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation>Problème en vue, échec de la suppression du dossier : %1</translation>
+        <translation>Problème en vue, échec de la suppression du dossier&#xa0;: %1</translation>
     </message>
     <message>
-        <source>Failed To Find "bsdtar.exe" Executable</source>
+        <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
         <translation>Impossible de trouver le fichier exécutable « bsdtar.exe »</translation>
     </message>
     <message>
@@ -744,7 +744,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Failed to parse json file from github</source>
-        <translation>Impossible d'analyser le fichier JSON provenant de GitHub</translation>
+        <translation>Impossible d&apos;analyser le fichier JSON provenant de GitHub</translation>
     </message>
     <message>
         <source>Downloading</source>
@@ -759,7 +759,7 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Mise à jour terminée,veuillez redémarrer pour utiliser la nouvelle version</translation>
     </message>
     <message>
-        <source>Windows' Secure Channel</source>
+        <source>Windows&apos; Secure Channel</source>
         <translation>Canal sécurisé de Windows</translation>
     </message>
     <message>
@@ -772,7 +772,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Extracting archive: </source>
-        <translation>Extraction de l'archive : </translation>
+        <translation>Extraction de l&apos;archive : </translation>
     </message>
     <message>
         <source>Processing</source>
@@ -836,7 +836,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Media Already In Archive</source>
-        <translation>Media déjà dans l'archive</translation>
+        <translation>Media déjà dans l&apos;archive</translation>
     </message>
     <message>
         <source>Dark</source>
@@ -884,15 +884,15 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Newest Version Is: %1</source>
-        <translation>La version la plus récente est : %1</translation>
+        <translation>La version la plus récente est&#xa0;: %1</translation>
     </message>
     <message>
-        <source>Please Update "%1" To Atleast Version "%2"</source>
+        <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
         <translation>Veuillez mettre à jour « %1 » au moins vers la version « %2 »</translation>
     </message>
     <message>
         <source>Requested Format Is Not Available</source>
-        <translation>Le format demandé n'est pas disponible</translation>
+        <translation>Le format demandé n&apos;est pas disponible</translation>
     </message>
     <message>
         <source>Invalid Url Entered</source>
@@ -952,11 +952,11 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Extract Audio</source>
-        <translation>Extraire l'audio</translation>
+        <translation>Extraire l&apos;audio</translation>
     </message>
     <message>
         <source>Extract Audio As MP3</source>
-        <translation>Extraire l'audio au format MP3</translation>
+        <translation>Extraire l&apos;audio au format MP3</translation>
     </message>
     <message>
         <source>Arabic</source>
@@ -980,11 +980,11 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Author: %1</source>
-        <translation>Auteur : %1</translation>
+        <translation>Auteur&#xa0;: %1</translation>
     </message>
     <message>
         <source>Like Count: %1</source>
-        <translation>Nombre de « J'aime » : %1 </translation>
+        <translation>Nombre de « J&apos;aime » : %1 </translation>
     </message>
     <message>
         <source>Korean (Korea)</source>
@@ -992,7 +992,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Sign In To Confirm You Are Not A Bot</source>
-        <translation>Connectez-vous pour confirmer que vous n'êtes pas un robot</translation>
+        <translation>Connectez-vous pour confirmer que vous n&apos;êtes pas un robot</translation>
     </message>
     <message>
         <source>Show/Hide Controls</source>
@@ -1000,7 +1000,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Merging Audio and Video Together</source>
-        <translation>Fusionner l'audio et la vidéo</translation>
+        <translation>Fusionner l&apos;audio et la vidéo</translation>
     </message>
     <message>
         <source>Remuxing video</source>
@@ -1028,7 +1028,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Stopping Because Media Is Already In Archive File</source>
-        <translation>Arrêt de l'opération car le fichier multimédia est déjà archivé</translation>
+        <translation>Arrêt de l&apos;opération car le fichier multimédia est déjà archivé</translation>
     </message>
     <message>
         <source>Bulgarien (Bulgaria)</source>
@@ -1044,7 +1044,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Warning, Nothing Was Downloaded</source>
-        <translation>Avertissement : aucun téléchargement n'a été effectué</translation>
+        <translation>Avertissement&#xa0;: aucun téléchargement n&apos;a été effectué</translation>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
@@ -1052,7 +1052,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
-        <translation>Téléchargement annulé car une condition n'a pas été remplie</translation>
+        <translation>Téléchargement annulé car une condition n&apos;a pas été remplie</translation>
     </message>
     <message>
         <source>Download Failed, Unknown Reason</source>
@@ -1067,12 +1067,12 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Ukrainien (Ukraine)</translation>
     </message>
     <message>
-        <source>Renaming "%1" to "%2"</source>
+        <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
         <translation>Renommage de « %1 » en « %2 »</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
-        <translation>Échec du renommage : %3</translation>
+        <translation>Échec du renommage&#xa0;: %3</translation>
     </message>
     <message>
         <source>Skipping Checking Download Hash</source>
@@ -1083,8 +1083,8 @@ Exemple 2 : ${gateway}:8080</translation>
         <translation>Téléchargement ignoré car les hachages ne correspondent pas</translation>
     </message>
     <message>
-        <source>Expected "%1" but obtained "%2"</source>
-        <translation>Attendu « %1 », mais obtenu « %2 »</translation>
+        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation>Attendu «&#xa0;%1&#xa0;», mais obtenu «&#xa0;%2&#xa0;»</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
@@ -1092,15 +1092,15 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Renaming file to: %1</source>
-        <translation>Renommage du fichier en : %1</translation>
+        <translation>Renommage du fichier en&#xa0;: %1</translation>
     </message>
     <message>
-        <source>Skipping Checking Version Info For Engine "%1"</source>
-        <translation>Vérification des informations de version ignorée pour le moteur « %1 »</translation>
+        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
+        <translation>Vérification des informations de version ignorée pour le moteur «&#xa0;%1&#xa0;»</translation>
     </message>
     <message>
-        <source>Failed To Find "bsdtar" or "unzip" Executable</source>
-        <translation>Impossible de trouver l'exécutable « bsdtar » ou « unzip »</translation>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
+        <translation>Impossible de trouver l&apos;exécutable « bsdtar » ou « unzip »</translation>
     </message>
 </context>
 <context>
@@ -1138,7 +1138,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation>Copier l'URL</translation>
+        <translation>Copier l&apos;URL</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1178,7 +1178,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Sort By Likes</source>
-        <translation>Trier par « J'aime »</translation>
+        <translation>Trier par «&#xa0;J&apos;aime&#xa0;»</translation>
     </message>
     <message>
         <source>Rename</source>
@@ -1233,7 +1233,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>
-        <translation>Définir le chemin d'accès au fichier de cookies</translation>
+        <translation>Définir le chemin d&apos;accès au fichier de cookies</translation>
     </message>
 </context>
 <context>
@@ -1252,11 +1252,11 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below File?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer le fichier ci-dessous ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer le fichier ci-dessous&#xa0;?</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below Folder?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer le dossier ci-dessous ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer le dossier ci-dessous&#xa0;?</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -1272,7 +1272,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer tous les fichiers et dossiers ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer tous les fichiers et dossiers&#xa0;?</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
@@ -1284,7 +1284,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Selected Items?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer les éléments sélectionnés ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer les éléments sélectionnés&#xa0;?</translation>
     </message>
 </context>
 <context>
@@ -1326,7 +1326,7 @@ Exemple 2 : ${gateway}:8080</translation>
     </message>
     <message>
         <source>Copy Url</source>
-        <translation>Copier l'URL</translation>
+        <translation>Copier l&apos;URL</translation>
     </message>
     <message>
         <source>Show Comments</source>

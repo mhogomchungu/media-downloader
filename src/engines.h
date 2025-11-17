@@ -760,7 +760,31 @@ public:
 
 			virtual void updateLocalOptions( QStringList& ) ;
 
-			virtual QString removeFiles( const QStringList& ) ;
+			class removeFilesStatus
+			{
+			public:
+				removeFilesStatus( QString s,QString e ) :
+					m_src( std::move( s ) ),m_err( std::move( e ) )
+				{
+				}
+				removeFilesStatus()
+				{
+				}
+				const QString& src() const
+				{
+					return m_src ;
+				}
+				const QString& err() const
+				{
+					return m_err ;
+				}
+			private:
+				QString m_src ;
+				QString m_err ;
+			} ;
+
+			virtual std::vector< engines::engine::baseEngine::removeFilesStatus >
+			removeFiles( const QStringList&,const QString& ) ;
 
 			class optionsEnvironment
 			{
@@ -1210,9 +1234,9 @@ public:
 		{
 			m_engine->openLocalFile( s ) ;
 		}
-		QString removeFiles( const QStringList& e ) const
+		std::vector< engines::engine::baseEngine::removeFilesStatus > removeFiles( const QStringList& e,const QString& s ) const
 		{
-			return m_engine->removeFiles( e ) ;
+			return m_engine->removeFiles( e,s ) ;
 		}
 		QByteArray parseError( const QByteArray& e ) const
 		{
@@ -1547,6 +1571,7 @@ public:
 private:
 	void updateEngines( bool,int ) ;
 	util::result< engines::engine > getEngineByPath( const QString& ) const ;
+	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
 	void engineAdd( const QString&,util::result< engines::engine >,int ) ;
 	QString findExecutable( const QString&,const QStringList&,QFileInfo& ) const ;
 	QProcessEnvironment getEnvPaths() const ;
