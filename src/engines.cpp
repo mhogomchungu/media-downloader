@@ -291,24 +291,6 @@ util::result< engines::engine > engines::getEngineByPath( const QString& e ) con
 	}
 }
 
-util::result_ref< const engines::engine& > engines::getCompleteEngineByPath( const QString& e ) const
-{
-	auto m = this->getEngineByPath( e ) ;
-
-	if( m && m->valid() ){
-
-		for( const auto& it : this->getEngines() ){
-
-			if( m->name() == it.name() ){
-
-				return it ;
-			}
-		}
-	}
-
-	return {} ;
-}
-
 QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
 {
 	if( this->name() == "gallery-dl" ){
@@ -518,6 +500,18 @@ util::result_ref< const engines::engine& > engines::getEngineByName( const QStri
 	}
 
 	return {} ;
+}
+
+util::result_ref< const engines::engine& > engines::getCompleteEngineByPath( const QString& e ) const
+{
+	auto m = this->getEngineByPath( e ) ;
+
+	if( m && m->valid() ){
+
+		return this->getEngineByName( m->name() ) ;
+	}else{
+		return {} ;
+	}
 }
 
 const engines::enginePaths& engines::engineDirPaths() const
@@ -1655,9 +1649,9 @@ void engines::engine::baseEngine::updateLocalOptions( QStringList& )
 {
 }
 
-std::vector< engines::engine::baseEngine::removeFilesStatus > engines::engine::baseEngine::removeFiles( const QStringList& e,const QString& )
+engines::engine::baseEngine::removeFilesStatus engines::engine::baseEngine::removeFiles( const QStringList& e,const QString& )
 {
-	std::vector< engines::engine::baseEngine::removeFilesStatus > s ;
+	engines::engine::baseEngine::removeFilesStatus s ;
 
 	for( const auto& it : e ){
 
@@ -1665,7 +1659,7 @@ std::vector< engines::engine::baseEngine::removeFilesStatus > engines::engine::b
 
 		if( !m.isEmpty() ){
 
-			s.emplace_back( it,m ) ;
+			s.add( it,m ) ;
 		}
 	}
 

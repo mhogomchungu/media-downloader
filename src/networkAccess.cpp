@@ -324,7 +324,7 @@ void networkAccess::failedToExtract( const networkAccess::cmdArgs& e,
 }
 
 void networkAccess::failedToRemove( const QString& name,
-				    const std::vector< engines::engine::baseEngine::removeFilesStatus >& err,
+				    const engines::engine::baseEngine::removeFilesStatus& err,
 				    int id ) const
 {
 	this->post( m_appName,utility::barLine(),id ) ;
@@ -344,11 +344,7 @@ void networkAccess::failedToRemove( const QString& name,
 				    const QString& err,
 				    int id ) const
 {
-	std::vector< engines::engine::baseEngine::removeFilesStatus > s ;
-
-	s.emplace_back( src,err ) ;
-
-	this->failedToRemove( name,s,id ) ;
+	this->failedToRemove( name,{ src,err },id ) ;
 }
 
 void networkAccess::failedToRename( const QString& name,

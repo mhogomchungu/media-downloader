@@ -763,28 +763,54 @@ public:
 			class removeFilesStatus
 			{
 			public:
-				removeFilesStatus( QString s,QString e ) :
-					m_src( std::move( s ) ),m_err( std::move( e ) )
+				class pair
 				{
+				public:
+					pair( QString s,QString e ) :
+						m_src( std::move( s ) ),m_err( std::move( e ) )
+					{
+					}
+					const QString& src() const
+					{
+						return m_src ;
+					}
+					const QString& err() const
+					{
+						return m_err ;
+					}
+				private:
+					QString m_src ;
+					QString m_err ;
+				} ;
+				removeFilesStatus( QString s,QString e )
+				{
+					m_entries.emplace_back( std::move( s ),std::move( e ) ) ;
 				}
 				removeFilesStatus()
 				{
 				}
-				const QString& src() const
+				auto begin() const
 				{
-					return m_src ;
+					return m_entries.begin() ;
 				}
-				const QString& err() const
+				auto end() const
 				{
-					return m_err ;
+					return m_entries.end() ;
+				}
+				auto size() const
+				{
+					return m_entries.size() ;
+				}
+				template< typename ... Args >
+				void add( Args&& ... args )
+				{
+					m_entries.emplace_back( std::forward< Args >( args ) ... ) ;
 				}
 			private:
-				QString m_src ;
-				QString m_err ;
+				std::vector< pair > m_entries ;
 			} ;
 
-			virtual std::vector< engines::engine::baseEngine::removeFilesStatus >
-			removeFiles( const QStringList&,const QString& ) ;
+			virtual engines::engine::baseEngine::removeFilesStatus removeFiles( const QStringList&,const QString& ) ;
 
 			class optionsEnvironment
 			{
@@ -1234,7 +1260,7 @@ public:
 		{
 			m_engine->openLocalFile( s ) ;
 		}
-		std::vector< engines::engine::baseEngine::removeFilesStatus > removeFiles( const QStringList& e,const QString& s ) const
+		engines::engine::baseEngine::removeFilesStatus removeFiles( const QStringList& e,const QString& s ) const
 		{
 			return m_engine->removeFiles( e,s ) ;
 		}

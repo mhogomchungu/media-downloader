@@ -565,7 +565,7 @@ private:
 
 	void failedToExtract( const networkAccess::cmdArgs&,const utils::qprocess::outPut&,int ) const ;
 	void failedToRemove( const QString&,
-			     const std::vector< engines::engine::baseEngine::removeFilesStatus >&,
+			     const engines::engine::baseEngine::removeFilesStatus&,
 			     int ) const ;
 	void failedToRemove( const QString&,const QString&,const QString&,int ) const ;
 	void failedToRename( const QString& name,

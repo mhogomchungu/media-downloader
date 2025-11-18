@@ -123,8 +123,7 @@ engines::metadata quickjs::parseJsonDataFromGitHub( const QJsonDocument& e )
 	}
 }
 
-std::vector< engines::engine::baseEngine::removeFilesStatus >
-quickjs::removeFiles( const QStringList& e,const QString& a )
+engines::engine::baseEngine::removeFilesStatus quickjs::removeFiles( const QStringList& e,const QString& a )
 {
 	auto m = e ;
 
