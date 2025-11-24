@@ -842,12 +842,10 @@ engines::engine::engine( Logger& logger,
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
 	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool( true ) ),
-	m_supportingEngine( m_name == "deno" || m_name == "quickjs" ),
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_configVersion( m_jsonObject.value( "Version" ).toString() ),
-	m_likeYtDlp( m_name.startsWith( "yt-dlp" ) || m_name == "ytdl-patched" ),
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
@@ -859,6 +857,20 @@ engines::engine::engine( Logger& logger,
 
 			m_downloadUrl = m ;
 		}
+	}
+
+	if( m_name.startsWith( "yt-dlp" ) || m_name == "ytdl-patched" ){
+
+		m_likeYtDlp = true ;
+	}else{
+		m_likeYtDlp = false ;
+	}
+
+	if( m_name == "deno" || m_name == "quickjs" ){
+
+		m_supportingEngine = true ;
+	}else{
+		m_supportingEngine = false ;
 	}
 
 	if( m_name == "svtplay-dl" ){
