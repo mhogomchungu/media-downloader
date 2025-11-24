@@ -799,19 +799,41 @@ void configure::init_done()
 {
 	m_tablePresetOptions.selectLast() ;
 
-	const auto& m = m_ctx.Engines().getEngineByName( "yt-dlp" ) ;
+	struct updateEngines
+	{
+		updateEngines( const char * n,int m ) : name( n ),minVersion( m )
+		{
+		}
+		QString name ;
+		int minVersion ;
+	} ;
 
-	if( m ){
+	std::vector< updateEngines > updates ;
 
-		const auto& engine = m.value() ;
+	updates.emplace_back( "yt-dlp",2 ) ;
+	updates.emplace_back( "ytdl-patched",1 ) ;
+	updates.emplace_back( "gallery-dl",1 ) ;
+	updates.emplace_back( "svtplay-dl",1 ) ;
+	updates.emplace_back( "you-get",1 ) ;
+	updates.emplace_back( "yt-dlp-aria2c",1 ) ;
+	updates.emplace_back( "yt-dlp-ffmpeg",1 ) ;
 
-		const auto& configVersion = engine.configFileVersion() ;
+	for( const auto& it : updates ){
 
-		auto v = configVersion.isEmpty() ? 0 : configVersion.toInt() ;
+		const auto& m = m_ctx.Engines().getEngineByName( it.name ) ;
 
-		if( v < 2 ){
+		if( m ){
 
-			this->downloadExtension( engine.name() + ".json" ) ;
+			const auto& engine = m.value() ;
+
+			const auto& configVersion = engine.configFileVersion() ;
+
+			auto v = configVersion.isEmpty() ? 0 : configVersion.toInt() ;
+
+			if( v < it.minVersion ){
+
+				this->downloadExtension( engine.name() + ".json" ) ;
+			}
 		}
 	}
 }

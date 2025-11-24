@@ -450,10 +450,10 @@ getsauce::~getsauce()
 {
 }
 
-getsauce::getsauce( const engines& engines,const engines::engine& engine,QJsonObject&,const QString& df ) :
+getsauce::getsauce( const engines& engines,const engines::engine& engine,QJsonObject& ) :
 	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() ),
 	m_engine( engine ),
-	m_downloadFolder( df + "/" )
+	m_downloadFolder( engines.Settings().downloadFolder() + "/" )
 {
 }
 

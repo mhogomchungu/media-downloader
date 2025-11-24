@@ -347,6 +347,8 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	mainObj.insert( "ExtraArgumentsWin7",_arr( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
 
+	mainObj.insert( "ExtraArgumentsFlatpak",_arr( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
+
 	auto arr = _arr( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 
 	mainObj.insert( "DumptJsonArguments",arr ) ;
@@ -412,30 +414,10 @@ QJsonObject yt_dlp::init( const QString& name,
 
 yt_dlp::yt_dlp( const engines& engines,
 		const engines::engine& engine,
-		QJsonObject& obj,
-		Logger& logger,
-		const engines::enginePaths& enginePath,
-		settings& s ) :
+		QJsonObject& ) :
 	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() ),
-	m_engine( engine ),
-	m_settings( &s ),
 	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
 {
-	auto name = obj.value( "Name" ).toString() ;
-
-	if( name == "yt-dlp" ){
-
-		if( obj.value( "Cmd" ).isUndefined() ){
-
-			auto configFileName = name + ".json" ;
-
-			auto m = enginePath.enginePath( configFileName ) ;
-
-			QFile::remove( m ) ;
-
-			obj = yt_dlp::init( name,configFileName,logger,enginePath ) ;
-		}
-	}
 }
 
 yt_dlp::~yt_dlp()
@@ -846,7 +828,8 @@ private:
 
 engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput()
 {
-	return { util::types::type_identity< ytDlpFilter >(),m_engine } ;
+	const auto& engine = engines::engine::baseEngine::engine() ;
+	return { util::types::type_identity< ytDlpFilter >(),engine } ;
 }
 
 class ytDlpMediainfo
@@ -1170,7 +1153,9 @@ engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )
 {
 	auto m = util::types::type_identity< yt_dlp::yt_dlplFilter >() ;
 
-	return { m,id,m_engine,*this } ;
+	const auto& engine = engines::engine::baseEngine::engine() ;
+
+	return { m,id,engine,*this } ;
 }
 
 QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
@@ -1299,7 +1284,9 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 	if( utility::platformisFlatPak() ){
 
 		s.ourOptions.append( "-P" ) ;
-		s.ourOptions.append( m_settings->downloadFolder() ) ;
+		auto& settings = engines::engine::baseEngine::Settings() ;
+
+		s.ourOptions.append( settings.downloadFolder() ) ;
 	}
 
 	QStringList mm ;
@@ -1382,9 +1369,9 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 {
 	if( s.lastText() == "[media-downloader] Download Cancelled" ){
 
-		if( m_parent.m_settings->deleteFilesOnCanceledDownload() ){
+		if( m_parent.Settings().deleteFilesOnCanceledDownload() ){
 
-			auto m = m_parent.m_settings->downloadFolder() ;
+			auto m = m_parent.Settings().downloadFolder() ;
 
 			utility::deleteTmpFiles( m,m_fileNames ) ;
 		}
@@ -1597,7 +1584,7 @@ void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fileName )
 
 		if( utility::platformisFlatPak() ){
 
-			auto m = m_parent.m_settings->downloadFolder().size() ;
+			auto m = m_parent.Settings().downloadFolder().size() ;
 
 			_add( fileName.mid( m + 1 ) ) ;
 		}else{

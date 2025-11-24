@@ -103,18 +103,10 @@ public:
 				 Logger& logger,
 				 const engines::enginePaths& enginePath ) ;
 
-	yt_dlp( const engines&,
-		const engines::engine&,
-		QJsonObject&,
-		Logger& logger,
-		const engines::enginePaths&,
-		settings& ) ;
+	yt_dlp( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
 	std::vector< engines::engine::baseEngine::mediaInfo >
 	mediaProperties( Logger&,const QJsonArray&,const QJsonObject& ) ;
-
-	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
-	settings * m_settings ;
 	QProcessEnvironment m_processEnvironment ;
 };

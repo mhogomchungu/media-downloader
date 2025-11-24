@@ -42,7 +42,7 @@ public:
 		QByteArray m_downloadFolder ;
 	} ;
 	~getsauce() override ;
-	getsauce( const engines& e,const engines::engine& s,QJsonObject&,const QString& downloadFolder ) ;
+	getsauce( const engines& e,const engines::engine& s,QJsonObject& ) ;
 
 	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
 

@@ -52,6 +52,7 @@
     ],
     "ReplaceOutputWithProgressReport": true,
     "UsePrivateExecutable": true,
+    "Version": "1",
     "VersionArgument": "-v",
     "VersionStringLine": 0,
     "VersionStringPosition": 2

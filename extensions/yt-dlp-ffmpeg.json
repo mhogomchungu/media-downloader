@@ -86,6 +86,8 @@
         "%(title).200s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
+        "--match-filter",
+        "!playlist",
         "--no-playlist",
         "--newline",
         "--print",
@@ -102,6 +104,8 @@
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
     "DownloadUrlWin7": "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest",
     "DumptJsonArguments": [
+        "--match-filter",
+        "!playlist",
         "--no-playlist",
         "--newline",
         "--print",
@@ -109,8 +113,16 @@
     ],
     "EncodingArgument": "--encoding",
     "ExtraArguments": [
-        "--remote-components",
-        "ejs:github"
+    ],
+    "ExtraArgumentsFlatpak": [
+        "--no-js-runtimes",
+        "--js-runtimes",
+        "quickjs"
+    ],
+    "ExtraArgumentsWin7": [
+        "--no-js-runtimes",
+        "--js-runtimes",
+        "quickjs"
     ],
     "LikeYoutubeDl": true,
     "Name": "yt-dlp-ffmpeg",
@@ -128,6 +140,7 @@
         "\n",
         "\r"
     ],
+    "Version": "1",
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 0

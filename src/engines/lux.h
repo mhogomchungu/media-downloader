@@ -28,7 +28,7 @@ public:
 	static const char * testData() ;
 
 	~lux() override ;
-	lux( const engines&,const engines::engine&,QJsonObject&,const QString& downloadFolder ) ;
+	lux( const engines&,const engines::engine&,QJsonObject& ) ;
 
 	class lux_dlFilter : public engines::engine::baseEngine::filter
 	{

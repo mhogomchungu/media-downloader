@@ -112,6 +112,11 @@
     "EncodingArgument": "--encoding",
     "ExtraArguments": [
     ],
+    "ExtraArgumentsFlatpak": [
+        "--no-js-runtimes",
+        "--js-runtimes",
+        "quickjs"
+    ],
     "ExtraArgumentsWin7": [
         "--no-js-runtimes",
         "--js-runtimes",

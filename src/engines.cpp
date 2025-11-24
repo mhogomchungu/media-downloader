@@ -411,7 +411,7 @@ void engines::updateEngines( bool addAll,int id )
 
 		if( it.likeYtDlp() ){
 
-			it.setBackend< yt_dlp >( engines,m_logger,m_enginePaths,m_settings ) ;
+			it.setBackend< yt_dlp >( engines ) ;
 
 		}else if( name.contains( "safaribooks" ) ){
 
@@ -427,7 +427,7 @@ void engines::updateEngines( bool addAll,int id )
 
 		}else if( name.contains( "lux" ) ){
 
-			it.setBackend< lux >( engines,m_settings.downloadFolder() ) ;
+			it.setBackend< lux >( engines ) ;
 
 		}else if( name.contains( "you-get" ) ){
 
@@ -451,7 +451,7 @@ void engines::updateEngines( bool addAll,int id )
 
 		}else if( name.contains( "getsauce" ) ){
 
-			it.setBackend< getsauce >( engines,m_settings.downloadFolder() ) ;			
+			it.setBackend< getsauce >( engines ) ;
 		}else{
 			it.setBackend< generic >( engines ) ;
 		}
@@ -742,11 +742,16 @@ void engines::engine::updateOptions()
 
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsWin7" ) ) ;
 
-	}else if( utility::platformisFlatPak() && this->likeYtDlp() ){
+	}else if( utility::platformisFlatPak() ){
 
-		m_extraArguments.append( "--no-js-runtimes" ) ;
-		m_extraArguments.append( "--js-runtimes" ) ;
-		m_extraArguments.append( "quickjs" ) ;
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsFlatpak" ) ) ;
+
+		if( m_extraArguments.isEmpty() && this->likeYtDlp() ){
+
+			m_extraArguments.append( "--no-js-runtimes" ) ;
+			m_extraArguments.append( "--js-runtimes" ) ;
+			m_extraArguments.append( "quickjs" ) ;
+		}
 	}else{
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
 	}
@@ -827,58 +832,6 @@ engines::engine::cmd engines::engine::getCommands( const QJsonObject& cmd )
 	return { m,s,s.size() == 1 } ;
 }
 
-engines::engine::cmd engines::engine::getLegacyCommands()
-{
-	QString exe ;
-
-	if( utility::platformIsWindows() ){
-
-		exe = m_jsonObject.value( "CommandNameWindows" ).toString() ;
-
-		if( utility::CPU().x86_32() ){
-
-			auto m = m_jsonObject.value( "CommandName32BitWindows" ).toString() ;
-
-			if( !m.isEmpty() ){
-
-				exe = m ;
-			}
-		}
-
-		if( !exe.endsWith( ".exe" ) ){
-
-			exe += ".exe" ;
-		}
-	}else{
-		exe = m_jsonObject.value( "CommandName" ).toString() ;
-	}
-
-	if( utility::platformIsWindows() ){
-
-		if( utility::CPU().x86_32() ){
-
-			auto m = this->toStringList( m_jsonObject.value( "CommandNames32BitWindows" ) ) ;
-
-			if( !m.isEmpty() ){
-
-				return { exe,m,m.isEmpty() } ;
-			}else{
-				auto s = this->toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
-
-				return { exe,s,s.isEmpty() } ;
-			}
-		}else{
-			auto s = this->toStringList( m_jsonObject.value( "CommandNamesWindows" ) ) ;
-
-			return { exe,s,s.isEmpty() } ;
-		}
-	}else{
-		auto s = this->toStringList( m_jsonObject.value( "CommandNames" ) ) ;
-
-		return { exe,s,s.isEmpty() } ;
-	}
-}
-
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
 			 const util::Json& json,
@@ -889,6 +842,7 @@ engines::engine::engine( Logger& logger,
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
 	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool( true ) ),
+	m_supportingEngine( m_name == "deno" || m_name == "quickjs" ),
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
@@ -905,13 +859,6 @@ engines::engine::engine( Logger& logger,
 
 			m_downloadUrl = m ;
 		}
-	}
-
-	if( m_name == "deno" || m_name == "quickjs" ){
-
-		m_supportingEngine = true ;
-	}else{
-		m_supportingEngine = false ;
 	}
 
 	if( m_name == "svtplay-dl" ){
@@ -931,7 +878,7 @@ engines::engine::engine( Logger& logger,
 
 	auto cmd = m_jsonObject.value( "Cmd" ) ;
 
-	auto m = cmd.isUndefined() ? this->getLegacyCommands() : this->getCommands( cmd.toObject() ) ;
+	auto m = this->getCommands( cmd.toObject() ) ;
 
 	if( utility::platformIsWindows7() && this->likeYtDlp() ){
 

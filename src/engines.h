@@ -1415,7 +1415,6 @@ public:
 		} ;
 
 		engines::engine::cmd getCommands( const QJsonObject& ) ;
-		engines::engine::cmd getLegacyCommands() ;
 
 		void parseMultipleCmdArgs( Logger& logger,const engines& engines,const enginePaths&,int ) ;
 
