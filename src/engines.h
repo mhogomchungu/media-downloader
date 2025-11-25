@@ -1431,6 +1431,7 @@ public:
 		int m_line ;
 		int m_position ;
 		bool m_valid ;
+		bool m_likeYtDlp ;
 		bool m_autoUpdate ;
 		bool m_canDownloadPlaylist ;
 		bool m_supportingEngine ;
@@ -1440,7 +1441,6 @@ public:
 		QString m_versionArgument ;
 		QString m_name ;
 		QString m_configVersion ;
-		bool m_likeYtDlp ;
 		QString m_commandName ;
 		QString m_userName ;
 		QString m_password ;
