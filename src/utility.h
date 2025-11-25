@@ -599,6 +599,7 @@ namespace utility
 	bool pathIsFolderAndExists( const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIsWindows7() ;
+	bool platformisLegacyWindows() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformisOS2() ;

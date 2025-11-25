@@ -52,6 +52,8 @@ public:
 		if( utility::platformIsWindows() ){
 
 			m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
+
+			m_pretendLegacyWindows = m.contains( "--pretend-winLegacy" ) ;
 		}
 	}
 	bool isWindows7() const
@@ -62,9 +64,14 @@ public:
 	{
 		return m_pretend32Bit ;
 	}
+	bool isLegacyWindows() const
+	{
+		return m_pretendLegacyWindows ;
+	}
 private:
 	bool m_pretend32Bit    = false ;
 	bool m_pretendWindows7 = false ;
+	bool m_pretendLegacyWindows = false ;
 } ;
 
 static pretendPlatform _pretendPlatform ;
@@ -96,11 +103,21 @@ bool utility::platformIsWindows7()
 	return false ;
 }
 
+bool utility::platformisLegacyWindows()
+{
+	return false ;
+}
+
 #endif
 
 #ifdef Q_OS_LINUX
 
 bool utility::platformIsWindows7()
+{
+	return false ;
+}
+
+bool utility::platformisLegacyWindows()
 {
 	return false ;
 }
@@ -130,6 +147,11 @@ bool utility::platformIsWindows()
 #ifdef Q_OS_MACOS
 
 bool utility::platformIsWindows7()
+{
+	return false ;
+}
+
+bool utility::platformisLegacyWindows()
 {
 	return false ;
 }
@@ -200,6 +222,18 @@ bool utility::platformIsWindows7()
 		const auto m = QOperatingSystemVersion::current() ;
 
 		return m < QOperatingSystemVersion::Windows8 ;
+	}
+}
+
+bool utility::platformisLegacyWindows()
+{
+	if( _pretendPlatform.isLegacyWindows() ){
+
+		return true ;
+	}else{
+		const auto m = QOperatingSystemVersion::current() ;
+
+		return m < QOperatingSystemVersion::Windows10 ;
 	}
 }
 
