@@ -2483,6 +2483,14 @@ QString engines::proxySettings::toString( const QNetworkProxy& e ) const
 	}
 }
 
+void engines::engine::baseEngine::optionsEnvironment::update( QString& s ) const
+{
+	for( const auto& it : m_pairs ){
+
+		s += "\n[media-downloader] Env: " + it.key + "=" + it.value  ;
+	}
+}
+
 QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( const QProcessEnvironment& e ) const
 {
 	auto m = e ;

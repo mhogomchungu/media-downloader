@@ -905,7 +905,7 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 
 					return m_tmp ;
 
-				}else if( w.contains( "connection refused" ) ){
+				}else if( w.contains( "connection refused" ) || w.contains( "read: connection reset by peer" ) ){
 
 					m_tmp = "connection refused" ;
 

@@ -828,8 +828,9 @@ public:
 				}
 				bool isEmpty() const
 				{
-					return m_pairs.size() ;
+					return m_pairs.size() == 0 ;
 				}
+				void update( QString& ) const ;
 				QProcessEnvironment update( const QProcessEnvironment& ) const ;
 			private:
 				struct pair

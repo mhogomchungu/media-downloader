@@ -1327,10 +1327,6 @@ namespace utility
 
 			auto mm = "cmd: " + m_engine.commandString( m_cmd ) ;
 
-			m_logger.add( mm ) ;
-
-			m_events.printOutPut( mm.toUtf8() + "\n" ) ;
-
 			if( m_envExtra.isEmpty() ){
 
 				exe.setProcessEnvironment( m_engine.processEnvironment() ) ;
@@ -1338,7 +1334,13 @@ namespace utility
 				const auto& m = m_engine.processEnvironment() ;
 
 				exe.setProcessEnvironment( m_envExtra.update( m ) ) ;
-			}
+
+				m_envExtra.update( mm ) ;
+			}			
+
+			m_logger.add( mm ) ;
+
+			m_events.printOutPut( mm.toUtf8() + "\n" ) ;
 
 			const auto& df = m_events.downloadFolder() ;
 
