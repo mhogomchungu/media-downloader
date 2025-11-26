@@ -381,7 +381,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show MetaData In Batch Downloader</source>
-        <translation>Показувати метадані в пакетному завантажувачі</translation>
+        <translation>Показувати метадані в Пакетному завантажувачі</translation>
     </message>
     <message>
         <source>Auto Download Added Entries In Batch Downloader</source>
@@ -1076,32 +1076,32 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Skipping Checking Download Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>Пропущено перевірку хеша завантаження</translation>
     </message>
     <message>
         <source>Ignoring Download Because Hashes Do Not Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Ігнорування завантаження, оскільки хеші не збігаються</translation>
     </message>
     <message>
-        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <source>Expected "%1" but obtained "%2"</source>
+        <translation>Очікувалося "%1", але отримано "%2"</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося видалити</translation>
     </message>
     <message>
         <source>Renaming file to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Перейменування файлу на: %1</translation>
     </message>
     <message>
-        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
-        <translation type="unfinished"></translation>
-    </message>
+        <source>Skipping Checking Version Info For Engine "%1"</source>
+        <translation>Пропуск перевірки відомостей про версію для рушія "%1"</translation>
+</message>
+<message>
+    <source>Failed To Find "bsdtar" or "unzip" Executable</source>
+    <translation>Не вдалося знайти виконуваний файл "bsdtar" або "unzip"</translation>
+</message>
 </context>
 <context>
     <name>basicdownloader</name>
