@@ -567,6 +567,11 @@ static bool _meetCondition( const engines::engine&,const QByteArray& e )
 	return e.contains( "] (" ) && e.contains( " ETA:" ) ;
 }
 
+static bool _skipCondition( const engines::engine&,const QByteArray& )
+{
+	return false ;
+}
+
 class svtplayFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
@@ -612,7 +617,7 @@ public:
 
 			if( d.lastText().contains( "ETA" ) ){
 
-				return { d.lastText(),m_engine,_meetCondition } ;
+				return { d.lastText(),m_engine,_meetCondition,_skipCondition } ;
 			}else{
 				auto s = m.indexOf( "HTTP getting" ) ;
 
@@ -623,7 +628,7 @@ public:
 					m_tmp.clear() ;
 				}
 
-				return { m_tmp,m_engine,_meetCondition } ;
+				return { m_tmp,m_engine,_meetCondition,_skipCondition } ;
 			}
 
 		}else if( m.startsWith( "INFO" ) ){
@@ -644,7 +649,7 @@ public:
 				}
 			}
 
-			return { m_tmp,m_engine,_meetCondition } ;
+			return { m_tmp,m_engine,_meetCondition,_skipCondition } ;
 		}
 
 		auto e = m.indexOf( "ETA" ) ;
@@ -700,7 +705,7 @@ public:
 			m_tmp = "[00/00] (NA), " + a ;
 		}
 
-		return { m_tmp,m_engine,_meetCondition } ;
+		return { m_tmp,m_engine,_meetCondition,_skipCondition } ;
 	}
 	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
@@ -722,7 +727,7 @@ private:
 	mutable QByteArray m_tmp ;
 } ;
 
-engines::engine::baseEngine::FilterOutPut svtplay_dl::filterOutput()
+engines::engine::baseEngine::FilterOutPut svtplay_dl::filterOutput( int )
 {
 	const engines::engine& engine = engines::engine::baseEngine::engine() ;
 

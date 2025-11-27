@@ -66,7 +66,7 @@ public:
 				       bool,
 				       const QStringList&) override ;
 
-	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

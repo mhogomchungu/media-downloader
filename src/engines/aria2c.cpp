@@ -164,7 +164,11 @@ public:
 	engines::engine::baseEngine::filterOutPut::result
 	formatOutput( const filterOutPut::args& args ) const override
 	{
-		return { args.outPut,m_engine,aria2c::meetCondition } ;
+		auto skipCondition = []( const engines::engine&,const QByteArray& ){
+
+			return false ;
+		} ;
+		return { args.outPut,m_engine,aria2c::meetCondition,skipCondition } ;
 	}
 	bool meetCondition( const filterOutPut::args& args ) const override
 	{
@@ -178,7 +182,7 @@ private:
 	const engines::engine& m_engine ;
 } ;
 
-engines::engine::baseEngine::FilterOutPut aria2c::filterOutput()
+engines::engine::baseEngine::FilterOutPut aria2c::filterOutput( int )
 {
 	const engines::engine& engine = engines::engine::baseEngine::engine() ;
 

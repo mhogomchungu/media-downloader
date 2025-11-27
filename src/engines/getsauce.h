@@ -52,8 +52,10 @@ public:
 					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& ) override ;
 
+	bool skipCondition( const QByteArray& ) override ;
+
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
-	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput( int ) override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 

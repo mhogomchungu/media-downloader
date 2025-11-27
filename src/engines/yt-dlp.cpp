@@ -429,6 +429,11 @@ static bool _yt_dlp( const engines::engine&,const QByteArray& e )
 	return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
 }
 
+static bool _skipCondition( const engines::engine&,const QByteArray& )
+{
+	return false ;
+}
+
 static bool _fragment_output( const QByteArray& e )
 {
 	return utils::misc::startsWithAny( e,"[https @ ","[hls @ ","Opening '" ) ;
@@ -546,15 +551,15 @@ public:
 
 			m_tmp = this->outPutFormat( args ) ;
 
-			return { m_tmp,m_engine,m_function } ;
+			return { m_tmp,m_engine,m_function,_skipCondition } ;
 
 		}else if( m_function == _ffmpeg_internal ){
 
 			m_tmp = this->outPutFfmpeg( args ) ;
 
-			return { m_tmp,m_engine,m_function } ;
+			return { m_tmp,m_engine,m_function,_skipCondition } ;
 		}else{
-			return { args.outPut,m_engine,m_function } ;
+			return { args.outPut,m_engine,m_function,_skipCondition } ;
 		}
 	}
 	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
@@ -826,7 +831,7 @@ private:
 	mutable bool( *m_function )( const engines::engine&,const QByteArray& ) ;
 } ;
 
-engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput()
+engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput( int )
 {
 	const auto& engine = engines::engine::baseEngine::engine() ;
 	return { util::types::type_identity< ytDlpFilter >(),engine } ;

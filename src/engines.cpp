@@ -1391,6 +1391,11 @@ bool engines::engine::baseEngine::meetCondition( const engines::engine& engine,c
 	}
 }
 
+bool engines::engine::baseEngine::skipCondition( const engines::engine&,const QByteArray& )
+{
+	return false ;
+}
+
 class defaultFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
@@ -1400,7 +1405,10 @@ public:
 	engines::engine::baseEngine::filterOutPut::result
 	formatOutput( const filterOutPut::args& args ) const override
 	{
-		return { args.outPut,m_engine,engines::engine::baseEngine::meetCondition } ;
+		return { args.outPut,
+			 m_engine,
+			 engines::engine::baseEngine::meetCondition,
+			 engines::engine::baseEngine::skipCondition } ;
 	}
 	bool meetCondition( const filterOutPut::args& args ) const override
 	{
@@ -1414,7 +1422,7 @@ private:
 	const engines::engine& m_engine ;
 } ;
 
-engines::engine::baseEngine::FilterOutPut engines::engine::baseEngine::filterOutput()
+engines::engine::baseEngine::FilterOutPut engines::engine::baseEngine::filterOutput( int )
 {
 	return { util::types::type_identity< defaultFilter >(),m_engine } ;
 }
@@ -1619,6 +1627,11 @@ engines::engine::baseEngine::removeFilesStatus engines::engine::baseEngine::remo
 	return s ;
 }
 
+bool engines::engine::baseEngine::skipCondition( const QByteArray& e )
+{
+	return engines::engine::baseEngine::skipCondition( this->engine(),e ) ;
+}
+
 engines::engine::baseEngine::optionsEnvironment engines::engine::baseEngine::setProxySetting( QStringList&,const QString& )
 {
 	return {} ;
@@ -1766,7 +1779,7 @@ public:
 		      int id,
 		      bool humanReadableJson ) :
 		m_outPut( outPut ),
-		m_filterOutPut( engine.filterOutput() ),
+		m_filterOutPut( engine.filterOutput( id ) ),
 		m_id( id ),
 		m_engine( engine )
 	{
@@ -1931,25 +1944,88 @@ private:
 
 					this->logProgress( e ) ;
 				}else{
-					m_outPut.add( e,m_id ) ;
+					this->add( e ) ;
 				}
 			}
 		}
 	}
+	void add( const QByteArray& e )
+	{
+		class Filter
+		{
+		public:
+			Filter( int id,const QByteArray& txt,const engines::engine& m ) :
+				m_id( id ),m_text( txt ),m_engine( m )
+			{
+			}
+			int id() const
+			{
+				return m_id ;
+			}
+			const QByteArray& text() const
+			{
+				return m_text ;
+			}
+			bool skip( const QByteArray& e ) const
+			{
+				return m_engine.skipCondition( e ) ;
+			}
+			bool replace( const QByteArray& ) const
+			{
+				return false ;
+			}
+		private:
+			int m_id ;
+			const QByteArray& m_text ;
+			const engines::engine& m_engine ;
+		} ;
+
+		m_outPut.replaceOrAdd( Filter( m_id,e,m_engine ) ) ;
+	}
 	void logProgress( const QByteArray& e )
 	{
-		auto result = m_filterOutPut.formatOutput( m_locale,m_outPut,e ) ;
+		class Filter
+		{
+		public:
+			Filter( int id,engines::engine::baseEngine::filterOutPut::result m ) :
+				m_id( id ),m_result( std::move( m ) )
+			{
+			}
+			int id() const
+			{
+				return m_id ;
+			}
+			const QByteArray& text() const
+			{
+				return m_result.progress() ;
+			}
+			bool skip( const QByteArray& e ) const
+			{
+				return m_result.skipCondition()( e ) ;
+			}
+			bool replace( const QByteArray& e ) const
+			{
+				return m_result.meetCondition()( e ) ;
+			}
+			Filter move()
+			{
+				return std::move( *this ) ;
+			}
+		private:
+			int m_id ;
+			engines::engine::baseEngine::filterOutPut::result m_result ;
+		} ;
 
-		const auto& m = result.progress() ;
+		Filter filter( m_id,m_filterOutPut.formatOutput( m_locale,m_outPut,e ) ) ;
 
 		if( m_outPut.mainLogger() ){
 
-			if( !m.isEmpty() ){
+			if( !filter.text().isEmpty() ){
 
-				m_outPut.replaceOrAdd( m,m_id,result.meetCondition() ) ;
+				m_outPut.replaceOrAdd( filter.move() ) ;
 			}
 		}else{
-			m_outPut.replaceOrAdd( m,m_id,result.meetCondition() ) ;
+			m_outPut.replaceOrAdd( filter.move() ) ;
 		}
 	}
 	Logger::Data& m_outPut ;
@@ -1988,13 +2064,38 @@ void engines::engine::baseEngine::processData( Logger::Data& outPut,
 {
 	Q_UNUSED( readableJson )
 
-	outPut.replaceOrAdd( e.toUtf8(),id,[]( const QString& line ){
+	class Filter
+	{
+	public:
+		Filter( int id,const QString& m ) :
+			m_id( id ),m_text( m.toUtf8() )
+		{
+		}
+		int id() const
+		{
+			return m_id ;
+		}
+		const QByteArray& text() const
+		{
+			return m_text ;
+		}
+		bool skip( const QByteArray& ) const
+		{
+			return false ;
+		}
+		bool replace( const QString& e ) const
+		{
+			auto a = e.startsWith( engines::engine::baseEngine::preProcessing::processingText() ) ;
+			auto b = engines::engine::baseEngine::timer::timerText( e ) ;
 
-		auto a = line.startsWith( engines::engine::baseEngine::preProcessing::processingText() ) ;
-		auto b = engines::engine::baseEngine::timer::timerText( line ) ;
+			return a || b ;
+		}
+	private:
+		int m_id ;
+		QByteArray m_text ;
+	} ;
 
-		return a || b ;
-	} ) ;
+	outPut.replaceOrAdd( Filter( id,e ) ) ;
 }
 
 void engines::engine::baseEngine::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
@@ -2487,7 +2588,7 @@ void engines::engine::baseEngine::optionsEnvironment::update( QString& s ) const
 {
 	for( const auto& it : m_pairs ){
 
-		s += "\n[media-downloader] Env: " + it.key + "=" + it.value  ;
+		s += "\nEnv: " + it.key + "=" + it.value  ;
 	}
 }
 

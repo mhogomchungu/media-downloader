@@ -322,6 +322,15 @@ public:
 		{
 			return this->join( "\n" ) ;
 		}
+		QByteArray join( const QByteArray& joiner,int id ) const ;
+		QByteArray toLine( int id ) const
+		{
+			return this->join( "",id ) ;
+		}
+		QByteArray toLines( int id ) const
+		{
+			return this->join( "\n",id ) ;
+		}
 		void removeExtraLogs() ;
 		bool removeFirstFinished() ;
 		class ProcessData
@@ -391,16 +400,42 @@ public:
 		{
 			return m_processOutputs.rbegin()->doneDownloading() ;
 		}
-		template< typename Function >
-		void replaceOrAdd( const QByteArray& text,int id,const Function& function )
+		template< typename Filter >
+		void replaceOrAdd( const Filter& filter )
 		{
-			_replaceOrAdd( text,id,function ) ;
+			_replaceOrAdd( filter ) ;
 		}
 		void add( const QByteArray& text,int id )
 		{
-			auto _false = []( const QByteArray& ){ return false ; } ;
+			class Filter
+			{
+			public:
+				Filter( int id,const QByteArray& arr ) :
+					m_id( id ),m_text( arr )
+				{
+				}
+				int id() const
+				{
+					return m_id ;
+				}
+				const QByteArray& text() const
+				{
+					return m_text ;
+				}
+				bool skip( const QByteArray& ) const
+				{
+					return false ;
+				}
+				bool replace( const QByteArray& ) const
+				{
+					return false ;
+				}
+			private:
+				int m_id ;
+				const QByteArray& m_text ;
+			} ;
 
-			_replaceOrAdd( text,id,_false ) ;
+			_replaceOrAdd( Filter( id,text ) ) ;
 		}
 		class YtDlpData
 		{
@@ -489,14 +524,14 @@ public:
 	private:
 		void manageLogSize( std::vector< Logger::Data::processOutput::outputEntry >& ) ;
 		bool doneDownloadingText( const QByteArray& data ) ;
-		template< typename Function >
-		void _replaceOrAdd( const QByteArray& text,int id,const Function& function )
+		template< typename Filter >
+		void _replaceOrAdd( const Filter& filter )
 		{
 			for( auto it = m_processOutputs.rbegin() ; it != m_processOutputs.rend() ; it++ ){
 
-				if( it->processId() == id ){
+				if( it->processId() == filter.id() ){
 
-					if( this->doneDownloadingText( text ) ){
+					if( this->doneDownloadingText( filter.text() ) ){
 
 						it->setDoneDownloading() ;
 					}
@@ -505,19 +540,22 @@ public:
 
 					if( ee.empty() ){
 
-						ee.emplace_back( text ) ;
+						ee.emplace_back( filter.text() ) ;
 					}else{
 						auto iter = ee.rbegin() ;
 
 						const auto& s = iter->text() ;
 
-						if( function( s ) ){
+						if( filter.replace( s ) ){
 
-							iter->replace( text ) ;
+							iter->replace( filter.text() ) ;
 						}else{
 							this->manageLogSize( ee ) ;
 
-							ee.emplace_back( text ) ;
+							if( !filter.skip( filter.text() ) ){
+
+								ee.emplace_back( filter.text() ) ;
+							}
 						}
 					}
 
@@ -525,7 +563,10 @@ public:
 				}
 			}
 
-			m_processOutputs.emplace_back( id,text ) ;
+			if( !filter.skip( filter.text() ) ){
+
+				m_processOutputs.emplace_back( filter.id(),filter.text() ) ;
+			}
 		}
 		std::list< Logger::Data::processOutput > m_processOutputs ;
 		bool m_mainLogger ;
@@ -553,9 +594,35 @@ public:
 	}
 	void logError( const QByteArray& data,int id )
 	{
-		auto function = []( const QByteArray& ){ return false ; } ;
+		class Filter
+		{
+		public:
+			Filter( int id,const QByteArray& data ) :
+				m_id( id ),m_text( "[media-downloader][std error] " + data )
+			{
+			}
+			int id() const
+			{
+				return m_id ;
+			}
+			const QByteArray& text() const
+			{
+				return m_text ;
+			}
+			bool skip( const QByteArray& ) const
+			{
+				return false ;
+			}
+			bool replace( const QByteArray& ) const
+			{
+				return false ;
+			}
+		private:
+			int m_id ;
+			QByteArray m_text ;
+		} ;
 
-		m_processOutPuts.replaceOrAdd( "[media-downloader][std error] " + data,id,function ) ;
+		m_processOutPuts.replaceOrAdd( Filter( id,data ) ) ;
 
 		this->update() ;
 	}

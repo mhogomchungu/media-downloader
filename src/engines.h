@@ -520,8 +520,9 @@ public:
 				class meetCondition
 				{
 				public:
-					meetCondition( bool( *m )( const engines::engine&,const QByteArray& ),
-						       const engines::engine& engine ) :
+					meetCondition( bool( *m )( const engines::engine&,
+								   const QByteArray& ),
+								   const engines::engine& engine ) :
 						m_function( m ),m_engine( engine )
 					{
 					}
@@ -538,21 +539,29 @@ public:
 				public:
 					result( const QByteArray& p,
 						const engines::engine& e,
-						bool( *m )( const engines::engine&,const QByteArray& ) ) :
-						m_progress( p ),m_meetCondition( m,e )
+						bool( *m )( const engines::engine&,const QByteArray& ),
+						bool( *s )( const engines::engine&,const QByteArray& ) ) :
+						m_progress( p ),
+						m_meetCondition( m,e ),
+						m_skipCondition( s,e )
 					{
 					}
-					const QByteArray& progress()
+					const QByteArray& progress() const
 					{
 						return m_progress ;
 					}
-					const filterOutPut::meetCondition& meetCondition()
+					const filterOutPut::meetCondition& meetCondition() const
 					{
 						return m_meetCondition ;
+					}
+					const filterOutPut::meetCondition& skipCondition() const
+					{
+						return m_skipCondition ;
 					}
 				private:
 					const QByteArray& m_progress ;
 					filterOutPut::meetCondition m_meetCondition ;
+					filterOutPut::meetCondition m_skipCondition ;
 				} ;
 				virtual result formatOutput( const filterOutPut::args& ) const = 0 ;
 				virtual bool meetCondition( const filterOutPut::args& ) const = 0 ;
@@ -561,6 +570,7 @@ public:
 			} ;
 
 			static bool meetCondition( const engines::engine&,const QByteArray& ) ;
+			static bool skipCondition( const engines::engine&,const QByteArray& ) ;
 
 			class FilterOutPut
 			{
@@ -583,7 +593,7 @@ public:
 				std::unique_ptr< engines::engine::baseEngine::filterOutPut > m_filterOutPut ;
 			};
 
-			virtual FilterOutPut filterOutput() ;
+			virtual FilterOutPut filterOutput( int ) ;
 
 			virtual ~baseEngine() ;
 
@@ -844,6 +854,9 @@ public:
 				} ;
 				std::vector< pair > m_pairs ;
 			} ;
+
+			virtual bool skipCondition( const QByteArray& ) ;
+
 			virtual optionsEnvironment setProxySetting( QStringList&,const QString& ) ;
 
 			virtual QString setCredentials( QStringList&,QStringList & ) ;
@@ -1199,6 +1212,10 @@ public:
 
 			e.append( this->extraArguments() ) ;
 		}
+		bool skipCondition( const QByteArray& e ) const
+		{
+			return m_engine->skipCondition( e ) ;
+		}
 		void updateCmdOptions( QStringList& e ) const
 		{
 			m_engine->updateCmdOptions( e ) ;
@@ -1221,9 +1238,9 @@ public:
 		{
 			return m_engine->parseJsonDataFromGitHub( e ) ;
 		}
-		engines::engine::baseEngine::FilterOutPut filterOutput() const
+		engines::engine::baseEngine::FilterOutPut filterOutput( int id ) const
 		{
-			return m_engine->filterOutput() ;
+			return m_engine->filterOutput( id ) ;
 		}
 		bool foundNetworkUrl( const QString& s ) const
 		{

@@ -186,6 +186,36 @@ QByteArray Logger::Data::join( const QByteArray& joiner ) const
 	return m ;
 }
 
+QByteArray Logger::Data::join( const QByteArray& joiner,int id ) const
+{
+	QByteArray m ;
+
+	for( const auto& it : m_processOutputs ){
+
+		if( it.processId() == id ){
+
+			const auto& ee = it.entries() ;
+
+			if( !ee.empty() ){
+
+				if( m.isEmpty() ){
+
+					m = ee[ 0 ].text() ;
+				}else{
+					m += joiner + ee[ 0 ].text() ;
+				}
+
+				for( size_t i = 1 ; i < ee.size() ; i++ ){
+
+					m += joiner + ee[ i ].text() ;
+				}
+			}
+		}
+	}
+
+	return m ;
+}
+
 void Logger::Data::removeExtraLogs()
 {
 	auto& v = m_processOutputs ;

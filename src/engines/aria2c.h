@@ -50,7 +50,7 @@ public:
 		int m_processId ;
 	} ;
 
-	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput( int ) override ;
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 

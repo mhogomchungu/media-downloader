@@ -508,7 +508,23 @@ static bool _meetCondition( const engines::engine&,const QByteArray& e )
 
 static bool _meetLocalCondition( const engines::engine&,const QByteArray& e )
 {
-	return e.contains( ") [" ) ;
+	if( e.contains( "Downloading:" ) || e.contains( "Merging:" ) ){
+
+		return true ;
+	}else{
+		return false ;
+	}
+}
+
+static bool _skipCondition( const engines::engine&,const QByteArray& e )
+{
+	return e.trimmed().isEmpty() ;
+}
+
+bool getsauce::skipCondition( const QByteArray& e )
+{
+	const auto& engine = engines::engine::baseEngine::engine() ;
+	return _skipCondition( engine,e ) ;
 }
 
 using Output = engines::engine::baseEngine::filterOutPut ;
@@ -516,12 +532,12 @@ using Output = engines::engine::baseEngine::filterOutPut ;
 class getsauceFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
-	getsauceFilter( const engines::engine& engine ) : m_engine( engine )
+	getsauceFilter( const engines::engine& engine,int id ) : m_engine( engine ),m_id( id )
 	{
 	}
 	Output::result formatOutput( const Output::args& args ) const override
 	{
-		auto data = args.data.toLine() + args.outPut ;
+		auto data = args.data.toLine( m_id ) + args.outPut ;
 
 		auto m = data.indexOf( this->marker() ) ;
 
@@ -529,7 +545,7 @@ public:
 
 			return this->formatOutput( args,data,m ) ;
 		}else{
-			return { args.outPut,m_engine,_meetLocalCondition } ;
+			return { args.outPut,m_engine,_meetLocalCondition,_skipCondition } ;
 		}
 	}
 	Output::result formatOutput( const Output::args& args,const QByteArray& allData,int ) const
@@ -544,7 +560,7 @@ public:
 
 			if( mm == -1 ){
 
-				return { args.outPut,m_engine,_meetLocalCondition } ;
+				return { args.outPut,m_engine,_meetLocalCondition,_skipCondition } ;
 			}else{
 				return this->parse( false,allData.mid( mm + 12 ),allData,args ) ;
 			}
@@ -646,7 +662,7 @@ private:
 
 		if( mm == -1 ){
 
-			return { args.outPut,m_engine,_meetLocalCondition } ;
+			return { args.outPut,m_engine,_meetLocalCondition,_skipCondition } ;
 		}
 
 		auto percentage = data.mid( mm + 3 ) ;
@@ -706,7 +722,9 @@ private:
 			m_tmp = name + "\n" + info.size() + "   " + percentage + "   " + speedAndETA ;
 		}
 
-		return { m_tmp,m_engine,_meetLocalCondition } ;
+		//args.data.add( m_tmp,m_id ) ;
+
+		return { m_tmp,m_engine,_meetLocalCondition,_skipCondition } ;
 	}
 	QByteArray marker() const
 	{
@@ -714,6 +732,7 @@ private:
 	}
 	const engines::engine& m_engine ;
 	mutable QByteArray m_tmp ;
+	int m_id ;
 } ;
 
 engines::engine::baseEngine::DataFilter getsauce::Filter( int id )
@@ -721,11 +740,11 @@ engines::engine::baseEngine::DataFilter getsauce::Filter( int id )
 	return { util::types::type_identity< getsauce::getsauce_dlFilter >(),m_engine,id,m_downloadFolder.toUtf8() } ;
 }
 
-engines::engine::baseEngine::FilterOutPut getsauce::filterOutput()
+engines::engine::baseEngine::FilterOutPut getsauce::filterOutput( int id )
 {
 	const auto& engine = engines::engine::baseEngine::engine() ;
 
-	return { util::types::type_identity< getsauceFilter >(),engine } ;
+	return { util::types::type_identity< getsauceFilter >(),engine,id } ;
 }
 
 std::vector<engines::engine::baseEngine::mediaInfo> getsauce::mediaProperties( Logger& l,const QByteArray& e )
@@ -1000,8 +1019,6 @@ bool getsauce::getsauce_dlFilter::progressLine( const Logger::Data& e )
 
 		return true ;
 	}else{
-		const auto& m = e.lastText() ;
-
-		return m.contains( "Downloading: " ) || m.contains( "Merging: " ) ;
+		return false ;
 	}
 }

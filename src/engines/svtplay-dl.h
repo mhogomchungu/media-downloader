@@ -45,7 +45,7 @@ public:
 		engines::engine::baseEngine::preProcessing m_preProcessing ;
 	} ;
 
-	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput( int ) override ;
 
 	QString updateCmdPath( const QString& ) override ;
 

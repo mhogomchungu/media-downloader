@@ -269,6 +269,11 @@ static bool _meetLocalCondition( const engines::engine&,const QByteArray& e )
 	return e.contains( ", ETA: " ) ;
 }
 
+static bool _skipCondition( const engines::engine&,const QByteArray& )
+{
+	return false ;
+}
+
 class LuxHeader
 {
 public:
@@ -387,7 +392,7 @@ public:
 
 			return this->formatOutput( args,data,m ) ;
 		}else{
-			return { args.outPut,m_engine,_meetLocalCondition } ;
+			return { args.outPut,m_engine,_meetLocalCondition,_skipCondition } ;
 		}
 	}
 	Output::result formatOutput( int mm,
@@ -436,13 +441,13 @@ public:
 				m_tmp = m_tmp + "\n" + e.mid( mm ) ;
 			}
 
-			return { m_tmp,m_engine,_meetLocalCondition } ;
+			return { m_tmp,m_engine,_meetLocalCondition,_skipCondition } ;
 		}else{
 			QString s = "?" ;
 
 			m_tmp = pgr.arg( s,s,s,s,s ).toUtf8() ;
 
-			return { m_tmp,m_engine,_meetLocalCondition } ;
+			return { m_tmp,m_engine,_meetLocalCondition,_skipCondition } ;
 		}
 	}
 	Output::result formatOutput( const Output::args& args,const QByteArray& allData,int m ) const
@@ -461,7 +466,7 @@ public:
 
 		if( mm == -1 ){
 
-			return { args.outPut,m_engine,_meetLocalCondition } ;
+			return { args.outPut,m_engine,_meetLocalCondition,_skipCondition } ;
 		}
 
 		auto ss = allData.mid( mm + 2 ).replace( "p/s","" ) ;
@@ -480,9 +485,9 @@ public:
 
 			m_tmp = pgr.arg( s,s,s,s,s ).toUtf8() ;
 
-			return { m_tmp,m_engine,_meetLocalCondition } ;
+			return { m_tmp,m_engine,_meetLocalCondition,_skipCondition } ;
 		}else{
-			return { args.outPut,m_engine,_meetLocalCondition } ;
+			return { args.outPut,m_engine,_meetLocalCondition,_skipCondition } ;
 		}
 	}
 	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
@@ -498,7 +503,7 @@ private:
 	mutable QByteArray m_tmp ;
 } ;
 
-engines::engine::baseEngine::FilterOutPut lux::filterOutput()
+engines::engine::baseEngine::FilterOutPut lux::filterOutput( int )
 {
 	const engines::engine& engine = engines::engine::baseEngine::engine() ;
 
