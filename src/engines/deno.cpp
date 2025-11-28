@@ -90,6 +90,10 @@ bool deno::foundNetworkUrl( const QString& s )
 			return s.contains( "deno-x86_64-pc-windows-msvc.zip" ) ;
 		}
 
+	}else if( utility::platformisFlatPak() ){
+
+		return false ;
+
 	}else if( utility::platformIsLinux() ){
 
 		if( cpu.x86_64() ){
