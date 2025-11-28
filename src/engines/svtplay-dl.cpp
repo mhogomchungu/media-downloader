@@ -539,43 +539,12 @@ svtplay_dl::svtplay_dlFilter::svtplay_dlFilter( settings&,const engines::engine&
 	engines::engine::baseEngine::filter( engine,id ){
 }
 
-static bool _startsWithCondition( const QByteArray& e )
-{
-	if( e.startsWith( '[' ) && e.size() > 1 ){
-
-		auto m = e[ 1 ] ;
-
-		return m >= '0' && m <= '9' ;
-
-	}else if( e.startsWith( "\r[" ) && e.size() > 2 ){
-
-		auto m = e[ 2 ] ;
-
-		return m >= '0' && m <= '9' ;
-	}else{
-		return false ;
-	}
-}
-
-static bool _meetCondition( const QByteArray& e )
-{
-	return _startsWithCondition( e ) && e.contains( " ETA:" ) ;
-}
-
-static bool _meetCondition( const engines::engine&,const QByteArray& e )
-{
-	return e.contains( "] (" ) && e.contains( " ETA:" ) ;
-}
-
-static bool _skipCondition( const engines::engine&,const QByteArray& )
-{
-	return false ;
-}
-
 class svtplayFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
-	svtplayFilter( const engines::engine& engine ) : m_engine( engine )
+	svtplayFilter( const engines::engine& engine ) :
+		m_engine( engine ),
+		m_callables( svtplayFilter::meetCondition,svtplayFilter::skipCondition )
 	{
 	}
 	engines::engine::baseEngine::filterOutPut::result
@@ -617,7 +586,7 @@ public:
 
 			if( d.lastText().contains( "ETA" ) ){
 
-				return { d.lastText(),m_engine,_meetCondition,_skipCondition } ;
+				return { d.lastText(),m_engine,m_callables } ;
 			}else{
 				auto s = m.indexOf( "HTTP getting" ) ;
 
@@ -628,7 +597,7 @@ public:
 					m_tmp.clear() ;
 				}
 
-				return { m_tmp,m_engine,_meetCondition,_skipCondition } ;
+				return { m_tmp,m_engine,m_callables } ;
 			}
 
 		}else if( m.startsWith( "INFO" ) ){
@@ -649,7 +618,7 @@ public:
 				}
 			}
 
-			return { m_tmp,m_engine,_meetCondition,_skipCondition } ;
+			return { m_tmp,m_engine,m_callables } ;
 		}
 
 		auto e = m.indexOf( "ETA" ) ;
@@ -705,13 +674,13 @@ public:
 			m_tmp = "[00/00] (NA), " + a ;
 		}
 
-		return { m_tmp,m_engine,_meetCondition,_skipCondition } ;
+		return { m_tmp,m_engine,m_callables } ;
 	}
 	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 
-		if( _meetCondition( e ) ){
+		if( svtplayFilter::meetCondition( e ) ){
 
 			return true ;
 		}else{
@@ -723,8 +692,39 @@ public:
 		return m_engine ;
 	}
 private:
+	static bool startsWithCondition( const QByteArray& e )
+	{
+		if( e.startsWith( '[' ) && e.size() > 1 ){
+
+			auto m = e[ 1 ] ;
+
+			return m >= '0' && m <= '9' ;
+
+		}else if( e.startsWith( "\r[" ) && e.size() > 2 ){
+
+			auto m = e[ 2 ] ;
+
+			return m >= '0' && m <= '9' ;
+		}else{
+			return false ;
+		}
+	}
+	static bool meetCondition( const QByteArray& e )
+	{
+		return svtplayFilter::startsWithCondition( e ) && e.contains( " ETA:" ) ;
+	}
+	static bool meetCondition( const engines::engine&,const QByteArray& e )
+	{
+		return e.contains( "] (" ) && e.contains( " ETA:" ) ;
+	}
+	static bool skipCondition( const engines::engine&,const QByteArray& )
+	{
+		return false ;
+	}
+
 	const engines::engine& m_engine ;
 	mutable QByteArray m_tmp ;
+	engines::engine::baseEngine::filterOutPut::result::callables m_callables ;
 } ;
 
 engines::engine::baseEngine::FilterOutPut svtplay_dl::filterOutput( int )

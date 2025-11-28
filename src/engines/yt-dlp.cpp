@@ -424,46 +424,6 @@ yt_dlp::~yt_dlp()
 {
 }
 
-static bool _yt_dlp( const engines::engine&,const QByteArray& e )
-{
-	return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
-}
-
-static bool _skipCondition( const engines::engine&,const QByteArray& )
-{
-	return false ;
-}
-
-static bool _fragment_output( const QByteArray& e )
-{
-	return utils::misc::startsWithAny( e,"[https @ ","[hls @ ","Opening '" ) ;
-}
-
-static bool _ffmpeg( const engines::engine&,const QByteArray& e )
-{
-	if( _fragment_output( e ) ){
-
-		return true ;
-	}else{
-		return utils::misc::startsWithAny( e,"frame=","size=" ) ;
-	}
-}
-
-static bool _aria2c( const engines::engine& s,const QByteArray& e )
-{
-	return aria2c::meetCondition( s,e ) ;
-}
-
-static bool _ffmpeg_internal( const engines::engine&,const QByteArray& e )
-{
-	return e.contains( " / ~" ) || e.startsWith( "Frame: " ) ;
-}
-
-static bool _shouldNotGetCalled( const engines::engine&,const QByteArray& )
-{
-	return false ;
-}
-
 class parseTemplateOutPut
 {
 public:
@@ -547,38 +507,38 @@ public:
 	engines::engine::baseEngine::filterOutPut::result
 	formatOutput( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
-		if( m_function == _yt_dlp ){
+		if( m_function == ytDlpFilter::yt_dlp ){
 
 			m_tmp = this->outPutFormat( args ) ;
 
-			return { m_tmp,m_engine,m_function,_skipCondition } ;
+			return { m_tmp,m_engine,{ m_function,ytDlpFilter::skipCondition } } ;
 
-		}else if( m_function == _ffmpeg_internal ){
+		}else if( m_function == ytDlpFilter::ffmpeg_internal ){
 
 			m_tmp = this->outPutFfmpeg( args ) ;
 
-			return { m_tmp,m_engine,m_function,_skipCondition } ;
+			return { m_tmp,m_engine,{ m_function,ytDlpFilter::skipCondition } } ;
 		}else{
-			return { args.outPut,m_engine,m_function,_skipCondition } ;
+			return { args.outPut,m_engine,{ m_function,ytDlpFilter::skipCondition } } ;
 		}
 	}
 	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 
-		if( _yt_dlp( m_engine,e ) ){
+		if( ytDlpFilter::yt_dlp( m_engine,e ) ){
 
-			m_function = _yt_dlp ;
+			m_function = ytDlpFilter::yt_dlp ;
 
-		}else if( _ffmpeg( m_engine,e ) ){
+		}else if( ytDlpFilter::ffmpeg( m_engine,e ) ){
 
-			m_function = _ffmpeg_internal ;
+			m_function = ytDlpFilter::ffmpeg_internal ;
 
-		}else if( _aria2c( m_engine,e ) ){
+		}else if( ytDlpFilter::aria2c( m_engine,e ) ){
 
-			m_function = _aria2c ;
+			m_function = ytDlpFilter::aria2c ;
 		}else{
-			m_function = _shouldNotGetCalled ;
+			m_function = ytDlpFilter::shouldNotGetCalled ;
 
 			return false ;
 		}
@@ -589,7 +549,40 @@ public:
 	{
 		return m_engine ;
 	}
-private:
+private:	
+	static bool yt_dlp( const engines::engine&,const QByteArray& e )
+	{
+		return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
+	}
+	static bool skipCondition( const engines::engine&,const QByteArray& )
+	{
+		return false ;
+	}
+	static bool fragment_output( const QByteArray& e )
+	{
+		return utils::misc::startsWithAny( e,"[https @ ","[hls @ ","Opening '" ) ;
+	}
+	static bool ffmpeg( const engines::engine&,const QByteArray& e )
+	{
+		if( ytDlpFilter::fragment_output( e ) ){
+
+			return true ;
+		}else{
+			return utils::misc::startsWithAny( e,"frame=","size=" ) ;
+		}
+	}
+	static bool aria2c( const engines::engine& s,const QByteArray& e )
+	{
+		return aria2c::meetCondition( s,e ) ;
+	}
+	static bool ffmpeg_internal( const engines::engine&,const QByteArray& e )
+	{
+		return e.contains( " / ~" ) || e.startsWith( "Frame: " ) ;
+	}
+	static bool shouldNotGetCalled( const engines::engine&,const QByteArray& )
+	{
+		return false ;
+	}
 	QByteArray outPutFormat( const engines::engine::baseEngine::filterOutPut::args& args ) const
 	{
 		const auto& e = args.outPut ;
@@ -744,7 +737,7 @@ private:
 
 		double totalTime = 0 ;
 
-		if( _fragment_output( data ) ){
+		if( ytDlpFilter::fragment_output( data ) ){
 
 			return args.data.lastText() ;
 		}

@@ -1405,10 +1405,12 @@ public:
 	engines::engine::baseEngine::filterOutPut::result
 	formatOutput( const filterOutPut::args& args ) const override
 	{
-		return { args.outPut,
-			 m_engine,
-			 engines::engine::baseEngine::meetCondition,
-			 engines::engine::baseEngine::skipCondition } ;
+		using m = bool( * )( const engines::engine&,const QByteArray& ) ;
+
+		auto a = engines::engine::baseEngine::meetCondition ;
+		auto b = static_cast< m >( engines::engine::baseEngine::skipCondition ) ;
+
+		return { args.outPut,m_engine,{ a,b } } ;
 	}
 	bool meetCondition( const filterOutPut::args& args ) const override
 	{

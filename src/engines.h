@@ -537,13 +537,31 @@ public:
 				class result
 				{
 				public:
-					result( const QByteArray& p,
-						const engines::engine& e,
-						bool( *m )( const engines::engine&,const QByteArray& ),
-						bool( *s )( const engines::engine&,const QByteArray& ) ) :
+					class callables
+					{
+					public:
+						using type = bool( * )( const engines::engine&,const QByteArray& ) ;
+
+						callables( type m,type s ) :
+							m_meetCondition( m ),m_skipCondition( s )
+						{
+						}
+						type meetCondition() const
+						{
+							return m_meetCondition ;
+						}
+						type skipCondition() const
+						{
+							return m_skipCondition ;
+						}
+					private:
+						bool( *m_meetCondition )( const engines::engine&,const QByteArray& ) ;
+						bool( *m_skipCondition )( const engines::engine&,const QByteArray& ) ;
+					} ;
+					result( const QByteArray& p,const engines::engine& e,const callables& m ) :
 						m_progress( p ),
-						m_meetCondition( m,e ),
-						m_skipCondition( s,e )
+						m_meetCondition( m.meetCondition(),e ),
+						m_skipCondition( m.skipCondition(),e )
 					{
 					}
 					const QByteArray& progress() const

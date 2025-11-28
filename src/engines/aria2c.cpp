@@ -168,7 +168,7 @@ public:
 
 			return false ;
 		} ;
-		return { args.outPut,m_engine,aria2c::meetCondition,skipCondition } ;
+		return { args.outPut,m_engine,{ aria2c::meetCondition,skipCondition } } ;
 	}
 	bool meetCondition( const filterOutPut::args& args ) const override
 	{
