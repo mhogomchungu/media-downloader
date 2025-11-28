@@ -862,6 +862,10 @@ engines::engine::engine( Logger& logger,
 
 	if( m_name == "deno" || m_name == "quickjs" ){
 
+		if( m_name == "quickjs" && utility::platformisFlatPak() ){
+
+			m_downloadUrl.clear() ;
+		}
 		m_supportingEngine = true ;
 	}else{
 		m_supportingEngine = false ;
