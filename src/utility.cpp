@@ -1765,6 +1765,31 @@ void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 	m_obj.insert( e.platform,s ) ;
 }
 
+QStringList utility::setEnvArgs( engines::engine::baseEngine::optionsEnvironment& env,const QStringList& args )
+{
+	QStringList s ;
+
+	for( const auto& it : args ){
+
+		if( it.startsWith( "$ENV(" ) && it.endsWith( ")" ) && it.contains( "=" ) ){
+
+			auto m = it.mid( 5 ) ;
+			m = m.mid( 0,m.size() - 1 ) ;
+
+			auto e = util::split( m,"=" ) ;
+
+			if( e.size() > 1 ){
+
+				env.add( e[ 0 ],e[ 1 ] ) ;
+			}
+		}else{
+			s.append( it ) ;
+		}
+	}
+
+	return s ;
+}
+
 QString utility::fromSecsSinceEpoch( qint64 s )
 {
 	std::time_t epoch = static_cast< std::time_t >( s ) ;

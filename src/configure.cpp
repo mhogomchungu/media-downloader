@@ -1338,6 +1338,8 @@ void configure::setEngineOptions( const QString& e,engineOptions tab )
 
 			m_ui.lineEditConfigureCookieBrowserName->setText( mm ) ;
 			m_ui.lineEditConfigureCookieBrowserName->setEnabled( enable ) ;
+			m_ui.cbCookieSource->setEnabled( enable ) ;
+			m_ui.pbConfigureSetPathToCookieFile->setEnabled( enable ) ;
 		} ;
 
 		if( tab == engineOptions::url ){

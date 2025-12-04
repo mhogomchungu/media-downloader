@@ -531,6 +531,7 @@ namespace utility
 	QString homePath() ;
 	QString clipboardText() ;
 	QString fromSecsSinceEpoch( qint64 ) ;
+	QStringList setEnvArgs( engines::engine::baseEngine::optionsEnvironment&,const QStringList& ) ;
 
 	enum class mainWindowKeyCombo{ CTRL_D,CTRL_A,ENTER } ;
 
@@ -1463,9 +1464,9 @@ namespace utility
 
 				m_envExtra = m_engine.setProxySetting( m,mm.networkProxyString() ) ;
 
-				m_cmd = { m_engine.exePath(),m + args } ;
+				m_cmd = { m_engine.exePath(),m + utility::setEnvArgs( m_envExtra,args ) } ;
 			}else{
-				m_cmd = { m_engine.exePath(),args } ;
+				m_cmd = { m_engine.exePath(),utility::setEnvArgs( m_envExtra,args ) } ;
 			}
 
 			return m_cmd ;
