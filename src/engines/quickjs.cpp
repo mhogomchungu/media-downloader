@@ -188,4 +188,13 @@ QString quickjs::parseVersionInfo( const utils::qprocess::outPut& r )
 quickjs::quickjs( const engines& e,const engines::engine& s,QJsonObject& ) :
 	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {
+	if( utility::platformisFlatPak() ){
+
+		auto path = e.Settings().flatpakIntance().appDataLocation() + "/bin/qjs";
+
+		if( QFile::exists( path ) ){
+
+			QFile::remove( path ) ;
+		}
+	}
 }

@@ -2815,7 +2815,7 @@ void utility::contextMenuForDirectUrl( std::vector< UrlLinks > links,
 
 				if( e.name == "VLC" ){
 
-					auto m = m_ctx.Settings().flatPakHasVLCSupport() ;
+					auto m = m_ctx.Settings().flatpakIntance().getVLC().valid() ;
 					ac->setEnabled( m ) ;
 				}
 			}

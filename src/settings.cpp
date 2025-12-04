@@ -422,7 +422,8 @@ settings::settings( const utility::cliArguments& args ) :
 	m_appDataPath( this->appDataLocation() ),
 	m_options( args,m_appDataPath ),
 	m_settingsP( this->init() ),
-	m_settings( *m_settingsP )
+	m_settings( *m_settingsP ),
+	m_flatpakRuntimeOptions( *this )
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
@@ -497,7 +498,7 @@ void settings::init_done()
 
 				m_parent.clearFlatPakTemps() ;
 
-				m_parent.m_vlcFlatPak.checkVLCAvailability() ;
+				m_parent.flatpakIntance().getVLC().checkAvailability() ;
 			}
 		}
 		void fg()
@@ -1222,16 +1223,6 @@ void settings::clearFlatPakTemps()
 	}
 }
 
-bool settings::flatPakHasVLCSupport()
-{
-	return m_vlcFlatPak.valid() ;
-}
-
-const settings::FlatPackVLC& settings::flatPakVLCopts()
-{
-	return m_vlcFlatPak ;
-}
-
 QString settings::windowsDimensions( const QString& window )
 {
 	auto m = "WindowDimensions_" + window ;
@@ -1464,7 +1455,7 @@ void settings::mediaPlayer::action::operator()() const
 
 		if( m_playerOpts.exePath == "vlc" ){
 
-			const auto& f = m_settings.flatPakVLCopts() ;
+			const auto& f = m_settings.flatpakIntance().getVLC() ;
 
 			if( f.valid() ){
 
@@ -1529,15 +1520,58 @@ void settings::sLogger::add( const QByteArray& data,int id )
 	}
 }
 
-void settings::FlatPackVLC::checkVLCAvailability()
+settings::flatpakRuntimeOptions::flatpakRuntimeOptions( settings& s ) :
+	m_settings( this->flatpkakInfoFile(),QSettings::IniFormat ),
+	m_globalBinPath( m_settings.value( "Instance/app-path" ).toString() ),
+	m_architecture( m_settings.value( "Instance/arch" ).toString() ),
+	m_commitId( m_settings.value( "Instance/app-commit" ).toString() ),
+	m_runtimePath( m_settings.value( "Instance/runtime-path" ).toString() ),
+	m_localBinPath( "/app/bin" ),
+	m_appDataLocation( s.appDataLocation() )
 {
-	if( this->checkVLCAvailability( { "--host","vlc" } ) ){
+	if( !m_globalBinPath.isEmpty() ){
 
-		this->checkVLCAvailability( { "--host","flatpak","run","org.videolan.VLC" } ) ;
+		m_globalBinPath += "/bin" ;
 	}
 }
 
-bool settings::FlatPackVLC::checkVLCAvailability( const QStringList& e )
+QString settings::flatpakRuntimeOptions::flatpkakInfoFile()
+{
+	if( QFile::exists( "/.flatpak-info" ) ){
+
+		return "/.flatpak-info" ;
+	}else{
+		auto m = qgetenv( "XDG_RUNTIME_DIR" ) ;
+
+		if( m.isEmpty() ){
+
+			//???
+			return {} ;
+		}else{
+			return m + "/flatpak-info" ;
+		}
+	}
+}
+
+const settings::flatpakRuntimeOptions& settings::flatpakIntance()
+{
+	return m_flatpakRuntimeOptions ;
+}
+
+const settings::flatpakRuntimeOptions::VLC& settings::flatpakRuntimeOptions::getVLC() const
+{
+	return m_vlc ;
+}
+
+void settings::flatpakRuntimeOptions::VLC::checkAvailability() const
+{
+	if( this->checkAvailability( { "--host","vlc" } ) ){
+
+		this->checkAvailability( { "--host","flatpak","run","org.videolan.VLC" } ) ;
+	}
+}
+
+bool settings::flatpakRuntimeOptions::VLC::checkAvailability( const QStringList& e ) const
 {
 	QProcess exe ;
 
