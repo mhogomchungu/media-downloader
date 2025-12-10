@@ -243,20 +243,25 @@ engines::engine::baseEngine::DataFilter wget::Filter( int id )
 engines::engine::baseEngine::optionsEnvironment wget::setProxySetting( QStringList& e,const QString& s )
 {
 	e.append( "-e" ) ;
-	e.append( "use_proxy=yes" ) ;
-	e.append( "-e" ) ;
+	e.append( "use_proxy=yes" ) ;	
 
 	if( s.contains( "@" ) ){
 
 		auto m = engines::proxySettings( s ).networkProxy() ;
 
+		e.append( "-e" ) ;
 		e.append( "http_proxy=" + m.hostName() + ":" + QString::number( m.port() ) ) ;
 
-		e.append( "--proxy-user=" + m.user() ) ;
+		e.append( "-e" ) ;
+		e.append( "https_proxy=" + m.hostName() + ":" + QString::number( m.port() ) ) ;
 
+		e.append( "--proxy-user=" + m.user() ) ;
 		e.append( "--proxy-password=" + m.password() ) ;
 	}else{
+		e.append( "-e" ) ;
 		e.append( "http_proxy=" + s ) ;
+		e.append( "-e" ) ;
+		e.append( "https_proxy=" + s ) ;
 	}
 
 	return {} ;
