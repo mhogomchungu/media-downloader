@@ -266,37 +266,6 @@ util::result< engines::engine > engines::getEngineByPath( const QString& e ) con
 
 		auto object = json.doc().object() ;
 
-		auto name = object.value( "Name" ).toString() ;
-
-		if( name == "deno" || name == "quickjs" ){
-
-			if( name == "quickjs" && utility::platformisFlatPak() ){
-
-				object.insert( "DownloadUrl",QString() ) ;
-			}
-
-			object.insert( "SupportingEngine",true ) ;
-		}else{
-			object.insert( "SupportingEngine",false ) ;
-		}
-
-		if( name == "svtplay-dl" ){
-
-			object.insert( "ArchiveContainsFolder",utility::platformIsWindows() ) ;
-
-			object.insert( "DownloadUrl",svtplay_dl::downloadUrl() ) ;
-		}
-
-		if( utility::platformIsOSX() ){
-
-			auto m = object.value( "DownloadUrlMAC" ).toString() ;
-
-			if( !m.isEmpty() ){
-
-				object.insert( "DownloadUrl",m ) ;
-			}
-		}
-
 		auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
 
 		if( !minVersion.isEmpty() ){
@@ -905,12 +874,50 @@ engines::engine::cmd engines::engine::getCommands( const QJsonObject& cmd )
 	return { m,s,s.size() == 1 } ;
 }
 
+QJsonObject engines::engine::getOpts( const util::Json& e ) const
+{
+	auto obj = e.doc().object() ;
+
+	auto name = obj.value( "Name" ).toString() ;
+
+	if( name == "deno" || name == "quickjs" ){
+
+		if( name == "quickjs" && utility::platformisFlatPak() ){
+
+			obj.insert( "DownloadUrl",QString() ) ;
+		}
+
+		obj.insert( "SupportingEngine",true ) ;
+	}else{
+		obj.insert( "SupportingEngine",false ) ;
+	}
+
+	if( name == "svtplay-dl" ){
+
+		obj.insert( "ArchiveContainsFolder",utility::platformIsWindows() ) ;
+
+		obj.insert( "DownloadUrl",svtplay_dl::downloadUrl() ) ;
+	}
+
+	if( utility::platformIsOSX() ){
+
+		auto m = obj.value( "DownloadUrlMAC" ).toString() ;
+
+		if( !m.isEmpty() ){
+
+			obj.insert( "DownloadUrl",m ) ;
+		}
+	}
+
+	return obj ;
+}
+
 engines::engine::engine( Logger& logger,
 			 const enginePaths& ePaths,
 			 const util::Json& json,
 			 const engines& engines,
 			 int id ) :
-	m_jsonObject( json.doc().object() ),
+	m_jsonObject( this->getOpts( json ) ),
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),

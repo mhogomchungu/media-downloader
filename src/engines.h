@@ -1431,6 +1431,7 @@ public:
 			return m_broken ;
 		}
 	private:
+		QJsonObject getOpts( const util::Json& ) const ;
 		void setPermissions( const QString& ) const ;
 		void updateOptions() ;
 		QStringList toStringList( const QJsonValue&,bool = false ) const ;
@@ -1497,7 +1498,7 @@ public:
 
 		mutable engines::engine::exeArgs m_exePath ;
 	};
-	settings& Settings() const;
+	settings& Settings() const ;
 	QString findExecutable( const QString& exeName ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
 	QString addEngine( const QByteArray& data,const QString& path,int ) ;
