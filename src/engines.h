@@ -1015,13 +1015,6 @@ public:
 		engine()
 		{
 		}
-		engine( const engines& engines,
-			Logger& logger,
-			const QString& name,
-			const QString& versionArgument,
-			int line,
-			int position,
-			int id ) ;
 
 		engine( Logger& logger,
 			const enginePaths& ePaths,
@@ -1632,6 +1625,7 @@ public:
 private:
 	void updateEngines( bool,int ) ;
 	util::result< engines::engine > getEngineByPath( const QString& ) const ;
+	util::result< engines::engine > getSupportingEngineByName( const QString& ) const ;
 	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
 	void engineAdd( const QString&,util::result< engines::engine >,int ) ;
 	QString findExecutable( const QString&,const QStringList&,QFileInfo& ) const ;

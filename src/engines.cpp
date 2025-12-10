@@ -266,6 +266,37 @@ util::result< engines::engine > engines::getEngineByPath( const QString& e ) con
 
 		auto object = json.doc().object() ;
 
+		auto name = object.value( "Name" ).toString() ;
+
+		if( name == "deno" || name == "quickjs" ){
+
+			if( name == "quickjs" && utility::platformisFlatPak() ){
+
+				object.insert( "DownloadUrl",QString() ) ;
+			}
+
+			object.insert( "SupportingEngine",true ) ;
+		}else{
+			object.insert( "SupportingEngine",false ) ;
+		}
+
+		if( name == "svtplay-dl" ){
+
+			object.insert( "ArchiveContainsFolder",utility::platformIsWindows() ) ;
+
+			object.insert( "DownloadUrl",svtplay_dl::downloadUrl() ) ;
+		}
+
+		if( utility::platformIsOSX() ){
+
+			auto m = object.value( "DownloadUrlMAC" ).toString() ;
+
+			if( !m.isEmpty() ){
+
+				object.insert( "DownloadUrl",m ) ;
+			}
+		}
+
 		auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
 
 		if( !minVersion.isEmpty() ){
@@ -289,6 +320,73 @@ util::result< engines::engine > engines::getEngineByPath( const QString& e ) con
 	}else{
 		return {} ;
 	}
+}
+
+util::result<engines::engine> engines::getSupportingEngineByName( const QString& e ) const
+{
+	QJsonObject obj ;
+
+	obj.insert( "Name",e ) ;
+	obj.insert( "SupportingEngine",true ) ;
+
+	obj.insert( "Cmd",[ & ](){
+
+		QJsonObject oo ;
+
+		oo.insert( "Generic",[ & ](){
+
+			QJsonObject s ;
+
+			s.insert( "Name",e ) ;
+			s.insert( "Args",[ & ](){
+
+				QJsonArray arr ;
+				arr.append( e ) ;
+
+				return arr ;
+			}() ) ;
+
+			QJsonObject aa ;
+
+			aa.insert( "amd64",s ) ;
+
+			aa.insert( "x86",s ) ;
+
+			return aa ;
+		}() ) ;
+
+		return oo ;
+	}() ) ;
+
+	if( e == "ffmpeg" ){
+
+		obj.insert( "VersionArgument","-version" ) ;
+		obj.insert( "VersionStringLine",0 ) ;
+		obj.insert( "VersionStringPosition",2 ) ;
+
+	}else if( e == "python" || e == "python3" ){
+
+		obj.insert( "VersionArgument","--version" ) ;
+		obj.insert( "VersionStringLine",0 ) ;
+		obj.insert( "VersionStringPosition",1 ) ;
+
+	}else if( e == "tar" ){
+
+		obj.insert( "VersionArgument","--version" ) ;
+		obj.insert( "VersionStringLine",0 ) ;
+
+		auto m = utility::platformIsLinux() ? 3 : 1 ;
+
+		obj.insert( "VersionStringPosition",m ) ;
+
+	}else if( e == "bsdtar" ){
+
+		obj.insert( "VersionArgument","--version" ) ;
+		obj.insert( "VersionStringLine",0 ) ;
+		obj.insert( "VersionStringPosition",1 ) ;
+	}
+
+	return { m_logger,m_enginePaths,obj,*this,utility::sequentialID() } ;
 }
 
 QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
@@ -377,27 +475,29 @@ void engines::updateEngines( bool addAll,int id )
 
 		if( utility::platformIsWindows() ){
 
-			this->engineAdd( "",{ *this,m_logger,"bsdtar","--version",0,1,id },id ) ;
+			this->engineAdd( "",this->getSupportingEngineByName( "bsdtar" ),id ) ;
 		}else{
-			auto m = utility::platformIsLinux() ? 3 : 1 ;
-
-			this->engineAdd( "",{ *this,m_logger,"tar","--version",0,m,id },id ) ;
+			this->engineAdd( "",this->getSupportingEngineByName( "tar" ),id ) ;
 		}
 
-		this->engineAdd( "",{ *this,m_logger,"ffmpeg","-version",0,2,id },id ) ;
+		this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
 		for( const auto& it : this->getEngines() ){
 
 			const auto& e = it.exePath().exe() ;
 
-			if( e.size() > 0 && e.at( 0 ).contains( "python" ) ){
+			if( e.size() > 0 ){
 
-				if( utility::platformIsWindows() ){
+				if( e.at( 0 ).contains( "python" ) || e.at( 0 ).contains( "python3" ) ){
 
-					this->engineAdd( it.name(),{ *this,m_logger,"python","--version",0,1,id },id ) ;
-				}else{
-					this->engineAdd( it.name(),{ *this,m_logger,"python3","--version",0,1,id },id ) ;
+					if( utility::platformIsWindows() ){
+
+						this->engineAdd( "",this->getSupportingEngineByName( "python" ),id ) ;
+					}else{
+						this->engineAdd( "",this->getSupportingEngineByName( "python3" ),id ) ;
+					}
 				}
+
 				break ;
 			}
 		}
@@ -688,33 +788,6 @@ QStringList engines::enginesList() const
 	return m ;
 }
 
-engines::engine::engine( const engines& engines,
-			 Logger& logger,
-			 const QString& name,
-			 const QString& versionArgument,
-			 int line,
-			 int position,
-			 int id ) :
-	m_line( line ),
-	m_position( position ),
-	m_valid( true ),
-	m_likeYtDlp( false ),
-	m_supportingEngine( true ),
-	m_versionArgument( versionArgument ),
-	m_name( name ),
-	m_commandName( utility::platformIsLikeWindows() ? name + ".exe" : name )
-{
-	auto m = engines.findExecutable( m_commandName ) ;
-
-	if( m.isEmpty() ){
-
-		m_valid = false ;
-		logger.add( QObject::tr( "Failed to find executable \"%1\"" ).arg( m_commandName ),id ) ;
-	}else{
-		m_exePath = m ;
-	}
-}
-
 QStringList engines::engine::toStringList( const QJsonValue& value,bool protectSpace ) const
 {
 	QStringList m ;
@@ -843,6 +916,7 @@ engines::engine::engine( Logger& logger,
 	m_valid( true ),
 	m_likeYtDlp( m_jsonObject.value( "LikeYoutubeDl" ).toBool() ),
 	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool( true ) ),
+	m_supportingEngine( m_jsonObject.value( "SupportingEngine" ).toBool() ),
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
@@ -850,34 +924,6 @@ engines::engine::engine( Logger& logger,
 	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
 	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
 {
-	if( utility::platformIsOSX() ){
-
-		auto m = m_jsonObject.value( "DownloadUrlMAC" ).toString() ;
-
-		if( !m.isEmpty() ){
-
-			m_downloadUrl = m ;
-		}
-	}
-
-	if( m_name == "deno" || m_name == "quickjs" ){
-
-		if( m_name == "quickjs" && utility::platformisFlatPak() ){
-
-			m_downloadUrl.clear() ;
-		}
-		m_supportingEngine = true ;
-	}else{
-		m_supportingEngine = false ;
-	}
-
-	if( m_name == "svtplay-dl" ){
-
-		m_archiveContainsFolder = utility::platformIsWindows() ;
-
-		m_downloadUrl = svtplay_dl::downloadUrl() ;
-	}
-
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
 
@@ -886,39 +932,9 @@ engines::engine::engine( Logger& logger,
 		m_exeFolderPath = ePaths.binPath() ;
 	}
 
-	auto cmd = m_jsonObject.value( "Cmd" ) ;
+	auto m = this->getCommands( m_jsonObject.value( "Cmd" ).toObject() ) ;
 
-	auto m = this->getCommands( cmd.toObject() ) ;
-
-	if( utility::platformIsWindows7() && this->likeYtDlp() ){
-
-		if( cmd.isUndefined() ){
-
-			yt_dlp::setNicolaasjanYtdlpOptions( m_commandName,m_downloadUrl ) ;
-		}else{
-			QJsonValue value ;
-
-			if( utility::CPU().x86_32() ){
-
-				value = cmd.toObject().value( "Windows" ).toObject().value( "win7x86" ) ;
-			}else{
-				value = cmd.toObject().value( "Windows" ).toObject().value( "win7amd64" ) ;
-			}
-
-			if( value.isUndefined() ){
-
-				yt_dlp::setNicolaasjanYtdlpOptions( m_commandName,m_downloadUrl ) ;
-			}else{
-				auto obj = value.toObject() ;
-
-				m_commandName = obj.value( "Name" ).toString() ;
-
-				m_downloadUrl = m_jsonObject.value( "DownloadUrlWin7" ).toString() ;
-			}
-		}
-	}else{
-		m_commandName = m.name ;
-	}
+	m_commandName = m.name ;
 
 	if( m.noCheckArgs ){
 
