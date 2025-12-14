@@ -209,6 +209,17 @@ public:
 		{
 			m_processOutputs.clear() ;
 		}
+		void clear( int id )
+		{
+			for( auto it = m_processOutputs.begin() ; it != m_processOutputs.end() ; it++ ){
+
+				if( it->processId() == id ){
+
+					it->entries().clear() ;
+					break ;
+				}
+			}
+		}
 		class QByteArrayList
 		{
 		public:
@@ -631,7 +642,8 @@ public:
 		this->setMaxProcessLog( static_cast< int >( s ) ) ;
 	}
 	void setMaxProcessLog( int s ) ;
-	void showLogWindow() ;
+	void showLogWindow( int ) ;
+	void showAllLogs() ;
 	void reTranslateLogWindow() ;
 	void updateView( bool e ) ;
 	const std::vector< QByteArray >& fileNames()
@@ -642,7 +654,7 @@ public:
 	Logger& operator=( const Logger& ) = delete ;
 	Logger( Logger&& ) = delete ;
 	Logger& operator=( Logger&& ) = delete ;
-private:
+private:	
 	void update() ;
 	logWindow m_logWindow ;
 	QPlainTextEdit& m_textEdit ;
@@ -650,6 +662,20 @@ private:
 	bool m_updateView = false ;
 	settings& m_settings ;
 	int m_maxProcessLog ;
+	int m_id = -1 ;
+
+	class meaw : public QObject
+	{
+	public:
+		meaw( Logger& p ) : m_parent( p )
+		{
+		}
+		bool eventFilter( QObject *,QEvent * ) override ;
+	private:
+		Logger& m_parent ;
+	} ;
+
+	meaw m_qobj ;
 } ;
 
 class LoggerWrapper

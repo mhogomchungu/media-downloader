@@ -480,11 +480,16 @@ void playlistdownloader::customContextMenuRequested()
 {
 	auto row = m_table.currentRow() ;
 
-	auto function = [ this ]( const utility::contextState& c ){
+	auto function = [ this,row ]( const utility::contextState& c ){
 
 		if( c.showLogWindow() ){
 
-			m_ctx.logger().showLogWindow() ;
+			if( row == -1 ){
+
+				m_ctx.logger().showLogWindow( row ) ;
+			}else{
+				m_ctx.logger().showLogWindow( m_table.entryAt( row ).id ) ;
+			}
 
 		}else if( c.clear() ){
 
@@ -917,6 +922,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	auto logger = make_loggerBatchDownloader( ff.move(),m_ctx.logger(),updater,error,id,logs ) ;
 
 	m_table.setStateAsRunning( index,downloadRecursively ) ;
+	m_table.setConcurrentId( index,id ) ;
 
 	auto optsUpdater = [ this ]( QStringList opts ){
 

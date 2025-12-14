@@ -671,6 +671,42 @@ namespace utility
 		}
 	}
 
+	template< typename Function >
+	inline bool showContextMenuLogWidget( QObject * obj,
+					      QEvent * event,
+					      QPlainTextEdit * textEdit,
+					      Function function )
+	{
+		if( obj != textEdit ){
+
+			return false ;
+		}
+
+		auto a = dynamic_cast< QMouseEvent * >( event ) ;
+
+		if( a ){
+
+			auto b = a->buttons() & Qt::MouseButton::RightButton ;
+
+			if( event->type() && b ){
+
+				std::unique_ptr< QMenu > menu( textEdit->createStandardContextMenu() ) ;
+
+				menu->addSeparator() ;
+
+				auto icon = QIcon::fromTheme( "edit-cut" ) ;
+
+				menu->addAction( icon,"Clear",std::move( function ) ) ;
+
+				menu->exec( QCursor::pos() ) ;
+
+				return true ;
+			}
+		}
+
+		return false ;
+	}
+
 	class CPU
 	{
 	public:

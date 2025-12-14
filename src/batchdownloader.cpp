@@ -341,11 +341,16 @@ void batchdownloader::showCustomContext()
 {
 	auto row = m_table.currentRow() ;
 
-	auto function = [ this ]( const utility::contextState& c ){
+	auto function = [ this,row ]( const utility::contextState& c ){
 
 		if( c.showLogWindow() ){
 
-			m_ctx.logger().showLogWindow() ;
+			if( row == -1 ){
+
+				m_ctx.logger().showLogWindow( row ) ;
+			}else{
+				m_ctx.logger().showLogWindow( m_table.entryAt( row ).id ) ;
+			}
 
 		}else if( c.clear() ){
 

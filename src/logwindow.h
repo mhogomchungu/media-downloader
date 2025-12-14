@@ -49,9 +49,11 @@ public:
 	void clear() ;
 	void retranslateUi() ;
 private:
+	bool eventFilter( QObject *,QEvent * ) ;
 	void closeEvent( QCloseEvent * ) override ;
 	Ui::logWindow * m_ui ;
 	settings& m_settings ;
+	Logger& m_logger ;
 };
 
 #endif // LOGWINDOW_H

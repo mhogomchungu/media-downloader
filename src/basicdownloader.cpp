@@ -248,7 +248,7 @@ QStringList basicdownloader::enginesList()
 
 void basicdownloader::resetMenu( const QStringList& args )
 {
-	utility::setMenuOptions( m_ctx,args,true,true,m_ui.pbEntries,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,args,false,true,m_ui.pbEntries,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 
@@ -367,8 +367,6 @@ void basicdownloader::list()
 	const auto& engine = backend.engine ;
 
 	auto args = engine.defaultListCmdOptions() ;
-
-	qDebug() << args ;
 
 	engine.setTextEncondig( args ) ;
 

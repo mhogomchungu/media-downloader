@@ -468,6 +468,8 @@ private:
 
 		m_table.setStateAsRunning( index,downloadRecursively ) ;
 
+		m_table.setConcurrentId( index,id ) ;
+
 		this->hideBasicDownloaderTableList() ;
 		this->updateTitleBar() ;
 
