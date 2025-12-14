@@ -1288,16 +1288,16 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>logWindow</name>
     <message>
-        <source>Clear</source>
-        <translation>Wissen</translation>
-    </message>
-    <message>
         <source>Close</source>
         <translation>Sluit</translation>
     </message>
     <message>
         <source>Log Window</source>
         <translation>Log venster</translation>
+    </message>
+    <message>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

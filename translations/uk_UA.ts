@@ -1083,8 +1083,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Ігнорування завантаження, оскільки хеші не збігаються</translation>
     </message>
     <message>
-        <source>Expected "%1" but obtained "%2"</source>
-        <translation>Очікувалося "%1", але отримано "%2"</translation>
+        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation>Очікувалося &quot;%1&quot;, але отримано &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
@@ -1095,13 +1095,13 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Перейменування файлу на: %1</translation>
     </message>
     <message>
-        <source>Skipping Checking Version Info For Engine "%1"</source>
-        <translation>Пропуск перевірки відомостей про версію для рушія "%1"</translation>
-</message>
-<message>
-    <source>Failed To Find "bsdtar" or "unzip" Executable</source>
-    <translation>Не вдалося знайти виконуваний файл "bsdtar" або "unzip"</translation>
-</message>
+        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
+        <translation>Пропуск перевірки відомостей про версію для рушія &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
+        <translation>Не вдалося знайти виконуваний файл &quot;bsdtar&quot; або &quot;unzip&quot;</translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1298,8 +1298,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Закрити</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>Очистити</translation>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -1300,8 +1300,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Κλείσιμο</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>Εκκαθάριση</translation>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

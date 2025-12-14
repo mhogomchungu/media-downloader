@@ -1298,8 +1298,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>إغلاق</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>مسح</translation>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -1293,16 +1293,16 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
 <context>
     <name>logWindow</name>
     <message>
-        <source>Clear</source>
-        <translation>Azzera</translation>
-    </message>
-    <message>
         <source>Close</source>
         <translation>Chiudi</translation>
     </message>
     <message>
         <source>Log Window</source>
         <translation>Finestra registro eventi</translation>
+    </message>
+    <message>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

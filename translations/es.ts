@@ -1298,8 +1298,8 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation>Cerrar</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>Limpiar</translation>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
