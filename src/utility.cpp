@@ -1333,23 +1333,7 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	engine.updateDownLoadCmdOptions( ups,settings.downloadOptionsAsLast() ) ;
 
-	const auto& ca = engine.cookieArgument() ;
-	const auto& cv = settings.cookieBrowserName( engine.name() ) ;
-
-	if( !ca.isEmpty() && !cv.isEmpty() ){
-
-		opts.append( ca ) ;
-		opts.append( cv ) ;
-	}
-
-	auto cookieFile = settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		opts.append( caa ) ;
-		opts.append( cookieFile ) ;
-	}
+	utility::setCookieOption( opts,settings,engine ) ;
 
 	for( auto& it : opts ){
 
@@ -3057,4 +3041,25 @@ const QString& utility::CPU::getCPU() const
 
 	return m ;
 #endif
+}
+
+void utility::setCookieOption( QStringList& opts,settings& s,const engines::engine& engine )
+{
+	const auto& ca = engine.cookieArgument() ;
+	const auto& cv = s.cookieBrowserName( engine.name() ) ;
+
+	if( !ca.isEmpty() && !cv.isEmpty() ){
+
+		opts.append( ca ) ;
+		opts.append( cv ) ;
+	}
+
+	auto cookieFile = s.cookieBrowserTextFilePath( engine.name() ) ;
+	const auto& caa = engine.cookieTextFileArgument() ;
+
+	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
+
+		opts.append( caa ) ;
+		opts.append( cookieFile ) ;
+	}
 }

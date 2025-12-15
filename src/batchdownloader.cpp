@@ -2021,23 +2021,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	auto args = engine.dumpJsonArguments( engines::engine::tab::batch ) ;
 
-	auto cookie = m_settings.cookieBrowserName( engine.name() ) ;
-	const auto& ca = engine.cookieArgument() ;
-
-	if( !cookie.isEmpty() && !ca.isEmpty() ){
-
-		args.append( ca ) ;
-		args.append( cookie ) ;
-	}
-
-	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		args.append( caa ) ;
-		args.append( cookieFile ) ;
-	}
+	utility::setCookieOption( args,m_settings,engine ) ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
@@ -2380,23 +2364,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		}
 	}
 
-	auto cookiePath = m_settings.cookieBrowserName( engine.name() ) ;
-	const auto& ca = engine.cookieArgument() ;
-
-	if( !cookiePath.isEmpty() && !ca.isEmpty() ){
-
-		args.append( ca ) ;
-		args.append( cookiePath ) ;
-	}
-
-	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		args.append( caa ) ;
-		args.append( cookieFile ) ;
-	}
+	utility::setCookieOption( args,m_settings,engine ) ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 

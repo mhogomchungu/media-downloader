@@ -378,23 +378,7 @@ void basicdownloader::list()
 
 	utility::addToListOptionsFromsDownload( args,mm,m_ctx,engine ) ;
 
-	auto cookieName = m_settings.cookieBrowserName( engine.name() ) ;
-	const auto& ca = engine.cookieArgument() ;
-
-	if( !cookieName.isEmpty() && !ca.isEmpty() ){
-
-		args.append( ca ) ;
-		args.append( cookieName ) ;
-	}
-
-	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		args.append( caa ) ;
-		args.append( cookieFile ) ;
-	}
+	utility::setCookieOption( args,m_settings,engine ) ;
 
 	this->run( backend,args,"",true ) ;
 }

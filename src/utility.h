@@ -631,6 +631,7 @@ namespace utility
 	bool startedUpdatedVersion( settings&,const utility::cliArguments& ) ;
 	void hideUnhideEntries( QMenu&,tableWidget&,int,bool ) ;
 	quint64 simpleRandomNumber() ;
+	void setCookieOption( QStringList&,settings&,const engines::engine& ) ;
 	void addToListOptionsFromsDownload( QStringList& args,
 					    const QString& downLoadOptions,
 					    const Context& ctx,

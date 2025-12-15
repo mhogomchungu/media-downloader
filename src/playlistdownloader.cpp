@@ -1053,6 +1053,8 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	utility::addToListOptionsFromsDownload( opts,m,m_ctx,engine ) ;
 
+	utility::setCookieOption( opts,m_settings,engine ) ;
+
 	opts.append( url ) ;
 
 	m_networkRunning = 0 ;
