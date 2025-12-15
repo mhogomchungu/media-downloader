@@ -589,11 +589,7 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbLibraryTabEnable->setChecked( m_settings.enableLibraryTab() ) ;
 
-	auto cookieSource = m_settings.cookieSourceSetToBrowerName() ;
-
-	m_ui.cbCookieSource->setChecked( cookieSource ) ;
-
-	this->setCookieSourceLabel( cookieSource ) ;
+	m_ui.cbCookieSource->setChecked( m_settings.cookieSourceSetToBrowerName() ) ;
 
 	utility::connectQCheckBox( m_ui.cbCookieSource,[ this ]( bool checked ){
 
@@ -797,6 +793,8 @@ QString configure::setUrl( const QString& e )
 
 void configure::init_done()
 {
+	this->setCookieSourceLabel( m_settings.cookieSourceSetToBrowerName() ) ;
+
 	m_tablePresetOptions.selectLast() ;
 
 	struct updateEngines
