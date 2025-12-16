@@ -1302,7 +1302,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Show All</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza tutto</translation>
     </message>
 </context>
 <context>
