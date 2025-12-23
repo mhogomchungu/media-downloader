@@ -381,7 +381,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show MetaData In Batch Downloader</source>
-        <translation>Показувати метадані в пакетному завантажувачі</translation>
+        <translation>Показувати метадані в Пакетному завантажувачі</translation>
     </message>
     <message>
         <source>Auto Download Added Entries In Batch Downloader</source>
@@ -747,10 +747,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Не вдалося знайти виконуваний файл &quot;bsdtar.exe&quot;</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation>Не вдалося знайти виконуваний файл &quot;tar&quot;</translation>
-    </message>
-    <message>
         <source>Download Failed</source>
         <translation>Неможливо завантажити</translation>
     </message>
@@ -785,10 +781,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Extracting archive: </source>
         <translation>Розпакування архіву: </translation>
-    </message>
-    <message>
-        <source>Renaming file to: </source>
-        <translation>Перейменувати файл як: </translation>
     </message>
     <message>
         <source>Processing</source>
@@ -1081,6 +1073,34 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Renaming Failed: %3</source>
         <translation>Не вдалося перейменувати: %3</translation>
+    </message>
+    <message>
+        <source>Skipping Checking Download Hash</source>
+        <translation>Пропуск перевірки хешу завантаження</translation>
+    </message>
+    <message>
+        <source>Ignoring Download Because Hashes Do Not Match</source>
+        <translation>Завантаження проігноровано, оскільки хеші не збігаються</translation>
+    </message>
+    <message>
+        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation>Очікувалося &quot;%1&quot;, але отримано &quot;%2&quot;</translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation>Помилка видалення</translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation>Перейменування файлу на: %1</translation>
+    </message>
+    <message>
+        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
+        <translation>Перевірку версії плагіна &quot;%1&quot; пропущено</translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
+        <translation>Виконувані файли &quot;bsdtar&quot; або &quot;unzip&quot; не знайдено</translation>
     </message>
 </context>
 <context>
