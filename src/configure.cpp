@@ -589,11 +589,7 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.cbLibraryTabEnable->setChecked( m_settings.enableLibraryTab() ) ;
 
-	auto cookieSource = m_settings.cookieSourceSetToBrowerName() ;
-
-	m_ui.cbCookieSource->setChecked( cookieSource ) ;
-
-	this->setCookieSourceLabel( cookieSource ) ;
+	m_ui.cbCookieSource->setChecked( m_settings.cookieSourceSetToBrowerName() ) ;
 
 	utility::connectQCheckBox( m_ui.cbCookieSource,[ this ]( bool checked ){
 
@@ -747,9 +743,97 @@ void configure::setCookieSourceLabel( bool e )
 	m_ui.pbConfigureSetPathToCookieFile->setEnabled( !e ) ;
 }
 
+void configure::downloadExtension( const QString& name )
+{
+	auto url = this->setUrl( name ) ;
+
+	m_ctx.TabManager().basicDownloader().setAsActive() ;
+
+	auto id = utility::sequentialID() ;
+
+	m_ctx.logger().add( QObject::tr( "Downloading" ) + ": " + url,id ) ;
+
+	class woof
+	{
+	public:
+		woof( configure& p,const QString& name,int id ) :
+			m_parent( p ),m_name( name ),m_id( id )
+		{
+		}
+		void operator()( const utils::network::reply& reply )
+		{
+			if( reply.success() ){
+
+				m_parent.addEngine( reply.data(),m_name ) ;
+			}else{
+				auto mm = QObject::tr( "Download Failed" ) ;
+
+				mm += ": " + reply.errorString() ;
+
+				m_parent.m_ctx.logger().add( mm,m_id ) ;
+			}
+		}
+	private:
+		configure& m_parent ;
+		QString m_name ;
+		int m_id ;
+	} ;
+
+	m_ctx.network().get( url,woof( *this,name,id ) ) ;
+}
+
+QString configure::setUrl( const QString& e )
+{
+	QString hash = "dc7bf63977221bc721520d79445a8530c8023c41" ;
+
+	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
+
+	return url + hash + "/extensions/" + e ;
+}
+
 void configure::init_done()
 {
+	this->setCookieSourceLabel( m_settings.cookieSourceSetToBrowerName() ) ;
+
 	m_tablePresetOptions.selectLast() ;
+
+	struct updateEngines
+	{
+		updateEngines( const char * n,int m ) : name( n ),minVersion( m )
+		{
+		}
+		QString name ;
+		int minVersion ;
+	} ;
+
+	std::vector< updateEngines > updates ;
+
+	updates.emplace_back( "yt-dlp",2 ) ;
+	updates.emplace_back( "ytdl-patched",1 ) ;
+	updates.emplace_back( "gallery-dl",1 ) ;
+	updates.emplace_back( "svtplay-dl",1 ) ;
+	updates.emplace_back( "you-get",1 ) ;
+	updates.emplace_back( "yt-dlp-aria2c",1 ) ;
+	updates.emplace_back( "yt-dlp-ffmpeg",1 ) ;
+
+	for( const auto& it : updates ){
+
+		const auto& m = m_ctx.Engines().getEngineByName( it.name ) ;
+
+		if( m ){
+
+			const auto& engine = m.value() ;
+
+			const auto& configVersion = engine.configFileVersion() ;
+
+			auto v = configVersion.isEmpty() ? 0 : configVersion.toInt() ;
+
+			if( v < it.minVersion ){
+
+				this->downloadExtension( engine.name() + ".json" ) ;
+			}
+		}
+	}
 }
 
 void configure::retranslateUi()
@@ -978,6 +1062,8 @@ QMenu *  configure::addExtenion()
 	m->addAction( "gallery-dl" )->setObjectName( "gallery-dl.json" ) ;
 	m->addAction( "svtplay-dl" )->setObjectName( "svtplay-dl.json" ) ;
 	m->addAction( "you-get" )->setObjectName( "you-get.json" ) ;
+	m->addAction( "getsauce" )->setObjectName( "getsauce.json" ) ;
+
 	//m->addAction( "lux" )->setObjectName( "lux.json" ) ;
 
 	if( utility::platformIsNOTWindows() ){
@@ -1009,52 +1095,10 @@ QMenu *  configure::addExtenion()
 			}
 		}
 	private:
-		QString setUrl( const QString& e )
-		{
-			QString hash = "6a994de74e0ea1bb73e382b6af9681e60449b0b0" ;
 
-			QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
-
-			return url + hash + "/extensions/" + e ;
-		}
 		void downloadNamed( const QString& name )
 		{
-			auto url = this->setUrl( name ) ;
-
-			m_ctx.TabManager().basicDownloader().setAsActive() ;
-
-			auto id = utility::sequentialID() ;
-
-			m_ctx.logger().add( QObject::tr( "Downloading" ) + ": " + url,id ) ;
-
-			class woof
-			{
-			public:
-				woof( const Context& ctx,configure& p,const QString& name,int id ) :
-					m_ctx( ctx ),m_parent( p ),m_name( name ),m_id( id )
-				{
-				}
-				void operator()( const utils::network::reply& reply )
-				{
-					if( reply.success() ){
-
-						m_parent.addEngine( reply.data(),m_name ) ;
-					}else{
-						auto mm = QObject::tr( "Download Failed" ) ;
-
-						mm += ": " + reply.errorString() ;
-
-						m_ctx.logger().add( mm,m_id ) ;
-					}
-				}
-			private:
-				const Context& m_ctx ;
-				configure& m_parent ;
-				QString m_name ;
-				int m_id ;
-			} ;
-
-			m_ctx.network().get( url,woof( m_ctx,m_parent,name,id ) ) ;
+			m_parent.downloadExtension( name ) ;
 		}
 		void downloadCustom()
 		{
@@ -1072,9 +1116,9 @@ QMenu *  configure::addExtenion()
 					return ;
 				}
 
-				auto name = util::split( n,'/',true ).last() ;
+				auto m = util::split( n,'/',true ) ;
 
-				m_parent.addEngine( d,name ) ;
+				m_parent.addEngine( d,m.last() ) ;
 			}
 		}
 		const Context& m_ctx ;
@@ -1292,6 +1336,8 @@ void configure::setEngineOptions( const QString& e,engineOptions tab )
 
 			m_ui.lineEditConfigureCookieBrowserName->setText( mm ) ;
 			m_ui.lineEditConfigureCookieBrowserName->setEnabled( enable ) ;
+			m_ui.cbCookieSource->setEnabled( enable ) ;
+			m_ui.pbConfigureSetPathToCookieFile->setEnabled( enable ) ;
 		} ;
 
 		if( tab == engineOptions::url ){
@@ -1558,9 +1604,10 @@ configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
 
 		QFile f( m_path ) ;
 
-		f.open( QIODevice::ReadOnly ) ;
+		if( f.open( QIODevice::ReadOnly ) ){
 
-		data = f.readAll() ;
+			data = f.readAll() ;
+		}
 
 	}else if( m.contains( "PresetJsonOptions" ) ){
 
@@ -1584,8 +1631,11 @@ configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
 configure::presetOptions::~presetOptions()
 {
 	QFile f( m_path ) ;
-	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
-	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+
+	if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+		f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+	}
 }
 
 void configure::presetOptions::clear()
@@ -1781,13 +1831,14 @@ configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx,co
 
 		QFile f( m_path ) ;
 
-		f.open( QIODevice::ReadOnly ) ;
+		if( f.open( QIODevice::ReadOnly ) ){
 
-		auto json = QJsonDocument::fromJson( f.readAll(),&err ) ;
+			auto json = QJsonDocument::fromJson( f.readAll(),&err ) ;
 
-		if( err.error == QJsonParseError::NoError ){
+			if( err.error == QJsonParseError::NoError ){
 
-			m_array = json.array() ;
+				m_array = json.array() ;
+			}
 		}
 	}
 }
@@ -1795,8 +1846,11 @@ configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx,co
 void configure::downloadDefaultOptions::save()
 {
 	QFile f( m_path ) ;
-	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
-	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+
+	if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+		f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+	}
 }
 
 void configure::setVisibilityEditConfigFeature( bool e )

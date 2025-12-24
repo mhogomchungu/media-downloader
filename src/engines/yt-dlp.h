@@ -48,7 +48,6 @@ public:
 		~yt_dlplFilter() override ;
 	private:
 		QByteArray fileName() ;
-
 		const QByteArray& parseOutput( const Logger::Data::QByteArrayList& ) ;
 		bool hasNewError( const std::vector< QByteArray >& errors,const QByteArray& error ) ;
 		void setFileName( const QByteArray& ) ;
@@ -63,7 +62,7 @@ public:
 		yt_dlp& m_parent ;
 	} ;
 
-	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput( int ) override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
@@ -73,9 +72,11 @@ public:
 
 	bool updateVersionInfo() override ;
 
+	QByteArray parseError( const QByteArray& ) override ;
+
 	void updateLocalOptions( QStringList& ) override ;
 
-	void setProxySetting( QStringList&,const QString& ) override ;
+	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
 
 	void setTextEncondig( const QString&,QStringList& ) override ;
 
@@ -89,7 +90,9 @@ public:
 					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
+				       bool,
+				       const QStringList& ) override ;
 
 	void updateGetPlaylistCmdOptions( QStringList& ) override ;
 
@@ -100,18 +103,10 @@ public:
 				 Logger& logger,
 				 const engines::enginePaths& enginePath ) ;
 
-	yt_dlp( const engines&,
-		const engines::engine&,
-		QJsonObject&,
-		Logger& logger,
-		const engines::enginePaths&,
-		settings& ) ;
+	yt_dlp( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
 	std::vector< engines::engine::baseEngine::mediaInfo >
 	mediaProperties( Logger&,const QJsonArray&,const QJsonObject& ) ;
-
-	const engines::engine& m_engine ;
 	QJsonArray m_objs ;
-	settings * m_settings ;
 	QProcessEnvironment m_processEnvironment ;
 };

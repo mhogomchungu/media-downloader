@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright (c) 2021
+ *  Copyright (c) 2025
  *  name : Francis Banyikwa
  *  email: mhogomchungu@gmail.com
  *  This program is free software: you can redistribute it and/or modify
@@ -18,21 +18,19 @@
  */
 
 #include "../engines.h"
-#include "../settings.h"
 
-class safaribooks : public engines::engine::baseEngine
+class quickjs : public engines::engine::baseEngine
 {
 public:
-	static const char * testData() ;
-
-	safaribooks( const engines&,const engines::engine&,QJsonObject& ) ;
-	~safaribooks() override ;
-	QString commandString( const engines::engine::exeArgs::cmd& ) override ;
-	void sendCredentials( const QString&,QProcess& ) override ;
-	QString setCredentials( QStringList& e,QStringList& s ) override ;
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
-				       bool,
-				       const QStringList& ) override ;
+	static QJsonObject init( const QString& name,
+				 const QString& configFileName,
+				 Logger& logger,
+				 const engines::enginePaths& enginePath ) ;
+	~quickjs() ;
+	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
+	engines::engine::baseEngine::removeFilesStatus removeFiles( const QStringList&,const QString& ) override ;
+	bool foundNetworkUrl( const QString& s ) override ;
+	QString parseVersionInfo( const utils::qprocess::outPut& ) override ;
+	quickjs( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
-	const engines::engine& m_engine ;
 };

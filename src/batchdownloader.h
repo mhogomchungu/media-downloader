@@ -468,6 +468,8 @@ private:
 
 		m_table.setStateAsRunning( index,downloadRecursively ) ;
 
+		m_table.setConcurrentId( index,id ) ;
+
 		this->hideBasicDownloaderTableList() ;
 		this->updateTitleBar() ;
 
@@ -484,6 +486,14 @@ private:
 		const auto& ent = m_table.entryAt( index ) ;
 
 		auto urlOpts = m_ui.lineEditBDUrlOptions->text() ;
+
+		m_settings.addOptionsHistory( engine.name(),urlOpts,settings::tabName::batch ) ;
+
+		auto a = m_ui.cbEngineTypeBD->currentText() ;
+		auto b = m_ui.lineEditBDUrlOptions->text() ;
+		auto c = settings::tabName::batch ;
+
+		m_settings.setLastUsedOption( a,b,c ) ;
 
 		utility::download( engine,
 				  std::move( updateOpts ),

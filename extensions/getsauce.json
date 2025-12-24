@@ -1,0 +1,59 @@
+{
+    "AutoUpdate": true,
+    "BackendPath": "${default}",
+    "BatchFileArgument": "",
+    "CanDownloadPlaylist": false,
+    "Cmd": {
+        "Generic": {
+            "amd64": {
+                "Args": [
+                    "get-sauce"
+                ],
+                "Name": "get-sauce"
+            },
+            "x86": {
+                "Args": [
+                    "get-sauce"
+                ],
+                "Name": "get-sauce"
+            }
+        },
+        "Windows": {
+            "amd64": {
+                "Args": [
+                    "get-sauce.exe"
+                ],
+                "Name": "get-sauce.exe"
+            },
+            "x86": {
+                "Args": [
+                    "get-sauce.exe"
+                ],
+                "Name": "get-sauce.exe"
+            }
+        }
+    },
+    "ControlJsonStructure": {
+    },
+    "DefaultDownLoadCmdOptions": [
+    ],
+    "DefaultListCmdOptions": [
+        "-j"
+    ],
+    "DownloadUrl": "https://api.github.com/repos/gan-of-culture/get-sauce/releases/latest",
+    "LikeYoutubeDl": false,
+    "Name": "getsauce",
+    "OptionsArgument": "-s",
+    "RemoveText": [
+    ],
+    "SkipLineWithText": [
+    ],
+    "SplitLinesBy": [
+    ],
+    "ReplaceOutputWithProgressReport": true,
+    "UsePrivateExecutable": true,
+    "Version": "1",
+    "VersionArgument": "-v",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 2
+}

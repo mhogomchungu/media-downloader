@@ -42,7 +42,8 @@
             "contains": "ETA"
         }
     },
-    "CookieArgument": "--cookies",
+    "CookieArgument": "--cookies-from-browser",
+    "CookieArgumentTextFile": "--cookies",
     "DefaultCommentsCmdOptions": [
         "--get-comments",
         "--no-download",
@@ -57,8 +58,12 @@
         "%(title).200s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
+        "--match-filter",
+        "!playlist",
+        "--no-playlist",
+        "--newline",
         "--print",
-        "%(formats)j"
+        "{\"uploader\":%(uploader)j,\"id\":%(id)j,\"thumbnail\":%(thumbnail)j,\"duration\":%(duration)j,\"title\":%(title)j,\"upload_date\":%(upload_date)j,\"webpage_url\":%(webpage_url)j,\"formats\":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,\"playlist_id\":%(playlist_id)j,\"playlist_title\":%(playlist_title)j,\"playlist\":%(playlist)j,\"playlist_uploader\":%(playlist_uploader)j,\"playlist_uploader_id\":%(playlist_uploader_id)j}"
     ],
     "DefaultSubstitlesCmdOptions": [
         "--no-download",
@@ -70,9 +75,25 @@
     ],
     "DownloadUrl": "https://api.github.com/repos/ytdl-patched/ytdl-patched/releases/latest",
     "DumptJsonArguments": [
+        "--match-filter",
+        "!playlist",
+        "--no-playlist",
         "--newline",
         "--print",
-        "{\"uploader\":%(uploader)j,\"id\":%(id)j,\"thumbnail\":%(thumbnail)j,\"duration\":%(duration)j,\"title\":%(title)j,\"upload_date\":%(upload_date)j,\"webpage_url\":%(webpage_url)j,\"formats\":%(formats)j,\"n_entries\":%(n_entries)j,\"playlist_id\":%(playlist_id)j,\"playlist_title\":%(playlist_title)j,\"playlist\":%(playlist)j,\"playlist_count\":%(playlist_count)j,\"playlist_uploader\":%(playlist_uploader)j,\"playlist_uploader_id\":%(playlist_uploader_id)j}"
+        "{\"uploader\":%(uploader)j,\"id\":%(id)j,\"thumbnail\":%(thumbnail)j,\"duration\":%(duration)j,\"title\":%(title)j,\"upload_date\":%(upload_date)j,\"webpage_url\":%(webpage_url)j,\"formats\":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,\"playlist_id\":%(playlist_id)j,\"playlist_title\":%(playlist_title)j,\"playlist\":%(playlist)j,\"playlist_uploader\":%(playlist_uploader)j,\"playlist_uploader_id\":%(playlist_uploader_id)j}"
+    ],
+    "EncodingArgument": "--encoding",
+    "ExtraArguments": [
+    ],
+    "ExtraArgumentsFlatpak": [
+        "--no-js-runtimes",
+        "--js-runtimes",
+        "quickjs"
+    ],
+    "ExtraArgumentsWin7": [
+        "--no-js-runtimes",
+        "--js-runtimes",
+        "quickjs"
     ],
     "LikeYoutubeDl": true,
     "Name": "ytdl-patched",
@@ -88,6 +109,7 @@
     "SplitLinesBy": [
         "\n"
     ],
+    "Version": "1",
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 0

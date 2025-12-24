@@ -375,11 +375,13 @@ void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s ) const
 	s = QProcess::ProcessChannel::StandardError ;
 }
 
-void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& e,bool s )
+void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& e,
+					   bool s,
+					   const QStringList& m )
 {
 	e.ourOptions.append( "--verbose" ) ;
 
-	engines::engine::baseEngine::updateDownLoadCmdOptions( e,s ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( e,s,m ) ;
 }
 
 QStringList svtplay_dl::horizontalHeaderLabels() const
@@ -391,10 +393,12 @@ QStringList svtplay_dl::horizontalHeaderLabels() const
 	return m ;
 }
 
-void svtplay_dl::setProxySetting( QStringList& e,const QString& s )
+engines::engine::baseEngine::optionsEnvironment svtplay_dl::setProxySetting( QStringList& e,const QString& s )
 {
 	e.append( "--proxy" ) ;
 	e.append( s ) ;
+
+	return {} ;
 }
 
 static bool _add( std::vector< engines::engine::baseEngine::mediaInfo >& s,const QString& e )
@@ -535,38 +539,12 @@ svtplay_dl::svtplay_dlFilter::svtplay_dlFilter( settings&,const engines::engine&
 	engines::engine::baseEngine::filter( engine,id ){
 }
 
-static bool _startsWithCondition( const QByteArray& e )
-{
-	if( e.startsWith( '[' ) && e.size() > 1 ){
-
-		auto m = e[ 1 ] ;
-
-		return m >= '0' && m <= '9' ;
-
-	}else if( e.startsWith( "\r[" ) && e.size() > 2 ){
-
-		auto m = e[ 2 ] ;
-
-		return m >= '0' && m <= '9' ;
-	}else{
-		return false ;
-	}
-}
-
-static bool _meetCondition( const QByteArray& e )
-{
-	return _startsWithCondition( e ) && e.contains( " ETA:" ) ;
-}
-
-static bool _meetCondition( const engines::engine&,const QByteArray& e )
-{
-	return e.contains( "] (" ) && e.contains( " ETA:" ) ;
-}
-
 class svtplayFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:
-	svtplayFilter( const engines::engine& engine ) : m_engine( engine )
+	svtplayFilter( const engines::engine& engine ) :
+		m_engine( engine ),
+		m_callables( svtplayFilter::meetCondition,svtplayFilter::skipCondition )
 	{
 	}
 	engines::engine::baseEngine::filterOutPut::result
@@ -608,7 +586,7 @@ public:
 
 			if( d.lastText().contains( "ETA" ) ){
 
-				return { d.lastText(),m_engine,_meetCondition } ;
+				return { d.lastText(),m_engine,m_callables } ;
 			}else{
 				auto s = m.indexOf( "HTTP getting" ) ;
 
@@ -619,7 +597,7 @@ public:
 					m_tmp.clear() ;
 				}
 
-				return { m_tmp,m_engine,_meetCondition } ;
+				return { m_tmp,m_engine,m_callables } ;
 			}
 
 		}else if( m.startsWith( "INFO" ) ){
@@ -640,7 +618,7 @@ public:
 				}
 			}
 
-			return { m_tmp,m_engine,_meetCondition } ;
+			return { m_tmp,m_engine,m_callables } ;
 		}
 
 		auto e = m.indexOf( "ETA" ) ;
@@ -696,13 +674,13 @@ public:
 			m_tmp = "[00/00] (NA), " + a ;
 		}
 
-		return { m_tmp,m_engine,_meetCondition } ;
+		return { m_tmp,m_engine,m_callables } ;
 	}
 	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 
-		if( _meetCondition( e ) ){
+		if( svtplayFilter::meetCondition( e ) ){
 
 			return true ;
 		}else{
@@ -714,11 +692,42 @@ public:
 		return m_engine ;
 	}
 private:
+	static bool startsWithCondition( const QByteArray& e )
+	{
+		if( e.startsWith( '[' ) && e.size() > 1 ){
+
+			auto m = e[ 1 ] ;
+
+			return m >= '0' && m <= '9' ;
+
+		}else if( e.startsWith( "\r[" ) && e.size() > 2 ){
+
+			auto m = e[ 2 ] ;
+
+			return m >= '0' && m <= '9' ;
+		}else{
+			return false ;
+		}
+	}
+	static bool meetCondition( const QByteArray& e )
+	{
+		return svtplayFilter::startsWithCondition( e ) && e.contains( " ETA:" ) ;
+	}
+	static bool meetCondition( const engines::engine&,const QByteArray& e )
+	{
+		return e.contains( "] (" ) && e.contains( " ETA:" ) ;
+	}
+	static bool skipCondition( const engines::engine&,const QByteArray& )
+	{
+		return false ;
+	}
+
 	const engines::engine& m_engine ;
 	mutable QByteArray m_tmp ;
+	engines::engine::baseEngine::filterOutPut::result::callables m_callables ;
 } ;
 
-engines::engine::baseEngine::FilterOutPut svtplay_dl::filterOutput()
+engines::engine::baseEngine::FilterOutPut svtplay_dl::filterOutput( int )
 {
 	const engines::engine& engine = engines::engine::baseEngine::engine() ;
 
@@ -739,41 +748,44 @@ QString svtplay_dl::updateCmdPath( const QString& e )
 
 engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc )
 {
-	engines::metadata metadata ;
-
 	auto array = doc.array() ;
 
 	if( array.size() ){
 
-		QString url = [ & ](){
+		QString fileName ;
+		QString url ;
 
-			if( utility::platformIsWindows() ){
+		if( utility::platformIsWindows() ){
 
-				if( utility::platformIs32Bit() ){
+			if( utility::CPU().x86_32() ){
 
-					metadata.fileName = "svtplay-dl-win32.zip" ;
+				fileName = "svtplay-dl-win32.zip" ;
 
-					return "https://svtplay-dl.se/download/%1/svtplay-dl-win32.zip" ;
-				}else{
-					metadata.fileName = "svtplay-dl-amd64.zip" ;
-
-					return "https://svtplay-dl.se/download/%1/svtplay-dl-amd64.zip" ;
-				}
+				url = "https://svtplay-dl.se/download/%1/svtplay-dl-win32.zip" ;
 			}else{
-				metadata.fileName = "svtplay-dl" ;
+				fileName = "svtplay-dl-amd64.zip" ;
 
-				return "https://svtplay-dl.se/download/%1/svtplay-dl" ;
+				url = "https://svtplay-dl.se/download/%1/svtplay-dl-amd64.zip" ;
 			}
-		}() ;
+		}else{
+			fileName = "svtplay-dl" ;
 
-		auto obj = array[ 0 ].toObject() ;
+			url = "https://svtplay-dl.se/download/%1/svtplay-dl" ;
+		}
 
-		metadata.url = url.arg( obj.value( "name" ).toString() ) ;
+		QJsonObject obj ;
 
-		metadata.size = 0 ;
+		auto name = array[ 0 ].toObject().value( "name" ).toString() ;
+
+		obj.insert( "browser_download_url",url.arg( name ) ) ;
+		obj.insert( "name",fileName ) ;
+		obj.insert( "digest","" ) ;
+		obj.insert( "size",0 ) ;
+
+		return obj ;
+	}else{
+		return {} ;
 	}
-
-	return metadata ;
 }
 
 engines::engine::baseEngine::onlineVersion svtplay_dl::versionInfoFromGithub( const QByteArray& e )

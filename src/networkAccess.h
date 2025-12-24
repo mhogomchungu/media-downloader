@@ -23,6 +23,7 @@
 
 #include <QFile>
 #include <QStringList>
+#include <QCryptographicHash>
 
 #include "engines.h"
 #include "utils/network_access_manager.hpp"
@@ -388,6 +389,7 @@ private:
 	public:
 		bool open( const QString& e )
 		{
+			m_path = e ;
 			m_file = std::make_unique< QFile >( e ) ;
 			m_file->remove() ;
 			return m_file->open( QIODevice::WriteOnly ) ;
@@ -396,22 +398,51 @@ private:
 		{
 			m_file->close() ;
 		}
-		bool rename( const QString& e )
-		{
-			return m_file->rename( e ) ;
-		}
+		QString rename( const QString& e ) ;
 		void write( const QByteArray& e )
 		{
 			m_file->write( e ) ;
 		}
-		QFile& handle()
+		QFile& handle() const
 		{
 			return *m_file ;
 		}
+		const QString& src() const
+		{
+			return m_path ;
+		}
 	private:
+		QString m_path ;
 		utils::misc::unique_ptr< QFile > m_file ;
 	} ;
 
+	class cmdArgs
+	{
+	public:
+		cmdArgs()
+		{
+		}
+		cmdArgs( const QString& exe,const QStringList& args ) : m_exe( exe )
+		{
+			m_args = "\"" + args[ 0 ] + "\"" ;
+
+			for( int s = 1 ; s < args.size() ; s++ ){
+
+				m_args += " \"" + args[ s ] + "\"" ;
+			}
+		}
+		const QString& exe() const
+		{
+			return m_exe ;
+		}
+		const QString& args() const
+		{
+			return m_args ;
+		}
+	private:
+		QString m_exe ;
+		QString m_args ;
+	} ;
 	struct Opts
 	{
 		Opts( networkAccess::iterator itr,
@@ -421,14 +452,15 @@ private:
 			iter( std::move( itr ) ),
 			exeBinPath( exePath ),
 			tempPath( efp ),
-			id( xd )
+			id( xd ),
+			hashCalculator( std::make_unique< QCryptographicHash >( QCryptographicHash::Sha256 ) )
 		{
 		}
-		void add( engines::metadata&& m )
+		void add( engines::metadata m )
 		{
 			metadata = std::move( m ) ;
 
-			filePath = tempPath + "/" + metadata.fileName ;
+			filePath = tempPath + "/" + metadata.fileName() ;
 
 			isArchive = filePath.endsWith( ".zip" ) || filePath.contains( ".tar." ) ;
 
@@ -446,10 +478,12 @@ private:
 		engines::metadata metadata ;
 		QString filePath ;
 		QString tempPath ;
+		cmdArgs exeArgs ;
 		mutable QString networkError ;
 		bool isArchive = false ;
 		int id ;
 		Logger::locale locale ;
+		std::unique_ptr< QCryptographicHash > hashCalculator ;
 		networkAccess::File file ;
 	} ;
 
@@ -465,16 +499,29 @@ private:
 
 	struct updateMDOptions
 	{
+		updateMDOptions( const QJsonObject& obj,networkAccess::Status st ) :
+			url( obj.value( "browser_download_url" ).toString() ),
+			name( obj.value( "name" ).toString() ),
+			hash( obj.value( "digest" ).toString() ),
+			id( st.id() ),
+			size( obj.value( "size" ).toDouble() ),
+			status( st.move() ),
+			hashCalculator( std::make_unique< QCryptographicHash >( QCryptographicHash::Sha256 ) )
+		{
+		}
 		QString url ;
 		QString tmpFile ;
 		QString tmpPath ;
 		QString name ;
 		QString finalPath ;
+		QString hash ;
+		cmdArgs exeArgs ;
 		int id ;
 		double size ;
 		networkAccess::Status status ;
 		Logger::locale locale ;
 		networkAccess::File file ;
+		std::unique_ptr< QCryptographicHash > hashCalculator ;
 		updateMDOptions move()
 		{
 			return std::move( *this ) ;
@@ -498,6 +545,8 @@ private:
 	void postDestination( const QString&,const QString&,int ) const ;
 	void postDownloadingProgress( const QString&,const QString&,int ) const ;
 
+	void hashDoNotMatch( const QString&,const QString&,int ) const ;
+
 	QString downloadFailed() const ;
 
 	QNetworkRequest networkRequest( const QString& url,const QByteArray& userAgent = {} ) const ;
@@ -513,6 +562,17 @@ private:
 	void post( const QString&,const QString&,int ) const ;
 
 	QString reportError( const utils::network::progress& ) const ;
+
+	void failedToExtract( const networkAccess::cmdArgs&,const utils::qprocess::outPut&,int ) const ;
+	void failedToRemove( const QString&,
+			     const engines::engine::baseEngine::removeFilesStatus&,
+			     int ) const ;
+	void failedToRemove( const QString&,const QString&,const QString&,int ) const ;
+	void failedToRename( const QString& name,
+			     const QString& src,
+			     const QString& dst,
+			     const QString& err,
+			     int id ) const ;
 
 	const Context& m_ctx ;
 	utils::network::manager m_network ;

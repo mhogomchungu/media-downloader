@@ -338,7 +338,7 @@ public:
 
 		QJsonObject obj ;
 
-		obj.insert( "webpage_url",m_url ) ;
+		obj.insert( "direct_url",m_url ) ;
 		obj.insert( "fileName",m_fileName ) ;
 		obj.insert( "title",m_title ) ;
 		obj.insert( "thumbnail",m_thumbnail ) ;
@@ -446,6 +446,7 @@ private:
 			return m ;
 		}
 	}
+
 	QJsonObject m_obj ;
 	QString m_wurl ;
 	QString m_thumbnail ;
@@ -520,13 +521,17 @@ void gallery_dl::runCommandOnDownloadedFile( const std::vector< QByteArray >& e 
 	s.runCommandOnSuccessfulDownload( this->engine().name(),df,e ) ;
 }
 
-void gallery_dl::setProxySetting( QStringList& e,const QString& s )
+engines::engine::baseEngine::optionsEnvironment gallery_dl::setProxySetting( QStringList& e,const QString& s )
 {
 	e.append( "--proxy" ) ;
 	e.append( s ) ;
+
+	return {} ;
 }
 
-void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& opts,bool s )
+void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& opts,
+					   bool s,
+					   const QStringList& extraOpts )
 {
 	auto _not_contains = []( const engines::engine::baseEngine::updateOpts& opts,const char * e ){
 
@@ -557,7 +562,7 @@ void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::up
 	opts.ourOptions.prepend( "output.mode=terminal" ) ;
 	opts.ourOptions.prepend( "-o" ) ;
 
-	engines::engine::baseEngine::updateDownLoadCmdOptions( opts,s ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( opts,s,extraOpts ) ;
 }
 
 QString gallery_dl::updateTextOnCompleteDownlod( const QString& uiText,

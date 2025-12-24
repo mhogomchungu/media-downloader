@@ -52,6 +52,8 @@ public:
 		if( utility::platformIsWindows() ){
 
 			m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
+
+			m_pretendLegacyWindows = m.contains( "--pretend-winLegacy" ) ;
 		}
 	}
 	bool isWindows7() const
@@ -62,9 +64,14 @@ public:
 	{
 		return m_pretend32Bit ;
 	}
+	bool isLegacyWindows() const
+	{
+		return m_pretendLegacyWindows ;
+	}
 private:
 	bool m_pretend32Bit    = false ;
 	bool m_pretendWindows7 = false ;
+	bool m_pretendLegacyWindows = false ;
 } ;
 
 static pretendPlatform _pretendPlatform ;
@@ -96,11 +103,21 @@ bool utility::platformIsWindows7()
 	return false ;
 }
 
+bool utility::platformisLegacyWindows()
+{
+	return false ;
+}
+
 #endif
 
 #ifdef Q_OS_LINUX
 
 bool utility::platformIsWindows7()
+{
+	return false ;
+}
+
+bool utility::platformisLegacyWindows()
 {
 	return false ;
 }
@@ -130,6 +147,11 @@ bool utility::platformIsWindows()
 #ifdef Q_OS_MACOS
 
 bool utility::platformIsWindows7()
+{
+	return false ;
+}
+
+bool utility::platformisLegacyWindows()
 {
 	return false ;
 }
@@ -203,21 +225,59 @@ bool utility::platformIsWindows7()
 	}
 }
 
+bool utility::platformisLegacyWindows()
+{
+	if( _pretendPlatform.isLegacyWindows() ){
+
+		return true ;
+	}else{
+		const auto m = QOperatingSystemVersion::current() ;
+
+		if( m.majorVersion() < 10 ){
+
+			return true ;
+
+		}else if( m.majorVersion() == 10 ){
+
+			/*
+			 * Windows 10 (1903)       10.0.18362
+			 * Windows 10 (1809)       10.0.17763
+			 * Windows 10 (1803)       10.0.17134
+			 * Windows 10 (1709)       10.0.16299
+			 * Windows 10 (1703)       10.0.15063
+			 * Windows 10 (1607)       10.0.14393
+			 * Windows 10 (1511)       10.0.10586
+			 * Windows 10              10.0.10240
+			 */
+			return m.microVersion() < 16299 ;
+		}else{
+			return false ;
+		}
+	}
+}
+
 QString utility::windowsApplicationDirPath()
 {
-	std::array< char,4096 > buffer ;
+	std::array< wchar_t,4096 > buffer ;
 
-	GetModuleFileNameA( nullptr,buffer.data(),static_cast< DWORD >( buffer.size() ) ) ;
+	auto e = GetModuleFileNameW( nullptr,buffer.data(),static_cast< DWORD >( buffer.size() ) ) ;
 
-	auto m = QDir::fromNativeSeparators( buffer.data() ) ;
-	auto s = m.lastIndexOf( '/' ) ;
+	if( e > 0 ){
 
-	if( s != -1 ){
+		auto a = QString::fromWCharArray( buffer.data(),e ) ;
 
-		m.truncate( s ) ;
+		auto m = QDir::fromNativeSeparators( a ) ;
+		auto s = m.lastIndexOf( '/' ) ;
+
+		if( s != -1 ){
+
+			m.truncate( s ) ;
+		}
+
+		return m ;
+	}else{
+		return {} ;
 	}
-
-	return m ;
 }
 
 class adaptorInfo
@@ -650,7 +710,7 @@ void utility::checkPermissions::disable()
 
 #endif
 
-QString windowsGetLastErrorMessage()
+QString utility::errorMessage()
 {
 	char * s = nullptr ;
 
@@ -672,10 +732,10 @@ QString windowsGetLastErrorMessage()
 	return m ;
 }
 
-class renameFile
+class fileRename
 {
 public:
-	renameFile( const QString& oldPath,const QString& newPath ) :
+	fileRename( const QString& oldPath,const QString& newPath ) :
 		m_oldPath( this->setPath( oldPath ) ),m_newPath( this->setPath( newPath ) )
 	{
 	}
@@ -688,7 +748,7 @@ public:
 	}
 	QString errorString() const
 	{
-		return windowsGetLastErrorMessage() ;
+		return utility::errorMessage() ;
 	}
 	const QString& oldPath() const
 	{
@@ -707,11 +767,60 @@ private:
 	QString m_newPath ;
 } ;
 
+class fileRemove
+{
+public:
+	fileRemove( const QString& s ) : m_src( s )
+	{
+	}
+	bool exec() const
+	{
+		if( QFile::exists( m_src ) ){
+
+			//return unlink( m_src.toUtf8().constData() ) == 0 ;
+			return QFile::remove( m_src ) ;
+		}else{
+			return true ;
+		}
+	}
+	QString errorString() const
+	{
+		return utility::errorMessage() ;
+	}
+private:
+	const QString& m_src ;
+} ;
+
+class dirRemove
+{
+public:
+	dirRemove( const QString& s ) : m_src( s )
+	{
+	}
+	bool exec() const
+	{
+		QDir dir( m_src ) ;
+
+		if( dir.exists() ){
+
+			return dir.removeRecursively() ;
+		}else{
+			return true ;
+		}
+	}
+	QString errorString() const
+	{
+		return utility::errorMessage() ;
+	}
+private:
+	const QString& m_src ;
+} ;
+
 #else
 
-QString windowsGetLastErrorMessage()
+QString utility::errorMessage()
 {
-	return {} ;
+	return strerror( errno ) ;
 }
 
 void utility::checkPermissions::enable()
@@ -722,32 +831,83 @@ void utility::checkPermissions::disable()
 {
 }
 
-class renameFile
+class fileRename
 {
 public:
-	renameFile( const QString& oldPath,const QString& newPath ) :
-		m_oldPath( oldPath.toUtf8() ),m_newPath( newPath.toUtf8() )
+	fileRename( const QString& oldPath,const QString& newPath ) :
+		m_oldPath( oldPath ),m_newPath( newPath )
 	{
 	}
 	bool exec() const
 	{
-		return rename( m_oldPath.constData(),m_newPath.constData() ) == 0 ;
+		auto oldPath = m_oldPath.toUtf8() ;
+		auto newPath = m_newPath.toUtf8() ;
+
+		return rename( oldPath.constData(),newPath.constData() ) == 0 ;
 	}
 	QString errorString() const
 	{
 		return strerror( errno ) ;
 	}
-	const QByteArray& oldPath() const
+	const QString& oldPath() const
 	{
 		return m_oldPath ;
 	}
-	const QByteArray& newPath() const
+	const QString& newPath() const
 	{
 		return m_newPath ;
 	}
 private:
-	QByteArray m_oldPath ;
-	QByteArray m_newPath ;
+	const QString& m_oldPath ;
+	const QString& m_newPath ;
+} ;
+
+class fileRemove
+{
+public:
+	fileRemove( const QString& s ) : m_src( s )
+	{
+	}
+	bool exec() const
+	{
+		if( QFile::exists( m_src ) ){
+
+			return QFile::remove( m_src ) ;
+		}else{
+			return true ;
+		}
+	}
+	QString errorString() const
+	{
+		return strerror( errno ) ;
+	}
+private:
+	const QString& m_src ;
+} ;
+
+class dirRemove
+{
+public:
+	dirRemove( const QString& s ) : m_src( s )
+	{
+	}
+	bool exec() const
+	{
+		QDir dir( m_src ) ;
+
+		if( dir.exists() ){
+
+			return dir.removeRecursively() ;
+		}else{
+			return true ;
+		}
+	}
+	QString errorString() const
+	{
+		return strerror( errno ) ;
+	}
+private:
+	const QString& m_src ;
 } ;
 
 std::vector< utility::PlayerOpts > utility::getMediaPlayers()
@@ -1146,13 +1306,6 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	QStringList opts ;
 
-	const auto& p = s.ctx.Engines().networkProxy() ;
-
-	if( p.isSet() ){
-
-		engine.setProxySetting( opts,p.networkProxyString() ) ;
-	}
-
 	auto oopts = [ & ](){
 
 		if( dopts.hasExtraOptions ){
@@ -1180,23 +1333,7 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	engine.updateDownLoadCmdOptions( ups,settings.downloadOptionsAsLast() ) ;
 
-	const auto& ca = engine.cookieArgument() ;
-	const auto& cv = settings.cookieBrowserName( engine.name() ) ;
-
-	if( !ca.isEmpty() && !cv.isEmpty() ){
-
-		opts.append( ca ) ;
-		opts.append( cv ) ;
-	}
-
-	auto cookieFile = settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		opts.append( caa ) ;
-		opts.append( cookieFile ) ;
-	}
+	utility::setCookieOption( opts,settings,engine ) ;
 
 	for( auto& it : opts ){
 
@@ -1587,21 +1724,6 @@ const engines::engine& utility::resolveEngine( const tableWidget& table,
 	}
 }
 
-bool utility::platformIs32Bit()
-{
-	if( _pretendPlatform.is32Bit() ){
-
-		return true ;
-	}
-
-#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
-	return QSysInfo::currentCpuArchitecture() != "x86_64" ;
-#else
-	//?????
-	return false ;
-#endif
-}
-
 void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 {
 	QJsonObject s ;
@@ -1625,6 +1747,31 @@ void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 	}
 
 	m_obj.insert( e.platform,s ) ;
+}
+
+QStringList utility::setEnvArgs( engines::engine::baseEngine::optionsEnvironment& env,const QStringList& args )
+{
+	QStringList s ;
+
+	for( const auto& it : args ){
+
+		if( it.startsWith( "$ENV(" ) && it.endsWith( ")" ) && it.contains( "=" ) ){
+
+			auto m = it.mid( 5 ) ;
+			m = m.mid( 0,m.size() - 1 ) ;
+
+			auto e = util::split( m,"=" ) ;
+
+			if( e.size() > 1 ){
+
+				env.add( e[ 0 ],e[ 1 ] ) ;
+			}
+		}else{
+			s.append( it ) ;
+		}
+	}
+
+	return s ;
 }
 
 QString utility::fromSecsSinceEpoch( qint64 s )
@@ -1962,18 +2109,55 @@ bool utility::runningGitVersion()
 {
 	auto m = utility::runningVersionOfMediaDownloader() ;
 
+	return utility::runningGitVersion( m ) ;
+}
+
+bool utility::runningGitVersion( const QString& m )
+{
 	return util::split( m,"." ).size() > 3 ;
+}
+
+const QString& utility::fakeRunningVersionOfMediaDownloader()
+{
+	return _runTimeVersions().instanceVersion() ;
 }
 
 QString utility::runningVersionOfMediaDownloader()
 {
-	const auto& e = _runTimeVersions().instanceVersion() ;
+	const auto& e = utility::fakeRunningVersionOfMediaDownloader() ;
 
 	if( e.isEmpty() ){
 
 		return utility::compileTimeVersion() ;
 	}else{
 		return e ;
+	}
+}
+
+QString utility::parseVersionInfo( const utils::qprocess::outPut& r )
+{
+	if( r.success() ){
+
+		if( utility::containsLinkerWarning( r.stdOut ) ){
+
+			const auto m = util::split( r.stdOut,'\n' ) ;
+
+			QStringList s ;
+
+			for( const auto& it : m ){
+
+				if( !utility::containsLinkerWarning( it ) ){
+
+					s.append( it ) ;
+				}
+			}
+
+			return s.join( '\n' ).toUtf8() ;
+		}else{
+			return r.stdOut ;
+		}
+	}else{
+		return {} ;
 	}
 }
 
@@ -2129,12 +2313,21 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 	}
 }
 
+static bool _useFakeHash ;
+
+bool utility::cliArguments::useFakeMdHash()
+{
+	return _useFakeHash ;
+}
+
 utility::cliArguments::cliArguments( int argc,char ** argv )
 {
 	for( int i = 0 ; i < argc ; i++ ){
 
 		m_args.append( argv[ i ] ) ;
 	}
+
+	_useFakeHash = this->contains( "--fake-hash" ) ;
 
 	_pretendPlatform.set( m_args ) ;
 
@@ -2271,7 +2464,9 @@ utility::printOutPut::printOutPut( const utility::cliArguments& args )
 
 			m_outPutFile.setFileName( m ) ;
 
-			m_outPutFile.open( QIODevice::WriteOnly | QIODevice::Append ) ;
+			auto m = m_outPutFile.open( QIODevice::WriteOnly | QIODevice::Append ) ;
+
+			Q_UNUSED( m )
 		}
 	}
 }
@@ -2604,7 +2799,7 @@ void utility::contextMenuForDirectUrl( std::vector< UrlLinks > links,
 
 				if( e.name == "VLC" ){
 
-					auto m = m_ctx.Settings().flatPakHasVLCSupport() ;
+					auto m = m_ctx.Settings().flatpakIntance().getVLC().valid() ;
 					ac->setEnabled( m ) ;
 				}
 			}
@@ -2621,16 +2816,29 @@ void utility::contextMenuForDirectUrl( std::vector< UrlLinks > links,
 
 void utility::deleteTmpFiles( const QString& df,std::vector< QByteArray > files )
 {
-	utils::qthread::run( [ df,files = std::move( files ) ](){
-
-		for( const auto& it : files ){
-
-			auto m = df + "/" + it ;
-
-			QFile::remove( m + ".part" ) ;
-			QFile::remove( m ) ;
+	class meaw
+	{
+	public:
+		meaw( const QString& df,std::vector< QByteArray > files ) :
+			m_df( df ),m_files( std::move( files ) )
+		{
 		}
-	} ) ;
+		void operator()()
+		{
+			for( const auto& it : m_files ){
+
+				auto m = m_df + "/" + it ;
+
+				QFile::remove( m + ".part" ) ;
+				QFile::remove( m ) ;
+			}
+		}
+	private:
+		QString m_df ;
+		std::vector< QByteArray > m_files ;
+	} ;
+
+	utils::qthread::run( meaw( df,std::move( files ) ) ) ;
 }
 
 bool utility::Qt6Version()
@@ -2689,7 +2897,7 @@ QString utility::rename( const Context& ctx,
 
 	auto id = utility::concurrentID() ;
 
-	renameFile rename( oldPath,newPath ) ;
+	fileRename rename( oldPath,newPath ) ;
 
 	auto e = QObject::tr( "Renaming \"%1\" to \"%2\"" ) ;
 
@@ -2719,6 +2927,34 @@ QString utility::rename( const Context& ctx,
 
 		return {} ;
 	}
+}
+
+template< typename Type,typename ... Args >
+QString FileSystemOperation( Args&& ... args )
+{
+	Type m( std::forward< Args >( args ) ... ) ;
+
+	if( m.exec() ){
+
+		return {} ;
+	}else{
+		return m.errorString() ;
+	}
+}
+
+QString utility::rename( const QString& oldName,const QString& newName )
+{
+	return FileSystemOperation< fileRename >( oldName,newName ) ;
+}
+
+QString utility::removeFile( const QString& e )
+{
+	return FileSystemOperation< fileRemove >( e ) ;
+}
+
+QString utility::removeFolder( const QString& e )
+{
+	return FileSystemOperation< dirRemove >( e ) ;
 }
 
 bool utility::containsLinkerWarning( const QByteArray& e )
@@ -2751,4 +2987,79 @@ void utility::copyToClipboardUrls( tableWidget& table )
 bool utility::fileIsInvalidForGettingThumbnail( const QByteArray& e )
 {
 	return e.endsWith( ".mp4" ) || e.endsWith( ".webm" ) || e.endsWith( ".avi" ) ;
+}
+
+utility::CPU::CPU() : m_cpu( this->getCPU() )
+{
+}
+
+bool utility::CPU::x86_32() const
+{
+	if( _pretendPlatform.is32Bit() ){
+
+		return true ;
+	}else{
+		return m_cpu == "i386" || m_cpu == "x86_32" ;
+	}
+}
+
+bool utility::CPU::x86_64() const
+{
+	return m_cpu == "x86_64" ;
+}
+
+bool utility::CPU::aarch64() const
+{
+	return m_cpu == "arm64" || m_cpu == "aarch64";
+}
+
+bool utility::CPU::aarch32() const
+{
+	return m_cpu == "arm" || m_cpu == "aarch32" ;
+}
+
+const QString& utility::CPU::getCPU() const
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
+	static QString m = QSysInfo::currentCpuArchitecture() ;
+	return m ;
+#else
+	static QString m = [](){
+
+		if( utility::platformIsLinux() ){
+
+			QFile file( "/proc/sys/kernel/arch" ) ;
+
+			if( file.open( QIODevice::ReadOnly ) ){
+
+				return file.readAll().trimmed() ;
+			}
+		}
+
+		return QByteArray() ;
+	}() ;
+
+	return m ;
+#endif
+}
+
+void utility::setCookieOption( QStringList& opts,settings& s,const engines::engine& engine )
+{
+	const auto& ca = engine.cookieArgument() ;
+	const auto& cv = s.cookieBrowserName( engine.name() ) ;
+
+	if( !ca.isEmpty() && !cv.isEmpty() ){
+
+		opts.append( ca ) ;
+		opts.append( cv ) ;
+	}
+
+	auto cookieFile = s.cookieBrowserTextFilePath( engine.name() ) ;
+	const auto& caa = engine.cookieTextFileArgument() ;
+
+	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
+
+		opts.append( caa ) ;
+		opts.append( cookieFile ) ;
+	}
 }

@@ -143,7 +143,7 @@ void tabManager::setDefaultEngines()
 
 	for( const auto& engine : m_ctx.Engines().getEngines() ){
 
-		if( engine.mainEngine() && engine.backendExists() && !engine.broken() ){
+		if( !engine.supportingEngine() && engine.backendExists() && !engine.broken() ){
 
 			s.append( engine.name() ) ;
 		}
@@ -157,7 +157,7 @@ void tabManager::setDefaultEngines()
 
 void tabManager::setProxy( const settings::proxySettings& proxy,const settings::proxySettings::type& m )
 {
-	proxy::set( m_ctx,m_firstTime,proxy.proxyAddress(),m ) ;
+	proxy::set( m_ctx,m_firstTimeSettingProxy,proxy.proxyAddress(),m ) ;
 }
 
 void tabManager::clipboardEvent( QClipboard::Mode mode )
@@ -166,7 +166,8 @@ void tabManager::clipboardEvent( QClipboard::Mode mode )
 
 		if( utility::platformIsWindows() ){
 
-			this->bgThreadClipboardHandler() ;
+			//this->bgThreadClipboardHandler() ;
+			this->mainThreadClipboardHandler() ;
 		}else{
 			this->mainThreadClipboardHandler() ;
 		}
@@ -258,7 +259,7 @@ tabManager& tabManager::gotEvent( const QByteArray& s )
 
 		auto e = jsonDoc.object() ;
 
-		if( m_firstTime ){
+		if( m_firstTimeSettingProxy ){
 
 			auto m = e.value( "--proxy" ).toString() ;
 
@@ -271,13 +272,13 @@ tabManager& tabManager::gotEvent( const QByteArray& s )
 
 					this->setProxy( s,t ) ;
 				}else{
-					m_ctx.setNetworkProxy( m,m_firstTime ) ;
+					m_ctx.setNetworkProxy( m,m_firstTimeSettingProxy ) ;
 				}
 			}else{
-				m_ctx.setNetworkProxy( m,m_firstTime ) ;
+				m_ctx.setNetworkProxy( m,m_firstTimeSettingProxy ) ;
 			}
 
-			m_firstTime = false ;
+			m_firstTimeSettingProxy = false ;
 		}
 
 		m_basicdownloader.gotEvent( e ) ;
@@ -298,6 +299,13 @@ tabManager& tabManager::enableAll()
 	m_library.enableAll() ;
 
 	m_uiEnabled = true ;
+
+	if( m_firstTime ){
+
+		this->setDefaultEngines() ;
+
+		m_firstTime =  false ;
+	}
 
 	return *this ;
 }
@@ -358,7 +366,7 @@ void tabManager::keyPressed( utility::mainWindowKeyCombo m )
 	{
 		case 0 : m_basicdownloader.keyPressed( m ) ; break ;
 		case 1 : m_batchdownloader.keyPressed( m ) ; break ;
-		case 2 : m_playlistdownloader.tabExited()  ; break ;
+		case 2 : m_playlistdownloader.keyPressed( m ) ; break ;
 		case 3 : m_library.keyPressed( m )         ; break ;
 		case 4 : m_configure.keyPressed( m )       ; break ;
 		case 5 : m_about.keyPressed( m )           ; break ;

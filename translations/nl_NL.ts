@@ -553,10 +553,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Kan het json-bestand van github niet ontleden</translation>
     </message>
     <message>
-        <source>Renaming file to: </source>
-        <translation>Hernoem bestand naar: </translation>
-    </message>
-    <message>
         <source>Turkish (Turkey)</source>
         <translation>Turks(Turkije)</translation>
     </message>
@@ -829,10 +825,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Running In Portable Mode</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1080,6 +1072,34 @@ Exampe 2: ${gateway}:8080</source>
         <source>Renaming Failed: %3</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Skipping Checking Download Hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignoring Download Because Hashes Do Not Match</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1268,16 +1288,16 @@ Exampe 2: ${gateway}:8080</source>
 <context>
     <name>logWindow</name>
     <message>
-        <source>Clear</source>
-        <translation>Wissen</translation>
-    </message>
-    <message>
         <source>Close</source>
         <translation>Sluit</translation>
     </message>
     <message>
         <source>Log Window</source>
         <translation>Log venster</translation>
+    </message>
+    <message>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

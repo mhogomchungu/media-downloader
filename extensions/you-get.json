@@ -68,6 +68,7 @@
     "SplitLinesBy": [
         "\n"
     ],
+    "Version": "1",
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 2

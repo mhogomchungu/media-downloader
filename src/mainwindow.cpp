@@ -52,24 +52,6 @@ MainWindow::MainWindow( QApplication& app,
 	qRegisterMetaType< utility::networkReply >() ;
 	qRegisterMetaType< reportFinished >() ;
 
-	auto shortcut1 = new QShortcut( this ) ;
-
-	shortcut1->setKey( Qt::CTRL | Qt::Key_D ) ;
-
-	connect( shortcut1,&QShortcut::activated,[ this ](){
-
-		m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_D ) ;
-	} ) ;
-
-	auto shortcut2 = new QShortcut( this ) ;
-
-	shortcut2->setKey( Qt::CTRL | Qt::Key_A ) ;
-
-	connect( shortcut2,&QShortcut::activated,[ this ](){
-
-		m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_A ) ;
-	} ) ;
-
 	m_settings.setMainWindowDimensions( this->window() ) ;
 
 	this->window()->setWindowIcon( m_trayIcon.icon() ) ;
@@ -149,6 +131,30 @@ void MainWindow::showTrayIcon( bool e )
 	}else{
 		m_trayIcon.hide() ;
 	}
+}
+
+void MainWindow::keyPressEvent( QKeyEvent * e )
+{
+	auto key = static_cast< Qt::Key >( e->key() ) ;
+
+	if( e->modifiers() & Qt::CTRL ){
+
+		if( key == Qt::Key_D ){
+
+			m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_D ) ;
+
+		}else if( key == Qt::Key_A ){
+
+			m_tabManager.keyPressed( utility::mainWindowKeyCombo::CTRL_A ) ;
+		}
+	}else{
+		if( key == Qt::Key_Enter || key == Qt::Key_Return ){
+
+			m_tabManager.keyPressed( utility::mainWindowKeyCombo::ENTER ) ;
+		}
+	}
+
+	QWidget::keyPressEvent( e ) ;
 }
 
 void MainWindow::retranslateUi()

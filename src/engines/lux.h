@@ -28,7 +28,7 @@ public:
 	static const char * testData() ;
 
 	~lux() override ;
-	lux( const engines&,const engines::engine&,QJsonObject&,const QString& downloadFolder ) ;
+	lux( const engines&,const engines::engine&,QJsonObject& ) ;
 
 	class lux_dlFilter : public engines::engine::baseEngine::filter
 	{
@@ -54,15 +54,19 @@ public:
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
+	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
+
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
 
 	bool foundNetworkUrl( const QString& s ) override ;
 
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,bool ) override ;
+	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
+				       bool,
+				       const QStringList&) override ;
 
-	engines::engine::baseEngine::FilterOutPut filterOutput() override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

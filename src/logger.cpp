@@ -29,9 +29,12 @@ Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_logWindow( nullptr,s,*this ),
 	m_textEdit( e ),
 	m_processOutPuts( true,s.getLogsLimits() ),
-	m_settings( s )
+	m_settings( s ),
+	m_qobj( *this )
 {
 	m_textEdit.setReadOnly( true ) ;
+
+	m_textEdit.installEventFilter( &m_qobj ) ;
 }
 
 void Logger::registerDone( int id )
@@ -56,7 +59,13 @@ void Logger::add( const QByteArray& s,int id )
 
 void Logger::clear()
 {
-	m_processOutPuts.clear() ;
+	if( m_id == -1 ){
+
+		m_processOutPuts.clear() ;
+	}else{
+		m_processOutPuts.clear( m_id ) ;
+	}
+
 	m_textEdit.clear() ;
 	m_logWindow.clear() ;
 }
@@ -67,10 +76,23 @@ void Logger::setMaxProcessLog( int s )
 	m_maxProcessLog = s ;
 }
 
-void Logger::showLogWindow()
+void Logger::showLogWindow( int id )
 {
-	m_logWindow.setText( m_processOutPuts.toLines() ) ;
+	m_id = id ;
+
+	if( m_id == -1 ){
+
+		m_logWindow.setText( m_processOutPuts.toLines() ) ;
+	}else{
+		m_logWindow.setText( m_processOutPuts.toLines( m_id ) ) ;
+	}
+
 	m_logWindow.Show() ;
+}
+
+void Logger::showAllLogs()
+{
+	m_id = -1 ;
 }
 
 void Logger::reTranslateLogWindow()
@@ -105,15 +127,33 @@ void Logger::update()
 		}
 	}
 
-	auto m = m_processOutPuts.toLines() ;
-
 	if( m_updateView ){
+
+		auto m = m_processOutPuts.toLines() ;
 
 		m_textEdit.setPlainText( m ) ;
 		m_textEdit.moveCursor( QTextCursor::End ) ;
-	}
 
-	m_logWindow.update( m ) ;
+		if( m_logWindow.isVisible() ){
+
+			if( m_id == -1 ){
+
+				m_logWindow.update( m ) ;
+			}else{
+				m_logWindow.update( m_processOutPuts.toLines( m_id ) ) ;
+			}
+		}
+	}else{
+		if( m_logWindow.isVisible() ){
+
+			if( m_id == -1 ){
+
+				m_logWindow.update( m_processOutPuts.toLines() ) ;
+			}else{
+				m_logWindow.update( m_processOutPuts.toLines( m_id ) ) ;
+			}
+		}
+	}
 }
 
 bool Logger::Data::registerDone( int id )
@@ -179,6 +219,36 @@ QByteArray Logger::Data::join( const QByteArray& joiner ) const
 			for( size_t i = 1 ; i < ee.size() ; i++ ){
 
 				m += joiner + ee[ i ].text() ;
+			}
+		}
+	}
+
+	return m ;
+}
+
+QByteArray Logger::Data::join( const QByteArray& joiner,int id ) const
+{
+	QByteArray m ;
+
+	for( const auto& it : m_processOutputs ){
+
+		if( it.processId() == id ){
+
+			const auto& ee = it.entries() ;
+
+			if( !ee.empty() ){
+
+				if( m.isEmpty() ){
+
+					m = ee[ 0 ].text() ;
+				}else{
+					m += joiner + ee[ 0 ].text() ;
+				}
+
+				for( size_t i = 1 ; i < ee.size() ; i++ ){
+
+					m += joiner + ee[ i ].text() ;
+				}
 			}
 		}
 	}
@@ -261,4 +331,12 @@ QString Logger::locale::locale::formattedDataSize( qint64 s ) const
 
 	return {} ;
 #endif
+}
+
+bool Logger::meaw::eventFilter( QObject * obj,QEvent * event )
+{
+	return utility::showContextMenuLogWidget( obj,event,&m_parent.m_textEdit,[ this ](){
+
+		m_parent.clear() ;
+	} ) ;
 }

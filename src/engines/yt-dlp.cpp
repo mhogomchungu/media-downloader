@@ -205,7 +205,7 @@ void yt_dlp::setNicolaasjanYtdlpOptions( QString& cmd,QString& url )
 {
 	url = _NicolaasjanYtdlpUrl() ;
 
-	if( utility::platformIs32Bit() ){
+	if( utility::CPU().x86_32() ){
 
 		cmd = _NicolaasjanYtdlpFor32BitWin7() ;
 	}else{
@@ -223,7 +223,7 @@ void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& th
 
 			// left on purpose
 		}else{
-			if( utility::platformIs32Bit() ){
+			if( utility::CPU().x86_32() ){
 
 				destPath += "/" + _Windows32BitBinaryName() ;
 			}else{
@@ -341,9 +341,19 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	json.done() ;
 
-	mainObj.insert( "DefaultListCmdOptions",_arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ) ;
+	mainObj.insert( "Version","2" ) ;
 
-	mainObj.insert( "DumptJsonArguments",_arr( "--no-playlist","--newline","--print",_jsonFullArguments() ) ) ;
+	mainObj.insert( "ExtraArguments",_arr() ) ;
+
+	mainObj.insert( "ExtraArgumentsWin7",_arr( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
+
+	mainObj.insert( "ExtraArgumentsFlatpak",_arr( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
+
+	auto arr = _arr( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
+
+	mainObj.insert( "DumptJsonArguments",arr ) ;
+
+	mainObj.insert( "DefaultListCmdOptions",arr ) ;
 
 	mainObj.insert( "DefaultCommentsCmdOptions",_arr( "--get-comments","--no-download","--print","{\"title\":%(title)j,\"comments\":%(comments)j}" ) ) ;
 
@@ -404,108 +414,14 @@ QJsonObject yt_dlp::init( const QString& name,
 
 yt_dlp::yt_dlp( const engines& engines,
 		const engines::engine& engine,
-		QJsonObject& obj,
-		Logger& logger,
-		const engines::enginePaths& enginePath,
-		settings& s ) :
+		QJsonObject& ) :
 	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() ),
-	m_engine( engine ),
-	m_settings( &s ),
 	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
 {
-	auto name = obj.value( "Name" ).toString() ;
-
-	if( name == "yt-dlp" ){
-
-		if( obj.value( "Cmd" ).isUndefined() ){
-
-			auto configFileName = name + ".json" ;
-
-			auto m = enginePath.enginePath( configFileName ) ;
-
-			QFile::remove( m ) ;
-
-			obj = yt_dlp::init( name,configFileName,logger,enginePath ) ;
-		}
-	}
-
-	if( !obj.contains( "EncodingArgument" ) ){
-
-		obj.insert( "EncodingArgument","--encoding" ) ;
-	}
-
-	obj.insert( "CookieArgument","--cookies-from-browser" ) ;
-
-	obj.insert( "CookieArgumentTextFile","--cookies" ) ;
-
-	auto arr = _arr( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
-
-	obj.insert( "DumptJsonArguments",arr ) ;
-
-	obj.insert( "DefaultListCmdOptions",arr ) ;
-
-	if( !obj.contains( "DefaultCommentsCmdOptions" ) ){
-
-		auto a = "--get-comments" ;
-		auto b = "--no-download" ;
-		auto c = "--print" ;
-		auto d = "{\"title\":%(title)j,\"comments\":%(comments)j}" ;
-
-		obj.insert( "DefaultCommentsCmdOptions",_arr( a,b,c,d ) ) ;
-	}
-
-	if( !obj.contains( "DefaultSubstitlesCmdOptions" ) ){
-
-		auto a = "--no-download" ;
-		auto b = "--print" ;
-		auto c = "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ;
-
-		obj.insert( "DefaultSubstitlesCmdOptions",_arr( a,b,c ) ) ;
-	}
-
-	if( !obj.contains( "DefaultSubtitleDownloadOptions" ) ){
-
-		obj.insert( "DefaultSubtitleDownloadOptions",_arr( "--embed-subs" ) ) ;
-	}
 }
 
 yt_dlp::~yt_dlp()
 {
-}
-
-static bool _yt_dlp( const engines::engine&,const QByteArray& e )
-{
-	return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
-}
-
-static bool _fragment_output( const QByteArray& e )
-{
-	return utils::misc::startsWithAny( e,"[https @ ","[hls @ ","Opening '" ) ;
-}
-
-static bool _ffmpeg( const engines::engine&,const QByteArray& e )
-{
-	if( _fragment_output( e ) ){
-
-		return true ;
-	}else{
-		return utils::misc::startsWithAny( e,"frame=","size=" ) ;
-	}
-}
-
-static bool _aria2c( const engines::engine& s,const QByteArray& e )
-{
-	return aria2c::meetCondition( s,e ) ;
-}
-
-static bool _ffmpeg_internal( const engines::engine&,const QByteArray& e )
-{
-	return e.contains( " / ~" ) || e.startsWith( "Frame: " ) ;
-}
-
-static bool _shouldNotGetCalled( const engines::engine&,const QByteArray& )
-{
-	return false ;
 }
 
 class parseTemplateOutPut
@@ -591,38 +507,38 @@ public:
 	engines::engine::baseEngine::filterOutPut::result
 	formatOutput( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
-		if( m_function == _yt_dlp ){
+		if( m_function == ytDlpFilter::yt_dlp ){
 
 			m_tmp = this->outPutFormat( args ) ;
 
-			return { m_tmp,m_engine,m_function } ;
+			return { m_tmp,m_engine,{ m_function,ytDlpFilter::skipCondition } } ;
 
-		}else if( m_function == _ffmpeg_internal ){
+		}else if( m_function == ytDlpFilter::ffmpeg_internal ){
 
 			m_tmp = this->outPutFfmpeg( args ) ;
 
-			return { m_tmp,m_engine,m_function } ;
+			return { m_tmp,m_engine,{ m_function,ytDlpFilter::skipCondition } } ;
 		}else{
-			return { args.outPut,m_engine,m_function } ;
+			return { args.outPut,m_engine,{ m_function,ytDlpFilter::skipCondition } } ;
 		}
 	}
 	bool meetCondition( const engines::engine::baseEngine::filterOutPut::args& args ) const override
 	{
 		const auto& e = args.outPut ;
 
-		if( _yt_dlp( m_engine,e ) ){
+		if( ytDlpFilter::yt_dlp( m_engine,e ) ){
 
-			m_function = _yt_dlp ;
+			m_function = ytDlpFilter::yt_dlp ;
 
-		}else if( _ffmpeg( m_engine,e ) ){
+		}else if( ytDlpFilter::ffmpeg( m_engine,e ) ){
 
-			m_function = _ffmpeg_internal ;
+			m_function = ytDlpFilter::ffmpeg_internal ;
 
-		}else if( _aria2c( m_engine,e ) ){
+		}else if( ytDlpFilter::aria2c( m_engine,e ) ){
 
-			m_function = _aria2c ;
+			m_function = ytDlpFilter::aria2c ;
 		}else{
-			m_function = _shouldNotGetCalled ;
+			m_function = ytDlpFilter::shouldNotGetCalled ;
 
 			return false ;
 		}
@@ -633,7 +549,40 @@ public:
 	{
 		return m_engine ;
 	}
-private:
+private:	
+	static bool yt_dlp( const engines::engine&,const QByteArray& e )
+	{
+		return e.startsWith( "[download]" ) && e.contains( "ETA" ) ;
+	}
+	static bool skipCondition( const engines::engine&,const QByteArray& )
+	{
+		return false ;
+	}
+	static bool fragment_output( const QByteArray& e )
+	{
+		return utils::misc::startsWithAny( e,"[https @ ","[hls @ ","Opening '" ) ;
+	}
+	static bool ffmpeg( const engines::engine&,const QByteArray& e )
+	{
+		if( ytDlpFilter::fragment_output( e ) ){
+
+			return true ;
+		}else{
+			return utils::misc::startsWithAny( e,"frame=","size=" ) ;
+		}
+	}
+	static bool aria2c( const engines::engine& s,const QByteArray& e )
+	{
+		return aria2c::meetCondition( s,e ) ;
+	}
+	static bool ffmpeg_internal( const engines::engine&,const QByteArray& e )
+	{
+		return e.contains( " / ~" ) || e.startsWith( "Frame: " ) ;
+	}
+	static bool shouldNotGetCalled( const engines::engine&,const QByteArray& )
+	{
+		return false ;
+	}
 	QByteArray outPutFormat( const engines::engine::baseEngine::filterOutPut::args& args ) const
 	{
 		const auto& e = args.outPut ;
@@ -788,7 +737,7 @@ private:
 
 		double totalTime = 0 ;
 
-		if( _fragment_output( data ) ){
+		if( ytDlpFilter::fragment_output( data ) ){
 
 			return args.data.lastText() ;
 		}
@@ -875,9 +824,10 @@ private:
 	mutable bool( *m_function )( const engines::engine&,const QByteArray& ) ;
 } ;
 
-engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput()
+engines::engine::baseEngine::FilterOutPut yt_dlp::filterOutput( int )
 {
-	return { util::types::type_identity< ytDlpFilter >(),m_engine } ;
+	const auto& engine = engines::engine::baseEngine::engine() ;
+	return { util::types::type_identity< ytDlpFilter >(),engine } ;
 }
 
 class ytDlpMediainfo
@@ -1152,6 +1102,18 @@ bool yt_dlp::updateVersionInfo()
 	return false ;
 }
 
+QByteArray yt_dlp::parseError( const QByteArray& m )
+{
+	if( m.contains( "yt-dlp: error: no such option: --remote-components" ) ){
+
+		auto s = QObject::tr( "Please Update \"%1\" To Atleast Version \"%2\"" ) ;
+
+		return s.arg( this->engine().name(),"2025.a.b" ).toUtf8() ;
+	}else{
+		return {} ;
+	}
+}
+
 void yt_dlp::updateLocalOptions( QStringList& opts )
 {
 	opts.prepend( "--break-on-reject" ) ;
@@ -1159,10 +1121,12 @@ void yt_dlp::updateLocalOptions( QStringList& opts )
 	opts.prepend( "--match-filter" ) ;
 }
 
-void yt_dlp::setProxySetting( QStringList& e,const QString& s )
+engines::engine::baseEngine::optionsEnvironment yt_dlp::setProxySetting( QStringList& e,const QString& s )
 {
 	e.append( "--proxy" ) ;
 	e.append( s ) ;
+
+	return {} ;
 }
 
 void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
@@ -1187,7 +1151,9 @@ engines::engine::baseEngine::DataFilter yt_dlp::Filter( int id )
 {
 	auto m = util::types::type_identity< yt_dlp::yt_dlplFilter >() ;
 
-	return { m,id,m_engine,*this } ;
+	const auto& engine = engines::engine::baseEngine::engine() ;
+
+	return { m,id,engine,*this } ;
 }
 
 QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
@@ -1228,13 +1194,6 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return engines::engine::baseEngine::updateTextOnCompleteDownlod( a.join( "\n" ),dopts,tabName,f ) ;
 
-	}else if( uiText == "EngineNeedUpdating" ){
-
-		const auto& name = this->engine().name() ;
-		auto version = "2023.01.06" ;
-
-		return QObject::tr( "Please Update \"%1\" To Atleast Version \"%2\"" ).arg( name,version ) ;
-
 	}else if( uiText.contains( "Requested format is not available" ) ){
 
 		return functions::errorString( f,functions::errors::unknownFormat,bkText ) ;
@@ -1268,6 +1227,13 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 			return m + "\n" + bkText ;
 		}
 	}else{
+		auto e = this->parseError( "yt-dlp: error: no such option: --remote-components" ) ;
+
+		if( uiText == e ){
+
+			return e ;
+		}
+
 		auto m = engines::engine::baseEngine::updateTextOnCompleteDownlod( uiText,dopts,tabName,f ) ;
 
 		return m + "\n" + bkText ;
@@ -1296,7 +1262,9 @@ static void _parse_metadata( QStringList& mm,
 	}
 }
 
-void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
+void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
+				       bool e,
+				       const QStringList& extraOpts )
 {
 	if( s.userOptions.contains( "--yes-playlist" ) ){
 
@@ -1314,7 +1282,9 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 	if( utility::platformisFlatPak() ){
 
 		s.ourOptions.append( "-P" ) ;
-		s.ourOptions.append( m_settings->downloadFolder() ) ;
+		auto& settings = engines::engine::baseEngine::Settings() ;
+
+		s.ourOptions.append( settings.downloadFolder() ) ;
 	}
 
 	QStringList mm ;
@@ -1351,7 +1321,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 		s.ourOptions.append( mm ) ;
 	}
 
-	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e,extraOpts ) ;
 
 	if( !s.ourOptions.contains( "-f" ) && !s.ourOptions.contains( "-S" ) ){
 
@@ -1397,9 +1367,9 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 {
 	if( s.lastText() == "[media-downloader] Download Cancelled" ){
 
-		if( m_parent.m_settings->deleteFilesOnCanceledDownload() ){
+		if( m_parent.Settings().deleteFilesOnCanceledDownload() ){
 
-			auto m = m_parent.m_settings->downloadFolder() ;
+			auto m = m_parent.Settings().downloadFolder() ;
 
 			utility::deleteTmpFiles( m,m_fileNames ) ;
 		}
@@ -1529,7 +1499,16 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 				m_errors.emplace_back( e ) ;
 
-				return m_errors.back() ;
+				const auto& m = m_errors.back() ;
+
+				m_tmp = m_engine.parseError( m ) ;
+
+				if( m_tmp.isEmpty() ){
+
+					return m ;
+				}else{
+					return m_tmp ;
+				}
 			}
 		}
 		if( e.startsWith( "[download] " ) && e.contains( " has already been downloaded" ) ){
@@ -1603,7 +1582,7 @@ void yt_dlp::yt_dlplFilter::setFileName( const QByteArray& fileName )
 
 		if( utility::platformisFlatPak() ){
 
-			auto m = m_parent.m_settings->downloadFolder().size() ;
+			auto m = m_parent.Settings().downloadFolder().size() ;
 
 			_add( fileName.mid( m + 1 ) ) ;
 		}else{

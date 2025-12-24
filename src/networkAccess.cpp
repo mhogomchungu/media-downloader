@@ -90,74 +90,43 @@ networkAccess::networkAccess( const Context& ctx ) :
 	}
 }
 
-static bool _gitUrl( const QString& url )
-{
-	return url.contains( "mhogomchungu/media-downloader-git" ) ;
-}
-
-static bool _foundMediaDownloader( const QString& url )
-{
-	if( utility::Qt6Version() ){
-
-		if( _gitUrl( url ) ){
-
-			return url.contains( "MediaDownloaderQt6.git" ) ;
-		}else{
-			return url.contains( "MediaDownloaderQt6" ) ;
-		}
-
-	}else if( url.contains( "MediaDownloaderQt5" ) ){
-
-		if( _gitUrl( url ) ){
-
-			return url.contains( "MediaDownloaderQt5.git" ) ;
-		}else{
-			return url.contains( "MediaDownloaderQt5" ) ;
-		}
-	}else{
-		return false ;
-	}
-}
-
 void networkAccess::updateMediaDownloader( networkAccess::Status status,const QJsonDocument& json ) const
 {
-	auto object = json.object() ;
-
-	auto value = object.value( "assets" ) ;
-
-	const auto array = value.toArray() ;
-
-	for( const auto& it : array ){
-
-		const auto object = it.toObject() ;
-
-		const auto name = object.value( "name" ).toString() ;
-
-		auto url = object.value( "browser_download_url" ).toString() ;
-
-		if( _foundMediaDownloader( url ) && url.endsWith( ".zip" ) ){
-
-			auto size = object.value( "size" ).toDouble() ;
-
-			updateMDOptions md ;
-
-			md.size = size ;
-			md.url  = url ;
-			md.id   = status.id() ;
-			md.name = name ;
-			md.status = status.move() ;
-
-			return this->updateMediaDownloader( md.move() ) ;
+	class meaw
+	{
+	public:
+		meaw( bool Qt6 ) : m_name( Qt6 ? "MediaDownloaderQt6" : "MediaDownloaderQt5" )
+		{
 		}
+		bool operator()( const QJsonObject& obj )
+		{
+			auto url = obj.value( "browser_download_url" ).toString() ;
+
+			if( url.contains( "media-downloader-git" ) ){
+
+				return url.contains( m_name + ".git.zip" ) ;
+			}else{
+				return url.contains( m_name ) && url.endsWith( ".zip" ) ;
+			}
+		}
+	private:
+		QString m_name ;
+	} ;
+
+	auto obj = utility::parseJsonDataFromGitHub( json,meaw( utility::Qt6Version() ) ) ;
+
+	if( obj.isEmpty() ){
+
+		status.done() ;
+
+		auto m = QObject::tr( "Failed to parse json file from github" ) ;
+
+		this->post( m_appName,m,status.id() ) ;
+
+		m_tabManager.enableAll() ;
+	}else{
+		this->updateMediaDownloader( networkAccess::updateMDOptions( obj,status.move() ) ) ;
 	}
-
-	status.done() ;
-
-	auto m = QObject::tr( "Failed to parse json file from github" ) ;
-
-	this->post( m_appName,m,status.id() ) ;
-
-	m_tabManager.enableAll() ;
 }
 
 void networkAccess::updateMediaDownloader( networkAccess::Status status ) const
@@ -217,9 +186,34 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 
 		md.file.close() ;
 
-		if( p.success() ){
+		if( p.success() ){			
 
-			this->extractMediaDownloader( md.move() ) ;
+			if( md.hash.isEmpty() ){
+
+				auto m = QObject::tr( "Skipping Checking Download Hash" ) ;
+
+				this->post( m_appName,m,md.id ) ;
+
+				this->extractMediaDownloader( md.move() ) ;
+			}else{
+				auto m = md.hashCalculator->result().toHex().toLower() ;
+
+				if( utility::cliArguments::useFakeMdHash() ){
+
+					m = "bogusHashValue" ;
+				}
+
+				if( md.hash == m ){
+
+					this->extractMediaDownloader( md.move() ) ;
+				}else{
+					this->hashDoNotMatch( md.hash,m,md.id ) ;
+
+					md.status.done() ;
+
+					m_tabManager.enableAll() ;
+				}
+			}
 		}else{
 			md.status.done() ;
 
@@ -228,7 +222,11 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 			m_tabManager.enableAll() ;
 		}
 	}else{
-		md.file.write( p.data() ) ;
+		auto data = p.data() ;
+
+		md.hashCalculator->addData( data ) ;
+
+		md.file.write( data ) ;
 
 		auto perc       = double( p.received() )  * 100 / md.size ;
 		auto totalSize  = md.locale.formattedDataSize( qint64( md.size ) ) ;
@@ -270,17 +268,22 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 				  const utils::qprocess::outPut& s ) const
 {
-	QFile::remove( md.tmpFile ) ;
+	auto mm = utility::removeFile( md.tmpFile ) ;
+
+	if( !mm.isEmpty() ){
+
+		this->failedToRemove( m_appName,md.tmpFile,mm,md.id ) ;
+	}
 
 	if( s.success() ){
-
-		QDir dir ;
 
 		auto mm = md.name ;
 
 		auto extractedPath = md.tmpPath + "/" + mm.mid( 0,mm.size() - 4 ) ;
 
-		if( dir.rename( extractedPath,md.finalPath ) ){
+		auto e = utility::rename( extractedPath,md.finalPath ) ;
+
+		if( e.isEmpty() ){
 
 			QFile f( md.finalPath + "/media-downloader.exe" ) ;
 
@@ -296,17 +299,66 @@ void networkAccess::emDownloader( networkAccess::updateMDOptions md,
 		}else{
 			md.status.done() ;
 
-			auto m = QObject::tr( "Failed To Rename" ) ;
-
-			this->post( md.name,m + ": " + extractedPath,md.id ) ;
+			this->failedToRename( md.name,extractedPath,md.finalPath,e,md.id ) ;
 		}
 	}else{
 		md.status.done() ;
 
-		auto m = QObject::tr( "Failed To Extract" ) ;
-
-		this->post( m_appName,m + ": " + s.stdOut,md.id ) ;
+		this->failedToExtract( md.exeArgs,s,md.id ) ;
 	}
+}
+
+void networkAccess::failedToExtract( const networkAccess::cmdArgs& e,
+				     const utils::qprocess::outPut& s,
+				     int id ) const
+{
+	this->post( m_appName,utility::barLine(),id ) ;
+
+	this->post( m_appName,QObject::tr( "Failed To Extract" ),id ) ;
+	this->post( m_appName,"Exe Path: " + e.exe(),id ) ;
+	this->post( m_appName,"Exe Args: " + e.args(),id ) ;
+	this->post( m_appName,"StdOut: "   + s.stdOut,id ) ;
+	this->post( m_appName,"StdError: " + s.stdError,id ) ;
+
+	this->post( m_appName,utility::barLine(),id ) ;
+}
+
+void networkAccess::failedToRemove( const QString& name,
+				    const engines::engine::baseEngine::removeFilesStatus& err,
+				    int id ) const
+{
+	this->post( m_appName,utility::barLine(),id ) ;
+	this->post( name,QObject::tr( "Failed To Remove" ),id ) ;
+
+	for( const auto& it : err ){
+
+		this->post( name,"Src: " + it.src(),id ) ;
+		this->post( name,"Err: " + it.err(),id ) ;
+	}
+
+	this->post( m_appName,utility::barLine(),id ) ;
+}
+
+void networkAccess::failedToRemove( const QString& name,
+				    const QString& src,
+				    const QString& err,
+				    int id ) const
+{
+	this->failedToRemove( name,{ src,err },id ) ;
+}
+
+void networkAccess::failedToRename( const QString& name,
+				    const QString& src,
+				    const QString& dst,
+				    const QString& err,
+				    int id ) const
+{
+	this->post( m_appName,utility::barLine(),id ) ;
+	this->post( name,QObject::tr( "Failed To Rename" ),id ) ;
+	this->post( name,"Src: " + src,id ) ;
+	this->post( name,"Dst: " + dst,id ) ;
+	this->post( name,"Err: " + err,id ) ;
+	this->post( m_appName,utility::barLine(),id ) ;
 }
 
 void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) const
@@ -328,19 +380,27 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 		}
 		void bg()
 		{
-			QDir( m_md.finalPath ).removeRecursively() ;
+			m_err = utility::removeFolder( m_md.finalPath ) ;
 		}
 		void fg()
 		{
+			if( !m_err.isEmpty() ){
+
+				m_parent.failedToRemove( m_parent.m_appName,m_md.finalPath,m_err,m_md.id ) ;
+			}
+
 			auto exe = m_parent.m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
 
 			auto args = QStringList{ "-x","-f",m_md.tmpFile,"-C",m_md.tmpPath } ;
 
 			auto m = QProcess::MergedChannels ;
 
+			m_md.exeArgs = { exe,args } ;
+
 			utils::qprocess::run( exe,args,m,m_md.move(),&m_parent,&networkAccess::emDownloader ) ;
 		}
 	private:
+		QString m_err ;
 		const networkAccess& m_parent ;
 		networkAccess::updateMDOptions m_md ;
 	} ;
@@ -498,7 +558,7 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 
 void networkAccess::download( networkAccess::Opts opts ) const
 {
-	if( opts.metadata.url.isEmpty() || opts.metadata.fileName.isEmpty() ){
+	if( opts.metadata.url().isEmpty() || opts.metadata.fileName().isEmpty() ){
 
 		auto m = QObject::tr( "File Not Found" ) ;
 
@@ -513,11 +573,11 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 	if( opts.file.open( opts.filePath ) ){
 
-		this->postDownloading( engine.name(),opts.metadata.url,opts.id ) ;
+		this->postDownloading( engine.name(),opts.metadata.url(),opts.id ) ;
 
 		this->postDestination( engine.name(),opts.filePath,opts.id ) ;
 
-		auto url = this->networkRequest( opts.metadata.url ) ;
+		auto url = this->networkRequest( opts.metadata.url() ) ;
 
 		networkAccess::Opts2 opts2{ engine,opts.move() } ;
 
@@ -543,8 +603,26 @@ void networkAccess::downloadP( networkAccess::Opts2& opts2,
 
 		opts.file.close() ;
 
-		if( !p.success() ){
+		if( p.success() ){
 
+			if( opts.metadata.hash().isEmpty() ){
+
+				auto m = QObject::tr( "Skipping Checking Download Hash" ) ;
+
+				this->post( m_appName,m,opts.id ) ;
+			}else{
+				auto m = opts.hashCalculator->result().toHex().toLower() ;
+
+				if( opts.metadata.hash() != m ){
+
+					this->hashDoNotMatch( opts.metadata.hash(),m,opts.id ) ;
+
+					opts.iter.failed() ;
+
+					opts.networkError = "Bad Download" ;
+				}
+			}
+		}else{
 			opts.iter.failed() ;
 
 			opts.networkError = this->reportError( p ) ;
@@ -552,17 +630,13 @@ void networkAccess::downloadP( networkAccess::Opts2& opts2,
 
 		this->finished( opts.move() ) ;
 	}else{
-		opts.file.write( p.data() ) ;
+		auto data = p.data() ;
 
-		auto total = [ & ](){
+		opts.hashCalculator->addData( data ) ;
 
-			if( opts.metadata.size == 0 ){
+		opts.file.write( data ) ;
 
-				return p.total() ;
-			}else{
-				return opts.metadata.size ;
-			}
-		}() ;
+		auto total = opts.metadata.size() == 0 ? p.total() : opts.metadata.size() ;
 
 		if( total == 0 ){
 
@@ -607,30 +681,40 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 			this->extractArchive( engine,str.move() ) ;
 		}else{
-			auto mm = QObject::tr( "Renaming file to: " ) ;
+			auto mm = QObject::tr( "Renaming file to: %1" ).arg( str.exeBinPath ) ;
 
-			this->post( engine.name(),mm + str.exeBinPath,str.id ) ;
+			this->post( engine.name(),mm,str.id ) ;
 
 			QFileInfo ff( str.exeBinPath ) ;
 
 			if( ff.isDir() ){
 
-				QDir( str.exeBinPath ).removeRecursively() ;
+				auto m = utility::removeFolder( str.exeBinPath ) ;
+
+				if( !m.isEmpty() ){
+
+					this->failedToRemove( engine.name(),str.exeBinPath,m,str.id ) ;
+				}
 			}else{
-				QFile::remove( str.exeBinPath ) ;
+				auto m = utility::removeFile( str.exeBinPath ) ;
+
+				if( !m.isEmpty() ){
+
+					this->failedToRemove( engine.name(),str.exeBinPath,m,str.id ) ;
+				}
 			}
 
-			if( str.file.rename( str.exeBinPath ) ){
+			auto m = str.file.rename( str.exeBinPath ) ;
 
-				utility::setPermissions( str.file.handle() ) ;
+			if( m.isEmpty() ){
+
+				utility::setPermissions( str.file.src() ) ;
 
 				engine.updateCmdPath( m_ctx.logger(),str.exeBinPath ) ;
 
 				m_ctx.getVersionInfo().check( str.iter.move(),true ) ;
 			}else{
-				auto m = QObject::tr( "Failed To Rename" ) ;
-
-				this->post( engine.name(),m + ": " + str.exeBinPath,str.id ) ;
+				this->failedToRename( engine.name(),str.file.src(),str.exeBinPath,m,str.id ) ;
 
 				if( str.iter.hasNext() ){
 
@@ -648,13 +732,20 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 {
 	const auto& engine = opts.iter.engine() ;
 
-	QFile::remove( opts.filePath ) ;
-
 	if( s.success() ){
+
+		auto err = utility::removeFile( opts.filePath ) ;
+
+		if( !err.isEmpty() ){
+
+			this->failedToRemove( engine.name(),opts.filePath,err,opts.id ) ;
+		}
 
 		if( engine.archiveContainsFolder() ){
 
-			if( engine.renameArchiveFolder( opts.filePath,opts.tempPath ) ){
+			auto m = engine.renameArchiveFolder( opts.filePath,opts.tempPath ) ;
+
+			if( m.success() ){
 
 				auto exe = engine.updateCmdPath( m_ctx.logger(),opts.tempPath ) ;
 
@@ -662,9 +753,7 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 
 				f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 			}else{
-				auto m = QObject::tr( "Failed To Rename" ) ;
-
-				this->post( engine.name(),m + ": " + opts.filePath,opts.id ) ;
+				this->failedToRename( engine.name(),m.src(),m.dst(),m.err(),opts.id ) ;
 
 				if( opts.iter.hasNext() ){
 
@@ -680,10 +769,8 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 		}
 
 		m_ctx.getVersionInfo().check( opts.iter.move(),true ) ;
-	}else{
-		auto m = QObject::tr( "Failed To Extract" ) ;
-
-		this->post( engine.name(),m + ": " + s.stdError,opts.id ) ;
+	}else{		
+		this->failedToExtract( opts.exeArgs,s,opts.id ) ;
 
 		if( opts.iter.hasNext() ){
 
@@ -721,6 +808,14 @@ void networkAccess::postDownloadingProgress( const QString& name,
 	this->post( name,QObject::tr( "Downloading" ) + " " + name + ": " + cmp,id ) ;
 }
 
+void networkAccess::hashDoNotMatch( const QString& hash1,const QString& hash2,int id ) const
+{
+	this->post( m_appName,utility::barLine(),id ) ;
+	this->post( m_appName,QObject::tr( "Ignoring Download Because Hashes Do Not Match" ),id ) ;
+	this->post( m_appName,QObject::tr( "Expected \"%1\" but obtained \"%2\"" ).arg( hash1,hash2 ),id ) ;
+	this->post( m_appName,utility::barLine(),id ) ;
+}
+
 void networkAccess::extractArchive( const engines::engine& engine,
 				    networkAccess::Opts str ) const
 {
@@ -739,14 +834,38 @@ void networkAccess::extractArchive( const engines::engine& engine,
 			this->post( engine.name(),m,str.id ) ;
 		}
 	}else{
-		QFile::remove( str.exeBinPath ) ;
+		auto m = engine.removeFiles( { str.exeBinPath },QFileInfo( str.exeBinPath ).absolutePath() ) ;
+
+		if( m.size() ){
+
+			this->failedToRemove( engine.name(),m,str.id ) ;
+		}
 	}
 
-	auto cexe = utility::platformIsWindows() ? "bsdtar.exe" : "tar" ;
+	QStringList extractorArgs ;
+	QString extractorExe ;
 
-	auto exe = m_ctx.Engines().findExecutable( cexe ) ;
+	if( utility::platformIsWindows() ){
 
-	if( exe.isEmpty() ){
+		extractorExe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
+		extractorArgs = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
+	}else{
+		extractorExe = m_ctx.Engines().findExecutable( "bsdtar" ) ;
+
+		if( extractorExe.isEmpty() ){
+
+			extractorExe = m_ctx.Engines().findExecutable( "unzip" ) ;
+
+			if( !extractorExe.isEmpty() ){
+
+				extractorArgs = QStringList{ str.filePath,"-d",str.tempPath } ;
+			}
+		}else{
+			extractorArgs = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
+		}
+	}
+
+	if( extractorExe.isEmpty() ){
 
 		auto m = QObject::tr( "Failed To Extract" ) ;
 
@@ -756,7 +875,7 @@ void networkAccess::extractArchive( const engines::engine& engine,
 
 				return QObject::tr( "Failed To Find \"bsdtar.exe\" Executable" ) ;
 			}else{
-				return QObject::tr( "Failed To Find \"tar\" Executable" ) ;
+				return QObject::tr( "Failed To Find \"bsdtar\" or \"unzip\" Executable" ) ;
 			}
 		}() ;
 
@@ -769,7 +888,10 @@ void networkAccess::extractArchive( const engines::engine& engine,
 			str.iter.reportDone() ;
 		}
 	}else{
-		auto args = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
+		const auto& exe = extractorExe ;
+		const auto& args = extractorArgs ;
+
+		str.exeArgs = { exe,args } ;
 
 		utils::qprocess::run( exe,args,str.move(),this,&networkAccess::extractArchiveOuput ) ;
 	}
@@ -835,4 +957,9 @@ networkAccess::iter::~iter()
 
 networkAccess::status::~status()
 {
+}
+
+QString networkAccess::File::rename( const QString& e )
+{
+	return utility::rename( m_path,e ) ;
 }

@@ -221,14 +221,16 @@ wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 {
 }
 
-void wget::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
+void wget::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
+				     bool e,
+				     const QStringList& m )
 {
 	if( !s.ourOptions.contains( "--progress=bar:force" ) ){
 
 		s.ourOptions.append( "--progress=bar:force" ) ;
 	}
 
-	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e,m ) ;
 }
 
 engines::engine::baseEngine::DataFilter wget::Filter( int id )
@@ -238,24 +240,31 @@ engines::engine::baseEngine::DataFilter wget::Filter( int id )
 	return { util::types::type_identity< wget::wgetFilter >(),engine,id } ;
 }
 
-void wget::setProxySetting( QStringList& e,const QString& s )
+engines::engine::baseEngine::optionsEnvironment wget::setProxySetting( QStringList& e,const QString& s )
 {
 	e.append( "-e" ) ;
-	e.append( "use_proxy=yes" ) ;
-	e.append( "-e" ) ;
+	e.append( "use_proxy=yes" ) ;	
 
 	if( s.contains( "@" ) ){
 
 		auto m = engines::proxySettings( s ).networkProxy() ;
 
+		e.append( "-e" ) ;
 		e.append( "http_proxy=" + m.hostName() + ":" + QString::number( m.port() ) ) ;
 
-		e.append( "--proxy-user=" + m.user() ) ;
+		e.append( "-e" ) ;
+		e.append( "https_proxy=" + m.hostName() + ":" + QString::number( m.port() ) ) ;
 
+		e.append( "--proxy-user=" + m.user() ) ;
 		e.append( "--proxy-password=" + m.password() ) ;
 	}else{
+		e.append( "-e" ) ;
 		e.append( "http_proxy=" + s ) ;
+		e.append( "-e" ) ;
+		e.append( "https_proxy=" + s ) ;
 	}
+
+	return {} ;
 }
 
 QString wget::updateTextOnCompleteDownlod( const QString& uiText,

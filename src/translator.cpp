@@ -25,7 +25,10 @@
 
 #include <QCoreApplication>
 
-translator::translator( settings& s,QApplication& app ) : m_qapp( app ),m_settings( s )
+translator::translator( settings& s,QApplication& app ) :
+	m_qapp( app ),
+	m_settings( s ),
+	m_pathLanguageFiles( m_settings.localizationLanguagePath() )
 {
 	this->addString( QObject::tr( "Polish (Poland)" ),"Polish (Poland)","pl_PL" ) ;
 	this->addString( QObject::tr( "English (US)" ),"English (US)","en_US" ) ;
@@ -73,7 +76,7 @@ void translator::setLanguage( const QString& e )
 
 		m_translator = new QTranslator() ;
 
-		auto m = m_translator->load( e,m_settings.localizationLanguagePath() ) ;
+		auto m = m_translator->load( e,m_pathLanguageFiles ) ;
 
 		if( !m ){
 

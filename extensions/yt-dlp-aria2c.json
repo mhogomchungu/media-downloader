@@ -91,11 +91,43 @@
         "%(title).200s-%(id)s.%(ext)s"
     ],
     "DefaultListCmdOptions": [
+        "--match-filter",
+        "!playlist",
+        "--no-playlist",
+        "--newline",
         "--print",
-        "%(formats)j"
+        "{\"uploader\":%(uploader)j,\"id\":%(id)j,\"thumbnail\":%(thumbnail)j,\"duration\":%(duration)j,\"title\":%(title)j,\"upload_date\":%(upload_date)j,\"webpage_url\":%(webpage_url)j,\"formats\":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,\"playlist_id\":%(playlist_id)j,\"playlist_title\":%(playlist_title)j,\"playlist\":%(playlist)j,\"playlist_uploader\":%(playlist_uploader)j,\"playlist_uploader_id\":%(playlist_uploader_id)j}"
+    ],
+    "DefaultSubstitlesCmdOptions": [
+        "--no-download",
+        "--print",
+        "{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}"
+    ],
+    "DefaultSubtitleDownloadOptions": [
+        "--embed-subs"
     ],
     "DownloadUrl": "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest",
     "DownloadUrlWin7": "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest",
+    "DumptJsonArguments": [
+        "--match-filter",
+        "!playlist",
+        "--no-playlist",
+        "--newline",
+        "--print",
+        "{\"uploader\":%(uploader)j,\"id\":%(id)j,\"thumbnail\":%(thumbnail)j,\"duration\":%(duration)j,\"title\":%(title)j,\"upload_date\":%(upload_date)j,\"webpage_url\":%(webpage_url)j,\"formats\":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,\"playlist_id\":%(playlist_id)j,\"playlist_title\":%(playlist_title)j,\"playlist\":%(playlist)j,\"playlist_uploader\":%(playlist_uploader)j,\"playlist_uploader_id\":%(playlist_uploader_id)j}"
+    ],
+    "ExtraArguments": [
+    ],
+    "ExtraArgumentsFlatpak": [
+        "--no-js-runtimes",
+        "--js-runtimes",
+        "quickjs"
+    ],
+    "ExtraArgumentsWin7": [
+        "--no-js-runtimes",
+        "--js-runtimes",
+        "quickjs"
+    ],
     "LikeYoutubeDl": true,
     "Name": "yt-dlp-aria2c",
     "OptionsArgument": "-f",
@@ -112,6 +144,7 @@
         "\n",
         "\r"
     ],
+    "Version": "1",
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 0

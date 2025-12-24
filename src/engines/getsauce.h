@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright (c) 2022
+ *  Copyright (c) 2025
  *  name : Francis Banyikwa
  *  email: mhogomchungu@gmail.com
  *  This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,28 @@
 
 #include "../engines.h"
 
-class wget : public engines::engine::baseEngine
+class getsauce : public engines::engine::baseEngine
 {
 public:
 	static const char * testData() ;
-	static void init( const QString& name,
-			  const QString& configFileName,
-			  Logger& logger,
-			  const engines::enginePaths& enginePath ) ;
-	~wget() override ;
-	wget( const engines& e,const engines::engine& s,QJsonObject& ) ;
-	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
-				       bool,
-				       const QStringList& ) override ;
 
-	engines::engine::baseEngine::DataFilter Filter( int ) override ;
+	class getsauce_dlFilter : public engines::engine::baseEngine::filter
+	{
+	public:
+		getsauce_dlFilter( const engines::engine&,int,QByteArray ) ;
+
+		const QByteArray& operator()( Logger::Data& e ) override ;
+
+		~getsauce_dlFilter() override ;
+	private:
+		bool progressLine( const Logger::Data& e ) ;
+		QByteArray m_banner ;
+		QByteArray m_tmp ;
+		engines::engine::baseEngine::preProcessing m_progress ;
+		QByteArray m_downloadFolder ;
+	} ;
+	~getsauce() override ;
+	getsauce( const engines& e,const engines::engine& s,QJsonObject& ) ;
 
 	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
 
@@ -45,19 +52,17 @@ public:
 					     const QString& tabName,
 					     const engines::engine::baseEngine::finishedState& ) override ;
 
-	class wgetFilter : public engines::engine::baseEngine::filter
-	{
-	public:
-		wgetFilter( const engines::engine&,int ) ;
+	bool skipCondition( const QByteArray& ) override ;
 
-		const QByteArray& operator()( Logger::Data& e ) override ;
+	engines::engine::baseEngine::DataFilter Filter( int ) override ;
+	engines::engine::baseEngine::FilterOutPut filterOutput( int ) override ;
 
-		~wgetFilter() override ;
-	private:
-		QByteArray m_title ;
-		QByteArray m_length ;
-		QByteArray m_tmp ;
-		engines::engine::baseEngine::preProcessing m_preProcessing ;
-	} ;
+	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
+
+	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QJsonArray& ) override ;
+
+	bool foundNetworkUrl( const QString& s ) override ;
 private:
-};
+	const engines::engine& m_engine ;
+	QString m_downloadFolder ;
+} ;

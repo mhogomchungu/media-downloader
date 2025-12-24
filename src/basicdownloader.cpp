@@ -200,8 +200,15 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 	} ) ;	
 }
 
-void basicdownloader::keyPressed( utility::mainWindowKeyCombo )
+void basicdownloader::keyPressed( utility::mainWindowKeyCombo e )
 {
+	if( e == utility::mainWindowKeyCombo::ENTER ){
+
+		if( m_ui.pbDownload->isEnabled() ){
+
+			m_ui.pbDownload->click() ;
+		}
+	}
 }
 
 void basicdownloader::init_done()
@@ -241,7 +248,7 @@ QStringList basicdownloader::enginesList()
 
 void basicdownloader::resetMenu( const QStringList& args )
 {
-	utility::setMenuOptions( m_ctx,args,true,true,m_ui.pbEntries,[ this ]( QAction * aa ){
+	utility::setMenuOptions( m_ctx,args,false,true,m_ui.pbEntries,[ this ]( QAction * aa ){
 
 		utility::selectedAction ac( aa ) ;
 
@@ -371,23 +378,7 @@ void basicdownloader::list()
 
 	utility::addToListOptionsFromsDownload( args,mm,m_ctx,engine ) ;
 
-	auto cookieName = m_settings.cookieBrowserName( engine.name() ) ;
-	const auto& ca = engine.cookieArgument() ;
-
-	if( !cookieName.isEmpty() && !ca.isEmpty() ){
-
-		args.append( ca ) ;
-		args.append( cookieName ) ;
-	}
-
-	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		args.append( caa ) ;
-		args.append( cookieFile ) ;
-	}
+	utility::setCookieOption( args,m_settings,engine ) ;
 
 	this->run( backend,args,"",true ) ;
 }
@@ -481,6 +472,8 @@ void basicdownloader::download( const basicdownloader::engine& eng,
 		utility::updateOptionsStruct str{ mm,engine,ss,args,{},false,urls,{},m_ctx } ;
 
 		auto opts = utility::updateOptions( str ) ;
+
+		opts.append( engine.extraArguments() ) ;
 
 		this->run( eng,opts,args.credentials(),false ) ;
 	} ) ;
@@ -604,7 +597,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	auto update = []( const QByteArray& ){} ;
 	auto logger = make_loggerBasicDownloader( eng.engine.filter( eng.id ),ll,update,eng.id,logs ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
-	auto ctx    = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
+	auto ctx    = utility::make_ctx( m_ctx,ev.move(),logger.move(),term.move(),ch ) ;
 
 	utility::run( args,credentials,ctx.move() ) ;
 }

@@ -245,11 +245,15 @@ QString safaribooks::setCredentials( QStringList& uiOptions,QStringList& otherOp
 	return m ;
 }
 
-void safaribooks::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,bool e )
+void safaribooks::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
+					    bool e,
+					    const QStringList& extraOpts )
 {
 	if( s.urls.size() > 0 ){
 
-		s.urls[ 0 ] = util::split( s.urls[ 0 ],'/',true ).last() ;
+		const auto m = util::split( s.urls[ 0 ],'/',true ) ;
+
+		s.urls[ 0 ] = m.last() ;
 	}
 
 	s.ourOptions.append( "--destination" ) ;
@@ -269,5 +273,5 @@ void safaribooks::updateDownLoadCmdOptions( const engines::engine::baseEngine::u
 		s.ourOptions.append( "--login" ) ;
 	}
 
-	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e ) ;
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e,extraOpts ) ;
 }

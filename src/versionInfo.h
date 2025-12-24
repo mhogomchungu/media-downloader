@@ -145,6 +145,10 @@ public:
 		{
 			return m_fromNetwork ;
 		}
+		void resetFromNetwork()
+		{
+			m_fromNetwork = false ;
+		}
 		printVinfo next()
 		{
 			auto m = std::move( *this ) ;

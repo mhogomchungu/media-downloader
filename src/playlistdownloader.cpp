@@ -80,8 +80,11 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 		auto m = m_ctx.Engines().engineDirPaths().subscriptionsArchiveFilePath() ;
 		QFile f( m ) ;
-		f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
-		f.write( "" ) ;
+
+		if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+			f.write( "" ) ;
+		}
 	} ) ;
 
 	m_ui.cbUseInternalArchiveFile->setChecked( m_ctx.Settings().useInternalArchiveFile() ) ;
@@ -340,7 +343,15 @@ void playlistdownloader::disableAll()
 
 void playlistdownloader::keyPressed( utility::mainWindowKeyCombo m )
 {
-	utility::keyPressed( m_table,m ) ;
+	if( m == utility::mainWindowKeyCombo::ENTER ){
+
+		if( m_ui.pbPLDownload->isEnabled() ){
+
+			m_ui.pbPLDownload->click() ;
+		}
+	}else{
+		utility::keyPressed( m_table,m ) ;
+	}
 }
 
 void playlistdownloader::resetMenu()
@@ -469,11 +480,16 @@ void playlistdownloader::customContextMenuRequested()
 {
 	auto row = m_table.currentRow() ;
 
-	auto function = [ this ]( const utility::contextState& c ){
+	auto function = [ this,row ]( const utility::contextState& c ){
 
 		if( c.showLogWindow() ){
 
-			m_ctx.logger().showLogWindow() ;
+			if( row == -1 ){
+
+				m_ctx.logger().showLogWindow( row ) ;
+			}else{
+				m_ctx.logger().showLogWindow( m_table.entryAt( row ).id ) ;
+			}
 
 		}else if( c.clear() ){
 
@@ -614,7 +630,7 @@ void playlistdownloader::customContextMenuRequested()
 
 	for( const auto& it : m_ctx.Engines().getEngines() ){
 
-		if( it.mainEngine() ){
+		if( !it.supportingEngine() ){
 
 			const auto& e = it.name() ;
 
@@ -906,6 +922,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	auto logger = make_loggerBatchDownloader( ff.move(),m_ctx.logger(),updater,error,id,logs ) ;
 
 	m_table.setStateAsRunning( index,downloadRecursively ) ;
+	m_table.setConcurrentId( index,id ) ;
 
 	auto optsUpdater = [ this ]( QStringList opts ){
 
@@ -1036,6 +1053,8 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 
 	utility::addToListOptionsFromsDownload( opts,m,m_ctx,engine ) ;
 
+	utility::setCookieOption( opts,m_settings,engine ) ;
+
 	opts.append( url ) ;
 
 	m_networkRunning = 0 ;
@@ -1163,7 +1182,7 @@ void playlistdownloader::getList(  const QString& url,
 	auto opts = c.options() ;
 
 	stdOut sOut( *this,c.move(),engine,url ) ;
-	stdError sErr( *this,m_banner ) ;
+	stdError sErr( *this,m_banner,engine ) ;
 
 	events ev( *this,engine,iter.move(),autoDownload ) ;
 
@@ -1186,7 +1205,7 @@ void playlistdownloader::getList(  const QString& url,
 
 	m_table.selectLast() ;
 
-	auto ctx = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
+	auto ctx = utility::make_ctx( m_ctx,ev.move(),logger.move(),term.move(),ch ) ;
 
 	opts.removeAll( "--playlist-reverse" ) ;
 
@@ -1584,19 +1603,20 @@ utility::vector< playlistdownloader::subscription::entry > playlistdownloader::s
 
 		QFile f( m_path ) ;
 
-		f.open( QIODevice::ReadOnly ) ;
+		if( f.open( QIODevice::ReadOnly ) ){
 
-		auto m = f.readAll() ;
+			auto m = f.readAll() ;
 
-		if( !m.isEmpty() ){
+			if( !m.isEmpty() ){
 
-			QJsonParseError err ;
+				QJsonParseError err ;
 
-			auto e = QJsonDocument::fromJson( m,&err ) ;
+				auto e = QJsonDocument::fromJson( m,&err ) ;
 
-			if( err.error == QJsonParseError::NoError ){
+				if( err.error == QJsonParseError::NoError ){
 
-				m_array = e.array() ;
+					m_array = e.array() ;
+				}
 			}
 		}
 	}
@@ -1615,9 +1635,10 @@ void playlistdownloader::subscription::save()
 {
 	QFile f( m_path ) ;
 
-	f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ;
+	if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
 
-	f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+		f.write( QJsonDocument( m_array ).toJson( QJsonDocument::Indented ) ) ;
+	}
 }
 
 void playlistdownloader::banner::updateProgress( const QString& progress )
@@ -1708,6 +1729,15 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 		return false ;
 	}
 
+	auto m = m_engine.parseError( e ) ;
+
+	if( !m.isEmpty() ){
+
+		m_banner.reportError( m ) ;
+
+		return true ;
+	}
+
 	if( e.startsWith( "ERROR: " )  || e.contains( "error:" ) ){
 
 		auto a = "Temporary failure in name resolution" ;
@@ -1716,6 +1746,7 @@ bool playlistdownloader::stdError::operator()( const QByteArray& e )
 		if( e.contains( a ) || e.contains( b ) ){
 
 			m_banner.reportError( QObject::tr( "Download Failed, Network Issue" ) ) ;
+
 		}else{
 			m_banner.reportError( QObject::tr( "Download Failed, Unknown Reason" ) ) ;
 		}
@@ -1752,7 +1783,13 @@ void playlistdownloader::stdOut::operator()( Logger::Data& data )
 
 			for( const auto& it : m_engine.parseJsonData( m_data ) ){
 
-				const auto mm = m_engine.parseJson( m_url,it ) ;
+				auto mm = m_engine.parseJson( m_url,it ) ;
+
+				auto url = mm.value( "direct_url" ).toString() ;
+
+				mm.remove( "direct_url" ) ;
+
+				mm.insert( "webpage_url",url ) ;
 
 				m_parent.parseJson( m_engine,m_customOptions,QJsonDocument( mm ) ) ;
 			}

@@ -423,7 +423,32 @@ namespace utility
 			}
 		}
 	}
+	template< typename Function >
+	QJsonObject parseJsonDataFromGitHub( const QJsonDocument& doc,Function function )
+	{
+		const auto array = doc.object().value( "assets" ).toArray() ;
 
+		for( const auto& it : array ){
+
+			auto obj = it.toObject() ;
+
+			if( function( obj ) ){
+
+				auto hash = obj.value( "digest" ).toString() ;
+
+				if( hash.startsWith( "sha256:" ) ){
+
+					hash.replace( "sha256:","" ) ;
+
+					obj.insert( "digest",hash.toLower() ) ;
+				}
+
+				return obj ;
+			}
+		}
+
+		return {} ;
+	}
 	class cliArguments
 	{
 	public:
@@ -439,6 +464,7 @@ namespace utility
 		QString value( const char * ) const ;
 		QStringList arguments( const QString&,const QString&,const QString&,bool ) const ;
 		const QStringList& arguments() const ;
+		static bool useFakeMdHash() ;
 	private:
 		QStringList m_args ;
 	} ;
@@ -493,8 +519,10 @@ namespace utility
 	void setPermissions( const QString& ) ;
 	void failedToParseJsonData( Logger&,const QJsonParseError& ) ;
 	bool runningGitVersion() ;
+	bool runningGitVersion( const QString& ) ;
 	bool Qt6Version() ;
 	bool Qt5Version() ;
+	const QString& fakeRunningVersionOfMediaDownloader() ;
 	QString runningVersionOfMediaDownloader() ;
 	QString aboutVersionInfo() ;
 	QString compileTimeVersion() ;
@@ -503,8 +531,9 @@ namespace utility
 	QString homePath() ;
 	QString clipboardText() ;
 	QString fromSecsSinceEpoch( qint64 ) ;
+	QStringList setEnvArgs( engines::engine::baseEngine::optionsEnvironment&,const QStringList& ) ;
 
-	enum class mainWindowKeyCombo{ CTRL_D,CTRL_A } ;
+	enum class mainWindowKeyCombo{ CTRL_D,CTRL_A,ENTER } ;
 
 	template< typename Table >
 	inline void keyPressed( Table& table,utility::mainWindowKeyCombo m )
@@ -565,12 +594,13 @@ namespace utility
 		bool hasExtraOptions = false ;
 		QString downloadOptions ;
 	} ;
+	QString parseVersionInfo( const utils::qprocess::outPut& ) ;
 	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& = {} ) ;
 	bool copyFile( const QString& src,const QString& dst,bool = true ) ;
 	bool pathIsFolderAndExists( const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIsWindows7() ;
-	bool platformIs32Bit() ;
+	bool platformisLegacyWindows() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformisOS2() ;
@@ -580,16 +610,19 @@ namespace utility
 	bool addData( const QByteArray& ) ;
 	bool containsLinkerWarning( const QByteArray& ) ;
 	QString rename( const Context&,QTableWidgetItem&,const QString&,const QString&,const QString& ) ;
+	QString rename( const QString& oldName,const QString& newName ) ;
+	QString removeFile( const QString& ) ;
+	QString removeFolder( const QString& ) ;
 	void deleteTmpFiles( const QString&,std::vector< QByteArray > ) ;
 	QString OSXApplicationDirPath() ;
 	QString OSXtranslationFilesPath() ;
 	QString OSX3rdPartyDirPath() ;
 	QString windowsApplicationDirPath() ;
 	QString windowsGateWayAddress() ;
-	QString windowsGetLastErrorMessage() ;
 	QString windowsGetClipBoardText( const ContextWinId& ) ;
-	void windowsSetDarkModeTitleBar( const Context& ) ;	
+	void windowsSetDarkModeTitleBar( const Context& ) ;
 	QByteArray barLine() ;
+	QString errorMessage() ;
 	void copyToClipboardUrls( tableWidget& ) ;
 	bool isRelativePath( const QString& ) ;
 	bool fileIsInvalidForGettingThumbnail( const QByteArray& ) ;
@@ -598,6 +631,7 @@ namespace utility
 	bool startedUpdatedVersion( settings&,const utility::cliArguments& ) ;
 	void hideUnhideEntries( QMenu&,tableWidget&,int,bool ) ;
 	quint64 simpleRandomNumber() ;
+	void setCookieOption( QStringList&,settings&,const engines::engine& ) ;
 	void addToListOptionsFromsDownload( QStringList& args,
 					    const QString& downLoadOptions,
 					    const Context& ctx,
@@ -638,39 +672,79 @@ namespace utility
 		}
 	}
 
+	template< typename Function >
+	inline bool showContextMenuLogWidget( QObject * obj,
+					      QEvent * event,
+					      QPlainTextEdit * textEdit,
+					      Function function )
+	{
+		if( obj != textEdit ){
+
+			return false ;
+		}
+
+		auto a = dynamic_cast< QMouseEvent * >( event ) ;
+
+		if( a ){
+
+			auto b = a->buttons() & Qt::MouseButton::RightButton ;
+
+			if( event->type() && b ){
+
+				std::unique_ptr< QMenu > menu( textEdit->createStandardContextMenu() ) ;
+
+				menu->addSeparator() ;
+
+				auto icon = QIcon::fromTheme( "edit-cut" ) ;
+
+				menu->addAction( icon,"Clear",std::move( function ) ) ;
+
+				menu->exec( QCursor::pos() ) ;
+
+				return true ;
+			}
+		}
+
+		return false ;
+	}
+
+	class CPU
+	{
+	public:
+		CPU() ;
+		bool x86_32() const ;
+		bool x86_64() const ;
+		bool aarch64() const ;
+		bool aarch32() const ;
+	private:
+		const QString& getCPU() const ;
+		const QString& m_cpu ;
+	} ;
+
 	class UrlLinks
 	{
 	public:
-		void add( const QString& e )
+		UrlLinks( const QJsonArray& arr )
 		{
-			m_links.emplace_back( e ) ;
-		}
-		int size()
-		{
-			return static_cast< int >( m_links.size() ) ;
-		}
-		QStringList toList()
-		{
-			QStringList m ;
+			for( int m = 0 ; m < arr.size() ; m++ ){
 
-			if( this->size() ){
-
-				m.append( m_links[ 0 ] ) ;
-
-				for( size_t s = 1 ; s < m_links.size() ; s++ ){
-
-					m.append( m_links[ s ] ) ;
-				}
+				m_links.append( arr[ m ].toString() ) ;
 			}
-
-			return m ;
+		}
+		const QStringList& toList() const
+		{
+			return m_links ;
+		}
+		bool isEmpty() const
+		{
+			return m_links.isEmpty() ;
 		}
 		UrlLinks move()
 		{
 			return std::move( *this ) ;
 		}
 	private:
-		std::vector< QString > m_links ;
+		QStringList m_links ;
 	} ;
 
 	void contextMenuForDirectUrl( std::vector< UrlLinks >,QMenu&,const QJsonObject&,const Context& ) ;
@@ -688,16 +762,7 @@ namespace utility
 
 				const auto& obj = table.stuffAt( s[ m ] ) ;
 
-				auto arr = obj.value( "urls" ).toArray() ;
-
-				UrlLinks l ;
-
-				for( int j = 0 ; j < arr.size() ; j++ ){
-
-					l.add( arr[ j ].toString() ) ;
-				}
-
-				links.emplace_back( std::move( l ) ) ;
+				links.emplace_back( obj.value( "urls" ).toArray() ) ;
 			}
 
 			auto mobj = table.stuffAt( s[ 0 ] ) ;
@@ -1275,14 +1340,16 @@ namespace utility
 		QProcess::ProcessChannel m_channel ;
 	} ;
 
-	template< typename TLogger,typename Events,typename Connection >
+	template< typename AppCtx,typename TLogger,typename Events,typename Connection >
 	class context
 	{
 	public:
 		context( ProcessOutputChannels channels,
 			 TLogger logger,
 			 Events events,
-			 Connection&& conn ) :
+			 Connection&& conn,
+			 const AppCtx& appCtx ) :
+			m_appCtx( appCtx ),
 			m_logger( logger.move() ),
 			m_events( events.move() ),
 			m_conn( conn.move() ),
@@ -1296,9 +1363,18 @@ namespace utility
 		{
 			m_events.disableAll() ;
 
-			exe.setProcessEnvironment( m_engine.processEnvironment() ) ;
-
 			auto mm = "cmd: " + m_engine.commandString( m_cmd ) ;
+
+			if( m_envExtra.isEmpty() ){
+
+				exe.setProcessEnvironment( m_engine.processEnvironment() ) ;
+			}else{
+				const auto& m = m_engine.processEnvironment() ;
+
+				exe.setProcessEnvironment( m_envExtra.update( m ) ) ;
+
+				m_envExtra.update( mm ) ;
+			}			
 
 			m_logger.add( mm ) ;
 
@@ -1417,7 +1493,18 @@ namespace utility
 		}
 		const engines::engine::exeArgs::cmd& cmd( const QStringList& args )
 		{
-			m_cmd = { m_engine.exePath(),args } ;
+			const auto& mm = m_appCtx.Engines().networkProxy() ;
+
+			if( mm.isSet() ){
+
+				QStringList m ;
+
+				m_envExtra = m_engine.setProxySetting( m,mm.networkProxyString() ) ;
+
+				m_cmd = { m_engine.exePath(),m + utility::setEnvArgs( m_envExtra,args ) } ;
+			}else{
+				m_cmd = { m_engine.exePath(),utility::setEnvArgs( m_envExtra,args ) } ;
+			}
 
 			return m_cmd ;
 		}
@@ -1469,6 +1556,8 @@ namespace utility
 			const QByteArray& m_data ;
 		} ;
 
+		engines::engine::baseEngine::optionsEnvironment m_envExtra ;
+		const AppCtx& m_appCtx ;
 		QString m_credentials ;
 		engines::engine::exeArgs::cmd m_cmd ;
 		TLogger m_logger ;
@@ -1482,15 +1571,16 @@ namespace utility
 		bool m_cancelled ;
 	} ;
 
-	template< typename Connection,typename Logger,typename Events >
-	auto make_ctx( Events events,
+	template< typename AppCtx,typename Connection,typename Logger,typename Events >
+	auto make_ctx( const AppCtx& appCtx,
+		       Events events,
 		       Logger logger,
 		       Connection conn,
 		       utility::ProcessOutputChannels channels )
 	{
-		using ctx = utility::context< Logger,Events,Connection > ;
+		using ctx = utility::context< AppCtx,Logger,Events,Connection > ;
 
-		return ctx( channels,logger.move(),events.move(),conn.move() ) ;
+		return ctx( channels,logger.move(),events.move(),conn.move(),appCtx ) ;
 	}
 
 	template< typename Ctx >
@@ -1541,7 +1631,7 @@ namespace utility
 
 		utility::updateOptionsStruct opt{ a,b,c,args,d,e,{ url },dOpts.entry,ctx } ;
 
-		auto m = utility::make_ctx( opts.move(),logger.move(),term.move(),channel ) ;
+		auto m = utility::make_ctx( ctx,opts.move(),logger.move(),term.move(),channel ) ;
 
 		auto u = optsUpdater( utility::updateOptions( opt ) ) ;
 

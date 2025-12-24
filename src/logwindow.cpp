@@ -27,20 +27,23 @@
 logWindow::logWindow( QWidget * parent,settings& s,Logger& logger ) :
 	QWidget( parent ),
 	m_ui( new Ui::logWindow ),
-	m_settings( s )
+	m_settings( s ),
+	m_logger( logger )
 {
 	m_ui->setupUi( this ) ;
 
 	m_ui->plainTextEdit->setReadOnly( true ) ;
+
+	m_ui->plainTextEdit->installEventFilter( this ) ;
 
 	connect( m_ui->pbClose,&QPushButton::clicked,[ this ](){		
 
 		this->Hide() ;
 	} ) ;
 
-	connect( m_ui->pbClear,&QPushButton::clicked,[ &logger ](){
+	connect( m_ui->pbShowAll,&QPushButton::clicked,[ this ](){
 
-		logger.clear() ;
+		m_logger.showAllLogs() ;
 	} ) ;
 }
 
@@ -57,10 +60,7 @@ void logWindow::setText( const QByteArray& e )
 
 void logWindow::update( const QByteArray& e )
 {
-	if( this->isVisible() ){
-
-		this->setText( e ) ;
-	}
+	this->setText( e ) ;
 }
 
 void logWindow::Hide()
@@ -110,6 +110,14 @@ void logWindow::clear()
 void logWindow::retranslateUi()
 {
 	m_ui->retranslateUi( this ) ;
+}
+
+bool logWindow::eventFilter( QObject * obj,QEvent * event )
+{
+	return utility::showContextMenuLogWidget( obj,event,m_ui->plainTextEdit,[ this ](){
+
+		m_logger.clear() ;
+	} ) ;
 }
 
 void logWindow::closeEvent( QCloseEvent * e )

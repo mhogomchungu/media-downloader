@@ -55,6 +55,7 @@ public:
 	void notifyOnDownloadComplete( const QString& = {} ) ;
 	void notifyOnAllDownloadComplete( const QString& ) ;
 	void showTrayIcon( bool ) ;
+	void keyPressEvent( QKeyEvent * ) override ;
 	~MainWindow() override ;
 private:
 	signals:

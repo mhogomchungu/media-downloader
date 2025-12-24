@@ -245,6 +245,7 @@ public:
 		bool banner = false ;
 		bool showFirst = false ;
 		bool runningRecursively = false ;
+		int id = -1 ;
 	} ;
 	template< typename Function >
 	void forEach( Function function )
@@ -269,6 +270,10 @@ public:
 	const tableWidget::entry& entryAt( size_t s ) const
 	{
 		return m_items[ s ] ;
+	}
+	void setConcurrentId( size_t s,int id )
+	{
+		m_items[ s ].id = id ;
 	}
 	void setFileNames( size_t m,const std::vector< QByteArray >& s )
 	{

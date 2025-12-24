@@ -1076,11 +1076,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Skipping Checking Download Hash</source>
-        <translation>Пропуск перевірки хешу завантаження</translation>
+        <translation>Пропущено перевірку хеша завантаження</translation>
     </message>
     <message>
         <source>Ignoring Download Because Hashes Do Not Match</source>
-        <translation>Завантаження проігноровано, оскільки хеші не збігаються</translation>
+        <translation>Ігнорування завантаження, оскільки хеші не збігаються</translation>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
@@ -1088,7 +1088,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed To Remove</source>
-        <translation>Помилка видалення</translation>
+        <translation>Не вдалося видалити</translation>
     </message>
     <message>
         <source>Renaming file to: %1</source>
@@ -1096,11 +1096,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
-        <translation>Перевірку версії плагіна &quot;%1&quot; пропущено</translation>
+        <translation>Пропуск перевірки відомостей про версію для рушія &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
-        <translation>Виконувані файли &quot;bsdtar&quot; або &quot;unzip&quot; не знайдено</translation>
+        <translation>Не вдалося знайти виконуваний файл &quot;bsdtar&quot; або &quot;unzip&quot;</translation>
     </message>
 </context>
 <context>
@@ -1298,8 +1298,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Закрити</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>Очистити</translation>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

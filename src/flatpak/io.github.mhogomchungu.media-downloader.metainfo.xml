@@ -54,6 +54,45 @@
 	</categories>
 
 	<releases>
+		<release version="5.4.6" type="stable" date="2025-11-17" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.6/media-downloader-5.4.6.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Fix a bug that cause yt-dlp specific options to be set when using other engines</li>
+					<li>Update French translations</li>
+					<li>Update Greek translations</li>
+				</ul>
+			</description>
+		</release>
+		<release version="5.4.5" type="stable" date="2025-11-15" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.5/media-downloader-5.4.5.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Default to quickjs javascript runtime because deno crashes on flatpak</li>
+				</ul>
+			</description>
+		</release>
+		<release version="5.4.4" type="stable" date="2025-11-12" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.4/media-downloader-5.4.4.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Add support for autodownloading deno javascript runtime</li>
+				</ul>
+			</description>
+		</release>
+		<release version="5.4.3" type="stable" date="2025-10-01" >
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.3/media-downloader-5.4.3.tar.xz/</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Add Ukranian translations</li>
+					<li>Various fixes and improvements</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.4.2" type="stable" date="2025-08-01" >
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.4.2/media-downloader-5.4.2.tar.xz/</url>
 			<description>

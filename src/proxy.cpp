@@ -86,7 +86,10 @@ static void _get_proxy_from_gateway_linux( Context& ctx,const QByteArray& addr,b
 {
 	QFile file( "/proc/net/route" ) ;
 
-	file.open( QIODevice::ReadOnly ) ;
+	if( !file.open( QIODevice::ReadOnly ) ){
+
+		return ;
+	}
 
 	const auto mm = util::split( file.readAll(),'\n' ) ;
 

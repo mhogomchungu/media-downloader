@@ -735,10 +735,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>فشل في العثور على &quot;bsdtar.exe&quot; قابل للتنفيذ</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation>فشل في العثور على &quot;tar&quot; قابل للتنفيذ</translation>
-    </message>
-    <message>
         <source>Download Failed</source>
         <translation>فشل التنزيل</translation>
     </message>
@@ -769,10 +765,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Extracting archive: </source>
         <translation>استخراج الأرشيف: </translation>
-    </message>
-    <message>
-        <source>Renaming file to: </source>
-        <translation>إعادة تسمية الملف إلى: </translation>
     </message>
     <message>
         <source>Processing</source>
@@ -1082,6 +1074,34 @@ Exampe 2: ${gateway}:8080</source>
         <source>Renaming Failed: %3</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Skipping Checking Download Hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignoring Download Because Hashes Do Not Match</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1278,8 +1298,8 @@ Exampe 2: ${gateway}:8080</source>
         <translation>إغلاق</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>مسح</translation>
+        <source>Show All</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

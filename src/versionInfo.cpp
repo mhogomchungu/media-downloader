@@ -83,6 +83,10 @@ void versionInfo::next( printVinfo vinfo ) const
 
 void versionInfo::check( versionInfo::printVinfo vinfo ) const
 {
+	bool fromNetwork = vinfo.fromNetwork() ;
+
+	vinfo.resetFromNetwork() ;
+
 	const auto& engine = vinfo.engine() ;
 
 	if( engine.forTesting() ){
@@ -96,7 +100,7 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 			this->printVersion( vinfo.move() ) ;
 
-		}else if( vinfo.fromNetwork() ){
+		}else if( fromNetwork ){
 
 			auto id = vinfo.iter().id() ;
 
@@ -382,7 +386,22 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 		}
 	}
 
-	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ engine.versionArgument() } ) ;
+	const auto& versionArgs = engine.versionArgument() ;
+
+	if( versionArgs.isEmpty() ){
+
+		auto m = QObject::tr( "Skipping Checking Version Info For Engine \"%1\"" ) ;
+
+		auto bar = utility::barLine() ;
+
+		this->log( bar,id ) ;
+		this->log( m.arg( engine.name() ),id ) ;
+		this->log( bar,id ) ;
+
+		return this->next( vInfo.move() ) ;
+	}
+
+	engines::engine::exeArgs::cmd cmd( engine.exePath(),{ versionArgs } ) ;
 
 	QString exe = "\"" + cmd.exe() + "\"" ;
 
@@ -405,37 +424,15 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 	utils::qprocess::run( cmd.exe(),cmd.args(),mm,v.move(),this,&versionInfo::printVersionP ) ;
 }
 
-static QByteArray _stdOut( const utils::qprocess::outPut& r )
-{
-	if( utility::containsLinkerWarning( r.stdOut ) ){
-
-		const auto m = util::split( r.stdOut,'\n' ) ;
-
-		QStringList s ;
-
-		for( const auto& it : m ){
-
-			if( !utility::containsLinkerWarning( it ) ){
-
-				s.append( it ) ;
-			}
-		}
-
-		return s.join( '\n' ).toUtf8() ;
-	}else{
-		return r.stdOut ;
-	}
-}
-
 void versionInfo::printVersionP( versionInfo::pVInfo pvInfo,const utils::qprocess::outPut& r ) const
 {
 	const auto& engine = pvInfo.engine() ;
 
-	auto stdOut = _stdOut( r ) ;
+	auto versionString = engine.parseVersionInfo( r ) ;
 
-	if( r.success() ){
+	if( !versionString.isEmpty() ){
 
-		auto m = engine.setVersionString( stdOut ) ;
+		auto m = engine.setVersionString( versionString ) ;
 
 		this->log( QObject::tr( "Found version: %1" ).arg( m ),pvInfo.id() ) ;
 
@@ -482,9 +479,9 @@ void versionInfo::printVersionP( versionInfo::pVInfo pvInfo,const utils::qproces
 			this->log( "Exit Status: Failed To Start",id ) ;
 		}
 
-		if( !stdOut.isEmpty() ){
+		if( !r.stdOut.isEmpty() ){
 
-			this->log( "Std Out: " + stdOut,id ) ;
+			this->log( "Std Out: " + r.stdOut,id ) ;
 		}
 
 		if( !r.stdError.isEmpty() ){

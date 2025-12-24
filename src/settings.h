@@ -199,29 +199,6 @@ public:
 	QStringList playlistRangeHistory( const QString& ) ;
 	QStringList playlistUrlHistory( const QString& ) ;
 
-	class FlatPackVLC
-	{
-	public:
-		QString exe() const
-		{
-			return "flatpak-spawn" ;
-		}
-		const QStringList& args() const
-		{
-			return m_args ;
-		}
-		bool valid() const
-		{
-			return !m_args.isEmpty() ;
-		}
-		void checkVLCAvailability() ;
-	private:
-		bool checkVLCAvailability( const QStringList& ) ;
-		QStringList m_args ;
-	} ;
-
-	const FlatPackVLC& flatPakVLCopts() ;
-
 	QString lastUsedOption( const QString&,settings::tabName ) ;
 
 	QStringList localizationLanguages() ;
@@ -251,7 +228,6 @@ public:
 	} ;
 
 	LogsLimits getLogsLimits() ;
-	bool flatPakHasVLCSupport() ;
 	bool desktopNotifyOnDownloadComplete() ;
 	bool desktopNotifyOnAllDownloadComplete() ;
 	bool libraryShowFolderFirst() ;
@@ -339,10 +315,92 @@ public:
 	void setDownloadFolder( const QString& ) ;
 	void setLocalizationLanguage( const QString& language ) ;
 	void setWindowDimensions( const QString& window,const QString& dimenstion ) ;
-private:	
+	QString tmpFile( const QString&,const QString& ) ;
+
+	class flatpakRuntimeOptions
+	{
+	public:
+		class VLC
+		{
+		public:
+			QString exe() const
+			{
+				return "flatpak-spawn" ;
+			}
+			const QStringList& args() const
+			{
+				return m_args ;
+			}
+			bool valid() const
+			{
+				return !m_args.isEmpty() ;
+			}
+			void checkAvailability() const ;
+		private:
+			bool checkAvailability( const QStringList& ) const ;
+			mutable QStringList m_args ;
+		} ;
+
+		const VLC& getVLC() const ;
+
+		flatpakRuntimeOptions( settings& ) ;
+
+		const QString& globalBinPath() const
+		{
+			return m_globalBinPath ;
+		}
+		const QString& architecture() const
+		{
+			return m_architecture ;
+		}
+		const QString& commitId() const
+		{
+			return m_commitId ;
+		}
+		const QString& localBinPath() const
+		{
+			return m_localBinPath ;
+		}
+		const QString& runtimePath() const
+		{
+			return m_runtimePath ;
+		}
+		const QString& appDataLocation() const
+		{
+			return m_appDataLocation ;
+		}
+	private:
+		QString flatpkakInfoFile() ;
+		QSettings m_settings ;
+		QString m_globalBinPath ;
+		QString m_architecture ;
+		QString m_commitId ;
+		QString m_runtimePath ;
+		QString m_localBinPath ;
+		QString m_appDataLocation ;
+		VLC m_vlc ;
+	} ;
+
+	const flatpakRuntimeOptions& flatpakIntance() ;
+private:
+	void addToHistory( QSettings& settings,
+			   QStringList& history,
+			   const QString& key,
+			   const QString& input,
+			   int max ) ;
+	bool darkTheme() ;
+	QString monitorClipboadUrl( settings::tabName ) ;
+	QByteArray hash( quint64,const QString& ) ;
+	QString getTabOption( const QString&,settings::tabName ) ;
+	QStringList directoryList( const QString& ) ;
+	QString getDefaultEngineName( settings::tabName ) ;
+	QString thumbnailTabName( const QString&, settings::tabName ) ;
+	QString setOptionWithEngineName( const QString& opts,const QString& engineName ) ;
+	QString getOptionsHistoryTabName( settings::tabName,const QString& engineName ) ;
 	QString appDataLocation() ;
 	void clearFlatPakTemps() ;
 
+	std::unique_ptr< QSettings > setConfig( const QString& path ) ;
 	std::vector< settings::mediaPlayer::PlayerOpts > openWith() ;
 
 	QVariant getValue( const QString& opt,const QVariant& e )
@@ -441,13 +499,13 @@ private:
 
 	bool m_EnableHighDpiScaling ;
 	bool m_printMediaPlayers ;
-	FlatPackVLC m_vlcFlatPak ;
 	QString m_appDataPath ;
 	QByteArray m_defaultScaleFactor ;
 	QByteArray m_MdScaleFactor ;
 	options m_options ;
 	std::unique_ptr< QSettings > m_settingsP ;
 	QSettings& m_settings ;
+	flatpakRuntimeOptions m_flatpakRuntimeOptions ;
 };
 
 #endif

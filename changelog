@@ -389,9 +389,32 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
        - Maintanance release that fixes various issues.
 
-     Version 5.4.3(UNRELEASED)
+     Version 5.4.3(October 1st, 2025)
      [WINDOWS]
        - Update ffmpeg to version 8.0.
      [ALL]
        - Add Ukranian translations.
        - Various fixes and improvements.
+
+     Version 5.4.4(November 12th, 2025)
+     [ALL]
+       - Add support for autodownloading deno javascript runtime.
+
+     Version 5.4.5(November 15th, 2025)
+     [ALL]
+       - Various fixes and improvements.
+     [WINDOWS]
+       - Default to quickjs javascript runtime on windows7 because deno does not work in windows7.
+     [Flatpak]
+       - Default to quickjs javascript runtime because deno crashes.
+     [Linux and MacOS]
+       - Default to bsdtar and fall back to unzip when unzipping .zip files.
+
+     Version 5.4.6(November 17th, 2025)
+     [ALL]
+      - Update French translations.
+      - Update Greek translations.
+     [Flatpak]
+      - Fix a bug that cause yt-dlp specific options to be set when using other engines.
+     [Gallery-dl]
+      - Fix a bug that caused downloaded files to be under "directlink" subfolder under certain circumstances.

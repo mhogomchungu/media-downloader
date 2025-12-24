@@ -3,7 +3,7 @@
  <class>logWindow</class>
  <widget class="QWidget" name="logWindow">
   <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
+   <enum>Qt::WindowModality::WindowModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -33,7 +33,7 @@
    <item row="1" column="3">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -46,7 +46,7 @@
    <item row="1" column="0">
     <spacer name="horizontalSpacer">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -60,7 +60,7 @@
     <widget class="QPlainTextEdit" name="plainTextEdit"/>
    </item>
    <item row="1" column="1">
-    <widget class="QPushButton" name="pbClear">
+    <widget class="QPushButton" name="pbShowAll">
      <property name="minimumSize">
       <size>
        <width>128</width>
@@ -68,7 +68,7 @@
       </size>
      </property>
      <property name="text">
-      <string>Clear</string>
+      <string>Show All</string>
      </property>
     </widget>
    </item>

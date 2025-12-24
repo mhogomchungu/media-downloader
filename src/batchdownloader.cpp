@@ -319,18 +319,38 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 void batchdownloader::keyPressed( utility::mainWindowKeyCombo m )
 {
-	utility::keyPressed( m_table,m ) ;
+	if( m == utility::mainWindowKeyCombo::ENTER ){
+
+		auto m = m_ui.lineEditBDUrl->text() ;
+
+		if( !m.isEmpty() ){
+
+			this->addToList( m,{ false,false } ) ;
+		}
+
+		if( m_ui.pbBDDownload->isEnabled() ){
+
+			m_ui.pbBDDownload->click() ;
+		}
+	}else{
+		utility::keyPressed( m_table,m ) ;
+	}
 }
 
 void batchdownloader::showCustomContext()
 {
 	auto row = m_table.currentRow() ;
 
-	auto function = [ this ]( const utility::contextState& c ){
+	auto function = [ this,row ]( const utility::contextState& c ){
 
 		if( c.showLogWindow() ){
 
-			m_ctx.logger().showLogWindow() ;
+			if( row == -1 ){
+
+				m_ctx.logger().showLogWindow( row ) ;
+			}else{
+				m_ctx.logger().showLogWindow( m_table.entryAt( row ).id ) ;
+			}
 
 		}else if( c.clear() ){
 
@@ -527,7 +547,7 @@ void batchdownloader::showCustomContext()
 
 	for( const auto& it : m_ctx.Engines().getEngines() ){
 
-		if( it.mainEngine() ){
+		if( !it.supportingEngine() ){
 
 			const auto& e = it.name() ;
 
@@ -648,6 +668,11 @@ void batchdownloader::gotEvent( const QJsonObject& jsonArgs )
 		m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
 		auto autoDownload = jsonArgs.value( "-a" ).toBool() ;
+
+		if( !autoDownload ){
+
+			autoDownload = m_settings.autoDownloadWhenAddedInBatchDownloader() ;
+		}
 
 		auto v = jsonArgs.value( "-e" ) ;
 
@@ -1996,23 +2021,7 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	auto args = engine.dumpJsonArguments( engines::engine::tab::batch ) ;
 
-	auto cookie = m_settings.cookieBrowserName( engine.name() ) ;
-	const auto& ca = engine.cookieArgument() ;
-
-	if( !cookie.isEmpty() && !ca.isEmpty() ){
-
-		args.append( ca ) ;
-		args.append( cookie ) ;
-	}
-
-	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		args.append( caa ) ;
-		args.append( cookieFile ) ;
-	}
+	utility::setCookieOption( args,m_settings,engine ) ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
@@ -2032,10 +2041,11 @@ void batchdownloader::showThumbnail( const engines::engine& engine,
 
 	args.append( m_table.url( index ) ) ;
 
-	auto ctx = utility::make_ctx( events( *this,engine,index,url,wrapper ),
-				     wrapper,
-				     m_terminator.setUp(),
-				     QProcess::ProcessChannel::StandardOutput ) ;
+	auto ctx = utility::make_ctx( m_ctx,
+				      events( *this,engine,index,url,wrapper ),
+				      wrapper,
+				      m_terminator.setUp(),
+				      QProcess::ProcessChannel::StandardOutput ) ;
 
 	utility::run( args,QString(),ctx.move() ) ;
 }
@@ -2354,23 +2364,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 		}
 	}
 
-	auto cookiePath = m_settings.cookieBrowserName( engine.name() ) ;
-	const auto& ca = engine.cookieArgument() ;
-
-	if( !cookiePath.isEmpty() && !ca.isEmpty() ){
-
-		args.append( ca ) ;
-		args.append( cookiePath ) ;
-	}
-
-	auto cookieFile = m_settings.cookieBrowserTextFilePath( engine.name() ) ;
-	const auto& caa = engine.cookieTextFileArgument() ;
-
-	if( !cookieFile.isEmpty() && !caa.isEmpty() ){
-
-		args.append( caa ) ;
-		args.append( cookieFile ) ;
-	}
+	utility::setCookieOption( args,m_settings,engine ) ;
 
 	auto m = m_ui.lineEditBDUrlOptions->text() ;
 
@@ -2575,7 +2569,7 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 	events ev( *this,listType,engine,row ) ;
 
-	auto ctx = utility::make_ctx( ev.move(),logger.move(),term.move(),ch ) ;
+	auto ctx = utility::make_ctx( m_ctx,ev.move(),logger.move(),term.move(),ch ) ;
 
 	utility::run( args,QString(),ctx.move() ) ;
 }
@@ -2767,12 +2761,6 @@ void batchdownloader::addToList( const QString& u,const batchdownloader::downloa
 
 void batchdownloader::download( const engines::engine& engine )
 {
-	auto a = m_ui.cbEngineTypeBD->currentText() ;
-	auto b = m_ui.lineEditBDUrlOptions->text() ;
-	auto c = settings::tabName::batch ;
-
-	m_settings.setLastUsedOption( a,b,c ) ;
-
 	m_ctx.TabManager().basicDownloader().hideTableList() ;
 
 	class meaw
@@ -2971,11 +2959,7 @@ void batchdownloader::downloadRecursively( const engines::engine& eng,int index 
 		int m_index ;
 	} ;
 
-	auto m = m_ui.lineEditBDUrlOptions->text() ;
-
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
-
-	m_settings.addOptionsHistory( engine.name(),m,settings::tabName::batch ) ;
 
 	this->downloadEvent( meaw( *this,engine,index ),engine,index,true ) ;
 }

@@ -580,10 +580,6 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Impossibile analizzare il file json da Github</translation>
     </message>
     <message>
-        <source>Renaming file to: </source>
-        <translation>Rinomina file in: </translation>
-    </message>
-    <message>
         <source>Turkish (Turkey)</source>
         <translation>Turco (Turchia)</translation>
     </message>
@@ -834,10 +830,6 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <translation>Impossibile trovare l&apos;eseguibile &quot;bsdtar.exe&quot;</translation>
     </message>
     <message>
-        <source>Failed To Find &quot;tar&quot; Executable</source>
-        <translation>Impossibile trovare l&apos;eseguibile &quot;tar&quot;</translation>
-    </message>
-    <message>
         <source>Running In Portable Mode</source>
         <translation>Esegui in modo portatile</translation>
     </message>
@@ -1079,11 +1071,39 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation>Rinoma di &quot;%1&quot; in &quot;%2&quot;</translation>
+        <translation>Rinomina di &quot;%1&quot; in &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
         <translation>Rinomina fallita: %3</translation>
+    </message>
+    <message>
+        <source>Skipping Checking Download Hash</source>
+        <translation>Salta controllo hash download</translation>
+    </message>
+    <message>
+        <source>Ignoring Download Because Hashes Do Not Match</source>
+        <translation>Download saltato perché gli hash non corrispondono</translation>
+    </message>
+    <message>
+        <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
+        <translation>Previsto &quot;%1&quot;, ottenuto &quot;%2&quot;</translation>
+    </message>
+    <message>
+        <source>Failed To Remove</source>
+        <translation>Impossibile effettuare la rimozione</translation>
+    </message>
+    <message>
+        <source>Renaming file to: %1</source>
+        <translation>Rinomina file in: %1</translation>
+    </message>
+    <message>
+        <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
+        <translation>Ignora controllo informazioni versione per il motore &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
+        <translation>Impossibile trovare l&apos;eseguibile &quot;bsdtar&quot; o &quot;unzip&quot;</translation>
     </message>
 </context>
 <context>
@@ -1273,16 +1293,16 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
 <context>
     <name>logWindow</name>
     <message>
-        <source>Clear</source>
-        <translation>Azzera</translation>
-    </message>
-    <message>
         <source>Close</source>
         <translation>Chiudi</translation>
     </message>
     <message>
         <source>Log Window</source>
         <translation>Finestra registro eventi</translation>
+    </message>
+    <message>
+        <source>Show All</source>
+        <translation>Visualizza tutto</translation>
     </message>
 </context>
 <context>
