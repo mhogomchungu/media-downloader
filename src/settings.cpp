@@ -221,6 +221,11 @@ bool settings::cookieSourceSetToBrowerName()
 	return this->getOption( "CookieSourceSetToBrowerName",true ) ;
 }
 
+bool settings::backgroundClipboardMonitor()
+{
+	return this->getOption( "BackgroundClipboardMonitor",false ) ;
+}
+
 void settings::setCookieSourceSetToBrowerName( bool e )
 {
 	m_settings.setValue( "CookieSourceSetToBrowerName",e ) ;

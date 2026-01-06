@@ -82,6 +82,7 @@ private:
 	void changeDefaultEngine( int index ) ;
 	void listRequested( const QByteArray&,int ) ;
 	void list() ;
+	void setContextMenuForDirectUrl() ;
 	void download( const basicdownloader::engine&,
 		       const utility::args&,
 		       const QString& urls,

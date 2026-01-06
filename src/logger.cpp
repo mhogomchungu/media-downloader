@@ -335,8 +335,19 @@ QString Logger::locale::locale::formattedDataSize( qint64 s ) const
 
 bool Logger::meaw::eventFilter( QObject * obj,QEvent * event )
 {
-	return utility::showContextMenuLogWidget( obj,event,&m_parent.m_textEdit,[ this ](){
+	class woof
+	{
+	public:
+		woof( Logger& parent ) : m_parent( parent )
+		{
+		}
+		void operator()()
+		{
+			m_parent.clear() ;
+		}
+	private:
+		Logger& m_parent ;
+	} ;
 
-		m_parent.clear() ;
-	} ) ;
+	return utility::showContextMenuLogWidget( obj,event,&m_parent.m_textEdit,woof( m_parent ) ) ;
 }

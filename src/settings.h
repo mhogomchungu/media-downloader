@@ -257,7 +257,7 @@ public:
 	bool deleteFilesOnCanceledDownload() ;
 	bool autoSetDefaultEngineAndOptions() ;
 	bool cookieSourceSetToBrowerName() ;
-
+	bool backgroundClipboardMonitor() ;
 	void setMainWindowDimensions( QWidget * ) ;
 
 	qint64 timeOutWaitingForClipboardData() ;

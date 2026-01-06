@@ -360,7 +360,7 @@ util::result<engines::engine> engines::getSupportingEngineByName( const QString&
 
 QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
 {
-	if( this->name() == "gallery-dl" ){
+	if( this->isGalleryDl() ){
 
 		if( tab == engine::tab::playlist ){
 

@@ -88,52 +88,7 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 	m_tableList.connect( cm,[ this ]( const QPoint& ){
 
-		auto row = m_tableList.currentRow() ;
-
-		QMenu m ;
-
-		if( row != -1 ){
-
-			class meaw
-			{
-			public:
-				meaw( tableMiniWidget< engines::engine::baseEngine::mediaInfo,5 >& m ) :
-					m_table( m )
-				{
-				}
-				const QJsonObject& stuffAt( int s ) const
-				{
-					m_obj = m_table.stuffAt( s ).toqJsonObject() ;
-
-					return m_obj ;
-				}
-				std::vector< int > selectedRows() const
-				{
-					return m_table.selectedRows() ;
-				}
-			private:
-				mutable QJsonObject m_obj ;
-				const tableMiniWidget< engines::engine::baseEngine::mediaInfo,5 >& m_table ;
-			} ;
-
-			utility::setContextMenuForDirectUrl( meaw( m_tableList ),m,m_ctx ) ;
-
-			m.addSeparator() ;
-
-			connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
-
-				m_tableList.setVisible( false ) ;
-			} ) ;
-
-			m.exec( QCursor::pos() ) ;
-		}else{
-			connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
-
-				m_tableList.setVisible( false ) ;
-			} ) ;
-
-			m.exec( QCursor::pos() ) ;
-		}
+		this->setContextMenuForDirectUrl() ;
 	} ) ;
 
 	connect( m_ui.pbOptionsDownloadOptions,&QPushButton::clicked,[ this ](){
@@ -381,6 +336,56 @@ void basicdownloader::list()
 	utility::setCookieOption( args,m_settings,engine ) ;
 
 	this->run( backend,args,"",true ) ;
+}
+
+void basicdownloader::setContextMenuForDirectUrl()
+{
+	auto row = m_tableList.currentRow() ;
+
+	QMenu m ;
+
+	if( row != -1 ){
+
+		class meaw
+		{
+		public:
+			meaw( tableMiniWidget< engines::engine::baseEngine::mediaInfo,5 >& m ) :
+			    m_table( m )
+			{
+			}
+			const QJsonObject& stuffAt( int s ) const
+			{
+				m_obj = m_table.stuffAt( s ).toqJsonObject() ;
+
+				return m_obj ;
+			}
+			std::vector< int > selectedRows() const
+			{
+				return m_table.selectedRows() ;
+			}
+		private:
+			mutable QJsonObject m_obj ;
+			const tableMiniWidget< engines::engine::baseEngine::mediaInfo,5 >& m_table ;
+		} ;
+
+		utility::setContextMenuForDirectUrl( meaw( m_tableList ),m,m_ctx ) ;
+
+		m.addSeparator() ;
+
+		connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
+
+			m_tableList.setVisible( false ) ;
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
+	}else{
+		connect( m.addAction( tr( "Hide List" ) ),&QAction::triggered,[ this ](){
+
+			m_tableList.setVisible( false ) ;
+		} ) ;
+
+		m.exec( QCursor::pos() ) ;
+	}
 }
 
 void basicdownloader::download( const QString& url )
