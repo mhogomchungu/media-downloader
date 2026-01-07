@@ -289,25 +289,6 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
-static void _arr_imp( QJsonArray& )
-{
-}
-
-template< typename First,typename ... Rest >
-static void _arr_imp( QJsonArray& arr,const First& f,Rest&& ... rest )
-{
-	arr.append( f ) ;
-	_arr_imp( arr,std::forward< Rest >( rest ) ... ) ;
-}
-
-template< typename ... Args >
-static QJsonArray _arr( Args&& ... args )
-{
-	QJsonArray arr ;
-	_arr_imp( arr,std::forward< Args >( args ) ... ) ;
-	return arr ;
-}
-
 QJsonObject yt_dlp::init( const QString& name,
 			  const QString& configFileName,
 			  Logger& logger,
@@ -343,31 +324,31 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	mainObj.insert( "Version","2" ) ;
 
-	mainObj.insert( "ExtraArguments",_arr() ) ;
+	mainObj.insert( "ExtraArguments",utility::QJsonArrayJoin() ) ;
 
-	mainObj.insert( "ExtraArgumentsWin7",_arr( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
+	mainObj.insert( "ExtraArgumentsWin7",utility::QJsonArrayJoin( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
 
-	mainObj.insert( "ExtraArgumentsFlatpak",_arr( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
+	mainObj.insert( "ExtraArgumentsFlatpak",utility::QJsonArrayJoin( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
 
-	auto arr = _arr( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
+	auto arr = utility::QJsonArrayJoin( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 
 	mainObj.insert( "DumptJsonArguments",arr ) ;
 
 	mainObj.insert( "DefaultListCmdOptions",arr ) ;
 
-	mainObj.insert( "DefaultCommentsCmdOptions",_arr( "--get-comments","--no-download","--print","{\"title\":%(title)j,\"comments\":%(comments)j}" ) ) ;
+	mainObj.insert( "DefaultCommentsCmdOptions",utility::QJsonArrayJoin( "--get-comments","--no-download","--print","{\"title\":%(title)j,\"comments\":%(comments)j}" ) ) ;
 
-	mainObj.insert( "DefaultSubstitlesCmdOptions",_arr( "--no-download","--print","{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ) ;
+	mainObj.insert( "DefaultSubstitlesCmdOptions",utility::QJsonArrayJoin( "--no-download","--print","{\"title\":%(title)j,\"automatic_captions\":%(automatic_captions)j,\"subtitles\":%(subtitles)j}" ) ) ;
 
-	mainObj.insert( "DefaultSubtitleDownloadOptions",_arr( "--embed-subs" ) ) ;
+	mainObj.insert( "DefaultSubtitleDownloadOptions",utility::QJsonArrayJoin( "--embed-subs" ) ) ;
 
-	mainObj.insert( "DefaultDownLoadCmdOptions",_arr( "--newline","--ignore-config","--no-playlist","-o","%(title).200s-%(id)s.%(ext)s" ) ) ;
+	mainObj.insert( "DefaultDownLoadCmdOptions",utility::QJsonArrayJoin( "--newline","--ignore-config","--no-playlist","-o","%(title).200s-%(id)s.%(ext)s" ) ) ;
 
-	mainObj.insert( "SkipLineWithText",_arr( "(pass -k to keep)" ) ) ;
+	mainObj.insert( "SkipLineWithText",utility::QJsonArrayJoin( "(pass -k to keep)" ) ) ;
 
-	mainObj.insert( "RemoveText",_arr() ) ;
+	mainObj.insert( "RemoveText",utility::QJsonArrayJoin() ) ;
 
-	mainObj.insert( "SplitLinesBy",_arr( "\n" ) ) ;
+	mainObj.insert( "SplitLinesBy",utility::QJsonArrayJoin( "\n" ) ) ;
 
 	mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 

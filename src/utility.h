@@ -66,6 +66,25 @@ namespace Ui
 
 namespace utility
 {
+	namespace impl
+	{
+		void qJsonArrJoin( QJsonArray& ) ;
+
+		template< typename First,typename ... Rest >
+		static void qJsonArrJoin( QJsonArray& arr,const First& f,Rest&& ... rest )
+		{
+			arr.append( f ) ;
+			impl::qJsonArrJoin( arr,std::forward< Rest >( rest ) ... ) ;
+		}
+	}
+
+	template< typename ... Args >
+	static QJsonArray QJsonArrayJoin( Args&& ... args )
+	{
+		QJsonArray arr ;
+		impl::qJsonArrJoin( arr,std::forward< Args >( args ) ... ) ;
+		return arr ;
+	}
 	class strl
 	{
 	public:
