@@ -521,12 +521,10 @@ void gallery_dl::runCommandOnDownloadedFile( const std::vector< QByteArray >& e 
 	s.runCommandOnSuccessfulDownload( this->engine().name(),df,e ) ;
 }
 
-engines::engine::baseEngine::optionsEnvironment gallery_dl::setProxySetting( QStringList& e,const QString& s )
+void gallery_dl::setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList& e,const QString& s )
 {
 	e.append( "--proxy" ) ;
 	e.append( s ) ;
-
-	return {} ;
 }
 
 void gallery_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& opts,

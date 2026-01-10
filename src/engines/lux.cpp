@@ -113,9 +113,9 @@ engines::engine::baseEngine::DataFilter lux::Filter( int id )
 	return { util::types::type_identity< lux::lux_dlFilter >(),m_engine,id,m_downloadFolder.toUtf8() } ;
 }
 
-engines::engine::baseEngine::optionsEnvironment lux::setProxySetting( QStringList&,const QString& e )
+void lux::setProxySetting( engines::engine::baseEngine::optionsEnvironment& s,QStringList&,const QString& e )
 {
-	return { "HTTPS_PROXY",e } ;
+	s.add( "HTTPS_PROXY",e ) ;
 }
 
 std::vector<engines::engine::baseEngine::mediaInfo> lux::mediaProperties( Logger& l,const QByteArray& e )

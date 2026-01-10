@@ -37,7 +37,7 @@ public:
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
-	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
+	void setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList&,const QString& ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

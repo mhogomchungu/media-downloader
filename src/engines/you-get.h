@@ -48,7 +48,7 @@ public:
 
 	bool foundNetworkUrl( const QString& ) override ;
 
-	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
+	void setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList&,const QString& ) override ;
 
 	renameArchiveFolderStatus renameArchiveFolder( const QString&,const QString& ) override ;
 

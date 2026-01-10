@@ -875,7 +875,11 @@ public:
 
 			virtual bool skipCondition( const QByteArray& ) ;
 
-			virtual optionsEnvironment setProxySetting( QStringList&,const QString& ) ;
+			virtual bool hasConvertArgToEnv( const QStringList& ) ;
+
+			virtual QStringList convertArgToEnv( engines::engine::baseEngine::optionsEnvironment&,const QStringList& ) ;
+
+			virtual void setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList&,const QString& ) ;
 
 			virtual QString setCredentials( QStringList&,QStringList & ) ;
 
@@ -1261,13 +1265,21 @@ public:
 		{
 			return m_engine->versionInfoFromGithub( e ) ;
 		}
+		bool hasConvertArgToEnv( const QStringList& e ) const
+		{
+			return m_engine->hasConvertArgToEnv( e ) ;
+		}
+		QStringList convertArgToEnv( engines::engine::baseEngine::optionsEnvironment& e,const QStringList& s ) const
+		{
+			return m_engine->convertArgToEnv( e,s ) ;
+		}
 		QString downloadFolder( const QString& e ) const
 		{
 			return m_engine->downloadFolder( e ) ;
 		}
-		engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList& e,const QString& s ) const
+		void setProxySetting( engines::engine::baseEngine::optionsEnvironment& a,QStringList& e,const QString& s ) const
 		{
-			return m_engine->setProxySetting( e,s ) ;
+			m_engine->setProxySetting( a,e,s ) ;
 		}
 		std::vector< QByteArray > parseJsonData( QByteArray& data ) const
 		{

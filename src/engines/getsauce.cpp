@@ -457,9 +457,34 @@ getsauce::getsauce( const engines& engines,const engines::engine& engine,QJsonOb
 {
 }
 
-engines::engine::baseEngine::optionsEnvironment getsauce::setProxySetting( QStringList&,const QString& e )
+void getsauce::setProxySetting( engines::engine::baseEngine::optionsEnvironment& s,QStringList&,const QString& e )
 {
-	return { "HTTPS_PROXY",e } ;
+	s.add( "HTTPS_PROXY",e ) ;
+}
+
+bool getsauce::hasConvertArgToEnv( const QStringList& e )
+{
+	return e.contains( "--proxy" ) ;
+}
+
+QStringList getsauce::convertArgToEnv( engines::engine::baseEngine::optionsEnvironment& s,const QStringList& e )
+{
+	auto a = e ;
+
+	for( int i = 0 ; i < a.size() ; i++ ){
+
+		if( a[ i ] == "--proxy" && i + 1 < a.size() ){
+
+			s.add( "HTTPS_PROXY",e[ i + 1 ] ) ;
+
+			a.removeAt( i ) ;
+			a.removeAt( i ) ;
+
+			break ;
+		}
+	}
+
+	return a ;
 }
 
 QString getsauce::updateTextOnCompleteDownlod( const QString& uiText,

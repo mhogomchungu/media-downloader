@@ -54,7 +54,7 @@ public:
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
-	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
+	void setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList&,const QString& ) override ;
 
 	std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger&,const QByteArray& ) override ;
 

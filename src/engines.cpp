@@ -1661,9 +1661,21 @@ bool engines::engine::baseEngine::skipCondition( const QByteArray& e )
 	return engines::engine::baseEngine::skipCondition( this->engine(),e ) ;
 }
 
-engines::engine::baseEngine::optionsEnvironment engines::engine::baseEngine::setProxySetting( QStringList&,const QString& )
+bool engines::engine::baseEngine::hasConvertArgToEnv( const QStringList& )
 {
-	return {} ;
+	return false ;
+}
+
+QStringList engines::engine::baseEngine::convertArgToEnv( engines::engine::baseEngine::optionsEnvironment&,
+							  const QStringList& e )
+{
+	return e ;
+}
+
+void engines::engine::baseEngine::setProxySetting( engines::engine::baseEngine::optionsEnvironment&,
+						   QStringList&,
+						   const QString& )
+{
 }
 
 QString engines::engine::baseEngine::setCredentials( QStringList&,QStringList& )

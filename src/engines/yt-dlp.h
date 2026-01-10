@@ -76,7 +76,7 @@ public:
 
 	void updateLocalOptions( QStringList& ) override ;
 
-	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
+	void setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList&,const QString& ) override ;
 
 	void setTextEncondig( const QString&,QStringList& ) override ;
 

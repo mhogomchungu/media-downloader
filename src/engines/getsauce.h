@@ -44,7 +44,11 @@ public:
 	~getsauce() override ;
 	getsauce( const engines& e,const engines::engine& s,QJsonObject& ) ;
 
-	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
+	void setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList&,const QString& ) override ;
+
+	bool hasConvertArgToEnv( const QStringList& ) override ;
+
+	QStringList convertArgToEnv( engines::engine::baseEngine::optionsEnvironment&,const QStringList& ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
 					     const QString& bkText,

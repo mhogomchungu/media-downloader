@@ -1499,11 +1499,25 @@ namespace utility
 
 				QStringList m ;
 
-				m_envExtra = m_engine.setProxySetting( m,mm.networkProxyString() ) ;
+				m_engine.setProxySetting( m_envExtra,m,mm.networkProxyString() ) ;
 
-				m_cmd = { m_engine.exePath(),m + utility::setEnvArgs( m_envExtra,args ) } ;
+				if( m_engine.hasConvertArgToEnv( args ) ){
+
+					auto a = m_engine.convertArgToEnv( m_envExtra,args ) ;
+
+					m_cmd = { m_engine.exePath(),m + a } ;
+				}else{
+					m_cmd = { m_engine.exePath(),m + args } ;
+				}
 			}else{
-				m_cmd = { m_engine.exePath(),utility::setEnvArgs( m_envExtra,args ) } ;
+				if( m_engine.hasConvertArgToEnv( args ) ){
+
+					auto a = m_engine.convertArgToEnv( m_envExtra,args ) ;
+
+					m_cmd = { m_engine.exePath(),a } ;
+				}else{
+					m_cmd = { m_engine.exePath(),args } ;
+				}
 			}
 
 			return m_cmd ;

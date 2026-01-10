@@ -61,7 +61,7 @@ public:
 
 	void runCommandOnDownloadedFile( const std::vector< QByteArray >& ) override ;
 
-	engines::engine::baseEngine::optionsEnvironment setProxySetting( QStringList&,const QString& ) override ;
+	void setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList&,const QString& ) override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,
 				       bool,

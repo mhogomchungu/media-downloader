@@ -1121,12 +1121,10 @@ void yt_dlp::updateLocalOptions( QStringList& opts )
 	opts.prepend( "--match-filter" ) ;
 }
 
-engines::engine::baseEngine::optionsEnvironment yt_dlp::setProxySetting( QStringList& e,const QString& s )
+void yt_dlp::setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList& e,const QString& s )
 {
 	e.append( "--proxy" ) ;
 	e.append( s ) ;
-
-	return {} ;
 }
 
 void yt_dlp::setTextEncondig( const QString& args,QStringList& opts )
