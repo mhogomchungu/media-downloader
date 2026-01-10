@@ -307,13 +307,23 @@ util::result<engines::engine> engines::getSupportingEngineByName( const QString&
 			QJsonObject s ;
 
 			s.insert( "Name",e ) ;
-			s.insert( "Args",[ & ](){
+			s.insert( "Args",utility::QJsonArrayJoin( e ) ) ;
 
-				QJsonArray arr ;
-				arr.append( e ) ;
+			QJsonObject aa ;
 
-				return arr ;
-			}() ) ;
+			aa.insert( "amd64",s ) ;
+
+			aa.insert( "x86",s ) ;
+
+			return aa ;
+		}() ) ;
+
+		oo.insert( "Windows",[ & ](){
+
+			QJsonObject s ;
+
+			s.insert( "Name",e ) ;
+			s.insert( "Args",utility::QJsonArrayJoin( e + ".exe" ) ) ;
 
 			QJsonObject aa ;
 

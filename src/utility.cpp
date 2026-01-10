@@ -3040,3 +3040,7 @@ void utility::setCookieOption( QStringList& opts,settings& s,const engines::engi
 		opts.append( cookieFile ) ;
 	}
 }
+
+void utility::impl::qJsonArrJoin( QJsonArray& )
+{
+}
