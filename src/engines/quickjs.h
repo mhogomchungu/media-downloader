@@ -33,4 +33,5 @@ public:
 	QString parseVersionInfo( const utils::qprocess::outPut& ) override ;
 	quickjs( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	QString namePrefix() ;
 };

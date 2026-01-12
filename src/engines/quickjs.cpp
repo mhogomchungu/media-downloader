@@ -75,16 +75,21 @@ quickjs::~quickjs()
 {
 }
 
+QString quickjs::namePrefix()
+{
+	QString platform = utility::platformIsWindows() ? "win" : "linux" ;
+	QString arch     = utility::CPU().x86_32() ? "-i686" : "-x86_64" ;
+
+	return "quickjs-" + platform + arch ;
+}
+
 engines::metadata quickjs::parseJsonDataFromGitHub( const QJsonDocument& e )
 {
 	auto version = e.object().value( "version" ).toString() ;
 
 	if( !version.isEmpty() && ( utility::platformIsLinux() || utility::platformIsWindows() ) ){
 
-		auto platform = utility::platformIsWindows() ? "win" : "linux" ;
-		auto arch     = utility::CPU().x86_32() ? "i686" : "x86_64" ;
-
-		auto fileName = QString( "quickjs-%1-%2-%3.zip" ).arg( platform,arch,version ) ;
+		auto fileName = QString( "%1-%2.zip" ).arg( this->namePrefix(),version ) ;
 		auto url      = "https://bellard.org/quickjs/binary_releases/" + fileName ;
 
 		QJsonObject obj ;
@@ -118,32 +123,7 @@ engines::engine::baseEngine::removeFilesStatus quickjs::removeFiles( const QStri
 
 bool quickjs::foundNetworkUrl( const QString& s )
 {
-	utility::CPU cpu ;
-
-	if( utility::platformIsWindows() ){
-
-		if( cpu.x86_32() ){
-
-			return s.startsWith( "quickjs-win-i686" ) && s.endsWith( ".zip" ) ;
-
-		}else if( cpu.x86_64() ){
-
-			return s.startsWith( "quickjs-win-x86_64" ) && s.endsWith( ".zip" ) ;
-		}
-
-	}else if( utility::platformIsLinux() ){
-
-		if( cpu.x86_64() ){
-
-			return s.startsWith( "quickjs-linux-x86_64" ) && s.endsWith( ".zip" ) ;
-
-		}else if( cpu.x86_32() ){
-
-			return s.startsWith( "quickjs-linux-i686" ) && s.endsWith( ".zip" ) ;
-		}
-	}
-
-	return false ;
+	return s.startsWith( this->namePrefix() ) && s.endsWith( ".zip" ) ;
 }
 
 QString quickjs::parseVersionInfo( const utils::qprocess::outPut& r )
