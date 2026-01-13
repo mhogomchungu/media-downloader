@@ -418,3 +418,7 @@ Version 1.2.0(April 1st, 2021)
       - Fix a bug that cause yt-dlp specific options to be set when using other engines.
      [Gallery-dl]
       - Fix a bug that caused downloaded files to be under "directlink" subfolder under certain circumstances.
+
+     Version 5.4.7(January 13th, 2026)
+     [ALL]
+      - Maintanance Release.
