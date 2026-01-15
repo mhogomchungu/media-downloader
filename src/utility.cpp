@@ -2620,9 +2620,7 @@ bool utility::copyFile( const QString& s,const QString& d,bool setExePermssion )
 
 bool utility::addData( const QByteArray& e )
 {
-	auto s = "\r                                                      \r" ;
-
-	if( e == "\r\r" || e == s || e.contains( "[download] " ) ){
+	if( e.trimmed().isEmpty() || e.contains( "[download] " ) ){
 
 		return false ;
 	}else{

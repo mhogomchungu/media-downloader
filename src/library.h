@@ -53,9 +53,38 @@ private:
 signals:
 	void addEntrySignal( const directoryEntries::iter& ) ;
 private:
+	class iter
+	{
+	public:
+		iter( int s )
+		{
+			m_entries.emplace_back( s ) ;
+		}
+		iter( std::vector< int > s ) : m_entries( std::move( s ) )
+		{
+		}
+		bool empty() const
+		{
+			return m_entries.size() == 0 ;
+		}
+		int next()
+		{
+			auto m = m_entries.back() ;
+
+			m_entries.pop_back() ;
+
+			return m ;
+		}
+		iter move()
+		{
+			return std::move( *this ) ;
+		}
+	private:
+		std::vector< int > m_entries ;
+	} ;
+	void deleteEntries( library::iter ) ;
 	bool hasMultipleSelections() ;
 	bool deletePath( const QString& ) ;
-	void deleteEntries( std::vector< int > ) ;
 	void setRenameUiVisible( bool ) ;
 	void renameFile( int ) ;
 	void deleteEntry( int ) ;

@@ -251,23 +251,21 @@ bool library::deletePath( const QString& m )
 	return mm.exists() ;
 }
 
-void library::deleteEntries( std::vector< int > items )
+void library::deleteEntries( library::iter items )
 {
-	if( items.size() == 0 ){
+	if( items.empty() ){
 
 		return this->enableAll() ;
 	}
 
-	int row = items.back() ;
-
-	items.pop_back() ;
+	auto row = items.next() ;
 
 	class meaw
 	{
 	public:
-		meaw( library& library,std::vector< int > items,int row ) :
+		meaw( library& library,library::iter items,int row ) :
 			m_parent( library ),
-			m_items( std::move( items ) ),
+			m_items( items.move() ),
 			m_row( row ),
 			m_path( this->path() )
 		{
@@ -283,7 +281,7 @@ void library::deleteEntries( std::vector< int > items )
 				m_parent.m_table.removeRow( m_row ) ;
 			}
 
-			m_parent.deleteEntries( std::move( m_items ) ) ;
+			m_parent.deleteEntries( m_items.move() ) ;
 		}
 	private:
 		QString path() const
@@ -292,12 +290,12 @@ void library::deleteEntries( std::vector< int > items )
 			return m_parent.m_currentPath + "/" + s ;
 		}
 		library& m_parent ;
-		std::vector< int > m_items ;
+		library::iter m_items ;
 		int m_row ;
 		QString m_path ;
 	} ;
 
-	utils::qthread::run( meaw( *this,std::move( items ),row ) ) ;
+	utils::qthread::run( meaw( *this,items.move(),row ) ) ;
 }
 
 void library::setRenameUiVisible( bool e )
@@ -348,11 +346,7 @@ void library::deleteEntry( int row )
 
 		m_ui.pbLibraryCancel->setEnabled( true ) ;
 
-		std::vector< int > item ;
-
-		item.emplace_back( row ) ;
-
-		this->deleteEntries( std::move( item ) ) ;
+		this->deleteEntries( row ) ;
 	}
 }
 

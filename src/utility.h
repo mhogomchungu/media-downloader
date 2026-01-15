@@ -712,11 +712,15 @@ namespace utility
 
 				std::unique_ptr< QMenu > menu( textEdit->createStandardContextMenu() ) ;
 
-				menu->addSeparator() ;
+				#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+					menu->addSeparator() ;
 
-				auto icon = QIcon::fromTheme( "edit-cut" ) ;
+					auto icon = QIcon::fromTheme( "edit-cut" ) ;
 
-				menu->addAction( icon,"Clear",std::move( function ) ) ;
+					menu->addAction( icon,"Clear",std::move( function ) ) ;
+				#else
+					Q_UNUSED( function )
+				#endif
 
 				menu->exec( QCursor::pos() ) ;
 
