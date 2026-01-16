@@ -211,7 +211,7 @@
 			<description>
 				<p>Changelog</p>
 				<ul>
-					<li>Use yt-dlp from "https://github.com/nicolaasjan/yt-dlp" when using windows7.</li>
+					<li>Use yt-dlp from "github.com/nicolaasjan/yt-dlp" when using windows7.</li>
 					<li>Add a context menu in the batch downloader tab to hide/show UI controls to make visible more entries to be downloaded.</li>
 					<li>When application starts, put it on the screen where it was when it was last closed.</li>
 				</ul>
