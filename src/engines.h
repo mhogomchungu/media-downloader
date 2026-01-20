@@ -1452,11 +1452,19 @@ public:
 		struct cmd
 		{
 			QString name ;
+			QString downloadUrl ;
 			QStringList args ;
 			bool noCheckArgs ;
 		} ;
 
-		engines::engine::cmd getCommands( const QJsonObject& ) ;
+		struct cmdUrl
+		{
+			QJsonObject obj ;
+			QString url ;
+		} ;
+
+		engines::engine::cmd getCommands( const QString&,const QJsonObject& ) ;
+		engines::engine::cmdUrl getCommandObj( const QString&,const QJsonObject& ) ;
 
 		void parseMultipleCmdArgs( Logger& logger,const engines& engines,const enginePaths&,int ) ;
 

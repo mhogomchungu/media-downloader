@@ -850,38 +850,73 @@ QJsonObject engines::engine::getCmd( const QJsonObject& cmd )
 	}
 }
 
-engines::engine::cmd engines::engine::getCommands( const QJsonObject& cmd )
+engines::engine::cmdUrl engines::engine::getCommandObj( const QString& name,const QJsonObject& obj )
 {
-	auto obj = [ & ](){
+	auto cmd = obj.value( "Cmd" ).toObject() ;
 
-		utility::CPU cpu ;
+	utility::CPU cpu ;
 
-		if( cpu.x86_32() ){
+	if( utility::platformIsWindows7() && name == "yt-dlp" ){
 
-			return this->getCmd( cmd ).value( "x86" ).toObject() ;
+		auto url = obj.value( "DownloadUrlWin7" ).toString() ;
 
-		}else if( cpu.x86_64() ){
+		auto m = cmd.value( "Windows" ).toObject() ;
 
-			return this->getCmd( cmd ).value( "amd64" ).toObject() ;
+		if( cpu.x86_64() ){
 
-		}else if( cpu.aarch64() ){
-
-			auto m = this->getCmd( cmd ).value( "aarch64" ).toObject() ;
-
-			if( !m.isEmpty() ){
-
-				return m ;
-			}
+			return { m.value( "win7amd64" ).toObject(),url } ;
+		}else{
+			return { m.value( "win7x86" ).toObject(),url } ;
 		}
+	}
 
-		return this->getCmd( cmd ).value( "amd64" ).toObject() ;
-	}() ;
+	QString url ;
+
+	if( utility::platformIsOSX() ){
+
+		url = obj.value( "DownloadUrlMAC" ).toString() ;
+
+		if( url.isEmpty() ){
+
+			url = obj.value( "DownloadUrl" ).toString() ;
+		}
+	}else{
+		url = obj.value( "DownloadUrl" ).toString() ;
+	}
+
+	if( cpu.x86_32() ){
+
+		return { this->getCmd( cmd ).value( "x86" ).toObject(),url } ;
+
+	}else if( cpu.x86_64() ){
+
+		return { this->getCmd( cmd ).value( "amd64" ).toObject(),url } ;
+
+	}else if( cpu.aarch64() ){
+
+		auto m = this->getCmd( cmd ).value( "aarch64" ).toObject() ;
+
+		if( !m.isEmpty() ){
+
+			return { m,url } ;
+		}
+	}
+
+	return { this->getCmd( cmd ).value( "amd64" ).toObject(),url } ;
+}
+
+engines::engine::cmd engines::engine::getCommands( const QString& name,const QJsonObject& oo )
+{
+	auto cmd = this->getCommandObj( name,oo ) ;
+
+	const auto& obj = cmd.obj ;
+	const auto& url = cmd.url ;
 
 	auto m = obj.value( "Name" ).toString() ;
 
 	auto s = this->toStringList( obj.value( "Args" ).toArray() ) ;
 
-	return { m,s,s.size() == 1 } ;
+	return { m,url,s,s.size() == 1 } ;
 }
 
 QJsonObject engines::engine::getOpts( const util::Json& e ) const
@@ -909,16 +944,6 @@ QJsonObject engines::engine::getOpts( const util::Json& e ) const
 		obj.insert( "DownloadUrl",svtplay_dl::downloadUrl() ) ;
 	}
 
-	if( utility::platformIsOSX() ){
-
-		auto m = obj.value( "DownloadUrlMAC" ).toString() ;
-
-		if( !m.isEmpty() ){
-
-			obj.insert( "DownloadUrl",m ) ;
-		}
-	}
-
 	return obj ;
 }
 
@@ -938,8 +963,7 @@ engines::engine::engine( Logger& logger,
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_configVersion( m_jsonObject.value( "Version" ).toString() ),
-	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
-	m_downloadUrl( m_jsonObject.value( "DownloadUrl" ).toString() )
+	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() )
 {
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
@@ -949,9 +973,11 @@ engines::engine::engine( Logger& logger,
 		m_exeFolderPath = ePaths.binPath() ;
 	}
 
-	auto m = this->getCommands( m_jsonObject.value( "Cmd" ).toObject() ) ;
+	auto m = this->getCommands( m_name,m_jsonObject ) ;
 
 	m_commandName = m.name ;
+
+	m_downloadUrl = m.downloadUrl ;
 
 	if( m.noCheckArgs ){
 
