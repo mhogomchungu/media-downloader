@@ -227,7 +227,7 @@ bool utility::platformIsWindows7()
 
 bool utility::platformisLegacyWindows()
 {
-	if( _pretendPlatform.isLegacyWindows() ){
+	if( _pretendPlatform.isLegacyWindows() || _pretendPlatform.isWindows7() ){
 
 		return true ;
 	}else{
