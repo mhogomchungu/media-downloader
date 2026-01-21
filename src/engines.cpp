@@ -830,11 +830,11 @@ void engines::engine::updateOptions()
 	m_defaultSubtitleDownloadOptions  = this->toStringList( m_jsonObject.value( "DefaultSubtitleDownloadOptions" ) ) ;
 }
 
-QJsonObject engines::engine::getCmd( const QJsonObject& cmd )
+QJsonObject engines::engine::getCmd( const QJsonObject& cmd,const QString& arc )
 {
 	if( utility::platformIsWindows() ){
 
-		return cmd.value( "Windows" ).toObject() ;
+		return cmd.value( "Windows" ).toObject().value( arc ).toObject() ;
 	}else{
 		if( utility::platformIsOSX() ){
 
@@ -842,32 +842,27 @@ QJsonObject engines::engine::getCmd( const QJsonObject& cmd )
 
 			if( !m.isEmpty() ){
 
-				return m ;
+				return m.value( arc ).toObject() ;
 			}
 		}
 
-		return cmd.value( "Generic" ).toObject() ;
+		return cmd.value( "Generic" ).toObject().value( arc ).toObject() ;
 	}
 }
 
-engines::engine::cmdUrl engines::engine::getCommandObj( const QString& name,const QJsonObject& obj )
+engines::engine::cmd engines::engine::getCommands( const QString& engineName,const QJsonObject& obj )
 {
 	auto cmd = obj.value( "Cmd" ).toObject() ;
 
 	utility::CPU cpu ;
 
-	if( utility::platformIsWindows7() && name == "yt-dlp" ){
+	if( utility::platformIsWindows7() && engineName == "yt-dlp" ){
 
 		auto url = obj.value( "DownloadUrlWin7" ).toString() ;
 
-		auto m = cmd.value( "Windows" ).toObject() ;
+		auto arc = cpu.x86_64() ? "win7amd64" : "win7x86" ;
 
-		if( cpu.x86_64() ){
-
-			return { m.value( "win7amd64" ).toObject(),url } ;
-		}else{
-			return { m.value( "win7x86" ).toObject(),url } ;
-		}
+		return { this->getCmd( cmd,arc ),url,*this } ;
 	}
 
 	QString url ;
@@ -886,37 +881,38 @@ engines::engine::cmdUrl engines::engine::getCommandObj( const QString& name,cons
 
 	if( cpu.x86_32() ){
 
-		return { this->getCmd( cmd ).value( "x86" ).toObject(),url } ;
-
-	}else if( cpu.x86_64() ){
-
-		return { this->getCmd( cmd ).value( "amd64" ).toObject(),url } ;
-
-	}else if( cpu.aarch64() ){
-
-		auto m = this->getCmd( cmd ).value( "aarch64" ).toObject() ;
+		auto m = this->getCmd( cmd,"x86" ) ;
 
 		if( !m.isEmpty() ){
 
-			return { m,url } ;
+			return { m,url,*this } ;
+		}
+
+	}else if( cpu.x86_64() ){
+
+		return { this->getCmd( cmd,"amd64" ),url,*this } ;
+
+	}else if( cpu.aarch64() ){
+
+		auto m = this->getCmd( cmd,"aarch64" ) ;
+
+		if( !m.isEmpty() ){
+
+			return { m,url,*this } ;
 		}
 	}
 
-	return { this->getCmd( cmd ).value( "amd64" ).toObject(),url } ;
+	return { this->getCmd( cmd,"amd64" ),url,*this } ;
 }
 
-engines::engine::cmd engines::engine::getCommands( const QString& name,const QJsonObject& oo )
+engines::engine::cmd::cmd( const QJsonObject& obj,
+			   const QString& url,
+			   const engines::engine& engine ) :
+	m_commandName( obj.value( "Name" ).toString() ),
+	m_downloadUrl( url ),
+	m_args( engine.toStringList( obj.value( "Args" ).toArray() ) ),
+	m_noCheckArgs( m_args.size() == 1 )
 {
-	auto cmd = this->getCommandObj( name,oo ) ;
-
-	const auto& obj = cmd.obj ;
-	const auto& url = cmd.url ;
-
-	auto m = obj.value( "Name" ).toString() ;
-
-	auto s = this->toStringList( obj.value( "Args" ).toArray() ) ;
-
-	return { m,url,s,s.size() == 1 } ;
 }
 
 QJsonObject engines::engine::getOpts( const util::Json& e ) const
@@ -975,15 +971,15 @@ engines::engine::engine( Logger& logger,
 
 	auto m = this->getCommands( m_name,m_jsonObject ) ;
 
-	m_commandName = m.name ;
+	m_commandName = m.commandName() ;
 
-	m_downloadUrl = m.downloadUrl ;
+	m_downloadUrl = m.downloadUrl() ;
 
-	if( m.noCheckArgs ){
+	if( m.noCheckArgs() ){
 
 		this->parseMultipleCmdArgs( logger,engines,ePaths,id ) ;
 	}else{
-		this->parseMultipleCmdArgs( m.args,backendPath,logger,ePaths,engines,id ) ;
+		this->parseMultipleCmdArgs( m.args(),backendPath,logger,ePaths,engines,id ) ;
 	}
 }
 
@@ -1051,7 +1047,7 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 	}
 }
 
-void engines::engine::parseMultipleCmdArgs( QStringList& cmdNames,
+void engines::engine::parseMultipleCmdArgs( QStringList cmdNames,
 					    const QString& backendPath,
 					    Logger& logger,
 					    const enginePaths& ePaths,

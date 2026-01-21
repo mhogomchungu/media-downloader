@@ -422,3 +422,9 @@ Version 1.2.0(April 1st, 2021)
      Version 5.4.7(January 13th, 2026)
      [ALL]
       - Maintanance Release.
+
+     Version 5.4.8(Unreleased)
+     [ALL]
+      - Update Chinese translations.
+     [WINDOWS7]
+      - Fix a bug that caused a wrong yt-dlp binary to be downloaded and used.

@@ -1447,15 +1447,7 @@ public:
 		void setPermissions( const QString& ) const ;
 		void updateOptions() ;
 		QStringList toStringList( const QJsonValue&,bool = false ) const ;
-		QJsonObject getCmd( const QJsonObject& ) ;
-
-		struct cmd
-		{
-			QString name ;
-			QString downloadUrl ;
-			QStringList args ;
-			bool noCheckArgs ;
-		} ;
+		QJsonObject getCmd( const QJsonObject&,const QString& ) ;
 
 		struct cmdUrl
 		{
@@ -1463,12 +1455,38 @@ public:
 			QString url ;
 		} ;
 
+		class cmd
+		{
+		public:
+			cmd( const QJsonObject&,const QString&,const engines::engine& ) ;
+			const QString& commandName() const
+			{
+				return m_commandName ;
+			}
+			const QString& downloadUrl() const
+			{
+				return m_downloadUrl ;
+			}
+			const QStringList& args() const
+			{
+				return m_args ;
+			}
+			bool noCheckArgs() const
+			{
+				return m_noCheckArgs ;
+			}
+		private:
+			QString m_commandName ;
+			QString m_downloadUrl ;
+			QStringList m_args ;
+			bool m_noCheckArgs ;
+		} ;
+
 		engines::engine::cmd getCommands( const QString&,const QJsonObject& ) ;
-		engines::engine::cmdUrl getCommandObj( const QString&,const QJsonObject& ) ;
 
 		void parseMultipleCmdArgs( Logger& logger,const engines& engines,const enginePaths&,int ) ;
 
-		void parseMultipleCmdArgs( QStringList&,
+		void parseMultipleCmdArgs( QStringList,
 					   const QString&,
 					   Logger& logger,
 					   const enginePaths& ePaths,
