@@ -1449,12 +1449,6 @@ public:
 		QStringList toStringList( const QJsonValue&,bool = false ) const ;
 		QJsonObject getCmd( const QJsonObject&,const QString& ) ;
 
-		struct cmdUrl
-		{
-			QJsonObject obj ;
-			QString url ;
-		} ;
-
 		class cmd
 		{
 		public:
@@ -1473,13 +1467,12 @@ public:
 			}
 			bool noCheckArgs() const
 			{
-				return m_noCheckArgs ;
+				return m_args.size() == 1 ;
 			}
 		private:
 			QString m_commandName ;
 			QString m_downloadUrl ;
 			QStringList m_args ;
-			bool m_noCheckArgs ;
 		} ;
 
 		engines::engine::cmd getCommands( const QString&,const QJsonObject& ) ;

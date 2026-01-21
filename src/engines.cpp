@@ -902,8 +902,7 @@ engines::engine::cmd::cmd( const QJsonObject& obj,
 			   const engines::engine& engine ) :
 	m_commandName( obj.value( "Name" ).toString() ),
 	m_downloadUrl( url ),
-	m_args( engine.toStringList( obj.value( "Args" ).toArray() ) ),
-	m_noCheckArgs( m_args.size() == 1 )
+	m_args( engine.toStringList( obj.value( "Args" ).toArray() ) )
 {
 }
 
