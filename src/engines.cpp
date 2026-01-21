@@ -59,15 +59,7 @@ QProcessEnvironment engines::getEnvPaths() const
 
 	const auto& basePath = m_enginePaths.binPath() ;
 
-	auto separator = [ & ](){
-
-		if( utility::platformIsLikeWindows() ){
-
-			return ";" ;
-		}else{
-			return ":" ;
-		}
-	}() ;
+	auto separator = utility::platformIsLikeWindows() ? ";" : ":" ;
 
 	QString s ;
 
