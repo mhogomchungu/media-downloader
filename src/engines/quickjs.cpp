@@ -20,12 +20,9 @@
 #include "quickjs.h"
 #include "../utility.h"
 
-QJsonObject quickjs::init( const QString& name,
-			   const QString& configFileName,
-			   Logger& logger,
-			   const engines::enginePaths& enginePath )
+QJsonObject quickjs::init( Logger& logger,const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.enginePath( configFileName ) ;
+	auto m = enginePath.enginePath( "quickjs.json" ) ;
 
 	if( QFile::exists( m ) ){
 
@@ -54,7 +51,7 @@ QJsonObject quickjs::init( const QString& name,
 
 	mainObj.insert( "AutoUpdate",true ) ;
 
-	mainObj.insert( "Name",name ) ;
+	mainObj.insert( "Name","quickjs" ) ;
 
 	mainObj.insert( "VersionArgument","--version" ) ;
 

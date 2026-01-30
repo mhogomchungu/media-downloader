@@ -22,10 +22,7 @@
 class quickjs : public engines::engine::baseEngine
 {
 public:
-	static QJsonObject init( const QString& name,
-				 const QString& configFileName,
-				 Logger& logger,
-				 const engines::enginePaths& enginePath ) ;
+	static QJsonObject init( Logger& logger,const engines::enginePaths& enginePath ) ;
 	~quickjs() ;
 	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
 	engines::engine::baseEngine::removeFilesStatus removeFiles( const QStringList&,const QString& ) override ;

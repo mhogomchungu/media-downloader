@@ -22,10 +22,7 @@
 class aria2c : public engines::engine::baseEngine
 {
 public:
-	static void init( const QString& name,
-			  const QString& configFileName,
-			  Logger& logger,
-			  const engines::enginePaths& enginePath ) ;
+	static void init( Logger& logger,const engines::enginePaths& enginePath ) ;
 
 	static QByteArray& trimProgressLine( QByteArray& ) ;
 

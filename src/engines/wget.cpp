@@ -117,12 +117,11 @@ SiriKali-1.5.0.setu 100%[===================>]  11.91M   826KB/s    in 19s
 2022-10-05 11:57:06 (654 KB/s) - ‘SiriKali-1.5.0.setup.exe’ saved [12486371/12486371])R" ;
 }
 
-void wget::init( const QString& name,
-		 const QString& configFileName,
-		 Logger& logger,
-		 const engines::enginePaths& enginePath )
+void wget::init( Logger& logger,const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.enginePath( configFileName ) ;
+	QString name = "wget" ;
+
+	auto m = enginePath.enginePath( "wget.json" ) ;
 
 	if( !QFile::exists( m ) ){
 

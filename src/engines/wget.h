@@ -25,10 +25,7 @@ class wget : public engines::engine::baseEngine
 {
 public:
 	static const char * testData() ;
-	static void init( const QString& name,
-			  const QString& configFileName,
-			  Logger& logger,
-			  const engines::enginePaths& enginePath ) ;
+	static void init( Logger& logger,const engines::enginePaths& enginePath ) ;
 	~wget() override ;
 	wget( const engines& e,const engines::engine& s,QJsonObject& ) ;
 	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,

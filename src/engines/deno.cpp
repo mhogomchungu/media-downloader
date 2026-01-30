@@ -20,12 +20,9 @@
 #include "deno.h"
 #include "../utility.h"
 
-QJsonObject deno::init( const QString& name,
-			const QString& configFileName,
-			Logger& logger,
-			const engines::enginePaths& enginePath )
+QJsonObject deno::init( Logger& logger,const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.enginePath( configFileName ) ;
+	auto m = enginePath.enginePath( "deno.json" ) ;
 
 	if( QFile::exists( m ) ){
 
@@ -58,7 +55,7 @@ QJsonObject deno::init( const QString& name,
 
 	mainObj.insert( "AutoUpdate",false ) ;
 
-	mainObj.insert( "Name",name ) ;
+	mainObj.insert( "Name","deno" ) ;
 
 	mainObj.insert( "VersionArgument","-version" ) ;
 
@@ -73,6 +70,23 @@ QJsonObject deno::init( const QString& name,
 	engines::file( m,logger ).write( mainObj ) ;
 
 	return mainObj ;
+}
+
+void deno::remove( Logger&,const engines::enginePaths& enginePath )
+{
+	auto m = enginePath.enginePath( "deno.json" ) ;
+
+	if( QFile::exists( m ) ){
+
+		QFile::remove( m ) ;
+	}
+
+	//m = enginePath.binPath( "deno" ) ;
+
+	//if( QFile::exists( m ) ){
+
+	//	QFile::remove( m ) ;
+	//}
 }
 
 deno::~deno()
@@ -102,11 +116,7 @@ QString deno::urlFileName( const QString& )
 			return "deno-x86_64-pc-windows-msvc.zip" ;
 		}
 
-	}else if( utility::platformisFlatPak() ){
-
-		return {} ;
-
-	}else if( utility::platformIsLinux() ){
+	}else if( utility::platformIsLinux() || utility::platformisFlatPak() ){
 
 		if( cpu.x86_64() ){
 

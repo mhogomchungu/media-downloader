@@ -22,10 +22,8 @@
 class deno : public engines::engine::baseEngine
 {
 public:
-	static QJsonObject init( const QString& name,
-				 const QString& configFileName,
-				 Logger& logger,
-				 const engines::enginePaths& enginePath ) ;
+	static QJsonObject init( Logger& logger,const engines::enginePaths& enginePath ) ;
+	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	~deno() ;
 	bool foundNetworkUrl( const QString& s ) override ;
 	QString urlFileName( const QString& ) override ;

@@ -2519,21 +2519,22 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 
 	if( utility::platformIsWindows() ){
 
-		aria2c::init( "aria2c","aria2c.json",logger,enginePath ) ;
-		wget::init( "wget","wget.json",logger,enginePath ) ;
+		aria2c::init( logger,enginePath ) ;
+		wget::init( logger,enginePath ) ;
 
 		if( utility::platformisLegacyWindows() ){
 
-			quickjs::init( "quickjs","quickjs.json",logger,enginePath ) ;
+			quickjs::init( logger,enginePath ) ;
 		}else{
-			deno::init( "deno","deno.json",logger,enginePath ) ;
+			deno::init( logger,enginePath ) ;
 		}
 
 	}else if( utility::platformisFlatPak() ){
 
-		quickjs::init( "quickjs","quickjs.json",logger,enginePath ) ;
+		quickjs::init( logger,enginePath ) ;
+		deno::remove( logger,enginePath ) ;
 	}else{
-		deno::init( "deno","deno.json",logger,enginePath ) ;
+		deno::init( logger,enginePath ) ;
 	}
 }
 

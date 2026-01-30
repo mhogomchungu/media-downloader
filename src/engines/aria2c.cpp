@@ -21,12 +21,11 @@
 #include "../utility.h"
 #include "../settings.h"
 
-void aria2c::init( const QString& name,
-		   const QString& configFileName,
-		   Logger& logger,
-		   const engines::enginePaths& enginePath )
+void aria2c::init( Logger& logger,const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.enginePath( configFileName ) ;
+	QString name = "aria2c" ;
+
+	auto m = enginePath.enginePath( "aria2c.json" ) ;
 
 	if( !QFile::exists( m ) ){
 
