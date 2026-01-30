@@ -83,6 +83,11 @@ QString quickjs::namePrefix()
 	return "quickjs-" + platform + arch ;
 }
 
+QString quickjs::urlFileName( const QString& version )
+{
+	return this->namePrefix() + "-" + version + ".zip" ;
+}
+
 engines::metadata quickjs::parseJsonDataFromGitHub( const QJsonDocument& e )
 {
 	auto version = e.object().value( "version" ).toString() ;
@@ -95,6 +100,7 @@ engines::metadata quickjs::parseJsonDataFromGitHub( const QJsonDocument& e )
 		QJsonObject obj ;
 
 		obj.insert( "browser_download_url",url ) ;
+		obj.insert( "tag_name",version ) ;
 		obj.insert( "name",fileName ) ;
 		obj.insert( "digest","" ) ;
 		obj.insert( "size",0 ) ;

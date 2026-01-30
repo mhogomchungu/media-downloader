@@ -30,6 +30,7 @@ public:
 	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
 	engines::engine::baseEngine::removeFilesStatus removeFiles( const QStringList&,const QString& ) override ;
 	bool foundNetworkUrl( const QString& s ) override ;
+	QString urlFileName( const QString& ) override ;
 	QString parseVersionInfo( const utils::qprocess::outPut& ) override ;
 	quickjs( const engines&,const engines::engine&,QJsonObject& ) ;
 private:

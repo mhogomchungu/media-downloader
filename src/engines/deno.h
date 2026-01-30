@@ -28,6 +28,7 @@ public:
 				 const engines::enginePaths& enginePath ) ;
 	~deno() ;
 	bool foundNetworkUrl( const QString& s ) override ;
+	QString urlFileName( const QString& ) override ;
 	deno( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
 };

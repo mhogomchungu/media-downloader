@@ -479,7 +479,53 @@ private:
 		QString filePath ;
 		QString tempPath ;
 		cmdArgs exeArgs ;
-		mutable QString networkError ;
+		class NetworkError
+		{
+		public:
+			NetworkError()
+			{
+			}
+			NetworkError( const QString& e )
+			{
+				m_errors.emplace_back( e ) ;
+			}
+			void operator=( const QString& e )
+			{
+				m_errors.clear() ;
+				m_errors.emplace_back( e ) ;
+			}
+			template< typename ... R >
+			void add( R&& ... args )
+			{
+				m_errors.clear() ;
+				this->addImpl( std::forward< R >( args ) ... ) ;
+			}
+			auto begin() const
+			{
+				return m_errors.begin() ;
+			}
+			auto end() const
+			{
+				return m_errors.end() ;
+			}
+			bool isNotEmpty() const
+			{
+				return m_errors.size() > 0 ;
+			}
+		private:
+			void addImpl()
+			{
+			}
+			template< typename F,typename ... R >
+			void addImpl( const F& f,R&& ... r )
+			{
+				m_errors.emplace_back( f ) ;
+				this->addImpl( std::forward< R >( r ) ... ) ;
+			}
+			std::vector< QString > m_errors ;
+		};
+
+		mutable NetworkError networkError ;
 		bool isArchive = false ;
 		int id ;
 		Logger::locale locale ;

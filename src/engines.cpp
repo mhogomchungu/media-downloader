@@ -1780,6 +1780,11 @@ bool engines::engine::baseEngine::foundNetworkUrl( const QString& s )
 	return s == m_engine.commandName() ;
 }
 
+QString engines::engine::baseEngine::urlFileName( const QString& )
+{
+	return m_engine.commandName() ;
+}
+
 engines::engine::baseEngine::renameArchiveFolderStatus
 engines::engine::baseEngine::renameArchiveFolder( const QString&,const QString& )
 {

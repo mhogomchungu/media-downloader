@@ -258,7 +258,8 @@ public:
 			m_url( obj.value( "browser_download_url" ).toString() ),
 			m_size( obj.value( "size" ).toInt() ),
 			m_fileName( obj.value( "name" ).toString() ),
-			m_hash( obj.value( "digest" ).toString() )
+			m_hash( obj.value( "digest" ).toString() ),
+			m_version( obj.value( "tag_name" ).toString() )
 		{
 		}
 		metadata()
@@ -280,6 +281,10 @@ public:
 		{
 			return m_hash ;
 		}
+		const QString& version() const
+		{
+			return m_version ;
+		}
 		qint64 size() const
 		{
 			return m_size ;
@@ -289,6 +294,7 @@ public:
 		qint64 m_size = 0 ;
 		QString m_fileName ;
 		QString m_hash ;
+		QString m_version ;
 	} ;
 
 	class engine
@@ -910,6 +916,8 @@ public:
 
 			virtual bool foundNetworkUrl( const QString& ) ;
 
+			virtual QString urlFileName( const QString& ) ;
+
 			class renameArchiveFolderStatus
 			{
 			public:
@@ -1256,6 +1264,10 @@ public:
 		engines::engine::baseEngine::FilterOutPut filterOutput( int id ) const
 		{
 			return m_engine->filterOutput( id ) ;
+		}
+		QString urlFileName( const QString& e ) const
+		{
+			return m_engine->urlFileName( e ) ;
 		}
 		bool foundNetworkUrl( const QString& s ) const
 		{

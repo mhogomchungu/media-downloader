@@ -50,13 +50,13 @@ QJsonObject deno::init( const QString& name,
 
 	json.done() ;
 
-	mainObj.insert( "Version","1" ) ;
+	mainObj.insert( "Version","2" ) ;
 
 	mainObj.insert( "DownloadUrl","https://api.github.com/repos/denoland/deno/releases/latest" ) ;
 
 	mainObj.insert( "DownloadUrlWin7","" ) ;
 
-	mainObj.insert( "AutoUpdate",true ) ;
+	mainObj.insert( "AutoUpdate",false ) ;
 
 	mainObj.insert( "Name",name ) ;
 
@@ -81,43 +81,55 @@ deno::~deno()
 
 bool deno::foundNetworkUrl( const QString& s )
 {
+	auto e = this->urlFileName( {} ) ;
+
+	if( e.isEmpty() ){
+
+		return false ;
+	}else{
+		return s.contains( e ) ;
+	}
+}
+
+QString deno::urlFileName( const QString& )
+{
 	utility::CPU cpu ;
 
 	if( utility::platformIsWindows() ){
 
 		if( cpu.x86_64() ){
 
-			return s.contains( "deno-x86_64-pc-windows-msvc.zip" ) ;
+			return "deno-x86_64-pc-windows-msvc.zip" ;
 		}
 
 	}else if( utility::platformisFlatPak() ){
 
-		return false ;
+		return {} ;
 
 	}else if( utility::platformIsLinux() ){
 
 		if( cpu.x86_64() ){
 
-			return s.contains( "deno-x86_64-unknown-linux-gnu.zip" ) ;
+			return "deno-x86_64-unknown-linux-gnu.zip" ;
 
 		}else if( cpu.aarch64() ){
 
-			return s.contains( "deno-aarch64-unknown-linux-gnu.zip" ) ;
+			return "deno-aarch64-unknown-linux-gnu.zip" ;
 		}
 
 	}else if( utility::platformIsOSX() ){
 
 		if( cpu.x86_64() ){
 
-			return s.contains( "deno-x86_64-apple-darwin.zip" ) ;
+			return "deno-x86_64-apple-darwin.zip" ;
 
 		}else if( cpu.aarch64() ){
 
-			return s.contains( "deno-aarch64-apple-darwin.zip" ) ;
+			return "deno-aarch64-apple-darwin.zip" ;
 		}
 	}
 
-	return false ;
+	return {} ;
 }
 
 deno::deno( const engines& e,const engines::engine& s,QJsonObject& ) :

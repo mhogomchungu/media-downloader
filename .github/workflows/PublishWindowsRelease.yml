@@ -177,10 +177,10 @@ jobs:
     -
      name: Get Hashes
      run: | 
-          $MediaDownloaderQt5a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip).Hash 
-          $MediaDownloaderQt5b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe).Hash 
-          $MediaDownloaderQt6a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip).Hash 
-          $MediaDownloaderQt6b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe).Hash 
+          $MediaDownloaderQt5a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip).Hash.ToLower()
+          $MediaDownloaderQt5b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe).Hash.ToLower()
+          $MediaDownloaderQt6a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip).Hash.ToLower()
+          $MediaDownloaderQt6b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe).Hash.ToLower()
 
           echo "$MediaDownloaderQt5a MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip`n$MediaDownloaderQt6a MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip`n$MediaDownloaderQt5b MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe`n$MediaDownloaderQt6b MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe" | Out-File -FilePath ${{github.workspace}}\ZWindowsHashes.txt -Encoding utf8 -Append 
     -

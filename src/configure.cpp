@@ -815,6 +815,7 @@ void configure::init_done()
 	updates.emplace_back( "you-get",1 ) ;
 	updates.emplace_back( "yt-dlp-aria2c",1 ) ;
 	updates.emplace_back( "yt-dlp-ffmpeg",1 ) ;
+	updates.emplace_back( "deno",2 ) ;
 
 	for( const auto& it : updates ){
 

@@ -1,0 +1,74 @@
+{
+    "AutoUpdate": true,
+    "BackendPath": "${default}",
+    "Cmd": {
+        "Generic": {
+            "aarch64": {
+                "Args": [
+                    "deno"
+                ],
+                "Name": "deno"
+            },
+            "amd64": {
+                "Args": [
+                    "deno"
+                ],
+                "Name": "deno"
+            },
+            "x86": {
+                "Args": [
+                    "deno"
+                ],
+                "Name": "deno"
+            }
+        },
+        "MacOS": {
+            "aarch64": {
+                "Args": [
+                    "deno"
+                ],
+                "Name": "deno"
+            },
+            "amd64": {
+                "Args": [
+                    "deno"
+                ],
+                "Name": "deno"
+            }
+        },
+        "Windows": {
+            "amd64": {
+                "Args": [
+                    "deno.exe"
+                ],
+                "Name": "deno.exe"
+            },
+            "win7amd64": {
+                "Args": [
+                    "deno.exe"
+                ],
+                "Name": "deno.exe"
+            },
+            "win7x86": {
+                "Args": [
+                    "deno.exe"
+                ],
+                "Name": "deno.exe"
+            },
+            "x86": {
+                "Args": [
+                    "deno.exe"
+                ],
+                "Name": "deno.exe"
+            }
+        }
+    },
+    "DownloadUrl": "https://api.github.com/repos/denoland/deno/releases/latest",
+    "DownloadUrlWin7": "",
+    "LikeYoutubeDl": false,
+    "Name": "deno",
+    "Version": "1",
+    "VersionArgument": "-version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 1
+}
