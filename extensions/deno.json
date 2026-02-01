@@ -67,7 +67,7 @@
     "DownloadUrlWin7": "",
     "LikeYoutubeDl": false,
     "Name": "deno",
-    "Version": "1",
+    "Version": "2",
     "VersionArgument": "-version",
     "VersionStringLine": 0,
     "VersionStringPosition": 1
