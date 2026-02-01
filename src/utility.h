@@ -1310,7 +1310,7 @@ namespace utility
 				}
 			} ;
 
-			return this->make_conn( meaw(),twiga( obj,member,idx ) ) ;
+			return this->make_conn( meaw(),twiga< Object,Member >( obj,member,idx ) ) ;
 		}
 		auto setUp()
 		{
