@@ -1174,18 +1174,20 @@ void configure::addEngine( const QByteArray& d,const QString& n )
 
 	if( engine ){
 
+		const auto& eng = engine.value() ;
+
 		class woof : public versionInfo::idone
 		{
 		public:
-			woof( const Context& ctx,QString de ) :
-			    m_ctx( ctx ),m_defaultEngine( std::move( de ) )
+			woof( const Context& ctx,const engines::engine& engine ) :
+				m_ctx( ctx ),m_engine( engine )
 			{
 			}
 			void operator()() override
 			{
-				if( m_success ){
+				if( m_success && !m_engine.supportingEngine() ){
 
-					utility::setDefaultEngine( m_ctx,m_defaultEngine ) ;
+					utility::setDefaultEngine( m_ctx,m_engine.name() ) ;
 				}
 			}
 			void failed() override
@@ -1194,7 +1196,7 @@ void configure::addEngine( const QByteArray& d,const QString& n )
 			}
 		private:
 			const Context& m_ctx ;
-			QString m_defaultEngine ;
+			const engines::engine& m_engine ;
 			bool m_success = true ;
 		} ;
 
@@ -1202,7 +1204,7 @@ void configure::addEngine( const QByteArray& d,const QString& n )
 
 		auto tt = util::types::type_identity< woof >() ;
 
-		m.check( { engine.value(),id },{ tt,m_ctx,std::move( name ) },true ) ;
+		m.check( { eng,id },{ tt,m_ctx,eng },true ) ;
 	}
 }
 

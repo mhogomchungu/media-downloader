@@ -1433,7 +1433,7 @@ namespace utility
 		if( cb.count() > 0 ){
 
 			cb.setCurrentIndex( 0 ) ;
-			s.setDefaultEngine( d,t ) ;
+			s.setDefaultEngine( cb.currentText(),t ) ;
 		}
 	}
 
