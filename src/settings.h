@@ -258,6 +258,7 @@ public:
 	bool autoSetDefaultEngineAndOptions() ;
 	bool cookieSourceSetToBrowerName() ;
 	bool backgroundClipboardMonitor() ;
+	bool flatpackUseDenoRuntime() ;
 	void setMainWindowDimensions( QWidget * ) ;
 
 	qint64 timeOutWaitingForClipboardData() ;

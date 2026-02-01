@@ -226,6 +226,11 @@ bool settings::backgroundClipboardMonitor()
 	return this->getOption( "BackgroundClipboardMonitor",false ) ;
 }
 
+bool settings::flatpackUseDenoRuntime()
+{
+	return this->getOption( "FlatpackUseDenoRuntime",false ) ;
+}
+
 void settings::setCookieSourceSetToBrowerName( bool e )
 {
 	m_settings.setValue( "CookieSourceSetToBrowerName",e ) ;

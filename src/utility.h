@@ -862,17 +862,36 @@ namespace utility
 	template< typename Function >
 	void connectQCheckBox( QCheckBox * cb,Function function )
 	{
+		class meaw
+		{
+		public:
+			meaw( Function function ) : m_function( std::move( function ) )
+			{
+			}
 		#if QT_VERSION < QT_VERSION_CHECK( 6,7,0 )
-			QObject::connect( cb,&QCheckBox::stateChanged,[ function ]( int s ){
-
-				function( s == static_cast< int >( Qt::CheckState::Checked ) ) ;
-			} ) ;
+			static auto stateChanged()
+			{
+				return &QCheckBox::stateChanged ;
+			}
+			void operator()( int s )
+			{
+				m_function( s == static_cast< int >( Qt::CheckState::Checked ) ) ;
+			}
 		#else
-			QObject::connect( cb,&QCheckBox::checkStateChanged,[ function ]( Qt::CheckState s ){
-
-				function( s == Qt::CheckState::Checked ) ;
-			} ) ;
+			static auto stateChanged()
+			{
+				return &QCheckBox::checkStateChanged ;
+			}
+			void operator()( Qt::CheckState s )
+			{
+				m_function( s == Qt::CheckState::Checked ) ;
+			}
 		#endif
+		private:
+			Function m_function ;
+		} ;
+
+		QObject::connect( cb,meaw::stateChanged(),meaw( std::move( function ) ) ) ;
 	}
 	template< typename ... qLabel >
 	void alignText( Qt::LayoutDirection m,qLabel ... l )
@@ -1091,12 +1110,35 @@ namespace utility
 	{
 		auto ac = m.addAction( QObject::tr( "Show Log Window" ) ) ;
 
-		QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
+		class meaw
+		{
+		public:
+			meaw( utility::contextState& s,const Function& function,int e ) :
+				m_ctxState( s ),m_function( function ),m_option( e )
+			{
+			}
+			void operator()()
+			{
+				if( m_option == 1 ){
 
-			c.setShowLogWindow() ;
+					m_ctxState.setShowLogWindow() ;
 
-			function( c ) ;
-		} ) ;
+				}else if( m_option == 2 ) {
+
+					m_ctxState.setBatchDownloaderShowHide() ;
+				}else{
+					m_ctxState.setClear() ;
+				}
+
+				m_function( m_ctxState ) ;
+			}
+		private:
+			utility::contextState& m_ctxState ;
+			const Function& m_function ;
+			int m_option ;
+		} ;
+
+		QObject::connect( ac,&QAction::triggered,meaw( c,function,1 ) ) ;
 
 		hideUnHide() ;
 
@@ -1104,12 +1146,7 @@ namespace utility
 
 			ac = m.addAction( QObject::tr( "Show/Hide Controls" ) ) ;
 
-			QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
-
-				c.setBatchDownloaderShowHide() ;
-
-				function( c ) ;
-			} ) ;
+			QObject::connect( ac,&QAction::triggered,meaw( c,function,2 ) ) ;
 		}
 
 		if( showClear ){
@@ -1118,12 +1155,7 @@ namespace utility
 
 			ac->setEnabled( c.noneAreRunning() ) ;
 
-			QObject::connect( ac,&QAction::triggered,[ &function,&c ](){
-
-				c.setClear() ;
-
-				function( c ) ;
-			} ) ;
+			QObject::connect( ac,&QAction::triggered,meaw( c,function,3 ) ) ;
 		}
 
 		m.exec( QCursor::pos() ) ;
@@ -1230,12 +1262,24 @@ namespace utility
 		template< typename Fnt >
 		void connect( Fnt function )
 		{
-			auto fnt = [ this,function = std::move( function ) ]( int index ){
-
-				function( m_function,index ) ;
+			class meaw
+			{
+			public:
+				meaw( Fnt function,Conn& conn ) :
+					m_function( std::move( function ) ),
+					m_parent( conn )
+				{
+				}
+				auto operator()( int index )
+				{
+					return m_function( m_parent.m_function,index ) ;
+				}
+			private:
+				Fnt m_function ;
+				Conn& m_parent ;
 			} ;
 
-			m_conn = m_functionConnect( std::move( fnt ) ) ;
+			m_conn = m_functionConnect( meaw( std::move( function ),*this ) ) ;
 		}
 		void disconnect()
 		{
@@ -1251,12 +1295,6 @@ namespace utility
 		QMetaObject::Connection m_conn ;
 	};
 
-	template< typename Function,typename FunctionConnect >
-	utility::Conn< Function,FunctionConnect > make_conn( Function f,FunctionConnect c )
-	{
-		return utility::Conn< Function,FunctionConnect >( std::move( f ),std::move( c ) ) ;
-	}
-
 	class Terminator : public QObject
 	{
 		Q_OBJECT
@@ -1264,37 +1302,27 @@ namespace utility
 		template< typename Object,typename Member >
 		auto setUp( Object obj,Member member,int idx )
 		{
-			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+			struct meaw
+			{
+				bool operator()( const engines::engine& engine,QProcess& exe,int index,int idx )
+				{
+					return utility::Terminator::terminate( engine,exe,index,idx ) ;
+				}
+			} ;
 
-				return utility::Terminator::terminate( engine,exe,index,idx ) ;
-
-			},[ idx,obj,member,this ]( auto function ){
-
-				Q_UNUSED( this ) //Older version of gcc seems to require capturing "this".
-
-				return QObject::connect( obj,member,[ idx,function = std::move( function ) ](){
-
-					function( idx ) ;
-				} ) ;
-			} ) ;
+			return this->make_conn( meaw(),twiga( obj,member,idx ) ) ;
 		}
 		auto setUp()
 		{
-			return utility::make_conn( []( const engines::engine& engine,QProcess& exe,int index,int idx ){
+			struct meaw
+			{
+				bool operator()( const engines::engine& engine,QProcess& exe,int index,int idx )
+				{
+					return utility::Terminator::terminate( engine,exe,index,idx ) ;
+				}
+			} ;
 
-				return utility::Terminator::terminate( engine,exe,index,idx ) ;
-
-			},[ this ]( auto function ){
-
-				using e = void( Terminator::* )( int ) ;
-
-				auto m = static_cast< e >( &utility::Terminator::terminate ) ;
-
-				return QObject::connect( this,m,[ function = std::move( function ) ]( int index ){
-
-					function( index ) ;
-				} ) ;
-			} ) ;
+			return this->make_conn( meaw(),woof( *this ) ) ;
 		}
 		void terminateAll( QTableWidget& t )
 		{
@@ -1306,6 +1334,77 @@ namespace utility
 	signals :
 		void terminate( int index ) ;
 	private:
+		template< typename Function,typename FunctionConnect >
+		utility::Conn< Function,FunctionConnect > make_conn( Function f,FunctionConnect c )
+		{
+			return utility::Conn< Function,FunctionConnect >( std::move( f ),std::move( c ) ) ;
+		}
+		class woof
+		{
+		public:
+			woof( Terminator& parent ) : m_parent( parent )
+			{
+			}
+			template< typename Function >
+			auto operator()( Function function )
+			{
+				using e = void( Terminator::* )( int ) ;
+
+				auto m = static_cast< e >( &utility::Terminator::terminate ) ;
+
+				class foo
+				{
+				public:
+					foo( Function function ) : m_function( std::move( function ) )
+					{
+					}
+					void operator()( int index )
+					{
+						m_function( index ) ;
+					}
+				private:
+					Function m_function ;
+				} ;
+
+				return QObject::connect( &m_parent,m,foo( std::move( function ) ) ) ;
+			}
+		private:
+			Terminator& m_parent ;
+		} ;
+		template< typename Object,typename Member >
+		class twiga
+		{
+		public:
+			twiga( Object obj,Member member,int idx ) :
+				m_obj( obj ),m_member( member ),m_idx( idx )
+			{
+			}
+			template< typename Function >
+			auto operator()( Function function )
+			{
+				class foo
+				{
+				public:
+					foo( int idx,Function function ) :
+						m_idx( idx ),m_function( std::move( function ) )
+					{
+					}
+					void operator()()
+					{
+						m_function( m_idx ) ;
+					}
+				private:
+					int m_idx ;
+					Function m_function ;
+				} ;
+
+				return QObject::connect( m_obj,m_member,foo( m_idx,std::move( function ) ) ) ;
+			}
+		private:
+			Object m_obj ;
+			Member m_member ;
+			int m_idx ;
+		} ;
 		static bool terminate( QProcess& ) ;
 		static bool terminate( const engines::engine&,QProcess& exe,int index,int idx )
 		{

@@ -1024,7 +1024,7 @@ public:
 			static bool meetExtraCondition( const QByteArray&,const QJsonObject& ) ;
 		} ;
 
-		engine()
+		engine( const engines& e ) : m_parent( e )
 		{
 		}
 
@@ -1539,6 +1539,7 @@ public:
 
 		QJsonObject m_controlStructure ;
 
+		const engines& m_parent ;
 		mutable engines::engine::exeArgs m_exePath ;
 	};
 	settings& Settings() const ;
@@ -1685,7 +1686,7 @@ private:
 	class configDefaultEngine
 	{
 	public:
-		configDefaultEngine( Logger& logger,const enginePaths& enginePath ) ;
+		configDefaultEngine( const engines&,Logger& logger,const enginePaths& enginePath ) ;
 
 		const QString& name() const
 		{
@@ -1698,6 +1699,7 @@ private:
 	private:
 		QString m_name ;
 		QString m_configFileName ;
+		const engines& m_parent ;
 	} ;
 
 	engines::configDefaultEngine m_defaultEngine ;

@@ -139,7 +139,7 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 	m_settings( s ),
 	m_enginePaths( paths ),
 	m_processEnvironment( this->getEnvPaths() ),
-	m_defaultEngine( l,m_enginePaths )
+	m_defaultEngine( *this,l,m_enginePaths )
 {
 	this->updateEngines( true,id ) ;
 
@@ -553,7 +553,7 @@ const engines::engine& engines::defaultEngine( const QString& name,int id ) cons
 
 			return m_backends[ 0 ] ;
 		}else{
-			static engines::engine engine ;
+			static engines::engine engine( *this ) ;
 
 			return engine ;
 		}
@@ -794,7 +794,13 @@ void engines::engine::updateOptions()
 
 			m_extraArguments.append( "--no-js-runtimes" ) ;
 			m_extraArguments.append( "--js-runtimes" ) ;
-			m_extraArguments.append( "quickjs" ) ;
+
+			if( m_parent.m_settings.flatpackUseDenoRuntime() ){
+
+				m_extraArguments.append( "deno" ) ;
+			}else{
+				m_extraArguments.append( "quickjs" ) ;
+			}
 		}
 	}else{
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
@@ -950,7 +956,8 @@ engines::engine::engine( Logger& logger,
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),
 	m_configVersion( m_jsonObject.value( "Version" ).toString() ),
-	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() )
+	m_exeFolderPath( m_jsonObject.value( "BackendPath" ).toString() ),
+	m_parent( engines )
 {
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
@@ -2511,9 +2518,10 @@ void engines::engine::baseEngine::timer::reset()
 	m_startTime = engines::engine::baseEngine::timer::currentTime() ;
 }
 
-engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePaths& enginePath ) :
+engines::configDefaultEngine::configDefaultEngine( const engines& engines,Logger&logger,const enginePaths& enginePath ) :
 	m_name( "yt-dlp" ),
-	m_configFileName( m_name + ".json" )
+	m_configFileName( m_name + ".json" ),
+	m_parent( engines )
 {
 	yt_dlp::init( this->name(),this->configFileName(),logger,enginePath ) ;
 
@@ -2531,8 +2539,14 @@ engines::configDefaultEngine::configDefaultEngine( Logger&logger,const enginePat
 
 	}else if( utility::platformisFlatPak() ){
 
-		quickjs::init( logger,enginePath ) ;
-		deno::remove( logger,enginePath ) ;
+		if( m_parent.Settings().flatpackUseDenoRuntime() ){
+
+			deno::init( logger,enginePath ) ;
+			quickjs::remove( logger,enginePath ) ;
+		}else{
+			quickjs::init( logger,enginePath ) ;
+			deno::remove( logger,enginePath ) ;
+		}
 	}else{
 		deno::init( logger,enginePath ) ;
 	}

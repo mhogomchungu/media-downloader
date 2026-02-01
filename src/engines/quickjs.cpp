@@ -68,6 +68,23 @@ QJsonObject quickjs::init( Logger& logger,const engines::enginePaths& enginePath
 	return mainObj ;
 }
 
+void quickjs::remove( Logger&,const engines::enginePaths& enginePath )
+{
+	auto m = enginePath.enginePath( "quickjs.json" ) ;
+
+	if( QFile::exists( m ) ){
+
+		QFile::remove( m ) ;
+	}
+
+	//m = enginePath.binPath( "qjs" ) ;
+
+	//if( QFile::exists( m ) ){
+
+	//	QFile::remove( m ) ;
+	//}
+}
+
 quickjs::~quickjs()
 {
 }
