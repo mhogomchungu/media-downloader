@@ -428,3 +428,7 @@ Version 1.2.0(April 1st, 2021)
       - Update Chinese translations.
      [WINDOWS7]
       - Fix a bug that caused a wrong yt-dlp binary to be downloaded and used.
+
+     Version 5.4.9(UNRELEASED)
+     [ALL]
+      - Do not auto update deno.
