@@ -807,6 +807,16 @@ bool settings::saveHistory()
 	return this->getOption( "SaveHistory",true ) ;
 }
 
+bool settings::denoInFlatpakUpdated()
+{
+	return this->getOption( "denoInFlatpakUpdated",false ) ;
+}
+
+void settings::setDenoInFlatpakUpdated( bool e )
+{
+	m_settings.setValue( "denoInFlatpakUpdated",e ) ;
+}
+
 bool settings::playlistDownloaderSaveHistory()
 {
 	return this->getOption( "PlaylistDownloaderSaveHistory",true ) ;

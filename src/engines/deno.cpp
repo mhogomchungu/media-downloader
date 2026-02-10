@@ -19,14 +19,48 @@
 
 #include "deno.h"
 #include "../utility.h"
+#include <QProcess>
 
-QJsonObject deno::init( Logger& logger,const engines::enginePaths& enginePath )
+util::version deno::version( const QString& m )
+{
+	QProcess cmd ;
+
+	cmd.start( m,{ "-version" } ) ;
+
+	cmd.waitForFinished() ;
+
+	if( cmd.exitCode() == 0 && cmd.exitStatus() == QProcess::ExitStatus::NormalExit ){
+
+		return cmd.readAllStandardOutput().replace( "deno","" ).trimmed() ;
+	}else{
+		return {} ;
+	}
+}
+
+void deno::init( settings& s,Logger& logger,const engines::enginePaths& enginePath )
 {
 	auto m = enginePath.enginePath( "deno.json" ) ;
 
 	if( QFile::exists( m ) ){
 
-		return QJsonObject() ;
+		m = enginePath.binPath( "deno" ) ;
+
+		if( QFile::exists( m ) && utility::platformisFlatPak() ){
+
+			if( !s.denoInFlatpakUpdated() ){
+
+				auto e = deno::version( m ) ;
+
+				if( e.valid() && e < "2.6.7" ){
+
+					QFile::remove( m ) ;
+				}else{
+					s.setDenoInFlatpakUpdated( true ) ;
+				}
+			}
+		}
+
+		return ;
 	}
 
 	QJsonObject mainObj ;
@@ -68,8 +102,6 @@ QJsonObject deno::init( Logger& logger,const engines::enginePaths& enginePath )
 	mainObj.insert( "LikeYoutubeDl",false ) ;
 
 	engines::file( m,logger ).write( mainObj ) ;
-
-	return mainObj ;
 }
 
 void deno::remove( Logger&,const engines::enginePaths& enginePath )
@@ -81,12 +113,12 @@ void deno::remove( Logger&,const engines::enginePaths& enginePath )
 		QFile::remove( m ) ;
 	}
 
-	//m = enginePath.binPath( "deno" ) ;
+	m = enginePath.binPath( "deno" ) ;
 
-	//if( QFile::exists( m ) ){
+	if( QFile::exists( m ) ){
 
-	//	QFile::remove( m ) ;
-	//}
+		QFile::remove( m ) ;
+	}
 }
 
 deno::~deno()
@@ -140,6 +172,11 @@ QString deno::urlFileName( const QString& )
 	}
 
 	return {} ;
+}
+
+bool deno::autoUpdate( const engines::engine::baseEngine::onlineVersion&,const util::version& s )
+{
+	return s < "2.6.7" ;
 }
 
 deno::deno( const engines& e,const engines::engine& s,QJsonObject& ) :

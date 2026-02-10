@@ -1581,6 +1581,12 @@ bool engines::engine::baseEngine::updateVersionInfo()
 	return false ;
 }
 
+bool engines::engine::baseEngine::autoUpdate( const engines::engine::baseEngine::onlineVersion&,
+					      const util::version& )
+{
+	return false ;
+}
+
 QByteArray engines::engine::baseEngine::parseError( const QByteArray& )
 {
 	return {} ;
@@ -2518,10 +2524,10 @@ void engines::engine::baseEngine::timer::reset()
 	m_startTime = engines::engine::baseEngine::timer::currentTime() ;
 }
 
-engines::configDefaultEngine::configDefaultEngine( const engines& engines,Logger&logger,const enginePaths& enginePath ) :
+engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& logger,const enginePaths& enginePath ) :
 	m_name( "yt-dlp" ),
 	m_configFileName( m_name + ".json" ),
-	m_parent( engines )
+	m_parent( engs )
 {
 	yt_dlp::init( this->name(),this->configFileName(),logger,enginePath ) ;
 
@@ -2534,21 +2540,26 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engines,Logger
 
 			quickjs::init( logger,enginePath ) ;
 		}else{
-			deno::init( logger,enginePath ) ;
+			deno::init( m_parent.m_settings,logger,enginePath ) ;
 		}
 
 	}else if( utility::platformisFlatPak() ){
 
 		if( m_parent.Settings().flatpackUseDenoRuntime() ){
 
-			deno::init( logger,enginePath ) ;
+			deno::init( m_parent.m_settings,logger,enginePath ) ;
 			quickjs::remove( logger,enginePath ) ;
 		}else{
 			quickjs::init( logger,enginePath ) ;
 			deno::remove( logger,enginePath ) ;
 		}
+
+	}else if( utility::platformIsLinux() && utility::CPU().x86_32() ){
+
+		quickjs::init( logger,enginePath ) ;
+		deno::remove( logger,enginePath ) ;
 	}else{
-		deno::init( logger,enginePath ) ;
+		deno::init( m_parent.m_settings,logger,enginePath ) ;
 	}
 }
 

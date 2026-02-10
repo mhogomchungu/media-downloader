@@ -121,6 +121,10 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 			if( engine.autoUpdate() ){
 
 				m_network.download( this->wrap( vinfo.move() ) ) ;
+
+			}else if( !engine.backendExists() ){
+
+				m_network.download( this->wrap( vinfo.move() ) ) ;
 			}else{
 				auto m = QObject::tr( "Autoupdate Disabled For %1" ).arg( engine.name() ) ;
 
@@ -511,7 +515,15 @@ void versionInfo::printVersionN( versionInfo::pVInfo pvInfo,const utils::network
 
 		const auto& m = versionOnline.stringVersion ;
 
-		if( m_showLocalVersionsAndUpdateIfAvailable ){
+		if( engine.autoUpdate( versionOnline ) ){
+
+			auto mm = QObject::tr( "Newest Version Is %1, Updating" ).arg( m ) ;
+
+			this->log( mm,pvInfo.id() ) ;
+
+			m_network.download( this->wrap( pvInfo.movePrintVinfo() ) ) ;
+
+		}else if( m_showLocalVersionsAndUpdateIfAvailable ){
 
 			if( engine.autoUpdate() ){
 

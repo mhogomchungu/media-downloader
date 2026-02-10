@@ -18,15 +18,18 @@
  */
 
 #include "../engines.h"
+#include "../settings.h"
 
 class deno : public engines::engine::baseEngine
 {
 public:
-	static QJsonObject init( Logger& logger,const engines::enginePaths& enginePath ) ;
+	static void init( settings&,Logger& logger,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	~deno() ;
 	bool foundNetworkUrl( const QString& s ) override ;
 	QString urlFileName( const QString& ) override ;
+	bool autoUpdate( const engines::engine::baseEngine::onlineVersion&,const util::version& ) override ;
 	deno( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	static util::version version( const QString& ) ;
 };

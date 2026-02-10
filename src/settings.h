@@ -246,6 +246,7 @@ public:
 	bool concurrentDownloading() ;
 	bool showMetaDataInBatchDownloader() ;
 	bool saveHistory() ;
+	bool denoInFlatpakUpdated() ;
 	bool playlistDownloaderSaveHistory() ;
 	bool singleInstance() ;
 	bool autoSavePlaylistOnExit() ;
@@ -273,6 +274,7 @@ public:
 	int thumbnailHeight( settings::tabName ) ;
 	int desktopNotificationTimeOut() ;
 
+	void setDenoInFlatpakUpdated( bool ) ;
 	void setAutoDownloadWhenAddedInBatchDownloader( bool ) ;
 	void setOpenWith( const QString& ) ;
 	void setCookieSourceSetToBrowerName( bool ) ;

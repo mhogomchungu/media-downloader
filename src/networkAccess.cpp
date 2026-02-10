@@ -255,9 +255,14 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 
 		this->get( url,md.move(),this,&networkAccess::uMediaDownloaderM ) ;
 	}else{
+		auto bar = utility::barLine() ;
+
 		auto m = QObject::tr( "Failed To Open Path For Writing: %1" ).arg( md.tmpFile ) ;
 
+		this->post( m_appName,bar,md.id ) ;
 		this->post( m_appName,m,md.id ) ;
+		this->post( m_appName,"Err: " + utility::errorMessage(),md.id ) ;
+		this->post( m_appName,bar,md.id ) ;
 
 		md.status.done() ;
 

@@ -912,6 +912,9 @@ public:
 				}
 			};
 
+			virtual bool autoUpdate( const engines::engine::baseEngine::onlineVersion&,
+						 const util::version& ) ;
+
 			virtual engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QByteArray& ) ;
 
 			virtual bool foundNetworkUrl( const QString& ) ;
@@ -1437,6 +1440,10 @@ public:
 		bool autoUpdate() const
 		{
 			return m_autoUpdate ;
+		}
+		bool autoUpdate( const engines::engine::baseEngine::onlineVersion& s ) const
+		{
+			return m_engine->autoUpdate( s,this->versionInfo() ) ;
 		}
 		bool supportingEngine() const
 		{

@@ -712,7 +712,14 @@ void utility::checkPermissions::disable()
 
 QString utility::errorMessage()
 {
-	char * s = nullptr ;
+	struct meaw
+	{
+		char * s = nullptr ;
+		~meaw()
+		{
+			LocalFree( s ) ;
+		}
+	} m ;
 
 	auto a = FORMAT_MESSAGE_FROM_SYSTEM ;
 	auto b = FORMAT_MESSAGE_IGNORE_INSERTS ;
@@ -723,13 +730,9 @@ QString utility::errorMessage()
 	auto le = GetLastError() ;
 	auto lg = MAKELANGID( LANG_NEUTRAL,SUBLANG_DEFAULT ) ;
 
-	FormatMessageA( flags,nullptr,le,lg,reinterpret_cast< char * >( &s ),0,nullptr ) ;
+	FormatMessageA( flags,nullptr,le,lg,reinterpret_cast< char * >( &m.s ),0,nullptr ) ;
 
-	QString m = s ;
-
-	LocalFree( s ) ;
-
-	return m ;
+	return m.s ;
 }
 
 class fileRename
