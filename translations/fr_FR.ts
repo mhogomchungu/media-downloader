@@ -423,6 +423,26 @@ Exemple 2&#xa0;: ${gateway}:8080</translation>
         <source>Open Extension Folder</source>
         <translation>Ouvrir le dossier de l&apos;extension</translation>
     </message>
+    <message>
+        <source>UI Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Restart Is Required After Every Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -763,10 +783,6 @@ Exemple 2&#xa0;: ${gateway}:8080</translation>
         <translation>Canal sécurisé de Windows</translation>
     </message>
     <message>
-        <source>File Not Found</source>
-        <translation>Fichier introuvable</translation>
-    </message>
-    <message>
         <source>Download complete</source>
         <translation>Téléchargement complet</translation>
     </message>
@@ -1102,6 +1118,10 @@ Exemple 2&#xa0;: ${gateway}:8080</translation>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
         <translation>Impossible de trouver l&apos;exécutable « bsdtar » ou « unzip »</translation>
     </message>
+    <message>
+        <source>New Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1234,6 +1254,10 @@ Exemple 2&#xa0;: ${gateway}:8080</translation>
     <message>
         <source>Set Path To Cookie File</source>
         <translation>Définir le chemin d&apos;accès au fichier de cookies</translation>
+    </message>
+    <message>
+        <source>Current Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

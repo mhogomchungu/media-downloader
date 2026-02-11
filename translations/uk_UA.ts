@@ -423,6 +423,26 @@ Exampe 2: ${gateway}:8080</source>
         <source>Open Extension Folder</source>
         <translation>Відкрити папку розширень</translation>
     </message>
+    <message>
+        <source>UI Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Restart Is Required After Every Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -771,10 +791,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Захищений канал Windows</translation>
     </message>
     <message>
-        <source>File Not Found</source>
-        <translation>Файл не знайдено</translation>
-    </message>
-    <message>
         <source>Download complete</source>
         <translation>Завантаження завершено</translation>
     </message>
@@ -1102,6 +1118,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
         <translation>Не вдалося знайти виконуваний файл &quot;bsdtar&quot; або &quot;unzip&quot;</translation>
     </message>
+    <message>
+        <source>New Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1234,6 +1254,10 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Set Path To Cookie File</source>
         <translation>Шлях до файлу кукі</translation>
+    </message>
+    <message>
+        <source>Current Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

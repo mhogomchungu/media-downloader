@@ -434,3 +434,4 @@ Version 1.2.0(April 1st, 2021)
       - Start using deno runtime instead of quickjs.
      [ALL]
       - Do not auto update deno.
+      - Add a Ui way to change Ui scale factor.

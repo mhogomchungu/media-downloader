@@ -423,6 +423,26 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Open Extension Folder</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>UI Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Restart Is Required After Every Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -763,10 +783,6 @@ Ejemplo 2: ${gateway}:8080</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File Not Found</source>
-        <translation>Archivo Inexistente</translation>
-    </message>
-    <message>
         <source>Download complete</source>
         <translation>Descarga completa</translation>
     </message>
@@ -1102,6 +1118,10 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>New Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1233,6 +1253,10 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current Ui Scale Factor: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

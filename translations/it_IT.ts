@@ -424,6 +424,26 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <source>Open Extension Folder</source>
         <translation>Apri cartella estensione</translation>
     </message>
+    <message>
+        <source>UI Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Restart Is Required After Every Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -782,10 +802,6 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <translation>Aggiornamento completato, riavvia per usare la nuova versione</translation>
     </message>
     <message>
-        <source>File Not Found</source>
-        <translation>File non trovato</translation>
-    </message>
-    <message>
         <source>Dutch (Netherlands)</source>
         <translation>Olandese (Paesi Bassi)</translation>
     </message>
@@ -1105,6 +1121,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
         <translation>Impossibile trovare l&apos;eseguibile &quot;bsdtar&quot; o &quot;unzip&quot;</translation>
     </message>
+    <message>
+        <source>New Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1237,6 +1257,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     <message>
         <source>Set Path To Cookie File</source>
         <translation>Imposta percorso file cookie</translation>
+    </message>
+    <message>
+        <source>Current Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

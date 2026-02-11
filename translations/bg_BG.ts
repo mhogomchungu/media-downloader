@@ -421,6 +421,26 @@ Exampe 2: ${gateway}:8080</source>
         <source>Open Extension Folder</source>
         <translation></translation>
     </message>
+    <message>
+        <source>UI Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Restart Is Required After Every Change</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -761,10 +781,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Защитен канал на Windows</translation>
     </message>
     <message>
-        <source>File Not Found</source>
-        <translation>Файлът не е намерен</translation>
-    </message>
-    <message>
         <source>Download complete</source>
         <translation>Изтеглянето е завършено</translation>
     </message>
@@ -1100,6 +1116,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>New Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1232,6 +1252,10 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Set Path To Cookie File</source>
         <translation>Задаване на път до файла с бисквитки</translation>
+    </message>
+    <message>
+        <source>Current Ui Scale Factor: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
