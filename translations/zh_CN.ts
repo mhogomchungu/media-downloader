@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh-CN">
+<TS version="2.1" language="zh_CN">
 <context>
     <name>MainWindow</name>
     <message>
@@ -452,7 +452,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation> 文件名带有 &quot;.txt&quot; 的扩展将仅保存网址</translation>
+        <translation>文件名带有 &quot;.txt&quot; 的扩展将仅保存网址</translation>
     </message>
     <message>
         <source>Hide Row</source>

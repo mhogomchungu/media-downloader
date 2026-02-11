@@ -60,7 +60,7 @@ configure::configure( const Context& ctx ) :
 	this->confirmResetMakeVisible( false ) ;
 	this->setVisibilityEditConfigFeature( false ) ;
 
-	auto scaleFactor = m_settings.highDpiScalingFactor() ;
+	QString scaleFactor = m_settings.highDpiScalingFactor() ;
 
 	auto scaleFactorString = tr( "Current Ui Scale Factor: %1" ) ;
 
