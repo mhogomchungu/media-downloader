@@ -411,6 +411,7 @@ private:
 	presetOptions m_presetOptions ;
 	downloadDefaultOptions m_downloadDefaultOptions ;
 	downloadDefaultOptions m_downloadEngineDefaultOptions ;
+	bool m_scaleButtonPressed = false ;
 };
 
 #endif

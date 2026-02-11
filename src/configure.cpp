@@ -60,6 +60,17 @@ configure::configure( const Context& ctx ) :
 	this->confirmResetMakeVisible( false ) ;
 	this->setVisibilityEditConfigFeature( false ) ;
 
+	auto scaleFactor = m_settings.highDpiScalingFactor() ;
+
+	auto scaleFactorString = tr( "Current Ui Scale Factor: %1" ) ;
+
+	if( scaleFactor.isEmpty() ){
+
+		m_ui.labelUIScaleCurrentValue->setText( scaleFactorString.arg( "1.0" ) ) ;
+	}else{
+		m_ui.labelUIScaleCurrentValue->setText( scaleFactorString.arg( scaleFactor ) ) ;
+	}
+
 	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
 
 	m_ui.tabWidgetConfigure->setCurrentIndex( 0 ) ;
@@ -146,15 +157,93 @@ configure::configure( const Context& ctx ) :
 		QDesktopServices::openUrl( QUrl( "file:///" + m,QUrl::TolerantMode ) ) ;
 	} ) ;
 
+	class scaleUi
+	{
+	public:
+		enum class action{ up,down,reset } ;
+		scaleUi( configure& parent,scaleUi::action s ) : m_parent( parent ),m_action( s )
+		{
+		}
+		void operator()()
+		{
+			m_parent.m_scaleButtonPressed = true ;
+
+			m_parent.m_ui.pbConfigureScaleDown->setEnabled( false ) ;
+			m_parent.m_ui.pbConfigureScaleUp->setEnabled( false ) ;
+			m_parent.m_ui.pbConfigureScaleReset->setEnabled( false ) ;
+
+			auto m = m_parent.m_settings.highDpiScalingFactor() ;
+
+			if( m.isEmpty() ){
+
+				m = "1.0" ;
+			}
+
+			bool ok = false ;
+
+			auto s = m.toDouble( &ok ) ;
+
+			if( ok ){
+
+				double interval = 0.05 ;
+
+				if( m_action == scaleUi::action::up ){
+
+					s += interval ;
+
+				}else if( m_action == scaleUi::action::down ){
+
+					s -= interval ;
+				}else{
+					s = 1.0 ;
+				}
+
+				auto m = QString::number( s ) ;
+
+				if( m == "1" ){
+
+					m = "1.0" ;
+				}
+
+				auto w = QObject::tr( "New Ui Scale Factor: %1" ) ;
+
+				m_parent.m_ui.labelUIScaleCurrentValue->setText( w.arg( m ) ) ;
+
+				m_parent.m_settings.setHighDpiScalingFactor( m ) ;
+			}
+		}
+	private:
+		configure& m_parent ;
+		scaleUi::action m_action ;
+	} ;
+
+	connect( m_ui.pbConfigureScaleDown,&QPushButton::clicked,scaleUi( *this,scaleUi::action::down ) ) ;
+
+	connect( m_ui.pbConfigureScaleUp,&QPushButton::clicked,scaleUi( *this,scaleUi::action::up ) ) ;
+
+	connect( m_ui.pbConfigureScaleReset,&QPushButton::clicked,scaleUi( *this,scaleUi::action::reset ) ) ;
+
 	auto cc = static_cast< void ( QComboBox::* )( int ) >( &QComboBox::currentIndexChanged ) ;
 
-	connect( m_ui.comboBoxConfigureDarkTheme,cc,[ this,ths = ths.move() ]( int index ){
-
-		if( index != -1 ){
-
-			m_settings.setThemeName( ths.unTranslatedAt( index ) ) ;
+	class meaw
+	{
+	public:
+		meaw( settings& s,themes t ) : m_settings( s ),m_themes( t.move() )
+		{
 		}
-	} ) ;
+		void operator()( int index )
+		{
+			if( index != -1 ){
+
+				m_settings.setThemeName( m_themes.unTranslatedAt( index ) ) ;
+			}
+		}
+	private:
+		settings& m_settings ;
+		themes m_themes ;
+	} ;
+
+	connect( m_ui.comboBoxConfigureDarkTheme,cc,meaw( m_settings,ths.move() ) ) ;
 
 	if( m_settings.showVersionInfoAndAutoDownloadUpdates() ){
 
@@ -1499,6 +1588,15 @@ void configure::enableAll()
 	m_ui.cbconfigureAutoDownload->setEnabled( true ) ;
 	m_ui.cbConfigureNotifyWhenAllDownloadCompltes->setEnabled( true ) ;
 	m_ui.cbConfigureNotifyWhenDownloadComplete->setEnabled( true ) ;
+	m_ui.labelUIScale->setEnabled( true ) ;
+	m_ui.labelUIScaleCurrentValue->setEnabled( true ) ;
+
+	if( !m_scaleButtonPressed ){
+
+		m_ui.pbConfigureScaleDown->setEnabled( true ) ;
+		m_ui.pbConfigureScaleUp->setEnabled( true ) ;
+		m_ui.pbConfigureScaleReset->setEnabled( false ) ;
+	}
 }
 
 void configure::textAlignmentChanged( Qt::LayoutDirection z )
@@ -1592,6 +1690,15 @@ void configure::disableAll()
 	m_ui.cbconfigureAutoDownload->setEnabled( false ) ;
 	m_ui.cbConfigureNotifyWhenAllDownloadCompltes->setEnabled( false ) ;
 	m_ui.cbConfigureNotifyWhenDownloadComplete->setEnabled( false ) ;
+	m_ui.labelUIScale->setEnabled( false ) ;
+	m_ui.labelUIScaleCurrentValue->setEnabled( false ) ;
+
+	if( !m_scaleButtonPressed ){
+
+		m_ui.pbConfigureScaleDown->setEnabled( false ) ;
+		m_ui.pbConfigureScaleUp->setEnabled( false ) ;
+		m_ui.pbConfigureScaleReset->setEnabled( false ) ;
+	}
 }
 
 configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :

@@ -1560,7 +1560,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -2646,6 +2646,95 @@ Exampe 2: ${gateway}:8080</string>
         </property>
         <property name="text">
          <string>No Proxy</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabUiScale">
+       <attribute name="title">
+        <string>UI Scale</string>
+       </attribute>
+       <widget class="QLabel" name="labelUIScale">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>100</y>
+          <width>631</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>17</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>A Restart Is Required After Every Change</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="labelUIScaleCurrentValue">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>170</y>
+          <width>631</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string notr="true">Current Scale Value: NA</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureScaleUp">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>240</y>
+          <width>171</width>
+          <height>34</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Scale Up</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureScaleDown">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>240</y>
+          <width>171</width>
+          <height>34</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Scale Down</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pbConfigureScaleReset">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>240</y>
+          <width>261</width>
+          <height>34</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Reset</string>
         </property>
        </widget>
       </widget>
