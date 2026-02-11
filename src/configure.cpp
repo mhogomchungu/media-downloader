@@ -185,7 +185,7 @@ configure::configure( const Context& ctx ) :
 
 			if( ok ){
 
-				double interval = 0.05 ;
+				double interval = m_parent.m_settings.highDpiScalingFactorInterval() ;
 
 				if( m_action == scaleUi::action::up ){
 

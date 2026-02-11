@@ -205,6 +205,10 @@ public:
 
 	QByteArray highDpiScalingFactor() ;
 
+	double highDpiScalingFactorInterval() ;
+
+	void setHighDpiScalingFactorInterval( double ) ;
+
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
 	class LogsLimits
@@ -434,6 +438,11 @@ private:
 	int getOption( const QString& opt,int e )
 	{
 		return this->getValue( opt,e ).toInt() ;
+	}
+
+	double getOption( const QString& opt,double e )
+	{
+		return this->getValue( opt,e ).toDouble() ;
 	}
 
 	QStringList getOption( const QString& opt,const QStringList& e )

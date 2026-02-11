@@ -1028,6 +1028,16 @@ QByteArray settings::highDpiScalingFactor()
 	}
 }
 
+double settings::highDpiScalingFactorInterval()
+{
+	return this->getOption( "EnabledHighDpiScalingFactor",0.05 ) ;
+}
+
+void settings::setHighDpiScalingFactorInterval( double e )
+{
+	m_settings.setValue( "EnabledHighDpiScalingFactor",e ) ;
+}
+
 QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 {
 	auto width = this->thumbnailWidth( m ) ;
