@@ -779,8 +779,8 @@ private:
 				bool aa ;
 				bool bb ;
 
-				auto aaa = a.toInt( &aa ) ;
-				auto bbb = b.toInt( &bb ) ;
+				auto aaa = this->makeClean( a ).toInt( &aa ) ;
+				auto bbb = this->makeClean( b ).toInt( &bb ) ;
 
 				if( m_ascending ){
 
@@ -815,6 +815,27 @@ private:
 				}
 			}
 		private:
+			QString makeClean( const QString& e )
+			{
+				QString m ;
+
+				for( int a = 0 ; a < e.size() ; a++ ){
+
+					auto c = e[ a ] ;
+
+					if( c >= '0' && c <= '9' ){
+
+						m.append( c ) ;
+					}
+				}
+
+				if( m.isEmpty() ){
+
+					m = "0" ;
+				}
+
+				return m ;
+			}
 			bool m_ascending ;
 			bool m_column ;
 		} ;
