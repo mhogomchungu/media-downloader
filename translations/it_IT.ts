@@ -426,23 +426,23 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>UI Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Scala UI</translation>
     </message>
     <message>
         <source>A Restart Is Required After Every Change</source>
-        <translation type="unfinished"></translation>
+        <translation>Dopo ogni modifica è necessario un riavvio</translation>
     </message>
     <message>
         <source>Scale Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumenta scala</translation>
     </message>
     <message>
         <source>Scale Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuisci scala</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Ripristina</translation>
     </message>
 </context>
 <context>
@@ -1123,7 +1123,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>New Ui Scale Factor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuovo fattore scala UI: %1</translation>
     </message>
 </context>
 <context>
@@ -1260,7 +1260,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Current Ui Scale Factor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Attuale fattore scala UI: %1</translation>
     </message>
 </context>
 <context>
