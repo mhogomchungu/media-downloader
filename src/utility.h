@@ -742,6 +742,7 @@ namespace utility
 	private:
 		const QString& getCPU() const ;
 		const QString& m_cpu ;
+		QByteArray getCPUNatively() const ;
 	} ;
 
 	class UrlLinks
@@ -1493,9 +1494,7 @@ namespace utility
 			}else{
 				const auto& m = m_engine.processEnvironment() ;
 
-				exe.setProcessEnvironment( m_envExtra.update( m ) ) ;
-
-				m_envExtra.update( mm ) ;
+				exe.setProcessEnvironment( m_envExtra.update( m,mm ) ) ;
 			}			
 
 			m_logger.add( mm ) ;

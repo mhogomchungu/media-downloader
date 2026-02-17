@@ -864,8 +864,7 @@ public:
 				{
 					return m_pairs.size() == 0 ;
 				}
-				void update( QString& ) const ;
-				QProcessEnvironment update( const QProcessEnvironment& ) const ;
+				QProcessEnvironment update( const QProcessEnvironment&,QString& ) const ;
 			private:
 				struct pair
 				{

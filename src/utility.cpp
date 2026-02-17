@@ -3002,23 +3002,24 @@ const QString& utility::CPU::getCPU() const
 	static QString m = QSysInfo::currentCpuArchitecture() ;
 	return m ;
 #else
-	static QString m = [](){
-
-		if( utility::platformIsLinux() ){
-
-			QFile file( "/proc/sys/kernel/arch" ) ;
-
-			if( file.open( QIODevice::ReadOnly ) ){
-
-				return file.readAll().trimmed() ;
-			}
-		}
-
-		return QByteArray() ;
-	}() ;
-
+	static QString m = this->getCPUNatively() ;
 	return m ;
 #endif
+}
+
+QByteArray utility::CPU::getCPUNatively() const
+{
+	if( utility::platformIsLinux() ){
+
+		QFile file( "/proc/sys/kernel/arch" ) ;
+
+		if( file.open( QIODevice::ReadOnly ) ){
+
+			return file.readAll().trimmed() ;
+		}
+	}
+
+	return QByteArray() ;
 }
 
 void utility::setCookieOption( QStringList& opts,settings& s,const engines::engine& engine )

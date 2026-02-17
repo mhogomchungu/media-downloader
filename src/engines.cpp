@@ -2679,19 +2679,13 @@ QString engines::proxySettings::toString( const QNetworkProxy& e ) const
 	}
 }
 
-void engines::engine::baseEngine::optionsEnvironment::update( QString& s ) const
-{
-	for( const auto& it : m_pairs ){
-
-		s += "\nEnv: " + it.key + "=" + it.value  ;
-	}
-}
-
-QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( const QProcessEnvironment& e ) const
+QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( const QProcessEnvironment& e,QString& s ) const
 {
 	auto m = e ;
 
 	for( const auto& it : m_pairs ){
+
+		s += "\nEnv: " + it.key + "=" + it.value  ;
 
 		m.insert( it.key,it.value ) ;
 	}
