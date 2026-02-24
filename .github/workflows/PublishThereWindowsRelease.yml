@@ -1,4 +1,4 @@
-name: GitBuildWindowsRelease
+name: Publish There Windows Release
 
 on:
   push:

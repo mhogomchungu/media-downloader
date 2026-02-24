@@ -1,10 +1,9 @@
-name: GitBuildMacRelease
+name: Publish There MacOs Intel Release
 
 on:
   push:
     tags:
     - '*'
-
 jobs:
   build:
     runs-on: macos-latest
@@ -14,5 +13,5 @@ jobs:
         with:
           token: ${{ secrets.MD_GIT_PUBLISH }}
           repository: mhogomchungu/media-downloader-git
-          event-type: PublishMacRelease
+          event-type: PublishIntelMacRelease
 

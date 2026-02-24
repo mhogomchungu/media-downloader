@@ -1,4 +1,4 @@
-name: Publish Windows Release
+name: Publish Here Windows Release
 env:
   QT5_VERSION:     "5.15.2"
   MINGW5_VERSION:  "win32_mingw81"

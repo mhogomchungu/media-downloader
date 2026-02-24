@@ -1,20 +1,17 @@
-name: GitBuildWindows
+name: Publish There MacOs Arm Release
 
 on:
   push:
-    branches:
-    - main
-    tags-ignore:
+    tags:
     - '*'
-
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.MD_GIT_PUBLISH }}
           repository: mhogomchungu/media-downloader-git
-          event-type: PublishWindowsGit
+          event-type: PublishArmMacRelease
 
