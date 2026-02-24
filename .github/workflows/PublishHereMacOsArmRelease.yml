@@ -1,4 +1,4 @@
-name: Publish Here Arm MacOS Release
+name: Publish Here MacOS Arm Release
 env:
   QT6_VERSION: "6.6.2"
 on:

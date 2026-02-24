@@ -1,4 +1,4 @@
-name: Publish There MacOs Arm Git
+name: Publish There MacOs Intel Git
 
 on:
   push:
