@@ -1167,6 +1167,12 @@ QString engines::engine::versionString( const QString& data ) const
 			if( m == "N-121066-g189d0b83b2-20250915" ){
 
 				m = "n8.1-dev-121066-g189d0b83b2-20250915" ;
+
+			}else if( m == "2.7.0+fb4db33" ){
+
+				//Deno 2.7.0 has a bad version string
+
+				m = "2.7.0" ;
 			}
 
 			return m ;
