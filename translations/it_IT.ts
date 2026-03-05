@@ -1264,11 +1264,11 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Codifica testo</translation>
     </message>
     <message>
         <source>Enable AutoDownloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita download automatico</translation>
     </message>
 </context>
 <context>
