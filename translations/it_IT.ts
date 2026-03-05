@@ -1262,6 +1262,14 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Current Ui Scale Factor: %1</source>
         <translation>Attuale fattore scala UI: %1</translation>
     </message>
+    <message>
+        <source>Text Encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable AutoDownloading</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>library</name>

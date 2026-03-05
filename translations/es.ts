@@ -1259,6 +1259,14 @@ Ejemplo 2: ${gateway}:8080</translation>
         <source>Current Ui Scale Factor: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Text Encoding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable AutoDownloading</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>library</name>
