@@ -209,6 +209,8 @@ public:
 
 	void setHighDpiScalingFactorInterval( double ) ;
 
+	void setDenoEnableAutoDownload( bool ) ;
+
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
 
 	class LogsLimits
@@ -232,6 +234,7 @@ public:
 	} ;
 
 	LogsLimits getLogsLimits() ;
+	bool denoEnableAutoDownload() ;
 	bool desktopNotifyOnDownloadComplete() ;
 	bool desktopNotifyOnAllDownloadComplete() ;
 	bool libraryShowFolderFirst() ;

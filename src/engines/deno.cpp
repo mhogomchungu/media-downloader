@@ -87,7 +87,7 @@ void deno::init( settings& s,Logger& logger,const engines::enginePaths& enginePa
 
 	mainObj.insert( "DownloadUrlWin7","" ) ;
 
-	mainObj.insert( "AutoUpdate",false ) ;
+	mainObj.insert( "AutoUpdate",true ) ;
 
 	mainObj.insert( "Name","deno" ) ;
 

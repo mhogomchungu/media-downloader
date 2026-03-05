@@ -1046,6 +1046,16 @@ QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 	return this->getIcon( "video" ).pixmap( width,height ) ;
 }
 
+bool settings::denoEnableAutoDownload()
+{
+	return this->getOption( "DenoEnableAutoDownload",true ) ;
+}
+
+void settings::setDenoEnableAutoDownload( bool e )
+{
+	m_settings.setValue( "DenoEnableAutoDownload",e ) ;
+}
+
 settings::LogsLimits settings::getLogsLimits()
 {
 	return { 4096,2048 } ;

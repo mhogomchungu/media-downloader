@@ -1461,7 +1461,7 @@ public:
 			return m_broken ;
 		}
 	private:
-		QJsonObject getOpts( const util::Json& ) const ;
+		QJsonObject getOpts( const util::Json&,settings& ) const ;
 		void setPermissions( const QString& ) const ;
 		void updateOptions() ;
 		QStringList toStringList( const QJsonValue&,bool = false ) const ;

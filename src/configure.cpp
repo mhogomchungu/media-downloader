@@ -977,19 +977,51 @@ void configure::tabEntered()
 
 	if( s ){
 
-		const auto& e = s.value() ;
-
-		this->populateOptionsTable( e ) ;
+		this->populateOptionsTable( s.value() ) ;
 	}
 }
 
 void configure::populateOptionsTable( const engines::engine& s,int selectRow )
 {
+	auto enable = !s.supportingEngine() ;
+
+	m_ui.lineEditConfigureTextEncoding->setEnabled( enable ) ;
+
+	m_ui.pbAddDefaultDownloadOption->setEnabled( enable ) ;
+
+	m_ui.lineEditAddDefaultDownloadOption->setEnabled( enable ) ;
+
+	m_ui.pbConfigureEngineDefaultOptions->setEnabled( enable ) ;
+
+	m_tableDefaultDownloadOptions.setEnabled( enable ) ;
+
+	m_ui.labelConfigureOptionsToAdd->setEnabled( enable ) ;
+
 	m_ui.lineEditConfigureTextEncoding->setText( m_settings.textEncoding( s.name() ) ) ;
 
 	m_ui.lineEditConfigureTextEncoding->setEnabled( s.supportsTextEnconding() ) ;
 
 	m_tableDefaultDownloadOptions.clear() ;
+
+	m_ui.labelConfigureTextEncoding->setText( tr( "Text Encoding" ) ) ;
+
+	if( s.supportingEngine() ){
+
+		if( s.name() == "deno" ){
+
+			m_ui.lineEditConfigureTextEncoding->setVisible( false ) ;
+
+			m_ui.cbDenoEnableAutoDownload->setVisible( true ) ;
+
+			m_ui.cbDenoEnableAutoDownload->setChecked( m_settings.denoEnableAutoDownload() ) ;
+
+			m_ui.labelConfigureTextEncoding->setText( tr( "Enable AutoDownloading" ) ) ;
+		}
+
+		return ;
+	}
+
+	m_ui.cbDenoEnableAutoDownload->setVisible( false ) ;
 
 	m_downloadEngineDefaultOptions.forEach( [ &s,this ]( const configure::downloadDefaultOptions::qOpts& opts ){
 
@@ -1044,8 +1076,17 @@ void configure::updateEnginesList( const QStringList& e )
 		this->setEngineOptions( it,engineOptions::both ) ;
 	}
 
-	cb.setCurrentIndex( 0 ) ;
-	xb.setCurrentIndex( 0 ) ;
+	if( cb.count() ){
+
+		cb.setCurrentIndex( 0 ) ;
+
+		cb.addItem( "deno" ) ;
+	}
+
+	if( xb.count() ){
+
+		xb.setCurrentIndex( 0 ) ;
+	}
 
 	this->setEngineOptions( cb.currentText(),engineOptions::both ) ;
 }
@@ -1314,6 +1355,7 @@ void configure::saveOptions()
 	m_settings.setAutoDownloadWhenAddedInBatchDownloader( m_ui.cbconfigureAutoDownload->isChecked() ) ;
 	m_settings.setDesktopNotifyOnAllDownloadComplete( m_ui.cbConfigureNotifyWhenAllDownloadCompltes->isChecked() ) ;
 	m_settings.setDesktopNotifyOnDownloadComplete( m_ui.cbConfigureNotifyWhenDownloadComplete->isChecked() ) ;
+	m_settings.setDenoEnableAutoDownload( m_ui.cbDenoEnableAutoDownload->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
@@ -1532,7 +1574,7 @@ void configure::enableAll()
 	m_ui.lineEditCustormProxyAddress->setEnabled( m_ui.rbUseManualProxy->isChecked() ) ;
 	m_ui.labelProxy->setEnabled( m_ui.rbUseManualProxy->isChecked() ) ;
 
-	m_ui.label_6->setEnabled( true ) ;
+	m_ui.labelConfigureOptionsToAdd->setEnabled( true ) ;
 	m_ui.label_3->setEnabled( true ) ;
 	m_ui.label_4->setEnabled( true ) ;
 	m_ui.label_5->setEnabled( true ) ;
@@ -1605,7 +1647,7 @@ void configure::textAlignmentChanged( Qt::LayoutDirection z )
 	auto b = m_ui.label_3 ;
 	auto c = m_ui.label_4 ;
 	auto d = m_ui.label_5 ;
-	auto e = m_ui.label_6 ;
+	auto e = m_ui.labelConfigureOptionsToAdd ;
 	auto f = m_ui.labelConfigureTextEncoding ;
 	auto g = m_ui.labelConfigureEngines_2 ;
 	auto h = m_ui.labelConfugureUiName ;
@@ -1634,7 +1676,7 @@ void configure::disableAll()
 	m_ui.label_3->setEnabled( false ) ;
 	m_ui.label_4->setEnabled( false ) ;
 	m_ui.label_5->setEnabled( false ) ;
-	m_ui.label_6->setEnabled( false ) ;
+	m_ui.labelConfigureOptionsToAdd->setEnabled( false ) ;
 	m_ui.lineEditConfigureTextEncoding->setEnabled( false ) ;
 	m_ui.labelConfigureTextEncoding->setEnabled( false ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( false ) ;

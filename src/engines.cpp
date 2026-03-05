@@ -912,7 +912,7 @@ engines::engine::cmd::cmd( const QJsonObject& obj,
 {
 }
 
-QJsonObject engines::engine::getOpts( const util::Json& e ) const
+QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 {
 	auto obj = e.doc().object() ;
 
@@ -926,8 +926,11 @@ QJsonObject engines::engine::getOpts( const util::Json& e ) const
 		}
 
 		obj.insert( "SupportingEngine",true ) ;
-	}else{
-		obj.insert( "SupportingEngine",false ) ;
+
+		if( name == "deno" ){
+
+			obj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
+		}
 	}
 
 	if( name == "svtplay-dl" ){
@@ -945,7 +948,7 @@ engines::engine::engine( Logger& logger,
 			 const util::Json& json,
 			 const engines& engines,
 			 int id ) :
-	m_jsonObject( this->getOpts( json ) ),
+	m_jsonObject( this->getOpts( json,engines.Settings() ) ),
 	m_line( m_jsonObject.value( "VersionStringLine" ).toInt() ),
 	m_position( m_jsonObject.value( "VersionStringPosition" ).toInt() ),
 	m_valid( true ),
