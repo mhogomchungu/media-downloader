@@ -52,22 +52,24 @@ jobs:
       run: |
            cd ${{github.workspace}}/MAC/build6
            ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/macos/bin/macdeployqt6 MediaDownloader.app -dmg
-    -
-      name: Rename Bundle
+    - name: Create Version Env
       run: |
            version=`cat ${{github.workspace}}/MAC/build6/VERSION_INFO`
            echo -n "VERSION_INFO=$version" >> "$GITHUB_ENV"
+    -
+      name: Rename Bundle
+      run: |
            cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloaderQt6-arm64-${{ env.VERSION_INFO }}.dmg
     -
      name: Get Hash
      run: | 
           cd ${{github.workspace}}/MAC/build6
-          shasum -a 256 MediaDownloaderQt6-arm64-${{ env.VERSION_INFO }}.dmg > ${{github.workspace}}/zMacOsReleaseHash.txt
+          shasum -a 256 MediaDownloaderQt6-arm64-${{ env.VERSION_INFO }}.dmg > ${{github.workspace}}/zMacOsArmReleaseHash.txt
     -
       name: Post Bundle
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}/zMacOsReleaseHash.txt,${{github.workspace}}/MAC/build6/MediaDownloaderQt6-arm64-${{ env.VERSION_INFO }}.dmg
+        artifacts: ${{github.workspace}}/zMacOsArmReleaseHash.txt,${{github.workspace}}/MAC/build6/MediaDownloaderQt6-arm64-${{ env.VERSION_INFO }}.dmg
         tag: ${{ env.VERSION_INFO }}
         commit: "main"
         allowUpdates: true
