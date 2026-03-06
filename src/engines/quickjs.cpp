@@ -167,7 +167,7 @@ quickjs::quickjs( const engines& e,const engines::engine& s,QJsonObject& ) :
 {
 	if( utility::platformisFlatPak() ){
 
-		auto path = e.Settings().flatpakIntance().appDataLocation() + "/bin/qjs";
+		auto path = e.Settings().flatpakIntance().appDataLocation() + "/bin/qjs" ;
 
 		if( QFile::exists( path ) ){
 

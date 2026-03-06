@@ -43,17 +43,17 @@ void deno::init( settings& s,Logger& logger,const engines::enginePaths& enginePa
 
 	if( QFile::exists( m ) ){
 
-		m = enginePath.binPath( "deno" ) ;
+		auto p = enginePath.binPath( "deno" ) ;
 
-		if( QFile::exists( m ) && utility::platformisFlatPak() ){
+		if( QFile::exists( p ) && utility::platformisFlatPak() ){
 
 			if( !s.denoInFlatpakUpdated() ){
 
-				auto e = deno::version( m ) ;
+				auto e = deno::version( p ) ;
 
 				if( e.valid() && e < "2.6.7" ){
 
-					QFile::remove( m ) ;
+					QFile::remove( p ) ;
 				}else{
 					s.setDenoInFlatpakUpdated( true ) ;
 				}

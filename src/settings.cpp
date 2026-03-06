@@ -444,7 +444,12 @@ settings::settings( const utility::cliArguments& args ) :
 #else
 	m_EnableHighDpiScaling = false ;
 #endif
-	m_MdScaleFactor = this->highDpiScalingFactor() ;
+	auto m = this->highDpiScalingFactorValue() ;
+
+	if( m != 1.0 ){
+
+		m_MdScaleFactor = QString::number( m ).toUtf8() ;
+	}
 
 	m_defaultScaleFactor = qgetenv( "QT_SCALE_FACTOR" ) ;
 
@@ -957,11 +962,6 @@ void settings::setShowVersionInfoAndAutoDownloadUpdates( bool e )
 	m_settings.setValue( "ShowVersionInfoAndAutoDownloadUpdates",e ) ;
 }
 
-void settings::setHighDpiScalingFactor( const QString& m )
-{
-	m_settings.setValue( "EnabledHighDpiScalingFactor",m ) ;
-}
-
 QString settings::textEncoding( const QString& engineName )
 {
 	auto m = m_settings.value( "YtDlpTextEncoding" ).toString() ;
@@ -1016,26 +1016,31 @@ QString settings::defaultEngine( settings::tabName n,const QString& engineName )
 	return this->getOption( m,engineName ) ;
 }
 
-QByteArray settings::highDpiScalingFactor()
+void settings::setHighDpiScalingFactorValue( double m )
 {
-	auto m = this->getOption( "EnabledHighDpiScalingFactor",QString( "1.0" ) ) ;
+	m_settings.setValue( "HighDpiScalingFactorValue",m ) ;
+}
 
-	if( m == "1.0" ){
+double settings::highDpiScalingFactorValue()
+{
+	auto m = this->getOption( "HighDpiScalingFactorValue",1.0 ) ;
 
-		return {} ;
+	if( m == 0.0 ){
+
+		return 1.0 ;
 	}else{
-		return m.toUtf8() ;
+		return m ;
 	}
 }
 
 double settings::highDpiScalingFactorInterval()
 {
-	return this->getOption( "EnabledHighDpiScalingFactor",0.05 ) ;
+	return this->getOption( "HighDpiScalingFactorInterval",0.05 ) ;
 }
 
 void settings::setHighDpiScalingFactorInterval( double e )
 {
-	m_settings.setValue( "EnabledHighDpiScalingFactor",e ) ;
+	m_settings.setValue( "HighDpiScalingFactorInterval",e ) ;
 }
 
 QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )

@@ -429,9 +429,8 @@ Version 1.2.0(April 1st, 2021)
      [WINDOWS7]
       - Fix a bug that caused a wrong yt-dlp binary to be downloaded and used.
 
-     Version 5.4.9(UNRELEASED)
-     [Flatpak]
-      - Start using deno runtime instead of quickjs.
+     Version 5.4.9(March 6th, 2026)
      [ALL]
-      - Do not auto update deno.
+      - Add Ui option to disable deno auto updating.
       - Add a Ui way to change Ui scale factor.
+      - Workout a bug in deno 2.7.0 that prevented MD from updating it.

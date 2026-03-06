@@ -203,7 +203,7 @@ public:
 
 	QStringList localizationLanguages() ;
 
-	QByteArray highDpiScalingFactor() ;
+	double highDpiScalingFactorValue() ;
 
 	double highDpiScalingFactorInterval() ;
 
@@ -315,7 +315,7 @@ public:
 	void setShowVersionInfoAndAutoDownloadUpdates( bool ) ;
 	void setThemeName( const QString& ) ;
 	void setPlaylistRangeHistoryLastUsed( const QString& engineName,const QString& ) ;
-	void setHighDpiScalingFactor( const QString& ) ;
+	void setHighDpiScalingFactorValue( double ) ;
 	void setTextEncoding( const QString&,const QString& ) ;
 	void setlibraryDownloadFolder( const QString& ) ;
 	void setCookieBrowserName( const QString& engineName,const QString& browserName ) ;

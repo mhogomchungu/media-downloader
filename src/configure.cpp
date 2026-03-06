@@ -60,16 +60,16 @@ configure::configure( const Context& ctx ) :
 	this->confirmResetMakeVisible( false ) ;
 	this->setVisibilityEditConfigFeature( false ) ;
 
-	QString scaleFactor = m_settings.highDpiScalingFactor() ;
+	auto scaleFactor = QString::number( m_settings.highDpiScalingFactorValue() ) ;
+
+	if( scaleFactor == "1" ){
+
+		scaleFactor = "1.0" ;
+	}
 
 	auto scaleFactorString = tr( "Current Ui Scale Factor: %1" ) ;
 
-	if( scaleFactor.isEmpty() ){
-
-		m_ui.labelUIScaleCurrentValue->setText( scaleFactorString.arg( "1.0" ) ) ;
-	}else{
-		m_ui.labelUIScaleCurrentValue->setText( scaleFactorString.arg( scaleFactor ) ) ;
-	}
+	m_ui.labelUIScaleCurrentValue->setText( scaleFactorString.arg( scaleFactor ) ) ;
 
 	m_ui.tableWidgetConfigureUrl->setColumnWidth( 0,180 ) ;
 
@@ -172,45 +172,33 @@ configure::configure( const Context& ctx ) :
 			m_parent.m_ui.pbConfigureScaleUp->setEnabled( false ) ;
 			m_parent.m_ui.pbConfigureScaleReset->setEnabled( false ) ;
 
-			auto m = m_parent.m_settings.highDpiScalingFactor() ;
+			auto s = m_parent.m_settings.highDpiScalingFactorValue() ;
 
-			if( m.isEmpty() ){
+			auto interval = m_parent.m_settings.highDpiScalingFactorInterval() ;
+
+			if( m_action == scaleUi::action::up ){
+
+				s += interval ;
+
+			}else if( m_action == scaleUi::action::down ){
+
+				s -= interval ;
+			}else{
+				s = 1.0 ;
+			}
+
+			auto m = QString::number( s ) ;
+
+			if( m == "1" ){
 
 				m = "1.0" ;
 			}
 
-			bool ok = false ;
+			auto w = QObject::tr( "New Ui Scale Factor: %1" ) ;
 
-			auto s = m.toDouble( &ok ) ;
+			m_parent.m_ui.labelUIScaleCurrentValue->setText( w.arg( m ) ) ;
 
-			if( ok ){
-
-				auto interval = m_parent.m_settings.highDpiScalingFactorInterval() ;
-
-				if( m_action == scaleUi::action::up ){
-
-					s += interval ;
-
-				}else if( m_action == scaleUi::action::down ){
-
-					s -= interval ;
-				}else{
-					s = 1.0 ;
-				}
-
-				auto m = QString::number( s ) ;
-
-				if( m == "1" ){
-
-					m = "1.0" ;
-				}
-
-				auto w = QObject::tr( "New Ui Scale Factor: %1" ) ;
-
-				m_parent.m_ui.labelUIScaleCurrentValue->setText( w.arg( m ) ) ;
-
-				m_parent.m_settings.setHighDpiScalingFactor( m ) ;
-			}
+			m_parent.m_settings.setHighDpiScalingFactorValue( s ) ;
 		}
 	private:
 		configure& m_parent ;
@@ -1080,7 +1068,12 @@ void configure::updateEnginesList( const QStringList& e )
 
 		cb.setCurrentIndex( 0 ) ;
 
-		cb.addItem( "deno" ) ;
+		const auto& m = m_ctx.Engines().getEngineByName( "deno" ) ;
+
+		if( m ){
+
+			cb.addItem( m->name() ) ;
+		}
 	}
 
 	if( xb.count() ){
