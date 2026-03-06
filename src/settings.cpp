@@ -1277,7 +1277,27 @@ QString settings::windowsDimensions( const QString& window )
 
 QString settings::localizationLanguage()
 {
-	return this->getOption( "Language",QString( "en_US" ) ) ;
+	auto path = this->localizationLanguagePath() ;
+
+	auto name = QLocale::system().name( QLocale::TagSeparator::Underscore ) ;
+
+	if( name.isEmpty() ){
+
+		return this->getOption( "Language",QString( "en_US" ) ) ;
+
+	}else if( QFile::exists( path + "/" + name + ".qm" ) ){
+
+		return this->getOption( "Language",name ) ;
+	}else{
+		auto m = util::split( name,"_" ).at( 0 ) ;
+
+		if( QFile::exists( path + "/" + m + ".qm" ) ){
+
+			return this->getOption( "Language",m ) ;
+		}else{
+			return this->getOption( "Language",QString( "en_US" ) ) ;
+		}
+	}
 }
 
 bool settings::portableVersion()

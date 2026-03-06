@@ -32,7 +32,7 @@ translator::translator( settings& s,QApplication& app ) :
 {
 	this->addString( QObject::tr( "Polish (Poland)" ),"Polish (Poland)","pl_PL" ) ;
 	this->addString( QObject::tr( "English (US)" ),"English (US)","en_US" ) ;
-	this->addString( QObject::tr( "Spanish (Spain)" ),"Spanish (Spain)","es" ) ;
+	this->addString( QObject::tr( "Spanish (Spain)" ),"Spanish (Spain)","es_ES" ) ;
 	this->addString( QObject::tr( "Chinese (China)" ),"Chinese (China)","zh_CN" ) ;
 	this->addString( QObject::tr( "Turkish (Turkey)" ),"Turkish (Turkey)","tr_TR" ) ;
 	this->addString( QObject::tr( "Russian (Russia)" ),"Russian (Russia)","ru_RU" ) ;
