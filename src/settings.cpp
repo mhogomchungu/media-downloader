@@ -1279,7 +1279,7 @@ QString settings::localizationLanguage()
 {
 	auto path = this->localizationLanguagePath() ;
 
-	auto name = QLocale::system().name( QLocale::TagSeparator::Underscore ) ;
+	auto name = QLocale::system().name() ;
 
 	if( name.isEmpty() ){
 
