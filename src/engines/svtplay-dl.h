@@ -40,6 +40,7 @@ public:
 
 		~svtplay_dlFilter() override ;
 	private:
+		const QByteArray& lastText( const QByteArray& ) ;
 		QByteArray m_tmp ;
 		QByteArray m_fileName ;
 		engines::engine::baseEngine::preProcessing m_preProcessing ;

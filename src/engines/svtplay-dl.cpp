@@ -381,6 +381,12 @@ void svtplay_dl::updateDownLoadCmdOptions( const engines::engine::baseEngine::up
 {
 	e.ourOptions.append( "--verbose" ) ;
 
+	if( utility::platformisFlatPak() ){
+
+		e.ourOptions.append( "--output" ) ;
+		e.ourOptions.append( engines::engine::baseEngine::Settings().downloadFolder() ) ;
+	}
+
 	engines::engine::baseEngine::updateDownLoadCmdOptions( e,s,m ) ;
 }
 
@@ -878,69 +884,117 @@ const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( Logger::Data& s )
 	}else{
 		const auto& m = s.lastText() ;
 
-		if( m.startsWith( "WARNING" ) && m.contains( "already exists" ) ){
+		if( m.isEmpty() ){
 
-			auto a = m.indexOf( '(' ) ;
-			auto b = m.lastIndexOf( ')' ) ;
+			s.reverseForEach( [ this ]( int,const QByteArray& e ){
 
-			if( a != -1 && b != -1 && b > a ){
+				if( e.isEmpty() ){
 
-				m_tmp = "\"" + m.mid( a + 1,b - a - 1 ) + "\" already exists" ;
-			}else{
-				m_tmp = "media already exists" ;
-			}
+					return false ;
+				}else{
+					m_tmp = this->lastText( e ) ;
 
-			return m_tmp ;
-
-		}else if( m.contains( "Merge audio, video and subtitle into " ) ){
-
-			auto e = m.indexOf( "Merge audio, video and subtitle into " ) ;
-
-			if( e != -1 ){
-
-				m_fileName = m.mid( e + 37 ) ;
-			}
-
-			return m_fileName ;
-
-		}else if( m.contains( "Merge audio and video into " ) ){
-
-			auto e = m.indexOf( "Merge audio and video into " ) ;
-
-			if( e != -1 ){
-
-				m_fileName = m.mid( e + 27 ) ;
-			}
-
-			return m_fileName ;
-
-		}else if( m.contains( "INFO: " ) ){
-
-			auto e = m.indexOf( "INFO: " ) ;
-
-			if( e != -1 ){
-
-				m_tmp = m.mid( e + 6 ) ;
-			}
-
-			return m_tmp ;
-
-		}else if( m.startsWith( "ERROR" ) ){
-
-			auto e = m.indexOf( ":" ) ;
-
-			if( e != -1 ){
-
-				m_tmp = m.mid( e + 1 ) ;
-			}
+					return true ;
+				}
+			} ) ;
 
 			return m_tmp ;
 		}else{
-			return m_preProcessing.text() ;
+			return this->lastText( m ) ;
 		}
 	}
 }
 
 svtplay_dl::svtplay_dlFilter::~svtplay_dlFilter()
 {
+}
+
+const QByteArray& svtplay_dl::svtplay_dlFilter::lastText( const QByteArray& m )
+{
+	if( m.startsWith( "WARNING" ) && m.contains( "already exists" ) ){
+
+		auto a = m.indexOf( '(' ) ;
+		auto b = m.lastIndexOf( ')' ) ;
+
+		if( a != -1 && b != -1 && b > a ){
+
+			m_tmp = "\"" + m.mid( a + 1,b - a - 1 ) + "\" already exists" ;
+		}else{
+			m_tmp = "media already exists" ;
+		}
+
+		return m_tmp ;
+
+	}else if( m.contains( "Merge audio, video and subtitle into " ) ){
+
+		auto e = m.indexOf( "Merge audio, video and subtitle into " ) ;
+
+		if( e != -1 ){
+
+			m_fileName = m.mid( e + 37 ) ;
+		}
+
+		return m_fileName ;
+
+	}else if( m.contains( "Merge audio and video into " ) ){
+
+		auto e = m.indexOf( "Merge audio and video into " ) ;
+
+		if( e != -1 ){
+
+			m_fileName = m.mid( e + 27 ) ;
+		}
+
+		return m_fileName ;
+
+	}else if( m.contains( "INFO: " ) ){
+
+		auto e = m.indexOf( "INFO: " ) ;
+
+		if( e != -1 ){
+
+			m_tmp = m.mid( e + 6 ) ;
+		}
+
+		return m_tmp ;
+
+	}else if( m.startsWith( "ERROR" ) ){
+
+		auto e = m.indexOf( ":" ) ;
+
+		if( e != -1 ){
+
+			m_tmp = m.mid( e + 1 ) ;
+		}
+
+		return m_tmp ;
+
+	}else if( m.startsWith( "Getting: " ) ){
+
+		m_tmp = QObject::tr( "Getting" ).toUtf8() + "\n" ;
+
+		if( m.size() < 91 ){
+
+			m_tmp += m ;
+
+			m_tmp.replace( "Getting:  '","" ) ;
+		}else{
+			auto e = m ;
+
+			e.replace( "Getting:  '","" ) ;
+
+			m_tmp += e.mid( 0,40 ) + "..." ;
+
+			m_tmp += e.mid( e.size() - 40 ) ;
+		}
+
+		if( m_tmp.endsWith( "'" ) ){
+
+			m_tmp.truncate( m_tmp.size() - 1 ) ;
+		}
+
+		return m_tmp ;
+	}else{
+		return m_preProcessing.text() ;
+	}
 }

@@ -619,6 +619,11 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 
 QString engines::findExecutable( const QString& exeName ) const
 {
+	if( exeName == "svtplay-dl" && utility::platformisFlatPak() ){
+
+		return m_settings.flatpakIntance().localBinPath() + "/" + exeName ;
+	}
+
 	if( utility::platformIsWindows() && exeName == "media-downloader.exe" ){
 
 		return utility::windowsApplicationDirPath() + "/media-downloader.exe" ;
@@ -1005,6 +1010,15 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 					    const engines::enginePaths&,
 					    int id )
 {
+	if( m_commandName == "svtplay-dl" && utility::platformisFlatPak() ){
+
+		const auto& s = engines.Settings().flatpakIntance().localBinPath() ;
+
+		m_exePath = s + "/" + m_commandName ;
+
+		return ;
+	}
+
 	auto m = engines.findExecutable( m_commandName ) ;
 
 	if( m.isEmpty() ){
@@ -1016,7 +1030,7 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 			m_valid = false ;
 			logger.add( utility::failedToFindExecutableString( m_commandName ),id ) ;
 		}
-	}else{
+	}else{		
 		auto a = this->validDownloadUrl() ;
 		auto b = !m_commandName.startsWith( "media-downloader" ) ;
 		auto c = !m_exeFolderPath.isEmpty() ;
