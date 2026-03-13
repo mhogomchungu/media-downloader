@@ -434,3 +434,9 @@ Version 1.2.0(April 1st, 2021)
       - Add Ui option to disable deno auto updating.
       - Add a Ui way to change Ui scale factor.
       - Workout a bug in deno 2.7.0 that prevented MD from updating it.
+
+     Version 5.4.9(Unreleased)
+     [FLATPAK]
+      - Bundle svtplay-dl because its dependencies are now bundled too.
+     [ALL]
+      - Show more info in batch downloader when using svtplay-dl.

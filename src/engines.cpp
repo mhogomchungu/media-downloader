@@ -1193,6 +1193,11 @@ QString engines::engine::versionString( const QString& data ) const
 				//Deno 2.7.0 has a bad version string
 
 				m = "2.7.0" ;
+
+			}else if( m == "0+untagged.1.g8a26635" ){
+
+				//we are using a git version of svtplay-dl
+				m = "4.173" ;
 			}
 
 			return m ;
