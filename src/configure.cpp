@@ -1175,7 +1175,7 @@ QString configure::getEngineNameFromUrlManager( const QString& u )
 	return m_downloadDefaultOptions.engineNameFromUrl( u ) ;
 }
 
-QMenu *  configure::addExtenion()
+QMenu * configure::addExtenion()
 {
 	auto m = new QMenu( &m_ctx.mainWidget() ) ;
 
@@ -1184,11 +1184,15 @@ QMenu *  configure::addExtenion()
 	m->addAction( "yt-dlp-ffmpeg" )->setObjectName( "yt-dlp-ffmpeg.json" ) ;
 
 	m->addAction( "gallery-dl" )->setObjectName( "gallery-dl.json" ) ;
-	m->addAction( "svtplay-dl" )->setObjectName( "svtplay-dl.json" ) ;
 	m->addAction( "you-get" )->setObjectName( "you-get.json" ) ;
 	m->addAction( "getsauce" )->setObjectName( "getsauce.json" ) ;
 
 	//m->addAction( "lux" )->setObjectName( "lux.json" ) ;
+
+	auto ac = m->addAction( "svtplay-dl" ) ;
+
+	ac->setObjectName( "svtplay-dl.json" ) ;
+	ac->setEnabled( !utility::platformisFlatPak() ) ;
 
 	if( utility::platformIsNOTWindows() ){
 
@@ -1219,7 +1223,6 @@ QMenu *  configure::addExtenion()
 			}
 		}
 	private:
-
 		void downloadNamed( const QString& name )
 		{
 			m_parent.downloadExtension( name ) ;
@@ -1260,8 +1263,26 @@ QMenu * configure::removeExtenion()
 
 	for( const auto& it : m_ctx.Engines().enginesList() ){
 
-		auto e = it ;
-		m->addAction( e.replace( ".json","" ) )->setObjectName( it ) ;
+		auto e = QString( it ).replace( ".json","" ) ;
+
+		if( utility::platformisFlatPak() ){
+
+			if( e == "quickjs" || e == "deno" ){
+
+				continue ;
+			}
+
+			auto ac = m->addAction( e ) ;
+
+			ac->setObjectName( it ) ;
+
+			if( e == "svtplay-dl" ){
+
+				ac->setEnabled( false ) ;
+			}
+		}else{
+			m->addAction( e )->setObjectName( it ) ;
+		}
 	}
 
 	connect( m,&QMenu::triggered,[ & ]( QAction * ac ){
@@ -1270,11 +1291,7 @@ QMenu * configure::removeExtenion()
 
 		m_ctx.Engines().removeEngine( ac->objectName(),id ) ;
 
-		auto& t = m_ctx.TabManager() ;
-
-		t.basicDownloader().setAsActive() ;
-
-		t.setDefaultEngines() ;
+		m_ctx.TabManager().setDefaultEngines() ;
 	} ) ;
 
 	return m ;

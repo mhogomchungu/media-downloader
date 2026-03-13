@@ -27,6 +27,7 @@ class svtplay_dl : public engines::engine::baseEngine
 {
 public:
 	static const char * testData() ;
+	static void init( settings&,Logger& logger,const engines::enginePaths& enginePath ) ;
 
 	~svtplay_dl() override ;
 	svtplay_dl( const engines&,const engines::engine&,QJsonObject& ) ;

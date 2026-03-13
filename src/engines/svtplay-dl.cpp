@@ -363,6 +363,40 @@ INFO [1689598171.062669] svtplay-dl/svtplay_dl/postprocess/__init__.py/merge: Me
 )R" ;
 }
 
+void svtplay_dl::init( settings&,Logger& logger,const engines::enginePaths& enginePath )
+{
+	auto m = enginePath.enginePath( "svtplay-dl.json" ) ;
+
+	if( !QFile::exists( m ) ){
+
+		QJsonObject mainObj ;
+
+		utility::addJsonCmd json( mainObj ) ;
+
+		json.add( { { "Generic" },{ { "amd64","svtplay-dl",{ "svtplay-dl" } },
+					  { "aarch64","svtplay-dl",{ "svtplay-dl" } } } } ) ;
+		json.done() ;
+
+		mainObj.insert( "Version","1" ) ;
+
+		mainObj.insert( "DownloadUrl","" ) ;
+
+		mainObj.insert( "AutoUpdate",false ) ;
+
+		mainObj.insert( "Name","svtplay-dl" ) ;
+
+		mainObj.insert( "VersionArgument","--version" ) ;
+
+		mainObj.insert( "VersionStringLine",0 ) ;
+
+		mainObj.insert( "VersionStringPosition",1 ) ;
+
+		mainObj.insert( "LikeYoutubeDl",false ) ;
+
+		engines::file( m,logger ).write( mainObj ) ;
+	}
+}
+
 svtplay_dl::svtplay_dl( const engines& engs,const engines::engine& engine,QJsonObject& ) :
 	engines::engine::baseEngine( engs.Settings(),engine,engs.processEnvironment() ),
 	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
