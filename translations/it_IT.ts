@@ -1127,7 +1127,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Getting</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottenimento</translation>
     </message>
 </context>
 <context>
