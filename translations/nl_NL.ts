@@ -1120,6 +1120,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>New Ui Scale Factor: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Getting</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

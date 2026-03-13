@@ -1125,6 +1125,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>New Ui Scale Factor: %1</source>
         <translation>Nuovo fattore scala UI: %1</translation>
     </message>
+    <message>
+        <source>Getting</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
