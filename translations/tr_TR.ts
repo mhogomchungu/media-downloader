@@ -61,7 +61,7 @@
     </message>
     <message>
         <source>Set Download Options</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Seçeneklerini Ayarla</translation>
     </message>
     <message>
         <source>Batch Downloader</source>
@@ -69,7 +69,7 @@
     </message>
     <message>
         <source>Thumbnail</source>
-        <translation>Tırnak Resim</translation>
+        <translation>Küçük Resim</translation>
     </message>
     <message>
         <source>Url To Download</source>
@@ -81,7 +81,7 @@
     </message>
     <message>
         <source>Monitor Clipboard For Url</source>
-        <translation>URL için pano ekranı</translation>
+        <translation>Panodaki URL&apos;leri İzle</translation>
     </message>
     <message>
         <source>Add Url To List</source>
@@ -101,23 +101,23 @@
     </message>
     <message>
         <source>Time Interval Start Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaman Aralığı Başlangıç Saati(SS:DD:SS):</translation>
     </message>
     <message>
         <source>Time Interval End Time(HH:MM:SS):</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaman Aralığı Bitiş Saati(SS:DD:SS):</translation>
     </message>
     <message>
         <source>Chapters(Comma Separated):</source>
-        <translation type="unfinished"></translation>
+        <translation>Bölümler(Virgülle Ayrılmış):</translation>
     </message>
     <message>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Bölümlere Göre Ayır</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Gizle</translation>
     </message>
     <message>
         <source>Enter Playlist URL:</source>
@@ -125,11 +125,11 @@
     </message>
     <message>
         <source>Clear Internal Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Dahili Arşiv Dosyasını Temizle</translation>
     </message>
     <message>
         <source>Use Internal Archive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Dahili Arşiv Dosyasını Kullan</translation>
     </message>
     <message>
         <source>Library</source>
@@ -173,7 +173,7 @@
     </message>
     <message>
         <source>Auto Hide Downloads When Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamamlandığında İndirmeleri Otomatik Gizle</translation>
     </message>
     <message>
         <source>Reset Option To Its Default</source>
@@ -197,15 +197,15 @@
     </message>
     <message>
         <source>Use Manually Specified Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Manuel Belirtilen Proxy Yapılandırmasını Kullan</translation>
     </message>
     <message>
         <source>Get Proxy Configuration From The Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy Yapılandırmasını Ortamdan Al</translation>
     </message>
     <message>
         <source>No Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy Yok</translation>
     </message>
     <message>
         <source>Save</source>
@@ -217,7 +217,7 @@
     </message>
     <message>
         <source>File Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya Boyutu</translation>
     </message>
     <message>
         <source>Get List Options:</source>
