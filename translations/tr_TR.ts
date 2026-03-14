@@ -289,11 +289,11 @@
     </message>
     <message>
         <source>Options To Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklenecek Seçenekler</translation>
     </message>
     <message>
         <source>Url Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>URL Yöneticisi</translation>
     </message>
     <message>
         <source>Download Options</source>
@@ -475,7 +475,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Project Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Proje Sayfası</translation>
     </message>
     <message>
         <source>Copyright</source>
@@ -599,11 +599,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Setting Proxy Server Address Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Proxy Sunucu Adresini Ayarlama</translation>
     </message>
     <message>
         <source>Unsetting Proxy Server Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy Sunucu Adresini Kaldırma</translation>
     </message>
     <message>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
@@ -623,11 +623,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Network Error Occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Ağ Hatası Oluştu</translation>
     </message>
     <message>
         <source>Url Is Not Supported</source>
-        <translation type="unfinished"></translation>
+        <translation>URL Desteklenmiyor</translation>
     </message>
     <message>
         <source>Download cancelled</source>
@@ -635,19 +635,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>ErrorCode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Download Failed, Engine failed to start</source>
-        <translation>İndirme Başarısız Oldu, Motor Başlatılamadı</translation>
-    </message>
-    <message>
-        <source>Download Failed, Engine crashed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Format Code</source>
-        <translation>Format Kodu</translation>
+        <translation>Hata Kodu</translation>
     </message>
     <message>
         <source>Extension</source>
@@ -659,7 +647,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Boyut</translation>
     </message>
     <message>
         <source>Note</source>
@@ -687,55 +675,31 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Failed To Open Path For Writing: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazmak İçin Yol Açılamadı: %1</translation>
     </message>
     <message>
         <source>Failed To Extract</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkarılamadı</translation>
     </message>
     <message>
         <source>Network Failed To Respond Within %1 seconds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Failed to download, Following path can not be created: </source>
-        <translation>İndirilemedi, Aşağıdaki yol oluşturulamıyor: </translation>
-    </message>
-    <message>
-        <source>Start Downloading</source>
-        <translation>İndirmeye Başlayın</translation>
+        <translation>Ağ %1 saniye içinde yanıt vermedi</translation>
     </message>
     <message>
         <source>Trouble Ahead, Failed To Delete Folder: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorun Var, Klasör Silinemedi: %1</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar.exe&quot; Executable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Download Failed</source>
-        <translation>Yükleme başarısız</translation>
-    </message>
-    <message>
-        <source>Failed to parse json file from github</source>
-        <translation>Json dosyası github&apos;dan ayrıştırılamadı</translation>
-    </message>
-    <message>
-        <source>Downloading</source>
-        <translation>İndiriliyor</translation>
-    </message>
-    <message>
-        <source>Destination</source>
-        <translation>Tanım</translation>
+        <translation>&quot;bsdtar.exe&quot; Çalıştırılabilir Dosyası Bulunamadı</translation>
     </message>
     <message>
         <source>Update Complete, Restart To Use New Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Güncelleme Tamamlandı, Yeni Sürümü Kullanmak İçin Yeniden Başlatın</translation>
     </message>
     <message>
         <source>Windows&apos; Secure Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Güvenli Kanalı</translation>
     </message>
     <message>
         <source>Download complete</source>
@@ -791,360 +755,202 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Extra Downloading Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Ek İndirme Seçenekleri</translation>
     </message>
     <message>
         <source>Download Time Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Zaman Aralığı</translation>
     </message>
     <message>
         <source>Download Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Bölümleri İndir</translation>
     </message>
     <message>
         <source>Split By Chapters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Media Already In Archive</source>
-        <translation>Medya Zaten Arşivde</translation>
-    </message>
-    <message>
-        <source>Dark</source>
-        <translation>Koyu</translation>
-    </message>
-    <message>
-        <source>Method</source>
-        <translation>Metod</translation>
+        <translation>Bölümlere Göre Ayır</translation>
     </message>
     <message>
         <source>Time Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalan Zaman</translation>
     </message>
     <message>
         <source>Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirildi</translation>
     </message>
     <message>
         <source>%1 Already Downloaded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This May Take A Very Long Time</source>
-        <translation>Bu Çok Uzun Zaman Alabilir</translation>
+        <translation>%1 Zaten İndirildi</translation>
     </message>
     <message>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hız:</translation>
     </message>
     <message>
         <source>There Is An Update For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 İçin Bir Güncelleme Var</translation>
     </message>
     <message>
         <source>Newest Version Is %1, Updating</source>
-        <translation type="unfinished"></translation>
+        <translation>En Yeni Sürüm %1, Güncelleniyor</translation>
     </message>
     <message>
         <source>Checking installed version of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1'in yüklü sürümü kontrol ediliyor</translation>
     </message>
     <message>
         <source>Found version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Bulunan sürüm: %1</translation>
     </message>
     <message>
         <source>Newest Version Is: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>En Yeni Sürüm: %1</translation>
     </message>
     <message>
         <source>Please Update &quot;%1&quot; To Atleast Version &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Lütfen &quot;%1&quot; uygulamasını en az &quot;%2&quot; sürümüne güncelleyin</translation>
     </message>
     <message>
         <source>Requested Format Is Not Available</source>
-        <translation type="unfinished"></translation>
+        <translation>İstenen Format Mevcut Değil</translation>
     </message>
     <message>
         <source>Invalid Url Entered</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçersiz URL Girildi</translation>
     </message>
     <message>
         <source>Best Available Audio Only</source>
-        <translation type="unfinished"></translation>
+        <translation>En İyi Mevcut Sadece Ses</translation>
     </message>
     <message>
         <source>Best Available Audio Only(MP3)</source>
-        <translation type="unfinished"></translation>
+        <translation>En İyi Mevcut Sadece Ses(MP3)</translation>
     </message>
     <message>
         <source>Best Available Audio Video</source>
-        <translation type="unfinished"></translation>
+        <translation>En İyi Mevcut Ses Video</translation>
     </message>
     <message>
         <source>Best Audio With Video Resolution Of %1</source>
-        <translation type="unfinished"></translation>
+        <translation>En İyi Ses %1 Video Çözünürlüğü ile</translation>
     </message>
     <message>
-        <source>Warning: Skipping Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <source>Setting Proxy Server Address Of %1</source>
+        <translation>%1 Proxy Sunucu Adresini Ayarlama</translation>
     </message>
     <message>
-        <source>Show Folders First</source>
-        <translation type="unfinished"></translation>
+        <source>Unsetting Proxy Server Address</source>
+        <translation>Proxy Sunucu Adresini Kaldırma</translation>
     </message>
     <message>
-        <source>Arrange In Ascending Order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Arrange By Date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Arrange By Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Arrange In Descending Order</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No Filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Other Websites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract Audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extract Audio As MP3</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Arabic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Best Available Audio Only+Thumbnail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Youtube</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Autoupdate Disabled For %1</source>
-        <translation type="unfinished"></translation>
+        <source>Network Error Occured</source>
+        <translation>Ağ Hatası Oluştu</translation>
     </message>
     <message>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>En Yeni Sürüm %1, Otomatik Güncelleme Devre Dışı</translation>
     </message>
     <message>
         <source>Author: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Like Count: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Korean (Korea)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sign In To Confirm You Are Not A Bot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stopping Because Media Is Already In Archive File</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bulgarien (Bulgaria)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open Urls With %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default Player</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Warning, Nothing Was Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazar: %1</translation>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme İptal Edildi, Playlist URL'leri Bu Sekmede İzin Verilmiyor</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir Koşul Sağlanmadığı İçin İndirme İptal Edildi</translation>
     </message>
     <message>
         <source>Download Failed, Unknown Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Başarısız Oldu, Bilinmeyen Sebep</translation>
     </message>
     <message>
         <source>Download Failed, Network Issue</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Başarısız Oldu, Ağ Sorunu</translation>
     </message>
     <message>
         <source>Ukrainian (Ukraine)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukraynaca (Ukrayna)</translation>
     </message>
     <message>
         <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; &quot;%2&quot; olarak yeniden adlandırılıyor</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeniden Adlandırma Başarısız: %3</translation>
     </message>
     <message>
         <source>Skipping Checking Download Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Hash Kontrolü Atlanıyor</translation>
     </message>
     <message>
         <source>Ignoring Download Because Hashes Do Not Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Hash'ler Eşleşmediği İçin İndirme Göz Ardı Ediliyor</translation>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; bekleniyor ancak &quot;%2&quot; elde edildi</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaldırılamadı</translation>
     </message>
     <message>
         <source>Renaming file to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya yeniden adlandırılıyor: %1</translation>
     </message>
     <message>
         <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; motoru için sürüm bilgisi kontrolü atlanıyor</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;bsdtar&quot; veya &quot;unzip&quot; çalıştırılabilir dosyası bulunamadı</translation>
     </message>
     <message>
         <source>New Ui Scale Factor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni UI Ölçek Faktörü: %1</translation>
     </message>
     <message>
         <source>Getting</source>
-        <translation type="unfinished"></translation>
+        <translation>Alınıyor</translation>
     </message>
 </context>
 <context>
     <name>basicdownloader</name>
     <message>
         <source>Hide List</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>batchdownloader</name>
-    <message>
-        <source>Set Batch File</source>
-        <translation>Toplu Dosya Ayarla</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation>Aç</translation>
-    </message>
-    <message>
-        <source>Downloading comments</source>
-        <translation>İndirilen yorumlar</translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation>İndir</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation>Kaydet</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>İptal</translation>
-    </message>
-    <message>
-        <source>Copy Url</source>
-        <translation>Url Kopyala</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Çıkar</translation>
-    </message>
-    <message>
-        <source>Show Subtitles</source>
-        <translation>Altyazıları Göster</translation>
-    </message>
-    <message>
-        <source>Show Comments</source>
-        <translation>Yorumları Göster</translation>
-    </message>
-    <message>
-        <source>Show Media Options</source>
-        <translation>Medya Seçeneklerini Göster</translation>
+        <translation>Listeyi Gizle</translation>
     </message>
     <message>
         <source>Download Media Part</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set</source>
-        <translation>Ayarla</translation>
-    </message>
-    <message>
-        <source>Downloading subtitles</source>
-        <translation>İndirilen altyazılar</translation>
+        <translation>Medya Kısmını İndir</translation>
     </message>
     <message>
         <source>Sort By Date Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarihe Göre Artan Sırala</translation>
     </message>
     <message>
         <source>Sort By Date Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarihe Göre Azalan Sırala</translation>
     </message>
     <message>
         <source>Sort By Likes</source>
-        <translation type="unfinished"></translation>
+        <translation>Beğeniye Göre Sırala</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeniden Adlandır</translation>
     </message>
-</context>
-<context>
-    <name>configure</name>
     <message>
         <source>Set As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan Olarak Ayarla</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopyala</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -1160,43 +966,43 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Düzenle</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished">Ekle</translation>
+        <translation>Ekle</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation type="unfinished">Varsayılanları Ayarla</translation>
+        <translation>Varsayılanları Ayarla</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <source>Select A Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir Cookie Dosyası Seçin</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Cookie'leri Alınacak Web Tarayıcısının Adı</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Cookie Dosyası Yolunu Ayarla</translation>
     </message>
     <message>
         <source>Current Ui Scale Factor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mevcut UI Ölçek Faktörü: %1</translation>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin Kodlaması</translation>
     </message>
     <message>
         <source>Enable AutoDownloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Otomatik İndirmeyi Etkinleştir</translation>
     </message>
 </context>
 <context>
@@ -1209,45 +1015,6 @@ Exampe 2: ${gateway}:8080</source>
         <source>Delete All</source>
         <translation>Tümünü Sil</translation>
     </message>
-    <message>
-        <source>Rename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are You Sure You Want To Delete Below File?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are You Sure You Want To Delete Below Folder?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="unfinished">İptal</translation>
-    </message>
-    <message>
-        <source>Are You Sure You Want To Delete All Files And Folders?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename Folder To Below Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are You Sure You Want To Delete Selected Items?</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1262,7 +1029,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tümünü Göster</translation>
     </message>
 </context>
 <context>
@@ -1281,7 +1048,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Hide Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrolleri Gizle</translation>
     </message>
     <message>
         <source>Get List Options:</source>
@@ -1317,15 +1084,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrolleri Göster</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>Göster</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Gizle</translation>
     </message>
     <message>
         <source>This May Take A Very Long Time</source>
