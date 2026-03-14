@@ -301,7 +301,7 @@
     </message>
     <message>
         <source>Set What Url Should Be Managed By What Engine</source>
-        <translation>Hangi URL&apos;nin Hangi Motor Tarafından Yönetileceğini Ayarlayın</translation>
+        <translation>Hangi URL'nin Hangi Motor Tarafından Yönetileceğini Ayarlayın</translation>
     </message>
     <message>
         <source>Url Filter</source>
@@ -309,11 +309,11 @@
     </message>
     <message>
         <source>Proxy Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Proxy Ayarları</translation>
     </message>
     <message>
         <source>Use System Proxy Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistem Proxy Yapılandırmasını Kullan</translation>
     </message>
     <message>
         <source>Manually Specified Proxy Configuration
@@ -327,51 +327,23 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Play Downloaded Media</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirilen Medyayı Oynat</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rename File To Below Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A Button To Open A Folder To Be Used As A Download Folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A Button To Open A Folder Where Theme Config Files Are Stored</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeniden Adlandır</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Hayır</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="unfinished"></translation>
+        <translation>Evet</translation>
     </message>
     <message>
         <source>Theme(Need A Restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema(Yeniden Başlatma Gerekli)</translation>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
@@ -415,71 +387,56 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Open Binary Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>İkili Klasörü Aç</translation>
     </message>
     <message>
         <source>Open Extension Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklenti Klasörünü Aç</translation>
     </message>
     <message>
         <source>UI Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Arayüz Ölçeği</translation>
     </message>
     <message>
         <source>A Restart Is Required After Every Change</source>
-        <translation type="unfinished"></translation>
+        <translation>Her Değişiklikten Sonra Yeniden Başlatma Gerekli</translation>
     </message>
     <message>
         <source>Scale Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Ölçek Büyüt</translation>
     </message>
     <message>
         <source>Scale Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Ölçek Küçült</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Sıfırla</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>%1 Preset Options</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Hazır Seçenekleri</translation>
     </message>
     <message>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;.txt&quot; Uzantılı Dosya Adı Sadece URL'leri Kaydeder</translation>
     </message>
     <message>
         <source>Hide Row</source>
-        <translation type="unfinished"></translation>
+        <translation>Satırı Gizle</translation>
     </message>
     <message>
         <source>Unhide All Hidden Rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm Gizli Satırları Göster</translation>
     </message>
     <message>
         <source>Failed To Start Executable %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Çalıştırılabilir Dosyası Başlatılamadı</translation>
     </message>
     <message>
-        <source>Copy Url</source>
-        <translation type="unfinished">Url Kopyala</translation>
-    </message>
-    <message>
-        <source>Open Url With %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copy Url %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save List To File</source>
-        <translation>Listeyi Dosyaya Kaydet</translation>
-    </message>
     <message>
         <source>Date</source>
         <translation>Tarih</translation>
@@ -586,15 +543,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>German (Germany)</source>
-        <translation type="unfinished"></translation>
+        <translation>Almanca (Almanya)</translation>
     </message>
     <message>
         <source>Portuguese (Brazil)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portekizce (Brezilya)</translation>
     </message>
     <message>
         <source>Dutch (Netherlands)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hollandaca (Hollanda)</translation>
     </message>
     <message>
         <source>Error, executable to backend &quot;%1&quot; could not be found</source>
@@ -618,27 +575,27 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>3. Click &quot;Actions At StartUp&quot; Menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>3. &quot;Başlangıçta Yapılacak Eylemler&quot; menüsüne tıklayın.</translation>
     </message>
     <message>
         <source>4. Select &quot;Do Nothing&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>4. &quot;Hiçbir Şey Yapma&quot; seçeneğini seçin.</translation>
     </message>
     <message>
         <source>Running In Portable Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Taşınabilir Modda Çalışıyor</translation>
     </message>
     <message>
         <source>Running In Installation Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Kurulum Modunda Çalışıyor</translation>
     </message>
     <message>
         <source>Download Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Yolu: %1</translation>
     </message>
     <message>
         <source>App Data Path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Uygulama Veri Yolu: %1</translation>
     </message>
     <message>
         <source>Setting Proxy Server Address Of %1</source>
@@ -682,7 +639,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Download Failed, Engine failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Başarısız Oldu, Motor Başlatılamadı</translation>
     </message>
     <message>
         <source>Download Failed, Engine crashed</source>
@@ -1006,34 +963,6 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sign In To Confirm You Are Not A Bot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show/Hide Controls</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Merging Audio and Video Together</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remuxing video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Greek (Greece)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Platform Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Light</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Failed To Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
