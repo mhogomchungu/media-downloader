@@ -1263,7 +1263,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">テキストエンコーディング</translation>
     </message>
     <message>
         <source>Enable AutoDownloading</source>

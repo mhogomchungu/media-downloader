@@ -148,8 +148,6 @@
       "name" : "python3-maturin",
       "buildsystem" : "simple",
       "build-commands" : [
-        "pwd",
-        "ls -l .",
         "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"maturin\" --no-build-isolation"
       ],
       "build-options" : {

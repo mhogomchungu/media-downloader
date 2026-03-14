@@ -435,7 +435,7 @@ Version 1.2.0(April 1st, 2021)
       - Add a Ui way to change Ui scale factor.
       - Workout a bug in deno 2.7.0 that prevented MD from updating it.
 
-     Version 5.4.9(Unreleased)
+     Version 5.5.0(March 14th, 2026)
      [FLATPAK]
       - Bundle svtplay-dl because its dependencies are now bundled too.
      [ALL]
