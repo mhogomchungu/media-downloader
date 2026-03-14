@@ -245,39 +245,39 @@
     </message>
     <message>
         <source>Enable Library Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Kütüphane Sekmesini Etkinleştir</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimum Eş Zamanlı İndirme</translation>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin Kodlaması</translation>
     </message>
     <message>
         <source>Show Version Info And Autodownload Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Sürüm Bilgisini Göster ve Güncellemeleri Otomatik İndir</translation>
     </message>
     <message>
         <source>Show Version Info And Latest Version Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Sürüm Bilgisini ve En Son Sürüm Bilgisini Göster</translation>
     </message>
     <message>
         <source>Show Version Info Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Sadece Sürüm Bilgisini Göster</translation>
     </message>
     <message>
         <source>Do Nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiçbir Şey Yapma</translation>
     </message>
     <message>
         <source>Actions At Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Başlangıçta Yapılacak Eylemler</translation>
     </message>
     <message>
         <source>Website</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Sitesi</translation>
     </message>
     <message>
         <source>Engine&apos;s Name</source>
@@ -387,31 +387,31 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Notify When Download Completes</source>
-        <translation type="unfinished"></translation>
+        <translation>İndirme Tamamlandığında Bildir</translation>
     </message>
     <message>
         <source>Notify When All Downloads Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm İndirmeler Tamamlandığında Bildir</translation>
     </message>
     <message>
         <source>Engine&apos;s Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Motor Seçenekleri</translation>
     </message>
     <message>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklentiler</translation>
     </message>
     <message>
         <source>Remove An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklenti Kaldır</translation>
     </message>
     <message>
         <source>Update An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklenti Güncelle</translation>
     </message>
     <message>
         <source>Add An Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Eklenti Ekle</translation>
     </message>
     <message>
         <source>Open Binary Folder</source>
