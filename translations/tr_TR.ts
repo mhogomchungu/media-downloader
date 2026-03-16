@@ -439,7 +439,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>%1 Çalıştırılabilir Dosyası Başlatılamadı</translation>
     </message>
     <message>
-    <message>
         <source>Date</source>
         <translation>Tarih</translation>
     </message>
@@ -598,14 +597,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>App Data Path: %1</source>
         <translation>Uygulama Veri Yolu: %1</translation>
-    </message>
-    <message>
-        <source>Setting Proxy Server Address Of %1</source>
-        <translation>%1 Proxy Sunucu Adresini Ayarlama</translation>
-    </message>
-    <message>
-        <source>Unsetting Proxy Server Address</source>
-        <translation>Proxy Sunucu Adresini Kaldırma</translation>
     </message>
     <message>
         <source>Error, failed to parse config file &quot;%1&quot;</source>
@@ -844,10 +835,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Proxy Sunucu Adresini Kaldırma</translation>
     </message>
     <message>
-        <source>Network Error Occured</source>
-        <translation>Ağ Hatası Oluştu</translation>
-    </message>
-    <message>
         <source>Newest Version Is %1, AutoUpdate Disabled</source>
         <translation>En Yeni Sürüm %1, Otomatik Güncelleme Devre Dışı</translation>
     </message>
@@ -1016,7 +1003,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Delete All</source>
         <translation>Tümünü Sil</translation>
-    </message>
     </message>
 </context>
 <context>
