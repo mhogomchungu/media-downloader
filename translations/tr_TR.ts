@@ -57,7 +57,7 @@
     </message>
     <message>
         <source>Recently Used</source>
-        <translation>Yakında Kullanılan</translation>
+        <translation>Son Kullanılanlar</translation>
     </message>
     <message>
         <source>Set Download Options</source>
@@ -319,7 +319,9 @@
         <source>Manually Specified Proxy Configuration
 Example 1: 192.168.93.89:8080
 Exampe 2: ${gateway}:8080</source>
-        <translation type="unfinished"></translation>
+        <translation>Manuel Olarak Belirtilen Proxy Yapılandırması
+Örnek 1: 192.168.93.89:8080
+Örnek 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>About</source>
@@ -347,15 +349,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Switch Between Setting Browser Name And Path To Cookie File</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarayıcı Adı ve Cookie Dosyası Yolu Ayarı Arasında Geçiş Yap</translation>
     </message>
     <message>
         <source>Show MetaData In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Toplu İndiricide Meta Verileri Göster</translation>
     </message>
     <message>
         <source>Auto Download Added Entries In Batch Downloader</source>
-        <translation type="unfinished"></translation>
+        <translation>Toplu İndiriciye Eklenen Girdileri Otomatik İndir</translation>
     </message>
     <message>
         <source>Notify When Download Completes</source>
