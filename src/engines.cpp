@@ -923,27 +923,28 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 	auto name = obj.value( "Name" ).toString() ;
 
-	if( name == "deno" || name == "quickjs" ){
+	if( name == "quickjs" ){
 
-		if( name == "quickjs" && utility::platformisFlatPak() ){
+		obj.insert( "SupportingEngine",true ) ;
+
+		if( utility::platformisFlatPak() ){
 
 			obj.insert( "DownloadUrl",QString() ) ;
 		}
 
+	}else if( name == "deno" ){
+
 		obj.insert( "SupportingEngine",true ) ;
+		obj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
 
-		if( name == "deno" ){
-
-			obj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
-		}
-	}
-
-	if( name == "svtplay-dl" ){
+	}else if( name == "svtplay-dl" ){
 
 		obj.insert( "ArchiveContainsFolder",utility::platformIsWindows() ) ;
 
-		if( !utility::platformisFlatPak() ){
+		if( utility::platformisFlatPak() ){
 
+			obj.insert( "DownloadUrl",QString() ) ;
+		}else{
 			obj.insert( "DownloadUrl",svtplay_dl::downloadUrl() ) ;
 		}
 	}
@@ -1013,15 +1014,6 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 					    const engines::enginePaths&,
 					    int id )
 {
-	if( m_commandName == "svtplay-dl" && utility::platformisFlatPak() ){
-
-		const auto& s = engines.Settings().flatpakIntance().localBinPath() ;
-
-		m_exePath = s + "/" + m_commandName ;
-
-		return ;
-	}
-
 	auto m = engines.findExecutable( m_commandName ) ;
 
 	if( m.isEmpty() ){
