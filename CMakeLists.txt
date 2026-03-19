@@ -247,6 +247,10 @@ SolidCompression=yes
 DisableProgramGroupPage=yes
 OutputBaseFilename=${OutputBaseFilename}
 
+[InstallDelete]
+Type: filesandordirs; Name: \"{app}\"\\3rdParty
+Type: filesandordirs; Name: \"{app}\"\\translations
+
 [Tasks]
 Name: \"desktopicon\"; Description: \"{cm:CreateDesktopIcon}\"; GroupDescription: \"{cm:AdditionalIcons}\"; Flags: unchecked
 Name: \"quicklaunchicon\"; Description: \"{cm:CreateQuickLaunchIcon}\"; GroupDescription: \"{cm:AdditionalIcons}\"; Flags: unchecked; OnlyBelowVersion: 0,6.1
@@ -344,6 +348,10 @@ Compression=lzma
 SolidCompression=yes
 DisableProgramGroupPage=yes
 OutputBaseFilename=${OutputBaseFilename}
+
+[InstallDelete]
+Type: filesandordirs; Name: \"{app}\"\\3rdParty
+Type: filesandordirs; Name: \"{app}\"\\translations
 
 [Tasks]
 Name: \"desktopicon\"; Description: \"{cm:CreateDesktopIcon}\"; GroupDescription: \"{cm:AdditionalIcons}\"; Flags: unchecked
