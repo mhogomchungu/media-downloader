@@ -248,8 +248,8 @@ DisableProgramGroupPage=yes
 OutputBaseFilename=${OutputBaseFilename}
 
 [InstallDelete]
-Type: filesandordirs; Name: \"{app}\"\\3rdParty
-Type: filesandordirs; Name: \"{app}\"\\translations
+Type: filesandordirs; Name: \"{app}\\3rdParty\"
+Type: filesandordirs; Name: \"{app}\\translations\"
 
 [Tasks]
 Name: \"desktopicon\"; Description: \"{cm:CreateDesktopIcon}\"; GroupDescription: \"{cm:AdditionalIcons}\"; Flags: unchecked
@@ -350,8 +350,8 @@ DisableProgramGroupPage=yes
 OutputBaseFilename=${OutputBaseFilename}
 
 [InstallDelete]
-Type: filesandordirs; Name: \"{app}\"\\3rdParty
-Type: filesandordirs; Name: \"{app}\"\\translations
+Type: filesandordirs; Name: \"{app}\\3rdParty\"
+Type: filesandordirs; Name: \"{app}\\translations\"
 
 [Tasks]
 Name: \"desktopicon\"; Description: \"{cm:CreateDesktopIcon}\"; GroupDescription: \"{cm:AdditionalIcons}\"; Flags: unchecked
