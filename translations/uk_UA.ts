@@ -245,7 +245,7 @@
     </message>
     <message>
         <source>Enable Library Tab</source>
-        <translation>Увімкнути вкладку &apos;Бібліотека&apos;</translation>
+        <translation>Увімкнути вкладку Бібліотека</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
@@ -433,7 +433,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Scale Up</source>
-        <translation>Масштабування</translation>
+        <translation>Збільшити масштаб</translation>
     </message>
     <message>
         <source>Scale Down</source>
