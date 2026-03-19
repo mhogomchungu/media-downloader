@@ -1698,6 +1698,16 @@ void engines::engine::baseEngine::updateLocalOptions( QStringList& )
 {
 }
 
+bool engines::engine::baseEngine::bundledEngine()
+{
+	return false ;
+}
+
+bool engines::engine::baseEngine::engineRemovable()
+{
+	return true ;
+}
+
 engines::engine::baseEngine::removeFilesStatus engines::engine::baseEngine::removeFiles( const QStringList& e,const QString& )
 {
 	engines::engine::baseEngine::removeFilesStatus s ;

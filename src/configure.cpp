@@ -1175,34 +1175,46 @@ QString configure::getEngineNameFromUrlManager( const QString& u )
 	return m_downloadDefaultOptions.engineNameFromUrl( u ) ;
 }
 
+void configure::addAction( QMenu * m,const Context& ctx,const QString& name,const QString& configName )
+{
+	auto ac = m->addAction( name ) ;
+	ac->setObjectName( configName ) ;
+
+	const auto& engine = ctx.Engines().getEngineByName( name ) ;
+
+	if( engine ){
+
+		ac->setEnabled( !engine->bundledEngine() ) ;
+	}else{
+		ac->setEnabled( true ) ;
+	}
+}
+
 QMenu * configure::addExtenion()
 {
 	auto m = new QMenu( &m_ctx.mainWidget() ) ;
 
-	m->addAction( "yt-dlp" )->setObjectName( "yt-dlp.json" ) ;
-	m->addAction( "yt-dlp-aria2c" )->setObjectName( "yt-dlp-aria2c.json" ) ;
-	m->addAction( "yt-dlp-ffmpeg" )->setObjectName( "yt-dlp-ffmpeg.json" ) ;
+	this->addAction( m,m_ctx,"yt-dlp","yt-dlp.json" ) ;
+	this->addAction( m,m_ctx,"yt-dlp-aria2c","yt-dlp-aria2c.json" ) ;
+	this->addAction( m,m_ctx,"yt-dlp-ffmpeg","yt-dlp-ffmpeg.json" ) ;
 
-	m->addAction( "gallery-dl" )->setObjectName( "gallery-dl.json" ) ;
-	m->addAction( "you-get" )->setObjectName( "you-get.json" ) ;
-	m->addAction( "getsauce" )->setObjectName( "getsauce.json" ) ;
+	this->addAction( m,m_ctx,"gallery-dl","gallery-dl.json" ) ;
+	this->addAction( m,m_ctx,"you-get","you-get.json" ) ;
+	this->addAction( m,m_ctx,"getsauce","getsauce.json" ) ;
 
-	//m->addAction( "lux" )->setObjectName( "lux.json" ) ;
+	//this->addAction( m,m_ctx,"lux","lux.json" ) ;
 
-	auto ac = m->addAction( "svtplay-dl" ) ;
-
-	ac->setObjectName( "svtplay-dl.json" ) ;
-	ac->setEnabled( !utility::platformisFlatPak() ) ;
+	this->addAction( m,m_ctx,"svtplay-dl","svtplay-dl.json" ) ;
 
 	if( utility::platformIsNOTWindows() ){
 
-		m->addAction( "aria2c" )->setObjectName( "aria2c.json" ) ;
-		m->addAction( "wget" )->setObjectName( "wget.json" ) ;
+		this->addAction( m,m_ctx,"aria2c","aria2c.json" ) ;
+		this->addAction( m,m_ctx,"wget","wget.json" ) ;
 	}
 
 	m->addSeparator() ;
 
-	m->addAction( "custom" )->setObjectName( "custom" ) ;
+	this->addAction( m,m_ctx,"custom","custom" ) ;
 
 	class meaw
 	{
@@ -1265,23 +1277,15 @@ QMenu * configure::removeExtenion()
 
 		auto e = QString( it ).replace( ".json","" ) ;
 
-		if( utility::platformisFlatPak() ){
+		const auto& engine = m_ctx.Engines().getEngineByName( e ) ;
 
-			if( e == "quickjs" || e == "deno" ){
+		if( engine && !engine->supportingEngine() ){
 
-				continue ;
-			}
-
-			auto ac = m->addAction( e ) ;
+			auto ac = m->addAction( engine->name() ) ;
 
 			ac->setObjectName( it ) ;
 
-			if( e == "svtplay-dl" ){
-
-				ac->setEnabled( false ) ;
-			}
-		}else{
-			m->addAction( e )->setObjectName( it ) ;
+			ac->setEnabled( !engine->bundledEngine() ) ;
 		}
 	}
 

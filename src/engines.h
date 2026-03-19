@@ -794,6 +794,10 @@ public:
 
 			virtual void updateLocalOptions( QStringList& ) ;
 
+			virtual bool bundledEngine() ;
+
+			virtual bool engineRemovable() ;
+
 			class removeFilesStatus
 			{
 			public:
@@ -1278,6 +1282,14 @@ public:
 		engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QByteArray& e ) const
 		{
 			return m_engine->versionInfoFromGithub( e ) ;
+		}
+		bool bundledEngine() const
+		{
+			return m_engine->bundledEngine() ;
+		}
+		bool engineRemovable() const
+		{
+			return m_engine->engineRemovable() ;
 		}
 		bool hasConvertArgToEnv( const QStringList& e ) const
 		{

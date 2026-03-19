@@ -374,6 +374,7 @@ private:
 	void updateProxySettings( settings::proxySettings::Type ) ;
 	void confirmResetMakeVisible( bool ) ;
 	void setCookieSourceLabel( bool ) ;
+	void addAction( QMenu *,const Context&,const QString&,const QString& ) ;
 	void downloadExtension( const QString& ) ;
 	QString setUrl( const QString& e );
 	const Context& m_ctx ;
