@@ -245,7 +245,7 @@
     </message>
     <message>
         <source>Enable Library Tab</source>
-        <translation>Увімкнути вкладку &apos;Бібліотека&apos;</translation>
+        <translation>Увімкнути вкладку Бібліотека</translation>
     </message>
     <message>
         <source>Maximum Concurrent Downloads</source>
@@ -425,23 +425,23 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>UI Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштаб інтерфейсу</translation>
     </message>
     <message>
         <source>A Restart Is Required After Every Change</source>
-        <translation type="unfinished"></translation>
+        <translation>Після кожної зміни потрібен перезапуск</translation>
     </message>
     <message>
         <source>Scale Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Збільшити масштаб</translation>
     </message>
     <message>
         <source>Scale Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Зменшити масштаб</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Скинути</translation>
     </message>
 </context>
 <context>
@@ -748,7 +748,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Network Failed To Respond Within %1 seconds</source>
-        <translation>Мережа не відповідає %1 сек.</translation>
+        <translation>Мережа не відповідає %1 секунд</translation>
     </message>
     <message>
         <source>Failed to download, Following path can not be created: </source>
@@ -1120,11 +1120,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>New Ui Scale Factor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Новий коефіцієнт масштабу інтерфейсу: %1</translation>
     </message>
     <message>
         <source>Getting</source>
-        <translation type="unfinished"></translation>
+        <translation>Отримання</translation>
     </message>
 </context>
 <context>
@@ -1261,15 +1261,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Current Ui Scale Factor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Поточний коефіцієнт масштабу інтерфейсу: %1</translation>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation type="unfinished">Кодування тексту заголовків</translation>
+        <translation>Кодування тексту</translation>
     </message>
     <message>
         <source>Enable AutoDownloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкніти автозавантаження</translation>
     </message>
 </context>
 <context>
@@ -1335,7 +1335,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show All</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати все</translation>
     </message>
 </context>
 <context>
