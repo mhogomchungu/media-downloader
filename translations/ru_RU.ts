@@ -425,23 +425,23 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>UI Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштаб интерфейса</translation>
     </message>
     <message>
         <source>A Restart Is Required After Every Change</source>
-        <translation type="unfinished"></translation>
+        <translation>Требуется перезагрузка после каждого изменения</translation>
     </message>
     <message>
         <source>Scale Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Увеличить масштаб</translation>
     </message>
     <message>
         <source>Scale Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Уменьшить масштаб</translation>
     </message>
     <message>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Сброс</translation>
     </message>
 </context>
 <context>
@@ -780,7 +780,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Windows&apos; Secure Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Безопасный канал Windows</translation>
     </message>
     <message>
         <source>Download complete</source>
@@ -1084,47 +1084,47 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Renaming &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименование &quot;%1&quot; в &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Renaming Failed: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка переименования: %3</translation>
     </message>
     <message>
         <source>Skipping Checking Download Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>Пропуск проверки хэша звгрузки</translation>
     </message>
     <message>
         <source>Ignoring Download Because Hashes Do Not Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Пропуск загрузки, так как хэши не совпадают</translation>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ожидаемый &quot;%1&quot;, но полученный &quot;%2&quot;</translation>
     </message>
     <message>
         <source>Failed To Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось удалить</translation>
     </message>
     <message>
         <source>Renaming file to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименование файла в: %1</translation>
     </message>
     <message>
         <source>Skipping Checking Version Info For Engine &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Пропуск проверки версии движка &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Failed To Find &quot;bsdtar&quot; or &quot;unzip&quot; Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось найти исполняемый файл &quot;bsdtar&quot; или &quot;unzip&quot;</translation>
     </message>
     <message>
         <source>New Ui Scale Factor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый масштаб UI: %1</translation>
     </message>
     <message>
         <source>Getting</source>
-        <translation type="unfinished"></translation>
+        <translation>Получение</translation>
     </message>
 </context>
 <context>
@@ -1261,15 +1261,15 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Current Ui Scale Factor: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущий масштаб UI: %1</translation>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation type="unfinished">Кодировка текста заголовков</translation>
+        <translation>Кодировка текста</translation>
     </message>
     <message>
         <source>Enable AutoDownloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить автоскачивание</translation>
     </message>
 </context>
 <context>
@@ -1335,7 +1335,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show All</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать все</translation>
     </message>
 </context>
 <context>
