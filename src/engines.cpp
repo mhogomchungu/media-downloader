@@ -612,11 +612,6 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 
 QString engines::findExecutable( const QString& exeName ) const
 {
-	if( exeName == "svtplay-dl" && utility::platformisFlatPak() ){
-
-		return m_settings.flatpakIntance().localBinPath() + "/" + exeName ;
-	}
-
 	if( utility::platformIsWindows() && exeName == "media-downloader.exe" ){
 
 		return utility::windowsApplicationDirPath() + "/media-downloader.exe" ;
@@ -934,12 +929,7 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 		obj.insert( "ArchiveContainsFolder",utility::platformIsWindows() ) ;
 
-		if( utility::platformisFlatPak() ){
-
-			obj.insert( "DownloadUrl",QString() ) ;
-		}else{
-			obj.insert( "DownloadUrl",svtplay_dl::downloadUrl() ) ;
-		}
+		obj.insert( "DownloadUrl",svtplay_dl::downloadUrl() ) ;
 	}
 
 	return obj ;
@@ -2570,8 +2560,6 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 		}
 
 	}else if( utility::platformisFlatPak() ){
-
-		svtplay_dl::init( m_parent.m_settings,logger,enginePath ) ;
 
 		if( m_parent.Settings().flatpackUseDenoRuntime() ){
 

@@ -301,7 +301,7 @@
     </message>
     <message>
         <source>Set What Url Should Be Managed By What Engine</source>
-        <translation>Hangi URL'nin Hangi Motor Tarafından Yönetileceğini Ayarlayın</translation>
+        <translation>Hangi URL&apos;nin Hangi Motor Tarafından Yönetileceğini Ayarlayın</translation>
     </message>
     <message>
         <source>Url Filter</source>
@@ -415,6 +415,34 @@ Exampe 2: ${gateway}:8080</source>
         <source>Reset</source>
         <translation>Sıfırla</translation>
     </message>
+    <message>
+        <source>Rename File To Below Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter Playlist Url. To Add Multiple Playlists, Separate Them With A Space Or New Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Button To Open A Folder To Be Used As A Download Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Button To Open A Folder Where Theme Config Files Are Stored</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished">Cookie&apos;leri Alınacak Web Tarayıcısının Adı</translation>
+    </message>
+    <message>
+        <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -424,7 +452,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Filename with &quot;.txt&quot; Extension Will Save Urls Only</source>
-        <translation>&quot;.txt&quot; Uzantılı Dosya Adı Sadece URL'leri Kaydeder</translation>
+        <translation>&quot;.txt&quot; Uzantılı Dosya Adı Sadece URL&apos;leri Kaydeder</translation>
     </message>
     <message>
         <source>Hide Row</source>
@@ -788,7 +816,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Checking installed version of %1</source>
-        <translation>%1'in yüklü sürümü kontrol ediliyor</translation>
+        <translation>%1&apos;in yüklü sürümü kontrol ediliyor</translation>
     </message>
     <message>
         <source>Found version: %1</source>
@@ -844,7 +872,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Download Cancelled, Playlist Urls Are Not Allowed In This Tab</source>
-        <translation>İndirme İptal Edildi, Playlist URL'leri Bu Sekmede İzin Verilmiyor</translation>
+        <translation>İndirme İptal Edildi, Playlist URL&apos;leri Bu Sekmede İzin Verilmiyor</translation>
     </message>
     <message>
         <source>Download Cancelled Because A Condition Was Not Met</source>
@@ -876,7 +904,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Ignoring Download Because Hashes Do Not Match</source>
-        <translation>Hash'ler Eşleşmediği İçin İndirme Göz Ardı Ediliyor</translation>
+        <translation>Hash&apos;ler Eşleşmediği İçin İndirme Göz Ardı Ediliyor</translation>
     </message>
     <message>
         <source>Expected &quot;%1&quot; but obtained &quot;%2&quot;</source>
@@ -906,6 +934,198 @@ Exampe 2: ${gateway}:8080</source>
         <source>Getting</source>
         <translation>Alınıyor</translation>
     </message>
+    <message>
+        <source>Like Count: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save List To File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extract Audio As MP3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Best Available Audio Only+Thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other Websites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Youtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sign In To Confirm You Are Not A Bot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Failed, Engine crashed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Failed, Engine failed to start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Format Code</source>
+        <translation type="unfinished">Format Kodu</translation>
+    </message>
+    <message>
+        <source>Warning, Nothing Was Downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This May Take A Very Long Time</source>
+        <translation type="unfinished">Bu Çok Uzun Zaman Alabilir</translation>
+    </message>
+    <message>
+        <source>Method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remuxing video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Merging Audio and Video Together</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Folders First</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange In Ascending Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange By Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange By Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to parse json file from github</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed To Rename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to download, Following path can not be created: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start Downloading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stopping Because Media Is Already In Archive File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media Already In Archive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Completed: %1, Running: %2, Not Started: %3, Succeeded: %4, Failed: %5, Cancelled: %6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No Filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange In Descending Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning: Skipping Clipboard Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Platform Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arabic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Korean (Korea)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Greek (Greece)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bulgarien (Bulgaria)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy Url</source>
+        <translation type="unfinished">Url Kopyala</translation>
+    </message>
+    <message>
+        <source>Open Url With %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy Url %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open Urls With %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show/Hide Controls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Autoupdate Disabled For %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -915,83 +1135,221 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Download Media Part</source>
-        <translation>Medya Kısmını İndir</translation>
+        <translation type="vanished">Medya Kısmını İndir</translation>
     </message>
     <message>
         <source>Sort By Date Ascending</source>
-        <translation>Tarihe Göre Artan Sırala</translation>
+        <translation type="vanished">Tarihe Göre Artan Sırala</translation>
     </message>
     <message>
         <source>Sort By Date Descending</source>
-        <translation>Tarihe Göre Azalan Sırala</translation>
+        <translation type="vanished">Tarihe Göre Azalan Sırala</translation>
     </message>
     <message>
         <source>Sort By Likes</source>
-        <translation>Beğeniye Göre Sırala</translation>
+        <translation type="vanished">Beğeniye Göre Sırala</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation>Yeniden Adlandır</translation>
+        <translation type="vanished">Yeniden Adlandır</translation>
     </message>
     <message>
         <source>Set As Default</source>
-        <translation>Varsayılan Olarak Ayarla</translation>
+        <translation type="vanished">Varsayılan Olarak Ayarla</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation>Kopyala</translation>
+        <translation type="vanished">Kopyala</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation>Çıkar</translation>
+        <translation type="vanished">Çıkar</translation>
     </message>
     <message>
         <source>Select An Engine File</source>
-        <translation>Bir Motor Dosyası Seçin</translation>
+        <translation type="vanished">Bir Motor Dosyası Seçin</translation>
     </message>
     <message>
         <source>Set Download Folder</source>
-        <translation>İndirme Klasörünü Ayarlayın</translation>
+        <translation type="vanished">İndirme Klasörünü Ayarlayın</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Düzenle</translation>
+        <translation type="vanished">Düzenle</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation>Ekle</translation>
+        <translation type="vanished">Ekle</translation>
     </message>
     <message>
         <source>Set Defaults</source>
-        <translation>Varsayılanları Ayarla</translation>
+        <translation type="vanished">Varsayılanları Ayarla</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>İptal</translation>
+        <translation type="vanished">İptal</translation>
     </message>
     <message>
         <source>Select A Cookie File</source>
-        <translation>Bir Cookie Dosyası Seçin</translation>
+        <translation type="vanished">Bir Cookie Dosyası Seçin</translation>
     </message>
     <message>
         <source>Name Of Web Browser To Get Cookies From</source>
-        <translation>Cookie'leri Alınacak Web Tarayıcısının Adı</translation>
+        <translation type="vanished">Cookie&apos;leri Alınacak Web Tarayıcısının Adı</translation>
     </message>
     <message>
         <source>Set Path To Cookie File</source>
-        <translation>Cookie Dosyası Yolunu Ayarla</translation>
+        <translation type="vanished">Cookie Dosyası Yolunu Ayarla</translation>
     </message>
     <message>
         <source>Current Ui Scale Factor: %1</source>
-        <translation>Mevcut UI Ölçek Faktörü: %1</translation>
+        <translation type="vanished">Mevcut UI Ölçek Faktörü: %1</translation>
     </message>
     <message>
         <source>Text Encoding</source>
-        <translation>Metin Kodlaması</translation>
+        <translation type="vanished">Metin Kodlaması</translation>
     </message>
     <message>
         <source>Enable AutoDownloading</source>
-        <translation>Otomatik İndirmeyi Etkinleştir</translation>
+        <translation type="vanished">Otomatik İndirmeyi Etkinleştir</translation>
+    </message>
+</context>
+<context>
+    <name>batchdownloader</name>
+    <message>
+        <source>Downloading comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished">Aç</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">İptal</translation>
+    </message>
+    <message>
+        <source>Copy Url</source>
+        <translation type="unfinished">Url Kopyala</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Yeniden Adlandır</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Çıkar</translation>
+    </message>
+    <message>
+        <source>Show Subtitles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Comments</source>
+        <translation type="unfinished">Yorumları Göster</translation>
+    </message>
+    <message>
+        <source>Show Media Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download Media Part</source>
+        <translation type="unfinished">Medya Kısmını İndir</translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation type="unfinished">İndir</translation>
+    </message>
+    <message>
+        <source>Sort By Date Ascending</source>
+        <translation type="unfinished">Tarihe Göre Artan Sırala</translation>
+    </message>
+    <message>
+        <source>Sort By Date Descending</source>
+        <translation type="unfinished">Tarihe Göre Azalan Sırala</translation>
+    </message>
+    <message>
+        <source>Sort By Likes</source>
+        <translation type="unfinished">Beğeniye Göre Sırala</translation>
+    </message>
+    <message>
+        <source>Set</source>
+        <translation type="unfinished">Ayarla</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished">Kaydet</translation>
+    </message>
+    <message>
+        <source>Set Batch File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading subtitles</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>configure</name>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished">Ekle</translation>
+    </message>
+    <message>
+        <source>Set Defaults</source>
+        <translation type="unfinished">Varsayılanları Ayarla</translation>
+    </message>
+    <message>
+        <source>Current Ui Scale Factor: %1</source>
+        <translation type="unfinished">Mevcut UI Ölçek Faktörü: %1</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">Çıkar</translation>
+    </message>
+    <message>
+        <source>Set As Default</source>
+        <translation type="unfinished">Varsayılan Olarak Ayarla</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Kopyala</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished">Düzenle</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">İptal</translation>
+    </message>
+    <message>
+        <source>Set Download Folder</source>
+        <translation type="unfinished">İndirme Klasörünü Ayarlayın</translation>
+    </message>
+    <message>
+        <source>Select A Cookie File</source>
+        <translation type="unfinished">Bir Cookie Dosyası Seçin</translation>
+    </message>
+    <message>
+        <source>Name Of Web Browser To Get Cookies From</source>
+        <translation type="unfinished">Cookie&apos;leri Alınacak Web Tarayıcısının Adı</translation>
+    </message>
+    <message>
+        <source>Set Path To Cookie File</source>
+        <translation type="unfinished">Cookie Dosyası Yolunu Ayarla</translation>
+    </message>
+    <message>
+        <source>Text Encoding</source>
+        <translation type="unfinished">Metin Kodlaması</translation>
+    </message>
+    <message>
+        <source>Enable AutoDownloading</source>
+        <translation type="unfinished">Otomatik İndirmeyi Etkinleştir</translation>
+    </message>
+    <message>
+        <source>Select An Engine File</source>
+        <translation type="unfinished">Bir Motor Dosyası Seçin</translation>
     </message>
 </context>
 <context>
@@ -1003,6 +1361,46 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Delete All</source>
         <translation>Tümünü Sil</translation>
+    </message>
+    <message>
+        <source>Are You Sure You Want To Delete Selected Items?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation type="unfinished">Evet</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished">Hayır</translation>
+    </message>
+    <message>
+        <source>Are You Sure You Want To Delete Below File?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are You Sure You Want To Delete Below Folder?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are You Sure You Want To Delete All Files And Folders?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Yeniden Adlandır</translation>
+    </message>
+    <message>
+        <source>Rename File To Below Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename Folder To Below Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">İptal</translation>
     </message>
 </context>
 <context>

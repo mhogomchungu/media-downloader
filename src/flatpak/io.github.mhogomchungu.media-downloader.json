@@ -6793,7 +6793,7 @@
       "name" : "python3-svtplay-dl",
       "buildsystem" : "simple",
       "build-commands" : [
-        "tar -czf svtplay_dl-0+untagged.1.g8a26635.tar.gz svtplay_dl-0+untagged.1.g8a26635",
+        "tar -czf svtplay-dl-4.179.tar.gz svtplay-dl-4.179",
         "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"svtplay-dl\" --no-build-isolation"
       ],
       "build-options" : {
@@ -6804,14 +6804,17 @@
       },
       "cleanup" : [
         "/bin/normalizer",
-        "/bin/tqpm"
+        "/bin/tqpm",
+        "/bin/svtplay-dl",
+        "/lib/python3.13/site-packages/svtplay_dl",
+        "/lib/python3.13/site-packages/svtplay_dl-4.179.dist-info"
       ],
       "sources" : [
         {
-          "type" : "git",
-          "url" : "https://github.com/spaam/svtplay-dl.git",
-          "commit" : "8a2663541efe0d652fc5c95c05373ea2d3911a8b",
-          "dest" : "svtplay_dl-0+untagged.1.g8a26635"
+          "type" : "archive",
+          "url" : "https://github.com/spaam/svtplay-dl/archive/refs/tags/4.179.tar.gz",
+          "sha256" : "7b99d5a528735d0bbb6b7211afad29f60e7fbd39541ab3e305e63ec52a541f4e",
+          "dest" : "svtplay-dl-4.179"
         },
         {
           "type" : "archive",
