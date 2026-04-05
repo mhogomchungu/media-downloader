@@ -1026,10 +1026,10 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 				m_exePath = m ;
 			}else{
 				/*
-				 * backend not found in internal bin folder, lets assume its path
-				 * and hope for the best
+				 * a managed backend is found outside MD, set it and disabled auto updating
 				 */
-				m_exePath = m_exeFolderPath + "/" + m_commandName ;
+				m_downloadUrl.clear() ;
+				m_exePath = m ;
 			}
 		}else{
 			/*
