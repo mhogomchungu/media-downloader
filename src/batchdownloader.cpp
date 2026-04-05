@@ -2314,6 +2314,10 @@ void batchdownloader::showList( batchdownloader::listType listType,
 {
 	QStringList args ;
 
+	auto& table = m_tableWidgetBDList.get() ;
+
+	table.setHorizontalHeaderLabels( engine.horizontalHeaderLabels() ) ;
+
 	if( listType == batchdownloader::listType::SUBTITLES ){
 
 		args = engine.defaultSubstitlesCmdOptions() ;
@@ -2333,10 +2337,6 @@ void batchdownloader::showList( batchdownloader::listType listType,
 
 		m_tableWidgetBDList.add( "","","","","\n" + m_downloadingComments + "\n" ) ;
 	}else{
-		auto& table = m_tableWidgetBDList.get() ;
-
-		table.setHorizontalHeaderLabels( engine.horizontalHeaderLabels() ) ;
-
 		if( row != -1 ){
 
 			this->showBDFrame( listType ) ;
