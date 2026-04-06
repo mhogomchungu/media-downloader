@@ -29,6 +29,7 @@
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
 #include "engines/deno.h"
+#include "engines/bun.h"
 #include "engines/quickjs.h"
 #include "engines/getsauce.h"
 
@@ -593,11 +594,12 @@ bool engines::filePathIsValid( const QFileInfo& info )
 	return info.exists() && info.isFile() ;
 }
 
-QString engines::findExecutable( const QString& exeName,const QStringList& paths,QFileInfo& info ) const
+template< typename Begin,typename End >
+static QString _findExecutable( const QString& exeName,const Begin& b,const End& end,QFileInfo& info )
 {
-	for( const auto& it : paths ){
+	for( auto it = b ; it != end ; it++ ){
 
-		auto m = it + "/" + exeName ;
+		auto m = *it + "/" + exeName ;
 
 		info.setFile( m ) ;
 
@@ -608,6 +610,20 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 	}
 
 	return {} ;
+}
+
+QString engines::findExecutable( const QString& exeName,const QStringList& paths,QFileInfo& info ) const
+{
+	if( exeName == "deno" || exeName == "bun" || exeName == "qjs" ){
+
+		/*
+		 * yt-dlp seems to walk through PATH in reverse order
+		 */
+
+		return _findExecutable( exeName,paths.rbegin(),paths.rend(),info ) ;
+	}else{
+		return _findExecutable( exeName,paths.begin(),paths.end(),info ) ;
+	}
 }
 
 QString engines::findExecutable( const QString& exeName ) const
@@ -779,20 +795,28 @@ void engines::engine::updateOptions()
 
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsWin7" ) ) ;
 
-	}else if( utility::platformisFlatPak() ){
+	}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
 
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsFlatpak" ) ) ;
 
 		if( m_extraArguments.isEmpty() && this->likeYtDlp() ){
 
-			m_extraArguments.append( "--no-js-runtimes" ) ;
-			m_extraArguments.append( "--js-runtimes" ) ;
-
 			if( m_parent.m_settings.flatpackUseDenoRuntime() ){
+
+				m_extraArguments.append( "--no-js-runtimes" ) ;
+				m_extraArguments.append( "--js-runtimes" ) ;
 
 				m_extraArguments.append( "deno" ) ;
 			}else{
-				m_extraArguments.append( "quickjs" ) ;
+				engines::engine::jsRuntimeInstalled js( m_parent ) ;
+
+				if( js.valid() ){
+
+					m_extraArguments.append( "--no-js-runtimes" ) ;
+					m_extraArguments.append( "--js-runtimes" ) ;
+
+					m_extraArguments.append( js.name() ) ;
+				}
 			}
 		}
 	}else{
@@ -911,18 +935,14 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 	auto name = obj.value( "Name" ).toString() ;
 
-	if( name == "quickjs" ){
+	if( name == "quickjs" || name == "bun" ){
 
 		obj.insert( "SupportingEngine",true ) ;
-
-		if( utility::platformisFlatPak() ){
-
-			obj.insert( "DownloadUrl",QString() ) ;
-		}
 
 	}else if( name == "deno" ){
 
 		obj.insert( "SupportingEngine",true ) ;
+
 		obj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
 
 	}else if( name == "svtplay-dl" ){
@@ -2559,15 +2579,43 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 			deno::init( m_parent.m_settings,logger,enginePath ) ;
 		}
 
-	}else if( utility::platformisFlatPak() ){
+	}else if( utility::platformIsAppImage() || utility::platformisFlatPak() ){
+
+		deno::init( m_parent.m_settings,logger,enginePath ) ;
+		quickjs::remove( logger,enginePath ) ;
 
 		if( m_parent.Settings().flatpackUseDenoRuntime() ){
 
 			deno::init( m_parent.m_settings,logger,enginePath ) ;
 			quickjs::remove( logger,enginePath ) ;
 		}else{
-			quickjs::init( logger,enginePath ) ;
-			deno::remove( logger,enginePath ) ;
+			auto name = engines::engine::jsRuntimeInstalled( m_parent ).name() ;
+
+			if( !name.isEmpty() ){
+
+				if( name == "deno" ){
+
+					deno::init( m_parent.m_settings,logger,enginePath ) ;
+					bun::remove( logger,enginePath ) ;
+					quickjs::remove( logger,enginePath ) ;
+
+				}else if( name == "bun" ){
+
+					bun::init( m_parent.m_settings,logger,enginePath ) ;
+					deno::remove( logger,enginePath ) ;
+					quickjs::remove( logger,enginePath ) ;
+
+				}else if( name == "quickjs" ){
+
+					quickjs::init( logger,enginePath ) ;
+					deno::remove( logger,enginePath ) ;
+					bun::remove( logger,enginePath ) ;
+				}
+			}else{
+				quickjs::init( logger,enginePath ) ;
+				deno::remove( logger,enginePath ) ;
+				bun::remove( logger,enginePath ) ;
+			}
 		}
 
 	}else if( utility::platformIsLinux() && utility::CPU().x86_32() ){
@@ -2707,4 +2755,35 @@ QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( con
 	}
 
 	return m ;
+}
+
+engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
+{
+	struct entry
+	{
+		entry( const char * n ) : name( n ),exe( n )
+		{
+		}
+		entry( const char * n,const char * e ) : name( n ),exe( e )
+		{
+		}
+		const char * name ;
+		const char * exe ;
+	} ;
+
+	std::array< entry,3 > list = { { { "deno" },{ "bun" },{ "quickjs","qjs" } } } ;
+
+	for( const auto& it : list ){
+
+		auto m = e.findExecutable( it.exe ) ;
+
+		if( !m.isEmpty() ){
+
+			m_name    = it.name ;
+			m_exeName = it.exe ;
+			m_exePath = m ;
+
+			break ;
+		}
+	}
 }

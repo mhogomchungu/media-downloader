@@ -626,6 +626,7 @@ namespace utility
 	bool platformIsNOTWindows() ;
 	bool platformIsLikeWindows() ;
 	bool platformisFlatPak() ;
+	bool platformIsAppImage() ;
 	bool addData( const QByteArray& ) ;
 	bool containsLinkerWarning( const QByteArray& ) ;
 	QString rename( const Context&,QTableWidgetItem&,const QString&,const QString&,const QString& ) ;

@@ -51,12 +51,6 @@ else()
     endif()
 endif()
 
-if(BUILD_FLATPAK)
-    file( WRITE  ${PROJECT_BINARY_DIR}/flatpak.h "\n#define FLATPAK 1\n" )
-else()
-    file( WRITE  ${PROJECT_BINARY_DIR}/flatpak.h "\n#define FLATPAK 0\n" )
-endif()
-
 include_directories(${PROJECT_BINARY_DIR})
 
 # uninstall target
@@ -116,7 +110,8 @@ set(SRC
     src/engines/getsauce.cpp
     src/engines/gallery-dl.cpp
     src/engines/quickjs.cpp
-    src/engines/deno.cpp)
+    src/engines/deno.cpp
+    src/engines/bun.cpp)
 
 set(RESOURCES src/icon.qrc )
 

@@ -1030,6 +1030,32 @@ public:
 			static bool meetExtraCondition( const QByteArray&,const QJsonObject& ) ;
 		} ;
 
+		class jsRuntimeInstalled
+		{
+		public:
+			jsRuntimeInstalled( const engines& ) ;
+			const QString& name() const
+			{
+				return m_name ;
+			}
+			const QString& exeName() const
+			{
+				return m_exeName ;
+			}
+			const QString& exePath() const
+			{
+				return m_exePath ;
+			}
+			bool valid() const
+			{
+				return !this->name().isEmpty() ;
+			}
+		private:
+			QString m_name ;
+			QString m_exeName ;
+			QString m_exePath ;
+		} ;
+
 		engine( const engines& e ) : m_parent( e )
 		{
 		}
@@ -1476,6 +1502,7 @@ public:
 		QJsonObject getOpts( const util::Json&,settings& ) const ;
 		void setPermissions( const QString& ) const ;
 		void updateOptions() ;
+
 		QStringList toStringList( const QJsonValue&,bool = false ) const ;
 		QJsonObject getCmd( const QJsonObject&,const QString& ) ;
 

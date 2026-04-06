@@ -19,8 +19,6 @@
 
 #include "utility.h"
 
-#include "flatpak.h"
-
 #include "settings.h"
 #include "context.hpp"
 #include "reportFinished.h"
@@ -2850,11 +2848,16 @@ QString utility::OSX3rdPartyDirPath()
 
 bool utility::platformisFlatPak()
 {
-#if FLATPAK
-	return true ;
-#else
-	return false ;
-#endif
+	static auto m = !QProcessEnvironment::systemEnvironment().value( "FLATPAK_ID" ).isEmpty() ;
+
+	return m ;
+}
+
+bool utility::platformIsAppImage()
+{
+	static auto m = !QProcessEnvironment::systemEnvironment().value( "APPIMAGE" ).isEmpty() ;
+
+	return m ;
 }
 
 quint64 utility::simpleRandomNumber()
