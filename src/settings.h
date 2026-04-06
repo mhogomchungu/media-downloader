@@ -267,6 +267,9 @@ public:
 	bool cookieSourceSetToBrowerName() ;
 	bool backgroundClipboardMonitor() ;
 	bool flatpackUseDenoRuntime() ;
+	bool useSystemSupportingEngine() ;
+	bool useSystemEngine() ;
+
 	void setMainWindowDimensions( QWidget * ) ;
 
 	qint64 timeOutWaitingForClipboardData() ;
@@ -281,6 +284,8 @@ public:
 	int thumbnailHeight( settings::tabName ) ;
 	int desktopNotificationTimeOut() ;
 
+	void setUseSystemSupportingEngine( bool ) ;
+	void setUseSystemEngine( bool ) ;
 	void setDenoInFlatpakUpdated( bool ) ;
 	void setAutoDownloadWhenAddedInBatchDownloader( bool ) ;
 	void setOpenWith( const QString& ) ;

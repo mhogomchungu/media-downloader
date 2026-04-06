@@ -1560,7 +1560,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1871,6 +1871,32 @@
         </property>
         <property name="text">
          <string>Notify When All Downloads Complete</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbConfigureUseSystemSupportingEngine">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>150</y>
+          <width>571</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Use Deno From System If Available</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="cbConfigureUseSystemEngine">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>130</y>
+          <width>571</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Use Extension From System If Available</string>
         </property>
        </widget>
       </widget>

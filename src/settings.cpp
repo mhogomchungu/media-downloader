@@ -231,6 +231,26 @@ bool settings::flatpackUseDenoRuntime()
 	return this->getOption( "FlatpackUseDenoRuntime",false ) ;
 }
 
+bool settings::useSystemSupportingEngine()
+{
+	return this->getOption( "UseSystemSupportingEngine",true ) ;
+}
+
+bool settings::useSystemEngine()
+{
+	return this->getOption( "UseSystemEngine",false ) ;
+}
+
+void settings::setUseSystemSupportingEngine( bool e )
+{
+	m_settings.setValue( "UseSystemSupportingEngine",e ) ;
+}
+
+void settings::setUseSystemEngine( bool e )
+{
+	m_settings.setValue( "UseSystemEngine",e ) ;
+}
+
 void settings::setCookieSourceSetToBrowerName( bool e )
 {
 	m_settings.setValue( "CookieSourceSetToBrowerName",e ) ;

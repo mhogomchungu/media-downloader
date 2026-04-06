@@ -1588,7 +1588,7 @@ public:
 		mutable engines::engine::exeArgs m_exePath ;
 	};
 	settings& Settings() const ;
-	QString findExecutable( const QString& exeName ) const ;
+	QString findExecutable( const QString& exeName,bool searchFromBeginning = true ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
 	QString addEngine( const QByteArray& data,const QString& path,int ) ;
 	void removeEngine( const QString& name,int ) ;
@@ -1718,7 +1718,7 @@ private:
 	util::result< engines::engine > getSupportingEngineByName( const QString& ) const ;
 	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
 	void engineAdd( const QString&,util::result< engines::engine >,int ) ;
-	QString findExecutable( const QString&,const QStringList&,QFileInfo& ) const ;
+	QString findExecutable( const QString&,const QStringList&,QFileInfo&,bool searchFromBeginning = true ) const ;
 	QProcessEnvironment getEnvPaths() const ;
 	QStringList dirEntries( const QString& ) const ;
 	Logger& m_logger ;

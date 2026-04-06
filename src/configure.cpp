@@ -684,6 +684,9 @@ configure::configure( const Context& ctx ) :
 	m_ui.cbConfigureNotifyWhenAllDownloadCompltes->setChecked( m_settings.desktopNotifyOnAllDownloadComplete() ) ;
 	m_ui.cbConfigureNotifyWhenDownloadComplete->setChecked( m_settings.desktopNotifyOnDownloadComplete() ) ;
 
+	m_ui.cbConfigureUseSystemEngine->setChecked( m_settings.useSystemEngine() ) ;
+	m_ui.cbConfigureUseSystemSupportingEngine->setChecked( m_settings.useSystemSupportingEngine() ) ;
+
 	auto ss = m_settings.showMetaDataInBatchDownloader() ;
 
 	m_ui.cbConfigureShowMetaDataInBatchDownloader->setChecked( ss ) ;
@@ -937,13 +940,15 @@ void configure::setUpdateMenu()
 
 	for( const auto& it : m_ctx.Engines().getEngines() ){
 
-		if( it.validDownloadUrl() ){
+		if( !it.supportingEngine() ){
 
 			auto ac = m_menu.addAction( it.name() ) ;
 
 			ac->setObjectName( it.name() ) ;
 
-			ac->setEnabled( networkAccess::hasNetworkSupport() ) ;
+			auto m = it.validDownloadUrl() ;
+
+			ac->setEnabled( m && networkAccess::hasNetworkSupport() ) ;
 		}
 	}
 
@@ -1370,6 +1375,8 @@ void configure::saveOptions()
 	m_settings.setDesktopNotifyOnAllDownloadComplete( m_ui.cbConfigureNotifyWhenAllDownloadCompltes->isChecked() ) ;
 	m_settings.setDesktopNotifyOnDownloadComplete( m_ui.cbConfigureNotifyWhenDownloadComplete->isChecked() ) ;
 	m_settings.setDenoEnableAutoDownload( m_ui.cbDenoEnableAutoDownload->isChecked() ) ;
+	m_settings.setUseSystemSupportingEngine( m_ui.cbConfigureUseSystemSupportingEngine->isChecked() ) ;
+	m_settings.setUseSystemEngine( m_ui.cbConfigureUseSystemEngine->isChecked() ) ;
 
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
@@ -1588,6 +1595,9 @@ void configure::enableAll()
 	m_ui.lineEditCustormProxyAddress->setEnabled( m_ui.rbUseManualProxy->isChecked() ) ;
 	m_ui.labelProxy->setEnabled( m_ui.rbUseManualProxy->isChecked() ) ;
 
+	m_ui.cbConfigureUseSystemSupportingEngine->setEnabled( true ) ;
+	m_ui.cbConfigureUseSystemEngine->setEnabled( true ) ;
+
 	m_ui.labelConfigureOptionsToAdd->setEnabled( true ) ;
 	m_ui.label_3->setEnabled( true ) ;
 	m_ui.label_4->setEnabled( true ) ;
@@ -1680,6 +1690,8 @@ void configure::textAlignmentChanged( Qt::LayoutDirection z )
 
 void configure::disableAll()
 {
+	m_ui.cbConfigureUseSystemSupportingEngine->setEnabled( false ) ;
+	m_ui.cbConfigureUseSystemEngine->setEnabled( false ) ;
 	m_ui.cbLibraryTabEnable->setEnabled( false ) ;
 	m_ui.rbUseManualProxy->setEnabled( false ) ;
 	m_ui.rbNoProxy->setEnabled( false ) ;

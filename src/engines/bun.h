@@ -25,5 +25,6 @@ class bun : public engines::engine::baseEngine
 public:
 	static void init( settings&,Logger& logger,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
+	bun( const engines&,const engines::engine&,QJsonObject& ) ;
 	~bun() ;
 } ;
