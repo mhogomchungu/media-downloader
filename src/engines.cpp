@@ -2581,36 +2581,31 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 
 	}else if( utility::platformIsAppImage() || utility::platformisFlatPak() ){
 
-		deno::init( m_parent.m_settings,logger,enginePath ) ;
-		quickjs::remove( logger,enginePath ) ;
-
 		if( m_parent.Settings().flatpackUseDenoRuntime() ){
 
 			deno::init( m_parent.m_settings,logger,enginePath ) ;
 			quickjs::remove( logger,enginePath ) ;
+			bun::remove( logger,enginePath ) ;
 		}else{
 			auto name = engines::engine::jsRuntimeInstalled( m_parent ).name() ;
 
-			if( !name.isEmpty() ){
+			if( name == "deno" ){
 
-				if( name == "deno" ){
+				deno::init( m_parent.m_settings,logger,enginePath ) ;
+				bun::remove( logger,enginePath ) ;
+				quickjs::remove( logger,enginePath ) ;
 
-					deno::init( m_parent.m_settings,logger,enginePath ) ;
-					bun::remove( logger,enginePath ) ;
-					quickjs::remove( logger,enginePath ) ;
+			}else if( name == "bun" ){
 
-				}else if( name == "bun" ){
+				bun::init( m_parent.m_settings,logger,enginePath ) ;
+				deno::remove( logger,enginePath ) ;
+				quickjs::remove( logger,enginePath ) ;
 
-					bun::init( m_parent.m_settings,logger,enginePath ) ;
-					deno::remove( logger,enginePath ) ;
-					quickjs::remove( logger,enginePath ) ;
+			}else if( name == "quickjs" ){
 
-				}else if( name == "quickjs" ){
-
-					quickjs::init( logger,enginePath ) ;
-					deno::remove( logger,enginePath ) ;
-					bun::remove( logger,enginePath ) ;
-				}
+				quickjs::init( logger,enginePath ) ;
+				deno::remove( logger,enginePath ) ;
+				bun::remove( logger,enginePath ) ;
 			}else{
 				quickjs::init( logger,enginePath ) ;
 				deno::remove( logger,enginePath ) ;
