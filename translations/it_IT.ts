@@ -444,6 +444,14 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <source>Reset</source>
         <translation>Ripristina</translation>
     </message>
+    <message>
+        <source>Use Deno From System If Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Extension From System If Available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>

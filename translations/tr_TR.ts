@@ -443,6 +443,14 @@ Exampe 2: ${gateway}:8080</source>
         <source>A Button To Open A Folder Where Extension&apos;s Binaries Are Stored</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use Deno From System If Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Extension From System If Available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1132,86 +1140,6 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Hide List</source>
         <translation>Listeyi Gizle</translation>
-    </message>
-    <message>
-        <source>Download Media Part</source>
-        <translation type="vanished">Medya Kısmını İndir</translation>
-    </message>
-    <message>
-        <source>Sort By Date Ascending</source>
-        <translation type="vanished">Tarihe Göre Artan Sırala</translation>
-    </message>
-    <message>
-        <source>Sort By Date Descending</source>
-        <translation type="vanished">Tarihe Göre Azalan Sırala</translation>
-    </message>
-    <message>
-        <source>Sort By Likes</source>
-        <translation type="vanished">Beğeniye Göre Sırala</translation>
-    </message>
-    <message>
-        <source>Rename</source>
-        <translation type="vanished">Yeniden Adlandır</translation>
-    </message>
-    <message>
-        <source>Set As Default</source>
-        <translation type="vanished">Varsayılan Olarak Ayarla</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="vanished">Kopyala</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Çıkar</translation>
-    </message>
-    <message>
-        <source>Select An Engine File</source>
-        <translation type="vanished">Bir Motor Dosyası Seçin</translation>
-    </message>
-    <message>
-        <source>Set Download Folder</source>
-        <translation type="vanished">İndirme Klasörünü Ayarlayın</translation>
-    </message>
-    <message>
-        <source>Edit</source>
-        <translation type="vanished">Düzenle</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">Ekle</translation>
-    </message>
-    <message>
-        <source>Set Defaults</source>
-        <translation type="vanished">Varsayılanları Ayarla</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">İptal</translation>
-    </message>
-    <message>
-        <source>Select A Cookie File</source>
-        <translation type="vanished">Bir Cookie Dosyası Seçin</translation>
-    </message>
-    <message>
-        <source>Name Of Web Browser To Get Cookies From</source>
-        <translation type="vanished">Cookie&apos;leri Alınacak Web Tarayıcısının Adı</translation>
-    </message>
-    <message>
-        <source>Set Path To Cookie File</source>
-        <translation type="vanished">Cookie Dosyası Yolunu Ayarla</translation>
-    </message>
-    <message>
-        <source>Current Ui Scale Factor: %1</source>
-        <translation type="vanished">Mevcut UI Ölçek Faktörü: %1</translation>
-    </message>
-    <message>
-        <source>Text Encoding</source>
-        <translation type="vanished">Metin Kodlaması</translation>
-    </message>
-    <message>
-        <source>Enable AutoDownloading</source>
-        <translation type="vanished">Otomatik İndirmeyi Etkinleştir</translation>
     </message>
 </context>
 <context>

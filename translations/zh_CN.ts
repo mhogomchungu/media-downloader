@@ -443,6 +443,14 @@ Exampe 2: ${gateway}:8080</source>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Use Deno From System If Available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use Extension From System If Available</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
