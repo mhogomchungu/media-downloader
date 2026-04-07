@@ -358,7 +358,7 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Are You Sure You Want To Reset These Options To Their Defaults?</source>
-        <translation>Sei sicuro di voler reimpostare queste opzioni ai valori predefiniti?</translation>
+        <translation>Vuoi reimpostare queste opzioni ai valori predefiniti?</translation>
     </message>
     <message>
         <source>No</source>
@@ -446,11 +446,11 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Use Deno From System If Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa Deno dal sistema se disponibile</translation>
     </message>
     <message>
         <source>Use Extension From System If Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa estensione dal sistema se disponibile</translation>
     </message>
 </context>
 <context>
@@ -1299,11 +1299,11 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below File?</source>
-        <translation>Sei sicuro di voler eliminare il file indicato qui sotto?</translation>
+        <translation>Vuoi eliminare il file indicato qui sotto?</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete Below Folder?</source>
-        <translation>Sei sicuro di voler eliminare la cartella indicate qui sotto?</translation>
+        <translation>Vuoi eliminare la cartella indicate qui sotto?</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -1319,7 +1319,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Are You Sure You Want To Delete All Files And Folders?</source>
-        <translation>Sei sicuro di voler eliminare tutti i file e le cartelle?</translation>
+        <translation>Vuoi eliminare tutti i file e le cartelle?</translation>
     </message>
     <message>
         <source>Rename File To Below Text</source>
