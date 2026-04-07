@@ -794,51 +794,9 @@ QStringList engines::engine::toStringList( const QJsonValue& value,bool protectS
 
 void engines::engine::updateOptions()
 {
-	if( utility::platformIsWindows7() ){
+	if( this->likeYtDlp() ){
 
-		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsWin7" ) ) ;
-
-	}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
-
-		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsFlatpak" ) ) ;
-
-		if( m_extraArguments.isEmpty() && this->likeYtDlp() ){
-
-			if( m_parent.m_settings.flatpackUseDenoRuntime() ){
-
-				m_extraArguments.append( "--no-js-runtimes" ) ;
-				m_extraArguments.append( "--js-runtimes" ) ;
-
-				m_extraArguments.append( "deno" ) ;
-			}else{
-				engines::engine::jsRuntimeInstalled js( m_parent ) ;
-
-				if( js.valid() ){
-
-					m_extraArguments.append( "--no-js-runtimes" ) ;
-					m_extraArguments.append( "--js-runtimes" ) ;
-
-					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-				}
-			}
-		}
-	}else{
-		auto m = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
-
-		if( m.isEmpty() ){
-
-			engines::engine::jsRuntimeInstalled js( m_parent ) ;
-
-			if( js.valid() ){
-
-				m_extraArguments.append( "--no-js-runtimes" ) ;
-				m_extraArguments.append( "--js-runtimes" ) ;
-
-				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-			}
-		}else{
-			m_extraArguments = m ;
-		}
+		this->setJsRuntime() ;
 	}
 
 	m_controlStructure                = m_jsonObject.value( "ControlJsonStructure" ).toObject() ;
@@ -861,6 +819,59 @@ void engines::engine::updateOptions()
 	m_defaultCommentsCmdOptions       = this->toStringList( m_jsonObject.value( "DefaultCommentsCmdOptions" ) ) ;
 	m_defaultSubstitlesCmdOptions     = this->toStringList( m_jsonObject.value( "DefaultSubstitlesCmdOptions" ) ) ;
 	m_defaultSubtitleDownloadOptions  = this->toStringList( m_jsonObject.value( "DefaultSubtitleDownloadOptions" ) ) ;
+}
+
+void engines::engine::setJsRuntime()
+{
+	if( utility::platformIsWindows7() ){
+
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsWin7" ) ) ;
+
+	}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
+
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsFlatpak" ) ) ;
+
+		if( m_extraArguments.isEmpty() ){
+
+			if( m_parent.m_settings.flatpackUseDenoRuntime() ){
+
+				engines::engine::jsRuntimeInstalled js( m_parent,"deno" ) ;
+
+				if( js.valid() ){
+
+					m_extraArguments.append( "--no-js-runtimes" ) ;
+					m_extraArguments.append( "--js-runtimes" ) ;
+
+					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+				}
+			}else{
+				engines::engine::jsRuntimeInstalled js( m_parent ) ;
+
+				if( js.valid() ){
+
+					m_extraArguments.append( "--no-js-runtimes" ) ;
+					m_extraArguments.append( "--js-runtimes" ) ;
+
+					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+				}
+			}
+		}
+	}else{
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
+
+		if( m_extraArguments.isEmpty() ){
+
+			engines::engine::jsRuntimeInstalled js( m_parent ) ;
+
+			if( js.valid() ){
+
+				m_extraArguments.append( "--no-js-runtimes" ) ;
+				m_extraArguments.append( "--js-runtimes" ) ;
+
+				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+			}
+		}
+	}
 }
 
 QJsonObject engines::engine::getCmd( const QJsonObject& cmd,const QString& arc )
@@ -957,7 +968,7 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 		obj.insert( "SupportingEngine",true ) ;
 
-	}else if( name == "deno" || name == "bun" ){
+	}else if( name == "deno" ){
 
 		obj.insert( "SupportingEngine",true ) ;
 
@@ -1068,10 +1079,6 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 		auto c = !m_exeFolderPath.isEmpty() ;
 
 		if( a && b && c ){
-
-			/*
-			 * backends that are internally managed
-			 */
 
 			if( m.startsWith( m_exeFolderPath ) ){
 				/*
@@ -2804,33 +2811,14 @@ QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( con
 
 engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 {
-	struct entry
-	{
-		entry( const char * n ) : name( n ),exe( n )
-		{
-		}
-		entry( const char * n,const char * e ) : name( n ),exe( e )
-		{
-		}
-		const char * name ;
-		const char * exe ;
-	} ;
-
 	std::array< entry,3 > list = { { { "deno" },{ "bun" },{ "quickjs","qjs" } } } ;
 
-	auto s = !e.Settings().useSystemSupportingEngine() ;
+	this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+}
 
-	for( const auto& it : list ){
+engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const char * s )
+{
+	std::array< entry,1 > list = { { s } } ;
 
-		auto m = e.findExecutable( it.exe,s ) ;
-
-		if( !m.isEmpty() ){
-
-			m_name    = it.name ;
-			m_exeName = it.exe ;
-			m_exePath = m ;
-
-			break ;
-		}
-	}
+	this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 }

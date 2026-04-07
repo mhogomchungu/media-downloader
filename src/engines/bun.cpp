@@ -38,7 +38,7 @@ void bun::init( settings&,Logger& logger,const engines::enginePaths& enginePath 
 				{ "amd64","bun.exe",{ "bun.exe" } } } } ) ;
 
 	json.add( { { "MacOS" },{ { "amd64","bun",{ "bun" } },
-			      { "aarch64","bun",{ "bun" } } } } ) ;
+				{ "aarch64","bun",{ "bun" } } } } ) ;
 
 	json.done() ;
 

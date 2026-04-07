@@ -440,3 +440,9 @@ Version 1.2.0(April 1st, 2021)
       - Bundle svtplay-dl because its dependencies are now bundled too.
      [ALL]
       - Show more info in batch downloader when using svtplay-dl.
+
+     Version 5.5.1(UNRELEASED)
+     [FLATPAK]
+      - Continue to bundle svtplay-dl dependencies but unbundle svtplay-dl executable.
+     [ALL]
+      - Add GUI options to tell MD to use system binaries or to download its own binaries.

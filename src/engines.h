@@ -1034,6 +1034,7 @@ public:
 		{
 		public:
 			jsRuntimeInstalled( const engines& ) ;
+			jsRuntimeInstalled( const engines&,const char * ) ;
 			const QString& name() const
 			{
 				return m_name ;
@@ -1051,6 +1052,34 @@ public:
 				return !this->name().isEmpty() ;
 			}
 		private:
+			template< typename List >
+			void search( const engines& e,const List& list,bool s )
+			{
+				for( const auto& it : list ){
+
+					auto m = e.findExecutable( it.exe,s ) ;
+
+					if( !m.isEmpty() ){
+
+						m_name    = it.name ;
+						m_exeName = it.exe ;
+						m_exePath = m ;
+
+						break ;
+					}
+				}
+			}
+			struct entry
+			{
+				entry( const char * n ) : name( n ),exe( n )
+				{
+				}
+				entry( const char * n,const char * e ) : name( n ),exe( e )
+				{
+				}
+				const char * name ;
+				const char * exe ;
+			} ;
 			QString m_name ;
 			QString m_exeName ;
 			QString m_exePath ;
@@ -1502,7 +1531,7 @@ public:
 		QJsonObject getOpts( const util::Json&,settings& ) const ;
 		void setPermissions( const QString& ) const ;
 		void updateOptions() ;
-
+		void setJsRuntime() ;
 		QStringList toStringList( const QJsonValue&,bool = false ) const ;
 		QJsonObject getCmd( const QJsonObject&,const QString& ) ;
 
