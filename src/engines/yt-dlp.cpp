@@ -324,11 +324,11 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	mainObj.insert( "Version","2" ) ;
 
-	mainObj.insert( "ExtraArguments",utility::QJsonArrayJoin() ) ;
+	mainObj.insert( "ExtraOptions",utility::QJsonArrayJoin() ) ;
 
-	mainObj.insert( "ExtraArgumentsWin7",utility::QJsonArrayJoin( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
+	mainObj.insert( "ExtraOptionsWin7",utility::QJsonArrayJoin() ) ;
 
-	mainObj.insert( "ExtraArgumentsFlatpak",utility::QJsonArrayJoin( "--no-js-runtimes","--js-runtimes","quickjs" ) ) ;
+	mainObj.insert( "ExtraOptionsFlatpakAppImage",utility::QJsonArrayJoin() ) ;
 
 	auto arr = utility::QJsonArrayJoin( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 

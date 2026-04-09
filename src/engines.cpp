@@ -825,11 +825,24 @@ void engines::engine::setJsRuntime()
 {
 	if( utility::platformIsWindows7() ){
 
-		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsWin7" ) ) ;
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptionsWin7" ) ) ;
+
+		if( m_extraArguments.isEmpty() ){
+
+			engines::engine::jsRuntimeInstalled js( m_parent,"quickjs" ) ;
+
+			if( js.valid() ){
+
+				m_extraArguments.append( "--no-js-runtimes" ) ;
+				m_extraArguments.append( "--js-runtimes" ) ;
+
+				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+			}
+		}
 
 	}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
 
-		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArgumentsFlatpak" ) ) ;
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptionsFlatpakAppImage" ) ) ;
 
 		if( m_extraArguments.isEmpty() ){
 
@@ -857,7 +870,7 @@ void engines::engine::setJsRuntime()
 			}
 		}
 	}else{
-		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraArguments" ) ) ;
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptions" ) ) ;
 
 		if( m_extraArguments.isEmpty() ){
 
@@ -2818,7 +2831,14 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 
 engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const char * s )
 {
-	std::array< entry,1 > list = { { s } } ;
+	if( std::strcmp( s,"quickjs" ) == 0 ){
 
-	this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+		std::array< entry,1 > list = { { { "quickjs","qjs" } } } ;
+
+		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+	}else{
+		std::array< entry,1 > list =  { { s } } ;
+
+		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+	}
 }
