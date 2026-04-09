@@ -796,7 +796,18 @@ QStringList engines::engine::toStringList( const QJsonValue& value,bool protectS
 
 void engines::engine::updateOptions()
 {
-	if( this->likeYtDlp() ){
+	if( utility::platformIsWindows7() ){
+
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptionsWin7" ) ) ;
+
+	}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
+
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptionsFlatpakAppImage" ) ) ;
+	}else{
+		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptions" ) ) ;
+	}
+
+	if( m_extraArguments.isEmpty() && this->likeYtDlp() ){
 
 		this->setJsRuntime() ;
 	}
@@ -827,11 +838,21 @@ void engines::engine::setJsRuntime()
 {
 	if( utility::platformIsWindows7() ){
 
-		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptionsWin7" ) ) ;
+		engines::engine::jsRuntimeInstalled js( m_parent,"quickjs" ) ;
 
-		if( m_extraArguments.isEmpty() ){
+		if( js.valid() ){
 
-			engines::engine::jsRuntimeInstalled js( m_parent,"quickjs" ) ;
+			m_extraArguments.append( "--no-js-runtimes" ) ;
+			m_extraArguments.append( "--js-runtimes" ) ;
+
+			m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+		}
+
+	}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
+
+		if( m_parent.m_settings.flatpackUseDenoRuntime() ){
+
+			engines::engine::jsRuntimeInstalled js( m_parent,"deno" ) ;
 
 			if( js.valid() ){
 
@@ -840,42 +861,7 @@ void engines::engine::setJsRuntime()
 
 				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
 			}
-		}
-
-	}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
-
-		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptionsFlatpakAppImage" ) ) ;
-
-		if( m_extraArguments.isEmpty() ){
-
-			if( m_parent.m_settings.flatpackUseDenoRuntime() ){
-
-				engines::engine::jsRuntimeInstalled js( m_parent,"deno" ) ;
-
-				if( js.valid() ){
-
-					m_extraArguments.append( "--no-js-runtimes" ) ;
-					m_extraArguments.append( "--js-runtimes" ) ;
-
-					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-				}
-			}else{
-				engines::engine::jsRuntimeInstalled js( m_parent ) ;
-
-				if( js.valid() ){
-
-					m_extraArguments.append( "--no-js-runtimes" ) ;
-					m_extraArguments.append( "--js-runtimes" ) ;
-
-					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-				}
-			}
-		}
-	}else{
-		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptions" ) ) ;
-
-		if( m_extraArguments.isEmpty() ){
-
+		}else{
 			engines::engine::jsRuntimeInstalled js( m_parent ) ;
 
 			if( js.valid() ){
@@ -885,6 +871,16 @@ void engines::engine::setJsRuntime()
 
 				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
 			}
+		}
+	}else{
+		engines::engine::jsRuntimeInstalled js( m_parent ) ;
+
+		if( js.valid() ){
+
+			m_extraArguments.append( "--no-js-runtimes" ) ;
+			m_extraArguments.append( "--js-runtimes" ) ;
+
+			m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
 		}
 	}
 }
