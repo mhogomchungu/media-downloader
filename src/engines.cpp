@@ -47,6 +47,8 @@
 #include <QNetworkProxyFactory>
 #include <QDir>
 
+#include <cstring>
+
 QStringList engines::dirEntries( const QString& e ) const
 {
 	auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
