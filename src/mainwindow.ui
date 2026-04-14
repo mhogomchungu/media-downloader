@@ -1876,7 +1876,7 @@
        <widget class="QCheckBox" name="cbConfigureUseSystemSupportingEngine">
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>188</x>
           <y>150</y>
           <width>571</width>
           <height>22</height>
@@ -1889,7 +1889,7 @@
        <widget class="QCheckBox" name="cbConfigureUseSystemEngine">
         <property name="geometry">
          <rect>
-          <x>190</x>
+          <x>188</x>
           <y>130</y>
           <width>571</width>
           <height>22</height>

@@ -1462,7 +1462,7 @@ public:
 		{
 			return m_cookieArgument ;
 		}
-		const QStringList extraArguments() const
+		const QStringList& extraArguments() const
 		{
 			return m_extraArguments ;
 		}
