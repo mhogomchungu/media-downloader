@@ -25,8 +25,7 @@ downloads may cause the host to ban you.
 
 ## Extensions
 
-Media Downloader is a GUI front end to [yt-dlp](https://github.com/yt-dlp/yt-dlp), [gallery-dl](https://github.com/mikf/gallery-dl), [lux](https://github.com/iawia002/lux),
-[you-get](https://github.com/soimort/you-get), [svtplay-dl](https://github.com/spaam/svtplay-dl), [aria2c](https://aria2.github.io/),[wget](https://www.gnu.org/software/wget) and [get-sauce](https://github.com/gan-of-culture/get-sauce).
+Media Downloader is a GUI front end to [yt-dlp](https://github.com/yt-dlp/yt-dlp), [gallery-dl](https://github.com/mikf/gallery-dl), [you-get](https://github.com/soimort/you-get), [svtplay-dl](https://github.com/spaam/svtplay-dl), [aria2c](https://aria2.github.io/), [wget](https://www.gnu.org/software/wget) and [get-sauce](https://github.com/gan-of-culture/get-sauce).
 
 To Install these extensins, go to "Configure" tab and then go to "Extensions" sub tab and then click the "Add An Extension" button and then select from the list an extension you want to install.
 
@@ -41,25 +40,25 @@ Make sure you have access to the internet before you run "Media Downloader" for 
 
 #### Bundle for MacOS
 
-Bundle for arm64 build of MacOS is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.0/MediaDownloaderQt6-arm64-5.5.0.dmg).
+Bundle for arm64 build of MacOS is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.1/MediaDownloaderQt6-arm64-5.5.1.dmg).
 
-Bundle for x86_64 build of MacOS is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.0/MediaDownloaderQt6-x86_64-5.5.0.dmg).
+Bundle for x86_64 build of MacOS is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.1/MediaDownloaderQt6-x86_64-5.5.1.dmg).
 
 These bundles are not notarized and your system may report it as "corrupted". Search the internet on how to install bundles that are not notarized if you want to use this app on MacOS. This bundle works on macOS 14.0 or later.
 
 #### Installer for Microsoft Windows
 
-Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.0/MediaDownloaderQt5-5.5.0.setup.exe).
+Installer for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.1/MediaDownloaderQt5-5.5.1.setup.exe).
 
-Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.0/MediaDownloaderQt6-5.5.0.setup.exe).
+Installer for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.1/MediaDownloaderQt6-5.5.1.setup.exe).
 
 #### Portable version for Microsoft Windows
 
 A portable version is a self-contained version that keeps everything in the application folder and does not need to be installed first.
 
-Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.0/MediaDownloaderQt5-5.5.0.zip).
+Portable version for Microsoft Windows that is 32 bit, build with Qt5 and has a minimum requirenment of windows 7 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.1/MediaDownloaderQt5-5.5.1.zip).
 
-Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.0/MediaDownloaderQt6-5.5.0.zip).
+Portable version for Microsoft Windows that is 64 bit, build with Qt6 and has a minimum requirenment of windows 10 is [here](https://github.com/mhogomchungu/media-downloader/releases/download/5.5.1/MediaDownloaderQt6-5.5.1.zip).
 
 You can also install the portable version for Windows using scoop with the following commands:
 

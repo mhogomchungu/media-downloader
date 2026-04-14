@@ -600,24 +600,6 @@ bool engines::filePathIsValid( const QFileInfo& info )
 	return info.exists() && info.isFile() ;
 }
 
-template< typename Begin,typename End >
-static QString _findExecutable( const QString& exeName,const Begin& b,const End& end,QFileInfo& info )
-{
-	for( auto it = b ; it != end ; it++ ){
-
-		auto m = *it + "/" + exeName ;
-
-		info.setFile( m ) ;
-
-		if( engines::filePathIsValid( info ) ){
-
-			return m ;
-		}
-	}
-
-	return {} ;
-}
-
 QString engines::findExecutable( const QString& exeName,
 				 const QStringList& paths,
 				 QFileInfo& info,
@@ -625,10 +607,32 @@ QString engines::findExecutable( const QString& exeName,
 {
 	if( searchFromBeginning ){
 
-		return _findExecutable( exeName,paths.begin(),paths.end(),info ) ;
+		for( const auto& it : paths ){
+
+			auto m = it + "/" + exeName ;
+
+			info.setFile( m ) ;
+
+			if( engines::filePathIsValid( info ) ){
+
+				return m ;
+			}
+		}
 	}else{
-		return _findExecutable( exeName,paths.rbegin(),paths.rend(),info ) ;
+		for( int i = paths.size() - 1 ; i >= 0 ; i-- ){
+
+			auto m = paths[ i ] + "/" + exeName ;
+
+			info.setFile( m ) ;
+
+			if( engines::filePathIsValid( info ) ){
+
+				return m ;
+			}
+		}
 	}
+
+	return {} ;
 }
 
 QString engines::findExecutable( const QString& exeName,bool searchFromBeginning ) const

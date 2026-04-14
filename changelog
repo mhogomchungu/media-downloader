@@ -441,7 +441,7 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
       - Show more info in batch downloader when using svtplay-dl.
 
-     Version 5.5.1(UNRELEASED)
+     Version 5.5.1(April 14th, 2026)
      [FLATPAK]
       - Continue to bundle svtplay-dl dependencies but unbundle svtplay-dl executable.
      [ALL]

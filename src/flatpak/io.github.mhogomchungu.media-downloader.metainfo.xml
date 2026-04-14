@@ -63,6 +63,16 @@
 	</categories>
 
 	<releases>
+		<release version="5.5.1" type="stable" date="2026-04-14">
+		<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.5.1/media-downloader-5.5.1.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Continue to bundle svtplay-dl dependencies but unbundle svtplay-dl executable.</li>
+					<li>Add GUI options to tell MD to use system binaries or to download its own binaries.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.5.0" type="stable" date="2026-03-14">
 		<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.5.0/media-downloader-5.5.0.tar.xz</url>
 			<description>

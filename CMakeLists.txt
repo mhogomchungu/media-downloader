@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set( PGR_VERSION "5.5.0" )
+set( PGR_VERSION "5.5.1" )
 set( COPYRIGHT_YEARS "2021-2026" )
 
 INCLUDE(GNUInstallDirs)
@@ -49,6 +49,10 @@ else()
         message( FATAL_ERROR "-- Failed to find Qt5 or Qt6")
         endif()
     endif()
+endif()
+
+if(BUILD_FLATPAK)
+else()
 endif()
 
 include_directories(${PROJECT_BINARY_DIR})
