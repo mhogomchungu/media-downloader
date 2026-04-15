@@ -987,6 +987,8 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 		obj.insert( "SupportingEngine",true ) ;
 
+		obj.insert( "UpdatableSupportingEngine",true ) ;
+
 		obj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
 
 	}else if( name == "svtplay-dl" ){
@@ -1011,6 +1013,7 @@ engines::engine::engine( Logger& logger,
 	m_likeYtDlp( m_jsonObject.value( "LikeYoutubeDl" ).toBool() ),
 	m_autoUpdate( m_jsonObject.value( "AutoUpdate" ).toBool( true ) ),
 	m_supportingEngine( m_jsonObject.value( "SupportingEngine" ).toBool() ),
+	m_updatableSupportingEngine( m_jsonObject.value( "UpdatableSupportingEngine" ).toBool() ),
 	m_archiveContainsFolder( m_jsonObject.value( "ArchiveContainsFolder" ).toBool() ),
 	m_versionArgument( m_jsonObject.value( "VersionArgument" ).toString() ),
 	m_name( m_jsonObject.value( "Name" ).toString() ),

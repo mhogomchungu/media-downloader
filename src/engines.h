@@ -1515,6 +1515,10 @@ public:
 		{
 			return m_supportingEngine ;
 		}
+		bool updatableSupportingEngine() const
+		{
+			return m_updatableSupportingEngine ;
+		}
 		bool replaceOutputWithProgressReport() const
 		{
 			return m_replaceOutputWithProgressReport ;
@@ -1582,6 +1586,7 @@ public:
 		bool m_autoUpdate ;
 		bool m_canDownloadPlaylist ;
 		bool m_supportingEngine ;
+		bool m_updatableSupportingEngine ;
 		bool m_archiveContainsFolder = false ;
 		bool m_replaceOutputWithProgressReport ;
 		mutable bool m_broken = false ;

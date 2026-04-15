@@ -1560,7 +1560,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -2397,7 +2397,7 @@
          <string>Remove An Extension</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pbConfigureDownload">
+       <widget class="QPushButton" name="pbConfigureUpdateExtensions">
         <property name="geometry">
          <rect>
           <x>180</x>

@@ -940,7 +940,7 @@ void configure::setUpdateMenu()
 
 	for( const auto& it : m_ctx.Engines().getEngines() ){
 
-		if( !it.supportingEngine() ){
+		if( !it.supportingEngine() || it.updatableSupportingEngine() ){
 
 			auto ac = m_menu.addAction( it.name() ) ;
 
@@ -952,7 +952,7 @@ void configure::setUpdateMenu()
 		}
 	}
 
-	m_ui.pbConfigureDownload->setMenu( &m_menu ) ;
+	m_ui.pbConfigureUpdateExtensions->setMenu( &m_menu ) ;
 }
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )
@@ -1628,7 +1628,7 @@ void configure::enableAll()
 	m_ui.pbConfigureSave->setEnabled( true ) ;
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( true ) ;
 	m_ui.comboBoxConfigureDarkTheme->setEnabled( true ) ;
-	m_ui.pbConfigureDownload->setEnabled( true ) ;
+	m_ui.pbConfigureUpdateExtensions->setEnabled( true ) ;
 	m_ui.labelConfigureTheme->setEnabled( true ) ;
 	m_ui.cbAutoSaveNotDownloadedMedia->setEnabled( true ) ;
 	m_ui.cbConfigureLanguage->setEnabled( true ) ;
@@ -1734,13 +1734,12 @@ void configure::disableAll()
 	m_ui.labelConfigureEngines->setEnabled( false ) ;
 	m_ui.pbConfigureSave->setEnabled( false ) ;
 	m_ui.comboBoxConfigureDarkTheme->setEnabled( false ) ;
-	m_ui.pbConfigureDownload->setEnabled( false ) ;
+	m_ui.pbConfigureUpdateExtensions->setEnabled( false ) ;
 	m_ui.labelConfigureTheme->setEnabled( false ) ;
 	m_ui.lineEditConfigureMaximuConcurrentDownloads->setEnabled( false ) ;
 	m_ui.labelMaximumConcurrentDownloads->setEnabled( false ) ;
 	m_ui.pbConfigureAddAPlugin->setEnabled( false ) ;
 	m_ui.pbConfigureRemoveAPlugin->setEnabled( false ) ;
-	m_ui.pbConfigureDownload->setEnabled( false ) ;
 	m_ui.cbConfigureLanguage->setEnabled( false ) ;
 	m_ui.labelConfigureLanguage->setEnabled( false ) ;
 	m_ui.pbConfigureQuit->setEnabled( false ) ;
