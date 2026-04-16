@@ -1408,7 +1408,7 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 		}
 		const QJsonArray& subtitles() const
 		{
-			return m_formats.value() ;
+			return m_formats ;
 		}
 	private:
 		QString m_name ;

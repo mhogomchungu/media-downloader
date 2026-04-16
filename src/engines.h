@@ -1763,7 +1763,7 @@ private:
 	engines::proxySettings m_networkProxy ;
 	int m_bannerId ;
 	template< typename Iter >
-	QString findExecutable( const Iter& iter,const QString& exeName,QFileInfo& info ) const
+	QString findExecutable( Iter iter,const QString& exeName,QFileInfo& info ) const
 	{
 		while( iter.hasNext() ){
 

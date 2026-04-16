@@ -1773,6 +1773,109 @@ namespace utility
 
 		utility::run( std::move( u ),args.credentials(),m.move() ) ;
 	}
+
+	template< typename Iter >
+	class iterator
+	{
+	public:
+		iterator( Iter it ) : m_iter( std::move( it ) )
+		{
+		}
+		bool hasNext() const
+		{
+			return m_iter.hasNext() ;
+		}
+		const auto& next()
+		{
+			return m_iter.next() ;
+		}
+		template< typename Function,
+			  util::types::has_bool_return_type< Function,typename Iter::value_type > = 0 >
+		void forEach( Function function )
+		{
+			while( this->hasNext() ){
+
+				if( function( this->next() ) ){
+
+					break ;
+				}
+			}
+		}
+		template< typename Function,
+			  util::types::has_void_return_type< Function,typename Iter::value_type > = 0 >
+		void forEach( Function function )
+		{
+			while( this->hasNext() ){
+
+				function( this->next() ) ;
+			}
+		}
+	private:
+		Iter m_iter ;
+	} ;
+
+	template< typename Type >
+	auto reverseIterator( const Type& type )
+	{
+		class meaw
+		{
+		public:
+			using value_type = typename Type::value_type ;
+
+			meaw( const Type& t ) : m_type( t ),m_it( static_cast< int >( t.size() ) - 1 )
+			{
+			}
+			bool hasNext() const
+			{
+				return m_it > -1 ;
+			}
+			const value_type& next()
+			{
+				const auto& s = m_type[ m_it ] ;
+
+				m_it-- ;
+
+				return s ;
+			}
+		private:
+			const Type& m_type ;
+			int m_it ;
+		} ;
+
+		return utility::iterator< meaw >( type ) ;
+	}
+
+	template< typename Type >
+	auto forwardIterator( const Type& type )
+	{
+		class meaw
+		{
+		public:
+			using value_type = typename Type::value_type ;
+
+			meaw( const Type& t ) : m_type( t ),m_it( 0 )
+			{
+			}
+			bool hasNext() const
+			{
+				return m_it < static_cast< int >( m_type.size() ) ;
+			}
+			const value_type& next()
+			{
+				const auto& s = m_type[ m_it ] ;
+
+				m_it++ ;
+
+				return s ;
+			}
+		private:
+			const Type& m_type ;
+			int m_it ;
+		} ;
+
+		return utility::iterator< meaw >( type ) ;
+	}
+
 	class jsonArray
 	{
 	public:
@@ -1780,116 +1883,26 @@ namespace utility
 		jsonArray( QJsonArray arr ) : m_array( std::move( arr ) )
 		{
 		}
-		jsonArray() = delete ;
 		const auto& operator[]( int s ) const
 		{
 			m_value = m_array[ s ] ;
 			return m_value ;
 		}
-		bool isEmpty() const
-		{
-			return m_array.isEmpty() ;
-		}
 		int size() const
 		{
 			return m_array.size() ;
 		}
-		const QJsonArray& value() const
+		bool isEmpty() const
+		{
+			return m_array.isEmpty() ;
+		}
+		operator const QJsonArray&() const
 		{
 			return m_array ;
 		}
 	private:
 		mutable QJsonValue m_value ;
 		QJsonArray m_array ;
-	} ;
-	template< typename Type >
-	class forwardIterator
-	{
-	public:
-		forwardIterator( const Type& t ) : m_type( t ),m_it( 0 )
-		{
-		}
-		bool hasNext() const
-		{
-			return m_it < static_cast< int >( m_type.size() ) ;
-		}
-		const auto& next() const
-		{
-			const auto& s = m_type[ m_it ] ;
-
-			m_it++ ;
-
-			return s ;
-		}
-		template< typename Function,
-			  util::types::has_bool_return_type< Function,typename Type::value_type > = 0 >
-		void forEach( Function function ) const
-		{
-			while( this->hasNext() ){
-
-				if( function( this->next() ) ){
-
-					break ;
-				}
-			}
-		}
-		template< typename Function,
-			  util::types::has_void_return_type< Function,typename Type::value_type > = 0 >
-		void forEach( Function function ) const
-		{
-			while( this->hasNext() ){
-
-				function( this->next() ) ;
-			}
-		}
-	private:
-		const Type& m_type ;
-		mutable int m_it ;
-	} ;
-
-	template< typename Type >
-	class reverseIterator
-	{
-	public:
-		reverseIterator( const Type& t ) : m_type( t ),m_it( static_cast< int >( t.size() ) - 1 )
-		{
-		}
-		bool hasNext() const
-		{
-			return m_it > -1 ;
-		}
-		const auto& next() const
-		{
-			const auto& s = m_type[ m_it ] ;
-
-			m_it-- ;
-
-			return s ;
-		}
-		template< typename Function,
-			  util::types::has_bool_return_type< Function,typename Type::value_type > = 0 >
-		void forEach( Function function ) const
-		{
-			while( this->hasNext() ){
-
-				if( function( this->next() ) ){
-
-					break ;
-				}
-			}
-		}
-		template< typename Function,
-			  util::types::has_void_return_type< Function,typename Type::value_type > = 0 >
-		void forEach( Function function ) const
-		{
-			while( this->hasNext() ){
-
-				function( this->next() ) ;
-			}
-		}
-	private:
-		const Type& m_type ;
-		mutable int m_it ;
 	} ;
 
 	class MediaEntry
