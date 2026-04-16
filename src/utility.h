@@ -1773,70 +1773,125 @@ namespace utility
 
 		utility::run( std::move( u ),args.credentials(),m.move() ) ;
 	}
-	template< typename List,
-		  std::enable_if_t< std::is_lvalue_reference< List >::value,int > = 0 >
-	class reverseIterator
+	class jsonArray
 	{
 	public:
-		typedef typename std::remove_reference_t< std::remove_cv_t< List > >::value_type value_type ;
-		typedef typename std::remove_reference_t< std::remove_cv_t< List > >::size_type size_type ;
-
-	        reverseIterator( List s ) :
-		        m_list( s ),
-			m_index( m_list.size() - 1 )
+		using value_type = typename QJsonArray::value_type ;
+		jsonArray( QJsonArray arr ) : m_array( std::move( arr ) )
+		{
+		}
+		jsonArray() = delete ;
+		const auto& operator[]( int s ) const
+		{
+			m_value = m_array[ s ] ;
+			return m_value ;
+		}
+		bool isEmpty() const
+		{
+			return m_array.isEmpty() ;
+		}
+		int size() const
+		{
+			return m_array.size() ;
+		}
+		const QJsonArray& value() const
+		{
+			return m_array ;
+		}
+	private:
+		mutable QJsonValue m_value ;
+		QJsonArray m_array ;
+	} ;
+	template< typename Type >
+	class forwardIterator
+	{
+	public:
+		forwardIterator( const Type& t ) : m_type( t ),m_it( 0 )
 		{
 		}
 		bool hasNext() const
 		{
-			return m_index > -1 ;
+			return m_it < static_cast< int >( m_type.size() ) ;
 		}
-		void reset()
+		const auto& next() const
 		{
-			m_index = m_list.size() - 1 ;
-		}
-		auto& next()
-		{
-			return m_list[ this->nextValue() ] ;
-		}
-		auto nextAsValue()
-		{
-			return m_list[ this->nextValue() ] ;
+			const auto& s = m_type[ m_it ] ;
+
+			m_it++ ;
+
+			return s ;
 		}
 		template< typename Function,
-			  util::types::has_bool_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
-		void forEach( Function function )
+			  util::types::has_bool_return_type< Function,typename Type::value_type > = 0 >
+		void forEach( Function function ) const
 		{
 			while( this->hasNext() ){
 
-				if( function( m_list[ this->nextValue() ] ) ){
+				if( function( this->next() ) ){
 
 					break ;
 				}
 			}
 		}
 		template< typename Function,
-			  util::types::has_void_return_type< Function,typename reverseIterator< List >::value_type > = 0 >
-		void forEach( Function function )
+			  util::types::has_void_return_type< Function,typename Type::value_type > = 0 >
+		void forEach( Function function ) const
 		{
 			while( this->hasNext() ){
 
-				function( m_list[ this->nextValue() ] ) ;
+				function( this->next() ) ;
 			}
 		}
 	private:
-		auto nextValue()
-		{
-			return static_cast< typename reverseIterator< List >::size_type >( m_index-- ) ;
-		}
-		List m_list ;
-		int m_index ;
+		const Type& m_type ;
+		mutable int m_it ;
 	} ;
 
-	template< typename List >
-	auto reverse( List&& l )
+	template< typename Type >
+	class reverseIterator
 	{
-		return reverseIterator< decltype( l ) >( std::forward< List >( l ) ) ;
-	}
+	public:
+		reverseIterator( const Type& t ) : m_type( t ),m_it( static_cast< int >( t.size() ) - 1 )
+		{
+		}
+		bool hasNext() const
+		{
+			return m_it > -1 ;
+		}
+		const auto& next() const
+		{
+			const auto& s = m_type[ m_it ] ;
+
+			m_it-- ;
+
+			return s ;
+		}
+		template< typename Function,
+			  util::types::has_bool_return_type< Function,typename Type::value_type > = 0 >
+		void forEach( Function function ) const
+		{
+			while( this->hasNext() ){
+
+				if( function( this->next() ) ){
+
+					break ;
+				}
+			}
+		}
+		template< typename Function,
+			  util::types::has_void_return_type< Function,typename Type::value_type > = 0 >
+		void forEach( Function function ) const
+		{
+			while( this->hasNext() ){
+
+				function( this->next() ) ;
+			}
+		}
+	private:
+		const Type& m_type ;
+		mutable int m_it ;
+	} ;
+
 	class MediaEntry
 	{
 	public:

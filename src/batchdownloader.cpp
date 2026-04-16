@@ -1390,9 +1390,9 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 
 				return {} ;
 			}else{
-				auto iter = utility::reverse( m_formats ) ;
+				auto iter = utility::reverseIterator( m_formats ) ;
 
-				auto obj = iter.nextAsValue().toObject() ;
+				auto obj = iter.next().toObject() ;
 
 				auto name = "Name: " + obj.value( "name" ).toString() ;
 
@@ -1408,11 +1408,11 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 		}
 		const QJsonArray& subtitles() const
 		{
-			return m_formats ;
+			return m_formats.value() ;
 		}
 	private:
 		QString m_name ;
-		QJsonArray m_formats ;
+		utility::jsonArray m_formats ;
 	} ;
 
 	QJsonParseError err ;
@@ -1484,7 +1484,7 @@ void batchdownloader::saveSubtitles()
 	const auto& s = m_tableWidgetBDList.stuffAt( row ) ;
 
 	auto title = s.value( "filesize" ).toString() ;
-	auto subtitles = s.value( "resolution" ).toArray() ;
+	utility::jsonArray subtitles = s.value( "resolution" ).toArray() ;
 
 	if( subtitles.isEmpty() ){
 
@@ -1510,7 +1510,7 @@ void batchdownloader::saveSubtitles()
 
 	QMenu m ;
 
-	utility::reverse( subtitles ).forEach( [ & ]( const QJsonValue& v ){
+	utility::reverseIterator( subtitles ).forEach( [ & ]( const QJsonValue& v ){
 
 		ee.emplace_back( v.toObject() ) ;
 
