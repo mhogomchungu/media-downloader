@@ -1778,6 +1778,8 @@ namespace utility
 	class iterator
 	{
 	public:
+		using value_type = typename Iter::value_type ;
+
 		iterator( Iter it ) : m_iter( std::move( it ) )
 		{
 		}
@@ -1785,12 +1787,12 @@ namespace utility
 		{
 			return m_iter.hasNext() ;
 		}
-		const auto& next()
+		const value_type& next()
 		{
 			return m_iter.next() ;
 		}
 		template< typename Function,
-			  util::types::has_bool_return_type< Function,typename Iter::value_type > = 0 >
+			  util::types::has_bool_return_type< Function,value_type > = 0 >
 		void forEach( Function function )
 		{
 			while( this->hasNext() ){
@@ -1802,7 +1804,7 @@ namespace utility
 			}
 		}
 		template< typename Function,
-			  util::types::has_void_return_type< Function,typename Iter::value_type > = 0 >
+			  util::types::has_void_return_type< Function,value_type > = 0 >
 		void forEach( Function function )
 		{
 			while( this->hasNext() ){
@@ -1883,7 +1885,7 @@ namespace utility
 		jsonArray( QJsonArray arr ) : m_array( std::move( arr ) )
 		{
 		}
-		const auto& operator[]( int s ) const
+		const value_type& operator[]( int s ) const
 		{
 			m_value = m_array[ s ] ;
 			return m_value ;
@@ -1901,7 +1903,7 @@ namespace utility
 			return m_array ;
 		}
 	private:
-		mutable QJsonValue m_value ;
+		mutable value_type m_value ;
 		QJsonArray m_array ;
 	} ;
 

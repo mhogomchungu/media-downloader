@@ -446,3 +446,7 @@ Version 1.2.0(April 1st, 2021)
       - Continue to bundle svtplay-dl dependencies but unbundle svtplay-dl executable.
      [ALL]
       - Add GUI options to tell MD to use system binaries or to download its own binaries.
+
+     Version 5.5.2(UNRELEASED)
+     [ALL]
+      - Fix a bug that made it impossible to update Deno from within the application.
