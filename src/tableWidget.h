@@ -289,6 +289,8 @@ public:
 
 	static void selectRow( QTableWidgetItem * current,QTableWidgetItem * previous,int firstColumnNumber = 0 ) ;
 	static void setTableWidget( QTableWidget&,const tableWidget::tableWidgetOptions& ) ;
+	static QString makeClean( const QString& e ) ;
+	static bool compare( const QString&,const QString&,bool ) ;
 
 	void setDownloadingOptions( tableWidget::type,
 				    int row,
@@ -675,6 +677,11 @@ public:
 
 				auto text = item.text() ;
 
+				if( !text.isEmpty() ){
+
+					text = util::split( text,"\n" )[ 0 ] ;
+				}
+
 				if( !optionsList.contains( text ) ){
 
 					optionsList.append( text ) ;
@@ -774,31 +781,6 @@ private:
 			{
 				return e.id() ;
 			}
-			bool compare( const QString& a,const QString& b )
-			{
-				bool aa ;
-				bool bb ;
-
-				auto aaa = this->makeClean( a ).toInt( &aa ) ;
-				auto bbb = this->makeClean( b ).toInt( &bb ) ;
-
-				if( m_ascending ){
-
-					if( aa && bb ){
-
-						return aaa < bbb ;
-					}else{
-						return a < b ;
-					}
-				}else{
-					if( aa && bb ){
-
-						return aaa > bbb ;
-					}else{
-						return a > b ;
-					}
-				}
-			}
 			bool operator()( const Stuff& s,const Stuff& e )
 			{
 				if( m_column == 0 ){
@@ -806,36 +788,15 @@ private:
 					const auto& a = this->getId( s ) ;
 					const auto& b = this->getId( e ) ;
 
-					return this->compare( a,b ) ;
+					return tableWidget::compare( a,b,m_ascending ) ;
 				}else{
 					const auto& a = this->getSize( s ) ;
 					const auto& b = this->getSize( e ) ;
 
-					return this->compare( a,b ) ;
+					return tableWidget::compare( a,b,m_ascending ) ;
 				}
 			}
 		private:
-			QString makeClean( const QString& e )
-			{
-				QString m ;
-
-				for( int a = 0 ; a < e.size() ; a++ ){
-
-					auto c = e[ a ] ;
-
-					if( c >= '0' && c <= '9' ){
-
-						m.append( c ) ;
-					}
-				}
-
-				if( m.isEmpty() ){
-
-					m = "0" ;
-				}
-
-				return m ;
-			}
 			bool m_ascending ;
 			bool m_column ;
 		} ;

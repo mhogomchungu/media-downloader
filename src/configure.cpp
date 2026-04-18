@@ -888,7 +888,7 @@ void configure::init_done()
 
 	std::vector< updateEngines > updates ;
 
-	updates.emplace_back( "yt-dlp",2 ) ;
+	updates.emplace_back( "yt-dlp",3 ) ;
 	updates.emplace_back( "ytdl-patched",1 ) ;
 	updates.emplace_back( "gallery-dl",1 ) ;
 	updates.emplace_back( "svtplay-dl",2 ) ;

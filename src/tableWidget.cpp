@@ -163,6 +163,60 @@ void tableWidget::setTableWidget( QTableWidget& table,const tableWidget::tableWi
 	table.setSelectionMode( s.selectionMode ) ;
 }
 
+QString tableWidget::makeClean( const QString& s )
+{
+	QString m ;
+
+	auto e = s.isEmpty() ? s : util::split( s,"\n" )[ 0 ] ;
+
+	for( int a = 0 ; a < e.size() ; a++ ){
+
+		auto c = e[ a ] ;
+
+		if( c == '-' ){
+
+			m.append( '.' ) ;
+
+		}else if( c >= '0' && c <= '9' ){
+
+			m.append( c ) ;
+		}
+	}
+
+	if( m.isEmpty() ){
+
+		m = "0" ;
+	}
+
+	return m ;
+}
+
+bool tableWidget::compare( const QString& a,const QString& b,bool ascending )
+{
+	bool aa ;
+	bool bb ;
+
+	auto aaa = tableWidget::makeClean( a ).toDouble( &aa ) ;
+	auto bbb = tableWidget::makeClean( b ).toDouble( &bb ) ;
+
+	if( ascending ){
+
+		if( aa && bb ){
+
+			return aaa < bbb ;
+		}else{
+			return a < b ;
+		}
+	}else{
+		if( aa && bb ){
+
+			return aaa > bbb ;
+		}else{
+			return a > b ;
+		}
+	}
+}
+
 void tableWidget::replace( tableWidget::entry e,int r,sizeHint s )
 {
 	auto row = static_cast< size_t >( r ) ;

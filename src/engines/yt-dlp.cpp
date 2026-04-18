@@ -870,6 +870,7 @@ private:
 		auto vcodec    = obj.value( "vcodec" ).toString() ;
 		auto acodec    = obj.value( "acodec" ).toString() ;
 		auto fmtNotes  = obj.value( "format_note" ).toString() ;
+		auto language  = obj.value( "language" ).toString() ;
 
 		QStringList s ;
 
@@ -949,6 +950,11 @@ private:
 		auto sizeRaw = this->fileSizeRaw( obj ) ;
 
 		ss = ss + s.join( ", " ) ;
+
+		if( !language.isEmpty() ){
+
+			id += "\n" + language ;
+		}
 
 		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,ss,m_duration,m_title ) ;
 	}
