@@ -673,21 +673,21 @@ public:
 
 			auto& item = this->item( row,0 ) ;
 
+			auto txt = item.text() ;
+
+			if( !txt.isEmpty() ){
+
+				txt = util::split( txt,"\n" )[ 0 ] ;
+			}
+
 			if( item.isSelected() ){
 
-				auto text = item.text() ;
+				if( !optionsList.contains( txt ) ){
 
-				if( !text.isEmpty() ){
-
-					text = util::split( text,"\n" )[ 0 ] ;
-				}
-
-				if( !optionsList.contains( text ) ){
-
-					optionsList.append( text ) ;
+					optionsList.append( txt ) ;
 				}
 			}else{
-				optionsList.removeAll( item.text() ) ;
+				optionsList.removeAll( txt ) ;
 			}
 		}
 

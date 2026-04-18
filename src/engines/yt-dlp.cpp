@@ -252,7 +252,7 @@ void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& th
 
 static const char * _jsonFullArguments()
 {
-	return R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats.:.{url,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
+	return R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats.:.{url,language,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
 }
 
 QStringList yt_dlp::jsonNoFormatsArgumentList()
@@ -322,7 +322,7 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	json.done() ;
 
-	mainObj.insert( "Version","2" ) ;
+	mainObj.insert( "Version","3" ) ;
 
 	mainObj.insert( "ExtraOptions",utility::QJsonArrayJoin() ) ;
 
