@@ -105,6 +105,7 @@ public:
 
 	yt_dlp( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	void parseMetadata( QStringList& mm,const QString& txt,const QString& original,const QString& New ) ;
 	std::vector< engines::engine::baseEngine::mediaInfo >
 	mediaProperties( Logger&,const QJsonArray&,const QJsonObject& ) ;
 	QJsonArray m_objs ;

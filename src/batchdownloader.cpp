@@ -1507,7 +1507,7 @@ void batchdownloader::saveSubtitles()
 	const auto& s = m_tableWidgetBDList.stuffAt( row ) ;
 
 	auto title = s.value( "filesize" ).toString() ;
-	QJsonArray subtitles = s.value( "resolution" ).toArray() ;
+	auto subtitles = s.value( "resolution" ).toArray() ;
 
 	if( subtitles.isEmpty() ){
 

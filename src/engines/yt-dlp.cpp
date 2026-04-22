@@ -1225,10 +1225,7 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
-static void _parse_metadata( QStringList& mm,
-			     const QString& txt,
-			     const QString& original,
-			     const QString& New )
+void yt_dlp::parseMetadata( QStringList& mm,const QString& txt,const QString& original,const QString& New )
 {
 	if( !New.isEmpty() && txt.contains( original ) ){
 
@@ -1285,16 +1282,16 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 				auto w = s.uiIndex.toString( true,s.ourOptions ) ;
 				auto ww = s.uiIndex.toString( false,s.ourOptions ) ;
 
-				_parse_metadata( mm,e,"%(autonumber)s",ww ) ;
-				_parse_metadata( mm,e,"%(playlist_index)s",w ) ;
-				_parse_metadata( mm,e,"%(playlist_autonumber)s",w ) ;
-				_parse_metadata( mm,e,"%(playlist_id)s",s.playlist_id ) ;
-				_parse_metadata( mm,e,"%(playlist_title)s",s.playlist_title ) ;
-				_parse_metadata( mm,e,"%(playlist)s",s.playlist ) ;
-				_parse_metadata( mm,e,"%(playlist_count)s",s.playlist_count ) ;
-				_parse_metadata( mm,e,"%(playlist_uploader)s",s.playlist_uploader ) ;
-				_parse_metadata( mm,e,"%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
-				_parse_metadata( mm,e,"%(n_entries)s",s.uiIndex.total() ) ;
+				this->parseMetadata( mm,e,"%(autonumber)s",ww ) ;
+				this->parseMetadata( mm,e,"%(playlist_index)s",w ) ;
+				this->parseMetadata( mm,e,"%(playlist_autonumber)s",w ) ;
+				this->parseMetadata( mm,e,"%(playlist_id)s",s.playlist_id ) ;
+				this->parseMetadata( mm,e,"%(playlist_title)s",s.playlist_title ) ;
+				this->parseMetadata( mm,e,"%(playlist)s",s.playlist ) ;
+				this->parseMetadata( mm,e,"%(playlist_count)s",s.playlist_count ) ;
+				this->parseMetadata( mm,e,"%(playlist_uploader)s",s.playlist_uploader ) ;
+				this->parseMetadata( mm,e,"%(playlist_uploader_id)s",s.playlist_uploader_id ) ;
+				this->parseMetadata( mm,e,"%(n_entries)s",s.uiIndex.total() ) ;
 			}
 
 			break ;
