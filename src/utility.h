@@ -1774,12 +1774,10 @@ namespace utility
 		utility::run( std::move( u ),args.credentials(),m.move() ) ;
 	}
 
-	template< typename Iter >
+	template< typename Iter,typename ValueType >
 	class iterator
 	{
 	public:
-		using value_type = typename Iter::value_type ;
-
 		iterator( Iter it ) : m_iter( std::move( it ) )
 		{
 		}
@@ -1787,13 +1785,13 @@ namespace utility
 		{
 			return m_iter.hasNext() ;
 		}
-		const value_type& next()
+		decltype( auto ) next()
 		{
 			return m_iter.next() ;
 		}
 		template< typename Function,
-			  util::types::has_bool_return_type< Function,value_type > = 0 >
-		void forEach( Function function )
+			  util::types::has_bool_return_type< Function,ValueType > = 0 >
+		void forEach( const Function& function )
 		{
 			while( this->hasNext() ){
 
@@ -1804,8 +1802,8 @@ namespace utility
 			}
 		}
 		template< typename Function,
-			  util::types::has_void_return_type< Function,value_type > = 0 >
-		void forEach( Function function )
+			  util::types::has_void_return_type< Function,ValueType > = 0 >
+		void forEach( const Function& function )
 		{
 			while( this->hasNext() ){
 
@@ -1822,29 +1820,23 @@ namespace utility
 		class meaw
 		{
 		public:
-			using value_type = typename Type::value_type ;
-
 			meaw( const Type& t ) : m_type( t ),m_it( static_cast< int >( t.size() ) - 1 )
-			{
+			{				
 			}
 			bool hasNext() const
 			{
 				return m_it > -1 ;
 			}
-			const value_type& next()
+			decltype( auto ) next()
 			{
-				const auto& s = m_type[ m_it ] ;
-
-				m_it-- ;
-
-				return s ;
+				return m_type[ m_it-- ] ;
 			}
 		private:
 			const Type& m_type ;
 			int m_it ;
 		} ;
 
-		return utility::iterator< meaw >( type ) ;
+		return utility::iterator< meaw,typename Type::value_type >( type ) ;
 	}
 
 	template< typename Type >
@@ -1853,59 +1845,24 @@ namespace utility
 		class meaw
 		{
 		public:
-			using value_type = typename Type::value_type ;
-
 			meaw( const Type& t ) : m_type( t ),m_it( 0 )
-			{
+			{				
 			}
 			bool hasNext() const
 			{
 				return m_it < static_cast< int >( m_type.size() ) ;
 			}
-			const value_type& next()
+			decltype( auto ) next()
 			{
-				const auto& s = m_type[ m_it ] ;
-
-				m_it++ ;
-
-				return s ;
+				return m_type[ m_it++ ] ;
 			}
 		private:
 			const Type& m_type ;
 			int m_it ;
 		} ;
 
-		return utility::iterator< meaw >( type ) ;
+		return utility::iterator< meaw,typename Type::value_type >( type ) ;
 	}
-
-	class jsonArray
-	{
-	public:
-		using value_type = typename QJsonArray::value_type ;
-		jsonArray( QJsonArray arr ) : m_array( std::move( arr ) )
-		{
-		}
-		const value_type& operator[]( int s ) const
-		{
-			m_value = m_array[ s ] ;
-			return m_value ;
-		}
-		int size() const
-		{
-			return m_array.size() ;
-		}
-		bool isEmpty() const
-		{
-			return m_array.isEmpty() ;
-		}
-		operator const QJsonArray&() const
-		{
-			return m_array ;
-		}
-	private:
-		mutable value_type m_value ;
-		QJsonArray m_array ;
-	} ;
 
 	class MediaEntry
 	{

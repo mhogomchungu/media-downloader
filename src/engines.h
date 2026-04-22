@@ -1773,7 +1773,7 @@ private:
 
 			if( engines::filePathIsValid( info ) ){
 
-				return m ;
+				return QDir::fromNativeSeparators( m ) ;
 			}
 		}
 

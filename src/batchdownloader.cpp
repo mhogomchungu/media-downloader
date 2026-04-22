@@ -29,6 +29,24 @@
 #include <QJsonDocument>
 #include <QFile>
 
+template<typename T>
+decltype(auto) foo()
+{
+	return T()[ 0 ] ;
+}
+
+template<typename T,typename std::enable_if<std::is_reference<decltype(foo<T>())>::value,int >::type = 0 >
+void foo(T)
+{
+	std::cout << "std::array\n" ;
+}
+
+template<typename T,typename std::enable_if<!std::is_reference<decltype(foo<T>())>::value,int >::type = 0 >
+void foo(T)
+{
+	std::cout << "QJsonarray\n" ;
+}
+
 batchdownloader::batchdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
 	m_settings( m_ctx.Settings() ),
@@ -41,6 +59,11 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_downloadingComments( tr( "Downloading comments" ).toUtf8() ),
 	m_subtitlesTimer( m_tableWidgetBDList )
 {
+	QJsonArray a ;
+	foo(a);
+	std::vector<int> b;
+	foo(b);
+
 	qRegisterMetaType< ItemEntry >() ;
 	qRegisterMetaType< ItemEntries >() ;
 
@@ -1412,7 +1435,7 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 		}
 	private:
 		QString m_name ;
-		utility::jsonArray m_formats ;
+		QJsonArray m_formats ;
 	} ;
 
 	QJsonParseError err ;
@@ -1484,7 +1507,7 @@ void batchdownloader::saveSubtitles()
 	const auto& s = m_tableWidgetBDList.stuffAt( row ) ;
 
 	auto title = s.value( "filesize" ).toString() ;
-	utility::jsonArray subtitles = s.value( "resolution" ).toArray() ;
+	QJsonArray subtitles = s.value( "resolution" ).toArray() ;
 
 	if( subtitles.isEmpty() ){
 
