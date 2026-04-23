@@ -67,6 +67,7 @@ void versionInfo::next( printVinfo vinfo ) const
 		this->check( vinfo.next() ) ;
 	}else{
 		m_ctx.TabManager().enableAll() ;
+		m_ctx.TabManager().init_done() ;
 
 		const auto& e = vinfo.updates() ;
 

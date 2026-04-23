@@ -447,6 +447,7 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
       - Add GUI options to tell MD to use system binaries or to download its own binaries.
 
-     Version 5.5.2(UNRELEASED)
+     Version 5.5.2(April 23rd, 2026)
      [ALL]
       - Fix a bug that made it impossible to update Deno from within the application.
+      - When showing a list of available media, show audio language below format code if it is available.

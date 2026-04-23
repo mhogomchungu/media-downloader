@@ -63,6 +63,15 @@
 	</categories>
 
 	<releases>
+		<release version="5.5.2" type="stable" date="2026-04-23">
+		<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.5.2/media-downloader-5.5.2.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>When showing a list of available media, show audio language below format code if it is available.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.5.1" type="stable" date="2026-04-14">
 		<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.5.1/media-downloader-5.5.1.tar.xz</url>
 			<description>

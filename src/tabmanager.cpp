@@ -72,6 +72,16 @@ tabManager::tabManager( settings& s,
 
 void tabManager::init_done()
 {
+	if( m_initDoneNotCalled ){
+
+		this->initDone() ;
+
+		m_initDoneNotCalled = false ;
+	}
+}
+
+void tabManager::initDone()
+{
 	auto& m = m_ctx.Ui() ;
 	auto& s = m_ctx.Settings() ;
 

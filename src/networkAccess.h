@@ -58,7 +58,7 @@ public:
 			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 		{
 		}
-		Status() : m_handle( std::make_unique< networkAccess::status>() )
+		Status() : m_handle( std::make_unique< networkAccess::status >() )
 		{
 		}
 		void done() const
