@@ -39,14 +39,8 @@ class networkAccess
 public:
 	struct status
 	{
-		virtual void done()
-		{
-		}
-		virtual int id()
-		{
-			//?????
-			return 0 ;
-		}
+		virtual void done() = 0 ;
+		virtual int id() = 0 ;
 		virtual ~status() ;
 	} ;
 
@@ -56,9 +50,6 @@ public:
 		template< typename Type,typename ... Args >
 		Status( Type,Args&& ... args ) :
 			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
-		{
-		}
-		Status() : m_handle( std::make_unique< networkAccess::status >() )
 		{
 		}
 		void done() const

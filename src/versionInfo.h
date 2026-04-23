@@ -56,9 +56,6 @@ public:
 			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 		{
 		}
-		reportDone() : m_handle( std::make_unique< idone >() )
-		{
-		}
 		void operator()() const
 		{
 			( *m_handle )() ;
@@ -118,9 +115,10 @@ public:
 			m_networkAvailable( networkAvailable )
 		{
 		}
-		printVinfo( networkAccess::iterator iter,bool networkAvailable ) :
+		printVinfo( networkAccess::iterator iter,versionInfo::reportDone rd,bool networkAvailable ) :
 			m_networkIter( std::move( iter ) ),
 			m_iter( m_networkIter.itr() ),
+			m_rd( std::move( rd ) ),
 			m_fromNetwork( true ),
 			m_networkAvailable( networkAvailable )
 		{
@@ -197,14 +195,15 @@ public:
 	void check( versionInfo::printVinfo ) const ;
 	void check( networkAccess::iterator iter,bool hn ) const
 	{
-		this->check( { std::move( iter ),hn } ) ;
+		this->check( { iter.move(),this->createReportDone(),hn } ) ;
 	}
 	void check( const engines::Iterator& iter,versionInfo::reportDone rd,bool hn ) const
 	{
-		this->check( { iter,std::move( rd ),hn } ) ;
+		this->check( { iter,rd.move(),hn } ) ;
 	}
 	void checkMediaDownloaderUpdate( const std::vector< engines::engine >& ) const ;
 private:
+	versionInfo::reportDone createReportDone() const ;
 	bool allBackendExists( const std::vector< engines::engine >& ) const ;
 	versionInfo::printVinfo createPrintVinfo( const std::vector< engines::engine >&,bool ) const ;
 	void checkMediaDownloaderUpdate( versionInfo::printVinfo,

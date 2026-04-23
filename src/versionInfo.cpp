@@ -35,24 +35,7 @@ versionInfo::versionInfo( Ui::MainWindow&,const Context& ctx ) :
 
 versionInfo::printVinfo versionInfo::createPrintVinfo( const std::vector< engines::engine >& engines,bool na ) const
 {
-	class meaw : public versionInfo::idone
-	{
-	public:
-		meaw( const Context& t ) : m_ctx( t )
-		{
-		}
-		void operator()() override
-		{
-			m_ctx.TabManager().init_done() ;
-		}
-	private:
-		const Context& m_ctx ;
-	} ;
-
-	engines::Iterator iter( engines,utility::sequentialID() ) ;
-	versionInfo::reportDone rd( util::types::type_identity< meaw >(),m_ctx ) ;
-
-	return { iter.move(),rd.move(),na } ;
+	return { engines::Iterator( engines,utility::sequentialID() ),this->createReportDone(),na } ;
 }
 
 void versionInfo::log( const QString& msg,int id ) const
@@ -67,7 +50,6 @@ void versionInfo::next( printVinfo vinfo ) const
 		this->check( vinfo.next() ) ;
 	}else{
 		m_ctx.TabManager().enableAll() ;
-		m_ctx.TabManager().init_done() ;
 
 		const auto& e = vinfo.updates() ;
 
@@ -308,6 +290,25 @@ void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine
 	}else{
 		this->check( this->createPrintVinfo( engines,true ) ) ;
 	}
+}
+
+versionInfo::reportDone versionInfo::createReportDone() const
+{
+	class meaw : public versionInfo::idone
+	{
+	public:
+		meaw( const Context& t ) : m_ctx( t )
+		{
+		}
+		void operator()() override
+		{
+			m_ctx.TabManager().init_done() ;
+		}
+	private:
+		const Context& m_ctx ;
+	} ;
+
+	return versionInfo::reportDone( util::types::type_identity< meaw >(),m_ctx ) ;
 }
 
 bool versionInfo::allBackendExists( const std::vector<engines::engine>& e ) const
