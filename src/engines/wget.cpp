@@ -218,6 +218,37 @@ void wget::init( Logger& logger,const engines::enginePaths& enginePath )
 wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {
+	const auto& exe = s.exePath().realExe() ;
+
+	if( exe.endsWith( "wget2" ) ){
+
+		m_isWget2 = true ;
+	}else{
+		m_isWget2 = false ;
+
+		class woof
+		{
+		public:
+			woof( bool& w ) : m_isWget2( w )
+			{
+			}
+			void operator()( const utils::qprocess::outPut& r )
+			{
+				if( r.success() && !r.stdOut.isEmpty() ){
+
+					auto m = util::split( r.stdOut,"\n" ) ;
+
+					m_isWget2 = m[ 0 ].toLower().contains( "wget2" ) ;
+				}
+			}
+		private:
+			bool& m_isWget2 ;
+		} ;
+
+		auto m = QProcess::ProcessChannelMode::MergedChannels ;
+
+		utils::qprocess::run( exe,{ "--version" },m,woof( m_isWget2 ) ) ;
+	}
 }
 
 void wget::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
@@ -236,7 +267,34 @@ engines::engine::baseEngine::DataFilter wget::Filter( int id )
 {
 	const auto& engine = engines::engine::baseEngine::engine() ;
 
-	return { util::types::type_identity< wget::wgetFilter >(),engine,id } ;
+	return { util::types::type_identity< wget::wgetFilter >(),engine,id,m_isWget2 } ;
+}
+
+bool wget::skipCondition( const QByteArray& e )
+{
+	if( e.contains( "Files: 0  Bytes: 0" ) ){
+
+		return true ;
+	}else{
+		return false ;
+	}
+}
+
+const QByteArray& wget::replaceUndesirableText( const QByteArray& m )
+{
+	if( m_isWget2 ){
+
+		auto s = m.indexOf( "\x1b\x5b\x31\x47" ) ;
+
+		if( s != -1 ){
+
+			m_tmp = m.mid( s + 4 ) ;
+
+			return m_tmp ;
+		}
+	}
+
+	return m ;
 }
 
 void wget::setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList& e,const QString& s )
@@ -308,12 +366,12 @@ wget::~wget()
 {
 }
 
-wget::wgetFilter::wgetFilter( const engines::engine& engine,int id ) :
-	engines::engine::baseEngine::filter( engine,id )
+wget::wgetFilter::wgetFilter( const engines::engine& engine,int id,bool s ) :
+	engines::engine::baseEngine::filter( engine,id ),m_isWget2( s )
 {
 }
 
-static QByteArray _uiText( const QByteArray& e,const QByteArray& p,const QByteArray& length )
+QByteArray wget::wgetFilter::uiText( const QByteArray& e,const QByteArray& p,const QByteArray& length )
 {
 	QString result = "\n" ;
 
@@ -323,7 +381,16 @@ static QByteArray _uiText( const QByteArray& e,const QByteArray& p,const QByteAr
 
 	if( size > 1 ){
 
-		result += QObject::tr( "Speed:" ) + " " + m[ 1 ] ;
+		auto e = m[ 1 ] ;
+
+		auto s = e.indexOf( "/s" ) ;
+
+		if( s != -1 ){
+
+			result += QObject::tr( "Speed:" ) + " " + e.mid( 0,s + 2 ) ;
+		}else{
+			result += QObject::tr( "Speed:" ) + " " + e ;
+		}
 	}
 
 	if( size > 3 ){
@@ -394,15 +461,29 @@ const QByteArray& wget::wgetFilter::operator()( Logger::Data& e )
 		e.addFileName( m_title ) ;
 
 		return m_title ;
-	}
+	}else{
+		auto line = e.toLines() ;
 
-	auto line = e.toLines() ;
+		if( m_isWget2 ){
 
-	if( !line.contains( "Saving to: " ) ){
+			return this->processWget2( line,e ) ;
+		}else{
+			if( line.contains( "Saving to: " ) ){
+
+				return this->processWget1( line,e ) ;
+			}
+		}
 
 		return m_preProcessing.text() ;
 	}
+}
 
+wget::wgetFilter::~wgetFilter()
+{
+}
+
+const QByteArray& wget::wgetFilter::processWget1( const QByteArray& line,Logger::Data& e )
+{
 	if( m_title.isEmpty() || m_length.isEmpty() ){
 
 		const auto lines = util::split( line,'\n' ) ;
@@ -486,7 +567,7 @@ const QByteArray& wget::wgetFilter::operator()( Logger::Data& e )
 
 					auto bb = l.mid( b + 1 ) ;
 
-					m_tmp = m_title + _uiText( bb,aa,m_length ) ;
+					m_tmp = m_title + this->uiText( bb,aa,m_length ) ;
 				}else{
 					m_tmp = m_title + "\n" + m_preProcessing.text() ;
 				}
@@ -495,7 +576,7 @@ const QByteArray& wget::wgetFilter::operator()( Logger::Data& e )
 
 				if( b != -1 ){
 
-					m_tmp = m_title + _uiText( m.mid( b + 1 ),"",m_length ) ;
+					m_tmp = m_title + this->uiText( m.mid( b + 1 ),"",m_length ) ;
 				}else{
 					return m_preProcessing.text() ;
 				}
@@ -514,6 +595,90 @@ const QByteArray& wget::wgetFilter::operator()( Logger::Data& e )
 	}
 }
 
-wget::wgetFilter::~wgetFilter()
+const QByteArray& wget::wgetFilter::processWget2( const QByteArray&,Logger::Data& e )
 {
+	auto m = e.lastText() ;
+
+	if( m_title.isEmpty() && !m.contains( "Files: 0" ) && !m.contains( "0 files" ) ){
+
+		auto s = m.indexOf( "%" ) ;
+
+		if( s != -1 ){
+
+			int i = s ;
+
+			for( ; i >= 0 ; i-- ){
+
+				if( m[ i ] == ' ' ){
+
+					break ;
+				}
+			}
+
+			m_title = m.mid( 0,i ).trimmed() ;
+		}
+	}
+
+	if( this->progressLine( m ) ){
+
+		auto s = m.indexOf( "% [" ) ;
+
+		if( s != -1 ){
+
+			auto l = m.mid( s ) ;
+
+			for( int i = s - 1 ; i >= 0 ; i-- ){
+
+				if( m[ i ] != ' ' ){
+
+					l.prepend( m[ i ] ) ;
+				}else{
+					break ;
+				}
+			}
+
+			auto a = l.indexOf( '[' ) ;
+
+			auto b = l.indexOf( ']' ) ;
+
+			if( a != -1 && b != -1 ){
+
+				auto aa = l.mid( 0,a ) ;
+
+				auto bb = l.mid( b + 1 ) ;
+
+				if( m_title.isEmpty() ){
+
+					m_tmp = this->uiText( bb,aa,{} ).mid( 1 ) ;
+				}else{
+					m_tmp = m_title + this->uiText( bb,aa,{} ) ;
+				}
+			}else{
+				return m_preProcessing.text() ;
+			}
+		}else{
+			auto b = m.indexOf( ']' ) ;
+
+			if( b != -1 ){
+
+				if( m_title.isEmpty() ){
+
+					m_tmp = this->uiText( m.mid( b + 1 ),{},{} ).mid( 1 ) ;
+				}else{
+					m_tmp = m_title + this->uiText( m.mid( b + 1 ),{},{} ) ;
+				}
+			}else{
+				return m_preProcessing.text() ;
+			}
+		}
+
+		return m_tmp ;
+	}else{
+		return m_preProcessing.text() ;
+	}
+}
+
+bool wget::wgetFilter::progressLine( const QByteArray& e )
+{
+	return e.contains( "%[" ) || e.contains( "% [") || e.contains( "<=>" ) ;
 }

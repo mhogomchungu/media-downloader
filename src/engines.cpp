@@ -1760,6 +1760,11 @@ bool engines::engine::baseEngine::engineRemovable()
 	return true ;
 }
 
+const QByteArray& engines::engine::baseEngine::replaceUndesirableText( const QByteArray& e )
+{
+	return e ;
+}
+
 engines::engine::baseEngine::removeFilesStatus engines::engine::baseEngine::removeFiles( const QStringList& e,const QString& )
 {
 	engines::engine::baseEngine::removeFilesStatus s ;
@@ -2105,13 +2110,15 @@ private:
 
 		for( const auto& e : mm ){
 
-			if( !this->skipLine( e ) ){
+			const auto& s = m_engine.replaceUndesirableText( e ) ;
+
+			if( !this->skipLine( s ) ){
 
 				if( m_filterOutPut.meetCondition( m_locale,m_outPut,e ) ){
 
-					this->logProgress( e ) ;
+					this->logProgress( s ) ;
 				}else{
-					this->add( e ) ;
+					this->add( s ) ;
 				}
 			}
 		}
@@ -2398,8 +2405,9 @@ const QByteArray& engines::engine::baseEngine::filter::operator()( Logger::Data&
 
 	}else if( s.isEmpty() ){
 
-		static QByteArray e ;
-		return e ;
+		m_tmp.clear() ;
+
+		return m_tmp ;
 	}else{
 		if( utility::stringConstants::doneDownloadingText( s.lastText() ) ){
 
@@ -2629,6 +2637,11 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 		}
 
 	}else if( utility::platformIsAppImage() || utility::platformisFlatPak() ){
+
+		if( utility::platformisFlatPak() ){
+
+			wget::init( logger,enginePath ) ;
+		}
 
 		auto name = engines::engine::jsRuntimeInstalled( m_parent ).name() ;
 

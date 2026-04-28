@@ -798,6 +798,8 @@ public:
 
 			virtual bool engineRemovable() ;
 
+			virtual const QByteArray& replaceUndesirableText( const QByteArray& ) ;
+
 			class removeFilesStatus
 			{
 			public:
@@ -1289,6 +1291,10 @@ public:
 		std::vector< engines::engine::baseEngine::mediaInfo > mediaProperties( Logger& l,const QByteArray& e ) const
 		{
 			return m_engine->mediaProperties( l,e ) ;
+		}
+		const QByteArray& replaceUndesirableText( const QByteArray& e ) const
+		{
+			return m_engine->replaceUndesirableText( e ) ;
 		}
 		void updateGetPlaylistCmdOptions( QStringList& e ) const
 		{
