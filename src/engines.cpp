@@ -956,6 +956,10 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 	auto name = obj.value( "Name" ).toString() ;
 
+	if( name == "gallery-dl" ){
+
+		obj.insert( "DownloadUrl","https://codeberg.org/api/v1/repos/mikf/gallery-dl/releases" ) ;
+	}
 	if( name == "quickjs" || name == "bun" ){
 
 		obj.insert( "SupportingEngine",true ) ;
@@ -1255,8 +1259,9 @@ bool engines::engine::validDownloadUrl() const
 {
 	auto a = "https://api.github.com" ;
 	auto b = "https://bellard.org/quickjs/binary_releases" ;
+	auto c = "https://codeberg.org" ;
 
-	return m_downloadUrl.startsWith( a ) || m_downloadUrl.startsWith( b ) ;
+	return utils::misc::startsWithAny( m_downloadUrl,a,b,c ) ;
 }
 
 void engines::engine::setPermissions( const QString& e ) const

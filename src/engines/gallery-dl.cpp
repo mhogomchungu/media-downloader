@@ -486,6 +486,27 @@ util::Json gallery_dl::parsePlayListData( const QString& url,const QByteArray& e
 	return this->parseJson( url,e ) ;
 }
 
+engines::metadata gallery_dl::parseJsonDataFromGitHub( const QJsonDocument& e )
+{
+	if( e.isObject() ){
+
+		return engines::engine::baseEngine::parseJsonDataFromGitHub( e ) ;
+
+	}else if( e.isArray() ){
+
+		auto s = e.array() ;
+
+		if( s.size() ){
+
+			QJsonDocument doc( s[ 0 ].toObject() ) ;
+
+			return engines::engine::baseEngine::parseJsonDataFromGitHub( doc ) ;
+		}
+	}
+
+	return QJsonObject() ;
+}
+
 gallery_dl::~gallery_dl()
 {
 }
