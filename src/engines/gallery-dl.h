@@ -53,6 +53,8 @@ public:
 
 	util::Json parsePlayListData( const QString&,const QByteArray& ) override ;
 
+	engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QByteArray& ) override ;
+
 	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
