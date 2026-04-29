@@ -19,6 +19,7 @@
 
 #include "wget.h"
 #include "../utility.h"
+#include <QDir>
 
 const char * wget::testData()
 {
@@ -615,7 +616,28 @@ const QByteArray& wget::wgetFilter::processWget2( const QByteArray&,Logger::Data
 				}
 			}
 
-			m_title = m.mid( 0,i ).trimmed() ;
+			QByteArray cmd ;
+
+			e.forEach( [ & ]( int,const QByteArray& e ){
+
+				cmd = QDir::fromNativeSeparators( e ).toUtf8() ;
+
+				return true ;
+			} ) ;
+
+			if( !cmd.isEmpty() ){
+
+				auto e = util::split( cmd,'/' ).last() ;
+
+				e = e.mid( 0,e.size() -1 ) ;
+
+				m_title = m.mid( 0,i ).trimmed() ;
+
+				if( e.startsWith( m_title ) ){
+
+					m_title = e ;
+				}
+			}
 		}
 	}
 
