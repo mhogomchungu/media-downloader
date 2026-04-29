@@ -613,6 +613,44 @@ namespace utility
 		bool hasExtraOptions = false ;
 		QString downloadOptions ;
 	} ;
+	class jsonDoc
+	{
+	public:
+		jsonDoc( const QByteArray& e ) : m_doc( QJsonDocument::fromJson( e,&m_err ) )
+		{
+		}
+		const QJsonDocument& get() const
+		{
+			return m_doc ;
+		}
+		bool valid() const
+		{
+			return m_err.error == QJsonParseError::NoError ;
+		}
+		QString errorString() const
+		{
+			return m_err.errorString() ;
+		}
+		QJsonObject toObject() const
+		{
+			return m_doc.object() ;
+		}
+		QJsonArray toArray() const
+		{
+			return m_doc.array() ;
+		}
+		bool isObject() const
+		{
+			return m_doc.isObject() ;
+		}
+		bool isArray() const
+		{
+			return m_doc.isArray() ;
+		}
+	private:
+		QJsonParseError m_err ;
+		QJsonDocument m_doc ;
+	} ;
 	QString parseVersionInfo( const utils::qprocess::outPut& ) ;
 	utility::downLoadOptions setDownloadOptions( const engines::engine&,tableWidget&,int,const QString& = {} ) ;
 	bool copyFile( const QString& src,const QString& dst,bool = true ) ;

@@ -19,6 +19,7 @@
 
 #include "gallery-dl.h"
 #include "../settings.h"
+#include "../utility.h"
 
 #include <QDesktopServices>
 
@@ -488,21 +489,24 @@ util::Json gallery_dl::parsePlayListData( const QString& url,const QByteArray& e
 
 engines::engine::baseEngine::onlineVersion gallery_dl::versionInfoFromGithub( const QByteArray& e )
 {
-	auto doc = QJsonDocument::fromJson( e ) ;
+	auto doc = utility::jsonDoc( e ) ;
 
-	if( doc.isObject() ){
+	if( doc.valid() ){
 
-		return engines::engine::baseEngine::versionInfoFromGithub( e ) ;
+		if( doc.isObject() ){
 
-	}else if( doc.isArray() ){
+			return engines::engine::baseEngine::versionInfoFromGithub( doc.get() ) ;
 
-		auto s = doc.array() ;
+		}else if( doc.isArray() ){
 
-		if( s.size() ){
+			auto s = doc.toArray() ;
 
-			QJsonDocument doc( s[ 0 ].toObject() ) ;
+			if( s.size() ){
 
-			return engines::engine::baseEngine::versionInfoFromGithub( doc.toJson() ) ;
+				QJsonDocument m( s[ 0 ].toObject() ) ;
+
+				return engines::engine::baseEngine::versionInfoFromGithub( m ) ;
+			}
 		}
 	}
 

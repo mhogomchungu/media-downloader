@@ -1861,25 +1861,29 @@ void engines::engine::baseEngine::openLocalFile( const engines::engine::baseEngi
 
 engines::engine::baseEngine::onlineVersion engines::engine::baseEngine::versionInfoFromGithub( const QByteArray& e )
 {
-	QJsonParseError err ;
-	auto doc = QJsonDocument::fromJson( e,&err ) ;
+	auto doc = utility::jsonDoc( e ) ;
 
-	if( err.error == QJsonParseError::NoError ){
+	if( doc.valid() ){
 
-		auto version = doc.object().value( "tag_name" ).toString() ;
-
-		if( version.contains( "v" ) || version.contains( "," ) ){
-
-			auto m = version ;
-
-			m.replace( ",","" ).replace( "v","" ) ;
-
-			return { m,m } ;
-		}else{
-			return { version,version } ;
-		}
+		return this->versionInfoFromGithub( doc.get() ) ;
 	}else{
 		return { {},{} } ;
+	}
+}
+
+engines::engine::baseEngine::onlineVersion engines::engine::baseEngine::versionInfoFromGithub( const QJsonDocument& doc )
+{
+	auto version = doc.object().value( "tag_name" ).toString() ;
+
+	if( version.contains( "v" ) || version.contains( "," ) ){
+
+		auto m = version ;
+
+		m.replace( ",","" ).replace( "v","" ) ;
+
+		return { m,m } ;
+	}else{
+		return { version,version } ;
 	}
 }
 

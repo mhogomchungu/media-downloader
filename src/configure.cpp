@@ -1771,8 +1771,6 @@ void configure::disableAll()
 configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
 	m_path( ctx.Engines().engineDirPaths().dataPath( "presetOptions.json" ) )
 {
-	QJsonParseError err ;
-
 	QSettings& m = s.bk() ;
 
 	QByteArray data ;
@@ -1797,11 +1795,11 @@ configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
 		data = this->defaultData() ;
 	}
 
-	auto json = QJsonDocument::fromJson( data,&err ) ;
+	auto json = utility::jsonDoc( data ) ;
 
-	if( err.error == QJsonParseError::NoError ){
+	if( json.valid() ){
 
-		m_array = json.array() ;
+		m_array = json.toArray() ;
 	}
 }
 
@@ -1829,13 +1827,11 @@ void configure::presetOptions::setDefaults()
 {
 	this->clear() ;
 
-	QJsonParseError err ;
+	auto json = utility::jsonDoc( this->defaultData() ) ;
 
-	auto json = QJsonDocument::fromJson( this->defaultData(),&err ) ;
+	if( json.valid() ){
 
-	if( err.error == QJsonParseError::NoError ){
-
-		m_array = json.array() ;
+		m_array = json.toArray() ;
 	}
 }
 
@@ -2002,19 +1998,17 @@ configure::presetEntry::presetEntry( const QString& ui,const QString& op,const Q
 configure::downloadDefaultOptions::downloadDefaultOptions( const Context& ctx,const QString& name ) :
 	m_path( ctx.Engines().engineDirPaths().dataPath( name ) )
 {
-	QJsonParseError err ;
-
 	if( QFile::exists( m_path ) ){
 
 		QFile f( m_path ) ;
 
 		if( f.open( QIODevice::ReadOnly ) ){
 
-			auto json = QJsonDocument::fromJson( f.readAll(),&err ) ;
+			auto json = utility::jsonDoc( f.readAll() ) ;
 
-			if( err.error == QJsonParseError::NoError ){
+			if( json.valid() ){
 
-				m_array = json.array() ;
+				m_array = json.toArray() ;
 			}
 		}
 	}

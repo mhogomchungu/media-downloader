@@ -922,6 +922,8 @@ public:
 
 			virtual engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QByteArray& ) ;
 
+			engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QJsonDocument& ) ;
+
 			virtual bool foundNetworkUrl( const QString& ) ;
 
 			virtual QString urlFileName( const QString& ) ;

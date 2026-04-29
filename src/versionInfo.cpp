@@ -202,13 +202,11 @@ void versionInfo::checkMediaDownloaderUpdate( versionInfo::printVinfo vInfo,
 					      const std::vector< engines::engine >& engines,
 					      bool hasNetworkAccess ) const
 {
-	QJsonParseError err ;
+	auto e = utility::jsonDoc( data ) ;
 
-	auto e = QJsonDocument::fromJson( data,&err ) ;
+	if( e.valid() ){
 
-	if( err.error == QJsonParseError::NoError ){
-
-		auto obj = e.object() ;
+		auto obj = e.toObject() ;
 
 		auto lvs = obj.value( "tag_name" ).toString() ;
 
@@ -224,7 +222,7 @@ void versionInfo::checkMediaDownloaderUpdate( versionInfo::printVinfo vInfo,
 
 			if( m_showLocalVersionsAndUpdateIfAvailable ){
 
-				this->updateMediaDownloader( id,e,lvs,engines,hasNetworkAccess ) ;
+				this->updateMediaDownloader( id,e.get(),lvs,engines,hasNetworkAccess ) ;
 			}else{
 				versionInfo::pVInfo v{ vInfo.move(),id,{} } ;
 
@@ -236,7 +234,7 @@ void versionInfo::checkMediaDownloaderUpdate( versionInfo::printVinfo vInfo,
 			this->check( vInfo.move() ) ;
 		}
 	}else{
-		m_ctx.logger().add( err.errorString(),id ) ;
+		m_ctx.logger().add( e.errorString(),id ) ;
 
 		this->check( vInfo.move() ) ;
 	}
@@ -365,9 +363,14 @@ networkAccess::iterator versionInfo::wrap( printVinfo m ) const
 
 void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 {
-	m_ctx.TabManager().disableAll() ;
-
 	const auto& engine = vInfo.engine() ;
+
+	if( !m_ctx.debug() && engine.supportingEngine() && !engine.updatableSupportingEngine() ){
+
+		return this->next( vInfo.move() ) ;
+	}
+
+	m_ctx.TabManager().disableAll() ;	
 
 	auto id = utility::sequentialID() ;
 

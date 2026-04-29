@@ -67,25 +67,40 @@ networkAccess::networkAccess( const Context& ctx ) :
 
 		auto mm = QObject::tr( "Checking installed version of %1" ) ;
 
+		QStringList list ;
+
 		if( utility::Qt6Version() ){
 
-			e.add( mm.arg( QObject::tr( "Windows' Secure Channel" ) ),id ) ;
+			list.append( mm.arg( QObject::tr( "Windows' Secure Channel" ) ) ) ;
 
 			if( !s.isEmpty() ){
 
 				s = util::split( s," " ).last() ;
 			}
 		}else{
-			e.add( mm.arg( "OpenSSL" ),id ) ;
+			list.append( mm.arg( "OpenSSL" ) ) ;
 		}
 
 		if( s.isEmpty() ){
+
+			for( const auto& it : list ){
+
+				e.add( it,id ) ;
+			}
 
 			auto q = _sslLibraryVersionString() ;
 			auto m = QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( q ) ;
 			e.add( m,id ) ;
 		}else{
-			e.add( QObject::tr( "Found version" ) + ": " + s,id ) ;
+			list.append( QObject::tr( "Found version" ) + ": " + s ) ;
+
+			if( m_ctx.debug() ){
+
+				for( const auto& it : list ){
+
+					e.add( it,id ) ;
+				}
+			}
 		}
 	}
 }

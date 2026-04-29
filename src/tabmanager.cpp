@@ -266,12 +266,11 @@ void tabManager::bgThreadClipboardHandler()
 
 tabManager& tabManager::gotEvent( const QByteArray& s )
 {
-	QJsonParseError err ;
-	auto jsonDoc = QJsonDocument::fromJson( s,&err ) ;
+	auto jsonDoc = utility::jsonDoc( s ) ;
 
-	if( err.error == QJsonParseError::NoError ){
+	if( jsonDoc.valid() ){
 
-		auto e = jsonDoc.object() ;
+		auto e = jsonDoc.toObject() ;
 
 		if( m_firstTimeSettingProxy ){
 
