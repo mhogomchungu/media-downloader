@@ -220,7 +220,7 @@ wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 {
 	const auto& exe = s.exePath().realExe() ;
 
-	if( exe.endsWith( "wget2" ) ){
+	if( exe.endsWith( "wget2" ) || exe.endsWith( "wget2.exe" ) ){
 
 		m_isWget2 = true ;
 	}else{
@@ -393,7 +393,7 @@ QByteArray wget::wgetFilter::uiText( const QByteArray& e,const QByteArray& p,con
 		}
 	}
 
-	if( size > 3 ){
+	if( size > 3 && !m_isWget2 ){
 
 		auto w = m[ 3 ] ;
 

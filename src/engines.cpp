@@ -960,7 +960,7 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 		obj.insert( "DownloadUrl","https://codeberg.org/api/v1/repos/mikf/gallery-dl/releases" ) ;
 	}
-	if( name == "quickjs" || name == "bun" ){
+	if( utils::misc::equalsAny( name,"quickjs","bun","wget" ) ){
 
 		obj.insert( "SupportingEngine",true ) ;
 

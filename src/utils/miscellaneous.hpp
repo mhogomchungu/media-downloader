@@ -22,8 +22,27 @@
 #include <memory>
 #include <QtGlobal>
 
-namespace utils{
-	namespace misc{
+namespace utils
+{
+	namespace misc
+	{
+
+		template< typename Value,typename Opt >
+		bool equalsAny( const Value& v,const Opt& opt )
+		{
+			return v == opt ;
+		}
+
+		template< typename Value,typename Opt,typename ... Opts >
+		bool equalsAny( const Value& v,const Opt& opt,Opts&& ... opts )
+		{
+			if( v == opt ){
+
+				return true ;
+			}else{
+				return misc::equalsAny( v,std::forward< Opts >( opts ) ... ) ;
+			}
+		}
 
 		template< typename Value,typename Opt >
 		bool containsAny( const Value& v,const Opt& opt )

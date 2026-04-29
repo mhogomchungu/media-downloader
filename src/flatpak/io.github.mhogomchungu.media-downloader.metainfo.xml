@@ -62,7 +62,16 @@
 		<category>Qt</category>
 	</categories>
 
-	<releases>
+		<releases>
+		<release version="5.5.3" type="stable" date="2026-04-23">
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.5.3/media-downloader-5.5.3.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Fix galley-dl update bug caused by upstream change of repository url.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.5.2" type="stable" date="2026-04-23">
 		<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.5.2/media-downloader-5.5.2.tar.xz</url>
 			<description>
