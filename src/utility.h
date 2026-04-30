@@ -484,6 +484,7 @@ namespace utility
 		QStringList arguments( const QString&,const QString&,const QString&,bool ) const ;
 		const QStringList& arguments() const ;
 		static bool useFakeMdHash() ;
+		static bool debug() ;
 	private:
 		QStringList m_args ;
 	} ;

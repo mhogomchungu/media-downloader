@@ -2296,11 +2296,25 @@ bool utility::cliArguments::useFakeMdHash()
 	return _useFakeHash ;
 }
 
+static bool _cliArguments_debug ;
+
+bool utility::cliArguments::debug()
+{
+	return _cliArguments_debug ;
+}
+
 utility::cliArguments::cliArguments( int argc,char ** argv )
 {
 	for( int i = 0 ; i < argc ; i++ ){
 
 		m_args.append( argv[ i ] ) ;
+	}
+
+	if( m_args.contains( "--qDebug" ) || m_args.contains( "--qdebug" ) || m_args.contains( "--debug" ) ){
+
+		_cliArguments_debug = true ;
+	}else{
+		_cliArguments_debug = false ;
 	}
 
 	_useFakeHash = this->contains( "--fake-hash" ) ;

@@ -94,7 +94,7 @@ networkAccess::networkAccess( const Context& ctx ) :
 		}else{
 			list.append( QObject::tr( "Found version" ) + ": " + s ) ;
 
-			if( m_ctx.debug() ){
+			if( utility::cliArguments::debug() ){
 
 				for( const auto& it : list ){
 
