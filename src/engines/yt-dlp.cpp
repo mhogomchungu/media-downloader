@@ -29,6 +29,7 @@
 
 #include "../configure.h"
 #include "../settings.h"
+#include "../tableWidget.h"
 
 #include "aria2c.h"
 
@@ -839,20 +840,104 @@ public:
 	}
 	std::vector< engines::engine::baseEngine::mediaInfo > sort()
 	{
-		std::vector< engines::engine::baseEngine::mediaInfo > m ;
+		class cmp
+		{
+		public:
+			cmp( const engines::engine::baseEngine::mediaInfo& e ) :
+				m_mediaInfo( e )
+			{
+				auto m = this->resolution( *this ) ;
 
-		std::sort( m_medias.begin(),m_medias.end(),std::less<int>() ) ;
+				if( m.contains( "x" ) ){
 
-		for( auto& it : m_medias ){
+					auto s = util::split( m,"x" ) ;
 
-			m.emplace_back( it.mInfo() ) ;
-		}
+					if( s.size() == 2 ){
 
-		return m ;
+						m_height = s[ 0 ].toInt() ;
+						m_width  = s[ 1 ].toInt() ;
+					}
+				}
+			}
+			bool operator<( const cmp& other ) const
+			{
+				if( m_mediaInfo.ext() == "mhtml" ){
+
+					if( other.m_mediaInfo.ext() == "mhtml" ){
+
+						return this->compareDimensions( other ) ;
+					}else{
+						return true ;
+					}
+
+				}else if( this->resolution( *this ) == "audio only" ){
+
+					if( this->resolution( other ) == "audio only" ){
+
+						return this->compareIds( other ) ;
+
+					}else if( other.m_mediaInfo.ext() == "mhtml" ){
+
+						return false ;
+					}else{
+						return true ;
+					}
+				}else{
+					return this->compareDimensions( other ) ;
+				}
+			}
+		private:
+			QString resolution( const cmp& r ) const
+			{
+				auto m = r.m_mediaInfo.resolution() ;
+
+				if( !m.isEmpty() ){
+
+					m = util::split( m,"\n" )[ 0 ] ;
+				}
+
+				return m ;
+			}
+			bool compareDimensions( const cmp& other ) const
+			{
+				if( m_height < other.m_height ){
+
+					return true ;
+
+				}else if( m_height == other.m_height ){
+
+					if( m_width < other.m_width ){
+
+						return true ;
+
+					}else if( m_width == other.m_width ){
+
+						return this->compareIds( other ) ;
+					}
+				}
+
+				return false ;
+			}
+			bool compareIds( const cmp& other ) const
+			{
+				const auto& a = m_mediaInfo.id() ;
+				const auto& b = other.m_mediaInfo.id() ;
+
+				return tableWidget::compare( a,b,true ) ;
+			}
+			int m_height = 0 ;
+			int m_width = 0 ;
+			const engines::engine::baseEngine::mediaInfo& m_mediaInfo ;
+		} ;
+
+		std::sort( m_medias.begin(),m_medias.end(),[]( const cmp& l,const cmp& r ){
+
+			return l < r ;
+		} ) ;
+
+		return m_medias ;
 	}
 private:
-	enum class mediaType:int{ mhtml,videoOnly,audioOnly,audioVideo,unknown } ;
-
 	void add( const QJsonObject& obj )
 	{
 		auto url       = obj.value( "url" ).toString() ;
@@ -897,12 +982,8 @@ private:
 			this->append( s,"asr: ",asr + "Hz",false ) ;
 		}
 
-		ytDlpMediainfo::mediaType mt = ytDlpMediainfo::mediaType::unknown ;
+		if( ext != "mhtml" ){
 
-		if( ext == "mhtml" ){
-
-			mt = ytDlpMediainfo::mediaType::mhtml ;
-		}else{
 			bool hasVideo = vcodec != "none" ;
 			bool hasAudio = acodec != "none" ;
 
@@ -913,8 +994,6 @@ private:
 				this->append( s,"vbr: ",vbr,true ) ;
 				this->append( s,"abr: ",abr,true ) ;
 
-				mt = ytDlpMediainfo::mediaType::audioVideo ;
-
 			}else if( hasVideo && !hasAudio ){
 
 				if( !rsn.contains( "video only" ) ){
@@ -924,8 +1003,6 @@ private:
 
 				this->append( s,"vbr: ",vbr,true ) ;
 
-				mt = ytDlpMediainfo::mediaType::videoOnly ;
-
 			}else if( !hasVideo && hasAudio ){
 
 				if( !rsn.contains( "audio only" ) ){
@@ -934,8 +1011,6 @@ private:
 				}
 
 				this->append( s,"abr: ",abr,true ) ;
-
-				mt = ytDlpMediainfo::mediaType::audioOnly ;
 			}
 		}
 
@@ -956,7 +1031,7 @@ private:
 			id += "\n" + language ;
 		}
 
-		m_medias.emplace_back( mt,arr,id,ext,rsn,size,sizeRaw,ss,m_duration,m_title ) ;
+		m_medias.emplace_back( arr,id,ext,rsn,size,sizeRaw,ss,m_duration,m_title ) ;
 	}
 	QString fileSizeRaw( const QJsonObject& e )
 	{
@@ -1014,28 +1089,7 @@ private:
 		}
 	}
 
-	class str
-	{
-	public:
-		template< typename ... T >
-		str( ytDlpMediainfo::mediaType e,T&& ... t ) :
-			m_media( std::forward< T >( t ) ... ),m_type( e )
-		{
-		}
-		operator int()
-		{
-			return static_cast< int >( m_type ) ;
-		}
-		engines::engine::baseEngine::mediaInfo mInfo()
-		{
-			return std::move( m_media ) ;
-		}
-	private:
-		engines::engine::baseEngine::mediaInfo m_media ;
-		mediaType m_type ;
-	};
-
-	std::vector< str > m_medias ;
+	std::vector< engines::engine::baseEngine::mediaInfo > m_medias ;
 	Logger::locale m_locale ;
 	QString m_duration ;
 	QString m_title ;
