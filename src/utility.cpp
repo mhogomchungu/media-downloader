@@ -2484,7 +2484,7 @@ void utility::printOutPut::operator()( int id,const QByteArray& e )
 	}
 }
 
-utility::printOutPut::operator bool() const
+bool utility::printOutPut::valid() const
 {
 	return m_status != utility::printOutPut::status::notSet ;
 }

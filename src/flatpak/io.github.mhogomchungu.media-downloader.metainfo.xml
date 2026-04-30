@@ -63,8 +63,8 @@
 	</categories>
 
 		<releases>
-		<release version="5.5.3" type="stable" date="2026-04-23">
-			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.5.3/media-downloader-5.5.3.tar.xz</url>
+		<release version="5.6.0" type="stable" date="2026-04-30">
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.6.0/media-downloader-5.6.0.tar.xz</url>
 			<description>
 				<p>Changelog</p>
 				<ul>

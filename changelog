@@ -452,6 +452,6 @@ Version 1.2.0(April 1st, 2021)
       - Fix a bug that made it impossible to update Deno from within the application.
       - When showing a list of available media, show audio language below format code if it is available.
 
-     Version 5.5.3(April 29th, 2026)
+     Version 5.6.0(April 30th, 2026)
      [ALL]
       - Fix galley-dl update bug caused by upstream change of repository url.

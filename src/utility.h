@@ -493,7 +493,7 @@ namespace utility
 	public:
 		printOutPut( const utility::cliArguments& ) ;
 		void operator()( int,const QByteArray& ) ;
-		operator bool() const ;
+		bool valid() const ;
 	private:
 		QFile m_outPutFile ;
 		enum class status{ qdebug,debug,notSet } m_status = utility::printOutPut::status::notSet ;

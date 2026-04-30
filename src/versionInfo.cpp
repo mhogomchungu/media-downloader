@@ -365,9 +365,15 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 {
 	const auto& engine = vInfo.engine() ;
 
-	if( !m_ctx.debug() && engine.supportingEngine() && !engine.updatableSupportingEngine() ){
+	if( !utility::cliArguments::debug() ){
 
-		return this->next( vInfo.move() ) ;
+		if( engine.supportingEngine() ){
+
+			if( !engine.updatableSupportingEngine() ){
+
+				return this->next( vInfo.move() ) ;
+			}
+		}
 	}
 
 	m_ctx.TabManager().disableAll() ;	
@@ -419,7 +425,7 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 		exe += " \"" + it + "\"" ;
 	}
 
-	if( m_ctx.debug() ){
+	if( utility::cliArguments::debug() ){
 
 		m_ctx.logger().add( "cmd: " + exe,id ) ;
 	}
