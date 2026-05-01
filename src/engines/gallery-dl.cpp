@@ -459,13 +459,11 @@ private:
 
 QJsonObject gallery_dl::parseJson( const QString& url,const QByteArray& e )
 {
-	QJsonParseError err ;
+	auto doc = utility::jsonDoc( e ) ;
 
-	auto doc = QJsonDocument::fromJson( e,&err ) ;
+	if( doc.valid() ){
 
-	if( err.error == QJsonParseError::NoError ){
-
-		galleryDlparseData parser( url,doc ) ;
+		galleryDlparseData parser( url,doc.get() ) ;
 
 		if( url.contains( "artstation.com" ) ){
 

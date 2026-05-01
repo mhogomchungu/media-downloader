@@ -74,17 +74,15 @@ you_get::renameArchiveFolder( const QString& archivePath,const QString& binPath 
 
 std::vector<engines::engine::baseEngine::mediaInfo> you_get::mediaProperties( Logger& l,const QByteArray& e )
 {
-	QJsonParseError err ;
-
-	auto json = QJsonDocument::fromJson( e,&err ) ;
+	auto json = utility::jsonDoc( e ) ;
 
 	std::vector<engines::engine::baseEngine::mediaInfo> s ;
 
-	if( err.error != QJsonParseError::NoError ){
+	if( json.notValid() ){
 
-		utility::failedToParseJsonData( l,err ) ;
+		utility::failedToParseJsonData( l,json.error() ) ;
 	}else{
-		const auto obj = json.object().value( "streams" ).toObject() ;
+		const auto obj = json.toObject().value( "streams" ).toObject() ;
 
 		Logger::locale locale ;
 

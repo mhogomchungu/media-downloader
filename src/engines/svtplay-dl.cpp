@@ -833,12 +833,11 @@ bool svtplay_dl::bundledEngine()
 
 engines::engine::baseEngine::onlineVersion svtplay_dl::versionInfoFromGithub( const QByteArray& e )
 {
-	QJsonParseError err ;
-	auto doc = QJsonDocument::fromJson( e,&err ) ;
+	auto doc = utility::jsonDoc( e ) ;
 
-	if( err.error == QJsonParseError::NoError ){
+	if( doc.valid() ){
 
-		auto s = doc.array() ;
+		auto s = doc.toArray() ;
 
 		if( s.size() ){
 

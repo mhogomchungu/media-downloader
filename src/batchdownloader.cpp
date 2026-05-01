@@ -1197,13 +1197,11 @@ void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePat
 
 void batchdownloader::showComments( const QByteArray& e )
 {
-	QJsonParseError err ;
+	auto doc = utility::jsonDoc( e ) ;
 
-	auto doc = QJsonDocument::fromJson( e,&err ) ;
+	if( doc.valid() ){
 
-	if( err.error == QJsonParseError::NoError ){
-
-		auto obj = doc.object() ;
+		auto obj = doc.toObject() ;
 
 		auto f = obj.value( "title" ).toString() ;
 
@@ -1224,7 +1222,7 @@ void batchdownloader::showComments( const QByteArray& e )
 
 		auto id = utility::concurrentID() ;
 
-		m_ctx.logger().add( "Failed To Parse JSON Data: " + err.errorString(),id ) ;
+		m_ctx.logger().add( "Failed To Parse JSON Data: " + doc.errorString(),id ) ;
 	}
 }
 
@@ -1415,11 +1413,9 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 		QJsonArray m_formats ;
 	} ;
 
-	QJsonParseError err ;
+	auto doc = utility::jsonDoc( e ) ;
 
-	auto doc = QJsonDocument::fromJson( e,&err ) ;
-
-	if( err.error == QJsonParseError::NoError ){
+	if( doc.valid() ){
 
 		auto _parse = [ & ]( const QJsonValue& j ){
 
@@ -1435,7 +1431,7 @@ void batchdownloader::showSubtitles( const QByteArray& e )
 			return ll ;
 		} ;
 
-		auto obj = doc.object() ;
+		auto obj = doc.toObject() ;
 
 		auto title = obj.value( "title" ).toString() ;
 
@@ -1706,13 +1702,13 @@ void batchdownloader::showBDFrame( batchdownloader::listType m )
 
 void batchdownloader::parseDataFromFile( Items& items,const QByteArray& data )
 {
-	QJsonParseError err ;
+	auto json = utility::jsonDoc( data ) ;
 
-	auto json = QJsonDocument::fromJson( data,&err ) ;
+	if( json.valid() ){
 
-	if( err.error == QJsonParseError::NoError ){
+		const auto& doc = json.get() ;
 
-		this->parseDataFromObject( items,json.object(),json.array() ) ;
+		this->parseDataFromObject( items,doc.object(),doc.array() ) ;
 	}
 }
 

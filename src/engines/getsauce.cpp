@@ -773,13 +773,11 @@ engines::engine::baseEngine::FilterOutPut getsauce::filterOutput( int id )
 
 std::vector<engines::engine::baseEngine::mediaInfo> getsauce::mediaProperties( Logger& l,const QByteArray& e )
 {
-	QJsonParseError err ;
+	auto json = utility::jsonDoc( e ) ;
 
-	auto json = QJsonDocument::fromJson( e,&err ) ;
+	if( json.valid() ){
 
-	if( err.error == QJsonParseError::NoError ){
-
-		auto obj = json.object() ;
+		auto obj = json.toObject() ;
 
 		auto streams = obj.value( "streams" ).toObject() ;
 		auto site    = obj.value( "site" ).toString() ;
@@ -811,7 +809,7 @@ std::vector<engines::engine::baseEngine::mediaInfo> getsauce::mediaProperties( L
 
 		return this->mediaProperties( l,arr ) ;
 	}else{
-		utility::failedToParseJsonData( l,err ) ;
+		utility::failedToParseJsonData( l,json.error() ) ;
 
 		return {} ;
 	}

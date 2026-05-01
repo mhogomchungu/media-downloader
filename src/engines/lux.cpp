@@ -120,15 +120,13 @@ void lux::setProxySetting( engines::engine::baseEngine::optionsEnvironment& s,QS
 
 std::vector<engines::engine::baseEngine::mediaInfo> lux::mediaProperties( Logger& l,const QByteArray& e )
 {
-	QJsonParseError err ;
+	auto json = utility::jsonDoc( e ) ;
 
-	auto json = QJsonDocument::fromJson( e,&err ) ;
+	if( json.valid() ){
 
-	if( err.error == QJsonParseError::NoError ){
-
-		return this->mediaProperties( l,json.array() ) ;
+		return this->mediaProperties( l,json.toArray() ) ;
 	}else{
-		utility::failedToParseJsonData( l,err ) ;
+		utility::failedToParseJsonData( l,json.error() ) ;
 
 		return {} ;
 	}

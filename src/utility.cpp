@@ -2491,7 +2491,7 @@ bool utility::printOutPut::valid() const
 
 void utility::failedToParseJsonData( Logger& logger,const QJsonParseError& error )
 {
-	auto id = utility::sequentialID() ;
+	auto id = utility::concurrentID() ;
 
 	logger.add( "Failed To Parse Json Data:" + error.errorString(),id ) ;
 }

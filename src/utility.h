@@ -628,9 +628,17 @@ namespace utility
 		{
 			return m_err.error == QJsonParseError::NoError ;
 		}
+		bool notValid() const
+		{
+			return m_err.error != QJsonParseError::NoError ;
+		}
 		QString errorString() const
 		{
 			return m_err.errorString() ;
+		}
+		const QJsonParseError& error() const
+		{
+			return m_err ;
 		}
 		QJsonObject toObject() const
 		{

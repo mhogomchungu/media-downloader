@@ -164,19 +164,17 @@ void networkAccess::uMediaDownloaderN( networkAccess::Status& status,
 
 		if( p.success() ){
 
-			QJsonParseError err ;
+			auto e = utility::jsonDoc( p.data() ) ;
 
-			auto e = QJsonDocument::fromJson( p.data(),&err ) ;
+			if( e.valid() ){
 
-			if( err.error == QJsonParseError::NoError ){
-
-				this->updateMediaDownloader( status.move(),e ) ;
+				this->updateMediaDownloader( status.move(),e.get() ) ;
 			}else{
 				status.done() ;
 
 				auto mm = QObject::tr( "Download Failed" ) ;
 
-				mm += ": " + err.errorString() ;
+				mm += ": " + e.errorString() ;
 
 				this->post( m_appName,mm,status.id() ) ;
 

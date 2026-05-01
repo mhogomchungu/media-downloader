@@ -1998,7 +1998,7 @@ public:
 		}
 	}
 private:
-	QJsonDocument json( const QByteArray& data,QJsonParseError * err )
+	utility::jsonDoc json( const QByteArray& data )
 	{
 		auto a = "0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef\n" ;
 
@@ -2006,9 +2006,9 @@ private:
 
 			auto m = QByteArray( data ).replace( a,"" ) ;
 
-			return QJsonDocument::fromJson( m,err ) ;
+			return utility::jsonDoc( m ) ;
 		}else{
-			return QJsonDocument::fromJson( data,err ) ;
+			return utility::jsonDoc( data ) ;
 		}
 	}
 	QByteArray updateFormats( const QJsonArray& oldFormats,QJsonObject& oldObject )
@@ -2056,13 +2056,11 @@ private:
 	}
 	bool validJson( const QByteArray& data )
 	{
-		QJsonParseError err ;
+		auto json = this->json( data ) ;
 
-		auto json = this->json( data,&err ) ;
+		if( json.valid() ){
 
-		if( err.error == QJsonParseError::NoError ){
-
-			auto oldObject = json.object() ;
+			auto oldObject = json.toObject() ;
 
 			const auto oldFormats = oldObject.value( "formats" ).toArray() ;
 

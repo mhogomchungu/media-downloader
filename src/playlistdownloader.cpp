@@ -1609,13 +1609,11 @@ utility::vector< playlistdownloader::subscription::entry > playlistdownloader::s
 
 			if( !m.isEmpty() ){
 
-				QJsonParseError err ;
+				auto e = utility::jsonDoc( m ) ;
 
-				auto e = QJsonDocument::fromJson( m,&err ) ;
+				if( e.valid() ){
 
-				if( err.error == QJsonParseError::NoError ){
-
-					m_array = e.array() ;
+					m_array = e.toArray() ;
 				}
 			}
 		}

@@ -457,7 +457,7 @@ void basicdownloader::download( const basicdownloader::engine& eng,
 
 		m_tableList.setVisible( false ) ;
 
-		m_ctx.logger().setMaxProcessLog( 1 ) ;
+		m_ctx.logger().clear() ;
 
 		if( update ){
 
@@ -569,7 +569,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 		}
 		int index()
 		{
-			return -1 ;
+			return m_id ;
 		}
 		void printOutPut( const QByteArray& e )
 		{

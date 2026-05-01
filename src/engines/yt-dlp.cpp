@@ -843,40 +843,27 @@ public:
 		class cmp
 		{
 		public:
-			cmp( const engines::engine::baseEngine::mediaInfo& e ) :
-				m_mediaInfo( e )
+			cmp( const engines::engine::baseEngine::mediaInfo& e ) : m_mediaInfo( e )
 			{
-				auto m = this->resolution( *this ) ;
-
-				if( m.contains( "x" ) ){
-
-					auto s = util::split( m,"x" ) ;
-
-					if( s.size() == 2 ){
-
-						m_height = s[ 0 ].toInt() ;
-						m_width  = s[ 1 ].toInt() ;
-					}
-				}
 			}
 			bool operator<( const cmp& other ) const
 			{
-				if( m_mediaInfo.ext() == "mhtml" ){
+				if( this->mediaInfo().ext() == "mhtml" ){
 
-					if( other.m_mediaInfo.ext() == "mhtml" ){
+					if( other.mediaInfo().ext() == "mhtml" ){
 
 						return this->compareDimensions( other ) ;
 					}else{
 						return true ;
 					}
 
-				}else if( this->resolution( *this ) == "audio only" ){
+				}else if( this->resolution() == "audio only" ){
 
-					if( this->resolution( other ) == "audio only" ){
+					if( other.resolution() == "audio only" ){
 
 						return this->compareIds( other ) ;
 
-					}else if( other.m_mediaInfo.ext() == "mhtml" ){
+					}else if( other.mediaInfo().ext() == "mhtml" ){
 
 						return false ;
 					}else{
@@ -887,9 +874,45 @@ public:
 				}
 			}
 		private:
-			QString resolution( const cmp& r ) const
+			class hw
 			{
-				auto m = r.m_mediaInfo.resolution() ;
+			public:
+				hw( const QString& m )
+				{
+					if( m.contains( "x" ) ){
+
+						auto s = util::split( m,"x" ) ;
+
+						if( s.size() == 2 ){
+
+							m_height = s[ 0 ].toInt() ;
+							m_width  = s[ 1 ].toInt() ;
+						}
+
+					}else if( m.contains( "p" ) ){
+
+						m_height = util::split( m,"p" )[ 0 ].toInt() ;
+					}
+				}
+				int height() const
+				{
+					return m_height ;
+				}
+				int width() const
+				{
+					return m_width ;
+				}
+			private:
+				int m_height = 0 ;
+				int m_width = 0 ;
+			} ;
+			cmp::hw res() const
+			{
+				return this->resolution() ;
+			}
+			QString resolution() const
+			{
+				auto m = this->mediaInfo().resolution() ;
 
 				if( !m.isEmpty() ){
 
@@ -900,17 +923,20 @@ public:
 			}
 			bool compareDimensions( const cmp& other ) const
 			{
-				if( m_height < other.m_height ){
+				auto t = this->res() ;
+				auto o = other.res() ;
+
+				if( t.height() < o.height() ){
 
 					return true ;
 
-				}else if( m_height == other.m_height ){
+				}else if( t.height() == o.height() ){
 
-					if( m_width < other.m_width ){
+					if( t.width() < o.width() ){
 
 						return true ;
 
-					}else if( m_width == other.m_width ){
+					}else if( t.width() == o.width() ){
 
 						return this->compareIds( other ) ;
 					}
@@ -920,13 +946,15 @@ public:
 			}
 			bool compareIds( const cmp& other ) const
 			{
-				const auto& a = m_mediaInfo.id() ;
-				const auto& b = other.m_mediaInfo.id() ;
+				const auto& a = this->mediaInfo().id() ;
+				const auto& b = other.mediaInfo().id() ;
 
 				return tableWidget::compare( a,b,true ) ;
 			}
-			int m_height = 0 ;
-			int m_width = 0 ;
+			const engines::engine::baseEngine::mediaInfo& mediaInfo() const
+			{
+				return m_mediaInfo ;
+			}
 			const engines::engine::baseEngine::mediaInfo& m_mediaInfo ;
 		} ;
 
@@ -1104,19 +1132,17 @@ yt_dlp::mediaProperties( Logger& logger,const QJsonArray& array )
 std::vector< engines::engine::baseEngine::mediaInfo >
 yt_dlp::mediaProperties( Logger& l,const QByteArray& e )
 {
-	QJsonParseError err ;
+	auto json = utility::jsonDoc( e ) ;
 
-	auto json = QJsonDocument::fromJson( e,&err ) ;
+	if( json.valid() ){
 
-	if( err.error == QJsonParseError::NoError ){
-
-		auto obj = json.object() ;
+		auto obj = json.toObject() ;
 
 		auto arr = obj.value( "formats" ).toArray() ;
 
 		return this->mediaProperties( l,arr,obj ) ;
 	}else{
-		utility::failedToParseJsonData( l,err ) ;
+		utility::failedToParseJsonData( l,json.error() ) ;
 
 		return {} ;
 	}
