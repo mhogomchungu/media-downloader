@@ -445,11 +445,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Use Deno From System If Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовувати системний Deno, якщо доступно</translation>
     </message>
     <message>
         <source>Use Extension From System If Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовувати системне розширення, якщо доступно</translation>
     </message>
 </context>
 <context>
