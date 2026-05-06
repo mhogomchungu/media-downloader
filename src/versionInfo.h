@@ -201,15 +201,15 @@ public:
 	{
 		this->check( { iter,rd.move(),hn } ) ;
 	}
-	void checkMediaDownloaderUpdate( const std::vector< engines::engine >& ) const ;
+	void checkMediaDownloaderUpdate( const engines::EnginesList& ) const ;
 private:
 	versionInfo::reportDone createReportDone() const ;
-	bool allBackendExists( const std::vector< engines::engine >& ) const ;
-	versionInfo::printVinfo createPrintVinfo( const std::vector< engines::engine >&,bool ) const ;
+	bool allBackendExists( const engines::EnginesList& ) const ;
+	versionInfo::printVinfo createPrintVinfo( const engines::EnginesList&,bool ) const ;
 	void checkMediaDownloaderUpdate( versionInfo::printVinfo,
 					 int,
 					 const QByteArray&,
-					 const std::vector< engines::engine >&,
+					 const engines::EnginesList&,
 					 bool ) const ;
 
 	networkAccess::iterator wrap( versionInfo::printVinfo ) const ;
@@ -262,7 +262,7 @@ private:
 	void updateMediaDownloader( int,
 				    const QJsonDocument&,
 				    const QString&,
-				    const std::vector< engines::engine >&,
+				    const engines::EnginesList&,
 				    bool ) const ;
 
 	const Context& m_ctx ;

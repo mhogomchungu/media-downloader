@@ -244,7 +244,7 @@ const QString& engines::defaultEngineName() const
 	return m_defaultEngine.name() ;
 }
 
-util::result< engines::engine > engines::getEngineByPath( const QString& e ) const
+engines::EnginesList::engine engines::getEngineByPath( const QString& e ) const
 {
 	auto path = m_enginePaths.enginePath( e ) ;
 
@@ -279,7 +279,7 @@ util::result< engines::engine > engines::getEngineByPath( const QString& e ) con
 	}
 }
 
-util::result<engines::engine> engines::getSupportingEngineByName( const QString& e ) const
+engines::EnginesList::engine engines::getSupportingEngineByName( const QString& e ) const
 {
 	QJsonObject obj ;
 
@@ -408,9 +408,9 @@ void engines::setDefaultEngine( const QString& name )
 	}
 }
 
-void engines::engineAdd( const QString& jsonFile,util::result< engines::engine > m,int id )
+void engines::engineAdd( const QString& jsonFile,engines::EnginesList::engine m,int id )
 {
-	if( m ){
+	if( m.valid() ){
 
 		if( m->exePath().isEmpty() ){
 
@@ -418,7 +418,7 @@ void engines::engineAdd( const QString& jsonFile,util::result< engines::engine >
 
 			m_logger.add( s.arg( m->name() ),id ) ;
 		}else{
-			m_backends.emplace_back( std::move( m.value() ) ) ;
+			m_backends.add( m.move() ) ;
 		}
 	}else{
 		m_logger.add( QObject::tr( "Error, failed to parse config file \"%1\"" ).arg( jsonFile ),id ) ;
@@ -447,7 +447,11 @@ void engines::updateEngines( int id )
 
 	this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
-	for( const auto& it : this->getEngines() ){
+	auto iter = this->getEngines().forwardInterator() ;
+
+	while( iter.hasNext() ){
+
+		const auto& it = iter.next() ;
 
 		const auto& e = it.exePath().exe() ;
 
@@ -468,7 +472,7 @@ void engines::updateEngines( int id )
 	}
 }
 
-const std::vector< engines::engine >& engines::getEngines() const
+const engines::EnginesList& engines::getEngines() const
 {
 	return m_backends ;
 }
@@ -501,7 +505,11 @@ const engines::engine& engines::defaultEngine( const QString& name,int id ) cons
 
 util::result_ref< const engines::engine& > engines::getEngineByName( const QString& name ) const
 {
-	for( const auto& it : m_backends ){
+	auto iter = m_backends.forwardInterator() ;
+
+	while( iter.hasNext() ){
+
+		const auto& it = iter.next() ;
 
 		if( it.name() == name ){
 
@@ -516,7 +524,7 @@ util::result_ref< const engines::engine& > engines::getCompleteEngineByPath( con
 {
 	auto m = this->getEngineByPath( e ) ;
 
-	if( m && m->valid() ){
+	if( m.valid() && m->valid() ){
 
 		return this->getEngineByName( m->name() ) ;
 	}else{

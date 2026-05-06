@@ -33,7 +33,7 @@ versionInfo::versionInfo( Ui::MainWindow&,const Context& ctx ) :
 	m_showLocalVersionsOnly                 = s.showLocalVersionInformationOnly() ;
 }
 
-versionInfo::printVinfo versionInfo::createPrintVinfo( const std::vector< engines::engine >& engines,bool na ) const
+versionInfo::printVinfo versionInfo::createPrintVinfo( const engines::EnginesList& engines,bool na ) const
 {
 	return { engines::Iterator( engines,utility::sequentialID() ),this->createReportDone(),na } ;
 }
@@ -156,7 +156,7 @@ static QString _getGitVersion( const QString& e )
 void versionInfo::updateMediaDownloader( int id,
 					 const QJsonDocument& e,
 					 const QString& lvs,
-					 const std::vector< engines::engine >& engines,
+					 const engines::EnginesList& engines,
 					 bool hasNetworkAccess ) const
 {
 	this->log( QObject::tr( "Newest Version Is %1, Updating" ).arg( lvs ),id ) ;
@@ -164,7 +164,7 @@ void versionInfo::updateMediaDownloader( int id,
 	class meaw : public networkAccess::status
 	{
 	public:
-		meaw( const std::vector< engines::engine >& m,
+		meaw( const engines::EnginesList& m,
 		      const versionInfo& v,
 		      bool hasNetworkAccess,
 		      int id ) :
@@ -183,7 +183,7 @@ void versionInfo::updateMediaDownloader( int id,
 			return m_id ;
 		}
 	private:
-		const std::vector< engines::engine >& m_engines ;
+		const engines::EnginesList& m_engines ;
 		const versionInfo& m_parent ;
 		bool m_hasNetworkAccess ;
 		int m_id ;
@@ -199,7 +199,7 @@ void versionInfo::updateMediaDownloader( int id,
 void versionInfo::checkMediaDownloaderUpdate( versionInfo::printVinfo vInfo,
 					      int id,
 					      const QByteArray& data,
-					      const std::vector< engines::engine >& engines,
+					      const engines::EnginesList& engines,
 					      bool hasNetworkAccess ) const
 {
 	auto e = utility::jsonDoc( data ) ;
@@ -240,7 +240,7 @@ void versionInfo::checkMediaDownloaderUpdate( versionInfo::printVinfo vInfo,
 	}
 }
 
-void versionInfo::checkMediaDownloaderUpdate( const std::vector< engines::engine >& engines ) const
+void versionInfo::checkMediaDownloaderUpdate( const engines::EnginesList& engines ) const
 {
 	if( !m_showLocalAndLatestVersions ){
 
@@ -309,11 +309,13 @@ versionInfo::reportDone versionInfo::createReportDone() const
 	return versionInfo::reportDone( util::types::type_identity< meaw >(),m_ctx ) ;
 }
 
-bool versionInfo::allBackendExists( const std::vector<engines::engine>& e ) const
+bool versionInfo::allBackendExists( const engines::EnginesList& e ) const
 {
-	for( const auto& it : e ){
+	auto iter = e.forwardInterator() ;
 
-		if( !it.backendExists() ){
+	while( iter.hasNext() ){
+
+		if( !iter.next().backendExists() ){
 
 			return false ;
 		}

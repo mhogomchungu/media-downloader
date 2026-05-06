@@ -1637,10 +1637,86 @@ public:
 	void openUrls( tableWidget&,int row,const engines::engine& ) const ;
 	void openUrls( const QString& path ) const ;
 	const QString& defaultEngineName() const ;
+	class EnginesList
+	{
+	public:
+		class engine
+		{
+		public:
+			engine()
+			{
+			}
+			template< typename ... Args >
+			engine( Args&& ... args ) :
+				m_engine( std::make_unique< engines::engine >( std::forward< Args >( args ) ... ) )
+			{
+			}
+			const engines::engine& get() const
+			{
+				return *m_engine ;
+			}
+			const engines::engine * operator->() const
+			{
+				return m_engine.get() ;
+			}
+			engines::EnginesList::engine move()
+			{
+				return std::move( *this ) ;
+			}
+			bool valid() const
+			{
+				return m_engine.get() != nullptr ;
+			}
+		private:
+			std::unique_ptr< engines::engine > m_engine ;
+		} ;
+		void clear()
+		{
+			m_backends.clear() ;
+		}
+		size_t size() const
+		{
+			return m_backends.size() ;
+		}
+		void add( engines::EnginesList::engine m )
+		{
+			m_backends.emplace_back( m.move() ) ;
+		}
+		const engines::engine& operator[]( size_t s ) const
+		{
+			return m_backends[ s ].get() ;
+		}
+		auto forwardInterator() const
+		{
+			class meaw
+			{
+			public:
+				meaw( const std::vector< engines::EnginesList::engine >& t ) :
+					m_backends( t ),m_it( 0 )
+				{
+				}
+				bool hasNext() const
+				{
+					return m_it < m_backends.size() ;
+				}
+				const engines::engine& next()
+				{
+					return m_backends[ m_it++ ].get() ;
+				}
+			private:
+				const std::vector< engines::EnginesList::engine >& m_backends ;
+				size_t m_it ;
+			} ;
+
+			return meaw( m_backends ) ;
+		}
+	private:
+		std::vector< engines::EnginesList::engine > m_backends ;
+	};
 	class Iterator
 	{
 	public:
-		Iterator( const std::vector< engines::engine >& engines,int id ) :
+		Iterator( const engines::EnginesList& engines,int id ) :
 			m_maxCounter( engines.size() ),
 			m_engines( &engines ),
 			m_id( id )
@@ -1687,11 +1763,11 @@ public:
 		size_t m_counter = 0 ;
 		size_t m_maxCounter ;
 		const engines::engine * m_engine = nullptr ;
-		const std::vector< engines::engine > * m_engines = nullptr ;
+		const engines::EnginesList * m_engines = nullptr ;
 		int m_id ;
 	} ;
 
-	const std::vector< engine >& getEngines() const ;
+	const engines::EnginesList& getEngines() const ;
 	engines::Iterator getEnginesIterator() const ;
 	void setDefaultEngine( const QString& ) ;
 	void showBanner() ;
@@ -1751,17 +1827,16 @@ public:
 	void setNetworkProxy( engines::proxySettings,bool,networkAccess& ) ;
 private:
 	void updateEngines( int ) ;
-	util::result< engines::engine > getEngineByPath( const QString& ) const ;
-	util::result< engines::engine > getSupportingEngineByName( const QString& ) const ;
+	engines::EnginesList::engine getEngineByPath( const QString& ) const ;
+	engines::EnginesList::engine getSupportingEngineByName( const QString& ) const ;
 	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
-	void engineAdd( const QString&,util::result< engines::engine >,int ) ;
+	void engineAdd( const QString&,engines::EnginesList::engine,int ) ;
 	QString findExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
 	QProcessEnvironment getEnvPaths() const ;
 	QStringList dirEntries( const QString& ) const ;
 	Logger& m_logger ;
 	settings& m_settings ;
-	std::vector< engines::engine > m_backends ;
-
+	engines::EnginesList m_backends ;
 	const engines::enginePaths& m_enginePaths ;
 	QProcessEnvironment m_processEnvironment ;
 	engines::proxySettings m_networkProxy ;
