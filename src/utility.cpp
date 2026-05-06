@@ -2001,7 +2001,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 
 				return _start_updated( exe ) ;
 			}else{
-				QDir( update ).removeRecursively() ;
+				utils::qthread::run( [ update ]{ QDir( update ).removeRecursively() ; } ) ;
 			}
 		}
 	}

@@ -457,8 +457,6 @@ void basicdownloader::download( const basicdownloader::engine& eng,
 
 		m_tableList.setVisible( false ) ;
 
-		m_ctx.logger().clear() ;
-
 		if( update ){
 
 			m_ui.lineEditOptions->setText( args.options().join( ' ' ) ) ;
@@ -600,6 +598,8 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	auto logger = make_loggerBasicDownloader( eng.engine.filter( eng.id ),ll,update,eng.id,logs ) ;
 	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
 	auto ctx    = utility::make_ctx( m_ctx,ev.move(),logger.move(),term.move(),ch ) ;
+
+	ll.clear() ;
 
 	utility::run( args,credentials,ctx.move() ) ;
 }
