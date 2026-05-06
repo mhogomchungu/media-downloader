@@ -798,6 +798,8 @@ public:
 
 			virtual bool engineRemovable() ;
 
+			virtual void checkExePath( const QString& ) ;
+
 			virtual const QByteArray& replaceUndesirableText( const QByteArray& ) ;
 
 			class removeFilesStatus
@@ -1185,17 +1187,6 @@ public:
 			}
 		}
 
-		template< typename backend,typename ... Args >
-		void setBackend( const engines& engines,Args&& ... args )
-		{
-			m_engine = std::make_unique< backend >( engines,
-								*this,
-								m_jsonObject,
-								std::forward< Args >( args ) ... ) ;
-
-			this->updateOptions() ;
-		}
-
 		QString updateCmdPath( Logger&,const QString& e ) const ;
 
 		const QString& commandName() const ;
@@ -1361,6 +1352,10 @@ public:
 		QStringList convertArgToEnv( engines::engine::baseEngine::optionsEnvironment& e,const QStringList& s ) const
 		{
 			return m_engine->convertArgToEnv( e,s ) ;
+		}
+		void checkExePath( const QString& e ) const
+		{
+			return m_engine->checkExePath( e ) ;
 		}
 		QString downloadFolder( const QString& e ) const
 		{
@@ -1540,9 +1535,9 @@ public:
 			return m_broken ;
 		}
 	private:
+		std::unique_ptr< engines::engine::baseEngine > setEngine( const engines& ) ;
 		QJsonObject getOpts( const util::Json&,settings& ) const ;
 		void setPermissions( const QString& ) const ;
-		void updateOptions() ;
 		void setJsRuntime() ;
 		QStringList toStringList( const QJsonValue&,bool = false ) const ;
 		QJsonObject getCmd( const QJsonObject&,const QString& ) ;
@@ -1586,11 +1581,12 @@ public:
 
 		mutable util::version m_version ;
 		QJsonObject m_jsonObject ;
+		bool m_likeYtDlp ;
+		QString m_name ;
 		std::unique_ptr< engines::engine::baseEngine > m_engine ;
 		int m_line ;
 		int m_position ;
 		bool m_valid ;
-		bool m_likeYtDlp ;
 		bool m_autoUpdate ;
 		bool m_canDownloadPlaylist ;
 		bool m_supportingEngine ;
@@ -1599,7 +1595,6 @@ public:
 		bool m_replaceOutputWithProgressReport ;
 		mutable bool m_broken = false ;
 		QString m_versionArgument ;
-		QString m_name ;
 		QString m_configVersion ;
 		QString m_commandName ;
 		QString m_userName ;
@@ -1755,7 +1750,7 @@ public:
 	}
 	void setNetworkProxy( engines::proxySettings,bool,networkAccess& ) ;
 private:
-	void updateEngines( bool,int ) ;
+	void updateEngines( int ) ;
 	util::result< engines::engine > getEngineByPath( const QString& ) const ;
 	util::result< engines::engine > getSupportingEngineByName( const QString& ) const ;
 	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
@@ -1765,7 +1760,8 @@ private:
 	QStringList dirEntries( const QString& ) const ;
 	Logger& m_logger ;
 	settings& m_settings ;
-	std::vector< engine > m_backends ;
+	std::vector< engines::engine > m_backends ;
+
 	const engines::enginePaths& m_enginePaths ;
 	QProcessEnvironment m_processEnvironment ;
 	engines::proxySettings m_networkProxy ;

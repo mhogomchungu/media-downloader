@@ -397,11 +397,15 @@ void svtplay_dl::init( settings&,Logger& logger,const engines::enginePaths& engi
 	}
 }
 
-svtplay_dl::svtplay_dl( const engines& engs,const engines::engine& engine,QJsonObject& ) :
+svtplay_dl::svtplay_dl( const engines& engs,const engines::engine& engine,QJsonObject& obj ) :
 	engines::engine::baseEngine( engs.Settings(),engine,engs.processEnvironment() ),
 	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
 {
 	m_processEnvironment.insert( "PYTHONUNBUFFERED","true" ) ;
+
+	obj.insert( "ArchiveContainsFolder",utility::platformIsWindows() ) ;
+
+	obj.insert( "DownloadUrl","https://api.github.com/repos/spaam/svtplay-dl/tags" ) ;
 }
 
 void svtplay_dl::updateOutPutChannel( QProcess::ProcessChannel& s ) const
@@ -848,11 +852,6 @@ engines::engine::baseEngine::onlineVersion svtplay_dl::versionInfoFromGithub( co
 	}
 
 	return { {},{} } ;
-}
-
-QString svtplay_dl::downloadUrl()
-{
-	return "https://api.github.com/repos/spaam/svtplay-dl/tags" ;
 }
 
 const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( Logger::Data& s )

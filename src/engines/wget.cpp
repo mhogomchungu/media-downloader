@@ -219,8 +219,29 @@ void wget::init( Logger& logger,const engines::enginePaths& enginePath )
 wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {
-	const auto& exe = s.exePath().realExe() ;
+}
 
+void wget::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
+				     bool e,
+				     const QStringList& m )
+{
+	if( !s.ourOptions.contains( "--progress=bar:force" ) ){
+
+		s.ourOptions.append( "--progress=bar:force" ) ;
+	}
+
+	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e,m ) ;
+}
+
+engines::engine::baseEngine::DataFilter wget::Filter( int id )
+{
+	const auto& engine = engines::engine::baseEngine::engine() ;
+
+	return { util::types::type_identity< wget::wgetFilter >(),engine,id,m_isWget2 } ;
+}
+
+void wget::checkExePath( const QString& exe )
+{
 	if( exe.endsWith( "wget2" ) || exe.endsWith( "wget2.exe" ) ){
 
 		m_isWget2 = true ;
@@ -250,25 +271,6 @@ wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
 
 		utils::qprocess::run( exe,{ "--version" },m,woof( m_isWget2 ) ) ;
 	}
-}
-
-void wget::updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts& s,
-				     bool e,
-				     const QStringList& m )
-{
-	if( !s.ourOptions.contains( "--progress=bar:force" ) ){
-
-		s.ourOptions.append( "--progress=bar:force" ) ;
-	}
-
-	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e,m ) ;
-}
-
-engines::engine::baseEngine::DataFilter wget::Filter( int id )
-{
-	const auto& engine = engines::engine::baseEngine::engine() ;
-
-	return { util::types::type_identity< wget::wgetFilter >(),engine,id,m_isWget2 } ;
 }
 
 bool wget::skipCondition( const QByteArray& e )

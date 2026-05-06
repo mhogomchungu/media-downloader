@@ -2,7 +2,7 @@
     "AutoUpdate": true,
     "BackendPath": "${default}",
     "BatchFileArgument": "",
-    "CanDownloadPlaylist": false,
+    "CanDownloadPlaylist": true,
     "Cmd": {
         "Generic": {
             "amd64": {
@@ -64,6 +64,17 @@
     ],
     "DownloadUrl": "https://codeberg.org/api/v1/repos/mikf/gallery-dl/releases",
     "DownloadUrlMAC": "https://api.github.com/repos/gdl-org/builds/releases/latest",
+    "DumptJsonArguments": [
+        "--no-skip",
+        "--no-download",
+        "--quiet",
+        "--postprocessor",
+        "metadata",
+        "--postprocessor-option",
+        "event=prepare",
+        "--postprocessor-option",
+        "filename=-"
+    ],
     "LikeYoutubeDl": false,
     "Name": "gallery-dl",
     "OptionsArgument": "",
@@ -76,7 +87,7 @@
     "SplitLinesBy": [
         "\n"
     ],
-    "Version": "2",
+    "Version": "3",
     "VersionArgument": "--version",
     "VersionStringLine": 0,
     "VersionStringPosition": 0

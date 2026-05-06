@@ -34,6 +34,8 @@ public:
 
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
+	void checkExePath( const QString& ) override ;
+
 	bool skipCondition( const QByteArray& ) override ;
 
 	const QByteArray& replaceUndesirableText( const QByteArray& ) override ;
