@@ -98,10 +98,11 @@ public:
 
 	void updateCmdOptions( QStringList& ) override ;
 
-	static QJsonObject init( const QString& name,
-				 const QString& configFileName,
-				 Logger& logger,
-				 const engines::enginePaths& enginePath ) ;
+	static QJsonObject init() ;
+
+	static void init( const QString& configFileName,
+			  Logger& logger,
+			  const engines::enginePaths& enginePath ) ;
 
 	yt_dlp( const engines&,const engines::engine&,QJsonObject& ) ;
 private:

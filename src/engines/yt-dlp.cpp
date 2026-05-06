@@ -290,18 +290,8 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
-QJsonObject yt_dlp::init( const QString& name,
-			  const QString& configFileName,
-			  Logger& logger,
-			  const engines::enginePaths& enginePath )
+QJsonObject yt_dlp::init()
 {
-	auto m = enginePath.enginePath( configFileName ) ;
-
-	if( QFile::exists( m ) ){
-
-		return QJsonObject() ;
-	}
-
 	QJsonObject mainObj ;
 
 	utility::addJsonCmd json( mainObj ) ;
@@ -314,9 +304,9 @@ QJsonObject yt_dlp::init( const QString& name,
 				    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
 
 	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
-				   { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
-				   { "x86",x86Name,{ x86Name } },
-				   { "amd64",amd64,{ amd64 } } } } ) ;
+				    { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
+				    { "x86",x86Name,{ x86Name } },
+				    { "amd64",amd64,{ amd64 } } } } ) ;
 
 	json.add( { { "MacOS" },{ { "x86",macos,{ macos } },
 				  { "amd64",macos,{ macos } } } } ) ;
@@ -361,7 +351,7 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	mainObj.insert( "RequiredMinimumVersionOfMediaDownloader","2.2.0" ) ;
 
-	mainObj.insert( "Name",name ) ;
+	mainObj.insert( "Name","yt-dlp" ) ;
 
 	mainObj.insert( "CookieArgument","--cookies-from-browser" ) ;
 
@@ -389,9 +379,19 @@ QJsonObject yt_dlp::init( const QString& name,
 
 	mainObj.insert( "ReplaceOutputWithProgressReport",false ) ;
 
-	engines::file( m,logger ).write( mainObj ) ;
-
 	return mainObj ;
+}
+
+void yt_dlp::init( const QString& configFileName,
+		   Logger& logger,
+		   const engines::enginePaths& enginePath )
+{
+	auto m = enginePath.enginePath( configFileName ) ;
+
+	if( !QFile::exists( m ) ){
+
+		engines::file( m,logger ).write( yt_dlp::init() ) ;
+	}
 }
 
 yt_dlp::yt_dlp( const engines& engines,

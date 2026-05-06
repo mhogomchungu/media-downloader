@@ -492,11 +492,15 @@ const engines::engine& engines::defaultEngine( const QString& name,int id ) cons
 	}else{
 		m_logger.add( "Error: engines::defaultEngine: Unknown Engine: " + name,id ) ;
 
-		if( m_backends.size() > 0 ){
+		if( m_backends.size() ){
 
 			return m_backends[ 0 ] ;
 		}else{
-			static engines::engine engine( *this ) ;
+			auto id = utility::sequentialID() ;
+
+			auto obj = yt_dlp::init() ;
+
+			static engines::engine engine( m_logger,m_enginePaths,obj,*this,id ) ;
 
 			return engine ;
 		}
@@ -883,55 +887,57 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 {
 	const auto& name = this->name() ;
 
+	const auto& engine = *this ;
+
 	if( this->likeYtDlp() ){
 
-		return std::make_unique< yt_dlp >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< yt_dlp >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "safaribooks" ) ){
 
-		return std::make_unique< safaribooks >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< safaribooks >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "gallery-dl" ) ){
 
-		return std::make_unique< gallery_dl >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< gallery_dl >( engines,engine,m_jsonObject ) ;
 
 	}else if( name == "aria2c" ){
 
-		return std::make_unique< aria2c >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< aria2c >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "lux" ) ){
 
-		return std::make_unique< lux >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< lux >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "you-get" ) ){
 
-		return std::make_unique< you_get >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< you_get >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "svtplay-dl" ) ){
 
-		return std::make_unique< svtplay_dl >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< svtplay_dl >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "wget" ) ){
 
-		return std::make_unique< wget >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< wget >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "deno" ) ){
 
-		return std::make_unique< deno >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< deno >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "bun" ) ){
 
-		return std::make_unique< bun >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< bun >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "quickjs" ) ){
 
-		return std::make_unique< quickjs >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< quickjs >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "getsauce" ) ){
 
-		return std::make_unique< getsauce >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< getsauce >( engines,engine,m_jsonObject ) ;
 	}else{
-		return std::make_unique< generic >( engines,*this,m_jsonObject ) ;
+		return std::make_unique< generic >( engines,engine,m_jsonObject ) ;
 	}
 }
 
@@ -2625,7 +2631,7 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 	m_configFileName( m_name + ".json" ),
 	m_parent( engs )
 {
-	yt_dlp::init( this->name(),this->configFileName(),logger,enginePath ) ;
+	yt_dlp::init( this->configFileName(),logger,enginePath ) ;
 
 	if( utility::platformIsWindows() ){
 
