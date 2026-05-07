@@ -596,10 +596,12 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 	auto& ll    = m_ctx.logger() ;
 	auto update = []( const QByteArray& ){} ;
 	auto logger = make_loggerBasicDownloader( eng.engine.filter( eng.id ),ll,update,eng.id,logs ) ;
-	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,-1 ) ;
+	auto term   = m_terminator.setUp( m_ui.pbCancel,&QPushButton::clicked,eng.id ) ;
 	auto ctx    = utility::make_ctx( m_ctx,ev.move(),logger.move(),term.move(),ch ) ;
 
 	ll.clear() ;
+
+	m_ctx.logger().updateView( true ) ;
 
 	utility::run( args,credentials,ctx.move() ) ;
 }
