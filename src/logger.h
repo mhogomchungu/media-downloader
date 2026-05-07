@@ -661,7 +661,7 @@ private:
 	Logger::Data m_processOutPuts ;
 	bool m_updateView = false ;
 	settings& m_settings ;
-	int m_maxProcessLog ;
+	int m_maxProcessLog = 1 ;
 	int m_id = -1 ;
 
 	class meaw : public QObject

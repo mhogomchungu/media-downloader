@@ -601,7 +601,7 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 
 	ll.clear() ;
 
-	m_ctx.logger().updateView( true ) ;
+	ll.setMaxProcessLog( 1 ) ;
 
 	utility::run( args,credentials,ctx.move() ) ;
 }
