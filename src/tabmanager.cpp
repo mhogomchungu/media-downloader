@@ -151,11 +151,7 @@ void tabManager::setDefaultEngines()
 {
 	QStringList s ;
 
-	auto iter = m_ctx.Engines().getEngines().forwardInterator() ;
-
-	while( iter.hasNext() ){
-
-		const auto& engine = iter.next() ;
+	for( const auto& engine : m_ctx.Engines().getEngines() ){
 
 		if( !engine.supportingEngine() && engine.backendExists() && !engine.broken() ){
 

@@ -1670,6 +1670,29 @@ public:
 		private:
 			std::unique_ptr< engines::engine > m_engine ;
 		} ;
+		class iter
+		{
+		public:
+			iter( size_t s,const std::vector< engines::EnginesList::engine >& b ) :
+				m_pos( s ),m_backends( b )
+			{
+			}
+			const engines::engine& operator*() const
+			{
+				return m_backends[ m_pos ].get() ;
+			}
+			void operator++()
+			{
+				m_pos++ ;
+			}
+			bool operator!=( const engines::EnginesList::iter& other ) const
+			{
+				return m_pos != other.m_pos ;
+			}
+		private:
+			size_t m_pos ;
+			const std::vector< engines::EnginesList::engine >& m_backends ;
+		} ;
 		void clear()
 		{
 			m_backends.clear() ;
@@ -1686,33 +1709,17 @@ public:
 		{
 			return m_backends[ s ].get() ;
 		}
-		auto forwardInterator() const
+		engines::EnginesList::iter begin() const
 		{
-			class meaw
-			{
-			public:
-				meaw( const std::vector< engines::EnginesList::engine >& t ) :
-					m_backends( t ),m_it( 0 )
-				{
-				}
-				bool hasNext() const
-				{
-					return m_it < m_backends.size() ;
-				}
-				const engines::engine& next()
-				{
-					return m_backends[ m_it++ ].get() ;
-				}
-			private:
-				const std::vector< engines::EnginesList::engine >& m_backends ;
-				size_t m_it ;
-			} ;
-
-			return meaw( m_backends ) ;
+			return { 0,m_backends } ;
+		}
+		engines::EnginesList::iter end() const
+		{
+			return { m_backends.size(),m_backends } ;
 		}
 	private:
 		std::vector< engines::EnginesList::engine > m_backends ;
-	};
+	} ;
 	class Iterator
 	{
 	public:

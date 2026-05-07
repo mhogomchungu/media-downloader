@@ -311,11 +311,9 @@ versionInfo::reportDone versionInfo::createReportDone() const
 
 bool versionInfo::allBackendExists( const engines::EnginesList& e ) const
 {
-	auto iter = e.forwardInterator() ;
+	for( const auto& it : e ){
 
-	while( iter.hasNext() ){
-
-		if( !iter.next().backendExists() ){
+		if( !it.backendExists() ){
 
 			return false ;
 		}

@@ -447,11 +447,7 @@ void engines::updateEngines( int id )
 
 	this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
-	auto iter = this->getEngines().forwardInterator() ;
-
-	while( iter.hasNext() ){
-
-		const auto& it = iter.next() ;
+	for( const auto& it : this->getEngines() ){
 
 		const auto& e = it.exePath().exe() ;
 
@@ -509,11 +505,7 @@ const engines::engine& engines::defaultEngine( const QString& name,int id ) cons
 
 util::result_ref< const engines::engine& > engines::getEngineByName( const QString& name ) const
 {
-	auto iter = m_backends.forwardInterator() ;
-
-	while( iter.hasNext() ){
-
-		const auto& it = iter.next() ;
+	for( const auto& it : m_backends ){
 
 		if( it.name() == name ){
 

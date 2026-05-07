@@ -545,11 +545,7 @@ void batchdownloader::showCustomContext()
 
 	mm->setEnabled( !finishSuccess ) ;
 
-	auto iter = m_ctx.Engines().getEngines().forwardInterator() ;
-
-	while( iter.hasNext() ){
-
-		const auto& it = iter.next() ;
+	for( const auto& it : m_ctx.Engines().getEngines() ){
 
 		if( !it.supportingEngine() ){
 
