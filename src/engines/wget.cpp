@@ -237,40 +237,47 @@ engines::engine::baseEngine::DataFilter wget::Filter( int id )
 {
 	const auto& engine = engines::engine::baseEngine::engine() ;
 
-	return { util::types::type_identity< wget::wgetFilter >(),engine,id,m_isWget2 } ;
+	return { util::types::type_identity< wget::wgetFilter >(),engine,id,m_isWget2_legacy,m_isWget2 } ;
 }
 
 void wget::checkExePath( const QString& exe )
 {
-	if( exe.endsWith( "wget2" ) || exe.endsWith( "wget2.exe" ) ){
-
-		m_isWget2 = true ;
-	}else{
-		m_isWget2 = false ;
-
-		class woof
+	class woof
+	{
+	public:
+		woof( wget& w ) : m_parent( w )
 		{
-		public:
-			woof( bool& w ) : m_isWget2( w )
-			{
-			}
-			void operator()( const utils::qprocess::outPut& r )
-			{
-				if( r.success() && !r.stdOut.isEmpty() ){
+		}
+		void operator()( const utils::qprocess::outPut& r )
+		{
+			if( r.success() && !r.stdOut.isEmpty() ){
 
-					auto m = util::split( r.stdOut,"\n" ) ;
+				auto m = util::split( r.stdOut,"\n" ) ;
 
-					m_isWget2 = m[ 0 ].toLower().contains( "wget2" ) ;
+				auto s = util::split( m[ 0 ]," " ) ;
+
+				if( s.size() > 2 ){
+
+					util::version ver = s[ 2 ] ;
+
+					if( ver >= "2.0.0" && ver < "2.2.0" ){
+
+						m_parent.m_isWget2_legacy = true ;
+
+					}else if( ver >= "2.2.0" ){
+
+						m_parent.m_isWget2 = true ;
+					}
 				}
 			}
-		private:
-			bool& m_isWget2 ;
-		} ;
+		}
+	private:
+		wget& m_parent ;
+	} ;
 
-		auto m = QProcess::ProcessChannelMode::MergedChannels ;
+	auto m = QProcess::ProcessChannelMode::MergedChannels ;
 
-		utils::qprocess::run( exe,{ "--version" },m,woof( m_isWget2 ) ) ;
-	}
+	utils::qprocess::run( exe,{ "--version" },m,woof( *this ) ) ;
 }
 
 bool wget::skipCondition( const QByteArray& e )
@@ -285,7 +292,7 @@ bool wget::skipCondition( const QByteArray& e )
 
 const QByteArray& wget::replaceUndesirableText( const QByteArray& m )
 {
-	if( m_isWget2 ){
+	if( m_isWget2_legacy || m_isWget2 ){
 
 		auto s = m.indexOf( "\x1b\x5b\x31\x47" ) ;
 
@@ -369,8 +376,8 @@ wget::~wget()
 {
 }
 
-wget::wgetFilter::wgetFilter( const engines::engine& engine,int id,bool s ) :
-	engines::engine::baseEngine::filter( engine,id ),m_isWget2( s )
+wget::wgetFilter::wgetFilter( const engines::engine& engine,int id,bool l,bool m ) :
+	engines::engine::baseEngine::filter( engine,id ),m_isWget2_legacy( l ),m_isWget2( m )
 {
 }
 
@@ -396,7 +403,7 @@ QByteArray wget::wgetFilter::uiText( const QByteArray& e,const QByteArray& p,con
 		}
 	}
 
-	if( size > 3 && !m_isWget2 ){
+	if( size > 3 && !m_isWget2 && !m_isWget2_legacy ){
 
 		auto w = m[ 3 ] ;
 
@@ -467,9 +474,16 @@ const QByteArray& wget::wgetFilter::operator()( Logger::Data& e )
 	}else{
 		auto line = e.toLines() ;
 
-		if( m_isWget2 ){
+		if( m_isWget2_legacy ){
 
 			return this->processWget2( line,e ) ;
+
+		}else if( m_isWget2 ){
+
+			if( line.contains( "Saving " ) ){
+
+				return this->processWget2( line,e ) ;
+			}
 		}else{
 			if( line.contains( "Saving to: " ) ){
 
@@ -598,11 +612,31 @@ const QByteArray& wget::wgetFilter::processWget1( const QByteArray& line,Logger:
 	}
 }
 
-const QByteArray& wget::wgetFilter::processWget2( const QByteArray&,Logger::Data& e )
+const QByteArray& wget::wgetFilter::processWget2( const QByteArray& line,Logger::Data& e )
 {
 	auto m = e.lastText() ;
 
-	if( m_title.isEmpty() && !m.contains( "Files: 0" ) && !m.contains( "0 files" ) ){
+	if( m_title.isEmpty() && m_isWget2 ){
+
+		const auto lines = util::split( line,'\n' ) ;
+
+		for( const auto& it : lines ){
+
+			auto m = it.indexOf( "Saving '" ) ;
+
+			if( m != -1 ){
+
+				m_title = it.mid( 10 ) ;
+				m_title.replace( "‘","" ) ;
+				m_title.replace( "’","" ) ;
+				m_title.replace( "'","" ) ;
+				m_title.replace( "'","" ) ;
+
+				break ;
+			}
+		}
+	}
+	if( m_isWget2_legacy && m_title.isEmpty() && !m.contains( "Files: 0" ) && !m.contains( "0 files" ) ){
 
 		auto s = m.indexOf( "%" ) ;
 

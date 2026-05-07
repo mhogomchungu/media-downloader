@@ -584,7 +584,14 @@ QString engines::findExecutable( const QString& exeName,bool searchFromBeginning
 	}else{
 		auto paths = this->processEnvironment().value( "PATH" ).split( ':' ) ;
 
-		return this->findExecutable( exeName,paths,searchFromBeginning ) ;
+		auto m = this->findExecutable( exeName,paths,searchFromBeginning ) ;
+
+		if( m.isEmpty() && exeName == "wget" ){
+
+			return this->findExecutable( "wget2",paths,searchFromBeginning ) ;
+		}else{
+			return m ;
+		}
 	}
 }
 

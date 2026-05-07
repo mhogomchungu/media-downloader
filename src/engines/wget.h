@@ -51,12 +51,13 @@ public:
 	class wgetFilter : public engines::engine::baseEngine::filter
 	{
 	public:
-		wgetFilter( const engines::engine&,int,bool ) ;
+		wgetFilter( const engines::engine&,int,bool,bool ) ;
 
 		const QByteArray& operator()( Logger::Data& e ) override ;
 
 		~wgetFilter() override ;
 	private:
+		bool m_isWget2_legacy ;
 		bool m_isWget2 ;
 		QByteArray m_title ;
 		QByteArray m_length ;
@@ -68,6 +69,7 @@ public:
 		const QByteArray& processWget2( const QByteArray&,Logger::Data& ) ;
 	} ;
 private:
-	bool m_isWget2 ;
+	bool m_isWget2_legacy = false ;
+	bool m_isWget2 = false ;
 	QByteArray m_tmp ;
 };
