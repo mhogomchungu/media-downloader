@@ -67,8 +67,12 @@ public:
 		bool progressLine( const QByteArray& ) ;
 		const QByteArray& processWget1( const QByteArray&,Logger::Data& ) ;
 		const QByteArray& processWget2( const QByteArray&,Logger::Data& ) ;
+		bool wget2() const ;
+		void setwget2Title( const QByteArray&,const QByteArray&,Logger::Data& ) ;
 	} ;
 private:
+	void setWgetVersion( const QByteArray& ) ;
+	bool wget2() const ;
 	bool m_isWget2_legacy = false ;
 	bool m_isWget2 = false ;
 	QByteArray m_tmp ;

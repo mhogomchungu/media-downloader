@@ -242,6 +242,11 @@ engines::engine::baseEngine::DataFilter wget::Filter( int id )
 
 void wget::checkExePath( const QString& exe )
 {
+	if( exe.isEmpty() ){
+
+		return ;
+	}
+
 	class woof
 	{
 	public:
@@ -252,23 +257,7 @@ void wget::checkExePath( const QString& exe )
 		{
 			if( r.success() && !r.stdOut.isEmpty() ){
 
-				auto m = util::split( r.stdOut,"\n" ) ;
-
-				auto s = util::split( m[ 0 ]," " ) ;
-
-				if( s.size() > 2 ){
-
-					util::version ver = s[ 2 ] ;
-
-					if( ver >= "2.0.0" && ver < "2.2.0" ){
-
-						m_parent.m_isWget2_legacy = true ;
-
-					}else if( ver >= "2.2.0" ){
-
-						m_parent.m_isWget2 = true ;
-					}
-				}
+				m_parent.setWgetVersion( r.stdOut ) ;
 			}
 		}
 	private:
@@ -292,7 +281,7 @@ bool wget::skipCondition( const QByteArray& e )
 
 const QByteArray& wget::replaceUndesirableText( const QByteArray& m )
 {
-	if( m_isWget2_legacy || m_isWget2 ){
+	if( this->wget2() ){
 
 		auto s = m.indexOf( "\x1b\x5b\x31\x47" ) ;
 
@@ -372,6 +361,32 @@ QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 	}
 }
 
+void wget::setWgetVersion( const QByteArray& e )
+{
+	auto m = util::split( e,"\n" ) ;
+
+	auto s = util::split( m[ 0 ]," " ) ;
+
+	if( s.size() > 2 ){
+
+		util::version ver = s[ 2 ] ;
+
+		if( ver >= "2.0.0" && ver < "2.2.0" ){
+
+			m_isWget2_legacy = true ;
+
+		}else if( ver >= "2.2.0" ){
+
+			m_isWget2 = true ;
+		}
+	}
+}
+
+bool wget::wget2() const
+{
+	return m_isWget2_legacy || m_isWget2 ;
+}
+
 wget::~wget()
 {
 }
@@ -403,7 +418,7 @@ QByteArray wget::wgetFilter::uiText( const QByteArray& e,const QByteArray& p,con
 		}
 	}
 
-	if( size > 3 && !m_isWget2 && !m_isWget2_legacy ){
+	if( size > 3 && !this->wget2() ){
 
 		auto w = m[ 3 ] ;
 
@@ -616,65 +631,9 @@ const QByteArray& wget::wgetFilter::processWget2( const QByteArray& line,Logger:
 {
 	auto m = e.lastText() ;
 
-	if( m_title.isEmpty() && m_isWget2 ){
+	if( m_title.isEmpty() ){
 
-		const auto lines = util::split( line,'\n' ) ;
-
-		for( const auto& it : lines ){
-
-			auto m = it.indexOf( "Saving '" ) ;
-
-			if( m != -1 ){
-
-				m_title = it.mid( 10 ) ;
-				m_title.replace( "‘","" ) ;
-				m_title.replace( "’","" ) ;
-				m_title.replace( "'","" ) ;
-				m_title.replace( "'","" ) ;
-
-				break ;
-			}
-		}
-	}
-	if( m_isWget2_legacy && m_title.isEmpty() && !m.contains( "Files: 0" ) && !m.contains( "0 files" ) ){
-
-		auto s = m.indexOf( "%" ) ;
-
-		if( s != -1 ){
-
-			int i = s ;
-
-			for( ; i >= 0 ; i-- ){
-
-				if( m[ i ] == ' ' ){
-
-					break ;
-				}
-			}
-
-			QByteArray cmd ;
-
-			e.forEach( [ & ]( int,const QByteArray& e ){
-
-				cmd = QDir::fromNativeSeparators( e ).toUtf8() ;
-
-				return true ;
-			} ) ;
-
-			if( !cmd.isEmpty() ){
-
-				auto e = util::split( cmd,'/' ).last() ;
-
-				e = e.mid( 0,e.size() -1 ) ;
-
-				m_title = m.mid( 0,i ).trimmed() ;
-
-				if( e.startsWith( m_title ) ){
-
-					m_title = e ;
-				}
-			}
-		}
+		this->setwget2Title( line,m,e ) ;
 	}
 
 	if( this->progressLine( m ) ){
@@ -733,6 +692,75 @@ const QByteArray& wget::wgetFilter::processWget2( const QByteArray& line,Logger:
 		return m_tmp ;
 	}else{
 		return m_preProcessing.text() ;
+	}
+}
+
+bool wget::wgetFilter::wget2() const
+{
+	return m_isWget2 || m_isWget2_legacy ;
+}
+
+void wget::wgetFilter::setwget2Title( const QByteArray& line,const QByteArray& m,Logger::Data& e )
+{
+	if( m_isWget2 ){
+
+		const auto lines = util::split( line,'\n' ) ;
+
+		for( const auto& it : lines ){
+
+			auto m = it.indexOf( "Saving '" ) ;
+
+			if( m != -1 ){
+
+				m_title = it.mid( 10 ) ;
+				m_title.replace( "‘","" ) ;
+				m_title.replace( "’","" ) ;
+				m_title.replace( "'","" ) ;
+				m_title.replace( "'","" ) ;
+
+				break ;
+			}
+		}
+
+	}else if( m.contains( "Files: 0" ) && !m.contains( "0 files" ) ){
+
+		auto s = m.indexOf( "%" ) ;
+
+		if( s != -1 ){
+
+			int i = s ;
+
+			for( ; i >= 0 ; i-- ){
+
+				if( m[ i ] == ' ' ){
+
+					break ;
+				}
+			}
+
+			QByteArray cmd ;
+
+			e.forEach( [ & ]( int,const QByteArray& e ){
+
+				cmd = QDir::fromNativeSeparators( e ).toUtf8() ;
+
+				return true ;
+			} ) ;
+
+			if( !cmd.isEmpty() ){
+
+				auto e = util::split( cmd,'/' ).last() ;
+
+				e = e.mid( 0,e.size() -1 ) ;
+
+				m_title = m.mid( 0,i ).trimmed() ;
+
+				if( e.startsWith( m_title ) ){
+
+					m_title = e ;
+				}
+			}
+		}
 	}
 }
 
