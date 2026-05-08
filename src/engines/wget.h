@@ -71,7 +71,7 @@ public:
 		void setwget2Title( const QByteArray&,const QByteArray&,Logger::Data& ) ;
 	} ;
 private:
-	void setWgetVersion( const QByteArray& ) ;
+	void setWgetVersion( const utils::qprocess::outPut& ) ;
 	bool wget2() const ;
 	bool m_isWget2_legacy = false ;
 	bool m_isWget2 = false ;

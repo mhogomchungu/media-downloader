@@ -242,31 +242,36 @@ engines::engine::baseEngine::DataFilter wget::Filter( int id )
 
 void wget::checkExePath( const QString& exe )
 {
-	if( exe.isEmpty() ){
+	if( !exe.isEmpty() ){
 
-		return ;
+		auto m = QProcess::ProcessChannelMode::MergedChannels ;
+
+		utils::qprocess::run( exe,{ "--version" },m,this,&wget::setWgetVersion ) ;
 	}
+}
 
-	class woof
-	{
-	public:
-		woof( wget& w ) : m_parent( w )
-		{
-		}
-		void operator()( const utils::qprocess::outPut& r )
-		{
-			if( r.success() && !r.stdOut.isEmpty() ){
+void wget::setWgetVersion( const utils::qprocess::outPut& r )
+{
+	if( r.success() && !r.stdOut.isEmpty() ){
 
-				m_parent.setWgetVersion( r.stdOut ) ;
+		auto m = util::split( r.stdOut,"\n" ) ;
+
+		auto s = util::split( m[ 0 ]," " ) ;
+
+		if( s.size() > 2 ){
+
+			util::version ver = s[ 2 ] ;
+
+			if( ver >= "2.0.0" && ver < "2.2.0" ){
+
+				m_isWget2_legacy = true ;
+
+			}else if( ver >= "2.2.0" ){
+
+				m_isWget2 = true ;
 			}
 		}
-	private:
-		wget& m_parent ;
-	} ;
-
-	auto m = QProcess::ProcessChannelMode::MergedChannels ;
-
-	utils::qprocess::run( exe,{ "--version" },m,woof( *this ) ) ;
+	}
 }
 
 bool wget::skipCondition( const QByteArray& e )
@@ -279,21 +284,45 @@ bool wget::skipCondition( const QByteArray& e )
 	}
 }
 
-const QByteArray& wget::replaceUndesirableText( const QByteArray& m )
+static void _replace( QByteArray& s,const char * e )
+{
+	s.replace( e,"" ) ;
+}
+
+template< typename E,typename ... Args >
+static void _replace( QByteArray& s,const E& e,Args&& ... args )
+{
+	s.replace( e,"" ) ;
+
+	_replace( s,std::forward< Args >( args ) ... ) ;
+}
+
+const QByteArray& wget::replaceUndesirableText( const QByteArray& data )
 {
 	if( this->wget2() ){
 
-		auto s = m.indexOf( "\x1b\x5b\x31\x47" ) ;
+		auto a = "\x1b\x37" ;
+		auto b = "\x1b\x38" ;
+		auto c = "\x1b\x22\x22\x38" ;
+		auto d = "\x1b\x38\x1b\x37" ;
+		auto e = "\x1b\x5b\x30\x4a" ;
+		auto f = "\x1b\x5b\x31\x47" ;
+		auto g = "\x1b\x5b\x31\x41" ;
+		auto h = "\x1b\x5b\x31\x53" ;
+		auto i = "\x1b\x5b\x31\x47" ;
+		auto j = "\x1b\x5b\x32\x41" ;
+		auto k = "\x1b\x5b\x32\x37\x47" ;
+		auto l = "\x1b\x5b\x33\x41" ;
+		auto m = "[Files: 0  Bytes: 0  []" ;
 
-		if( s != -1 ){
+		m_tmp = data ;
 
-			m_tmp = m.mid( s + 4 ) ;
+		_replace( m_tmp,a,b,c,d,e,f,g,h,i,j,k,l,m ) ;
 
-			return m_tmp ;
-		}
+		return m_tmp ;
 	}
 
-	return m ;
+	return data ;
 }
 
 void wget::setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList& e,const QString& s )
@@ -357,27 +386,6 @@ QString wget::updateTextOnCompleteDownlod( const QString& uiText,
 		}else{
 			auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 			return m + "\n" + bkText ;
-		}
-	}
-}
-
-void wget::setWgetVersion( const QByteArray& e )
-{
-	auto m = util::split( e,"\n" ) ;
-
-	auto s = util::split( m[ 0 ]," " ) ;
-
-	if( s.size() > 2 ){
-
-		util::version ver = s[ 2 ] ;
-
-		if( ver >= "2.0.0" && ver < "2.2.0" ){
-
-			m_isWget2_legacy = true ;
-
-		}else if( ver >= "2.2.0" ){
-
-			m_isWget2 = true ;
 		}
 	}
 }
@@ -712,7 +720,7 @@ void wget::wgetFilter::setwget2Title( const QByteArray& line,const QByteArray& m
 
 			if( m != -1 ){
 
-				m_title = it.mid( 10 ) ;
+				m_title = it.mid( 7 ) ;
 				m_title.replace( "‘","" ) ;
 				m_title.replace( "’","" ) ;
 				m_title.replace( "'","" ) ;
@@ -722,11 +730,10 @@ void wget::wgetFilter::setwget2Title( const QByteArray& line,const QByteArray& m
 			}
 		}
 
-	}else if( m.contains( "Files: 0" ) && !m.contains( "0 files" ) ){
-
+	}else{
 		auto s = m.indexOf( "%" ) ;
 
-		if( s != -1 ){
+		if( s != -1 && !m.contains( "0 files" ) ){
 
 			int i = s ;
 
