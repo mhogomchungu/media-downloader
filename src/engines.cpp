@@ -1081,18 +1081,18 @@ void engines::engine::parseMultipleCmdArgs( Logger& logger,
 				 * backend found in internal bin folder
 				 */
 				m_exePath = m ;
+
+			}else if( this->supportingEngine() ){
+
+				if( m_parent.m_settings.useSystemSupportingEngine() ){
+
+					m_downloadUrl.clear() ;
+					m_exePath = m ;
+				}else{
+					m_exePath = m_exeFolderPath + "/" + m_commandName ;
+				}
 			}else{
-				if( this->supportingEngine() ){
-
-					if( m_parent.m_settings.useSystemSupportingEngine() ){
-
-						m_downloadUrl.clear() ;
-						m_exePath = m ;
-					}else{
-						m_exePath = m_exeFolderPath + "/" + m_commandName ;
-					}
-
-				}else if( m_parent.m_settings.useSystemEngine() ){
+				if( m_parent.m_settings.useSystemEngine() ){
 
 					m_downloadUrl.clear() ;
 					m_exePath = m ;
