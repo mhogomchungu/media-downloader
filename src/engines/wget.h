@@ -18,7 +18,7 @@
  */
 
 #include <QByteArray>
-
+#include <QRegularExpression>
 #include "../engines.h"
 
 class wget : public engines::engine::baseEngine
@@ -76,4 +76,5 @@ private:
 	bool m_isWget2_legacy = false ;
 	bool m_isWget2 = false ;
 	QByteArray m_tmp ;
+	QRegularExpression m_csi_regex ;
 };

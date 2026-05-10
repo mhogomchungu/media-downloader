@@ -217,7 +217,8 @@ void wget::init( Logger& logger,const engines::enginePaths& enginePath )
 }
 
 wget::wget( const engines& e,const engines::engine& s,QJsonObject& ) :
-	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
+	engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() ),
+	m_csi_regex( "\x1b\\[[0-9;]*[a-zA-Z]" )
 {
 }
 
@@ -284,40 +285,17 @@ bool wget::skipCondition( const QByteArray& e )
 	}
 }
 
-static void _replace( QByteArray& s,const char * e )
-{
-	s.replace( e,"" ) ;
-}
-
-template< typename E,typename ... Args >
-static void _replace( QByteArray& s,const E& e,Args&& ... args )
-{
-	s.replace( e,"" ) ;
-
-	_replace( s,std::forward< Args >( args ) ... ) ;
-}
-
 const QByteArray& wget::replaceUndesirableText( const QByteArray& data )
 {
 	if( this->wget2() ){
 
-		auto a = "\x1b\x37" ;
-		auto b = "\x1b\x38" ;
-		auto c = "\x1b\x22\x22\x38" ;
-		auto d = "\x1b\x38\x1b\x37" ;
-		auto e = "\x1b\x5b\x30\x4a" ;
-		auto f = "\x1b\x5b\x31\x47" ;
-		auto g = "\x1b\x5b\x31\x41" ;
-		auto h = "\x1b\x5b\x31\x53" ;
-		auto i = "\x1b\x5b\x31\x47" ;
-		auto j = "\x1b\x5b\x32\x41" ;
-		auto k = "\x1b\x5b\x32\x37\x47" ;
-		auto l = "\x1b\x5b\x33\x41" ;
-		auto m = "[Files: 0  Bytes: 0  []" ;
-
 		m_tmp = data ;
 
-		_replace( m_tmp,a,b,c,d,e,f,g,h,i,j,k,l,m ) ;
+		m_tmp.replace( "[Files: 0  Bytes: 0  []","" ) ;
+		m_tmp.replace( "\x1b\x37","" ) ;
+		m_tmp.replace( "\x1b\x38","" ) ;
+
+		m_tmp = QString::fromUtf8( m_tmp ).replace( m_csi_regex,"" ).toUtf8() ; ;
 
 		return m_tmp ;
 	}
