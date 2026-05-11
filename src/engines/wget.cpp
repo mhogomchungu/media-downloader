@@ -277,12 +277,7 @@ void wget::setWgetVersion( const utils::qprocess::outPut& r )
 
 bool wget::skipCondition( const QByteArray& e )
 {
-	if( e.contains( "Files: 0  Bytes: 0" ) ){
-
-		return true ;
-	}else{
-		return false ;
-	}
+	return engines::engine::baseEngine::skipCondition( e ) ;
 }
 
 const QByteArray& wget::replaceUndesirableText( const QByteArray& data )
@@ -617,10 +612,7 @@ const QByteArray& wget::wgetFilter::processWget2( const QByteArray& line,Logger:
 {
 	auto m = e.lastText() ;
 
-	if( m_title.isEmpty() ){
-
-		this->setwget2Title( line,m,e ) ;
-	}
+	this->setwget2Title( line,m,e ) ;
 
 	if( this->progressLine( m ) ){
 
@@ -698,11 +690,17 @@ void wget::wgetFilter::setwget2Title( const QByteArray& line,const QByteArray& m
 
 			if( m != -1 ){
 
-				m_title = it.mid( 7 ) ;
-				m_title.replace( "‘","" ) ;
-				m_title.replace( "’","" ) ;
-				m_title.replace( "'","" ) ;
-				m_title.replace( "'","" ) ;
+				auto s = it.mid( 7 ) ;
+
+				s.replace( "‘","" ) ;
+				s.replace( "’","" ) ;
+				s.replace( "'","" ) ;
+				s.replace( "'","" ) ;
+
+				if( m_title != s ){
+
+					m_title = s ;
+				}
 
 				break ;
 			}
