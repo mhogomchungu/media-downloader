@@ -864,7 +864,7 @@ void configure::downloadExtension( const QString& name )
 
 QString configure::setUrl( const QString& e )
 {
-	QString hash = "11b95c9b603bb539db4eee26ad83aa46cf1bd640" ;
+	QString hash = "b731bb72d243b11cd08901bc74fcffb48d315022" ;
 
 	QString url = "https://raw.githubusercontent.com/mhogomchungu/media-downloader/" ;
 
