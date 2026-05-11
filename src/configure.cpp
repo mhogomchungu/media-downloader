@@ -889,6 +889,7 @@ void configure::init_done()
 	std::vector< updateEngines > updates ;
 
 	updates.emplace_back( "yt-dlp",3 ) ;
+	updates.emplace_back( "yt-dlp-nightly",3 ) ;
 	updates.emplace_back( "ytdl-patched",1 ) ;
 	updates.emplace_back( "gallery-dl",3 ) ;
 	updates.emplace_back( "svtplay-dl",2 ) ;
@@ -1200,6 +1201,7 @@ QMenu * configure::addExtenion()
 	auto m = new QMenu( &m_ctx.mainWidget() ) ;
 
 	this->addAction( m,m_ctx,"yt-dlp","yt-dlp.json" ) ;
+	this->addAction( m,m_ctx,"yt-dlp-nightly","yt-dlp-nightly.json" ) ;
 	this->addAction( m,m_ctx,"yt-dlp-aria2c","yt-dlp-aria2c.json" ) ;
 	this->addAction( m,m_ctx,"yt-dlp-ffmpeg","yt-dlp-ffmpeg.json" ) ;
 

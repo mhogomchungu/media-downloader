@@ -382,7 +382,7 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 	this->log( QObject::tr( "Checking installed version of %1" ).arg( engine.name() ),id ) ;
 
-	if( engine.name().contains( "yt-dlp" ) && engine.name() != "yt-dlp" ){
+	if( engine.name().contains( "yt-dlp" ) && engine.name() != "yt-dlp" && engine.name() != "yt-dlp-nightly" ){
 
 		const auto& e = m_ctx.Engines().getEngineByName( "yt-dlp" ) ;
 

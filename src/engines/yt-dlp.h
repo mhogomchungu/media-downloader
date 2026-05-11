@@ -82,6 +82,8 @@ public:
 
 	const QProcessEnvironment& processEnvironment() const override ;
 
+	bool foundNetworkUrl( const QString& s ) override ;
+
 	engines::engine::baseEngine::DataFilter Filter( int ) override ;
 
 	QString updateTextOnCompleteDownlod( const QString& uiText,
@@ -106,9 +108,11 @@ public:
 
 	yt_dlp( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	bool nightly() ;
 	void parseMetadata( QStringList& mm,const QString& txt,const QString& original,const QString& New ) ;
 	std::vector< engines::engine::baseEngine::mediaInfo >
 	mediaProperties( Logger&,const QJsonArray&,const QJsonObject& ) ;
 	QJsonArray m_objs ;
 	QProcessEnvironment m_processEnvironment ;
+	bool m_nightly ;
 };

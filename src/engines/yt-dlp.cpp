@@ -394,12 +394,32 @@ void yt_dlp::init( const QString& configFileName,
 	}
 }
 
+bool yt_dlp::foundNetworkUrl( const QString& s )
+{
+	if( this->nightly() ){
+
+		auto m = engines::engine::baseEngine::engine().commandName() ;
+
+		m.replace( "-nightly","" ) ;
+
+		return s == m ;
+	}else{
+		return engines::engine::baseEngine::foundNetworkUrl( s ) ;
+	}
+}
+
 yt_dlp::yt_dlp( const engines& engines,
 		const engines::engine& engine,
-		QJsonObject& ) :
+		QJsonObject& obj ) :
 	engines::engine::baseEngine( engines.Settings(),engine,engines.processEnvironment() ),
-	m_processEnvironment( engines::engine::baseEngine::processEnvironment() )
+	m_processEnvironment( engines::engine::baseEngine::processEnvironment() ),
+	m_nightly( obj.value( "Name" ).toString().contains( "-nightly" ) )
 {
+}
+
+bool yt_dlp::nightly()
+{
+	return m_nightly ;
 }
 
 yt_dlp::~yt_dlp()
