@@ -1280,19 +1280,19 @@ QMenu * configure::removeExtenion()
 {
 	auto m = new QMenu( &m_ctx.mainWidget() ) ;
 
-	for( const auto& it : m_ctx.Engines().enginesList() ){
+	for( const auto& engine : m_ctx.Engines().getEngines() ){
 
-		auto e = QString( it ).replace( ".json","" ) ;
+		if( engine.name() == "yt-dlp" ){
 
-		const auto& engine = m_ctx.Engines().getEngineByName( e ) ;
+			continue ;
+		}
+		if( !engine.supportingEngine() ){
 
-		if( engine && !engine->supportingEngine() ){
+			auto ac = m->addAction( engine.name() ) ;
 
-			auto ac = m->addAction( engine->name() ) ;
+			ac->setObjectName( engine.name() ) ;
 
-			ac->setObjectName( it ) ;
-
-			ac->setEnabled( !engine->bundledEngine() ) ;
+			ac->setEnabled( !engine.bundledEngine() ) ;
 		}
 	}
 

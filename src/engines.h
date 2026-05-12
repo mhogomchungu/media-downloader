@@ -1697,6 +1697,7 @@ public:
 		{
 			m_backends.clear() ;
 		}
+		void sort() ;
 		size_t size() const
 		{
 			return m_backends.size() ;

@@ -429,8 +429,6 @@ void engines::updateEngines( int id )
 {
 	m_backends.clear() ;
 
-	this->engineAdd( "",this->getEngineByPath( m_defaultEngine.configFileName() ),id ) ;
-
 	const auto mm = this->enginesList() ;
 
 	for( const auto& it : mm ){
@@ -466,6 +464,8 @@ void engines::updateEngines( int id )
 			break ;
 		}
 	}
+
+	m_backends.sort() ;
 }
 
 const engines::EnginesList& engines::getEngines() const
@@ -696,8 +696,6 @@ void engines::removeEngine( const QString& e,int id )
 QStringList engines::enginesList() const
 {
 	auto m = QDir( m_enginePaths.enginePath() ).entryList( QDir::Filter::Files ) ;
-
-	m.removeAll( m_defaultEngine.configFileName() ) ;
 
 	m.removeOne( "youtube-dl.json" ) ;
 
@@ -2837,4 +2835,67 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const 
 
 		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 	}
+}
+
+void engines::EnginesList::sort()
+{
+	using eng = engines::EnginesList::engine ;
+
+	std::sort( m_backends.begin(),m_backends.end(),[]( const eng& ll,const eng& rr ){
+
+		const auto& l = ll.get() ;
+		const auto& r = rr.get() ;
+
+		if( !l.supportingEngine() && !r.supportingEngine() ){
+
+			if( l.name() == "yt-dlp" ){
+
+				return true ;
+			}
+
+			if( l.name() == "yt-dlp-nightly" ){
+
+				if( r.name() == "yt-dlp" ){
+
+					return false ;
+				}else{
+					return true ;
+				}
+			}
+
+			if( l.name() == "yt-dlp-ffmpeg" ){
+
+				if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly" ) ){
+
+					return false ;
+				}else{
+					return true ;
+				}
+			}
+
+			if( l.name() == "yt-dlp-test" ){
+
+				if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg" ) ){
+
+					return false ;
+				}else{
+					return true ;
+				}
+			}
+
+			return l.name() < r.name() ;
+		}
+
+		if( !l.supportingEngine() && r.supportingEngine() ){
+
+			return true ;
+		}
+
+		if( l.supportingEngine() && !r.supportingEngine() ){
+
+			return false ;
+		}else{
+			return l.name() < r.name() ; ;
+		}
+	} ) ;
 }
