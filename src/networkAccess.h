@@ -122,6 +122,10 @@ public:
 		{
 			return m_handle->itr() ;
 		}
+		bool valid() const
+		{
+			return m_handle.get() != nullptr ;
+		}
 	private:
 		utils::misc::unique_ptr< networkAccess::iter > m_handle ;
 	} ;

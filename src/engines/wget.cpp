@@ -682,9 +682,7 @@ void wget::wgetFilter::setwget2Title( const QByteArray& line,const QByteArray& m
 {
 	if( m_isWget2 ){
 
-		const auto lines = util::split( line,'\n' ) ;
-
-		for( const auto& it : lines ){
+		utility::reverseIterator( util::split( line,'\n' ) ).forEach( [ & ]( const QByteArray& it ){
 
 			auto m = it.indexOf( "Saving '" ) ;
 
@@ -702,10 +700,11 @@ void wget::wgetFilter::setwget2Title( const QByteArray& line,const QByteArray& m
 					m_title = s ;
 				}
 
-				break ;
+				return true ;
+			}else{
+				return false ;
 			}
-		}
-
+		} ) ;
 	}else{
 		auto s = m.indexOf( "%" ) ;
 

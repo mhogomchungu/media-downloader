@@ -111,7 +111,6 @@ public:
 		printVinfo( engines::Iterator iter,versionInfo::reportDone rd,bool networkAvailable ) :
 			m_iter( std::move( iter ) ),
 			m_rd( std::move( rd ) ),
-			m_fromNetwork( false ),
 			m_networkAvailable( networkAvailable )
 		{
 		}
@@ -119,7 +118,6 @@ public:
 			m_networkIter( std::move( iter ) ),
 			m_iter( m_networkIter.itr() ),
 			m_rd( std::move( rd ) ),
-			m_fromNetwork( true ),
 			m_networkAvailable( networkAvailable )
 		{
 		}
@@ -141,11 +139,7 @@ public:
 		}
 		bool fromNetwork() const
 		{
-			return m_fromNetwork ;
-		}
-		void resetFromNetwork()
-		{
-			m_fromNetwork = false ;
+			return m_networkIter.valid() ;
 		}
 		printVinfo next()
 		{
@@ -161,7 +155,7 @@ public:
 		}
 		void reportDone() const
 		{
-			if( m_fromNetwork ){
+			if( this->fromNetwork() ){
 
 				m_networkIter.reportDone() ;
 			}else{
@@ -170,7 +164,7 @@ public:
 		}
 		void failed() const
 		{
-			if( m_fromNetwork ){
+			if( this->fromNetwork() ){
 
 				m_networkIter.failed() ;
 			}else{
@@ -185,7 +179,6 @@ public:
 		networkAccess::iterator m_networkIter ;
 		engines::Iterator m_iter ;
 		versionInfo::reportDone m_rd ;
-		bool m_fromNetwork ;
 		bool m_networkAvailable = true ;		
 		QStringList m_updates ;
 	} ;
@@ -195,7 +188,11 @@ public:
 	void check( versionInfo::printVinfo ) const ;
 	void check( networkAccess::iterator iter,bool hn ) const
 	{
-		this->check( { iter.move(),this->createReportDone(),hn } ) ;
+		struct meaw : public versionInfo::idone
+		{
+		} ;
+
+		this->check( { iter.move(),util::types::type_identity< meaw >(),hn } ) ;
 	}
 	void check( const engines::Iterator& iter,versionInfo::reportDone rd,bool hn ) const
 	{
