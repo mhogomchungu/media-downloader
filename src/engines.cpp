@@ -555,6 +555,48 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 	}
 }
 
+QString engines::findOtherExecutable( const QString& e,const QStringList& p,bool s ) const
+{
+	return this->findExecutable( e,p,s ) ;
+}
+
+QString engines::findWinExecutable( const QString& exeName,const QStringList& paths,bool fromBeginning ) const
+{
+	auto m = this->findExecutable( exeName,paths,fromBeginning ) ;
+
+	if( m.isEmpty() && !exeName.endsWith( ".exe" ) ){
+
+		m = this->findExecutable( exeName + ".exe",paths,fromBeginning ) ;
+	}
+
+	return m ;
+}
+
+template< typename Obj,typename Method >
+static auto getFinder( Obj obj,Method method,char splitter )
+{
+	class meaw
+	{
+	public:
+		meaw( Obj obj,Method method,QStringList paths ) :
+			m_obj( obj ),m_method( method ),m_paths( std::move( paths ) )
+		{
+		}
+		QString operator()( const QString& exeName,bool c )
+		{
+			return ( m_obj->*m_method )( exeName,m_paths,c ) ;
+		}
+	private:
+		Obj m_obj ;
+		Method m_method ;
+		QStringList m_paths ;
+	} ;
+
+	auto paths = obj->processEnvironment().value( "PATH" ).split( splitter ) ;
+
+	return meaw( obj,method,std::move( paths ) ) ;
+}
+
 QString engines::findExecutable( const QString& exeName,bool searchFromBeginning ) const
 {
 	if( utility::platformIsWindows() && exeName == "media-downloader.exe" ){
@@ -569,29 +611,20 @@ QString engines::findExecutable( const QString& exeName,bool searchFromBeginning
 		return exeName ;
 	}
 
-	if( utility::platformIsLikeWindows() ){
+	auto a = &engines::findWinExecutable ;
+	auto b = &engines::findOtherExecutable ;
 
-		auto paths = this->processEnvironment().value( "PATH" ).split( ';' ) ;
+	auto likeWindows = utility::platformIsLikeWindows() ;
 
-		auto m = this->findExecutable( exeName,paths,searchFromBeginning ) ;
+	auto findExe = likeWindows ? getFinder( this,a,';' ) : getFinder( this,b,':' ) ;
 
-		if( m.isEmpty() && !exeName.endsWith( ".exe" ) ){
+	auto m = findExe( exeName,searchFromBeginning ) ;
 
-			m = this->findExecutable( exeName + ".exe",paths,searchFromBeginning ) ;
-		}
+	if( m.isEmpty() && exeName == "wget" ){
 
-		return m ;
+		return findExe( "wget2",searchFromBeginning ) ;
 	}else{
-		auto paths = this->processEnvironment().value( "PATH" ).split( ':' ) ;
-
-		auto m = this->findExecutable( exeName,paths,searchFromBeginning ) ;
-
-		if( m.isEmpty() && exeName == "wget" ){
-
-			return this->findExecutable( "wget2",paths,searchFromBeginning ) ;
-		}else{
-			return m ;
-		}
+		return m ;
 	}
 }
 

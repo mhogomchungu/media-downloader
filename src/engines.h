@@ -1840,6 +1840,8 @@ private:
 	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
 	void engineAdd( const QString&,engines::EnginesList::engine,int ) ;
 	QString findExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
+	QString findOtherExecutable( const QString& e,const QStringList& p,bool s ) const ;
+	QString findWinExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
 	QProcessEnvironment getEnvPaths() const ;
 	QStringList dirEntries( const QString& ) const ;
 	Logger& m_logger ;
