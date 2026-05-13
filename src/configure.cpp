@@ -536,7 +536,7 @@ configure::configure( const Context& ctx ) :
 
 	m_ui.pbConfigureAddAPlugin->setMenu( this->addExtenion() ) ;
 
-	m_ui.pbConfigureRemoveAPlugin->setMenu( this->removeExtenion() ) ;
+	this->updateExtensionsRemoveList() ;
 
 	connect( &m_menu,&QMenu::triggered,[ & ]( QAction * ac ){
 
@@ -1306,6 +1306,11 @@ QMenu * configure::removeExtenion()
 	} ) ;
 
 	return m ;
+}
+
+void configure::updateExtensionsRemoveList()
+{
+	m_ui.pbConfigureRemoveAPlugin->setMenu( this->removeExtenion() ) ;
 }
 
 void configure::addEngine( const QByteArray& d,const QString& n )

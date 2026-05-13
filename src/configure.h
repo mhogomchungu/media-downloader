@@ -47,6 +47,7 @@ public:
 	void downloadFromGitHub( const engines::Iterator& ) ;
 	void tabEntered() ;
 	void tabExited() ;
+	void updateExtensionsRemoveList() ;
 	void setVisibilityEditConfigFeature( bool ) ;
 	void updateEnginesList( const QStringList& e ) ;
 	QString engineDefaultDownloadOptions( const QString& ) ;

@@ -204,36 +204,36 @@ public:
 		}
 		QString tmp( const QString& e ) const
 		{
-			return _add( m_tmp,e ) ;
+			return this->add( m_tmp,e ) ;
 		}
 		QString updatePath( const QString& e ) const
 		{
-			return _add( m_updatePath,e ) ;
+			return this->add( m_updatePath,e ) ;
 		}
 		QString dataPath( const QString& e ) const
 		{
-			return _add( m_dataPath,e ) ;
+			return this->add( m_dataPath,e ) ;
 		}
 		QString subscriptionsArchiveFilePath() const
 		{
-			return _add( m_dataPath,"subscriptions_archive_file.txt" ) ;
+			return this->add( m_dataPath,"subscriptions_archive_file.txt" ) ;
 		}
 		QString binPath( const QString& e ) const
 		{
-			return _add( m_binPath,e ) ;
+			return this->add( m_binPath,e ) ;
 		}
 		QString themePath() const
 		{
-			return _add( m_dataPath,"themes" ) ;
+			return this->add( m_dataPath,"themes" ) ;
 		}
 		QString enginePath( const QString& e ) const
 		{
-			return _add( m_enginePath,e ) ;
+			return this->add( m_enginePath,e ) ;
 		}
 		QString socketPath() ;
 		void confirmPaths( Logger& ) const ;
 	private:
-		QString _add( const QString& basePath,const QString& toAdd ) const
+		QString add( const QString& basePath,const QString& toAdd ) const
 		{
 			if( basePath.endsWith( "/" ) ){
 
@@ -1627,7 +1627,7 @@ public:
 	settings& Settings() const ;
 	QString findExecutable( const QString& exeName,bool searchFromBeginning = true ) const ;
 	const QProcessEnvironment& processEnvironment() const ;
-	QString addEngine( const QByteArray& data,const QString& path,int ) ;
+	QString addEngine( const QByteArray& data,const QString& extensionName,int ) ;
 	void removeEngine( const QString& name,int ) ;
 	QStringList enginesList() const ;
 	const engine& defaultEngine( const QString&,int ) const ;
@@ -1706,6 +1706,7 @@ public:
 		{
 			m_backends.emplace_back( m.move() ) ;
 		}
+		void remove( const QString& name ) ;
 		const engines::engine& operator[]( size_t s ) const
 		{
 			return m_backends[ s ].get() ;
@@ -1834,6 +1835,8 @@ public:
 	}
 	void setNetworkProxy( engines::proxySettings,bool,networkAccess& ) ;
 private:
+	void addEngine( const QString&,int ) ;
+	void removeEngineFromList( const QString&,int ) ;
 	void updateEngines( int ) ;
 	engines::EnginesList::engine getEngineByPath( const QString& ) const ;
 	engines::EnginesList::engine getSupportingEngineByName( const QString& ) const ;

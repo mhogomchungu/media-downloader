@@ -425,11 +425,20 @@ void engines::engineAdd( const QString& jsonFile,engines::EnginesList::engine m,
 	}
 }
 
+void engines::addEngine( const QString& extensionFileName,int id )
+{
+	this->engineAdd( extensionFileName,this->getEngineByPath( extensionFileName ),id ) ;
+	m_backends.sort() ;
+}
+
+void engines::removeEngineFromList( const QString& name,int )
+{
+	m_backends.remove( name ) ;
+}
+
 void engines::updateEngines( int id )
 {
-	m_backends.clear() ;
-
-	const auto mm = this->enginesList() ;
+	const auto mm = this->enginesList() ;	
 
 	for( const auto& it : mm ){
 
@@ -638,7 +647,7 @@ const QProcessEnvironment& engines::processEnvironment() const
 	return m_processEnvironment ;
 }
 
-QString engines::addEngine( const QByteArray& data,const QString& path,int id )
+QString engines::addEngine( const QByteArray& data,const QString& extensionFileName,int id )
 {
 	util::Json json( data ) ;
 
@@ -650,7 +659,7 @@ QString engines::addEngine( const QByteArray& data,const QString& path,int id )
 
 		if( !name.isEmpty() ){
 
-			auto e = m_enginePaths.enginePath( path ) ;
+			auto e = m_enginePaths.enginePath( extensionFileName ) ;
 
 			QFile f( e ) ;
 
@@ -672,7 +681,7 @@ QString engines::addEngine( const QByteArray& data,const QString& path,int id )
 					}
 				}
 
-				this->updateEngines( id ) ;
+				this->addEngine( extensionFileName,id ) ;
 
 				return name ;
 			}
@@ -684,8 +693,10 @@ QString engines::addEngine( const QByteArray& data,const QString& path,int id )
 	return {} ;
 }
 
-void engines::removeEngine( const QString& e,int id )
+void engines::removeEngine( const QString& ee,int id )
 {
+	auto e = ee + ".json" ;
+
 	const auto& engine = this->getCompleteEngineByPath( e ) ;
 
 	if( engine ){
@@ -710,6 +721,8 @@ void engines::removeEngine( const QString& e,int id )
 			}
 		}
 
+		this->removeEngineFromList( engine->name(),id ) ;
+
 		if( m_backends.size() > 0 ){
 
 			const auto& name = engine->name() ;
@@ -725,9 +738,7 @@ void engines::removeEngine( const QString& e,int id )
 			_reset_default( name,settings::tabName::basic ) ;
 			_reset_default( name,settings::tabName::batch ) ;
 			_reset_default( name,settings::tabName::playlist ) ;
-		}
-
-		this->updateEngines( id ) ;
+		}		
 	}
 }
 
@@ -2884,42 +2895,7 @@ void engines::EnginesList::sort()
 		const auto& l = ll.get() ;
 		const auto& r = rr.get() ;
 
-		if( !l.supportingEngine() && !r.supportingEngine() ){
-
-			if( l.name() == "yt-dlp" ){
-
-				return true ;
-			}
-
-			if( l.name() == "yt-dlp-nightly" ){
-
-				if( r.name() == "yt-dlp" ){
-
-					return false ;
-				}else{
-					return true ;
-				}
-			}
-
-			if( l.name() == "yt-dlp-ffmpeg" ){
-
-				if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly" ) ){
-
-					return false ;
-				}else{
-					return true ;
-				}
-			}
-
-			if( l.name() == "yt-dlp-test" ){
-
-				if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg" ) ){
-
-					return false ;
-				}else{
-					return true ;
-				}
-			}
+		if( l.supportingEngine() && r.supportingEngine() ){
 
 			return l.name() < r.name() ;
 		}
@@ -2932,8 +2908,91 @@ void engines::EnginesList::sort()
 		if( l.supportingEngine() && !r.supportingEngine() ){
 
 			return false ;
-		}else{
-			return l.name() < r.name() ; ;
 		}
+
+		if( l.name() == "yt-dlp" ){
+
+			return true ;
+		}
+
+		if( r.name() == "yt-dlp" ){
+
+			return false ;
+		}
+
+		if( l.name() == "yt-dlp-nightly" ){
+
+			if( r.name() == "yt-dlp" ){
+
+				return false ;
+			}else{
+				return true ;
+			}
+		}
+
+		if( r.name() == "yt-dlp-nightly" ){
+
+			if( l.name() == "yt-dlp" ){
+
+				return true ;
+			}else{
+				return false ;
+			}
+		}
+
+		if( l.name() == "yt-dlp-ffmpeg" ){
+
+			if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly" ) ){
+
+				return false ;
+			}else{
+				return true ;
+			}
+		}
+
+		if( r.name() == "yt-dlp-ffmpeg" ){
+
+			if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly" ) ){
+
+				return true ;
+			}else{
+				return false ;
+			}
+		}
+
+		if( l.name() == "yt-dlp-test" ){
+
+			if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg" ) ){
+
+				return false ;
+			}else{
+				return true ;
+			}
+		}
+
+		if( r.name() == "yt-dlp-test" ){
+
+			if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg" ) ){
+
+				return true ;
+			}else{
+				return false ;
+			}
+		}
+
+		return l.name() < r.name() ;
 	} ) ;
+}
+
+void engines::EnginesList::remove( const QString& name )
+{
+	for( auto it = m_backends.begin() ; it != m_backends.end() ; it++ ){
+
+		if( it->get().name() == name ){
+
+			m_backends.erase( it ) ;
+
+			break ;
+		}
+	}
 }
