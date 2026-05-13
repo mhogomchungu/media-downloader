@@ -156,7 +156,9 @@ jobs:
 
         Expand-Archive -Path ${{github.workspace}}\tmp\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}
 
-        Copy-Item ${{github.workspace}}\tmp\libs\msvcr100.dll -Destination ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}
+        Remove-Item "${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\wget\wget.exe"
+
+        Invoke-WebRequest "https://github.com/rockdaboot/wget2/releases/download/v2.2.1/wget2.exe" -OutFile "${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\wget\wget2.exe"
 
         Remove-Item ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
         Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe

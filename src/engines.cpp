@@ -618,13 +618,18 @@ QString engines::findExecutable( const QString& exeName,bool searchFromBeginning
 
 	auto findExe = likeWindows ? getFinder( this,a,';' ) : getFinder( this,b,':' ) ;
 
-	auto m = findExe( exeName,searchFromBeginning ) ;
+	if( exeName == "wget" || exeName == "wget.exe" ){
 
-	if( m.isEmpty() && exeName == "wget" ){
+		auto m = findExe( "wget2",searchFromBeginning ) ;
 
-		return findExe( "wget2",searchFromBeginning ) ;
-	}else{
+		if( m.isEmpty() ){
+
+			m = findExe( exeName,searchFromBeginning ) ;
+		}
+
 		return m ;
+	}else{
+		return findExe( exeName,searchFromBeginning ) ;
 	}
 }
 
