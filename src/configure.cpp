@@ -1282,17 +1282,18 @@ QMenu * configure::removeExtenion()
 
 	for( const auto& engine : m_ctx.Engines().getEngines() ){
 
-		if( engine.name() == "yt-dlp" ){
-
-			continue ;
-		}
 		if( !engine.supportingEngine() ){
 
 			auto ac = m->addAction( engine.name() ) ;
 
 			ac->setObjectName( engine.name() ) ;
 
-			ac->setEnabled( !engine.bundledEngine() ) ;
+			if( engine.name() == "yt-dlp" ){
+
+				ac->setEnabled( false ) ;
+			}else{
+				ac->setEnabled( !engine.bundledEngine() ) ;
+			}
 		}
 	}
 
@@ -1301,6 +1302,8 @@ QMenu * configure::removeExtenion()
 		auto id = utility::sequentialID() ;
 
 		m_ctx.Engines().removeEngine( ac->objectName(),id ) ;
+
+		ac->setEnabled( false ) ;
 
 		m_ctx.TabManager().setDefaultEngines() ;
 	} ) ;

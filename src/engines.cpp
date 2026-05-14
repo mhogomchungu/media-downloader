@@ -408,7 +408,7 @@ void engines::setDefaultEngine( const QString& name )
 	}
 }
 
-void engines::engineAdd( const QString& jsonFile,engines::EnginesList::engine m,int id )
+bool engines::engineAdd( const QString& jsonFile,engines::EnginesList::engine m,int id )
 {
 	if( m.valid() ){
 
@@ -419,16 +419,25 @@ void engines::engineAdd( const QString& jsonFile,engines::EnginesList::engine m,
 			m_logger.add( s.arg( m->name() ),id ) ;
 		}else{
 			m_backends.add( m.move() ) ;
+
+			return true ;
 		}
 	}else{
 		m_logger.add( QObject::tr( "Error, failed to parse config file \"%1\"" ).arg( jsonFile ),id ) ;
 	}
+
+	return false ;
 }
 
-void engines::addEngine( const QString& extensionFileName,int id )
+bool engines::addEngine( const QString& extensionFileName,int id )
 {
-	this->engineAdd( extensionFileName,this->getEngineByPath( extensionFileName ),id ) ;
-	m_backends.sort() ;
+	if( this->engineAdd( extensionFileName,this->getEngineByPath( extensionFileName ),id ) ){
+
+		m_backends.sort() ;
+		return true ;
+	}else{
+		return false ;
+	}
 }
 
 void engines::removeEngineFromList( const QString& name,int )
@@ -681,9 +690,12 @@ QString engines::addEngine( const QByteArray& data,const QString& extensionFileN
 					}
 				}
 
-				this->addEngine( extensionFileName,id ) ;
+				if( this->addEngine( extensionFileName,id ) ){
 
-				return name ;
+					return name ;
+				}else{
+					return {} ;
+				}
 			}
 		}
 	}
@@ -2952,7 +2964,7 @@ void engines::EnginesList::sort()
 
 		if( r.name() == "yt-dlp-ffmpeg" ){
 
-			if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly" ) ){
+			if( utils::misc::equalsAny( l.name(),"yt-dlp","yt-dlp-nightly" ) ){
 
 				return true ;
 			}else{
@@ -2972,7 +2984,7 @@ void engines::EnginesList::sort()
 
 		if( r.name() == "yt-dlp-test" ){
 
-			if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg" ) ){
+			if( utils::misc::equalsAny( l.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg" ) ){
 
 				return true ;
 			}else{

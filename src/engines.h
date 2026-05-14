@@ -1835,13 +1835,13 @@ public:
 	}
 	void setNetworkProxy( engines::proxySettings,bool,networkAccess& ) ;
 private:
-	void addEngine( const QString&,int ) ;
+	bool addEngine( const QString&,int ) ;
 	void removeEngineFromList( const QString&,int ) ;
 	void updateEngines( int ) ;
 	engines::EnginesList::engine getEngineByPath( const QString& ) const ;
 	engines::EnginesList::engine getSupportingEngineByName( const QString& ) const ;
 	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
-	void engineAdd( const QString&,engines::EnginesList::engine,int ) ;
+	bool engineAdd( const QString&,engines::EnginesList::engine,int ) ;
 	QString findExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
 	QString findOtherExecutable( const QString& e,const QStringList& p,bool s ) const ;
 	QString findWinExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
