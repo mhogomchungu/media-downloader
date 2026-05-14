@@ -1189,6 +1189,16 @@ bool yt_dlp::updateVersionInfo()
 	return false ;
 }
 
+bool yt_dlp::engineRemovable()
+{
+	if( engines::engine::baseEngine::engine().name() == "yt-dlp" ){
+
+		return false ;
+	}else{
+		return true ;
+	}
+}
+
 QByteArray yt_dlp::parseError( const QByteArray& m )
 {
 	if( m.contains( "yt-dlp: error: no such option: --remote-components" ) ){

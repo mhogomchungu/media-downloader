@@ -1288,11 +1288,9 @@ QMenu * configure::removeExtenion()
 
 			ac->setObjectName( engine.name() ) ;
 
-			if( engine.name() == "yt-dlp" ){
+			if( engine.bundledEngine() || !engine.engineRemovable() ){
 
 				ac->setEnabled( false ) ;
-			}else{
-				ac->setEnabled( !engine.bundledEngine() ) ;
 			}
 		}
 	}

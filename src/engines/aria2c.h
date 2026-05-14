@@ -28,6 +28,8 @@ public:
 
 	static bool meetCondition( const engines::engine&,const QByteArray& e ) ;
 
+	bool bundledEngine() override ;
+
 	~aria2c() override ;
 
 	aria2c( const engines&,const engines::engine&,QJsonObject& ) ;

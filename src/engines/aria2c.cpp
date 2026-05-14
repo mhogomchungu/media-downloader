@@ -154,6 +154,16 @@ bool aria2c::meetCondition( const engines::engine&,const QByteArray& e )
 	return e.startsWith( "[DL:" ) || e.startsWith( "[#" ) ;
 }
 
+bool aria2c::bundledEngine()
+{
+	if( utility::platformIsWindows() ){
+
+		return true ;
+	}else{
+		return false ;
+	}
+}
+
 class aria2cFilter : public engines::engine::baseEngine::filterOutPut
 {
 public:

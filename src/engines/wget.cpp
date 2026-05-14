@@ -280,6 +280,16 @@ bool wget::skipCondition( const QByteArray& e )
 	return engines::engine::baseEngine::skipCondition( e ) ;
 }
 
+bool wget::bundledEngine()
+{
+	if( utility::platformIsWindows() ){
+
+		return true ;
+	}else{
+		return false ;
+	}
+}
+
 const QByteArray& wget::replaceUndesirableText( const QByteArray& data )
 {
 	if( this->wget2() ){

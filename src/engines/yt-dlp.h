@@ -72,6 +72,8 @@ public:
 
 	bool updateVersionInfo() override ;
 
+	bool engineRemovable() override ;
+
 	QByteArray parseError( const QByteArray& ) override ;
 
 	void updateLocalOptions( QStringList& ) override ;

@@ -38,6 +38,8 @@ public:
 
 	bool skipCondition( const QByteArray& ) override ;
 
+	bool bundledEngine() override ;
+
 	const QByteArray& replaceUndesirableText( const QByteArray& ) override ;
 
 	void setProxySetting( engines::engine::baseEngine::optionsEnvironment&,QStringList&,const QString& ) override ;
