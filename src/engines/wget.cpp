@@ -277,7 +277,12 @@ void wget::setWgetVersion( const utils::qprocess::outPut& r )
 
 bool wget::skipCondition( const QByteArray& e )
 {
-	return engines::engine::baseEngine::skipCondition( e ) ;
+	if( e.startsWith( "[Files: 1" ) ){
+
+		return true ;
+	}else{
+		return engines::engine::baseEngine::skipCondition( e ) ;
+	}
 }
 
 bool wget::bundledEngine()
