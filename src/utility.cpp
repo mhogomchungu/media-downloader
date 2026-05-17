@@ -2954,7 +2954,7 @@ QString utility::removeFolder( const QString& e )
 
 bool utility::containsLinkerWarning( const QByteArray& e )
 {
-	return e.contains( "ERROR: ld.so: object" ) ;
+	return e.contains( "ERROR: ld.so: object" ) || e.contains( "RequestsDependencyWarning:" ) ;
 }
 
 void utility::copyToClipboardUrls( tableWidget& table )
