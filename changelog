@@ -456,8 +456,9 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
       - Fix galley-dl update bug caused by upstream change of repository url.
 
-      Version 5.6.1(UNRELEASED)
+      Version 5.6.1(May 18th, 2026)
      [WINDOWS]
       - Bundle wget2 in Qt6 build.
      [ALL]
       - Add "yt-dlp-nightly" extension to make it possible to use yt-dlp nightly version.
+      - Improve support for wget2.
