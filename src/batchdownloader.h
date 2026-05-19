@@ -318,6 +318,7 @@ private:
 			}
 		}
 	}
+	void addClipboardUrl() ;
 	bool showMetaData() ;
 	bool autoDownloadWhenAdded() ;
 	void disableWhileDownloading() ;

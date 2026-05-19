@@ -1137,6 +1137,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Getting</source>
         <translation>Ottenimento</translation>
     </message>
+    <message>
+        <source>Paste Clipboard Url</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

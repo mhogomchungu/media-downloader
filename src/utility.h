@@ -1022,12 +1022,21 @@ namespace utility
 		{
 			m_batchDownloader = true ;
 		}
+		bool batchDownloaderPasteClipboard() const
+		{
+			return m_batchDownloaderPasteClipboard ;
+		}
+		void setBatchDownloaderPasteClipboard()
+		{
+			m_batchDownloaderPasteClipboard = true ;
+		}
 	private:
 		bool m_noneAreRunning ;
 		bool m_finishedSuccess ;
 		bool m_showLogWindow = false ;
 		bool m_clear = false ;
 		bool m_batchDownloaderShowHide = false ;
+		bool m_batchDownloaderPasteClipboard = false ;
 		bool m_batchDownloader = false ;
 	} ;
 
@@ -1150,84 +1159,88 @@ namespace utility
 		addAction( ac,forceDownload,row ) ;
 	}
 
-	template< typename Function,typename FunctionHideUnHide >
-	void appendContextMenu( QMenu& m,
-				utility::contextState c,
-				const Function& function,
-				bool showClear,
-				const FunctionHideUnHide& hideUnHide )
+	template< typename Actions >
+	void appendContextMenu( QMenu& m,Actions acts )
 	{
-		auto ac = m.addAction( QObject::tr( "Show Log Window" ) ) ;
-
-		class meaw
+		class actions
 		{
 		public:
-			meaw( utility::contextState& s,const Function& function,int e ) :
-				m_ctxState( s ),m_function( function ),m_option( e )
+			actions( Actions& acs,QMenu& m ) : m_actions( acs ),m_menu( m )
 			{
 			}
-			void operator()()
+			void add( const QString& txt,void( Actions::*method )(),bool enabled = true )
 			{
-				if( m_option == 1 ){
+				auto ac = m_menu.addAction( txt ) ;
 
-					m_ctxState.setShowLogWindow() ;
+				ac->setEnabled( enabled ) ;
 
-				}else if( m_option == 2 ) {
+				m_methods.emplace_back( ac,method ) ;
+			}
+			void exec()
+			{
+				auto ac = m_menu.exec( QCursor::pos() ) ;
 
-					m_ctxState.setBatchDownloaderShowHide() ;
-				}else{
-					m_ctxState.setClear() ;
+				auto obj = &m_actions ;
+
+				for( const auto& it : m_methods ){
+
+					if( it.ac == ac ){
+
+						( obj->*( it.method ) )() ;
+					}
 				}
-
-				m_function( m_ctxState ) ;
+			}
+			void hideUnhide()
+			{
+				m_actions.hideUnhide() ;
+			}
+			bool batchDownloader()
+			{
+				return m_actions.batchDownloader() ;
+			}
+			bool showClear()
+			{
+				return m_actions.showClear() ;
+			}
+			bool noneAreRunning()
+			{
+				return m_actions.noneAreRunning() ;
 			}
 		private:
-			utility::contextState& m_ctxState ;
-			const Function& m_function ;
-			int m_option ;
+			struct methods
+			{
+				methods( QAction * a,void( Actions::*m )() ) :
+					ac( a ),method( m )
+				{
+				}
+				QAction * ac ;
+				void( Actions::*method )() ;
+			} ;
+
+			std::vector< methods > m_methods ;
+			Actions& m_actions ;
+			QMenu& m_menu ;
 		} ;
 
-		QObject::connect( ac,&QAction::triggered,meaw( c,function,1 ) ) ;
+		actions ac( acts,m ) ;
 
-		hideUnHide() ;
+		ac.add( QObject::tr( "Show Log Window" ),&Actions::showLogWindow ) ;
 
-		if( c.batchDownloader() ){
+		ac.hideUnhide() ;
 
-			ac = m.addAction( QObject::tr( "Show/Hide Controls" ) ) ;
+		if( ac.batchDownloader() ){
 
-			QObject::connect( ac,&QAction::triggered,meaw( c,function,2 ) ) ;
+			ac.add( QObject::tr( "Show/Hide Controls" ),&Actions::showHide ) ;
+
+			ac.add( QObject::tr( "Paste Clipboard Url" ),&Actions::pasteClipboard ) ;
 		}
 
-		if( showClear ){
+		if( ac.showClear() ){
 
-			ac = m.addAction( QObject::tr( "Clear" ) ) ;
-
-			ac->setEnabled( c.noneAreRunning() ) ;
-
-			QObject::connect( ac,&QAction::triggered,meaw( c,function,3 ) ) ;
+			ac.add( QObject::tr( "Clear" ),&Actions::clear,ac.noneAreRunning() ) ;
 		}
 
-		m.exec( QCursor::pos() ) ;
-	}
-
-	template< typename Function >
-	void appendContextMenu( QMenu& m,utility::contextState c,const Function& function,bool showClear )
-	{
-		utility::appendContextMenu( m,c,function,showClear,[](){} ) ;
-	}
-
-	template< typename Function >
-	void appendContextMenu( QMenu& m,
-				utility::contextState c,
-				const Function& function,
-				bool showClear,
-				int row,
-				tableWidget& table )
-	{
-		utility::appendContextMenu( m,c,function,showClear,[ & ](){
-
-			utility::hideUnhideEntries( m,table,row,false ) ;
-		} ) ;
+		ac.exec() ;
 	}
 
 	class selectedAction

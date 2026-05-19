@@ -480,39 +480,67 @@ void playlistdownloader::customContextMenuRequested()
 {
 	auto row = m_table.currentRow() ;
 
-	auto function = [ this,row ]( const utility::contextState& c ){
-
-		if( c.showLogWindow() ){
-
-			if( row == -1 ){
-
-				m_ctx.logger().showLogWindow( row ) ;
-			}else{
-				m_ctx.logger().showLogWindow( m_table.entryAt( row ).id ) ;
-			}
-
-		}else if( c.clear() ){
-
-			m_table.clear() ;
+	class Actions
+	{
+	public:
+		Actions( playlistdownloader& parent,int row,bool showClear ) :
+			m_parent( parent ),m_row( row ),m_showClear( showClear )
+		{
 		}
+		void showLogWindow()
+		{
+			auto& logger = m_parent.m_ctx.logger() ;
+
+			if( m_row == -1 ){
+
+				logger.showLogWindow( m_row ) ;
+			}else{
+				logger.showLogWindow( m_parent.m_table.entryAt( m_row ).id ) ;
+			}
+		}
+		bool batchDownloader()
+		{
+			return false ;
+		}
+		void clear()
+		{
+			m_parent.m_table.clear() ;
+		}
+		bool noneAreRunning()
+		{
+			return m_parent.enabled() ;
+		}
+		bool showClear()
+		{
+			return m_showClear ;
+		}
+		void hideUnhide()
+		{
+		}
+		void showHide()
+		{
+		}
+		void pasteClipboard()
+		{
+		}
+	private:
+		playlistdownloader& m_parent ;
+		int m_row ;
+		bool m_showClear ;
 	} ;
 
 	QMenu m ;
 
 	if( row == -1 || !m_table.rowIsVisible( row ) ){
 
-		auto ss = this->enabled() ;
-
-		return utility::appendContextMenu( m,ss,function,false,row,m_table ) ;
+		return utility::appendContextMenu( m,Actions( *this,row,false ) ) ;
 	}
 
 	auto txt = m_table.runningState( row ) ;
 
 	if( txt.isEmpty() ){
 
-		auto ss = this->enabled() ;
-
-		return utility::appendContextMenu( m,ss,function,false,row,m_table ) ;
+		return utility::appendContextMenu( m,Actions( *this,row,false ) ) ;
 	}
 
 	auto running = reportFinished::finishedStatus::running( txt ) ;
@@ -669,7 +697,7 @@ void playlistdownloader::customContextMenuRequested()
 
 	m.addSeparator() ;
 
-	utility::appendContextMenu( m,{ this->enabled(),finishSuccess },function,true ) ;
+	utility::appendContextMenu( m,Actions( *this,row,true ) ) ;
 }
 
 void playlistdownloader::plSubscription()

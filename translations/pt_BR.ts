@@ -1134,6 +1134,10 @@ Exemplo 2: ${gateway}:8080</translation>
         <source>Getting</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Paste Clipboard Url</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

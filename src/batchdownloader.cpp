@@ -242,16 +242,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 
 	connect( m_ui.pbBDPasteClipboard,&QPushButton::clicked,[ this ](){
 
-		auto m = utility::clipboardText() ;
-
-		if( m.startsWith( "http" ) ){
-
-			this->addToList( m,{ this->showMetaData(),this->autoDownloadWhenAdded() } ) ;
-
-		}else if( m.startsWith( "yt-dlp " ) ){
-
-			this->addToList( m,{ false,this->autoDownloadWhenAdded() } ) ;
-		}
+		this->addClipboardUrl() ;
 	} ) ;
 
 	auto cb = m_settings.monitorClipboardUrl( settings::tabName::batch ) ;
@@ -317,6 +308,20 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	} ) ;
 }
 
+void batchdownloader::addClipboardUrl()
+{
+	auto m = utility::clipboardText() ;
+
+	if( m.startsWith( "http" ) ){
+
+		this->addToList( m,{ this->showMetaData(),this->autoDownloadWhenAdded() } ) ;
+
+	}else if( m.startsWith( "yt-dlp " ) ){
+
+		this->addToList( m,{ false,this->autoDownloadWhenAdded() } ) ;
+	}
+}
+
 void batchdownloader::keyPressed( utility::mainWindowKeyCombo m )
 {
 	if( m == utility::mainWindowKeyCombo::ENTER ){
@@ -341,27 +346,60 @@ void batchdownloader::showCustomContext()
 {
 	auto row = m_table.currentRow() ;
 
-	auto function = [ this,row ]( const utility::contextState& c ){
-
-		if( c.showLogWindow() ){
-
-			if( row == -1 ){
-
-				m_ctx.logger().showLogWindow( row ) ;
-			}else{
-				m_ctx.logger().showLogWindow( m_table.entryAt( row ).id ) ;
-			}
-
-		}else if( c.clear() ){
-
-			m_ctx.mainWindow().resetTitle() ;
-
-			m_table.clear() ;
-
-		}else if( c.batchDownloaderShowHide() ){
-
-			this->showHideControls() ;
+	class Actions
+	{
+	public:
+		Actions( batchdownloader& parent,int row,QMenu& m ) :
+			m_parent( parent ),m_row( row ),m_menu( m )
+		{
 		}
+		void showLogWindow()
+		{
+			auto& logger = m_parent.m_ctx.logger() ;
+
+			if( m_row == -1 ){
+
+				logger.showLogWindow( m_row ) ;
+			}else{
+				auto& table = m_parent.m_table ;
+
+				logger.showLogWindow( table.entryAt( m_row ).id ) ;
+			}
+		}
+		bool batchDownloader()
+		{
+			return true ;
+		}
+		void clear()
+		{
+			m_parent.m_ctx.mainWindow().resetTitle() ;
+
+			m_parent.m_table.clear() ;
+		}
+		void showHide()
+		{
+			m_parent.showHideControls() ;
+		}
+		void pasteClipboard()
+		{
+			m_parent.addClipboardUrl() ;
+		}
+		bool noneAreRunning()
+		{
+			return m_parent.m_table.noneAreRunning() ;
+		}
+		bool showClear()
+		{
+			return true ;
+		}
+		void hideUnhide()
+		{
+			utility::hideUnhideEntries( m_menu,m_parent.m_table,m_row,false ) ;
+		}
+	private:
+		batchdownloader& m_parent ;
+		int m_row ;
+		QMenu& m_menu ;
 	} ;
 
 	QMenu m ;
@@ -370,20 +408,12 @@ void batchdownloader::showCustomContext()
 
 		this->getListFromFile( m ) ;
 
-		utility::contextState ss = m_table.noneAreRunning() ;
-
-		ss.setBatchDownloader() ;
-
-		return utility::appendContextMenu( m,ss,function,true,row,m_table ) ;
+		return utility::appendContextMenu( m,Actions( *this,row,m ) ) ;
 	}
 
 	if( !m_table.rowIsVisible( row ) ){
 
-		utility::contextState ss = m_table.noneAreRunning() ;
-
-		ss.setBatchDownloader() ;
-
-		return utility::appendContextMenu( m,ss,function,true,row,m_table ) ;
+		return utility::appendContextMenu( m,Actions( *this,row,m ) ) ;
 	}
 
 	auto txt = m_table.runningState( row ) ;
@@ -586,11 +616,7 @@ void batchdownloader::showCustomContext()
 
 	m.addSeparator() ;
 
-	utility::contextState ss = { m_table.noneAreRunning(),finishSuccess } ;
-
-	ss.setBatchDownloader() ;
-
-	utility::appendContextMenu( m,ss,function,true ) ;
+	utility::appendContextMenu( m,Actions( *this,row,m ) ) ;
 }
 
 void batchdownloader::init_done()
