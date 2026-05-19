@@ -1139,7 +1139,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla URL appunti</translation>
     </message>
 </context>
 <context>
