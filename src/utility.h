@@ -1104,13 +1104,13 @@ namespace utility
 			{
 				auto ac = m_menu.exec( QCursor::pos() ) ;
 
-				auto obj = &m_actions ;
-
 				for( const auto& it : m_methods ){
 
 					if( it.ac == ac ){
 
-						( obj->*( it.method ) )() ;
+						auto method = it.method ;
+
+						( m_actions.*method )() ;
 					}
 				}
 			}
@@ -1170,24 +1170,32 @@ namespace utility
 	class selectedAction
 	{
 	public:
-		static const char * CLEARSCREEN ;
-		static const char * CLEAROPTIONS ;
-		static const char * OPENFOLDER ;
-
+		static const char * clearScreenText()
+		{
+			return "Clear Screen" ;
+		}
+		static const char * clearOptionsText()
+		{
+			return "Clear Options" ;
+		}
+		static const char * openFolderText()
+		{
+			return "Open Download Folder" ;
+		}
 		selectedAction( QAction * ac ) : m_ac( ac )
 		{
 		}
 		bool clearOptions() const
 		{
-			return m_ac->objectName() == utility::selectedAction::CLEAROPTIONS ;
+			return m_ac->objectName() == utility::selectedAction::clearOptionsText() ;
 		}
 		bool clearScreen() const
 		{
-			return m_ac->objectName() == utility::selectedAction::CLEARSCREEN ;
+			return m_ac->objectName() == utility::selectedAction::clearScreenText() ;
 		}
 		bool openFolderPath() const
 		{
-			return m_ac->objectName() == utility::selectedAction::OPENFOLDER ;
+			return m_ac->objectName() == utility::selectedAction::openFolderText() ;
 		}
 		QString text() const
 		{

@@ -36,10 +36,6 @@
 #include <ctime>
 #include <cstring>
 
-const char * utility::selectedAction::CLEAROPTIONS = "Clear Options" ;
-const char * utility::selectedAction::CLEARSCREEN  = "Clear Screen" ;
-const char * utility::selectedAction::OPENFOLDER   = "Open Download Folder" ;
-
 class pretendPlatform
 {
 public:
@@ -1204,7 +1200,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 		menu->addSeparator() ;
 
-		auto m = utility::selectedAction::CLEARSCREEN ;
+		auto m = utility::selectedAction::clearScreenText() ;
 		translator::entry sx( QObject::tr( "Clear" ),m,m ) ;
 
 		tr.addAction( menu,sx.move() ) ;
@@ -1214,7 +1210,7 @@ QMenu * utility::setUpMenu( const Context& ctx,
 
 		menu->addSeparator() ;
 
-		auto m = utility::selectedAction::OPENFOLDER ;
+		auto m = utility::selectedAction::openFolderText() ;
 		translator::entry mm( QObject::tr( "Open Download Folder" ),m,m ) ;
 
 		tr.addAction( menu,mm.move() ) ;
