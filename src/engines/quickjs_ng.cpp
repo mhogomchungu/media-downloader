@@ -93,15 +93,20 @@ QString quickjs_ng::parseVersionInfo( const utils::qprocess::outPut& e )
 {
 	if( !e.stdOut.isEmpty() ){
 
-		auto s = util::split( e.stdOut,'\n' ) ;
+		const auto s = util::split( e.stdOut,'\n' ) ;
 
-		if( s.size() ){
+		if( s.size() == 1 ){
 
-			auto m = util::split( s[ 0 ],' ' ) ;
+			return s[ 0 ].trimmed() ;
+		}else{
+			for( const auto& it : s ){
 
-			if( m.size() ){
+				if( it.startsWith( "QuickJS-ng" ) ){
 
-				return m[ m.size() - 1 ] ;
+					auto m = util::split( it,' ' ) ;
+
+					return m[ m.size() - 1 ].trimmed() ;
+				}
 			}
 		}
 	}
