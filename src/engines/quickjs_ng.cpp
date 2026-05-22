@@ -43,6 +43,10 @@ void quickjs_ng::init( Logger& logger,const engines::enginePaths& enginePath )
 				    { "x86","qjs-windows-x86.exe",{ "qjs-windows-x86.exe" } },
 				    { "amd64","qjs-windows-x86_64.exe",{ "qjs-windows-x86_64.exe" } } } } ) ;
 
+	json.add( { { "MacOS" },{ { "x86","qjs-darwin",{ "qjs-darwin" } },
+				  { "aarch64","qjs-darwin",{ "qjs-darwin" } },
+				  { "amd64","qjs-darwin",{ "qjs-darwin" } } } } ) ;
+
 	json.done() ;
 
 	mainObj.insert( "Version","1" ) ;

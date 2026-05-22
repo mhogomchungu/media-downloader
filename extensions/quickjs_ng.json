@@ -1,0 +1,80 @@
+{
+    "AutoUpdate": true,
+    "BackendPath": "${default}",
+    "Cmd": {
+        "Generic": {
+            "aarch64": {
+                "Args": [
+                    "qjs-linux-aarch64"
+                ],
+                "Name": "qjs-linux-aarch64"
+            },
+            "amd64": {
+                "Args": [
+                    "qjs-linux-x86_64"
+                ],
+                "Name": "qjs-linux-x86_64"
+            },
+            "x86": {
+                "Args": [
+                    "qjs-linux-x86"
+                ],
+                "Name": "qjs-linux-x86"
+            }
+        },
+        "MacOS": {
+            "aarch64": {
+                "Args": [
+                    "qjs-darwin"
+                ],
+                "Name": "qjs-darwin"
+            },
+            "amd64": {
+                "Args": [
+                    "qjs-darwin"
+                ],
+                "Name": "qjs-darwin"
+            },
+            "x86": {
+                "Args": [
+                    "qjs-darwin"
+                ],
+                "Name": "qjs-darwin"
+            }
+        },
+        "Windows": {
+            "amd64": {
+                "Args": [
+                    "qjs-windows-x86_64.exe"
+                ],
+                "Name": "qjs-windows-x86_64.exe"
+            },
+            "win7amd64": {
+                "Args": [
+                    "qjs-windows-x86_64.exe"
+                ],
+                "Name": "qjs-windows-x86_64.exe"
+            },
+            "win7x86": {
+                "Args": [
+                    "qjs-windows-x86.exe"
+                ],
+                "Name": "qjs-windows-x86.exe"
+            },
+            "x86": {
+                "Args": [
+                    "qjs-windows-x86.exe"
+                ],
+                "Name": "qjs-windows-x86.exe"
+            }
+        }
+    },
+    "DownloadUrl": "https://api.github.com/repos/quickjs-ng/quickjs/releases/latest",
+    "DownloadUrlWin7": "https://api.github.com/repos/quickjs-ng/quickjs/releases/latest",
+    "LikeYoutubeDl": false,
+    "Name": "quickjs-ng",
+    "Version": "1",
+    "VersionArgument": "--version",
+    "VersionStringLine": 0,
+    "VersionStringPosition": 0
+}

@@ -897,6 +897,7 @@ void configure::init_done()
 	updates.emplace_back( "yt-dlp-aria2c",2 ) ;
 	updates.emplace_back( "yt-dlp-ffmpeg",2 ) ;
 	updates.emplace_back( "deno",2 ) ;
+	updates.emplace_back( "quickjs-ng",1 ) ;
 
 	for( const auto& it : updates ){
 
