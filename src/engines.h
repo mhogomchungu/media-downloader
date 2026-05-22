@@ -1077,6 +1077,10 @@ public:
 			}
 			struct entry
 			{
+				template< typename E >
+				entry( const E& e ) : name( e.name ),exe( e.exe )
+				{
+				}
 				entry( const char * n ) : name( n ),exe( n )
 				{
 				}
@@ -1534,11 +1538,11 @@ public:
 		{
 			return m_broken ;
 		}
+		void setJsRuntime() ;
 	private:
 		std::unique_ptr< engines::engine::baseEngine > setEngine( const engines& ) ;
 		QJsonObject getOpts( const util::Json&,settings& ) const ;
 		void setPermissions( const QString& ) const ;
-		void setJsRuntime() ;
 		QStringList toStringList( const QJsonValue&,bool = false ) const ;
 		QJsonObject getCmd( const QJsonObject&,const QString& ) ;
 
@@ -1637,6 +1641,7 @@ public:
 	void openUrls( tableWidget&,int row,const engines::engine& ) const ;
 	void openUrls( const QString& path ) const ;
 	const QString& defaultEngineName() const ;
+	void setJsRuntime() ;
 	class EnginesList
 	{
 	public:
@@ -1655,7 +1660,15 @@ public:
 			{
 				return *m_engine ;
 			}
+			engines::engine& get()
+			{
+				return *m_engine ;
+			}
 			const engines::engine * operator->() const
+			{
+				return m_engine.get() ;
+			}
+			engines::engine * operator->()
 			{
 				return m_engine.get() ;
 			}
@@ -1670,10 +1683,10 @@ public:
 		private:
 			std::unique_ptr< engines::engine > m_engine ;
 		} ;
-		class iter
+		class citer
 		{
 		public:
-			iter( size_t s,const std::vector< engines::EnginesList::engine >& b ) :
+			citer( size_t s,const std::vector< engines::EnginesList::engine >& b ) :
 				m_pos( s ),m_backends( b )
 			{
 			}
@@ -1683,7 +1696,30 @@ public:
 			}
 			void operator++()
 			{
-				m_pos++ ;
+				++m_pos ;
+			}
+			bool operator!=( const engines::EnginesList::citer& other ) const
+			{
+				return m_pos != other.m_pos ;
+			}
+		private:
+			size_t m_pos ;
+			const std::vector< engines::EnginesList::engine >& m_backends ;
+		} ;
+		class iter
+		{
+		public:
+			iter( size_t s,std::vector< engines::EnginesList::engine >& b ) :
+				m_pos( s ),m_backends( b )
+			{
+			}
+			engines::engine& operator*()
+			{
+				return m_backends[ m_pos ].get() ;
+			}
+			void operator++()
+			{
+				++m_pos ;
 			}
 			bool operator!=( const engines::EnginesList::iter& other ) const
 			{
@@ -1691,7 +1727,7 @@ public:
 			}
 		private:
 			size_t m_pos ;
-			const std::vector< engines::EnginesList::engine >& m_backends ;
+			std::vector< engines::EnginesList::engine >& m_backends ;
 		} ;
 		void clear()
 		{
@@ -1711,11 +1747,19 @@ public:
 		{
 			return m_backends[ s ].get() ;
 		}
-		engines::EnginesList::iter begin() const
+		engines::EnginesList::citer begin() const
 		{
 			return { 0,m_backends } ;
 		}
-		engines::EnginesList::iter end() const
+		engines::EnginesList::citer end() const
+		{
+			return { m_backends.size(),m_backends } ;
+		}
+		engines::EnginesList::iter begin()
+		{
+			return { 0,m_backends } ;
+		}
+		engines::EnginesList::iter end()
 		{
 			return { m_backends.size(),m_backends } ;
 		}

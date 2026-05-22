@@ -114,6 +114,7 @@ set(SRC
     src/engines/getsauce.cpp
     src/engines/gallery-dl.cpp
     src/engines/quickjs.cpp
+    src/engines/quickjs_ng.cpp
     src/engines/deno.cpp
     src/engines/bun.cpp)
 

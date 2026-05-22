@@ -31,6 +31,7 @@
 #include "engines/deno.h"
 #include "engines/bun.h"
 #include "engines/quickjs.h"
+#include "engines/quickjs_ng.h"
 #include "engines/getsauce.h"
 
 #include "reportFinished.h"
@@ -242,6 +243,14 @@ void engines::openUrls( tableWidget& table,int row,const engines::engine& engine
 const QString& engines::defaultEngineName() const
 {
 	return m_defaultEngine.name() ;
+}
+
+void engines::setJsRuntime()
+{
+	for( auto& it : m_backends ){
+
+		it.setJsRuntime() ;
+	}
 }
 
 engines::EnginesList::engine engines::getEngineByPath( const QString& e ) const
@@ -785,24 +794,12 @@ QStringList engines::engine::toStringList( const QJsonValue& value,bool protectS
 }
 
 void engines::engine::setJsRuntime()
-{
-	if( utility::platformIsWindows7() ){
+{	
+	if( m_extraArguments.isEmpty() && m_likeYtDlp ){
 
-		engines::engine::jsRuntimeInstalled js( m_parent,"quickjs" ) ;
+		if( utility::platformisLegacyWindows() ){
 
-		if( js.valid() ){
-
-			m_extraArguments.append( "--no-js-runtimes" ) ;
-			m_extraArguments.append( "--js-runtimes" ) ;
-
-			m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
-		}
-
-	}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
-
-		if( m_parent.m_settings.flatpackUseDenoRuntime() ){
-
-			engines::engine::jsRuntimeInstalled js( m_parent,"deno" ) ;
+			engines::engine::jsRuntimeInstalled js( m_parent,"quickjs-ng" ) ;
 
 			if( js.valid() ){
 
@@ -810,6 +807,31 @@ void engines::engine::setJsRuntime()
 				m_extraArguments.append( "--js-runtimes" ) ;
 
 				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+			}
+
+		}else if( utility::platformisFlatPak() || utility::platformIsAppImage() ){
+
+			if( m_parent.m_settings.flatpackUseDenoRuntime() ){
+
+				engines::engine::jsRuntimeInstalled js( m_parent,"deno" ) ;
+
+				if( js.valid() ){
+
+					m_extraArguments.append( "--no-js-runtimes" ) ;
+					m_extraArguments.append( "--js-runtimes" ) ;
+
+					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+				}
+			}else{
+				engines::engine::jsRuntimeInstalled js( m_parent ) ;
+
+				if( js.valid() ){
+
+					m_extraArguments.append( "--no-js-runtimes" ) ;
+					m_extraArguments.append( "--js-runtimes" ) ;
+
+					m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
+				}
 			}
 		}else{
 			engines::engine::jsRuntimeInstalled js( m_parent ) ;
@@ -821,16 +843,6 @@ void engines::engine::setJsRuntime()
 
 				m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
 			}
-		}
-	}else{
-		engines::engine::jsRuntimeInstalled js( m_parent ) ;
-
-		if( js.valid() ){
-
-			m_extraArguments.append( "--no-js-runtimes" ) ;
-			m_extraArguments.append( "--js-runtimes" ) ;
-
-			m_extraArguments.append( js.name() + ":" + js.exePath() ) ;
 		}
 	}
 }
@@ -925,9 +937,14 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 	auto name = obj.value( "Name" ).toString() ;
 
-	if( utils::misc::equalsAny( name,"quickjs","bun" ) ){
+	if( name == "quickjs" ){
 
 		obj.insert( "SupportingEngine",true ) ;
+
+	}else if( name == "quickjs-ng" ){
+
+		obj.insert( "SupportingEngine",true ) ;
+		obj.insert( "UpdatableSupportingEngine",true ) ;
 
 	}else if( name == "deno" ){
 
@@ -987,13 +1004,17 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 
 		return std::make_unique< bun >( engines,engine,m_jsonObject ) ;
 
-	}else if( name.contains( "quickjs" ) ){
+	}else if( name == "quickjs" ){
 
 		return std::make_unique< quickjs >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "getsauce" ) ){
 
 		return std::make_unique< getsauce >( engines,engine,m_jsonObject ) ;
+
+	}else if( name == "quickjs-ng" ){
+
+		return std::make_unique< quickjs_ng >( engines,engine,m_jsonObject ) ;
 	}else{
 		return std::make_unique< generic >( engines,engine,m_jsonObject ) ;
 	}
@@ -1049,11 +1070,6 @@ engines::engine::engine( Logger& logger,
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptionsFlatpakAppImage" ) ) ;
 	}else{
 		m_extraArguments = this->toStringList( m_jsonObject.value( "ExtraOptions" ) ) ;
-	}
-
-	if( m_extraArguments.isEmpty() && this->likeYtDlp() ){
-
-		this->setJsRuntime() ;
 	}
 
 	auto defaultPath = utility::stringConstants::defaultPath() ;
@@ -2698,7 +2714,8 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 
 		if( utility::platformisLegacyWindows() ){
 
-			quickjs::init( logger,enginePath ) ;
+			quickjs_ng::init( logger,enginePath ) ;
+			quickjs::remove( logger,enginePath ) ;
 		}else{
 			deno::init( m_parent.m_settings,logger,enginePath ) ;
 		}
@@ -2717,20 +2734,10 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 			deno::init( m_parent.m_settings,logger,enginePath ) ;
 			bun::remove( logger,enginePath ) ;
 			quickjs::remove( logger,enginePath ) ;
-
-		}else if( name == "bun" ){
-
-			bun::init( m_parent.m_settings,logger,enginePath ) ;
-			deno::remove( logger,enginePath ) ;
-			quickjs::remove( logger,enginePath ) ;
-
-		}else if( name == "quickjs" ){
-
-			quickjs::init( logger,enginePath ) ;
-			deno::remove( logger,enginePath ) ;
-			bun::remove( logger,enginePath ) ;
+			quickjs_ng::remove( logger,enginePath ) ;
 		}else{
-			quickjs::init( logger,enginePath ) ;
+			quickjs_ng::init( logger,enginePath ) ;
+			quickjs::remove( logger,enginePath ) ;
 			deno::remove( logger,enginePath ) ;
 			bun::remove( logger,enginePath ) ;
 		}
@@ -2742,6 +2749,7 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 		bun::remove( logger,enginePath ) ;
 	}else{
 		deno::init( m_parent.m_settings,logger,enginePath ) ;
+		quickjs_ng::remove( logger,enginePath ) ;
 		bun::remove( logger,enginePath ) ;
 		quickjs::remove( logger,enginePath ) ;
 	}
@@ -2879,7 +2887,9 @@ QProcessEnvironment engines::engine::baseEngine::optionsEnvironment::update( con
 
 engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 {
-	std::array< entry,3 > list = { { { "deno" },{ "bun" },{ "quickjs","qjs" } } } ;
+	auto m = quickjs_ng::getNameAndExe() ;
+
+	std::array< entry,3 > list = { { { "deno" },m,{ "quickjs","qjs" } } } ;
 
 	this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 }
@@ -2889,6 +2899,12 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const 
 	if( std::strcmp( s,"quickjs" ) == 0 ){
 
 		std::array< entry,1 > list = { { { "quickjs","qjs" } } } ;
+
+		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
+
+	}else if( std::strcmp( s,"quickjs-ng" ) == 0 ){
+
+		std::array< entry,1 > list = { { quickjs_ng::getNameAndExe() } } ;
 
 		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 	}else{

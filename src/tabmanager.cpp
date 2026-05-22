@@ -87,6 +87,7 @@ void tabManager::initDone()
 
 	this->setDefaultEngines() ;
 
+	m_ctx.Engines().setJsRuntime() ;
 	m_about.init_done() ;
 	m_configure.init_done() ;
 	m_basicdownloader.init_done() ;

@@ -77,12 +77,12 @@ void quickjs::remove( Logger&,const engines::enginePaths& enginePath )
 		QFile::remove( m ) ;
 	}
 
-	//m = enginePath.binPath( "qjs" ) ;
+	m = enginePath.binPath( utility::platformIsWindows() ? "qjs.exe" : "qjs" ) ;
 
-	//if( QFile::exists( m ) ){
+	if( QFile::exists( m ) ){
 
-	//	QFile::remove( m ) ;
-	//}
+		QFile::remove( m ) ;
+	}
 }
 
 quickjs::~quickjs()
