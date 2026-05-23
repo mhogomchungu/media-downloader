@@ -110,6 +110,10 @@ public:
 		{
 			return m_handle->engine() ;
 		}
+		void reset()
+		{
+			m_handle.reset() ;
+		}
 		void reportDone() const
 		{
 			m_handle->reportDone() ;

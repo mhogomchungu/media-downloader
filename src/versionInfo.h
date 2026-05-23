@@ -143,6 +143,8 @@ public:
 		}
 		printVinfo next()
 		{
+			m_networkIter.reset() ;
+
 			auto m = std::move( *this ) ;
 
 			m.m_iter = m.m_iter.next() ;

@@ -123,6 +123,10 @@ namespace utils
 			unique_ptr()
 			{
 			}
+			void reset()
+			{
+				m_handle.reset( nullptr ) ;
+			}
 			T& operator*() const
 			{
 				return m_handle.operator*() ;
