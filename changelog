@@ -462,3 +462,11 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
       - Add "yt-dlp-nightly" extension to make it possible to use yt-dlp nightly version.
       - Improve support for wget2.
+
+      Version 5.6.2(UNRELEASED)
+     [WINDOWS 7]
+      - Use quickjs-ng instead of quickjs as yt-dlp javascript runtime.
+     [FLATPAK]
+      - Use quickjs-ng instead of quickjs as yt-dlp javascript runtime.
+     [ALL]
+      - Maintanance release.
