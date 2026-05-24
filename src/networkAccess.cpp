@@ -459,10 +459,10 @@ QByteArray networkAccess::defaultUserAgent() const
 	return "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" ;
 }
 
-void networkAccess::download( const QByteArray& data,
-			      const engines::engine& engine,
-			      networkAccess::Opts opts ) const
+void networkAccess::download( const QByteArray& data,networkAccess::Opts opts ) const
 {
+	const auto& engine = opts.iter.engine() ;
+
 	util::Json json( data ) ;
 
 	if( json ){
@@ -479,10 +479,9 @@ void networkAccess::download( const QByteArray& data,
 
 		opts.iter.failed() ;
 
-		if( opts.iter.hasNext() ){
+		opts.iter.engine().setBroken() ;
 
-			m_ctx.getVersionInfo().check( opts.iter.next(),false ) ;
-		}
+		m_ctx.getVersionInfo().check( opts.iter.move(),false ) ;
 	}
 }
 
@@ -553,7 +552,7 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 
 		if( p.success() ){
 
-			this->download( p.data(),engine,opts.move() ) ;
+			this->download( p.data(),opts.move() ) ;
 		}else{
 			this->post( engine.name(),this->reportError( p ),opts.id ) ;
 
@@ -561,13 +560,9 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 
 			opts.iter.failed() ;
 
-			if( opts.iter.hasNext() ){
+			opts.iter.engine().setBroken() ;
 
-				const auto& g = m_ctx.getVersionInfo() ;
-				g.check( opts.iter.next(),false ) ;
-			}else{
-				opts.iter.reportDone() ;
-			}
+			m_ctx.getVersionInfo().check( opts.iter.move(),false ) ;
 		}
 	}else{
 		this->post( engine.name(),"...",opts.id ) ;
@@ -693,18 +688,15 @@ void networkAccess::finished( networkAccess::Opts str ) const
 
 		m_tabManager.enableAll() ;
 
-		if( str.iter.hasNext() ){
+		str.iter.engine().setBroken() ;
 
-			m_ctx.getVersionInfo().check( str.iter.next(),false ) ;
-		}else{
-			str.iter.reportDone() ;
-		}
+		m_ctx.getVersionInfo().check( str.iter.move(),false ) ;
 	}else{
 		this->post( engine.name(),QObject::tr( "Download complete" ),str.id ) ;
 
 		if( str.isArchive ){
 
-			this->extractArchive( engine,str.move() ) ;
+			this->extractArchive( str.move() ) ;
 		}else{
 			auto mm = QObject::tr( "Renaming file to: %1" ).arg( str.exeBinPath ) ;
 
@@ -741,12 +733,8 @@ void networkAccess::finished( networkAccess::Opts str ) const
 			}else{
 				this->failedToRename( engine.name(),str.file.src(),str.exeBinPath,m,str.id ) ;
 
-				if( str.iter.hasNext() ){
-
-					m_ctx.getVersionInfo().check( str.iter.next(),false ) ;
-				}else{
-					str.iter.reportDone() ;
-				}
+				str.iter.engine().setBroken() ;
+				m_ctx.getVersionInfo().check( str.iter.move(),false ) ;
 			}
 		}
 	}
@@ -764,6 +752,11 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 		if( !err.isEmpty() ){
 
 			this->failedToRemove( engine.name(),opts.filePath,err,opts.id ) ;
+
+			opts.iter.engine().setBroken() ;
+			m_ctx.getVersionInfo().check( opts.iter.move(),false ) ;
+
+			return ;
 		}
 
 		if( engine.archiveContainsFolder() ){
@@ -780,12 +773,10 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 			}else{
 				this->failedToRename( engine.name(),m.src(),m.dst(),m.err(),opts.id ) ;
 
-				if( opts.iter.hasNext() ){
+				opts.iter.engine().setBroken() ;
+				m_ctx.getVersionInfo().check( opts.iter.move(),false ) ;
 
-					m_ctx.getVersionInfo().check( opts.iter.next(),false ) ;
-				}else{
-					opts.iter.reportDone() ;
-				}
+				return ;
 			}
 		}else{
 			QFile f( opts.exeBinPath ) ;
@@ -797,12 +788,8 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 	}else{		
 		this->failedToExtract( opts.exeArgs,s,opts.id ) ;
 
-		if( opts.iter.hasNext() ){
-
-			m_ctx.getVersionInfo().check( opts.iter.next(),true ) ;
-		}else{
-			opts.iter.reportDone() ;
-		}
+		opts.iter.engine().setBroken() ;
+		m_ctx.getVersionInfo().check( opts.iter.move(),true ) ;
 	}
 }
 
@@ -841,9 +828,10 @@ void networkAccess::hashDoNotMatch( const QString& hash1,const QString& hash2,in
 	this->post( m_appName,utility::barLine(),id ) ;
 }
 
-void networkAccess::extractArchive( const engines::engine& engine,
-				    networkAccess::Opts str ) const
+void networkAccess::extractArchive( networkAccess::Opts str ) const
 {
+	const engines::engine& engine = str.iter.engine() ;
+
 	auto mm = QObject::tr( "Extracting archive: " ) + str.filePath ;
 
 	this->post( engine.name(),mm,str.id ) ;
@@ -906,12 +894,8 @@ void networkAccess::extractArchive( const engines::engine& engine,
 
 		this->post( engine.name(),m + ": " + mm,str.id ) ;
 
-		if( str.iter.hasNext() ){
-
-			m_ctx.getVersionInfo().check( str.iter.next(),true ) ;
-		}else{
-			str.iter.reportDone() ;
-		}
+		str.iter.engine().setBroken() ;
+		m_ctx.getVersionInfo().check( str.iter.move(),true ) ;
 	}else{
 		const auto& exe = extractorExe ;
 		const auto& args = extractorArgs ;

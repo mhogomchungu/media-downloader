@@ -596,11 +596,11 @@ private:
 
 	QNetworkRequest networkRequest( const QString& url,const QByteArray& userAgent = {} ) const ;
 
-	void extractArchive( const engines::engine&,networkAccess::Opts ) const ;
+	void extractArchive( networkAccess::Opts ) const ;
 
 	void download( networkAccess::Opts ) const ;
 
-	void download( const QByteArray&,const engines::engine&,networkAccess::Opts ) const ;
+	void download( const QByteArray&,networkAccess::Opts ) const ;
 
 	void finished( networkAccess::Opts ) const ;
 

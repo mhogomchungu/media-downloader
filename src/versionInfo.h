@@ -111,14 +111,16 @@ public:
 		printVinfo( engines::Iterator iter,versionInfo::reportDone rd,bool networkAvailable ) :
 			m_iter( std::move( iter ) ),
 			m_rd( std::move( rd ) ),
-			m_networkAvailable( networkAvailable )
+			m_networkAvailable( networkAvailable ),
+			m_justFromTheNetwork( false )
 		{
 		}
 		printVinfo( networkAccess::iterator iter,versionInfo::reportDone rd,bool networkAvailable ) :
 			m_networkIter( std::move( iter ) ),
 			m_iter( m_networkIter.itr() ),
 			m_rd( std::move( rd ) ),
-			m_networkAvailable( networkAvailable )
+			m_networkAvailable( networkAvailable ),
+			m_justFromTheNetwork( true )
 		{
 		}
 		const engines::Iterator& iter() const
@@ -143,9 +145,9 @@ public:
 		}
 		printVinfo next()
 		{
-			m_networkIter.reset() ;
-
 			auto m = std::move( *this ) ;
+
+			m.m_justFromTheNetwork = false ;
 
 			m.m_iter = m.m_iter.next() ;
 
@@ -177,11 +179,23 @@ public:
 		{
 			return m_updates ;
 		}
+		bool justFromTheNetwork()
+		{
+			if( m_justFromTheNetwork ){
+
+				m_justFromTheNetwork = false ;
+
+				return true ;
+			}else{
+				return false ;
+			}
+		}
 	private:
 		networkAccess::iterator m_networkIter ;
 		engines::Iterator m_iter ;
 		versionInfo::reportDone m_rd ;
-		bool m_networkAvailable = true ;		
+		bool m_networkAvailable = true ;
+		bool m_justFromTheNetwork = false ;
 		QStringList m_updates ;
 	} ;
 

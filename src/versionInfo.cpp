@@ -68,7 +68,7 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 {
 	const auto& engine = vinfo.engine() ;
 
-	if( engine.forTesting() ){
+	if( engine.forTesting() || engine.broken() ){
 
 		return this->next( vinfo.move() ) ;
 	}
@@ -79,7 +79,7 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 			this->printVersion( vinfo.move() ) ;
 
-		}else if( vinfo.fromNetwork() ){
+		}else if( vinfo.justFromTheNetwork() ){
 
 			auto id = vinfo.iter().id() ;
 
