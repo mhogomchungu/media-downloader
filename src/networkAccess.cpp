@@ -283,8 +283,7 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 	}
 }
 
-void networkAccess::emDownloader( networkAccess::updateMDOptions md,
-				  const utils::qprocess::outPut& s ) const
+void networkAccess::emDownloader( networkAccess::updateMDOptions md,const utils::qprocess::outPut& s ) const
 {
 	auto mm = utility::removeFile( md.tmpFile ) ;
 
@@ -477,16 +476,18 @@ void networkAccess::download( const QByteArray& data,networkAccess::Opts opts ) 
 
 		m_tabManager.enableAll() ;
 
-		opts.iter.failed() ;
+		opts.reportFailed() ;
 
-		opts.iter.engine().setBroken() ;
+		engine.setBroken() ;
 
-		m_ctx.getVersionInfo().check( opts.iter.move(),false ) ;
+		m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
 	}
 }
 
-void networkAccess::download( networkAccess::iterator iter ) const
+void networkAccess::download( engines::Iterator e,networkAccess::reportDone rd ) const
 {
+	networkAccess::iterator iter( e.move(),rd.move() ) ;
+
 	const auto& engine = iter.engine() ;
 
 	auto ee = m_ctx.Engines().engineDirPaths().binPath() ;
@@ -517,7 +518,7 @@ void networkAccess::download( networkAccess::iterator iter ) const
 
 		if( !dir.mkpath( path ) ){
 
-			iter.failed() ;
+			iter.repordFailed() ;
 
 			auto m = QObject::tr( "Failed to download, Following path can not be created: " ) ;
 
@@ -533,20 +534,16 @@ void networkAccess::download( networkAccess::iterator iter ) const
 
 	m_basicdownloader.setAsActive().enableQuit() ;
 
-	networkAccess::Opts opts1{ iter.move(),exePath,exeFolderPath,id } ;
-
-	networkAccess::Opts2 opts2{ engine,opts1.move() } ;
+	networkAccess::Opts opts{ iter.move(),exePath,exeFolderPath,id } ;
 
 	auto url = this->networkRequest( engine.downloadUrl() ) ;
 
-	this->get( url,opts2.move(),this,&networkAccess::downloadP2 ) ;
+	this->get( url,opts.move(),this,&networkAccess::downloadP2 ) ;
 }
 
-void networkAccess::downloadP2( networkAccess::Opts2& opts2,
-				const utils::network::progress& p ) const
+void networkAccess::downloadP2( networkAccess::Opts& opts,const utils::network::progress& p ) const
 {
-	const auto& engine = opts2.engine ;
-	auto& opts = opts2.opts ;
+	const auto& engine = opts.engine() ;
 
 	if( p.finished() ){
 
@@ -558,11 +555,11 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 
 			m_tabManager.enableAll() ;
 
-			opts.iter.failed() ;
+			opts.reportFailed() ;
 
-			opts.iter.engine().setBroken() ;
+			engine.setBroken() ;
 
-			m_ctx.getVersionInfo().check( opts.iter.move(),false ) ;
+			m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
 		}
 	}else{
 		this->post( engine.name(),"...",opts.id ) ;
@@ -571,7 +568,7 @@ void networkAccess::downloadP2( networkAccess::Opts2& opts2,
 
 void networkAccess::download( networkAccess::Opts opts ) const
 {
-	const auto& engine = opts.iter.engine() ;
+	const auto& engine = opts.engine() ;
 
 	if( opts.metadata.url().isEmpty() || opts.metadata.fileName().isEmpty() ){
 
@@ -596,25 +593,21 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 		auto url = this->networkRequest( opts.metadata.url() ) ;
 
-		networkAccess::Opts2 opts2{ engine,opts.move() } ;
-
-		this->get( url,opts2.move(),this,&networkAccess::downloadP ) ;
+		this->get( url,opts.move(),this,&networkAccess::downloadP ) ;
 	}else{
 		auto m = QObject::tr( "Failed To Open Path For Writing: %1" ).arg( opts.filePath ) ;
 
 		this->post( engine.name(),m,opts.id ) ;
 
-		opts.iter.reportDone() ;
+		opts.reportDone() ;
 
 		m_ctx.TabManager().enableAll() ;
 	}
 }
 
-void networkAccess::downloadP( networkAccess::Opts2& opts2,
-			       const utils::network::progress& p ) const
+void networkAccess::downloadP( networkAccess::Opts& opts,const utils::network::progress& p ) const
 {
-	auto& opts = opts2.opts ;
-	const auto& engine = opts2.engine ;
+	const auto& engine = opts.engine() ;
 
 	if( p.finished() ){
 
@@ -634,13 +627,13 @@ void networkAccess::downloadP( networkAccess::Opts2& opts2,
 
 					this->hashDoNotMatch( opts.metadata.hash(),m,opts.id ) ;
 
-					opts.iter.failed() ;
+					opts.reportFailed() ;
 
 					opts.networkError = "Bad Download" ;
 				}
 			}
 		}else{
-			opts.iter.failed() ;
+			opts.reportFailed() ;
 
 			opts.networkError = this->reportError( p ) ;
 		}
@@ -675,66 +668,66 @@ void networkAccess::downloadP( networkAccess::Opts2& opts2,
 	}
 }
 
-void networkAccess::finished( networkAccess::Opts str ) const
+void networkAccess::finished( networkAccess::Opts opts ) const
 {
-	const auto& engine = str.iter.engine() ;
+	const auto& engine = opts.engine() ;
 
-	if( str.networkError.isNotEmpty() ){
+	if( opts.networkError.isNotEmpty() ){
 
-		for( const auto& it : str.networkError ){
+		for( const auto& it : opts.networkError ){
 
-			this->post( engine.name(),it,str.id ) ;
+			this->post( engine.name(),it,opts.id ) ;
 		}
 
 		m_tabManager.enableAll() ;
 
-		str.iter.engine().setBroken() ;
+		engine.setBroken() ;
 
-		m_ctx.getVersionInfo().check( str.iter.move(),false ) ;
+		m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
 	}else{
-		this->post( engine.name(),QObject::tr( "Download complete" ),str.id ) ;
+		this->post( engine.name(),QObject::tr( "Download complete" ),opts.id ) ;
 
-		if( str.isArchive ){
+		if( opts.isArchive ){
 
-			this->extractArchive( str.move() ) ;
+			this->extractArchive( opts.move() ) ;
 		}else{
-			auto mm = QObject::tr( "Renaming file to: %1" ).arg( str.exeBinPath ) ;
+			auto mm = QObject::tr( "Renaming file to: %1" ).arg( opts.exeBinPath ) ;
 
-			this->post( engine.name(),mm,str.id ) ;
+			this->post( engine.name(),mm,opts.id ) ;
 
-			QFileInfo ff( str.exeBinPath ) ;
+			QFileInfo ff( opts.exeBinPath ) ;
 
 			if( ff.isDir() ){
 
-				auto m = utility::removeFolder( str.exeBinPath ) ;
+				auto m = utility::removeFolder( opts.exeBinPath ) ;
 
 				if( !m.isEmpty() ){
 
-					this->failedToRemove( engine.name(),str.exeBinPath,m,str.id ) ;
+					this->failedToRemove( engine.name(),opts.exeBinPath,m,opts.id ) ;
 				}
 			}else{
-				auto m = utility::removeFile( str.exeBinPath ) ;
+				auto m = utility::removeFile( opts.exeBinPath ) ;
 
 				if( !m.isEmpty() ){
 
-					this->failedToRemove( engine.name(),str.exeBinPath,m,str.id ) ;
+					this->failedToRemove( engine.name(),opts.exeBinPath,m,opts.id ) ;
 				}
 			}
 
-			auto m = str.file.rename( str.exeBinPath ) ;
+			auto m = opts.file.rename( opts.exeBinPath ) ;
 
 			if( m.isEmpty() ){
 
-				utility::setPermissions( str.file.src() ) ;
+				utility::setPermissions( opts.file.src() ) ;
 
-				engine.updateCmdPath( m_ctx.logger(),str.exeBinPath ) ;
+				engine.updateCmdPath( m_ctx.logger(),opts.exeBinPath ) ;
 
-				m_ctx.getVersionInfo().check( str.iter.move(),true ) ;
+				m_ctx.getVersionInfo().check( opts.moveIter(),true ) ;
 			}else{
-				this->failedToRename( engine.name(),str.file.src(),str.exeBinPath,m,str.id ) ;
+				this->failedToRename( engine.name(),opts.file.src(),opts.exeBinPath,m,opts.id ) ;
 
-				str.iter.engine().setBroken() ;
-				m_ctx.getVersionInfo().check( str.iter.move(),false ) ;
+				engine.setBroken() ;
+				m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
 			}
 		}
 	}
@@ -743,7 +736,7 @@ void networkAccess::finished( networkAccess::Opts str ) const
 void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 					 const utils::qprocess::outPut& s ) const
 {
-	const auto& engine = opts.iter.engine() ;
+	const auto& engine = opts.engine() ;
 
 	if( s.success() ){
 
@@ -753,8 +746,8 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 
 			this->failedToRemove( engine.name(),opts.filePath,err,opts.id ) ;
 
-			opts.iter.engine().setBroken() ;
-			m_ctx.getVersionInfo().check( opts.iter.move(),false ) ;
+			engine.setBroken() ;
+			m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
 
 			return ;
 		}
@@ -773,8 +766,8 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 			}else{
 				this->failedToRename( engine.name(),m.src(),m.dst(),m.err(),opts.id ) ;
 
-				opts.iter.engine().setBroken() ;
-				m_ctx.getVersionInfo().check( opts.iter.move(),false ) ;
+				engine.setBroken() ;
+				m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
 
 				return ;
 			}
@@ -784,12 +777,12 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 			f.setPermissions( f.permissions() | QFileDevice::ExeOwner ) ;
 		}
 
-		m_ctx.getVersionInfo().check( opts.iter.move(),true ) ;
+		m_ctx.getVersionInfo().check( opts.moveIter(),true ) ;
 	}else{		
 		this->failedToExtract( opts.exeArgs,s,opts.id ) ;
 
-		opts.iter.engine().setBroken() ;
-		m_ctx.getVersionInfo().check( opts.iter.move(),true ) ;
+		engine.setBroken() ;
+		m_ctx.getVersionInfo().check( opts.moveIter(),true ) ;
 	}
 }
 
@@ -828,30 +821,30 @@ void networkAccess::hashDoNotMatch( const QString& hash1,const QString& hash2,in
 	this->post( m_appName,utility::barLine(),id ) ;
 }
 
-void networkAccess::extractArchive( networkAccess::Opts str ) const
+void networkAccess::extractArchive( networkAccess::Opts opts ) const
 {
-	const engines::engine& engine = str.iter.engine() ;
+	const engines::engine& engine = opts.engine() ;
 
-	auto mm = QObject::tr( "Extracting archive: " ) + str.filePath ;
+	auto mm = QObject::tr( "Extracting archive: " ) + opts.filePath ;
 
-	this->post( engine.name(),mm,str.id ) ;
+	this->post( engine.name(),mm,opts.id ) ;
 
 	if( engine.archiveContainsFolder() ){
 
-		auto m = engine.deleteEngineBinFolder( str.tempPath ) ;
+		auto m = engine.deleteEngineBinFolder( opts.tempPath ) ;
 
 		if( !m.isEmpty() ){
 
 			m = QObject::tr( "Trouble Ahead, Failed To Delete Folder: %1" ).arg( m ) ;
 
-			this->post( engine.name(),m,str.id ) ;
+			this->post( engine.name(),m,opts.id ) ;
 		}
 	}else{
-		auto m = engine.removeFiles( { str.exeBinPath },QFileInfo( str.exeBinPath ).absolutePath() ) ;
+		auto m = engine.removeFiles( { opts.exeBinPath },QFileInfo( opts.exeBinPath ).absolutePath() ) ;
 
 		if( m.size() ){
 
-			this->failedToRemove( engine.name(),m,str.id ) ;
+			this->failedToRemove( engine.name(),m,opts.id ) ;
 		}
 	}
 
@@ -861,7 +854,7 @@ void networkAccess::extractArchive( networkAccess::Opts str ) const
 	if( utility::platformIsWindows() ){
 
 		extractorExe = m_ctx.Engines().findExecutable( "bsdtar.exe" ) ;
-		extractorArgs = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
+		extractorArgs = QStringList{ "-x","-f",opts.filePath,"-C",opts.tempPath } ;
 	}else{
 		extractorExe = m_ctx.Engines().findExecutable( "bsdtar" ) ;
 
@@ -871,10 +864,10 @@ void networkAccess::extractArchive( networkAccess::Opts str ) const
 
 			if( !extractorExe.isEmpty() ){
 
-				extractorArgs = QStringList{ str.filePath,"-d",str.tempPath } ;
+				extractorArgs = QStringList{ opts.filePath,"-d",opts.tempPath } ;
 			}
 		}else{
-			extractorArgs = QStringList{ "-x","-f",str.filePath,"-C",str.tempPath } ;
+			extractorArgs = QStringList{ "-x","-f",opts.filePath,"-C",opts.tempPath } ;
 		}
 	}
 
@@ -892,17 +885,17 @@ void networkAccess::extractArchive( networkAccess::Opts str ) const
 			}
 		}() ;
 
-		this->post( engine.name(),m + ": " + mm,str.id ) ;
+		this->post( engine.name(),m + ": " + mm,opts.id ) ;
 
-		str.iter.engine().setBroken() ;
-		m_ctx.getVersionInfo().check( str.iter.move(),true ) ;
+		engine.setBroken() ;
+		m_ctx.getVersionInfo().check( opts.moveIter(),true ) ;
 	}else{
 		const auto& exe = extractorExe ;
 		const auto& args = extractorArgs ;
 
-		str.exeArgs = { exe,args } ;
+		opts.exeArgs = { exe,args } ;
 
-		utils::qprocess::run( exe,args,str.move(),this,&networkAccess::extractArchiveOuput ) ;
+		utils::qprocess::run( exe,args,opts.move(),this,&networkAccess::extractArchiveOuput ) ;
 	}
 }
 
@@ -960,10 +953,6 @@ QString networkAccess::reportError( const utils::network::progress& p ) const
 	}
 }
 
-networkAccess::iter::~iter()
-{
-}
-
 networkAccess::status::~status()
 {
 }
@@ -971,4 +960,8 @@ networkAccess::status::~status()
 QString networkAccess::File::rename( const QString& e )
 {
 	return utility::rename( m_path,e ) ;
+}
+
+networkAccess::report::~report()
+{
 }

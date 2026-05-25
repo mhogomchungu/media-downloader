@@ -99,11 +99,11 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 
 			if( engine.autoUpdate() ){
 
-				m_network.download( this->wrap( vinfo.move() ) ) ;
+				m_network.download( vinfo.moveIter(),vinfo.moveRD() ) ;
 
 			}else if( !engine.backendExists() ){
 
-				m_network.download( this->wrap( vinfo.move() ) ) ;
+				m_network.download( vinfo.moveIter(),vinfo.moveRD() ) ;
 			}else{
 				auto m = QObject::tr( "Autoupdate Disabled For %1" ).arg( engine.name() ) ;
 
@@ -286,15 +286,15 @@ void versionInfo::checkMediaDownloaderUpdate( const engines::EnginesList& engine
 	}
 }
 
-versionInfo::reportDone versionInfo::createReportDone() const
+networkAccess::reportDone versionInfo::createReportDone() const
 {
-	class meaw : public versionInfo::idone
+	class meaw : public networkAccess::report
 	{
 	public:
 		meaw( const Context& t ) : m_ctx( t )
 		{
 		}
-		void operator()() override
+		void done() override
 		{
 			m_ctx.TabManager().init_done() ;
 		}
@@ -302,7 +302,7 @@ versionInfo::reportDone versionInfo::createReportDone() const
 		const Context& m_ctx ;
 	} ;
 
-	return versionInfo::reportDone( util::types::type_identity< meaw >(),m_ctx ) ;
+	return networkAccess::reportDone( util::types::type_identity< meaw >(),m_ctx ) ;
 }
 
 bool versionInfo::allBackendExists( const engines::EnginesList& e ) const
@@ -316,45 +316,6 @@ bool versionInfo::allBackendExists( const engines::EnginesList& e ) const
 	}
 
 	return true ;
-}
-
-networkAccess::iterator versionInfo::wrap( printVinfo m ) const
-{
-	class meaw : public networkAccess::iter
-	{
-	public:
-		meaw( printVinfo m ) : m_vInfo( m.move() )
-		{
-		}
-		const engines::engine& engine() override
-		{
-			return m_vInfo.engine() ;
-		}
-		bool hasNext() override
-		{
-			return m_vInfo.hasNext() ;
-		}
-		void moveToNext() override
-		{
-			m_vInfo = m_vInfo.next() ;
-		}
-		void reportDone() override
-		{
-			m_vInfo.reportDone() ;
-		}
-		void failed() override
-		{
-			m_vInfo.failed() ;
-		}
-		const engines::Iterator& itr() override
-		{
-			return m_vInfo.iter() ;
-		}
-	private:
-		printVinfo m_vInfo ;
-	};
-
-	return { util::types::type_identity< meaw >(),m.move() } ;
 }
 
 void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
@@ -528,7 +489,9 @@ void versionInfo::printVersionN( versionInfo::pVInfo pvInfo,const utils::network
 
 			this->log( mm,pvInfo.id() ) ;
 
-			m_network.download( this->wrap( pvInfo.movePrintVinfo() ) ) ;
+			auto s = pvInfo.movePrintVinfo() ;
+
+			m_network.download( s.moveIter(),s.moveRD() ) ;
 
 		}else if( m_showLocalVersionsAndUpdateIfAvailable ){
 
@@ -538,7 +501,9 @@ void versionInfo::printVersionN( versionInfo::pVInfo pvInfo,const utils::network
 
 				this->log( mm,pvInfo.id() ) ;
 
-				m_network.download( this->wrap( pvInfo.movePrintVinfo() ) ) ;
+				auto s = pvInfo.movePrintVinfo() ;
+
+				m_network.download( s.moveIter(),s.moveRD() ) ;
 			}else{
 				auto mm = QObject::tr( "Newest Version Is %1, AutoUpdate Disabled" ).arg( m ) ;
 
@@ -587,8 +552,4 @@ void versionInfo::updateVersion( versionInfo::pVInfo& pvInfo,
 		}
 
 	},pvInfo.id() ) ;
-}
-
-versionInfo::idone::~idone()
-{
 }

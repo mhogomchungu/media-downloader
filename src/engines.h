@@ -1795,6 +1795,10 @@ public:
 			m.m_counter++ ;
 			return m ;
 		}
+		void setNext()
+		{
+			m_counter++ ;
+		}
 		const engines::engine& engine() const
 		{
 			if( m_engine ){

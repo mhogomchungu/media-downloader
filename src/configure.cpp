@@ -959,7 +959,19 @@ void configure::setUpdateMenu()
 
 void configure::downloadFromGitHub( const engines::Iterator& iter )
 {
-	m_ctx.network().download( iter ) ;
+	struct meaw : public networkAccess::report
+	{
+		void done() override
+		{
+			//?????
+		}
+		void failed() override
+		{
+			//?????
+		}
+	} ;
+
+	m_ctx.network().download( iter,util::types::type_identity< meaw >() ) ;
 }
 
 void configure::tabEntered()
@@ -1334,14 +1346,14 @@ void configure::addEngine( const QByteArray& d,const QString& n )
 
 		const auto& eng = engine.value() ;
 
-		class woof : public versionInfo::idone
+		class woof : public networkAccess::report
 		{
 		public:
 			woof( const Context& ctx,const engines::engine& engine ) :
 				m_ctx( ctx ),m_engine( engine )
 			{
 			}
-			void operator()() override
+			void done() override
 			{
 				if( m_success && !m_engine.supportingEngine() ){
 
@@ -1358,11 +1370,9 @@ void configure::addEngine( const QByteArray& d,const QString& n )
 			bool m_success = true ;
 		} ;
 
-		auto& m = m_ctx.getVersionInfo() ;
-
 		auto tt = util::types::type_identity< woof >() ;
 
-		m.check( { eng,id },{ tt,m_ctx,eng },true ) ;
+		m_ctx.getVersionInfo().check( { eng,id },{ tt,m_ctx,eng },true ) ;
 	}
 }
 

@@ -37,6 +37,17 @@ class tabManager ;
 class networkAccess
 {
 public:
+	struct report
+	{
+		virtual void done()
+		{
+		}
+		virtual void failed()
+		{
+		}
+		virtual ~report() ;
+	} ;
+
 	struct status
 	{
 		virtual void done() = 0 ;
@@ -68,70 +79,64 @@ public:
 		utils::misc::unique_ptr< networkAccess::status > m_handle ;
 	};
 
-	struct iter
-	{
-		virtual ~iter() ;
-		virtual const engines::engine& engine() = 0 ;
-		virtual bool hasNext() = 0 ;
-		virtual void moveToNext() = 0 ;
-		virtual void reportDone() = 0 ;
-		virtual void failed() = 0 ;
-		virtual const engines::Iterator& itr() = 0 ;
-	} ;
-
-	class iterator
+	class reportDone
 	{
 	public:
 		template< typename Type,typename ... Args >
-		iterator( Type,Args&& ... args ) :
+		reportDone( Type,Args&& ... args ) :
 			m_handle( std::make_unique< typename Type::type >( std::forward< Args >( args ) ... ) )
 		{
 		}
-		iterator()
+		void done() const
 		{
-		}
-		bool hasNext() const
-		{
-			return m_handle->hasNext() ;
-		}
-		networkAccess::iterator next()
-		{
-			auto m = this->move() ;
-
-			m.m_handle->moveToNext() ;
-
-			return m ;
-		}
-		networkAccess::iterator move()
-		{
-			return std::move( *this ) ;
-		}
-		const engines::engine& engine() const
-		{
-			return m_handle->engine() ;
-		}
-		void reset()
-		{
-			m_handle.reset() ;
-		}
-		void reportDone() const
-		{
-			m_handle->reportDone() ;
+			m_handle->done() ;
 		}
 		void failed() const
 		{
 			m_handle->failed() ;
 		}
-		const engines::Iterator& itr() const
+		reportDone move()
 		{
-			return m_handle->itr() ;
-		}
-		bool valid() const
-		{
-			return m_handle.get() != nullptr ;
+			return std::move( *this ) ;
 		}
 	private:
-		utils::misc::unique_ptr< networkAccess::iter > m_handle ;
+		utils::misc::unique_ptr< networkAccess::report > m_handle ;
+	} ;
+
+	class iterator
+	{
+	public:
+		iterator( engines::Iterator iter,networkAccess::reportDone rd ) :
+			m_rd( rd.move() ),m_iter( iter.move() )
+		{
+		}
+		iterator move()
+		{
+			return std::move( *this ) ;
+		}
+		const engines::engine& engine() const
+		{
+			return m_iter.engine() ;
+		}
+		engines::Iterator getItor()
+		{
+			return m_iter.move() ;
+		}
+		networkAccess::reportDone getRD()
+		{
+			return m_rd.move() ;
+		}
+		void reportDone()
+		{
+			m_rd.done() ;
+		}
+		void repordFailed()
+		{
+			m_rd.failed() ;
+		}
+	private:
+		networkAccess::reportDone m_rd ;
+		engines::Iterator m_iter ;
 	} ;
 
 	networkAccess( const Context& ) ;
@@ -143,42 +148,6 @@ public:
 		#else
 			return false ;
 		#endif
-	}
-	void download( engines::Iterator iter ) const
-	{
-		class meaw : public networkAccess::iter
-		{
-		public:
-			meaw( engines::Iterator m ) : m_iter( std::move( m ) )
-			{
-			}
-			const engines::engine& engine() override
-			{
-				return m_iter.engine() ;
-			}
-			bool hasNext() override
-			{
-				return m_iter.hasNext() ;
-			}
-			void moveToNext() override
-			{
-				m_iter = m_iter.next() ;
-			}
-			void reportDone() override
-			{
-			}
-			void failed() override
-			{
-			}
-			const engines::Iterator& itr() override
-			{
-				return m_iter ;
-			}
-		private:
-			engines::Iterator m_iter ;
-		};
-
-		this->download( { util::types::type_identity< meaw >(),std::move( iter ) } ) ;
 	}
 
 	void setProxySettings( const QNetworkProxy& s )
@@ -192,7 +161,7 @@ public:
 	void updateMediaDownloader( networkAccess::Status,const QJsonDocument& ) const ;
 	void updateMediaDownloader( networkAccess::Status ) const ;
 
-	void download( networkAccess::iterator ) const ;
+	void download( engines::Iterator,networkAccess::reportDone ) const ;
 
 	QByteArray defaultUserAgent() const ;
 
@@ -448,7 +417,7 @@ private:
 		      const QString& exePath,
 		      const QString& efp,
 		      int xd ) :
-			iter( std::move( itr ) ),
+			iter( itr.move() ),
 			exeBinPath( exePath ),
 			tempPath( efp ),
 			id( xd ),
@@ -457,7 +426,7 @@ private:
 		}
 		void add( engines::metadata m )
 		{
-			metadata = std::move( m ) ;
+			metadata = m.move() ;
 
 			filePath = tempPath + "/" + metadata.fileName() ;
 
@@ -471,6 +440,22 @@ private:
 		Opts move()
 		{
 			return std::move( *this ) ;
+		}
+		networkAccess::iterator moveIter()
+		{
+			return iter.move() ;
+		}
+		const engines::engine& engine()
+		{
+			return iter.engine() ;
+		}
+		void reportDone()
+		{
+			iter.reportDone() ;
+		}
+		void reportFailed()
+		{
+			iter.repordFailed() ;
 		}
 		networkAccess::iterator iter ;
 		QString exeBinPath ;
@@ -532,16 +517,6 @@ private:
 		networkAccess::File file ;
 	} ;
 
-	struct Opts2
-	{
-		const engines::engine& engine ;
-		Opts opts ;
-		Opts2 move()
-		{
-			return std::move( *this ) ;
-		}
-	} ;
-
 	struct updateMDOptions
 	{
 		updateMDOptions( const QJsonObject& obj,networkAccess::Status st ) :
@@ -576,8 +551,8 @@ private:
 	void uMediaDownloaderM( networkAccess::updateMDOptions&,const utils::network::progress& ) const ;
 	void uMediaDownloaderN( networkAccess::Status& status,const utils::network::progress& p ) const ;
 
-	void downloadP( networkAccess::Opts2&,const utils::network::progress& ) const ;
-	void downloadP2( networkAccess::Opts2&,const utils::network::progress& ) const ;
+	void downloadP( networkAccess::Opts&,const utils::network::progress& ) const ;
+	void downloadP2( networkAccess::Opts&,const utils::network::progress& ) const ;
 
 	void updateMediaDownloader( networkAccess::updateMDOptions ) const ;
 	void extractMediaDownloader( networkAccess::updateMDOptions ) const ;
