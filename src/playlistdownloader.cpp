@@ -1301,7 +1301,7 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 	auto thumbnailUrl = media.thumbnailUrl() ;
 
-	if( networkAccess::hasNetworkSupport() && !thumbnailUrl.isEmpty() ){
+	if( !thumbnailUrl.isEmpty() ){
 
 		auto& network = m_ctx.network() ;
 
@@ -1326,23 +1326,16 @@ void playlistdownloader::networkData( utility::networkReply m )
 {
 	auto s = reportFinished::finishedStatus::notStarted() ;
 
-	if( networkAccess::hasNetworkSupport() ){
+	QPixmap pixmap ;
 
-		QPixmap pixmap ;
+	if( m.success() && pixmap.loadFromData( m.data() ) ){
 
-		if( m.success() && pixmap.loadFromData( m.data() ) ){
+		auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
+		auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
 
-			auto width = m_settings.thumbnailWidth( settings::tabName::playlist ) ;
-			auto height = m_settings.thumbnailHeight( settings::tabName::playlist ) ;
+		auto img = pixmap.scaled( width,height ) ;
 
-			auto img = pixmap.scaled( width,height ) ;
-
-			this->showEntry( { img,s,m.media() },true ) ;
-		}else{
-			const auto& img = m_defaultVideoThumbnailIcon ;
-
-			this->showEntry( { img,s,m.media() },true ) ;
-		}
+		this->showEntry( { img,s,m.media() },true ) ;
 	}else{
 		const auto& img = m_defaultVideoThumbnailIcon ;
 

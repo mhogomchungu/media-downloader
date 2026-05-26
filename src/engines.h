@@ -911,6 +911,13 @@ public:
 
 			struct onlineVersion
 			{
+				onlineVersion()
+				{
+				}
+				onlineVersion( const QString& a,const QString& b ) :
+					stringVersion( a ),version( b )
+				{
+				}
 				QString stringVersion ;
 				util::version version ;
 				onlineVersion move()

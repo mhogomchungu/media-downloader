@@ -2621,27 +2621,22 @@ void batchdownloader::addItemUi( int index,bool enableAll,const utility::MediaEn
 
 void batchdownloader::networkData( utility::networkReply m )
 {
-	if( networkAccess::hasNetworkSupport() ){
+	QPixmap pixmap ;
 
-		QPixmap pixmap ;
+	if( m.success() && pixmap.loadFromData( m.data() ) ){
 
-		if( m.success() && pixmap.loadFromData( m.data() ) ){
+		auto a = settings::tabName::batch ;
 
-			auto a = settings::tabName::batch ;
+		auto w = m_settings.thumbnailWidth( a ) ;
+		auto h = m_settings.thumbnailHeight( a ) ;
 
-			auto w = m_settings.thumbnailWidth( a ) ;
-			auto h = m_settings.thumbnailHeight( a ) ;
+		auto p = pixmap.scaled( w,h ) ;
 
-			auto p = pixmap.scaled( w,h ) ;
-
-			this->addItemUi( p,m.index(),m_table,m_ui,m.media() ) ;
-		}else{
-			auto& p = m_defaultVideoThumbnail ;
-
-			this->addItemUi( p,m.index(),m_table,m_ui,m.media() ) ;
-		}
+		this->addItemUi( p,m.index(),m_table,m_ui,m.media() ) ;
 	}else{
-		this->addItemUi( m_defaultVideoThumbnail,m.index(),m_table,m_ui,m.media() ) ;
+		auto& p = m_defaultVideoThumbnail ;
+
+		this->addItemUi( p,m.index(),m_table,m_ui,m.media() ) ;
 	}
 
 	this->setDownloadingOptions( m.index(),m_table ) ;
@@ -2662,7 +2657,7 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 		this->addItemUi( index,enableAll,media ) ;
 
-	}else if( this->showMetaData() && networkAccess::hasNetworkSupport() ){
+	}else if( this->showMetaData() ){
 
 		auto u = media.thumbnailUrl() ;
 

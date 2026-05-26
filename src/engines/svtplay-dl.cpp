@@ -851,7 +851,7 @@ engines::engine::baseEngine::onlineVersion svtplay_dl::versionInfoFromGithub( co
 		}
 	}
 
-	return { {},{} } ;
+	return {} ;
 }
 
 const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( Logger::Data& s )

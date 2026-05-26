@@ -75,8 +75,8 @@ public:
 	{
 	public:
 		printVinfo( engines::Iterator iter,networkAccess::reportDone rd,bool networkAvailable ) :
-			m_iter( std::move( iter ) ),
-			m_rd( std::move( rd ) ),
+			m_iter( iter.move() ),
+			m_rd( rd.move() ),
 			m_networkAvailable( networkAvailable ),
 			m_justFromTheNetwork( false )
 		{
@@ -192,7 +192,7 @@ private:
 		}
 		versionInfo::printVinfo movePrintVinfo()
 		{
-			return std::move( m_pvInfo ) ;
+			return m_pvInfo.move() ;
 		}
 		const versionInfo::printVinfo& printVinfo()
 		{

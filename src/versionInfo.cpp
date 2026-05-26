@@ -73,7 +73,7 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 		return this->next( vinfo.move() ) ;
 	}
 
-	if( engine.validDownloadUrl() && networkAccess::hasNetworkSupport() ){
+	if( engine.validDownloadUrl() ){
 
 		if( engine.backendExists() ){
 

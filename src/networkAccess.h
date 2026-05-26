@@ -141,15 +141,6 @@ public:
 
 	networkAccess( const Context& ) ;
 
-	static bool hasNetworkSupport()
-	{
-		#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
-			return true ;
-		#else
-			return false ;
-		#endif
-	}
-
 	void setProxySettings( const QNetworkProxy& s )
 	{
 		this->QtNAM().setProxy( s ) ;

@@ -1943,7 +1943,7 @@ engines::engine::baseEngine::onlineVersion engines::engine::baseEngine::versionI
 
 		return this->versionInfoFromGithub( doc.get() ) ;
 	}else{
-		return { {},{} } ;
+		return {} ;
 	}
 }
 

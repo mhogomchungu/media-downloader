@@ -948,9 +948,7 @@ void configure::setUpdateMenu()
 
 			ac->setObjectName( it.name() ) ;
 
-			auto m = it.validDownloadUrl() ;
-
-			ac->setEnabled( m && networkAccess::hasNetworkSupport() ) ;
+			ac->setEnabled( it.validDownloadUrl() ) ;
 		}
 	}
 
