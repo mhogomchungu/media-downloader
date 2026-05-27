@@ -88,6 +88,10 @@ public:
 			m_justFromTheNetwork( true )
 		{
 		}
+		void setNetworkAvailability( bool e )
+		{
+			m_networkAvailable = e ;
+		}
 		engines::Iterator moveIter()
 		{
 			return m_iter.move() ;
@@ -189,6 +193,10 @@ private:
 		pVInfo move()
 		{
 			return std::move( *this ) ;
+		}
+		void setNetworkAvailability( bool e )
+		{
+			m_pvInfo.setNetworkAvailability( e ) ;
 		}
 		versionInfo::printVinfo movePrintVinfo()
 		{

@@ -487,6 +487,20 @@ private:
 			{
 				return m_errors.size() > 0 ;
 			}
+			void setbadDownload()
+			{
+				m_errors.clear() ;
+				m_errors.emplace_back( "Bad Download" ) ;
+			}
+			bool badDownload() const
+			{
+				if( m_errors.size() == 1 ){
+
+					return m_errors[ 0 ] == "Bad Download" ;
+				}else{
+					return false ;
+				}
+			}
 		private:
 			void addImpl()
 			{

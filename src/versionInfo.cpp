@@ -473,6 +473,8 @@ void versionInfo::printVersionN( versionInfo::pVInfo pvInfo,const utils::network
 
 	auto ss = utility::networkReply( m_ctx,reply ).data() ;
 
+	pvInfo.setNetworkAvailability( !ss.isEmpty() ) ;
+
 	const auto& versionOnline = engine.versionInfoFromGithub( ss ) ;
 
 	const auto& installedVersion = engine.versionInfo() ;

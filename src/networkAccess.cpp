@@ -629,7 +629,7 @@ void networkAccess::downloadP( networkAccess::Opts& opts,const utils::network::p
 
 					opts.reportFailed() ;
 
-					opts.networkError = "Bad Download" ;
+					opts.networkError.setbadDownload() ;
 				}
 			}
 		}else{
@@ -683,7 +683,12 @@ void networkAccess::finished( networkAccess::Opts opts ) const
 
 		engine.setBroken() ;
 
-		m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
+		if( opts.networkError.badDownload() ){
+
+			m_ctx.getVersionInfo().check( opts.moveIter(),true ) ;
+		}else{
+			m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
+		}
 	}else{
 		this->post( engine.name(),QObject::tr( "Download complete" ),opts.id ) ;
 
@@ -727,7 +732,7 @@ void networkAccess::finished( networkAccess::Opts opts ) const
 				this->failedToRename( engine.name(),opts.file.src(),opts.exeBinPath,m,opts.id ) ;
 
 				engine.setBroken() ;
-				m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
+				m_ctx.getVersionInfo().check( opts.moveIter(),true ) ;
 			}
 		}
 	}
@@ -747,7 +752,7 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 			this->failedToRemove( engine.name(),opts.filePath,err,opts.id ) ;
 
 			engine.setBroken() ;
-			m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
+			m_ctx.getVersionInfo().check( opts.moveIter(),true ) ;
 
 			return ;
 		}
@@ -767,7 +772,7 @@ void networkAccess::extractArchiveOuput( networkAccess::Opts opts,
 				this->failedToRename( engine.name(),m.src(),m.dst(),m.err(),opts.id ) ;
 
 				engine.setBroken() ;
-				m_ctx.getVersionInfo().check( opts.moveIter(),false ) ;
+				m_ctx.getVersionInfo().check( opts.moveIter(),true ) ;
 
 				return ;
 			}
