@@ -167,14 +167,15 @@ public:
 	}
 	void checkMediaDownloaderUpdate( const engines::EnginesList& ) const ;
 private:
+	bool likeYtdlpExtra( const engines::engine& ) const ;
 	networkAccess::reportDone createReportDone() const ;
 	bool allBackendExists( const engines::EnginesList& ) const ;
 	versionInfo::printVinfo createPrintVinfo( const engines::EnginesList&,bool ) const ;
-	void checkMediaDownloaderUpdate( versionInfo::printVinfo,
-					 int,
-					 const QByteArray&,
-					 const engines::EnginesList&,
-					 bool ) const ;
+	void ckMDUpdate( versionInfo::printVinfo,
+			 int,
+			 const QByteArray&,
+			 const engines::EnginesList&,
+			 bool ) const ;
 	class pVInfo
 	{
 	public:

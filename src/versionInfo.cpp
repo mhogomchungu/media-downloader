@@ -192,11 +192,11 @@ void versionInfo::updateMediaDownloader( int id,
 	m_network.updateMediaDownloader( s.move(),e ) ;
 }
 
-void versionInfo::checkMediaDownloaderUpdate( versionInfo::printVinfo vInfo,
-					      int id,
-					      const QByteArray& data,
-					      const engines::EnginesList& engines,
-					      bool hasNetworkAccess ) const
+void versionInfo::ckMDUpdate( versionInfo::printVinfo vInfo,
+			      int id,
+			      const QByteArray& data,
+			      const engines::EnginesList& engines,
+			      bool hasNetworkAccess ) const
 {
 	auto e = utility::jsonDoc( data ) ;
 
@@ -269,21 +269,51 @@ void versionInfo::checkMediaDownloaderUpdate( const engines::EnginesList& engine
 
 		auto url = m_ctx.Settings().gitHubDownloadUrl() ;
 
-		m_network.get( url,[ this,id,&engines ]( const utils::network::reply& reply ){
-
-			utility::networkReply nreply( m_ctx,reply ) ;
-
-			if( reply.success() ){
-
-				auto m = this->createPrintVinfo( engines,true ) ;
-				this->checkMediaDownloaderUpdate( m.move(),id,nreply.data(),engines,true ) ;
-			}else{
-				this->check( this->createPrintVinfo( engines,false ) ) ;
+		class meaw
+		{
+		public:
+			meaw( const engines::EnginesList& engines,
+			      const versionInfo& parent,
+			      int id ) :
+				m_engines( engines ),m_parent( parent ),m_id( id )
+			{
 			}
-		} ) ;
+			void operator()( const utils::network::reply& reply )
+			{
+				if( reply.success() ){
+
+					utility::networkReply m( m_parent.m_ctx,reply ) ;
+
+					this->checkMDUpdate( m.data() ) ;
+				}else{
+					auto m = m_parent.createPrintVinfo( m_engines,false ) ;
+
+					m_parent.check( m.move() ) ;
+				}
+			}
+		private:
+			void checkMDUpdate( const QByteArray& data )
+			{
+				auto m = m_parent.createPrintVinfo( m_engines,true ) ;
+
+				m_parent.ckMDUpdate( m.move(),m_id,data,m_engines,true ) ;
+			}
+			const engines::EnginesList& m_engines ;
+			const versionInfo& m_parent ;
+			int m_id ;
+		} ;
+
+		m_network.get( url,meaw( engines,*this,id ) ) ;
 	}else{
 		this->check( this->createPrintVinfo( engines,true ) ) ;
 	}
+}
+
+bool versionInfo::likeYtdlpExtra( const engines::engine& engine ) const
+{
+	const auto& name = engine.name() ;
+
+	return name.contains( "yt-dlp" ) && name != "yt-dlp" && name != "yt-dlp-nightly" ;
 }
 
 networkAccess::reportDone versionInfo::createReportDone() const
@@ -339,7 +369,7 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 	this->log( QObject::tr( "Checking installed version of %1" ).arg( engine.name() ),id ) ;
 
-	if( engine.name().contains( "yt-dlp" ) && engine.name() != "yt-dlp" && engine.name() != "yt-dlp-nightly" ){
+	if( this->likeYtdlpExtra( engine ) ){
 
 		const auto& e = m_ctx.Engines().getEngineByName( "yt-dlp" ) ;
 
@@ -531,27 +561,37 @@ void versionInfo::updateVersion( versionInfo::pVInfo& pvInfo,
 {
 	pvInfo.updates().append( engineName ) ;
 
-	m_ctx.logger().add( [ &version ]( Logger::Data& s,int id,bool ){
-
-		auto d = s.getData( id ) ;
-
-		auto mm = QObject::tr( "Newest Version Is: %1" ).arg( version ) ;
-
-		if( d.size() > 1 ){
-
-			auto foundVersion = d.takeLast() ;
-			auto engineName = d.takeLast() ;
-
-			auto bar = "[media-downloader] " + utility::barLine() ;
-
-			s.add( id,bar ) ;
-			s.add( id,engineName ) ;
-			s.add( id,foundVersion ) ;
-			s.add( id,"[media-downloader] " + mm.toUtf8() ) ;
-			s.add( id,bar ) ;
-		}else{
-			s.add( id,"[media-downloader] " + mm.toUtf8() ) ;
+	class meaw
+	{
+	public:
+		meaw( const QString& version ) : m_version( version )
+		{
 		}
+		void operator()( Logger::Data& s,int id,bool ) const
+		{
+			auto d = s.getData( id ) ;
 
-	},pvInfo.id() ) ;
+			auto mm = QObject::tr( "Newest Version Is: %1" ).arg( m_version ) ;
+
+			if( d.size() > 1 ){
+
+				auto foundVersion = d.takeLast() ;
+				auto engineName = d.takeLast() ;
+
+				auto bar = "[media-downloader] " + utility::barLine() ;
+
+				s.add( id,bar ) ;
+				s.add( id,engineName ) ;
+				s.add( id,foundVersion ) ;
+				s.add( id,"[media-downloader] " + mm.toUtf8() ) ;
+				s.add( id,bar ) ;
+			}else{
+				s.add( id,"[media-downloader] " + mm.toUtf8() ) ;
+			}
+		}
+	private:
+		const QString& m_version ;
+	} ;
+
+	m_ctx.logger().add( meaw( version ),pvInfo.id() ) ;
 }
