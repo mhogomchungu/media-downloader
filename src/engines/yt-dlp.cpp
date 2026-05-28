@@ -1199,6 +1199,16 @@ bool yt_dlp::engineRemovable()
 	}
 }
 
+bool yt_dlp::skipCondition( const QByteArray& e )
+{
+	if( e.contains( "WARNING: [youtube] [jsc:quickjs] QuickJS-NG is missing some optimizations" ) ){
+
+		return true ;
+	}else{
+		return engines::engine::baseEngine::skipCondition( e ) ;
+	}
+}
+
 QByteArray yt_dlp::parseError( const QByteArray& m )
 {
 	if( m.contains( "yt-dlp: error: no such option: --remote-components" ) ){

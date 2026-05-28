@@ -553,6 +553,8 @@ private:
 		}		
 	} ;
 
+	void printVersion( networkAccess::Opts,bool ) const ;
+
 	void uMediaDownloaderM( networkAccess::updateMDOptions&,const utils::network::progress& ) const ;
 	void uMediaDownloaderN( networkAccess::Status& status,const utils::network::progress& p ) const ;
 

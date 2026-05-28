@@ -74,6 +74,8 @@ public:
 
 	bool engineRemovable() override ;
 
+	bool skipCondition( const QByteArray& ) override ;
+
 	QByteArray parseError( const QByteArray& ) override ;
 
 	void updateLocalOptions( QStringList& ) override ;
