@@ -1745,10 +1745,7 @@ public:
 		{
 			return m_backends.size() ;
 		}
-		void add( engines::EnginesList::engine m )
-		{
-			m_backends.emplace_back( m.move() ) ;
-		}
+		void add( engines::EnginesList::engine m ) ;
 		void remove( const QString& name ) ;
 		const engines::engine& operator[]( size_t s ) const
 		{

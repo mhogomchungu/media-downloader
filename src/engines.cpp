@@ -3012,6 +3012,21 @@ void engines::EnginesList::sort()
 	} ) ;
 }
 
+void engines::EnginesList::add( engines::EnginesList::engine m )
+{
+	for( auto it = m_backends.begin() ; it != m_backends.end() ; it++ ){
+
+		if( it->get().name() == m->name() ){
+
+			m_backends.erase( it ) ;
+
+			break ;
+		}
+	}
+
+	m_backends.emplace_back( m.move() ) ;
+}
+
 void engines::EnginesList::remove( const QString& name )
 {
 	for( auto it = m_backends.begin() ; it != m_backends.end() ; it++ ){

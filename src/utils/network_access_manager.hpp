@@ -124,6 +124,9 @@ namespace utils
 		public:
 			manager( int timeOut ) : m_timeOut( timeOut )
 			{
+				#if QT_VERSION >= QT_VERSION_CHECK( 5,15,0 )
+					m_manager.setTransferTimeout( m_timeOut ) ;
+				#endif
 			}
 			QNetworkAccessManager& QtNAM() const
 			{
@@ -190,7 +193,11 @@ namespace utils
 				{
 					m_networkConn = std::move( nc ) ;
 					m_timerConn = std::move( tc ) ;
-					m_timer.start( timeOut ) ;
+					#if QT_VERSION >= QT_VERSION_CHECK( 5,15,0 )
+						Q_UNUSED( timeOut )
+					#else
+						m_timer.start( timeOut ) ;
+					#endif
 				}
 				QNetworkReply * networkReply()
 				{
@@ -244,11 +251,15 @@ namespace utils
 
 				hdl->start( m_timeOut,QObject::connect( hdl->networkReply(),&QNetworkReply::finished,[ hdl ](){
 
-					if( hdl->firstSeen() ){
+					#if QT_VERSION >= QT_VERSION_CHECK( 5,15,0 )
+						   auto error = hdl->networkReply()->error() ;
+						   hdl->result( error == QNetworkReply::TimeoutError ) ;
+					#else
+						   if( hdl->firstSeen() ){
 
-						hdl->result( false ) ;
-					}
-
+							   hdl->result( false ) ;
+						   }
+					#endif
 				} ),QObject::connect( hdl->timer(),&QTimer::timeout,[ hdl ](){
 
 					if( hdl->firstSeen() ){

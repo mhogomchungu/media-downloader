@@ -877,29 +877,43 @@ void configure::init_done()
 
 	m_tablePresetOptions.selectLast() ;
 
-	struct updateEngines
+	class updates
 	{
-		updateEngines( const char * n,int m ) : name( n ),minVersion( m )
+	public:
+		struct entry
 		{
+			entry( const char * n,int m ) : name( n ),minVersion( m )
+			{
+			}
+			QString name ;
+			int minVersion ;
+		} ;
+		auto begin()
+		{
+			return m_updates.begin() ;
 		}
-		QString name ;
-		int minVersion ;
+		auto end()
+		{
+			return m_updates.end() ;
+		}
+		updates()
+		{
+			m_updates.emplace_back( "yt-dlp",3 ) ;
+			m_updates.emplace_back( "yt-dlp-nightly",3 ) ;
+			m_updates.emplace_back( "ytdl-patched",1 ) ;
+			m_updates.emplace_back( "gallery-dl",3 ) ;
+			m_updates.emplace_back( "svtplay-dl",2 ) ;
+			m_updates.emplace_back( "you-get",1 ) ;
+			m_updates.emplace_back( "yt-dlp-aria2c",2 ) ;
+			m_updates.emplace_back( "yt-dlp-ffmpeg",2 ) ;
+			m_updates.emplace_back( "deno",2 ) ;
+			m_updates.emplace_back( "quickjs-ng",1 ) ;
+		}
+	private:
+		std::vector< entry > m_updates ;
 	} ;
 
-	std::vector< updateEngines > updates ;
-
-	updates.emplace_back( "yt-dlp",3 ) ;
-	updates.emplace_back( "yt-dlp-nightly",3 ) ;
-	updates.emplace_back( "ytdl-patched",1 ) ;
-	updates.emplace_back( "gallery-dl",3 ) ;
-	updates.emplace_back( "svtplay-dl",2 ) ;
-	updates.emplace_back( "you-get",1 ) ;
-	updates.emplace_back( "yt-dlp-aria2c",2 ) ;
-	updates.emplace_back( "yt-dlp-ffmpeg",2 ) ;
-	updates.emplace_back( "deno",2 ) ;
-	updates.emplace_back( "quickjs-ng",1 ) ;
-
-	for( const auto& it : updates ){
+	for( const auto& it : updates() ){
 
 		const auto& m = m_ctx.Engines().getEngineByName( it.name ) ;
 
