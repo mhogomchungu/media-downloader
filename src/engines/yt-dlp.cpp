@@ -1425,7 +1425,7 @@ void yt_dlp::updateDownLoadCmdOptions( const engines::engine::baseEngine::update
 
 	engines::engine::baseEngine::updateDownLoadCmdOptions( s,e,extraOpts ) ;
 
-	if( !s.ourOptions.contains( "-f" ) && !s.ourOptions.contains( "-S" ) ){
+	if( !utils::misc::containsAny( s.ourOptions,"-f","--format","-S","--format-sort" ) ){
 
 		s.ourOptions.append( "-f" ) ;
 
