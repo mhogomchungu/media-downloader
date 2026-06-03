@@ -61,7 +61,7 @@ private:
 		int id ;
 	};
 
-	basicdownloader::engine defaultEngine() ;
+	basicdownloader::engine defaultEngine( const QString& url = {} ) ;
 
 	const Context& m_ctx ;
 	settings& m_settings ;

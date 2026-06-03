@@ -68,11 +68,11 @@ basicdownloader::basicdownloader( const Context& ctx ) :
 
 			int row = 0 ;
 
-			const auto& e = this->defaultEngine().engine ;
+			auto s = this->defaultEngine() ;
 
 			const auto& engines = m_ctx.Engines() ;
 
-			const auto& engine = utility::resolveEngine( m_hiddenTable,e,engines,row ) ;
+			const auto& engine = utility::resolveEngine( m_hiddenTable,s.engine,engines,row ) ;
 
 			engines.openUrls( m_hiddenTable,row,engine ) ;
 		}
@@ -247,10 +247,25 @@ QString basicdownloader::defaultEngineName()
 	return m_settings.defaultEngine( settings::tabName::basic,m ) ;
 }
 
-basicdownloader::engine basicdownloader::defaultEngine()
+basicdownloader::engine basicdownloader::defaultEngine( const QString& url )
 {
 	auto id = utility::concurrentID() ;
-	return { m_ctx.Engines().defaultEngine( this->defaultEngineName(),id ),id } ;
+
+	const auto& engine = m_ctx.Engines().defaultEngine( this->defaultEngineName(),id ) ;
+
+	if( url.isEmpty() ){
+
+		return { engine,id } ;
+	}else{
+		auto name = m_ctx.TabManager().Configure().getEngineNameFromUrlManager( url ) ;
+
+		if( name.isEmpty() ){
+
+			return { engine,id } ;
+		}else{
+			return { m_ctx.Engines().defaultEngine( name,id ),id } ;
+		}
+	}
 }
 
 void basicdownloader::updateEnginesList( const QStringList& e )
@@ -408,7 +423,7 @@ void basicdownloader::download( const QString& url )
 		}
 	}
 
-	const auto& engine = this->defaultEngine() ;
+	const auto& engine = this->defaultEngine( url ) ;
 
 	m_hiddenTable.clear() ;
 
