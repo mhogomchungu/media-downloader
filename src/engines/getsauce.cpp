@@ -938,7 +938,7 @@ const QByteArray& getsauce::getsauce_dlFilter::operator()( Logger::Data& e )
 
 			for( auto it = m.rbegin() ; it != m.rend() ; it++ ){
 
-				const QByteArray& w = *it ;
+				const auto& w = it->data() ;
 
 				if( w.contains( "unsupported protocol scheme" ) ){
 

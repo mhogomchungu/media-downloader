@@ -862,7 +862,7 @@ const QByteArray& svtplay_dl::svtplay_dlFilter::operator()( Logger::Data& s )
 
 		for( auto it = lines.rbegin() ; it != lines.rend() ; it++ ){
 
-			const QByteArray& m = *it ;
+			const auto& m = it->data() ;
 
 			if( m.startsWith( "ERROR" ) ){
 

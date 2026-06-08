@@ -574,7 +574,7 @@ private:
 
 	void hashDoNotMatch( const QString&,const QString&,int ) const ;
 
-	QString downloadFailed() const ;
+	QString timeOutErrorString() const ;
 
 	QNetworkRequest networkRequest( const QString& url,const QByteArray& userAgent = {} ) const ;
 

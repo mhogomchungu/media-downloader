@@ -248,7 +248,7 @@ public:
 			}
 			const QByteArray& last() const
 			{
-				return *m_array.rbegin() ;
+				return m_array.rbegin()->data() ;
 			}
 			size_t size() const
 			{
@@ -256,7 +256,7 @@ public:
 			}
 			const QByteArray& operator[]( size_t m ) const
 			{
-				return m_array[ m ] ;
+				return m_array[ m ].data() ;
 			}
 			template< typename Function,
 				  typename std::enable_if< std::is_void< util::types::result_of< Function,QByteArray > >::value,int >::type = 0 >
@@ -264,7 +264,7 @@ public:
 			{
 				for( const auto& it : m_array ){
 
-					function( it ) ;
+					function( it.data() ) ;
 				}
 			}
 			template< typename Function,
@@ -273,7 +273,7 @@ public:
 			{
 				for( const auto& it : m_array ){
 
-					if( function( it ) ){
+					if( function( it.data() ) ){
 
 						break ;
 					}
@@ -286,11 +286,7 @@ public:
 				ByteArray( const QByteArray& s ) : m_array( &s )
 				{
 				}
-				operator const QByteArray&() const
-				{
-					return *m_array ;
-				}
-				operator QString() const
+				const QByteArray& data() const
 				{
 					return *m_array ;
 				}

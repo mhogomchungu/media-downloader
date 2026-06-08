@@ -1482,7 +1482,7 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 
 		if( m.startsWith( "[download] " ) ){
 
-			m_tmp = this->fileName() + "\n" + m.mid( 11 ) ;
+			m_tmp = this->fileName( s ) + "\n" + m.mid( 11 ) ;
 
 		}else if( m_engine.name().contains( "aria2c" ) ){
 
@@ -1490,14 +1490,14 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 
 			if( n != -1 ){
 
-				m_tmp = this->fileName() + "\n" + m.mid( n + 1 ) ;
+				m_tmp = this->fileName( s ) + "\n" + m.mid( n + 1 ) ;
 			}else{
-				m_tmp = this->fileName() + "\n" + m ;
+				m_tmp = this->fileName( s ) + "\n" + m ;
 			}
 
 			aria2c::trimProgressLine( m_tmp ) ;
 		}else{
-			m_tmp = this->fileName() + "\n" + m ;
+			m_tmp = this->fileName( s ) + "\n" + m ;
 		}
 
 		return m_tmp ;
@@ -1511,7 +1511,7 @@ const QByteArray& yt_dlp::yt_dlplFilter::operator()( Logger::Data& s )
 
 			for( auto it = m.rbegin() ; it != m.rend() ; it++ ){
 
-				const QByteArray& e = *it ;
+				const auto& e = it->data() ;
 
 				if( e.startsWith( "ERROR: " ) ){
 
@@ -1563,11 +1563,18 @@ yt_dlp::yt_dlplFilter::~yt_dlplFilter()
 {
 }
 
-QByteArray yt_dlp::yt_dlplFilter::fileName()
+QByteArray yt_dlp::yt_dlplFilter::fileName( const Logger::Data& s )
 {
 	if( m_fileNames.empty() ){
 
-		return {} ;
+		this->parseOutput( s.toStringList(),false ) ;
+
+		if( m_fileNames.empty() ){
+
+			return {} ;
+		}else{
+			return m_fileNames.back() ;
+		}
 	}else{
 		return m_fileNames.back() ;
 	}
@@ -1589,13 +1596,13 @@ bool yt_dlp::yt_dlplFilter::hasNewError( const std::vector< QByteArray >& errors
 	return true ;
 }
 
-const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteArrayList& data )
+const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteArrayList& data,bool checkErrors )
 {
 	for( const auto& m : data ){
 
-		const QByteArray& e = m ;
+		const auto& e = m.data() ;
 
-		if( e.startsWith( "ERROR: " ) || e.startsWith( "yt-dlp: error:" ) ){
+		if( checkErrors && ( e.startsWith( "ERROR: " ) || e.startsWith( "yt-dlp: error:" ) ) ){
 
 			if( this->hasNewError( m_errors,e ) ){
 

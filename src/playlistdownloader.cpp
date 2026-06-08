@@ -391,7 +391,7 @@ void playlistdownloader::tabEntered()
 {
 	if( m_table.noneAreRunning() && !m_gettingPlaylist ){
 
-		m_ui.pbPLOptions->setEnabled( m_table.rowCount() > 0 ) ;
+		//m_ui.pbPLOptions->setEnabled( m_table.rowCount() > 0 ) ;
 		m_ui.pbPLCancel->setEnabled( false ) ;
 		m_ui.pbPLDownload->setEnabled( m_table.rowCount() > 0 ) ;
 	}

@@ -47,8 +47,8 @@ public:
 
 		~yt_dlplFilter() override ;
 	private:
-		QByteArray fileName() ;
-		const QByteArray& parseOutput( const Logger::Data::QByteArrayList& ) ;
+		QByteArray fileName( const Logger::Data& ) ;
+		const QByteArray& parseOutput( const Logger::Data::QByteArrayList&,bool = true ) ;
 		bool hasNewError( const std::vector< QByteArray >& errors,const QByteArray& error ) ;
 		void setFileName( const QByteArray& ) ;
 		engines::engine::baseEngine::preProcessing m_preProcessing ;

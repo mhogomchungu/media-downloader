@@ -447,7 +447,7 @@ QNetworkRequest networkAccess::networkRequest( const QString& url,const QByteArr
 	return networkRequest ;
 }
 
-QString networkAccess::downloadFailed() const
+QString networkAccess::timeOutErrorString() const
 {
 	auto m = QString::number( m_ctx.Settings().networkTimeOut() / 1000 ) ;
 	return QObject::tr( "Network Failed To Respond Within %1 seconds" ).arg( m ) ;
@@ -465,7 +465,7 @@ void networkAccess::printVersion( networkAccess::Opts opts,bool s ) const
 
 void networkAccess::download( const QByteArray& data,networkAccess::Opts opts ) const
 {
-	const auto& engine = opts.iter.engine() ;
+	const auto& engine = opts.engine() ;
 
 	util::Json json( data ) ;
 
@@ -944,7 +944,7 @@ QString networkAccess::reportError( const utils::network::progress& p ) const
 
 	if( p.timeOut() ){
 
-		return mm + ": " + this->downloadFailed() ;
+		return mm + ": " + this->timeOutErrorString() ;
 	}else{
 		return mm + ": " + p.errorString() ;
 	}

@@ -265,7 +265,7 @@ const QByteArray& aria2c::aria2c_dlFilter::operator()( Logger::Data& s )
 
 	for( const auto& m : data ){
 
-		const QByteArray& e = m ;
+		const auto& e = m.data() ;
 
 		if( e.contains( " Download complete: " ) ){
 

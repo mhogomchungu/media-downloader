@@ -625,7 +625,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 	if( m_dir.isEmpty() && data.size() ){
 
-		const QByteArray& e = *data.begin() ;
+		const auto& e = data.begin()->data() ;
 
 		if( e.startsWith( "[media-downloader] cmd:" ) ){
 
@@ -651,7 +651,7 @@ const QByteArray& gallery_dl::gallery_dlFilter::operator()( Logger::Data& s )
 
 	for( const auto& e : data ){
 
-		auto u = QDir::fromNativeSeparators( e ) ;
+		auto u = QDir::fromNativeSeparators( e.data() ) ;
 
 		auto n = u.indexOf( m_dir ) ;
 
