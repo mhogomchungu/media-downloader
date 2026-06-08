@@ -1141,6 +1141,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Paste Clipboard Url</source>
         <translation>Incolla URL appunti</translation>
     </message>
+    <message>
+        <source>Extracting Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

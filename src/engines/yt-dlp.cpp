@@ -1631,13 +1631,27 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 			this->setFileName( e.mid( e.indexOf( "] Destination: " ) + 15 ) ) ;
 		}
+		if( e.contains( "[ExtractAudio]" ) ){
+
+			m_tmp = QObject::tr( "Extracting Audio" ).toUtf8() ;
+
+			if( !m_fileNames.empty() ){
+
+				m_tmp += "\n" + m_fileNames.back() ;
+			}
+
+			return m_tmp ;
+		}
 		if( e.contains( "[VideoRemuxer] Remuxing video from" ) ){
 
 			this->setFileName( e.mid( e.indexOf( "Destination: " ) + 13 ) ) ;
 
-			auto a = QObject::tr( "Remuxing video" ) ;
+			m_tmp = QObject::tr( "Remuxing video" ).toUtf8() ;
 
-			m_tmp = a.toUtf8() + "\n" + m_fileNames.back() ;
+			if( !m_fileNames.empty() ){
+
+				m_tmp += "\n" + m_fileNames.back() ;
+			}
 
 			return m_tmp ;
 		}
@@ -1655,9 +1669,12 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 			this->setFileName( m ) ;
 
-			auto a = QObject::tr( "Merging Audio and Video Together" ) ;
+			m_tmp = QObject::tr( "Merging Audio and Video Together" ).toUtf8() ;
 
-			m_tmp = a.toUtf8() + "\n" + m_fileNames.back() ;
+			if( !m_fileNames.empty() ){
+
+				m_tmp += "\n" + m_fileNames.back() ;
+			}
 
 			return m_tmp ;
 		}
