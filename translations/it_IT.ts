@@ -1143,7 +1143,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Extracting Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Estrazione audio</translation>
     </message>
 </context>
 <context>
