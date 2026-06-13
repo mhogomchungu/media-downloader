@@ -1201,12 +1201,7 @@ bool yt_dlp::engineRemovable()
 
 bool yt_dlp::skipCondition( const QByteArray& e )
 {
-	if( e.contains( "WARNING: [youtube] [jsc:quickjs] QuickJS-NG is missing some optimizations" ) ){
-
-		return true ;
-	}else{
-		return engines::engine::baseEngine::skipCondition( e ) ;
-	}
+	return engines::engine::baseEngine::skipCondition( e ) ;
 }
 
 QByteArray yt_dlp::parseError( const QByteArray& m )
@@ -1215,7 +1210,7 @@ QByteArray yt_dlp::parseError( const QByteArray& m )
 
 		auto s = QObject::tr( "Please Update \"%1\" To Atleast Version \"%2\"" ) ;
 
-		return s.arg( this->engine().name(),"2025.a.b" ).toUtf8() ;
+		return s.arg( this->engine().name(),"2026.06.09" ).toUtf8() ;
 	}else{
 		return {} ;
 	}

@@ -2424,9 +2424,14 @@ const QStringList& utility::cliArguments::arguments() const
 
 bool utility::pathIsFolderAndExists( const QString& e )
 {
-	QFileInfo m( e ) ;
+	if( e.isEmpty() ){
 
-	return m.exists() && m.isDir() ;
+		return false ;
+	}else{
+		QFileInfo m( e ) ;
+
+		return m.exists() && m.isDir() ;
+	}
 }
 
 QByteArray utility::barLine()

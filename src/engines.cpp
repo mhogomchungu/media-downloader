@@ -600,28 +600,30 @@ QString engines::findWinExecutable( const QString& exeName,const QStringList& pa
 }
 
 template< typename Obj,typename Method >
-static auto getFinder( Obj obj,Method method,char splitter )
+static auto getFinder( Obj obj,Method method,char splitter,bool searchFromBeginning )
 {
 	class meaw
 	{
 	public:
-		meaw( Obj obj,Method method,QStringList paths ) :
-			m_obj( obj ),m_method( method ),m_paths( std::move( paths ) )
+		meaw( Obj obj,Method method,char s,bool f ) :
+			m_obj( obj ),
+			m_method( method ),
+			m_paths( obj->processEnvironment().value( "PATH" ).split( s ) ),
+			m_forward( f )
 		{
 		}
-		QString operator()( const QString& exeName,bool c )
+		QString operator()( const QString& exeName )
 		{
-			return ( m_obj->*m_method )( exeName,m_paths,c ) ;
+			return ( m_obj->*m_method )( exeName,m_paths,m_forward ) ;
 		}
 	private:
 		Obj m_obj ;
 		Method m_method ;
 		QStringList m_paths ;
+		bool m_forward ;
 	} ;
 
-	auto paths = obj->processEnvironment().value( "PATH" ).split( splitter ) ;
-
-	return meaw( obj,method,std::move( paths ) ) ;
+	return meaw( obj,method,splitter,searchFromBeginning ) ;
 }
 
 QString engines::findExecutable( const QString& exeName,bool searchFromBeginning ) const
@@ -640,23 +642,24 @@ QString engines::findExecutable( const QString& exeName,bool searchFromBeginning
 
 	auto a = &engines::findWinExecutable ;
 	auto b = &engines::findOtherExecutable ;
+	auto c = searchFromBeginning ;
 
 	auto likeWindows = utility::platformIsLikeWindows() ;
 
-	auto findExe = likeWindows ? getFinder( this,a,';' ) : getFinder( this,b,':' ) ;
+	auto findExe = likeWindows ? getFinder( this,a,';',c ) : getFinder( this,b,':',c ) ;
 
 	if( exeName == "wget" || exeName == "wget.exe" ){
 
-		auto m = findExe( "wget2",searchFromBeginning ) ;
+		auto m = findExe( "wget2" ) ;
 
 		if( m.isEmpty() ){
 
-			m = findExe( exeName,searchFromBeginning ) ;
+			m = findExe( exeName ) ;
 		}
 
 		return m ;
 	}else{
-		return findExe( exeName,searchFromBeginning ) ;
+		return findExe( exeName ) ;
 	}
 }
 

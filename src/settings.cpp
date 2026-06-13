@@ -411,6 +411,13 @@ std::unique_ptr< QSettings > settings::init()
 
 QString settings::appDataLocation()
 {
+	auto m = qgetenv( "MediaDownloaderAppDataPath" ) ;
+
+	if( !m.isEmpty() && QDir().mkpath( m ) ){
+
+		return m ;
+	}
+
 	auto s = QStandardPaths::standardLocations( QStandardPaths::AppDataLocation ) ;
 
 	if( s.isEmpty() ){
@@ -437,6 +444,13 @@ QString settings::downloadLocation()
 
 QString settings::appDataLocation()
 {
+	auto m = qgetenv( "MediaDownloaderAppDataPath" ) ;
+
+	if( !m.isEmpty() && QDir().mkpath( m ) ){
+
+		return m ;
+	}
+
 	return QDir::homePath() + "/.local/share/media-downloader/" ;
 }
 
