@@ -132,6 +132,10 @@ quickjs_ng::nameAndExe quickjs_ng::getNameAndExe()
 		if( cpu.x86_64() ){
 
 			e.exe = "qjs-linux-x86_64" ;
+
+		}else if( cpu.aarch64() ){
+
+			e.exe = "qjs-linux-aarch64" ;
 		}else{
 			e.exe = "qjs-linux-x86" ;
 		}
