@@ -55,8 +55,6 @@ public:
 
 	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
 
-	bool bundledEngine() override ;
-
 	void updateOutPutChannel( QProcess::ProcessChannel& ) const override ;
 
 	void updateDownLoadCmdOptions( const engines::engine::baseEngine::updateOpts&,

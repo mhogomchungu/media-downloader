@@ -2892,22 +2892,24 @@ engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e )
 {
 	auto m = quickjs_ng::getNameAndExe() ;
 
-	std::array< entry,3 > list = { { { "deno" },m,{ "quickjs","qjs" } } } ;
+	std::array< entry,3 > list = { { { "deno" },{ m.name(),m.exe() },{ "quickjs","qjs" } } } ;
 
 	this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 }
 
-engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const char * s )
+engines::engine::jsRuntimeInstalled::jsRuntimeInstalled( const engines& e,const utils::misc::string& s )
 {
-	if( std::strcmp( s,"quickjs" ) == 0 ){
+	if( s == "quickjs" ){
 
 		std::array< entry,1 > list = { { { "quickjs","qjs" } } } ;
 
 		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 
-	}else if( std::strcmp( s,"quickjs-ng" ) == 0 ){
+	}else if( s == "quickjs-ng" ){
 
-		std::array< entry,1 > list = { { quickjs_ng::getNameAndExe() } } ;
+		auto m = quickjs_ng::getNameAndExe() ;
+
+		std::array< entry,1 > list = { { { m.name(),m.exe() } } } ;
 
 		this->search( e,list,!e.Settings().useSystemSupportingEngine() ) ;
 	}else{

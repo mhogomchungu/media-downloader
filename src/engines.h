@@ -39,6 +39,7 @@
 #include "util.hpp"
 #include "utils/threads.hpp"
 #include "utils/qprocess.hpp"
+#include "utils/miscellaneous.hpp"
 
 class tableWidget ;
 class settings ;
@@ -1047,7 +1048,7 @@ public:
 		{
 		public:
 			jsRuntimeInstalled( const engines& ) ;
-			jsRuntimeInstalled( const engines&,const char * ) ;
+			jsRuntimeInstalled( const engines&,const utils::misc::string& ) ;
 			const QString& name() const
 			{
 				return m_name ;
@@ -1070,32 +1071,39 @@ public:
 			{
 				for( const auto& it : list ){
 
-					auto m = e.findExecutable( it.exe,s ) ;
+					auto m = e.findExecutable( it.exe(),s ) ;
 
 					if( !m.isEmpty() ){
 
-						m_name    = it.name ;
-						m_exeName = it.exe ;
+						m_name    = it.name() ;
+						m_exeName = it.exe() ;
 						m_exePath = m ;
 
 						break ;
 					}
 				}
 			}
-			struct entry
+			class entry
 			{
-				template< typename E >
-				entry( const E& e ) : name( e.name ),exe( e.exe )
+			public:
+				entry( utils::misc::string n,utils::misc::string e ) :
+					m_name( n ),m_exe( e )
 				{
 				}
-				entry( const char * n ) : name( n ),exe( n )
+				entry( utils::misc::string n ) : m_name( n ),m_exe( n )
 				{
 				}
-				entry( const char * n,const char * e ) : name( n ),exe( e )
+				const utils::misc::string& name() const
 				{
+					return m_name ;
 				}
-				const char * name ;
-				const char * exe ;
+				const utils::misc::string& exe() const
+				{
+					return m_exe ;
+				}
+			private:
+				utils::misc::string m_name ;
+				utils::misc::string m_exe ;
 			} ;
 			QString m_name ;
 			QString m_exeName ;

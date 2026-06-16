@@ -20,12 +20,55 @@
 #pragma once
 
 #include <memory>
+#include <cstring>
 #include <QtGlobal>
 
 namespace utils
 {
 	namespace misc
 	{
+		class string
+		{
+		public:
+			template< size_t N >
+			string( const char ( &str )[ N ] ) : m_str( str ),m_size( N - 1 )
+			{
+			}
+			size_t size() const
+			{
+				return m_size ;
+			}
+			const char * data() const
+			{
+				return m_str ;
+			}
+			template< size_t N >
+			bool operator==( const char ( &s )[ N ] ) const
+			{
+				if( N == this->size() ){
+
+					return std::strcmp( m_str,s ) == 0 ;
+				}else{
+					return false ;
+				}
+			}
+			bool operator==( const utils::misc::string& other ) const
+			{
+				if( this->size() == other.size() ){
+
+					return std::strcmp( this->data(),other.data() ) == 0 ;
+				}else{
+					return false ;
+				}
+			}
+			operator QString() const
+			{
+				return m_str ;
+			}
+		private:
+			const char * m_str ;
+			size_t m_size ;
+		};
 
 		template< typename Value,typename Opt >
 		bool equalsAny( const Value& v,const Opt& opt )

@@ -81,7 +81,7 @@ void quickjs_ng::remove( Logger&,const engines::enginePaths& enginePath )
 		QFile::remove( m ) ;
 	}
 
-	m = enginePath.binPath( quickjs_ng::getNameAndExe().exe ) ;
+	m = enginePath.binPath( quickjs_ng::getNameAndExe().exe() ) ;
 
 	if( QFile::exists( m ) ){
 
@@ -118,30 +118,28 @@ quickjs_ng::nameAndExe quickjs_ng::getNameAndExe()
 {
 	utility::CPU cpu ;
 
-	quickjs_ng::nameAndExe e ;
+	using str = utils::misc::string ;
 
 	if( utility::platformIsWindows() ){
 
 		if( cpu.x86_64() ){
 
-			e.exe = "qjs-windows-x86_64.exe" ;
+			return str( "qjs-windows-x86_64.exe" ) ;
 		}else{
-			e.exe = "qjs-windows-x86.exe" ;
+			return str( "qjs-windows-x86.exe" ) ;
 		}
 	}else{
 		if( cpu.x86_64() ){
 
-			e.exe = "qjs-linux-x86_64" ;
+			return str( "qjs-linux-x86_64" ) ;
 
 		}else if( cpu.aarch64() ){
 
-			e.exe = "qjs-linux-aarch64" ;
+			return str( "qjs-linux-aarch64" ) ;
 		}else{
-			e.exe = "qjs-linux-x86" ;
+			return str( "qjs-linux-x86" ) ;
 		}
 	}
-
-	return e ;
 }
 
 quickjs_ng::~quickjs_ng()

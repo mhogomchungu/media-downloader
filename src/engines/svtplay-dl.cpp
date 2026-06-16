@@ -830,11 +830,6 @@ engines::metadata svtplay_dl::parseJsonDataFromGitHub( const QJsonDocument& doc 
 	}
 }
 
-bool svtplay_dl::bundledEngine()
-{
-	return false ;
-}
-
 engines::engine::baseEngine::onlineVersion svtplay_dl::versionInfoFromGithub( const QByteArray& e )
 {
 	auto doc = utility::jsonDoc( e ) ;
