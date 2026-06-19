@@ -470,5 +470,5 @@ Version 1.2.0(April 1st, 2021)
       - Use quickjs-ng instead of quickjs as yt-dlp javascript runtime.
      [ALL]
       - Add "MediaDownloaderAppDataPath" environment variable to make it
-        possible to change the default location of application data location.
-      - Maintanance release.
+        possible to change the default location of application data folder.
+      - Various changes and improvements.

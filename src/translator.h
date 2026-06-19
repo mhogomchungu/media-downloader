@@ -45,7 +45,8 @@ public:
 	const QString& untranslated( const QString& string ) ;
 	QString translate( const QString& internalName ) ;
 	const char * UINameUnTranslated( const QString& name ) ;
-	struct entry{
+	struct entry
+	{
 		entry( const QString&,const char *,const QString& ) ;
 		QString UINameTranslated ;
 		const char * UINameUnTranslated ;

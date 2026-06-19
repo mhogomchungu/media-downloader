@@ -44,7 +44,7 @@ public:
 	void disableAll() ;
 	void exiting() ;
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
-	void gotEvent( const QJsonObject& e ) ;
+	void gotEvent( const utility::event& ) ;
 	void resetMenu( const QStringList& = {} ) ;
 	void retranslateUi() ;
 	void updateEnginesList( const QStringList& ) ;

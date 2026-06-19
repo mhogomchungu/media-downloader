@@ -20,7 +20,7 @@
 #include "mainwindow.h"
 #include "settings.h"
 #include "translator.h"
-#include "utility"
+#include "utility.h"
 #include "utils/single_instance.hpp"
 #include "engines/tests.h"
 
@@ -84,17 +84,7 @@ int start( int argc,char * argv[],
 	}else{
 		auto spath = paths.socketPath() ;
 
-		QJsonObject jsonArgs ;
-
-		jsonArgs.insert( "-a",cargs.contains( "-a" ) ) ;
-
-		jsonArgs.insert( "-e",cargs.contains( "-e" ) ) ;
-
-		jsonArgs.insert( "-u",cargs.value( "-u" ) ) ;
-
-		jsonArgs.insert( "--proxy",cargs.value( "--proxy" ) ) ;
-
-		auto json = QJsonDocument( jsonArgs ).toJson( QJsonDocument::Indented ) ;
+		auto json = utility::event::toJson( cargs ) ;
 
 		myApp::args args{ mqApp,ss,paths,cargs } ;
 

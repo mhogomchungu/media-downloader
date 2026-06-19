@@ -428,7 +428,7 @@ void playlistdownloader::textAlignmentChanged( Qt::LayoutDirection m )
 	utility::alignText( m,a,b,c,d ) ;
 }
 
-void playlistdownloader::gotEvent( const QJsonObject& )
+void playlistdownloader::gotEvent( const utility::event& )
 {
 }
 

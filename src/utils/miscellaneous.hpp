@@ -47,7 +47,7 @@ namespace utils
 			{
 				if( N == this->size() ){
 
-					return std::strcmp( m_str,s ) == 0 ;
+					return std::strcmp( this->data(),s ) == 0 ;
 				}else{
 					return false ;
 				}

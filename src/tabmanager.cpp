@@ -271,11 +271,11 @@ tabManager& tabManager::gotEvent( const QByteArray& s )
 
 	if( jsonDoc.valid() ){
 
-		auto e = jsonDoc.toObject() ;
+		utility::event e = jsonDoc.toObject() ;
 
 		if( m_firstTimeSettingProxy ){
 
-			auto m = e.value( "--proxy" ).toString() ;
+			auto m = e.proxy() ;
 
 			if( m.isEmpty() ){
 

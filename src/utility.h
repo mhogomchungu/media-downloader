@@ -85,26 +85,6 @@ namespace utility
 		impl::qJsonArrJoin( arr,std::forward< Args >( args ) ... ) ;
 		return arr ;
 	}
-	class strl
-	{
-	public:
-		strl() = delete ;
-		template< size_t N >
-		strl( const char ( &s )[ N ] ) : m_size( N - 1 ),m_string( s )
-		{
-		}
-		size_t size() const
-		{
-			return m_size ;
-		}
-		const char * data() const
-		{
-			return m_string ;
-		}
-	private:
-		size_t m_size ;
-		const char * m_string ;
-	} ;
 	template< typename T >
 	class vector
 	{
@@ -487,6 +467,69 @@ namespace utility
 		static bool debug() ;
 	private:
 		QStringList m_args ;
+	} ;
+	class event
+	{
+	public:
+		static QByteArray toJson( const utility::cliArguments& e )
+		{
+			QJsonObject obj ;
+
+			if( e.contains( "-a" ) || e.contains( "--auto-download" ) ){
+
+				obj.insert( "AutoDownload",true ) ;
+			}else{
+				obj.insert( "AutoDownload",false ) ;
+			}
+
+			if( e.contains( "-e" ) || e.contains( "--show-metadata" ) ){
+
+				obj.insert( "ShowMetaData",true ) ;
+			}else{
+				obj.insert( "ShowMetaData",false ) ;
+			}
+
+			auto url = e.value( "-u" ) ;
+
+			if( url.isEmpty() ){
+
+				url = e.value( "--url" ) ;
+			}
+
+			obj.insert( "Url",url ) ;
+
+			auto proxy = e.value( "-p" ) ;
+
+			if( proxy.isEmpty() ){
+
+				proxy = e.value( "--proxy" ) ;
+			}
+
+			obj.insert( "Proxy",proxy ) ;
+
+			return QJsonDocument( obj ).toJson( QJsonDocument::Indented ) ;
+		}
+		event( QJsonObject obj ) : m_obj( std::move( obj ) )
+		{
+		}
+		QString url() const
+		{
+			return m_obj.value( "Url" ).toString() ;
+		}
+		QString proxy() const
+		{
+			return m_obj.value( "Proxy" ).toString() ;
+		}
+		bool autoDownload() const
+		{
+			return m_obj.value( "AutoDownload" ).toBool() ;
+		}
+		bool showMetaData() const
+		{
+			return m_obj.value( "ShowMetaData" ).toBool() ;
+		}
+	private:
+		QJsonObject m_obj ;
 	} ;
 	class printOutPut
 	{

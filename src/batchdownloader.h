@@ -37,6 +37,9 @@ class Items
 public:
 	struct entry
 	{
+		entry()
+		{
+		}
 		entry( const QString& u,const QString& l ) : url( l ),uiText( u ),title( u )
 		{
 			obj.insert( "webpage_url",url ) ;
@@ -261,7 +264,7 @@ public:
 	void tabExited() ;
 	void exiting() ;
 	void saveData() ;
-	void gotEvent( const QJsonObject& ) ;
+	void gotEvent( const utility::event& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void setShowMetaData( bool ) ;
 	void showComments( const engines::engine&,const QString& ) ;
@@ -324,7 +327,9 @@ private:
 	void disableWhileDownloading() ;
 	void addClipboardSlot( QString ) ;
 	void addTextToUi( const QByteArray&,int ) ;
-	void getMetaData( const engines::engine&,const Items::entry& ) ;
+	void getMetaData( const engines::engine&,const Items::entry&,int = -1 ) ;
+	void updateMetaData( const engines::engine&,int ) ;
+	void updateMetaData( const QString&,int ) ;
 	void showHideControls() ;
 	void networkData( utility::networkReply ) ;
 	void addItemUiSlot( ItemEntries ) ;

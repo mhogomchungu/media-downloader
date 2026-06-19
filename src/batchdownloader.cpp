@@ -685,28 +685,33 @@ void batchdownloader::saveData()
 	utility::saveDownloadList( m_ctx,m_table,false ) ;
 }
 
-void batchdownloader::gotEvent( const QJsonObject& jsonArgs )
+void batchdownloader::gotEvent( const utility::event& e )
 {
-	auto url = jsonArgs.value( "-u" ).toString() ;
+	auto url = e.url() ;
 
 	if( !url.isEmpty() ){
 
 		m_ui.tabWidget->setCurrentIndex( 1 ) ;
 
-		auto autoDownload = jsonArgs.value( "-a" ).toBool() ;
+		auto autoDownload = e.autoDownload() ;
 
 		if( !autoDownload ){
 
 			autoDownload = m_settings.autoDownloadWhenAddedInBatchDownloader() ;
 		}
 
-		auto v = jsonArgs.value( "-e" ) ;
+		if( this->showMetaData() && e.showMetaData() ){
 
-		if( v.isUndefined() ){
+			auto row = m_table.rowWithUrl( url ) ;
 
-			this->addToList( url,{ this->showMetaData(),autoDownload } ) ;
+			if( row == -1 ){
+
+				this->addToList( url,{ true,autoDownload } ) ;
+			}else{
+				this->updateMetaData( url,row ) ;
+			}
 		}else{
-			this->addToList( url,{ this->showMetaData() ? v.toBool() : false,autoDownload } ) ;
+			this->addToList( url,{ false,autoDownload } ) ;
 		}
 	}
 }
@@ -909,18 +914,35 @@ void batchdownloader::setThumbnail( const std::vector< QByteArray >& fileNames,
 	utility::setThumbNail( fileNames,downloadFolder,meaw( *this,row ) ) ;
 }
 
-void batchdownloader::getMetaData( const engines::engine& eng,const Items::entry& it )
+void batchdownloader::getMetaData( const engines::engine& eng,const Items::entry& it,int row )
 {
-	tableWidget::entry entry( it ) ;
-
-	auto uiText        = it.uiText ;
-	entry.uiText       = "...\n" + uiText ;
-	entry.thumbnail    = m_defaultVideoThumbnail ;
-	entry.runningState = reportFinished::finishedStatus::running() ;
-
 	auto h = m_settings.thumbnailHeight( settings::tabName::batch ) ;
 
-	int row = m_table.addItem( entry.move(),h ) ;
+	QString uiText ;
+	QString url ;
+
+	if( row == -1 ){
+
+		url    = it.url ;
+		uiText = it.uiText ;
+
+		tableWidget::entry entry( it ) ;
+
+		entry.uiText       = "...\n" + uiText ;
+		entry.thumbnail    = m_defaultVideoThumbnail ;
+		entry.runningState = reportFinished::finishedStatus::running() ;
+
+		row = m_table.addItem( entry.move(),h ) ;
+	}else{
+		auto e = m_table.entryAt( row ) ;
+
+		e.runningState = reportFinished::finishedStatus::running() ;
+
+		url    = e.url ;
+		uiText = e.uiText.trimmed() ;
+
+		m_table.replace( e.move(),row ) ;
+	}
 
 	util::Timer( 1000,[ this,row,uiText ]( int counter ){
 
@@ -947,7 +969,38 @@ void batchdownloader::getMetaData( const engines::engine& eng,const Items::entry
 
 	m_table.selectLast() ;
 
-	this->showThumbnail( eng,row,it.url ) ;
+	this->showThumbnail( eng,row,url ) ;
+}
+
+void batchdownloader::updateMetaData( const QString& url,int row )
+{
+	auto& c = m_ctx.TabManager().Configure() ;
+
+	auto s = c.getEngineNameFromUrlManager( url ) ;
+
+	const auto& engine = this->defaultEngine() ;
+
+	if( s.isEmpty() ){
+
+		this->updateMetaData( engine,row ) ;
+	}else{
+		auto ss = m_ctx.Engines().getEngineByName( s ) ;
+
+		if( ss ){
+
+			this->updateMetaData( ss.value(),row ) ;
+		}else{
+			this->updateMetaData( engine,row ) ;
+		}
+	}
+}
+
+void batchdownloader::updateMetaData( const engines::engine& engine,int row )
+{
+	if( engine.canShowMetaData() ){
+
+		this->getMetaData( engine,{},row ) ;
+	}
 }
 
 void batchdownloader::setDefaultEngineAndOptions( Items::entry& s )

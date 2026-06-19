@@ -62,13 +62,22 @@
 		<category>Qt</category>
 	</categories>
 		<releases>
+		<release version="5.6.2" type="stable" date="2026-00-00">
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.6.2/media-downloader-5.6.2.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Add Use quickjs-ng instead of quickjs as yt-dlp javascript runtime.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.6.1" type="stable" date="2026-05-18">
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.6.1/media-downloader-5.6.1.tar.xz</url>
 			<description>
 				<p>Changelog</p>
 				<ul>
 					<li>Add "yt-dlp-nightly" extension to make it possible to use yt-dlp nightly version.</li>
-					<li>Add "Improve support for wget2.</li>
+					<li>Improve support for wget2.</li>
 				</ul>
 			</description>
 		</release>

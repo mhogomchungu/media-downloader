@@ -90,7 +90,7 @@ public:
 	void exiting() ;
 	void saveData() ;
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
-	void gotEvent( const QJsonObject& ) ;
+	void gotEvent( const utility::event& ) ;
 	void updateEnginesList( const QStringList& ) ;
 	void clipboardData( const QString& ) ;
 private:
