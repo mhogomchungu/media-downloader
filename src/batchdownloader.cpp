@@ -1065,6 +1065,11 @@ void batchdownloader::setDefaultEngineAndOptions( Items::entry& s )
 
 void batchdownloader::addItemToUi( const engines::engine& engine,Items::entry s )
 {
+	if( m_table.rowWithUrl( s.url ) != -1 ){
+
+		return ;
+	}
+
 	auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,s.toJsonDoc() ) ;
 
 	auto ss = m_ctx.TabManager().Configure().getEngineNameFromUrlManager( s.url ) ;
@@ -2329,7 +2334,10 @@ void batchdownloader::dataFromFile( Items& items,
 		}
 	}
 
-	items.add( std::move( obj ) ) ;
+	if( m_table.rowWithUrl( url ) == -1 ){
+
+		items.add( std::move( obj ) ) ;
+	}
 }
 
 bool batchdownloader::showMetaData()
