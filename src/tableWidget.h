@@ -267,6 +267,14 @@ public:
 
 		return -1 ;
 	}
+	bool hasUrl( const QString& url )
+	{
+		return this->rowWithUrl( url ) != -1 ;
+	}
+	bool hasNoUrl( const QString& url )
+	{
+		return this->rowWithUrl( url ) == -1 ;
+	}
 	const tableWidget::entry& entryAt( size_t s ) const
 	{
 		return m_items[ s ] ;

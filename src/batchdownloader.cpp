@@ -629,6 +629,8 @@ void batchdownloader::init_done()
 	}
 
 	m_initDone = true ;
+
+	m_initEvent.callEvent( this,&batchdownloader::downloadOrShowThumbnail ) ;
 }
 
 void batchdownloader::resetMenu()
@@ -764,13 +766,13 @@ void batchdownloader::downloadAddItems( ItemEntries s )
 	}
 }
 
-void batchdownloader::downloadOrShowThumbnail( ItemEntries entries,const downloadOpts& opts )
+void batchdownloader::downloadOrShowThumbnail( ItemEntries entries,const batchdownloader::downloadOpts& opts )
 {
 	if( entries.hasMore() ){
 
 		if( !m_initDone ){
 
-			this->addItemUiSlot( entries.move() ) ;
+			m_initEvent.set( entries.move(),opts ) ;
 
 		}else if( opts.autoDownload() ){
 
@@ -1065,7 +1067,7 @@ void batchdownloader::setDefaultEngineAndOptions( Items::entry& s )
 
 void batchdownloader::addItemToUi( const engines::engine& engine,Items::entry s )
 {
-	if( m_table.rowWithUrl( s.url ) != -1 ){
+	if( m_table.hasUrl( s.url ) ){
 
 		return ;
 	}
@@ -2334,7 +2336,7 @@ void batchdownloader::dataFromFile( Items& items,
 		}
 	}
 
-	if( m_table.rowWithUrl( url ) == -1 ){
+	if( m_table.hasNoUrl( url ) ){
 
 		items.add( std::move( obj ) ) ;
 	}
@@ -2364,7 +2366,7 @@ void batchdownloader::addClipboardSlot( QString url )
 {
 	if( m_settings.monitorClipboardUrl( settings::tabName::batch ) ){
 
-		if( m_table.rowWithUrl( url ) == -1 ){
+		if( m_table.hasNoUrl( url ) ){
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 

@@ -240,6 +240,10 @@ public:
 	{
 		return std::move( *this ) ;
 	}
+	bool notEmpty()
+	{
+		return !m_entries.empty() ;
+	}
 private:
 	size_t m_position = 0 ;
 	std::vector< ItemEntry > m_entries ;
@@ -282,6 +286,9 @@ private:
 	class downloadOpts
 	{
 	public:
+		downloadOpts()
+		{
+		}
 		downloadOpts( bool showMetaData,bool autoDownload ) :
 			m_showMetaData( showMetaData ),m_autoDownload( autoDownload )
 		{
@@ -295,8 +302,8 @@ private:
 			return m_autoDownload ;
 		}
 	private:
-		bool m_showMetaData ;
-		bool m_autoDownload ;
+		bool m_showMetaData = false ;
+		bool m_autoDownload = false ;
 	} ;
 
 	struct dataFromFileOpts
@@ -512,19 +519,6 @@ private:
 				  logger.move() ) ;
 	}
 	void networkResult( networkCtx,const utils::network::reply& ) ;
-	const Context& m_ctx ;
-	settings& m_settings ;
-	Ui::MainWindow& m_ui ;
-	QWidget& m_mainWindow ;
-	tabManager& m_tabManager ;
-	tableWidget m_table ;
-	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
-	QString m_commentsFileName ;
-	QStringList m_optionsList ;
-	QLineEdit m_lineEdit ;
-	QPixmap m_defaultVideoThumbnail ;
-	batchdownloader::listType m_listType ;
-	utility::Terminator m_terminator ;
 
 	class widgetOverMainTable
 	{
@@ -548,10 +542,46 @@ private:
 		bool m_show ;
 	} ;
 
+	class initEvent
+	{
+	public:
+		initEvent()
+		{
+		}
+		void set( ItemEntries e,const batchdownloader::downloadOpts& o )
+		{
+			m_itemEntries = e.move() ;
+			m_downloadOpts = o ;
+		}
+		template< typename Obj,typename Method >
+		void callEvent( Obj o,Method m )
+		{
+			if( m_itemEntries.notEmpty() ){
+
+				( o->*m )( m_itemEntries.move(),m_downloadOpts ) ;
+			}
+		}
+	private:
+		ItemEntries m_itemEntries ;
+		batchdownloader::downloadOpts m_downloadOpts ;
+	} ;
+
+	const Context& m_ctx ;
+	settings& m_settings ;
+	Ui::MainWindow& m_ui ;
+	QWidget& m_mainWindow ;
+	tabManager& m_tabManager ;
+	tableWidget m_table ;
+	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
+	QString m_commentsFileName ;
+	QStringList m_optionsList ;
+	QLineEdit m_lineEdit ;
+	QPixmap m_defaultVideoThumbnail ;
+	batchdownloader::listType m_listType ;
+	utility::Terminator m_terminator ;
 	widgetOverMainTable m_widgetOverMainTable ;
-
 	QByteArray m_downloadingComments ;
-
+	initEvent m_initEvent ;
 	bool m_initDone = false ;
 
 	class BatchLogger
