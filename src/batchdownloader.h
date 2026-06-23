@@ -386,17 +386,9 @@ private:
 		       Ui::MainWindow& ui,
 		       const utility::MediaEntry& media ) ;
 	void showThumbnail( const engines::engine&,int,const QString& url ) ;
+	class networkCtx ;
+	void networkResult( const networkCtx&,const utils::network::reply& ) ;
 	void showMetaDataSlot( ItemEntries ) ;
-
-	struct networkCtx
-	{
-		utility::MediaEntry media ;
-		int index ;
-		networkCtx move()
-		{
-			return std::move( *this ) ;
-		}
-	} ;
 	void setThumbnail( const std::vector< QByteArray >&,const engines::engine& engine,int ) ;
 	template< typename Event >
 	void downloadEvent( Event event,const engines::engine& engine,int index,bool downloadRecursively )
@@ -518,7 +510,6 @@ private:
 				  events( *this,engine,index,event.move() ),
 				  logger.move() ) ;
 	}
-	void networkResult( networkCtx,const utils::network::reply& ) ;
 
 	class widgetOverMainTable
 	{
@@ -545,7 +536,7 @@ private:
 	class initEvent
 	{
 	public:
-		initEvent()
+		initEvent( batchdownloader& parent ) : m_parent( parent )
 		{
 		}
 		void set( ItemEntries e,const batchdownloader::downloadOpts& o )
@@ -553,36 +544,18 @@ private:
 			m_itemEntries = e.move() ;
 			m_downloadOpts = o ;
 		}
-		template< typename Obj,typename Method >
-		void callEvent( Obj o,Method m )
+		void operator()()
 		{
 			if( m_itemEntries.notEmpty() ){
 
-				( o->*m )( m_itemEntries.move(),m_downloadOpts ) ;
+				m_parent.downloadOrShowThumbnail( m_itemEntries.move(),m_downloadOpts ) ;
 			}
 		}
 	private:
+		batchdownloader& m_parent ;
 		ItemEntries m_itemEntries ;
 		batchdownloader::downloadOpts m_downloadOpts ;
 	} ;
-
-	const Context& m_ctx ;
-	settings& m_settings ;
-	Ui::MainWindow& m_ui ;
-	QWidget& m_mainWindow ;
-	tabManager& m_tabManager ;
-	tableWidget m_table ;
-	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
-	QString m_commentsFileName ;
-	QStringList m_optionsList ;
-	QLineEdit m_lineEdit ;
-	QPixmap m_defaultVideoThumbnail ;
-	batchdownloader::listType m_listType ;
-	utility::Terminator m_terminator ;
-	widgetOverMainTable m_widgetOverMainTable ;
-	QByteArray m_downloadingComments ;
-	initEvent m_initEvent ;
-	bool m_initDone = false ;
 
 	class BatchLogger
 	{
@@ -646,7 +619,7 @@ private:
 		engines::engine::baseEngine::preProcessing m_banner ;
 		QTimer m_timer ;
 		tableMiniWidget< QJsonObject,5 >& m_table ;
-	} m_subtitlesTimer ;
+	} ;
 
 	template< typename LogFilter >
 	class BatchLoggerWrapper
@@ -716,7 +689,50 @@ private:
 		{
 			return true ;
 		}
-	} ;	
+	} ;
+
+	class networkCtx
+	{
+	public:
+		networkCtx( const utility::MediaEntry& e,int index ) :
+			m_media( e ),m_index( index )
+		{
+		}
+		networkCtx move()
+		{
+			return std::move( *this ) ;
+		}
+		int index() const
+		{
+			return m_index ;
+		}
+		utility::MediaEntry media() const
+		{
+			return std::move( m_media ) ;
+		}
+	private:
+		mutable utility::MediaEntry m_media ;
+		int m_index ;
+	} ;
+
+	const Context& m_ctx ;
+	settings& m_settings ;
+	Ui::MainWindow& m_ui ;
+	QWidget& m_mainWindow ;
+	tabManager& m_tabManager ;
+	tableWidget m_table ;
+	tableMiniWidget< QJsonObject,5 > m_tableWidgetBDList ;
+	QString m_commentsFileName ;
+	QStringList m_optionsList ;
+	QLineEdit m_lineEdit ;
+	QPixmap m_defaultVideoThumbnail ;
+	batchdownloader::listType m_listType ;
+	utility::Terminator m_terminator ;
+	widgetOverMainTable m_widgetOverMainTable ;
+	QByteArray m_downloadingComments ;
+	initEvent m_initEvent ;
+	subtitlesTimer m_subtitlesTimer ;
+	bool m_initDone = false ;
 };
 
 #endif

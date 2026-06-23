@@ -39,6 +39,7 @@ batchdownloader::batchdownloader( const Context& ctx ) :
 	m_tableWidgetBDList( *m_ui.TableWidgetBatchDownloaderList,0,m_ctx.mainWidget().font() ),
 	m_defaultVideoThumbnail( m_settings.defaultVideoThumbnailIcon( settings::tabName::batch ) ),
 	m_downloadingComments( tr( "Downloading comments" ).toUtf8() ),
+	m_initEvent( *this ),
 	m_subtitlesTimer( m_tableWidgetBDList )
 {
 	qRegisterMetaType< ItemEntry >() ;
@@ -630,7 +631,7 @@ void batchdownloader::init_done()
 
 	m_initDone = true ;
 
-	m_initEvent.callEvent( this,&batchdownloader::downloadOrShowThumbnail ) ;
+	m_initEvent() ;
 }
 
 void batchdownloader::resetMenu()
@@ -2727,19 +2728,17 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 		auto u = media.thumbnailUrl() ;
 
-		networkCtx n{ media,index } ;
-
 		auto m = &batchdownloader::networkResult ;
 
-		m_ctx.network().get( u,n.move(),this,m ) ;
+		m_ctx.network().get( u,networkCtx( media,index ),this,m ) ;
 	}else{
 		this->addItemUi( index,enableAll,media ) ;
 	}
 }
 
-void batchdownloader::networkResult( networkCtx d,const utils::network::reply& reply )
+void batchdownloader::networkResult( const networkCtx& d,const utils::network::reply& reply )
 {
-	emit this->networkDataSignal( { m_ctx,reply,d.index,d.media.move() } ) ;
+	emit this->networkDataSignal( { m_ctx,reply,d.index(),d.media() } ) ;
 }
 
 void batchdownloader::addToList( const QString& u,const batchdownloader::downloadOpts& opts )
