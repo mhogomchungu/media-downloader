@@ -693,7 +693,10 @@ void batchdownloader::gotEvent( const utility::event& e )
 
 	if( !url.isEmpty() ){
 
-		m_ui.tabWidget->setCurrentIndex( 1 ) ;
+		if( m_initDone ){
+
+			m_ui.tabWidget->setCurrentIndex( 1 ) ;
+		}
 
 		auto autoDownload = e.autoDownload() ;
 
