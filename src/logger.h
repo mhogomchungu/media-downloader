@@ -91,6 +91,14 @@ public:
 			{
 				return m_processId ;
 			}
+			struct extraLogs
+			{
+				bool operator()( const Logger::Data::processOutput& ) const ;
+			} ;
+			bool operator==( const extraLogs& extra ) const
+			{
+				return extra( *this ) ;
+			}
 			const std::vector< Logger::Data::processOutput::outputEntry >& entries() const
 			{
 				return m_data ;
