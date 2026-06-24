@@ -1355,16 +1355,7 @@ void utility::initDone()
 {
 }
 
-int utility::sequentialID()
-{
-	static int id = 0 ;
-
-	--id ;
-
-	return id ;
-}
-
-int utility::concurrentID()
+int utility::loggerID()
 {
 	static int id = -1 ;
 
@@ -2273,15 +2264,15 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 
 			QString m = "Network Error: Request Succeeded But No Data Received" ;
 
-			ctx.logger().add( m,utility::concurrentID() ) ;
+			ctx.logger().add( m,utility::loggerID() ) ;
 		}
 	}else if( reply.timeOut() ){
 
 		QString m = "Network Error: Network Request Timed Out" ;
 
-		ctx.logger().add( m,utility::concurrentID() ) ;
+		ctx.logger().add( m,utility::loggerID() ) ;
 	}else{
-		ctx.logger().add( "Network Error: " + reply.errorString(),utility::concurrentID() ) ;
+		ctx.logger().add( "Network Error: " + reply.errorString(),utility::loggerID() ) ;
 	}
 }
 
@@ -2492,7 +2483,7 @@ bool utility::printOutPut::valid() const
 
 void utility::failedToParseJsonData( Logger& logger,const QJsonParseError& error )
 {
-	auto id = utility::concurrentID() ;
+	auto id = utility::loggerID() ;
 
 	logger.add( "Failed To Parse Json Data:" + error.errorString(),id ) ;
 }
@@ -2891,7 +2882,7 @@ QString utility::rename( const Context& ctx,
 	auto oldPath = cwd + "/" + oldName ;
 	auto newPath = cwd + "/" + newName ;
 
-	auto id = utility::concurrentID() ;
+	auto id = utility::loggerID() ;
 
 	fileRename rename( oldPath,newPath ) ;
 

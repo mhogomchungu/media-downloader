@@ -471,7 +471,7 @@ QString playlistdownloader::defaultEngineName()
 
 const engines::engine& playlistdownloader::defaultEngine()
 {
-	auto id = utility::concurrentID() ;
+	auto id = utility::loggerID() ;
 
 	return m_ctx.Engines().defaultEngine( this->defaultEngineName(),id ) ;
 }
@@ -945,7 +945,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	const auto& engine = utility::resolveEngine( m_table,eng,m_ctx.Engines(),index ) ;
 
 	auto logs   = m_settings.getLogsLimits() ;
-	auto id     = utility::concurrentID() ;
+	auto id     = utility::loggerID() ;
 	auto ff     = engine.filter( id ) ;
 	auto logger = make_loggerBatchDownloader( ff.move(),m_ctx.logger(),updater,error,id,logs ) ;
 
@@ -1217,7 +1217,7 @@ void playlistdownloader::getList(  const QString& url,
 	auto& ll = m_ctx.logger() ;
 
 	auto logs   = m_ctx.Settings().getLogsLimits() ;
-	auto id     = utility::concurrentID() ;
+	auto id     = utility::loggerID() ;
 	auto logger = make_loggerPlaylistDownloader( m_table,ll,id,sOut.move(),sErr.move(),logs ) ;
 	auto term   = m_terminator.setUp( m_ui.pbPLCancel,&QPushButton::clicked,-1 ) ;
 	auto ch     = QProcess::ProcessChannel::StandardOutput ;
@@ -1856,7 +1856,7 @@ void playlistdownloader::stdOut::parseYtDlpData( Logger::Data& data )
 		}
 
 		data.clear() ;
-		data.add( line.mid( position ),utility::concurrentID() ) ;
+		data.add( line.mid( position ),utility::loggerID() ) ;
 	}
 }
 

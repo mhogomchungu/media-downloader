@@ -145,7 +145,7 @@ engines::engines( Logger& l,const engines::enginePaths& paths,settings& s,int id
 
 void engines::showBanner()
 {
-	m_bannerId = utility::sequentialID() ;
+	m_bannerId = utility::loggerID() ;
 
 	const auto& id = m_bannerId ;
 
@@ -276,13 +276,13 @@ engines::EnginesList::engine engines::getEngineByPath( const QString& e ) const
 
 				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
 
-				m_logger.add( m.arg( name,minVersion ),utility::sequentialID() ) ;
+				m_logger.add( m.arg( name,minVersion ),utility::loggerID() ) ;
 
 				return {} ;
 			}
 		}
 
-		return { m_logger,m_enginePaths,object,*this,utility::sequentialID() } ;
+		return { m_logger,m_enginePaths,object,*this,utility::loggerID() } ;
 	}else{
 		return {} ;
 	}
@@ -362,7 +362,7 @@ engines::EnginesList::engine engines::getSupportingEngineByName( const QString& 
 		obj.insert( "VersionStringPosition",1 ) ;
 	}
 
-	return { m_logger,m_enginePaths,obj,*this,utility::sequentialID() } ;
+	return { m_logger,m_enginePaths,obj,*this,utility::loggerID() } ;
 }
 
 QStringList engines::engine::dumpJsonArguments( engines::engine::tab tab ) const
@@ -502,7 +502,7 @@ const engines::EnginesList& engines::getEngines() const
 
 engines::Iterator engines::getEnginesIterator() const
 {
-	return { m_backends,utility::sequentialID() } ;
+	return { m_backends,utility::loggerID() } ;
 }
 
 const engines::engine& engines::defaultEngine( const QString& name,int id ) const
@@ -519,7 +519,7 @@ const engines::engine& engines::defaultEngine( const QString& name,int id ) cons
 
 			return m_backends[ 0 ] ;
 		}else{
-			auto id = utility::sequentialID() ;
+			auto id = utility::loggerID() ;
 
 			auto obj = yt_dlp::init() ;
 
@@ -1107,7 +1107,7 @@ QString engines::engine::updateCmdPath( Logger& logger,const QString& e ) const
 
 		auto m = "Trouble Ahead, Engine's Exe Not Found: " + m_engine->engine().name() ;
 
-		logger.add( m,utility::sequentialID() ) ;
+		logger.add( m,utility::loggerID() ) ;
 	}
 
 	m_exePath.updateRealExe( exe ) ;
@@ -1426,7 +1426,7 @@ void engines::enginePaths::confirmPaths( Logger& logger ) const
 
 	if( !warning.empty() ){
 
-		auto id = utility::sequentialID() ;
+		auto id = utility::loggerID() ;
 
 		const auto& m = utility::barLine() ;
 
@@ -2467,13 +2467,13 @@ QStringList engines::file::readAllAsLines()
 
 void engines::file::failToOpenForWriting()
 {
-	auto id = utility::sequentialID() ;
+	auto id = utility::loggerID() ;
 	m_logger.add( QObject::tr( "Failed to open file for writing" ) + ": " + m_filePath,id ) ;
 }
 
 void engines::file::failToOpenForReading()
 {
-	auto id = utility::sequentialID() ;
+	auto id = utility::loggerID() ;
 	m_logger.add( QObject::tr( "Failed to open file for reading" ) + ": " + m_filePath,id ) ;
 }
 

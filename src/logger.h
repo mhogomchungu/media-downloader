@@ -91,17 +91,6 @@ public:
 			{
 				return m_processId ;
 			}
-			struct IdLessThanZero
-			{
-				bool operator()( int id ) const
-				{
-					return id < 0 ;
-				}
-			} ;
-			bool operator==( const IdLessThanZero& id ) const
-			{
-				return id( m_processId ) ;
-			}
 			const std::vector< Logger::Data::processOutput::outputEntry >& entries() const
 			{
 				return m_data ;

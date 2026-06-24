@@ -1310,7 +1310,7 @@ void batchdownloader::showComments( const QByteArray& e )
 	}else{
 		m_ctx.logger().setMaxProcessLog( 2 ) ;
 
-		auto id = utility::concurrentID() ;
+		auto id = utility::loggerID() ;
 
 		m_ctx.logger().add( "Failed To Parse JSON Data: " + doc.errorString(),id ) ;
 	}
@@ -1733,7 +1733,7 @@ bool batchdownloader::saveSubtitles( const QString& url,const QString& ext,const
 				f.write( s ) ;
 			}else{
 				auto x = QObject::tr( "Failed To Open Path For Writing: %1" ).arg( e ) ;
-				m_ctx.logger().add( x,utility::concurrentID() ) ;
+				m_ctx.logger().add( x,utility::loggerID() ) ;
 			}
 		} ) ;
 	}
@@ -1922,7 +1922,7 @@ QString batchdownloader::defaultEngineName()
 
 const engines::engine& batchdownloader::defaultEngine()
 {
-	auto id = utility::concurrentID() ;
+	auto id = utility::loggerID() ;
 
 	return m_ctx.Engines().defaultEngine( this->defaultEngineName(),id ) ;
 }
@@ -2362,7 +2362,7 @@ void batchdownloader::clipboardData( const QString& url,bool s )
 
 		emit this->addClipboardSignal( url ) ;
 	}else{
-		m_ctx.logger().add( url,utility::concurrentID() ) ;
+		m_ctx.logger().add( url,utility::loggerID() ) ;
 	}
 }
 

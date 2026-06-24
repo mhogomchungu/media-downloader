@@ -463,7 +463,7 @@ private:
 
 		auto error  = []( const QByteArray& ){} ;
 
-		int id      = utility::concurrentID() ;
+		int id      = utility::loggerID() ;
 
 		auto& ll    = m_ctx.logger() ;
 
@@ -563,7 +563,7 @@ private:
 		BatchLogger( Logger& l,const settings::LogsLimits& s ) :
 			m_localLogger( false,s ),
 			m_logger( l ),
-			m_id( utility::concurrentID() )
+			m_id( utility::loggerID() )
 		{
 		}
 		BatchLogger move()

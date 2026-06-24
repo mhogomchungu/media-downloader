@@ -258,9 +258,6 @@ QByteArray Logger::Data::join( const QByteArray& joiner,int id ) const
 
 void Logger::Data::removeExtraLogs()
 {
-	auto& v = m_processOutputs ;
-	auto m = Logger::Data::processOutput::IdLessThanZero() ;
-	v.erase( std::remove( v.begin(),v.end(),m ),v.end() ) ;
 }
 
 bool Logger::Data::removeFirstFinished()

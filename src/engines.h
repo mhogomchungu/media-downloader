@@ -72,33 +72,62 @@ public:
 		template< typename Function >
 		static void readAll( const QString& filePath,Logger& logger,Function function )
 		{
-			struct result
+			class meaw
 			{
-				bool success ;
-				QByteArray data ;
-			};
-
-			utils::qthread::run( [ filePath ]()->result{
-
-				QFile f( filePath ) ;
-
-				if( f.open( QIODevice::ReadOnly ) ){
-
-					return { true,f.readAll() } ;
-				}else{
-					return { false,{} } ;
+			public:
+				class result
+				{
+				public:
+					result( QByteArray e ) : m_success( true ),m_data( std::move( e ) )
+					{
+					}
+					result() : m_success( false )
+					{
+					}
+					bool success()
+					{
+						return m_success ;
+					}
+					QByteArray data()
+					{
+						return std::move( m_data ) ;
+					}
+				private:
+					bool m_success ;
+					QByteArray m_data ;
+				} ;
+				meaw( const QString& file,Function f,Logger& l ) :
+					m_filePath( file ),m_function( std::move( f ) ),m_logger( l )
+				{
 				}
+				result bg()
+				{
+					QFile f( m_filePath ) ;
 
-			},[ &logger,filePath,function = std::move( function ) ]( result r ){
+					if( f.open( QIODevice::ReadOnly ) ){
 
-				if( r.success ){
-
-					function( true,r.data ) ;
-				}else{
-					engines::file( filePath,logger ).failToOpenForReading() ;
-					function( false,r.data ) ;
+						return f.readAll() ;
+					}else{
+						return {} ;
+					}
 				}
-			} ) ;
+				void fg( result r )
+				{
+					if( r.success() ){
+
+						m_function( true,r.data() ) ;
+					}else{
+						engines::file( m_filePath,m_logger ).failToOpenForReading() ;
+						m_function( false,r.data() ) ;
+					}
+				}
+			private:
+				QString m_filePath ;
+				Function m_function ;
+				Logger& m_logger ;
+			} ;
+
+			utils::qthread::run( meaw( filePath,std::move( function ),logger ) ) ;
 		}
 	private:
 		void failToOpenForReading() ;

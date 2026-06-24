@@ -35,7 +35,7 @@ versionInfo::versionInfo( Ui::MainWindow&,const Context& ctx ) :
 
 versionInfo::printVinfo versionInfo::createPrintVinfo( const engines::EnginesList& engines,bool na ) const
 {
-	return { engines::Iterator( engines,utility::sequentialID() ),this->createReportDone(),na } ;
+	return { engines::Iterator( engines,utility::loggerID() ),this->createReportDone(),na } ;
 }
 
 void versionInfo::log( const QString& msg,int id ) const
@@ -259,7 +259,7 @@ void versionInfo::checkMediaDownloaderUpdate( const engines::EnginesList& engine
 
 	m_ctx.TabManager().disableAll() ;
 
-	auto id = utility::sequentialID() ;
+	auto id = utility::loggerID() ;
 
 	this->log( QObject::tr( "Checking installed version of %1" ).arg( m_ctx.appName() ),id ) ;
 
@@ -365,7 +365,7 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 	m_ctx.TabManager().disableAll() ;	
 
-	auto id = utility::sequentialID() ;
+	auto id = utility::loggerID() ;
 
 	this->log( QObject::tr( "Checking installed version of %1" ).arg( engine.name() ),id ) ;
 

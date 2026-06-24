@@ -702,7 +702,7 @@ QString settings::downloadFolder( const QString& defaultPath,settings::sLogger& 
 
 		return m ;
 	}else{
-		auto id = utility::sequentialID() ;
+		auto id = utility::loggerID() ;
 
 		auto s = utility::barLine() ;
 
@@ -1470,7 +1470,7 @@ settings::mediaPlayer::mediaPlayer( settings& e,
 
 void settings::mediaPlayer::action::logError() const
 {
-	auto id = utility::sequentialID() ;
+	auto id = utility::loggerID() ;
 
 	auto bar = utility::barLine() ;
 

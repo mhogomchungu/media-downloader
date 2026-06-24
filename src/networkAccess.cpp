@@ -63,7 +63,7 @@ networkAccess::networkAccess( const Context& ctx ) :
 		auto& e = m_ctx.logger() ;
 		auto s = QSslSocket::sslLibraryVersionString() ;
 
-		auto id = utility::sequentialID() ;
+		auto id = utility::loggerID() ;
 
 		auto mm = QObject::tr( "Checking installed version of %1" ) ;
 
@@ -509,7 +509,7 @@ void networkAccess::download( engines::Iterator e,networkAccess::reportDone rd )
 
 	auto path = engine.exeFolderPath() ;
 
-	int id = utility::sequentialID() ;
+	int id = utility::loggerID() ;
 
 	if( !dir.exists( path ) ){
 

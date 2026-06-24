@@ -544,7 +544,7 @@ configure::configure( const Context& ctx ) :
 
 		if( !m.isEmpty() ){
 
-			auto id = utility::sequentialID() ;
+			auto id = utility::loggerID() ;
 
 			if( m == m_ctx.appName() ){
 
@@ -829,7 +829,7 @@ void configure::downloadExtension( const QString& name )
 
 	m_ctx.TabManager().basicDownloader().setAsActive() ;
 
-	auto id = utility::sequentialID() ;
+	auto id = utility::loggerID() ;
 
 	m_ctx.logger().add( QObject::tr( "Downloading" ) + ": " + url,id ) ;
 
@@ -1322,7 +1322,7 @@ QMenu * configure::removeExtenion()
 
 	connect( m,&QMenu::triggered,[ & ]( QAction * ac ){
 
-		auto id = utility::sequentialID() ;
+		auto id = utility::loggerID() ;
 
 		m_ctx.Engines().removeEngine( ac->objectName(),id ) ;
 
@@ -1341,7 +1341,7 @@ void configure::updateExtensionsRemoveList()
 
 void configure::addEngine( const QByteArray& d,const QString& n )
 {
-	auto id = utility::sequentialID() ;
+	auto id = utility::loggerID() ;
 
 	auto name = m_ctx.Engines().addEngine( d,n,id ) ;
 

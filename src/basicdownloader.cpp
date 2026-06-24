@@ -182,7 +182,7 @@ void basicdownloader::changeDefaultEngine( int s )
 
 		m_ctx.TabManager().setDefaultEngines() ;
 	}else{
-		auto id = utility::concurrentID() ;
+		auto id = utility::loggerID() ;
 		auto m = "Error: basicdownloader::basicdownloader: Unknown Engine:" ;
 
 		m_ctx.logger().add( m + m_ui.cbEngineType->itemText( s ),id ) ;
@@ -249,7 +249,7 @@ QString basicdownloader::defaultEngineName()
 
 basicdownloader::engine basicdownloader::defaultEngine( const QString& url )
 {
-	auto id = utility::concurrentID() ;
+	auto id = utility::loggerID() ;
 
 	const auto& engine = m_ctx.Engines().defaultEngine( this->defaultEngineName(),id ) ;
 
