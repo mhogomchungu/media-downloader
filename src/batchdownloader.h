@@ -539,22 +539,39 @@ private:
 		initEvent( batchdownloader& parent ) : m_parent( parent )
 		{
 		}
-		void set( ItemEntries e,const batchdownloader::downloadOpts& o )
+		void add( ItemEntries e,const batchdownloader::downloadOpts& o )
 		{
-			m_itemEntries = e.move() ;
-			m_downloadOpts = o ;
+			m_entries.emplace_back( e.move(),o ) ;
 		}
 		void operator()()
 		{
-			if( m_itemEntries.notEmpty() ){
+			for( auto& it : m_entries ){
 
-				m_parent.downloadOrShowThumbnail( m_itemEntries.move(),m_downloadOpts ) ;
+				m_parent.downloadOrShowThumbnail( it.entries(),it.opts() ) ;
 			}
 		}
 	private:
+		class events
+		{
+		public:
+			events( ItemEntries e,const batchdownloader::downloadOpts& o ) :
+				m_entries( e.move() ),m_opts( o )
+			{
+			}
+			ItemEntries entries()
+			{
+				return m_entries.move() ;
+			}
+			const batchdownloader::downloadOpts& opts()
+			{
+				return m_opts ;
+			}
+		private:
+			ItemEntries m_entries ;
+			batchdownloader::downloadOpts m_opts ;
+		} ;
 		batchdownloader& m_parent ;
-		ItemEntries m_itemEntries ;
-		batchdownloader::downloadOpts m_downloadOpts ;
+		std::vector< events > m_entries ;
 	} ;
 
 	class BatchLogger

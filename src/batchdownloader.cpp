@@ -776,7 +776,7 @@ void batchdownloader::downloadOrShowThumbnail( ItemEntries entries,const batchdo
 
 		if( !m_initDone ){
 
-			m_initEvent.set( entries.move(),opts ) ;
+			m_initEvent.add( entries.move(),opts ) ;
 
 		}else if( opts.autoDownload() ){
 
