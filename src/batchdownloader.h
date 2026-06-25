@@ -373,13 +373,16 @@ private:
 	void showCustomContext() ;
 	void addToList( const QString&,const downloadOpts& ) ;
 	void downloadAddItems( ItemEntries ) ;
+	void downloadItem( const engines::engine&,int ) ;
 	void download( const engines::engine& ) ;
 	void downloadSingle( const engines::engine&,int ) ;
 	void downloadRecursively( const engines::engine&,int ) ;
-	void downloadOrShowThumbnail( ItemEntries,const downloadOpts& ) ;
+	void downloadOrShowThumbnail( ItemEntries,const downloadOpts&,bool = false ) ;
 	void addItem( int,bool,const utility::MediaEntry& ) ;
 	void addItemUi( int,bool,const utility::MediaEntry& ) ;
 	int addItemUi( const QPixmap& pixmap,int,bool,const utility::MediaEntry& ) ;
+	bool initDone() ;
+	bool initNotDone() ;
 	int addItemUi( const QPixmap& pixmap,
 		       int index,
 		       tableWidget& table,
@@ -539,23 +542,23 @@ private:
 		initEvent( batchdownloader& parent ) : m_parent( parent )
 		{
 		}
-		void add( ItemEntries e,const batchdownloader::downloadOpts& o )
+		void add( const ItemEntries& e,const batchdownloader::downloadOpts& o )
 		{
-			m_entries.emplace_back( e.move(),o ) ;
+			m_entries.emplace_back( e,o ) ;
 		}
 		void operator()()
 		{
 			for( auto& it : m_entries ){
 
-				m_parent.downloadOrShowThumbnail( it.entries(),it.opts() ) ;
+				m_parent.downloadOrShowThumbnail( it.entries(),it.opts(),true ) ;
 			}
 		}
 	private:
 		class events
 		{
 		public:
-			events( ItemEntries e,const batchdownloader::downloadOpts& o ) :
-				m_entries( e.move() ),m_opts( o )
+			events( const ItemEntries& e,const batchdownloader::downloadOpts& o ) :
+				m_entries( e ),m_opts( o )
 			{
 			}
 			ItemEntries entries()

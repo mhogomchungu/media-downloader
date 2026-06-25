@@ -694,7 +694,7 @@ void batchdownloader::gotEvent( const utility::event& e )
 
 	if( !url.isEmpty() ){
 
-		if( m_initDone ){
+		if( this->initDone() ){
 
 			m_ui.tabWidget->setCurrentIndex( 1 ) ;
 		}
@@ -706,19 +706,7 @@ void batchdownloader::gotEvent( const utility::event& e )
 			autoDownload = m_settings.autoDownloadWhenAddedInBatchDownloader() ;
 		}
 
-		if( this->showMetaData() && e.showMetaData() ){
-
-			auto row = m_table.rowWithUrl( url ) ;
-
-			if( row == -1 ){
-
-				this->addToList( url,{ true,autoDownload } ) ;
-			}else{
-				this->updateMetaData( url,row ) ;
-			}
-		}else{
-			this->addToList( url,{ false,autoDownload } ) ;
-		}
+		this->addToList( url,{ e.showMetaData(),autoDownload } ) ;
 	}
 }
 
@@ -739,6 +727,22 @@ void batchdownloader::updateEnginesList( const QStringList& e )
 	utility::setUpdefaultEngine( comboBox,m,m_settings,s ) ;
 }
 
+void batchdownloader::downloadItem( const engines::engine& engine,int row )
+{
+	this->setDownloadingOptions( row,m_table ) ;
+
+	const auto& ee = m_table.entryAt( row ) ;
+
+	const auto& eng = m_ctx.Engines().getEngineByName( ee.engineName ) ;
+
+	if( eng ){
+
+		this->downloadRecursively( eng.value(),row ) ;
+	}else{
+		this->downloadRecursively( engine,row ) ;
+	}
+}
+
 void batchdownloader::downloadAddItems( ItemEntries s )
 {
 	if( s.hasNext() ){
@@ -747,18 +751,7 @@ void batchdownloader::downloadAddItems( ItemEntries s )
 
 		auto row = this->addItemUi( m_defaultVideoThumbnail,-1,false,e.url ) ;
 
-		this->setDownloadingOptions( row,m_table ) ;
-
-		const auto& ee = m_table.entryAt( row ) ;
-
-		const auto& eng = m_ctx.Engines().getEngineByName( ee.engineName ) ;
-
-		if( eng ){
-
-			this->downloadRecursively( eng.value(),row ) ;
-		}else{
-			this->downloadRecursively( s.engine(),row ) ;
-		}
+		this->downloadItem( s.engine(),row ) ;
 
 		emit this->downloadAddItemsSignal( s ) ;
 
@@ -770,13 +763,39 @@ void batchdownloader::downloadAddItems( ItemEntries s )
 	}
 }
 
-void batchdownloader::downloadOrShowThumbnail( ItemEntries entries,const batchdownloader::downloadOpts& opts )
+void batchdownloader::downloadOrShowThumbnail( ItemEntries entries,
+					       const batchdownloader::downloadOpts& opts,
+					       bool fromInitEvent )
 {
 	if( entries.hasMore() ){
 
-		if( !m_initDone ){
+		if( fromInitEvent ){
 
-			m_initEvent.add( entries.move(),opts ) ;
+			if( entries.hasNext() ){
+
+				const auto& m = entries.next() ;
+
+				auto row = m_table.rowWithUrl( m.url ) ;
+
+				if( row == -1 ){
+
+					this->addItemUiSlot( entries.move() ) ;
+
+				}else if( opts.autoDownload() ){
+
+					this->downloadItem( entries.engine(),row ) ;
+
+				}else if( opts.showMetaData() ){
+
+					this->updateMetaData( m.url,row ) ;
+				}
+			}
+
+		}else if( this->initNotDone() ){
+
+			m_initEvent.add( entries,opts ) ;
+
+			this->addItemUiSlot( entries.move() ) ;
 
 		}else if( opts.autoDownload() ){
 
@@ -2177,17 +2196,30 @@ int batchdownloader::addItemUi( const QPixmap& pixmap,
 
 	this->setDownloadingOptions( row,m_table ) ;
 
-	if( m_table.noneAreRunning() ){
+	if( this->initDone() ){
 
-		m_ui.pbBDDownload->setEnabled( true ) ;
+		if( m_table.noneAreRunning() ){
 
-		this->enableAll() ;
-		m_ui.pbBDCancel->setEnabled( false ) ;
-	}else{
-		m_ui.pbBDCancel->setEnabled( true ) ;
+			m_ui.pbBDDownload->setEnabled( true ) ;
+
+			this->enableAll() ;
+			m_ui.pbBDCancel->setEnabled( false ) ;
+		}else{
+			m_ui.pbBDCancel->setEnabled( true ) ;
+		}
 	}
 
 	return row ;
+}
+
+bool batchdownloader::initDone()
+{
+	return m_initDone ;
+}
+
+bool batchdownloader::initNotDone()
+{
+	return !m_initDone ;
 }
 
 void batchdownloader::setShowMetaData( bool e )
