@@ -665,7 +665,7 @@ void networkAccess::downloadP( networkAccess::Opts& opts,const utils::network::p
 
 			auto speed = opts.speed( data.size(),received,total ) ;
 
-			auto m = QString( "%1 / %2 (%3% at %4)" ).arg( current,totalSize,percentage,speed ) ;
+			auto m = QString( "%1 / %2, %3% at %4" ).arg( current,totalSize,percentage,speed ) ;
 
 			this->postDownloadingProgress( engine.name(),m,opts.id ) ;
 		}
