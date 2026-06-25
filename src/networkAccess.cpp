@@ -32,6 +32,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDir>
+#include <QDateTime>
 
 #if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
 static QString _sslLibraryVersionString()
@@ -590,6 +591,8 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 		auto url = this->networkRequest( opts.metadata.url() ) ;
 
+		opts.setInitialTimeStamp() ;
+
 		this->get( url,opts.move(),this,&networkAccess::downloadP ) ;
 	}else{
 		auto m = QObject::tr( "Failed To Open Path For Writing: %1" ).arg( opts.filePath ) ;
@@ -653,12 +656,16 @@ void networkAccess::downloadP( networkAccess::Opts& opts,const utils::network::p
 
 			this->postDownloading( engine.name(),m,opts.id ) ;
 		}else{
-			auto perc = double( p.received() )  * 100 / double( total ) ;
+			auto received = p.received() ;
+
+			auto perc = double( received )  * 100 / double( total ) ;
 			auto totalSize = opts.locale.formattedDataSize( total ) ;
-			auto current   = opts.locale.formattedDataSize( p.received() ) ;
+			auto current   = opts.locale.formattedDataSize( received ) ;
 			auto percentage = QString::number( perc,'f',2 ) ;
 
-			auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
+			auto speed = opts.speed( data.size(),received,total ) ;
+
+			auto m = QString( "%1 / %2 (%3% at %4)" ).arg( current,totalSize,percentage,speed ) ;
 
 			this->postDownloadingProgress( engine.name(),m,opts.id ) ;
 		}
@@ -961,4 +968,38 @@ QString networkAccess::File::rename( const QString& e )
 
 networkAccess::report::~report()
 {
+}
+
+void networkAccess::Opts::setInitialTimeStamp()
+{
+	m_initialTimeStamp = QDateTime::currentSecsSinceEpoch() ;
+}
+
+QString networkAccess::Opts::speed( qint64 currentDataSize,qint64 totalReceivedData,qint64 totalDownloadSize )
+{
+	Q_UNUSED( currentDataSize )
+	Q_UNUSED( totalDownloadSize )
+
+	auto e = QDateTime::currentSecsSinceEpoch() - m_initialTimeStamp ;
+
+	if( e > 0 ){
+
+		auto m = totalReceivedData / e ;
+
+		m_dataSpeed = this->locale.formattedDataSize( m ) + "/s" ;
+
+		if( e < 60 ){
+
+			m_dataSpeed += " in " + QString::number( e ) + "s" ;
+
+		}else if( e < 60 * 60 ){
+
+			auto a = QString::number( e / 60 ) ;
+			auto b = QString::number( e % 60 ) ;
+
+			m_dataSpeed += " in " + a + "m:" + b + "s" ;
+		}
+	}
+
+	return m_dataSpeed ;
 }

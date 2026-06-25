@@ -448,11 +448,15 @@ private:
 		{
 			iter.repordFailed() ;
 		}
+		void setInitialTimeStamp() ;
+		QString speed( qint64,qint64,qint64 ) ;
 		networkAccess::iterator iter ;
 		QString exeBinPath ;
 		engines::metadata metadata ;
 		QString filePath ;
 		QString tempPath ;
+		QString m_dataSpeed = "--KiB/s" ;
+		qint64 m_initialTimeStamp = 0 ;
 		cmdArgs exeArgs ;
 		class NetworkError
 		{

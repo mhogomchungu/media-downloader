@@ -414,7 +414,7 @@ void versionInfo::printVersion( versionInfo::printVinfo vInfo ) const
 
 	if( utility::cliArguments::debug() ){
 
-		m_ctx.logger().add( "cmd: " + exe,id ) ;
+		m_ctx.logger().add( "Cmd: " + exe,id ) ;
 	}
 
 	auto mm = QProcess::ProcessChannelMode::MergedChannels ;
