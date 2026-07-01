@@ -34,6 +34,8 @@
 #include <QDir>
 #include <QDateTime>
 
+#include <chrono>
+
 #if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
 static QString _sslLibraryVersionString()
 {
@@ -970,9 +972,15 @@ networkAccess::report::~report()
 {
 }
 
+static qint64 _currentSecsSinceEpoch()
+{
+	auto now = std::chrono::system_clock::now() ;
+	return static_cast< qint64 >( std::chrono::system_clock::to_time_t( now ) ) ;
+}
+
 void networkAccess::Opts::setInitialTimeStamp()
 {
-	m_initialTimeStamp = QDateTime::currentSecsSinceEpoch() ;
+	m_initialTimeStamp = _currentSecsSinceEpoch() ;
 }
 
 QString networkAccess::Opts::speed( qint64 currentDataSize,qint64 totalReceivedData,qint64 totalDownloadSize )
@@ -980,7 +988,7 @@ QString networkAccess::Opts::speed( qint64 currentDataSize,qint64 totalReceivedD
 	Q_UNUSED( currentDataSize )
 	Q_UNUSED( totalDownloadSize )
 
-	auto e = QDateTime::currentSecsSinceEpoch() - m_initialTimeStamp ;
+	auto e = _currentSecsSinceEpoch() - m_initialTimeStamp ;
 
 	if( e > 0 ){
 
