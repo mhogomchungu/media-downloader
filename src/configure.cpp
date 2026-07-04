@@ -1563,6 +1563,8 @@ void configure::savePresetOptions()
 			m_presetOptions.add( e,options,website ) ;
 		}
 	}
+
+	m_presetOptions.save() ;
 }
 
 void configure::showOptions()
@@ -1834,7 +1836,7 @@ configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
 	}
 }
 
-configure::presetOptions::~presetOptions()
+void configure::presetOptions::save()
 {
 	QFile f( m_path ) ;
 

@@ -74,7 +74,7 @@ private:
 	{
 	public:
 		presetOptions( const Context&,settings& ) ;
-		~presetOptions() ;
+		void save() ;
 		void clear() ;
 		void setDefaults() ;
 		QString optionsTranslated( const QString& ) ;
