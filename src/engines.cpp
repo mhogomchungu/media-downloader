@@ -1078,9 +1078,15 @@ engines::engine::engine( Logger& logger,
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
 
-	const auto& epath = m_exeFolderPath ;
+	if( m_exeFolderPath.isEmpty() || m_exeFolderPath == defaultPath || m_exeFolderPath == backendPath ){
 
-	if( epath.isEmpty() || epath == defaultPath || epath == backendPath ){
+		m_exeFolderPath = ePaths.binPath() ;
+
+	}else if( !utility::pathIsFolderAndExists( m_exeFolderPath ) ){
+
+		auto m = "Invalid Folder Path: " + m_exeFolderPath ;
+
+		logger.add( m,id ) ;
 
 		m_exeFolderPath = ePaths.binPath() ;
 	}
