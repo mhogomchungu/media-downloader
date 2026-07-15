@@ -1078,7 +1078,9 @@ engines::engine::engine( Logger& logger,
 	auto defaultPath = utility::stringConstants::defaultPath() ;
 	auto backendPath = utility::stringConstants::backendPath() ;
 
-	if( m_exeFolderPath == defaultPath || m_exeFolderPath == backendPath ){
+	const auto& epath = m_exeFolderPath ;
+
+	if( epath.isEmpty() || epath == defaultPath || epath == backendPath ){
 
 		m_exeFolderPath = ePaths.binPath() ;
 	}

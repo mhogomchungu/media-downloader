@@ -402,6 +402,18 @@ private:
 		QString m_exe ;
 		QString m_args ;
 	} ;
+	class downloadSpeed
+	{
+	public:
+		void setInitialTimeStamp() ;
+		QString calculate( const utils::network::progress& ) ;
+	private:
+		qint64 currentSecsSinceEpoch() ;
+		qint64 elapsedTime() ;
+		QString m_dataSpeed = "--KiB/s" ;
+		qint64 m_initialTimeStamp = 0 ;
+		Logger::locale m_locale ;
+	} ;
 	struct Opts
 	{
 		Opts( networkAccess::iterator itr,
@@ -448,15 +460,12 @@ private:
 		{
 			iter.repordFailed() ;
 		}
-		void setInitialTimeStamp() ;
-		QString speed( qint64,qint64,qint64 ) ;
 		networkAccess::iterator iter ;
 		QString exeBinPath ;
 		engines::metadata metadata ;
+		networkAccess::downloadSpeed speed ;
 		QString filePath ;
 		QString tempPath ;
-		QString m_dataSpeed = "--KiB/s" ;
-		qint64 m_initialTimeStamp = 0 ;
 		cmdArgs exeArgs ;
 		class NetworkError
 		{
@@ -533,7 +542,7 @@ private:
 			name( obj.value( "name" ).toString() ),
 			hash( obj.value( "digest" ).toString() ),
 			id( st.id() ),
-			size( obj.value( "size" ).toDouble() ),
+			size( obj.value( "size" ).toInt() ),
 			status( st.move() ),
 			hashCalculator( std::make_unique< QCryptographicHash >( QCryptographicHash::Sha256 ) )
 		{
@@ -545,10 +554,10 @@ private:
 		QString finalPath ;
 		QString hash ;
 		cmdArgs exeArgs ;
+		networkAccess::downloadSpeed speed ;
 		int id ;
-		double size ;
+		int size ;
 		networkAccess::Status status ;
-		Logger::locale locale ;
 		networkAccess::File file ;
 		std::unique_ptr< QCryptographicHash > hashCalculator ;
 		updateMDOptions move()

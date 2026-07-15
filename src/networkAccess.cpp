@@ -244,14 +244,9 @@ void networkAccess::uMediaDownloaderM( networkAccess::updateMDOptions& md,
 
 		md.file.write( data ) ;
 
-		auto perc       = double( p.received() )  * 100 / md.size ;
-		auto totalSize  = md.locale.formattedDataSize( qint64( md.size ) ) ;
-		auto current    = md.locale.formattedDataSize( p.received() ) ;
-		auto percentage = QString::number( perc,'f',2 ) ;
+		auto speed = md.speed.calculate( p ) ;
 
-		auto m = QString( "%1 / %2 (%3%)" ).arg( current,totalSize,percentage ) ;
-
-		this->postDownloadingProgress( m_appName,m,md.id ) ;
+		this->postDownloadingProgress( m_appName,speed,md.id ) ;
 	}
 }
 
@@ -268,6 +263,8 @@ void networkAccess::updateMediaDownloader( networkAccess::updateMDOptions md ) c
 	auto url = this->networkRequest( md.url ) ;
 
 	if( md.file.open( md.tmpFile ) ){
+
+		md.speed.setInitialTimeStamp() ;
 
 		this->get( url,md.move(),this,&networkAccess::uMediaDownloaderM ) ;
 	}else{
@@ -593,7 +590,7 @@ void networkAccess::download( networkAccess::Opts opts ) const
 
 		auto url = this->networkRequest( opts.metadata.url() ) ;
 
-		opts.setInitialTimeStamp() ;
+		opts.speed.setInitialTimeStamp() ;
 
 		this->get( url,opts.move(),this,&networkAccess::downloadP ) ;
 	}else{
@@ -648,29 +645,9 @@ void networkAccess::downloadP( networkAccess::Opts& opts,const utils::network::p
 
 		opts.file.write( data ) ;
 
-		auto total = opts.metadata.size() == 0 ? p.total() : opts.metadata.size() ;
+		auto speed = opts.speed.calculate( p ) ;
 
-		if( total == 0 ){
-
-			auto current = opts.locale.formattedDataSize( p.received() ) ;
-
-			auto m = QString( "%1" ).arg( current ) ;
-
-			this->postDownloading( engine.name(),m,opts.id ) ;
-		}else{
-			auto received = p.received() ;
-
-			auto perc = double( received )  * 100 / double( total ) ;
-			auto totalSize = opts.locale.formattedDataSize( total ) ;
-			auto current   = opts.locale.formattedDataSize( received ) ;
-			auto percentage = QString::number( perc,'f',2 ) ;
-
-			auto speed = opts.speed( data.size(),received,total ) ;
-
-			auto m = QString( "%1 / %2, %3% at %4" ).arg( current,totalSize,percentage,speed ) ;
-
-			this->postDownloadingProgress( engine.name(),m,opts.id ) ;
-		}
+		this->postDownloadingProgress( engine.name(),speed,opts.id ) ;
 	}
 }
 
@@ -972,29 +949,34 @@ networkAccess::report::~report()
 {
 }
 
-static qint64 _currentSecsSinceEpoch()
+void networkAccess::downloadSpeed::setInitialTimeStamp()
+{
+	m_initialTimeStamp = this->currentSecsSinceEpoch() ;
+}
+
+qint64 networkAccess::downloadSpeed::currentSecsSinceEpoch()
 {
 	auto now = std::chrono::system_clock::now() ;
 	return static_cast< qint64 >( std::chrono::system_clock::to_time_t( now ) ) ;
 }
 
-void networkAccess::Opts::setInitialTimeStamp()
+qint64 networkAccess::downloadSpeed::elapsedTime()
 {
-	m_initialTimeStamp = _currentSecsSinceEpoch() ;
+	return this->currentSecsSinceEpoch() - m_initialTimeStamp ;
 }
 
-QString networkAccess::Opts::speed( qint64 currentDataSize,qint64 totalReceivedData,qint64 totalDownloadSize )
+QString networkAccess::downloadSpeed::calculate( const utils::network::progress& p )
 {
-	Q_UNUSED( currentDataSize )
-	Q_UNUSED( totalDownloadSize )
+	auto received  = p.received() ;
+	auto totalSize = p.total() ;
 
-	auto e = _currentSecsSinceEpoch() - m_initialTimeStamp ;
+	auto e = this->elapsedTime() ;
 
 	if( e > 0 ){
 
-		auto m = totalReceivedData / e ;
+		auto m = received / e ;
 
-		m_dataSpeed = this->locale.formattedDataSize( m ) + "/s" ;
+		m_dataSpeed = m_locale.formattedDataSize( m ) + "/s" ;
 
 		if( e < 60 ){
 
@@ -1009,5 +991,22 @@ QString networkAccess::Opts::speed( qint64 currentDataSize,qint64 totalReceivedD
 		}
 	}
 
-	return m_dataSpeed ;
+	if( totalSize == 0 ){
+
+		auto current = m_locale.formattedDataSize( received ) ;
+
+		return QString( "%1 at %2" ).arg( current,m_dataSpeed ) ;
+	}else{
+		auto perc       = double( received ) * 100 / double( totalSize ) ;
+		auto size       = m_locale.formattedDataSize( totalSize ) ;
+		auto current    = m_locale.formattedDataSize( received ) ;
+		auto percentage = QString::number( perc,'f',2 ) ;
+
+		if( percentage == "100.00" || percentage == "100,00" ){
+
+			percentage = "100" ;
+		}
+
+		return QString( "%1 / %2, %3% at %4" ).arg( current,size,percentage,m_dataSpeed ) ;
+	}
 }

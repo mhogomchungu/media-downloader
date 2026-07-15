@@ -305,7 +305,7 @@ const QByteArray& wget::replaceUndesirableText( const QByteArray& data )
 		m_tmp.replace( "\x1b\x37","" ) ;
 		m_tmp.replace( "\x1b\x38","" ) ;
 
-		m_tmp = QString::fromUtf8( m_tmp ).replace( m_csi_regex,"" ).toUtf8() ; ;
+		m_tmp = QString::fromUtf8( m_tmp ).replace( m_csi_regex,"" ).toUtf8() ;
 
 		return m_tmp ;
 	}
