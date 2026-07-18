@@ -42,15 +42,9 @@ namespace utils
 			{
 				return m_str ;
 			}
-			template< size_t N >
-			bool operator==( const char ( &s )[ N ] ) const
+			bool operator==( const char * s ) const
 			{
-				if( N == this->size() ){
-
-					return std::strcmp( this->data(),s ) == 0 ;
-				}else{
-					return false ;
-				}
+				return std::strcmp( this->data(),s ) == 0 ;
 			}
 			bool operator==( const utils::misc::string& other ) const
 			{
