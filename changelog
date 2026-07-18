@@ -472,3 +472,11 @@ Version 1.2.0(April 1st, 2021)
       - Add "MediaDownloaderAppDataPath" environment variable to make it
         possible to change the default location of application data folder.
       - Various changes and improvements.
+
+      Version 5.6.3(June 18th, 2026)
+     [WINDOWS 7]
+      - Fix a bug that causes quickjs-ng to not be detected.
+     [WINDOWS]
+      - Show more info when showing download progress when updating MD.
+     [MACOS]
+      - Save new preset options as soon as user press "save" button.

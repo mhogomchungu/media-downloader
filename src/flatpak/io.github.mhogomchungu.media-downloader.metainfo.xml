@@ -62,6 +62,15 @@
 		<category>Qt</category>
 	</categories>
 		<releases>
+		<release version="5.6.3" type="stable" date="2026-07-18">
+			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.6.3/media-downloader-5.6.3.tar.xz</url>
+			<description>
+				<p>Changelog</p>
+				<ul>
+					<li>Maintanance release.</li>
+				</ul>
+			</description>
+		</release>
 		<release version="5.6.2" type="stable" date="2026-07-01">
 			<url type="details">https://github.com/mhogomchungu/media-downloader/releases/download/5.6.2/media-downloader-5.6.2.tar.xz</url>
 			<description>
