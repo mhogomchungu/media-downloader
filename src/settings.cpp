@@ -1087,12 +1087,12 @@ QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 
 bool settings::denoEnableAutoDownload()
 {
-	return this->getOption( "DenoEnableAutoDownload",true ) ;
+	return this->getOption( "DenoEnableAutoDownloading",true ) ;
 }
 
 void settings::setDenoEnableAutoDownload( bool e )
 {
-	m_settings.setValue( "DenoEnableAutoDownload",e ) ;
+	m_settings.setValue( "DenoEnableAutoDownloading",e ) ;
 }
 
 settings::LogsLimits settings::getLogsLimits()

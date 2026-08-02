@@ -1024,6 +1024,8 @@ void configure::populateOptionsTable( const engines::engine& s,int selectRow )
 
 	m_ui.labelConfigureTextEncoding->setText( tr( "Text Encoding" ) ) ;
 
+	m_ui.cbDenoEnableAutoDownload->setChecked( m_settings.denoEnableAutoDownload() ) ;
+
 	if( s.supportingEngine() ){
 
 		if( s.name() == "deno" ){
@@ -1031,8 +1033,6 @@ void configure::populateOptionsTable( const engines::engine& s,int selectRow )
 			m_ui.lineEditConfigureTextEncoding->setVisible( false ) ;
 
 			m_ui.cbDenoEnableAutoDownload->setVisible( true ) ;
-
-			m_ui.cbDenoEnableAutoDownload->setChecked( m_settings.denoEnableAutoDownload() ) ;
 
 			m_ui.labelConfigureTextEncoding->setText( tr( "Enable AutoDownloading" ) ) ;
 		}
@@ -1408,7 +1408,6 @@ void configure::saveOptions()
 	m_settings.setDenoEnableAutoDownload( m_ui.cbDenoEnableAutoDownload->isChecked() ) ;
 	m_settings.setUseSystemSupportingEngine( m_ui.cbConfigureUseSystemSupportingEngine->isChecked() ) ;
 	m_settings.setUseSystemEngine( m_ui.cbConfigureUseSystemEngine->isChecked() ) ;
-
 	auto s = m_ui.lineEditConfigureMaximuConcurrentDownloads->text() ;
 
 	if( s.isEmpty() ){
