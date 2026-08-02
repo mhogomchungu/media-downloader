@@ -480,3 +480,8 @@ Version 1.2.0(April 1st, 2021)
       - Show more info when showing download progress when updating MD.
      [MACOS]
       - Save new preset options as soon as user press "save" button.
+
+     Version 5.6.4(August 2nd, 2026)
+     [ALL]
+      - Update Ukranian language.
+      - Fix a bug that diables deno auto updating option when the save button is clicked.
