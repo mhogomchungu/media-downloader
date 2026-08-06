@@ -465,7 +465,7 @@ void basicdownloader::download( const basicdownloader::engine& eng,
 				const utility::args& args,
 				const QStringList& urls,
 				bool update )
-{	
+{
 	eng.engine.updateVersionInfo( m_ctx,[ this,eng,args,urls,update ](){
 
 		const auto& engine = eng.engine ;

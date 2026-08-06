@@ -26,6 +26,8 @@
 #include "mainwindow.h"
 #include "versionInfo.h"
 
+#include <array>
+
 #include <QFileDialog>
 #include <QFile>
 #include <QDesktopServices>
@@ -1193,7 +1195,7 @@ void configure::engineSetDefaultDownloadOptions( const engines::engine& engine )
 
 QString configure::defaultDownloadOption()
 {
-	return "bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best" ;
+	return "bestvideo[ext=mp4][vcodec^=av]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best" ;
 }
 
 void configure::setDownloadOptions( int row,tableWidget& table )
@@ -1800,11 +1802,9 @@ void configure::disableAll()
 	}
 }
 
-configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
+configure::presetOptions::presetOptions( const Context& ctx,settings& ) :
 	m_path( ctx.Engines().engineDirPaths().dataPath( "presetOptions.json" ) )
 {
-	QSettings& m = s.bk() ;
-
 	QByteArray data ;
 
 	if( QFile::exists( m_path ) ){
@@ -1815,17 +1815,27 @@ configure::presetOptions::presetOptions( const Context& ctx,settings& s ) :
 
 			data = f.readAll() ;
 		}
-
-	}else if( m.contains( "PresetJsonOptions" ) ){
-
-		auto a = m.value( "PresetJsonOptions" ).toByteArray() ;
-
-		m.remove( "PresetJsonOptions" ) ;
-
-		data = QByteArray::fromHex( a ) ;
 	}else{
 		data = this->defaultData() ;
 	}
+
+	std::array< const char *,8 > resolutions{ "144","240","360","480","720","1080","1440","2160" } ;
+
+	QByteArray a = "bestvideo[height=" ;
+	QByteArray b = "bestvideo[format_note*=" ;
+
+	for( const auto& it : resolutions ){
+
+		auto x = a + it + "]" ;
+		auto y = b + it + "p]" ;
+
+		data.replace( x,y ) ;
+	}
+
+	auto aa = "bestvideo[ext=mp4][vcodec^=avc]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best" ;
+	auto bb = "bestvideo[ext=mp4][vcodec^=av]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best" ;
+
+	data.replace( aa,bb ) ;
 
 	auto json = utility::jsonDoc( data ) ;
 
