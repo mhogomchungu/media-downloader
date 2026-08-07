@@ -485,3 +485,7 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
       - Update Ukranian language.
       - Fix a bug that diables deno auto updating option when the save button is clicked.
+
+      Version 5.6.5(August 7th, 2026)
+     [ALL]
+      - Fix preset youtube options not working caused by youtube videos not having typical video dimensions.
