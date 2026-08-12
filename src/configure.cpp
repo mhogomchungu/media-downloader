@@ -108,6 +108,13 @@ configure::configure( const Context& ctx ) :
 		this->showOptions() ;
 	} ) ;
 
+	m_ui.cbUseArchiveFile->setChecked( m_ctx.Settings().useInternalArchiveFile() ) ;
+
+	connect( m_ui.cbUseArchiveFile,&QCheckBox::toggled,[ this ]( bool e ){
+
+		m_ctx.Settings().setUseInternalArchiveFile( e ) ;
+	} ) ;
+
 	connect( m_ui.pbConfigureConfirmResetNo,&QPushButton::clicked,[ this ](){
 
 		this->confirmResetMakeVisible( false ) ;
@@ -665,8 +672,6 @@ configure::configure( const Context& ctx ) :
 			m_ui.lineEditConfigureCookieBrowserName->setText( m ) ;
 		}
 	} ) ;
-
-	m_ui.cbLibraryTabEnable->setChecked( m_settings.enableLibraryTab() ) ;
 
 	m_ui.cbCookieSource->setChecked( m_settings.cookieSourceSetToBrowerName() ) ;
 
@@ -1399,7 +1404,6 @@ void configure::saveOptions()
 
 	m_ctx.TabManager().batchDownloader().setShowMetaData( m ) ;
 
-	m_settings.setEnableLibraryTab( m_ui.cbLibraryTabEnable->isChecked() ) ;
 	m_settings.setShowMetaDataInBatchDownloader( m ) ;
 	m_settings.setDownloadFolder( m_ui.lineEditConfigureDownloadPath->text() ) ;
 	m_settings.setAutoSavePlaylistOnExit( m_ui.cbAutoSaveNotDownloadedMedia->isChecked() ) ;
@@ -1625,6 +1629,7 @@ void configure::enableAll()
 	m_ui.rbNoProxy->setEnabled( true ) ;
 	m_ui.rbUseSystemProxy->setEnabled( utility::platformIsWindows() ) ;
 	m_ui.rbGetFromEnv->setEnabled( true ) ;
+	m_ui.cbUseArchiveFile->setEnabled( true ) ;
 
 	m_ui.lineEditCustormProxyAddress->setEnabled( m_ui.rbUseManualProxy->isChecked() ) ;
 	m_ui.labelProxy->setEnabled( m_ui.rbUseManualProxy->isChecked() ) ;
@@ -1636,7 +1641,6 @@ void configure::enableAll()
 	m_ui.label_3->setEnabled( true ) ;
 	m_ui.label_4->setEnabled( true ) ;
 	m_ui.label_5->setEnabled( true ) ;
-	m_ui.cbLibraryTabEnable->setEnabled( true ) ;
 	m_ui.labelConfigureTextEncoding->setEnabled( true ) ;
 	m_ui.pbOpenThemeFolder->setEnabled( true ) ;
 	m_ui.pbOpenBinFolder->setEnabled( true ) ;
@@ -1726,9 +1730,9 @@ void configure::disableAll()
 {
 	m_ui.cbConfigureUseSystemSupportingEngine->setEnabled( false ) ;
 	m_ui.cbConfigureUseSystemEngine->setEnabled( false ) ;
-	m_ui.cbLibraryTabEnable->setEnabled( false ) ;
 	m_ui.rbUseManualProxy->setEnabled( false ) ;
 	m_ui.rbNoProxy->setEnabled( false ) ;
+	m_ui.cbUseArchiveFile->setEnabled( false ) ;
 	m_ui.rbUseSystemProxy->setEnabled( false ) ;
 	m_ui.rbGetFromEnv->setEnabled( false ) ;
 	m_ui.lineEditCustormProxyAddress->setEnabled( false ) ;

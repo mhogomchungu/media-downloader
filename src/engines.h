@@ -244,9 +244,22 @@ public:
 		{
 			return this->add( m_dataPath,e ) ;
 		}
-		QString subscriptionsArchiveFilePath() const
+		QString archiveFilePath() const
 		{
-			return this->add( m_dataPath,"subscriptions_archive_file.txt" ) ;
+			auto m = this->add( m_dataPath,"subscriptions_archive_file.txt" ) ;
+
+			auto o = this->add( m_dataPath,"archiveFile.txt" ) ;
+
+			if( QFile::exists( m ) ){
+
+				QFile::rename( m,o ) ;
+			}
+
+			return o ;
+		}
+		QString downloadHistoryFilePath() const
+		{
+			return this->add( m_dataPath,"downloadHistory.json" ) ;
 		}
 		QString binPath( const QString& e ) const
 		{

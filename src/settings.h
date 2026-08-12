@@ -258,6 +258,7 @@ public:
 	bool singleInstance() ;
 	bool autoSavePlaylistOnExit() ;
 	bool useInternalArchiveFile() ;
+	bool saveDownloadHistory() ;
 	bool enableLibraryTab() ;
 	bool printMediaPlayers() ;
 	bool checkForEnginesUpdates() ;
@@ -300,6 +301,7 @@ public:
 	void setDesktopNotifyOnDownloadComplete( bool ) ;
 	void setDesktopNotifyOnAllDownloadComplete( bool ) ;
 	void setUseInternalArchiveFile( bool ) ;
+	void setSaveDownloadHistory( bool ) ;
 	void clearOptionsHistory( settings::tabName,const QString& ) ;
 	void addToplaylistRangeHistory( const QString&,const QString& ) ;
 	void clearPlaylistRangeHistory( const QString& ) ;

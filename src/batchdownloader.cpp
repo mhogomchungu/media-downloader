@@ -2924,6 +2924,13 @@ void batchdownloader::reportFinishedStatus( const reportFinished& f,
 
 	auto success = finishedStatus.exitState().success() ;
 
+	if( success ){
+
+		const auto& e = m_table.entryAt( index ) ;
+
+		utility::addtoHistory( f.engine(),m_ctx,"batch",e ) ;
+	}
+
 	if( m_ctx.Settings().autoHideDownloadWhenCompleted() ){
 
 		if( success ){

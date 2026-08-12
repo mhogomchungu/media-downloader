@@ -508,7 +508,7 @@ private:
 				  engine.name() == this->defaultEngineName() ? urlOpts : QString(),
 				  m_table.url( index ),
 				  m_ctx,
-				  { dopt,{ index,m_table.rowCount() },true,ent },
+				  { dopt,{ index,m_table.rowCount() },ent },
 				  m_terminator.setUp(),
 				  events( *this,engine,index,event.move() ),
 				  logger.move() ) ;

@@ -186,6 +186,16 @@ bool settings::useInternalArchiveFile()
 	return this->getOption( "UseInternalArchiveFile",true ) ;
 }
 
+bool settings::saveDownloadHistory()
+{
+	return this->getOption( "SaveDownloadHistory",false ) ;
+}
+
+void settings::setSaveDownloadHistory( bool s )
+{
+	m_settings.setValue( "SaveDownloadHistory",s ) ;
+}
+
 bool settings::enableLibraryTab()
 {
 	return this->getOption( "EnableLibraryTab",true ) ;

@@ -140,50 +140,7 @@ private:
 
 	QPixmap m_defaultVideoThumbnailIcon ;
 
-	class customOptions
-	{
-	public:
-		customOptions( QStringList&& opts,
-			       const QString& downloadArchivePath,
-			       const engines::engine& engine,
-			       const Context& ctx ) ;
-		const QStringList& options() const
-		{
-			return m_options ;
-		}
-		int maxMediaLength() const
-		{
-			return engines::engine::baseEngine::timer::toSeconds( m_maxMediaLength ) ;
-		}
-		int minMediaLength() const
-		{
-			return engines::engine::baseEngine::timer::toSeconds( m_minMediaLength ) ;
-		}
-		bool contains( const QString& e ) const ;
-		bool breakOnExisting() const
-		{
-			return m_breakOnExisting ;
-		}
-		bool skipOnExisting() const
-		{
-			return m_skipOnExisting ;
-		}
-		customOptions move()
-		{
-			return std::move( *this ) ;
-		}
-	private:
-		bool m_breakOnExisting = false ;
-		bool m_skipOnExisting = false ;
-		QStringList m_options ;
-		QString m_maxMediaLength ;
-		QString m_minMediaLength ;
-		QByteArray m_archiveFileData ;
-	};
-
-	bool parseJson( const engines::engine&,
-			const playlistdownloader::customOptions&,
-			utility::MediaEntry ) ;
+	bool parseJson( const engines::engine&,const utility::archiveData&,utility::MediaEntry ) ;
 
 	void showEntry( tableWidget::entry,bool ) ;
 
@@ -194,7 +151,6 @@ private:
 		void add( const QString& uiName,const QString& url,const QString& Opts ) ;
 		void remove( int ) ;
 		void setVisible( bool ) ;
-		const QString& archivePath() const ;
 		class entry
 		{
 		public :
@@ -247,7 +203,6 @@ private:
 	private:
 		void save() ;
 		QString m_path ;
-		QString m_archivePath ;
 		tableMiniWidget< int,2 >& m_table ;
 		QWidget& m_ui ;
 		QJsonArray m_array ;
@@ -309,7 +264,7 @@ private:
 	class stdOut
 	{
 	public:
-		stdOut( playlistdownloader& p,customOptions o,const engines::engine& e,const QString& url ) :
+		stdOut( playlistdownloader& p,utility::archiveData o,const engines::engine& e,const QString& url ) :
 			m_parent( p ),m_engine( e ),m_customOptions( o.move() ),m_url( url )
 		{
 		}
@@ -322,7 +277,7 @@ private:
 		void parseYtDlpData( Logger::Data& ) ;
 		playlistdownloader& m_parent ;
 		const engines::engine& m_engine ;
-		playlistdownloader::customOptions m_customOptions ;
+		utility::archiveData m_customOptions ;
 		QByteArray m_data ;
 		QString m_url ;
 	} ;
@@ -370,7 +325,7 @@ private:
 
 	void getListing( playlistdownloader::listIterator,const engines::engine&,bool ) ;
 	void getList( playlistdownloader::listIterator,const engines::engine&,bool ) ;
-	void getList( const QString&,customOptions&&,const engines::engine&,listIterator,bool ) ;
+	void getList( const QString&,utility::archiveData,const engines::engine&,listIterator,bool ) ;
 
 	QByteArray m_jsonEndMarker = "0xdeadbeef>>MediaDownloaderEndMarker<<0xdeadbeef" ;
 	subscription m_subscription ;

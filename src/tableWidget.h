@@ -202,6 +202,8 @@ public:
 		       const QString& uu = QString() ) :
 			url( media.url() ),
 			uiText( uu.isEmpty() ? media.uiText() : uu + "\n" + media.uiText() ),
+			title( media.title() ),
+			videoId( media.id() ),
 			runningState( rState ),
 			playlist( media.playlist() ),
 			playlist_count( media.playlist_count() ),
@@ -222,6 +224,8 @@ public:
 		}
 		QString url ;
 		QString uiText ;
+		QString title ;
+		QString videoId ;
 		QString runningState ;
 		QString downloadingOptions ;
 		QString downloadingOptionsUi ;

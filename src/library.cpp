@@ -86,6 +86,7 @@ library::library( const Context& ctx ) :
 		this->arrangeEntries( column ) ;
 	} ) ;
 
+	/*
 	connect( m_ui.cbLibraryTabEnable,&QCheckBox::clicked,[ this ]( bool e ){
 
 		if( e ){
@@ -99,6 +100,7 @@ library::library( const Context& ctx ) :
 			m_ui.pbLibraryDowloadFolder->setEnabled( true ) ;
 		}
 	} ) ;
+	*/
 
 	auto cc = &QTableWidget::currentItemChanged ;
 

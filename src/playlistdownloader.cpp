@@ -78,21 +78,17 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbClearArchiveFile,&QPushButton::clicked,[ this ](){
 
-		auto m = m_ctx.Engines().engineDirPaths().subscriptionsArchiveFilePath() ;
+		auto m = m_ctx.Engines().engineDirPaths().archiveFilePath() ;
+
 		QFile f( m ) ;
 
 		if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
 
-			f.write( "" ) ;
+			f.write( {} ) ;
 		}
 	} ) ;
 
-	m_ui.cbUseInternalArchiveFile->setChecked( m_ctx.Settings().useInternalArchiveFile() ) ;
 
-	connect( m_ui.cbUseInternalArchiveFile,&QCheckBox::toggled,[ this ]( bool e ){
-
-		m_ctx.Settings().setUseInternalArchiveFile( e ) ;
-	} ) ;
 
 	m_ui.lineEditPLDownloadRange->setText( m_settings.playlistRangeHistoryLastUsed( this->defaultEngineName()) ) ;
 
@@ -294,7 +290,6 @@ void playlistdownloader::init_done()
 void playlistdownloader::enableAll()
 {
 	m_ui.pbClearArchiveFile->setEnabled( true ) ;
-	m_ui.cbUseInternalArchiveFile->setEnabled( true ) ;
 	m_ui.pbPlSubscription->setEnabled( true ) ;
 	m_ui.pbPLPasteClipboard->setEnabled( true ) ;
 	m_ui.lineEditPLUrl->setEnabled( true ) ;
@@ -320,7 +315,6 @@ void playlistdownloader::disableAll()
 {
 	m_ui.pbPLDownloadOptions->setEnabled( false ) ;
 	m_ui.pbClearArchiveFile->setEnabled( false ) ;
-	m_ui.cbUseInternalArchiveFile->setEnabled( false ) ;
 	m_ui.pbPlSubscription->setEnabled( false ) ;
 	m_ui.pbPLOptionsHistory->setEnabled( false ) ;
 	m_ui.pbPLRangeHistory->setEnabled( false ) ;
@@ -957,7 +951,8 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 		if( m_ctx.Settings().useInternalArchiveFile() ){
 
 			opts.append( "--download-archive" ) ;
-			opts.append( m_subscription.archivePath() ) ;
+
+			opts.append( m_ctx.Engines().engineDirPaths().archiveFilePath() ) ;
 		}
 
 		return opts ;
@@ -975,7 +970,7 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 			  engine.name() == this->defaultEngineName() ? urlOpts : QString(),
 			  m_table.url( index ),
 			  m_ctx,
-			  { dopt,{ index,m_table.rowCount() },true,ent },
+			  { dopt,{ index,m_table.rowCount() },ent },
 			  m_terminator.setUp(),
 			  events( *this,engine,index,downloadRecursively ),
 			  logger.move() ) ;
@@ -1104,13 +1099,11 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 			m_autoDownload( ad )
 		{
 		}
-		customOptions bg()
+		utility::archiveData bg()
 		{
-			const auto& m = m_parent.m_subscription.archivePath() ;
-
-			return { std::move( m_opts ),m,m_engine,m_parent.m_ctx } ;
+			return { std::move( m_opts ),m_engine,m_parent.m_ctx } ;
 		}
-		void fg( customOptions o )
+		void fg( utility::archiveData o )
 		{
 			m_parent.getList( m_url,o.move(),m_engine,m_iter.move(),m_autoDownload ) ;
 		}
@@ -1127,7 +1120,7 @@ void playlistdownloader::getList( playlistdownloader::listIterator iter,
 }
 
 void playlistdownloader::getList(  const QString& url,
-				  customOptions&& c,
+				  utility::archiveData c,
 				  const engines::engine& engine,
 				  playlistdownloader::listIterator iter,
 				  bool autoDownload )
@@ -1255,8 +1248,8 @@ bool playlistdownloader::enabled()
 }
 
 bool playlistdownloader::parseJson( const engines::engine& engine,
-				   const customOptions& copts,
-				   utility::MediaEntry media )
+				    const utility::archiveData& copts,
+				    utility::MediaEntry media )
 {
 	if( copts.contains( media.id() ) ){
 
@@ -1426,11 +1419,20 @@ void playlistdownloader::reportFinishedStatus( const reportFinished& f,
 
 	utility::updateFinishedState( f.engine(),m_settings,m_table,"playlist",f.status(),fileNames ) ;
 
+	auto success = f.status().exitState().success() ;
+
 	auto index = f.status().index() ;
+
+	if( success ){
+
+		const auto& e = m_table.entryAt( index ) ;
+
+		utility::addtoHistory( f.engine(),m_ctx,"playlist",e ) ;
+	}
 
 	if( m_settings.desktopNotifyOnDownloadComplete() ){
 
-		if( f.status().exitState().success() ){
+		if( success ){
 
 			const auto& ss = m_table.entryAt( index ).uiText ;
 
@@ -1498,7 +1500,6 @@ void playlistdownloader::resizeTable( playlistdownloader::size s )
 	m_ui.pbPlSubscription->setVisible( !e ) ;
 	m_ui.pbPLRangeHistory->setVisible( !e ) ;
 	m_ui.pbClearArchiveFile->setVisible( !e ) ;
-	m_ui.cbUseInternalArchiveFile->setVisible( !e ) ;
 	m_ui.pbPLOptionsHistory->setVisible( !e ) ;
 	m_ui.pbPLDownloadOptions->setVisible( !e ) ;
 	m_ui.cbEngineTypePD->setVisible( !e ) ;
@@ -1551,7 +1552,6 @@ playlistdownloader::subscription::subscription( const Context& e,
 						tableMiniWidget< int,2 >& t,
 						QWidget& w ) :
 	m_path( e.Engines().engineDirPaths().dataPath( "subscriptions.json" ) ),
-	m_archivePath( e.Engines().engineDirPaths().subscriptionsArchiveFilePath() ),
 	m_table( t ),
 	m_ui( w )
 {
@@ -1611,11 +1611,6 @@ void playlistdownloader::subscription::setVisible( bool e )
 		m_ui.setVisible( e ) ;
 		m_table.clear() ;
 	}
-}
-
-const QString& playlistdownloader::subscription::archivePath() const
-{
-	return m_archivePath ;
 }
 
 utility::vector< playlistdownloader::subscription::entry > playlistdownloader::subscription::entries()
@@ -1857,59 +1852,5 @@ void playlistdownloader::stdOut::parseYtDlpData( Logger::Data& data )
 
 		data.clear() ;
 		data.add( line.mid( position ),utility::loggerID() ) ;
-	}
-}
-
-playlistdownloader::customOptions::customOptions( QStringList&& opts,
-						  const QString& downloadArchivePath,
-						  const engines::engine& engine,
-						  const Context& ctx ) :
-	m_options( std::move( opts ) )
-{
-	utility::arguments Opts( m_options ) ;
-
-	m_maxMediaLength = Opts.hasValue( "--max-media-length",true ) ;
-	m_minMediaLength = Opts.hasValue( "--min-media-length",true ) ;
-
-	m_breakOnExisting = Opts.hasOption( "--break-on-existing",true ) ;
-	m_skipOnExisting  = Opts.hasOption( "--skip-on-existing",true ) ;
-
-	if( m_breakOnExisting || m_skipOnExisting ){
-
-		auto s = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
-
-		if( ctx.Settings().useInternalArchiveFile() ){
-
-			QFile file( downloadArchivePath ) ;
-
-			if( file.open( QIODevice::ReadOnly ) ){
-
-				m_archiveFileData = file.readAll() ;
-			}
-		}
-
-		auto ss = util::splitPreserveQuotes( s ) ;
-
-		auto mm = utility::arguments( ss ).hasValue( "--download-archive" ) ;
-
-		if( !mm.isEmpty() && QFile::exists( mm ) ){
-
-			QFile file( mm ) ;
-
-			if( file.open( QIODevice::ReadOnly ) ){
-
-				m_archiveFileData.append( "\n" + file.readAll() ) ;
-			}
-		}
-	}
-}
-
-bool playlistdownloader::customOptions::contains( const QString& e ) const
-{
-	if( m_archiveFileData.isEmpty() ){
-
-		return false ;
-	}else{
-		return m_archiveFileData.contains( e.toUtf8() ) ;
 	}
 }

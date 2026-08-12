@@ -30,6 +30,7 @@
 #include <QDebug>
 #include <QTime>
 #include <QNetworkProxy>
+#include <QMutex>
 
 #include <type_traits>
 #include <memory>
@@ -468,6 +469,46 @@ namespace utility
 	private:
 		QStringList m_args ;
 	} ;
+	class archiveData
+	{
+	public:
+		archiveData( QStringList opts,const engines::engine& engine,const Context& ctx ) ;
+		void addToHistory( QJsonObject ) ;
+		const QStringList& options() const
+		{
+			return m_options ;
+		}
+		int maxMediaLength() const
+		{
+			return engines::engine::baseEngine::timer::toSeconds( m_maxMediaLength ) ;
+		}
+		int minMediaLength() const
+		{
+			return engines::engine::baseEngine::timer::toSeconds( m_minMediaLength ) ;
+		}
+		bool contains( const QString& e ) const ;
+		bool breakOnExisting() const
+		{
+			return m_breakOnExisting ;
+		}
+		bool skipOnExisting() const
+		{
+			return m_skipOnExisting ;
+		}
+		archiveData move()
+		{
+			return std::move( *this ) ;
+		}
+	private:
+		bool m_breakOnExisting = false ;
+		bool m_skipOnExisting = false ;
+		QStringList m_options ;
+		QString m_maxMediaLength ;
+		QString m_minMediaLength ;
+		QByteArray m_archiveFileData ;
+		const Context& m_ctx ;
+		static QMutex m_mutex ;
+	} ;
 	class event
 	{
 	public:
@@ -573,6 +614,10 @@ namespace utility
 
 	int loggerID() ;
 	void initDone() ;
+	void addtoHistory( const engines::engine& engine,
+			   const Context& ctx,
+			   const QString& tabName,
+			   const tableWidget::entry& e ) ;
 	void saveDownloadList( const Context&,QMenu&,tableWidget&,bool ) ;
 	void saveDownloadList( const Context&,tableWidget&,bool ) ;
 	void wait( int time ) ;
@@ -945,7 +990,6 @@ namespace utility
 		settings& stts;
 		const utility::args& args ;
 		const utility::uiIndex& uiIndex ;
-		bool forceDownload ;
 		const QStringList& urls ;
 		const tableWidget::entry& tableEntry ;
 		const Context& ctx ;
@@ -1767,17 +1811,14 @@ namespace utility
 	{
 		downloadTrackerOpts( const utility::downLoadOptions& a,
 				    const utility::uiIndex& b,
-				    bool c,
 				    const tableWidget::entry& d ) :
 		    downloadOpts( a ),
 		    uiIndex( b ),
-		    forceDownload( c ),
 		    entry( d )
 		{
 		}
 		utility::downLoadOptions downloadOpts ;
 		utility::uiIndex uiIndex ;
-		bool forceDownload ;
 		tableWidget::entry entry ;
 	} ;
 	template< typename Options,typename Logger,typename TermSignal,typename OptionUpdater,typename Ctx >
@@ -1798,9 +1839,8 @@ namespace utility
 		const auto& b = engine ;
 		auto& c = ctx.Settings() ;
 		const auto& d = dOpts.uiIndex ;
-		const auto& e = dOpts.forceDownload ;
 
-		utility::updateOptionsStruct opt{ a,b,c,args,d,e,{ url },dOpts.entry,ctx } ;
+		utility::updateOptionsStruct opt{ a,b,c,args,d,{ url },dOpts.entry,ctx } ;
 
 		auto m = utility::make_ctx( ctx,opts.move(),logger.move(),term.move(),channel ) ;
 

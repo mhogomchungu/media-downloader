@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabBasickDownloader">
      <attribute name="title">
@@ -1084,22 +1084,6 @@
        <string/>
       </property>
      </widget>
-     <widget class="QCheckBox" name="cbUseInternalArchiveFile">
-      <property name="geometry">
-       <rect>
-        <x>700</x>
-        <y>330</y>
-        <width>21</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="toolTip">
-       <string>Use Internal Archive File</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pbPLPasteClipboard">
       <property name="geometry">
        <rect>
@@ -1560,7 +1544,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabWidgetConfigureGeneralOptions">
        <attribute name="title">
@@ -1828,7 +1812,7 @@
          <string>Auto Download Added Entries In Batch Downloader</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="cbLibraryTabEnable">
+       <widget class="QCheckBox" name="cbUseArchiveFile">
         <property name="geometry">
          <rect>
           <x>188</x>
@@ -1838,7 +1822,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Enable Library Tab</string>
+         <string>Use Internal Archive File</string>
         </property>
        </widget>
        <widget class="QCheckBox" name="cbConfigureNotifyWhenDownloadComplete">

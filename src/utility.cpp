@@ -32,6 +32,8 @@
 #include <QMimeData>
 #include <QFileDialog>
 #include <QSysInfo>
+#include <QFile>
+#include <QJsonDocument>
 
 #include <ctime>
 #include <cstring>
@@ -1295,7 +1297,6 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 	settings& settings             = s.stts ;
 	const utility::args& args      = s.args ;
 	const QStringList& urls        = s.urls ;
-	bool forceDownload             = s.forceDownload ;
 	const QString& downloadPath    = settings.downloadFolder() ;
 
 	const utility::uiIndex& uiIndex       = s.uiIndex;
@@ -1339,9 +1340,11 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 		it.replace( utility::stringConstants::mediaDownloaderCWD(),QDir::currentPath() ) ;
 	}
 
-	if( forceDownload ){
+	if( settings.useInternalArchiveFile() ){
 
-		utility::arguments( opts ).removeOptionWithArgument( "--download-archive" ) ;
+		opts.append( "--download-archive" ) ;
+
+		opts.append( ep.archiveFilePath() ) ;
 	}
 
 	engine.setTextEncondig( opts ) ;
@@ -1630,6 +1633,7 @@ QJsonObject utility::MediaEntry::uiJson() const
 	obj.insert( "intDuration",m_intDuration ) ;
 	obj.insert( "upload_date",u ) ;
 	obj.insert( "uploader",m_uploader ) ;
+	obj.insert( "id",m_id ) ;
 
 	return obj ;
 }
@@ -3054,4 +3058,151 @@ void utility::setCookieOption( QStringList& opts,settings& s,const engines::engi
 
 void utility::impl::qJsonArrJoin( QJsonArray& )
 {
+}
+
+void utility::archiveData::addToHistory( QJsonObject obj )
+{
+	class meaw
+	{
+	public:
+		meaw( const Context& ctx,QJsonObject obj ) : m_ctx( ctx ),m_obj( std::move( obj ) )
+		{
+		}
+		void bg()
+		{
+			utility::archiveData::m_mutex.lock() ;
+			this->updateHistory() ;
+			utility::archiveData::m_mutex.unlock() ;
+		}
+		void fg()
+		{
+		}
+	private:
+		bool historyFound( const QString& path,const QString& url )
+		{
+			QFile file( path ) ;
+
+			if( file.open( QIODevice::ReadOnly ) ){
+
+				auto m = file.map( 0,file.size() ) ;
+
+				if( m ){
+
+					auto t = reinterpret_cast< char * >( m ) ;
+
+					auto s = QByteArray::fromRawData( t,file.size() ) ;
+
+					bool e = s.contains( url.toUtf8() ) ;
+
+					file.unmap( m ) ;
+
+					return e ;
+				}else{
+					return false ;
+				}
+			}else{
+				return false ;
+			}
+		}
+		void updateHistory()
+		{
+			const auto& e = m_ctx.Engines().engineDirPaths().downloadHistoryFilePath() ;
+
+			auto url = m_obj.value( "Url" ).toString() ;
+
+			if( !this->historyFound( e,url ) ){
+
+				QFile file( e ) ;
+
+				if( file.open( QIODevice::WriteOnly | QIODevice::Append ) ){
+
+					auto s = QJsonDocument::JsonFormat::Indented ;
+
+					auto m = QJsonDocument( m_obj ).toJson( s ) ;
+
+					file.write( m ) ;
+				}
+			}
+		}
+		const Context& m_ctx ;
+		QJsonObject m_obj ;
+	} ;
+
+	utils::qthread::run( meaw( m_ctx,std::move( obj ) ) ) ;
+}
+
+QMutex utility::archiveData::m_mutex ;
+
+utility::archiveData::archiveData( QStringList opts,const engines::engine& engine,const Context& ctx ) :
+	m_options( std::move( opts ) ),
+	m_ctx( ctx )
+{
+	auto downloadArchivePath = m_ctx.Engines().engineDirPaths().archiveFilePath() ;
+
+	utility::arguments Opts( m_options ) ;
+
+	m_maxMediaLength = Opts.hasValue( "--max-media-length",true ) ;
+	m_minMediaLength = Opts.hasValue( "--min-media-length",true ) ;
+
+	m_breakOnExisting = Opts.hasOption( "--break-on-existing",true ) ;
+	m_skipOnExisting  = Opts.hasOption( "--skip-on-existing",true ) ;
+
+	if( m_breakOnExisting || m_skipOnExisting ){
+
+		if( ctx.Settings().useInternalArchiveFile() ){
+
+			QFile file( downloadArchivePath ) ;
+
+			if( file.open( QIODevice::ReadOnly ) ){
+
+				m_archiveFileData = file.readAll() ;
+			}
+		}
+
+		auto s = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
+
+		auto ss = util::splitPreserveQuotes( s ) ;
+
+		auto mm = utility::arguments( ss ).hasValue( "--download-archive" ) ;
+
+		if( !mm.isEmpty() && QFile::exists( mm ) ){
+
+			QFile file( mm ) ;
+
+			if( file.open( QIODevice::ReadOnly ) ){
+
+				m_archiveFileData.append( "\n" + file.readAll() ) ;
+			}
+		}
+	}
+}
+
+bool utility::archiveData::contains( const QString& e ) const
+{
+	if( m_archiveFileData.isEmpty() ){
+
+		return false ;
+	}else{
+		return m_archiveFileData.contains( e.toUtf8() ) ;
+	}
+}
+
+void utility::addtoHistory( const engines::engine& engine,
+			    const Context& ctx,
+			    const QString& tabName,
+			    const tableWidget::entry& e )
+{
+	if( ctx.Settings().saveDownloadHistory() ){
+
+		QJsonObject obj ;
+
+		obj.insert( "EngineName",engine.name() ) ;
+		obj.insert( "TabName",tabName ) ;
+		obj.insert( "Url",e.url ) ;
+		obj.insert( "Id",e.videoId ) ;
+		obj.insert( "Title",e.title ) ;
+		obj.insert( "DownloadDate",QDateTime::currentDateTime().toString() ) ;
+
+		utility::archiveData( {},engine,ctx ).addToHistory( std::move( obj ) ) ;
+	}
 }

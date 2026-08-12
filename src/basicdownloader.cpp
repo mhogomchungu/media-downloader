@@ -486,7 +486,7 @@ void basicdownloader::download( const basicdownloader::engine& eng,
 		auto& mm = m_extraOptions ;
 		auto& ss = m_settings ;
 
-		utility::updateOptionsStruct str{ mm,engine,ss,args,{},false,urls,{},m_ctx } ;
+		utility::updateOptionsStruct str{ mm,engine,ss,args,{},urls,{},m_ctx } ;
 
 		auto opts = utility::updateOptions( str ) ;
 
@@ -529,6 +529,10 @@ void basicdownloader::run( const basicdownloader::engine& eng,
 				if( m.success() ){
 
 					const auto& s = m_parent.m_ctx ;
+
+					const auto& e = m_parent.m_hiddenTable.entryAt( 0 ) ;
+
+					utility::addtoHistory( m_engine,s,"basic",e ) ;
 
 					if( s.Settings().desktopNotifyOnDownloadComplete() ){
 
