@@ -45,6 +45,8 @@ MainWindow::MainWindow( QApplication& app,
 	m_showTrayIcon( s.showTrayIcon() ),
 	m_shortcut( this )
 {
+	m_logger.setContext( m_tabManager.ctx() ) ;
+
 	MainWindow::setUpSignals( this ) ;
 
 	this->setTitle( m_appName ) ;

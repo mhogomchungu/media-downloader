@@ -472,6 +472,7 @@ namespace utility
 	class archiveData
 	{
 	public:
+		static QByteArray logHistoryData( const Context& ) ;
 		archiveData( QStringList opts,const engines::engine& engine,const Context& ctx ) ;
 		void addToHistory( QJsonObject ) ;
 		const QStringList& options() const
@@ -500,6 +501,8 @@ namespace utility
 			return std::move( *this ) ;
 		}
 	private:
+		static void guardHistoryFile() ;
+		static void unGuardHistoryFile() ;
 		bool m_breakOnExisting = false ;
 		bool m_skipOnExisting = false ;
 		QStringList m_options ;
@@ -827,11 +830,11 @@ namespace utility
 		}
 	}
 
-	template< typename Function >
+	template< typename Functions >
 	inline bool showContextMenuLogWidget( QObject * obj,
 					      QEvent * event,
 					      QPlainTextEdit * textEdit,
-					      Function function )
+					      Functions functions )
 	{
 		if( obj != textEdit ){
 
@@ -853,9 +856,16 @@ namespace utility
 
 					auto icon = QIcon::fromTheme( "edit-cut" ) ;
 
-					menu->addAction( icon,"Clear",std::move( function ) ) ;
+					menu->addAction( icon,"Clear",functions.clear() ) ;
+
+					if( functions.hasHistory() ){
+
+						auto icon = QIcon::fromTheme( "edit-copy" ) ;
+						menu->addSeparator() ;
+						menu->addAction( icon,QObject::tr( "Show Download History" ),functions.showDownloadHistory() ) ;
+					}
 				#else
-					Q_UNUSED( function )
+					Q_UNUSED( functions )
 				#endif
 
 				menu->exec( QCursor::pos() ) ;
@@ -1236,6 +1246,8 @@ namespace utility
 		actions ac( acts,m ) ;
 
 		ac.add( QObject::tr( "Show Log Window" ),&Actions::showLogWindow ) ;
+
+		ac.add( QObject::tr( "Show Download History" ),&Actions::showDowmloadHistoryWindow ) ;
 
 		ac.hideUnhide() ;
 

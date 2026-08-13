@@ -3070,9 +3070,9 @@ void utility::archiveData::addToHistory( QJsonObject obj )
 		}
 		void bg()
 		{
-			utility::archiveData::m_mutex.lock() ;
+			utility::archiveData::guardHistoryFile() ;
 			this->updateHistory() ;
-			utility::archiveData::m_mutex.unlock() ;
+			utility::archiveData::unGuardHistoryFile() ;
 		}
 		void fg()
 		{
@@ -3131,7 +3131,25 @@ void utility::archiveData::addToHistory( QJsonObject obj )
 	utils::qthread::run( meaw( m_ctx,std::move( obj ) ) ) ;
 }
 
-QMutex utility::archiveData::m_mutex ;
+QByteArray utility::archiveData::logHistoryData( const Context& ctx )
+{
+	QFile file( ctx.Engines().engineDirPaths().downloadHistoryFilePath() ) ;
+
+	utility::archiveData::guardHistoryFile() ;
+
+	QByteArray data ;
+
+	if( file.open( QIODevice::ReadOnly ) ){
+
+		data = file.readAll() ;
+
+		file.close() ;
+	}
+
+	utility::archiveData::unGuardHistoryFile() ;
+
+	return data ;
+}
 
 utility::archiveData::archiveData( QStringList opts,const engines::engine& engine,const Context& ctx ) :
 	m_options( std::move( opts ) ),
@@ -3187,6 +3205,18 @@ bool utility::archiveData::contains( const QString& e ) const
 	}
 }
 
+QMutex utility::archiveData::m_mutex ;
+
+void utility::archiveData::guardHistoryFile()
+{
+	utility::archiveData::m_mutex.lock() ;
+}
+
+void utility::archiveData::unGuardHistoryFile()
+{
+	utility::archiveData::m_mutex.unlock() ;
+}
+
 void utility::addtoHistory( const engines::engine& engine,
 			    const Context& ctx,
 			    const QString& tabName,
@@ -3202,6 +3232,17 @@ void utility::addtoHistory( const engines::engine& engine,
 		obj.insert( "Id",e.videoId ) ;
 		obj.insert( "Title",e.title ) ;
 		obj.insert( "DownloadDate",QDateTime::currentDateTime().toString() ) ;
+
+		if( e.videoId.isEmpty() ) {
+
+			auto yt = "https://www.youtube.com/watch?v=" ;
+
+			if( e.url.startsWith( yt ) ){
+
+				auto m = e.url ;
+				obj.insert( "Id",m.replace( yt,"" ) ) ;
+			}
+		}
 
 		utility::archiveData( {},engine,ctx ).addToHistory( std::move( obj ) ) ;
 	}

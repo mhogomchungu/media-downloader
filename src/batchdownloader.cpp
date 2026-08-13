@@ -367,6 +367,10 @@ void batchdownloader::showCustomContext()
 				logger.showLogWindow( table.entryAt( m_row ).id ) ;
 			}
 		}
+		void showDowmloadHistoryWindow()
+		{
+			m_parent.m_ctx.logger().showDownloadHistoryWindow() ;
+		}
 		bool batchDownloader()
 		{
 			return true ;

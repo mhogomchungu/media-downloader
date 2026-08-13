@@ -492,6 +492,10 @@ void playlistdownloader::customContextMenuRequested()
 				logger.showLogWindow( m_parent.m_table.entryAt( m_row ).id ) ;
 			}
 		}
+		void showDowmloadHistoryWindow()
+		{
+			m_parent.m_ctx.logger().showDownloadHistoryWindow() ;
+		}
 		bool batchDownloader()
 		{
 			return false ;

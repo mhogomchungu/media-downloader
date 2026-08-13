@@ -489,3 +489,7 @@ Version 1.2.0(April 1st, 2021)
       Version 5.6.5(August 7th, 2026)
      [ALL]
       - Fix preset youtube options not working caused by youtube videos not having typical video dimensions.
+
+      Version 5.6.6(UNRELEASED)
+     [ALL]
+      - Add ability to save and view download history.

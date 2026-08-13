@@ -23,6 +23,7 @@
 #include "settings.h"
 #include "utility.h"
 #include "logger.h"
+#include "context.hpp"
 
 logWindow::logWindow( QWidget * parent,settings& s,Logger& logger ) :
 	QWidget( parent ),
@@ -43,7 +44,23 @@ logWindow::logWindow( QWidget * parent,settings& s,Logger& logger ) :
 
 	connect( m_ui->pbShowAll,&QPushButton::clicked,[ this ](){
 
-		m_logger.showAllLogs() ;
+		if( m_showDownloadHistory ){
+
+			if( m_logger.clearDownloadHistory() ){
+
+				m_ui->plainTextEdit->clear() ;
+			}
+		}else{
+			m_logger.showAllLogs() ;
+		}
+	} ) ;
+
+	utility::connectQCheckBox( m_ui->cbEnableDownloadHistory,[ this ]( bool s ){
+
+		if( m_logger.ctx() ){
+
+			m_logger.ctx()->Settings().setSaveDownloadHistory( s ) ;
+		}
 	} ) ;
 }
 
@@ -78,8 +95,21 @@ void logWindow::Hide()
 	this->clear() ;
 }
 
-void logWindow::Show()
+void logWindow::Show( bool s )
 {
+	m_showDownloadHistory = s ;
+
+	if( m_showDownloadHistory ){
+
+		m_ui->pbShowAll->setText( tr( "Clear" ) ) ;
+
+		m_ui->cbEnableDownloadHistory->setChecked( m_logger.ctx()->Settings().saveDownloadHistory() ) ;
+	}else{
+		m_ui->pbShowAll->setText( tr( "Show All" ) ) ;
+
+		m_ui->cbEnableDownloadHistory->setVisible( false ) ;
+	}
+
 	auto w = m_settings.windowsDimensions( "LogWindow" ) ;
 
 	if( !w.isEmpty() ){
@@ -114,10 +144,29 @@ void logWindow::retranslateUi()
 
 bool logWindow::eventFilter( QObject * obj,QEvent * event )
 {
-	return utility::showContextMenuLogWidget( obj,event,m_ui->plainTextEdit,[ this ](){
+	class meaw
+	{
+	public:
+		meaw( Logger& parent ) : m_logger( parent )
+		{
+		}
+		bool hasHistory()
+		{
+			return false ;
+		}
+		auto clear()
+		{
+			return [ this ](){ m_logger.clear() ; } ;
+		}
+		auto showDownloadHistory()
+		{
+			return [](){} ;
+		}
+	private:
+		Logger& m_logger ;
+	} ;
 
-		m_logger.clear() ;
-	} ) ;
+	return utility::showContextMenuLogWidget( obj,event,m_ui->plainTextEdit,meaw( m_logger ) ) ;
 }
 
 void logWindow::closeEvent( QCloseEvent * e )

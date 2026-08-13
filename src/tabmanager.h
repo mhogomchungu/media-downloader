@@ -73,6 +73,10 @@ public:
 	{
 		return m_uiEnabled ;
 	}
+	const Context& ctx()
+	{
+		return m_ctx ;
+	}
 	void textAlignmentChanged( Qt::LayoutDirection ) ;
 	void init_done() ;
 	void setProxy( const settings::proxySettings&,const settings::proxySettings::type& ) ;

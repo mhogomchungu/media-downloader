@@ -26,6 +26,7 @@
 
 class settings ;
 class Logger ;
+class Context ;
 
 namespace Ui {
 class logWindow;
@@ -45,7 +46,7 @@ public:
 	}
 	void update( const QByteArray& e ) ;
 	void Hide() ;
-	void Show() ;
+	void Show( bool = false ) ;
 	void clear() ;
 	void retranslateUi() ;
 private:
@@ -54,6 +55,7 @@ private:
 	Ui::logWindow * m_ui ;
 	settings& m_settings ;
 	Logger& m_logger ;
+	bool m_showDownloadHistory = false ;
 };
 
 #endif // LOGWINDOW_H

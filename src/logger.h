@@ -32,6 +32,8 @@
 
 #include <vector>
 
+class Context ;
+
 class Logger
 {
 public:
@@ -636,9 +638,15 @@ public:
 	}
 	void setMaxProcessLog( int s ) ;
 	void showLogWindow( int ) ;
+	void showDownloadHistoryWindow() ;
 	void showAllLogs() ;
+	bool clearDownloadHistory() ;
 	void reTranslateLogWindow() ;
 	void updateView( bool e ) ;
+	void setContext( const Context& ctx )
+	{
+		m_ctx = &ctx ;
+	}
 	const std::vector< QByteArray >& fileNames()
 	{
 		return m_processOutPuts.fileNames() ;
@@ -647,6 +655,10 @@ public:
 	Logger& operator=( const Logger& ) = delete ;
 	Logger( Logger&& ) = delete ;
 	Logger& operator=( Logger&& ) = delete ;
+	const Context * ctx()
+	{
+		return m_ctx ;
+	}
 private:	
 	void update() ;
 	logWindow m_logWindow ;
@@ -654,6 +666,7 @@ private:
 	Logger::Data m_processOutPuts ;
 	bool m_updateView = false ;
 	settings& m_settings ;
+	const Context * m_ctx = nullptr ;
 	int m_maxProcessLog = 1 ;
 	int m_id = -1 ;
 

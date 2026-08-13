@@ -25,6 +25,8 @@
 
 #include "engines/yt-dlp.h"
 
+#include "context.hpp"
+
 Logger::Logger( QPlainTextEdit& e,QWidget *,settings& s ) :
 	m_logWindow( nullptr,s,*this ),
 	m_textEdit( e ),
@@ -91,9 +93,57 @@ void Logger::showLogWindow( int id )
 	m_logWindow.Show() ;
 }
 
+void Logger::showDownloadHistoryWindow()
+{
+	class meaw
+	{
+	public:
+		meaw( Logger& p ) : m_parent( p )
+		{
+		}
+		void bg()
+		{
+			m_data = utility::archiveData::logHistoryData( *m_parent.m_ctx ) ;
+		}
+		void fg()
+		{
+			m_parent.m_logWindow.setText( m_data ) ;
+
+			m_parent.m_logWindow.Show( true ) ;
+		}
+	private:
+		QByteArray m_data ;
+		Logger& m_parent ;
+	} ;
+
+	if( m_ctx ){
+
+		utils::qthread::run( meaw( *this ) ) ;
+	}
+}
+
 void Logger::showAllLogs()
 {
 	m_id = -1 ;
+}
+
+bool Logger::clearDownloadHistory()
+{
+	if( m_ctx ){
+
+		const auto& e = m_ctx->Engines().engineDirPaths().downloadHistoryFilePath() ;
+
+		if( QFile::exists( e ) ){
+
+			QFile::remove( e ) ;
+
+			return true ;
+		}else{
+			return false ;
+		}
+	}else{
+		return false ;
+	}
 }
 
 void Logger::reTranslateLogWindow()
@@ -355,9 +405,17 @@ bool Logger::meaw::eventFilter( QObject * obj,QEvent * event )
 		woof( Logger& parent ) : m_parent( parent )
 		{
 		}
-		void operator()()
+		bool hasHistory()
 		{
-			m_parent.clear() ;
+			return true ;
+		}
+		auto clear()
+		{
+			return [ this ](){ m_parent.clear() ; } ;
+		}
+		auto showDownloadHistory()
+		{
+			return [ this ](){ m_parent.showDownloadHistoryWindow() ; } ;
 		}
 	private:
 		Logger& m_parent ;
