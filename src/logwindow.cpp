@@ -77,7 +77,10 @@ void logWindow::setText( const QByteArray& e )
 
 void logWindow::update( const QByteArray& e )
 {
-	this->setText( e ) ;
+	if( !m_showDownloadHistory ){
+
+		this->setText( e ) ;
+	}
 }
 
 void logWindow::Hide()

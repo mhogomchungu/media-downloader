@@ -244,10 +244,6 @@
         <translation>完成</translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation>启用库选项卡</translation>
-    </message>
-    <message>
         <source>Maximum Concurrent Downloads</source>
         <translation>最大并发下载数</translation>
     </message>
@@ -1136,10 +1132,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">粘贴剪贴板网址</translation>
     </message>
     <message>
         <source>Extracting Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Download History</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1352,6 +1352,14 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Show All</source>
         <translation>显示全部</translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished">清除</translation>
     </message>
 </context>
 <context>

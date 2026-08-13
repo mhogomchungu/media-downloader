@@ -244,10 +244,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Maximum Concurrent Downloads</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1140,6 +1136,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Extracting Audio</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1349,6 +1349,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

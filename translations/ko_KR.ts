@@ -276,10 +276,6 @@
         <translation>파일 크기</translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation>라이브러리 탭 활성화</translation>
-    </message>
-    <message>
         <source>Show Version Info And Autodownload Updates</source>
         <translation>버전 정보 표시 및 업데이트 자동 다운로드</translation>
     </message>
@@ -1136,10 +1132,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">클립보드 URL 붙여넣기</translation>
     </message>
     <message>
         <source>Extracting Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Download History</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1352,6 +1352,14 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Show All</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished">비우기</translation>
     </message>
 </context>
 <context>

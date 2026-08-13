@@ -244,10 +244,6 @@
         <translation>Hecho</translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation>Habilitar la pestaña Biblioteca</translation>
-    </message>
-    <message>
         <source>Maximum Concurrent Downloads</source>
         <translation>Descargas simultáneas máximas</translation>
     </message>
@@ -1136,10 +1132,14 @@ Ejemplo 2: ${gateway}:8080</translation>
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pegar URL del portapapeles</translation>
     </message>
     <message>
         <source>Extracting Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Download History</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1352,6 +1352,14 @@ Ejemplo 2: ${gateway}:8080</translation>
     <message>
         <source>Show All</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished">Limpiar</translation>
     </message>
 </context>
 <context>

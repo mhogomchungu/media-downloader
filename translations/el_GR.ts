@@ -244,10 +244,6 @@
         <translation>Τέλος</translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation>Ενεργοποίηση καρτέλας βιβλιοθήκης</translation>
-    </message>
-    <message>
         <source>Maximum Concurrent Downloads</source>
         <translation>Μέγιστες ταυτόχρονες λήψεις</translation>
     </message>
@@ -1137,10 +1133,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επικόλληση URL προχείρου</translation>
     </message>
     <message>
         <source>Extracting Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Download History</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1354,6 +1354,14 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Show All</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished">Εκκαθάριση</translation>
     </message>
 </context>
 <context>

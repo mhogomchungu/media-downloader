@@ -244,10 +244,6 @@
         <translation>تم</translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation>تفعيل تبويب المكتبة</translation>
-    </message>
-    <message>
         <source>Maximum Concurrent Downloads</source>
         <translation>الحد الأقصى للتنزيلات المتزامنة</translation>
     </message>
@@ -1136,10 +1132,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">لصق رابط من الحافظة</translation>
     </message>
     <message>
         <source>Extracting Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Download History</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1352,6 +1352,14 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Show All</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished">مسح</translation>
     </message>
 </context>
 <context>

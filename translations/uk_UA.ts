@@ -244,10 +244,6 @@
         <translation>Готово</translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation>Увімкнути вкладку Бібліотека</translation>
-    </message>
-    <message>
         <source>Maximum Concurrent Downloads</source>
         <translation>Максимум одночасних завантажень</translation>
     </message>
@@ -1142,6 +1138,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Extracting Audio</source>
         <translation>Витягування аудіо</translation>
     </message>
+    <message>
+        <source>Show Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1352,6 +1352,14 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Show All</source>
         <translation>Показати все</translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished">Очистити</translation>
     </message>
 </context>
 <context>

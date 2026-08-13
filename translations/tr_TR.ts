@@ -244,10 +244,6 @@
         <translation>Bitti</translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation>Kütüphane Sekmesini Etkinleştir</translation>
-    </message>
-    <message>
         <source>Maximum Concurrent Downloads</source>
         <translation>Maksimum Eş Zamanlı İndirme</translation>
     </message>
@@ -1136,10 +1132,14 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Paste Clipboard Url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pano URL&apos;sini yapıştır</translation>
     </message>
     <message>
         <source>Extracting Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show Download History</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1352,6 +1352,14 @@ Exampe 2: ${gateway}:8080</source>
     <message>
         <source>Show All</source>
         <translation>Tümünü Göster</translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished">Temizle</translation>
     </message>
 </context>
 <context>

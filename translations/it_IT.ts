@@ -324,10 +324,6 @@ Esempio 2: ${gateway}:8080</translation>
         <translation>Dim. file</translation>
     </message>
     <message>
-        <source>Enable Library Tab</source>
-        <translation>Abilita scheda Libreria</translation>
-    </message>
-    <message>
         <source>Play Downloaded Media</source>
         <translation>Riproduci i contenuti multimediali scaricati</translation>
     </message>
@@ -1145,6 +1141,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Extracting Audio</source>
         <translation>Estrazione audio</translation>
     </message>
+    <message>
+        <source>Show Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
@@ -1355,6 +1355,14 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     <message>
         <source>Show All</source>
         <translation>Visualizza tutto</translation>
+    </message>
+    <message>
+        <source>Enable Download History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="unfinished">Azzera</translation>
     </message>
 </context>
 <context>
