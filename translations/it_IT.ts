@@ -1143,7 +1143,7 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Show Download History</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza cronologia download</translation>
     </message>
 </context>
 <context>
@@ -1358,11 +1358,11 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
     </message>
     <message>
         <source>Enable Download History</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita cronologia download</translation>
     </message>
     <message>
         <source>Clear</source>
-        <translation type="unfinished">Azzera</translation>
+        <translation>Azzera</translation>
     </message>
 </context>
 <context>
