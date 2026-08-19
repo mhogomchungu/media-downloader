@@ -591,6 +591,10 @@ public:
 	void registerDone( int ) ;
 	void add( const QByteArray&,int id ) ;
 	void clear() ;
+	auto clearFunction()
+	{
+		return [ this ](){ this->clear() ; } ;
+	}
 	template< typename Function >
 	void add( const Function& function,int id )
 	{

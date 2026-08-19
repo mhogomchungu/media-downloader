@@ -33,6 +33,8 @@ logWindow::logWindow( QWidget * parent,settings& s,Logger& logger ) :
 {
 	m_ui->setupUi( this ) ;
 
+	this->window()->setWindowIcon( m_settings.getIcon( "media-downloader" ) ) ;
+
 	m_ui->plainTextEdit->setReadOnly( true ) ;
 
 	m_ui->plainTextEdit->installEventFilter( this ) ;
@@ -57,9 +59,11 @@ logWindow::logWindow( QWidget * parent,settings& s,Logger& logger ) :
 
 	utility::connectQCheckBox( m_ui->cbEnableDownloadHistory,[ this ]( bool s ){
 
-		if( m_logger.ctx() ){
+		auto ctx = m_logger.ctx() ;
 
-			m_logger.ctx()->Settings().setSaveDownloadHistory( s ) ;
+		if( ctx ){
+
+			ctx->Settings().setSaveDownloadHistory( s ) ;
 		}
 	} ) ;
 }
@@ -159,7 +163,7 @@ bool logWindow::eventFilter( QObject * obj,QEvent * event )
 		}
 		auto clear()
 		{
-			return [ this ](){ m_logger.clear() ; } ;
+			return m_logger.clearFunction() ;
 		}
 		auto showDownloadHistory()
 		{

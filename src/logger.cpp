@@ -411,7 +411,7 @@ bool Logger::meaw::eventFilter( QObject * obj,QEvent * event )
 		}
 		auto clear()
 		{
-			return [ this ](){ m_parent.clear() ; } ;
+			return m_parent.clearFunction() ;
 		}
 		auto showDownloadHistory()
 		{
