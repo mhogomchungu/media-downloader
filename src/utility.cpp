@@ -1342,9 +1342,7 @@ QStringList utility::updateOptions( const utility::updateOptionsStruct& s )
 
 	if( settings.useInternalArchiveFile() ){
 
-		opts.append( "--download-archive" ) ;
-
-		opts.append( ep.archiveFilePath() ) ;
+		opts.append( ep.archiveFileArgument( engine ) ) ;
 	}
 
 	engine.setTextEncondig( opts ) ;
@@ -3155,7 +3153,7 @@ utility::archiveData::archiveData( QStringList opts,const engines::engine& engin
 	m_options( std::move( opts ) ),
 	m_ctx( ctx )
 {
-	auto downloadArchivePath = m_ctx.Engines().engineDirPaths().archiveFilePath() ;
+	auto downloadArchivePath = m_ctx.Engines().engineDirPaths().archiveFilePath( engine ) ;
 
 	utility::arguments Opts( m_options ) ;
 

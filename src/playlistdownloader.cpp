@@ -78,7 +78,9 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 
 	connect( m_ui.pbClearArchiveFile,&QPushButton::clicked,[ this ](){
 
-		auto m = m_ctx.Engines().engineDirPaths().archiveFilePath() ;
+		const auto& engine = this->defaultEngine() ;
+
+		auto m = m_ctx.Engines().engineDirPaths().archiveFilePath( engine ) ;
 
 		QFile f( m ) ;
 
@@ -950,13 +952,13 @@ void playlistdownloader::downloadRecursively( const engines::engine& eng,int ind
 	m_table.setStateAsRunning( index,downloadRecursively ) ;
 	m_table.setConcurrentId( index,id ) ;
 
-	auto optsUpdater = [ this ]( QStringList opts ){
+	auto optsUpdater = [ this,&engine ]( QStringList opts ){
 
 		if( m_ctx.Settings().useInternalArchiveFile() ){
 
 			opts.append( "--download-archive" ) ;
 
-			opts.append( m_ctx.Engines().engineDirPaths().archiveFilePath() ) ;
+			opts.append( m_ctx.Engines().engineDirPaths().archiveFilePath( engine ) ) ;
 		}
 
 		return opts ;

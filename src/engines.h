@@ -244,18 +244,34 @@ public:
 		{
 			return this->add( m_dataPath,e ) ;
 		}
-		QString archiveFilePath() const
+		template< typename Engine >
+		QString archiveFilePath( const Engine& engine ) const
 		{
-			auto m = this->add( m_dataPath,"subscriptions_archive_file.txt" ) ;
+			auto o = this->add( m_dataPath,"archiveFile-" + engine.name() + ".txt" ) ;
 
-			auto o = this->add( m_dataPath,"archiveFile.txt" ) ;
+			if( engine.likeYtDlp() ){
 
-			if( QFile::exists( m ) ){
+				auto m = this->add( m_dataPath,"subscriptions_archive_file.txt" ) ;
 
-				QFile::rename( m,o ) ;
+				if( QFile::exists( m ) ){
+
+					QFile::rename( m,o ) ;
+				}
 			}
 
 			return o ;
+		}
+		template< typename Engine >
+		QStringList archiveFileArgument( const Engine& engine ) const
+		{
+			if( engine.likeYtDlp() || engine.isGalleryDl() ){
+
+				auto m = this->archiveFilePath( engine ) ;
+
+				return { "--download-archive",m } ;
+			}else{
+				return {} ;
+			}
 		}
 		QString downloadHistoryFilePath() const
 		{
