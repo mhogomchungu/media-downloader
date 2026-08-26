@@ -247,26 +247,25 @@ public:
 		template< typename Engine >
 		QString archiveFilePath( const Engine& engine ) const
 		{
-			auto o = this->add( m_dataPath,"archiveFile-" + engine.name() + ".txt" ) ;
-
 			if( engine.likeYtDlp() ){
 
-				auto m = this->add( m_dataPath,"subscriptions_archive_file.txt" ) ;
-
-				if( QFile::exists( m ) ){
-
-					QFile::rename( m,o ) ;
-				}
+				return this->archiveFilePathByName( "yt-dlp" ) ;
+			}else{
+				return this->archiveFilePathByName( engine.name() ) ;
 			}
-
-			return o ;
 		}
 		template< typename Engine >
 		QStringList archiveFileArgument( const Engine& engine ) const
 		{
-			if( engine.likeYtDlp() || engine.isGalleryDl() ){
+			if( engine.likeYtDlp() ){
 
-				auto m = this->archiveFilePath( engine ) ;
+				auto m = this->archiveFilePathByName( "yt-dlp" ) ;
+
+				return { "--download-archive",m } ;
+
+			}else if( engine.isGalleryDl() ){
+
+				auto m = this->archiveFilePathByName( engine.name() ) ;
 
 				return { "--download-archive",m } ;
 			}else{
@@ -292,6 +291,22 @@ public:
 		QString socketPath() ;
 		void confirmPaths( Logger& ) const ;
 	private:
+		QString archiveFilePathByName( const QString& name ) const
+		{
+			auto o = this->add( m_dataPath,"archiveFile-" + name + ".txt" ) ;
+
+			if( name == "yt-dlp" ){
+
+				auto m = this->add( m_dataPath,"subscriptions_archive_file.txt" ) ;
+
+				if( QFile::exists( m ) ){
+
+					QFile::rename( m,o ) ;
+				}
+			}
+
+			return o ;
+		}
 		QString add( const QString& basePath,const QString& toAdd ) const
 		{
 			if( basePath.endsWith( "/" ) ){
