@@ -250,6 +250,10 @@ public:
 			if( engine.likeYtDlp() ){
 
 				return this->archiveFilePathByName( "yt-dlp" ) ;
+
+			}else if( engine.isGalleryDl() ){
+
+				return this->archiveFilePathByName( engine.name(),".db" ) ;
 			}else{
 				return this->archiveFilePathByName( engine.name() ) ;
 			}
@@ -265,7 +269,7 @@ public:
 
 			}else if( engine.isGalleryDl() ){
 
-				auto m = this->archiveFilePathByName( engine.name() ) ;
+				auto m = this->archiveFilePathByName( engine.name(),".db" ) ;
 
 				return { "--download-archive",m } ;
 			}else{
@@ -291,9 +295,9 @@ public:
 		QString socketPath() ;
 		void confirmPaths( Logger& ) const ;
 	private:
-		QString archiveFilePathByName( const QString& name ) const
+		QString archiveFilePathByName( const QString& name,const QString& ext = ".txt" ) const
 		{
-			auto o = this->add( m_dataPath,"archiveFile-" + name + ".txt" ) ;
+			auto o = this->add( m_dataPath,"archiveFile-" + name + ext ) ;
 
 			if( name == "yt-dlp" ){
 
