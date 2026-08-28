@@ -913,7 +913,7 @@ void configure::init_done()
 			m_updates.emplace_back( "you-get",1 ) ;
 			m_updates.emplace_back( "yt-dlp-aria2c",2 ) ;
 			m_updates.emplace_back( "yt-dlp-ffmpeg",2 ) ;
-			m_updates.emplace_back( "deno",2 ) ;
+			m_updates.emplace_back( "deno",3 ) ;
 			m_updates.emplace_back( "quickjs-ng",1 ) ;
 		}
 	private:
