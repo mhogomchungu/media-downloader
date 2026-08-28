@@ -1314,6 +1314,10 @@ QString yt_dlp::updateTextOnCompleteDownlod( const QString& uiText,
 
 		return functions::errorString( f,functions::errors::logInRequired,bkText ) ;
 
+	}else if( uiText.contains( "ERROR: " ) && uiText.contains( "Sign in to confirm your age" ) ){
+
+		return functions::errorString( f,functions::errors::ageVerificationRequired,bkText ) ;
+
 	}else if( f.exitStatus() == engines::ProcessExitState::ExitStatus::NormalExit && f.errorCode() == 101 ){
 
 		if( tabName == "batch" ){
@@ -1601,7 +1605,16 @@ const QByteArray& yt_dlp::yt_dlplFilter::parseOutput( const Logger::Data::QByteA
 
 			if( this->hasNewError( m_errors,e ) ){
 
-				m_errors.emplace_back( e ) ;
+				if( e.contains( "Sign in to confirm your age" ) ){
+
+					m_errors.emplace_back( "ERROR: Sign in to confirm your age" ) ;
+
+				}else if( e.contains( "Sign in to confirm you’re not a bot" ) ){
+
+					m_errors.emplace_back( "ERROR: Sign in to confirm you’re not a bot" ) ;
+				}else{
+					m_errors.emplace_back( e ) ;
+				}
 
 				const auto& m = m_errors.back() ;
 

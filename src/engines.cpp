@@ -1478,6 +1478,11 @@ QString engines::engine::baseEngine::errorString( const engine::engine::baseEngi
 		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
 		return m + "\n" + QObject::tr( "Sign In To Confirm You Are Not A Bot" ) + "\n" + bkText ;
 
+	}else if( err == engines::engine::baseEngine::errors::ageVerificationRequired ){
+
+		auto m = engines::engine::baseEngine::processCompleteStateText( f ) ;
+		return m + "\n" + QObject::tr( "Sign In To Confirm You Age" ) + "\n" + bkText ;
+
 	}else if( err == engines::engine::baseEngine::errors::runtimeError ){
 
 		return QObject::tr( "Download Failed, Engine crashed" ) + "\n" + bkText ;

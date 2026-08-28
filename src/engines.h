@@ -502,7 +502,13 @@ public:
 				engines::ProcessExitState::ExitStatus m_exitStatus ;
 			};
 
-			enum class errors{ runtimeError,unknownUrl,notSupportedUrl,noNetwork,unknownFormat,logInRequired } ;
+			enum class errors{ runtimeError,
+					    unknownUrl,
+					    notSupportedUrl,
+					    noNetwork,
+					    unknownFormat,
+					    logInRequired,
+					    ageVerificationRequired } ;
 			static QString errorString( const engine::engine::baseEngine::finishedState&,
 						    engines::engine::baseEngine::errors,
 						    const QString& ) ;

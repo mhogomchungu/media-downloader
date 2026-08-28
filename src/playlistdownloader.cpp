@@ -76,21 +76,19 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 		 &playlistdownloader::reportFinishedStatus,
 		 Qt::QueuedConnection ) ;
 
+	m_ui.pbClearArchiveFile->setVisible( false ) ;
+
 	connect( m_ui.pbClearArchiveFile,&QPushButton::clicked,[ this ](){
 
 		const auto& engine = this->defaultEngine() ;
 
 		auto m = m_ctx.Engines().engineDirPaths().archiveFilePath( engine ) ;
 
-		QFile f( m ) ;
+		if( QFile::exists( m ) ){
 
-		if( f.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
-
-			f.write( {} ) ;
+			QFile::remove( m ) ;
 		}
 	} ) ;
-
-
 
 	m_ui.lineEditPLDownloadRange->setText( m_settings.playlistRangeHistoryLastUsed( this->defaultEngineName()) ) ;
 
