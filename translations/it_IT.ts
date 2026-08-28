@@ -1145,6 +1145,10 @@ Per maggiori dettagli vedi la GNU (General Public License).</translation>
         <source>Show Download History</source>
         <translation>Visualizza cronologia download</translation>
     </message>
+    <message>
+        <source>Sign In To Confirm You Age</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>

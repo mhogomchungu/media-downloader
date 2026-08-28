@@ -1140,6 +1140,10 @@ Exampe 2: ${gateway}:8080</source>
         <source>Show Download History</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Sign In To Confirm You Age</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>basicdownloader</name>
