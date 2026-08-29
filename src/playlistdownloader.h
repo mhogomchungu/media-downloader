@@ -139,6 +139,7 @@ private:
 	utility::Terminator m_terminator ;
 
 	QPixmap m_defaultVideoThumbnailIcon ;
+	QPixmap m_defaultErrorVideoThumbnailIcon ;
 
 	bool parseJson( const engines::engine&,const utility::archiveData&,utility::MediaEntry ) ;
 

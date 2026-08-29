@@ -1657,6 +1657,10 @@ void utility::MediaEntry::parseJson()
 	m_n_entries            = _intValue( object,"n_entries" ) ;
 	m_playlist_count       = _intValue( object,"playlist_count" ) ;
 
+	auto headers = object.value( "http_headers" ).toObject() ;
+	m_referer    = headers.value( "Referer" ).toString() ;
+	m_userAgent  = headers.value( "User-Agent" ).toString() ;
+
 	if( m_uploadDate.size() == 8 ){
 
 		auto year  = m_uploadDate.mid( 0,4 ).toInt() ;

@@ -2766,7 +2766,11 @@ void batchdownloader::addItem( int index,bool enableAll,const utility::MediaEntr
 
 		auto m = &batchdownloader::networkResult ;
 
-		m_ctx.network().get( u,networkCtx( media,index ),this,m ) ;
+		auto g = media.user_agent().toUtf8() ;
+
+		auto h = media.referer().toUtf8() ;
+
+		m_ctx.network().get( u,networkCtx( media,index ),this,m,g,h ) ;
 	}else{
 		this->addItemUi( index,enableAll,media ) ;
 	}

@@ -104,6 +104,12 @@ public:
 
 	void updateCmdOptions( QStringList& ) override ;
 
+	static QJsonObject cmdNightly( QJsonObject ) ;
+
+	static QJsonObject cmdFfmpeg( QJsonObject ) ;
+
+	static QJsonObject cmdAria2C( QJsonObject ) ;
+
 	static QJsonObject init() ;
 
 	static void init( const QString& configFileName,

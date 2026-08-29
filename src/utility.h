@@ -2050,6 +2050,14 @@ namespace utility
 		{
 			return m_playlist_title ;
 		}
+		const QString& referer() const
+		{
+			return m_referer ;
+		}
+		const QString& user_agent() const
+		{
+			return m_userAgent ;
+		}
 		const QString& playlist_uploader_id() const
 		{
 			return m_playlist_uploader_id ;
@@ -2070,6 +2078,8 @@ namespace utility
 		QString m_url ;
 		QString m_duration ;
 		QString m_id ;
+		QString m_referer ;
+		QString m_userAgent ;
 		QString m_uploader ;
 		QString m_playlist ;
 		QString m_playlist_count ;

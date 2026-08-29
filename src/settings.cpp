@@ -1095,6 +1095,14 @@ QPixmap settings::defaultVideoThumbnailIcon( settings::tabName m )
 	return this->getIcon( "video" ).pixmap( width,height ) ;
 }
 
+QPixmap settings::defaultErrorVideoThumbnailIcon( settings::tabName m )
+{
+	auto width = this->thumbnailWidth( m ) ;
+	auto height = this->thumbnailHeight( m ) ;
+
+	return this->getIcon( "video_error" ).pixmap( width,height ) ;
+}
+
 bool settings::denoEnableAutoDownload()
 {
 	return this->getOption( "DenoEnableAutoDownloading",true ) ;

@@ -906,13 +906,13 @@ void configure::init_done()
 		updates()
 		{
 			m_updates.emplace_back( "yt-dlp",3 ) ;
-			m_updates.emplace_back( "yt-dlp-nightly",3 ) ;
+			m_updates.emplace_back( "yt-dlp-nightly",4 ) ;
 			m_updates.emplace_back( "ytdl-patched",1 ) ;
 			m_updates.emplace_back( "gallery-dl",3 ) ;
 			m_updates.emplace_back( "svtplay-dl",2 ) ;
 			m_updates.emplace_back( "you-get",1 ) ;
-			m_updates.emplace_back( "yt-dlp-aria2c",2 ) ;
-			m_updates.emplace_back( "yt-dlp-ffmpeg",2 ) ;
+			m_updates.emplace_back( "yt-dlp-aria2c",3 ) ;
+			m_updates.emplace_back( "yt-dlp-ffmpeg",3 ) ;
 			m_updates.emplace_back( "deno",3 ) ;
 			m_updates.emplace_back( "quickjs-ng",1 ) ;
 		}

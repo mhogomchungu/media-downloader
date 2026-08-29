@@ -212,6 +212,7 @@ public:
 	void setDenoEnableAutoDownload( bool ) ;
 
 	QPixmap defaultVideoThumbnailIcon( settings::tabName ) ;
+	QPixmap defaultErrorVideoThumbnailIcon( settings::tabName ) ;
 
 	class LogsLimits
 	{

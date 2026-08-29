@@ -157,16 +157,16 @@ public:
 	QByteArray defaultUserAgent() const ;
 
 	template< typename Function >
-	void get( const QString& url,Function function,const QByteArray& userAgent = {} ) const
+	void get( const QString& url,Function function,const QByteArray& userAgent = {},const QByteArray& referer = {} ) const
 	{
-		this->get( this->make_function( std::move( function ),url ),userAgent ) ;
+		this->get( this->make_function( std::move( function ),url ),userAgent,referer ) ;
 	}
 	template< typename FunctionArgs,
 		  typename Object,
 		  typename Method,
 		  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
 		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
-	void get( const QString& url,FunctionArgs args,Object obj,Method method,const QByteArray& userAgent = {} ) const
+	void get( const QString& url,FunctionArgs args,Object obj,Method method,const QByteArray& userAgent = {},const QByteArray& referer = {} ) const
 	{
 		class meaw
 		{
@@ -185,13 +185,13 @@ public:
 			Method m_method ;
 		} ;
 
-		this->get( url,meaw( std::move( args ),obj,method ),userAgent ) ;
+		this->get( url,meaw( std::move( args ),obj,method ),userAgent,referer ) ;
 	}
 	template< typename Object,
 		  typename Method,
 		  typename std::enable_if< std::is_pointer< Object >::value,int >::type = 0,
 		  typename std::enable_if< std::is_member_function_pointer< Method >::value,int >::type = 0 >
-	void get( const QString& url,Object obj,Method method,const QByteArray& userAgent = {} ) const
+	void get( const QString& url,Object obj,Method method,const QByteArray& userAgent = {},const QByteArray& referer = {} ) const
 	{
 		class meaw
 		{
@@ -208,7 +208,7 @@ public:
 			Method m_method ;
 		} ;
 
-		this->get( url,meaw( obj,method ),userAgent ) ;
+		this->get( url,meaw( obj,method ),userAgent,referer ) ;
 	}
 	template< typename FunctionArgs,
 		  typename Object,
@@ -296,13 +296,14 @@ private:
 		return { std::move( fnt ),url } ;
 	}
 	template< typename Function >
-	void get( Function function,const QByteArray& userAgent = {} ) const
+	void get( Function function,const QByteArray& userAgent = {},const QByteArray& referer = {} ) const
 	{
 		struct args
 		{
 			const networkAccess& parent ;
 			Function function ;
 			QByteArray userAgent ;
+			QByteArray referer ;
 		} ;
 
 		class meaw
@@ -321,7 +322,9 @@ private:
 					}
 					void operator()()
 					{
-						m_args.parent.get( m_args.function.move(),m_args.userAgent ) ;
+						auto& m = m_args.parent ;
+
+						m.get( m_args.function.move(),m_args.userAgent,m_args.referer ) ;
 					}
 				private:
 					args m_args ;
@@ -338,9 +341,9 @@ private:
 			args m_args ;
 		} ;
 
-		auto m = this->networkRequest( function.url(),userAgent ) ;
+		auto m = this->networkRequest( function.url(),userAgent,referer ) ;
 
-		m_network.get( m,meaw( { *this,std::move( function ),userAgent } ) ) ;
+		m_network.get( m,meaw( { *this,std::move( function ),userAgent,referer } ) ) ;
 	}
 
 	class File
@@ -589,7 +592,7 @@ private:
 
 	QString timeOutErrorString() const ;
 
-	QNetworkRequest networkRequest( const QString& url,const QByteArray& userAgent = {} ) const ;
+	QNetworkRequest networkRequest( const QString& url,const QByteArray& userAgent = {},const QByteArray& referer = {} ) const ;
 
 	void extractArchive( networkAccess::Opts ) const ;
 

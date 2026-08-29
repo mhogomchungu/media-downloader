@@ -36,6 +36,7 @@ playlistdownloader::playlistdownloader( Context& ctx ) :
 	m_table( *m_ui.tableWidgetPl,m_ctx.mainWidget().font(),1,m_settings.textAlignment() ),
 	m_subscriptionTable( *m_ui.tableWidgetPlDownloaderSubscription,0,m_ctx.mainWidget().font() ),
 	m_defaultVideoThumbnailIcon( m_settings.defaultVideoThumbnailIcon( settings::tabName::playlist ) ),
+	m_defaultErrorVideoThumbnailIcon( m_settings.defaultErrorVideoThumbnailIcon( settings::tabName::playlist ) ),
 	m_banner( m_table ),
 	m_subscription( m_ctx,m_subscriptionTable,*m_ui.widgetPlDownloader )
 {
@@ -1251,7 +1252,7 @@ bool playlistdownloader::enabled()
 	return m_ui.lineEditPLUrl->isEnabled() ;
 }
 
-bool playlistdownloader::parseJson( const engines::engine& engine,
+bool playlistdownloader::parseJson( const engines::engine&,
 				    const utility::archiveData& copts,
 				    utility::MediaEntry media )
 {
@@ -1266,7 +1267,7 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 			auto mm = QObject::tr( "Stopping Because Media Is Already In Archive File" ) ;
 
-			this->showEntry( { m_defaultVideoThumbnailIcon,s,media,mm },false ) ;
+			this->showEntry( { m_defaultErrorVideoThumbnailIcon,s,media,mm },false ) ;
 
 			return true ;
 
@@ -1276,7 +1277,7 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 			auto mm = QObject::tr( "Media Already In Archive" ) ;
 
-			this->showEntry( { m_defaultVideoThumbnailIcon,s,media,mm },false ) ;
+			this->showEntry( { m_defaultErrorVideoThumbnailIcon,s,media,mm },false ) ;
 
 			return false ;
 		}
@@ -1304,9 +1305,11 @@ bool playlistdownloader::parseJson( const engines::engine& engine,
 
 		m_networkRunning++ ;
 
-		auto ua = engine.isGalleryDl() ? network.defaultUserAgent() : QByteArray() ;
+		auto g = media.user_agent().toUtf8() ;
 
-		network.get( thumbnailUrl,media.move(),this,&playlistdownloader::networkResult,ua ) ;
+		auto h = media.referer().toUtf8() ;
+
+		network.get( thumbnailUrl,media.move(),this,&playlistdownloader::networkResult,g,h ) ;
 	}else{
 		emit this->networkDataSignal( { -1,media.move() } ) ;
 	}

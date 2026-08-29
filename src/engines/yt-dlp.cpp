@@ -253,12 +253,12 @@ void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& th
 
 static const char * _jsonFullArguments()
 {
-	return R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats.:.{url,language,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
+	return R"R({"http_headers":%(http_headers)j,"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats.:.{url,language,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
 }
 
 QStringList yt_dlp::jsonNoFormatsArgumentList()
 {
-	auto a = R"R({"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
+	auto a = R"R({"http_headers":%(http_headers)j,"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
 
 	return { "--newline","--print",a } ;
 }
@@ -290,36 +290,101 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
+QJsonObject yt_dlp::cmdNightly( QJsonObject obj )
+{
+	obj.insert( "Name","yt-dlp-nightly" ) ;
+
+	obj.insert( "Version",4 ) ;
+
+	utility::addJsonCmd json( obj ) ;
+
+	json.add( { { "Generic" },{ { "x86","yt-dlp-nightly",{ "yt-dlp-nightly" } },
+				    { "amd64","yt-dlp-nightly",{ "yt-dlp-nightly" } } } } ) ;
+
+	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
+				    { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
+				    { "x86",_Windows32BitBinaryName(),{ _Windows32BitBinaryName() } },
+				    { "amd64",_Windows64BitBinaryName(),{ _Windows64BitBinaryName() } } } } ) ;
+
+	json.add( { { "MacOS" },{ { "x86","yt-dlp-nightly_macos",{ "yt-dlp-nightly_macos" } },
+				  { "amd64","yt-dlp-nightly_macos",{ "yt-dlp-nightly_macos" } } } } ) ;
+
+	json.done() ;
+
+	return obj ;
+}
+
+QJsonObject yt_dlp::cmdFfmpeg( QJsonObject obj )
+{
+	obj.insert( "Name","yt-dlp-ffmpeg" ) ;
+
+	obj.insert( "Version",3 ) ;
+
+	auto opts = obj.value( "DefaultDownLoadCmdOptions" ).toArray() ;
+
+	opts.append( "--downloader" ) ;
+	opts.append( "ffmpeg" ) ;
+
+	obj.insert( "DefaultDownLoadCmdOptions",opts ) ;
+
+	return obj ;
+}
+
+QJsonObject yt_dlp::cmdAria2C( QJsonObject obj )
+{
+	obj.insert( "Name","yt-dlp-aria2c" ) ;
+
+	obj.insert( "Version",3 ) ;
+
+	auto opts = obj.value( "DefaultDownLoadCmdOptions" ).toArray() ;
+
+	opts.append( "--downloader" ) ;
+	opts.append( "aria2c" ) ;
+
+	obj.insert( "DefaultDownLoadCmdOptions",opts ) ;
+
+	utility::addJsonCmd json( obj ) ;
+
+	json.add( { { "Generic" },{ { "x86","yt-dlp",{ "stdbuf","-o","L","yt-dlp" } },
+				    { "amd64","yt-dlp",{ "stdbuf","-o","L","yt-dlp" } } } } ) ;
+
+	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
+				    { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
+				    { "x86",_Windows32BitBinaryName(),{ _Windows32BitBinaryName() } },
+				    { "amd64",_Windows64BitBinaryName(),{ _Windows64BitBinaryName() } } } } ) ;
+
+	json.add( { { "MacOS" },{ { "x86",_OSXBinaryName(),{ _OSXBinaryName() } },
+				  { "amd64",_OSXBinaryName(),{ _OSXBinaryName() } } } } ) ;
+
+	return obj ;
+}
+
 QJsonObject yt_dlp::init()
 {
 	QJsonObject mainObj ;
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	auto x86Name = _Windows32BitBinaryName() ;
-	auto amd64   = _Windows64BitBinaryName() ;
-	auto macos   = _OSXBinaryName() ;
-
 	json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
 				    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
 
 	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
 				    { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
-				    { "x86",x86Name,{ x86Name } },
-				    { "amd64",amd64,{ amd64 } } } } ) ;
+				    { "x86",_Windows32BitBinaryName(),{ _Windows32BitBinaryName() } },
+				    { "amd64",_Windows64BitBinaryName(),{ _Windows64BitBinaryName() } } } } ) ;
 
-	json.add( { { "MacOS" },{ { "x86",macos,{ macos } },
-				  { "amd64",macos,{ macos } } } } ) ;
+	json.add( { { "MacOS" },{ { "x86",_OSXBinaryName(),{ _OSXBinaryName() } },
+				  { "amd64",_OSXBinaryName(),{ _OSXBinaryName() } } } } ) ;
 
 	json.done() ;
 
 	mainObj.insert( "Version","3" ) ;
 
-	mainObj.insert( "ExtraOptions",utility::QJsonArrayJoin() ) ;
+	mainObj.insert( "ExtraOptions",QJsonArray() ) ;
 
-	mainObj.insert( "ExtraOptionsWin7",utility::QJsonArrayJoin() ) ;
+	mainObj.insert( "ExtraOptionsWin7",QJsonArray() ) ;
 
-	mainObj.insert( "ExtraOptionsFlatpakAppImage",utility::QJsonArrayJoin() ) ;
+	mainObj.insert( "ExtraOptionsFlatpakAppImage",QJsonArray() ) ;
 
 	auto arr = utility::QJsonArrayJoin( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 
@@ -337,7 +402,7 @@ QJsonObject yt_dlp::init()
 
 	mainObj.insert( "SkipLineWithText",utility::QJsonArrayJoin( "(pass -k to keep)" ) ) ;
 
-	mainObj.insert( "RemoveText",utility::QJsonArrayJoin() ) ;
+	mainObj.insert( "RemoveText",QJsonArray() ) ;
 
 	mainObj.insert( "SplitLinesBy",utility::QJsonArrayJoin( "\n" ) ) ;
 
@@ -1444,7 +1509,7 @@ void yt_dlp::updateGetPlaylistCmdOptions( QStringList& e )
 	e.append( "--lazy-playlist" ) ;
 
 	e.append( "--output-na-placeholder" ) ;
-	e.append( "\"NA\"" ) ;
+	e.append( "{}" ) ;
 
 	e.append( "-v" ) ;
 }

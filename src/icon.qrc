@@ -5,6 +5,7 @@
 		<file>media-downloader.png</file>
 		<file>icons/black/folder.png</file>
 		<file>icons/black/video.png</file>
+		<file>icons/black/video_error.png</file>
 		<file>icons/black/executable.png</file>
 		<file>icons/black/clipboard.png</file>
 		<file>icons/black/recentlyUsed.png</file>
@@ -15,6 +16,7 @@
 		<file>icons/black/extensions.png</file>
 		<file>icons/white/folder.png</file>
 		<file>icons/white/video.png</file>
+		<file>icons/white/video_error.png</file>
 		<file>icons/white/executable.png</file>
 		<file>icons/white/clipboard.png</file>
 		<file>icons/white/recentlyUsed.png</file>

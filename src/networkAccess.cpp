@@ -425,7 +425,7 @@ void networkAccess::extractMediaDownloader( networkAccess::updateMDOptions md ) 
 	utils::qthread::run( meaw( *this,md.move() ) ) ;
 }
 
-QNetworkRequest networkAccess::networkRequest( const QString& url,const QByteArray& userAgent ) const
+QNetworkRequest networkAccess::networkRequest( const QString& url,const QByteArray& userAgent,const QByteArray& referer ) const
 {
 	QNetworkRequest networkRequest( url ) ;
 #if QT_VERSION >= QT_VERSION_CHECK( 5,9,0 )
@@ -442,6 +442,11 @@ QNetworkRequest networkAccess::networkRequest( const QString& url,const QByteArr
 	if( !userAgent.isEmpty() ){
 
 		networkRequest.setRawHeader( "User-Agent",userAgent ) ;
+	}
+
+	if( !referer.isEmpty() ){
+
+		networkRequest.setRawHeader( "referer",referer ) ;
 	}
 
 	return networkRequest ;

@@ -255,37 +255,81 @@ void engines::setJsRuntime()
 
 engines::EnginesList::engine engines::getEngineByPath( const QString& e ) const
 {
-	auto path = m_enginePaths.enginePath( e ) ;
+	QString path ;
 
-	util::Json json( engines::file( path,m_logger ).readAll() ) ;
+	util::Json json ;
 
-	if( json ){
+	if( e == "yt-dlp-nightly.json" ){
 
-		auto object = json.doc().object() ;
+		path = m_enginePaths.enginePath( "yt-dlp.json" ) ;
 
-		auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
+		json = { engines::file( path,m_logger ).readAll() } ;
 
-		if( !minVersion.isEmpty() ){
+		if( json ){
 
-			util::version min = minVersion ;
-			util::version cur = utility::compileTimeVersion() ;
-
-			if( min > cur ){
-
-				auto name = object.value( "Name" ).toString() ;
-
-				auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
-
-				m_logger.add( m.arg( name,minVersion ),utility::loggerID() ) ;
-
-				return {} ;
-			}
+			json = yt_dlp::cmdNightly( json.doc().object() ) ;
+		}else{
+			return {} ;
 		}
 
-		return { m_logger,m_enginePaths,object,*this,utility::loggerID() } ;
+	}else if( e == "yt-dlp-ffmpeg.json" ){
+
+		path = m_enginePaths.enginePath( "yt-dlp.json" ) ;
+
+		json = { engines::file( path,m_logger ).readAll() } ;
+
+		if( json ){
+
+			json = yt_dlp::cmdFfmpeg( json.doc().object() ) ;
+		}else{
+			return {} ;
+		}
+
+	}else if( e == "yt-dlp-aria2c.json" ){
+
+		path = m_enginePaths.enginePath( "yt-dlp.json" ) ;
+
+		json = { engines::file( path,m_logger ).readAll() } ;
+
+		if( json ){
+
+			json = yt_dlp::cmdAria2C( json.doc().object() ) ;
+		}else{
+			return {} ;
+		}
 	}else{
-		return {} ;
+		path = m_enginePaths.enginePath( e ) ;
+
+		json = { engines::file( path,m_logger ).readAll() } ;
+
+		if( !json ){
+
+			return {} ;
+		}
 	}
+
+	auto object = json.doc().object() ;
+
+	auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
+
+	if( !minVersion.isEmpty() ){
+
+		util::version min = minVersion ;
+		util::version cur = utility::compileTimeVersion() ;
+
+		if( min > cur ){
+
+			auto name = object.value( "Name" ).toString() ;
+
+			auto m = QObject::tr( "Engine \"%1\" requires atleast version \"%2\" of Media Downloader" ) ;
+
+			m_logger.add( m.arg( name,minVersion ),utility::loggerID() ) ;
+
+			return {} ;
+		}
+	}
+
+	return { m_logger,m_enginePaths,object,*this,utility::loggerID() } ;
 }
 
 engines::EnginesList::engine engines::getSupportingEngineByName( const QString& e ) const
