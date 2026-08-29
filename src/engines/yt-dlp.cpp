@@ -296,6 +296,8 @@ QJsonObject yt_dlp::cmdNightly( QJsonObject obj )
 
 	obj.insert( "Version","4" ) ;
 
+	obj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp-nightly-builds/releases/latest" ) ;
+
 	utility::addJsonCmd json( obj ) ;
 
 	json.add( { { "Generic" },{ { "x86","yt-dlp-nightly",{ "yt-dlp-nightly" } },
