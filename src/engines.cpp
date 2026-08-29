@@ -255,61 +255,24 @@ void engines::setJsRuntime()
 
 engines::EnginesList::engine engines::getEngineByPath( const QString& e ) const
 {
-	QString path ;
-
-	util::Json json ;
-
 	if( e == "yt-dlp-nightly.json" ){
 
-		path = m_enginePaths.enginePath( "yt-dlp.json" ) ;
-
-		json = { engines::file( path,m_logger ).readAll() } ;
-
-		if( json ){
-
-			json = yt_dlp::cmdNightly( json.doc().object() ) ;
-		}else{
-			return {} ;
-		}
+		return this->getEngineByPath2( "yt-dlp.json",e,yt_dlp::cmdNightly ) ;
 
 	}else if( e == "yt-dlp-ffmpeg.json" ){
 
-		path = m_enginePaths.enginePath( "yt-dlp.json" ) ;
-
-		json = { engines::file( path,m_logger ).readAll() } ;
-
-		if( json ){
-
-			json = yt_dlp::cmdFfmpeg( json.doc().object() ) ;
-		}else{
-			return {} ;
-		}
+		return this->getEngineByPath2( "yt-dlp.json",e,yt_dlp::cmdFfmpeg ) ;
 
 	}else if( e == "yt-dlp-aria2c.json" ){
 
-		path = m_enginePaths.enginePath( "yt-dlp.json" ) ;
-
-		json = { engines::file( path,m_logger ).readAll() } ;
-
-		if( json ){
-
-			json = yt_dlp::cmdAria2C( json.doc().object() ) ;
-		}else{
-			return {} ;
-		}
+		return this->getEngineByPath2( "yt-dlp.json",e,yt_dlp::cmdAria2C ) ;
 	}else{
-		path = m_enginePaths.enginePath( e ) ;
-
-		json = { engines::file( path,m_logger ).readAll() } ;
-
-		if( !json ){
-
-			return {} ;
-		}
+		return this->getEngineByPath2( e ) ;
 	}
+}
 
-	auto object = json.doc().object() ;
-
+engines::EnginesList::engine engines::getEngineByPath1( QJsonObject object ) const
+{
 	auto minVersion = object.value( "RequiredMinimumVersionOfMediaDownloader" ).toString() ;
 
 	if( !minVersion.isEmpty() ){
@@ -330,6 +293,31 @@ engines::EnginesList::engine engines::getEngineByPath( const QString& e ) const
 	}
 
 	return { m_logger,m_enginePaths,object,*this,utility::loggerID() } ;
+}
+
+engines::EnginesList::engine engines::getEngineByPath2( const QString& e,const QString& f,engines::converter function ) const
+{
+	auto path = m_enginePaths.enginePath( e ) ;
+
+	util::Json json( engines::file( path,m_logger ).readAll() ) ;
+
+	if( json ){
+
+		auto obj = json.toObject() ;
+
+		if( function ){
+
+			auto path = m_enginePaths.enginePath( f ) ;
+
+			util::Json xjson( engines::file( path,m_logger ).readAll() ) ;
+
+			return this->getEngineByPath1( function( obj,xjson.toObject() ) ) ;
+		}else{
+			return this->getEngineByPath1( obj ) ;
+		}
+	}else{
+		return {} ;
+	}
 }
 
 engines::EnginesList::engine engines::getSupportingEngineByName( const QString& e ) const
@@ -718,7 +706,7 @@ QString engines::addEngine( const QByteArray& data,const QString& extensionFileN
 
 	if( json ){
 
-		auto object = json.doc().object() ;
+		auto object = json.toObject() ;
 
 		auto name = object.value( "Name" ).toString() ;
 
@@ -980,7 +968,7 @@ engines::engine::cmd::cmd( const QJsonObject& obj,
 
 QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 {
-	auto obj = e.doc().object() ;
+	auto obj = e.toObject() ;
 
 	auto name = obj.value( "Name" ).toString() ;
 

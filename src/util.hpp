@@ -24,6 +24,7 @@
 #include <QByteArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QProcess>
 #include <QThread>
 #include <QTimer>
@@ -217,6 +218,14 @@ public:
 	QByteArray toData() const
 	{
 		return m_doc.toJson() ;
+	}
+	QJsonObject toObject() const
+	{
+		return m_doc.object() ;
+	}
+	QJsonArray toArray() const
+	{
+		return m_doc.array() ;
 	}
 	Json( QJsonParseError error ) :
 		m_error( std::move( error ) )

@@ -1982,6 +1982,9 @@ private:
 	void removeEngineFromList( const QString&,int ) ;
 	void updateEngines( int ) ;
 	engines::EnginesList::engine getEngineByPath( const QString& ) const ;
+	engines::EnginesList::engine getEngineByPath1( QJsonObject ) const ;
+	using converter = QJsonObject( * )( QJsonObject,const QJsonObject& ) ;
+	engines::EnginesList::engine getEngineByPath2( const QString&,const QString& = {},engines::converter = nullptr ) const ;
 	engines::EnginesList::engine getSupportingEngineByName( const QString& ) const ;
 	util::result_ref< const engines::engine& > getCompleteEngineByPath( const QString& ) const ;
 	bool engineAdd( const QString&,engines::EnginesList::engine,int ) ;

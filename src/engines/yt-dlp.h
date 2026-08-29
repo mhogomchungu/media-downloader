@@ -104,11 +104,11 @@ public:
 
 	void updateCmdOptions( QStringList& ) override ;
 
-	static QJsonObject cmdNightly( QJsonObject ) ;
+	static QJsonObject cmdNightly( QJsonObject,const QJsonObject& ) ;
 
-	static QJsonObject cmdFfmpeg( QJsonObject ) ;
+	static QJsonObject cmdFfmpeg( QJsonObject,const QJsonObject& ) ;
 
-	static QJsonObject cmdAria2C( QJsonObject ) ;
+	static QJsonObject cmdAria2C( QJsonObject,const QJsonObject& ) ;
 
 	static QJsonObject init() ;
 

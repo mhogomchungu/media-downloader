@@ -1638,7 +1638,7 @@ QJsonObject utility::MediaEntry::uiJson() const
 
 void utility::MediaEntry::parseJson()
 {
-	auto object = m_json.doc().object() ;
+	auto object = m_json.toObject() ;
 
 	m_formats              = object.value( "formats" ).toArray() ;
 

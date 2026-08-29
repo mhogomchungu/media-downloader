@@ -290,11 +290,18 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
-QJsonObject yt_dlp::cmdNightly( QJsonObject obj )
+QJsonObject yt_dlp::cmdNightly( QJsonObject obj,const QJsonObject& xbj )
 {
-	obj.insert( "Name","yt-dlp-nightly" ) ;
+	auto version = xbj.value( "Version" ).toString() ;
 
-	obj.insert( "Version","4" ) ;
+	if( version.isEmpty() ){
+
+		obj.insert( "Version","4" ) ;
+	}else{
+		obj.insert( "Version",version ) ;
+	}
+
+	obj.insert( "Name","yt-dlp-nightly" ) ;
 
 	obj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp-nightly-builds/releases/latest" ) ;
 
@@ -316,11 +323,18 @@ QJsonObject yt_dlp::cmdNightly( QJsonObject obj )
 	return obj ;
 }
 
-QJsonObject yt_dlp::cmdFfmpeg( QJsonObject obj )
+QJsonObject yt_dlp::cmdFfmpeg( QJsonObject obj,const QJsonObject& xbj )
 {
-	obj.insert( "Name","yt-dlp-ffmpeg" ) ;
+	auto version = xbj.value( "Version" ).toString() ;
 
-	obj.insert( "Version","3" ) ;
+	if( version.isEmpty() ){
+
+		obj.insert( "Version","3" ) ;
+	}else{
+		obj.insert( "Version",version ) ;
+	}
+
+	obj.insert( "Name","yt-dlp-ffmpeg" ) ;
 
 	auto opts = obj.value( "DefaultDownLoadCmdOptions" ).toArray() ;
 
@@ -332,11 +346,18 @@ QJsonObject yt_dlp::cmdFfmpeg( QJsonObject obj )
 	return obj ;
 }
 
-QJsonObject yt_dlp::cmdAria2C( QJsonObject obj )
+QJsonObject yt_dlp::cmdAria2C( QJsonObject obj,const QJsonObject& xbj )
 {
-	obj.insert( "Name","yt-dlp-aria2c" ) ;
+	auto version = xbj.value( "Version" ).toString() ;
 
-	obj.insert( "Version","3" ) ;
+	if( version.isEmpty() ){
+
+		obj.insert( "Version","3" ) ;
+	}else{
+		obj.insert( "Version",version ) ;
+	}
+
+	obj.insert( "Name","yt-dlp-aria2c" ) ;
 
 	auto opts = obj.value( "DefaultDownLoadCmdOptions" ).toArray() ;
 
