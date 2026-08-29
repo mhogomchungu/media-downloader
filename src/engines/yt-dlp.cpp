@@ -294,7 +294,7 @@ QJsonObject yt_dlp::cmdNightly( QJsonObject obj )
 {
 	obj.insert( "Name","yt-dlp-nightly" ) ;
 
-	obj.insert( "Version",4 ) ;
+	obj.insert( "Version","4" ) ;
 
 	utility::addJsonCmd json( obj ) ;
 
@@ -303,8 +303,8 @@ QJsonObject yt_dlp::cmdNightly( QJsonObject obj )
 
 	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
 				    { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
-				    { "x86",_Windows32BitBinaryName(),{ _Windows32BitBinaryName() } },
-				    { "amd64",_Windows64BitBinaryName(),{ _Windows64BitBinaryName() } } } } ) ;
+				    { "x86","yt-dlp_x86-nightly.exe",{ "yt-dlp_x86-nightly.exe" } },
+				    { "amd64","yt-dlp-nightly.exe",{ "yt-dlp-nightly.exe" } } } } ) ;
 
 	json.add( { { "MacOS" },{ { "x86","yt-dlp-nightly_macos",{ "yt-dlp-nightly_macos" } },
 				  { "amd64","yt-dlp-nightly_macos",{ "yt-dlp-nightly_macos" } } } } ) ;
@@ -318,7 +318,7 @@ QJsonObject yt_dlp::cmdFfmpeg( QJsonObject obj )
 {
 	obj.insert( "Name","yt-dlp-ffmpeg" ) ;
 
-	obj.insert( "Version",3 ) ;
+	obj.insert( "Version","3" ) ;
 
 	auto opts = obj.value( "DefaultDownLoadCmdOptions" ).toArray() ;
 
@@ -334,7 +334,7 @@ QJsonObject yt_dlp::cmdAria2C( QJsonObject obj )
 {
 	obj.insert( "Name","yt-dlp-aria2c" ) ;
 
-	obj.insert( "Version",3 ) ;
+	obj.insert( "Version","3" ) ;
 
 	auto opts = obj.value( "DefaultDownLoadCmdOptions" ).toArray() ;
 
