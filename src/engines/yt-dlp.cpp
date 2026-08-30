@@ -401,13 +401,7 @@ QJsonObject yt_dlp::init()
 
 	json.done() ;
 
-	mainObj.insert( "Version","3" ) ;
-
-	mainObj.insert( "ExtraOptions",QJsonArray() ) ;
-
-	mainObj.insert( "ExtraOptionsWin7",QJsonArray() ) ;
-
-	mainObj.insert( "ExtraOptionsFlatpakAppImage",QJsonArray() ) ;
+	mainObj.insert( "Version","4" ) ;
 
 	auto arr = utility::QJsonArrayJoin( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
 

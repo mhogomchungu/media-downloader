@@ -905,7 +905,7 @@ void configure::init_done()
 		}
 		updates()
 		{
-			m_updates.emplace_back( "yt-dlp",3 ) ;
+			m_updates.emplace_back( "yt-dlp",4 ) ;
 			m_updates.emplace_back( "yt-dlp-nightly",4 ) ;
 			m_updates.emplace_back( "ytdl-patched",1 ) ;
 			m_updates.emplace_back( "gallery-dl",3 ) ;
