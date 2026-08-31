@@ -459,6 +459,7 @@ bool engines::engineAdd( const QString& jsonFile,engines::EnginesList::engine m,
 
 			m_logger.add( s.arg( m->name() ),id ) ;
 		}else{
+			m->setJsRuntime() ;
 			m_backends.add( m.move() ) ;
 
 			return true ;
@@ -829,7 +830,7 @@ QStringList engines::engine::toStringList( const QJsonValue& value,bool protectS
 }
 
 void engines::engine::setJsRuntime()
-{	
+{
 	if( m_extraArguments.isEmpty() && m_likeYtDlp ){
 
 		if( utility::platformisLegacyWindows() ){
