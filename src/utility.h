@@ -946,23 +946,59 @@ namespace utility
 		struct entry
 		{
 			QString platform ;
-			struct arch{
-				QString archName ;
-				QString exeName ;
-				QStringList exeArgs ;
+			class arch
+			{
+			public:
+				arch( QString a,QString b,QStringList c ) :
+					m_archName( std::move( a ) ),
+					m_exeName( std::move( b ) ),
+					m_exeArgs( std::move( c ) )
+				{
+				}
+				arch( QString a,QString b ) :
+					m_archName( std::move( a ) ),
+					m_exeName( std::move( b ) ),
+					m_exeArgs( m_exeName )
+				{
+				}
+				const QString& archName() const
+				{
+					return m_archName ;
+				}
+				const QString& exeName() const
+				{
+					return m_exeName ;
+				}
+				const QStringList& exeArgs() const
+				{
+					return m_exeArgs ;
+				}
+			private:
+				QString m_archName ;
+				QString m_exeName ;
+				QStringList m_exeArgs ;
 			} ;
-			std::vector< arch > platformData ;
+			using args = std::vector< arch > ;
+			args platformData ;
 		} ;
 		addJsonCmd( QJsonObject& obj ) :
 			m_mainObj( obj )
 		{
 		}
-		void add( const addJsonCmd::entry& e ) ;
+		void add( const QString& platform,addJsonCmd::entry::args( *function )( const QString& ) )
+		{
+			this->add( { platform,function( platform ) } ) ;
+		}
+		void add( const QString& platform,addJsonCmd::entry::args m )
+		{
+			this->add( { platform,std::move( m ) } ) ;
+		}
 		void done()
 		{
 			m_mainObj.insert( "Cmd",m_obj ) ;
 		}
 	private:
+		void add( const addJsonCmd::entry& e ) ;
 		QJsonObject& m_mainObj ;
 		QJsonObject m_obj ;
 	};

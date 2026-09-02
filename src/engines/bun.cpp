@@ -28,17 +28,11 @@ void bun::init( settings&,Logger& logger,const engines::enginePaths& enginePath 
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( { { "Generic" },{ { "x86","bun",{ "bun" } },
-				{ "amd64","bun",{ "bun" } },
-				{ "aarch64","bun",{ "bun" } } } } ) ;
+	json.add( "Generic",{ { "x86","bun" },{ "amd64","bun" },{ "aarch64","bun" } } ) ;
 
-	json.add( { { "Windows" },{ { "win7x86","bun.exe",{ "bun.exe" } },
-				{ "win7amd64","bun.exe",{ "bun.exe" } },
-				{ "x86","bun.exe",{ "bun.exe" } },
-				{ "amd64","bun.exe",{ "bun.exe" } } } } ) ;
+	json.add( "Windows",{ { "win7x86","bun.exe" },{ "win7amd64","bun.exe" },{ "x86","bun.exe" },{ "amd64","bun.exe" } } ) ;
 
-	json.add( { { "MacOS" },{ { "amd64","bun",{ "bun" } },
-				{ "aarch64","bun",{ "bun" } } } } ) ;
+	json.add( "MacOS",{ { "amd64","bun" },{ "aarch64","bun" } } ) ;
 
 	json.done() ;
 

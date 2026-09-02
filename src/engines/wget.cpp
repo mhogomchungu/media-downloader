@@ -149,13 +149,11 @@ void wget::init( Logger& logger,const engines::enginePaths& enginePath )
 
 		utility::addJsonCmd json( mainObj ) ;
 
-		json.add( { { "Generic" },{ { "x86",name,{ name } },
-					    { "amd64",name,{ name } } } } ) ;
+		json.add( "Generic",{ { "x86",name },{ "amd64",name } } ) ;
 
 		auto exe = name + ".exe" ;
 
-		json.add( { { "Windows" },{ { "x86",exe,{ exe } },
-					    { "amd64",exe,{ exe } } } } ) ;
+		json.add( "Windows",{ { "x86",exe},{ "amd64",exe } } ) ;
 
 		json.done() ;
 

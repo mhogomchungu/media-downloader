@@ -67,17 +67,11 @@ void deno::init( settings& s,Logger& logger,const engines::enginePaths& enginePa
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( { { "Generic" },{ { "x86","deno",{ "deno" } },
-				    { "amd64","deno",{ "deno" } },
-				    { "aarch64","deno",{ "deno" } } } } ) ;
+	json.add( "Generic",{ { "x86","deno" },{ "amd64","deno" },{ "aarch64","deno" } } ) ;
 
-	json.add( { { "Windows" },{ { "win7x86","deno.exe",{ "deno.exe" } },
-				    { "win7amd64","deno.exe",{ "deno.exe" } },
-				    { "x86","deno.exe",{ "deno.exe" } },
-				    { "amd64","deno.exe",{ "deno.exe" } } } } ) ;
+	json.add( "Windows",{ { { "x86","deno.exe" },{ "amd64","deno.exe" } } } ) ;
 
-	json.add( { { "MacOS" },{ { "amd64","deno",{ "deno" } },
-				  { "aarch64","deno",{ "deno" } } } } ) ;
+	json.add( "MacOS",{ { "amd64","deno" },{ "aarch64","deno" } } ) ;
 
 	json.done() ;
 

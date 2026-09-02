@@ -290,6 +290,29 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
+utility::addJsonCmd::entry::args yt_dlp::entryCmd( const QString& e )
+{
+	utility::addJsonCmd::entry::args data ;
+
+	if( e == "Windows" ){
+
+		data.emplace_back( "win7x86",_NicolaasjanYtdlpFor32BitWin7() ) ;
+		data.emplace_back( "win7amd64",_NicolaasjanYtdlpFor64BitWin7() ) ;
+		data.emplace_back( "x86",_Windows32BitBinaryName() ) ;
+		data.emplace_back( "amd64",_Windows64BitBinaryName() ) ;
+
+	}else if( e == "MacOS" ){
+
+		data.emplace_back( "x86",_OSXBinaryName() ) ;
+		data.emplace_back( "amd64",_OSXBinaryName() ) ;
+	}else{
+		data.emplace_back( "x86","yt-dlp" ) ;
+		data.emplace_back( "amd64","yt-dlp" ) ;
+	}
+
+	return data ;
+}
+
 QJsonObject yt_dlp::cmdNightly( QJsonObject obj,const QJsonObject& xbj )
 {
 	auto version = xbj.value( "Version" ).toString() ;
@@ -301,22 +324,34 @@ QJsonObject yt_dlp::cmdNightly( QJsonObject obj,const QJsonObject& xbj )
 		obj.insert( "Version",version ) ;
 	}
 
+	auto autoUpdate = xbj.value( "AutoUpdate" ) ;
+
+	if( !autoUpdate.isUndefined() ){
+
+		obj.insert( "AutoUpdate",autoUpdate.toBool() ) ;
+	}
+
+	auto backendPath = xbj.value( "BackendPath" ) ;
+
+	if( !backendPath.isUndefined() ){
+
+		obj.insert( "BackendPath",backendPath.toString() ) ;
+	}
+
 	obj.insert( "Name","yt-dlp-nightly" ) ;
 
 	obj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp-nightly-builds/releases/latest" ) ;
 
 	utility::addJsonCmd json( obj ) ;
 
-	json.add( { { "Generic" },{ { "x86","yt-dlp-nightly",{ "yt-dlp-nightly" } },
-				    { "amd64","yt-dlp-nightly",{ "yt-dlp-nightly" } } } } ) ;
+	json.add( "Generic",{ { "x86","yt-dlp-nightly" },{ "amd64","yt-dlp-nightly" } } ) ;
 
-	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
-				    { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
-				    { "x86","yt-dlp_x86-nightly.exe",{ "yt-dlp_x86-nightly.exe" } },
-				    { "amd64","yt-dlp-nightly.exe",{ "yt-dlp-nightly.exe" } } } } ) ;
+	json.add( "Windows",{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7() },
+			      { "win7amd64",_NicolaasjanYtdlpFor64BitWin7() },
+			      { "x86","yt-dlp_x86-nightly.exe" },
+			      { "amd64","yt-dlp-nightly.exe" } } ) ;
 
-	json.add( { { "MacOS" },{ { "x86","yt-dlp-nightly_macos",{ "yt-dlp-nightly_macos" } },
-				  { "amd64","yt-dlp-nightly_macos",{ "yt-dlp-nightly_macos" } } } } ) ;
+	json.add( "MacOS",{ { "x86","yt-dlp-nightly_macos" },{ "amd64","yt-dlp-nightly_macos" } } ) ;
 
 	json.done() ;
 
@@ -368,16 +403,13 @@ QJsonObject yt_dlp::cmdAria2C( QJsonObject obj,const QJsonObject& xbj )
 
 	utility::addJsonCmd json( obj ) ;
 
-	json.add( { { "Generic" },{ { "x86","yt-dlp",{ "stdbuf","-o","L","yt-dlp" } },
-				    { "amd64","yt-dlp",{ "stdbuf","-o","L","yt-dlp" } } } } ) ;
+	QStringList args{ "stdbuf","-o","L","yt-dlp" } ;
 
-	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
-				    { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
-				    { "x86",_Windows32BitBinaryName(),{ _Windows32BitBinaryName() } },
-				    { "amd64",_Windows64BitBinaryName(),{ _Windows64BitBinaryName() } } } } ) ;
+	json.add( "Generic",{ { "x86","yt-dlp",args },{ "amd64","yt-dlp",args } } ) ;
 
-	json.add( { { "MacOS" },{ { "x86",_OSXBinaryName(),{ _OSXBinaryName() } },
-				  { "amd64",_OSXBinaryName(),{ _OSXBinaryName() } } } } ) ;
+	json.add( "Windows",yt_dlp::entryCmd ) ;
+
+	json.add( "MacOS",yt_dlp::entryCmd ) ;
 
 	return obj ;
 }
@@ -388,16 +420,11 @@ QJsonObject yt_dlp::init()
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( { { "Generic" },{ { "x86","yt-dlp",{ "yt-dlp" } },
-				    { "amd64","yt-dlp",{ "yt-dlp" } } } } ) ;
+	json.add( "Generic",yt_dlp::entryCmd ) ;
 
-	json.add( { { "Windows" },{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7(),{ _NicolaasjanYtdlpFor32BitWin7() } },
-				    { "win7amd64",_NicolaasjanYtdlpFor64BitWin7(),{ _NicolaasjanYtdlpFor64BitWin7() } },
-				    { "x86",_Windows32BitBinaryName(),{ _Windows32BitBinaryName() } },
-				    { "amd64",_Windows64BitBinaryName(),{ _Windows64BitBinaryName() } } } } ) ;
+	json.add( "Windows",yt_dlp::entryCmd ) ;
 
-	json.add( { { "MacOS" },{ { "x86",_OSXBinaryName(),{ _OSXBinaryName() } },
-				  { "amd64",_OSXBinaryName(),{ _OSXBinaryName() } } } } ) ;
+	json.add( "MacOS",yt_dlp::entryCmd ) ;
 
 	json.done() ;
 

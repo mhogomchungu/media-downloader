@@ -1726,18 +1726,18 @@ void utility::addJsonCmd::add( const utility::addJsonCmd::entry& e )
 
 		QJsonObject a ;
 
-		a.insert( "Name",it.exeName ) ;
+		a.insert( "Name",it.exeName() ) ;
 
 		QJsonArray arr ;
 
-		for( const auto& xt : it.exeArgs ){
+		for( const auto& xt : it.exeArgs() ){
 
 			arr.append( xt ) ;
 		}
 
 		a.insert( "Args",arr ) ;
 
-		s.insert( it.archName,a ) ;
+		s.insert( it.archName(),a ) ;
 	}
 
 	m_obj.insert( e.platform,s ) ;

@@ -52,13 +52,12 @@ void aria2c::init( Logger& logger,const engines::enginePaths& enginePath )
 
 		utility::addJsonCmd json( mainObj ) ;
 
-		json.add( { { "Generic" },{ { "x86",name,{ "stdbuf","-o","L",name } },
-					    { "amd64",name,{ "stdbuf","-o","L",name } } } } ) ;
+		json.add( "Generic",{ { "x86",name,{ "stdbuf","-o","L",name } },
+				      { "amd64",name,{ "stdbuf","-o","L",name } } } ) ;
 
 		auto exe = name + ".exe" ;
 
-		json.add( { { "Windows" },{ { "x86",exe,{ exe } },
-					    { "amd64",exe,{ exe } } } } ) ;
+		json.add( "Windows",{ { "x86",exe },{ "amd64",exe, } } ) ;
 
 		json.done() ;
 

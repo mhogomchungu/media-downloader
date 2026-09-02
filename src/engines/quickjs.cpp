@@ -33,13 +33,12 @@ QJsonObject quickjs::init( Logger& logger,const engines::enginePaths& enginePath
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( { { "Generic" },{ { "x86","qjs",{ "qjs" } },
-				    { "amd64","qjs",{ "qjs" } } } } ) ;
+	json.add( "Generic",{ { "x86","qjs"},{ "amd64","qjs" } } ) ;
 
-	json.add( { { "Windows" },{ { "win7x86","qjs.exe",{ "qjs.exe" } },
-				    { "win7amd64","qjs.exe",{ "qjs.exe" } },
-				    { "x86","qjs.exe",{ "qjs.exe" } },
-				    { "amd64","qjs.exe",{ "qjs.exe" } } } } ) ;
+	json.add( "Windows",{ { "win7x86","qjs.exe" },
+			      { "win7amd64","qjs.exe" },
+			      { "x86","qjs.exe" },
+			      { "amd64","qjs.exe" } } ) ;
 
 	json.done() ;
 

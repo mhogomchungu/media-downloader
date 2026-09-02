@@ -3039,7 +3039,7 @@ void engines::EnginesList::sort()
 			}
 		}
 
-		if( l.name() == "yt-dlp-test" ){
+		if( l.name() == "yt-dlp-aria2c" ){
 
 			if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg" ) ){
 
@@ -3049,9 +3049,29 @@ void engines::EnginesList::sort()
 			}
 		}
 
-		if( r.name() == "yt-dlp-test" ){
+		if( r.name() == "yt-dlp-aria2c" ){
 
 			if( utils::misc::equalsAny( l.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg" ) ){
+
+				return true ;
+			}else{
+				return false ;
+			}
+		}
+
+		if( l.name() == "yt-dlp-test" ){
+
+			if( utils::misc::equalsAny( r.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg","yt-dlp-aria2c" ) ){
+
+				return false ;
+			}else{
+				return true ;
+			}
+		}
+
+		if( r.name() == "yt-dlp-test" ){
+
+			if( utils::misc::equalsAny( l.name(),"yt-dlp","yt-dlp-nightly","yt-dlp-ffmpeg","yt-dlp-aria2c" ) ){
 
 				return true ;
 			}else{
@@ -3065,15 +3085,7 @@ void engines::EnginesList::sort()
 
 void engines::EnginesList::add( engines::EnginesList::engine m )
 {
-	for( auto it = m_backends.begin() ; it != m_backends.end() ; it++ ){
-
-		if( it->get().name() == m->name() ){
-
-			m_backends.erase( it ) ;
-
-			break ;
-		}
-	}
+	this->remove( m->name() ) ;
 
 	m_backends.emplace_back( m.move() ) ;
 }

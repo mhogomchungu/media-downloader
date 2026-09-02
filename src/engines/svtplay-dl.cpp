@@ -373,8 +373,8 @@ void svtplay_dl::init( settings&,Logger& logger,const engines::enginePaths& engi
 
 		utility::addJsonCmd json( mainObj ) ;
 
-		json.add( { { "Generic" },{ { "amd64","svtplay-dl",{ "svtplay-dl" } },
-					  { "aarch64","svtplay-dl",{ "svtplay-dl" } } } } ) ;
+		json.add( "Generic",{ { "amd64","svtplay-dl" },{ "aarch64","svtplay-dl" } } ) ;
+
 		json.done() ;
 
 		mainObj.insert( "Version","1" ) ;

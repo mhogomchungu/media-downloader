@@ -33,19 +33,17 @@ void quickjs_ng::init( Logger& logger,const engines::enginePaths& enginePath )
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( { { "Generic" },{ { "x86","qjs-linux-x86",{ "qjs-linux-x86" } },
-				    { "aarch64","qjs-linux-aarch64",{ "qjs-linux-aarch64" } },
-				    { "amd64","qjs-linux-x86_64",{ "qjs-linux-x86_64" } } } } ) ;
+	json.add( "Generic",{ { "x86","qjs-linux-x86" },
+			      { "aarch64","qjs-linux-aarch64" },
+			      { "amd64","qjs-linux-x86_64" } } ) ;
 
 
-	json.add( { { "Windows" },{ { "win7x86","qjs-windows-x86.exe",{ "qjs-windows-x86.exe" } },
-				    { "win7amd64","qjs-windows-x86_64.exe",{ "qjs-windows-x86_64.exe" } },
-				    { "x86","qjs-windows-x86.exe",{ "qjs-windows-x86.exe" } },
-				    { "amd64","qjs-windows-x86_64.exe",{ "qjs-windows-x86_64.exe" } } } } ) ;
+	json.add( "Windows",{ { "win7x86","qjs-windows-x86.exe" },
+			      { "win7amd64","qjs-windows-x86_64.exe" },
+			      { "x86","qjs-windows-x86.exe" },
+			      { "amd64","qjs-windows-x86_64.exe" } } ) ;
 
-	json.add( { { "MacOS" },{ { "x86","qjs-darwin",{ "qjs-darwin" } },
-				  { "aarch64","qjs-darwin",{ "qjs-darwin" } },
-				  { "amd64","qjs-darwin",{ "qjs-darwin" } } } } ) ;
+	json.add( "MacOS",{ { "x86","qjs-darwin" },{ "aarch64","qjs-darwin" },{ "amd64","qjs-darwin" } } ) ;
 
 	json.done() ;
 
