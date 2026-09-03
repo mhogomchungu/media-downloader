@@ -102,7 +102,7 @@ QString about::language()
 	auto a = QObject::tr( "Current Language in Use: %1" ).arg( m ) ;
 	auto b = QObject::tr( "Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)" ) ;
 
-	b = b.replace( "Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)","" ) ;
+	b = b.replace( " NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)","" ) ;
 
 	return a + "<br>" + b ;
 }
