@@ -1147,11 +1147,11 @@ Exampe 2: ${gateway}:8080</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Translators:</source>
+        <source>Qt Version: %1&lt;br&gt;&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Qt Version: %1&lt;br&gt;&lt;br&gt;</source>
+        <source>Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

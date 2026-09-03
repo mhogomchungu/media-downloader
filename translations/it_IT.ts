@@ -1148,12 +1148,12 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Lingua in uso: %1</translation>
     </message>
     <message>
-        <source>Translators:</source>
-        <translation>Traduzione: v. 03.09.2026 di RB</translation>
-    </message>
-    <message>
         <source>Qt Version: %1&lt;br&gt;&lt;br&gt;</source>
         <translation>Versione Qt: %1&lt;br&gt;&lt;br&gt;</translation>
+    </message>
+    <message>
+        <source>Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
