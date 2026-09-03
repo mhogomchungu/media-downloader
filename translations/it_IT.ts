@@ -1145,15 +1145,15 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     </message>
     <message>
         <source>Current Language in Use: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Lingua in uso: %1</translation>
     </message>
     <message>
         <source>Translators:</source>
-        <translation type="unfinished"></translation>
+        <translation>Traduzione: v. 03.09.2026 di RB</translation>
     </message>
     <message>
         <source>Qt Version: %1&lt;br&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione Qt: %1&lt;br&gt;&lt;br&gt;</translation>
     </message>
 </context>
 <context>
