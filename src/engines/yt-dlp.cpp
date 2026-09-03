@@ -313,6 +313,29 @@ utility::addJsonCmd::entry::args yt_dlp::entryCmd( const QString& e )
 	return data ;
 }
 
+utility::addJsonCmd::entry::args yt_dlp::entryCmdNightly( const QString& e )
+{
+	utility::addJsonCmd::entry::args data ;
+
+	if( e == "Windows" ){
+
+		data.emplace_back( "win7x86",_NicolaasjanYtdlpFor32BitWin7() ) ;
+		data.emplace_back( "win7amd64",_NicolaasjanYtdlpFor64BitWin7() ) ;
+		data.emplace_back( "x86","yt-dlp_x86-nightly.exe" ) ;
+		data.emplace_back( "amd64","yt-dlp-nightly.exe" ) ;
+
+	}else if( e == "MacOS" ){
+
+		data.emplace_back( "x86","yt-dlp-nightly_macos" ) ;
+		data.emplace_back( "amd64","yt-dlp-nightly_macos" ) ;
+	}else{
+		data.emplace_back( "x86","yt-dlp-nightly" ) ;
+		data.emplace_back( "amd64","yt-dlp-nightly" ) ;
+	}
+
+	return data ;
+}
+
 QJsonObject yt_dlp::cmdNightly( QJsonObject obj,const QJsonObject& xbj )
 {
 	auto version = xbj.value( "Version" ).toString() ;
@@ -344,14 +367,11 @@ QJsonObject yt_dlp::cmdNightly( QJsonObject obj,const QJsonObject& xbj )
 
 	utility::addJsonCmd json( obj ) ;
 
-	json.add( "Generic",{ { "x86","yt-dlp-nightly" },{ "amd64","yt-dlp-nightly" } } ) ;
+	json.add( "Generic",yt_dlp::entryCmdNightly ) ;
 
-	json.add( "Windows",{ { "win7x86",_NicolaasjanYtdlpFor32BitWin7() },
-			      { "win7amd64",_NicolaasjanYtdlpFor64BitWin7() },
-			      { "x86","yt-dlp_x86-nightly.exe" },
-			      { "amd64","yt-dlp-nightly.exe" } } ) ;
+	json.add( "Windows",yt_dlp::entryCmdNightly ) ;
 
-	json.add( "MacOS",{ { "x86","yt-dlp-nightly_macos" },{ "amd64","yt-dlp-nightly_macos" } } ) ;
+	json.add( "MacOS",yt_dlp::entryCmdNightly ) ;
 
 	json.done() ;
 

@@ -18,7 +18,31 @@
  */
 
 #include "quickjs_ng.h"
-#include "../utility.h"
+
+utility::addJsonCmd::entry::args quickjs_ng::entryCmd( const QString& e )
+{
+	utility::addJsonCmd::entry::args data ;
+
+	if( e == "Windows" ){
+
+		data.emplace_back( "win7x86","qjs-windows-x86.exe" ) ;
+		data.emplace_back( "win7amd64","qjs-windows-x86_64.exe" ) ;
+		data.emplace_back( "x86","qjs-windows-x86.exe" ) ;
+		data.emplace_back( "amd64","qjs-windows-x86_64.exe" ) ;
+
+	}else if( e == "MacOS" ){
+
+		data.emplace_back( "x86","qjs-darwin" ) ;
+		data.emplace_back( "aarch64","qjs-darwin" ) ;
+		data.emplace_back( "amd64","qjs-darwin" ) ;
+	}else{
+		data.emplace_back( "x86","qjs-linux-x86" ) ;
+		data.emplace_back( "aarch64","qjs-linux-aarch64" ) ;
+		data.emplace_back( "amd64","qjs-linux-x86_64" ) ;
+	}
+
+	return data ;
+}
 
 void quickjs_ng::init( Logger& logger,const engines::enginePaths& enginePath )
 {
@@ -33,17 +57,11 @@ void quickjs_ng::init( Logger& logger,const engines::enginePaths& enginePath )
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( "Generic",{ { "x86","qjs-linux-x86" },
-			      { "aarch64","qjs-linux-aarch64" },
-			      { "amd64","qjs-linux-x86_64" } } ) ;
+	json.add( "Generic",quickjs_ng::entryCmd ) ;
 
+	json.add( "Windows",quickjs_ng::entryCmd ) ;
 
-	json.add( "Windows",{ { "win7x86","qjs-windows-x86.exe" },
-			      { "win7amd64","qjs-windows-x86_64.exe" },
-			      { "x86","qjs-windows-x86.exe" },
-			      { "amd64","qjs-windows-x86_64.exe" } } ) ;
-
-	json.add( "MacOS",{ { "x86","qjs-darwin" },{ "aarch64","qjs-darwin" },{ "amd64","qjs-darwin" } } ) ;
+	json.add( "MacOS",quickjs_ng::entryCmd ) ;
 
 	json.done() ;
 

@@ -18,7 +18,6 @@
  */
 
 #include "deno.h"
-#include "../utility.h"
 #include <QProcess>
 
 util::version deno::version( const QString& m )
@@ -37,28 +36,28 @@ util::version deno::version( const QString& m )
 	}
 }
 
-void deno::init( settings& s,Logger& logger,const engines::enginePaths& enginePath )
+utility::addJsonCmd::entry::args deno::entryCmd( const QString& e )
+{
+	utility::addJsonCmd::entry::args data ;
+
+	if( e == "Windows" ){
+
+		data.emplace_back( "x86","deno.exe" ) ;
+		data.emplace_back( "amd64","deno.exe" ) ;
+	}else{
+		data.emplace_back( "x86","deno" ) ;
+		data.emplace_back( "aarch64","deno" ) ;
+		data.emplace_back( "amd64","deno" ) ;
+	}
+
+	return data ;
+}
+
+void deno::init( settings&,Logger& logger,const engines::enginePaths& enginePath )
 {
 	auto m = enginePath.enginePath( "deno.json" ) ;
 
 	if( QFile::exists( m ) ){
-
-		auto p = enginePath.binPath( "deno" ) ;
-
-		if( QFile::exists( p ) && utility::platformisFlatPak() ){
-
-			if( !s.denoInFlatpakUpdated() ){
-
-				auto e = deno::version( p ) ;
-
-				if( e.valid() && e < "2.6.7" ){
-
-					QFile::remove( p ) ;
-				}else{
-					s.setDenoInFlatpakUpdated( true ) ;
-				}
-			}
-		}
 
 		return ;
 	}
@@ -67,11 +66,11 @@ void deno::init( settings& s,Logger& logger,const engines::enginePaths& enginePa
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( "Generic",{ { "x86","deno" },{ "amd64","deno" },{ "aarch64","deno" } } ) ;
+	json.add( "Generic",deno::entryCmd ) ;
 
-	json.add( "Windows",{ { { "x86","deno.exe" },{ "amd64","deno.exe" } } } ) ;
+	json.add( "Windows",deno::entryCmd ) ;
 
-	json.add( "MacOS",{ { "amd64","deno" },{ "aarch64","deno" } } ) ;
+	json.add( "MacOS",deno::entryCmd ) ;
 
 	json.done() ;
 

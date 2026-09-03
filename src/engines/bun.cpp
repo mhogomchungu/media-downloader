@@ -18,7 +18,23 @@
  */
 
 #include "bun.h"
-#include "../utility.h"
+
+utility::addJsonCmd::entry::args bun::entryCmd( const QString& e )
+{
+	utility::addJsonCmd::entry::args data ;
+
+	if( e == "Windows" ){
+
+		data.emplace_back( "x86","bun.exe" ) ;
+		data.emplace_back( "amd64","bun.exe" ) ;
+	}else{
+		data.emplace_back( "x86","bun" ) ;
+		data.emplace_back( "aarch64","bun" ) ;
+		data.emplace_back( "amd64","bun" ) ;
+	}
+
+	return data ;
+}
 
 void bun::init( settings&,Logger& logger,const engines::enginePaths& enginePath )
 {
@@ -28,11 +44,11 @@ void bun::init( settings&,Logger& logger,const engines::enginePaths& enginePath 
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( "Generic",{ { "x86","bun" },{ "amd64","bun" },{ "aarch64","bun" } } ) ;
+	json.add( "Generic",bun::entryCmd ) ;
 
-	json.add( "Windows",{ { "win7x86","bun.exe" },{ "win7amd64","bun.exe" },{ "x86","bun.exe" },{ "amd64","bun.exe" } } ) ;
+	json.add( "Windows",bun::entryCmd ) ;
 
-	json.add( "MacOS",{ { "amd64","bun" },{ "aarch64","bun" } } ) ;
+	json.add( "MacOS",bun::entryCmd ) ;
 
 	json.done() ;
 

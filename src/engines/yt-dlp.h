@@ -119,7 +119,9 @@ public:
 
 	yt_dlp( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
-	static utility::addJsonCmd::entry::args entryCmd( const QString& e ) ;
+	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;
+	static utility::addJsonCmd::entry::args entryCmdNightly( const QString& ) ;
+
 	bool nightly() ;
 	void parseMetadata( QStringList& mm,const QString& txt,const QString& original,const QString& New ) ;
 	std::vector< engines::engine::baseEngine::mediaInfo >

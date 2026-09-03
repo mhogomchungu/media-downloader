@@ -18,6 +18,7 @@
  */
 
 #include "../engines.h"
+#include "../utility.h"
 
 class quickjs : public engines::engine::baseEngine
 {
@@ -32,5 +33,7 @@ public:
 	QString parseVersionInfo( const utils::qprocess::outPut& ) override ;
 	quickjs( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;
+
 	QString namePrefix() ;
 };

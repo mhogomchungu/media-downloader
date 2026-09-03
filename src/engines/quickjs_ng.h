@@ -19,6 +19,7 @@
 
 #include "../engines.h"
 #include "../utils/miscellaneous.hpp"
+#include "../utility.h"
 
 class quickjs_ng : public engines::engine::baseEngine
 {
@@ -48,4 +49,7 @@ public:
 	static nameAndExe getNameAndExe() ;
 	~quickjs_ng() ;
 	quickjs_ng( const engines&,const engines::engine&,QJsonObject& ) ;
+private:
+	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;
+
 };

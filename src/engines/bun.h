@@ -19,6 +19,7 @@
 
 #include "../engines.h"
 #include "../settings.h"
+#include "../utility.h"
 
 class bun : public engines::engine::baseEngine
 {
@@ -27,4 +28,7 @@ public:
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	bun( const engines&,const engines::engine&,QJsonObject& ) ;
 	~bun() ;
+private:
+	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;
+
 } ;

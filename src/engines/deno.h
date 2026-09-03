@@ -19,6 +19,7 @@
 
 #include "../engines.h"
 #include "../settings.h"
+#include "../utility.h"
 
 class deno : public engines::engine::baseEngine
 {
@@ -31,5 +32,6 @@ public:
 	bool autoUpdate( const engines::engine::baseEngine::onlineVersion&,const util::version& ) override ;
 	deno( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;
 	static util::version version( const QString& ) ;
 };

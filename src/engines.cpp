@@ -2793,7 +2793,8 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 
 	}else if( utility::platformIsLinux() && utility::CPU().x86_32() ){
 
-		quickjs::init( logger,enginePath ) ;
+		quickjs_ng::init( logger,enginePath ) ;
+		quickjs::remove( logger,enginePath ) ;
 		deno::remove( logger,enginePath ) ;
 		bun::remove( logger,enginePath ) ;
 	}else{

@@ -18,7 +18,26 @@
  */
 
 #include "quickjs.h"
-#include "../utility.h"
+
+utility::addJsonCmd::entry::args quickjs::entryCmd( const QString& e )
+{
+	utility::addJsonCmd::entry::args data ;
+
+	if( e == "Windows" ){
+
+		data.emplace_back( "win7x86","qjs.exe" ) ;
+		data.emplace_back( "win7amd64","qjs.exe" ) ;
+		data.emplace_back( "x86","qjs.exe" ) ;
+		data.emplace_back( "amd64","qjs.exe" ) ;
+
+	}else{
+		data.emplace_back( "x86","qjs" ) ;
+		data.emplace_back( "aarch64","qjs" ) ;
+		data.emplace_back( "amd64","qjs" ) ;
+	}
+
+	return data ;
+}
 
 QJsonObject quickjs::init( Logger& logger,const engines::enginePaths& enginePath )
 {
@@ -33,12 +52,9 @@ QJsonObject quickjs::init( Logger& logger,const engines::enginePaths& enginePath
 
 	utility::addJsonCmd json( mainObj ) ;
 
-	json.add( "Generic",{ { "x86","qjs"},{ "amd64","qjs" } } ) ;
+	json.add( "Generic",quickjs::entryCmd ) ;
 
-	json.add( "Windows",{ { "win7x86","qjs.exe" },
-			      { "win7amd64","qjs.exe" },
-			      { "x86","qjs.exe" },
-			      { "amd64","qjs.exe" } } ) ;
+	json.add( "Windows",quickjs::entryCmd ) ;
 
 	json.done() ;
 
