@@ -540,10 +540,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Email</translation>
     </message>
     <message>
-        <source>Qt Version</source>
-        <translation>Έκδοση Qt</translation>
-    </message>
-    <message>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
         <translation>Αυτό το πρόγραμμα είναι ελεύθερο λογισμικό; μπορείτε να το αναδιανείμετε ή/και να το τροποποιήσετε σύμφωνα με τους όρους της Γενικής Άδειας Δημόσιας Χρήσης GNU, όπως δημοσιεύεται από το Ίδρυμα Ελεύθερου Λογισμικού; είτε την έκδοση 2 της Άδειας, είτε (κατ&apos; επιλογή σας) οποιαδήποτε μεταγενέστερη έκδοση.</translation>
     </message>
@@ -1145,6 +1141,18 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sign In To Confirm You Age</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current Language in Use: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translators:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Version: %1&lt;br&gt;&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

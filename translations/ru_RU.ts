@@ -539,10 +539,6 @@ Exampe 2: ${gateway}:8080</source>
         <translation>Электронная почта</translation>
     </message>
     <message>
-        <source>Qt Version</source>
-        <translation>Версия Qt</translation>
-    </message>
-    <message>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
         <translation>Эта программа является бесплатным ПО; вы можете распространять его и/или изменять в соответствии с условиями GNU General Public License, опубликованной Free Software Foundation; либо версией 2 этой лицензии, либо (по вашему выбору) любой более поздней версией.</translation>
     </message>
@@ -1144,6 +1140,18 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Sign In To Confirm You Age</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current Language in Use: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translators:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Version: %1&lt;br&gt;&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -22,6 +22,7 @@
 #include "utility.h"
 
 #include <QDesktopServices>
+#include <QtVersion>
 
 void about::enableAll()
 {
@@ -61,20 +62,12 @@ void about::retranslateUi()
 	auto license   = QObject::tr( "License" ) ;
 	auto email     = QObject::tr( "Email" ) ;
 
-	auto QtVersion = [ & ](){
-
-		if( utility::platformIsLikeWindows() ){
-
-			return QObject::tr( "Qt Version" ) + ": " QTVERSION "<br><br>" ;
-		}else{
-			return QString() ;
-		}
-	}() ;
+	auto QtVersion = this->QtVersion() ;
 
 	auto banner1 = QObject::tr( "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version." ) ;
 	auto banner2 = QObject::tr( "This program is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details." ) ;
 
-	auto about = QString( "<br><br><br><br><center>%1: %2<br><br>%3%4: %5, Francis Banyikwa<br><br>%6: mhogomchungu@gmail.com<br><br>%7<br><br>%8: GPLv2+<br><br>" + banner1 + "<br><br>" + banner2 + "</center>" ) ;
+	auto about = QString( "<br><br><center>%1: %2<br><br>%3%4: %5, Francis Banyikwa<br><br>%6: mhogomchungu@gmail.com<br><br>%7<br><br>%8: GPLv2+<br><br>" + banner1 + "<br><br>" + banner2 + "<br><br>" + this->language() + "</center>" ) ;
 
 	auto vv = utility::aboutVersionInfo() ;
 
@@ -85,6 +78,7 @@ void about::retranslateUi()
 
 void about::tabEntered()
 {
+	this->retranslateUi() ;
 }
 
 void about::tabExited()
@@ -97,6 +91,23 @@ void about::exiting()
 
 void about::textAlignmentChanged( Qt::LayoutDirection )
 {
+}
+
+QString about::language()
+{
+	auto m = m_ctx.Settings().localizationLanguage() ;
+
+	m = m_ctx.Translator().translate( m ) ;
+
+	auto a = QObject::tr( "Current Language in Use: %1" ).arg( m ) ;
+	auto b = QObject::tr( "Translators:" ) ;
+
+	return a + "<br>" + b ;
+}
+
+QString about::QtVersion()
+{
+	return QObject::tr( "Qt Version: %1<br><br>" ).arg( qVersion() ) ;
 }
 
 void about::keyPressed( utility::mainWindowKeyCombo )

@@ -680,10 +680,6 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
         <translation>Italiano (Italia)</translation>
     </message>
     <message>
-        <source>Qt Version</source>
-        <translation>Versione Qt</translation>
-    </message>
-    <message>
         <source>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</source>
         <translation>Questo programma è un software gratuito. &lt;br&gt;Puoi ridistribuirlo e/o modificarlo secondo i termini della GNU (General Public License) pubblicata dalla Free Software Foundation; la versione 2 della Licenza o (a scelta) qualsiasi versione successiva.</translation>
     </message>
@@ -1146,6 +1142,18 @@ Per aggiungere più playlist, separale con uno spazio o una nuova riga</translat
     <message>
         <source>Sign In To Confirm You Age</source>
         <translation>Accedi per confermare la tua età</translation>
+    </message>
+    <message>
+        <source>Current Language in Use: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translators:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Qt Version: %1&lt;br&gt;&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
