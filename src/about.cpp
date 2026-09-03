@@ -22,7 +22,7 @@
 #include "utility.h"
 
 #include <QDesktopServices>
-#include <qtversion.h>
+#include <QtGlobal>
 
 void about::enableAll()
 {
