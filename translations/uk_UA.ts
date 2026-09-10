@@ -1136,23 +1136,23 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Show Download History</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати історію завантажень</translation>
     </message>
     <message>
         <source>Sign In To Confirm You Age</source>
-        <translation type="unfinished"></translation>
+        <translation>Увійдіть, щоб підтвердити свій вік</translation>
     </message>
     <message>
         <source>Current Language in Use: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Поточна мова: %1</translation>
     </message>
     <message>
         <source>Qt Version: %1&lt;br&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Версія Qt: %1&lt;br&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <source>Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)</source>
-        <translation type="unfinished"></translation>
+        <translation>Перекладачі: ПРИКЛАД_ІМЕНІ_ТА_ДАТИ: John Smith(2021-2026), Tembo(2022,2025)</translation>
     </message>
 </context>
 <context>
@@ -1367,11 +1367,11 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Enable Download History</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути історію завантажень</translation>
     </message>
     <message>
         <source>Clear</source>
-        <translation type="unfinished">Очистити</translation>
+        <translation>Очистити</translation>
     </message>
 </context>
 <context>
