@@ -1152,7 +1152,7 @@ Exampe 2: ${gateway}:8080</source>
     </message>
     <message>
         <source>Translators: NAME_AND_DATE_EXAMPLE: John Smith(2021-2026), Tembo(2022,2025)</source>
-        <translation>Перекладачі: ПРИКЛАД_ІМЕНІ_ТА_ДАТИ: John Smith(2021-2026), Tembo(2022,2025)</translation>
+        <translation>Перекладачі:Oleh Hishak (2025-2026)</translation>
     </message>
 </context>
 <context>
