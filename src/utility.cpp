@@ -229,11 +229,11 @@ bool utility::platformisLegacyWindows()
 	}else{
 		const auto m = QOperatingSystemVersion::current() ;
 
-		if( m.majorVersion() < 10 ){
+		if( m < QOperatingSystemVersion::Windows10 ){
 
 			return true ;
 
-		}else if( m.majorVersion() == 10 ){
+		}else if( m == QOperatingSystemVersion::Windows10 ){
 
 			/*
 			 * Windows 10 (1903)       10.0.18362
