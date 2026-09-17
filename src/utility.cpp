@@ -233,8 +233,10 @@ bool utility::platformisLegacyWindows()
 
 			return true ;
 
-		}else if( m == QOperatingSystemVersion::Windows10 ){
+		}else if( m > QOperatingSystemVersion::Windows10 ){
 
+			return false ;
+		}else{
 			/*
 			 * Windows 10 (1903)       10.0.18362
 			 * Windows 10 (1809)       10.0.17763
@@ -246,8 +248,6 @@ bool utility::platformisLegacyWindows()
 			 * Windows 10              10.0.10240
 			 */
 			return m.microVersion() < 16299 ;
-		}else{
-			return false ;
 		}
 	}
 }
