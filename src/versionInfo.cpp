@@ -127,26 +127,29 @@ void versionInfo::check( versionInfo::printVinfo vinfo ) const
 	}
 }
 
-static QString _getGitVersion( const QString& e )
+namespace VersionInfo
 {
-	auto m = util::split( e,"\n" ) ;
+	static QString getGitVersion( const QString& e )
+	{
+		auto m = util::split( e,"\n" ) ;
 
-	if( m.size() > 1 ){
+		if( m.size() > 1 ){
 
-		const auto& s = m[ 1 ] ;
+			const auto& s = m[ 1 ] ;
 
-		if( s.startsWith( "Build version" ) ){
+			if( s.startsWith( "Build version" ) ){
 
-			m = util::split( s," " ) ;
+				m = util::split( s," " ) ;
 
-			if( m.size() > 2 ){
+				if( m.size() > 2 ){
 
-				return m[ 2 ].replace( "\"","" ) ;
+					return m[ 2 ].replace( "\"","" ) ;
+				}
 			}
 		}
-	}
 
-	return {} ;
+		return {} ;
+	}
 }
 
 void versionInfo::updateMediaDownloader( int id,
@@ -208,7 +211,7 @@ void versionInfo::ckMDUpdate( versionInfo::printVinfo vInfo,
 
 		if( lvs == "0.0.0" ){
 
-			lvs = _getGitVersion( obj.value( "body" ).toString() ) ;
+			lvs = VersionInfo::getGitVersion( obj.value( "body" ).toString() ) ;
 		}
 
 		util::version lv = lvs ;

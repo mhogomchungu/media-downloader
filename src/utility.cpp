@@ -38,39 +38,41 @@
 #include <ctime>
 #include <cstring>
 
-class pretendPlatform
+namespace utility
 {
-public:
-	void set( const QStringList& m )
+	class PretendPlatform
 	{
-		m_pretend32Bit = m.contains( "--pretend-x86" ) ;
+	public:
+		void set( const QStringList& m )
+		{
+			m_pretend32Bit = m.contains( "--pretend-x86" ) ;
 
-		if( utility::platformIsWindows() ){
+			if( utility::platformIsWindows() ){
 
-			m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
+				m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
 
-			m_pretendLegacyWindows = m.contains( "--pretend-winLegacy" ) ;
+				m_pretendLegacyWindows = m.contains( "--pretend-winLegacy" ) ;
+			}
 		}
-	}
-	bool isWindows7() const
-	{
-		return m_pretendWindows7 ;
-	}
-	bool is32Bit() const
-	{
-		return m_pretend32Bit ;
-	}
-	bool isLegacyWindows() const
-	{
-		return m_pretendLegacyWindows ;
-	}
-private:
-	bool m_pretend32Bit    = false ;
-	bool m_pretendWindows7 = false ;
-	bool m_pretendLegacyWindows = false ;
-} ;
-
-static pretendPlatform _pretendPlatform ;
+		bool isWindows7() const
+		{
+			return m_pretendWindows7 ;
+		}
+		bool is32Bit() const
+		{
+			return m_pretend32Bit ;
+		}
+		bool isLegacyWindows() const
+		{
+			return m_pretendLegacyWindows ;
+		}
+	private:
+		bool m_pretend32Bit    = false ;
+		bool m_pretendWindows7 = false ;
+		bool m_pretendLegacyWindows = false ;
+	} ;
+	static PretendPlatform pretendPlatform ;
+}
 
 #if defined(__OS2__) || defined(OS2) || defined(_OS2)
 
@@ -211,7 +213,7 @@ bool utility::platformisOS2()
 
 bool utility::platformIsWindows7()
 {
-	if( _pretendPlatform.isWindows7() ){
+	if( utility::pretendPlatform.isWindows7() ){
 
 		return true ;
 	}else{
@@ -223,7 +225,7 @@ bool utility::platformIsWindows7()
 
 bool utility::platformisLegacyWindows()
 {
-	if( _pretendPlatform.isLegacyWindows() || _pretendPlatform.isWindows7() ){
+	if( utility::pretendPlatform.isLegacyWindows() || utility::pretendPlatform.isWindows7() ){
 
 		return true ;
 	}else{
@@ -422,7 +424,9 @@ void utility::windowsSetDarkModeTitleBar( const Context& ctx )
 	}
 }
 
-std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
+namespace utility
+{
+std::vector< utility::PlayerOpts > getMediaPlayers( REGSAM wow )
 {
 	class buffer
 	{
@@ -654,7 +658,7 @@ std::vector< utility::PlayerOpts > _getMediaPlayers( REGSAM wow )
 	return s ;
 }
 
-static void _add_entry( std::vector< utility::PlayerOpts >& a,utility::PlayerOpts& b )
+static void add_entry( std::vector< utility::PlayerOpts >& a,utility::PlayerOpts& b )
 {
 	for( const auto& it : a ){
 
@@ -666,15 +670,16 @@ static void _add_entry( std::vector< utility::PlayerOpts >& a,utility::PlayerOpt
 
 	a.emplace_back( std::move( b ) ) ;
 }
+}
 
 std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 {
-	auto a = _getMediaPlayers( KEY_READ | KEY_WOW64_64KEY ) ;
-	auto b = _getMediaPlayers( KEY_READ | KEY_WOW64_32KEY ) ;
+	auto a = utility::getMediaPlayers( KEY_READ | KEY_WOW64_64KEY ) ;
+	auto b = utility::getMediaPlayers( KEY_READ | KEY_WOW64_32KEY ) ;
 
 	for( auto& it : b ){
 
-		 _add_entry( a,it ) ;
+		 utility::add_entry( a,it ) ;
 	}
 
 	return a ;
@@ -1234,7 +1239,9 @@ bool utility::hasDigitsOnly( const QString& e )
 	return true ;
 }
 
-static QString _downloadPath()
+namespace utility
+{
+static QString downloadPath()
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
 
@@ -1250,6 +1257,7 @@ static QString _downloadPath()
 	return QDir::homePath() + "/Downloads" ;
 #endif
 }
+}
 
 QString utility::homePath()
 {
@@ -1259,7 +1267,7 @@ QString utility::homePath()
 
 	}else if( utility::platformisFlatPak() ){
 
-		return _downloadPath() ;
+		return utility::downloadPath() ;
 	}else{
 		return QDir::homePath() ;
 	}
@@ -1392,7 +1400,9 @@ QString utility::downloadFolder( const Context& ctx )
 	return ctx.Settings().downloadFolder() ;
 }
 
-static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuccess )
+namespace utility
+{
+static QJsonArray saveDownloadList( tableWidget& tableWidget,bool noFinishedSuccess )
 {
 	QJsonArray arr ;
 
@@ -1455,6 +1465,7 @@ static QJsonArray _saveDownloadList( tableWidget& tableWidget,bool noFinishedSuc
 
 	return arr ;
 }
+}
 
 void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool pld )
 {
@@ -1473,7 +1484,7 @@ void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool
 			}
 		}
 
-		auto arr = _saveDownloadList( tableWidget,true ) ;
+		auto arr = utility::saveDownloadList( tableWidget,true ) ;
 
 		auto e = ctx.Engines().engineDirPaths().dataPath( "autoSavedList.json" ) ;
 
@@ -1533,7 +1544,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 		if( !s.isEmpty() ){
 
-			const auto e = _saveDownloadList( tableWidget,false ) ;
+			const auto e = utility::saveDownloadList( tableWidget,false ) ;
 
 			if( s.endsWith( ".json" ) ){
 
@@ -1562,16 +1573,6 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 bool utility::isRelativePath( const QString& e )
 {
 	return QDir::isRelativePath( e ) ;
-}
-
-static QString _stringValue( QJsonObject& obj,const char * key )
-{
-	return obj.value( key ).toString().replace( "\"NA\"","NA" ) ;
-}
-
-static QString _intValue( QJsonObject& obj,const char * key )
-{
-	return QString::number( obj.value( key ).toInt() ) ;
 }
 
 utility::MediaEntry::MediaEntry( const QJsonDocument& doc ) : m_json( doc )
@@ -1642,20 +1643,20 @@ void utility::MediaEntry::parseJson()
 
 	m_formats              = object.value( "formats" ).toArray() ;
 
-	m_title                = _stringValue( object,"title" ) ;
-	m_url                  = _stringValue( object,"webpage_url" ) ;
-	m_uploadDate           = _stringValue( object,"upload_date" ) ;
-	m_id                   = _stringValue( object,"id" ) ;
-	m_thumbnailUrl         = _stringValue( object,"thumbnail" ) ;
-	m_uploader             = _stringValue( object,"uploader" ) ;
-	m_playlist             = _stringValue( object,"playlist" ) ;
-	m_playlist_id          = _stringValue( object,"playlist_id" ) ;
-	m_playlist_title       = _stringValue( object,"playlist_title" ) ;
-	m_playlist_uploader    = _stringValue( object,"playlist_uploader" ) ;
-	m_playlist_uploader_id = _stringValue( object,"playlist_uploader_id" ) ;
+	m_title                = this->stringValue( object,"title" ) ;
+	m_url                  = this->stringValue( object,"webpage_url" ) ;
+	m_uploadDate           = this->stringValue( object,"upload_date" ) ;
+	m_id                   = this->stringValue( object,"id" ) ;
+	m_thumbnailUrl         = this->stringValue( object,"thumbnail" ) ;
+	m_uploader             = this->stringValue( object,"uploader" ) ;
+	m_playlist             = this->stringValue( object,"playlist" ) ;
+	m_playlist_id          = this->stringValue( object,"playlist_id" ) ;
+	m_playlist_title       = this->stringValue( object,"playlist_title" ) ;
+	m_playlist_uploader    = this->stringValue( object,"playlist_uploader" ) ;
+	m_playlist_uploader_id = this->stringValue( object,"playlist_uploader_id" ) ;
 
-	m_n_entries            = _intValue( object,"n_entries" ) ;
-	m_playlist_count       = _intValue( object,"playlist_count" ) ;
+	m_n_entries            = this->intValue( object,"n_entries" ) ;
+	m_playlist_count       = this->intValue( object,"playlist_count" ) ;
 
 	auto headers = object.value( "http_headers" ).toObject() ;
 	m_referer    = headers.value( "Referer" ).toString() ;
@@ -1858,9 +1859,11 @@ bool utility::onlyWantedVersionInfo( const utility::cliArguments& args )
 	}
 }
 
-static util::version _get_process_version( const QString& path,
-					   const QString& cmd,
-					   const QProcessEnvironment& env )
+namespace utility
+{
+static util::version get_process_version( const QString& path,
+					  const QString& cmd,
+					  const QProcessEnvironment& env )
 {
 	auto e = path + "/version_info.txt" ;
 
@@ -1908,7 +1911,7 @@ static util::version _get_process_version( const QString& path,
 	return m ;
 }
 
-static bool _start_updated( QProcess& exe )
+static bool start_updated( QProcess& exe )
 {
 #if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
 	return exe.startDetached() ;
@@ -1917,6 +1920,8 @@ static bool _start_updated( QProcess& exe )
 	exe.waitForFinished( -1 ) ;
 	return true ;
 #endif
+}
+
 }
 
 bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& cargs )
@@ -1975,7 +1980,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 			env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
 		}
 
-		util::version uv = _get_process_version( update,exePath,env ) ;
+		util::version uv = utility::get_process_version( update,exePath,env ) ;
 
 		util::version cv = utility::runningVersionOfMediaDownloader() ;
 
@@ -1992,7 +1997,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 				exe.setArguments( args ) ;
 				exe.setProcessEnvironment( env ) ;
 
-				return _start_updated( exe ) ;
+				return utility::start_updated( exe ) ;
 			}else{
 				utils::qthread::run( [ update ]{ QDir( update ).removeRecursively() ; } ) ;
 			}
@@ -2007,6 +2012,8 @@ bool utility::platformIsLikeWindows()
 	return utility::platformIsWindows() || utility::platformisOS2() ;
 }
 
+namespace utility
+{
 class runTimeVersionInfo
 {
 public:
@@ -2031,16 +2038,18 @@ private:
 	QString m_aboutInstanceVersion ;
 } ;
 
-static runTimeVersionInfo& _runTimeVersions()
+static runTimeVersionInfo& runTimeVersions()
 {
 	static runTimeVersionInfo m ;
 
 	return m ;
 }
 
+}
+
 QString utility::aboutVersionInfo()
 {
-	const auto& e = _runTimeVersions().aboutInstanceVersion() ;
+	const auto& e = utility::runTimeVersions().aboutInstanceVersion() ;
 
 	if( e.isEmpty() ){
 
@@ -2088,7 +2097,7 @@ bool utility::runningGitVersion( const QString& m )
 
 const QString& utility::fakeRunningVersionOfMediaDownloader()
 {
-	return _runTimeVersions().instanceVersion() ;
+	return utility::runTimeVersions().instanceVersion() ;
 }
 
 QString utility::runningVersionOfMediaDownloader()
@@ -2132,12 +2141,12 @@ QString utility::parseVersionInfo( const utils::qprocess::outPut& r )
 
 void utility::setRunningVersionOfMediaDownloader( const QString& e )
 {
-	_runTimeVersions().setInstanceVersion( e ) ;
+	utility::runTimeVersions().setInstanceVersion( e ) ;
 }
 
 void utility::setHelpVersionOfMediaDownloader( const QString& e )
 {
-	_runTimeVersions().setAboutInstanceVersion( e ) ;
+	utility::runTimeVersions().setAboutInstanceVersion( e ) ;
 }
 
 QStringList utility::args::parseOptions( const QString& e,const engines::engine& engine )
@@ -2282,18 +2291,20 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 	}
 }
 
-static bool _useFakeHash ;
+namespace utility
+{
+	static bool useFakeHash ;
+	static bool cliArguments_debug ;
+}
 
 bool utility::cliArguments::useFakeMdHash()
 {
-	return _useFakeHash ;
+	return utility::useFakeHash ;
 }
-
-static bool _cliArguments_debug ;
 
 bool utility::cliArguments::debug()
 {
-	return _cliArguments_debug ;
+	return utility::cliArguments_debug ;
 }
 
 utility::cliArguments::cliArguments( int argc,char ** argv )
@@ -2305,14 +2316,14 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 
 	if( m_args.contains( "--qDebug" ) || m_args.contains( "--qdebug" ) || m_args.contains( "--debug" ) ){
 
-		_cliArguments_debug = true ;
+		utility::cliArguments_debug = true ;
 	}else{
-		_cliArguments_debug = false ;
+		utility::cliArguments_debug = false ;
 	}
 
-	_useFakeHash = this->contains( "--fake-hash" ) ;
+	utility::useFakeHash = this->contains( "--fake-hash" ) ;
 
-	_pretendPlatform.set( m_args ) ;
+	utility::pretendPlatform.set( m_args ) ;
 
 	if( this->runningUpdated() ){
 
@@ -2525,7 +2536,9 @@ void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row,bool showHi
 	}
 }
 
-static QStringList _listOptionsFromDownloadOptions( const QString& e )
+namespace utility
+{
+static QStringList listOptionsFromDownloadOptions( const QString& e )
 {
 	QStringList m ;
 
@@ -2552,6 +2565,8 @@ static QStringList _listOptionsFromDownloadOptions( const QString& e )
 	return m ;
 }
 
+}
+
 void utility::addToListOptionsFromsDownload( QStringList& args,
 					     const QString& downLoadOptions,
 					     const Context& ctx,
@@ -2559,7 +2574,7 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 {
 	auto m = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
 
-	auto ee = _listOptionsFromDownloadOptions( m ) ;
+	auto ee = utility::listOptionsFromDownloadOptions( m ) ;
 
 	const auto& mm = ctx.Engines().networkProxy() ;
 
@@ -2575,9 +2590,9 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 		args = args + ee ;
 	}
 
-	auto ss = args + _listOptionsFromDownloadOptions( downLoadOptions ) ;
+	auto ss = args + utility::listOptionsFromDownloadOptions( downLoadOptions ) ;
 
-	for( int i = ss.size() - 2 ; i > -1 ; i-- ){
+	for( int i = static_cast< int >( ss.size() ) - 2 ; i > -1 ; i-- ){
 
 		if( ss[ i ] == "--proxy" ){
 
@@ -2988,7 +3003,7 @@ utility::CPU::CPU() : m_cpu( utility::CPU::getCPU() )
 
 bool utility::CPU::x86_32() const
 {
-	if( _pretendPlatform.is32Bit() ){
+	if( utility::pretendPlatform.is32Bit() ){
 
 		return true ;
 	}else{

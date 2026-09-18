@@ -586,13 +586,16 @@ void library::arrangeAndShow()
 	this->addEntrySlot( m_directoryEntries.Iter() ) ;
 }
 
-static void _set_option( QMenu& m,const QString& tr,const QString& utr,bool o )
+namespace Library
 {
-	auto ac = m.addAction( tr ) ;
-	ac->setObjectName( utr ) ;
-	ac->setCheckable( true ) ;
-	ac->setChecked( o ) ;
-	m.addAction( ac ) ;
+	static void set_option( QMenu& m,const QString& tr,const QString& utr,bool o )
+	{
+		auto ac = m.addAction( tr ) ;
+		ac->setObjectName( utr ) ;
+		ac->setCheckable( true ) ;
+		ac->setChecked( o ) ;
+		m.addAction( ac ) ;
+	}
 }
 
 void library::arrangeEntries( int )
@@ -601,17 +604,17 @@ void library::arrangeEntries( int )
 
 	auto a = m_settings.libraryShowFolderFirst() ;
 
-	_set_option( m,QObject::tr( "Show Folders First" ),"Show Folders First",a ) ;
+	Library::set_option( m,QObject::tr( "Show Folders First" ),"Show Folders First",a ) ;
 
 	a = m_settings.libraryArrangeAscending() ;
 
-	_set_option( m,QObject::tr( "Arrange In Ascending Order" ),"Arrange In Ascending Order",a ) ;
+	Library::set_option( m,QObject::tr( "Arrange In Ascending Order" ),"Arrange In Ascending Order",a ) ;
 
 	a = m_settings.libraryArrangeByDate() ;
 
-	_set_option( m,QObject::tr( "Arrange By Date" ),"Arrange By Date",a ) ;
+	Library::set_option( m,QObject::tr( "Arrange By Date" ),"Arrange By Date",a ) ;
 
-	_set_option( m,QObject::tr( "Arrange By Name" ),"Arrange By Name",!a ) ;
+	Library::set_option( m,QObject::tr( "Arrange By Name" ),"Arrange By Name",!a ) ;
 
 	QObject::connect( &m,&QMenu::triggered,[ this ]( QAction * ac ){
 

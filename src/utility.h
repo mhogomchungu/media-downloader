@@ -2109,6 +2109,14 @@ namespace utility
 		}
 	private:
 		void parseJson() ;
+		QString stringValue( QJsonObject& obj,const char * key )
+		{
+			return obj.value( key ).toString().replace( "\"NA\"","NA" ) ;
+		}
+		QString intValue( QJsonObject& obj,const char * key )
+		{
+			return QString::number( obj.value( key ).toInt() ) ;
+		}
 		QString m_thumbnailUrl ;
 		QString m_title ;
 		QString m_uploadDate ;

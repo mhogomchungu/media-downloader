@@ -1150,7 +1150,7 @@ void batchdownloader::addItemUiSlot( ItemEntries m )
 	}
 }
 
-static QJsonArray _saveComments( const QJsonArray& arr )
+QJsonArray batchdownloader::saveComments( const QJsonArray& arr )
 {
 	class comments
 	{
@@ -1246,8 +1246,10 @@ static QJsonArray _saveComments( const QJsonArray& arr )
 	return e ;
 }
 
+namespace BatchDownloader
+{
 template< typename Array,typename Table >
-void _add_comments( const Array& arr,Table& table )
+void add_comments( const Array& arr,Table& table )
 {
 	for( const auto& it : arr ){
 
@@ -1279,7 +1281,7 @@ void _add_comments( const Array& arr,Table& table )
 
 			for( const auto& xt : arr ){
 
-				auto xobj = xt.toObject() ; ;
+				auto xobj = xt.toObject() ;
 
 				auto xd = xobj.value( "id" ).toString() ;
 
@@ -1301,9 +1303,11 @@ void _add_comments( const Array& arr,Table& table )
 	}
 }
 
+}
+
 void batchdownloader::saveComments( const QJsonArray& arr,const QString& filePath )
 {
-	auto data = QJsonDocument( _saveComments( arr ) ).toJson( QJsonDocument::Indented ) ;
+	auto data = QJsonDocument( this->saveComments( arr ) ).toJson( QJsonDocument::Indented ) ;
 
 	engines::file( filePath,m_ctx.logger() ).write( data ) ;
 }
@@ -1329,7 +1333,7 @@ void batchdownloader::showComments( const QByteArray& e )
 			m_commentsFileName = hh + "/" + f.mid( 0,200 ) + ".json" ;
 		}
 
-		_add_comments( obj.value( "comments" ).toArray(),m_tableWidgetBDList ) ;
+		BatchDownloader::add_comments( obj.value( "comments" ).toArray(),m_tableWidgetBDList ) ;
 	}else{
 		m_ctx.logger().setMaxProcessLog( 2 ) ;
 
@@ -1660,8 +1664,10 @@ void batchdownloader::saveSubtitles()
 	m.exec( QCursor::pos() ) ;
 }
 
+namespace BatchDownloader
+{
 template< typename Table,typename Cmp >
-auto _make_sort( const char * key,Table& table,Cmp cmp )
+auto make_sort( const char * key,Table& table,Cmp cmp )
 {
 	class sort
 	{
@@ -1703,7 +1709,7 @@ auto _make_sort( const char * key,Table& table,Cmp cmp )
 
 			m_table.clear() ;
 
-			_add_comments( m,m_table ) ;
+			BatchDownloader::add_comments( m,m_table ) ;
 		}
 	private:
 		const char * m_key ;
@@ -1714,21 +1720,23 @@ auto _make_sort( const char * key,Table& table,Cmp cmp )
 	return sort( key,table,std::move( cmp ) ) ;
 }
 
+}
+
 void batchdownloader::sortComments()
 {
 	QMenu m ;
 
 	connect( m.addAction( tr( "Sort By Date Ascending" ) ),
 		 &QAction::triggered,
-		 _make_sort( "timestamp",m_tableWidgetBDList,std::less<int>() ) ) ;
+		 BatchDownloader::make_sort( "timestamp",m_tableWidgetBDList,std::less<int>() ) ) ;
 
 	connect( m.addAction( tr( "Sort By Date Descending" ) ),
 		 &QAction::triggered,
-		 _make_sort( "timestamp",m_tableWidgetBDList,std::greater<int>() ) ) ;
+		 BatchDownloader::make_sort( "timestamp",m_tableWidgetBDList,std::greater<int>() ) ) ;
 
 	connect( m.addAction( tr( "Sort By Likes" ) ),
 		 &QAction::triggered,
-		 _make_sort( "like_count",m_tableWidgetBDList,std::greater<int>() ) ) ;
+		 BatchDownloader::make_sort( "like_count",m_tableWidgetBDList,std::greater<int>() ) ) ;
 
 	m.exec( QCursor::pos() ) ;
 }

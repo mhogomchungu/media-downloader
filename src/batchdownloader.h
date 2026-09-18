@@ -392,6 +392,7 @@ private:
 	class networkCtx ;
 	void networkResult( const networkCtx&,const utils::network::reply& ) ;
 	void showMetaDataSlot( ItemEntries ) ;
+	QJsonArray saveComments( const QJsonArray& arr ) ;
 	void setThumbnail( const std::vector< QByteArray >&,const engines::engine& engine,int ) ;
 	template< typename Event >
 	void downloadEvent( Event event,const engines::engine& engine,int index,bool downloadRecursively )

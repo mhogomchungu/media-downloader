@@ -36,17 +36,20 @@
 
 #include <chrono>
 
+namespace NetworkAccess
+{
 #if QT_VERSION >= QT_VERSION_CHECK( 5,4,0 )
-static QString _sslLibraryVersionString()
+static QString sslLibraryVersionString()
 {
 	return QSslSocket::sslLibraryBuildVersionString() ;
 }
 #else
-static QString _sslLibraryVersionString()
+static QString sslLibraryVersionString()
 {
 	return {} ;
 }
 #endif
+}
 
 networkAccess::networkAccess( const Context& ctx ) :
 	m_ctx( ctx ),
@@ -91,7 +94,7 @@ networkAccess::networkAccess( const Context& ctx ) :
 				e.add( it,id ) ;
 			}
 
-			auto q = _sslLibraryVersionString() ;
+			auto q = NetworkAccess::sslLibraryVersionString() ;
 			auto m = QObject::tr( "Failed to find version information, make sure \"%1\" is installed and works properly" ).arg( q ) ;
 			e.add( m,id ) ;
 		}else{

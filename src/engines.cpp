@@ -2765,6 +2765,7 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 
 			quickjs_ng::init( logger,enginePath ) ;
 			quickjs::remove( logger,enginePath ) ;
+			deno::remove( logger,enginePath ) ;
 		}else{
 			deno::init( m_parent.m_settings,logger,enginePath ) ;
 		}
