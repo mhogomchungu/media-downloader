@@ -472,11 +472,11 @@ std::vector< utility::PlayerOpts > windows::getMediaPlayers()
 
 #if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
 
-void windows::enableCheckenableCheckPermissions()
+void windows::enableCheckPermissions()
 {
 }
 
-void windows::disabdisableCheckPermissions()
+void windows::disableCheckPermissions()
 {
 }
 
