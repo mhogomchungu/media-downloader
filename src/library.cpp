@@ -18,12 +18,8 @@
  */
 
 #include "library.h"
-#include "basicdownloader.h"
-#include "tabmanager.h"
 #include "tableWidget.h"
 #include "mainwindow.h"
-
-#include "utils/miscellaneous.hpp"
 
 #include <QDir>
 

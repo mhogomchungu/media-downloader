@@ -99,6 +99,7 @@ set(SRC
     src/playlistdownloader.cpp
     src/networkAccess.cpp
     src/logger.cpp
+    src/windows.cpp
     src/engines.cpp
     src/tableWidget.cpp
     src/library.cpp

@@ -18,7 +18,6 @@
  */
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include "utility.h"
 #include "tabmanager.h"
 

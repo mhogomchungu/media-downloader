@@ -25,6 +25,7 @@
 #include "tableWidget.h"
 #include "tabmanager.h"
 #include "version.h"
+#include "windows.h"
 
 #include <QEventLoop>
 #include <QDesktopServices>
@@ -34,20 +35,23 @@
 #include <QSysInfo>
 #include <QFile>
 #include <QJsonDocument>
+#include <QOperatingSystemVersion>
 
 #include <ctime>
 #include <cstring>
 
 namespace utility
 {
+namespace local
+{
 	class PretendPlatform
 	{
 	public:
-		void set( const QStringList& m )
+		PretendPlatform( const QStringList& m )
 		{
-			m_pretend32Bit = m.contains( "--pretend-x86" ) ;
-
 			if( utility::platformIsWindows() ){
+
+				m_pretend32Bit = m.contains( "--pretend-x86" ) ;
 
 				m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
 
@@ -71,768 +75,197 @@ namespace utility
 		bool m_pretendWindows7 = false ;
 		bool m_pretendLegacyWindows = false ;
 	} ;
-	static PretendPlatform pretendPlatform ;
-}
 
-#if defined(__OS2__) || defined(OS2) || defined(_OS2)
+	static std::unique_ptr< PretendPlatform > pretendPlatformImpl ;
 
-bool utility::platformisOS2()
-{
-	return true ;
-}
-
-bool utility::platformIsLinux()
-{
-	return false ;
-}
-
-bool utility::platformIsOSX()
-{
-	return false ;
-}
-
-bool utility::platformIsWindows()
-{
-	return false ;
-}
-
-bool utility::platformIsWindows7()
-{
-	return false ;
-}
-
-bool utility::platformisLegacyWindows()
-{
-	return false ;
-}
-
-#endif
-
-#ifdef Q_OS_LINUX
-
-bool utility::platformIsWindows7()
-{
-	return false ;
-}
-
-bool utility::platformisLegacyWindows()
-{
-	return false ;
-}
-
-bool utility::platformisOS2()
-{
-	return false ;
-}
-
-bool utility::platformIsLinux()
-{
-	return true ;
-}
-
-bool utility::platformIsOSX()
-{
-	return false ;
-}
-
-bool utility::platformIsWindows()
-{
-	return false ;
-}
-
-#endif
-
-#ifdef Q_OS_MACOS
-
-bool utility::platformIsWindows7()
-{
-	return false ;
-}
-
-bool utility::platformisLegacyWindows()
-{
-	return false ;
-}
-
-bool utility::platformisOS2()
-{
-	return false ;
-}
-
-bool utility::platformIsOSX()
-{
-	return true ;
-}
-
-bool utility::platformIsLinux()
-{
-	return false ;
-}
-
-bool utility::platformIsWindows()
-{
-	return false ;
-}
-
-#endif
-
-#ifdef Q_OS_WIN
-
-#include <windows.h>
-#include <iphlpapi.h>
-#include <libloaderapi.h>
-#include <winuser.h>
-#include <winbase.h>
-#include <dwmapi.h>
-#include <winreg.h>
-
-#include <array>
-#include <cstring>
-
-#include <QOperatingSystemVersion>
-
-bool utility::platformIsWindows()
-{
-	return true ;
-}
-
-bool utility::platformIsLinux()
-{
-	return false ;
-}
-
-bool utility::platformIsOSX()
-{
-	return false ;
-}
-
-bool utility::platformisOS2()
-{
-	return false ;
-}
-
-bool utility::platformIsWindows7()
-{
-	if( utility::pretendPlatform.isWindows7() ){
-
-		return true ;
-	}else{
-		const auto m = QOperatingSystemVersion::current() ;
-
-		return m < QOperatingSystemVersion::Windows8 ;
+	void setPretendPlatform( const QStringList& s )
+	{
+		pretendPlatformImpl = std::make_unique< PretendPlatform >( s ) ;
 	}
-}
 
-bool utility::platformisLegacyWindows()
-{
-	if( utility::pretendPlatform.isLegacyWindows() || utility::pretendPlatform.isWindows7() ){
+	const PretendPlatform& pretendPlatform()
+	{
+		if( pretendPlatformImpl ){
 
-		return true ;
-	}else{
-		const auto m = QOperatingSystemVersion::current() ;
-
-		if( m < QOperatingSystemVersion::Windows10 ){
-
-			return true ;
-
-		}else if( m > QOperatingSystemVersion::Windows10 ){
-
-			return false ;
+			return *pretendPlatformImpl ;
 		}else{
-			/*
-			 * Windows 10 (1903)       10.0.18362
-			 * Windows 10 (1809)       10.0.17763
-			 * Windows 10 (1803)       10.0.17134
-			 * Windows 10 (1709)       10.0.16299
-			 * Windows 10 (1703)       10.0.15063
-			 * Windows 10 (1607)       10.0.14393
-			 * Windows 10 (1511)       10.0.10586
-			 * Windows 10              10.0.10240
-			 */
-			return m.microVersion() < 16299 ;
+			qDebug() << "ERROR: utility::local::PretendPlatform Is Not Set As Expected" ;
+
+			utility::local::setPretendPlatform( {} ) ;
+			return *pretendPlatformImpl ;
 		}
 	}
-}
 
-QString utility::windowsApplicationDirPath()
-{
-	std::array< wchar_t,4096 > buffer ;
+	class SysPlatForm
+	{
+	public:
+		SysPlatForm()
+		{
+			auto m            = QOperatingSystemVersion::current() ;
 
-	auto e = GetModuleFileNameW( nullptr,buffer.data(),static_cast< DWORD >( buffer.size() ) ) ;
-
-	if( e > 0 ){
-
-		auto a = QString::fromWCharArray( buffer.data(),e ) ;
-
-		auto m = QDir::fromNativeSeparators( a ) ;
-		auto s = m.lastIndexOf( '/' ) ;
-
-		if( s != -1 ){
-
-			m.truncate( s ) ;
+			m_isWin7          = this->Win7( m ) ;
+			m_isLegacyWindows = this->LegacyWindows( m ) ;
 		}
+		bool isWin7() const
+		{
+			return m_isWin7 ;
+		}
+		bool isLegacyWindows() const
+		{
+			return m_isLegacyWindows ;
+		}
+		QString errorMessage() const
+		{
+			#ifdef Q_OS_WIN
+				return windows::errorMessage() ;
+			#else
+				return strerror( errno ) ;
+			#endif
+		}
+		bool isOs2() const
+		{
+			#if defined(__OS2__) || defined(OS2) || defined(_OS2)
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+		bool isWindows() const
+		{
+			#ifdef Q_OS_WIN
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+		bool isLinux() const
+		{
+			#ifdef Q_OS_LINUX
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+		bool isMacOs() const
+		{
+			#ifdef Q_OS_MACOS
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+	private:
+		bool Win7( const QOperatingSystemVersion& system )
+		{
+			if( this->isWindows() ){
+
+				if( utility::local::pretendPlatform().isWindows7() ){
+
+					return true ;
+				}else{
+					return system < QOperatingSystemVersion::Windows8 ;
+				}
+			}else{
+				return false ;
+			}
+		}
+		bool LegacyWindows( const QOperatingSystemVersion& system )
+		{
+			if( this->isWindows() ){
+
+				const auto& m = utility::local::pretendPlatform() ;
+
+				if( m.isLegacyWindows() || m.isWindows7() ){
+
+					return true ;
+				}else{
+					if( system < QOperatingSystemVersion::Windows10 ){
+
+						return true ;
+
+					}else if( system > QOperatingSystemVersion::Windows10 ){
+
+						return false ;
+					}else{
+						/*
+						 * Windows 10 (1903)       10.0.18362
+						 * Windows 10 (1809)       10.0.17763
+						 * Windows 10 (1803)       10.0.17134
+						 * Windows 10 (1709)       10.0.16299
+						 * Windows 10 (1703)       10.0.15063
+						 * Windows 10 (1607)       10.0.14393
+						 * Windows 10 (1511)       10.0.10586
+						 * Windows 10              10.0.10240
+						 */
+						return system.microVersion() < 16299 ;
+					}
+				}
+			}else{
+				return false ;
+			}
+		}
+		bool m_isWin7 ;
+		bool m_isLegacyWindows ;
+	} ;
+
+	const SysPlatForm& Platform()
+	{
+		static SysPlatForm m ;
 
 		return m ;
-	}else{
-		return {} ;
 	}
-}
-
-class adaptorInfo
-{
-public:
-	adaptorInfo()
-	{
-		auto m = this->requiredSize() ;
-
-		if( m ){
-
-			auto e = HeapAlloc( GetProcessHeap(),0,m ) ;
-
-			auto s = static_cast< PIP_ADAPTER_INFO >( e ) ;
-
-			if( GetAdaptersInfo( s,&m ) == NO_ERROR ){
-
-				m_handle = s ;
-			}else{
-				this->free( s ) ;
-			}
-		}
-	}
-	QString address()
-	{
-		if( m_handle ){
-
-			for( auto it = m_handle ; it != nullptr ; it = it->Next ){
-
-				auto gateway = it->GatewayList.IpAddress.String ;
-				auto address = it->IpAddressList.IpAddress.String ;
-
-				if( std::strcmp( address,"0.0.0.0" ) ){
-
-					if( std::strcmp( gateway,"0.0.0.0" ) ){
-
-						return gateway ;
-					}
-				}
-			}
-		}
-
-		return {} ;
-	}
-	~adaptorInfo()
-	{
-		this->free( m_handle ) ;
-	}
-private:
-	void free( PIP_ADAPTER_INFO s )
-	{
-		HeapFree( GetProcessHeap(),0,s ) ;
-	}
-	ULONG requiredSize()
-	{
-		ULONG m = 0 ;
-
-		if( GetAdaptersInfo( nullptr,&m ) == ERROR_BUFFER_OVERFLOW ){
-
-			return m ;
-		}else{
-			return 0 ;
-		}
-	}
-
-	PIP_ADAPTER_INFO m_handle = nullptr ;
-} ;
-
-QString utility::windowsGateWayAddress()
-{
-	return adaptorInfo().address() ;
-}
-
-QString utility::windowsGetClipBoardText( const ContextWinId& wId )
-{
-	class String
-	{
-	public:
-		void operator=( const char * s )
-		{
-			m_value = s ;
-		}
-		void operator=( const wchar_t * s )
-		{
-			m_value = QString::fromWCharArray( s ) ;
-		}
-		operator QString()
-		{
-			return m_value ;
-		}
-	private:
-		QString m_value ;
-	} ;
-
-	String s ;
-
-	auto format = utility::Qt6Version() ? CF_UNICODETEXT : CF_TEXT ;
-
-	if( IsClipboardFormatAvailable( format ) ){
-
-		if( OpenClipboard( wId.value() ) ){
-
-			auto hglb = GetClipboardData( format ) ;
-
-			if( hglb ){
-
-				auto lptstr = static_cast< LPTSTR >( GlobalLock( hglb ) ) ;
-
-				if( lptstr ){
-
-					s = lptstr ;
-
-					GlobalUnlock( hglb ) ;
-				}
-			}
-
-			CloseClipboard() ;
-		}
-	}
-
-	return s ;
-}
-
-void utility::windowsSetDarkModeTitleBar( const Context& ctx )
-{
-	auto os = QOperatingSystemVersion::OSType::Windows ;
-
-	auto minVersion = QOperatingSystemVersion( os,10,0,17763 ) ;
-
-	auto currentVersion = QOperatingSystemVersion::current() ;
-
-	if( currentVersion >= minVersion ){
-
-		auto m = ctx.nativeHandleToMainWindow().value() ;
-
-		BOOL dark = 1 ;
-
-		DWORD DWMWA_USE_IMMERSIVE_DARK_MODE = 20 ;
-
-		if( DwmSetWindowAttribute( m,DWMWA_USE_IMMERSIVE_DARK_MODE,&dark,sizeof( BOOL ) ) ){
-
-			DWMWA_USE_IMMERSIVE_DARK_MODE = 19 ;
-
-			DwmSetWindowAttribute( m,DWMWA_USE_IMMERSIVE_DARK_MODE,&dark,sizeof( BOOL ) ) ;
-		}
-	}
-}
-
-namespace utility
-{
-std::vector< utility::PlayerOpts > getMediaPlayers( REGSAM wow )
-{
-	class buffer
-	{
-	public:
-		buffer()
-		{
-			m_buffer[ 0 ] = L'\0' ;
-		}
-		DWORD * size()
-		{
-			return &m_size ;
-		}
-		bool valid() const
-		{
-			if( m_buffer[ 0 ] == L'\0' ){
-
-				return false ;
-
-			}else if( this->equal( "potplayer" ) ){
-
-				return true ;
-
-			}if( this->equal( ".mp4" ) || this->equal( ".MP4" ) ){
-
-				return false ;
-			}else{
-				return this->endsWith( ".mp4" ) || this->endsWith( ".MP4" ) ;
-			}
-		}
-		wchar_t * data()
-		{
-			return m_buffer.data() ;
-		}
-		const wchar_t * data() const
-		{
-			return m_buffer.data() ;
-		}
-		QString qdata() const
-		{
-			return this->string() ;
-		}
-	private:
-		bool equal( const QString& e ) const
-		{
-			return this->string() == e ;
-		}
-		bool endsWith( const QString& e ) const
-		{
-			return this->string().endsWith( e ) ;
-		}
-		QString string() const
-		{
-			auto m = static_cast< qsizetype >( m_size ) ;
-			return QString::fromWCharArray( m_buffer.data(),m ) ;
-		}
-		std::array< wchar_t,4096 > m_buffer ;
-		DWORD m_size = 4096 ;
-	} ;
-
-	class Hkey
-	{
-	public:
-		Hkey( Hkey& hkey,const buffer& subKey ) :
-			m_regSam( hkey.regSam() ),
-			m_status( this->open( hkey,subKey.data() ) )
-		{
-		}
-		Hkey( REGSAM r ) :
-			m_regSam( r ),
-			m_status( this->open( HKEY_CLASSES_ROOT,nullptr ) )
-		{
-		}
-		~Hkey()
-		{
-			if( m_key ){
-
-				RegCloseKey( m_key ) ;
-			}
-		}
-		DWORD keyCount()
-		{
-			auto N = nullptr ;
-
-			DWORD keyCount = 0 ;
-
-			auto st = RegQueryInfoKeyW( m_key,N,N,N,&keyCount,N,N,N,N,N,N,N ) ;
-
-			if( st == ERROR_SUCCESS ){
-
-				return keyCount ;
-			}else{
-				return 0 ;
-			}
-		}
-		QString getExePath()
-		{
-			auto N = nullptr ;
-
-			buffer subKey ;
-
-			auto path = L"shell\\open\\command" ;
-
-			auto st = RegGetValueW( m_key,path,N,RRF_RT_REG_SZ,N,subKey.data(),subKey.size() ) ;
-
-			if( st == ERROR_SUCCESS ){
-
-				return subKey.qdata() ;
-			}else{
-				return {} ;
-			}
-		}
-		buffer getSubKey( DWORD i )
-		{
-			auto N = nullptr ;
-
-			buffer subKey ;
-
-			auto st = RegEnumKeyExW( m_key,i,subKey.data(),subKey.size(),N,N,N,N ) ;
-
-			if( st == ERROR_SUCCESS ){
-
-				return subKey ;
-			}else{
-				return {} ;
-			}
-		}
-		operator HKEY()
-		{
-			return m_key ;
-		}
-		operator bool()
-		{
-			return m_status == ERROR_SUCCESS ;
-		}
-		REGSAM regSam()
-		{
-			return m_regSam ;
-		}
-	private:
-		LSTATUS open( HKEY hkey,const wchar_t * subKey )
-		{
-			DWORD x = 0 ;
-
-			return RegOpenKeyExW( hkey,subKey,x,m_regSam,&m_key ) ;
-		}
-		REGSAM m_regSam ;
-		HKEY m_key = nullptr ;
-		LSTATUS m_status ;
-	} ;
-
-	Hkey rootKey( wow ) ;
-
-	if( !rootKey ){
-
-		return {} ;
-	}
-
-	std::vector< utility::PlayerOpts > s ;
-
-	auto keyCount = rootKey.keyCount() ;
-
-	for( DWORD i = 0 ; i < keyCount ; i++ ){
-
-		auto subKey = rootKey.getSubKey( i ) ;
-
-		if( !subKey.valid() ){
-
-			continue ;
-		}
-
-		Hkey key( rootKey,subKey ) ;
-
-		if( !key ){
-
-			continue ;
-		}
-
-		auto ss = key.getExePath() ;
-
-		if( ss.isEmpty() ){
-
-			continue ;
-		}
-
-		QStringList p ;
-
-		if( ss.startsWith( "\"" ) ){
-
-			p = util::splitPreserveQuotes( ss ) ;
-		}else{
-			auto e = ss.indexOf( ".exe" ) ;
-
-			if( e != -1 ){
-
-				auto m = ss.mid( 0,e + 4 ) ;
-
-				if( QFile::exists( m ) ){
-
-					p.append( m ) ;
-				}
-			}
-		}
-
-		if( p.size() ){
-
-			auto m = p.first() ;
-
-			if( m.endsWith( "wmplayer.exe" ) ){
-
-				s.emplace_back( m,"Windows Media Player" ) ;
-			}else{
-				auto na = util::split( subKey.qdata(),"." ) ;
-
-				auto e = na.first() ;
-
-				if( e.size() ){
-
-					if( !e[ 0 ].isUpper() ){
-
-						e[ 0 ] = e[ 0 ].toUpper() ;
-					}
-				}
-
-				s.emplace_back( m,e ) ;
-			}
-		}
-	}
-
-	return s ;
-}
-
-static void add_entry( std::vector< utility::PlayerOpts >& a,utility::PlayerOpts& b )
-{
-	for( const auto& it : a ){
-
-		if( it.name == b.name ){
-
-			return ;
-		}
-	}
-
-	a.emplace_back( std::move( b ) ) ;
 }
 }
 
-std::vector< utility::PlayerOpts > utility::getMediaPlayers()
+bool utility::platformisOS2()
 {
-	auto a = utility::getMediaPlayers( KEY_READ | KEY_WOW64_64KEY ) ;
-	auto b = utility::getMediaPlayers( KEY_READ | KEY_WOW64_32KEY ) ;
-
-	for( auto& it : b ){
-
-		 utility::add_entry( a,it ) ;
-	}
-
-	return a ;
+	return utility::local::Platform().isOs2() ;
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK( 6,6,0 )
-
-void utility::checkPermissions::enable()
+bool utility::platformIsLinux()
 {
+	return utility::local::Platform().isLinux() ;
 }
 
-void utility::checkPermissions::disable()
+bool utility::platformIsOSX()
 {
+	return utility::local::Platform().isMacOs() ;
 }
 
-#else
-
-extern Q_CORE_EXPORT int qt_ntfs_permission_lookup ;
-
-void utility::checkPermissions::enable()
+bool utility::platformIsWindows()
 {
-	qt_ntfs_permission_lookup++ ;
+	return utility::local::Platform().isWindows() ;
 }
 
-void utility::checkPermissions::disable()
+bool utility::platformIsWindows7()
 {
-	qt_ntfs_permission_lookup-- ;
+	return utility::local::Platform().isWin7() ;
 }
 
-#endif
+bool utility::platformisLegacyWindows()
+{
+	return utility::local::Platform().isLegacyWindows() ;
+}
 
 QString utility::errorMessage()
 {
-	struct meaw
-	{
-		char * s = nullptr ;
-		~meaw()
-		{
-			LocalFree( s ) ;
-		}
-	} m ;
-
-	auto a = FORMAT_MESSAGE_FROM_SYSTEM ;
-	auto b = FORMAT_MESSAGE_IGNORE_INSERTS ;
-	auto c = FORMAT_MESSAGE_ALLOCATE_BUFFER ;
-
-	auto flags = a | b | c ;
-
-	auto le = GetLastError() ;
-	auto lg = MAKELANGID( LANG_NEUTRAL,SUBLANG_DEFAULT ) ;
-
-	FormatMessageA( flags,nullptr,le,lg,reinterpret_cast< char * >( &m.s ),0,nullptr ) ;
-
-	return m.s ;
-}
-
-class fileRename
-{
-public:
-	fileRename( const QString& oldPath,const QString& newPath ) :
-		m_oldPath( this->setPath( oldPath ) ),m_newPath( this->setPath( newPath ) )
-	{
-	}
-	bool exec() const
-	{
-		auto oldp = m_oldPath.toStdWString() ;
-		auto newp = m_newPath.toStdWString() ;
-
-		return MoveFileW( oldp.data(),newp.data() ) ;
-	}
-	QString errorString() const
-	{
-		return utility::errorMessage() ;
-	}
-	const QString& oldPath() const
-	{
-		return m_oldPath ;
-	}
-	const QString& newPath() const
-	{
-		return m_newPath ;
-	}
-private:
-	QString setPath( const QString& e )
-	{
-		return QDir::toNativeSeparators( e ) ;
-	}
-	QString m_oldPath ;
-	QString m_newPath ;
-} ;
-
-class fileRemove
-{
-public:
-	fileRemove( const QString& s ) : m_src( s )
-	{
-	}
-	bool exec() const
-	{
-		if( QFile::exists( m_src ) ){
-
-			//return unlink( m_src.toUtf8().constData() ) == 0 ;
-			return QFile::remove( m_src ) ;
-		}else{
-			return true ;
-		}
-	}
-	QString errorString() const
-	{
-		return utility::errorMessage() ;
-	}
-private:
-	const QString& m_src ;
-} ;
-
-class dirRemove
-{
-public:
-	dirRemove( const QString& s ) : m_src( s )
-	{
-	}
-	bool exec() const
-	{
-		QDir dir( m_src ) ;
-
-		if( dir.exists() ){
-
-			return dir.removeRecursively() ;
-		}else{
-			return true ;
-		}
-	}
-	QString errorString() const
-	{
-		return utility::errorMessage() ;
-	}
-private:
-	const QString& m_src ;
-} ;
-
-#else
-
-QString utility::errorMessage()
-{
-	return strerror( errno ) ;
+	return utility::local::Platform().errorMessage() ;
 }
 
 void utility::checkPermissions::enable()
 {
+	if( utility::platformIsWindows() ){
+
+		windows::enableCheckPermissions() ;
+	}
 }
 
 void utility::checkPermissions::disable()
 {
+	if( utility::platformIsWindows() ){
+
+		windows::disableCheckPermissions() ;
+	}
 }
 
 class fileRename
@@ -844,14 +277,11 @@ public:
 	}
 	bool exec() const
 	{
-		auto oldPath = m_oldPath.toUtf8() ;
-		auto newPath = m_newPath.toUtf8() ;
-
-		return rename( oldPath.constData(),newPath.constData() ) == 0 ;
+		return QFile::rename( m_oldPath,m_newPath ) ;
 	}
 	QString errorString() const
 	{
-		return strerror( errno ) ;
+		return utility::errorMessage() ;
 	}
 	const QString& oldPath() const
 	{
@@ -883,7 +313,7 @@ public:
 	}
 	QString errorString() const
 	{
-		return strerror( errno ) ;
+		return utility::errorMessage() ;
 	}
 private:
 	const QString& m_src ;
@@ -908,7 +338,7 @@ public:
 	}
 	QString errorString() const
 	{
-		return strerror( errno ) ;
+		return utility::errorMessage() ;
 	}
 private:
 	const QString& m_src ;
@@ -916,6 +346,11 @@ private:
 
 std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 {
+	if( utility::platformIsWindows() ){
+
+		return windows::getMediaPlayers() ;
+	}
+
 	std::vector< utility::PlayerOpts > m ;
 
 	if( utility::platformisFlatPak() ){
@@ -966,26 +401,25 @@ std::vector< utility::PlayerOpts > utility::getMediaPlayers()
 	return m ;
 }
 
-void utility::windowsSetDarkModeTitleBar( const Context& )
+void utility::windowsSetDarkModeTitleBar( const Context& ctx )
 {
+	return windows::setDarkModeTitleBar( ctx ) ;
 }
 
-QString utility::windowsGetClipBoardText( const ContextWinId& )
+QString utility::windowsGetClipBoardText( const ContextWinId& e )
 {
-	return {} ;
+	return windows::getClipBoardText( e ) ;
 }
 
 QString utility::windowsApplicationDirPath()
 {
-	return {} ;
+	return windows::applicationDirPath() ;
 }
 
 QString utility::windowsGateWayAddress()
 {
-	return {} ;
+	return windows::gateWayAddress() ;
 }
-
-#endif
 
 utility::debug& utility::debug::operator<<( const QString& e )
 {
@@ -1496,7 +930,7 @@ void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool
 
 			const auto rr = QJsonDocument::fromJson( m ).array() ;
 
-			for( const auto& it : rr ){
+			for( const auto it : rr ){
 
 				arr.append( it ) ;
 			}
@@ -1554,7 +988,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 			}else{
 				QByteArray m ;
 
-				for( const auto& it : e ){
+				for( const auto it : e ){
 
 					auto obj = it.toObject() ;
 
@@ -2323,7 +1757,7 @@ utility::cliArguments::cliArguments( int argc,char ** argv )
 
 	utility::useFakeHash = this->contains( "--fake-hash" ) ;
 
-	utility::pretendPlatform.set( m_args ) ;
+	utility::local::setPretendPlatform( m_args ) ;
 
 	if( this->runningUpdated() ){
 
@@ -3003,7 +2437,7 @@ utility::CPU::CPU() : m_cpu( utility::CPU::getCPU() )
 
 bool utility::CPU::x86_32() const
 {
-	if( utility::pretendPlatform.is32Bit() ){
+	if( utility::local::pretendPlatform().is32Bit() ){
 
 		return true ;
 	}else{

@@ -18,35 +18,39 @@
  */
 
 #include "proxy.h"
-#include "utils/qprocess.hpp"
 #include "utility.h"
 
-static QString _find_proxy( const QProcessEnvironment& )
+namespace proxy
+{
+namespace local
+{
+
+static QString find_proxy( const QProcessEnvironment& )
 {
 	return {} ;
 }
 
 template< typename ... Args >
-static QString _find_proxy( const QProcessEnvironment& env,const char * first,Args&& ... rest )
+static QString find_proxy( const QProcessEnvironment& env,const char * first,Args&& ... rest )
 {
 	auto m = env.value( first ) ;
 
 	if( m.isEmpty() ){
 
-		return _find_proxy( env,std::forward< Args >( rest ) ... ) ;
+		return find_proxy( env,std::forward< Args >( rest ) ... ) ;
 	}else{
 		return m ;
 	}
 }
 
-static QString _proxy_find( const Context& ctx )
+static QString proxy_find( const Context& ctx )
 {
 	const auto& env = ctx.Engines().processEnvironment() ;
 
-	return _find_proxy( env,"all_proxy","ALL_PROXY","https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
+	return find_proxy( env,"all_proxy","ALL_PROXY","https_proxy","http_proxy","HTTPS_PROXY","HTTP_PROXY" ) ;
 }
 
-static QByteArray _hex_to_decimal( const QByteArray& mm )
+static QByteArray hex_to_decimal( const QByteArray& mm )
 {
 	auto m = mm.toLower() ;
 
@@ -72,17 +76,17 @@ static QByteArray _hex_to_decimal( const QByteArray& mm )
 	return QByteArray::number( r ) ;
 }
 
-static QByteArray _ip_address( const QByteArray& e )
+static QByteArray ip_address( const QByteArray& e )
 {
-	auto a = _hex_to_decimal( e.mid( 0,2 ) ) ;
-	auto b = _hex_to_decimal( e.mid( 2,2 ) ) ;
-	auto c = _hex_to_decimal( e.mid( 4,2 ) ) ;
-	auto d = _hex_to_decimal( e.mid( 6,2 ) ) ;
+	auto a = proxy::local::hex_to_decimal( e.mid( 0,2 ) ) ;
+	auto b = proxy::local::hex_to_decimal( e.mid( 2,2 ) ) ;
+	auto c = proxy::local::hex_to_decimal( e.mid( 4,2 ) ) ;
+	auto d = proxy::local::hex_to_decimal( e.mid( 6,2 ) ) ;
 
 	return d + "." + c + "." + b + "." + a ;
 }
 
-static void _get_proxy_from_gateway_linux( Context& ctx,const QByteArray& addr,bool firstTime )
+static void get_proxy_from_gateway_linux( Context& ctx,const QByteArray& addr,bool firstTime )
 {
 	QFile file( "/proc/net/route" ) ;
 
@@ -105,7 +109,7 @@ static void _get_proxy_from_gateway_linux( Context& ctx,const QByteArray& addr,b
 
 				QString s = addr ;
 
-				s.replace( "${gateway}",_ip_address( m ) ) ;
+				s.replace( "${gateway}",proxy::local::ip_address( m ) ) ;
 
 				ctx.setNetworkProxy( s,firstTime ) ;
 			}else{
@@ -119,7 +123,7 @@ static void _get_proxy_from_gateway_linux( Context& ctx,const QByteArray& addr,b
 	ctx.setNetworkProxy( firstTime ) ;
 }
 
-static void _get_proxy_from_gateway_win( Context& ctx,const QByteArray& addr,bool firstTime )
+static void get_proxy_from_gateway_win( Context& ctx,const QByteArray& addr,bool firstTime )
 {
 	auto m = utility::windowsGateWayAddress() ;
 
@@ -133,6 +137,9 @@ static void _get_proxy_from_gateway_win( Context& ctx,const QByteArray& addr,boo
 
 		ctx.setNetworkProxy( s,firstTime ) ;
 	}
+}
+
+}
 }
 
 using mm = settings::proxySettings ;
@@ -177,17 +184,17 @@ void proxy::set( Context& ctx,bool firstTime,const QByteArray& proxyAddress,cons
 
 	}else if( m.env() ){
 
-		ctx.setNetworkProxy( _proxy_find( ctx ),firstTime ) ;
+		ctx.setNetworkProxy( proxy::local::proxy_find( ctx ),firstTime ) ;
 
 	}else if( proxyAddress.contains( "${gateway}" ) ){
 
 		if( utility::platformIsLinux() ){
 
-			_get_proxy_from_gateway_linux( ctx,proxyAddress,firstTime ) ;
+			proxy::local::get_proxy_from_gateway_linux( ctx,proxyAddress,firstTime ) ;
 
 		}else if( utility::platformIsWindows() ){
 
-			_get_proxy_from_gateway_win( ctx,proxyAddress,firstTime ) ;
+			proxy::local::get_proxy_from_gateway_win( ctx,proxyAddress,firstTime ) ;
 		}else{
 			ctx.setNetworkProxy( firstTime ) ;
 		}

@@ -20,7 +20,6 @@
 #include "settings.h"
 #include "utility.h"
 #include "locale_path.h"
-#include "translator.h"
 #include "logger.h"
 #include "themes.h"
 #include "directoryEntries.h"

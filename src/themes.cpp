@@ -21,8 +21,6 @@
 
 #include <QJsonDocument>
 
-#include "util.hpp"
-
 themes::themes( const QString& themeName,const QString& themePath )  :
 	m_theme( themeName ),
 	m_themePath( themePath )
@@ -310,7 +308,11 @@ void themes::set( QApplication& app ) const
 	}
 }
 
-static QColor _qtColor( const QString& aa )
+namespace Themes
+{
+namespace local
+{
+static QColor qtColor( const QString& aa )
 {
 	if( aa == "Qt::color0" ){
 
@@ -396,7 +398,7 @@ static QColor _qtColor( const QString& aa )
 	}
 }
 
-static QColor _getRGBA( const QJsonArray& aa )
+static QColor getRGBA( const QJsonArray& aa )
 {
 	if( aa.size() == 3 ){
 
@@ -419,6 +421,9 @@ static QColor _getRGBA( const QJsonArray& aa )
 	}
 }
 
+}
+}
+
 QColor themes::getColor( const QString& e,const QJsonObject& obj ) const
 {
 	auto oo = obj.value( e ).toObject() ;
@@ -427,7 +432,7 @@ QColor themes::getColor( const QString& e,const QJsonObject& obj ) const
 
 	if( !a.isUndefined() ){
 
-		return _getRGBA( a.toArray() ) ;
+		return Themes::local::getRGBA( a.toArray() ) ;
 	}
 
 	a = oo.value( "GlobalColor" ) ;
@@ -450,10 +455,10 @@ QColor themes::getColor( const QString& e,const QJsonObject& obj ) const
 
 					return {} ;
 				}else{
-					return _qtColor( mmm.toString() ) ;
+					return Themes::local::qtColor( mmm.toString() ) ;
 				}
 			}else{
-				return _getRGBA( mm.toArray() ) ;
+				return Themes::local::getRGBA( mm.toArray() ) ;
 			}
 		}else{
 			return {} ;
@@ -466,7 +471,7 @@ QColor themes::getColor( const QString& e,const QJsonObject& obj ) const
 
 		return {} ;
 	}else{
-		return _qtColor( a.toString() ) ;
+		return Themes::local::qtColor( a.toString() ) ;
 	}
 }
 

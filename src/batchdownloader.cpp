@@ -1217,7 +1217,7 @@ QJsonArray batchdownloader::saveComments( const QJsonArray& arr )
 
 	comments mm ;
 
-	for( const auto& it : arr ){
+	for( const auto it : arr ){
 
 		auto obj = it.toObject() ;
 
@@ -1233,7 +1233,7 @@ QJsonArray batchdownloader::saveComments( const QJsonArray& arr )
 
 	QJsonArray e ;
 
-	for( const auto& it : mm.data() ){
+	for( const auto it : mm.data() ){
 
 		auto obj = it.toObject() ;
 

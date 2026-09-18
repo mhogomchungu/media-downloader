@@ -1883,7 +1883,7 @@ void configure::presetOptions::setDefaults()
 
 QString configure::presetOptions::optionsTranslated( const QString& e )
 {
-	for( const auto& s : util::asConst( m_array ) ) {
+	for( const auto s : util::asConst( m_array ) ) {
 
 		auto obj = s.toObject() ;
 
@@ -2080,7 +2080,7 @@ void configure::setVisibilityEditConfigFeature( bool e )
 
 bool configure::downloadDefaultOptions::isEmpty( const QString& m )
 {
-	for( const auto& it : util::asConst( m_array ) ){
+	for( const auto it : util::asConst( m_array ) ){
 
 		auto s = it.toObject().value( "engineName" ).toString() ;
 
@@ -2214,7 +2214,7 @@ void configure::downloadDefaultOptions::removeAll( const QString& e )
 		}
 
 		return false ;
-	}() ){} ;
+	}() ){}
 }
 
 void configure::downloadDefaultOptions::setAsDefault( const QJsonObject& ee )

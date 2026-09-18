@@ -234,7 +234,7 @@ void engines::openUrls( tableWidget& table,int row,const engines::engine& engine
 	if( reportFinished::finishedStatus::finishedWithSuccess( table,row ) ){
 
 		const auto& ee = table.uiText( row ) ;
-		const auto& ss = table.entryAt( row ).fileNames ;
+		const auto& ss = table.entryAt( static_cast< size_t >( row ) ).fileNames ;
 
 		engine.openLocalFile( { ee,m_settings.downloadFolder(),ss } ) ;
 	}
@@ -814,7 +814,7 @@ QStringList engines::engine::toStringList( const QJsonValue& value,bool protectS
 
 	const auto array = value.toArray() ;
 
-	for( const auto& it : array ){
+	for( const auto it : array ){
 
 		auto s = it.toString() ;
 
@@ -1579,7 +1579,7 @@ bool engines::engine::baseEngine::meetExtraCondition( const QByteArray& l,const 
 
 		const auto arr = obj.value( "containsAny" ).toArray() ;
 
-		for( const auto& it : arr ){
+		for( const auto it : arr ){
 
 			if( line.contains( it.toString() ) ) {
 
@@ -1594,7 +1594,7 @@ bool engines::engine::baseEngine::meetExtraCondition( const QByteArray& l,const 
 
 		const auto arr = obj.value( "containsAll" ).toArray() ;
 
-		for( const auto& it : arr ){
+		for( const auto it : arr ){
 
 			if( !line.contains( it.toString() ) ) {
 
@@ -2142,7 +2142,7 @@ private:
 
 		QJsonArray newFormats ;
 
-		for( const auto& it : oldFormats ){
+		for( const auto it : oldFormats ){
 
 			auto obj = it.toObject() ;
 

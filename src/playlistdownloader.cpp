@@ -572,7 +572,7 @@ void playlistdownloader::customContextMenuRequested()
 
 	connect( ac,&QAction::triggered,[ this,row ](){
 
-		Q_UNUSED( row ) ;
+		Q_UNUSED( row )
 
 		m_table.removeAllSelected() ;
 
@@ -1566,7 +1566,7 @@ playlistdownloader::subscription::subscription( const Context& e,
 
 void playlistdownloader::subscription::add( const QString& uiName,const QString& url,const QString& Opts )
 {
-	for( const auto& it : util::asConst( m_array ) ){
+	for( const auto it : util::asConst( m_array ) ){
 
 		subscription::entry m( it )  ;
 
@@ -1599,7 +1599,7 @@ void playlistdownloader::subscription::setVisible( bool e )
 
 		m_table.clear() ;
 
-		for( const auto& it : util::asConst( m_array ) ){
+		for( const auto it : util::asConst( m_array ) ){
 
 			subscription::entry m( it ) ;
 

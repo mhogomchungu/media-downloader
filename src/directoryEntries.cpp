@@ -192,7 +192,6 @@ private:
 #include <unistd.h>
 #include <cstring>
 #include <string>
-#include <limits.h>
 
 class dManager
 {

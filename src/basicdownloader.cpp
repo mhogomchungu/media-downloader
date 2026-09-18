@@ -26,7 +26,6 @@
 
 #include "tabmanager.h"
 #include "mainwindow.h"
-#include "utils/threads.hpp"
 
 basicdownloader::basicdownloader( const Context& ctx ) :
 	m_ctx( ctx ),
