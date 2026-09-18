@@ -32,6 +32,9 @@
 #include <array>
 #include <cstring>
 
+#include <QOperatingSystemVersion>
+#include <QDir>
+
 QString windows::applicationDirPath()
 {
 	std::array< wchar_t,4096 > buffer ;
@@ -481,12 +484,12 @@ void windows::disabdisableCheckPermissions()
 
 extern Q_CORE_EXPORT int qt_ntfs_permission_lookup ;
 
-void windows::enableCheckenableCheckPermissions()
+void windows::enableCheckPermissions()
 {
 	qt_ntfs_permission_lookup++ ;
 }
 
-void windows::disabdisableCheckPermissions()
+void windows::disableCheckPermissions()
 {
 	qt_ntfs_permission_lookup-- ;
 }
