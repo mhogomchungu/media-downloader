@@ -44,177 +44,294 @@ namespace utility
 {
 namespace local
 {
-	class PretendPlatform
+
+static bool useFakeHash ;
+static bool cliArguments_debug ;
+
+static const PretendPlatform * PretendPlatform ;
+static const SysPlatForm * SysPlatform ;
+
+const utility::SysPlatForm& Platform()
+{
+	return *utility::local::SysPlatform ;
+}
+
+const utility::PretendPlatform& pretendPlatform()
+{
+	return *utility::local::PretendPlatform ;
+}
+
+static QString downloadPath()
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
+
+	auto s = QStandardPaths::standardLocations( QStandardPaths::DownloadLocation ) ;
+
+	if( s.isEmpty() ){
+
+		return QDir::homePath() + "/Downloads" ;
+	}else{
+		return s.first() ;
+	}
+#else
+	return QDir::homePath() + "/Downloads" ;
+#endif
+}
+
+class runTimeVersionInfo
+{
+public:
+	void setInstanceVersion( const QString& e )
 	{
-	public:
-		PretendPlatform( const QStringList& m )
-		{
-			if( utility::platformIsWindows() ){
+		m_instanceVersion = e ;
+	}
+	void setAboutInstanceVersion( const QString& e )
+	{
+		m_aboutInstanceVersion = e ;
+	}
+	const QString& instanceVersion() const
+	{
+		return m_instanceVersion ;
+	}
+	const QString& aboutInstanceVersion() const
+	{
+		return m_aboutInstanceVersion ;
+	}
+private:
+	QString m_instanceVersion ;
+	QString m_aboutInstanceVersion ;
+} ;
 
-				m_pretend32Bit = m.contains( "--pretend-x86" ) ;
+static runTimeVersionInfo& runTimeVersions()
+{
+	static runTimeVersionInfo m ;
 
-				m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
+	return m ;
+}
 
-				m_pretendLegacyWindows = m.contains( "--pretend-winLegacy" ) ;
+static QJsonArray saveDownloadList( tableWidget& tableWidget,bool noFinishedSuccess )
+{
+	QJsonArray arr ;
+
+	auto _add = [ & ]( const tableWidget::entry& e ){
+
+		if( e.url.isEmpty() ){
+
+			return ;
+		}
+
+		auto obj = e.uiJson ;
+
+		auto title = obj.value( "title" ).toString() ;
+
+		if( !title.isEmpty() ){
+
+			auto url = obj.value( "url" ).toString() ;
+
+			if( title == url ){
+
+				obj.remove( "title" ) ;
 			}
 		}
-		bool isWindows7() const
-		{
-			return m_pretendWindows7 ;
+
+		if( !e.downloadingOptions.isEmpty() ){
+
+			obj.insert( "downloadOptions",e.downloadingOptions ) ;
 		}
-		bool is32Bit() const
-		{
-			return m_pretend32Bit ;
+
+		if( !e.engineName.isEmpty() ){
+
+			obj.insert( "engineName",e.engineName ) ;
 		}
-		bool isLegacyWindows() const
-		{
-			return m_pretendLegacyWindows ;
+
+		if( !e.extraDownloadingOptions.isEmpty() ){
+
+			obj.insert( "downloadExtraOptions",e.extraDownloadingOptions ) ;
 		}
-	private:
-		bool m_pretend32Bit    = false ;
-		bool m_pretendWindows7 = false ;
-		bool m_pretendLegacyWindows = false ;
+
+		arr.append( obj ) ;
 	} ;
 
-	static std::unique_ptr< PretendPlatform > pretendPlatformImpl ;
+	if( noFinishedSuccess ){
 
-	void setPretendPlatform( const QStringList& s )
-	{
-		pretendPlatformImpl = std::make_unique< PretendPlatform >( s ) ;
+		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
+
+			using gg = reportFinished::finishedStatus ;
+
+			if( !gg::finishedWithSuccess( e.runningState ) ){
+
+				_add( e ) ;
+			}
+		} ) ;
+	}else{
+		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
+
+			_add( e ) ;
+		} ) ;
 	}
 
-	const PretendPlatform& pretendPlatform()
-	{
-		if( pretendPlatformImpl ){
+	return arr ;
+}
 
-			return *pretendPlatformImpl ;
+static util::version get_process_version( const QString& path,
+					  const QString& cmd,
+					  const QProcessEnvironment& env )
+{
+	auto e = path + "/version_info.txt" ;
+
+	QFile file( e ) ;
+
+	if( file.exists() ){
+
+		if( file.open( QIODevice::ReadOnly ) ){
+
+			util::version m = file.readAll().trimmed() ;
+
+			if( m.valid() ){
+
+				return m ;
+			}
+
+			file.close() ;
+		}
+
+		file.remove() ;
+	}
+
+	QProcess exe ;
+
+	exe.setProgram( cmd ) ;
+	exe.setArguments( { "--version" } ) ;
+	exe.setProcessEnvironment( env ) ;
+
+	exe.start() ;
+
+	exe.waitForFinished() ;
+
+	util::version m = exe.readAllStandardOutput().trimmed() ;
+
+	if( m.valid() ){
+
+		QFile file( e ) ;
+
+		if( file.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
+
+			file.write( m.toString().toUtf8() ) ;
+		}
+	}
+
+	return m ;
+}
+
+static bool start_updated( QProcess& exe )
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
+	return exe.startDetached() ;
+#else
+	exe.start() ;
+	exe.waitForFinished( -1 ) ;
+	return true ;
+#endif
+}
+
+static QStringList listOptionsFromDownloadOptions( const QString& e )
+{
+	QStringList m ;
+
+	auto ee = util::splitPreserveQuotes( e ) ;
+
+	for( auto it = ee.begin() ; it != ee.end() ; it++ ){
+
+		const auto& s = *it ;
+
+		if( s == "\"--proxy\"" || s == "--proxy" ){
+
+			auto xt = it + 1 ;
+
+			if( xt != ee.end() ){
+
+				m.append( "--proxy" ) ;
+				m.append( *xt ) ;
+			}
+
+			break ;
+		}
+	}
+
+	return m ;
+}
+
+}
+}
+
+void utility::setPlatForms( const utility::PretendPlatform& p )
+{
+	utility::local::PretendPlatform = &p ;
+}
+
+void utility::setPlatForms( const utility::SysPlatForm& s )
+{
+	utility::local::SysPlatform = & s ;
+}
+
+QString utility::SysPlatForm::errorMessage() const
+{
+#ifdef Q_OS_WIN
+	return windows::errorMessage() ;
+#else
+	return strerror( errno ) ;
+#endif
+}
+
+bool utility::SysPlatForm::Win7( const QOperatingSystemVersion& system )
+{
+	if( this->isWindows() ){
+
+		if( utility::local::pretendPlatform().isWindows7() ){
+
+			return true ;
 		}else{
-			qDebug() << "ERROR: utility::local::PretendPlatform Is Not Set As Expected" ;
-
-			utility::local::setPretendPlatform( {} ) ;
-			return *pretendPlatformImpl ;
+			return system < QOperatingSystemVersion::Windows8 ;
 		}
-	}
-
-	class SysPlatForm
-	{
-	public:
-		SysPlatForm()
-		{
-			auto m            = QOperatingSystemVersion::current() ;
-
-			m_isWin7          = this->Win7( m ) ;
-			m_isLegacyWindows = this->LegacyWindows( m ) ;
-		}
-		bool isWin7() const
-		{
-			return m_isWin7 ;
-		}
-		bool isLegacyWindows() const
-		{
-			return m_isLegacyWindows ;
-		}
-		QString errorMessage() const
-		{
-			#ifdef Q_OS_WIN
-				return windows::errorMessage() ;
-			#else
-				return strerror( errno ) ;
-			#endif
-		}
-		bool isOs2() const
-		{
-			#if defined(__OS2__) || defined(OS2) || defined(_OS2)
-				return true ;
-			#else
-				return false ;
-			#endif
-		}
-		bool isWindows() const
-		{
-			#ifdef Q_OS_WIN
-				return true ;
-			#else
-				return false ;
-			#endif
-		}
-		bool isLinux() const
-		{
-			#ifdef Q_OS_LINUX
-				return true ;
-			#else
-				return false ;
-			#endif
-		}
-		bool isMacOs() const
-		{
-			#ifdef Q_OS_MACOS
-				return true ;
-			#else
-				return false ;
-			#endif
-		}
-	private:
-		bool Win7( const QOperatingSystemVersion& system )
-		{
-			if( this->isWindows() ){
-
-				if( utility::local::pretendPlatform().isWindows7() ){
-
-					return true ;
-				}else{
-					return system < QOperatingSystemVersion::Windows8 ;
-				}
-			}else{
-				return false ;
-			}
-		}
-		bool LegacyWindows( const QOperatingSystemVersion& system )
-		{
-			if( this->isWindows() ){
-
-				const auto& m = utility::local::pretendPlatform() ;
-
-				if( m.isLegacyWindows() || m.isWindows7() ){
-
-					return true ;
-				}else{
-					if( system < QOperatingSystemVersion::Windows10 ){
-
-						return true ;
-
-					}else if( system > QOperatingSystemVersion::Windows10 ){
-
-						return false ;
-					}else{
-						/*
-						 * Windows 10 (1903)       10.0.18362
-						 * Windows 10 (1809)       10.0.17763
-						 * Windows 10 (1803)       10.0.17134
-						 * Windows 10 (1709)       10.0.16299
-						 * Windows 10 (1703)       10.0.15063
-						 * Windows 10 (1607)       10.0.14393
-						 * Windows 10 (1511)       10.0.10586
-						 * Windows 10              10.0.10240
-						 */
-						return system.microVersion() < 16299 ;
-					}
-				}
-			}else{
-				return false ;
-			}
-		}
-		bool m_isWin7 ;
-		bool m_isLegacyWindows ;
-	} ;
-
-	const SysPlatForm& Platform()
-	{
-		static SysPlatForm m ;
-
-		return m ;
+	}else{
+		return false ;
 	}
 }
+
+bool utility::SysPlatForm::LegacyWindows( const QOperatingSystemVersion& system )
+{
+	if( this->isWindows() ){
+
+		const auto& m = utility::local::pretendPlatform() ;
+
+		if( m.isLegacyWindows() || m.isWindows7() ){
+
+			return true ;
+		}else{
+			if( system < QOperatingSystemVersion::Windows10 ){
+
+				return true ;
+
+			}else if( system > QOperatingSystemVersion::Windows10 ){
+
+				return false ;
+			}else{
+				/*
+				 * Windows 10 (1903)       10.0.18362
+				 * Windows 10 (1809)       10.0.17763
+				 * Windows 10 (1803)       10.0.17134
+				 * Windows 10 (1709)       10.0.16299
+				 * Windows 10 (1703)       10.0.15063
+				 * Windows 10 (1607)       10.0.14393
+				 * Windows 10 (1511)       10.0.10586
+				 * Windows 10              10.0.10240
+				 */
+				return system.microVersion() < 16299 ;
+			}
+		}
+	}else{
+		return false ;
+	}
 }
 
 bool utility::platformisOS2()
@@ -673,26 +790,6 @@ bool utility::hasDigitsOnly( const QString& e )
 	return true ;
 }
 
-namespace utility
-{
-static QString downloadPath()
-{
-#if QT_VERSION >= QT_VERSION_CHECK( 5,6,0 )
-
-	auto s = QStandardPaths::standardLocations( QStandardPaths::DownloadLocation ) ;
-
-	if( s.isEmpty() ){
-
-		return QDir::homePath() + "/Downloads" ;
-	}else{
-		return s.first() ;
-	}
-#else
-	return QDir::homePath() + "/Downloads" ;
-#endif
-}
-}
-
 QString utility::homePath()
 {
 	if( utility::platformIsWindows() ){
@@ -701,7 +798,7 @@ QString utility::homePath()
 
 	}else if( utility::platformisFlatPak() ){
 
-		return utility::downloadPath() ;
+		return utility::local::downloadPath() ;
 	}else{
 		return QDir::homePath() ;
 	}
@@ -834,73 +931,6 @@ QString utility::downloadFolder( const Context& ctx )
 	return ctx.Settings().downloadFolder() ;
 }
 
-namespace utility
-{
-static QJsonArray saveDownloadList( tableWidget& tableWidget,bool noFinishedSuccess )
-{
-	QJsonArray arr ;
-
-	auto _add = [ & ]( const tableWidget::entry& e ){
-
-		if( e.url.isEmpty() ){
-
-			return ;
-		}
-
-		auto obj = e.uiJson ;
-
-		auto title = obj.value( "title" ).toString() ;
-
-		if( !title.isEmpty() ){
-
-			auto url = obj.value( "url" ).toString() ;
-
-			if( title == url ){
-
-				obj.remove( "title" ) ;
-			}
-		}
-
-		if( !e.downloadingOptions.isEmpty() ){
-
-			obj.insert( "downloadOptions",e.downloadingOptions ) ;
-		}
-
-		if( !e.engineName.isEmpty() ){
-
-			obj.insert( "engineName",e.engineName ) ;
-		}
-
-		if( !e.extraDownloadingOptions.isEmpty() ){
-
-			obj.insert( "downloadExtraOptions",e.extraDownloadingOptions ) ;
-		}
-
-		arr.append( obj ) ;
-	} ;
-
-	if( noFinishedSuccess ){
-
-		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
-
-			using gg = reportFinished::finishedStatus ;
-
-			if( !gg::finishedWithSuccess( e.runningState ) ){
-
-				_add( e ) ;
-			}
-		} ) ;
-	}else{
-		tableWidget.forEach( [ & ]( const tableWidget::entry& e ){
-
-			_add( e ) ;
-		} ) ;
-	}
-
-	return arr ;
-}
-}
-
 void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool pld )
 {
 	if( ctx.Settings().autoSavePlaylistOnExit() ){
@@ -918,7 +948,7 @@ void utility::saveDownloadList( const Context& ctx,tableWidget& tableWidget,bool
 			}
 		}
 
-		auto arr = utility::saveDownloadList( tableWidget,true ) ;
+		auto arr = utility::local::saveDownloadList( tableWidget,true ) ;
 
 		auto e = ctx.Engines().engineDirPaths().dataPath( "autoSavedList.json" ) ;
 
@@ -978,7 +1008,7 @@ void utility::saveDownloadList( const Context& ctx,QMenu& m,tableWidget& tableWi
 
 		if( !s.isEmpty() ){
 
-			const auto e = utility::saveDownloadList( tableWidget,false ) ;
+			const auto e = utility::local::saveDownloadList( tableWidget,false ) ;
 
 			if( s.endsWith( ".json" ) ){
 
@@ -1293,71 +1323,6 @@ bool utility::onlyWantedVersionInfo( const utility::cliArguments& args )
 	}
 }
 
-namespace utility
-{
-static util::version get_process_version( const QString& path,
-					  const QString& cmd,
-					  const QProcessEnvironment& env )
-{
-	auto e = path + "/version_info.txt" ;
-
-	QFile file( e ) ;
-
-	if( file.exists() ){
-
-		if( file.open( QIODevice::ReadOnly ) ){
-
-			util::version m = file.readAll().trimmed() ;
-
-			if( m.valid() ){
-
-				return m ;
-			}
-
-			file.close() ;
-		}
-
-		file.remove() ;
-	}
-
-	QProcess exe ;
-
-	exe.setProgram( cmd ) ;
-	exe.setArguments( { "--version" } ) ;
-	exe.setProcessEnvironment( env ) ;
-
-	exe.start() ;
-
-	exe.waitForFinished() ;
-
-	util::version m = exe.readAllStandardOutput().trimmed() ;
-
-	if( m.valid() ){
-
-		QFile file( e ) ;
-
-		if( file.open( QIODevice::WriteOnly | QIODevice::Truncate ) ){
-
-			file.write( m.toString().toUtf8() ) ;
-		}
-	}
-
-	return m ;
-}
-
-static bool start_updated( QProcess& exe )
-{
-#if QT_VERSION >= QT_VERSION_CHECK( 5,10,0 )
-	return exe.startDetached() ;
-#else
-	exe.start() ;
-	exe.waitForFinished( -1 ) ;
-	return true ;
-#endif
-}
-
-}
-
 bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& cargs )
 {
 	if( utility::platformIsNOTWindows() ){
@@ -1414,7 +1379,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 			env.insert( "QT_PLUGIN_PATH",exeDirPath ) ;
 		}
 
-		util::version uv = utility::get_process_version( update,exePath,env ) ;
+		util::version uv = utility::local::get_process_version( update,exePath,env ) ;
 
 		util::version cv = utility::runningVersionOfMediaDownloader() ;
 
@@ -1431,7 +1396,7 @@ bool utility::startedUpdatedVersion( settings& s,const utility::cliArguments& ca
 				exe.setArguments( args ) ;
 				exe.setProcessEnvironment( env ) ;
 
-				return utility::start_updated( exe ) ;
+				return utility::local::start_updated( exe ) ;
 			}else{
 				utils::qthread::run( [ update ]{ QDir( update ).removeRecursively() ; } ) ;
 			}
@@ -1446,44 +1411,9 @@ bool utility::platformIsLikeWindows()
 	return utility::platformIsWindows() || utility::platformisOS2() ;
 }
 
-namespace utility
-{
-class runTimeVersionInfo
-{
-public:
-	void setInstanceVersion( const QString& e )
-	{
-		m_instanceVersion = e ;
-	}
-	void setAboutInstanceVersion( const QString& e )
-	{
-		m_aboutInstanceVersion = e ;
-	}
-	const QString& instanceVersion() const
-	{
-		return m_instanceVersion ;
-	}
-	const QString& aboutInstanceVersion() const
-	{
-		return m_aboutInstanceVersion ;
-	}
-private:
-	QString m_instanceVersion ;
-	QString m_aboutInstanceVersion ;
-} ;
-
-static runTimeVersionInfo& runTimeVersions()
-{
-	static runTimeVersionInfo m ;
-
-	return m ;
-}
-
-}
-
 QString utility::aboutVersionInfo()
 {
-	const auto& e = utility::runTimeVersions().aboutInstanceVersion() ;
+	const auto& e = utility::local::runTimeVersions().aboutInstanceVersion() ;
 
 	if( e.isEmpty() ){
 
@@ -1531,7 +1461,7 @@ bool utility::runningGitVersion( const QString& m )
 
 const QString& utility::fakeRunningVersionOfMediaDownloader()
 {
-	return utility::runTimeVersions().instanceVersion() ;
+	return utility::local::runTimeVersions().instanceVersion() ;
 }
 
 QString utility::runningVersionOfMediaDownloader()
@@ -1575,12 +1505,12 @@ QString utility::parseVersionInfo( const utils::qprocess::outPut& r )
 
 void utility::setRunningVersionOfMediaDownloader( const QString& e )
 {
-	utility::runTimeVersions().setInstanceVersion( e ) ;
+	utility::local::runTimeVersions().setInstanceVersion( e ) ;
 }
 
 void utility::setHelpVersionOfMediaDownloader( const QString& e )
 {
-	utility::runTimeVersions().setAboutInstanceVersion( e ) ;
+	utility::local::runTimeVersions().setAboutInstanceVersion( e ) ;
 }
 
 QStringList utility::args::parseOptions( const QString& e,const engines::engine& engine )
@@ -1725,39 +1655,36 @@ void utility::networkReply::getData( const Context& ctx,const utils::network::re
 	}
 }
 
-namespace utility
-{
-	static bool useFakeHash ;
-	static bool cliArguments_debug ;
-}
-
 bool utility::cliArguments::useFakeMdHash()
 {
-	return utility::useFakeHash ;
+	return utility::local::useFakeHash ;
 }
 
 bool utility::cliArguments::debug()
 {
-	return utility::cliArguments_debug ;
+	return utility::local::cliArguments_debug ;
 }
 
 utility::cliArguments::cliArguments( int argc,char ** argv )
 {
 	for( int i = 0 ; i < argc ; i++ ){
 
-		m_args.append( argv[ i ] ) ;
+		auto s = argv[ i ] ;
+
+		if( s ){
+
+			m_args.append( s ) ;
+		}
 	}
 
 	if( m_args.contains( "--qDebug" ) || m_args.contains( "--qdebug" ) || m_args.contains( "--debug" ) ){
 
-		utility::cliArguments_debug = true ;
+		utility::local::cliArguments_debug = true ;
 	}else{
-		utility::cliArguments_debug = false ;
+		utility::local::cliArguments_debug = false ;
 	}
 
-	utility::useFakeHash = this->contains( "--fake-hash" ) ;
-
-	utility::local::setPretendPlatform( m_args ) ;
+	utility::local::useFakeHash = this->contains( "--fake-hash" ) ;
 
 	if( this->runningUpdated() ){
 
@@ -1970,37 +1897,6 @@ void utility::hideUnhideEntries( QMenu& m,tableWidget& table,int row,bool showHi
 	}
 }
 
-namespace utility
-{
-static QStringList listOptionsFromDownloadOptions( const QString& e )
-{
-	QStringList m ;
-
-	auto ee = util::splitPreserveQuotes( e ) ;
-
-	for( auto it = ee.begin() ; it != ee.end() ; it++ ){
-
-		const auto& s = *it ;
-
-		if( s == "\"--proxy\"" || s == "--proxy" ){
-
-			auto xt = it + 1 ;
-
-			if( xt != ee.end() ){
-
-				m.append( "--proxy" ) ;
-				m.append( *xt ) ;
-			}
-
-			break ;
-		}
-	}
-
-	return m ;
-}
-
-}
-
 void utility::addToListOptionsFromsDownload( QStringList& args,
 					     const QString& downLoadOptions,
 					     const Context& ctx,
@@ -2008,7 +1904,7 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 {
 	auto m = ctx.TabManager().Configure().engineDefaultDownloadOptions( engine.name() ) ;
 
-	auto ee = utility::listOptionsFromDownloadOptions( m ) ;
+	auto ee = utility::local::listOptionsFromDownloadOptions( m ) ;
 
 	const auto& mm = ctx.Engines().networkProxy() ;
 
@@ -2024,7 +1920,7 @@ void utility::addToListOptionsFromsDownload( QStringList& args,
 		args = args + ee ;
 	}
 
-	auto ss = args + utility::listOptionsFromDownloadOptions( downLoadOptions ) ;
+	auto ss = args + utility::local::listOptionsFromDownloadOptions( downLoadOptions ) ;
 
 	for( int i = static_cast< int >( ss.size() ) - 2 ; i > -1 ; i-- ){
 

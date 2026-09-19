@@ -31,6 +31,7 @@
 #include <QTime>
 #include <QNetworkProxy>
 #include <QMutex>
+#include <QOperatingSystemVersion>
 
 #include <type_traits>
 #include <memory>
@@ -449,6 +450,107 @@ namespace utility
 
 		return {} ;
 	}
+	class PretendPlatform
+	{
+	public:
+		PretendPlatform( const QStringList& m )
+		{
+			if( this->isWindows() ){
+
+				m_pretend32Bit = m.contains( "--pretend-x86" ) ;
+
+				m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
+
+				m_pretendLegacyWindows = m.contains( "--pretend-winLegacy" ) ;
+			}
+		}
+		bool isWindows7() const
+		{
+			return m_pretendWindows7 ;
+		}
+		bool is32Bit() const
+		{
+			return m_pretend32Bit ;
+		}
+		bool isLegacyWindows() const
+		{
+			return m_pretendLegacyWindows ;
+		}
+	private:
+		bool isWindows() const
+		{
+			#ifdef Q_OS_WIN
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+		bool m_pretend32Bit    = false ;
+		bool m_pretendWindows7 = false ;
+		bool m_pretendLegacyWindows = false ;
+	} ;
+
+	class SysPlatForm
+	{
+	public:
+		SysPlatForm()
+		{
+			auto m            = QOperatingSystemVersion::current() ;
+
+			m_isWin7          = this->Win7( m ) ;
+			m_isLegacyWindows = this->LegacyWindows( m ) ;
+		}
+		bool isWin7() const
+		{
+			return m_isWin7 ;
+		}
+		bool isLegacyWindows() const
+		{
+			return m_isLegacyWindows ;
+		}
+		QString errorMessage() const ;
+		bool isOs2() const
+		{
+			#if defined(__OS2__) || defined(OS2) || defined(_OS2)
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+		bool isWindows() const
+		{
+			#ifdef Q_OS_WIN
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+		bool isLinux() const
+		{
+			#ifdef Q_OS_LINUX
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+		bool isMacOs() const
+		{
+			#ifdef Q_OS_MACOS
+				return true ;
+			#else
+				return false ;
+			#endif
+		}
+	private:
+		bool Win7( const QOperatingSystemVersion& system ) ;
+		bool LegacyWindows( const QOperatingSystemVersion& system ) ;
+		bool m_isWin7 ;
+		bool m_isLegacyWindows ;
+	} ;
+
+	void setPlatForms( const utility::PretendPlatform& ) ;
+	void setPlatForms( const utility::SysPlatForm& ) ;
+
 	class cliArguments
 	{
 	public:

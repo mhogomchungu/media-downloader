@@ -103,6 +103,14 @@ int main( int argc,char * argv[] )
 {
 	utility::cliArguments cargs( argc,argv ) ;
 
+	utility::PretendPlatform pretendPlatform( cargs.arguments() ) ;
+
+	utility::setPlatForms( pretendPlatform ) ;
+
+	utility::SysPlatForm sysPlatform ;
+
+	utility::setPlatForms( sysPlatform ) ;
+
 	if( utility::onlyWantedVersionInfo( cargs ) ){
 
 		return 0 ;
