@@ -33,6 +33,7 @@
 #include "engines/quickjs.h"
 #include "engines/quickjs_ng.h"
 #include "engines/getsauce.h"
+#include "engines/ffmpeg.h"
 
 #include "reportFinished.h"
 #include "utility.h"
@@ -503,7 +504,10 @@ void engines::updateEngines( int id )
 		this->engineAdd( "",this->getSupportingEngineByName( "tar" ),id ) ;
 	}
 
-	this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
+	if( !utility::platformIsModernWindows() ){
+
+		this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
+	}
 
 	for( const auto& it : this->getEngines() ){
 
@@ -833,7 +837,7 @@ void engines::engine::setJsRuntime()
 {
 	if( m_extraArguments.isEmpty() && m_likeYtDlp ){
 
-		if( utility::platformisLegacyWindows() ){
+		if( utility::platformIsLegacyWindows() ){
 
 			engines::engine::jsRuntimeInstalled js( m_parent,"quickjs-ng" ) ;
 
@@ -989,6 +993,12 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 		obj.insert( "UpdatableSupportingEngine",true ) ;
 
 		obj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
+
+	}else if( name == "ffmpeg" ){
+
+		obj.insert( "SupportingEngine",true ) ;
+
+		obj.insert( "UpdatableSupportingEngine",true ) ;
 	}
 
 	return obj ;
@@ -1051,6 +1061,10 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 	}else if( name == "quickjs-ng" ){
 
 		return std::make_unique< quickjs_ng >( engines,engine,m_jsonObject ) ;
+
+	}else if( name == "ffmpeg" ){
+
+		return std::make_unique< ffmpeg >( engines,engine,m_jsonObject ) ;
 	}else{
 		return std::make_unique< generic >( engines,engine,m_jsonObject ) ;
 	}
@@ -2756,12 +2770,19 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 {
 	yt_dlp::init( this->configFileName(),logger,enginePath ) ;
 
+	if( utility::platformIsModernWindows() ){
+
+		ffmpeg::init( m_parent.m_settings,logger,enginePath ) ;
+	}else{
+		ffmpeg::remove( logger,enginePath ) ;
+	}
+
 	if( utility::platformIsWindows() ){
 
 		aria2c::init( logger,enginePath ) ;
 		wget::init( logger,enginePath ) ;
 
-		if( utility::platformisLegacyWindows() ){
+		if( utility::platformIsLegacyWindows() ){
 
 			quickjs_ng::init( logger,enginePath ) ;
 			quickjs::remove( logger,enginePath ) ;

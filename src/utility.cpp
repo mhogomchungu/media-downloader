@@ -262,6 +262,7 @@ static QStringList listOptionsFromDownloadOptions( const QString& e )
 }
 
 }
+
 }
 
 void utility::setPlatForms( const utility::PretendPlatform& p )
@@ -271,7 +272,7 @@ void utility::setPlatForms( const utility::PretendPlatform& p )
 
 void utility::setPlatForms( const utility::SysPlatForm& s )
 {
-	utility::local::SysPlatform = & s ;
+	utility::local::SysPlatform = &s ;
 }
 
 QString utility::SysPlatForm::errorMessage() const
@@ -296,6 +297,26 @@ bool utility::SysPlatForm::Win7( const QOperatingSystemVersion& system )
 	}else{
 		return false ;
 	}
+}
+
+bool utility::SysPlatForm::ModernWindows( const QOperatingSystemVersion& system )
+{
+#if QT_VERSION >= QT_VERSION_CHECK( 6,5,0 )
+
+	if( this->isWindows() ){
+
+		if( utility::local::pretendPlatform().isModernWindows() ){
+
+			return true ;
+		}else{
+			return system >= QOperatingSystemVersion::Windows10_22H2 ;
+		}
+	}else{
+		return false ;
+	}
+#else
+	return false ;
+#endif
 }
 
 bool utility::SysPlatForm::LegacyWindows( const QOperatingSystemVersion& system )
@@ -359,7 +380,12 @@ bool utility::platformIsWindows7()
 	return utility::local::Platform().isWin7() ;
 }
 
-bool utility::platformisLegacyWindows()
+bool utility::platformIsModernWindows()
+{
+	return utility::local::Platform().isModernWindows() ;
+}
+
+bool utility::platformIsLegacyWindows()
 {
 	return utility::local::Platform().isLegacyWindows() ;
 }

@@ -462,6 +462,8 @@ namespace utility
 				m_pretendWindows7 = m.contains( "--pretend-win7" ) ;
 
 				m_pretendLegacyWindows = m.contains( "--pretend-winLegacy" ) ;
+
+				m_pretendModernWindows = m.contains( "--pretend-winModern" ) ;
 			}
 		}
 		bool isWindows7() const
@@ -476,6 +478,10 @@ namespace utility
 		{
 			return m_pretendLegacyWindows ;
 		}
+		bool isModernWindows() const
+		{
+			return m_pretendModernWindows ;
+		}
 	private:
 		bool isWindows() const
 		{
@@ -485,9 +491,10 @@ namespace utility
 				return false ;
 			#endif
 		}
-		bool m_pretend32Bit    = false ;
-		bool m_pretendWindows7 = false ;
-		bool m_pretendLegacyWindows = false ;
+		bool m_pretend32Bit ;
+		bool m_pretendWindows7 ;
+		bool m_pretendLegacyWindows ;
+		bool m_pretendModernWindows ;
 	} ;
 
 	class SysPlatForm
@@ -499,6 +506,7 @@ namespace utility
 
 			m_isWin7          = this->Win7( m ) ;
 			m_isLegacyWindows = this->LegacyWindows( m ) ;
+			m_isModernWindows = this->ModernWindows( m ) ;
 		}
 		bool isWin7() const
 		{
@@ -507,6 +515,10 @@ namespace utility
 		bool isLegacyWindows() const
 		{
 			return m_isLegacyWindows ;
+		}
+		bool isModernWindows() const
+		{
+			return m_isModernWindows ;
 		}
 		QString errorMessage() const ;
 		bool isOs2() const
@@ -544,8 +556,10 @@ namespace utility
 	private:
 		bool Win7( const QOperatingSystemVersion& system ) ;
 		bool LegacyWindows( const QOperatingSystemVersion& system ) ;
+		bool ModernWindows( const QOperatingSystemVersion& system ) ;
 		bool m_isWin7 ;
 		bool m_isLegacyWindows ;
+		bool m_isModernWindows ;
 	} ;
 
 	void setPlatForms( const utility::PretendPlatform& ) ;
@@ -859,7 +873,8 @@ namespace utility
 	bool pathIsFolderAndExists( const QString& ) ;
 	bool platformIsWindows() ;
 	bool platformIsWindows7() ;
-	bool platformisLegacyWindows() ;
+	bool platformIsLegacyWindows() ;
+	bool platformIsModernWindows() ;
 	bool platformIsLinux() ;
 	bool platformIsOSX() ;
 	bool platformisOS2() ;

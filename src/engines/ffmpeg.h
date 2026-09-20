@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright (c) 2025
+ *  Copyright (c) 2026
  *  name : Francis Banyikwa
  *  email: mhogomchungu@gmail.com
  *  This program is free software: you can redistribute it and/or modify
@@ -21,17 +21,16 @@
 #include "../settings.h"
 #include "../utility.h"
 
-class deno : public engines::engine::baseEngine
+class ffmpeg : public engines::engine::baseEngine
 {
 public:
 	static void init( settings&,Logger& logger,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
-	~deno() override ;
+	~ffmpeg() override ;
 	bool foundNetworkUrl( const QString& s ) override ;
-	QString urlFileName( const QString& ) override ;
-	bool autoUpdate( const engines::engine::baseEngine::onlineVersion&,const util::version& ) override ;
-	deno( const engines&,const engines::engine&,QJsonObject& ) ;
+	renameArchiveFolderStatus renameArchiveFolder( const QString&,const QString& ) override ;
+	ffmpeg( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	QString archiveExtension() ;
 	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;
-	static util::version version( const QString& ) ;
 };
