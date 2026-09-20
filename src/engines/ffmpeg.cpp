@@ -48,6 +48,8 @@ void ffmpeg::init( settings&,Logger& logger,const engines::enginePaths& enginePa
 
 	json.done() ;
 
+	mainObj.insert( "ArchiveContainsFolder",true ) ;
+
 	mainObj.insert( "Version","1" ) ;
 
 	mainObj.insert( "DownloadUrl","https://api.github.com/repos/BtbN/FFmpeg-Builds/releases" ) ;
