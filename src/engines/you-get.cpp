@@ -98,11 +98,11 @@ std::vector<engines::engine::baseEngine::mediaInfo> you_get::mediaProperties( Lo
 
 				const auto arr = oo.value( "src" ).toArray() ;
 
-				for( const auto& it : arr ){
+				for( const auto it : arr ){
 
 					const auto xrr = it.toArray() ;
 
-					for( const auto& xt : xrr ){
+					for( const auto xt : xrr ){
 
 						l.append( xt.toString() ) ;
 					}

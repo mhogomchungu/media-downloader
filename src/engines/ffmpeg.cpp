@@ -52,7 +52,7 @@ void ffmpeg::init( settings&,Logger& logger,const engines::enginePaths& enginePa
 
 	mainObj.insert( "Version","1" ) ;
 
-	mainObj.insert( "DownloadUrl","https://api.github.com/repos/BtbN/FFmpeg-Builds/releases" ) ;
+	mainObj.insert( "DownloadUrl","https://api.github.com/repos/BtbN/FFmpeg-Builds/releases/latest" ) ;
 
 	mainObj.insert( "AutoUpdate",true ) ;
 
@@ -95,6 +95,11 @@ ffmpeg::~ffmpeg()
 bool ffmpeg::foundNetworkUrl( const QString& e )
 {
 	return e.startsWith( "ffmpeg-" ) && e.endsWith( "-latest-win64-gpl-shared-9.0.zip" ) ;
+}
+
+QString ffmpeg::urlFileName( const QString& )
+{
+	return "ffmpeg-n9.0-latest-win64-gpl-shared-9.0.zip" ;
 }
 
 engines::engine::baseEngine::renameArchiveFolderStatus

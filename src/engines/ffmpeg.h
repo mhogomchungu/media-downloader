@@ -28,6 +28,7 @@ public:
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	~ffmpeg() override ;
 	bool foundNetworkUrl( const QString& s ) override ;
+	QString urlFileName( const QString& ) override ;
 	renameArchiveFolderStatus renameArchiveFolder( const QString&,const QString& ) override ;
 	ffmpeg( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
