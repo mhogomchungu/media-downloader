@@ -22,13 +22,24 @@
 #include <QDir>
 
 QString ffmpeg::fileName()
-{
-	return "ffmpeg-n9.0-latest-win64-gpl-shared-9.0.zip" ;
+{	
+	if( utility::platformIsModernWindows() ){
+
+		return "ffmpeg-n9.0-win64-gpl-shared.zip" ;
+	}else{
+		return "ffmpeg-n8.1-win32-gpl-shared.zip" ;
+	}
 }
 
 QString ffmpeg::longVersionString()
 {
-	return "n9.0.2-3-ga5923073bf-20260920" ;
+	if( utility::platformIsModernWindows() ){
+
+		return "n9.0.2-3-ga5923073bf-20260920" ;
+	}else{
+		return "n8.1.0-g189d0b83b2-20250915" ;
+	}
+
 }
 
 QString ffmpeg::shortVersionString()
@@ -80,7 +91,7 @@ void ffmpeg::init( settings&,Logger& logger,const engines::enginePaths& enginePa
 
 	mainObj.insert( "Version","1" ) ;
 
-	mainObj.insert( "DownloadUrl","https://api.github.com/repos/BtbN/FFmpeg-Builds/releases/latest" ) ;
+	mainObj.insert( "DownloadUrl","https://api.github.com/repos/mhogomchungu/media-downloader-git/releases/latest" ) ;
 
 	mainObj.insert( "AutoUpdate",true ) ;
 
@@ -112,9 +123,10 @@ void ffmpeg::remove( Logger&,const engines::enginePaths& enginePath )
 
 void ffmpeg::replaceVersionString( QString& m )
 {
-	if( utility::platformIsModernWindows() && m == ffmpeg::longVersionString() ){
+	if( m == ffmpeg::longVersionString() || m == "N-121066-g189d0b83b2-20250915" ){
 
 		m = ffmpeg::shortVersionString() ;
+
 	}
 }
 

@@ -504,7 +504,7 @@ void engines::updateEngines( int id )
 		this->engineAdd( "",this->getSupportingEngineByName( "tar" ),id ) ;
 	}
 
-	if( !utility::platformIsModernWindows() ){
+	if( !utility::platformIsWindows() ){
 
 		this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 	}
@@ -611,7 +611,7 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 {
 	QFileInfo info( exeName ) ;
 
-	if( exeName == "ffmpeg.exe" && utility::platformIsModernWindows() ){
+	if( exeName == "ffmpeg.exe" && utility::platformIsWindows() ){
 
 		fromBeginning = false ;
 	}
@@ -1368,11 +1368,7 @@ QString engines::engine::versionString( const QString& data ) const
 
 			m.replace( ",","" ).replace( "v","" ) ;
 
-			if( m == "N-121066-g189d0b83b2-20250915" ){
-
-				m = "n8.1-dev-121066-g189d0b83b2-20250915" ;
-
-			}else if( m == "2.7.0+fb4db33" ){
+			if( m == "2.7.0+fb4db33" ){
 
 				//Deno 2.7.0 has a bad version string
 
@@ -2778,7 +2774,7 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 {
 	yt_dlp::init( this->configFileName(),logger,enginePath ) ;
 
-	if( utility::platformIsModernWindows() ){
+	if( utility::platformIsWindows() ){
 
 		ffmpeg::init( m_parent.m_settings,logger,enginePath ) ;
 	}else{
