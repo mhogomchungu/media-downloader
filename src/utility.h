@@ -491,10 +491,10 @@ namespace utility
 				return false ;
 			#endif
 		}
-		bool m_pretend32Bit ;
-		bool m_pretendWindows7 ;
-		bool m_pretendLegacyWindows ;
-		bool m_pretendModernWindows ;
+		bool m_pretend32Bit         = false ;
+		bool m_pretendWindows7      = false ;
+		bool m_pretendLegacyWindows = false ;
+		bool m_pretendModernWindows = false;
 	} ;
 
 	class SysPlatForm

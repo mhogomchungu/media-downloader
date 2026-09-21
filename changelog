@@ -494,3 +494,10 @@ Version 1.2.0(April 1st, 2021)
      [ALL]
       - Add ability to save and view download history.
       - Fix a breaking change in how to call deno to get its version.
+
+      Version 5.6.7(UNRELEASED)
+     [WINDOWS]
+      - Unbandle ffmpeg and install it on first run. Version 9.0.2
+        will be installed if Windows version is atleast version 10 22H2
+        and Version 8.1 will be installed otherwise.
+      - Qt6 build installer now Defaults to use "C:\Program Files" instead of "C:\Progran Files (x86)".
