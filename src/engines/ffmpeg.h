@@ -26,12 +26,22 @@ class ffmpeg : public engines::engine::baseEngine
 public:
 	static void init( settings&,Logger& logger,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
+	static void replaceVersionString( QString& ) ;
 	~ffmpeg() override ;
+	QString updateCmdPath( const QString& ) override ;
 	bool foundNetworkUrl( const QString& s ) override ;
 	QString urlFileName( const QString& ) override ;
+	engines::metadata parseJsonDataFromGitHub( const QJsonDocument& ) override ;
+	engines::engine::baseEngine::onlineVersion versionInfoFromGithub( const QByteArray& ) override ;
 	renameArchiveFolderStatus renameArchiveFolder( const QString&,const QString& ) override ;
 	ffmpeg( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
-	QString archiveExtension() ;
+	static void checkUpdatedVersion( const engines::enginePaths& enginePath ) ;
+	static void deleteFolder( const QString& ) ;
+	static QString archiveExtension() ;
+	static QString folderName() ;
+	static QString fileName() ;
+	static QString shortVersionString() ;
+	static QString longVersionString() ;
 	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;
 };

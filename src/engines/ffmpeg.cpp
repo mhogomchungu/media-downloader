@@ -19,6 +19,32 @@
 
 #include "ffmpeg.h"
 
+#include <QDir>
+
+QString ffmpeg::fileName()
+{
+	return "ffmpeg-n9.0-latest-win64-gpl-shared-9.0.zip" ;
+}
+
+QString ffmpeg::longVersionString()
+{
+	return "n9.0.2-3-ga5923073bf-20260920" ;
+}
+
+QString ffmpeg::shortVersionString()
+{
+	auto m = util::split( ffmpeg::longVersionString(),"-" ) ;
+
+	return m[ 0 ].replace( "n","" ) ;
+}
+
+QString ffmpeg::folderName()
+{
+	auto m = ffmpeg::archiveExtension() ;
+
+	return ffmpeg::fileName().replace( m,"" ) ;
+}
+
 utility::addJsonCmd::entry::args ffmpeg::entryCmd( const QString& e )
 {
 	utility::addJsonCmd::entry::args data ;
@@ -34,6 +60,8 @@ utility::addJsonCmd::entry::args ffmpeg::entryCmd( const QString& e )
 void ffmpeg::init( settings&,Logger& logger,const engines::enginePaths& enginePath )
 {
 	auto m = enginePath.enginePath( "ffmpeg.json" ) ;
+
+	ffmpeg::checkUpdatedVersion( enginePath ) ;
 
 	if( QFile::exists( m ) ){
 
@@ -80,11 +108,13 @@ void ffmpeg::remove( Logger&,const engines::enginePaths& enginePath )
 		QFile::remove( m ) ;
 	}
 
-	m = enginePath.binPath( "ffmpeg" ) ;
+}
 
-	if( QFile::exists( m ) ){
+void ffmpeg::replaceVersionString( QString& m )
+{
+	if( utility::platformIsModernWindows() && m == ffmpeg::longVersionString() ){
 
-		QFile::remove( m ) ;
+		m = ffmpeg::shortVersionString() ;
 	}
 }
 
@@ -92,39 +122,113 @@ ffmpeg::~ffmpeg()
 {
 }
 
+QString ffmpeg::updateCmdPath( const QString& e )
+{
+	return e + "/" + ffmpeg::folderName() + "/bin/ffmpeg.exe" ;
+}
+
 bool ffmpeg::foundNetworkUrl( const QString& e )
 {
-	return e.startsWith( "ffmpeg-" ) && e.endsWith( "-latest-win64-gpl-shared-9.0.zip" ) ;
+	return e == this->urlFileName( {} ) ;
 }
 
 QString ffmpeg::urlFileName( const QString& )
 {
-	return "ffmpeg-n9.0-latest-win64-gpl-shared-9.0.zip" ;
+	return ffmpeg::fileName() ;
+}
+
+engines::metadata ffmpeg::parseJsonDataFromGitHub( const QJsonDocument& doc )
+{
+	return engines::engine::baseEngine::parseJsonDataFromGitHub( doc ) ;
+}
+
+engines::engine::baseEngine::onlineVersion ffmpeg::versionInfoFromGithub( const QByteArray& )
+{
+	auto a = ffmpeg::shortVersionString() ;
+	return { a,a } ;
 }
 
 engines::engine::baseEngine::renameArchiveFolderStatus
 ffmpeg::renameArchiveFolder( const QString& archivePath,const QString& binPath )
 {
-	auto m = this->archiveExtension() ;
-
-	const auto& name = engines::engine::baseEngine::engine().name() ;
+	auto m = ffmpeg::archiveExtension() ;
 
 	auto oldPath = binPath + "/" + QFileInfo( archivePath ).fileName().replace( m,"" ) ;
-	auto newPath = binPath + "/" + name ;
+	auto newPath = binPath + "/" + this->folderName() ;
 
-	auto s = utility::rename( oldPath,newPath ) ;
-
-	if( s.isEmpty() ){
+	if( oldPath == newPath ){
 
 		return {} ;
 	}else{
-		return { oldPath,newPath,s } ;
+		auto s = utility::rename( oldPath,newPath ) ;
+
+		if( s.isEmpty() ){
+
+			return {} ;
+		}else{
+			return { oldPath,newPath,s } ;
+		}
 	}
+
 }
 
 ffmpeg::ffmpeg( const engines& e,const engines::engine& s,QJsonObject& ) :
     engines::engine::baseEngine( e.Settings(),s,e.processEnvironment() )
 {
+}
+
+void ffmpeg::checkUpdatedVersion( const engines::enginePaths& enginePath )
+{
+	const auto e = utility::dirEntries( enginePath.binPath() ) ;
+
+	for( const auto& it : e ){
+
+		if( it.contains( "ffmpeg" ) && it != ffmpeg::folderName() ){
+
+			class meaw
+			{
+			public:
+				meaw( const QString& p ) : m_path( p )
+				{
+				}
+				void fg()
+				{
+
+				}
+				void bg()
+				{
+					ffmpeg::deleteFolder( m_path ) ;
+				}
+			private:
+				QString m_path ;
+			} ;
+
+			utils::qthread::run( meaw( enginePath.binPath() + "/" + it ) ) ;
+
+		}
+	}
+}
+
+void ffmpeg::deleteFolder( const QString& path )
+{
+	auto m = path + "-" + QString::number( utility::simpleRandomNumber() ) ;
+
+	QDir dir ;
+
+	for( int i = 0 ; i < 5 ; i++ ){
+
+		if( dir.rename( path,m ) ){
+
+			dir.setPath( m ) ;
+
+			dir.removeRecursively() ;
+
+			break ;
+		}else{
+			QThread::currentThread()->sleep( 1 ) ;
+		}
+	}
+
 }
 
 QString ffmpeg::archiveExtension()

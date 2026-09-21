@@ -347,6 +347,10 @@ public:
 		{
 			return std::move( *this ) ;
 		}
+		void updateVersion( const QString& e )
+		{
+			m_version = e ;
+		}
 		const QString& url() const
 		{
 			return m_url ;

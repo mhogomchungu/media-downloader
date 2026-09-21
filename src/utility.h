@@ -884,6 +884,7 @@ namespace utility
 	bool platformIsAppImage() ;
 	bool addData( const QByteArray& ) ;
 	bool containsLinkerWarning( const QByteArray& ) ;
+	QStringList dirEntries( const QString& ) ;
 	QString rename( const Context&,QTableWidgetItem&,const QString&,const QString&,const QString& ) ;
 	QString rename( const QString& oldName,const QString& newName ) ;
 	QString removeFile( const QString& ) ;

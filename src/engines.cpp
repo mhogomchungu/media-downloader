@@ -611,6 +611,11 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 {
 	QFileInfo info( exeName ) ;
 
+	if( exeName == "ffmpeg.exe" && utility::platformIsModernWindows() ){
+
+		fromBeginning = false ;
+	}
+
 	if( fromBeginning ){
 
 		return this->findExecutable( utility::forwardIterator( paths ),exeName,info ) ;
@@ -999,6 +1004,7 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 		obj.insert( "SupportingEngine",true ) ;
 
 		obj.insert( "UpdatableSupportingEngine",true ) ;
+
 	}
 
 	return obj ;
@@ -1377,6 +1383,8 @@ QString engines::engine::versionString( const QString& data ) const
 				//we are using a git version of svtplay-dl
 				m = "4.173" ;
 			}
+
+			ffmpeg::replaceVersionString( m ) ;
 
 			return m ;
 		}

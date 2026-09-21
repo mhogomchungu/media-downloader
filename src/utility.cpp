@@ -34,6 +34,7 @@
 #include <QFileDialog>
 #include <QSysInfo>
 #include <QFile>
+#include <QDir>
 #include <QJsonDocument>
 #include <QOperatingSystemVersion>
 
@@ -265,6 +266,13 @@ static QStringList listOptionsFromDownloadOptions( const QString& e )
 
 }
 
+QStringList utility::dirEntries( const QString& e )
+{
+	auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+
+	return QDir( e ).entryList( filters ) ;
+}
+
 void utility::setPlatForms( const utility::PretendPlatform& p )
 {
 	utility::local::PretendPlatform = &p ;
@@ -315,6 +323,7 @@ bool utility::SysPlatForm::ModernWindows( const QOperatingSystemVersion& system 
 		return false ;
 	}
 #else
+	Q_UNUSED( system )
 	return false ;
 #endif
 }
