@@ -611,6 +611,11 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 {
 	QFileInfo info( exeName ) ;
 
+	if( exeName == "ffmpeg.exe" && utility::platformIsWindows() ){
+
+		fromBeginning = false ;
+	}
+
 	if( fromBeginning ){
 
 		return this->findExecutable( utility::forwardIterator( paths ),exeName,info ) ;
