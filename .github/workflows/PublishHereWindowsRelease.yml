@@ -112,6 +112,11 @@ jobs:
       with:
           path: MD/build5/media-downloader_windows_installer_Qt5.iss
     -
+      name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+         python-version: '>=3.9'
+    -
       name: Install Qt6
       uses: jurplel/install-qt-action@v3
       with:
@@ -122,6 +127,7 @@ jobs:
         host: 'windows'
         target: 'desktop'
         tools: 'tools_mingw1310'
+        setup-python: false
     -
       name: update env for Qt6
       run: echo "${{github.workspace}}/qt6/Qt/Tools/mingw1310_64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
