@@ -24,7 +24,7 @@
 class ffmpeg : public engines::engine::baseEngine
 {
 public:
-	static void init( settings&,Logger& logger,const engines::enginePaths& enginePath ) ;
+	static void init( QJsonObject&,const engines::enginePaths& enginePath ) ;
 	static void remove( Logger& logger,const engines::enginePaths& enginePath ) ;
 	static void replaceVersionString( QString& ) ;
 	~ffmpeg() override ;

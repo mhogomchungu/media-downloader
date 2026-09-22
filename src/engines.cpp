@@ -369,9 +369,7 @@ engines::EnginesList::engine engines::getSupportingEngineByName( const QString& 
 
 	if( e == "ffmpeg" ){
 
-		obj.insert( "VersionArgument","-version" ) ;
-		obj.insert( "VersionStringLine",0 ) ;
-		obj.insert( "VersionStringPosition",2 ) ;
+		ffmpeg::init( obj,m_enginePaths ) ;
 
 	}else if( e == "python" || e == "python3" ){
 
@@ -504,10 +502,7 @@ void engines::updateEngines( int id )
 		this->engineAdd( "",this->getSupportingEngineByName( "tar" ),id ) ;
 	}
 
-	if( !utility::platformIsWindows() ){
-
-		this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
-	}
+	this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
 	for( const auto& it : this->getEngines() ){
 
@@ -2772,14 +2767,14 @@ engines::configDefaultEngine::configDefaultEngine( const engines& engs,Logger& l
 	m_configFileName( m_name + ".json" ),
 	m_parent( engs )
 {
-	yt_dlp::init( this->configFileName(),logger,enginePath ) ;
+	auto m = enginePath.enginePath( "ffmpeg.json" ) ;
 
-	if( utility::platformIsWindows() ){
+	if( QFile::exists( m ) ){
 
-		ffmpeg::init( m_parent.m_settings,logger,enginePath ) ;
-	}else{
-		ffmpeg::remove( logger,enginePath ) ;
+		QFile::remove( m ) ;
 	}
+
+	yt_dlp::init( this->configFileName(),logger,enginePath ) ;
 
 	if( utility::platformIsWindows() ){
 

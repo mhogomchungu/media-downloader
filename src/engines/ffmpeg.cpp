@@ -68,46 +68,27 @@ utility::addJsonCmd::entry::args ffmpeg::entryCmd( const QString& e )
 	return data ;
 }
 
-void ffmpeg::init( settings&,Logger& logger,const engines::enginePaths& enginePath )
+void ffmpeg::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 {
-	auto m = enginePath.enginePath( "ffmpeg.json" ) ;
+	obj.insert( "VersionArgument","-version" ) ;
+	obj.insert( "VersionStringLine",0 ) ;
+	obj.insert( "VersionStringPosition",2 ) ;
+	obj.insert( "Version","1" ) ;
 
-	ffmpeg::checkUpdatedVersion( enginePath ) ;
+	if( utility::platformIsWindows() ){
 
-	if( QFile::exists( m ) ){
+		ffmpeg::checkUpdatedVersion( enginePath ) ;
 
-		return ;
+		utility::addJsonCmd( obj ).add( "Windows",ffmpeg::entryCmd ).done() ;
+
+		obj.insert( "ArchiveContainsFolder",true ) ;
+
+		obj.insert( "DownloadUrl","https://api.github.com/repos/mhogomchungu/media-downloader-git/releases/latest" ) ;
+
+		obj.insert( "AutoUpdate",true ) ;
+
 	}
 
-	QJsonObject mainObj ;
-
-	utility::addJsonCmd json( mainObj ) ;
-
-	json.add( "Windows",ffmpeg::entryCmd ) ;
-
-	json.done() ;
-
-	mainObj.insert( "ArchiveContainsFolder",true ) ;
-
-	mainObj.insert( "Version","1" ) ;
-
-	mainObj.insert( "DownloadUrl","https://api.github.com/repos/mhogomchungu/media-downloader-git/releases/latest" ) ;
-
-	mainObj.insert( "AutoUpdate",true ) ;
-
-	mainObj.insert( "Name","ffmpeg" ) ;
-
-	mainObj.insert( "VersionArgument","-version" ) ;
-
-	mainObj.insert( "BackendPath",utility::stringConstants::defaultPath() ) ;
-
-	mainObj.insert( "VersionStringLine",0 ) ;
-
-	mainObj.insert( "VersionStringPosition",2 ) ;
-
-	mainObj.insert( "LikeYoutubeDl",false ) ;
-
-	engines::file( m,logger ).write( mainObj ) ;
 }
 
 void ffmpeg::remove( Logger&,const engines::enginePaths& enginePath )

@@ -1104,13 +1104,17 @@ namespace utility
 			m_mainObj( obj )
 		{
 		}
-		void add( const QString& platform,addJsonCmd::entry::args( *function )( const QString& ) )
+		addJsonCmd& add( const QString& platform,addJsonCmd::entry::args( *function )( const QString& ) )
 		{
 			this->add( { platform,function( platform ) } ) ;
+
+			return *this ;
 		}
-		void add( const QString& platform,addJsonCmd::entry::args m )
+		addJsonCmd& add( const QString& platform,addJsonCmd::entry::args m )
 		{
 			this->add( { platform,std::move( m ) } ) ;
+
+			return *this ;
 		}
 		void done()
 		{
