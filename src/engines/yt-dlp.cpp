@@ -24,7 +24,6 @@
 #include <QJsonDocument>
 #include <QDir>
 
-#include "../networkAccess.h"
 #include "../utility.h"
 
 #include "../configure.h"
@@ -172,98 +171,41 @@ video:9475kB audio:7554kB subtitle:0kB other streams:0kB global headers:0kB muxi
 [download] 100% of   17.13MiB in 00:00:12 at 1.40MiB/s)R" ;
 }
 
-static QString _OSXBinaryName()
+QString yt_dlp::OSXBinaryName()
 {
 	return "yt-dlp_macos" ;
 }
 
-static QString _Windows32BitBinaryName()
+QString yt_dlp::Windows32BitBinaryName()
 {
 	return "yt-dlp_x86.exe" ;
 }
 
-static QString _Windows64BitBinaryName()
+QString yt_dlp::Windows64BitBinaryName()
 {
 	return "yt-dlp.exe" ;
 }
 
-static QString _NicolaasjanYtdlpFor32BitWin7()
+QString yt_dlp::NicolaasjanYtdlpFor32BitWin7()
 {
 	return "yt-dlp_x86_win7.exe" ;
 }
 
-static QString _NicolaasjanYtdlpFor64BitWin7()
+QString yt_dlp::NicolaasjanYtdlpFor64BitWin7()
 {
 	return "yt-dlp_win7.exe" ;
 }
 
-static QString _NicolaasjanYtdlpUrl()
+QString yt_dlp::NicolaasjanYtdlpUrl()
 {
 	return "https://api.github.com/repos/nicolaasjan/yt-dlp/releases/latest" ;
 }
-
-void yt_dlp::setNicolaasjanYtdlpOptions( QString& cmd,QString& url )
-{
-	url = _NicolaasjanYtdlpUrl() ;
-
-	if( utility::CPU().x86_32() ){
-
-		cmd = _NicolaasjanYtdlpFor32BitWin7() ;
-	}else{
-		cmd = _NicolaasjanYtdlpFor64BitWin7() ;
-	}
-}
-
-void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& thirdPartyBinPath )
-{
-	if( utility::platformIsWindows() ){
-
-		auto destPath = runTimeBinPath ;
-
-		if( utility::platformIsWindows7() ){
-
-			// left on purpose
-		}else{
-			if( utility::CPU().x86_32() ){
-
-				destPath += "/" + _Windows32BitBinaryName() ;
-			}else{
-				destPath += "/" + _Windows64BitBinaryName() ;
-			}
-
-			if( !QFile::exists( destPath ) ){
-
-				auto srcPath = thirdPartyBinPath + "/ytdlp/" + _Windows32BitBinaryName() ;
-
-				utility::copyFile( srcPath,destPath ) ;
-			}
-		}
-
-	}else if( utility::platformIsOSX() ){
-
-		auto destPath = runTimeBinPath + "/" + _OSXBinaryName() ;
-		auto srcPath = utility::OSX3rdPartyDirPath() + "/" + _OSXBinaryName() ;
-
-		if( !QFile::exists( destPath ) && QFile::exists( srcPath ) ){
-
-			utility::copyFile( srcPath,destPath ) ;
-		}
-	}
-}
-
-static const char * _jsonFullArguments()
+const char * yt_dlp::jsonFullArguments()
 {
 	return R"R({"http_headers":%(http_headers)j,"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"formats":%(formats.:.{url,language,format_id,ext,resolution,filesize,filesize_approx,tbr,vbr,abr,asr,container,protocol,vcodec,video_ext,acodec,audio_ext,format_note})j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
 }
 
-QStringList yt_dlp::jsonNoFormatsArgumentList()
-{
-	auto a = R"R({"http_headers":%(http_headers)j,"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
-
-	return { "--newline","--print",a } ;
-}
-
-static QJsonObject _defaultControlStructure()
+QJsonObject yt_dlp::defaultControlStructure()
 {
 	QJsonObject obj ;
 
@@ -290,21 +232,77 @@ static QJsonObject _defaultControlStructure()
 	return obj ;
 }
 
+void yt_dlp::setNicolaasjanYtdlpOptions( QString& cmd,QString& url )
+{
+	url = yt_dlp::NicolaasjanYtdlpUrl() ;
+
+	if( utility::CPU().x86_32() ){
+
+		cmd = yt_dlp::NicolaasjanYtdlpFor32BitWin7() ;
+	}else{
+		cmd = yt_dlp::NicolaasjanYtdlpFor64BitWin7() ;
+	}
+}
+
+void yt_dlp::checkIfBinaryExist( const QString& runTimeBinPath,const QString& thirdPartyBinPath )
+{
+	if( utility::platformIsWindows() ){
+
+		auto destPath = runTimeBinPath ;
+
+		if( utility::platformIsWindows7() ){
+
+			// left on purpose
+		}else{
+			if( utility::CPU().x86_32() ){
+
+				destPath += "/" + yt_dlp::Windows32BitBinaryName() ;
+			}else{
+				destPath += "/" + yt_dlp::Windows64BitBinaryName() ;
+			}
+
+			if( !QFile::exists( destPath ) ){
+
+				auto srcPath = thirdPartyBinPath + "/ytdlp/" + yt_dlp::Windows32BitBinaryName() ;
+
+				utility::copyFile( srcPath,destPath ) ;
+			}
+		}
+
+	}else if( utility::platformIsOSX() ){
+
+		auto destPath = runTimeBinPath + "/" + yt_dlp::OSXBinaryName() ;
+		auto srcPath = utility::OSX3rdPartyDirPath() + "/" + yt_dlp::OSXBinaryName() ;
+
+		if( !QFile::exists( destPath ) && QFile::exists( srcPath ) ){
+
+			utility::copyFile( srcPath,destPath ) ;
+		}
+	}
+}
+
+QStringList yt_dlp::jsonNoFormatsArgumentList()
+{
+	auto a = R"R({"http_headers":%(http_headers)j,"uploader":%(uploader)j,"id":%(id)j,"thumbnail":%(thumbnail)j,"duration":%(duration)j,"title":%(title)j,"upload_date":%(upload_date)j,"webpage_url":%(webpage_url)j,"playlist_id":%(playlist_id)j,"playlist_title":%(playlist_title)j,"playlist":%(playlist)j,"playlist_uploader":%(playlist_uploader)j,"playlist_uploader_id":%(playlist_uploader_id)j})R" ;
+
+	return { "--newline","--print",a } ;
+}
+
 utility::addJsonCmd::entry::args yt_dlp::entryCmd( const QString& e )
 {
 	utility::addJsonCmd::entry::args data ;
 
 	if( e == "Windows" ){
 
-		data.emplace_back( "win7x86",_NicolaasjanYtdlpFor32BitWin7() ) ;
-		data.emplace_back( "win7amd64",_NicolaasjanYtdlpFor64BitWin7() ) ;
-		data.emplace_back( "x86",_Windows32BitBinaryName() ) ;
-		data.emplace_back( "amd64",_Windows64BitBinaryName() ) ;
+		data.emplace_back( "win7x86",yt_dlp::NicolaasjanYtdlpFor32BitWin7() ) ;
+		data.emplace_back( "win7amd64",yt_dlp::NicolaasjanYtdlpFor64BitWin7() ) ;
+		data.emplace_back( "x86",yt_dlp::Windows32BitBinaryName() ) ;
+		data.emplace_back( "amd64",yt_dlp::Windows64BitBinaryName() ) ;
 
 	}else if( e == "MacOS" ){
 
-		data.emplace_back( "x86",_OSXBinaryName() ) ;
-		data.emplace_back( "amd64",_OSXBinaryName() ) ;
+		data.emplace_back( "x86",yt_dlp::OSXBinaryName() ) ;
+		data.emplace_back( "amd64",yt_dlp::OSXBinaryName() ) ;
 	}else{
 		data.emplace_back( "x86","yt-dlp" ) ;
 		data.emplace_back( "amd64","yt-dlp" ) ;
@@ -319,8 +317,8 @@ utility::addJsonCmd::entry::args yt_dlp::entryCmdNightly( const QString& e )
 
 	if( e == "Windows" ){
 
-		data.emplace_back( "win7x86",_NicolaasjanYtdlpFor32BitWin7() ) ;
-		data.emplace_back( "win7amd64",_NicolaasjanYtdlpFor64BitWin7() ) ;
+		data.emplace_back( "win7x86",yt_dlp::NicolaasjanYtdlpFor32BitWin7() ) ;
+		data.emplace_back( "win7amd64",yt_dlp::NicolaasjanYtdlpFor64BitWin7() ) ;
 		data.emplace_back( "x86","yt-dlp_x86-nightly.exe" ) ;
 		data.emplace_back( "amd64","yt-dlp-nightly.exe" ) ;
 
@@ -450,7 +448,7 @@ QJsonObject yt_dlp::init()
 
 	mainObj.insert( "Version","4" ) ;
 
-	auto arr = utility::QJsonArrayJoin( "--match-filter","!playlist","--no-playlist","--newline","--print",_jsonFullArguments() ) ;
+	auto arr = utility::QJsonArrayJoin( "--match-filter","!playlist","--no-playlist","--newline","--print",yt_dlp::jsonFullArguments() ) ;
 
 	mainObj.insert( "DumptJsonArguments",arr ) ;
 
@@ -472,7 +470,7 @@ QJsonObject yt_dlp::init()
 
 	mainObj.insert( "DownloadUrl","https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" ) ;
 
-	mainObj.insert( "DownloadUrlWin7",_NicolaasjanYtdlpUrl() ) ;
+	mainObj.insert( "DownloadUrlWin7",yt_dlp::NicolaasjanYtdlpUrl() ) ;
 
 	mainObj.insert( "AutoUpdate",true ) ;
 
@@ -488,7 +486,7 @@ QJsonObject yt_dlp::init()
 
 	mainObj.insert( "PlaylistItemsArgument","--playlist-items" ) ;
 
-	mainObj.insert( "ControlJsonStructure",_defaultControlStructure() ) ;
+	mainObj.insert( "ControlJsonStructure",yt_dlp::defaultControlStructure() ) ;
 
 	mainObj.insert( "VersionArgument","--version" ) ;
 

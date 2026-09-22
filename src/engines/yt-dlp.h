@@ -119,6 +119,16 @@ public:
 
 	yt_dlp( const engines&,const engines::engine&,QJsonObject& ) ;
 private:
+	static QString OSXBinaryName() ;
+	static QString Windows32BitBinaryName() ;
+	static QString Windows64BitBinaryName() ;
+	static QString NicolaasjanYtdlpFor32BitWin7() ;
+	static QString NicolaasjanYtdlpFor64BitWin7() ;
+	static QString NicolaasjanYtdlpUrl() ;
+
+	static const char * jsonFullArguments() ;
+
+	static QJsonObject defaultControlStructure() ;
 	static utility::addJsonCmd::entry::args entryCmd( const QString& ) ;
 	static utility::addJsonCmd::entry::args entryCmdNightly( const QString& ) ;
 
