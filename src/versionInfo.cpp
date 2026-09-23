@@ -452,12 +452,6 @@ void versionInfo::printVersionP( versionInfo::pVInfo pvInfo,const utils::qproces
 
 			m_network.get( url,pvInfo.move(),this,&versionInfo::printVersionN ) ;
 		}else{
-			auto bar = utility::barLine() ;
-
-			auto id = pvInfo.id() ;
-
-			this->log( bar,id ) ;
-
 			this->next( pvInfo.movePrintVinfo() ) ;
 		}
 	}else{
