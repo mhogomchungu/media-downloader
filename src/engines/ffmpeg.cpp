@@ -186,7 +186,6 @@ void ffmpeg::checkUpdatedVersion( const engines::enginePaths& enginePath )
 				}
 				void fg()
 				{
-
 				}
 				void bg()
 				{

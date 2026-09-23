@@ -316,8 +316,12 @@ bool utility::SysPlatForm::ModernWindows( const QOperatingSystemVersion& system 
 		if( utility::local::pretendPlatform().isModernWindows() ){
 
 			return true ;
-		}else{
+
+		}else if( utility::CPU().x86_64() ){
+
 			return system >= QOperatingSystemVersion::Windows10_22H2 ;
+		}else{
+			return false ;
 		}
 	}else{
 		return false ;
@@ -433,7 +437,7 @@ public:
 		m_oldPath( oldPath ),m_newPath( newPath )
 	{
 	}
-	bool exec() const
+	bool operator()() const
 	{
 		return QFile::rename( m_oldPath,m_newPath ) ;
 	}
@@ -460,7 +464,7 @@ public:
 	fileRemove( const QString& s ) : m_src( s )
 	{
 	}
-	bool exec() const
+	bool operator()() const
 	{
 		if( QFile::exists( m_src ) ){
 
@@ -483,7 +487,7 @@ public:
 	dirRemove( const QString& s ) : m_src( s )
 	{
 	}
-	bool exec() const
+	bool operator()() const
 	{
 		QDir dir( m_src ) ;
 
@@ -2286,7 +2290,7 @@ QString utility::rename( const Context& ctx,
 
 	logger.add( e.arg( rename.oldPath(),rename.newPath() ),id ) ;
 
-	if( rename.exec() ){
+	if( rename() ){
 
 		auto txt = item.text() ;
 
@@ -2313,7 +2317,7 @@ QString FileSystemOperation( Args&& ... args )
 {
 	Type m( std::forward< Args >( args ) ... ) ;
 
-	if( m.exec() ){
+	if( m() ){
 
 		return {} ;
 	}else{
