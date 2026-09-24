@@ -500,7 +500,10 @@ void engines::updateEngines( int id )
 
 	this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
-	this->engineAdd( "",this->getSupportingEngineByName( "python" ),id ) ;
+	if( you_get::installed( m_enginePaths ) ){
+
+		this->engineAdd( "",this->getSupportingEngineByName( "python" ),id ) ;
+	}
 
 	m_backends.sort() ;
 }

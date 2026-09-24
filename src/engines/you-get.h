@@ -26,6 +26,7 @@ class settings ;
 class you_get : public engines::engine::baseEngine
 {
 public:
+	static bool installed( const engines::enginePaths& ) ;
 	~you_get() override ;
 	you_get( const engines&,const engines::engine&,QJsonObject& ) ;
 

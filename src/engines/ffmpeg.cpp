@@ -88,7 +88,6 @@ void ffmpeg::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 		obj.insert( "AutoUpdate",true ) ;
 
 	}
-
 }
 
 void ffmpeg::remove( Logger&,const engines::enginePaths& enginePath )
@@ -196,7 +195,6 @@ void ffmpeg::checkUpdatedVersion( const engines::enginePaths& enginePath )
 			} ;
 
 			utils::qthread::run( meaw( enginePath.binPath() + "/" + it ) ) ;
-
 		}
 	}
 }

@@ -126,6 +126,11 @@ std::vector<engines::engine::baseEngine::mediaInfo> you_get::mediaProperties( Lo
 	return s ;
 }
 
+bool you_get::installed( const engines::enginePaths& enginePaths )
+{
+	return QFile::exists( enginePaths.binPath() + "/you-get" ) ;
+}
+
 you_get::~you_get()
 {
 }

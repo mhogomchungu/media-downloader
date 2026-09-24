@@ -18,6 +18,7 @@
  */
 
 #include "python.h"
+#include "you-get.h"
 
 void python::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 {
@@ -27,7 +28,7 @@ void python::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 
 	if( utility::platformIsLikeWindows() ){
 
-		if( QFile::exists( enginePath.binPath() + "/you-get" ) ){
+		if( you_get::installed( enginePath ) ){
 
 			auto path = enginePath.binPath() + "/" + python::folderName() ;
 
