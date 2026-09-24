@@ -24,10 +24,12 @@
 #include "engines/safaribooks.h"
 #include "engines/gallery-dl.h"
 #include "engines/aria2c.h"
+#include "engines/python.h"
 #include "engines/lux.h"
 #include "engines/wget.h"
 #include "engines/svtplay-dl.h"
 #include "engines/you-get.h"
+#include "engines/python.h"
 #include "engines/deno.h"
 #include "engines/bun.h"
 #include "engines/quickjs.h"
@@ -66,30 +68,32 @@ QProcessEnvironment engines::getEnvPaths() const
 
 	auto separator = utility::platformIsLikeWindows() ? ";" : ":" ;
 
-	QString s ;
-
-	const auto l = this->dirEntries( basePath ) ;
+	QString bundledPath ;
 
 	if( utility::platformIsWindows() ){
 
 		const auto& mm = m_settings.windowsOnly3rdPartyBinPath() ;
 
-		s = mm ;
+		bundledPath = mm ;
 
 		auto m = this->dirEntries( mm ) ;
 
 		for( const auto& it : util::asConst( m ) ){
 
-			s += separator + mm + "/" + it ;
-			s += separator + mm + "/" + it + "/bin" ;
+			bundledPath += separator + mm + "/" + it ;
+			bundledPath += separator + mm + "/" + it + "/bin" ;
 		}
 
 	}else if( utility::platformIsOSX() ){
 
-		s = utility::OSXApplicationDirPath() ;
+		bundledPath = utility::OSXApplicationDirPath() ;
 
-		s += separator + utility::OSX3rdPartyDirPath() ;
+		bundledPath += separator + utility::OSX3rdPartyDirPath() ;
 	}
+
+	const auto l = this->dirEntries( basePath ) ;
+
+	QString binPath ;
 
 	auto it  = l.begin() ;
 	auto end = l.end() ;
@@ -98,14 +102,9 @@ QProcessEnvironment engines::getEnvPaths() const
 
 		const auto& m = *it ;
 
-		if( s.isEmpty() ){
+		binPath = basePath + separator + basePath + "/" + m ;
 
-			s = basePath + "/" + m ;
-		}else{
-			s += separator + basePath + "/" + m ;
-		}
-
-		s += separator + basePath + "/" + m + "/bin" ;
+		binPath += separator + basePath + "/" + m + "/bin" ;
 
 		it++ ;
 	}
@@ -114,18 +113,15 @@ QProcessEnvironment engines::getEnvPaths() const
 
 		const auto& m = *it ;
 
-		s += separator + basePath + "/" + m ;
-		s += separator + basePath + "/" + m + "/bin" ;
+		binPath += separator + basePath + "/" + m ;
+		binPath += separator + basePath + "/" + m + "/bin" ;
 	}
 
-	if( s.isEmpty() ){
+	QString sysPath = env.value( "PATH" ) ;
 
-		s = basePath ;
-	}else{
-		s += separator + basePath ;
-	}
+	auto path = bundledPath + separator + sysPath + separator + binPath ;
 
-	env.insert( "PATH",s + separator + env.value( "PATH" ) ) ;
+	env.insert( "PATH",path ) ;
 
 	env.insert( "LANG","C" ) ;
 
@@ -373,9 +369,9 @@ engines::EnginesList::engine engines::getSupportingEngineByName( const QString& 
 
 	}else if( e == "python" || e == "python3" ){
 
-		obj.insert( "VersionArgument","--version" ) ;
-		obj.insert( "VersionStringLine",0 ) ;
-		obj.insert( "VersionStringPosition",1 ) ;
+		obj.insert( "Name","python" ) ;
+
+		python::init( obj,m_enginePaths ) ;
 
 	}else if( e == "tar" ){
 
@@ -504,25 +500,7 @@ void engines::updateEngines( int id )
 
 	this->engineAdd( "",this->getSupportingEngineByName( "ffmpeg" ),id ) ;
 
-	for( const auto& it : this->getEngines() ){
-
-		const auto& e = it.exePath().exe() ;
-
-		if( e.size() > 0 ){
-
-			if( e.at( 0 ).contains( "python" ) || e.at( 0 ).contains( "python3" ) ){
-
-				if( utility::platformIsWindows() ){
-
-					this->engineAdd( "",this->getSupportingEngineByName( "python" ),id ) ;
-				}else{
-					this->engineAdd( "",this->getSupportingEngineByName( "python3" ),id ) ;
-				}
-			}
-
-			break ;
-		}
-	}
+	this->engineAdd( "",this->getSupportingEngineByName( "python" ),id ) ;
 
 	m_backends.sort() ;
 }
@@ -606,16 +584,37 @@ QString engines::findExecutable( const QString& exeName,const QStringList& paths
 {
 	QFileInfo info( exeName ) ;
 
-	if( exeName == "ffmpeg.exe" && utility::platformIsWindows() ){
+	if( utility::platformIsWindows() ){
 
-		fromBeginning = false ;
+		if( exeName == "ffmpeg.exe" || exeName == "python.exe" ){
+
+			fromBeginning = false ;
+		}
 	}
+
+	class filter
+	{
+	public:
+		filter()
+		{
+		}
+		bool operator()( const QString& path,const QString& ) const
+		{
+			if( path.contains( "WindowsApps" ) ){
+
+				return true ;
+			}else{
+				return false ;
+			}
+		}
+	private:
+	} ;
 
 	if( fromBeginning ){
 
-		return this->findExecutable( utility::forwardIterator( paths ),exeName,info ) ;
+		return this->findExecutable( utility::forwardIterator( paths ),filter(),exeName,info ) ;
 	}else{
-		return this->findExecutable( utility::reverseIterator( paths ),exeName,info ) ;
+		return this->findExecutable( utility::reverseIterator( paths ),filter(),exeName,info ) ;
 	}
 }
 
@@ -981,12 +980,7 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 		obj.insert( "SupportingEngine",true ) ;
 
-	}else if( name == "quickjs-ng" ){
-
-		obj.insert( "SupportingEngine",true ) ;
-		obj.insert( "UpdatableSupportingEngine",true ) ;
-
-	}else if( name == "deno" ){
+	}if( name == "deno" ){
 
 		obj.insert( "SupportingEngine",true ) ;
 
@@ -994,7 +988,7 @@ QJsonObject engines::engine::getOpts( const util::Json& e,settings& s ) const
 
 		obj.insert( "AutoUpdate",s.denoEnableAutoDownload() ) ;
 
-	}else if( name == "ffmpeg" ){
+	}else if( name == "ffmpeg" || name == "python" || name == "quickjs-ng" ){
 
 		obj.insert( "SupportingEngine",true ) ;
 
@@ -1018,6 +1012,10 @@ std::unique_ptr< engines::engine::baseEngine > engines::engine::setEngine( const
 	}else if( name.contains( "safaribooks" ) ){
 
 		return std::make_unique< safaribooks >( engines,engine,m_jsonObject ) ;
+
+	}else if( name == "python" ){
+
+		return std::make_unique< python >( engines,engine,m_jsonObject ) ;
 
 	}else if( name.contains( "gallery-dl" ) ){
 

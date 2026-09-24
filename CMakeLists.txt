@@ -110,6 +110,7 @@ set(SRC
     src/engines/aria2c.cpp
     src/engines/lux.cpp
     src/engines/wget.cpp
+    src/engines/python.cpp
     src/engines/ffmpeg.cpp
     src/engines/svtplay-dl.cpp
     src/engines/you-get.cpp

@@ -2004,19 +2004,24 @@ private:
 	QProcessEnvironment m_processEnvironment ;
 	engines::proxySettings m_networkProxy ;
 	int m_bannerId ;
-	template< typename Iter >
-	QString findExecutable( Iter iter,const QString& exeName,QFileInfo& info ) const
+	template< typename Iter,typename Filter >
+	QString findExecutable( Iter iter,Filter filter,const QString& exeName,QFileInfo& info ) const
 	{
 		while( iter.hasNext() ){
 
-			auto m = iter.next() + "/" + exeName ;
+			const auto& path = iter.next() ;
 
-			info.setFile( m ) ;
+			if( !filter( path,exeName ) ){
 
-			if( engines::filePathIsValid( info ) ){
+				auto m = path + "/" + exeName ;
 
-				return QDir::fromNativeSeparators( m ) ;
-			}
+				info.setFile( m ) ;
+
+				if( engines::filePathIsValid( info ) ){
+
+					return QDir::fromNativeSeparators( m ) ;
+				}
+			}			
 		}
 
 		return {} ;

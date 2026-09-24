@@ -122,7 +122,7 @@ QString ffmpeg::updateCmdPath( const QString& e )
 
 bool ffmpeg::foundNetworkUrl( const QString& e )
 {
-	return e == this->urlFileName( {} ) ;
+	return e == ffmpeg::fileName() ;
 }
 
 QString ffmpeg::urlFileName( const QString& )
