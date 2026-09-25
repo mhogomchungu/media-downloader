@@ -42,7 +42,7 @@ jobs:
 
            cp ${{github.workspace}}/MAC/src/media-downloader.icns ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Resources/MediaDownloader.icns
 
-           aria2c -d ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/ffmpeg-macos-intel.zip
+           aria2c -d ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra https://github.com/mhogomchungu/packages/releases/tag/latest/ffmpeg-macos-intel.zip
 
            cd ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra
            tar -xf ffmpeg-macos-intel.zip
