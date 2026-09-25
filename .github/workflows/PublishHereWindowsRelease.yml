@@ -100,7 +100,6 @@ jobs:
 
         Copy-Item ${{github.workspace}}\tmp\libs\* -Destination ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }} -Recurse
 
-        Remove-Item ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
         Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
 
         Compress-Archive -Path ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }} -DestinationPath ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip
