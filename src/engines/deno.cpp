@@ -74,7 +74,7 @@ void deno::init( settings&,Logger& logger,const engines::enginePaths& enginePath
 
 	json.done() ;
 
-	mainObj.insert( "Version","2" ) ;
+	mainObj.insert( "Version","3" ) ;
 
 	mainObj.insert( "DownloadUrl","https://api.github.com/repos/denoland/deno/releases/latest" ) ;
 
