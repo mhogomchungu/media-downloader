@@ -83,7 +83,7 @@ void ffmpeg::init( QJsonObject& obj,const engines::enginePaths& enginePath )
 
 		obj.insert( "ArchiveContainsFolder",true ) ;
 
-		obj.insert( "DownloadUrl","https://api.github.com/repos/mhogomchungu/media-downloader-git/releases/latest" ) ;
+		obj.insert( "DownloadUrl","https://api.github.com/repos/mhogomchungu/packages/releases/latest" ) ;
 
 		obj.insert( "AutoUpdate",true ) ;
 
