@@ -100,6 +100,7 @@ jobs:
 
         Copy-Item ${{github.workspace}}\tmp\libs\* -Destination ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }} -Recurse
 
+        New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}\3rdParty\ytdlp
         Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
 
         Compress-Archive -Path ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }} -DestinationPath ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip
@@ -165,7 +166,7 @@ jobs:
 
         Invoke-WebRequest "https://github.com/rockdaboot/wget2/releases/download/v2.2.1/wget2.exe" -OutFile "${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\wget\wget2.exe"
 
-        Remove-Item ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
+        New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\ytdlp
         Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}\3rdParty\ytdlp\yt-dlp_x86.exe
 
         Compress-Archive -Path ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }} -DestinationPath ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip
