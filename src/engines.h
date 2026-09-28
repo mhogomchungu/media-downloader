@@ -1996,7 +1996,7 @@ private:
 	QString findOtherExecutable( const QString& e,const QStringList& p,bool s ) const ;
 	QString findWinExecutable( const QString&,const QStringList&,bool searchFromBeginning = true ) const ;
 	QProcessEnvironment getEnvPaths() const ;
-	QStringList dirEntries( const QString& ) const ;
+	QString getEnvPaths( const QString& basePath,const QString& ) const ;
 	Logger& m_logger ;
 	settings& m_settings ;
 	engines::EnginesList m_backends ;

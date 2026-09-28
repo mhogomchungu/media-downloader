@@ -980,7 +980,7 @@ public:
 			m_duration = QString::number( dd.toInt() ) ;
 		}
 
-		for( const auto& it : array ){
+		for( const auto it : array ){
 
 			this->add( it.toObject() ) ;
 		}

@@ -53,11 +53,19 @@
 
 #include <cstring>
 
-QStringList engines::dirEntries( const QString& e ) const
+QString engines::getEnvPaths( const QString& basePath,const QString& separator ) const
 {
-	auto filters = QDir::Filter::Dirs | QDir::Filter::NoDotAndDotDot ;
+	auto m = basePath ;
 
-	return QDir( e ).entryList( filters ) ;
+	const auto s = utility::dirEntries( basePath ) ;
+
+	for( const auto& it : s ){
+
+		m += separator + basePath + "/" + it ;
+		m += separator + basePath + "/" + it + "/bin" ;
+	}
+
+	return m ;
 }
 
 QProcessEnvironment engines::getEnvPaths() const
@@ -74,15 +82,7 @@ QProcessEnvironment engines::getEnvPaths() const
 
 		const auto& mm = m_settings.windowsOnly3rdPartyBinPath() ;
 
-		bundledPath = mm ;
-
-		auto m = this->dirEntries( mm ) ;
-
-		for( const auto& it : util::asConst( m ) ){
-
-			bundledPath += separator + mm + "/" + it ;
-			bundledPath += separator + mm + "/" + it + "/bin" ;
-		}
+		bundledPath = this->getEnvPaths( mm,separator ) ;
 
 	}else if( utility::platformIsOSX() ){
 
@@ -91,33 +91,9 @@ QProcessEnvironment engines::getEnvPaths() const
 		bundledPath += separator + utility::OSX3rdPartyDirPath() ;
 	}
 
-	const auto l = this->dirEntries( basePath ) ;
+	auto binPath = this->getEnvPaths( basePath,separator ) ;
 
-	QString binPath ;
-
-	auto it  = l.begin() ;
-	auto end = l.end() ;
-
-	if( it != end ){
-
-		const auto& m = *it ;
-
-		binPath = basePath + separator + basePath + "/" + m ;
-
-		binPath += separator + basePath + "/" + m + "/bin" ;
-
-		it++ ;
-	}
-
-	for( ; it != end ; it++ ){
-
-		const auto& m = *it ;
-
-		binPath += separator + basePath + "/" + m ;
-		binPath += separator + basePath + "/" + m + "/bin" ;
-	}
-
-	QString sysPath = env.value( "PATH" ) ;
+	auto sysPath = env.value( "PATH" ) ;
 
 	auto path = bundledPath + separator + sysPath + separator + binPath ;
 
