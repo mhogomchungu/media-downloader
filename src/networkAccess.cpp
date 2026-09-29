@@ -578,7 +578,7 @@ void networkAccess::download( networkAccess::Opts opts ) const
 	if( opts.metadata.url().isEmpty() || opts.metadata.fileName().isEmpty() ){
 
 		auto a = "Download Failed: Invalid Url or FileName Not Found" ;
-		auto b = "Url: " + opts.metadata.url() ;
+		auto b = "Url: " + engine.downloadUrl() ;
 		auto c = "Metadata File Name: " + opts.metadata.fileName() ;
 		auto d = "Online File Name: " + engine.urlFileName( opts.metadata.version() ) ;
 		auto s = utility::barLine() ;

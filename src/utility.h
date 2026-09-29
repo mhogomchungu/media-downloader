@@ -429,7 +429,7 @@ namespace utility
 	{
 		const auto array = doc.object().value( "assets" ).toArray() ;
 
-		for( const auto& it : array ){
+		for( const auto it : array ){
 
 			auto obj = it.toObject() ;
 
